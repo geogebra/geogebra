@@ -21,7 +21,7 @@ public final class SolverKeyboardFactory extends DefaultKeyboardFactory {
 	 * @param charProvider - character provider
 	 */
 	public SolverKeyboardFactory(CharacterProvider charProvider) {
-		super(false);
+		super(new DefaultCharProvider(), null);
 		defaultKeyboardModelFactory = new SolverDefaultKeyboardFactory(charProvider);
 		mathKeyboardFactory = new SolverDefaultKeyboardFactory(charProvider);
 		functionKeyboardFactory = new SolverFunctionKeyboardFactory();

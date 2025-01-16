@@ -94,6 +94,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.cas.giac.CASFactoryW;
@@ -1229,6 +1230,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public List<String> getInputBoxFunctionVars() {
 		return functionVars;
+	}
+
+	@Override
+	public TemplateKeyProvider getTemplateKeyProvider() {
+		return this::getPointTemplateKey;
 	}
 
 	/**

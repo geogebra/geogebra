@@ -4988,4 +4988,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 		return guiManager.getLayout().getDockManager().getFocusedViewId() == VIEW_ALGEBRA;
 	}
+
+	/**
+	 * @return string that's mapped to correct point template by keyboard input adapter
+	 */
+	public String getPointTemplateKey() {
+		int dimension = getActiveEuclidianView().getDimension();
+		return getSettings().getGeneral().getPointEditorTemplate() + ":" + dimension;
+	}
 }

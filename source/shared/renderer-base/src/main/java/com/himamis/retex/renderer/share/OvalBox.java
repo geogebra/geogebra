@@ -47,6 +47,7 @@ package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
@@ -60,14 +61,15 @@ public class OvalBox extends FramedBox {
 
 	final double cornersize;
 
-	public OvalBox(FramedBox fbox, double cornersize) {
-		super(fbox.box, fbox.thickness, fbox.space);
+	public OvalBox(Box bbase, double drt, double space, Color line, Color bg,
+			double cornersize) {
+		super(bbase, drt, space, line, bg);
 		this.cornersize = cornersize;
 	}
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		box.draw(g2, x + space + thickness, y);
+
 		Stroke st = g2.getStroke();
 		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_MITER));
@@ -76,9 +78,19 @@ public class OvalBox extends FramedBox {
 				height + depth - 2 * thickness);
 		roundRectangle.setRoundRectangle(x + th, y - height + th,
 				width - thickness, height + depth - thickness, r, r);
-		g2.draw(roundRectangle);
+		fillAndDraw(g2);
+
 		drawDebug(g2, x, y);
+		box.draw(g2, x + space + thickness, y);
 		g2.setStroke(st);
+	}
+
+	protected void drawShape(Graphics2DInterface g2) {
+		g2.draw(roundRectangle);
+	}
+
+	protected void fillShape(Graphics2DInterface g2) {
+		g2.fill(roundRectangle);
 	}
 
 	@Override

@@ -720,6 +720,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return label and delimiter.
 	 */
 	public String getLabelDelimiterWithSpace(StringTemplate tpl) {
+		if (getLabelDelimiter() == Unicode.ZERO_WIDTH_SPACE) {
+			return "";
+		}
 		return getLabelDelimiter() == '=' ? tpl.getEqualsWithSpace() : getLabelDelimiter() + " ";
 	}
 
@@ -6693,23 +6696,18 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return DescriptionMode.DEFINITION;
 		}
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
-		if ((isGeoPoint() || isGeoVector())
-				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
-				&& !"".equals(def0)) {
-			def0 = label + def0;
-		}
+
 		if ("".equals(def0) || (!isDefined() && isIndependent())) {
 			return DescriptionMode.VALUE;
 		}
 		if (getPackedIndex() > 0) {
 			return DescriptionMode.VALUE;
 		}
-
 		String def = (isGeoPoint() || isGeoVector())
-				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
 				? def0 : addLabelText(def0);
 
-		String val = getAlgebraDescriptionDefault();
+		String val = (isGeoPoint() || isGeoVector())
+				? toValueString(StringTemplate.defaultTemplate) : getAlgebraDescriptionDefault();
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;
 	}

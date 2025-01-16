@@ -61,8 +61,8 @@ public class FramedBox extends Box {
 	protected double space;
 	protected double dashlength;
 	protected double dashdash;
-	private Color line;
-	private Color bg;
+	protected Color line;
+	protected Color bg;
 
 	private Rectangle2D rectangle;
 
@@ -112,29 +112,37 @@ public class FramedBox extends Box {
 			g2.setStroke(graphics.createBasicStroke(thickness, dashes));
 		}
 		double th = thickness / 2;
+		rectangle.setRectangle(x + th, y - height + th, width - thickness,
+				height + depth - thickness);
+		fillAndDraw(g2);
+		drawDebug(g2, x, y);
+		g2.setStroke(st);
+		box.draw(g2, x + space + thickness, y);
+	}
+
+	protected void fillAndDraw(Graphics2DInterface g2) {
 		if (bg != null) {
 			Color prev = g2.getColor();
 			g2.setColor(bg);
-			rectangle.setRectangle(x + th, y - height + th, width - thickness,
-					height + depth - thickness);
-			g2.fill(rectangle);
+			fillShape(g2);
 			g2.setColor(prev);
 		}
 		if (line != null) {
 			Color prev = g2.getColor();
 			g2.setColor(line);
-			rectangle.setRectangle(x + th, y - height + th, width - thickness,
-					height + depth - thickness);
-			g2.draw(rectangle);
+			drawShape(g2);
 			g2.setColor(prev);
 		} else {
-			rectangle.setRectangle(x + th, y - height + th, width - thickness,
-					height + depth - thickness);
-			g2.draw(rectangle);
+			drawShape(g2);
 		}
-		drawDebug(g2, x, y);
-		g2.setStroke(st);
-		box.draw(g2, x + space + thickness, y);
+	}
+
+	protected void drawShape(Graphics2DInterface g2) {
+		g2.draw(rectangle);
+	}
+
+	protected void fillShape(Graphics2DInterface g2) {
+		g2.fill(rectangle);
 	}
 
 	@Override
@@ -145,6 +153,7 @@ public class FramedBox extends Box {
 	@Override
 	public void inspect(BoxConsumer handler, BoxPosition position) {
 		super.inspect(handler, position);
-		box.inspect(handler, position);
+		box.inspect(handler, position.withPosition(position.x + space, position.y + space));
 	}
+
 }

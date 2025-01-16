@@ -47,7 +47,7 @@ public class DrawImplicitCurveTest extends BaseUnitTest {
 		}
 
 		try {
-			String expected = load().trim();
+			String expected = load().trim().replaceAll("\r", "");
 			assertEquals(expected, plotterMock.result());
 		} catch (IOException e) {
 			throw new RuntimeException(e);

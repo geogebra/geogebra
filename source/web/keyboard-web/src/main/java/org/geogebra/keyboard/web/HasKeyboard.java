@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.LocalizationI;
+import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 
 /**
  *
@@ -44,4 +45,6 @@ public interface HasKeyboard {
 	 * @return list of function vars if the inputbox is connected to a function
 	 */
 	List<String> getInputBoxFunctionVars();
+
+	TemplateKeyProvider getTemplateKeyProvider();
 }

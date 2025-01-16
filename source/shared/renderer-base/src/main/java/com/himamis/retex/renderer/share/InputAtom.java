@@ -1,7 +1,8 @@
-/* FBoxAtom.java
+/* ColorAtom.java
  * =========================================================================
- * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
+ * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
+ * Copyright (C) 2004-2007 Universiteit Gent
  * Copyright (C) 2009 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
@@ -49,42 +50,78 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
- * An atom representing a boxed base atom.
+ * An atom representing the foreground and background color of an other atom.
  */
-public class FBoxAtom extends Atom implements HasTrueBase {
+public class InputAtom extends Atom implements Row, HasTrueBase {
 
-	protected final Atom base;
-	protected final Color bg;
-	protected final Color line;
+	// background color
+	private final Color background;
 
-	public FBoxAtom(Atom base, Color bg, Color line) {
-		this.base = base;
-		this.bg = bg;
-		this.line = line;
-	}
+	// RowAtom for which the colorsettings apply
+	protected final RowAtom elements;
+	private final Color foreground;
 
-	public FBoxAtom(Atom base) {
-		this(base, null, null);
+	/**
+	 * Creates a new ColorAtom that sets the given colors for the given atom.
+	 * Null for a color means: no specific color set for this atom.
+	 *
+	 * @param atom
+	 *            the atom for which the given colors have to be set
+	 * @param bg
+	 *            the background color
+	 * @param fg
+	 *            the foreground color
+	 */
+	public InputAtom(Atom atom, Color bg, Color fg) {
+		elements = new RowAtom(atom);
+		background = bg;
+		foreground = fg;
 	}
 
 	@Override
-	public FramedBox createBox(TeXEnvironment env) {
-		final Box bbase = base.createBox(env);
-		final double drt = env.lengthSettings().getLength("fboxrule", env);
-		final double space = env.lengthSettings().getLength("fboxsep", env);
-		if (bg == null) {
-			return newFramedBox(bbase, drt, space, null, env);
-		}
-
+	public Box createBox(TeXEnvironment env) {
 		env.isColored = true;
-		return newFramedBox(bbase, drt, space, line, env);
+		TeXEnvironment copy = env.copy();
+		if (background != null)
+			copy.setBackground(background);
+		Box box = elements.createBox(copy);
+		box.setAtom(this);
+		return new OvalBox(box, 0.1, .5, foreground, getBg(), .3);
 	}
 
-	protected FramedBox newFramedBox(Box bbase, double drt, double space, Color line, TeXEnvironment env) {
-		return new FramedBox(bbase, drt, space, line, bg);
+	@Override
+	public int getLeftType() {
+		return elements.getLeftType();
 	}
 
+	@Override
+	public int getRightType() {
+		return elements.getRightType();
+	}
+
+	@Override
+	public void setPreviousAtom(Dummy prev) {
+		elements.setPreviousAtom(prev);
+	}
+
+	protected Color getBackground() {
+		return background;
+	}
+
+	protected Color getBg() {
+		return background;
+	}
+
+	public RowAtom getElements() {
+		return elements;
+	}
+
+	public Atom getElement(int i) {
+		return elements.getElement(i);
+	}
+
+	@Override
 	public Atom getTrueBase() {
-		return base;
+		return elements;
 	}
 }

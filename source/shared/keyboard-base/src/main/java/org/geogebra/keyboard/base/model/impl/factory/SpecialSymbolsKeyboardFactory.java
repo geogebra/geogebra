@@ -35,26 +35,27 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInp
 
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
-	private final boolean hasRealschuleTemplateFeature;
+	private final TemplateKeyProvider templateKeyProvider;
 
 	/**
-	 * @param hasRealschuleTemplateFeature whether it should include the template button
+	 * @param templateKeyProvider provides templates for template keys
 	 */
-	public SpecialSymbolsKeyboardFactory(boolean hasRealschuleTemplateFeature) {
-		this.hasRealschuleTemplateFeature = hasRealschuleTemplateFeature;
+	public SpecialSymbolsKeyboardFactory(TemplateKeyProvider templateKeyProvider) {
+		this.templateKeyProvider = templateKeyProvider;
 	}
 
 	@Override
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-		if (hasRealschuleTemplateFeature) {
+		if (templateKeyProvider != null) {
 			RowImpl row = mathKeyboard.nextRow();
 			addInputButton(row, buttonFactory, INFINITY);
 			addInputButton(row, buttonFactory, String.valueOf(QUESTIONED_EQUAL_TO));
@@ -81,7 +82,7 @@ public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 
 			row = mathKeyboard.nextRow();
 			addConstantInputCommandButton(row, buttonFactory, Resource.POINT_TEMPLATE,
-					"point", 1.0f);
+					templateKeyProvider.getPointFunction(), 1.0f);
 			addConstantInputCommandButton(row, buttonFactory, Resource.VECTOR_TEMPLATE,
 					"vector", 1.0f);
 			addConstantInputCommandButton(row, buttonFactory, Resource.MATRIX_TEMPLATE,

@@ -20,6 +20,14 @@ class CartesianPrinter implements Printer {
         if (tpl.getStringType().isGiac()) {
             return GiacPrinter.print(tpl, expressionPrinter, vector);
         }
+        if (tpl.usePointTemplate()) {
+            String fn = settings.getPointEditorTemplate();
+            return fn + '('
+                    + expressionPrinter.print(vector.getX(), tpl)
+                    + ','
+                    + expressionPrinter.print(vector.getY(), tpl)
+                    + ')';
+        }
         return printLeftParenthesis(tpl)
                 + expressionPrinter.print(vector.getX(), tpl)
                 + tpl.getCartesianDelimiter(settings)

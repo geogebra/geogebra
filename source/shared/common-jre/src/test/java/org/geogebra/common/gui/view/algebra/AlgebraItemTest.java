@@ -15,10 +15,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.EventAccumulator;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AlgebraItemTest extends BaseUnitTest {
@@ -28,6 +31,16 @@ public class AlgebraItemTest extends BaseUnitTest {
     private static final String fitLine = "FitLine((0,0), (1,1))";
     private static final String circle = "Circle((0,0), (1,1))";
 
+    @BeforeClass
+    public static void enablePreviewFeatures() {
+        PreviewFeature.setPreviewFeaturesEnabled(true);
+    }
+
+    @AfterClass
+    public static void disablePreviewFeatures() {
+        PreviewFeature.setPreviewFeaturesEnabled(false);
+    }
+
     @Test
     public void testShouldShowBothRowsInGraphing() {
         getApp().setGraphingConfig();
@@ -36,6 +49,13 @@ public class AlgebraItemTest extends BaseUnitTest {
         checkShouldShowBothRowsFor(fitLine);
         checkShouldShowBothRowsFor("0.6");
         checkShouldShowBothRowsFor("0.6+2");
+    }
+
+    @Test
+    public void testTwoRowsFrenchCoords() {
+        getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_FRENCH);
+        GeoPoint point = add("(1,2)");
+        assertThat(AlgebraItem.shouldShowBothRows(point), is(false));
     }
 
     private void checkShouldShowBothRowsFor(String definition) {
@@ -143,7 +163,7 @@ public class AlgebraItemTest extends BaseUnitTest {
     public void testGetDefinitionLabeled() {
         GeoElement element = add("A=(1,2)");
         String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
-        assertThat(definition, is("A=(1,2)"));
+        assertThat(definition, is("A=$point(1,2)"));
     }
 
     @Test
@@ -151,7 +171,7 @@ public class AlgebraItemTest extends BaseUnitTest {
         GeoElement element = add("A=(1,2)");
         new LabelController().hideLabel(element);
         String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
-        assertThat(definition, is("(1,2)"));
+        assertThat(definition, is("$point(1,2)"));
     }
 
     @Test

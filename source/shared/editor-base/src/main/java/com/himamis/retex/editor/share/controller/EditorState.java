@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.function.Predicate;
+
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -181,6 +183,11 @@ public class EditorState {
 		while (commonParent != null && !contains(commonParent, cursorField)) {
 			currentSelStart = currentSelStart.getParent();
 			commonParent = currentSelStart.getParent();
+			if (commonParent instanceof MathFunction
+					&& ((MathFunction) commonParent).getName().isRenderingOwnPlaceholders()) {
+				currentSelStart = commonParent;
+				commonParent = currentSelStart.getParent();
+			}
 		}
 		if (commonParent == null) {
 			commonParent = rootComponent;
@@ -596,9 +603,22 @@ public class EditorState {
 	 * @return whether current field is inside a sub/superscript or not.
 	 */
 	public boolean isInScript() {
+		return hasParent(parent -> parent.hasTag(Tag.SUBSCRIPT)
+				|| parent.hasTag(Tag.SUPERSCRIPT));
+	}
+
+	/**
+	 * @return whether current field is inside an input
+	 */
+	public boolean isInHighlightedPlaceholder() {
+		return hasParent(parent -> parent instanceof MathFunction
+				&& ((MathFunction) parent).getName().isRenderingOwnPlaceholders());
+	}
+
+	private boolean hasParent(Predicate<MathContainer> check) {
 		MathContainer parent = currentField.getParent();
 		while (parent != null) {
-			if (parent.hasTag(Tag.SUBSCRIPT) || parent.hasTag(Tag.SUPERSCRIPT)) {
+			if (check.test(parent)) {
 				return true;
 			}
 			parent = parent.getParent();
@@ -645,5 +665,4 @@ public class EditorState {
 	public MathComponent getComponentLeftOfCursor() {
 		return currentOffset > 0 ? currentField.getArgument(currentOffset - 1) : null;
 	}
-
 }

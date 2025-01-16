@@ -61,8 +61,9 @@ public class ShadowAtom extends FBoxAtom {
 	}
 
 	@Override
-	public Box createBox(TeXEnvironment env) {
-		final double shadowsize = env.lengthSettings().getLength("shadowsize", env);
-		return new ShadowBox((FramedBox) super.createBox(env), shadowsize);
+	protected FramedBox newFramedBox(Box bbase, double drt, double space,
+			Color line, TeXEnvironment env) {
+		final double shadowSize = env.lengthSettings().getLength("shadowsize", env);
+		return new ShadowBox(bbase, drt, space, shadowSize);
 	}
 }

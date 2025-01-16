@@ -3,6 +3,7 @@ package com.himamis.retex.editor.share.serializer;
 import static com.himamis.retex.renderer.share.platform.FactoryProvider.debugS;
 
 import java.util.HashMap;
+import java.util.function.Function;
 
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.Tag;
@@ -24,6 +25,7 @@ import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.EnvArray;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
+import com.himamis.retex.renderer.share.InputAtom;
 import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.OverlinedAtom;
@@ -165,10 +167,20 @@ public class TeXBuilder {
 						.createColor(TeXSerializer.commandPlaceholderColor));
 	}
 
+	private Atom fancyPlaceholder(MathComponent placeholder) {
+		return new InputAtom(build(placeholder),
+				FactoryProvider.getInstance().getGraphicsFactory()
+						.createColor(TeXSerializer.placeholderBackground),
+				FactoryProvider.getInstance().getGraphicsFactory()
+						.createColor(0x6557D2));
+	}
+
 	private Atom getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
 		if (parent == null
 				|| (parent instanceof MathArray && parent.size() == 1)
+				|| (parent instanceof MathFunction
+					&& ((MathFunction) parent).getName().isRenderingOwnPlaceholders())
 				|| !teXSerializer.isPlaceholderEnabled()) {
 			return getInvisiblePlaceholder();
 		}
@@ -325,12 +337,18 @@ public class TeXBuilder {
 
 	private Atom buildFenced(char leftKey, char rightKey,
 			MathContainer argument, int offset) {
+		return buildFenced(leftKey, rightKey, argument, offset, ',', this::build);
+	}
+
+	private Atom buildFenced(char leftKey, char rightKey,
+			MathContainer argument, int offset, char delimiter,
+			Function<MathComponent, Atom> transform) {
 		RowAtom row = new RowAtom((Atom) null);
 		for (int i = offset; i < argument.size(); i++) {
 			if (i > offset) {
-				row.add(newCharAtom(','));
+				row.add(newCharAtom(delimiter));
 			}
-			row.add(build(argument.getArgument(i)));
+			row.add(transform.apply(argument.getArgument(i)));
 		}
 		return new FencedAtom(row,
 				new SymbolAtom(lookupBracket(leftKey), TeXConstants.TYPE_OPENING,
@@ -457,6 +475,10 @@ public class TeXBuilder {
 			ScriptsAtom scriptsAtom = new ScriptsAtom(EmptyAtom.get(), arg1, arg2,
 					TeXConstants.Align.RIGHT);
 			return wrap(scriptsAtom, arg3);
+		case POINT:
+			return buildFenced('(', ')', argument, 0, ',', this::fancyPlaceholder);
+		case POINT_AT:
+			return buildFenced('(', ')', argument, 0, '|', this::fancyPlaceholder);
 		case RECURRING_DECIMAL:
 			Atom overline = new OverlinedAtom(build(argument.getArgument(0)));
 			MathComponent next = argument.nextSibling();

@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.debug.Analytics;
+import org.geogebra.test.TestErrorHandler;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -61,12 +62,12 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 		GeoElementND[] elements = evalCommand(
 				"a=1",  info);
 		Assert.assertNotNull(elements);
-		Assert.assertEquals(elements.length, 1);
+		Assert.assertEquals(1, elements.length);
 		GeoElementND a = elements[0];
 
 		elements = evalCommand("a", info);
 		Assert.assertNotNull(elements);
-		Assert.assertEquals(elements.length, 1);
+		Assert.assertEquals(1, elements.length);
 		GeoElementND b = elements[0];
 
 		Assert.assertNotEquals(a, b);
@@ -171,7 +172,16 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 		getAlgebraProcessor().changeGeoElementNoExceptionHandling(getKernel().lookupLabel("f"),
 				"f: x = 0", evalInfo, false, null, ErrorHelper.silent());
 		assertEquals(GColor.RED, getKernel().lookupLabel("f").getObjectColor());
-    }
+	}
+
+	@Test
+	public void redefineWithShortPoints() {
+		GeoElement pt = add("A=(1,2)");
+		getAlgebraProcessor().changeGeoElementNoExceptionHandling(pt, "A(1,3)",
+				new EvalInfo(true), false, null,
+				TestErrorHandler.INSTANCE);
+		assertThat(lookup("A"), hasValue("(1, 3)"));
+	}
 
 	private GeoElementND[] evalCommand(String s, EvalInfo info) {
 		return processor.processAlgebraCommandNoExceptionHandling(s, false,

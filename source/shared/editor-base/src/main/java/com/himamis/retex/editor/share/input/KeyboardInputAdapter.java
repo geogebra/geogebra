@@ -13,6 +13,9 @@ import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
 import com.himamis.retex.editor.share.input.adapter.PlainStringInput;
 import com.himamis.retex.editor.share.input.adapter.StringAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
+import com.himamis.retex.editor.share.model.MathContainer;
+import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.CommandParser;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -23,7 +26,6 @@ public class KeyboardInputAdapter {
 	private static final char times = Unicode.MULTIPLY;
 	private static final char minus = Unicode.MINUS;
 	private static final List<KeyboardAdapter> adapters;
-	private static final KeyboardAdapter commandAdapter;
 
 	static {
 		adapters = new ArrayList<>();
@@ -141,19 +143,34 @@ public class KeyboardInputAdapter {
 		});
 
 		adapters.add(new FunctionVariableAdapter());
-
-		commandAdapter = new KeyboardAdapter() {
+		adapters.add(new KeyboardAdapter() {
 			@Override
-			public void commit(MathFieldInternal mfi, String commandString) {
-				List<String> splitCommand = CommandParser.parseCommand(commandString);
-
+			public void commit(MathFieldInternal mfi, String input) {
 				EditorState editorState = mfi.getEditorState();
-				type(mfi, splitCommand.get(0));
+				if (editorState.isInHighlightedPlaceholder()) {
+					return;
+				}
+				String[] split = input.split(":");
+				type(mfi, split[0]);
 				mfi.getInputController().newBraces(editorState, '(');
 				mfi.notifyAndUpdate("(");
-				PlaceholderController.insertPlaceholders(editorState,
-						splitCommand.subList(1, splitCommand.size()),
-						splitCommand.get(0));
+				MathContainer parent = editorState.getCurrentField().getParent();
+				if (parent instanceof MathFunction) {
+					for (int i = parent.size(); i < Integer.parseInt(split[1]); i++) {
+						parent.addArgument(new MathSequence());
+					}
+				}
+			}
+
+			@Override
+			public boolean test(String keyboard) {
+				return keyboard.startsWith("$point") && keyboard.contains(":");
+			}
+		});
+		KeyboardAdapter commandAdapter = new KeyboardAdapter() {
+			@Override
+			public void commit(MathFieldInternal mfi, String commandString) {
+				commitCommand(mfi, commandString);
 			}
 
 			@Override
@@ -163,6 +180,18 @@ public class KeyboardInputAdapter {
 		};
 
 		adapters.add(commandAdapter);
+	}
+
+	private static void commitCommand(MathFieldInternal mfi, String commandString) {
+		List<String> splitCommand = CommandParser.parseCommand(commandString);
+
+		EditorState editorState = mfi.getEditorState();
+		type(mfi, splitCommand.get(0));
+		mfi.getInputController().newBraces(editorState, '(');
+		mfi.notifyAndUpdate("(");
+		PlaceholderController.insertPlaceholders(editorState,
+				splitCommand.subList(1, splitCommand.size()),
+				splitCommand.get(0));
 	}
 
 	/**
@@ -217,7 +246,7 @@ public class KeyboardInputAdapter {
 	 * @param commandName command name
 	 */
 	public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {
-		commandAdapter.commit(mathFieldInternal, commandName);
+		commitCommand(mathFieldInternal, commandName);
 		mathFieldInternal.update();
 	}
 }

@@ -536,6 +536,11 @@ public class AlgebraProcessor {
 				ve = parser.parseGeoGebraExpression(newValue);
 			}
 
+			if (ve.isOperation(Operation.MULTIPLY)
+					&& ve.wrap().getLeft() == geo && ve.wrap().getRight() instanceof MyVecNDNode) {
+				ve = ve.wrap().getRightTree();
+			}
+
 			if ("X".equals(ve.getLabel())) {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
 						new EvalInfo(!cons.isSuppressLabelsActive()));

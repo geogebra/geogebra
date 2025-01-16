@@ -400,6 +400,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected boolean updateValuePanel(String text) {
+		if (outputPanel == null) {
+			return false;
+		}
 		boolean ret = outputPanel.updateValuePanel(geo, text, latex,
 				getFontSize());
 		if (geo != null && shouldShowOutputButton(geo)) {

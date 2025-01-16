@@ -45,6 +45,10 @@ public enum Tag {
 
 	ATOMIC_POST("$atomicpost"),
 
+	POINT("$point"),
+
+	POINT_AT("$pointAt"),
+
 	MIXED_NUMBER("mixedNumber"),
 
 	RECURRING_DECIMAL("recurringDecimal"),
@@ -90,4 +94,15 @@ public enum Tag {
 		return key;
 	}
 
+	/**
+	 * @return whether template has highlighted boxes
+	 */
+	public boolean isRenderingOwnPlaceholders() {
+		switch (this) {
+		case POINT:
+		case POINT_AT:
+			return true;
+		default: return false;
+		}
+	}
 }

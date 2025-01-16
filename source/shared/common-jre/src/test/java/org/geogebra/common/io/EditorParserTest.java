@@ -118,6 +118,12 @@ public class EditorParserTest {
 	}
 
 	@Test
+	public void pointTemplate() {
+		assertParsesAs("$point(1,2)", "(1,2)");
+		assertParsesAs("$pointAt(1,3)", "(1,3)");
+	}
+
+	@Test
 	public void symbolLaTeXShouldParse() {
 		AppCommon appCommon = AppCommonFactory.create();
 		Kernel kernel = appCommon.getKernel();

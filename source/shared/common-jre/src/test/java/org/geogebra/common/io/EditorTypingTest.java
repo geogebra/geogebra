@@ -958,4 +958,10 @@ public class EditorTypingTest {
 	public void operatorShouldBeFollowedByZeroSpace() {
 		checker.type("1+").checkPlaceholders("1+\u200b");
 	}
+
+	@Test
+	public void pointFromKeyboard() {
+		checker.pressSingleKey("$point:2").type("1").right(1).type("2")
+				.checkAsciiMath("(1,2)");
+	}
 }

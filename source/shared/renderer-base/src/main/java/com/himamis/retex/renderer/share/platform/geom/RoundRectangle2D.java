@@ -43,7 +43,7 @@
  */
 package com.himamis.retex.renderer.share.platform.geom;
 
-public interface RoundRectangle2D {
+public interface RoundRectangle2D extends Shape {
 
 	public interface Double extends RoundRectangle2D {
 

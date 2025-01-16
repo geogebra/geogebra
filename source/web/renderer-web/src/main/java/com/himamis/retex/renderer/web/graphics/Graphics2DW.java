@@ -65,6 +65,9 @@ import com.himamis.retex.renderer.web.font.AsyncLoadedFont.FontLoadCallback;
 import com.himamis.retex.renderer.web.font.DefaultFont;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.font.FontWrapper;
+import com.himamis.retex.renderer.web.geom.AreaW;
+import com.himamis.retex.renderer.web.geom.RoundRectangle2DW;
+import com.himamis.retex.renderer.web.geom.ShapeW;
 
 import elemental2.core.JsArray;
 import elemental2.dom.CSSStyleDeclaration;
@@ -205,8 +208,20 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fill(com.himamis.retex.renderer.share.platform.geom.Shape s) {
-		context.fill(s);
+	public void fill(com.himamis.retex.renderer.share.platform.geom.Shape shape) {
+		if (shape instanceof Rectangle2D) {
+			Rectangle2D rect = (Rectangle2D) shape;
+			fillRect(rect.getX(), rect.getY(), rect.getWidth(),
+					rect.getHeight());
+		} else if (shape instanceof AreaW) {
+			AreaW area = (AreaW) shape;
+			area.fill(this, context);
+		} else if (shape instanceof ShapeW) {
+			((ShapeW) shape).fill(context);
+		} else if (shape instanceof RoundRectangle2DW) {
+			drawRoundRectangle((RoundRectangle2DW) shape);
+			context.fill();
+		}
 	}
 
 	@Override
@@ -249,36 +264,35 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void draw(RoundRectangle2D rectangle) {
+		drawRoundRectangle(rectangle);
+		context.stroke();
+	}
+
+	private void drawRoundRectangle(RoundRectangle2D rectangle) {
 		double x = rectangle.getX();
 		double y = rectangle.getY();
-		double w = rectangle.getWidth();
-		double h = rectangle.getHeight();
+		double width = rectangle.getWidth();
+		double height = rectangle.getHeight();
 		double arcW = rectangle.getArcW();
 		double arcH = rectangle.getArcH();
 		if (Math.abs(arcW - arcH) < 0.01) {
 			double radius = arcW / 2.0;
-			drawRoundRectangle(x, y, w, h, radius);
+			context.beginPath();
+			context.moveTo(x + radius, y);
+			context.lineTo(x + width - radius, y);
+			context.quadraticCurveTo(x + width, y, x + width, y + radius);
+			context.lineTo(x + width, y + height - radius);
+			context.quadraticCurveTo(x + width, y + height, x + width - radius,
+					y + height);
+			context.lineTo(x + radius, y + height);
+			context.quadraticCurveTo(x, y + height, x, y + height - radius);
+			context.lineTo(x, y + radius);
+			context.quadraticCurveTo(x, y, x + radius, y);
+			context.closePath();
 		} else {
 			throw new UnsupportedOperationException(
 					"ArcW and ArcH must be equal.");
 		}
-	}
-
-	private void drawRoundRectangle(double x, double y, double width,
-			double height, double radius) {
-		context.beginPath();
-		context.moveTo(x + radius, y);
-		context.lineTo(x + width - radius, y);
-		context.quadraticCurveTo(x + width, y, x + width, y + radius);
-		context.lineTo(x + width, y + height - radius);
-		context.quadraticCurveTo(x + width, y + height, x + width - radius,
-				y + height);
-		context.lineTo(x + radius, y + height);
-		context.quadraticCurveTo(x, y + height, x, y + height - radius);
-		context.lineTo(x, y + radius);
-		context.quadraticCurveTo(x, y, x + radius, y);
-		context.closePath();
-		context.stroke();
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.LocalizationI;
+import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.bridge.AttributeProvider;
 
@@ -74,6 +75,11 @@ public class EditorKeyboardContext implements HasKeyboard {
 
 	@Override
 	public List<String> getInputBoxFunctionVars() {
+		return null;
+	}
+
+	@Override
+	public TemplateKeyProvider getTemplateKeyProvider() {
 		return null;
 	}
 

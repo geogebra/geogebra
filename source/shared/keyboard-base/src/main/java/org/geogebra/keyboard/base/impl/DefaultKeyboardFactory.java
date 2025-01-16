@@ -33,10 +33,18 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	/**
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
-	 * @param hasRealschuleTemplateFeature - see PreviewFeature.REALSCHULE_TEMPLATES
+	 * @param templateKeyProvider provides feedback for template keys (point)
 	 */
-	public DefaultKeyboardFactory(boolean hasRealschuleTemplateFeature) {
-		this(new DefaultCharProvider(), hasRealschuleTemplateFeature);
+	public DefaultKeyboardFactory(TemplateKeyProvider templateKeyProvider) {
+		this(new DefaultCharProvider(), templateKeyProvider);
+	}
+
+	/**
+	 * @deprecated not localized, supply TemplateKeyProvider instead
+	 */
+	@Deprecated
+	public DefaultKeyboardFactory(boolean hasPointTemplate) {
+		this(new DefaultCharProvider(), hasPointTemplate ? () -> "$point:2" : null);
 	}
 
 	/**
@@ -44,7 +52,7 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 * for keyboard model factories.
 	 */
 	public DefaultKeyboardFactory() {
-		this(new DefaultCharProvider(), false);
+		this(new DefaultCharProvider(), null);
 	}
 
 	/**
@@ -53,24 +61,24 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 * @param characterProvider character provider
 	 */
 	public DefaultKeyboardFactory(CharacterProvider characterProvider) {
-		this(characterProvider, false);
+		this(characterProvider, null);
 	}
 
 	/**
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
 	 * @param characterProvider character provider
-	 * @param hasRealschuleTemplateFeature realschule templates feature
+	 * @param templateKeyProvider provides feedback for template keys
 	 */
 	public DefaultKeyboardFactory(CharacterProvider characterProvider,
-			boolean hasRealschuleTemplateFeature) {
+			TemplateKeyProvider templateKeyProvider) {
 		defaultKeyboardModelFactory = new DefaultKeyboardModelFactory(characterProvider);
 		mathKeyboardFactory = new MathKeyboardFactory(characterProvider);
 		functionKeyboardFactory = new FunctionKeyboardFactory();
 		letterKeyboardFactory = new LetterKeyboardFactory();
 		greekKeyboardFactory = new GreekKeyboardFactory();
 		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory(
-				hasRealschuleTemplateFeature);
+				templateKeyProvider);
 	}
 
 	/**

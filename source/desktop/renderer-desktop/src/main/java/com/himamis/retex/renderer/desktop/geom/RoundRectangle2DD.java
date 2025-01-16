@@ -45,6 +45,8 @@ package com.himamis.retex.renderer.desktop.geom;
 
 import java.awt.geom.RoundRectangle2D;
 
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
+
 public class RoundRectangle2DD extends RoundRectangle2D.Double implements
 		com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D {
 
@@ -73,5 +75,10 @@ public class RoundRectangle2DD extends RoundRectangle2D.Double implements
 	public void setRoundRectangle(double x, double y, double w, double h,
 			double arcw, double arch) {
 		setRoundRect(x, y, w, h, arcw, arch);
+	}
+
+	@Override
+	public Rectangle2D getBounds2DX() {
+		return new Rectangle2DD(getX(), getY(), getWidth(), getHeight());
 	}
 }

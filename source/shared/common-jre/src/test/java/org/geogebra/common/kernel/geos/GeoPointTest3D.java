@@ -20,6 +20,6 @@ public class GeoPointTest3D extends BaseUnitTest {
     public void testDefinitionForEdit3D() {
         getApp().set3dConfig();
         GeoPoint3D point = addAvInput("A=(1,2,3)");
-        assertThat(point.getDefinitionForEditor(), equalTo("A=(1,2,3)"));
+        assertThat(point.getDefinitionForEditor(), equalTo("A=$point(1,2,3)"));
     }
 }

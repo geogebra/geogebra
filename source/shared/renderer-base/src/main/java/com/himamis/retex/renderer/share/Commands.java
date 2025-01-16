@@ -127,6 +127,7 @@ import com.himamis.retex.renderer.share.commands.CommandImageBase64;
 import com.himamis.retex.renderer.share.commands.CommandInterText;
 import com.himamis.retex.renderer.share.commands.CommandIt;
 import com.himamis.retex.renderer.share.commands.CommandJlmCursor;
+import com.himamis.retex.renderer.share.commands.CommandJlmInput;
 import com.himamis.retex.renderer.share.commands.CommandJlmSelection;
 import com.himamis.retex.renderer.share.commands.CommandJlmXML;
 import com.himamis.retex.renderer.share.commands.CommandKet;
@@ -871,6 +872,8 @@ public class Commands {
 		// for the editor
 		case "jlmselection":
 			return new CommandJlmSelection();
+		case "jlminput":
+			return new CommandJlmInput();
 
 		// eg
 		// \imagebasesixtyfour{40}{36}{data:image/png;base64,iVBORw0KGgoA...zscAAAAASUVORK5CYII=}

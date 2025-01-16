@@ -99,6 +99,16 @@ class MetaModelFunctions {
 						new MetaParameter[] {
 								MetaParameter.BASIC, createParameterUp(2), createParameterDown(1)
 						}));
+		functions.add(
+				createFunctionInsert(Tag.POINT_AT, "", 0,
+						new MetaParameter[] {
+								MetaParameter.BASIC, MetaParameter.BASIC
+						}));
+		functions.add(
+				createFunctionInsert(Tag.POINT, "", 0,
+						new MetaParameter[] {
+								MetaParameter.BASIC, MetaParameter.BASIC
+						}));
 
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));

@@ -19,6 +19,7 @@ public class TeXSerializer extends SerializerAdapter {
 
 	public static final int placeholderColor = 0xDCDCDC;
 	public static final int commandPlaceholderColor = 0x9E9E9E;
+	public static final int placeholderBackground = 0xF3F2F7;
 
 	public static final String PLACEHOLDER = "{\\bgcolor{#"
 			+ Integer.toHexString(placeholderColor) + "}\\scalebox{1}[1.6]{\\phantom{g}}}";
@@ -320,6 +321,12 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(2), stringBuilder);
 			stringBuilder.append("}");
 			break;
+		case POINT:
+			point(function, stringBuilder, ",");
+			break;
+		case POINT_AT:
+			point(function, stringBuilder, "\\vert");
+			break;
 		case MIXED_NUMBER:
 			stringBuilder.append("{");
 			serialize(function.getArgument(0), stringBuilder);
@@ -348,6 +355,16 @@ public class TeXSerializer extends SerializerAdapter {
 		if (function == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
+	}
+
+	private void point(MathFunction function, StringBuilder stringBuilder, String s) {
+		stringBuilder.append("\\left(\\jlminput{");
+		serialize(function.getArgument(0), stringBuilder);
+		for (int i = 1; i < function.size(); i++) {
+			stringBuilder.append("}").append(s).append("\\jlminput{");
+			serialize(function.getArgument(i), stringBuilder);
+		}
+		stringBuilder.append("}\\right)");
 	}
 
 	/**

@@ -16,6 +16,7 @@ import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
+import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
@@ -46,7 +47,12 @@ public class KeyboardLayoutTest {
 
 	@Test
 	public void testSpecialTabWithTemplateButtons() {
-		KeyboardFactory kbf = new DefaultKeyboardFactory(true);
+		KeyboardFactory kbf = new DefaultKeyboardFactory(new TemplateKeyProvider() {
+			@Override
+			public String getPointFunction() {
+				return "$point:2";
+			}
+		});
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
 		StringBuilder actions = new StringBuilder();
 		StringBuilder resources = new StringBuilder();
@@ -63,7 +69,7 @@ public class KeyboardLayoutTest {
 						+ "″,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
 				resources.toString()); // TODO fix test
 		assertEquals("∞,≟,≠,∧,∨,¬,⊗,[,],∥,⟂,∈,⊂,⊆,∠,→,⌈,⌊,"
-						+ "point,vector,matrix,\\,&,@,#,"
+						+ "$point:2,vector,matrix,\\,&,@,#,"
 						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"
 						+ "″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
 				actions.toString());

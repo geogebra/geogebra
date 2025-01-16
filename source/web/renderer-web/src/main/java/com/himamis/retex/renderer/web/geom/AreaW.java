@@ -6,6 +6,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
+import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 /**
@@ -67,20 +68,20 @@ public class AreaW
 		return new AreaW(shapes);
 	}
 
-	public void fill(JLMContext2d ctx) {
+	public void fill(Graphics2DW g2, JLMContext2d context) {
 
 		if (scale != 1) {
-			ctx.saveTransform();
-			ctx.scale2(scale, scale);
+			context.saveTransform();
+			context.scale2(scale, scale);
 		}
 
 		int n = shapes.size();
 		for (int i = 0; i < n; i++) {
-			ctx.fill(shapes.get(i));
+			g2.fill(shapes.get(i));
 		}
 
 		if (scale != 1) {
-			ctx.restoreTransform();
+			context.restoreTransform();
 		}
 
 	}

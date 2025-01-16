@@ -61,8 +61,9 @@ public class OvalAtom extends FBoxAtom {
 	}
 
 	@Override
-	public Box createBox(TeXEnvironment env) {
+	protected FramedBox newFramedBox(Box bbase, double drt, double space,
+			Color line, TeXEnvironment env) {
 		final double cs = env.lengthSettings().getFactor("cornersize");
-		return new OvalBox((FramedBox) super.createBox(env), cs);
+		return new OvalBox(bbase, drt, space, line, bg, cs);
 	}
 }

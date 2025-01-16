@@ -59,8 +59,8 @@ public class ShadowBox extends FramedBox {
 
 	private Rectangle2D rectangle;
 
-	public ShadowBox(FramedBox fbox, double shadowRule) {
-		super(fbox.box, fbox.thickness, fbox.space);
+	public ShadowBox(Box bbox, double thickness, double space, double shadowRule) {
+		super(bbox, thickness, space);
 		this.shadowRule = shadowRule;
 		depth += shadowRule;
 		width += shadowRule;

@@ -1,10 +1,6 @@
 package com.himamis.retex.renderer.web.graphics;
 
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform;
-import com.himamis.retex.renderer.web.geom.AreaW;
-import com.himamis.retex.renderer.web.geom.ShapeW;
 
 import elemental2.core.JsArray;
 import elemental2.dom.CanvasPattern;
@@ -219,24 +215,6 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 
 		// XXX should this be setTransform()?
 		this.transform(m00, m10, m01, m11, m02, m12);
-	}
-
-	/**
-	 * @param shape
-	 *            shape
-	 */
-	@JsOverlay
-	final public void fill(Shape shape) {
-		if (shape instanceof Rectangle2D) {
-			Rectangle2D rect = (Rectangle2D) shape;
-			fillRect(rect.getX(), rect.getY(), rect.getWidth(),
-					rect.getHeight());
-		} else if (shape instanceof AreaW) {
-			AreaW area = (AreaW) shape;
-			area.fill(this);
-		} else if (shape instanceof ShapeW) {
-			((ShapeW) shape).fill(this);
-		}
 	}
 
 	@JsOverlay

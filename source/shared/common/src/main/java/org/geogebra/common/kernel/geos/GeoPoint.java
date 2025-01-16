@@ -83,6 +83,8 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * 2D Point
  *
@@ -1461,6 +1463,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
+	public char getLabelDelimiter() {
+		if (kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN && hasSpecialEditor()) {
+			return Unicode.ZERO_WIDTH_SPACE;
+		}
+		return kernel.getCoordStyle() == Kernel.COORD_STYLE_FRENCH ? ':' : '=';
+	}
+
+	@Override
 	final public String toStringDescription(StringTemplate tpl) {
 		boolean isAvDescrip = Kernel.ALGEBRA_STYLE_DESCRIPTION == getKernel()
 				.getAlgebraStyle();
@@ -1571,17 +1581,27 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			return;
 		}
-		sb.append(tpl.leftBracket());
-		sb.append(kernel.format(x, tpl));
-		String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
+		if (tpl.usePointTemplate()) {
+			sb.append(kernel.getApplication().getSettings().getGeneral().getPointEditorTemplate())
+					.append('(');
+			sb.append(kernel.format(x, tpl)).append(",");
+			sb.append(kernel.format(y, tpl)).append(",");
+			sb.append(kernel.format(z, tpl));
+			sb.append(tpl.rightBracket());
+		} else {
+			sb.append(tpl.leftBracket());
+			sb.append(kernel.format(x, tpl));
+			String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
 
-		sb.append(separatorWithSpace);
-		sb.append(kernel.format(y, tpl));
+			sb.append(separatorWithSpace);
+			sb.append(kernel.format(y, tpl));
 
-		sb.append(separatorWithSpace);
-		sb.append(kernel.format(z, tpl));
+			sb.append(separatorWithSpace);
+			sb.append(kernel.format(z, tpl));
 
-		sb.append(tpl.rightBracket());
+			sb.append(tpl.rightBracket());
+		}
+
 	}
 
 	/**
@@ -1705,7 +1725,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			break;
 
 		default: // CARTESIAN
-			sbBuildValueString.append(tpl.leftBracket());
+			if (tpl.usePointTemplate()) {
+				String pointEditorTemplate =
+						kernel.getApplication().getSettings().getGeneral().getPointEditorTemplate();
+				sbBuildValueString.append(pointEditorTemplate).append('(');
+			} else {
+				sbBuildValueString.append(tpl.leftBracket());
+			}
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:

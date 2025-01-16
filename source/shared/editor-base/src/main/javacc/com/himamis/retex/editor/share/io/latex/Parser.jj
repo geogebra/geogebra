@@ -143,6 +143,8 @@ PARSER_END(Parser)
 	| < PROD_EQ : "$prodeq" >
 	| < SUM_EQ : "$sumeq" >
 	| < LIM_EQ : "$limeq(" >
+	| < POINT : "$point" >
+	| < POINT_AT : "$pointAt" >
 	| < VEC : "$vec(" >
 	| < ATOMIC_POST : "$atomicpost" >
 	| < ATOMIC_PRE : "$atomicpre" >
@@ -360,7 +362,8 @@ void defintSumProduct(MathContainer currentField) : {
 	Token symbol;
 }
 {
-	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ>) <PARENTHESES_OPEN> {
+
+	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ> | symbol = <POINT> | symbol = <POINT_AT> ) <PARENTHESES_OPEN> {
 		MathFunction defint = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
 		MathSequence param0 = new MathSequence();
 		mathContainer(param0);
@@ -369,8 +372,15 @@ void defintSumProduct(MathContainer currentField) : {
 		mathContainer(param1);
 		defint.setArgument(0, param0);
 		defint.setArgument(1, param1);
+
+	} (<COMMA> {
+		MathSequence param2 = new MathSequence();
+		mathContainer(param2);
+		defint.addArgument(param2);
+	})? <PARENTHESES_CLOSE> {
 		currentField.addArgument(defint);
-	} <PARENTHESES_CLOSE>
+
+	}
 }
 
 void atomicPrePost(MathContainer currentField) : {

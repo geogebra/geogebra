@@ -28,6 +28,15 @@ class CartesianPrinter3D implements Printer {
 					+ expressionPrinter.print(vector.getZ(), tpl)
 					+ (vectorNot3dPoint ? "]" : ")");
 		}
+		if (tpl.isForEditorParser()) {
+			return "$point("
+					+ expressionPrinter.print(vector.getX(), tpl)
+					+ ','
+					+ expressionPrinter.print(vector.getY(), tpl)
+					+ ','
+					+ expressionPrinter.print(vector.getZ(), tpl)
+					+ ')';
+		}
 		String delimiter = tpl.getCartesianDelimiter(settings);
 		return tpl.leftBracket()
 				+ expressionPrinter.print(vector.getX(), tpl)

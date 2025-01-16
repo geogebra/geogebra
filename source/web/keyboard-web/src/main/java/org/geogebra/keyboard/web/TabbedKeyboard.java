@@ -3,6 +3,7 @@ package org.geogebra.keyboard.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
@@ -20,6 +21,7 @@ import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
+import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
 import org.geogebra.keyboard.web.factory.InputBoxKeyboardFactory;
@@ -65,6 +67,7 @@ public class TabbedKeyboard extends FlowPanel
 	protected HasKeyboard hasKeyboard;
 	private final ArrayList<Keyboard> layouts = new ArrayList<>(4);
 	private String keyboardLanguageTag;
+	private String pointFunction;
 	private KeyboardCloseListener keyboardCloseListener;
 	protected KeyboardListener processField;
 	private FlowPanel tabs;
@@ -139,7 +142,8 @@ public class TabbedKeyboard extends FlowPanel
 				return new SolverKeyboardFactory();
 			default:
 				return new DefaultKeyboardFactory(PreviewFeature.isAvailable(
-						PreviewFeature.REALSCHULE_TEMPLATES));
+						PreviewFeature.REALSCHULE_TEMPLATES)
+						? hasKeyboard.getTemplateKeyProvider() : null);
 			}
 		}
 	}
@@ -594,7 +598,8 @@ public class TabbedKeyboard extends FlowPanel
 
 		String newKeyboardLocale = hasKeyboard.getLocalization().getLanguageTag();
 		if ((newKeyboardLocale != null
-				&& newKeyboardLocale.equals(keyboardLanguageTag)) || factory == null) {
+				&& newKeyboardLocale.equals(keyboardLanguageTag)
+				&& isPointFunctionUnchanged()) || factory == null) {
 			return;
 		}
 
@@ -608,6 +613,12 @@ public class TabbedKeyboard extends FlowPanel
 
 		clear();
 		buildGUI();
+	}
+
+	private boolean isPointFunctionUnchanged() {
+		TemplateKeyProvider templateKeyProvider = hasKeyboard.getTemplateKeyProvider();
+		return templateKeyProvider != null && Objects.equals(pointFunction,
+				templateKeyProvider.getPointFunction());
 	}
 
 	/**

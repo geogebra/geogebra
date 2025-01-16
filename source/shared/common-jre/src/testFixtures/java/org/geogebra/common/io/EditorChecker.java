@@ -18,6 +18,7 @@ import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.AddPlaceholders;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -148,6 +149,11 @@ class EditorChecker {
 	 */
 	public EditorChecker type(String input) {
 		typer.type(input);
+		return this;
+	}
+
+	public EditorChecker pressSingleKey(String key) {
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), key);
 		return this;
 	}
 

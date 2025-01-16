@@ -55,7 +55,7 @@ public class DoubleFramedAtom extends FBoxAtom {
 	}
 
 	@Override
-	public Box createBox(TeXEnvironment env) {
+	public FramedBox createBox(TeXEnvironment env) {
 		Box bbase = base.createBox(env);
 		double drt = env.lengthSettings().getLength("fboxrule", env);
 		double space = env.lengthSettings().getLength("fboxsep", env);
