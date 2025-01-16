@@ -163,6 +163,14 @@ public class EvaluatorAPI {
 	 * @param formula LaTeX formula
 	 */
 	public void evalLaTeX(String formula) {
+		String plainText = new SyntaxAdapterImpl(parser.getKernel()).convertLaTeXtoGGB(formula);
+		mathFieldInternal.parse(plainText);
+	}
+
+	/**
+	 * @param formula LaTeX, MathML or AsciiMath formula
+	 */
+	public void evalInput(String formula) {
 		String plainText = new SyntaxAdapterImpl(parser.getKernel()).convert(formula);
 		mathFieldInternal.parse(plainText);
 	}

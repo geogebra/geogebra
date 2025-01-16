@@ -57,7 +57,11 @@ public abstract class AbstractSyntaxAdapter implements SyntaxAdapter {
 		}
 	}
 
-	protected String convertLaTeXtoGGB(String latexExpression) {
+	/**
+	 * @param latexExpression expression in LaTeX format
+	 * @return expression in AsciiMath / GeoGebra input format
+	 */
+	public String convertLaTeXtoGGB(String latexExpression) {
 		TeXFormula tf = new TeXFormula(latexExpression);
 		return new TeXAtomSerializer(null).serialize(tf.root);
 	}

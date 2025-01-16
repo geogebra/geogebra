@@ -44,7 +44,7 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 	}
 
 	@Override
-	protected String convertLaTeXtoGGB(String latexExpression) {
+	public String convertLaTeXtoGGB(String latexExpression) {
 		kernel.getApplication().getDrawEquation()
 				.checkFirstCall();
 		return super.convertLaTeXtoGGB(latexExpression);

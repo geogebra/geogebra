@@ -61,6 +61,10 @@ public class EvaluatorExportedApi implements ExportedApi {
 		evaluatorActivity.getEditorAPI().evalLaTeX(formula);
 	}
 
+	public void evalInput(String formula) {
+		evaluatorActivity.getEditorAPI().evalInput(formula);
+	}
+
 	public void exportImage(JsPropertyMap<String> settings,
 			MathFieldExporter.ImageConsumer callback) {
 		String type = Js.isTruthy(settings) ? settings.get("type") : null;
