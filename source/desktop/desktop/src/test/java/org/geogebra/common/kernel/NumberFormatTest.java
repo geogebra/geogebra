@@ -20,7 +20,7 @@ public class NumberFormatTest {
 
 	@Test
 	public void testRounding() throws IOException, JSONException {
-		String path = "../common/src/main/resources/testData/rounding.json";
+		String path = "../../shared/common/src/main/resources/testData/rounding.json";
 		String content = new String(Files.readAllBytes(Paths.get(path)));
 		JSONArray cases = new JSONArray(new JSONTokener(content));
 		AppCommon app = AppCommonFactory.create();

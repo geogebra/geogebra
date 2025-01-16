@@ -15,7 +15,7 @@ public class LocalizationTest {
 	@Test
 	public void gwtTranslationFilesShouldMatchLanguages() {
 		File dir = new File(
-				"../web/src/nonfree/resources/org/geogebra/web/pub/js/");
+				"../../web/web/src/nonfree/resources/org/geogebra/web/pub/js/");
 		TreeSet<String> available = new TreeSet<>();
 		for (File f : dir.listFiles()) {
 			if (!f.getAbsolutePath().contains(".svn")) {
@@ -24,7 +24,7 @@ public class LocalizationTest {
 		}
 		for (Language lang : Language.values()) {
 			File trans = new File(
-					"../web/src/nonfree/resources/org/geogebra/web/pub/js/properties_keys_"
+					"../../web/web/src/nonfree/resources/org/geogebra/web/pub/js/properties_keys_"
 							+ lang.toLanguageTag() + ".js");
 			Assert.assertTrue(trans.getAbsolutePath(),
 					available.remove(trans.getAbsolutePath()));

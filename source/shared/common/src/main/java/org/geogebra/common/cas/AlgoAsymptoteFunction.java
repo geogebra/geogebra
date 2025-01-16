@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -111,6 +112,11 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 
 			sb.append("}");
 			g.set(kernel.getAlgebraProcessor().evaluateToList(sb.toString()));
+			g.elements().forEach(geo -> {
+				if (geo instanceof GeoLine) {
+					((GeoLine) geo).setToExplicit();
+				}
+			});
 		} catch (Throwable th) {
 			g.setUndefined();
 		}

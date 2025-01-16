@@ -38,8 +38,7 @@ public class CAStestJSON extends CasTestJsonCommon {
 		String json = "";
 		try {
 			Log.debug("CAS: loading testcases");
-			json = readJsonFileAsString(
-			);
+			json = readJsonFileAsString();
 			Log.debug("CAS: testcases parsed");
 			addTestcases(json);
 		} catch (JSONException | IOException e) {
@@ -76,7 +75,7 @@ public class CAStestJSON extends CasTestJsonCommon {
 
 	private static String readJsonFileAsString() throws IOException {
 		return skipComments(Files.readAllLines(Paths.get(
-				"../common/src/main/resources/giac/giacTests.js")));
+				"../../shared/common/src/main/resources/giac/giacTests.js")));
 	}
 
 }

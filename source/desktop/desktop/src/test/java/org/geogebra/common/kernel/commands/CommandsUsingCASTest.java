@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.lessThan;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.CASFactory;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -32,8 +33,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class CommandsUsingCASTest extends AlgebraTest {
 
-	private void add(String string) {
-		ap.processAlgebraCommand(string, false);
+	private GeoElementND add(String string) {
+		GeoElementND[] geos = ap.processAlgebraCommand(string, false);
+		return geos == null || geos.length == 0 ? null : geos[0];
 	}
 
 	private void runSolveTests() {
@@ -303,7 +305,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	public void cmdSolveSystem() {
 		t("a:abs(x)/9+abs(y)/4=1", "abs(x) / 9 + abs(y) / 4 = 1");
-		t("f:y=2x", "y = 2x");
+		t("f:y=2x", "y = (2 * x)");
 		t("Solve[ {a,f} ]",
 				"{{x = 18 / 11, y = 36 / 11}, {x = -18 / 11, y = -36 / 11}}");
 	}
@@ -368,7 +370,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		app.getKernel().clearConstruction(true);
 		app.setActiveView(App.VIEW_EUCLIDIAN3D);
 		app.getEuclidianView3D();
-		t("eq: x^2=6", unicode("x^2 + 0z^2 = 6"));
+		GeoQuadric3D quadric = (GeoQuadric3D) add("eq: x^2=6");
+		quadric.setToImplicit();
+		t("eq", unicode("x^2 + 0z^2 = 6"));
 		t("Solve[ eq ]", "{x = (-sqrt(6)), x = sqrt(6)}");
 		t("Solve({84.36=x*y^3,126.56=x*y^4})",
 				"{{x = 19783645390161 / 791861873600, y = 3164 / 2109}}");

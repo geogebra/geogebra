@@ -682,8 +682,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("Coefficients[lsb]", "{1, 1, 1, -1, 0, 0, 0, 0, 0, 0}");
 		in("lsb2:xx+2yy+3zz+4xy+5zy+6xz+7x+8y+9z=4");
 		t("LeftSide[lsb2]",
-				"x^(2) + 2 * y^(2) + 3 * z^(2) + 4 * x * y + 6 * x * z + 5 * y * z "
-						+ "+ 7 * x + 8 * y + 9 * z");
+				"x^(2) + 2 * y^(2) + 3 * z^(2) + 4 * x * y + 5 * z * y "
+						+ "+ 6 * x * z + 7 * x + 8 * y + 9 * z");
 		t("RightSide[lsb2]", "4");
 		t("Coefficients[lsb2]", "{1, 2, 3, -4, 4, 6, 5, 7, 8, 9}");
 		in("lsb3:xx+yy=1");

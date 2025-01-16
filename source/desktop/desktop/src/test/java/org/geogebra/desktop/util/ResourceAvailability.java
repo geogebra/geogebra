@@ -91,14 +91,15 @@ public class ResourceAvailability {
 
 	@Test
 	public void imageSetsShouldBeIdentical() {
+		String commonSrc = "../../shared/common/src";
 		String lowres = Arrays.stream(new File(
-				"../common/src/nonfree/resources/org/geogebra/common/icons_toolbar/p32/")
+				commonSrc + "/nonfree/resources/org/geogebra/common/icons_toolbar/p32/")
 				.list()).sorted().collect(
 				Collectors.joining("\n"));
 		String[] otherSets = new String[] {
-				"../common/src/nonfree/resources/org/geogebra/common/icons_toolbar/p64/",
-				"../common/src/gpl/resources/org/geogebra/common/icons_toolbar/p32/",
-				"../common/src/gpl/resources/org/geogebra/common/icons_toolbar/p32/"};
+				commonSrc + "/nonfree/resources/org/geogebra/common/icons_toolbar/p64/",
+				commonSrc + "/gpl/resources/org/geogebra/common/icons_toolbar/p32/",
+				commonSrc + "/gpl/resources/org/geogebra/common/icons_toolbar/p32/"};
 		for (String directory: otherSets) {
 			String hires = Arrays.stream(new File(directory).list()).sorted().collect(
 					Collectors.joining("\n"));
