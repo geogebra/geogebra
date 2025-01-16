@@ -1034,7 +1034,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					public void onLoaded(
 							final List<Material> parseResponse,
 							Pagination meta) {
-						if (parseResponse.size() == 1) {
+						// may be one or more materials (in case of multi-applet activity)
+						if (!parseResponse.isEmpty()) {
 							Material material = parseResponse.get(0);
 							material.setSyncStamp(
 									parseResponse.get(0).getModified());
