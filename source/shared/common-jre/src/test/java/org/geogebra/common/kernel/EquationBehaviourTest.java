@@ -118,7 +118,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 
 		// Parabola created from equation
 		GeoConic algebraParabola = (GeoConic) getElementFactory().create("y=xx");
-		assertEquals(QuadraticEquationRepresentable.Form.EXPLICIT,
+		assertEquals(QuadraticEquationRepresentable.Form.USER,
 				algebraParabola.getEquationForm());
 
 		// Parabola created from point and line

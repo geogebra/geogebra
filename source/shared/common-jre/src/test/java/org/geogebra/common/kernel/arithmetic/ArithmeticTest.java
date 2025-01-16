@@ -222,7 +222,7 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("f(r)=((1..5)*r,sin(r)+1)",
 				"{((1 * r), sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1),"
 						+ " ((4 * r), sin(r) + 1), ((5 * r), sin(r) + 1)}");
-		t("1..2={sin(x),x}", "{1 = sin(x), x = 2}");
+		t("1..2={sin(x),x}", "{1 = sin(x), 2 = x}");
 		t("1..2={x}", "?");
 		shouldFail("{(1,2)}={(1,3)}", "Invalid equation", getApp());
 	}

@@ -13,6 +13,7 @@ import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.gui.view.algebra.SuggestionStatistics;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -84,14 +85,15 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	// TODO change to
 	//  private static void checkDescriptionMode(String def, DescriptionMode mode) {
-	private static void checkRows(String def, int rows) {
+
+	private static void checkRows(String def, DescriptionMode mode) {
 		EvalInfo evalInfo = new EvalInfo(true);
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, evalInfo, null);
-		assertEquals(DescriptionMode.values()[rows],
+		assertEquals(mode,
 				el[0].getDescriptionMode());
 		el[0].toString(StringTemplate.defaultTemplate);
-		assertEquals(DescriptionMode.values()[rows],
+		assertEquals(mode,
 				el[0].getDescriptionMode());
 	}
 
@@ -139,48 +141,48 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	public void twoRowsAlgebra() {
-		checkRows("a=1", 1);
-		checkRows("a+a", 2);
-		checkRows("sqrt(x+a)", 2);
-		checkRows("{a}", 2);
-		checkRows("{x}", 1);
-		checkRows("{x+a}", 2);
-		checkRows("{{1}}", 1);
-		checkRows("{{a}}", 2);
-		checkRows("{{a}}+{{1}}", 2);
-		checkRows("{x=y}", 1);
-		checkRows("x=y", 2);
+		checkRows("a=1", DescriptionMode.VALUE);
+		checkRows("a+a", DescriptionMode.DEFINITION_VALUE);
+		checkRows("sqrt(x+a)", DescriptionMode.DEFINITION_VALUE);
+		checkRows("{a}", DescriptionMode.DEFINITION_VALUE);
+		checkRows("{x}", DescriptionMode.VALUE);
+		checkRows("{x+a}", DescriptionMode.DEFINITION_VALUE);
+		checkRows("{{1}}", DescriptionMode.VALUE);
+		checkRows("{{a}}", DescriptionMode.DEFINITION_VALUE);
+		checkRows("{{a}}+{{1}}", DescriptionMode.DEFINITION_VALUE);
+		checkRows("{x=y}", DescriptionMode.VALUE);
+		checkRows("x=y", DescriptionMode.VALUE);
 		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
-		checkRows("x=y", 1);
-		checkRows("{y=x}", 1);
-		checkRows("Sequence[100]", 2);
-		checkRows("Line((0,0),(0,1))", 2);
-		checkRows("Circle((0,0),(0,1))", 2);
+		checkRows("x=y", DescriptionMode.VALUE);
+		checkRows("{y=x}", DescriptionMode.VALUE);
+		checkRows("Sequence[100]", DescriptionMode.DEFINITION_VALUE);
+		checkRows("Line((0,0),(0,1))", DescriptionMode.DEFINITION_VALUE);
+		checkRows("Circle((0,0),(0,1))", DescriptionMode.DEFINITION_VALUE);
 	}
 
 	@Test
 	public void twoRowsAlgebraGraphing() {
 		AlgebraTestHelper.enableCAS(app, false);
 		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
-		checkRows("Line((0,0),(0,1))", 2);
-		checkRows("Circle((0,0),(0,1))", 2);
-		checkRows("x=y", 1);
+		checkRows("Line((0,0),(0,1))", DescriptionMode.DEFINITION_VALUE);
+		checkRows("Circle((0,0),(0,1))", DescriptionMode.DEFINITION_VALUE);
+		checkRows("x=y", DescriptionMode.VALUE);
 	}
 
 	@Test
 	public void twoRowsAlgebraGraphingDerivative() {
 		AlgebraTestHelper.enableCAS(app, false);
 		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
-		checkRows("f(x)=x^2", 1);
-		checkRows("f'", 1);
+		checkRows("f(x)=x^2", DescriptionMode.VALUE);
+		checkRows("f'", DescriptionMode.VALUE);
 	}
 
 	@Test
 	public void twoRowsAlgebraGraphingDerivativeArg() {
 		AlgebraTestHelper.enableCAS(app, false);
 		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
-		checkRows("f(x)=x^2", 1);
-		checkRows("f'(x)", 1);
+		checkRows("f(x)=x^2", DescriptionMode.VALUE);
+		checkRows("f'(x)", DescriptionMode.VALUE);
 	}
 
 	@Test
@@ -701,6 +703,9 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE,
 				new EvalInfo(true, true).addDegree(true), null);
+		if (geo[0] instanceof GeoLine) {
+			((GeoLine) geo[0]).setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
+		}
 		String res = geo[0].toValueString(StringTemplate.editTemplate);
 		assertEquals(expect, res);
 	}

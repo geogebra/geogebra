@@ -15,7 +15,7 @@ public class DefaultEquationBehaviour implements EquationBehaviour {
 
 	@Override
 	public LinearEquationRepresentable.Form getLinearAlgebraInputEquationForm() {
-		return null;
+		return LinearEquationRepresentable.Form.USER;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class DefaultEquationBehaviour implements EquationBehaviour {
 
 	@Override
 	public QuadraticEquationRepresentable.Form getConicAlgebraInputEquationForm() {
-		return null;
+		return QuadraticEquationRepresentable.Form.USER;
 	}
 
 	@Override

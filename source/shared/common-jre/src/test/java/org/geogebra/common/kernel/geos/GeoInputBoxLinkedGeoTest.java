@@ -123,7 +123,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void enteringNewValueShouldKeepPlaneType() {
 		setupAndCheckInput("p", "x + y - z = 0");
 		updateInput("x = y");
-		t("p", "x - y = 0");
+		t("p", "x = y");
 		hasType("p", GeoClass.PLANE3D);
 	}
 
@@ -139,9 +139,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	@Test
 	public void enteringShortLinearExprShouldKeepLineType() {
-		setupAndCheckInput("l", "y = 2x + 3");
+		setupAndCheckInput("l", "y = 2 * x + 3");
 		updateInput("3x + 5");
-		t("l", "y = 3x + 5");
+		t("l", "y = (3 * x) + 5");
 		hasType("l", GeoClass.LINE);
 	}
 

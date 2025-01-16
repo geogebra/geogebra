@@ -443,7 +443,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100); // reflection point E
 		checkContent("A = (0, 0)", "B = (2, -2)", "A' = (4, -4)",
 				unicode(circle),
-				unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
+				unicode("c': x^2 + y^2 - 8x + 8y = -7"));
 	}
 
 	@Test
@@ -459,7 +459,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(100, 100);
 		checkContent(line, "A = (0, 0)", "A' = (4, -4)",
 				unicode(circle),
-				unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
+				unicode("c': x^2 + y^2 - 8x + 8y = -7"));
 	}
 
 	@Test
@@ -670,7 +670,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_SLOPE);
 		t("f:y=-3x");
 		click(50, 150);
-		checkContent("f: y = -3x", "m = -3");
+		checkContent("f: y = -3 x", "m = -3");
 	}
 
 	@Test

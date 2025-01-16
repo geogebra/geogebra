@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static com.himamis.retex.editor.share.util.Unicode.DEGREE_STRING;
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.geogebra.common.BaseUnitTest.isDefined;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.not;
@@ -14,8 +15,11 @@ import static org.mockito.Mockito.verify;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoTableText;
@@ -75,10 +79,12 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void testQuadricExpr() {
-		t("-y^2=z-1", "-y" + Unicode.SUPERSCRIPT_2 + " + 0z"
-				+ Unicode.SUPERSCRIPT_2 + " - z = -1");
-		t("y^2=1-z", "y" + Unicode.SUPERSCRIPT_2 + " + 0z"
-				+ Unicode.SUPERSCRIPT_2 + " + z = 1");
+		t("-y^2=z-1", "(-y^(2)) = z - 1");
+		t("quad:y^2=1-z",  "y^(2) = 1 - z");
+		GeoQuadric3D quad = (GeoQuadric3D) lookup("quad");
+		quad.setEquationForm(QuadraticEquationRepresentable.Form.IMPLICIT);
+		assertThat(quad, hasValue("y" + Unicode.SUPERSCRIPT_2 + " + 0z"
+				+ Unicode.SUPERSCRIPT_2 + " + z = 1"));
 	}
 
 	@Test
@@ -142,7 +148,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void functionDependentPoly() {
 		t("s(x,y)=x+y", "x + y");
-		t("s(1,2)*x=1", "x = 0.3333333333333333");
+		t("s(1,2)*x=1", "((1 + 2) * x) = 1");
 	}
 
 	@Test
@@ -175,8 +181,8 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void intersectPlanesShouldUpdate() {
-		t("e1:x=z", "x - z = 0");
-		t("e2:y=z", "y - z = 0");
+		t("e1:x=z", "x = z");
+		t("e2:y=z", "y = z");
 		t("SetValue(e1,?)");
 		t("SetValue(e2,?)");
 		t("g:Intersect(e1,e2)", "X = (NaN, NaN, NaN) + "
@@ -507,7 +513,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void yLHSLines() {
-		t("l: y = 2x", "y = 2x");
+		t("l: y = 2x", "y = (2 * x)");
 		assertEquals(GeoClass.LINE, lookup("l").getGeoClassType());
 		t("SetValue(l, y = 2x - 3)");
 		assertEquals(GeoClass.LINE, lookup("l").getGeoClassType());
@@ -517,7 +523,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void yLHSConics() {
-		t("c: y = 2x^2", "y = 2x²");
+		t("c: y = 2x^2", "y = (2 * x^(2))");
 		assertEquals(GeoClass.CONIC, lookup("c").getGeoClassType());
 		t("SetValue(c, y = 2x - 3)");
 		assertEquals(GeoClass.CONIC, lookup("c").getGeoClassType());
@@ -527,7 +533,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void yLHSPlanes() {
-		t("a: y = 2x + 3z", "-2x + y - 3z = 0");
+		t("a: y = 2x + 3z", "y = (2 * x) + (3 * z)");
 		assertEquals(GeoClass.PLANE3D, lookup("a").getGeoClassType());
 		t("SetValue(a, y = 2x - 3z + 4)");
 		assertEquals(GeoClass.PLANE3D, lookup("a").getGeoClassType());
@@ -537,7 +543,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void yLHSQuadrics() {
-		t("q: y = 2x^2 + 3z", "-2x² + 0z² + y - 3z = 0");
+		t("q: y = 2x^2 + 3z", "y = (2 * x^(2)) + (3 * z)");
 		assertEquals(GeoClass.QUADRIC, lookup("q").getGeoClassType());
 		t("SetValue(q, y = 2x² - 3z² + 4)");
 		assertEquals(GeoClass.QUADRIC, lookup("q").getGeoClassType());
@@ -582,8 +588,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void expandFunctionsLine() {
 		t("f(x,y)=2x+0y", "(2 * x) + (0 * y)");
 		t("g(x,y)=0x+3y", "(0 * x) + (3 * y)");
-		// t("2f+3g", "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y)))");
-		t("2f+3g=36", "4x + 9y = 36");
+		t("combined:2f+3g=36", "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y))) = 36");
+		((GeoLine) lookup("combined")).setToImplicit();
+		t("combined", "4x + 9y = 36");
 	}
 
 	private static void tpm(String string, String expected) {
@@ -1304,9 +1311,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void cmdDilate() {
 		t("Dilate[ (4,5), 2,(1,1) ]", "(7, 9)");
 		t("Dilate[ (4,5), 2 ]", "(8, 10)");
-		t("r=Dilate(y=-3x-6,2)", "y = -3x - 12");
-		((GeoLine) lookup("r")).setToUser();
-		t("r", "3x + y = -12");
+		t("r=Dilate(y=-3x-6,2)", "3x + y = -12");
+		((GeoLine) lookup("r")).setToExplicit();
+		t("r", "y = -3x - 12");
 	}
 
 	@Test
@@ -2243,7 +2250,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdLeftSide() {
-		t("LeftSide[x^2=y^2]", "(((-x) + y) * (x + y))");
+		t("LeftSide[x^2=y^2]", "x^(2)");
 	}
 
 	@Test
@@ -3202,7 +3209,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdRightSide() {
-		t("RightSide[x^2=y^2]", "0");
+		t("RightSide[x^2=y^2]", "y^(2)");
 	}
 
 	@Test
@@ -3448,7 +3455,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdSetImage() {
 		app.setImageManager(Mockito.mock(ImageManager.class));
-		t("c:x^2+y^2=1", unicode("x^2 + y^2 = 1"));
+		t("c:x^2+y^2=1", "x^(2) + y^(2) = 1");
 		t("pic=ToolImage(2)");
 		t("SetImage(c, pic)");
 		t("SetImage(c, \"play\")");
@@ -4349,8 +4356,8 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void testZipWithObject() {
-		t("a:x=y", "y = x");
-		t("RemoveUndefined(Zip(Object(xx), xx, {\"y\",\"a\",\"x\"}))", "{y = x}");
+		t("a:x=y", "x = y");
+		t("RemoveUndefined(Zip(Object(xx), xx, {\"y\",\"a\",\"x\"}))", "{x - y = 0}"); // breaking
 	}
 
 	@Test

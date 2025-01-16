@@ -230,7 +230,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void functionLHSShouldRemainConic() {
 		t("f(x,y)=xx+y", "x^(2) + y");
-		t("a:f(x,y)=0", TestStringUtil.unicode("x^2 + y = 0"));
+		t("a:f(x,y)=0", "(x^(2) + y) = 0");
 		assertThat(lookup("a"), isConic());
 		reload();
 		assertThat(lookup("a"), isConic());
@@ -253,8 +253,8 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void copyOfConicShouldNotBeCellRange() {
-		t("B20:x^2+y=0", TestStringUtil.unicode("x^2 + y = 0"));
-		t("D20=B20", TestStringUtil.unicode("x^2 + y = 0"));
+		t("B20:x^2+y=0", "x^(2) + y = 0");
+		t("D20=B20", "x^(2) + y = 0");
 		assertThat(lookup("D20"), isConic());
 		reload();
 		assertThat(lookup("D20"), isConic());
