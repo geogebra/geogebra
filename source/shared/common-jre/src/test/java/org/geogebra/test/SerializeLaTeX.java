@@ -1,6 +1,8 @@
 package org.geogebra.test;
 
 import static junit.framework.TestCase.fail;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,7 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.io.latex.ParseException;
@@ -31,7 +32,7 @@ public class SerializeLaTeX {
 			InputStream sourceStream = new ByteArrayInputStream(targetStream.toByteArray());
 			ObjectInputStream inputStream = new ObjectInputStream(sourceStream);
 			Object back = inputStream.readObject();
-			MatcherAssert.assertThat(back, CoreMatchers.instanceOf(MathSequence.class));
+			assertThat(back, instanceOf(MathSequence.class));
 		} catch (ParseException | IOException | ClassNotFoundException e) {
 			fail("Can't parse: " + e);
 		}

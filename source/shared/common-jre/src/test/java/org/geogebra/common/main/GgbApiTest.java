@@ -165,11 +165,11 @@ public class GgbApiTest {
 	public void testLabelStyle() {
 		api.evalCommand("a=7");
 		api.setLabelStyle("a", 1);
-		assertEquals(api.getLabelStyle("a"), 1);
+		assertEquals(1, api.getLabelStyle("a"));
 		api.setLabelStyle("a", 0);
-		assertEquals(api.getLabelStyle("a"), 0);
+		assertEquals(0, api.getLabelStyle("a"));
 		api.setLabelStyle("a", 100);
-		assertEquals(api.getLabelStyle("a"), 0);
+		assertEquals(0, api.getLabelStyle("a"));
 	}
 
 	@Test

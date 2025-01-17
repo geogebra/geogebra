@@ -1,11 +1,12 @@
 package org.geogebra.common.gui.view.table.dialog;
 
+import static org.junit.Assert.fail;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesProcessor;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class StatsBuilderTest extends BaseUnitTest {
 		try {
 			view.getStatistics1Var(1);
 		} catch (Exception e) {
-			Assert.fail("Should not throw an exception");
+			fail("Should not throw an exception");
 		}
 	}
 }

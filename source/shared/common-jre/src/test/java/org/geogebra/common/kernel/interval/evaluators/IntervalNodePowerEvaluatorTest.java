@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
@@ -118,7 +117,7 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 
 	private void shouldBeXPowerOnMinusThird()  {
 		IntervalNodeFunction function = converter.convert(add("x^(-1/3)"));
-		Assert.assertEquals(IntervalConstants.one(), function.value(IntervalConstants.one()));
+		assertEquals(IntervalConstants.one(), function.value(IntervalConstants.one()));
 		assertEquals(IntervalConstants.one().negative(),
 				function.value(IntervalConstants.one().negative()));
 	}

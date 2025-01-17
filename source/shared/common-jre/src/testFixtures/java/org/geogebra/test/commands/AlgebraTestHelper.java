@@ -20,7 +20,6 @@ import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.matcher.MultipleResultsMatcher;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsEqual;
-import org.junit.Assert;
 
 public class AlgebraTestHelper {
 
@@ -101,8 +100,8 @@ public class AlgebraTestHelper {
 			throw (AssertionError) t;
 		}
 		assertNull(t);
-		Assert.assertNotNull(s, result);
-		Assert.assertEquals(s + " count:", expected.size(), result.length);
+		assertNotNull(s, result);
+		assertEquals(s + " count:", expected.size(), result.length);
 
 		for (int i = 0; i < expected.size(); i++) {
 			String actual = result[i].toValueString(tpl);

@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,6 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,15 +32,15 @@ public class EuclidianStyleTest {
 	@Test
 	public void textShouldBeTransparentOnReload() {
 		GeoElementND transparentText = t("trans=\"aaa\"");
-		Assert.assertNull(transparentText.getBackgroundColor());
+		assertNull(transparentText.getBackgroundColor());
 		GeoElement defaultText = cd
 				.getDefaultGeo(cd.getDefaultType(null, GeoClass.TEXT));
 		defaultText.setBackgroundColor(GColor.WHITE);
 		GeoElementND whiteText = t("\"aaa\"");
-		assertEquals(whiteText.getBackgroundColor(), GColor.WHITE);
+		assertEquals(GColor.WHITE, whiteText.getBackgroundColor());
 		app.setXML(app.getXML(), true);
 		GeoElement transparentText2 = app.getKernel().lookupLabel("trans");
-		Assert.assertNull(transparentText2.getBackgroundColor());
+		assertNull(transparentText2.getBackgroundColor());
 	}
 
 	@Test

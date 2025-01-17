@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.accessibility;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,8 +20,6 @@ import org.geogebra.web.test.DomMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.gwtproject.user.client.ui.Button;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -109,15 +109,15 @@ public class AccessibilityViewTest {
 	}
 
 	private void assertDescription(int i, String string) {
-		Assert.assertTrue(mockPanel.getWidgetCount() > i);
-		MatcherAssert.assertThat(
+		assertTrue(mockPanel.getWidgetCount() > i);
+		assertThat(
 				mockPanel.getWidget(i).getElement().getAttribute("aria-label").toLowerCase(),
 				CoreMatchers.containsString(string));
 	}
 
 	private void assertText(int i, String string) {
-		Assert.assertTrue(mockPanel.getWidgetCount() > i);
-		MatcherAssert.assertThat(mockPanel.getWidget(i).getElement().getInnerText().toLowerCase(),
+		assertTrue(mockPanel.getWidgetCount() > i);
+		assertThat(mockPanel.getWidget(i).getElement().getInnerText().toLowerCase(),
 				CoreMatchers.containsString(string));
 	}
 

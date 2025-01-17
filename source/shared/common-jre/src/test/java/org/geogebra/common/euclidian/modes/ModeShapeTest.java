@@ -1,12 +1,13 @@
 package org.geogebra.common.euclidian.modes;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ModeShapeTest extends BaseEuclidianControllerTest {
@@ -18,7 +19,7 @@ public class ModeShapeTest extends BaseEuclidianControllerTest {
 		dragEnd(200, 150);
 		checkContent("q1 = 6");
 		GeoElement mask = getApp().getKernel().lookupLabel("q1");
-		Assert.assertEquals(1, mask.getAlphaValue(), Kernel.MIN_PRECISION);
+		assertEquals(1, mask.getAlphaValue(), Kernel.MIN_PRECISION);
 	}
 
 	@Test
@@ -42,7 +43,7 @@ public class ModeShapeTest extends BaseEuclidianControllerTest {
 	private void assertSelected(String message, String string) {
 		List<GeoElement> selection = getApp().getSelectionManager()
 				.getSelectedGeos();
-		Assert.assertEquals(message, string, selection.get(0).getLabelSimple());
+		assertEquals(message, string, selection.get(0).getLabelSimple());
 	}
 
 }

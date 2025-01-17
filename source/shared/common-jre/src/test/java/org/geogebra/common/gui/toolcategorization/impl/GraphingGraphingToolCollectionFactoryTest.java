@@ -7,7 +7,6 @@ import java.util.List;
 import org.geogebra.common.gui.toolcategorization.GraphingToolSet;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

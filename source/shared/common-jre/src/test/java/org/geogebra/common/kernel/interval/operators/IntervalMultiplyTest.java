@@ -9,7 +9,6 @@ import static org.geogebra.common.kernel.interval.operators.IntervalDivide.next;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class IntervalMultiplyTest {
@@ -395,7 +394,7 @@ public class IntervalMultiplyTest {
 
 	@Test
 	public void multiplyInvertedWithZero() {
-		Assert.assertEquals(zero(), evaluator.multiply(interval(0),
+		assertEquals(zero(), evaluator.multiply(interval(0),
 				invertedInterval(1, 2)));
 	}
 }

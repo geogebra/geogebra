@@ -2,17 +2,17 @@ package org.geogebra.common.media;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.util.AsyncOperation;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class MediaURLParserTest {
 	protected static final String MEBIS_REGEX = "https://mediathek.mebis.bayern.de/\\?doc=provideVideo&identifier=[BYWS\\-0-9]+&type=video(&)?(#t=[0-9,]+)?";
-	private static AsyncOperation<VideoURL> INVALID = obj -> Assert.assertFalse(obj.isValid());
+	private static AsyncOperation<VideoURL> INVALID = obj -> assertFalse(obj.isValid());
 
 	private static AsyncOperation<VideoURL> validYT(final String id) {
 		return valid(MediaFormat.VIDEO_YOUTUBE, id);

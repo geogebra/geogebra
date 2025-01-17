@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.test.commands.CommandSignatures;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class SyntaxLocalizationTest {
@@ -29,7 +29,7 @@ public class SyntaxLocalizationTest {
 				continue;
 			}
 
-			Assert.assertNotEquals(cmd.name() + " has no syntax", 0, size);
+			assertNotEquals(cmd.name() + " has no syntax", 0, size);
 		}
 	}
 }

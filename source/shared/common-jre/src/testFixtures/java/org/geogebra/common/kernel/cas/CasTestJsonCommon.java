@@ -2,6 +2,10 @@ package org.geogebra.common.kernel.cas;
 
 import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
 
 import java.util.ArrayList;
@@ -27,7 +31,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.CASTestLogger;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -69,7 +72,7 @@ public abstract class CasTestJsonCommon {
 	protected static void addTestcases(String json) throws JSONException {
 		JSONArray testsJSON = new JSONArray(
 				json.substring("var __giac = ".length()));
-		Assert.assertNotSame(0, testsJSON.length());
+		assertNotSame(0, testsJSON.length());
 		int i = 1;
 
 		while (i < testsJSON.length()) {
@@ -85,7 +88,7 @@ public abstract class CasTestJsonCommon {
 			if (test.has("cat")) {
 				cat = test.getString("cat");
 			} else {
-				Assert.fail("Missing category:" + testVal);
+				fail("Missing category:" + testVal);
 			}
 			if (!testcases.containsKey(cat)) {
 				testcases.put(cat, new ArrayList<>());
@@ -111,10 +114,10 @@ public abstract class CasTestJsonCommon {
 					msg.indexOf(" ", pos + marker.length()));
 			int err = Integer.parseInt(characterNo);
 			int sampleLength = 50;
-			Assert.fail("JSON parsing error at '" + json.substring(err - sampleLength / 2,
+			fail("JSON parsing error at '" + json.substring(err - sampleLength / 2,
 					err + sampleLength / 2) + "'");
 		} else {
-			Assert.fail(msg);
+			fail(msg);
 		}
 	}
 
@@ -142,14 +145,14 @@ public abstract class CasTestJsonCommon {
 	protected void testCat(String name) {
 		kernel.clearConstruction(true);
 		if (testcases.get(name) == null) {
-			Assert.fail("No testcase for " + name);
+			fail("No testcase for " + name);
 		}
 		ArrayList<CasTest> cases = testcases.remove(name);
 		runCases(cases);
 	}
 
 	protected void runCases(ArrayList<CasTest> cases) {
-		Assert.assertNotEquals(0, cases.size());
+		assertNotEquals(0, cases.size());
 		StringBuilder failures = new StringBuilder();
 		for (CasTest cmd : cases) {
 			Log.debug(cmd.input);
@@ -160,7 +163,7 @@ public abstract class CasTestJsonCommon {
 			}
 			t(failures, cmd.input, cmd.output);
 		}
-		Assert.assertEquals("", failures.toString());
+		assertEquals("", failures.toString());
 	}
 
 	private static void t(StringBuilder failures, String input,
@@ -181,7 +184,7 @@ public abstract class CasTestJsonCommon {
 			f.computeOutput();
 
 			if (f.getInputVE() == null) {
-				Assert.assertEquals("Input should be parsed", "GEOGEBRAERROR",
+				assertEquals("Input should be parsed", "GEOGEBRAERROR",
 						expectedResult[0]);
 				return;
 			}

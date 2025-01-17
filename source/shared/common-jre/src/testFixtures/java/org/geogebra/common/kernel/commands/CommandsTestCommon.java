@@ -9,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
@@ -40,7 +41,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.core.StringContains;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -3155,15 +3155,15 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void cmdRename() {
 		t("Rename[ 6*7, \"a\" ]");
 		assertEquals(
-				lookup("a").toValueString(StringTemplate.defaultTemplate), "42");
+				"42", lookup("a").toValueString(StringTemplate.defaultTemplate));
 		t("Rename[ a, \"b\" ]");
 		assertEquals(
-				lookup("b").toValueString(StringTemplate.defaultTemplate), "42");
-		Assert.assertNull(lookup("a"));
+				"42", lookup("b").toValueString(StringTemplate.defaultTemplate));
+		assertNull(lookup("a"));
 		t("Rename[ b, \"  cc  d  \" ]");
 		assertEquals(
-				lookup("cc").toValueString(StringTemplate.defaultTemplate), "42");
-		Assert.assertNull(lookup("b"));
+				"42", lookup("cc").toValueString(StringTemplate.defaultTemplate));
+		assertNull(lookup("b"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"\" ]", "Illegal", app);
 		assertNotNull(lookup("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"42\" ]", "Illegal", app);
@@ -3173,7 +3173,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{\" ]", "Illegal", app);
 		assertNotNull(lookup("cc"));
 		t("Rename[ cc, \"A_\" ]");
-		Assert.assertNull(lookup("cc"));
+		assertNull(lookup("cc"));
 		assertEquals(
 				lookup("A").toValueString(StringTemplate.defaultTemplate), "42");
 	}

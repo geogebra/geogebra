@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.main;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.spy;
@@ -20,7 +21,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -71,26 +71,26 @@ public class GgbAPIWTest {
 	@Test
 	public void setPerspective() {
 		api.setPerspective("-SP");
-		Assert.assertTrue(toolbarPanel.isClosed());
+		assertTrue(toolbarPanel.isClosed());
 		api.setPerspective("+SP");
-		Assert.assertTrue(toolbarPanel.isOpen());
+		assertTrue(toolbarPanel.isOpen());
 
 		api.setPerspective("-Algebra");
-		Assert.assertTrue(toolbarPanel.isClosed());
+		assertTrue(toolbarPanel.isClosed());
 		api.setPerspective("+Algebra");
-		Assert.assertTrue(toolbarPanel.isOpen());
+		assertTrue(toolbarPanel.isOpen());
 		verify(toolbarPanel, times(1)).openAlgebra(anyBoolean());
 
 		api.setPerspective("-Tools");
-		Assert.assertTrue(toolbarPanel.isClosed());
+		assertTrue(toolbarPanel.isClosed());
 		api.setPerspective("+Tools");
-		Assert.assertTrue(toolbarPanel.isOpen());
+		assertTrue(toolbarPanel.isOpen());
 		verify(toolbarPanel, times(1)).openTools(anyBoolean());
 
 		api.setPerspective("-Table");
-		Assert.assertTrue(toolbarPanel.isClosed());
+		assertTrue(toolbarPanel.isClosed());
 		api.setPerspective("+Table");
-		Assert.assertTrue(toolbarPanel.isOpen());
+		assertTrue(toolbarPanel.isOpen());
 		verify(toolbarPanel, times(1)).openTableView(anyBoolean());
 	}
 }

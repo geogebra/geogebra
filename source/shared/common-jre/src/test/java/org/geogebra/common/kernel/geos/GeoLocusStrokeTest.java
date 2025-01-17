@@ -8,6 +8,7 @@ import static java.lang.Math.sqrt;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +19,6 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.UndoRedoTester;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class GeoLocusStrokeTest extends BaseUnitTest {
@@ -169,9 +169,9 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 
 	private void assertPointsEqual(MyPoint[] expected, ArrayList<MyPoint> actual) {
 		for (int i = 0; i < expected.length; i++) {
-			Assert.assertEquals("differ at element " + i + ".x", expected[i].x,
+			assertEquals("differ at element " + i + ".x", expected[i].x,
 					actual.get(i).x, Kernel.MAX_PRECISION);
-			Assert.assertEquals("differ at element " + i + ".x", expected[i].y,
+			assertEquals("differ at element " + i + ".x", expected[i].y,
 					actual.get(i).y, Kernel.MAX_PRECISION);
 		}
 	}

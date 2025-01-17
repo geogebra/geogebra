@@ -35,7 +35,7 @@ public class MoveGeosTest extends BaseUnitTest {
 		getConstruction().createGroup(new ArrayList<>(Arrays.asList(child3, c3)));
 		ArrayList<GeoElement> toMove = new ArrayList<>();
 		MoveGeos.addWithSiblingsAndChildNodes(root, toMove, getApp().getActiveEuclidianView());
-		assertEquals(toMove.size(), 7);
+		assertEquals(7, toMove.size());
 	}
 
 	@Test

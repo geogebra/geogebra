@@ -4,6 +4,7 @@ import static org.geogebra.test.commands.AlgebraTestHelper.shouldFail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -19,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -252,9 +252,9 @@ public class ArithmeticTest extends BaseUnitTest {
 	public void absFunction() {
 		AlgebraTestHelper.enableCAS(getApp(), false);
 		t("f:abs(x+2)", "abs(x + 2)");
-		Assert.assertTrue(((GeoFunction) lookup("f"))
+		assertTrue(((GeoFunction) lookup("f"))
 				.isPolynomialFunction(true));
-		Assert.assertFalse(((GeoFunction) lookup("f"))
+		assertFalse(((GeoFunction) lookup("f"))
 				.isPolynomialFunction(false));
 	}
 
@@ -326,7 +326,7 @@ public class ArithmeticTest extends BaseUnitTest {
 		add("l1={Ray((0,0),(1,1)),Ray((1,2),(2,4))}");
 		add("a=Slider(1,2,1)");
 		GeoLine el = add("r=l1(a)");
-		assertEquals(el.getTypeString(), "Ray");
+		assertEquals("Ray", el.getTypeString());
 		add("SetValue(a,2)");
 		assertThat(el, hasValue("-2x + y = 0"));
 		assertThat(el.getStartPoint(), hasValue("(1, 2)"));

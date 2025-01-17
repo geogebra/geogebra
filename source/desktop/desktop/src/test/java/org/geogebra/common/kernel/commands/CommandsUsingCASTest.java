@@ -7,6 +7,10 @@ import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -25,7 +29,6 @@ import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,9 +43,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	private void runSolveTests() {
 		t("ss=Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
-		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
+		assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
 		t("sm=Solve[ {x+y=1,x-y=0} ]", "{{x = 1 / 2, y = 1 / 2}}");
-		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("sm")));
+		assertTrue(AlgebraItem.isSymbolicDiffers(get("sm")));
 		t("Solve[ x^2=-1 ]", "{}");
 		t("Solve[ x=x ]", "{x = x}");
 		t("Solve[ erf(x)=0.5 ]", "?");
@@ -64,7 +67,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 				false, TestErrorHandler.INSTANCE,
 				evalInfo, null);
 		String res = geo[0].toValueString(StringTemplate.editTemplate);
-		Assert.assertEquals(expect, res);
+		assertEquals(expect, res);
 	}
 
 	private void tdeg(String string, String string2) {
@@ -224,7 +227,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 				+ "val=\"((8 * x^(3)) + (6 * x^(2)) - 4) / ((4 * x^(2)) + (4 * x) + 1)\"/>"
 				+ "</casMap></element>";
 		app.getGgbApi().evalXML(xml);
-		Assert.assertFalse(app.getXML().contains("<entry"));
+		assertFalse(app.getXML().contains("<entry"));
 		add("UpdateConstruction()");
 		t("g(7)-h(7)", "0");
 	}
@@ -464,7 +467,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		app.setCASFactory(new CASFactory() {
 			@Override
 			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
-				Assert.fail("No need for CAS");
+				fail("No need for CAS");
 				return null;
 			}
 		});

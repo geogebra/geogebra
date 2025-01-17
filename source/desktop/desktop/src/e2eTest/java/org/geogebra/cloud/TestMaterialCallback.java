@@ -1,5 +1,8 @@
 package org.geogebra.cloud;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +11,6 @@ import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.junit.Assert;
 
 public class TestMaterialCallback implements MaterialCallbackI {
 	private final ArrayList<String> titles = new ArrayList<>();
@@ -37,14 +39,14 @@ public class TestMaterialCallback implements MaterialCallbackI {
 		errors.add("API error:" + exception.getMessage());
 	}
 
-	public void verify(String title) {
-		Assert.assertEquals("", StringUtil.join(",", errors));
-		Assert.assertEquals(title, StringUtil.join(",", titles));
+	protected void verify(String title) {
+		assertEquals("", StringUtil.join(",", errors));
+		assertEquals(title, StringUtil.join(",", titles));
 	}
 
-	public void verifyError(String errorPattern) {
+	protected void verifyError(String errorPattern) {
 		String errorsS = StringUtil.join(",", errors);
-		Assert.assertTrue(errorsS, errorsS.matches(errorPattern));
+		assertTrue(errorsS, errorsS.matches(errorPattern));
 	}
 
 	/**

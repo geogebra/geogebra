@@ -58,7 +58,7 @@ public class EventDispatcherTest extends BaseUnitTest implements EventListener {
 		add("C=(1,1,0)");
 		prepareBatchingTest();
 		add("cube=Cube(A,B,C)");
-		assertEquals(objectsAdded, 24);
+		assertEquals(24, objectsAdded);
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class EventDispatcherTest extends BaseUnitTest implements EventListener {
 		add("cube=Cube(A,B,C)");
 		prepareBatchingTest();
 		add("Net(cube, 1)");
-		assertEquals(objectsAdded, 40);
+		assertEquals(40, objectsAdded);
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class EventDispatcherTest extends BaseUnitTest implements EventListener {
 		add("prism=Prism(A,B,C,D,(0,0,1))");
 		prepareBatchingTest();
 		add("Net(prism, 1)");
-		assertEquals(objectsAdded, 40);
+		assertEquals(40, objectsAdded);
 	}
 
 	@Test

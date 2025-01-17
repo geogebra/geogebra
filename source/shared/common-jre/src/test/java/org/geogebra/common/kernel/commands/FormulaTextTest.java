@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class FormulaTextTest extends BaseUnitTest {
@@ -14,12 +14,12 @@ public class FormulaTextTest extends BaseUnitTest {
 	public void testUnitCoefficients() {
 		// check that the AV preserves the input
 		add("f(x) = sin(1x+1x-1x)");
-		Assert.assertEquals("f(x) = sin(1x + 1x - 1x)",
+		assertEquals("f(x) = sin(1x + 1x - 1x)",
 				lookup("f").toString(StringTemplate.algebraTemplate));
 
 		add("a = 1");
 		add("f(x) = sin(ax+ax-ax)");
-		Assert.assertEquals("f(x) = sin(1 x + 1 x - 1 x)",
+		assertEquals("f(x) = sin(1 x + 1 x - 1 x)",
 				lookup("f").toString(StringTemplate.algebraTemplate));
 
 		// but FormulaText removes unit coefficients

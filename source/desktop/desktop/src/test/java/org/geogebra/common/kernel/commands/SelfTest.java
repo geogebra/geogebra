@@ -1,12 +1,13 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.junit.Assert.assertEquals;
+
 import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class SelfTest {
@@ -36,7 +37,7 @@ public class SelfTest {
 				missing.append("\n");
 			}
 		}
-		Assert.assertEquals("", missing.toString());
+		assertEquals("", missing.toString());
 	}
 
 }

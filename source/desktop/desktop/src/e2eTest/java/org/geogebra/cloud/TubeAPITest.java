@@ -1,5 +1,8 @@
 package org.geogebra.cloud;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,13 +25,12 @@ import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.GeoGebraTubeAPID;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.UtilD;
-import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TubeAPITest extends Assert {
+public class TubeAPITest {
 	public static final String circleBase64 = Base64.encodeToString(
 			UtilD.loadFileIntoByteArray("src/e2eTest/resources/circles.ggb"),
 			false);

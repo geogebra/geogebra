@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.parser.function;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.Locale;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.LocalizationCommonUTF;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ParserFunctionsFactoryTest {
@@ -19,18 +19,18 @@ public class ParserFunctionsFactoryTest {
 	public void testGraphingParserFunctions() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createGraphingParserFunctionsFactory().createParserFunctions();
-		assertEquals(functions.get("sin", 1), Operation.SIN);
-		Assert.assertNull(functions.get("alt", 1));
-		Assert.assertNull(functions.get("arg", 1));
+		assertEquals(Operation.SIN, functions.get("sin", 1));
+		assertNull(functions.get("alt", 1));
+		assertNull(functions.get("arg", 1));
 	}
 
 	@Test
 	public void testDefaultParserFunctions() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
-		assertEquals(functions.get("sin", 1), Operation.SIN);
-		assertEquals(functions.get("alt", 1), Operation.ALT);
-		assertEquals(functions.get("arg", 1), Operation.ARG);
+		assertEquals(Operation.SIN, functions.get("sin", 1));
+		assertEquals(Operation.ALT, functions.get("alt", 1));
+		assertEquals(Operation.ARG, functions.get("arg", 1));
 	}
 
 	@Test
@@ -52,11 +52,11 @@ public class ParserFunctionsFactoryTest {
 		List<String> suggestions = functions.getCompletions("sen");
 		assertEquals(suggestions, Arrays.asList("sen( <x> )", "senh( <x> )"));
 		suggestions = functions.getCompletions("sin");
-		assertEquals(suggestions.size(), 3); // sin, sinh, sinIntegral
+		assertEquals(3, suggestions.size()); // sin, sinh, sinIntegral
 		suggestions = functions.getCompletions("nro");
-		assertEquals(suggestions.size(), 1);
+		assertEquals(1, suggestions.size());
 		suggestions = functions.getCompletions(loc.getFunction("nroot"));
-		assertEquals(suggestions.size(), 1);
+		assertEquals(1, suggestions.size());
 		setLanguage(functions, new Locale("nn"));
 		suggestions = functions.getCompletions("nro");
 		assertEquals(suggestions, Arrays.asList("nroot( <x>, <n> )",

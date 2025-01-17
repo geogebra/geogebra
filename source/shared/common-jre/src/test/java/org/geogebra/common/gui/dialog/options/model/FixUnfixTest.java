@@ -1,6 +1,8 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
@@ -12,7 +14,6 @@ import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class FixUnfixTest extends BaseUnitTest {
@@ -20,29 +21,29 @@ public class FixUnfixTest extends BaseUnitTest {
 	@Test
 	public void testDefaultFixForFunctionGraphing() {
 		getApp().setConfig(new AppConfigGraphing());
-		Assert.assertTrue(getApp().getConfig().isObjectDraggingRestricted());
+		assertTrue(getApp().getConfig().isObjectDraggingRestricted());
 
 		GeoFunction function = add("f(x) = x+1");
 		GeoConic conic = add("x*x+y*y=5");
 		GeoLine line = add("y=5");
 
-		Assert.assertTrue(function.isLocked());
-		Assert.assertTrue(conic.isLocked());
-		Assert.assertTrue(line.isLocked());
+		assertTrue(function.isLocked());
+		assertTrue(conic.isLocked());
+		assertTrue(line.isLocked());
 	}
 
 	@Test
 	public void testDefaultFixForFunctionGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
-		Assert.assertFalse(getApp().getSettings().getAlgebra().isEquationChangeByDragRestricted());
+		assertFalse(getApp().getSettings().getAlgebra().isEquationChangeByDragRestricted());
 
 		GeoFunction function = add("f(x) = x+1");
 		GeoConic conic = add("x*x+y*y=5");
 		GeoLine line = add("y=5");
 
-		Assert.assertTrue(function.isLocked());
-		Assert.assertTrue(conic.isLocked());
-		Assert.assertTrue(line.isLocked());
+		assertTrue(function.isLocked());
+		assertTrue(conic.isLocked());
+		assertTrue(line.isLocked());
 	}
 
 	@Test
@@ -57,9 +58,9 @@ public class FixUnfixTest extends BaseUnitTest {
 		conic.setFixed(false);
 		line.setFixed(false);
 
-		Assert.assertTrue(function.isLocked());
-		Assert.assertTrue(conic.isLocked());
-		Assert.assertTrue(line.isLocked());
+		assertTrue(function.isLocked());
+		assertTrue(conic.isLocked());
+		assertTrue(line.isLocked());
 	}
 
 	@Test
@@ -74,9 +75,9 @@ public class FixUnfixTest extends BaseUnitTest {
 		conic.setFixed(false);
 		line.setFixed(false);
 
-		Assert.assertFalse(function.isLocked());
-		Assert.assertFalse(conic.isLocked());
-		Assert.assertFalse(line.isLocked());
+		assertFalse(function.isLocked());
+		assertFalse(conic.isLocked());
+		assertFalse(line.isLocked());
 	}
 
 	@Test
@@ -115,7 +116,7 @@ public class FixUnfixTest extends BaseUnitTest {
 	@Test
 	public void testFixedPropertyFunctionInGraphing() {
 		getApp().setConfig(new AppConfigGraphing());
-		Assert.assertTrue(getApp().getSettings().getAlgebra().isEquationChangeByDragRestricted());
+		assertTrue(getApp().getSettings().getAlgebra().isEquationChangeByDragRestricted());
 
 		GeoFunction function = add("f(x) = x+1");
 		GeoConic conic = add("x*x+y*y=5");
@@ -127,15 +128,15 @@ public class FixUnfixTest extends BaseUnitTest {
 		fixObjectModel.updateProperties();
 
 		for (int i = 0; i < geos.length; ++i) {
-			Assert.assertTrue(fixObjectModel.getValueAt(i));
-			Assert.assertFalse(fixObjectModel.isValidAt(i));
+			assertTrue(fixObjectModel.getValueAt(i));
+			assertFalse(fixObjectModel.isValidAt(i));
 		}
 	}
 
 	@Test
 	public void testFixedPropertyFunctionInGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
-		Assert.assertFalse(getApp().getSettings().getAlgebra().isEquationChangeByDragRestricted());
+		assertFalse(getApp().getSettings().getAlgebra().isEquationChangeByDragRestricted());
 
 		GeoFunction function = add("f(x) = x+1");
 		GeoConic conic = add("x*x+y*y=5");
@@ -147,8 +148,8 @@ public class FixUnfixTest extends BaseUnitTest {
 		fixObjectModel.updateProperties();
 
 		for (int i = 0; i < geos.length; ++i) {
-			Assert.assertTrue(fixObjectModel.getValueAt(i));
-			Assert.assertTrue(fixObjectModel.isValidAt(i));
+			assertTrue(fixObjectModel.getValueAt(i));
+			assertTrue(fixObjectModel.isValidAt(i));
 		}
 	}
 

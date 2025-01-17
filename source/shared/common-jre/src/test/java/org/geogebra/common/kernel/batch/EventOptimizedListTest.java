@@ -1,10 +1,12 @@
 package org.geogebra.common.kernel.batch;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.util.Iterator;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +27,7 @@ public class EventOptimizedListTest extends BaseUnitTest {
 		addUpdateEvent(element);
 		addUpdateEvent(element);
 
-		Assert.assertEquals(1, count());
+		assertEquals(1, count());
 	}
 
 	@Test
@@ -48,12 +50,12 @@ public class EventOptimizedListTest extends BaseUnitTest {
 
 		Iterator<Event> iterator = eventOptimizedList.iterator();
 
-		Assert.assertEquals("remove", iterator.next().getName());
+		assertEquals("remove", iterator.next().getName());
 		Event updateEvent = iterator.next();
-		Assert.assertEquals("update", updateEvent.getName());
-		Assert.assertEquals(thirdElement, updateEvent.getParameters()[0]);
-		Assert.assertEquals("remove", iterator.next().getName());
-		Assert.assertFalse(iterator.hasNext());
+		assertEquals("update", updateEvent.getName());
+		assertEquals(thirdElement, updateEvent.getParameters()[0]);
+		assertEquals("remove", iterator.next().getName());
+		assertFalse(iterator.hasNext());
 	}
 
 	private void addUpdateEvent(GeoElement element) {

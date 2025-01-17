@@ -1,8 +1,10 @@
 package org.geogebra.common.io;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
@@ -12,7 +14,6 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
-import org.junit.Assert;
 
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
@@ -210,7 +211,7 @@ class EditorChecker {
 			formula = parser.parse(input);
 			mathField.getInternal().setFormula(formula);
 		} catch (Exception e) {
-			Assert.fail("Problem parsing: " + input);
+			fail("Problem parsing: " + input);
 		}
 		return this;
 	}
@@ -254,7 +255,7 @@ class EditorChecker {
 			mathField.getInternal().getFormula().getRootComponent().setProtected();
 			mathField.getInternal().setLockedCaretPath();
 		} catch (Exception e) {
-			Assert.fail("Problem parsing: " + input);
+			fail("Problem parsing: " + input);
 		}
 		return this;
 	}
@@ -274,7 +275,7 @@ class EditorChecker {
 		mathFieldInternal.update();
 		ArrayList<Integer> actual = CursorController.getPath(mathFieldInternal
 				.getEditorState());
-		Assert.assertArrayEquals(indexes, actual.toArray());
+		assertArrayEquals(indexes, actual.toArray());
 		return this;
 	}
 

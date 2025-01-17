@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.spy;
@@ -38,7 +39,6 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.LocalizationCommonUTF;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class DrawablesTest extends BaseUnitTest {
@@ -110,7 +110,7 @@ public class DrawablesTest extends BaseUnitTest {
 		}
 		XmlTestUtil.checkCurrentXML(getApp());
 		for (GeoClass type : GeoClass.values()) {
-			Assert.assertTrue(type + "", types.contains(type)
+			assertTrue(type + "", types.contains(type)
 					|| GeoClass.IMPLICIT_SURFACE_3D == type
 					|| GeoClass.SURFACECARTESIAN == type
 					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type

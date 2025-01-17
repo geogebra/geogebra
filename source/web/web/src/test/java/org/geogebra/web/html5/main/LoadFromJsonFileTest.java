@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.main;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.concurrent.CountDownLatch;
 
 import org.geogebra.common.gui.layout.DockManager;
@@ -15,7 +17,6 @@ import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.geogebra.web.util.file.FileIO;
 import org.gwtproject.user.client.ui.ResizeComposite;
 import org.gwtproject.user.client.ui.RootPanel;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +46,7 @@ public class LoadFromJsonFileTest {
 		final ToolbarPanel toolbarPanel = initToolbarFromApp();
 		final CountDownLatch latch = new CountDownLatch(1);
 		app.invokeLater(() -> {
-			Assert.assertTrue(toolbarPanel == null || toolbarPanel.isClosed());
+			assertTrue(toolbarPanel == null || toolbarPanel.isClosed());
 			latch.countDown();
 		});
 		try {

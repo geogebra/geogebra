@@ -1,10 +1,12 @@
 package org.geogebra.common.kernel.statistics;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class AlgoRandomElementTest extends BaseUnitTest {
@@ -16,9 +18,9 @@ public class AlgoRandomElementTest extends BaseUnitTest {
 	}
 
 	private void assertNumberSymbolicMode(GeoElement element, boolean symbolic) {
-		Assert.assertTrue(element instanceof HasSymbolicMode);
+		assertTrue(element instanceof HasSymbolicMode);
 		HasSymbolicMode elementWithSymbolicMode = (HasSymbolicMode) element;
-		Assert.assertEquals(symbolic, elementWithSymbolicMode.isSymbolicMode());
+		assertEquals(symbolic, elementWithSymbolicMode.isSymbolicMode());
 	}
 
 	@Test
@@ -32,6 +34,6 @@ public class AlgoRandomElementTest extends BaseUnitTest {
 
 	private void assertOutput(GeoElement element, String expectedOutput) {
 		String actualOutput = element.toOutputValueString(StringTemplate.defaultTemplate);
-		Assert.assertEquals(expectedOutput, actualOutput);
+		assertEquals(expectedOutput, actualOutput);
 	}
 }

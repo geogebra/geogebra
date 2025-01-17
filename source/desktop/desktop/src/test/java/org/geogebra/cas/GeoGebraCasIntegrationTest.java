@@ -3,6 +3,9 @@ package org.geogebra.cas;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeFalse;
 
 import java.util.HashSet;
@@ -23,7 +26,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -111,9 +113,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	private void r(String input, String expectedPattern,
 			String readablePattern) {
 		String error = checkRegex(input, expectedPattern, readablePattern);
-		if (error != null) {
-			Assert.fail(error);
-		}
+		assertNull(error);
 	}
 
 	/**
@@ -2160,7 +2160,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("Element[$1,1]", "(1, 1)");
 		GeoCasCell gv = (GeoCasCell) kernel.lookupLabel("$2");
 		gv.plot();
-		Assert.assertTrue(gv.getTwinGeo().isGeoVector());
+		assertTrue(gv.getTwinGeo().isGeoVector());
 	}
 
 	/*
@@ -2618,7 +2618,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 		assertEquals("c(x) := x^2 * x",
 				a.getLocalizedInput());
-		Assert.assertFalse(a.isError());
+		assertFalse(a.isError());
 	}
 
 	@Test

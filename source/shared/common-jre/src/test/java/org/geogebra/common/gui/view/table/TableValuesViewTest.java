@@ -7,6 +7,8 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.stringContainsInOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.never;
@@ -27,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.scientific.LabelController;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,24 +82,12 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	@Test
 	public void testInvalidValuesThrowException() {
-		try {
-			view.setValues(0, 10, -1);
-			Assert.fail("This should have thrown an exception");
-		} catch (InvalidValuesException exception) {
-			// expected
-		}
-		try {
-			view.setValues(10, 0, 1);
-			Assert.fail("This should have thrown an exception");
-		} catch (InvalidValuesException exception) {
-			// expected
-		}
-		try {
-			view.setValues(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
-			Assert.fail("This should have thrown an exception");
-		} catch (InvalidValuesException exception) {
-			// expected
-		}
+		assertThrows(InvalidValuesException.class,
+				() -> view.setValues(0, 10, -1));
+		assertThrows(InvalidValuesException.class,
+				() -> view.setValues(10, 0, 1));
+		assertThrows(InvalidValuesException.class,
+				() -> view.setValues(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1));
 	}
 
 	@Test
@@ -111,9 +100,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		setValuesSafe(0, 1.5, 0.7);
 		assertEquals(4, model.getRowCount());
-		assertEquals(view.getValuesMin(), 0, 1E-7);
-		assertEquals(view.getValuesMax(), 1.5, 1E-7);
-		assertEquals(view.getValuesStep(), 0.7, 1E-7);
+		assertEquals(0, view.getValuesMin(), 1E-7);
+		assertEquals(1.5, view.getValuesMax(), 1E-7);
+		assertEquals(0.7, view.getValuesStep(), 1E-7);
 	}
 
 	@Test
@@ -773,7 +762,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals("1.41", model.getCellAt(4, 1).getInput());
 
 		view.getProcessor().processInput("", view.getValues(), 4);
-		assertEquals(model.getRowCount(), 4);
+		assertEquals(4, model.getRowCount());
 	}
 
 	@Test
@@ -783,11 +772,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(function);
 		processor.processInput("5", null, 5);
 		// Get the value for function for an undefined x value
-		try {
-			model.getCellAt(5, 1);
-		} catch (Throwable t) {
-			Assert.fail("Should not throw exception for a function in undefined x");
-		}
+		assertNotNull(model.getCellAt(5, 1));
 	}
 
 	@Test

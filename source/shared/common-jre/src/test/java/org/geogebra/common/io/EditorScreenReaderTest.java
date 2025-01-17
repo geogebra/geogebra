@@ -8,7 +8,6 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -266,7 +265,7 @@ public class EditorScreenReaderTest {
 			String readerOutput = mfi.getEditorState().getDescription(er)
 					.replaceAll(" +", " ");
 			if (!readerOutput.matches(s)) {
-				Assert.assertEquals(s, readerOutput);
+				assertEquals(s, readerOutput);
 			}
 			CursorController.nextCharacter(mfi.getEditorState());
 			mfi.update();

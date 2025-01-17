@@ -61,7 +61,7 @@ public class TemplateLoadTest {
 
 	@Test
 	public void testLoadTemplatePenThickness() {
-		assertEquals(settings.getLastPenThickness(), 30);
+		assertEquals(30, settings.getLastPenThickness());
 	}
 
 	@Test
@@ -93,6 +93,6 @@ public class TemplateLoadTest {
 
 	@Test
 	public void testLoadTemplateEraserSize() {
-		assertEquals(settings.getDeleteToolSize(), 61);
+		assertEquals(61, settings.getDeleteToolSize());
 	}
 }

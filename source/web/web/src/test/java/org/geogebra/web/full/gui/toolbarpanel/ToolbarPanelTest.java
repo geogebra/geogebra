@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -18,7 +19,6 @@ import org.geogebra.web.full.main.activity.DefaultDockPanelDecorator;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.gwtproject.user.client.ui.ResizeComposite;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,7 +54,7 @@ public class ToolbarPanelTest {
 
 	@Test
 	public void close() {
-		Assert.assertTrue(toolbarPanel.isOpen());
+		assertTrue(toolbarPanel.isOpen());
 
 		toolbarPanel.close(false);
 		verifyDispatchEventCalled(EventType.SIDE_PANEL_CLOSED);
@@ -97,14 +97,14 @@ public class ToolbarPanelTest {
 
 	private void openPanel() {
 		toolbarPanel.open();
-		Assert.assertTrue(toolbarPanel.isOpen());
+		assertTrue(toolbarPanel.isOpen());
 		String algebraViewVisible = "view id=\"" + App.VIEW_ALGEBRA + "\" visible=\"true\"";
-		Assert.assertTrue(app.getXML().contains(algebraViewVisible));
+		assertTrue(app.getXML().contains(algebraViewVisible));
 	}
 
 	private void closePanel() {
 		toolbarPanel.close(false);
-		Assert.assertTrue(toolbarPanel.isClosed());
+		assertTrue(toolbarPanel.isClosed());
 		checkPanelNotVisibleInXml();
 	}
 
@@ -113,7 +113,7 @@ public class ToolbarPanelTest {
 		app.invokeLater(() -> {
 			String algebraViewNotVisible =
 					"view id=\"" + App.VIEW_ALGEBRA + "\" visible=\"false\"";
-			Assert.assertTrue(app.getXML().contains(algebraViewNotVisible));
+			assertTrue(app.getXML().contains(algebraViewNotVisible));
 			latch.countDown();
 		});
 		try {

@@ -1,12 +1,16 @@
 package org.geogebra.common.io;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.text.Normalizer;
 
 import org.geogebra.common.util.debug.Log;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
@@ -284,11 +288,11 @@ public class LaTeXSerializationTest {
 		String s1 = Normalizer.normalize(s, Normalizer.Form.NFKC);
 		String s2 = Korean.unflattenKorean(s).toString();
 
-		Assert.assertEquals(s1, s2);
+		assertEquals(s1, s2);
 	}
 
 	private static void testKorean(String s) {
-		Assert.assertEquals(Normalizer.normalize(s, Normalizer.Form.NFD),
+		assertEquals(Normalizer.normalize(s, Normalizer.Form.NFD),
 				Korean.flattenKorean(s));
 	}
 
@@ -299,7 +303,7 @@ public class LaTeXSerializationTest {
 	private static void checkLaTeX(String string, String string2,
 			ListSerializationAdapter ad) {
 		TeXFormula tf = new TeXFormula(string);
-		Assert.assertEquals(string2,
+		assertEquals(string2,
 				new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 
@@ -310,8 +314,8 @@ public class LaTeXSerializationTest {
 	private static void checkCanonical(String input, String output,
 			GeoGebraSerializer geoGebraSerializer) {
 		MathFormula mf = checkLaTeXRender(parser, input);
-		Assert.assertNotNull(mf);
-		Assert.assertEquals(mf.getRootComponent() + "", output,
+		assertNotNull(mf);
+		assertEquals(mf.getRootComponent() + "", output,
 				geoGebraSerializer.serialize(mf));
 		checkLaTeXRender(parser, input);
 	}
@@ -338,15 +342,15 @@ public class LaTeXSerializationTest {
 			throws com.himamis.retex.renderer.share.exception.ParseException {
 		try {
 			MathFormula mf = parser2.parse(input);
-			Assert.assertNotNull(mf);
+			assertNotNull(mf);
 			String tex = TeXSerializer.serialize(mf.getRootComponent());
 			// TeXFormula tf = new TeXFormula();
 			TeXParser tp = new TeXParser(tex);
 			tp.parse();
 			return mf;
-		} catch (Exception e) {
+		} catch (ParseException e) {
 			Log.debug(e);
-			Assert.fail(e.getMessage());
+			fail(e.getMessage());
 		}
 		return null;
 	}

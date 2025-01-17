@@ -2,13 +2,13 @@ package org.geogebra.common.properties.impl.general;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.test.TestStringUtil;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,7 +58,7 @@ public class GeneralPropertiesTest extends BaseUnitTest {
 	}
 
 	private void valueTextShouldBe(String label, String expectedValue) {
-		Assert.assertEquals(TestStringUtil.unicode(expectedValue),
+		assertEquals(TestStringUtil.unicode(expectedValue),
 				lookup(label).getAlgebraDescriptionDefault());
 	}
 }

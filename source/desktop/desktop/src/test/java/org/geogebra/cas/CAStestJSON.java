@@ -1,5 +1,7 @@
 package org.geogebra.cas;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assume.assumeFalse;
 
 import java.io.IOException;
@@ -14,7 +16,6 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 
 public class CAStestJSON extends CasTestJsonCommon {
@@ -62,15 +63,13 @@ public class CAStestJSON extends CasTestJsonCommon {
 	 */
 	@AfterClass
 	public static void checkAllCatsTested() {
-		if (missing != null) {
-			Assert.fail("Missing tests for:" + missing);
-		}
+		assertNull("Missing tests for:" + missing, missing);
 		StringBuilder sb = new StringBuilder();
 		for (String cat : testcases.keySet()) {
 			sb.append(cat);
 			sb.append(',');
 		}
-		Assert.assertEquals("", sb.toString());
+		assertEquals("", sb.toString());
 	}
 
 	private static String readJsonFileAsString() throws IOException {

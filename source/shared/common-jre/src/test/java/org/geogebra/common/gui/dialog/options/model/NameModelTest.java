@@ -1,12 +1,14 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.test.TestErrorHandler;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -88,8 +90,8 @@ public class NameModelTest {
 		model.setGeos(new Object[] { p });
 		model.updateProperties();
 		model.applyNameChange("Q", TestErrorHandler.INSTANCE);
-		Assert.assertEquals("Q", p.getLabelSimple());
-		Assert.assertEquals(null, p.getCaptionSimple());
+		assertEquals("Q", p.getLabelSimple());
+		assertNull(p.getCaptionSimple());
 	}
 
 	@Test
@@ -98,9 +100,9 @@ public class NameModelTest {
 		model.setGeos(new Object[] { p });
 		model.updateProperties();
 		model.applyNameChange("P", TestErrorHandler.INSTANCE);
-		Assert.assertEquals(null, p.getCaptionSimple());
+		assertNull(p.getCaptionSimple());
 		model.applyNameChange("Q", TestErrorHandler.INSTANCE);
-		Assert.assertEquals("Q", p.getLabelSimple());
+		assertEquals("Q", p.getLabelSimple());
 	}
 
 	@Test
@@ -111,12 +113,12 @@ public class NameModelTest {
 		model.setGeos(new Object[] { r });
 		model.updateProperties();
 		model.applyNameChange("P", TestErrorHandler.INSTANCE);
-		Assert.assertEquals("R", r.getLabelSimple());
+		assertEquals("R", r.getLabelSimple());
 
 		model.setGeos(new Object[] { r });
 		model.updateProperties();
 		model.applyNameChange("T", TestErrorHandler.INSTANCE);
-		Assert.assertEquals("R", r.getLabelSimple());
+		assertEquals("R", r.getLabelSimple());
 	}
 
 	@Test
@@ -126,12 +128,12 @@ public class NameModelTest {
 		model.setGeos(new Object[] { r });
 		model.updateProperties();
 		model.applyNameChange("P Q", TestErrorHandler.INSTANCE);
-		Assert.assertEquals("R", r.getLabelSimple());
-		Assert.assertEquals("P Q",
+		assertEquals("R", r.getLabelSimple());
+		assertEquals("P Q",
 				r.getCaption(StringTemplate.defaultTemplate));
 		model.applyNameChange("!!!", TestErrorHandler.INSTANCE);
-		Assert.assertEquals("R", r.getLabelSimple());
-		Assert.assertEquals("!!!",
+		assertEquals("R", r.getLabelSimple());
+		assertEquals("!!!",
 				r.getCaption(StringTemplate.defaultTemplate));
 
 	}

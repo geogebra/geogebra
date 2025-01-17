@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -11,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.UndoRedoMode;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,14 +37,14 @@ public class SymbolicTableTest {
 	public void singleVariableFunctionShouldWorkWithTV() {
 		GeoElement f = add("f:x+1");
 		view.showColumn((GeoEvaluatable) f);
-		Assert.assertEquals(2, view.getTableValuesModel().getColumnCount());
+		assertEquals(2, view.getTableValuesModel().getColumnCount());
 	}
 
 	@Test
 	public void multiVariableFunctionShouldNotWorkWithTV() {
 		GeoElement f = add("f:x+y");
 		view.showColumn((GeoEvaluatable) f);
-		Assert.assertEquals(1, view.getTableValuesModel().getColumnCount());
+		assertEquals(1, view.getTableValuesModel().getColumnCount());
 	}
 
 	@Test

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.geogebra.common.BaseUnitTest;
@@ -9,7 +10,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -38,11 +38,11 @@ public class DerivativeTest extends BaseUnitTest {
 		add("h(x) = f’(x)");
 
 		GeoFunction g = (GeoFunction) getKernel().lookupLabel("g");
-		Assert.assertEquals("NDerivative(f)",
+		assertEquals("NDerivative(f)",
 				g.getFunction().toString(StringTemplate.defaultTemplate));
 
 		GeoFunction h = (GeoFunction) getKernel().lookupLabel("h");
-		Assert.assertEquals("NDerivative(f)",
+		assertEquals("NDerivative(f)",
 				h.getFunction().toString(StringTemplate.defaultTemplate));
 	}
 

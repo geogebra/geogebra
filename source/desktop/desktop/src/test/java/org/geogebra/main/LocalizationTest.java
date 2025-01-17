@@ -1,5 +1,8 @@
 package org.geogebra.main;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.Locale;
 import java.util.TreeSet;
@@ -8,7 +11,6 @@ import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.headless.AppDNoGui;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class LocalizationTest {
@@ -26,7 +28,7 @@ public class LocalizationTest {
 			File trans = new File(
 					"../../web/web/src/nonfree/resources/org/geogebra/web/pub/js/properties_keys_"
 							+ lang.toLanguageTag() + ".js");
-			Assert.assertTrue(trans.getAbsolutePath(),
+			assertTrue(trans.getAbsolutePath(),
 					available.remove(trans.getAbsolutePath()));
 
 		}
@@ -34,7 +36,7 @@ public class LocalizationTest {
 		for (String fn : available) {
 			sb.append(fn).append("\n");
 		}
-		Assert.assertEquals("", sb.toString());
+		assertEquals("", sb.toString());
 	}
 
 	@Test
@@ -58,7 +60,7 @@ public class LocalizationTest {
 
 	private void checkAlias(Language lang, String... aliases) {
 		for (String alias : aliases) {
-			Assert.assertEquals(alias + " should stand for " + lang,
+			assertEquals(alias + " should stand for " + lang,
 					Language.fromLanguageTagOrLocaleString(alias),
 					lang);
 		}
@@ -68,11 +70,11 @@ public class LocalizationTest {
 	public void localizedFunctionsShouldBeInnternalInXML() {
 		AppDNoGui app = AlgebraTest.createApp();
 		app.setLanguage(Locale.GERMANY);
-		Assert.assertEquals("Midpoint(10,20)",
+		assertEquals("Midpoint(10,20)",
 				GgbScript.localizedScript2Script(app, "Mittelpunkt(10,20)"));
-		Assert.assertEquals("nroot(10,20)",
+		assertEquals("nroot(10,20)",
 				GgbScript.localizedScript2Script(app, "NteWurzel(10,20)"));
-		Assert.assertEquals("nroot[10,20]",
+		assertEquals("nroot[10,20]",
 				GgbScript.localizedScript2Script(app, "NteWurzel[10,20]"));
 	}
 }

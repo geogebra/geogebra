@@ -34,14 +34,14 @@ public class AlgebraItemLaTeXPreviewTest extends BaseSymbolicTest {
 		assertEquals(AlgebraItem.getPreviewLatexForGeoElement(geo), "a\\, = \\,c + c");
 
 		GeoElement function = add("f(x) = x+1");
-		assertEquals(AlgebraItem.getPreviewLatexForGeoElement(function), "f\\left(x \\"
-				+ "right)\\, = \\,x + 1");
+		assertEquals("f\\left(x \\right)\\, = \\,x + 1",
+				AlgebraItem.getPreviewLatexForGeoElement(function));
 	}
 
 	@Test
 	public void testTextLatexPreview() {
 		GeoElement geo = add("t = \"text\"");
 		new LabelController().hideLabel(geo);
-		assertEquals(AlgebraItem.getPreviewLatexForGeoElement(geo), "text");
+		assertEquals("text", AlgebraItem.getPreviewLatexForGeoElement(geo));
 	}
 }

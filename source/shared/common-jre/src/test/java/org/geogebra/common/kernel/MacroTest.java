@@ -3,6 +3,7 @@ package org.geogebra.common.kernel;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
@@ -15,7 +16,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -105,15 +105,15 @@ public class MacroTest extends BaseUnitTest {
 		Macro editMacro = getMacroApp().getEditMacro();
 		GeoElement[] input = editMacro.getMacroInput();
 		GeoElement[] output = editMacro.getMacroOutput();
-		Assert.assertEquals(2, input.length);
-		Assert.assertEquals(1, output.length);
-		Assert.assertEquals("A", input[0].getLabel(StringTemplate.defaultTemplate));
-		Assert.assertEquals(1, input[0].getLabelPosition().getX(), .001);
-		Assert.assertEquals(2, input[0].getLabelPosition().getY(), .001);
-		Assert.assertEquals("B", input[1].getLabel(StringTemplate.defaultTemplate));
-		Assert.assertEquals(3, input[1].getLabelPosition().getX(), .001);
-		Assert.assertEquals(4, input[1].getLabelPosition().getY(), .001);
-		Assert.assertEquals("f", output[0].getLabel(StringTemplate.defaultTemplate));
+		assertEquals(2, input.length);
+		assertEquals(1, output.length);
+		assertEquals("A", input[0].getLabel(StringTemplate.defaultTemplate));
+		assertEquals(1, input[0].getLabelPosition().getX(), .001);
+		assertEquals(2, input[0].getLabelPosition().getY(), .001);
+		assertEquals("B", input[1].getLabel(StringTemplate.defaultTemplate));
+		assertEquals(3, input[1].getLabelPosition().getX(), .001);
+		assertEquals(4, input[1].getLabelPosition().getY(), .001);
+		assertEquals("f", output[0].getLabel(StringTemplate.defaultTemplate));
 		StringBuilder sb = new StringBuilder();
 		editMacro.getXML(sb);
 		String xml1 = sb.toString();

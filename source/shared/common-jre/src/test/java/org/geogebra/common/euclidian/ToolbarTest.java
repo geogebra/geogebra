@@ -1,7 +1,8 @@
 package org.geogebra.common.euclidian;
 
+import static org.junit.Assert.assertTrue;
+
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ToolbarTest {
@@ -11,12 +12,12 @@ public class ToolbarTest {
 				+ " | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23"
 				+ " | 55 56 57 , 12 | 36 46 , 38 49  50 , 71  14  68 | 30 29 54 32 31 33"
 				+ " | 25 17 26 60 52 61 | 40 41 42 , 27 28 35 , 6";
-		Assert.assertTrue(ToolBar.isDefaultToolbar(def));
-		Assert.assertTrue(ToolBar.isDefaultToolbar(ToolBar.getAllToolsNoMacros(
+		assertTrue(ToolBar.isDefaultToolbar(def));
+		assertTrue(ToolBar.isDefaultToolbar(ToolBar.getAllToolsNoMacros(
 				false, false, false)));
-		Assert.assertTrue(ToolBar.isDefaultToolbar(
+		assertTrue(ToolBar.isDefaultToolbar(
 				ToolBar.getAllToolsNoMacros(true, false, false)));
-		Assert.assertTrue(ToolBar.isDefaultToolbar(
+		assertTrue(ToolBar.isDefaultToolbar(
 				ToolBar.getAllToolsNoMacros(true, false, true)));
 	}
 }

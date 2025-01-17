@@ -3,6 +3,7 @@ package org.geogebra.common.jre.main;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Locale;
 
@@ -11,7 +12,6 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.test.LocalizationCommonUTF;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class LocalizationTest {
@@ -65,7 +65,7 @@ public class LocalizationTest {
 		loc.setLocale(Locale.UK);
 		AppCommon app = new AppCommon(loc, new AwtFactoryCommon());
 		app.resetCommandDict();
-		Assert.assertNull(loc.getReverseCommand("x"));
+		assertNull(loc.getReverseCommand("x"));
 		assertEquals("Center", loc.getReverseCommand("Centre"));
 	}
 

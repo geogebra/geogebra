@@ -1,5 +1,7 @@
 package org.geogebra.euclidian;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -10,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.headless.AppDNoGui;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -84,7 +85,7 @@ public class GridTest {
 			}
 
 		}
-		Assert.assertEquals(expectMinor, minor);
-		Assert.assertEquals(expectMajor, major);
+		assertEquals(expectMinor, minor);
+		assertEquals(expectMajor, major);
 	}
 }

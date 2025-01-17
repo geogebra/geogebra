@@ -1,9 +1,10 @@
 package org.geogebra.common.gui.view.algebra;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ProtectiveGeoElementValueConverterTest extends BaseUnitTest {
@@ -28,6 +29,6 @@ public class ProtectiveGeoElementValueConverterTest extends BaseUnitTest {
 
 	private void assertConverts(String input, String expected) {
 		GeoElement element = add(input);
-		Assert.assertEquals(expected, converter.convert(element));
+		assertEquals(expected, converter.convert(element));
 	}
 }

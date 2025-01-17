@@ -1,6 +1,7 @@
 package org.geogebra.cas;
 
 import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -18,7 +19,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.CASTestLogger;
-import org.hamcrest.MatcherAssert;
 import org.junit.AfterClass;
 import org.junit.Before;
 
@@ -147,7 +147,7 @@ public class BaseCASIntegrationTest {
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
 
-		MatcherAssert.assertThat(result, equalToIgnoreWhitespaces(logger, input,
+		assertThat(result, equalToIgnoreWhitespaces(logger, input,
 				expectedResult, validResults));
 	}
 

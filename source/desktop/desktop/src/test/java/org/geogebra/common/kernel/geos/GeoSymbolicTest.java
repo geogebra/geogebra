@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.cas.giac.CASgiac;
@@ -50,7 +51,6 @@ import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -955,17 +955,17 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("f:x", "x");
 		GeoSymbolic line = (GeoSymbolic) app.getKernel().lookupLabel("f");
 		Suggestion suggestion = SuggestionIntersectExtremum.get(line);
-		Assert.assertNotNull(suggestion);
+		assertNotNull(suggestion);
 		suggestion.execute(line);
-		Assert.assertNull(SuggestionIntersectExtremum.get(line));
+		assertNull(SuggestionIntersectExtremum.get(line));
 		Object[] list = app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
 		((GeoElement) list[list.length - 1]).remove();
-		Assert.assertNotNull(SuggestionIntersectExtremum.get(line));
+		assertNotNull(SuggestionIntersectExtremum.get(line));
 	}
 
 	@Test
 	public void testCASSpecialPointsForNumbers() {
-		Assert.assertNull(SuggestionIntersectExtremum.get(add("1+2")));
+		assertNull(SuggestionIntersectExtremum.get(add("1+2")));
 	}
 
 	@Test
@@ -974,11 +974,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("g:x^3 - 1");
 		add("h:x");
 		updateSpecialPoints("f");
-		Assert.assertEquals(8, numberOfSpecialPoints());
+		assertEquals(8, numberOfSpecialPoints());
 		updateSpecialPoints("g");
-		Assert.assertEquals(6, numberOfSpecialPoints());
+		assertEquals(6, numberOfSpecialPoints());
 		updateSpecialPoints("h");
-		Assert.assertEquals(6, numberOfSpecialPoints());
+		assertEquals(6, numberOfSpecialPoints());
 	}
 
 	@Test
@@ -994,7 +994,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(xml, containsString("x,a"));
 		app.setXML(xml, true);
 		GeoSymbolic symbolic = getSymbolic("f");
-		Assert.assertEquals("f(x, a) = sqrt(-a + x)",
+		assertEquals("f(x, a) = sqrt(-a + x)",
 				symbolic.toString(StringTemplate.defaultTemplate));
 	}
 
@@ -1009,10 +1009,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testSliderCommandCreatesSlider() {
 		GeoNumeric element = add("Slider(1, 10)");
-		Assert.assertTrue("Should show slider for command output",
+		assertTrue("Should show slider for command output",
 				element.isAVSliderOrCheckboxVisible());
-		assertEquals(element.getIntervalMin(), 1.0, Kernel.STANDARD_PRECISION);
-		assertEquals(element.getIntervalMax(), 10, Kernel.STANDARD_PRECISION);
+		assertEquals(1.0, element.getIntervalMin(), Kernel.STANDARD_PRECISION);
+		assertEquals(10, element.getIntervalMax(), Kernel.STANDARD_PRECISION);
 	}
 
 	@Test

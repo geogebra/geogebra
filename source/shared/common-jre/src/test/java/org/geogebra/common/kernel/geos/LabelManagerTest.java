@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -63,7 +63,7 @@ public class LabelManagerTest extends BaseUnitTest {
 		add("y=x^3");
 		add("x");
 		add("y=sin(x)");
-		Assert.assertArrayEquals(new String[] { "f", "g", "h", "p" },
+		assertArrayEquals(new String[] { "f", "g", "h", "p" },
 				getApp().getGgbApi().getAllObjectNames());
 	}
 

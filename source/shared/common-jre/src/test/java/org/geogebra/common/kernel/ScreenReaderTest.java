@@ -1,12 +1,13 @@
 package org.geogebra.common.kernel;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.TestErrorHandler;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,9 +27,9 @@ public class ScreenReaderTest {
 		app.getKernel().clearConstruction(true);
 	}
 
-	private static void tsc(String string, String string2) {
+	private static void tsc(String string, String expected) {
 		GeoElementND geo = eval(string);
-		Assert.assertEquals(string2,
+		assertEquals(expected,
 				geo.toValueString(StringTemplate.screenReaderAscii).trim().replaceAll(" +", " "));
 	}
 

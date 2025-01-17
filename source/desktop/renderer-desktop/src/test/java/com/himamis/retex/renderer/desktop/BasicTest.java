@@ -1,5 +1,7 @@
 package com.himamis.retex.renderer.desktop;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,7 +10,6 @@ import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class BasicTest {
 		Image image = createImage(icon);
 		byte[] imageBytes = getImageBytes(image);
 		byte[] expectedBytes = loadResourceFile(exampleName + ".png");
-		Assert.assertArrayEquals(expectedBytes, imageBytes);
+		assertArrayEquals(expectedBytes, imageBytes);
 	}
 	
 	private static TeXIcon createTeXIcon(String latex) {

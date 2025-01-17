@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
@@ -17,7 +18,6 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.TestErrorHandler;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ExpressionFilterTests extends BaseUnitTest {
@@ -96,7 +96,7 @@ public class ExpressionFilterTests extends BaseUnitTest {
 		try {
 			return getParser().parseExpression(expression);
 		} catch (Exception exception) {
-			Assert.fail("Should not throw an exception");
+			fail("Should not throw an exception");
 		}
 		return null;
 	}

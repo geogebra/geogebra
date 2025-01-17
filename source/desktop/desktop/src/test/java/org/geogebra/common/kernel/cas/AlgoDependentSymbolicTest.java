@@ -4,12 +4,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.scientific.LabelController;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class AlgoDependentSymbolicTest extends BaseSymbolicTest {
@@ -19,9 +20,9 @@ public class AlgoDependentSymbolicTest extends BaseSymbolicTest {
 		t("a = 5", "5");
 		t("f(a, x) = sqrt(a - x)", "sqrt(-x + 5)");
 		String xml = app.getXML();
-		Assert.assertTrue(xml.contains("a,x"));
+		assertTrue(xml.contains("a,x"));
 		app.setXML(xml, true);
-		Assert.assertEquals("f(a, x) = sqrt(-x + 5)", app.getKernel()
+		assertEquals("f(a, x) = sqrt(-x + 5)", app.getKernel()
 				.lookupLabel("f").toString(StringTemplate.defaultTemplate));
 	}
 

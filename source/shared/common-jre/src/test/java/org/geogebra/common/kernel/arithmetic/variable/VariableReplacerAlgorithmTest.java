@@ -1,11 +1,12 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -139,7 +140,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	private void shouldReplaceAs(String in, String out) {
 		ExpressionValue replacement = variableReplacerAlgorithm.replace(in);
-		Assert.assertEquals(out,
+		assertEquals(out,
 				replacement.toString(StringTemplate.testTemplate));
 	}
 
@@ -148,6 +149,6 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		String expression = "x";
 		variableReplacerAlgorithm.replace(expression);
 		ExpressionValue secondRun = variableReplacerAlgorithm.replace(expression);
-		Assert.assertEquals("x", secondRun.toString(StringTemplate.defaultTemplate));
+		assertEquals("x", secondRun.toString(StringTemplate.defaultTemplate));
 	}
 }

@@ -1,7 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.junit.Assert.assertTrue;
+
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class GeoEmbedTest extends BaseUnitTest {
@@ -14,6 +15,6 @@ public class GeoEmbedTest extends BaseUnitTest {
 		StringBuilder builder = new StringBuilder();
 		embed.getXMLtags(builder);
 
-		Assert.assertTrue(builder.toString().matches("(?s).*true&amp;param2.*"));
+		assertTrue(builder.toString().matches("(?s).*true&amp;param2.*"));
 	}
 }

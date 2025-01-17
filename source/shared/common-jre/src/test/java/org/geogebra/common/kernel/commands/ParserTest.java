@@ -37,7 +37,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -180,7 +179,7 @@ public class ParserTest {
 	}
 
 	private void checkSameStructure(String string, String string2) {
-		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
+		assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));
 	}
 
@@ -447,12 +446,12 @@ public class ParserTest {
 	}
 
 	static void shouldReparseAs(App app, String string, String expected) {
-		Assert.assertEquals(expected,
+		assertEquals(expected,
 				reparse(app, string, StringTemplate.editTemplate, true));
 	}
 
 	private void shouldReparseAs(String string, String expected) {
-		Assert.assertEquals(expected,
+		assertEquals(expected,
 				reparse(string, StringTemplate.editTemplate));
 	}
 
@@ -489,7 +488,7 @@ public class ParserTest {
 				return;
 			}
 			Log.debug(str);
-			Assert.assertEquals(left.getOperation(), ve.getOperation());
+			assertEquals(left.getOperation(), ve.getOperation());
 
 		} catch (ParseException e) {
 			fail(str);

@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -392,17 +391,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		numeric.setAVSliderOrCheckboxVisible(true);
 		numeric.initAlgebraSlider();
 
-		Assert.assertEquals(-5, numeric.getIntervalMin(), Kernel.MAX_PRECISION);
-		Assert.assertEquals(5, numeric.getIntervalMax(), Kernel.MAX_PRECISION);
+		assertEquals(-5, numeric.getIntervalMin(), Kernel.MAX_PRECISION);
+		assertEquals(5, numeric.getIntervalMax(), Kernel.MAX_PRECISION);
 
 		inputBox = add("ib = InputBox(a)");
 		inputBox.setSymbolicMode(false);
 
 		inputBox.updateLinkedGeo("-10");
-		Assert.assertEquals(-5, numeric.getValue(), Kernel.MAX_PRECISION);
+		assertEquals(-5, numeric.getValue(), Kernel.MAX_PRECISION);
 
 		inputBox.updateLinkedGeo("10");
-		Assert.assertEquals(5, numeric.getValue(), Kernel.MAX_PRECISION);
+		assertEquals(5, numeric.getValue(), Kernel.MAX_PRECISION);
 	}
 
 	private void hasType(String label, GeoClass geoClass) {

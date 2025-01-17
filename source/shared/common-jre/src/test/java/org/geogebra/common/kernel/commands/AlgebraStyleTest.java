@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.commands;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
@@ -31,7 +33,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -520,9 +521,9 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		t("C=(1,0)");
 		t("p=Polygon(A,B,C)");
 		t("r:x=y");
-		Assert.assertNull(SuggestionSolve.get(getGeo("r")));
+		assertNull(SuggestionSolve.get(getGeo("r")));
 		t("r:x=2x+1");
-		Assert.assertNotNull(SuggestionSolve.get(getGeo("r")));
+		assertNotNull(SuggestionSolve.get(getGeo("r")));
 	}
 
 	@Test
@@ -532,9 +533,9 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		t("C=(1,0)");
 		t("p=Polygon(A,B,C)");
 		t("r:x=y");
-		Assert.assertNull(SuggestionSolve.get(getGeo("r")));
+		assertNull(SuggestionSolve.get(getGeo("r")));
 		t("q:x=y+1");
-		Assert.assertNotNull(SuggestionSolve.get(getGeo("q")));
+		assertNotNull(SuggestionSolve.get(getGeo("q")));
 	}
 
 	@Test
@@ -545,9 +546,9 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		t("p=Polygon(A,B,C)");
 		GeoLine line = new GeoLine(app.getKernel().getConstruction());
 		line.setCoords(1, 1, 1);
-		Assert.assertNull(SuggestionSolve.get(line));
+		assertNull(SuggestionSolve.get(line));
 		line.setCoords(1, 0, 1);
-		Assert.assertNotNull(SuggestionSolve.get(line));
+		assertNotNull(SuggestionSolve.get(line));
 	}
 
 	@Test
@@ -559,7 +560,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		t("r:x=y");
 		GeoLine line = new GeoLine(app.getKernel().getConstruction());
 		line.setCoords(1, 1, 1);
-		Assert.assertNotNull(SuggestionSolve.get(line));
+		assertNotNull(SuggestionSolve.get(line));
 	}
 
 	@Test
@@ -567,38 +568,38 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		t("p:x+y=2");
 		t("r:x=y");
 		GeoElement line = getGeo("r");
-		Assert.assertNotNull(SuggestionSolve.get(line));
+		assertNotNull(SuggestionSolve.get(line));
 		SuggestionSolve.get(line).execute(line);
-		Assert.assertNull(SuggestionSolve.get(line));
+		assertNull(SuggestionSolve.get(line));
 	}
 
 	@Test
 	public void rootSuggestionShouldVanish() {
 		t("f:x");
 		GeoElement line = getGeo("f");
-		Assert.assertNotNull(SuggestionIntersectExtremum.get(line));
+		assertNotNull(SuggestionIntersectExtremum.get(line));
 		SuggestionIntersectExtremum.get(line).execute(line);
-		Assert.assertNull(SuggestionIntersectExtremum.get(line));
+		assertNull(SuggestionIntersectExtremum.get(line));
 		getGeo("B").remove();
-		Assert.assertNotNull(SuggestionIntersectExtremum.get(line));
+		assertNotNull(SuggestionIntersectExtremum.get(line));
 	}
 
 	@Test
 	public void rootSuggestionForParabolaShouldVanish() {
 		t("f:y=x^2-6x+8");
 		GeoElement parabola = getGeo("f");
-		Assert.assertNotNull(SuggestionIntersectExtremum.get(parabola));
+		assertNotNull(SuggestionIntersectExtremum.get(parabola));
 		SuggestionIntersectExtremum.get(parabola).execute(parabola);
-		Assert.assertNull(SuggestionIntersectExtremum.get(parabola));
+		assertNull(SuggestionIntersectExtremum.get(parabola));
 		getGeo("B").remove();
-		Assert.assertNotNull(SuggestionIntersectExtremum.get(parabola));
+		assertNotNull(SuggestionIntersectExtremum.get(parabola));
 	}
 
 	@Test
 	public void rootSuggestionForParabolaShouldCreatePoints() {
 		t("f:y=x^2-6x+8");
 		GeoElement parabola = getGeo("f");
-		Assert.assertNotNull(SuggestionIntersectExtremum.get(parabola));
+		assertNotNull(SuggestionIntersectExtremum.get(parabola));
 		SuggestionIntersectExtremum.get(parabola).execute(parabola);
 		assertEquals(4,
 				app.getGgbApi().getAllObjectNames("point").length);
@@ -608,7 +609,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	public void rootSuggestionForHyperbola() {
 		t("f:xx-yy=1");
 		GeoElement hyperbola = getGeo("f");
-		Assert.assertNull(SuggestionIntersectExtremum.get(hyperbola));
+		assertNull(SuggestionIntersectExtremum.get(hyperbola));
 	}
 
 	@Test
@@ -647,14 +648,14 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	public void statisticsSuggestionForEmptyList() {
 		t("l1={}");
 		GeoElement list = getGeo("l1");
-		Assert.assertNull(SuggestionStatistics.get(list));
+		assertNull(SuggestionStatistics.get(list));
 	}
 
 	@Test
 	public void statisticsSuggestionForOneElementList() {
 		t("l1={1}");
 		GeoElement list = getGeo("l1");
-		Assert.assertNotNull(SuggestionStatistics.get(list));
+		assertNotNull(SuggestionStatistics.get(list));
 
 		SuggestionStatistics.get(list).execute(list);
 		assertEquals(4, app.getGgbApi().getObjectNumber());
@@ -664,7 +665,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	public void statisticsSuggestionForMoreElementList() {
 		t("l1={1,2,3}");
 		GeoElement list = getGeo("l1");
-		Assert.assertNotNull(SuggestionStatistics.get(list));
+		assertNotNull(SuggestionStatistics.get(list));
 
 		SuggestionStatistics.get(list).execute(list);
 		assertEquals(6, app.getGgbApi().getObjectNumber());
@@ -677,7 +678,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 		t("l1={1,2,3}");
 		GeoElement list = getGeo("l1");
-		Assert.assertNotNull(SuggestionStatistics.get(list));
+		assertNotNull(SuggestionStatistics.get(list));
 
 		app.storeUndoInfo();
 		assertEquals(1, app.getKernel().getConstruction()

@@ -5,6 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.cas.giac.CASgiac;
@@ -22,7 +24,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -158,17 +159,17 @@ public class StringTemplateTest {
 		String[] test = new String[]{"aaa", "(a)+b", "3", "((a)+(b))+7"};
 		String[] testFalse = new String[]{"3(", "(((7)))"};
 		for (String t : test) {
-			Assert.assertTrue(
+			assertTrue(
 					RegExp.compile("^" + CASgiac.expression + "$").test(t));
 
 		}
 		for (String t : testFalse) {
-			Assert.assertFalse(
+			assertFalse(
 					RegExp.compile("^" + CASgiac.expression + "$").test(t));
 
 		}
 		for (String t : testI) {
-			Assert.assertTrue(CASgiac.inequality.test(t));
+			assertTrue(CASgiac.inequality.test(t));
 		}
 	}
 

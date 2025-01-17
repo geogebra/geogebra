@@ -1,5 +1,10 @@
 package org.geogebra.cloud;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
@@ -29,7 +34,6 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.util.UtilD;
-import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -44,8 +48,8 @@ public class MaterialRestAPITest {
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		LoginOperationD loginOp = buildLoginOperation();
 		authorise(usr, loginOp);
-		Assert.assertEquals("GGBTest-Student", usr.getUserName());
-		Assert.assertEquals("GGBTest-Student", 0, usr.getGroups().size());
+		assertEquals("GGBTest-Student", usr.getUserName());
+		assertEquals("GGBTest-Student", 0, usr.getGroups().size());
 	}
 
 	private LoginOperationD buildLoginOperation() {
@@ -125,7 +129,7 @@ public class MaterialRestAPITest {
 			}
 		});
 		groupCallback.await(5);
-		Assert.assertEquals("0", success[0]);
+		assertEquals("0", success[0]);
 	}
 
 	private static void doUpload(MaterialRestAPI api, String title,
@@ -267,7 +271,7 @@ public class MaterialRestAPITest {
 		api.getUsersOwnMaterials(getCallback, ResourceOrdering.title);
 		getCallback.await(5);
 		getCallback.verify("");
-		Assert.assertEquals(i, count.length());
+		assertEquals(i, count.length());
 
 	}
 
@@ -300,10 +304,10 @@ public class MaterialRestAPITest {
 	@Test
 	public void copyTitles() {
 		LocalizationD loc = new LocalizationD(3);
-		Assert.assertEquals("Copy of A", MaterialRestAPI.getCopyTitle(loc, "A"));
-		Assert.assertEquals("Copy of A (2)",
+		assertEquals("Copy of A", MaterialRestAPI.getCopyTitle(loc, "A"));
+		assertEquals("Copy of A (2)",
 				MaterialRestAPI.getCopyTitle(loc, "Copy of A"));
-		Assert.assertEquals("Copy of A (3)",
+		assertEquals("Copy of A (3)",
 				MaterialRestAPI.getCopyTitle(loc, "Copy of A (2)"));
 	}
 
@@ -361,7 +365,7 @@ public class MaterialRestAPITest {
 		reuploadCallback.await(5);
 		reuploadCallback.verify("Test material");
 		materialCountShouldBe(api, 1);
-		Assert.assertNotEquals(filenames[0], filenames[1]);
+		assertNotEquals(filenames[0], filenames[1]);
 	}
 
 	@Test
@@ -373,16 +377,16 @@ public class MaterialRestAPITest {
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		LoginOperationD loginOp = buildLoginOperation();
 
-		Assert.assertTrue("Should overwrite anonymous materials",
+		assertTrue("Should overwrite anonymous materials",
 				loginOp.owns(mat));
 		authorise(usr, loginOp);
 		mat.setCreator(new UserPublic(42, "Bart"));
-		Assert.assertFalse("Should not overwrite foreign materials",
+		assertFalse("Should not overwrite foreign materials",
 				loginOp.owns(mat));
-		Assert.assertTrue("User ID should be set", usr.getUserId() > 0);
+		assertTrue("User ID should be set", usr.getUserId() > 0);
 		mat.setCreator(new UserPublic(loginOp.getModel().getUserId(),
 				loginOp.getUserName()));
-		Assert.assertTrue("Should overwrite own materials",
+		assertTrue("Should overwrite own materials",
 				loginOp.owns(mat));
 
 	}

@@ -97,25 +97,25 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		dragEnd(400, 200);
 
 		int undoPoints = getConstruction().getUndoManager().getHistorySize();
-		assertEquals(undoPoints, 6);
+		assertEquals(6, undoPoints);
 		String s3Original = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		getKernel().undo(); //undos dragging
 		String s3Dragged = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		assertNotEquals(s3Original, s3Dragged);
 		getKernel().undo(); //undos split stroke
-		assertEquals(getConstruction().getUndoManager().getHistorySize(), 4);
+		assertEquals(4, getConstruction().getUndoManager().getHistorySize());
 		getKernel().undo();
 		getKernel().undo();
 		getKernel().undo();
 		getKernel().undo();
-		assertEquals(getConstruction().getUndoManager().getHistorySize(), 0);
+		assertEquals(0, getConstruction().getUndoManager().getHistorySize());
 		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
-		assertEquals(getConstruction().getUndoManager().getHistorySize(), 6);
+		assertEquals(6, getConstruction().getUndoManager().getHistorySize());
 		assertThat(lookup("stroke3"), notNullValue());
 	}
 

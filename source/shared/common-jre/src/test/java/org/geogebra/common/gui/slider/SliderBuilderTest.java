@@ -1,6 +1,9 @@
 package org.geogebra.common.gui.slider;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import org.geogebra.common.BaseUnitTest;
@@ -12,7 +15,6 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,8 +44,8 @@ public class SliderBuilderTest extends BaseUnitTest {
 
 	@Test
 	public void createSimple() {
-		Assert.assertNotNull(sliderBuilder.create());
-		Assert.assertTrue(isSliderInConstructionList());
+		assertNotNull(sliderBuilder.create());
+		assertTrue(isSliderInConstructionList());
 	}
 
 	private boolean isSliderInConstructionList() {
@@ -54,7 +56,7 @@ public class SliderBuilderTest extends BaseUnitTest {
 	@Test
 	public void createWithEmptyInput() {
 		sliderBuilder.withMin("");
-		Assert.assertNull(sliderBuilder.create());
+		assertNull(sliderBuilder.create());
 		assertFalse(isSliderInConstructionList());
 	}
 

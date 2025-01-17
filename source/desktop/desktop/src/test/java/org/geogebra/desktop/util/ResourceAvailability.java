@@ -2,6 +2,7 @@ package org.geogebra.desktop.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.net.URL;
@@ -13,7 +14,6 @@ import javax.swing.JPanel;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ResourceAvailability {
@@ -26,7 +26,7 @@ public class ResourceAvailability {
 				fn = "/org/geogebra/desktop/" + fn;
 			}
 			URL url = ResourceAvailability.class.getResource(fn);
-			Assert.assertNotNull("" + res, url);
+			assertNotNull("" + res, url);
 		}
 	}
 
@@ -38,7 +38,7 @@ public class ResourceAvailability {
 				fn = "/org/geogebra/desktop/geogebra3D" + fn;
 			}
 			URL url = ResourceAvailability.class.getResource(fn);
-			Assert.assertNotNull("" + res, url);
+			assertNotNull("" + res, url);
 		}
 	}
 
@@ -86,7 +86,7 @@ public class ResourceAvailability {
 
 		}
 
-		Assert.assertEquals(missing.toString(), 0, missing.length());
+		assertEquals(missing.toString(), 0, missing.length());
 	}
 
 	@Test

@@ -19,7 +19,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -936,17 +935,17 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		GeoInlineText a = (GeoInlineText) cons.lookupLabel("a");
 		GeoInlineText b = (GeoInlineText) cons.lookupLabel("b");
 
-		Assert.assertEquals(a.getLocation().getX(), 0.6, Kernel.MAX_PRECISION);
-		Assert.assertEquals(a.getLocation().getY(), -0.8, Kernel.MAX_PRECISION);
+		assertEquals(0.6, a.getLocation().getX(), Kernel.MAX_PRECISION);
+		assertEquals(-0.8, a.getLocation().getY(), Kernel.MAX_PRECISION);
 
-		Assert.assertEquals(b.getLocation().getX(), 1.4, Kernel.MAX_PRECISION);
-		Assert.assertEquals(b.getLocation().getY(), -1.6, Kernel.MAX_PRECISION);
+		assertEquals(1.4, b.getLocation().getX(), Kernel.MAX_PRECISION);
+		assertEquals(-1.6, b.getLocation().getY(), Kernel.MAX_PRECISION);
 
-		Assert.assertEquals(100, a.getWidth(), Kernel.MAX_PRECISION);
-		Assert.assertEquals(36, a.getHeight(), Kernel.MAX_PRECISION);
+		assertEquals(100, a.getWidth(), Kernel.MAX_PRECISION);
+		assertEquals(36, a.getHeight(), Kernel.MAX_PRECISION);
 
-		Assert.assertEquals(36, b.getWidth(), Kernel.MAX_PRECISION);
-		Assert.assertEquals(140, b.getHeight(), Kernel.MAX_PRECISION);
+		assertEquals(36, b.getWidth(), Kernel.MAX_PRECISION);
+		assertEquals(140, b.getHeight(), Kernel.MAX_PRECISION);
 	}
 
 	@Override

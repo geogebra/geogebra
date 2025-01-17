@@ -1,8 +1,9 @@
 package org.geogebra.common.gui.view.algebra;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,6 +50,6 @@ public class GeoElementValueConverterTest extends BaseUnitTest {
 
 	private void assertConverts(String input, String expected) {
 		GeoElement element = addAvInput(input);
-		Assert.assertEquals(expected, converter.convert(element));
+		assertEquals(expected, converter.convert(element));
 	}
 }

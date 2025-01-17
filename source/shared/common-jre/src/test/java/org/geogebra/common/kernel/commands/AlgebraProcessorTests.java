@@ -5,7 +5,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -38,7 +40,6 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.test.TestErrorHandler;
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -61,18 +62,18 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 		EvalInfo info = new EvalInfo(true).withCopyingPlainVariables(true);
 		GeoElementND[] elements = evalCommand(
 				"a=1",  info);
-		Assert.assertNotNull(elements);
-		Assert.assertEquals(1, elements.length);
+		assertNotNull(elements);
+		assertEquals(1, elements.length);
 		GeoElementND a = elements[0];
 
 		elements = evalCommand("a", info);
-		Assert.assertNotNull(elements);
-		Assert.assertEquals(1, elements.length);
+		assertNotNull(elements);
+		assertEquals(1, elements.length);
 		GeoElementND b = elements[0];
 
-		Assert.assertNotEquals(a, b);
+		assertNotEquals(a, b);
 		AlgoElement parentAlgo = b.getParentAlgorithm();
-		Assert.assertNotNull(parentAlgo);
+		assertNotNull(parentAlgo);
 		assertThat(parentAlgo, is(instanceOf(AlgoDependentGeoCopy.class)));
 	}
 
@@ -93,13 +94,8 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	}
 
 	private void shouldFail(String string) {
-		Throwable err = null;
-		try {
-			processor.convertToDouble(string);
-		} catch (Throwable thrown) {
-			err = thrown;
-		}
-		Assert.assertTrue(err instanceof NumberFormatException);
+		assertThrows(NumberFormatException.class,
+				() -> processor.convertToDouble(string));
 	}
 
 	@Test

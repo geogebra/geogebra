@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.main;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -9,7 +11,6 @@ import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.geogebra.web.util.file.FileIO;
 import org.gwtproject.user.client.ui.RootPanel;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +43,6 @@ public class TemplateSaveTest {
 		String fileContent = FileIO.load(pathString);
 		StringBuilder sb = new StringBuilder();
 		app.getActiveEuclidianView().getXML(sb, false);
-        Assert.assertEquals(sb.toString().trim(), fileContent);
+        assertEquals(fileContent, sb.toString().trim());
 	}
 }

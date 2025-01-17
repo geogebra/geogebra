@@ -1,8 +1,10 @@
 package org.geogebra.common.euclidian;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.plugin.GeoClass;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
@@ -16,7 +18,7 @@ public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 		freehandPen.addPointPenMode(new GPoint(15, 15));
 		freehandPen.addPointPenMode(new GPoint(20, 20));
 
-		Assert.assertEquals(GeoClass.SEGMENT,
+		assertEquals(GeoClass.SEGMENT,
 				freehandPen.checkExpectedShape().getGeoClassType());
 	}
 
@@ -31,7 +33,7 @@ public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 		freehandPen.addPointPenMode(new GPoint(15, 15));
 		freehandPen.addPointPenMode(new GPoint(20, 20));
 
-		Assert.assertEquals(GeoClass.FUNCTION,
+		assertEquals(GeoClass.FUNCTION,
 				freehandPen.checkExpectedShape().getGeoClassType());
 	}
 
@@ -49,7 +51,7 @@ public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 		freehandPen.addPointPenMode(new GPoint(-10, 0));
 		freehandPen.addPointPenMode(new GPoint(-7, 7));
 
-		Assert.assertEquals(GeoClass.CONIC,
+		assertEquals(GeoClass.CONIC,
 				freehandPen.checkExpectedShape().getGeoClassType());
 	}
 
@@ -69,6 +71,6 @@ public class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 		freehandPen.addPointPenMode(new GPoint(-10, 0));
 		freehandPen.addPointPenMode(new GPoint(-7, 7));
 
-		Assert.assertNull(freehandPen.checkExpectedShape());
+		assertNull(freehandPen.checkExpectedShape());
 	}
 }

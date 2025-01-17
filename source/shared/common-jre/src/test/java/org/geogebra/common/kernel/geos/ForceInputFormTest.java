@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
@@ -12,7 +15,6 @@ import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.properties.impl.objects.EquationFormProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ForceInputFormTest extends BaseUnitTest {
@@ -28,15 +30,15 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 		GeoRay geoRay = factory.createGeoRayWithCommand();
 
-		Assert.assertEquals(LinearEquationRepresentable.Form.USER,
+		assertEquals(LinearEquationRepresentable.Form.USER,
 				line.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
+		assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
 				lineWithCommand.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.USER,
+		assertEquals(LinearEquationRepresentable.Form.USER,
 				geoRay.getEquationForm());
-		Assert.assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
 				parabola.getEquationForm());
-		Assert.assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
 				hyperbola.getEquationForm());
 	}
 
@@ -51,7 +53,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoLine lineWithCommand = factory.createGeoLineWithCommand();
 		lineWithCommand.setLabel("lineCmd");
 		lineWithCommand.setEquationForm(LinearEquationRepresentable.Form.PARAMETRIC);
-		Assert.assertEquals(LinearEquationRepresentable.Form.PARAMETRIC,
+		assertEquals(LinearEquationRepresentable.Form.PARAMETRIC,
 				lineWithCommand.getEquationForm());
 
 		getApp().setXML(getApp().getXML(), true);
@@ -59,8 +61,8 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoLine loadedLine = (GeoLine) lookup("line");
 		GeoLine loadedLineWithCommand = (GeoLine) lookup("lineCmd");
 
-		Assert.assertEquals(LinearEquationRepresentable.Form.USER, loadedLine.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.PARAMETRIC,
+		assertEquals(LinearEquationRepresentable.Form.USER, loadedLine.getEquationForm());
+		assertEquals(LinearEquationRepresentable.Form.PARAMETRIC,
 				loadedLineWithCommand.getEquationForm());
 	}
 
@@ -75,15 +77,15 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoConic parabola = (GeoConic) factory.create("y=xx");
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-		Assert.assertEquals(LinearEquationRepresentable.Form.USER,
+		assertEquals(LinearEquationRepresentable.Form.USER,
 				line.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
+		assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
 				lineWithCommand.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
+		assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
 				ray.getEquationForm());
-		Assert.assertEquals(QuadraticEquationRepresentable.Form.USER,
+		assertEquals(QuadraticEquationRepresentable.Form.USER,
 				parabola.getEquationForm());
-		Assert.assertEquals(QuadraticEquationRepresentable.Form.USER,
+		assertEquals(QuadraticEquationRepresentable.Form.USER,
 				hyperbola.getEquationForm());
 	}
 
@@ -92,8 +94,8 @@ public class ForceInputFormTest extends BaseUnitTest {
 		getApp().setGraphingConfig();
 		GeoRay ray = getElementFactory().createGeoRayWithCommand();
 
-		Assert.assertFalse(ray.isAllowedToShowValue());
-		Assert.assertEquals(DescriptionMode.DEFINITION, ray.getDescriptionMode());
+		assertFalse(ray.isAllowedToShowValue());
+		assertEquals(DescriptionMode.DEFINITION, ray.getDescriptionMode());
 	}
 
 	@Test
@@ -101,8 +103,8 @@ public class ForceInputFormTest extends BaseUnitTest {
 		getApp().setConfig(new AppConfigGeometry());
 		GeoRay ray = getElementFactory().createGeoRayWithCommand();
 
-		Assert.assertTrue(ray.isAllowedToShowValue());
-		Assert.assertEquals(ray.getDescriptionMode(), DescriptionMode.DEFINITION_VALUE);
+		assertTrue(ray.isAllowedToShowValue());
+		assertEquals(DescriptionMode.DEFINITION_VALUE, ray.getDescriptionMode());
 	}
 
 	@Test
@@ -116,10 +118,10 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoConic parabola = (GeoConic) factory.create("y=xx");
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-		Assert.assertTrue(LineEqnModel.forceInputForm(line));
-		Assert.assertTrue(LineEqnModel.forceInputForm(rayWithCommand));
-		Assert.assertTrue(ConicEqnModel.forceInputForm(parabola));
-		Assert.assertTrue(ConicEqnModel.forceInputForm(hyperbola));
+		assertTrue(LineEqnModel.forceInputForm(line));
+		assertTrue(LineEqnModel.forceInputForm(rayWithCommand));
+		assertTrue(ConicEqnModel.forceInputForm(parabola));
+		assertTrue(ConicEqnModel.forceInputForm(hyperbola));
 	}
 
 	@Test
@@ -133,10 +135,10 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoConic parabola = (GeoConic) factory.create("y=xx");
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-		Assert.assertFalse(LineEqnModel.forceInputForm(line));
-		Assert.assertFalse(LineEqnModel.forceInputForm(rayWithCommand));
-		Assert.assertFalse(ConicEqnModel.forceInputForm(parabola));
-		Assert.assertFalse(ConicEqnModel.forceInputForm(hyperbola));
+		assertFalse(LineEqnModel.forceInputForm(line));
+		assertFalse(LineEqnModel.forceInputForm(rayWithCommand));
+		assertFalse(ConicEqnModel.forceInputForm(parabola));
+		assertFalse(ConicEqnModel.forceInputForm(hyperbola));
 
 		try {
 			new EquationFormProperty(getLocalization(), line);

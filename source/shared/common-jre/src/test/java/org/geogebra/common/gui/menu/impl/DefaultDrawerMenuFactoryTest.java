@@ -6,6 +6,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInRelativeOrder;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.in;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -18,7 +20,6 @@ import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Answers;
@@ -90,16 +91,16 @@ public class DefaultDrawerMenuFactoryTest {
 	private void assertBasicProperties(DrawerMenuFactory factory, int numberOfGroups,
 			int... subgroupItemCounts) {
 		DrawerMenu menu = factory.createDrawerMenu();
-		Assert.assertNotNull(menu.getTitle());
+		assertNotNull(menu.getTitle());
 		List<MenuItemGroup> groups = menu.getMenuItemGroups();
-		Assert.assertEquals(numberOfGroups, groups.size());
+		assertEquals(numberOfGroups, groups.size());
 		for (int i = 0; i < subgroupItemCounts.length; i++) {
 			MenuItemGroup group = groups.get(i);
 			List<MenuItem> menuItems = group.getMenuItems();
-			Assert.assertEquals(subgroupItemCounts[i], menuItems.size());
+			assertEquals(subgroupItemCounts[i], menuItems.size());
 			for (MenuItem menuItem : menuItems) {
-				Assert.assertNotNull(menuItem.getIcon());
-				Assert.assertNotNull(menuItem.getLabel());
+				assertNotNull(menuItem.getIcon());
+				assertNotNull(menuItem.getLabel());
 			}
 		}
 	}

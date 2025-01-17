@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.table;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
@@ -10,7 +11,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -140,7 +140,7 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 		try {
 			processor.processInput("2", (GeoList) view.getEvaluatable(1), 2);
 		} catch (Throwable e) {
-			Assert.fail("Should not throw exception");
+			fail("Should not throw exception");
 		}
 	}
 

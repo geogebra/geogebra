@@ -1,8 +1,9 @@
 package org.geogebra.common.gui.view.algebra;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class GeoElementCasValueConverterTest extends BaseSymbolicTest {
@@ -12,6 +13,6 @@ public class GeoElementCasValueConverterTest extends BaseSymbolicTest {
 	@Test
 	public void testConvertsSimpleNumber() {
 		GeoElement element = add("a*b");
-		Assert.assertEquals("a b", converter.convert(element));
+		assertEquals("a b", converter.convert(element));
 	}
 }

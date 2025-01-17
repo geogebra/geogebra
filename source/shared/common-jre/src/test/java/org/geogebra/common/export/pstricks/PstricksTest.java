@@ -1,5 +1,8 @@
 package org.geogebra.common.export.pstricks;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import java.util.ArrayList;
 
 import org.geogebra.common.AppCommonFactory;
@@ -11,7 +14,6 @@ import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.AppCommon3D;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -79,11 +81,9 @@ public class PstricksTest {
 		for (String cmd : inputs) {
 			t(cmd);
 			String out = generate(ps, frame);
-			if (out.equals(last)) {
-				Assert.fail(cmd);
-			}
+			assertNotEquals(cmd, out, last);
 			last = out;
-			Assert.assertEquals(string,
+			assertEquals(string,
 					out.substring(out.length() - string.length()));
 		}
 	}

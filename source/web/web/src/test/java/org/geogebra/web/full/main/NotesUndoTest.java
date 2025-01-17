@@ -1,5 +1,7 @@
 package org.geogebra.web.full.main;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -13,7 +15,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.ArchiveLoaderMock;
 import org.geogebra.web.test.GgbMockitoTestRunner;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -417,16 +418,16 @@ public class NotesUndoTest {
 			count++;
 			start = xml.indexOf("<element", start) + 1;
 		}
-		Assert.assertEquals(slide + ":" + expectedCount, slide + ":" + count);
+		assertEquals(slide + ":" + expectedCount, slide + ":" + count);
 	}
 
 	private static void shouldHaveSlides(int expected) {
-		Assert.assertEquals(expected, app.getPageController().getSlideCount());
+		assertEquals(expected, app.getPageController().getSlideCount());
 
 	}
 
 	private static void shouldHaveUndoPoints(int expected) {
-		Assert.assertEquals(expected, app.getKernel().getConstruction()
+		assertEquals(expected, app.getKernel().getConstruction()
 				.getUndoManager().getHistorySize());
 		
 	}

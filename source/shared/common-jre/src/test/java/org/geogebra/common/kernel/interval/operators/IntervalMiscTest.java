@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class IntervalMiscTest {
@@ -34,7 +33,7 @@ public class IntervalMiscTest {
 	public void testLog() {
 		assertEquals(interval(0, 0), evaluator.log(interval(1, 1)));
 		assertEquals(interval(0, 3), evaluator.log(interval(1, Math.exp(3))));
-		Assert.assertEquals(IntervalConstants.undefined(),
+		assertEquals(IntervalConstants.undefined(),
 				evaluator.log(interval(NEGATIVE_INFINITY, -1)));
 	}
 

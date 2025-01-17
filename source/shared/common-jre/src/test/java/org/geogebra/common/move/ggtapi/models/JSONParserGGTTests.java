@@ -54,7 +54,7 @@ public class JSONParserGGTTests {
 		assertSame(Material.MaterialType.ws, material.getType());
 		assertTrue(material.isDeleted());
 		assertEquals("3D Coordinate Systems", material.getTitle());
-		assertEquals(material.getVisibility(), "O");
+		assertEquals("O", material.getVisibility());
 		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb.png", material.getThumbnail());
 	}
 
@@ -68,7 +68,7 @@ public class JSONParserGGTTests {
 		assertEquals("gfnbcfxx", material.getSharingKeySafe());
 		assertSame(Material.MaterialType.ws, material.getType());
 		assertEquals("Empty", material.getTitle());
-		assertEquals(material.getVisibility(), "S");
+		assertEquals("S", material.getVisibility());
 		assertEquals("", material.getThumbnail());
 	}
 

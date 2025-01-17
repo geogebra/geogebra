@@ -4,6 +4,10 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +21,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.AdditionalAnswers;
@@ -38,29 +41,29 @@ public class ParserFunctionsTest {
 
 	@Test
 	public void testGetString() {
-		Assert.assertNotNull(parserFunctions.get("sin", 1));
-		Assert.assertNotNull(parserFunctions.get("cos", 1));
-		Assert.assertNull(parserFunctions.get("", 1));
-		Assert.assertNull(parserFunctions.get(null, 1));
+		assertNotNull(parserFunctions.get("sin", 1));
+		assertNotNull(parserFunctions.get("cos", 1));
+		assertNull(parserFunctions.get("", 1));
+		assertNull(parserFunctions.get(null, 1));
 	}
 
 	@Test
 	public void testGetSize() {
-		Assert.assertNull(parserFunctions.get("sin", 100));
-		Assert.assertNull(parserFunctions.get("sin", 0));
-		Assert.assertNull(parserFunctions.get("sin", 2));
-		Assert.assertNotNull(parserFunctions.get("sin", 1));
+		assertNull(parserFunctions.get("sin", 100));
+		assertNull(parserFunctions.get("sin", 0));
+		assertNull(parserFunctions.get("sin", 2));
+		assertNotNull(parserFunctions.get("sin", 1));
 	}
 
 	@Test
 	public void testReserved() {
-		Assert.assertTrue(parserFunctions.isReserved("sin"));
-		Assert.assertTrue(parserFunctions.isReserved("sin"));
-		Assert.assertTrue(parserFunctions.isReserved(Unicode.IMAGINARY + ""));
-		Assert.assertTrue(parserFunctions.isReserved(Unicode.EULER_STRING));
-		Assert.assertFalse(parserFunctions.isReserved("a"));
-		Assert.assertFalse(parserFunctions.isReserved("b"));
-		Assert.assertFalse(parserFunctions.isReserved(null));
+		assertTrue(parserFunctions.isReserved("sin"));
+		assertTrue(parserFunctions.isReserved("sin"));
+		assertTrue(parserFunctions.isReserved(Unicode.IMAGINARY + ""));
+		assertTrue(parserFunctions.isReserved(Unicode.EULER_STRING));
+		assertFalse(parserFunctions.isReserved("a"));
+		assertFalse(parserFunctions.isReserved("b"));
+		assertFalse(parserFunctions.isReserved(null));
 	}
 
 	@Test
@@ -71,26 +74,26 @@ public class ParserFunctionsTest {
 		assertThat(completions, not(hasItem("cos( <x> )")));
 
 		completions = parserFunctions.getCompletions("Si");
-		assertEquals(completions.size(), 0);
+		assertEquals(0, completions.size());
 	}
 
 	@Test
 	public void testGetInternal() {
 		Localization loc = Mockito.mock(Localization.class);
 		Mockito.when(loc.getFunction(Mockito.anyString())).then(AdditionalAnswers.returnsFirstArg());
-		assertEquals(parserFunctions.getInternal(loc, "sin"), "sin");
-		assertEquals(parserFunctions.getInternal(loc, "cos"), "cos");
-		Assert.assertNull(parserFunctions.getInternal(loc, "NO-SUCH-FUNCTION"));
-		assertEquals(parserFunctions.getInternal(loc, "nroot"), "nroot");
+		assertEquals("sin", parserFunctions.getInternal(loc, "sin"));
+		assertEquals("cos", parserFunctions.getInternal(loc, "cos"));
+		assertNull(parserFunctions.getInternal(loc, "NO-SUCH-FUNCTION"));
+		assertEquals("nroot", parserFunctions.getInternal(loc, "nroot"));
 	}
 
 	@Test
 	public void testIsTranslatableFunction() {
-		Assert.assertTrue(parserFunctions.isTranslatableFunction("sin"));
-		Assert.assertTrue(parserFunctions.isTranslatableFunction("cos"));
-		Assert.assertFalse(parserFunctions.isTranslatableFunction("e"));
-		Assert.assertFalse(parserFunctions.isTranslatableFunction(""));
-		Assert.assertFalse(parserFunctions.isTranslatableFunction(null));
+		assertTrue(parserFunctions.isTranslatableFunction("sin"));
+		assertTrue(parserFunctions.isTranslatableFunction("cos"));
+		assertFalse(parserFunctions.isTranslatableFunction("e"));
+		assertFalse(parserFunctions.isTranslatableFunction(""));
+		assertFalse(parserFunctions.isTranslatableFunction(null));
 	}
 
 	@Test
@@ -115,7 +118,7 @@ public class ParserFunctionsTest {
 	@Test
 	public void testCompletions() {
 		List<String> completions = parserFunctions.getCompletions(GAMMA_PREFIX);
-		assertEquals(completions.size(), 3);
+		assertEquals(3, completions.size());
 	}
 
 	@Test
@@ -124,7 +127,7 @@ public class ParserFunctionsTest {
 				Set.of(Operation.GAMMA,
 						Operation.GAMMA_INCOMPLETE,
 						Operation.GAMMA_INCOMPLETE_REGULARIZED));
-		assertEquals(completions.size(), 0);
+		assertEquals(0, completions.size());
 	}
 
 	@Test

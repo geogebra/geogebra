@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -9,7 +12,6 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.action.StatisticsActio
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,12 +49,12 @@ public class AlgebraMenuItemCollectionTest {
 		notNumberList.add(function);
 		notNumberList.add(num1);
 
-		Assert.assertFalse(statisticsAction.isAvailable(point));
-		Assert.assertFalse(statisticsAction.isAvailable(function));
-		Assert.assertFalse(statisticsAction.isAvailable(num1));
-		Assert.assertFalse(statisticsAction.isAvailable(emptyList));
-		Assert.assertFalse(statisticsAction.isAvailable(notNumberList));
-		Assert.assertTrue(statisticsAction.isAvailable(numberList));
+		assertFalse(statisticsAction.isAvailable(point));
+		assertFalse(statisticsAction.isAvailable(function));
+		assertFalse(statisticsAction.isAvailable(num1));
+		assertFalse(statisticsAction.isAvailable(emptyList));
+		assertFalse(statisticsAction.isAvailable(notNumberList));
+		assertTrue(statisticsAction.isAvailable(numberList));
 	}
 }
 

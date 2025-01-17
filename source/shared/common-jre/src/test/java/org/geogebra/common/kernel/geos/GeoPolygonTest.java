@@ -1,9 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class GeoPolygonTest extends BaseUnitTest {
@@ -16,14 +17,14 @@ public class GeoPolygonTest extends BaseUnitTest {
 		add("D=(1,1)");
 		GeoPolygon polygon = add("Polygon(A,B,C,D)");
 
-		Assert.assertTrue(polygon.isFillable());
-		Assert.assertTrue(polygon.isTraceable());
-		Assert.assertTrue(polygon.showLineProperties());
+		assertTrue(polygon.isFillable());
+		assertTrue(polygon.isTraceable());
+		assertTrue(polygon.showLineProperties());
 
 		polygon.setIsMask(true);
-		Assert.assertFalse(polygon.isFillable());
-		Assert.assertFalse(polygon.isTraceable());
-		Assert.assertFalse(polygon.showLineProperties());
+		assertFalse(polygon.isFillable());
+		assertFalse(polygon.isTraceable());
+		assertFalse(polygon.showLineProperties());
 	}
 
 	@Test

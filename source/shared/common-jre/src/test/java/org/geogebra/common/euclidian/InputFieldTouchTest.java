@@ -1,12 +1,13 @@
 package org.geogebra.common.euclidian;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,8 +36,8 @@ public class InputFieldTouchTest extends BaseUnitTest  {
 		viewTextField.focusTo(drawInputBox2);
 		textField.setText("DEF");
 		viewTextField.focusTo(drawInputBox1);
-		Assert.assertEquals("ABC", input1.getTextForEditor());
-		Assert.assertEquals("DEF", input2.getTextForEditor());
+		assertEquals("ABC", input1.getTextForEditor());
+		assertEquals("DEF", input2.getTextForEditor());
 	}
 
 	@Test
@@ -45,7 +46,7 @@ public class InputFieldTouchTest extends BaseUnitTest  {
 		viewTextField.focusTo(drawInputBox1);
 		textField.setText("ABC");
 		textField.blur();
-		Assert.assertEquals("ABC", input1.getTextForEditor());
+		assertEquals("ABC", input1.getTextForEditor());
 	}
 
 	private GeoInputBox addInputBox(String name) {
