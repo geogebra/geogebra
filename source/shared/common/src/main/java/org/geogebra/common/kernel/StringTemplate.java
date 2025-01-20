@@ -371,9 +371,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		initForEditing(editorTemplate);
 		editorTemplate.forEditorParser = true;
 		editorTemplate.pointCoordBar = ',';
-		editorTemplate.usePointTemplate = true;
 		initForEditing(inputBoxTemplate);
 		inputBoxTemplate.forEditorParser = true;
+		inputBoxTemplate.usePointTemplate = false;
 		inputBoxTemplate.pointCoordBar = Unicode.verticalLine;
 	}
 
@@ -961,6 +961,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.forEditorParser = forEditorParser;
 		result.allowShortLhs = allowShortLhs;
 		result.displayEngineeringNotation = displayEngineeringNotation;
+		result.usePointTemplate = usePointTemplate;
 		return result;
 	}
 
