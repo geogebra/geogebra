@@ -165,7 +165,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 			p[2] = getTopPoint();
 			polygon.modifyInputPoints(p);
 			GeoSegmentND[] s = new GeoSegmentND[3];
-			if (bottomSegments.length > 0) {
+			if (bottomSegments.length > newBottomPointsLength - 1) {
 				s[0] = bottomSegments[newBottomPointsLength - 1];
 			}
 			s[1] = outputSegmentsSide.getElement(newBottomPointsLength - 1);

@@ -532,14 +532,10 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
                 for (GeoPolygon p : poly.getPolygons()) {
                     if (p.isLabelSet()) {
                         view3D.updateHighlight(p);
-                        for (GeoSegmentND seg : p.getSegments()) {
-                            view3D.updateHighlight(seg);
-                        }
+						DrawPolygon3D.updateSegmentHighlighting(p, view3D);
                     }
                 }
-                for (GeoSegmentND seg : poly.getSegments()) {
-                    view3D.updateHighlight(seg);
-                }
+                DrawPolygon3D.updateSegmentHighlighting(poly, view3D);
             } else if (prop == GProperty.VISIBLE) {
                 setWaitForUpdateVisibility();
             }
