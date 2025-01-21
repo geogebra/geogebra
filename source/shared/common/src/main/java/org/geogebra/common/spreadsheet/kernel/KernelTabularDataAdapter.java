@@ -221,7 +221,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	public void setContent(int row, int column, Object content) {
 		if (content != null) {
 			GeoElement geo = (GeoElement) content;
-			setEuclidianInvisibleAndAuxiliaryObject(geo);
 			unfixSymbolic(geo);
 			setLabel(geo, row, column);
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
@@ -255,7 +254,14 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		}
 	}
 
-	private void setEuclidianInvisibleAndAuxiliaryObject(GeoElement geo) {
+	/**
+	 * Sets the given element as invisible in the graphics view and marks it
+	 * as an auxiliary object.
+	 *
+	 * @param geo the element to be modified; it will be made invisible in the
+	 *            graphics view and marked as auxiliary.
+	 */
+	public static void setEuclidianInvisibleAndAuxiliaryObject(GeoElementND geo) {
 		geo.setEuclidianVisible(false);
 		geo.setAuxiliaryObject(true);
 		geo.updateVisualStyle(GProperty.VISIBLE);

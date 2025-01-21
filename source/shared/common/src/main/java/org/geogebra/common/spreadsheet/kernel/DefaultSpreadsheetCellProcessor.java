@@ -3,6 +3,8 @@ package org.geogebra.common.spreadsheet.kernel;
 import static com.himamis.retex.editor.share.util.Unicode.ASSIGN_STRING;
 import static org.geogebra.common.util.StringUtil.isNumber;
 
+import java.util.Arrays;
+
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Kernel;
@@ -73,13 +75,18 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 			processInput(buildProperInput(input, cellName), errorHandler,
 					(geos) -> {
 						if (geos != null && geos.length > 0 && geos[0] != null) {
-							((GeoElement) geos[0]).setEmptySpreadsheetCell(false);
+							Arrays.stream(geos).forEach(this::setInitialProperties);
 							kernel.getApplication().storeUndoInfo();
 						}
 					});
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
+	}
+
+	private void setInitialProperties(GeoElementND geo) {
+		((GeoElement) geo).setEmptySpreadsheetCell(false);
+		KernelTabularDataAdapter.setEuclidianInvisibleAndAuxiliaryObject(geo);
 	}
 
 	private boolean checkCircularDefinition(String input, Kernel kernel) {
