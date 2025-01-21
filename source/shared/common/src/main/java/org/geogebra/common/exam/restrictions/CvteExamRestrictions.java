@@ -4,6 +4,7 @@ import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Re
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -26,10 +27,14 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.filter.CompositeExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
 import org.geogebra.common.kernel.arithmetic.filter.InspectingExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.AbsExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.graphing.InnerProductExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.graphing.PowerInnerProductExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.graphing.VectorProductExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -278,9 +283,14 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
-		return Set.of(new MatrixExpressionFilter(),
+		List<ExpressionFilter> filters = List.of(
 				ExpressionFilterFactory.createOperationsExpressionFilter(getFilteredOperations()),
-				new InspectingExpressionFilter(new AbsExpressionFilter()));
+				new MatrixExpressionFilter(),
+				new AbsExpressionFilter(),
+				new InnerProductExpressionFilter(),
+				new PowerInnerProductExpressionFilter(),
+				new VectorProductExpressionFilter());
+		return Set.of(new InspectingExpressionFilter(new CompositeExpressionFilter(filters)));
 	}
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
@@ -395,6 +405,13 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		//       f(x) = x > 5
 		//       f: x > 0
 		if (geoElement.isInequality()) {
+			return false;
+		}
+
+		// Restrict the visibility of vectors
+		// E.g.: a = (1, 2)
+		//       b = a + 0
+		if (geoElement.isGeoVector()) {
 			return false;
 		}
 

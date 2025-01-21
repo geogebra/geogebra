@@ -17,6 +17,7 @@ import java.util.List;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -116,7 +117,10 @@ public final class CvteExamTests extends BaseExamTests {
             "x - y > 2",
             "x^2 + 2y^2 < 1",
             "f: x > 0",
-            "f(x) = x > 2"
+            "f(x) = x > 2",
+            // Restricted vectors
+            "a = (1, 2)",
+            "b = (1, 2) + 0"
     })
     public void testRestrictedVisibility(String expression) {
         assertFalse(isVisibilityEnabled(evaluateGeoElement(expression)));
@@ -140,6 +144,57 @@ public final class CvteExamTests extends BaseExamTests {
                 () -> assertFalse(restrictedGeoElement.isEuclidianToggleable()),
                 () -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
                         app.getLocalization(), List.of(restrictedGeoElement))));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "a + 2",
+            "a - 5",
+            "a - b",
+            "a + b",
+            "a * 2"
+    })
+    public void testAllowedVectorOperations(String expression) {
+        assertNotNull(evaluate("a = (1, 2)"));
+        assertNotNull(evaluate("b = (3, 4)"));
+        assertNotNull(evaluate(expression));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "a * b",
+            "a ⊗ b",
+            "a * (1, 2)",
+            "(1, 2) ⊗ a",
+            "(1, 2) * (1, 2)",
+            "(3, 4) ⊗ (5, 6)"
+    })
+    public void testRestrictedVectorOperations(String expression) {
+        assertNotNull(evaluate("a = (1, 2)"));
+        assertNotNull(evaluate("b = (3, 4)"));
+        assertNull(evaluate(expression));
+    }
+
+    @Issue("APPS-5919")
+    @Test
+    public void testAbsRestrictions() {
+        // points
+        assertNotNull(evaluate("A = (1, 2)"));
+        assertNotNull(evaluate("B = (3, 4)"));
+        assertNull(evaluate("abs(A-B)"));
+        assertNull(evaluate("a=abs(A^2)"));
+        // vectors
+        assertNotNull(evaluate("u = (1, 2)"));
+        assertNotNull(evaluate("v = (3, 4)"));
+        assertNull(evaluate("abs(u-v)"));
+        assertNull(evaluate("|u^2|"));
+        assertNull(evaluate("|u v|"));
+        // complex numbers
+        assertNull(evaluate("|1+i|"));
+
+        // allowed:
+        assertNotNull(evaluate("abs(1-4)"));
+        assertNotNull(evaluate("y=|x|"));
     }
 
     @Test

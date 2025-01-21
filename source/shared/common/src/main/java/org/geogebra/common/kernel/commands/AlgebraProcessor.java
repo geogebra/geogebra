@@ -2068,7 +2068,7 @@ public class AlgebraProcessor {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (replaceable != null) {
 			evalInfo = evalInfo.withRedefinition(true);
-            cons.setSuppressLabelCreation(true);
+			cons.setSuppressLabelCreation(true);
 			isRedefining = true;
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);
@@ -3627,6 +3627,7 @@ public class AlgebraProcessor {
 				vector = dependentPoint(n, complex);
 			}
 		}
+		geoElementSetups.forEach(setup -> setup.applyTo(vector));
 		if (polar) {
 			vector.setMode(Kernel.COORD_POLAR);
 		} else if (complex) {
