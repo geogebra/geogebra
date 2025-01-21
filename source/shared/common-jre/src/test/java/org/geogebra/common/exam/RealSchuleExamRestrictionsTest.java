@@ -1,41 +1,34 @@
 package org.geogebra.common.exam;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
-import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
-import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
-import org.hamcrest.Matcher;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-public class RealSchuleExamRestrictionsTest extends BaseUnitTest {
+public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 
 	private Settings settings;
 	private EuclidianSettings evSettings;
-	private ExamController examController;
 
-	@Before
+	@BeforeEach
 	public void setupExam() {
-		examController = new ExamController(new DefaultPropertiesRegistry(),
-				new GeoElementPropertiesFactory(), new ContextMenuFactory());
-		examController.setActiveContext(this, getKernel().getAlgebraProcessor()
-						.getCommandDispatcher(), getKernel().getAlgebraProcessor(),
-				getLocalization(), getSettings(), null, null, null);
-		settings = getSettings();
+		setInitialApp(SuiteSubApp.GRAPHING);
+		settings = app.getSettings();
 		evSettings = settings.getEuclidian(1);
 	}
 
@@ -71,20 +64,20 @@ public class RealSchuleExamRestrictionsTest extends BaseUnitTest {
 		gridShouldBe(EuclidianView.GRID_CARTESIAN);
 		axisNumberDistanceShouldBe(0.5, 0);
 		axisNumberDistanceShouldBe(0.5, 1);
-		assertThat(createFixedEqnModel().isValidAt(0), equalTo(false));
+		assertFalse(createFixedEqnModel().isValidAt(0));
 	}
 
 	@Test
 	public void testExpressionRestrictions() {
 		examController.startExam(ExamType.REALSCHULE, null);
-		assertThrows(AssertionError.class, () -> add("abs((1,2))"));
-		assertThrows(AssertionError.class, () -> add("3+abs((1,2))"));
-		assertThat(add("2+abs(3)"), hasValue("5"));
+		assertNull(evaluate("abs((1,2))"));
+		assertNull(evaluate("3+abs((1,2))"));
+		assertThat(evaluateGeoElement("2+abs(3)"), hasValue("5"));
 	}
 
 	private FixObjectModel createFixedEqnModel() {
-		GeoConic circle = add("x^2+y^2=0");
-		FixObjectModel model = new FixObjectModel(null, getApp());
+		GeoConic circle = (GeoConic) evaluateGeoElement("x^2+y^2=0");
+		FixObjectModel model = new FixObjectModel(null, app);
 		model.setGeos(new Object[]{circle});
 		return model;
 	}
@@ -128,36 +121,38 @@ public class RealSchuleExamRestrictionsTest extends BaseUnitTest {
 		realSchuleRestrictionsShouldBeApplied();
 	}
 
-	@Test
-	public void testUnrestrictedVisibility() {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			// Line
+			"x = y",
+			"Line((1, 2), (3, 4))",
+			// Conics
+			"x^2 = y^2",
+			// Implicit curves
+			"x^3 = y^2",
+			"sin(x) = y^2",
+			// Unrelated types
+			"(1, 2)",
+	})
+	public void testUnrestrictedVisibility(String expression) {
 		examController.startExam(ExamType.REALSCHULE, null);
-		// line
-		assertThat(add("x=y"), isToggleable());
-		assertThat(add("Line((1,2),(3,4))"), isToggleable());
-		// Enabled conics
-		assertThat(add("x^2=y^2"), isToggleable());
-		// Implicit curves
-		assertThat(add("x^3 = y^2"), isToggleable());
-		assertThat(add("sin(x) = y^2"), isToggleable());
-		// unrelated types
-		assertThat(add("(1,2)"), isToggleable());
+		assertTrue(evaluateGeoElement(expression).isEuclidianToggleable());
 	}
 
-	private Matcher<GeoElement> isToggleable() {
-		return hasProperty("toggleable", GeoElement::isEuclidianToggleable, true);
-	}
-
-	@Test
-	public void testRestrictedVisibility() {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			// Lines
+			"x = 0",
+			"y = 5",
+			// Conics
+			"x^2 = 0",
+			"y^2 = 0",
+			// Implicit curves,
+			"x^2 = 0",
+			"sin(x) = 0",
+	})
+	public void testRestrictedVisibility(String expression) {
 		examController.startExam(ExamType.REALSCHULE, null);
-		// line
-		assertThat(add("x = 0"), not(isToggleable()));
-		assertThat(add("y = 5"), not(isToggleable()));
-		// conic
-		assertThat(add("x^2 = 0"), not(isToggleable()));
-		assertThat(add("y^2 = 0"), not(isToggleable()));
-		// implicit curve
-		assertThat(add("x^3 = 0"), not(isToggleable()));
-		assertThat(add("sin(x) = 0"), not(isToggleable()));
+		assertFalse(evaluateGeoElement(expression).isEuclidianToggleable());
 	}
 }

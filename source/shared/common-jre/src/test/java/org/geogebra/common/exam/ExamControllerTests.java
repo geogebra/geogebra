@@ -2,12 +2,13 @@ package org.geogebra.common.exam;
 
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public final class ExamControllerTests extends BaseExamTests {
 
@@ -35,13 +36,14 @@ public final class ExamControllerTests extends BaseExamTests {
         assertEquals(ExamState.IDLE, examController.getState());
         examController.prepareExam();
 
-        assertNull(examController.getStartDate()); // not yet started
-        assertNull(examController.getFinishDate()); // not yet ended
-        assertEquals(ExamState.PREPARING, examController.getState());
-        assertEquals(List.of(ExamState.PREPARING), examStates);
-        assertFalse(didRequestClearApps);
-        assertFalse(didRequestClearClipboard);
-        assertNull(activeMaterial);
+        assertAll(
+                () -> assertNull(examController.getStartDate()), // not yet started
+                () -> assertNull(examController.getFinishDate()), // not yet ended
+                () -> assertEquals(ExamState.PREPARING, examController.getState()),
+                () -> assertEquals(List.of(ExamState.PREPARING), examStates),
+                () -> assertFalse(didRequestClearApps),
+                () -> assertFalse(didRequestClearClipboard),
+                () -> assertNull(activeMaterial));
     }
 
     @Test
@@ -50,21 +52,23 @@ public final class ExamControllerTests extends BaseExamTests {
         examController.prepareExam();
         examController.startExam(ExamType.VLAANDEREN, null);
 
-        assertNotNull(examController.getStartDate()); // started
-        assertNull(examController.getFinishDate()); // not yet ended
-        assertEquals(ExamState.ACTIVE, examController.getState());
-        assertEquals(List.of(ExamState.PREPARING, ExamState.ACTIVE), examStates);
-        assertTrue(didRequestClearApps);
-        assertTrue(didRequestClearClipboard);
-        assertNotNull(activeMaterial);
+        assertAll(
+                () -> assertNotNull(examController.getStartDate()), // started
+                () -> assertNull(examController.getFinishDate()), // not yet ended
+                () -> assertEquals(ExamState.ACTIVE, examController.getState()),
+                () -> assertEquals(List.of(ExamState.PREPARING, ExamState.ACTIVE), examStates),
+                () -> assertTrue(didRequestClearApps),
+                () -> assertTrue(didRequestClearClipboard),
+                () -> assertNotNull(activeMaterial));
+
     }
 
     @Test
     public void testStartExamWithoutActiveContext() {
         examController.prepareExam();
-        assertThrows("starting exam without calling setActiveContext() should throw",
-                IllegalStateException.class,
-                () -> examController.startExam(ExamType.GENERIC, null));
+        assertThrows(IllegalStateException.class,
+                () -> examController.startExam(ExamType.GENERIC, null),
+                "starting exam without calling setActiveContext() should throw");
     }
 
     // start exam without calling prepare() first (e.g., in crash recovery)
@@ -82,14 +86,16 @@ public final class ExamControllerTests extends BaseExamTests {
         examController.startExam(ExamType.VLAANDEREN, null);
         examController.finishExam();
 
-        assertNotNull(examController.getStartDate()); // started
-        assertNotNull(examController.getFinishDate()); // ended
-        assertNotNull(examController.getExamSummary(app.getConfig(), app.getLocalization()));
-        assertEquals(ExamState.FINISHED, examController.getState());
-        assertEquals(List.of(
-                ExamState.PREPARING,
-                ExamState.ACTIVE,
-                ExamState.FINISHED), examStates);
+        assertAll(
+                () -> assertNotNull(examController.getStartDate()), // started
+                () -> assertNotNull(examController.getFinishDate()), // ended
+                () -> assertNotNull(examController.getExamSummary(
+                        app.getConfig(), app.getLocalization())),
+                () -> assertEquals(ExamState.FINISHED, examController.getState()),
+                () -> assertEquals(List.of(
+                        ExamState.PREPARING,
+                        ExamState.ACTIVE,
+                        ExamState.FINISHED), examStates));
     }
 
     @Test
@@ -100,17 +106,19 @@ public final class ExamControllerTests extends BaseExamTests {
         examController.finishExam();
         examController.exitExam();
 
-        assertNull(examController.getStartDate());
-        assertNull(examController.getFinishDate());
-        assertEquals(ExamState.IDLE, examController.getState()); // back to initial state
-        assertEquals(List.of(
-                ExamState.PREPARING,
-                ExamState.ACTIVE,
-                ExamState.FINISHED,
-                ExamState.IDLE), examStates);
-        assertTrue(didRequestClearApps);
-        assertTrue(didRequestClearClipboard);
-        assertNull(activeMaterial);
+        assertAll(
+                () -> assertNull(examController.getStartDate()),
+                () -> assertNull(examController.getFinishDate()),
+                // back to initial state
+                () -> assertEquals(ExamState.IDLE, examController.getState()),
+                () -> assertEquals(List.of(
+                        ExamState.PREPARING,
+                        ExamState.ACTIVE,
+                        ExamState.FINISHED,
+                        ExamState.IDLE), examStates),
+                () -> assertTrue(didRequestClearApps),
+                () -> assertTrue(didRequestClearClipboard),
+                () -> assertNull(activeMaterial));
     }
 
     // Restrictions
@@ -120,8 +128,9 @@ public final class ExamControllerTests extends BaseExamTests {
         setInitialApp(SuiteSubApp.CAS);
         examController.prepareExam();
         examController.startExam(ExamType.VLAANDEREN, null); // doesn't allow CAS
-        assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
-        assertNotNull(activeMaterial);
+        assertAll(
+                () -> assertEquals(SuiteSubApp.GRAPHING, currentSubApp),
+                () -> assertNotNull(activeMaterial));
     }
 
     @Test
@@ -129,8 +138,9 @@ public final class ExamControllerTests extends BaseExamTests {
         setInitialApp(SuiteSubApp.GRAPHING);
         examController.prepareExam();
         examController.startExam(ExamType.VLAANDEREN, null);
-        assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
-        assertNotNull(activeMaterial);
+        assertAll(
+                () -> assertEquals(SuiteSubApp.GRAPHING, currentSubApp),
+                () -> assertNotNull(activeMaterial));
     }
 
     @Test
@@ -140,22 +150,25 @@ public final class ExamControllerTests extends BaseExamTests {
         examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.VLAANDEREN));
         examController.startExam(ExamType.VLAANDEREN, null);
 
-        // feature restrictions
-        assertTrue(examController
-                .isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION));
-        // command restrictions
-        assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
-        // TODO commandArgumentFilters
-        // expression restrictions
-        assertNull(evaluate("true || false"));
-        // context menu restrictions
-        assertEquals(List.of(Text, Help), contextMenuFactory.makeInputContextMenu(true));
-        // geo element property filters
-        assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-                app.getLocalization(),
-                List.of(new GeoPoint(app.getKernel().getConstruction()))));
-        // construction element setup
-        assertEquals(GColor.RED, evaluate("(1, 1)")[0].getFillColor());
+        assertAll(
+                // feature restrictions
+                () -> assertTrue(examController
+                        .isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION)),
+                // command restrictions
+                () -> assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative)),
+                // TODO commandArgumentFilters
+                // expression restrictions
+                () -> assertNull(evaluate("true || false")),
+                // context menu restrictions
+                () -> assertEquals(
+                        List.of(Text, Help),
+                        contextMenuFactory.makeInputContextMenu(true)),
+                // geo element property filters
+                () -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
+                        app.getLocalization(),
+                        List.of(new GeoPoint(app.getKernel().getConstruction())))),
+                // construction element setup
+                () -> assertEquals(GColor.RED, evaluate("(1, 1)")[0].getFillColor()));
 
         examController.finishExam();
         assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
@@ -173,8 +186,9 @@ public final class ExamControllerTests extends BaseExamTests {
         examController.setExamRestrictionsForTesting(
                 ExamRestrictions.forExamType(ExamType.BAYERN_CAS)); // only allows CAS app
         examController.startExam(ExamType.BAYERN_CAS, null);
-        assertEquals(SuiteSubApp.CAS, currentSubApp);
-        assertNotNull(activeMaterial);
+        assertAll(
+                () -> assertEquals(SuiteSubApp.CAS, currentSubApp),
+                () -> assertNotNull(activeMaterial));
     }
 
     @Test
@@ -185,11 +199,14 @@ public final class ExamControllerTests extends BaseExamTests {
         assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 
         switchApp(SuiteSubApp.GEOMETRY);
-        // restrictions should be reverted on the previous (Graphing app) command dispatcher...
-        assertTrue(previousCommandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
-        // ...and applied to the new (Geometry app) command dispatcher
-        assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
-        assertNotNull(activeMaterial);
+        assertAll(
+                // restrictions should be reverted
+                // on the previous (Graphing app) command dispatcher...
+                () -> assertTrue(previousCommandDispatcher
+                        .isAllowedByCommandFilters(Commands.Derivative)),
+                // ...and applied to the new (Geometry app) command dispatcher
+                () -> assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative)),
+                () -> assertNotNull(activeMaterial));
     }
 
     @Test
@@ -235,8 +252,9 @@ public final class ExamControllerTests extends BaseExamTests {
         Optional<AutocompleteProvider.Completion> completion =
                 provider.getCompletions("Max").filter(it -> it.getCommand().equals("Max"))
                         .findFirst();
-        assertTrue(completion.isPresent());
-        assertEquals(1, completion.get().syntaxes.size());
+        assertAll(
+                () -> assertTrue(completion.isPresent()),
+                () -> assertEquals(1, completion.get().syntaxes.size()));
     }
 
     @Test
@@ -246,15 +264,17 @@ public final class ExamControllerTests extends BaseExamTests {
 
         examController.prepareExam();
         examController.startExam(ExamType.GENERIC, null);
-        assertNotNull(evaluate("f(x) = x"));
-        assertNotNull(evaluate("Derivative(f)"));
+        assertAll(
+                () -> assertNotNull(evaluate("f(x) = x")),
+                () -> assertNotNull(evaluate("Derivative(f)")));
         examController.finishExam();
         examController.exitExam();
 
         examController.prepareExam();
         examController.startExam(ExamType.IB, null);
-        assertNotNull(evaluate("f(x) = x"));
-        assertNull(evaluate("Derivative(f)"));
+        assertAll(
+                () -> assertNotNull(evaluate("f(x) = x")),
+                () -> assertNull(evaluate("Derivative(f)")));
         examController.finishExam();
         examController.exitExam();
     }

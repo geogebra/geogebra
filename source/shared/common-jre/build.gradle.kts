@@ -24,10 +24,19 @@ dependencies {
     testImplementation(libs.hamcrest)
     testImplementation(libs.mockito.core)
 
+    // Junit 5 support with backward compatibility
+    testImplementation(platform(libs.junit5.bom))
+    testImplementation(libs.junit5.jupiter)
+    testImplementation(libs.junit5.vintage)
+
     testFixturesImplementation(project(":ggbjdk"))
     testFixturesImplementation(libs.junit)
     testFixturesImplementation(libs.hamcrest)
     testFixturesImplementation(libs.mockito.core)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 tasks.compileJava {

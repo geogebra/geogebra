@@ -1,5 +1,6 @@
 [versions]
-junit = "4.13.2"
+junit4 = "4.13.2"
+junit5 = "5.11.3"
 mockito = "5.14.2"
 hamcrest = "3.0"
 jogl = "2.5.0"
@@ -58,7 +59,10 @@ giac-gwt = { module = "fr.ujf-grenoble:giac-gwt", version.ref = "javagiac" }
 giac-android = { module = "org.geogebra:giac-android", version.ref = "javagiac" }
 giac-ios = { module = "fr.ujf-grenoble:igiac", version.ref = "javagiac" }
 
-junit = { module = "junit:junit", version.ref = "junit" }
+junit = { module = "junit:junit", version.ref = "junit4" }
+junit5-bom = { module = "org.junit:junit-bom", version.ref = "junit5"}
+junit5-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit5-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 

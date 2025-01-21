@@ -31,7 +31,7 @@ import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.test.commands.ErrorAccumulator;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class BaseExamTests implements ExamControllerDelegate {
 
@@ -118,7 +118,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         return (GeoElement) evaluate(expression)[0];
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         examController.setDelegate(this);
         examController.addListener(examStates::add);
