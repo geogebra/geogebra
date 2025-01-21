@@ -723,7 +723,7 @@ public final class ExamController {
 		@NonOwning
 		@Nonnull
 		final Localization localization;
-		@Nonnull
+		@NonOwning
 		@CheckForNull
 		final Settings settings;
 		@NonOwning

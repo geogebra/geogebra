@@ -234,8 +234,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 	 * This is mostly the same as in AlgoLineBisector.java. TODO: maybe
 	 * commonize. (non-Javadoc)
 	 * 
-	 * @see geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo#
-	 * getBotanaPolynomials()
+	 * See SymbolicParametersBotanaAlgo#getBotanaPolynomials
 	 */
 	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)

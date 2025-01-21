@@ -46,7 +46,7 @@ public final class ARUtil {
     }
 
     /**
-     * return positionData for focus square in AR
+     * @return positionData for focus square in AR
      */
     static public float[] getFocusSquarePositionData() {
         float[] positionData = new float[VERTICES_PER_CORNER * COORDS_PER_VERTEX * CORNERS_NB];

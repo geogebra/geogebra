@@ -18,8 +18,8 @@ import edu.uci.ics.jung.graph.util.TreeUtils;
  * 
  * @author Tom Nelson - tomnelson@dev.java.net
  *
- * @param <V>
- * @param <E>
+ * @param <V> vertex type
+ * @param <E> edge type
  */
 @SuppressWarnings("unchecked")
 public class MinimumSpanningForest2<V, E> {
