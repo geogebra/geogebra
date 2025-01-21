@@ -103,7 +103,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			setHeaderColor(graphics, controller.isSelected(-1, column));
-			renderer.drawColumnHeader(column, graphics, controller.getColumnName(column));
+			renderer.drawColumnHeader(column, graphics, controller::getColumnName);
 		}
 
 		graphics.translate(offsetX, -offsetY);
@@ -113,7 +113,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 		for (int row = portion.fromRow; row <= portion.toRow; row++) {
 			setHeaderColor(graphics, controller.isSelected(row, -1));
-			renderer.drawRowHeader(row, graphics, controller.getRowName(row));
+			renderer.drawRowHeader(row, graphics, controller::getRowName);
 		}
 		graphics.translate(0, offsetY);
 		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());

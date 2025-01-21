@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -155,9 +156,9 @@ public final class SpreadsheetRenderer {
 				topLeftY + TEXT_HEIGHT + TEXT_PADDING);
 	}
 
-	void drawRowHeader(int row, GGraphics2D graphics, String name) {
+	void drawRowHeader(int row, GGraphics2D graphics, Function<Integer, String> nameProvider) {
 		Rectangle cellBorder = layout.getRowHeaderBounds(row);
-		ensureHeaders(rowHeaders, row, name);
+		ensureHeaders(rowHeaders, row, nameProvider);
 		rowHeaders.get(row).draw(graphics, cellBorder);
 	}
 
@@ -169,10 +170,10 @@ public final class SpreadsheetRenderer {
 	}
 
 	private void ensureHeaders(List<SelfRenderable> rowHeaders, int row,
-			String name) {
+			Function<Integer, String> nameProvider) {
 		for (int i = rowHeaders.size(); i <= row; i++) {
 			rowHeaders.add(new SelfRenderable(stringRenderer, GFont.PLAIN,
-					CellFormat.ALIGN_CENTER, name));
+					CellFormat.ALIGN_CENTER, nameProvider.apply(i)));
 		}
 	}
 
@@ -183,9 +184,10 @@ public final class SpreadsheetRenderer {
 						? layout.getTotalHeight() : layout.getColumnHeaderHeight());
 	}
 
-	void drawColumnHeader(int column, GGraphics2D graphics, String name) {
+	void drawColumnHeader(int column, GGraphics2D graphics,
+			Function<Integer, String> nameProvider) {
 		Rectangle cellBorder = layout.getColumnHeaderBounds(column);
-		ensureHeaders(columnHeaders, column, name);
+		ensureHeaders(columnHeaders, column, nameProvider);
 		columnHeaders.get(column).draw(graphics, cellBorder);
 	}
 

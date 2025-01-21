@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
@@ -137,6 +138,20 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// resizing header row should not work
 		assertThat(graphics.toString(), endsWith(",5"));
+	}
+
+	@Test
+	public void testRowNumbersAfterResize() {
+		StringCapturingGraphics graphics = new StringCapturingGraphics();
+		// jump to a small viewport below the current screen
+		spreadsheet.setViewport(new Rectangle(0, 140, 400, 500));
+		spreadsheet.draw(graphics);
+		graphics = new StringCapturingGraphics();
+		// paint the whole area
+		spreadsheet.setViewport(new Rectangle(0, 140, 0, 500));
+		spreadsheet.draw(graphics);
+		assertEquals("col0,col1,col2,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16",
+				graphics.toString());
 	}
 
 	@Test
