@@ -43,5 +43,4 @@ public class FormulaTextTest extends BaseUnitTest {
 		add("eq:num/7=txt");
 		assertThat(add("FormulaText(eq)"), hasValue("\\frac{22}{7}\\, = \\,3.14"));
 	}
-
 }

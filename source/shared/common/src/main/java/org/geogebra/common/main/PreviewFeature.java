@@ -40,7 +40,9 @@ public enum PreviewFeature {
 	/**
 	 * APPS-6237
 	 */
-	CALCULATE_MENU_ITEM;
+	CALCULATE_MENU_ITEM,
+	/** APPS-5815 */
+	RATIONALIZE_FRACTIONS;
 
 	/**
 	 * Global flag to activate feature previews.

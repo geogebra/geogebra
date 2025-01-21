@@ -10,7 +10,13 @@ import org.geogebra.common.plugin.Operation;
 
 public class Surds {
 
-	protected static ExpressionValue getResolution(ExpressionNode expr,
+	/**
+	 * Get the surd1 from expression.
+	 * @param expr {@link ExpressionNode}
+	 * @param kernel {@link Kernel}
+	 * @return the surd if exists, null otherwise.
+	 */
+	public static ExpressionValue getResolution(ExpressionNode expr,
 			Kernel kernel) {
 		ExpressionValue left = expr.getLeft();
 		Operation op = expr.getOperation();

@@ -541,8 +541,15 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private boolean updateOutputValuePanel() {
+		initIfRationazableFraction();
 		return updateValuePanel(geo.getLaTeXDescriptionRHS(true,
 				app.getConfig().getOutputStringTemplate()));
+	}
+
+	private void initIfRationazableFraction() {
+		if (geo.isGeoNumeric() && geo.getDefinition() != null) {
+			geo.getDefinition().isRationalizableFraction();
+		}
 	}
 
 	private void updateSymbolicMode(GeoElement geoElement) {

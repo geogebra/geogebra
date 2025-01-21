@@ -124,7 +124,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 		if (AlgebraItem.shouldShowEngineeringNotationOutputButton(geo)) {
 			toggleButton.updateIcons(MaterialDesignResources.INSTANCE.engineering_notation_white(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-		} else if (AlgebraItem.evaluatesToFraction(geo)) {
+		} else if (AlgebraItem.evaluatesToFraction(geo)
+				&& !AlgebraItem.isRationalizableFraction(geo)) {
 			toggleButton.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
 			Dom.toggleClass(toggleButton, "show-fraction", !toggleButton.isSelected());
@@ -136,7 +137,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	private static void updateTriStateToggleButtonIcons(GeoElement geo,
 			TriStateToggleButton button) {
-		if (AlgebraItem.evaluatesToFraction(geo)) {
+		if (AlgebraItem.evaluatesToFraction(geo)
+				&& !AlgebraItem.isRationalizableFraction(geo)) {
 			button.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
 					MaterialDesignResources.INSTANCE.engineering_notation_white(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
@@ -274,8 +276,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		if (latex
 				&& (geo1.isLaTeXDrawableGeo()
-						|| AlgebraItem.isGeoFraction(geo1)
-						|| AlgebraItem.isGeoSurd(geo1))) {
+				|| AlgebraItem.isGeoFraction(geo1)
+				|| AlgebraItem.isRationalizableFraction(geo1)
+				|| AlgebraItem.isGeoSurd(geo1))) {
 			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
 					fontSize);
 			valCanvas.addStyleName("canvasVal");

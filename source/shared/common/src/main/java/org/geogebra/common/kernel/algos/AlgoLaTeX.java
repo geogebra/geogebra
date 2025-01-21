@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -194,6 +195,10 @@ public class AlgoLaTeX extends AlgoElement {
 									.toString(((GeoCasCell) geoToShow)
 											.getLaTeXTemplate()));
 				} else {
+					ExpressionNode definition = geoToShow.getDefinition();
+                    if (definition != null) {
+						definition.initRationalizedFraction();
+					}
 					text.setTextString(getGeoString(geoToShow, tpl, substitute));
 				}
 			}
