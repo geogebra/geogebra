@@ -1033,10 +1033,6 @@ public final class SpreadsheetController {
 			return bounds != null;
 		}
 
-		void clearInput() {
-			cellEditor.getMathField().parse("");
-		}
-
 		void type(String key) {
 			KeyboardInputAdapter.type(cellEditor.getMathField(), key);
 		}

@@ -83,20 +83,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	/**
-	 * creates a segment linking v1 to v2
-	 * 
-	 * @param c
-	 *            construction
-	 * @param v1
-	 *            start point
-	 * @param v2
-	 *            end point
-	 */
-	private GeoSegment3D(Construction c, Coords v1, Coords v2) {
-		super(c, v1, v2.sub(v1));
-	}
-
-	/**
 	 * returns segment's length
 	 * 
 	 * @return length

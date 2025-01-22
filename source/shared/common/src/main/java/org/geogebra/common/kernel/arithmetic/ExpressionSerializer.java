@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.export.MathmlTemplate;

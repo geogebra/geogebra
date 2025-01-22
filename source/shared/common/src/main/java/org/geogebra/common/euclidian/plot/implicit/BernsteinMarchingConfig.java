@@ -266,10 +266,6 @@ public enum BernsteinMarchingConfig implements MarchingConfig {
 		return map.getOrDefault(config, T_INV);
 	}
 
-	private static double minAbs(double a, double b) {
-		return Math.min(Math.abs(a), Math.abs(b));
-	}
-
 	public GColor color() {
 		return GColor.BLACK;
 	}

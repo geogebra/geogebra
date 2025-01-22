@@ -17,10 +17,6 @@ public enum Algos implements GetCommand {
 		this.command = "Expression";
 	}
 
-	private Algos(Commands command) {
-		this.command = command.name();
-	}
-
 	@Override
 	public String getCommand() {
 		return command;

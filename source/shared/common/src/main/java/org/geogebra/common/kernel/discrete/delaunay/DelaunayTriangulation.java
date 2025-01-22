@@ -1361,7 +1361,7 @@ public class DelaunayTriangulation {
 	}
 
 	private void updateBoundingBox(PointDt p) {
-		double x = p.x(), y = p.y(), z = p.z();
+		double x = p.x(), y = p.y();
 		if (_bb_min == null) {
 			_bb_min = new PointDt(p);
 			_bb_max = new PointDt(p);
