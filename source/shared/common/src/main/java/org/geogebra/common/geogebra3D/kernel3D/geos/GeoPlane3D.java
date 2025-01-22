@@ -225,7 +225,7 @@ public class GeoPlane3D extends GeoElement3D
 	// GRID AND PLATE
 
 	/**
-	 * sets corners of the plate * @param x1 x-min
+	 * Sets corners of the plate.
 	 * 
 	 * @param x1
 	 *            x-min

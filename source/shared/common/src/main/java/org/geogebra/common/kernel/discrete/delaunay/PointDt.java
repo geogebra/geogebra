@@ -27,12 +27,11 @@ public class PointDt {
 
 	double x;
 	double y;
-	double z;
 
 	@Override
 	public int hashCode() {
 
-		double[] tempArray = { x, y, z };
+		double[] tempArray = { x, y };
 
 		return java.util.Arrays.hashCode(tempArray);
 	}
@@ -46,22 +45,6 @@ public class PointDt {
 	}
 
 	/**
-	 * constructs a 3D point
-	 * 
-	 * @param x
-	 *            x-coord
-	 * @param y
-	 *            y-coord
-	 * @param z
-	 *            z-coord
-	 */
-	public PointDt(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-
-	/**
 	 * constructs a 3D point with a z value of 0.
 	 * 
 	 * @param x
@@ -70,7 +53,8 @@ public class PointDt {
 	 *            y-coord
 	 */
 	public PointDt(double x, double y) {
-		this(x, y, 0);
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
@@ -82,7 +66,6 @@ public class PointDt {
 	public PointDt(PointDt p) {
 		x = p.x;
 		y = p.y;
-		z = p.z;
 	}
 
 	/** @return the x-coordinate of this point. */
@@ -117,17 +100,7 @@ public class PointDt {
 
 	/** @return the z-coordinate of this point. */
 	public double z() {
-		return z;
-	}
-
-	/**
-	 * Sets the z coordinate.
-	 * 
-	 * @param Z
-	 *            The new z coordinate.
-	 */
-	public void setZ(double Z) {
-		this.z = Z;
+		return 0;
 	}
 
 	/**
@@ -188,7 +161,7 @@ public class PointDt {
 	/** @return a String in the [x,y,z] format */
 	@Override
 	public String toString() {
-		return " Pt[" + x + "," + y + "," + z + "]";
+		return " Pt[" + x + "," + y + ",0]";
 	}
 
 	/**
@@ -208,17 +181,10 @@ public class PointDt {
 	 * @return the L2 distance NOTE: 3D only!!!
 	 */
 	public double distance3D(PointDt p) {
-		return MyMath.length(p.x() - x, p.y() - y, p.z() - z);
+		return MyMath.length(p.x() - x, p.y() - y, p.z());
 		// double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2)
 		// + Math.pow(p.z() - z, 2);
 		// return Math.sqrt(temp);
-	}
-
-	/**
-	 * @return a String: x y z (used by the save to file - write_tsin method).
-	 */
-	public String toFile() {
-		return x + " " + y + " " + z;
 	}
 
 	String toFileXY() {

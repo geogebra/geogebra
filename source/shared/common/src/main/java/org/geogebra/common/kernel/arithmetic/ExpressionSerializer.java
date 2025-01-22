@@ -303,9 +303,6 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
 			} else if (stringType.isGiac()) {
-				ArrayList<ExpressionNode> crossArg = new ArrayList<>();
-				crossArg.add(left.wrap());
-				crossArg.add(right.wrap());
 				sb.append(kernel.getGeoGebraCAS().translateCommandSignature("Cross.2")
 						.replace("%0", leftStr).replace("%1", rightStr));
 				// from Ggb2Giac Cross.2

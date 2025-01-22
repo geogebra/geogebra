@@ -229,7 +229,6 @@ public class Hits3D extends Hits {
 		}
 
 		// sets the hits to this
-		ArrayList<GeoElement> segmentList = new ArrayList<>();
 		drawables3D.clear();
 
 		for (TreeSetOfDrawable3D set : hitSetSet) {
@@ -238,11 +237,7 @@ public class Hits3D extends Hits {
 				GeoElement geo = d.getGeoElement();
 				addToHits(d, this);
 
-				// add the parent of this if it's a segment from a GeoPolygon3D
-				// or GeoPolyhedron
-				if (geo.isGeoSegment()) {
-					segmentList.add(geo);
-				} else if (geo.isGeoConic()) {
+				if (geo.isGeoConic()) {
 					if (d.getPickingType() == PickingType.POINT_OR_CURVE) {
 						((GeoConicND) geo).setLastHitType(HitType.ON_BOUNDARY);
 					} else { // PickingType.SURFACE

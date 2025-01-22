@@ -2680,7 +2680,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            only set to true when exp only includes values and no (used)
 	 *            variable names
 	 * @return result string (null possible)
-	 * @throws Throwable
+	 * @throws CASException
 	 *             when CAS failed
 	 */
 	private String evaluateGeoGebraCAS(String exp, boolean useCaching,

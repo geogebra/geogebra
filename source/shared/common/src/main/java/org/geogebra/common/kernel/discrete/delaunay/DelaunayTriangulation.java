@@ -262,7 +262,7 @@ public class DelaunayTriangulation {
 			// update between added triangles
 			for (TriangleDt addedTriangle2 : addedTriangles) {
 				if ((addedTriangle1 != addedTriangle2)
-						&& (shareSegment(addedTriangle1, addedTriangle2))) {
+						&& shareSegment(addedTriangle1, addedTriangle2)) {
 					updateNeighbor(addedTriangle1, addedTriangle2);
 				}
 			}
@@ -1360,33 +1360,6 @@ public class DelaunayTriangulation {
 		return contains(new PointDt(x, y));
 	}
 
-	/**
-	 *
-	 * @param q
-	 *            Query point
-	 * @return the q point with updated Z value (z value is as given the
-	 *         triangulation).
-	 */
-	public PointDt z(PointDt q) {
-		TriangleDt t = find(q);
-		return t.z(q);
-	}
-
-	/**
-	 *
-	 * @param x
-	 *            - X cordination of the query point
-	 * @param y
-	 *            - Y cordination of the query point
-	 * @return the q point with updated Z value (z value is as given the
-	 *         triangulation).
-	 */
-	public double z(double x, double y) {
-		PointDt q = new PointDt(x, y);
-		TriangleDt t = find(q);
-		return t.z_value(q);
-	}
-
 	private void updateBoundingBox(PointDt p) {
 		double x = p.x(), y = p.y(), z = p.z();
 		if (_bb_min == null) {
@@ -1402,11 +1375,6 @@ public class DelaunayTriangulation {
 				_bb_min.y = y;
 			} else if (y > _bb_max.y()) {
 				_bb_max.y = y;
-			}
-			if (z < _bb_min.z) {
-				_bb_min.z = z;
-			} else if (z > _bb_max.z()) {
-				_bb_max.z = z;
 			}
 		}
 	}

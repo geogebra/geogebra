@@ -210,7 +210,7 @@ public class FactorOut implements SimplifyNode {
 	ExpressionNode factorOutGCD(ExpressionNode rightTree, int constNumber, Operation operation,
 			boolean numberFirst) {
 		double treeMultiplier = rightTree.getLeft().evaluateDouble();
-		double gcd = Kernel.gcd(constNumber, (int) Math.round(treeMultiplier));
+		double gcd = Kernel.gcd(constNumber, Math.round(treeMultiplier));
 
 		double constFactor = constNumber / gcd;
 		double treeFactor = treeMultiplier / gcd;
