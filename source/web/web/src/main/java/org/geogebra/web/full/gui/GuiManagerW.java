@@ -1283,7 +1283,8 @@ public class GuiManagerW extends GuiManager
 			toolbarPanel.getToolBar().buildGui();
 			toolbarPanel.setLabels();
 		}
-		SetLabels notesLayout = getNotesLayout();
+		SetLabels notesLayout = (((AppWFull) app).getAppletFrame())
+				.getNotesLayout();
 		if (notesLayout != null) {
 			notesLayout.setLabels();
 		}
