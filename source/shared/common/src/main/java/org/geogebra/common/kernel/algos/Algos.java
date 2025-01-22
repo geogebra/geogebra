@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
