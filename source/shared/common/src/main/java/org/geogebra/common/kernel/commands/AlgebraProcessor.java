@@ -3572,6 +3572,9 @@ public class AlgebraProcessor {
 			if (isEquation(x) && isEquation(y)) {
 				return processEquationIntersect(x, y);
 			}
+			if (x.unwrap() instanceof MyVecNDNode || y.unwrap() instanceof MyVecNDNode) {
+				throw new MyError(loc, Errors.InvalidInput);
+			}
 		}
 
 		GeoVec2D p;

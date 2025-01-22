@@ -205,6 +205,13 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void invalidTuples() {
+		shouldFail("((1,2),3)", "Please check", getApp());
+		shouldFail("(0,(1,2,3))", "Please check", getApp());
+		shouldFail("((1,2),(3,4,5))", "Please check", getApp());
+	}
+
+	@Test
 	public void equationListTest() {
 		t("x+y=1..5",
 				"{x + y = 1, x + y = 2, x + y = 3, x + y = 4, x + y = 5}");
