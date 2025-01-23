@@ -125,7 +125,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		// check special cases
 
-		// if g is defined as a tangent of c, we dont't need
+		// if g is defined as a tangent of c, we don't need
 		// to compute anything
 		if (g.getParentAlgorithm() instanceof TangentAlgo) {
 			TangentAlgo algo = (TangentAlgo) g.getParentAlgorithm();
@@ -558,7 +558,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				pointList, permutation, !isPermutationNeeded, 0.000001);
 		isPermutationNeeded = false;
 
-		// make sure intresection points lie on limited paths
+		// make sure intersection points lie on limited paths
 		if (isLimitedPathSituation) {
 			handleLimitedPaths();
 		}

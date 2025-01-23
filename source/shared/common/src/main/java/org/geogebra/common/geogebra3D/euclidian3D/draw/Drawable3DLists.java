@@ -77,7 +77,7 @@ public class Drawable3DLists {
 	 * add a list of drawables
 	 * 
 	 * @param list
-	 *            list of drawabls to be added
+	 *            list of drawable objects to be added
 	 */
 	public void add(LinkedList<Drawable3D> list) {
 		for (Drawable3D d : list) {
@@ -567,7 +567,7 @@ public class Drawable3DLists {
 	 *            mouse x location
 	 * @param y
 	 *            mouse y location
-	 * @return first hitted label geo
+	 * @return first hit label geo
 	 */
 	final public GeoElement getLabelHit(double x, double y) {
 		for (Drawable3DList list : lists) {
@@ -591,7 +591,7 @@ public class Drawable3DLists {
 	 *            mouse origin
 	 * @param direction
 	 *            mouse direction
-	 * @return first hitted label geo
+	 * @return first hit label geo
 	 */
 	public GeoElement getLabelHit(Coords origin, Coords direction) {
 		for (Drawable3DList list : lists) {

@@ -1970,11 +1970,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Save all perspectives included in a document into an array with temporary
 	 * perspectives.
 	 *
-	 * @param perspectives
-	 *            array of perspetctives in the document
+	 * @param perspective
+	 *            perspective for the document
 	 */
-	public void setTmpPerspective(Perspective perspectives) {
-		tmpPerspective = perspectives;
+	public void setTmpPerspective(Perspective perspective) {
+		tmpPerspective = perspective;
 	}
 
 	/**

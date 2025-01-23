@@ -76,7 +76,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	public GAffineTransform getTransform(GeoConicND conic, Coords M,
 			Coords[] ev) {
 
-		// use already computed for this view middlepoint M and eigen vecs ev
+		// use already computed for this view midpoint M and eigen vecs ev
 		transform.setTransform(ev[0].getX(), ev[0].getY(), ev[1].getX(),
 				ev[1].getY(), M.getX(), M.getY());
 

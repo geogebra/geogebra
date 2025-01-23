@@ -187,7 +187,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	}
 
 	/**
-	 * says that it's an helper algo for quadric limites (cone/cylinder)
+	 * says that it's an helper algo for quadric limits (cone/cylinder)
 	 */
 	public void setIsHelperAlgo() {
 		isHelperAlgo = true;

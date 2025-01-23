@@ -70,7 +70,7 @@ public class CommandDispatcherGiac {
 		Ci(Operation.CI),
 		/** exp integral */
 		Ei(Operation.EI),
-		/** Reimann-Zeta function */
+		/** Riemann-Zeta function */
 		Zeta(Operation.ZETA),
 		/** Beta function */
 		Beta(Operation.NO_OPERATION),

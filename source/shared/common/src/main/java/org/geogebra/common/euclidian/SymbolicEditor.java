@@ -85,7 +85,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	/**
 	 * Apply changes and hide the widget.
-	 * Deferred, so that we can avoid infine recursion in update.
+	 * Deferred, so that we can avoid infinite recursion in update.
 	 */
 	public void applyAndHidDeferred() {
 		if (getDrawInputBox().isEditing()) {

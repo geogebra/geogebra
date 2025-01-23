@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 class PermutationOfGeOElementsUtil {
 	private GeoElement[] arr;
-	private int[] permSwappings;
+	private int[] permSwaps;
 
 	/**
 	 * @param arr
@@ -33,9 +33,9 @@ class PermutationOfGeOElementsUtil {
 		// this.arr = arr.clone();
 		this.arr = new GeoElement[arr.length];
 		System.arraycopy(arr, 0, this.arr, 0, arr.length);
-		this.permSwappings = new int[permSize];
-		for (int i = 0; i < permSwappings.length; i++) {
-			permSwappings[i] = i;
+		this.permSwaps = new int[permSize];
+		for (int i = 0; i < permSwaps.length; i++) {
+			permSwaps[i] = i;
 		}
 	}
 
@@ -47,26 +47,25 @@ class PermutationOfGeOElementsUtil {
 			return null;
 		}
 
-		GeoElement[] res = new GeoElement[permSwappings.length];
-		System.arraycopy(arr, 0, res, 0, permSwappings.length);
-		// GeoElement[] res = Arrays.copyOf(arr, permSwappings.length);
+		GeoElement[] res = new GeoElement[permSwaps.length];
+		System.arraycopy(arr, 0, res, 0, permSwaps.length);
 
 		// Prepare next
-		int i = permSwappings.length - 1;
-		while (i >= 0 && permSwappings[i] == arr.length - 1) {
-			swap(i, permSwappings[i]); // Undo the swap represented by
-										// permSwappings[i]
-			permSwappings[i] = i;
+		int i = permSwaps.length - 1;
+		while (i >= 0 && permSwaps[i] == arr.length - 1) {
+			swap(i, permSwaps[i]); // Undo the swap represented by
+										// permSwaps[i]
+			permSwaps[i] = i;
 			i--;
 		}
 
 		if (i < 0) {
 			arr = null;
 		} else {
-			int prev = permSwappings[i];
+			int prev = permSwaps[i];
 			swap(i, prev);
 			int next = prev + 1;
-			permSwappings[i] = next;
+			permSwaps[i] = next;
 			swap(i, next);
 		}
 

@@ -734,7 +734,7 @@ public class ToolBar {
 
 	/**
 	 * @param app
-	 *            applocation
+	 *            application
 	 * @return All tools as a toolbar definition string
 	 */
 	public static String getAllTools(App app) {

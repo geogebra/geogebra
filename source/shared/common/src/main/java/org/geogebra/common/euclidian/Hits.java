@@ -263,9 +263,9 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	/**
-	 * remove all conics hitted on the filling, not on the boundary
+	 * remove all conics hit on the filling, not on the boundary
 	 */
-	final public void removeConicsHittedOnFilling() {
+	final public void removeConicsHitOnFilling() {
 		Iterator<GeoElement> it = this.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();

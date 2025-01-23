@@ -3605,7 +3605,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		case LATEX:
 			return "\\mathit{e_{\\gamma}}";
 		case SCREEN_READER_ASCII:
-			return "euler gamme";
+			return "euler gamma";
 		}
 		return Unicode.EULER_GAMMA_STRING;
 	}

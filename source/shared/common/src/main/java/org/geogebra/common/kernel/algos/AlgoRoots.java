@@ -426,7 +426,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	private static final boolean signChanged(Function f, double x, double maxDelta) {
 		int subsamples = 100;
-		// MIN_PRCISION * 10 used in AlgoRootsPolynomial
+		// MIN_PRECISION * 10 used in AlgoRootsPolynomial
 		double delta = Math.min(Kernel.MIN_PRECISION * 10, maxDelta / (subsamples + 1));
 		double left, right, lefty, righty;
 		left = x - delta;

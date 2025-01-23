@@ -71,7 +71,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * @param c
 	 *            construction
 	 * @param isIntersection
-	 *            whetherthis is intersection line
+	 *            whether this is an intersection line
 	 */
 	public GeoCoordSys1D(Construction c, boolean isIntersection) {
 		super(c);

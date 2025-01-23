@@ -69,7 +69,7 @@ public class AlgoListElement extends AlgoElement {
 
 		element = createGenericElementForFlatList(geoList, indexFrom(index), topLevel);
 
-		if (element.isGeoPolygon()) { // ensure type will not be sticked to e.g.
+		if (element.isGeoPolygon()) { // ensure type will not be categorized as e.g.
 										// "triangle"
 			((GeoPolygon) element).setNotFixedPointsLength(true);
 		}

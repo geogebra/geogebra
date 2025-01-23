@@ -1180,7 +1180,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public static boolean collinear(GeoPoint A, GeoPoint B, GeoPoint C) {
 		// A, B, C are collinear iff det(ABC) == 0
 
-		// calculate the determinante of ABC
+		// calculate the determinant of ABC
 		// det(ABC) = sum1 - sum2
 
 		double sum1 = A.x * B.y * C.z + B.x * C.y * A.z + C.x * A.y * B.z;

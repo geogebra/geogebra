@@ -112,7 +112,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 	}
 
 	@Override
-	protected String[] replaceXYarguments(ExpressionNode[] arg) {
+	protected String[] replaceXYArguments(ExpressionNode[] arg) {
 		String[] newXYZ = new String[3];
 
 		if (arg.length == 4 || arg.length == 5 || arg.length == 6) {

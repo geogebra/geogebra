@@ -402,7 +402,7 @@ public abstract class PropertiesView implements View {
 			if (type == OptionType.EUCLIDIAN || type == OptionType.EUCLIDIAN2) {
 
 				if (app.getActiveEuclidianView().getEuclidianController()
-						.checkBoxOrTextfieldOrButtonJustHitted()) {
+						.checkBoxOrTextFieldOrButtonJustHit()) {
 					// hit check box or text field : does nothing
 					return;
 				}

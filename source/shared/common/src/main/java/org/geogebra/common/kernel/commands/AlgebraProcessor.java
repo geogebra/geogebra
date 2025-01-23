@@ -2567,7 +2567,7 @@ public class AlgebraProcessor {
 	 * @param coefX
 	 *            output array for coeffs
 	 * @param mult
-	 *            multiplicator
+	 *            multiplier
 	 * @param loc2
 	 *            variable
 	 * @return degree if successful, -1 otherwise
@@ -2644,7 +2644,7 @@ public class AlgebraProcessor {
 	 * @param coefX
 	 *            output array for coefficients
 	 * @param scale
-	 *            multiplicator
+	 *            multiplier
 	 *
 	 * @param var
 	 *            variable

@@ -171,7 +171,7 @@ public enum GeoClass {
 	/** DEFAULT */
 	DEFAULT("Default", 160, false),
 
-	/** SYmbolic row in CAS calc */
+	/** Symbolic row in CAS calc */
 	SYMBOLIC("Symbolic", 0, false),
 
 	/** Inline text */
