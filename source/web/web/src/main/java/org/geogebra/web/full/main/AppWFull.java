@@ -64,7 +64,6 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.keyboard.LocalizedTemplateKeyProvider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.MyError.Errors;
@@ -1235,7 +1234,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public TemplateKeyProvider getTemplateKeyProvider() {
-		return new LocalizedTemplateKeyProvider(this);
+		return this::getPointTemplateKey;
 	}
 
 	/**
@@ -2376,7 +2375,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void attachToExamController() {
 		examController.registerContext(this,
-				getKernel().getAlgoDispatcher(),
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor(),
 				getLocalization(),
@@ -2386,7 +2384,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getKernel().getInputPreviewHelper());
 		examController.registerRestrictable(this);
 		examController.registerRestrictable(getEuclidianView1());
-		examController.registerRestrictable(getConfig());
 		examController.registerDelegate(new ExamControllerDelegateW(this));
 		examController.addListener(getExamEventBus());
 	}
@@ -2396,7 +2393,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		examController.unregisterContext(this);
 		examController.unregisterRestrictable(this);
 		examController.unregisterRestrictable(getEuclidianView1());
-		examController.unregisterRestrictable(getConfig());
 		examController.removeListener(getExamEventBus());
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
 			GlobalScope.examController.unregisterRestrictable(
@@ -2493,10 +2489,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));
 		final Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective(), getGuiManager().getLayout());
-
-		if (examController.isExamActive()) {
-			examController.reapplyRestrictionsToRestrictables();
-		}
 		updateSidebarAndMenu(subApp);
 		reinitSettings();
 		clearConstruction();

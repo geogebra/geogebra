@@ -62,13 +62,6 @@ class EditorChecker {
 		fromParser("");
 	}
 
-	public void checkLaTeX(String output) {
-		assertEquals(output,
-				TeXSerializer.serialize(getRootComponent()));
-		// clean the checker after typing
-		fromParser("");
-	}
-
 	public void checkGGBMath(String output) {
 		MathSequence rootComponent = getRootComponent();
 

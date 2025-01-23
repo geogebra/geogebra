@@ -352,7 +352,7 @@ public class AlgoAreCongruent extends AlgoElement
 				auxVars[3] = new PVariable(kernel);
 
 				// We want to prove, that the distance between foci points and
-				// directrices are equal
+				// directrixes are equal
 				// FP orthogonal to AB
 				botanaPolynomials[0][0] = PPolynomial.perpendicular(v1[8], v1[9],
 						auxVars[0], auxVars[1], v1[4], v1[5], v1[6], v1[7]);

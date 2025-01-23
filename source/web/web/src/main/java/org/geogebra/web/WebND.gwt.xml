@@ -2,7 +2,6 @@
 <module>
 
     <inherits name='org.geogebra.web.Html5'/>
-    <inherits name='org.geogebra.CommonKeyboard'/>
     <inherits name='org.geogebra.keyboard.KeyboardWeb'/>
     <inherits name='fr.grenoble.ujf.Giac'/>
     <inherits name='org.geogebra.web.Carota'/>

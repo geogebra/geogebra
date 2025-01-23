@@ -26,9 +26,9 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	private double bottom;
 	private double top;
 
-	/** min value for limits */
+	/** min value for limites */
 	private double min;
-	/** max value for limits */
+	/** max value for limites */
 	private double max;
 
 	private double[] tmpDouble2bis = new double[2];

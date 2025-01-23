@@ -869,14 +869,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		if (app.getConfig().isCoordinatesObjectSettingEnabled()) {
 			tab.addModel(new CoordsModel(app));
 		}
-		if (app.getConfig().getEquationBehaviour().allowsChangingEquationFormsByUser()) {
-			tab.addModel(new LineEqnModel(app));
-		}
+		tab.addModel(new LineEqnModel(app));
 		tab.addModel(new PlaneEqnModel(app));
 		tab.addModel(new SymbolicModel(app));
-		if (app.getConfig().getEquationBehaviour().allowsChangingEquationFormsByUser()) {
-			tab.addModel(new ConicEqnModel(app));
-		}
+		tab.addModel(new ConicEqnModel(app));
 		tab.addModel(new AnimationSpeedModel(getAppW()));
 		tab.addModel(new AnimationStepModel(getAppW()));
 		tab.addModel(new VerticalIncrementModel(getAppW()));

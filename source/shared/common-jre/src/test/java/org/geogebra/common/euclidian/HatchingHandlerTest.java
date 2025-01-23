@@ -29,6 +29,7 @@ public class HatchingHandlerTest {
 
 	private AwtFactoryCommon.GTexturePaintCommon getSymbolFill(App app, int size) {
 		return (AwtFactoryCommon.GTexturePaintCommon) new HatchingHandler().setHatching(
+				new GGraphicsCommon(),
 				new DefaultBasicStroke(),
 				GColor.GREEN, GColor.RED, 0, size / 2.5, 0,
 				FillType.SYMBOLS, "X", app);

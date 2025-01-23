@@ -237,27 +237,27 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 	@Override
 	public GeoPointND pointIn(String label, Region region, Coords coords,
-			boolean addToConstruction, boolean complexCoord, boolean coords2D) {
+			boolean addToConstruction, boolean complex, boolean coords2D) {
 
 		if (region.isRegion3D()) {
 			return getManager3D().point3DIn(label, region, coords,
 					addToConstruction, coords2D);
 		}
 
-		return super.pointIn(label, region, coords, addToConstruction, complexCoord,
+		return super.pointIn(label, region, coords, addToConstruction, complex,
 				coords2D);
 	}
 
 	@Override
 	public GeoPointND point(String label, Path path, Coords coords,
-			boolean addToConstruction, boolean complexCoord, boolean coords2D) {
+			boolean addToConstruction, boolean complex, boolean coords2D) {
 
 		if (path.isGeoElement3D()) {
 			return getManager3D().point3D(label, path, coords.getX(),
 					coords.getY(), coords.getZ(), addToConstruction, coords2D);
 		}
 
-		return super.point(label, path, coords, addToConstruction, complexCoord,
+		return super.point(label, path, coords, addToConstruction, complex,
 				coords2D);
 	}
 

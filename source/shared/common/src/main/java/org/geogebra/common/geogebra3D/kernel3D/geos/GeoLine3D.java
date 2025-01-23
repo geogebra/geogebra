@@ -65,7 +65,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	 * @param o
 	 *            start point
 	 * @param v
-	 *            direction
+	 *            diection
 	 */
 	public GeoLine3D(Construction c, Coords o, Coords v) {
 		super(c, o, v);

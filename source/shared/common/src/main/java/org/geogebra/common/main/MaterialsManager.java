@@ -119,7 +119,7 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	}
 
 	/**
-	 * Update local copy
+	 * Update loacl copy
 	 * 
 	 * @param title
 	 *            new title

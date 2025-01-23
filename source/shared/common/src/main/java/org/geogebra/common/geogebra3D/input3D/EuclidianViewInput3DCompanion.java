@@ -45,7 +45,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	static private int STYLUS_BEAM_THICKNESS = 9;
 
-	private HitGeo hitGeo = new HitGeo();
+	private HittedGeo hittedGeo = new HittedGeo();
 
 	private StationaryCoords stationaryCoords = new StationaryCoords();
 
@@ -113,15 +113,15 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	private boolean drawCompletingCursor(Renderer renderer1) {
 
 		// are we grabbing?
-		float hitGeoCompletingDelay = hitGeo.getCompletingDelay();
-		if (hitGeoCompletingDelay > PlotterCompletingCursor.START_DRAW
-				&& hitGeoCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
+		float hittedGeoCompletingDelay = hittedGeo.getCompletingDelay();
+		if (hittedGeoCompletingDelay > PlotterCompletingCursor.START_DRAW
+				&& hittedGeoCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.identity(tmpMatrix4x4_3);
 			completingCursorOrigin
 					.setValues(getView().getCursor3D().getInhomCoordsInD3(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);
 			return drawCompletingCursor(renderer1, completingCursorOrigin,
-					hitGeoCompletingDelay);
+					hittedGeoCompletingDelay);
 		}
 
 		// are we releasing?
@@ -150,8 +150,8 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 
 		// are we over a moveable geo?
-		if (hitGeo.getGeo() != null
-				&& hitGeoCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
+		if (hittedGeo.getGeo() != null
+				&& hittedGeoCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
 			CoordMatrix4x4.identity(tmpMatrix4x4_3);
 			completingCursorOrigin
 					.setValues(getView().getCursor3D().getInhomCoordsInD3(), 3);
@@ -159,7 +159,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			return drawCompletingCursor(renderer1, completingCursorOrigin, 0);
 		}
 
-		// nothing is hit
+		// nothing hitted
 		completingCursorOrigin.setValues(mouse3DScreenPosition, 3);
 		return drawCompletingCursor(renderer1, completingCursorOrigin, 0);
 
@@ -262,16 +262,16 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 						.getMoveMode() == EuclidianController.MOVE_NONE
 				&& !input3D.hasCompletedGrabbingDelay()) {
 			long time = System.currentTimeMillis();
-			hitGeo.setHit(
+			hittedGeo.setHitted(
 					getView().getHits3D().getTopHits()
 							.getFirstGeo6dofMoveable(),
 					time, mouse3DScreenPosition);
 			// reset hits
-			GeoElement geoToHit = hitGeo.getGeo();
+			GeoElement geoToHit = hittedGeo.getGeo();
 			getView().getHits3D().init(geoToHit);
 			getView().updateCursor3D(getView().getHits());
 			getView().getApplication().setMode(EuclidianConstants.MODE_MOVE);
-			if (hitGeo.hasLongDelay(time)) {
+			if (hittedGeo.hasLongDelay(time)) {
 				input3D.setHasCompletedGrabbingDelay(true);
 				getView().getEuclidianController().handleMovedElement(geoToHit,
 						false, PointerEventType.TOUCH);
@@ -484,15 +484,15 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		if (getView().getEuclidianController()
 				.getMoveMode() == EuclidianController.MOVE_NONE) {
 
-			hitGeo.setHit(getView().getHits3D().getTopHits()
+			hittedGeo.setHitted(getView().getHits3D().getTopHits()
 					.getFirstGeo6dofMoveable());
 			// reset hits
-			GeoElement geoToHit = hitGeo.getGeo();
+			GeoElement geoToHit = hittedGeo.getGeo();
 			getView().getHits3D().init(geoToHit);
 			getView().updateCursor3D(getView().getHits());
 			getView().getApplication().setMode(EuclidianConstants.MODE_MOVE);
 			if (geoToHit != null) {
-				hitGeo.consumeLongDelay();
+				hittedGeo.consumeLongDelay();
 				input3D.setHasCompletedGrabbingDelay(true);
 				getView().getEuclidianController().handleMovedElement(geoToHit,
 						false, PointerEventType.TOUCH);
@@ -621,7 +621,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 	}
 
-	private static class HitGeo {
+	private static class HittedGeo {
 
 		private GeoElement geo;
 
@@ -644,8 +644,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			return (time - lastTime) * 8 > LONG_DELAY;
 		}
 
-		public void setHit(GeoElement newGeo, long time,
+		public void setHitted(GeoElement newGeo, long time,
 				Coords mousePosition) {
+			// Log.debug("\nHittedGeo:\n"+getHits3D());
 			if (newGeo == null || mousePosition == null) { // reinit geo
 				if (forgetCurrent(time)) {
 					geo = null;
@@ -678,12 +679,12 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 
 		/**
-		 * set hit geo
+		 * set hitted geo
 		 * 
 		 * @param newGeo
-		 *            hit geo
+		 *            hitted geo
 		 */
-		public void setHit(GeoElement newGeo) {
+		public void setHitted(GeoElement newGeo) {
 			geo = newGeo;
 			if (newGeo == null) {
 				delay = -1;

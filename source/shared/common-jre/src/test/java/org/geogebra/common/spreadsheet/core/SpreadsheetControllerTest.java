@@ -14,17 +14,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.util.UtilFactoryJre;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -44,23 +41,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     private SpreadsheetCellEditor cellEditor;
     private ClipboardInterface clipboard;
     private Rectangle viewport;
-    private boolean autoCompleteShown = false;
-    private String autoCompleteSearchPrefix = "";
-    private List<Integer> receivedKeys = new ArrayList<>();
 
     @BeforeClass
     public static void setupOnce() {
         FactoryProvider.setInstance(new FactoryProviderCommon()); // required by MathField
-    }
-
-    @BeforeClass
-    public static void enablePreviewFeatures() {
-        PreviewFeature.setPreviewFeaturesEnabled(true);
-    }
-
-    @AfterClass
-    public static void disablePreviewFeatures() {
-        PreviewFeature.setPreviewFeaturesEnabled(false);
     }
 
     @Before
@@ -482,64 +466,6 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         assertEquals("=mean(A1:C1)", tabularData.contentAt(0, 3));
     }
 
-    @Test
-    public void testThreeCharactersShowAutoCompleteSuggestions() {
-        tabularData.setContent(0, 0, "=SU");
-        simulateCellMouseClick(0, 0, 2);
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
-
-        assertTrue(autoCompleteShown);
-        assertEquals(autoCompleteSearchPrefix, "SUM");
-    }
-
-    @Test
-    public void testDeleteFromThreeCharactersShouldHideAutoCompleteSuggestions() {
-        tabularData.setContent(0, 0, "=SU");
-        simulateCellMouseClick(0, 0, 2);
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
-        assertTrue(autoCompleteShown);
-        assertEquals(autoCompleteSearchPrefix, "SUM");
-
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_BACK_SPACE);
-        assertFalse(autoCompleteShown);
-    }
-
-    @Test
-    public void testShowAutoCompleteSuggestionOnlyOnThirdLetter() {
-        simulateCellMouseClick(0, 0, 2);
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_S);
-        assertFalse(autoCompleteShown);
-
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_U);
-        assertFalse(autoCompleteShown);
-
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
-        assertTrue(autoCompleteShown);
-        assertEquals(autoCompleteSearchPrefix, "SUM");
-    }
-
-    @Test
-    public void testAutoCompleteArrowShouldNotMoveCursorOrChangeSelectedCell() {
-        tabularData.setContent(0, 0, "=CO");
-        simulateCellMouseClick(0, 0, 2);
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_E);
-        int cursorPosBeforeArrows = getCellEditor().getMathField().getEditorState()
-                .getCurrentOffset();
-        int selectedRow = getSelectedRow();
-        int selectedColumn = getSelectedColumn();
-
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_DOWN);
-        int cursorPosAfterArrows = getCellEditor().getMathField().getEditorState()
-                .getCurrentOffset();
-
-        assertEquals(cursorPosBeforeArrows, cursorPosAfterArrows);
-        assertEquals(selectedRow, getSelectedRow());
-        assertEquals(selectedColumn, getSelectedColumn());
-        assertEquals(List.of(JavaKeyCodes.VK_LEFT, JavaKeyCodes.VK_DOWN), receivedKeys);
-    }
-
     // Helpers
 
     private void setViewport(Rectangle viewport) {
@@ -578,8 +504,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     /**
      * Simulates a key press in the cell editor's underlying MathField.
      * Note: Depending on the key code, onKeyTyped needs to be invoked or not. Currently,
-     * only the ranges "a".."z", "A".."Z", "0".."9", as well as the symbol "=" will trigger
-     * onKeyTyped. You may need to extend these ranges and symbols.
+     * only the ranges a..z, A..Z, 0..9 will trigger onKeyTyped. You may need to extend
+     * these ranges.
      * @param keyCode See {@link JavaKeyCodes}
      */
     private void simulateKeyPressInCellEditor(int keyCode) {
@@ -587,8 +513,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         KeyEvent keyEvent = new KeyEvent(keyCode, 0, (char) keyCode);
         mathField.onKeyPressed(keyEvent);
         if ((keyCode >= JavaKeyCodes.VK_A && keyCode <= JavaKeyCodes.VK_Z)
-            || (keyCode >= JavaKeyCodes.VK_0 && keyCode <= JavaKeyCodes.VK_9)
-            || keyCode == JavaKeyCodes.VK_EQUALS) {
+            || (keyCode >= JavaKeyCodes.VK_0 && keyCode <= JavaKeyCodes.VK_9)) {
             mathField.onKeyTyped(keyEvent);
         }
         mathField.onKeyReleased(keyEvent);
@@ -596,22 +521,6 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
 
     private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
         controller.select(new TabularRange(fromRow, fromColumn, toRow, toColumn), false, false);
-    }
-
-    private int getSelectedRow() {
-        if (controller.getLastSelection() != null) {
-            TabularRange range = controller.getLastSelection().getRange();
-            return range.getFromRow();
-        }
-        return -1;
-    }
-
-    private int getSelectedColumn() {
-        if (controller.getLastSelection() != null) {
-            TabularRange range = controller.getLastSelection().getRange();
-            return range.getFromColumn();
-        }
-        return -1;
     }
 
     // SpreadsheetControlsDelegate
@@ -634,29 +543,5 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     @Override
     public ClipboardInterface getClipboard() {
         return clipboard;
-    }
-
-    @Override
-    public void showAutoCompleteSuggestions(String input, Rectangle editorBounds) {
-        autoCompleteShown = true;
-        autoCompleteSearchPrefix = input;
-    }
-
-    @Override
-    public void hideAutoCompleteSuggestions() {
-        autoCompleteShown = false;
-        receivedKeys.clear();
-    }
-
-    @Override
-    public boolean handleKeyPressForAutoComplete(int keyCode) {
-        if (autoCompleteShown && (keyCode == JavaKeyCodes.VK_LEFT
-                || keyCode == JavaKeyCodes.VK_RIGHT || keyCode == JavaKeyCodes.VK_UP
-                || keyCode == JavaKeyCodes.VK_DOWN || keyCode == JavaKeyCodes.VK_ENTER
-                || keyCode == JavaKeyCodes.VK_ESCAPE)) {
-            receivedKeys.add(keyCode);
-            return true;
-        }
-        return false;
     }
 }

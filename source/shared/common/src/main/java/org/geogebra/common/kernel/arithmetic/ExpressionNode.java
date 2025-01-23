@@ -3500,12 +3500,10 @@ public class ExpressionNode extends ValidExpression
 		if (!PreviewFeature.isAvailable(PreviewFeature.RATIONALIZE_FRACTIONS)) {
 			return false;
 		}
+		Log.debug("RATIONALIZE_FRACTIONS is enabled.");
 		ExpressionValue oldResolve = resolve;
 		initRationalizedFraction();
-		if (oldResolve == null) {
-			return resolve != null;
-		}
-		return resolve != oldResolve;
+		return oldResolve != null && resolve != oldResolve;
 	}
 
 	/**

@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui.properties;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.exam.ExamListener;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
@@ -36,7 +34,7 @@ import org.gwtproject.user.client.ui.Widget;
  *
  */
 public class PropertiesViewW extends PropertiesView
-		implements ExamListener, RequiresResize, SetLabels {
+		implements RequiresResize, SetLabels {
 
 	private final FlowPanel wrappedPanel;
 
@@ -74,9 +72,6 @@ public class PropertiesViewW extends PropertiesView
 		this.optionType = optionType;
 		initGUI();
 		app.setDefaultCursor();
-		if (app instanceof AppWFull) {
-			((AppWFull) app).getExamEventBus().add(this);
-		}
 	}
 
 	private void initGUI() {
@@ -551,12 +546,5 @@ public class PropertiesViewW extends PropertiesView
 	public void resize(double width, double height) {
 		wrappedPanel.setPixelSize((int) Math.min(width, 500), (int) height);
 		onResize();
-	}
-
-	@Override
-	public void examStateChanged(ExamState newState) {
-		if (newState == ExamState.IDLE || newState == ExamState.ACTIVE) {
-			setObjectPanel(new OptionsObjectW((AppW) app, false, this::updatePropertiesView));
-		}
 	}
 }

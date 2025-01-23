@@ -3,37 +3,38 @@ package org.geogebra.common.kernel.arithmetic3D.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class SphericalPrinter implements Printer {
 
     @Override
-	public String print(String xCoord, String yCoord, String zCoord,
-			PrintableVector vector, StringTemplate tpl) {
+    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
 		if (tpl.getStringType().isGiac()) {
 			return "point(("
-					+ xCoord
+					+ expressionPrinter.print(vector.getX(), tpl)
 					+ ")*cos("
-					+ yCoord
+					+ expressionPrinter.print(vector.getY(), tpl)
 					+ ")*cos("
-					+ zCoord
+					+ expressionPrinter.print(vector.getZ(), tpl)
 					+ "),("
-					+ xCoord
+					+ expressionPrinter.print(vector.getX(), tpl)
 					+ ")*sin("
-					+ yCoord
+					+ expressionPrinter.print(vector.getY(), tpl)
 					+ ")*cos("
-					+ zCoord
+					+ expressionPrinter.print(vector.getZ(), tpl)
 					+ "),("
-					+ xCoord
+					+ expressionPrinter.print(vector.getX(), tpl)
 					+ ")*sin("
-					+ zCoord
+					+ expressionPrinter.print(vector.getZ(), tpl)
 					+ "))";
 		}
         return tpl.leftBracket()
-                + xCoord
+                + expressionPrinter.print(vector.getX(), tpl)
                 + "; "
-                + yCoord
+                + expressionPrinter.print(vector.getY(), tpl)
                 + "; "
-                + zCoord
+                + expressionPrinter.print(vector.getZ(), tpl)
                 + tpl.rightBracket();
     }
 }

@@ -1419,34 +1419,4 @@ public class GgbAPIW extends GgbAPI {
 
 		guiManagerW.addToolToNotesToolbox(iconUrl, name, categoryName, toolCallback);
 	}
-
-	/**
-	 * Inserts embedded element with specific type and id.
-	 *
-	 * @param type the embed type.
-	 * @param id the embed id.
-	 */
-	public void insertEmbed(String type, String id) {
-		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager != null) {
-			boolean success = embedManager.insertEmbed(type, id);
-			if (!success) {
-				Log.debug("there is no such embed resolver: " + type);
-			}
-		}
-	}
-
-	/**
-	 * Adds a resolving function for specific embedded element type. The function gets an ID of the
-	 * embed and returns a promise that resolves to a HTML string.
-	 *
-	 * @param type the embed type
-	 * @param callback the resolving callback
-	 */
-	public void registerEmbedResolver(String type, Object callback) {
-		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager != null) {
-			embedManager.registerEmbedResolver(type, callback);
-		}
-	}
 }

@@ -1192,7 +1192,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			}
 		}
 
-		// for exponential
+		// for exponential in new Geogbra version.
 		renameFunc(sb, Unicode.EULER_STRING, "2.718281828");
 
 		renameFunc(sb, "\\pi", "PI");

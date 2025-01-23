@@ -192,7 +192,8 @@ public class OptionsMenuD extends BaseMenu
 		// display the options dialog
 		showOptionsAction = new AbstractAction(loc.getMenu("Advanced") + " ...",
 				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
-			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("hiding")
+			public static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -216,7 +217,8 @@ public class OptionsMenuD extends BaseMenu
 		// restore default settings
 		restoreDefaultSettings = new AbstractAction(
 				loc.getMenu("Settings.ResetDefault"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+			@SuppressWarnings("hiding")
+			public static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

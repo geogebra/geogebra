@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.EquationBehaviour;
@@ -24,7 +23,7 @@ import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
-public interface AppConfig extends ExamRestrictable, Serializable {
+public interface AppConfig extends Serializable {
 
 	void adjust(DockPanelData dp);
 
@@ -263,11 +262,6 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	 */
 	@Nonnull
 	EquationBehaviour getEquationBehaviour();
-
-	/**
-	 * Initializes this app config's equation behaviour to its default value
-	 */
-	void initializeEquationBehaviour();
 
 	/**
 	 * Whether it shows the equation in AV.

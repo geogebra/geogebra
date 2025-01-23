@@ -16,17 +16,17 @@ public class BernsteinBuilder1Var {
 	}
 
 	private double[] createBernsteinCoeffs(int degree, double min, double max) {
-		double[] partialBernsteinCoeffs = new double[degree + 1];
+		double[] partialBersteinCoeffs = new double[degree + 1];
 		double[] lastValues = new double[degree + 1];
 		for (int i = 0; i <= degree; i++) {
 			for (int j = 0; j <= i; j++) {
 				double b_ij = bernsteinCoefficient(i, j, degree, min, max, lastValues);
-				partialBernsteinCoeffs[j] = b_ij;
+				partialBersteinCoeffs[j] = b_ij;
 			}
 
-			copyArrayTo(partialBernsteinCoeffs, lastValues);
+			copyArrayTo(partialBersteinCoeffs, lastValues);
 		}
-		return partialBernsteinCoeffs;
+		return partialBersteinCoeffs;
 	}
 
 	private double bernsteinCoefficient(int i, int j, int degree, double min, double max,

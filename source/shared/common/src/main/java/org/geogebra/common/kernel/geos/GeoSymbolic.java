@@ -51,7 +51,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
@@ -64,7 +63,7 @@ public class GeoSymbolic extends GeoElement
 		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable, DelegateProperties,
 		HasArbitraryConstant, EuclidianViewCE, Functional {
 	private ExpressionValue value;
-	private final ArrayList<FunctionVariable> fVars = new ArrayList<>();
+	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
 	private boolean isTwinUpToDate = false;
 	private boolean isEuclidianShowable = true;
@@ -461,9 +460,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void setSymbolicMode() {
-		// if user preference is symbolic, but symbolic mode is not available, turn it off
-		// non-symbolic mode is always possible -- keep user preference
-		if (kernel.getGeoGebraCAS().getCurrentCAS().isLoaded() && symbolicMode) {
+		if (kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
 			boolean isValueDefined = isCasValueDefined();
 			setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
 		}
@@ -886,20 +883,7 @@ public class GeoSymbolic extends GeoElement
 	public double value(double x) {
 		GeoElementND twin = getTwinGeo();
 		if (twin instanceof GeoFunctionable) {
-			double val =  ((GeoFunctionable) twin).value(x);
-			if (!Double.isNaN(val)) {
-				return val;
-			}
-		}
-		if (getFunctionVariables().length == 1) {
-			ExpressionNode expressionNode =
-					new ExpressionNode(kernel, this, Operation.FUNCTION, new MyDouble(kernel, x))
-							.traverse(new FunctionExpander()).wrap();
-			Command numeric = new Command(kernel, "Numeric", false);
-			numeric.addArgument(expressionNode);
-			String casResult = evaluateGeoGebraCAS(numeric, constant);
-			ExpressionValue casOutput = parseOutputString(casResult);
-			return casOutput.evaluateDouble();
+			return ((GeoFunctionable) twin).value(x);
 		}
 		return Double.NaN;
 	}

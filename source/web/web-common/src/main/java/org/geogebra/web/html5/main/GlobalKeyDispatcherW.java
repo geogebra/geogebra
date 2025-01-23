@@ -190,15 +190,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		((GuiManagerInterfaceW) app.getGuiManager()).toggleTableValuesView();
 	}
 
-	@Override
-	protected void toggleSpreadsheetView() {
-		if (!app.getConfig().hasSpreadsheetView()) {
-			return;
-		}
-
-		((GuiManagerInterfaceW) app.getGuiManager()).toggleSpreadsheetView();
-	}
-
 	private void handleCtrlAltX() {
 		app.hideMenu();
 		app.closePopups();

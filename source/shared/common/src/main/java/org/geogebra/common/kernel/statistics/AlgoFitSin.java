@@ -423,7 +423,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			n = RegressionMath.det44(m11, m12, m13, m14, m21, m22, m23, m24,
 					m31, m32, m33, m34, m41, m42, m43, m44);
 
-			if (Math.abs(n) < EPSSING) { // Singular matrix?
+			if (Math.abs(n) < EPSSING) { // Sinular matrix?
 				error = true;
 				Log.debug("Singular matrix...");
 				da = db = dc = dd = 0; // To stop it all...

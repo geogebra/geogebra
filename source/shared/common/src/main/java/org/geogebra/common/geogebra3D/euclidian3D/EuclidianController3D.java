@@ -661,7 +661,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianView3D.PREVIEW_POINT_ALREADY:
 			// current mode is not MOVE
-			// we return current moved point if first hit
+			// we return current moved point if first hitted
 			GeoPointND firstPoint = (GeoPointND) hits
 					.getFirstHit(TestGeo.GEOPOINTND);
 			if (firstPoint == getMovedGeoPoint()) {
@@ -1137,7 +1137,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/**
 	 * 
 	 * @param hits
-	 *            geos hit
+	 *            geos hitted
 	 * @return net of a polyhedron
 	 */
 	final protected GeoElement[] polyhedronNet(Hits hits, boolean selPreview) {
@@ -1296,7 +1296,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/**
 	 * 
 	 * @param hits
-	 *            geos hit
+	 *            geos hitted
 	 * @return volume of a geo (from hits) that has a volume
 	 */
 	final protected boolean volume(Hits hits, boolean selPreview) {
@@ -1940,7 +1940,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void processRightPressFor3D(AbstractEvent event) {
 
 		if (viewHasHitsForMouseDragged()) {
-			// maybe needed if geo hit is not moveable
+			// maybe needed if geo hitted is not moveable
 			processPressForRotate3D(event == null ? PointerEventType.MOUSE : event.getType());
 			return;
 		}
@@ -3237,7 +3237,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected GeoElement chooseGeo(ArrayList<GeoElement> geos,
 			boolean includeFixed, boolean includeConstants) {
 		if (!geos.isEmpty()) {
-			// if the hit geo is one of view3D's geos, then chooseGeo return
+			// if the geo hitted is one of view3D's geos, then chooseGeo return
 			// null
 			if (!includeConstants && view3D.owns(geos.get(0))) {
 				return null;
@@ -3682,18 +3682,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	private void doMoveDependent(Coords end) {
 		view3D.getHittingDirection(tmpCoordsForDirection);
-		MoveGeos.moveObjects(translatableGeos, translationVec3D, end,
+		MoveGeos.moveObjects(translateableGeos, translationVec3D, end,
 				tmpCoordsForDirection, view3D);
 		kernel.notifyRepaint();
 	}
 
 	private boolean isTranslateablePoint() {
-		return translatableGeos.size() > 0
-				&& translatableGeos.get(0) instanceof GeoPointND;
+		return translateableGeos.size() > 0
+				&& translateableGeos.get(0) instanceof GeoPointND;
 	}
 
 	private Coords moveDependentPoint() {
-		GeoPointND g3d = (GeoPointND) translatableGeos.get(0).copy();
+		GeoPointND g3d = (GeoPointND) translateableGeos.get(0).copy();
 		if (g3d.getMoveMode() == GeoPointND.MOVE_MODE_Z
 				|| (g3d.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
 						&& this.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
@@ -3760,7 +3760,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 		}
 
-		translatableGeos = null;
+		translateableGeos = null;
 		handleMovedElementDependentWithChangeableParent();
         handleMovedElementDependentInitMode();
         if (movedGeoElement.hasChangeableParent3D()) {

@@ -285,7 +285,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * @return tooltip locale
+	 * @return tootlip loacle
 	 */
 	final public Language getTooltipLanguage() {
 		return tooltipLanguage;

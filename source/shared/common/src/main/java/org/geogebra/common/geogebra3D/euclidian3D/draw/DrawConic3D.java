@@ -935,7 +935,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 *            e.g. ray
 	 * @param checkRealPointSize
 	 *            true if we check point size (and not threshold)
-	 * @return true if hit
+	 * @return true if hitted
 	 */
 	private boolean hit(Hitting hitting, boolean checkRealPointSize) {
 

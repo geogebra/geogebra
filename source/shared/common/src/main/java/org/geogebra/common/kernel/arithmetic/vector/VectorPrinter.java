@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
-import org.geogebra.common.main.PreviewFeature;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class VectorPrinter implements Printer {
 
@@ -14,16 +14,14 @@ class VectorPrinter implements Printer {
 
     VectorPrinter() {
         defaultPrinter = new CartesianPrinter(null);
-        editPrinter = PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_TEMPLATES)
-                ? new EditVectorPrinter()
-                : (x, y, z, vector, tpl) -> "{{" + x + "}, {" + y + "}}";
+        editPrinter = new EditVectorPrinter();
         latexPrinter = new LatexVectorPrinter();
     }
 
     @Override
-    public String print(String xCoord, String yCoord, String zCoord,
-            PrintableVector vector, StringTemplate tpl) {
-        return getPrinterFor(tpl, vector).print(xCoord, yCoord, zCoord, vector, tpl);
+    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+			PrintableVector vector) {
+        return getPrinterFor(tpl, vector).print(tpl, expressionPrinter, vector);
     }
 
     private Printer getPrinterFor(StringTemplate tpl, PrintableVector vector) {

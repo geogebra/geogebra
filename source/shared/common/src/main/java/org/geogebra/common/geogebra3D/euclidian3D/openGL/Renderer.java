@@ -1877,7 +1877,7 @@ public abstract class Renderer {
 	 * 
 	 * @param mouseLoc
 	 *            mouse location
-	 * @return first geo hit on label
+	 * @return first label hitted geo
 	 */
 	public GeoElement getLabelHit(GPoint mouseLoc) {
 		if (mouseLoc == null) {

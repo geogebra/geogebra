@@ -3182,6 +3182,34 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		}
 	}
 
+	/*
+	 * // Resize text Keep the ratio between font size and picture height
+	 * private String resizeFont(int fontSize){ int
+	 * latexFont=frame.getFontSize(); double
+	 * height_geogebra=euclidianView.getHeight()/30; double
+	 * height_latex=frame.getLatexHeight(); double
+	 * ratio=height_latex/height_geogebra; int
+	 * theoric_size=(int)Math.round(ratio*fontSize); String st=null;
+	 * switch(latexFont){ case 10: if (theoric_size<=5) st="\\tiny{"; else if
+	 * (theoric_size<=7) st="\\scriptsize{"; else if (theoric_size<=8)
+	 * st="\\footnotesize{"; else if (theoric_size<=9) st="\\small{"; else if
+	 * (theoric_size<=10) ; else if (theoric_size<=12) st="\\large{"; else if
+	 * (theoric_size<=14) st="\\Large{"; else if (theoric_size<=17)
+	 * st="\\LARGE{"; else if (theoric_size<=20) st="\\huge{"; else
+	 * st="\\Huge{"; break; case 11: if (theoric_size<=6) st="\\tiny{"; else if
+	 * (theoric_size<=8) st="\\scriptsize{"; else if (theoric_size<=9)
+	 * st="\\footnotesize{"; else if (theoric_size<=10) st="\\small{"; else if
+	 * (theoric_size<=11) ; else if (theoric_size<=12) st="\\large{"; else if
+	 * (theoric_size<=14) st="\\Large{"; else if (theoric_size<=17)
+	 * st="\\LARGE{"; else if (theoric_size<=20) st="\\huge{"; else
+	 * st="\\Huge{"; break; case 12: if (theoric_size<=6) st="\\tiny{"; else if
+	 * (theoric_size<=8) st="\\scriptsize{"; else if (theoric_size<=10)
+	 * st="\\footnotesize{"; else if (theoric_size<=11) st="\\small{"; else if
+	 * (theoric_size<=12) ; else if (theoric_size<=14) st="\\large{"; else if
+	 * (theoric_size<=17) st="\\Large{"; else if (theoric_size<=20)
+	 * st="\\LARGE{"; else if (theoric_size<=25) st="\\huge{"; else
+	 * st="\\Huge{"; break; } return st; }
+	 */
 	// private void defineTransparency(){}
 
 	private void addText(String st0, boolean isLatex, int style) {

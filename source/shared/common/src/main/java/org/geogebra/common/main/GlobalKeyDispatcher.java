@@ -544,7 +544,7 @@ public abstract class GlobalKeyDispatcher {
 			// however .isAltDown() stops AltGr-1 from working (| on some
 			// keyboards)
 			if (isShiftDown && app.getGuiManager() != null) {
-				if (app.isUnbundled()) {
+				if (app.isUnbundled() || app.isSuite()) {
 					int viewID = App.VIEW_EUCLIDIAN;
 					if ((Perspective.GRAPHER_3D + "").equals(
 							app.getConfig().getForcedPerspective())) {
@@ -561,7 +561,7 @@ public abstract class GlobalKeyDispatcher {
 						app.getActiveEuclidianView().requestFocusInWindow();
 					}
 
-				} else if (!app.isUnbundledOrWhiteboard()) {
+				} else {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN),
 							App.VIEW_EUCLIDIAN);
@@ -581,7 +581,7 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-2 from working (superscript
 			// 2 on some keyboards)
-			if (!app.isUnbundledOrWhiteboard()) {
+			if (!(app.isUnbundled() || app.isSuite())) {
 				if (isShiftDown && app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2),
@@ -604,7 +604,7 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-3 from working (^ on
 			// Croatian keyboard)
-			if (!app.isUnbundledOrWhiteboard()) {
+			if (!(app.isUnbundled() || app.isSuite())) {
 				if (isShiftDown && app.getGuiManager() != null
 						&& app.supportsView(App.VIEW_EUCLIDIAN3D)) {
 					app.getGuiManager().setShowView(
@@ -625,8 +625,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case A:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && !app.isWhiteboardActive()
-						&& app.getGuiManager() != null) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
 					toggleAlgebraView();
 					consumed = true;
 				}
@@ -639,7 +638,8 @@ public abstract class GlobalKeyDispatcher {
 		case K:
 			if (isShiftDown) {
 				if (app.isUsingFullGui() && app.getGuiManager() != null
-						&& app.supportsView(App.VIEW_CAS) && !app.isUnbundledOrWhiteboard()) {
+						&& app.supportsView(App.VIEW_CAS) && !(app.isUnbundled() || app
+						.isSuite())) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(App.VIEW_CAS),
 							App.VIEW_CAS);
@@ -650,8 +650,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case L:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null
-						&& !app.isUnbundledOrWhiteboard()) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager()
 									.showView(App.VIEW_CONSTRUCTION_PROTOCOL),
@@ -671,8 +670,7 @@ public abstract class GlobalKeyDispatcher {
 			if (isShiftDown) {
 				// toggle Probability View
 				if (app.isUsingFullGui() && app.getGuiManager() != null
-						&& (!app.isUnbundledOrWhiteboard()
-							|| app.getConfig().hasDistributionView())) {
+						&& !(app.isUnbundled() || app.isSuite())) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager()
 									.showView(App.VIEW_PROBABILITY_CALCULATOR),
@@ -809,13 +807,8 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		case U:
 			if (isShiftDown && app.getGuiManager() != null) {
-				if (!app.isUnbundledOrWhiteboard()) {
-					app.getGuiManager().showGraphicExport();
-					consumed = true;
-				} else if (app.isUnbundled()) {
-					toggleTableView();
-					consumed = true;
-				}
+				toggleTableView();
+				consumed = true;
 			}
 			break;
 		case V:
@@ -836,14 +829,11 @@ public abstract class GlobalKeyDispatcher {
 		// ctrl-shift-s (toggle spreadsheet)
 		case S:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
-					if (!app.isUnbundledOrWhiteboard()) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(App.VIEW_SPREADSHEET),
-								App.VIEW_SPREADSHEET);
-					} else {
-						toggleSpreadsheetView();
-					}
+				if (app.isUsingFullGui() && app.getGuiManager() != null
+						&& !(app.isUnbundled() || app.isSuite())) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(App.VIEW_SPREADSHEET),
+							App.VIEW_SPREADSHEET);
 					consumed = true;
 				}
 			} else if (app.getGuiManager() != null) {
@@ -971,10 +961,6 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	protected void toggleTableView() {
-		// web only
-	}
-
-	protected void toggleSpreadsheetView() {
 		// web only
 	}
 

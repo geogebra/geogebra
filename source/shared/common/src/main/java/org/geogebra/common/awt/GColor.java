@@ -171,7 +171,7 @@ public final class GColor implements GPaint {
 	}
 
 	private static int getBlue(int rgba) {
-		return rgba & 0xFF;
+		return (rgba >> 0) & 0xFF;
 	}
 
 	private static int getAlpha(int rgba) {
@@ -492,7 +492,7 @@ public final class GColor implements GPaint {
 	 */
 	public static int hashRGBA(int r, int g, int b, int a) {
 		return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8)
-				| (b & 0xFF);
+				| ((b & 0xFF) << 0);
 	}
 
 	@Override

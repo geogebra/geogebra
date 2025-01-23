@@ -418,7 +418,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	/**
 	 * @param al
-	 *            list of points that define this locus
+	 *            list of points that definr this locus
 	 */
 	public void setPoints(ArrayList<T> al) {
 		myPointList = al;

@@ -388,9 +388,7 @@ abstract public class MathContainer extends MathComponent implements Iterable<Ma
 		}
 		for (int i = 0; i < size(); i++) {
 			MathComponent argument = getArgument(i);
-			if (argument != null) {
-				setArgument(i, argument.traverse(traversing));
-			}
+			setArgument(i, argument.traverse(traversing));
 		}
 		return this;
 	}

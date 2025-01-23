@@ -109,13 +109,6 @@ class MetaModelFunctions {
 						new MetaParameter[] {
 								MetaParameter.BASIC, MetaParameter.BASIC
 						}));
-		MetaFunction vectorFunction = createFunctionInsert(Tag.VECTOR, "", 0,
-				new MetaParameter[]{
-						createParameterDown(1), new MetaParameter(0, 2),
-						createParameterUp(1)
-				});
-		vectorFunction.setDefaultSize(2);
-		functions.add(vectorFunction);
 
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));

@@ -42,11 +42,7 @@ public enum PreviewFeature {
 	 */
 	CALCULATE_MENU_ITEM,
 	/** APPS-5815 */
-	RATIONALIZE_FRACTIONS,
-	/**
-	 * APPS-6208
-	 */
-	SPREADSHEET_INPUT_HELP;
+	RATIONALIZE_FRACTIONS;
 
 	/**
 	 * Global flag to activate feature previews.

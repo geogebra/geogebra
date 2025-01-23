@@ -61,7 +61,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		StringBuilder buf = new StringBuilder();
 
 		buf.append(Character.forDigit((data >> 4) & 0xF, 16));
-		buf.append(Character.forDigit(data & 0xF, 16));
+		buf.append(Character.forDigit((data >> 0) & 0xF, 16));
 		buf.append(Character.forDigit((data >> 12) & 0xF, 16));
 		buf.append(Character.forDigit((data >> 8) & 0xF, 16));
 		buf.append(Character.forDigit((data >> 20) & 0xF, 16));

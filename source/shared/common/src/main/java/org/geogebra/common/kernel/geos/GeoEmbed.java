@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
@@ -28,7 +27,6 @@ public class GeoEmbed extends GeoWidget {
 	public final static int EMBED_SIZE_THRESHOLD = 100;
 	private final static int MARGINS = 32; // left + right
 	private static final int TOOLBOX_WIDTH = 80;
-	public static final String EXTERNAL_PROTOCOL = "external:";
 
 	private double contentWidth = DEFAULT_WIDTH;
 	private double contentHeight = DEFAULT_HEIGHT;
@@ -44,7 +42,6 @@ public class GeoEmbed extends GeoWidget {
 	private String appName = "graphing";
 	private String url;
 	private final Map<String, String> settings = new HashMap<>();
-	private boolean hasLocation = false;
 
 	/**
 	 * @param c
@@ -173,7 +170,10 @@ public class GeoEmbed extends GeoWidget {
 		sb.append(embedID);
 		sb.append("\" app=\"");
 		sb.append(appName);
-		getEmbedContentSource(sb);
+		if (!StringUtil.empty(url)) {
+			sb.append("\" url=\"");
+			StringUtil.encodeXML(sb, url);
+		}
 		sb.append("\"/>\n");
 		sb.append("\t<contentSize width=\"");
 		sb.append(contentWidth);
@@ -189,18 +189,6 @@ public class GeoEmbed extends GeoWidget {
 			sb.append('\"');
 		}
 		sb.append("/>\n");
-	}
-
-	/**
-	 * Get the source of the embed content, it is the url by default.
-	 *
-	 * @param sb to append
-	 */
-	protected void getEmbedContentSource(StringBuilder sb) {
-		if (!StringUtil.empty(url)) {
-			sb.append("\" url=\"");
-			StringUtil.encodeXML(sb, url);
-		}
 	}
 
 	/**
@@ -271,14 +259,6 @@ public class GeoEmbed extends GeoWidget {
 		return url != null && url.contains("graspablemath.com");
 	}
 
-	/**
-	 *
-	 * @return if embed has an external protocol to resolv its content.
-	 */
-	public boolean hasExternalProtocol() {
-		return "external".equals(appName);
-	}
-
 	public Set<Map.Entry<String, String>> getSettings() {
 		return settings.entrySet();
 	}
@@ -298,56 +278,5 @@ public class GeoEmbed extends GeoWidget {
 	@Override
 	public boolean isMoveable() {
 		return true;
-	}
-
-	@Override
-	public void setLocation(GPoint2D location) {
-		super.setLocation(location);
-		hasLocation = true;
-	}
-
-	public boolean hasLocation() {
-		return hasLocation;
-	}
-
-	/**
-	 * Sets the protocol of the custom, resolvable embed.
-	 *
-	 * @param type of the custom embed.
-	 * @param id of the custom embed.
-	 */
-	public void setExternalProtocol(String type, String id) {
-		setAppName("external");
-		setUrl(type + ":" + id);
-	}
-
-	/**
-	 *
-	 * @return external type if embed is a custom one, empty if not.
-	 */
-	public String getExternalType() {
-		if (!hasExternalProtocol()) {
-			return "";
-		}
-		return getProtocol()[0];
-	}
-
-	/**
-	 *
-	 * @return external id if embed is a custom one, empty if not.
-	 */
-	public String getExternalId() {
-		if (!hasExternalProtocol()) {
-			return "";
-		}
-		return getProtocol()[1];
-	}
-
-	private String[] getProtocol() {
-		return url.split(":", 2);
-	}
-
-	public boolean isTypeOf(String type) {
-		return getExternalType().equals(type);
 	}
 }

@@ -151,21 +151,20 @@ public class KeyboardInputAdapter {
 					return;
 				}
 				String[] split = input.split(":");
-				typeSilent(mfi, split[0]);
+				type(mfi, split[0]);
 				mfi.getInputController().newBraces(editorState, '(');
+				mfi.notifyAndUpdate("(");
 				MathContainer parent = editorState.getCurrentField().getParent();
 				if (parent instanceof MathFunction) {
 					for (int i = parent.size(); i < Integer.parseInt(split[1]); i++) {
 						parent.addArgument(new MathSequence());
 					}
 				}
-				mfi.notifyAndUpdate("(");
 			}
 
 			@Override
 			public boolean test(String keyboard) {
-				return (keyboard.startsWith("$point") || keyboard.startsWith("$vector"))
-						&& keyboard.contains(":");
+				return keyboard.startsWith("$point") && keyboard.contains(":");
 			}
 		});
 		KeyboardAdapter commandAdapter = new KeyboardAdapter() {

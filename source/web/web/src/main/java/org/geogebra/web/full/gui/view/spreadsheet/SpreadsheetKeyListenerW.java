@@ -60,13 +60,15 @@ public class SpreadsheetKeyListenerW
 			table.selectionChanged();
 			return; // quit before we stop propagation
 		}
-
+		e.stopPropagation();
 		app.getGlobalKeyDispatcher().setDownKeys(e);
 		GlobalKeyDispatcherW.setDownAltKeys(e, true);
+		// cancel as this may prevent the keyPress in some browsers
+		// hopefully it is enough to preventDefault in onKeyPress
+		// e.preventDefault();
 
 		// pass the event on to the cell editor if editing
 		if (table.editing) {
-			e.stopPropagation();
 			table.sendEditorKeyDownEvent(e);
 			return;
 		}
@@ -77,7 +79,7 @@ public class SpreadsheetKeyListenerW
 
 		GPoint pos = new GPoint(table.getSelectedColumn(),
 				table.getSelectedRow());
-		boolean handled = true; // treat all cases except for default as handled
+
 		switch (keyCode) {
 		case KeyCodes.KEY_UP:
 			e.preventDefault();
@@ -232,12 +234,7 @@ public class SpreadsheetKeyListenerW
 					e.preventDefault();
 				}
 				letterOrDigitTyped();
-			} else {
-				handled = false;
 			}
-		}
-		if (handled) {
-			e.stopPropagation();
 		}
 	}
 

@@ -96,7 +96,7 @@ class Face {
 	}
 
 	/**
-	 * Constructs a triangle Face from vertices v0, v1, and v2.
+	 * Constructs a triangule Face from vertices v0, v1, and v2.
 	 * 
 	 * @param v0
 	 *            first vertex

@@ -36,6 +36,24 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 		// constructor extending Context2d must be empty
 	}
 
+	/**
+	 * Fills the current path.
+	 */
+	@JsOverlay
+	public final CanvasPattern createPatternSVG(String path,
+			String style, double width, double height, double angle,
+			String fill) {
+		JsPropertyMap svg = JsPropertyMap.of("path", path);
+		svg.set("width", width);
+		svg.set("height", height);
+		svg.set("style", style);
+		svg.set("angle", angle);
+		svg.set("fill", fill);
+		return createPatternSVG(svg, "repeating");
+	}
+
+	public native CanvasPattern createPatternSVG(JsPropertyMap svg, String repetition);
+
 	@JsOverlay
 	public final void initTransform() {
 		if (this.ggbDevicePixelRatio == 0) {
@@ -64,7 +82,7 @@ public class JLMContext2d extends CanvasRenderingContext2D {
 	@JsOverlay
 	public final void saveTransform(double m00, double m10, double m01,
 			double m11, double m02, double m12) {
-		this.ggbTransformCache.push(JsArray.of(m00, m10, m01, m11, m02, m12));
+		this.ggbTransformCache.push(JsArray.of( m00, m10, m01, m11, m02, m12 ));
 	}
 
 	@JsOverlay

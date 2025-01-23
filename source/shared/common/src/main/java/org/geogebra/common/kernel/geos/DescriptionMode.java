@@ -9,7 +9,7 @@ package org.geogebra.common.kernel.geos;
 public enum DescriptionMode {
 	/** only definition */
 	DEFINITION,
-	/** only value */
+	/** only vlue */
 	VALUE,
 	/** definition and value */
 	DEFINITION_VALUE

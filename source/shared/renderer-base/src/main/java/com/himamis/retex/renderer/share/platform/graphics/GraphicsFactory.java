@@ -92,7 +92,7 @@ public abstract class GraphicsFactory {
 	public Color createColor(int rgb) {
 		int red = (rgb >> 16) & 0xFF;
 		int green = (rgb >> 8) & 0xFF;
-		int blue = rgb & 0xFF;
+		int blue = (rgb >> 0) & 0xFF;
 		return createColor(red, green, blue, 255);
 	}
 
@@ -109,7 +109,7 @@ public abstract class GraphicsFactory {
 		int alpha = (rgba >> 24) & 0xFF;
 		int red = (rgba >> 16) & 0xFF;
 		int green = (rgba >> 8) & 0xFF;
-		int blue = rgba & 0xFF;
+		int blue = (rgba >> 0) & 0xFF;
 		return createColor(red, green, blue, alpha);
 
 	}

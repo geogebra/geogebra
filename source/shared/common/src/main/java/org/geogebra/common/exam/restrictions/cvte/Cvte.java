@@ -1,7 +1,11 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
@@ -28,11 +32,24 @@ final class Cvte {
                 || element.isGeoRay()
                 || element.isGeoConic()
                 || element.isGeoFunction()
-                || element.isImplicitEquation())
+                || isImplicitEquation(element))
                 // ...created with a command or tool;
                 && (element.getParentAlgorithm() != null)) {
             return false;
         }
         return true;
+    }
+
+    private static boolean isImplicitEquation(@Nonnull GeoElementND geoElement) {
+        if (geoElement instanceof EquationValue) {
+            EquationValue equationValue = (EquationValue) geoElement;
+            return equationValue.getEquation().isImplicit();
+        }
+        ExpressionNode definition = geoElement.getDefinition();
+        if (definition != null && definition.unwrap() instanceof Equation) {
+            Equation equation = (Equation) definition.unwrap();
+            return equation.isImplicit();
+        }
+        return false;
     }
 }

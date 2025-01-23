@@ -14,9 +14,9 @@ import org.geogebra.common.kernel.printing.printer.expression.ValueExpressionPri
  */
 public class VectorNodeStringifier {
 
-    private final PrintableVector vector;
+    private PrintableVector vector;
 
-    private final Map<VectorPrintingMode, ? extends Printer> printerMap;
+    private Map<VectorPrintingMode, ? extends Printer> printerMap;
     private Printer activePrinter;
 
     private ExpressionPrinter defaultExpressionPrinter;
@@ -44,23 +44,15 @@ public class VectorNodeStringifier {
     }
 
     public String toString(StringTemplate tpl) {
-        return printVector(activePrinter, defaultExpressionPrinter, vector, tpl);
-    }
-
-    private String printVector(Printer activePrinter, ExpressionPrinter coordPrinter,
-            PrintableVector vector, StringTemplate tpl) {
-        return activePrinter.print(coordPrinter.print(vector.getX(), tpl),
-                coordPrinter.print(vector.getY(), tpl),
-                vector.getZ() == null ? "0" : coordPrinter.print(vector.getZ(), tpl),
-                vector, tpl);
+        return activePrinter.print(tpl, defaultExpressionPrinter, vector);
     }
 
     public String toString(StringTemplate tpl, VectorPrintingMode mode) {
-        return printVector(printerMap.get(mode), defaultExpressionPrinter, vector, tpl);
+        return printerMap.get(mode).print(tpl, defaultExpressionPrinter, vector);
     }
 
     public String toValueString(StringTemplate tpl) {
-        return printVector(activePrinter, valueExpressionPrinter, vector, tpl);
+        return activePrinter.print(tpl, valueExpressionPrinter, vector);
     }
 
     public void setPrintingMode(VectorPrintingMode printingMode) {

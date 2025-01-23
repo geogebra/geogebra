@@ -1,11 +1,15 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
-import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.MyError;
 
 public final class CvteCommandArgumentFilter implements CommandArgumentFilter {
@@ -82,22 +86,26 @@ public final class CvteCommandArgumentFilter implements CommandArgumentFilter {
 	}
 
 	private void checkIntersect(Command command, CommandProcessor commandProcessor) throws MyError {
-		// Intersection commands are only allowed if the visibility of the arguments are not
-		// restricted. There are always at least 2 arguments,
-		// and the first 2 are always the geo elements that are potentially restricted:
-		// Intersect(<Object>, <Object>)
-		// Intersect(<Object>, <Object>, <Unrelated parameter>)
-		// Intersect(<Object>, <Object>, <Unrelated parameter>, <Unrelated parameter>)
+		// For Intersect( <Object>, <Object> ) and Intersect( <Object>, <Object>, <Number> ),
+		// the only Objects allowed are those that can be displayed in 2D graphics.
 		GeoElement[] arguments = commandProcessor.resArgs(command);
-		if (arguments.length >= 2) {
+		if (arguments.length == 2 || arguments.length == 3) {
 			GeoElement firstArgument = arguments[0];
-			if (!CvteExamRestrictions.isVisibilityEnabled(firstArgument)) {
+			if (!isDisplayableIn2DGraphics(firstArgument)) {
 				throw commandProcessor.argErr(command, firstArgument);
 			}
+
 			GeoElement secondArgument = arguments[1];
-			if (!CvteExamRestrictions.isVisibilityEnabled(secondArgument)) {
+			if (!isDisplayableIn2DGraphics(secondArgument)) {
 				throw commandProcessor.argErr(command, secondArgument);
 			}
 		}
+	}
+
+	private boolean isDisplayableIn2DGraphics(GeoElement geoElement) {
+		return geoElement instanceof GeoLine
+				|| geoElement instanceof GeoFunction
+				|| geoElement instanceof GeoImplicitCurve || geoElement instanceof GeoCurveCartesian
+				|| geoElement instanceof GeoConic;
 	}
 }

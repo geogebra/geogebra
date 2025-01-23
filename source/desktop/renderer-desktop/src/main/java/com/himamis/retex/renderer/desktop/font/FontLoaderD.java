@@ -59,16 +59,18 @@ public class FontLoaderD implements FontLoader {
 
 	@Override
 	public Font loadFont(String name) throws ResourceParseException {
+
 		FactoryProvider.debugS("loadFont():" + name);
-		try (InputStream fontIn = FactoryProviderDesktop.class.getResourceAsStream(
-				"/com/himamis/retex/renderer/desktop/" + name)) {
+		InputStream fontIn = FactoryProviderDesktop.class.getResourceAsStream(
+				"/com/himamis/retex/renderer/desktop/" + name);
+		try {
 			java.awt.Font f = java.awt.Font
 					.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
 					.deriveFont((float) PIXELS_PER_POINT * FONT_SCALE_FACTOR);
 			GraphicsEnvironment graphicEnv = GraphicsEnvironment
 					.getLocalGraphicsEnvironment();
 
-			/*
+			/**
 			 * The following fails under java 1.5 graphicEnv.registerFont(f);
 			 * dynamic load then
 			 */
@@ -79,6 +81,14 @@ public class FontLoaderD implements FontLoader {
 		} catch (Exception e) {
 			throw new ResourceParseException("FontLoader" + ": FontLoader '"
 					+ name + "'. Error message: " + e.getMessage());
+		} finally {
+			try {
+				if (fontIn != null) {
+					fontIn.close();
+				}
+			} catch (IOException ioex) {
+				throw new RuntimeException("Close threw exception", ioex);
+			}
 		}
 	}
 

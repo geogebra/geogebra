@@ -442,7 +442,7 @@ public final class EuclidianConstants {
 	/** default size of delete tool rectangle in pixels */
 	public static final int DEFAULT_ERASER_SIZE = 20;
 	/** line thickness for pen (mow) */
-	public static final int DEFAULT_PEN_SIZE = 3;
+	public static final int DEFAULT_PEN_SIZE = 5;
 	/** min length of input box that allows display of symbol button */
 	public static final int SHOW_SYMBOLBUTTON_MINLENGTH = 8;
 

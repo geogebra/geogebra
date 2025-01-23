@@ -37,7 +37,6 @@ public class MetaFunction extends MetaComponent {
 
 	private int insertIndex;
 	private MetaParameter[] arguments;
-	private int defaultsize = -1;
 
 	/**
 	 * @param name
@@ -58,7 +57,7 @@ public class MetaFunction extends MetaComponent {
 	 * @return number of arguments.
 	 */
     public int size() {
-        return defaultsize < 0 ? arguments.length : defaultsize;
+        return arguments.length;
     }
 
     /**
@@ -123,9 +122,5 @@ public class MetaFunction extends MetaComponent {
 	 */
 	public char getClosingBracket() {
 		return getName() == Tag.APPLY_SQUARE ? ']' : ')';
-	}
-
-	public void setDefaultSize(int defaultSize) {
-		this.defaultsize = defaultSize;
 	}
 }

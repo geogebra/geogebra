@@ -28,7 +28,6 @@ public class ExamControllerMultiAppTest {
 	public void shouldNotifyAllDelegates() {
 		TestExamDelegate firstDelegate = new TestExamDelegate();
 		controller.registerContext(this,
-				app.getKernel().getAlgoDispatcher(),
 				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				app.getKernel().getAlgebraProcessor(),
 				app.getLocalization(), app.getSettings(), null, null, null);

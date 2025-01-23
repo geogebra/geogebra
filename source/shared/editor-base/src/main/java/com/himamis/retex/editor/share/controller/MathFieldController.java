@@ -8,7 +8,6 @@ import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXBuilder;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
@@ -156,24 +155,15 @@ public class MathFieldController {
 					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 					.setType(type).build();
 			renderer.setInsets(new Insets(1, 1, 1, 1));
-			MathComponent input = selectionStart != null
-					? selectionStart : currentField;
-			while (input != null) {
-				if (input.getParent() instanceof MathFunction
-						&& ((MathFunction) input.getParent()).getName()
-						.isRenderingOwnPlaceholders()) {
-					break;
-				}
-				input = input.getParent();
-			}
+
 			if (selectionStart == null) {
 				CursorBoxConsumer consumer
-						= new CursorBoxConsumer(texBuilder, currentField, currentOffset, input);
+						= new CursorBoxConsumer(texBuilder, currentField, currentOffset);
 				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
 				renderer.cursorPosition = consumer.getPosition();
 			} else {
 				SelectionBoxConsumer consumer
-						= new SelectionBoxConsumer(texBuilder, selectionStart, selectionEnd, input);
+						= new SelectionBoxConsumer(texBuilder, selectionStart, selectionEnd);
 				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
 				renderer.selectionPosition = consumer.getPosition();
 			}

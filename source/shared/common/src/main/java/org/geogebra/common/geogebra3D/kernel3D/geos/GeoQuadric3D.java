@@ -2841,7 +2841,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		if (hasLastHitParameters()) {
-			// use last hit parameters
+			// use last hitted parameters
 			rp.setT1(lastHitParameters[0]);
 			rp.setT2(lastHitParameters[1]);
 			rp.setNormal(evaluateNormal(rp.getT1(), rp.getT2()));

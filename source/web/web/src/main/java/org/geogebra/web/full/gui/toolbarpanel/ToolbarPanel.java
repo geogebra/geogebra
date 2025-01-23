@@ -1385,15 +1385,4 @@ public class ToolbarPanel extends FlowPanel
 			tabTable.openDialogIfEmpty();
 		}
 	}
-
-	/**
-	 * Toggles the spreadsheet view in the application. The method
-	 * ensures appropriate focus behavior is triggered.
-	 */
-	public void toggleSpreadsheetView() {
-		navRail.onSpreadsheetPressed();
-		if (!navRail.isOpen()) {
-			app.getActiveEuclidianView().requestFocus();
-		}
-	}
 }

@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -86,9 +88,10 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 		return ParserFunctionsFactory.createParserFunctionsFactory();
 	}
 
+	@Nonnull
 	@Override
-	public void initializeEquationBehaviour() {
-		equationBehaviour = new DefaultEquationBehaviour();
+	public EquationBehaviour getEquationBehaviour() {
+		return new DefaultEquationBehaviour();
 	}
 
 	@Override

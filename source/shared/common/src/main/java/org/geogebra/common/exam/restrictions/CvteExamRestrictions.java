@@ -25,7 +25,6 @@ import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -84,13 +83,11 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				createPropertyRestrictions(),
 				createPropertyFilters(),
 				createGeoElementSetup(),
-				createEquationBehaviour(),
-				null);
+				createEquationBehaviour());
 	}
 
 	@Override
 	public void applyTo(
-			@Nullable AlgoDispatcher algoDispatcher,
 			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
@@ -114,14 +111,13 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			// standalone app disables CAS, but it's enabled in Suite (see app config).
 			settings.getCasSettings().setEnabled(false);
 		}
-		super.applyTo(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
-				context, localization, settings, autoCompleteProvider, toolsProvider,
+		super.applyTo(commandDispatcher, algebraProcessor, propertiesRegistry, context,
+				localization, settings, autoCompleteProvider, toolsProvider,
 				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory);
 	}
 
 	@Override
 	public void removeFrom(
-			@Nullable AlgoDispatcher algoDispatcher,
 			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
@@ -133,8 +129,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
 			@Nullable ContextMenuFactory contextMenuFactory) {
-		super.removeFrom(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
-				context, localization, settings, autoCompleteProvider, toolsProvider,
+		super.removeFrom(commandDispatcher, algebraProcessor, propertiesRegistry, context,
+				localization, settings, autoCompleteProvider, toolsProvider,
 				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);

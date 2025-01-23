@@ -1064,8 +1064,8 @@ public class GeoGebraFrame extends JFrame
 						Log.debug("size = " + size);
 
 						exportScale = Math.min(
-								maxSize / (double) ev.getExportWidth(),
-								maxSize / (double) ev.getExportHeight());
+								maxSize / Math.floor(ev.getExportWidth()),
+								maxSize / Math.floor(ev.getExportHeight()));
 						Log.debug("exportScale = " + exportScale);
 						pixelWidth = (int) Math
 								.floor(ev.getExportWidth() * exportScale);

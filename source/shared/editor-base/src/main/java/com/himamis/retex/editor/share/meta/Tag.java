@@ -49,8 +49,6 @@ public enum Tag {
 
 	POINT_AT("$pointAt"),
 
-	VECTOR("$vector"),
-
 	MIXED_NUMBER("mixedNumber"),
 
 	RECURRING_DECIMAL("recurringDecimal"),
@@ -103,7 +101,6 @@ public enum Tag {
 		switch (this) {
 		case POINT:
 		case POINT_AT:
-		case VECTOR:
 			return true;
 		default: return false;
 		}

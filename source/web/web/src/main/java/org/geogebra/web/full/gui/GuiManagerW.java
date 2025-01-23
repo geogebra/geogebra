@@ -2188,11 +2188,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void toggleSpreadsheetView() {
-		getUnbundledToolbar().toggleSpreadsheetView();
-	}
-
-	@Override
 	public void updateUnbundledToolbar() {
 		if (getUnbundledToolbar() != null) {
 			getUnbundledToolbar().resizeTabs();

@@ -45,7 +45,6 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
@@ -63,9 +62,8 @@ public class OvalBox extends FramedBox {
 	final double cornersize;
 
 	public OvalBox(Box bbase, double drt, double space, Color line, Color bg,
-			double cornersize, double minHeight) {
+			double cornersize) {
 		super(bbase, drt, space, line, bg);
-		this.height = Math.max(height, minHeight);
 		this.cornersize = cornersize;
 	}
 

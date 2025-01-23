@@ -128,7 +128,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Template which prints numbers with maximal precision and adds prefix to
-	 * variables ({@link Kernel#TMP_VARIABLE_PREFIX})
+	 * variables (ggbtmpvar)
 	 */
 	public static final StringTemplate prefixedDefaultSF = new StringTemplate(
 			"prefixedDefaultSF") {
@@ -144,7 +144,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		prefixedDefaultSF.internationalizeDigits = false;
 		prefixedDefaultSF.usePrefix = true;
 		prefixedDefaultSF.forceSF = true;
-		prefixedDefaultSF.allowMoreDigits = true;
 		prefixedDefaultSF.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 	}
@@ -3606,7 +3605,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		case LATEX:
 			return "\\mathit{e_{\\gamma}}";
 		case SCREEN_READER_ASCII:
-			return "euler gamma";
+			return "euler gamme";
 		}
 		return Unicode.EULER_GAMMA_STRING;
 	}
@@ -3808,14 +3807,5 @@ public class StringTemplate implements ExpressionNodeConstants {
 		// because of static references (tests)
 		return usePointTemplate && forEditorParser
 				&& PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_TEMPLATES);
-	}
-
-	/**
-	 * @return copy of this with point template turned off
-	 */
-	public StringTemplate deriveWithoutPointTemplate() {
-		StringTemplate copy = copy();
-		copy.usePointTemplate = false;
-		return copy;
 	}
 }

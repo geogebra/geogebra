@@ -22,7 +22,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
 import org.geogebra.gwtutil.DOMMatrix;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
-import org.geogebra.web.html5.export.Canvas2Svg;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.MyImageW;
@@ -90,7 +89,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 		this.context = JLMContextHelper.as(ctx);
 		this.context.initTransform();
-		updateCanvasColor();
 	}
 
 	protected void setContext(JLMContext2d context) {
@@ -313,25 +311,14 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 *            SVG pattern
 	 */
 	public void setPaintSVG(final GPaintSVG svgPaint) {
-		GGraphics2DW content = (GGraphics2DW) svgPaint.getPatternGraphics();
-		int width = svgPaint.getWidth();
-		int height = svgPaint.getHeight();
-		Canvas2Svg canvas2Svg = Js.uncheckedCast(context);
-		try {
-			Canvas2Svg.SVGPattern pattern =
-					canvas2Svg.createPattern(content.getContext(), "repeat");
-			elemental2.dom.Element root = pattern.getRoot();
-			if (root != null) {
-				root.setAttribute("viewBox",
-						+svgPaint.getStartX() + " " + svgPaint.getStartY() + " "
-								+ width + " " + height);
-				root.setAttribute("width", width);
-				root.setAttribute("height", height);
-			}
-			canvas2Svg.setFillStyle(pattern);
-		} catch (Exception ex) {
-			Log.debug(ex.getMessage());
-		}
+		CanvasPattern ptr = context.createPatternSVG(
+				svgPaint.getPath(), svgPaint.getStyle(), svgPaint.getWidth(),
+				svgPaint.getHeight(),
+				Math.round(svgPaint.getAngle() * 180 / Math.PI),
+				svgPaint.getFill());
+		// "stroke:black; stroke-width:1", 69.2820323028, 120);
+
+		context.setFillStyle(ptr);
 	}
 
 	@Override

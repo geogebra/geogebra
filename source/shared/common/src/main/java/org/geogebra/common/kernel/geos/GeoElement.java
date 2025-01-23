@@ -3894,7 +3894,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String getLabelDescription() {
-		return app.getLabelDescriptionConverter().convert(this, getLabelStringTemplate());
+		return app.getLabelDescriptionConverter().convert(this);
 	}
 
 	public StringTemplate getLabelStringTemplate() {
@@ -4053,18 +4053,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return  algebraic representation (e.g. coordinates, equation)
 	 */
 	public String getAlgebraDescriptionPublic(StringTemplate tpl) {
-		if (hasVisibleLabel()) {
-			return toString(tpl);
-		} else {
+		if (label == null || !isAlgebraLabelVisible()) {
 			return toValueString(tpl);
+		} else {
+			return toString(tpl);
 		}
-	}
-
-	/**
-	 * @return whether label is set and visible
-	 */
-	public boolean hasVisibleLabel() {
-		return label != null && isAlgebraLabelVisible();
 	}
 
 	/**
@@ -5470,8 +5463,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		} else if (isGeoSurfaceCartesian() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else {
-			ret = substituteNumbers ? app.getGeoElementValueConverter().convert(this, tpl)
-					: getDefinition(tpl);
+			ret = substituteNumbers ? toValueString(tpl) : getDefinition(tpl);
 		}
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
 				&& isLabelSet() && !sendValueToCas) {
@@ -7218,19 +7210,5 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public void setZero() {
 		// Overridden in subclasses
-	}
-
-	@Override
-	public boolean isImplicitEquation() {
-		if (this instanceof EquationValue) {
-			EquationValue equationValue = (EquationValue) this;
-			return equationValue.getEquation().isImplicit();
-		}
-		ExpressionNode definition = this.getDefinition();
-		if (definition != null && definition.unwrap() instanceof Equation) {
-			Equation equation = (Equation) definition.unwrap();
-			return equation.isImplicit();
-		}
-		return false;
 	}
 }

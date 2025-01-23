@@ -899,11 +899,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return getAssignmentLHS(tpl);
 		}
 		if (isDefined() && fun != null) {
-			if (symbolic) {
-				return fun.toLaTeXString(symbolic, tpl);
-			} else {
-				return app.getGeoElementValueConverter().convert(this, tpl);
-			}
+			return fun.toLaTeXString(symbolic, tpl);
 		}
 		return "?";
 	}
@@ -1931,7 +1927,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2",
 			// "ggbtmpvarx"}
 			String[] derivVarStr = deriv.getTempVarCASString(false);
-			final String[] funVarStr = getTempVarCASString(false);
+			String[] funVarStr = getTempVarCASString(false);
 
 			if (sbCasCommand == null) {
 				sbCasCommand = new StringBuilder();
@@ -2545,7 +2541,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 							((AlgoFunctionInterval) getParentAlgorithm()).getCondition(),
 							getFunctionExpression(), substituteNumbers).toString();
 				} else {
-					ret = substituteNumbers ? app.getGeoElementValueConverter().convert(this, tpl)
+					ret = substituteNumbers ? getFunction().toValueString(tpl)
 							: getParentAlgorithm().getDefinition(tpl);
 				}
 			}

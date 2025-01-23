@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 
 /**
@@ -9,61 +8,77 @@ import org.geogebra.common.awt.GPaint;
  */
 public class GPaintSVG implements GPaint {
 
-	private GGraphics2D patternGraphics;
-
-	private final int startX;
-	private final int startY;
-	private final int width;
-	private final int height;
+	private String path;
+	private String style;
+	private String fill;
+	private double width;
+	private double height;
+	private double angle;
 
 	/**
-	 * @param path0 fill path
-	 * @param width width
-	 * @param height height
-	 * @param startX horizontal position of sub-image
-	 * @param startY vertical position of sub-image
+	 * @param path0
+	 *            fill path
+	 * @param style0
+	 *            style
+	 * @param width0
+	 *            width
+	 * @param height0
+	 *            height
+	 * @param angle0
+	 *            hatching angle
+	 * @param fill0
+	 *            color #code
 	 */
-	public GPaintSVG(GGraphics2D path0, int width, int height, int startX, int startY) {
-		this.patternGraphics = path0;
-		this.width = width;
-		this.height = height;
-		this.startX = startX;
-		this.startY = startY;
+	public GPaintSVG(String path0, String style0, double width0,
+			double height0, double angle0, String fill0) {
+		this.path = path0;
+		this.style = style0;
+		this.width = width0;
+		this.height = height0;
+		this.angle = angle0;
+		this.fill = fill0;
+	}
+
+	/**
+	 * @return style
+	 */
+	public String getStyle() {
+		return style;
 	}
 
 	/**
 	 * @return width
 	 */
-	public int getWidth() {
+	public double getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return height
 	 */
-	public int getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
 	/**
-	 * @return horizontal offset of the view box
+	 * @return hatching path
 	 */
-	public int getStartX() {
-		return startX;
+	public String getPath() {
+		return path;
 	}
 
 	/**
-	 * @return vertical offset of the view box
+	 * @return hatching angle
 	 */
-	public int getStartY() {
-		return startY;
+	public double getAngle() {
+		return angle;
 	}
 
 	/**
-	 * @return graphics object with drawing of the pattern
+	 * @return fill color #code
 	 */
-	public GGraphics2D getPatternGraphics() {
-		return patternGraphics;
+	public String getFill() {
+		return fill;
 	}
 
 }

@@ -165,7 +165,7 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 	}
 
 	@Override
-	protected String[] replaceXYArguments(ExpressionNode[] arg) {
+	protected String[] replaceXYarguments(ExpressionNode[] arg) {
 		String[] newXYZ = new String[3];
 
 		if (arg.length == 9 || arg.length == 7) {

@@ -19,7 +19,6 @@ import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -149,7 +148,6 @@ public final class ExamController {
 	 * initialization, before any attempts to start an exam.
 	 */
 	public void registerContext(@Nonnull Object context,
-			@Nonnull AlgoDispatcher algoDispatcher,
 			@Nonnull CommandDispatcher commandDispatcher,
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull Localization localization,
@@ -162,7 +160,6 @@ public final class ExamController {
 					"registerContexts() must not be mixed with calls to setActiveContext()");
 		}
 		ContextDependencies contextDependencies = new ContextDependencies(context,
-				algoDispatcher,
 				commandDispatcher,
 				algebraProcessor,
 				localization,
@@ -193,7 +190,6 @@ public final class ExamController {
 	 */
 	public void setActiveContext(
 			@Nonnull Object context,
-			@Nonnull AlgoDispatcher algoDispatcher,
 			@Nonnull CommandDispatcher commandDispatcher,
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull Localization localization,
@@ -210,7 +206,6 @@ public final class ExamController {
 			removeRestrictionsFromContextDependencies(activeDependencies);
 		}
 		ContextDependencies contextDependencies = new ContextDependencies(context,
-				algoDispatcher,
 				commandDispatcher,
 				algebraProcessor,
 				localization,
@@ -248,7 +243,7 @@ public final class ExamController {
 	public void registerRestrictable(@Nonnull ExamRestrictable restrictable) {
 		restrictables.add(restrictable);
 		if (examRestrictions != null) {
-			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions(), examType);
+			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions());
 		}
 	}
 
@@ -261,7 +256,7 @@ public final class ExamController {
 	 */
 	public void unregisterRestrictable(@Nonnull ExamRestrictable restrictable) {
 		if (examRestrictions != null) {
-			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions(), examType);
+			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions());
 		}
 		restrictables.remove(restrictable);
 	}
@@ -608,8 +603,7 @@ public final class ExamController {
 			return; // log/throw?
 		}
 		if (dependencies != null) {
-			examRestrictions.applyTo(dependencies.algoDispatcher,
-					dependencies.commandDispatcher,
+			examRestrictions.applyTo(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context,
@@ -631,8 +625,7 @@ public final class ExamController {
 			return;
 		}
 		if (dependencies != null) {
-			examRestrictions.removeFrom(dependencies.algoDispatcher,
-					dependencies.commandDispatcher,
+			examRestrictions.removeFrom(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context,
@@ -649,24 +642,15 @@ public final class ExamController {
 		}
 	}
 
-	/**
-	 * Re-applies the {@link ExamRestrictions} by removing, and subsequently adding them again
-	 * to the {@link #restrictables}
-	 */
-	public void reapplyRestrictionsToRestrictables() {
-		removeRestrictionsFromRestrictables();
-		applyRestrictionsToRestrictables();
-	}
-
 	private void applyRestrictionsToRestrictables() {
 		for (ExamRestrictable restrictable : restrictables) {
-			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions(), examType);
+			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions());
 		}
 	}
 
 	private void removeRestrictionsFromRestrictables() {
 		for (ExamRestrictable restrictable : restrictables) {
-			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions(), examType);
+			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions());
 		}
 	}
 
@@ -735,9 +719,6 @@ public final class ExamController {
 		final Object context;
 		@NonOwning
 		@Nonnull
-		final AlgoDispatcher algoDispatcher;
-		@NonOwning
-		@Nonnull
 		final CommandDispatcher commandDispatcher;
 		@NonOwning
 		@Nonnull
@@ -759,7 +740,6 @@ public final class ExamController {
 		final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
 
 		ContextDependencies(@Nonnull Object context,
-				@Nonnull AlgoDispatcher algoDispatcher,
 				@Nonnull CommandDispatcher commandDispatcher,
 				@Nonnull AlgebraProcessor algebraProcessor,
 				@Nonnull Localization localization,
@@ -768,7 +748,6 @@ public final class ExamController {
 				@CheckForNull ToolsProvider toolsProvider,
 				@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar) {
 			this.context = context;
-			this.algoDispatcher = algoDispatcher;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
 			this.localization = localization;

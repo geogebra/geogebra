@@ -95,12 +95,12 @@ var codebase = "<!--CODEBASE-->";
 		if(label){
 			parentTable(label).className += " perspectiveHighlighted";
 		}
-		if (name && window.history && window.history.pushState && name != "picker" && location.host && location.host.indexOf("geogebra") >= 0 &&
-				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/)){
-			if (name != "classic" && !window.appID) {
-				history.pushState({}, "GeoGebra", "/clasic#" + name);
+		if (name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
+				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
+			if (name != "classic" && (location.pathname.indexOf("classic") > 0 || !unbundled)) {
+				name = "classic#" + name;
 			}
-
+			history.pushState({}, "GeoGebra", "/"+name);
 		}
 		return false;
 	}
@@ -323,7 +323,7 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function isLocalhost(){
-		return location.protocol.match(/(chrome|app|file:)/) || location.host.match(/^([0-9.]*|localhost|apps-builds.s3.*.amazonaws.com)(:.+)?$/);
+		return location.protocol.match(/(chrome|app|file:)/) || location.host.match(/^([0-9.]*|(autotest|deploy).*geogebra.org|localhost|apps-builds.s3.*.amazonaws.com)(:.+)?$/);
 	}
 
 	function showStartScreen(){

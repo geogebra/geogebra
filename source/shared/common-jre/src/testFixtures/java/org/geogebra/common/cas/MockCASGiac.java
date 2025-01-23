@@ -1,11 +1,7 @@
 package org.geogebra.common.cas;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.factories.CASFactory;
@@ -22,7 +18,7 @@ import org.geogebra.common.kernel.Kernel;
  */
 public final class MockCASGiac extends CASgiac {
 
-	private final List<Function<String, String>> responses = new ArrayList<>();
+	private final List<String> responses = new ArrayList<>();
 
 	/**
 	 * Creates a Giac CAS mock that registers itself as the CAS factory for the app.
@@ -43,7 +39,7 @@ public final class MockCASGiac extends CASgiac {
 
 	@Override
 	public String evaluateCAS(String exp) {
-		return responses.remove(0).apply(exp);
+		return responses.remove(0);
 	}
 
 	@Override
@@ -67,17 +63,6 @@ public final class MockCASGiac extends CASgiac {
 	 * @param response mocked Giac response
 	 */
 	public void memorize(String response) {
-		responses.add(any -> response);
-	}
-
-	/**
-	 * @param response response for the next call to {@link #evaluateCAS(String)}
-	 * @param check test for the next input of {@link #evaluateCAS(String)}
-	 */
-	public void memorizeWithCheck(String response, Predicate<String> check) {
-		responses.add(input -> {
-			assertTrue("Unexpected input:" + input, check.test(input));
-			return response;
-		});
+		responses.add(response);
 	}
 }

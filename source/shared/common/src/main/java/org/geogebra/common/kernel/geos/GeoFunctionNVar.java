@@ -918,14 +918,14 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	/**
-	 * reset last hit parameters
+	 * reset last hitted parameters
 	 */
 	public void resetLastHitParameters() {
 		hasLastHitParameters = false;
 	}
 
 	/**
-	 * set last hit parameters
+	 * set last hitted parameters
 	 * 
 	 * @param swap
 	 *            says if we have to swap first/last
@@ -1068,7 +1068,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	/**
-	 * Returns true if the element is translatable
+	 * Returns true if the element is translateable
 	 * 
 	 * @return true
 	 */

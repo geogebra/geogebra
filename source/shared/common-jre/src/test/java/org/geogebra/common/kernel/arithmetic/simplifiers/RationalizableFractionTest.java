@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -63,13 +62,6 @@ public class RationalizableFractionTest extends BaseUnitTest {
 		shouldBeUnsupported("((1 / 2) (sqrt(3) + 1)) / sqrt(2)");
 		shouldBeUnsupported("(3.2 (sqrt(3) + 1)) / sqrt(2)");
 		shouldBeUnsupported("((4+sqrt(10+0.0001))/(-2+sqrt(0.0001+10)))");
-	}
-
-	@Issue("APPS-6267")
-	@Test
-	public void testUnsupportedIfNoSqrtInDenominator() {
-		shouldBeUnsupported("1/3");
-		shouldBeUnsupported("1/(3 + 2)");
 	}
 
 	private void shouldBeUnsupported(String definition) {
@@ -347,7 +339,6 @@ public class RationalizableFractionTest extends BaseUnitTest {
 		e.setSymbolicMode(true, true);
 		GeoText text = add("FormulaText(e)");
 		assertEquals("3 + 2 \\; \\sqrt{5} - \\sqrt{5}", text.getTextString());
-		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
 }

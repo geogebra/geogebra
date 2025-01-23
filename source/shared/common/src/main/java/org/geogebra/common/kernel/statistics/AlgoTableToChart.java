@@ -102,8 +102,8 @@ public class AlgoTableToChart extends AlgoElement {
 			minY = min(lineData[1]) - 1;
 			maxY = max(lineData[1]) + 1;
 			break;
-		case BarChart:
 		default:
+		case BarChart:
 			List<Double>[] barData = table.extractTwoColumnData(column);
 			chartCommand = "chart=BarChart({"
 					+ StringUtil.join(",", barData[0]) + "},{"
@@ -124,16 +124,14 @@ public class AlgoTableToChart extends AlgoElement {
 		if (chartType == ChartType.BarChart || chartType == ChartType.LineGraph) {
 			int axisDistance = 32; // padding between the axis and the edge of the object
 			App app = embedManager.getEmbedApp(chart);
-			if (app != null) {
-				EuclidianView ev = app.getActiveEuclidianView();
-				double newXmin = (axisDistance * maxX - ev.getWidth() * minX) / (axisDistance - ev
-						.getWidth());
-				double newYmin = (axisDistance * maxY - ev.getHeight() * minY) / (axisDistance - ev
-						.getHeight());
-				app.getActiveEuclidianView().setRealWorldCoordSystem(newXmin, maxX, newYmin, maxY);
-				embedManager.setGraphAxis(chart, 0, minY);
-				embedManager.setGraphAxis(chart, 1, minX);
-			}
+			EuclidianView ev = app.getActiveEuclidianView();
+			double newXmin = (axisDistance * maxX - ev.getWidth() * minX) / (axisDistance - ev
+					.getWidth());
+			double newYmin = (axisDistance * maxY - ev.getHeight() * minY) / (axisDistance - ev
+					.getHeight());
+			app.getActiveEuclidianView().setRealWorldCoordSystem(newXmin, maxX, newYmin, maxY);
+			embedManager.setGraphAxis(chart, 0, minY);
+			embedManager.setGraphAxis(chart, 1, minX);
 		}
 	}
 

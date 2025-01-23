@@ -7,8 +7,6 @@
   <inherits name="org.geogebra.regexp.RegExp" />
   <inherits name="com.google.j2objc.Annotations"/>
 
-  <source path='common'>
-    <exclude name="keyboard/**/*"/>
-  </source>
+  <source path='common' />
 
 </module>

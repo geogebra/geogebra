@@ -1363,13 +1363,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				planeIndex = 1;
 			}
 
-			// if both negative infinity : not hit
+			// if both negative infinity : not hitted
 			if (Double.isInfinite(z1)) {
 				quadric.resetLastHitParameters();
 				return false;
 			}
 
-			// project with orthonormal matrix to get correct parameters
+			// project with ortho matrix to get correct parameters
 			hitting.getOrigin().projectPlaneThruVIfPossible(
 					quadric.getPlanes()[planeIndex].getCoordSys()
 							.getMatrixOrthonormal(),
@@ -1380,7 +1380,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			parameters1[1] = project.getY();
 			quadric.setLastHitParameters(parameters1);
 
-			// hit
+			// hitted
 			setZPick(z1, z1, hitting.discardPositiveHits(),
 					drawPlanes[planeIndex].getPositionOnHitting());
 			setPickingType(PickingType.SURFACE);
@@ -1439,13 +1439,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			quadric.setLastHitParameters(parameters1);
 		}
 
-		// if both negative infinity : not hit
+		// if both negative infinity : not hitted
 		if (Double.isInfinite(z1)) {
 			quadric.resetLastHitParameters();
 			return false;
 		}
 
-		// hit
+		// hitted
 		setZPick(z1, z1, hitting.discardPositiveHits(), -z1);
 		setPickingType(PickingType.SURFACE);
 		return true;

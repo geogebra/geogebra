@@ -1763,14 +1763,14 @@ public final class MusicStringParser extends Parser {
 	private byte getByteFromDictionary(String bracketedString)
 			throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
-		byte newbyte;
+		Byte newbyte = null;
 		try {
-			newbyte = Byte.parseByte(definition);
+			newbyte = new Byte(definition);
 		} catch (NumberFormatException e) {
 			throw new JFugueException(JFugueException.EXPECTED_BYTE, definition,
 					bracketedString);
 		}
-		return newbyte;
+		return newbyte.byteValue();
 	}
 
 	/**
@@ -1786,14 +1786,14 @@ public final class MusicStringParser extends Parser {
 	private long getLongFromDictionary(String bracketedString)
 			throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
-		long newlong;
+		Long newlong = null;
 		try {
-			newlong = Long.parseLong(definition);
+			newlong = new Long(definition);
 		} catch (NumberFormatException e) {
 			throw new JFugueException(JFugueException.EXPECTED_LONG, definition,
 					bracketedString);
 		}
-		return newlong;
+		return newlong.longValue();
 	}
 
 	/**

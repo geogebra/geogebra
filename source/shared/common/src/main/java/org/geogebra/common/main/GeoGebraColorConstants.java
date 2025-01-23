@@ -43,7 +43,7 @@ public class GeoGebraColorConstants {
 	public static final GColor LIGHTPURPLE = rgb(204, 204, 255);
 	/** light violet (wikipedia mauve) */
 	public static final GColor LIGHTVIOLET = rgb(224, 176, 255);
-	/** turquoise (wikipedia pale turquoise) */
+	/** turqoise (wikipedia pale turquoise) */
 	public static final GColor TURQUOISE = rgb(175, 238, 238);
 	/** light green (wikipedia tea green) */
 	public static final GColor LIGHTGREEN = rgb(208, 240, 192);

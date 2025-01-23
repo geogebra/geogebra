@@ -102,6 +102,13 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
+	public MyImage newMyImage(int pixelWidth, int pixelHeight,
+			int typeIntArgb) {
+		return new MyImageD(
+				new BufferedImage(pixelWidth, pixelHeight, typeIntArgb));
+	}
+
+	@Override
 	public GDimension newDimension(int width, int height) {
 		return new GDimensionD(width, height);
 	}

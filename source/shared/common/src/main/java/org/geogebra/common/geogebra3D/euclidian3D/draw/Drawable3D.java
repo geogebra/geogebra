@@ -1826,7 +1826,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 			// try to hit label
 			if (hitLabel(hitting, hits)) {
-				return; // label is hit
+				return; // label is hitten
 			}
 
 			// try to hit geo
@@ -1843,7 +1843,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 *            hitting
 	 * @param hits
 	 *            hits to record
-	 * @return true if label is hit
+	 * @return true if label is hitted
 	 */
 	protected boolean hitLabel(Hitting hitting, Hits3D hits) {
 		if (isLabelVisible() && hitting.hitLabel(label)) {

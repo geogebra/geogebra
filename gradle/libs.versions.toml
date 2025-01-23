@@ -4,11 +4,11 @@ junit5 = "5.11.3"
 mockito = "5.14.2"
 hamcrest = "3.0"
 jogl = "2.5.0"
-javagiac = "70398"
+javagiac = "70379"
 gwt = "2.12.1"
 gwtTreblereel = "202408061"
 elemental2 = "1.2.3"
-murok = "1.0.202501301331"
+murok = "1.0.202412180644"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202412181317-SNAPSHOT'
@@ -63,13 +63,12 @@ junit = { module = "junit:junit", version.ref = "junit4" }
 junit5-bom = { module = "org.junit:junit-bom", version.ref = "junit5"}
 junit5-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit5-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
-junit5-launcher = {module = 'org.junit.platform:junit-platform-launcher' }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
 spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.26" }
-javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.1"}
+javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.3"}
 
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }
 

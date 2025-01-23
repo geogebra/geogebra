@@ -134,7 +134,7 @@ public abstract class FactoryProvider {
 		return null;
 	}
 
-	public static void debugS(Object message) {
+	public static void debugS(String message) {
 		if (INSTANCE != null) {
 			INSTANCE.debug(message);
 		} else {

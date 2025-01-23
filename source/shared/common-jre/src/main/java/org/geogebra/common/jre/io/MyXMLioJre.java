@@ -315,13 +315,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * 
 	 * @param os
 	 *            output stream
-	 * @param includeThumbnail
+	 * @param includeThumbail
 	 *            whether to include thumbnail
 	 * @throws IOException
 	 *             on write error
 	 */
 	final public void writeGeoGebraFile(OutputStream os,
-			boolean includeThumbnail) throws IOException {
+			boolean includeThumbail) throws IOException {
 		boolean isSaving = kernel.isSaving();
 		kernel.setSaving(true);
 
@@ -335,7 +335,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			writeConstructionImages(kernel.getConstruction(), zip);
 
 			// write construction thumbnails
-			if (includeThumbnail) {
+			if (includeThumbail) {
 				writeThumbnail(zip, XML_FILE_THUMBNAIL);
 			}
 
@@ -387,6 +387,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 			osw.close();
 			zip.close();
+		} catch (IOException e) {
+			throw e;
 		} finally {
 			kernel.setSaving(isSaving);
 		}

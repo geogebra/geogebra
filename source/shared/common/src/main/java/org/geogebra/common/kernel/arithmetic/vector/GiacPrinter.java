@@ -5,16 +5,17 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class GiacPrinter {
 
-    public static String print(StringTemplate tpl, String xCoord, String yCoord,
+    public static String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
 			PrintableVector vector) {
         StringBuilder sb = new StringBuilder();
         sb.append(getHead(vector));
-        printReGiac(sb, xCoord, vector.getX());
+        printReGiac(sb, vector.getX(), expressionPrinter, tpl);
         sb.append(",");
-        printReGiac(sb, yCoord, vector.getY());
+        printReGiac(sb, vector.getY(), expressionPrinter, tpl);
         sb.append(getTail(vector));
         return sb.toString();
     }
@@ -36,14 +37,15 @@ class GiacPrinter {
 
     private static void printReGiac(
             StringBuilder sb,
-            String expressionValue,
-            ExpressionValue value) {
+            ExpressionValue expressionValue,
+            ExpressionPrinter printer,
+            StringTemplate tpl) {
 
-        if (value.unwrap() instanceof Command) {
+        if (expressionValue.unwrap() instanceof Command) {
             sb.append("re(");
         }
-        sb.append(expressionValue);
-        if (value.unwrap() instanceof Command) {
+        sb.append(printer.print(expressionValue, tpl));
+        if (expressionValue.unwrap() instanceof Command) {
             sb.append(")");
         }
 

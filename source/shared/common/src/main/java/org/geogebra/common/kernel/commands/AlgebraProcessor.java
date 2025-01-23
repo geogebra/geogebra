@@ -1187,12 +1187,8 @@ public class AlgebraProcessor {
 				ErrorHelper.handleError(myError, null, loc, handler);
 				removeSliders(sliders);
 			}
-			if (!geoElementSetups.isEmpty()) {
-				Arrays.stream(geos).forEach(geoElement -> {
-					geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
-					geoElement.updateRepaint();
-				});
-			}
+			Arrays.stream(geos).forEach(geoElement ->
+					geoElementSetups.forEach(setup -> setup.applyTo(geoElement)));
 		}
 		if (callback0 != null) {
 			callback0.callback(filteredGeos);
@@ -2074,7 +2070,9 @@ public class AlgebraProcessor {
 			evalInfo = evalInfo.withRedefinition(true);
 			cons.setSuppressLabelCreation(true);
 			isRedefining = true;
-			if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
+			if (replaceable.isGeoVector()) {
+				expression = getTraversedCopy(labels, expression);
+			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
 				evalInfo = evalInfo.withSymbolicMode(SymbolicMode.NONE);
 			}
         }
@@ -2124,6 +2122,14 @@ public class AlgebraProcessor {
 		for (GeoElement element: elements) {
 			element.setDefinition(null);
 		}
+	}
+
+	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
+		ValidExpression copy = expression.deepCopy(kernel);
+		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
+		copy.setLabels(labels);
+		expression.wrap().copyAttributesTo(copy.wrap());
+		return copy;
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
@@ -2561,7 +2567,7 @@ public class AlgebraProcessor {
 	 * @param coefX
 	 *            output array for coeffs
 	 * @param mult
-	 *            multiplier
+	 *            multiplicator
 	 * @param loc2
 	 *            variable
 	 * @return degree if successful, -1 otherwise
@@ -2638,7 +2644,7 @@ public class AlgebraProcessor {
 	 * @param coefX
 	 *            output array for coefficients
 	 * @param scale
-	 *            multiplier
+	 *            multiplicator
 	 *
 	 * @param var
 	 *            variable

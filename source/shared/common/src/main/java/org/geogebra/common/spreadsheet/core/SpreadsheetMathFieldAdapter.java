@@ -46,18 +46,12 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 
 	@Override
 	public void onEnter() {
-		if (spreadsheetController.handleKeyPress(JavaKeyCodes.VK_ENTER)) {
-			return;
-		}
 		commitInput();
 		spreadsheetController.onEnter();
 	}
 
 	@Override
 	public boolean onEscape() {
-		if (spreadsheetController.handleKeyPress(JavaKeyCodes.VK_ESCAPE)) {
-			return true;
-		}
 		discardInput();
 		spreadsheetController.onEsc();
 		return true;
@@ -65,9 +59,6 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 
 	@Override
 	public boolean onTab(boolean shiftDown) {
-		if (spreadsheetController.handleKeyPress(JavaKeyCodes.VK_TAB)) {
-			return true;
-		}
 		commitInput();
 		spreadsheetController.onTab();
 		return true;
@@ -76,13 +67,12 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 	@Override
 	public void onKeyTyped(String key) {
 		// TODO scroll cursor into view?
-		spreadsheetController.onEditorTextChanged();
 	}
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
 		// TODO scroll cursor into view?
-		return spreadsheetController.handleKeyPress(keyCode);
+		return false;
 	}
 
 	@Override

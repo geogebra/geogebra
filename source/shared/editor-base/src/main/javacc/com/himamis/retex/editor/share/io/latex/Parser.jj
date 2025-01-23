@@ -145,7 +145,6 @@ PARSER_END(Parser)
 	| < LIM_EQ : "$limeq(" >
 	| < POINT : "$point" >
 	| < POINT_AT : "$pointAt" >
-	| < VECTOR : "$vector" >
 	| < VEC : "$vec(" >
 	| < ATOMIC_POST : "$atomicpost" >
 	| < ATOMIC_PRE : "$atomicpre" >
@@ -364,8 +363,7 @@ void defintSumProduct(MathContainer currentField) : {
 }
 {
 
-	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ> | symbol = <POINT>
-	| symbol = <POINT_AT> | symbol = <VECTOR> ) <PARENTHESES_OPEN> {
+	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ> | symbol = <POINT> | symbol = <POINT_AT> ) <PARENTHESES_OPEN> {
 		MathFunction defint = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
 		MathSequence param0 = new MathSequence();
 		mathContainer(param0);

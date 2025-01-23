@@ -306,14 +306,14 @@ public abstract class GeoGebraExport {
 	 */
 
 	protected String createCustomColor(int red, int green, int blue) {
-		final String encodedHexDigits = "qrstuvwxyzabcdef";
+		final String suff = "qrstuvwxyzabcdef";
 		int[] nb = { red, green, blue };
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < nb.length; i++) {
 			int quot = nb[i] / 16;
 			int reste = nb[i] % 16;
-			sb.append(encodedHexDigits.charAt(quot));
-			sb.append(encodedHexDigits.charAt(reste));
+			sb.append(suff.charAt(quot));
+			sb.append(suff.charAt(reste));
 		}
 		return new String(sb);
 	}

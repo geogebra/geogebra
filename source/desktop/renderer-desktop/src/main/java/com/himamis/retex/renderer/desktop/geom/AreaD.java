@@ -41,7 +41,6 @@
  * version.
  * 
  */
-
 package com.himamis.retex.renderer.desktop.geom;
 
 import java.awt.geom.AffineTransform;
@@ -51,6 +50,8 @@ import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 
 public class AreaD extends java.awt.geom.Area
 		implements com.himamis.retex.renderer.share.platform.geom.Area {
+
+	private static final long serialVersionUID = 1L;
 
 	public AreaD(java.awt.Shape s) {
 		super(s);

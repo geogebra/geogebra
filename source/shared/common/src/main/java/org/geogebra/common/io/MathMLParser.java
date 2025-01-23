@@ -223,7 +223,7 @@ public class MathMLParser {
 			geogebraMap.put("&OHgr;", Unicode.Omega + "");
 			geogebraMap.put("&Zgr;", Unicode.Zeta + "");
 
-			// arrows and other operators
+			// Pfeile und andere Operatoren
 			geogebraMap.put("&#x2212;", "-");
 			geogebraMap.put("&perp;", "# ");
 			geogebraMap.put("&sim;", "~ ");
@@ -859,7 +859,7 @@ public class MathMLParser {
 	 * 
 	 * <pre>
 	 * while (pos &lt;= blockEnd) {
-	 *     if (insideOfInnermostBlock) {
+	 *     if (insideOfInnerstBlock) {
 	 *         result.append(convertToLatexSyntax(area));
 	 *     } else {
 	 *         tmpTag = getNextTag(); // pos = pos + tmpTag.length();
@@ -1035,6 +1035,7 @@ public class MathMLParser {
 				result.append(")");
 			}
 		}
+		// TODO Warum braucht 'amayaOut.htm' diese Anweisung? -> 853, 853
 		// (<mprescripts/>)
 		pos = blockEnd;
 	}

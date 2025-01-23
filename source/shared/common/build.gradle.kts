@@ -15,7 +15,6 @@ group = "org.geogebra"
 description = "Common parts of GeoGebra for various platforms"
 
 dependencies {
-    implementation(project(":keyboard-base"))
     javacc(libs.javacc)
     api(project(":editor-base"))
     api(project(":renderer-base"))

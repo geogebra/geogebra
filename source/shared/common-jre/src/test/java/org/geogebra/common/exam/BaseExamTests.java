@@ -13,7 +13,6 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -51,7 +50,6 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected boolean didRequestClearClipboard = false;
 
     protected AppCommon app;
-    protected AlgoDispatcher algoDispatcher;
     protected CommandDispatcher commandDispatcher;
     protected CommandDispatcher previousCommandDispatcher;
     protected AlgebraProcessor algebraProcessor;
@@ -85,10 +83,9 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         app = AppCommonFactory.create(createConfig(subApp));
         activeMaterial = null;
         algebraProcessor = app.getKernel().getAlgebraProcessor();
-        algoDispatcher = app.getKernel().getAlgoDispatcher();
         commandDispatcher = algebraProcessor.getCommandDispatcher();
         autocompleteProvider = new AutocompleteProvider(app, false);
-        examController.setActiveContext(app, algoDispatcher, commandDispatcher, algebraProcessor,
+        examController.setActiveContext(app, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
                 app.getKernel().getInputPreviewHelper());
     }
@@ -97,10 +94,9 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         currentSubApp = subApp;
         app = AppCommonFactory.create(createConfig(subApp));
         algebraProcessor = app.getKernel().getAlgebraProcessor();
-        algoDispatcher = app.getKernel().getAlgoDispatcher();
         commandDispatcher = algebraProcessor.getCommandDispatcher();
         autocompleteProvider = new AutocompleteProvider(app, false);
-        examController.setActiveContext(app, algoDispatcher, commandDispatcher, algebraProcessor,
+        examController.setActiveContext(app, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
                 app.getKernel().getInputPreviewHelper());
     }

@@ -90,7 +90,7 @@ public class StatTableModel {
 	// =======================================================
 
 	/**
-	 * Evaluates all statistics for the selected data list. If data source is
+	 * Evaluates all s tatistics for the selected data list. If data source is
 	 * not valid, the result cells are set blank.
 	 * 
 	 */

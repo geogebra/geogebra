@@ -16,8 +16,6 @@ import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
-import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -69,7 +67,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final @Nonnull Set<Operation> filteredOperations;
 	private final @Nonnull Set<CommandArgumentFilter> commandArgumentFilters;
 	private final @Nonnull Set<ContextMenuItemFilter> contextMenuItemFilters;
-	private final @Nonnull Set<DisabledAlgorithms> disabledAlgorithms;
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
@@ -149,8 +146,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
 			@Nullable Set<GeoElementPropertyFilter> geoElementPropertyFilters,
 			@Nullable Set<GeoElementSetup> geoElementSetups,
-			@Nullable EquationBehaviour equationBehaviour,
-			@Nullable Set<DisabledAlgorithms> disabledAlgorithms) {
+			@Nullable EquationBehaviour equationBehaviour) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -174,7 +170,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.geoElementSetups = geoElementSetups != null
 				? geoElementSetups : Set.of();
 		this.equationBehaviour = equationBehaviour;
-		this.disabledAlgorithms = disabledAlgorithms != null ? disabledAlgorithms : Set.of();
 	}
 
 	/**
@@ -212,7 +207,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * Apply the exam restrictions.
 	 */
 	public void applyTo(
-			@Nullable AlgoDispatcher algoDispatcher,
 			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
@@ -224,9 +218,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
 			@Nullable ContextMenuFactory contextMenuFactory) {
-		if (algoDispatcher != null) {
-			algoDispatcher.addDisabledAlgorithms(disabledAlgorithms);
-		}
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -299,7 +290,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * ScheduledPreviewFromInputBar, ContextMenuFactory)}).
 	 */
 	public void removeFrom(
-			@Nullable AlgoDispatcher algoDispatcher,
 			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
@@ -311,9 +301,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
 			@Nullable ContextMenuFactory contextMenuFactory) {
-		if (algoDispatcher != null) {
-			algoDispatcher.removeDisabledAlgorithms(disabledAlgorithms);
-		}
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);

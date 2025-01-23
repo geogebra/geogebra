@@ -60,7 +60,12 @@
 			};
 		}
 
-		if (!value.toString().startsWith("rgb") && !value.toString().startsWith("hsl")) {
+		// IE11 doesn't have String.startsWith()
+		var startsWith = function(data, input) {
+			return data.length >= input.length && data.substring(0, input.length) === input;
+		}
+
+		if (!startsWith(value, "rgb") && !startsWith(value, "hsl")) {
 			var d = document.createElement("div");
 			d.style.color = value;
 			document.body.appendChild(d);
@@ -157,7 +162,7 @@
 				if (value instanceof PDFGradientFill) {
 					// TODO
 					console.log("TODO", _this.doc);
-				} else if (value.toString().startsWith("rgb") || value.toString().startsWith("hsl")) {
+				} else {
 					var color = fixColor(value);
 					_this.doc.fillColor(color.c, color.a);
 				}
@@ -578,7 +583,7 @@
 	};
 
 	PDFKitMini.prototype.imageTileLoadFromCanvas = function(a) {
-		a = new PDFImageTile(a, this.currentPage.fillColor, this.currentPage.alpha * 1);
+		a = new PDFImageTile(a);
 		this.add(a);
 		this.currentPage.currentImageTile = a;
 	};
@@ -985,7 +990,6 @@
 
 	PDFPage.prototype.fill = function(rule) {
 		if (this.currentImageTile) {
-			this.setAlpha(1);
 			this.pdfStream.addText("/Pattern cs ");
 			this.pdfStream.addText("/Pattern CS ");
 			this.pdfStream.addText("/Paint" + this.currentImageTile.id + " scn ");
@@ -1474,9 +1478,10 @@
 		return PDFObject.makeObject(props, this.id, this.stream);
 	};
 
-	function PDFImageTile(canvas, fillColor, fillAlpha) {
+	function PDFImageTile(canvas) {
 		this.width = canvas.width;
 		this.height = canvas.height;
+		var ctx = canvas.getContext("2d");
 		var buffer = [
 			// eg"14.000 0.0000 0.0000 -14.000 0.0000 14.000 cm ",
 			//this.width+" 0.0000 0.0000 -"+this.height+" 0.0000 "+this.height+" cm ",
@@ -1488,19 +1493,14 @@
 			"/BitsPerComponent 8 ",
 			"ID\n"
 		];
-		var rawData = canvas.getContext("2d").getImageData(0, 0, this.width, this.height);
-		var fillRGB = fillColor.split(" ").map(value => value * (1 - fillAlpha) + fillAlpha);
+		var rawData = ctx.getImageData(0, 0, this.width, this.height);
 		// reflect vertically so it's drawn right way up!
 		for (var y = this.height - 1; y >= 0; y--)
 			for (var x = 0; x < this.width; x++) {
 				var red = rawData.data[(x + y * this.width) * 4];
 				var green = rawData.data[(x + y * this.width) * 4 + 1];
 				var blue = rawData.data[(x + y * this.width) * 4 + 2];
-				var alpha = rawData.data[(x + y * this.width) * 4 + 3];
 
-				[red, green, blue] = [red, green, blue].map((value, idx) =>
-					Math.round(parseFloat(value) / 255 * alpha + fillRGB[idx] * (255 - alpha))
-				);
 				buffer.push(String.fromCharCode(red));
 				buffer.push(String.fromCharCode(green));
 				buffer.push(String.fromCharCode(blue));

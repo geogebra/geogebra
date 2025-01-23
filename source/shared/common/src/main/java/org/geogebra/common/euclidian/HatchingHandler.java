@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
@@ -18,6 +19,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles hatching of fillable geos
@@ -25,7 +28,9 @@ import org.geogebra.common.util.DoubleUtil;
 public class HatchingHandler {
 
 	private GBufferedImage bufferedImage = null;
-	private final GGeneralPath path;
+	private GBufferedImage subImage = null;
+	private GGeneralPath path;
+	private String svgPath = "";
 
 	/**
 	 * 
@@ -35,6 +40,8 @@ public class HatchingHandler {
 	}
 
 	/**
+	 * @param g3
+	 *            graphics
 	 * @param defObjStroke
 	 *            hatching stroke
 	 * @param color
@@ -55,7 +62,7 @@ public class HatchingHandler {
 	 *            needed to determine right font
 	 * @return texture paint
 	 */
-	public final GPaint setHatching(GBasicStroke defObjStroke,
+	public final GPaint setHatching(GGraphics2D g3, GBasicStroke defObjStroke,
 			GColor color, GColor bgColor, double backgroundTransparency,
 			double hatchDist, double angleDegrees, FillType fillType,
 			String symbol, App app) {
@@ -85,12 +92,16 @@ public class HatchingHandler {
 				|| DoubleUtil.isEqual(Kernel.PI_HALF, angle, 10E-8)) { // vertical
 
 			xInt = (int) dist;
-			yInt = (int) dist;
+			yInt = xInt;
 		}
 
 		// special vector hatching for SVG export
 		boolean svg = app.isHTML5Applet() && app.isExporting()
 				&& ExportType.SVG.equals(app.getExportType());
+
+		if (svg) {
+			return getSvgPaint(fillType, dist, angle, color, defObjStroke, xInt, yInt, y);
+		}
 
 		int exportScale = 1;
 
@@ -102,16 +113,14 @@ public class HatchingHandler {
 			xInt *= exportScale;
 			yInt *= exportScale;
 			dist *= exportScale;
-		}
 
-		GGraphics2D g2d = createImage(bgColor, backgroundTransparency,
-				xInt * exportScale, yInt * exportScale, svg);
-		g2d.setColor(color);
-		if (exportScale != 1) {
 			objStroke = AwtFactory.getPrototype()
 					.newBasicStroke(objStroke.getLineWidth() * exportScale);
+
 		}
-		g2d.setStroke(objStroke);
+
+		GGraphics2D g2d = createImage(objStroke, color, bgColor,
+				backgroundTransparency, xInt * exportScale, yInt * exportScale);
 
 		int startX = xInt;
 		int startY = yInt;
@@ -148,7 +157,7 @@ public class HatchingHandler {
 			break;
 		case WEAVING:
 			startY = startX = xInt / 2;
-			height = width = xInt * 2;
+			height = width = startX * 4;
 			drawWeaving(angle, xInt / 2, g2d);
 			break;
 		case BRICK:
@@ -169,10 +178,8 @@ public class HatchingHandler {
 			GTextLayout t = AwtFactory.getPrototype().newTextLayout(symbol,
 					font, g2d.getFontRenderContext());
 			int tileSize = (int) (Math.round(t.getAscent() + t.getDescent()) / 3);
-			g2d = createImage(bgColor, backgroundTransparency,
-					tileSize, tileSize, svg);
-			g2d.setColor(color);
-			g2d.setStroke(objStroke);
+			g2d = createImage(objStroke, color, bgColor, backgroundTransparency,
+					tileSize, tileSize);
 			g2d.setFont(
 					app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, 24 * exportScale));
 			g2d.drawString(symbol, 0, Math.round(t.getAscent()));
@@ -188,27 +195,87 @@ public class HatchingHandler {
 		}
 
 		// use the middle square of our 3 x 3 grid to fill with
-		if (svg) {
-			return new GPaintSVG(g2d, width, height, startX, startY);
-		} else {
-			return AwtFactory.getPrototype().newTexturePaint(
-					bufferedImage.getSubimage(startX, startY, width,
-							height),
-					AwtFactory.getPrototype().newRectangle(0, 0,
-							width / exportScale, height / exportScale));
-		}
+		GPaint ret = AwtFactory.getPrototype().newTexturePaint(
+				subImage = bufferedImage.getSubimage(startX, startY, width,
+						height),
+				AwtFactory.getPrototype().newRectangle(0, 0,
+						width / exportScale, height / exportScale));
+		g3.setPaint(ret);
+		return ret;
 	}
 
-	private GGraphics2D createImage(
-			GColor bgColor, double backgroundTransparency, int xInt, int yInt, boolean svg) {
-		GGraphics2D g2d;
-		if (svg) {
-			g2d = AwtFactory.getPrototype().getSVGGraphics(xInt, yInt);
-		} else {
-			bufferedImage = AwtFactory.getPrototype().newBufferedImage(xInt * 3,
-					yInt * 3, 1);
-			g2d = bufferedImage.createGraphics();
+	private GPaint getSvgPaint(FillType fillType, double dist0, double angle0,
+			GColor color, GBasicStroke defObjStroke,
+			int xInt, int yInt, double y) {
+		double dist = dist0;
+		double angle = angle0;
+		String svgString = "";
+		String fill = "none";
+		String stroke = "stroke:#" + StringUtil.toHexString(color)
+				+ "; stroke-width:" + defObjStroke.getLineWidth();
+		double width = xInt, height = yInt;
+
+		switch (fillType) {
+
+		case HONEYCOMB:
+			double side = dist * Math.sqrt(3) / 2;
+			svgString = drawHoneycombSVG(dist);
+			width = (2 * side);
+			height = (dist * 3);
+			break;
+		case HATCH:
+			svgString = drawHatchingSVG(angle, y, xInt, yInt);
+			angle = 0;
+			break;
+		case CROSSHATCHED:
+			svgString = drawHatchingSVG(angle, y, xInt, yInt)
+					+ drawHatchingSVG(Math.PI / 2 - angle, -y, xInt, yInt);
+			angle = 0;
+
+			break;
+		case CHESSBOARD:
+			fill = "#" + StringUtil.toHexString(color);
+			stroke = "stroke:none";
+			if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
+				dist = dist * Math.sin(angle);
+			}
+			svgString = drawChessboardSVG(angle, dist);
+			height = width = (int) (dist * 2);
+			angle = 0;
+			break;
+
+		case IMAGE:
+		case STANDARD:
+		case SYMBOLS:
+		case WEAVING:
+			Log.debug("not supported");
+			//$FALL-THROUGH$
+		case BRICK:
+			if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)
+					|| DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) {
+				// startY = startX = xInt / 2;
+				height = width *= 2;
+			}
+			svgString = drawBricksSVG(angle, xInt, yInt);
+			angle = 0;
+			break;
+		case DOTTED:
+			angle = 0;
+			fill = "#" + StringUtil.toHexString(color);
+			stroke = "stroke:none";
+			svgString = drawDottedSVG(dist);
+			break;
 		}
+
+		return new GPaintSVG(svgString, stroke, width, height, angle, fill);
+	}
+
+	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
+			GColor bgColor, double backgroundTransparency, int xInt, int yInt) {
+		bufferedImage = AwtFactory.getPrototype().newBufferedImage(xInt * 3,
+				yInt * 3, 1);
+
+		GGraphics2D g2d = bufferedImage.createGraphics();
 
 		// enable anti-aliasing
 		g2d.setAntialiasing();
@@ -217,17 +284,19 @@ public class HatchingHandler {
 		g2d.setTransparent();
 
 		// paint background transparent
-		if (backgroundTransparency > 0) {
-			if (bgColor == null) {
-				g2d.setColor(GColor.newColor(255, 255, 255,
-						(int) (backgroundTransparency * 255f)));
-			} else {
-				g2d.setColor(GColor.newColor(bgColor.getRed(), bgColor.getGreen(),
-						bgColor.getBlue(), (int) (backgroundTransparency * 255f)));
+		if (bgColor == null) {
+			g2d.setColor(GColor.newColor(255, 255, 255,
+					(int) (backgroundTransparency * 255f)));
+		} else {
+			g2d.setColor(GColor.newColor(bgColor.getRed(), bgColor.getGreen(),
+					bgColor.getBlue(), (int) (backgroundTransparency * 255f)));
 
-			}
-			g2d.fillRect(0, 0, xInt * 3, yInt * 3);
 		}
+
+		g2d.fillRect(0, 0, xInt * 3, yInt * 3);
+		g2d.setColor(color);
+
+		g2d.setStroke(objStroke);
 		return g2d;
 	}
 
@@ -298,15 +367,18 @@ public class HatchingHandler {
 			tp = AwtFactory.getPrototype().newTexturePaint(image, tr);
 		}
 
+		// tr = new Rectangle2D.Double(0, 0, 200, 200);
+		// tp = new TexturePaint(getSeamlessTexture(4, 50), tr);
+
 		g3.setPaint(tp);
 	}
 
 	private void drawWeaving(double angle, int dist, GGraphics2D g2d) {
 		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
 			g2d.drawLine(2 * dist, dist, 5 * dist, 4 * dist);
-			g2d.drawLine(3 * dist, 0, 6 * dist, 3 * dist);
+			g2d.drawLine(3 * dist, 0, 5 * dist, 2 * dist);
 			g2d.drawLine(3 * dist, 2 * dist, 0, 5 * dist);
-			g2d.drawLine(4 * dist, 3 * dist, dist, 6 * dist);
+			g2d.drawLine(4 * dist, 3 * dist, 2 * dist, 5 * dist);
 			g2d.drawLine(2 * dist, dist, dist, 2 * dist);
 			g2d.drawLine(2 * dist, 3 * dist, dist, 2 * dist);
 			g2d.drawLine(4 * dist, 5 * dist, 6 * dist, 3 * dist);
@@ -314,14 +386,14 @@ public class HatchingHandler {
 			path.reset();
 			path.moveTo(dist, 2 * dist);
 			path.lineTo(2 * dist, dist);
-			path.lineTo(3 * dist, 2 * dist);
-			path.lineTo(2 * dist, 3 * dist);
+			path.lineTo(3 * dist + 1, 2 * dist + 1);
+			path.lineTo(2 * dist + 1, 3 * dist + 1);
 			g2d.fill(path);
 			path.reset();
 			path.moveTo(3 * dist, 4 * dist);
 			path.lineTo(4 * dist, 3 * dist);
-			path.lineTo(5 * dist, 4 * dist);
-			path.lineTo(4 * dist, 5 * dist);
+			path.lineTo(5 * dist + 1, 4 * dist);
+			path.lineTo(4 * dist, 5 * dist + 1);
 			g2d.fill(path);
 		} else { // 0 degrees
 			g2d.drawRect(dist, dist, 3 * dist, dist);
@@ -363,6 +435,49 @@ public class HatchingHandler {
 		}
 	}
 
+	private String drawBricksSVG(double angle, int xInt, int yInt) {
+		svgReset();
+
+		if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)) {
+
+			// rectangle
+			svgMoveTo(0, yInt / 2.0);
+			svgLineTo(2 * xInt, yInt / 2.0);
+			svgLineTo(2 * xInt, yInt * 1.5);
+			svgLineTo(0, yInt * 1.5);
+			svgLineTo(0, yInt / 2.0);
+
+			// whiskers above and below
+			svgDrawLine(xInt, 0, xInt, yInt / 2.0);
+			svgDrawLine(xInt, yInt * 1.5, xInt, yInt * 2);
+
+		} else if (DoubleUtil.isEqual(Kernel.PI_HALF, angle, 10E-8)) {
+
+			// rect.setRect(xInt/2, 0, xInt/2, 1.5 * yInt);
+			// g2d.draw(rect);
+			svgMoveTo(xInt / 2.0, 0);
+			svgLineTo(1.5 * xInt, 0);
+			svgLineTo(1.5 * xInt, 2 * yInt);
+			svgLineTo(xInt / 2.0, 2 * yInt);
+			svgLineTo(xInt / 2.0, 0);
+
+			svgDrawLine(0, yInt, xInt / 2.0, yInt);
+			svgDrawLine(xInt * 1.5, yInt, 2 * xInt, yInt);
+		} else if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
+			svgDrawLine(0, yInt, xInt, 0);
+			svgDrawLine(xInt / 2.0, yInt / 2.0, xInt, yInt);
+			// avoid missing pixels bottom-left
+			svgDrawLine(-xInt, yInt, xInt, -yInt);
+		} else {
+			svgDrawLine(0, 0, xInt, yInt);
+			svgDrawLine(xInt / 2.0, yInt / 2.0, 0, yInt);
+			// avoid missing pixels bottom-right
+			svgDrawLine(0, -yInt, 2 * xInt, yInt);
+		}
+
+		return getSvgPath();
+	}
+
 	private static void drawDotted(double dist, GGraphics2D g2d, double size) {
 		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(dist, dist,
 				size, size));
@@ -372,6 +487,13 @@ public class HatchingHandler {
 				size, size));
 		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(2 * dist,
 				2 * dist, size, size));
+	}
+
+	private String drawDottedSVG(double dist) {
+		svgReset();
+		final double size = 1;
+		svgCircle(dist / 2, dist / 2, size);
+		return getSvgPath();
 	}
 
 	private void drawChessboard(double angle, double hatchDist,
@@ -394,6 +516,31 @@ public class HatchingHandler {
 			g2d.fillRect(distInt + distInt / 2, distInt + distInt / 2, distInt,
 					distInt);
 		}
+	}
+
+	private String drawChessboardSVG(double angle, double dist) {
+		svgReset();
+		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
+			svgMoveTo(dist, 0);
+			svgLineTo(2 * dist, dist);
+			svgLineTo(dist, 2 * dist);
+			svgLineTo(0, dist);
+			svgLineTo(dist, 0);
+
+		} else { // 0 degrees
+			svgMoveTo(0, 0);
+			svgLineTo(dist, 0);
+			svgLineTo(dist, dist);
+			svgLineTo(0, dist);
+			svgLineTo(0, 0);
+
+			svgMoveTo(dist, dist);
+			svgLineTo(2 * dist, dist);
+			svgLineTo(2 * dist, 2 * dist);
+			svgLineTo(dist, 2 * dist);
+			svgLineTo(dist, dist);
+		}
+		return getSvgPath();
 	}
 
 	private void drawHoneycomb(double dist, GGraphics2D g2d) {
@@ -421,6 +568,66 @@ public class HatchingHandler {
 		g2d.draw(path);
 	}
 
+	private String drawHoneycombSVG(double dist) {
+		double centerX = dist * Math.sqrt(3) / 2;
+		double width = centerX + centerX;
+
+		// svgPath = "<pattern id='hexagonggb' patternUnits='userSpaceOnUse'
+		// width='"
+		// + (dist * Math.sqrt(3)) + "' height='" + (dist * 3)
+		// + "'><path fill='none' style='stroke:black; stroke-width:1' d='";
+		svgReset();
+		svgMoveTo(centerX, dist);
+		svgLineTo(centerX, 2 * dist);
+		svgLineTo(0, 2 * dist + dist / 2);
+		svgLineTo(0, 3 * dist);
+		svgMoveTo(centerX, 2 * dist);
+		svgLineTo(width, 2 * dist + dist / 2);
+		svgLineTo(width, 3 * dist);
+		svgMoveTo(0, 0);
+		svgLineTo(0, dist / 2);
+		svgLineTo(centerX, dist);
+		svgLineTo(width, dist / 2);
+		svgLineTo(width, 0);
+
+		// svgPath += "'/></pattern>";
+		//
+		// Log.debug(svgPath);
+
+		return getSvgPath();
+
+	}
+
+	private void svgReset() {
+		svgPath = "";
+	}
+
+	private void svgLineTo(double x, double y) {
+		svgPath += "L" + x + "," + y;
+
+	}
+
+	private void svgCircle(double x, double y, double radius) {
+		// two arcs to make a circle
+		svgPath += "M" + x + "," + y + "m" + radius + ",0" + "a" + radius + ","
+				+ radius + " 0 1,1 " + -2 * radius + ",0" + "a" + radius + ","
+				+ radius + " 0 1,1 " + 2 * radius + ",0";
+	}
+
+	private void svgMoveTo(double x, double y) {
+		svgPath += "M" + x + "," + y;
+	}
+
+	private void svgDrawLine(double x0, double y0, double x1, double y1) {
+		svgMoveTo(x0, y0);
+		svgLineTo(x1, y1);
+
+	}
+
+	private String getSvgPath() {
+		return svgPath;
+	}
+
 	private static void drawHatching(double angle, double y, int xInt, int yInt,
 			GGraphics2D g2d) {
 		if (angle == 0) { // horizontal
@@ -440,6 +647,56 @@ public class HatchingHandler {
 			g2d.drawLine(0, 0, xInt * 3, yInt * 3);
 			g2d.drawLine(0, yInt, xInt * 2, yInt * 3);
 			g2d.drawLine(xInt, 0, xInt * 3, yInt * 2);
+		}
+	}
+
+	private String drawHatchingSVG(double angle, double y, int xInt, int yInt) {
+		svgReset();
+		if (angle == 0) { // horizontal
+
+			svgDrawLine(0, 0, xInt, 0);
+			svgDrawLine(0, yInt, xInt, yInt);
+
+		} else if (DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
+			svgDrawLine(0, 0, 0, yInt);
+			svgDrawLine(xInt, 0, xInt, yInt);
+
+		} else if (y > 0) {
+			// positive gradient
+			svgDrawLine(xInt, 0, 0, yInt);
+			svgDrawLine(-xInt, yInt, xInt, -yInt);
+			svgDrawLine(xInt * 2, 0, 0, yInt * 2);
+		} else {
+			// negative gradient
+			svgDrawLine(0, 0, xInt, yInt);
+			svgDrawLine(0, -yInt, xInt * 2, yInt);
+			svgDrawLine(-xInt, 0, xInt, yInt * 2);
+		}
+
+		return getSvgPath();
+	}
+
+	/**
+	 * Used to check whether the hatching image is already loaded
+	 * 
+	 * @return GBufferedImage subImage
+	 */
+	public GBufferedImage getSubImage() {
+		return subImage;
+	}
+
+	/**
+	 * @param g2 graphics
+	 * @param shape shape
+	 * @param app app to decide sync/async fill method
+	 */
+	public void fill(GGraphics2D g2, GShape shape, App app) {
+		if (!app.isHTML5Applet()) {
+			g2.fill(shape);
+		} else {
+			// take care of filling after the image is loaded
+			AwtFactory.getPrototype().fillAfterImageLoaded(shape, g2,
+					subImage, app);
 		}
 	}
 }
