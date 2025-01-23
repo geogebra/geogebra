@@ -858,7 +858,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            name
 	 */
 	@Override
-	final public void setToParametric(String parameter) {
+	final public void setToParametricForm(String parameter) {
 		setEquationForm(Form.PARAMETRIC);
 		if (parameter != null) {
 			this.parameter = parameter;

@@ -639,13 +639,36 @@ public abstract class GeoQuadricND extends GeoElement
 		return super.getDescriptionMode();
 	}
 
+	@Override
+	public boolean isParametricFormPossible() {
+		return false;
+	}
+
 	/**
 	 * Returns whether specific equation representation is possible.
 	 * 
 	 * @return true iff specific equation representation is possible.
 	 */
-	public boolean isSpecificPossible() {
+	@Override
+	public boolean isSpecificFormPossible() {
 		return false;
+	}
+
+	/**
+	 * @return the localized label for the specific equation form.
+	 */
+	public String getSpecificEquationLabel() {
+		return null;
+	}
+
+	@Override
+	public String getSpecificEquationLabelKey() {
+		return null;
+	}
+
+	@Override
+	public String getImplicitEquationLabelKey() {
+		return "ImplicitConicEquation";
 	}
 
 	/**
@@ -654,7 +677,8 @@ public abstract class GeoQuadricND extends GeoElement
 	 * 
 	 * @return true iff explicit equation is possible
 	 */
-	public boolean isExplicitPossible() {
+	@Override
+	public boolean isExplicitFormPossible() {
 		return false;
 	}
 
@@ -664,7 +688,8 @@ public abstract class GeoQuadricND extends GeoElement
 	 * 
 	 * @return true if vertex form equation is possible
 	 */
-	public boolean isVertexformPossible() {
+	@Override
+	public boolean isVertexFormPossible() {
 		return false;
 	}
 
@@ -674,17 +699,9 @@ public abstract class GeoQuadricND extends GeoElement
 	 * 
 	 * @return true if conic form equation is possible
 	 */
-	public boolean isConicformPossible() {
+	@Override
+	public boolean isConicFormPossible() {
 		return false;
-	}
-
-	/**
-	 * Returns description of current specific equation
-	 * 
-	 * @return description of current specific equation
-	 */
-	public String getSpecificEquation() {
-		return null;
 	}
 
 	@Override // EquationQuadric
@@ -701,8 +718,8 @@ public abstract class GeoQuadricND extends GeoElement
 		}
 	}
 
-	@Override // EquationQuadric
-	public void setToParametric(String parameter) {
+	@Override
+	public void setToParametricForm(String parameter) {
 		setEquationForm(Form.PARAMETRIC);
 		if (parameter != null) {
 			this.parameter = parameter;

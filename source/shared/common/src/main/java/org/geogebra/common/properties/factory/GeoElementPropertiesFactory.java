@@ -1,13 +1,16 @@
 package org.geogebra.common.properties.factory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -26,15 +29,16 @@ import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
-import org.geogebra.common.properties.impl.objects.EquationFormProperty;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
+import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.MaxProperty;
 import org.geogebra.common.properties.impl.objects.MinProperty;
 import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleProperty;
+import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
@@ -46,7 +50,9 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  * Creates the list of properties for a GeoElement or for a list of GeoElements.
  */
 public final class GeoElementPropertiesFactory {
+
 	private final Set<GeoElementPropertyFilter> propertyFilters = new HashSet<>();
+	private final Map<String, Set<PropertyRestriction>> propertyRestrictions = new HashMap<>();
 
 	/**
 	 * Adds a {@link GeoElementPropertyFilter} which can modify the returned properties by
@@ -65,6 +71,30 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public void removeFilter(GeoElementPropertyFilter filter) {
 		propertyFilters.remove(filter);
+	}
+
+	/**
+	 * Add a property restriction to be applied to properties created by this factory.
+	 * @param propertyName A property (raw) name (i.e., this should match property.getRawName())
+	 * @param restriction A property restriction.
+	 */
+	public void addRestriction(String propertyName, PropertyRestriction restriction) {
+		propertyRestrictions
+				.computeIfAbsent(propertyName, key -> new HashSet<>())
+				.add(restriction);
+	}
+
+	/**
+	 * Remove a previously added property restriction.
+	 * @param propertyName A property (raw) name (i.e., this should match property.getRawName())
+	 * @param restriction Property restriction, identified by raw name (i.e., this should
+	 * match property.getRawName()).
+	 */
+	public void removeRestriction(String propertyName, PropertyRestriction restriction) {
+		Set<PropertyRestriction> registeredRestrictions = propertyRestrictions.get(propertyName);
+		if (registeredRestrictions != null) {
+			registeredRestrictions.remove(restriction);
+		}
 	}
 
 	/**
@@ -105,9 +135,13 @@ public final class GeoElementPropertiesFactory {
 						properties -> new RangePropertyCollection<>(
 								properties.toArray(new SlopeSizeProperty[0]))),
 				createPropertyCollection(elements,
-						element -> new EquationFormProperty(localization, element),
+						element -> new LinearEquationFormProperty(localization, element),
 						properties -> new NamedEnumeratedPropertyCollection<>(
-								properties.toArray(new EquationFormProperty[0]))),
+								properties.toArray(new LinearEquationFormProperty[0]))),
+				createPropertyCollection(elements,
+						element -> new QuadraticEquationFormProperty(localization, element),
+						properties -> new NamedEnumeratedPropertyCollection<>(
+								properties.toArray(new QuadraticEquationFormProperty[0]))),
 				createPropertyCollection(elements,
 						element -> new CaptionStyleProperty(localization, element),
 						properties -> new NamedEnumeratedPropertyCollection<>(
@@ -353,6 +387,14 @@ public final class GeoElementPropertiesFactory {
 				Prop property = propertyFactory.create(geoElement);
 				if (property != null && isAllowedByFilters(property, geoElement)) {
 					properties.add(property);
+					// apply restrictions
+					Set<PropertyRestriction> restrictions = propertyRestrictions.get(
+							property.getRawName());
+					if (restrictions != null) {
+						for (PropertyRestriction restriction : restrictions) {
+							restriction.applyTo(property);
+						}
+					}
 				}
 			}
 			if (properties.isEmpty()) {

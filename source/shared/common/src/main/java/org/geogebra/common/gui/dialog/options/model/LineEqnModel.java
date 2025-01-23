@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
+@Deprecated // replace with LinearEquationFormProperty
 public class LineEqnModel extends MultipleOptionsModel {
 
 	private List<Integer> eqnValues;

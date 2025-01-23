@@ -57,6 +57,7 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
     @Override
     public boolean isEnabled() {
+        // TODO register a PropertyRestriction with the ExamController instead
         return !GlobalScope.examController.isExamActive();
     }
 }

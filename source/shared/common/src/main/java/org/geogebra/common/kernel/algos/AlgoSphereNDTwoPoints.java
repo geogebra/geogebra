@@ -51,7 +51,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 
 		compute();
 
-		sphereND.setToSpecific();
+		sphereND.setToSpecificForm();
 	}
 
 	abstract protected GeoQuadricND createSphereND(Construction cons1);

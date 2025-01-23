@@ -965,7 +965,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	private String explicit(String string) {
 		GeoConic c = (GeoConic) getApp().getKernel().getAlgebraProcessor()
 				.evaluateToGeoElement(string, false);
-		c.setToImplicit();
+		c.setToImplicitForm();
 		return unicode(c.toValueString(StringTemplate.editTemplate));
 	}
 

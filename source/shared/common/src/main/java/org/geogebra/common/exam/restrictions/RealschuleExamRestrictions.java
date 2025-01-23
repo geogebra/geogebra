@@ -56,7 +56,8 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				createToolsFilter(),
 				null,
 				Set.of(new ShowObjectPropertyFilter()),
-				Set.of(new EuclidianVisibilitySetup()));
+				Set.of(new EuclidianVisibilitySetup()),
+				null);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {

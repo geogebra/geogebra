@@ -14,6 +14,7 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -56,16 +57,16 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
  */
 public class ExamRestrictions implements PropertiesRegistryListener {
 
-	private final ExamType examType;
-	private final Set<SuiteSubApp> disabledSubApps;
-	private final SuiteSubApp defaultSubApp;
-	private final Set<ExamFeatureRestriction> featureRestrictions;
-	private final Set<ExpressionFilter> inputExpressionFilters;
-	private final Set<ExpressionFilter> outputExpressionFilters;
-	private final Set<CommandFilter> commandFilters;
-	private final Set<Operation> filteredOperations;
-	private final Set<CommandArgumentFilter> commandArgumentFilters;
-	private final Set<ContextMenuItemFilter> contextMenuItemFilters;
+	private final @Nonnull ExamType examType;
+	private final @Nonnull Set<SuiteSubApp> disabledSubApps;
+	private final @Nonnull SuiteSubApp defaultSubApp;
+	private final @Nonnull Set<ExamFeatureRestriction> featureRestrictions;
+	private final @Nonnull Set<ExpressionFilter> inputExpressionFilters;
+	private final @Nonnull Set<ExpressionFilter> outputExpressionFilters;
+	private final @Nonnull Set<CommandFilter> commandFilters;
+	private final @Nonnull Set<Operation> filteredOperations;
+	private final @Nonnull Set<CommandArgumentFilter> commandArgumentFilters;
+	private final @Nonnull Set<ContextMenuItemFilter> contextMenuItemFilters;
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
@@ -74,6 +75,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final Map<String, PropertyRestriction> propertyRestrictions;
 	private final Set<GeoElementPropertyFilter> geoElementPropertyFilters;
 	private final Set<GeoElementSetup> geoElementSetups;
+	private final @Nullable EquationBehaviour equationBehaviour;
+	private @Nullable EquationBehaviour originalEquationBehaviour;
 	private RestorableSettings savedSettings;
 	private Settings restrictedSettings = null;
 
@@ -127,7 +130,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param propertyRestrictions An optional map of properties and restrictions
 	 * to be applied to them during the exam.
 	 */
-	// TODO APPS-5867: add EquationBehaviour to exam
 	protected ExamRestrictions(
 			@Nonnull ExamType examType,
 			@Nullable Set<SuiteSubApp> disabledSubApps,
@@ -143,7 +145,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
 			@Nullable Set<GeoElementPropertyFilter> geoElementPropertyFilters,
-			@Nullable Set<GeoElementSetup> geoElementSetups) {
+			@Nullable Set<GeoElementSetup> geoElementSetups,
+			@Nullable EquationBehaviour equationBehaviour) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -166,6 +169,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				? geoElementPropertyFilters : Set.of();
 		this.geoElementSetups = geoElementSetups != null
 				? geoElementSetups : Set.of();
+		this.equationBehaviour = equationBehaviour;
 	}
 
 	/**
@@ -231,6 +235,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				algebraProcessor.addOutputExpressionFilter(expressionFilter);
 			}
 			algebraProcessor.reinitCommands();
+			if (equationBehaviour != null) {
+				originalEquationBehaviour = algebraProcessor.getKernel().getEquationBehaviour();
+				algebraProcessor.getKernel().setEquationBehaviour(equationBehaviour);
+			}
 		}
 		if (syntaxFilter != null) {
 			if (autoCompleteProvider != null) {
@@ -256,6 +264,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (geoElementPropertiesFactory != null) {
 			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::addFilter);
+			propertyRestrictions.forEach(geoElementPropertiesFactory::addRestriction);
 		}
 		if (algebraProcessor != null) {
 			geoElementSetups.forEach(algebraProcessor::addGeoElementSetup);
@@ -265,62 +274,12 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 					scheduledPreviewFromInputBar::addGeoElementSetup);
 		}
 		if (contextMenuFactory != null) {
-			for (ContextMenuItemFilter contextMenuItemFilter : contextMenuItemFilters) {
-				contextMenuFactory.addFilter(contextMenuItemFilter);
-			}
+			contextMenuItemFilters.forEach(contextMenuFactory::addFilter);
 		}
 		if (settings != null) {
 			this.restrictedSettings = settings;
 			saveSettings(settings);
 			applySettingsRestrictions(settings);
-		}
-	}
-
-	/**
-	 * Creates an object that settings can be saved in exam start, and can be easily restored
-	 * at exam exit.
-	 * @return {@link RestorableSettings}
-	 */
-	protected RestorableSettings createSavedSettings() {
-		return null;
-	}
-
-	/**
-	 * Re-apply settings changes for this exam type (for ClearAll during exam).
-	 */
-	public void reapplySettingsRestrictions() {
-		if (restrictedSettings != null) {
-			applySettingsRestrictions(restrictedSettings);
-		}
-	}
-
-	/**
-	 * Apply settings changes for this exam type.
-	 * @apiNote Override this only if the given exam needs custom settings.
-	 * @param settings {@link Settings}
-	 */
-	public void applySettingsRestrictions(@Nonnull Settings settings) {
-		// empty by default
-	}
-
-	private void saveSettings(Settings settings) {
-		savedSettings = createSavedSettings();
-		if (savedSettings != null) {
-			savedSettings.save(settings);
-		}
-	}
-
-	/**
-	 * Revert changes applied in {@link #applySettingsRestrictions(Settings)}, restoring the
-	 * previously saved settings.
-	 * @apiNote An override is not needed by default.
-	 * @param settings {@link Settings}
-	 */
-	protected void removeSettingsRestrictions(@Nonnull Settings settings) {
-		if (savedSettings != null) {
-			savedSettings.restore(settings);
-			savedSettings = null;
-			restrictedSettings = null;
 		}
 	}
 
@@ -359,6 +318,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				algebraProcessor.removeOutputExpressionFilter(expressionFilter);
 			}
 			algebraProcessor.reinitCommands();
+			if (equationBehaviour != null) { // only restore it if we overwrote it
+				algebraProcessor.getKernel().setEquationBehaviour(originalEquationBehaviour);
+			}
 		}
 		if (syntaxFilter != null) {
 			if (autoCompleteProvider != null) {
@@ -384,25 +346,73 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (geoElementPropertiesFactory != null) {
 			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::removeFilter);
+			propertyRestrictions.forEach(geoElementPropertiesFactory::removeRestriction);
 		}
 		if (algebraProcessor != null) {
 			geoElementSetups.forEach(algebraProcessor::removeGeoElementSetup);
 		}
 		if (scheduledPreviewFromInputBar != null) {
-			geoElementSetups.forEach(
-					scheduledPreviewFromInputBar::removeGeoElementSetup);
+			geoElementSetups.forEach(scheduledPreviewFromInputBar::removeGeoElementSetup);
 		}
 		if (contextMenuFactory != null) {
-			for (ContextMenuItemFilter contextMenuItemFilter : contextMenuItemFilters) {
-				contextMenuFactory.removeFilter(contextMenuItemFilter);
-			}
+			contextMenuItemFilters.forEach(contextMenuFactory::removeFilter);
 		}
 		if (settings != null) {
 			removeSettingsRestrictions(settings);
 		}
 	}
 
-	// PropertiesRegistryListener
+	// Settings
+
+	/**
+	 * Creates an object that settings can be saved in exam start, and can be easily restored
+	 * at exam exit.
+	 * @return {@link RestorableSettings}
+	 */
+	protected RestorableSettings createSavedSettings() {
+		return null;
+	}
+
+	/**
+	 * Re-apply settings changes for this exam type (for ClearAll during exam).
+	 */
+	public void reapplySettingsRestrictions() {
+		if (restrictedSettings != null) {
+			applySettingsRestrictions(restrictedSettings);
+		}
+	}
+
+	/**
+	 * Apply settings changes for this exam type.
+	 * @param settings {@link Settings}
+	 * @apiNote Override this only if the given exam needs custom settings.
+	 */
+	public void applySettingsRestrictions(@Nonnull Settings settings) {
+		// empty by default
+	}
+
+	private void saveSettings(Settings settings) {
+		savedSettings = createSavedSettings();
+		if (savedSettings != null) {
+			savedSettings.save(settings);
+		}
+	}
+
+	/**
+	 * Revert changes applied in {@link #applySettingsRestrictions(Settings)}, restoring the
+	 * previously saved settings.
+	 * @param settings {@link Settings}
+	 * @apiNote An override is not needed by default.
+	 */
+	protected void removeSettingsRestrictions(@Nonnull Settings settings) {
+		if (savedSettings != null) {
+			savedSettings.restore(settings);
+			savedSettings = null;
+			restrictedSettings = null;
+		}
+	}
+
+	// - PropertiesRegistryListener
 
 	/**
 	 * Handles freezing properties on lazy property instantiation/registration.

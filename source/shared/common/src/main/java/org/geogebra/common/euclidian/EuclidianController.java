@@ -4638,7 +4638,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		cons.removeFromConstructionList(radius);
 
 		GeoConicND circle = companion.circle(cons, A, radius.getRadius());
-		circle.setToSpecific();
+		circle.setToSpecificForm();
 		circle.update();
 		return circle;
 	}
@@ -4655,7 +4655,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		GeoConicND circle = companion.circle(cons, A,
 				(GeoNumberValue) algoSegment.getOutput(0));
-		circle.setToSpecific();
+		circle.setToSpecificForm();
 		circle.update();
 		return circle;
 	}

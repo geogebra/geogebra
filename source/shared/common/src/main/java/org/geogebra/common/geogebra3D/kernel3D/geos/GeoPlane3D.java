@@ -485,7 +485,7 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public void setToParametric(String parameter) {
+	public void setToParametricForm(String parameter) {
 		// if we want parametric form for plane, we will need 2 parameters
 	}
 
@@ -927,9 +927,9 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public boolean setEquationFormFromXML(String style, String parameter) {
 		if ("implicit".equals(style)) {
-			setToImplicit();
+			setToImplicitForm();
 		} else if ("user".equals(style)) {
-			setToUser();
+			setToUserForm();
 		} else {
 			return false;
 		}

@@ -44,7 +44,7 @@ public class KernelCAS {
 		AlgoTangentFunctionPoint algo = new AlgoTangentFunctionPoint(cons,
 				label, P, f);
 		GeoLine t = algo.getTangent();
-		t.setToExplicit();
+		t.setToExplicitForm();
 		t.update();
 		return t;
 	}
@@ -64,7 +64,7 @@ public class KernelCAS {
 			GeoCurveCartesian f) {
 		AlgoTangentCurve algo = new AlgoTangentCurve(cons, label, P, f);
 		GeoLine t = algo.getTangent();
-		t.setToExplicit();
+		t.setToExplicitForm();
 		t.update();
 		return t;
 	}

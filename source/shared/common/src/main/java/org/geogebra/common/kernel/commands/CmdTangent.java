@@ -64,7 +64,7 @@ public class CmdTangent extends CommandProcessor {
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoFunctionable) arg[1]);
 				GeoLine t = algo.getTangent();
-				t.setToExplicit();
+				t.setToExplicitForm();
 				t.update();
 
 				GeoElement[] ret = { t };

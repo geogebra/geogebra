@@ -951,7 +951,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	}
 
 	@Override // EquationLinear
-	public void setToGeneral() {
+	public void setToGeneralForm() {
 		// no general line type in 3D
 	}
 }

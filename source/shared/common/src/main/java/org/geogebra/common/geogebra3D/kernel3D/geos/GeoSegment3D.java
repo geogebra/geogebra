@@ -601,7 +601,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
     }
 
 	@Override
-	public void setToParametric(String parameter) {
+	public void setToParametricForm(String parameter) {
 		setEquationForm(Form.PARAMETRIC);
 		if (parameter != null) {
 			//this.parameter = parameter;

@@ -2118,7 +2118,7 @@ public class GeoCasCell extends GeoElement
 
 	private void updateTwinProperties(GeoElement newTwin) {
 		if (newTwin instanceof GeoLine) {
-			((GeoLine) newTwin).setToUser();
+			((GeoLine) newTwin).setToUserForm();
 		} else if (newTwin instanceof GeoFunctionNVar && inputVE instanceof FunctionNVar) {
 			FunctionNVar function = ((GeoFunctionNVar) newTwin).getFunction();
 			if (function != null) {

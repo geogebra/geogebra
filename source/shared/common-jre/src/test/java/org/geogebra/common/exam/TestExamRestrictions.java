@@ -52,7 +52,8 @@ final class TestExamRestrictions extends ExamRestrictions {
 				createToolCollectionFilter(),
 				createPropertyRestrictions(),
 				createGeoElementPropertyFilters(),
-				createGeoElementSetups());
+				createGeoElementSetups(),
+				null);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {

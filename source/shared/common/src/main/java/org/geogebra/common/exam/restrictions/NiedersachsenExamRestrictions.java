@@ -22,6 +22,7 @@ final class NiedersachsenExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
+				null,
 				null);
 	}
 }

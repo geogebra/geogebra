@@ -16,6 +16,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Equation type setting for quadrics and conics
  */
+@Deprecated // replace with QuadraticEquationFormProperty
 public class ConicEqnModel extends MultipleOptionsModel {
 
 	private Localization loc;
@@ -72,11 +73,11 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		GeoQuadricND temp, geo0 = getConicAt(0);
 		boolean equalType = true;
 		boolean equalMode = true;
-		boolean specificPossible = geo0.isSpecificPossible();
-		boolean explicitPossible = geo0.isExplicitPossible();
+		boolean specificPossible = geo0.isSpecificFormPossible();
+		boolean explicitPossible = geo0.isExplicitFormPossible();
 		boolean userPossible = geo0.getDefinition() != null;
-		boolean vertexformPossible = geo0.isVertexformPossible();
-		boolean conicformPossible = geo0.isConicformPossible();
+		boolean vertexformPossible = geo0.isVertexFormPossible();
+		boolean conicformPossible = geo0.isConicFormPossible();
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getConicAt(i);
 			// same type?
@@ -88,20 +89,20 @@ public class ConicEqnModel extends MultipleOptionsModel {
 				equalMode = false;
 			}
 			// specific equation possible?
-			if (!temp.isSpecificPossible()) {
+			if (!temp.isSpecificFormPossible()) {
 				specificPossible = false;
 			}
 			// explicit equation possible?
-			if (!temp.isExplicitPossible()) {
+			if (!temp.isExplicitFormPossible()) {
 				explicitPossible = false;
 			}
 			if (temp.getDefinition() == null) {
 				userPossible = false;
 			}
-			if (!temp.isVertexformPossible()) {
+			if (!temp.isVertexFormPossible()) {
 				vertexformPossible = false;
 			}
-			if (!temp.isConicformPossible()) {
+			if (!temp.isConicFormPossible()) {
 				conicformPossible = false;
 			}
 		}
@@ -121,7 +122,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		int counter = -1;
 		getListener().clearItems();
 		if (specificPossible) {
-			getListener().addItem(geo0.getSpecificEquation());
+			getListener().addItem(geo0.getSpecificEquationLabel());
 			specificIndex = ++counter;
 		}
 		if (explicitPossible) {
@@ -219,19 +220,19 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		GeoQuadricND quad = getConicAt(index);
 		Log.debug(value + ":" + parametricIndex);
 		if (value == specificIndex) {
-			quad.setToSpecific();
+			quad.setToSpecificForm();
 		} else if (value == explicitIndex) {
 			quad.setToExplicit();
 		} else if (value == implicitIndex) {
-			quad.setToImplicit();
+			quad.setToImplicitForm();
 		} else if (value == userIndex) {
-			quad.setToUser();
+			quad.setToUserForm();
 		} else if (value == parametricIndex) {
-			quad.setToParametric(null);
+			quad.setToParametricForm(null);
 		} else if (value == vertexformIndex) {
-			quad.setToVertex();
+			quad.setToVertexForm();
 		} else if (value == conicformIndex) {
-			quad.setToConic();
+			quad.setToConicForm();
 		}
 		quad.updateRepaint();
 	}

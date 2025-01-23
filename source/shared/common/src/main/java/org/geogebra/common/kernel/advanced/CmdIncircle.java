@@ -41,7 +41,7 @@ public class CmdIncircle extends CommandProcessor {
 				AlgoIncircle algo = new AlgoIncircle(cons, (GeoPointND) arg[0],
 						(GeoPointND) arg[1], (GeoPointND) arg[2]);
 				GeoConicND circle = algo.getCircle();
-				circle.setToSpecific();
+				circle.setToSpecificForm();
 				circle.setLabel(c.getLabel());
 
 				GeoElement[] ret = { circle };

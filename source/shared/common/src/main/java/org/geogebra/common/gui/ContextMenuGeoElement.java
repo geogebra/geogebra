@@ -178,7 +178,7 @@ public abstract class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof QuadraticEquationRepresentable) {
-				((QuadraticEquationRepresentable) geo1).setToImplicit();
+				((QuadraticEquationRepresentable) geo1).setToImplicitForm();
 			} else if (geo1 instanceof GeoImplicit) {
 				((GeoImplicit) geo1).setToImplicit();
 			} else {
@@ -199,7 +199,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoQuadricND) {
 				GeoQuadricND conic1 = (GeoQuadricND) geo1;
-				conic1.setToSpecific();
+				conic1.setToSpecificForm();
 				conic1.updateRepaint();
 			}
 		}
@@ -216,7 +216,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.getClass() == GeoConic.class) {
 				GeoConic conic1 = (GeoConic) geo1;
-				conic1.setToVertex();
+				conic1.setToVertexForm();
 				conic1.updateRepaint();
 			}
 		}
@@ -233,7 +233,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.getClass() == GeoConic.class) {
 				GeoConic conic1 = (GeoConic) geo1;
-				conic1.setToConic();
+				conic1.setToConicForm();
 				conic1.updateRepaint();
 			}
 		}
@@ -455,9 +455,9 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void inputFormCmd(GeoElement inputElement) {
 		if (inputElement instanceof LinearEquationRepresentable) {
-			((LinearEquationRepresentable) inputElement).setToUser();
+			((LinearEquationRepresentable) inputElement).setToUserForm();
 		} else if (inputElement instanceof QuadraticEquationRepresentable) {
-			((QuadraticEquationRepresentable) inputElement).setToUser();
+			((QuadraticEquationRepresentable) inputElement).setToUserForm();
 		} else if (inputElement instanceof GeoImplicit) {
 			((GeoImplicit) inputElement).setToUser();
 		} else {

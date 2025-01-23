@@ -114,7 +114,7 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 			g.set(kernel.getAlgebraProcessor().evaluateToList(sb.toString()));
 			g.elements().forEach(geo -> {
 				if (geo instanceof GeoLine) {
-					((GeoLine) geo).setToExplicit();
+					((GeoLine) geo).setToExplicitForm();
 				}
 			});
 		} catch (Throwable th) {

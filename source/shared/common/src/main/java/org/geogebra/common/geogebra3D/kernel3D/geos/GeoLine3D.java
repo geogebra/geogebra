@@ -72,7 +72,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	public void setToParametric(String parameter) {
+	public void setToParametricForm(String parameter) {
 		this.parameter = parameter;
 	}
 

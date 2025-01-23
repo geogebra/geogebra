@@ -589,7 +589,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("f(x,y)=2x+0y", "(2 * x) + (0 * y)");
 		t("g(x,y)=0x+3y", "(0 * x) + (3 * y)");
 		t("combined:2f+3g=36", "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y))) = 36");
-		((GeoLine) lookup("combined")).setToImplicit();
+		((GeoLine) lookup("combined")).setToImplicitForm();
 		t("combined", "4x + 9y = 36");
 	}
 
@@ -1312,7 +1312,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Dilate[ (4,5), 2,(1,1) ]", "(7, 9)");
 		t("Dilate[ (4,5), 2 ]", "(8, 10)");
 		t("r=Dilate(y=-3x-6,2)", "3x + y = -12");
-		((GeoLine) lookup("r")).setToExplicit();
+		((GeoLine) lookup("r")).setToExplicitForm();
 		t("r", "y = -3x - 12");
 	}
 

@@ -3025,7 +3025,7 @@ public class AlgebraProcessor {
 		}
 
 		if (isExplicit) {
-			line.setToExplicit();
+			line.setToExplicitForm();
 		}
 
 		line.showUndefinedInAlgebraView(true);
@@ -3130,7 +3130,7 @@ public class AlgebraProcessor {
 		if (isExplicit) {
 			conic.setToExplicit();
 		} else if (isSpecific || conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
-			conic.setToSpecific();
+			conic.setToSpecificForm();
 		}
 		conic.setDefinition(def);
 		setEquationLabelAndVisualStyle(conic, label, info);

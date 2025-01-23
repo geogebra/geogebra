@@ -204,9 +204,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		quadric.setDefinition(def);
 		quadric.showUndefinedInAlgebraView(true);
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE) {
-			quadric.setToSpecific();
+			quadric.setToSpecificForm();
 		} else {
-			quadric.setToImplicit();
+			quadric.setToImplicitForm();
 		}
 		setEquationLabelAndVisualStyle(quadric, label, info);
 		ret[0] = quadric;

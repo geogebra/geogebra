@@ -9,14 +9,14 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.Test;
 
-public class EquationFormPropertyTest extends BaseUnitTest {
+public class LinearEquationFormPropertyTest extends BaseUnitTest {
 
 	@Test
 	public void testConstructorForLineInGeometry() {
 		getApp().setGeometryConfig();
 		GeoElement line = addAvInput("Line((1,1),(2,2))");
 		try {
-			new EquationFormProperty(getLocalization(), line);
+			new LinearEquationFormProperty(getLocalization(), line);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
@@ -27,7 +27,7 @@ public class EquationFormPropertyTest extends BaseUnitTest {
 		getApp().setGeometryConfig();
 		GeoElement f = addAvInput("f(x) = x");
 		assertThrows(NotApplicablePropertyException.class,
-				() -> new EquationFormProperty(getLocalization(), f));
+				() -> new LinearEquationFormProperty(getLocalization(), f));
 	}
 
 	@Test
@@ -37,7 +37,7 @@ public class EquationFormPropertyTest extends BaseUnitTest {
 		addAvInput("g = Line((3,4),(4,3))");
 		GeoList list = addAvInput("{f, g}");
 		try {
-			new EquationFormProperty(getLocalization(), list);
+			new LinearEquationFormProperty(getLocalization(), list);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
@@ -50,7 +50,7 @@ public class EquationFormPropertyTest extends BaseUnitTest {
 		addAvInput("g(x) = x");
 		GeoList list = addAvInput("{f, g}");
 		assertThrows(NotApplicablePropertyException.class,
-				() -> new EquationFormProperty(getLocalization(), list));
+				() -> new LinearEquationFormProperty(getLocalization(), list));
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class EquationFormPropertyTest extends BaseUnitTest {
 		getApp().setGraphingConfig();
 		GeoElement line = addAvInput("Line((1,1),(2,2))");
 		assertThrows(NotApplicablePropertyException.class,
-				() -> new EquationFormProperty(getLocalization(), line));
+				() -> new LinearEquationFormProperty(getLocalization(), line));
 	}
 
 	@Test
@@ -68,6 +68,6 @@ public class EquationFormPropertyTest extends BaseUnitTest {
 		addAvInput("g = Line((3,4),(4,3))");
 		GeoList list = addAvInput("{f, g}");
 		assertThrows(NotApplicablePropertyException.class,
-				() -> new EquationFormProperty(getLocalization(), list));
+				() -> new LinearEquationFormProperty(getLocalization(), list));
 	}
 }

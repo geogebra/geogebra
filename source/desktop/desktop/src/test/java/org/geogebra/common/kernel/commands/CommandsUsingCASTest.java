@@ -374,7 +374,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		app.setActiveView(App.VIEW_EUCLIDIAN3D);
 		app.getEuclidianView3D();
 		GeoQuadric3D quadric = (GeoQuadric3D) add("eq: x^2=6");
-		quadric.setToImplicit();
+		quadric.setToImplicitForm();
 		t("eq", unicode("x^2 + 0z^2 = 6"));
 		t("Solve[ eq ]", "{x = (-sqrt(6)), x = sqrt(6)}");
 		t("Solve({84.36=x*y^3,126.56=x*y^4})",

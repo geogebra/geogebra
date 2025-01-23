@@ -326,7 +326,7 @@ public class ParametricProcessor {
 				// replace GeoNumeric with function variable
 				exp.traverse(repl);
 				GeoElement[] line = ap.processLine(eq, buildParamEq(exp, label), info);
-				((GeoLineND) line[0]).setToUser();
+				((GeoLineND) line[0]).setToUserForm();
 				line[0].update();
 				return line;
 				// parabola
@@ -583,7 +583,7 @@ public class ParametricProcessor {
 		eq.setForceConic();
 		eq.setLabel(label);
 		GeoElement[] ret = ap.processConic(eq, buildParamEq(exp, label), info);
-		((GeoConicND) ret[0]).setToParametric(param);
+		((GeoConicND) ret[0]).setToParametricForm(param);
 		((GeoConicND) ret[0]).update();
 		return ret;
 	}

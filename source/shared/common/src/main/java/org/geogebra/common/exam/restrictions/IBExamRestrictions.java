@@ -380,6 +380,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				createToolCollectionFilter(),
 				createDistributionPropertyRestriction(),
 				null,
+				null,
 				null);
 	}
 
