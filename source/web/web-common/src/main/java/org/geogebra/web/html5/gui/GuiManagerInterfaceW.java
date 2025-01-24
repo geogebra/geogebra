@@ -235,4 +235,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param callback the action of the tool.
 	 */
 	void addToolToNotesToolbox(String iconUrl, String name, String category, Object callback);
+
+	void toggleSpreadsheetView();
 }
