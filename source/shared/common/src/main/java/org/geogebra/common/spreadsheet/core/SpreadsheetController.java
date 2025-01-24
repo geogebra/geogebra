@@ -220,6 +220,9 @@ public final class SpreadsheetController {
 		return editor != null && editor.isVisible();
 	}
 
+	/**
+	 * Saves the content of the editor and hides it afterwards
+	 */
 	public void saveContentAndHideCellEditor() {
 		if (editor != null && editor.isVisible()) {
 			editor.commit();
