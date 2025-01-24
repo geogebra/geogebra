@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.euclidian.draw.DrawWidget;
@@ -153,7 +155,11 @@ public interface EmbedManager {
 
 	void setGraphAxis(GeoEmbed chart, int axis, double crossing);
 
-	App getEmbedApp(GeoEmbed embed);
+	/**
+	 * @param embed calculator
+	 * @return application for embedded calculator, null during slide switch
+	 */
+	@CheckForNull App getEmbedApp(GeoEmbed embed);
 
 	/**
 	 * Add embedded suite calc

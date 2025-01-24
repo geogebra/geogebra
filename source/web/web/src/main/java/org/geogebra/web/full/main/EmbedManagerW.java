@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -674,8 +676,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public App getEmbedApp(GeoEmbed embed) {
+	public @CheckForNull App getEmbedApp(GeoEmbed embed) {
 		DrawableND drawChart = app.getActiveEuclidianView().getDrawableFor(embed);
+		if (drawChart == null) {
+			return null;
+		}
 		CalcEmbedElement el = (CalcEmbedElement) widgets.get(drawChart);
 		if (el == null) {
 			el = (CalcEmbedElement) cache.get(embed.getEmbedID());
