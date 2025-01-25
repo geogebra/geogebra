@@ -122,9 +122,8 @@ public class ServiceWorkerBuilder {
 		StringBuilder sb = new StringBuilder();
 
 		// Create the manifest as a new artifact and return it:
-		try {
-			InputStream s = AppCacheLinker.class.getResourceAsStream(
-					"/org/geogebra/web/worker_template.js");
+		try (InputStream s = AppCacheLinker.class.getResourceAsStream(
+				"/org/geogebra/web/worker_template.js")) {
 			byte[] contents = new byte[1024];
 			int bytesRead = 0;
 			while ((bytesRead = s.read(contents)) != -1) {

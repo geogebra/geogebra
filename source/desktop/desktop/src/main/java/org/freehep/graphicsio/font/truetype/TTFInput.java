@@ -26,11 +26,11 @@ public abstract class TTFInput {
 	abstract long getPointer() throws IOException;
 
 	public void pushPos() throws IOException {
-		filePosStack.push(new Long(getPointer()));
+		filePosStack.push(getPointer());
 	}
 
 	public void popPos() throws IOException {
-		seek(((Long) filePosStack.pop()).longValue());
+		seek((Long) filePosStack.pop());
 	}
 
 	// ---------- Simple Data Types --------------

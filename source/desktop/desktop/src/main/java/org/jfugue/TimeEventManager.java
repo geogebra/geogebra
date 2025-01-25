@@ -93,9 +93,8 @@ public final class TimeEventManager {
 		List<MidiEvent> totalList = new ArrayList<MidiEvent>();
 
 		for (long l = 0; l < longestTime; l++) {
-			Long key = new Long(l);
-			if (timeMap.containsKey(key)) {
-				List<MidiEvent> list = timeMap.get(key);
+			if (timeMap.containsKey(l)) {
+				List<MidiEvent> list = timeMap.get(l);
 				totalList.addAll(list);
 			}
 		}

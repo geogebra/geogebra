@@ -303,7 +303,7 @@ public class MatchingBlockManager {
 	/**
 	 * Inner class to highlight matching keywords
 	 */
-	public class GeoGebraKeywordsPainter
+	public static class GeoGebraKeywordsPainter
 			extends DefaultHighlighter.DefaultHighlightPainter {
 
 		/**

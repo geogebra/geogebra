@@ -1648,8 +1648,6 @@ public class Construction {
 				throw new MyError(getApplication().getLocalization(),
 						Errors.ReplaceFailed);
 			}
-		} catch (XMLParseException | RuntimeException e) {
-			throw e;
 		} finally {
 			stopCollectingRedefineCalls();
 			consXML.setLength(0);
