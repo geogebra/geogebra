@@ -41,10 +41,10 @@ public final class RationalizableFraction {
 	}
 
 	private ExpressionNode simplify() {
-		ExpressionNode first = simplifiers.runFirst(root);
 		if (!isSupported(root)) {
 			return null;
 		}
+		ExpressionNode first = simplifiers.runFirst(root);
 
 		root = first;
 
@@ -90,7 +90,7 @@ public final class RationalizableFraction {
 		int sqrtsInNumerator = getSquareRootCount(root.getLeft());
 		int sqrtsInDenominator = getSquareRootCount(root.getRight());
 		if (sqrtsInDenominator == 0) {
-			return true;
+			return false;
 		}
 		if ((sqrtsInNumerator > 1 || sqrtsInDenominator > 1)
 				|| (sqrtsInNumerator + sqrtsInDenominator == 0)) {

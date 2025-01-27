@@ -20,6 +20,7 @@ import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.EventAccumulator;
+import org.geogebra.test.annotation.Issue;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -186,5 +187,19 @@ public class AlgebraItemTest extends BaseUnitTest {
         assertThat(AlgebraItem.shouldShowEqualSignPrefix(add("1/2")), equalTo(true));
         assertThat(AlgebraItem.shouldShowEqualSignPrefix(add("1/3")), equalTo(false));
         assertThat(AlgebraItem.shouldShowEqualSignPrefix(add("sqrt(3)+1")), equalTo(true));
+    }
+
+    @Issue("APPS-6267")
+    @Test
+    public void testIsRationalizableFraction() {
+        assertThat(AlgebraItem.isRationalizableFraction(add("1/3")), equalTo(false));
+        assertThat(AlgebraItem.isRationalizableFraction(add("1/(3 + 2)")), equalTo(false));
+        assertThat(AlgebraItem.isRationalizableFraction(add("1/sqrt(3)")), equalTo(true));
+        assertThat(AlgebraItem.isRationalizableFraction(add("(1 + sqrt(2))/sqrt(3)")),
+                equalTo(true));
+        assertThat(AlgebraItem.isRationalizableFraction(add("(1 + sqrt(2))/(7 - sqrt(3))")),
+                equalTo(true));
+        assertThat(AlgebraItem.isRationalizableFraction(add("(1 + sqrt(2))/(sqrt(7) - sqrt(3))")),
+                equalTo(false));
     }
 }

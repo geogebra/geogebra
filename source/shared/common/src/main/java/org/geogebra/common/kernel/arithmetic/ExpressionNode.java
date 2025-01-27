@@ -3503,7 +3503,10 @@ public class ExpressionNode extends ValidExpression
 		Log.debug("RATIONALIZE_FRACTIONS is enabled.");
 		ExpressionValue oldResolve = resolve;
 		initRationalizedFraction();
-		return oldResolve != null && resolve != oldResolve;
+		if (oldResolve == null) {
+			return resolve != null;
+		}
+		return resolve != oldResolve;
 	}
 
 	/**
