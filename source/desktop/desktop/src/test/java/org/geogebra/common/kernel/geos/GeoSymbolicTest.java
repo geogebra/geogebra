@@ -2391,4 +2391,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f:y=abs(x+1)-2");
 		assertThat(add("Integral(f,0,5)"), hasValue("15 / 2"));
 	}
+
+	@Test
+	@Issue("APPS-6133")
+	public void shouldStayNumericAfterReload() {
+		add("f(x)=x+.5");
+		GeoSymbolic numeric = add("a:f(1)");
+		numeric.setSymbolicMode(false, true);
+		add("b:f(1)");
+		reload();
+		assertThat(lookup("a"), hasValue("1.5"));
+		assertThat(lookup("b"), hasValue("3 / 2"));
+	}
 }

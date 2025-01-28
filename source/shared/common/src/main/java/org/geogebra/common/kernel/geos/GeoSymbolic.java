@@ -460,7 +460,9 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void setSymbolicMode() {
-		if (kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+		// if user preference is symbolic, but symbolic mode is not available, turn it off
+		// non-symbolic mode is always possible -- keep user preference
+		if (kernel.getGeoGebraCAS().getCurrentCAS().isLoaded() && symbolicMode) {
 			boolean isValueDefined = isCasValueDefined();
 			setSymbolicMode(!isTopLevelCommandNumeric() && isValueDefined, false);
 		}
