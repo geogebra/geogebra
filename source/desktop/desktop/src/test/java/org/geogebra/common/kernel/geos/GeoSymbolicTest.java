@@ -2403,4 +2403,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(lookup("a"), hasValue("1.5"));
 		assertThat(lookup("b"), hasValue("3 / 2"));
 	}
+
+	@Test
+	@Issue("APPS-6132")
+	public void symbolicEvaluationAtPoint() {
+		GeoSymbolic binomialDist = add("f(x)=BinomialDist(x,0.04,4,true)");
+		assertEquals(0.095018, binomialDist.value(200), 1E-5);
+	}
 }

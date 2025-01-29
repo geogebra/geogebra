@@ -357,7 +357,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void endBatchUpdate() {
-		model.endBatchUpdate(true);
+		model.endBatchUpdate(false);
 	}
 
 	@Override
