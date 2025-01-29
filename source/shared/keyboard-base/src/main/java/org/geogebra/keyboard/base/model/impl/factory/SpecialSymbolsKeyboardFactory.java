@@ -84,7 +84,7 @@ public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 			addConstantInputCommandButton(row, buttonFactory, Resource.POINT_TEMPLATE,
 					templateKeyProvider.getPointFunction(), 1.0f);
 			addConstantInputCommandButton(row, buttonFactory, Resource.VECTOR_TEMPLATE,
-					"vector", 1.0f);
+					templateKeyProvider.getVectorFunction(), 1.0f);
 			addConstantInputCommandButton(row, buttonFactory, Resource.MATRIX_TEMPLATE,
 					"matrix", 1.0f);
 			addInputButton(row, buttonFactory, BACKSLASH);

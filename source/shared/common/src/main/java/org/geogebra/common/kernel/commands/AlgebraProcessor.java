@@ -2070,9 +2070,7 @@ public class AlgebraProcessor {
 			evalInfo = evalInfo.withRedefinition(true);
 			cons.setSuppressLabelCreation(true);
 			isRedefining = true;
-			if (replaceable.isGeoVector()) {
-				expression = getTraversedCopy(labels, expression);
-			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
+			if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
 				evalInfo = evalInfo.withSymbolicMode(SymbolicMode.NONE);
 			}
         }
@@ -2122,14 +2120,6 @@ public class AlgebraProcessor {
 		for (GeoElement element: elements) {
 			element.setDefinition(null);
 		}
-	}
-
-	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
-		ValidExpression copy = expression.deepCopy(kernel);
-		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
-		copy.setLabels(labels);
-		expression.wrap().copyAttributesTo(copy.wrap());
-		return copy;
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {

@@ -1,17 +1,18 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.AnalyticsErrorLogger;
-import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorLogger;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Error handler for AV input
  *
  */
-public final class AVErrorHandler implements ErrorHandler, AnalyticsErrorLogger {
-	/**
-	 *
-	 */
+public final class AVErrorHandler implements ErrorLogger, AnalyticsErrorLogger {
+
 	private final RadioTreeItem radioTreeItem;
 	private final boolean valid;
 	private final boolean allowSliders;
@@ -80,5 +81,14 @@ public final class AVErrorHandler implements ErrorHandler, AnalyticsErrorLogger 
 	@Override
 	public String getCurrentCommand() {
 		return this.radioTreeItem.getCommand();
+	}
+
+	@Override
+	public void log(Throwable e) {
+		if (e instanceof MyError || e instanceof ParseException) {
+			Log.warn(e.getLocalizedMessage()) ;
+		} else {
+			Log.debug(e);
+		}
 	}
 }

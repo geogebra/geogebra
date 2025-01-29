@@ -327,6 +327,9 @@ public class TeXSerializer extends SerializerAdapter {
 		case POINT_AT:
 			point(function, stringBuilder, "\\vert");
 			break;
+		case VECTOR:
+			vector(function, stringBuilder);
+			break;
 		case MIXED_NUMBER:
 			stringBuilder.append("{");
 			serialize(function.getArgument(0), stringBuilder);
@@ -365,6 +368,16 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(i), stringBuilder);
 		}
 		stringBuilder.append("}\\right)");
+	}
+
+	private void vector(MathFunction function, StringBuilder stringBuilder) {
+		stringBuilder.append("\\begin{pmatrix}");
+		for (int i = 0; i < function.size(); i++) {
+			stringBuilder.append("\\jlminput{");
+			serialize(function.getArgument(i), stringBuilder);
+			stringBuilder.append("}\\\\");
+		}
+		stringBuilder.append("\\end{pmatrix}");
 	}
 
 	/**

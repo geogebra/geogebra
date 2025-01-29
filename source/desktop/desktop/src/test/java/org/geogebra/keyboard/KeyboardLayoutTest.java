@@ -47,12 +47,8 @@ public class KeyboardLayoutTest {
 
 	@Test
 	public void testSpecialTabWithTemplateButtons() {
-		KeyboardFactory kbf = new DefaultKeyboardFactory(new TemplateKeyProvider() {
-			@Override
-			public String getPointFunction() {
-				return "$point:2";
-			}
-		});
+		KeyboardFactory kbf = new DefaultKeyboardFactory(
+				new DefaultKeyboardFactory.BaseTemplateKeyProvider());
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
 		StringBuilder actions = new StringBuilder();
 		StringBuilder resources = new StringBuilder();
@@ -69,7 +65,7 @@ public class KeyboardLayoutTest {
 						+ "″,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
 				resources.toString()); // TODO fix test
 		assertEquals("∞,≟,≠,∧,∨,¬,⊗,[,],∥,⟂,∈,⊂,⊆,∠,→,⌈,⌊,"
-						+ "$point:2,vector,matrix,\\,&,@,#,"
+						+ "$point:2,$vector:2,matrix,\\,&,@,#,"
 						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"
 						+ "″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
 				actions.toString());

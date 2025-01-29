@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.vector.VectorNodeStringifier;
-import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilder;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
@@ -97,7 +96,7 @@ public class MyVec3DNode extends ValidExpression
 	}
 
 	private void initStringifier() {
-		VectorPrinterMapBuilder builder = new VectorPrinterMapBuilder3D();
+		VectorPrinterMapBuilder3D builder = new VectorPrinterMapBuilder3D();
 		stringifier = new VectorNodeStringifier(this,
 				builder.build(kernel.getApplication().getSettings().getGeneral()));
 		stringifier.setPrintingMode(VectorPrintingMode.Cartesian);

@@ -53,6 +53,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 		} else {
 			showRelativeTo(appPickerButton);
 			updateLanguage(app);
+			app.hideKeyboard();
 		}
 	}
 

@@ -143,6 +143,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		case VEC:
 		case ATOMIC_POST:
 		case ATOMIC_PRE:
+		case VECTOR:
 			stringBuilder.append(mathFunction.getName().getFunction());
 			serializeArgs(mathFunction, stringBuilder, 0);
 			break;
@@ -176,8 +177,10 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			StringBuilder stringBuilder, int offset) {
 		stringBuilder.append(mathFunction.getOpeningBracket());
 		for (int i = offset; i < mathFunction.size(); i++) {
-			serialize(mathFunction.getArgument(i), stringBuilder);
-			stringBuilder.append(',');
+			if (mathFunction.getArgument(i) != null) {
+				serialize(mathFunction.getArgument(i), stringBuilder);
+				stringBuilder.append(',');
+			}
 		}
 		if (mathFunction.size() > offset) {
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);

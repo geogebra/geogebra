@@ -19,7 +19,6 @@ import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
-import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;

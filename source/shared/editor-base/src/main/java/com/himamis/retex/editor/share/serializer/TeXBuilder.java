@@ -177,6 +177,10 @@ public class TeXBuilder {
 
 	private Atom getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
+		if (parent instanceof MathFunction
+				&& ((MathFunction) parent).getName().isRenderingOwnPlaceholders()) {
+			return zwsp();
+		}
 		if (parent == null
 				|| (parent instanceof MathArray && parent.size() == 1)
 				|| (parent instanceof MathFunction
@@ -196,6 +200,10 @@ public class TeXBuilder {
 
 	private Atom getInvisiblePlaceholder() {
 		return new PhantomAtom(new CharAtom('1'));
+	}
+
+	private Atom zwsp() {
+		return new SpaceAtom(Unit.EM, 0, .7, 0);
 	}
 
 	private Atom getPlaceholderBox() {
@@ -300,9 +308,6 @@ public class TeXBuilder {
 
 	private Atom buildArray(MathArray array) {
 		if (array.isMatrix()) {
-			final SymbolAtom op = SymbolAtom.get(lookupBracket('('));
-			final SymbolAtom cl = SymbolAtom.get(lookupBracket(')'));
-
 			ArrayOfAtoms atoms = new ArrayOfAtoms();
 			for (int i = 0; i < array.rows(); i++) {
 				for (int j = 0; j < array.columns(); j++) {
@@ -313,10 +318,8 @@ public class TeXBuilder {
 				}
 				atoms.add(EnvArray.RowSep.get());
 			}
-			atoms.checkDimensions();
+			return getFencedMatrix(atoms);
 
-			final Atom mat = new SMatrixAtom(atoms, false);
-			return new FencedAtom(mat, op, cl);
 		} else if (array.getOpenKey() == '"') {
 			Atom argument = new RowAtom(newCharAtom(Unicode.OPEN_DOUBLE_QUOTE),
 					build(array.getArgument(0)), newCharAtom(Unicode.CLOSE_DOUBLE_QUOTE));
@@ -325,6 +328,14 @@ public class TeXBuilder {
 		} else {
 			return buildFenced(array.getOpenKey(), array.getCloseKey(), array, 0);
 		}
+	}
+
+	private Atom getFencedMatrix(ArrayOfAtoms atoms) {
+		atoms.checkDimensions();
+		final SymbolAtom op = SymbolAtom.get(lookupBracket('('));
+		final SymbolAtom cl = SymbolAtom.get(lookupBracket(')'));
+		final Atom mat = new SMatrixAtom(atoms, false);
+		return new FencedAtom(mat, op, cl);
 	}
 
 	private Atom buildString(String str) {
@@ -479,6 +490,16 @@ public class TeXBuilder {
 			return buildFenced('(', ')', argument, 0, ',', this::fancyPlaceholder);
 		case POINT_AT:
 			return buildFenced('(', ')', argument, 0, '|', this::fancyPlaceholder);
+		case VECTOR:
+			ArrayOfAtoms rows = new ArrayOfAtoms();
+			for (int i = 0; i < argument.size(); i++) {
+				MathSequence coord = argument.getArgument(i);
+				if (coord != null) {
+					rows.add(fancyPlaceholder(coord));
+					rows.add(EnvArray.RowSep.get());
+				}
+			}
+			return getFencedMatrix(rows);
 		case RECURRING_DECIMAL:
 			Atom overline = new OverlinedAtom(build(argument.getArgument(0)));
 			MathComponent next = argument.nextSibling();

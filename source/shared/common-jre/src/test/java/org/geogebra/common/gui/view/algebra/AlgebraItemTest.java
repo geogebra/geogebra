@@ -176,6 +176,13 @@ public class AlgebraItemTest extends BaseUnitTest {
     }
 
     @Test
+    public void testGetDefinitionVector() {
+        GeoElement element = add("v=(1,2)");
+        String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
+        assertThat(definition, is("v=$vector(1,2)"));
+    }
+
+    @Test
     public void limitNMultiplyPiForm() {
         GeoElement element = add("17!");
         String definition = element.getAlgebraDescriptionForPreviewOutput();

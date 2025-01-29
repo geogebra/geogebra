@@ -964,4 +964,16 @@ public class EditorTypingTest {
 		checker.pressSingleKey("$point:2").type("1").right(1).type("2")
 				.checkAsciiMath("(1,2)");
 	}
+
+	@Test
+	public void vectorFromKeyboard() {
+		checker.pressSingleKey("$vector:2").type("1").right(1).type("2")
+				.checkAsciiMath("$vector(1,2)");
+	}
+
+	@Test
+	public void vectorFromKeyboardLaTeX() {
+		checker.pressSingleKey("$vector:2").type("1").right(1).type("2")
+				.checkLaTeX("\\begin{pmatrix}\\jlminput{1}\\\\\\jlminput{2}\\\\\\end{pmatrix}");
+	}
 }

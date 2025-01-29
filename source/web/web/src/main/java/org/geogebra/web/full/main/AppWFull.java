@@ -64,6 +64,7 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.keyboard.LocalizedTemplateKeyProvider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.MyError.Errors;
@@ -1234,7 +1235,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public TemplateKeyProvider getTemplateKeyProvider() {
-		return this::getPointTemplateKey;
+		return new LocalizedTemplateKeyProvider(this);
 	}
 
 	/**

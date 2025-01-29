@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.arithmetic3D.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
-import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 import org.geogebra.common.main.settings.GeneralSettings;
 
 class CartesianPrinter3D implements Printer {
@@ -15,35 +14,35 @@ class CartesianPrinter3D implements Printer {
 	}
 
 	@Override
-	public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
-			PrintableVector vector) {
+	public String print(String xCoord, String yCoord, String zCoord,
+			PrintableVector vector, StringTemplate tpl) {
 		if (tpl.getStringType().isGiac()) {
 			boolean vectorNot3dPoint = vector.isCASVector();
 			return (vectorNot3dPoint
 					? "ggbvect[" : "point(")
-					+ expressionPrinter.print(vector.getX(), tpl)
+					+ xCoord
 					+ ','
-					+ expressionPrinter.print(vector.getY(), tpl)
+					+ yCoord
 					+ ','
-					+ expressionPrinter.print(vector.getZ(), tpl)
+					+ zCoord
 					+ (vectorNot3dPoint ? "]" : ")");
 		}
 		if (tpl.isForEditorParser()) {
 			return "$point("
-					+ expressionPrinter.print(vector.getX(), tpl)
+					+ xCoord
 					+ ','
-					+ expressionPrinter.print(vector.getY(), tpl)
+					+ yCoord
 					+ ','
-					+ expressionPrinter.print(vector.getZ(), tpl)
+					+ zCoord
 					+ ')';
 		}
 		String delimiter = tpl.getCartesianDelimiter(settings);
 		return tpl.leftBracket()
-				+ expressionPrinter.print(vector.getX(), tpl)
+				+ xCoord
 				+ delimiter
-				+ expressionPrinter.print(vector.getY(), tpl)
+				+ yCoord
 				+ delimiter
-				+ expressionPrinter.print(vector.getZ(), tpl)
+				+ zCoord
 				+ tpl.rightBracket();
 	}
 }
