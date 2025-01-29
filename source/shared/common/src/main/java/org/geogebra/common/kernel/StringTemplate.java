@@ -128,7 +128,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * Template which prints numbers with maximal precision and adds prefix to
-	 * variables (ggbtmpvar)
+	 * variables ({@link Kernel#TMP_VARIABLE_PREFIX})
 	 */
 	public static final StringTemplate prefixedDefaultSF = new StringTemplate(
 			"prefixedDefaultSF") {
@@ -144,6 +144,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		prefixedDefaultSF.internationalizeDigits = false;
 		prefixedDefaultSF.usePrefix = true;
 		prefixedDefaultSF.forceSF = true;
+		prefixedDefaultSF.allowMoreDigits = true;
 		prefixedDefaultSF.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 	}
