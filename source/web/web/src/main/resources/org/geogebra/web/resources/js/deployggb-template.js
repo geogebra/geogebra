@@ -1304,7 +1304,7 @@ var GGBAppletUtils = (function() {
     }
 
     /**
-     * Positiones the applet in the center of the screen
+     * Positions the applet in the center of the screen
      * Used for fullscreen popups
      * @param appletElem
      */
