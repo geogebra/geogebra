@@ -641,7 +641,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		t("c=Cone[(0,0,0),(0,0,1),5]");
 		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,
 				StringTemplate.editorTemplate);
-		assertEquals("Cone($point(0,0,0),$point(0,0,1),5)", rhs);
+		assertEquals("Cone((0,0,0),(0,0,1),5)", rhs);
 	}
 
 	@Test

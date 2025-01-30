@@ -68,7 +68,7 @@ hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
 spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.26" }
-javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.3"}
+javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.1"}
 
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }
 
