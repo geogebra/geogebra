@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.kernel.StringTemplate;
@@ -124,12 +125,14 @@ public class CommandErrorMessageBuilder implements ExamRestrictable {
 	// ExamRestrictable
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
+			@Nonnull ExamType examType) {
 		setShowingSyntax(false);
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
+			@Nonnull ExamType examType) {
 		setShowingSyntax(true);
 	}
 }

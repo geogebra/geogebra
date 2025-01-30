@@ -243,7 +243,7 @@ public final class ExamController {
 	public void registerRestrictable(@Nonnull ExamRestrictable restrictable) {
 		restrictables.add(restrictable);
 		if (examRestrictions != null) {
-			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions());
+			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions(), examType);
 		}
 	}
 
@@ -256,7 +256,7 @@ public final class ExamController {
 	 */
 	public void unregisterRestrictable(@Nonnull ExamRestrictable restrictable) {
 		if (examRestrictions != null) {
-			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions());
+			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions(), examType);
 		}
 		restrictables.remove(restrictable);
 	}
@@ -642,15 +642,24 @@ public final class ExamController {
 		}
 	}
 
+	/**
+	 * Re-applies the {@link ExamRestrictions} by removing, and subsequently adding them again
+	 * to the {@link #restrictables}
+	 */
+	public void reapplyRestrictionsToRestrictables() {
+		removeRestrictionsFromRestrictables();
+		applyRestrictionsToRestrictables();
+	}
+
 	private void applyRestrictionsToRestrictables() {
 		for (ExamRestrictable restrictable : restrictables) {
-			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions());
+			restrictable.applyRestrictions(examRestrictions.getFeatureRestrictions(), examType);
 		}
 	}
 
 	private void removeRestrictionsFromRestrictables() {
 		for (ExamRestrictable restrictable : restrictables) {
-			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions());
+			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions(), examType);
 		}
 	}
 

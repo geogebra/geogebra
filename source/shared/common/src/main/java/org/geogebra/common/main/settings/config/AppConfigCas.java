@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -180,7 +179,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public EquationBehaviour getEquationBehaviour() {
-		return new DefaultEquationBehaviour();
+	public void initializeEquationBehaviour() {
+		equationBehaviour = new DefaultEquationBehaviour();
 	}
 }

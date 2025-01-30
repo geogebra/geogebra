@@ -13,6 +13,8 @@ import org.geogebra.common.kernel.QuadraticEquationRepresentable;
  */
 public class DefaultEquationBehaviour implements EquationBehaviour {
 
+	protected boolean allowChangingEquationFormsByUser = true;
+
 	@Override
 	public LinearEquationRepresentable.Form getLinearAlgebraInputEquationForm() {
 		return LinearEquationRepresentable.Form.USER;
@@ -45,6 +47,11 @@ public class DefaultEquationBehaviour implements EquationBehaviour {
 
 	@Override
 	public boolean allowsChangingEquationFormsByUser() {
-		return true;
+		return allowChangingEquationFormsByUser;
+	}
+
+	@Override
+	public void allowChangingEquationFormsByUser(boolean flag) {
+		allowChangingEquationFormsByUser = flag;
 	}
 }

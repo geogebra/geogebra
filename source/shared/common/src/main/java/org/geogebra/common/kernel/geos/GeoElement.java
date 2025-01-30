@@ -7211,4 +7211,18 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public void setZero() {
 		// Overridden in subclasses
 	}
+
+	@Override
+	public boolean isImplicitEquation() {
+		if (this instanceof EquationValue) {
+			EquationValue equationValue = (EquationValue) this;
+			return equationValue.getEquation().isImplicit();
+		}
+		ExpressionNode definition = this.getDefinition();
+		if (definition != null && definition.unwrap() instanceof Equation) {
+			Equation equation = (Equation) definition.unwrap();
+			return equation.isImplicit();
+		}
+		return false;
+	}
 }

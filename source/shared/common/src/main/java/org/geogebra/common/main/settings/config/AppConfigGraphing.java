@@ -5,13 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -301,10 +299,9 @@ public class AppConfigGraphing extends AbstractAppConfig {
 		return ParserFunctionsFactory.createGraphingParserFunctionsFactory();
 	}
 
-	@Nonnull
 	@Override
-	public EquationBehaviour getEquationBehaviour() {
-		return new EquationBehaviourStandaloneGraphing();
+	public void initializeEquationBehaviour() {
+		equationBehaviour = new EquationBehaviourStandaloneGraphing();
 	}
 
 	@Override

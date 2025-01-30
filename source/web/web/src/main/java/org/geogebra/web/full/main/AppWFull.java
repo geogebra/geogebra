@@ -2385,6 +2385,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getKernel().getInputPreviewHelper());
 		examController.registerRestrictable(this);
 		examController.registerRestrictable(getEuclidianView1());
+		examController.registerRestrictable(getConfig());
 		examController.registerDelegate(new ExamControllerDelegateW(this));
 		examController.addListener(getExamEventBus());
 	}
@@ -2394,6 +2395,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		examController.unregisterContext(this);
 		examController.unregisterRestrictable(this);
 		examController.unregisterRestrictable(getEuclidianView1());
+		examController.unregisterRestrictable(getConfig());
 		examController.removeListener(getExamEventBus());
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
 			GlobalScope.examController.unregisterRestrictable(
@@ -2490,6 +2492,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));
 		final Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective(), getGuiManager().getLayout());
+
+		if (examController.isExamActive()) {
+			examController.reapplyRestrictionsToRestrictables();
+		}
 		updateSidebarAndMenu(subApp);
 		reinitSettings();
 		clearConstruction();
