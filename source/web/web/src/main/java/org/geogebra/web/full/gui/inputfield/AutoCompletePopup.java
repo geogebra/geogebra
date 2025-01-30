@@ -200,6 +200,22 @@ public class AutoCompletePopup extends GPopupMenuW {
 	}
 
 	/**
+	 * Show suggestions with provided input.
+	 * @param input - search input
+	 * @param left - left position
+	 * @param top - top of input
+	 * @param height - height of input
+	 */
+	public void popupSuggestions(String input, int left, int top, int height) {
+		if (input != null && !input.isBlank()
+				&& InputHelper.needsAutocomplete(input, getApp().getKernel())) {
+			fillAndShow(input, left, top, height);
+		} else {
+			hide();
+		}
+	}
+
+	/**
 	 * @return whether enter should be consumed by suggestions
 	 */
 	public boolean needsEnterForSuggestion() {

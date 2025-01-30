@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
@@ -418,6 +419,7 @@ public final class SpreadsheetController {
 	 */
 	public void handleKeyPressed(int keyCode, String key, Modifiers modifiers) {
 		boolean cellSelectionChanged = false;
+
 		if (selectionController.hasSelection()) {
 			switch (keyCode) {
 			case JavaKeyCodes.VK_LEFT:
@@ -987,63 +989,6 @@ public final class SpreadsheetController {
 		return copyPasteCut;
 	}
 
-	private final class Editor {
-		private final @Nonnull SpreadsheetCellEditor cellEditor;
-		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;
-		@CheckForNull Rectangle bounds;
-		int row;
-		int column;
-
-		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
-			this.cellEditor = cellEditor;
-		}
-
-		void showAt(int row, int column) {
-			Object content = tabularData.contentAt(row, column);
-			this.row = row;
-			this.column = column;
-			MathFieldInternal mathField = cellEditor.getMathField();
-			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
-
-			// If the cell editor is reused without first hiding it,
-			// remove the old listener and add the new one after reinitializing.
-			mathField.removeMathFieldListener(mathFieldAdapter);
-			mathFieldAdapter = new SpreadsheetMathFieldAdapter(mathField, row, column,
-					cellEditor.getCellProcessor(), SpreadsheetController.this);
-			mathField.addMathFieldListener(mathFieldAdapter);
-
-			mathField.setUnhandledArrowListener(mathFieldAdapter);
-
-			bounds = layout.getBounds(new TabularRange(row, column), viewport);
-			cellEditor.show(bounds.insetBy(1, 1), viewport, tabularData.getAlignment(row, column));
-		}
-
-		void updatePosition() {
-			bounds = layout.getBounds(new TabularRange(row, column), viewport);
-			cellEditor.updatePosition(bounds.insetBy(1, 1), viewport);
-		}
-
-		void hide() {
-			cellEditor.getMathField().removeMathFieldListener(mathFieldAdapter);
-			cellEditor.hide();
-			bounds = null;
-		}
-
-		boolean isVisible() {
-			return bounds != null;
-		}
-
-		void type(String key) {
-			KeyboardInputAdapter.type(cellEditor.getMathField(), key);
-		}
-
-		void commit() {
-			if (mathFieldAdapter != null) {
-				mathFieldAdapter.commitInput();
-			}
-		}
-	}
-
 	public boolean hasError(int row, int column) {
 		return tabularData.hasError(row, column);
 	}
@@ -1119,5 +1064,105 @@ public final class SpreadsheetController {
 		sb.append(")");
 
 		return sb.toString();
+	}
+
+	// Autocomplete
+
+	void onEditorTextChanged() {
+		updateAutoCompleteSearchPrefix();
+	}
+
+	boolean handleKeyPress(int keyCode) {
+		if (controlsDelegate == null) {
+			return false;
+		}
+		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_INPUT_HELP)) {
+			switch (keyCode) {
+			case JavaKeyCodes.VK_LEFT:
+			case JavaKeyCodes.VK_RIGHT:
+			case JavaKeyCodes.VK_UP:
+			case JavaKeyCodes.VK_DOWN:
+			case JavaKeyCodes.VK_ENTER:
+			case JavaKeyCodes.VK_ESCAPE:
+				return controlsDelegate.handleKeyPressForAutoComplete(keyCode);
+			default:
+				break;
+			}
+		}
+		return false;
+	}
+
+	private void updateAutoCompleteSearchPrefix() {
+		if (!PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_INPUT_HELP)) {
+			return;
+		}
+		if (editor == null || controlsDelegate == null) {
+			return;
+		}
+		String searchPrefix = editor.cellEditor.getMathField().getText();
+		// input at least with 3 characters starting with =
+		if (searchPrefix == null || searchPrefix.length() < 4 || searchPrefix.indexOf("=") != 0) {
+			controlsDelegate.hideAutoCompleteSuggestions();
+			return;
+		}
+		searchPrefix = searchPrefix.substring(1); // input without =
+		controlsDelegate.showAutoCompleteSuggestions(searchPrefix, getEditorBounds());
+	}
+
+	private final class Editor {
+		private final @Nonnull SpreadsheetCellEditor cellEditor;
+		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;
+		@CheckForNull Rectangle bounds;
+		int row;
+		int column;
+
+		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
+			this.cellEditor = cellEditor;
+		}
+
+		void showAt(int row, int column) {
+			Object content = tabularData.contentAt(row, column);
+			this.row = row;
+			this.column = column;
+			MathFieldInternal mathField = cellEditor.getMathField();
+			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
+
+			// If the cell editor is reused without first hiding it,
+			// remove the old listener and add the new one after reinitializing.
+			mathField.removeMathFieldListener(mathFieldAdapter);
+			mathFieldAdapter = new SpreadsheetMathFieldAdapter(mathField, row, column,
+					cellEditor.getCellProcessor(), SpreadsheetController.this);
+			mathField.addMathFieldListener(mathFieldAdapter);
+
+			mathField.setUnhandledArrowListener(mathFieldAdapter);
+
+			bounds = layout.getBounds(new TabularRange(row, column), viewport);
+			cellEditor.show(bounds.insetBy(1, 1), viewport, tabularData.getAlignment(row, column));
+		}
+
+		void updatePosition() {
+			bounds = layout.getBounds(new TabularRange(row, column), viewport);
+			cellEditor.updatePosition(bounds.insetBy(1, 1), viewport);
+		}
+
+		void hide() {
+			cellEditor.getMathField().removeMathFieldListener(mathFieldAdapter);
+			cellEditor.hide();
+			bounds = null;
+		}
+
+		boolean isVisible() {
+			return bounds != null;
+		}
+
+		void type(String key) {
+			KeyboardInputAdapter.type(cellEditor.getMathField(), key);
+		}
+
+		void commit() {
+			if (mathFieldAdapter != null) {
+				mathFieldAdapter.commitInput();
+			}
+		}
 	}
 }

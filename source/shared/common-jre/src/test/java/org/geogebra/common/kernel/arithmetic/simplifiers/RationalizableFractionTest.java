@@ -347,6 +347,7 @@ public class RationalizableFractionTest extends BaseUnitTest {
 		e.setSymbolicMode(true, true);
 		GeoText text = add("FormulaText(e)");
 		assertEquals("3 + 2 \\; \\sqrt{5} - \\sqrt{5}", text.getTextString());
+		PreviewFeature.setPreviewFeaturesEnabled(false);
 	}
 
 }
