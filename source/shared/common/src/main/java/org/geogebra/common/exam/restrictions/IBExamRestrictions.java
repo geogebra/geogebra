@@ -367,7 +367,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 
 	IBExamRestrictions() {
 		super(ExamType.IB,
-				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D),
+				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D, SuiteSubApp.GEOMETRY),
 				SuiteSubApp.GRAPHING,
 				null,
 				createExpressionFilters(),
