@@ -3809,4 +3809,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return usePointTemplate && forEditorParser
 				&& PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_TEMPLATES);
 	}
+
+	/**
+	 * @return copy of this with point template turned off
+	 */
+	public StringTemplate deriveWithoutPointTemplate() {
+		StringTemplate copy = copy();
+		copy.usePointTemplate = false;
+		return copy;
+	}
 }

@@ -27,7 +27,7 @@ class CartesianPrinter3D implements Printer {
 					+ zCoord
 					+ (vectorNot3dPoint ? "]" : ")");
 		}
-		if (tpl.isForEditorParser()) {
+		if (tpl.usePointTemplate()) {
 			return "$point("
 					+ xCoord
 					+ ','
