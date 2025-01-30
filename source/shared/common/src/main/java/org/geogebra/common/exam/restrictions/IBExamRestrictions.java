@@ -118,8 +118,10 @@ import static org.geogebra.common.kernel.commands.Commands.Ellipse;
 import static org.geogebra.common.kernel.commands.Commands.Ends;
 import static org.geogebra.common.kernel.commands.Commands.Envelope;
 import static org.geogebra.common.kernel.commands.Commands.Erlang;
+import static org.geogebra.common.kernel.commands.Commands.Execute;
 import static org.geogebra.common.kernel.commands.Commands.Expand;
 import static org.geogebra.common.kernel.commands.Commands.Exponential;
+import static org.geogebra.common.kernel.commands.Commands.ExportImage;
 import static org.geogebra.common.kernel.commands.Commands.Factor;
 import static org.geogebra.common.kernel.commands.Commands.Factors;
 import static org.geogebra.common.kernel.commands.Commands.First;
@@ -155,6 +157,7 @@ import static org.geogebra.common.kernel.commands.Commands.Insert;
 import static org.geogebra.common.kernel.commands.Commands.IntegralBetween;
 import static org.geogebra.common.kernel.commands.Commands.IntegralSymbolic;
 import static org.geogebra.common.kernel.commands.Commands.InteriorAngles;
+import static org.geogebra.common.kernel.commands.Commands.Intersect;
 import static org.geogebra.common.kernel.commands.Commands.IntersectConic;
 import static org.geogebra.common.kernel.commands.Commands.IntersectPath;
 import static org.geogebra.common.kernel.commands.Commands.Intersection;
@@ -314,6 +317,13 @@ import static org.geogebra.common.kernel.commands.Commands.TrigCombine;
 import static org.geogebra.common.kernel.commands.Commands.TrigExpand;
 import static org.geogebra.common.kernel.commands.Commands.TrigSimplify;
 import static org.geogebra.common.kernel.commands.Commands.Trilinear;
+import static org.geogebra.common.kernel.commands.Commands.Turtle;
+import static org.geogebra.common.kernel.commands.Commands.TurtleBack;
+import static org.geogebra.common.kernel.commands.Commands.TurtleDown;
+import static org.geogebra.common.kernel.commands.Commands.TurtleForward;
+import static org.geogebra.common.kernel.commands.Commands.TurtleLeft;
+import static org.geogebra.common.kernel.commands.Commands.TurtleRight;
+import static org.geogebra.common.kernel.commands.Commands.TurtleUp;
 import static org.geogebra.common.kernel.commands.Commands.UnicodeToLetter;
 import static org.geogebra.common.kernel.commands.Commands.UnicodeToText;
 import static org.geogebra.common.kernel.commands.Commands.Uniform;
@@ -439,7 +449,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				Dilate, Reflect, Rotate, Shear, Stretch, Translate, MatrixRank,
 				PerpendicularVector, UnitPerpendicularVector, UnitVector, Vector, CFactor,
 				GroebnerDegRevLex, GroebnerLexDeg, GroebnerLex, Substitute, NDerivative, BetaDist,
-				InverseBeta, InteriorAngles, Random);
+				InverseBeta, InteriorAngles, Random, Execute, ExportImage, Intersect, Turtle,
+				TurtleBack, TurtleForward, TurtleLeft, TurtleRight, TurtleUp, TurtleDown);
 		return Set.of(nameFilter);
 	}
 
