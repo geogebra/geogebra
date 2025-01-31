@@ -689,6 +689,9 @@ public abstract class Drawable extends DrawableND {
 			return;
 		}
 		if (geo.getFillType() != FillType.STANDARD) {
+			GColor fillColor = view.getBackgroundCommon().deriveWithAlpha(
+					geo.getFillColor().getAlpha());
+			g2.setPaint(fillColor);
 			fillWithHatchOrImage(g2, fillShape, geo.getObjectColor());
 		} else if (geo.getAlphaValue() > 0.0f) {
 			g2.setPaint(geo.getFillColor());
