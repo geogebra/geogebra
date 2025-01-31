@@ -116,7 +116,8 @@ public class DrawablesTest extends BaseUnitTest {
 					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type
 					|| GeoClass.DEFAULT == type
 					|| GeoClass.CLIPPINGCUBE3D == type
-					|| GeoClass.INLINE_TEXT == type);
+					|| GeoClass.INLINE_TEXT == type
+			);
 		}
 
 	}

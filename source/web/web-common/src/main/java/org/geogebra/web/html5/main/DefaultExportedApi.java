@@ -1147,4 +1147,25 @@ public class DefaultExportedApi implements ExportedApi {
 	public void addCustomTool(String iconUrl, String name, String category, Object callback) {
 		getGgbAPI().addCustomTool(iconUrl, name, category, callback);
 	}
+
+	/**
+	 * Inserts embedded element with specific type and id.
+	 *
+	 * @param type the embed type.
+	 * @param id the embed id.
+	 */
+	public void insertEmbed(String type, String id) {
+		getGgbAPI().insertEmbed(type, id);
+	}
+
+	/**
+	 * Adds a resolving function for specific embedded element type. The function gets an ID of the
+	 * embed and returns a promise that resolves to a HTML string.
+	 *
+	 * @param type the embed type
+	 * @param callback the resolving callback
+	 */
+	public void registerEmbedResolver(String type, Object callback) {
+		getGgbAPI().registerEmbedResolver(type, callback);
+	}
 }

@@ -166,4 +166,22 @@ public interface EmbedManager {
 	 * @param subApp - preselected app
 	 */
 	void addSuiteCalcWithPreselectedApp(String subApp);
+
+	/**
+	 * Adds a resolving function for specific embedded element type. The function gets an ID of the
+	 * embed and returns a promise that resolves to a HTML string.
+	 *
+	 * @param type the embed type
+	 * @param callback the resolving callback
+	 */
+	void registerEmbedResolver(String type, Object callback);
+
+	/**
+	 * Inserts embedded element with specific type and id.
+	 *
+	 * @param type the embed type.
+	 * @param id the embed id.
+	 * @return if embed was successful.
+	 */
+	boolean insertEmbed(String type, String id);
 }

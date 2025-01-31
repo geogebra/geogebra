@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 
@@ -40,7 +41,9 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.html5.Sandbox;
 import org.geogebra.web.full.main.embed.CalcEmbedElement;
+import org.geogebra.web.full.main.embed.CustomEmbedElement;
 import org.geogebra.web.full.main.embed.EmbedElement;
+import org.geogebra.web.full.main.embed.EmbedResolver;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -58,6 +61,7 @@ import org.gwtproject.user.client.ui.Frame;
 import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.core.Global;
+import elemental2.promise.Promise;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -78,6 +82,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	private final HashMap<Integer, String> content = new HashMap<>();
 	private final HashMap<Integer, String> urls = new HashMap<>();
 	private final HashMap<GeoElement, Runnable> errorHandlers = new HashMap<>();
+	private final HashMap<String, EmbedResolver> customEmbedResolvers = new HashMap<>();
+	private List<GeoEmbed> unresolvedEmbeds = new ArrayList<>();
 
 	/**
 	 * @param app
@@ -98,8 +104,20 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		int embedID = drawEmbed.getEmbedID();
 		counter = Math.max(counter, embedID + 1);
 		String appName = drawEmbed.getGeoEmbed().getAppName();
-		if ("extension".equals(appName)) {
-			addExtension(drawEmbed);
+		if ("extension".equals(appName) || "external".equals(appName)) {
+			if (drawEmbed.getGeoEmbed().hasExternalProtocol()) {
+				GeoEmbed customEmbed = drawEmbed.getGeoEmbed();
+				if (hasResolverForType(customEmbed.getExternalType())) {
+					resolveEmbed(customEmbed).then(content -> {
+						addExtension(drawEmbed, content);
+						return null;
+					});
+				} else {
+					unresolvedEmbeds.add(customEmbed);
+				}
+			} else {
+				addExtension(drawEmbed, "");
+			}
 			if (content.get(embedID) != null) {
 				widgets.get(drawEmbed)
 						.setContent(content.get(embedID));
@@ -234,8 +252,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 				elemental2.dom.Event::stopPropagation);
 	}
 
-	private void addExtension(DrawEmbed drawEmbed) {
-		Widget parentPanel = createParentPanel(drawEmbed);
+	private void addExtension(DrawEmbed drawEmbed, String content) {
+		Widget parentPanel = createParentPanel(drawEmbed, content);
 		addWidgetToCache(drawEmbed, parentPanel);
 	}
 
@@ -263,19 +281,26 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		GeoEmbed geoEmbed = drawEmbed.getGeoEmbed();
 		if (geoEmbed.isGraspableMath()) {
 			return new GraspableEmbedElement(parentPanel, this);
+		} else if (geoEmbed.hasExternalProtocol()) {
+			return new CustomEmbedElement(parentPanel);
 		} else {
 			return new EmbedElement(parentPanel);
 		}
 	}
 
-	private static Widget createParentPanel(DrawEmbed embed) {
+	private static Widget createParentPanel(DrawEmbed embed, String content) {
 
 		GeoEmbed ge = embed.getGeoEmbed();
 
-		String url = ge.getURL();
+		if (ge.hasExternalProtocol()) {
+			FlowPanel container = createContainer(embed, "custom-embed");
+			container.getElement().setInnerHTML(content);
+			return container;
+		}
 
+		String url = ge.getURL();
 		if (url != null && url.contains("graspablemath.com")) {
-			return createGraspableMathContainer(embed);
+			return createContainer(embed, "gm-div");
 		}
 
 		Frame frame = new Frame();
@@ -284,9 +309,9 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		return frame;
 	}
 
-	private static FlowPanel createGraspableMathContainer(DrawEmbed embed) {
+	private static FlowPanel createContainer(DrawEmbed embed, String idPrefix) {
 		FlowPanel panel = new FlowPanel();
-		String id = "gm-div" + embed.getEmbedID();
+		String id = idPrefix + embed.getEmbedID();
 		panel.getElement().setId(id);
 		panel.getElement().addClassName("gwt-Frame");
 		return panel;
@@ -702,6 +727,81 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			view.getEuclidianController().selectAndShowSelectionUI(ge);
 			ge.setBackground(false);
 			view.update(ge); // force painting in the foreground
+		});
+	}
+
+	@Override
+	public void registerEmbedResolver(String type, Object callback) {
+		EmbedResolver embedResolver = Js.uncheckedCast(callback);
+		if (embedResolver != null) {
+			customEmbedResolvers.put(type, embedResolver);
+			onEmbedResolverRegistered(type, embedResolver);
+		} else {
+			Log.warn("Embed resolver should be a Promise");
+		}
+	}
+
+	private void onEmbedResolverRegistered(String type, EmbedResolver resolver) {
+		unresolvedEmbeds.stream().filter(embed -> embed.isTypeOf(type))
+				.forEach((embed) -> resolveAndAdd(embed, resolver));
+		unresolvedEmbeds = unresolvedEmbeds.stream().filter(embed -> !embed.isTypeOf(type))
+				.collect(Collectors.toList());
+	}
+
+	private void resolveAndAdd(GeoEmbed embed, EmbedResolver resolver) {
+		resolver.resolve(embed.getExternalId()).then(content -> {
+			EuclidianView view = app.getActiveEuclidianView();
+			DrawEmbed drawEmbed = (DrawEmbed) view.getDrawableFor(embed);
+			if (drawEmbed != null) {
+				addExtension(drawEmbed, content);
+				CustomEmbedElement embedElement =
+						(CustomEmbedElement) widgets.get(drawEmbed);
+				embedElement.setInnerHTML(content);
+			} else {
+				embedCustomElement(embed);
+			}
+
+			view.update(embed);
+			view.repaintView();
+			return null;
+		});
+	}
+
+	@Override
+	public boolean insertEmbed(String type, String id) {
+		GeoEmbed embed =
+				new GeoEmbed(app.getKernel().getConstruction());
+		embed.setExternalProtocol(type, id);
+		embed.setEmbedId(nextID());
+		if (!hasResolverForType(type)) {
+			unresolvedEmbeds.add(embed);
+			return false;
+		}
+		resolveEmbed(embed);
+		return true;
+	}
+
+	private boolean hasResolverForType(String type) {
+		return customEmbedResolvers.containsKey(type);
+	}
+
+	private Promise<String> resolveEmbed(GeoEmbed embed) {
+		EmbedResolver resolver = customEmbedResolvers.get(embed.getExternalType());
+		Promise<String> promise = resolver.resolve(embed.getExternalId());
+		return promise.then((content) -> {
+			embedCustomElement(embed);
+			return Promise.resolve(content);
+		});
+	}
+
+	private void embedCustomElement(GeoEmbed ge) {
+		EuclidianView view = app.getActiveEuclidianView();
+		if (!ge.hasLocation()) {
+			ge.initDefaultPosition(view);
+		}
+		app.invokeLater(() -> {
+			showAndSelect(ge);
+			view.update(ge);
 		});
 	}
 }
