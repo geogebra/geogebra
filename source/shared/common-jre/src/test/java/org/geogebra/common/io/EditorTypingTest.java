@@ -962,7 +962,7 @@ public class EditorTypingTest {
 	@Test
 	public void pointFromKeyboard() {
 		checker.pressSingleKey("$point:2").type("1").right(1).type("2")
-				.checkAsciiMath("(1,2)");
+				.checkAsciiMath("$point(1,2)");
 	}
 
 	@Test

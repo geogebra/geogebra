@@ -15,6 +15,7 @@ public class SelectionBoxConsumer implements BoxConsumer {
 	private final MathComponent selectionParent;
 	private final int selectionStartIndex;
 	private final int selectionEndIndex;
+	private final MathComponent input;
 
 	private Double selectionBaseline;
 	private double selectionX1 = Double.POSITIVE_INFINITY;
@@ -23,8 +24,9 @@ public class SelectionBoxConsumer implements BoxConsumer {
 	private double selectionDepth = Double.NEGATIVE_INFINITY;
 
 	SelectionBoxConsumer(TeXBuilder texBuilder, MathComponent selectionStart,
-			MathComponent selectionEnd) {
+			MathComponent selectionEnd, MathComponent input) {
 		this.texBuilder = texBuilder;
+		this.input = input;
 		selectionParent = selectionStart == null ? null : selectionStart.getParent();
 		selectionStartIndex = selectionStart == null ? 0 : selectionStart.getParentIndex();
 		selectionEndIndex = selectionEnd == null ? 0 : selectionEnd.getParentIndex();
@@ -33,7 +35,7 @@ public class SelectionBoxConsumer implements BoxConsumer {
 	@Override
 	public void handle(Box box, BoxPosition position) {
 		MathComponent component = texBuilder.getComponent(box.getAtom());
-
+		CursorBoxConsumer.highlightInput(box, component, input);
 		if (selectionParent == null
 				|| isBetween(component) || component != null && isBetween(component.getParent())) {
 			if (selectionBaseline == null) {

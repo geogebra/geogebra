@@ -96,10 +96,9 @@ public class FunctionParser {
 				return en.wrap();
 			}
 		}
-		if ("$vector(".equals(cimage)) {
-			ExpressionNode ex = asPoint(myList);
-			ex.setForceVector();
-			return ex;
+		ExpressionNode point = checkPointFunctions(funcName, myList);
+		if (point != null) {
+			return point;
 		}
 		boolean forceCommand = cimage.charAt(cimage.length() - 1) == '[';
 		GeoElement geo = null;
@@ -175,7 +174,7 @@ public class FunctionParser {
 						&& nestedCommands < 1
 						&& kernel.getAlgebraProcessor().enableStructures()) {
 					if (topLevelExpression) {
-						ExpressionNode point = asPoint(myList);
+						point = asPoint(myList);
 						if (point != null) {
 							point.setLabel(funcName);
 							return point;
@@ -272,6 +271,18 @@ public class FunctionParser {
 		// a(b) becomes a*b because a is not a function, no list, and no curve
 		// e.g. a(1+x) = a*(1+x) when a is a number
 		return multiplication(geoExp, undecided, myList, funcName);
+	}
+
+	private ExpressionNode checkPointFunctions(String funcName, MyList myList) {
+		if ("$point".equals(funcName) || "$pointAt".equals(funcName)) {
+			return asPoint(myList);
+		}
+		if ("$vector".equals(funcName)) {
+			ExpressionNode ex = asPoint(myList);
+			ex.setForceVector();
+			return ex;
+		}
+		return null;
 	}
 
 	private ExpressionNode asPoint(MyList myList) {

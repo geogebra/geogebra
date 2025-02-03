@@ -63,6 +63,7 @@ public class TeXBuilder {
 			return "SELECTION";
 		}
 	};
+	public static final int INPUT_BORDER = 0x6557D2;
 	public static final double DEFAULT_PLACEHOLDER_Y_SCALE = 1.6;
 
 	// With default and medium text size, "(" open bracket disappears
@@ -168,11 +169,13 @@ public class TeXBuilder {
 	}
 
 	private Atom fancyPlaceholder(MathComponent placeholder) {
-		return new InputAtom(build(placeholder),
+		Atom ret = new InputAtom(build(placeholder),
 				FactoryProvider.getInstance().getGraphicsFactory()
 						.createColor(TeXSerializer.placeholderBackground),
 				FactoryProvider.getInstance().getGraphicsFactory()
-						.createColor(0x6557D2));
+						.createColor(TeXBuilder.INPUT_BORDER));
+		atomToComponent.put(ret, placeholder);
+		return ret;
 	}
 
 	private Atom getPlaceholder(MathSequence sequence) {
@@ -203,7 +206,7 @@ public class TeXBuilder {
 	}
 
 	private Atom zwsp() {
-		return new SpaceAtom(Unit.EM, 0, .7, 0);
+		return new SpaceAtom(Unit.EM, 0, InputAtom.MIN_INPUT_HEIGHT, 0);
 	}
 
 	private Atom getPlaceholderBox() {

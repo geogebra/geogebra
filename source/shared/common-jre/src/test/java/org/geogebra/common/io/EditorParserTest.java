@@ -119,8 +119,8 @@ public class EditorParserTest {
 
 	@Test
 	public void pointTemplate() {
-		assertParsesAs("$point(1,2)", "(1,2)");
-		assertParsesAs("$pointAt(1,3)", "(1,3)");
+		assertParsesAs("$point(1,2)", "$point(1,2)");
+		assertParsesAs("$pointAt(1,3)", "$pointAt(1,3)");
 	}
 
 	@Test

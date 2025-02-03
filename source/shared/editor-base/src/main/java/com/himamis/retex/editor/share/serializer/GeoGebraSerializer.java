@@ -144,11 +144,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		case ATOMIC_POST:
 		case ATOMIC_PRE:
 		case VECTOR:
-			stringBuilder.append(mathFunction.getName().getFunction());
-			serializeArgs(mathFunction, stringBuilder, 0);
-			break;
 		case POINT:
 		case POINT_AT:
+			stringBuilder.append(mathFunction.getName().getFunction());
 			serializeArgs(mathFunction, stringBuilder, 0);
 			break;
 		case ABS: // no special handling for || so that invalid input saving works
