@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 
 /**
@@ -8,77 +9,61 @@ import org.geogebra.common.awt.GPaint;
  */
 public class GPaintSVG implements GPaint {
 
-	private String path;
-	private String style;
-	private String fill;
-	private double width;
-	private double height;
-	private double angle;
+	private GGraphics2D patternGraphics;
+
+	private final int startX;
+	private final int startY;
+	private final int width;
+	private final int height;
 
 	/**
-	 * @param path0
-	 *            fill path
-	 * @param style0
-	 *            style
-	 * @param width0
-	 *            width
-	 * @param height0
-	 *            height
-	 * @param angle0
-	 *            hatching angle
-	 * @param fill0
-	 *            color #code
+	 * @param path0 fill path
+	 * @param width width
+	 * @param height height
+	 * @param startX horizontal position of sub-image
+	 * @param startY vertical position of sub-image
 	 */
-	public GPaintSVG(String path0, String style0, double width0,
-			double height0, double angle0, String fill0) {
-		this.path = path0;
-		this.style = style0;
-		this.width = width0;
-		this.height = height0;
-		this.angle = angle0;
-		this.fill = fill0;
-	}
-
-	/**
-	 * @return style
-	 */
-	public String getStyle() {
-		return style;
+	public GPaintSVG(GGraphics2D path0, int width, int height, int startX, int startY) {
+		this.patternGraphics = path0;
+		this.width = width;
+		this.height = height;
+		this.startX = startX;
+		this.startY = startY;
 	}
 
 	/**
 	 * @return width
 	 */
-	public double getWidth() {
+	public int getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return height
 	 */
-	public double getHeight() {
+	public int getHeight() {
 		return height;
 	}
 
 	/**
-	 * @return hatching path
+	 * @return horizontal offset of the view box
 	 */
-	public String getPath() {
-		return path;
+	public int getStartX() {
+		return startX;
 	}
 
 	/**
-	 * @return hatching angle
+	 * @return vertical offset of the view box
 	 */
-	public double getAngle() {
-		return angle;
+	public int getStartY() {
+		return startY;
 	}
 
 	/**
-	 * @return fill color #code
+	 * @return graphics object with drawing of the pattern
 	 */
-	public String getFill() {
-		return fill;
+	public GGraphics2D getPatternGraphics() {
+		return patternGraphics;
 	}
 
 }
