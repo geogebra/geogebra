@@ -1187,8 +1187,12 @@ public class AlgebraProcessor {
 				ErrorHelper.handleError(myError, null, loc, handler);
 				removeSliders(sliders);
 			}
-			Arrays.stream(geos).forEach(geoElement ->
-					geoElementSetups.forEach(setup -> setup.applyTo(geoElement)));
+			if (!geoElementSetups.isEmpty()) {
+				Arrays.stream(geos).forEach(geoElement -> {
+					geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
+					geoElement.updateRepaint();
+				});
+			}
 		}
 		if (callback0 != null) {
 			callback0.callback(filteredGeos);
