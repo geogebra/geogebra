@@ -187,8 +187,10 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void selectNumberTab() {
-		switcher.select(processField != null && processField.requestsAns() ? KeyboardType.NUMBERS
-				: KeyboardType.NUMBERS_DEFAULT);
+		boolean requestsAns = processField != null && processField.requestsAns();
+		ansSwitcher.setVisible(requestsAns);
+		defaultSwitcher.setVisible(!requestsAns);
+		switcher.select(requestsAns ? KeyboardType.NUMBERS : KeyboardType.NUMBERS_DEFAULT);
 	}
 
 	private void createAnsMathKeyboard() {
