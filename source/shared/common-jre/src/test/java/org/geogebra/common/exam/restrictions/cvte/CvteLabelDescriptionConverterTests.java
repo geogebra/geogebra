@@ -37,7 +37,9 @@ public class CvteLabelDescriptionConverterTests extends BaseExamTests {
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
         assertEquals(line.getDefinition(defaultTemplate), converter.convert(line));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(line.getDefinition(defaultTemplate), converter.convert(line));
+        assertEquals("f: " + line.getDefinition(defaultTemplate), converter.convert(line));
+        captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION_VALUE);
+        assertEquals("f: " + line.getDefinition(defaultTemplate), converter.convert(line));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
         assertEquals(line.getLabel(defaultTemplate), converter.convert(line));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
@@ -48,7 +50,7 @@ public class CvteLabelDescriptionConverterTests extends BaseExamTests {
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
         assertEquals(ray.getDefinition(defaultTemplate), converter.convert(ray));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(ray.getDefinition(defaultTemplate), converter.convert(ray));
+        assertEquals("g: " + ray.getDefinition(defaultTemplate), converter.convert(ray));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
         assertEquals(ray.getLabel(defaultTemplate), converter.convert(ray));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
@@ -59,7 +61,7 @@ public class CvteLabelDescriptionConverterTests extends BaseExamTests {
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
         assertEquals(circle.getDefinition(defaultTemplate), converter.convert(circle));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(circle.getDefinition(defaultTemplate), converter.convert(circle));
+        assertEquals("c: " + circle.getDefinition(defaultTemplate), converter.convert(circle));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
         assertEquals(circle.getLabel(defaultTemplate), converter.convert(circle));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
@@ -71,7 +73,7 @@ public class CvteLabelDescriptionConverterTests extends BaseExamTests {
         assertEquals(implicitCurve.getDefinition(defaultTemplate),
                 converter.convert(implicitCurve));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(implicitCurve.getDefinition(defaultTemplate),
+        assertEquals("eq1: " + implicitCurve.getDefinition(defaultTemplate),
                 converter.convert(implicitCurve));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
         assertEquals(implicitCurve.getLabel(defaultTemplate), converter.convert(implicitCurve));
@@ -84,7 +86,11 @@ public class CvteLabelDescriptionConverterTests extends BaseExamTests {
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
         assertEquals(fitPoly.getDefinition(defaultTemplate), converter.convert(fitPoly));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(fitPoly.getDefinition(defaultTemplate), converter.convert(fitPoly));
+        assertEquals("f(x) = " + fitPoly.getDefinition(defaultTemplate),
+                converter.convert(fitPoly));
+        captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION_VALUE);
+        assertEquals("f(x) = " + fitPoly.getDefinition(defaultTemplate),
+                converter.convert(fitPoly));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
         assertEquals(fitPoly.getLabel(defaultTemplate), converter.convert(fitPoly));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);

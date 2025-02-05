@@ -35,7 +35,7 @@ public class RealschuleLabelDescriptionConverterTests extends BaseExamTests {
 		captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
 		assertEquals(line.getDefinition(defaultTemplate), converter.convert(line));
 		captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-		assertEquals(line.getDefinition(defaultTemplate), converter.convert(line));
+		assertEquals("f: " + line.getDefinition(defaultTemplate), converter.convert(line));
 		captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
 		assertEquals(line.getLabel(defaultTemplate), converter.convert(line));
 		captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
@@ -46,7 +46,7 @@ public class RealschuleLabelDescriptionConverterTests extends BaseExamTests {
 		captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
 		assertEquals(ray.getDefinition(defaultTemplate), converter.convert(ray));
 		captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-		assertEquals(ray.getDefinition(defaultTemplate), converter.convert(ray));
+		assertEquals("g: " + ray.getDefinition(defaultTemplate), converter.convert(ray));
 		captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
 		assertEquals(ray.getLabel(defaultTemplate), converter.convert(ray));
 		captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
@@ -57,7 +57,7 @@ public class RealschuleLabelDescriptionConverterTests extends BaseExamTests {
 		captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
 		assertEquals(circle.getDefinition(defaultTemplate), converter.convert(circle));
 		captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-		assertEquals(circle.getDefinition(defaultTemplate), converter.convert(circle));
+		assertEquals("c: " + circle.getDefinition(defaultTemplate), converter.convert(circle));
 		captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
 		assertEquals(circle.getLabel(defaultTemplate), converter.convert(circle));
 		captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);

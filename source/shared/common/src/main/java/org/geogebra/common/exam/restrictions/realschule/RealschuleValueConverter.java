@@ -19,15 +19,15 @@ public class RealschuleValueConverter implements ToStringConverter<GeoElement> {
 	}
 
 	@Override
-	public String convert(GeoElement element) {
+	public String convert(GeoElement element, StringTemplate template) {
 		if (element == null) {
 			return null;
 		}
 		if (!Realschule.isCalculatedEquationAllowed(element)) {
-			return element.getDefinition(StringTemplate.algebraTemplate);
+			return element.getDefinition(template);
 		}
 		if (wrappedConverter != null) {
-			return wrappedConverter.convert(element);
+			return wrappedConverter.convert(element, template);
 		}
 		return null;
 	}

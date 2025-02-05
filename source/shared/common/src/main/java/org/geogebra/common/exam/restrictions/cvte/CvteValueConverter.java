@@ -30,15 +30,15 @@ public final class CvteValueConverter implements ToStringConverter<GeoElement> {
     }
 
     @Override
-    public String convert(GeoElement element) {
+    public String convert(GeoElement element, StringTemplate template) {
         if (element == null) {
             return null;
         }
         if (!Cvte.isCalculatedEquationAllowed(element)) {
-            return element.getDefinition(StringTemplate.algebraTemplate);
+            return element.getDefinition(template);
         }
         if (wrappedConverter != null) {
-            return wrappedConverter.convert(element);
+            return wrappedConverter.convert(element, template);
         }
         return null;
     }

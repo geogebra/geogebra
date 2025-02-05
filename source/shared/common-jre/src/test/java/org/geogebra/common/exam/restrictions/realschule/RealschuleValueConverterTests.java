@@ -10,6 +10,8 @@ import org.geogebra.common.util.ToStringConverter;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class RealschuleValueConverterTests extends BaseExamTests {
 
 	@Before
@@ -47,7 +49,7 @@ public class RealschuleValueConverterTests extends BaseExamTests {
 		assertEquals("2x^0.63", converter.convert(fitPow));
 
 		GeoElement fitSin = evaluateGeoElement("FitSin((3,3),(4,4))");
-		assertEquals("3.5 + 0.5sin(3.14x - 11)", converter.convert(fitSin));
+		assertEquals("3.5 + 0.5sin(" + Unicode.PI_STRING + "x - 11)", converter.convert(fitSin));
 
 		GeoElement implicitCurve = evaluateGeoElement("FitImplicit((1…10, 1 / (1…10)), 3)");
 		assertEquals("-0.06x² y - 0.7x y + 0.06x = -0.7", converter.convert(implicitCurve));
