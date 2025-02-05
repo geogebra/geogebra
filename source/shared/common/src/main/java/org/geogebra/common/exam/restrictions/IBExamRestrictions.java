@@ -356,6 +356,7 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ib.PointDerivativeFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
@@ -391,7 +392,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				createDistributionPropertyRestriction(),
 				null,
 				null,
-				null);
+				null,
+				createDisabledAlgorithms());
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
@@ -462,6 +464,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 		LineSelectorSyntaxFilter filter = new LineSelectorSyntaxFilter();
 		filter.addSelector(Commands.Integral, 2);
 		filter.addSelector(Commands.Invert, 0);
+		filter.addSelector(Commands.Tangent, 1, 3);
 		return filter;
 	}
 
@@ -489,11 +492,21 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				!restrictedDistributions.contains(value)));
 	}
 
+	private static Set<DisabledAlgorithms> createDisabledAlgorithms() {
+		return Set.of(DisabledAlgorithms.TangentPointImplicitCurve,
+				DisabledAlgorithms.TangentPointConic,
+				DisabledAlgorithms.TangentConicConic,
+				DisabledAlgorithms.TangentLineConic);
+	}
+
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {
 
 		@Override
 		public void checkAllowed(Command command, CommandProcessor commandProcessor)
 				throws MyError {
+			if (isCommand(command, Commands.Tangent)) {
+				checkTangentCommand(command, commandProcessor);
+			}
 			if (isCommand(command, Commands.Integral)) {
 				if (command.getArgumentNumber() != 3) {
 					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
@@ -502,6 +515,24 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				GeoElement[] elements = commandProcessor.resArgs(command);
 				if (elements.length == 1 && elements[0] instanceof GeoFunction) {
 					throw commandProcessor.argErr(command, elements[0]);
+				}
+			}
+		}
+
+		private void checkTangentCommand(Command command, CommandProcessor processor) {
+			GeoElement[] elements = processor.resArgs(command);
+			if (elements.length == 2) {
+				// Point, Conic and inverse
+				if ((elements[0].isGeoPoint() && elements[1].isGeoConic())
+						|| (elements[0].isGeoConic() && elements[1].isGeoPoint())
+						// Line, Conic
+						|| (elements[0].isGeoLine() && elements[1].isGeoConic())
+						// Conic, Conic
+						|| (elements[0].isGeoConic() && elements[1].isGeoConic())
+						// Point, Implicit Curve and inverse
+						|| (elements[0].isGeoPoint() && elements[1].isGeoImplicitCurve()
+						|| (elements[0].isGeoImplicitCurve() && elements[1].isGeoPoint()))) {
+					throw processor.argErr(command, elements[0]);
 				}
 			}
 		}

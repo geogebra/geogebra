@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
@@ -87,6 +90,8 @@ public class AlgoDispatcher {
 	 */
 	protected ArrayList<AlgoIntersectAbstract> intersectionAlgos = new ArrayList<>();
 
+	private Set<DisabledAlgorithms> disabledAlgos = new HashSet<>();
+
 	/**
 	 * @param cons
 	 *            construction
@@ -137,19 +142,35 @@ public class AlgoDispatcher {
 	}
 
 	/**
+	 * Disables specified algorithms
+	 * @param algorithms algorithms to disable
+	 */
+	public void addDisabledAlgorithms(Collection<DisabledAlgorithms> algorithms) {
+		disabledAlgos.addAll(algorithms);
+	}
+
+	/**
+	 * Removes the algorithms from the disable list.
+	 * @param algorithms algorithms to remove
+	 */
+	public void removeDisabledAlgorithms(Collection<DisabledAlgorithms> algorithms) {
+		disabledAlgos.removeAll(algorithms);
+	}
+
+	/**
 	 * Point label with cartesian coordinates (x,y)
 	 * 
 	 * @param x
 	 *            x-coordinate
 	 * @param y
 	 *            y-coordinate
-	 * @param complex
+	 * @param complexCoord
 	 *            whether to use complex coords
 	 * @return point
 	 */
 	final public GeoPoint point(double x, double y,
-			boolean complex) {
-		int mode = complex ? Kernel.COORD_COMPLEX : Kernel.COORD_CARTESIAN;
+			boolean complexCoord) {
+		int mode = complexCoord ? Kernel.COORD_COMPLEX : Kernel.COORD_CARTESIAN;
 		GeoPoint p = new GeoPoint(cons, mode);
 		p.setCoords(x, y, 1.0);
 		return p;
@@ -202,7 +223,7 @@ public class AlgoDispatcher {
 	 *            closest y-coord
 	 * @param addToConstruction
 	 *            whether to add point to construction
-	 * @param complex
+	 * @param complexCoord
 	 *            whether to use complex coords
 	 * @param coords2D
 	 *            whether to prefer 2D coords
@@ -210,14 +231,14 @@ public class AlgoDispatcher {
 	 * @return point
 	 */
 	final public GeoPoint point(String label, Path path, double x, double y,
-			boolean addToConstruction, boolean complex, boolean coords2D) {
+			boolean addToConstruction, boolean complexCoord, boolean coords2D) {
 
 		AlgoPointOnPath algo;
 
 		algo = new AlgoPointOnPath(cons, path, x, y, 0, addToConstruction);
 
 		GeoPoint p = (GeoPoint) algo.getP();
-		if (complex) {
+		if (complexCoord) {
 			p.setMode(Kernel.COORD_COMPLEX);
 		} else if (!coords2D) {
 			p.setCartesian3D();
@@ -238,16 +259,16 @@ public class AlgoDispatcher {
 	 *            coordinates
 	 * @param addToConstruction
 	 *            whether to add to construction
-	 * @param complex
+	 * @param complexCoord
 	 *            whether to use complex coords
 	 * @param coords2D
 	 *            whether to use 2D coord style
 	 * @return point
 	 */
 	public GeoPointND point(String label, Path path, Coords coords,
-			boolean addToConstruction, boolean complex, boolean coords2D) {
+			boolean addToConstruction, boolean complexCoord, boolean coords2D) {
 		return point(label, path, coords.getX(), coords.getY(),
-				addToConstruction, complex, coords2D);
+				addToConstruction, complexCoord, coords2D);
 	}
 
 	/**
@@ -1333,14 +1354,14 @@ public class AlgoDispatcher {
 	 *            initial y-coord
 	 * @param addToConstruction
 	 *            whether to add to the construction list
-	 * @param complex
+	 * @param complexCoord
 	 *            whether to use complex coords
 	 * @param coords2D
 	 *            whether to use 2d coords
 	 * @return point in region
 	 */
 	final public GeoPoint pointIn(String label, Region region, double x,
-			double y, boolean addToConstruction, boolean complex,
+			double y, boolean addToConstruction, boolean complexCoord,
 			boolean coords2D) {
 
 		boolean oldMacroMode = false;
@@ -1351,7 +1372,7 @@ public class AlgoDispatcher {
 		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, x,
 				y);
 		GeoPoint p = algo.getP();
-		if (complex) {
+		if (complexCoord) {
 			p.setMode(Kernel.COORD_COMPLEX);
 		} else if (!coords2D) {
 			p.setCartesian3D();
@@ -1372,16 +1393,16 @@ public class AlgoDispatcher {
 	 *            close point coords
 	 * @param addToConstruction
 	 *            whether to add to construction
-	 * @param complex
+	 * @param complexCoord
 	 *            whether to use complex coords
 	 * @param coords2D
 	 *            whether to use 2D coords
 	 * @return point
 	 */
 	public GeoPointND pointIn(String label, Region region, Coords coords,
-			boolean addToConstruction, boolean complex, boolean coords2D) {
+			boolean addToConstruction, boolean complexCoord, boolean coords2D) {
 		return pointIn(label, region, coords.getX(), coords.getY(),
-				addToConstruction, complex, coords2D);
+				addToConstruction, complexCoord, coords2D);
 	}
 
 	/**
@@ -2881,6 +2902,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] tangent(String[] labels, GeoPointND P,
 			GeoConicND c) {
+		if (disabledAlgos.contains(DisabledAlgorithms.TangentPointConic)) {
+			return null;
+		}
 		AlgoTangentPoint algo = new AlgoTangentPoint(cons, labels, P, c);
 		return algo.getOutput();
 	}
@@ -2899,6 +2923,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] commonTangents(String[] labels, GeoConicND c1,
 			GeoConicND c2) {
+		if (disabledAlgos.contains(DisabledAlgorithms.TangentConicConic)) {
+			return null;
+		}
 		AlgoCommonTangents algo = new AlgoCommonTangents(cons, labels, c1, c2);
 		return algo.getOutput();
 	}
@@ -2916,6 +2943,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] tangent(String[] labels, GeoLineND g,
 			GeoConicND c) {
+		if (disabledAlgos.contains(DisabledAlgorithms.TangentLineConic)) {
+			return null;
+		}
 		AlgoTangentLine algo = new AlgoTangentLine(cons, labels, g, c);
 		return algo.getOutput();
 	}
@@ -2949,6 +2979,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoLine[] tangent(String[] labels, GeoPointND R,
 			GeoImplicit p) {
+		if (disabledAlgos.contains(DisabledAlgorithms.TangentPointImplicitCurve)) {
+			return null;
+		}
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons, labels,
 				p, R);
 		algo.setLabels(labels);

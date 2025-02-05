@@ -62,7 +62,8 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				createPropertyRestrictions(),
 				Set.of(new ShowObjectPropertyFilter()),
 				Set.of(new EuclidianVisibilitySetup()),
-				createEquationBehaviour());
+				createEquationBehaviour(),
+				null);
 	}
 
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {

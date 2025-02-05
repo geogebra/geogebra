@@ -2376,6 +2376,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void attachToExamController() {
 		examController.registerContext(this,
+				getKernel().getAlgoDispatcher(),
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor(),
 				getLocalization(),

@@ -15,6 +15,7 @@ import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
@@ -53,7 +54,8 @@ final class TestExamRestrictions extends ExamRestrictions {
 				createPropertyRestrictions(),
 				createGeoElementPropertyFilters(),
 				createGeoElementSetups(),
-				null);
+				null,
+				createDisabledAlgorithms());
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -122,5 +124,10 @@ final class TestExamRestrictions extends ExamRestrictions {
 				geoPoint.setAlphaValue(1.0);
 			}
 		});
+	}
+
+	private static Set<DisabledAlgorithms> createDisabledAlgorithms() {
+		return Set.of(DisabledAlgorithms.TangentPointConic,
+				DisabledAlgorithms.TangentLineConic);
 	}
 }

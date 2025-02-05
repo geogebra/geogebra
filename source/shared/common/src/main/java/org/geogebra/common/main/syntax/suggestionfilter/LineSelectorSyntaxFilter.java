@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.commands.Commands;
  */
 public class LineSelectorSyntaxFilter implements SyntaxFilter {
 
-	private Map<Commands, Integer[]> syntaxFilterMap = new HashMap<>();
+	private final Map<Commands, Integer[]> syntaxFilterMap = new HashMap<>();
 
 	/**
 	 * Adds a syntax line selector for the specified command.
