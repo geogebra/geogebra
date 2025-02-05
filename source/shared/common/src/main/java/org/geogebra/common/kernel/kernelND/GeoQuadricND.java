@@ -755,4 +755,10 @@ public abstract class GeoQuadricND extends GeoElement
 		}
 		return equal;
 	}
+
+	@Override
+	public boolean isLaTeXDrawableGeo() {
+		return getEquationForm() == QuadraticEquationRepresentable.Form.USER
+				&& getDefinition() != null;
+	}
 }

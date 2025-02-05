@@ -7,8 +7,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Collections;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -40,6 +42,11 @@ public class AlgebraItemTest extends BaseUnitTest {
     @AfterClass
     public static void disablePreviewFeatures() {
         PreviewFeature.setPreviewFeaturesEnabled(false);
+    }
+
+    @Override
+    public AppCommon createAppCommon() {
+        return AppCommonFactory.create3D();
     }
 
     @Test
@@ -94,6 +101,19 @@ public class AlgebraItemTest extends BaseUnitTest {
         String latexString =
                 AlgebraItem.getLatexString(vector, LATEX_MAX_EDIT_LENGTH, false);
         assertThat(latexString, equalTo("v\\, = \\,?"));
+    }
+
+    @Test
+    @Issue("APPS-6269")
+    public void getLatexStringConic() {
+        GeoElement conic = addAvInput("x^2/sqrt(2)=1");
+        GeoElement quadric = addAvInput("x^2/sqrt(2)=z");
+        String latexStringConic =
+                AlgebraItem.getLatexString(conic, LATEX_MAX_EDIT_LENGTH, false);
+        String latexStringQuadric =
+                AlgebraItem.getLatexString(quadric, LATEX_MAX_EDIT_LENGTH, false);
+        assertThat(latexStringConic, equalTo("eq1: \\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,1"));
+        assertThat(latexStringQuadric, equalTo("eq2: \\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,z"));
     }
 
     @Test
