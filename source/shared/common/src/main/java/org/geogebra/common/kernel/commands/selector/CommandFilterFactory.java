@@ -102,7 +102,7 @@ public final class CommandFilterFactory {
 		CommandNameFilter commandNameFilter = new CommandNameFilter(true);
 		commandNameFilter.addCommands(
 				// CAS specific command
-				Commands.Delete, Commands.Poisson,
+				Commands.Delete,
 				// Function Commands
 				Commands.CurveCartesian, Commands.Curve,
 				Commands.CurvatureVector, Commands.DataFunction, Commands.Function,
