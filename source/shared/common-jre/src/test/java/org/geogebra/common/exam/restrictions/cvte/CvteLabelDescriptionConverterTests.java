@@ -1,8 +1,6 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.BaseExamTests;
@@ -30,83 +28,72 @@ public class CvteLabelDescriptionConverterTests extends BaseExamTests {
                 new DefaultLabelDescriptionConverter());
 
         Localization localization = app.getLocalization();
+        StringTemplate defaultTemplate = StringTemplate.defaultTemplate;
 
         // For Lines, Rays, Conics, Implicit Equations and Functions created with command or tool:
         // When choosing "Value" or "Name & Value" for the caption style the "definition" is shown.
         GeoElement line = evaluateGeoElement("Line((0, 0), (1, 2))");
         CaptionStyleProperty captionStyleProperty = new CaptionStyleProperty(localization, line);
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
-        assertEquals(line.getDefinition(StringTemplate.defaultTemplate),
-                converter.convert(line));
+        assertEquals(line.getDefinition(defaultTemplate), converter.convert(line));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(line.getDefinition(StringTemplate.defaultTemplate),
-                converter.convert(line));
+        assertEquals("f: " + line.getDefinition(defaultTemplate), converter.convert(line));
+        captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION_VALUE);
+        assertEquals("f: " + line.getDefinition(defaultTemplate), converter.convert(line));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
-        assertEquals(line.getLabel(StringTemplate.defaultTemplate),
-                converter.convert(line));
+        assertEquals(line.getLabel(defaultTemplate), converter.convert(line));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
-        assertEquals(line.getCaption(StringTemplate.defaultTemplate),
-                converter.convert(line));
+        assertEquals(line.getCaption(defaultTemplate), converter.convert(line));
 
         GeoElement ray = evaluateGeoElement("Ray((0, 0), (1, 2))");
         captionStyleProperty = new CaptionStyleProperty(localization, ray);
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
-        assertEquals(ray.getDefinition(StringTemplate.defaultTemplate),
-                converter.convert(ray));
+        assertEquals(ray.getDefinition(defaultTemplate), converter.convert(ray));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(ray.getDefinition(StringTemplate.defaultTemplate),
-                converter.convert(ray));
+        assertEquals("g: " + ray.getDefinition(defaultTemplate), converter.convert(ray));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
-        assertEquals(ray.getLabel(StringTemplate.defaultTemplate),
-                converter.convert(ray));
+        assertEquals(ray.getLabel(defaultTemplate), converter.convert(ray));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
-        assertEquals(ray.getCaption(StringTemplate.defaultTemplate),
-                converter.convert(ray));
+        assertEquals(ray.getCaption(defaultTemplate), converter.convert(ray));
 
         GeoElement circle = evaluateGeoElement("Circle((0, 0), 1)");
         captionStyleProperty = new CaptionStyleProperty(localization, circle);
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
-        assertEquals(circle.getDefinition(StringTemplate.defaultTemplate),
-                converter.convert(circle));
+        assertEquals(circle.getDefinition(defaultTemplate), converter.convert(circle));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(circle.getDefinition(StringTemplate.defaultTemplate),
-                converter.convert(circle));
+        assertEquals("c: " + circle.getDefinition(defaultTemplate), converter.convert(circle));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
-        assertEquals(circle.getLabel(StringTemplate.defaultTemplate),
-                converter.convert(circle));
+        assertEquals(circle.getLabel(defaultTemplate), converter.convert(circle));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
-        assertEquals(circle.getCaption(StringTemplate.defaultTemplate),
-                converter.convert(circle));
+        assertEquals(circle.getCaption(defaultTemplate), converter.convert(circle));
 
         GeoElement implicitCurve = evaluateGeoElement("FitImplicit((1...10,(1/(1...10))),3)");
         captionStyleProperty = new CaptionStyleProperty(localization, implicitCurve);
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
-        assertEquals(implicitCurve.getDefinition(StringTemplate.defaultTemplate),
+        assertEquals(implicitCurve.getDefinition(defaultTemplate),
                 converter.convert(implicitCurve));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(implicitCurve.getDefinition(StringTemplate.defaultTemplate),
+        assertEquals("eq1: " + implicitCurve.getDefinition(defaultTemplate),
                 converter.convert(implicitCurve));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
-        assertEquals(implicitCurve.getLabel(StringTemplate.defaultTemplate),
-                converter.convert(implicitCurve));
+        assertEquals(implicitCurve.getLabel(defaultTemplate), converter.convert(implicitCurve));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
-        assertEquals(implicitCurve.getCaption(StringTemplate.defaultTemplate),
-                converter.convert(implicitCurve));
+        assertEquals(implicitCurve.getCaption(defaultTemplate), converter.convert(implicitCurve));
 
         // functions: any of the FitPoly / FitLog / ... commands
         GeoElement fitPoly = evaluateGeoElement("f(x)=FitPoly({(-2,1),(-1,0),(0,1),(1,0)},3)");
         captionStyleProperty = new CaptionStyleProperty(localization, fitPoly);
         captionStyleProperty.setValue(GeoElementND.LABEL_VALUE);
-        assertEquals(fitPoly.getDefinition(StringTemplate.defaultTemplate),
-                converter.convert(fitPoly));
+        assertEquals(fitPoly.getDefinition(defaultTemplate), converter.convert(fitPoly));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME_VALUE);
-        assertEquals(fitPoly.getDefinition(StringTemplate.defaultTemplate),
+        assertEquals("f(x) = " + fitPoly.getDefinition(defaultTemplate),
+                converter.convert(fitPoly));
+        captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION_VALUE);
+        assertEquals("f(x) = " + fitPoly.getDefinition(defaultTemplate),
                 converter.convert(fitPoly));
         captionStyleProperty.setValue(GeoElementND.LABEL_NAME);
-        assertEquals(fitPoly.getLabel(StringTemplate.defaultTemplate),
-                converter.convert(fitPoly));
+        assertEquals(fitPoly.getLabel(defaultTemplate), converter.convert(fitPoly));
         captionStyleProperty.setValue(GeoElementND.LABEL_CAPTION);
-        assertEquals(fitPoly.getCaption(StringTemplate.defaultTemplate),
-                converter.convert(fitPoly));
+        assertEquals(fitPoly.getCaption(defaultTemplate), converter.convert(fitPoly));
     }
 }

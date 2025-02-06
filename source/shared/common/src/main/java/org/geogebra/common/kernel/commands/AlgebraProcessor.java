@@ -1187,8 +1187,12 @@ public class AlgebraProcessor {
 				ErrorHelper.handleError(myError, null, loc, handler);
 				removeSliders(sliders);
 			}
-			Arrays.stream(geos).forEach(geoElement ->
-					geoElementSetups.forEach(setup -> setup.applyTo(geoElement)));
+			if (!geoElementSetups.isEmpty()) {
+				Arrays.stream(geos).forEach(geoElement -> {
+					geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
+					geoElement.updateRepaint();
+				});
+			}
 		}
 		if (callback0 != null) {
 			callback0.callback(filteredGeos);
@@ -2042,7 +2046,7 @@ public class AlgebraProcessor {
 	/**
 	 * processes valid expression.
 	 *
-	 * @param ve
+	 * @param expression
 	 *            expression to process
 	 * @param info
 	 *            processing information
@@ -2052,13 +2056,18 @@ public class AlgebraProcessor {
 	 *             for circular definition
 	 * @return resulting geos
 	 */
-	public GeoElement[] processValidExpression(ValidExpression ve,
+	public GeoElement[] processValidExpression(ValidExpression expression,
 			EvalInfo info) throws MyError, CircularDefinitionException {
 		EvalInfo evalInfo = info;
-		ValidExpression expression = ve;
 		// check for existing labels
 		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
+		// detect clashes caused by unstable output length in XML
+		// in such case just rename the old geo and continue
+		if (replaceable != null && replaceable.isSecondaryOutput() && kernel.getLoadingMode()) {
+			replaceable.setLabel(replaceable.getFreeLabel(replaceable.getLabelSimple()));
+			replaceable = null;
+		}
 		if (replaceable instanceof HasArbitraryConstant) {
 			HasArbitraryConstant hasConstant = (HasArbitraryConstant) replaceable;
 			evalInfo = evalInfo.withArbitraryConstant(hasConstant.getArbitraryConstant());
@@ -2070,9 +2079,7 @@ public class AlgebraProcessor {
 			evalInfo = evalInfo.withRedefinition(true);
 			cons.setSuppressLabelCreation(true);
 			isRedefining = true;
-			if (replaceable.isGeoVector()) {
-				expression = getTraversedCopy(labels, expression);
-			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
+			if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
 				evalInfo = evalInfo.withSymbolicMode(SymbolicMode.NONE);
 			}
         }
@@ -2122,14 +2129,6 @@ public class AlgebraProcessor {
 		for (GeoElement element: elements) {
 			element.setDefinition(null);
 		}
-	}
-
-	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
-		ValidExpression copy = expression.deepCopy(kernel);
-		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
-		copy.setLabels(labels);
-		expression.wrap().copyAttributesTo(copy.wrap());
-		return copy;
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
@@ -2567,7 +2566,7 @@ public class AlgebraProcessor {
 	 * @param coefX
 	 *            output array for coeffs
 	 * @param mult
-	 *            multiplicator
+	 *            multiplier
 	 * @param loc2
 	 *            variable
 	 * @return degree if successful, -1 otherwise
@@ -2644,7 +2643,7 @@ public class AlgebraProcessor {
 	 * @param coefX
 	 *            output array for coefficients
 	 * @param scale
-	 *            multiplicator
+	 *            multiplier
 	 *
 	 * @param var
 	 *            variable

@@ -3457,7 +3457,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * reset url after e.g. new file
 	 */
 	public void resetUrl() {
-		if (appletParameters.getDataParamApp()) {
+		if (appletParameters.getDataParamApp()
+				&& StringUtil.empty(appletParameters.getParamExamMode())) {
 			Browser.resetUrl();
 			Browser.changeUrl("/" + appletParameters.getParamShareLinkPrefix());
 		}

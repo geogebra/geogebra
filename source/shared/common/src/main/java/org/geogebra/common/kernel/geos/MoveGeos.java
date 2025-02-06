@@ -314,7 +314,7 @@ public class MoveGeos {
 				movedGeo = screenLoc.needsUpdatedBoundingBox();
 			}
 		}
-		// translateable
+		// translatable
 		else if (geo1.isTranslateable()) {
 			final Translateable trans = (Translateable) geo1;
 			trans.translate(rwTransVec);

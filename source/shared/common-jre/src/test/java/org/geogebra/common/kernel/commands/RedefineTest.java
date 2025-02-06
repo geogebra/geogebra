@@ -58,6 +58,7 @@ public class RedefineTest extends BaseUnitTest {
 	public void setAppAndAlgebraProcessor() {
 		ap = getApp().getKernel().getAlgebraProcessor();
 		app = getApp();
+		getKernel().setLoadingMode(false);
 	}
 
 	@Override
@@ -728,5 +729,15 @@ public class RedefineTest extends BaseUnitTest {
 		add("SetValue(A,(0,0))");
 		assertSame(lookup("b"), copy);
 		assertThat(copy, hasValue("?"));
+	}
+
+	@Test
+	public void variableOutputLengthOnLoad() {
+		getKernel().setLoadingMode(true);
+		add("Roots(sqrt(x^2)-2)");
+		assertThat(lookup("B"), hasValue("(2, 0)"));
+		add("B=42");
+		assertThat(lookup("B"), hasValue("42"));
+		assertThat(lookup("B_1"), hasValue("(2, 0)"));
 	}
 }

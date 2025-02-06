@@ -13,12 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
-import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -29,7 +27,6 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.LabelVisibility;
-import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
@@ -304,12 +301,6 @@ public class AppConfigDefault extends AbstractAppConfig {
 	@Override
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.GRAPHING;
-	}
-
-	@Nonnull
-	@Override
-	public EquationBehaviour getEquationBehaviour() {
-		return new DefaultEquationBehaviour();
 	}
 
 	@Override

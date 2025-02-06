@@ -665,6 +665,12 @@ public class ArithmeticTest extends BaseUnitTest {
 		assertThat(lookup("d"), hasValue("true"));
 	}
 
+	@Test
+	public void vectorNotation() {
+		t("$vector(1,2)", "(1, 2)");
+		t("$vector(1,2,3)", "(1, 2, 3)");
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);

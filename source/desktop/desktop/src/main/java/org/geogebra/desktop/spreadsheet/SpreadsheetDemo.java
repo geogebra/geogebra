@@ -266,6 +266,21 @@ public class SpreadsheetDemo {
 				public ClipboardInterface getClipboard() {
 					return clipboard;
 				}
+
+				@Override
+				public void showAutoCompleteSuggestions(String input, Rectangle editorBounds) {
+					// Not needed
+				}
+
+				@Override
+				public void hideAutoCompleteSuggestions() {
+					// Not needed
+				}
+
+				@Override
+				public boolean handleKeyPressForAutoComplete(int keyCode) {
+					return false;
+				}
 			});
 		}
 

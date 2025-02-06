@@ -79,4 +79,9 @@ public interface EquationBehaviour {
 	 * @return true if the equation forms can be changed, false otherwise.
 	 */
 	boolean allowsChangingEquationFormsByUser();
+
+	/**
+	 * @param flag Whether changing the equation form by the user should be allowed.
+	 */
+	void allowChangingEquationFormsByUser(boolean flag);
 }

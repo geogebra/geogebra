@@ -11,9 +11,9 @@ import org.geogebra.common.util.ToStringConverter;
 public class GeoElementValueConverter implements ToStringConverter<GeoElement> {
 
 	@Override
-	public String convert(GeoElement element) {
+	public String convert(GeoElement element, StringTemplate template) {
 		return element instanceof GeoText
 				? ((GeoText) element).getTextString()
-				: element.toOutputValueString(StringTemplate.algebraTemplate);
+				: element.toOutputValueString(template);
 	}
 }

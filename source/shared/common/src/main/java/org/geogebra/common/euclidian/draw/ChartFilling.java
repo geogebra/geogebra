@@ -66,7 +66,7 @@ public class ChartFilling {
 		HatchingHandler hatchingHandler = getHatchingHandler(index);
 		if (chartStyle.getBarFillType(index).isHatch()) {
 			setHatchPaint(drawable, barColor, hatchingHandler, chartStyle, index, g2);
-			hatchingHandler.fill(g2, fillShape, application);
+			g2.fill(fillShape);
 		} else if (chartStyle.getBarFillType(index) == FillType.IMAGE
 				&& !StringUtil.empty(chartStyle.getBarImage(index))) {
 			setTextureFromBarOrGeo(g2, geo, chartStyle.getBarImage(index), hatchingHandler);
@@ -83,7 +83,7 @@ public class ChartFilling {
 
 	private void setHatchPaint(Drawable drawable, GColor barColor, HatchingHandler hatchingHandler,
 			ChartStyle chartStyle, int index, GGraphics2D g2) {
-		GPaint gpaint = hatchingHandler.setHatching(g2, drawable.getDecoStroke(),
+		GPaint gpaint = hatchingHandler.setHatching(drawable.getDecoStroke(),
 				barColor, drawable.getGeoElement().getBackgroundColor(),
 				chartStyle.getBarAlpha(index),
 				chartStyle.getBarHatchDistance(index),

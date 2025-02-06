@@ -163,7 +163,7 @@ public class ImageUtilities {
 						break;
 
 					default:
-						Log.debug(ImageUtilities.class.getClass()
+						Log.debug(ImageUtilities.class
 								+ ": Invalid code in '" + code + "'");
 						break;
 					}

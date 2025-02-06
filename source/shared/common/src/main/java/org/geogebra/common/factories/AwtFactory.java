@@ -22,7 +22,6 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.main.App;
 
 public abstract class AwtFactory {
 
@@ -72,9 +71,6 @@ public abstract class AwtFactory {
 
 	public abstract GBufferedImage createBufferedImage(int width, int height,
 			boolean transparency);
-
-	public abstract MyImage newMyImage(int pixelWidth, int pixelHeight,
-			int typeIntArgb);
 
 	public abstract GDimension newDimension(int width, int height);
 
@@ -193,21 +189,6 @@ public abstract class AwtFactory {
 	}
 
 	/**
-	 * @param fillShape
-	 *            shape
-	 * @param g2
-	 *            g2
-	 * @param subImage2
-	 *            subImage
-	 * @param application
-	 *            app
-	 */
-	public void fillAfterImageLoaded(GShape fillShape, GGraphics2D g2,
-			GBufferedImage subImage2, App application) {
-		// needed in web only
-	}
-
-	/**
 	 * @param g2
 	 *            graphics
 	 * @param x1
@@ -276,4 +257,7 @@ public abstract class AwtFactory {
 		return ret;
 	}
 
+	public GGraphics2D getSVGGraphics(int xInt, int yInt) {
+		return null;
+	}
 }

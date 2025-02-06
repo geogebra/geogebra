@@ -44,7 +44,7 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 */
 	@Deprecated
 	public DefaultKeyboardFactory(boolean hasPointTemplate) {
-		this(new DefaultCharProvider(), hasPointTemplate ? () -> "$point:2" : null);
+		this(new DefaultCharProvider(), hasPointTemplate ? new BaseTemplateKeyProvider() : null);
 	}
 
 	/**
@@ -216,5 +216,20 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	@Override
 	public int hashCode() {
 		return getClass().hashCode();
+	}
+
+	/**
+	 * Simple implementation without localization or 3D support
+	 */
+	public static class BaseTemplateKeyProvider implements TemplateKeyProvider {
+		@Override
+		public String getPointFunction() {
+			return "$point:2";
+		}
+
+		@Override
+		public String getVectorFunction() {
+			return "$vector:2";
+		}
 	}
 }

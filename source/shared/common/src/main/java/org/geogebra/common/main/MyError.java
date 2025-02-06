@@ -163,7 +163,7 @@ public class MyError extends Error {
 
 	/**
 	 * @param errorName
-	 *            translateable error name
+	 *            translatable error name
 	 * @param cause
 	 *            cause
 	 */

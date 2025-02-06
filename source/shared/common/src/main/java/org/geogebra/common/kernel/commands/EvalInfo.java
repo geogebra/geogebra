@@ -249,7 +249,7 @@ public class EvalInfo {
 
 	/**
 	 * @param symbolic
-	 *            whether to show symbolic fractionss
+	 *            whether to show symbolic fractions
 	 * @return derived eval info
 	 */
 	public EvalInfo withSymbolic(boolean symbolic) {

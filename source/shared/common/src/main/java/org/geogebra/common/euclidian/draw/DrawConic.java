@@ -1477,7 +1477,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 *            x coord for hit
 	 * @param hitY
 	 *            y coord for hit
-	 * @return true if lines are hitted
+	 * @return true if lines are hit
 	 * @param hitThreshold
 	 *            acceptable distance from line
 	 */
@@ -1510,7 +1510,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 *            x coord for hit
 	 * @param hitY
 	 *            y coord for hit
-	 * @return true if lines are hitted
+	 * @return true if lines are hit
 	 * @param hitThreshold
 	 *            acceptable distance from line
 	 */

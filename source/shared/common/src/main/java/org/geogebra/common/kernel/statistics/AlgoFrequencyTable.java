@@ -444,14 +444,14 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				sb.append(strValue[i + 1]);
 				sb.append("&");
 				sb.append(strFrequency[i]);
-				sb.append("\\\\");
+				sb.append("\\\\ ");
 			}
 		} else {
 			for (int i = 0; i < strFrequency.length; i++) {
 				sb.append(strValue[i]);
 				sb.append("&");
 				sb.append(strFrequency[i]);
-				sb.append("\\\\");
+				sb.append("\\\\ ");
 			}
 		}
 		sb.append("\\end{array}");

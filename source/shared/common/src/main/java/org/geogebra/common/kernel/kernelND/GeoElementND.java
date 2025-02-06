@@ -1677,4 +1677,9 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	void setParentAlgorithm(AlgoElement algoElement);
 
 	void setConstruction(Construction cons);
+
+	/**
+	 * @return True if this is an implicit equation
+	 */
+	boolean isImplicitEquation();
 }

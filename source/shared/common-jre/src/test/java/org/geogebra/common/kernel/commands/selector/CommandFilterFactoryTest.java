@@ -55,7 +55,8 @@ public class CommandFilterFactoryTest {
 	@Test
 	public void testCasCommandFilterForVectorCommands() {
 		Commands[] allowedVectorCommands = {Commands.PerpendicularVector,
-				Commands.UnitPerpendicularVector, Commands.UnitVector, Commands.ParseToNumber};
+				Commands.UnitPerpendicularVector, Commands.UnitVector, Commands.ParseToNumber,
+				Commands.Poisson};
 		filter = CommandFilterFactory.createCasCommandFilter();
 		for (Commands command : allowedVectorCommands) {
 			assertAllowed(true, command);

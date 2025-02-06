@@ -59,7 +59,7 @@ public class InputAtom extends Atom implements Row, HasTrueBase {
 
 	// RowAtom for which the colorsettings apply
 	protected final RowAtom elements;
-	private final Color foreground;
+	public static final double MIN_INPUT_HEIGHT = 0.7;
 
 	/**
 	 * Creates a new ColorAtom that sets the given colors for the given atom.
@@ -75,18 +75,23 @@ public class InputAtom extends Atom implements Row, HasTrueBase {
 	public InputAtom(Atom atom, Color bg, Color fg) {
 		elements = new RowAtom(atom);
 		background = bg;
-		foreground = fg;
 	}
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		env.isColored = true;
 		TeXEnvironment copy = env.copy();
-		if (background != null)
+		if (background != null) {
 			copy.setBackground(background);
+		}
 		Box box = elements.createBox(copy);
 		box.setAtom(this);
-		return new OvalBox(box, 0.1, .5, foreground, getBg(), .3);
+		double thickness = 0.07;
+		double space = .5;
+		Box ovalBox = new OvalBox(box, thickness, space, background, background,
+				.3, thickness + space + MIN_INPUT_HEIGHT);
+		ovalBox.setAtom(this);
+		return ovalBox;
 	}
 
 	@Override
@@ -102,14 +107,6 @@ public class InputAtom extends Atom implements Row, HasTrueBase {
 	@Override
 	public void setPreviousAtom(Dummy prev) {
 		elements.setPreviousAtom(prev);
-	}
-
-	protected Color getBackground() {
-		return background;
-	}
-
-	protected Color getBg() {
-		return background;
 	}
 
 	public RowAtom getElements() {

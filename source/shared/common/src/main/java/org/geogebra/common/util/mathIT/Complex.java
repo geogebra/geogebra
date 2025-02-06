@@ -1326,7 +1326,7 @@ public class Complex {
 	 * 
 	 * @param z
 	 *            a complex number in the array representation
-	 * @return the suare root of <i>z</i>
+	 * @return the square root of <i>z</i>
 	 */
 	public static double[] sqrt(double[] z) {
 		double[] y = { 0., 0. };
@@ -1364,7 +1364,7 @@ public class Complex {
 	 * 
 	 * @param z
 	 *            a complex number
-	 * @return the suare root of <i>z</i>
+	 * @return the square root of <i>z</i>
 	 */
 	public static Complex sqrt(Complex z) {
 		return new Complex(sqrt(new double[] { z.z[0], z.z[1] }));

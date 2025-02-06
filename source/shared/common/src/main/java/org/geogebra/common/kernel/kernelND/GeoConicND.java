@@ -3090,9 +3090,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		eccentricity = 1;
 	}
 
-	/**********************************************************
-	 * CACLCULATIONS ON CONIC (det, evaluate, intersect, ...)
-	 **********************************************************/
+	/*
+	 * CALCULATIONS ON CONIC (det, evaluate, intersect, ...)
+	 */
 
 	/**
 	 * Computes the determinant of a conic's 3x3 matrix.
@@ -4132,7 +4132,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * @param tpl
-	 *            demplate
+	 *            template
 	 * @param dim
 	 *            dimension
 	 * @return parametric description of this conic in given dimension

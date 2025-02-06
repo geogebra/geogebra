@@ -4,24 +4,21 @@ import static org.geogebra.common.kernel.arithmetic.simplifiers.SimplifyUtils.is
 import static org.geogebra.common.kernel.arithmetic.simplifiers.SimplifyUtils.isNodeSupported;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.OperationCountChecker;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 public final class RationalizableFraction {
-	public static final boolean LOG_ENABLED = true;
+	public static final boolean LOG_ENABLED = false;
 	private final ExpressionSimplifiers simplifiers;
 	private final SimplifyUtils utils;
 	private ExpressionNode root;
 
 	private static final OperationCountChecker sqrtCountChecker =
 			new OperationCountChecker(Operation.SQRT);
-	private double rootValue;
 
 	private RationalizableFraction(ExpressionNode root) {
 		Kernel kernel = root.getKernel();
@@ -41,14 +38,13 @@ public final class RationalizableFraction {
 	}
 
 	private ExpressionNode simplify() {
-		ExpressionNode first = simplifiers.runFirst(root);
 		if (!isSupported(root)) {
 			return null;
 		}
 
-		root = first;
+		root = simplifiers.runFirst(root);
 
-		rootValue = root.evaluateDouble();
+		double rootValue = root.evaluateDouble();
 
 		if (!Double.isFinite(rootValue)) {
 			return root;
@@ -90,7 +86,7 @@ public final class RationalizableFraction {
 		int sqrtsInNumerator = getSquareRootCount(root.getLeft());
 		int sqrtsInDenominator = getSquareRootCount(root.getRight());
 		if (sqrtsInDenominator == 0) {
-			return true;
+			return false;
 		}
 		if ((sqrtsInNumerator > 1 || sqrtsInDenominator > 1)
 				|| (sqrtsInNumerator + sqrtsInDenominator == 0)) {
@@ -114,30 +110,11 @@ public final class RationalizableFraction {
 	}
 
 	private ExpressionNode rationalizeFraction() {
-		logRootExpression();
 		ExpressionNode copy = utils.deepCopy(root);
 		RationalizeFractionAlgo algo =
 				new RationalizeFractionAlgo(utils, copy.getLeftTree(),
 						copy.getRightTree());
-		ExpressionNode computed = algo.compute();
-		logRationalizedNode(computed);
-		return computed;
-	}
-
-	private void logRootExpression() {
-		debug("start: " + root.toValueString(StringTemplate.defaultTemplate)
-				+ "(=" + root.evaluateDouble() + ")");
-	}
-
-	private void debug(String msg) {
-		if (LOG_ENABLED) {
-			Log.debug(msg);
-		}
-	}
-
-	private void logRationalizedNode(ExpressionNode node) {
-		debug("rationalized: " + node.toValueString(StringTemplate.defaultTemplate));
-
+		return algo.compute();
 	}
 
 	private ExpressionValue simplifyNormalizedRadicalFraction(double denominatorValue) {

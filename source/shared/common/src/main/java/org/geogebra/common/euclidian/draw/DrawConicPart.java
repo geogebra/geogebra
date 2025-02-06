@@ -608,7 +608,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	final public boolean isInside(GRectangle rect) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			// hsape can be null in view from plane
+			// shape can be null in view from plane
 			return shape != null && rect.contains(shape.getBounds());
 
 		case DRAW_TYPE_SEGMENT:

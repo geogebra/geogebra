@@ -152,7 +152,7 @@ public class MhchemParser extends TeXParser {
 		}
 	}
 
-	private final class NormalParser extends TeXParser {
+	private final static class NormalParser extends TeXParser {
 
 		NormalParser(String parseString, int pos, int line, int col) {
 			super(parseString, pos, line, col);

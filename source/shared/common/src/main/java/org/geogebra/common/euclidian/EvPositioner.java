@@ -5,7 +5,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * Recenters the Euclidian View after Clear all menu action and Algebra View size changes.
+ * Re-centers the Euclidian View after Clear all menu action and Algebra View size changes.
  */
 public abstract class EvPositioner {
 

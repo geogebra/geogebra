@@ -1014,7 +1014,7 @@ public class MyDouble extends ValidExpression
 			} else if (ch <= 0xf29) {
 				ch -= 0xf20; // Tibetan
 			} else if (ch <= 0x1049) {
-				ch -= 0x1040; // Mayanmar (Burmese)
+				ch -= 0x1040; // Myanmar (Burmese)
 			} else if (ch <= 0x17e9) {
 				ch -= 0x17e0; // Khmer
 			} else if (ch <= 0x1819) {
@@ -1147,7 +1147,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * @return rieman zeta of this number
+	 * @return Riemann zeta of this number
 	 */
 	public ExpressionValue zeta() {
 		return new MyDouble(kernel, MyMath2.zeta(val));

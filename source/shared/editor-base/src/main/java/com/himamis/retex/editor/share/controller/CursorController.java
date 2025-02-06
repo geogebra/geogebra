@@ -351,9 +351,9 @@ public class CursorController {
 				MathFunction function = (MathFunction) component.getParent();
 				int downIndex = function
 						.getDownIndex(component.getParentIndex());
-				if (downIndex >= 0) {
-					editorState
-							.setCurrentField(function.getArgument(downIndex));
+				MathSequence downArg = function.getArgument(downIndex);
+				if (downArg != null) {
+					editorState.setCurrentField(downArg);
 					editorState.setCurrentOffset(0);
 					return true;
 				}

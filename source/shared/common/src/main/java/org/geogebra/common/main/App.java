@@ -39,11 +39,9 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.cvte.CvteAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.cvte.CvteLabelDescriptionConverter;
-import org.geogebra.common.exam.restrictions.cvte.CvteValueConverter;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -1970,11 +1968,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Save all perspectives included in a document into an array with temporary
 	 * perspectives.
 	 *
-	 * @param perspectives
-	 *            array of perspetctives in the document
+	 * @param perspective
+	 *            perspective for the document
 	 */
-	public void setTmpPerspective(Perspective perspectives) {
-		tmpPerspective = perspectives;
+	public void setTmpPerspective(Perspective perspective) {
+		tmpPerspective = perspective;
 	}
 
 	/**
@@ -4952,25 +4950,20 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// ExamRestrictable
 
 	@Override
-	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
+			@Nonnull ExamType examType) {
 		resetCommandDict();
 		if (featureRestrictions.contains(ExamFeatureRestriction.HIDE_CALCULATED_EQUATION)) {
-			AlgebraOutputFilter wrappedAlgebraOutputFilter = getAlgebraOutputFilter();
-			algebraOutputFilter = new CvteAlgebraOutputFilter(wrappedAlgebraOutputFilter);
-
-			ToStringConverter<GeoElement> wrappedLabelDescriptionConverter
-					= getLabelDescriptionConverter();
-			labelDescriptionConverter = new CvteLabelDescriptionConverter(
-					wrappedLabelDescriptionConverter);
-
-			ToStringConverter<GeoElement> wrappedValueConverter
-					= getGeoElementValueConverter();
-			valueConverter = new CvteValueConverter(wrappedValueConverter);
+			algebraOutputFilter = examType.wrapAlgebraOutputFilter(getAlgebraOutputFilter());
+			labelDescriptionConverter = examType.wrapLabelDescriptionConverter(
+					getLabelDescriptionConverter());
+			valueConverter = examType.wrapValueConverter(getGeoElementValueConverter());
 		}
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
+			@Nonnull ExamType examType) {
 		// null out filters, to recreate on next use
 		algebraOutputFilter = null;
 		labelDescriptionConverter = null;
@@ -4989,11 +4982,4 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return guiManager.getLayout().getDockManager().getFocusedViewId() == VIEW_ALGEBRA;
 	}
 
-	/**
-	 * @return string that's mapped to correct point template by keyboard input adapter
-	 */
-	public String getPointTemplateKey() {
-		int dimension = getActiveEuclidianView().getDimension();
-		return getSettings().getGeneral().getPointEditorTemplate() + ":" + dimension;
-	}
 }

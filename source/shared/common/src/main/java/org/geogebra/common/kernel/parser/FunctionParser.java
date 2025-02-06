@@ -96,6 +96,10 @@ public class FunctionParser {
 				return en.wrap();
 			}
 		}
+		ExpressionNode point = checkPointFunctions(funcName, myList);
+		if (point != null) {
+			return point;
+		}
 		boolean forceCommand = cimage.charAt(cimage.length() - 1) == '[';
 		GeoElement geo = null;
 		GeoCasCell cell = null;
@@ -170,8 +174,9 @@ public class FunctionParser {
 						&& nestedCommands < 1
 						&& kernel.getAlgebraProcessor().enableStructures()) {
 					if (topLevelExpression) {
-						ExpressionNode point = asPoint(myList, funcName);
+						point = asPoint(myList);
 						if (point != null) {
+							point.setLabel(funcName);
 							return point;
 						}
 					} if (kernel.getSymbolicMode() == SymbolicMode.NONE
@@ -268,18 +273,26 @@ public class FunctionParser {
 		return multiplication(geoExp, undecided, myList, funcName);
 	}
 
-	private ExpressionNode asPoint(MyList myList, String funcName) {
+	private ExpressionNode checkPointFunctions(String funcName, MyList myList) {
+		if ("$point".equals(funcName) || "$pointAt".equals(funcName)) {
+			return asPoint(myList);
+		}
+		if ("$vector".equals(funcName)) {
+			ExpressionNode ex = asPoint(myList);
+			ex.setForceVector();
+			return ex;
+		}
+		return null;
+	}
+
+	private ExpressionNode asPoint(MyList myList) {
 		if (myList.size() == 2) {
-			ExpressionNode ret = new ExpressionNode(kernel, new MyVecNode(kernel,
-					myList.get(0), myList.get(1)));
-			ret.setLabel(funcName);
-			return ret;
+			return new MyVecNode(kernel,
+					myList.get(0), myList.get(1)).wrap();
 		} else if (myList.size() == 3) {
-			ExpressionNode ret = new ExpressionNode(kernel, new MyVec3DNode(kernel,
+			return new MyVec3DNode(kernel,
 					myList.get(0), myList.get(1),
-					myList.get(2)));
-			ret.setLabel(funcName);
-			return ret;
+					myList.get(2)).wrap();
 		}
 		return null;
 	}

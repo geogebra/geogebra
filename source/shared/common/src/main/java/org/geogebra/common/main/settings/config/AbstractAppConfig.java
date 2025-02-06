@@ -1,10 +1,14 @@
 package org.geogebra.common.main.settings.config;
 
+import java.util.Set;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.App;
@@ -17,6 +21,7 @@ abstract class AbstractAppConfig implements AppConfig {
     private String appCode;
     private SuiteSubApp subAppCode;
     protected transient CommandFilter commandFilter;
+    protected transient EquationBehaviour equationBehaviour;
 
     AbstractAppConfig(String appCode) {
         this(appCode, null);
@@ -25,6 +30,7 @@ abstract class AbstractAppConfig implements AppConfig {
     AbstractAppConfig(String appCode, String subAppCode) {
         this.appCode = appCode;
         this.subAppCode = SuiteSubApp.forCode(subAppCode);
+        initializeEquationBehaviour();
     }
 
     @Override
@@ -46,8 +52,13 @@ abstract class AbstractAppConfig implements AppConfig {
 
     @Nonnull
     @Override
-    public EquationBehaviour getEquationBehaviour() {
-        return new DefaultEquationBehaviour();
+    public final EquationBehaviour getEquationBehaviour() {
+        return equationBehaviour;
+    }
+
+    @Override
+    public void initializeEquationBehaviour() {
+        equationBehaviour = new DefaultEquationBehaviour();
     }
 
     @Override
@@ -84,5 +95,19 @@ abstract class AbstractAppConfig implements AppConfig {
     @Override
     public boolean hasDataImport() {
         return true;
+    }
+
+    @Override
+    public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
+            @Nonnull ExamType examType) {
+        if (featureRestrictions.contains(ExamFeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM)) {
+            equationBehaviour.allowChangingEquationFormsByUser(false);
+        }
+    }
+
+    @Override
+    public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
+            @Nonnull ExamType examType) {
+        initializeEquationBehaviour();
     }
 }

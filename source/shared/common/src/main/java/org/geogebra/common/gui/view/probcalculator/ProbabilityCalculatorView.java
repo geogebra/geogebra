@@ -566,6 +566,9 @@ public abstract class ProbabilityCalculatorView
 
 	private void createDiscreteDistribution() {
 		createDiscreteLists();
+		if (discreteValueList.size() == 0) {
+			return;
+		}
 		if (graphType == GRAPH_STEP) {
 			createStepChart();
 		} else {

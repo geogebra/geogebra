@@ -141,31 +141,37 @@ public class DrawLocus extends Drawable {
 	}
 
 	protected void drawLocus(GGraphics2D g2) {
-		if (isVisible) {
-			if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
-				GRectangle bounds = getBounds();
-				if (bitmap == null && bounds != null) {
-					GRectangle viewBounds = view.getFrame();
-					GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds);
+		if (!isVisible) {
+			return;
+		}
+		GRectangle bounds = getBounds();
+		GRectangle viewBounds = view.getFrame();
+		// don't draw if bounds is null or entirely outside view bounds (APPS-6274)
+		if (bounds == null || !bounds.intersects(viewBounds)) {
+			return;
+		}
 
-					bitmap = makeImage(g2, bitmapBounds);
-					bitmapShiftX = (int) bitmapBounds.getMinX() - BITMAP_PADDING;
-					bitmapShiftY = (int) bitmapBounds.getMinY() - BITMAP_PADDING;
+		if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
+			if (bitmap == null) {
+				GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds);
 
-					GGraphics2D graphics = bitmap.createGraphics();
-					graphics.setAntialiasing();
-					graphics.translate(-bitmapShiftX, -bitmapShiftY);
-					drawPath(graphics, gp);
-				}
-				g2.drawImage(bitmap, bitmapShiftX, bitmapShiftY);
-			} else {
-				drawPath(g2, gp);
+				bitmap = makeImage(g2, bitmapBounds);
+				bitmapShiftX = (int) bitmapBounds.getMinX() - BITMAP_PADDING;
+				bitmapShiftY = (int) bitmapBounds.getMinY() - BITMAP_PADDING;
+
+				GGraphics2D graphics = bitmap.createGraphics();
+				graphics.setAntialiasing();
+				graphics.translate(-bitmapShiftX, -bitmapShiftY);
+				drawPath(graphics, gp);
 			}
+			g2.drawImage(bitmap, bitmapShiftX, bitmapShiftY);
+		} else {
+			drawPath(g2, gp);
+		}
 
-			if (geo.isFillable() && geo.isFilled()) {
-				// fill using default/hatching/image as appropriate
-				fill(g2, geo.isInverseFill() ? getShape() : gp);
-			}
+		if (geo.isFillable() && geo.isFilled()) {
+			// fill using default/hatching/image as appropriate
+			fill(g2, geo.isInverseFill() ? getShape() : gp);
 		}
 	}
 

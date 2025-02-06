@@ -187,8 +187,10 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void selectNumberTab() {
-		switcher.select(processField != null && processField.requestsAns() ? KeyboardType.NUMBERS
-				: KeyboardType.NUMBERS_DEFAULT);
+		boolean requestsAns = processField != null && processField.requestsAns();
+		ansSwitcher.setVisible(requestsAns);
+		defaultSwitcher.setVisible(!requestsAns);
+		switcher.select(requestsAns ? KeyboardType.NUMBERS : KeyboardType.NUMBERS_DEFAULT);
 	}
 
 	private void createAnsMathKeyboard() {
@@ -641,6 +643,9 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	public void buildGUI() {
 		this.tabs = new FlowPanel();
+		TemplateKeyProvider templateKeyProvider = hasKeyboard.getTemplateKeyProvider();
+		pointFunction = templateKeyProvider == null ? null
+				: templateKeyProvider.getPointFunction();
 		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
 			buildGUIScientific();
 		} else {
@@ -832,6 +837,14 @@ public class TabbedKeyboard extends FlowPanel
 			break;
 		case ANS:
 			processField.ansPressed();
+			break;
+		case NONE:
+		case TOGGLE_ACCENT_ACUTE:
+		case TOGGLE_ACCENT_GRAVE:
+		case TOGGLE_ACCENT_CARON:
+		case TOGGLE_ACCENT_CIRCUMFLEX:
+		case SWITCH_TO_123:
+			break;
 		}
 	}
 
@@ -870,6 +883,9 @@ public class TabbedKeyboard extends FlowPanel
 			break;
 		case DOWN_CURSOR:
 			processField.onArrow(KeyboardListener.ArrowType.down);
+			break;
+		default:
+			// not repeatable
 			break;
 		}
 	}

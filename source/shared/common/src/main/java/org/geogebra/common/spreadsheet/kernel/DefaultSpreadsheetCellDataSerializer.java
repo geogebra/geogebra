@@ -9,10 +9,14 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 
 /**
  * Spreadsheet data conversion.
- *
- *  (This class is an adapter between the Spreadsheet core and the Kernel.)
+ * <p>
+ * (This class is an adapter between the Spreadsheet core and the Kernel.)
+ * </p>
  */
 public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCellDataSerializer {
+
+	private static final StringTemplate NO_POINT_EDITOR_TEMPLATE =
+			StringTemplate.editorTemplate.deriveWithoutPointTemplate();
 
 	/**
 	 * @param data Spreadsheet cell content.
@@ -33,7 +37,7 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 					StringTemplate.defaultTemplate);
 		}
 		String redefineString = geo.getRedefineString(true, false,
-				StringTemplate.editorTemplate);
+				NO_POINT_EDITOR_TEMPLATE);
 		return geo.isGeoText() && parentAlgorithm == null
 				? redefineString
 				: "=" + redefineString;

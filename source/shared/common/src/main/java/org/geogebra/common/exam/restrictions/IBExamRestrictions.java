@@ -118,8 +118,10 @@ import static org.geogebra.common.kernel.commands.Commands.Ellipse;
 import static org.geogebra.common.kernel.commands.Commands.Ends;
 import static org.geogebra.common.kernel.commands.Commands.Envelope;
 import static org.geogebra.common.kernel.commands.Commands.Erlang;
+import static org.geogebra.common.kernel.commands.Commands.Execute;
 import static org.geogebra.common.kernel.commands.Commands.Expand;
 import static org.geogebra.common.kernel.commands.Commands.Exponential;
+import static org.geogebra.common.kernel.commands.Commands.ExportImage;
 import static org.geogebra.common.kernel.commands.Commands.Factor;
 import static org.geogebra.common.kernel.commands.Commands.Factors;
 import static org.geogebra.common.kernel.commands.Commands.First;
@@ -155,6 +157,7 @@ import static org.geogebra.common.kernel.commands.Commands.Insert;
 import static org.geogebra.common.kernel.commands.Commands.IntegralBetween;
 import static org.geogebra.common.kernel.commands.Commands.IntegralSymbolic;
 import static org.geogebra.common.kernel.commands.Commands.InteriorAngles;
+import static org.geogebra.common.kernel.commands.Commands.Intersect;
 import static org.geogebra.common.kernel.commands.Commands.IntersectConic;
 import static org.geogebra.common.kernel.commands.Commands.IntersectPath;
 import static org.geogebra.common.kernel.commands.Commands.Intersection;
@@ -314,6 +317,13 @@ import static org.geogebra.common.kernel.commands.Commands.TrigCombine;
 import static org.geogebra.common.kernel.commands.Commands.TrigExpand;
 import static org.geogebra.common.kernel.commands.Commands.TrigSimplify;
 import static org.geogebra.common.kernel.commands.Commands.Trilinear;
+import static org.geogebra.common.kernel.commands.Commands.Turtle;
+import static org.geogebra.common.kernel.commands.Commands.TurtleBack;
+import static org.geogebra.common.kernel.commands.Commands.TurtleDown;
+import static org.geogebra.common.kernel.commands.Commands.TurtleForward;
+import static org.geogebra.common.kernel.commands.Commands.TurtleLeft;
+import static org.geogebra.common.kernel.commands.Commands.TurtleRight;
+import static org.geogebra.common.kernel.commands.Commands.TurtleUp;
 import static org.geogebra.common.kernel.commands.Commands.UnicodeToLetter;
 import static org.geogebra.common.kernel.commands.Commands.UnicodeToText;
 import static org.geogebra.common.kernel.commands.Commands.Uniform;
@@ -346,6 +356,7 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ib.PointDerivativeFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
@@ -367,7 +378,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 
 	IBExamRestrictions() {
 		super(ExamType.IB,
-				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D),
+				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D, SuiteSubApp.GEOMETRY),
 				SuiteSubApp.GRAPHING,
 				null,
 				createExpressionFilters(),
@@ -381,7 +392,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				createDistributionPropertyRestriction(),
 				null,
 				null,
-				null);
+				null,
+				createDisabledAlgorithms());
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
@@ -439,7 +451,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				Dilate, Reflect, Rotate, Shear, Stretch, Translate, MatrixRank,
 				PerpendicularVector, UnitPerpendicularVector, UnitVector, Vector, CFactor,
 				GroebnerDegRevLex, GroebnerLexDeg, GroebnerLex, Substitute, NDerivative, BetaDist,
-				InverseBeta, InteriorAngles, Random);
+				InverseBeta, InteriorAngles, Random, Execute, ExportImage, Intersect, Turtle,
+				TurtleBack, TurtleForward, TurtleLeft, TurtleRight, TurtleUp, TurtleDown);
 		return Set.of(nameFilter);
 	}
 
@@ -451,6 +464,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 		LineSelectorSyntaxFilter filter = new LineSelectorSyntaxFilter();
 		filter.addSelector(Commands.Integral, 2);
 		filter.addSelector(Commands.Invert, 0);
+		filter.addSelector(Commands.Tangent, 1, 3);
 		return filter;
 	}
 
@@ -478,11 +492,21 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				!restrictedDistributions.contains(value)));
 	}
 
+	private static Set<DisabledAlgorithms> createDisabledAlgorithms() {
+		return Set.of(DisabledAlgorithms.TangentPointImplicitCurve,
+				DisabledAlgorithms.TangentPointConic,
+				DisabledAlgorithms.TangentConicConic,
+				DisabledAlgorithms.TangentLineConic);
+	}
+
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {
 
 		@Override
 		public void checkAllowed(Command command, CommandProcessor commandProcessor)
 				throws MyError {
+			if (isCommand(command, Commands.Tangent)) {
+				checkTangentCommand(command, commandProcessor);
+			}
 			if (isCommand(command, Commands.Integral)) {
 				if (command.getArgumentNumber() != 3) {
 					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
@@ -491,6 +515,24 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				GeoElement[] elements = commandProcessor.resArgs(command);
 				if (elements.length == 1 && elements[0] instanceof GeoFunction) {
 					throw commandProcessor.argErr(command, elements[0]);
+				}
+			}
+		}
+
+		private void checkTangentCommand(Command command, CommandProcessor processor) {
+			GeoElement[] elements = processor.resArgs(command);
+			if (elements.length == 2) {
+				// Point, Conic and inverse
+				if ((elements[0].isGeoPoint() && elements[1].isGeoConic())
+						|| (elements[0].isGeoConic() && elements[1].isGeoPoint())
+						// Line, Conic
+						|| (elements[0].isGeoLine() && elements[1].isGeoConic())
+						// Conic, Conic
+						|| (elements[0].isGeoConic() && elements[1].isGeoConic())
+						// Point, Implicit Curve and inverse
+						|| (elements[0].isGeoPoint() && elements[1].isGeoImplicitCurve()
+						|| (elements[0].isGeoImplicitCurve() && elements[1].isGeoPoint()))) {
+					throw processor.argErr(command, elements[0]);
 				}
 			}
 		}

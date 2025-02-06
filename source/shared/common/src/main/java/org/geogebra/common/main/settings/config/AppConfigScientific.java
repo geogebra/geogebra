@@ -8,7 +8,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ScientificOperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -144,8 +143,8 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public EquationBehaviour getEquationBehaviour() {
-		return new DefaultEquationBehaviour();
+	public void initializeEquationBehaviour() {
+		equationBehaviour = new DefaultEquationBehaviour();
 	}
 
 	@Override

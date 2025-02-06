@@ -223,9 +223,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void symbolicShouldShowDefinitionFor3DPoints() {
 		setupInput("P", "(?,?,?)");
 		inputBox.setSymbolicMode(true, false);
-		assertEquals("$point(?,?,?)", inputBox.getTextForEditor());
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
 		updateInput("(sqrt(2), 1/3, 0)");
-		assertEquals("$point(sqrt(2),(1)/(3),0)", inputBox.getTextForEditor());
+		assertEquals("(sqrt(2),(1)/(3),0)", inputBox.getTextForEditor());
 		add("SetValue(P,?)");
 		assertEquals("(?,?,?)", inputBox.getTextForEditor());
 	}

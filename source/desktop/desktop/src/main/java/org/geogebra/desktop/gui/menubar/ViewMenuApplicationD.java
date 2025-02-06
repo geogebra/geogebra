@@ -92,7 +92,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		showLayoutOptionsAction = new AbstractAction(
 				loc.getMenu("Layout") + " ...",
 				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
-			public static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

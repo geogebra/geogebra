@@ -600,7 +600,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	/**
-	 * reset last hitted parameters
+	 * reset last hit parameters
 	 */
 	public void resetLastHitParameters() {
 		hasLastHitParameters = false;

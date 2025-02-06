@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.inputfield.HasLastItem;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -72,7 +74,10 @@ public final class KeyboardManager
 	 */
 	public List<Integer> getKeyboardViews() {
 		ArrayList<Integer> keyboardViews = getKeyboardViewsNoEV();
-		if (app.getKernel().getConstruction().hasInputBoxes()) {
+		Predicate<GeoInputBox> filter = geo -> NavigatorUtil.isMobile()
+				|| geo.isSymbolicMode()
+				|| geo.needsSymbolButton();
+		if (app.getKernel().getConstruction().hasInputBoxes(filter)) {
 			keyboardViews.add(App.VIEW_EUCLIDIAN);
 			keyboardViews.add(App.VIEW_EUCLIDIAN2);
 		}

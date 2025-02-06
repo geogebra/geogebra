@@ -3,24 +3,23 @@ package org.geogebra.common.kernel.arithmetic.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
-import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class PolarPrinter implements Printer {
 
     @Override
-    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
-            PrintableVector vector) {
+    public String print(String xCoord, String yCoord, String zCoord,
+            PrintableVector vector, StringTemplate tpl) {
         if (tpl.getStringType().isGiac()) {
             return "point(("
-                    + expressionPrinter.print(vector.getX(), tpl)
+                    + xCoord
                     + ")*exp(i*("
-                    + expressionPrinter.print(vector.getY(), tpl)
+                    + yCoord
                     + ")))";
         }
         return printLeftParenthesis(tpl)
-                + expressionPrinter.print(vector.getX(), tpl)
+                + xCoord
                 + printDelimiter()
-                + expressionPrinter.print(vector.getY(), tpl)
+                + yCoord
                 + printRightParenthesis(tpl);
     }
 

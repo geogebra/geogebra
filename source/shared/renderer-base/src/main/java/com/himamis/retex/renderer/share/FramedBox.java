@@ -64,10 +64,19 @@ public class FramedBox extends Box {
 	protected Color line;
 	protected Color bg;
 
-	private Rectangle2D rectangle;
+	private final Rectangle2D rectangle;
 
+	/**
+	 * @param box wrapped box
+	 * @param thickness border thickness (relative to font size)
+	 * @param space padding (relative to font size)
+	 * @param line border color
+	 * @param bg background color
+	 * @param dashLength total length of dash pattern
+	 * @param dashVisibleLength visible part of dash pattern
+	 */
 	public FramedBox(Box box, double thickness, double space, Color line,
-			Color bg, double dashlength, double dashdash) {
+			Color bg, double dashLength, double dashVisibleLength) {
 		this.box = box;
 		this.width = box.width + 2 * thickness + 2 * space;
 		this.height = box.height + thickness + space;
@@ -77,8 +86,8 @@ public class FramedBox extends Box {
 		this.space = space;
 		this.line = line;
 		this.bg = bg;
-		this.dashlength = dashlength;
-		this.dashdash = dashdash;
+		this.dashlength = dashLength;
+		this.dashdash = dashVisibleLength;
 
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
@@ -87,9 +96,9 @@ public class FramedBox extends Box {
 		this(box, thickness, space, null, null, Double.NaN, Double.NaN);
 	}
 
-	public FramedBox(Box box, double thickness, double space, double dashlength,
-			double dashdash) {
-		this(box, thickness, space, null, null, dashlength, dashdash);
+	public FramedBox(Box box, double thickness, double space, double dashLength,
+			double dashVisibleLength) {
+		this(box, thickness, space, null, null, dashLength, dashVisibleLength);
 	}
 
 	public FramedBox(Box box, double thickness, double space, Color line,
@@ -154,6 +163,10 @@ public class FramedBox extends Box {
 	public void inspect(BoxConsumer handler, BoxPosition position) {
 		super.inspect(handler, position);
 		box.inspect(handler, position.withPosition(position.x + space, position.y + space));
+	}
+
+	public void setColor(Color line) {
+		this.line = line;
 	}
 
 }

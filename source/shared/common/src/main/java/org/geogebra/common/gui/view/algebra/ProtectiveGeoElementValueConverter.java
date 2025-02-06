@@ -15,11 +15,11 @@ public class ProtectiveGeoElementValueConverter implements ToStringConverter<Geo
 	private FunctionAndEquationFilter functionAndEquationFilter = new FunctionAndEquationFilter();
 
 	@Override
-	public String convert(GeoElement element) {
+	public String convert(GeoElement element, StringTemplate template) {
 		if (functionAndEquationFilter.isAllowed(element)) {
-			return defaultConverter.convert(element);
+			return defaultConverter.convert(element, template);
 		} else {
-			return element.getDefinition(StringTemplate.algebraTemplate);
+			return element.getDefinition(template);
 		}
 	}
 }

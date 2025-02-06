@@ -4633,7 +4633,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 *
-	 * @return true if consumes space key hitted
+	 * @return true if space key hit was consumed
 	 */
 	public boolean handleSpaceKey() {
 		return getCompanion().handleSpaceKey();

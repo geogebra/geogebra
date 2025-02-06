@@ -1,12 +1,10 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
-import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME_VALUE;
-import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
-
 import javax.annotation.Nullable;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.ToStringConverter;
 
@@ -33,29 +31,17 @@ public final class CvteLabelDescriptionConverter implements ToStringConverter<Ge
     }
 
     @Override
-    public String convert(GeoElement element) {
+    public String convert(GeoElement element, StringTemplate template) {
         if (element == null) {
             return null;
         }
         if (!Cvte.isCalculatedEquationAllowed(element)) {
-            return getRestrictedLabelDescription(element);
+            return DefaultLabelDescriptionConverter.getRestrictedLabelDescription(
+                    element, template, wrappedConverter);
         }
         if (wrappedConverter != null) {
-            return wrappedConverter.convert(element);
+            return wrappedConverter.convert(element, template);
         }
         return null;
-    }
-
-    private String getRestrictedLabelDescription(GeoElement element) {
-        String label;
-        switch (element.getLabelMode()) {
-            case LABEL_VALUE:
-            case LABEL_NAME_VALUE:
-                label = element.getDefinition(element.getLabelStringTemplate());
-                break;
-            default:
-                label = wrappedConverter.convert(element);
-        }
-        return label.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : label;
     }
 }

@@ -44,6 +44,13 @@ public class AlgebraItem {
 	}
 
 	/**
+	 * The possible icons for the toggle button
+	 */
+	public enum ToggleButtonIcon {
+		FRACTION, EQUALS, EQUALS_APPROX
+	}
+
+	/**
 	 * @param geo
 	 *            element
 	 * @return arrow or approx, depending on symbolic/numeric nature of the
@@ -708,5 +715,22 @@ public class AlgebraItem {
 			return isGeoFraction(numeric);
 		}
 		return false;
+	}
+
+	/**
+	 * Returns the icon used for the symbolic output button
+	 * @param element element
+	 * @return icon
+	 */
+	public static ToggleButtonIcon getSymbolicOutputButtonIcon(GeoElement element) {
+		switch (AlgebraItem.getCASOutputType(element)) {
+		case NUMERIC:
+			return AlgebraItem.evaluatesToFraction(element)
+					&& !AlgebraItem.isRationalizableFraction(element) ? ToggleButtonIcon.FRACTION
+					: ToggleButtonIcon.EQUALS;
+		case SYMBOLIC:
+		default:
+			return ToggleButtonIcon.EQUALS_APPROX;
+		}
 	}
 }

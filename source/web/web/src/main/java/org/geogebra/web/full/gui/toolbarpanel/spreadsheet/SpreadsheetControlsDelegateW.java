@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
@@ -19,20 +20,25 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.util.ClipboardW;
+import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.user.client.ui.Widget;
 
 import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
-public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
+public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate, AutoCompleteW {
 
 	private final SpreadsheetCellEditorW editor;
 	private final GPopupMenuW contextMenu;
@@ -40,6 +46,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final static int CONTEXT_MENU_PADDING = 8;
 	private final static int MARGIN_FROM_SCREEN_EDGE = 16;
 	private final ClipboardInterface clipboard;
+	private AutoCompletePopup autocomplete;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -54,7 +61,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			mathField.addStyleName("spreadsheetEditor");
 			this.parent = parent;
 			this.app = app;
-			mathField.addBlurHandler(blur -> getSpreadsheetPanel().saveContentAndHideCellEditor());
 		}
 
 		public SpreadsheetPanel getSpreadsheetPanel() {
@@ -119,6 +125,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	public SpreadsheetControlsDelegateW(AppW app, SpreadsheetPanel parent,
 			MathTextFieldW mathTextField) {
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
+		mathTextField.addBlurHandler(blur -> {
+			if (!isSuggesting()) {
+				editor.getSpreadsheetPanel().saveContentAndHideCellEditor();
+			}
+		});
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
 		clipboard = new ClipboardW();
@@ -128,6 +139,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	public SpreadsheetCellEditor getCellEditor() {
 		return editor;
 	}
+
+	// CONTEXT MENU
 
 	@Override
 	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
@@ -161,6 +174,30 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		contextMenu.getPopupMenu().selectItem(0);
 	}
 
+	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {
+		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
+		switch (action) {
+		case CUT:
+			return res.cut_black();
+		case COPY:
+			return res.copy_black();
+		case PASTE:
+			return res.paste_black();
+		case DELETE:
+			return res.delete_black();
+		case CALCULATE:
+			return res.calculate();
+		case INSERT_ROW_ABOVE:
+		case INSERT_ROW_BELOW:
+		case DELETE_ROW:
+		case INSERT_COLUMN_LEFT:
+		case INSERT_COLUMN_RIGHT:
+		case DELETE_COLUMN:
+		default:
+			return null;
+		}
+	}
+
 	private void positionContextMenu(int x, int y) {
 		int left = x + getAbsoluteSpreadsheetLeft() - getAbsoluteAppLeft();
 		int top = y + getAbsoluteSpreadsheetTop() - getAbsoluteAppTop();
@@ -191,7 +228,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	}
 
 	private int getAbsoluteAppLeft() {
-		return (int) contextMenu.getApp().getAbsLeft();
+		return (int) getApplication().getAbsLeft();
 	}
 
 	private int getAbsoluteSpreadsheetLeft() {
@@ -199,7 +236,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	}
 
 	private int getAbsoluteAppTop() {
-		return (int) contextMenu.getApp().getAbsTop();
+		return (int) getApplication().getAbsTop();
 	}
 
 	private int getAbsoluteSpreadsheetTop() {
@@ -216,27 +253,117 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		return clipboard;
 	}
 
-	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {
-		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
-		switch (action) {
-		case CUT:
-			return res.cut_black();
-		case COPY:
-			return res.copy_black();
-		case PASTE:
-			return res.paste_black();
-		case DELETE:
-			return res.delete_black();
-		case CALCULATE:
-			return res.calculate();
-		case INSERT_ROW_ABOVE:
-		case INSERT_ROW_BELOW:
-		case DELETE_ROW:
-		case INSERT_COLUMN_LEFT:
-		case INSERT_COLUMN_RIGHT:
-		case DELETE_COLUMN:
-		default:
-			return null;
+	// AUTOCOMPLETE
+
+	@Override
+	public void showAutoCompleteSuggestions(String input, Rectangle editorBounds) {
+		int left = (int) editorBounds.getMinX() + getAbsoluteSpreadsheetLeft()
+				- getAbsoluteAppLeft();
+		int top = (int) editorBounds.getMinY() + getAbsoluteSpreadsheetTop() - getAbsoluteAppTop();
+		int height = (int) editorBounds.getHeight();
+
+		getAutocompletePopup().popupSuggestions(input, left, top, height);
+	}
+
+	@Override
+	public void hideAutoCompleteSuggestions() {
+		getAutocompletePopup().hide();
+	}
+
+	@Override
+	public boolean handleKeyPressForAutoComplete(int keyCode) {
+		if (!isSuggesting()) {
+			return false;
 		}
+
+		switch (keyCode) {
+		case JavaKeyCodes.VK_DOWN:
+		case JavaKeyCodes.VK_UP:
+		case JavaKeyCodes.VK_LEFT:
+		case JavaKeyCodes.VK_RIGHT:
+			autocomplete.onArrowKeyPressed(keyCode);
+			return true;
+		case JavaKeyCodes.VK_ENTER:
+			autocomplete.handleEnter();
+			return true;
+		case JavaKeyCodes.VK_ESCAPE:
+			hideAutoCompleteSuggestions();
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return autocomplete popup (lazy load)
+	 */
+	private AutoCompletePopup getAutocompletePopup() {
+		if (autocomplete == null) {
+			autocomplete = new AutoCompletePopup(getApplication(),
+					new AutocompleteProvider(getApplication(), false), this);
+		}
+		return autocomplete;
+	}
+
+	@Override
+	public boolean getAutoComplete() {
+		return true;
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		// nothing to do here
+	}
+
+	@Override
+	public void insertString(String text) {
+		editor.getMathField().parse("=" + text);
+		editor.mathField.focus();
+		autocomplete.hide();
+	}
+
+	@Override
+	public String getText() {
+		return editor.getMathField().getText();
+	}
+
+	@Override
+	public void setText(String s) {
+		editor.getMathField().parse(s);
+	}
+
+	@Override
+	public void requestFocus() {
+		// nothing to do here
+	}
+
+	@Override
+	public boolean isSuggesting() {
+		return autocomplete != null && autocomplete.isSuggesting();
+	}
+
+	@Override
+	public Widget toWidget() {
+		return editor.mathField.asWidget();
+	}
+
+	@Override
+	public void autocomplete(String s) {
+		//  nothing to do here
+	}
+
+	@Override
+	public void updatePosition(AbstractSuggestionDisplay sug) {
+		// nothing to do here
+	}
+
+	@Override
+	public String getCommand() {
+		return null; // not needed
+	}
+
+	@Override
+	public AppW getApplication() {
+		return editor.app;
 	}
 }

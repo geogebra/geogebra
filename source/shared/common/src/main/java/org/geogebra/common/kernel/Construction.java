@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
@@ -38,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1646,8 +1648,6 @@ public class Construction {
 				throw new MyError(getApplication().getLocalization(),
 						Errors.ReplaceFailed);
 			}
-		} catch (XMLParseException | RuntimeException e) {
-			throw e;
 		} finally {
 			stopCollectingRedefineCalls();
 			consXML.setLength(0);
@@ -2693,8 +2693,14 @@ public class Construction {
 		return kernelHas3DObjects;
 	}
 
-	public boolean hasInputBoxes() {
-		return usedGeos.contains(GeoClass.TEXTFIELD);
+	/**
+	 * @param filter what kind of inputboxes to look for
+	 * @return whether construction contains any inputboxes matching the filter
+	 */
+	public boolean hasInputBoxes(Predicate<GeoInputBox> filter) {
+		return usedGeos.contains(GeoClass.TEXTFIELD) && geoSetLabelOrder.stream()
+				.anyMatch(geo -> geo instanceof GeoInputBox
+						&& filter.test((GeoInputBox) geo));
 	}
 
 	/**
@@ -3330,7 +3336,7 @@ public class Construction {
 	}
 
 	public boolean requires3D() {
-		return has3DObjects() || hasInputBoxes();
+		return has3DObjects() || hasInputBoxes(any -> true);
 	}
 
 	public ArrayList<Group> getGroups() {

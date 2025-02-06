@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * FitLineY of a list. adapted from AlgoListMax
+ * FitLineX of a list. adapted from AlgoListMax
  * 
  * @author Michael Borcherds
  * @version 14-01-2008

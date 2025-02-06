@@ -3,6 +3,7 @@ package org.geogebra.common.exam.restrictions;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
 import static org.geogebra.common.kernel.commands.Commands.*;
 
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -12,8 +13,10 @@ import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.realschule.RealschuleEquationBehaviour;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -36,6 +39,8 @@ import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
+import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 public final class RealschuleExamRestrictions extends ExamRestrictions {
@@ -45,7 +50,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.GEOMETRY, SuiteSubApp.G3D,
 						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
 				SuiteSubApp.GRAPHING,
-				null,
+				createFeatureRestrictions(),
 				getInputExpressionFilter(),
 				null,
 				createCommandFilters(),
@@ -54,10 +59,16 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolsFilter(),
-				null,
+				createPropertyRestrictions(),
 				Set.of(new ShowObjectPropertyFilter()),
 				Set.of(new EuclidianVisibilitySetup()),
+				createEquationBehaviour(),
 				null);
+	}
+
+	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
+		return Set.of(ExamFeatureRestriction.HIDE_CALCULATED_EQUATION,
+				ExamFeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -251,6 +262,15 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				geoElement.toGeoElement().setRestrictedEuclidianVisibility(true);
 			}
 		}
+	}
+
+	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
+		return Map.of(LinearEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null),
+				QuadraticEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null));
+	}
+
+	private static EquationBehaviour createEquationBehaviour() {
+		return new RealschuleEquationBehaviour();
 	}
 
 	/**

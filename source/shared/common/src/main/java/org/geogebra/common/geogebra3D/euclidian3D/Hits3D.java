@@ -309,14 +309,12 @@ public class Hits3D extends Hits {
 			return null;
 		}
 
-		// Log.debug("\nlabel:"+hitsLabels.first().zPickMin+"\nfirst
-		// hit:"+drawables3D.get(0).zPickMin);
 		GeoElement labelGeo = hitsLabels.first().getGeoElement();
-		// check if the label hit is the first geo hitted
+		// check if the label hit is the first geo hit
 		if (labelGeo == topHits.get(0)) {
 			return labelGeo;
 		}
-		// else label is not hitted
+		// else label is not hit
 		return null;
 	}
 

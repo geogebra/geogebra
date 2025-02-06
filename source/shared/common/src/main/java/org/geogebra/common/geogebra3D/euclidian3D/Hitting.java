@@ -200,7 +200,7 @@ public class Hitting {
 	 * 
 	 * @param mouseLoc
 	 *            mouse location
-	 * @return first hitted label geo
+	 * @return first hit label geo
 	 */
 	public GeoElement getLabelHit(GPoint mouseLoc) {
 		if (view.getProjection() == EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC) {

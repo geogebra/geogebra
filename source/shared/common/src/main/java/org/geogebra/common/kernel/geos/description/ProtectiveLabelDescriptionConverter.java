@@ -20,11 +20,11 @@ public class ProtectiveLabelDescriptionConverter implements ToStringConverter<Ge
 	private FunctionAndEquationFilter functionAndEquationFilter = new FunctionAndEquationFilter();
 
 	@Override
-	public String convert(GeoElement element) {
+	public String convert(GeoElement element, StringTemplate template) {
 		if (shouldFilterCaption(element)) {
-			return convertProtective(element);
+			return convertProtective(element, template);
 		} else {
-			return defaultConverter.convert(element);
+			return defaultConverter.convert(element, template);
 		}
 	}
 
@@ -32,18 +32,18 @@ public class ProtectiveLabelDescriptionConverter implements ToStringConverter<Ge
 		return !functionAndEquationFilter.isAllowed(element);
 	}
 
-	private String convertProtective(GeoElement element) {
+	private String convertProtective(GeoElement element, StringTemplate template) {
 		String caption;
 		switch (element.getLabelMode()) {
 			case LABEL_NAME:
 			case LABEL_CAPTION:
-				caption = element.getLabel(element.getLabelStringTemplate());
+				caption = element.getLabel(template);
 				break;
 			case LABEL_VALUE:
-				caption = element.getDefinition(element.getLabelStringTemplate());
+				caption = element.getDefinition(template);
 				break;
 			default:
-				caption = element.getNameAndDefinition(StringTemplate.editTemplate);
+				caption = element.getNameAndDefinition(template);
 		}
 		return caption.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : caption;
 	}

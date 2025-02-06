@@ -31,11 +31,6 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
     }
 
     @Override
-    public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
-        return null;
-    }
-
-    @Override
     public GTextLayout newTextLayout(String string, GFont font, GFontRenderContext frc) {
 		return new TextLayoutCommon(font, string);
     }

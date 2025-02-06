@@ -3894,7 +3894,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String getLabelDescription() {
-		return app.getLabelDescriptionConverter().convert(this);
+		return app.getLabelDescriptionConverter().convert(this, getLabelStringTemplate());
 	}
 
 	public StringTemplate getLabelStringTemplate() {
@@ -4053,11 +4053,18 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return  algebraic representation (e.g. coordinates, equation)
 	 */
 	public String getAlgebraDescriptionPublic(StringTemplate tpl) {
-		if (label == null || !isAlgebraLabelVisible()) {
-			return toValueString(tpl);
-		} else {
+		if (hasVisibleLabel()) {
 			return toString(tpl);
+		} else {
+			return toValueString(tpl);
 		}
+	}
+
+	/**
+	 * @return whether label is set and visible
+	 */
+	public boolean hasVisibleLabel() {
+		return label != null && isAlgebraLabelVisible();
 	}
 
 	/**
@@ -5463,7 +5470,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		} else if (isGeoSurfaceCartesian() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else {
-			ret = substituteNumbers ? toValueString(tpl) : getDefinition(tpl);
+			ret = substituteNumbers ? app.getGeoElementValueConverter().convert(this, tpl)
+					: getDefinition(tpl);
 		}
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
 				&& isLabelSet() && !sendValueToCas) {
@@ -6728,6 +6736,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
+	 * @return whether this element has siblings and is not the "oldest" (first in parent's output)
+	 */
+	public boolean isSecondaryOutput() {
+		return getParentAlgorithm() != null && this != getParentAlgorithm().getOutput(0);
+	}
+
+	/**
 	 * if AV update fails (e.g. if row not visible), we can set this to true to
 	 * force update later
 	 *
@@ -7210,5 +7225,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public void setZero() {
 		// Overridden in subclasses
+	}
+
+	@Override
+	public boolean isImplicitEquation() {
+		if (this instanceof EquationValue) {
+			EquationValue equationValue = (EquationValue) this;
+			return equationValue.getEquation().isImplicit();
+		}
+		ExpressionNode definition = this.getDefinition();
+		if (definition != null && definition.unwrap() instanceof Equation) {
+			Equation equation = (Equation) definition.unwrap();
+			return equation.isImplicit();
+		}
+		return false;
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra.contextmenu.action;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.contextmenu.MenuAction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -20,7 +21,7 @@ public class DuplicateOutputAction implements MenuAction<GeoElement> {
 		ToStringConverter<GeoElement> converter = algebraView.getApp()
 				.getGeoElementValueConverter();
 		RadioTreeItem input = algebraView.getInputTreeItem();
-		String geoString = converter.convert(item);
+		String geoString = converter.convert(item, StringTemplate.algebraTemplate);
 
 		RadioTreeItem currentNode = algebraView.getNode(item);
 		if (currentNode != null) {

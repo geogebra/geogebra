@@ -145,7 +145,7 @@ public abstract class CommandProcessor {
 			ExpressionNode[] arg = c.getArguments();
 			// name of replace variable of "x"/"y"
 			EvalInfo argInfo = info.withLabels(false);
-			newXYZ = replaceXYarguments(arg);
+			newXYZ = replaceXYArguments(arg);
 			result = new GeoElement[arg.length];
 
 			for (int i = 0; i < arg.length; ++i) {
@@ -182,7 +182,7 @@ public abstract class CommandProcessor {
 	 *            arguments
 	 * @return local variable names
 	 */
-	protected String[] replaceXYarguments(ExpressionNode[] arg) {
+	protected String[] replaceXYArguments(ExpressionNode[] arg) {
 		return null;
 	}
 

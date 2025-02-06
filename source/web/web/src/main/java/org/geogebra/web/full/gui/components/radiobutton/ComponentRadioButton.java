@@ -19,9 +19,11 @@ public class ComponentRadioButton<T> extends FlowPanel implements SetLabels {
 	private Runnable callback;
 
 	/**
-	 * default constructor
+	 * Default constructor.
 	 * @param loc - localization
 	 * @param data - data
+	 * @param pos position in radio button group
+	 * @param size size of radio button group
 	 */
 	public ComponentRadioButton(Localization loc, RadioButtonData<T> data, int pos, int size) {
 		setDisabled(data.isDisabled());

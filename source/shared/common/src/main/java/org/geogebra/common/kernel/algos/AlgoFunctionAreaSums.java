@@ -98,9 +98,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		/** Upper Rieeman sum **/
 
 		UPPERSUM,
-		/** Lower Rieman sum **/
+		/** Lower Riemann sum **/
 		LOWERSUM,
-		/** Left Rieman sum (Ulven: 09.02.11) **/
+		/** Left Riemann sum (Ulven: 09.02.11) **/
 		LEFTSUM,
 		/** Rectangle sum with divider for step interval (Ulven: 09.02.11) **/
 		RECTANGLESUM,

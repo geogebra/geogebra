@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.arithmetic.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
-import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 import org.geogebra.common.main.settings.GeneralSettings;
 
 class CartesianPrinter implements Printer {
@@ -15,23 +14,23 @@ class CartesianPrinter implements Printer {
     }
 
     @Override
-    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
-            PrintableVector vector) {
+    public String print(String xCoord, String yCoord, String zCoord,
+            PrintableVector vector, StringTemplate tpl) {
         if (tpl.getStringType().isGiac()) {
-            return GiacPrinter.print(tpl, expressionPrinter, vector);
+            return GiacPrinter.print(tpl, xCoord, yCoord, vector);
         }
         if (tpl.usePointTemplate()) {
             String fn = settings.getPointEditorTemplate();
             return fn + '('
-                    + expressionPrinter.print(vector.getX(), tpl)
+                    + xCoord
                     + ','
-                    + expressionPrinter.print(vector.getY(), tpl)
+                    + yCoord
                     + ')';
         }
         return printLeftParenthesis(tpl)
-                + expressionPrinter.print(vector.getX(), tpl)
+                + xCoord
                 + tpl.getCartesianDelimiter(settings)
-                + expressionPrinter.print(vector.getY(), tpl)
+                + yCoord
                 + printRightParenthesis(tpl);
     }
 

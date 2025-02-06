@@ -212,7 +212,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	/**
 	 *
-	 * @return true if consumes space key hitted
+	 * @return true if consumes space key hit
 	 */
 	public boolean handleSpaceKey() {
 		return false;

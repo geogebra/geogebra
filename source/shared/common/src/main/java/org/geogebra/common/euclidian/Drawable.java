@@ -689,6 +689,9 @@ public abstract class Drawable extends DrawableND {
 			return;
 		}
 		if (geo.getFillType() != FillType.STANDARD) {
+			GColor fillColor = view.getBackgroundCommon().deriveWithAlpha(
+					geo.getFillColor().getAlpha());
+			g2.setPaint(fillColor);
 			fillWithHatchOrImage(g2, fillShape, geo.getObjectColor());
 		} else if (geo.getAlphaValue() > 0.0f) {
 			g2.setPaint(geo.getFillColor());
@@ -712,14 +715,14 @@ public abstract class Drawable extends DrawableND {
 			return;
 		}
 		// use decoStroke as it is always full (not dashed/dotted etc)
-		GPaint gpaint = getHatchingHandler().setHatching(g2, decoStroke,
+		GPaint gpaint = getHatchingHandler().setHatching(decoStroke,
 				color, geo.getBackgroundColor(),
 				geo.getAlphaValue(), geo.getHatchingDistance(),
 				geo.getHatchingAngle(), geo.getFillType(),
 				geo.getFillSymbol(), geo.getKernel().getApplication());
 
 		g2.setPaint(gpaint);
-		getHatchingHandler().fill(g2, fillShape, getView().getApplication());
+		g2.fill(fillShape);
 
 	}
 
