@@ -144,7 +144,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
 		return Set.of(
 				ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS,
-				ExamFeatureRestriction.HIDE_CALCULATED_EQUATION);
+				ExamFeatureRestriction.HIDE_CALCULATED_EQUATION,
+				ExamFeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
