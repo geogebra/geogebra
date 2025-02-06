@@ -1028,8 +1028,8 @@ public final class SpreadsheetController {
 
 		void hide() {
 			cellEditor.getMathField().removeMathFieldListener(mathFieldAdapter);
-			cellEditor.hide();
 			bounds = null;
+			cellEditor.hide();
 		}
 
 		boolean isVisible() {
