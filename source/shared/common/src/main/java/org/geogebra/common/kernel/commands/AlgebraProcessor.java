@@ -1825,7 +1825,7 @@ public class AlgebraProcessor {
 	 * @return resulting number
 	 */
 	public GeoNumberValue evaluateToNumeric(String str, ErrorHandler handler, EvalInfo info) {
-		if (str == null || "".equals(str)) {
+		if (StringUtil.empty(str)) {
 			ErrorHelper.handleInvalidInput(str, loc, handler);
 			return new GeoNumeric(cons, Double.NaN);
 		}
@@ -1838,8 +1838,8 @@ public class AlgebraProcessor {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			GeoElementND[] temp = processValidExpression(ve, info);
 
-			if (temp[0] instanceof GeoNumberValue) {
-				num = (GeoNumberValue) temp[0];
+			if (temp[0].unwrapSymbolic() instanceof GeoNumberValue) {
+				num = (GeoNumberValue) temp[0].unwrapSymbolic();
 			} else {
 				num = new GeoNumeric(cons, Double.NaN);
 				ErrorHelper.handleInvalidInput(str, loc, handler);

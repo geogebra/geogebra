@@ -2410,4 +2410,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic binomialDist = add("f(x)=BinomialDist(x,0.04,4,true)");
 		assertEquals(0.095018, binomialDist.value(200), 1E-5);
 	}
+
+	@Test
+	public void getValueFromAPI() {
+		add("a=3+5");
+		assertEquals(8, app.getGgbApi().getValue("a"), .01);
+	}
 }
