@@ -146,15 +146,13 @@ public class DrawLocus extends Drawable {
 		}
 		GRectangle bounds = getBounds();
 		GRectangle viewBounds = view.getFrame();
-		// don't draw if bounds is null or entirely outside view bounds (APPS-6274)
-		if (bounds == null || !bounds.intersects(viewBounds)) {
-			return;
-		}
 
 		if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
 			if (bitmap == null) {
 				GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds);
-
+				if (bitmapBounds.getWidth() <= 0 || bitmapBounds.getHeight() <= 0) {
+					return;
+				}
 				bitmap = makeImage(g2, bitmapBounds);
 				bitmapShiftX = (int) bitmapBounds.getMinX() - BITMAP_PADDING;
 				bitmapShiftY = (int) bitmapBounds.getMinY() - BITMAP_PADDING;
