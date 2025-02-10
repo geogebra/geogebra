@@ -12,6 +12,12 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSetup;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.properties.GeoElementPropertyFilter;
+import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 public class MmsExamRestrictions extends ExamRestrictions {
 
@@ -32,8 +38,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
-				null,
-				null,
+				createGeoElementPropertyFilters(),
+				createGeoElementSetups(),
 				null,
 				null);
 	}
@@ -191,5 +197,58 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				Commands.ZProportionEstimate, Commands.ZProportionTest);
 		CommandFilterFactory.addBooleanCommands(nameFilter);
 		return nameFilter;
+	}
+
+	private static Set<GeoElementSetup> createGeoElementSetups() {
+		return Set.of(new EuclidianVisibilitySetup());
+	}
+
+	private static Set<GeoElementPropertyFilter> createGeoElementPropertyFilters() {
+		return Set.of(new ShowObjectPropertyFilter());
+	}
+
+	private static final class ShowObjectPropertyFilter implements GeoElementPropertyFilter {
+		@Override
+		public boolean isAllowed(Property property, GeoElement geoElement) {
+			if (property instanceof ShowObjectProperty) {
+				return isVisibilityEnabled(geoElement);
+			}
+			return true;
+		}
+	}
+
+	private static final class EuclidianVisibilitySetup implements GeoElementSetup {
+		@Override
+		public void applyTo(GeoElementND geoElementND) {
+			if (geoElementND instanceof GeoElement) {
+				GeoElement geoElement = (GeoElement) geoElementND;
+				if (!isVisibilityEnabled(geoElement)) {
+					geoElement.setRestrictedEuclidianVisibility(true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Determines whether the visibility of a {@code GeoElement} is enabled during MMS exam.
+	 * <p>
+	 * If the visibility is enabled, it means that nothing should change after entering exam mode.
+	 * <p>
+	 * If the visibility is restricted, it means that the element should never be shown
+	 * in the Euclidian view, it shouldn't have a show object property in its settings,
+	 * and the visibility toggle button should be disabled in the Algebra view
+	 * @param geoElement the {@code GeoElement} to evaluate
+	 * @return {@code true} if the visibility is enabled, {@code false} if it is restricted
+	 */
+	@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
+	public static boolean isVisibilityEnabled(GeoElement geoElement) {
+		// Restrict the visibility of vectors
+		// E.g.: a = (1, 2)
+		//       b = a + 0
+		if (geoElement.isGeoVector()) {
+			return false;
+		}
+
+		return true;
 	}
 }
