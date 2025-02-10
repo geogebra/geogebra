@@ -149,7 +149,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 			return true;
 		}
-		return getView().textfieldClicked(x, y, type);
+		return super.textfieldJustFocused(x, y, type);
 	}
 
 	@Override

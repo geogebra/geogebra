@@ -401,6 +401,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean animationButtonPressed = false;
 	private boolean textfieldHasFocus = false;
 	private DrawButtonWidget pressedButton;
+	private GeoElement pressedInputBox;
 	private Coords tmpCoordsL4;
 	private Coords mouseLocRW;
 	private TextDispatcher textDispatcher;
@@ -6699,7 +6700,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return whether textfield at given coords is focused
 	 */
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
-		return view.textfieldClicked(x, y, type);
+		return pressedInputBox != null && view.textfieldClicked(x, y, type);
 	}
 
 	public void resetMovedGeoPoint() {
@@ -9171,6 +9172,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		app.getAccessibilityManager().setTabOverGeos();
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
+		pressedInputBox = null;
 
 		widgetsToBackground();
 		view.hideSymbolicEditor();
@@ -9242,6 +9244,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		this.pressedButton = view.getHitDetector().getHitButton();
+		this.pressedInputBox = view.getHits().stream()
+				.filter(GeoElement::isGeoInputBox).findFirst().orElse(null);
 		if (pressedButton != null) {
 			if (!app.showView(App.VIEW_PROPERTIES)) {
 				pressedButton.setPressed(true);
