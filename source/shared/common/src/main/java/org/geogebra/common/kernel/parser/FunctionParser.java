@@ -96,7 +96,7 @@ public class FunctionParser {
 				return en.wrap();
 			}
 		}
-		ExpressionNode point = checkPointFunctions(funcName, myList);
+		ExpressionNode point = checkPointFunctions(funcName, myList, topLevelExpression);
 		if (point != null) {
 			return point;
 		}
@@ -273,13 +273,24 @@ public class FunctionParser {
 		return multiplication(geoExp, undecided, myList, funcName);
 	}
 
-	private ExpressionNode checkPointFunctions(String funcName, MyList myList) {
+	private ExpressionNode checkPointFunctions(String funcName, MyList myList,
+			boolean topLevelExpression) {
 		if ("$point".equals(funcName) || "$pointAt".equals(funcName)) {
 			return asPoint(myList);
 		}
+		if (funcName.endsWith("$pointAt") && topLevelExpression) {
+			String label = funcName.substring(0, funcName.length() - "$pointAt".length());
+			ExpressionNode ret = asPoint(myList);
+			if (ret != null) {
+				ret.setLabel(label);
+			}
+			return ret;
+		}
 		if ("$vector".equals(funcName)) {
 			ExpressionNode ex = asPoint(myList);
-			ex.setForceVector();
+			if (ex != null) {
+				ex.setForceVector();
+			}
 			return ex;
 		}
 		return null;

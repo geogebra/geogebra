@@ -95,10 +95,13 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testSpecialVectors() {
+	public void testSpecialVectors() throws ParseException {
 		checkSameStructure("A(1|2)", "(1,2)");
+		checkSameStructure("A$pointAt(1,2)", "(1,2)");
 		checkSameStructure("A(1|2|3)", "(1,2,3)");
 		checkSameStructure("A(1;pi/2)", "(1;pi/2)");
+		ValidExpression ex = parseExpression("A$pointAt(1,2)");
+		assertEquals("A", ex.getLabel());
 	}
 
 	@Test
