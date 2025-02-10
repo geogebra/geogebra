@@ -7,6 +7,8 @@ import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 
 import java.util.Set;
 
+import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -34,7 +36,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				Set.of(createCommandFilter()),
 				null,
 				null,
-				null,
+				createContextMenuItemFilters(),
 				null,
 				null,
 				null,
@@ -197,6 +199,10 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				Commands.ZProportionEstimate, Commands.ZProportionTest);
 		CommandFilterFactory.addBooleanCommands(nameFilter);
 		return nameFilter;
+	}
+
+	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
+		return Set.of(contextMenuItem -> contextMenuItem != AlgebraContextMenuItem.Statistics);
 	}
 
 	private static Set<GeoElementSetup> createGeoElementSetups() {
