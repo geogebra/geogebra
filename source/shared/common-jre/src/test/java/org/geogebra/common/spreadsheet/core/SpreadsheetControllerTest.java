@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.io.FactoryProviderCommon;
+import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
@@ -40,17 +42,18 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     private final double rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
     private SpreadsheetController controller;
-    private TabularData tabularData;
+    private TabularData<String> tabularData;
     private SpreadsheetCellEditor cellEditor;
     private ClipboardInterface clipboard;
     private Rectangle viewport;
     private boolean autoCompleteShown = false;
     private String autoCompleteSearchPrefix = "";
-    private List<Integer> receivedKeys = new ArrayList<>();
+    private final List<Integer> receivedKeys = new ArrayList<>();
 
     @BeforeClass
     public static void setupOnce() {
         FactoryProvider.setInstance(new FactoryProviderCommon()); // required by MathField
+        FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
     }
 
     @BeforeClass
@@ -540,6 +543,24 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         assertEquals(List.of(JavaKeyCodes.VK_LEFT, JavaKeyCodes.VK_DOWN), receivedKeys);
     }
 
+    @Test
+    public void testInsertingInEditorByClick() {
+        tabularData.setContent(0, 0, "=2");
+        simulateCellMouseClick(1, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+        simulateCellMouseClick(0, 0, 2);
+        assertEquals("= col01", cellEditor.getMathField().getText());
+    }
+
+    @Test
+    public void testInsertingInEditorByDrag() {
+        tabularData.setContent(0, 0, "=2");
+        simulateCellMouseClick(1, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+        simulateCellMouseDrag(0, 0, 0, 3);
+        assertEquals("=col01:col31", cellEditor.getMathField().getText());
+    }
+
     // Helpers
 
     private void setViewport(Rectangle viewport) {
@@ -564,15 +585,26 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     }
 
     private void simulateCellMouseClick(int row, int column, int nrClicks) {
+        GPoint center = getCenter(row, column);
+        for (int click = 0; click < nrClicks; click++) {
+            controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
+            controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
+        }
+    }
+
+    private void simulateCellMouseDrag(int row, int column, int toRow, int toColumn) {
+        GPoint center = getCenter(row, column);
+        controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
+        center = getCenter(toRow, toColumn);
+        controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
+    }
+
+    private GPoint getCenter(int row, int column) {
         TableLayout layout = controller.getLayout();
         Rectangle cellBounds = layout.getBounds(row, column)
                 .translatedBy(layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
-        double midX = cellBounds.getMinX() + cellBounds.getWidth() / 2;
-        double midY = cellBounds.getMinY() + cellBounds.getWidth() / 2;
-        for (int click = 0; click < nrClicks; click++) {
-            controller.handlePointerDown((int) midX, (int) midY, Modifiers.NONE);
-            controller.handlePointerUp((int) midX, (int) midY, Modifiers.NONE);
-        }
+        return new GPoint((int) (cellBounds.getMinX() + cellBounds.getWidth() / 2),
+            (int) (cellBounds.getMinY() + cellBounds.getWidth() / 2));
     }
 
     /**

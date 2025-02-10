@@ -1,7 +1,9 @@
 package org.geogebra.common.spreadsheet.core;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.spreadsheet.TestTabularData;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
@@ -46,6 +48,19 @@ public class SelectionTest {
 		assertThat(cells.getNextCellForMoveDown(100), equalToCell(4, 5));
 		assertThat(rows.getNextCellForMoveDown(100), equalToCell(4, 0));
 		assertThat(columns.getNextCellForMoveDown(100), equalToCell(1, 5));
+	}
+
+	@Test
+	public void testName() {
+		TabularData<String> data = new TestTabularData() {
+			@Override
+			public String getColumnName(int col) {
+				return Character.toString('A' + col);
+			}
+		};
+		assertEquals("F4:G5", cells.getName(data));
+		Selection singleCell = new Selection(new TabularRange(2, 1));
+		assertEquals("B3", singleCell.getName(data));
 	}
 
 	private TypeSafeMatcher<Selection> equalToCell(int row, int col) {

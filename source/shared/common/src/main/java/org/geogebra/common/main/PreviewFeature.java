@@ -35,7 +35,7 @@ public enum PreviewFeature {
 	REALSCHULE_EXAM,
 	/** APPS-6004 */
 	ENGINEERING_BUTTON,
-	/** APPS-6134 */
+	/** APPS-6134, removal APPS-6217 */
 	REALSCHULE_TEMPLATES,
 	/**
 	 * APPS-6237
@@ -44,9 +44,11 @@ public enum PreviewFeature {
 	/** APPS-5815 */
 	RATIONALIZE_FRACTIONS,
 	/**
-	 * APPS-6208
+	 * APPS-6208, removal APPS-6336
 	 */
-	SPREADSHEET_INPUT_HELP;
+	SPREADSHEET_INPUT_HELP,
+	/** APPS-5872, removal APPS-6335 */
+	SPREADSHEET_INSERT_REFERENCE;
 
 	/**
 	 * Global flag to activate feature previews.

@@ -2,6 +2,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,6 +23,7 @@ import org.geogebra.common.util.shape.Size;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
+import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
@@ -238,9 +241,7 @@ public final class SpreadsheetController {
 	 */
 	// TODO group all handleXxx methods together
 	public void handlePointerDown(double x, double y, Modifiers modifiers) {
-		if (isEditorActive()) {
-			saveContentAndHideCellEditor();
-		}
+
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
 		}
@@ -259,7 +260,9 @@ public final class SpreadsheetController {
 		}
 		int column = findColumnOrHeader(x);
 		int row = findRowOrHeader(y);
-
+		if (isEditorActive() && isInvalidSelection(row, column)) {
+			saveContentAndHideCellEditor();
+		}
 		if (viewportAdjuster != null) {
 			viewport = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 		}
@@ -293,6 +296,12 @@ public final class SpreadsheetController {
 			select(TabularRange.range(row, row, column, column),
 					modifiers.shift, modifiers.ctrlOrCmd);
 		}
+	}
+
+	private boolean isInvalidSelection(int row, int column) {
+		return row < 0 || column < 0 || editor.isTextMode()
+				|| tabularData.contentAt(row, column) == null
+				|| !PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_INSERT_REFERENCE);
 	}
 
 	void scrollEditorIntoView() {
@@ -718,6 +727,18 @@ public final class SpreadsheetController {
 			if (pointerUp && viewportAdjuster != null) {
 				viewport = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 			}
+		}
+		handleCellReferenceInsertion();
+	}
+
+	private void handleCellReferenceInsertion() {
+		Optional<Selection> first = selectionController.getSelections().findFirst();
+		if (isEditorActive() && !editor.isTextMode() && first.isPresent()
+				&& first.get().getType() == SelectionType.CELLS
+				&& !first.get().getRange().contains(editor.row, editor.column)) {
+			editor.updateReference(first.get().getName(tabularData));
+			TabularRange editorRect = new TabularRange(editor.row, editor.column);
+			selectionController.select(new Selection(editorRect), false, false);
 		}
 	}
 
@@ -1166,6 +1187,22 @@ public final class SpreadsheetController {
 			if (mathFieldAdapter != null) {
 				mathFieldAdapter.commitInput();
 			}
+		}
+
+		public boolean isTextMode() {
+			return !cellEditor.getMathField().getText().startsWith("=");
+		}
+
+		public void updateReference(String reference) {
+			Predicate<MathCharacter> rangeCheck =
+					w -> w.isCharacter() || ":".equals(w.getUnicodeString());
+			String startCell = reference.split(":")[0].trim();
+			String currentWord = cellEditor.getMathField().getCurrentCharSequence(rangeCheck);
+			if (currentWord.startsWith(startCell)) {
+				cellEditor.getMathField().deleteCurrentCharSequence(
+						rangeCheck);
+			}
+			type(currentWord.isEmpty() ? reference : " " + reference);
 		}
 	}
 }

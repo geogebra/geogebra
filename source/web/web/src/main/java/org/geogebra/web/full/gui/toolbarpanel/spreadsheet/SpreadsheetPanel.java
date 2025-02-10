@@ -92,10 +92,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
+			Modifiers modifiers = getModifiers(ptr);
 			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
-					getModifiers(ptr));
+					modifiers);
 			setPointerCapture(event);
-			if (ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey())) {
+			if (modifiers.secondaryButton || spreadsheet.isEditorActive()) {
 				event.preventDefault();
 			}
 			isPointerDown = true;

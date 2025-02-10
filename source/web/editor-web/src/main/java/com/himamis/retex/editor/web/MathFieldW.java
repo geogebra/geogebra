@@ -75,7 +75,6 @@ import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.geom.Point2DW;
@@ -477,8 +476,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (expressionReader != null) {
 			setAriaLabel(this.mathFieldInternal.getEditorState()
 					.getDescription(expressionReader));
-		} else {
-			FactoryProvider.debugS("no reader");
 		}
 	}
 

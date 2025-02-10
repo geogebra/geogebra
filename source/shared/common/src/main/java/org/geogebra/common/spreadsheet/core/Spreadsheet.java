@@ -193,7 +193,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param modifiers alt/ctrl/shift
 	 */
 	public void handlePointerDown(double x, double y, Modifiers modifiers) {
-        controller.handlePointerDown(x, y, modifiers);
+		controller.handlePointerDown(x, y, modifiers);
 	}
 
 	/**

@@ -623,16 +623,23 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * Delete the letters left from the cursor.
-	 * 
+	 * Delete all the consecutive  letters left from the cursor.
 	 */
 	public void deleteCurrentWord() {
+		deleteCurrentCharSequence(MathCharacter::isCharacter);
+	}
+
+	/**
+	 * Delete characters left from the cursor that fit certain criteria.
+	 * @param check decides which characters to delete
+	 */
+	public void deleteCurrentCharSequence(Predicate<MathCharacter> check) {
 		MathSequence sel = editorState.getCurrentField();
 		if (sel != null) {
 			for (int i = Math.min(editorState.getCurrentOffset() - 1,
 					sel.size() - 1); i >= 0; i--) {
 				if (sel.getArgument(i) instanceof MathCharacter) {
-					if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
+					if (!check.test((MathCharacter) sel.getArgument(i))) {
 						return;
 					}
 					sel.removeArgument(i);
@@ -646,6 +653,14 @@ public class MathFieldInternal
 	 * @return sequence of letters left from the cursor (or selection end).
 	 */
 	public String getCurrentWord() {
+		return getCurrentCharSequence(MathCharacter::isCharacter);
+	}
+
+	/**
+	 * @param check decides which characters to include
+	 * @return sequence of characters left of the cursor (or selection end) matching the check
+	 */
+	public String getCurrentCharSequence(Predicate<MathCharacter> check) {
 		StringBuilder str = new StringBuilder(" ");
 		MathSequence sel = editorState.getCurrentField();
 		if (sel != null) {
@@ -654,7 +669,7 @@ public class MathFieldInternal
 				wordEnd = editorState.getSelectionEnd().getParentIndex();
 			}
 			for (int i = Math.min(wordEnd, sel.size() - 1); i >= 0; i--) {
-				if (!appendChar(str, sel, i)) {
+				if (!appendChar(str, sel, i, check)) {
 					break;
 				}
 			}
@@ -672,9 +687,9 @@ public class MathFieldInternal
 	 * @return whether char is a part of a word
 	 */
 	public static boolean appendChar(StringBuilder str, MathSequence sel,
-			int i) {
+			int i, Predicate<MathCharacter> check) {
 		if (sel.getArgument(i) instanceof MathCharacter) {
-			if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
+			if (!check.test((MathCharacter) sel.getArgument(i))) {
 				return false;
 			}
 			str.append(((MathCharacter) sel.getArgument(i)).getUnicodeString());
@@ -876,7 +891,7 @@ public class MathFieldInternal
 	 * When division is the first character in current sequence (first in whole
 	 * formula, first under square root...), jump before it. Needs to be called
 	 * explicitly so that we can distinguish between keyboard input and other
-	 * other inputs (paste)
+	 * inputs (paste)
 	 */
 	public void onDivisionInserted() {
 		MathSequence currentField = editorState.getCurrentField();
@@ -940,7 +955,7 @@ public class MathFieldInternal
 			StringBuilder str = new StringBuilder();
 			MathSequence name = function.getArgument(0);
 			for (int i = 0; i < name.getArgumentCount(); i++) {
-				appendChar(str, name, i);
+				appendChar(str, name, i, MathCharacter::isCharacter);
 			}
 
 			return str.toString();

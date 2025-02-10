@@ -462,7 +462,7 @@ public class EditorState {
 		if (parent instanceof MathCharacter) {
 			StringBuilder sb = new StringBuilder();
 			int i = currentField.indexOf(parent);
-			while (MathFieldInternal.appendChar(sb, currentField, i)) {
+			while (MathFieldInternal.appendChar(sb, currentField, i, MathCharacter::isCharacter)) {
 				i--;
 			}
 			if (sb.length() > 0 && !isInsideQuotes()) {
@@ -482,7 +482,7 @@ public class EditorState {
 		if (parent instanceof MathCharacter) {
 			StringBuilder sb = new StringBuilder();
 			int i = currentField.indexOf(parent);
-			while (MathFieldInternal.appendChar(sb, currentField, i)) {
+			while (MathFieldInternal.appendChar(sb, currentField, i, MathCharacter::isCharacter)) {
 				i++;
 			}
 			if (sb.length() > 0 && !isInsideQuotes()) {

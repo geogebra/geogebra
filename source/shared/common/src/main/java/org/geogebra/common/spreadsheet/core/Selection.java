@@ -260,4 +260,17 @@ final class Selection {
 		return range.toString();
 	}
 
+	/**
+	 * @param tabularData data layer
+	 * @return Name of this selection, depending on naming of columns in the data.
+	 */
+	public String getName(TabularData<?> tabularData) {
+		String startCell = tabularData.getColumnName(range.getMinColumn())
+				+ tabularData.getRowName(range.getMinRow());
+		if (range.isSingleCell()) {
+			return startCell;
+		}
+		return startCell + ":" + tabularData.getColumnName(range.getMaxColumn())
+				+ tabularData.getRowName(range.getMaxRow());
+	}
 }
