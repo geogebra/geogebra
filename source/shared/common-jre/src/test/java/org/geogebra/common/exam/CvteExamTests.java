@@ -19,6 +19,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
@@ -263,6 +265,9 @@ public final class CvteExamTests extends BaseExamTests {
         GeoElement circle = evaluateGeoElement("x^2 + y^2 = 4");
         assertEquals(QuadraticEquationRepresentable.Form.USER,
                 ((QuadraticEquationRepresentable) circle).getEquationForm());
+        GeoElement implicitCurve = evaluateGeoElement("x^3 = y^3");
+        assertEquals(GeoImplicit.Form.USER,
+                ((GeoImplicitCurve) implicitCurve).getEquationForm());
     }
 
     @Test

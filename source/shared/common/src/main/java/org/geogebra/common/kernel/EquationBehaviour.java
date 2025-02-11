@@ -3,6 +3,7 @@ package org.geogebra.common.kernel;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 
 /**
  * Provides a way to customize (override) the default behavior of line- and conic-creating
@@ -84,4 +85,8 @@ public interface EquationBehaviour {
 	 * @param flag Whether changing the equation form by the user should be allowed.
 	 */
 	void allowChangingEquationFormsByUser(boolean flag);
+
+	default GeoImplicit.Form getCurveAlgebraInputEquationForm() {
+		return GeoImplicit.Form.USER;
+	}
 }

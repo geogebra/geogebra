@@ -597,7 +597,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 			// TODO merge with GeoQuadric3D
 			// copy everything
-			toStringMode = quadric.toStringMode;
+			equationForm = quadric.equationForm;
 			type = quadric.type;
 
 			radius = quadric.getRadius();

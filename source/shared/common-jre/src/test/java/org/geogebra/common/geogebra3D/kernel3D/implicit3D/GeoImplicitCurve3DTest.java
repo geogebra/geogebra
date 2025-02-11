@@ -41,8 +41,10 @@ public class GeoImplicitCurve3DTest extends BaseUnitTest {
 	@Issue("APPS-5381")
 	public void polynomialShouldShowAsPlainTextInAlgebraView() {
 		GeoImplicitCurve3D poly = add("Translate(0=x+y^4, (0,0,1))");
+		poly.setToImplicit();
 		assertThat(poly.isLaTeXDrawableGeo(), equalTo(false));
 		GeoImplicitCurve3D nonPoly = add("Translate(0=sin(x)+y^4, (0,0,1))");
+		nonPoly.setToImplicit();
 		assertThat(nonPoly.isLaTeXDrawableGeo(), equalTo(true));
 	}
 

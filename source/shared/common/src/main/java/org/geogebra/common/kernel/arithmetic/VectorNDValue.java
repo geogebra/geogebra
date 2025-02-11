@@ -11,8 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 public interface VectorNDValue extends ExpressionValue {
 
 	/**
-	 * 
-	 * @return vector mode
+	 * @return string mode: Kernel.COORD_COMPLEX, COORD_CARTESIAN etc.
 	 */
 	public int getToStringMode();
 

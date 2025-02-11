@@ -19,11 +19,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
@@ -33,7 +30,7 @@ import org.geogebra.common.util.DoubleUtil;
  * @author Markus
  */
 public abstract class GeoVec3D extends GeoElement
-		implements Traceable, CoordStyle {
+		implements Traceable {
 	/** x coordinate */
 	public double x = Double.NaN;
 	/** y coordinate */
@@ -46,7 +43,7 @@ public abstract class GeoVec3D extends GeoElement
 	 * For backward compatibility
 	 */
 	public boolean hasUpdatePrivilege = false;
-	private StringBuilder sbToString = new StringBuilder(50);
+	private final StringBuilder sbToString = new StringBuilder(50);
 
 	/**
 	 * @param c
@@ -175,62 +172,6 @@ public abstract class GeoVec3D extends GeoElement
 		res[1] = y;
 	}
 
-	// POLAR or CARTESIAN mode
-	/**
-	 * @return true if using POLAR style
-	 */
-	final public boolean isPolar() {
-		return getToStringMode() == Kernel.COORD_POLAR;
-	}
-
-	/**
-	 * Sets the coord style
-	 * 
-	 * @param mode
-	 *            new coord style
-	 */
-	@Override
-	public void setMode(int mode) {
-		toStringMode = mode;
-	}
-
-	/**
-	 * Changes coord style to POLAR
-	 */
-	@Override
-	public void setPolar() {
-		toStringMode = Kernel.COORD_POLAR;
-	}
-
-	/**
-	 * Changes coord style to CARTESIAN
-	 */
-	@Override
-	public void setCartesian() {
-		toStringMode = Kernel.COORD_CARTESIAN;
-	}
-
-	/**
-	 * Changes coord style to COMPLEX
-	 */
-	@Override
-	public void setComplex() {
-		toStringMode = Kernel.COORD_COMPLEX;
-	}
-
-	/**
-	 * Changes coord style to CARTESIAN 3D
-	 */
-	@Override
-	public void setCartesian3D() {
-		toStringMode = Kernel.COORD_CARTESIAN_3D;
-	}
-
-	@Override
-	public void setSpherical() {
-		setMode(Kernel.COORD_SPHERICAL);
-	}
-
 	@Override
 	public boolean isTraceable() {
 		return true;
@@ -245,20 +186,6 @@ public abstract class GeoVec3D extends GeoElement
 	public boolean getTrace() {
 		return trace;
 	}
-
-	// G.Sturr 2010-5-14: no longer needed
-	/*
-	 * public void setSpreadsheetTrace(boolean spreadsheetTrace) {
-	 * this.spreadsheetTrace = spreadsheetTrace;
-	 * 
-	 * if (spreadsheetTrace) resetTraceColumns(); }
-	 * 
-	 * 
-	 * 
-	 * public boolean getSpreadsheetTrace() { return spreadsheetTrace; }
-	 * 
-	 */
-	// END G.Sturr
 
 	/**
 	 * Yields true if this vector and v are linear dependent. This is done by
@@ -546,20 +473,6 @@ public abstract class GeoVec3D extends GeoElement
 	}
 
 	/**
-	 * returns -v
-	 */
-	// final public GeoVec3D getNegVec() {
-	// return new GeoVec3D(cons, -x, -y, -z);
-	// }
-
-	/** returns this + a */
-	// final public GeoVec3D add(GeoVec3D a) {
-	// GeoVec3D res = new GeoVec3D(cons);
-	// add(this, a, res);
-	// return res;
-	// }
-
-	/**
 	 * c = a + b
 	 * 
 	 * @param a
@@ -572,13 +485,6 @@ public abstract class GeoVec3D extends GeoElement
 	final public static void add(GeoVec3D a, GeoVec3D b, GeoVec3D c) {
 		c.setCoords(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
-
-	/** returns this - a */
-	// final public GeoVec3D sub(GeoVec3D a) {
-	// GeoVec3D res = new GeoVec3D(cons);
-	// sub(this, a, res);
-	// return res;
-	// }
 
 	/**
 	 * c = a - b
@@ -662,9 +568,4 @@ public abstract class GeoVec3D extends GeoElement
 		return true;
 	}
 
-	@Override
-	public boolean hasSpecialEditor() {
-		return toStringMode != Kernel.COORD_COMPLEX && (isIndependent() && getDefinition() == null
-				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode);
-	}
 }

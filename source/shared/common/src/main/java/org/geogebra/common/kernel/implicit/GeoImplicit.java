@@ -16,6 +16,10 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public interface GeoImplicit extends Path, EquationValue {
 
+	enum Form {
+		IMPLICIT, USER
+	}
+
 	/**
 	 * @return coefficients
 	 */
@@ -175,8 +179,9 @@ public interface GeoImplicit extends Path, EquationValue {
 	 */
 	void setExpanded(Equation equationExpanded);
 
-	// TODO APPS-5867 mend implicit curves/surfaces into equation form concept
 	void setToUser();
 
 	void setToImplicit();
+
+	Form getEquationForm();
 }

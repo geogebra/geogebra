@@ -103,11 +103,11 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPointVector;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
-import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.HasArbitraryConstant;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
@@ -3078,8 +3078,14 @@ public class AlgebraProcessor {
 			if (equationForm != null) {
 				((QuadraticEquationRepresentable) geo).setEquationForm(equationForm);
 			}
+		}  else if (geo instanceof GeoImplicitCurve) {
+			GeoImplicit.Form equationForm =
+					equationBehaviour.getCurveAlgebraInputEquationForm();
+			if (equationForm != null) {
+				((GeoImplicitCurve) geo).setEquationForm(equationForm);
+			}
 		}
-		// TODO APPS-5867 do we need to handle implicit functions/surfaces here?
+
 	}
 
 	/**
@@ -3611,7 +3617,7 @@ public class AlgebraProcessor {
 		}
 		boolean isVector = n.shouldEvaluateToGeoVector();
 
-		GeoVec3D vector;
+		GeoPointVector vector;
 		if (isIndependent) {
 			// get coords
 			double x = p.getX();

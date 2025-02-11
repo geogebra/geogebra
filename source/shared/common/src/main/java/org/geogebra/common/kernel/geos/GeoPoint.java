@@ -90,7 +90,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  * @author Markus
  */
-public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
+public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint,
 		ConicMirrorable, GeoPointND,
 		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasCoordinates {
 	private static volatile Comparator<GeoPoint> comparatorX;
@@ -2998,4 +2998,5 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 		return super.isCommandOutput();
 	}
+
 }

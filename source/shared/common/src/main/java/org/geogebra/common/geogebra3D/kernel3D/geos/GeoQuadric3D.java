@@ -1815,7 +1815,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		GeoQuadric3D quadric = (GeoQuadric3D) geo;
 
 		// copy everything
-		toStringMode = quadric.toStringMode;
+		equationForm = quadric.equationForm;
 		final boolean typeChanged = type != quadric.type;
 		type = quadric.type;
 
@@ -3352,7 +3352,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	public void getStyleXML(StringBuilder sb) {
 		super.getStyleXML(sb);
 		getLineStyleXML(sb);
-		XMLBuilder.appendEquationTypeConic(sb, getToStringMode(), null);
+		XMLBuilder.appendEquationTypeConic(sb, getEquationForm(), null);
 	}
 
 	@Override

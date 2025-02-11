@@ -1,12 +1,14 @@
 package org.geogebra.common.kernel.kernelND;
 
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
+
 /**
  * interface to handle coord style
  * 
  * @author mathieu
  *
  */
-public interface CoordStyle {
+public interface CoordStyle extends VectorNDValue {
 
 	/** set to 2D cartesian coords */
 	public void setCartesian();
@@ -22,16 +24,5 @@ public interface CoordStyle {
 
 	/** set to spherical coords */
 	public void setSpherical();
-
-	/** @return toStringMode */
-	public int getToStringMode();
-
-	/**
-	 * set toStringMode
-	 * 
-	 * @param mode
-	 *            mode
-	 */
-	public void setMode(int mode);
 
 }

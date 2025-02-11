@@ -13,13 +13,13 @@ import org.geogebra.common.main.Localization;
 
 public class PlaneEqnModel extends MultipleOptionsModel {
 
-	private List<Integer> eqnValues;
+	private List<LinearEquationRepresentable.Form> eqnValues;
 
 	public PlaneEqnModel(App app) {
 		super(app);
 
-		eqnValues = Arrays.asList(LinearEquationRepresentable.Form.IMPLICIT.rawValue,
-				LinearEquationRepresentable.Form.USER.rawValue);
+		eqnValues = Arrays.asList(LinearEquationRepresentable.Form.IMPLICIT,
+				LinearEquationRepresentable.Form.USER);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 		}
 
 		getListener()
-				.setSelectedIndex(equalMode ? eqnValues.indexOf(value0) : -1);
+				.setSelectedIndex(equalMode ? value0 : -1);
 	}
 
 	@Override
@@ -73,13 +73,16 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 
 	@Override
 	protected void apply(int index, int value) {
-		getLineAt(index).setMode(eqnValues.get(value));
-		getGeoAt(index).updateRepaint();
+		if (value >= 0) {
+			getLineAt(index).setEquationForm(eqnValues.get(value));
+			getGeoAt(index).updateRepaint();
+		}
 	}
 
 	@Override
 	public int getValueAt(int index) {
-		return getLineAt(index).getToStringMode();
+		LinearEquationRepresentable.Form equationForm = getLineAt(index).getEquationForm();
+		return equationForm == null ? -1 : eqnValues.indexOf(equationForm);
 	}
 
 }

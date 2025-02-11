@@ -44,8 +44,10 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 	@Test
 	public void polynomialShouldShowAsPlainTextInAlgebraView() {
 		GeoImplicitCurve poly = add("0=x+y^4");
+		poly.setToImplicit();
 		assertThat(poly.isLaTeXDrawableGeo(), equalTo(false));
 		GeoImplicitCurve nonPoly = add("0=sqrt(x)+y^4");
+		nonPoly.setToImplicit();
 		assertThat(nonPoly.isLaTeXDrawableGeo(), equalTo(true));
 	}
 

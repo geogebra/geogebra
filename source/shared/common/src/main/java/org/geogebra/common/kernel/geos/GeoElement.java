@@ -171,9 +171,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/** label, value, caption, label+value */
 	public int labelMode = LABEL_DEFAULT;
 	/** cartesian, polar or complex */
-	// Note: This default value doesn't make sense for most elements (lines, circles, etc)
-	// but some code still relies on this initial value and would break if we'd change it.
-	protected int toStringMode = Kernel.COORD_CARTESIAN;
+
 	/** default (foreground) color */
 	protected GColor objColor = GColor.BLACK;
 	/** background color */
@@ -1222,7 +1220,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				&& (app.getSettings() == null
 						|| app.getSettings()
 								.getCasSettings().isEnabled())) {
-			toStringMode = geo.toStringMode;
+			applyToStringModeFrom(geo);
 		}
 
 		// colors
@@ -1245,6 +1243,18 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (layer == 0) {
 			setLayer(geo.getLayer());
 		}
+	}
+
+	/**
+	 * Copies properties that affect how this object is converted to a string.
+	 * <ul>
+	 *     <li>For equations copies is the equation form.</li>
+	 *     <li>For points and vectors copies the coordinate style.</li>
+	 * </ul>
+	 * @param geo source of string mode
+	 */
+	public void applyToStringModeFrom(GeoElement geo) {
+		// only for equations and points
 	}
 
 	/**
@@ -7019,23 +7029,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public LabelManager getLabelManager() {
 		return cons.getLabelManager();
-	}
-
-	/**
-	 * @return complex / polar/ cartesian for points an vectors, implicit /
-	 *         explitic / parametric / ... for equations
-	 */
-	public final int getToStringMode() {
-		return toStringMode;
-	}
-
-	/**
-	 * Set serialization mode for this element.
-	 *
-	 * @param toStringMode serialization mode
-	 */
-	public void setToStringMode(int toStringMode) {
-		this.toStringMode = toStringMode;
 	}
 
 	/**

@@ -18,14 +18,14 @@ import org.geogebra.common.main.Localization;
 @Deprecated // replace with LinearEquationFormProperty
 public class LineEqnModel extends MultipleOptionsModel {
 
-	private List<Integer> eqnValues;
+	private List<LinearEquationRepresentable.Form> eqnValues;
 
 	public LineEqnModel(App app) {
 		super(app);
 
-		eqnValues = Arrays.asList(LinearEquationRepresentable.Form.IMPLICIT.rawValue,
-				LinearEquationRepresentable.Form.EXPLICIT.rawValue, LinearEquationRepresentable.Form.PARAMETRIC.rawValue,
-				LinearEquationRepresentable.Form.GENERAL.rawValue, LinearEquationRepresentable.Form.USER.rawValue);
+		eqnValues = Arrays.asList(LinearEquationRepresentable.Form.IMPLICIT,
+				LinearEquationRepresentable.Form.EXPLICIT, LinearEquationRepresentable.Form.PARAMETRIC,
+				LinearEquationRepresentable.Form.GENERAL, LinearEquationRepresentable.Form.USER);
 
 	}
 
@@ -91,7 +91,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 		}
 
 		getListener()
-				.setSelectedIndex(equalMode ? eqnValues.indexOf(value0) : -1);
+				.setSelectedIndex(equalMode ? value0 : -1);
 	}
 
 	@Override
@@ -107,14 +107,16 @@ public class LineEqnModel extends MultipleOptionsModel {
 
 	@Override
 	protected void apply(int index, int value) {
-		getLineAt(index).setMode(eqnValues.get(value));
-		getGeoAt(index).updateRepaint();
-
+		if (value > -1) {
+			getLineAt(index).setEquationForm(eqnValues.get(value));
+			getGeoAt(index).updateRepaint();
+		}
 	}
 
 	@Override
 	public int getValueAt(int index) {
-		return getLineAt(index).getToStringMode();
+		LinearEquationRepresentable.Form equationForm = getLineAt(index).getEquationForm();
+		return equationForm == null ? -1 : eqnValues.indexOf(equationForm);
 	}
 
 }

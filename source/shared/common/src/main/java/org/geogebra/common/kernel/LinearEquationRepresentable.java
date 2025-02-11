@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 /**
  * An umbrella for objects representable by linear equations (e.g., lines, planes).
@@ -28,13 +27,6 @@ public interface LinearEquationRepresentable {
 		public static final int CONST_IMPLICIT = 0;
 		public static final int CONST_EXPLICIT = 1;
 		public static final int CONST_PARAMETRIC = 2;
-		// TODO APPS-5867 This constant is only left in here (for now) because some code in GeoLine
-		//  (e.g., toValueString) uses it in switch cases. However, the numeric value (=3) in these
-		//  use cases is just the *default value* of GeoElement.toStringMode, which is initialized
-		//  to Kernel.COORD_CARTESIAN (also 3). So, it doesn't make sense, this is purely
-		//  coincidental, but I left it in to not break existing behaviour in this first stage of
-		//  equation form cleanup.
-		public static final int CONST_IMPLICIT_NON_CANONICAL = 3;
 		public static final int CONST_GENERAL = 4;
 		public static final int CONST_USER = 5;
 
@@ -79,22 +71,7 @@ public interface LinearEquationRepresentable {
 	 * Set the equation form of this object.
 	 * @param equationForm the equation form. If {@code null}, this method has no effect.
 	 */
-	default void setEquationForm(@Nullable Form equationForm) {
-		if (equationForm == null) {
-			return;
-		}
-		setEquationForm(equationForm.rawValue);
-	}
-
-	/**
-	 * Set the equation form.
-	 * @param equationForm One of the raw values of the {@link Form} enum cases.
-	 * @apiNote Any {@link org.geogebra.common.kernel.geos.GeoElement GeoElement} subclass
-	 * implementing this interface is expected to store the passed-in value in
-	 * {@link org.geogebra.common.kernel.geos.GeoElement GeoElement}'s {@code toStringMode}
-	 * field.
-	 */
-	void setEquationForm(int equationForm);
+	void setEquationForm(@CheckForNull Form equationForm);
 
 	/**
 	 * Set the equation form to {@code IMPLICIT}.

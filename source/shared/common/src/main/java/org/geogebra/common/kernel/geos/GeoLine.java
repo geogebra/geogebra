@@ -27,6 +27,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -104,6 +105,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	private GeoFunction asFunction;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
+	protected Form equationForm = Form.IMPLICIT;
 
 	/**
 	 * Creates new line
@@ -633,7 +635,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		GeoLine l = (GeoLine) geo;
 		parameter = l.parameter;
-		toStringMode = l.toStringMode;
+		equationForm = l.equationForm;
 		reuseDefinition(geo);
 	}
 
@@ -865,27 +867,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 	}
 
-	/**
-	 * Code like {@code line.setMode(EquationLinear.Type....)} is used in a few places,
-	 * so we have this override here to forward to {@link #setEquationForm(int)}.
-	 * TODO clean up mode/toStringMode naming mix in a separate MR
-	 */
-	@Override
-	final public void setMode(int mode) {
-		setEquationForm(mode);
-	}
-
 	@Override // EquationLinear
 	@CheckForNull
 	public Form getEquationForm() {
-		return Form.valueOf(toStringMode);
+		return equationForm;
 	}
 
 	@Override // EquationLinear
-	public void setEquationForm(int toStringMode) {
-		Form equationForm = Form.valueOf(toStringMode);
+	public void setEquationForm(@CheckForNull Form equationForm) {
 		if (equationForm != null) {
-			this.toStringMode = toStringMode;
+			this.equationForm = equationForm;
 		}
 	}
 
@@ -954,15 +945,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 				return  "?";
 			}
 		}
-
-		switch (toStringMode) {
-		case Form.CONST_EXPLICIT: // /EQUATION
+		if (equationForm == null) {
+			return buildImplicitEquation(g, tpl);
+		}
+		switch (equationForm) {
+		case EXPLICIT:
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
 			return kernel.buildExplicitEquation(g, vars, tpl, true).toString();
 
-		case Form.CONST_PARAMETRIC:
+		case PARAMETRIC:
 			getInhomPointOnLine(P); // point
 			StringBuilder sbBuildValueStr = getSbToString();
 			GeoCasCell casCell = getCorrespondingCasCell();
@@ -983,21 +976,18 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			sbBuildValueStr.append(")");
 			return sbBuildValueStr.toString();
 
-		case Form.CONST_IMPLICIT_NON_CANONICAL:
-		case Form.CONST_GENERAL:
+		case GENERAL:
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
 			if (DoubleUtil.isZero(x) || DoubleUtil.isZero(y)) {
 				return kernel.buildExplicitEquation(g, vars, tpl,
-						Form.CONST_IMPLICIT_NON_CANONICAL
-								== getToStringMode()).toString();
+						false).toString();
 			}
 			return kernel.buildImplicitEquation(g, vars,
 					false, false, tpl,
-					Form.CONST_IMPLICIT_NON_CANONICAL
-							== getToStringMode()).toString();
-		case Form.CONST_USER:
+					false).toString();
+		case USER:
 			if (getDefinition() != null) {
 				return getDefinition().toValueString(tpl);
 			}
@@ -1045,7 +1035,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		super.getStyleXML(sb);
 		// line thickness and type
 		getLineStyleXML(sb);
-		XMLBuilder.appendEquationTypeLine(sb, getToStringMode(), parameter);
+		XMLBuilder.appendEquationTypeLine(sb, getEquationForm(), parameter);
 	}
 
 	/*
@@ -1876,7 +1866,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public boolean hasSpecialEditor() {
-		return false;
+	public void applyToStringModeFrom(GeoElement other) {
+		if (other instanceof LinearEquationRepresentable) {
+			equationForm = ((LinearEquationRepresentable) other).getEquationForm();
+		}
 	}
 }

@@ -199,33 +199,34 @@ public class XMLBuilder {
 	/**
 	 * @param sb
 	 *            string builder
-	 * @param toStringMode
+	 * @param equationForm
 	 *            line/plane equation mode
 	 * @param parameter
 	 *            parameter name
 	 */
-	public static void appendEquationTypeLine(StringBuilder sb, int toStringMode,
+	public static void appendEquationTypeLine(StringBuilder sb,
+			LinearEquationRepresentable.Form equationForm,
 			String parameter) {
-		switch (toStringMode) {
-		case LinearEquationRepresentable.Form.CONST_PARAMETRIC:
+		if (equationForm == null) {
+			return;
+		}
+		switch (equationForm) {
+		case PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\" parameter=\"");
 			sb.append(parameter);
 			sb.append("\"/>\n");
 			break;
-		case LinearEquationRepresentable.Form.CONST_IMPLICIT:
+		case IMPLICIT:
 			appendType(sb, "implicit");
 			break;
-		case LinearEquationRepresentable.Form.CONST_EXPLICIT:
+		case EXPLICIT:
 			appendType(sb, "explicit");
 			break;
-		case LinearEquationRepresentable.Form.CONST_GENERAL:
+		case GENERAL:
 			appendType(sb, "general");
 			break;
-		case LinearEquationRepresentable.Form.CONST_USER:
+		case USER:
 			appendType(sb, "user");
-			break;
-		case LinearEquationRepresentable.Form.CONST_IMPLICIT_NON_CANONICAL:
-			// don't want anything here
 			break;
 		default:
 			break;
@@ -248,31 +249,34 @@ public class XMLBuilder {
 	/**
 	 * @param sb
 	 *            string builder
-	 * @param toStringMode
+	 * @param equationForm
 	 *            conic/quadric equation mode
 	 * @param parameter
 	 *            parameter name
 	 */
 	public static void appendEquationTypeConic(StringBuilder sb,
-			int toStringMode, String parameter) {
-		// implicit or specific mode
-		switch (toStringMode) {
-		case QuadraticEquationRepresentable.Form.CONST_SPECIFIC:
+			QuadraticEquationRepresentable.Form equationForm, String parameter) {
+		if (equationForm == null) { // null handled the same as default branch for compatibility
+			XMLBuilder.appendType(sb, "implicit");
+			return;
+		}
+		switch (equationForm) {
+		case SPECIFIC:
 			XMLBuilder.appendType(sb, "specific");
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_EXPLICIT:
+		case EXPLICIT:
 			XMLBuilder.appendType(sb, "explicit");
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_USER:
+		case USER:
 			XMLBuilder.appendType(sb, "user");
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_VERTEX:
+		case VERTEX:
 			XMLBuilder.appendType(sb, "vertex");
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_CONICFORM:
+		case CONICFORM:
 			XMLBuilder.appendType(sb, "conic");
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_PARAMETRIC:
+		case PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
 			break;
 

@@ -58,6 +58,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	private Coords tmpCoords1;
 	private Coords tmpCoords2;
 	private boolean trace;
+	private Form equationForm = Form.USER;
 
 	/**
 	 * @param c
@@ -939,14 +940,13 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	@Override // EquationLinear
 	@CheckForNull
 	public Form getEquationForm() {
-		return Form.valueOf(toStringMode);
+		return equationForm;
 	}
 
 	@Override // EquationLinear
-	public void setEquationForm(int toStringMode) {
-		Form equationForm = Form.valueOf(toStringMode);
+	public void setEquationForm(@CheckForNull Form equationForm) {
 		if (equationForm != null) {
-			this.toStringMode = toStringMode;
+			this.equationForm = equationForm;
 		}
 	}
 

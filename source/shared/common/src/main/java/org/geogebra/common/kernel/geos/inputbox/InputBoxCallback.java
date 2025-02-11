@@ -37,7 +37,7 @@ class InputBoxCallback implements AsyncOperation<GeoElementND> {
 	private void restoreToStringMode() {
 		GeoElementND linkedGeo = inputBox.getLinkedGeo();
 		if (linkedGeo instanceof GeoPoint) {
-			((GeoPoint) linkedGeo).setToStringMode(toStringMode);
+			((GeoPoint) linkedGeo).setMode(toStringMode);
 		}
 	}
 

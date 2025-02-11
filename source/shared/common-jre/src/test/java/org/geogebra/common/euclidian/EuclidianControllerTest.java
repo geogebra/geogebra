@@ -346,10 +346,8 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_RAY);
 		click(0, 0);
 		click(100, 100);
-		// On master, the initial value of toStringMode = Kernel.COORD_CARTESIAN (=3)
-		// is interpreted as equation form IMPLICIT_NON_CANONICAL (=3), which gives
-		// 2x + 2y = 0; so this outcome is entirely coincidental, not by design!
-		checkContent("A = (0, 0)", "B = (2, -2)", "f: 2x + 2y = 0");
+		// Equation form for lines and rays aligned in APPS-6337
+		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
 	}
 
 	@Test

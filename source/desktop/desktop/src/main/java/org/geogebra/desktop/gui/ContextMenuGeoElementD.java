@@ -200,11 +200,11 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		}
 
 		GeoLine line = (GeoLine) getGeo();
-		int mode = line.getToStringMode();
+		LinearEquationRepresentable.Form mode = line.getEquationForm();
 		AbstractAction action;
 		StringBuilder sb = new StringBuilder();
 
-		if (mode != LinearEquationRepresentable.Form.IMPLICIT.rawValue) {
+		if (mode != LinearEquationRepresentable.Form.IMPLICIT) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
@@ -223,7 +223,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			addAction(action);
 		}
 
-		if (mode != LinearEquationRepresentable.Form.EXPLICIT.rawValue) {
+		if (mode != LinearEquationRepresentable.Form.EXPLICIT) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
@@ -242,7 +242,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			addAction(action);
 		}
 
-		if (mode != LinearEquationRepresentable.Form.PARAMETRIC.rawValue) {
+		if (mode != LinearEquationRepresentable.Form.PARAMETRIC) {
 			action = new AbstractAction(loc.getMenu("ParametricForm")) {
 				/**
 				 * 
@@ -257,7 +257,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			addAction(action);
 		}
 
-		if (mode != LinearEquationRepresentable.Form.GENERAL.rawValue) {
+		if (mode != LinearEquationRepresentable.Form.GENERAL) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
@@ -295,11 +295,11 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			return;
 		}
 
-		int mode = conic.getToStringMode();
+		QuadraticEquationRepresentable.Form form = conic.getEquationForm();
 		AbstractAction action;
 		StringBuilder sb = new StringBuilder();
 
-		if (mode != QuadraticEquationRepresentable.Form.IMPLICIT.rawValue) {
+		if (form != QuadraticEquationRepresentable.Form.IMPLICIT) {
 			sb.append(ConicEqnModel.getImplicitEquation(conic, loc, true));
 			action = new AbstractAction(sb.toString()) {
 				/**
@@ -315,7 +315,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			addAction(action);
 		}
 
-		if (specificPossible && mode != QuadraticEquationRepresentable.Form.SPECIFIC.rawValue) {
+		if (specificPossible && form != QuadraticEquationRepresentable.Form.SPECIFIC) {
 			// specific conic string
 			String conicEqn = conic.getSpecificEquationLabel();
 			if (conicEqn != null) {
@@ -338,7 +338,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			}
 		}
 
-		if (explicitPossible && mode != QuadraticEquationRepresentable.Form.EXPLICIT.rawValue) {
+		if (explicitPossible && form != QuadraticEquationRepresentable.Form.EXPLICIT) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
@@ -357,7 +357,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			addAction(action);
 		}
 
-		if (vertexformPossible && mode != QuadraticEquationRepresentable.Form.VERTEX.rawValue) {
+		if (vertexformPossible && form != QuadraticEquationRepresentable.Form.VERTEX) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
@@ -376,7 +376,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			addAction(action);
 		}
 
-		if (conicformPossible && mode != QuadraticEquationRepresentable.Form.CONICFORM.rawValue) {
+		if (conicformPossible && form != QuadraticEquationRepresentable.Form.CONICFORM) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');

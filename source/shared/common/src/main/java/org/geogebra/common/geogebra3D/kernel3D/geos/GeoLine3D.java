@@ -212,7 +212,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	@Override
 	protected void getStyleXML(StringBuilder sb) {
 		super.getStyleXML(sb);
-		XMLBuilder.appendEquationTypeLine(sb, Form.PARAMETRIC.rawValue, parameter);
+		XMLBuilder.appendEquationTypeLine(sb, Form.PARAMETRIC, parameter);
 	}
 
 	/**

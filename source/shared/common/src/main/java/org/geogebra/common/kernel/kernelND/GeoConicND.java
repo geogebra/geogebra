@@ -151,7 +151,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            dimension
 	 */
 	public GeoConicND(Construction c, int dimension) {
-		this(c, dimension, false, Form.IMPLICIT.rawValue);
+		this(c, dimension, false, Form.IMPLICIT);
 	}
 
 	/**
@@ -167,9 +167,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            toStringMode, one of EquationQuadric.Type.* constants
 	 */
 	public GeoConicND(Construction c, int dimension, boolean isIntersection,
-			int stringMode) {
+			Form stringMode) {
 		super(c, dimension, isIntersection);
-		setToStringMode(stringMode);
+		equationForm = stringMode;
 	}
 
 	/**
@@ -1187,7 +1187,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		GeoConicND co = (GeoConicND) geo;
 
 		// copy everything
-		setEquationForm(co.getToStringMode());
+		setEquationForm(co.getEquationForm());
 		type = co.type;
 		for (int i = 0; i < 6; i++) {
 			matrix[i] = co.matrix[i]; // flat matrix A
@@ -1303,10 +1303,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public boolean isDoubleLine() {
 		return type == CONIC_DOUBLE_LINE;
-	}
-
-	final public void setMode(int mode) {
-		setEquationForm(mode);
 	}
 
 	@Override
@@ -1589,9 +1585,12 @@ public abstract class GeoConicND extends GeoQuadricND
 		default:
 			myVars = vars;
 		}
-
-		switch (getToStringMode()) {
-		case Form.CONST_SPECIFIC:
+		if (equationForm == null) {
+			return kernel.buildImplicitEquation(coeffs, myVars,
+					true, false, tpl, true);
+		}
+		switch (equationForm) {
+		case SPECIFIC:
 			if (!isSpecificFormPossible()) {
 				return kernel.buildImplicitEquation(coeffs, myVars,
 						true, false, tpl, true);
@@ -1732,17 +1731,17 @@ public abstract class GeoConicND extends GeoQuadricND
 
 			}
 
-		case Form.CONST_EXPLICIT:
+		case EXPLICIT:
 			if (isExplicitFormPossible()) {
 				return kernel.buildExplicitConicEquation(coeffs, myVars, 4, tpl);
 			}
 
-		case Form.CONST_VERTEX:
+		case VERTEX:
 			if (isVertexFormPossible()) {
 				return kernel.buildVertexformEquation(coeffs, myVars, tpl);
 			}
 
-		case Form.CONST_CONICFORM:
+		case CONICFORM:
 			if (isConicFormPossible()) {
 				return kernel.buildConicformEquation(coeffs, myVars, tpl);
 			}
@@ -3389,7 +3388,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		super.getStyleXML(sb);
 		// line thickness and type
 		getLineStyleXML(sb);
-		XMLBuilder.appendEquationTypeConic(sb, getToStringMode(), parameter);
+		XMLBuilder.appendEquationTypeConic(sb, getEquationForm(), parameter);
 	}
 
 	@Override

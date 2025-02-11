@@ -2,6 +2,8 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -85,7 +87,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 				equalType = false;
 			}
 			// same mode?
-			if (geo0.getToStringMode() != temp.getToStringMode()) {
+			if (geo0.getEquationForm() != temp.getEquationForm()) {
 				equalMode = false;
 			}
 			// specific equation possible?
@@ -147,40 +149,44 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			getListener().addItem(loc.getMenu("ParametricForm"));
 			this.parametricIndex = ++counter;
 		}
-		int mode;
+		@CheckForNull QuadraticEquationRepresentable.Form mode;
 		if (equalMode) {
-			mode = geo0.getToStringMode();
+			mode = geo0.getEquationForm();
 		} else {
-			mode = -1;
+			mode = null;
+		}
+		if (mode == null) {
+			getListener().setSelectedIndex(-1);
+			return;
 		}
 		switch (mode) {
-		case QuadraticEquationRepresentable.Form.CONST_SPECIFIC:
+		case SPECIFIC:
 			if (specificIndex > -1) {
 				getListener().setSelectedIndex(specificIndex);
 			}
 			break;
 
-		case QuadraticEquationRepresentable.Form.CONST_EXPLICIT:
+		case EXPLICIT:
 			if (explicitIndex > -1) {
 				getListener().setSelectedIndex(explicitIndex);
 			}
 			break;
 
-		case QuadraticEquationRepresentable.Form.CONST_IMPLICIT:
+		case IMPLICIT:
 			getListener().setSelectedIndex(implicitIndex);
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_PARAMETRIC:
+		case PARAMETRIC:
 			getListener().setSelectedIndex(parametricIndex);
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_USER:
+		case USER:
 			getListener().setSelectedIndex(userIndex);
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_VERTEX:
+		case VERTEX:
 			if (vertexformIndex > -1) {
 				getListener().setSelectedIndex(vertexformIndex);
 			}
 			break;
-		case QuadraticEquationRepresentable.Form.CONST_CONICFORM:
+		case CONICFORM:
 			if (conicformIndex > -1) {
 				getListener().setSelectedIndex(conicformIndex);
 			}

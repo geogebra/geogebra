@@ -19,8 +19,11 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoCoords4D;
@@ -35,6 +38,7 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 		Vector3DValue, Traceable, SpreadsheetTraceable {
 	/** vector coordinates */
 	protected Coords v;
+	protected int toStringMode = Kernel.COORD_CARTESIAN;
 
 	/**
 	 * @param c
@@ -201,4 +205,17 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 		return isIndependent()
 				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
+
+	@Override
+	public final int getToStringMode() {
+		return toStringMode;
+	}
+
+	@Override
+	public void applyToStringModeFrom(GeoElement other) {
+		if (other instanceof VectorNDValue) {
+			toStringMode = ((VectorNDValue) other).getToStringMode();
+		}
+	}
+
 }

@@ -96,6 +96,7 @@ public abstract class GeoQuadricND extends GeoElement
 	private ChangeableParent changeableParent = null;
 
 	private boolean trace;
+	protected Form equationForm;
 
 	/**
 	 * default constructor
@@ -115,7 +116,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c) {
 		super(c);
-		toStringMode = Form.IMPLICIT.rawValue;
+		equationForm = Form.IMPLICIT;
 	}
 
 	/**
@@ -130,7 +131,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c, int dimension, boolean isIntersection) {
 		this(c);
-		this.toStringMode = Form.IMPLICIT.rawValue;
+		this.equationForm = Form.IMPLICIT;
 		this.isIntersection = isIntersection;
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
@@ -632,7 +633,7 @@ public abstract class GeoQuadricND extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == Form.USER.rawValue
+		if (equationForm == Form.USER
 				&& (isIndependent() || getParentAlgorithm().getClassName() == Algos.Expression)) {
 			return DescriptionMode.VALUE;
 		}
@@ -707,14 +708,13 @@ public abstract class GeoQuadricND extends GeoElement
 	@Override // EquationQuadric
 	@CheckForNull
 	public Form getEquationForm() {
-		return Form.valueOf(toStringMode);
+		return equationForm;
 	}
 
 	@Override // EquationQuadric
-	public void setEquationForm(int toStringMode) {
-		Form equationForm = Form.valueOf(toStringMode);
+	public void setEquationForm(@CheckForNull Form equationForm) {
 		if (equationForm != null) {
-			this.toStringMode = equationForm.rawValue;
+			this.equationForm = equationForm;
 		}
 	}
 
@@ -761,4 +761,12 @@ public abstract class GeoQuadricND extends GeoElement
 		return getEquationForm() == QuadraticEquationRepresentable.Form.USER
 				&& getDefinition() != null;
 	}
+
+	@Override
+	public void applyToStringModeFrom(GeoElement other) {
+		if (other instanceof QuadraticEquationRepresentable) {
+			equationForm = ((QuadraticEquationRepresentable) other).getEquationForm();
+		}
+	}
+
 }

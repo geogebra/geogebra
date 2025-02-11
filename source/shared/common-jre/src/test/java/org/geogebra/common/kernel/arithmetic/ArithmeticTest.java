@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -303,8 +304,12 @@ public class ArithmeticTest extends BaseUnitTest {
 	@Test
 	public void absFunctionBugFix() {
 		getApp().getSettings().getCasSettings().setEnabled(true);
-		t("eq1:abs(x-3) = -2", "abs(x - 3) = -2");
-		t("eq2:abs(x-3) = 2", "x^2 - 6x = -5");
+		GeoImplicit eq1 = add("eq1:abs(x-3) = -2");
+		eq1.setToImplicit();
+		assertEquals(eq1.toValueString(StringTemplate.testTemplate), "abs(x - 3) = -2");
+		GeoImplicit eq2 = add("eq2:abs(x-3) = 2");
+		eq2.setToImplicit();
+		assertEquals(eq2.toValueString(StringTemplate.testTemplate), "x^2 - 6x = -5");
 	}
 
 	@Test

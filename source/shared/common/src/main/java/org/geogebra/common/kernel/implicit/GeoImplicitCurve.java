@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DecompositionSolver;
@@ -13,7 +15,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
@@ -113,6 +114,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private boolean updatePathNeeded = false;
 	private Equation expanded;
 	private static final String[] XY_VARIABLES = {"x", "y"};
+	private Form equationForm = Form.IMPLICIT;
 
 	/**
 	 * Construct an empty Implicit Curve Object
@@ -696,7 +698,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return getToStringMode() == LinearEquationRepresentable.Form.USER.rawValue || coeff == null;
+		return equationForm == Form.USER || coeff == null;
 	}
 
 	/**
@@ -1714,17 +1716,17 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override // GeoImplicit
 	public boolean isInputForm() {
-		return getToStringMode() == LinearEquationRepresentable.Form.USER.rawValue;
+		return equationForm == Form.USER;
 	}
 
 	@Override // GeoImplicit
 	public void setToUser() {
-		toStringMode = LinearEquationRepresentable.Form.USER.rawValue;
+		equationForm = Form.USER;
 	}
 
 	@Override // GeoImplicit
 	public void setToImplicit() {
-		toStringMode = LinearEquationRepresentable.Form.IMPLICIT.rawValue;
+		equationForm = Form.IMPLICIT;
 	}
 
 	@Override
@@ -2193,7 +2195,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == LinearEquationRepresentable.Form.USER.rawValue) {
+		if (equationForm == Form.USER) {
 			return DescriptionMode.VALUE;
 		}
 		return super.getDescriptionMode();
@@ -2225,5 +2227,26 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	public boolean isValidType() {
 		return expression.getExpression().evaluatesToNumber(true);
+	}
+
+	@Override
+	public Form getEquationForm() {
+		return equationForm;
+	}
+
+	/**
+	 * @param equationForm equation form, ignore if null
+	 */
+	public void setEquationForm(@CheckForNull Form equationForm) {
+		if (equationForm != null) {
+			this.equationForm = equationForm;
+		}
+	}
+
+	@Override
+	public void applyToStringModeFrom(GeoElement other) {
+		if (other instanceof GeoImplicit) {
+			equationForm = ((GeoImplicit) other).getEquationForm();
+		}
 	}
 }

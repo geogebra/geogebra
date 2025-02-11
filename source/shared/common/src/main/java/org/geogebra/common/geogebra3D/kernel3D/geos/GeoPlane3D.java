@@ -8,6 +8,7 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInter
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
@@ -82,6 +83,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	/** string repre of coordinates */
 	private static final String[] VAR_STRING = { "x", "y", "z" };
+	protected Form equationForm = Form.USER;
 
 	/**
 	 * creates an empty plane
@@ -473,14 +475,13 @@ public class GeoPlane3D extends GeoElement3D
 	@Override // EquationLinear
 	@CheckForNull
 	public Form getEquationForm() {
-		return Form.valueOf(toStringMode);
+		return equationForm;
 	}
 
 	@Override // EquationLinear
-	public void setEquationForm(int toStringMode) {
-		Form equationForm = Form.valueOf(toStringMode);
+	public void setEquationForm(@CheckForNull Form equationForm) {
 		if (equationForm != null) {
-			this.toStringMode = toStringMode;
+			this.equationForm = equationForm;
 		}
 	}
 
@@ -599,7 +600,7 @@ public class GeoPlane3D extends GeoElement3D
 
 		// grid line style
 		getLineStyleXML(sb);
-		XMLBuilder.appendEquationTypeLine(sb, getToStringMode(), null);
+		XMLBuilder.appendEquationTypeLine(sb, getEquationForm(), null);
 	}
 
 	@Override
@@ -915,11 +916,6 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public void setMode(int stringMode) {
-		this.toStringMode = stringMode;
-	}
-
-	@Override
 	public boolean isLaTeXDrawableGeo() {
 		return getEquationForm() == Form.USER;
 	}
@@ -965,4 +961,12 @@ public class GeoPlane3D extends GeoElement3D
 	public boolean isMatrixTransformable() {
 		return true;
 	}
+
+	@Override
+	public void applyToStringModeFrom(GeoElement other) {
+		if (other instanceof LinearEquationRepresentable) {
+			equationForm = ((LinearEquationRepresentable) other).getEquationForm();
+		}
+	}
+
 }

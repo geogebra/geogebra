@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 /**
  * An umbrella for objects representable by quadratic equations (e.g., conics, quadrics).
@@ -82,22 +81,7 @@ public interface QuadraticEquationRepresentable {
 	 * Set the equation form of this object.
 	 * @param equationForm the equation form. If {@code null}, this method has no effect.
 	 */
-	default void setEquationForm(@Nullable Form equationForm) {
-		if (equationForm == null) {
-			return;
-		}
-		setEquationForm(equationForm.rawValue);
-	}
-
-	/**
-	 * Set the equation form.
-	 * @param equationForm One of the raw values of the {@link Form} enum cases.
-	 * @apiNote Any {@link org.geogebra.common.kernel.geos.GeoElement GeoElement} subclass
-	 * implementing this interface is expected to store the passed-in value in
-	 * {@link org.geogebra.common.kernel.geos.GeoElement GeoElement}'s {@code toStringMode}
-	 * field.
-	 */
-	void setEquationForm(int equationForm);
+	void setEquationForm(@CheckForNull Form equationForm);
 
 	/**
 	 * Set the equation form to {@code IMPLICIT}.

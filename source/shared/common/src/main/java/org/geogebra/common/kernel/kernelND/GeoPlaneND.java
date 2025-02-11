@@ -47,14 +47,4 @@ public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, LinearEquation
 	 */
 	public double distanceWithSign(GeoPlaneND h3d);
 
-	/**
-	 * @param toStringMode
-	 *            equation style
-	 */
-	public void setMode(int toStringMode);
-
-	/**
-	 * @return string mode
-	 */
-	public int getToStringMode();
 }
