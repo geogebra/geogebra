@@ -204,6 +204,9 @@ public final class SpreadsheetController {
 		if (isEditorActive()) {
 			editor.hide();
 		}
+		if (controlsDelegate != null) {
+			controlsDelegate.hideAutoCompleteSuggestions();
+		}
 	}
 
 	private void initCopyPasteCut() {
@@ -244,6 +247,7 @@ public final class SpreadsheetController {
 
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
+			controlsDelegate.hideAutoCompleteSuggestions();
 		}
 		dragState = getDragAction(x, y);
 		if (modifiers.shift) {
@@ -1107,8 +1111,13 @@ public final class SpreadsheetController {
 			case JavaKeyCodes.VK_UP:
 			case JavaKeyCodes.VK_DOWN:
 			case JavaKeyCodes.VK_ENTER:
-			case JavaKeyCodes.VK_ESCAPE:
 				return controlsDelegate.handleKeyPressForAutoComplete(keyCode);
+			case JavaKeyCodes.VK_ESCAPE:
+				if (controlsDelegate.isAutoCompleteSuggestionsVisible()) {
+					controlsDelegate.hideAutoCompleteSuggestions();
+					return true;
+				}
+				break;
 			default:
 				break;
 			}

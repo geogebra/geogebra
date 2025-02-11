@@ -24,6 +24,7 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.junit.AfterClass;
@@ -52,7 +53,9 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
 
     @BeforeClass
     public static void setupOnce() {
-        FactoryProvider.setInstance(new FactoryProviderCommon()); // required by MathField
+        // required by MathField
+        FactoryProvider.setInstance(new FactoryProviderCommon());
+        // required by StringTemplate static initializer
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
     }
 
@@ -544,6 +547,32 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     }
 
     @Test
+    public void testDismissAutoCompleteSuggestionsOnCellSelectionChange() {
+        simulateCellMouseClick(0, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_S);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_U);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
+        assertTrue(autoCompleteShown);
+
+        simulateCellMouseClick(0, 1, 1);
+        assertFalse(autoCompleteShown);
+    }
+
+    @Test
+    public void testDismissAutoCompleteSuggestionsOnEscape() {
+        simulateCellMouseClick(0, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_S);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_U);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_M);
+        assertTrue(autoCompleteShown);
+
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_ESCAPE);
+        assertFalse(autoCompleteShown);
+    }
+    
+    @Test
     public void testInsertingInEditorByClick() {
         tabularData.setContent(0, 0, "=2");
         simulateCellMouseClick(1, 0, 2);
@@ -678,6 +707,11 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     public void hideAutoCompleteSuggestions() {
         autoCompleteShown = false;
         receivedKeys.clear();
+    }
+
+    @Override
+    public boolean isAutoCompleteSuggestionsVisible() {
+        return autoCompleteShown;
     }
 
     @Override

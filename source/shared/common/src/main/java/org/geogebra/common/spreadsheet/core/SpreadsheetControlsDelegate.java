@@ -36,6 +36,11 @@ public interface SpreadsheetControlsDelegate {
 	void hideAutoCompleteSuggestions();
 
 	/**
+	 * @return True if the suggestions UI is currently visible.
+	 */
+	boolean isAutoCompleteSuggestionsVisible();
+
+	/**
 	 * Give the `SpreadsheetControlsDelegate` an option to handle key presses during autocomplete.
 	 * @param keyCode The pressed key.
 	 * @return True if the `SpreadsheetControlsDelegate` did handle the key press (which means it

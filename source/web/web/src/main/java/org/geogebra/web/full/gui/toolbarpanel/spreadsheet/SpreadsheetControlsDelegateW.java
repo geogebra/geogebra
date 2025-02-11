@@ -271,6 +271,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	}
 
 	@Override
+	public boolean isAutoCompleteSuggestionsVisible() {
+		return getAutocompletePopup().isSuggesting();
+	}
+
+	@Override
 	public boolean handleKeyPressForAutoComplete(int keyCode) {
 		if (!isSuggesting()) {
 			return false;

@@ -278,6 +278,11 @@ public class SpreadsheetDemo {
 				}
 
 				@Override
+				public boolean isAutoCompleteSuggestionsVisible() {
+					return false;
+				}
+
+				@Override
 				public boolean handleKeyPressForAutoComplete(int keyCode) {
 					return false;
 				}
