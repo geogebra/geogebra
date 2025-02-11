@@ -13,7 +13,7 @@
 
 const {
       addMatchImageSnapshotPlugin,
-    } = require('cypress-image-snapshot/plugin');
+    } = require('@simonsmith/cypress-image-snapshot/plugin');
 const del = require('del');
 
 module.exports = (on, config) => {
