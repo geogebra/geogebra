@@ -2616,6 +2616,8 @@ public class CommandsTestCommon extends BaseCommandTest {
 						+ "^((-(x - 2)^2) / (1^2 * 2)) / (abs(1) sqrt(2"
 						+ Unicode.pi + "))",
 				"(erf((x - 2) / (abs(1) sqrt(2))) + 1) / 2");
+		tRound("Normal(0, 1, -1, 1)", "0.68269");
+		tRound("Normal(0, 1, -1, -2)", "?");
 	}
 
 	@Test
@@ -3030,7 +3032,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdRandomNormal() {
-		//t("RandomNormal[ 42, 4 ]", "46.871736265019415");
+		tRound("RandomNormal[ 42, 4 ]", "39.8612");
 	}
 
 	@Test

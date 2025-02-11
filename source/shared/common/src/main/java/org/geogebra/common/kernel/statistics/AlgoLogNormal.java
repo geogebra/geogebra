@@ -27,10 +27,18 @@ import org.geogebra.common.util.MyMath2;
 
 public class AlgoLogNormal extends AlgoDistribution {
 
-	@SuppressWarnings("javadoc")
-	public AlgoLogNormal(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoBoolean cumulative) {
-		super(cons, a, b, c, null, cumulative);
+	/**
+	 * Creates a new LogNormal algorithm
+	 * @param cons construction
+	 * @param mean mean
+	 * @param sd standard deviation
+	 * @param value probability variable value
+	 * @param cumulative true for CDF, false for PDF
+	 */
+	public AlgoLogNormal(Construction cons, GeoNumberValue mean,
+			GeoNumberValue sd, GeoNumberValue value, GeoBoolean cumulative) {
+		super(cons, mean, sd, value, null, cumulative);
+		compute();
 	}
 
 	@Override
@@ -40,7 +48,6 @@ public class AlgoLogNormal extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-
 		if (input[0].isDefined() && input[1].isDefined()
 				&& input[2].isDefined()) {
 			double mean = a.getDouble();

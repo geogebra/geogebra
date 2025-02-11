@@ -43,6 +43,7 @@ public class AlgoHyperGeometric extends AlgoDistribution {
 			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d,
 			GeoBoolean isCumulative) {
 		super(cons, a, b, c, d, isCumulative);
+		compute();
 	}
 
 	@Override

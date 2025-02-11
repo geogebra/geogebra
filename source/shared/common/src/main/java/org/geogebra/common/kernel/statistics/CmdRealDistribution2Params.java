@@ -43,6 +43,13 @@ public class CmdRealDistribution2Params extends CommandProcessor {
 		case 4:
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (GeoBoolean) arg[3];
+			} else if (arg[3].isNumberValue()
+					&& command == ProbabilityCalculatorSettings.Dist.NORMAL) {
+				AlgoRealDistribution2ParamsInterval algo = new AlgoRealDistribution2ParamsInterval(
+						cons, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3], command);
+				algo.getResult().setLabel(c.getLabel());
+				return algo.getResult().asArray();
 			} else {
 				throw argErr(c, arg[3]);
 			}

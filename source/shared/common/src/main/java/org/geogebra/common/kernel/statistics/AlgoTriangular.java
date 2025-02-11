@@ -43,6 +43,7 @@ public class AlgoTriangular extends AlgoDistribution {
 	public AlgoTriangular(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoNumberValue mode, GeoNumberValue x, GeoBoolean cumulative) {
 		super(cons, a, b, mode, x, cumulative);
+		compute();
 	}
 
 	@Override
@@ -52,7 +53,6 @@ public class AlgoTriangular extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-
 		if (input[0].isDefined() && input[1].isDefined()
 				&& input[2].isDefined()) {
 			double A = a.getDouble();
@@ -82,15 +82,6 @@ public class AlgoTriangular extends AlgoDistribution {
 				num.setValue(
 						pdf ? 1 + (x - B) * halfDensity : 2 * halfDensity);
 			}
-
-			// old hack
-			// processAlgebraCommand(
-			// "If["+x+" < "+a+", 0, If["+x+" < "+c+", ("+x+" - ("+a+"))^2 /
-			// ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If["+x+" < "+b+", 1 +
-			// ("+x+" - ("+b+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+b+")),
-			// 1]]]",
-			// true );
-
 		} else {
 			num.setUndefined();
 		}

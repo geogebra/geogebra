@@ -165,7 +165,6 @@ public abstract class AlgoDistribution extends AlgoElement {
 		num = new GeoNumeric(cons);
 
 		setInputOutput();
-		compute();
 	}
 
 	/**
