@@ -19,6 +19,7 @@
     <inherits name="org.gwtproject.resources.Resources" />
     <inherits name="com.google.gwt.core.Core"/>
     <inherits name='org.geogebra.Common'/>
+    <inherits name='org.geogebra.CommonKeyboard'/>
     <inherits name='org.geogebra.GgbJdk'/>
     <inherits name="com.himamis.retex.editor.JLMEditorDev" />
 
