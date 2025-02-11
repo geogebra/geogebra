@@ -8,8 +8,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoTransformation;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ChartStyle;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -521,9 +522,9 @@ public class FillingModel extends MultipleOptionsModel {
 			hasGeoButton = geo.isGeoButton();
 			hasGeoTurtle = geo.isGeoTurtle();
 			if (!geo.isInverseFillable()
-					// transformed objects copy inverse filling from parents, so
+					// reflect in circle computes inverse filling from parent, so
 					// users can't change this
-					|| geo.getParentAlgorithm() instanceof AlgoTransformation) {
+					|| isCircleReflection(geo.getParentAlgorithm())) {
 				if (getFillingListener() != null) {
 					getFillingListener().setFillInverseVisible(false);
 				}
@@ -543,6 +544,12 @@ public class FillingModel extends MultipleOptionsModel {
 		}
 
 		return geosOK;
+	}
+
+	private boolean isCircleReflection(AlgoElement parentAlgorithm) {
+		return parentAlgorithm != null
+				&& parentAlgorithm.getClassName() == Commands.Mirror
+				&& parentAlgorithm.getInput(1).isGeoConic();
 	}
 
 	public boolean isChart() {
