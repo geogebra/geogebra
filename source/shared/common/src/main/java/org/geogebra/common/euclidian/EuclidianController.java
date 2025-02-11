@@ -6691,15 +6691,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
+	 * Checks if input box that was previously hit by "pointer down" event is
+	 * also hit by "pointer up" event specified by arguments.
 	 * @param x
 	 *            mouse x
 	 * @param y
 	 *            mouse y
 	 * @param type
 	 *            event type
-	 * @return whether textfield at given coords is focused
+	 * @return whether input box at given coords is clicked
 	 */
-	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
+	public boolean isInputBoxClicked(int x, int y, PointerEventType type) {
 		return pressedInputBox != null && view.textfieldClicked(x, y, type);
 	}
 
@@ -10243,10 +10245,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		transformCoordsOffset[0] = 0;
 		transformCoordsOffset[1] = 0;
 
-		if (!event.isRightClick() && this.textfieldJustFocused(x, y, type)) {
+		if (!event.isRightClick() && this.isInputBoxClicked(x, y, type)) {
 			draggingOccurred = false;
 			return;
 		}
+		app.hideKeyboard();
 		view.invalidateCache();
 		// make sure we start the timer also for single point
 		if (penMode(mode)) {

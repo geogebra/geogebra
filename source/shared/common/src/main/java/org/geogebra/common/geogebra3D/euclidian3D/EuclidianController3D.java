@@ -4256,7 +4256,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
+	public boolean isInputBoxClicked(int x, int y, PointerEventType type) {
 		return false;
 	}
 

@@ -131,7 +131,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
+	public boolean isInputBoxClicked(int x, int y, PointerEventType type) {
 		if (isComboboxFocused()) {
 			this.draggingOccurred = false;
 			getView().setHits(mouseLoc, type);
@@ -149,7 +149,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 			return true;
 		}
-		return super.textfieldJustFocused(x, y, type);
+		return super.isInputBoxClicked(x, y, type);
 	}
 
 	@Override

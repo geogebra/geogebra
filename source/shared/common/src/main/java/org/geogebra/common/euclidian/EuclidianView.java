@@ -2282,8 +2282,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				((DrawInputBox) d).setWidgetVisible(false);
 			}
 		}
-
-		app.hideKeyboard();
 		return false;
 	}
 
