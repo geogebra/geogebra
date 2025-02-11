@@ -98,7 +98,7 @@ var codebase = "<!--CODEBASE-->";
 		if (name && window.history && window.history.pushState && name != "picker" && location.host && location.host.indexOf("geogebra") >= 0 &&
 				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/)){
 			if (name != "classic" && !window.appID) {
-				history.pushState({}, "GeoGebra", "/clasic#" + name);
+				history.pushState({}, "GeoGebra", "/classic#" + name);
 			}
 
 		}
