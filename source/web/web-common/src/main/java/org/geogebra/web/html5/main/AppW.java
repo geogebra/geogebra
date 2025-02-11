@@ -837,6 +837,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 			getXMLio().processXMLString(def.getConstruction(), true, false,
 					getAppletParameters().getParamRandomize());
+			// if we need to load commands for scrips, try now so that we fail early (APPS-6305)
+			loadCommandsForScripting();
 			// defaults (optional)
 			if (def.hasDefaults2d()) {
 				getXMLio().processXMLString(def.getDefaults2d(), false, true);
@@ -2173,12 +2175,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            whether just a slide is loaded
 	 */
 	public void afterLoadFileAppOrNot(boolean asSlide) {
-		boolean commandsLoaded = false;
+		loadCommandsForScripting();
 		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
-			if (!commandsLoaded && geo.hasScripts()) {
-				getAsyncManager().loadAllCommands();
-				commandsLoaded = true;
-			}
 			if (geo instanceof GeoText && geo.getLabelSimple() != null
 					&& geo.getLabelSimple().startsWith("altText")) {
 				getAccessibilityManager().preloadAltText((GeoText) geo);
@@ -3597,6 +3595,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		return topBarIconResource;
+	}
+
+	private void loadCommandsForScripting() {
+		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
+			if (geo.hasScripts()) {
+				getAsyncManager().loadAllCommands();
+				return;
+			}
+		}
 	}
 
 	private void initializeAnalytics() {
