@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "description": "Test automation suite for testing GeoGebra",
   "author": "GeoGebra Group",
+  "scripts": {
+    "open": "cypress open"
+  },
   "files": [
     "*.js"
   ],
   "devDependencies": {
     "@geogebra/web-test-harness": "0.1.17",
     "cypress": "^10.8.0",
-    "cypress-image-snapshot": "4.0.1",
+    "@simonsmith/cypress-image-snapshot": "8.0.0",
     "del": "^6.0.0",
     "eslint": "^8.24.0",
     "http-server": "14.1.1",

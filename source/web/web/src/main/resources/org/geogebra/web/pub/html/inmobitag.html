@@ -1,6 +1,9 @@
 <!-- InMobi Choice. Consent Manager Tag v3.0 (for TCF 2.2) -->
 <script type="text/javascript" async=true>
   (function() {
+    if (window != window['pa' + 'rent']) { // Leave early in Cypress
+      return;
+    }
     var host = 'www.geogebra.org';
     var element = document.createElement('script');
     var firstScript = document.getElementsByTagName('script')[0];
