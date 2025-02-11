@@ -95,7 +95,12 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		case "``":
 		case "''":
 			return "\"";
-		default: return toString;
+		case "\u0338 equals ":
+			return " not equal to ";
+		case "\u0338 in ":
+			return " not in ";
+		default:
+			return null;
 		}
 	}
 

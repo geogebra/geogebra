@@ -194,6 +194,8 @@ public class AuralTextTest {
 		aural("LaTeX(\"x-y\")", "x minus y", "edit");
 		aural("LaTeX(\"\\text{x-y}\")", "x\u2010y", "edit");
 		aural("LaTeX((-1,2))", "open parenthesis  minus 1 comma  2 close parenthesis", "edit");
+		aural("LaTeX(\"A \\notin B\")", "A not in B", "edit");
+		aural("LaTeX(\"A \\neq B\")", "A not equal to B", "edit");
 	}
 
 	@Test

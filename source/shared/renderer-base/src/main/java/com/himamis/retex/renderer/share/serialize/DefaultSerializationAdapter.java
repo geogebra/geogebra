@@ -61,7 +61,13 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 
 	@Override
 	public String getLigature(String toString) {
-		return toString;
+		switch (toString) {
+		case "\u0338=":
+			return "\u2260";
+		case "\u0338\u2208":
+			return "\u2209";
+		default: return null;
+		}
 	}
 
 	@Override

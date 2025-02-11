@@ -123,13 +123,7 @@ public class TeXAtomSerializer {
 			return ((RomanAtom) root).getUnicode();
 		}
 		if (root instanceof RowAtom) {
-			RowAtom row = (RowAtom) root;
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; row.getElement(i) != null; i++) {
-				Atom element = row.getElement(i);
-				sb.append(serialize(element));
-			}
-			return adapter.getLigature(sb.toString());
+			return serializeRow((RowAtom) root);
 		}
 		if (root instanceof IsAccentedAtom) {
 			Atom accent = ((IsAccentedAtom) root).getAccent();
@@ -218,6 +212,30 @@ public class TeXAtomSerializer {
 		return "?";
 	}
 
+	private String serializeRow(RowAtom row) {
+		StringBuilder sb = new StringBuilder();
+		String lastChar = null;
+		for (int i = 0; row.getElement(i) != null; i++) {
+			String currentChar = serialize(row.getElement(i));
+			if (lastChar != null) {
+				String ligature = adapter.getLigature(lastChar + currentChar);
+				if (ligature == null) {
+					sb.append(lastChar);
+					lastChar = currentChar;
+				} else {
+					sb.append(ligature);
+					lastChar = null;
+				}
+			} else {
+				lastChar = currentChar;
+			}
+		}
+		if (lastChar != null) {
+			sb.append(lastChar);
+		}
+		return sb.toString();
+	}
+
 	private String serializeArray(ArrayOfAtoms matrix) {
 		int rows = matrix.getRows();
 		int cols = matrix.getCols();
@@ -286,11 +304,11 @@ public class TeXAtomSerializer {
 	}
 
 	private String serializeOverLine(String base) {
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		for (int i = 0; i < base.length(); i++) {
-			ret += base.charAt(i) + "\u0305";
+			ret.append(base.charAt(i)).append("\u0305");
 		}
-		return ret;
+		return ret.toString();
 	}
 
 	private boolean isTrigonometric(Atom trueBase) {

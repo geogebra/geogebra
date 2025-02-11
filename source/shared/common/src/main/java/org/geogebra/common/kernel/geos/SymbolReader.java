@@ -31,6 +31,7 @@ public class SymbolReader {
 		map.put('+', " plus ");
 		map.put('-', " minus ");
 		map.put('=', " equals ");
+		map.put('\u2208', " in ");
 		map.put('\u00b7', " times ");
 		map.put(',', ScreenReader.getComma());
 		map.put('(', ScreenReader.getOpenParenthesis());

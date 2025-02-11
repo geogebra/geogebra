@@ -63,6 +63,8 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 		auralText("LaTeX(\"\\text{x-y}\")", "x\u2010y");
 		auralText("LaTeX((-1,2))", "( " + Unicode.MINUS + "1, 2)");
 		auralText("LaTeX((1,2,3))", "( 1, 2, 3)");
+		auralText("LaTeX(\"A \\notin B\")", "A\u2209B");
+		auralText("LaTeX(\"A \\neq B\")", "A" + Unicode.NOTEQUAL + "B");
 	}
 
 	@Test
