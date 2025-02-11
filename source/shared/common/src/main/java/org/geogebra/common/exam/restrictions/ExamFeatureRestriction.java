@@ -13,5 +13,8 @@ public enum ExamFeatureRestriction {
 	/**
 	 * APPS-6088
 	 */
-	RESTRICT_CHANGING_EQUATION_FORM
+	RESTRICT_CHANGING_EQUATION_FORM,
+
+	/** APPS-6310 */
+	SPREADSHEET
 }

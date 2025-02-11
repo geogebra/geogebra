@@ -30,7 +30,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		super(ExamType.MMS,
 				Set.of(GRAPHING, SCIENTIFIC, GEOMETRY, G3D),
 				GRAPHING,
-				Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION),
+				createFeatureRestrictions(),
 				null,
 				null,
 				Set.of(createCommandFilter()),
@@ -44,6 +44,11 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				createGeoElementSetups(),
 				null,
 				null);
+	}
+
+	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
+		return Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION,
+				ExamFeatureRestriction.SPREADSHEET);
 	}
 
 	/**
