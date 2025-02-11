@@ -58,6 +58,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	// Vars
 	private int type = TYPE_ROOTS;
+	private Function diff;
 
 	/**
 	 * Computes "all" Roots of f in &lt;l,r&gt; TYPE_ROOTS
@@ -170,6 +171,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		this.right = right;
 
 		type = TYPE_INTERSECTIONS;
+		diff = new Function(kernel);
 
 		setInputOutput();
 
@@ -240,7 +242,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			setPoints(xs, ys(xs), 0);
 		} else if (type == TYPE_INTERSECTIONS) {
 			// Make a difference for intersections
-			compute2(GeoFunction.subtract(f1, f2));
+			Function.difference(f1.getFunction(), f2.getFunction(), diff);
+			compute2(diff);
 		} else {
 			compute2(f0.getFunctionForRoot());
 		}

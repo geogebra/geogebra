@@ -1751,32 +1751,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * Subtracts two functions and stores the result to another
-	 * @param fun1
-	 *            minuend
-	 * @param fun2
-	 *            subtrahend
-	 * @return resulting function
-	 */
-	public static Function subtract(GeoFunctionable fun1, GeoFunctionable fun2) {
-		Kernel kernel = fun1.getKernel();
-
-		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
-		FunctionVariable x2 = fun2.getFunction().getFunctionVariable();
-		FunctionVariable x = new FunctionVariable(kernel);
-
-		ExpressionNode left = fun1.getFunction().getFunctionExpression()
-				.getCopy(kernel);
-		ExpressionNode right = fun2.getFunction().getFunctionExpression()
-				.getCopy(kernel);
-
-		ExpressionNode sum = new ExpressionNode(fun1.getKernel(),
-				left.replace(x1, x), Operation.MINUS, right.replace(x2, x));
-
-		return new Function(sum, x);
-	}
-
-	/**
 	 * Multiplication of number and function. Needed in Fit[&lt;List of
 	 * Points&gt; ,&lt;List of Functions&gt;] to make the result a linear
 	 * combination of existing functions; fit(x)=a*f(x)+b*g(x)+c*h(x)+..
