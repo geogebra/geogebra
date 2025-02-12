@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
-import org.geogebra.common.kernel.arithmetic.simplifiers.RationalizableFraction;
+import org.geogebra.common.kernel.arithmetic.simplifiers.Rationalization;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMultiplyFixer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -3485,7 +3485,11 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether this is a simplifiable surd
 	 */
 	public boolean isSimplifiableSurd() {
-		ExpressionValue resolvedSurd = Surds.getResolution(this, kernel);
+		Surds surds = kernel.getSurds();
+		if (surds == null) {
+			return false;
+		}
+		ExpressionValue resolvedSurd = surds.getResolution(this, kernel);
 		if (resolvedSurd != null) {
 			resolve = resolvedSurd;
 		}
@@ -3512,7 +3516,11 @@ public class ExpressionNode extends ValidExpression
 	 * Resolve rationalized fraction if node is supported.
 	 */
 	public void initRationalizedFraction() {
-		ExpressionValue resolvedFraction = RationalizableFraction.getResolution(this);
+		Rationalization rationalization = kernel.getRationalization();
+		if (rationalization == null) {
+			return;
+		}
+		ExpressionValue resolvedFraction = rationalization.getResolution(this);
 		if (resolvedFraction != null) {
 			resolve = resolvedFraction;
 		}

@@ -16,7 +16,7 @@ public class Surds {
 	 * @param kernel {@link Kernel}
 	 * @return the surd if exists, null otherwise.
 	 */
-	public static ExpressionValue getResolution(ExpressionNode expr,
+	public ExpressionValue getResolution(ExpressionNode expr,
 			Kernel kernel) {
 		ExpressionValue left = expr.getLeft();
 		Operation op = expr.getOperation();
@@ -32,7 +32,7 @@ public class Surds {
 		return null;
 	}
 
-	private static ExpressionValue getSimplifiedSurd(Kernel kernel, int value) {
+	private ExpressionValue getSimplifiedSurd(Kernel kernel, int value) {
 		List<Integer> factors = primeFactors((int) value);
 		int outerValue = 1;
 		int innerValue = 1;

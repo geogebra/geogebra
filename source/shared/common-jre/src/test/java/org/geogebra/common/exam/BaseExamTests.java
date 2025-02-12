@@ -80,6 +80,9 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected void switchApp(SuiteSubApp subApp) {
         // keep references so that we can check if restrictions have been reverted correctly
         previousCommandDispatcher = commandDispatcher;
+        if (app != null) {
+            examController.unregisterRestrictable(app);
+        }
 
         currentSubApp = subApp;
         app = AppCommonFactory.create(createConfig(subApp));
@@ -91,6 +94,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         examController.setActiveContext(app, algoDispatcher, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
                 app.getKernel().getInputPreviewHelper());
+        examController.registerRestrictable(app);
     }
 
     protected void setInitialApp(SuiteSubApp subApp) {
@@ -103,6 +107,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         examController.setActiveContext(app, algoDispatcher, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
                 app.getKernel().getInputPreviewHelper());
+        examController.registerRestrictable(app);
     }
 
     protected GeoElementND[] evaluate(String expression) {

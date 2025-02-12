@@ -9,8 +9,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.OperationCountChecker;
 import org.geogebra.common.plugin.Operation;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
 public final class RationalizableFraction {
 	public static final boolean LOG_ENABLED = false;
 	private final ExpressionSimplifiers simplifiers;
@@ -20,24 +18,14 @@ public final class RationalizableFraction {
 	private static final OperationCountChecker sqrtCountChecker =
 			new OperationCountChecker(Operation.SQRT);
 
-	private RationalizableFraction(ExpressionNode root) {
+	RationalizableFraction(ExpressionNode root) {
 		Kernel kernel = root.getKernel();
 		this.root = root.deepCopy(kernel);
 		utils = new SimplifyUtils(kernel);
 		simplifiers = new ExpressionSimplifiers(utils, LOG_ENABLED);
 	}
 
-	/**
-	 * Rationalize the fraction.
-	 * @param node to rationalize
-	 * @return the rationalized fraction.
-	 */
-	public static ExpressionValue getResolution(@NonNull ExpressionNode node) {
-		RationalizableFraction fraction = new RationalizableFraction(node);
-		return fraction.simplify();
-	}
-
-	private ExpressionNode simplify() {
+	ExpressionNode simplify() {
 		if (!isSupported(root)) {
 			return null;
 		}

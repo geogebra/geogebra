@@ -82,6 +82,8 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.Surds;
+import org.geogebra.common.kernel.arithmetic.simplifiers.Rationalization;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -4959,6 +4961,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					getLabelDescriptionConverter());
 			valueConverter = examType.wrapValueConverter(getGeoElementValueConverter());
 		}
+		if (featureRestrictions.contains(ExamFeatureRestriction.SURD)) {
+			kernel.setSurds(null);
+		}
+		if (featureRestrictions.contains(ExamFeatureRestriction.RATIONALIZATION)) {
+			kernel.setRationalization(null);
+		}
 	}
 
 	@Override
@@ -4968,6 +4976,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		algebraOutputFilter = null;
 		labelDescriptionConverter = null;
 		valueConverter = null;
+		if (featureRestrictions.contains(ExamFeatureRestriction.SURD)) {
+			kernel.setSurds(new Surds());
+		}
+		if (featureRestrictions.contains(ExamFeatureRestriction.RATIONALIZATION)) {
+			kernel.setRationalization(new Rationalization());
+		}
 	}
 
 	/**
