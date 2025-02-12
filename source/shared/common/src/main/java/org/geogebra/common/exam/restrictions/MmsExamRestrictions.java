@@ -48,7 +48,9 @@ public class MmsExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
 		return Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION,
-				ExamFeatureRestriction.SPREADSHEET);
+				ExamFeatureRestriction.SPREADSHEET,
+				ExamFeatureRestriction.SURD,
+				ExamFeatureRestriction.RATIONALIZATION);
 	}
 
 	/**
