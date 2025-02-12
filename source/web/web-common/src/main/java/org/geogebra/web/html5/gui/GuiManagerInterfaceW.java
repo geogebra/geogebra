@@ -13,7 +13,6 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -214,6 +213,12 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void showPointsTV(int column, boolean show);
 
+	/**
+	 * @param page command name or page name
+	 * @param type page type
+	 */
+	void openHelp(String page, Help type);
+
 	boolean isAlgebraViewActive();
 
 	/**
@@ -232,6 +237,4 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void addToolToNotesToolbox(String iconUrl, String name, String category, Object callback);
 
 	void toggleSpreadsheetView();
-
-	void openHelp(ManualPage page, String detail);
 }

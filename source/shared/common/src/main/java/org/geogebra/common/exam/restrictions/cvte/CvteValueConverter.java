@@ -1,6 +1,6 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -21,37 +21,25 @@ import org.geogebra.common.util.ToStringConverter;
  * {@link org.geogebra.common.gui.view.algebra.GeoElementValueConverter GeoElementValueConverter} /
  * {@link org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter ProtectiveGeoElementValueConverter}.
  */
-public final class CvteValueConverter implements ToStringConverter {
+public final class CvteValueConverter implements ToStringConverter<GeoElement> {
 
-    private final @Nonnull ToStringConverter wrappedConverter;
+    private final @Nullable ToStringConverter<GeoElement> wrappedConverter;
 
-    public CvteValueConverter(@Nonnull ToStringConverter wrappedConverter) {
+    public CvteValueConverter(@Nullable ToStringConverter<GeoElement> wrappedConverter) {
         this.wrappedConverter = wrappedConverter;
     }
 
     @Override
-    public @Nonnull String toOutputValueString(GeoElement element, StringTemplate template) {
+    public String convert(GeoElement element, StringTemplate template) {
+        if (element == null) {
+            return null;
+        }
         if (!Cvte.isCalculatedEquationAllowed(element)) {
             return element.getDefinition(template);
         }
-
-        return wrappedConverter.toOutputValueString(element, template);
-    }
-
-    @Override
-    public @Nonnull String toValueString(GeoElement element, StringTemplate template) {
-        if (!Cvte.isCalculatedEquationAllowed(element)) {
-            return element.getDefinition(template);
+        if (wrappedConverter != null) {
+            return wrappedConverter.convert(element, template);
         }
-        return wrappedConverter.toValueString(element, template);
-    }
-
-    @Override
-    public @Nonnull String toLabelAndDescription(GeoElement element, StringTemplate template) {
-        if (!Cvte.isCalculatedEquationAllowed(element)) {
-            return ToStringConverter.getRestrictedLabelDescription(
-                    element, template, wrappedConverter);
-        }
-        return wrappedConverter.toLabelAndDescription(element, template);
+        return null;
     }
 }

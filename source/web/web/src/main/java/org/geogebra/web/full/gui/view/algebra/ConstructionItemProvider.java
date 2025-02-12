@@ -19,7 +19,7 @@ public final class ConstructionItemProvider implements HasLastItem {
 
 	private final Construction cons;
 	private final AlgebraViewW algebraView;
-	private final ToStringConverter converter;
+	private final ToStringConverter<GeoElement> converter;
 	private boolean isLastItemSimpleNumber;
 	private boolean isLastItemText;
 
@@ -28,7 +28,7 @@ public final class ConstructionItemProvider implements HasLastItem {
 	 * @param algebraView Algebra view
 	 */
 	public ConstructionItemProvider(Construction cons, AlgebraViewW algebraView,
-									ToStringConverter converter) {
+									ToStringConverter<GeoElement> converter) {
 		this.cons = cons;
 		this.algebraView = algebraView;
 		this.converter = converter;
@@ -41,7 +41,7 @@ public final class ConstructionItemProvider implements HasLastItem {
 
 	private String convertToString(GeoElement element) {
 		if (element != null) {
-			return converter.toOutputValueString(element, StringTemplate.algebraTemplate);
+			return converter.convert(element, StringTemplate.algebraTemplate);
 		}
 		return "";
 	}

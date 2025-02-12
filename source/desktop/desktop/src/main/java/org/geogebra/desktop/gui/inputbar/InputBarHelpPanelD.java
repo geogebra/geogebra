@@ -48,10 +48,10 @@ import javax.swing.tree.TreeSelectionModel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.LowerCaseDictionary;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -740,11 +740,11 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		else if (e.getSource() == btnOnlineHelp) {
 			if (selectedCommand != null) {
-				app.getGuiManager().openHelp(ManualPage.COMMAND, selectedCommand);
+				app.getGuiManager().openCommandHelp(selectedCommand);
 			} else if (selectedFunction != null) {
-				app.getGuiManager().openHelp(ManualPage.OPERATORS, null);
+				app.getGuiManager().openHelp(App.WIKI_OPERATORS);
 			} else {
-				app.getGuiManager().openHelp(ManualPage.INPUT_BAR, null);
+				app.getGuiManager().openHelp("InputBar");
 			}
 		}
 

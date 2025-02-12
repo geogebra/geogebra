@@ -29,7 +29,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NativePointerEvent;
@@ -547,7 +546,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.showError(MyError.forCommand(loc,
 					loc.getMenu("Syntax") + ":\n" + help, cmd, null));
 		} else if (app.getGuiManager() != null) {
-			app.getGuiManager().openHelp(ManualPage.COMMAND, null);
+			app.getGuiManager().openCommandHelp(null);
 		}
 	}
 
@@ -983,12 +982,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				if (closest != null) {
 					showCommandHelp(app.getInternalCommand(closest));
 				} else if (app.getGuiManager() != null) {
-					app.getGuiManager().openHelp(ManualPage.MAIN_PAGE, null);
+					app.getGuiManager().openHelp(App.WIKI_MANUAL);
 				}
 
 			}
 		} else if (app.getGuiManager() != null) {
-			app.getGuiManager().openHelp(ManualPage.MAIN_PAGE, null);
+			app.getGuiManager().openHelp(App.WIKI_MANUAL);
 		}
 	}
 

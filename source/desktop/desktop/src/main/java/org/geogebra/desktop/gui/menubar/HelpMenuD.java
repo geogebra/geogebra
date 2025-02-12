@@ -9,7 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.util.ManualPage;
+import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -74,7 +74,7 @@ class HelpMenuD extends BaseMenu {
 		if (helpAction == null) {
 			helpAction = new HelpAction(app,
 					app.getMenuIcon(GuiResourcesD.HELP), loc.getMenu("Manual"),
-					ManualPage.MAIN_PAGE);
+					App.WIKI_MANUAL);
 
 			tutorialAction = new AbstractAction(loc.getMenu("Tutorials"),
 					app.getEmptyIcon()) {

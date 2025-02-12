@@ -2,7 +2,6 @@ package org.geogebra.web.full.main;
 
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -57,7 +56,7 @@ public class ErrorHandlerW implements ErrorHandler {
 	 */
 	protected void openCommandHelp(String command) {
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().openHelp(ManualPage.COMMAND, command);
+			app.getGuiManager().openCommandHelp(command);
 		}
 	}
 

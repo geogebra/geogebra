@@ -16,7 +16,6 @@ import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -83,11 +82,8 @@ public class ConstructionDefaults implements SettingListener {
 	public static final int DEFAULT_POINT_IN_REGION = 13;
 	/** default complex point */
 	public static final int DEFAULT_POINT_COMPLEX = 14;
-	/** default type for free point; not actually stored in map (style bar only) */
+	/** default type for free point */
 	public static final int DEFAULT_POINT_ALL_BUT_COMPLEX = 15;
-	public static final List<Integer> POINT_INDICES = List.of(DEFAULT_POINT_FREE,
-			DEFAULT_POINT_DEPENDENT, DEFAULT_POINT_ON_PATH, DEFAULT_POINT_IN_REGION,
-			DEFAULT_POINT_COMPLEX);
 	/** default type for preview point */
 	public static final int DEFAULT_POINT_PREVIEW = 16;
 
@@ -421,7 +417,7 @@ public class ConstructionDefaults implements SettingListener {
 	}
 
 	/**
-	 * Fills the map of default geos with factory defaults
+	 * Fills the list of default geos
 	 */
 	public void createDefaultGeoElements() {
 		defaultGeoElements = new HashMap<>();

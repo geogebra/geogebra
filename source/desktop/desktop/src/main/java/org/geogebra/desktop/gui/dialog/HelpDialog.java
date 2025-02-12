@@ -8,8 +8,8 @@ import javax.swing.JOptionPane;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
@@ -68,12 +68,13 @@ public class HelpDialog {
 				options[0]); // default button title
 
 		if (n == 0) {
-			GuiManagerD guiManager = (GuiManagerD) app.getGuiManager();
 			if (modeTextInternal == null) {
 				// show help for custom tools?
-				guiManager.openHelp(ManualPage.TOOL, "Custom_Tools");
+				((GuiManagerD) app.getGuiManager()).openHelp("Custom_Tools",
+						Help.TOOL);
 			} else {
-				guiManager.openHelp(ManualPage.TOOL, modeTextInternal);
+				((GuiManagerD) app.getGuiManager()).openHelp(modeTextInternal,
+						Help.TOOL);
 			}
 		}
 	}

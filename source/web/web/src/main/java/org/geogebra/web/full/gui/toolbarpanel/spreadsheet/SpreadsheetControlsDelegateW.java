@@ -21,7 +21,6 @@ import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
-import org.geogebra.web.full.gui.view.algebra.ToastController;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.util.ClipboardW;
@@ -37,8 +36,6 @@ import org.gwtproject.user.client.ui.Widget;
 
 import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.syntax.SyntaxController;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate, AutoCompleteW {
@@ -55,19 +52,13 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		private final MathFieldEditor mathField;
 		private final SpreadsheetPanel parent;
 		private final AppW app;
-		private final ToastController toastController;
 		private DefaultSpreadsheetCellProcessor cellProcessor;
-		private Rectangle editorBounds;
 
 		public SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent, MathTextFieldW mathField) {
 			this.mathField = mathField;
 			this.mathField.getMathField().setForegroundColor(
 					GColor.getColorString(GeoGebraColorConstants.NEUTRAL_900));
 			mathField.addStyleName("spreadsheetEditor");
-			SyntaxController syntaxController = new SyntaxController();
-			this.toastController = new ToastController(app, () -> editorBounds);
-			syntaxController.setUpdater(toastController);
-			getMathField().registerMathFieldInternalListener(syntaxController);
 			this.parent = parent;
 			this.app = app;
 		}
@@ -91,11 +82,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		@Override
 		public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
 			Rectangle bounds = editorBounds.insetBy(-2, -2);
-			double dx = parent.getAbsoluteLeft() - app.getAbsLeft();
-			double dy = parent.getAbsoluteTop() - app.getAbsTop();
-			this.editorBounds = new Rectangle(editorBounds.getMinX() + dx,
-					parent.getOffsetWidth() + dx,
-					editorBounds.getMinY() + dy, editorBounds.getMaxY() + dy);
 			mathField.getStyle().setLeft(bounds.getMinX(), Unit.PX);
 			mathField.getStyle().setTop(bounds.getMinY(), Unit.PX);
 			mathField.getStyle().setWidth(bounds.getWidth(), Unit.PX);
@@ -107,7 +93,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			mathField.setVisible(false);
 			parent.requestFocus();
 			app.hideKeyboard();
-			toastController.hide();
 		}
 
 		@Override
@@ -337,8 +322,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public void insertString(String text) {
-		editor.getMathField().deleteCurrentWord();
-		KeyboardInputAdapter.onKeyboardInput(editor.getMathField(), text);
+		editor.getMathField().parse("=" + text);
 		editor.mathField.focus();
 		autocomplete.hide();
 	}

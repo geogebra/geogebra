@@ -42,6 +42,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
@@ -50,7 +51,6 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -1234,12 +1234,16 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void openHelp(final ManualPage page, final String type) {
+	public void openHelp(final String page, final Help type) {
 		try {
-			final String helpURL = getHelpURL(page, type);
+			final String helpURL = getHelpURL(type, page);
 			getApp().getFileManager().open(helpURL);
-			getInputHelpPanel().getInputHelpPanel().logHelpIconEvent(type, false);
-		} catch (final RuntimeException e) {
+			getInputHelpPanel().getInputHelpPanel().logHelpIconEvent(page, false);
+		} catch (final MyError e) {
+			getApp().showError(e);
+		} catch (final Exception e) {
+			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
+			+ " " + page + " " + type);
 			getApp().showGenericError(e);
 		}
 	}
@@ -1968,10 +1972,10 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public String getTooltipURL(int mode) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-			return getHelpURL(ManualPage.TOOL, "Custom_Tools");
+			return getHelpURL(Help.TOOL, "Custom_Tools");
 		}
 
-		return getHelpURL(ManualPage.TOOL,
+		return getHelpURL(Help.TOOL,
 				EuclidianConstants.getModeHelpPage(mode));
 	}
 

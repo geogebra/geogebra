@@ -2383,8 +2383,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getSettings(),
 				getAutocompleteProvider(),
 				this,
-				getKernel().getInputPreviewHelper(),
-				getKernel().getConstruction());
+				getKernel().getInputPreviewHelper());
 		examController.registerRestrictable(this);
 		examController.registerRestrictable(getEuclidianView1());
 		examController.registerRestrictable(getConfig());
@@ -2422,7 +2421,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		guiManager.resetMenu();
 		guiManager.resetBrowserGUI();
 		guiManager.updateUnbundledToolbarContent();
-		reinitAlgebraView();
 		setActivePerspective(getGuiManager().getLayout().getDefaultPerspectives(0));
 		resetCommandDict();
 	}

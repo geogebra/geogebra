@@ -73,20 +73,17 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.DynamicTextInputPane.DynamicTextField;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.gui.util.LatexTable;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Input dialog for GeoText objects with additional option to set a
@@ -172,7 +169,7 @@ public class TextInputDialogD extends InputDialogD
 		// build input dialog GUI
 		createGUI(title, "", false, cols, rows, false, false, false, false,
 				DialogType.DynamicText);
-		addHelpButton();
+		addHelpButton(App.WIKI_TEXT_TOOL);
 		editor = (DynamicTextInputPane) inputPanel.getTextComponent();
 		textPreviewer = new TextPreviewPanelD(app2.getKernel());
 
@@ -234,14 +231,12 @@ public class TextInputDialogD extends InputDialogD
 		wrappedDialog.pack();
 	}
 
-	private void addHelpButton() {
-		btHelp = new JButton();
-		HelpAction helpAction = new HelpAction(app,
-				app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"),
-				ManualPage.TEXT_TOOL);
-		btHelp.setAction(helpAction);
-		btPanel2.add(btHelp);
-	}
+	/*
+	 * // override because we don't want to set mode to another mode public void
+	 * windowGainedFocus(WindowEvent arg0) { if (!isModal()) {
+	 * app.setCurrentSelectionListener(null); }
+	 * app.getGuiManager().setCurrentTextfield(this, true); }
+	 */
 
 	@Override
 	public void reInitEditor(GeoText text, GeoPointND startPoint1, boolean rw1) {

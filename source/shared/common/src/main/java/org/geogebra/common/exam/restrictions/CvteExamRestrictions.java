@@ -22,7 +22,6 @@ import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -102,8 +101,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory,
-			@Nullable Construction construction) {
+			@Nullable ContextMenuFactory contextMenuFactory) {
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
 			// Note: The effect we want to achieve here is disable the symbolic versions of the
@@ -118,8 +116,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		}
 		super.applyTo(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
 				context, localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory,
-				construction);
+				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory);
 	}
 
 	@Override
@@ -135,12 +132,10 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory,
-			@Nullable Construction construction) {
+			@Nullable ContextMenuFactory contextMenuFactory) {
 		super.removeFrom(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
 				context, localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory,
-				construction);
+				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}
@@ -150,9 +145,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		return Set.of(
 				ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS,
 				ExamFeatureRestriction.HIDE_CALCULATED_EQUATION,
-				ExamFeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM,
-				ExamFeatureRestriction.SURD,
-				ExamFeatureRestriction.RATIONALIZATION);
+				ExamFeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -369,7 +362,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	 * @param geoElement the {@code GeoElement} to evaluate
 	 * @return {@code true} if the visibility is enabled, {@code false} if it is restricted.
 	 */
-	@SuppressWarnings({"PMD.SimplifyBooleanReturns"})
+	@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
 	public static boolean isVisibilityEnabled(GeoElement geoElement) {
 		// Allow explicit equations
 		// E.g.: y = 2x

@@ -9,14 +9,12 @@ import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Col
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -228,8 +226,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnHelp.addStyleName("IconButton");
 		btnHelp.addStyleName("fiButton");
 		btnHelp.addFastClickHandler(
-				source -> ((GuiManagerInterfaceW) app.getGuiManager())
-						.openHelp(ManualPage.FUNCTION_INSPECTOR_TOOL, null));
+				source -> app.getGuiManager().openHelp("Function_Inspector_Tool"));
 	}
 
 	@Override

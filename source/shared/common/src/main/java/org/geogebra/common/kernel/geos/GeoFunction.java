@@ -902,7 +902,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			if (symbolic) {
 				return fun.toLaTeXString(symbolic, tpl);
 			} else {
-				return app.getGeoElementValueConverter().toOutputValueString(this, tpl);
+				return app.getGeoElementValueConverter().convert(this, tpl);
 			}
 		}
 		return "?";
@@ -2519,8 +2519,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 							((AlgoFunctionInterval) getParentAlgorithm()).getCondition(),
 							getFunctionExpression(), substituteNumbers).toString();
 				} else {
-					ret = substituteNumbers ? app.getGeoElementValueConverter()
-							.toOutputValueString(this, tpl)
+					ret = substituteNumbers ? app.getGeoElementValueConverter().convert(this, tpl)
 							: getParentAlgorithm().getDefinition(tpl);
 				}
 			}

@@ -77,7 +77,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 		StandardButton button = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
 				null, 24);
 		button.addFastClickHandler(ignore ->
-				getApp().getGuiManager().openHelp(command.helpType, command.helpPage));
+				getApp().getGuiManager().openHelp(command.helpPage, command.helpType));
 		return button;
 	}
 

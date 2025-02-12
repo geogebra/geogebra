@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.main.topbar;
 
 import org.geogebra.web.html5.gui.view.IconSpec;
-import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.toolbox.FaIconSpec;
 
 public class MebisTopBarIconProvider extends DefaultTopBarIconProvider {
@@ -31,8 +30,6 @@ public class MebisTopBarIconProvider extends DefaultTopBarIconProvider {
 			return new FaIconSpec("fa-gear");
 		case COLOR:
 			return new FaIconSpec("fa-fill-drip");
-		case PAGE_OVERVIEW:
-			return new ImageIconSpec(DefaultTopBarIconResources.INSTANCE.page_overview_mebis());
 		}
 		return super.matchIconWithResource(icon);
 	}

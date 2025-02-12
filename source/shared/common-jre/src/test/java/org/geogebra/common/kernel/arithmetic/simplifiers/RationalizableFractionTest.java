@@ -25,9 +25,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class RationalizationTest extends BaseUnitTest {
-
-	final Rationalization rationalization = new Rationalization();
+public class RationalizableFractionTest extends BaseUnitTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -47,7 +45,7 @@ public class RationalizationTest extends BaseUnitTest {
 
 	private void shouldBeSupported(String definition) {
 		GeoElementND geo = add(definition);
-		ExpressionValue resolution = rationalization.getResolution(geo.getDefinition());
+		ExpressionValue resolution = RationalizableFraction.getResolution(geo.getDefinition());
 		assertNotNull(resolution);
 	}
 
@@ -76,7 +74,7 @@ public class RationalizationTest extends BaseUnitTest {
 
 	private void shouldBeUnsupported(String definition) {
 		GeoElementND geo = add(definition);
-		ExpressionValue resolution = rationalization.getResolution(geo.getDefinition());
+		ExpressionValue resolution = RationalizableFraction.getResolution(geo.getDefinition());
 		assertNull(resolution);
 	}
 
@@ -149,7 +147,7 @@ public class RationalizationTest extends BaseUnitTest {
 
 	private void rationalizationShouldBe(String definition, String expected, StringTemplate tpl) {
 		GeoNumeric num = add(definition);
-		ExpressionValue  resolution = rationalization.getResolution(num.getDefinition());
+		ExpressionValue  resolution = RationalizableFraction.getResolution(num.getDefinition());
 		assertNotNull("resolution is null, " + definition + " is not supported", resolution);
 		assertEquals(resolution.toString(tpl), num.evaluateDouble(), resolution.evaluateDouble(),
 				Kernel.STANDARD_PRECISION);
@@ -310,7 +308,7 @@ public class RationalizationTest extends BaseUnitTest {
 								.divide(new ExpressionNode(getKernel(), c)
 										.plus(new ExpressionNode(getKernel(), d).sqrt()));
 						double expected = ex.evaluateDouble();
-						ExpressionValue resolution = rationalization.getResolution(ex);
+						ExpressionValue resolution = RationalizableFraction.getResolution(ex);
 						if (resolution == null) {
 							continue;
 						}

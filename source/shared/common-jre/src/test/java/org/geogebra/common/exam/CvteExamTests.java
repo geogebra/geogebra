@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -289,17 +288,5 @@ public final class CvteExamTests extends BaseExamTests {
         }
         assertNotNull(equationFormProperty);
         assertTrue(equationFormProperty.isFrozen());
-    }
-
-    @Test
-    public void testSurdsAreDisabled() {
-        GeoElement element = evaluateGeoElement("sqrt(8)");
-        assertFalse(AlgebraItem.shouldShowSymbolicOutputButton(element));
-    }
-
-    @Test
-    public void testRationalizationIsDisabled() {
-        GeoElement element = evaluateGeoElement("1/sqrt(8)");
-        assertFalse(AlgebraItem.shouldShowSymbolicOutputButton(element));
     }
 }

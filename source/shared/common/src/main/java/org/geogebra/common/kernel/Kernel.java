@@ -10,7 +10,6 @@ import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
@@ -44,11 +43,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
-import org.geogebra.common.kernel.arithmetic.Surds;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.simplifiers.Rationalization;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -407,11 +404,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	private final Traversing.VariableReplacer variableReplacer;
 	private final GeoFunctionConverter functionConverter = new GeoFunctionConverter();
-
-	@CheckForNull
-	private Surds surds = new Surds();
-	@CheckForNull
-	private Rationalization rationalization = new Rationalization();
 
 	/**
 	 * @param app
@@ -5295,39 +5287,5 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		getAlgebraProcessor().addInputExpressionFilter(expressionFilter);
 
-	}
-
-	/**
-	 * Sets the surds operation.
-	 * @param surds surds. Null if surds is not available
-	 */
-	public void setSurds(@Nullable Surds surds) {
-		this.surds = surds;
-	}
-
-	/**
-	 * Gets the surd operation
-	 * @return operation or null if unavailable
-	 */
-	@CheckForNull
-	public Surds getSurds() {
-		return surds;
-	}
-
-	/**
-	 * Sets the rationalization operation.
-	 * @param rationalization rationalization. Null if rationalization is not available
-	 */
-	public void setRationalization(@Nullable Rationalization rationalization) {
-		this.rationalization = rationalization;
-	}
-
-	/**
-	 * Gets the rationalization operation.
-	 * @return operation or null if unavailable
-	 */
-	@CheckForNull
-	public Rationalization getRationalization() {
-		return rationalization;
 	}
 }

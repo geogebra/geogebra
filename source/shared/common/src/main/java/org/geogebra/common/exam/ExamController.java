@@ -18,7 +18,6 @@ import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -157,8 +156,7 @@ public final class ExamController {
 			@Nonnull Settings settings,
 			@CheckForNull AutocompleteProvider autocompleteProvider,
 			@CheckForNull ToolsProvider toolsProvider,
-			@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@CheckForNull Construction construction) {
+			@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar) {
 		if (activeDependencies != null) {
 			throw new IllegalStateException(
 					"registerContexts() must not be mixed with calls to setActiveContext()");
@@ -171,8 +169,7 @@ public final class ExamController {
 				settings,
 				autocompleteProvider,
 				toolsProvider,
-				scheduledPreviewFromInputBar,
-				construction);
+				scheduledPreviewFromInputBar);
 		if (registeredDependencies == null) {
 			registeredDependencies = new ArrayList<>();
 		}
@@ -203,8 +200,7 @@ public final class ExamController {
 			@Nonnull Settings settings,
 			@CheckForNull AutocompleteProvider autocompleteProvider,
 			@CheckForNull ToolsProvider toolsProvider,
-			@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@CheckForNull Construction construction) {
+			@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar) {
 		if (registeredDependencies != null) {
 			throw new IllegalStateException(
 					"setActiveContext() must not be mixed with calls to registerContexts()");
@@ -221,8 +217,7 @@ public final class ExamController {
 				settings,
 				autocompleteProvider,
 				toolsProvider,
-				scheduledPreviewFromInputBar,
-				construction);
+				scheduledPreviewFromInputBar);
 		activeDependencies = contextDependencies;
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
@@ -480,7 +475,9 @@ public final class ExamController {
 	 * @param options Additional options (optional).
 	 * @throws IllegalStateException if the exam controller is not in either the
 	 * {@link ExamState#IDLE} or {@link ExamState#PREPARING PREPARING} state.
-	 * @apiNote Make sure to call {@link #setActiveContext} before attempting to start an exam.
+	 * @apiNote Make sure to call {@link #setActiveContext(Object, CommandDispatcher,
+	 * AlgebraProcessor, Localization, Settings, AutocompleteProvider, ToolsProvider,
+	 * ScheduledPreviewFromInputBar)} before attempting to start an exam.
 	 */
 	public void startExam(@Nonnull ExamType examType, @CheckForNull ExamOptions options) {
 		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
@@ -622,8 +619,7 @@ public final class ExamController {
 					dependencies.toolsProvider,
 					geoElementPropertiesFactory,
 					dependencies.scheduledPreviewFromInputBar,
-					contextMenuFactory,
-					dependencies.construction);
+					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -646,8 +642,7 @@ public final class ExamController {
 					dependencies.toolsProvider,
 					geoElementPropertiesFactory,
 					dependencies.scheduledPreviewFromInputBar,
-					contextMenuFactory,
-					dependencies.construction);
+					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}
@@ -762,9 +757,6 @@ public final class ExamController {
 		@NonOwning
 		@CheckForNull
 		final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
-		@NonOwning
-		@CheckForNull
-		final Construction construction;
 
 		ContextDependencies(@Nonnull Object context,
 				@Nonnull AlgoDispatcher algoDispatcher,
@@ -774,8 +766,7 @@ public final class ExamController {
 				@Nonnull Settings settings,
 				@CheckForNull AutocompleteProvider autoCompleteProvider,
 				@CheckForNull ToolsProvider toolsProvider,
-				@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-				@CheckForNull Construction construction) {
+				@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar) {
 			this.context = context;
 			this.algoDispatcher = algoDispatcher;
 			this.commandDispatcher = commandDispatcher;
@@ -785,7 +776,6 @@ public final class ExamController {
 			this.autoCompleteProvider = autoCompleteProvider;
 			this.toolsProvider = toolsProvider;
 			this.scheduledPreviewFromInputBar = scheduledPreviewFromInputBar;
-			this.construction = construction;
 		}
 	}
 }

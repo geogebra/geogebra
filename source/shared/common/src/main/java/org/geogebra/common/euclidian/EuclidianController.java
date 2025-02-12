@@ -9084,7 +9084,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
-			if (selConics() > 0 || selSegments() > 0 || hits.isEmpty()) {
+			if (selConics() > 0 || selPoints() > 1 || selSegments() > 0) {
 				createNewPoint(hits, true, true, true);
 			}
 			break;

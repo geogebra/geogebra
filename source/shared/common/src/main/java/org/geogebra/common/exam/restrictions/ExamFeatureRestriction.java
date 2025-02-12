@@ -15,12 +15,6 @@ public enum ExamFeatureRestriction {
 	 */
 	RESTRICT_CHANGING_EQUATION_FORM,
 
-	/** APPS-5929 */
-	RATIONALIZATION,
-
-	/** APPS-5929 */
-	SURD,
-
 	/** APPS-6310 */
 	SPREADSHEET
 }

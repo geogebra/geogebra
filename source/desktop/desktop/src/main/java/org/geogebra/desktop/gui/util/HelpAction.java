@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -30,7 +29,7 @@ public class HelpAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
 	private final AppD app;
-	private final ManualPage articleName;
+	private final String articleName;
 
 	/**
 	 * @param app application
@@ -39,7 +38,7 @@ public class HelpAction extends AbstractAction {
 	 * @param articleName help article name
 	 */
 	public HelpAction(AppD app, ImageIcon icon, String name,
-			ManualPage articleName) {
+			String articleName) {
 		super(name, icon);
 		this.app = app;
 		this.articleName = articleName;
@@ -50,7 +49,7 @@ public class HelpAction extends AbstractAction {
 		Thread runner = new Thread() {
 			@Override
 			public void run() {
-				app.getGuiManager().openHelp(articleName, null);
+				app.getGuiManager().openHelp(articleName);
 			}
 		};
 		runner.start();

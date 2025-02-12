@@ -3904,8 +3904,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String getLabelDescription() {
-		return app.getGeoElementValueConverter()
-				.toLabelAndDescription(this, getLabelStringTemplate());
+		return app.getLabelDescriptionConverter().convert(this, getLabelStringTemplate());
 	}
 
 	public StringTemplate getLabelStringTemplate() {
@@ -5481,7 +5480,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		} else if (isGeoSurfaceCartesian() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else {
-			ret = substituteNumbers ? app.getGeoElementValueConverter().toValueString(this, tpl)
+			ret = substituteNumbers ? app.getGeoElementValueConverter().convert(this, tpl)
 					: getDefinition(tpl);
 		}
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers

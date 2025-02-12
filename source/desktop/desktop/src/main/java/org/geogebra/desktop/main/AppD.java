@@ -157,7 +157,6 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.LowerCaseDictionary;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
@@ -3595,7 +3594,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 							options[0]); // default button title
 
 					if (n == 1) {
-						getGuiManager().openHelp(ManualPage.COMMAND, command);
+						getGuiManager().openCommandHelp(command);
 					}
 
 				}

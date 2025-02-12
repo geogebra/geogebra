@@ -8,7 +8,6 @@ import javax.swing.ListCellRenderer;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.util.FileExtensions;
-import org.geogebra.common.util.ManualPage;
 
 public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
@@ -65,8 +64,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	boolean loadURL(String urlString, boolean suppressErrorMsg);
 
 	void showURLinBrowser(String strURL);
-
-	void openHelp(ManualPage page, String detail);
 
 	void updateToolbarDefinition();
 

@@ -21,7 +21,6 @@ import javax.swing.JToolBar;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
 import org.geogebra.desktop.main.AppD;
@@ -56,7 +55,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 	/** Item for Colorful protocol option */
 	JCheckBoxMenuItem miColorfulConstructionProtocol;
 
-	private final Localization loc;
+	private Localization loc;
 
 	/**
 	 * Helper bar.
@@ -178,9 +177,12 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		btnHelp = new JButton(app.getScaledIcon(GuiResourcesD.HELP));
 		// btnHelp.setToolTipText(loc.getPlainTooltip("FastHelp"));
 		btnHelp.addActionListener(e -> {
-			Thread runner = new Thread(() ->
-				app.getGuiManager().openHelp(ManualPage.CONSTRUCTION_PROTOCOL, null)
-			);
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					app.getGuiManager().openHelp("Construction_Protocol");
+				}
+			};
 			runner.start();
 		});
 		add(btnHelp);

@@ -13,6 +13,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.syntax.EnglishCommandSyntax;
 import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
@@ -20,7 +21,6 @@ import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.LowerCaseDictionary;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.debug.Log;
 
@@ -179,7 +179,8 @@ public class AutocompleteProvider {
 		Stream<Completion> completions = functionResults.stream()
 				.map(function -> new Completion(getMatch(function, curWord),
 						Collections.singletonList(function),
-						ManualPage.OPERATORS, null));
+						App.WIKI_OPERATORS,
+						GuiManagerInterface.Help.GENERIC));
 
 		List<MatchedString> commandResults = getCommandDictionary()
 				.getCompletions(curWord.toLowerCase());
@@ -187,8 +188,8 @@ public class AutocompleteProvider {
 			Stream<Completion> commandCompletions = commandResults.stream()
 					.map(command -> new Completion(command,
 							getSyntaxes(command.content),
-							ManualPage.COMMAND,
-							app.getInternalCommand(command.content)));
+							app.getInternalCommand(command.content),
+							GuiManagerInterface.Help.COMMAND));
 			completions = Stream.concat(completions, commandCompletions);
 		}
 
@@ -211,10 +212,10 @@ public class AutocompleteProvider {
 		public final MatchedString match;
 		public final List<String> syntaxes;
 		public final String helpPage;
-		public final ManualPage helpType;
+		public final GuiManagerInterface.Help helpType;
 
-		private Completion(MatchedString match, List<String> syntaxes, ManualPage helpType,
-				String helpPage) {
+		private Completion(MatchedString match, List<String> syntaxes, String helpPage,
+				GuiManagerInterface.Help helpType) {
 			this.match = match;
 			this.syntaxes = syntaxes;
 			this.helpPage = helpPage;
@@ -237,7 +238,7 @@ public class AutocompleteProvider {
 			return helpPage;
 		}
 
-		public ManualPage getHelpType() {
+		public GuiManagerInterface.Help getHelpType() {
 			return helpType;
 		}
 

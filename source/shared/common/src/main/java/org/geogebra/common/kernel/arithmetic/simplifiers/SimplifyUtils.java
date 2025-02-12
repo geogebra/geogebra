@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
+import static org.geogebra.common.kernel.arithmetic.Surds.getResolution;
+
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Kernel;
@@ -16,7 +18,6 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class SimplifyUtils {
 	public final Kernel kernel;
-	private final Surds surds = new Surds();
 
 	/**
 	 *
@@ -452,7 +453,7 @@ public class SimplifyUtils {
 	 * @return {@link Surds}
 	 */
 	public ExpressionValue getSurds(ExpressionValue ev) {
-		return surds.getResolution(ev.wrap(), kernel);
+		return getResolution(ev.wrap(), kernel);
 	}
 
 	/**

@@ -18,10 +18,10 @@ public class DuplicateOutputAction implements MenuAction<GeoElement> {
 
 	@Override
 	public void execute(GeoElement item) {
-		ToStringConverter converter = algebraView.getApp()
+		ToStringConverter<GeoElement> converter = algebraView.getApp()
 				.getGeoElementValueConverter();
 		RadioTreeItem input = algebraView.getInputTreeItem();
-		String geoString = converter.toOutputValueString(item, StringTemplate.algebraTemplate);
+		String geoString = converter.convert(item, StringTemplate.algebraTemplate);
 
 		RadioTreeItem currentNode = algebraView.getNode(item);
 		if (currentNode != null) {

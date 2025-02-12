@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
-import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.action.ShowLicenseAction;
@@ -88,7 +88,8 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
-						app.getGuiManager().openHelp(ManualPage.MAIN_PAGE, null);
+						app.getGuiManager().openHelp(App.WIKI_MANUAL);
+
 					}
 				}));
 	}

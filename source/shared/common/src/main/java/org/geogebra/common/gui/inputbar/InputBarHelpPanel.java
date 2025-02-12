@@ -8,12 +8,11 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.LowerCaseDictionary;
-import org.geogebra.common.util.ManualPage;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
 
 import com.google.j2objc.annotations.Weak;
@@ -249,7 +248,7 @@ public class InputBarHelpPanel {
 	public String getURLForCommand(String command, String urlCaller) {
 
 		// safety check
-		if (StringUtil.empty(command)) {
+		if (command == null || command.length() == 0) {
 			return null;
 		}
 
@@ -262,7 +261,7 @@ public class InputBarHelpPanel {
 		// check if math func
 		if (command.contains("(")) {
 			String mathFuncHelpURL = mApp.getGuiManager()
-					.getHelpURL(ManualPage.OPERATORS, null);
+					.getHelpURL(GuiManager.Help.GENERIC, App.WIKI_OPERATORS);
 
 			mStringBuilder.append(mathFuncHelpURL);
 			mStringBuilder.append(urlCaller);
@@ -272,7 +271,7 @@ public class InputBarHelpPanel {
 
 		// regular command
 		String internal = mApp.getReverseCommand(command);
-		String url = mApp.getGuiManager().getHelpURL(ManualPage.COMMAND, internal);
+		String url = mApp.getGuiManager().getHelpURL(GuiManager.Help.COMMAND, internal);
 
 		mStringBuilder.setLength(0);
 		mStringBuilder.append(url);

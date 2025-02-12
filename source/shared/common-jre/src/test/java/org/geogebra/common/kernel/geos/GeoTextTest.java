@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
@@ -17,14 +16,6 @@ public class GeoTextTest extends BaseUnitTest {
 		String value = "GeoGebra rocks";
 		GeoText text = new GeoText(getConstruction(), value);
 		assertEquals(value, text.getDefinitionForEditor());
-	}
-
-	@Test
-	@Issue("APPS-6352")
-	public void undefinedTextToLaTeX() {
-		GeoText text = new GeoText(getConstruction());
-		text.setUndefined();
-		assertEquals("", text.toLaTeXString(false, StringTemplate.latexTemplate));
 	}
 
 	@Test
