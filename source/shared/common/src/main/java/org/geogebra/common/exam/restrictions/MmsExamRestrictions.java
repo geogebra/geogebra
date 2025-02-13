@@ -1,8 +1,10 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.SuiteSubApp.CAS;
 import static org.geogebra.common.SuiteSubApp.G3D;
 import static org.geogebra.common.SuiteSubApp.GEOMETRY;
 import static org.geogebra.common.SuiteSubApp.GRAPHING;
+import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 
 import java.util.Set;
@@ -30,8 +32,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	protected MmsExamRestrictions() {
 		super(ExamType.MMS,
-				Set.of(GRAPHING, SCIENTIFIC, GEOMETRY, G3D),
-				GRAPHING,
+				Set.of(GRAPHING, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
+				CAS,
 				createFeatureRestrictions(),
 				null,
 				null,
