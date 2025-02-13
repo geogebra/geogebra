@@ -42,8 +42,8 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
  * Restrictions that are specific to the different exam types are represented as subclasses
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
- * (in {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
- * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
+ * (in {@link #applyTo(AlgoDispatcher, CommandDispatcher, AlgebraProcessor, PropertiesRegistry,
+ * Object, Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
  * ScheduledPreviewFromInputBar, ContextMenuFactory)}).
  * </p><p>
  * Any restrictions to be applied during exams should be implemented in here (so that
@@ -294,9 +294,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
-	 * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
-	 * ScheduledPreviewFromInputBar, ContextMenuFactory)}).
+	 * {@link #applyTo(AlgoDispatcher, CommandDispatcher, AlgebraProcessor, PropertiesRegistry,
+	 * Object, Localization, Settings, AutocompleteProvider, ToolsProvider,
+	 * GeoElementPropertiesFactory, ScheduledPreviewFromInputBar, ContextMenuFactory)}).
 	 */
 	public void removeFrom(
 			@Nullable AlgoDispatcher algoDispatcher,
