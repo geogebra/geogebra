@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSetup;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.Property;
@@ -255,6 +256,20 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
 	public static boolean isVisibilityEnabled(GeoElement geoElement) {
+		// Restrict the visibility of inequalities
+		// E.g.: x > 0
+		//       y <= 1
+		//       x < y
+		//       x - y > 2
+		//       x^2 + 2y^2 < 1
+		//       f(x) = x > 5
+		//       f: x > 0
+		if (geoElement instanceof GeoSymbolic
+				&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoElement
+				&& ((GeoElement) ((GeoSymbolic) geoElement).getTwinGeo()).isInequality()) {
+			return false;
+		}
+
 		// Restrict the visibility of vectors
 		// E.g.: a = (1, 2)
 		//       b = a + 0

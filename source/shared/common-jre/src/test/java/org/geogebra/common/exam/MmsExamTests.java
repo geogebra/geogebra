@@ -25,21 +25,29 @@ public class MmsExamTests extends BaseExamTests {
 		examController.startExam(ExamType.MMS, null);
 	}
 
-	@Test
-	public void testRestrictedStatisticsContextMenuItem() {
-		assertEquals(
-				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
-				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
-						algebraProcessor, GeoGebraConstants.CAS_APPCODE));
-	}
-
 	@ParameterizedTest
 	@ValueSource(strings = {
+			// Restricted inequalities
+			"x > 0",
+			"y <= 1",
+			"x < y",
+			"x - y > 2",
+			"x^2 + 2y^2 < 1",
+			"f: x > 0",
+			"f(x) = x > 2",
 			// Restricted vectors
 			"a = (1, 2)",
 			"b = (1, 2) + 0",
 	})
 	public void testRestrictedVisibility(String expression) {
 		assertFalse(isVisibilityEnabled(evaluateGeoElement(expression)));
+	}
+
+	@Test
+	public void testRestrictedStatisticsContextMenuItems() {
+		assertEquals(
+				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
+						algebraProcessor, GeoGebraConstants.CAS_APPCODE));
 	}
 }

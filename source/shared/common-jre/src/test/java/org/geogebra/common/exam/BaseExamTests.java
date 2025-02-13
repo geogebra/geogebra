@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.cas.MockCASGiac;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -51,6 +52,8 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected boolean didRequestClearClipboard = false;
 
     protected AppCommon app;
+    @Nullable
+    protected MockCASGiac mockCASGiac;
     protected AlgoDispatcher algoDispatcher;
     protected CommandDispatcher commandDispatcher;
     protected CommandDispatcher previousCommandDispatcher;
@@ -86,6 +89,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
 
         currentSubApp = subApp;
         app = AppCommonFactory.create(createConfig(subApp));
+        mockCASGiac = currentSubApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
         activeMaterial = null;
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         algoDispatcher = app.getKernel().getAlgoDispatcher();
@@ -100,6 +104,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected void setInitialApp(SuiteSubApp subApp) {
         currentSubApp = subApp;
         app = AppCommonFactory.create(createConfig(subApp));
+        mockCASGiac = currentSubApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         algoDispatcher = app.getKernel().getAlgoDispatcher();
         commandDispatcher = algebraProcessor.getCommandDispatcher();
@@ -111,6 +116,9 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     }
 
     protected GeoElementND[] evaluate(String expression) {
+        if (currentSubApp == SuiteSubApp.CAS && mockCASGiac != null) {
+            mockCASGiac.memorize(expression);
+        }
         EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
         return algebraProcessor.processAlgebraCommandNoExceptionHandling(
                 expression, false, errorAccumulator, evalInfo, null);
