@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -303,7 +304,7 @@ public class FunctionInspectorD extends FunctionInspector
 				@Override
 				public void run() {
 					((GuiManagerD) app.getGuiManager())
-							.openHelp("Function_Inspector_Tool");
+							.openHelp(ManualPage.FUNCTION_INSPECTOR_TOOL, null);
 				}
 			};
 			runner.start();

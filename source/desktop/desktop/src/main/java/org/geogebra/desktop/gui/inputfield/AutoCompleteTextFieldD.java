@@ -41,6 +41,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.AutoCompleteDictionary;
+import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -435,7 +436,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 			break;
 
 		case KeyEvent.VK_F1:
-			String helpURL = isCASInput ? App.WIKI_CAS_VIEW : App.WIKI_MANUAL;
+			final ManualPage helpURL = isCASInput ? ManualPage.CAS_VIEW : ManualPage.MAIN_PAGE;
 			if (autoComplete) {
 				boolean commandFound = false;
 				if (!getText().equals("")) {
@@ -468,12 +469,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 							options[0]); // default button title
 
 					if (n == 1) {
-						app.getGuiManager().openHelp(helpURL);
+						app.getGuiManager().openHelp(helpURL, null);
 					}
 
 				}
 			} else {
-				app.getGuiManager().openHelp(helpURL);
+				app.getGuiManager().openHelp(helpURL, null);
 			}
 
 			e.consume();
@@ -927,7 +928,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 			app.showError(MyError.forCommand(loc,
 					loc.getMenu("Syntax") + ":\n" + help, cmd, null));
 		} else {
-			app.getGuiManager().openCommandHelp(null);
+			app.getGuiManager().openHelp(ManualPage.COMMAND, null);
 		}
 	}
 

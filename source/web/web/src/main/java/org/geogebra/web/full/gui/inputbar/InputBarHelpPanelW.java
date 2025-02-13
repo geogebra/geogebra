@@ -7,10 +7,10 @@ import java.util.TreeSet;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputbar.InputBarHelpPanel;
 import org.geogebra.common.gui.util.TableSymbols;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -166,15 +166,15 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	 */
 	protected void openOnlineHelp() {
 		if (getSelectedCommand() == null) {
-			app.getGuiManager().openHelp("InputBar");
+			app.getGuiManager().openHelp(ManualPage.INPUT_BAR, null);
 
 		} else if (getSelectedCommand().equals(
 				app.getLocalization().getMenu("MathematicalFunctions"))) {
-			app.getGuiManager().openHelp(App.WIKI_OPERATORS);
+			app.getGuiManager().openHelp(ManualPage.OPERATORS, null);
 
 		} else {
 			app.getGuiManager()
-					.openCommandHelp(getSelectedCommand());
+					.openHelp(ManualPage.COMMAND, getSelectedCommand());
 		}
 	}
 

@@ -154,15 +154,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
 		ExamRestrictable, ToolsProvider {
 
-	/** Url for wiki article about functions */
-	public static final String WIKI_OPERATORS = "Predefined_Functions_and_Operators";
-	/** Url for main page of manual */
-	public static final String WIKI_MANUAL = "";
-	/** Url for wiki article about CAS */
-	public static final String WIKI_CAS_VIEW = "CAS_View";
-
-	/** Url for wiki article about functions */
-	public static final String WIKI_TEXT_TOOL = "tools/Text";
 	/** id for dummy view */
 	public static final int VIEW_NONE = 0;
 	/** id for euclidian view */

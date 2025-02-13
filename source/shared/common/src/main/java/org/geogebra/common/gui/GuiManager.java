@@ -44,6 +44,8 @@ import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.util.ManualPage;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -345,27 +347,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public void openCommandHelp(String command) {
-		String internalCmd = null;
-		if (command != null) {
-			try { // convert eg uppersum to UpperSum
-				internalCmd = getApp().getReverseCommand(command);
-			} catch (Exception e) {
-				Log.warn("Command not found in dictionary:" + command);
-			}
-		}
-
-		openHelp(internalCmd, Help.COMMAND);
-	}
-
-	@Override
-	public void openHelp(String page) {
-		openHelp(page, Help.GENERIC);
-	}
-
-	protected abstract void openHelp(String page, Help generic);
-
-	@Override
 	final public View getConstructionProtocolData() {
 		ConstructionProtocolView view = getConstructionProtocolView();
 		if (view != null) {
@@ -634,7 +615,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	final public String getHelpURL(final Help type, String pageName) {
+	final public String getHelpURL(final ManualPage type, String pageName) {
 		// try to get help for given language
 		// eg http://help.geogebra.org/en-GB/cmd/FitLogistic
 
@@ -645,7 +626,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		case COMMAND:
 			String cmdPageName = getApp().getLocalization().getEnglishCommand(
 					pageName);
-			if ("".equals(cmdPageName)) {
+			if (StringUtil.empty(cmdPageName)) {
 				urlSB.append("Commands");
 			} else {
 				urlSB.append("commands/");
@@ -656,11 +637,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			urlSB.append("tools/");
 			urlSB.append(pageName);
 			break;
-		case GENERIC:
-			urlSB.append(pageName);
-			break;
 		default:
-			Log.error("Bad getHelpURL call");
+			urlSB.append(type.getURL());
 		}
 		if (!app.getLocalization().languageIs("en")) {
 			urlSB.append("?redirect=").append(getApp().getLocalization().getLanguageTag());
