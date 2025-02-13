@@ -132,7 +132,7 @@ public class ToolsTab extends ToolbarTab implements ExamListener {
 	 */
 	public void updateContent() {
 		toolsPanel.removeFromParent();
-		toolsPanel = new Tools((AppW) app, this);
+		toolsPanel = new Tools(app, this);
 		app.setMoveMode();
 		sp.clear();
 		sp.add(toolsPanel);

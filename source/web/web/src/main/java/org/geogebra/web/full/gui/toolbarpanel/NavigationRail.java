@@ -5,6 +5,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -103,7 +104,8 @@ class NavigationRail extends FlowPanel {
 			createTableViewButton();
 			center.add(btnTableView);
 		}
-		if (app.getConfig().hasSpreadsheetView()) {
+		if (app.getConfig().hasSpreadsheetView() && !GlobalScope.examController
+				.isFeatureRestricted(ExamFeatureRestriction.SPREADSHEET)) {
 			createSpreadsheetButton();
 			center.add(btnSpreadsheet);
 		}
