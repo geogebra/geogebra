@@ -9,12 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,8 +48,8 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 		coordFormatShouldBe(Kernel.COORD_STYLE_DEFAULT);
 		axisLabelsShouldBe("xAxis", "yAxis");
 		gridShouldBe(EuclidianView.GRID_ISOMETRIC);
-		axisNumberDistanceShouldBe(1.5, 0);
-		axisNumberDistanceShouldBe(4.1, 1);
+		GeoPoint point = new GeoPoint(app.getKernel().getConstruction());
+		assertEquals(point.getPointStyle(), EuclidianStyleConstants.POINT_STYLE_DOT);
 	}
 
 	private void createDefaultSetting() {
@@ -62,8 +65,8 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 		coordFormatShouldBe(Kernel.COORD_STYLE_AUSTRIAN);
 		axisLabelsShouldBe("x", "y");
 		gridShouldBe(EuclidianView.GRID_CARTESIAN);
-		axisNumberDistanceShouldBe(0.5, 0);
-		axisNumberDistanceShouldBe(0.5, 1);
+		GeoPoint point = new GeoPoint(app.getKernel().getConstruction());
+		assertEquals(point.getPointStyle(), EuclidianStyleConstants.POINT_STYLE_CROSS);
 		assertFalse(createFixedEqnModel().isValidAt(0));
 	}
 
@@ -102,11 +105,6 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 
 	private void coordFormatShouldBe(int expected) {
 		assertEquals(expected, settings.getGeneral().getCoordFormat());
-	}
-
-	private void axisNumberDistanceShouldBe(double expected, int axisNumber) {
-		assertEquals(expected, evSettings.getAxisNumberingDistance(axisNumber).evaluateDouble(),
-				0);
 	}
 
 	@Test
