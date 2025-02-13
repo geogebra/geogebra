@@ -10,6 +10,7 @@ import java.util.Set;
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
@@ -269,6 +270,16 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				&& ((GeoElement) ((GeoSymbolic) geoElement).getTwinGeo()).isInequality()) {
 			return false;
 		}
+
+		// Restrict the visibility of integral with area
+		// E.g.: Integral(f, -5, 5)
+		//       Integral(f, x, -5, 5)
+		//       NIntegral(f, -5, 5)
+		 if (geoElement instanceof GeoSymbolic
+				 && ((GeoSymbolic) geoElement).getTwinGeo().getParentAlgorithm()
+				 instanceof AlgoIntegralDefinite) {
+			 return false;
+		 }
 
 		// Restrict the visibility of vectors
 		// E.g.: a = (1, 2)

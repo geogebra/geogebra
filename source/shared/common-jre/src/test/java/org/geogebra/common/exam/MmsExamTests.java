@@ -8,6 +8,7 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
 import static org.geogebra.common.exam.restrictions.MmsExamRestrictions.isVisibilityEnabled;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -35,12 +36,28 @@ public class MmsExamTests extends BaseExamTests {
 			"x^2 + 2y^2 < 1",
 			"f: x > 0",
 			"f(x) = x > 2",
+			// Restricted integrals
+			"Integral(g, -5, 5)",
+			"Integral(g, x, -5, 5)",
+			"NIntegral(g, -5, 5)",
 			// Restricted vectors
 			"a = (1, 2)",
 			"b = (1, 2) + 0",
 	})
 	public void testRestrictedVisibility(String expression) {
+		evaluateGeoElement("g(x) = x");
 		assertFalse(isVisibilityEnabled(evaluateGeoElement(expression)));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			// Unrestricted integrals
+			"Integral(f)",
+			"Integral(f, x)",
+	})
+	public void testUnrestrictedVisibility(String expression) {
+		evaluateGeoElement("f(x) = x");
+		assertTrue(isVisibilityEnabled(evaluateGeoElement(expression)));
 	}
 
 	@Test
