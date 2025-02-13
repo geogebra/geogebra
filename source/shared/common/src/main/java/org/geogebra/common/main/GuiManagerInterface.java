@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.ManualPage;
 
 /**
  * This interface is almost the same as GuiManager, just it is an interface and
@@ -234,10 +235,6 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void detachAlgebraView();
 
-	void openCommandHelp(String command);
-
-	void openHelp(String page);
-
 	void setLayout(Layout layout);
 
 	void initialize();
@@ -349,7 +346,7 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void getExtraViewsXML(StringBuilder sb);
 
-	String getHelpURL(Help type, String pageName);
+	String getHelpURL(ManualPage type, String pageName);
 
 	String getReportBugUrl();
 

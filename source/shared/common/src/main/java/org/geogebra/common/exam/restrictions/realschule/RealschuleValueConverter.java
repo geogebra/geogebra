@@ -1,6 +1,6 @@
 package org.geogebra.common.exam.restrictions.realschule;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -10,25 +10,36 @@ import org.geogebra.common.util.ToStringConverter;
  * GeoElement value converter for the Realschule exam.
  * @see org.geogebra.common.exam.restrictions.cvte.CvteValueConverter
  */
-public class RealschuleValueConverter implements ToStringConverter<GeoElement> {
+public class RealschuleValueConverter implements ToStringConverter {
 
-	private final @Nullable ToStringConverter<GeoElement> wrappedConverter;
+	private final @Nonnull ToStringConverter wrappedConverter;
 
-	public RealschuleValueConverter(@Nullable ToStringConverter<GeoElement> wrappedConverter) {
+	public RealschuleValueConverter(@Nonnull ToStringConverter wrappedConverter) {
 		this.wrappedConverter = wrappedConverter;
 	}
 
 	@Override
-	public String convert(GeoElement element, StringTemplate template) {
-		if (element == null) {
-			return null;
-		}
+	public @Nonnull String toOutputValueString(GeoElement element, StringTemplate template) {
 		if (!Realschule.isCalculatedEquationAllowed(element)) {
 			return element.getDefinition(template);
 		}
-		if (wrappedConverter != null) {
-			return wrappedConverter.convert(element, template);
+		return wrappedConverter.toOutputValueString(element, template);
+	}
+
+	@Override
+	public @Nonnull String toValueString(GeoElement element, StringTemplate template) {
+		if (!Realschule.isCalculatedEquationAllowed(element)) {
+			return element.getDefinition(template);
 		}
-		return null;
+		return wrappedConverter.toValueString(element, template);
+	}
+
+	@Override
+	public @Nonnull String toLabelAndDescription(GeoElement element, StringTemplate template) {
+		if (!Realschule.isCalculatedEquationAllowed(element)) {
+			return ToStringConverter.getRestrictedLabelDescription(
+					element, template, wrappedConverter);
+		}
+		return wrappedConverter.toLabelAndDescription(element, template);
 	}
 }

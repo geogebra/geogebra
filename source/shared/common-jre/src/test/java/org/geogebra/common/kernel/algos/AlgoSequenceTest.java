@@ -73,6 +73,12 @@ public class AlgoSequenceTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSequenceOfTexts() {
+		GeoList seq = add("Sequence(Text(i, (0, 2*i)), i, 1, 3)");
+		assertThat(seq, hasValue("{\"1\", \"2\", \"3\"}"));
+	}
+
+	@Test
 	public void pieChartSequenceTest() {
 		GGraphicsCommon graphics = createGraphicsWithDrawable(
 				"s1=Sequence(PieChart({1,2,3},(k,1),.5),k,1,3)");

@@ -159,7 +159,9 @@ public class Browser {
 	public static boolean isGraspableMathEnabled() {
 		String host = DomGlobal.location.host;
 		return host != null
-				&& (host.contains("geogebra.org")
+				&& (host.contains("www.geogebra.org")
+					|| host.contains("beta.geogebra.org")
+					|| host.contains("stage.geogebra.org")
 					|| host.contains("localhost")
 					|| host.contains("apps-builds.s3-eu-central-1.amazonaws.com"))
 				&& !host.contains("test.geogebra.org") && !host.contains("file://");

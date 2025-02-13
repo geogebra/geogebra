@@ -25,7 +25,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class RationalizableFractionTest extends BaseUnitTest {
+public class RationalizationTest extends BaseUnitTest {
+
+	final Rationalization rationalization = new Rationalization();
 
 	@Before
 	public void setUp() throws Exception {
@@ -45,7 +47,7 @@ public class RationalizableFractionTest extends BaseUnitTest {
 
 	private void shouldBeSupported(String definition) {
 		GeoElementND geo = add(definition);
-		ExpressionValue resolution = RationalizableFraction.getResolution(geo.getDefinition());
+		ExpressionValue resolution = rationalization.getResolution(geo.getDefinition());
 		assertNotNull(resolution);
 	}
 
@@ -74,7 +76,7 @@ public class RationalizableFractionTest extends BaseUnitTest {
 
 	private void shouldBeUnsupported(String definition) {
 		GeoElementND geo = add(definition);
-		ExpressionValue resolution = RationalizableFraction.getResolution(geo.getDefinition());
+		ExpressionValue resolution = rationalization.getResolution(geo.getDefinition());
 		assertNull(resolution);
 	}
 
@@ -147,7 +149,7 @@ public class RationalizableFractionTest extends BaseUnitTest {
 
 	private void rationalizationShouldBe(String definition, String expected, StringTemplate tpl) {
 		GeoNumeric num = add(definition);
-		ExpressionValue  resolution = RationalizableFraction.getResolution(num.getDefinition());
+		ExpressionValue  resolution = rationalization.getResolution(num.getDefinition());
 		assertNotNull("resolution is null, " + definition + " is not supported", resolution);
 		assertEquals(resolution.toString(tpl), num.evaluateDouble(), resolution.evaluateDouble(),
 				Kernel.STANDARD_PRECISION);
@@ -308,7 +310,7 @@ public class RationalizableFractionTest extends BaseUnitTest {
 								.divide(new ExpressionNode(getKernel(), c)
 										.plus(new ExpressionNode(getKernel(), d).sqrt()));
 						double expected = ex.evaluateDouble();
-						ExpressionValue resolution = RationalizableFraction.getResolution(ex);
+						ExpressionValue resolution = rationalization.getResolution(ex);
 						if (resolution == null) {
 							continue;
 						}

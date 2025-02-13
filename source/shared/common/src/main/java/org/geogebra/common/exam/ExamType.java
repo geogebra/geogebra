@@ -5,17 +5,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.exam.restrictions.cvte.CvteAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.cvte.CvteLabelDescriptionConverter;
 import org.geogebra.common.exam.restrictions.cvte.CvteValueConverter;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.realschule.RealschuleLabelDescriptionConverter;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleValueConverter;
 import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
@@ -56,14 +54,8 @@ public enum ExamType {
 		}
 
 		@Override
-		public ToStringConverter<GeoElement> wrapLabelDescriptionConverter(
-				@Nullable ToStringConverter<GeoElement> wrappedConverter) {
-			return new CvteLabelDescriptionConverter(wrappedConverter);
-		}
-
-		@Override
-		public ToStringConverter<GeoElement> wrapValueConverter(
-				@Nullable ToStringConverter<GeoElement> wrappedConverter) {
+		public ToStringConverter wrapValueConverter(
+				@Nonnull ToStringConverter wrappedConverter) {
 			return new CvteValueConverter(wrappedConverter);
 		}
 	},
@@ -86,14 +78,8 @@ public enum ExamType {
 		}
 
 		@Override
-		public ToStringConverter<GeoElement> wrapLabelDescriptionConverter(
-				@Nullable ToStringConverter<GeoElement> wrappedConverter) {
-			return new RealschuleLabelDescriptionConverter(wrappedConverter);
-		}
-
-		@Override
-		public ToStringConverter<GeoElement> wrapValueConverter(
-				@Nullable ToStringConverter<GeoElement> wrappedConverter) {
+		public ToStringConverter wrapValueConverter(
+				@Nonnull ToStringConverter wrappedConverter) {
 			return new RealschuleValueConverter(wrappedConverter);
 		}
 	},
@@ -189,22 +175,12 @@ public enum ExamType {
 	}
 
 	/**
-	 * @param wrappedConverter The currently used label description converter
-	 * @return The label description converter for this exam type. By default, returns the
-	 * currently used label description converter.
-	 */
-	public ToStringConverter<GeoElement> wrapLabelDescriptionConverter(
-			@Nullable ToStringConverter<GeoElement> wrappedConverter) {
-		return wrappedConverter;
-	}
-
-	/**
 	 * @param wrappedConverter The currently used value converter
 	 * @return The value converter for this exam type. By default, returns the currently used
 	 * value converter.
 	 */
-	public ToStringConverter<GeoElement> wrapValueConverter(
-			@Nullable ToStringConverter<GeoElement> wrappedConverter) {
+	public ToStringConverter wrapValueConverter(
+			@Nullable ToStringConverter wrappedConverter) {
 		return wrappedConverter;
 	}
 

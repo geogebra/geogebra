@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -38,6 +37,7 @@ import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
@@ -1024,7 +1024,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (snackbar == null) {
 				app.getToolTipManager().setBlockToolTip(false);
 				ToolTip toolTip = new ToolTip(errorMessage, null, "Help",
-						app.getGuiManager().getHelpURL(Help.COMMAND, commandError),
+						app.getGuiManager().getHelpURL(ManualPage.COMMAND, commandError),
 						ToolTip.Role.ALERT);
 				app.getToolTipManager().showBottomInfoToolTip(toolTip, app,
 						ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);

@@ -1,8 +1,10 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.SuiteSubApp.CAS;
 import static org.geogebra.common.SuiteSubApp.G3D;
 import static org.geogebra.common.SuiteSubApp.GEOMETRY;
 import static org.geogebra.common.SuiteSubApp.GRAPHING;
+import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 
 import java.util.Set;
@@ -12,12 +14,14 @@ import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSetup;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.Property;
@@ -30,8 +34,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	protected MmsExamRestrictions() {
 		super(ExamType.MMS,
-				Set.of(GRAPHING, SCIENTIFIC, GEOMETRY, G3D),
-				GRAPHING,
+				Set.of(GRAPHING, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
+				CAS,
 				createFeatureRestrictions(),
 				createInputExpressionFilters(),
 				createOutputExpressionFilters(),
@@ -50,7 +54,9 @@ public class MmsExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
 		return Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION,
-				ExamFeatureRestriction.SPREADSHEET);
+				ExamFeatureRestriction.SPREADSHEET,
+				ExamFeatureRestriction.SURD,
+				ExamFeatureRestriction.RATIONALIZATION);
 	}
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
@@ -263,6 +269,30 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
 	public static boolean isVisibilityEnabled(GeoElement geoElement) {
+		// Restrict the visibility of inequalities
+		// E.g.: x > 0
+		//       y <= 1
+		//       x < y
+		//       x - y > 2
+		//       x^2 + 2y^2 < 1
+		//       f(x) = x > 5
+		//       f: x > 0
+		if (geoElement instanceof GeoSymbolic
+				&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoElement
+				&& ((GeoElement) ((GeoSymbolic) geoElement).getTwinGeo()).isInequality()) {
+			return false;
+		}
+
+		// Restrict the visibility of integral with area
+		// E.g.: Integral(f, -5, 5)
+		//       Integral(f, x, -5, 5)
+		//       NIntegral(f, -5, 5)
+		 if (geoElement instanceof GeoSymbolic
+				 && ((GeoSymbolic) geoElement).getTwinGeo().getParentAlgorithm()
+				 instanceof AlgoIntegralDefinite) {
+			 return false;
+		 }
+
 		// Restrict the visibility of vectors
 		// E.g.: a = (1, 2)
 		//       b = a + 0

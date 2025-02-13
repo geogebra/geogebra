@@ -704,6 +704,41 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-6270")
+	public void compassesToolOnTheFlyPoints() {
+		setMode(EuclidianConstants.MODE_COMPASSES);
+		click(100, 100);
+		click(0, 0);
+		click(150, 0);
+		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)",
+				unicode("c: (x - 3)^2 + y^2 = 8"));
+	}
+
+	@Test
+	public void compassesToolSegment() {
+		t("A = (2, -2)");
+		t("B = (0, 0)");
+		t("Segment(A,B)");
+		setMode(EuclidianConstants.MODE_COMPASSES);
+		click(50, 50);
+		click(150, 0);
+		checkContent("A = (2, -2)", "B = (0, 0)", "f = 2.82843", "C = (3, 0)",
+				unicode("c: (x - 3)^2 + y^2 = 8"));
+	}
+
+	@Test
+	public void compassesToolCircle() {
+		t("A = (2, -2)");
+		t("B = (0, 0)");
+		t("Circle(A,B)");
+		setMode(EuclidianConstants.MODE_COMPASSES);
+		click(200, 200);
+		click(150, 0);
+		checkContent("A = (2, -2)", "B = (0, 0)", unicode("c: (x - 2)^2 + (y + 2)^2 = 8"),
+				"C = (3, 0)", unicode("d: (x - 3)^2 + y^2 = 8"));
+	}
+
+	@Test
 	public void mirrorAtCircleTool() {
 		t("c:x^2+y^2=8");
 		t("A=(1, -1)");

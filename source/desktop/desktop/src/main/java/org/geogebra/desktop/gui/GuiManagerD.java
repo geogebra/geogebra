@@ -68,7 +68,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.plugin.Event;
@@ -133,6 +132,7 @@ import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
+import org.geogebra.common.util.ManualPage;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -2404,17 +2404,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void openHelp(String page, Help type) {
-		try {
-			URL helpURL = getEscapedUrl(getHelpURL(type, page));
-			showURLinBrowser(helpURL);
-		} catch (MyError e) {
-			getApp().showError(e);
-		} catch (RuntimeException | URISyntaxException | MalformedURLException e) {
-			Log.debug("openHelp error: " + e + " " + e.getMessage()
-					+ " " + page + " " + type);
-			getApp().showGenericError(e);
-		}
+	public void openHelp(ManualPage page, String detail) {
+		showURLinBrowser(getHelpURL(page, detail));
 	}
 
 	@Override
@@ -2423,7 +2414,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			URL url = getEscapedUrl(strURL);
 			showURLinBrowser(url);
 		} catch (RuntimeException | MalformedURLException | URISyntaxException e) {
-			Log.debug(e);
+			app.showGenericError(e);
 		}
 	}
 

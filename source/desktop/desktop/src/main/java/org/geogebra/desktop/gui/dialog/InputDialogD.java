@@ -311,18 +311,6 @@ public class InputDialogD extends InputDialog
 		wrappedDialog.setLocationRelativeTo(app.getMainComponent());
 	}
 
-	/**
-	 * @param articleName wiki article name
-	 */
-	public void addHelpButton(String articleName) {
-		btHelp = new JButton();
-		HelpAction helpAction = new HelpAction(app,
-				app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"),
-				articleName);
-		btHelp.setAction(helpAction);
-		btPanel2.add(btHelp);
-	}
-
 	public JPanel getButtonPanel() {
 		return btPanel;
 	}

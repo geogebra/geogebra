@@ -18,6 +18,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -209,6 +210,23 @@ public final class ExamControllerTests extends BaseExamTests {
 				// ...and applied to the new (Geometry app) command dispatcher
 				() -> assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative)),
 				() -> assertNotNull(activeMaterial));
+	}
+
+	@Test
+	public void testFeatureRestrictionsWhenSwitchingApps() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.startExam(ExamType.CVTE, null);
+		// effects from ExamRestrictables should be applied on current app/kernel/etc
+		assertNull(app.getKernel().getSurds());
+
+		Kernel previousKernel = app.getKernel();
+		switchApp(SuiteSubApp.GEOMETRY);
+
+		// effects from ExamRestrictables should be reverted on previous app/kernel/etc
+		assertNotNull(previousKernel.getSurds());
+		// effects from ExamRestrictables should be applied on new app/kernel/etc
+		assertNull(app.getKernel().getSurds());
 	}
 
 	@Test

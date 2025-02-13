@@ -52,6 +52,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected boolean didRequestClearClipboard = false;
 
     protected AppCommon app;
+    @Nullable
     protected MockCASGiac mockCASGiac;
     protected AlgoDispatcher algoDispatcher;
     protected CommandDispatcher commandDispatcher;
@@ -82,10 +83,13 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected void switchApp(SuiteSubApp subApp) {
         // keep references so that we can check if restrictions have been reverted correctly
         previousCommandDispatcher = commandDispatcher;
+        if (app != null) {
+            examController.unregisterRestrictable(app);
+        }
 
         currentSubApp = subApp;
         app = AppCommonFactory.create(createConfig(subApp));
-        mockCASGiac = new MockCASGiac(app);
+        mockCASGiac = currentSubApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
         activeMaterial = null;
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         algoDispatcher = app.getKernel().getAlgoDispatcher();
@@ -94,12 +98,13 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         examController.setActiveContext(app, algoDispatcher, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
                 app.getKernel().getInputPreviewHelper());
+        examController.registerRestrictable(app);
     }
 
     protected void setInitialApp(SuiteSubApp subApp) {
         currentSubApp = subApp;
         app = AppCommonFactory.create(createConfig(subApp));
-        mockCASGiac = new MockCASGiac(app);
+        mockCASGiac = currentSubApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         algoDispatcher = app.getKernel().getAlgoDispatcher();
         commandDispatcher = algebraProcessor.getCommandDispatcher();
@@ -107,10 +112,11 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         examController.setActiveContext(app, algoDispatcher, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
                 app.getKernel().getInputPreviewHelper());
+        examController.registerRestrictable(app);
     }
 
     protected GeoElementND[] evaluate(String expression) {
-        if (currentSubApp == SuiteSubApp.CAS) {
+        if (currentSubApp == SuiteSubApp.CAS && mockCASGiac != null) {
             mockCASGiac.memorize(expression);
         }
         EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);

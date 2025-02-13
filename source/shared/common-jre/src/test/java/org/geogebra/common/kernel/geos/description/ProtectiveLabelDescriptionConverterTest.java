@@ -4,6 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverterTest;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -16,11 +19,11 @@ import org.junit.Test;
 
 public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
-	private ProtectiveLabelDescriptionConverter converter;
+	private ProtectiveGeoElementValueConverter converter;
 
 	@Before
 	public void setUp() {
-		converter = new ProtectiveLabelDescriptionConverter();
+		converter = new ProtectiveGeoElementValueConverter();
 	}
 
 	@Test
@@ -113,6 +116,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
 	private void checkCaption(GeoElement element, int labelMode, String expectedLabelText) {
 		element.setLabelMode(labelMode);
-		assertThat(converter.convert(element), is(expectedLabelText));
+		assertThat(converter.toLabelAndDescription(element,
+				StringTemplate.defaultTemplate), is(expectedLabelText));
 	}
 }
