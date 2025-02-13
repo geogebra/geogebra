@@ -2,11 +2,9 @@ package org.geogebra.web.full.main;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
-import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
+import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
@@ -18,22 +16,22 @@ public class AppWFullTest {
 
 	@Test
 	public void graphingUsesProtectiveFilter() {
-		ToStringConverter<GeoElement> outputFilter =
-				AppMocker.mockGraphing().getLabelDescriptionConverter();
-		assertThat(outputFilter, instanceOf(ProtectiveLabelDescriptionConverter.class));
+		ToStringConverter outputFilter =
+				AppMocker.mockGraphing().getGeoElementValueConverter();
+		assertThat(outputFilter, instanceOf(ProtectiveGeoElementValueConverter.class));
 	}
 
 	@Test
 	public void geometryUsesNoFilter() {
-		ToStringConverter<GeoElement> outputFilter =
-				AppMocker.mockGeometry().getLabelDescriptionConverter();
-		assertThat(outputFilter, instanceOf(DefaultLabelDescriptionConverter.class));
+		ToStringConverter outputFilter =
+				AppMocker.mockGeometry().getGeoElementValueConverter();
+		assertThat(outputFilter, instanceOf(GeoElementValueConverter.class));
 	}
 
 	@Test
 	public void casUsesNoFilter() {
-		ToStringConverter<GeoElement> outputFilter =
-				AppMocker.mockCas().getLabelDescriptionConverter();
-		assertThat(outputFilter, instanceOf(DefaultLabelDescriptionConverter.class));
+		ToStringConverter outputFilter =
+				AppMocker.mockCas().getGeoElementValueConverter();
+		assertThat(outputFilter, instanceOf(GeoElementValueConverter.class));
 	}
 }
