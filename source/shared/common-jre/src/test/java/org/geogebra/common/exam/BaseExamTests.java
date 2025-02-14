@@ -116,8 +116,12 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     }
 
     protected GeoElementND[] evaluate(String expression) {
+        return evaluate(expression, expression);
+    }
+
+    protected GeoElementND[] evaluate(String expression, String mockedCasGiacOutput) {
         if (currentSubApp == SuiteSubApp.CAS && mockCASGiac != null) {
-            mockCASGiac.memorize(expression);
+            mockCASGiac.memorize(mockedCasGiacOutput);
         }
         EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
         return algebraProcessor.processAlgebraCommandNoExceptionHandling(

@@ -18,6 +18,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class MmsExamTests extends BaseExamTests {
@@ -70,13 +71,17 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
+	@CsvSource({
 			"1 + i",
 			"(1 + i) * (2 - 3i)",
-			"sqrt(-5)",
 			"5 - i + 2",
 	})
-	public void testRestrictedComplexNumbers(String expression) {
+	public void testRestrictedComplexNumberInputs(String expression) {
 		assertNull(evaluate(expression));
+	}
+
+	@Test
+	public void testRestrictedComplexNumberOutput() {
+		assertNull(evaluate("sqrt(-5)", "ί*√5"));
 	}
 }
