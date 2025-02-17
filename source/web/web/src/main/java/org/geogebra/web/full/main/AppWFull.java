@@ -2383,7 +2383,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getSettings(),
 				getAutocompleteProvider(),
 				this,
-				getKernel().getInputPreviewHelper());
+				getKernel().getInputPreviewHelper(),
+				getKernel().getConstruction());
 		examController.registerRestrictable(this);
 		examController.registerRestrictable(getEuclidianView1());
 		examController.registerRestrictable(getConfig());

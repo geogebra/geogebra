@@ -14,6 +14,8 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
@@ -42,10 +44,8 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
  * Restrictions that are specific to the different exam types are represented as subclasses
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
- * (in {@link #applyTo(AlgoDispatcher, CommandDispatcher, AlgebraProcessor, PropertiesRegistry,
- * Object, Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
- * ScheduledPreviewFromInputBar, ContextMenuFactory)}).
- * </p><p>
+ * (in {@link #applyTo}).
+ * <p>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
  * </p>
@@ -82,6 +82,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private @Nullable EquationBehaviour originalEquationBehaviour;
 	private RestorableSettings savedSettings;
 	private Settings restrictedSettings = null;
+	private ConstructionDefaults restrictedDefaults;
 
 	/**
 	 * Factory for ExamRestrictions.
@@ -223,7 +224,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory) {
+			@Nullable ContextMenuFactory contextMenuFactory,
+			@Nullable Construction construction) {
 		if (algoDispatcher != null) {
 			algoDispatcher.addDisabledAlgorithms(disabledAlgorithms);
 		}
@@ -285,18 +287,17 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (contextMenuFactory != null) {
 			contextMenuItemFilters.forEach(contextMenuFactory::addFilter);
 		}
-		if (settings != null) {
+		if (settings != null && construction != null) {
 			this.restrictedSettings = settings;
-			saveSettings(settings);
-			applySettingsRestrictions(settings);
+			this.restrictedDefaults = construction.getConstructionDefaults();
+			saveSettings(settings, restrictedDefaults);
+			applySettingsRestrictions(settings, restrictedDefaults);
+			construction.initUndoInfo();
 		}
 	}
 
 	/**
-	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #applyTo(AlgoDispatcher, CommandDispatcher, AlgebraProcessor, PropertiesRegistry,
-	 * Object, Localization, Settings, AutocompleteProvider, ToolsProvider,
-	 * GeoElementPropertiesFactory, ScheduledPreviewFromInputBar, ContextMenuFactory)}).
+	 * Remove the exam restrictions (i.e., undo the changes from {@link #applyTo}).
 	 */
 	public void removeFrom(
 			@Nullable AlgoDispatcher algoDispatcher,
@@ -310,7 +311,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory) {
+			@Nullable ContextMenuFactory contextMenuFactory,
+			@Nullable Construction construction) {
 		if (algoDispatcher != null) {
 			algoDispatcher.removeDisabledAlgorithms(disabledAlgorithms);
 		}
@@ -370,8 +372,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (contextMenuFactory != null) {
 			contextMenuItemFilters.forEach(contextMenuFactory::removeFilter);
 		}
-		if (settings != null) {
-			removeSettingsRestrictions(settings);
+		if (settings != null && construction != null) {
+			removeSettingsRestrictions(settings, construction.getConstructionDefaults());
 		}
 	}
 
@@ -391,7 +393,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public void reapplySettingsRestrictions() {
 		if (restrictedSettings != null) {
-			applySettingsRestrictions(restrictedSettings);
+			applySettingsRestrictions(restrictedSettings, restrictedDefaults);
 		}
 	}
 
@@ -400,26 +402,28 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param settings {@link Settings}
 	 * @apiNote Override this only if the given exam needs custom settings.
 	 */
-	public void applySettingsRestrictions(@Nonnull Settings settings) {
+	public void applySettingsRestrictions(@Nonnull Settings settings,
+			@Nonnull ConstructionDefaults defaults) {
 		// empty by default
 	}
 
-	private void saveSettings(Settings settings) {
+	private void saveSettings(Settings settings, ConstructionDefaults defaults) {
 		savedSettings = createSavedSettings();
 		if (savedSettings != null) {
-			savedSettings.save(settings);
+			savedSettings.save(settings, defaults);
 		}
 	}
 
 	/**
-	 * Revert changes applied in {@link #applySettingsRestrictions(Settings)}, restoring the
+	 * Revert changes applied in {@link #applySettingsRestrictions}, restoring the
 	 * previously saved settings.
 	 * @param settings {@link Settings}
 	 * @apiNote An override is not needed by default.
 	 */
-	protected void removeSettingsRestrictions(@Nonnull Settings settings) {
+	protected void removeSettingsRestrictions(@Nonnull Settings settings,
+			ConstructionDefaults defaults) {
 		if (savedSettings != null) {
-			savedSettings.restore(settings);
+			savedSettings.restore(settings, defaults);
 			savedSettings = null;
 			restrictedSettings = null;
 		}

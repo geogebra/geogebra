@@ -1,5 +1,11 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.SuiteSubApp.CAS;
+import static org.geogebra.common.SuiteSubApp.G3D;
+import static org.geogebra.common.SuiteSubApp.GEOMETRY;
+import static org.geogebra.common.SuiteSubApp.GRAPHING;
+import static org.geogebra.common.SuiteSubApp.PROBABILITY;
+import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
 import static org.geogebra.common.kernel.commands.Commands.*;
 
@@ -8,7 +14,6 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -16,6 +21,7 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleEquationBehaviour;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -31,11 +37,13 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSetup;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelector;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.Property;
@@ -47,9 +55,8 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 
 	RealschuleExamRestrictions() {
 		super(ExamType.REALSCHULE,
-				Set.of(SuiteSubApp.CAS, SuiteSubApp.GEOMETRY, SuiteSubApp.G3D,
-						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
-				SuiteSubApp.GRAPHING,
+				Set.of(CAS, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
+				GRAPHING,
 				createFeatureRestrictions(),
 				getInputExpressionFilter(),
 				null,
@@ -168,18 +175,23 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	@Override
-	public void applySettingsRestrictions(@Nonnull Settings settings) {
-		super.applySettingsRestrictions(settings);
+	public void applySettingsRestrictions(@Nonnull Settings settings,
+			@Nonnull ConstructionDefaults defaults) {
+		super.applySettingsRestrictions(settings, defaults);
 		EuclidianSettings euclidian = settings.getEuclidian(1);
 		settings.getGeneral().setCoordFormat(Kernel.COORD_STYLE_AUSTRIAN);
 		euclidian.beginBatch();
 		euclidian.setAxisLabel(0, "x");
 		euclidian.setAxisLabel(1, "y");
 		euclidian.setGridType(EuclidianView.GRID_CARTESIAN);
-		euclidian.setAxisNumberingDistance(0, 0.5);
-		euclidian.setAxisNumberingDistance(1, 0.5);
 		euclidian.endBatch();
 		settings.getAlgebra().setEquationChangeByDragRestricted(true);
+		for (int index: ConstructionDefaults.POINT_INDICES) {
+			GeoPointND point = (GeoPointND) defaults.getDefaultGeo(index);
+			if (point != null) {
+				point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_CROSS);
+			}
+		}
 	}
 
 	private static class RealschuleCommandArgumentFilter extends BaseCommandArgumentFilter {

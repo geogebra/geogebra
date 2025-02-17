@@ -216,10 +216,12 @@ public class AlgebraItemTest extends BaseUnitTest {
         assertThat(AlgebraItem.shouldShowEqualSignPrefix(add("sqrt(3)+1")), equalTo(true));
     }
 
-    @Issue("APPS-6267")
+    @Issue({"APPS-6267", "APPS-6353"})
     @Test
     public void testIsRationalizableFraction() {
         assertThat(AlgebraItem.isRationalizableFraction(add("1/3")), equalTo(false));
+        assertThat(AlgebraItem.isRationalizableFraction(add("1 + 3")), equalTo(false));
+        assertThat(AlgebraItem.isRationalizableFraction(add("-3 + 3")), equalTo(false));
         assertThat(AlgebraItem.isRationalizableFraction(add("1/(3 + 2)")), equalTo(false));
         assertThat(AlgebraItem.isRationalizableFraction(add("1/sqrt(3)")), equalTo(true));
         assertThat(AlgebraItem.isRationalizableFraction(add("(1 + sqrt(2))/sqrt(3)")),

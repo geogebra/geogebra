@@ -1,8 +1,11 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.SuiteSubApp.CAS;
+import static org.geogebra.common.SuiteSubApp.GRAPHING;
+import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
+
 import java.util.Set;
 
-import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
@@ -15,8 +18,8 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 
 	VlaanderenExamRestrictions() {
 		super(ExamType.VLAANDEREN,
-				Set.of(SuiteSubApp.CAS),
-				SuiteSubApp.GRAPHING,
+				Set.of(CAS, SCIENTIFIC),
+				GRAPHING,
 				null,
 				createExpressionFilters(),
 				createExpressionFilters(),

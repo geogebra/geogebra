@@ -11,6 +11,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 public class ComponentToast extends GPopupPanel {
 	private SimplePanel content;
 	public static final int TOAST_PADDING = 12;
+	private static final int MIN_WIDTH = 300;
 
 	/**
 	 * constructor
@@ -42,20 +43,26 @@ public class ComponentToast extends GPopupPanel {
 
 	/**
 	 * show toast animated and positioned
-	 * @param left - left side of the av cell
-	 * @param top - top of the av cell
-	 * @param bottom - bottom of the av cell
-	 * @param width - width of av input panel
+	 * @param left - left side of the editor
+	 * @param top - top of the editor
+	 * @param bottom - bottom of the editor
+	 * @param width - distance from the left editor border to the right side of side panel
 	 */
 	public void show(int left, int top, int bottom, int width) {
 		if (!isAttached()) {
 			getRootPanel().add(this);
 		}
+		getElement().getStyle().clearWidth();
 		int toastWidth = app.isPortrait() ? width - 16 : width;
-		getElement().getStyle().setWidth(toastWidth - 2 * TOAST_PADDING, Unit.PX);
 		int distAVBottomKeyboardTop = (int) (app.getHeight() - bottom
 				- ((AppW) app).getAppletFrame().getKeyboardHeight());
-		setPopupPosition(left, distAVBottomKeyboardTop >= getOffsetHeight()
+		int toastLeft = left;
+		if (width < MIN_WIDTH && getOffsetWidth() > MIN_WIDTH) {
+			toastWidth = Math.min(MIN_WIDTH, left + width);
+			toastLeft = left + width - toastWidth;
+		}
+		getElement().getStyle().setWidth(toastWidth - 2 * TOAST_PADDING, Unit.PX);
+		setPopupPosition(toastLeft, distAVBottomKeyboardTop >= getOffsetHeight()
 				? bottom : top - getOffsetHeight());
 		Scheduler.get().scheduleDeferred(() -> addStyleName("fadeIn"));
 	}

@@ -3507,9 +3507,13 @@ public class ExpressionNode extends ValidExpression
 		ExpressionValue oldResolve = resolve;
 		initRationalizedFraction();
 		if (oldResolve == null) {
-			return resolve != null;
+			return resolve != null && !isInteger(resolve);
 		}
-		return resolve != oldResolve;
+		return resolve != oldResolve && !isInteger(oldResolve);
+	}
+
+	private boolean isInteger(ExpressionValue expressionValue) {
+		return DoubleUtil.isInteger(expressionValue.evaluateDouble());
 	}
 
 	/**

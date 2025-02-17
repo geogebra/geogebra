@@ -97,7 +97,8 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         autocompleteProvider = new AutocompleteProvider(app, false);
         examController.setActiveContext(app, algoDispatcher, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
-                app.getKernel().getInputPreviewHelper());
+                app.getKernel().getInputPreviewHelper(),
+                app.getKernel().getConstruction());
         examController.registerRestrictable(app);
     }
 
@@ -111,7 +112,8 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         autocompleteProvider = new AutocompleteProvider(app, false);
         examController.setActiveContext(app, algoDispatcher, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
-                app.getKernel().getInputPreviewHelper());
+                app.getKernel().getInputPreviewHelper(),
+                app.getKernel().getConstruction());
         examController.registerRestrictable(app);
     }
 

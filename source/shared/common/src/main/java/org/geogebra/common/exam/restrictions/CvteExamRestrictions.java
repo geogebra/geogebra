@@ -1,5 +1,11 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.SuiteSubApp.CAS;
+import static org.geogebra.common.SuiteSubApp.G3D;
+import static org.geogebra.common.SuiteSubApp.GEOMETRY;
+import static org.geogebra.common.SuiteSubApp.GRAPHING;
+import static org.geogebra.common.SuiteSubApp.PROBABILITY;
+import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
@@ -10,7 +16,6 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -22,6 +27,7 @@ import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -69,9 +75,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 
 	CvteExamRestrictions() {
 		super(ExamType.CVTE,
-				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D, SuiteSubApp.GEOMETRY,
-						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
-				SuiteSubApp.GRAPHING,
+				Set.of(CAS, G3D, GEOMETRY, PROBABILITY, SCIENTIFIC),
+				GRAPHING,
 				createFeatureRestrictions(),
 				createInputExpressionFilters(),
 				createOutputExpressionFilters(),
@@ -101,7 +106,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory) {
+			@Nullable ContextMenuFactory contextMenuFactory,
+			@Nullable Construction construction) {
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
 			// Note: The effect we want to achieve here is disable the symbolic versions of the
@@ -116,7 +122,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		}
 		super.applyTo(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
 				context, localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory);
+				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory,
+				construction);
 	}
 
 	@Override
@@ -132,10 +139,12 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory) {
+			@Nullable ContextMenuFactory contextMenuFactory,
+			@Nullable Construction construction) {
 		super.removeFrom(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
 				context, localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory);
+				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory,
+				construction);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}
@@ -364,7 +373,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	 * @param geoElement the {@code GeoElement} to evaluate
 	 * @return {@code true} if the visibility is enabled, {@code false} if it is restricted.
 	 */
-	@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
+	@SuppressWarnings({"PMD.SimplifyBooleanReturns"})
 	public static boolean isVisibilityEnabled(GeoElement geoElement) {
 		// Allow explicit equations
 		// E.g.: y = 2x

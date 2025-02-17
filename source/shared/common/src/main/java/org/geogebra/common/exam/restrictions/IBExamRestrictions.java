@@ -1,5 +1,10 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.SuiteSubApp.CAS;
+import static org.geogebra.common.SuiteSubApp.G3D;
+import static org.geogebra.common.SuiteSubApp.GEOMETRY;
+import static org.geogebra.common.SuiteSubApp.GRAPHING;
+import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ANGLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ANGLE_FIXED;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ANGULAR_BISECTOR;
@@ -351,7 +356,6 @@ import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Di
 import java.util.Map;
 import java.util.Set;
 
-import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ib.PointDerivativeFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
@@ -378,8 +382,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 
 	IBExamRestrictions() {
 		super(ExamType.IB,
-				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D, SuiteSubApp.GEOMETRY),
-				SuiteSubApp.GRAPHING,
+				Set.of(CAS, G3D, GEOMETRY, SCIENTIFIC),
+				GRAPHING,
 				null,
 				createExpressionFilters(),
 				null,
