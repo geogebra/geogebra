@@ -1,8 +1,6 @@
 package org.geogebra.common.main.undo;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -37,7 +35,7 @@ public class DefaultUndoManager extends UndoManager {
         UndoCommand command = createUndoCommand(appStateToAdd);
         maybeStoreUndoCommand(command);
         pruneStateList();
-        app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
+        notifyUnsaved();
         onStoreUndo();
     }
 

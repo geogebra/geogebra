@@ -201,7 +201,6 @@ public class AppCommon extends App {
     public void storeUndoInfo() {
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
-			setUnsaved();
 		}
     }
 

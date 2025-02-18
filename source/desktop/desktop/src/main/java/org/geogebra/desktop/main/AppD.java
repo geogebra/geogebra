@@ -3169,7 +3169,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void storeUndoInfo() {
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
-			setUnsaved();
 		}
 	}
 

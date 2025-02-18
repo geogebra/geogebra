@@ -26,8 +26,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.undo.AppState;
 import org.geogebra.common.main.undo.UndoCommand;
 import org.geogebra.common.main.undo.UndoManager;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.io.MyXMLioD;
@@ -50,10 +48,6 @@ public class UndoManagerD extends UndoManager {
 		super(cons);
 	}
 
-	private void execute(Runnable undoSaveAction) {
-		new Thread(undoSaveAction).start();
-	}
-
 	/**
 	 * Adds construction state to undo info list.
 	 */
@@ -64,7 +58,7 @@ public class UndoManagerD extends UndoManager {
 		app.getEventDispatcher();
 
 		Runnable storeUndoAction = () -> doStoreUndoInfo(currentUndoXML);
-		execute(storeUndoAction);
+		new Thread(storeUndoAction).start();
 	}
 
 	/**
@@ -85,15 +79,10 @@ public class UndoManagerD extends UndoManager {
 				UndoCommand command = new UndoCommand(appStateToAdd);
 				maybeStoreUndoCommand(command);
 				pruneStateList();
-				app.getEventDispatcher().dispatchEvent(
-						new Event(EventType.STOREUNDO));
-
-			} catch (Exception e) {
-				Log.debug("storeUndoInfo: " + e.toString());
-				e.printStackTrace();
-			} catch (OutOfMemoryError err) {
-				Log.debug("UndoManager.storeUndoInfo: " + err.toString());
-				err.printStackTrace();
+				notifyUnsaved();
+			} catch (Exception | OutOfMemoryError e) {
+				Log.debug("storeUndoInfo: " + e);
+				Log.debug(e);
 			}
 
 			return null;

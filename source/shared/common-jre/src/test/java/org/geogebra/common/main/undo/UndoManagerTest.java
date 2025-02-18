@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 
@@ -202,6 +203,14 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertThat(pt, hasValue("(0, 0)"));
 		getUndoManager().redo();
 		assertThat(pt, hasValue("(3, 0)"));
+	}
+
+	@Test
+	public void shouldSetUnsaved() {
+		getKernel().setUndoActive(true);
+		add("x");
+		getApp().storeUndoInfo();
+		assertFalse(getApp().isSaved());
 	}
 
 	private UndoManager getUndoManager() {

@@ -2448,7 +2448,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public final void storeUndoInfo() {
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
-			setUnsaved();
 		}
 	}
 
