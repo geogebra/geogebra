@@ -4928,6 +4928,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			algebraOutputFilter = examType.wrapAlgebraOutputFilter(getAlgebraOutputFilter());
 			valueConverter = examType.wrapValueConverter(getGeoElementValueConverter());
 		}
+		if (featureRestrictions.contains(ExamFeatureRestriction.HIDE_SPECIAL_POINTS)) {
+			getSpecialPointsManager().isEnabled = false;
+		}
 		if (featureRestrictions.contains(ExamFeatureRestriction.SURD)) {
 			kernel.setSurds(null);
 		}
@@ -4942,6 +4945,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// null out filters, to recreate on next use
 		algebraOutputFilter = null;
 		valueConverter = null;
+		if (featureRestrictions.contains(ExamFeatureRestriction.HIDE_SPECIAL_POINTS)) {
+			getSpecialPointsManager().isEnabled = true;
+		}
 		if (featureRestrictions.contains(ExamFeatureRestriction.SURD)) {
 			kernel.setSurds(new Surds());
 		}

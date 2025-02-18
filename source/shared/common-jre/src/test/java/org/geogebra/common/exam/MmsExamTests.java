@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -83,5 +84,20 @@ public class MmsExamTests extends BaseExamTests {
 	@Test
 	public void testRestrictedComplexNumberOutput() {
 		assertNull(evaluate("sqrt(-5)", "ί*√5"));
+	}
+
+	@Test
+	public void testRestrictedSpecialPointsContextMenuItem() {
+		assertEquals(
+				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("f(x)=xx"),
+						algebraProcessor, GeoGebraConstants.CAS_APPCODE));
+	}
+
+	@Test
+	public void testRestrictedSpecialPoints() {
+		GeoElement f = evaluateGeoElement("xx");
+		app.getSpecialPointsManager().updateSpecialPoints(f);
+		assertNull(app.getSpecialPointsManager().getSelectedPreviewPoints());
 	}
 }

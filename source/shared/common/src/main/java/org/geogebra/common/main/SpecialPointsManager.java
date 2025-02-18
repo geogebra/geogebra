@@ -54,6 +54,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
 	private GeoPoint defaultPoint;
 	private boolean isUpdating = false;
+	boolean isEnabled = true;
 	/**
 	 * storing the special points parent algos: needed for iOS as GeoElement as only weak
 	 * reference to its parent algo
@@ -83,7 +84,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 */
 	public void updateSpecialPoints(GeoElement geo) {
 		App application = kernel.getApplication();
-		if (!application.getConfig().hasPreviewPoints() || isUpdating) {
+		if (!application.getConfig().hasPreviewPoints() || !isEnabled || isUpdating) {
 			return;
 		}
 		// Prevent calling update special points recursively

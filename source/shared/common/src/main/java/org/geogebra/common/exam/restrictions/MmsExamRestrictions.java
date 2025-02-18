@@ -54,6 +54,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
 		return Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION,
+				ExamFeatureRestriction.HIDE_SPECIAL_POINTS,
 				ExamFeatureRestriction.SPREADSHEET,
 				ExamFeatureRestriction.SURD,
 				ExamFeatureRestriction.RATIONALIZATION);
@@ -223,7 +224,10 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
-		return Set.of(contextMenuItem -> contextMenuItem != AlgebraContextMenuItem.Statistics);
+		return Set.of(contextMenuItem -> {
+			return contextMenuItem != AlgebraContextMenuItem.Statistics
+					&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints;
+		});
 	}
 
 	private static Set<GeoElementSetup> createGeoElementSetups() {

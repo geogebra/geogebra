@@ -10,9 +10,10 @@ public enum ExamFeatureRestriction {
 	/** APPS-5926, APPS-6088 */
 	HIDE_CALCULATED_EQUATION,
 
-	/**
-	 * APPS-6088
-	 */
+	/** APPS-6308 */
+	HIDE_SPECIAL_POINTS,
+
+	/** APPS-6088 */
 	RESTRICT_CHANGING_EQUATION_FORM,
 
 	/** APPS-5929 */
