@@ -184,8 +184,12 @@ public class ScriptInputDialog extends JPanel
 	@Override
 	public void setLabels() {
 		languageSelector.removeActionListener(this);
+		int oldIndex = languageSelector.getSelectedIndex();
 		languageSelector.removeAllItems();
 		fillLanguageSelector();
+		if (oldIndex >= 0 && oldIndex < languageSelector.getItemCount()) {
+			languageSelector.setSelectedIndex(oldIndex);
+		}
 		languageSelector.addActionListener(this);
 	}
 }
