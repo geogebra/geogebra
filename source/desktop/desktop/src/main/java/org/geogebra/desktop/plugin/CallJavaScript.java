@@ -111,13 +111,14 @@ public class CallJavaScript {
 
 		@Override
 		public boolean visibleToScripts(String fullClassName) {
+			if (fullClassName.equals(org.geogebra.desktop.plugin.GgbAPID.class.getName())
+					|| fullClassName.equals(GgbAPIHeadless.class.getName())) {
+				return true;
+			}
 			Log.debug("Rhino attempting to use class " + fullClassName);
-			
-			return fullClassName.equals(org.geogebra.desktop.plugin.GgbAPID.class.getName())
-					|| fullClassName.equals(GgbAPIHeadless.class.getName())
-					// needed for setTimeout() emulation
+			return // needed for setTimeout() emulation
 					// https://gist.github.com/murkle/f4d0c02aa595f404df143d0bd31b6b88
-					|| fullClassName.equals(java.util.Timer.class.getName())
+					fullClassName.equals(java.util.Timer.class.getName())
 					|| fullClassName.equals(java.util.TimerTask.class.getName())
 					// eg java.lang.String
 					|| fullClassName.startsWith("java.lang")
