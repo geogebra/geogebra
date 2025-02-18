@@ -163,6 +163,9 @@ public class HatchingHandler {
 			drawDotted(dist, g2d, 2 * exportScale);
 			break;
 		case SYMBOLS:
+			if (symbol == null) {
+				break;
+			}
 			GFont font = app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
 					(int) (dist * 2.5));
 			g2d.setFont(font);

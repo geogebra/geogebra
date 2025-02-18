@@ -216,7 +216,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private Auxiliary auxiliaryObject = Auxiliary.NO_DEFAULT;
 	private boolean selectionAllowed = true;
-	// on change: see setVisualValues()
 
 	// spreadsheet specific properties
 	private SpreadsheetCoords spreadsheetCoords;
@@ -1281,6 +1280,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				fillColor = geo.fillColor;
 			}
 			setFillType(geo.fillType);
+			setFillSymbol(geo.fillSymbol);
 			hatchingAngle = geo.hatchingAngle;
 			hatchingDistance = geo.hatchingDistance;
 			graphicsadapter.setImageFileName(

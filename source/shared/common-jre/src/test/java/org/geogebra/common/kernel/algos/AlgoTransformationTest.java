@@ -10,7 +10,9 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConicPart;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -95,6 +97,16 @@ public class AlgoTransformationTest extends BaseUnitTest {
 		assertTrue(getDirection(arc));
 		assertEquals(0, arc2.getParameterStart(), 0.01);
 		assertEquals(Math.PI, arc2.getParameterEnd(), 0.01);
+	}
+
+	@Test
+	public void shouldCopySymbol() {
+		GeoElement circle = add("c:xx+yy=1");
+		circle.setFillSymbol("X");
+		circle.setFillType(FillType.SYMBOLS);
+		GeoElement rotated = add("Rotate(c,pi,(1,0))");
+		assertEquals(FillType.SYMBOLS, rotated.getFillType());
+		assertEquals("X", rotated.getFillSymbol());
 	}
 
 	private String[] createTransformedDegenerate(String s) {
