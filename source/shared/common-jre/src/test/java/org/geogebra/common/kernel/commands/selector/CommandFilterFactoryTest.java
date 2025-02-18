@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class CommandFilterFactoryTest {
@@ -67,6 +68,15 @@ public class CommandFilterFactoryTest {
 	public void testCasCommandFilterForAsymptoteCommand() {
 		filter = CommandFilterFactory.createCasCommandFilter();
 		assertAllowed(true, Commands.Asymptote);
+	}
+
+	@Issue("APPS-6314")
+	@Test
+	public void testCasCommandFilterAllowsChartCommands() {
+		filter = CommandFilterFactory.createCasCommandFilter();
+		assertAllowed(true, Commands.BarChart);
+		assertAllowed(true, Commands.StepGraph);
+		assertAllowed(true, Commands.StickGraph);
 	}
 
 	@Test

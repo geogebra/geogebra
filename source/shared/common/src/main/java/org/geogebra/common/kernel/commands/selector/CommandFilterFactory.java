@@ -132,11 +132,11 @@ public final class CommandFilterFactory {
 				Commands.Axes, Commands.Center,
 				Commands.Diameter, Commands.Focus,
 				// Chart Commands
-				Commands.BarChart, Commands.BoxPlot, Commands.ContingencyTable,
+				Commands.BoxPlot, Commands.ContingencyTable,
 				Commands.DotPlot, Commands.FrequencyPolygon, Commands.FrequencyTable,
 				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
-				Commands.ResidualPlot, Commands.StemPlot, Commands.StepGraph,
-				Commands.StickGraph, Commands.LineGraph, Commands.PieChart,
+				Commands.ResidualPlot, Commands.StemPlot,
+				Commands.LineGraph, Commands.PieChart,
 				// Barycentric Commands
 				Commands.TriangleCenter, Commands.Barycenter, Commands.Trilinear, Commands.Cubic,
 				Commands.TriangleCurve,
