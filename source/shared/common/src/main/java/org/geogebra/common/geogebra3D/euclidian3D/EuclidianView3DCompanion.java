@@ -330,7 +330,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	}
 
 	/**
-	 * Initialiye stylus beam
+	 * Initialize stylus beam.
 	 */
 	public void initAxisAndPlane() {
 		// needed for input3D

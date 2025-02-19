@@ -523,7 +523,7 @@ public class SpreadsheetTraceManager {
 	 * @param geo
 	 *            construction element
 	 * @param flag
-	 *            coumn reset flag
+	 *            column reset flag
 	 */
 	public void setNeedsColumnReset(GeoElement geo, boolean flag) {
 		if (!traceGeoCollection.containsKey(geo)) {

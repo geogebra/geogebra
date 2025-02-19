@@ -122,7 +122,7 @@ public class FunctionInspectorD extends FunctionInspector
 	private SpecialNumberFormat nf;
 
 	/**
-	 * Constructs a FunctionInspecor
+	 * Constructs a FunctionInspector
 	 * 
 	 * @param app application
 	 * @param selectedGeo selected function

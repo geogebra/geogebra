@@ -17,7 +17,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * Furniture drawbale on canvas
+ * Furniture drawable on canvas
  */
 public abstract class CanvasDrawable extends Drawable {
 	private static final int HIGHLIGHT_MARGIN = 2;

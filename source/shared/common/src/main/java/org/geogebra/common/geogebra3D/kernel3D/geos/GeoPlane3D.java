@@ -115,7 +115,7 @@ public class GeoPlane3D extends GeoElement3D
 	 * @param cons
 	 *            construction
 	 * @param a
-	 *            x-coeeficient
+	 *            x-coefficient
 	 * @param b
 	 *            y-coefficient
 	 * @param c
@@ -133,7 +133,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	/**
 	 * @param a
-	 *            x-coeeficient
+	 *            x-coefficient
 	 * @param b
 	 *            y-coefficient
 	 * @param c

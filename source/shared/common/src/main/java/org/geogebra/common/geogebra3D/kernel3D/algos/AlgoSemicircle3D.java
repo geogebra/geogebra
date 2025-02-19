@@ -137,7 +137,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 	}
 
 	/**
-	 * Returns the semicercle
+	 * Returns the semicircle.
 	 * 
 	 * @return the semicircle
 	 */

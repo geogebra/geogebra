@@ -31,7 +31,7 @@ public class AlgoInverseRealDistribution1Param extends AlgoDistribution {
 	 * @param cons construction
 	 * @param a degrees of freedom
 	 * @param b variable value
-	 * @param command dstribution
+	 * @param command distribution
 	 */
 	public AlgoInverseRealDistribution1Param(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, ProbabilityCalculatorSettings.Dist command) {

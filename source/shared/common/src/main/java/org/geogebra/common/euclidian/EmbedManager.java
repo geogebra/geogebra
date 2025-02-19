@@ -98,7 +98,7 @@ public interface EmbedManager {
 	void embed(Material material);
 
 	/**
-	 * @param drawEmbed applet drawble
+	 * @param drawEmbed applet drawable
 	 * @param width width in pixels
 	 * @param height height in pixels
 	 */

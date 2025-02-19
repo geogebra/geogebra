@@ -297,7 +297,7 @@ public class ProbabilityManager {
 	 * @param x
 	 *            variable value
 	 * @param isCumulative
-	 *            whether to use cumulative dstribution
+	 *            whether to use cumulative distribution
 	 * @return AlgoDistribution
 	 */
 	protected static AlgoDistribution getCommand(Dist dist, Construction cons,

@@ -20,12 +20,12 @@ public abstract class MarchingConfigProvider {
 			return empty();
 		}
 
-		return checkContinouty(config, rect, pts);
+		return checkContinuity(config, rect, pts);
 	}
 
 	protected abstract boolean isConfigFinal(MarchingConfig gridType);
 
-	protected abstract MarchingConfig checkContinouty(MarchingConfig config,
+	protected abstract MarchingConfig checkContinuity(MarchingConfig config,
 			MarchingRect marchingRect, MyPoint[] points);
 
 	protected abstract MarchingConfig getConfigFrom(MarchingRect r);

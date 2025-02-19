@@ -9,7 +9,7 @@ public class PenToolsSettings extends AbstractSettings {
 	private GColor lastSelectedPenColor = GColor.BLACK;
 	private GColor lastSelectedHighlighterColor = GColor.newColorRGB(0x388C83);
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
-	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
+	private int lastHighlighterThickness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
 	private int lastPenOpacity = 255;
 	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 
@@ -64,14 +64,14 @@ public class PenToolsSettings extends AbstractSettings {
 	 * @return last selected size of highlighter
 	 */
 	public int getLastHighlighterThickness() {
-		return lastHighlighterThinckness;
+		return lastHighlighterThickness;
 	}
 
 	/**
 	 * @param lastHighlighterThickness size of highlighter
 	 */
 	public void setLastHighlighterThickness(int lastHighlighterThickness) {
-		this.lastHighlighterThinckness = lastHighlighterThickness;
+		this.lastHighlighterThickness = lastHighlighterThickness;
 		notifyListeners();
 	}
 

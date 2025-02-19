@@ -628,7 +628,7 @@ public class DefaultClipper extends ClipperBase {
 
 	public DefaultClipper(int InitOptions) // constructor
 	{
-		super((PRESERVE_COLINEAR & InitOptions) != 0);
+		super((PRESERVE_COLLINEAR & InitOptions) != 0);
 		scanbeam = null;
 		activeEdges = null;
 		sortedEdges = null;

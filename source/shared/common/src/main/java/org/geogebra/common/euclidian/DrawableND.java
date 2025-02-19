@@ -140,7 +140,7 @@ public abstract class DrawableND {
 	public abstract boolean isTracing();
 
 	/**
-	 * @return recctangle for stylebar
+	 * @return rectangle for stylebar
 	 */
 	public @CheckForNull GRectangle2D getBoundsForStylebarPosition() {
 		return null;

@@ -165,7 +165,7 @@ public final class FLS {
 		// terminate when a full rotation of of static order from city 1:N
 		// has completed without making a move (when all cities are inactive).
 		// the resulting tour (points) will be "2-Optimal" -that is, no further
-		// imrovements are possible (local optima).
+		// improvements are possible (local optima).
 		while (visited < numCities) {
 			final MyPoint currentPoint = points[current];
 			if (currentPoint.isActive()) {

@@ -24,7 +24,7 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 	}
 
 	/**
-	 * Change selection property of an object, update sleection
+	 * Change selection property of an object, update selection.
 	 * @param geo construction element
 	 * @param app application
 	 * @param allowSelection whether to allow selection

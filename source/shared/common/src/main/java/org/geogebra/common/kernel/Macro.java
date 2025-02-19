@@ -498,7 +498,7 @@ public class Macro {
 		mk.setContinuous(false);
 
 		// during initing we turn global variable lookup off, so we can be sure
-		// that the macro construction only dependes on it's input
+		// that the macro construction only depends on its input
 		mk.setGlobalVariableLookup(false);
 
 		try {

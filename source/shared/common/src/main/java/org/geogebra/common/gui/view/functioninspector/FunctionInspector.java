@@ -47,8 +47,8 @@ public abstract class FunctionInspector
 	protected App app;
 	private GeoElementSelectionListener sl;
 
-	/***************************************************************
-	 * Constructs a FunctionInspecor
+	/**
+	 * Constructs a FunctionInspector
 	 * 
 	 * @param app
 	 *            application

@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * abstract class for Commands with two numberical arguments eg Binomial[
- * &lt;Number&gt;, &lt;Number&gt; ]
+ * Abstract class for Commands with two numerical arguments eg Binomial[
+ * &lt;Number&gt;, &lt;Number&gt; ].
  * 
  * @author Michael Borcherds
  */

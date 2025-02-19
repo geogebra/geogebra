@@ -12,7 +12,7 @@ public abstract class ProbabilityCalculatorStyleBar {
 
 	private App app;
 
-	/** probabililty calculator */
+	/** probability calculator */
 	private ProbabilityCalculatorView probCalc;
 	private RoundingOptions roundingOptions;
 

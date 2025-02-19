@@ -1168,7 +1168,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		// copy ShowObjectCondition, unless it generates a
-		// CirclularDefinitionException
+		// CircularDefinitionException
 		if (!keepAdvanced) {
 			if (geo.condShowObject != null) {
 				try {
@@ -1369,7 +1369,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		setColorSpace(geo.getColorSpace());
 
 		// copy ShowObjectCondition, unless it generates a
-		// CirclularDefinitionException
+		// CircularDefinitionException
 		try {
 			setShowObjectCondition(geo.getShowObjectCondition());
 		} catch (final Exception e) {
@@ -1386,7 +1386,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		// copy ShowObjectCondition, unless it generates a
-		// CirclularDefinitionException
+		// CircularDefinitionException
 		if (geo.getShowObjectCondition() != null) {
 			try {
 				setShowObjectCondition(geo.getShowObjectCondition().copy());
@@ -5499,7 +5499,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		/*
-		 * we don't want to deal with list bracess in here since
+		 * we don't want to deal with list braces in here since
 		 * GeoList.toOutputValueString() takes care of it
 		 */
 
@@ -5742,7 +5742,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return true if this implemnts MatrixTransformable
+	 * @return true if this implements MatrixTransformable
 	 */
 	public boolean isMatrixTransformable() {
 		return false;

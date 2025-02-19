@@ -385,7 +385,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 				order[3] = intTemp;
 			}
 
-			// counting no of output segments and assining them as output
+			// counting no of output segments and assigning them as output
 			for (int i = 0; i < 4; i++) {
 				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
@@ -475,7 +475,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 				order[4] = intTemp;
 			}
 
-			// counting no of output segments and assining them as output
+			// counting no of output segments and assigning them as output
 			for (int i = 0; i < 4; i++) {
 				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(

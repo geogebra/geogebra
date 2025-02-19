@@ -91,7 +91,7 @@ public class ManagerShaders extends Manager {
 	 * common constructor
 	 * 
 	 * @param renderer
-	 *            rendereer
+	 *            renderer
 	 * @param view3D
 	 *            3D view
 	 */

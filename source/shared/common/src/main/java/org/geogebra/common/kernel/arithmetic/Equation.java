@@ -31,7 +31,7 @@ import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * stores left and right hand side of an equation as Exprssions
+ * Stores left and right hand side of an equation as Expressions.
  */
 public class Equation extends ValidExpression implements EquationValue {
 

@@ -155,7 +155,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 		 * of initial interval c bx right endpoint of initial interval c f
 		 * function subprogram which evaluates f(x) for any x c in the interval
 		 * (ax,bx) c tol desired length of the interval of uncertainty of the
-		 * final c result (.ge.0.) c c output.. c c fmin abcissa approximating
+		 * final c result (.ge.0.) c c output.. c c fmin abscissa approximating
 		 * the point where f attains a c minimum c c The method used is a
 		 * combination of golden section search and c successive parabolic
 		 * interpolation. Convergence is never much slower c than that for a
@@ -167,7 +167,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 		 * square c root of the relative machine precision. If f is a unimodal c
 		 * function and the computed values of f are always unimodal when c
 		 * separated by at least eps*abs(x)+(tol/3), then fmin approximates c
-		 * the abcissa of the global minimum of f on the interval (ax,bx) with c
+		 * the abscissa of the global minimum of f on the interval (ax,bx) with c
 		 * an error less than 3*eps*abs(fmin)+tol. If f is not unimodal, c then
 		 * fmin may approximate a local, but perhaps non-global, minimum to c
 		 * the same accuracy. c This function subprogram is a slightly modified

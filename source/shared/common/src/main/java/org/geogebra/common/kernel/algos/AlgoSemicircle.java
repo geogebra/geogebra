@@ -116,7 +116,7 @@ public class AlgoSemicircle extends AlgoElement
 	}
 
 	/**
-	 * Returns the semicercle
+	 * Returns the semicircle.
 	 * 
 	 * @return the semicircle
 	 */

@@ -240,7 +240,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 				order[2] = intTemp;
 			}
 
-			// counting no of output segments and assining them as output
+			// counting no of output segments and assigning them as output
 			count = 0;
 			for (int i = 0; i < 3; i++) {
 				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
@@ -329,7 +329,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 				order[3] = intTemp;
 			}
 
-			// counting no of output segments and assining them as output
+			// counting no of output segments and assigning them as output
 			count = 0;
 			for (int i = 0; i < 4; i++) {
 				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
@@ -426,7 +426,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 				order[4] = intTemp;
 			}
 
-			// counting no of output segments and assining them as output
+			// counting no of output segments and assigning them as output
 			int count = 0;
 			for (int i = 0; i < 4; i++) {
 				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
@@ -620,7 +620,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 	 * @param segment
 	 *            GeoSegment
 	 * @param conic
-	 *            GeoConinc
+	 *            conic
 	 * @param closureSegments
 	 *            GeoSegment[2]
 	 * @param closureIntersect

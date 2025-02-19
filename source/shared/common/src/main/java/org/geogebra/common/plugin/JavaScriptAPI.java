@@ -1080,7 +1080,7 @@ public interface JavaScriptAPI {
 			double zTickDistance);
 
 	/**
-	 * @return rounding in the format acceptaable for
+	 * @return rounding in the format acceptable for
 	 *         {@link #setRounding(String)}
 	 */
 	String getRounding();

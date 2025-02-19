@@ -33,7 +33,7 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
 
 	/**
 	 * @param c
-	 *            xonstruction
+	 *            construction
 	 * @param label
 	 *            output label
 	 * @param g3D

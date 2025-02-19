@@ -178,7 +178,7 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	@Override
 	public void fillArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle) {
-		Log.debug("unimplemnted - not needed?");
+		Log.debug("unimplemented - not needed?");
 		// impl.fillArc(x, y, width, height, startAngle, arcAngle);
 	}
 

@@ -333,7 +333,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * exactly on the line segment.  Note that an indicator value
      * of 0 is rare and not useful for determining collinearity
      * because of floating point rounding issues.
-     * <p>If the point is colinear with the line segment, but
+     * <p>If the point is collinear with the line segment, but
      * not between the end points, then the value will be -1 if the point
      * lies "beyond {@code (x1,y1)}" or 1 if the point lies
      * "beyond {@code (x2,y2)}".
@@ -365,7 +365,7 @@ public abstract class Line2D implements Shape, GLine2D {
         py -= y1;
         double ccw = px * y2 - py * x2;
         if (ccw == 0.0) {
-            // The point is colinear, classify based on which side of
+            // The point is collinear, classify based on which side of
             // the segment the point falls on.  We can calculate a
             // relative value using the projection of px,py onto the
             // segment - a negative value indicates the point projects
@@ -959,7 +959,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * geometry that are already in process.
      * @param at the specified <code>AffineTransform</code>
      * @param flatness the maximum amount that the control points for a
-     *          given curve can vary from colinear before a subdivided
+     *          given curve can vary from collinear before a subdivided
      *          curve is replaced by a straight line connecting the
      *          end points.  Since a <code>Line2D</code> object is
      *          always flat, this parameter is ignored.

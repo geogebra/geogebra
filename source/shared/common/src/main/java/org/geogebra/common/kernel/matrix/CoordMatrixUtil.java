@@ -232,7 +232,7 @@ public final class CoordMatrixUtil {
 			}
 		} else {
 			// projection of first plane origin on second plane
-			// direction orthogonal to v and colinear to first plane
+			// direction orthogonal to v and collinear to first plane
 			plane1.getOrigin().projectPlaneThruV(plane2, vn1.crossProduct4(v),
 					origin);
 		}

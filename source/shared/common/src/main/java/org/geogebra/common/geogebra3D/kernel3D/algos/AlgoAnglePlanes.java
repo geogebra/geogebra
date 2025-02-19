@@ -139,7 +139,7 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 		v1 = vn2.crossProduct4(vn);
 
 		// projection of first plane origin on second plane
-		// direction orthogonal to v and colinear to first plane
+		// direction orthogonal to v and collinear to first plane
 		p.getCoordSys().getMatrixOrthonormal().getOrigin().projectPlaneThruV(
 				q.getCoordSys().getMatrixOrthonormal(), v2, o);
 

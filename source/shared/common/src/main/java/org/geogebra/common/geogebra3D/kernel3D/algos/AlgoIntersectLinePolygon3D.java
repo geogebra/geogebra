@@ -130,7 +130,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		case GENERAL: // intersect line/interior of polygon
 			intersectionsCoordsGeneral(p1, paramToCoords);
 			break;
-		case CONTAINED: // intesect line/segments
+		case CONTAINED: // intersect line/segments
 			intersectionsCoordsContained(p1, paramToCoords);
 			break;
 		case PARALLEL: // no intersection

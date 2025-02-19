@@ -60,7 +60,7 @@ public class DrawImage extends Drawable {
 	private double[] hitCoords = new double[2];
 
 	/**
-	 * the croped image should have at least 50px width
+	 * the cropped image should have at least 50px width
 	 */
 	public final static int IMG_CROP_THRESHOLD = 50;
 

@@ -1203,7 +1203,7 @@ public class DrawAxis {
 	 * @param view
 	 *            view
 	 * @param num
-	 *            numbr to be printed
+	 *            number to be printed
 	 * @param axis
 	 *            0 for x,1 for y
 	 * @return description

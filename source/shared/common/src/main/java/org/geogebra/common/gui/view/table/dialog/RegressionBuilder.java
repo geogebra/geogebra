@@ -35,7 +35,7 @@ public class RegressionBuilder {
 
 	/**
 	 * @param regression regression type + degree
-	 * @return regression parameters + coeffficient of determination
+	 * @return regression parameters + coefficient of determination
 	 */
 	public List<StatisticGroup> getRegression(RegressionSpecification regression) {
 		MyVecNode points = new MyVecNode(kernel, xVal, yVal);
@@ -75,7 +75,7 @@ public class RegressionBuilder {
 
 	private void addCorrelationCoefficient(List<StatisticGroup> stats, MyVecNode points,
 			RegressionSpecification regression) {
-		if (regression.getRegresson() == Regression.LINEAR) {
+		if (regression.getRegression() == Regression.LINEAR) {
 			Command exec = new Command(kernel, Stat.PMCC.getCommandName(), false);
 			exec.addArgument(points.wrap());
 			String varName = xVal.getLabelSimple() + yVal.getLabelSimple();

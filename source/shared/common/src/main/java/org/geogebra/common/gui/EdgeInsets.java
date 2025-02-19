@@ -17,7 +17,7 @@ public class EdgeInsets {
 	}
 
 	/**
-	 * Constrauct an edge inset object.
+	 * Construct an edge inset object.
 	 * @param all inset from all directions
 	 */
 	public EdgeInsets(int all) {

@@ -50,7 +50,7 @@ public class AlgoLaTeX extends AlgoElement {
 	 * @param geo
 	 *            element to be printed as LaTeX
 	 * @param substituteVars
-	 *            wheher to show value rather than definition
+	 *            whether to show value rather than definition
 	 * @param showName
 	 *            whether to append left hand side of the definition
 	 */

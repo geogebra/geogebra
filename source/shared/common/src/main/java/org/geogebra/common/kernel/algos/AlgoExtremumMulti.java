@@ -42,7 +42,7 @@ import org.geogebra.common.util.debug.Log;
  *
  * This routine tries to find all extremums visible by eyesight in the graphic
  * screen, but might oversee more extremums not being visible. (Those might
- * become visible by zooming howeveer.)
+ * become visible by zooming however.)
  *
  * Algorithm is: -Sample every 5 pixel -Find intervals with possible extremums
  * -Use Brent's algorithm (see geogebra.kernel.optimization.ExtremumFinder) on

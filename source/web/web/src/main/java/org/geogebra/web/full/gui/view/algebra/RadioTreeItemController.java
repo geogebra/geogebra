@@ -605,7 +605,7 @@ public class RadioTreeItemController implements ClickHandler,
 	 * @param y
 	 *            y-coord
 	 * @param rightClick
-	 *            wheher rght click was used
+	 *            whether right click was used
 	 */
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
 		return false;

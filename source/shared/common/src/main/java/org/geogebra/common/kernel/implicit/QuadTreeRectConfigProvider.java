@@ -17,7 +17,7 @@ public class QuadTreeRectConfigProvider extends MarchingConfigProvider {
 	}
 
 	@Override
-	protected MarchingConfig checkContinouty(MarchingConfig config, MarchingRect marchingRect,
+	protected MarchingConfig checkContinuity(MarchingConfig config, MarchingRect marchingRect,
 			MyPoint[] points) {
 		QuadTreeEdgeConfig quadTreeEdgeConfig = (QuadTreeEdgeConfig) config;
 		return limitOf(points[0]) <= quadTreeEdgeConfig.getQ1(marchingRect)

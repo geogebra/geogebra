@@ -2016,7 +2016,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * updtates the two graphs of tails.
+	 * Updates the two graphs of tails.
 	 */
 	protected void updateDiscreteGraphs() {
 		discreteGraph.update();

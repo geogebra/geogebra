@@ -543,7 +543,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 					firstIntersection = false;
 				}
 			}
-			// TRAC-643 we may have P loaded from XML on redfine
+			// TRAC-643 we may have P loaded from XML on redefine
 			for (int i = count; i < P.length; i++) {
 				P[i].setUndefined();
 			}

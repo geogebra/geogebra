@@ -3939,7 +3939,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * Set projection to ortographic.
+	 * Set projection to orthographic.
 	 */
 	public void setProjectionOrthographic() {
 		renderer.updateOrthoValues();

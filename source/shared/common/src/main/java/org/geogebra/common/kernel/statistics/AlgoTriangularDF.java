@@ -51,7 +51,7 @@ public class AlgoTriangularDF extends AlgoElement {
 	 * @param mode
 	 *            mode
 	 * @param cumulative
-	 *            cumultative?
+	 *            cumulative?
 	 */
 	public AlgoTriangularDF(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue mode, BooleanValue cumulative) {

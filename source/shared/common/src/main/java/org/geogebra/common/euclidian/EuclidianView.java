@@ -1956,7 +1956,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// NumberFormatAdapter df = axesNumberFormat[axis];
 
-		// display large and small numbers in scienctific notation
+		// display large and small numbers in scientific notation
 		if ((axesNumberingDistances[axis] < 10E-6)
 				|| (axesNumberingDistances[axis] > 10E6)) {
 			maxFractionDigits = Math.min(14, maxFractionDigits);

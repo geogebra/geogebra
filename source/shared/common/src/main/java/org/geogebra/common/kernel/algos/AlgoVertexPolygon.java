@@ -104,7 +104,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * @param p
 	 *            polygon or polyline
 	 * @param v
-	 *            vertrex index
+	 *            vertex index
 	 */
 	AlgoVertexPolygon(Construction cons, GeoPoly p, GeoNumberValue v) {
 		super(cons);

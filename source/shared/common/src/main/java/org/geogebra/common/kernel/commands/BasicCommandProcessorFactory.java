@@ -7,7 +7,7 @@ import org.geogebra.common.plugin.Operation;
 /**
  * Factory for the most commonly used command processors.
  * This is the only {@link CommandProcessorFactory} that can be
- * directly instantiated in common and does not require aynchronously
+ * directly instantiated in common and does not require asynchronously
  * loading a module in web.
  */
 public class BasicCommandProcessorFactory implements CommandProcessorFactory {

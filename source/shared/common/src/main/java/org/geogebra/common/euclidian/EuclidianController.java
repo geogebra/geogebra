@@ -649,7 +649,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * @param resizedShape
-	 *            shape being resized by boundong box
+	 *            shape being resized by bounding box
 	 */
 	public void setResizedShape(Drawable resizedShape) {
 		this.resizedShape = resizedShape;

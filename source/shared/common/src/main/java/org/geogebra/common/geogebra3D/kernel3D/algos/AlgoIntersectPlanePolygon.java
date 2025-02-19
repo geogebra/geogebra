@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * Computes plane x polygnon intersection.
+ * Computes plane x polygon intersection.
  */
 public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 

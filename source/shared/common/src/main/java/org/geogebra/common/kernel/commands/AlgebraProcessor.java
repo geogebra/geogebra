@@ -984,10 +984,10 @@ public class AlgebraProcessor {
 			throw new MyError(loc, Errors.CASGeneralErrorMessage);
 		}
 		// collect undefined variables
-		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
+		CollectUndefinedVariables collector = new Traversing.CollectUndefinedVariables(
 				info.isMultipleUnassignedAllowed());
-		ve.inspect(collecter);
-		final TreeSet<String> undefinedVariables = collecter.getResult();
+		ve.inspect(collector);
+		final TreeSet<String> undefinedVariables = collector.getResult();
 
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
 				undefinedVariables, callback0,
@@ -2246,7 +2246,7 @@ public class AlgebraProcessor {
 						ret[0] = replaceable;
 					}
 
-					// STANDARD CASE: REDFINED
+					// STANDARD CASE: REDEFINED
 					else if (!(info.isPreventingTypeChange())
 							|| compatibleTypes(replaceable,
 							ret[0])) {

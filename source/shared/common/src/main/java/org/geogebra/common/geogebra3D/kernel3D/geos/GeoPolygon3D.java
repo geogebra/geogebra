@@ -955,8 +955,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 			int gLength = g.getPointsLength();
 			if (gLength == this.getPointsLength()) {
-
-				// Log.debug("Polygones de meme longueur");
 				// search for a first common point
 				Coords firstPoint = this.getPoint3D(0);
 				boolean fPointFound = false;

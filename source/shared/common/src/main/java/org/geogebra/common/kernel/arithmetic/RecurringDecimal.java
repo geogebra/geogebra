@@ -60,7 +60,7 @@ public class RecurringDecimal extends MyDouble {
 	/**
 	 *
 	 * @param parts for the result
-	 * @param expr to get as a fractiom.
+	 * @param expr to get as a fraction.
 	 */
 	public static void asFraction(ExpressionValue[] parts, ExpressionNode expr) {
 		Kernel kernel = expr.getKernel();

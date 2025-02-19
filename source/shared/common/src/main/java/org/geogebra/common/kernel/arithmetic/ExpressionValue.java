@@ -300,7 +300,7 @@ public interface ExpressionValue {
 
 	/**
 	 *
-	 * @return whether this evalouates to RecurringDecimal
+	 * @return whether this evaluates to RecurringDecimal
 	 */
 	boolean isRecurringDecimal();
 }

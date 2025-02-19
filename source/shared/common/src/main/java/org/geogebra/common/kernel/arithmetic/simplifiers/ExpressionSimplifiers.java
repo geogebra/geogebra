@@ -90,7 +90,7 @@ public class ExpressionSimplifiers {
 	}
 
 	/**
-	 * Run this on root node before further simpplifications.
+	 * Run this on root node before further simplifications.
 	 * @param root to simplify
 	 * @return the simplified result
 	 */

@@ -139,7 +139,7 @@ public final class DrawText3D extends Drawable3DCurves {
 	 * @param renderer
 	 *            renderer
 	 * @param absolute
-	 *            whetther only absolute or only relative text should be painted
+	 *            whether only absolute or only relative text should be painted
 	 */
 	public void drawForAbsolutePosition(Renderer renderer, boolean absolute) {
 		GeoText text = (GeoText) getGeoElement();

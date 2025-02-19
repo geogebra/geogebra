@@ -982,7 +982,7 @@ public class StatGeo {
 	 * @param order
 	 *            regression order
 	 * @param residual
-	 *            whether to use reidual plot
+	 *            whether to use residual plot
 	 * @return regression plot
 	 */
 	public GeoElement createRegressionPlot(GeoList dataList, Regression reg,

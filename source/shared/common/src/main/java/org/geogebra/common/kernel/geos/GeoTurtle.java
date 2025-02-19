@@ -736,7 +736,7 @@ public class GeoTurtle extends GeoPoint {
 
 		/**
 		 * @param a
-		 *            anticlokwise angle in degrees
+		 *            anticlockwise angle in degrees
 		 */
 		public CmdTurn(double a) {
 			degAngle = a;

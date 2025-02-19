@@ -392,7 +392,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	}
 
-	// --- The Logistic Function and its derivates --- //
+	// --- The Logistic Function and its derivatives --- //
 
 	/** Logistic function f(x)=c/(1+ae^(-bx)) */
 	private static double f(double x, double a1, double b1, double c1) {

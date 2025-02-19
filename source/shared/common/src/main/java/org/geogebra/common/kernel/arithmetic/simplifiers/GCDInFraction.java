@@ -16,8 +16,8 @@ public class GCDInFraction {
 	/**
 	 *
 	 * @param utils {@link SimplifyUtils}
-	 * @param numerator of the fracton to compute GCD of.
-	 * @param denominator of the fracton to compute GCD of.
+	 * @param numerator of the fraction to compute GCD of.
+	 * @param denominator of the fraction to compute GCD of.
 	 */
 	public GCDInFraction(SimplifyUtils utils, long numerator, long denominator) {
 		this.utils = utils;
@@ -54,7 +54,7 @@ public class GCDInFraction {
 
 	/**
 	 *
-	 * @return denomerator / gcd
+	 * @return denominator / gcd
 	 */
 	public long reducedDenominator() {
 		return reducedDenominator;

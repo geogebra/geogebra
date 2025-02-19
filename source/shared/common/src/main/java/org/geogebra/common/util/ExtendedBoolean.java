@@ -20,7 +20,7 @@ public enum ExtendedBoolean {
 	}
 
 	/**
-	 * @return nagated value
+	 * @return negated value
 	 */
 	public ExtendedBoolean negate() {
 		switch (this) {
@@ -32,7 +32,7 @@ public enum ExtendedBoolean {
 	}
 
 	/**
-	 * @return nagated value
+	 * @return value of this && other
 	 */
 	public ExtendedBoolean and(ExtendedBoolean other) {
 		switch (this) {

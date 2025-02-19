@@ -149,7 +149,7 @@ public class MyXMLHandler implements DocHandler {
 	/** application */
 	@Weak
 	protected final App app;
-	/** lacalization */
+	/** localization */
 	protected final Localization loc;
 
 	private String[] macroInputLabels;

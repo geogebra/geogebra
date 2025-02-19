@@ -114,7 +114,7 @@ import java.util.Vector;
  * triangulation, {@code check} will fail (the same behavior is observed
  * with triangulated output from <a href=http://www.qhull.org>qhull</a>).
  * <h3>Degenerate Input</h3>It is assumed that the input points are
- * non-degenerate in that they are not coincident, colinear, or colplanar, and
+ * non-degenerate in that they are not coincident, collinear, or colplanar, and
  * thus the convex hull has a non-zero volume. If the input points are detected
  * to be degenerate within the {@link #getDistanceTolerance() distance
  * tolerance}, an IllegalArgumentException will be thrown.
@@ -286,7 +286,7 @@ public class QuickHull3D {
 	 *            this array will be three times the the number of input points.
 	 * @throws IllegalArgumentException
 	 *             the number of input points is less than four, or the points
-	 *             appear to be coincident, colinear, or coplanar.
+	 *             appear to be coincident, collinear, or coplanar.
 	 */
 	public QuickHull3D(double[] coords) throws IllegalArgumentException {
 		build(coords, coords.length / 3);
@@ -300,7 +300,7 @@ public class QuickHull3D {
 	 *            input points.
 	 * @throws IllegalArgumentException
 	 *             the number of input points is less than four, or the points
-	 *             appear to be coincident, colinear, or coplanar.
+	 *             appear to be coincident, collinear, or coplanar.
 	 */
 	public QuickHull3D(Point3d[] points) throws IllegalArgumentException {
 		build(points, points.length);
@@ -432,7 +432,7 @@ public class QuickHull3D {
 	 *            this array will be three times the number of input points.
 	 * @throws IllegalArgumentException
 	 *             the number of input points is less than four, or the points
-	 *             appear to be coincident, colinear, or coplanar.
+	 *             appear to be coincident, collinear, or coplanar.
 	 */
 	public void build(double[] coords) throws IllegalArgumentException {
 		build(coords, coords.length / 3);
@@ -450,7 +450,7 @@ public class QuickHull3D {
 	 * @throws IllegalArgumentException
 	 *             the number of input points is less than four or greater than
 	 *             1/3 the length of <code>coords</code>, or the points appear
-	 *             to be coincident, colinear, or coplanar.
+	 *             to be coincident, collinear, or coplanar.
 	 */
 	public void build(double[] coords, int nump)
 			throws IllegalArgumentException {
@@ -474,7 +474,7 @@ public class QuickHull3D {
 	 *            input points
 	 * @throws IllegalArgumentException
 	 *             the number of input points is less than four, or the points
-	 *             appear to be coincident, colinear, or coplanar.
+	 *             appear to be coincident, collinear, or coplanar.
 	 */
 	public void build(Point3d[] points) throws IllegalArgumentException {
 		build(points, points.length);
@@ -490,7 +490,7 @@ public class QuickHull3D {
 	 * @throws IllegalArgumentException
 	 *             the number of input points is less than four or greater then
 	 *             the length of <code>points</code>, or the points appear to be
-	 *             coincident, colinear, or coplanar.
+	 *             coincident, collinear, or coplanar.
 	 */
 	public void build(Point3d[] points, int nump)
 			throws IllegalArgumentException {
@@ -670,7 +670,7 @@ public class QuickHull3D {
 		}
 		if (Math.sqrt(maxSqr) <= 100 * tolerance) {
 			throw new IllegalArgumentException(
-					"Input points appear to be colinear");
+					"Input points appear to be collinear");
 		}
 		nrml.normalize();
 

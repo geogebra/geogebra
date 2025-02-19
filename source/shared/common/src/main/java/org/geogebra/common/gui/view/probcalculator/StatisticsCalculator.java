@@ -123,7 +123,7 @@ public abstract class StatisticsCalculator {
 		return statProcessor;
 	}
 
-	public StatisticsCollection getStatististicsCollection() {
+	public StatisticsCollection getStatisticsCollection() {
 		return sc;
 	}
 

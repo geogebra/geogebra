@@ -67,7 +67,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	 * @param a_view3D
 	 *            view
 	 * @param selectedPoints
-	 *            input polyons
+	 *            input polygons
 	 * @param selectedPolygons
 	 *            input polygons
 	 * @param mode

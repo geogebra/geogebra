@@ -171,7 +171,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/** id for probability calculator view */
 	public static final int VIEW_PROBABILITY_CALCULATOR = 64;
 	/**
-	 * id for data analysis view, ie multi/single/two variable analysisis tools
+	 * id for data analysis view, ie multi/single/two variable analysis tools
 	 */
 	public static final int VIEW_DATA_ANALYSIS = 70;
 	/** id for function inspector */
@@ -2719,7 +2719,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return whether innput help toggle button should be visible
+	 * @return whether input help toggle button should be visible
 	 */
 	public boolean showInputHelpToggle() {
 		return showInputHelpToggle;
@@ -2729,7 +2729,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Shows / hides input help toggle button
 	 *
 	 * @param flag
-	 *            whether innput help toggle button should be visible
+	 *            whether input help toggle button should be visible
 	 */
 	public void setShowInputHelpToggle(boolean flag) {
 		if (showInputHelpToggle == flag || getGuiManager() == null) {

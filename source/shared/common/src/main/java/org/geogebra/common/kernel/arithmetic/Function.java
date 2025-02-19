@@ -841,7 +841,7 @@ public class Function extends FunctionNVar
 	}
 
 	/*
-	 * *************** CALULUS **************
+	 * *************** CALCULUS **************
 	 */
 
 	/**

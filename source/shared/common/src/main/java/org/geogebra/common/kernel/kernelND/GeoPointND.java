@@ -286,7 +286,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public int getMoveMode();
 
 	/**
-	 * Update inhomogeneous coords based on homegenous
+	 * Update inhomogeneous coords based on homogeneous
 	 */
 	public void updateCoords();
 

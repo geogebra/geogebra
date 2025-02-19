@@ -219,7 +219,7 @@ width:20%;
 .toolbarPanel.startScreen img{
  opacity:0.3;
 }
-/** Start scren splitter**/
+/** Start screen splitter**/
 .startScreen.splitter{
 position: absolute; 
 overflow: hidden; 

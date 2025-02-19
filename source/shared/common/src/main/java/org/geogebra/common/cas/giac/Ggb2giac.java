@@ -229,7 +229,7 @@ public class Ggb2giac {
 						+ "getDenom(factor(ggbdenomans))  )" + ")][1]");
 
 		// this chooses x if it's in the expression
-		// otherwise the first variable alphabetcially
+		// otherwise the first variable alphabetically
 		// when(count_eq(x,lname(%0))==0,lname(%0)[0],x)
 
 		p("Derivative.1",

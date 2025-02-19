@@ -19,13 +19,13 @@ public abstract class ChiSquarePanel {
 	 * @param loc
 	 *            Localization
 	 * @param statCalc
-	 *            SatisticCalculator
+	 *            statistics calculator
 	 */
 	public ChiSquarePanel(Localization loc, StatisticsCalculator statCalc) {
 		this.loc = loc;
 		this.statCalc = statCalc;
 		this.statProcessor = statCalc.getStatProcessor();
-		this.sc = statCalc.getStatististicsCollection();
+		this.sc = statCalc.getStatisticsCollection();
 		if (sc.chiSquareData == null) {
 			sc.setChiSqData(3, 3);
 		} else {

@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
 /**
- * Symbolic vector, coordinastes are expression values
+ * Symbolic vector, coordinates are expression values.
  *
  */
 public interface MyVecNDNode extends ExpressionValue, ReplaceChildrenByValues {

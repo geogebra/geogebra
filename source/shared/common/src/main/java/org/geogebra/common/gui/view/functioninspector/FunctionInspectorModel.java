@@ -161,8 +161,8 @@ public class FunctionInspectorModel {
 		void changedNumberFormat();
 	}
 
-	/***************************************************************
-	 * Constructs a FunctionInspecor
+	/**
+	 * Constructs a model for FunctionInspector view.
 	 * 
 	 * @param app
 	 *            application

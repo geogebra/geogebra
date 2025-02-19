@@ -67,7 +67,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	}
 
 	/**
-	 * Compute circumference. In order to do so we have to distinguishe between
+	 * Compute circumference. In order to do so we have to distinguish between
 	 * the following cases:
 	 * 
 	 * <pre>

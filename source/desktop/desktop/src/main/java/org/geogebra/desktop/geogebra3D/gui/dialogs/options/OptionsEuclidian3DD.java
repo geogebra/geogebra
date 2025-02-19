@@ -289,7 +289,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 			buttons = new JButton[4];
 
 			buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC] = new JButton(
-					app.getScaledIcon(GuiResources3D.PROJECTION_ORTOGRAPHIC));
+					app.getScaledIcon(GuiResources3D.PROJECTION_ORTHOGRAPHIC));
 			buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE] = new JButton(
 					app.getScaledIcon(GuiResources3D.PROJECTION_PERSPECTIVE));
 			buttons[EuclidianView3DInterface.PROJECTION_GLASSES] = new JButton(
@@ -321,7 +321,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 				return;
 			}
 			buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC].setIcon(
-					app.getScaledIcon(GuiResources3D.PROJECTION_ORTOGRAPHIC));
+					app.getScaledIcon(GuiResources3D.PROJECTION_ORTHOGRAPHIC));
 			buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE].setIcon(
 					app.getScaledIcon(GuiResources3D.PROJECTION_PERSPECTIVE));
 			buttons[EuclidianView3DInterface.PROJECTION_GLASSES].setIcon(

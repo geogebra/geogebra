@@ -43,7 +43,7 @@ public class BernsteinMarchingConfigProvider extends MarchingConfigProvider {
 	}
 
 	@Override
-	protected MarchingConfig checkContinouty(MarchingConfig config, MarchingRect marchingRect,
+	protected MarchingConfig checkContinuity(MarchingConfig config, MarchingRect marchingRect,
 			MyPoint[] points) {
 		return BernsteinMarchingConfig.VALID;
 	}

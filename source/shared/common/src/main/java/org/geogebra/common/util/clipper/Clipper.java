@@ -8,7 +8,7 @@ public interface Clipper {
 
 	public final static int STRICTLY_SIMPLE = 2;
 
-	public final static int PRESERVE_COLINEAR = 4;
+	public final static int PRESERVE_COLLINEAR = 4;
 
 	public enum ClipType {
 		INTERSECTION, UNION, DIFFERENCE, XOR

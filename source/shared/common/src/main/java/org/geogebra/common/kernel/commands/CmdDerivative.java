@@ -223,7 +223,7 @@ public final class CmdDerivative extends CommandProcessor {
 	 *            derivative degree
 	 * @param info
 	 *            evaluation flags
-	 * @return derivaive
+	 * @return the derivative
 	 */
 	public GeoElement derivative(String label, CasEvaluableFunction f,
 			GeoNumeric var, GeoNumberValue n, EvalInfo info) {

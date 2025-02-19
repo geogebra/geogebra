@@ -363,7 +363,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	/**
 	 * @param agd
-	 *            automatic grid sistance
+	 *            automatic grid distance
 	 * @param fire
 	 *            whether to notify listeners
 	 */

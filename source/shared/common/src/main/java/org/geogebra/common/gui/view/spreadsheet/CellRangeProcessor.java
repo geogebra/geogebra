@@ -530,7 +530,7 @@ public class CellRangeProcessor {
 	 * the isCreatePointListPossible() test
 	 * 
 	 * @param rangeList
-	 *            seected ranges
+	 *            selected ranges
 	 * @param byValue
 	 *            whether to use inputs as values
 	 * @param leftToRight

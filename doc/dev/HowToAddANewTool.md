@@ -1,6 +1,6 @@
 # How to add a new Mode to GeoGebra
  
-* in `geogebra.euclidian.EuclidianConstants.java` define a onstant
+* in `geogebra.euclidian.EuclidianConstants.java` define a constant
   ```
   public static final int MODE_MIRROR_AT_CIRCLE = 54;
   ```

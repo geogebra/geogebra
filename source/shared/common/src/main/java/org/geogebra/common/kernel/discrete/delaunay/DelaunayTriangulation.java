@@ -122,7 +122,7 @@ public class DelaunayTriangulation {
 
 	/**
 	 * @return the number of triangles in the triangulation. <br>
-	 *         Note: includes infinife faces!!.
+	 *         Note: includes infinite faces!!.
 	 */
 	public int trianglesSize() {
 		this.initTriangles();
@@ -197,7 +197,7 @@ public class DelaunayTriangulation {
 				}
 			}
 		}
-		// updating the trangulation
+		// updating the triangulation
 		deleteUpdate(pointToDelete);
 		for (TriangleDt t : deletedTriangles) {
 			if (t == startTriangle) {
@@ -214,11 +214,11 @@ public class DelaunayTriangulation {
 	}
 
 	/**
-	 * return a point from the trangulation that is close to pointToDelete
+	 * return a point from the triangulation that is close to pointToDelete
 	 * 
 	 * @param pointToDelete
 	 *            the point that the user wants to delete
-	 * @return a point from the trangulation that is close to pointToDelete By
+	 * @return a point from the triangulation that is close to pointToDelete By
 	 *         Eyal Roth &amp; Doron Ganel (2009).
 	 */
 	public PointDt findClosePoint(PointDt pointToDelete) {
@@ -245,7 +245,7 @@ public class DelaunayTriangulation {
 		}
 	}
 
-	// updates the trangulation after the triangles to be deleted and
+	// updates the triangulation after the triangles to be deleted and
 	// the triangles to be added were found
 	// by Doron Ganel & Eyal Roth(2009)
 	private void deleteUpdate(PointDt pointToDelete) {
@@ -1057,7 +1057,7 @@ public class DelaunayTriangulation {
 	/**
 	 * compute the number of vertices in the convex hull. <br>
 	 * NOTE: has a 'bug-like' behavior: <br>
-	 * in cases of colinear - not on a asix parallel rectangle, colinear points
+	 * in cases of collinear - not on a asix parallel rectangle, collinear points
 	 * are reported
 	 *
 	 * @return the number of vertices in the convex hull.
@@ -1445,9 +1445,9 @@ public class DelaunayTriangulation {
 	}
 
 	/**
-	 * returns an iterator to the set of points compusing this triangulation.
+	 * returns an iterator to the set of points composing this triangulation.
 	 * 
-	 * @return iterator to the set of points compusing this triangulation.
+	 * @return iterator to the set of points composing this triangulation.
 	 */
 	public Iterator<PointDt> verticesIterator() {
 		return this._vertices.iterator();

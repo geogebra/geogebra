@@ -383,7 +383,7 @@ public class GeoList extends GeoElement
 			geo.setLayer(getLayer());
 			geo.setBackgroundColor(getBackgroundColor());
 			// copy ShowObjectCondition, unless it generates a
-			// CirclularDefinitionException
+			// CircularDefinitionException
 			try {
 				geo.setShowObjectCondition(getShowObjectCondition());
 			} catch (final Exception e) {

@@ -394,7 +394,7 @@ public class GeoLocusStroke extends GeoLocus
 
 	/**
 	 * Deletes part of the pen stroke
-	 * @param rectangle the real reactangle, the inside part of which
+	 * @param rectangle the real rectangle, the inside part of which
 	 *                  should be removed from the pen stroke
 	 * @return true, if the pen stroke still has points left after the deletion
 	 */

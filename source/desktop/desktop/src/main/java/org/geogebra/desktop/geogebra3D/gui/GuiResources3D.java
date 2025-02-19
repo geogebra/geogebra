@@ -5,7 +5,7 @@ import org.geogebra.desktop.util.ImageResourceD;
 public enum GuiResources3D implements ImageResourceD {
 	PLANE("/gui/images/64px/plane.gif"),
 
-	PROJECTION_ORTOGRAPHIC(
+	PROJECTION_ORTHOGRAPHIC(
 			"/gui/images/64px/stylingbar_graphics3D_view_orthographic.png"),
 
 	PROJECTION_PERSPECTIVE(

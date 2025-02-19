@@ -1223,7 +1223,7 @@ public class PlotterSurface {
 	 * @param center
 	 *            center
 	 * @param vx
-	 *            first eigrnvector
+	 *            first eigenvector
 	 * @param vy
 	 *            second eigenvector
 	 * @param vz
@@ -1308,7 +1308,7 @@ public class PlotterSurface {
 	 * @param center
 	 *            center
 	 * @param vx
-	 *            first eigrnvector
+	 *            first eigenvector
 	 * @param vy
 	 *            second eigenvector
 	 * @param vz
@@ -1421,7 +1421,7 @@ public class PlotterSurface {
 	 * @param center
 	 *            center
 	 * @param vx
-	 *            first eigrnvector
+	 *            first eigenvector
 	 * @param vy
 	 *            second eigenvector
 	 * @param vz
@@ -1511,7 +1511,7 @@ public class PlotterSurface {
 	}
 
 	/**
-	 * draws the inside of the hyperobola part
+	 * draws the inside of the hyperbola part
 	 * 
 	 * @param d
 	 *            drawable

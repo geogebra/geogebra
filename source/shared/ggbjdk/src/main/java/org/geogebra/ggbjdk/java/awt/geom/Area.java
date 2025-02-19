@@ -666,7 +666,7 @@ public class Area implements Shape, GArea {
      * iteration, or <code>null</code> if untransformed coordinates
      * are desired
      * @param flatness the maximum amount that the control points
-     * for a given curve can vary from colinear before a subdivided
+     * for a given curve can vary from collinear before a subdivided
      * curve is replaced by a straight line connecting the end points
      * @return    the <code>PathIterator</code> object that returns the
      * geometry of the outline of this <code>Area</code>, one segment

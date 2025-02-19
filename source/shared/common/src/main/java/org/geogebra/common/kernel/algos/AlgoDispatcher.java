@@ -2163,8 +2163,7 @@ public class AlgoDispatcher {
 	}
 
 	/**
-	 * IntersectPolyomialLine yields all intersection points of polynomial f and
-	 * line l
+	 * Yields all intersection points of polynomial f and line l.
 	 * 
 	 * @param labels
 	 *            output labels

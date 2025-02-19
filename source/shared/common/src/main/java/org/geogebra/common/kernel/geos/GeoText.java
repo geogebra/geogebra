@@ -1118,12 +1118,12 @@ public class GeoText extends GeoElement
 				@Override
 				public int compare(GeoText itemA, GeoText itemB) {
 
-					NormalizerMinimal noramlizer = itemA.getKernel()
+					NormalizerMinimal normalizer = itemA.getKernel()
 							.getApplication().getNormalizer();
 
 					// remove accents etc
-					String strA = noramlizer.transform(itemA.getTextStringSafe());
-					String strB = noramlizer.transform(itemB.getTextStringSafe());
+					String strA = normalizer.transform(itemA.getTextStringSafe());
+					String strB = normalizer.transform(itemB.getTextStringSafe());
 
 					// do comparison without accents etc
 					int comp = strA.compareTo(strB);

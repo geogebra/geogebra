@@ -573,7 +573,7 @@ public class DataDisplayModel {
 
 			// =================================================================
 			// Step 1:
-			// Update the plot geos with the reomoveFromConstruction
+			// Update the plot geos with the removeFromConstruction
 			// flag set to false. This ensures that the display geos have been
 			// put in the construction list and will be saved to xml.
 			// =================================================================

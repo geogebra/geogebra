@@ -138,7 +138,7 @@ public interface GeoGebraCasInterface {
 	 * @param symbolic
 	 *            true for symbolic arguments
 	 * @param tpl
-	 *            string tmplate for result
+	 *            string template for result
 	 * @param mode
 	 *            symbolic mode
 	 * @return command formatted for current CAS

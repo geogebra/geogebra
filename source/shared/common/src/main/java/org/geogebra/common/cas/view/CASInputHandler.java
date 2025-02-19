@@ -255,7 +255,7 @@ public class CASInputHandler {
 			// Substitute dialog
 			if ("Substitute".equals(ggbcmd)) {
 				// if cell has assignment and nothing other is selected -> use
-				// input without defnition
+				// input without definition
 				// eg. a:=b+c
 				// use only b+c
 				if (isAssignment && !hasSelectedText) {

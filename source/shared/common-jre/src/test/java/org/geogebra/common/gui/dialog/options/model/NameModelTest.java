@@ -85,7 +85,7 @@ public class NameModelTest {
 	}
 
 	@Test
-	public void labelChangeShoundNotChangeCaption() {
+	public void labelChangeShouldNotChangeCaption() {
 		GeoPoint p = makePoint("P");
 		model.setGeos(new Object[] { p });
 		model.updateProperties();
@@ -106,7 +106,7 @@ public class NameModelTest {
 	}
 
 	@Test
-	public void labelCollisionShoundChangeCaption() {
+	public void labelCollisionShouldChangeCaption() {
 		makePoint("P");
 		GeoPoint r = makePoint("R");
 

@@ -213,7 +213,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// projection view button
 		ImageIcon[] projectionIcons = new ImageIcon[4];
 		projectionIcons[0] = app
-				.getScaledIcon(GuiResources3D.PROJECTION_ORTOGRAPHIC);
+				.getScaledIcon(GuiResources3D.PROJECTION_ORTHOGRAPHIC);
 		projectionIcons[1] = app
 				.getScaledIcon(GuiResources3D.PROJECTION_PERSPECTIVE);
 		projectionIcons[2] = app

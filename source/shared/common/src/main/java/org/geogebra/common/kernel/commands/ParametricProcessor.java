@@ -618,9 +618,9 @@ public class ParametricProcessor {
 	 */
 	public ValidExpression checkParametricEquationF(ValidExpression ve,
 			ValidExpression fallback, Construction cons, EvalInfo info) {
-		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		ve.inspect(collecter);
-		final TreeSet<String> undefinedVariables = collecter.getResult();
+		CollectUndefinedVariables collector = new Traversing.CollectUndefinedVariables();
+		ve.inspect(collector);
+		final TreeSet<String> undefinedVariables = collector.getResult();
 		if (undefinedVariables.size() == 1) {
 			try {
 				String varName = undefinedVariables.first();
@@ -654,9 +654,9 @@ public class ParametricProcessor {
 	 * @return parametric curve if possible
 	 */
 	public GeoElement[] processXEquation(Equation equ, EvalInfo info) {
-		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		equ.inspect(collecter);
-		final TreeSet<String> undefinedVariables = collecter.getResult();
+		CollectUndefinedVariables collector = new Traversing.CollectUndefinedVariables();
+		equ.inspect(collector);
+		final TreeSet<String> undefinedVariables = collector.getResult();
 		// case 3DLine
 		if (undefinedVariables.isEmpty()) {
 			undefinedVariables.add("y");

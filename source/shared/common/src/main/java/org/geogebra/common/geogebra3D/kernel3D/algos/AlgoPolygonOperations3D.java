@@ -478,7 +478,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				Coords[] coords = new Coords[1];
 				coords = newCoords.values().toArray(coords);
 				this.intersectSegmentIndex.clear();
-				tmpCoord.setW(1); // ensure homeogeneous coords
+				tmpCoord.setW(1); // ensure homogeneous coords
 				for (int i = 0; i < coords.length - 1; i++) {
 					// check whether the mid point of two consecutive intersect
 					// points is on both polygons

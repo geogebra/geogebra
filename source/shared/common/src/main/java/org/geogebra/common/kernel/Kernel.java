@@ -1738,7 +1738,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				allIntegers = allIntegers && DoubleUtil.isInteger(numbers[i]);
 			}
 			if (allIntegers) {
-				// divide by greates common divisor
+				// divide by greatest common divisor
 				divide(numbers, gcd(numbers), numbers);
 			}
 		}

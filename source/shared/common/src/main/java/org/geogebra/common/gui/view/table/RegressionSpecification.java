@@ -108,7 +108,7 @@ public final class RegressionSpecification {
 		return coeffOrdering;
 	}
 
-	public Regression getRegresson() {
+	public Regression getRegression() {
 		return regression;
 	}
 }

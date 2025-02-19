@@ -2552,11 +2552,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	/**
 	 * @param x
-	 *            homegenous x-coord
+	 *            homogeneous x-coord
 	 */
 	public void setX(double x) {
 		this.x = x;
-
 	}
 
 	/**

@@ -1032,7 +1032,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * Compares using getConstructionIndex() to order algos in update order.
 	 * Note: 0 is only returned for this == obj.
 	 * 
-	 * overwright ConstructionElement.compareTo()
+	 * overrides ConstructionElement.compareTo()
 	 */
 	@Override
 	public int compareTo(ConstructionElement obj) {

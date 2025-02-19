@@ -328,7 +328,7 @@ public class OFFHandler {
 	}
 
 	/**
-	 * Reeset internal state before parsing new file
+	 * Reset internal state before parsing new file.
 	 */
 	public void reset() {
 		this.vertexCount = 0;

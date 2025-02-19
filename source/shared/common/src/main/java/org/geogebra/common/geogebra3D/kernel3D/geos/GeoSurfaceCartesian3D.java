@@ -447,7 +447,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	/**
-	 * find best point on surface colinear to (x0,y0,z0) point in (vx,vy,vz)
+	 * find best point on surface collinear to (x0,y0,z0) point in (vx,vy,vz)
 	 * direction
 	 * 
 	 * @param x0
@@ -470,7 +470,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	 *            (x,y,z,u,v) best point coords and parameters
 	 * @return true if point found
 	 */
-	public boolean getBestColinear(double x0, double xMax, double y0, double z0,
+	public boolean getBestCollinear(double x0, double xMax, double y0, double z0,
 			double vx, double vy, double vz, double vSquareNorm,
 			double[] xyzuvOut) {
 		if (jacobian == null) {
@@ -485,7 +485,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		// we use bivariate newton method:
 		// A(x0,y0,z0) and B(x1,y1,z1) delimits the hitting segment
 		// M(u,v) is a point on the surface
-		// we want vector product AM*AB to equal 0, so A, B, M are colinear
+		// we want vector product AM*AB to equal 0, so A, B, M are collinear
 		// we only check first and second values of AM*AB since third will
 		// be a consequence
 
@@ -515,7 +515,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			uv[0] = uMin + ui * du;
 			for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
 				uv[1] = vMin + vi * dv;
-				double error = findBivariateColinear(x0, y0, z0, vx, vy, vz,
+				double error = findBivariateCollinear(x0, y0, z0, vx, vy, vz,
 						vSquareNorm, gxc, gyc, gzc, uv);
 				if (!Double.isNaN(error)) {
 					// check if the hit point is in the correct direction
@@ -539,7 +539,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		return !Double.isNaN(finalError);
 	}
 
-	private double findBivariateColinear(final double x0, final double y0,
+	private double findBivariateCollinear(final double x0, final double y0,
 			final double z0, final double vx, final double vy, final double vz,
 			final double vSquareNorm, final double gxc, final double gyc,
 			final double gzc, double[] uvParams) {

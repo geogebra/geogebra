@@ -63,7 +63,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/dockbar_triangle_right.png")
 	ImageResource dockbar_triangle_right();
 
-	// PROPABILITY CALCULATOR
+	// PROBABILITY CALCULATOR
 	@Source("org/geogebra/common/icons/png/web/probability_calculator_cumulative_distribution.png")
 	ImageResource cumulative_distribution();
 
