@@ -626,7 +626,7 @@ public final class MyMath {
 	 * @param s1
 	 *            first interval start
 	 * @param e1
-	 *            first intrval end
+	 *            first interval end
 	 * @param s2
 	 *            second interval start
 	 * @param e2

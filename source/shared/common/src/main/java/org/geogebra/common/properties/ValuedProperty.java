@@ -40,7 +40,7 @@ public interface ValuedProperty<V> extends Property {
 	void endSetValue();
 
 	/**
-	 * Adds a property value observer. Adding an obsever that is
+	 * Adds a property value observer. Adding an observer that is
 	 * already registered with this property has no effect.
 	 *
 	 * @param observer value observer

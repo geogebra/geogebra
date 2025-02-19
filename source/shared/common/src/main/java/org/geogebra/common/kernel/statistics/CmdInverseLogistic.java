@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * InvarseNormal[ &lt;Number&gt;, &lt;Number&gt;,&lt;Number&gt; ]
+ * InverseNormal[ &lt;Number&gt;, &lt;Number&gt;,&lt;Number&gt; ]
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */

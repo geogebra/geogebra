@@ -295,7 +295,7 @@ public class MirrorAdapter extends ProverAdapter {
 						// P' - point at parabola
 						botanaVars[0] = new PVariable(geo.getKernel());
 						botanaVars[1] = new PVariable(geo.getKernel());
-						// T' - projection of P' at directirx
+						// T' - projection of P' at directrix
 						botanaVars[2] = new PVariable(geo.getKernel());
 						botanaVars[3] = new PVariable(geo.getKernel());
 						// A' - mirror of star point of directrix

@@ -15,7 +15,7 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 	/**
 	 *
 	 * @param c {@link Construction}
-	 * @param cumulativeProbability cumultative probability value
+	 * @param cumulativeProbability cumulative probability value
 	 * @param probability success probability
 	 * @param numberOfTrials number of trials
 	 */

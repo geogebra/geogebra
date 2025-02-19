@@ -458,7 +458,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 		} else if (vertical == TEXT_TOP) {
 			at.translate(0, -bounds.getY());
 		} else if (vertical == TEXT_CENTER) {
-			// the following adds supersript ascent too,
+			// the following adds superscript ascent too,
 			// so it does not work
 			// at.translate(0, tl.getAscent() / 2);
 			// this is nearly the same

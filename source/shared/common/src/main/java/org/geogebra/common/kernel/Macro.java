@@ -699,7 +699,7 @@ public class Macro {
 	}
 
 	/**
-	 * Returns the syntax descriptiont of this macro.
+	 * Returns the syntax description of this macro.
 	 */
 	@Override
 	public String toString() {

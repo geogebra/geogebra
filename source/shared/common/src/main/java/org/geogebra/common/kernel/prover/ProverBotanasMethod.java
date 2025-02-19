@@ -226,7 +226,7 @@ public class ProverBotanasMethod {
 	}
 
 	/**
-	 * Comparisan that gives true when comparing undefined object with self
+	 * Comparison that gives true when comparing undefined object with self
 	 *
 	 * @param geo1 comparison argument
 	 * @param geo3 comparison argument

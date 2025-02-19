@@ -557,7 +557,7 @@ public class FunctionParser {
 	}
 
 	/**
-	 * Parse expression image(x) where image ends with supersript digits.
+	 * Parse expression image(x) where image ends with superscript digits.
 	 *
 	 * @param image
 	 *            function
@@ -739,7 +739,7 @@ public class FunctionParser {
 	 *            operation
 	 * @param en
 	 *            argument
-	 * @return inverse function for trig operations, reciprocal orherwise
+	 * @return inverse function for trig operations, reciprocal otherwise
 	 */
 	private ExpressionNode minusFirstPower(Operation type, ExpressionValue en) {
 		switch (type) {

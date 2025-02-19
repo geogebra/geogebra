@@ -1649,7 +1649,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	void clearDynamicCaption();
 
 	/**
-	 * Removes dynamic capiton completely.
+	 * Removes dynamic caption completely.
 	 */
 	void removeDynamicCaption();
 

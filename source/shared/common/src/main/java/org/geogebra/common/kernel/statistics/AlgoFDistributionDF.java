@@ -49,7 +49,7 @@ public class AlgoFDistributionDF extends AlgoElement
 	 * @param b
 	 *            distribution parameter
 	 * @param cumulative
-	 *            cmulative?
+	 *            cumulative?
 	 */
 	public AlgoFDistributionDF(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, BooleanValue cumulative) {

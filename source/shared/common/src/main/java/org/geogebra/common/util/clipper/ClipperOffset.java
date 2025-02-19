@@ -160,7 +160,7 @@ public class ClipperOffset {
 			return;
 		}
 
-		// see offset_triginometry3.svg in the documentation folder ...
+		// see offset_trigonometry3.svg in the documentation folder ...
 		if (miterLimit > 2) {
 			miterLim = 2 / (miterLimit * miterLimit);
 		} else {
@@ -175,7 +175,7 @@ public class ClipperOffset {
 		} else {
 			y = arcTolerance;
 		}
-		// see offset_triginometry2.svg in the documentation folder ...
+		// see offset_trigonometry2.svg in the documentation folder ...
 		final double steps = Math.PI / Math.acos(1 - y / Math.abs(delta));
 		sin = Math.sin(TWO_PI / steps);
 		cos = Math.cos(TWO_PI / steps);

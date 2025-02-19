@@ -521,7 +521,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	/**
 	 * @param str
 	 *            input string
-	 * @return string without " " chaacters
+	 * @return string without " " characters
 	 */
 	public static String removeSpaces(String str) {
 		if (str == null || str.isEmpty()) {
@@ -555,7 +555,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	/**
 	 * @param text
 	 *            input text
-	 * @return whether text consists of localized deigits, decimal points and
+	 * @return whether text consists of localized digits, decimal points and
 	 *         minus signs
 	 */
 	public static boolean isNumber(String text) {

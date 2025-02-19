@@ -470,7 +470,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	class ConstructionMouseListener
 			implements MouseListener, MouseMotionListener {
 
-		// smallest and larges possible construction index for dragging
+		// smallest and largest possible construction index for dragging
 		private int minIndex;
 		private int maxIndex;
 

@@ -2199,7 +2199,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param vx
 	 *            translation in horizontal direction
 	 * @param vy
-	 *            translation in vertical dyrection
+	 *            translation in vertical direction
 	 */
 	protected final void doTranslate(double vx, double vy) {
 		// calc translated matrix
@@ -3528,7 +3528,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            x-coord
 	 * @param y0
 	 *            y-coord
-	 * @return true if point (x0,y0) is inside the connic
+	 * @return true if point (x0,y0) is inside the conic
 	 */
 	@Override
 	public boolean isInRegion(double x0, double y0) {

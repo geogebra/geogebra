@@ -31,7 +31,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 */
 	protected GeoImplicit implicitPolynomial;
 	/**
-	 * inpupt polyline/polygon
+	 * input polyline/polygon
 	 */
 	protected GeoPoly poly;
 	/** intersection points */
@@ -346,7 +346,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	}
 
 	/**
-	 * getter of input geoImplicitPolinomial
+	 * Getter of input implicit polynomial.
 	 * 
 	 * @return input implicit polynomial
 	 */

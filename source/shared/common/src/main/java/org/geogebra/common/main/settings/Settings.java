@@ -68,7 +68,7 @@ public class Settings {
 		resetSettings(app);
 	}
 
-	private static EuclidianSettings createEuclidanSettings(App app, int i) {
+	private static EuclidianSettings createEuclidianSettings(App app, int i) {
 		if (i == 2) { // 3D view
 			return new EuclidianSettings3D(app);
 		}
@@ -85,7 +85,7 @@ public class Settings {
 	public void resetSettings(App app) {
 		for (int i = 0; i < euclidianSettings.length; ++i) {
 			if (euclidianSettings[i] == null) {
-				euclidianSettings[i] = createEuclidanSettings(app, i);
+				euclidianSettings[i] = createEuclidianSettings(app, i);
 			} else {
 				euclidianSettings[i].reset();
 			}

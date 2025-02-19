@@ -105,7 +105,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * @return localized strings describing font sizes (very small, smaall, ...)
+	 * @return localized strings describing font sizes (very small, small, ...)
 	 */
 	public String[] getFontSizeStrings() {
 		if (fontSizeStrings == null) {

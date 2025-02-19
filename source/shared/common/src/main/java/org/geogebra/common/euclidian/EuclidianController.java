@@ -8665,7 +8665,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		updatePreviewableForMouseDragged();
 
 		/*
-		 * Conintuity handling
+		 * Continuity handling
 		 *
 		 * If the mouse is moved wildly we take intermediate steps to get a more
 		 * continuous behaviour

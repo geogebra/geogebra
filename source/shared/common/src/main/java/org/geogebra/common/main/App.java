@@ -1444,7 +1444,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return whether label dragging is enableded
+	 * @return whether label dragging is enabled
 	 */
 	final public boolean isLabelDragsEnabled() {
 		return labelDragsEnabled;

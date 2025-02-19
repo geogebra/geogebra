@@ -127,11 +127,11 @@ public abstract class Transform {
 	}
 
 	/**
-	 * Returns algo that will be used for traansforming given geo
+	 * Returns algo that will be used for transforming given geo.
 	 * 
 	 * @param geo
 	 *            input geo
-	 * @return algo that will be used for traansforming given geo
+	 * @return algo that will be used for transforming given geo
 	 */
 	protected abstract AlgoTransformation getTransformAlgo(GeoElement geo);
 

@@ -1274,7 +1274,7 @@ final class Layer3Decoder {
 			// http://www.iro.umontreal.ca/~boyerf
 			//
 			// The code has been optimized for Intel processors
-			// (takes a lot of time to convert double to and from iternal FPU
+			// (takes a lot of time to convert double to and from internal FPU
 			// representation)
 			//
 			// It is a simple "factorization" of the IDCT matrix.

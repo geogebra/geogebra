@@ -1201,7 +1201,7 @@ public interface JavaScriptAPI {
 	/**
 	 * Sets options of a single graphics view
 	 * @param options maps option names to values
-	 * @param viewId 1 for graphhics, 2 for graphics 2, 3 for 3D
+	 * @param viewId 1 for graphics, 2 for graphics 2, 3 for 3D
 	 */
 	void setGraphicsOptions(int viewId, Object options);
 

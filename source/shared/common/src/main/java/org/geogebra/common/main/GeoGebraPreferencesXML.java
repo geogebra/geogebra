@@ -168,7 +168,7 @@ public class GeoGebraPreferencesXML {
 
 	/**
 	 * @param height
-	 *            whindow height
+	 *            window height
 	 */
 	public static void setDefaultWindowY(int height) {
 		defaultWindowY = height;

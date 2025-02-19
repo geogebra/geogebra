@@ -268,7 +268,7 @@ public class Interval {
 	/**
 	 *
 	 * @param delta it might differ from zero.
-	 * @return if interval is zero with a given torelance specifiedf by delta.
+	 * @return if interval is zero with a given tolerance specifiedf by delta.
 	 */
 	public boolean isZeroWithDelta(double delta) {
 		return DoubleUtil.isEqual(low, 0, delta)
