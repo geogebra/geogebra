@@ -9,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
 public class TemplateChooserController implements TemplateChooserControllerI {
-    private ArrayList<TemplatePreviewCard> templates;
+    private final ArrayList<TemplatePreviewCard> templates;
     private TemplatePreviewCard selected;
 
     /** Controller for the template chooser dialog
@@ -30,7 +30,7 @@ public class TemplateChooserController implements TemplateChooserControllerI {
 
     private TemplatePreviewCard buildCard(AppW appW, Material material, boolean hasMoreButton) {
         return new TemplatePreviewCard(appW, material, hasMoreButton,
-                card -> setSelected(card));
+				this::setSelected);
     }
 
     /**

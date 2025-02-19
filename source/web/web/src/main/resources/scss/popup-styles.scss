@@ -189,18 +189,18 @@
 		padding: 8px 0px;
 
 		.thicknessPanel {
-            padding-bottom: 8px;
-            border-bottom: 1px solid colors.$tool-border;
+			padding-bottom: 8px;
+			border-bottom: 1px solid colors.$tool-border;
 
-            .textItem {
-            	.gwt-Label {
-            		line-height: 24px;
-            	}
-            }
+			.textItem {
+				.gwt-Label {
+					line-height: 24px;
+				}
+			}
 
-            .linePreview {
-            	width: 112px;
-            }
+			.linePreview {
+				width: 112px;
+			}
 		}
 
 		.matSelectionTable {
@@ -289,5 +289,79 @@
 
 	.gwt-PopupPanel.profilePopup .listMenuItem {
 		min-width: 160px;
+	}
+
+	.gridCardPanel {
+		display: flex;
+		align-items: center;
+		align-content: center;
+		gap: 12px;
+		flex-wrap: wrap;
+
+		.gridCard {
+			width: 114px;
+			height: 120px;
+			cursor: pointer;
+
+			.cardImagePanel {
+				height: 68px;
+				margin-bottom: 8px;
+				border-radius: 12px;
+				box-sizing: border-box;
+				border: 2px solid neutral(300);
+				display: inline-flex;
+
+				.gwt-Image {
+					width: 110px;
+					border-radius: 12px;
+				}
+
+				.checkMarkPanel {
+					visibility: hidden;
+					width: 24px;
+					height: 24px;
+					position: absolute;
+					margin: 8px 8px 0 78px;
+					background-color: purple(600);
+					border-radius: 50%;
+
+					.checkmark {
+						width: 18px;
+						height: 18px;
+						padding: 3px;
+					}
+				}
+			}
+
+			.cardTitle {
+				height: 40px;
+				line-height: 16px;
+				font-size: 12px;
+				text-align: center;
+			}
+
+			&:hover .cardImagePanel {
+				border-color: neutral(500);
+			}
+
+			&.selected, &.selected:hover {
+				.cardImagePanel {
+					border-color: purple(600);
+
+					.checkMarkPanel {
+						visibility: visible;
+					}
+				}
+
+				.cardTitle {
+					color: purple(600);
+				}
+			}
+		}
+	}
+
+	.gridPopup {
+		padding: 8px;
+		max-width: 366px;
 	}
 }

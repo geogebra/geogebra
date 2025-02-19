@@ -19,7 +19,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentCombobox;
-import org.geogebra.web.full.gui.components.dropdown.grid.GridDataProvider;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.LineStylePopup;
@@ -33,7 +32,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -284,13 +282,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 				return;
 			}
 
-			lbRulerType = new GridDropdown(app);
+			lbRulerType = new GridDropdown(app, view);
 			TestHarness.setAttr(lbRulerType, "rulingDropdown");
 			lblRulerType = new FormLabel(loc.getMenu("Ruling"))
 					.setFor(lbRulerType);
-			for (BackgroundType type : BackgroundType.rulingOptions) {
-				addRulerTypeItem(GridDataProvider.getTransKeyForRulingType(type), type);
-			}
 			lbRulerType.setListener((index) -> {
 				model.applyRulerType(BackgroundType.rulingOptions.get(index));
 				updateView();
@@ -489,11 +484,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			ImageOrText content = new ImageOrText();
 			content.setBgColor(color);
 			btGridColor.setIcon(content);
-		}
-
-		private void addRulerTypeItem(String titleTransKey, BackgroundType type) {
-			ImageResource background = GridDataProvider.getResourceForBackgroundType(type);
-			lbRulerType.addItem(titleTransKey, background);
 		}
 
 		/**

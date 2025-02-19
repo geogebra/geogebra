@@ -1,9 +1,11 @@
 package org.geogebra.web.full.gui.components.dropdown.grid;
 
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.background.BackgroundType;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -12,18 +14,21 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class GridDropdown extends SimplePanel implements FastClickHandler {
 	private final AppW app;
+	private final EuclidianView view;
 	private StandardButton button;
-	private final GridPopup popup;
+	private GPopupPanel popup;
+	private GridCardPanel cardPanel;
 
 	/**
 	 * Create a new GridDropdown.
-	 *
-	 * @param app app
+	 * @param app - application
+	 * @param view - euclidian view
 	 */
-	public GridDropdown(AppW app) {
+	public GridDropdown(AppW app, EuclidianView view) {
 		this.app = app;
+		this.view = view;
 		createButton();
-		popup = new GridPopup(app, getUpdateParentCB(), 3);
+		createPopup();
 	}
 
 	private void createButton() {
@@ -33,33 +38,20 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 		add(button);
 	}
 
+	private void createPopup() {
+		popup = new GPopupPanel(app.getAppletFrame(), app);
+		popup.setAutoHideEnabled(true);
+		popup.addStyleName("gridPopup");
+		cardPanel = new GridCardPanel(app, view.getSettings().getBackgroundType());
+		popup.add(cardPanel);
+	}
+
 	/**
 	 * Enable or disable the dropdown button.
-	 *
 	 * @param enabled true to enable
 	 */
 	public void setEnabled(boolean enabled) {
 		button.setEnabled(enabled);
-	}
-
-	private Runnable getUpdateParentCB() {
-		return () -> {
-			String title = "";
-			if (popup.getSelectedIndex() >= 0) {
-				title = app.getLocalization().getMenu(popup.getSelectedItemText());
-			}
-			button.setText(title);
-		};
-	}
-
-	/**
-	 * Adds an item to the dropdown.
-	 *
-	 * @param titleTransKey title of the cell
-	 * @param resource image to display
-	 */
-	public void addItem(String titleTransKey, ImageResource resource) {
-		popup.addItem(titleTransKey, resource);
 	}
 
 	@Override
@@ -73,19 +65,27 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 	}
 
 	public void showGridPopup() {
-		popup.showGridPopup(button);
+		popup.showRelativeTo(button);
 	}
 
 	/**
 	 * Set the listener of this GridDropdown.
-	 *
 	 * @param listener the listener
 	 */
-	public void setListener(GridPopup.GridDropdownListener listener) {
-		popup.setListener(listener);
+	public void setListener(GridDropdownListener listener) {
+		cardPanel.setListener(listener);
 	}
 
+	/**
+	 * Set selected index and update ui
+	 * @param index - selected background
+	 */
 	public void setSelectedIndex(int index) {
-		popup.setSelectedIndex(index);
+		popup.hide();
+		BackgroundType selectedType = BackgroundType.rulingOptions.get(index);
+		String title = app.getLocalization().getMenu(GridDataProvider
+				.getTransKeyForRulingType(selectedType));
+		button.setText(title);
+		cardPanel.setSelectedIndex(index);
 	}
 }

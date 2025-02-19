@@ -15,28 +15,22 @@ public class GridDialog extends ComponentDialog {
 	 * base dialog constructor
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
+	 * @param view - euclidian view
 	 */
 	public GridDialog(AppW app, DialogData dialogData, EuclidianView view) {
 		super(app, dialogData, true, true);
 		addStyleName("rulingDialog");
 		setOnPositiveAction(this::applyRuling);
+
 		this.view = view;
+		selectedRuling = view.getSettings().getBackgroundType();
 		buildGui();
 	}
 
 	private void buildGui() {
-		GridPopup grid = new GridPopup((AppW) app, null, 4);
-		for (BackgroundType type : BackgroundType.rulingOptions) {
-			grid.addItem(GridDataProvider.getTransKeyForRulingType(type),
-					GridDataProvider.getResourceForBackgroundType(type));
-		}
-
-		selectedRuling = view.getSettings().getBackgroundType();
-		grid.setSelectedIndex(BackgroundType.rulingOptions.indexOf(selectedRuling));
-		grid.updateGui();
-
-		grid.setListener((index) -> selectedRuling = BackgroundType.rulingOptions.get(index));
-		addDialogContent(grid.getView());
+		GridCardPanel cardPanel = new GridCardPanel((AppW) app, selectedRuling);
+		cardPanel.setListener((index) -> selectedRuling = BackgroundType.rulingOptions.get(index));
+		addDialogContent(cardPanel);
 	}
 
 	private void applyRuling() {
