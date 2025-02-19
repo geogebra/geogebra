@@ -6,6 +6,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -648,6 +649,18 @@ public class EditorTypingTest {
 				.left(42).setModifiers(KeyEvent.SHIFT_MASK).right(42) // select as far as possible
 				.type("7")
 				.checkAsciiMath("(7,456)");
+	}
+
+	@Test
+	@Issue("APPS-6129")
+	public void testCommaPastedIntoEditor() {
+		checker.insert("(123,456)").protect()
+				.left(1).setModifiers(KeyEvent.SHIFT_MASK).left(3) // select 2nd coord
+				.insert("(7,8)")
+				.setModifiers(0)
+				.left(4)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("(123,78)");
 	}
 
 	@Test

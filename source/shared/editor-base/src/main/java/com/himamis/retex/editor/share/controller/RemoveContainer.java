@@ -245,7 +245,10 @@ public class RemoveContainer {
 				int lastArgumentIndex = operand.size() - 1;
 				MathComponent element = operand.getArgument(lastArgumentIndex);
 				operand.delArgument(lastArgumentIndex);
-				parent.addArgument(offset, element);
+				if (!editorState.getRootComponent().isProtected()
+						|| !",".equals(element.toString())) {
+					parent.addArgument(offset, element);
+				}
 			}
 			editorState.setCurrentField(parent);
 			editorState.setCurrentOffset(offset);
