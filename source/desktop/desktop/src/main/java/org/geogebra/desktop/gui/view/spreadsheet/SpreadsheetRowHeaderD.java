@@ -212,7 +212,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 		if (resizingRow >= 0 && !MouseEventUtil.isRightClick(e)
 				&& e.getClickCount() == 2) {
-			table.fitRow(resizingRow);
+			table.fitRow(resizingRow, true);
 			e.consume();
 		}
 	}

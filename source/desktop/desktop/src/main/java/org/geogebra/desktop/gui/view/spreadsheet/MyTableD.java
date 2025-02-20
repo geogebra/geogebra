@@ -216,7 +216,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				true);
 
 		// set row height
-		setRowHeight(SpreadsheetSettings.TABLE_CELL_HEIGHT);
+		super.setRowHeight(SpreadsheetSettings.TABLE_CELL_HEIGHT);
 
 		// prepare column headers
 		SpreadsheetColumnControllerD columnController = new SpreadsheetColumnControllerD(
@@ -634,7 +634,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// check for change in anchor cell (for now this is minrow and mincol
 		// ...)
-		boolean changedAnchor = minSelectionColumn
+		final boolean changedAnchor = minSelectionColumn
 				- newSelection.getMinColumn() != 0
 				|| minSelectionRow - newSelection.getMinRow() != 0;
 
@@ -1532,7 +1532,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * Adjust the height of a row to fit the maximum preferred height of the its
 	 * cell contents.
 	 */
-	public void fitRow(int row) {
+	public void fitRow(int row, boolean allowShrink) {
 
 		int prefHeight = this.getRowHeight();
 		int tempHeight = 0;
@@ -1548,7 +1548,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		// set the new row height
-		this.setRowHeight(row, prefHeight);
+		if (allowShrink || prefHeight > getRowHeight(row)) {
+			this.setRowHeight(row, prefHeight);
+		}
 	}
 
 	/**
@@ -1556,17 +1558,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * their cell contents.
 	 * 
 	 */
-	public void fitAll(boolean doRows, boolean doColumns) {
-		if (doRows) {
-			for (int row = 0; row < getRowCount(); row++) {
-				fitRow(row);
-			}
-		}
-		if (doColumns) {
-			Log.debug("MyTableD.fitAll is only partly implemented");
-			// for (int column = 0; column < getColumnCount(); column++) {
-			// TODO:test//fitColumn(column);
-			// }
+	public void fitAllRows() {
+		for (int row = 0; row < getRowCount(); row++) {
+			fitRow(row, false);
 		}
 	}
 

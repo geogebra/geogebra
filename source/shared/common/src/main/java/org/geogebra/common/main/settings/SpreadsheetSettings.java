@@ -174,6 +174,10 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		settingChanged();
 	}
 
+	public void setPreferredRowHeightNoFire(int height) {
+		preferredRowHeight = height;
+	}
+
 	// ============================================
 	// Layout Settings
 	// ============================================

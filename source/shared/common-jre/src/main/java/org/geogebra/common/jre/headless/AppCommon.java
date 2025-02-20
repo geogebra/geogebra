@@ -790,5 +790,6 @@ public class AppCommon extends App {
 	@Override
 	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
 		getSettings().getAlgebra().getXML(sb, asPreference);
+		getSettings().getSpreadsheet().getXML(sb, asPreference);
 	}
 }

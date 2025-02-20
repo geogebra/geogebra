@@ -606,7 +606,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		dummy.setText("MMMMMMMMMM"); // for column width
 		h = dummy.getPreferredSize().height;
 		w = dummy.getPreferredSize().width;
-		table.setRowHeight(h);
+		settings().setPreferredRowHeightNoFire(h);
 		table.setPreferredColumnWidth(w);
 		table.headerRenderer.setPreferredSize(new Dimension(w, h));
 
@@ -615,7 +615,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		table.headerRenderer.setFont(font);
 
 		// Adjust row heights for tall LaTeX images
-		table.fitAll(true, false);
+		table.fitAllRows();
 
 		if (formulaBar != null) {
 			formulaBar.updateFonts(font);

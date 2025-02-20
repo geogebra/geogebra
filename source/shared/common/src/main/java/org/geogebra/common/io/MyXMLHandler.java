@@ -1295,10 +1295,9 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleSpreadsheetColumn(
 			LinkedHashMap<String, String> attrs) {
-
 		try {
 			int col = Integer.parseInt(attrs.get("id"));
-			int width = Integer.parseInt(attrs.get("width"));
+			double width = Double.parseDouble(attrs.get("width"));
 			app.getSettings().getSpreadsheet().addWidth(col, width);
 			return true;
 		} catch (RuntimeException e) {
@@ -1336,10 +1335,9 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleSpreadsheetRow(LinkedHashMap<String, String> attrs) {
-
 		try {
 			int row = Integer.parseInt(attrs.get("id"));
-			int height = Integer.parseInt(attrs.get("height"));
+			double height = Double.parseDouble(attrs.get("height"));
 			app.getSettings().getSpreadsheet().addHeight(row, height);
 			return true;
 		} catch (RuntimeException e) {
