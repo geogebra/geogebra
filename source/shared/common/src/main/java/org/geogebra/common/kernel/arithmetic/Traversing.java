@@ -229,8 +229,7 @@ public interface Traversing {
 
 						ExpressionNode argDegrees = new ExpressionNode(kernel,
 								arg, Operation.MULTIPLY,
-								new MySpecialDouble(kernel, Math.PI / 180.0,
-										Unicode.DEGREE_CHAR + ""));
+								new AutomaticDegree(kernel));
 
 						return new ExpressionNode(kernel, argDegrees, op, null);
 					}

@@ -45,7 +45,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	@Test
 	public void sinShouldBeTyped() {
 		add("z_1 = 3+2i");
-		shouldBeUpdatedAs("sin45", "sin(45)");
+		shouldBeUpdatedAs("sin45", "sin(45" + Unicode.DEGREE_CHAR + ")");
 	}
 
 	private void shouldBeUpdatedAs(String updatedText, String expected) {

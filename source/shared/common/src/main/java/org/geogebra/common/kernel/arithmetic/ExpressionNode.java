@@ -746,7 +746,7 @@ public class ExpressionNode extends ValidExpression
 
 	private void fixPowerFactorialTrig() {
 		if (isSingleArgumentFunction(left)) {
-			ExpressionValue trigArg = ((ExpressionNode) this.left).getLeft();
+			ExpressionValue trigArg = removeDeg(((ExpressionNode) this.left).getLeft());
 			Operation leftOperation = ((ExpressionNode) left).operation;
 			// sinxyz^2 is parsed as sin(x y z)^2, change to sin(x y z^2)
 			if (trigArg.isOperation(Operation.MULTIPLY)) {
@@ -768,12 +768,22 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private void fixMultiplyDeg() {
+		// sin(20) deg -> sin(20deg)
+		// sin(20deg) deg -> sin(20deg)
 		if (isSingleArgumentFunction(left)) {
 			operation = ((ExpressionNode) left).getOperation();
-			left = new ExpressionNode(kernel, ((ExpressionNode) left).getLeft(),
+			left = new ExpressionNode(kernel, removeDeg(((ExpressionNode) left).getLeft()),
 					Operation.MULTIPLY, right);
 			unsetRight();
 		}
+	}
+
+	private ExpressionValue removeDeg(ExpressionValue expression) {
+		if (expression.isOperation(Operation.MULTIPLY)
+				&& ((ExpressionNode) expression).getRight() instanceof AutomaticDegree) {
+			return ((ExpressionNode) expression).getLeft();
+		}
+		return expression;
 	}
 
 	@Override

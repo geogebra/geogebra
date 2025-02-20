@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.arithmetic.variable;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.test.TestStringUtil;
@@ -19,6 +20,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Before
 	public void setupTest() {
 		variableReplacerAlgorithm = new VariableReplacerAlgorithm(getKernel());
+		getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 	}
 
 	@Test
@@ -101,10 +103,12 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	public void testTrig() {
 		shouldReplaceAs("sinx", "sin(x)");
 		shouldReplaceAs("sinxx", "sin(x * x)");
-		shouldReplaceAs("sin2", "sin(2)");
+		shouldReplaceAs("sin2", "sin(2" + Unicode.DEGREE_CHAR + ")");
 		shouldReplaceAs("cos3x", "cos(3 * x)");
 		shouldReplaceAs("asinsinpix",
 				TestStringUtil.unicode("asind(sin(" + Unicode.PI_STRING + " * x))"));
+		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		shouldReplaceAs("sin2", "sin(2)");
 	}
 
 	@Test

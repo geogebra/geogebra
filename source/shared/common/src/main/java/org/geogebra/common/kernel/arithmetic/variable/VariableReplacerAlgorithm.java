@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.plugin.Operation;
@@ -60,7 +61,7 @@ public class VariableReplacerAlgorithm {
 			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
 			if (op != null) {
 				ExpressionValue arg = tokenize(tokenizer.getInputRemaining());
-				return arg.wrap().apply(op);
+				return addDegreeIfNeeded(arg.wrap().apply(op));
 			}
 			ExpressionValue v1 = replaceToken(next);
 
@@ -76,6 +77,15 @@ public class VariableReplacerAlgorithm {
 		}
 
 		return replaceToken(next);
+	}
+
+	private ExpressionValue addDegreeIfNeeded(ExpressionNode trigFunction) {
+		if (kernel.getAngleUnitUsesDegrees()) {
+			return Traversing.DegreeReplacer.getReplacer(kernel)
+					.process(trigFunction);
+		} else {
+			return trigFunction;
+		}
 	}
 
 	private ExpressionValue parseReverse(String expressionString) {
