@@ -2144,9 +2144,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @param filename output filename
 	 * @param callback called with the construction exported as PDF
 	 * @param sliderLabel animation slider
+	 * @param dpi resolution
 	 */
 	public void exportPDF(double exportScale, String filename,
-			Consumer<String> callback, String sliderLabel) {
+			Consumer<String> callback, String sliderLabel, double dpi) {
 		// not implemented in Android, iOS
 	}
 

@@ -110,7 +110,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private GGraphics2DWI g2p = null;
 	private GGraphics2D g2dtemp;
-	private GGraphics2DW g4copy = null;
 	private GGraphics2DWI overlayGraphics;
 
 	private GColor backgroundColor = GColor.WHITE;
@@ -378,13 +377,13 @@ public class EuclidianViewW extends EuclidianView implements
 		c4.setWidth(width + "px");
 		c4.setHeight(height + "px");
 
-		g4copy = new GGraphics2DW(c4);
+		GGraphics2DW exportGraphics = new GGraphics2DW(c4);
 		this.appW.setExporting(ExportType.PNG, scale);
-		exportPaintPre(g4copy, scale, transparency);
-		drawObjects(g4copy);
+		exportPaintPre(exportGraphics, scale, transparency);
+		drawObjects(exportGraphics);
 		this.appW.setExporting(ExportType.NONE, 1);
 
-		Canvas ret = g4copy.getCanvas();
+		Canvas ret = exportGraphics.getCanvas();
 
 		if (greyscale) {
 			convertToGreyScale(ret.getContext2d(),
@@ -451,10 +450,10 @@ public class EuclidianViewW extends EuclidianView implements
 		ExportLoader.onCanvas2SvgLoaded(() -> {
 			Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
 			CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
-			g4copy = new GGraphics2DW(ctx);
+			GGraphics2DW svgGraphics = new GGraphics2DW(ctx);
 			this.appW.setExporting(ExportType.SVG, 1);
-			exportPaintPre(g4copy, 1, transparency);
-			drawObjects(g4copy);
+			exportPaintPre(svgGraphics, 1, transparency);
+			drawObjects(svgGraphics);
 			this.appW.setExporting(ExportType.NONE, 1);
 			String serializedSvg = canvas2svg.getSerializedSvg(true);
 			BlobResolver blobResolver = new BlobResolver(serializedSvg);
@@ -468,7 +467,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @return PDF as a base64 String
 	 */
 	@Override
-	public String getExportPDF(double scale) {
+	public String getExportPDF(double scale, double dpi) {
 
 		boolean page2 = getViewID() == App.VIEW_EUCLIDIAN
 				&& app.hasEuclidianView2(1);
@@ -492,17 +491,17 @@ public class EuclidianViewW extends EuclidianView implements
 			return "";
 		}
 
-		g4copy = new GGraphics2DW(ctx);
-		this.appW.setExporting(ExportType.PDF_HTML5, scale);
+		GGraphics2DW pdfGraphics = new GGraphics2DW(ctx);
+		this.appW.setExporting(ExportType.PDF_HTML5, scale * dpi / 72);
 
-		exportPaintPre(g4copy, scale, false);
-		drawObjects(g4copy);
+		exportPaintPre(pdfGraphics, scale, false);
+		drawObjects(pdfGraphics);
 
 		// include view 2 as 2nd page
 		if (page2) {
 			ctx.addPage();
-			view2.exportPaintPre(g4copy, scale, false);
-			view2.drawObjects(g4copy);
+			view2.exportPaintPre(pdfGraphics, scale, false);
+			view2.drawObjects(pdfGraphics);
 		}
 
 		this.appW.setExporting(ExportType.NONE, 1);

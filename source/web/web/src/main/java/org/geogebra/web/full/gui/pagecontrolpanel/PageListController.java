@@ -188,9 +188,7 @@ public class PageListController implements PageListControllerInterface,
 	 * Save all slides as PDF.
 	 */
 	@Override
-	public String exportPDF() {
-		// export scale
-		double scale = 1;
+	public String exportPDF(double scale, double dpi) {
 
 		EuclidianViewW ev = app.getEuclidianView1();
 
@@ -208,9 +206,9 @@ public class PageListController implements PageListControllerInterface,
 			return "";
 		}
 
-		app.setExporting(ExportType.PDF_HTML5, scale);
+		app.setExporting(ExportType.PDF_HTML5, scale * (dpi / 72.0));
 
-		GGraphics2DW g4copy = new GGraphics2DW(ctx);
+		GGraphics2DW pdfGraphics = new GGraphics2DW(ctx);
 
 		int n = slides.size();
 
@@ -224,8 +222,8 @@ public class PageListController implements PageListControllerInterface,
 				if (i > 0) {
 					ctx.addPage();
 				}
-				ev.exportPaintPre(g4copy, scale, false);
-				ev.drawObjects(g4copy);
+				ev.exportPaintPre(pdfGraphics, scale, false);
+				ev.drawObjects(pdfGraphics);
 
 			} catch (Exception e) {
 				Log.error(

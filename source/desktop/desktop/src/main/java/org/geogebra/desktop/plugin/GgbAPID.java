@@ -351,7 +351,7 @@ public class GgbAPID extends GgbAPIJre {
 
 	@Override
 	public void exportPDF(double exportScale, String file0, Consumer<String> callback,
-			String sliderLabel) {
+			String sliderLabel, double dpi) {
 
 		String filename = file0;
 

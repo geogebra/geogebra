@@ -24,6 +24,7 @@ import org.geogebra.common.util.StringUtil;
  * @author Michael Borcherds
  */
 public class CmdExportImage extends CmdScripting {
+	public static final int PDF_DPI = 288;
 
 	/**
 	 * Create new command processor
@@ -291,7 +292,7 @@ public class CmdExportImage extends CmdScripting {
 				if (ffilename == null) {
 					kernel.getApplication().handleImageExport(pdf);
 				}
-			}, sliderName);
+			}, sliderName, dpi > 0 ? dpi : PDF_DPI);
 			break;
 
 		case ANIMATED_GIF:

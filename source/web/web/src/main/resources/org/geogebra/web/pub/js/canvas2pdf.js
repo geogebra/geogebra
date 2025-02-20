@@ -390,8 +390,8 @@
 	};
 
 	canvas2pdf.PdfContext.prototype.createPattern = function(image) {
-		this.doc.imageTileLoad(image);
-		return {setTransform: () => {}};
+		var tile = this.doc.imageTileLoad(image);
+		return {setTransform: (matrix) => {tile.matrix = matrix}};
 	};
 
 	/**
@@ -581,6 +581,7 @@
 		a = new PDFImageTile(a, this.currentPage.fillColor, this.currentPage.alpha * 1);
 		this.add(a);
 		this.currentPage.currentImageTile = a;
+		return a;
 	};
 
 	PDFKitMini.prototype.linearGradient = function(x1, y1, x2, y2) {
@@ -654,9 +655,10 @@
 
 			img = canvas;
 		}
-		this.imageTileLoadFromCanvas(img);
+		var tile = this.imageTileLoadFromCanvas(img);
 
 		this.addPatternToPage(this.currentPage.currentImageTile);
+		return tile;
 	};
 
 	PDFKitMini.prototype.scale = function(xFactor, yFactor, options) {
@@ -1486,10 +1488,12 @@
 			"/Height " + this.height + " ",
 			"/ColorSpace /DeviceRGB ",
 			"/BitsPerComponent 8 ",
-			"ID\n"
+
 		];
 		var rawData = canvas.getContext("2d").getImageData(0, 0, this.width, this.height);
 		var fillRGB = fillColor.split(" ").map(value => value * (1 - fillAlpha) + fillAlpha);
+		var rgbBuffer = new Uint8Array(this.width * this.height * 3);
+		var idx = 0;
 		// reflect vertically so it's drawn right way up!
 		for (var y = this.height - 1; y >= 0; y--)
 			for (var x = 0; x < this.width; x++) {
@@ -1501,13 +1505,15 @@
 				[red, green, blue] = [red, green, blue].map((value, idx) =>
 					Math.round(parseFloat(value) / 255 * alpha + fillRGB[idx] * (255 - alpha))
 				);
-				buffer.push(String.fromCharCode(red));
-				buffer.push(String.fromCharCode(green));
-				buffer.push(String.fromCharCode(blue));
+				rgbBuffer[idx++] = red;
+				rgbBuffer[idx++] = green;
+				rgbBuffer[idx++] = blue;
 			}
-		buffer.push("\nEI\n");
 
-		this.stream = buffer.join("");
+		if (canvas2pdf.useFlateDecode) {
+			buffer.push("/Filter /FlateDecode ");
+		}
+		this.stream = buffer.join("") + "ID\n" + bufferToString(rgbBuffer) + "\nEI\n";
 	}
 
 	PDFImageTile.prototype.writeImage = function(a) {
@@ -1524,6 +1530,7 @@
 			"XStep": this.width,
 			"YStep": this.height,
 			"Length": this.stream.length,
+			"Matrix": [this.matrix ? this.matrix.m11 : 1, 0, 0, this.matrix ? this.matrix.m22 : 1, 0, 0],
 			"Resources": {
 				ProcSet: ["PDF", "ImageC"]
 			},

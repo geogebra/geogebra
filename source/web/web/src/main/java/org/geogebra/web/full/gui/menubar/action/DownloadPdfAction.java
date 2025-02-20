@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import org.geogebra.common.kernel.commands.CmdExportImage;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
@@ -13,6 +14,6 @@ public class DownloadPdfAction extends DownloadImageAction {
 
 	@Override
 	protected void export(AppWFull app) {
-		app.getGgbApi().exportPDF(1, null, (pdf) -> exportImage(pdf), null);
+		app.getGgbApi().exportPDF(1, null, this::exportImage, null, CmdExportImage.PDF_DPI);
 	}
 }

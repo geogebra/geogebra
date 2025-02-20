@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
+import org.geogebra.common.kernel.commands.CmdExportImage;
 import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -100,7 +101,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 							app.getFileManager().showExportAsPictureDialog(pdf,
 									app.getExportTitle(), "pdf", "ExportAsPicture",
 									app);
-						}, null);
+						}, null, CmdExportImage.PDF_DPI);
 					}
 				}));
 		// TODO add gif back when ready

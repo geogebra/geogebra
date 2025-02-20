@@ -1017,13 +1017,13 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	@Override
 	final public void exportPDF(double scale, String filename,
-			Consumer<String> callback, String sliderLabel) {
+			Consumer<String> callback, String sliderLabel, double dpi) {
 		ExportLoader.onCanvas2PdfLoaded(() -> {
 			String pdf;
 
 			if (app.isWhiteboardActive()) {
 				// export each slide as separate page
-				pdf = ((AppW) app).getPageController().exportPDF();
+				pdf = ((AppW) app).getPageController().exportPDF(scale, dpi);
 			} else {
 				EuclidianView ev = app.getActiveEuclidianView();
 
@@ -1031,7 +1031,7 @@ public class GgbAPIW extends GgbAPI {
 					EuclidianViewW evw = (EuclidianViewW) ev;
 
 					if (sliderLabel == null) {
-						pdf = evw.getExportPDF(scale);
+						pdf = evw.getExportPDF(scale, dpi);
 					} else {
 						pdf = AnimationExporter.export(kernel.getApplication(), 0,
 								(GeoNumeric) kernel.lookupLabel(sliderLabel),

@@ -776,13 +776,14 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
-	public void exportPDF(Object scale, Object filenameOrCallback, String sliderLabel) {
+	public void exportPDF(Object scale, Object filenameOrCallback, String sliderLabel, Object dpi) {
+		double realDPI = Js.isTruthy(dpi) ? Js.coerceToDouble(dpi) : 72;
 		if ("string".equals(Js.typeof(filenameOrCallback))) {
 			getGgbAPI().exportPDF(Js.coerceToDouble(scale), (String) filenameOrCallback,
-					null, sliderLabel);
+					null, sliderLabel, realDPI);
 		} else if ("function".equals(Js.typeof(filenameOrCallback))) {
 			getGgbAPI().exportPDF(Js.coerceToDouble(scale), null,
-					((StringConsumer) filenameOrCallback)::consume, sliderLabel);
+					((StringConsumer) filenameOrCallback)::consume, sliderLabel, realDPI);
 		} else {
 			DomGlobal.console.warn("exportPDF requires either a filename or "
 					+ "a callback as the second parameter.");

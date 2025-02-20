@@ -94,7 +94,12 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	void getExportSVG(boolean transparency, Consumer<String> callback);
 
-	String getExportPDF(double scale);
+	/**
+	 * @param scale scale
+	 * @param dpi resolution
+	 * @return PDF content as a string
+	 */
+	String getExportPDF(double scale, double dpi);
 
 	int getExportWidth();
 

@@ -616,7 +616,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public String getExportPDF(double scale) {
+	public String getExportPDF(double scale, double dpi) {
 		return null;
 	}
 

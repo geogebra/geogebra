@@ -98,10 +98,10 @@ public interface PageListControllerInterface extends ActionExecutor {
 
 	/**
 	 * export all sliders as PDF
-	 * 
+	 * @param scale decides level of detail for rasterized images and patterns
 	 * @return base64 encoded PDF
 	 */
-	String exportPDF();
+	String exportPDF(double scale, double dpi);
 
 	void clickPage(String slideID);
 
