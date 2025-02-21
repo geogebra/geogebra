@@ -66,9 +66,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 				item.updateGUIfocus(true);
 			}
 		});
-		if (event == null) {
-			keepFocusInApp();
-		}
 	}
 
 	private void keepFocusInApp() {
@@ -247,6 +244,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (item.geo != null || StringUtil.empty(item.getText())) {
 			boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 			onBlur(null);
+			keepFocusInApp();
 			if (isAlgebraViewFocused) {
 				setAlgebraViewAsFocusedPanel();
 			}
