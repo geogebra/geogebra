@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 
@@ -21,6 +22,7 @@ import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.annotation.Issue;
 import org.junit.AfterClass;
@@ -230,5 +232,15 @@ public class AlgebraItemTest extends BaseUnitTest {
                 equalTo(true));
         assertThat(AlgebraItem.isRationalizableFraction(add("(1 + sqrt(2))/(sqrt(7) - sqrt(3))")),
                 equalTo(false));
+    }
+
+    @Test
+    @Issue("APPS-6366")
+    public void testBuildPlainTextItemSimple() {
+        GeoElement point = add("A_{1}=1+i");
+        IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
+        AlgebraItem.buildPlainTextItemSimple(point, builder);
+        assertEquals("A<sub><font size=\"-1\">1</font></sub> = 1 + &#943;",
+                builder.toString());
     }
 }

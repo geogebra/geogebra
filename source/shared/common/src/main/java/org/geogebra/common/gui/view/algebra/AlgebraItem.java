@@ -311,8 +311,7 @@ public class AlgebraItem {
 		if (geo1.isIndependent() && geo1.isGeoPoint()
 				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 			builder.clear();
-			builder.append(
-					((GeoPointND) geo1).toStringDescription(stringTemplate));
+			builder.indicesToHTML(((GeoPointND) geo1).toStringDescription(stringTemplate));
 			return true;
 		}
 		if (geo1.isIndependent() && geo1.getDefinition() == null) {
