@@ -30,6 +30,14 @@ public class MathFormulaConverter {
 	}
 
 	/**
+	 * For testing purposes
+	 * @return The TeXSerializer
+	 */
+	TeXSerializer getTexSerializer() {
+		return texSerializer;
+	}
+
+	/**
 	 * Converts from GGB to editor-style latex.
 	 * @param text ggb text.
 	 * @return MathML styled text

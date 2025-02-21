@@ -195,4 +195,9 @@ public class MathFunction extends MathContainer {
 	public void setPreventingNestedFractions(boolean prevent) {
 		this.preventNestedFractions = prevent;
 	}
+
+	@Override
+	public boolean isRenderingOwnPlaceholders() {
+		return meta.getName().isRenderingOwnPlaceholders();
+	}
 }

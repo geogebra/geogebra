@@ -107,9 +107,9 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 				setTitle();
 			}
 		});
-		GlobalHandlerRegistry globalHandlers = ((AppW) app).getGlobalHandlers();
-		globalHandlers.addEventListener(titleField.getTextComponent().getInputElement(), "input",
+		titleField.addTextComponentInputListener(
 				ignore -> setPosBtnDisabled(titleField.getText().isEmpty()));
+		GlobalHandlerRegistry globalHandlers = ((AppW) app).getGlobalHandlers();
 		globalHandlers.addEventListener(DomGlobal.window, "unload",
 				event -> app.getSaveController().cancel());
 	}

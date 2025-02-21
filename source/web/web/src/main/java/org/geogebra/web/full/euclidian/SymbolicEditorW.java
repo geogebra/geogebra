@@ -58,6 +58,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		if (getDrawInputBox() != null && getDrawInputBox().getGeoElement() != geoInputBox) {
 			getDrawInputBox().setEditing(false);
 		}
+		getMathFieldInternal().getMathFieldController().setEditingInputBox(true);
 		setInputBox(geoInputBox);
 
 		this.bounds = bounds;
@@ -140,6 +141,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		((AppWFull) app).resetInputBox();
 		getDrawInputBox().setEditing(false);
 		editor.setVisible(false);
+		getMathFieldInternal().getMathFieldController().setEditingInputBox(false);
 		AnimationScheduler.get()
 				.requestAnimationFrame(timestamp -> ((EuclidianViewW) view).doRepaint2());
 	}

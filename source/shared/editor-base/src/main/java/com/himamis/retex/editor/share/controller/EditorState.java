@@ -183,8 +183,7 @@ public class EditorState {
 		while (commonParent != null && !contains(commonParent, cursorField)) {
 			currentSelStart = currentSelStart.getParent();
 			commonParent = currentSelStart.getParent();
-			if (commonParent instanceof MathFunction
-					&& ((MathFunction) commonParent).getName().isRenderingOwnPlaceholders()) {
+			if (commonParent.isRenderingOwnPlaceholders() && !isMatrix(commonParent)) {
 				currentSelStart = commonParent;
 				commonParent = currentSelStart.getParent();
 			}
@@ -224,6 +223,10 @@ public class EditorState {
 			terminateSelectionAtComma(commonParent, from, to);
 		}
 
+	}
+
+	private boolean isMatrix(MathContainer container) {
+		return container instanceof MathArray && ((MathArray) container).hasTag(Tag.MATRIX);
 	}
 
 	private void terminateSelectionAtComma(MathContainer commonParent, int from, int to) {
@@ -611,8 +614,7 @@ public class EditorState {
 	 * @return whether current field is inside an input
 	 */
 	public boolean isInHighlightedPlaceholder() {
-		return hasParent(parent -> parent instanceof MathFunction
-				&& ((MathFunction) parent).getName().isRenderingOwnPlaceholders());
+		return hasParent(MathContainer::isRenderingOwnPlaceholders);
 	}
 
 	private boolean hasParent(Predicate<MathContainer> check) {

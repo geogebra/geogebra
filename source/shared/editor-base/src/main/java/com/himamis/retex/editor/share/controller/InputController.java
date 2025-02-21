@@ -234,6 +234,15 @@ public class InputController {
 		}
 		Tag tag = Tag.lookup(name);
 
+		if (tag == Tag.MATRIX) {
+			if (power.script != null) {
+				deleteSingleArg(editorState);
+			}
+			delCharacters(editorState, name.length());
+			newMatrix(editorState, 1, 1);
+			return;
+		}
+
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
 			if (power.script != null) {
 				deleteSingleArg(editorState);

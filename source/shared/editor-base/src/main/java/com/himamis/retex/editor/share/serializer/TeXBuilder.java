@@ -75,6 +75,7 @@ public class TeXBuilder {
 	private HashMap<Atom, MathComponent> atomToComponent;
 	private final TeXParser parser;
 	private final TeXSerializer teXSerializer;
+	private boolean isEditingInputbox = false;
 
 	private final static HashMap<Character, String> replacements = new HashMap<>();
 
@@ -91,6 +92,13 @@ public class TeXBuilder {
 	public TeXBuilder() {
 		parser = new TeXParser("");
 		teXSerializer = new TeXSerializer();
+	}
+
+	/**
+	 * @param inputbox Whether or not an inputbox is currently edited
+	 */
+	public void setEditingInputbox(boolean inputbox) {
+		isEditingInputbox = inputbox;
 	}
 
 	private Atom buildSequence(MathSequence mathFormula) {
@@ -180,14 +188,11 @@ public class TeXBuilder {
 
 	private Atom getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
-		if (parent instanceof MathFunction
-				&& ((MathFunction) parent).getName().isRenderingOwnPlaceholders()) {
+		if (parent != null && parent.isRenderingOwnPlaceholders() && !isEditingInputbox) {
 			return zwsp();
 		}
 		if (parent == null
 				|| (parent instanceof MathArray && parent.size() == 1)
-				|| (parent instanceof MathFunction
-					&& ((MathFunction) parent).getName().isRenderingOwnPlaceholders())
 				|| !teXSerializer.isPlaceholderEnabled()) {
 			return getInvisiblePlaceholder();
 		}
@@ -312,12 +317,14 @@ public class TeXBuilder {
 	private Atom buildArray(MathArray array) {
 		if (array.isMatrix()) {
 			ArrayOfAtoms atoms = new ArrayOfAtoms();
+			MathSequence argument;
 			for (int i = 0; i < array.rows(); i++) {
 				for (int j = 0; j < array.columns(); j++) {
 					if (j != 0) {
 						atoms.add(EnvArray.ColSep.get());
 					}
-					atoms.add(build(array.getArgument(i, j)));
+					argument = array.getArgument(i, j);
+					atoms.add(isEditingInputbox ? build(argument) : fancyPlaceholder(argument));
 				}
 				atoms.add(EnvArray.RowSep.get());
 			}

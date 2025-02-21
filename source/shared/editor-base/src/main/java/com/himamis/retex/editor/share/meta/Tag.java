@@ -13,7 +13,7 @@ public enum Tag {
 
 	APOSTROPHES,
 
-	MATRIX,
+	MATRIX("$matrix"),
 
 	CHAR,
 
@@ -104,6 +104,7 @@ public enum Tag {
 		case POINT:
 		case POINT_AT:
 		case VECTOR:
+		case MATRIX:
 			return true;
 		default: return false;
 		}

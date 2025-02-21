@@ -31,6 +31,7 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String PLACEHOLDER_INVISIBLE = "\\nbsp{}";
 	private boolean showPlaceholder = true;
 	private boolean lineBreakEnabled = false;
+	private boolean isEditingInputbox = false;
 
 	private SyntaxAdapter syntaxAdapter;
 
@@ -106,6 +107,13 @@ public class TeXSerializer extends SerializerAdapter {
 	 */
 	public boolean isPlaceholderEnabled() {
 		return showPlaceholder;
+	}
+
+	/**
+	 * @param inputbox Whether or not an input box is currently being edited
+	 */
+	public void setEditingInputBox(boolean inputbox) {
+		isEditingInputbox = inputbox;
 	}
 
 	@Override
@@ -433,13 +441,16 @@ public class TeXSerializer extends SerializerAdapter {
 
 	@Override
 	public void serialize(MathArray array, StringBuilder stringBuilder) {
+		boolean showFancyPlaceholders = array.isMatrix() && !isEditingInputbox;
 		if (this.currentSelStart == array) {
 			stringBuilder.append(TeXSerializer.selection_start);
 		}
 		stringBuilder.append(array.getOpen().getTexName());
 		for (int i = 0; i < array.rows(); i++) {
 			for (int j = 0; j < array.columns(); j++) {
+				stringBuilder.append(showFancyPlaceholders ? "\\jlminput{" : "");
 				serialize(array.getArgument(i, j), stringBuilder);
+				stringBuilder.append(showFancyPlaceholders ? "}" : "");
 				if (j + 1 < array.columns()) {
 					stringBuilder.append(array.getField().getTexName());
 				} else if (i + 1 < array.rows()) {

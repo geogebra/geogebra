@@ -8,7 +8,6 @@ import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXBuilder;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
@@ -69,6 +68,14 @@ public class MathFieldController {
 	 */
 	public int getFontType() {
 		return type;
+	}
+
+	/**
+	 * @param inputBox Whether an input box is currently being edited
+	 */
+	public void setEditingInputBox(boolean inputBox) {
+		texSerializer.setEditingInputBox(inputBox);
+		texBuilder.setEditingInputbox(inputBox);
 	}
 
 	/**
@@ -159,9 +166,7 @@ public class MathFieldController {
 			MathComponent input = selectionStart != null
 					? selectionStart : currentField;
 			while (input != null) {
-				if (input.getParent() instanceof MathFunction
-						&& ((MathFunction) input.getParent()).getName()
-						.isRenderingOwnPlaceholders()) {
+				if (input.getParent() != null && input.getParent().isRenderingOwnPlaceholders()) {
 					break;
 				}
 				input = input.getParent();

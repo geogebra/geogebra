@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
@@ -150,7 +149,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 */
 	private void addInputHandler() {
 		// do NOT handle Enter, it's handled on dialog level
-		Dom.addEventListener(getTextBox().getElement(), "input", event -> onInput());
+		inputField.addTextComponentInputListener(event -> onInput());
 	}
 
 	/**

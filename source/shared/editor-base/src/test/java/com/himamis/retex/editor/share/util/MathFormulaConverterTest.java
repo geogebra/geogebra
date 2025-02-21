@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.util;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class MathFormulaConverterTest {
@@ -13,6 +14,11 @@ public class MathFormulaConverterTest {
 			= "{" + GREY_BOX + "}";
 	private final static String PLACEHOLDER = "{" + PLACEHOLDER1 + "}";
 	private final MathFormulaConverter converter = new MathFormulaConverter();
+
+	@Before
+	public void setup() {
+		converter.getTexSerializer().setEditingInputBox(true);
+	}
 
 	@Test
 	public void testConvertColumnVector() {

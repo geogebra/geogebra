@@ -48,6 +48,7 @@ import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.BlurHandler;
@@ -76,6 +77,7 @@ import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
 
+import elemental2.dom.EventListener;
 import jsinterop.base.Js;
 
 public class AutoCompleteTextFieldW extends FlowPanel
@@ -1241,6 +1243,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
 		return textField.getValueBox().addKeyUpHandler(handler);
+	}
+
+	/**
+	 * Adds an input listener to the input element
+	 * @param listener EventListener
+	 */
+	public void addInputListener(EventListener listener) {
+		GlobalHandlerRegistry globalHandlerRegistry = app.getGlobalHandlers();
+		globalHandlerRegistry.addEventListener(getInputElement(), "input", listener);
 	}
 
 	/**

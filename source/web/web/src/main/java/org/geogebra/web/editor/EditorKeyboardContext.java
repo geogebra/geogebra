@@ -1,6 +1,7 @@
 package org.geogebra.web.editor;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
@@ -83,4 +84,8 @@ public class EditorKeyboardContext implements HasKeyboard {
 		return null;
 	}
 
+	@Override
+	public void showMatrixInputDialog(Consumer<String> ignore) {
+		// Not needed
+	}
 }

@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.web;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
@@ -47,4 +48,10 @@ public interface HasKeyboard {
 	List<String> getInputBoxFunctionVars();
 
 	TemplateKeyProvider getTemplateKeyProvider();
+
+	/**
+	 * Opens the matrix input dialog
+	 * @param processInput Callback to process the input selected by the user
+	 */
+	void showMatrixInputDialog(Consumer<String> processInput);
 }

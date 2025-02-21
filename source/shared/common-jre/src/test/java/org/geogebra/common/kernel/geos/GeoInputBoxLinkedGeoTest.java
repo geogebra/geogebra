@@ -76,6 +76,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
 		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
 				LatexRendererSettings.create());
+		editor.getMathFieldInternal().getMathFieldController().setEditingInputBox(true);
 		editor.selectEntryAt(50, 0);
 		assertTrue("matrix entry should be selected",
 				mf.getInternal().getEditorState().hasSelection());
@@ -732,8 +733,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("u=(?,?/?)");
 		GeoInputBox inputBox = add("InputBox(u)");
 		assertEquals("\\begin{pmatrix} "
-				+ "{" + TeXSerializer.PLACEHOLDER + "} \\\\ "
-				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
+				+ TeXSerializer.PLACEHOLDER + " \\\\ "
+				+ "{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}"
 				+ " \\end{pmatrix}", inputBox.getText());
 	}
 

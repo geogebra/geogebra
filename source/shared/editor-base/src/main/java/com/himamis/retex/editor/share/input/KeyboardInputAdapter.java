@@ -13,6 +13,8 @@ import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
 import com.himamis.retex.editor.share.input.adapter.PlainStringInput;
 import com.himamis.retex.editor.share.input.adapter.StringAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
+import com.himamis.retex.editor.share.meta.Tag;
+import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -158,14 +160,23 @@ public class KeyboardInputAdapter {
 					for (int i = parent.size(); i < Integer.parseInt(split[1]); i++) {
 						parent.addArgument(new MathSequence());
 					}
+				} else if (parent instanceof MathArray && Tag.lookup(split[0]) == Tag.MATRIX) {
+					int rows = Integer.parseInt(split[1]);
+					int columns = Integer.parseInt(split[2]);
+					for (int column = ((MathArray) parent).columns(); column < columns; column++) {
+						parent.addArgument(new MathSequence());
+					}
+					for (int row = ((MathArray) parent).rows(); row < rows; row++) {
+						((MathArray) parent).addRow();
+					}
 				}
 				mfi.notifyAndUpdate("(");
 			}
 
 			@Override
 			public boolean test(String keyboard) {
-				return (keyboard.startsWith("$point") || keyboard.startsWith("$vector"))
-						&& keyboard.contains(":");
+				return (keyboard.startsWith("$point") || keyboard.startsWith("$vector")
+						|| keyboard.startsWith("$matrix")) && keyboard.contains(":");
 			}
 		});
 		KeyboardAdapter commandAdapter = new KeyboardAdapter() {

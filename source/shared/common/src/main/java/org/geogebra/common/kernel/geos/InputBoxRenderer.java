@@ -26,7 +26,7 @@ class InputBoxRenderer {
 		if (inputBox.isSymbolicModeWithSpecialEditor()) {
 			String tempUserEvalInput = inputBox.getTempUserEvalInput();
 			formulaConverter.setTemporaryInput(!"".equals(tempUserEvalInput));
-			return formulaConverter.convert(inputBox.getTextForEditor());
+			return removeJlminput(formulaConverter.convert(inputBox.getTextForEditor()));
 		}
 		if (linkedGeo.isGeoText()) {
 			String str = ((GeoText) linkedGeo).getTextStringSafe()
@@ -135,4 +135,29 @@ class InputBoxRenderer {
 		this.linkedGeo = linkedGeo;
 	}
 
+	private String removeJlminput(String input) {
+		StringBuilder output = new StringBuilder();
+		int i = 0;
+		while (i < input.length()) {
+			if (input.startsWith("\\jlminput{", i)) {
+				i += 10;
+				int braceCount = 1;
+				int start = i;
+
+				while (i < input.length() && braceCount > 0) {
+					if (input.charAt(i) == '{') {
+						braceCount++;
+					} else if (input.charAt(i) == '}') {
+						braceCount--;
+					}
+					i++;
+				}
+				output.append(input, start, i - 1);
+			} else {
+				output.append(input.charAt(i));
+				i++;
+			}
+		}
+		return output.toString();
+	}
 }

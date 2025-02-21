@@ -542,4 +542,11 @@ abstract public class MathContainer extends MathComponent implements Iterable<Ma
 		addArgument(start, array);
 		return removed;
 	}
+
+	/**
+	 * @return whether template has highlighted boxes
+	 */
+	public boolean isRenderingOwnPlaceholders() {
+		return false;
+	}
 }

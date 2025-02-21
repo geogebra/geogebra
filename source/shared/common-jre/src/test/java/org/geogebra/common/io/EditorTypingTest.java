@@ -989,4 +989,19 @@ public class EditorTypingTest {
 		checker.pressSingleKey("$vector:2").type("1").right(1).type("2")
 				.checkLaTeX("\\begin{pmatrix}\\jlminput{1}\\\\\\jlminput{2}\\\\\\end{pmatrix}");
 	}
+
+	@Test
+	public void matrixFromKeyboard() {
+		checker.pressSingleKey("$matrix:2:3").type("1").right(1).type("2").right(1).type("3")
+				.right(1).type("4").right(1).type("5").right(1).type("6")
+				.checkAsciiMath("{{1,2,3},{4,5,6}}");
+	}
+
+	@Test
+	public void matrixFromKeyboardLaTeX() {
+		checker.pressSingleKey("$matrix:2:3").type("5").right(1).type("-3").right(1).type("0")
+				.right(1).type("1").right(1).type("99").right(1).type("1")
+				.checkLaTeX("\\begin{pmatrix} \\jlminput{5} & \\jlminput{-3} & \\jlminput{0} "
+						+ "\\\\ \\jlminput{1} & \\jlminput{99} & \\jlminput{1} \\end{pmatrix}");
+	}
 }

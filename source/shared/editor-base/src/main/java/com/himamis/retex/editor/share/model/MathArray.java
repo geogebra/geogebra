@@ -356,4 +356,9 @@ public class MathArray extends MathContainer {
 		MathSequence argument = getArgument(start);
 		return argument.replaceArguments(0, argument.size() - 1, array);
 	}
+
+	@Override
+	public boolean isRenderingOwnPlaceholders() {
+		return meta.getName().isRenderingOwnPlaceholders();
+	}
 }
