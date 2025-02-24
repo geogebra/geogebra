@@ -2,16 +2,18 @@ package org.geogebra.common.exam;
 
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Expression;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_POINT;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
 
 import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.exam.restrictions.PropertyRestriction;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.Kernel;
@@ -27,14 +29,10 @@ import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.geos.GeoElementSetup;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.GeoElementPropertyFilter;
-import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 final class TestExamRestrictions extends ExamRestrictions {
 
@@ -52,8 +50,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
 				createPropertyRestrictions(),
-				createGeoElementPropertyFilters(),
-				createGeoElementSetups(),
+				createVisibilityRestrictions(),
 				null,
 				createDisabledAlgorithms());
 	}
@@ -109,21 +106,9 @@ final class TestExamRestrictions extends ExamRestrictions {
 				value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
 	}
 
-	private static Set<GeoElementPropertyFilter> createGeoElementPropertyFilters() {
-		return Set.of((property, geoElement) -> !(
-				property instanceof ShowObjectProperty
-						&& geoElement.isGeoPoint())
-		);
-	}
-
-	private static Set<GeoElementSetup> createGeoElementSetups() {
-		return Set.of(geoElement -> {
-			if (geoElement instanceof GeoPoint) {
-				GeoPoint geoPoint = (GeoPoint) geoElement;
-				geoPoint.setObjColor(GColor.RED);
-				geoPoint.setAlphaValue(1.0);
-			}
-		});
+	static Set<VisibilityRestriction> createVisibilityRestrictions() {
+		return Set.of(geoElement -> geoElement.isGeoPoint() ? HIDE : IGNORE,
+				geoElement -> geoElement.isInequality() ? HIDE : IGNORE);
 	}
 
 	private static Set<DisabledAlgorithms> createDisabledAlgorithms() {

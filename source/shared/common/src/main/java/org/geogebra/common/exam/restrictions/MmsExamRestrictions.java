@@ -6,12 +6,19 @@ import static org.geogebra.common.SuiteSubApp.GEOMETRY;
 import static org.geogebra.common.SuiteSubApp.GRAPHING;
 import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
 
 import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
+import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -20,12 +27,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSetup;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.properties.GeoElementPropertyFilter;
-import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 public class MmsExamRestrictions extends ExamRestrictions {
 
@@ -46,8 +48,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
-				createGeoElementPropertyFilters(),
-				createGeoElementSetups(),
+				createVisibilityRestrictions(),
 				null,
 				null);
 	}
@@ -230,80 +231,34 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		});
 	}
 
-	private static Set<GeoElementSetup> createGeoElementSetups() {
-		return Set.of(new EuclidianVisibilitySetup());
-	}
-
-	private static Set<GeoElementPropertyFilter> createGeoElementPropertyFilters() {
-		return Set.of(new ShowObjectPropertyFilter());
-	}
-
-	private static final class ShowObjectPropertyFilter implements GeoElementPropertyFilter {
-		@Override
-		public boolean isAllowed(Property property, GeoElement geoElement) {
-			if (property instanceof ShowObjectProperty) {
-				return isVisibilityEnabled(geoElement);
-			}
-			return true;
-		}
-	}
-
-	private static final class EuclidianVisibilitySetup implements GeoElementSetup {
-		@Override
-		public void applyTo(GeoElementND geoElementND) {
-			if (geoElementND instanceof GeoElement) {
-				GeoElement geoElement = (GeoElement) geoElementND;
-				if (!isVisibilityEnabled(geoElement)) {
-					geoElement.setRestrictedEuclidianVisibility(true);
-				}
-			}
-		}
+	/**
+	 * Creates a set of visibility restrictions for exam mode.
+	 * <p> This method is used and exposed as {@code public} only for unit tests. </p>
+	 * @return the set of visibility restrictions
+	 */
+	public static Set<VisibilityRestriction> createVisibilityRestrictions() {
+		return Set.of(
+				new HiddenIntegralAreaVisibilityRestriction(),
+				new HiddenInequalityVisibilityRestriction(),
+				new HiddenVectorVisibilityRestriction());
 	}
 
 	/**
-	 * Determines whether the visibility of a {@code GeoElement} is enabled during MMS exam.
-	 * <p>
-	 * If the visibility is enabled, it means that nothing should change after entering exam mode.
-	 * <p>
-	 * If the visibility is restricted, it means that the element should never be shown
-	 * in the Euclidian view, it shouldn't have a show object property in its settings,
-	 * and the visibility toggle button should be disabled in the Algebra view
-	 * @param geoElement the {@code GeoElement} to evaluate
-	 * @return {@code true} if the visibility is enabled, {@code false} if it is restricted
+	 * Restricts the visibility of integrals with area.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>Integral(f, -5, 5)</li>
+	 *     <li>Integral(f, x, -5, 5)</li>
+	 *     <li>NIntegral(f, -5, 5)</li>
+	 * </ul>
 	 */
-	@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
-	public static boolean isVisibilityEnabled(GeoElement geoElement) {
-		// Restrict the visibility of inequalities
-		// E.g.: x > 0
-		//       y <= 1
-		//       x < y
-		//       x - y > 2
-		//       x^2 + 2y^2 < 1
-		//       f(x) = x > 5
-		//       f: x > 0
-		if (geoElement instanceof GeoSymbolic
-				&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoElement
-				&& ((GeoElement) ((GeoSymbolic) geoElement).getTwinGeo()).isInequality()) {
-			return false;
+	private static final class HiddenIntegralAreaVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return (geoElement instanceof GeoSymbolic && ((GeoSymbolic) geoElement).getTwinGeo()
+					.getParentAlgorithm() instanceof AlgoIntegralDefinite) ? HIDE : IGNORE;
 		}
-
-		// Restrict the visibility of integral with area
-		// E.g.: Integral(f, -5, 5)
-		//       Integral(f, x, -5, 5)
-		//       NIntegral(f, -5, 5)
-		 if (geoElement instanceof GeoSymbolic
-				 && ((GeoSymbolic) geoElement).getTwinGeo().getParentAlgorithm()
-				 instanceof AlgoIntegralDefinite) {
-			 return false;
-		 }
-
-		// Restrict the visibility of vectors
-		// E.g.: a = (1, 2)
-		//       b = a + 0
-		if (geoElement.isGeoVector()) {
-			return false;
-		}
-
-		return true;
 	}
 }

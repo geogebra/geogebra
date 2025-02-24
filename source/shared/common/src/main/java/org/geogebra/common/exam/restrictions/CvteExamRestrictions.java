@@ -9,11 +9,13 @@ import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.contextmenu.ContextMenuFactory;
@@ -24,6 +26,9 @@ import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteEquationBehaviour;
 import org.geogebra.common.exam.restrictions.cvte.CvteSyntaxFilter;
 import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
+import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
+import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
@@ -52,22 +57,17 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSetup;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
-import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 public final class CvteExamRestrictions extends ExamRestrictions {
 
@@ -87,8 +87,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				createSyntaxFilter(),
 				createToolsFilter(),
 				createPropertyRestrictions(),
-				createPropertyFilters(),
-				createGeoElementSetup(),
+				createVisibilityRestrictions(),
 				createEquationBehaviour(),
 				null);
 	}
@@ -319,135 +318,135 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		return Set.of(new MatrixExpressionFilter());
 	}
 
-	private static Set<GeoElementPropertyFilter> createPropertyFilters() {
-		return Set.of(new ShowObjectPropertyFilter());
-	}
-
 	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
 		// "freeze" the equation form properties
 		return Map.of(LinearEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null),
 				QuadraticEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null));
 	}
 
-    private static Set<GeoElementSetup> createGeoElementSetup() {
-		return Set.of(new EuclidianVisibilitySetup());
-	}
-
 	private static EquationBehaviour createEquationBehaviour() {
 		return new CvteEquationBehaviour();
 	}
 
-	private static final class ShowObjectPropertyFilter implements GeoElementPropertyFilter {
-		@Override
-		public boolean isAllowed(Property property, GeoElement geoElement) {
-			if (property instanceof ShowObjectProperty) {
-				return isVisibilityEnabled(geoElement);
-			}
-			return true;
-		}
+	/**
+	 * Creates a set of visibility restrictions for exam mode.
+	 * @return the set of visibility restrictions
+	 */
+	public static Set<VisibilityRestriction> createVisibilityRestrictions() {
+		return Set.of(
+				new HiddenEquationVisibilityRestriction(),
+				new AllowedExplicitEquationVisibilityRestriction(),
+				new AllowedLinearEquationVisibilityRestriction(),
+				new HiddenConicVisibilityRestriction(),
+				new HiddenInequalityVisibilityRestriction(),
+				new HiddenVectorVisibilityRestriction(),
+				new AllowedCenterAndRadiusCircleCommandVisibilityRestriction());
 	}
 
-	private static final class EuclidianVisibilitySetup implements GeoElementSetup {
+	/**
+	 * Allows the visibility of explicit equations.
+	 * <p> Examples: </p>
+	 * <ul>
+	 *     <li>y = 2x</li>
+	 *     <li>y = 5</li>
+	 *     <li>y = x^2</li>
+	 *     <li>y = x^3</li>
+	 *     <li>y = x^2 - 5x + 2</li>
+	 * </ul>
+	 */
+	private static final class AllowedExplicitEquationVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
 		@Override
-		public void applyTo(GeoElementND geoElementND) {
-			if (geoElementND instanceof GeoElement) {
-				GeoElement geoElement = (GeoElement) geoElementND;
-				if (!isVisibilityEnabled(geoElement)) {
-					geoElement.setRestrictedEuclidianVisibility(true);
-				}
-			}
+		public Effect getEffect(GeoElement geoElement) {
+			return isExplicitEquation(geoElement) ? ALLOW : IGNORE;
 		}
 	}
 
 	/**
-	 * Determines whether the visibility of a {@code GeoElement} is enabled during CVTE exam.
-	 * <p>
-	 * This method is used to decide whether an element's visibility is restricted during CVTE exam.
-	 * <p>
-	 * If the visibility is enabled, it means that nothing should change after entering exam mode.
-	 * <p>
-	 * If the visibility is restricted, it means that
-	 * the element should never be shown in the Euclidean view,
-	 * it shouldn't have a show object property in its settings.
-	 * and the visibility toggle button should be disabled in the Algebra view.
-	 * @param geoElement the {@code GeoElement} to evaluate
-	 * @return {@code true} if the visibility is enabled, {@code false} if it is restricted.
+	 * Allows the visibility of circles created by {@code Circle(<Center>, <Radius>)} command or {@code Circle: Center & Radius} tool.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>Circle((0, 0), 2)</li>
+	 *     <li>Circle(A, 4)</li>
+	 * </ul>
 	 */
-	@SuppressWarnings({"PMD.SimplifyBooleanReturns"})
-	public static boolean isVisibilityEnabled(GeoElement geoElement) {
-		// Allow explicit equations
-		// E.g.: y = 2x
-		//       y = 5
-		//       y = x^2
-		//       y = x^3
-		//       y = x^2 - 5x + 2
-		if (isExplicitEquation(geoElement)) {
-			return true;
+	private static final class AllowedCenterAndRadiusCircleCommandVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius
+					? ALLOW : IGNORE;
 		}
+	}
 
-		// Allow circles created by "Circle(<Center>, <Radius>)" command
-		// or "Circle: Center & Radius" tool
-		// E.g.: Circle((0, 0), 2)
-		//       Circle(A, 4)
-		if (geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
-			return true;
+	/**
+	 * Allows the visibility of linear equations.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>x = 0</li>
+	 *     <li>x + y = 0</li>
+	 *     <li>2x - 3y = 4</li>
+	 *     <li>x = y</li>
+	 *     <li>2x = y</li>
+	 *     <li>y = 2x</li>
+	 * </ul>
+	 */
+	private static final class AllowedLinearEquationVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return isLinearEquation(geoElement) ? ALLOW : IGNORE;
 		}
+	}
 
-		// Restrict the visibility of any other conic
-		// E.g.: x^2 + y^2 = 4
-		//       x^2 / 9 + x^2 / 4 = 1
-		//       x^2 - y^2 = 4
-		if (geoElement.isGeoConic()) {
-			return false;
+	/**
+	 * Restricts the visibility of conics.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>x^2 + y^2 = 4</li>
+	 *     <li>x^2 / 9 + x^2 / 4 = 1</li>
+	 *     <li>x^2 - y^2 = 4</li>
+	 *     <li>Circle((0, 0), 2)</li>
+	 * </ul>
+	 */
+	private static final class HiddenConicVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return geoElement.isGeoConic() ? HIDE : IGNORE;
 		}
+	}
 
-		// Allow linear equations
-		// E.g.: x = 0
-		//       x + y = 0
-		//       2x - 3y = 4
-		//       x = y
-		//       2x = y
-		//       y = 2x
-		if (isLinearEquation(geoElement)) {
-			return true;
+	/**
+	 * Restricts the visibility of equations.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>x = 0</li>
+	 *     <li>2x = y</li>
+	 *     <li>x^2 = 1</li>
+	 *     <li>2^x = 0</li>
+	 *     <li>sin(x) = 0</li>
+	 *     <li>ln(x) = 0</li>
+	 *     <li>|x - 3| = 0</li>
+	 *     <li>x^2 = y</li>
+	 *     <li>x^3 = y</li>
+	 *     <li>y^2 = x</li>
+	 *     <li>y^3 = x</li>
+	 *     <li>x^3 + y^2 = 2</li>
+	 *     <li>x^2 / 9 + x^2 / 4 = 1</li>
+	 * </ul>
+	 */
+	private static final class HiddenEquationVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return isEquation(geoElement) ? HIDE : IGNORE;
 		}
-
-		// Restrict the visibility of any other equation
-		// E.g.: x^2 = 0
-		//       x^2 = 1
-		//       2^x = 0
-		//       sin(x) = 0
-		//       ln(x) = 0
-		//       |x - 3| = 0
-		//       x^2 = y
-		//       x^3 = y
-		//       y^2 = x
-		//       y^3 = x
-		//       x^3 + y^2 = 2
-		if (isEquation(geoElement)) {
-			return false;
-		}
-
-		// Restrict the visibility of every inequality
-		// E.g.: x > 0
-		//       y <= 1
-		//       x < y
-		//       x - y > 2
-		//       x^2 + 2y^2 < 1
-		//       f(x) = x > 5
-		//       f: x > 0
-		if (geoElement.isInequality()) {
-			return false;
-		}
-
-		// Restrict the visibility of vectors
-		// E.g.: a = (1, 2)
-		//       b = a + 0
-		if (geoElement.isGeoVector()) {
-			return false;
-		}
-
-		return true;
 	}
 
 	@Nullable
@@ -482,10 +481,10 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		return
 				// it is an equation
 				equation != null
-						// with a single "y" variable on the left-hand side
-						&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
-						// and any variables on the right-hand side (if any) are all "x".
-						&& equation.getRHS().inspect(value -> "x".equals(unwrapVariable(value)));
+				// with a single "y" variable on the left-hand side
+				&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
+				// and any variables on the right-hand side (if any) are all "x".
+				&& equation.getRHS().inspect(value -> "x".equals(unwrapVariable(value)));
 	}
 
 	private static boolean isLinearEquation(GeoElement geoElement) {

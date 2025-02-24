@@ -11,6 +11,7 @@ import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
@@ -37,6 +38,7 @@ import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 /**
  * Represents restrictions that apply during exams.
@@ -44,8 +46,10 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
  * Restrictions that are specific to the different exam types are represented as subclasses
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
- * (in {@link #applyTo}).
- * <p>
+ * (in {@link #applyTo(AlgoDispatcher, CommandDispatcher, AlgebraProcessor, PropertiesRegistry,
+ * Object, Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
+ * ScheduledPreviewFromInputBar, ContextMenuFactory)}).
+ * </p><p>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
  * </p>
@@ -76,8 +80,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final SyntaxFilter syntaxFilter;
 	private final ToolCollectionFilter toolsFilter;
 	private final Map<String, PropertyRestriction> propertyRestrictions;
-	private final Set<GeoElementPropertyFilter> geoElementPropertyFilters;
-	private final Set<GeoElementSetup> geoElementSetups;
+	private final GeoElementPropertyFilter restrictedGeoElementVisibilityPropertyFilter;
+	private final GeoElementSetup restrictedGeoElementVisibilitySetup;
 	private final @Nullable EquationBehaviour equationBehaviour;
 	private @Nullable EquationBehaviour originalEquationBehaviour;
 	private RestorableSettings savedSettings;
@@ -148,8 +152,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
-			@Nullable Set<GeoElementPropertyFilter> geoElementPropertyFilters,
-			@Nullable Set<GeoElementSetup> geoElementSetups,
+			@Nullable Set<VisibilityRestriction> visibilityRestrictions,
 			@Nullable EquationBehaviour equationBehaviour,
 			@Nullable Set<DisabledAlgorithms> disabledAlgorithms) {
 		this.examType = examType;
@@ -170,10 +173,12 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.toolsFilter = toolsFilter != null ? toolsFilter
 				: new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE);
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
-		this.geoElementPropertyFilters = geoElementPropertyFilters != null
-				? geoElementPropertyFilters : Set.of();
-		this.geoElementSetups = geoElementSetups != null
-				? geoElementSetups : Set.of();
+		this.restrictedGeoElementVisibilityPropertyFilter =
+				createRestrictedGeoElementVisibilityPropertyFilter(visibilityRestrictions != null
+						? visibilityRestrictions : Set.of());
+		this.restrictedGeoElementVisibilitySetup =
+				createRestrictedGeoElementVisibilitySetup(visibilityRestrictions != null
+						? visibilityRestrictions : Set.of());
 		this.equationBehaviour = equationBehaviour;
 		this.disabledAlgorithms = disabledAlgorithms != null ? disabledAlgorithms : Set.of();
 	}
@@ -274,15 +279,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			toolsProvider.addToolsFilter(toolsFilter);
 		}
 		if (geoElementPropertiesFactory != null) {
-			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::addFilter);
+			geoElementPropertiesFactory.addFilter(restrictedGeoElementVisibilityPropertyFilter);
 			propertyRestrictions.forEach(geoElementPropertiesFactory::addRestriction);
 		}
 		if (algebraProcessor != null) {
-			geoElementSetups.forEach(algebraProcessor::addGeoElementSetup);
+			algebraProcessor.addGeoElementSetup(restrictedGeoElementVisibilitySetup);
 		}
 		if (scheduledPreviewFromInputBar != null) {
-			geoElementSetups.forEach(
-					scheduledPreviewFromInputBar::addGeoElementSetup);
+			scheduledPreviewFromInputBar.addGeoElementSetup(restrictedGeoElementVisibilitySetup);
 		}
 		if (contextMenuFactory != null) {
 			contextMenuItemFilters.forEach(contextMenuFactory::addFilter);
@@ -297,7 +301,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Remove the exam restrictions (i.e., undo the changes from {@link #applyTo}).
+	 * Remove the exam restrictions (i.e., undo the changes from
+	 * {@link #applyTo(AlgoDispatcher, CommandDispatcher, AlgebraProcessor, PropertiesRegistry,
+	 * Object, Localization, Settings, AutocompleteProvider, ToolsProvider,
+	 * GeoElementPropertiesFactory, ScheduledPreviewFromInputBar, ContextMenuFactory)}).
 	 */
 	public void removeFrom(
 			@Nullable AlgoDispatcher algoDispatcher,
@@ -360,14 +367,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			toolsProvider.removeToolsFilter(toolsFilter);
 		}
 		if (geoElementPropertiesFactory != null) {
-			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::removeFilter);
+			geoElementPropertiesFactory.removeFilter(restrictedGeoElementVisibilityPropertyFilter);
 			propertyRestrictions.forEach(geoElementPropertiesFactory::removeRestriction);
 		}
 		if (algebraProcessor != null) {
-			geoElementSetups.forEach(algebraProcessor::removeGeoElementSetup);
+			algebraProcessor.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
 		}
 		if (scheduledPreviewFromInputBar != null) {
-			geoElementSetups.forEach(scheduledPreviewFromInputBar::removeGeoElementSetup);
+			scheduledPreviewFromInputBar.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
 		}
 		if (contextMenuFactory != null) {
 			contextMenuItemFilters.forEach(contextMenuFactory::removeFilter);
@@ -415,7 +422,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Revert changes applied in {@link #applySettingsRestrictions}, restoring the
+	 * Revert changes applied in {@link #applySettingsRestrictions(Settings)}, restoring the
 	 * previously saved settings.
 	 * @param settings {@link Settings}
 	 * @apiNote An override is not needed by default.
@@ -451,5 +458,26 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (propertyRestrictions.containsKey(property.getRawName())) {
 			propertyRestrictions.get(property.getRawName()).removeFrom(property);
 		}
+	}
+
+	private static GeoElementSetup createRestrictedGeoElementVisibilitySetup(
+			Set<VisibilityRestriction> visibilityRestrictions) {
+		return geoElementND -> {
+			if (VisibilityRestriction.isVisibilityRestricted(geoElementND.toGeoElement(),
+					visibilityRestrictions)) {
+				geoElementND.toGeoElement().setRestrictedEuclidianVisibility(true);
+			}
+		};
+	}
+
+	private static GeoElementPropertyFilter createRestrictedGeoElementVisibilityPropertyFilter(
+			Set<VisibilityRestriction> visibilityRestrictions) {
+		return (property, geoElement) -> {
+			if (property instanceof ShowObjectProperty) {
+				return !VisibilityRestriction.isVisibilityRestricted(geoElement,
+						visibilityRestrictions);
+			}
+			return true;
+		};
 	}
 }

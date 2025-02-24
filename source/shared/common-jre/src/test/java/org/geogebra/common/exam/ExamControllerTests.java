@@ -12,15 +12,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.localization.AutocompleteProvider;
@@ -165,13 +167,7 @@ public final class ExamControllerTests extends BaseExamTests {
 				// context menu restrictions
 				() -> assertEquals(
 						List.of(Text, Help),
-						contextMenuFactory.makeInputContextMenu(true)),
-				// geo element property filters
-				() -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-						app.getLocalization(),
-						List.of(new GeoPoint(app.getKernel().getConstruction())))),
-				// construction element setup
-				() -> assertEquals(GColor.RED, evaluate("(1, 1)")[0].getFillColor()));
+						contextMenuFactory.makeInputContextMenu(true)));
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
@@ -316,5 +312,64 @@ public final class ExamControllerTests extends BaseExamTests {
 				() -> assertNull(algoDispatcher.tangent(new String[]{}, line, conic)),
 				() -> assertNotNull(algoDispatcher.commonTangents(new String[]{}, conic, conic))
 		);
+	}
+
+	@Test
+	public void testVisibilityRestrictions() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.startExam(ExamType.GENERIC, null);
+		Set<VisibilityRestriction> visibilityRestrictions =
+				TestExamRestrictions.createVisibilityRestrictions();
+
+		GeoElement allowedGeoElement = evaluateGeoElement("x = 1");
+		assertFalse(VisibilityRestriction.isVisibilityRestricted(allowedGeoElement,
+				visibilityRestrictions));
+
+		GeoElement restrictedGeoElement = evaluateGeoElement("(1, 2)");
+		assertTrue(VisibilityRestriction.isVisibilityRestricted(restrictedGeoElement,
+				visibilityRestrictions));
+
+		assertAll(
+				() -> assertTrue(allowedGeoElement.isEuclidianVisible()),
+				() -> assertTrue(allowedGeoElement.isEuclidianToggleable()),
+				() -> assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
+						app.getLocalization(), List.of(allowedGeoElement))),
+
+				() -> assertFalse(restrictedGeoElement.isEuclidianVisible()),
+				() -> assertFalse(restrictedGeoElement.isEuclidianToggleable()),
+				() -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
+						app.getLocalization(), List.of(restrictedGeoElement))));
+	}
+
+	@Test
+	public void testRestrictedVisibilityInEuclidianViewAfterEditingUnrestrictedInput() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.startExam(ExamType.GENERIC, null);
+		Set<VisibilityRestriction> visibilityRestrictions =
+				TestExamRestrictions.createVisibilityRestrictions();
+
+		GeoElement geoElement = evaluateGeoElement("f(x) = x");
+
+		assertAll(
+				() -> assertFalse(VisibilityRestriction.isVisibilityRestricted(geoElement,
+						visibilityRestrictions)),
+				() -> assertTrue(geoElement.isEuclidianVisible()),
+				() -> assertTrue(geoElement.isEuclidianToggleable()),
+				() -> assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
+						app.getLocalization(), List.of(geoElement))));
+
+		editGeoElement(geoElement, "f(x) = x > 2");
+
+		assertAll(
+				() -> assertTrue(VisibilityRestriction.isVisibilityRestricted(geoElement,
+						visibilityRestrictions)),
+				() -> assertFalse(geoElement.isEuclidianVisible()),
+				() -> assertFalse(geoElement.isEuclidianToggleable()),
+				() -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
+						app.getLocalization(), List.of(geoElement))));
 	}
 }

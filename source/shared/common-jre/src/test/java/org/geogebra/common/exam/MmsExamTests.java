@@ -5,16 +5,18 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Delete;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateInput;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.RemoveLabel;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
-import static org.geogebra.common.exam.restrictions.MmsExamRestrictions.isVisibilityEnabled;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class MmsExamTests extends BaseExamTests {
+	private static final Set<VisibilityRestriction> visibilityRestrictions =
+			MmsExamRestrictions.createVisibilityRestrictions();
+
 	@BeforeEach
 	public void setupMmsExam() {
 		setInitialApp(SuiteSubApp.CAS);
@@ -48,8 +53,9 @@ public class MmsExamTests extends BaseExamTests {
 			"b = (1, 2) + 0",
 	})
 	public void testRestrictedVisibility(String expression) {
-		evaluateGeoElement("g(x) = x");
-		assertFalse(isVisibilityEnabled(evaluateGeoElement(expression)));
+		evaluateGeoElement("g(x) = x"); // For integrals
+		assertTrue(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
+				visibilityRestrictions));
 	}
 
 	@ParameterizedTest
@@ -60,7 +66,8 @@ public class MmsExamTests extends BaseExamTests {
 	})
 	public void testUnrestrictedVisibility(String expression) {
 		evaluateGeoElement("f(x) = x");
-		assertTrue(isVisibilityEnabled(evaluateGeoElement(expression)));
+		assertFalse(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
+				visibilityRestrictions));
 	}
 
 	@Test

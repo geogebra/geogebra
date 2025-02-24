@@ -7,6 +7,8 @@ import static org.geogebra.common.SuiteSubApp.GRAPHING;
 import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
 import static org.geogebra.common.kernel.commands.Commands.*;
 
 import java.util.Map;
@@ -19,6 +21,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleEquationBehaviour;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -35,8 +38,6 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSetup;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -45,11 +46,8 @@ import org.geogebra.common.main.syntax.suggestionfilter.LineSelector;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.GeoElementPropertyFilter;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
-import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 public final class RealschuleExamRestrictions extends ExamRestrictions {
 
@@ -67,8 +65,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				createSyntaxFilter(),
 				createToolsFilter(),
 				createPropertyRestrictions(),
-				Set.of(new ShowObjectPropertyFilter()),
-				Set.of(new EuclidianVisibilitySetup()),
+				createVisibilityRestrictions(),
 				createEquationBehaviour(),
 				null);
 	}
@@ -257,28 +254,13 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 		}
 	}
 
-	private static final class ShowObjectPropertyFilter implements GeoElementPropertyFilter {
-		@Override
-		public boolean isAllowed(Property property, GeoElement geoElement) {
-			if (property instanceof ShowObjectProperty) {
-				return !isEquationInSingleVar(geoElement);
-			}
-			return true;
-		}
-	}
-
-	private static final class EuclidianVisibilitySetup implements GeoElementSetup {
-		@Override
-		public void applyTo(GeoElementND geoElement) {
-			if (isEquationInSingleVar(geoElement)) {
-				geoElement.toGeoElement().setRestrictedEuclidianVisibility(true);
-			}
-		}
-	}
-
 	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
 		return Map.of(LinearEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null),
 				QuadraticEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null));
+	}
+
+	private static Set<VisibilityRestriction> createVisibilityRestrictions() {
+		return Set.of(new HiddenSingleVariableEquationVisibilityRestriction());
 	}
 
 	private static EquationBehaviour createEquationBehaviour() {
@@ -286,12 +268,24 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	/**
-	 * @param geoElement construction element
-	 * @return whether the element is an equation in single variable
+	 * Restricts the visibility of equations with a single variable.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>x = 0</li>
+	 *     <li>x^2 = 0</li>
+	 *     <li>y^2 = 0</li>
+	 *     <li>sin(x) = 0</li>
+	 * </ul>
 	 */
-	public static boolean isEquationInSingleVar(GeoElementND geoElement) {
-		return geoElement instanceof EquationValue
-				&& ((EquationValue) geoElement).getEquationVariables().length == 1;
+	private static final class HiddenSingleVariableEquationVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return (geoElement instanceof EquationValue
+					&& ((EquationValue) geoElement).getEquationVariables().length == 1
+			) ? HIDE : IGNORE;
+		}
 	}
 
 	private static Set<ExpressionFilter> getInputExpressionFilter() {

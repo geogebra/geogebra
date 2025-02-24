@@ -396,7 +396,6 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				createDistributionPropertyRestriction(),
 				null,
 				null,
-				null,
 				createDisabledAlgorithms());
 	}
 

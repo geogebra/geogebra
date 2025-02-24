@@ -1,6 +1,5 @@
 package org.geogebra.common.exam;
 
-import static org.geogebra.common.exam.restrictions.CvteExamRestrictions.isVisibilityEnabled;
 import static org.geogebra.common.kernel.commands.Commands.Curve;
 import static org.geogebra.common.kernel.commands.Commands.CurveCartesian;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,9 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
@@ -33,6 +35,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public final class CvteExamTests extends BaseExamTests {
+    private static final Set<VisibilityRestriction> visibilityRestrictions =
+            CvteExamRestrictions.createVisibilityRestrictions();
+
     @BeforeEach
     public void setupCvteExam() {
         setInitialApp(SuiteSubApp.GRAPHING);
@@ -97,7 +102,8 @@ public final class CvteExamTests extends BaseExamTests {
             "A = (1, 2)",
     })
     public void testUnrestrictedVisibility(String expression) {
-        assertTrue(isVisibilityEnabled(evaluateGeoElement(expression)));
+        assertFalse(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
+                visibilityRestrictions));
     }
 
     @ParameterizedTest
@@ -132,27 +138,8 @@ public final class CvteExamTests extends BaseExamTests {
             "b = (1, 2) + 0"
     })
     public void testRestrictedVisibility(String expression) {
-        assertFalse(isVisibilityEnabled(evaluateGeoElement(expression)));
-    }
-
-    @Test
-    public void testRestrictedVisibilityInEuclidianView() {
-        GeoElement allowedGeoElement = evaluateGeoElement("x = 0");
-        assertTrue(isVisibilityEnabled(allowedGeoElement));
-
-        GeoElement restrictedGeoElement = evaluateGeoElement("x^2 = 0");
-        assertFalse(isVisibilityEnabled(restrictedGeoElement));
-
-        assertAll(
-                () -> assertTrue(allowedGeoElement.isEuclidianVisible()),
-                () -> assertTrue(allowedGeoElement.isEuclidianToggleable()),
-                () -> assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
-                        app.getLocalization(), List.of(allowedGeoElement))),
-
-                () -> assertFalse(restrictedGeoElement.isEuclidianVisible()),
-                () -> assertFalse(restrictedGeoElement.isEuclidianToggleable()),
-                () -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-                        app.getLocalization(), List.of(restrictedGeoElement))));
+        assertTrue(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
+                visibilityRestrictions));
     }
 
     @ParameterizedTest
@@ -207,34 +194,21 @@ public final class CvteExamTests extends BaseExamTests {
     }
 
     @Test
-    public void testRestrictedVisibilityInEuclidianViewAfterEditingUnrestrictedInput() {
-        GeoElement geoElement = evaluateGeoElement("f(x) = x");
-
-        assertAll(
-                () -> assertTrue(isVisibilityEnabled(geoElement)),
-                () -> assertTrue(geoElement.isEuclidianVisible()),
-                () -> assertTrue(geoElement.isEuclidianToggleable()),
-                () -> assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
-                        app.getLocalization(), List.of(geoElement))));
-
-        editGeoElement(geoElement, "f(x) = x > 2");
-
-        assertAll(
-                () -> assertFalse(isVisibilityEnabled(geoElement)),
-                () -> assertFalse(geoElement.isEuclidianVisible()),
-                () -> assertFalse(geoElement.isEuclidianToggleable()),
-                () -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-                        app.getLocalization(), List.of(geoElement))));
-    }
-
-    @Test
     public void testIntersectCommandWithRestrictedObjects() {
         // A line, a circle and 2 parabolas, all intersecting.
         // The visibility of 'h' and 'i' are restricted.
-        assertTrue(isVisibilityEnabled(evaluateGeoElement("f(x) = x + 3")));
-        assertTrue(isVisibilityEnabled(evaluateGeoElement("g(x) = x^2")));
-        assertFalse(isVisibilityEnabled(evaluateGeoElement("h: (x + 1)^2 = y")));
-        assertFalse(isVisibilityEnabled(evaluateGeoElement("i: x^2 + y^2 = 5")));
+        assertFalse(VisibilityRestriction.isVisibilityRestricted(
+                evaluateGeoElement("f(x) = x + 3"),
+                visibilityRestrictions));
+        assertFalse(VisibilityRestriction.isVisibilityRestricted(
+                evaluateGeoElement("g(x) = x^2"),
+                visibilityRestrictions));
+        assertTrue(VisibilityRestriction.isVisibilityRestricted(
+                evaluateGeoElement("h: (x + 1)^2 = y"),
+                visibilityRestrictions));
+        assertTrue(VisibilityRestriction.isVisibilityRestricted(
+                evaluateGeoElement("i: x^2 + y^2 = 5"),
+                visibilityRestrictions));
 
         // Intersection of any 2 unrestricted objects is allowed.
         assertNotNull(evaluate("Intersect(f, g)"));

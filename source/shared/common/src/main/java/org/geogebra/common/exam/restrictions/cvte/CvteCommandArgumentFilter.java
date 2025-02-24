@@ -1,6 +1,9 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
+import java.util.Set;
+
 import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
+import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -9,6 +12,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 public final class CvteCommandArgumentFilter implements CommandArgumentFilter {
+	private final Set<VisibilityRestriction> visibilityRestrictions =
+			CvteExamRestrictions.createVisibilityRestrictions();
 
 	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor)
@@ -91,11 +96,13 @@ public final class CvteCommandArgumentFilter implements CommandArgumentFilter {
 		GeoElement[] arguments = commandProcessor.resArgs(command);
 		if (arguments.length >= 2) {
 			GeoElement firstArgument = arguments[0];
-			if (!CvteExamRestrictions.isVisibilityEnabled(firstArgument)) {
+			if (VisibilityRestriction.isVisibilityRestricted(firstArgument,
+					visibilityRestrictions)) {
 				throw commandProcessor.argErr(command, firstArgument);
 			}
 			GeoElement secondArgument = arguments[1];
-			if (!CvteExamRestrictions.isVisibilityEnabled(secondArgument)) {
+			if (VisibilityRestriction.isVisibilityRestricted(secondArgument,
+					visibilityRestrictions)) {
 				throw commandProcessor.argErr(command, secondArgument);
 			}
 		}
