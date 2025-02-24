@@ -23,12 +23,11 @@ import org.gwtproject.user.client.ui.SimplePanel;
 
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
-public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget {
+public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget {
 	private final AppW appW;
-	private FlowPanel contentPanel;
 	private AutoCompleteTextFieldW inputTextField;
 	private FormLabel labelText;
-	private String labelTextKey;
+	private final String labelTextKey;
 	private SimplePanel arrowIcon;
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
@@ -36,10 +35,10 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 	/**
 	 * Constructor
 	 * @param app - see {@link AppW}
-	 * @param label - label of combobox
+	 * @param label - label of combo box
 	 * @param items - popup items
 	 */
-	public ComponentCombobox(AppW app, String label, List<String> items) {
+	public ComponentComboBox(AppW app, String label, List<String> items) {
 		appW = app;
 		labelTextKey = label;
 
@@ -56,7 +55,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 	 * @param label - label of combobox
 	 * @param property - popup items
 	 */
-	public ComponentCombobox(AppW app, String label, NamedEnumeratedProperty<?> property) {
+	public ComponentComboBox(AppW app, String label, NamedEnumeratedProperty<?> property) {
 		this(app, label, Arrays.asList(property.getValueNames()));
 	}
 
@@ -67,10 +66,11 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 	}
 
 	private void buildGUI() {
-		contentPanel = new FlowPanel();
+		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputPanel");
 
 		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null);
+		inputTextField.setAutoComplete(false);
 		inputTextField.prepareShowSymbolButton(false);
 		inputTextField.enableGGBKeyboard();
 		inputTextField.addStyleName("textField");
@@ -161,9 +161,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 			controller.closePopup();
 		} else {
 			controller.showAsComboBox();
-			Scheduler.get().scheduleDeferred(() -> {
-				inputTextField.selectAll();
-			});
+			Scheduler.get().scheduleDeferred(() -> inputTextField.selectAll());
 		}
 		boolean isOpen = controller.isOpened();
 		Dom.toggleClass(this, "active", isOpen);

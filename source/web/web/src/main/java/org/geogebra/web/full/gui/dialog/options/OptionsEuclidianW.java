@@ -18,7 +18,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
-import org.geogebra.web.full.gui.components.ComponentCombobox;
+import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.LineStylePopup;
@@ -98,9 +98,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 		CompDropDown lbGridType;
 		GridDropdown lbRulerType = null;
 		ComponentCheckbox cbGridManualTick;
-		ComponentCombobox ncbGridTickX;
-		ComponentCombobox ncbGridTickY;
-		ComponentCombobox cbGridTickAngle;
+		ComponentComboBox ncbGridTickX;
+		ComponentComboBox ncbGridTickY;
+		ComponentComboBox cbGridTickAngle;
 		private FormLabel gridLabel1;
 		private FormLabel gridLabel2;
 		private FormLabel gridLabel3;
@@ -216,21 +216,21 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 					updateView();
 				});
 
-			ncbGridTickX = new ComponentCombobox(app, "", Arrays.asList("1",
+			ncbGridTickX = new ComponentComboBox(app, "", Arrays.asList("1",
 					Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 			ncbGridTickX.addChangeHandler(() -> {
 				model.applyGridTicks(ncbGridTickX.getSelectedText(), 0);
 				updateView();
 			});
 	
-			ncbGridTickY = new ComponentCombobox(app, "", Arrays.asList("1",
+			ncbGridTickY = new ComponentComboBox(app, "", Arrays.asList("1",
 					Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 			ncbGridTickY.addChangeHandler(() -> {
 					model.applyGridTicks(ncbGridTickY.getSelectedText(), 1);
 					updateView();
 			});
 
-			cbGridTickAngle =  new ComponentCombobox(app, "",
+			cbGridTickAngle =  new ComponentComboBox(app, "",
 					model.getAngleOptions());
 			cbGridTickAngle.addChangeHandler(() -> {
 					model.applyGridTickAngle(cbGridTickAngle.getSelectedText());

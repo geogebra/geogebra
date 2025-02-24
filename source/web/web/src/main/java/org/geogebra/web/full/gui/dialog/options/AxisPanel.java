@@ -9,7 +9,7 @@ import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
-import org.geogebra.web.full.gui.components.ComponentCombobox;
+import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -31,10 +31,10 @@ public class AxisPanel extends FlowPanel
 	protected ComponentCheckbox cbDrawAtBorder;
 	protected ComponentCheckbox cbAllowSelection;
 
-	protected ComponentCombobox ncbTickDist;
+	protected ComponentComboBox ncbTickDist;
 	protected CompDropDown lbTickStyle;
-	private ComponentCombobox comboAxisLabel;
-	private ComponentCombobox comboUnitLabel;
+	private final ComponentComboBox comboAxisLabel;
+	private final ComponentComboBox comboUnitLabel;
 	protected AutoCompleteTextFieldW tfCross;
 
 	private FormLabel crossAt;
@@ -101,7 +101,7 @@ public class AxisPanel extends FlowPanel
 		cbManualTicks = new ComponentCheckbox(loc, false, "TickDistance",
 				this::onDistanceSelected);
 
-		ncbTickDist = new ComponentCombobox(app, "", Arrays.asList("1",
+		ncbTickDist = new ComponentComboBox(app, "", Arrays.asList("1",
 				Unicode.PI_STRING, Unicode.PI_HALF_STRING));
 		ncbTickDist.addChangeHandler(() -> {
 				model.applyTickDistance(ncbTickDist.getSelectedText());
@@ -112,7 +112,7 @@ public class AxisPanel extends FlowPanel
 		distancePanel.add(ncbTickDist);
 
 		// axis and unit label
-		comboAxisLabel = new ComponentCombobox(app, "", model.getAxisLabelOptions());
+		comboAxisLabel = new ComponentComboBox(app, "", model.getAxisLabelOptions());
 		comboAxisLabel.addChangeHandler(() -> {
 			String text = comboAxisLabel.getSelectedText().trim();
 			model.applyAxisLabel(text);
@@ -122,7 +122,7 @@ public class AxisPanel extends FlowPanel
 		axisLabel = new FormLabel(loc.getMenu("AxisLabel") + ":")
 				.setFor(comboAxisLabel);
 
-		comboUnitLabel = new ComponentCombobox(app, "", model.getUnitLabelOptions());
+		comboUnitLabel = new ComponentComboBox(app, "", model.getUnitLabelOptions());
 		comboUnitLabel.addChangeHandler(() -> {
 				String text = comboUnitLabel.getSelectedText().trim();
 				model.applyUnitLabel(text);
