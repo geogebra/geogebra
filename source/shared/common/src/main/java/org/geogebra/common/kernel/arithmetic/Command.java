@@ -267,7 +267,7 @@ public class Command extends ValidExpression
 				sbToString.append("}^{");
 				sbToString.append(args.get(3).toString(tpl));
 				sbToString.append("}");
-				sbToString.append(args.get(0).toString(tpl));
+				appendWithBrackets(tpl);
 				return sbToString.toString();
 			} else if ("Product".equals(name) && getArgumentNumber() == 4) {
 				sbToString.append("\\prod_{");
@@ -277,7 +277,7 @@ public class Command extends ValidExpression
 				sbToString.append("}^{");
 				sbToString.append(args.get(3).toString(tpl));
 				sbToString.append("}");
-				sbToString.append(args.get(0).toString(tpl));
+				appendWithBrackets(tpl);
 				return sbToString.toString();
 			}
 		default:
@@ -320,6 +320,17 @@ public class Command extends ValidExpression
 			sbToString.append(')');
 
 			return sbToString.toString();
+		}
+	}
+
+	private void appendWithBrackets(StringTemplate tpl) {
+		if (args.get(0).isLeaf()
+				|| args.get(0).getOperation().compareTo(Operation.MULTIPLY) > 0) {
+			sbToString.append(args.get(0).toString(tpl));
+		} else {
+			sbToString.append(tpl.leftBracket())
+					.append(args.get(0).toString(tpl))
+					.append(tpl.rightBracket());
 		}
 	}
 

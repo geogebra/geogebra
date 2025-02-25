@@ -1,12 +1,16 @@
 package org.geogebra.common.kernel.algos;
 
+import static org.geogebra.common.BaseUnitTest.hasProperty;
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -16,25 +20,40 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.MoveGeos;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.test.annotation.Issue;
-import org.hamcrest.TypeSafeMatcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-public class AlgoElementTest extends BaseUnitTest {
+public class AlgoElementTest {
 
-	@Test
-	public void latexIntegral() {
+	private AppCommon app = AppCommonFactory.create3D();
+
+	@ParameterizedTest
+	@CsvSource(value = {"Integral(x,1,2);\\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
+			"Integral(x);\\int x\\,\\mathrm{d}x",
+			"Integral(f,1,2);\\int\\limits_{1}^{2}f\\,\\mathrm{d}n",
+			"Integral(f);\\int f\\,\\mathrm{d}n",
+			"Sequence(Integral(x^k),k,1,2);"
+					+ "Sequence\\left(\\int x^{k}\\,\\mathrm{d}x, k, 1, 2 \\right)"},
+			delimiterString = ";")
+	public void latexIntegral(String cmd, String latex) {
 		add("f(n)=n^2");
-		assertThat(add("Integral(x,1,2)"), hasLaTeXDefinition(
-				"\\int\\limits_{1}^{2}x\\,\\mathrm{d}x"));
-		assertThat(add("Integral(x)"), hasLaTeXDefinition("\\int x\\,\\mathrm{d}x"));
-		assertThat(add("Integral(f,1,2)"), hasLaTeXDefinition(
-				"\\int\\limits_{1}^{2}f\\,\\mathrm{d}n"));
-		assertThat(add("Integral(f)"), hasLaTeXDefinition("\\int f\\,\\mathrm{d}n"));
-		assertThat(add("Sequence(Integral(x^k),k,1,2)"), hasLaTeXDefinition(
-				"Sequence\\left(\\int x^{k}\\,\\mathrm{d}x, k, 1, 2 \\right)"));
+		assertEquals(latex, add(cmd).getDefinition(StringTemplate.latexTemplate));
+	}
+
+	@ParameterizedTest
+	@CsvSource(value = {"Sum(n-k,n,1,3);\\sum_{n=1}^{3}\\left(n - k \\right)",
+			"Sum(n,n,1,3);\\sum_{n=1}^{3}n",
+			"Sum(n^k,n,1,3);\\sum_{n=1}^{3}n^{k}",
+			"Sum(sin(n),n,1,3);\\sum_{n=1}^{3}\\operatorname{sin} \\left( n \\right)"},
+			delimiterString = ";")
+	public void latexSum(String cmd, String latex) {
+		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		assertEquals(latex, add(cmd).getDefinition(StringTemplate.latexTemplate));
 	}
 
 	@Test
@@ -60,19 +79,16 @@ public class AlgoElementTest extends BaseUnitTest {
 				hasValue(unicode("((x + 2)^2) / 1")));
 	}
 
-	@Test
-	public void latexIntegralShouldHaveCorrectDerivativeVariable() {
-		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
-		assertThat(add("Integral(x-d,a,b)"), hasLaTeXDefinition(
-				"\\int\\limits_{a}^{b}x - d\\,\\mathrm{d}x"));
-		assertThat(add("Integral(t-d,a,b)"), hasLaTeXDefinition(
-				"\\int\\limits_{a}^{b}t - d\\,\\mathrm{d}d"));
-		assertThat(add("Integral(s-d,a,b)"), hasLaTeXDefinition(
-				"\\int\\limits_{a}^{b}s - d\\,\\mathrm{d}d"));
-		assertThat(add("Integral(s-r,a,b)"), hasLaTeXDefinition(
-				"\\int\\limits_{a}^{b}s - r\\,\\mathrm{d}r"));
-		assertThat(add("Integral(t-x,a,b)"), hasLaTeXDefinition(
-				"\\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x"));
+	@ParameterizedTest
+	@CsvSource(value = {"Integral(x-d,a,b);\\int\\limits_{a}^{b}x - d\\,\\mathrm{d}x",
+			"Integral(t-d,a,b);\\int\\limits_{a}^{b}t - d\\,\\mathrm{d}d",
+			"Integral(s-d,a,b);\\int\\limits_{a}^{b}s - d\\,\\mathrm{d}d",
+			"Integral(s-r,a,b);\\int\\limits_{a}^{b}s - r\\,\\mathrm{d}r",
+			"Integral(t-x,a,b);\\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x"},
+			delimiterString = ";")
+	public void latexIntegralShouldHaveCorrectDerivativeVariable(String cmd, String latex) {
+		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		assertEquals(latex, add(cmd).getDefinition(StringTemplate.latexTemplate));
 	}
 
 	@Test
@@ -81,7 +97,7 @@ public class AlgoElementTest extends BaseUnitTest {
 		GeoPoint p = add("(1, 1)");
 		AlgoDependentPoint algo = new AlgoDependentPoint(p.getConstruction(),
 				p.getDefinition(), false);
-		p.getLocateableList().add(new GeoNumeric(getKernel().getConstruction(),
+		p.getLocateableList().add(new GeoNumeric(app.getKernel().getConstruction(),
 				0));
 		p.getLocateableList().get(0).getAlgoUpdateSet().add(algo);
 		algo.setOutput(new GeoElement[]{p});
@@ -99,15 +115,15 @@ public class AlgoElementTest extends BaseUnitTest {
 		GeoPoint pointA = add("A = (1, 1)");
 		add("B = (2, 2)");
 		GeoElement poly = add("Polygon(A, B, 4)");
-		poly.setUpdateScript(new GgbScript(getApp(),
+		poly.setUpdateScript(new GgbScript(app,
 				"SetValue(A, (1,1))\nSetValue(B, (2, 2))"));
 		MoveGeos.moveObjects(List.of(pointA), new Coords(1, 1),
-				null, null, getApp().getActiveEuclidianView());
+				null, null, app.getActiveEuclidianView());
 		assertThat(poly, hasValue("2"));
 	}
 
-	private TypeSafeMatcher<GeoElement> hasLaTeXDefinition(String def) {
-		return hasProperty("definition", item ->
-				item.getDefinition(StringTemplate.latexTemplate), def);
+	private <T extends GeoElementND> T add(String cmd) {
+		return (T) app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommand(cmd, false)[0];
 	}
 }
