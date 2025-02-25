@@ -112,10 +112,9 @@ public class Parser implements ParserInterface {
        return jj_ls;
     }
 
-    public Kernel getKernel()
-    {
-      return kernel;
-    }
+	public Kernel getKernel() {
+		return kernel;
+	}
 
 	private void myReInit(String parseString) {
 		myReInit(parseString, false);
@@ -1168,14 +1167,15 @@ ExpressionValue divterm():
 */
 ExpressionValue mixednumberterm():
 {
-	ExpressionValue ret, f;
+	ExpressionValue ret, numerator, denominator = null;
 }
 {
 	ret = enunary()
-	(
-		<INVISIBLE_PLUS> f = divterm()
+	(<INVISIBLE_PLUS> numerator = enunary() (LOOKAHEAD(2) <DIVIDE> denominator = enunary())?
 		{
-			ret = new ExpressionNode(kernel, ret, Operation.INVISIBLE_PLUS, f);
+			ExpressionValue fraction = denominator == null ? numerator
+				: new ExpressionNode(kernel, numerator, Operation.DIVIDE, denominator);
+			ret = new ExpressionNode(kernel, ret, Operation.INVISIBLE_PLUS, fraction);
 		}
 	)*
 	{ return ret; }

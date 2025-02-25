@@ -228,7 +228,7 @@ public class Unicode {
 	public static final char LFLOOR = '\u230a';
 	public static final char RFLOOR = '\u230b';
 
-	public static final char CENTER_DOT = '\u00b7';
+	public static final char CENTER_DOT = '\u22c5';
 	public static final char BULLET = '\u2022';
 	public static final String ASSIGN_STRING = "\u2254";
 	public static final String currencyList = CURRENCY_BAHT + "" + CURRENCY_DOLLAR

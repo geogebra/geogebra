@@ -388,6 +388,13 @@ public class ParserTest {
 	}
 
 	@Test
+	public void multiplicationSigns() {
+		List.of("*" , Unicode.MULTIPLY , Unicode.CENTER_DOT , "\u2219").forEach(sign ->
+			shouldReparseAs("3" + sign + "4", "3 * 4")
+		);
+	}
+
+	@Test
 	public void checkValidLabels() {
 		assertValidLabel("aa");
 		assertValidLabel("aa8");
@@ -428,6 +435,14 @@ public class ParserTest {
 		// parsed as a command when it's not alone
 		assertTrue(parseExpression("(4, 3) + G(1, 2)").containsCommands());
 		assertTrue(parseExpression("G(1, 2) + (3, 4)").containsCommands());
+	}
+
+	@Test
+	public void mixedNumbers() {
+		shouldReparseAs("1" + Unicode.INVISIBLE_PLUS + "(2/3)",
+				"1" + Unicode.INVISIBLE_PLUS + "2 / 3");
+		shouldReparseAs("1" + Unicode.INVISIBLE_PLUS + "2/3",
+				"1" + Unicode.INVISIBLE_PLUS + "2 / 3");
 	}
 
 	private void checkPointParsedAs(String input, String label, String value) {
