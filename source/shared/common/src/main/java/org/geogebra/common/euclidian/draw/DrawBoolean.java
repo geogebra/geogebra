@@ -126,49 +126,55 @@ public final class DrawBoolean extends Drawable {
 			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
 					!geoBool.isSelectionAllowed(view), g2, checkboxX, checkboxY);
 
-			if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
-				getDynamicCaption().draw(g2);
-				textWidth = getDynamicCaption().getWidth();
-			} else if (isLatexLabel()) {
-				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), g2.getFont(),
-						labelDesc);
-
-				textWidth = d.getWidth();
-
-				int captionX = checkboxX + CHECKBOX_SIZE + LABEL_MARGIN_LATEX;
-				int captionY = getCaptionY(true, d.getHeight());
-
-				App app = view.getApplication();
-				g2.setPaint(geo.getObjectColor());
-
-				app.getDrawEquation().drawEquation(app, geoBool, g2, captionX, captionY,
-						labelDesc, g2.getFont(),
-						StringUtil.startsWithFormattingCommand(labelDesc),
-						geoBool.getObjectColor(), geoBool.getBackgroundColor(),
-						false, false,
-						view.getCallBack(geo, firstCall));
-				firstCall = false;
-			} else {
-				g2.setPaint(geo.getObjectColor());
-				GTextLayout layout = getTextLayout(labelDesc,
-						view.getFontPoint(), g2);
-
-				// ie labelDesc != ""
-				if (layout != null) {
-					int width = (int) Math.round(layout.getBounds().getWidth());
-					int height = (int) Math
-							.round(layout.getBounds().getHeight());
-					textWidth = width;
-					int captionX = checkboxX + CHECKBOX_SIZE + LABEL_MARGIN_TEXT;
-					int captionY = getCaptionY(false, height);
-					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-							labelDesc, captionX, captionY, false);
-				}
+			if (geo.isLabelVisible()) {
+				drawLabel(g2, checkboxX);
 			}
-
-			updateLabel();
 		}
+	}
+
+	private void drawLabel(GGraphics2D g2, int checkboxX) {
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().draw(g2);
+			textWidth = getDynamicCaption().getWidth();
+		} else if (isLatexLabel()) {
+			GDimension d = CanvasDrawable.measureLatex(
+					view.getApplication(), g2.getFont(),
+					labelDesc);
+
+			textWidth = d.getWidth();
+
+			int captionX = checkboxX + CHECKBOX_SIZE + LABEL_MARGIN_LATEX;
+			int captionY = getCaptionY(true, d.getHeight());
+
+			App app = view.getApplication();
+			g2.setPaint(geo.getObjectColor());
+
+			app.getDrawEquation().drawEquation(app, geoBool, g2, captionX, captionY,
+					labelDesc, g2.getFont(),
+					StringUtil.startsWithFormattingCommand(labelDesc),
+					geoBool.getObjectColor(), geoBool.getBackgroundColor(),
+					false, false,
+					view.getCallBack(geo, firstCall));
+			firstCall = false;
+		} else {
+			g2.setPaint(geo.getObjectColor());
+			GTextLayout layout = getTextLayout(labelDesc,
+					view.getFontPoint(), g2);
+
+			// ie labelDesc != ""
+			if (layout != null) {
+				int width = (int) Math.round(layout.getBounds().getWidth());
+				int height = (int) Math
+						.round(layout.getBounds().getHeight());
+				textWidth = width;
+				int captionX = checkboxX + CHECKBOX_SIZE + LABEL_MARGIN_TEXT;
+				int captionY = getCaptionY(false, height);
+				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+						labelDesc, captionX, captionY, false);
+			}
+		}
+
+		updateLabel();
 	}
 
 	@Override
