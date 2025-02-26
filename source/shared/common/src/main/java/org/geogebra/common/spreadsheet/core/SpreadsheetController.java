@@ -1104,8 +1104,8 @@ public final class SpreadsheetController {
 		if (controlsDelegate == null) {
 			return false;
 		}
-		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_INPUT_HELP)) {
-			switch (keyCode) {
+
+		switch (keyCode) {
 			case JavaKeyCodes.VK_LEFT:
 			case JavaKeyCodes.VK_RIGHT:
 			case JavaKeyCodes.VK_UP:
@@ -1120,15 +1120,11 @@ public final class SpreadsheetController {
 				break;
 			default:
 				break;
-			}
 		}
 		return false;
 	}
 
 	private void updateAutoCompleteSearchPrefix() {
-		if (!PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_INPUT_HELP)) {
-			return;
-		}
 		if (editor == null || controlsDelegate == null) {
 			return;
 		}
