@@ -2,6 +2,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -28,7 +30,7 @@ public interface SpreadsheetControlsDelegate {
 	 * @param editorBounds The bounds of the cell being edited (in viewport-relative coordinates).
 	 * Use this to position the suggestions UI.
 	 */
-	void showAutoCompleteSuggestions(String input, Rectangle editorBounds);
+	void showAutoCompleteSuggestions(@Nonnull String input, Rectangle editorBounds);
 
 	/**
 	 * Hide the command suggestions UI (if currently visible).

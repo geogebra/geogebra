@@ -43,9 +43,10 @@ public class AutocompletionPopupPositioner {
 			// Popup aligned to the left of the input
 			x = inputBounds.getMinX();
 
-			// Change width to still fit into screen
+			// If popup does not fit horizontally (e.g. input is close to right edge)
 			if (width > frame.getWidth() - x - MARGIN) {
-				width = frame.getWidth() - x - MARGIN;
+				// Align left corner such that it fits the popup
+				x = frame.getWidth() - width - MARGIN;
 			}
 		} else {
 			// Popup aligned to the left of the frame with margin

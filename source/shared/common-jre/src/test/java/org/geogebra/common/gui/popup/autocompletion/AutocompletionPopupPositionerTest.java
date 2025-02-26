@@ -2,6 +2,8 @@ package org.geogebra.common.gui.popup.autocompletion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -13,6 +15,7 @@ public class AutocompletionPopupPositionerTest {
 	private static final double INPUT_HEIGHT = 56;
 	private static final Size SINGLE_LINE_POPUP = new Size(320, 48 + 16);
 	private static final Rectangle PHONE_FRAME = new Rectangle(8, 320, 8, 780);
+	private static final Rectangle PHONE_FRAME_LANDSCAPE = new Rectangle(8, 780, 8, 320);
 	private static final Rectangle DESKTOP_FRAME = new Rectangle(0, 1000, 0, 1000);
 
 	private final AutocompletionPopupPositioner positioner = new AutocompletionPopupPositioner();
@@ -61,5 +64,21 @@ public class AutocompletionPopupPositionerTest {
 				SINGLE_LINE_POPUP, DESKTOP_FRAME, VerticalPosition.UNSPECIFIED);
 		assertThat(frame.getMinX(), equalTo(inputFrame.getMinX()));
 		assertThat(frame.getWidth(), equalTo(520.0));
+	}
+
+	@Test
+	public void testHorizontalPositionEdgeCase() {
+		int inputWidth = 56;
+		// Input is aligned to the right edge of the frame with 56 width
+		Rectangle inputFrame = new Rectangle(PHONE_FRAME_LANDSCAPE.getWidth() - inputWidth,
+				PHONE_FRAME_LANDSCAPE.getWidth(), 0, INPUT_HEIGHT);
+
+		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
+				SINGLE_LINE_POPUP, PHONE_FRAME_LANDSCAPE, VerticalPosition.UNSPECIFIED);
+
+		// Expect that suggestion popup does not left align with input box
+		// And has a greater width than the input box
+		assertThat(frame.getWidth(), greaterThan((double) inputWidth));
+		assertThat(frame.getMinX(), lessThan(inputFrame.getMinX()));
 	}
 }
