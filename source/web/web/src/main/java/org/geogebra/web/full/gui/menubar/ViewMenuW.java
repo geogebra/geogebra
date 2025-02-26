@@ -138,7 +138,7 @@ public class ViewMenuW extends Submenu {
 					int id = app.getActiveEuclidianView().getViewID();
 					app.setShowConstructionProtocolNavigation(true, id);
 					app.getGuiManager()
-							.updateCheckBoxesForShowConstructinProtocolNavigation(
+							.updateCheckBoxesForShowConstructionProtocolNavigation(
 									id);
 				}
 			}

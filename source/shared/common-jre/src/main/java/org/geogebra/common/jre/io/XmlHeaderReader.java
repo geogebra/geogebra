@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.jre.io.trasnformer.InputStreamTransformer;
+import org.geogebra.common.jre.io.transformer.InputStreamTransformer;
 
 /**
  * Extracts attribute values from the header tag of the geogebra.xml

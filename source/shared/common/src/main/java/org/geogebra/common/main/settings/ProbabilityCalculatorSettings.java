@@ -112,7 +112,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * Sets the parameter array
 	 * 
 	 * @param parameters
-	 *            distribution paramaeters
+	 *            distribution parameters
 	 */
 	public void setParameters(GeoNumeric[] parameters) {
 		this.parameters = parameters;

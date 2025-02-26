@@ -2,7 +2,7 @@ package org.geogebra.common.exam.restrictions.cvte;
 
 import javax.annotation.Nullable;
 
-import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
@@ -13,8 +13,8 @@ import org.geogebra.common.main.App;
  * code around {@link App#getAlgebraOutputFilter()}. When the CvTE exam is active, new behaviour
  * is added on top of what was there before (by wrapping it), using the same structure as before,
  * without having to touch the existing
- * {@link org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter ProtectiveAlgebraOutputFilter} /
- * {@link org.geogebra.common.gui.view.algebra.fiter.DefaultAlgebraOutputFilter DefaultAlgebraOutputFilter} code.
+ * {@link org.geogebra.common.gui.view.algebra.filter.ProtectiveAlgebraOutputFilter ProtectiveAlgebraOutputFilter} /
+ * {@link org.geogebra.common.gui.view.algebra.filter.DefaultAlgebraOutputFilter DefaultAlgebraOutputFilter} code.
  */
 public final class CvteAlgebraOutputFilter implements AlgebraOutputFilter {
 

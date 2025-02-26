@@ -62,9 +62,9 @@ import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactor
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
-import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
-import org.geogebra.common.gui.view.algebra.fiter.DefaultAlgebraOutputFilter;
-import org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.filter.DefaultAlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.filter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -139,7 +139,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.LowerCaseDictionary;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.ToStringConverter;
@@ -995,7 +995,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return kernel.getConstruction().getUndoManager();
 	}
 
-	public void setPropertiesOccured() {
+	public void setPropertiesOccurred() {
 		getUndoManager().setPropertiesOccurred();
 	}
 
@@ -3469,7 +3469,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		if (getGuiManager() != null) {
 			getGuiManager()
-					.updateCheckBoxesForShowConstructinProtocolNavigation(id);
+					.updateCheckBoxesForShowConstructionProtocolNavigation(id);
 		}
 	}
 
@@ -4626,7 +4626,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public String md5Encrypt(String s) {
-		return MD5EncrypterGWTImpl.encrypt(s);
+		return MD5Checksum.compute(s);
 	}
 
 	public @CheckForNull EmbedManager getEmbedManager() {

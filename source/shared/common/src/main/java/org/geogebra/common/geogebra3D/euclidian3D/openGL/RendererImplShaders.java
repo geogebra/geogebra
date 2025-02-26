@@ -29,7 +29,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected Object matrixLocation; // matrix
 	// light
 	protected Object lightPositionLocation;
-	protected Object ambiantDiffuseLocation;
+	protected Object ambientDiffuseLocation;
 	protected Object enableLightLocation;
 	protected Object enableShineLocation;
 	/** eye position */
@@ -85,7 +85,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	private int currentLayer;
 	private final float[] eyeOrDirection = new float[4];
-	protected float[][] ambiantDiffuse;
+	protected float[][] ambientDiffuse;
 
 	/**
 	 * dash values for shaders
@@ -549,25 +549,24 @@ public abstract class RendererImplShaders extends RendererImpl {
 	abstract protected void glUniform4fv(Object location, float[] values);
 
 	@Override
-	public void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
-			float ambiant1, float diffuse1) {
+	public void setLightAmbientDiffuse(float ambient0, float diffuse0,
+			float ambient1, float diffuse1) {
 
 		float coeff = 1.414f;
 
-		float a0 = ambiant0 * coeff;
+		float a0 = ambient0 * coeff;
 		float d0 = 1 - a0;
-		float a1 = ambiant1 * coeff;
+		float a1 = ambient1 * coeff;
 		float d1 = 1 - a1;
 
-		ambiantDiffuse = new float[][] { { a0, d0 }, { a1, d1 } };
-
+		ambientDiffuse = new float[][] { { a0, d0 }, { a1, d1 } };
 	}
 
 	abstract protected void glUniform2fv(Object location, float[] values);
 
 	@Override
 	public void setLight(int light) {
-		glUniform2fv(ambiantDiffuseLocation, ambiantDiffuse[light]);
+		glUniform2fv(ambientDiffuseLocation, ambientDiffuse[light]);
 	}
 
 	@Override
@@ -932,7 +931,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	final protected void setShaderLocations() {
 		matrixLocation = glGetUniformLocation("matrix");
 		lightPositionLocation = glGetUniformLocation("lightPosition");
-		ambiantDiffuseLocation = glGetUniformLocation("ambiantDiffuse");
+		ambientDiffuseLocation = glGetUniformLocation("ambientDiffuse");
 		eyePositionLocation = glGetUniformLocation("eyePosition");
 		enableLightLocation = glGetUniformLocation("enableLight");
 		cullingLocation = glGetUniformLocation("culling");

@@ -5,7 +5,7 @@ import org.geogebra.common.util.MyMath;
 /**
  * Cache for binomials
  * MyMath.binomial(n, k) is quite expensive, so this class makes sure that for every (n, k)
- * pair, value is computed only once, and retreived on next calls as a quick lookup.
+ * pair, value is computed only once, and retrieved on next calls as a quick lookup.
  *
  * If n or k are beyond the capacity of the cache, it fails back to MyMath.binomial(n, k) call.
  */

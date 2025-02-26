@@ -4193,7 +4193,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		getCompanion().setBackground(color);
 	}
 
-	public GColor getApplyedBackground() {
+	public GColor getAppliedBackground() {
 		return bgAppliedColor;
 	}
 
@@ -5222,7 +5222,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * 
 	 * @return mouse/touch gesture controller
 	 */
-	public MouseTouchGestureController getEuclidianPanelOnTouchListner() {
+	public MouseTouchGestureController getEuclidianPanelOnTouchListener() {
 		// overridden in EuclidianView3DA
 		return null;
 	}

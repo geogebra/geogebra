@@ -3367,15 +3367,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @deprecated use {@link #getAnimationManager()} instead
-	 * @return animation manager
-	 */
-	@Deprecated
-	public final AnimationManager getAnimatonManager() {
-		return getAnimationManager();
-	}
-
-	/**
 	 * @param geo
 	 *            geo
 	 * @return RealWorld Coordinates of the rectangle covering all euclidian

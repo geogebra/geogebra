@@ -1,4 +1,4 @@
-package org.geogebra.common.gui.view.algebra.fiter;
+package org.geogebra.common.gui.view.algebra.filter;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -2320,7 +2320,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void updateCheckBoxesForShowConstructinProtocolNavigation(int id) {
+	public void updateCheckBoxesForShowConstructionProtocolNavigation(int id) {
 		if (propertiesView != null) {
 			propertiesView.updatePanelGUI(id);
 		}
@@ -2995,7 +2995,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public EuclidianViewInterfaceCommon getPlotPanelEuclidanView() {
+	public EuclidianViewInterfaceCommon getPlotPanelEuclidianView() {
 		return null;
 	}
 

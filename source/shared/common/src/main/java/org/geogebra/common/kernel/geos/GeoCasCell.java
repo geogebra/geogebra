@@ -3181,7 +3181,7 @@ public class GeoCasCell extends GeoElement
 		ValidExpression oldEvalVE = evalVE;
 		ValidExpression oldInputVE = getInputVE();
 		String oldAssignmentVar = assignmentVar;
-		AssignmentType oldOVEAssignmentType = getAssignmentType();
+		AssignmentType oldOutputAssignmentType = getAssignmentType();
 
 		assignmentVar = getPlotVar();
 		adjustPointList(false);
@@ -3259,7 +3259,7 @@ public class GeoCasCell extends GeoElement
 			}
 			// plot failed, undo assignment
 			assignmentVar = oldAssignmentVar;
-			setAssignmentType(oldOVEAssignmentType);
+			setAssignmentType(oldOutputAssignmentType);
 			this.firstComputeOutput = true;
 			evalComment = oldEvalComment;
 			evalVE = oldEvalVE;

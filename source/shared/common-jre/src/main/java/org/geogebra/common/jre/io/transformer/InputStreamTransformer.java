@@ -1,4 +1,4 @@
-package org.geogebra.common.jre.io.trasnformer;
+package org.geogebra.common.jre.io.transformer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

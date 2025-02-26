@@ -369,7 +369,7 @@ public class Term implements Comparable<Object> {
 					return multiply(
 							divide(a, ben.getLeft(), kernel, keepFraction),
 							ben.getRight(), kernel, keepFraction);
-				// TODO muliply?
+				// TODO multiply?
 				default:
 					break;
 				}

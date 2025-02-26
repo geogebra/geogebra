@@ -459,8 +459,8 @@ public abstract class RendererImpl {
 
 	public abstract void setLightPosition(float[] values);
 
-	public abstract void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
-			float ambiant1, float diffuse1);
+	public abstract void setLightAmbientDiffuse(float ambient0, float diffuse0,
+			float ambient1, float diffuse1);
 
 	/**
 	 * create a dummy texture to please the GL shader language, that needs

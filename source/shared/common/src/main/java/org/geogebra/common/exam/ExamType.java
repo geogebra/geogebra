@@ -13,7 +13,7 @@ import org.geogebra.common.exam.restrictions.cvte.CvteAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteValueConverter;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleValueConverter;
-import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;

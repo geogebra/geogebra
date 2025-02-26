@@ -2590,7 +2590,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	/**
-	 * ensure that the point will show 3D cartesion coords
+	 * ensure that the point will show 3D cartesian coords
 	 * 
 	 * @param point
 	 *            point

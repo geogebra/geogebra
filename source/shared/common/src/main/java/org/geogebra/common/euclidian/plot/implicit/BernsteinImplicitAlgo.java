@@ -27,7 +27,7 @@ public class BernsteinImplicitAlgo implements PlotterAlgo {
 	/**
 	 * @param bounds {@link EuclidianViewBounds}
 	 * @param curve the curve geo.
-	 * @param cells the cells as itermediate result of the algo.
+	 * @param cells the cells as intermediate result of the algo.
 	 * @param segments to make segments as the final result of the algo.
 	 * @param settings {@link BernsteinImplicitAlgoSettings}
 	 */

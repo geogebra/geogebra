@@ -16,31 +16,20 @@ package org.geogebra.common.util;
  */
 
 /**
- * MD5sum calculator implementation in GWT
- * 
- * downloaded from
- * https://java2s.com/Open-Source/Java/GWT/gwt-util/org/nicocube/
- * gwt/util/client/crypt/md5/MD5EncrypterGWTImpl.java.htm
- * 
- * see also
- * https://java2s.com/Open-Source/Java/GWT/gwt-util/org/nicocube/gwt/util
- * /client/crypt/md5/MD5EncrypterTest.java.htm
- * https://java2s.com/Open-Source/Java
- * /GWT/gwt-util/org/nicocube/gwt/util/client/
- * crypt/md5/MD5EncryptJSNIImpl.java.htm
+ * MD5 sum calculator implementation in GWT
  *
  * @author Nicolas Lochet
  * @version 0.5
  * @since 0.5
  */
-public class MD5EncrypterGWTImpl {
+public class MD5Checksum {
 
 	/**
 	 * @param string0
 	 *            text
 	 * @return encoded text
 	 */
-	public static String encrypt(String string0) {
+	public static String compute(String string0) {
 
 		int[] x;
 		int k, AA, BB, CC, DD, a, b, c, d;

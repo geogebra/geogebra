@@ -6,7 +6,7 @@ import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.gui.view.algebra.fiter.FunctionAndEquationFilter;
+import org.geogebra.common.gui.view.algebra.filter.FunctionAndEquationFilter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;

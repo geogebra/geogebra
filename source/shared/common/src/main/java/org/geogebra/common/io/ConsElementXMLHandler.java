@@ -315,7 +315,7 @@ public class ConsElementXMLHandler {
 			// condition for visibility of object
 			String strShowObjectCond = attrs.get("showObject");
 			if (strShowObjectCond != null) {
-				// store (geo, epxression) values
+				// store (geo, expression) values
 				// they will be processed in processShowObjectConditionList()
 				// later
 				showObjectConditionList
@@ -1244,7 +1244,7 @@ public class ConsElementXMLHandler {
 		}
 
 		if (exp != null) {
-			// store (geo, epxression, number) values
+			// store (geo, expression, number) values
 			// they will be processed in processStartPoints() later
 			startPointList.add(new LocateableExpPair(locGeo, exp, number));
 			locGeo.setWaitForStartPoint();

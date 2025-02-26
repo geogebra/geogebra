@@ -1722,7 +1722,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public EuclidianViewW getPlotPanelEuclidanView() {
+	public EuclidianViewW getPlotPanelEuclidianView() {
 		return (EuclidianViewW) probCalculator.getPlotPanel();
 	}
 
@@ -1791,7 +1791,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void updateCheckBoxesForShowConstructinProtocolNavigation(int id) {
+	public void updateCheckBoxesForShowConstructionProtocolNavigation(int id) {
 		getLayout().getDockManager().getPanel(id)
 		.updateNavigationBar();
 	}

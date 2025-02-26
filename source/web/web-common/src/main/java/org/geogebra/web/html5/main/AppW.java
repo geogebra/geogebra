@@ -83,7 +83,7 @@ import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
@@ -1465,7 +1465,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO: image file name should be reset after the file data is
 		// available
 
-		String zipDirectory = MD5EncrypterGWTImpl.encrypt(url);
+		String zipDirectory = MD5Checksum.compute(url);
 
 		// with dummy extension, maybe gif or jpg in real
 		String imgFileName = zipDirectory + ".png";

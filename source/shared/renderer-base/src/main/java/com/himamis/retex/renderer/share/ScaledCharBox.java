@@ -69,7 +69,8 @@ public class ScaledCharBox extends CharBox {
 		this.factor = factor;
 	}
 
-	public void addToWitdh(final double x) {
+	@Override
+	public void addToWidth(final double x) {
 		width += x * factor;
 	}
 }

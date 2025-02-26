@@ -5,7 +5,7 @@ import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.HttpRequest;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.MebisGlobal;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -95,8 +95,8 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	@Override
 	public String getEncoded() {
 		String secret = "ef1V8PNj";
-		String encrypted = MD5EncrypterGWTImpl
-				.encrypt(getLoginToken() + "T" + "1581341456" + secret);
+		String encrypted = MD5Checksum
+				.compute(getLoginToken() + "T" + "1581341456" + secret);
 		return DomGlobal.btoa(getLoginToken()) + "|T|" + "1581341456" + "|" + encrypted;
 	}
 

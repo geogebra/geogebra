@@ -1028,7 +1028,7 @@ public abstract class Renderer {
 			rendererImpl.setClearColor(0, 0, 0, 0f);
 			return;
 		}
-		GColor c = view3D.getApplyedBackground();
+		GColor c = view3D.getAppliedBackground();
 		float r, g, b;
 		if (view3D
 				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES
@@ -1470,7 +1470,7 @@ public abstract class Renderer {
 		float diffuse0 = 1f - AMBIENT_0;
 		float diffuse1 = 1f - AMBIENT_1;
 
-		rendererImpl.setLightAmbiantDiffuse(AMBIENT_0, diffuse0, AMBIENT_1,
+		rendererImpl.setLightAmbientDiffuse(AMBIENT_0, diffuse0, AMBIENT_1,
 				diffuse1);
 
 		// material and light

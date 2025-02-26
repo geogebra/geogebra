@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
@@ -343,7 +343,7 @@ public class ImageManagerW extends ImageManager {
 	 * @return filename with MD5 hash as directory
 	 */
 	public static String getMD5FileName(String imgFileName, String fileStr) {
-		String zipDirectory = MD5EncrypterGWTImpl.encrypt(fileStr);
+		String zipDirectory = MD5Checksum.compute(fileStr);
 
 		String fn = imgFileName;
 		int index = imgFileName.lastIndexOf('/');

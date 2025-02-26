@@ -281,7 +281,7 @@ public interface GuiManagerInterface extends SettingListener {
 	void setShowConstructionProtocolNavigation(boolean show, int id,
 			boolean playButton, double playDelay, boolean showProtButton);
 
-	void updateCheckBoxesForShowConstructinProtocolNavigation(int id);
+	void updateCheckBoxesForShowConstructionProtocolNavigation(int id);
 
 	/**
 	 * Switch navigation bar buttons to pause.
@@ -329,7 +329,7 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void getToolImageURL(int mode, GeoImage geoImage, AsyncOperation<String> onload);
 
-	EuclidianViewInterfaceCommon getPlotPanelEuclidanView();
+	EuclidianViewInterfaceCommon getPlotPanelEuclidianView();
 
 	/**
 	 * redraw Navigation Bars if necessary (eg step changed)

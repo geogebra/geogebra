@@ -177,19 +177,19 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
-			float ambiant1, float diffuse1) {
+	public void setLightAmbientDiffuse(float ambient0, float diffuse0,
+			float ambient1, float diffuse1) {
 
 		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
 				GLLightingFunc.GL_AMBIENT,
-				new float[] { ambiant0, ambiant0, ambiant0, 1.0f }, 0);
+				new float[] { ambient0, ambient0, ambient0, 1.0f }, 0);
 		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
 				GLLightingFunc.GL_DIFFUSE,
 				new float[] { diffuse0, diffuse0, diffuse0, 1.0f }, 0);
 
 		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1,
 				GLLightingFunc.GL_AMBIENT,
-				new float[] { ambiant1, ambiant1, ambiant1, 1.0f }, 0);
+				new float[] { ambient1, ambient1, ambient1, 1.0f }, 0);
 		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1,
 				GLLightingFunc.GL_DIFFUSE,
 				new float[] { diffuse1, diffuse1, diffuse1, 1.0f }, 0);

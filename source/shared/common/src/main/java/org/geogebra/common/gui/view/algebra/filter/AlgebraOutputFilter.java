@@ -1,4 +1,4 @@
-package org.geogebra.common.gui.view.algebra.fiter;
+package org.geogebra.common.gui.view.algebra.filter;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.BaseExamTests;
-import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.junit.Before;
 import org.junit.Test;
 

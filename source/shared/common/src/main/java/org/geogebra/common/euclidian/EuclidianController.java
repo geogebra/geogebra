@@ -524,7 +524,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * ensure that the point will show 2D cartesion coords
+	 * ensure that the point will show 2D cartesian coords
 	 *
 	 * @param point
 	 *            point

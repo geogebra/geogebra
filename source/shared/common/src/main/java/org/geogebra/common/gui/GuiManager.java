@@ -476,7 +476,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public abstract void updateCheckBoxesForShowConstructinProtocolNavigation(
+	public abstract void updateCheckBoxesForShowConstructionProtocolNavigation(
 			int id);
 
 	@Override

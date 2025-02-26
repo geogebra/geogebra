@@ -42,7 +42,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;

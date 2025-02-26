@@ -192,7 +192,7 @@ public class GgbAPIW extends GgbAPI {
 			if (app.getGuiManager().getLayout().getDockManager()
 					.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
 				ev = (EuclidianViewWInterface) app.getGuiManager()
-						.getPlotPanelEuclidanView();
+						.getPlotPanelEuclidianView();
 			}
 		}
 
@@ -520,7 +520,7 @@ public class GgbAPIW extends GgbAPI {
 			return app.getEuclidianView2(1);
 		}
 		if (app.showView(App.VIEW_PROBABILITY_CALCULATOR)) {
-			return app.getGuiManager().getPlotPanelEuclidanView();
+			return app.getGuiManager().getPlotPanelEuclidianView();
 		}
 		return null;
 	}

@@ -47,7 +47,7 @@ public class EmbedURLChecker implements URLChecker {
 									.withUrl(url)
 									: new URLStatus("FrameLoadError"));
 				} catch (JSONException e) {
-					callback.callback(new URLStatus("InavalidInput"));
+					callback.callback(new URLStatus("InvalidInput"));
 				}
 			}
 
