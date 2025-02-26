@@ -32,6 +32,8 @@ public class GridDataProvider {
 			return "Isometric";
 		case POLAR:
 			return "Polar";
+		case DOTS:
+			return "Dots";
 		default:
 			return "NoRuling";
 		}
@@ -63,6 +65,8 @@ public class GridDataProvider {
 			return PropertiesResources.INSTANCE.isometricRuling();
 		case POLAR:
 			return PropertiesResources.INSTANCE.polarRuling();
+		case DOTS:
+			return PropertiesResources.INSTANCE.dotsRuling();
 		default:
 			return AppResources.INSTANCE.empty();
 		}

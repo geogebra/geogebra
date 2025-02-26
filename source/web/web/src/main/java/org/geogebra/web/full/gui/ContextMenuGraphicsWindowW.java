@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -450,6 +451,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 					EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
 			addGridItem("Polar", EuclidianView.GRID_POLAR);
 			addGridItem("Isometric", EuclidianView.GRID_ISOMETRIC);
+			if (PreviewFeature.isAvailable(PreviewFeature.GRID_TYPE_DOTS)) {
+				addGridItem("Dots", EuclidianView.GRID_DOTS);
+			}
 		}
 
 		/**

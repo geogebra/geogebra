@@ -2,9 +2,12 @@ package org.geogebra.common.euclidian.background;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
@@ -21,6 +24,8 @@ public class DrawBackground {
 	private static final double SVG_SCALE = 2;
 	private static final double SVG_BASE_WIDTH = 539;
 	private static final double RULING_BASE_WIDTH = 10.5;
+	private static final double DOT_SIZE = 2;
+	private static final int MIN_DOT_DISTANCE = 5;
 	private EuclidianView view;
 	private EuclidianSettings settings;
 	private double gap;
@@ -65,6 +70,9 @@ public class DrawBackground {
 			gap = settings.getBackgroundRulerGap() / 2;
 			width = 21;
 			drawSquaredBackground(g2);
+			break;
+		case DOTS:
+			drawDottedBackground(g2);
 			break;
 		case ISOMETRIC:
 		case POLAR:
@@ -235,5 +243,50 @@ public class DrawBackground {
 	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,
 			double y1, double x2, double y2) {
 		g2.addStraightLineToGeneralPath(x1, y1, x2, y2);
+	}
+
+	private void drawDottedBackground(GGraphics2D g2) {
+		double start = view.getYZero() % gap;
+		double startX = (view.getXZero() % gap) - gap;
+		double endX = view.getWidth();
+
+		drawDots(g2, startX, endX, start - gap, view.getHeight() + 2 * gap, gap, gap);
+	}
+
+	/**
+	 * Draw dotted grid
+	 * @param g2 - graphics
+	 * @param xStart - horizontal starting point of view
+	 * @param xEnd - horizontal end point of view
+	 * @param yStart - vertical starting point of view
+	 * @param yEnd - vertical end point of view
+	 * @param dotDistanceX - horizontal distance between dots
+	 * @param dotDistanceY - vertical distance between dots
+	 */
+	public static void drawDots(GGraphics2D g2, double xStart, double xEnd,
+			double yStart, double yEnd, double dotDistanceX, double dotDistanceY) {
+		if (dotDistanceX < MIN_DOT_DISTANCE || dotDistanceY < MIN_DOT_DISTANCE) {
+			return;
+		}
+
+		g2.setColor(GeoGebraColorConstants.NEUTRAL_600);
+
+		double y = yStart;
+		while (y <= yEnd) {
+			double x = xStart;
+			while (x <= xEnd) {
+				drawDot(g2, x - 1, y - 1);
+				x += dotDistanceX;
+			}
+			y += dotDistanceY;
+		}
+		// make sure last line of dots is drawn despite of rounding errors
+		drawDot(g2, xEnd - 1, yStart + yEnd - 1);
+	}
+
+	private static void drawDot(GGraphics2D g2, double x, double y) {
+		GShape dot = AwtFactory.getPrototype().newEllipse2DDouble(x, y, DOT_SIZE, DOT_SIZE);
+		g2.fill(dot);
+		g2.draw(dot);
 	}
 }

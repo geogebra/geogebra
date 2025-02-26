@@ -1406,6 +1406,7 @@ public class EuclidianViewW extends EuclidianView implements
 		case RULER:
 		case SQUARE_BIG:
 		case SQUARE_SMALL:
+		case DOTS:
 		default:
 			return null;
 		}

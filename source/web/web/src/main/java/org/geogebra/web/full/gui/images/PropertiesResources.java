@@ -42,4 +42,7 @@ public interface PropertiesResources extends ClientBundle {
 
 	@Source("org/geogebra/web/full/gui/images/ruling/isometric.png")
 	ImageResource isometricRuling();
+
+	@Source("org/geogebra/web/full/gui/images/ruling/dots.png")
+	ImageResource dotsRuling();
 }

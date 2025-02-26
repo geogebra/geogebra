@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.MyMath;
 
@@ -278,4 +279,14 @@ public class DrawGrid {
 		g2.addStraightLineToGeneralPath(x1, y1, x2, y2);
 	}
 
+	protected void drawDotsGrid(GGraphics2D g2) {
+		double tickStepX = view.getXscale() * view.gridDistances[0];
+		double tickStepY = view.getYscale() * view.gridDistances[1];
+		double startX = (view.getXZero() % tickStepX) - tickStepX;
+		double startY = (view.getYZero() % tickStepY) - tickStepY;
+		double endX = view.getWidth();
+		double endY = view.getHeight() + 2 * tickStepY;
+
+		DrawBackground.drawDots(g2, startX, endX, startY, endY, tickStepX, tickStepY);
+	}
 }

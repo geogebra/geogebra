@@ -389,6 +389,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public static final int GRID_POLAR = 2;
 	/** cartesian grid with minor gridlines */
 	public static final int GRID_CARTESIAN_WITH_SUBGRID = 3;
+	/**
+	 * dots
+	 */
+	public static final int GRID_DOTS = 4;
 
 	private int gridType = GRID_CARTESIAN;
 
@@ -3968,24 +3972,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		g2.setStroke(gridStroke);
 
 		switch (gridType) {
-
+		default:
+			break;
 		case GRID_CARTESIAN:
-
 			drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, false);
-
 			break;
 		case GRID_CARTESIAN_WITH_SUBGRID:
-
 			drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, true);
-
 			break;
-
 		case GRID_ISOMETRIC:
 			drawIsometricGrid(g2, xCrossPix, yCrossPix);
 			break;
-
-		case GRID_POLAR: // G.Sturr 2010-8-13
-
+		case GRID_POLAR:
 			// find minimum grid radius
 			double min;
 			if ((getXZero() > 0) && (getXZero() < getWidth())
@@ -4049,7 +4047,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				}
 				g2.draw(tempLine);
 			}
-
+			break;
+		case GRID_DOTS:
+			drawGrid.drawDotsGrid(g2);
 			break;
 		}
 
@@ -4134,7 +4134,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			g2.draw(tempLine);
 			pix = startX + (j * tickStepX);
 		}
-
 	}
 
 	private GPoint2D[] getTmpClipPoints() {
