@@ -62,6 +62,7 @@ public class GgbScriptTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5162")
 	public void scriptShouldNotTriggeredConcurrentModification()
 			throws CircularDefinitionException {
 		GeoBoolean show = add("show=true");

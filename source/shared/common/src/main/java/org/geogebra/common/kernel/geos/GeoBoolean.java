@@ -405,6 +405,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		GeoBoolean geoBoolean = (GeoBoolean) oldGeo;
 		conditionals.clear();
 		conditionals.addAll(geoBoolean.conditionals);
+		for (GeoElement el: conditionals) {
+			el.condShowObject = this;
+			kernel.notifyUpdateVisualStyle(el, GProperty.VISIBLE);
+		}
 	}
 
 	@Override
