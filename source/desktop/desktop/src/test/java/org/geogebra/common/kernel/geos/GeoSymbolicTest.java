@@ -2416,4 +2416,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("a=3+5");
 		assertEquals(8, app.getGgbApi().getValue("a"), .01);
 	}
+
+	@Test
+	public void powerOfImplicitMultiplication() {
+		GeoSymbolic s = add("a(2/3)^2");
+		assertThat(s, hasValue("4 / 9 a"));
+	}
 }

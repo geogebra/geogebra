@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.*;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -254,6 +255,17 @@ public class Parser implements ParserInterface {
                     Operation.MULTIPLY,
                     new ExpressionNode(kernel, ((ExpressionNode) v).getRight(),
                             Operation.POWER, e));
+        }
+        if (v.unwrap() instanceof Command
+                && kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV
+                && !((ExpressionNode) v).hasBrackets()) {
+            Command cmd = (Command) v.unwrap();
+            if (cmd.getArgumentNumber() == 1 && Commands.stringToCommand(cmd.getName()) == null) {
+                return new ExpressionNode(kernel, new Variable(kernel, cmd.getName()),
+                    Operation.MULTIPLY,
+                    new ExpressionNode(kernel, cmd.getArgument(0),
+                            Operation.POWER, e));
+            }
         }
         return new ExpressionNode(kernel, v, Operation.POWER, e);
     }
