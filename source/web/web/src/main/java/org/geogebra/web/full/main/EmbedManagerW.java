@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main;
 
+import static org.geogebra.common.GeoGebraConstants.REALSCHULE_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 
 import java.util.ArrayList;
@@ -156,6 +157,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
+		boolean isRealschuleExam = drawEmbed.getGeoEmbed().getAppName().equals(REALSCHULE_APPCODE);
 		FlowPanel scaler = new FlowPanel();
 		addToGraphics(scaler);
 
@@ -175,6 +177,10 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 				.setAttribute("appName", drawEmbed.getGeoEmbed().getAppName())
 				.setAttribute("examMode", app.getAppletParameters().getParamExamMode())
 				.setAttribute("borderColor", "#CCC");
+		if (isRealschuleExam) {
+			parameters.setAttribute("appName", SUITE_APPCODE)
+					.setAttribute("examMode", REALSCHULE_APPCODE);
+		}
 		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
 			parameters.setAttribute(entry.getKey(), entry.getValue());
 		}
@@ -714,9 +720,9 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void addSuiteCalcWithPreselectedApp(String subApp) {
+	public void addCalcWithPreselectedApp(String appName, String subApp) {
 		final GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-		ge.setAppName(SUITE_APPCODE);
+		ge.setAppName(appName);
 		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subApp);
 		EuclidianView view = app.getActiveEuclidianView();
 		ge.initDefaultPosition(view);

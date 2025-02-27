@@ -163,9 +163,10 @@ public interface EmbedManager {
 
 	/**
 	 * Add embedded suite calc
+	 * @param appCode top level code
 	 * @param subApp - preselected app
 	 */
-	void addSuiteCalcWithPreselectedApp(String subApp);
+	void addCalcWithPreselectedApp(String appCode, String subApp);
 
 	/**
 	 * Adds a resolving function for specific embedded element type. The function gets an ID of the

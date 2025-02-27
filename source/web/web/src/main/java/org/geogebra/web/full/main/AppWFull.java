@@ -270,6 +270,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private final ExamController examController = GlobalScope.examController;
 	private AutocompleteProvider autocompleteProvider;
 	private ExamEventBus examEventBus;
+	private boolean attachedToExam;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -1414,7 +1415,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void loadPreferences(Perspective p) {
 		GeoGebraPreferencesW.loadForApp(this, p);
-
+		if (attachedToExam) {
+			examController.reapplySettingsRestrictions();
+		}
 	}
 
 	/**
@@ -2397,6 +2400,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		examController.registerRestrictable(getConfig());
 		examController.registerDelegate(new ExamControllerDelegateW(this));
 		examController.addListener(getExamEventBus());
+		attachedToExam = true;
 	}
 
 	@Override
@@ -2410,6 +2414,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			GlobalScope.examController.unregisterRestrictable(
 					getAlgebraView().getSelectionCallback());
 		}
+		attachedToExam = false;
 	}
 
 	/**

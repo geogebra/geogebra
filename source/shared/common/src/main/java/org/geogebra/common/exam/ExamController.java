@@ -177,6 +177,10 @@ public final class ExamController {
 			registeredDependencies = new ArrayList<>();
 		}
 		registeredDependencies.add(contextDependencies);
+		if (state == ExamState.ACTIVE) {
+			applyRestrictionsToContextDependencies(contextDependencies);
+			applyRestrictionsToRestrictables();
+		}
 	}
 
 	/**
