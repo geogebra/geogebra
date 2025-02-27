@@ -613,6 +613,11 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testMinusZero() {
+		t("x-0", "x - 0");
+	}
+
+	@Test
 	public void testFactorial() {
 		t("0!", "1");
 		t("6!", "720");

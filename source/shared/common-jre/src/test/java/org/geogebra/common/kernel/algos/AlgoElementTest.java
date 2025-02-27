@@ -74,9 +74,9 @@ public class AlgoElementTest {
 		IneqTree inequalities1 = ((GeoFunctionNVar) sequence.get(0)).getIneqs();
 		IneqTree inequalities2 = ((GeoFunctionNVar) sequence.get(1)).getIneqs();
 		assertThat(inequalities1.getLeft().getLeft().getLeft().getIneq().getBorder(),
-				hasValue(unicode("((x + 1)^2) / 1")));
+				hasValue(unicode("((x + 1)^2 - 0) / 1")));
 		assertThat(inequalities2.getLeft().getLeft().getLeft().getIneq().getBorder(),
-				hasValue(unicode("((x + 2)^2) / 1")));
+				hasValue(unicode("((x + 2)^2 - 0) / 1")));
 	}
 
 	@ParameterizedTest

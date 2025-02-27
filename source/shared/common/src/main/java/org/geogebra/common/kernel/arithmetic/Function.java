@@ -341,11 +341,13 @@ public class Function extends FunctionNVar
 			return expression;
 		}
 		return addNumber(expression, vy);
-
 	}
 
 	final private static ExpressionNode addNumber(ExpressionNode expression,
 			double n) {
+		if (n == 0) {
+			return expression;
+		}
 		Kernel kernel = expression.getKernel();
 		if (n > 0) {
 			return new ExpressionNode(kernel, expression, Operation.PLUS,

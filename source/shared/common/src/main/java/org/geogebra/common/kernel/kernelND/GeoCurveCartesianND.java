@@ -803,9 +803,11 @@ public abstract class GeoCurveCartesianND extends GeoElement
 			if (c1.isEqual(c2)) {
 				continue;
 			}
+			ExpressionNode left = nonzeroSegments == 0.0 ? fv.wrap()
+					: new ExpressionNode(this.kernel, fv, Operation.MINUS,
+						new MyDouble(this.kernel, nonzeroSegments));
 			ExpressionNode greater = new ExpressionNode(this.kernel,
-					new ExpressionNode(this.kernel, fv, Operation.MINUS,
-							new MyDouble(this.kernel, nonzeroSegments)),
+					left,
 					Operation.ABS, null);
 			for (int j = 0; j < dim; j++) {
 				coef = 0.5 * c1.get(j + 1) - 0.5 * c2.get(j + 1)

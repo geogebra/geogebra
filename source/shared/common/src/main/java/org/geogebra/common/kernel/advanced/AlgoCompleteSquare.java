@@ -26,6 +26,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 	private MyDouble h;
 	private MyDouble k; // a(x-h)^2+k
 	private int lastDeg;
+	private int lastSign = 0;
 	private AlgoCoefficients algoCoef;
 
 	/**
@@ -103,7 +104,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 			return;
 		}
 
-		if (lastDeg != degInt) {
+		double signum = Math.signum(q);
+		if (lastDeg != degInt || lastSign != signum) {
 			ExpressionNode squareE;
 			ExpressionValue fvPower;
 			if (degInt == 2) {
@@ -115,7 +117,9 @@ public class AlgoCompleteSquare extends AlgoElement {
 			}
 
 			// (x-h)^2
-			ExpressionNode sqrTerm = new ExpressionNode(kernel, fvPower, Operation.MINUS, h)
+			ExpressionNode xMinusH = q == 0 ? fvPower.wrap()
+					: new ExpressionNode(kernel, fvPower, Operation.MINUS, h);
+			ExpressionNode sqrTerm = xMinusH
 					.power(new MyDouble(kernel, 2));
 			// a(x-h)^2
 			ExpressionNode sqrMultTerm = p == 1 ? sqrTerm
@@ -126,6 +130,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 			square.getFunction().setExpression(squareE);
 		}
 		lastDeg = degInt;
+		lastSign = (int) signum;
 
 		// if one is undefined, others are as well
 		square.setDefined(!Double.isNaN(r));

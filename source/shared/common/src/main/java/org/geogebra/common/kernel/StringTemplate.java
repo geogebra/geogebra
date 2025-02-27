@@ -1690,13 +1690,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				append(sb, leftStr, left, Operation.PLUS);
 			}
 
-			// check for 0 at right
-			if (valueForm && rightStr.equals(loc.getZero() + "")) {
-				break;
-			}
-
 			if (!requiresBrackets(right, valueForm)) { // not +, -
-
 				if (rightStr.charAt(0) == '-') { // convert - - to +
 					if (stringType.equals(StringType.LATEX)
 							&& isInsertLineBreaks()) {
@@ -1707,11 +1701,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					sb.append(rightStr.substring(1));
 				} else if (rightStr
 						.startsWith(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN)) { // Arabic
-					// convert
-					// -
-					// -
-					// to
-					// +
+					// convert -- to +
 					if (stringType.equals(StringType.LATEX)
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
