@@ -31,7 +31,7 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<Integer>
 	/***/
 	public PointStyleProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "Properties.Style");
+		super(localization, "PointStyle");
 		delegate = new PointStylePropertyDelegate(element);
 		setValues(List.of(
 				EuclidianStyleConstants.POINT_STYLE_DOT,

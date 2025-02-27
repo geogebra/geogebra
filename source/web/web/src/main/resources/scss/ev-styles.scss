@@ -19,7 +19,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		margin-top: 10px;
 		margin-right: 10px;
 		position: relative;
-		right: 0px;
+		right: 0;
 		border-radius: 50%;
 		transition: background-color 150ms ease 0ms;
 		img {
@@ -45,17 +45,19 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	}
 
 	/*dyn stylebar*/
-	.matDynStyleBar {
+	.quickStylebar {
 		// popup has 500
 		z-index: z-index.$z-dialog-under-keyboard;
 		position: absolute;
-		border-radius: 2px;
-		padding: 8px 4px 8px 16px;
+		display: inline-flex;
+		gap: 4px;
+		border-radius: 24px;
+		padding: 6px 8px;
 		background-color: colors.$white;
-		box-shadow: 0 0 2px 1px colors.$popup-shadow;
+		box-shadow: 0 2px 12px -1px rgba(133, 132, 138, 0.12), 0 1px 6px 0 rgba(133, 132, 138, 0.08);
 
 		&.noContextBtn {
-			padding: 8px 0px 8px 8px;
+			padding: 8px 0 8px 8px;
 		}
 
 		/*stylebar btn*/
@@ -108,14 +110,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				opacity: 1 !important;
 			}
 
-		}
-	}
-
-	.mowDynStyleBar.matDynStyleBar.noContextBtn{
-		padding: 8px 0px 8px 8px;
-
-		.IconButton.delete {
-			margin-right: -12px;
 		}
 	}
 
@@ -177,26 +171,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				width: calc(100% - 56px);
 				cursor: pointer;
 			}
-			.opacityLabel {
-				display: block;
-				margin-bottom: 15px;
-				margin-left: 5px;
-				margin-top: 5px;
-				cursor: default;
-			}
-			.thicknessLabel {
-				display: block;
-				margin-bottom: 10px;
-				margin-left: 5px;
-				margin-top: 5px;
-				cursor: default;
-			}
-			.pointSizeLabel {
-				display: block;
-				margin-left: 5px;
-				margin-top: 5px;
-				cursor: default;
-			}
 			.preview{
 				margin: 3px 0px 3px 12px;
 			}
@@ -232,19 +206,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				}
 			}
 
-			.checkMarkMenuItem {
-				cursor: pointer;
-				display: flex;
-				.gwt-HTML {
-					line-height: 32px;
-				}
-				img {
-					opacity: 0.54;
-					position: absolute;
-					right: 8px;
-					padding: 4px;
-				}
-			}
+
 		}
 	}
 

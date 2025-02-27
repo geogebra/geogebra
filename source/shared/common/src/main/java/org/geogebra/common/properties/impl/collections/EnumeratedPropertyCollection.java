@@ -10,7 +10,7 @@ import org.geogebra.common.properties.ValueFilter;
 abstract public class EnumeratedPropertyCollection<T extends EnumeratedProperty<S>, S>
 		extends AbstractValuedPropertyCollection<T, S> implements EnumeratedProperty<S> {
 
-	public EnumeratedPropertyCollection(T[] properties) {
+	public EnumeratedPropertyCollection(List<T> properties) {
 		super(properties);
 	}
 

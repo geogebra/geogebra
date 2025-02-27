@@ -135,15 +135,15 @@ public class GeoGebraColorConstants {
 
 	// New colors for graphing/geometry app objects
 	/** GEOGEBRA_OBJECT_GREEN */
-	public static final GColor GEOGEBRA_OBJECT_GREEN = rgb(0x2E7D32);
-	/** GEOGEBRA_OBJECT_BLUE */
+	public static final GColor GEOGEBRA_OBJECT_GREEN = rgb(0x006758);
+	/** GEOGEBRA_OBJECT_BlUE */
 	public static final GColor GEOGEBRA_OBJECT_BLUE = rgb(0x1565C0);
 	/** GEOGEBRA_OBJECT_RED */
 	public static final GColor GEOGEBRA_OBJECT_RED = rgb(0xD32F2F);
 	/** GEOGEBRA_OBJECT_GREY */
-	public static final GColor GEOGEBRA_OBJECT_GREY = rgb(0x616161);
+	public static final GColor GEOGEBRA_OBJECT_GREY = rgb(0x6E6D73);
 	/** GEOGEBRA_OBJECT_BLACK */
-	public static final GColor GEOGEBRA_OBJECT_BLACK = GColor.BLACK;
+	public static final GColor GEOGEBRA_OBJECT_BLACK = rgb(0x1C1C1F);
 	/** GEOGEBRA_OBJECT_PINK */
 	public static final GColor GEOGEBRA_OBJECT_PINK = GColor.newColor(216, 27,
 			96);
@@ -530,46 +530,6 @@ public class GeoGebraColorConstants {
 		popupColors[6] = GGB_GRAY; // rgb(102, 102, 102);
 		popupColors[7] = GGB_BROWN; // rgb(153, 51, 0);
 		popupColors[8] = GGB_ORANGE; // rgb(255, 85, 0);
-		popupColors[9] = null; // placeholder for (...) button
-		return popupColors;
-	}
-
-	/**
-	 * 
-	 * @return Colors for graphing/geometry apps.
-	 */
-	public static GColor[] getUnbundledPopupArray() {
-
-		GColor[] popupColors = new GColor[8];
-
-		popupColors[0] = GEOGEBRA_OBJECT_GREEN;
-		popupColors[1] = GEOGEBRA_OBJECT_BLUE;
-		popupColors[2] = GEOGEBRA_OBJECT_RED;
-		popupColors[3] = GGB_ORANGE;
-		popupColors[4] = PURPLE_600;
-		popupColors[5] = GEOGEBRA_OBJECT_GREY;
-		popupColors[6] = GEOGEBRA_OBJECT_BLACK;
-		popupColors[7] = null; // placeholder for (...) button
-		return popupColors;
-	}
-
-	/**
-	 * Returns array of colors for MOW color popup.
-	 * 
-	 * @return array of colors for MOW color popup.
-	 */
-	public static GColor[] getMOWPopupArray() {
-
-		GColor[] popupColors = new GColor[10];
-		popupColors[0] = GColor.BLACK;
-		popupColors[1] = GEOGEBRA_OBJECT_GREEN;
-		popupColors[2] = MOW_TEAL;
-		popupColors[3] = GEOGEBRA_OBJECT_BLUE;
-		popupColors[4] = PURPLE_600;
-		popupColors[5] = MOW_MAGENTA;
-		popupColors[6] = GEOGEBRA_OBJECT_RED;
-		popupColors[7] = GGB_ORANGE;
-		popupColors[8] = MOW_YELLOW;
 		popupColors[9] = null; // placeholder for (...) button
 		return popupColors;
 	}

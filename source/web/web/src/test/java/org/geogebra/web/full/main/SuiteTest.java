@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
@@ -10,6 +11,7 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.web.full.euclidian.quickstylebar.QuickStyleBar;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.test.AppMocker;
@@ -45,6 +47,22 @@ public class SuiteTest {
 		algebraProcessor.processAlgebraCommand("l={1}*2", false);
 		assertThat(app.getKernel().lookupLabel("h"), nullValue());
 		assertThat(app.getKernel().lookupLabel("l"), nullValue());
+	}
+
+	@Test
+	public void styleBarTest() {
+		app = AppMocker.mockApplet(new AppletParameters("suite"));
+		QuickStyleBar styleBar = new QuickStyleBar(app.getActiveEuclidianView()) {
+			@Override
+			public boolean isVisible() {
+				return true; // force updateStyleBar to do something
+			}
+		};
+		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+		algebraProcessor.processAlgebraCommand("h(x)=x", false);
+		app.getSelectionManager().addSelectedGeo(app.getKernel().lookupLabel("h"));
+		styleBar.updateStyleBar();
+		assertEquals(5, styleBar.getWidgetCount());
 	}
 
 	private String getValueString(String label) {

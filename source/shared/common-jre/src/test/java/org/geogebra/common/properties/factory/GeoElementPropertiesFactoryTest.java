@@ -3,14 +3,11 @@ package org.geogebra.common.properties.factory;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -40,7 +37,7 @@ public class GeoElementPropertiesFactoryTest extends BaseUnitTest {
 		assertThat(pointProperties[0].getName(), equalTo("Name"));
 		assertThat(pointProperties[1].getName(), equalTo("Show"));
 		assertThat(pointProperties[2].getName(), equalTo("Set color"));
-		assertThat(pointProperties[3].getName(), equalTo("Style"));
+		assertThat(pointProperties[3].getName(), equalTo("Point Style"));
 		assertThat(pointProperties[4].getName(), equalTo("Size"));
 		assertThat(pointProperties[5].getName(), equalTo("Set caption style"));
 		assertThat(pointProperties[6].getName(), equalTo("Show trace"));
@@ -70,7 +67,7 @@ public class GeoElementPropertiesFactoryTest extends BaseUnitTest {
 				.filter(property ->
 						property instanceof NamedEnumeratedPropertyCollection<?, ?>
 								&& ((NamedEnumeratedPropertyCollection<?, ?>) property)
-								.getProperties()[0] instanceof LinearEquationFormProperty)
+								.getFirstProperty() instanceof LinearEquationFormProperty)
 				.findAny().isPresent();
 	}
 
@@ -79,7 +76,7 @@ public class GeoElementPropertiesFactoryTest extends BaseUnitTest {
 				.filter(property ->
 						property instanceof NamedEnumeratedPropertyCollection<?, ?>
 								&& ((NamedEnumeratedPropertyCollection<?, ?>) property)
-								.getProperties()[0] instanceof QuadraticEquationFormProperty)
+								.getFirstProperty() instanceof QuadraticEquationFormProperty)
 				.findAny().isPresent();
 	}
 }

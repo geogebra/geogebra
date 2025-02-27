@@ -175,14 +175,7 @@ public class InlineTextControllerW implements InlineTextController {
 		editor.setListener(new EditorChangeListener() {
 			@Override
 			public void onContentChanged(String content) {
-				String oldContent = geo.getContent();
-				double oldHeight = geo.getHeight();
-				double oldContentHeight = geo.getContentHeight();
-				if (!content.equals(oldContent)) {
-					geo.setContent(content);
-					storeUndoAction(geo, oldHeight, oldContentHeight, oldContent);
-					geo.notifyUpdate();
-				}
+				onEditorChange(content);
 			}
 
 			@Override
@@ -212,6 +205,17 @@ public class InlineTextControllerW implements InlineTextController {
 				toBackground();
 			}
 		});
+	}
+
+	private void onEditorChange(String content) {
+		String oldContent = geo.getContent();
+		double oldHeight = geo.getHeight();
+		double oldContentHeight = geo.getContentHeight();
+		if (!content.equals(oldContent)) {
+			geo.setContent(content);
+			storeUndoAction(geo, oldHeight, oldContentHeight, oldContent);
+			geo.notifyUpdate();
+		}
 	}
 
 	private void storeUndoAction(GeoInline geo, double oldHeight, double oldContentHeight,
@@ -280,6 +284,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public void toBackground() {
 		editor.deselect();
 		if (!editor.getWidget().getElement().hasClassName(INVISIBLE)) {
+			onEditorChange(editor.getContent());
 			editor.getWidget().addStyleName(INVISIBLE);
 			textareaWrapper.removeFromParent(); // make sure no editable element on Android
 			geo.updateRepaint();

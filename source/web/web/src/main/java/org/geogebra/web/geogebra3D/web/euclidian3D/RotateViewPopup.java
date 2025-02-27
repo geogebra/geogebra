@@ -79,8 +79,7 @@ class RotateViewPopup extends PopupMenuButtonW {
 
 	@Override
 	public void update(List<GeoElement> geos) {
-		this.setVisible(
-				geos.size() == 0 && !EuclidianView.isPenMode(app.getMode())
+		this.setVisible(geos.isEmpty() && !EuclidianView.isPenMode(app.getMode())
 						&& app.getMode() != EuclidianConstants.MODE_DELETE);
 	}
 }

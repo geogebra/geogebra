@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import static org.geogebra.common.kernel.geos.GeoButton.DEFAULT_BUTTON_HEIGHT;
+import static org.geogebra.common.main.GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -158,7 +159,7 @@ public class ConstructionDefaults implements SettingListener {
 			77, 77, 255);
 
 	/** default color for dependent points */
-	public static final GColor colDepPoint = GColor.DARK_GRAY;
+	public static final GColor colDepPoint = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
 
 	/** default color for points on path */
 	public static final GColor colPathPoint = GeoGebraColorConstants.LIGHTBLUE;
@@ -223,10 +224,10 @@ public class ConstructionDefaults implements SettingListener {
 	public static final float DEFAULT_NUMBER_ALPHA = 0.1f;
 
 	// locus lines
-	private static final GColor colLocus = GColor.BLACK;
+	private static final GColor colLocus = GEOGEBRA_OBJECT_BLACK;
 
 	// functions
-	private static final GColor colFunction = GColor.BLACK;
+	private static final GColor colFunction = GEOGEBRA_OBJECT_BLACK;
 
 	// lists
 	public static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
@@ -241,13 +242,6 @@ public class ConstructionDefaults implements SettingListener {
 	/** new default color for quadrics */
 	public static final GColor colQuadricAndArchimedeanSolid =
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED;
-
-	/** preview color */
-	public static final GColor colPreview = GColor.DARK_GRAY;
-
-	/** preview fill color */
-	public static final GColor colPreviewFill = colPolygon
-			.deriveWithAlpha((int) (DEFAULT_POLYGON_ALPHA * 255));
 
 	// label visibility
 	/**

@@ -40,6 +40,7 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 		if (isFrozen()) {
 			return;
 		}
+		notifyObservers(observer -> observer.onWillSetValue(this));
 		doSetValue(value);
 		notifyObservers(observer -> observer.onDidSetValue(this));
 	}

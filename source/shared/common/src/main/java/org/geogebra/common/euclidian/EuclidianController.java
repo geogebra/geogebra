@@ -301,7 +301,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected Coords translationVec;
 	protected Hits tempArrayList = new Hits();
 	protected Hits highlightedGeos = new Hits();
-	protected ArrayList<GeoElement> justCreatedGeos = new ArrayList<>();
+	protected final ArrayList<GeoElement> justCreatedGeos = new ArrayList<>();
 	protected boolean temporaryMode = false;
 	protected boolean dontClearSelection = false;
 	protected boolean draggingOccurred = false;
@@ -7896,7 +7896,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			updateBoundingBoxFromSelection(false);
 			showDynamicStylebar();
 			startBoundingBoxState = null;
-			storeUndoableStrokeSplit(oldSelection, splitStrokes);
+			if (removeOriginal) {
+				storeUndoableStrokeSplit(oldSelection, splitStrokes);
+			}
 		}
 		return changed;
 	}
@@ -7905,6 +7907,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		StrokeSplitHelper splitHelper = new StrokeSplitHelper(geos, splitParts);
 		app.getUndoManager().buildAction(ActionType.SPLIT_STROKE, splitHelper.toSplitActionArray())
 				.withUndo(ActionType.MERGE_STROKE, splitHelper.toMergeActionArray())
+				.withStitchToNext()
 				.storeAndNotifyUnsaved();
 	}
 
@@ -10736,7 +10739,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return true if any just created geos
 	 */
 	private boolean hasJustCreatedGeos() {
-		return justCreatedGeos != null && justCreatedGeos.size() > 0;
+		return !justCreatedGeos.isEmpty();
 	}
 
 	/**

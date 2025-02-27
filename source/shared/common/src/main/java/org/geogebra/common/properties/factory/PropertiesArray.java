@@ -10,7 +10,7 @@ import org.geogebra.common.properties.Property;
 public class PropertiesArray {
 
 	private String name;
-	private Property[] properties;
+	private final Property[] properties;
 
 	/**
 	 * @param name name

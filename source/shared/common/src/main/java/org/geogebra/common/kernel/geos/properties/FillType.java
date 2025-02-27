@@ -54,10 +54,9 @@ public enum FillType {
 	 */
 	IMAGE(false);
 
-	private int value;
-	private boolean hatch;
+	private final boolean hatch;
 
-	private FillType(boolean hatch) {
+	FillType(boolean hatch) {
 		this.hatch = hatch;
 	}
 

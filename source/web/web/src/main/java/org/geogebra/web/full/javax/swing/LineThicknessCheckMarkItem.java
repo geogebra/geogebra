@@ -15,7 +15,7 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 	private NoDragImage checkImg;
 	private boolean selected;
 	private Label text;
-	private int value;
+	private final int value;
 
 	/**
 	 * constructor

@@ -10,6 +10,7 @@ import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.html5.main.FileDropHandlerW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.CopyPasteW;
@@ -144,6 +145,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(CarotaEditor.class, "addInsertFilter", Void.class);
         StubGenerator.replaceMethodWithMock(MathFieldW.class, "checkCode", Void.class);
         StubGenerator.replaceMethodWithMock(Document.class, "createTextNode", Void.class);
+        StubGenerator.replaceMethodWithMock(FocusUtil.class, "focusNoScroll", Void.class);
     }
 
     @Override

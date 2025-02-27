@@ -19,11 +19,12 @@ import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SVGResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 public class IconButton extends StandardButton implements SetLabels {
 	private static final int DEFAULT_BUTTON_WIDTH = 24;
 	private IconSpec image;
-	private String ariaLabelTransKey;
+	private final String ariaLabelTransKey;
 	private String dataTitleTransKey;
 	private int mode = -1;
 	private final Localization localization;
@@ -148,7 +149,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Small press icon buttons, used in notes topbar
+	 * Small press icon buttons, used in notes top bar
 	 * @param appW - application
 	 * @param image - svg
 	 * @param ariaLabel - aria label
@@ -157,8 +158,10 @@ public class IconButton extends StandardButton implements SetLabels {
 	public IconButton(AppW appW, Runnable clickHandler, IconSpec image,
 			String ariaLabel) {
 		this(appW.getLocalization(), image, ariaLabel);
-		dataTitleTransKey = ariaLabel;
-		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitleTransKey));
+		if (ariaLabel != null) {
+			dataTitleTransKey = ariaLabel;
+			AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitleTransKey));
+		}
 		addStyleName("small");
 		selectionColor = getSelectionColor(appW);
 		addFastClickHandler((event) -> {
@@ -245,6 +248,14 @@ public class IconButton extends StandardButton implements SetLabels {
 
 	private String getSelectionColor(AppW appW) {
 		return appW.getGeoGebraElement().getDarkColor(appW.getFrameElement());
+	}
+
+	@Override
+	public void setIcon(ResourcePrototype icon) {
+		SVGResource svgResource = isActive()
+				? ((SVGResource) icon).withFill(selectionColor) : (SVGResource) icon;
+		super.setIcon(svgResource);
+		image = new ImageIconSpec(svgResource);
 	}
 
 	/**

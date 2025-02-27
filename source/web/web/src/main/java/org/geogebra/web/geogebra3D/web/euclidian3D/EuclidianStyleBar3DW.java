@@ -97,11 +97,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		setPopupHandlerWithUndoPoint(btnChangeView, this::processChangeView);
 	}
 
-	@Override
-	protected boolean isBackground() {
-		return btnShowGrid3D != null && btnShowGrid3D.isVisible();
-	}
-
 	protected boolean processAxesPlane(Object source) {
 		return btnShowAxesAndPlane.setEVFromIndex();
 	}

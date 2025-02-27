@@ -44,9 +44,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_opacity_black_24px.svg")
 	SVGResource opacity_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_texture_black_24px.svg")
-	SVGResource filling_black();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_size_black_24px.svg")
 	SVGResource text_size_black();
 
@@ -259,6 +256,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/filling_honeycomb.svg")
 	SVGResource pattern_honeycomb();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/no_filling.svg")
+	SVGResource no_pattern();
+
 	// plus menu icon resources
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/wrong_input.svg")
@@ -300,9 +300,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-timeline-24px.svg")
 	SVGResource special_points();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-label-24px.svg")
-	SVGResource label();
 
 	// ev icons
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")

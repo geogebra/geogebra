@@ -1,1 +1,2 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><defs><style>.cls-1{fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:24px}</style></defs><path id="pattern_hatching" d="M0 512L512 0M85.33 597.33l512-512M170.67 682.67l512-512m-853.34 170.66l512-512M-85.33 426.67l512-512" class="cls-1"/></svg>
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 0v1.413L1.413 24 0 24v-1.414L22.585 0 24 0Zm0 7.07V9.9L9.9 24H7.07L24 7.07Zm0 8.486v2.828L18.383 24h-2.828L24 15.556ZM16.93 0 0 16.93v-2.828L14.1 0h2.828ZM8.443 0 0 8.444v-2.83L5.614 0h2.83Z"/></svg>

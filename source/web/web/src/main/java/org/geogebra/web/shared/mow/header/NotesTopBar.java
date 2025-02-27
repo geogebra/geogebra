@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -26,7 +27,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.SimplePanel;
 
 import elemental2.dom.DomGlobal;
 
@@ -203,9 +203,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	}
 
 	private void addDivider() {
-		SimplePanel divider = new SimplePanel();
-		divider.addStyleName("divider");
-		add(divider);
+		add(BaseWidgetFactory.INSTANCE.newDivider(true));
 	}
 
 	@Override

@@ -141,7 +141,14 @@ public abstract class UndoManager implements UndoProvider {
 	public synchronized void undo() {
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
-			last.undo(this);
+			do {
+				last.undo(this);
+				last = iterator.hasPrevious() ? iterator.previous() : null;
+			} while (last != null && last.shouldStitchToNext());
+			// by checking for stitched commands we've gone one undo point too far, revert
+			if (last != null && iterator.hasNext()) {
+				iterator.next();
+			}
 			updateUndoActions();
 		}
 	}
@@ -151,7 +158,12 @@ public abstract class UndoManager implements UndoProvider {
 	 */
 	public synchronized void redo() {
 		if (redoPossible()) {
-			iterator.next().redo(this);
+			UndoCommand next;
+			do {
+				next = iterator.next();
+				next.redo(this);
+			} while (iterator.hasNext() && next.shouldStitchToNext());
+
 			updateUndoActions();
 		}
 	}

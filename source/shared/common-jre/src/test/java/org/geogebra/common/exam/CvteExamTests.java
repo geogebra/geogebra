@@ -254,7 +254,7 @@ public final class CvteExamTests extends BaseExamTests {
         for (Property property : properties.getProperties()) {
             if (property instanceof NamedEnumeratedPropertyCollection<?, ?>) {
                 Property firstProperty = ((NamedEnumeratedPropertyCollection) property)
-                        .getProperties()[0];
+                        .getFirstProperty();
                 if (firstProperty instanceof LinearEquationFormProperty) {
                     equationFormProperty = (LinearEquationFormProperty) firstProperty;
                     break;

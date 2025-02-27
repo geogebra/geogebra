@@ -54,6 +54,7 @@ public class UndoRedoPanel extends PersistablePanel {
 	 * Handler for Undo button.
 	 */
 	protected void onUndoPressed() {
+		app.closePopups();
 		app.closeMenuHideKeyboard();
 		app.getGuiManager().undo();
 	}
@@ -62,6 +63,7 @@ public class UndoRedoPanel extends PersistablePanel {
 	 * Handler for Redo button.
 	 */
 	protected void onRedoPressed() {
+		app.closePopups();
 		app.closeMenuHideKeyboard();
 		app.getAccessibilityManager().setAnchor(redoAnchor);
 		app.getGuiManager().redo();

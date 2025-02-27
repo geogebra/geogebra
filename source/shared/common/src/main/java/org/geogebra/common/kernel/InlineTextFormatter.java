@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.util;
+package org.geogebra.common.kernel;
 
 import java.util.ArrayList;
 import java.util.List;

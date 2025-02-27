@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.collections;
 
+import java.util.List;
+
 import org.geogebra.common.properties.aliases.BooleanProperty;
 
 /**
@@ -11,7 +13,8 @@ public class BooleanPropertyCollection<T extends BooleanProperty>
 	/**
 	 * @param properties properties to handle
 	 */
-	public BooleanPropertyCollection(T[] properties) {
+	public BooleanPropertyCollection(List<T> properties) {
 		super(properties);
 	}
+
 }

@@ -368,7 +368,7 @@ public class ModeShape {
 		poly.setLabelVisible(false);
 		poly.setAlphaValue(0);
 		poly.setBackgroundColor(GColor.WHITE);
-		poly.setObjColor(GColor.BLACK);
+		poly.setObjColor(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
 		poly.setLabel(null);
 	}
 

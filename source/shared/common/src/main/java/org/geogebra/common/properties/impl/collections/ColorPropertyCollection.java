@@ -17,7 +17,7 @@ public class ColorPropertyCollection<T extends ElementColorProperty>
 	/**
 	 * @param properties properties to handle
 	 */
-	public ColorPropertyCollection(T[] properties) {
+	public ColorPropertyCollection(List<T> properties) {
 		super(properties);
 	}
 

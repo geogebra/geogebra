@@ -57,9 +57,9 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.cas.view.CASViewW;
 import org.geogebra.web.full.cas.view.RowHeaderPopupMenuW;
-import org.geogebra.web.full.euclidian.DynamicStyleBar;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.SymbolicEditorW;
+import org.geogebra.web.full.euclidian.quickstylebar.QuickStyleBar;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -1808,7 +1808,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public EuclidianStyleBar newDynamicStylebar(final EuclidianView ev) {
-		return new DynamicStyleBar(ev);
+		return new QuickStyleBar(ev);
 	}
 
 	@Override
@@ -1817,7 +1817,7 @@ public class GuiManagerW extends GuiManager
 		DockPanelW dp = getLayout().getDockManager().getPanel(ev.getViewID());
 		AbsolutePanel absolutePanel = ((EuclidianDockPanelWAbstract) dp).getAbsolutePanel();
 		if (absolutePanel != null) {
-			absolutePanel.add((DynamicStyleBar) dynamicStylebar);
+			absolutePanel.add((QuickStyleBar) dynamicStylebar);
 		}
 	}
 

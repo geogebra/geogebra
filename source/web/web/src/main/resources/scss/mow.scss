@@ -95,53 +95,6 @@
 		}
 	}
 
-	.mowPopup{
-		.gwt-Label.border.selected,
-		.gwt-Label.border:hover,
-		.gwt-Label.border.active{
-			border: 1px solid colors.$mow_primary !important;
-		}
-		.plusButton:hover {
-			border: 1px solid colors.$mow_primary !important;
-		}
-
-		.panelRow.panelRow2.showSlider {
-			 width: 180px !important;
-
-			 input[type=range] {
-				width: calc(100% - 74px);
-			 }
-		}
-
-		.noColBtn {
-			display: inline-flex;
-			cursor: pointer;
-			margin: 1px 1px 4px 1px;
-			width: calc(100% - 2px);
-
-			&:hover {
-				background-color: colors.$black-04;
-			}
-
-			img {
-				opacity: 0.54;
-				padding: 2px 0px 2px 2px;
-			}
-
-			.gwt-Label {
-				font-size: 14px;
-				margin: 4px 0px 4px 12px;
-				height: 20px;
-				line-height: 20px;
-				cursor: pointer;
-			}
-		}
-
-		.gwt-Label.stylebarButton {
-			opacity: 0.7;
-		}
-	}
-
 /*****************
 *   BURGER MENU
 ******************/

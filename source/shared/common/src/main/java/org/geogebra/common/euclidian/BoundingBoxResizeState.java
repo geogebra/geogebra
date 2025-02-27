@@ -61,14 +61,20 @@ public class BoundingBoxResizeState {
 				ArrayList<GPoint2D> forGeo = new ArrayList<>(2);
 				GRectangle2D rectangle = view.getBoundingBox().getRectangle();
 				for (GPoint2D pt : dr.toPoints()) {
-					forGeo.add(
-							new MyPoint((pt.getX() - rectangle.getMinX()) / rectangle.getWidth(),
-									(pt.getY() - rectangle.getMinY()) / rectangle.getHeight()));
+					double relativeX = relativeDist(pt.getX(), rectangle.getMinX(),
+							rectangle.getWidth());
+					double relativeY = relativeDist(pt.getY(), rectangle.getMinY(),
+							rectangle.getHeight());
+					forGeo.add(new MyPoint(relativeX, relativeY));
 				}
 
 				ratios.put(geo, forGeo);
 			}
 		}
+	}
+
+	private double relativeDist(double val, double min, double range) {
+		return range == 0.0 ? 0.5 : (val - min) / range;
 	}
 
 	private void updateThresholdsFor(RectangleTransformable geo) {

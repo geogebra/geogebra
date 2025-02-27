@@ -1308,4 +1308,37 @@
 		height: 18px;
 		width: 18px;
 	}
+
+	.divider.vertical {
+		height: 20px;
+		width: 1px;
+		margin: 8px;
+	}
+
+	.sliderComponent {
+		.labelPreviewHolder {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.optionsSlider {
+			display: inline;
+
+			.gwt-Label {
+				display: none;
+			}
+		}
+
+		.preview {
+			overflow: hidden;
+			margin-right: 8px;
+		}
+
+		input.slider {
+			margin: 0 8px;
+			width: calc(100% - 16px);
+			height: 36px;
+			padding: 0;
+		}
+	}
 }

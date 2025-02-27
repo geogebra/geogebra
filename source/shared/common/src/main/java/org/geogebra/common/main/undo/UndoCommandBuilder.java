@@ -47,4 +47,13 @@ public class UndoCommandBuilder {
 		command.labels = Arrays.asList(labels);
 		return this;
 	}
+
+	/**
+	 * Mark the command as stitched to next (they get un/redone together)
+	 * @return this
+	 */
+	public UndoCommandBuilder withStitchToNext() {
+		command.stitchToNext = true;
+		return this;
+	}
 }

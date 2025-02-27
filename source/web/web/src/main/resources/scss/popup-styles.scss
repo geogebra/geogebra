@@ -1,8 +1,9 @@
 @use 'colors';
 @use 'colorMap' as *;
+@use 'z-index';
 
 .GeoGebraFrame {
-	
+
 	// command suggestion popup in AV
 	.gwt-SuggestBoxPopup.ggb-AlgebraViewSuggestionPopup.matDesign {
 		border-radius: 2px;
@@ -21,7 +22,7 @@
 			}
 		}
 	}
-	
+
 	// help popup with command list
 	.gwt-PopupPanel.helpPopupAV.GeoGebraPopup.matDesign,
 		.gwt-PopupPanel.GeoGebraPopup.matDesign.helpPopupAVBottom {
@@ -76,81 +77,9 @@
 		font-size: 90%; // 14px
 		box-shadow: 0 0 2px 1px colors.$popup-shadow;
 		white-space: nowrap;
-		
+
 		.gwt-Label {
 			text-align: center;
-		}
-	}
-
-	.lineThicknessPopup {
-		width: 152px;
-		padding: 8px 0px;
-	}
-
-	.lineThicknessItem {
-				display: flex;
-				height: 24px;
-
-				&:hover {
-					background-color: colors.$selected-menuitem-background;
-					cursor: pointer;
-				}
-
-				.checkImg {
-					opacity: 0;
-					margin: 0px 16px;
-
-					&.selected {
-						opacity: 0.7;
-					}
-				}
-
-				.linePreview {
-					width: 80px;
-					background-color: #757575;
-
-					&.thin {
-						height: 1px;
-						margin: 12px 0px;
-					}
-
-					&.thick {
-						height: 3px;
-						margin: 11px 0px;
-					}
-				}
-			}
-
-	.borderStylePopup {
-		tbody {
-			display: flex;
-		}
-
-		.divider {
-			width: 1px;
-			background-color: colors.$tool-border;
-			height: 24px;
-			margin: 6px 0px 6px 4px;
-		}
-
-		.borderThicknessBtn {
-			width: 44px;
-			height: 32px;
-			margin: 2px 0px 0px 8px;
-			cursor: pointer;
-			border-radius: 2px;
-
-			&:hover, &.active {
-				background-color: colors.$selected-menuitem-background;
-			}
-
-			.penImg {
-				margin: 4px 0px;
-			}
-
-			img {
-				opacity: 0.7;
-			}
 		}
 	}
 
@@ -183,29 +112,6 @@
 			.appIcon {
 				margin: 12px 0 12px 24px;
 			}
-	}
-
-	.borderColPopup {
-		padding: 8px 0px;
-
-		.thicknessPanel {
-			padding-bottom: 8px;
-			border-bottom: 1px solid colors.$tool-border;
-
-			.textItem {
-				.gwt-Label {
-					line-height: 24px;
-				}
-			}
-
-			.linePreview {
-				width: 112px;
-			}
-		}
-
-		.matSelectionTable {
-			margin: 8px 8px 0px 8px;
-		}
 	}
 
 	.autoCompletePopup {
@@ -289,6 +195,156 @@
 
 	.gwt-PopupPanel.profilePopup .listMenuItem {
 		min-width: 160px;
+	}
+
+	.quickStyleBarPopup {
+		z-index: z-index.$z-dialog-under-keyboard;
+		border-radius: 12px;
+		padding: 8px;
+		background-color: white;
+		box-shadow: 0px 2px 24px -1px rgba(133, 132, 138, 0.14), 0px 2px 8px 0px rgba(133, 132, 138, 0.04);
+
+		.buttonList {
+			display: inline-flex;
+			gap: 8px;
+			flex-flow: wrap;
+
+			.iconButton {
+				z-index: z-index.$z-dialog-under-keyboard;
+			}
+		}
+
+		.sliderComponent.withMargin {
+			margin-top: 16px;
+		}
+
+		.colorPalette.withMargin {
+			margin-bottom: 16px;
+		}
+
+		&.labelStyle {
+			padding: 8px 0;
+			min-width: 184px;
+
+			.inputTextField {
+				padding: 0 8px;
+				width: calc(100% - 16px);
+				min-height: 58px;
+			}
+
+			.checkMarkMenuItem {
+				padding: 0 16px;
+				cursor: pointer;
+				display: flex;
+				.gwt-HTML {
+					line-height: 32px;
+					margin-right: 32px;
+				}
+
+				img {
+					opacity: 0.54;
+					position: absolute;
+					right: 8px;
+					padding: 4px;
+				}
+
+				&:hover {
+					background-color: neutral(200);
+					cursor: pointer;
+				}
+			}
+		}
+
+		&.segmentStyle {
+			max-width: 168px;
+		}
+
+		&.pointStyle {
+			max-width: 256px;
+		}
+
+		&.cellBorderStyle {
+			padding: 8px 0;
+
+			.buttonList {
+				padding: 0 8px;
+			}
+		}
+
+		&.colorStyle {
+			.colorPalette {
+				width: 252px;
+				height: 148px;
+			}
+		}
+
+		.noColBtn {
+			display: inline-flex;
+			cursor: pointer;
+			margin: 16px 0 0 0;
+			width: 100%;
+
+			&:hover {
+				background-color: neutral(200);
+			}
+
+			img {
+				opacity: 0.54;
+				margin: 8px 0;
+			}
+
+			.gwt-Label {
+				font-size: 16px;
+				margin: 8px 0px 8px 12px;
+				height: 24px;
+				line-height: 24px;
+				cursor: pointer;
+			}
+		}
+
+		.divider {
+			height: 1px;
+			margin: 8px;
+		}
+
+		.lineThicknessItem {
+			display: flex;
+			height: 36px;
+			padding: 0px 16px;
+
+			&.textItem .gwt-Label {
+				line-height: 36px;
+			}
+
+			&:hover {
+				background-color: neutral(200);
+				cursor: pointer;
+			}
+
+			.checkImg {
+				opacity: 0;
+				margin: 6px 16px 6px 0px;
+
+				&.selected {
+					opacity: 0.54;
+				}
+			}
+
+			.linePreview {
+				width: 100%;
+				background-color: neutral(900);
+
+				&.thin {
+					height: 1px;
+					margin: 18px 0px;
+				}
+
+				&.thick {
+					height: 3px;
+					margin: 17px 0px;
+				}
+			}
+		}
 	}
 
 	.gridCardPanel {

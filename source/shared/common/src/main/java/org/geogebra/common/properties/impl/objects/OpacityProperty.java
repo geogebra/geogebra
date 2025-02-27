@@ -10,17 +10,29 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.common.properties.impl.objects.delegate.OpacityPropertyDelegate;
 
 /**
- * Line opacity
+ * Opacity
  */
 public class OpacityProperty extends AbstractRangeProperty<Integer> {
 
 	private final GeoElementDelegate delegate;
 
-	/***/
+	/**
+	 * Line opacity
+	 */
 	public OpacityProperty(Localization localization, GeoElement element) throws
 			NotApplicablePropertyException {
 		super(localization, "Opacity", 0, 100, 5);
 		this.delegate = new OpacityPropertyDelegate(element);
+	}
+
+	/**
+	 * Image opacity
+	 * @param localization - localization
+	 * @param delegate - delegate
+	 */
+	public OpacityProperty(Localization localization, GeoElementDelegate delegate) {
+		super(localization, "Opacity", 0, 100, 5);
+		this.delegate = delegate;
 	}
 
 	@Override

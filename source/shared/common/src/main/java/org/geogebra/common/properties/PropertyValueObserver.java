@@ -22,6 +22,10 @@ public interface PropertyValueObserver<V> {
         // empty default implementation
     }
 
+    default void onWillSetValue(ValuedProperty<V> property) {
+        // empty default implementation
+    }
+
     /**
      * Called when the property value ends changing.
      * For more information see {@link ValuedProperty#beginSetValue()}.

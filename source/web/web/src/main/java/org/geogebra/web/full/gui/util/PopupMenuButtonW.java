@@ -27,10 +27,6 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class PopupMenuButtonW extends StandardButton
 		implements SliderInputHandler {
-
-	/**
-	 * App
-	 */
 	protected AppW app;
 	/**
 	 * Icons / texts in the table
@@ -40,10 +36,6 @@ public class PopupMenuButtonW extends StandardButton
 	private PopupMenuHandler popupHandler;
 	private Slider mySlider;
 	private Label sliderLabel;
-	/**
-	 * title label
-	 */
-	protected Label titleLabel;
 	private SelectionTableW myTable;
 	private final boolean hasTable;
 	/** flag to determine if the popup should persist after a mouse click */
@@ -376,7 +368,7 @@ public class PopupMenuButtonW extends StandardButton
 
 	@Override
 	public void setTitle(String title) {
-		if (title == null || title.length() == 0) {
+		if (title == null || title.isEmpty()) {
 			getElement().removeAttribute("title");
 		} else {
 			getElement().setAttribute("title", title);

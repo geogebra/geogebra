@@ -8,27 +8,21 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.TextStyle;
-import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.undo.UpdateStyleActionStore;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
-import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -41,7 +35,6 @@ public abstract class StyleBarW2 extends StyleBarW {
 	protected EuclidianLineStylePopup btnLineStyle;
 	protected PointStylePopup btnPointStyle;
 
-	protected final InlineTextFormatter inlineFormatter;
 	public int mode = -1;
 
 	/**
@@ -52,32 +45,19 @@ public abstract class StyleBarW2 extends StyleBarW {
 	 */
 	public StyleBarW2(AppW app, int viewID) {
 		super(app, viewID);
-		inlineFormatter = new InlineTextFormatter();
 	}
 
 	protected void createLineStyleBtn() {
-		btnLineStyle = app.isWhiteboardActive()
-				? new MOWLineStyleButton(app)
-				: new EuclidianLineStylePopup(app);
+		btnLineStyle = new EuclidianLineStylePopup(app);
 		btnLineStyle.getSlider().setMinimum(1);
-		btnLineStyle.getSlider()
-				.setMaximum(app.isWhiteboardActive()
-						? 2 * EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE : 13);
+		btnLineStyle.getSlider().setMaximum(13);
 		btnLineStyle.getSlider().setTickSpacing(1);
-		setPopupHandlerWithUndoStrokeAction(btnLineStyle, this::processLineStyle);
+		setPopupHandlerWithUndoAction(btnLineStyle, this::processLineStyle);
 	}
 
 	protected void setPopupHandlerWithUndoAction(PopupMenuButtonW popupBtn,
 			Function<ArrayList<GeoElement>, Boolean> action) {
 		popupBtn.addPopupHandler(w -> processSelectionWithUndoAction(action));
-		// no undo in slider handler
-		UndoableSliderHandler ush = new UndoableSliderHandler(action, this);
-		popupBtn.setChangeEventHandler(ush);
-	}
-
-	protected void setPopupHandlerWithUndoStrokeAction(PopupMenuButtonW popupBtn,
-			Function<ArrayList<GeoElement>, Boolean> action) {
-		popupBtn.addPopupHandler(w -> action.apply(getTargetGeos()));
 		// no undo in slider handler
 		UndoableSliderHandler ush = new UndoableSliderHandler(action, this);
 		popupBtn.setChangeEventHandler(ush);
@@ -89,9 +69,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 	}
 
 	protected void createPointStyleBtn(int mode) {
-		btnPointStyle = app.isWhiteboardActive()
-				? MOWPointStyleButton.create(app)
-				: PointStylePopup.create(app, mode, true);
+		btnPointStyle = PointStylePopup.create(app, mode, true);
 
 		btnPointStyle.getSlider().setMinimum(1);
 		btnPointStyle.getSlider().setMaximum(9);
@@ -102,16 +80,9 @@ public abstract class StyleBarW2 extends StyleBarW {
 
 	/**
 	 * Opens color chooser dialog in MOW or properties view elsewhere.
-	 *
-	 * @param targetGeos
-	 *            The geos color needs to be set.
 	 */
-	protected void openColorChooser(ArrayList<GeoElement> targetGeos, boolean background) {
-		if (app.isWhiteboardActive()) {
-			openColorDialogForWhiteboard(targetGeos, background);
-		} else {
-			openPropertiesForColor(background);
-		}
+	protected void openColorChooser(boolean background) {
+		openPropertiesForColor(background);
 	}
 
 	private boolean processPointStyle(ArrayList<GeoElement> targetGeos) {
@@ -129,7 +100,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 			int selectedIndex = btnLineStyle.getSelectedIndex();
 			int lineSize = btnLineStyle.getSliderValue();
 			btnLineStyle.setSelectedIndex(selectedIndex);
-			return EuclidianStyleBarStatic.applyLineStyleSplitStrokes(selectedIndex, lineSize, app,
+			return EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app,
 					targetGeos);
 		}
 		return false;
@@ -138,10 +109,10 @@ public abstract class StyleBarW2 extends StyleBarW {
 	private boolean processColor(ArrayList<GeoElement> targetGeos) {
 		GColor color = btnColor.getSelectedColor();
 		if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
-			openColorChooser(targetGeos, false);
+			openColorChooser(false);
 		} else {
 			double alpha = btnColor.getSliderValue() / 100.0;
-			return EuclidianStyleBarStatic.applyColorSplitStrokes(color,
+			return EuclidianStyleBarStatic.applyColor(color,
 					alpha, app, targetGeos);
 		}
 		return false;
@@ -151,72 +122,13 @@ public abstract class StyleBarW2 extends StyleBarW {
 		((GuiManagerW) app.getGuiManager())
 				.getPropertiesView(OptionType.OBJECTS)
 				.setOptionPanel(OptionType.OBJECTS, 3);
-		if (app.isUnbundledOrWhiteboard()) {
-			((PropertiesViewW) app.getGuiManager().getPropertiesView()).open();
-		} else {
-			app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-		}
+		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+
 		ColorPanel colorPanel = ((GuiManagerW) app.getGuiManager())
 				.getColorPanel();
 		if (colorPanel != null) {
 			colorPanel.setBackground(background);
 		}
-	}
-
-	protected void openColorDialogForWhiteboard(final ArrayList<GeoElement> targetGeos,
-												final boolean background) {
-		final GeoElement geo0 = targetGeos.get(0);
-		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
-
-		GColor originalColor;
-		if (background) {
-			originalColor = geo0.getBackgroundColor() != null
-					? geo0.getBackgroundColor() : GColor.BLACK;
-		} else {
-			originalColor = geo0.getObjectColor();
-		}
-
-		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
-
-			@Override
-			public void onForegroundSelected() {
-				// no foreground/background switcher
-			}
-
-			@Override
-			public void onColorChange(GColor color) {
-				boolean changed;
-				if (background) {
-					changed = EuclidianStyleBarStatic.applyBgColor(targetGeos, color,
-								geo0.getAlphaValue());
-				} else {
-					changed = applyColor(targetGeos, color, geo0.getAlphaValue());
-				}
-				if (changed) {
-					app.storeUndoInfo();
-				}
-			}
-
-			@Override
-			public void onClearBackground() {
-				// no clear background button
-			}
-
-			@Override
-			public void onBarSelected() {
-				// no bar chart support
-			}
-
-			@Override
-			public void onBackgroundSelected() {
-				// no foreground / background switcher
-			}
-
-			@Override
-			public void onAlphaChange() {
-				// no alpha slider
-			}
-		});
 	}
 
 	/**
@@ -247,11 +159,8 @@ public abstract class StyleBarW2 extends StyleBarW {
 
 	protected boolean applyColor(ArrayList<GeoElement> targetGeos, GColor color,
 			double alpha) {
-		boolean ret = EuclidianStyleBarStatic.applyColor(color,
+		return EuclidianStyleBarStatic.applyColor(color,
 				alpha, app, targetGeos);
-		String htmlColor = StringUtil.toHtmlColor(color);
-		inlineFormatter.formatInlineText(targetGeos, "color", htmlColor);
-		return ret;
 	}
 
 	protected void createColorBtn() {
@@ -266,14 +175,13 @@ public abstract class StyleBarW2 extends StyleBarW {
 					Log.debug(
 							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {
-					boolean geosOK = geos.size() > 0
+					boolean geosOK = !geos.isEmpty()
 							|| EuclidianView.isPenMode(mode);
 					boolean hasOpacity = true;
 					for (GeoElement geoElement : geos) {
 						GeoElement geo = geoElement
 								.getGeoElementForPropertiesDialog();
-						if (hasTextColor(geo) || geo instanceof GeoWidget
-								|| geo instanceof GeoPieChart) {
+						if (geo instanceof TextStyle || geo instanceof GeoWidget) {
 							geosOK = false;
 							break;
 						}
@@ -286,7 +194,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 					if (geosOK) {
 						// get color from first geo
 						GColor geoColor;
-						geoColor = geos.size() > 0
+						geoColor = !geos.isEmpty()
 								? geos.get(0).getObjectColor()
 								: GColor.BLACK;
 						// check if selection contains a fillable geo
@@ -309,22 +217,18 @@ public abstract class StyleBarW2 extends StyleBarW {
 							}
 						}
 
-						if (!app.isUnbundled()) {
-							if (hasFillable) {
-								if (app.isWhiteboardActive()
-										&& geos.get(0) instanceof GeoImage) {
-									if (hasOpacity) {
-										setTitle(loc.getMenu("Opacity"));
-									} else {
-										super.setVisible(false);
-									}
+						if (hasFillable) {
+							if (geos.get(0) instanceof GeoImage) {
+								if (hasOpacity) {
+									setTitle(loc.getMenu("Opacity"));
 								} else {
-									setTitle(loc.getMenu(
-											"stylebar.ColorTransparency"));
+									super.setVisible(false);
 								}
 							} else {
-								setTitle(loc.getMenu("stylebar.Color"));
+								setTitle(loc.getMenu("stylebar.ColorTransparency"));
 							}
+						} else {
+							setTitle(loc.getMenu("stylebar.Color"));
 						}
 
 						setSliderVisible(hasFillable && hasOpacity);
@@ -337,7 +241,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 						}
 
 						updateColorTable();
-						setEnableTable(geos.size() > 0
+						setEnableTable(!geos.isEmpty()
 								&& !(geos.get(0) instanceof GeoImage));
 						// find the geoColor in the table and select it
 						int index = this.getColorIndex(geoColor);
@@ -348,26 +252,15 @@ public abstract class StyleBarW2 extends StyleBarW {
 							setDefaultColor(alpha, geoColor);
 						}
 
-						this.setKeepVisible(!app.isUnbundledOrWhiteboard()
-								&& EuclidianConstants
-								.isMoveOrSelectionMode(mode));
+						this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
 				}
 			}
-
-			@Override
-			public void onClickAction() {
-				onColorClicked();
-			}
 		};
-		setPopupHandlerWithUndoStrokeAction(btnColor, this::processColor);
+		setPopupHandlerWithUndoAction(btnColor, this::processColor);
 	}
 
 	public boolean hasTextColor(GeoElement geoElement) {
-		return geoElement instanceof TextStyle || geoElement instanceof GeoFormula;
-	}
-
-	protected void onColorClicked() {
-		// only in EV
+		return geoElement instanceof TextStyle;
 	}
 }

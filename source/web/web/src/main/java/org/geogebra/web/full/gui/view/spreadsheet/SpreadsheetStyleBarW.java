@@ -108,9 +108,7 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 		add(btnBgColor);
 
 		addMenuButton();
-		if (!app.isUnbundledOrWhiteboard()) {
-			addViewButton();
-		}
+		addViewButton();
 	}
 
 	@Override
@@ -206,7 +204,6 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 	 * Update stylebar for current selection
 	 */
 	public void updateStyleBar() {
-
 		allowActionPerformed = false;
 
 		TabularRange range = table.getFirstSelection();
@@ -252,7 +249,6 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 
 	@Override
 	public void setOpen(boolean showStyleBar) {
-		// TODO Auto-generated method stub
-
+		// nothing to do here
 	}
 }

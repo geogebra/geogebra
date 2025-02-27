@@ -30,7 +30,7 @@ public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 	/***/
 	public LineStyleProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "Properties.Style");
+		super(localization, "LineStyle");
 		delegate = new LineStylePropertyDelegate(element);
 		setValues(List.of(
 				EuclidianStyleConstants.LINE_TYPE_FULL,

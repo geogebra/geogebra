@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -21,14 +20,12 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
-import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
@@ -86,12 +83,10 @@ public class EuclidianStyleBarStatic {
 			}
 
 			if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
-
 				AlgoAttachCopyToView algo = (AlgoAttachCopyToView) geo
 						.getParentAlgorithm();
 
 				if (!flag) {
-
 					GeoElement geo0 = redefineGeo(geo,
 							getDefinitionString(algo.getInput()[0]));
 
@@ -105,12 +100,10 @@ public class EuclidianStyleBarStatic {
 
 				geo.setEuclidianVisible(true);
 				geo.updateRepaint();
-
 			} else if (geo instanceof AbsoluteScreenLocateable
 					&& !geo.isGeoList()) {
 				AbsoluteScreenLocationModel
 						.setAbsolute((AbsoluteScreenLocateable) geo, flag, ev);
-
 			} else if (geo.isPinnable()) {
 				Kernel kernelA = app.getKernel();
 
@@ -211,31 +204,6 @@ public class EuclidianStyleBarStatic {
 		return ret;
 	}
 
-	/**
-	 * Fills selected geos with a given type of pattern.
-	 * 
-	 * @param geos
-	 *            to fill.
-	 * @param fillType
-	 *            Type of the filling pattern
-	 * @return whether fill type changed
-	 */
-	public static boolean applyFillType(ArrayList<GeoElement> geos,
-			FillType fillType) {
-		boolean changed = false;
-		for (GeoElement geo : geos) {
-			if (geo.isFillable()) {
-				FillType oldType = geo.getFillType();
-				if (oldType != fillType) {
-					geo.setFillType(fillType);
-					geo.updateVisualStyleRepaint(GProperty.HATCHING);
-					changed = true;
-				}
-			}
-		}
-		return changed;
-	}
-
 	private static String getDefinitionString(GeoElement geo) {
 		// needed for eg freehand functions
 		String definitionStr = geo.getDefinition(StringTemplate.maxPrecision);
@@ -289,6 +257,29 @@ public class EuclidianStyleBarStatic {
 			app.showError(err);
 		}
 		return newGeo;
+	}
+
+	/**
+	 * check geos for "label style" button
+	 * 
+	 * @param geos
+	 *            geos
+	 * @return true if "label style" button applies on all geos
+	 */
+
+	public static GeoElement checkGeosForCaptionStyle(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
+			return null;
+		}
+
+		for (GeoElement current : geos) {
+			if (current.isLabelShowable() || current.isGeoAngle() || (current.isGeoNumeric()
+					&& current.isLockedPosition())) {
+				return current;
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -364,31 +355,6 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * check geos for "label style" button
-	 * 
-	 * @param geos
-	 *            geos
-	 * @return true if "label style" button applies on all geos
-	 */
-
-	public static GeoElement checkGeosForCaptionStyle(List<GeoElement> geos) {
-		if (geos.size() <= 0) {
-			return null;
-		}
-
-		for (GeoElement current : geos) {
-			if (current.isLabelShowable()
-					|| current.isGeoAngle()
-					|| (current.isGeoNumeric() && current
-					.isLockedPosition())) {
-				return current;
-			}
-		}
-
-		return null;
-	}
-
-	/**
 	 * @param geos
 	 *            elements
 	 * @param mode
@@ -406,9 +372,8 @@ public class EuclidianStyleBarStatic {
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo.isLabelShowable()
-					|| geo.isGeoAngle()
-					|| (geo.isGeoNumeric() && geo.isLockedPosition())) {
+			if (geo.isLabelShowable() || geo.isGeoAngle() || (geo.isGeoNumeric()
+					&& geo.isLockedPosition())) {
 				geo.setLabelModeFromStylebar(index);
 			}
 			geo.updateVisualStyle(GProperty.LABEL_STYLE);
@@ -445,38 +410,6 @@ public class EuclidianStyleBarStatic {
 		}
 
 		return needUndo;
-	}
-
-	/**
-	 * @param app application
-	 * @param geos selected (or default) geos
-	 * @param lineStyleIndex
-	 *            line style index
-	 * @param lineSize
-	 *            line thickness
-	 * @return success
-	 */
-	public static boolean applyLineStyleSplitStrokes(int lineStyleIndex, int lineSize, App app,
-			List<GeoElement> geos) {
-		List<GeoElement> splitStrokes = splitStrokes(geos, app);
-		UpdateStrokeStyleStore stylingHelper = new UpdateStrokeStyleStore(splitStrokes,
-				app.getUndoManager());
-
-		boolean needUndo = applyLineStyle(lineStyleIndex, lineSize, app, splitStrokes);
-
-		if (needUndo) {
-			stylingHelper.addUpdatedStrokes(splitStrokes);
-			stylingHelper.storeStrokeStyleUpdateUndo();
-		}
-
-		return needUndo;
-	}
-
-	private static List<GeoElement> splitStrokes(List<GeoElement> geos, App app) {
-		if (app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true)) {
-			return app.getSelectionManager().getSelectedGeos();
-		}
-		return geos;
 	}
 
 	/**
@@ -543,32 +476,6 @@ public class EuclidianStyleBarStatic {
 			geos.get(0).getKernel().notifyRepaint();
 		}
 
-		return needUndo;
-	}
-
-	/**
-	 * @param app application
-	 * @param geos selected (or default) geos
-	 * @param color
-	 *            color
-	 * @param alpha
-	 *            opacity
-	 * @return success
-	 */
-	public static boolean applyColorSplitStrokes(GColor color, double alpha, App app,
-			List<GeoElement> geos) {
-		List<GeoElement> splitStrokes = new ArrayList(splitStrokes(geos, app));
-		splitStrokes = splitStrokes.stream().filter(geo -> !(geo instanceof GeoInlineText))
-				.collect(Collectors.toList()); //Handled by InlineTextFormatter
-		UpdateStrokeStyleStore strokeStyleHelper = new UpdateStrokeStyleStore(splitStrokes,
-				app.getUndoManager());
-
-		boolean needUndo = applyColor(color, alpha, app, splitStrokes);
-
-		if (needUndo) {
-			strokeStyleHelper.addUpdatedStrokes(splitStrokes);
-			strokeStyleHelper.storeStrokeStyleUpdateUndo();
-		}
 		return needUndo;
 	}
 
@@ -724,37 +631,6 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * @param geos
-	 *            tables
-	 * @param mode
-	 *            current app mode
-	 * @return table text
-	 */
-	public static AlgoTableText updateTableText(List<GeoElement> geos, int mode) {
-		AlgoTableText tableText = null;
-		if (geos == null || geos.size() == 0 || EuclidianView.isPenMode(mode)) {
-			return tableText;
-		}
-
-		boolean geosOK = true;
-		AlgoElement algo;
-
-		for (int i = 0; i < geos.size(); i++) {
-			algo = geos.get(i).getParentAlgorithm();
-			if (!(algo instanceof AlgoTableText)) {
-				geosOK = false;
-			}
-		}
-
-		if (geosOK && geos.get(0) != null) {
-			algo = geos.get(0).getParentAlgorithm();
-			tableText = (AlgoTableText) algo;
-		}
-
-		return tableText;
-	}
-
-	/**
 	 * @return map app mode -&gt; construction default object
 	 */
 	public static HashMap<Integer, Integer> createDefaultMap() {
@@ -884,6 +760,37 @@ public class EuclidianStyleBarStatic {
 				ConstructionDefaults.DEFAULT_NONE);
 
 		return defaultGeoMap;
+	}
+
+	/**
+	 * @param geos
+	 *            tables
+	 * @param mode
+	 *            current app mode
+	 * @return table text
+	 */
+	public static AlgoTableText updateTableText(List<GeoElement> geos, int mode) {
+		AlgoTableText tableText = null;
+		if (geos == null || geos.size() == 0 || EuclidianView.isPenMode(mode)) {
+			return tableText;
+		}
+
+		boolean geosOK = true;
+		AlgoElement algo;
+
+		for (int i = 0; i < geos.size(); i++) {
+			algo = geos.get(i).getParentAlgorithm();
+			if (!(algo instanceof AlgoTableText)) {
+				geosOK = false;
+			}
+		}
+
+		if (geosOK && geos.get(0) != null) {
+			algo = geos.get(0).getParentAlgorithm();
+			tableText = (AlgoTableText) algo;
+		}
+
+		return tableText;
 	}
 
 	/**

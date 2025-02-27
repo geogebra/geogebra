@@ -1,7 +1,7 @@
 package org.geogebra.common.properties.impl.collections;
 
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -12,11 +12,11 @@ import org.geogebra.common.properties.ValuedProperty;
 abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> implements
 		ValuedProperty<S> {
 
-	private final T[] properties;
+	private final List<T> properties;
 	private final Set<PropertyValueObserver> observers = new HashSet<>();
 
-	AbstractValuedPropertyCollection(T[] properties) {
-		if (properties.length == 0) {
+	AbstractValuedPropertyCollection(List<T> properties) {
+		if (properties.isEmpty()) {
 			throw new IllegalArgumentException("Properties must have at least a single property");
 		}
 		this.properties = properties;
@@ -32,11 +32,12 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 		return getFirstProperty().getRawName();
 	}
 
-	protected T getFirstProperty() {
-		return properties[0];
+	// TODO make protected again, expose icon instead
+	public T getFirstProperty() {
+		return properties.get(0);
 	}
 
-	public T[] getProperties() {
+	public List<T> getProperties() {
 		return properties;
 	}
 
@@ -64,7 +65,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 	}
 
 	private void callProperty(Consumer<T> propertyConsumer) {
-		Arrays.asList(properties).forEach(propertyConsumer);
+		properties.forEach(propertyConsumer);
 	}
 
 	@Override
@@ -77,6 +78,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 		if (isFrozen()) {
 			return;
 		}
+		notifyObservers(observer -> observer.onWillSetValue(this));
 		callProperty(property -> property.setValue(value));
 		notifyObservers(observer -> observer.onDidSetValue(this));
 	}

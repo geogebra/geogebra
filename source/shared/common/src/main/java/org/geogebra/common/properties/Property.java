@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 /**
  * A settings property of the GeoGebra App.
  */
-public interface Property {
+public interface Property extends PropertySupplier {
     /**
      * Returns the localized name of the property.
      *
@@ -32,4 +32,14 @@ public interface Property {
     boolean isFrozen();
 
     void setFrozen(boolean frozen);
+
+    @Override
+    default Property updateAndGet() {
+        return this;
+    }
+
+    @Override
+    default Property get() {
+        return this;
+    }
 }

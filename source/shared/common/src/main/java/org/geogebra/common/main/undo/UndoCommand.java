@@ -13,6 +13,7 @@ import org.geogebra.common.plugin.ActionType;
 public class UndoCommand {
 
 	public List<String> labels;
+	protected boolean stitchToNext;
 	private AppState appState;
 	private ActionType action;
 	private String[] args;
@@ -184,5 +185,9 @@ public class UndoCommand {
 
 	public boolean hasLabel(String label) {
 		return labels != null && labels.contains(label);
+	}
+
+	public boolean shouldStitchToNext() {
+		return stitchToNext;
 	}
 }

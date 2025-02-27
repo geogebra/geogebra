@@ -2,8 +2,6 @@ package org.geogebra.web.full.euclidian;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -13,8 +11,8 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * Line style popup
  */
-public class EuclidianLineStylePopup extends LineStylePopup implements SetLabels {
-	private LineStyleModel model;
+public class EuclidianLineStylePopup extends LineStylePopup {
+	private final LineStyleModel model;
 
 	/**
 	 * @param app
@@ -29,7 +27,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements SetLabels
 
 	@Override
 	public void update(List<GeoElement> geos) {
-		if (geos.size() == 0 || app.getMode() == EuclidianConstants.MODE_FREEHAND_SHAPE) {
+		if (geos.isEmpty()) {
 			this.setVisible(false);
 			return;
 		}
@@ -44,14 +42,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements SetLabels
 				setSliderValue(geo0.getLineThickness());
 				getSlider().setMinimum(model.maxMinimumThickness());
 			}
-			// showTableItem(5, geo0 instanceof GeoFunction);
 			selectLineType(geo0.getLineType());
 		}
 	}
-
-	@Override
-	public void setLabels() {
-		// Overridden in MOWLineStyleButton
-	}
-
 }

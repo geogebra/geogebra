@@ -138,32 +138,5 @@
 			padding: 0 6px;
 			margin-bottom: 16px;
 		}
-
-		.labelPreviewHolder {
-			display: flex;
-			justify-content: space-between;
-		}
-
-		.sliderComponent {
-			.optionsSlider {
-				display: inline;
-
-				.gwt-Label {
-					display: none;
-				}
-			}
-
-			.preview {
-				overflow: hidden;
-				margin-right: 8px;
-			}
-
-			.slider {
-				margin: 0 8px;
-				width: calc(100% - 16px);
-				height: 36px;
-				padding: 0;
-			}
-		}
 	}
 }

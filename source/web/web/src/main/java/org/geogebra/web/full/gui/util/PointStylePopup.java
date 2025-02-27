@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -13,8 +12,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 
-public class PointStylePopup extends PopupMenuButtonW
-		implements SetLabels {
+public class PointStylePopup extends PopupMenuButtonW {
 
 	private static final int DEFAULT_SIZE = 4;
 	static final HashMap<Integer, Integer> pointStyleMap = new HashMap<>();
@@ -121,10 +119,4 @@ public class PointStylePopup extends PopupMenuButtonW
 	public void setEuclidian3D(boolean euclidian3d) {
 		euclidian3D = euclidian3d;
 	}
-
-	@Override
-	public void setLabels() {
-		// Overridden in MowPointStyle
-	}
-
 }

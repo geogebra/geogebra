@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.collections;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.geogebra.common.properties.aliases.StringProperty;
@@ -13,16 +15,15 @@ public class StringPropertyCollection<T extends StringProperty>
 	/**
 	 * @param properties properties to handle
 	 */
-	public StringPropertyCollection(T[] properties) {
+	public StringPropertyCollection(List<T> properties) {
 		super(properties);
 	}
 
 	@Nullable
 	@Override
 	public String validateValue(String value) {
-		T[] properties = getProperties();
-		for (int i = 0; i < properties.length; i++) {
-			String invalidMessage = properties[i].validateValue(value);
+		for (T property : getProperties()) {
+			String invalidMessage = property.validateValue(value);
 			if (invalidMessage != null) {
 				return invalidMessage;
 			}

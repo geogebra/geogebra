@@ -128,11 +128,15 @@ public class BaseWidgetFactory {
 	}
 
 	/**
+	 * @param isVertical whether the divider is vertical or horizontal
 	 * @return divider component
 	 */
-	public SimplePanel newDivider() {
+	public SimplePanel newDivider(boolean isVertical) {
 		SimplePanel widget = new SimplePanel();
 		widget.addStyleName("divider");
+		if (isVertical) {
+			widget.addStyleName("vertical");
+		}
 		widget.addStyleName(Shades.NEUTRAL_300.getName());
 		return widget;
 	}

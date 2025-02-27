@@ -287,7 +287,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		for (MenuItemGroup group : menuItemGroups) {
 			createMenuItemGroup(menuView, group);
 			if (!isLastGroupOfGroupList(group, menuItemGroups)) {
-				menuView.add(BaseWidgetFactory.INSTANCE.newDivider());
+				menuView.add(BaseWidgetFactory.INSTANCE.newDivider(false));
 			}
 		}
 	}

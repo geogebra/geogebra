@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.collections;
 
+import java.util.List;
+
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 
 /**
@@ -12,7 +14,7 @@ public class NamedEnumeratedPropertyCollection<T extends NamedEnumeratedProperty
 	/**
 	 * @param properties properties to handle
 	 */
-	public NamedEnumeratedPropertyCollection(T[] properties) {
+	public NamedEnumeratedPropertyCollection(List<T> properties) {
 		super(properties);
 	}
 
@@ -20,4 +22,5 @@ public class NamedEnumeratedPropertyCollection<T extends NamedEnumeratedProperty
 	public String[] getValueNames() {
 		return getFirstProperty().getValueNames();
 	}
+
 }

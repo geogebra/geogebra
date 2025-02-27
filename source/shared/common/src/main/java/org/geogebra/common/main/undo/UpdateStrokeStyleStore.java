@@ -1,11 +1,11 @@
-package org.geogebra.common.euclidian;
+package org.geogebra.common.main.undo;
 
 import static org.geogebra.common.main.undo.ConstructionActionExecutor.DEL;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian.StrokeHelper;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.ActionType;
 
 public class UpdateStrokeStyleStore extends StrokeHelper {

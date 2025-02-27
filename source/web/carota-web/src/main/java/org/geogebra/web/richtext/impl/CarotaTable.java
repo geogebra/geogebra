@@ -4,7 +4,6 @@ import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true)
 public class CarotaTable implements HasContentAndFormat {
@@ -92,13 +91,13 @@ public class CarotaTable implements HasContentAndFormat {
 
 	public native void setCellProperty(String property, String value);
 
-	public native void setCellProperty(String property, String value, JsPropertyMap<Object> range);
+	public native void setCellProperty(String property, String value, CarotaSelection range);
 
 	public native String getCellProperty(String property);
 
 	public native void setBorderThickness(int borderThickness);
 
-	public native void setBorderThickness(int borderThickness, JsPropertyMap<Object> range);
+	public native void setBorderThickness(int borderThickness, CarotaSelection range);
 
 	public native int getBorderThickness();
 

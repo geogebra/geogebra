@@ -1,5 +1,7 @@
 package org.geogebra.common.jre.undoredo;
 
+import static org.geogebra.common.plugin.EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,10 +16,13 @@ import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
-import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.common.properties.PropertySupplier;
+import org.geogebra.common.properties.PropertyWrapper;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.collections.ColorPropertyCollection;
+import org.geogebra.common.properties.impl.collections.EnumeratedPropertyCollection;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,11 +30,14 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 
 	EuclidianController ec;
 	EuclidianStyleBarSelection selection;
+	PropertyWrapper propertyWrapper;
+	GeoElementPropertiesFactory propFactory = new GeoElementPropertiesFactory();
 
 	@Before
 	public void setupApp() {
 		getApp().setNotesConfig();
 		getApp().setUndoActive(true);
+		propertyWrapper = new PropertyWrapper(getApp());
 	}
 
 	/**
@@ -43,7 +51,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	/**
 	 * drawAndSelectStroke
 	 */
-	public void drawAndSelectStroke() {
+	private void drawAndSelectStroke() {
 		drawStroke();
 		selectPartOfStroke();
 	}
@@ -51,7 +59,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	/**
 	 * drawStroke
 	 */
-	public void drawStroke() {
+	private void drawStroke() {
 		setMode(EuclidianConstants.MODE_PEN);
 		dragStart(100, 100);
 		dragEnd(400, 100);
@@ -103,7 +111,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		String s3Dragged = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		assertNotEquals(s3Original, s3Dragged);
 		getKernel().undo(); //undos split stroke
-		assertEquals(4, getConstruction().getUndoManager().getHistorySize());
+		assertEquals(3, getConstruction().getUndoManager().getHistorySize());
 		getKernel().undo();
 		getKernel().undo();
 		getKernel().undo();
@@ -125,15 +133,15 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		drawAndSelectStroke();
 		dragStart(250, 100);
 		dragEnd(400, 200);
-		String s2Dragged = lookup("stroke2").getDefinition(StringTemplate.testTemplate);
+		assertThat(lookup("stroke2"), notNullValue());
+		assertThat(lookup("stroke3"), notNullValue());
+		assertThat(lookup("stroke2").getXML(),
+				containsString("\"3.0000E0,-2.0000E0,8.0000E0,-2.0000E0,NaN,-2.0000E0\""));
 		getKernel().undo();
-		String s2Original = lookup("stroke2").getDefinition(StringTemplate.testTemplate);
-		assertNotEquals(s2Dragged, s2Original);
-		getKernel().undo();
+		assertThat(lookup("stroke1"), notNullValue());
 		assertThat(lookup("stroke2"), nullValue());
 		getKernel().undo();
 		assertThat(lookup("stroke1"), nullValue());
-		getKernel().redo();
 		getKernel().redo();
 		getKernel().redo();
 		assertThat(lookup("stroke2"), notNullValue());
@@ -144,7 +152,11 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		init();
 		drawAndSelectStroke();
 		ArrayList<GeoElement> geos = selection.getGeos();
-		EuclidianStyleBarStatic.applyColorSplitStrokes(GColor.GREEN, 1, getApp(), geos);
+		PropertySupplier lineStyleProp = propertyWrapper.withStrokeSplitting(
+				geos2 -> propFactory.createColorProperty(
+						getApp().getLocalization(), geos2), geos);
+		((ColorPropertyCollection<?>) lineStyleProp.updateAndGet())
+				.setValue(GColor.GREEN);
 
 		assertEquals(GColor.GREEN, lookup("stroke2").getObjectColor());
 		assertNotEquals(GColor.GREEN, lookup("stroke3").getObjectColor());
@@ -155,19 +167,21 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		init();
 		drawAndSelectStroke();
 		ArrayList<GeoElement> geos = selection.getGeos();
-		EuclidianStyleBarStatic.applyLineStyleSplitStrokes(4, 6, getApp(), geos);
-
-		getKernel().undo();
-		assertNotEquals(30, lookup("stroke2").getLineType());
+		PropertySupplier lineStyleProp = propertyWrapper.withStrokeSplitting(
+				geos2 -> propFactory.createLineStyleProperty(
+						getApp().getLocalization(), geos2), geos);
+		((EnumeratedPropertyCollection<?, Integer>) lineStyleProp.updateAndGet())
+				.setValue(LINE_TYPE_DASHED_DOTTED);
+		assertEquals(LINE_TYPE_DASHED_DOTTED, lookup("stroke2").getLineType());
+		assertEquals(0, lookup("stroke3").getLineType());
 		getKernel().undo();
 		assertThat(lookup("stroke2"), nullValue());
 		getKernel().undo();
 		assertThat(lookup("stroke1"), nullValue());
 		getKernel().redo();
 		getKernel().redo();
-		assertNotEquals(30, lookup("stroke2").getLineType());
-		getKernel().redo();
-		assertEquals(30, lookup("stroke2").getLineType());
+		assertEquals(LINE_TYPE_DASHED_DOTTED, lookup("stroke2").getLineType());
+		assertEquals(0, lookup("stroke3").getLineType());
 	}
 
 	private void assertSelected(GeoElement... geos) {

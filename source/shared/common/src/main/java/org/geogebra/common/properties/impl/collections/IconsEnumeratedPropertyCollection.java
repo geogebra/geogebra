@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.collections;
 
+import java.util.List;
+
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 
@@ -12,7 +14,7 @@ public class IconsEnumeratedPropertyCollection<T extends IconsEnumeratedProperty
 	/**
 	 * @param properties properties to handle
 	 */
-	public IconsEnumeratedPropertyCollection(T[] properties) {
+	public IconsEnumeratedPropertyCollection(List<T> properties) {
 		super(properties);
 	}
 

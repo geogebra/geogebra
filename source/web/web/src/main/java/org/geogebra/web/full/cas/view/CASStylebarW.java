@@ -63,9 +63,8 @@ public class CASStylebarW extends StyleBarW {
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
 		addMenuButton();
-		if (!app.isUnbundledOrWhiteboard()) {
-			addViewButton();
-		}
+		addViewButton();
+
 		updateStyleBar();
 	}
 

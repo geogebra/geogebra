@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -22,28 +23,51 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.collections.BooleanPropertyCollection;
 import org.geogebra.common.properties.impl.collections.ColorPropertyCollection;
+import org.geogebra.common.properties.impl.collections.FlagListPropertyCollection;
 import org.geogebra.common.properties.impl.collections.IconsEnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
 import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
+import org.geogebra.common.properties.impl.objects.BoldProperty;
+import org.geogebra.common.properties.impl.objects.BorderColorProperty;
+import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
+import org.geogebra.common.properties.impl.objects.CellBorderProperty;
+import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
+import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
+import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
+import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
+import org.geogebra.common.properties.impl.objects.ItalicProperty;
+import org.geogebra.common.properties.impl.objects.LabelStyleProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.MaxProperty;
 import org.geogebra.common.properties.impl.objects.MinProperty;
 import org.geogebra.common.properties.impl.objects.NameProperty;
+import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
+import org.geogebra.common.properties.impl.objects.NotesOpacityColorProperty;
+import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
+import org.geogebra.common.properties.impl.objects.ObjectColorProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
+import org.geogebra.common.properties.impl.objects.PointStyleExtendedProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
+import org.geogebra.common.properties.impl.objects.SegmentEndProperty;
+import org.geogebra.common.properties.impl.objects.SegmentStartProperty;
 import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
+import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
+import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
+import org.geogebra.common.properties.impl.objects.TextFontSizeProperty;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
+import org.geogebra.common.properties.impl.objects.UnderlineProperty;
+import org.geogebra.common.properties.impl.objects.VerticalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -109,20 +133,16 @@ public final class GeoElementPropertiesFactory {
 		return createPropertiesArray(localization, elements, Stream.<Property>of(
 				createPropertyCollection(elements,
 						element -> new NameProperty(localization, element),
-						properties -> new StringPropertyCollection<>(
-								properties.toArray(new NameProperty[0]))),
+						StringPropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new MinProperty(processor, localization, element),
-						properties -> new StringPropertyCollection<>(
-								properties.toArray(new MinProperty[0]))),
+						StringPropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new MaxProperty(processor, localization, element),
-						properties -> new StringPropertyCollection<>(
-								properties.toArray(new MaxProperty[0]))),
+						StringPropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new AnimationStepProperty(processor, localization, element),
-						properties -> new StringPropertyCollection<>(
-								properties.toArray(new AnimationStepProperty[0]))),
+						StringPropertyCollection::new),
 				createShowObjectProperty(localization, elements),
 				createColorProperty(localization, elements),
 				createPointStyleProperty(localization, elements),
@@ -132,29 +152,23 @@ public final class GeoElementPropertiesFactory {
 				createThicknessProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new SlopeSizeProperty(localization, element),
-						properties -> new RangePropertyCollection<>(
-								properties.toArray(new SlopeSizeProperty[0]))),
+						RangePropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new LinearEquationFormProperty(localization, element),
-						properties -> new NamedEnumeratedPropertyCollection<>(
-								properties.toArray(new LinearEquationFormProperty[0]))),
+						NamedEnumeratedPropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new QuadraticEquationFormProperty(localization, element),
-						properties -> new NamedEnumeratedPropertyCollection<>(
-								properties.toArray(new QuadraticEquationFormProperty[0]))),
+						NamedEnumeratedPropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new CaptionStyleProperty(localization, element),
-						properties -> new NamedEnumeratedPropertyCollection<>(
-								properties.toArray(new CaptionStyleProperty[0]))),
+						NamedEnumeratedPropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new ShowTraceProperty(localization, element),
-						properties -> new BooleanPropertyCollection<>(
-								properties.toArray(new ShowTraceProperty[0]))),
+						BooleanPropertyCollection::new),
 				createFixObjectProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new ShowInAVProperty(localization, element),
-						properties -> new BooleanPropertyCollection<>(
-								properties.toArray(new ShowInAVProperty[0])))
+						BooleanPropertyCollection::new)
 		).filter(Objects::nonNull).collect(Collectors.toList()));
 	}
 
@@ -173,6 +187,34 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
+	 * Creates extended point style properties for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
+	public PropertiesArray createPointStyleExtendedProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertiesArray(localization, elements, Stream.of(
+				createPointStyleExtendedProperty(localization, elements),
+				createPointSizeProperty(localization, elements)
+		).filter(Objects::nonNull).collect(Collectors.toList()));
+	}
+
+	/**
+	 * Returns an IconsEnumeratedProperty controlling the extended point style or null if
+	 * not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public IconsEnumeratedProperty<?> createPointStyleExtendedProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new PointStyleExtendedProperty(localization, element),
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
 	 * Creates Lines style properties for a list of GeoElements.
 	 * @param localization localization
 	 * @param elements input elements
@@ -187,6 +229,105 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	/**
+	 * Creates Lines style properties for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
+	public List<Property> createNotesLineStyleProperties(
+			Localization localization, List<GeoElement> elements) {
+		return Stream.of(
+				createLineStyleProperty(localization, elements),
+				createNotesThicknessProperty(localization, elements)
+		).filter(Objects::nonNull).collect(Collectors.toList());
+	}
+
+	/**
+	 * Creates color with opacity properties for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
+	public PropertiesArray createNotesColorWithOpacityProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertiesArray(localization, elements, Stream.of(
+				createColorWithOpacityProperty(localization, elements),
+				createOpacityColorProperty(localization, elements)
+		).filter(Objects::nonNull).collect(Collectors.toList()));
+	}
+
+	/**
+	 * Creates border color and thickness for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
+	public PropertiesArray createObjectBorderProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertiesArray(localization, elements, Stream.of(
+				createBorderColorProperty(localization, elements),
+				createBorderThicknessProperty(localization, elements)
+		).filter(Objects::nonNull).collect(Collectors.toList()));
+	}
+
+	/**
+	 * Creates cell border style properties for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
+	public PropertiesArray createCellBorderStyleProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertiesArray(localization, elements, Stream.of(
+				createCellBorderStyleProperty(localization, elements),
+				createCellBorderThicknessProperty(localization, elements)
+		).filter(Objects::nonNull).collect(Collectors.toList()));
+	}
+
+	/**
+	 * Returns an Integer RangeProperty controlling the border thickness null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public RangePropertyCollection<?> createCellBorderThicknessProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new CellBorderThicknessProperty(localization,
+						element),
+				RangePropertyCollection::new);
+	}
+
+	/**
+	 * Returns an IconsEnumeratedProperty controlling the cell border or null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public IconsEnumeratedProperty<?> createCellBorderStyleProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new CellBorderProperty(localization, element),
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Create label property array
+	 * @param localization localization
+	 * @param elements elements
+	 * @return label property
+	 */
+	public PropertiesArray createLabelProperties(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertiesArray(localization, elements,  Stream.<Property>of(
+				createPropertyCollection(elements,
+						element -> new NameProperty(localization, element),
+						StringPropertyCollection::new),
+				createLabelStyleProperty(localization, elements)
+		).filter(Objects::nonNull).collect(Collectors.toList()));
+	}
+
+	/**
 	 * Creates a color property for the elements
 	 * @param localization localization
 	 * @param elements elements
@@ -196,8 +337,73 @@ public final class GeoElementPropertiesFactory {
 			List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new ElementColorProperty(localization, element),
-				properties -> new ColorPropertyCollection<>(
-						properties.toArray(new ElementColorProperty[0])));
+				ColorPropertyCollection::new);
+	}
+
+	/**
+	 * Creates a color property for strokes, shapes, lines, point, rays, sliders, points with
+	 * the new color palette, see {@link org.geogebra.common.main.color.GeoColorValues}
+	 * @param localization localization
+	 * @param elements elements
+	 * @return color property
+	 */
+	public ColorProperty createObjectColorProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new ObjectColorProperty(localization, element),
+				ColorPropertyCollection::new);
+	}
+
+	/**
+	 * Creates a color property for non-mask shapes
+	 * @param localization localization
+	 * @param elements elements
+	 * @return color property
+	 */
+	public ColorProperty createColorWithOpacityProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new NotesColorWithOpacityProperty(localization, element),
+				ColorPropertyCollection::new);
+	}
+
+	/**
+	 * Creates a font color property for inline object and text
+	 * @param localization localization
+	 * @param elements elements
+	 * @return color property
+	 */
+	public ColorProperty createTextFontColorProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new TextFontColorProperty(localization, element),
+				ColorPropertyCollection::new);
+	}
+
+	/**
+	 * Creates a background color property for inline object and text
+	 * @param localization localization
+	 * @param elements elements
+	 * @return color property
+	 */
+	public ColorProperty createTextBackgroundColorProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new TextBackgroundColorProperty(localization, element),
+				ColorPropertyCollection::new);
+	}
+
+	/**
+	 * Creates border color property for text and mind-map
+	 * @param localization localization
+	 * @param elements elements
+	 * @return color property
+	 */
+	public ColorProperty createBorderColorProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new BorderColorProperty(localization, element),
+				ColorPropertyCollection::new);
 	}
 
 	/**
@@ -210,8 +416,46 @@ public final class GeoElementPropertiesFactory {
 			List<GeoElement> elements) {
         return createPropertyCollection(elements,
 				element -> new IsFixedObjectProperty(localization, element),
-				properties -> new BooleanPropertyCollection<>(
-						properties.toArray(new IsFixedObjectProperty[0])));
+				BooleanPropertyCollection::new);
+	}
+
+	/**
+	 * Returns with a Boolean property that formats bold the texts, or null if not applicable
+	 * @param localization localization
+	 * @param elements elements
+	 * @return bold property or null
+	 */
+	public BooleanProperty createBoldProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new BoldProperty(localization, element),
+				BooleanPropertyCollection::new);
+	}
+
+	/**
+	 * Returns with a Boolean property that formats italic the texts, or null if not applicable
+	 * @param localization localization
+	 * @param elements elements
+	 * @return italic property or null
+	 */
+	public BooleanProperty createItalicProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new ItalicProperty(localization, element),
+				BooleanPropertyCollection::new);
+	}
+
+	/**
+	 * Returns with a Boolean property that formats underlined the texts, or null if not applicable
+	 * @param localization localization
+	 * @param elements elements
+	 * @return underline property or null
+	 */
+	public BooleanProperty createUnderlineProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new UnderlineProperty(localization, element),
+				BooleanPropertyCollection::new);
 	}
 
 	/**
@@ -220,12 +464,25 @@ public final class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public IconsEnumeratedProperty createPointStyleProperty(Localization localization,
+	public IconsEnumeratedProperty<?> createPointStyleProperty(Localization localization,
 			List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new PointStyleProperty(localization, element),
-				properties -> new IconsEnumeratedPropertyCollection<>(
-						properties.toArray(new PointStyleProperty[0])));
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Returns an Integer RangeProperty controlling the line thickness in notes,
+	 * null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public RangePropertyCollection<?> createNotesThicknessProperty(Localization
+			localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new NotesThicknessProperty(localization, element),
+				RangePropertyCollection::new);
 	}
 
 	/**
@@ -234,12 +491,128 @@ public final class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public IconsEnumeratedProperty createLineStyleProperty(
+	public IconsEnumeratedProperty<?> createLineStyleProperty(
 			Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new LineStyleProperty(localization, element),
-				properties -> new IconsEnumeratedPropertyCollection<>(
-						properties.toArray(new LineStyleProperty[0])));
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Returns an IconsEnumeratedProperty controlling the filling type or null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public IconsEnumeratedPropertyCollection<?, ?> createFillingStyleProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new FillingStyleProperty(localization, element),
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Returns an IconsEnumeratedProperty controlling the horizontal alignment or null
+	 * if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public IconsEnumeratedPropertyCollection<?, ?> createHorizontalAlignmentProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new HorizontalAlignmentProperty(localization,
+						element),
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Returns an IconsEnumeratedProperty controlling the horizontal alignment or null
+	 * if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public IconsEnumeratedPropertyCollection<?, ?> createVerticalAlignmentProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new VerticalAlignmentProperty(localization,
+						element),
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Returns an IconsEnumeratedProperty controlling the segment start style or null
+	 * if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public IconsEnumeratedPropertyCollection<?, ?> createSegmentStartProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new SegmentStartProperty(localization, element),
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Returns property controlling the text font size or null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @param ev euclidian view
+	 * @return property or null
+	 */
+	public NamedEnumeratedPropertyCollection<?, ?> createTextFontSizeProperty(
+			Localization localization, List<GeoElement> elements, EuclidianView ev) {
+		return createPropertyCollection(elements,
+				element -> new TextFontSizeProperty(localization, element, ev),
+				NamedEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Returns an IconsEnumeratedProperty controlling the segment end style or null
+	 * if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public IconsEnumeratedPropertyCollection<?, ?> createSegmentEndProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new SegmentEndProperty(localization, element),
+				IconsEnumeratedPropertyCollection::new);
+	}
+
+	/**
+	 * Returns an ValuedPropertyCollection controlling the label style or null
+	 * if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public static FlagListPropertyCollection<LabelStyleProperty> createLabelStyleProperty(
+			Localization localization, List<GeoElement> elements) {
+		List<LabelStyleProperty> labelStyleProperties = new ArrayList<>();
+		for (GeoElement element : elements) {
+			labelStyleProperties.add(new LabelStyleProperty(localization, element.getKernel(),
+					element));
+		}
+		return new FlagListPropertyCollection<>(labelStyleProperties.toArray(
+				new LabelStyleProperty[0]));
+	}
+
+	/**
+	 * Returns an StringPropertyCollection controlling the label of geo or null
+	 * if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public StringPropertyCollection<NameProperty> createNameProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new NameProperty(localization, element),
+				StringPropertyCollection::new);
 	}
 
 	/**
@@ -252,8 +625,46 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new OpacityProperty(localization, element),
-				properties -> new RangePropertyCollection<>(
-						properties.toArray(new OpacityProperty[0])));
+				RangePropertyCollection::new);
+	}
+
+	/**
+	 * Returns a RangePropertyCollection controlling the opacity or null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public RangeProperty<Integer> createOpacityColorProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new NotesOpacityColorProperty(localization, element),
+				RangePropertyCollection::new);
+	}
+
+	/**
+	 * Returns a RangePropertyCollection controlling the opacity or null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public RangeProperty<Integer> createBorderThicknessProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new BorderThicknessProperty(localization, element),
+				RangePropertyCollection::new);
+	}
+
+	/**
+	 * Returns a RangePropertyCollection controlling the opacity or null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public RangeProperty<Integer> createImageOpacityProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new ImageOpacityProperty(localization, element),
+				RangePropertyCollection::new);
 	}
 
 	/**
@@ -266,8 +677,7 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new ShowObjectProperty(localization, element),
-				properties -> new BooleanPropertyCollection<>(
-						properties.toArray(new ShowObjectProperty[0])));
+				BooleanPropertyCollection::new);
 	}
 
 	/**
@@ -280,8 +690,7 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new PointSizeProperty(localization, element),
-				properties -> new RangePropertyCollection<>(
-						properties.toArray(new PointSizeProperty[0])));
+				RangePropertyCollection::new);
 	}
 
 	/**
@@ -294,11 +703,10 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new ThicknessProperty(localization, element),
-				properties -> new RangePropertyCollection<>(
-						properties.toArray(new ThicknessProperty[0])));
+				RangePropertyCollection::new);
 	}
 
-	private static PropertiesArray createPropertiesArray(Localization localization,
+	private PropertiesArray createPropertiesArray(Localization localization,
 			List<GeoElement> geoElements, List<Property> properties) {
 		if (properties.isEmpty()) {
 			return new PropertiesArray("");
@@ -401,9 +809,7 @@ public final class GeoElementPropertiesFactory {
 				return null;
 			}
 			return propertyCollector.collect(properties);
-		} catch (NotApplicablePropertyException ignored) {
-			return null;
-		} catch (IllegalArgumentException ignored) {
+		} catch (NotApplicablePropertyException | IllegalArgumentException ignored) {
 			return null;
 		}
 	}
