@@ -71,6 +71,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	protected void hide() {
 		getDrawInputBox().setEditing(false);
+		getMathFieldInternal().getMathFieldController().setEditingInputBox(false);
+		texSerializer.setEditingInputBox(false);
 		box.setVisible(false);
 		view.repaintView();
 	}
@@ -82,6 +84,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds, TextRendererSettings settings) {
+		getMathFieldInternal().getMathFieldController().setEditingInputBox(true);
+		texSerializer.setEditingInputBox(true);
 		setInputBox(geoInputBox);
 		getDrawInputBox().setEditing(true);
 
@@ -151,6 +155,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public boolean onEscape() {
+		applyAndHide();
 		return false;
 	}
 
