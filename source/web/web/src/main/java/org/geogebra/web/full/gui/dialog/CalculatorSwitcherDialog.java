@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamController;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.main.AppWFull;
@@ -59,9 +58,8 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 			buildAndAddCalcButton(SuiteSubApp.CAS, contentPanel);
 		}
 		buildAndAddCalcButton(SuiteSubApp.PROBABILITY, contentPanel);
-		if (PreviewFeature.isAvailable(PreviewFeature.SCICALC_IN_SUITE)) {
-			buildAndAddCalcButton(SuiteSubApp.SCIENTIFIC, contentPanel);
-		}
+		buildAndAddCalcButton(SuiteSubApp.SCIENTIFIC, contentPanel);
+
 		add(contentPanel);
 	}
 
