@@ -1682,4 +1682,6 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * @return True if this is an implicit equation
 	 */
 	boolean isImplicitEquation();
+
+	boolean isFreeOrExpression();
 }

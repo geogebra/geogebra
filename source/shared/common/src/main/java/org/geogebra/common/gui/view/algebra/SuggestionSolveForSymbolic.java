@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
-import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
@@ -149,8 +148,7 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	private static boolean isAlgebraEquation(GeoElementND geo) {
-		return  isEquation(geo) && (geo.getParentAlgorithm() == null
-				|| geo.getParentAlgorithm().getClassName() == Algos.Expression);
+		return isEquation(geo) && geo.isFreeOrExpression();
 	}
 
 	private static boolean isEquation(GeoElementND geo) {

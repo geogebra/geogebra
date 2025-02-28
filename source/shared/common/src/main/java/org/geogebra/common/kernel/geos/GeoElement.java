@@ -7112,9 +7112,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean isFunctionOrEquationFromUser() {
 		if (canBeFunctionOrEquationFromUser()) {
-			AlgoElement parentAlgorithm = getParentAlgorithm();
-			return parentAlgorithm == null
-					|| parentAlgorithm.getClassName().equals(Algos.Expression);
+			return isFreeOrExpression();
 		}
 		return false;
 	}
@@ -7233,5 +7231,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return equation.isImplicit();
 		}
 		return false;
+	}
+
+	@Override
+	public boolean isFreeOrExpression() {
+		return algoParent == null || algoParent.getClassName() == Algos.Expression;
 	}
 }

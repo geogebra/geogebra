@@ -59,7 +59,7 @@ public class MoveGeos {
 			if (!geo.isLocked()) { // Non fixed elements only
 				if (!geo.isGeoList() || shouldAddListAsWhole((GeoList) geo, view)) {
 					addWithSiblingsAndChildNodes(geo, geos, view);
-				} else {
+				} else if (geo.isFreeOrExpression()) {
 					((GeoList) geo).elements().forEach(
 							element -> addWithSiblingsAndChildNodes(element, geos, view));
 				}

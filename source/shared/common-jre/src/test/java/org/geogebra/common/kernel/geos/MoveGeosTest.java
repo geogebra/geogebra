@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +13,9 @@ import java.util.Collections;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class MoveGeosTest extends BaseUnitTest {
@@ -60,8 +63,18 @@ public class MoveGeosTest extends BaseUnitTest {
 		GeoList list = add("{Line(A, B)}");
 		moveListDownRightByUnit(list);
 		assertThat(list, hasValue("{-x + 3y = 7}"));
-		assertTrue(new Coords(2, 3).isEqual(A.getInhomCoords()));
-		assertTrue(new Coords(5, 4).isEqual(B.getInhomCoords()));
+		assertArrayEquals(new double[]{2, 3}, A.getInhomCoords().get());
+		assertArrayEquals(new double[]{5, 4}, B.getInhomCoords().get());
+	}
+
+	@Test
+	@Issue("APPS-6035")
+	public void testMovingDependentList3() {
+		GeoList list = add("Sequence(Text(k,(k,k)),k,1,5)");
+		GeoPointND startPoint = ((GeoText) list.get(0)).getStartPoint();
+		assertArrayEquals(new double[]{1, 1}, startPoint.getInhomCoords().get());
+		moveListDownRightByUnit(list);
+		assertArrayEquals(new double[]{1, 1}, startPoint.getInhomCoords().get());
 	}
 
 	@Test
@@ -84,8 +97,8 @@ public class MoveGeosTest extends BaseUnitTest {
 		GeoPoint B = add("B=(6, 6)");
 		GeoList list = add("{Segment(A, B)}");
 		moveListDownRightByUnit(list);
-		assertTrue(new Coords(6, 7).isEqual(A.getInhomCoords()));
-		assertTrue(new Coords(7, 7).isEqual(B.getInhomCoords()));
+		assertArrayEquals(new double[]{6, 7}, A.getInhomCoords().get());
+		assertArrayEquals(new double[]{7, 7}, B.getInhomCoords().get());
 	}
 
 	private void moveListDownRightByUnit(GeoList list) {
