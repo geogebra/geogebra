@@ -61,7 +61,9 @@ public class DerivativeTest extends BaseUnitTest {
 		Log.setLogger(new Log() {
 			@Override
 			public void print(Level level, Object logMessage) {
-				assertFalse(logMessage instanceof Throwable);
+				if (logMessage instanceof Throwable) {
+					throw new RuntimeException((Throwable) logMessage);
+				}
 				System.out.println(logMessage);
 			}
 		});

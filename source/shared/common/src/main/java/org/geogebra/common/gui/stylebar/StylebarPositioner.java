@@ -393,7 +393,7 @@ public class StylebarPositioner {
 			// it's possible if a non visible geo is in activeGeoList, if we
 			// duplicate a geo, which has descendant.
 			if (geo.isEuclidianVisible()) {
-				nextPos = getPostionFromGeo(geo, offsetWidth, offsetHeight);
+				nextPos = getPositionFromGeo(geo, offsetWidth, offsetHeight);
 
 				if (newPos == null) {
 					newPos = nextPos;
@@ -414,7 +414,7 @@ public class StylebarPositioner {
 		return newPos;
 	}
 
-	private GPoint getPostionFromGeo(GeoElement geo, int offsetWidth, int offsetHeight) {
+	private GPoint getPositionFromGeo(GeoElement geo, int offsetWidth, int offsetHeight) {
 		GPoint nextPos;
 
 		if (geo instanceof GeoFunction || (geo.isGeoLine()
