@@ -3581,7 +3581,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		Iterator<Character> it = UnicodeTeX.getMap().keySet().iterator();
 		while (it.hasNext()) {
 			char skey = it.next();
-			s1 = s1.replace(skey + "", UnicodeTeX.getMap().get(skey) + " ");
+			s1 = s1.replace(String.valueOf(skey), UnicodeTeX.getMap().get(skey) + " ");
 		}
 		return s1.replace(Unicode.DEGREE_STRING, "o ")
 				// degree symbol

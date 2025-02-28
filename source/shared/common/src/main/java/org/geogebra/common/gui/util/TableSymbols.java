@@ -124,7 +124,7 @@ public class TableSymbols {
 			"\u2203", // THERE EXISTS
 			"\u2204", // THERE DOES NOT EXIST
 
-			Unicode.QUESTEQ + "", // Boolean identity \\questeq
+			String.valueOf(Unicode.QUESTEQ), // Boolean identity \\questeq
 			"\u2261", // IDENTICAL TO
 			"\u2262", // NOT IDENTICAL TO
 
@@ -135,7 +135,7 @@ public class TableSymbols {
 			"\u22BB", // \\veebar (xor)
 
 			"\u22A4", // \\top (tautology)
-			Unicode.PERPENDICULAR + "", // \\bot (contradiction)
+			String.valueOf(Unicode.PERPENDICULAR), // \\bot (contradiction)
 			"\u2201", // COMPLEMENT
 			"\u2234", // THEREFORE
 			"\u2235", // BECAUSE
@@ -146,12 +146,12 @@ public class TableSymbols {
 			"\u2229", // INTERSECTION
 			"\u222A", // UNION
 
-			Unicode.IS_ELEMENT_OF + "", // ELEMENT OF
+			String.valueOf(Unicode.IS_ELEMENT_OF), // ELEMENT OF
 			"\u2209", // NOT AN ELEMENT OF
 
-			Unicode.IS_SUBSET_OF_STRICT + "", // SUBSET OF
+			String.valueOf(Unicode.IS_SUBSET_OF_STRICT), // SUBSET OF
 			"\u2284", // NOT A SUBSET OF
-			Unicode.IS_SUBSET_OF + "", // SUBSET OF OR EQUAL TO
+			String.valueOf(Unicode.IS_SUBSET_OF), // SUBSET OF OR EQUAL TO
 			"\u2288", // NEITHER A SUBSET OF NOR EQUAL TO
 
 			"\u2283", // SUPERSET OF
@@ -201,24 +201,24 @@ public class TableSymbols {
 			// "\u2223", //DIVIDES
 			// "\u2224", //DOES NOT DIVIDE
 
-			Unicode.PERPENDICULAR + "", // \\perp
+			String.valueOf(Unicode.PERPENDICULAR), // \\perp
 			"\u2225", // PARALLEL TO
 			"\u2226", // NOT PARALLEL TO
 			// "\u223A", //GEOMETRIC PROPORTION
 			"\u2295", // \\oplus
 			"\u2296", // \\ominus
-			Unicode.VECTOR_PRODUCT + "", // \\otimes
+			String.valueOf(Unicode.VECTOR_PRODUCT), // \\otimes
 			"\u2298", // \\oslash
 			"\u2299", // \\odot
 	};
 
 	public final static String[] SUB_SUPERSCRIPTS = {
 			// first row
-			Unicode.SUPERSCRIPT_0 + "", Unicode.SUPERSCRIPT_1 + "",
-			Unicode.SUPERSCRIPT_2 + "", Unicode.SUPERSCRIPT_3 + "",
-			Unicode.SUPERSCRIPT_4 + "", Unicode.SUPERSCRIPT_5 + "",
-			Unicode.SUPERSCRIPT_6 + "", Unicode.SUPERSCRIPT_7 + "",
-			Unicode.SUPERSCRIPT_8 + "", Unicode.SUPERSCRIPT_9 + "",
+			String.valueOf(Unicode.SUPERSCRIPT_0), String.valueOf(Unicode.SUPERSCRIPT_1),
+			String.valueOf(Unicode.SUPERSCRIPT_2), String.valueOf(Unicode.SUPERSCRIPT_3),
+			String.valueOf(Unicode.SUPERSCRIPT_4), String.valueOf(Unicode.SUPERSCRIPT_5),
+			String.valueOf(Unicode.SUPERSCRIPT_6), String.valueOf(Unicode.SUPERSCRIPT_7),
+			String.valueOf(Unicode.SUPERSCRIPT_8), String.valueOf(Unicode.SUPERSCRIPT_9),
 
 			// second row
 			"\u207A", // SUPERSCRIPT PLUS SIGN
@@ -393,82 +393,82 @@ public class TableSymbols {
 	public static String[][] basicSymbolsMap(Localization app) {
 		return new String[][] {
 				// LOWERCASE GREEK
-				{ Unicode.alpha + "",
-						app.getPlain("GreekCharacterA", Unicode.alpha + "") },
-				{ Unicode.beta + "",
-						app.getPlain("GreekCharacterA", Unicode.beta + "") },
-				{ Unicode.gamma + "",
-						app.getPlain("GreekCharacterA", Unicode.gamma + "") },
-				{ Unicode.delta + "",
-						app.getPlain("GreekCharacterA", Unicode.delta + "") },
-				{ Unicode.epsilon + "",
-						app.getPlain("GreekCharacterA", Unicode.epsilon + "") },
-				{ Unicode.zeta + "",
-						app.getPlain("GreekCharacterA", Unicode.zeta + "") },
-				{ Unicode.eta + "",
-						app.getPlain("GreekCharacterA", Unicode.eta + "") },
-				{ Unicode.theta + "",
-						app.getPlain("GreekCharacterA", Unicode.theta + "") },
+				{ String.valueOf(Unicode.alpha),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.alpha)) },
+				{ String.valueOf(Unicode.beta),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.beta)) },
+				{ String.valueOf(Unicode.gamma),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.gamma)) },
+				{ String.valueOf(Unicode.delta),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.delta)) },
+				{ String.valueOf(Unicode.epsilon),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.epsilon)) },
+				{ String.valueOf(Unicode.zeta),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.zeta)) },
+				{ String.valueOf(Unicode.eta),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.eta)) },
+				{ String.valueOf(Unicode.theta),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.theta)) },
 				// { "\u03B9" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03B9"}, //lowercaseGreekIOTA
-				{ Unicode.kappa + "",
-						app.getPlain("GreekCharacterA", Unicode.kappa + "") },
-				{ Unicode.lambda + "",
-						app.getPlain("GreekCharacterA", Unicode.lambda + "") },
-				{ Unicode.mu + "",
-						app.getPlain("GreekCharacterA", Unicode.mu + "") },
+				{ String.valueOf(Unicode.kappa),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.kappa)) },
+				{ String.valueOf(Unicode.lambda),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.lambda)) },
+				{ String.valueOf(Unicode.mu),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.mu)) },
 				// { "\u03BD" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03BD"}, //lowercaseGreekNU
-				{ Unicode.xi + "",
-						app.getPlain("GreekCharacterA", Unicode.xi + "") },
+				{ String.valueOf(Unicode.xi),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.xi)) },
 				// { "\u03BF" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03BF"}, //lowercaseGreekOMICRON
 				// { "\u03C0" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03C0"}, //lowercaseGreekPI
-				{ Unicode.rho + "",
-						app.getPlain("GreekCharacterA", Unicode.rho + "") },
+				{ String.valueOf(Unicode.rho),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.rho)) },
 				// { "\u03C2" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03C2"}, //lowercaseGreekFINALSIGMA
-				{ Unicode.sigma + "",
-						app.getPlain("GreekCharacterA", Unicode.sigma + "") },
-				{ Unicode.tau + "",
-						app.getPlain("GreekCharacterA", Unicode.tau + "") },
+				{ String.valueOf(Unicode.sigma),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.sigma)) },
+				{ String.valueOf(Unicode.tau),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.tau)) },
 				// { "\u03C5" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03C5"}, //lowercaseGreekUPSILON
-				{ Unicode.phi + "", // \varPhi the "loopy" phi
-						app.getPlain("GreekCharacterA", Unicode.phi + "") },
-				{ Unicode.phi_symbol + "", // \phi "straight" phi
+				{ String.valueOf(Unicode.phi), // \varPhi the "loopy" phi
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.phi)) },
+				{ String.valueOf(Unicode.phi_symbol), // \phi "straight" phi
 						app.getPlain("GreekCharacterA",
-								Unicode.phi_symbol + "") },
-				{ Unicode.chi + "",
-						app.getPlain("GreekCharacterA", Unicode.chi + "") },
-				{ Unicode.psi + "",
-						app.getPlain("GreekCharacterA", Unicode.psi + "") },
-				{ Unicode.omega + "",
-						app.getPlain("GreekCharacterA", Unicode.omega + "") },
-				{ Unicode.Gamma + "",
-						app.getPlain("GreekCharacterA", Unicode.Gamma + "") },
-				{ Unicode.Delta + "",
-						app.getPlain("GreekCharacterA", Unicode.Delta + "") },
-				{ Unicode.Theta + "",
-						app.getPlain("GreekCharacterA", Unicode.Theta + "") },
+								String.valueOf(Unicode.phi_symbol)) },
+				{ String.valueOf(Unicode.chi),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.chi)) },
+				{ String.valueOf(Unicode.psi),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.psi)) },
+				{ String.valueOf(Unicode.omega),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.omega)) },
+				{ String.valueOf(Unicode.Gamma),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.Gamma)) },
+				{ String.valueOf(Unicode.Delta),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.Delta)) },
+				{ String.valueOf(Unicode.Theta),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.Theta)) },
 				// removed - too similar to logical 'and'
 				// { "\u039b" , app.getPlain("GreekCharacterA", "\u039b" ) },
 				// //uppercaseGreekLAMBDA
 				// { "\u039e" , app.getPlain("GreekCharacterA", "\u039e" ) },
 				// //uppercaseGreekXI
 				// UPPERCASE GREEK
-				{ Unicode.Pi + "",
-						app.getPlain("GreekCharacterA", Unicode.Pi + "") },
-				{ Unicode.Sigma + "",
-						app.getPlain("GreekCharacterA", Unicode.Sigma + "") },
-				{ Unicode.Phi + "",
-						app.getPlain("GreekCharacterA", Unicode.Phi + "") },
+				{ String.valueOf(Unicode.Pi),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.Pi)) },
+				{ String.valueOf(Unicode.Sigma),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.Sigma)) },
+				{ String.valueOf(Unicode.Phi),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.Phi)) },
 				// { "\u03a8" , app.getPlain("GreekCharacterA", "\u03a8" ) },
 				// //uppercaseGreekPSI
-				{ Unicode.Omega + "",
-						app.getPlain("GreekCharacterA", Unicode.Omega + "") },
-				{ Unicode.INFINITY + "", app.getMenu("Symbol.Infinity") },
+				{ String.valueOf(Unicode.Omega),
+						app.getPlain("GreekCharacterA", String.valueOf(Unicode.Omega)) },
+				{ String.valueOf(Unicode.INFINITY), app.getMenu("Symbol.Infinity") },
 				{ ExpressionNodeConstants.strVECTORPRODUCT,
 						app.getMenu("Symbol.VectorProduct") },
 				{ ExpressionNodeConstants.strEQUAL_BOOLEAN,
@@ -497,13 +497,13 @@ public class TableSymbols {
 						app.getMenu("Symbol.StrictSubset") },
 				// { "\u2220" , app.getMenu("Symbol.Angle" )},
 				{ "\u2221", app.getMenu("Symbol.AngleMeasure") },
-				{ Unicode.SUPERSCRIPT_2 + "", app.getMenu("Symbol.Square") }, // exponents^2
-				{ Unicode.SUPERSCRIPT_3 + "", app.getMenu("Symbol.Cube") }, // exponents^3
+				{ String.valueOf(Unicode.SUPERSCRIPT_2), app.getMenu("Symbol.Square") }, // exponents^2
+				{ String.valueOf(Unicode.SUPERSCRIPT_3), app.getMenu("Symbol.Cube") }, // exponents^3
 				{ Unicode.DEGREE_STRING, app.getMenu("Symbol.Degree") }, // degree
-				{ " " + Unicode.IMAGINARY + " ", Unicode.IMAGINARY + "" }, // sqrt(-1)
+				{ " " + Unicode.IMAGINARY + " ", String.valueOf(Unicode.IMAGINARY) }, // sqrt(-1)
 				{ " " + Unicode.PI_STRING + " ", Unicode.PI_STRING }, // pi
 				{ " " + Unicode.EULER_STRING + " ", Unicode.EULER_STRING }, // e
-				{ Unicode.NBSP + "", app.getMenu("Symbol.NBSP") }, // non-breaking
+				{ String.valueOf(Unicode.NBSP), app.getMenu("Symbol.NBSP") }, // non-breaking
 																	// space
 		};
 	}
@@ -513,7 +513,7 @@ public class TableSymbols {
 	 *            localization
 	 * @param map
 	 *            symbol table
-	 * @return list of symbols
+	 * @return array of symbols
 	 */
 	public static String[] basicSymbols(Localization app,
 			String[][] map) {

@@ -41,46 +41,44 @@ public interface ExpressionNodeConstants {
 	}
 
 	/** prefix for CAS row reference ($) */
-	public static final String CAS_ROW_REFERENCE_PREFIX = "$";
+	String CAS_ROW_REFERENCE_PREFIX = "$";
 	/** prefix used when serializing unicode characters to CAS */
-	public static final String UNICODE_PREFIX = "unicode";
+	String UNICODE_PREFIX = "unicode";
 	/** delimiter used when serializing unicode characters to CAS */
-	public static final String UNICODE_DELIMITER = "u";
+	String UNICODE_DELIMITER = "u";
 
-	// public static final int NO_OPERATION = Integer.MIN_VALUE;
+	// int NO_OPERATION = Integer.MIN_VALUE;
 	/** not */
-	public static final String strNOT = Unicode.NOT + "";
+	String strNOT = String.valueOf(Unicode.NOT);
 	/** and */
-	public static final String strAND = Unicode.AND + "";
+	String strAND = String.valueOf(Unicode.AND);
 	/** and */
-	public static final String strIMPLIES = Unicode.IMPLIES + "";
+	String strIMPLIES = String.valueOf(Unicode.IMPLIES);
 	/** or */
-	public static final String strOR = Unicode.OR + "";
+	String strOR = String.valueOf(Unicode.OR);
 	/** or */
-	public static final String strXOR = Unicode.XOR + "";
+	String strXOR = String.valueOf(Unicode.XOR);
 	/** less equal */
-	public static final String strLESS_EQUAL = Unicode.LESS_EQUAL + "";
+	String strLESS_EQUAL = String.valueOf(Unicode.LESS_EQUAL);
 	/** greater equal */
-	public static final String strGREATER_EQUAL = Unicode.GREATER_EQUAL + "";
+	String strGREATER_EQUAL = String.valueOf(Unicode.GREATER_EQUAL);
 	/** = with question mark */
-	public static final String strEQUAL_BOOLEAN = Unicode.QUESTEQ + "";
+	String strEQUAL_BOOLEAN = String.valueOf(Unicode.QUESTEQ);
 	/** not equal */
-	public static final String strNOT_EQUAL = Unicode.NOTEQUAL + "";
+	String strNOT_EQUAL = String.valueOf(Unicode.NOTEQUAL);
 	/** parallel */
-	public static final String strPARALLEL = Unicode.PARALLEL + "";
+	String strPARALLEL = String.valueOf(Unicode.PARALLEL);
 	/** perpendicular */
-	public static final String strPERPENDICULAR = Unicode.PERPENDICULAR + "";
+	String strPERPENDICULAR = String.valueOf(Unicode.PERPENDICULAR);
 	/** vector product */
-	public static final String strVECTORPRODUCT = Unicode.VECTOR_PRODUCT + "";
+	String strVECTORPRODUCT = String.valueOf(Unicode.VECTOR_PRODUCT);
 	/** is element of */
-	public static final String strIS_ELEMENT_OF = Unicode.IS_ELEMENT_OF + "";
+	String strIS_ELEMENT_OF = String.valueOf(Unicode.IS_ELEMENT_OF);
 	/** is subset of */
-	public static final String strIS_SUBSET_OF = Unicode.IS_SUBSET_OF + "";
+	String strIS_SUBSET_OF = String.valueOf(Unicode.IS_SUBSET_OF);
 	/** strict subset of */
-	public static final String strIS_SUBSET_OF_STRICT = Unicode.IS_SUBSET_OF_STRICT
-			+ ""
-			+ "";
+	String strIS_SUBSET_OF_STRICT = String.valueOf(Unicode.IS_SUBSET_OF_STRICT);
 	/** set difference */
-	public static final String strSET_DIFFERENCE = "\\";
+	String strSET_DIFFERENCE = "\\";
 
 }

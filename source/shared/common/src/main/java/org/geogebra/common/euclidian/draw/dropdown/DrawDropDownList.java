@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -96,7 +97,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		// make sure there's something to drag
-		return Unicode.NBSP + "" + Unicode.NBSP + "" + Unicode.NBSP;
+		return StringUtil.repeat(Unicode.NBSP, 3);
 	}
 
 	@Override

@@ -260,8 +260,8 @@ public class DrawAudio extends DrawWidget {
 		int min = (int) Math.floor((secs - (hr * 3600)) / 60);
 		int sec = (int) Math.floor(secs - (hr * 3600) - (min * 60));
 
-		String minStr = min + "";
-		String secStr = sec + "";
+		String minStr = String.valueOf(min);
+		String secStr = String.valueOf(sec);
 
 		if (min < 10) {
 			minStr = "0" + min;

@@ -440,7 +440,7 @@ public class DrawAxis {
 
 		// yAxisEnd
 
-		String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[0],
+		String crossAtStr = view.kernel.formatPiE(view.axisCross[0],
 				view.axesNumberFormat[1], StringTemplate.defaultTemplate);
 
 		// value of yLabelMaxWidthNeg and view.yLabelMaxWidthPos will be
@@ -769,7 +769,7 @@ public class DrawAxis {
 
 		// yAxisEnd
 
-		String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[0],
+		String crossAtStr = view.kernel.formatPiE(view.axisCross[0],
 				view.axesNumberFormat[1], StringTemplate.defaultTemplate);
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axisStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
@@ -908,7 +908,7 @@ public class DrawAxis {
 						view.getFontAxes()));
 		int unitsPerLabelX = (int) MyMath
 				.nextPrettyNumber(labelLengthMax / axesStep, 1);
-		String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[1],
+		String crossAtStr = view.kernel.formatPiE(view.axisCross[1],
 				view.axesNumberFormat[0], StringTemplate.defaultTemplate);
 		double yZeroTick = yCrossPix;
 		double yBig = yCrossPix + 3;
@@ -1027,7 +1027,7 @@ public class DrawAxis {
 
 		double smallTickPix;
 		// TODO use only pretty numbers when zoomed
-		String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[1],
+		String crossAtStr = view.kernel.formatPiE(view.axisCross[1],
 				view.axesNumberFormat[0], StringTemplate.defaultTemplate);
 		double yZeroTick = yCrossPix;
 		double yBig = yCrossPix + 3;

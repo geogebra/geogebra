@@ -551,7 +551,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						sbCASCommand.append("coord(");
 					} else {
 						sbCASCommand.append('(');
-						sbCASCommand.append(tpl.printVariableName(ch + ""));
+						sbCASCommand.append(tpl.printVariableName(String.valueOf(ch)));
 						sbCASCommand.append(")*(");
 					}
 					handled = true;
