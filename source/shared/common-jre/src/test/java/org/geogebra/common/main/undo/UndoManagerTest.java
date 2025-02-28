@@ -5,16 +5,22 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class UndoManagerTest extends BaseEuclidianControllerTest {
@@ -174,7 +180,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		GeoPoint pt = add("A=Point(xAxis)");
 		final GeoPoint dependent = add("B=A+(0,1)");
 		getApp().getSelectionManager().addSelectedGeo(pt);
-		actionStore.storeSelection();
+		actionStore.storeSelection(MoveMode.POINT);
 		pt.setCoords(3, 0, 1);
 		pt.update();
 		actionStore.storeUndo();
@@ -195,7 +201,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		add("poly=Polygon((0,0),(5,0),4)");
 		GeoPoint pt = add("PointIn(poly)");
 		getApp().getSelectionManager().addSelectedGeo(pt);
-		actionStore.storeSelection();
+		actionStore.storeSelection(MoveMode.POINT);
 		pt.setCoords(3, 0, 1);
 		pt.update();
 		actionStore.storeUndo();
@@ -203,6 +209,41 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertThat(pt, hasValue("(0, 0)"));
 		getUndoManager().redo();
 		assertThat(pt, hasValue("(3, 0)"));
+	}
+
+	@Test
+	@Issue("APPS-5774")
+	public void undoDraggingSliderValue() {
+		activateUndo();
+		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
+				getUndoManager());
+		GeoNumeric slider = add("a=Slider(1,5,1)");
+		getApp().getSelectionManager().addSelectedGeo(slider);
+		actionStore.storeSelection(MoveMode.NUMERIC);
+		slider.setValue(3);
+		actionStore.storeUndo();
+		getUndoManager().undo();
+		assertThat(slider, hasValue("1"));
+		getUndoManager().redo();
+		assertThat(slider, hasValue("3"));
+	}
+
+	@Test
+	public void undoDraggingSliderPosition() {
+		activateUndo();
+		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
+				getUndoManager());
+		GeoNumeric slider = add("a=Slider(1,5,1)");
+		getApp().getSelectionManager().addSelectedGeo(slider);
+		slider.setSliderLocation(50, 50, true);
+		actionStore.storeSelection(MoveMode.SLIDER);
+		slider.setSliderLocation(100, 100, true);
+		actionStore.storeUndo();
+		getUndoManager().undo();
+		GeoPointND startPoint = Objects.requireNonNull(slider.getStartPoint());
+		assertEquals(50, startPoint.getInhomX(), .1);
+		getUndoManager().redo();
+		assertEquals(100, startPoint.getInhomX(), .1);
 	}
 
 	@Test

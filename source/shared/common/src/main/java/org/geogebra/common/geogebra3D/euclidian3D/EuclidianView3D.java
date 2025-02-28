@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -1145,12 +1146,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Sets coord system from mouse move
 	 */
 	@Override
-	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+	final public void setCoordSystemFromMouseMove(int dx, int dy, MoveMode mode) {
 		animator.setCoordSystemFromMouseMove(dx, dy, mode);
 	}
 
 	final public void setCoordSystemFromAxisScale(double factor,
-			double scaleOld, int mode) {
+			double scaleOld, MoveMode mode) {
 		animator.setCoordSystemFromAxisScale(factor, scaleOld, mode);
 	}
 

@@ -12,7 +12,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.DrawableND;
-import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -1223,7 +1223,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	public boolean doHighlighting() {
 		// no highlighting if we're moving something
 		if (getView3D().getEuclidianController()
-				.getMoveMode() != EuclidianController.MOVE_NONE) {
+				.getMoveMode() != MoveMode.NONE) {
 			return false;
 		}
 

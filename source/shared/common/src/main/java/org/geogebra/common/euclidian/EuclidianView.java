@@ -1375,9 +1375,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param dy
 	 *            y-displacement
 	 * @param mode
-	 *            app mode
+	 *            move mode
 	 */
-	public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+	public void setCoordSystemFromMouseMove(int dx, int dy, MoveMode mode) {
 		coordSystemInfo.setInteractive(true);
 		translateCoordSystemInPixels(dx, dy, 0);
 	}
@@ -4041,7 +4041,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					tempLine.setLine(getXZero(), 0, getXZero(), getHeight());
 				} else {
 					m = Math.tan(angle);
-					y1 = (m * (getXZero())) + getYZero();
+					y1 = (m * getXZero()) + getYZero();
 					y2 = (m * (getXZero() - getWidth())) + getYZero();
 					tempLine.setLine(0, y1, getWidth(), y2);
 				}

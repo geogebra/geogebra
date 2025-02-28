@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
@@ -120,7 +121,7 @@ public class EuclidianController3DCompanion
 				}
 
 				// update point decorations
-				if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
+				if (ec.getMoveMode() == MoveMode.POINT) {
 					ec3D.view3D.updatePointDecorations();
 				}
 
@@ -176,7 +177,7 @@ public class EuclidianController3DCompanion
 				ec3D.getNormalTranslateDirection(),
 				tmpCoords1);
 
-		if (!ec3D.view3D.isXREnabled() && ec.getMoveMode() == EuclidianController.MOVE_POINT) {
+		if (!ec3D.view3D.isXREnabled() && ec.getMoveMode() == MoveMode.POINT) {
 			// max z value
 			if (tmpCoords1.getZ() > ec3D.zMinMax[1]) {
 				tmpCoords1.setZ(ec3D.zMinMax[1]);

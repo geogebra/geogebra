@@ -31,20 +31,22 @@ public class UpdateActionStore {
 	/**
 	 * Stores list of geos to items
 	 * @param geos to store.
+	 * @param moveMode active move mode
 	 */
-	void store(List<GeoElement> geos) {
+	void store(List<GeoElement> geos, MoveMode moveMode) {
 		clear();
 		for (GeoElement geo: geos) {
-			undoItems.add(new UndoItem(geo));
+			undoItems.add(new UndoItem(geo, moveMode));
 		}
 	}
 
 	/**
 	 * Store selected geo to items.
+	 * @param moveMode active move mode
 	 */
-	public void storeSelection() {
+	public void storeSelection(MoveMode moveMode) {
 		if (undoItems.isEmpty()) {
-			store(getGeosToStore());
+			store(getGeosToStore(), moveMode);
 		}
 	}
 
@@ -68,7 +70,7 @@ public class UpdateActionStore {
 	 */
 	public void addIfNotPresent(GeoElement geo) {
 		if (undoItems.stream().noneMatch(it -> it.hasGeo(geo))) {
-			undoItems.add(new UndoItem(geo));
+			undoItems.add(new UndoItem(geo, MoveMode.NONE));
 		}
 	}
 
@@ -92,7 +94,6 @@ public class UpdateActionStore {
 			undoActions.add(item.previousContent());
 			labels.add(item.getLabel());
 		}
-
 		undoManager.buildAction(ActionType.UPDATE, actions.toArray(new String[0]))
 				.withUndo(ActionType.UPDATE, undoActions.toArray(new String[0]))
 				.withLabels(labels.toArray(new String[0]))

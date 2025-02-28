@@ -12,9 +12,10 @@ class UndoItem {
 	private final GeoElement geo;
 	private final boolean isXml;
 
-	public UndoItem(GeoElement geo) {
+	public UndoItem(GeoElement geo, MoveMode moveMode) {
 		this.geo = geo;
-		isXml = geo instanceof Locateable || geo instanceof GeoWidget || geo instanceof GeoInline;
+		isXml = (geo instanceof Locateable && moveMode != MoveMode.NUMERIC)
+				|| geo instanceof GeoWidget || geo instanceof GeoInline;
 		previousContent = content();
 	}
 

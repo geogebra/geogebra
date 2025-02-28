@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -445,7 +446,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return false;
 		}
 
-		if (getMoveMode() != EuclidianController.MOVE_POINT) {
+		if (getMoveMode() != MoveMode.POINT) {
 			return false;
 		}
 
@@ -504,7 +505,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            coords
 	 */
 	public void addOffsetForTranslation(Coords o) {
-		if (moveMode == MOVE_POINT_WITH_OFFSET) {
+		if (moveMode == MoveMode.POINT_WITH_OFFSET) {
 			o.setAdd(o, translationVec3D);
 		}
 	}
@@ -709,7 +710,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					sourcePoint.getRegionParameters().getNormal());
 		}
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
-        point3D.setSource(sourcePoint.getID());
+		point3D.setSource(sourcePoint.getID());
 		point3D.setMoveMode(sourcePoint.getMoveMode());
 		point3D.setPointSize(sourcePoint.getPointSize());
 		point3D.setLayer(sourcePoint.getLayer());
@@ -1974,7 +1975,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		int x = mouseLoc.x;
 		rotationSpeedHandler.rotationOccurred(x);
 		getView().setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
-				mouseLoc.y - startLoc.y, MOVE_ROTATE_VIEW);
+				mouseLoc.y - startLoc.y, MoveMode.ROTATE_VIEW);
 		viewRotationOccurred = true;
 		getView().repaintView();
 		return true;
@@ -2298,7 +2299,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_ROTATEVIEW:
-			moveMode = MOVE_ROTATE_VIEW;
+			moveMode = MoveMode.ROTATE_VIEW;
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
@@ -3474,7 +3475,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean viewHasHitsForMouseDragged() {
-		if (moveMode == MOVE_POINT
+		if (moveMode == MoveMode.POINT
 				&& (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY
 				|| view3D.isXREnabled())) {
 			// if already a point moved, or
@@ -3732,7 +3733,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		boolean ret = getCompanion()
 				.handleMovedElementFreePlane(movedGeoElement);
 		if (ret) {
-			moveMode = MOVE_PLANE;
+			moveMode = MoveMode.PLANE;
 		}
 		return ret;
 	}
@@ -3745,12 +3746,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoElementND in = algo.getInput(1);
 				if (in instanceof GeoVectorND && in.isIndependent()) {
 					movedGeoVector = (GeoVectorND) in;
-					moveMode = MOVE_VECTOR_NO_GRID;
+					moveMode = MoveMode.VECTOR_NO_GRID;
 					setTranslateStart(movedGeoElement, movedGeoVector);
 				} else {
 					GeoPointND pt = MoveGeos.getMovablePointForVector(in);
 					if (pt != null) {
-						moveMode = MOVE_POINT_WITH_OFFSET;
+						moveMode = MoveMode.POINT_WITH_OFFSET;
 						setMovedGeoPoint(pt);
 						setTranslateFromPointStart(movedGeoElement,
 								movedGeoPoint);
@@ -4288,22 +4289,22 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected void setMoveModeIfAxis(Object hit) {
-		int newMode = -1;
+		MoveMode newMode = null;
 		if (hit == kernel.getXAxis()) {
-			newMode = MOVE_X_AXIS;
+			newMode = MoveMode.X_AXIS;
 			scaleAxisVector.set2(view3D.getToScreenMatrix().getVx());
 			scaleOld = view3D.getXscale();
 		} else if (hit == kernel.getYAxis()) {
-			newMode = MOVE_Y_AXIS;
+			newMode = MoveMode.Y_AXIS;
 			scaleAxisVector.set2(view3D.getToScreenMatrix().getVy());
 			scaleOld = view3D.getYscale();
 		} else if (hit == kernel.getZAxis3D()) {
-			newMode = MOVE_Z_AXIS;
+			newMode = MoveMode.Z_AXIS;
 			scaleAxisVector.set2(view3D.getToScreenMatrix().getVz());
 			scaleOld = view3D.getZscale();
 		}
 
-		if (newMode != -1) {
+		if (newMode != null) {
 			// an axis was hit
 			// check if axis is not quite orthogonal to screen
 			scaleAxisVector.calcNorm();
@@ -4426,7 +4427,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// no snap for 3D view
 		int dx = mouseLoc.x - startLoc.x;
 		int dy = mouseLoc.y - startLoc.y;
-		view3D.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
+		view3D.setCoordSystemFromMouseMove(dx, dy, MoveMode.VIEW);
 	}
 
 	/**

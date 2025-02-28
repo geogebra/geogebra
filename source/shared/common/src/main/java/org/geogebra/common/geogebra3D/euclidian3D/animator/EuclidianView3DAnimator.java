@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
 import java.util.LinkedList;
 
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -123,7 +124,7 @@ public class EuclidianView3DAnimator {
 	 * @param mode
 	 *            mouse move mode
 	 */
-	synchronized public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+	synchronized public void setCoordSystemFromMouseMove(int dx, int dy, MoveMode mode) {
 		animation = animationMouse;
 		animationMouse.set(dx, dy, mode);
 	}
@@ -137,7 +138,7 @@ public class EuclidianView3DAnimator {
 	 *            scale mode
 	 */
 	synchronized final public void setCoordSystemFromAxisScale(double factor, double scaleOld,
-			int mode) {
+			MoveMode mode) {
 		animation = animationAxis;
 		animationAxis.set(factor, scaleOld, mode);
 	}

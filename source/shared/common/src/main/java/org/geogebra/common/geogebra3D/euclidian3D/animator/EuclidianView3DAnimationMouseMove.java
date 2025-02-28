@@ -1,6 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
-import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -16,7 +16,7 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 
 	private int mouseMoveDX;
 	private int mouseMoveDY;
-	private int mouseMoveMode;
+	private MoveMode mouseMoveMode;
 	private double aOld;
 	private double bOld;
 	private double xZeroOld;
@@ -68,7 +68,7 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 	 * @param mode
 	 *            mouse mode
 	 */
-	public void set(int dx, int dy, int mode) {
+	public void set(int dx, int dy, MoveMode mode) {
 		mouseMoveDX = dx;
 		mouseMoveDY = dy;
 		mouseMoveMode = mode;
@@ -87,12 +87,12 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 	@Override
 	public void animate() {
 		switch (mouseMoveMode) {
-		case EuclidianController.MOVE_ROTATE_VIEW:
+		case ROTATE_VIEW:
 			view3D.setRotXYinDegrees(aOld - mouseMoveDX, bOld + mouseMoveDY);
 			view3D.updateMatrix();
 			view3D.setViewChangedByRotate();
 			break;
-		case EuclidianController.MOVE_VIEW:
+		case VIEW:
 			if (view3D.isZoomable()) {
 				boolean changed = false;
 				if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {

@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -131,7 +132,7 @@ public class EuclidianControllerInput3DCompanion extends
 			ec.movedGeoPoint.setCoords(coords, true);
 			ec.movedGeoPoint.updateCascade();
 
-			if (ec.getMoveMode() == EuclidianController.MOVE_POINT
+			if (ec.getMoveMode() == MoveMode.POINT
 					&& ec.movedGeoPoint.isGeoElement3D()
 					&& !ec.movedGeoPoint.isPointOnPath()
 					&& !ec.movedGeoPoint.hasRegion()) {

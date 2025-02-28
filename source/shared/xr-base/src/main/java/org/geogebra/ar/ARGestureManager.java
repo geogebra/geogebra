@@ -1,11 +1,11 @@
 package org.geogebra.ar;
 
-import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 
-abstract public class ARGestureManager{
+abstract public class ARGestureManager {
 
     private EuclidianView3D mView;
     protected float mScaleFactor = 1.0f;
@@ -28,7 +28,7 @@ abstract public class ARGestureManager{
     }
 
     protected void onRotation(double angle) {
-        mView.setCoordSystemFromMouseMove((int) angle, 0, EuclidianController.MOVE_ROTATE_VIEW);
+        mView.setCoordSystemFromMouseMove((int) angle, 0, MoveMode.ROTATE_VIEW);
     }
 
     synchronized public float getScaleFactor() {
@@ -39,6 +39,10 @@ abstract public class ARGestureManager{
         mScaleFactor = 1;
     }
 
+    /**
+     * Copy current position's x,y coordinates to output.
+     * @param ret output coordinates
+     */
     synchronized public void copyXYPosition(Coords ret) {
         ret.setX(mPos.getX());
         ret.setY(mPos.getY());
@@ -68,19 +72,19 @@ abstract public class ARGestureManager{
         mAngle = value;
     }
 
-    synchronized protected void firstFingerDown(ARMotionEvent event, App app){
+    synchronized protected void firstFingerDown(ARMotionEvent event, App app) {
         mUpdateOriginIsWanted = true;
         isTouched = false;
         updatePos(event);
     }
 
-    synchronized protected void secondFingerDown(ARMotionEvent event){
+    synchronized protected void secondFingerDown(ARMotionEvent event) {
         isTouched = true;
         mUpdateOriginIsWanted = true;
         updatePos(event);
     }
 
-    synchronized protected void onMove(ARMotionEvent event, App app){
+    synchronized protected void onMove(ARMotionEvent event, App app) {
         isTouched = event.getPointerCount() > 1;
         if (actionPointerLeftPreviously) {
             mUpdateOriginIsWanted = true;
@@ -89,17 +93,17 @@ abstract public class ARGestureManager{
         updatePos(event);
     }
 
-    synchronized protected void firstFingerUp(App app){
+    synchronized protected void firstFingerUp(App app) {
         isTouched = false;
     }
 
-    synchronized protected void secondFingerUp(App app){
+    synchronized protected void secondFingerUp(App app) {
         isTouched = false;
         mUpdateOriginIsWanted = true;
         actionPointerLeftPreviously = true;
     }
 
-    synchronized protected void actionCancelled(){
+    synchronized protected void actionCancelled() {
         isTouched = false;
     }
 

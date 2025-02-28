@@ -3,10 +3,10 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
@@ -220,9 +220,9 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	protected boolean moveCursorIsVisible() {
 		if (getView().getEuclidianController()
-				.getMoveMode() != EuclidianController.MOVE_NONE
+				.getMoveMode() != MoveMode.NONE
 				&& getView().getEuclidianController()
-						.getMoveMode() != EuclidianController.MOVE_VIEW) {
+						.getMoveMode() != MoveMode.VIEW) {
 			return false;
 		}
 		return getView().cursorIsTranslateViewCursor()

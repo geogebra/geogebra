@@ -1,6 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
-import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
 
@@ -12,7 +12,7 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 
 	private double axisScaleFactor;
 	private double axisScaleOld;
-	private int axisScaleMode;
+	private MoveMode axisScaleMode;
 	private double xZeroOld;
 	private double yZeroOld;
 	private double zZeroOld;
@@ -44,7 +44,7 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 	 * @param mode
 	 *            axis concerned
 	 */
-	public void set(double factor, double scaleOld, int mode) {
+	public void set(double factor, double scaleOld, MoveMode mode) {
 		axisScaleFactor = factor;
 		axisScaleOld = scaleOld;
 		axisScaleMode = mode;
@@ -63,15 +63,15 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 	@Override
 	public void animate() {
 		switch (axisScaleMode) {
-			case EuclidianController.MOVE_X_AXIS:
+			case X_AXIS:
 				view3D.setXZero(xZeroOld / axisScaleFactor);
 				view3D.getSettings().setXscaleValue(axisScaleFactor * axisScaleOld);
 				break;
-			case EuclidianController.MOVE_Y_AXIS:
+			case Y_AXIS:
 				view3D.setYZero(yZeroOld / axisScaleFactor);
 				view3D.getSettings().setYscaleValue(axisScaleFactor * axisScaleOld);
 				break;
-			case EuclidianController.MOVE_Z_AXIS:
+			case Z_AXIS:
 				view3D.setZZero(zZeroOld / axisScaleFactor);
 				view3D.getSettings().setZscaleValue(axisScaleFactor * axisScaleOld);
 				break;

@@ -4,10 +4,10 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DCompanion;
@@ -259,7 +259,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		// not moving a geo : see if user stays on the same hit to select it
 		if (input3D.useCompletingDelay()
 				&& getView().getEuclidianController()
-						.getMoveMode() == EuclidianController.MOVE_NONE
+						.getMoveMode() == MoveMode.NONE
 				&& !input3D.hasCompletedGrabbingDelay()) {
 			long time = System.currentTimeMillis();
 			hitGeo.setHit(
@@ -351,12 +351,12 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	public void updateStylusBeamForMovedGeo() {
 
 		if (getView().getEuclidianController()
-				.getMoveMode() == EuclidianController.MOVE_NONE) {
+				.getMoveMode() == MoveMode.NONE) {
 			return;
 		}
 
 		if (getView().getEuclidianController()
-				.getMoveMode() != EuclidianController.MOVE_PLANE) {
+				.getMoveMode() != MoveMode.PLANE) {
 			getView().getCursor3D().setCoords(input3D.getMouse3DScenePosition(),
 					false);
 			GeoElement movedGeo = getView().getEuclidianController()
@@ -415,7 +415,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 				if (input3D.isLeftPressed()) {
 					// show stylus beam only if object is moved
 					if (getView().getEuclidianController()
-							.getMoveMode() == EuclidianController.MOVE_NONE) {
+							.getMoveMode() == MoveMode.NONE) {
 						stylusBeamIsVisible = false;
 					} else {
 						stylusBeamIsVisible = hasMouse();
@@ -482,7 +482,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	@Override
 	public boolean handleSpaceKey() {
 		if (getView().getEuclidianController()
-				.getMoveMode() == EuclidianController.MOVE_NONE) {
+				.getMoveMode() == MoveMode.NONE) {
 
 			hitGeo.setHit(getView().getHits3D().getTopHits()
 					.getFirstGeo6dofMoveable());
@@ -520,7 +520,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	public void setMode(int mode, ModeSetter m) {
 
 		if (input3D.useHandGrabbing() && getView().getEuclidianController()
-				.getMoveMode() != EuclidianController.MOVE_NONE) {
+				.getMoveMode() != MoveMode.NONE) {
 			releaseGrabbing();
 		}
 

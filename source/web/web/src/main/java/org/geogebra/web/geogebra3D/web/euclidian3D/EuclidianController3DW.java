@@ -1,8 +1,8 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -134,7 +134,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 			getView().rememberOrigins();
 			getView().setCoordSystemFromMouseMove(centerX - oldCenterX3D,
 					centerY
-					- oldCenterY3D, EuclidianController.MOVE_ROTATE_VIEW);
+					- oldCenterY3D, MoveMode.ROTATE_VIEW);
 			viewRotationOccurred = true;
 			getView().repaintView();
 

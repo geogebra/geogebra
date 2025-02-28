@@ -205,11 +205,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public static final float MIN_VISIBLE_ALPHA_VALUE = 0.05f;
 	protected static final int MIN_MOUSE_MOVE_FOR_AXIS_SCALE = 2;
 
-	public static final int MOVE_NONE = 101;
-	public static final int MOVE_POINT = 102;
-	public static final int MOVE_VIEW = 106;
-	public static final int MOVE_ROTATE_VIEW = 120;
-	public static final int MOVE_PLANE = 126;
 	/**
 	 * Threshold for the selection rectangle distance squared (10 pixel circle)
 	 */
@@ -220,30 +215,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected static final int POLYGON_VECTOR = 2;
 	protected static final double MOUSE_DRAG_MAX_DIST_SQUARE = 36;
 	protected static final int MAX_CONTINUITY_STEPS = 4;
-	protected static final int MOVE_LINE = 103;
-	protected static final int MOVE_CONIC = 104;
-	protected static final int MOVE_VECTOR = 105;
-	protected static final int MOVE_VECTOR_STARTPOINT = 205;
-	protected static final int MOVE_FUNCTION = 107;
-	protected static final int MOVE_LABEL = 108;
-	protected static final int MOVE_TEXT = 109;
-	protected static final int MOVE_NUMERIC = 110;
-	protected static final int MOVE_SLIDER = 111;
-	protected static final int MOVE_IMAGE = 112;
-	protected static final int MOVE_ROTATE = 113;
-	protected static final int MOVE_DEPENDENT = 114;
-	protected static final int MOVE_MULTIPLE_OBJECTS = 115;
-	public static final int MOVE_X_AXIS = 116;
-	public static final int MOVE_Y_AXIS = 117;
-	protected static final int MOVE_BOOLEAN = 118;
-	private static final int MOVE_WIDGET = 119;
-	protected static final int MOVE_VECTOR_NO_GRID = 122;
-	protected static final int MOVE_POINT_WITH_OFFSET = 123;
-	protected static final int MOVE_FREEHAND = 124;
-	protected static final int MOVE_ATTACH_DETACH = 125;
-	protected static final int MOVE_IMPLICIT_CURVE = 127;
-	public static final int MOVE_Z_AXIS = 128;
-	public static final int MOVE_AUDIO_SLIDER = 130;
+
 	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
@@ -314,7 +286,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected boolean highlightJustCreatedGeos = true;
 	protected int mode;
 	protected int oldMode;
-	protected int moveMode = MOVE_NONE;
+	protected MoveMode moveMode = MoveMode.NONE;
 
 	protected boolean toggleModeChangedKernel = false;
 	protected boolean altDown = false;
@@ -839,7 +811,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	/**
 	 * @return current move mode
 	 */
-	public int getMoveMode() {
+	public MoveMode getMoveMode() {
 		return moveMode;
 	}
 
@@ -893,7 +865,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Copy list of selected geos and clear the original.
-	 * 
+	 *
 	 * @return selected geos
 	 */
 	public final GeoElement[] getSelectedGeos() {
@@ -1185,7 +1157,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * TODO copied; use the array version instead
-	 * 
+	 *
 	 * @param geos
 	 *            newly created geos
 	 */
@@ -3536,7 +3508,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Highlight single geo, blur all others.
-	 * 
+	 *
 	 * @param geo
 	 *            geo to highlight
 	 * @return whether highlighting changed
@@ -3972,7 +3944,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * FitLineY[list of coords]
-	 * 
+	 *
 	 * @param label
 	 *            output label
 	 * @param list
@@ -4020,7 +3992,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Update cursor RW coords from point
-	 * 
+	 *
 	 * @param tmpCoords3
 	 *            inhom coordinates of a point
 	 */
@@ -4085,9 +4057,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if ((mode == EuclidianConstants.MODE_MOVE)
-				&& ((moveMode == MOVE_NUMERIC)
-						|| (moveMode == MOVE_VECTOR_NO_GRID)
-						|| (moveMode == MOVE_POINT_WITH_OFFSET))) {
+				&& ((moveMode == MoveMode.NUMERIC)
+						|| (moveMode == MoveMode.VECTOR_NO_GRID)
+						|| (moveMode == MoveMode.POINT_WITH_OFFSET))) {
 			return;
 		}
 
@@ -4728,7 +4700,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if we check transparency (of polygons, planes, etc.) for
 	 *         sorting drawables
 	 */
@@ -4737,7 +4709,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if in AR mode, and using tool that creates points
 	 */
 	public boolean isCreatingPointAR() {
@@ -4746,7 +4718,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Create new point or update an existing one from hits.
-	 * 
+	 *
 	 * @param forPreviewable
 	 *            for preview?
 	 * @param hits
@@ -4984,7 +4956,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return point;
 		}
 
-		moveMode = MOVE_NONE;
+		moveMode = MoveMode.NONE;
 		return null;
 	}
 
@@ -6510,7 +6482,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Handle movee event.
-	 * 
+	 *
 	 * @param event
 	 *            pointer move event
 	 */
@@ -6718,7 +6690,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void handleMovedElementMultiple() {
-		moveMode = MOVE_MULTIPLE_OBJECTS;
+		moveMode = MoveMode.MULTIPLE_OBJECTS;
 		setStartPointLocation();
 		startLoc = mouseLoc;
 		setDragCursor();
@@ -6745,8 +6717,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// default if nothing matches
-		moveMode = MOVE_NONE;
-		
+		moveMode = MoveMode.NONE;
+
 		// do not move if there's a selected geo that's locked
 		if (geo == null || selection.containsLockedGeo()) {
 			return;
@@ -6814,7 +6786,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					Coords coords = start.getInhomCoords();
 					transformCoordsOffset[0] = xRW - coords.getX();
 					transformCoordsOffset[1] = yRW - coords.getY();
-					moveMode = MOVE_POINT_WITH_OFFSET;
+					moveMode = MoveMode.POINT_WITH_OFFSET;
 					movedGeoPoint = start;
 					return;
 				}
@@ -6842,7 +6814,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (vec != null) {
 			GeoPointND movablePointForVector = MoveGeos.getMovablePointForVector(vec);
 			if (movablePointForVector != null) {
-				moveMode = MOVE_POINT_WITH_OFFSET;
+				moveMode = MoveMode.POINT_WITH_OFFSET;
 				transformCoordsOffset[0] = xRW - movablePointForVector.getInhomX();
 				transformCoordsOffset[1] = yRW - movablePointForVector.getInhomY();
 				movedGeoPoint = movablePointForVector;
@@ -6853,7 +6825,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				transformCoordsOffset[0] = xRW - ((GeoVectorND) vec).getX();
 				transformCoordsOffset[1] = yRW - ((GeoVectorND) vec).getY();
 				movedGeoVector = (GeoVectorND) vec;
-				moveMode = MOVE_VECTOR_NO_GRID;
+				moveMode = MoveMode.VECTOR_NO_GRID;
 				return;
 			}
 		}
@@ -6935,7 +6907,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected void handleMovedElementDependentInitMode() {
 		// init move dependent mode if we have something to move ;-)
 		if (translatableGeos != null && !translatableGeos.isEmpty()) {
-			moveMode = MOVE_DEPENDENT;
+			moveMode = MoveMode.DEPENDENT;
 
 			GeoElement geoElement = translatableGeos.get(0);
 			if (geoElement.isGeoPoint()) {
@@ -6953,7 +6925,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				translationVec = new Coords(2);
 			}
 		} else {
-			moveMode = MOVE_NONE;
+			moveMode = MoveMode.NONE;
 		}
 	}
 
@@ -6975,7 +6947,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	final protected boolean handleMovedElementFreePoint() {
 		if (movedGeoElement.isGeoPoint()) {
-			moveMode = MOVE_POINT;
+			moveMode = MoveMode.POINT;
 			setMovedGeoPoint((GeoPointND) movedGeoElement);
 			// make sure snap-to-grid works after e.g. pressing a button
 			transformCoordsOffset[0] = 0;
@@ -6988,7 +6960,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	final protected boolean handleMovedElementFreeText() {
 		if (movedGeoElement instanceof GeoText) {
-			moveMode = MOVE_TEXT;
+			moveMode = MoveMode.TEXT;
 			movedGeoText = (GeoText) movedGeoElement;
 			view.setShowMouseCoords(false);
 			setDragCursor();
@@ -7044,7 +7016,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// free line
 		else if (movedGeoElement.isGeoLine()) {
-			moveMode = MOVE_LINE;
+			moveMode = MoveMode.LINE;
 			movedGeoLine = (GeoLineND) movedGeoElement;
 			view.setShowMouseCoords(true);
 			setDragCursor();
@@ -7074,7 +7046,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if ((2d * MyMath.length(xRW - sx, yRW - sy)) < MyMath
 						.length(vCoords.getX(), vCoords.getY())) { // take
 					// startPoint
-					moveMode = MOVE_VECTOR_STARTPOINT;
+					moveMode = MoveMode.VECTOR_STARTPOINT;
 					if (sP == null) {
 						sP = new GeoPoint(kernel.getConstruction());
 						sP.setCoords(xRW, xRW, 1.0);
@@ -7085,10 +7057,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						}
 					}
 				} else {
-					moveMode = MOVE_VECTOR;
+					moveMode = MoveMode.VECTOR;
 				}
 			} else {
-				moveMode = MOVE_VECTOR;
+				moveMode = MoveMode.VECTOR;
 			}
 
 			view.setShowMouseCoords(true);
@@ -7102,7 +7074,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// free conic
 		else if (movedGeoElement.isGeoConic()) {
-			moveMode = MOVE_CONIC;
+			moveMode = MoveMode.CONIC;
 			movedGeoConic = (GeoConicND) movedGeoElement;
 			view.setShowMouseCoords(false);
 			setDragCursor();
@@ -7130,7 +7102,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			tempConic.set(movedGeoConic);
 		} else if (movedGeoElement.isGeoImplicitCurve()) {
-			moveMode = MOVE_IMPLICIT_CURVE;
+			moveMode = MoveMode.IMPLICIT_CURVE;
 			movedGeoImplicitCurve = (GeoImplicitCurve) movedGeoElement;
 			view.setShowMouseCoords(false);
 			setDragCursor();
@@ -7183,11 +7155,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoElement input = algo.getInput()[0];
 				if (!algo.getInput()[0].isLabelSet()
 						&& input.getParentAlgorithm() == null) {
-					moveMode = MOVE_FREEHAND;
+					moveMode = MoveMode.FREEHAND;
 					movedGeoFunction = (GeoFunction) movedGeoElement;
 				}
 			} else if (movedGeoElement.isIndependent()) {
-				moveMode = MOVE_FUNCTION;
+				moveMode = MoveMode.FUNCTION;
 
 				movedGeoFunction = (GeoFunction) movedGeoElement;
 				vertexX = Double.NaN;
@@ -7230,7 +7202,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			tempFunction.set(movedGeoFunction);
 		} else if (movedGeoElement.isGeoAudio()
 				&& isMoveAudioSlider(app.getCapturingThreshold(type))) {
-			moveMode = MOVE_AUDIO_SLIDER;
+			moveMode = MoveMode.AUDIO_SLIDER;
 			moveAudioSlider();
 		} else if (movedGeoElement instanceof GeoLocusStroke
 				|| movedGeoElement instanceof GeoInline
@@ -7241,14 +7213,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			translatableGeos = new ArrayList<>(1);
 			translatableGeos.add(movedGeoElement);
 			setStartPointLocation(xRW, yRW);
-			moveMode = MOVE_DEPENDENT;
+			moveMode = MoveMode.DEPENDENT;
 		}
 
 		// free number
 		else if (movedGeoElement.isGeoNumeric()
 				&& movedGeoElement.getParentAlgorithm() == null) {
 			movedGeoNumeric = (GeoNumeric) movedGeoElement;
-			moveMode = MOVE_NUMERIC;
+			moveMode = MoveMode.NUMERIC;
 
 			DrawableND d = view.getDrawableFor(movedGeoNumeric);
 			if (d instanceof DrawSlider && movedGeoElement.isEuclidianVisible()
@@ -7257,7 +7229,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GPoint2D location = drawSlider.getSliderLocation();
 				// otherwise using Move Tool -> move dot
 				if (isMoveSliderExpected(app.getCapturingThreshold(type))) {
-					moveMode = MOVE_SLIDER;
+					moveMode = MoveMode.SLIDER;
 					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
 						oldLoc.setLocation((int) location.x, (int) location.y);
 						startLoc = mouseLoc;
@@ -7310,7 +7282,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			// move checkbox
-			moveMode = MOVE_BOOLEAN;
+			moveMode = MoveMode.BOOLEAN;
 			startLoc = mouseLoc;
 			oldLoc.x = movedGeoBoolean.getAbsoluteScreenLocX();
 			oldLoc.y = movedGeoBoolean.getAbsoluteScreenLocY();
@@ -7365,7 +7337,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// image
 		else if (movedGeoElement.isGeoImage()
 				&& movedGeoElement.isMoveable(view)) {
-			moveMode = MOVE_IMAGE;
+			moveMode = MoveMode.IMAGE;
 			movedGeoImage = (GeoImage) movedGeoElement;
 			view.setShowMouseCoords(false);
 			setDragCursor();
@@ -7408,7 +7380,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo) {
-		moveMode = MOVE_WIDGET;
+		moveMode = MoveMode.WIDGET;
 		startLoc = mouseLoc;
 
 		if (geo instanceof GeoButton) {
@@ -7608,7 +7580,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			splitSelectedStrokes(true);
 		}
 
-		storeUndo.storeSelection();
+		storeUndo.storeSelection(moveMode);
 
 		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
@@ -7662,84 +7634,84 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		altCopy = false;
 		// moveMode was set in mousePressed()
 		switch (moveMode) {
-		case MOVE_ROTATE:
+		case ROTATE:
 			rotateObject();
 			break;
 
-		case MOVE_POINT:
+		case POINT:
 			companion.movePoint(event);
 			break;
 
-		case MOVE_POINT_WITH_OFFSET:
+		case POINT_WITH_OFFSET:
 			movePointWithOffset();
 			break;
 
-		case MOVE_ATTACH_DETACH:
+		case ATTACH_DETACH:
 			moveAttachDetach(event);
 			break;
 
-		case MOVE_LINE:
+		case LINE:
 			moveLine();
 			break;
 
-		case MOVE_VECTOR:
-		case MOVE_VECTOR_NO_GRID:
+		case VECTOR:
+		case VECTOR_NO_GRID:
 			moveVector();
 			break;
 
-		case MOVE_VECTOR_STARTPOINT:
+		case VECTOR_STARTPOINT:
 			moveVectorStartPoint();
 			break;
 
-		case MOVE_CONIC:
+		case CONIC:
 			moveConic();
 			break;
 
-		case MOVE_IMPLICIT_CURVE:
+		case IMPLICIT_CURVE:
 			moveImplicitCurve();
 			break;
 
-		case MOVE_FREEHAND:
+		case FREEHAND:
 			moveFreehand();
 			break;
 
-		case MOVE_FUNCTION:
+		case FUNCTION:
 			moveFunction();
 			break;
 
-		case MOVE_LABEL:
+		case LABEL:
 			moveLabel();
 			break;
 
-		case MOVE_TEXT:
+		case TEXT:
 			moveText();
 			break;
 
-		case MOVE_IMAGE:
+		case IMAGE:
 			moveImage();
 			break;
 
-		case MOVE_NUMERIC:
+		case NUMERIC:
 			moveNumeric(!manual);
 			break;
 
-		case MOVE_SLIDER:
+		case SLIDER:
 			moveSlider();
 			break;
 
-		case MOVE_AUDIO_SLIDER:
+		case AUDIO_SLIDER:
 			moveAudioSlider();
 			break;
 
-		case MOVE_BOOLEAN:
+		case BOOLEAN:
 			moveBoolean();
 			break;
 
-		case MOVE_WIDGET:
+		case WIDGET:
 			moveWidget();
 			break;
 
-		case MOVE_DEPENDENT:
+		case DEPENDENT:
 			if (Algos.isUsedFor(Commands.AttachCopyToView, movedGeoElement)) {
 				moveAttached();
 			} else {
@@ -7747,15 +7719,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			break;
 
-		case MOVE_PLANE:
+		case PLANE:
 			companion.movePlane(repaint, event);
 			break;
 
-		case MOVE_MULTIPLE_OBJECTS:
+		case MULTIPLE_OBJECTS:
 			moveMultipleObjects();
 			break;
 
-		case MOVE_VIEW:
+		case VIEW:
 			if (repaint) {
 				if (temporaryMode
 						&& mode != EuclidianConstants.MODE_TRANSLATEVIEW) {
@@ -7765,21 +7737,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			break;
 
-		case MOVE_X_AXIS:
+		case X_AXIS:
 			disableLiveFeedback();
 			if (repaint) {
 				scaleXAxis();
 			}
 			break;
 
-		case MOVE_Y_AXIS:
+		case Y_AXIS:
 			disableLiveFeedback();
 			if (repaint) {
 				scaleYAxis();
 			}
 			break;
 
-		case MOVE_Z_AXIS:
+		case Z_AXIS:
 			disableLiveFeedback();
 			if (repaint) {
 				scaleZAxis();
@@ -7985,7 +7957,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		snapController.touchMoved(mouseLoc);
 
 		GPoint delta = snapController.getDeltaPoint();
-		view.setCoordSystemFromMouseMove(delta.x, delta.y, MOVE_VIEW);
+		view.setCoordSystemFromMouseMove(delta.x, delta.y, MoveMode.VIEW);
 	}
 
 	protected void scaleXAxis() {
@@ -8069,10 +8041,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		switch (mode) {
 		// move objects
 		case EuclidianConstants.MODE_MOVE:
-			return moveMode == MOVE_NONE && isAltDown();
+			return moveMode == MoveMode.NONE && isAltDown();
 
 		case EuclidianConstants.MODE_SELECT_MOW:
-			return moveMode == MOVE_NONE;
+			return moveMode == MoveMode.NONE;
 
 		// move rotate objects
 		case EuclidianConstants.MODE_MOVE_ROTATE:
@@ -8123,7 +8095,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// EuclidianController.wrapMousePressed() start
 		GeoElement geo = view.getLabelHitCheckRefresh(mouseLoc, e.getType());
 		if (geo != null) {
-			moveMode = MOVE_LABEL;
+			moveMode = MoveMode.LABEL;
 			movedLabelGeoElement = geo;
 			oldLoc.setLocation(geo.labelOffsetX, geo.labelOffsetY);
 			startLoc = mouseLoc;
@@ -8259,7 +8231,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (geo.isLocked() && !isMoveButtonExpected(geo)
 					&& !isMoveTextFieldExpected(geo)) {
 				runScriptsIfNeeded(geo);
-				moveMode = MOVE_NONE;
+				moveMode = MoveMode.NONE;
 				resetMovedGeoPoint();
 				return;
 
@@ -8270,7 +8242,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			moveModeSelectionHandled = true;
 		} else if (!wasBoundingBoxHit) {
 			// no geo clicked at
-			moveMode = MOVE_NONE;
+			moveMode = MoveMode.NONE;
 			resetMovedGeoPoint();
 			return;
 		}
@@ -8339,7 +8311,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	public void cancelDrag() {
-		moveMode = MOVE_NONE;
+		moveMode = MoveMode.NONE;
 	}
 
 	protected boolean shouldCancelDrag() {
@@ -8455,7 +8427,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		scriptsHaveRun = false;
 
-		if (isTextfieldHasFocus() && moveMode != MOVE_WIDGET) {
+		if (isTextfieldHasFocus() && moveMode != MoveMode.WIDGET) {
 			return;
 		}
 		if (circleRadiusDrag(event)) {
@@ -8612,7 +8584,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		setMouseLocation(event);
 		transformCoords();
 		// ggb3D - only for 3D view
-		if (moveMode == MOVE_ROTATE_VIEW) {
+		if (moveMode == MoveMode.ROTATE_VIEW) {
 			if (processRotate3DView()) {
 				return;
 			}
@@ -8633,7 +8605,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// dragging eg a fixed point shouldn't start the selection rectangle
 		if (view.getHits().isEmpty()) {
 			boolean boundingBoxHit = wasBoundingBoxHit
-					|| (moveMode == MOVE_MULTIPLE_OBJECTS);
+					|| (moveMode == MoveMode.MULTIPLE_OBJECTS);
 
 			if (app.isSelectionRectangleAllowed()
 					&& ((app.isRightClick(event)
@@ -8752,7 +8724,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				newVecAlgo.getGeoElements()[0].setLabel(null);
 				app.setMode(EuclidianConstants.MODE_MOVE);
 				movedGeoVector = vec;
-				moveMode = MOVE_VECTOR_NO_GRID;
+				moveMode = MoveMode.VECTOR_NO_GRID;
 				return;
 			}
 			movedGeoPoint = new GeoPoint(kernel.getConstruction(), null, 0, 0,
@@ -8772,7 +8744,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			newVecGeo
 					.setVisualStyleForTransformations(topHit);
 			newVecGeo.setLabel(null);
-			moveMode = MOVE_POINT;
+			moveMode = MoveMode.POINT;
 		}
 
 		if (topHit.isTranslateable() || topHit instanceof GeoPoly) {
@@ -8792,7 +8764,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			movedGeoVector = vec;
-			moveMode = MOVE_VECTOR_NO_GRID;
+			moveMode = MoveMode.VECTOR_NO_GRID;
 			// set moved geo for store undo on mouse release
 			movedGeoElement = ret[0];
 		}
@@ -8877,7 +8849,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			rotationCenter = (GeoPoint) chooseGeo(
 					view.getHits().getHits(TestGeo.GEOPOINT, tempArrayList), true);
 			selection.addSelectedGeo(rotationCenter);
-			moveMode = MOVE_NONE;
+			moveMode = MoveMode.NONE;
 		} else {
 			setViewHits(type);
 			hits = view.getHits();
@@ -8886,7 +8858,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (!hits.isEmpty() && hits.contains(rotationCenter)) {
 				selection.removeSelectedGeo(rotationCenter);
 				rotationCenter = null;
-				moveMode = MOVE_NONE;
+				moveMode = MoveMode.NONE;
 				return;
 			}
 
@@ -8908,19 +8880,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// init values needed for rotation
 				rotationLastAngle = Math.atan2(yRW - rotationCenter.inhomY,
 						xRW - rotationCenter.inhomX);
-				moveMode = MOVE_ROTATE;
+				moveMode = MoveMode.ROTATE;
 			} else {
-				moveMode = MOVE_NONE;
+				moveMode = MoveMode.NONE;
 			}
 		}
 	}
 
 	protected void setMoveModeIfAxis(Object hit) {
 		if (hit == kernel.getXAxis()) {
-			moveMode = MOVE_X_AXIS;
+			moveMode = MoveMode.X_AXIS;
 		}
 		if (hit == kernel.getYAxis()) {
-			moveMode = MOVE_Y_AXIS;
+			moveMode = MoveMode.Y_AXIS;
 		}
 	}
 
@@ -8933,7 +8905,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		hits = view.getHits();
 		hits.removePolygons();
 
-		moveMode = MOVE_VIEW;
+		moveMode = MoveMode.VIEW;
 		if (!hits.isEmpty() && moveAxesPossible(shiftOrMeta)) {
 			for (Object hit : hits) {
 				setMoveModeIfAxis(hit);
@@ -8949,7 +8921,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		xTemp = xRW;
 		yTemp = yRW;
 		view.setShowAxesRatio(
-				(moveMode == MOVE_X_AXIS) || (moveMode == MOVE_Y_AXIS));
+				(moveMode == MoveMode.X_AXIS) || (moveMode == MoveMode.Y_AXIS));
 	}
 
 	protected boolean moveAxesPossible(boolean shiftOrMeta) {
@@ -8958,7 +8930,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void setDragCursorIfMoveView() {
-		if (moveMode == MOVE_VIEW) {
+		if (moveMode == MoveMode.VIEW) {
 			view.setCursor(EuclidianCursor.GRABBING);
 		}
 	}
@@ -9149,7 +9121,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// set movedGeoPoint etc.
 				handleMovedElement(p.toGeoElement(), false,
 						PointerEventType.MOUSE);
-				this.moveMode = MOVE_ATTACH_DETACH;
+				this.moveMode = MoveMode.ATTACH_DETACH;
 			}
 			break;
 
@@ -9160,7 +9132,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getDeleteMode().mousePressed();
 
 		default:
-			moveMode = MOVE_NONE;
+			moveMode = MoveMode.NONE;
 		}
 	}
 
@@ -10306,7 +10278,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// check movedGeoElement.isLabelSet() to stop moving points
 			// in Probability Calculator triggering Undo
 			boolean labeledGeoMoved = ((movedGeoElement != null)
-					&& movedGeoElement.isLabelSet()) && (moveMode != MOVE_NONE)
+					&& movedGeoElement.isLabelSet()) && (moveMode != MoveMode.NONE)
 					&& modeTriggersUndoOnDragGeo(mode);
 			if (labeledGeoMoved) {
 				if (storeUndo.storeUndo()) {
@@ -10328,7 +10300,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 			notifyCoordSystemListeners();
-			if (moveMode == MOVE_VIEW) {
+			if (moveMode == MoveMode.VIEW) {
 				notifyCoordSystemMoveStop();
 			}
 		} else {
@@ -10589,7 +10561,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		refreshHighlighting(null, control, shift);
 
-		moveMode = MOVE_NONE;
+		moveMode = MoveMode.NONE;
 		initShowMouseCoords();
 		view.setShowAxesRatio(false);
 		view.onAxisZoomCancel();
@@ -10638,7 +10610,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						geo);
 			}
 
-			moveMode = MOVE_NONE;
+			moveMode = MoveMode.NONE;
 		}
 	}
 
@@ -11071,7 +11043,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						&& view.getSelectionRectangle() != null))) {
 			clearSelections();
 		}
-		moveMode = MOVE_NONE;
+		moveMode = MoveMode.NONE;
 
 		view.setPreview(switchPreviewableForInitNewMode(newMode));
 		toggleModeChangedKernel = false;
@@ -11264,7 +11236,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (mode == EuclidianConstants.MODE_POLYGON
 				|| mode == EuclidianConstants.MODE_RIGID_POLYGON
 				|| mode == EuclidianConstants.MODE_VECTOR_POLYGON) {
-			this.moveMode = EuclidianController.MOVE_NONE;
+			this.moveMode = MoveMode.NONE;
 		}
 
 		prepareModeForFreehand();
@@ -11738,7 +11710,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (freehandModeSet) {
 			freehandModeSet = false;
 			this.mode = previousMode;
-			moveMode = MOVE_NONE;
+			moveMode = MoveMode.NONE;
 			view.setPreview(switchPreviewableForInitNewMode(this.mode));
 			pen = null;
 			this.previousMode = -1;
@@ -11815,7 +11787,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// only executed if one of the specified modes is set
 		this.previousMode = this.mode;
 		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
-		moveMode = MOVE_NONE;
+		moveMode = MoveMode.NONE;
 		freehandModeSet = true;
 	}
 
