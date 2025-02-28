@@ -2,6 +2,8 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -233,5 +235,5 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void toggleSpreadsheetView();
 
-	void openHelp(ManualPage page, String detail);
+	void openHelp(ManualPage page, @CheckForNull String detail);
 }

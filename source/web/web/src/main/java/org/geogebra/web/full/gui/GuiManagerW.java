@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASView;
@@ -1234,11 +1236,13 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void openHelp(final ManualPage page, final String type) {
+	public void openHelp(final ManualPage page, @CheckForNull String detail) {
 		try {
-			final String helpURL = getHelpURL(page, type);
+			final String helpURL = getHelpURL(page, detail);
 			getApp().getFileManager().open(helpURL);
-			getInputHelpPanel().getInputHelpPanel().logHelpIconEvent(type, false);
+			if (page == ManualPage.COMMAND && detail != null) {
+				getInputHelpPanel().getInputHelpPanel().logHelpIconEvent(detail, false);
+			}
 		} catch (final RuntimeException e) {
 			getApp().showGenericError(e);
 		}

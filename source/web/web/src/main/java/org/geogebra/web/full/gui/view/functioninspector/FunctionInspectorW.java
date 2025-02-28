@@ -551,10 +551,9 @@ public class FunctionInspectorW extends FunctionInspector {
 		if (mainPanel.getOffsetHeight() != 0) {
 			tabPanel.setHeight(mainPanel.getOffsetHeight()
 					- HEADER_PADDING + "px");
-			intervalTab.setWidth(mainPanel.getOffsetWidth() - PADDING_RIGHT
-					+ "px");
-			pointsTab.setWidth(mainPanel.getOffsetWidth()
-					- PADDING_RIGHT + "px");
+			int width = Math.max(mainPanel.getOffsetWidth() - PADDING_RIGHT, 0);
+			intervalTab.setWidth(width + "px");
+			pointsTab.setWidth(width + "px");
 		}
 	}
 }
