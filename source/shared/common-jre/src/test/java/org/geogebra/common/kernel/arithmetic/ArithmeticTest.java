@@ -252,6 +252,11 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void functionsMatrix() {
+		shouldFail("{{1}}*x", "Invalid function", getApp());
+	}
+
+	@Test
 	public void xcoordAsFunction() {
 		t("x((1,2))", "1");
 	}

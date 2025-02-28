@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -449,6 +450,9 @@ public class MyList extends ValidExpression
 
 		ExpressionValue operationResult = tempNode.evaluate(tpl);
 		if (tempNode.containsFreeFunctionVariable(null)) {
+			if (myValue.unwrap() instanceof MyList) {
+				throw new MyError(kernel.getLocalization(), MyError.Errors.InvalidFunction);
+			}
 			FunctionNVar toProc = kernel.getAlgebraProcessor()
 					.makeFunctionNVar(tempNode.deepCopy(kernel));
 			if (toProc instanceof Function) {
