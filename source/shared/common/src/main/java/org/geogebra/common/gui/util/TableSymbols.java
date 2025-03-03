@@ -497,8 +497,10 @@ public class TableSymbols {
 						app.getMenu("Symbol.StrictSubset") },
 				// { "\u2220" , app.getMenu("Symbol.Angle" )},
 				{ "\u2221", app.getMenu("Symbol.AngleMeasure") },
-				{ String.valueOf(Unicode.SUPERSCRIPT_2), app.getMenu("Symbol.Square") }, // exponents^2
-				{ String.valueOf(Unicode.SUPERSCRIPT_3), app.getMenu("Symbol.Cube") }, // exponents^3
+				{ String.valueOf(Unicode.SUPERSCRIPT_2),
+						app.getMenu("Symbol.Square") }, // exponents^2
+				{ String.valueOf(Unicode.SUPERSCRIPT_3),
+						app.getMenu("Symbol.Cube") }, // exponents^3
 				{ Unicode.DEGREE_STRING, app.getMenu("Symbol.Degree") }, // degree
 				{ " " + Unicode.IMAGINARY + " ", String.valueOf(Unicode.IMAGINARY) }, // sqrt(-1)
 				{ " " + Unicode.PI_STRING + " ", Unicode.PI_STRING }, // pi
