@@ -15,6 +15,7 @@ public class RealschuleSettings implements RestorableSettings {
 	private String yLabel;
 	private final Map<Integer, Integer> pointStyles = new HashMap<>();
 	private boolean equationChangeRestricted;
+	private boolean engineeringNotationEnabled;
 
 	@Override
 	public void save(Settings settings, ConstructionDefaults defaults) {
@@ -31,6 +32,7 @@ public class RealschuleSettings implements RestorableSettings {
 			}
 		}
 		equationChangeRestricted = settings.getAlgebra().isEquationChangeByDragRestricted();
+		engineeringNotationEnabled = settings.getAlgebra().isEngineeringNotationEnabled();
 	}
 
 	@Override
@@ -47,5 +49,6 @@ public class RealschuleSettings implements RestorableSettings {
 			}
 		}
 		settings.getAlgebra().setEquationChangeByDragRestricted(equationChangeRestricted);
+		settings.getAlgebra().setEngineeringNotationEnabled(engineeringNotationEnabled);
 	}
 }

@@ -78,14 +78,9 @@ public final class ExamController {
 
 	private List<ExamControllerDelegate> delegates = new ArrayList<>();
 
-	@NonOwning
-	private PropertiesRegistry propertiesRegistry;
-
-	@NonOwning
-	private GeoElementPropertiesFactory geoElementPropertiesFactory;
-
-	@NonOwning
-	private ContextMenuFactory contextMenuFactory;
+	private @NonOwning PropertiesRegistry propertiesRegistry;
+	private @NonOwning GeoElementPropertiesFactory geoElementPropertiesFactory;
+	private @NonOwning ContextMenuFactory contextMenuFactory;
 
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
 	/** this is only for the mobile use case (1 Suite app instance) */

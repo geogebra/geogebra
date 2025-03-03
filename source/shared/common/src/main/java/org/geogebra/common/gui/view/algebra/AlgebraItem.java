@@ -39,13 +39,19 @@ import org.geogebra.common.util.SymbolicUtil;
  */
 public class AlgebraItem {
 
+	/**
+	 * @deprecated {@link AlgebraOutputOperator} should be used instead.
+	 */
+	@Deprecated
 	public enum CASOutputType {
 		NUMERIC, SYMBOLIC
 	}
 
 	/**
 	 * The possible icons for the toggle button
+	 * @deprecated {@link AlgebraOutputFormat} should be used instead.
 	 */
+	@Deprecated
 	public enum ToggleButtonIcon {
 		FRACTION, EQUALS, EQUALS_APPROX
 	}
@@ -55,7 +61,9 @@ public class AlgebraItem {
 	 *            element
 	 * @return arrow or approx, depending on symbolic/numeric nature of the
 	 *         element
+	 * @deprecated {@link AlgebraOutputFormat} API should be used instead.
 	 */
+	@Deprecated
 	public static CASOutputType getCASOutputType(GeoElement geo) {
 		if (geo instanceof HasSymbolicMode
 				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
@@ -429,7 +437,9 @@ public class AlgebraItem {
 	 * @param geo
 	 *            element
 	 * @return whether we should show symbolic switch for the geo
+	 * @deprecated {@link AlgebraOutputFormat} API should be used instead.
 	 */
+	@Deprecated
 	public static boolean shouldShowSymbolicOutputButton(GeoElement geo) {
 		return geo != null && isSymbolicDiffers(geo) && !isTextItem(geo);
 	}
@@ -448,7 +458,9 @@ public class AlgebraItem {
 	/**
 	 * @param geo element
 	 * @return whether equal sign prefix should be shown (rather than approx sign)
+	 * @deprecated {@link AlgebraOutputFormat} API should be used instead.
 	 */
+	@Deprecated
 	public static boolean shouldShowEqualSignPrefix(GeoElement geo) {
 		return !AlgebraItem.shouldShowSymbolicOutputButton(geo)
 				|| AlgebraItem.getCASOutputType(geo) == CASOutputType.SYMBOLIC
@@ -720,7 +732,9 @@ public class AlgebraItem {
 	 * Returns the icon used for the symbolic output button
 	 * @param element element
 	 * @return icon
+	 * @deprecated {@link AlgebraOutputFormat} should be used instead.
 	 */
+	@Deprecated
 	public static ToggleButtonIcon getSymbolicOutputButtonIcon(GeoElement element) {
 		switch (AlgebraItem.getCASOutputType(element)) {
 		case NUMERIC:

@@ -46,6 +46,7 @@
         <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
     </module>
     <module name="TreeWalker">
+        <module name="SuppressWarningsHolder" />
         <module name="Regexp">
             <property name="format" value="\S[\t ]+$"/>
             <property name="illegalPattern" value="true"/>
@@ -143,4 +144,5 @@
             <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
     </module>
+    <module name="SuppressWarningsFilter" />
 </module>

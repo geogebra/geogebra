@@ -1,6 +1,7 @@
 package org.geogebra.common.exam;
 
 import static org.geogebra.common.BaseUnitTest.hasValue;
+import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.ENGINEERING;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,12 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -152,5 +155,15 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 	public void testRestrictedVisibility(String expression) {
 		examController.startExam(ExamType.REALSCHULE, null);
 		assertFalse(evaluateGeoElement(expression).isEuclidianToggleable());
+	}
+
+	@Test
+	public void testEnabledEngineeringNotation() {
+		PreviewFeature.enableFeaturePreviews = true;
+		examController.startExam(ExamType.REALSCHULE, null);
+		GeoElement geoElement = evaluateGeoElement("1.234");
+		assertTrue(settings.getAlgebra().isEngineeringNotationEnabled());
+		assertTrue(AlgebraOutputFormat.getPossibleFormats(geoElement, true).contains(ENGINEERING));
+		PreviewFeature.enableFeaturePreviews = false;
 	}
 }

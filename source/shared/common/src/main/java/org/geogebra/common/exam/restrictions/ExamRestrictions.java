@@ -45,14 +45,10 @@ import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
  * <p>
  * Restrictions that are specific to the different exam types are represented as subclasses
  * of this class.
- * Restrictions that apply to all exam types should be implemented in this class
- * (in {@link #applyTo(AlgoDispatcher, CommandDispatcher, AlgebraProcessor, PropertiesRegistry,
- * Object, Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
- * ScheduledPreviewFromInputBar, ContextMenuFactory)}).
- * </p><p>
+ * Restrictions that apply to all exam types should be implemented in this class (in {@link #applyTo}).
+ * <p>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
- * </p>
  * <ul>
  * <li>disabled subapps,</li>
  * <li>restricted commands,</li>
@@ -302,9 +298,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #applyTo(AlgoDispatcher, CommandDispatcher, AlgebraProcessor, PropertiesRegistry,
-	 * Object, Localization, Settings, AutocompleteProvider, ToolsProvider,
-	 * GeoElementPropertiesFactory, ScheduledPreviewFromInputBar, ContextMenuFactory)}).
+	 * {@link #applyTo}).
 	 */
 	public void removeFrom(
 			@Nullable AlgoDispatcher algoDispatcher,
@@ -422,7 +416,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Revert changes applied in {@link #applySettingsRestrictions(Settings)}, restoring the
+	 * Revert changes applied in {@link #applySettingsRestrictions}, restoring the
 	 * previously saved settings.
 	 * @param settings {@link Settings}
 	 * @apiNote An override is not needed by default.

@@ -20,7 +20,8 @@ public class ExamControllerMultiAppTest {
 	@Before
 	public void setup() {
 		controller = new ExamController(new DefaultPropertiesRegistry(),
-				GlobalScope.geoElementPropertiesFactory, GlobalScope.contextMenuFactory);
+				GlobalScope.geoElementPropertiesFactory,
+				GlobalScope.contextMenuFactory);
 		app = AppCommonFactory.create3D();
 	}
 

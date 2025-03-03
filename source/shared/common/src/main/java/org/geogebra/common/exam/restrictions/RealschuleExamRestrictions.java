@@ -323,6 +323,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 		euclidian.setGridType(EuclidianView.GRID_CARTESIAN);
 		euclidian.endBatch();
 		settings.getAlgebra().setEquationChangeByDragRestricted(true);
+		settings.getAlgebra().setEngineeringNotationEnabled(true);
 		for (int index: ConstructionDefaults.POINT_INDICES) {
 			GeoPointND point = (GeoPointND) defaults.getDefaultGeo(index);
 			if (point != null) {

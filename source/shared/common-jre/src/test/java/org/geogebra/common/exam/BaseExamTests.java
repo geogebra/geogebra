@@ -43,8 +43,8 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
             new GeoElementPropertiesFactory();
     protected final ContextMenuFactory contextMenuFactory =
             new ContextMenuFactory();
-    protected final ExamController examController =
-            new ExamController(propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
+    protected final ExamController examController = new ExamController(
+            propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
 
     protected final List<ExamState> examStates = new ArrayList<>();
     protected final ErrorAccumulator errorAccumulator = new ErrorAccumulator();

@@ -1,5 +1,7 @@
 package org.geogebra.common.main.settings;
 
+import static org.geogebra.common.main.PreviewFeature.ENGINEERING_BUTTON;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +10,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.PreviewFeature;
 
 /**
  * Settings for the algebra view.
@@ -18,6 +21,7 @@ public class AlgebraSettings extends AbstractSettings {
 
 	private boolean showAuxiliaryObjects = false;
 	private boolean modeChanged = false;
+	private boolean engineeringNotationEnabled = false;
 
 	private List<Integer> collapsedNodes = null;
 
@@ -90,6 +94,22 @@ public class AlgebraSettings extends AbstractSettings {
 	 */
 	public boolean getShowAuxiliaryObjects() {
 		return showAuxiliaryObjects;
+	}
+
+	/**
+	 * Enable or disable engineering notation. If enabled, the engineering notation may appear
+	 * depending on the expression, if disabled it will never appear.
+	 * @param enabled Whether to enable or disable the engineering notation.
+	 */
+	public void setEngineeringNotationEnabled(boolean enabled) {
+		this.engineeringNotationEnabled = enabled && PreviewFeature.isAvailable(ENGINEERING_BUTTON);
+	}
+
+	/**
+	 * @return {@code true} is engineering notation is enabled, {@code false} otherwise
+	 */
+	public boolean isEngineeringNotationEnabled() {
+		return engineeringNotationEnabled;
 	}
 
 	/**
