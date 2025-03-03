@@ -16,7 +16,10 @@ import java.util.Set;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
+import org.geogebra.common.exam.restrictions.mms.MmsValueConverter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
+import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -106,5 +109,18 @@ public class MmsExamTests extends BaseExamTests {
 		GeoElement f = evaluateGeoElement("xx");
 		app.getSpecialPointsManager().updateSpecialPoints(f);
 		assertNull(app.getSpecialPointsManager().getSelectedPreviewPoints());
+	}
+
+	@Test
+	public void testRestrictedChartOutput() {
+		String definition = "BarChart({10, 11, 12}, {5, 8, 12})";
+		GeoElement barchart = evaluateGeoElement(definition);
+		MmsValueConverter converter = new MmsValueConverter(new GeoElementValueConverter());
+		assertEquals(definition,
+				converter.toValueString(barchart, StringTemplate.defaultTemplate));
+		assertEquals(definition,
+				converter.toOutputValueString(barchart, StringTemplate.defaultTemplate));
+		assertEquals("a = " + definition,
+				converter.toLabelAndDescription(barchart, StringTemplate.defaultTemplate));
 	}
 }
