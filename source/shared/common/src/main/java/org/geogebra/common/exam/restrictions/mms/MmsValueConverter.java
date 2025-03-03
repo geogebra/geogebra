@@ -24,7 +24,7 @@ public final class MmsValueConverter implements ToStringConverter {
 	@Override
 	public @Nonnull String toValueString(GeoElement element, StringTemplate template) {
 		return Mms.isOutputAllowed(element)
-				? wrappedConverter.toValueString(element, template) 
+				? wrappedConverter.toValueString(element, template)
 				: element.getDefinition(template);
 	}
 
