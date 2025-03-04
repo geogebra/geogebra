@@ -62,7 +62,7 @@ public abstract class ClipperBase implements Clipper {
 			e.setBot(new DoublePoint(e.next.getCurrent()));
 		}
 		e.updateDeltaX();
-		e.polyTyp = polyType;
+		e.polyType = polyType;
 	}
 
 	/**

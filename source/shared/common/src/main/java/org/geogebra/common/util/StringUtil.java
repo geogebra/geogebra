@@ -409,7 +409,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			previousChar = c;
 			c = str.charAt(i);
 
-			// Guy Hed 30.8.2009
 			// Fix Hebrew 'undefined' problem in Latex text.
 			if (prototype.isRightToLeftChar(c)) {
 				int j = i;
@@ -424,7 +423,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				i = j - 1;
 				continue;
 			}
-			// Guy Hed 30.8.2009
 
 			switch (c) {
 			/*

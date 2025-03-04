@@ -1622,7 +1622,7 @@ public class DefaultClipper extends ClipperBase {
 			// are both open paths, AND they are both 'contributing maximas' ...
 			if (e1.windDelta == 0 && e2.windDelta == 0) {
 				return;
-			} else if (e1.polyTyp == e2.polyTyp && e1.windDelta != e2.windDelta
+			} else if (e1.polyType == e2.polyType && e1.windDelta != e2.windDelta
 					&& clipType == ClipType.UNION) {
 				if (e1.windDelta == 0) {
 					if (e2Contributing) {
@@ -1639,7 +1639,7 @@ public class DefaultClipper extends ClipperBase {
 						}
 					}
 				}
-			} else if (e1.polyTyp != e2.polyTyp) {
+			} else if (e1.polyType != e2.polyType) {
 				if (e1.windDelta == 0 && Math.abs(e2.windCnt) == 1
 						&& (clipType != ClipType.UNION || e2.windCnt2 == 0)) {
 					addOutPt(e1, pt);
@@ -1659,7 +1659,7 @@ public class DefaultClipper extends ClipperBase {
 
 		// update winding counts...
 		// assumes that e1 will be to the Right of e2 ABOVE the intersection
-		if (e1.polyTyp == e2.polyTyp) {
+		if (e1.polyType == e2.polyType) {
 			if (e1.isEvenOddFillType(clipFillType, subjFillType)) {
 				final int oldE1WindCnt = e1.windCnt;
 				e1.windCnt = e2.windCnt;
@@ -1690,14 +1690,14 @@ public class DefaultClipper extends ClipperBase {
 		}
 
 		PolyFillType e1FillType, e2FillType, e1FillType2, e2FillType2;
-		if (e1.polyTyp == PolyType.SUBJECT) {
+		if (e1.polyType == PolyType.SUBJECT) {
 			e1FillType = subjFillType;
 			e1FillType2 = clipFillType;
 		} else {
 			e1FillType = clipFillType;
 			e1FillType2 = subjFillType;
 		}
-		if (e2.polyTyp == PolyType.SUBJECT) {
+		if (e2.polyType == PolyType.SUBJECT) {
 			e2FillType = subjFillType;
 			e2FillType2 = clipFillType;
 		} else {
@@ -1731,7 +1731,7 @@ public class DefaultClipper extends ClipperBase {
 
 		if (e1Contributing && e2Contributing) {
 			if (e1Wc != 0 && e1Wc != 1 || e2Wc != 0 && e2Wc != 1
-					|| e1.polyTyp != e2.polyTyp && clipType != ClipType.XOR) {
+					|| e1.polyType != e2.polyType && clipType != ClipType.XOR) {
 				addLocalMaxPoly(e1, e2, pt);
 			} else {
 				addOutPt(e1, pt);
@@ -1778,7 +1778,7 @@ public class DefaultClipper extends ClipperBase {
 				break;
 			}
 
-			if (e1.polyTyp != e2.polyTyp) {
+			if (e1.polyType != e2.polyType) {
 				addLocalMinPoly(e1, e2, pt);
 			} else if (e1Wc == 1 && e2Wc == 1) {
 				switch (clipType) {
@@ -1793,8 +1793,8 @@ public class DefaultClipper extends ClipperBase {
 					}
 					break;
 				case DIFFERENCE:
-					if (e1.polyTyp == PolyType.CLIP && e1Wc2 > 0 && e2Wc2 > 0
-							|| e1.polyTyp == PolyType.SUBJECT && e1Wc2 <= 0
+					if (e1.polyType == PolyType.CLIP && e1Wc2 > 0 && e2Wc2 > 0
+							|| e1.polyType == PolyType.SUBJECT && e1Wc2 <= 0
 									&& e2Wc2 <= 0) {
 						addLocalMinPoly(e1, e2, pt);
 					}
@@ -2553,7 +2553,7 @@ public class DefaultClipper extends ClipperBase {
 		Edge e = edge.prevInAEL;
 		// find the edge of the same polyType that immediately precedes 'edge'
 		// in AEL
-		while (e != null && (e.polyTyp != edge.polyTyp || e.windDelta == 0)) {
+		while (e != null && (e.polyType != edge.polyType || e.windDelta == 0)) {
 			e = e.prevInAEL;
 		}
 		if (e == null) {
@@ -2571,7 +2571,7 @@ public class DefaultClipper extends ClipperBase {
 				boolean Inside = true;
 				Edge e2 = e.prevInAEL;
 				while (e2 != null) {
-					if (e2.polyTyp == e.polyTyp && e2.windDelta != 0) {
+					if (e2.polyType == e.polyType && e2.windDelta != 0) {
 						Inside = !Inside;
 					}
 					e2 = e2.prevInAEL;

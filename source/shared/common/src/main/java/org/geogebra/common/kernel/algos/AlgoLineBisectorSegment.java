@@ -102,7 +102,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		double bx = B.inhomX;
 		double by = B.inhomY;
 
-		// comput line
+		// compute line
 		g.x = ax - bx;
 		g.y = ay - by;
 		midPoint.setCoords(ax + bx, ay + by, 2.0);

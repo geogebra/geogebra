@@ -96,8 +96,7 @@ public class FontManagerD extends FontManager {
 			tryFontsSerif.addFirst("Sylfaen");
 		}
 
-		// HEBREW
-		// Guy Hed, 26.4.2009 - added Yiddish, which also use Hebrew letters.
+		// HEBREW, YIDDISH (both use Hebrew letters)
 		else if ("iw".equals(lang) || "ji".equals(lang)) {
 			// Hebrew letter "tav"
 			// testCharacters.append('\u05ea');

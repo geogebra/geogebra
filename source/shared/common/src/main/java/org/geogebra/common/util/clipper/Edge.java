@@ -23,7 +23,7 @@ class Edge {
 
 	double deltaX;
 
-	PolyType polyTyp;
+	PolyType polyType;
 
 	Edge.Side side;
 
@@ -180,7 +180,7 @@ class Edge {
 			PolyFillType subjFillType, ClipType clipType) {
 
 		PolyFillType pft, pft2;
-		if (polyTyp == PolyType.SUBJECT) {
+		if (polyType == PolyType.SUBJECT) {
 			pft = subjFillType;
 			pft2 = clipFillType;
 		} else {
@@ -235,7 +235,7 @@ class Edge {
 				return windCnt2 >= 0;
 			}
 		case DIFFERENCE:
-			if (polyTyp == PolyType.SUBJECT) {
+			if (polyType == PolyType.SUBJECT) {
 				switch (pft2) {
 				case EVEN_ODD:
 				case NON_ZERO:
@@ -274,7 +274,7 @@ class Edge {
 
 	public boolean isEvenOddAltFillType(PolyFillType clipFillType,
 			PolyFillType subjFillType) {
-		if (polyTyp == PolyType.SUBJECT) {
+		if (polyType == PolyType.SUBJECT) {
 			return clipFillType == PolyFillType.EVEN_ODD;
 		}
 		return subjFillType == PolyFillType.EVEN_ODD;
@@ -282,7 +282,7 @@ class Edge {
 
 	public boolean isEvenOddFillType(PolyFillType clipFillType,
 			PolyFillType subjFillType) {
-		if (polyTyp == PolyType.SUBJECT) {
+		if (polyType == PolyType.SUBJECT) {
 			return subjFillType == PolyFillType.EVEN_ODD;
 		}
 		return clipFillType == PolyFillType.EVEN_ODD;
@@ -339,7 +339,7 @@ class Edge {
 	@Override
 	public String toString() {
 		return "TEdge [Bot=" + bot + ", Curr=" + current + ", Top=" + top
-				+ ", Delta=" + delta + ", Dx=" + deltaX + ", PolyTyp=" + polyTyp
+				+ ", Delta=" + delta + ", Dx=" + deltaX + ", PolyTyp=" + polyType
 				+ ", Side=" + side + ", WindDelta=" + windDelta + ", WindCnt="
 				+ windCnt + ", WindCnt2=" + windCnt2 + ", OutIdx=" + outIdx
 				+ ", Next=" + next + ", Prev=" + prev + ", NextInLML="

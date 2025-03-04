@@ -256,8 +256,8 @@ public class ArrayAtom extends Atom {
 			final double rhi = rowHeight[i] + (center ? padding / 2.0 : 0);
 			final double rdi = rowDepth[i] + (center ? padding / 2.0 : padding);
 			for (int j = 0; j < col; ++j) {
-				final int typ = boxarr[i][j].type;
-				if (typ == TeXConstants.TYPE_HLINE) {
+				final int type = boxarr[i][j].type;
+				if (type == TeXConstants.TYPE_HLINE) {
 					final HlineBox hlb = (HlineBox) boxarr[i][j];
 					if (i >= 1 && boxarr[i
 							- 1][j].type == TeXConstants.TYPE_HLINE) {
@@ -266,7 +266,7 @@ public class ArrayAtom extends Atom {
 					hlb.setDims(matW, -halfVsepH);
 					hb.add(hlb);
 					break;
-				} else if (typ == TeXConstants.TYPE_INTERTEXT) {
+				} else if (type == TeXConstants.TYPE_INTERTEXT) {
 					final double f = textwidth == Double.POSITIVE_INFINITY
 							? colWidth[j] : textwidth;
 					hb.add(new HorizontalBox(boxarr[i][j], f,
@@ -274,7 +274,7 @@ public class ArrayAtom extends Atom {
 					break;
 				} else {
 					final double l = hseps[2 * j];
-					if (typ == TeXConstants.TYPE_MULTICOLUMN) {
+					if (type == TeXConstants.TYPE_MULTICOLUMN) {
 						final MulticolumnAtom matom = (MulticolumnAtom) matrix
 								.get(i, j);
 						final int n = matom.getSkipped();
