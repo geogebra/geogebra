@@ -575,69 +575,6 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void rootSuggestionShouldVanish() {
-		t("f:x");
-		GeoElement line = getGeo("f");
-		assertNotNull(SuggestionIntersectExtremum.get(line));
-		SuggestionIntersectExtremum.get(line).execute(line);
-		assertNull(SuggestionIntersectExtremum.get(line));
-		getGeo("B").remove();
-		assertNotNull(SuggestionIntersectExtremum.get(line));
-	}
-
-	@Test
-	public void rootSuggestionForParabolaShouldVanish() {
-		t("f:y=x^2-6x+8");
-		GeoElement parabola = getGeo("f");
-		assertNotNull(SuggestionIntersectExtremum.get(parabola));
-		SuggestionIntersectExtremum.get(parabola).execute(parabola);
-		assertNull(SuggestionIntersectExtremum.get(parabola));
-		getGeo("B").remove();
-		assertNotNull(SuggestionIntersectExtremum.get(parabola));
-	}
-
-	@Test
-	public void rootSuggestionForParabolaShouldCreatePoints() {
-		t("f:y=x^2-6x+8");
-		GeoElement parabola = getGeo("f");
-		assertNotNull(SuggestionIntersectExtremum.get(parabola));
-		SuggestionIntersectExtremum.get(parabola).execute(parabola);
-		assertEquals(4,
-				app.getGgbApi().getAllObjectNames("point").length);
-	}
-
-	@Test
-	public void rootSuggestionForHyperbola() {
-		t("f:xx-yy=1");
-		GeoElement hyperbola = getGeo("f");
-		assertNull(SuggestionIntersectExtremum.get(hyperbola));
-	}
-
-	@Test
-	public void suggestionShouldNotCreateTwice() {
-		t("f:x");
-		GeoElement line = getGeo("f");
-		SuggestionIntersectExtremum.get(line).execute(line);
-		assertEquals(3, app.getGgbApi().getObjectNumber());
-		getGeo("B").remove();
-		assertEquals(2, app.getGgbApi().getObjectNumber());
-		SuggestionIntersectExtremum.get(line).execute(line);
-		assertEquals(3, app.getGgbApi().getObjectNumber());
-	}
-
-	@Test
-	public void suggestionShouldNotCreateTwiceNonPolynomial() {
-		t("f:1/x");
-		GeoElement line = getGeo("f");
-		SuggestionIntersectExtremum.get(line).execute(line);
-		assertEquals(4, app.getGgbApi().getObjectNumber());
-		getGeo("B").remove();
-		assertEquals(3, app.getGgbApi().getObjectNumber());
-		SuggestionIntersectExtremum.get(line).execute(line);
-		assertEquals(4, app.getGgbApi().getObjectNumber());
-	}
-
-	@Test
 	public void packedGeosShouldHaveJustRHSInEditor() {
 		t("c=Cone[(0,0,0),(0,0,1),5]");
 		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,

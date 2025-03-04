@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.algebra;
 
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -67,15 +66,13 @@ public class SuggestionIntersectExtremum extends Suggestion {
 		sb.append("Intersect[");
 		sb.append(geo.getLabelSimple());
 		sb.append(", ");
-		if (polynomial != null) {
-			sb.append(geo.getKernel().getLocalization().getMenu("xAxis"));
-		} else {
-			GRectangle bounds =
-					geo.getKernel().getApplication().getActiveEuclidianView().getBounds();
-			sb.append("y = 0, ");
-			sb.append(bounds.getMinX());
+		sb.append(geo.getKernel().getLocalization().getMenu("xAxis"));
+		if (polynomial == null) {
+			double[] bounds = geo.getKernel().getViewBoundsForGeo(geo);
 			sb.append(", ");
-			sb.append(bounds.getMaxX());
+			sb.append(bounds[0]);
+			sb.append(", ");
+			sb.append(bounds[1]);
 		}
 		sb.append("]");
 		processCommand(algebraProcessor, sb.toString(), false);
