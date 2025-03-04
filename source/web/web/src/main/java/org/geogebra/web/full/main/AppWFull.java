@@ -463,6 +463,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void startActivity() {
 		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
+		getSettings().getAlgebra().setEquationChangeByDragRestricted(
+				getConfig().isObjectDraggingRestricted());
 	}
 
 	/**
