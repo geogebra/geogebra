@@ -397,6 +397,16 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void complexAddition() {
+		t("i-2i", "-" + Unicode.IMAGINARY);
+		t("-2i+3i", String.valueOf(Unicode.IMAGINARY));
+		t("i-3i", "-2" + Unicode.IMAGINARY);
+		t("i+3i", "4" + Unicode.IMAGINARY);
+		t("1-2i", "1 - 2" + Unicode.IMAGINARY);
+		t("1-0i", "1 + 0" + Unicode.IMAGINARY);
+	}
+
+	@Test
 	public void powerWithNegativeFractionAsExponent() {
 		t("(-8)^(-(1/3))", "-0.5");
 		t("-8^(-1/3)", "-0.5");

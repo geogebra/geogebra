@@ -2817,11 +2817,15 @@ public class AlgebraProcessor {
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
-				&& !equ.getRHS().containsFreeFunctionVariable(null)
-				&& !equ.getRHS().evaluatesToNumber(true)) {
+				&& (!equ.getRHS().containsFreeFunctionVariable(null)
+				&& !equ.getRHS().evaluatesToNumber(true)
+				|| equ.getRHS().inspect(Inspecting.ComplexChecker.INSTANCE))) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
-				return processValidExpression(equ.getRHS(), info);
+				GeoElement[] ret = processValidExpression(equ.getRHS(), info);
+				saveComplexSolutionVariableForPoints(ret,
+						((FunctionVariable) lhs).getSetVarString());
+				return ret;
 			} catch (Exception e) {
 				Log.debug(e);
 			}
@@ -2879,6 +2883,18 @@ public class AlgebraProcessor {
 		}
 		return processEquation(equ, def,
 				kernel.getConstruction().isFileLoading(), info, evaluatedDef);
+	}
+
+	/**
+	 * In case there are GeoPoints being created, which might later be forced to be printed
+	 * e.g. in the form { <b>x</b> = i, <b>x</b> = -i } (as output of CSolve),
+	 * stores the name of the variable
+	 * @param elements GeoElements
+	 * @param var Variable name
+	 */
+	private void saveComplexSolutionVariableForPoints(GeoElement[] elements, String var) {
+		Arrays.stream(elements).filter(element -> element instanceof GeoPoint)
+				.forEach(point -> ((GeoPoint) point).setComplexSolutionVar(var));
 	}
 
 	private GeoElement[] processEquation(Equation equ, ExpressionNode def,

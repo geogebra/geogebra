@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
@@ -772,6 +773,9 @@ public class GeoSymbolic extends GeoElement
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode, twinInfo);
 		GeoElement result = elements.length > 1 || needsListWrapping(elements[0])
 				? toGeoList(elements) : elements[0];
+		if (isOutputOfCSolveCommand()) {
+			handleOutputOfCSolveCommand(result);
+		}
 		AlgoElement parentAlgo = elements[0].getParentAlgorithm();
 		if (cons.isRegisteredEuclidianViewCE(parentAlgo)) {
 			cons.unregisterEuclidianViewCE(parentAlgo);
@@ -811,6 +815,80 @@ public class GeoSymbolic extends GeoElement
 			geoList.add(element);
 		}
 		return geoList;
+	}
+
+	/**
+	 * In case the created, complex GeoPoint(s) are the outcome of the CSolve command, we want to
+	 * make sure they are printed in the form x = a + b*i. If the result is a list containing both
+	 * GeoPoints and GeoLines, this method ensures the created GeoLines are replaced by a GeoPoint.
+	 * @param result GeoElement
+	 */
+	private void handleOutputOfCSolveCommand(GeoElement result) {
+		if (result instanceof GeoList) {
+			unifySolutionFormatForCSolveCommand((GeoList) result);
+		}
+		markPointsAsOutputOfCSolveCommand(result);
+	}
+
+	/**
+	 * @return Whether this is an output of the CSolve command. Also checks if it
+	 * is a nested command.
+	 */
+	private boolean isOutputOfCSolveCommand() {
+		if (getDefinition() == null || getDefinition().getTopLevelCommand() == null) {
+			return false;
+		}
+		Command command = getDefinition().getTopLevelCommand();
+		if (command.getName().equals(Commands.CSolve.name())) {
+			return true;
+		}
+		return Arrays.stream(command.getArguments())
+				.map(arg -> arg.getLeft())
+				.filter(arg -> arg instanceof GeoSymbolic)
+				.map(left -> (GeoSymbolic) left)
+				.filter(GeoSymbolic::isOutputOfCSolveCommand)
+				.findAny().isPresent();
+	}
+
+	/**
+	 * Ensures the output of the CSolve command is resulting in GeoPoints.
+	 * @param list GeoList
+	 */
+	private void unifySolutionFormatForCSolveCommand(GeoList list) {
+		list.elements().filter(element -> element instanceof GeoLine)
+				.forEach(line -> {
+					GeoPoint replace = createPointFromLine((GeoLine) line);
+					list.replace(line, replace);
+				});
+	}
+
+	private GeoPoint createPointFromLine(GeoLine line) {
+		GeoPoint point = new GeoPoint(getConstruction(), 0, 0, 1);
+		ExpressionValue lhs = line.getEquation().getLHS().unwrap();
+		ExpressionValue rhs = line.getEquation().getRHS().unwrap();
+		if (lhs instanceof FunctionVariable) {
+			String varStr = ((FunctionVariable) lhs).getSetVarString();
+			point.setComplexSolutionVar(varStr);
+			if (rhs.isNumberValue()) {
+				if (varStr.equals("x")) {
+					point.setX(rhs.evaluateDouble());
+				} else if (varStr.equals("y")) {
+					point.setY(rhs.evaluateDouble());
+				}
+			}
+		}
+		point.setMode(Kernel.COORD_COMPLEX);
+		point.updateCoords();
+		return point;
+	}
+
+	private void markPointsAsOutputOfCSolveCommand(GeoElement result) {
+		if (result instanceof GeoList) {
+			((GeoList) result).elements().filter(element -> element instanceof GeoPoint)
+					.forEach(point -> ((GeoPoint) point).setOutputOfCSolve(true));
+		} else if (result instanceof GeoPoint) {
+			((GeoPoint) result).setOutputOfCSolve(true);
+		}
 	}
 
 	@Override

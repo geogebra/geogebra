@@ -148,6 +148,9 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	private ArrayList<GeoElement> incidenceList;
 	private NumberValue verticalIncrement;
 
+	private boolean outputOfCSolve = false;
+	private String complexSolutionVar = "";
+
 	/**
 	 * create an undefined GeoPoint
 	 *
@@ -1543,12 +1546,17 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		} else if (getToStringMode() == Kernel.COORD_SPHERICAL) {
 			buildValueStringCoordSpherical(kernel, tpl, getInhomX(),
 					getInhomY(), 0, sbToString);
+		} else if (outputOfCSolve) {
+			printAsOutputOfCSolve(tpl);
 		} else {
-			buildValueString(kernel, tpl, getToStringMode(), getInhomX(),
-					getInhomY(), sbToString);
+			buildValueString(kernel, tpl, getToStringMode(), getInhomX(), getInhomY(), sbToString);
 		}
-
 		return sbToString.toString();
+	}
+
+	private void printAsOutputOfCSolve(StringTemplate tpl) {
+		sbToString.append(complexSolutionVar).append(tpl.getEqualsWithSpace());
+		buildValueString(kernel, tpl, getToStringMode(), getInhomX(), getInhomY(), sbToString);
 	}
 
 	/**
@@ -1719,7 +1727,11 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 				tpl.appendOptionalSpace(sbBuildValueString);
 				kernel.formatSignedCoefficient(y, sbBuildValueString, tpl);
 			} else if (y != 1) {
-				sbBuildValueString.append(kernel.format(y, tpl));
+				if (y != -1) {
+					sbBuildValueString.append(kernel.format(y, tpl));
+				} else {
+					sbBuildValueString.append('-');
+				}
 			}
 			sbBuildValueString.append(tpl.getImaginary());
 			break;
@@ -2998,4 +3010,21 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		return super.isCommandOutput();
 	}
 
+	/**
+	 * Sets the {@link #outputOfCSolve} flag which indicates whether a point should be printed
+	 * e.g. in the form <b>x = i, x = -i</b>
+	 * @param outputOfCSolve Whether this element is an output of the CSolve command
+	 */
+	public void setOutputOfCSolve(boolean outputOfCSolve) {
+		this.outputOfCSolve = outputOfCSolve;
+	}
+
+	/**
+	 * Sets the {@link #complexSolutionVar} field which stores the variable name used within
+	 * the CSolve command
+	 * @param cSolveVar The variable name used for printing the point e.g. in the form <b>x</b> = -i
+	 */
+	public void setComplexSolutionVar(String cSolveVar) {
+		this.complexSolutionVar = cSolveVar;
+	}
 }

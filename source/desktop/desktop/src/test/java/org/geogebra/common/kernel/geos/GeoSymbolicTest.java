@@ -2418,6 +2418,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	@Issue("APPS-6354")
+	public void testCSolve() {
+		assertThat(add("CSolve(x^2=-1)"), hasValue("{x = ί, x = -ί}"));
+		assertThat(add("CSolve((abc)^2=-4)"), hasValue("{abc = 2ί, abc = -2 ί}"));
+	}
+
+	@Test
 	public void powerOfImplicitMultiplication() {
 		GeoSymbolic s = add("a(2/3)^2");
 		assertThat(s, hasValue("4 / 9 a"));

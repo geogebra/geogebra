@@ -779,7 +779,21 @@ public class GeoList extends GeoElement
 	 */
 	public final void remove(final GeoElement geo) {
 		elements.remove(geo);
+	}
 
+	/**
+	 * Removes an element from the list and subsequently inserts a new element at the original
+	 * index. Note: The replaced element is not removed from the construction.
+	 * @param oldGeo Element to replace
+	 * @param newGeo Element to add
+	 */
+	public final void replace(final GeoElement oldGeo, final GeoElement newGeo) {
+		int oldIndex = elements.indexOf(oldGeo);
+		if (oldIndex == -1) {
+			return;
+		}
+		elements.remove(oldIndex);
+		elements.add(oldIndex, newGeo);
 	}
 
 	/**
@@ -805,7 +819,6 @@ public class GeoList extends GeoElement
 	 */
 	public final void remove(final int index) {
 		elements.remove(index);
-
 	}
 
 	/**
