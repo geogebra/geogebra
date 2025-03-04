@@ -1085,7 +1085,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void openFile() {
-		if (examController.isIdle()) {
+		if (examController.isIdle() && getApp().enableOnlineFileFeatures()
+				&& getApp().showMenuBar()) {
 			getApp().openSearch("");
 		}
 	}
