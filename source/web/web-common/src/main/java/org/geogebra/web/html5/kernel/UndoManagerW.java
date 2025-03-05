@@ -48,7 +48,6 @@ public class UndoManagerW extends DefaultUndoManager {
 		}
 		try {
 			app.setActiveSlide(slideID);
-			app.getEuclidianView1().setKeepCenter(false);
 			// load from file
 			String tempXML = state.getXml();
 			if (tempXML == null) {

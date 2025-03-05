@@ -271,7 +271,6 @@ public class GeoGebraFrameFull
 			getKeyboardManager().onScreenEditingEnded();
 		}
 
-		app.getEuclidianView1().setKeepCenter(false);
 		if (show) {
 			showZoomPanel(false);
 			keyboardState = KeyboardState.ANIMATING_IN;
