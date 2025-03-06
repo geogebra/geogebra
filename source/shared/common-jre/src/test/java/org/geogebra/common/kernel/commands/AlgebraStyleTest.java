@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -10,7 +11,6 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.gui.view.algebra.SuggestionStatistics;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -371,7 +372,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void oneLHSshouldBeDisplayedInLaTeX() {
+	public void oneLHSShouldBeDisplayedInLaTeX() {
 		t("a = 7");
 		t("h(x) = a*x");
 		assertEquals("h\\left(x \\right)\\, = \\,a \\; x",
@@ -813,5 +814,18 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		GeoVector vec = add("v=(1;3)");
 		assertTrue("should be polar", vec.isPolar());
 		assertThat(vec.getDefinitionForEditor(), is("v=(1; 3)"));
+	}
+
+	@Test
+	public void defaultEngineeringNotation() {
+		getApp().getSettings().getAlgebra().setEngineeringNotationEnabled(true);
+		getKernel().setPrintDecimals(5);
+		GeoNumeric small = add("0.0000000001");
+		assertTrue(small.isEngineeringNotationMode());
+		small = add("0.0001");
+		assertFalse(small.isEngineeringNotationMode());
+		getKernel().setPrintDecimals(2);
+		small = add("0.0001");
+		assertTrue(small.isEngineeringNotationMode());
 	}
 }

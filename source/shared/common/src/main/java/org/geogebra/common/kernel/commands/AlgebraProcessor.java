@@ -3424,11 +3424,21 @@ public class AlgebraProcessor {
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
 			ret.setLabel(label);
+			if (ret instanceof GeoNumeric && needsEngineeringNotation(ret)) {
+				((GeoNumeric) ret).setEngineeringNotationMode(true);
+			}
 		} else {
 			cons.removeFromConstructionList(ret);
 		}
 
 		return array(ret);
+	}
+
+	private boolean needsEngineeringNotation(GeoElement number) {
+		return app.getSettings().getAlgebra().isEngineeringNotationEnabled()
+				&& !app.getKernel().getLoadingMode()
+				&& !app.getKernel().useSignificantFigures
+				&& number.evaluateDouble() < Math.pow(10, -app.getKernel().getPrintDecimals());
 	}
 
 	/**
