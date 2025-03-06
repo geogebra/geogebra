@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
@@ -20,13 +19,9 @@ public class GridStyleProperty extends AbstractNamedEnumeratedProperty<Integer>
 
 	private EuclidianSettings euclidianSettings;
 
-	private PropertyResource[] icons = PreviewFeature.isAvailable(PreviewFeature.GRID_TYPE_DOTS)
-			? new PropertyResource[]{PropertyResource.ICON_CARTESIAN,
+	private PropertyResource[] icons = new PropertyResource[]{PropertyResource.ICON_CARTESIAN,
 			PropertyResource.ICON_CARTESIAN_MINOR, PropertyResource.ICON_POLAR,
-			PropertyResource.ICON_ISOMETRIC, PropertyResource.ICON_DOTS}
-			: new PropertyResource[]{PropertyResource.ICON_CARTESIAN,
-			PropertyResource.ICON_CARTESIAN_MINOR, PropertyResource.ICON_POLAR,
-			PropertyResource.ICON_ISOMETRIC};
+			PropertyResource.ICON_ISOMETRIC, PropertyResource.ICON_DOTS};
 
 	/**
 	 * Controls a grid style property.
@@ -36,20 +31,12 @@ public class GridStyleProperty extends AbstractNamedEnumeratedProperty<Integer>
 	public GridStyleProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "GridType");
 		this.euclidianSettings = euclidianSettings;
-		if (PreviewFeature.isAvailable(PreviewFeature.GRID_TYPE_DOTS)) {
-			setNamedValues(List.of(
-					entry(EuclidianView.GRID_CARTESIAN, "Grid.Major"),
-					entry(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID, "Grid.MajorAndMinor"),
-					entry(EuclidianView.GRID_POLAR, "Polar"),
-					entry(EuclidianView.GRID_ISOMETRIC, "Isometric"),
-					entry(EuclidianView.GRID_DOTS, "Dots")));
-		} else {
-			setNamedValues(List.of(
-					entry(EuclidianView.GRID_CARTESIAN, "Grid.Major"),
-					entry(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID, "Grid.MajorAndMinor"),
-					entry(EuclidianView.GRID_POLAR, "Polar"),
-					entry(EuclidianView.GRID_ISOMETRIC, "Isometric")));
-		}
+		setNamedValues(List.of(
+				entry(EuclidianView.GRID_CARTESIAN, "Grid.Major"),
+				entry(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID, "Grid.MajorAndMinor"),
+				entry(EuclidianView.GRID_POLAR, "Polar"),
+				entry(EuclidianView.GRID_ISOMETRIC, "Isometric"),
+				entry(EuclidianView.GRID_DOTS, "Dots")));
 	}
 
 	@Override

@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.main.PreviewFeature;
-
 /**
  * Types of MOW backgrounds. *
  * 
@@ -58,8 +56,7 @@ public enum BackgroundType {
 	 * Ordered list of ruling options used for the settings
 	 */
 	final public static List<BackgroundType> rulingOptions =
-			PreviewFeature.isAvailable(PreviewFeature.GRID_TYPE_DOTS)
-					? Collections.unmodifiableList(Arrays.asList(
+			Collections.unmodifiableList(Arrays.asList(
 					BackgroundType.NONE,
 					BackgroundType.RULER,
 					BackgroundType.SQUARE_SMALL,
@@ -71,19 +68,7 @@ public enum BackgroundType {
 					BackgroundType.MUSIC,
 					BackgroundType.ISOMETRIC,
 					BackgroundType.POLAR,
-					BackgroundType.DOTS))
-					: Collections.unmodifiableList(Arrays.asList(
-					BackgroundType.NONE,
-					BackgroundType.RULER,
-					BackgroundType.SQUARE_SMALL,
-					BackgroundType.SQUARE_BIG,
-					BackgroundType.ELEMENTARY12_HOUSE,
-					BackgroundType.ELEMENTARY12_COLORED,
-					BackgroundType.ELEMENTARY12,
-					BackgroundType.ELEMENTARY34,
-					BackgroundType.MUSIC,
-					BackgroundType.ISOMETRIC,
-					BackgroundType.POLAR));
+					BackgroundType.DOTS));
 
 	private int value;
 

@@ -40,11 +40,7 @@ public enum PreviewFeature {
 	/** APPS-5815 */
 	RATIONALIZE_FRACTIONS,
 	/** APPS-5872, removal APPS-6335 */
-	SPREADSHEET_INSERT_REFERENCE,
-	/**
-	 * MOW-1626
-	 */
-	GRID_TYPE_DOTS();
+	SPREADSHEET_INSERT_REFERENCE;
 
 	/**
 	 * Global flag to activate feature previews.
