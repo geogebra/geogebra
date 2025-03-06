@@ -31,8 +31,6 @@ public enum PreviewFeature {
 	IB_EXAM,
 	/** APPS-5740 */
 	REALSCHULE_EXAM,
-	/** APPS-6004 */
-	ENGINEERING_BUTTON,
 	/** APPS-6134, removal APPS-6217 */
 	REALSCHULE_TEMPLATES,
 	/**
