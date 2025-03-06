@@ -64,6 +64,11 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		compute();
 		if (type != Commands.PlotSolve) {
 			solutions.setEuclidianVisible(false);
+		} else {
+			solutions.setTypeStringForXML("point");
+		}
+		if (type == Commands.Solve || type == Commands.NSolve) {
+			solutions.setTypeStringForXML("line");
 		}
 	}
 

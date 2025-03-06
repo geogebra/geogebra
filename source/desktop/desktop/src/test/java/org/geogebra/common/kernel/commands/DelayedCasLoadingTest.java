@@ -113,6 +113,21 @@ public class DelayedCasLoadingTest {
 		assertThat(asymptotes, hasValue("{y = x, x = 0}"));
 	}
 
+	@Test
+	public void zipSolveShouldWorkAfterLoad() {
+		add("l1=Solve(x^2=1)");
+		add("l2=NSolve(x^2=1)");
+		add("l3=PlotSolve(x^2=1)");
+		GeoElementND solve = add("Zip(RightSide(t),t,l1)");
+		GeoElementND nSolve = add("Zip(RightSide(t),t,l2)");
+		GeoElementND plotSolve = add("Zip(Length(t),t,l3)");
+		active = true;
+		app.getKernel().refreshCASCommands();
+		assertEquals("{-1, 1}", solve.toValueString(StringTemplate.testTemplate));
+		assertEquals("{-1, 1}", nSolve.toValueString(StringTemplate.testTemplate));
+		assertEquals("{1, 1}", plotSolve.toValueString(StringTemplate.testTemplate));
+	}
+
 	private GeoElementND add(String s) {
 		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(s, false)[0];
 	}
