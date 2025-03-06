@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
@@ -70,6 +71,8 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), this,
 				canvas, this);
+		mf.getInternal().getMathFieldController().useSimpleMatrixPlaceholders(
+				!PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_TEMPLATES));
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		mf.setOnBlur(this);
 		add(mf);

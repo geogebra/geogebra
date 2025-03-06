@@ -75,7 +75,7 @@ public class TeXBuilder {
 	private HashMap<Atom, MathComponent> atomToComponent;
 	private final TeXParser parser;
 	private final TeXSerializer teXSerializer;
-	private boolean isEditingInputbox = false;
+	private boolean useSimplePlaceholders = false;
 
 	private final static HashMap<Character, String> replacements = new HashMap<>();
 
@@ -95,10 +95,10 @@ public class TeXBuilder {
 	}
 
 	/**
-	 * @param inputbox Whether or not an inputbox is currently edited
+	 * @param useSimplePlaceholders Whether to use simple placeholders in matrix
 	 */
-	public void setEditingInputbox(boolean inputbox) {
-		isEditingInputbox = inputbox;
+	public void useSimpleMatrixPlaceholders(boolean useSimplePlaceholders) {
+		this.useSimplePlaceholders = useSimplePlaceholders;
 	}
 
 	private Atom buildSequence(MathSequence mathFormula) {
@@ -188,7 +188,7 @@ public class TeXBuilder {
 
 	private Atom getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
-		if (parent != null && parent.isRenderingOwnPlaceholders() && !isEditingInputbox) {
+		if (parent != null && parent.isRenderingOwnPlaceholders() && !useSimplePlaceholders) {
 			return zwsp();
 		}
 		if (parent == null
@@ -324,7 +324,7 @@ public class TeXBuilder {
 						atoms.add(EnvArray.ColSep.get());
 					}
 					argument = array.getArgument(i, j);
-					atoms.add(isEditingInputbox ? build(argument) : fancyPlaceholder(argument));
+					atoms.add(useSimplePlaceholders ? build(argument) : fancyPlaceholder(argument));
 				}
 				atoms.add(EnvArray.RowSep.get());
 			}

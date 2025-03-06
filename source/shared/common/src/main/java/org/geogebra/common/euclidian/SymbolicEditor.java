@@ -48,6 +48,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		this.app = app;
 		this.view = view;
 		this.texSerializer = new TeXSerializer(new SyntaxAdapterImpl(app.getKernel()));
+		texSerializer.useSimpleMatrixPlaceholders(true);
 		asciiSerializer.forceRoundBrackets();
 	}
 
@@ -186,6 +187,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		}
 	}
 
+	@SuppressWarnings("CheckResult")
 	private boolean isSimpleNumber(MathFieldInternal mf) {
 		String text = mf.getText();
 		try {

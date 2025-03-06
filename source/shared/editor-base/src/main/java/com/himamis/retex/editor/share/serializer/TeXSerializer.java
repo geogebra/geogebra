@@ -31,7 +31,7 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String PLACEHOLDER_INVISIBLE = "\\nbsp{}";
 	private boolean showPlaceholder = true;
 	private boolean lineBreakEnabled = false;
-	private boolean isEditingInputbox = false;
+	private boolean useSimplePlaceholders = false;
 
 	private SyntaxAdapter syntaxAdapter;
 
@@ -110,10 +110,10 @@ public class TeXSerializer extends SerializerAdapter {
 	}
 
 	/**
-	 * @param inputbox Whether or not an input box is currently being edited
+	 * @param useSimplePlaceholders Whether to use simple placeholders in matrix
 	 */
-	public void setEditingInputBox(boolean inputbox) {
-		isEditingInputbox = inputbox;
+	public void useSimpleMatrixPlaceholders(boolean useSimplePlaceholders) {
+		this.useSimplePlaceholders = useSimplePlaceholders;
 	}
 
 	@Override
@@ -441,7 +441,7 @@ public class TeXSerializer extends SerializerAdapter {
 
 	@Override
 	public void serialize(MathArray array, StringBuilder stringBuilder) {
-		boolean showFancyPlaceholders = array.isMatrix() && !isEditingInputbox;
+		boolean showFancyPlaceholders = array.isMatrix() && !useSimplePlaceholders;
 		if (this.currentSelStart == array) {
 			stringBuilder.append(TeXSerializer.selection_start);
 		}

@@ -1540,4 +1540,48 @@ public interface Traversing {
 		}
 	}
 
+	/**
+	 * Needed unless {@link org.geogebra.common.main.PreviewFeature.REALSCHULE_TEMPLATES}
+	 * is released.
+	 */
+	class ListVectorReplacer implements Traversing {
+
+		Kernel kernel;
+
+		public ListVectorReplacer(Kernel kernel) {
+			this.kernel = kernel;
+		}
+
+		@Override
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof MyList) {
+				MyList list = (MyList) ev;
+				if (isVector(list)) {
+					if (list.getMatrixRows() == 2) {
+						return new MyVecNode(kernel,
+								getElement(list, 0),
+								getElement(list, 1));
+					} else {
+						return new MyVec3DNode(kernel,
+								getElement(list, 0),
+								getElement(list, 1),
+								getElement(list, 2));
+					}
+				}
+			}
+			return ev;
+		}
+
+		private ExpressionValue getElement(MyList list, int index) {
+			MyList row = (MyList) list.getItem(index).unwrap();
+			return row.getItem(0);
+		}
+
+		private boolean isVector(MyList list) {
+			int cols = list.getMatrixCols();
+			int rows = list.getMatrixRows();
+			return list.isMatrix() && cols == 1 && (rows == 2 || rows == 3);
+		}
+	}
+
 }

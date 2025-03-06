@@ -126,6 +126,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.Settings;
@@ -640,7 +641,6 @@ public class AlgebraProcessor {
 			final boolean storeUndoInfo,
 			final AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
 		String oldLabel, newLabel;
-		GeoElementND[] result;
 
 		app.getCompanion().storeViewCreators();
 
@@ -686,7 +686,7 @@ public class AlgebraProcessor {
 		} else if (cons.isFreeLabel(newLabel)) {
 			newValue.setLabel(oldLabel);
 			// rename to oldLabel to enable overwriting
-			result = processAlgebraCommandNoExceptionHandling(newValue, false,
+			GeoElementND[] result = processAlgebraCommandNoExceptionHandling(newValue, false,
 					handler, null, info);
 			if (result != null) {
 				result[0].setLabel(newLabel); // now we rename
@@ -703,7 +703,6 @@ public class AlgebraProcessor {
 		}
 
 		cons.registerFunctionVariable(null);
-
 	}
 
 	private void updateTypePreservingFlags(ValidExpression newValue, GeoElementND geo,
@@ -2046,7 +2045,7 @@ public class AlgebraProcessor {
 	/**
 	 * processes valid expression.
 	 *
-	 * @param expression
+	 * @param exp
 	 *            expression to process
 	 * @param info
 	 *            processing information
@@ -2056,9 +2055,10 @@ public class AlgebraProcessor {
 	 *             for circular definition
 	 * @return resulting geos
 	 */
-	public GeoElement[] processValidExpression(ValidExpression expression,
+	public GeoElement[] processValidExpression(ValidExpression exp,
 			EvalInfo info) throws MyError, CircularDefinitionException {
 		EvalInfo evalInfo = info;
+		ValidExpression expression = exp;
 		// check for existing labels
 		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
@@ -2079,7 +2079,10 @@ public class AlgebraProcessor {
 			evalInfo = evalInfo.withRedefinition(true);
 			cons.setSuppressLabelCreation(true);
 			isRedefining = true;
-			if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
+			if (replaceable.isGeoVector()
+					&& !PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_TEMPLATES)) {
+				expression = convertColumnMatrixToVector(labels, expression);
+			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
 				evalInfo = evalInfo.withSymbolicMode(SymbolicMode.NONE);
 			}
         }
@@ -3946,4 +3949,19 @@ public class AlgebraProcessor {
 	public void removeGeoElementSetup(GeoElementSetup geoElementSetup) {
 		geoElementSetups.remove(geoElementSetup);
 	}
+
+	/*
+	 * Depending on PreviewFeature.REALSCHULE_TEMPLATE vectors can come back from editor
+	 * as $vector(1,2) or {{1},{2}}. This method normalizes them to the former,
+	 * should be removed when feature flag is gone.
+	 */
+	private ValidExpression convertColumnMatrixToVector(String[] labels,
+			ValidExpression expression) {
+		ValidExpression copy = expression.deepCopy(kernel);
+		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
+		copy.setLabels(labels);
+		expression.wrap().copyAttributesTo(copy.wrap());
+		return copy;
+	}
+
 }

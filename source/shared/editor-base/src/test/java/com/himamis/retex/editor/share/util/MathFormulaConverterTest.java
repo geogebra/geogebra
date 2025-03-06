@@ -17,7 +17,7 @@ public class MathFormulaConverterTest {
 
 	@Before
 	public void setup() {
-		converter.getTexSerializer().setEditingInputBox(true);
+		converter.getTexSerializer().useSimpleMatrixPlaceholders(true);
 	}
 
 	@Test

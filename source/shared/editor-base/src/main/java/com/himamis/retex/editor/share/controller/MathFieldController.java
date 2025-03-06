@@ -71,11 +71,11 @@ public class MathFieldController {
 	}
 
 	/**
-	 * @param inputBox Whether an input box is currently being edited
+	 * @param simplePlaceholders Whether simple placeholders should be used for matrix editing
 	 */
-	public void setEditingInputBox(boolean inputBox) {
-		texSerializer.setEditingInputBox(inputBox);
-		texBuilder.setEditingInputbox(inputBox);
+	public void useSimpleMatrixPlaceholders(boolean simplePlaceholders) {
+		texSerializer.useSimpleMatrixPlaceholders(simplePlaceholders);
+		texBuilder.useSimpleMatrixPlaceholders(simplePlaceholders);
 	}
 
 	/**
