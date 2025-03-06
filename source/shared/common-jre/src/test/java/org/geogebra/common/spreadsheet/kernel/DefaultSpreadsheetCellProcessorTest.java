@@ -22,12 +22,12 @@ import org.junit.Test;
 
 public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	private DefaultSpreadsheetCellProcessor processor;
-	private final DefaultSpreadsheetCellDataSerializer
-			serializer = new DefaultSpreadsheetCellDataSerializer();
+	private DefaultSpreadsheetCellDataSerializer serializer;
 
 	@Before
 	public void setAppConfig() {
 		getApp().setConfig(new AppConfigGraphing());
+		serializer = new DefaultSpreadsheetCellDataSerializer();
 	}
 
 	@Before
@@ -41,7 +41,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	@Test
 	public void testTextInput() {
 		processor.process("(1, 1)", "A1");
-		assertEquals(lookup("A1").getGeoClassType(), GeoClass.TEXT);
+		assertEquals(GeoClass.TEXT, lookup("A1").getGeoClassType());
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
 	}
@@ -59,7 +59,8 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		processor.process("=(1, 1)", "A1");
 		assertTrue(lookup("A1").isGeoPoint());
 		assertIsAuxiliary();
-		assertIsEuclidianInvisible();
+		assertTrue("Points from spreadsheet should be visible.",
+				lookup("A1").isEuclidianVisible());
 	}
 
 	@Test
@@ -103,16 +104,12 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	public void testSerializeText() {
 		processor.process("(1, 1)", "A1");
 		assertSerializedAs("(1, 1)", "A1");
-		assertIsAuxiliary();
-		assertIsEuclidianInvisible();
 	}
 
 	@Test
 	public void testSerializePoint() {
 		processor.process("=(1,1)", "A1");
 		assertSerializedAs("=(1,1)", "A1");
-		assertIsAuxiliary();
-		assertIsEuclidianInvisible();
 	}
 
 	@Test
@@ -142,17 +139,17 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	public void testErrorShouldBeTextWithOriginalInput() {
 		processor.process("=1+@", "A1");
 		GeoElement a1 = lookup("A1");
-		assertEquals(a1.getGeoClassType(), GeoClass.NUMERIC);
-		assertEquals(serializer.getStringForEditor(lookup("A1")),
-				"=1+@");
+		assertEquals(GeoClass.NUMERIC, a1.getGeoClassType());
+		assertEquals("=1+@",
+				serializer.getStringForEditor(lookup("A1")));
 	}
 
 	@Test
 	public void testNoOperationForTextMinus() {
 		processor.process("7-2", "A1");
-		assertEquals(lookup("A1").getGeoClassType(), GeoClass.TEXT);
+		assertEquals(GeoClass.TEXT, lookup("A1").getGeoClassType());
 		processor.process("-7-2", "A1");
-		assertEquals(lookup("A1").getGeoClassType(), GeoClass.TEXT);
+		assertEquals(GeoClass.TEXT, lookup("A1").getGeoClassType());
 	}
 
 	@Test
@@ -163,7 +160,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 
 		processor.process("Text(\"foo\")", "A2");
 		GeoElement a2 = lookup("A2");
-		assertEquals(a2.getGeoClassType(), GeoClass.TEXT);
+		assertEquals(GeoClass.TEXT, a2.getGeoClassType());
 		assertThat(getCommand(a2), nullValue());
 	}
 
@@ -175,13 +172,13 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 
 		processor.process("=A1+A1", "A2");
 		GeoElement a2 = lookup("A2");
-		assertEquals(a2.getGeoClassType(), GeoClass.NUMERIC);
+		assertEquals(GeoClass.NUMERIC, a2.getGeoClassType());
 		assertEquals(Algos.Expression, getCommand(a2));
 		assertThat(a2, not(isDefined()));
 
 		processor.process("=Length(A1)", "A3");
 		GeoElement a3 = lookup("A3");
-		assertEquals(a3.getGeoClassType(), GeoClass.NUMERIC);
+		assertEquals(GeoClass.NUMERIC, a3.getGeoClassType());
 		assertEquals(Commands.ParseToNumber, getCommand(a3));
 		assertThat(a3, not(isDefined()));
 	}
@@ -190,7 +187,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	public void testInvalidInputShouldHaveError() {
 		processor.process("=1+%", "A1");
 		GeoElement a1 = lookup("A1");
-		assertEquals(a1.getGeoClassType(), GeoClass.NUMERIC);
+		assertEquals(GeoClass.NUMERIC, a1.getGeoClassType());
 		assertEquals(Commands.ParseToNumber, getCommand(a1));
 	}
 
@@ -201,7 +198,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		add("B3=A2+B2");
 		processor.process("=A2+B3", "B3");
 		GeoElement b3 = lookup("B3");
-		assertEquals(b3.getGeoClassType(), GeoClass.NUMERIC);
+		assertEquals(GeoClass.NUMERIC, b3.getGeoClassType());
 		assertEquals(Commands.ParseToNumber, getCommand(b3));
 	}
 

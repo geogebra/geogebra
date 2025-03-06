@@ -28,7 +28,7 @@ final class CopyPasteCellOperation {
 	 * @param tabularData to paste to.
 	 */
 	void apply(TabularData<GeoElement> tabularData) {
-		KernelTabularDataAdapter.setEuclidianInvisibleAndAuxiliaryObject(geoToCopy);
+		KernelTabularDataAdapter.setEuclidianVisibilityAndAuxiliaryFlag(geoToCopy);
 		tabularData.setContent(destRow, destCol, geoToCopy);
 	}
 

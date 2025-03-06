@@ -86,7 +86,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 
 	private void setInitialProperties(GeoElementND geo) {
 		((GeoElement) geo).setEmptySpreadsheetCell(false);
-		KernelTabularDataAdapter.setEuclidianInvisibleAndAuxiliaryObject(geo);
+		KernelTabularDataAdapter.setEuclidianVisibilityAndAuxiliaryFlag(geo);
 	}
 
 	private boolean checkCircularDefinition(String input, Kernel kernel) {

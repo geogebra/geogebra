@@ -255,14 +255,15 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	/**
-	 * Sets the given element as invisible in the graphics view and marks it
-	 * as an auxiliary object.
-	 *
-	 * @param geo the element to be modified; it will be made invisible in the
-	 *            graphics view and marked as auxiliary.
+	 * Sets default visibility (false for texts, true for other objects) for graphics
+	 * and auxiliary flag (always true) for AV .
+	 * @see org.geogebra.common.gui.view.spreadsheet.RelativeCopy#setVisibilityFlags(GeoElementND) 
+	 * @param geo the element to be modified
 	 */
-	public static void setEuclidianInvisibleAndAuxiliaryObject(GeoElementND geo) {
-		geo.setEuclidianVisible(false);
+	public static void setEuclidianVisibilityAndAuxiliaryFlag(GeoElementND geo) {
+		if (geo.isGeoText()) {
+			geo.setEuclidianVisible(false);
+		}
 		geo.setAuxiliaryObject(true);
 		geo.updateVisualStyle(GProperty.VISIBLE);
 	}

@@ -989,11 +989,8 @@ public class RelativeCopy {
 				}
 			}
 
-			for (int i = 0; i < newValues.length; i++) {
-				newValues[i].setAuxiliaryObject(true);
-				if (newValues[i].isGeoText()) {
-					newValues[i].setEuclidianVisible(false);
-				}
+			for (GeoElementND newValue : newValues) {
+				setVisibilityFlags(newValue);
 			}
 
 			LabelManager.setLabels(name, newValues); // set names to be D1,
@@ -1018,6 +1015,17 @@ public class RelativeCopy {
 			newValues[0].update();
 		}
 		return newValues[0];
+	}
+
+	/**
+	 * Sets euclidian visibility and auxiliary flag.
+	 * @param element element to be modified
+	 */
+	public static void setVisibilityFlags(GeoElementND element) {
+		element.setAuxiliaryObject(true);
+		if (element.isGeoText()) {
+			element.setEuclidianVisible(false);
+		}
 	}
 
 	private void updateOldValue(final GeoElementND oldValue, String name, String text0,
