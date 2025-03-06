@@ -69,6 +69,7 @@ import static org.geogebra.common.kernel.commands.Commands.Ends;
 import static org.geogebra.common.kernel.commands.Commands.Envelope;
 import static org.geogebra.common.kernel.commands.Commands.ExtendedGCD;
 import static org.geogebra.common.kernel.commands.Commands.Focus;
+import static org.geogebra.common.kernel.commands.Commands.Function;
 import static org.geogebra.common.kernel.commands.Commands.GroebnerDegRevLex;
 import static org.geogebra.common.kernel.commands.Commands.GroebnerLex;
 import static org.geogebra.common.kernel.commands.Commands.GroebnerLexDeg;
@@ -238,7 +239,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				Polygon, Polyline, Prove, ProveDetails, Radius, RigidPolygon, Sector, Segment,
 				Slope, Tangent, TriangleCenter, TriangleCurve, Trilinear, Vertex, Polynomial,
 				TaylorPolynomial, Asymptote, OsculatingCircle, CommonDenominator, CompleteSquare,
-				Div, Mod, Division));
+				Div, Mod, Division, Function));
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
