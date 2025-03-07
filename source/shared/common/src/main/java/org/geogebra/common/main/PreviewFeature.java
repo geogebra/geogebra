@@ -33,10 +33,6 @@ public enum PreviewFeature {
 	REALSCHULE_EXAM,
 	/** APPS-6134, removal APPS-6217 */
 	REALSCHULE_TEMPLATES,
-	/**
-	 * APPS-6237
-	 */
-	CALCULATE_MENU_ITEM,
 	/** APPS-5815 */
 	RATIONALIZE_FRACTIONS,
 	/** APPS-5872, removal APPS-6335 */

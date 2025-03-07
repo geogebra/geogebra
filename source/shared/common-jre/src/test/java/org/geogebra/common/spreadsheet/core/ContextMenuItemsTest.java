@@ -57,7 +57,7 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testCellMenuOrder() {
 		testMenuOrder(1, 1,
-				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_ROW_ABOVE,
+				Arrays.asList(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_ROW_ABOVE,
 						INSERT_ROW_BELOW, INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT, DIVIDER,
 						DELETE_ROW, DELETE_COLUMN));
 	}
@@ -73,14 +73,14 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testRowMenuOrder() {
 		testMenuOrder(1, HEADER_INDEX,
-				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_ROW_ABOVE,
+				Arrays.asList(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_ROW_ABOVE,
 						INSERT_ROW_BELOW, DIVIDER, DELETE_ROW));
 	}
 
 	@Test
 	public void testColumnMenuOrder() {
 		testMenuOrder(HEADER_INDEX, 1,
-				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_COLUMN_LEFT,
+				Arrays.asList(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_COLUMN_LEFT,
 						INSERT_COLUMN_RIGHT, DIVIDER, DELETE_COLUMN));
 	}
 
