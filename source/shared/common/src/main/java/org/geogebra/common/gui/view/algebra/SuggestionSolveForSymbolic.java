@@ -17,6 +17,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.StringUtil;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	private static final int EQUATION_LIMIT = 4;
 	private final List<GeoElementND> geos;
@@ -109,6 +111,8 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	 *            construction element
 	 * @return suggestion if applicable
 	 */
+	@SuppressFBWarnings(value = "HSM_HIDING_METHOD",
+			justification = "Move getting suggestions to common first.")
 	public static Suggestion get(GeoElement geo) {
 		if (!isValid(geo)) {
 			return null;

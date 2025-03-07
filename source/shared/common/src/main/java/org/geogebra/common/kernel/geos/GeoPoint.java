@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.AnimationManager;
@@ -134,8 +133,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	private PathParameter tempPathParameter;
 
 	private StringBuilder sbToString = new StringBuilder(50);
-
-	private static volatile TreeSet<AlgoElement> tempSet;
 
 	private Coords coords2D;
 	private Coords inhomCoords3D;
@@ -1880,13 +1877,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		if (locateableList != null) {
 			GeoElement.updateCascadeLocation(locateableList, cons);
 		}
-	}
-
-	protected static TreeSet<AlgoElement> getTempSet() {
-		if (tempSet == null) {
-			tempSet = new TreeSet<>();
-		}
-		return tempSet;
 	}
 
 	@Override

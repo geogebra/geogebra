@@ -273,14 +273,10 @@ public class GeoGebraFrame extends JFrame
 	 * Main method to create initial GeoGebra window.
 	 * 
 	 * @param args
-	 *            file name parameter
+	 *            command line arguments
+	 * @param wnd initial window
 	 */
-	public static synchronized void main(CommandLineArguments args) {
-
-		init(args, new GeoGebraFrame());
-	}
-
-	protected static synchronized void init(CommandLineArguments args,
+	public static synchronized void init(CommandLineArguments args,
 			GeoGebraFrame wnd) {
 		initLogger(args);
 		// Fixing #3772

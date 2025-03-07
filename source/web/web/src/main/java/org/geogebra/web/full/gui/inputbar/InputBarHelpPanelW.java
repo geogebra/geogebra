@@ -31,7 +31,6 @@ import org.gwtproject.user.client.ui.TreeItem;
 import org.gwtproject.user.client.ui.VerticalPanel;
 import org.gwtproject.user.client.ui.Widget;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import elemental2.core.JsString;
 
 /**
@@ -327,8 +326,6 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	 * 
 	 * TODO: handle accented characters
 	 */
-	@SuppressFBWarnings({ "SE_COMPARATOR_SHOULD_BE_SERIALIZABLE",
-			"not needed" })
 	private static class LocaleSensitiveComparator
 			implements Comparator<String> {
 

@@ -1,24 +1,20 @@
 <FindBugsFilter>
     <Match>
-        <Bug pattern="EI_EXPOSE_REP" />
-    </Match>
-    <Match>
-        <Bug pattern="EI_EXPOSE_REP2" />
-    </Match>
-    <Match>
-        <Bug pattern="MS_EXPOSE_REP" />
-    </Match>
-    <Match>
-        <Bug pattern="SE_BAD_FIELD" />
-    </Match>
-    <Match>
-        <Bug pattern="SE_BAD_FIELD_STORE" />
-    </Match>
-    <Match>
-        <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
-    </Match>
-    <Match>
-        <Bug pattern="CT_CONSTRUCTOR_THROW" />
+        <Or>
+            <Bug pattern="EI_EXPOSE_REP" />
+            <Bug pattern="EI_EXPOSE_REP2" />
+            <Bug pattern="MS_EXPOSE_REP" />
+            <Bug pattern="SE_BAD_FIELD" />
+            <Bug pattern="SE_BAD_FIELD_STORE" />
+            <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
+            <Bug pattern="CT_CONSTRUCTOR_THROW" />
+            <Bug pattern="SING_SINGLETON_GETTER_NOT_SYNCHRONIZED" />
+            <Bug pattern="AT_NONATOMIC_64BIT_PRIMITIVE"/>
+            <Bug pattern="AT_STALE_THREAD_WRITE_OF_PRIMITIVE"/>
+            <Bug pattern="AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE"/>
+            <Bug pattern="US_USELESS_SUPPRESSION_ON_METHOD"/>
+            <Bug pattern="US_USELESS_SUPPRESSION_ON_FIELD"/>
+        </Or>
     </Match>
     <Match>
         <!-- we might want to replace these with getters. 128 cases -->
@@ -28,12 +24,7 @@
         <!-- name clashes with standard java classes: intentional for ggbjdk, not a big issue overall. 185 cases -->
         <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES" />
     </Match>
-    <Match>
-        <Bug pattern="SING_SINGLETON_GETTER_NOT_SYNCHRONIZED" />
-    </Match>
-    <Match>
-        <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_FIELD_NAMES" />
-    </Match>
+
     <Match>
         <Class name="org.geogebra.web.html5.GeoGebraGlobal"/>
         <Bug pattern="MS_CANNOT_BE_FINAL" />

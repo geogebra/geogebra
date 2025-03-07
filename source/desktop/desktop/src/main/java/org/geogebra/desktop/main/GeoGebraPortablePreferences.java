@@ -75,7 +75,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	}
 
 	/** @return Singleton preferences */
-	public synchronized static GeoGebraPreferencesD getPref() {
+	public synchronized static GeoGebraPreferencesD getPortablePref() {
 		if (singleton == null) {
 			singleton = new GeoGebraPortablePreferences();
 			singleton.loadPreferences();
@@ -312,7 +312,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		return properties.getProperty(key, def);
 	}
 
-	public static void set(String key, String val) {
+	private static void set(String key, String val) {
 		properties.setProperty(key, val);
 	}
 

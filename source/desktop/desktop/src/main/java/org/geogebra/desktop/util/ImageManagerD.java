@@ -618,8 +618,4 @@ public class ImageManagerD extends ImageManager {
 
 				getPixelRatio());
 	}
-
-	public static String fixSVG(String content) {
-		return ImageManager.fixSVG(content);
-	}
 }

@@ -15,6 +15,7 @@ package org.geogebra.desktop;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.net.URL;
+import java.util.function.Supplier;
 
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.debug.Log;
@@ -31,10 +32,14 @@ public class GeoGebra {
 	}
 
 	public static void main(String[] cmdArgs) {
-		(new GeoGebra()).doMain(cmdArgs);
+		doMain(cmdArgs, GeoGebraFrame::new);
 	}
 
-	protected void doMain(String[] cmdArgs) {
+	/**
+	 * @param cmdArgs Command line arguments
+	 * @param frameFactory frame constructor
+	 */
+	public static void doMain(String[] cmdArgs, Supplier<GeoGebraFrame> frameFactory) {
 
 		CommandLineArguments args = new CommandLineArguments(cmdArgs);
 
@@ -69,7 +74,7 @@ public class GeoGebra {
 
 		// Start GeoGebra
 		try {
-			startGeoGebra(args);
+			GeoGebraFrame.init(args, frameFactory.get());
 		} catch (Throwable e) {
 			Log.debug(e);
 			System.err.flush();
@@ -80,11 +85,6 @@ public class GeoGebra {
 		if (splashFrame != null) {
 			splashFrame.setVisible(false);
 		}
-	}
-
-	protected void startGeoGebra(CommandLineArguments args) {
-		// create and open first GeoGebra window
-		GeoGebraFrame.main(args);
 	}
 
 	/**

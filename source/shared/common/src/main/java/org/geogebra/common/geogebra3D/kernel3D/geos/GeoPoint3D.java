@@ -21,7 +21,6 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -154,8 +153,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	private double animationValue;
 
 	private ChangeableParent changeableParent = null;
-
-	private static TreeSet<AlgoElement> tempSet;
 
 	/**
 	 * @return whether getCoordParentNumbers() returns polar variables (r; phi).
@@ -1194,13 +1191,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (locateableList != null) {
 			GeoElement.updateCascadeLocation(locateableList, cons);
 		}
-	}
-
-	protected static TreeSet<AlgoElement> getTempSet() {
-		if (tempSet == null) {
-			tempSet = new TreeSet<>();
-		}
-		return tempSet;
 	}
 
 	// ////////////////////////////////

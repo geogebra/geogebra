@@ -140,7 +140,7 @@ public class GeoGebraPreferencesD {
 	 */
 	public synchronized static GeoGebraPreferencesD getPref() {
 		if (PROPERTY_FILEPATH != null) {
-			return GeoGebraPortablePreferences.getPref();
+			return GeoGebraPortablePreferences.getPortablePref();
 		}
 		if (singleton == null) {
 			singleton = new GeoGebraPreferencesInstalled();

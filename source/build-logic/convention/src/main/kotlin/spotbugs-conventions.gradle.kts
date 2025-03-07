@@ -22,7 +22,7 @@ dependencies {
 
 tasks.withType<SpotBugsTask> {
     reports {
-        create("xml") {
+        create(if (System.getenv("CI") != null) "xml" else "html") {
             required = true
         }
     }

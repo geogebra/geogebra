@@ -21,21 +21,10 @@ package org.geogebra.desktop;
 
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
 
-public class GeoGebra3D extends GeoGebra {
-
-	// hopefully not needed in JOGL 2.2.0 or 2.3.2
-	// static {
-	// RendererJogl.initSingleton();
-	// }
+public class GeoGebra3D {
 
 	public static void main(String[] cmdArgs) {
-		(new GeoGebra3D()).doMain(cmdArgs);
-	}
-
-	@Override
-	protected void startGeoGebra(CommandLineArguments args) {
-		// create and open first GeoGebra window
-		GeoGebraFrame3D.main(args);
+		GeoGebra.doMain(cmdArgs, GeoGebraFrame3D::new);
 	}
 
 }

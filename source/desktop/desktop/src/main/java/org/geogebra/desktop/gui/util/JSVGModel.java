@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.desktop.util.ImageManagerD;
+import org.geogebra.common.util.ImageManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.svg.SVGDocument;
@@ -103,12 +103,11 @@ public class JSVGModel implements SVGModel {
 
 	public void tidyContent() {
 		if (!tidy) {
-			content = ImageManagerD.fixSVG(content);
+			content = ImageManager.fixSVG(content);
 			fixHeader();
 		}
 		tidy = true;
 	}
-
 
 	void fixHeader() {
 		int beginIndex = content.indexOf("<svg");

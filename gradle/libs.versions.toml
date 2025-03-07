@@ -13,7 +13,7 @@ murok = "1.0.202501301331"
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202412181317-SNAPSHOT'
 multiplayer = "1.0.202412180729"
-spotbugs = "4.8.6"
+spotbugs = "4.9.2"
 ideaExt = "1.1.9"
 
 [libraries]
@@ -68,7 +68,7 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
-spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.26" }
+spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.1.7" }
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.1"}
 
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }
