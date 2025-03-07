@@ -2,6 +2,8 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -133,4 +135,9 @@ public class DrawPieChart extends Drawable {
 		return false;
 	}
 
+	@CheckForNull
+	@Override
+	public GRectangle getBounds() {
+		return outline.getBounds();
+	}
 }

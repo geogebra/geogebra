@@ -65,4 +65,13 @@ public class StylebarPositionerTest extends BaseUnitTest {
 				.wrapMousePressed(new TestEvent(x, y));
 	}
 
+	@Test
+	public void pieChartStyleBarPositionStaysConsistent() {
+		GeoElement pieChart = add("PieChart[{1,2,3}]");
+		pointerDown(-200, 400);
+		assertTrue(pieChart.isSelected());
+		assertEquals(new GPoint(286, 240), sp.getPositionForStyleBar(50, 50));
+		pointerDown(-150, 450);
+		assertEquals(new GPoint(286, 240), sp.getPositionForStyleBar(50, 50));
+	}
 }
