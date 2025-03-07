@@ -22,6 +22,7 @@ import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -1078,13 +1079,13 @@ public final class SpreadsheetController {
 		updateSelectionAndScroll(destRow, destCol);
 		if (showEditor) {
 			showCellEditor(destRow, destCol);
+			editor.cellEditor.getMathField().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
 		}
 	}
 
 	private void updateSelectionAndScroll(int destinationRow, int destinationCol) {
 		Selection selection = Selection.getSingleCellSelection(destinationRow, destinationCol);
 		selectionController.select(selection, false, false);
-
 		if (viewport != null && viewportAdjuster != null) {
 			viewport = viewportAdjuster.adjustViewportIfNeeded(destinationRow,
 					destinationCol, viewport);
