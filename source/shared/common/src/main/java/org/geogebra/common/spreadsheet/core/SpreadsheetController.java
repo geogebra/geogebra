@@ -265,7 +265,8 @@ public final class SpreadsheetController {
 		}
 		int column = findColumnOrHeader(x);
 		int row = findRowOrHeader(y);
-		if (isEditorActive() && isInvalidSelection(row, column)) {
+		if (isEditorActive()
+				&& (!editor.isComputedCell() || isInvalidCellReferenceSelection(row, column))) {
 			saveContentAndHideCellEditor();
 		}
 		if (viewportAdjuster != null) {
@@ -303,8 +304,8 @@ public final class SpreadsheetController {
 		}
 	}
 
-	private boolean isInvalidSelection(int row, int column) {
-		return row < 0 || column < 0 || editor.isTextMode()
+	private boolean isInvalidCellReferenceSelection(int row, int column) {
+		return row < 0 || column < 0
 				|| tabularData.contentAt(row, column) == null
 				|| !PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_INSERT_REFERENCE);
 	}
@@ -751,7 +752,7 @@ public final class SpreadsheetController {
 
 	private void handleCellReferenceInsertion() {
 		Optional<Selection> first = selectionController.getSelections().findFirst();
-		if (isEditorActive() && !editor.isTextMode() && first.isPresent()
+		if (isEditorActive() && editor.isComputedCell() && first.isPresent()
 				&& first.get().getType() == SelectionType.CELLS
 				&& !first.get().getRange().contains(editor.row, editor.column)) {
 			editor.updateReference(first.get().getName(tabularData));
@@ -1208,20 +1209,26 @@ public final class SpreadsheetController {
 			}
 		}
 
-		public boolean isTextMode() {
-			return !cellEditor.getMathField().getText().startsWith("=");
+		boolean isComputedCell() {
+			return cellEditor.getMathField().getText().startsWith("=");
 		}
 
-		public void updateReference(String reference) {
+		void updateReference(String reference) {
 			Predicate<MathCharacter> rangeCheck =
 					w -> w.isCharacter() || ":".equals(w.getUnicodeString());
-			String startCell = reference.split(":")[0].trim();
+			String[] parts = reference.split(":");
+			String startCell = parts[0].trim();
+			String endCell = parts.length > 1 ? parts[1].trim() : startCell;
 			String currentWord = cellEditor.getMathField().getCurrentCharSequence(rangeCheck);
-			if (currentWord.startsWith(startCell)) {
+			boolean spaceNeeded = !currentWord.isEmpty();
+			if (currentWord.endsWith(":" + endCell)
+					|| currentWord.startsWith(startCell + ":")
+					|| currentWord.equals(endCell) || currentWord.equals(startCell)) {
 				cellEditor.getMathField().deleteCurrentCharSequence(
 						rangeCheck);
+				spaceNeeded = false;
 			}
-			type(currentWord.isEmpty() ? reference : " " + reference);
+			type(spaceNeeded ? " " + reference : reference);
 		}
 	}
 }

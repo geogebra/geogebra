@@ -52,12 +52,7 @@ public class SelectionTest {
 
 	@Test
 	public void testName() {
-		TabularData<String> data = new TestTabularData() {
-			@Override
-			public String getColumnName(int col) {
-				return Character.toString('A' + col);
-			}
-		};
+		TabularData<String> data = new TestTabularData();
 		assertEquals("F4:G5", cells.getName(data));
 		Selection singleCell = new Selection(new TabularRange(2, 1));
 		assertEquals("B3", singleCell.getName(data));

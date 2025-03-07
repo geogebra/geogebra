@@ -70,7 +70,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		tabularData.setContent(0, 0, "foo");
 		tabularData.setContent(0, 1, "bar");
 		spreadsheet.draw(graphics);
-		assertThat(graphics.toString(), equalTo("col0,col1,1,foo,bar,2,3,4,5"));
+		assertThat(graphics.toString(), equalTo("A,B,1,foo,bar,2,3,4,5"));
 	}
 
 	@Test
@@ -79,14 +79,14 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.setViewport(new Rectangle(0, 120, 0, 100));
 		spreadsheet.draw(graphics);
 		// initially we have 2 columns
-		assertThat(graphics.toString(), startsWith("col0,col1,1"));
+		assertThat(graphics.toString(), startsWith("A,B,1"));
 		spreadsheet.handlePointerDown(cellWidth + 40, 5, Modifiers.NONE);
 		spreadsheet.handlePointerMove(cellWidth + 10, 5, Modifiers.NONE);
 		spreadsheet.handlePointerUp(cellWidth + 10, 5, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 3
-		assertThat(graphics.toString(), startsWith("col0,col1,col2,1"));
+		assertThat(graphics.toString(), startsWith("A,B,C,1"));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		StringCapturingGraphics graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// initially we have 3 columns
-		assertThat(graphics.toString(), startsWith("col0,col1,col2,1"));
+		assertThat(graphics.toString(), startsWith("A,B,C,1"));
 		spreadsheet.selectColumn(1, false, false);
 		spreadsheet.selectColumn(2, true, false);
 		spreadsheet.selectColumn(3, true, false);
@@ -106,7 +106,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 6
-		assertThat(graphics.toString(), startsWith("col0,col1,col2,col3,col4,col5,1"));
+		assertThat(graphics.toString(), startsWith("A,B,C,D,E,F,1"));
 	}
 
 	@Test
@@ -150,7 +150,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		// paint the whole area
 		spreadsheet.setViewport(new Rectangle(0, 140, 0, 500));
 		spreadsheet.draw(graphics);
-		assertEquals("col0,col1,col2,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16",
+		assertEquals("A,B,C,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16",
 				graphics.toString());
 	}
 

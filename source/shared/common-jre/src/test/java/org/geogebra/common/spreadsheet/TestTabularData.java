@@ -103,7 +103,7 @@ public class TestTabularData implements TabularData<String> {
 
 	@Override
 	public String getColumnName(int column) {
-		return "col" + column;
+		return Character.toString('A' + column);
 	}
 
 	@Override

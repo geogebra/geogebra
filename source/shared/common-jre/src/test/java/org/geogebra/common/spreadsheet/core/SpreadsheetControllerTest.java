@@ -24,7 +24,6 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.junit.AfterClass;
@@ -573,21 +572,56 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     }
     
     @Test
-    public void testInsertingInEditorByClick() {
+    public void testInsertingCellReferenceByClick() {
         tabularData.setContent(0, 0, "=2");
         simulateCellMouseClick(1, 0, 2);
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
-        simulateCellMouseClick(0, 0, 2);
-        assertEquals("= col01", cellEditor.getMathField().getText());
+        simulateCellMouseClick(0, 0, 1);
+        assertEquals("=A1", cellEditor.getMathField().getText());
     }
 
     @Test
-    public void testInsertingInEditorByDrag() {
+    public void testInsertingCellReferenceByClickWithText() {
         tabularData.setContent(0, 0, "=2");
         simulateCellMouseClick(1, 0, 2);
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
-        simulateCellMouseDrag(0, 0, 0, 3);
-        assertEquals("=col01:col31", cellEditor.getMathField().getText());
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_P);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_I);
+        simulateCellMouseClick(0, 0, 1);
+        assertEquals("=PI A1", cellEditor.getMathField().getText());
+    }
+
+    @Test
+    public void testInsertingCellReferenceByDrag() {
+        tabularData.setContent(0, 0, "=2");
+        simulateCellMouseClick(1, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+        GPoint center = getCenter(0, 0);
+        controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
+        center = getCenter(0, 1);
+        controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
+        center = getCenter(0, 2);
+        controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
+        center = getCenter(0, 3);
+        controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
+        assertEquals("=A1:D1", cellEditor.getMathField().getText());
+    }
+
+    @Test
+    public void testInsertingCellReferenceByDragBackwards() {
+        setViewport(new Rectangle(0, 500, 0, 500));
+        tabularData.setContent(0, 3, "=2");
+        simulateCellMouseClick(1, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+        GPoint center = getCenter(0, 3);
+        controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
+        center = getCenter(0, 2);
+        controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
+        center = getCenter(0, 1);
+        controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
+        center = getCenter(0, 0);
+        controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
+        assertEquals("=A1:D1", cellEditor.getMathField().getText());
     }
 
     // Helpers
@@ -619,13 +653,6 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
             controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
             controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
         }
-    }
-
-    private void simulateCellMouseDrag(int row, int column, int toRow, int toColumn) {
-        GPoint center = getCenter(row, column);
-        controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
-        center = getCenter(toRow, toColumn);
-        controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
     }
 
     private GPoint getCenter(int row, int column) {
