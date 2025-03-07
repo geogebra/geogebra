@@ -132,7 +132,7 @@ public class DrawPieChart extends Drawable {
 
 	@Override
 	public boolean isInside(GRectangle rect) {
-		return false;
+		return isEuclidianVisible() && rect.contains(getBounds());
 	}
 
 	@CheckForNull
