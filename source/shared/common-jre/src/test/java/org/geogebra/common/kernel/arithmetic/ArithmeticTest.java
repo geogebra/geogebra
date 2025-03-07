@@ -307,6 +307,21 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void dotProduct() {
+		t("Dot((1,2),(3,4))", "11");
+		t("Dot({1,2},{3,4})", "11");
+		t("Dot({1,2,3,4},{1,1,1,1})", "10");
+		t("Dot({1,2,3},{1,1,1,1})", "NaN");
+	}
+
+	@Test
+	public void dotSerialization() {
+		GeoElement product = add("Dot({1,2},{3,4})");
+		assertEquals("Dot({1, 2}, {3, 4})",
+				product.getDefinition(StringTemplate.defaultTemplate));
+	}
+
+	@Test
 	public void absFunctionBugFix() {
 		getApp().getSettings().getCasSettings().setEnabled(true);
 		GeoImplicit eq1 = add("eq1:abs(x-3) = -2");

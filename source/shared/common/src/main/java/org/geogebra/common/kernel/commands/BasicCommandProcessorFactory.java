@@ -58,7 +58,7 @@ public class BasicCommandProcessorFactory implements CommandProcessorFactory {
 		case Vector:
 			return new CmdVector(kernel);
 		case Dot:
-			return new CmdCAStoOperation(kernel, Operation.MULTIPLY);
+			return new CmdCAStoOperation(kernel, Operation.DOT);
 		case Cross:
 			return new CmdCAStoOperation(kernel, Operation.VECTORPRODUCT);
 		case nPr:

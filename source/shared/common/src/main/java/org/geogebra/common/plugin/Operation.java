@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -506,6 +507,29 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			return ev.handleMult(lt, rt, tpl, holdsLaTeX);
 
+		}
+	},
+	DOT {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof ListValue && rt instanceof ListValue
+					&& !right.inspect(v -> v instanceof FunctionVariable)
+					&& !left.inspect(v -> v instanceof FunctionVariable)) {
+				ListValue leftList = (ListValue) lt;
+				ListValue rightList = (ListValue) rt;
+				int size = leftList.size();
+				if (size != rightList.size()) {
+					return new MyDouble(ev.getKernel(), Double.NaN);
+				}
+				double val = 0;
+				for (int i = 0; i < size; i++) {
+					val += leftList.get(i).evaluateDouble() * rightList.get(i).evaluateDouble();
+				}
+				return new MyDouble(ev.getKernel(), val);
+			}
+			return ev.handleMult(lt, rt, tpl, holdsLaTeX);
 		}
 	},
 	DIVIDE {

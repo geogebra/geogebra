@@ -60,6 +60,7 @@ public class CmdCAStoOperation extends CommandProcessor {
 		case VECTORPRODUCT:
 		case NPR:
 		case NCR:
+		case DOT:
 			if (c.getArgumentNumber() != 2) {
 				throw getFunctionArgNumberError(c);
 			}

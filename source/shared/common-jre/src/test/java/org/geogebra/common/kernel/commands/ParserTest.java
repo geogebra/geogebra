@@ -502,7 +502,8 @@ public class ParserTest {
 			if ("SQRT_SHORT,SQRT".equals(combo) || "PLUS,MINUS".equals(combo)
 					|| "PLUS,PLUSMINUS".equals(combo)
 					|| "DIVIDE,MULTIPLY".equals(combo)
-					|| "VECTORPRODUCT,MULTIPLY".equals(combo)) {
+					|| "VECTORPRODUCT,MULTIPLY".equals(combo)
+					|| left.getOperation() == Operation.DOT) {
 				return;
 			}
 			Log.debug(str);

@@ -27,14 +27,15 @@ public class VectorArithmetic {
 	 */
 	static ExpressionNode expandScalarProduct(Kernel kernel,
 			ExpressionValue left, ExpressionValue right, Operation operation) {
-		if (operation == Operation.MULTIPLY
+		boolean isProduct = operation == Operation.MULTIPLY || operation == Operation.DOT;
+		if (isProduct
 				&& left.evaluatesToNonComplex2DVector()
 				&& right.evaluatesToNonComplex2DVector()) {
 			return scalarProductComponent(kernel, 0, left, right)
 					.plus(scalarProductComponent(kernel, 1, left, right));
 
 		}
-		if (operation == Operation.MULTIPLY && left.evaluatesTo3DVector()
+		if (isProduct && left.evaluatesTo3DVector()
 				&& right.evaluatesTo3DVector()) {
 			return scalarProductComponent(kernel, 0, left, right)
 					.plus(scalarProductComponent(kernel, 1, left, right))

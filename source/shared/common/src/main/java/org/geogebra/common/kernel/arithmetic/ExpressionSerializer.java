@@ -468,6 +468,15 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 		case NPR:
 			twoVar(sb, leftStr, rightStr, "nPr", "<npr/>", "NPR", "nPr", tpl, kernel, false);
 			break;
+		case DOT:
+			if (stringType.isGiac()) {
+				sb.append(kernel.getGeoGebraCAS().translateCommandSignature("Dot.2")
+						.replace("%0", leftStr).replace("%1", rightStr));
+			} else {
+				twoVar(sb, leftStr, rightStr, loc.getCommand("Dot"), "<scalarproduct/>", "Dot",
+						"?", tpl, kernel, false);
+			}
+			break;
 		case COSH:
 			trig(leftStr, sb, "<cosh/>", "\\cosh", "COSH(", "cosh", "cosh", tpl, loc, false);
 			break;
