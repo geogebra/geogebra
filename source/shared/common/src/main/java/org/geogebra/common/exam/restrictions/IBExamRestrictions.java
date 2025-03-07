@@ -202,7 +202,6 @@ import static org.geogebra.common.kernel.commands.Commands.Midpoint;
 import static org.geogebra.common.kernel.commands.Commands.MinimumSpanningTree;
 import static org.geogebra.common.kernel.commands.Commands.MinorAxis;
 import static org.geogebra.common.kernel.commands.Commands.Mod;
-import static org.geogebra.common.kernel.commands.Commands.NDerivative;
 import static org.geogebra.common.kernel.commands.Commands.NSolveODE;
 import static org.geogebra.common.kernel.commands.Commands.Net;
 import static org.geogebra.common.kernel.commands.Commands.NextPrime;
@@ -453,7 +452,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				ScientificText, SurdText, Text, TextToUnicode, UnicodeToLetter, UnicodeToText,
 				Dilate, Reflect, Rotate, Shear, Stretch, Translate, MatrixRank,
 				PerpendicularVector, UnitPerpendicularVector, UnitVector, Vector, CFactor,
-				GroebnerDegRevLex, GroebnerLexDeg, GroebnerLex, Substitute, NDerivative, BetaDist,
+				GroebnerDegRevLex, GroebnerLexDeg, GroebnerLex, Substitute, BetaDist,
 				InverseBeta, InteriorAngles, Random, Execute, ExportImage, Intersect, Turtle,
 				TurtleBack, TurtleForward, TurtleLeft, TurtleRight, TurtleUp, TurtleDown);
 		return Set.of(nameFilter);
