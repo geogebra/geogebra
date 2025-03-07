@@ -160,14 +160,20 @@ public class ButtonFactory {
 	 * @param resource name of the resource
 	 * @param action the action of the key
 	 * @param weight weight of the button
+	 * @param background button background
 	 *
 	 * @return a button
 	 */
 	public WeightedButton createCustomConstantButton(
-			String resource, String action, float weight) {
+			String resource, String action, float weight, Background background) {
 		return new WeightedButtonImpl(resource, ResourceType.DEFINED_CONSTANT,
-				action, ActionType.CUSTOM, Background.FUNCTIONAL, modifiers,
+				action, ActionType.CUSTOM, background, modifiers,
 				weight);
+	}
+
+	public WeightedButton createCustomConstantButton(
+			String resource, String action, float weight) {
+		return createCustomConstantButton(resource, action, weight, Background.FUNCTIONAL);
 	}
 
     /**
