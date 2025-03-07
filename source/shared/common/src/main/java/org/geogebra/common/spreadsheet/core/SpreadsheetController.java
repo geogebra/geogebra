@@ -462,6 +462,19 @@ public final class SpreadsheetController {
 				}
 				startTyping(key, modifiers);
 				break;
+			case JavaKeyCodes.VK_CONTEXT_MENU:
+				if (controlsDelegate != null) {
+					selectionController.getSelections().findFirst().ifPresent(sel -> {
+						int fromRow = sel.getRange().getMinRow();
+						int toRow = sel.getRange().getMaxRow();
+						int fromCol = sel.getRange().getMinColumn();
+						int toCol = sel.getRange().getMaxColumn();
+						Rectangle bounds = layout.getBounds(toRow, toCol);
+						showContextMenu(bounds.getMaxX(), bounds.getMaxY(), fromRow,
+								toRow, fromCol, toCol);
+					});
+				}
+				break;
 			case JavaKeyCodes.VK_ENTER:
 				showCellEditorAtSelection();
 				return;

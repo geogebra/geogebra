@@ -263,7 +263,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		hideSubmenuAndMoveFocus();
 		if (floatingMenuView.isVisible()) {
 			menuView.selectItem(0);
-			menuView.getSelectedItem().getElement().focus();
+			menuView.focusSelectedItem();
 		}
 		setMenuTransition(menuView, floatingMenuView.isVisible());
 	}
@@ -308,7 +308,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 			setSubmenuVisibility(false);
 			submenuContainer.setWidget(null);
 			menuView.selectItem(menuView.getSelectedIndex());
-			menuView.getSelectedItem().getElement().focus();
+			menuView.focusSelectedItem();
 		}
 	}
 

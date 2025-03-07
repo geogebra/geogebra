@@ -2,7 +2,8 @@ package org.geogebra.web.html5.gui.menu;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.main.App;
+import javax.annotation.CheckForNull;
+
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -25,6 +26,7 @@ public class AriaMenuBar extends FlowPanel {
 	private boolean autoOpen;
 	private boolean handleArrows = true;
 	private MenuHoverListener selectListener;
+	private Runnable closeHandler;
 
 	/**
 	 * Create new accessible menu
@@ -41,7 +43,7 @@ public class AriaMenuBar extends FlowPanel {
 
 	/**
 	 * @param handleArrows
-	 *            whsether this menu should handle up/down keys on its own
+	 *            whether this menu should handle up/down keys on its own
 	 */
 	protected void setHandleArrows(boolean handleArrows) {
 		this.handleArrows = handleArrows;
@@ -80,9 +82,9 @@ public class AriaMenuBar extends FlowPanel {
 	}
 
 	/**
-	 * @return selected item (may be null)
+	 * @return selected item
 	 */
-	public AriaMenuItem getSelectedItem() {
+	public @CheckForNull AriaMenuItem getSelectedItem() {
 		return this.selectedItem;
 	}
 
@@ -145,7 +147,7 @@ public class AriaMenuBar extends FlowPanel {
 		// obtained if the menu is showing.
 		AriaMenuItem selectedItem = getSelectedItem();
 		if (selectedItem != null) {
-			return getItems().indexOf(selectedItem);
+			return allItems.indexOf(selectedItem);
 		}
 		return -1;
 	}
@@ -228,6 +230,25 @@ public class AriaMenuBar extends FlowPanel {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Give keyboard focus to selected item if there is one,
+	 * scroll it into view, update keyboard style.
+	 */
+	public void requestKeyboardFocus() {
+		if (selectedItem != null) {
+			selectAndScroll(selectedItem);
+		}
+	}
+
+	/**
+	 * Give keyboard focus to selected item if there is one.
+	 */
+	public void focusSelectedItem() {
+		if (selectedItem != null) {
+			selectedItem.getElement().focus();
+		}
 	}
 
 	private void selectAndScroll(AriaMenuItem item) {
@@ -341,11 +362,31 @@ public class AriaMenuBar extends FlowPanel {
 				moveSelectionDown();
 				eatEvent(event);
 				return;
+			} else if (keyCode == KeyCodes.KEY_RIGHT && handleArrows) {
+				openSubmenu();
+				eatEvent(event);
+				return;
+			} else if (keyCode == KeyCodes.KEY_LEFT && handleArrows) {
+				if (closeHandler != null) {
+					closeHandler.run();
+				}
+				eatEvent(event);
+				return;
 			}
 			break;
 		}
 
 		super.onBrowserEvent(event);
+	}
+
+	private void openSubmenu() {
+		if (selectedItem != null && selectedItem.getSubMenu() != null) {
+			doItemAction(selectedItem);
+			Scheduler.get().scheduleFinally(() -> {
+				selectedItem.getSubMenu().focus();
+				selectedItem.getSubMenu().moveSelectionDown();
+			});
+		}
 	}
 
 	private void handleActionKey(Event event, AriaMenuItem item) {
@@ -360,14 +401,6 @@ public class AriaMenuBar extends FlowPanel {
 	private boolean isActionKey(int keyCode) {
 		return keyCode == KeyCodes.KEY_ENTER
 				|| keyCode == KeyCodes.KEY_SPACE;
-	}
-
-	/**
-	 * @return application
-	 */
-	protected App getApp() {
-		// overwritten is subclasses
-		return null;
 	}
 
 	/**
@@ -441,12 +474,12 @@ public class AriaMenuBar extends FlowPanel {
 	/**
 	 * @param item
 	 *            item
-	 * @param subleft
+	 * @param submenuLeft
 	 *            whether submenu icon is on the left
 	 * @return horizontal coordinate of menu
 	 */
-	public int getAbsoluteHorizontalPos(AriaMenuItem item, boolean subleft) {
-		return subleft ? item.getElement().getAbsoluteLeft()
+	public int getAbsoluteHorizontalPos(AriaMenuItem item, boolean submenuLeft) {
+		return submenuLeft ? item.getElement().getAbsoluteLeft()
 				: item.getElement().getAbsoluteRight() + 8;
 	}
 
@@ -474,7 +507,9 @@ public class AriaMenuBar extends FlowPanel {
 	 * Selects the last item of the menubar.
 	 */
 	public void selectLastItem() {
-		selectItem(allItems.get(allItems.size() - 1));
+		if (!allItems.isEmpty()) {
+			selectItem(allItems.get(allItems.size() - 1));
+		}
 	}
 
 	/**
@@ -490,6 +525,13 @@ public class AriaMenuBar extends FlowPanel {
 	 */
 	public void focusDeferred() {
 		Scheduler.get().scheduleDeferred(getElement()::focus);
+	}
+
+	/**
+	 * @param closeHandler called when this (sub)menu is closed by keyboard
+	 */
+	public void setCloseHandler(Runnable closeHandler) {
+		this.closeHandler = closeHandler;
 	}
 
 }

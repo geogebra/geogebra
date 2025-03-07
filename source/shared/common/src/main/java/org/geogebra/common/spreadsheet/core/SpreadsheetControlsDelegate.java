@@ -17,8 +17,16 @@ public interface SpreadsheetControlsDelegate {
 	 */
 	SpreadsheetCellEditor getCellEditor();
 
+	/**
+	 * Show context menu and take over focus (for keyboard navigation).
+	 * @param actions list of actions
+	 * @param coords preferred top left coordinates (lower right corner of the selected cell range)
+	 */
 	void showContextMenu(List<ContextMenuItem> actions, GPoint coords);
 
+	/**
+	 * Hide context menu (and potential submenus), move focus to spreadsheet.
+	 */
 	void hideContextMenu();
 
 	ClipboardInterface getClipboard();

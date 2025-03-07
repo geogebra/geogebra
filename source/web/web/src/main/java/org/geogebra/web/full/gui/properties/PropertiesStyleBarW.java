@@ -40,7 +40,7 @@ public class PropertiesStyleBarW extends
 	protected PropertiesViewW propertiesView;
 	/** app */
 	protected App app;
-	private FlowPanel wrappedPanel;
+	private final FlowPanel wrappedPanel;
 	//private PopupMenuButton btnOption;
 	/** maps options to buttons */
 	private HashMap<OptionType, AriaMenuItem> buttonMap;
@@ -126,11 +126,6 @@ public class PropertiesStyleBarW extends
 						cmd.execute();
 					}
 				}
-			}
-
-			@Override
-			protected App getApp() {
-				return app;
 			}
 		};
 		

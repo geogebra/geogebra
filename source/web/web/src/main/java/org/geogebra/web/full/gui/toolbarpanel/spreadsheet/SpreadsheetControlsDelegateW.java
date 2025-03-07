@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
@@ -31,11 +32,11 @@ import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Widget;
 
-import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.syntax.SyntaxController;
@@ -49,6 +50,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final static int CONTEXT_MENU_PADDING = 8;
 	private final static int MARGIN_FROM_SCREEN_EDGE = 16;
 	private final ClipboardInterface clipboard;
+	private final SpreadsheetPanel parent;
 	private AutoCompletePopup autocomplete;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
@@ -145,7 +147,13 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 				editor.getSpreadsheetPanel().saveContentAndHideCellEditor();
 			}
 		});
-		contextMenu = new GPopupMenuW(app);
+		this.parent = parent;
+		contextMenu = new GPopupMenuW(app) {
+			@Override
+			public void returnFocus(MayHaveFocus anchor) {
+				parent.requestFocus();
+			}
+		};
 		loc = app.getLocalization();
 		clipboard = new ClipboardW();
 	}
@@ -160,6 +168,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	@Override
 	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
 		contextMenu.clearItems();
+		parent.cancelFocus();
+		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting");
 		for (ContextMenuItem item : actions) {
 			if (ContextMenuItem.Identifier.DIVIDER.equals(item.getIdentifier())) {
 				contextMenu.addVerticalSeparator();
@@ -173,12 +183,12 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 					for (int i = 0; i < item.getSubMenuItems().size(); i++) {
 						ContextMenuItem subMenuItem = item.getSubMenuItems().get(i);
 						subMenu.addItem(new AriaMenuItem(loc.getMenu(subMenuItem
-								.getLocalizationKey()), null, subMenuItem::performAction));
+								.getLocalizationKey()), null, performAndHideMenu(subMenuItem)));
 					}
 
 					menuItem = new AriaMenuItem(itemText, image, subMenu);
 				} else {
-					menuItem = new AriaMenuItem(itemText, image, item::performAction);
+					menuItem = new AriaMenuItem(itemText, image, performAndHideMenu(item));
 				}
 
 				contextMenu.addItem(menuItem);
@@ -186,7 +196,14 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 
 		positionContextMenu(coords.x, coords.y);
-		contextMenu.getPopupMenu().selectItem(0);
+		contextMenu.getPopupMenu().focus();
+	}
+
+	private Scheduler.ScheduledCommand performAndHideMenu(ContextMenuItem item) {
+		return () -> {
+			item.performAction();
+			hideContextMenu();
+		};
 	}
 
 	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {
@@ -260,7 +277,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public void hideContextMenu() {
-		contextMenu.hide();
+		boolean wasFocused = contextMenu.getPopupMenu().isVisible();
+		contextMenu.hideMenu();
+		if (wasFocused) {
+			parent.requestFocus();
+		}
 	}
 
 	@Override

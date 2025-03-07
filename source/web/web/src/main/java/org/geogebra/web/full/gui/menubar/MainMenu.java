@@ -106,7 +106,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void addSubmenu(Submenu submenu) {
-		if (app.isUnbundledOrWhiteboard() && !submenu.getItems().isEmpty()) {
+		if (app.isUnbundledOrWhiteboard() && !submenu.isEmpty()) {
 			this.menuPanel.add(submenu, getExpandCollapseHTML(submenu), true);
 		} else {
 			addSimple(submenu);
@@ -138,7 +138,7 @@ public class MainMenu extends FlowPanel
 
 			@Override
 			protected void setStackVisible(int index, boolean visible) {
-				if (!visible || !getMenuAt(index).getItems().isEmpty()) {
+				if (!visible || !getMenuAt(index).isEmpty()) {
 					super.setStackVisible(index, visible);
 				}
 			}
@@ -157,7 +157,7 @@ public class MainMenu extends FlowPanel
 					// if we are offline, the last item is actually Help
 					Widget clicked = index >= 0 ? this.getWidget(index) : null;
 					if (clicked instanceof Submenu
-							&& ((Submenu) clicked).getItems().isEmpty()) {
+							&& ((Submenu) clicked).isEmpty()) {
 						((Submenu) clicked).handleHeaderClick();
 						app.hideMenu();
 						return;
@@ -190,7 +190,7 @@ public class MainMenu extends FlowPanel
 
 				String title = menu.getTitle(app.getLocalization());
 
-				if (menu.getItems().isEmpty()) {
+				if (menu.isEmpty()) {
 					setStackText(index, getHTML(menu), title, expand);
 					return;
 				}

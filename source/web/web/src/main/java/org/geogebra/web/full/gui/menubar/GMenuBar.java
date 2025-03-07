@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import java.util.List;
-
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -126,7 +124,6 @@ public class GMenuBar extends AriaMenuBar {
 	/**
 	 * @return application
 	 */
-	@Override
 	protected AppW getApp() {
 		return app;
 	}
@@ -137,27 +134,6 @@ public class GMenuBar extends AriaMenuBar {
 	 */
 	public boolean isEmpty() {
 		return getItems().isEmpty();
-	}
-
-	/**
-	 * Selects the first menu item.
-	 */
-	public void selectFirstItem() {
-		List<AriaMenuItem> list = getItems();
-		if (!list.isEmpty()) {
-			selectItem(list.get(0));
-		}
-	}
-
-	/**
-	 * Selects the last menu item.
-	 */
-	@Override
-	public void selectLastItem() {
-		List<AriaMenuItem> list = getItems();
-		if (!list.isEmpty()) {
-			selectItem(list.get(list.size() - 1));
-		}
 	}
 
 }

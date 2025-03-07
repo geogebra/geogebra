@@ -290,6 +290,10 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 			popupMenu.addItem(item);
 			ScheduledCommand itemCommand = () -> openSubmenu(item);
 			item.setScheduledCommand(itemCommand);
+			item.getSubMenu().setCloseHandler(() -> {
+				removeSubPopup();
+				popupMenu.requestKeyboardFocus();
+			});
 
 			// adding arrow for the menuitem
 
@@ -515,6 +519,13 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		} else {
 			popupPanel.hide();
 		}
+		returnFocus(anchor);
+	}
+
+	/**
+	 * @param anchor global focus anchor
+	 */
+	protected void returnFocus(MayHaveFocus anchor) {
 		if (anchor != null) {
 			anchor.focusIfVisible(true);
 		}
@@ -569,19 +580,22 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				&& subPopup.popupMenu.getSelectedItem() != null) {
 			target = subPopup.popupMenu;
 		}
+		AriaMenuItem selectedItem = target.getSelectedItem();
 		if (keyCode == JavaKeyCodes.VK_UP) {
 			target.moveSelectionUp();
 		} else if (keyCode == JavaKeyCodes.VK_DOWN) {
 			target.moveSelectionDown();
 		} else if (keyCode == JavaKeyCodes.VK_RIGHT) {
-			if (target.getSelectedItem() != null
-					&& target.getSelectedItem().getSubMenu() != null) {
-				openSubmenu(target.getSelectedItem());
-				target.getSelectedItem().getSubMenu().selectItem(0);
-				target.getSelectedItem().getSubMenu().getItemAt(0).addStyleName("fakeFocus");
+			if (selectedItem != null
+					&& selectedItem.getSubMenu() != null) {
+				openSubmenu(selectedItem);
+				selectedItem.getSubMenu().selectItem(0);
+				selectedItem.getSubMenu().getItemAt(0).addStyleName("fakeFocus");
 			}
 		} else if (keyCode == JavaKeyCodes.VK_LEFT) {
-			target.getSelectedItem().removeStyleName("fakeFocus");
+			if (selectedItem != null) {
+				selectedItem.removeStyleName("fakeFocus");
+			}
 			removeSubPopup();
 		}
 	}

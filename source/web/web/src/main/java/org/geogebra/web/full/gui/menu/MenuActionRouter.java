@@ -14,9 +14,9 @@ import org.gwtproject.user.client.ui.Label;
 
 class MenuActionRouter {
 
-	private MenuActionHandler menuActionHandler;
-	private MenuViewController menuViewController;
-	private Localization localization;
+	private final MenuActionHandler menuActionHandler;
+	private final MenuViewController menuViewController;
+	private final Localization localization;
 
 	MenuActionRouter(MenuActionHandler menuActionHandler,
 					 MenuViewController menuViewController,
@@ -56,6 +56,6 @@ class MenuActionRouter {
 		submenu.setHeaderView(headerView);
 		menuViewController.showSubmenu(submenu);
 		menuView.selectItem(0);
-		menuView.getSelectedItem().getElement().focus();
+		menuView.focusSelectedItem();
 	}
 }

@@ -18,6 +18,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
@@ -27,7 +28,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
-import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.meta.MetaModel;
 
 import elemental2.core.Function;
@@ -51,6 +51,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	double moveTimeout;
 	int viewportChanges;
 	boolean isPointerDown = false;
+	private FocusCommand focusCommand;
 
 	/**
 	 * @param app application
@@ -189,7 +190,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	 * Focuses and repaints the spreadsheet
 	 */
 	public void requestFocus() {
-		Scheduler.get().scheduleDeferred(spreadsheetElement::focus);
+		this.focusCommand = new FocusCommand(spreadsheetElement);
+		Scheduler.get().scheduleDeferred(focusCommand);
 		repaint();
 	}
 
@@ -305,4 +307,12 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		spreadsheet.saveContentAndHideCellEditor();
 	}
 
+	/**
+	 * Cancel pending focus request.
+	 */
+	public void cancelFocus() {
+		if (focusCommand != null) {
+			focusCommand.cancel();
+		}
+	}
 }
