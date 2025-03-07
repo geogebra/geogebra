@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.config.equationforms.EquationBehaviourStandaloneGraphing;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
@@ -139,7 +140,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		app.getKernel().clearConstruction(true);
 		AlgebraTestHelper.enableCAS(app, true);
 		app.getKernel()
-				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
+				.setAlgebraStyle(AlgebraStyle.DEFINITION_AND_VALUE);
 	}
 
 	@Test
@@ -471,7 +472,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	@Test
 	public void pointDescriptionShouldNotHaveCoords() {
 
-		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_DESCRIPTION);
+		app.getKernel().setAlgebraStyle(AlgebraStyle.DESCRIPTION);
 		GeoPoint gp = new GeoPoint(app.getKernel().getConstruction());
 		gp.setCoords(1, 2, 1);
 		gp.setLabel("P");
@@ -493,7 +494,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	public void dependentPointsShouldHaveTextDescriptions() {
-		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_DESCRIPTION);
+		app.getKernel().setAlgebraStyle(AlgebraStyle.DESCRIPTION);
 		IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
 		t("P=(1,0)");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("P"), builder);
@@ -509,7 +510,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	public void numericPreviewFormulaTestValueStyle() {
-		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_VALUE);
+		app.getKernel().setAlgebraStyle(AlgebraStyle.VALUE);
 		t("1+1");
 		GeoElement geo = getGeo("a");
 		String previewFormula = AlgebraItem.getPreviewLatexForGeoElement(geo);

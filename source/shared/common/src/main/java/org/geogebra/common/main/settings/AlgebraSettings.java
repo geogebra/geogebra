@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -27,9 +26,9 @@ public class AlgebraSettings extends AbstractSettings {
 	private boolean equationChangeByDragRestricted;
 
 	private static final List<Integer> styleModes = Arrays.asList(
-			Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE,
-			Kernel.ALGEBRA_STYLE_VALUE, Kernel.ALGEBRA_STYLE_DEFINITION,
-			Kernel.ALGEBRA_STYLE_DESCRIPTION);
+			AlgebraStyle.DEFINITION_AND_VALUE,
+			AlgebraStyle.VALUE, AlgebraStyle.DEFINITION,
+			AlgebraStyle.DESCRIPTION);
 
 	/**
 	 * @param listeners
@@ -235,7 +234,7 @@ public class AlgebraSettings extends AbstractSettings {
 	}
 
 	private void appendCollapsedNodes(StringBuilder sbXML) {
-		if (collapsedNodes != null && collapsedNodes.size() > 0) {
+		if (collapsedNodes != null && !collapsedNodes.isEmpty()) {
 			sbXML.append("\t<collapsed val=\"");
 			sbXML.append(collapsedNodes.get(0));
 			for (int i = 1; i < collapsedNodes.size(); i++) {

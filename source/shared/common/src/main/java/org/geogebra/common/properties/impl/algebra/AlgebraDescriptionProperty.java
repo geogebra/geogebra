@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
 import com.google.j2objc.annotations.Weak;
@@ -29,10 +30,10 @@ public class AlgebraDescriptionProperty extends AbstractNamedEnumeratedProperty<
         super(localization, "AlgebraDescriptions");
         this.kernel = kernel;
         setNamedValues(List.of(
-                entry(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE, "DefinitionAndValue"),
-                entry(Kernel.ALGEBRA_STYLE_VALUE, "Value"),
-                entry(Kernel.ALGEBRA_STYLE_DEFINITION, "Definition"),
-                entry(Kernel.ALGEBRA_STYLE_DESCRIPTION, "Description")
+                entry(AlgebraStyle.DEFINITION_AND_VALUE, "DefinitionAndValue"),
+                entry(AlgebraStyle.VALUE, "Value"),
+                entry(AlgebraStyle.DEFINITION, "Definition"),
+                entry(AlgebraStyle.DESCRIPTION, "Description")
         ));
     }
 

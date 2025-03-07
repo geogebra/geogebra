@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.spreadsheet.core.SelectionType;
@@ -453,7 +454,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		SpreadsheetCoords p = new SpreadsheetCoords(row, column);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
 				&& kernel
-						.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
+						.getAlgebraStyleSpreadsheet() == AlgebraStyle.VALUE) {
 
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
 			case BOOLEAN:

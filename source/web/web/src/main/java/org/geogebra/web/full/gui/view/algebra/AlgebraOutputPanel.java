@@ -2,24 +2,22 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputOperator;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.ToggleButton;
-import org.geogebra.web.html5.gui.view.button.TriStateToggleButton;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
-import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -79,166 +77,46 @@ public class AlgebraOutputPanel extends FlowPanel {
 	}
 
 	/**
-	 * @param parent parent panel
-	 * @param geo geoElement
-	 * @return the symbolic button or the engineering notation button
-	 */
-	public static ToggleButton createToggleButton(FlowPanel parent,
-			final GeoElement geo) {
-		ToggleButton toggleButton = newToggleButton(geo);
-		updateOutputPanelButton(toggleButton, parent, geo);
-		return toggleButton;
-	}
-
-	/**
-	 * @param parent Parent panel
 	 * @param geo GeoElement
-	 * @return The Tri-State toggle button (symbolic, engineering mode)
+	 * @param engineeringNotation if engineering notation is enabled
+	 * @return The multi-state toggle button (symbolic, engineering mode)
 	 */
-	public static TriStateToggleButton createTriStateToggleButton(FlowPanel parent,
-			final GeoElement geo) {
-		TriStateToggleButton button = newEngineeringButton(geo);
-		updateOutputPanelButton(button, parent, geo);
+	public static AlgebraOutputFormatButton createOutputFormatButton(
+			final GeoElement geo, boolean engineeringNotation) {
+		final AlgebraOutputFormatButton button = new AlgebraOutputFormatButton();
+
+		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				AlgebraOutputFormat nextFormat = AlgebraOutputFormat.getNextFormat(geo,
+						engineeringNotation);
+				AlgebraOutputFormat.switchToNextFormat(geo, engineeringNotation);
+				button.select(nextFormat);
+			}
+		});
 		return button;
 	}
 
 	/**
 	 * Updates the buttons icons and sets the correct icon
-	 * @param button {@link ToggleButton} OR {@link TriStateToggleButton}
+	 * @param button {@link ToggleButton} OR {@link AlgebraOutputFormatButton}
 	 * @param parent Parent panel
 	 * @param geo GeoElement
 	 */
-	public static void updateOutputPanelButton(Widget button, FlowPanel parent, GeoElement geo) {
-		if (button instanceof ToggleButton) {
-			updateToggleButtonIcons((ToggleButton) button, geo);
-			selectIconForToggleButton((ToggleButton) button, geo);
-		} else if (button instanceof TriStateToggleButton) {
-			updateTriStateToggleButtonIcons(geo, (TriStateToggleButton) button);
-			selectIconForTriStateToggleButton((TriStateToggleButton) button, geo);
-		}
-		button.addStyleName("symbolicButton");
+	public static void updateOutputPanelButton(AlgebraOutputFormatButton button, FlowPanel parent,
+			GeoElement geo, boolean engineering) {
+		button.select(AlgebraOutputFormat.getNextFormat(geo, engineering));
 		parent.add(button);
-	}
-
-	private static void updateToggleButtonIcons(ToggleButton toggleButton, GeoElement geo) {
-		if (AlgebraItem.shouldShowEngineeringNotationOutputButton(geo)) {
-			toggleButton.updateIcons(MaterialDesignResources.INSTANCE.engineering_notation_white(),
-					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-		} else if (AlgebraItem.evaluatesToFraction(geo)
-				&& !AlgebraItem.isRationalizableFraction(geo)) {
-			toggleButton.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
-					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-			Dom.toggleClass(toggleButton, "show-fraction", !toggleButton.isSelected());
-		} else {
-			toggleButton.updateIcons(MaterialDesignResources.INSTANCE.equal_sign_white(),
-					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-		}
-	}
-
-	private static void updateTriStateToggleButtonIcons(GeoElement geo,
-			TriStateToggleButton button) {
-		if (AlgebraItem.evaluatesToFraction(geo)
-				&& !AlgebraItem.isRationalizableFraction(geo)) {
-			button.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
-					MaterialDesignResources.INSTANCE.engineering_notation_white(),
-					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-			Dom.toggleClass(button, "show-fraction", button.getIndex() == 0);
-		} else {
-			button.updateIcons(MaterialDesignResources.INSTANCE.equal_sign_white(),
-					MaterialDesignResources.INSTANCE.engineering_notation_white(),
-					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-		}
-	}
-
-	private static ToggleButton newToggleButton(GeoElement geo) {
-		final ToggleButton button = new ToggleButton();
-		if (AlgebraItem.shouldShowSymbolicOutputButton(geo)) {
-			return newSymbolicToggleButton(geo, button);
-		} else {
-			return newEngineeringToggleButton(geo, button);
-		}
-	}
-
-	private static ToggleButton newSymbolicToggleButton(GeoElement geo, ToggleButton button) {
-		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				boolean symbolic = SymbolicUtil.toggleSymbolic(geo);
-				button.setSelected(symbolic);
-				Dom.toggleClass(button, "show-fraction", !symbolic);
-			}
-		});
-		button.setText("symbolicToggleButton");
-		return button;
-	}
-
-	private static ToggleButton newEngineeringToggleButton(GeoElement geo, ToggleButton button) {
-		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				boolean engineeringMode = SymbolicUtil.toggleEngineeringNotation(geo);
-				button.setSelected(engineeringMode);
-			}
-		});
-		button.setText("engineeringToggleButton");
-		return button;
-	}
-
-	private static TriStateToggleButton newEngineeringButton(GeoElement geo) {
-		final TriStateToggleButton button = new TriStateToggleButton();
-
-		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				boolean symbolic = SymbolicUtil.isSymbolicMode(geo);
-				if (button.getIndex() != 0) {
-					SymbolicUtil.toggleEngineeringNotation(geo);
-				}
-				if (button.getIndex() != 2) {
-					symbolic = SymbolicUtil.toggleSymbolic(geo);
-				}
-				button.selectNext();
-				Dom.toggleClass(button, "show-fraction", !symbolic);
-			}
-		});
-		return button;
-	}
-
-	private static void selectIconForToggleButton(ToggleButton toggleButton, GeoElement geo) {
-		if (shouldSelectToggleButton(toggleButton, geo)) {
-			toggleButton.setSelected(true);
-			toggleButton.addStyleName("btn-prefix");
-		} else {
-			toggleButton.setSelected(false);
-		}
-	}
-
-	private static boolean shouldSelectToggleButton(ToggleButton toggleButton, GeoElement geo) {
-		return (toggleButton.getText().equals("symbolicToggleButton")
-				&& AlgebraItem.getCASOutputType(geo) == AlgebraItem.CASOutputType.SYMBOLIC)
-				|| (toggleButton.getText().equals("engineeringToggleButton")
-				&& SymbolicUtil.isEngineeringNotationMode(geo));
-	}
-
-	private static void selectIconForTriStateToggleButton(TriStateToggleButton button,
-			GeoElement geo) {
-		if (SymbolicUtil.isEngineeringNotationMode(geo)) {
-			button.select(2);
-		} else if (AlgebraItem.getCASOutputType(geo) == AlgebraItem.CASOutputType.NUMERIC) {
-			button.select(0);
-		} else {
-			button.select(1);
-		}
 	}
 
 	/**
 	 * @param parent Parent Panel
 	 * @return The symbolic button if it exists, null otherwise
 	 */
-	public static Widget getSymbolicButtonIfExists(FlowPanel parent) {
+	public static AlgebraOutputFormatButton getSymbolicButtonIfExists(FlowPanel parent) {
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
-				return parent.getWidget(i);
+			if (parent.getWidget(i) instanceof AlgebraOutputFormatButton) {
+				return (AlgebraOutputFormatButton) parent.getWidget(i);
 			}
 		}
 		return null;
@@ -246,7 +124,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	static void removeSymbolicButton(FlowPanel parent) {
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
+			if (parent.getWidget(i) instanceof AlgebraOutputFormatButton) {
 				parent.getWidget(i).removeFromParent();
 			}
 		}
@@ -266,7 +144,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 			return false;
 		}
 		clear();
-		if (AlgebraItem.shouldShowEqualSignPrefix(geo1)) {
+		if (AlgebraOutputFormat.getOutputOperator(geo1) == AlgebraOutputOperator.EQUALS) {
 			addEqualSignPrefix();
 		} else {
 			addApproximateValuePrefix(latex);

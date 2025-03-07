@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
 
@@ -43,8 +44,8 @@ public class AxisChangeListener implements SettingListener {
 			if (anyAxisVisible != isAnyAxisVisible) {
 				isAnyAxisVisible = anyAxisVisible;
 				kernel.setAlgebraStyle(anyAxisVisible
-						? Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
-						: Kernel.ALGEBRA_STYLE_DESCRIPTION);
+						? AlgebraStyle.DEFINITION_AND_VALUE
+						: AlgebraStyle.DESCRIPTION);
 				view.repaintView();
 			}
 		}

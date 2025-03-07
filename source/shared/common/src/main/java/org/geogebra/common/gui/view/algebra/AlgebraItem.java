@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Fractions;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -196,7 +195,7 @@ public class AlgebraItem {
 	 */
 	public static Suggestion getSuggestions(GeoElement geo) {
 		if (geo == null || geo.getKernel()
-				.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+				.getAlgebraStyle() != AlgebraStyle.DEFINITION_AND_VALUE) {
 			return null;
 		}
 
@@ -234,7 +233,7 @@ public class AlgebraItem {
 	 * @return formula for "Duplicate"
 	 */
 	public static String getDuplicateFormulaForGeoElement(GeoElement element) {
-		String duplicate = "";
+		String duplicate;
 		if ("".equals(element.getDefinition(StringTemplate.defaultTemplate))) {
 			duplicate = element.getValueForInputBar();
 		} else {
@@ -249,7 +248,7 @@ public class AlgebraItem {
 	 * @return output text (LaTex or plain)
 	 */
 	public static String getOutputTextForGeoElement(GeoElement element) {
-		String outputText = "";
+		String outputText;
 		if (element.isLaTeXDrawableGeo()) {
 			outputText = element.getLaTeXDescriptionRHS(true,
 					getOutputStringTemplate(element));
@@ -316,7 +315,7 @@ public class AlgebraItem {
 		int avStyle = geo1.getKernel().getAlgebraStyle();
 		boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
 		if (geo1.isIndependent() && geo1.isGeoPoint()
-				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
+				&& avStyle == AlgebraStyle.DESCRIPTION) {
 			builder.clear();
 			builder.indicesToHTML(((GeoPointND) geo1).toStringDescription(stringTemplate));
 			return true;
@@ -326,7 +325,7 @@ public class AlgebraItem {
 			return true;
 		}
 		switch (avStyle) {
-		case Kernel.ALGEBRA_STYLE_VALUE:
+		case AlgebraStyle.VALUE:
 			if (geo1.isAllowedToShowValue()) {
 				if (showLabel) {
 					geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
@@ -338,7 +337,7 @@ public class AlgebraItem {
 			}
 			return true;
 
-		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+		case AlgebraStyle.DESCRIPTION:
 			if (needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
@@ -352,11 +351,11 @@ public class AlgebraItem {
 			}
 			return true;
 
-		case Kernel.ALGEBRA_STYLE_DEFINITION:
+		case AlgebraStyle.DEFINITION:
 			buildDefinitionString(geo1, builder, stringTemplate);
 			return true;
 		default:
-		case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
+		case AlgebraStyle.DEFINITION_AND_VALUE:
 			if (needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 				return true;
@@ -401,7 +400,7 @@ public class AlgebraItem {
 	 * @param geoElement
 	 *            element
 	 * @param style
-	 *            Kernel.ALGEBRA_STYLE_*
+	 *            AlgebraStyle.*
 	 * @param sb
 	 *            builder
 	 * @param stringTemplateForPlainText
@@ -410,7 +409,7 @@ public class AlgebraItem {
 	private static void buildText(GeoElement geoElement, int style,
 			IndexHTMLBuilder sb, StringTemplate stringTemplateForPlainText) {
 
-		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION
+		if (style == AlgebraStyle.DESCRIPTION
 				&& needsPacking(geoElement)) {
 			String value = geoElement
 					.getDefinitionDescription(StringTemplate.editorTemplate);
@@ -451,18 +450,6 @@ public class AlgebraItem {
 		return GlobalScope.examController.getExamType() == ExamType.REALSCHULE
 				&& geo instanceof HasSymbolicMode
 				&& ((HasSymbolicMode) geo).supportsEngineeringNotation();
-	}
-
-	/**
-	 * @param geo element
-	 * @return whether equal sign prefix should be shown (rather than approx sign)
-	 * @deprecated {@link AlgebraOutputFormat} API should be used instead.
-	 */
-	@Deprecated
-	public static boolean shouldShowEqualSignPrefix(GeoElement geo) {
-		return !AlgebraItem.shouldShowSymbolicOutputButton(geo)
-				|| AlgebraItem.getCASOutputType(geo) == CASOutputType.SYMBOLIC
-				|| Fractions.isExactFraction(geo.unwrapSymbolic(), geo.getKernel());
 	}
 
 	/**
@@ -621,9 +608,9 @@ public class AlgebraItem {
 		}
 		if (geo1.getParentAlgorithm() instanceof AlgoFractionText) {
 			return geo1.getAlgebraDescription(StringTemplate.latexTemplate);
-		} else if (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
+		} else if (kernel.getAlgebraStyle() != AlgebraStyle.VALUE
 				&& kernel
-						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+						.getAlgebraStyle() != AlgebraStyle.DEFINITION_AND_VALUE) {
 			if (geo1.isIndependent()) {
 				return getLatexStringValue(geo1, limit);
 			} else if (Algos.isUsedFor(Algos.Expression, geo1)) {

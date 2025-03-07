@@ -22,6 +22,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -644,7 +645,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public GeoClass getCellEditorType(int row, int column) {
 		SpreadsheetCoords p = new SpreadsheetCoords(row, column);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
-				&& kernel.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
+				&& kernel.getAlgebraStyleSpreadsheet() == AlgebraStyle.VALUE) {
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
 			case BOOLEAN:
 				return GeoClass.BOOLEAN;

@@ -74,6 +74,7 @@ import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -2129,7 +2130,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public String toStringDescription(StringTemplate tpl) {
-		boolean isAvDescrip = Kernel.ALGEBRA_STYLE_DESCRIPTION == getKernel().getAlgebraStyle();
+		boolean isAvDescrip = AlgebraStyle.DESCRIPTION == getKernel().getAlgebraStyle();
 		if (isAvDescrip) {
 			return getKernel().getLocalization().getMenu("Point") + " " + label;
 		}

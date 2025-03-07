@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -397,7 +398,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			} else {
 				switch (kernel.getAlgebraStyleSpreadsheet()) {
 				default:
-				case Kernel.ALGEBRA_STYLE_VALUE:
+				case AlgebraStyle.VALUE:
 					if (geo.isLaTeXDrawableGeo()
 							&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
 
@@ -406,12 +407,12 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 					text = geo.toValueString(template);
 					break;
 
-				case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+				case AlgebraStyle.DESCRIPTION:
 					text = geo
 							.getDefinitionDescription(template);
 					break;
 
-				case Kernel.ALGEBRA_STYLE_DEFINITION:
+				case AlgebraStyle.DEFINITION:
 					text = geo
 							.getDefinition(template);
 					break;
@@ -456,7 +457,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	
 	private boolean useSpecialEditor() {
 		if (!view.allowSpecialEditor()
-				|| (kernel.getAlgebraStyleSpreadsheet() != Kernel.ALGEBRA_STYLE_VALUE)) {
+				|| (kernel.getAlgebraStyleSpreadsheet() != AlgebraStyle.VALUE)) {
 			return false;
 		}
 		return geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList();

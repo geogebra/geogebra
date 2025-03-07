@@ -88,6 +88,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -161,7 +162,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	final public static int ALGEBRA_STYLE_DEFINITION_AND_VALUE = 3;
 	// critical for exam mode
 	// must use getter
-	private int algebraStyleSpreadsheet = Kernel.ALGEBRA_STYLE_VALUE;
+	private int algebraStyleSpreadsheet = AlgebraStyle.VALUE;
 
 	// end G.Sturr
 	private MacroManager macroManager;
@@ -2769,8 +2770,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            description style
 	 */
 	final public void setAlgebraStyleSpreadsheet(int style) {
-		if (style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
-			algebraStyleSpreadsheet = Kernel.ALGEBRA_STYLE_VALUE;
+		if (style == AlgebraStyle.DEFINITION_AND_VALUE) {
+			algebraStyleSpreadsheet = AlgebraStyle.VALUE;
 		} else {
 			algebraStyleSpreadsheet = style;
 		}

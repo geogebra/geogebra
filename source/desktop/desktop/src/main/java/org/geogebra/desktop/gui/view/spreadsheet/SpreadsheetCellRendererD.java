@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
@@ -149,7 +150,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		// =======================================================
 
 		if (myTable.allowSpecialEditor() && kernel
-				.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
+				.getAlgebraStyleSpreadsheet() == AlgebraStyle.VALUE) {
 
 			if (geo.isGeoBoolean()) {
 				checkBox.setBackground(table.getBackground());
@@ -198,11 +199,11 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 
 				switch (kernel.getAlgebraStyleSpreadsheet()) {
 				default:
-				case Kernel.ALGEBRA_STYLE_VALUE:
+				case AlgebraStyle.VALUE:
 					text = geo.toValueString(template);
 					break;
 
-				case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+				case AlgebraStyle.DESCRIPTION:
 					IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
 					IndexHTMLBuilder
 							.convertIndicesToHTML(
@@ -212,7 +213,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 					text = builder.toString();
 					break;
 
-				case Kernel.ALGEBRA_STYLE_DEFINITION:
+				case AlgebraStyle.DEFINITION:
 					builder = new IndexHTMLBuilder(true);
 					IndexHTMLBuilder.convertIndicesToHTML(
 							geo.getDefinition(template),
@@ -295,7 +296,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 
 			boolean isSerif = false;
 			if (geo.isDefined()
-					&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+					&& kernel.getAlgebraStyle() == AlgebraStyle.VALUE) {
 
 				latexStr = geo.getFormulaString(StringTemplate.latexTemplate,
 						true);

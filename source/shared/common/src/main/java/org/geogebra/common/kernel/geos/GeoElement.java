@@ -95,6 +95,7 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -6875,7 +6876,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	final public boolean mayShowDescriptionInsteadOfDefinition() {
 		if (!isAllowedToShowValue()
 				&& getKernel()
-						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+						.getAlgebraStyle() == AlgebraStyle.VALUE) {
 			return false;
 		}
 		if (algoParent == null) {

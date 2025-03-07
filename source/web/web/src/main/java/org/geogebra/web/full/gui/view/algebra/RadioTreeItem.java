@@ -17,6 +17,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -173,7 +174,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private ToastController toastController;
 	private final SyntaxController syntaxController;
 	private int index;
-	private Widget symbolicButton;
+	private AlgebraOutputFormatButton symbolicButton;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -382,7 +383,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			definitionFromTeX(text);
 		} else if (geo != null) {
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
-			if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
+			if (kernel.getAlgebraStyle() == AlgebraStyle.DESCRIPTION) {
 				if (AlgebraItem.needsPacking(geo)) {
 					IndexHTMLBuilder
 							.convertIndicesToHTML(
@@ -419,7 +420,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (geo != null && shouldShowOutputButton(geo)) {
 			addControls();
 			createOutputButtonIfNeeded();
-			AlgebraOutputPanel.updateOutputPanelButton(symbolicButton, controls, geo);
+			AlgebraOutputPanel.updateOutputPanelButton(symbolicButton, controls, geo,
+					isEngineeringNotationEnabled());
 		} else if (controls != null) {
 			AlgebraOutputPanel.removeSymbolicButton(controls);
 		}
@@ -427,25 +429,21 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private boolean shouldShowOutputButton(GeoElement geo) {
-		return AlgebraItem.shouldShowSymbolicOutputButton(geo)
-				|| AlgebraItem.shouldShowEngineeringNotationOutputButton(geo);
+		return AlgebraOutputFormat.getNextFormat(geo,
+				isEngineeringNotationEnabled()) != null;
+	}
+
+	private boolean isEngineeringNotationEnabled() {
+		return app.getSettings().getAlgebra().isEngineeringNotationEnabled();
 	}
 
 	private void createOutputButtonIfNeeded() {
 		symbolicButton = AlgebraOutputPanel.getSymbolicButtonIfExists(controls);
 		if (symbolicButton == null) {
-			if (shouldShowSymbolicAndEngineeringOutputButton(geo)) {
-				symbolicButton = AlgebraOutputPanel.createTriStateToggleButton(controls, geo);
-			} else {
-				symbolicButton = AlgebraOutputPanel.createToggleButton(controls, geo);
-			}
+			symbolicButton = AlgebraOutputPanel.createOutputFormatButton(geo,
+					isEngineeringNotationEnabled());
 		}
 		Dom.toggleClass(symbolicButton, "hasOutputRow", AlgebraItem.hasDefinitionAndValueMode(geo));
-	}
-
-	private boolean shouldShowSymbolicAndEngineeringOutputButton(GeoElement geo) {
-		return AlgebraItem.shouldShowSymbolicOutputButton(geo)
-				&& AlgebraItem.shouldShowEngineeringNotationOutputButton(geo);
 	}
 
 	private void buildItemContent() {
@@ -670,7 +668,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!mayNeedOutput() && outputPanel != null) {
 			content.remove(outputPanel);
 		}
-		if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
+		if (kernel.getAlgebraStyle() == AlgebraStyle.VALUE
 				|| isAlgebraStyleDefAndValue()
 				|| (geo != null && geo.getParentAlgorithm() instanceof AlgoFractionText)) {
 			String text = "";
@@ -832,9 +830,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected boolean mayNeedOutput() {
 		return kernel
-				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+				.getAlgebraStyle() == AlgebraStyle.DEFINITION_AND_VALUE
 				|| kernel
-						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION;
+						.getAlgebraStyle() == AlgebraStyle.DESCRIPTION;
 	}
 
 	private static boolean isMoveablePoint(GeoElement point) {

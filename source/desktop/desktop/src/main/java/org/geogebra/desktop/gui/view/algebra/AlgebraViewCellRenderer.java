@@ -3,6 +3,7 @@ package org.geogebra.desktop.gui.view.algebra;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.main.AppD;
 
@@ -38,18 +39,18 @@ public class AlgebraViewCellRenderer extends AlgebraTreeCellRenderer {
 		} else {
 			switch (kernel.getAlgebraStyle()) {
 			default:
-			case Kernel.ALGEBRA_STYLE_VALUE:
+			case AlgebraStyle.VALUE:
 				text = node.getAlgebraDescription();
 				break;
 
-			case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+			case AlgebraStyle.DESCRIPTION:
 				IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
 				geo.addLabelTextOrHTML(geo.getDefinitionDescription(
 						StringTemplate.defaultTemplate), builder);
 				text = builder.toString();
 				break;
 
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
+			case AlgebraStyle.DEFINITION:
 				builder = new IndexHTMLBuilder(true);
 				geo.addLabelTextOrHTML(
 						geo.getDefinition(StringTemplate.defaultTemplate),

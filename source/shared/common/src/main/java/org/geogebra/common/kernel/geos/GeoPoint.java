@@ -73,6 +73,7 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -1472,7 +1473,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	@Override
 	final public String toStringDescription(StringTemplate tpl) {
-		boolean isAvDescrip = Kernel.ALGEBRA_STYLE_DESCRIPTION == getKernel()
+		boolean isAvDescrip = AlgebraStyle.DESCRIPTION == getKernel()
 				.getAlgebraStyle();
 		if (isAvDescrip) {
 			sbToString.setLength(0);
