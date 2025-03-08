@@ -718,8 +718,8 @@ public class JSONArray {
 	 * </pre>
 	 */
 	@Override
-	@SuppressFBWarnings({ "NP_TOSTRING_COULD_RETURN_NULL",
-			"API specifies this" })
+	@SuppressFBWarnings(value = "NP_TOSTRING_COULD_RETURN_NULL",
+			justification = "API specifies this")
 	public String toString() {
 		try {
 			JSONStringer stringer = new JSONStringer();

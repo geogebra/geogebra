@@ -29,7 +29,7 @@ class JSON {
 		return d;
 	}
 
-	@SuppressFBWarnings({ "NP_BOOLEAN_RETURN_NULL", "API specifies this" })
+	@SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "API specifies this")
 	static Boolean toBoolean(Object value) {
 		if (value instanceof Boolean) {
 			return (Boolean) value;

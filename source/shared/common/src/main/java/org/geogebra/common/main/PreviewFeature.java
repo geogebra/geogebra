@@ -44,7 +44,7 @@ public enum PreviewFeature {
 	 * @apiNote Set the {@code true} at run time (early in the app startup code) to enable
 	 * feature previews in test builds.
 	 */
-	@SuppressFBWarnings({"MS_SHOULD_BE_FINAL", "MS_PKGPROTECT"})
+	@SuppressFBWarnings("MS_PKGPROTECT")
 	public static boolean enableFeaturePreviews = false;
 
 	/**

@@ -186,8 +186,8 @@ public class JSONTokener {
 	 * @throws JSONException
 	 *             if unexpected character is reached
 	 */
-	@SuppressFBWarnings({ "DM_STRING_CTOR",
-			"a new string avoids leaking memory" })
+	@SuppressFBWarnings(value = "DM_STRING_CTOR",
+			justification = "a new string avoids leaking memory")
 	public String nextString(char quote) throws JSONException {
 		/*
 		 * For strings that are free of escape sequences, we can just extract
@@ -265,8 +265,8 @@ public class JSONTokener {
 	 * values will be returned as an Integer, Long, or Double, in that order of
 	 * preference.
 	 */
-	@SuppressFBWarnings({ "DM_STRING_CTOR",
-			"a new string avoids leaking memory" })
+	@SuppressFBWarnings(value = "DM_STRING_CTOR",
+			justification = "a new string avoids leaking memory")
 	private Object readLiteral() throws JSONException {
 		String literal = nextToInternal("{}[]/\\:,=;# \t\f");
 		if (literal.length() == 0) {

@@ -74,8 +74,8 @@ public abstract class StatisticsCalculator {
 	 * @param app
 	 *            application
 	 */
-	@SuppressFBWarnings({ "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
-			"false positive, used in web and desktop" })
+	@SuppressFBWarnings(value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
+			justification = "false positive, used in web and desktop")
 	public StatisticsCalculator(App app) {
 		this.loc = app.getLocalization();
 		this.app = app;
@@ -332,8 +332,6 @@ public abstract class StatisticsCalculator {
 		}
 	}
 
-	@SuppressFBWarnings({ "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
-			"false positive, used in web and desktop" })
 	protected void setLabelStrings() {
 		strMean = loc.getMenu("Mean");
 		strSD = loc.getMenu("SampleStandardDeviation.short");

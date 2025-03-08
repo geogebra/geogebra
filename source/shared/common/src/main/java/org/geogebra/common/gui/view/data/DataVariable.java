@@ -644,7 +644,7 @@ public class DataVariable {
 							}
 						}
 					} catch (Exception e) {
-						// e.printStackTrace();
+						Log.debug(e.getMessage());
 					}
 				}
 			}

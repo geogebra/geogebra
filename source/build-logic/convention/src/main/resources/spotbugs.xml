@@ -12,8 +12,6 @@
             <Bug pattern="AT_NONATOMIC_64BIT_PRIMITIVE"/>
             <Bug pattern="AT_STALE_THREAD_WRITE_OF_PRIMITIVE"/>
             <Bug pattern="AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE"/>
-            <Bug pattern="US_USELESS_SUPPRESSION_ON_METHOD"/>
-            <Bug pattern="US_USELESS_SUPPRESSION_ON_FIELD"/>
         </Or>
     </Match>
     <Match>

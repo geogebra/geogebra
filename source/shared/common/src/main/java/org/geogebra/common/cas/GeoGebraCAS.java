@@ -269,7 +269,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			return result;
 		} catch (Throwable e) {
 			Log.debug("GeoGebraCAS.getPolynomialCoeffs(): " + e.getMessage());
-			// e.printStackTrace();
 		}
 
 		return null;

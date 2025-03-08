@@ -39,9 +39,9 @@ public class MacApplicationListener implements QuitHandler, AboutHandler, OpenFi
 	 * Gets active instance of GeoGebra window. This method waits until an
 	 * active instance was created by GeoGebra.main()
 	 * 
-	 * @return
+	 * @return the frame
 	 */
-	@SuppressFBWarnings({ "SWL_SLEEP_WITH_LOCK_HELD", "" })
+	@SuppressFBWarnings("SWL_SLEEP_WITH_LOCK_HELD")
 	private synchronized static GeoGebraFrame getGGBInstance() {
 		GeoGebraFrame wnd = null;
 		while (wnd == null) {

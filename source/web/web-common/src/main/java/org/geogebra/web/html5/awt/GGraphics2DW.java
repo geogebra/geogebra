@@ -32,7 +32,6 @@ import org.gwtproject.dom.client.Element;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import elemental2.core.Function;
 import elemental2.core.JsArray;
 import elemental2.dom.CanvasPattern;
@@ -384,7 +383,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 		}
 	}
 
-	@SuppressFBWarnings("FE_FLOATING_POINT_EQUALITY")
 	private void scalePattern(CanvasPattern ptr, double scale) {
 		if (scale != 1) {
 			Function setTransform = Js.uncheckedCast(Js.asPropertyMap(ptr).get("setTransform"));

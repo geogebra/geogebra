@@ -1152,7 +1152,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			app.getXMLio().writeGeoGebraFile(baos, false);
 			sb.append(Base64.encodeToString(baos.toByteArray(), false));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 		return true;

@@ -222,8 +222,6 @@ import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
 import org.geogebra.desktop.util.UtilD;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * GeoGebra Application
  *
@@ -817,7 +815,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	}
 
-	@SuppressFBWarnings({ "DM_EXIT", "" })
 	public static void exit(int i) {
 		System.exit(i);
 	}
@@ -2322,7 +2319,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void setShowInputHelpPanel(boolean isVisible) {
 		if (isVisible) {
 			applicationSplitPane
-					.setRightComponent((getGuiManager()).getInputHelpPanel());
+					.setRightComponent(getGuiManager().getInputHelpPanel());
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
 				applicationSplitPane
 						.setLastDividerLocation(applicationSplitPane.getWidth()
@@ -3086,7 +3083,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception e) {
 			setDefaultCursor();
 			showError(Errors.SaveFileFailed);
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}

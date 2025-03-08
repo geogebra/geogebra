@@ -105,8 +105,8 @@ public class JSONObject {
 
 	public static final Object NULL = new Object() {
 		@Override
-		@SuppressFBWarnings({ "EQ_UNUSUAL",
-				"API specifies this broken equals implementation" })
+		@SuppressFBWarnings(value = "EQ_UNUSUAL",
+				justification = "API specifies this broken equals implementation")
 		public boolean equals(Object o) {
 			return o == this || o == null; // API specifies this broken equals
 											// implementation
@@ -873,8 +873,8 @@ public class JSONObject {
 	 * </pre>
 	 */
 	@Override
-	@SuppressFBWarnings({ "NP_TOSTRING_COULD_RETURN_NULL",
-			"API specifies this" })
+	@SuppressFBWarnings(value = "NP_TOSTRING_COULD_RETURN_NULL",
+			justification = "API specifies this")
 	public String toString() {
 		try {
 			JSONStringer stringer = new JSONStringer();
