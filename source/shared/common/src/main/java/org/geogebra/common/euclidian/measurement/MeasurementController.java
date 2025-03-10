@@ -24,13 +24,15 @@ public final class MeasurementController {
 	 */
 	public MeasurementController(CreateToolImage toolImageFactory) {
 		this.toolImageFactory = toolImageFactory;
-		addTool(MeasurementToolId.RULER, "Ruler.svg", null);
-		addTool(MeasurementToolId.PROTRACTOR, "Protractor.svg", 1 - (278.86 / 296));
-		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtractor.svg", 0.0);
+		addTool(MeasurementToolId.RULER, "Ruler.svg", 25.0 / 1051, 1);
+		addTool(MeasurementToolId.PROTRACTOR, "Protractor.svg", 0.5, 1 - (278.86 / 296));
+		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtractor.svg", 0.5, 0.0);
 	}
 
-	private void addTool(MeasurementToolId id, String fileName, Double percent) {
-		add(new MeasurementTool(id, fileName, percent, toolImageFactory, createTransformer(id)));
+	private void addTool(MeasurementToolId id, String fileName,
+			double rotCenterRatioX, double rotCenterRatioY) {
+		add(new MeasurementTool(id, fileName, rotCenterRatioX, rotCenterRatioY,
+				toolImageFactory, createTransformer(id)));
 	}
 
 	private PenTransformer createTransformer(MeasurementToolId id) {
@@ -39,7 +41,7 @@ public final class MeasurementController {
 				: NullPenTransformer.get();
 	}
 
-	void add(MeasurementTool tool) {
+	private void add(MeasurementTool tool) {
 		tools.put(tool.getId().getMode(), tool);
 	}
 
@@ -114,7 +116,7 @@ public final class MeasurementController {
 	 * @param view {@link EuclidianView}
 	 * @param newPoint to transform by the tool.
 	 * @param previewPoints the existing preview points of penstroke.
-	 * @return the transformed new point.
+	 * @return whether transform happened
 	 */
 	public boolean applyTransformer(EuclidianView view, GPoint newPoint,
 			List<GPoint> previewPoints) {
@@ -141,7 +143,7 @@ public final class MeasurementController {
 	 */
 	public GPoint2D getActiveToolCenter(GeoElement geo, EuclidianView view) {
 		MeasurementTool tool = activeTool();
-		if (tool == null || geo != tool.getImage() || !tool.hasRotationCenter()) {
+		if (tool == null || geo != tool.getImage()) {
 			return null;
 		}
 
@@ -172,5 +174,9 @@ public final class MeasurementController {
 	String getToolName(int mode) {
 		MeasurementTool tool = tools.get(mode);
 		return tool != null ? tool.toString() : "";
+	}
+
+	public MeasurementTool getTool(MeasurementToolId measurementToolId) {
+		return tools.get(measurementToolId.getMode());
 	}
 }

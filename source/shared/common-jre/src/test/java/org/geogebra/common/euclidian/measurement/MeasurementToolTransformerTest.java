@@ -12,6 +12,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.junit.Before;
@@ -31,41 +32,50 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	@Before
 	public void setUp() {
 		view = getApp().getActiveEuclidianView();
-		measurementController = new MeasurementController(this::createToolImage) ;
+		measurementController = new MeasurementController((mode, file) ->
+				createToolImage(mode, file, getConstruction(), getApp().getActiveEuclidianView())) ;
 	}
 
-	private GeoImage createToolImage(int mode, String fileName) {
-		GeoImage image = new GeoImage(getKernel().getConstruction());
-		if (mode == MODE_RULER) {
-			image.setImageFileName("Ruler", 400, 40);
-			image.initStartPoint(new GeoPoint(getKernel().getConstruction(), rwX(100.0),
-					rwY(300), 1), 0);
-			image.initStartPoint(new GeoPoint(getKernel().getConstruction(), rwX(500),
-					rwY(300), 1), 1);
-		} else if (mode == MODE_TRIANGLE_PROTRACTOR) {
-			image.setSize(400, 200);
-		}
+	/**
+	 * @param mode one of MODE_RULER, MODE_PROTRACTOR, MODE_TRIANGLE_PROTRACTOR
+	 * @param fileName filename
+	 * @param cons construction
+	 * @param view active view
+	 * @return ruler or protractor image
+	 */
+	public static GeoImage createToolImage(int mode, String fileName, Construction cons,
+			EuclidianView view) {
+		GeoImage image = new GeoImage(cons);
+		image.setImageFileName(fileName, 400, mode == MODE_RULER ? 40 : 300);
+		image.initStartPoint(new GeoPoint(cons, rwX(100.0, view),
+				rwY(300, view), 1), 0);
+		image.initStartPoint(new GeoPoint(cons, rwX(500, view),
+				rwY(300, view), 1), 1);
+		image.setLabel(null);
 		return image;
 	}
 
-	private double rwX(double xRW) {
+	private static double rwX(double xRW, EuclidianView view) {
 		return view.toRealWorldCoordX(xRW);
 	}
 
-	private double rwY(double yRW) {
+	private static double rwY(double yRW, EuclidianView view) {
 		return view.toRealWorldCoordY(yRW);
 	}
 
-	@Ignore
 	@Test
 	public void testRuler() {
 		measurementController.toggleActiveTool(MODE_RULER);
-		GPoint point = new GPoint(200, 285);
-		List<GPoint> penPoints = new ArrayList<>();
 		List<GPoint> previewPoints = new ArrayList<>();
-		previewPoints.add(new GPoint(145, 200));
-		measurementController.applyTransformer(view, new GPoint(155, 285), previewPoints);
+		previewPoints.add(new GPoint(200, 309));
+		GPoint secondPoint = new GPoint(210, 305);
+		measurementController.applyTransformer(view, secondPoint, previewPoints);
+		previewPoints.add(secondPoint);
+		measurementController.applyTransformer(view, new GPoint(220, 307), previewPoints);
 		assertEquals(2, previewPoints.size());
+		// 302 = bottom coordinate + line thickness
+		assertEquals(new GPoint(200, 302), previewPoints.get(0));
+		assertEquals(new GPoint(220, 302), previewPoints.get(1));
 	}
 
 }

@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
  * Class to represent a measurement tool, like rulers or different types of protractors.
  */
 public final class MeasurementTool {
-	private final Double centerInPercent;
+	private final double[] weights;
 	private final PenTransformer transformer;
 	private GeoImage image;
 	private final MeasurementToolId id;
@@ -23,15 +23,19 @@ public final class MeasurementTool {
 	 *
 	 * @param id of the tool.
 	 * @param fileName of the tool image.
-	 * @param percent the y-position of the rotation point given by percent of the image height
-	 * (x-position is centered)
+	 * @param rotCenterRatioX the x-position of the rotation point as ratio of the image height
+	 * @param rotCenterRatioY the y-position of the rotation point as ratio of the image height
 	 */
 	public MeasurementTool(MeasurementToolId id, String fileName,
-			Double percent, CreateToolImage toolImageFactory,
+			double rotCenterRatioX, double rotCenterRatioY, CreateToolImage toolImageFactory,
 			PenTransformer transformer) {
 		this.id = id;
 		this.fileName = fileName;
-		this.centerInPercent = percent;
+		weights = new double[] {
+				rotCenterRatioY - rotCenterRatioX,
+				rotCenterRatioX,
+				1 - rotCenterRatioY,
+		};
 		this.transformer = transformer;
 		this.toolImageFactory = toolImageFactory;
 	}
@@ -86,19 +90,13 @@ public final class MeasurementTool {
 	}
 
 	private List<GPoint2D> getProtractorPoints(EuclidianView view) {
-		if (!id.isProtractor()) {
-			return null;
-		}
-
 		DrawImageResizable drawable =
 				(DrawImageResizable) view.getDrawableFor(image);
 		return drawable != null ? drawable.toPoints() : null;
 	}
 
 	private double getRotatedCoord(double v0, double v1, double v2) {
-		return ((v0 + v1) / 2) * centerInPercent
-				+ ((2 * v2 + v1 - v0) / 2)
-				* (1 - centerInPercent);
+		return v0 * weights[0] + v1 * weights[1] + v2 * weights[2];
 	}
 
 	/**
@@ -114,7 +112,4 @@ public final class MeasurementTool {
 		return id.toString();
 	}
 
-	boolean hasRotationCenter() {
-		return centerInPercent != null;
-	}
 }
