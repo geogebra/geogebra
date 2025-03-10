@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -19,6 +22,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -29,12 +33,12 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoChiSquaredTest extends AlgoElement {
 
-	private GeoList geoList1; // input
-	private GeoList geoList2; // input
-	private GeoList result; // output
+	private final GeoList geoList1; // input
+	private final GeoList geoList2; // input
+	private final GeoList result; // output
 	private double p;
-	private double testStat;
-	private ChiSquaredDistribution chisquared = null;
+	private ChiSquaredDistribution chiSquared = null;
+	private final GeoNumberValue degreesOfFreedom;
 
 	/**
 	 * 
@@ -46,10 +50,11 @@ public class AlgoChiSquaredTest extends AlgoElement {
 	 *            second list
 	 */
 	public AlgoChiSquaredTest(Construction cons, GeoList geoList,
-			GeoList geoList2) {
+			GeoList geoList2, GeoNumberValue degreesOfFreedom) {
 		super(cons);
 		this.geoList1 = geoList;
 		this.geoList2 = geoList2;
+		this.degreesOfFreedom = degreesOfFreedom;
 		result = new GeoList(cons);
 
 		setInputOutput(); // for AlgoElement
@@ -64,17 +69,15 @@ public class AlgoChiSquaredTest extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-
-		if (geoList2 == null) {
-			input = new GeoElement[1];
-			input[0] = geoList1;
-
-		} else {
-			input = new GeoElement[2];
-			input[0] = geoList1;
-			input[1] = geoList2;
+		List<GeoElement> inputs = new ArrayList<>(3);
+		inputs.add(geoList1);
+		if (geoList2 != null) {
+			inputs.add(geoList2);
 		}
-
+		if (degreesOfFreedom != null) {
+			inputs.add(degreesOfFreedom.toGeoElement());
+		}
+		input = inputs.toArray(new GeoElement[0]);
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
@@ -93,17 +96,17 @@ public class AlgoChiSquaredTest extends AlgoElement {
 	 *         freedom
 	 */
 	ChiSquaredDistribution getChiSquaredDistribution(double df) {
-		if (chisquared == null || chisquared.getDegreesOfFreedom() != df) {
-			chisquared = new ChiSquaredDistribution(df);
+		if (chiSquared == null || chiSquared.getDegreesOfFreedom() != df) {
+			chiSquared = new ChiSquaredDistribution(df);
 		}
 
-		return chisquared;
+		return chiSquared;
 	}
 
 	@Override
 	public final void compute() {
 
-		int df;
+		final int df;
 		int rows = geoList1.size();
 		int columns = 0;
 
@@ -121,7 +124,6 @@ public class AlgoChiSquaredTest extends AlgoElement {
 
 		double[][] observed = null;
 		double[][] expected = null;
-		double[][] diff = null;
 
 		// store observed and expected values in arrays
 
@@ -139,7 +141,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 				return;
 			}
 			columns = 1;
-			df = rows - 1;
+			df = degreesOfFreedom == null ? rows - 1 : (int) degreesOfFreedom.evaluateDouble();
 			observed = new double[rows][columns];
 			expected = new double[rows][columns];
 
@@ -154,9 +156,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 					return;
 				}
 			}
-		}
-
-		else { // list1 is matrix
+		} else { // list1 is matrix
 
 			columns = ((GeoList) geoList1.get(0)).size();
 			observed = new double[rows][columns];
@@ -197,9 +197,6 @@ public class AlgoChiSquaredTest extends AlgoElement {
 				}
 
 				double[] rowSum = new double[rows];
-				for (int i = 0; i < rows; i++) {
-					rowSum[i] = 0;
-				}
 				double total = 0;
 				for (int i = 0; i < rows; i++) {
 					for (int j = 0; j < columns; j++) {
@@ -218,8 +215,8 @@ public class AlgoChiSquaredTest extends AlgoElement {
 		}
 
 		// compute test statistic and chi-square contributions
-		diff = new double[rows][columns];
-		testStat = 0;
+		double[][] diff = new double[rows][columns];
+		double testStat = 0;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				diff[i][j] = (observed[i][j] - expected[i][j])

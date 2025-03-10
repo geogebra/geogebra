@@ -858,9 +858,12 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdChiSquaredTest() {
-		t("ChiSquaredTest[{{1,2,3,4,5}}]", "?");
-		t("ChiSquaredTest[{1,2,3,4,5},{1,2,3,4,5}]", "{1, 0}");
-		t("ChiSquaredTest[{{1,2,3,4,5}},{{1,2,3,4,5}}]", "?");
+		tRound("ChiSquaredTest[{{1, 2, 1}, {3, 2, 3}}]", "{0.68729, 0.75}");
+		tRound("ChiSquaredTest[{1, 2, 3, 4}, {3, 2, 4, 2}]", "{0.31011, 3.58333}");
+		tRound("ChiSquaredTest[{{1, 2, 1}, {3, 2, 3}}, {{2, 3, 2}, {4, 2, 3}}]",
+				"{0.45309, 1.58333}");
+		tRound("ChiSquaredTest[{1, 2, 3, 4}, {3, 2, 4, 2},3]", "{0.31011, 3.58333}");
+		tRound("ChiSquaredTest[{1, 2, 3, 4}, {3, 2, 4, 2},2]", "{0.16668, 3.58333}");
 	}
 
 	@Test

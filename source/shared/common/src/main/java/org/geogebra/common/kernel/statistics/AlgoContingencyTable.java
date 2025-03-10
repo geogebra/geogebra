@@ -459,13 +459,8 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void addChiTest(StringBuilder sb) {
-
-		AlgoChiSquaredTest test;
-		if (isRawData) {
-			test = new AlgoChiSquaredTest(cons, freq.getResult(), null);
-		} else {
-			test = new AlgoChiSquaredTest(cons, freqMatrix, null);
-		}
+		GeoList matrix = isRawData ? freq.getResult() : freqMatrix;
+		AlgoChiSquaredTest test = new AlgoChiSquaredTest(cons, matrix, null, null);
 		cons.removeFromConstructionList(test);
 		final GeoList result = test.getResult();
 
