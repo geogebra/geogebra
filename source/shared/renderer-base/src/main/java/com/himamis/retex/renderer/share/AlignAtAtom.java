@@ -57,7 +57,6 @@ public class AlignAtAtom extends AlignAtom {
 
 	@Override
 	public double[] getColumnSep(TeXEnvironment env, double width) {
-		final int row = matrix.row;
 		final int col = matrix.col;
 		final double[] seps = new double[col + 1];
 		final double w = aligned ? Double.POSITIVE_INFINITY

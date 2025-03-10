@@ -51,4 +51,5 @@ public class DrawTextTest extends BaseUnitTest {
 		assertThat(drawable, notNullValue());
 		assertThat(drawable.xLabel, equalTo(406));
 	}
+
 }

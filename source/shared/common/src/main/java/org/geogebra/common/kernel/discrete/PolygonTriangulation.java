@@ -1194,7 +1194,6 @@ public class PolygonTriangulation {
 			for (Point pt = pointSet.first(); pt != pointSet
 					.last(); pt = pointSet.higher(pt)) {
 
-				String s = pt.name + " : ";
 				/*
 				 * for (Segment seg = bottom.above ; seg != top; seg =
 				 * seg.above){ s+=seg.toString()+"("+seg.hashCode()+")"+","; }
@@ -1309,13 +1308,6 @@ public class PolygonTriangulation {
 					above.below = below;
 					checkIntersection(oldBelow, oldBelow.above, pointSet);
 					checkIntersection(below, below.above, pointSet);
-				}
-
-				if (DEBUG) {
-					for (Segment seg = bottom.above; seg != top; seg = seg.above) {
-						s += seg.toString() + ",";
-					}
-					debug(s);
 				}
 			}
 
@@ -1749,19 +1741,6 @@ public class PolygonTriangulation {
 		// set diagonals
 
 		if (polygonPoints.needsDiagonals) {
-
-			if (DEBUG) {
-				String s = "set diagonals of ";
-				for (Point pt : polygonPoints) {
-					s += pt.name;
-					if (pt.needsDiagonal) {
-						s += "(*)";
-					}
-				}
-
-				debug(s);
-			}
-
 			// top and bottom (dummy) segments
 			Segment top = new Segment();
 			Segment bottom = new Segment();

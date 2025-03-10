@@ -1802,7 +1802,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 			applyStretch(1, 0, Math.abs(ratioY));
 			updateDiameter();
 			boolean tangentIncreaseScreen = diameter.getX() * diameter.getY() < 0;
-			if (originalTangentIncreaseScreen ^ boxOrientationChanged != tangentIncreaseScreen) {
+			if ((originalTangentIncreaseScreen ^ boxOrientationChanged) != tangentIncreaseScreen) {
 				applyStretch(1, 0, -1);
 			}
 			double centerX = view.toRealWorldCoordX((p.getX() + p0.getX()) / 2);

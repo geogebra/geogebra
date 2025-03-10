@@ -72,7 +72,6 @@ public class HdotsforAtom extends MulticolumnAtom {
 		db.add(sp);
 		Box b;
 		if (w != 0.) {
-			double dw = db.getWidth();
 			HorizontalBox hb = new HorizontalBox(db);
 			while (hb.getWidth() < w) {
 				hb.add(db);

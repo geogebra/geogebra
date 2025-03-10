@@ -293,9 +293,13 @@ public class TeXFont {
 	}
 
 	public double getKern(CharFont left, CharFont right, int style) {
-		if (left.fontInfo == right.fontInfo) {
+		return getKern(left, right.c, right.fontInfo, style);
+	}
+
+	private double getKern(CharFont left, char rightChar, FontInfo rightInfo, int style) {
+		if (left.fontInfo == rightInfo) {
 			FontInfo info = left.fontInfo;
-			return info.getKern(left.c, right.c,
+			return info.getKern(left.c, rightChar,
 					getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 		}
 		return 0;
@@ -353,11 +357,7 @@ public class TeXFont {
 	}
 
 	public double getSkew(CharFont cf, int style) {
-		if (cf.fontInfo.skewChar == -1) {
-			return 0;
-		}
-		return getKern(cf, new CharFont(cf.fontInfo.skewChar, cf.fontInfo),
-				style);
+		return getKern(cf, cf.fontInfo.skewChar, cf.fontInfo, style);
 	}
 
 	public double getSpace(int style) {

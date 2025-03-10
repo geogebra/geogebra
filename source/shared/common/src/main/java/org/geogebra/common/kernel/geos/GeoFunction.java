@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoDistancePointObject;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -87,7 +86,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  * @author Markus Hohenwarter
  */
-public class GeoFunction extends GeoElement implements VarString, Translateable,
+public class GeoFunction extends GeoElement implements Translateable,
 		GeoEvaluatable, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, Dilateable,
 		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable,
@@ -1654,7 +1653,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			HashMap<String, FunctionVariable> varMap, Kernel kernel) {
 		if (lt instanceof GeoFunction) {
 			return new ExpressionNode(kernel, lt, Operation.FUNCTION, varMap
-					.get(lt.getVarString(StringTemplate.defaultTemplate)));
+					.get(((GeoFunction) lt).getVarString(StringTemplate.defaultTemplate)));
 		}
 		if (lt instanceof GeoFunctionNVar) {
 			MyList varList = new MyList(kernel);

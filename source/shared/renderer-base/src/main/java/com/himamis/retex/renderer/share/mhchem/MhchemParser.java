@@ -813,7 +813,7 @@ public class MhchemParser extends TeXParser {
 	}
 
 	public boolean handleElementPart() {
-		Atom sup, sub, greek;
+		Atom sub, greek;
 		char c = parseString.charAt(pos);
 		if (isRomanLetter(c)) {
 			++pos;
@@ -1102,7 +1102,6 @@ public class MhchemParser extends TeXParser {
 
 	@Override
 	public void processCommand(final String command) throws ParseException {
-		Atom greek;
 		if (command.equals("text")) {
 			final String code = getGroupAsArgument();
 			final TeXParser tp = new TeXParser(code);

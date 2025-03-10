@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.kernelND;
 import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -34,7 +33,7 @@ import org.geogebra.common.util.StringUtil;
  *
  */
 public abstract class GeoSurfaceCartesianND extends GeoElement
-		implements SurfaceEvaluable, VarString, Translateable, Dilateable,
+		implements SurfaceEvaluable, Translateable, Dilateable,
 		CasEvaluableFunction {
 	protected static final int BIVARIATE_SAMPLES = 8;
 	protected static final int BIVARIATE_JUMPS = 10;

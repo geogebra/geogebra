@@ -15,8 +15,8 @@ package org.geogebra.common.kernel.geos;
 import java.util.TreeMap;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  * @author Markus Hohenwarter
  */
 public interface CasEvaluableFunction
-		extends GeoElementND, ReplaceChildrenByValues {
+		extends GeoElementND, ReplaceChildrenByValues, VarString {
 
 	/**
 	 * Sets this function by applying a GeoGebraCAS command to a function.
@@ -52,19 +52,6 @@ public interface CasEvaluableFunction
 	 * @return string representation; variables represented by names
 	 */
 	public String toSymbolicString(StringTemplate tpl);
-
-	/**
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @return comma separated list of variables
-	 */
-	public String getVarString(StringTemplate tpl);
-
-	/**
-	 * @return input variables
-	 */
-	public FunctionVariable[] getFunctionVariables();
 
 	/**
 	 * clear cached CAS evaluations

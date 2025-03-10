@@ -125,7 +125,7 @@ public abstract class AlgoAngle extends AlgoElement {
 	 */
 	protected final static void checkOrientation(Coords vn,
 			GeoDirectionND orientation, GeoAngle a, boolean reverse) {
-		if (vn.dotproduct(orientation.getDirectionInD3()) < 0 ^ reverse) {
+		if ((vn.dotproduct(orientation.getDirectionInD3()) < 0) ^ reverse) {
 			double v = 2 * Math.PI - a.getValue();
 			a.setValue(v);
 			if (v > Math.PI) {

@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ParametricCurveDistanceFunction;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoSpline;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
@@ -36,7 +35,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public abstract class GeoCurveCartesianND extends GeoElement
-		implements ParametricCurve, VarString, CasEvaluableFunction {
+		implements ParametricCurve, CasEvaluableFunction {
 
 	/**
 	 * samples to find interval with closest parameter position to given point

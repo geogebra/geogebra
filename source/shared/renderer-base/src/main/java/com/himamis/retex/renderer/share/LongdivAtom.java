@@ -99,7 +99,6 @@ public class LongdivAtom extends VRowAtom {
 	private String[] makeResults(long divisor, long dividend) {
 		List<String> vec = new ArrayList<>();
 		long q = dividend / divisor;
-		final long r = dividend % divisor;
 		vec.add(Long.toString(q));
 		vec.add(Long.toString(dividend));
 

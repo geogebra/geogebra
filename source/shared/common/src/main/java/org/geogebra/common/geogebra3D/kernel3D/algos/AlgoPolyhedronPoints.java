@@ -478,7 +478,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		if (height != null) {
 			boolean isBottomInverse = bottomAsInput && bottom != null
 					&& bottom.isConvexInverseDirection();
-			polyhedron.setReverseNormalsForDrawing(isBottomInverse ^ height.getDouble() < 0);
+			polyhedron.setReverseNormalsForDrawing(isBottomInverse ^ (height.getDouble() < 0));
 		}
 
 		return true;

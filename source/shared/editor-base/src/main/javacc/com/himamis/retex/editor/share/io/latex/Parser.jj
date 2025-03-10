@@ -500,7 +500,6 @@ void arrayCurly(MathContainer currentField) :
 {
 	MathArray mathArray = null;
 	MathSequence mathSequence = null;
-	int matrixWidth = -1;
 }
 {
 	<CURLY_BRACKETS_OPEN>

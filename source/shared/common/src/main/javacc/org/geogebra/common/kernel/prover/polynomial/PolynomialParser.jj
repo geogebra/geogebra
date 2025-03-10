@@ -64,6 +64,10 @@ public class PolynomialParser
     PolynomialParser parser = new PolynomialParser(new StringProvider(string));
     return parser.polynomialFactoredSetStartingPoint(variableMap);
   }
+
+  private PVariable missingVariable() throws ParseException{
+     throw new ParseException();
+  }
 }
 
 PARSER_END(PolynomialParser)
@@ -270,7 +274,7 @@ PVariable variable(HashMap < String, PVariable > variables) :
 {
   variable = < VARIABLE >
   {
-    if ((var = variables.get(variable.toString())) != null) return var;
-      throw new ParseException();
+    var = variables.get(variable.toString());
+    return var == null ? missingVariable() : var;
   }
 }

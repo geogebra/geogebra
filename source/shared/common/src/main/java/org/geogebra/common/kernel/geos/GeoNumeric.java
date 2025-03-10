@@ -2026,11 +2026,6 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public String getVarString(StringTemplate defaulttemplate) {
-		return "x";
-	}
-
-	@Override
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
 		return 0;
 	}

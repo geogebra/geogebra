@@ -2370,7 +2370,7 @@ public class TeXParser {
 							++pos;
 							if (i != resLen - 1) {
 								throw new ParseException(this,
-										"Expect " + res.length + " numbers");
+										"Expect " + resLen + " numbers");
 							}
 							return;
 						} else if (c != ',' && c != ';') {
@@ -2402,7 +2402,7 @@ public class TeXParser {
 							++pos;
 							if (i != resLen - 1) {
 								throw new ParseException(this,
-										"Expect " + res.length + " numbers");
+										"Expect " + resLen + " numbers");
 							}
 							return;
 						} else if (c != ',' && c != ';') {
@@ -2411,9 +2411,8 @@ public class TeXParser {
 											+ "' in list of numbers: expect a ',' or ';'");
 						}
 					}
-					throw new ParseException(this, "Expect a '}'");
 				}
-				return;
+				throw new ParseException(this, "Expect a '}'");
 			}
 		}
 		throw new ParseException(this, "Expect a '{'");

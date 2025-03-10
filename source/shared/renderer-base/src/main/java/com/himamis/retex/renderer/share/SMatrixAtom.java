@@ -66,7 +66,6 @@ public class SMatrixAtom extends ArrayAtom {
 
 	@Override
 	public double[] getColumnSep(TeXEnvironment env, double width) {
-		final int row = matrix.row;
 		final int col = matrix.col;
 		final double[] seps = new double[col + 1];
 
