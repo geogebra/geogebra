@@ -268,9 +268,8 @@ public class SpreadsheetColumnControllerD
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-
 		if (MouseEventUtil.isRightClick(e)) {
-			return; // G.Sturr 2009-9-30
+			return;
 		}
 
 		if (isResizing) {

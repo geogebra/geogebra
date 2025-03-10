@@ -102,7 +102,6 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
 
 		String label;
 
-		// G.Sturr: get label from geoList (2010-3-15)
 		if (geoList != null) {
 			label = geoList.getLabel(tpl);
 		} else {

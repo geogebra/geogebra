@@ -55,9 +55,6 @@ public class OptionsMenuD extends BaseMenu
 	@Override
 	protected void initItems() {
 
-		// G.Sturr 2009-10-18
-		// Algebra description: show value or definition of objects
-		// getOptionsMenu().addAlgebraDescriptionMenu(this);
 		getOptionsMenu().addDecimalPlacesMenu(this);
 		addSeparator();
 		// Labeling

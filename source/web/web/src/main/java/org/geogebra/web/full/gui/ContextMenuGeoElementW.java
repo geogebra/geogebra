@@ -208,9 +208,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		// SHOW, HIDE
-
-		// G.Sturr 2010-5-14: allow menu to show spreadsheet trace for
-		// non-drawables
 		if (getGeo().isDrawable() || (getGeo().isSpreadsheetTraceable()
 				&& app.getGuiManager() != null
 				&& app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {

@@ -204,10 +204,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	/** The original location if any */
 	private ScreenLocation screenLocation = null;
-	// =================================
-	// G.Sturr new fill options
 	/**
-	 * substitute for imageFileName and image - Arpad Fekete; // 2011-12-01
+	 * substitute for imageFileName and image
 	 */
 	protected GeoElementGraphicsAdapter graphicsadapter;
 	/** offset for label in EV */
@@ -3817,7 +3815,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 		// add dependency information
 		if (algoParent != null) {
-			// Guy Hed, 25.8.2008
 			// In order to present the text correctly in Hebrew and Arabic:
 			final boolean rightToLeft = getLoc().isRightToLeftReadingOrder();
 			if (rightToLeft) {
@@ -5516,8 +5513,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	// ===================================================
-	// G.Sturr 2010-5-14
-	// New code for spreadsheet tracing with trace manager
+	// Code for spreadsheet tracing with trace manager
 	// ===================================================
 
 	@Override

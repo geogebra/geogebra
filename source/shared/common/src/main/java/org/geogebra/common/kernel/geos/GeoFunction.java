@@ -1288,14 +1288,6 @@ public class GeoFunction extends GeoElement implements Translateable,
 		this.trace = trace;
 	}
 
-	// G.Sturr 2010-5-18 get/set spreadsheet trace not needed here
-	/*
-	 * public void setSpreadsheetTrace(boolean spreadsheetTrace) {
-	 * this.spreadsheetTrace = spreadsheetTrace; }
-	 * 
-	 * public boolean getSpreadsheetTrace() { return spreadsheetTrace; }
-	 */
-
 	@Override
 	public GeoFunction getGeoFunction() {
 		return this;

@@ -816,8 +816,6 @@ public class AlgebraProcessor {
 		}
 	}
 
-	// G.Sturr 2010-7-5
-	//
 	/**
 	 * normal usage ... default to show error dialog (Exceptions hidden)
 	 *

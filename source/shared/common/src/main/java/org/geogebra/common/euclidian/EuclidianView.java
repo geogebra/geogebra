@@ -2056,14 +2056,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public void add(GeoElement geo) {
-		// G.Sturr 2010-6-30
 		// filter out any geo not marked for this view
 		if (!drawableNeeded(geo)) {
 			if (isVisibleInThisView(geo)) {
 				this.geosWaiting.add(geo);
 			}
 			return;
-			// END G.Sturr
 		}
 
 		// check if there is already a drawable for geo

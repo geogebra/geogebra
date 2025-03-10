@@ -596,14 +596,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		return this.trace;
 	}
 
-	// G.Sturr 2010-5-18 get/set spreadsheet trace not needed here
-	/*
-	 * public void setSpreadsheetTrace(boolean spreadsheetTrace) {
-	 * this.spreadsheetTrace = spreadsheetTrace; }
-	 * 
-	 * public boolean getSpreadsheetTrace() { return spreadsheetTrace; }
-	 */
-
 	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;

@@ -1513,7 +1513,6 @@ public class ConsElementXMLHandler {
 	private boolean handleSpreadsheetTrace(
 			LinkedHashMap<String, String> attrs) {
 
-		// G.Sturr 2010-5-30
 		// XML handling for new tracing code
 		if (!geo.isSpreadsheetTraceable()) {
 			Log.error("wrong element type for <trace>: " + geo.getClass());

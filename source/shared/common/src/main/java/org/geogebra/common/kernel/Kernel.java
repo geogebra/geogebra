@@ -135,7 +135,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** string for -+ */
 	final public static String STRING_MINUS_PLUS = "\u2213 ";
 
-	// G.Sturr 2009-10-18
 	// algebra style
 	/**
 	 * @deprecated AlgebraStyle.Value should be used instead.
@@ -164,7 +163,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// must use getter
 	private int algebraStyleSpreadsheet = AlgebraStyle.VALUE;
 
-	// end G.Sturr
 	private MacroManager macroManager;
 
 	/**

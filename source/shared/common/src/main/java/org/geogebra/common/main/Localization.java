@@ -46,7 +46,6 @@ public abstract class Localization extends LocalizationI {
 	private boolean useLocalizedDigits = false;
 	private HashMap<String, String> translateCommandTable;
 	private boolean reverseNameDescription = false;
-	// For Hebrew and Arabic. Guy Hed, 25.8.2008
 	public boolean rightToLeftReadingOrder = false;
 	private boolean areEnglishCommandsForced;
 

@@ -206,7 +206,7 @@ public class AlgoPolyLine extends AlgoElement {
 		sb.append(getLoc().getMenu("PolyLine"));
 		sb.append(' ');
 
-		// G.Sturr: get label from geoList (2010-3-15)
+		// get label from geoList
 		if (geoList != null) {
 			sb.append(geoList.getLabel(tpl));
 

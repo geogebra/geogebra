@@ -135,7 +135,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		this(cons, points, geoList, cs2D, createSegments, polyhedron,
 				direction);
 
-		// G.Sturr 2010-3-14: Do not label segments or points for polygons
+		// Do not label segments or points for polygons
 		// formed by a geolist.
 		// (current code cannot handle sequences of variable length)
 
@@ -147,8 +147,6 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 				poly.setLabel(labels[0]);
 			}
 		}
-
-		// END G.Sturr
 	}
 
 	/**
@@ -464,7 +462,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 		String label;
 
-		// G.Sturr: get label from geoList (2010-3-15)
+		// get label from geoList
 		if (geoList != null) {
 			label = geoList.getLabel(tpl);
 		} else {

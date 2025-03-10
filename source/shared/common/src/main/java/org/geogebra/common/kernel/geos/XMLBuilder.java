@@ -174,7 +174,6 @@ public class XMLBuilder {
 			}
 		}
 
-		// G.Sturr 2010-5-29
 		// Get spreadsheet trace XML from the trace manager
 
 		// trace to spreadsheet

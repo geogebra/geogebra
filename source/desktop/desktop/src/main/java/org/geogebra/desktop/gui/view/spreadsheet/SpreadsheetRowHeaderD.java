@@ -345,7 +345,6 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			return;
 		}
 
-		// G.STURR 2010-1-9
 		// On mouse drag either resize or select a row
 		int x = e.getX();
 		int y = e.getY();
@@ -364,7 +363,6 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 				int row = point.row;
 				table.setRowSelectionInterval(row0, row);
 
-				// G.Sturr 2010-4-4
 				// keep the row header updated when drag selecting multiple rows
 				view.updateRowHeader();
 				table.scrollRectToVisible(

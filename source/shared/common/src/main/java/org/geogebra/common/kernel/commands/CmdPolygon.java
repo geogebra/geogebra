@@ -54,7 +54,6 @@ public class CmdPolygon extends CommandProcessor {
 		switch (n) {
 		case 0:
 			throw argNumErr(c);
-			// G.Sturr 2010-3-14
 		case 1:
 			GeoList l = null;
 			if (arg[0].isGeoList()) {
@@ -70,8 +69,6 @@ public class CmdPolygon extends CommandProcessor {
 				return getAlgoDispatcher().polygon(c.getLabels(), l);
 			}
 			throw argErr(arg[0], c);
-			// END G.Sturr
-
 		case 3:
 			// regular polygon
 			if (arg[0].isGeoPoint() && arg[1].isGeoPoint()

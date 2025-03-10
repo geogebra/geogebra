@@ -1276,7 +1276,6 @@ public abstract class GlobalKeyDispatcher {
 			return true;
 
 		case DELETE:
-			// G.Sturr 2010-5-2: let the spreadsheet handle delete
 			if (app.getGuiManager() != null
 					&& app.getGuiManager().hasSpreadsheetView()
 					&& app.getGuiManager().getSpreadsheetView().hasFocus()) {
@@ -1289,7 +1288,6 @@ public abstract class GlobalKeyDispatcher {
 			}
 
 		case BACKSPACE:
-			// G.Sturr 2010-5-2: let the spreadsheet handle delete
 			if (app.getGuiManager() != null
 					&& app.getGuiManager().getSpreadsheetView().hasFocus()) {
 				return false;

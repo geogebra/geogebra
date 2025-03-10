@@ -1775,7 +1775,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			ActionListener, IComboListener {
 		private static final long serialVersionUID = 1L;
 		private PointStyleModel model;
-		private JComboBox cbStyle; // G.Sturr 2010-1-24
+		private JComboBox cbStyle;
 
 		public PointStylePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
@@ -1862,17 +1862,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			// G.STURR 2010-1-24:
 			// Handle comboBox and radio button clicks
-
-			// int style = Integer.parseInt(e.getActionCommand());
 			int style = -1;
 			// comboBox click
 			if (e.getSource() == cbStyle) {
 				style = cbStyle.getSelectedIndex();
 			}
-			// END G.STURR
 			model.applyChanges(style);
 		}
 
