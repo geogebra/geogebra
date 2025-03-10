@@ -14,7 +14,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
@@ -305,9 +304,7 @@ public final class SpreadsheetController {
 	}
 
 	private boolean isInvalidCellReferenceSelection(int row, int column) {
-		return row < 0 || column < 0
-				|| tabularData.contentAt(row, column) == null
-				|| !PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_INSERT_REFERENCE);
+		return row < 0 || column < 0 || tabularData.contentAt(row, column) == null;
 	}
 
 	void scrollEditorIntoView() {

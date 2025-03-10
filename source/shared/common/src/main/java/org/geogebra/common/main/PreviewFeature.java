@@ -34,9 +34,7 @@ public enum PreviewFeature {
 	/** APPS-6134, removal APPS-6217 */
 	REALSCHULE_TEMPLATES,
 	/** APPS-5815 */
-	RATIONALIZE_FRACTIONS,
-	/** APPS-5872, removal APPS-6335 */
-	SPREADSHEET_INSERT_REFERENCE;
+	RATIONALIZE_FRACTIONS;
 
 	/**
 	 * Global flag to activate feature previews.
