@@ -34,6 +34,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
+import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 
@@ -61,6 +62,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		addStyleName("quickStylebar");
 		addHandlers();
 		buildGUI();
+		TestHarness.setAttr(this, "dynamicStyleBar");
 	}
 
 	private void buildGUI() {

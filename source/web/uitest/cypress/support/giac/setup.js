@@ -1,4 +1,4 @@
-import giac from '../../../../common/src/main/resources/giac/giacTests.js';
+import giac from '../../../../../shared/common/src/main/resources/giac/giacTests.js';
 /*global cy,expect*/
 
 function setupTestCategories(range) {

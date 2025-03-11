@@ -17,10 +17,10 @@
     "eslint": "^8.24.0",
     "http-server": "14.1.1",
     "jest-image-snapshot": "5.2.0",
-    "wait-on": "6.0.0"
+    "wait-on": "^8.0.2"
   },
   "dependencies": {
-    "lighthouse": "^10.2.0",
-    "xml2js": "0.4.23"
+    "lighthouse": "^11.0.0",
+    "xml2js": "^0.6.2"
   }
 }
