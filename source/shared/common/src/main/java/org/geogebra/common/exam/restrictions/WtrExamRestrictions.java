@@ -10,6 +10,8 @@ import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import java.util.Set;
 
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 
 public class WtrExamRestrictions extends ExamRestrictions {
 	WtrExamRestrictions() {
@@ -17,8 +19,8 @@ public class WtrExamRestrictions extends ExamRestrictions {
 				Set.of(GRAPHING, GEOMETRY, G3D, CAS, PROBABILITY),
 				SCIENTIFIC,
 				null,
-				null,
-				null,
+				createInputExpressionFilters(),
+				createOutputExpressionFilters(),
 				null,
 				null,
 				null,
@@ -29,5 +31,13 @@ public class WtrExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null);
+	}
+
+	private static Set<ExpressionFilter> createInputExpressionFilters() {
+		return Set.of(new ComplexExpressionFilter());
+	}
+
+	private static Set<ExpressionFilter> createOutputExpressionFilters() {
+		return Set.of(new ComplexExpressionFilter());
 	}
 }
