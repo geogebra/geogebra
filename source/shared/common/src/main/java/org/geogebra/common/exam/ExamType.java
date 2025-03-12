@@ -156,6 +156,18 @@ public enum ExamType {
 		public String getShortDisplayName(Localization loc, AppConfig config) {
 			return "Vlaanderen";
 		}
+	},
+
+	WTR() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "Deutschland IQB WTR Abitur";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "WTR";
+		}
 	};
 
 	public static final String CHOOSE = "choose";
@@ -220,6 +232,8 @@ public enum ExamType {
 			return PreviewFeature.isAvailable(PreviewFeature.MMS_EXAM);
 		case REALSCHULE:
 			return PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_EXAM);
+		case WTR:
+			return PreviewFeature.isAvailable(PreviewFeature.WTR_EXAM);
 		default:
 			return true;
 		}

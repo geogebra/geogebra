@@ -31,6 +31,7 @@ public enum PreviewFeature {
 	IB_EXAM,
 	/** APPS-5740 */
 	REALSCHULE_EXAM,
+	WTR_EXAM,
 	/** APPS-6134, removal APPS-6217 */
 	REALSCHULE_TEMPLATES,
 	/** APPS-5815 */
