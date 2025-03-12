@@ -546,12 +546,12 @@ public final class ExamController {
 			throw new IllegalStateException("expected to be in FINISHED state, but is " + state);
 		}
 		propertiesRegistry.removeListener(examRestrictions);
-		removeRestrictionsFromRestrictables();
 		if (activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
 		} else if (registeredDependencies != null) {
 			registeredDependencies.forEach(this::removeRestrictionsFromContextDependencies);
 		}
+		removeRestrictionsFromRestrictables();
 		tempStorage.clearTempMaterials();
 		forEachDelegate(delegate -> {
 			delegate.examClearClipboard();

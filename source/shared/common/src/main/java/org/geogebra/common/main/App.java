@@ -4954,6 +4954,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (featureRestrictions.contains(ExamFeatureRestriction.RATIONALIZATION)) {
 			kernel.setRationalization(new Rationalization());
 		}
+		resetCommandDict();
 	}
 
 	/**

@@ -372,4 +372,16 @@ public final class ExamControllerTests extends BaseExamTests {
 				() -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
 						app.getLocalization(), List.of(geoElement))));
 	}
+
+	@Test
+	public void testSyntaxHelperIsUnrestrictedAfterExamMode() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.startExam(ExamType.GENERIC, null);
+        assertTrue(autocompleteProvider.getCompletions("NDerivative").findAny().isEmpty());
+		examController.finishExam();
+		examController.exitExam();
+		assertFalse(autocompleteProvider.getCompletions("NDerivative").findAny().isEmpty());
+	}
 }

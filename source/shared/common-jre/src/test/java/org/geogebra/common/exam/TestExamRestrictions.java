@@ -84,6 +84,9 @@ final class TestExamRestrictions extends ExamRestrictions {
 		LineSelectorSyntaxFilter filter = new LineSelectorSyntaxFilter();
 		// Max [ <Function>, <Start x-Value>, <End x-Value> ]
 		filter.addSelector(Commands.Max, 4);
+		// Filter NDerivative
+		filter.addSelector(Commands.NDerivative, 1);
+		filter.addSelector(Commands.NDerivative, 2);
 		return filter;
 	}
 
