@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Macro;
@@ -210,11 +211,12 @@ public class AutocompleteProvider {
 	public static class Completion {
 		public final MatchedString match;
 		public final List<String> syntaxes;
+		@CheckForNull
 		public final String helpPage;
 		public final ManualPage helpType;
 
 		private Completion(MatchedString match, List<String> syntaxes, ManualPage helpType,
-				String helpPage) {
+				@Nullable String helpPage) {
 			this.match = match;
 			this.syntaxes = syntaxes;
 			this.helpPage = helpPage;
@@ -233,6 +235,7 @@ public class AutocompleteProvider {
 			return syntaxes;
 		}
 
+		@CheckForNull
 		public String getHelpPage() {
 			return helpPage;
 		}
