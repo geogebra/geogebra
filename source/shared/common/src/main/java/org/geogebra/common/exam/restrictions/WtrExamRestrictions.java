@@ -6,6 +6,8 @@ import static org.geogebra.common.SuiteSubApp.GEOMETRY;
 import static org.geogebra.common.SuiteSubApp.GRAPHING;
 import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
+import static org.geogebra.common.exam.restrictions.ExamFeatureRestriction.RATIONALIZATION;
+import static org.geogebra.common.exam.restrictions.ExamFeatureRestriction.SURD;
 
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		super(ExamType.WTR,
 				Set.of(GRAPHING, GEOMETRY, G3D, CAS, PROBABILITY),
 				SCIENTIFIC,
-				null,
+				Set.of(SURD, RATIONALIZATION),
 				createInputExpressionFilters(),
 				createOutputExpressionFilters(),
 				null,
