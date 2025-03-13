@@ -11,12 +11,12 @@ import org.geogebra.common.plugin.Operation;
 public class Surds {
 
 	/**
-	 * Get the surd1 from expression.
+	 * Get the surd from expression.
 	 * @param expr {@link ExpressionNode}
 	 * @param kernel {@link Kernel}
 	 * @return the surd if exists, null otherwise.
 	 */
-	public ExpressionValue getResolution(ExpressionNode expr,
+	public ExpressionNode getResolution(ExpressionNode expr,
 			Kernel kernel) {
 		ExpressionValue left = expr.getLeft();
 		Operation op = expr.getOperation();
@@ -32,7 +32,7 @@ public class Surds {
 		return null;
 	}
 
-	private ExpressionValue getSimplifiedSurd(Kernel kernel, int value) {
+	private ExpressionNode getSimplifiedSurd(Kernel kernel, int value) {
 		List<Integer> factors = primeFactors((int) value);
 		int outerValue = 1;
 		int innerValue = 1;

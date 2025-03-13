@@ -1,14 +1,12 @@
 
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.geogebra.common.kernel.arithmetic.simplifiers.SimplifyUtils.isIntegerValue;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -19,7 +17,6 @@ public final class RationalizeFractionAlgo {
 	private final ExpressionNode denominator;
 
 	/**
-	 *
 	 * @param utils {@link SimplifyUtils}
 	 * @param numerator of the fraction.
 	 * @param denominator of the fraction.
@@ -36,20 +33,18 @@ public final class RationalizeFractionAlgo {
 	 * Run the rationalization algorithm.
 	 * If node is turned to be unsupported during the algorithm (division by 0, not integer result
 	 * numbers, etc.), it returns null.
-	 *
 	 * @return the rationalized node or null
 	 */
 	public ExpressionNode compute() {
-		ExpressionNode node = doRationalize();
-		if (node == null) {
+		ExpressionNode node = rationalize();
+		if (node == null || checkDecimals(node)) {
 			return null;
 		}
-		return checkDecimals(node) ? null : node;
+		return node;
 	}
 
 	/**
 	 * Package private to be testable in isolation
-	 *
 	 * @param node to test
 	 * @return if the expression has decimal numbers in it.
 	 */
@@ -57,37 +52,31 @@ public final class RationalizeFractionAlgo {
 		return node.inspect(v -> v instanceof NumberValue && !isIntegerValue(v));
 	}
 
-	private ExpressionNode doRationalize() {
+	private ExpressionNode rationalize() {
 		if (numerator.isLeaf()) {
-			return rationalizeAsLeafNumerator();
+			return rationalizeWithLeafNumerator();
 		}
 
-		if (bothHaveSquareRoot(numerator, denominator)) {
+		if (isSqrtNode(numerator) && isSqrtNode(denominator)) {
 			return rationalizeAsSquareRootProduct();
 		}
 
-		if (numerator.isOperation(Operation.SQRT) || canBeFactorized()) {
+		if (isSqrtNode(numerator)
+				|| isAtomicSurdAdditionNode(numerator) && isAtomicSurdAdditionNode(denominator)) {
 			return factorizeOrHandleProduct();
 		}
 
-		return rationalizeAsLeafSqrtDenominator();
-	}
-
-	private boolean canBeFactorized() {
-		return hasTwoTags(numerator) && hasTwoTags(denominator);
+		return utils.newDiv(multiplyTagNominatorWithSqrt(), radicandOf(denominator));
 	}
 
 	/**
 	 * If the fraction can be factorized, it is done here
 	 * or if denominator is a product, it is handled here too.
-	 *
 	 * @return the altered expression described above.
 	 */
 	private ExpressionNode factorizeOrHandleProduct() {
-		for (Operation op: new Operation[]{Operation.MINUS, Operation.PLUS}) {
-			if (denominator.isOperation(op)) {
-				return doFactorize(denominator);
-			}
+		if (isAddSubNode(denominator)) {
+			return factorize(denominator);
 		}
 		if (denominator.isOperation(Operation.MULTIPLY)) {
 			return handleProductInDenominator();
@@ -99,9 +88,12 @@ public final class RationalizeFractionAlgo {
 		ExpressionNode expanded = utils.expand(denominator);
 		ExpressionNode rightOperand = expanded;
 		Operation rightOperandOperation = rightOperand.getOperation();
-		if (hasTwoTags(rightOperand)) {
-			return doFactorize(expanded);
-		} if (rightOperandOperation == Operation.SQRT) {
+		// isSupported() guarantees that exactly one of the leaves is SQRT by now,
+		// so no check is needed here.
+		if (isAddSubNode(rightOperand)) {
+			return factorize(expanded);
+		}
+		if (rightOperandOperation == Operation.SQRT) {
 			ExpressionNode sqrt = denominator.getRightTree();
 			return utils.newNode(this.numerator.multiplyR(sqrt), Operation.DIVIDE,
 					denominator.getLeftTree().multiplyR(sqrt.getLeft()));
@@ -114,62 +106,31 @@ public final class RationalizeFractionAlgo {
 		}
 	}
 
-	private static boolean hasTwoTags(ExpressionNode node) {
-		// isSupported() guarantees that exactly one of the leaves is SQRT by now,
-		// so no check is needed here.
-		return node.isOperation(Operation.PLUS) || node.isOperation(Operation.MINUS);
-	}
-
-	private ExpressionNode rationalizeAsLeafNumerator() {
-		if (denominator.isOperation(Operation.SQRT)) {
-			ExpressionNode sqrtOf = simplifyUnderSqrt(denominator);
-			return utils.div(numerator.multiplyR(sqrtOf), sqrtOf.getLeftTree());
+	private ExpressionNode rationalizeWithLeafNumerator() {
+		if (isSqrtNode(denominator)) {
+			return utils.div(numerator.multiplyR(denominator), radicandOf(denominator));
 		}
 		return factorizeOrHandleProduct();
 	}
 
-	static ExpressionNode processUnderSqrts(final ExpressionNode node) {
-		ReduceRoot reduceRoot = new ReduceRoot(new SimplifyUtils(node.getKernel()));
-		return reduceRoot.apply(node);
-	}
-
-	private static ExpressionNode simplifyUnderSqrt(ExpressionNode node) {
-		if (node.getLeft().isLeaf()) {
-			return node;
-		}
-		double underSqrt = node.getLeft().evaluateDouble();
-		Kernel kernel = node.getKernel();
-		MyDouble left = new MyDouble(kernel, underSqrt);
-		return new ExpressionNode(kernel, left, Operation.SQRT,
-				null);
-	}
-
-	private ExpressionNode doFactorize(ExpressionNode node) {
+	private ExpressionNode factorize(ExpressionNode node) {
 		ExpressionNode result = null;
 		Operation op = node.getOperation();
 		ExpressionNode conjugate = getConjugateFactor(node);
 		double newDenominatorValue = node.multiply(conjugate).evaluateDouble();
-		if (isOne(newDenominatorValue)) {
+		if (DoubleUtil.isOne(newDenominatorValue)) {
 			result = utils.multiplyR(numerator, conjugate);
-		} else if (isMinusOne(newDenominatorValue)) {
+		} else if (DoubleUtil.isMinusOne(newDenominatorValue)) {
 			ExpressionNode minusConjugate = utils.getMinusConjugate(node, op);
 			result = utils.multiply(numerator, minusConjugate);
 		} else if (DoubleUtil.isInteger(newDenominatorValue)) {
 			// if new denominator is integer but not 1 or -1
 			result = utils.newNode(
-					numerator.multiplyR(conjugate),
+					utils.multiplyR(numerator, conjugate),
 					Operation.DIVIDE, utils.newDouble(newDenominatorValue));
 
 		}
 		return result;
-	}
-
-	private static boolean isMinusOne(double newDenominatorValue) {
-		return DoubleUtil.isEqual(newDenominatorValue, -1, Kernel.STANDARD_PRECISION);
-	}
-
-	private static boolean isOne(double newDenominatorValue) {
-		return DoubleUtil.isEqual(newDenominatorValue, 1, Kernel.STANDARD_PRECISION);
 	}
 
 	private ExpressionNode getConjugateFactor(ExpressionNode node) {
@@ -185,21 +146,16 @@ public final class RationalizeFractionAlgo {
 	}
 
 	private ExpressionNode doMultiply(ExpressionNode left, ExpressionNode right) {
-		if (bothHaveSquareRoot(left, right)) {
+		if (isSqrtNode(left) && isSqrtNode(right)) {
 			return multiplySquareRoots(left, right);
 		}
 
-		return left.multiply(right);
+		return isMinusOne(left) ? right.multiply(left) : left.multiply(right);
 	}
 
 	private ExpressionNode rationalizeAsSquareRootProduct() {
 		ExpressionNode product = multiplySquareRoots(numerator, denominator);
 		return utils.newDiv(product, denominator.getLeft());
-	}
-
-	private static boolean bothHaveSquareRoot(ExpressionNode numerator,
-			ExpressionNode denominator) {
-		return numerator.isOperation(Operation.SQRT) && denominator.isOperation(Operation.SQRT);
 	}
 
 	private ExpressionNode multiplySquareRoots(ExpressionNode left, ExpressionNode right) {
@@ -209,15 +165,20 @@ public final class RationalizeFractionAlgo {
 		return utils.newSqrt(product);
 	}
 
-	private ExpressionNode rationalizeAsLeafSqrtDenominator() {
-		ExpressionValue rationalized = denominator.getLeft();
+	/**
+	 * Multiply numerator with denominator, when numerator is a tag and denominator is
+	 * a single (not tag or multiplied) sqrt(d): (a + sqrt(b) / sqrt(d)
+	 * @return the multiplied numerator: (a * sqrt(d) + (sqrt(d) sqrt(b))
+	 */
+	private ExpressionNode multiplyTagNominatorWithSqrt() {
+		ExpressionValue squared = radicandOf(denominator);
 		ExpressionNode numeratorLeft =
-				simplifiedMultiply(rationalized, numerator.getLeftTree());
+				utils.reduceProduct(simplifiedMultiply(squared, numerator.getLeftTree())).wrap();
 		ExpressionNode numeratorRight =
-				simplifiedMultiply(rationalized, numerator.getRightTree());
+				simplifiedMultiply(squared, numerator.getRightTree());
 		ExpressionNode newNumerator =
 				utils.newNode(numeratorLeft, numerator.getOperation(),
 						numeratorRight);
-		return utils.newDiv(newNumerator, rationalized);
+		return newNumerator;
 	}
 }

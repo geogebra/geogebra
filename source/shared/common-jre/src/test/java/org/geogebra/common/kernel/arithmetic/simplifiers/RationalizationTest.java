@@ -1,15 +1,18 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import static org.geogebra.common.kernel.arithmetic.simplifiers.RationalizeFractionAlgo.checkDecimals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -20,61 +23,56 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
-public class RationalizationTest extends BaseUnitTest {
+public class RationalizationTest extends BaseAppTest {
 
-	final Rationalization rationalization = new Rationalization();
+	private final Rationalization rationalization = new Rationalization();
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		getKernel().setPrintDecimals(15);
 	}
 
-	@Test
-	public void testSupported() {
-		shouldBeSupported("1 / sqrt(2)");
-		shouldBeSupported("1 / (sqrt(2) + 1)");
-		shouldBeSupported("1 / (1 - sqrt(2))");
-		shouldBeSupported("sqrt(3) / sqrt(2)");
-		shouldBeSupported("(sqrt(3) + 1) / sqrt(2)");
-		shouldBeSupported("(3 (sqrt(3) + 1)) / sqrt(2)");
-		shouldBeSupported("(sqrt(3) + 1) / (sqrt(2) - 1)");
-	}
-
-	private void shouldBeSupported(String definition) {
+	@ParameterizedTest
+	@CsvSource({
+			"1 / sqrt(2)",
+			"1 / (sqrt(2) + 1)",
+			"1 / (1 - sqrt(2))",
+			"sqrt(3) / sqrt(2)",
+			"(sqrt(3) + 1) / sqrt(2)",
+			"(3 (sqrt(3) + 1)) / sqrt(2)",
+			"(-5 + sqrt(5)) / (-3 + sqrt(9))",
+			"(6 + sqrt(10)) / (-4 + sqrt(9))",
+			"(sqrt(3) + 1) / (sqrt(2) - 1)"
+	})
+	public void testSupported(String definition) {
 		GeoElementND geo = add(definition);
 		ExpressionValue resolution = rationalization.getResolution(geo.getDefinition());
 		assertNotNull(resolution);
 	}
 
-	@Test
-	public void testUnsupported() {
-		shouldBeUnsupported("1 / (sqrt(2) + sqrt(3))");
-		shouldBeUnsupported("(sqrt(3) + sqrt(2) + 1) / sqrt(2)");
-		shouldBeUnsupported("(sqrt(3) + sqrt(2)) / sqrt(2)");
-		shouldBeUnsupported("1 / sqrt(2.5)");
-		shouldBeUnsupported("sqrt(1 / 4)");
-		shouldBeUnsupported("(sqrt(2.5) + 1) / sqrt(2.5)");
-		shouldBeUnsupported("sqrt(2.5) / (sqrt(2.5) + 1)");
-		shouldBeUnsupported("1 / sqrt(-2)");
-		shouldBeUnsupported("2.3 / sqrt(2)");
-		shouldBeUnsupported("((1 / 2) (sqrt(3) + 1)) / sqrt(2)");
-		shouldBeUnsupported("(3.2 (sqrt(3) + 1)) / sqrt(2)");
-		shouldBeUnsupported("((4+sqrt(10+0.0001))/(-2+sqrt(0.0001+10)))");
-	}
-
-	@Issue("APPS-6267")
-	@Test
-	public void testUnsupportedIfNoSqrtInDenominator() {
-		shouldBeUnsupported("1/3");
-		shouldBeUnsupported("1/(3 + 2)");
-	}
-
-	private void shouldBeUnsupported(String definition) {
+	@ParameterizedTest
+	@CsvSource({
+			"1 / (sqrt(2) + sqrt(3))",
+			"(sqrt(3) + sqrt(2) + 1) / sqrt(2)",
+			"(sqrt(3) + sqrt(2)) / sqrt(2)",
+			"1 / sqrt(2.5)",
+			"sqrt(1 / 4)",
+			"(sqrt(2.5) + 1) / sqrt(2.5)",
+			"sqrt(2.5) / (sqrt(2.5) + 1)",
+			"1 / sqrt(-2)",
+			"2.3 / sqrt(2)",
+			"((1 / 2) (sqrt(3) + 1)) / sqrt(2)",
+			"(3.2 (sqrt(3) + 1)) / sqrt(2)",
+			"((4+sqrt(10+0.0001))/(-2+sqrt(0.0001+10)))",
+	})
+	public void shouldBeUnsupported(String definition) {
 		GeoElementND geo = add(definition);
 		ExpressionValue resolution = rationalization.getResolution(geo.getDefinition());
 		assertNull(resolution);
@@ -89,48 +87,60 @@ public class RationalizationTest extends BaseUnitTest {
 		num.setSymbolicMode(true, true);
 	}
 
-	@Test
-	public void testRationalizationNumeratorIsConstant() {
-		rationalizationShouldBe("1 / sqrt(2)", "sqrt(2) / 2");
-		rationalizationShouldBe("2 / sqrt(2)", "sqrt(2)");
-		rationalizationShouldBe("1 / (sqrt(2) + 1)", "sqrt(2) - 1");
-		rationalizationShouldBe("1 / (sqrt(2) - 1)", "sqrt(2) + 1");
-		rationalizationShouldBe("1 / (sqrt(2) - 3)", "(-(sqrt(2) + 3)) / 7");
+	@ParameterizedTest
+	@CsvSource({
+			"1 / sqrt(2), sqrt(2) / 2",
+			"2 / sqrt(2), sqrt(2)",
+			"1 / (sqrt(2) + 1), sqrt(2) - 1",
+			"1 / (sqrt(2) - 1), sqrt(2) + 1",
+			"1 / (sqrt(2) - 3), -((sqrt(2) + 3) / 7)",
+	})
+	public void testRationalizationNumeratorIsConstant(String definition, String expected) {
+		rationalizationShouldBe(definition, expected);
 	}
 
-	@Test
-	public void testRationalizeToNonFraction() {
-		rationalizationShouldBe("1 / (sqrt(2) + 3)", "(3 - sqrt(2)) / 7");
-		rationalizationShouldBe("1 / (1 + sqrt(2))", "sqrt(2) - 1");
+	@ParameterizedTest
+	@CsvSource({
+			"1 / (sqrt(2) + 3), (3 - sqrt(2)) / 7",
+			"1 / (1 + sqrt(2)), sqrt(2) - 1",
+	})
+	public void testRationalizeToNonFraction(String definition, String expected) {
+		rationalizationShouldBe(definition, expected);
 	}
 
-	@Test
-	public void testRationalizationNumeratorIsSquareRoot() {
-		rationalizationShouldBe("sqrt(3) / sqrt(2)", "sqrt(6) / 2");
-		rationalizationShouldBe("(sqrt(3) + 1) / sqrt(2)", "(sqrt(6) + sqrt(2)) / 2");
-		rationalizationShouldBe("(1 + sqrt(3)) / sqrt(2)", "(sqrt(2) + sqrt(6)) / 2");
-		rationalizationShouldBe("sqrt(3) / (sqrt(2) - 1)", "sqrt(3) (sqrt(2) + 1)");
-		rationalizationShouldBe("sqrt(3) / (sqrt(2) + 1)", "sqrt(3) (sqrt(2) - 1)");
+	@ParameterizedTest
+	@CsvSource({
+			"sqrt(3) / sqrt(2), sqrt(6) / 2",
+			"(sqrt(3) + 1) / sqrt(2), (sqrt(6) + sqrt(2)) / 2",
+			"(1 + sqrt(3)) / sqrt(2), (sqrt(6) + sqrt(2)) / 2",
+			"sqrt(3) / (sqrt(2) - 1), sqrt(6) + sqrt(3)",
+			"sqrt(3) / (sqrt(2) + 1), sqrt(6) - sqrt(3)"
+	})
+	public void testRationalizationNumeratorIsSquareRoot(String definition, String expected) {
+		rationalizationShouldBe(definition, expected);
 	}
 
-	@Test
-	public void testFractionIsInteger() {
-		rationalizationShouldBe("sqrt(3) / sqrt(3)", "1");
-		rationalizationShouldBe("(2 + sqrt(3)) / (2 + sqrt(3))", "1");
-		rationalizationShouldBe("(sqrt(3) + 2) / (sqrt(3) + 2)", "1");
-		rationalizationShouldBe("-sqrt(3) / sqrt(3)", "-1");
-		rationalizationShouldBe("sqrt(3) / -sqrt(3)", "-1");
-		rationalizationShouldBe("-sqrt(3) / -sqrt(3)", "1");
-		rationalizationShouldBe("-(sqrt(3) + 2) / (sqrt(3) + 2)", "-1");
-		rationalizationShouldBe("(sqrt(3) + 2) / -(sqrt(3) + 2)", "-1");
-		rationalizationShouldBe("-(sqrt(3) + 2) / -(sqrt(3) + 2)", "1");
-		rationalizationShouldBe("(3 * sqrt(2)) / sqrt(18)", "1");
-		rationalizationShouldBe("-sqrt(3) / sqrt(3)", "-1");
-		rationalizationShouldBe("(3 * sqrt(3)) / sqrt(3)", "3");
-		rationalizationShouldBe("(-3 * sqrt(3)) / sqrt(3)", "-3");
-		rationalizationShouldBe("(3 * sqrt(3)) / -sqrt(3)", "-3");
-		rationalizationShouldBe("(-3 * sqrt(3)) / -sqrt(3)", "3");
-		rationalizationShouldBe("(-3 (sqrt(3) + 2)) / (sqrt(3) + 2)", "-3");
+	@ParameterizedTest
+	@CsvSource({
+			"sqrt(3) / sqrt(3), 1",
+			"(2 + sqrt(3)) / (2 + sqrt(3)), 1",
+			"(sqrt(3) + 2) / (sqrt(3) + 2), 1",
+			"-sqrt(3) / sqrt(3), -1",
+			"sqrt(3) / -sqrt(3), -1",
+			"-sqrt(3) / -sqrt(3), 1",
+			"-(sqrt(3) + 2) / (sqrt(3) + 2), -1",
+			"(sqrt(3) + 2) / -(sqrt(3) + 2), -1",
+			"-(sqrt(3) + 2) / -(sqrt(3) + 2), 1",
+			"(3 * sqrt(2)) / sqrt(18), 1",
+			"-sqrt(3) / sqrt(3), -1",
+			"(3 * sqrt(3)) / sqrt(3), 3",
+			"(-3 * sqrt(3)) / sqrt(3), -3",
+			"(3 * sqrt(3)) / -sqrt(3), -3",
+			"(-3 * sqrt(3)) / -sqrt(3), 3",
+			"(-3 (sqrt(3) + 2)) / (sqrt(3) + 2), -3"
+	})
+	public void testFractionIsInteger(String definition, String expected) {
+		rationalizationShouldBe(definition, expected);
 	}
 
 	@Test
@@ -149,52 +159,36 @@ public class RationalizationTest extends BaseUnitTest {
 
 	private void rationalizationShouldBe(String definition, String expected, StringTemplate tpl) {
 		GeoNumeric num = add(definition);
-		ExpressionValue  resolution = rationalization.getResolution(num.getDefinition());
-		assertNotNull("resolution is null, " + definition + " is not supported", resolution);
-		assertEquals(resolution.toString(tpl), num.evaluateDouble(), resolution.evaluateDouble(),
-				Kernel.STANDARD_PRECISION);
+		ExpressionValue resolution = rationalization.getResolution(num.getDefinition());
+		assertNotNull(resolution, "resolution is null, " + definition + " is not supported");
+		assertEquals(num.evaluateDouble(), resolution.evaluateDouble(),
+				Kernel.STANDARD_PRECISION, resolution.toString(tpl));
 		assertEquals(expected, resolution.toString(tpl));
 	}
 
-	@Test
-	public void testSimplifySquareRoots() {
-		rationalizationShouldBe("sqrt(3) / sqrt(4)", "sqrt(3) / 2");
-		rationalizationShouldBe("sqrt(3) / sqrt(1)", "sqrt(3)");
-		rationalizationShouldBe("sqrt(6) / sqrt(2)", "sqrt(3)");
-		rationalizationShouldBe("3 / sqrt(8)", "(3sqrt(2)) / 4");
-		rationalizationShouldBe("sqrt(2 + 3) / (1 + sqrt(2))",
-				"(sqrt(2) - 1) sqrt(5)");
-		rationalizationShouldBe("sqrt(2 + 3) / (1 - sqrt(2))",
-				"(-1 - sqrt(2)) sqrt(5)");
-		rationalizationShouldBe("2 / sqrt(2)", "sqrt(2)");
-		rationalizationShouldBe("1 / (2 * (1 + sqrt(2)))", "(sqrt(2) - 1) / 2");
-		rationalizationShouldBe("1 / (2 * (1 - sqrt(2)))", "(-(1 + sqrt(2))) / 2");
-	}
+	@ParameterizedTest
+	@CsvSource({
+			"sqrt(3) / sqrt(4), sqrt(3) / 2",
+			"sqrt(3) / sqrt(1), sqrt(3)",
+			"sqrt(6) / sqrt(2), sqrt(3)",
+			"3 / sqrt(8), (3sqrt(2)) / 4",
+			"sqrt(2 + 3) / (1 + sqrt(2)), sqrt(10) - sqrt(5)",
+			"sqrt(2 + 3) / (1 - sqrt(2)), -sqrt(5) - sqrt(10)",
+			"2 / sqrt(2), sqrt(2)",
+			"1 / (2 * (1 + sqrt(2))), (sqrt(2) - 1) / 2",
+			"1 / (2 * (1 - sqrt(2))), -((1 + sqrt(2)) / 2)",
+			"1 / sqrt(3 + 4), sqrt(7) / 7",
+			"2 / sqrt(2),sqrt(2)",
+			"4 / (sqrt(5) - 1),sqrt(5) + 1",
+			"8 / (sqrt(5) - 1),2sqrt(5) + 2",
+			"sqrt(2 + 3) / (1 + sqrt(2 + 5)), (sqrt(35) - sqrt(5)) / 6",
+			"1 / (2 * (1 + sqrt(2))),(sqrt(2) - 1) / 2",
+			"1 / (2 * (1 - sqrt(2))),-((1 + sqrt(2)) / 2)",
+			"1 / (2 * sqrt(2)), sqrt(2) / 4",
 
-	@Test
-	public void testCancelGCDs() {
-		rationalizationShouldBe("2 / sqrt(2)", "sqrt(2)");
-		rationalizationShouldBe("4 / (sqrt(5) - 1)", "sqrt(5) + 1");
-		rationalizationShouldBe("8 / (sqrt(5) - 1)", "2 (sqrt(5) + 1)");
-	}
-
-	@Test
-	public void testShouldBeSimpler() {
-		rationalizationShouldBe("sqrt(2 + 3) / (1 + sqrt(2 + 5))",
-				"(-(sqrt(5) (1 - sqrt(7)))) / 6");
-		rationalizationShouldBe("1 / (2 * (1 + sqrt(2)))", "(sqrt(2) - 1) / 2");
-
-	}
-
-	@Test
-	public void testProductInDenominator() {
-		rationalizationShouldBe("1 / (2 * (1 - sqrt(2)))", "(-(1 + sqrt(2))) / 2");
-		rationalizationShouldBe("1 / (2 * sqrt(2))", "sqrt(2) / 4");
-	}
-
-	@Test
-	public void testEvaluateUnderSquareRoot() {
-		rationalizationShouldBe("1 / sqrt(3 + 4)", "sqrt(7) / 7");
+	})
+	public void testSimplifySquareRoots(String definition, String expected) {
+		rationalizationShouldBe(definition, expected);
 	}
 
 	@Test
@@ -222,32 +216,31 @@ public class RationalizationTest extends BaseUnitTest {
 
 	@Test
 	public void test() {
-		rationalizationShouldBe("(-2 + sqrt(7)) / (-9 + sqrt(4))", "(-(sqrt(7) - 2)) / 7");
+		rationalizationShouldBe("(-2 + sqrt(7)) / (-9 + sqrt(4))", "(2 - sqrt(7)) / 7");
 		rationalizationShouldBe("(-2 + sqrt(3+4)) / (-9 + sqrt(4))",
-				"(-(sqrt(7) - 2)) / 7");
+				"(2 - sqrt(7)) / 7");
 		rationalizationShouldBe("(-10 + sqrt(6)) / (5 + sqrt(1))",
 				"(sqrt(6) - 10) / 6");
 		rationalizationShouldBe("(-8 + sqrt(4)) / (-2 + sqrt(8))",
-				"-3 (1 + sqrt(2))");
-		rationalizationShouldBe("(-8 + sqrt(4)) / (-2 + sqrt(8))", "-3 (1 + sqrt(2))");
+				"-3 - 3sqrt(2)");
+		rationalizationShouldBe("(-8 + sqrt(4)) / (-2 + sqrt(8))", "-3 - 3sqrt(2)");
 	}
 
-	@Ignore // TODO in APPS-6220
 	@Test
 	public void testSimplestForm() {
 		rationalizationShouldBe("(7 + sqrt(8)) / (4 + sqrt(8))",
-				"(-3 sqrt(2)) / 4");
+				"(10 - 3sqrt(2)) / 4");
 		rationalizationShouldBe("(-10 + sqrt(5)) / (-2 + sqrt(5))",
-				"(-8sqrt(5) - 15");
+				"-15 - 8sqrt(5)");
 		rationalizationShouldBe(genericSqrtFraction(-8, 8, -2, 6),
-				"(-8 + sqrt(8)) / (-2 + sqrt(6))");
+				"2sqrt(3) + 2sqrt(2) - 4sqrt(6) - 8");
 
 	}
 
 	@Test
 	public void testTrivialDenominators() {
 		rationalizationShouldBe(genericSqrtFraction(6, 10, -4, 9),
-				"-(6 + sqrt(10))");
+				"-sqrt(10) - 6");
 		rationalizationShouldBe(genericSqrtFraction(-5, 5, -3, 9),
 				"-\u221e");
 	}
@@ -255,7 +248,7 @@ public class RationalizationTest extends BaseUnitTest {
 	@Test
 	public void testWrongDenominator() {
 		rationalizationShouldBe(genericSqrtFraction(0, 9, 1, 6),
-				"(-3 (1 - sqrt(6))) / 5");
+				"(3sqrt(6) - 3) / 5");
 	}
 
 	@Test
@@ -267,15 +260,15 @@ public class RationalizationTest extends BaseUnitTest {
 	@Test
 	public void testZeros() {
 		rationalizationShouldBe("(2 + sqrt(3)) / (4 + sqrt(5))",
-					"((2 + sqrt(3)) (4 - sqrt(5))) / 11");
+				"(8 + 4sqrt(3) - 2sqrt(5) - sqrt(15)) / 11");
 		rationalizationShouldBe("(0 + sqrt(3)) / (4 + sqrt(5))",
-				"(sqrt(3) (4 - sqrt(5))) / 11");
+				"(4sqrt(3) - sqrt(15)) / 11");
 		rationalizationShouldBe("(2 + sqrt(0)) / (4 + sqrt(5))",
-						"(2 (4 - sqrt(5))) / 11");
+				"(8 - 2sqrt(5)) / 11");
 		rationalizationShouldBe("(2 + sqrt(3)) / (0 + sqrt(5))",
-						"(2sqrt(5) + sqrt(15)) / 5");
+				"(2sqrt(5) + sqrt(15)) / 5");
 		rationalizationShouldBe(genericSqrtFraction(-6, 8, 0, 5),
-				"(2sqrt(10) + sqrt(5) (-6)) / 5");
+				"(2sqrt(10) - 6sqrt(5)) / 5");
 	}
 
 	private String genericSqrtFraction(int a, int b, int c, int d) {
@@ -287,55 +280,86 @@ public class RationalizationTest extends BaseUnitTest {
 	@Test
 	public void testBadExamples() {
 		rationalizationShouldBe(genericSqrtFraction(-8, 4, -2, 8),
-				"-3 (1 + sqrt(2))");
+				"-3 - 3sqrt(2)");
 		rationalizationShouldBe(genericSqrtFraction(-6, 9, -8, 9), "3 / 5");
 		rationalizationShouldBe(genericSqrtFraction(3, 1, 9, 9), "1 / 3");
 		rationalizationShouldBe(genericSqrtFraction(2, 4, 1, 2),
-				"4 (sqrt(2) - 1)");
+				"4sqrt(2) - 4");
 		rationalizationShouldBe(genericSqrtFraction(-5, 1, 5, 8),
-				"(-4 (5 - 2sqrt(2))) / 17");
-		shouldBeSupported("(-5 + sqrt(5)) / (-3 + sqrt(9))");
-		shouldBeSupported("(6 + sqrt(10)) / (-4 + sqrt(9))");
+				"(8sqrt(2) - 20) / 17");
+
 	}
 
-	@Test
-	public void allShouldBeNumericallyOK() {
-		StringBuilder failures = new StringBuilder();
+	@ParameterizedTest
+	@MethodSource("allShouldBeNumericallyOK")
+	public void shouldBeNumericallyOK(int a, int b, int c, int d) {
+		ExpressionNode ex = new ExpressionNode(getKernel(), a)
+				.plus(new ExpressionNode(getKernel(), b).sqrt())
+				.divide(new ExpressionNode(getKernel(), c)
+						.plus(new ExpressionNode(getKernel(), d).sqrt()));
+		double expected = ex.evaluateDouble();
+		ExpressionValue resolution = rationalization.getResolution(ex);
+		if (resolution == null) {
+			return;
+		}
+		double actual = resolution
+				.deepCopy(getKernel()).evaluateDouble();
+		String message = Arrays.toString(
+				new double[]{a, b, c, d, actual, expected})
+				+ ex.toString(StringTemplate.defaultTemplate)
+				+ " -> " + resolution;
+		assertTrue(!Double.isFinite(expected) || DoubleUtil.isEqual(expected, actual),
+				message);
+	}
+
+	private static Stream<Arguments> allShouldBeNumericallyOK() {
+		List<Arguments> arguments = new ArrayList<>();
 		for (int a = -5; a <= 5; a++) {
 			for (int b = 0; b <= 10; b++) {
 				for (int c = -5; c <= 5; c++) {
 					for (int d = 0; d <= 10; d++) {
-						ExpressionNode ex = new ExpressionNode(getKernel(), a)
-								.plus(new ExpressionNode(getKernel(), b).sqrt())
-								.divide(new ExpressionNode(getKernel(), c)
-										.plus(new ExpressionNode(getKernel(), d).sqrt()));
-						double expected = ex.evaluateDouble();
-						ExpressionValue resolution = rationalization.getResolution(ex);
-						if (resolution == null) {
-							continue;
-						}
-						double actual = resolution
-								.deepCopy(getKernel()).evaluateDouble();
-						if (Double.isFinite(expected) && !DoubleUtil.isEqual(expected, actual)) {
-							failures.append(Arrays.toString(
-											new double[]{a, b, c, d, actual, expected}))
-									.append(ex.toString(StringTemplate.defaultTemplate))
-									.append(" -> ").append(resolution).append("\n");
-						}
+						arguments.add(Arguments.of(a, b, c, d));
 					}
 				}
 			}
 		}
-		assertEquals("", failures.toString());
+		return arguments.stream();
 	}
 
-	@Test
-	public void testSerializationWithDependentGeos() {
-		add("a = -1");
-		add("b = 5");
-		add("c = -2");
-		add("d = 5");
-		rationalizationShouldBe("(a + sqrt(b)) / (c + sqrt(d))", "3 + 2sqrt(5) - sqrt(5)");
+	@ParameterizedTest
+	@CsvSource({
+			"-1, 5, -2, 5, 3 + sqrt(5)",
+			"-5, 2, -5, 3, (25 - 5sqrt(2) + 5sqrt(3) - sqrt(6)) / 22",
+			"-5, 2, -3, 10, 2sqrt(5) + 3sqrt(2) - 15 - 5sqrt(10)",
+			"-10, 5, -2, 5, -15 - 8sqrt(5)",
+			"-5, 3, -2, 6, (2sqrt(3) + 3sqrt(2) - 10 - 5sqrt(6)) / 2",
+			"-5, 2, -1, 3, (sqrt(6) + sqrt(2) - 5 - 5sqrt(3)) / 2",
+			"-5, 2, 1, 6, (5 - sqrt(2) + 2sqrt(3) - 5sqrt(6)) / 5",
+			"-4, 2, 1, 2, 6 - 5sqrt(2)",
+			"-4, 3, 2,  2, (2sqrt(3) + 4sqrt(2) - 8 - sqrt(6)) / 2",
+			"2, 2, 0, 6, (sqrt(6) + sqrt(3)) / 3",
+			"-3, 4, 4, 2, (sqrt(2) - 4) / 14",
+			"-4, 8, -5, 2, (16 - 6sqrt(2)) / 23",
+			"1, 8, -5, 9, -((1 + 2sqrt(2)) / 2)",
+			"-5, 0, -5, 2, (25 + 5sqrt(2)) / 23",
+			"0, 5, -3, 2, -((sqrt(10) + 3sqrt(5)) / 7)",
+			"-2, 2, -1, 10, (2sqrt(5) + sqrt(2) - 2 - 2sqrt(10)) / 9",
+			"10, 10, -4, 6, -((2sqrt(15) + 4sqrt(10) + 10sqrt(6) + 40) / 10)",
+			"-1, 9, -2, 7, (2sqrt(7) + 4) / 3",
+			"-5, 0, -3, 10, -(5sqrt(10) + 15)",
+			"9, 3, 0, 8, (9sqrt(2) + sqrt(6)) / 4",
+			"-5, 3, 0, 8, (sqrt(6) - 5sqrt(2)) / 4",
+			"-1, 3, 0, 10, (sqrt(30) - sqrt(10)) / 10",
+			"-5, 3, -2, 6 , (2sqrt(3) + 3sqrt(2) - 10 - 5sqrt(6)) / 2",
+			"7, 4, -3, 6, -3sqrt(6) - 9"
+	})
+	public void testSerializationWithDependentGeos(int a, int b, int c, int d,
+			String expected) {
+		add("a = " + a);
+		add("b = " + b);
+		add("c = " + c);
+		add("d = " + d);
+		rationalizationShouldBe("(a + sqrt(b)) / (c + sqrt(d))", expected);
 	}
 
 	@Test
@@ -348,8 +372,7 @@ public class RationalizationTest extends BaseUnitTest {
 		GeoNumeric e = add("e = (a + sqrt(b)) / (c + sqrt(d))");
 		e.setSymbolicMode(true, true);
 		GeoText text = add("FormulaText(e)");
-		assertEquals("3 + 2 \\; \\sqrt{5} - \\sqrt{5}", text.getTextString());
-		PreviewFeature.setPreviewFeaturesEnabled(false);
-	}
+		assertEquals("3 + \\sqrt{5}", text.getTextString());
 
+	}
 }

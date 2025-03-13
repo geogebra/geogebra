@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.geogebra.common.kernel.arithmetic.simplifiers.SimplifyUtils.isIntegerValue;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
 import static org.geogebra.common.util.DoubleUtil.isInteger;
 
 import org.geogebra.common.kernel.Kernel;
@@ -10,6 +10,19 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
+/**
+ * <p>Cancels GCD from numerator and denominator, if there is any.
+ * The fraction should be factored out first. @see {@link FactorOutGCDFromSurd} or
+ * {@link ExpandAndFactorOutGCD}</p>
+ *
+ * Examples:
+ * <ul>
+ *     <li>2 / 2sqrt(3) -> 1 / sqrt(3)</li>
+ *     <li>2 (-1 + sqrt(2)) / 4 -> -1 + sqrt(2) / 2</li>
+ *     <li>-9 (8 + sqrt(10))) / 54 -> (-8 - sqrt(10)) / 6</li>
+ *     <li>-4 (sqrt(2) + sqrt(3) - 2sqrt(6) - 4) / -2 -> 2sqrt(2) + 2sqrt(3) - 4sqrt(6) - 8</li>
+ * </ul>
+ */
 public class CancelGCDInFraction implements SimplifyNode {
 
 	private int multiplier;
@@ -28,7 +41,6 @@ public class CancelGCDInFraction implements SimplifyNode {
 	private ExpressionNode numerator;
 
 	/**
-	 *
 	 * @param utils {@link SimplifyUtils}
 	 */
 	public CancelGCDInFraction(SimplifyUtils utils) {
@@ -38,11 +50,11 @@ public class CancelGCDInFraction implements SimplifyNode {
 
 	@Override
 	public boolean isAccepted(ExpressionNode node) {
-		if (utils.isDivNode(node)) {
+		if (isDivNode(node)) {
 			ExpressionNode leftTree = node.getLeftTree();
-			multiplier = utils.getLeftMultiplier(leftTree);
-			if (multiplier == -1 && utils.isMultiplyNode(leftTree.getRightTree())) {
-				multiplier *= utils.getLeftMultiplier(leftTree.getRightTree());
+			multiplier = getLeftMultiplier(leftTree);
+			if (multiplier == -1 && isMultiplyNode(leftTree.getRightTree())) {
+				multiplier *= getLeftMultiplier(leftTree.getRightTree());
 				nodeType = NodeType.NEGATIVE_MULTIPLIED_NUMERATOR;
 			} else {
 				nodeType = isTrivialMultiplier()
@@ -51,9 +63,9 @@ public class CancelGCDInFraction implements SimplifyNode {
 			}
 		}
 
-		if (utils.isMultiplyNode(node)
-				&& utils.isDivNode(node.getRightTree())) {
-			multiplier = utils.getLeftMultiplier(node);
+		if (isMultiplyNode(node)
+				&& isDivNode(node.getRightTree())) {
+			multiplier = getLeftMultiplier(node);
 			nodeType = isTrivialMultiplier()
 					? NodeType.SIMPLE_FRACTION
 					: NodeType.MULTIPLIED_FRACTION;
@@ -105,12 +117,13 @@ public class CancelGCDInFraction implements SimplifyNode {
 
 		gcd.flipIfNegative();
 
-		return utils.div(utils.multiplyR(node.getLeftTree().getRightTree(), gcd.reducedNumerator()),
+		return utils.div(
+				utils.multiplyTagByTag(node.getLeftTree().getRightTree(), gcd.reducedNumerator()),
 				gcd.reducedDenominatorValue());
 	}
 
 	private ExpressionNode applyForMultipliedFraction(ExpressionNode node) {
-		GCDInFraction gcd = new GCDInFraction(utils, utils.getLeftMultiplier(node),
+		GCDInFraction gcd = new GCDInFraction(utils, getLeftMultiplier(node),
 				(long) node.getRightTree().getRightTree().evaluateDouble());
 
 		return utils.div(utils.multiplyR(node.getRightTree().getLeftTree(), gcd.reducedNumerator()),
@@ -161,8 +174,8 @@ public class CancelGCDInFraction implements SimplifyNode {
 	private ExpressionNode doCancel(ExpressionNode node1, ExpressionNode node2) {
 		ExpressionValue canceled = node2.getLeft();
 		double evalCanceled = canceled.evaluateDouble();
-		if (utils.isMultiplyNode(node1)) {
-			if (utils.isMultiplyNode(node1.getLeftTree())) {
+		if (isMultiplyNode(node1)) {
+			if (isMultiplyNode(node1.getLeftTree())) {
 				node1.setRight(node1.getLeftTree().getRightTree().multiply(node1.getRight()));
 				node1.setLeft(node1.getLeftTree().getLeft());
 			}

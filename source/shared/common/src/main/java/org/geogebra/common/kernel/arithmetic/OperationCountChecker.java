@@ -1,25 +1,27 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.List;
+
 import org.geogebra.common.plugin.Operation;
 
 /**
  * Checks and counts the given operator in the expression.
  */
 public class OperationCountChecker implements Inspecting {
-	private Operation operation;
+	private List<Operation> operations;
 	private int count = 0;
 
 	/**
-	 * @param operation to count.
+	 * @param ops to count.
 	 */
-	public OperationCountChecker(Operation operation) {
-		this.operation = operation;
+	public OperationCountChecker(Operation... ops) {
+		this.operations = List.of(ops);
 		this.count = 0;
 	}
 
 	@Override
 	public boolean check(ExpressionValue v) {
-		if (v.isOperation(operation)) {
+		if (operations.contains(v.wrap().getOperation())) {
 			count++;
 		}
 

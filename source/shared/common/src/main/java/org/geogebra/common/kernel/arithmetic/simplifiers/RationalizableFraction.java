@@ -1,7 +1,8 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.geogebra.common.kernel.arithmetic.simplifiers.SimplifyUtils.isIntegerValue;
-import static org.geogebra.common.kernel.arithmetic.simplifiers.SimplifyUtils.isNodeSupported;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isIntegerValue;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isNodeSupported;
+import static org.geogebra.common.util.DoubleUtil.isInteger;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -9,8 +10,16 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.OperationCountChecker;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Class that rationalizes a fraction if it is supported.
+ *
+ * <p>The most complicated fraction that supported is <b>(a + sqrt(b)) / (c + sqrt(d))</b></p>
+ *
+ * It also gets the simplest, extracted form.
+ * Example: (-10 + sqrt(5)) / (-2 + sqrt(5)) - > -15 - 8sqrt(5)
+ *
+ */
 public final class RationalizableFraction {
-	public static final boolean LOG_ENABLED = false;
 	private final ExpressionSimplifiers simplifiers;
 	private final SimplifyUtils utils;
 	private ExpressionNode root;
@@ -22,7 +31,7 @@ public final class RationalizableFraction {
 		Kernel kernel = root.getKernel();
 		this.root = root.deepCopy(kernel);
 		utils = new SimplifyUtils(kernel);
-		simplifiers = new ExpressionSimplifiers(utils, LOG_ENABLED);
+		simplifiers = new ExpressionSimplifiers(utils, false);
 	}
 
 	ExpressionNode simplify() {
@@ -44,17 +53,16 @@ public final class RationalizableFraction {
 
 		double denominatorValue = root.getRightTree().evaluateDouble();
 
-		ExpressionValue resolution = SimplifyUtils.isIntegerValue(denominatorValue)
-				? simplifyNormalizedRadicalFraction(denominatorValue)
+		ExpressionValue resolution = isInteger(denominatorValue)
+				? simplifyNormalizedRadicalFraction((int) denominatorValue)
 				: rationalizeFraction();
 
-	return simplifiers.run(resolution);
+		return simplifiers.run(resolution);
 	}
 
 	/**
-	 * Decides if geo is a rationalizable fraction and supported by this algo.
-	 * The most complicated fraction that supported is:
-	 *     (a + sqrt(b)) / (c + sqrt(d))
+	 * <p>Decides if geo is a rationalizable fraction and supported.</p>
+	 * For what is supported, @see RationalizableFraction
 	 *
 	 * @return if geo is supported.
 	 */
@@ -63,11 +71,11 @@ public final class RationalizableFraction {
 			return false;
 		}
 
-		if (SimplifyUtils.isIntegerValue(root)) {
+		if (isIntegerValue(root)) {
 			return true;
 		}
 
-		if (!utils.isDivNode(root)) {
+		if (!ExpressionValueUtils.isDivNode(root)) {
 			return false;
 		}
 
@@ -88,7 +96,7 @@ public final class RationalizableFraction {
 	}
 
 	private ExpressionNode stripFromLeftMultiplier(ExpressionNode node) {
-		return utils.getLeftMultiplier(node) == 1 ? node : node.getRightTree();
+		return ExpressionValueUtils.getLeftMultiplier(node) == 1 ? node : node.getRightTree();
 	}
 
 	private static int getSquareRootCount(ExpressionValue node) {
@@ -105,7 +113,7 @@ public final class RationalizableFraction {
 		return algo.compute();
 	}
 
-	private ExpressionValue simplifyNormalizedRadicalFraction(double denominatorValue) {
+	private ExpressionValue simplifyNormalizedRadicalFraction(int denominatorValue) {
 		if (denominatorValue == 0) {
 			return utils.newDouble(Double.NEGATIVE_INFINITY);
 		}

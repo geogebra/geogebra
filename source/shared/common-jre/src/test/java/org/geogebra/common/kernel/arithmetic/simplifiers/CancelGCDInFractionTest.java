@@ -1,9 +1,10 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class CancelGCDInFractionTest extends BaseSimplifyTest {
-
 	@Test
 	public void testAccept() {
 		shouldAccept("(-8 - sqrt(10)) / 54");
@@ -13,18 +14,19 @@ public class CancelGCDInFractionTest extends BaseSimplifyTest {
 		shouldAccept("(-(2 (1 - sqrt(2)))) / 4");
 	}
 
-	@Test
-	public void testCancelGCD() {
-		shouldSimplify("2 / (2sqrt(3))", "1 / sqrt(3)");
-		shouldSimplify("9(-8 - sqrt(10)) / 54" , "((-8 - sqrt(10))) / 6");
-		shouldSimplify("2 (-1 + sqrt(2)) / 4", "(-1 + sqrt(2)) / 2");
-		shouldSimplify("(12 (1 + sqrt(2))) / 4" , "3 (1 + sqrt(2))");
-		shouldSimplify("(-(2 (1 - sqrt(2)))) / 4", "(sqrt(2)-1)/2");
-		shouldSimplify("(-9 (8 + sqrt(10))) / 54", "(-(8+sqrt(10)))/6");
-		shouldSimplify("(3 (1 - sqrt(6))) / -5", "(-3 (1 - sqrt(6))) / 5", getSimplifier(),
-				new PositiveDenominator(utils));
-		shouldSimplify("(4 (sqrt(5) + 1)) / 4", "sqrt(5) + 1");
-		shouldSimplify("((sqrt(5) + 1) * 4) / 4", "sqrt(5) + 1");
+	@ParameterizedTest
+	@CsvSource({
+			"2 / (2sqrt(3)), 1 / sqrt(3)",
+			"9(-8 - sqrt(10)) / 54, ((-8 - sqrt(10))) / 6",
+			"2 (-1 + sqrt(2)) / 4, (-1 + sqrt(2)) / 2",
+			"(12 (1 + sqrt(2))) / 4, 3 + 3sqrt(2)",
+			"(-(2 (1 - sqrt(2)))) / 4, (-1 + sqrt(2)) / 2",
+			"(-9 (8 + sqrt(10))) / 54, (-8 - sqrt(10)) / 6",
+			"(3 (1 - sqrt(6))) / -5, (3 (1 - sqrt(6))) / -5",
+			"(4 (sqrt(5) + 1)) / 4, sqrt(5) + 1",
+			"((sqrt(5) + 1) * 4) / 4, sqrt(5) + 1"})
+	public void testCancelGCD(String definition, String expected) {
+		shouldSimplify(definition, expected);
 	}
 
 	@Test
@@ -45,6 +47,12 @@ public class CancelGCDInFractionTest extends BaseSimplifyTest {
 		shouldSimplify("-1 / 3", " -1 / 3");
 		shouldSimplify("1 / -3", "1 / -3");
 		shouldSimplify("12 / 3", "4");
+	}
+
+	@Test
+	void testNoMultiplierLeft() {
+		shouldSimplify("(-4 (sqrt(2) + sqrt(3) - 2sqrt(6) - 4)) / -2",
+				"2sqrt(2) + 2sqrt(3) - 4sqrt(6) - 8");
 	}
 
 	@Test

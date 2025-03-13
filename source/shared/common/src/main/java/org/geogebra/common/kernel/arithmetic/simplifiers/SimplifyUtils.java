@@ -1,50 +1,42 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import javax.annotation.Nonnull;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
+import static org.geogebra.common.util.DoubleUtil.isInteger;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MinusOne;
+import org.geogebra.common.kernel.arithmetic.OperationCountChecker;
 import org.geogebra.common.kernel.arithmetic.Surds;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
- * Utility class to help manipulating ExpressionNodes in Simplifiers
- *
+ * Utility class to easily create and manipulate ExpressionValues/Nodes in Simplifiers
+ * This class has a {@link Kernel} instance so no other simplifier class needs it.
+ * They can call utils.newDouble(n) instead of new MyDouble(kernel, n) and so on.
  */
-public class SimplifyUtils {
+public final class SimplifyUtils {
 	public final Kernel kernel;
-	private final Surds surds = new Surds();
+	private final Surds surds;
+	private final ExpressionReducer productReducer;
+	public static final OperationCountChecker plusMinusChecker = new OperationCountChecker(
+			Operation.PLUS, Operation.MINUS);
 
 	/**
-	 *
 	 * @param kernel {@link Kernel}
 	 */
-	public SimplifyUtils(Kernel kernel) {
+	public SimplifyUtils(@NonNull Kernel kernel) {
 		this.kernel = kernel;
-	}
-
-	/**
-	 * Flips left and right trees in a new node.
-	 * @param node to flip.
-	 * @return a new node with the same operation, but left- rightTrees are flipped.
-	 */
-	public ExpressionNode flipTrees(ExpressionNode node) {
-		return newNode(node.getRightTree(), node.getOperation(), node.getLeftTree());
-	}
-
-	/**
-	 * Creates a new ExpressionNode with double value. If the value considered as integer within a
-	 * given precision, it will be rounded to avoid things, like 1.9999999999998
-	 *
-	 * @param v the double value
-	 * @return the node with value v.
-	 */
-	public ExpressionValue newDouble(double v) {
-		return new ExpressionNode(kernel,
-				isIntegerValue(v) ? Math.round(v) : v);
+		this.surds = new Surds();
+		productReducer = new ExpressionReducer(this, Operation.MULTIPLY);
 	}
 
 	/**
@@ -54,9 +46,49 @@ public class SimplifyUtils {
 	 * @param right tree.
 	 * @return the new node
 	 */
-	public ExpressionNode newNode(ExpressionValue left, Operation operation,
+	public ExpressionNode newNode(@NonNull ExpressionValue left, Operation operation,
 			ExpressionValue right) {
 		return new ExpressionNode(kernel, left, operation, right);
+	}
+
+	/**
+	 * @param ev {@link ExpressionValue}
+	 * @return a new node with the double value of ev.
+	 */
+	public ExpressionValue newDouble(@NonNull ExpressionValue ev) {
+		return newDouble(ev.evaluateDouble());
+	}
+
+	/**
+	 * Creates a new ExpressionNode with double value. If the value considered as integer within a
+	 * given precision, it will be rounded to avoid things, like 1.9999999999998
+	 * @param value the double value
+	 * @return a new node with the given double value.
+	 */
+	public ExpressionValue newDouble(double value) {
+
+		return new ExpressionNode(kernel,
+				isInteger(value) ? Math.round(value) : value);
+	}
+
+	/**
+	 * Creates a new {@link ExpressionNode} with divide operand
+	 * @param numerator of div
+	 * @param denominator of div
+	 * @return the new node with div.
+	 */
+	public ExpressionNode newDiv(@NonNull ExpressionValue numerator,
+			@NonNull ExpressionValue denominator) {
+		return newNode(numerator, Operation.DIVIDE, denominator);
+	}
+
+	/**
+	 * Flips left and right trees in a new node.
+	 * @param node to flip.
+	 * @return a new node with the same operation, but left- rightTrees are flipped.
+	 */
+	public ExpressionNode flipTrees(@NonNull ExpressionNode node) {
+		return newNode(node.getRightTree(), node.getOperation(), node.getLeftTree());
 	}
 
 	/**
@@ -67,7 +99,8 @@ public class SimplifyUtils {
 	 * @return the new node with div.
 	 */
 
-	public ExpressionNode div(ExpressionValue numerator, ExpressionValue denominator) {
+	public ExpressionNode div(@NonNull ExpressionValue numerator,
+			@NonNull ExpressionValue denominator) {
 		double valDenominator = denominator.evaluateDouble();
 		if (valDenominator == 1) {
 			return numerator.wrap();
@@ -80,25 +113,13 @@ public class SimplifyUtils {
 	}
 
 	/**
-	 * Creates a new {@link ExpressionNode} with divide operand
-	 * @param numerator of div
-	 * @param denominator of div
-	 * @return the new node with div.
-	 */
-	public ExpressionNode newDiv(ExpressionValue numerator, ExpressionValue denominator) {
-		return newNode(numerator, Operation.DIVIDE, denominator);
-	}
-
-	/**
 	 * Multiply two nodes ensuring to cancel if any of the nodes is one, and if the result
 	 * is a number, it returns a single number too.
-	 *
 	 * @param node1 to multiply.
 	 * @param node2 to multiply.
-	 *
 	 * @return the node with the multiplied value
 	 */
-	public ExpressionNode multiply(ExpressionNode node1, ExpressionNode node2) {
+	public ExpressionNode multiply(@NonNull ExpressionNode node1, @NonNull ExpressionNode node2) {
 		if (isOne(node1)) {
 			return node2;
 		}
@@ -117,10 +138,8 @@ public class SimplifyUtils {
 	/**
 	 * Multiply a node by a number ensuring to cancel if any of the nodes is one, and if the result
 	 * is a number, it returns a single number too.
-	 *
 	 * @param node to multiply.
 	 * @param v to multiply.
-	 *
 	 * @return the node with the multiplied value
 	 */
 	public ExpressionNode multiply(ExpressionNode node, double v) {
@@ -128,11 +147,7 @@ public class SimplifyUtils {
 			return newDouble(v).wrap();
 		}
 
-		if (isOne(v)) {
-			return node;
-		}
-
-		if (isIntegerValue(node) && isIntegerValue(v)) {
+		if (isIntegerValue(node) && isInteger(v)) {
 			return newDouble(node.evaluateDouble() * v).wrap();
 		}
 
@@ -150,14 +165,14 @@ public class SimplifyUtils {
 			return newDouble(v).wrap();
 		}
 
-		if (isOne(v)) {
+		if (DoubleUtil.isOne(v)) {
 			return node1;
 		}
 		if (v == -1 && node1.getOperation() == Operation.MINUS) {
 			return new ExpressionNode(node1.getKernel(),
 					node1.getRight(), Operation.MINUS, node1.getLeft());
 		}
-		if (isIntegerValue(node1) && isIntegerValue(v)) {
+		if (isIntegerValue(node1) && isInteger(v)) {
 			return newDouble(node1.evaluateDouble() * v).wrap();
 		}
 
@@ -179,18 +194,54 @@ public class SimplifyUtils {
 			return node1;
 		}
 
+		if (isMinusOne(node1)) {
+			return negateTagByTag(node2);
+		}
+
 		if (isIntegerValue(node1) && isIntegerValue(node2)) {
 			return newDouble(node1.evaluateDouble() * node2.evaluateDouble()).wrap();
 		}
-				return node1.multiplyR(node2);
+		return node1.multiplyR(node2);
 	}
 
-	private static boolean isOne(ExpressionNode node) {
-		return isOne(node.evaluateDouble());
+	ExpressionNode negateTagByTag(ExpressionValue value) {
+		return value.traverse(this::traverseNegateTagByTag).wrap();
 	}
 
-	private static boolean isOne(double v) {
-		return DoubleUtil.isEqual(v, 1, Kernel.STANDARD_PRECISION);
+	private ExpressionValue traverseNegateTagByTag(ExpressionValue ev) {
+		if (ev.isLeaf() && isIntegerValue(ev)) {
+			return minusDouble(ev);
+		}
+
+		if (isSqrtNode(ev)) {
+			return ev.wrap().multiply(minusOne());
+		}
+
+		ExpressionValue left = ev.wrap().getLeft();
+		ExpressionValue right = ev.wrap().getRight();
+
+		if (isNegativeSqrt(ev)) {
+			return right;
+		}
+
+		if (isMultiplyNode(ev)) {
+			ExpressionValue leftTraversed = left.traverse(this::traverseNegateTagByTag);
+			ExpressionValue r = isIntegerValue(right) ? newDouble(right) : right;
+			return isOne(leftTraversed) ? r : leftTraversed.wrap().multiplyR(r);
+		}
+
+		if (ev.isOperation(Operation.PLUS)) {
+			ExpressionValue op1 = left.traverse(this::traverseNegateTagByTag);
+			ExpressionValue op2 = right.traverse(this::traverseNegateTagByTag);
+			return newNode(op1, Operation.PLUS, op2);
+		}
+
+		if (ev.isOperation(Operation.MINUS)) {
+			ExpressionValue op1 = left.traverse(this::traverseNegateTagByTag);
+			ExpressionValue op2 = right.traverse(this::traverseNegateTagByTag);
+			return newNode(op1, Operation.MINUS, op2);
+		}
+		return ev;
 	}
 
 	/**
@@ -210,10 +261,10 @@ public class SimplifyUtils {
 			return newDouble(left.evaluateDouble() * right.evaluateDouble()).wrap();
 		}
 
-		if (leftInteger && !rightInteger) {
+		if (leftInteger) {
 			return multiplyByInteger(right, left);
 		}
-		if (!leftInteger && rightInteger) {
+		if (rightInteger) {
 			return multiplyByInteger(left, right);
 		}
 		return node;
@@ -225,34 +276,6 @@ public class SimplifyUtils {
 		double mul = left.evaluateDouble();
 		return newNode(multiply(opLeft, mul), right.wrap().getOperation(),
 				multiplyR(opRight, mul));
-	}
-
-	private static boolean isPositiveIntegerValue(ExpressionValue ev) {
-		if (ev == null) {
-			return false;
-		}
-
-		double value = ev.evaluateDouble();
-		return isIntegerValue(value) && value >= 0;
-	}
-
-	/**
-	 *
-	 * @param ev to check
-	 * @return if ev holds an integer.
-	 */
-	static boolean isIntegerValue(ExpressionValue ev) {
-		return ev != null && isIntegerValue(ev.evaluateDouble());
-	}
-
-	/**
-	 *
-	 * @param value to check
-	 * @return if value an integer.
-	 */
-	static boolean isIntegerValue(double value) {
-		return DoubleUtil.isEqual(Math.round(value), value, Kernel.STANDARD_PRECISION);
-
 	}
 
 	private ExpressionValue mulByMinusOneL(ExpressionValue ev) {
@@ -284,7 +307,8 @@ public class SimplifyUtils {
 			return node.getRightTree();
 		}
 		double v = node.evaluateDouble();
-		if (isIntegerValue(v)) {
+
+		if (isInteger(v)) {
 			return newDouble(-v).wrap();
 		}
 		return node.isOperation(Operation.MINUS) ? node.multiplyR(-1) : node;
@@ -301,11 +325,6 @@ public class SimplifyUtils {
 		}
 
 		return node.multiplyR(-1);
-	}
-
-	ExpressionNode negative(ExpressionNode node) {
-		ExpressionValue mul = mulByMinusOne(node);
-		return mul.wrap().multiply(minusOne());
 	}
 
 	/**
@@ -325,138 +344,43 @@ public class SimplifyUtils {
 	}
 
 	/**
-	 *
-	 * @param ev to check
-	 * @return if ev is a square root of a positive integer
-	 */
-	public static boolean isSqrtOfPositiveInteger(ExpressionValue ev) {
-		if (!ev.isOperation(Operation.SQRT)) {
-			return false;
-		}
-		return isPositiveIntegerValue(ev.wrap().getLeft());
-	}
-
-	/**
-	 *
-	 * @param node to check
-	 * @return if node is supported by {@link RationalizableFraction}
-	 */
-	public static boolean isNodeSupported(ExpressionNode node) {
-		return (node.isLeaf() && isIntegerValue(node))
-				|| isSqrtOfPositiveInteger(node)
-				|| isSqrtAndInteger(node);
-	}
-
-	/**
-	 * @param node to check.
-	 * @return if node is in (sqrt(a) +/- b) or (a +/- sqrt(b)) form
-	 */
-	private static boolean isSqrtAndInteger(ExpressionNode node) {
-		if (!(node.isOperation(Operation.PLUS) || node.isOperation(Operation.MINUS))) {
-			return false;
-		}
-
-		return (isSqrtOfPositiveInteger(node.getLeft()) && isIntegerValue(node.getRightTree()))
-				|| (isIntegerValue(node.getLeftTree())
-				&& isSqrtOfPositiveInteger(node.getRightTree()));
-	}
-
-	/**
-	 *
-	 * @return new instance of {@link MinusOne}
-	 */
-	public MinusOne minusOne() {
-		return new MinusOne(kernel);
-	}
-
-	/**
-	 * Flip + -> -
-	 * @param operation to flip
-	 * @return the flipped operation, or itself if it is not flippable.
-	 */
-	public static Operation flip(Operation operation) {
-		if (operation == Operation.PLUS) {
-			return Operation.MINUS;
-		}
-		if (operation == Operation.MINUS) {
-			return Operation.PLUS;
-		}
-		return operation;
-	}
-
-	/**
-	 * Makes node negative.
-	 * It differs from multiplying the node by -1, that it ensures the simplest form
-	 * avoiding -1 * 3 or -1 * 3sqrt and returns simply -3 or -3sqrt
-	 * @param node to make negative.
-	 * @return the result described above.
-	 */
-	public ExpressionNode makeNegative(@Nonnull ExpressionNode node) {
-		ExpressionNode leftTree = node.getLeftTree();
-		double leftNumber = leftTree.evaluateDouble();
-		if (leftNumber < 0) {
-			return node;
-		}
-
-		if (node.isOperation(Operation.MULTIPLY) && isIntegerValue(leftTree)) {
-			node.setLeft(newDouble(-leftNumber));
-			return node;
-		}
-		return new ExpressionNode(kernel, minusOne(), Operation.MULTIPLY, node);
-	}
-
-	/**
-	 * Get the left multiplier of the node (ie: 2sqrt(2) is 2) or 1 if it does not make sense.
-	 * @param node to get multiplier from
-	 * @return the multiplier
-	 */
-	public int getLeftMultiplier(ExpressionNode node) {
-		return node.isOperation(Operation.MULTIPLY) && isIntegerValue(node.getLeft())
-				? (int) node.getLeft().evaluateDouble()
-				: 1;
-	}
-
-	/**
 	 * TODO: check this one.
 	 * @param node to flip
 	 * @return flipped node
 	 */
-	public ExpressionValue flipSign(@Nonnull ExpressionNode node) {
+	public ExpressionValue flipSign(@NonNull ExpressionNode node) {
 		ExpressionNode leftTree = node.getLeftTree();
 		double leftNumber = leftTree.evaluateDouble();
 
-		if (node.isOperation(Operation.MULTIPLY) && isIntegerValue(leftNumber)
+		if (node.isOperation(Operation.MULTIPLY) && isInteger(leftNumber)
 				&& leftNumber != -1) {
 			node.setLeft(newDouble(-leftNumber));
 			return node;
 		}
-		if (node.isOperation(Operation.MULTIPLY) && leftNumber == - 1) {
+		if (node.isOperation(Operation.MULTIPLY) && leftNumber == -1) {
 			return node.getRightTree();
 		}
 		return multiplyR(node, -1);
 	}
 
 	/**
-	 *
 	 * @param ev to get
 	 * @return {@link Surds} if exists or ev itself.
 	 */
-	public ExpressionValue getSurdsOrSame(ExpressionValue ev) {
-		ExpressionValue surds = getSurds(ev);
+	public ExpressionNode getSurdsOrSame(ExpressionNode ev) {
+		ExpressionNode surds = getSurds(ev);
 		return surds != null ? surds : ev;
 	}
 
 	/**
-	 *
 	 * @param ev to get
 	 * @return {@link Surds}
 	 */
-	public ExpressionValue getSurds(ExpressionValue ev) {
+	public ExpressionNode getSurds(ExpressionValue ev) {
 		return surds.getResolution(ev.wrap(), kernel);
 	}
 
 	/**
-	 *
 	 * @param v number under square root
 	 * @return the SQRT node of v.
 	 */
@@ -465,16 +389,6 @@ public class SimplifyUtils {
 	}
 
 	/**
-	 *
-	 * @param ev to check
-	 * @return if operation of the ev is SQRT.
-	 */
-	public boolean isSqrt(ExpressionValue ev) {
-		return ev.isOperation(Operation.SQRT);
-	}
-
-	/**
-	 *
 	 * @param node to copy.
 	 * @return a new, deep copied instance.
 	 */
@@ -483,25 +397,6 @@ public class SimplifyUtils {
 	}
 
 	/**
-	 *
-	 * @param node to check
-	 * @return if operation of the node is DIVIDE.
-	 */
-	public boolean isDivNode(ExpressionNode node) {
-		return Operation.DIVIDE.equals(node.getOperation());
-	}
-
-	/**
-	 *
-	 * @param node to check
-	 * @return if operation of the node is MULTIPLY
-	 */
-	public boolean isMultiplyNode(ExpressionNode node) {
-		return Operation.MULTIPLY.equals(node.getOperation());
-	}
-
-	/**
-	 *
 	 * @return new node with positive infinity
 	 */
 	public ExpressionValue infinity() {
@@ -509,7 +404,6 @@ public class SimplifyUtils {
 	}
 
 	/**
-	 *
 	 * @return new node with negative infinity
 	 */
 	public ExpressionValue negativeInfinity() {
@@ -520,7 +414,6 @@ public class SimplifyUtils {
 	 * Gets the number of the node for GCD computations.
 	 * It is the numeric value if the node itself is an integer (2 is 2)
 	 * or the multiplier of the node (5sqrt(2) is 5.
-	 *
 	 * @return the number of the node for GCD computations.
 	 */
 	public int getNumberForGCD(ExpressionNode node) {
@@ -532,7 +425,6 @@ public class SimplifyUtils {
 	}
 
 	/**
-	 *
 	 * @param left {@link ExpressionValue}
 	 * @param right {@link ExpressionValue}
 	 * @return the multiplied node of left and right.
@@ -542,32 +434,239 @@ public class SimplifyUtils {
 	}
 
 	/**
-	 *
-	 * @param node to check
-	 * @return  -1 or 1 whether node has operand MINUS in front of it.
-	 */
-	public int signFromOperand(ExpressionNode node) {
-		return node.isOperation(Operation.MINUS) ? -1 : 1;
-	}
-
-	/**
-	 *
 	 * @param node {@link ExpressionNode}
 	 * @param op {@link Operation}
 	 * @return the consugate multiplied by -1.
 	 */
 	public ExpressionNode getMinusConjugate(ExpressionNode node, Operation op) {
-        return newNode(negate(node.getLeftTree()),
-					Operation.inverse(op),
-					node.getRight().wrap().multiplyR(-1));
+		return newNode(negate(node.getLeftTree()),
+				Operation.inverse(op),
+				node.getRight().wrap().multiplyR(-1));
+	}
+
+	/**
+	 * Reduce node if it is a pure product.
+	 *
+	 *  Example: 2*sqrt(2)*3*sqrt(7)*(-1) -> -6 sqrt(14)
+	 *
+	 * @param node to check
+	 * @return the reduced product or node itself, if not applicable.
+	 */
+	public ExpressionNode reduceProduct(ExpressionNode node) {
+		if (checkOperationCount(node, plusMinusChecker) != 0) {
+			return node;
 		}
+		return reduceSqrts(productReducer.apply(node));
+	}
+
+	private int checkOperationCount(ExpressionNode node, OperationCountChecker checker) {
+		checker.reset();
+		node.inspect(checker);
+		return checker.getCount();
+	}
+
+	/**
+	 * Apply operation to the expression if exists, otherwise let result be the operand itself.
+	 *
+	 * @param source to apply operation to.
+	 * @param operation to apply on source.
+	 * @param op the second operand of the operation.
+	 * @return the result.
+	 */
+	public ExpressionValue applyOrLet(ExpressionValue source, Operation operation,
+			ExpressionValue op) {
+		if (source == null) {
+			return op;
+		}
+		return source.wrap().apply(operation, op);
+	}
 
 	/**
 	 *
-	 * @param value to check
-	 * @return if value evaluates to -1.
+	 * @return creates a {@link MinusOne} instance.
 	 */
-	public boolean evaluateMinusOne(ExpressionValue value) {
-		return DoubleUtil.isEqual(value.evaluateDouble(), -1);
+	public ExpressionValue minusOne() {
+		return new MinusOne(kernel);
+	}
+
+	/**
+	 * Reduce expression list to one expression in the format of
+	 * a*sqrt(b) + c*sqrt(c) + ... + sqrt(p) sqrt(q) + ... + n.
+	 * <p>
+	 * The list can contain integers, and sqrts and multiplied sqrts.
+	 * For example {sqrt(2), 2, 6sqrt(3), 2sqrt(2), 5, -4sqrt(3)}
+	 * -> 3sqrt(2) + 2sqrt(3) + 7</p>
+	 * @param list of expressions.
+	 * @return the reduced {@link ExpressionNode}
+	 */
+	public ExpressionNode reduceExpressions(List<ExpressionValue> list) {
+		if (list.size() == 1) {
+			return list.get(0).wrap();
+		}
+		double num = 0;
+		int i = 0;
+		double eval = list.get(0).evaluateDouble();
+		while (i < list.size() && isInteger(eval)) {
+			num += eval;
+			i++;
+			eval = list.get(i).evaluateDouble();
+		}
+
+		Map<Integer, Integer> sqrtMap = new HashMap<>();
+		ExpressionNode result = null;
+		while (i < list.size()) {
+			ExpressionNode item = list.get(i).wrap();
+			if (isMultiplyNode(item) && isIntegerValue(item.getLeft())
+					&& isSqrtNode(item.getRightTree())) {
+				int amount = getLeftMultiplier(item);
+				addSqrtToSum(item.getRightTree(), sqrtMap, amount);
+			} else if (isSqrtNode(item)) {
+				addSqrtToSum(item, sqrtMap, 1);
+			} else {
+				result = addOrLet(result, item);
+			}
+			i++;
+		}
+		for (Map.Entry<Integer, Integer> entry : sqrtMap.entrySet()) {
+			ExpressionNode sqrtNode = newSqrt(entry.getKey()).multiplyR(entry.getValue());
+			result = addOrLet(result, getSurdsOrSame(sqrtNode));
+		}
+		if (num != 0) {
+			result = addOrLet(result, newDouble(num).wrap());
+		}
+		return result;
+	}
+
+	private void addSqrtToSum(ExpressionNode sqrtNode, Map<Integer, Integer> sqrtMap, int amount) {
+		int radicand = (int) sqrtNode.getLeft().evaluateDouble();
+		int sum = sqrtMap.getOrDefault(radicand, 0);
+		sqrtMap.put(radicand, sum + amount);
+	}
+
+	/**
+	 * Add expression to result if exists, otherwise let result be the expression itself.
+	 *
+	 * @param result to add or assign to.
+	 * @param ev the value to add.
+	 * @return the result.
+	 */
+	static ExpressionNode addOrLet(ExpressionValue result, ExpressionValue ev) {
+		return result == null ? ev.wrap() : result.wrap().plus(ev);
+	}
+
+	/**
+	 * Reduce sqrt statements to the most simplest surd.
+	 *
+	 * @param ev to check.
+	 *
+	 * @return the reduced form.
+	 */
+	public ExpressionNode reduceSqrts(ExpressionValue ev) {
+		ExpressionNode node = ev.traverse(this::traverseReduceSqrts).wrap();
+		if (isMultiplyNode(node)) {
+			ExpressionNode leftTree = node.getLeftTree();
+			ExpressionNode rightTree = node.getRightTree();
+			if (isSqrtNode(rightTree)) {
+				ExpressionValue surd = getSurdsOrSame(rightTree);
+				return productReducer.apply(leftTree.multiply(surd));
+			}
+		}
+
+		return getSurdsOrSame(node);
+	}
+
+	private ExpressionValue traverseReduceSqrts(ExpressionValue value) {
+		ExpressionNode node = value.wrap();
+		if (isMultiplyNode(node)) {
+			ExpressionNode leftTree = node.getLeftTree();
+			ExpressionNode rightTree = node.getRightTree();
+			if (isSqrtNode(leftTree) && isSqrtNode(rightTree)) {
+				return newSqrt(
+						leftTree.getLeft().evaluateDouble()
+								* rightTree.getLeft().evaluateDouble()
+				);
+			}
+			if (isMultiplyNode(leftTree) && isSqrtNode(leftTree.getRight()) && isSqrtNode(
+					rightTree)) {
+				ExpressionNode reducedSqrt = newSqrt(
+						leftTree.getRightTree().getLeft().evaluateDouble()
+								* rightTree.getLeft().evaluateDouble());
+				return productReducer.apply(multiply(getSurdsOrSame(reducedSqrt).wrap(),
+						leftTree.getLeftTree()));
+
+			}
+		}
+		return value;
+	}
+
+	/**
+	 * Checks if a sum expression consist of all negative tags, like:
+	 *   -a - bsqrt(c) - sqrt(d) - .... - n sqrt(m)
+	 *
+	 * @param value to check
+	 * @return if value satisfies the condition above.
+	 */
+	public boolean isAllNegative(ExpressionValue value) {
+		FlattenNode flattenNode = new FlattenNode(value.wrap(), this);
+		int i = 0;
+		while (i < flattenNode.size()) {
+			ExpressionValue ev = flattenNode.get(i);
+			if (ev.evaluateDouble() >= 0) {
+				return false;
+			}
+			i++;
+		}
+		return true;
+	}
+
+	/**
+	 *
+	 * @param value to negate
+	 * @return -value as MyDouble
+	 */
+	public ExpressionValue minusDouble(ExpressionValue value) {
+		return newDouble(-value.evaluateDouble());
+	}
+
+	/**
+	 * Multiply node tag by tag:
+	 * a + sqrt(b) - c sqrt(b) with m -> am + m sqrt(b) mc sqrt(d)
+	 *
+	 * @param node to multiply
+	 * @param multiplier to multiply with
+	 * @return the tag by tag produvt
+	 */
+	public ExpressionValue multiplyTagByTag(ExpressionNode node, long multiplier) {
+		return node.traverse(ev -> {
+			if (isAtomic(ev)) {
+				return reduceProduct(ev.wrap().multiplyR(multiplier));
+			}
+			return ev;
+		});
+	}
+
+	/**
+	 * Negate atomic expressions in the most simplified way:
+	 *
+	 *   a -> -a where a is integer
+	 *   sqrt(a) -> -sqrt(a)
+	 *   c sqrt(a) -> -c sqrt(a)
+	 *
+	 *
+	 * @param ev to negate.
+	 * @return the negated expression.
+	 */
+	public ExpressionValue negateAtomic(ExpressionValue ev) {
+		if (isIntegerValue(ev)) {
+			return minusDouble(ev);
+		}
+		if (isSqrtNode(ev)) {
+			return ev.wrap().multiplyR(minusOne());
+		}
+		if (isNegativeSqrt(ev)) {
+			return ev.wrap().getRight();
+		}
+
+		return reduceProduct(ev.wrap().multiplyR(-1));
 	}
 }

@@ -27,22 +27,25 @@ public class ExpressionSimplifiers {
 	 */
 	public ExpressionSimplifiers(@Nonnull SimplifyUtils utils, boolean logEnabled) {
 		this.logEnabled = logEnabled;
-		ReduceToIntegers reduceToIntegers = new ReduceToIntegers(utils);
+
+		// it is checked before any simplification and after all were run if they produced a
+		// trivial node.
+		CheckIfTrivial checkIfTrivial = new CheckIfTrivial(utils);
 		preItems = List.of(
-				reduceToIntegers
+				checkIfTrivial
 		);
 
 		postItems = List.of(
-						new SimplifyToRadical(utils),
-						new ReduceRoot(utils),
-						new ExpandNode(utils),
-						new OrderOperands(utils),
-						new FactorOut(utils),
-						new CancelGCDInFraction(utils),
-						new PositiveDenominator(utils),
-						new PlusTagOrder(utils), reduceToIntegers
-
-				);
+				new ReduceRoot(utils),
+				new ExpandAndFactorOutGCD(utils),
+				new FactorOutGCDFromSurd(utils),
+				new CancelGCDInFraction(utils),
+				new PositiveDenominator(utils),
+				new PlusTagOrder(utils),
+				new DistributeMultiplier(utils),
+				new MoveMinusInOut(utils),
+				checkIfTrivial
+		);
 	}
 
 	/**
@@ -62,7 +65,8 @@ public class ExpressionSimplifiers {
 		ExpressionNode node = inputNode;
 		for (SimplifyNode simplifier : simplifiers) {
 			if (simplifier.isAccepted(node)) {
-				String before = node.toValueString(StringTemplate.defaultTemplate);
+				String before = node == null ? ""
+						: node.toValueString(StringTemplate.defaultTemplate);
 				node = simplifier.apply(node);
 				logProgress(simplifier.name(), before, node);
 

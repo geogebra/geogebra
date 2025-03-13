@@ -1,5 +1,7 @@
 package org.geogebra.common.util;
 
+import static org.geogebra.common.kernel.Kernel.STANDARD_PRECISION;
+
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -527,5 +529,23 @@ public class DoubleUtil {
 		result[result.length - 1] = max;
 
 		return result;
+	}
+
+	/**
+	 *
+	 * @param value to check
+	 * @return if value is 1 (within standard precision).
+	 */
+	public static boolean isOne(double value) {
+		return isEqual(value, 1, STANDARD_PRECISION);
+	}
+
+	/**
+	 *
+	 * @param value to check
+	 * @return if value is -1 (within standard precision).
+	 */
+	public static boolean isMinusOne(double value) {
+		return isEqual(value, -1, STANDARD_PRECISION);
 	}
 }

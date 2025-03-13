@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PlusTagOrderTest extends BaseSimplifyTest {
 
 	@Test
-	public void name() {
+	public void testApply() {
 		shouldSimplify("-1 + sqrt(2)", "sqrt(2) - 1");
 		shouldSimplify("(-1 + sqrt(2)) / 2", "(sqrt(2) - 1) / 2");
 	}

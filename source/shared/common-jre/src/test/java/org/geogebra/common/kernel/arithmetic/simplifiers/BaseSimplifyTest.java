@@ -1,21 +1,20 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
-public abstract class BaseSimplifyTest extends BaseUnitTest {
+public abstract class BaseSimplifyTest extends BaseAppTest {
 
 	SimplifyUtils utils;
 
@@ -31,9 +30,8 @@ public abstract class BaseSimplifyTest extends BaseUnitTest {
 
 	}
 
-	@Before
-	public void setUp() {
-		getKernel().setPrintDecimals(15);
+	@BeforeEach
+	public void setUpUtils() {
 		utils = new SimplifyUtils(getKernel());
 	}
 
@@ -47,26 +45,24 @@ public abstract class BaseSimplifyTest extends BaseUnitTest {
 		GeoNumeric expected = newSymbolicNumeric(expectedDef);
 		ExpressionNode applied = actual.getDefinition();
 		for (SimplifyNode simplifier: simplifiers) {
-			assertTrue(applied + " is not accepted by " + simplifier.name(),
-					simplifier.isAccepted(applied));
+			assertTrue(simplifier.isAccepted(applied),
+					applied + " is not accepted by " + simplifier.name());
 			applied = simplifier.apply(applied);
 		}
-		assertEquals("Values do not equal! \n\nDefinitions:\n Expected: "
-						+ expectedDef + "\n Actual: " + applied,
-				expected.getDefinition().evaluateDouble(), applied.evaluateDouble(),
-				Kernel.MAX_PRECISION);
+		assertEquals(expected.getDefinition().evaluateDouble(), applied.evaluateDouble(),
+				Kernel.MAX_PRECISION, "Values do not equal! \n\nDefinitions:\n Expected: "
+								+ expectedDef + "\n Actual: " + applied);
 		shouldSerialize(expected.getDefinition(), applied);
 	}
 
 	protected static void shouldSerialize(ExpressionValue expected, ExpressionValue actual) {
 		assertEquals(expected.toString(StringTemplate.defaultTemplate)
-						.replaceAll("\\s+", ""),
-				actual.toString(StringTemplate.defaultTemplate)
-						.replaceAll("\\s+", ""));
+						.replaceAll("\\s+", ""), actual.toString(StringTemplate.defaultTemplate)
+								.replaceAll("\\s+", ""));
 	}
 
 	protected GeoNumeric newSymbolicNumeric(String actualDef) {
-		GeoNumeric actual = add(actualDef);
+		GeoNumeric actual = (GeoNumeric) add(actualDef);
 		actual.setSymbolicMode(true, true);
 		return actual;
 	}
@@ -84,5 +80,6 @@ public abstract class BaseSimplifyTest extends BaseUnitTest {
 	}
 
 	protected abstract Class<? extends SimplifyNode> getSimplifierClass();
+
 }
 
