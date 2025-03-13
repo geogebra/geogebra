@@ -119,6 +119,8 @@ public final class GColor implements GPaint {
 	private double luminance = -1;
 
 	private static final double FACTOR = 0.7;
+	private static final double MIN_BORDER_CONTRAST = 2.0;
+	private static final int MAX_BORDER_STEPS = 5;
 
 	/**
 	 * @param r
@@ -614,14 +616,29 @@ public final class GColor implements GPaint {
 	 * @return adjusted color
 	 */
 	public static GColor getBorderColorFrom(GColor bgColor) {
-		float[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+		double[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
 		if (hslValues[2] > 0.4) {
 			hslValues[2] -= 0.3;
 		} else {
 			hslValues[2] -= 0.2;
 		}
 		hslValues[2] = Math.max(hslValues[2], 0);
-		return newColorHSL(hslValues[0], hslValues[1], hslValues[2]);
+		GColor border = newColorHSL(hslValues[0], hslValues[1], hslValues[2]);
+
+		int counter = 0;
+		double contrast = border.getContrast(bgColor);
+		while (counter < MAX_BORDER_STEPS && contrast < MIN_BORDER_CONTRAST) {
+			GColor next = border.darker();
+			double nextContrast = next.getContrast(bgColor);
+			if (nextContrast <= contrast) {
+				return border;
+			}
+			border = next;
+			contrast = nextContrast;
+			counter++;
+		}
+
+		return border;
 	}
 
 	/**
@@ -630,7 +647,7 @@ public final class GColor implements GPaint {
 	 * @return adjusted color
 	 */
 	public static GColor getBrightBorderColorFrom(GColor bgColor) {
-		float[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
+		double[] hslValues = rgbToHsl(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue());
 		if (hslValues[2] < 0.6) {
 			hslValues[2] += 0.3;
 		} else {
@@ -705,7 +722,7 @@ public final class GColor implements GPaint {
 	 * @return float array, the HSL representation
 	 */
 	@SuppressFBWarnings("FE_FLOATING_POINT_EQUALITY")
-	public static float[] rgbToHsl(int pR, int pG, int pB) {
+	public static double[] rgbToHsl(int pR, int pG, int pB) {
 		float r = pR / 255f;
 		float g = pG / 255f;
 		float b = pB / 255f;
@@ -732,8 +749,7 @@ public final class GColor implements GPaint {
 			h /= 6.0f;
 		}
 
-		float[] hsl = {h, s, l};
-		return hsl;
+		return new double[]{h, s, l};
 	}
 
 	/**

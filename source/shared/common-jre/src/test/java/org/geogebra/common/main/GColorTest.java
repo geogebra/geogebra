@@ -1,8 +1,14 @@
 package org.geogebra.common.main;
 
+import static org.geogebra.common.awt.GColor.BLACK;
 import static org.geogebra.test.OrderingComparison.greaterThan;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.AutoColor;
@@ -63,5 +69,51 @@ public class GColorTest {
 			GColor objColor = AutoColor.CURVES.getNext(true);
 			assertThat(objColor.getContrast(GColor.WHITE), greaterThan(3.0));
 		}
+	}
+
+	@Test
+	public void testContrastAll() {
+		double contrast = 10;
+		GColor leastContrast = BLACK;
+		List<String> lines = new ArrayList<>(List.of("<style>",
+				"div {",
+				"height:30px;",
+				"width:200px;",
+				"border: 2px solid;",
+				"display: flex;",
+				"align-items: center;",
+				"justify-content: center;",
+				"margin: 10px;",
+				"border-radius: 4px;",
+				"}",
+
+				"body {",
+				"display: flex;",
+				"flex-wrap: wrap;",
+				"width: 500px;",
+				"}",
+				"</style>",
+				"<body>"));
+		for (int r = 0; r < 255; r += 20) {
+			for (int g = 0; g < 255; g += 20) {
+				for (int b = 0; b < 255; b += 20) {
+					GColor base = GColor.newColor(r, g, b);
+					GColor border = GColor.getBorderColorFrom(base);
+					double contrast1 = base.getContrast(border);
+					lines.add("<div style=\"background-color:" + base + ";border-color:" + border
+										+ "\">" + contrast1 + "</div>");
+					if (contrast > contrast1 && BLACK.getContrast(base) > 2.5) {
+						contrast = contrast1;
+						leastContrast = base;
+					}
+				}
+			}
+		}
+		assertTrue(leastContrast + "\n"
+				+ GColor.getBorderColorFrom(leastContrast).toString() + ": " + contrast,
+				contrast >= 2);
+		assertFalse(String.join("\n", lines).contains("NaN"));
+		// This test can be used to generate a report like this:
+		//Files.writeString(Path.of("build/divs.html"), String.join("\n", lines));
 	}
 }
