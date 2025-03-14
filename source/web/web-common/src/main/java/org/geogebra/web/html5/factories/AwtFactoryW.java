@@ -24,12 +24,14 @@ import org.geogebra.web.html5.awt.GTexturePaintW;
 import org.geogebra.web.html5.awt.font.GTextLayoutW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
+import org.geogebra.web.html5.export.Canvas2Pdf;
 import org.geogebra.web.html5.export.Canvas2Svg;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Creates AWT wrappers for web
@@ -111,6 +113,14 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 	public GGraphics2DW getSVGGraphics(int width, int height) {
 		Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
 		CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2svg);
+		return new GGraphics2DW(ctx);
+	}
+
+	@Override
+	public GGraphics2DW getPDFGraphics(int width, int height) {
+		Canvas2Pdf.PdfContext canvas2pdf = new Canvas2Pdf.PdfContext(width, height,
+				JsPropertyMap.of("verticalFlip", true));
+		CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2pdf);
 		return new GGraphics2DW(ctx);
 	}
 

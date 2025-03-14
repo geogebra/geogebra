@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.HatchingHandler;
 import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -17,20 +18,23 @@ import org.geogebra.common.util.StringUtil;
 
 public class ChartFilling {
 	private final App application;
+	private final EuclidianView view;
 	private ArrayList<HatchingHandler> hatchingHandlers = null;
 
 	/**
 	 * @param app application
+	 * @param view graphics view
 	 */
-	public ChartFilling(App app) {
+	public ChartFilling(App app, EuclidianView view) {
 		this.application = app;
+		this.view = view;
 	}
 
 	private HatchingHandler getHatchingHandler(int i) {
 		initHatchingHandlerArray(i);
 		HatchingHandler handler = hatchingHandlers.get(i);
 		if (handler == null) {
-			handler = new HatchingHandler();
+			handler = new HatchingHandler(view);
 			hatchingHandlers.set(i, handler);
 		}
 		return handler;

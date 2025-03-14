@@ -2,13 +2,15 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
+import org.geogebra.common.main.App;
 
 /**
  * Pattern for SVG painting
  *
  */
-public class GPaintSVG implements GPaint {
+public class VectorPatternPaint implements GPaint {
 
+	public final App.ExportType type;
 	private GGraphics2D patternGraphics;
 
 	private final int startX;
@@ -23,12 +25,14 @@ public class GPaintSVG implements GPaint {
 	 * @param startX horizontal position of sub-image
 	 * @param startY vertical position of sub-image
 	 */
-	public GPaintSVG(GGraphics2D path0, int width, int height, int startX, int startY) {
+	public VectorPatternPaint(GGraphics2D path0, int width, int height, int startX, int startY,
+			App.ExportType type) {
 		this.patternGraphics = path0;
 		this.width = width;
 		this.height = height;
 		this.startX = startX;
 		this.startY = startY;
+		this.type = type;
 	}
 
 	/**

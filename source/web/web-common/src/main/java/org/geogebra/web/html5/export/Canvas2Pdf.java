@@ -1,10 +1,12 @@
 package org.geogebra.web.html5.export;
 
+import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsConstructor;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import jsinterop.base.JsPropertyMap;
 
 @JsType(namespace = JsPackage.GLOBAL, isNative = true, name = "window")
 public class Canvas2Pdf {
@@ -17,7 +19,7 @@ public class Canvas2Pdf {
 
 		@SuppressWarnings("unused")
 		@JsConstructor
-		public PdfContext(double width, double height) {
+		public PdfContext(double width, double height, JsPropertyMap<?> pageOptions) {
 			// left blank
 		}
 
@@ -30,5 +32,7 @@ public class Canvas2Pdf {
 		 * Add new page
 		 */
 		public native void addPage();
+
+		public native CanvasPattern createPattern(Object context, String repetition);
 	}
 }

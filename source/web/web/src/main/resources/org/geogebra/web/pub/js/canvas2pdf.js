@@ -100,7 +100,7 @@
 	 * @param options Options passed to PDFDocument constructor.
 	 * @constructor
 	 */
-	canvas2pdf.PdfContext = function(width, height) {
+	canvas2pdf.PdfContext = function(width, height, pageOptions) {
 		var _this = this;
 		var doc = new PDFKitMini();
 		this.doc = doc;
@@ -113,7 +113,7 @@
 		doc.pageSetWidth(width / 72);
 		doc.pageSetHeight(height / 72);
 
-		doc.addPage();
+		doc.addPage(pageOptions);
 
 		var fontValue = '10px Helvetica';
 		this.textAlign = 'left';
@@ -248,8 +248,8 @@
 		this.doc.end();
 	};
 
-	canvas2pdf.PdfContext.prototype.addPage = function() {
-		this.doc.addPage();
+	canvas2pdf.PdfContext.prototype.addPage = function(pageOptions) {
+		this.doc.addPage(pageOptions);
 	};
 
 	canvas2pdf.PdfContext.prototype.save = function() {
@@ -381,7 +381,8 @@
 	};
 
 	canvas2pdf.PdfContext.prototype.drawImage = function(img, x, y, w, h) {
-		var det = this.m00_ * this.m11_ - this.m01_ * this.m10_;
+		var ctm = this.doc.currentPage._ctm;
+		var det = ctm[0] * ctm[3] - ctm[1] * ctm[2];
 		return this.doc.drawImage(img, x, y, w, h, Math.sqrt(Math.abs(det)));
 	};
 
@@ -486,13 +487,19 @@
 		this.pageHeight = h
 	};
 
-	PDFKitMini.prototype.addPage = function() {
+	PDFKitMini.prototype.addPage = function(pageOptions) {
 		this.currentPage = new PDFPage(this, this.pageWidth, this.pageHeight, this.pages.id);
+		this.currentPage.dpi = pageOptions?.dpi || 72;
 		this.add(this.currentPage);
 		this.pages.addPage(this.currentPage);
 		var a = new PDFStream();
 		this.add(a);
 		this.currentPage.setStream(a);
+		if (!(pageOptions && pageOptions.verticalFlip)) {
+			// turn page upside-down
+			// to map canvas -> pdf coord system
+			this.currentPage.transform(1, 0, 0, -1, 0, this.currentPage.height);
+		}
 	};
 
 	PDFKitMini.prototype.font = function(font) {
@@ -579,6 +586,9 @@
 
 	PDFKitMini.prototype.imageTileLoadFromCanvas = function(a) {
 		a = new PDFImageTile(a, this.currentPage.fillColor, this.currentPage.alpha * 1);
+		if (a.vectorPattern) {
+			this.add(a.vectorPattern);
+		}
 		this.add(a);
 		this.currentPage.currentImageTile = a;
 		return a;
@@ -629,8 +639,8 @@
 			//convert image to canvas
 			var canvas = document.createElement('canvas');
 			if (img.src.startsWith && img.src.startsWith("data:image/svg")) {
-				// at least 2x more pixels than on screen
-				scale = 2 * Math.max(1, contextScale || 1);
+				// by default 2x more pixels than on screen
+				scale = 2 * Math.max(1, contextScale || 1) * this.currentPage.dpi / 72;
 			}
 			canvas.width = img.width * scale;
 			canvas.height = img.height * scale;
@@ -645,7 +655,7 @@
 
 	//img can be an image element or a canvas
 	PDFKitMini.prototype.imageTileLoad = function(img) {
-		if (img.nodeName.toLowerCase() == "img") {
+		if (img.nodeName && img.nodeName.toLowerCase() == "img") {
 			//convert image to canvas
 			var canvas = document.createElement('canvas');
 			canvas.width = img.width;
@@ -834,9 +844,6 @@
 
 	PDFPage.prototype.setStream = function(a) {
 		this.pdfStream = a
-		// turn page upside-down
-		// to map canvas -> pdf coord system
-		this.transform(1, 0, 0, -1, 0, this.height);
 	};
 
 	PDFPage.prototype.setPageNumber = function(a) {
@@ -868,7 +875,11 @@
 		this.restoreContext();
 	};
 
-	PDFPage.prototype.setAlpha = function(a) {
+	PDFPage.prototype.setAlpha = function(alpha) {
+		var a = alpha * 1;
+		if (this.currentAlpha == a) {
+			return;
+		}
 		if (this.alphas.indexOf(a) == -1) {
 			this.alphas.push(a);
 		}
@@ -1007,7 +1018,7 @@
 		// RG 	setrgbcolor (stroke).
 		// rg 	setrgbcolor (fill).
 		// d dash array + offset
-		if (this.lineDash) {
+		if (this.lineDash && this.lineDash.length) {
 			this.pdfStream.addText("[");
 			for (var i = 0; i < this.lineDash.length; i++) {
 				this.pdfStream.addText(this.lineDash[i]);
@@ -1476,44 +1487,66 @@
 		return PDFObject.makeObject(props, this.id, this.stream);
 	};
 
+	function PDFImageTileContent(content, boundingBox) {
+		this.stream = content;
+		this.boundingBox = boundingBox;
+	}
+
+	PDFImageTileContent.prototype.getObject = function() {
+    	var props = {
+    			"Type": "XObject",
+    			"Subtype": "Form",
+    			"BBox": this.boundingBox};
+    	return PDFObject.makeObject(props, this.id, this.stream);
+    }
+
 	function PDFImageTile(canvas, fillColor, fillAlpha) {
-		this.width = canvas.width;
-		this.height = canvas.height;
-		var buffer = [
-			// eg"14.000 0.0000 0.0000 -14.000 0.0000 14.000 cm ",
-			//this.width+" 0.0000 0.0000 -"+this.height+" 0.0000 "+this.height+" cm ",
-			this.width + " 0.0000 0.0000 -" + this.height + " 0.0000 " + this.height + " cm ",
-			"BI ",
-			"/Width " + this.width + " ",
-			"/Height " + this.height + " ",
-			"/ColorSpace /DeviceRGB ",
-			"/BitsPerComponent 8 ",
+		if (canvas.getContext) {
+		    this.width = canvas.width;
+        	this.height = canvas.height;
+        	this.boundingBox = [0, 0, this.width, this.height];
+			var buffer = [
+        			// eg"14.000 0.0000 0.0000 -14.000 0.0000 14.000 cm ",
+        			//this.width+" 0.0000 0.0000 -"+this.height+" 0.0000 "+this.height+" cm ",
+        			this.width + " 0.0000 0.0000 -" + this.height + " 0.0000 " + this.height + " cm ",
+        			"BI ",
+        			"/Width " + this.width + " ",
+        			"/Height " + this.height + " ",
+        			"/ColorSpace /DeviceRGB ",
+        			"/BitsPerComponent 8 ",
 
-		];
-		var rawData = canvas.getContext("2d").getImageData(0, 0, this.width, this.height);
-		var fillRGB = fillColor.split(" ").map(value => value * (1 - fillAlpha) + fillAlpha);
-		var rgbBuffer = new Uint8Array(this.width * this.height * 3);
-		var idx = 0;
-		// reflect vertically so it's drawn right way up!
-		for (var y = this.height - 1; y >= 0; y--)
-			for (var x = 0; x < this.width; x++) {
-				var red = rawData.data[(x + y * this.width) * 4];
-				var green = rawData.data[(x + y * this.width) * 4 + 1];
-				var blue = rawData.data[(x + y * this.width) * 4 + 2];
-				var alpha = rawData.data[(x + y * this.width) * 4 + 3];
+        	];
+			var rawData = canvas.getContext("2d").getImageData(0, 0, this.width, this.height);
+			var fillRGB = fillColor.split(" ").map(value => value * (1 - fillAlpha) + fillAlpha);
+			var rgbBuffer = new Uint8Array(this.width * this.height * 3);
+			var idx = 0;
+			// reflect vertically so it's drawn right way up!
+			for (var y = this.height - 1; y >= 0; y--)
+				for (var x = 0; x < this.width; x++) {
+					var red = rawData.data[(x + y * this.width) * 4];
+					var green = rawData.data[(x + y * this.width) * 4 + 1];
+					var blue = rawData.data[(x + y * this.width) * 4 + 2];
+					var alpha = rawData.data[(x + y * this.width) * 4 + 3];
 
-				[red, green, blue] = [red, green, blue].map((value, idx) =>
-					Math.round(parseFloat(value) / 255 * alpha + fillRGB[idx] * (255 - alpha))
-				);
-				rgbBuffer[idx++] = red;
-				rgbBuffer[idx++] = green;
-				rgbBuffer[idx++] = blue;
+					[red, green, blue] = [red, green, blue].map((value, idx) =>
+						Math.round(parseFloat(value) / 255 * alpha + fillRGB[idx] * (255 - alpha))
+					);
+					rgbBuffer[idx++] = red;
+					rgbBuffer[idx++] = green;
+					rgbBuffer[idx++] = blue;
+				}
+
+			if (canvas2pdf.useFlateDecode) {
+				buffer.push("/Filter /FlateDecode ");
 			}
-
-		if (canvas2pdf.useFlateDecode) {
-			buffer.push("/Filter /FlateDecode ");
+			this.stream = buffer.join("") + "ID\n" + bufferToString(rgbBuffer) + "\nEI\n";
+		} else {
+			var patternPage = canvas.doc.currentPage;
+			this.boundingBox = canvas.boundingBox || [0, 0, patternPage.pdf.pageWidth * 72, patternPage.pdf.pageHeight * 72];
+			this.alphas = patternPage.alphas;
+			this.vectorPattern = new PDFImageTileContent(
+				patternPage.pdfStream.stream, this.boundingBox);
 		}
-		this.stream = buffer.join("") + "ID\n" + bufferToString(rgbBuffer) + "\nEI\n";
 	}
 
 	PDFImageTile.prototype.writeImage = function(a) {
@@ -1521,17 +1554,26 @@
 	};
 
 	PDFImageTile.prototype.getObject = function() {
+		var vectorRef = {};
+		var matrix = [this.matrix ? this.matrix.m11 : 1, 0, 0, this.matrix ? this.matrix.m22 : 1, 0, 0];
+		if (this.vectorPattern) {
+			this.stream = `/x${this.vectorPattern.id} Do`;
+			vectorRef[`x${this.vectorPattern.id}`] = new PDFReference(this.vectorPattern.id + " 0 R");
+			matrix = [1, 0, 0, -1, 0, 0];
+		}
 		var props = {
 			"Type": "Pattern",
 			"PatternType": 1,
 			"PaintType": 1,
 			"TilingType": 1,
-			"BBox": [0, 0, this.width, this.height],
-			"XStep": this.width,
-			"YStep": this.height,
+			"BBox": this.boundingBox,
+			"XStep": this.boundingBox[2] - this.boundingBox[0],
+			"YStep": this.boundingBox[3] - this.boundingBox[1],
 			"Length": this.stream.length,
-			"Matrix": [this.matrix ? this.matrix.m11 : 1, 0, 0, this.matrix ? this.matrix.m22 : 1, 0, 0],
-			"Resources": {
+			"Matrix": matrix,
+			"Resources": this.vectorPattern ? {
+				"XObject": vectorRef
+			} : {
 				ProcSet: ["PDF", "ImageC"]
 			},
 		}

@@ -24,14 +24,16 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class HatchingHandler {
 
+	private final EuclidianView view;
 	private GBufferedImage bufferedImage = null;
 	private final GGeneralPath path;
 
 	/**
 	 * 
 	 */
-	public HatchingHandler() {
+	public HatchingHandler(EuclidianView view) {
 		path = AwtFactory.getPrototype().newGeneralPath();
+		this.view = view;
 	}
 
 	/**
@@ -88,9 +90,9 @@ public class HatchingHandler {
 			yInt = (int) dist;
 		}
 
-		// special vector hatching for SVG export
-		boolean svg = app.isHTML5Applet() && app.isExporting()
-				&& ExportType.SVG.equals(app.getExportType());
+		// special vector hatching for vector graphics export
+		ExportType exportType = app.isHTML5Applet() && app.isExporting()
+				? app.getExportType() : ExportType.NONE;
 
 		int exportScale = 1;
 
@@ -105,7 +107,7 @@ public class HatchingHandler {
 		}
 
 		GGraphics2D g2d = createImage(bgColor, backgroundTransparency,
-				xInt * exportScale, yInt * exportScale, svg);
+				xInt * exportScale, yInt * exportScale, exportType);
 		g2d.setColor(color);
 		if (exportScale != 1) {
 			objStroke = AwtFactory.getPrototype()
@@ -129,22 +131,25 @@ public class HatchingHandler {
 			drawHatching(Math.PI / 2 - angle, -y, xInt, yInt, g2d);
 			break;
 		case CHESSBOARD:
-			drawChessboard(angle, dist, g2d);
+
 			// multiply for sin for to have the same size in 0 and 45
 			if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
-				dist = dist * Math.sin(angle);
+				dist = Math.round(dist * Math.sin(angle) / 2) * 2;
+				drawChessboardDiagonal(dist / 2, g2d);
+			} else {
+				drawChessboard(dist, g2d);
 			}
 			// use a frame around middle square of our 3 x 3 grid
 			height = width = (int) (dist * 2);
 			startX = startY = (int) (dist / 2);
 			break;
 		case HONEYCOMB:
-			drawHoneycomb(dist, g2d);
-			double side = dist * Math.sqrt(3) / 2;
+			double centerX = Math.round(dist * Math.sqrt(3) / 2);
+			drawHoneycomb(dist, centerX, g2d);
 			startY = 0;
 			startX = 0;
 			height = (int) (dist * 3);
-			width = (int) (2 * side);
+			width = (int) (2 * centerX);
 			break;
 		case WEAVING:
 			startY = startX = xInt / 2;
@@ -173,7 +178,7 @@ public class HatchingHandler {
 					font, g2d.getFontRenderContext());
 			int tileSize = (int) (Math.round(t.getAscent() + t.getDescent()) / 3);
 			g2d = createImage(bgColor, backgroundTransparency,
-					tileSize, tileSize, svg);
+					tileSize, tileSize, exportType);
 			g2d.setColor(color);
 			g2d.setStroke(objStroke);
 			g2d.setFont(
@@ -191,8 +196,8 @@ public class HatchingHandler {
 		}
 
 		// use the middle square of our 3 x 3 grid to fill with
-		if (svg) {
-			return new GPaintSVG(g2d, width, height, startX, startY);
+		if (exportType != ExportType.NONE) {
+			return new VectorPatternPaint(g2d, width, height, startX, startY, exportType);
 		} else {
 			return AwtFactory.getPrototype().newTexturePaint(
 					bufferedImage.getSubimage(startX, startY, width,
@@ -203,9 +208,12 @@ public class HatchingHandler {
 	}
 
 	private GGraphics2D createImage(
-			GColor bgColor, double backgroundTransparency, int xInt, int yInt, boolean svg) {
+			GColor bgColor, double backgroundTransparency,
+			int xInt, int yInt, ExportType exportType) {
 		GGraphics2D g2d;
-		if (svg) {
+		if (exportType == ExportType.PDF_HTML5) {
+			g2d = AwtFactory.getPrototype().getPDFGraphics(xInt, yInt);
+		} else if (exportType == ExportType.SVG) {
 			g2d = AwtFactory.getPrototype().getSVGGraphics(xInt, yInt);
 		} else {
 			bufferedImage = AwtFactory.getPrototype().newBufferedImage(xInt * 3,
@@ -221,13 +229,13 @@ public class HatchingHandler {
 
 		// paint background transparent
 		if (backgroundTransparency > 0) {
-			if (bgColor == null) {
-				g2d.setColor(GColor.newColor(255, 255, 255,
-						(int) (backgroundTransparency * 255f)));
+			GColor base = bgColor == null ? GColor.WHITE : bgColor;
+			if (exportType == ExportType.PDF_HTML5) {
+				GColor global = view.getBackgroundCommon();
+				g2d.setColor(GColor.mixColors(global, base, backgroundTransparency, 255));
 			} else {
-				g2d.setColor(GColor.newColor(bgColor.getRed(), bgColor.getGreen(),
-						bgColor.getBlue(), (int) (backgroundTransparency * 255f)));
-
+				g2d.setColor(GColor.newColor(base.getRed(), base.getGreen(),
+						base.getBlue(), (int) (backgroundTransparency * 255f)));
 			}
 			g2d.fillRect(0, 0, xInt * 3, yInt * 3);
 		}
@@ -268,39 +276,38 @@ public class HatchingHandler {
 			GBufferedImage copy = AwtFactory.getPrototype()
 					.newBufferedImage(image.getWidth(), image.getHeight(), 1);
 
-			GGraphics2D g2d = copy.createGraphics();
+			GGraphics2D copyGraphics = copy.createGraphics();
 
 			// enable anti-aliasing
-			g2d.setAntialiasing();
+			copyGraphics.setAntialiasing();
 
 			// set total transparency
-			g2d.setTransparent();
+			copyGraphics.setTransparent();
 
 			// paint background transparent
 			if (bgColor == null) {
-				g2d.setColor(GColor.newColor(0, 0, 0, 0));
+				copyGraphics.setColor(GColor.newColor(0, 0, 0, 0));
 			} else {
-				g2d.setColor(bgColor);
+				copyGraphics.setColor(bgColor);
 			}
-			g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
-
+			copyGraphics.fillRect(0, 0, image.getWidth(), image.getHeight());
 			if (alpha > 0.0f) {
 				// set partial transparency
 				// AlphaComposite alphaComp = AlphaComposite.getInstance(
 				// AlphaComposite.SRC_OVER, alpha);
 				GAlphaComposite ac = AwtFactory.getPrototype()
 						.newAlphaComposite(alpha);
-				g2d.setComposite(ac);
+				copyGraphics.setComposite(ac);
 
 				// paint image with specified transparency
-				g2d.drawImage(image, 0, 0);
+				copyGraphics.drawImage(image, 0, 0);
 			}
 
 			tp = AwtFactory.getPrototype().newTexturePaint(copy, tr);
 		} else {
 			tp = AwtFactory.getPrototype().newTexturePaint(image, tr);
 		}
-
+		g3.setColor(view.getBackgroundCommon().deriveWithAlpha(0));
 		g3.setPaint(tp);
 	}
 
@@ -377,30 +384,27 @@ public class HatchingHandler {
 				2 * dist, size, size));
 	}
 
-	private void drawChessboard(double angle, double hatchDist,
-			GGraphics2D g2d) {
-		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
-			double dist = hatchDist * Math.sin(angle);
-			path.reset();
-			path.moveTo(dist / 2, dist / 2 - 1);
-			path.lineTo(2 * dist + dist / 2, dist / 2 - 1);
-			path.lineTo(dist + dist / 2, dist + dist / 2);
-			g2d.fill(path);
-			path.reset();
-			path.moveTo(dist + dist / 2, dist + dist / 2);
-			path.lineTo(2 * dist + dist / 2, 2 * dist + dist / 2);
-			path.lineTo(dist / 2, dist * 2 + dist / 2);
-			g2d.fill(path);
-		} else { // 0 degrees
+	private void drawChessboard(double hatchDist, GGraphics2D g2d) {
 			int distInt = (int) hatchDist;
 			g2d.fillRect(distInt / 2, distInt / 2, distInt, distInt);
 			g2d.fillRect(distInt + distInt / 2, distInt + distInt / 2, distInt,
 					distInt);
-		}
 	}
 
-	private void drawHoneycomb(double dist, GGraphics2D g2d) {
-		double centerX = dist * Math.sqrt(3) / 2;
+	private void drawChessboardDiagonal(double dist, GGraphics2D g2d) {
+			path.reset();
+			path.moveTo(dist, dist);
+			path.lineTo(5 * dist, dist);
+			path.lineTo(3 * dist, 3 * dist);
+			g2d.fill(path);
+			path.reset();
+			path.moveTo(3 * dist, 3 * dist);
+			path.lineTo(5 * dist, 5 * dist);
+			path.lineTo(dist, 5 * dist);
+			g2d.fill(path);
+	}
+
+	private void drawHoneycomb(double dist, double centerX, GGraphics2D g2d) {
 		path.reset();
 		path.moveTo(centerX, dist);
 		path.lineTo(centerX, 2 * dist);

@@ -37,7 +37,7 @@ public class DrawPieChart extends Drawable {
 	 */
 	public DrawPieChart(EuclidianView ev, GeoPieChart geo) {
 		super(ev, geo);
-		this.chartFilling = new ChartFilling(view.getApplication());
+		this.chartFilling = new ChartFilling(view.getApplication(), view);
 		this.chart = geo;
 		outline = AwtFactory.getPrototype().newEllipse2DDouble();
 		update();

@@ -199,14 +199,15 @@ public class PageListController implements PageListControllerInterface,
 		int currentIndex = selectedCard.getPageIndex();
 		savePreviewCard(selectedCard);
 
-		Canvas2Pdf.PdfContext ctx = PDFEncoderW.getContext(width, height);
+		Canvas2Pdf.PdfContext ctx = PDFEncoderW.getContext(width, height,
+				JsPropertyMap.of("dpi", dpi));
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
 			return "";
 		}
 
-		app.setExporting(ExportType.PDF_HTML5, scale * (dpi / 72.0));
+		app.setExporting(ExportType.PDF_HTML5, scale);
 
 		GGraphics2DW pdfGraphics = new GGraphics2DW(ctx);
 

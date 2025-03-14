@@ -260,4 +260,8 @@ public abstract class AwtFactory {
 	public GGraphics2D getSVGGraphics(int xInt, int yInt) {
 		return null;
 	}
+
+	public GGraphics2D getPDFGraphics(int xInt, int yInt) {
+		return null;
+	}
 }

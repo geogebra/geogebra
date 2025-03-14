@@ -84,6 +84,7 @@ import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.WheelEvent;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Web implementation of graphics view
@@ -484,7 +485,8 @@ public class EuclidianViewW extends EuclidianView implements
 					Math.floor(view2.getExportHeight() * scale));
 		}
 
-		Canvas2Pdf.PdfContext ctx = PDFEncoderW.getContext(width, height);
+		Canvas2Pdf.PdfContext ctx = PDFEncoderW.getContext(width, height,
+				JsPropertyMap.of("dpi", dpi));
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
@@ -492,7 +494,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		GGraphics2DW pdfGraphics = new GGraphics2DW(ctx);
-		this.appW.setExporting(ExportType.PDF_HTML5, scale * dpi / 72);
+		this.appW.setExporting(ExportType.PDF_HTML5, scale);
 
 		exportPaintPre(pdfGraphics, scale, false);
 		drawObjects(pdfGraphics);

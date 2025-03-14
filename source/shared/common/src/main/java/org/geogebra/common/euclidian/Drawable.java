@@ -728,7 +728,7 @@ public abstract class Drawable extends DrawableND {
 
 	private HatchingHandler getHatchingHandler() {
 		if (hatchingHandler == null) {
-			hatchingHandler = new HatchingHandler();
+			hatchingHandler = new HatchingHandler(view);
 		}
 
 		return hatchingHandler;

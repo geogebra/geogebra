@@ -12,16 +12,18 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.euclidian.GPaintSVG;
 import org.geogebra.common.euclidian.GeneralPathClipped;
+import org.geogebra.common.euclidian.VectorPatternPaint;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
 import org.geogebra.gwtutil.DOMMatrix;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
+import org.geogebra.web.html5.export.Canvas2Pdf;
 import org.geogebra.web.html5.export.Canvas2Svg;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -34,6 +36,7 @@ import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.core.Function;
 import elemental2.core.JsArray;
+import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
@@ -311,7 +314,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 * @param svgPaint
 	 *            SVG pattern
 	 */
-	public void setPaintSVG(final GPaintSVG svgPaint) {
+	public void setPaintSVG(final VectorPatternPaint svgPaint) {
 		GGraphics2DW content = (GGraphics2DW) svgPaint.getPatternGraphics();
 		int width = svgPaint.getWidth();
 		int height = svgPaint.getHeight();
@@ -322,7 +325,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 			elemental2.dom.Element root = pattern.getRoot();
 			if (root != null) {
 				root.setAttribute("viewBox",
-						+svgPaint.getStartX() + " " + svgPaint.getStartY() + " "
+						+ svgPaint.getStartX() + " " + svgPaint.getStartY() + " "
 								+ width + " " + height);
 				root.setAttribute("width", width);
 				root.setAttribute("height", height);
@@ -333,11 +336,40 @@ public class GGraphics2DW implements GGraphics2DWI {
 		}
 	}
 
+	/**
+	 * Set a PDF pattern.
+	 *
+	 * @param pdfPaint
+	 *            SVG pattern
+	 */
+	public void setPaintPDF(final VectorPatternPaint pdfPaint) {
+		GGraphics2DW content = (GGraphics2DW) pdfPaint.getPatternGraphics();
+		double width = pdfPaint.getWidth();
+		double height = pdfPaint.getHeight();
+		double startX = pdfPaint.getStartX();
+		double startY = pdfPaint.getStartY();
+		Canvas2Pdf.PdfContext canvas2Pdf = Js.uncheckedCast(context);
+		try {
+			Js.asPropertyMap(content.getContext()).set("boundingBox",
+					JsArray.of(startX,
+							startY, startX + width, startY + height));
+			CanvasPattern pattern =
+					canvas2Pdf.createPattern(content.getContext(), "repeat");
+			canvas2Pdf.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of(pattern);
+		} catch (Exception ex) {
+			Log.debug(ex.getMessage());
+		}
+	}
+
 	@Override
 	public void setPaint(final GPaint paint) {
-
-		if (paint instanceof GPaintSVG) {
-			setPaintSVG((GPaintSVG) paint);
+		if (paint instanceof VectorPatternPaint) {
+			if (((VectorPatternPaint) paint).type == App.ExportType.SVG) {
+				setPaintSVG((VectorPatternPaint) paint);
+			}
+			if (((VectorPatternPaint) paint).type == App.ExportType.PDF_HTML5) {
+				setPaintPDF((VectorPatternPaint) paint);
+			}
 			return;
 		}
 

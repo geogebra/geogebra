@@ -69,7 +69,7 @@ public class DrawBarGraph extends Drawable {
 	 */
 	public DrawBarGraph(EuclidianView view, BarChartGeoNumeric n) {
 		this.view = view;
-		chartFilling = new ChartFilling(view.getApplication());
+		chartFilling = new ChartFilling(view.getApplication(), view);
 		barChart = n;
 		geo = n;
 
