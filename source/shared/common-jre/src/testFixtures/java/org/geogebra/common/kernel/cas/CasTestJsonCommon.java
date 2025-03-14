@@ -745,8 +745,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testNormal() {
-		testCat("Normal");
+	public void testNormal3() {
+		testCat("Normal.3");
+	}
+
+	@Test
+	public void testNormal4() {
+		testCat("Normal.4");
 	}
 
 	@Test

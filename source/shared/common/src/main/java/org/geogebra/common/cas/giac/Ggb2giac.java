@@ -1075,8 +1075,9 @@ public class Ggb2giac {
 		p("Normal.3", "normald_cdf(%0,%1,%2)");
 		p("InverseNormal.3", "normald_icdf(%0,%1,%2)");
 		p("Normal.4",
-				"[[[ggbnormarg0:=%0],[ggbnormarg1:=%1],[ggbnormarg2:=%2]],if %3==true then normald_cdf(ggbnormarg0,ggbnormarg1,ggbnormarg2) else (1/sqrt(2*pi*((ggbnormarg1)^2))) * exp(-((ggbnormarg2-(ggbnormarg0))^2)/(2*((ggbnormarg1)^2))) fi][1]");
-
+				"[[[ggbnormarg0:=%0],[ggbnormarg1:=%1],[ggbnormarg2:=%2], [ggbnormarg3:=%3]],if (ggbnormarg3+\"\")==\"true\" then normald_cdf(ggbnormarg0,ggbnormarg1,ggbnormarg2) "
+						+ "elif (ggbnormarg3+\"\")==\"false\" then (1/sqrt(2*pi*((ggbnormarg1)^2))) * exp(-((ggbnormarg2-(ggbnormarg0))^2)/(2*((ggbnormarg1)^2)))"
+						+ "else normald_cdf(ggbnormarg0,ggbnormarg1,ggbnormarg2,ggbnormarg3) fi][1]");
 		// #4124/TRAC-3835 wrap input in evalf
 		// #4124/evalf removed,changed to %%0 to use new "numeric"
 		// StringTemplate
