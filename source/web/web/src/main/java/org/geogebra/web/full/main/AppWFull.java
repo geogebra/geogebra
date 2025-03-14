@@ -308,13 +308,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		initActivity();
 		initCoreObjects();
 		checkExamPerspective();
-		afterCoreObjectsInited();
-		getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(geoGebraElement.getElement());
 		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
 			setupHeader();
 		}
+		afterCoreObjectsInited();
+		getFontSettingsUpdater().resetFonts();
+		Browser.removeDefaultContextMenu(geoGebraElement.getElement());
 
 		startActivity();
 
