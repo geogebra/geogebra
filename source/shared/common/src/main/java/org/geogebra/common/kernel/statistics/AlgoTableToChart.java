@@ -22,7 +22,8 @@ public class AlgoTableToChart extends AlgoElement {
 	public enum ChartType {
 		PieChart,
 		BarChart,
-		LineGraph
+		LineGraph,
+		Histogram
 	}
 
 	public static final int CHART_SIZE = 360;

@@ -14,6 +14,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
@@ -1104,6 +1105,12 @@ public final class SpreadsheetController {
 		sb.append(")");
 
 		return sb.toString();
+	}
+
+	// Charts
+
+	void createChart(AlgoTableToChart.ChartType chartType) {
+		// to do implement for different charts
 	}
 
 	// Autocomplete

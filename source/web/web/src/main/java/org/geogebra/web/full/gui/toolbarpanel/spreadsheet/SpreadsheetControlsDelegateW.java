@@ -182,8 +182,10 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 					AriaMenuBar subMenu = new AriaMenuBar();
 					for (int i = 0; i < item.getSubMenuItems().size(); i++) {
 						ContextMenuItem subMenuItem = item.getSubMenuItems().get(i);
+						SVGResource subMenuIcon = getActionIcon(subMenuItem.getIdentifier());
 						subMenu.addItem(new AriaMenuItem(loc.getMenu(subMenuItem
-								.getLocalizationKey()), null, performAndHideMenu(subMenuItem)));
+								.getLocalizationKey()), subMenuIcon,
+								performAndHideMenu(subMenuItem)));
 					}
 
 					menuItem = new AriaMenuItem(itemText, image, subMenu);
@@ -219,6 +221,16 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			return res.delete_black();
 		case CALCULATE:
 			return res.calculate();
+		case CREATE_CHART:
+			return res.insert_chart();
+		case LINE_CHART:
+			return res.table_line_chart();
+		case BAR_CHART:
+			return res.table_bar_chart();
+		case HISTOGRAM:
+			return res.table_histogram();
+		case PIE_CHART:
+			return res.table_pie_chart();
 		case INSERT_ROW_ABOVE:
 		case INSERT_ROW_BELOW:
 		case DELETE_ROW:

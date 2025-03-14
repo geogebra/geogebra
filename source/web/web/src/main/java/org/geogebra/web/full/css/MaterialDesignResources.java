@@ -104,6 +104,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/chart_pie.svg")
 	SVGResource table_pie_chart();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/histogram.svg")
+	SVGResource table_histogram();
+
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")
 	SVGResource plane_black();
@@ -125,6 +128,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/functions.svg")
 	SVGResource calculate();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/insert_chart.svg")
+	SVGResource insert_chart();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_label_outline_black_24px.svg")
 	SVGResource label_black();
