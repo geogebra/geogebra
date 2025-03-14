@@ -170,7 +170,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 
 	private void createActionHandlerFactories(AppWFull app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
-		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
+		if (version == GeoGebraConstants.Version.SCIENTIFIC && !app.isSuite()) {
 			defaultActionHandlerFactory = new ScientificMenuActionHandlerFactory(app);
 		} else if (app.isSuite()) {
 			defaultActionHandlerFactory = new SuiteMenuActionHandlerFactory(app);
