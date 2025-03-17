@@ -5,6 +5,7 @@ import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueU
 import static org.geogebra.common.util.DoubleUtil.isInteger;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.OperationCountChecker;
@@ -48,7 +49,7 @@ public final class RationalizableFraction {
 		}
 
 		if (isIntegerValue(root)) {
-			return utils.newDouble(root.evaluateDouble()).wrap();
+			return root.evaluate(StringTemplate.defaultTemplate).wrap();
 		}
 
 		double denominatorValue = root.getRightTree().evaluateDouble();

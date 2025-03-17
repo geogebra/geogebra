@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
 import static org.geogebra.common.util.DoubleUtil.isInteger;
+import static org.geogebra.common.util.DoubleUtil.isOutOfSafeRoundRange;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,7 @@ public final class SimplifyUtils {
 	public ExpressionValue newDouble(double value) {
 
 		return new ExpressionNode(kernel,
-				isInteger(value) ? Math.round(value) : value);
+				isInteger(value) && !isOutOfSafeRoundRange(value) ? Math.round(value) : value);
 	}
 
 	/**

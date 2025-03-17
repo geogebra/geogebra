@@ -70,7 +70,7 @@ public class RationalizationTest extends BaseAppTest {
 			"2.3 / sqrt(2)",
 			"((1 / 2) (sqrt(3) + 1)) / sqrt(2)",
 			"(3.2 (sqrt(3) + 1)) / sqrt(2)",
-			"((4+sqrt(10+0.0001))/(-2+sqrt(0.0001+10)))",
+			"((4+sqrt(10+0.0001))/(-2+sqrt(0.0001+10))),",
 	})
 	public void shouldBeUnsupported(String definition) {
 		GeoElementND geo = add(definition);
@@ -105,6 +105,18 @@ public class RationalizationTest extends BaseAppTest {
 			"1 / (1 + sqrt(2)), sqrt(2) - 1",
 	})
 	public void testRationalizeToNonFraction(String definition, String expected) {
+		rationalizationShouldBe(definition, expected);
+	}
+
+	@ParameterizedTest
+	@CsvSource({
+			"1E100/1E99, 10",
+			"1E100 /(1E99+sqrt(2)), 10",
+			"1E50, 1*10^(50)",
+			"(10^10)^5, 100000000000000000000000000000000000000000000000000",
+			"1E50/sqrt(2), 70710678118654750000000000000000000000000000000000"
+	})
+	public void testRationalizeBigNumbers(String definition, String expected) {
 		rationalizationShouldBe(definition, expected);
 	}
 

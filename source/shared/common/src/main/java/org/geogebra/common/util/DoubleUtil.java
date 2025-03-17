@@ -21,10 +21,18 @@ public class DoubleUtil {
 			return false;
 		}
 	
-		if (x > 1E17 || x < -1E17) {
+		if (isOutOfSafeRoundRange(x)) {
 			return true;
 		}
 		return DoubleUtil.isEqual(x, Math.round(x));
+	}
+
+	/**
+	 * @param val value
+	 * @return whether round(value) may be unreliable
+	 */
+	public static boolean isOutOfSafeRoundRange(double val) {
+		return val > 1E17 || val < -1E17;
 	}
 
 	/**
