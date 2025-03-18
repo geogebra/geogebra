@@ -594,6 +594,11 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	@Override
 	final public boolean isInside(GRectangle rect) {
 		GShape decoratedShape = getDecoratedShape();
+		if (decoratedShape instanceof GLine2D) {
+			GLine2D line = (GLine2D) decoratedShape;
+			return rect.contains(line.getP1()) && rect.contains(line.getP2());
+		}
+
 		return decoratedShape != null && rect.contains(decoratedShape.getBounds());
 	}
 
