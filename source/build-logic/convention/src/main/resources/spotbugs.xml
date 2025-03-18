@@ -32,6 +32,10 @@
         <Bug pattern="LI_LAZY_INIT_UPDATE_STATIC" />
     </Match>
     <Match>
+        <Class name="~org.geogebra.web.html5.css.PDFResourcesImpl.*"/>
+        <Bug pattern="SKIPPED_CLASS_TOO_BIG" />
+    </Match>
+    <Match>
         <Package name="~(org.geogebra.common.kernel.(parser|prover.polynomial)|com.himamis.retex.editor.share.io.latex)" />
         <Or>
             <Bug pattern="DLS_DEAD_LOCAL_STORE" />

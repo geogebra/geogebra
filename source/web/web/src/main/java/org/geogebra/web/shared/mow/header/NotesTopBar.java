@@ -19,8 +19,6 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.topbar.DefaultTopBarIconProvider;
-import org.geogebra.web.html5.main.topbar.MebisTopBarIconProvider;
 import org.geogebra.web.html5.main.topbar.TopBarIcon;
 import org.geogebra.web.html5.main.topbar.TopBarIconResource;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -48,8 +46,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	 */
 	public NotesTopBar(AppW appW) {
 		this.appletParams = appW.getAppletParameters();
-		topBarIconResource = new TopBarIconResource(appW.isMebis()
-				? new MebisTopBarIconProvider() : new DefaultTopBarIconProvider());
+		topBarIconResource = appW.getTopBarIconResource();
 		controller = new TopBarController(appW, topBarIconResource);
 
 		if (appW.getActiveEuclidianView() != null) {

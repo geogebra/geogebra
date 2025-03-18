@@ -91,7 +91,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		localization = app.getLocalization();
 		frame = app.getAppletFrame();
 		loginOperation = app.getLoginOperation();
-		menuIconResource = new MenuIconResource(app.isMebis()
+		menuIconResource = new MenuIconResource(app.isUsingFontAwesome()
 				? new MebisMenuIconProvider() : new DefaultMenuIconProvider());
 	}
 

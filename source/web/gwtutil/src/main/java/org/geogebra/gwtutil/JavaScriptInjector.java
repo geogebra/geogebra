@@ -18,7 +18,7 @@ public class JavaScriptInjector {
 	 *            javascript file
 	 */
 	public static void inject(TextResource scriptResource) {
-		inject(scriptResource, false);
+		inject(scriptResource, false, false);
 	}
 
 	/**
@@ -27,10 +27,13 @@ public class JavaScriptInjector {
 	 * @param noDefine
 	 *            whether to protect against using requirejs (see APPS-3018)
 	 */
-	public static void inject(TextResource scriptResource, boolean noDefine) {
+	public static void inject(TextResource scriptResource, boolean noDefine, boolean asModule) {
 		String name = scriptResource.getName();
 		if (DomGlobal.document.getElementById(name) == null) {
 			HTMLScriptElement element = createScriptElement(name);
+			if (asModule) {
+				element.type = "module";
+			}
 			if (noDefine) {
 				element.text = "(function(define){" + scriptResource.getText() + "})()";
 			} else {

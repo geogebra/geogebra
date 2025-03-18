@@ -26,7 +26,7 @@ echosvg = "io.sf.carte:echosvg-bridge:2.0"
 murok = { module = "org.murok:editor", version.ref = "murok" }
 mozilla-rhino = { module = "org.mozilla:rhino", version.ref = "mozilla-rhino" }
 autoService = "com.google.auto.service:auto-service:1.1.1"
-pdfJs = "org.webjars.npm:pdfjs-dist:2.5.207"
+pdfJs = "org.webjars.npm:pdfjs-dist:4.10.38"
 multiplayer = { module = "org.geogebra:multiplayer", version.ref = "multiplayer" }
 fflate = "org.webjars.npm:fflate:0.8.2"
 quickJs = { module = "org.quickjs:emscripten", version.ref = "quickJs"}

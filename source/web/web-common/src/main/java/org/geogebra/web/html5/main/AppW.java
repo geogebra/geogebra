@@ -3577,7 +3577,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public ToolboxIconResource getToolboxIconResource() {
 		if (toolboxIconResource == null) {
-			toolboxIconResource = new ToolboxIconResource(isMebis()
+			toolboxIconResource = new ToolboxIconResource(isUsingFontAwesome()
 					? new MebisToolboxIconProvider() : new DefaultToolboxIconProvider());
 		}
 
@@ -3589,7 +3589,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public TopBarIconResource getTopBarIconResource() {
 		if (topBarIconResource == null) {
-			topBarIconResource = new TopBarIconResource(isMebis()
+			topBarIconResource = new TopBarIconResource(isUsingFontAwesome()
 					? new MebisTopBarIconProvider() : new DefaultTopBarIconProvider());
 		}
 
@@ -3611,5 +3611,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} catch (Throwable e) {
 			Log.debug("Could not initialize analytics object." + e);
 		}
+	}
+
+	public boolean isUsingFontAwesome() {
+		return getAppletParameters().getParamFontAwesome();
 	}
 }

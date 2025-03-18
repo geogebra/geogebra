@@ -802,4 +802,8 @@ public class AppletParameters {
 	public double getMaxHeight() {
 		return getIntDataParam("maxHeight", -1);
 	}
+
+	public boolean getParamFontAwesome() {
+		return getBoolDataParam("fontAwesome", false);
+	}
 }

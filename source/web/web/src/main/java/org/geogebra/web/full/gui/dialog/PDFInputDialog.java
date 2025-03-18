@@ -79,8 +79,8 @@ public class PDFInputDialog extends ComponentDialog
 		addStyleName("pdfDialog");
 		buildContent();
 		initActions();
-		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfJs(), true);
-		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfWorkerJs(), true);
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfJs(), false, true);
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfWorkerJs(), false, true);
 	}
 
 	private void buildContent() {
