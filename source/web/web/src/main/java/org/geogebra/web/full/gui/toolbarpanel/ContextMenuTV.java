@@ -12,7 +12,7 @@ import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
-import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -195,8 +195,8 @@ public class ContextMenuTV {
 	private void showRegression() {
 		DialogData data = new DialogData("Regression",
 				getColumnTitleHTML(getHeaderHTMLName()), "Close", "Plot");
-		GeoList[] cleanLists = new StatsBuilder(view.getEvaluatable(0),
-				view.getEvaluatable(columnIdx)).getCleanLists2Var();
+		GeoList[] cleanLists = new StatisticGroupsBuilder().getCleanListsTwoVariable(
+				view.getEvaluatable(0), view.getEvaluatable(columnIdx));
 		final List<RegressionSpecification> availableRegressions =
 				RegressionSpecification.getForListSize(cleanLists[0].size());
 		if (availableRegressions.isEmpty()) {

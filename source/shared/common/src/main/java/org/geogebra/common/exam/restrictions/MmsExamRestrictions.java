@@ -8,6 +8,15 @@ import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
+import static org.geogebra.common.kernel.statistics.Statistic.COVARIANCE;
+import static org.geogebra.common.kernel.statistics.Statistic.MAX;
+import static org.geogebra.common.kernel.statistics.Statistic.MEAN;
+import static org.geogebra.common.kernel.statistics.Statistic.MEDIAN;
+import static org.geogebra.common.kernel.statistics.Statistic.MIN;
+import static org.geogebra.common.kernel.statistics.Statistic.PMCC;
+import static org.geogebra.common.kernel.statistics.Statistic.Q1;
+import static org.geogebra.common.kernel.statistics.Statistic.Q3;
+import static org.geogebra.common.kernel.statistics.Statistic.SD;
 
 import java.util.Set;
 
@@ -19,6 +28,7 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
+import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -28,6 +38,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.statistics.Statistic;
 
 public class MmsExamRestrictions extends ExamRestrictions {
 
@@ -50,7 +61,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				null,
 				createVisibilityRestrictions(),
 				null,
-				null);
+				null,
+				createStatisticsFilter());
 	}
 
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
@@ -230,6 +242,12 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			return contextMenuItem != AlgebraContextMenuItem.Statistics
 					&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints;
 		});
+	}
+
+	private static StatisticsFilter createStatisticsFilter() {
+		Set<Statistic> filteredStatistics = Set.of(MEAN, SD, MIN, Q1, MEDIAN,
+				Q3, MAX, PMCC, COVARIANCE);
+		return statistic -> !filteredStatistics.contains(statistic);
 	}
 
 	/**

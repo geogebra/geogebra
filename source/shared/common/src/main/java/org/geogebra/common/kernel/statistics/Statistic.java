@@ -5,7 +5,7 @@ import org.geogebra.common.main.Localization;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public enum Stat {
+public enum Statistic {
 	NULL(null), LENGTH(Commands.Length), MEAN(Commands.mean, "\\overline{%v}"),
 	SD(Commands.SD, "%t%v"), SAMPLE_SD(Commands.SampleSD, "%t%v"),
 	SUM(Commands.Sum, "\\Sigma %v"),
@@ -18,21 +18,27 @@ public enum Stat {
 	SIGMAXY(Commands.SigmaXY, "\\Sigma %v"),
 	COVARIANCE(Commands.Covariance, "cov");
 
-	private final Commands cmd;
+	private final Commands command;
 	private final String lhsPattern;
 
-	Stat(Commands cmd) {
-		this.cmd = cmd;
-		lhsPattern = "%t";
+	Statistic(Commands command) {
+		this(command, "%t");
 	}
 
-	Stat(Commands cmd, String pattern) {
-		this.cmd = cmd;
-		this.lhsPattern = pattern;
+	Statistic(Commands command, String lhsPattern) {
+		this.command = command;
+		this.lhsPattern = lhsPattern;
 	}
 
 	public String getCommandName() {
-		return cmd.name();
+		return command.name();
+	}
+
+	/**
+	 * @return localization key used by {@link Localization#getMenu(String)}.
+	 */
+	public String getMenuLocalizationKey() {
+		return "Stats." + getCommandName();
 	}
 
 	/**

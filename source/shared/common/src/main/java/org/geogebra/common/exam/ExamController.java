@@ -18,6 +18,7 @@ import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
@@ -150,6 +151,7 @@ public final class ExamController {
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull Localization localization,
 			@Nonnull Settings settings,
+			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
 			@CheckForNull AutocompleteProvider autocompleteProvider,
 			@CheckForNull ToolsProvider toolsProvider,
 			@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
@@ -164,6 +166,7 @@ public final class ExamController {
 				algebraProcessor,
 				localization,
 				settings,
+				statisticGroupsBuilder,
 				autocompleteProvider,
 				toolsProvider,
 				scheduledPreviewFromInputBar,
@@ -200,6 +203,7 @@ public final class ExamController {
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull Localization localization,
 			@Nonnull Settings settings,
+			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
 			@CheckForNull AutocompleteProvider autocompleteProvider,
 			@CheckForNull ToolsProvider toolsProvider,
 			@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
@@ -218,6 +222,7 @@ public final class ExamController {
 				algebraProcessor,
 				localization,
 				settings,
+				statisticGroupsBuilder,
 				autocompleteProvider,
 				toolsProvider,
 				scheduledPreviewFromInputBar,
@@ -617,6 +622,7 @@ public final class ExamController {
 					dependencies.context,
 					dependencies.localization,
 					dependencies.settings,
+					dependencies.statisticGroupsBuilder,
 					dependencies.autoCompleteProvider,
 					dependencies.toolsProvider,
 					geoElementPropertiesFactory,
@@ -641,6 +647,7 @@ public final class ExamController {
 					dependencies.context,
 					dependencies.localization,
 					dependencies.settings,
+					dependencies.statisticGroupsBuilder,
 					dependencies.autoCompleteProvider,
 					dependencies.toolsProvider,
 					geoElementPropertiesFactory,
@@ -753,6 +760,9 @@ public final class ExamController {
 		@CheckForNull
 		final Settings settings;
 		@NonOwning
+		@Nonnull
+		final StatisticGroupsBuilder statisticGroupsBuilder;
+		@NonOwning
 		@CheckForNull
 		final AutocompleteProvider autoCompleteProvider;
 		@NonOwning
@@ -771,6 +781,7 @@ public final class ExamController {
 				@Nonnull AlgebraProcessor algebraProcessor,
 				@Nonnull Localization localization,
 				@Nonnull Settings settings,
+				@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
 				@CheckForNull AutocompleteProvider autoCompleteProvider,
 				@CheckForNull ToolsProvider toolsProvider,
 				@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
@@ -781,6 +792,7 @@ public final class ExamController {
 			this.algebraProcessor = algebraProcessor;
 			this.localization = localization;
 			this.settings = settings;
+			this.statisticGroupsBuilder = statisticGroupsBuilder;
 			this.autoCompleteProvider = autoCompleteProvider;
 			this.toolsProvider = toolsProvider;
 			this.scheduledPreviewFromInputBar = scheduledPreviewFromInputBar;

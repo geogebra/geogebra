@@ -52,7 +52,8 @@ final class TestExamRestrictions extends ExamRestrictions {
 				createPropertyRestrictions(),
 				createVisibilityRestrictions(),
 				null,
-				createDisabledAlgorithms());
+				createDisabledAlgorithms(),
+				null);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {

@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.statistics.Regression;
-import org.geogebra.common.kernel.statistics.Stat;
+import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
@@ -98,7 +98,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		app.getAsyncManager().scheduleCallback(getModel()::updatePanel);
 	}
 
-	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,
+	protected AlgoElement getAlgo(Statistic algoName, GeoList dataList,
 			GeoElement geoRegression) {
 		return getModel().getAlgo(algoName, dataList, geoRegression);
 	}

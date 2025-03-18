@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.Regression;
-import org.geogebra.common.kernel.statistics.Stat;
+import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
@@ -67,7 +67,7 @@ public class StatTableModel {
 	 * @return row names
 	 */
 	public String[] getRowNames() {
-		ArrayList<Stat> list = getStatList();
+		ArrayList<Statistic> list = getStatList();
 		String[] rowNames = new String[list.size()];
 		for (int i = 0; i < rowNames.length; i++) {
 			rowNames[i] = getStatName(list.get(i));
@@ -106,12 +106,12 @@ public class StatTableModel {
 
 		double value;
 
-		ArrayList<Stat> list = getStatList();
+		ArrayList<Statistic> list = getStatList();
 
 		for (int row = 0; row < list.size(); row++) {
 			for (int column = 0; column < 1; column++) {
-				Stat stat = list.get(row);
-				if (getListener().isValidData() && stat != Stat.NULL) {
+				Statistic stat = list.get(row);
+				if (getListener().isValidData() && stat != Statistic.NULL) {
 					AlgoElement algo = getAlgo(stat, dataList, geoRegression);
 					if (algo != null) {
 						getConstruction().removeFromConstructionList(algo);
@@ -128,8 +128,8 @@ public class StatTableModel {
 	/**
 	 * @return list of statistics
 	 */
-	public ArrayList<Stat> getStatList() {
-		ArrayList<Stat> list = new ArrayList<>();
+	public ArrayList<Statistic> getStatList() {
+		ArrayList<Statistic> list = new ArrayList<>();
 
 		if (getListener().isViewValid()) {
 			return list;
@@ -140,51 +140,51 @@ public class StatTableModel {
 		case DataAnalysisModel.MODE_ONEVAR:
 
 			if (!getListener().isNumericData()) {
-				list.add(Stat.LENGTH);
+				list.add(Statistic.LENGTH);
 
 			} else if (getListener().groupType() == GroupType.RAWDATA
 					|| getListener().groupType() == GroupType.FREQUENCY) {
 
-				list.add(Stat.LENGTH);
-				list.add(Stat.MEAN);
-				list.add(Stat.SD);
-				list.add(Stat.SAMPLE_SD);
-				list.add(Stat.SUM);
-				list.add(Stat.SIGMAXX);
-				list.add(Stat.MIN);
-				list.add(Stat.Q1);
-				list.add(Stat.MEDIAN);
-				list.add(Stat.Q3);
-				list.add(Stat.MAX);
+				list.add(Statistic.LENGTH);
+				list.add(Statistic.MEAN);
+				list.add(Statistic.SD);
+				list.add(Statistic.SAMPLE_SD);
+				list.add(Statistic.SUM);
+				list.add(Statistic.SIGMAXX);
+				list.add(Statistic.MIN);
+				list.add(Statistic.Q1);
+				list.add(Statistic.MEDIAN);
+				list.add(Statistic.Q3);
+				list.add(Statistic.MAX);
 
 			} else if (getListener().groupType() == GroupType.CLASS) {
 
-				list.add(Stat.LENGTH);
-				list.add(Stat.MEAN);
-				list.add(Stat.SD);
-				list.add(Stat.SAMPLE_SD);
-				list.add(Stat.SUM);
-				list.add(Stat.SIGMAXX);
+				list.add(Statistic.LENGTH);
+				list.add(Statistic.MEAN);
+				list.add(Statistic.SD);
+				list.add(Statistic.SAMPLE_SD);
+				list.add(Statistic.SUM);
+				list.add(Statistic.SIGMAXX);
 			}
 
 			break;
 
 		case DataAnalysisModel.MODE_REGRESSION:
 
-			list.add(Stat.MEANX);
-			list.add(Stat.MEANY);
-			list.add(Stat.SX);
-			list.add(Stat.SY);
-			list.add(Stat.PMCC);
-			list.add(Stat.SPEARMAN);
-			list.add(Stat.SXX);
-			list.add(Stat.SYY);
-			list.add(Stat.SXY);
+			list.add(Statistic.MEANX);
+			list.add(Statistic.MEANY);
+			list.add(Statistic.SX);
+			list.add(Statistic.SY);
+			list.add(Statistic.PMCC);
+			list.add(Statistic.SPEARMAN);
+			list.add(Statistic.SXX);
+			list.add(Statistic.SYY);
+			list.add(Statistic.SXY);
 
 			if (getListener().getRegressionMode() != Regression.NONE) {
-				list.add(Stat.NULL);
-				list.add(Stat.RSQUARE);
-				list.add(Stat.SSE);
+				list.add(Statistic.NULL);
+				list.add(Statistic.RSQUARE);
+				list.add(Statistic.SSE);
 			}
 			break;
 		}
@@ -192,7 +192,7 @@ public class StatTableModel {
 		return list;
 	}
 
-	protected String getStatName(Stat stat) {
+	protected String getStatName(Statistic stat) {
 		return app.getLocalization().getMenu(stat.getTranslationKey());
 	}
 
@@ -205,8 +205,8 @@ public class StatTableModel {
 	 *            regression line/function (null when not needed)
 	 * @return stt algo
 	 */
-	public AlgoElement getAlgo(Stat algoName, GeoList dataList,
-			GeoElement geoRegression) {
+	public AlgoElement getAlgo(Statistic algoName, GeoList dataList,
+                               GeoElement geoRegression) {
 		try {
 			Command command = getCommand(algoName, dataList, geoRegression);
 			AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
@@ -218,7 +218,7 @@ public class StatTableModel {
 		return null;
 	}
 
-	private Command getCommand(Stat algoName, GeoList dataList, GeoElement geoRegression) {
+	private Command getCommand(Statistic algoName, GeoList dataList, GeoElement geoRegression) {
 		switch (getListener().getMode()) {
 
 		case DataAnalysisModel.MODE_ONEVAR:
@@ -252,8 +252,8 @@ public class StatTableModel {
 	 *            rgression line or function (null if not needed)
 	 * @return stats algo
 	 */
-	public Command getAlgoRawData(Stat stat, GeoList dataList,
-			GeoElement geoRegression) {
+	public Command getAlgoRawData(Statistic stat, GeoList dataList,
+                                  GeoElement geoRegression) {
 		Command command = new Command(app.getKernel(), stat.getCommandName(), false);
 		switch (stat) {
 		case LENGTH:
@@ -302,7 +302,7 @@ public class StatTableModel {
 	 *            list with 2 items: {data points, frequencies}
 	 * @return stats algo
 	 */
-	public Command getAlgoFrequency(Stat stat, GeoList frequencyData) {
+	public Command getAlgoFrequency(Statistic stat, GeoList frequencyData) {
 
 		GeoList dataList = (GeoList) frequencyData.get(0);
 		GeoList freqList = (GeoList) frequencyData.get(1);
@@ -341,7 +341,7 @@ public class StatTableModel {
 	 *            two item list {class borders, frequencies}
 	 * @return stats algo
 	 */
-	public Command getAlgoClass(Stat stat, GeoList frequencyData) {
+	public Command getAlgoClass(Statistic stat, GeoList frequencyData) {
 
 		GeoList classList = (GeoList) frequencyData.get(0);
 		GeoList freqList = (GeoList) frequencyData.get(1);

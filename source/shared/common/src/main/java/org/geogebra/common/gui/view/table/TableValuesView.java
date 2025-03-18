@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.view.table.dialog.RegressionBuilder;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
-import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.gui.view.table.dimensions.LaTeXTextSizeMeasurer;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
@@ -53,6 +53,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	private final HashSet<GeoElementND> elements;
 	private final TableValuesInputProcessor processor;
 	private boolean algebraLabelVisibleCheck = true;
+	private final StatisticGroupsBuilder statisticGroupsBuilder;
 
 	/**
 	 * Create a new Table Value View.
@@ -67,6 +68,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		elements = new HashSet<>();
 		labelController = new LabelController();
 		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
+		statisticGroupsBuilder = kernel.getStatisticGroupsBuilder();
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -384,21 +386,24 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public List<StatisticGroup> getStatistics1Var(int column) {
-		return new StatsBuilder(model.getEvaluatable(column))
-				.getStatistics1Var(model.getHeaderAt(column));
+		return statisticGroupsBuilder.buildOneVariableStatistics(
+				model.getEvaluatable(column),
+				model.getHeaderAt(column));
 	}
 
 	@Override
 	public List<StatisticGroup> getStatistics2Var(int column) {
-		return new StatsBuilder(model.getEvaluatable(0),
-				model.getEvaluatable(column)).getStatistics2Var(model.getHeaderAt(0),
+		return statisticGroupsBuilder.buildTwoVariableStatistics(
+				model.getEvaluatable(0),
+				model.getHeaderAt(0),
+				model.getEvaluatable(column),
 				model.getHeaderAt(column));
 	}
 
 	@Override
 	public List<RegressionSpecification> getRegressionSpecifications(int column) {
-		GeoList[] cleanLists = new StatsBuilder(getEvaluatable(0),
-				getEvaluatable(column)).getCleanLists2Var();
+		GeoList[] cleanLists = statisticGroupsBuilder.getCleanListsTwoVariable(getEvaluatable(0),
+				getEvaluatable(column));
 		return RegressionSpecification.getForListSize(cleanLists[0].size());
 	}
 

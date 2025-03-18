@@ -23,6 +23,7 @@ import org.geogebra.common.gui.SetOrientation;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
@@ -406,6 +407,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	private final Traversing.VariableReplacer variableReplacer;
 	private final GeoFunctionConverter functionConverter = new GeoFunctionConverter();
+	private final StatisticGroupsBuilder statisticGroupsBuilder = new StatisticGroupsBuilder();
 
 	@CheckForNull
 	private Surds surds = new Surds();
@@ -5285,6 +5287,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		getAlgebraProcessor().addInputExpressionFilter(expressionFilter);
 
+	}
+
+	/**
+	 * @return statistics group builder associated with this kernel
+	 */
+	public StatisticGroupsBuilder getStatisticGroupsBuilder() {
+		return statisticGroupsBuilder;
 	}
 
 	/**

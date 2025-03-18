@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.statistics.Stat;
+import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.App;
 
 public class MultiVarStatTableModel extends StatTableModel {
@@ -33,7 +33,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 	@Override
 	public String[] getColumnNames() {
 
-		ArrayList<Stat> list = getStatList();
+		ArrayList<Statistic> list = getStatList();
 		String[] names = new String[list.size()];
 		for (int i = 0; i < names.length; i++) {
 			names[i] = getStatName(list.get(i));
@@ -52,30 +52,30 @@ public class MultiVarStatTableModel extends StatTableModel {
 	}
 
 	@Override
-	public ArrayList<Stat> getStatList() {
+	public ArrayList<Statistic> getStatList() {
 
-		ArrayList<Stat> list = new ArrayList<>();
+		ArrayList<Statistic> list = new ArrayList<>();
 
 		if (getMultiVarListener().isViewValid()) {
 			return list;
 		}
 
 		if (getMultiVarListener().isMinimalTable()) {
-			list.add(Stat.LENGTH);
-			list.add(Stat.MEAN);
-			list.add(Stat.SAMPLE_SD);
+			list.add(Statistic.LENGTH);
+			list.add(Statistic.MEAN);
+			list.add(Statistic.SAMPLE_SD);
 
 		} else {
 
-			list.add(Stat.LENGTH);
-			list.add(Stat.MEAN);
-			list.add(Stat.SD);
-			list.add(Stat.SAMPLE_SD);
-			list.add(Stat.MIN);
-			list.add(Stat.Q1);
-			list.add(Stat.MEDIAN);
-			list.add(Stat.Q3);
-			list.add(Stat.MAX);
+			list.add(Statistic.LENGTH);
+			list.add(Statistic.MEAN);
+			list.add(Statistic.SD);
+			list.add(Statistic.SAMPLE_SD);
+			list.add(Statistic.MIN);
+			list.add(Statistic.Q1);
+			list.add(Statistic.MEDIAN);
+			list.add(Statistic.Q3);
+			list.add(Statistic.MAX);
 
 		}
 
@@ -88,15 +88,15 @@ public class MultiVarStatTableModel extends StatTableModel {
 
 		String[] titles = getMultiVarListener().getDataTitles();
 
-		ArrayList<Stat> list = getStatList();
+		ArrayList<Statistic> list = getStatList();
 		double value;
 
 		for (int row = 0; row < titles.length; row++) {
 			for (int col = 0; col < list.size(); col++) {
 
-				Stat stat = list.get(col);
+				Statistic stat = list.get(col);
 
-				if (getMultiVarListener().isValidData() && stat != Stat.NULL) {
+				if (getMultiVarListener().isValidData() && stat != Statistic.NULL) {
 					AlgoElement algo = getAlgo(stat,
 							(GeoList) dataList.get(row), null);
 					if (algo != null) {

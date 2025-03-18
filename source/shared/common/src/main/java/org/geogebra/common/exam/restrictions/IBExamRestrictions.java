@@ -395,7 +395,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				createDistributionPropertyRestriction(),
 				null,
 				null,
-				createDisabledAlgorithms());
+				createDisabledAlgorithms(),
+				null);
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {

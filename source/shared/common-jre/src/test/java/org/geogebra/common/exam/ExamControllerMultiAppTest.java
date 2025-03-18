@@ -32,7 +32,10 @@ public class ExamControllerMultiAppTest {
 				app.getKernel().getAlgoDispatcher(),
 				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				app.getKernel().getAlgebraProcessor(),
-				app.getLocalization(), app.getSettings(), null, null, null, null);
+				app.getLocalization(),
+				app.getSettings(),
+				app.getKernel().getStatisticGroupsBuilder(),
+				null, null, null, null);
 		controller.registerDelegate(firstDelegate);
 		TestExamDelegate secondDelegate = new TestExamDelegate();
 		controller.registerDelegate(secondDelegate);

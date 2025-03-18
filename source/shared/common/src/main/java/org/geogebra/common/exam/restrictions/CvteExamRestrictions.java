@@ -9,7 +9,9 @@ import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
-import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.*;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.ALLOW;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
@@ -89,6 +92,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				createPropertyRestrictions(),
 				createVisibilityRestrictions(),
 				createEquationBehaviour(),
+				null,
 				null);
 	}
 
@@ -101,6 +105,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
+			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
@@ -120,9 +125,9 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			settings.getCasSettings().setEnabled(false);
 		}
 		super.applyTo(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
-				context, localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory,
-				construction);
+				context, localization, settings, statisticGroupsBuilder, autoCompleteProvider,
+				toolsProvider, geoElementPropertiesFactory, scheduledPreviewFromInputBar,
+				contextMenuFactory, construction);
 	}
 
 	@Override
@@ -134,6 +139,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
+			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
@@ -141,9 +147,9 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable ContextMenuFactory contextMenuFactory,
 			@Nullable Construction construction) {
 		super.removeFrom(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
-				context, localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory, scheduledPreviewFromInputBar, contextMenuFactory,
-				construction);
+				context, localization, settings, statisticGroupsBuilder, autoCompleteProvider,
+				toolsProvider, geoElementPropertiesFactory, scheduledPreviewFromInputBar,
+				contextMenuFactory, construction);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}

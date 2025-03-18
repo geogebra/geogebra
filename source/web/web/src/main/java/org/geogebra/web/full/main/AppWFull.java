@@ -2393,6 +2393,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getKernel().getAlgebraProcessor(),
 				getLocalization(),
 				getSettings(),
+				getKernel().getStatisticGroupsBuilder(),
 				getAutocompleteProvider(),
 				this,
 				getKernel().getInputPreviewHelper(),

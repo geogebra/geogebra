@@ -3,6 +3,7 @@ package org.geogebra.common.exam.restrictions;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -15,6 +16,8 @@ import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
+import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.EquationBehaviour;
@@ -70,6 +73,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final @Nonnull Set<CommandArgumentFilter> commandArgumentFilters;
 	private final @Nonnull Set<ContextMenuItemFilter> contextMenuItemFilters;
 	private final @Nonnull Set<DisabledAlgorithms> disabledAlgorithms;
+	private final @CheckForNull StatisticsFilter statisticsFilter;
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
@@ -135,6 +139,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * providing a non-null filter here, it should include the Image tool.
 	 * @param propertyRestrictions An optional map of properties and restrictions
 	 * to be applied to them during the exam.
+	 * @param statisticsFilter A statistic filter to be applied during the exam.
 	 */
 	protected ExamRestrictions(
 			@Nonnull ExamType examType,
@@ -152,7 +157,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
 			@Nullable Set<VisibilityRestriction> visibilityRestrictions,
 			@Nullable EquationBehaviour equationBehaviour,
-			@Nullable Set<DisabledAlgorithms> disabledAlgorithms) {
+			@Nullable Set<DisabledAlgorithms> disabledAlgorithms,
+			@Nullable StatisticsFilter statisticsFilter) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -179,6 +185,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 						? visibilityRestrictions : Set.of());
 		this.equationBehaviour = equationBehaviour;
 		this.disabledAlgorithms = disabledAlgorithms != null ? disabledAlgorithms : Set.of();
+		this.statisticsFilter = statisticsFilter;
 	}
 
 	/**
@@ -223,6 +230,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
+			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
@@ -253,6 +261,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				originalEquationBehaviour = algebraProcessor.getKernel().getEquationBehaviour();
 				algebraProcessor.getKernel().setEquationBehaviour(equationBehaviour);
 			}
+		}
+		if (statisticGroupsBuilder != null) {
+			statisticGroupsBuilder.setStatisticsFilter(statisticsFilter);
 		}
 		if (syntaxFilter != null) {
 			if (autoCompleteProvider != null) {
@@ -310,6 +321,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
+			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
@@ -339,6 +351,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			if (equationBehaviour != null) { // only restore it if we overwrote it
 				algebraProcessor.getKernel().setEquationBehaviour(originalEquationBehaviour);
 			}
+		}
+		if (statisticGroupsBuilder != null) {
+			statisticGroupsBuilder.setStatisticsFilter(null);
 		}
 		if (syntaxFilter != null) {
 			if (autoCompleteProvider != null) {

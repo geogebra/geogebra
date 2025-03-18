@@ -1,16 +1,23 @@
 package org.geogebra.common.gui.view.table.dialog;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesProcessor;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.statistics.Statistic;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StatsBuilderTest extends BaseUnitTest {
+public class StatisticGroupsBuilderTest extends BaseUnitTest {
 
 	protected TableValuesView view;
 	protected TableValuesModel model;
@@ -38,5 +45,21 @@ public class StatsBuilderTest extends BaseUnitTest {
 		} catch (Exception e) {
 			fail("Should not throw an exception");
 		}
+	}
+
+	@Test
+	public void testFiltering() {
+		StatisticGroupsBuilder builder = new StatisticGroupsBuilder();
+		GeoList list = add("{1, 2, 3, 4, 5}");
+		builder.setStatisticsFilter(statistic -> statistic == Statistic.MEAN);
+		List<StatisticGroup> groups = builder.buildOneVariableStatistics(list, "x");
+		assertAll(
+				() -> assertEquals(1, groups.size()),
+				() -> assertEquals(
+						getLocalization().getMenu(Statistic.MEAN.getMenuLocalizationKey()),
+						groups.get(0).getHeading()),
+				() -> assertEquals(1, groups.get(0).getValues().length),
+				() -> assertThat(groups.get(0).getValues()[0], containsString("= 3"))
+		);
 	}
 }
