@@ -311,7 +311,7 @@ public class ToolbarPanel extends FlowPanel
 		// reset tool even if toolbar not available (needed on app switch)
 		app.setMoveMode();
 
-		StickyProbabilityTable table = null;
+		StickyProbabilityTable table;
 		DistributionTab tabDist;
 		if (app.getConfig().hasDistributionView()) {
 			table = new StickyProbabilityTable();
@@ -319,11 +319,13 @@ public class ToolbarPanel extends FlowPanel
 			addTab(tabDist, false);
 		} else {
 			removeTab(TabIds.DISTRIBUTION);
+			table = null;
 		}
 		if (isTableTabExpected()) {
 			tabTable = new TableTab(this,
-					table == null ? new StickyValuesTable(app,
-							(TableValuesView) app.getGuiManager().getTableValuesView()) : table);
+					table == null ? () -> new StickyValuesTable(app,
+							(TableValuesView) app.getGuiManager().getTableValuesView(),
+							getDecorator().hasShadedColumns()) : () -> table);
 			addTab(tabTable, false);
 		} else {
 			removeTab(TabIds.TABLE);

@@ -145,7 +145,7 @@ public final class ScientificDataTableController {
 	 * f does not exist in the construction.
 	 */
 	public GeoFunction getFunctionF() {
-		return getFunction("f", false);
+		return getFunction("f");
 	}
 
 	/**
@@ -153,19 +153,15 @@ public final class ScientificDataTableController {
 	 * g does not exist in the construction.
 	 */
 	public GeoFunction getFunctionG() {
-		return getFunction("g", false);
+		return getFunction("g");
 	}
 
-	private GeoFunction getFunction(@Nonnull String unprefixedLabel, boolean returnNullIfUndefined) {
+	private GeoFunction getFunction(@Nonnull String unprefixedLabel) {
 		GeoElement element = kernel.lookupLabel(LabelManager.HIDDEN_PREFIX + unprefixedLabel);
 		if (!(element instanceof GeoFunction)) {
 			return null;
 		}
-		GeoFunction function = (GeoFunction) element;
-		if (returnNullIfUndefined && !function.isDefined()) {
-			return null;
-		}
-		return function;
+		return (GeoFunction) element;
 	}
 
 	/**
@@ -173,7 +169,7 @@ public final class ScientificDataTableController {
 	 * the "f(x) = "), or null if f is undefined.
 	 */
 	public String getDefinitionOfF() {
-		return getDefinitionOf(getFunction("f", true));
+		return getDefinitionOf(getFunction("f"));
 	}
 
 	/**
@@ -189,7 +185,7 @@ public final class ScientificDataTableController {
 	 * the "g(x) = "), or null if g is undefined.
 	 */
 	public String getDefinitionOfG() {
-		return getDefinitionOf(getFunction("g", true));
+		return getDefinitionOf(getFunction("g"));
 	}
 
 	/**
@@ -201,7 +197,7 @@ public final class ScientificDataTableController {
 	}
 
 	private String getDefinitionOf(GeoFunction function) {
-		if (function == null) {
+		if (function == null || !function.isDefined()) {
 			return null;
 		}
 		String definition = rhs(function.toString(StringTemplate.defaultTemplate));

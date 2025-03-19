@@ -85,7 +85,9 @@ public class TableEditor implements UnhandledArrowListener {
 	}
 
 	void stopEditing() {
-		mathTextField.asWidget().removeFromParent();
+		if (mathTextField != null) {
+			mathTextField.asWidget().removeFromParent();
+		}
 		if (wrapper != null) {
 			Element cell = wrapper.getParentElement();
 			wrapper.removeFromParent();

@@ -1,5 +1,9 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
+import java.util.function.Supplier;
+
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -23,7 +27,8 @@ import org.geogebra.web.shared.components.infoError.InfoErrorData;
  */
 public class TableTab extends ToolbarTab {
 
-	private final StickyTable<?> table;
+	private final Supplier<? extends StickyTable<?>> tableSupplier;
+	private @CheckForNull StickyTable<?> table;
 	private final ToolbarPanel toolbarPanel;
 	private final AppW app;
 	private ComponentInfoErrorPanel emptyPanel;
@@ -32,20 +37,13 @@ public class TableTab extends ToolbarTab {
 	 * @param toolbarPanel
 	 *            toolbar panel
 	 */
-	public TableTab(ToolbarPanel toolbarPanel, StickyTable<?> table) {
+	public TableTab(ToolbarPanel toolbarPanel, Supplier<? extends StickyTable<?>> table) {
 		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
-		this.table = table;
+		this.tableSupplier = table;
 		this.app = toolbarPanel.getApp();
-		TestHarness.setAttr(table, "TV_table");
-		table.setStyleName("tvTable", true);
-		decorate();
 		CustomScrollbar.apply(this);
 		buildEmptyTablePanel();
-	}
-
-	private void decorate() {
-		toolbarPanel.getDecorator().decorateTableTab(this, table);
 	}
 
 	private void buildEmptyTablePanel() {
@@ -62,9 +60,21 @@ public class TableTab extends ToolbarTab {
 				&& isEmptyProbabilityTable()) {
 			setWidget(emptyPanel);
 		} else  {
+			ensureTableExists().setHeight(getTabHeight());
 			setWidget(table);
-			table.setHeight(getTabHeight());
 		}
+	}
+
+	private StickyTable<?> ensureTableExists() {
+		if (table == null) {
+			StickyTable<?> table1 = tableSupplier.get();
+			TestHarness.setAttr(table1, "TV_table");
+			table1.setStyleName("tvTable", true);
+			toolbarPanel.getDecorator().decorateTableTab(this, table1);
+			table = table1;
+			return table1;
+		}
+		return table;
 	}
 
 	@Override
@@ -116,13 +126,16 @@ public class TableTab extends ToolbarTab {
 	}
 
 	private void resizeTable(int tabHeight) {
+		if (table == null) {
+			return;
+		}
 		boolean smallScreen = app.getAppletFrame()
 				.shouldHaveSmallScreenLayout();
 		DockPanelDecorator decorator = toolbarPanel.getDecorator();
 		if (smallScreen) {
-			decorator.resizeTableSmallScreen(tabHeight);
+			decorator.resizeTableSmallScreen(tabHeight, table);
 		} else {
-			decorator.resizeTable(tabHeight);
+			decorator.resizeTable(tabHeight, table);
 		}
 	}
 
@@ -151,7 +164,7 @@ public class TableTab extends ToolbarTab {
 	 */
 	public void openDialogIfEmpty() {
 		if (((TableValuesView) app.getGuiManager().getTableValuesView()).hasNoDefinedFunctions()) {
-			table.openDefineFunctions();
+			ensureTableExists().openDefineFunctions();
 		}
 	}
 }

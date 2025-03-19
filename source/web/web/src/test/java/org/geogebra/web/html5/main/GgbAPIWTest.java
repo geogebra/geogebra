@@ -54,7 +54,7 @@ public class GgbAPIWTest {
 	private void spyTabs(ToolbarPanel toolbarPanel) {
 		final AlgebraTab algebraTab = spy(new AlgebraTab(toolbarPanel));
 		final ToolsTab toolsTab = spy(new ToolsTab(toolbarPanel));
-		final TableTab tableTab = spy(new TableTab(toolbarPanel, new StickyProbabilityTable()));
+		final TableTab tableTab = spy(new TableTab(toolbarPanel, StickyProbabilityTable::new));
 		when(toolbarPanel.getTab(anyObject())).thenAnswer((Answer<ToolbarTab>) invocation -> {
 			DockPanelData.TabIds tabID = invocation.getArgumentAt(0, DockPanelData.TabIds.class);
 			switch (tabID) {

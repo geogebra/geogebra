@@ -43,15 +43,16 @@ public interface DockPanelDecorator {
 	 *
 	 * @param tabHeight the tab height where the table is on.
 	 */
-	void resizeTable(int tabHeight);
+	void resizeTable(int tabHeight, StickyTable<?> table);
 
 	/**
 	 * Resizes the table on small screen.
 
 	 * @param tabHeight the tab height where the table is on.
 	 */
-	void resizeTableSmallScreen(int tabHeight);
+	void resizeTableSmallScreen(int tabHeight, StickyTable<?> table);
 
 	void setLabels();
 
+	boolean hasShadedColumns();
 }

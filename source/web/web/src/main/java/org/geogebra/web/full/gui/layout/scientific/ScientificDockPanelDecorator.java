@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
-import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -25,7 +24,6 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	public static final int TABLE_HEIGHT_DIFFERENCE = 64;
 	private FlowPanel main;
 	private Widget tableTab;
-	private StickyValuesTable table;
 	private Widget algebraTab;
 	private AppW app;
 	private StandardButton defFuncBtn;
@@ -72,8 +70,10 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void resizeTable(int tabHeight) {
-		table.setHeight(getTableHeight(tabHeight));
+	public void resizeTable(int tabHeight, StickyTable<?> table) {
+		if (table != null) {
+			table.setHeight(getTableHeight(tabHeight));
+		}
 		tableTab.setHeight((tabHeight + TAB_HEIGHT_DIFFERENCE) + "px");
 		toggleSmallScreen(tableTab, false);
 	}
@@ -86,8 +86,8 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void resizeTableSmallScreen(int tabHeight) {
-		resizeTable(tabHeight);
+	public void resizeTableSmallScreen(int tabHeight, StickyTable<?> table) {
+		resizeTable(tabHeight, table);
 		toggleSmallScreen(tableTab, true);
 	}
 
@@ -99,11 +99,14 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
+	public boolean hasShadedColumns() {
+		return false;
+	}
+
+	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
 		tableTab = tab;
-		this.table = (StickyValuesTable) table;
 		tab.addStyleName("panelScientificDefaults");
-		disableShadedColumns(this.table);
 		table.addStyleName("scientific");
 
 		SimplePanel btnHolder = new SimplePanel();
@@ -121,9 +124,5 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	@Override
 	public int getTabHeight(int tabHeight) {
 		return tabHeight - TAB_HEIGHT_DIFFERENCE;
-	}
-
-	private void disableShadedColumns(StickyValuesTable table) {
-		table.disableShadedColumns();
 	}
 }

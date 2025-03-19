@@ -60,9 +60,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private int rowsChange = 0;
 	private int columnsChange = 0;
 	private int removedColumnByUser = -1;
-	private boolean shadedColumns = true;
+	private final boolean shadedColumns;
 	DefineFunctionsDialogTV defFuncDialog;
-	private TableValuesKeyboardNavigationController controller;
+	private final TableValuesKeyboardNavigationController controller;
 	GPoint lastEdit = null;
 
 	public MathKeyboardListener getKeyboardListener() {
@@ -102,13 +102,21 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	/**
 	 * @param app  {@link AppW}
 	 * @param view to feed table with data.
+	 * @param shadedColumns whether to allow adding columns
 	 */
-	public StickyValuesTable(AppW app, TableValuesView view) {
+	public StickyValuesTable(AppW app, TableValuesView view, boolean shadedColumns) {
 		getTable().addStyleName("shaded");
 		this.app = app;
 		this.view = view;
 		this.tableModel = view.getTableValuesModel();
 		tableModel.registerListener(this);
+		addAttachHandler(evt -> {
+			tableModel.unregisterListener(this);
+			if (evt.isAttached()) {
+				tableModel.registerListener(this);
+			}
+		});
+		this.shadedColumns = shadedColumns;
 		editor = new TableEditor(this, app);
 		controller = new TableValuesKeyboardNavigationController(
 				(TableValues) app.getGuiManager().getTableValuesView(),
@@ -572,10 +580,4 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		return columnsChange;
 	}
 
-	/**
-	 * Disable shaded style.
-	 */
-	public void disableShadedColumns() {
-		shadedColumns = false;
-	}
 }

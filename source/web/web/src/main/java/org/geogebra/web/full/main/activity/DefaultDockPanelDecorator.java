@@ -9,7 +9,6 @@ import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.Widget;
 
 public class DefaultDockPanelDecorator implements DockPanelDecorator {
-	private StickyTable<?> table;
 
 	@Override
 	public Panel decorate(Widget algebraTab, Panel panel, AppW app) {
@@ -23,7 +22,6 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void decorateTableTab(Widget tab, StickyTable<?> table) {
-		this.table = table;
 		tab.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
 	}
 
@@ -33,18 +31,25 @@ public class DefaultDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void resizeTable(int tabHeight) {
-		table.setHeight(tabHeight);
+	public void resizeTable(int tabHeight, StickyTable<?> table) {
+		if (table != null) {
+			table.setHeight(tabHeight);
+		}
 	}
 
 	@Override
-	public void resizeTableSmallScreen(int tabHeight) {
-		resizeTable(tabHeight);
+	public void resizeTableSmallScreen(int tabHeight, StickyTable<?> table) {
+		resizeTable(tabHeight, table);
 	}
 
 	@Override
 	public void setLabels() {
 		// nothing to do here
+	}
+
+	@Override
+	public boolean hasShadedColumns() {
+		return true;
 	}
 
 }

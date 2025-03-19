@@ -1,9 +1,11 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
+import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -115,11 +117,15 @@ public interface GeoGebraActivity {
 	ScientificDataTableController getTableController();
 
 	/**
-	 * Create default functions for table of values
+	 * Create default functions for table of values and/or make the table editable
 	 * @param app application
 	 */
 	default void initTableOfValues(AppW app) {
-		// nothing by default
+		TableValues tableValues =
+				((GuiManagerW) app.getGuiManager()).getTableValuesViewOrNull();
+		if (tableValues != null) {
+			tableValues.getTableValuesModel().setAllowsAddingColumns(true);
+		}
 	}
 
 	default GeoGebraActivity getSubapp() {

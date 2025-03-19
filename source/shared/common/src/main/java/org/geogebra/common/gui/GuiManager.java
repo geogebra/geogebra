@@ -786,6 +786,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return tableValues;
 	}
 
+	public TableValues getTableValuesViewOrNull() {
+		return tableValues;
+	}
+
 	/**
 	 * Create a table values view..
 	 *
