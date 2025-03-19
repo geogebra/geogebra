@@ -127,8 +127,10 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 			// Line
 			"x = y",
 			"Line((1, 2), (3, 4))",
+			"y = 5",
 			// Conics
 			"x^2 = y^2",
+			"y^2 = 0",
 			// Implicit curves
 			"x^3 = y^2",
 			"sin(x) = y^2",
@@ -144,10 +146,8 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 	@ValueSource(strings = {
 			// Lines
 			"x = 0",
-			"y = 5",
 			// Conics
 			"x^2 = 0",
-			"y^2 = 0",
 			// Implicit curves,
 			"x^2 = 0",
 			"sin(x) = 0",

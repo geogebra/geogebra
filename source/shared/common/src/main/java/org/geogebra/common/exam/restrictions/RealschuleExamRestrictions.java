@@ -411,12 +411,11 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	/**
-	 * Restricts the visibility of equations with a single variable.
+	 * Restricts the visibility of equations with a single variable x.
 	 * <p>Examples: </p>
 	 * <ul>
 	 *     <li>x = 0</li>
 	 *     <li>x^2 = 0</li>
-	 *     <li>y^2 = 0</li>
 	 *     <li>sin(x) = 0</li>
 	 * </ul>
 	 */
@@ -426,8 +425,12 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 		@Override
 		public Effect getEffect(GeoElement geoElement) {
 			return (geoElement instanceof EquationValue
-					&& ((EquationValue) geoElement).getEquationVariables().length == 1
+					&& isOnlyX(((EquationValue) geoElement).getEquationVariables())
 			) ? HIDE : IGNORE;
+		}
+
+		private boolean isOnlyX(String[] equationVariables) {
+			return equationVariables.length == 1 && "x".equals(equationVariables[0]);
 		}
 	}
 
