@@ -21,6 +21,7 @@ public class ConstructionActionExecutor
 	private final App app;
 	public static final String DEL = "DEL::";
 	public static final String SET = "SET::";
+	public static final String RENAME = "RENAME::";
 
 	public ConstructionActionExecutor(App app) {
 		this.app = app;
@@ -65,10 +66,14 @@ public class ConstructionActionExecutor
 
 	private void executeUpdateAction(String[] args) {
 		for (String arg: args) {
+			Log.warn(arg);
 			if (arg.charAt(0) == '<') {
 				evalXML(arg);
 			} else if (arg.startsWith(DEL)) {
 				app.getKernel().lookupLabel(arg.substring(DEL.length())).remove();
+			} else if (arg.startsWith(RENAME)) {
+				String[] labels = arg.substring(RENAME.length()).split(" ");
+				app.getKernel().lookupLabel(labels[0]).setLabel(labels[1]);
 			} else if (arg.startsWith(SET)) {
 				processSetValue(arg.substring(SET.length()));
 			} else {

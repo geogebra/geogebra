@@ -1,7 +1,11 @@
 package org.geogebra.common.main.undo;
 
+import static org.geogebra.common.main.undo.ConstructionActionExecutor.RENAME;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -11,6 +15,7 @@ import org.geogebra.common.plugin.ActionType;
 public class UpdateStyleActionStore {
 	private final UndoManager undoManager;
 	private final List<String> initialStyleXML = new ArrayList<>();
+	private final List<String> initialLabels;
 	private final List<GeoElement> geos;
 
 	/**
@@ -23,17 +28,27 @@ public class UpdateStyleActionStore {
 			initialStyleXML.add(geo.getStyleXML());
 		}
 		this.undoManager = undoManager;
+		initialLabels = geos.stream().map(GeoElement::getLabelSimple).collect(Collectors.toList());
 	}
 
 	/**
 	 * Store undoable action
 	 */
 	public void storeUndo() {
-		String[] currentStyleXML = getCurrentStyleXML();
 		String[] labels = geos.stream().map(GeoElement::getLabelSimple).toArray(String[]::new);
-
-		undoManager.buildAction(ActionType.UPDATE, currentStyleXML)
-				.withUndo(ActionType.UPDATE, initialStyleXML.toArray(new String[0]))
+		List<String> actions = new ArrayList<>(geos.size());
+		List<String> undoActions = new ArrayList<>(geos.size());
+		for (int i = 0; i < labels.length; i++) {
+			String currentStyleXML = geos.get(i).getStyleXML();
+			if (!Objects.equals(labels[i], initialLabels.get(i))) {
+				actions.add(RENAME + initialLabels.get(i) + " " + labels[i]);
+				undoActions.add(RENAME + labels[i] + " " + initialLabels.get(i));
+			}
+			actions.add(currentStyleXML);
+			undoActions.add(initialStyleXML.get(i));
+		}
+		undoManager.buildAction(ActionType.UPDATE, actions.toArray(new String[0]))
+				.withUndo(ActionType.UPDATE, undoActions.toArray(new String[0]))
 				.withLabels(labels)
 				.storeAndNotifyUnsaved();
 	}
@@ -42,19 +57,11 @@ public class UpdateStyleActionStore {
 	 * @return True if at least one element's style has changed, false else
 	 */
 	public boolean needUndo() {
-		String[] currentStyleXML = getCurrentStyleXML();
 		for (int i = 0; i < geos.size(); i++) {
-			if (!currentStyleXML[i].equals(initialStyleXML.get(i))) {
+			if (!geos.get(i).getStyleXML().equals(initialStyleXML.get(i))) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * @return Array consisting of the current style of the stored GeoElements
-	 */
-	private String[] getCurrentStyleXML() {
-		return geos.stream().map(GeoElement::getStyleXML).toArray(String[]::new);
 	}
 }

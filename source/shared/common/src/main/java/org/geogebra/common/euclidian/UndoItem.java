@@ -11,12 +11,14 @@ class UndoItem {
 	private final String previousContent;
 	private final GeoElement geo;
 	private final boolean isXml;
+	private final String previousLabel;
 
 	public UndoItem(GeoElement geo, MoveMode moveMode) {
 		this.geo = geo;
 		isXml = (geo instanceof Locateable && moveMode != MoveMode.NUMERIC)
 				|| geo instanceof GeoWidget || geo instanceof GeoInline;
 		previousContent = content();
+		previousLabel = geo.getLabelSimple();
 	}
 
 	private String getDefinition() {
@@ -42,5 +44,9 @@ class UndoItem {
 
 	public boolean hasGeo(GeoElement geo) {
 		return this.geo == geo;
+	}
+
+	public String getPreviousLabel() {
+		return previousLabel;
 	}
 }

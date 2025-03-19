@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.scientific.LabelController;
 
 public class LabelStyleProperty extends FlagListProperty {
 	private final Kernel kernel;
@@ -43,15 +44,19 @@ public class LabelStyleProperty extends FlagListProperty {
 		} else if (value) {
 			mode = GeoElementND.LABEL_VALUE;
 		}
+		boolean visible = name || value;
 		element.setLabelMode(mode);
-		element.setLabelVisible(mode != -1);
+		element.setLabelVisible(visible);
+		if (visible && !element.isAlgebraLabelVisible()) {
+			new LabelController().showLabel(element);
+		}
 		element.updateVisualStyle(GProperty.LABEL_STYLE);
 		kernel.notifyRepaint();
 	}
 
 	@Override
 	public List<Boolean> getValue() {
-		if (!element.isLabelVisible()) {
+		if (!element.isLabelVisible() || !element.isAlgebraLabelVisible()) {
 			return List.of(false, false);
 		}
 		int labelStyle = element.getLabelMode();
