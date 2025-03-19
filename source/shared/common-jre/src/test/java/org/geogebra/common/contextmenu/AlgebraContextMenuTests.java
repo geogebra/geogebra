@@ -219,7 +219,6 @@ public class AlgebraContextMenuTests {
 		assertEquals(
 				List.of(Solve,
 						DuplicateInput,
-						DuplicateOutput,
 						Delete,
 						Settings),
 				contextMenuFactory.makeAlgebraContextMenu(

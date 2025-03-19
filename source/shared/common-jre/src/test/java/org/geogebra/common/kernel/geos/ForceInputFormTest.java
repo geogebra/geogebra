@@ -36,9 +36,9 @@ public class ForceInputFormTest extends BaseUnitTest {
 				lineWithCommand.getEquationForm());
 		assertEquals(LinearEquationRepresentable.Form.USER,
 				geoRay.getEquationForm());
-		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+		assertEquals(QuadraticEquationRepresentable.Form.USER,
 				parabola.getEquationForm());
-		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+		assertEquals(QuadraticEquationRepresentable.Form.USER,
 				hyperbola.getEquationForm());
 	}
 

@@ -32,7 +32,7 @@ public final class EquationBehaviourStandaloneGraphing extends DefaultEquationBe
 
 	@Override
 	public QuadraticEquationRepresentable.Form getConicAlgebraInputEquationForm() {
-		return QuadraticEquationRepresentable.Form.IMPLICIT;
+		return QuadraticEquationRepresentable.Form.USER;
 	}
 
 	@Override
