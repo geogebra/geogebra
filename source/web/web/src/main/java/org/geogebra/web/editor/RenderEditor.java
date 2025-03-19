@@ -1,6 +1,5 @@
 package org.geogebra.web.editor;
 
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.bridge.AttributeProvider;
@@ -53,8 +52,6 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		wrapper.setWidth("100%");
 		wrapper.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		MathFieldW mathField = new MathFieldW(null, wrapper, canvas, listener);
-		mathField.getInternal().getMathFieldController().useSimpleMatrixPlaceholders(
-				!PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_TEMPLATES));
 		if (el.hasAttribute("maxHeight")) {
 			mathField.setMaxHeight(Double.parseDouble(el.getAttribute("maxHeight")));
 		}

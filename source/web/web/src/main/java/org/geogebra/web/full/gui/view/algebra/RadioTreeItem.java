@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraStyle;
@@ -1631,8 +1630,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		FactoryProviderGWT.ensureLoaded();
 		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(kernel), latexItem, canvas,
 				getLatexController());
-		mf.getInternal().getMathFieldController().useSimpleMatrixPlaceholders(
-				!PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_TEMPLATES));
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");

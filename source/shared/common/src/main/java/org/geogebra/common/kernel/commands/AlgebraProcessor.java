@@ -126,7 +126,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.Settings;
@@ -2077,10 +2076,7 @@ public class AlgebraProcessor {
 			evalInfo = evalInfo.withRedefinition(true);
 			cons.setSuppressLabelCreation(true);
 			isRedefining = true;
-			if (replaceable.isGeoVector()
-					&& !PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_TEMPLATES)) {
-				expression = convertColumnMatrixToVector(labels, expression);
-			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
+			if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
 				evalInfo = evalInfo.withSymbolicMode(SymbolicMode.NONE);
 			}
         }
@@ -3957,19 +3953,4 @@ public class AlgebraProcessor {
 	public void removeGeoElementSetup(GeoElementSetup geoElementSetup) {
 		geoElementSetups.remove(geoElementSetup);
 	}
-
-	/*
-	 * Depending on PreviewFeature.REALSCHULE_TEMPLATE vectors can come back from editor
-	 * as $vector(1,2) or {{1},{2}}. This method normalizes them to the former,
-	 * should be removed when feature flag is gone.
-	 */
-	private ValidExpression convertColumnMatrixToVector(String[] labels,
-			ValidExpression expression) {
-		ValidExpression copy = expression.deepCopy(kernel);
-		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
-		copy.setLabels(labels);
-		expression.wrap().copyAttributesTo(copy.wrap());
-		return copy;
-	}
-
 }

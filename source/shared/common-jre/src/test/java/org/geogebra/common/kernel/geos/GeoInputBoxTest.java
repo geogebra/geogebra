@@ -914,7 +914,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("A=(?,?)");
 		GeoInputBox input = add("ib=InputBox(A)");
 		input.updateLinkedGeo("3");
-		assertThat(lookup("A").getDefinitionForEditor(), equalTo("A=(3,0)"));
+		assertThat(lookup("A").getDefinitionForEditor(), equalTo("A=$point(3,0)"));
 	}
 
 }

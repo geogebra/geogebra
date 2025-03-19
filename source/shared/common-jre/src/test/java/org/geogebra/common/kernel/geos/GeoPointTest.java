@@ -15,7 +15,7 @@ public class GeoPointTest extends BaseUnitTest {
 	public void testDefinitionForEditor() {
 		getApp().setGraphingConfig();
 		GeoPoint point = addAvInput("A=(1,2)");
-		assertThat(point.getDefinitionForEditor(), equalTo("A=(1,2)"));
+		assertThat(point.getDefinitionForEditor(), equalTo("A=$point(1,2)"));
 	}
 
 	@Test

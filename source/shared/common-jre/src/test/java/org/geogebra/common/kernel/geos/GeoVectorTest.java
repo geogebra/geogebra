@@ -16,7 +16,7 @@ public class GeoVectorTest extends BaseUnitTest {
 		GeoVector vector = addAvInput("v = (1, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.editorTemplate),
-				is("{{1}, {2}}"));
+				is("$vector(1,2)"));
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class GeoVectorTest extends BaseUnitTest {
 		GeoVector vector = addAvInput("v = (a, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.editorTemplate),
-				is("{{a}, {2}}"));
+				is("$vector(a,2)"));
 	}
 
 	@Test

@@ -63,7 +63,7 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 		GeoSymbolic vector = add("v = (1, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.editorTemplate),
-				equalTo("{{1}, {2}}"));
+				equalTo("$vector(1,2)"));
 		assertThat(
 				vector.getDefinition(StringTemplate.latexTemplate),
 				equalTo("\\left( \\begin{align}1 \\\\ 2 \\end{align} \\right)"));
@@ -75,7 +75,7 @@ public class SymbolicVectorTest extends BaseSymbolicTest {
 		GeoSymbolic vector = add("v = (a, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.editorTemplate),
-				equalTo("{{a}, {2}}"));
+				equalTo("$vector(a,2)"));
 		assertThat(
 				vector.getDefinition(StringTemplate.latexTemplate),
 				equalTo("\\left( \\begin{align}a \\\\ 2 \\end{align} \\right)"));

@@ -28,7 +28,7 @@ public class GeoVector3DTest extends BaseUnitTest {
         GeoVector3D vector = addAvInput("v = (1, 2, 3)");
         assertThat(
                 vector.getDefinition(StringTemplate.editorTemplate),
-                is("{{1}, {2}, {3}}"));
+                is("$vector(1,2,3)"));
         assertThat(
                 vector.getDefinition(StringTemplate.latexTemplate),
                 is("\\left( \\begin{align}1 \\\\ 2 \\\\ 3 \\end{align} \\right)"));
@@ -40,7 +40,7 @@ public class GeoVector3DTest extends BaseUnitTest {
         GeoVector3D vector = addAvInput("v = (a, 2, 3)");
         assertThat(
                 vector.getDefinition(StringTemplate.editorTemplate),
-                is("{{a}, {2}, {3}}"));
+                is("$vector(a,2,3)"));
         assertThat(
                 vector.getDefinition(StringTemplate.latexTemplate),
                 is("\\left( \\begin{align}a \\\\ 2 \\\\ 3 \\end{align} \\right)"));

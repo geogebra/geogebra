@@ -12,7 +12,6 @@ import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.LocalizationI;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -141,9 +140,7 @@ public class TabbedKeyboard extends FlowPanel
 			case SOLVER:
 				return new SolverKeyboardFactory();
 			default:
-				return new DefaultKeyboardFactory(PreviewFeature.isAvailable(
-						PreviewFeature.REALSCHULE_TEMPLATES)
-						? hasKeyboard.getTemplateKeyProvider() : null);
+				return new DefaultKeyboardFactory(hasKeyboard.getTemplateKeyProvider());
 			}
 		}
 	}

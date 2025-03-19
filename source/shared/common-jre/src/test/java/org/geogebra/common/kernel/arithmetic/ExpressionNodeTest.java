@@ -21,7 +21,7 @@ public class ExpressionNodeTest extends BaseUnitTest {
 
 		originalNode.setForceVector();
 		originalNode.copyAttributesTo(copiedNode);
-		assertThat(copiedNode.toString(StringTemplate.editorTemplate), is("{{1}, {2}}"));
+		assertThat(copiedNode.toString(StringTemplate.editorTemplate), is("$vector(1,2)"));
 	}
 
 	@Test
