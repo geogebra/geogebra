@@ -19,7 +19,12 @@ public class SingleBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	@Override
-	protected GEllipse2DDouble createHandler() {
+	protected GEllipse2DDouble createCornerHandler() {
+		return null;
+	}
+
+	@Override
+	protected GEllipse2DDouble createSideHandler() {
 		return null;
 	}
 

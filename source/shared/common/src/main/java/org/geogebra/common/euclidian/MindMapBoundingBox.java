@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 
@@ -27,8 +28,11 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 	/**
 	 * @param view view
 	 * @param node mind-map node
+	 * @param rotationImage rotation icon
 	 */
-	public MindMapBoundingBox(EuclidianView view, GeoMindMapNode node) {
+	public MindMapBoundingBox(EuclidianView view, GeoMindMapNode node,
+			MyImage rotationImage) {
+		super(rotationImage);
 		this.view = view;
 		this.node = node;
 	}

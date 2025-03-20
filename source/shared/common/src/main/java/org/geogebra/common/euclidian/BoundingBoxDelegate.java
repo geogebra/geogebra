@@ -6,7 +6,9 @@ import org.geogebra.common.awt.GShape;
 public interface BoundingBoxDelegate {
 	void createHandlers();
 
-	GShape createHandler();
+	GShape createCornerHandler();
+
+	GShape createSideHandler();
 
 	void draw(GGraphics2D g2);
 

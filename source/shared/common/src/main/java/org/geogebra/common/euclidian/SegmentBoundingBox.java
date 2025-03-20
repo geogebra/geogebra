@@ -22,8 +22,13 @@ public class SegmentBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	@Override
-	protected GEllipse2DDouble createHandler() {
+	protected GEllipse2DDouble createCornerHandler() {
 		return AwtFactory.getPrototype().newEllipse2DDouble();
+	}
+
+	@Override
+	protected GEllipse2DDouble createSideHandler() {
+		return null;
 	}
 
 	/**

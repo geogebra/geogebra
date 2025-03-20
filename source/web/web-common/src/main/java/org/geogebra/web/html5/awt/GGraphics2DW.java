@@ -767,6 +767,22 @@ public class GGraphics2DW implements GGraphics2DWI {
 		context.stroke();
 	}
 
+	@Override
+	public void drawRoundRect(double x, double y, double width, double height,
+			double arcWidth, double arcHeight) {
+		// arcHeight ignored
+		roundRect(x, y, width, height, arcWidth / 2.0);
+		context.stroke();
+	}
+
+	@Override
+	public void fillRoundRect(double x, double y, double width, double height,
+			double arcWidth, double arcHeight) {
+		// arcHeight ignored
+		roundRect(x, y, width, height, arcWidth / 2.0);
+		context.fill();
+	}
+
 	/**
 	 * Using bezier curves rather than arcs so that PDF export works
 	 *
@@ -781,14 +797,14 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 * @param r
 	 *            radius
 	 */
-	private void roundRect(int x, int y, int w, int h, double r) {
+	private void roundRect(double x, double y, double w, double h, double r) {
 
 		// gives good approximation to circular arc
 		double K = 4.0 / 3 * (Math.sqrt(2) - 1);
 
 		double right = x + w;
 		double bottom = y + h;
-
+		context.roundRect(x, y, w, h, r);
 		context.beginPath();
 
 		context.moveTo(x + r, y);

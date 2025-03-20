@@ -160,4 +160,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/alpha.svg")
 	SVGResource alpha();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/rotate_left.svg")
+	SVGResource rotateIcon();
+
 }

@@ -7,33 +7,35 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
 /**
- * bounding box construction for selected elements
- *
- * @author csilla
- *
+ * Bounding box construction for selected elements
  */
 public abstract class BoundingBox<T extends GShape> {
-
-	protected static final int ROTATION_HANDLER_DISTANCE = 25;
+	private static final int DEFAULT_HANDLER_COUNT = 4;
+	protected static final int ROTATION_HANDLER_INDEX = 8;
+	protected static final int ROTATION_HANDLER_DISTANCE = 32;
+	private static final int SIDE_HANDLER_BORDER_RADIUS = 8;
+	protected static final int SIDE_HANDLER_WIDTH = 10;
+	protected static final int SIDE_HANDLER_HEIGHT = 4;
+	protected static final int HANDLER_RADIUS = 6;
+	protected static final int ROTATION_HANDLER_RADIUS = 12;
+	private static final int ROTATION_ICON_SIZE = 18;
 
 	protected GRectangle2D rectangle;
 	protected final ArrayList<T> handlers;
 	protected GColor color;
+	protected MyImage rotationHandlerImage;
 	private boolean fixed;
-
-	/**
-	 * size of handler
-	 */
-	public static final int HANDLER_RADIUS = 5;
 
 	/**
 	 * Make new bounding box
@@ -60,6 +62,10 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	public void setColor(GColor color) {
 		this.color = color;
+	}
+
+	public void setRotationHandlerImage(MyImage rotationImage) {
+		this.rotationHandlerImage = rotationImage;
 	}
 
 	/**
@@ -100,15 +106,65 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	protected void initHandlers(int nrHandlers) {
 		handlers.clear();
-		for (int i = 0; i < nrHandlers; i++) {
-			handlers.add(createHandler());
+		int nrCornerHandlers = Math.min(nrHandlers, DEFAULT_HANDLER_COUNT);
+		addCornerHandlers(nrCornerHandlers);
+		if (nrHandlers > DEFAULT_HANDLER_COUNT) {
+			addSideHandlers();
+		}
+		if (nrHandlers > ROTATION_HANDLER_INDEX) {
+			handlers.add(createCornerHandler());
+		}
+
+	}
+
+	private void addCornerHandlers(int nrCornerHandlers) {
+		for (int i = 0; i < nrCornerHandlers; i++) {
+			handlers.add(createCornerHandler());
+		}
+	}
+
+	private void addSideHandlers() {
+		for (int i = 0; i < DEFAULT_HANDLER_COUNT; i++) {
+			handlers.add(createSideHandler());
 		}
 	}
 
 	/**
-	 * @return a single handler
+	 * @return a single corner handler
 	 */
-	protected abstract T createHandler();
+	protected abstract T createCornerHandler();
+
+	/**
+	 * @return a single side handler
+	 */
+	protected abstract T createSideHandler();
+
+	/**
+	 * Check whether the handler is a side handler.
+	 * @param handler - handler
+	 * @return true, if the handler is a side handler
+	 */
+	public boolean isSideHandler(GShape handler) {
+		return handler instanceof GRectangle2D;
+	}
+
+	/**
+	 * Check whether the handler is a corner handler.
+	 * @param handler - handler
+	 * @return true, if the handler is a corner handler
+	 */
+	public boolean isCornerHandler(GShape handler) {
+		return handler instanceof GEllipse2DDouble;
+	}
+
+	/**
+	 * whether the handler is the rotation handler is
+	 * @param handlerIndex - index of handler
+	 * @return true, if the handler is a rotation handler
+	 */
+	public boolean isRotationHandler(int handlerIndex) {
+		return handlers.size() > ROTATION_HANDLER_INDEX && ROTATION_HANDLER_INDEX == handlerIndex;
+	}
 
 	/**
 	 * method to draw the bounding box construction for selected geo
@@ -126,14 +182,49 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	protected void drawHandlers(GGraphics2D g2) {
 		for (GShape handler : handlers) {
-			g2.setPaint(color);
-			g2.fill(handler);
-			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
-					GBasicStroke.JOIN_MITER));
-			g2.setColor(GColor.GEOGEBRA_GRAY);
-			g2.draw(handler);
+			fillHandlerWhite(g2, handler);
+			setHandlerBorderStyle(g2);
+			if (handler instanceof GRectangle2D) {
+				drawRoundedRectangle(g2, (GRectangle2D) handler);
+			} else {
+				g2.draw(handler);
+			}
 		}
 
+		if (handlers.size() > ROTATION_HANDLER_INDEX) {
+			drawRotationHandler(g2);
+		}
+	}
+
+	protected void drawRoundedRectangle(GGraphics2D g2, GRectangle2D sideHandler) {
+		g2.drawRoundRect(sideHandler.getX(), sideHandler.getY(),
+				sideHandler.getWidth(), sideHandler.getHeight(),
+				SIDE_HANDLER_BORDER_RADIUS, SIDE_HANDLER_BORDER_RADIUS);
+	}
+
+	protected void drawRotationHandler(GGraphics2D g2) {
+		g2.drawImage(rotationHandlerImage,
+				(int) handlers.get(ROTATION_HANDLER_INDEX).getBounds().getX() + 3,
+				(int) handlers.get(ROTATION_HANDLER_INDEX).getBounds().getY() + 3,
+				ROTATION_ICON_SIZE, ROTATION_ICON_SIZE);
+	}
+
+	protected void fillHandlerWhite(GGraphics2D g2, GShape handler) {
+		g2.setPaint(GColor.WHITE);
+		if (handler instanceof GRectangle2D) {
+			GRectangle2D sideHandler = (GRectangle2D) handler;
+			g2.fillRoundRect(sideHandler.getX(), sideHandler.getY(),
+					sideHandler.getWidth(), sideHandler.getHeight(),
+					SIDE_HANDLER_BORDER_RADIUS, SIDE_HANDLER_BORDER_RADIUS);
+		} else {
+			g2.fill(handler);
+		}
+	}
+
+	protected void setHandlerBorderStyle(GGraphics2D g2) {
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(1.0f, GBasicStroke.CAP_BUTT,
+				GBasicStroke.JOIN_MITER));
+		g2.setColor(GColor.NEUTRAL_400);
 	}
 
 	/**

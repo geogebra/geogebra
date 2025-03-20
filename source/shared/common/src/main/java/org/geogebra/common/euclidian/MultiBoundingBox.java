@@ -2,15 +2,23 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
 
-public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
+public class MultiBoundingBox extends BoundingBox<GShape> {
 
 	private final boolean hasRotationHandler;
 
-	public MultiBoundingBox(boolean hasRotationHandler) {
+	/**
+	 * Constructor
+	 * @param hasRotationHandler - true, if box has rotation handler
+	 * @param rotationImage - icon of rotation handler
+	 */
+	public MultiBoundingBox(boolean hasRotationHandler, MyImage rotationImage) {
 		this.hasRotationHandler = hasRotationHandler;
+		setRotationHandlerImage(rotationImage);
 	}
 
 	@Override
@@ -39,7 +47,7 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		setHandlerFromCenter(7, rectangle.getMaxX(), centerY);
 		if (hasRotationHandler) {
 			// rotation handler
-			setHandlerFromCenter(8, centerX, rectangle.getMinY() - ROTATION_HANDLER_DISTANCE);
+			setHandlerFromCenter(8, centerX, rectangle.getMaxY() + ROTATION_HANDLER_DISTANCE);
 		}
 	}
 
@@ -47,15 +55,6 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	public void draw(GGraphics2D g2) {
 		// draw bounding box
 		drawRectangle(g2);
-		if (hasRotationHandler) {
-			GLine2D line = AwtFactory.getPrototype().newLine2D();
-			double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
-			line.setLine(centerX, rectangle.getMinY(),
-					centerX,
-					rectangle.getMinY() - ROTATION_HANDLER_DISTANCE);
-			g2.setColor(getColor());
-			g2.draw(line);
-		}
 		drawHandlers(g2);
 	}
 
@@ -64,40 +63,32 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		if (rectangle == null) {
 			return false;
 		}
-		return hitRectangle(x, y, 2 * hitThreshold)
-				|| hitRotationHandlerLine(x, y, 2 * hitThreshold);
-	}
-
-	private boolean hitRotationHandlerLine(int x, int y, int hitThreshold) {
-		double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
-		return hasRotationHandler && onSegment(centerX,
-				rectangle.getMinY(), x, y, centerX,
-				rectangle.getMinY() - ROTATION_HANDLER_DISTANCE, hitThreshold);
+		return hitRectangle(x, y, 2 * hitThreshold);
 	}
 
 	@Override
-	protected GEllipse2DDouble createHandler() {
+	protected GEllipse2DDouble createCornerHandler() {
 		return AwtFactory.getPrototype().newEllipse2DDouble();
 	}
 
-	private void setHandlerFromCenter(int i, double x, double y) {
-		handlers.get(i).setFrameFromCenter(x, y, x + HANDLER_RADIUS,
-				y + HANDLER_RADIUS);
+	@Override
+	protected GRectangle2D createSideHandler() {
+		return AwtFactory.getPrototype().newRectangle();
 	}
 
-	/**
-	 * check if intersection point is on segment Threshold includes line
-	 * thickness.
-	 */
-	private static boolean onSegment(double segStartX, double segStartY, int hitX, int hitY,
-			double segEndX, double segEndY, int hitThreshold) {
-		return onSegmentCoord(segStartX, hitX, segEndX, hitThreshold)
-				&& onSegmentCoord(segStartY, hitY, segEndY, hitThreshold);
-	}
-
-	private static boolean onSegmentCoord(double segStartX, int hitX, double segEndX,
-			int hitThreshold) {
-		return hitX <= Math.max(segStartX, segEndX) + hitThreshold
-				&& hitX >= Math.min(segStartX, segEndX) - hitThreshold;
+	private void setHandlerFromCenter(int handlerIndex, double x, double y) {
+		GShape handler = handlers.get(handlerIndex);
+		if (isRotationHandler(handlerIndex)) {
+			((GEllipse2DDouble) handlers.get(handlerIndex)).setFrameFromCenter(x, y,
+					x + ROTATION_HANDLER_RADIUS, y + ROTATION_HANDLER_RADIUS);
+		} else if (isCornerHandler(handler)) {
+			((GEllipse2DDouble) handlers.get(handlerIndex)).setFrameFromCenter(x, y,
+					x + HANDLER_RADIUS, y + HANDLER_RADIUS);
+		} else if (isSideHandler(handler)) {
+			int width = handlerIndex % 2 == 0 ? SIDE_HANDLER_WIDTH : SIDE_HANDLER_HEIGHT;
+			int height = handlerIndex % 2 == 0 ? SIDE_HANDLER_HEIGHT : SIDE_HANDLER_WIDTH;
+			((GRectangle2D) handlers.get(handlerIndex)).setFrame(x - width, y - height,
+					width * 2, height * 2);
+		}
 	}
 }

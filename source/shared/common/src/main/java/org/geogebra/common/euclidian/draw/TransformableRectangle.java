@@ -274,11 +274,14 @@ public class TransformableRectangle {
 	public MediaBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			if (geo instanceof GeoMindMapNode) {
-				boundingBox = new MindMapBoundingBox(view, (GeoMindMapNode) geo);
+				boundingBox = new MindMapBoundingBox(view, (GeoMindMapNode) geo,
+						view.getEuclidianController().getRotationImage());
 			} else if (geo.isMeasurementTool()) {
-				boundingBox = new MeasurementToolBoundingBox();
+				boundingBox = new MeasurementToolBoundingBox(
+						view.getEuclidianController().getRotationImage());
 			} else {
-				boundingBox = new MediaBoundingBox();
+				boundingBox = new MediaBoundingBox(
+						view.getEuclidianController().getRotationImage());
 			}
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());

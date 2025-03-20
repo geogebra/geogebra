@@ -38,6 +38,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -12396,7 +12397,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// create union bounding box
-		MultiBoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
+		MultiBoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler, getRotationImage());
 		boundingBox.setRectangle(calculateBounds(geos));
 		boundingBox.setFixed(fixed);
 		boundingBox.setColor(app.getPrimaryColor());
@@ -12489,5 +12490,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void removeMeasurementTool(Integer mode) {
 		measurementController.removeTool(mode);
+	}
+
+	public MyImage getRotationImage() {
+		return null;
 	}
 }

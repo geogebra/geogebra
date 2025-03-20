@@ -18,13 +18,17 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.google.gwtmockito.WithClassesToStub;
+
 @RunWith(GgbMockitoTestRunner.class)
+@WithClassesToStub(MyImageW.class)
 public class InlineFormattingItemsTest {
 
 	private static final String LINK_URL = "www.foo.bar";

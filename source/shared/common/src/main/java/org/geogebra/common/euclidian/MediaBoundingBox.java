@@ -4,8 +4,11 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
@@ -15,11 +18,17 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 	protected RectangleTransformable geo;
 	protected GAffineTransform transform;
 	protected GPoint2D[] corners = new GPoint2D[9];
+	GLine2D line = AwtFactory.getPrototype().newLine2D();
 	protected GColor secondaryColor;
 	BoundingBoxDelegate delegate;
 
-	public MediaBoundingBox() {
+	/**
+	 * Inline bounding box (which rotates with element)
+	 * @param rotationImage - rotation icon
+	 */
+	public MediaBoundingBox(MyImage rotationImage) {
 		delegate = new RotatableBoundingBox(this);
+		setRotationHandlerImage(rotationImage);
 	}
 
 	public void setSecondaryColor(GColor secondaryColor) {
@@ -32,8 +41,13 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 	}
 
 	@Override
-	protected GShape createHandler() {
-		return delegate.createHandler();
+	protected GShape createCornerHandler() {
+		return delegate.createCornerHandler();
+	}
+
+	@Override
+	protected GShape createSideHandler() {
+		return delegate.createSideHandler();
 	}
 
 	@Override
@@ -41,14 +55,11 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
 				GBasicStroke.JOIN_MITER));
 		g2.setColor(color);
-
 		if (corners[0] != null) {
 			for (int i = 0; i < 4; i++) {
-				g2.drawLine((int) corners[i].getX(), (int) corners[i].getY(),
-						(int) corners[(i + 1) % 4].getX(), (int) corners[(i + 1) % 4].getY());
-			}
-			if (showHandlers() && !isCropBox()) {
-				drawLineToRotateHandler(g2);
+				line.setLine(corners[i].getX(), corners[i].getY(),
+						corners[(i + 1) % 4].getX(), corners[(i + 1) % 4].getY());
+				g2.draw(line);
 			}
 		}
 		if (showHandlers()) {
@@ -56,9 +67,31 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		}
 	}
 
-	protected void drawLineToRotateHandler(GGraphics2D g2) {
-		g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
-				(int) corners[8].getX(), (int) corners[8].getY());
+	@Override
+	protected void drawHandlers(GGraphics2D g2) {
+		for (GShape handler : handlers) {
+			if (isSideHandler(handler)) {
+				drawRotatedSideHandler(g2, (GRectangle2D) handler);
+			} else {
+				fillHandlerWhite(g2, handler);
+				setHandlerBorderStyle(g2);
+				g2.draw(handler);
+			}
+		}
+
+		if (handlers.size() > ROTATION_HANDLER_INDEX) {
+			drawRotationHandler(g2);
+		}
+	}
+
+	private void drawRotatedSideHandler(GGraphics2D g2, GRectangle2D sideHandler) {
+		double centerHandlerX = sideHandler.getX() + sideHandler.getWidth() / 2;
+		double centerHandlerY = sideHandler.getY() + sideHandler.getHeight() / 2;
+		double angle = getAngle();
+
+		GAffineTransform transform = createRotateTransformation(centerHandlerX, centerHandlerY,
+				angle);
+		drawTransformedHandler(g2, transform, sideHandler);
 	}
 
 	@Override
@@ -91,7 +124,8 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		setHandlerTransformed(6, width / 2, height);
 		setHandlerTransformed(7, width, height / 2);
 		if (handlers.size() > 8) {
-			setHandlerTransformed(8, width / 2, -BoundingBox.ROTATION_HANDLER_DISTANCE);
+			setHandlerTransformed(8, width / 2,
+					height + BoundingBox.ROTATION_HANDLER_DISTANCE);
 		}
 	}
 
@@ -145,5 +179,38 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		default:
 			return null; // never happens
 		}
+	}
+
+	private double getAngle() {
+		GRectangle2D rightTop = handlers.get(2).getBounds2D();
+		GRectangle2D leftTop = handlers.get(1).getBounds2D();
+		double deltaX = rightTop.getX() + rightTop.getWidth() / 2
+				- (leftTop.getX() + leftTop.getWidth() / 2);
+		double deltaY = rightTop.getY() + rightTop.getWidth() / 2
+				- (leftTop.getY() + leftTop.getWidth() / 2);
+		return Math.atan2(deltaY, deltaX);
+	}
+
+	private GAffineTransform createRotateTransformation(double centerX, double centerY,
+			double angle) {
+		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
+		t.translate(centerX, centerY);
+		t.rotate(angle);
+		t.translate(-centerX, -centerY);
+		return t;
+	}
+
+	private void drawTransformedHandler(GGraphics2D g2, GAffineTransform transform,
+			GRectangle2D sideHandler) {
+		g2.saveTransform();
+		g2.transform(transform);
+		drawSideHandler(g2, sideHandler);
+		g2.restoreTransform();
+	}
+
+	private void drawSideHandler(GGraphics2D g2, GRectangle2D sideHandler) {
+		fillHandlerWhite(g2, sideHandler);
+		setHandlerBorderStyle(g2);
+		drawRoundedRectangle(g2, sideHandler);
 	}
 }

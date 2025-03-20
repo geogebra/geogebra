@@ -43,7 +43,9 @@ public class StylebarPositioner {
 	private boolean center;
 	private GPoint oldPos = null;
 	private GeoElement oldPosFor;
-	private final static int CONTEXT_MENU_WIDTH = 36;
+	private final static int MARGIN_FROM_EDGE = 16;
+	private final static int MARGIN_FROM_BOUNDING_BOX = 36;
+	private final static int ROTATION_HANDLER_SIZE = 24;
 
 	/**
 	 * @param app
@@ -267,7 +269,6 @@ public class StylebarPositioner {
 
 	/**
 	 * Returns the position of the popup for the first element of the geoList.
-	 *
 	 * This method is deprecated, use the getPositionFor(GeoElement geo, int
 	 * stylebarHeight, int stylebarWidth, GRectangle canvasRect) method instead!
 	 *
@@ -468,15 +469,18 @@ public class StylebarPositioner {
 				return null;
 			}
 			top = mouseLoc.y + 10;
-		} else if (!isPoint) {
-			top = gRectangle2D.getMinY() - offsetHeight - 10;
+		} else {
+			top = gRectangle2D.getMinY() - offsetHeight - MARGIN_FROM_BOUNDING_BOX;
 		}
 
 		// if there is no enough place on the top of bounding box, dynamic
 		// stylebar will be visible at the bottom of bounding box,
 		// stylebar of points will be bottom of point if possible.
 		if (top < 0 && gRectangle2D != null) {
-			top = gRectangle2D.getMaxY() + 10;
+			top = gRectangle2D.getMaxY() + MARGIN_FROM_BOUNDING_BOX;
+			if (app.isWhiteboardActive()) {
+				top += ROTATION_HANDLER_SIZE + MARGIN_FROM_BOUNDING_BOX;
+			}
 		}
 
 		int maxtop = euclidianView.getHeight() - offsetHeight - 5;
@@ -494,19 +498,15 @@ public class StylebarPositioner {
 		if (functionOrLine) {
 			left = euclidianView.getEuclidianController().getMouseLoc().x + 10;
 		} else {
-			left = gRectangle2D.getMaxX() - offsetWidth + CONTEXT_MENU_WIDTH;
-
-			// do not hide rotation handler
-			left = Math.max(left,
-					gRectangle2D.getMinX() + gRectangle2D.getWidth() / 2 + 16);
+			left = gRectangle2D.getMinX() + gRectangle2D.getWidth() / 2 - (double) offsetWidth / 2;
 		}
 
-		if (left < 0) {
-			left = 0;
+		if (left < MARGIN_FROM_EDGE) {
+			left = MARGIN_FROM_EDGE;
 		}
 		int maxLeft = euclidianView.getWidth() - offsetWidth;
 		if (left > maxLeft) {
-			left = maxLeft;
+			left = maxLeft - MARGIN_FROM_EDGE;
 		}
 
 		return new GPoint((int) left, (int) top);

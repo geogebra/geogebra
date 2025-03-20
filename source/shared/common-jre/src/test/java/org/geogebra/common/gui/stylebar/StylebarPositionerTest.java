@@ -25,16 +25,16 @@ public class StylebarPositionerTest extends BaseUnitTest {
 	@Test
 	public void positionForPoint() {
 		getApp().getSelectionManager().addSelectedGeo(add("A=(1,1)"));
-		assertEquals(new GPoint(116, 525), sp.getPositionForStyleBar(50, 50));
+		assertEquals(new GPoint(75, 399), sp.getPositionForStyleBar(50, 50));
 		// bigger style bar won't fit below, show above
-		assertEquals(new GPoint(116, 375), sp.getPositionForStyleBar(50, 100));
+		assertEquals(new GPoint(75, 349), sp.getPositionForStyleBar(50, 100));
 	}
 
 	@Test
 	public void positionForTwoPoints() {
 		getApp().getSelectionManager().addSelectedGeo(add("A=(1,1)"));
 		getApp().getSelectionManager().addSelectedGeo(add("A=(7,5)"));
-		assertEquals(new GPoint(716, 125), sp.getPositionForStyleBar(50, 50));
+		assertEquals(new GPoint(675, 151), sp.getPositionForStyleBar(50, 50));
 	}
 
 	@Test
@@ -70,8 +70,8 @@ public class StylebarPositionerTest extends BaseUnitTest {
 		GeoElement pieChart = add("PieChart[{1,2,3}]");
 		pointerDown(-200, 400);
 		assertTrue(pieChart.isSelected());
-		assertEquals(new GPoint(286, 240), sp.getPositionForStyleBar(50, 50));
+		assertEquals(new GPoint(16, 214), sp.getPositionForStyleBar(50, 50));
 		pointerDown(-150, 450);
-		assertEquals(new GPoint(286, 240), sp.getPositionForStyleBar(50, 50));
+		assertEquals(new GPoint(16, 214), sp.getPositionForStyleBar(50, 50));
 	}
 }

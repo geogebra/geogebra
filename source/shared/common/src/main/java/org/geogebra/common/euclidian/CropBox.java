@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 
@@ -97,8 +98,12 @@ public class CropBox implements BoundingBoxDelegate {
 	}
 
 	@Override
-	public GGeneralPath createHandler() {
+	public GGeneralPath createCornerHandler() {
 		return AwtFactory.getPrototype().newGeneralPath();
 	}
 
+	@Override
+	public GShape createSideHandler() {
+		return AwtFactory.getPrototype().newGeneralPath();
+	}
 }

@@ -323,6 +323,40 @@ public interface GGraphics2D {
 	void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
+	/**
+	 * Draw round rectangle.
+	 * Default implementation rounds the coordinates,
+	 * platforms can take advantage of higher precision.
+	 * @param x left boundary in pixels
+	 * @param y top boundary in pixels
+	 * @param width rectangle width in pixels
+	 * @param height rectangle height in pixels
+	 * @param arcWidth arc width in pixels
+	 * @param arcHeight arx height in pixels
+	 */
+	default void drawRoundRect(double x, double y, double width, double height,
+			double arcWidth, double arcHeight) {
+		drawRoundRect((int) Math.round(x), (int) Math.round(y), (int) Math.round(width),
+				(int) Math.round(height), (int) Math.round(arcWidth), (int) Math.round(arcHeight));
+	}
+
+	/**
+	 * Fill round rectangle.
+	 * Default implementation rounds the coordinates,
+	 * platforms can take advantage of higher precision.
+	 * @param x left boundary in pixels
+	 * @param y top boundary in pixels
+	 * @param width rectangle width in pixels
+	 * @param height rectangle height in pixels
+	 * @param arcWidth arc width in pixels
+	 * @param arcHeight arx height in pixels
+	 */
+	default void fillRoundRect(double x, double y, double width, double height,
+			double arcWidth, double arcHeight) {
+		fillRoundRect((int) Math.round(x), (int) Math.round(y), (int) Math.round(width),
+				(int) Math.round(height), (int) Math.round(arcWidth), (int) Math.round(arcHeight));
+	}
+
 	void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
