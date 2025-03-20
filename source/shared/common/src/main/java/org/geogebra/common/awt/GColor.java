@@ -431,14 +431,12 @@ public final class GColor implements GPaint {
 	 * @return HTML5 color string eg rgba(255,0,0,0.5)
 	 */
 	public static String getColorString(GColor color) {
-		String ret = "rgba(" + color.getRed() + "," + color.getGreen() + ","
+		return "rgba(" + color.getRed() + "," + color.getGreen() + ","
 				+ color.getBlue() + "," + (color.getAlpha() / 255d) + ")";
-
-		return ret;
 	}
 
 	/**
-	 * @param colorStr HTML5 color string eg rgba(255,0,0,0.5)
+	 * @param colorStr HTML5 color string eg rgba(255,0,0,0.5) or #123456
 	 * @return GColor
 	 */
 	public static GColor getGColor(String colorStr) {
@@ -448,7 +446,7 @@ public final class GColor implements GPaint {
 			return colorValues.length == 4 ? newColor(colorValues[0],
 					colorValues[1], colorValues[2], colorValues[3]) : null;
 		}
-		return null;
+		return parseHexColor(colorStr);
 	}
 
 	/**
