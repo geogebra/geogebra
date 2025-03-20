@@ -189,14 +189,14 @@ public final class SpreadsheetController {
 		return tabularData.getRowName(column);
 	}
 
-	private boolean showCellEditor(int row, int column) {
+	private boolean showCellEditor(int row, int column, boolean editExistingContent) {
 		if (controlsDelegate == null) {
 			return false; // cell editor not shown
 		}
 		if (editor == null) {
 			editor = new Editor(controlsDelegate.getCellEditor());
 		}
-		editor.showAt(row, column);
+		editor.showAt(row, column, editExistingContent);
 		resetDragAction();
 		return true;
 	}
@@ -285,7 +285,7 @@ public final class SpreadsheetController {
 		}
 
 		if (row >= 0 && column >= 0 && selectionController.isOnlyCellSelected(row, column)) {
-			showCellEditor(row, column);
+			showCellEditor(row, column, true);
 			return;
 		}
 		if (!modifiers.ctrlOrCmd && !modifiers.shift && selectionController.hasSelection()) {
@@ -476,7 +476,7 @@ public final class SpreadsheetController {
 				}
 				break;
 			case JavaKeyCodes.VK_ENTER:
-				showCellEditorAtSelection();
+				showCellEditorAtSelection(true);
 				return;
 			case JavaKeyCodes.VK_DELETE:
 			case JavaKeyCodes.VK_BACK_SPACE:
@@ -516,21 +516,22 @@ public final class SpreadsheetController {
 	}
 
 	private void startTyping(String key, Modifiers modifiers) {
-		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)) {
-			if (editor == null || !editor.isVisible()) {
-				showCellEditorAtSelection();
-			}
-			if (editor != null) {
-				editor.type(key);
-			}
+		if (modifiers.ctrlOrCmd || modifiers.alt || StringUtil.empty(key)) {
+			return;
+		}
+		if (editor == null || !editor.isVisible()) {
+			showCellEditorAtSelection(false);
+		}
+		if (editor != null) {
+			editor.type(key);
 		}
 	}
 
-	private void showCellEditorAtSelection() {
+	private void showCellEditorAtSelection(boolean editExistingContent) {
 		Selection last = getLastSelection();
 		TabularRange range = last == null ? null : last.getRange();
 		if (range != null) {
-			showCellEditor(range.getFromRow(), range.getFromColumn());
+			showCellEditor(range.getFromRow(), range.getFromColumn(), editExistingContent);
 		}
 	}
 
@@ -580,7 +581,7 @@ public final class SpreadsheetController {
 	void onEnter() {
 		moveDown(false);
 		adjustViewportIfNeeded();
-		showCellEditorAtSelection();
+		showCellEditorAtSelection(true);
 	}
 
 	/**
@@ -1077,7 +1078,7 @@ public final class SpreadsheetController {
 		tabularData.getCellProcessor().process(curCommand, destRow, destCol);
 		updateSelectionAndScroll(destRow, destCol);
 		if (showEditor) {
-			showCellEditor(destRow, destCol);
+			showCellEditor(destRow, destCol, true);
 			editor.cellEditor.getMathField().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
 		}
 	}
@@ -1168,12 +1169,14 @@ public final class SpreadsheetController {
 			this.cellEditor = cellEditor;
 		}
 
-		void showAt(int row, int column) {
-			Object content = tabularData.contentAt(row, column);
+		void showAt(int row, int column, boolean editExistingContent) {
 			this.row = row;
 			this.column = column;
 			MathFieldInternal mathField = cellEditor.getMathField();
-			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
+			if (editExistingContent) {
+				Object content = tabularData.contentAt(row, column);
+				mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
+			}
 
 			// If the cell editor is reused without first hiding it,
 			// remove the old listener and add the new one after reinitializing.

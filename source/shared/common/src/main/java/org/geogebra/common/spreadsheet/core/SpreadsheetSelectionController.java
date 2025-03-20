@@ -196,11 +196,18 @@ final class SpreadsheetSelectionController {
 	/**
 	 * @param row Row index
 	 * @param column Column index
-	 * @return Whether there is only a single cell selected
+	 * @return Whether there is only a single cell selected, and that cell is (row, col).
 	 */
 	public boolean isOnlyCellSelected(int row, int column) {
 		return selections.size() == 1 && selections.get(0).getRange().isSingleCell()
 				&& isSelected(row, column);
+	}
+
+	/**
+	 * @return {@code true} if a single cell is selected, {@code false} otherwise.
+	 */
+	public boolean isSingleCellSelected() {
+		return selections.size() == 1 && selections.get(0).getRange().isSingleCell();
 	}
 
 	/**
