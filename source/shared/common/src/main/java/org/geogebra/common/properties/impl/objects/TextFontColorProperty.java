@@ -14,7 +14,6 @@ import org.geogebra.common.main.color.GeoColorValues;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TextColorPropertyDelegate;
-import org.geogebra.common.util.StringUtil;
 
 public class TextFontColorProperty extends ElementColorProperty
 		implements ColorProperty {
@@ -39,9 +38,18 @@ public class TextFontColorProperty extends ElementColorProperty
 		EuclidianStyleBarStatic.applyColor(value, element.getAlphaValue(), element.getApp(),
 				List.of(element));
 
-		String htmlColor = StringUtil.toHtmlColor(value);
 		if (element instanceof HasTextFormatter) {
-			((HasTextFormatter) element).getFormatter().format("color", htmlColor);
+			((HasTextFormatter) element).getFormatter().format("color", value.toString());
 		}
+	}
+
+	@Override
+	public GColor getValue() {
+		if (element instanceof HasTextFormatter) {
+			return GColor.getGColor(((HasTextFormatter) element).getFormatter()
+					.getFormat("color", null));
+		}
+
+		return super.getValue();
 	}
 }
