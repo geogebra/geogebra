@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -24,7 +24,7 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 	 * @param app App
 	 * Creates panel
 	 */
-	public FunctionInspectorDockPanelW(AppW app) {
+	public FunctionInspectorDockPanelW(AppWFull app) {
 		super(App.VIEW_FUNCTION_INSPECTOR, // view id
 				null, // toolbar string
 				true); // style bar?

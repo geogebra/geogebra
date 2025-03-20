@@ -8,9 +8,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.geogebra3D.web.euclidianForPlane.EuclidianViewForPlaneW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
-import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -51,7 +51,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 			true, // style bar?
 			false);
 
-		this.app = (AppW) app;
+		this.app = (AppWFull) app;
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 	}
 

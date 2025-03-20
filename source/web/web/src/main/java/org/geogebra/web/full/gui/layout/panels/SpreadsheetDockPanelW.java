@@ -7,8 +7,8 @@ import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
 import org.geogebra.web.full.gui.view.spreadsheet.TableCanvasExporter;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.Panel;
@@ -32,9 +32,9 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	 * @param appl
 	 *            application
 	 */
-	public SpreadsheetDockPanelW(App appl) {
+	public SpreadsheetDockPanelW(AppWFull appl) {
 		super(App.VIEW_SPREADSHEET, getDefaultToolbar(), true);
-		app = (AppW) appl;
+		app = appl;
 	}
 
 	@Override

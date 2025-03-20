@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -24,7 +24,7 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	 * @param app
 	 *            App Creates panel
 	 */
-	public ProbabilityCalculatorDockPanelW(AppW app) {
+	public ProbabilityCalculatorDockPanelW(AppWFull app) {
 		super(App.VIEW_PROBABILITY_CALCULATOR,
 				app.isSuite() ? null : "0", // toolbar string - move tool only, force!
 				true);

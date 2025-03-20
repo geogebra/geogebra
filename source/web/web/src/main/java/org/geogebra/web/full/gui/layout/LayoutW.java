@@ -14,6 +14,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -21,7 +22,7 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class LayoutW extends Layout {
 	
-	private AppW app;
+	private AppWFull app;
 
 	private DockManagerW dockManager;
 	
@@ -31,7 +32,7 @@ public class LayoutW extends Layout {
 	 * @param app
 	 *            application
 	 */
-	public LayoutW(AppW app) {
+	public LayoutW(AppWFull app) {
 		initializeDefaultPerspectives(app,
 				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth() < 50
 						? 700 : app.getAppletWidth()));
@@ -43,7 +44,7 @@ public class LayoutW extends Layout {
 	 * @param appw
 	 *            application
 	 */
-	public void initialize(AppW appw) {
+	public void initialize(AppWFull appw) {
 		if (!initializeCommon(appw)) {
 			return;
 		}
@@ -263,7 +264,7 @@ public class LayoutW extends Layout {
 	/**
 	 * @return application
 	 */
-	public AppW getApplication() {
+	public AppWFull getApplication() {
 		return app;
 	}
 

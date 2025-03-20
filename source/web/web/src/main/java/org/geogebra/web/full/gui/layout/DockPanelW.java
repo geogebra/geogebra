@@ -15,7 +15,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
-import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.util.Domvas;
@@ -24,7 +23,6 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
-import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -45,14 +43,14 @@ import elemental2.dom.CanvasRenderingContext2D;
  * "layout fixed" mode. The user can move the DockPanel by dragging the title
  * bar.
  * 
- * To add a new dock panel one has to subclass DockPanel, implement the abstract
+ * <p>To add a new dock panel one has to subclass DockPanel, implement the abstract
  * method DockPanel::loadComponent() and maybe replace DockPanel::getIcon() and
- * DockPanel::getStyleBar().
+ * DockPanel::getStyleBar().</p>
  * 
- * One can add a panel using Layout::registerPanel(), the GuiManager also
+ * <p>One can add a panel using Layout::registerPanel(), the GuiManager also
  * provides GuiManager()::initLayoutPanels() as an easy access point to add new
  * panels. This is also important because it matters at which point of execution
- * a panel is added, see Layout::registerPanel() for further information.
+ * a panel is added, see Layout::registerPanel() for further information.</p>
  * 
  * @author Florian Sonner
  */
@@ -62,7 +60,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */
-	protected AppW app;
+	protected AppWFull app;
 	private boolean longStyleBar = false;
 	protected ZoomPanel zoomPanel;
 
@@ -85,9 +83,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 * If there is a style bar associated with this panel.
 	 */
 	private final boolean hasStyleBar;
-
-	private int embeddedDimWidth;
-	private int embeddedDimHeight;
 
 	/**
 	 * If the style bar is visible.
@@ -315,7 +310,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/** Builds zoom panel */
 	public void tryBuildZoomPanel() {
-		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+		DockManagerW dm = app.getGuiManager().getLayout()
 				.getDockManager();
 
 		boolean bottomRight = dm.getRoot() == null
@@ -341,11 +336,11 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	protected void addToggleButton() {
-		((AppWFull) app).getActivity().initStylebar(this);
+		app.getActivity().initStylebar(this);
 	}
 
 	/**
-	 * Initialize stylebar
+	 * Initialize style bar
 	 */
 	public void initToggleButton() {
 		if (!(dockControlPanel instanceof TitleBarPanel)) {
@@ -354,7 +349,7 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * Initialize stylebar with a gear icon for graphics settings
+	 * Initialize style bar with a gear icon for graphics settings
 	 */
 	public void initGraphicsSettingsButton() {
 		if (dockControlPanel instanceof GraphicsControlsPanel) {
@@ -760,13 +755,6 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * @return frame bounds
-	 */
-	public Rectangle getFrameBounds() {
-		return this.frameBounds;
-	}
-
-	/**
 	 * @param embeddedDef
 	 *            the embeddedDef to set
 	 */
@@ -954,35 +942,6 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * embedded dimensions (calculated when perspective is set)
-	 * 
-	 * @param w
-	 *            width
-	 * @param h
-	 *            height
-	 */
-	public void setEmbeddedDim(int w, int h) {
-		embeddedDimWidth = w;
-		embeddedDimHeight = h;
-	}
-
-	/**
-	 * 
-	 * @return embedded width
-	 */
-	public int getEmbeddedDimWidth() {
-		return embeddedDimWidth;
-	}
-
-	/**
-	 * 
-	 * @return embedded height
-	 */
-	public int getEmbeddedDimHeight() {
-		return embeddedDimHeight;
-	}
-
-	/**
 	 * Initializes the view-specific icon of the DockPanel
 	 * 
 	 * @param imageResource
@@ -1047,14 +1006,6 @@ public abstract class DockPanelW extends ResizeComposite
 		if (dockControlPanel instanceof TitleBarPanel) {
 			((TitleBarPanel) dockControlPanel).setCloseButtonVisible(isVisible);
 		}
-	}
-
-	/**
-	 * @param showKeyboardButton
-	 *            keyboard button
-	 */
-	public void addSouth(ShowKeyboardButton showKeyboardButton) {
-		this.kbButtonSpace.setWidget(showKeyboardButton);
 	}
 
 	@Override

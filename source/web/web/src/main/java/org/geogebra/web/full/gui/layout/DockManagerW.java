@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.layout.DockComponent;
@@ -47,13 +49,13 @@ import jsinterop.base.Js;
 /**
  * Class responsible to manage the whole docking area of the window.
  * 
- * Based on desktop implementation by Florian Sonner
+ * <p>Based on desktop implementation by Florian Sonner</p>
  */
 public class DockManagerW extends DockManager {
 
 	/** application */
-	AppW app;
-	private LayoutW layout;
+	private final AppWFull app;
+	private final LayoutW layout;
 	private double kbHeight = 0;
 
 	// null it to trigger orientation change for the first time.
@@ -62,7 +64,7 @@ public class DockManagerW extends DockManager {
 	/**
 	 * The root split pane.
 	 */
-	DockSplitPaneW rootPane;
+	@CheckForNull DockSplitPaneW rootPane;
 
 	/**
 	 * The dock panel which has the focus at the moment.
@@ -77,15 +79,15 @@ public class DockManagerW extends DockManager {
 	/**
 	 * A list with all registered dock panels.
 	 */
-	private ArrayList<DockPanelW> dockPanels;
+	private final ArrayList<DockPanelW> dockPanels;
 
 	/**
 	 * List of DockPanelListeners, informed when some dockpanel is shown.
 	 */
-	private List<ShowDockPanelListener> showDockPanelListener;
+	private final List<ShowDockPanelListener> showDockPanelListener;
 	private boolean panelsMoved;
 
-	private TreeSet<Integer> viewsInPerspective = new TreeSet<>();
+	private final TreeSet<Integer> viewsInPerspective = new TreeSet<>();
 
 	/**
 	 * @param layout
@@ -179,7 +181,9 @@ public class DockManagerW extends DockManager {
 					rootPane.clear();
 					rootPane = splitPanes[0];
 				}
-				rootPane.setStyleName(styles);
+				if (rootPane != null) {
+					rootPane.setStyleName(styles);
+				}
 			} else {
 				rootPane = splitPanes[0];
 			}
@@ -309,7 +313,7 @@ public class DockManagerW extends DockManager {
 			int windowHeight;
 			// TODO this is how the layout should work in all cases, only the
 			// old AppWApplication needs the other way
-			if (app instanceof AppWFull) {
+			if (rootPane != null) {
 
 				// Emulate the way split panes i n Java applets are sized:
 				// 2) Use the ggb xml window size to set dividers
@@ -329,7 +333,6 @@ public class DockManagerW extends DockManager {
 				windowHeight = app.getHeightForSplitPanel(sph.get(rootPane) <= 0
 						? app.getPreferredSize().getHeight()
 						: sph.get(rootPane));
-
 				rootPane.clear();
 				rootPane.setPixelSize(windowWidth, windowHeight);
 
@@ -344,16 +347,10 @@ public class DockManagerW extends DockManager {
 					app.setPreferredSize(
 							new Dimension(windowWidth2, windowHeight2));
 				}
-
+				markAlonePanel(rootPane);
 				setSplitPaneDividers(spData, splitPanes, windowHeight2,
 						windowWidth2, windowHeight, windowWidth);
-
-				// for debugging
-				// rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
-
 			}
-
-			markAlonePanel();
 
 			setActiveToolBarDefault(dpData);
 
@@ -510,8 +507,11 @@ public class DockManagerW extends DockManager {
 				splitPanes[i].setDividerLocationSilent(divLoc);
 			}
 		}
-		setPreferredSizes(rootPane, theRealWindowHeight, theRealWindowWidth);
-		rootPane.setComponentsSilentRecursive();
+		if (rootPane != null) {
+			DockSplitPaneW root = rootPane;
+			setPreferredSizes(root, theRealWindowHeight, theRealWindowWidth);
+			root.setComponentsSilentRecursive();
+		}
 
 	}
 
@@ -519,8 +519,9 @@ public class DockManagerW extends DockManager {
 	 * update dispatching of new space with split panes
 	 */
 	private void updateSplitPanesResizeWeight() {
-
-		rootPane.updateResizeWeight();
+		if (rootPane != null) {
+			rootPane.updateResizeWeight();
+		}
 	}
 
 	/**
@@ -531,7 +532,7 @@ public class DockManagerW extends DockManager {
 	 */
 	public void drag(DockPanelW panel) {
 		// Do not allow docking in case this is the last view
-		if (panel.getParentSplitPane() == rootPane) {
+		if (panel.getParentSplitPane() == rootPane && rootPane != null) {
 			if (rootPane.getOpposite(panel) == null) {
 				return;
 			}
@@ -637,7 +638,8 @@ public class DockManagerW extends DockManager {
 					newSplitPane.setLeftComponent(opposite);
 				}
 			} else if (target.getParentSplitPane().getOpposite(target) == null
-					&& target.getParentSplitPane() == rootPane) {
+					&& target.getParentSplitPane() == rootPane
+					&& rootPane != null) {
 				rootPane.clear();
 
 				if (dndRegion == DnDState.LEFT || dndRegion == DnDState.TOP) {
@@ -688,7 +690,9 @@ public class DockManagerW extends DockManager {
 		setFocusedPanel(source);
 
 		unmarkAlonePanels();
-		markAlonePanel();
+		if (rootPane != null) {
+			markAlonePanel(rootPane);
+		}
 		panelsMoved = true;
 	}
 
@@ -697,15 +701,20 @@ public class DockManagerW extends DockManager {
 		final DockSplitPaneW sp = splitPane;
 		Scheduler.get().scheduleDeferred(() -> {
 			sp.setDividerLocation(dividerLocation);
-			rootPane.deferredOnResize();
+			deferredOnResize();
 		});
 	}
 
 	private void setDividerLocationAbs(DockSplitPaneW splitPane,
 			final int dividerLocation) {
-		final DockSplitPaneW sp = splitPane;
-		sp.setDividerLocation(dividerLocation);
-		rootPane.deferredOnResize();
+		splitPane.setDividerLocation(dividerLocation);
+		deferredOnResize();
+	}
+
+	private void deferredOnResize() {
+		if (rootPane != null) {
+			rootPane.deferredOnResize();
+		}
 	}
 
 	/**
@@ -722,30 +731,30 @@ public class DockManagerW extends DockManager {
 	 * Show a DockPanel where it was displayed the last time - either in the
 	 * main window or in a separate frame.
 	 * 
-	 * The location of the DockPanel in the main window is given by the
+	 * <p>The location of the DockPanel in the main window is given by the
 	 * definition string stored in DockPanelInfo.getEmbeddedDef(). A definition
 	 * string can be read like a list of directions, where numbers represents
-	 * the four directions we can go:
+	 * the four directions we can go:</p>
 	 * 
-	 * 0: Top 1: Right 2: Bottom 3: Left
+	 * <p>0: Top 1: Right 2: Bottom 3: Left</p>
 	 * 
-	 * A definition string like "0,3,2" is read by the program this way: - Go to
+	 * </p>A definition string like "0,3,2" is read by the program this way: - Go to
 	 * the top (=0) container of the root pane. - Go to the container at the
 	 * left (=3) of the current container. - Insert the DockPanel at the bottom
-	 * (=2) of the current container.
+	 * (=2) of the current container.</p>
 	 * 
-	 * Note that the program differs between the top &amp; left and bottom &amp; right
+	 * <p>Note that the program differs between the top &amp; left and bottom &amp; right
 	 * position while the DockSplitPane just differs between a left and right
-	 * component and the orientation of the split pane.
+	 * component and the orientation of the split pane.</p>
 	 * 
-	 * As the layout of the panels is changed frequently and may be completely
+	 * <p>As the layout of the panels is changed frequently and may be completely
 	 * different if the DockPanel is inserted again, the algorithm ignores all
 	 * directions which are not existing anymore in order to get the best
 	 * possible result. Using the example from above, the second direction ("3")
 	 * may be ignored if the top container of the root pane isn't divided
 	 * anymore or the orientation of the container was changed. The algorithm
 	 * will continue with "2" and will insert the DockPanel at the bottom of the
-	 * top container of the root pane.
+	 * top container of the root pane.</p>
 	 * 
 	 * @param panel
 	 *            panel
@@ -767,7 +776,7 @@ public class DockManagerW extends DockManager {
 		int secondLastPos = -1;
 
 		// Get the location of our new DockPanel (ignore last entry)
-		for (int i = 0; i < locations.length - 1; ++i) {
+		for (int i = 0; i < locations.length - 1 && currentPane != null; ++i) {
 			// The orientation of the current pane does not match the stored
 			// orientation, skip this
 			if (currentPane
@@ -872,7 +881,7 @@ public class DockManagerW extends DockManager {
 			DockSplitPaneW currentPane, DockSplitPaneW newSplitPane,
 			final int lastPos, final int secondLastPos) {
 		Widget opposite;
-		if (secondLastPos == -1) {
+		if (secondLastPos == -1 && rootPane != null) {
 			opposite = rootPane;
 			oppositeDim[0] = opposite.getOffsetWidth();
 			oppositeDim[1] = opposite.getOffsetHeight();
@@ -901,7 +910,7 @@ public class DockManagerW extends DockManager {
 			}
 			oppositeDim[0] = opposite.getOffsetWidth();
 			oppositeDim[1] = opposite.getOffsetHeight();
-			if (opposite.getParent() == rootPane
+			if (opposite.getParent() == rootPane && rootPane != null
 					&& rootPane.getOpposite(opposite) == null) {
 				rootPane = newSplitPane;
 			} else {
@@ -940,7 +949,9 @@ public class DockManagerW extends DockManager {
 		setFocusedPanel(panel);
 
 		unmarkAlonePanels();
-		markAlonePanel();
+		if (rootPane != null) {
+			markAlonePanel(rootPane);
+		}
 
 		for (ShowDockPanelListener l : showDockPanelListener) {
 			l.showDockPanel(panel);
@@ -1130,8 +1141,9 @@ public class DockManagerW extends DockManager {
 
 		panel.setHidden(!isPermanent);
 		panel.setVisible(false);
-
-		markAlonePanel();
+		if (rootPane != null) {
+			markAlonePanel(rootPane);
+		}
 
 		return true;
 	}
@@ -1303,17 +1315,17 @@ public class DockManagerW extends DockManager {
 	/**
 	 * If just one panel is visible in the main frame, mark him as 'alone'.
 	 */
-	private void markAlonePanel() {
-		if (rootPane.getRightComponent() == null) {
-			Widget leftComponent = rootPane.getLeftComponent();
+	private void markAlonePanel(DockSplitPaneW root) {
+		if (root.getRightComponent() == null) {
+			Widget leftComponent = root.getLeftComponent();
 
 			if (leftComponent instanceof DockPanel) {
 				((DockPanelW) leftComponent).setAlone(true);
 			}
 		}
 
-		if (rootPane.getLeftComponent() == null) {
-			Widget rightComponent = rootPane.getRightComponent();
+		if (root.getLeftComponent() == null) {
+			Widget rightComponent = root.getRightComponent();
 
 			if (rightComponent instanceof DockPanel) {
 				((DockPanelW) rightComponent).setAlone(true);
@@ -1345,8 +1357,8 @@ public class DockManagerW extends DockManager {
 	/**
 	 * Update all DockPanels.
 	 * 
-	 * This is required if the user changed whether the title bar should be
-	 * displayed or not.
+	 * <p>This is required if the user changed whether the title bar should be
+	 * displayed or not.</p>
 	 * 
 	 * @see #setLabels()
 	 */
@@ -1392,7 +1404,7 @@ public class DockManagerW extends DockManager {
 	/**
 	 * Returns a specific DockPanel.
 	 * 
-	 * Use the constants VIEW_EUCLIDIAN, VIEW_ALGEBRA etc. as viewId.
+	 * <p>Use the constants VIEW_EUCLIDIAN, VIEW_ALGEBRA etc. as viewId.</p>
 	 * 
 	 * @param viewId
 	 *            view ID
@@ -1475,7 +1487,7 @@ public class DockManagerW extends DockManager {
 	 */
 	public DockPanelW getPanelForKeyboard() {
 		DockPanelW focusedPanel = getFocusedPanel();
-		List<Integer> keyboardViews = ((AppWFull) app).getKeyboardManager()
+		List<Integer> keyboardViews = app.getKeyboardManager()
 				.getKeyboardViews();
 		if (focusedPanel != null && keyboardViews.contains(focusedPanel.getViewId())) {
 			return focusedPanel;
@@ -1708,7 +1720,7 @@ public class DockManagerW extends DockManager {
 			layout.getDockManager().unRegisterPanel(old);
 		}
 		layout.registerPanel(
-					((AppWFull) app).getCurrentActivity().createAVPanel());
+					app.getCurrentActivity().createAVPanel());
 
 	}
 
@@ -1742,6 +1754,9 @@ public class DockManagerW extends DockManager {
 	 * @param callback consumer for the resulting base64 string (without marker)
 	 */
 	public void paintPanels(HTMLCanvasElement c, StringConsumer callback, double scale) {
+		if (rootPane == null) {
+			return;
+		}
 		int width = (int) (rootPane.getOffsetWidth() * scale);
 		int height = (int) (rootPane.getOffsetHeight() * scale);
 		c.width = width;

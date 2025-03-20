@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -15,7 +15,7 @@ public class PropertiesDockPanelW extends DockPanelW {
 	 * @param app
 	 *            application
 	 */
-	public PropertiesDockPanelW(AppW app) {
+	public PropertiesDockPanelW(AppWFull app) {
 		super(
 			App.VIEW_PROPERTIES, // view id
 			null, // toolbar string

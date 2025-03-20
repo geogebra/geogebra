@@ -1,5 +1,7 @@
 package org.geogebra.common.media;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -26,14 +28,18 @@ public final class GeoGebraURLParser {
 	/**
 	 * @param url
 	 *            GeoGebra URL
-	 * @return material sharing key (or numeric ID)
+	 * @return material sharing key (or numeric ID); null if URL does not specify any ID
 	 */
-	public static String getIDfromURL(String url) {
+	public static @CheckForNull String getIDfromURL(String url) {
 		String urlNoProtocol = removeProtocol(url);
 		final String material = "/material/show/id/";
 
 		// remove hostname
-		String pathAndQuery = urlNoProtocol.substring(urlNoProtocol.indexOf('/'));
+		int beginIndex = urlNoProtocol.indexOf('/');
+		if (beginIndex < 0) {
+			return null;
+		}
+		String pathAndQuery = urlNoProtocol.substring(beginIndex);
 
 		String id;
 
@@ -63,7 +69,7 @@ public final class GeoGebraURLParser {
 		}
 		// fetch ID
 		id = pathAndQuery.substring(start, end);
-		return id;
+		return id.length() > 5 ||  id.matches("\\d+") ? id : null;
 	}
 
 	/**

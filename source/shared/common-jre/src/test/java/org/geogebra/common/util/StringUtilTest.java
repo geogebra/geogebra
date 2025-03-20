@@ -1,6 +1,7 @@
 package org.geogebra.common.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assume.assumeTrue;
 
 import org.geogebra.common.media.GeoGebraURLParser;
@@ -82,6 +83,12 @@ public class StringUtilTest {
 				GeoGebraURLParser.getIDfromURL("http://ggbm.at/k89JtCqY"));
 		assertEquals("k89JtCqY",
 				GeoGebraURLParser.getIDfromURL("http://ggbtu.be/mk89JtCqY"));
+		assertNull("homepage is not a material", GeoGebraURLParser
+				.getIDfromURL("https://www.geogebra.org"));
+		assertNull("homepage is not a material", GeoGebraURLParser
+				.getIDfromURL("https://www.geogebra.org/"));
+		assertNull("Math page is not a material", GeoGebraURLParser
+				.getIDfromURL("https://www.geogebra.org/math"));
 
 	}
 

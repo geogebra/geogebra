@@ -949,16 +949,16 @@ public class MyDouble extends ValidExpression
 	 *
 	 * @see MyDouble#convertToLatinCharacters(String)
 	 * @param str String to be parsed
-	 * @param app Localization (for showing errors)
+	 * @param loc Localization (for showing errors)
 	 * @return The value from the input String, as double
 	 */
-	public static double parseDouble(Localization app, String str) {
+	public static double parseDouble(Localization loc, String str) {
 		String latinCharacters = convertToLatinCharacters(str);
 		try {
 			return StringUtil.parseDouble(latinCharacters);
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(app, Errors.InvalidInput, str);
+			throw new MyError(loc, Errors.InvalidInput, str);
 		}
 	}
 

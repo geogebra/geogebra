@@ -3,10 +3,10 @@ package org.geogebra.web.geogebra3D.web.gui.layout.panels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.ContextMenuGraphicsWindow3DW;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -30,12 +30,12 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	 *            application
 	 * 
 	 */
-	public EuclidianDockPanel3DW(App app) {
+	public EuclidianDockPanel3DW(AppWFull app) {
 		super(App.VIEW_EUCLIDIAN3D, // view id
 				ToolBar.getAllToolsNoMacros3D(app), // toolbar string
 				true, // style bar?
 				true); // zoom panel
-		this.app = (AppW) app;
+		this.app = app;
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 	}
 

@@ -4,7 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -22,7 +22,7 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 	 *
 	 */
 
-	public DataAnalysisViewDockPanelW(AppW app) {
+	public DataAnalysisViewDockPanelW(AppWFull app) {
 		super(App.VIEW_DATA_ANALYSIS, getDefaultToolbar(), true);
 		this.app = app;
 		setShowStyleBar(true);

@@ -12,6 +12,7 @@ import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.EmbedManagerW;
@@ -227,9 +228,12 @@ public class CalcEmbedElement extends EmbedElement {
 		HTMLCanvasElement canvas = Js.uncheckedCast(DomGlobal.document.createElement("canvas"));
 		canvas.width = width;
 		canvas.height = height;
-		frame.getApp().getGuiManager().getLayout()
-				.getDockManager().paintPanels(canvas, null, 1);
-
+		try {
+			frame.getApp().getGuiManager().getLayout()
+					.getDockManager().paintPanels(canvas, null, 1);
+		} catch (RuntimeException rte) {
+			Log.debug(rte);
+		}
 		((GGraphics2DW) g2).drawImage(canvas, 0, 0, width, height);
 	}
 }

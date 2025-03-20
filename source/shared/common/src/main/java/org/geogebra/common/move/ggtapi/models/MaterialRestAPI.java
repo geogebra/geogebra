@@ -382,14 +382,18 @@ public class MaterialRestAPI implements BackendAPI {
 		AjaxCallback callback = new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
+				List<Material> materials;
+				Pagination pagination;
 				try {
-					userMaterialsCB
-							.onLoaded(parseMaterials(responseStr),
-									parseMaterialCount(responseStr));
+					materials = parseMaterials(responseStr);
+					pagination = parseMaterialCount(responseStr);
 				} catch (Exception e) {
 					Log.debug(e);
 					userMaterialsCB.onError(e);
+					return;
 				}
+				userMaterialsCB
+						.onLoaded(materials, pagination);
 			}
 
 			@Override
@@ -692,10 +696,10 @@ public class MaterialRestAPI implements BackendAPI {
 				+ parent.getSharingKeySafe(), null, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
+				ArrayList<Material> materials = new ArrayList<>();
 				try {
 					JSONObject json = new JSONObject(new JSONTokener(responseStr));
 					JSONArray elements = json.getJSONArray("elements");
-					ArrayList<Material> materials = new ArrayList<>();
 					for (int i = 0; i < elements.length(); i++) {
 						JSONObject jsonObject = elements.getJSONObject(i);
 						if ("G".equals(jsonObject.optString("type"))) {
@@ -703,10 +707,11 @@ public class MaterialRestAPI implements BackendAPI {
 							materials.add(mat);
 						}
 					}
-					materialCallback.onLoaded(materials, null);
 				} catch (Exception e) {
 					materialCallback.onError(e);
+					return;
 				}
+				materialCallback.onLoaded(materials, null);
 			}
 
 			@Override

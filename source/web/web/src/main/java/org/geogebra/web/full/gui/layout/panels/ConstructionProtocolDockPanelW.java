@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW.ConsProtocolScrollPanel;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Panel;
 
@@ -13,7 +13,7 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 	 * @param app
 	 *            application
 	 */
-	public ConstructionProtocolDockPanelW(AppW app) {
+	public ConstructionProtocolDockPanelW(AppWFull app) {
 		super(App.VIEW_CONSTRUCTION_PROTOCOL, null, false);
 		this.app = app;
 		this.setShowStyleBar(true);

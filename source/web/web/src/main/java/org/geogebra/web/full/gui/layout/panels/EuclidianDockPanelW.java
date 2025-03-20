@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -26,7 +26,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 * @param stylebar
 	 *            whether to use stylebar
 	 */
-	public EuclidianDockPanelW(AppW application, boolean stylebar) {
+	public EuclidianDockPanelW(AppWFull application, boolean stylebar) {
 		super(App.VIEW_EUCLIDIAN, null, stylebar, true);
 
 		// TODO: run loadComponent later like for other panels (check if it works in all applets)
