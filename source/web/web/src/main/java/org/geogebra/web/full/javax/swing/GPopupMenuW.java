@@ -14,6 +14,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.menu.MenuHoverListener;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler;
@@ -549,7 +550,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 * @return true if menu is shown
 	 */
 	public boolean isMenuShown() {
-		return popupMenu.isAttached() && popupMenu.isVisible();
+		return Dom.isAttachedAndVisible(popupMenu);
 	}
 
 	/**

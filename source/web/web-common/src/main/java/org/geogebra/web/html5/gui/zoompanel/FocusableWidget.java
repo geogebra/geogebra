@@ -38,7 +38,7 @@ public class FocusableWidget implements MayHaveFocus {
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
 		Widget btn = btns[0];
-		if (btn.isVisible() && btn.isAttached()
+		if (Dom.isAttachedAndVisible(btn)
 				&& notAriaHidderOrAriaDisabled(btn)
 				&& isButtonNotHidden(btn)
 				&& isParentVisible(btn)) {

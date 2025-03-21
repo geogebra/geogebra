@@ -291,11 +291,6 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	}
 
 	@Override
-	public boolean isVisible() {
-		return super.isVisible();
-	}
-
-	@Override
 	public boolean isCopiedByValue() {
 		return objValRadioButtonPanel.getValue();
 	}

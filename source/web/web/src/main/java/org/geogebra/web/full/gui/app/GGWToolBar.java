@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -1143,6 +1144,6 @@ public class GGWToolBar extends Composite
 
 	@Override
 	public boolean isShown() {
-		return isVisible() && isAttached();
+		return Dom.isAttachedAndVisible(this);
 	}
 }

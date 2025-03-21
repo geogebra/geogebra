@@ -32,6 +32,7 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
@@ -760,7 +761,7 @@ public class DockManagerW extends DockManager {
 	 *            panel
 	 */
 	public void show(DockPanelW panel) {
-		if (panel.isAttached() && panel.isVisible()) {
+		if (Dom.isAttachedAndVisible(panel)) {
 			return;
 		}
 		panel.setVisible(true);

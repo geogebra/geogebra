@@ -352,7 +352,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public final boolean isShowing() {
 		return g2p != null && g2p.getCanvas() != null
-				&& g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
+				&& Dom.isAttachedAndVisible(g2p.getCanvas());
 	}
 
 	/**

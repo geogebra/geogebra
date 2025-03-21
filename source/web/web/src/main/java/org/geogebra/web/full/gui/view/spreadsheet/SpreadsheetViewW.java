@@ -21,6 +21,7 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.awt.PrintableW;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.gwtproject.core.client.Scheduler;
@@ -722,7 +723,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	@Override
 	public boolean isShowing() {
 		// if this is attached, we shall make sure its parents are visible too
-		return spreadsheetWrapper.isVisible() && spreadsheetWrapper.isAttached()
+		return Dom.isAttachedAndVisible(spreadsheetWrapper)
 				&& table != null && table.getGrid().isVisible()
 				&& table.getGrid().isAttached();
 	}

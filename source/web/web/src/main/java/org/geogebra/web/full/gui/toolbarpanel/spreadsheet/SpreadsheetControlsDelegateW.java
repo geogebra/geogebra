@@ -289,7 +289,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public void hideContextMenu() {
-		boolean wasFocused = contextMenu.getPopupMenu().isVisible();
+		boolean wasFocused = contextMenu.isMenuShown();
 		contextMenu.hideMenu();
 		if (wasFocused) {
 			parent.requestFocus();

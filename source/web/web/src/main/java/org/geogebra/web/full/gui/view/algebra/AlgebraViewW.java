@@ -46,6 +46,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -1713,7 +1714,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	@Override
 	public boolean isShowing() {
-		return isVisible() && isAttached();
+		return Dom.isAttachedAndVisible(this);
 	}
 
 	@Override

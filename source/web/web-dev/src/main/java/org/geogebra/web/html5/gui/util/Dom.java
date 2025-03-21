@@ -7,6 +7,7 @@ import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.UIObject;
+import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
@@ -193,5 +194,13 @@ public final class Dom {
 		HTMLElement div = Js.uncheckedCast(DomGlobal.document.createElement("div"));
 		div.className = cls;
 		return div;
+	}
+
+	/**
+	 * @param widget UI object
+	 * @return whether widget is in DOM and not hidden (does not check if parents are hidden).
+	 */
+	public static boolean isAttachedAndVisible(Widget widget) {
+		return widget.isVisible() && widget.isAttached();
 	}
 }
