@@ -390,11 +390,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			int code = convertToJavaKeyCode(event.getNativeEvent());
 			// on Mac, the key event right after ^ is a KeyUpEvent,
 			// so it must be redirected to the onKeyTyped() handler.
-			if (powerHappened && isAlphanumeric(event.getNativeEvent())) {
+			if (powerHappened && getKey(event.getNativeEvent()).length() == 1) {
 				powerHappened = false;
-				char key = (char) event.getNativeKeyCode();
-				key = com.himamis.retex.editor.share.input.Character.isLetterOrDigit(key) ? key
-						: (char) convertToJavaKeyCode(event.getNativeEvent());
+				char key = getKey(event.getNativeEvent()).charAt(0);
 				redirectToKeyTyped(keyListener, key, event);
 				return;
 			}
@@ -530,9 +528,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return check.equals(Js.<KeyboardEvent>uncheckedCast(evt).code);
 	}
 
-	private static boolean isAlphanumeric(Object evt) {
+	private static String getKey(Object evt) {
 		KeyboardEvent nativeEvt = Js.uncheckedCast(evt);
-		return nativeEvt.key != null && nativeEvt.key.length() == 1;
+		return nativeEvt.key != null ? nativeEvt.key : "";
 	}
 
 	/**
