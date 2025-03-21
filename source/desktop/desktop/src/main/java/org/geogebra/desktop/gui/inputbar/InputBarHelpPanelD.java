@@ -740,7 +740,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		else if (e.getSource() == btnOnlineHelp) {
 			if (selectedCommand != null) {
-				app.getGuiManager().openHelp(ManualPage.COMMAND, selectedCommand);
+				app.getGuiManager().openHelp(ManualPage.COMMAND,
+						app.getReverseCommand(selectedCommand));
 			} else if (selectedFunction != null) {
 				app.getGuiManager().openHelp(ManualPage.OPERATORS, null);
 			} else {

@@ -173,7 +173,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 
 		} else {
 			app.getGuiManager()
-					.openHelp(ManualPage.COMMAND, getSelectedCommand());
+					.openHelp(ManualPage.COMMAND, app.getReverseCommand(getSelectedCommand()));
 		}
 	}
 
