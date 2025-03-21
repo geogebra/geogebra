@@ -56,7 +56,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 		String buttonId = DOM.createUniqueId();
 		button.getElement().setId(buttonId);
 		button.addStyleName("accessibleInput");
-		button.getElement().setAttribute("aria-labeledby", labelId + " " + buttonId);
+		button.getElement().setAttribute("aria-labelledby", labelId + " " + buttonId);
 
 		options.setVisible(false);
 		button.addDomHandler(e -> {
