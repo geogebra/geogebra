@@ -48,7 +48,7 @@ public class Fractions {
 					// keep angle dimension
 					return ltVal.deepCopy(kernel).wrap();
 				}
-				if (DoubleUtil.isInteger(rt) && DoubleUtil.isInteger(lt) && !DoubleUtil.isZero(rt)
+				if (isExactInteger(rt) && isExactInteger(lt) && !DoubleUtil.isZero(rt)
 						&& Math.abs(lt) < MAX_NUM_DENOMINATOR
 						&& Math.abs(rt) < MAX_NUM_DENOMINATOR) {
 
@@ -64,6 +64,10 @@ public class Fractions {
 			}
 		}
 		return expr.evaluate(StringTemplate.defaultTemplate).wrap();
+	}
+
+	private static boolean isExactInteger(double val) {
+		return val == Math.round(val);
 	}
 
 	private static ExpressionNode multiplyPi(double lt, Kernel kernel) {

@@ -25,6 +25,12 @@ public class FractionTest extends SymbolicArithmeticTest {
 	}
 
 	@Test
+	public void errorFunctionShouldNotBeFraction() {
+		t("erf(5)+1/2", "1.5");
+		t("erf(10)+1/2", "3 / 2"); // underflow, indistinguishable from 1+1/2
+	}
+
+	@Test
 	public void scientificNotation() {
 		t("5*10^(-2)", "1 / 20");
 	}

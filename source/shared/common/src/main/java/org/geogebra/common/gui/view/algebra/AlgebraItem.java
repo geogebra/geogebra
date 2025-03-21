@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.main.settings.Settings;
@@ -141,17 +140,6 @@ public class AlgebraItem {
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * @param geo
-	 *            element
-	 * @return whether element is a numeric that can be written as a fraction
-	 */
-	public static boolean isGeoFraction(GeoElementND geo) {
-		GeoElementND value = geo.unwrapSymbolic();
-		return value instanceof GeoNumeric && value.getDefinition() != null
-				&& value.getDefinition().isFraction();
 	}
 
 	/**
@@ -695,20 +683,16 @@ public class AlgebraItem {
 	 * @param geo element
 	 * @return `true` if the geo element has an output value that is a fraction
 	 */
-	public static boolean evaluatesToFraction(GeoElement geo) {
+	public static boolean evaluatesToFraction(GeoElementND geo) {
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
 			ExpressionValue value = symbolic.getValue();
-			try {
-				if (value instanceof ExpressionNode) {
-					return ((ExpressionNode) value).isFraction();
-				}
-			} catch (MyError err) {
-				return false;
+			if (value instanceof ExpressionNode) {
+				return ((ExpressionNode) value).isSimpleFraction();
 			}
 		} else if (geo instanceof GeoNumeric) {
-			GeoNumeric numeric = (GeoNumeric) geo;
-			return isGeoFraction(numeric);
+			return geo.getDefinition() != null
+					&& geo.getDefinition().isFraction();
 		}
 		return false;
 	}

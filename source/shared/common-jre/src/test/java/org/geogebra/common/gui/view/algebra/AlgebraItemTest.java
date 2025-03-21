@@ -177,9 +177,9 @@ public class AlgebraItemTest extends BaseUnitTest {
         GeoElement fraction1 = add("1+1/3");
         GeoElement fraction2 = add("-5/3");
         GeoElement solve = add("Solve(2x=3)");
-        assertThat(AlgebraItem.isGeoFraction(fraction1), is(true));
-        assertThat(AlgebraItem.isGeoFraction(fraction2), is(true));
-        assertThat(AlgebraItem.isGeoFraction(solve), is(false));
+		assertThat(AlgebraItem.evaluatesToFraction(fraction1), is(true));
+		assertThat(AlgebraItem.evaluatesToFraction(fraction2), is(true));
+		assertThat(AlgebraItem.evaluatesToFraction(solve), is(false));
     }
 
     @Test

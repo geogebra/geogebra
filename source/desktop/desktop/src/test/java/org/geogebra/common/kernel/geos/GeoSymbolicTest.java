@@ -1347,6 +1347,31 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testNumericToggle() {
+		GeoSymbolic threeDigits = add("0.123");
+		assertEquals(AlgebraOutputFormat.APPROXIMATION, getNextFormat(threeDigits));
+		assertTrue("low precision numbers should be fractions",
+				AlgebraItem.evaluatesToFraction(threeDigits));
+		GeoSymbolic fourDigits = add("0.1234");
+		assertTrue("high precision numbers should be fractions",
+				AlgebraItem.evaluatesToFraction(fourDigits));
+		assertEquals(AlgebraOutputFormat.APPROXIMATION, getNextFormat(fourDigits));
+		AlgebraOutputFormat.switchToNextFormat(fourDigits, false);
+		assertEquals(AlgebraOutputFormat.FRACTION, getNextFormat(fourDigits));
+	}
+
+	@Test
+	@Issue("APPS-6442")
+	public void testNumericToggleNormal() {
+		GeoSymbolic normal = add("Normal(2,0.5,2,5)");
+		assertFalse("command outputs should not be considered fractions",
+				AlgebraItem.evaluatesToFraction(normal));
+		assertEquals(AlgebraOutputFormat.APPROXIMATION, getNextFormat(normal));
+		AlgebraOutputFormat.switchToNextFormat(normal, false);
+		assertEquals(AlgebraOutputFormat.EXACT, getNextFormat(normal));
+	}
+
+	@Test
 	public void testSolveNSolveCase2() {
 		// Solve and NSolve both work and give answers in a different form
 		// 1 variable
@@ -1950,8 +1975,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoElement fraction = add("1+1/3");
 		GeoElement solve2 = add("Solve(2x=3,x)");
 		assertThat(fraction, instanceOf(GeoSymbolic.class));
-		assertThat(AlgebraItem.isGeoFraction(fraction), is(true));
-		assertThat(AlgebraItem.isGeoFraction(solve2), is(false));
+		assertThat(AlgebraItem.evaluatesToFraction(fraction), is(true));
+		assertThat(AlgebraItem.evaluatesToFraction(solve2), is(false));
 	}
 
 	@Test

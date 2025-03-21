@@ -376,7 +376,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private boolean updateDefinitionPanel() {
 		if (lastInput != null) {
 			definitionFromTeX(lastTeX);
-		} else if (latex || AlgebraItem.isGeoFraction(geo)) {
+		} else if (latex || AlgebraItem.evaluatesToFraction(geo)) {
 			String text = getTextForEditing(false,
 					StringTemplate.numericLatex);
 			definitionFromTeX(text);
