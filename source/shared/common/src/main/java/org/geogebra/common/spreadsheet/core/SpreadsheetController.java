@@ -1176,6 +1176,8 @@ public final class SpreadsheetController {
 			if (editExistingContent) {
 				Object content = tabularData.contentAt(row, column);
 				mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
+			} else {
+				mathField.parse("");
 			}
 
 			// If the cell editor is reused without first hiding it,
