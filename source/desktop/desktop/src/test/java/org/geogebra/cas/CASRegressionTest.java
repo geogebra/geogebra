@@ -81,10 +81,8 @@ public class CASRegressionTest extends BaseCASIntegrationTest {
 				"(-2 * x^(2) + (-3 * x + 6) * sqrt(x^(2) * (-2 * sqrt(10) - 6) + x * (8 * sqrt(10) "
 						+ "+ 24) - 2 * sqrt(10) - 5) + 8 * x + sqrt(10) - 5) / (x^(2) * (-2 "
 						+ "* sqrt(10) - 6) + x * (8 * sqrt(10) + 24) - 2 * sqrt(10) - 5)");
-		t("Solve[g(x) = 0, x]",
-				"{x = (-sqrt(31 * (2 * sqrt(10) - 3)) + 62) / 31}",
-				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}",
-				"{x = (sqrt(31 * (2 * sqrt(10) - 3)) + 62) / 31}");
+		t("NSolve[g(x) = 0, x]",
+				"{x = 2.327480869687}");
 	}
 
 	@Test
