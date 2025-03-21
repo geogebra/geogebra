@@ -124,9 +124,9 @@ public class ParserFunctionsTest {
 	@Test
 	public void testCompletionsWithFilteredOperations() {
 		List<String> completions = parserFunctions.getCompletions(GAMMA_PREFIX,
-				Set.of(Operation.GAMMA,
+				operation -> !Set.of(Operation.GAMMA,
 						Operation.GAMMA_INCOMPLETE,
-						Operation.GAMMA_INCOMPLETE_REGULARIZED));
+						Operation.GAMMA_INCOMPLETE_REGULARIZED).contains(operation));
 		assertEquals(0, completions.size());
 	}
 

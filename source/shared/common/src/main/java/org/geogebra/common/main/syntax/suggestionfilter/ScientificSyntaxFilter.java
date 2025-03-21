@@ -6,7 +6,7 @@ public final class ScientificSyntaxFilter extends LineSelectorSyntaxFilter {
 
 	/***/
 	public ScientificSyntaxFilter() {
-		addSelector(Commands.Normal, 0, 1);
+		addSelector(Commands.Normal, 0, 1, 3);
 		addSelector(Commands.BinomialDist, 1, 2, 3);
 	}
 }

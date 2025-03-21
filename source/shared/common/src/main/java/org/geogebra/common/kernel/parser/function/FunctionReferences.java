@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.plugin.Operation;
 
 class FunctionReferences {
@@ -55,9 +56,9 @@ class FunctionReferences {
 	}
 
 	void getCompletions(String prefix, Set<String> completions,
-						@CheckForNull Set<Operation> filteredOperations) {
+			@CheckForNull OperationFilter operationFilter) {
 		for (OperationSyntax operationSyntax : syntaxes) {
-			if (filteredOperations != null && filteredOperations.contains(operationSyntax.operation)) {
+			if (operationFilter != null && !operationFilter.isAllowed(operationSyntax.operation)) {
 				continue;
 			}
 			if (operationSyntax.syntax.startsWith(prefix)) {

@@ -151,6 +151,8 @@ import static org.geogebra.common.kernel.commands.Commands.UnitPerpendicularVect
 import static org.geogebra.common.kernel.commands.Commands.UnitVector;
 import static org.geogebra.common.kernel.commands.Commands.Vertex;
 import static org.geogebra.common.kernel.commands.Commands.Volume;
+import static org.geogebra.common.plugin.Operation.ALT;
+import static org.geogebra.common.plugin.Operation.ARG;
 
 import java.util.Map;
 import java.util.Set;
@@ -171,7 +173,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.GraphingExpressionFilterFactory;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
@@ -201,7 +203,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				null,
 				createCommandFilters(),
 				createCommandArgumentFilters(),
-				getFilteredOperations(),
+				createOperationFilter(),
 				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolsFilter(),
@@ -245,6 +247,11 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
 		return Set.of(new RealschuleCommandArgumentFilter());
+	}
+
+	private static OperationFilter createOperationFilter() {
+		Set<Operation> restrictedOperations = Set.of(ALT, ARG);
+		return operation -> !restrictedOperations.contains(operation);
 	}
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
@@ -435,12 +442,6 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> getInputExpressionFilter() {
-		return Set.of(
-				ExpressionFilterFactory.createOperationsExpressionFilter(getFilteredOperations()),
-				GraphingExpressionFilterFactory.createFilter());
-	}
-
-	private static Set<Operation> getFilteredOperations() {
-		return Set.of(Operation.ALT, Operation.ARG);
+		return Set.of(GraphingExpressionFilterFactory.createFilter());
 	}
 }

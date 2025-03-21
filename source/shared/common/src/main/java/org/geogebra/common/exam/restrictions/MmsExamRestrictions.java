@@ -17,6 +17,28 @@ import static org.geogebra.common.kernel.statistics.Statistic.PMCC;
 import static org.geogebra.common.kernel.statistics.Statistic.Q1;
 import static org.geogebra.common.kernel.statistics.Statistic.Q3;
 import static org.geogebra.common.kernel.statistics.Statistic.SD;
+import static org.geogebra.common.plugin.Operation.ALT;
+import static org.geogebra.common.plugin.Operation.ARCTAN2;
+import static org.geogebra.common.plugin.Operation.ARCTAN2D;
+import static org.geogebra.common.plugin.Operation.ARG;
+import static org.geogebra.common.plugin.Operation.BETA;
+import static org.geogebra.common.plugin.Operation.BETA_INCOMPLETE;
+import static org.geogebra.common.plugin.Operation.BETA_INCOMPLETE_REGULARIZED;
+import static org.geogebra.common.plugin.Operation.CI;
+import static org.geogebra.common.plugin.Operation.CONJUGATE;
+import static org.geogebra.common.plugin.Operation.EI;
+import static org.geogebra.common.plugin.Operation.ERF;
+import static org.geogebra.common.plugin.Operation.GAMMA;
+import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE;
+import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE_REGULARIZED;
+import static org.geogebra.common.plugin.Operation.IMAGINARY;
+import static org.geogebra.common.plugin.Operation.LAMBERTW;
+import static org.geogebra.common.plugin.Operation.POLYGAMMA;
+import static org.geogebra.common.plugin.Operation.PSI;
+import static org.geogebra.common.plugin.Operation.RANDOM;
+import static org.geogebra.common.plugin.Operation.REAL;
+import static org.geogebra.common.plugin.Operation.SI;
+import static org.geogebra.common.plugin.Operation.ZETA;
 
 import java.util.Set;
 
@@ -31,6 +53,7 @@ import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -39,6 +62,7 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.statistics.Statistic;
+import org.geogebra.common.plugin.Operation;
 
 public class MmsExamRestrictions extends ExamRestrictions {
 
@@ -54,7 +78,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				createOutputExpressionFilters(),
 				Set.of(createCommandFilter()),
 				null,
-				null,
+				createOperationFilter(),
 				createContextMenuItemFilters(),
 				null,
 				null,
@@ -237,11 +261,17 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		return nameFilter;
 	}
 
+	private static OperationFilter createOperationFilter() {
+		Set<Operation> restrictedOperations = Set.of(
+				ARG, CONJUGATE, REAL, IMAGINARY, ALT, RANDOM, ARCTAN2, ARCTAN2D, BETA,
+				BETA_INCOMPLETE, BETA_INCOMPLETE_REGULARIZED, GAMMA, GAMMA_INCOMPLETE,
+				GAMMA_INCOMPLETE_REGULARIZED, ERF, PSI, POLYGAMMA, SI, CI, EI, ZETA, LAMBERTW);
+		return operation -> !restrictedOperations.contains(operation);
+	}
+
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
-		return Set.of(contextMenuItem -> {
-			return contextMenuItem != AlgebraContextMenuItem.Statistics
-					&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints;
-		});
+		return Set.of(contextMenuItem -> contextMenuItem != AlgebraContextMenuItem.Statistics
+				&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints);
 	}
 
 	private static StatisticsFilter createStatisticsFilter() {

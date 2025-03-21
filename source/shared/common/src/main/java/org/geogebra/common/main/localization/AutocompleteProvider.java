@@ -3,7 +3,6 @@ package org.geogebra.common.main.localization;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
@@ -12,6 +11,7 @@ import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -19,7 +19,6 @@ import org.geogebra.common.main.syntax.EnglishCommandSyntax;
 import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.ownership.NonOwning;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.MatchedString;
@@ -34,7 +33,7 @@ public class AutocompleteProvider {
 	private final App app;
 	private final boolean isForClassicCAS;
 	private LocalizedCommandSyntax englishCommandSyntax;
-	private @CheckForNull Set<Operation> filteredOperations;
+	private @CheckForNull OperationFilter operationFilter;
 
 	/**
 	 * @param app application
@@ -50,9 +49,7 @@ public class AutocompleteProvider {
 	 * @param syntaxFilter a syntax filter.
 	 */
 	public void addSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
-		if (syntaxFilter != null) {
-			getEnglishCommandSyntax().addSyntaxFilter(syntaxFilter);
-		}
+		getEnglishCommandSyntax().addSyntaxFilter(syntaxFilter);
 	}
 
 	/**
@@ -60,17 +57,15 @@ public class AutocompleteProvider {
 	 * @param syntaxFilter a syntax filter.
 	 */
 	public void removeSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
-		if (syntaxFilter != null) {
-			getEnglishCommandSyntax().removeSyntaxFilter(syntaxFilter);
-		}
+		getEnglishCommandSyntax().removeSyntaxFilter(syntaxFilter);
 	}
 
 	/**
-	 * Sets operations to be filtered out from the results.
-	 * @param filteredOperations An optional set of operations to filter out from the results.
+	 * Sets a filter to restrict operations in the completions.
+	 * @param operationFilter an optional operation filter
 	 */
-	public void setFilteredOperations(@CheckForNull Set<Operation> filteredOperations) {
-		this.filteredOperations = filteredOperations;
+	public void setOperationFilter(@Nullable OperationFilter operationFilter) {
+		this.operationFilter = operationFilter;
 	}
 
 	/**
@@ -176,7 +171,7 @@ public class AutocompleteProvider {
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
 		List<String> functionResults = app.getParserFunctions().getCompletions(curWord,
-				filteredOperations);
+				operationFilter);
 		Stream<Completion> completions = functionResults.stream()
 				.map(function -> new Completion(getMatch(function, curWord),
 						Collections.singletonList(function),

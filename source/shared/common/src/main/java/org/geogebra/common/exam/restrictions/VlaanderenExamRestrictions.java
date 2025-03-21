@@ -3,16 +3,15 @@ package org.geogebra.common.exam.restrictions;
 import static org.geogebra.common.SuiteSubApp.CAS;
 import static org.geogebra.common.SuiteSubApp.GRAPHING;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
+import static org.geogebra.common.plugin.Operation.DERIVATIVE;
 
 import java.util.Set;
 
 import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.plugin.Operation;
 
 final class VlaanderenExamRestrictions extends ExamRestrictions {
 
@@ -21,11 +20,11 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				Set.of(CAS, SCIENTIFIC),
 				GRAPHING,
 				null,
-				createExpressionFilters(),
-				createExpressionFilters(),
+				null,
+				null,
 				createCommandFilters(),
 				null,
-				null,
+				createOperationFilter(),
 				null,
 				null,
 				null,
@@ -46,8 +45,7 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 		return Set.of(nameFilter);
 	}
 
-	private static Set<ExpressionFilter> createExpressionFilters() {
-		return Set.of(
-				ExpressionFilterFactory.createOperationsExpressionFilter(Operation.DERIVATIVE));
+	private static OperationFilter createOperationFilter() {
+		return operation -> operation != DERIVATIVE;
 	}
 }

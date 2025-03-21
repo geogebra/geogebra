@@ -2,10 +2,10 @@ package org.geogebra.common.kernel.parser.function;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
@@ -112,10 +112,10 @@ class ParserFunctionsImpl implements ParserFunctions {
 	}
 
 	@Override
-	public ArrayList<String> getCompletions(String prefix, Set<Operation> filteredOperations) {
+	public ArrayList<String> getCompletions(String prefix, OperationFilter operationFilter) {
 		TreeSet<String> completions = new TreeSet<String>();
-		references.getCompletions(prefix, completions, filteredOperations);
-		localizedReferences.getCompletions(prefix, completions, filteredOperations);
+		references.getCompletions(prefix, completions, operationFilter);
+		localizedReferences.getCompletions(prefix, completions, operationFilter);
 		return new ArrayList<>(completions);
 	}
 

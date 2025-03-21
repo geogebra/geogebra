@@ -21,16 +21,6 @@ import org.geogebra.test.TestErrorHandler;
 import org.junit.Test;
 
 public class ExpressionFilterTests extends BaseUnitTest {
-
-	@Test
-	public void testOperationExpression() throws Exception {
-		ExpressionFilter filter =
-				ExpressionFilterFactory.createOperationsExpressionFilter(Operation.OR,
-						Operation.AND);
-		ValidExpression expression = parse("true || false");
-		assertFalse(filter.isAllowed(expression));
-	}
-
 	@Test
 	public void testComplexExpression() throws Exception {
 		ExpressionFilter filter = new ComplexExpressionFilter();

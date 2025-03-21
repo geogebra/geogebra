@@ -27,6 +27,7 @@ import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
+import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -71,7 +72,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
             case GEOMETRY:
                 return new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
             case SCIENTIFIC:
-                break;
+                return new AppConfigScientific(GeoGebraConstants.SUITE_APPCODE);
             case G3D:
                 return new AppConfigGraphing3D(GeoGebraConstants.SUITE_APPCODE);
             case PROBABILITY:

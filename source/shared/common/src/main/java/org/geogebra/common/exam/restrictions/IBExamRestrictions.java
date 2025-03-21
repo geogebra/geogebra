@@ -351,6 +351,8 @@ import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Di
 import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.LOGNORMAL;
 import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.PASCAL;
 import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.WEIBULL;
+import static org.geogebra.common.plugin.Operation.FRACTIONAL_PART;
+import static org.geogebra.common.plugin.Operation.RANDOM;
 
 import java.util.Map;
 import java.util.Set;
@@ -362,7 +364,7 @@ import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
@@ -388,7 +390,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				createCommandFilters(),
 				createCommandArgumentFilters(),
-				createFilteredOperations(),
+				createOperationFilter(),
 				null,
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
@@ -400,13 +402,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
-		return Set.of(new PointDerivativeFilter(),
-				ExpressionFilterFactory.createOperationsExpressionFilter(
-						createFilteredOperations()));
-	}
-
-	private static Set<Operation> createFilteredOperations() {
-		return Set.of(Operation.FRACTIONAL_PART, Operation.RANDOM);
+		return Set.of(new PointDerivativeFilter());
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -461,6 +457,11 @@ public final class IBExamRestrictions extends ExamRestrictions {
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
 		return Set.of(new IBExamCommandFilter());
+	}
+
+	private static OperationFilter createOperationFilter() {
+		Set<Operation> restrictedOperations = Set.of(FRACTIONAL_PART, RANDOM);
+		return operation -> !restrictedOperations.contains(operation);
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {

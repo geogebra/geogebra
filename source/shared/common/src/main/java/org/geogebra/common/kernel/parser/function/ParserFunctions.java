@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.parser.function;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
@@ -59,12 +59,12 @@ public interface ParserFunctions {
 	 * 
 	 * @param prefix
 	 *            the prefix to match function syntaxes against
-	 * @param filteredOperations
-	 * 			  an optional set of Operations that should be filtered out (suppressed)
+	 * @param operationFilter
+	 * 			  an optional filter for operations that should be filtered out (suppressed)
 	 * @return all the built-in functions starting with this prefix (with
 	 *         brackets at the end)
 	 */
-	ArrayList<String> getCompletions(String prefix, @CheckForNull Set<Operation> filteredOperations);
+	ArrayList<String> getCompletions(String prefix, @CheckForNull OperationFilter operationFilter);
 
 	/**
 	 * @param localization

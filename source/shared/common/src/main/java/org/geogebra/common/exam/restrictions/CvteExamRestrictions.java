@@ -12,6 +12,28 @@ import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.St
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.ALLOW;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
+import static org.geogebra.common.plugin.Operation.ALT;
+import static org.geogebra.common.plugin.Operation.ARG;
+import static org.geogebra.common.plugin.Operation.BETA;
+import static org.geogebra.common.plugin.Operation.BETA_INCOMPLETE;
+import static org.geogebra.common.plugin.Operation.BETA_INCOMPLETE_REGULARIZED;
+import static org.geogebra.common.plugin.Operation.CI;
+import static org.geogebra.common.plugin.Operation.CONJUGATE;
+import static org.geogebra.common.plugin.Operation.EI;
+import static org.geogebra.common.plugin.Operation.ERF;
+import static org.geogebra.common.plugin.Operation.FRACTIONAL_PART;
+import static org.geogebra.common.plugin.Operation.GAMMA;
+import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE;
+import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE_REGULARIZED;
+import static org.geogebra.common.plugin.Operation.LAMBERTW;
+import static org.geogebra.common.plugin.Operation.NPR;
+import static org.geogebra.common.plugin.Operation.POLYGAMMA;
+import static org.geogebra.common.plugin.Operation.PRODUCT;
+import static org.geogebra.common.plugin.Operation.PSI;
+import static org.geogebra.common.plugin.Operation.RANDOM;
+import static org.geogebra.common.plugin.Operation.SI;
+import static org.geogebra.common.plugin.Operation.VECTORPRODUCT;
+import static org.geogebra.common.plugin.Operation.ZETA;
 
 import java.util.List;
 import java.util.Map;
@@ -47,8 +69,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.filter.CompositeExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
 import org.geogebra.common.kernel.arithmetic.filter.InspectingExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.AbsExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.InnerProductExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.PowerInnerProductExpressionFilter;
@@ -85,7 +107,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				createOutputExpressionFilters(),
 				createCommandFilters(),
 				createCommandArgumentFilters(),
-				getFilteredOperations(),
+				createOperationFilter(),
 				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolsFilter(),
@@ -217,29 +239,12 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		return new CvteSyntaxFilter();
 	}
 
-	private static Set<Operation> getFilteredOperations() {
-		return Set.of(Operation.CONJUGATE,
-				Operation.FRACTIONAL_PART,
-				Operation.GAMMA,
-				Operation.GAMMA_INCOMPLETE,
-				Operation.GAMMA_INCOMPLETE_REGULARIZED,
-				Operation.POLYGAMMA,
-				Operation.RANDOM,
-				Operation.NPR,
-				Operation.PRODUCT,
-				Operation.VECTORPRODUCT,
-				Operation.ARG,
-				Operation.ALT,
-				Operation.BETA,
-				Operation.BETA_INCOMPLETE,
-				Operation.BETA_INCOMPLETE_REGULARIZED,
-				Operation.ERF,
-				Operation.PSI,
-				Operation.SI,
-				Operation.CI,
-				Operation.EI,
-				Operation.ZETA,
-				Operation.LAMBERTW);
+	private static OperationFilter createOperationFilter() {
+		Set<Operation> restrictedOperations = Set.of(
+				CONJUGATE, FRACTIONAL_PART, GAMMA, GAMMA_INCOMPLETE, GAMMA_INCOMPLETE_REGULARIZED,
+				POLYGAMMA, RANDOM, NPR, PRODUCT, VECTORPRODUCT, ARG, ALT, BETA, BETA_INCOMPLETE,
+				BETA_INCOMPLETE_REGULARIZED, ERF, PSI, SI, CI, EI, ZETA, LAMBERTW);
+		return operation -> !restrictedOperations.contains(operation);
 	}
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
@@ -311,7 +316,6 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
 		List<ExpressionFilter> filters = List.of(
-				ExpressionFilterFactory.createOperationsExpressionFilter(getFilteredOperations()),
 				new MatrixExpressionFilter(),
 				new AbsExpressionFilter(),
 				new InnerProductExpressionFilter(),

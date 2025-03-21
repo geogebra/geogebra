@@ -4,6 +4,8 @@ import static org.geogebra.common.contextmenu.InputContextMenuItem.Expression;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_POINT;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
+import static org.geogebra.common.plugin.Operation.AND;
+import static org.geogebra.common.plugin.Operation.OR;
 
 import java.util.Map;
 import java.util.Set;
@@ -21,7 +23,7 @@ import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.RadianExpressionFilter;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -45,7 +47,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				null,
 				createCommandFilters(),
 				createCommandArgumentFilter(),
-				null,
+				createOperationFilter(),
 				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
@@ -66,10 +68,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
-		return Set.of(
-				ExpressionFilterFactory.createOperationsExpressionFilter(Operation.OR,
-						Operation.AND),
-				new ComplexExpressionFilter(),
+		return Set.of(new ComplexExpressionFilter(),
 				new RadianExpressionFilter());
 	}
 
@@ -103,6 +102,11 @@ final class TestExamRestrictions extends ExamRestrictions {
 				}
 			}
 		});
+	}
+
+	private static OperationFilter createOperationFilter() {
+		Set<Operation> restrictedOperations = Set.of(OR, AND);
+		return operation -> !restrictedOperations.contains(operation);
 	}
 
 	private static Map<String, PropertyRestriction> createPropertyRestrictions() {

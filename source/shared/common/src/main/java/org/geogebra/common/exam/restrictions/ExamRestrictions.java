@@ -1,5 +1,6 @@
 package org.geogebra.common.exam.restrictions;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -35,7 +37,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
@@ -69,7 +70,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final @Nonnull Set<ExpressionFilter> inputExpressionFilters;
 	private final @Nonnull Set<ExpressionFilter> outputExpressionFilters;
 	private final @Nonnull Set<CommandFilter> commandFilters;
-	private final @Nonnull Set<Operation> filteredOperations;
+	private final @Nullable OperationFilter operationFilter;
 	private final @Nonnull Set<CommandArgumentFilter> commandArgumentFilters;
 	private final @Nonnull Set<ContextMenuItemFilter> contextMenuItemFilters;
 	private final @Nonnull Set<DisabledAlgorithms> disabledAlgorithms;
@@ -132,7 +133,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * exams to the algebra outputs.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
-	 * @param filteredOperations An optional set of operations to filter out during exams.
+	 * @param operationFilter An optional operation filter to apply during exams.
 	 * @param syntaxFilter An optional syntax filter to apply during exams.
 	 * @param toolsFilter An optional filter for tools that should be unavailable during the exam.
 	 * If this argument is null, the Image tool will still be filtered out (APPS-5214). When
@@ -150,7 +151,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<ExpressionFilter> outputExpressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
-			@Nullable Set<Operation> filteredOperations,
+			@Nullable OperationFilter operationFilter,
 			@Nullable Set<ContextMenuItemFilter> contextMenuItemFilters,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
@@ -164,13 +165,13 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.featureRestrictions = featureRestrictions != null ? featureRestrictions : Set.of();
 		this.inputExpressionFilters =
-				inputExpressionFilters != null ? inputExpressionFilters : Set.of();
+				createExpressionFilters(inputExpressionFilters, operationFilter);
 		this.outputExpressionFilters =
-				outputExpressionFilters != null ? outputExpressionFilters : Set.of();
+				createExpressionFilters(outputExpressionFilters, operationFilter);
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();
-		this.filteredOperations = filteredOperations != null ? filteredOperations : Set.of();
+		this.operationFilter = operationFilter;
 		this.contextMenuItemFilters =
 				contextMenuItemFilters != null ? contextMenuItemFilters : Set.of();
 		this.syntaxFilter = syntaxFilter;
@@ -274,7 +275,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			}
 		}
 		if (autoCompleteProvider != null) {
-			autoCompleteProvider.setFilteredOperations(filteredOperations);
+			autoCompleteProvider.setOperationFilter(operationFilter);
 		}
 		if (propertiesRegistry != null) {
 			propertyRestrictions.forEach((name, restriction) -> {
@@ -364,7 +365,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			}
 		}
 		if (autoCompleteProvider != null) {
-			autoCompleteProvider.setFilteredOperations(null);
+			autoCompleteProvider.setOperationFilter(null);
 		}
 		if (propertiesRegistry != null) {
 			propertyRestrictions.forEach((name, restriction) -> {
@@ -469,6 +470,20 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (propertyRestrictions.containsKey(property.getRawName())) {
 			propertyRestrictions.get(property.getRawName()).removeFrom(property);
 		}
+	}
+
+	private static Set<ExpressionFilter> createExpressionFilters(
+			@Nullable Set<ExpressionFilter> expressionFilters,
+			@Nullable OperationFilter operationFilter
+	) {
+		HashSet<ExpressionFilter> filters = new HashSet<>();
+		if (expressionFilters != null) {
+			filters.addAll(expressionFilters);
+		}
+		if (operationFilter != null) {
+			filters.add(expression -> OperationFilter.isAllowed(expression, operationFilter));
+		}
+		return filters;
 	}
 
 	private static GeoElementSetup createRestrictedGeoElementVisibilitySetup(
