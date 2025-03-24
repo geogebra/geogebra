@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Restrictions on geo elements regarding the visibility in graphical output.
@@ -70,6 +71,10 @@ public interface VisibilityRestriction {
 				.collect(Collectors.toList());
 		boolean isAllowed = effects.stream().anyMatch(effect -> effect == Effect.ALLOW)
 				|| effects.stream().noneMatch(effect -> effect == Effect.HIDE);
+		if (isAllowed && geoElement.isGeoList()) {
+			return ((GeoList) geoElement).elements()
+					.anyMatch(el -> isVisibilityRestricted(el, visibilityRestrictions));
+		}
 		return !isAllowed;
 	}
 }
