@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
@@ -52,6 +54,12 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	private boolean useKeyboardButton = true;
 	private boolean editable = true;
 	private String errorText;
+	/**
+	 * null: not an input box
+	 * empty list: input box with no variables
+	 * non-empty list: input box with variables
+	 */
+	private @CheckForNull List<String> inputBoxFunctionVars;
 
 	/**
 	 * Constructor
@@ -147,7 +155,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 */
 	public void requestFocus() {
 		if (editable) {
-			mathField.setInputBoxFunctionVariables(app.getInputBoxFunctionVars());
+			if (inputBoxFunctionVars != null) {
+				mathField.setInputBoxFunctionVariables(inputBoxFunctionVars);
+			}
 			mathField.requestViewFocus(() -> preventBlur = false);
 			app.sendKeyboardEvent(true);
 			setKeyboardVisibility(true);
@@ -410,5 +420,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		mathField.setMinHeight(settings.getMinHeight());
 		mathField.setRightMargin(settings.getRightMargin());
 		mathField.setBottomOffset(settings.getBottomOffset());
+	}
+
+	public void setInputBoxFunctionVars(List<String> inputBoxFunctionVars) {
+		this.inputBoxFunctionVars = inputBoxFunctionVars;
 	}
 }

@@ -71,6 +71,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 		((AppWFull) app).setInputBoxType(geoInputBox.getInputBoxType());
 		((AppWFull) app).setInputBoxFunctionVars(geoInputBox.getFunctionVars());
+		editor.setInputBoxFunctionVars(geoInputBox.getFunctionVars());
 		// update size and show
 		resetChanges();
 	}
