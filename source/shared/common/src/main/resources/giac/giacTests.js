@@ -2097,6 +2097,7 @@ var __giac = [
 { cat:"Intersect", cmd:"Intersect[x=1, Line[Point[{3,1,0}], Point[{1,1,0}]]]", result:"(1, 1, 0)", notes:"GGB-737" },
 { cat:"Intersect", cmd:"Intersect[Line[Point[{1, 2, 3}],Point[{3, 2, 1}]], Plane[z=3/2]]", result:"(5 / 2, 2, 3 / 2)", notes:"GGB-737" },
 { cat:"Intersect", cmd:"Intersect[Line[Point[{1, 2}],Point[{3, 4}]], Plane[x + y = 0]]", result:"(-1 / 2, 1 / 2, 0)", notes:"GGB-737" },
+{ cat:"Intersect", cmd:"Intersect[sqrt(x),((x)^(2))/(2)]", result:"{(0, 0), (cbrt(2) cbrt(2), cbrt(2))}", notes:"APPS-6384"},
 { cat:"Plane.1", cmd:"Plane[x + y = z]", result:"x + y + z (-1) = 0" },
 { cat:"Limit", cmd:"Limit[exp(sin(x)) * abs(sin(x)),x,infinity]", result:"?", notes:"wrong in giac.ja (infinity)"},
 { cat:"Solve", cmd:"Solve((x+5)*exp(x)=(x+5)*exp(2*x))", result:"{x=-5, x=0}" },
