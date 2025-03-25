@@ -804,7 +804,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 		double right = x + w;
 		double bottom = y + h;
-		context.roundRect(x, y, w, h, r);
 		context.beginPath();
 
 		context.moveTo(x + r, y);
