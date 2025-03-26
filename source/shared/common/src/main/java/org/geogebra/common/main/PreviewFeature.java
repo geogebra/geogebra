@@ -32,8 +32,6 @@ public enum PreviewFeature {
 	/** APPS-5740 */
 	REALSCHULE_EXAM,
 	WTR_EXAM,
-	/** APPS-6134, removal APPS-6217 */
-	REALSCHULE_TEMPLATES,
 	CREATE_CHART_MENU_ITEM;
 
 	/**

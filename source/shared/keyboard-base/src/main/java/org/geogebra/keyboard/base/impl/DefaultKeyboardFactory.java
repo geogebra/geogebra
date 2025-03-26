@@ -22,7 +22,7 @@ import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 
 public class DefaultKeyboardFactory implements KeyboardFactory {
-	private ButtonFactory defaultButtonFactory = new ButtonFactory(null);
+	private final ButtonFactory defaultButtonFactory = new ButtonFactory(null);
 	protected KeyboardModelFactory mathKeyboardFactory;
 	protected KeyboardModelFactory defaultKeyboardModelFactory;
 	protected KeyboardModelFactory greekKeyboardFactory;
@@ -33,26 +33,18 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	/**
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
-	 * @param templateKeyProvider provides feedback for template keys (point)
 	 */
-	public DefaultKeyboardFactory(TemplateKeyProvider templateKeyProvider) {
-		this(new DefaultCharProvider(), templateKeyProvider);
-	}
-
-	/**
-	 * @deprecated not localized, supply TemplateKeyProvider instead
-	 */
-	@Deprecated
-	public DefaultKeyboardFactory(boolean hasPointTemplate) {
-		this(new DefaultCharProvider(), hasPointTemplate ? new BaseTemplateKeyProvider() : null);
+	public DefaultKeyboardFactory() {
+		this(new DefaultCharProvider(), null);
 	}
 
 	/**
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
+	 * @param templateKeyProvider provides feedback for template keys (point)
 	 */
-	public DefaultKeyboardFactory() {
-		this(new DefaultCharProvider(), null);
+	public DefaultKeyboardFactory(TemplateKeyProvider templateKeyProvider) {
+		this(new DefaultCharProvider(), templateKeyProvider);
 	}
 
 	/**
