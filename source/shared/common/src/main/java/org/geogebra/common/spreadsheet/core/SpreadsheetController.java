@@ -210,6 +210,13 @@ public final class SpreadsheetController {
 		}
 	}
 
+	private void resizeCellEditor() {
+		if (!isEditorActive()) {
+			return;
+		}
+		editor.updatePosition();
+	}
+
 	private void initCopyPasteCut() {
 		if (copyPasteCut == null && controlsDelegate != null) {
 			copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData,
@@ -704,12 +711,14 @@ public final class SpreadsheetController {
 		double width = layout.getWidthForColumnResize(dragState.startColumn,
 				x + viewport.getMinX());
 		layout.setWidthForColumns(width, dragState.startColumn, dragState.startColumn);
+		resizeCellEditor();
 	}
 
 	private void resizeRow(double y) {
 		double height = layout.getHeightForRowResize(dragState.startRow,
 				y + viewport.getMinY());
 		layout.setHeightForRows(height, dragState.startRow, dragState.startRow);
+		resizeCellEditor();
 	}
 
 	/**
