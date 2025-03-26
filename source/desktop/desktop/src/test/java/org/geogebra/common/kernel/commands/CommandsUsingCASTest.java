@@ -581,4 +581,20 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("Invert((x + 4) / (2x - 5))", "((5 * x) + 4) / ((2 * x) - 1)");
 		t("Invert(sqrt(x)/x)", "(1 / x)^(2)");
 	}
+
+	@Test
+	@Issue("APPS-5829")
+	public void cmdCSolve() {
+		t("CSolve(x^2 = -1)", "{ί, (-ί)}");
+		t("CSolve(x^2 = -3, x)", "{(ί * sqrt(3)), ((-ί) * sqrt(3))}");
+		t("CSolve({x^2 = -1}, {x})", "{{{x = (-ί)}, {x = ί}}}");
+	}
+
+	@Test
+	@Issue("APPS-5829")
+	public void cmdCSolutions() {
+		t("CSolutions(x^2 = -4)", "{(2 * ί), (-2 * ί)}");
+		t("CSolutions(x^2 = -18, x)", "{((3 * ί) * sqrt(2)), ((-3 * ί) * sqrt(2))}");
+		t("CSolutions({x^2 = -4}, {x})", "{{{(-2 * ί)}, {(2 * ί)}}}");
+	}
 }

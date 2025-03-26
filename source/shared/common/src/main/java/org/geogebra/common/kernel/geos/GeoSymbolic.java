@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
@@ -41,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.cas.AlgoComplexSolve;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.Commands;
@@ -771,11 +771,7 @@ public class GeoSymbolic extends GeoElement
 		}
 		EvalInfo twinInfo = new EvalInfo(false, true).withAssignments(false);
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode, twinInfo);
-		GeoElement result = elements.length > 1 || needsListWrapping(elements[0])
-				? toGeoList(elements) : elements[0];
-		if (isOutputOfCSolveCommand()) {
-			handleOutputOfCSolveCommand(result);
-		}
+		GeoElement result = processResult(elements);
 		AlgoElement parentAlgo = elements[0].getParentAlgorithm();
 		if (cons.isRegisteredEuclidianViewCE(parentAlgo)) {
 			cons.unregisterEuclidianViewCE(parentAlgo);
@@ -784,6 +780,17 @@ public class GeoSymbolic extends GeoElement
 			cons.unregisterEuclidianViewCE(this);
 		}
 		result.setFixed(true);
+		return result;
+	}
+
+	private GeoElement processResult(GeoElement[] elements) {
+		GeoElement result = elements.length > 1 || needsListWrapping(elements[0])
+				? toGeoList(elements) : elements[0];
+		if (isOutputOfCSolveCommand()) {
+			handleOutputOfCSolveCommand(result);
+		} else if (algoParent instanceof AlgoComplexSolve && result instanceof GeoLine) {
+			return createPointFromLine((GeoLine) result);
+		}
 		return result;
 	}
 
@@ -843,11 +850,10 @@ public class GeoSymbolic extends GeoElement
 			return true;
 		}
 		return Arrays.stream(command.getArguments())
-				.map(arg -> arg.getLeft())
+				.map(ExpressionNode::getLeft)
 				.filter(arg -> arg instanceof GeoSymbolic)
 				.map(left -> (GeoSymbolic) left)
-				.filter(GeoSymbolic::isOutputOfCSolveCommand)
-				.findAny().isPresent();
+				.anyMatch(GeoSymbolic::isOutputOfCSolveCommand);
 	}
 
 	/**
@@ -877,7 +883,7 @@ public class GeoSymbolic extends GeoElement
 				}
 			}
 		}
-		point.setMode(Kernel.COORD_COMPLEX);
+		point.setComplex();
 		point.updateCoords();
 		return point;
 	}

@@ -3890,22 +3890,22 @@ public class AlgebraProcessor {
 		if (cmdDispatcher.isCASAllowed()) {
 			return syntax.getCommandSyntax(internalCommandName, dim);
 		}
-		Commands cmd = null;
+		Commands command = null;
 		try {
-			cmd = Commands.valueOf(internalCommandName);
-		} catch (Exception e) {
+			command = Commands.valueOf(internalCommandName);
+		} catch (Exception ignore) {
 			// macro or error
 		}
-		if (cmd == null) {
+		if (command == null) {
 			return syntax.getCommandSyntax(internalCommandName, dim);
 		}
-		if (!cmdDispatcher.isAllowedByCommandFilters(cmd)) {
+		if (!cmdDispatcher.isAllowedByCommandFilters(command)) {
 			return null;
 		}
 		if (noCASfilter == null) {
 			noCASfilter = CommandFilterFactory.createNoCasCommandFilter();
 		}
-		if (!noCASfilter.isCommandAllowed(cmd)) {
+		if (!noCASfilter.isCommandAllowed(command)) {
 			return null;
 		}
 

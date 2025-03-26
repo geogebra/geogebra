@@ -283,8 +283,6 @@ import static org.geogebra.common.kernel.commands.Commands.SigmaXY;
 import static org.geogebra.common.kernel.commands.Commands.SigmaYY;
 import static org.geogebra.common.kernel.commands.Commands.Simplify;
 import static org.geogebra.common.kernel.commands.Commands.SlopeField;
-import static org.geogebra.common.kernel.commands.Commands.Solutions;
-import static org.geogebra.common.kernel.commands.Commands.Solve;
 import static org.geogebra.common.kernel.commands.Commands.SolveODE;
 import static org.geogebra.common.kernel.commands.Commands.Sort;
 import static org.geogebra.common.kernel.commands.Commands.Spearman;
@@ -358,24 +356,18 @@ import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ib.IBCommandArgumentFilter;
+import org.geogebra.common.exam.restrictions.ib.IBSyntaxFilter;
 import org.geogebra.common.exam.restrictions.ib.PointDerivativeFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.algos.DisabledAlgorithms;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
-import org.geogebra.common.kernel.commands.CommandProcessor;
-import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 
@@ -412,7 +404,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				PlaneBisector, Prism, Pyramid, Side, Sphere, Surface, Tetrahedron, Top, Volume,
 				CompleteSquare, Cross, Division, Divisors, DivisorsList, DivisorsSum, Dot, Expand,
 				Factor, IFactor, IsFactored, IsPrime, LeftSide, Mod, NextPrime, PreviousPrime,
-				RightSide, Simplify, Solutions, Solve, BarChart, BoxPlot, ContingencyTable, DotPlot,
+				RightSide, Simplify, BarChart, BoxPlot, ContingencyTable, DotPlot,
 				FrequencyPolygon, FrequencyTable, Histogram, HistogramRight, NormalQuantilePlot,
 				PieChart, ResidualPlot, StickGraph, Axes, Center, Circle, Conic, ConjugateDiameter,
 				Directrix, Eccentricity, Ellipse, Focus, Hyperbola, Incircle, LinearEccentricity,
@@ -456,7 +448,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
-		return Set.of(new IBExamCommandFilter());
+		return Set.of(new IBCommandArgumentFilter());
 	}
 
 	private static OperationFilter createOperationFilter() {
@@ -465,11 +457,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {
-		LineSelectorSyntaxFilter filter = new LineSelectorSyntaxFilter();
-		filter.addSelector(Commands.Integral, 2);
-		filter.addSelector(Commands.Invert, 0);
-		filter.addSelector(Commands.Tangent, 1, 3);
-		return filter;
+		return new IBSyntaxFilter();
 	}
 
 	private static ToolCollectionFilter createToolCollectionFilter() {
@@ -501,44 +489,5 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				DisabledAlgorithms.TangentPointConic,
 				DisabledAlgorithms.TangentConicConic,
 				DisabledAlgorithms.TangentLineConic);
-	}
-
-	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {
-
-		@Override
-		public void checkAllowed(Command command, CommandProcessor commandProcessor)
-				throws MyError {
-			if (isCommand(command, Commands.Tangent)) {
-				checkTangentCommand(command, commandProcessor);
-			}
-			if (isCommand(command, Commands.Integral)) {
-				if (command.getArgumentNumber() != 3) {
-					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
-				}
-			} else if (isCommand(command, Commands.Invert)) {
-				GeoElement[] elements = commandProcessor.resArgs(command);
-				if (elements.length == 1 && elements[0] instanceof GeoFunction) {
-					throw commandProcessor.argErr(command, elements[0]);
-				}
-			}
-		}
-
-		private void checkTangentCommand(Command command, CommandProcessor processor) {
-			GeoElement[] elements = processor.resArgs(command);
-			if (elements.length == 2) {
-				// Point, Conic and inverse
-				if ((elements[0].isGeoPoint() && elements[1].isGeoConic())
-						|| (elements[0].isGeoConic() && elements[1].isGeoPoint())
-						// Line, Conic
-						|| (elements[0].isGeoLine() && elements[1].isGeoConic())
-						// Conic, Conic
-						|| (elements[0].isGeoConic() && elements[1].isGeoConic())
-						// Point, Implicit Curve and inverse
-						|| (elements[0].isGeoPoint() && elements[1].isGeoImplicitCurve()
-						|| (elements[0].isGeoImplicitCurve() && elements[1].isGeoPoint()))) {
-					throw processor.argErr(command, elements[0]);
-				}
-			}
-		}
 	}
 }

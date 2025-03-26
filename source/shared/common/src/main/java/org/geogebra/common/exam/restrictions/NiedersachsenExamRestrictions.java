@@ -7,6 +7,8 @@ import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import java.util.Set;
 
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 
 final class NiedersachsenExamRestrictions extends ExamRestrictions {
 
@@ -17,7 +19,7 @@ final class NiedersachsenExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
-				null,
+				Set.of(new CommandNameFilter(true, Commands.CSolve, Commands.CSolutions)),
 				null,
 				null,
 				null,

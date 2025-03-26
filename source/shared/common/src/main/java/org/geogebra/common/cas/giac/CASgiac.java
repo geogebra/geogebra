@@ -709,25 +709,17 @@ public abstract class CASgiac implements CASGenericInterface {
 			}
 			return "true";
 		}
-		
-		// convert parsed input to Giac string
-		String giacInput = casParser.translateToCAS(casInput,
-				StringTemplate.giacTemplate, this);
 
+		// convert parsed input to Giac string
 		// evaluate in Giac
-		String plainResult = evaluateCAS(giacInput);
+		String plainResult = translateAndEvaluateCAS(casInput, StringTemplate.giacTemplate);
 
 		// try again for undefined result
 		// eg Numeric(0.99999874^(16500))
 		// doesn't work in "exact" mode
-		if (isUndefined(plainResult) && cmd != null
-				&& "Numeric".equals(cmd.getName())) {
-			giacInput = casParser.translateToCAS(casInput,
-					StringTemplate.giacNumeric13, this);
-
+		if (isUndefined(plainResult) && cmd != null && "Numeric".equals(cmd.getName())) {
 			// evaluate in Giac
-			plainResult = evaluateCAS(giacInput);
-
+			plainResult = translateAndEvaluateCAS(casInput, StringTemplate.giacNumeric13);
 		}
 
 		// get initial nr of vars
@@ -758,6 +750,11 @@ public abstract class CASgiac implements CASGenericInterface {
 			return newPlainResult.toString();
 		}
 		return plainResult;
+	}
+
+	protected String translateAndEvaluateCAS(ValidExpression casInput, StringTemplate tpl) {
+		String giacInput = casParser.translateToCAS(casInput, tpl, this);
+		return evaluateCAS(giacInput);
 	}
 
 	/**

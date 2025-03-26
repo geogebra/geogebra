@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.cas.AlgoComplexSolve;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -160,7 +161,7 @@ public class SymbolicUtil {
 	 */
 	public static boolean toggleSymbolic(GeoElement geo) {
 		if (geo instanceof HasSymbolicMode) {
-			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
+			if (isOutputOfAlgoSolveOnly(geo)) {
 				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
 			}
 			HasSymbolicMode hasSymbolicGeo = (HasSymbolicMode) geo;
@@ -183,6 +184,16 @@ public class SymbolicUtil {
 
 		}
 		return false;
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @return Whether the passed GeoElement's parent algorithm is an instance of {@link AlgoSolve}
+	 * (but not of {@link AlgoComplexSolve})
+	 */
+	public static boolean isOutputOfAlgoSolveOnly(GeoElement geo) {
+		return geo.getParentAlgorithm() instanceof AlgoSolve
+				&& !(geo.getParentAlgorithm() instanceof AlgoComplexSolve);
 	}
 
 	/**

@@ -41,7 +41,7 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				Commands.ImplicitDerivative, Commands.IntegralSymbolic, Commands.IntegralBetween,
 				Commands.NIntegral, Commands.Solve, Commands.SolveQuartic, Commands.SolveODE,
 				Commands.SolveCubic, Commands.Solutions, Commands.NSolve, Commands.NSolveODE,
-				Commands.NSolutions);
+				Commands.NSolutions, Commands.CSolve, Commands.CSolutions);
 		return Set.of(nameFilter);
 	}
 

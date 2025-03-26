@@ -12,6 +12,8 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
 /**
  * If the {@link Kernel}'s evaluation mode is symbolic ({@code SymbolicMode.SYMBOLIC_AV}) (e.g.
@@ -23,6 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 public final class MockCASGiac extends CASgiac {
 
 	private final List<Function<String, String>> responses = new ArrayList<>();
+	private List<String> log = new ArrayList<>();
 
 	/**
 	 * Creates a Giac CAS mock that registers itself as the CAS factory for the app.
@@ -44,6 +47,17 @@ public final class MockCASGiac extends CASgiac {
 	@Override
 	public String evaluateCAS(String exp) {
 		return responses.remove(0).apply(exp);
+	}
+
+	@Override
+	protected String translateAndEvaluateCAS(ValidExpression exp, StringTemplate tpl) {
+		if (responses.isEmpty()) {
+			throw new IllegalStateException(
+					"No memorized response for " + exp + ". Previous interactions:\n " + log);
+		}
+		String result = responses.remove(0).apply(casParser.translateToCAS(exp, tpl, this));
+		log.add(exp + "->" + result + "\n");
+		return result;
 	}
 
 	@Override

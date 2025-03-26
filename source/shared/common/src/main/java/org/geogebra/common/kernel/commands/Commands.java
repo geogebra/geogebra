@@ -1142,9 +1142,9 @@ public enum Commands implements CommandsConstants,
 
 	Cross(TABLE_ALGEBRA),
 
-	CSolutions(TABLE_CAS),
+	CSolutions(TABLE_ALGEBRA),
 
-	CSolve(TABLE_CAS),
+	CSolve(TABLE_ALGEBRA),
 
 	Dot(TABLE_ALGEBRA),
 

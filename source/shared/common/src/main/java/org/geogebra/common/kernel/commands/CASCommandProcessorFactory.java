@@ -79,6 +79,8 @@ public class CASCommandProcessorFactory implements CommandProcessorFactory {
 		case NSolutions:
 		case Solutions:
 		case PlotSolve:
+		case CSolve:
+		case CSolutions:
 			return new CmdSolve(kernel, command);
 		case CASLoaded:
 			return new CmdCASLoaded(kernel);

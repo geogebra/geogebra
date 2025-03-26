@@ -145,13 +145,13 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 		AppConfigUnrestrictedGraphing graphingSuiteConfig = new AppConfigUnrestrictedGraphing();
 
 		swapConfig(graphingSuiteConfig);
-		assertEquals(5, provider.getCompletions("Solve").count());
+		assertEquals(6, provider.getCompletions("Solve").count());
 
 		swapConfig(new AppConfigGraphing());
 		assertEquals(1, provider.getCompletions("Solve").count());
 
 		swapConfig(new AppConfigUnrestrictedGraphing());
-		assertEquals(5, provider.getCompletions("Solve").count());
+		assertEquals(6, provider.getCompletions("Solve").count());
 	}
 
 	private List<AutocompleteProvider.Completion> getCompletions(String sin) {

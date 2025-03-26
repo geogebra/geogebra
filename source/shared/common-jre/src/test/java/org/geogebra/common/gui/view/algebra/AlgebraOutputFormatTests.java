@@ -172,7 +172,8 @@ public class AlgebraOutputFormatTests {
                 List.of(EXACT, APPROXIMATION),
                 AlgebraOutputFormat.getPossibleFormats(evaluate(expression,
                         // Calculated internally multiple times which requires multiple mock values
-                        mockedCasOutput1, mockedCasOutput2, mockedCasOutput2), false));
+                        mockedCasOutput1, mockedCasOutput1, mockedCasOutput2, mockedCasOutput2),
+                        false));
     }
 
     @Test

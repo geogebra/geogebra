@@ -92,7 +92,7 @@ public class AlgebraItem {
 			}
 		}
 
-		if (geo.getParentAlgorithm() instanceof AlgoSolve) {
+		if (SymbolicUtil.isOutputOfAlgoSolveOnly(geo)) {
 			return !allRHSareIntegers((GeoList) geo);
 		}
 		if (geo.isGeoNumeric()) {

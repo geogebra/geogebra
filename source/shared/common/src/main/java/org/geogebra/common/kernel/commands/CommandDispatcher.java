@@ -217,6 +217,12 @@ public abstract class CommandDispatcher {
 		return true;
 	}
 
+	/**
+	 * Checks whether a command is allowed based on its arguments
+	 * @param command Command
+	 * @param commandProcessor CommandProcessor
+	 * @throws MyError When the command is not allowed with the given arguments
+	 */
 	private void checkIsAllowedByCommandArgumentFilters(Command command,
 			CommandProcessor commandProcessor) throws MyError {
 		for (CommandArgumentFilter filter : commandArgumentFilters) {
@@ -684,8 +690,6 @@ public abstract class CommandDispatcher {
 
 			case CFactor:
 			case CIFactor:
-			case CSolutions:
-			case CSolve:
 			case Eliminate:
 			case GroebnerLex:
 			case GroebnerDegRevLex:
@@ -905,6 +909,8 @@ public abstract class CommandDispatcher {
 			case NextPrime:
 			case PreviousPrime:
 			case CompleteSquare:
+			case CSolve:
+			case CSolutions:
 				return getCASCommandProcessorFactory().getProcessor(command, kernel);
 			case Plane:
 			case PerpendicularPlane:

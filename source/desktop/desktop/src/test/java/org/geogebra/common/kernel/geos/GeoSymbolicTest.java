@@ -1390,7 +1390,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("{{x = 29 / 5, y = -2 / 5}}"));
 		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
-				equalTo("{x = 5.8, y = -0.4}"));
+				equalTo("{{x = 5.8, y = -0.4}}"));
 	}
 
 	@Test
@@ -1409,7 +1409,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("{{x = 3, y = 1}, {x = -3, y = 1}}"));
 		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
-				equalTo("{x = 3, y = 1}"));
+				equalTo("{{x = 3, y = 1}}"));
 	}
 
 	@Test
@@ -1427,7 +1427,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve({x^y = 5, x - y = 3}, {x, y})"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
-				equalTo("{x = 4.134008006438, y = 1.134008006438}"));
+				equalTo("{{x = 4.134008006438, y = 1.134008006438}}"));
 		assertNull(getNextFormat(symbolic));
 
 		symbolic = add("sinsolve:=Solve(exp(|sin(x)|)=2)");
@@ -1453,7 +1453,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve({x^y = 2, x - y = 1}, {x, y})"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
-				equalTo("{x = 2, y = 1}"));
+				equalTo("{{x = 2, y = 1}}"));
 		assertNull(getNextFormat(symbolic));
 	}
 

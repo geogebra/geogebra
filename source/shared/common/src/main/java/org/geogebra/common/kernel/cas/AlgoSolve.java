@@ -52,8 +52,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 	 * @param type
 	 *            whether to use Solve / NSolve / NSolutions / Solutions
 	 */
-	public AlgoSolve(Construction c, GeoElement eq, GeoElement hint,
-			Commands type) {
+	public AlgoSolve(Construction c, GeoElement eq, GeoElement hint, Commands type) {
 		super(c);
 		this.type = type;
 		this.equations = eq;
@@ -78,7 +77,6 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 				: new GeoElement[] { equations, hint };
 		setOnlyOutput(solutions);
 		setDependencies();
-
 	}
 
 	@Override
@@ -124,6 +122,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 				solutions.setUndefined();
 				return;
 			}
+			convertOutputToSymbolic(raw);
 			if (equations.isGeoList() && raw.size() > 1
 					&& (!raw.get(0).isGeoList())) {
 				solutions.clear();
@@ -149,6 +148,14 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		if (geo instanceof EquationValue) {
 			Collections.addAll(vars, ((EquationValue) geo).getEquationVariables());
 		}
+	}
+
+	/**
+	 * Makes sure the output elements are converted to GeoSymbolics
+	 * @param raw GeoList with the output
+	 */
+	protected void convertOutputToSymbolic(GeoList raw) {
+		// Overridden in AlgoComplexSolve
 	}
 
 	private boolean elementsDefined(GeoList raw) {
@@ -194,8 +201,9 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 				}
 			}
 		}
-		solutions2.setSymbolicMode(true, false);
-
+		if (!(this instanceof AlgoComplexSolve)) {
+			solutions2.setSymbolicMode(true, false);
+		}
 	}
 
 	private ExpressionValue makeAngle(ExpressionValue rhs) {

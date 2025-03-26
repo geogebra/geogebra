@@ -13,6 +13,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.syntax.EnglishCommandSyntax;
@@ -120,7 +121,7 @@ public class AutocompleteProvider {
 		}
 
 		String syntaxString;
-		if (isCas()) {
+		if (isCas() || needsCasSyntaxString(internalCommandName)) {
 			LocalizedCommandSyntax commandSyntax = app.getLocalization().getCommandSyntax();
 			syntaxString = commandSyntax.getCommandSyntaxCAS(internalCommandName);
 		} else {
@@ -156,6 +157,15 @@ public class AutocompleteProvider {
 			englishCommandSyntax = new EnglishCommandSyntax(app.getLocalization());
 		}
 		return englishCommandSyntax;
+	}
+
+	private boolean needsCasSyntaxString(String internalCommandName) {
+		return Commands.CSolve.name().equals(internalCommandName)
+				|| Commands.CSolutions.name().equals(internalCommandName)
+				|| Commands.NSolve.name().equals(internalCommandName)
+				|| Commands.NSolutions.name().equals(internalCommandName)
+				|| Commands.Solve.name().equals(internalCommandName)
+				|| Commands.Solutions.name().equals(internalCommandName);
 	}
 
 	/**
