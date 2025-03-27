@@ -5,9 +5,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.OrderingComparison;
+import org.geogebra.test.annotation.Issue;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class FractionTest extends SymbolicArithmeticTest {
 
@@ -28,6 +31,16 @@ public class FractionTest extends SymbolicArithmeticTest {
 	public void errorFunctionShouldNotBeFraction() {
 		t("erf(5)+1/2", "1.5");
 		t("erf(10)+1/2", "3 / 2"); // underflow, indistinguishable from 1+1/2
+	}
+
+	@Test
+	@Issue("APPS-6484")
+	public void multiplesOfPiShouldBeFraction() {
+		GeoNumeric frac = add("f:-13 pi/9");
+		frac.setSymbolicMode(true, false);
+		assertThat(frac, hasValue("-13" + Unicode.PI_STRING + " / 9"));
+		add("f:pi + pi/2");
+		assertThat(frac, hasValue("3" + Unicode.PI_STRING + " / 2"));
 	}
 
 	@Test

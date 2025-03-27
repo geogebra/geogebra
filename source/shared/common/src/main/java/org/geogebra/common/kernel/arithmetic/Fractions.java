@@ -36,10 +36,16 @@ public class Fractions {
 
 				boolean pi = false;
 				double piDiv = lt / Math.PI;
+				boolean leftIsInteger;
 				if (allowPi && DoubleUtil.isInteger(piDiv)
 						&& !DoubleUtil.isZero(piDiv) && Math.abs(piDiv) < ALLOW_PI_LIMIT) {
 					lt = piDiv;
 					pi = true;
+					// we just multiplied and divided by pi, some tolerance needed
+					leftIsInteger = DoubleUtil.isInteger(lt);
+				} else {
+					// if no pi is involved, all the computations must have been with ints only
+					leftIsInteger = isExactInteger(lt);
 				}
 				double rt = 1;
 				if (fraction[1] != null) {
@@ -48,7 +54,7 @@ public class Fractions {
 					// keep angle dimension
 					return ltVal.deepCopy(kernel).wrap();
 				}
-				if (isExactInteger(rt) && isExactInteger(lt) && !DoubleUtil.isZero(rt)
+				if (isExactInteger(rt) && leftIsInteger && !DoubleUtil.isZero(rt)
 						&& Math.abs(lt) < MAX_NUM_DENOMINATOR
 						&& Math.abs(rt) < MAX_NUM_DENOMINATOR) {
 
