@@ -638,7 +638,7 @@ public abstract class CasTestJsonCommon {
 
 	@Test
 	public void testInvert() {
-		testCat("Invert");
+		testCat("Invert.1");
 	}
 
 	@Test

@@ -880,14 +880,14 @@ public class Ggb2giac {
 		p("PointList.1", pointList);
 		p("RootList.1", "apply(x->convert([x,0],25),%0)");
 		p("Invert.1",
-				"[[ggbinvans:=0/0],[ggbinvarg:=%0],[ggbinvans:=when(type(ggbinvarg)!=DOM_LIST,"
+				"[[ggbinvans:=0/0],[ggbinvarg:=%0],[ggbinvvar:=when(count_eq(x,lname(ggbinvarg))==0&&size(lname(ggbinvarg))>0,lname(ggbinvarg)[0],x)],[ggbinvans:=when(type(ggbinvarg)!=DOM_LIST,"
 						+
 						// invert function (answer is function,not mapping)
-						"subst(right(revlist([op(solve(tmpvar=ggbinvarg,lname(ggbinvarg)[0]))])[0]),tmpvar,lname(ggbinvarg)[0])"
+						"subst(right(revlist([op(solve(tmpvar=ggbinvarg,ggbinvvar))])[0]),tmpvar,ggbinvvar)"
 						+ "," +
 						// invert matrix
 						"when(when(length(ggbinvarg)>0,length(ggbinvarg) ==length(ggbinvarg[0]),false),inv(ggbinvarg),?))"
-						+ "],ggbinvans][3]");
+						+ "],ggbinvans][4]");
 
 		p("IsPrime.1", "isprime(%0)");
 
