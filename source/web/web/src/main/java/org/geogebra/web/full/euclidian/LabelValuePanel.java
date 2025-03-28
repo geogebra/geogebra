@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -43,7 +44,6 @@ public class LabelValuePanel extends FlowPanel
 			tfName.getTextField().getTextComponent().setAutoComplete(false);
 			tfName.getTextField().getTextComponent().enableGGBKeyboard();
 
-			tfName.getTextField().getTextComponent().addBlurHandler(event -> onEnter());
 			tfName.getTextField().getTextComponent().addKeyHandler(e -> {
 				if (e.isEnterKey()) {
 					onEnter();
@@ -59,12 +59,12 @@ public class LabelValuePanel extends FlowPanel
 	 * Submit the change
 	 */
 	protected void onEnter() {
-		nameProperty.setValue(tfName.getText());
+		setNamePropertyValueOrThrowError();
 	}
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
-		nameProperty.setValue(tfName.getText());
+		setNamePropertyValueOrThrowError();
 	}
 
 	@Override
@@ -75,6 +75,14 @@ public class LabelValuePanel extends FlowPanel
 	private void init() {
 		tfName.setInputText(nameProperty.getValue());
 		tfName.focusDeferred();
+	}
+
+	private void setNamePropertyValueOrThrowError() {
+		if (tfName.getText().isBlank()) {
+			appW.showError(MyError.Errors.InvalidInput);
+		} else {
+			nameProperty.setValue(tfName.getText());
+		}
 	}
 
 }

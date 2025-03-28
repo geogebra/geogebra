@@ -46,6 +46,7 @@ import org.geogebra.common.properties.impl.objects.LineStyleProperty;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.MaxProperty;
 import org.geogebra.common.properties.impl.objects.MinProperty;
+import org.geogebra.common.properties.impl.objects.NameCaptionProperty;
 import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
 import org.geogebra.common.properties.impl.objects.NotesOpacityColorProperty;
@@ -321,7 +322,7 @@ public final class GeoElementPropertiesFactory {
 			List<GeoElement> elements) {
 		return createPropertiesArray(localization, elements,  Stream.<Property>of(
 				createPropertyCollection(elements,
-						element -> new NameProperty(localization, element),
+						element -> new NameCaptionProperty(localization, element),
 						StringPropertyCollection::new),
 				createLabelStyleProperty(localization, elements)
 		).filter(Objects::nonNull).collect(Collectors.toList()));
