@@ -26,9 +26,9 @@ public class PDFFontTable extends FontTable {
 
 	private int currentFontIndex = 1;
 
-	private PDFWriter pdf;
+	private final PDFWriter pdf;
 
-	private PDFRedundanceTracker tracker;
+	private final PDFRedundanceTracker tracker;
 
 	public PDFFontTable(PDFWriter pdf) {
 		super();
@@ -38,11 +38,10 @@ public class PDFFontTable extends FontTable {
 
 	/** Adds all fonts to a dictionary named "FontList". */
 	public int addFontDictionary() throws IOException {
-		Collection fonts = getEntries();
-		if (fonts.size() > 0) {
+		Collection<Entry> fonts = getEntries();
+		if (!fonts.isEmpty()) {
 			PDFDictionary fontList = pdf.openDictionary("FontList");
-			for (Iterator i = fonts.iterator(); i.hasNext();) {
-				Entry e = (Entry) i.next();
+			for (Entry e : fonts) {
 				fontList.entry(e.getReference(), pdf.ref(e.getReference()));
 			}
 			pdf.close(fontList);
@@ -53,10 +52,8 @@ public class PDFFontTable extends FontTable {
 	/** Embeds all not yet embedded fonts to the file. */
 	public void embedAll(FontRenderContext context, boolean embed,
 			String embedAs) throws IOException {
-		Collection col = getEntries();
-		Iterator i = col.iterator();
-		while (i.hasNext()) {
-			Entry e = (Entry) i.next();
+		Collection<Entry> col = getEntries();
+		for (Entry e : col) {
 			if (!e.isWritten()) {
 				e.setWritten(true);
 
@@ -114,7 +111,7 @@ public class PDFFontTable extends FontTable {
 	protected Font substituteFont(Font font) {
 		String fontName = replaceFonts.getProperty(font.getName(), null);
 		if (fontName != null) {
-			Font newFont = new Font(fontName, font.getSize(), font.getStyle());
+			Font newFont = new Font(fontName, font.getStyle(), font.getSize());
 			font = newFont.deriveFont(font.getSize2D());
 		}
 		return font;

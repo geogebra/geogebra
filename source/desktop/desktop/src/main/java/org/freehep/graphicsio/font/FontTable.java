@@ -77,10 +77,10 @@ public abstract class FontTable {
 		}
 	}
 
-	private Hashtable table;
+	private Hashtable<String, Entry> table;
 
 	public FontTable() {
-		this.table = new Hashtable();
+		this.table = new Hashtable<>();
 	}
 
 	/**
@@ -113,7 +113,7 @@ public abstract class FontTable {
 		// look for stored font
 		font = substituteFont(font);
 		String key = getKey(font);
-		Entry e = (Entry) table.get(key);
+		Entry e = table.get(key);
 
 		// create new one
 		if (e == null) {
@@ -140,17 +140,9 @@ public abstract class FontTable {
 	private static String getKey(Font font) {
 		Map/* <TextAttribute,?> */ attributes = font.getAttributes();
 
-		StringBuffer result = new StringBuffer(font.getName());
-
 		// bold
-		result.append("[WEIGHT:");
-		result.append(attributes.get(TextAttribute.WEIGHT));
-		result.append("]");
 
 		// italic
-		result.append("[POSTURE:");
-		result.append(attributes.get(TextAttribute.POSTURE));
-		result.append("]");
 
 		// underline is not handled as an font property
 		// result.append("[UNDERLINE:");
@@ -173,7 +165,14 @@ public abstract class FontTable {
 		// result.append(attributes.get(TextAttribute.WIDTH));
 		// result.append("]");
 
-		return result.toString();
+		return font.getName() + "[WEIGHT:"
+				+ attributes.get(TextAttribute.WEIGHT)
+				+ "]"
+
+				// italic
+				+ "[POSTURE:"
+				+ attributes.get(TextAttribute.POSTURE)
+				+ "]";
 	}
 
 	/**
@@ -209,7 +208,7 @@ public abstract class FontTable {
 
 		// first character up
 		family = family.substring(0, 1).toUpperCase()
-				+ family.substring(1, family.length());
+				+ family.substring(1);
 		attributes.put(TextAttribute.FAMILY, family);
 	}
 
@@ -217,7 +216,7 @@ public abstract class FontTable {
 	 * Returns a Collection view of all fonts. The elements of the collection
 	 * are {@code Entrie}s.
 	 */
-	public Collection getEntries() {
+	public Collection<Entry> getEntries() {
 		return table.values();
 	}
 
