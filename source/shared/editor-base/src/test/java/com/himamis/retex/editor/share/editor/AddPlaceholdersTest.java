@@ -44,7 +44,7 @@ public class AddPlaceholdersTest {
 		MathFormula formula = getFormula("1/(".repeat(depth) + "1" + ")".repeat(depth));
 		placeholders.process(formula.getRootComponent());
 		assertEquals("((1)/(".repeat(depth) + "1" + "))".repeat(depth),
-				GeoGebraSerializer.serialize(formula.getRootComponent()));
+				GeoGebraSerializer.serialize(formula.getRootComponent(), (SyntaxAdapter) null));
 		assertTrue("Traversing too slow", System.currentTimeMillis() - start < 1000);
 	}
 

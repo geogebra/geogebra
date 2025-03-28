@@ -93,6 +93,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -140,6 +141,7 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHand
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
+import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.ConstructionItemProvider;
 import org.geogebra.web.full.main.activity.CASActivity;
@@ -2402,6 +2404,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		examController.registerRestrictable(getEuclidianView1());
 		examController.registerRestrictable(getConfig());
 		examController.registerDelegate(new ExamControllerDelegateW(this));
+		examController.registerRestrictable(getSyntaxAdapter());
 		examController.addListener(getExamEventBus());
 		attachedToExam = true;
 	}
@@ -2412,6 +2415,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		examController.unregisterRestrictable(this);
 		examController.unregisterRestrictable(getEuclidianView1());
 		examController.unregisterRestrictable(getConfig());
+		examController.unregisterRestrictable(getSyntaxAdapter());
 		examController.removeListener(getExamEventBus());
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
 			GlobalScope.examController.unregisterRestrictable(
@@ -2682,5 +2686,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			examEventBus = new ExamEventBus();
 		}
 		return examEventBus;
+	}
+
+	@Override
+	protected SyntaxAdapterImpl createSyntaxAdapter() {
+		return new SyntaxAdapterImplWithPaste(kernel);
 	}
 }

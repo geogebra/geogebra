@@ -37,7 +37,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		box = Box.createHorizontalBox();
 
-		mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()), view::repaintView);
+		mathField = new MathFieldD(app.getSyntaxAdapter(), view::repaintView);
 
 		mathField.getInternal().addMathFieldListener(this);
 		mathField.setVisible(true);

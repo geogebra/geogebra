@@ -39,6 +39,7 @@ import java.util.function.Predicate;
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
+import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.controller.KeyListenerImpl;
 import com.himamis.retex.editor.share.controller.MathFieldController;
@@ -80,10 +81,10 @@ public class MathFieldInternal
 	@Weak
 	private MathField mathField;
 
-	private InputController inputController;
-	private MathFieldController mathFieldController;
+	private final InputController inputController;
+	private final MathFieldController mathFieldController;
 
-	private KeyListenerImpl keyListener;
+	private final KeyListenerImpl keyListener;
 	private EditorState editorState;
 
 	private MathFormula mathFormula;
@@ -101,12 +102,13 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
-	private Set<MathFieldInternalListener> mathFieldInternalListeners;
+	private final Set<MathFieldInternalListener> mathFieldInternalListeners;
 
 	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
-	private MathFormulaConverter formulaConverter;
+	private final MathFormulaConverter formulaConverter;
+	private SyntaxAdapter syntaxAdapter;
 
 	/**
 	 * @param mathField
@@ -144,7 +146,8 @@ public class MathFieldInternal
 	 */
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
 		mathFieldController.setSyntaxAdapter(syntaxAdapter);
-		inputController.setFormatConverter(syntaxAdapter);
+		inputController.setSyntaxAdapter(syntaxAdapter);
+		this.syntaxAdapter = syntaxAdapter;
 	}
 
 	private void setupMathField() {
@@ -706,7 +709,7 @@ public class MathFieldInternal
 			MathContainer parent = editorState.getSelectionStart().getParent();
 			if (parent == null) {
 				// all the formula is selected
-				return GeoGebraSerializer.serialize(editorState.getRootComponent());
+				return GeoGebraSerializer.serialize(editorState.getRootComponent(), syntaxAdapter);
 			}
 
 			int start = parent.indexOf(editorState.getSelectionStart());
@@ -714,8 +717,9 @@ public class MathFieldInternal
 
 			if (end >= 0 && start >= 0) {
 				StringBuilder sb = new StringBuilder();
+				GeoGebraSerializer serializer = new GeoGebraSerializer(syntaxAdapter);
 				for (int i = start; i <= end; i++) {
-					sb.append(GeoGebraSerializer.serialize(parent.getArgument(i)));
+					serializer.serialize(parent.getArgument(i), sb);
 				}
 				return sb.toString();
 			}
@@ -725,7 +729,7 @@ public class MathFieldInternal
 	}
 
 	public void convertAndInsert(String text) {
-		insertString(inputController.convert(text));
+		insertString(syntaxAdapter == null ? text : syntaxAdapter.convert(text));
 	}
 
 	/**
@@ -816,7 +820,7 @@ public class MathFieldInternal
 			field = field.getParent();
 		}
 		reverse(path);
-		setFormula(GeoGebraSerializer.reparse(getFormula()));
+		setFormula(GeoGebraSerializer.reparse(getFormula(), syntaxAdapter));
 		for (MathFieldListener listener: listeners) {
 			listener.onInsertString();
 		}
@@ -931,7 +935,7 @@ public class MathFieldInternal
 	 * @return the contained formula serialized in the GeoGebra format
 	 */
 	public String getText() {
-		GeoGebraSerializer s = new GeoGebraSerializer();
+		GeoGebraSerializer s = new GeoGebraSerializer(syntaxAdapter);
 		return s.serialize(getFormula());
 	}
 
@@ -1012,5 +1016,13 @@ public class MathFieldInternal
 	public void selectEntryAt(int x, int y) {
 		onPointerUp(x, y);
 		selectCurrentEntry();
+	}
+
+	public String getEditorStateDescription(ExpressionReader expressionReader) {
+		return getEditorState().getDescription(expressionReader, syntaxAdapter);
+	}
+
+	public GeoGebraSerializer getSerializer() {
+		return new GeoGebraSerializer(syntaxAdapter);
 	}
 }

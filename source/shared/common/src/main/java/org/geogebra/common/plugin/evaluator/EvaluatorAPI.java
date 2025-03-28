@@ -55,7 +55,7 @@ public class EvaluatorAPI {
 		this.mathFieldInternal = mathFieldInternal;
 		this.algebraProcessor = kernel.getAlgebraProcessor();
 		this.parser = kernel.getParser();
-		this.flatSerializer = new GeoGebraSerializer();
+		this.flatSerializer = new GeoGebraSerializer(null);
 		this.latexSerializer = new TeXSerializer();
 		this.solverSerializer = new SolverSerializer();
 		this.evalInfo = createEvalInfo();

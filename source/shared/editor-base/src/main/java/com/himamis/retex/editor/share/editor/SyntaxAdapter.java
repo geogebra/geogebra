@@ -14,4 +14,6 @@ public interface SyntaxAdapter {
 	String convert(String exp);
 
 	boolean isFunction(String casName);
+
+	boolean supportsMixedNumbers();
 }

@@ -472,8 +472,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	/** Read position in current */
 	public void readPosition() {
 		if (expressionReader != null) {
-			setAriaLabel(this.mathFieldInternal.getEditorState()
-					.getDescription(expressionReader));
+			setAriaLabel(this.mathFieldInternal.getEditorStateDescription(expressionReader));
 		}
 	}
 

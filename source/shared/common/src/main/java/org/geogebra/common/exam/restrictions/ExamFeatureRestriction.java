@@ -23,5 +23,7 @@ public enum ExamFeatureRestriction {
 	SURD,
 
 	/** APPS-6310 */
-	SPREADSHEET
+	SPREADSHEET,
+
+	DISABLE_MIXED_NUMBERS
 }

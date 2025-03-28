@@ -8,4 +8,9 @@ public class EditorSyntaxAdapter extends AbstractSyntaxAdapter {
 	public boolean isFunction(String casName) {
 		return false;
 	}
+
+	@Override
+	public boolean supportsMixedNumbers() {
+		return true;
+	}
 }

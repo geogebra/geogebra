@@ -1,5 +1,8 @@
 package com.himamis.retex.editor.share.serializer;
 
+import javax.annotation.CheckForNull;
+
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.Tag;
@@ -20,22 +23,26 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public class GeoGebraSerializer extends SerializerAdapter {
 
-	private static final GeoGebraSerializer
-			defaultSerializer = new GeoGebraSerializer();
+	private final @CheckForNull SyntaxAdapter syntaxAdapter;
 
 	private String leftBracket = "[";
 	private String rightBracket = "]";
 	private String comma = ",";
 	private boolean showPlaceholderAsQuestionmark;
 
+	public GeoGebraSerializer(@CheckForNull SyntaxAdapter syntaxAdapter) {
+		this.syntaxAdapter = syntaxAdapter;
+	}
+
 	/**
 	 * @param c
 	 *            math formula fragment
+	 * @param adapter syntax adapter
 	 * @return string
 	 */
-	public static String serialize(MathComponent c) {
+	public static String serialize(MathComponent c, @CheckForNull SyntaxAdapter adapter) {
 		StringBuilder sb = new StringBuilder();
-		defaultSerializer.serialize(c, sb);
+		new GeoGebraSerializer(adapter).serialize(c, sb);
 		return sb.toString();
 	}
 
@@ -277,11 +284,11 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	 *            original formula
 	 * @return formula after stringify + parse
 	 */
-	public static MathFormula reparse(MathFormula formula) {
+	public static MathFormula reparse(MathFormula formula, SyntaxAdapter adapter) {
 		Parser parser = new Parser(formula.getMetaModel());
 		MathFormula formula1 = null;
 		try {
-			formula1 = parser.parse(serialize(formula.getRootComponent()));
+			formula1 = parser.parse(serialize(formula.getRootComponent(), adapter));
 
 		} catch (ParseException e) {
 			FactoryProvider.getInstance().debug(e);
@@ -331,7 +338,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	@Override
 	public boolean buildMixedNumber(StringBuilder stringBuilder, MathFunction mathFunction) {
 		//Check if a valid mixed number can be created (e.g.: no 'x')
-		if (isMixedNumber(stringBuilder) < 0 || !isValidMixedNumber(mathFunction)) {
+		if ((syntaxAdapter != null && !syntaxAdapter.supportsMixedNumbers())
+				|| isMixedNumber(stringBuilder) < 0
+				|| !isValidMixedNumber(mathFunction)) {
 			return false;
 		}
 
