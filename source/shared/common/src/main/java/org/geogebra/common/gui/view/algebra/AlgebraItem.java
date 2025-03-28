@@ -1,14 +1,11 @@
 package org.geogebra.common.gui.view.algebra;
 
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.cas.AlgoSolve;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -22,10 +19,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.main.settings.Settings;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
@@ -35,44 +32,6 @@ import org.geogebra.common.util.SymbolicUtil;
  * Utility class for AV items
  */
 public class AlgebraItem {
-
-	/**
-	 * @deprecated {@link AlgebraOutputOperator} should be used instead.
-	 */
-	@Deprecated
-	public enum CASOutputType {
-		NUMERIC, SYMBOLIC
-	}
-
-	/**
-	 * The possible icons for the toggle button
-	 * @deprecated {@link AlgebraOutputFormat} should be used instead.
-	 */
-	@Deprecated
-	public enum ToggleButtonIcon {
-		FRACTION, EQUALS, EQUALS_APPROX
-	}
-
-	/**
-	 * @param geo
-	 *            element
-	 * @return arrow or approx, depending on symbolic/numeric nature of the
-	 *         element
-	 * @deprecated {@link AlgebraOutputFormat} API should be used instead.
-	 */
-	@Deprecated
-	public static CASOutputType getCASOutputType(GeoElement geo) {
-		if (geo instanceof HasSymbolicMode
-				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
-			if (!(geo.getParentAlgorithm() instanceof AlgoSolve)
-					|| geo.getParentAlgorithm()
-							.getClassName() == Commands.NSolve) {
-				return CASOutputType.NUMERIC;
-			}
-		}
-		return CASOutputType.SYMBOLIC;
-	}
-
 	/**
 	 * @param geo
 	 *            element
@@ -160,41 +119,6 @@ public class AlgebraItem {
 	public static boolean isGeoSurd(GeoElement geo) {
 		return geo instanceof GeoNumeric && geo.getDefinition() != null
 				&& geo.getDefinition().isSimplifiableSurd();
-	}
-
-	/**
-	 * @param geo
-	 *            element
-	 * @param app
-	 *            application requesting suggestion (may disallow it)
-	 * @return most relevant suggestion
-	 */
-	public static Suggestion getSuggestions(GeoElement geo, App app) {
-		if (app.getConfig().allowsSuggestions()) {
-			return getSuggestions(geo);
-		}
-		return null;
-	}
-
-	/**
-	 * @param geo
-	 *            element
-	 * @return most relevant suggestion
-	 */
-	public static Suggestion getSuggestions(GeoElement geo) {
-		if (geo == null || geo.getKernel()
-				.getAlgebraStyle() != AlgebraStyle.DEFINITION_AND_VALUE) {
-			return null;
-		}
-
-		boolean casEnabled = geo.getKernel().getAlgebraProcessor()
-				.getCommandDispatcher().isCASAllowed();
-		if (casEnabled) {
-			return SuggestionSolveForSymbolic.isValid(geo)
-					? SuggestionSolveForSymbolic.get(geo)
-					: SuggestionSolve.get(geo);
-		}
-		return null;
 	}
 
 	/**
@@ -420,27 +344,6 @@ public class AlgebraItem {
 	}
 
 	/**
-	 * @param geo
-	 *            element
-	 * @return whether we should show symbolic switch for the geo
-	 * @deprecated {@link AlgebraOutputFormat} API should be used instead.
-	 */
-	@Deprecated
-	public static boolean shouldShowSymbolicOutputButton(GeoElement geo) {
-		return geo != null && isSymbolicDiffers(geo) && !isTextItem(geo);
-	}
-
-	/**
-	 * @param geo Element
-	 * @return Whether we should show the engineering notation output button for the geo
-	 */
-	public static boolean shouldShowEngineeringNotationOutputButton(GeoElement geo) {
-		return GlobalScope.examController.getExamType() == ExamType.REALSCHULE
-				&& geo instanceof HasSymbolicMode
-				&& ((HasSymbolicMode) geo).supportsEngineeringNotation();
-	}
-
-	/**
 	 * add geo to selection with its special points.
 	 * TODO rename to selectGeo(WithSpecialPoints?)
 	 * @param geo
@@ -491,23 +394,16 @@ public class AlgebraItem {
 		}
 	}
 
-	/**
-	 * @param geoElement
-	 *            about we should decide if the outputrow should be shown or not
-	 * @param style
-	 *            current algebrastyle
-	 * @return whether the output should be shown or not
-	 */
-	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
-
-		if (style == AlgebraStyle.DESCRIPTION) {
-			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
-		} else if ((style == AlgebraStyle.DEFINITION_AND_VALUE
-				|| style == AlgebraStyle.VALUE)
-				&& !geoElement.isAllowedToShowValue()) {
+	private static boolean shouldShowOutputRow(GeoElement geoElement, int algebraStyle) {
+		switch (algebraStyle) {
+		case AlgebraStyle.DESCRIPTION:
+			return getDescriptionModeForGeo(geoElement, algebraStyle) != DescriptionMode.DEFINITION;
+		case AlgebraStyle.VALUE:
+		case AlgebraStyle.DEFINITION_AND_VALUE:
+			return geoElement.isAllowedToShowValue();
+		default:
 			return false;
 		}
-		return style != AlgebraStyle.VALUE && style != AlgebraStyle.DEFINITION;
 	}
 
 	/**
@@ -517,10 +413,11 @@ public class AlgebraItem {
 	 *            the element
 	 * @return true if both rows should be shown.
 	 */
-	public static boolean shouldShowBothRows(GeoElement element) {
-		return (hasDefinitionAndValueMode(element) || isDependentText(element)
-				|| isSymbolicDiffers(element) || shouldShowEngineeringNotationOutputButton(element))
-				&& shouldShowOutputRowForAlgebraStyle(element, getAlgebraStyle(element.getApp()));
+	public static boolean shouldShowBothRows(GeoElement element, AlgebraSettings algebraSettings) {
+		boolean hasDifferentOutputFormats = !AlgebraOutputFormat.getPossibleFormats(
+				element, algebraSettings.isEngineeringNotationEnabled()).isEmpty();
+		boolean hasOutputRow = hasDifferentOutputFormats || hasDefinitionAndValueMode(element);
+		return hasOutputRow && shouldShowOutputRow(element, algebraSettings.getStyle());
 	}
 
 	/**
@@ -529,14 +426,6 @@ public class AlgebraItem {
 	 */
 	public static boolean hasDefinitionAndValueMode(GeoElement element) {
 		return element.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE;
-	}
-
-	private static boolean isDependentText(GeoElement element) {
-		return AlgebraItem.isTextItem(element) && !element.isIndependent();
-	}
-
-	private static int getAlgebraStyle(App app) {
-		return app.getSettings().getAlgebra().getStyle();
 	}
 
 	/**
@@ -559,20 +448,6 @@ public class AlgebraItem {
 			return getLatexText(builder.toString().replace("^", "\\^{\\;}"));
 		}
 		return null;
-	}
-
-	/**
-	 *
-	 * @param element
-	 *            geo
-	 * @param style
-	 *            AV style
-	 * @return description string for element to show in AV row; null if element
-	 *         prefers showing definition
-	 */
-	public static String getDescriptionString(GeoElement element, int style) {
-		return getDescriptionString(element, style,
-				StringTemplate.defaultTemplate);
 	}
 
 	private static String getLatexText(String text) {
@@ -695,24 +570,5 @@ public class AlgebraItem {
 					&& geo.getDefinition().isFraction();
 		}
 		return false;
-	}
-
-	/**
-	 * Returns the icon used for the symbolic output button
-	 * @param element element
-	 * @return icon
-	 * @deprecated {@link AlgebraOutputFormat} should be used instead.
-	 */
-	@Deprecated
-	public static ToggleButtonIcon getSymbolicOutputButtonIcon(GeoElement element) {
-		switch (AlgebraItem.getCASOutputType(element)) {
-		case NUMERIC:
-			return AlgebraItem.evaluatesToFraction(element)
-					&& !AlgebraItem.isRationalizableFraction(element) ? ToggleButtonIcon.FRACTION
-					: ToggleButtonIcon.EQUALS;
-		case SYMBOLIC:
-		default:
-			return ToggleButtonIcon.EQUALS_APPROX;
-		}
 	}
 }

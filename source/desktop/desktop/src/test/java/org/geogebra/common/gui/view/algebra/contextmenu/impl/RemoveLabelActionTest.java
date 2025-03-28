@@ -21,12 +21,12 @@ public class RemoveLabelActionTest extends BaseSymbolicTest {
 		GeoElement integral = add("Integral(sin(x))");
 		GeoNumeric constant = (GeoNumeric) lookup("c_{1}");
 		constant.initAlgebraSlider();
-		List<AlgebraContextMenuItem> items = contextMenuFactory
-				.makeAlgebraContextMenu(constant, ap, app.getConfig().getAppCode());
+		List<AlgebraContextMenuItem> items = contextMenuFactory.makeAlgebraContextMenu(
+				constant, ap, app.getConfig().getAppCode(), app.getSettings().getAlgebra());
 		assertFalse("Remove label should not be available for sliders in CAS",
 				items.contains(AlgebraContextMenuItem.RemoveLabel));
-		items = contextMenuFactory
-				.makeAlgebraContextMenu(integral, ap, app.getConfig().getAppCode());
+		items = contextMenuFactory.makeAlgebraContextMenu(
+				integral, ap, app.getConfig().getAppCode(), app.getSettings().getAlgebra());
 		assertTrue("Remove label should be available for integral in CAS",
 				items.contains(AlgebraContextMenuItem.RemoveLabel));
 	}

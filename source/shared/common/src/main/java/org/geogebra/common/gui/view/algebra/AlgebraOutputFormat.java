@@ -104,7 +104,7 @@ public enum AlgebraOutputFormat {
      */
     @Nonnull
     public static AlgebraOutputOperator getOutputOperator(@Nonnull GeoElement geoElement) {
-        return (!shouldShowSymbolicOutputButton(geoElement)
+        return (!AlgebraItem.isSymbolicDiffers(geoElement)
                 || isCASOutputTypeSymbolic(geoElement)
                 || Fractions.isExactFraction(geoElement.unwrapSymbolic(), geoElement.getKernel())
         ) ? EQUALS : APPROXIMATELY_EQUALS;
@@ -140,16 +140,12 @@ public enum AlgebraOutputFormat {
 
     private static boolean hasDifferentSymbolicAndNumericFormat(GeoElement geoElement) {
         return AlgebraItem.hasDefinitionAndValueMode(geoElement)
-                && shouldShowSymbolicOutputButton(geoElement);
+                && AlgebraItem.isSymbolicDiffers(geoElement);
     }
 
     private static boolean hasFractionalFormat(GeoElement geoElement) {
         return AlgebraItem.evaluatesToFraction(geoElement)
                 && !AlgebraItem.isRationalizableFraction(geoElement);
-    }
-
-    private static boolean shouldShowSymbolicOutputButton(GeoElement geoElement) {
-        return AlgebraItem.isSymbolicDiffers(geoElement) && !AlgebraItem.isTextItem(geoElement);
     }
 
     private static boolean isCASOutputTypeSymbolic(GeoElement geoElement) {

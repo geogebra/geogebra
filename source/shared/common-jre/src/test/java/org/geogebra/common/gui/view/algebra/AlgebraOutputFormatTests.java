@@ -67,6 +67,8 @@ public class AlgebraOutputFormatTests {
             "sqrt(2)",
             "2000",
             "-10",
+            "text1 = \"my text\"",
+            "Take(\"hello\", 2, 3)",
     })
     public void testNoToggleButtonInGraphing(String expression) {
         setupApp(SuiteSubApp.GRAPHING);

@@ -35,7 +35,7 @@ public class DuplicateOutputAction implements MenuAction<GeoElement> {
 
 	@Override
 	public boolean isAvailable(GeoElement item) {
-		return item.isAlgebraDuplicateable()
-				&& AlgebraItem.shouldShowBothRows(item);
+		return item.isAlgebraDuplicateable() && AlgebraItem.shouldShowBothRows(item,
+				algebraView.getApp().getSettings().getAlgebra());
 	}
 }

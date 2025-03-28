@@ -65,12 +65,12 @@ public class AlgebraItemTest extends BaseUnitTest {
     public void testTwoRowsFrenchCoords() {
         getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_FRENCH);
         GeoPoint point = add("(1,2)");
-        assertThat(AlgebraItem.shouldShowBothRows(point), is(false));
+        assertThat(AlgebraItem.shouldShowBothRows(point, getSettings().getAlgebra()), is(false));
     }
 
     private void checkShouldShowBothRowsFor(String definition) {
         GeoElement line = addAvInput(definition);
-        assertThat(AlgebraItem.shouldShowBothRows(line), is(true));
+        assertThat(AlgebraItem.shouldShowBothRows(line, getSettings().getAlgebra()), is(true));
     }
 
     @Test
@@ -92,7 +92,8 @@ public class AlgebraItemTest extends BaseUnitTest {
         addAvInput("B = (1, 1)");
         addAvInput("C = (1, -1)");
         GeoAngle angle = addAvInput("a = Angle(A, B, C)");
-        boolean shouldShowOutputRow = AlgebraItem.shouldShowBothRows(angle);
+        boolean shouldShowOutputRow = AlgebraItem.shouldShowBothRows(angle,
+                getSettings().getAlgebra());
         assertThat(shouldShowOutputRow, is(true));
     }
 
@@ -123,7 +124,7 @@ public class AlgebraItemTest extends BaseUnitTest {
         getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
         getApp().setGraphingConfig();
         GeoElement geo = addAvInput("(-1)(9)");
-        assertThat(AlgebraItem.shouldShowBothRows(geo), is(true));
+        assertThat(AlgebraItem.shouldShowBothRows(geo, getSettings().getAlgebra()), is(true));
     }
 
     @Test
@@ -131,7 +132,21 @@ public class AlgebraItemTest extends BaseUnitTest {
         getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
         getApp().setGraphingConfig();
         GeoElement geo = addAvInput("(-2)(9)");
-        assertThat(AlgebraItem.shouldShowBothRows(geo), is(true));
+        assertThat(AlgebraItem.shouldShowBothRows(geo, getSettings().getAlgebra()), is(true));
+    }
+
+    @Test
+    public void shouldNotShowBothRowsForText() {
+        GeoElement geoElement = addAvInput("text1 = \"my text\"");
+        assertThat(AlgebraItem.shouldShowBothRows(geoElement, getSettings().getAlgebra()),
+                is(false));
+    }
+
+    @Test
+    public void shouldShowBothRowsForTakeStringAlgorithm() {
+        GeoElement geoElement = addAvInput("Take(\"hello\", 2, 4)");
+        assertThat(AlgebraItem.shouldShowBothRows(geoElement, getSettings().getAlgebra()),
+                is(true));
     }
 
     @Test

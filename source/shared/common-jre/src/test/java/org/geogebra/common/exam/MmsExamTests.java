@@ -1,5 +1,6 @@
 package org.geogebra.common.exam;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.CreateTableValues;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Delete;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateInput;
@@ -13,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Set;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.exam.restrictions.mms.MmsValueConverter;
@@ -78,7 +78,7 @@ public class MmsExamTests extends BaseExamTests {
 		assertEquals(
 				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
 				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
-						algebraProcessor, GeoGebraConstants.CAS_APPCODE));
+						algebraProcessor, CAS_APPCODE, app.getSettings().getAlgebra()));
 	}
 
 	@ParameterizedTest
@@ -100,8 +100,9 @@ public class MmsExamTests extends BaseExamTests {
 	public void testRestrictedSpecialPointsContextMenuItem() {
 		assertEquals(
 				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
-				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("f(x)=xx"),
-						algebraProcessor, GeoGebraConstants.CAS_APPCODE));
+				contextMenuFactory.makeAlgebraContextMenu(
+						evaluateGeoElement("f(x)=xx", "x^2"),
+						algebraProcessor, CAS_APPCODE, app.getSettings().getAlgebra()));
 	}
 
 	@Test

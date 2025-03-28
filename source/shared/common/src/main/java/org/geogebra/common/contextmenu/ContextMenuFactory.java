@@ -53,6 +53,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.scientific.LabelController;
 
 /**
@@ -101,7 +102,8 @@ public final class ContextMenuFactory {
 	public List<AlgebraContextMenuItem> makeAlgebraContextMenu(
 			@CheckForNull GeoElement geoElement,
 			@Nonnull AlgebraProcessor algebraProcessor,
-			@Nonnull String appCode
+			@Nonnull String appCode,
+			@Nonnull AlgebraSettings algebraSettings
 	) {
 		if (geoElement == null) {
 			return filter(makeDeleteAlgebraContextMenu());
@@ -115,7 +117,7 @@ public final class ContextMenuFactory {
 				: SuggestionSolve.get(geoElement);
 
 		boolean showStatisticsSuggestion = statisticsSuggestion != null;
-		boolean showDuplicateOutput = AlgebraItem.shouldShowBothRows(geoElement);
+		boolean showDuplicateOutput = AlgebraItem.shouldShowBothRows(geoElement, algebraSettings);
 		boolean showSpecialPointsSuggestion = specialPointsSuggestion != null;
 		boolean showCreateTableValues = geoElement.hasTableOfValues();
 		boolean isAlgebraLabelVisible = geoElement.isAlgebraLabelVisible();

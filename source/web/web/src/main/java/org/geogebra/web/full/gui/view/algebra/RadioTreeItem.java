@@ -460,8 +460,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
+	/**
+	 * Determines whether the algebra view item should be built in a two row (input, output) format.
+	 * @return {@code true} if a two row version should be built, {@code false} if a single row version should be built
+	 */
 	public boolean shouldBuildItemWithTwoRows() {
-		return (AlgebraItem.shouldShowBothRows(geo) && !isLatexTrivial()) || lastTeX != null;
+		return (AlgebraItem.shouldShowBothRows(geo, app.getSettings().getAlgebra())
+				&& !isLatexTrivial()) || lastTeX != null;
 	}
 
 	private void buildItemWithTwoRows() {

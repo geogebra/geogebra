@@ -67,8 +67,11 @@ public class ContextMenuAVItemMore implements SetLabels {
 	public void buildGUI() {
 		wrappedPopup.clearItems();
 		List<AlgebraContextMenuItem> actions = GlobalScope.contextMenuFactory
-				.makeAlgebraContextMenu(geo, mApp.getKernel().getAlgebraProcessor(),
-						getApp().getSubAppCode());
+				.makeAlgebraContextMenu(
+						geo,
+						mApp.getKernel().getAlgebraProcessor(),
+						getApp().getSubAppCode(),
+						mApp.getSettings().getAlgebra());
 		for (AlgebraContextMenuItem action : actions) {
 			addAction(action);
 		}

@@ -144,6 +144,10 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         return (GeoElement) evaluate(expression)[0];
     }
 
+    protected GeoElement evaluateGeoElement(String expression, String mockedCasGiacOutput) {
+        return (GeoElement) evaluate(expression, mockedCasGiacOutput)[0];
+    }
+
     @BeforeEach
     public void setUp() {
         examController.setDelegate(this);
