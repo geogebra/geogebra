@@ -33,7 +33,7 @@ public class CalculatorSubMenu extends AriaMenuBar {
 			addItem(SuiteSubApp.SCIENTIFIC);
 			if (app.isMebis()) {
 				addItem(factory.newAriaMenuItem(null,
-						"Grafikrechner (Bayern) (Beta)",
+						"Grafikrechner (Bayern)",
 						() -> embedManager.addCalcWithPreselectedApp(REALSCHULE_APPCODE,
 								GeoGebraConstants.GRAPHING_APPCODE)));
 			}
