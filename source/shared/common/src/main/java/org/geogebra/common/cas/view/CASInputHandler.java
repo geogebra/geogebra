@@ -588,7 +588,6 @@ public class CASInputHandler {
 	 *            is the given command (just Solve is supported)
 	 */
 	private void processMultipleRows(String ggbcmd, String oldXML) {
-		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// get current row and input text
 		consoleTable.stopEditing();
 		int selRow = consoleTable.getSelectedRow();
@@ -725,6 +724,7 @@ public class CASInputHandler {
 			if (assignedVariable != null) {
 				references[i] = assignedVariable;
 			} else {
+				StringTemplate tpl = StringTemplate.defaultTemplate;
 				cellText = selCellValue.getInputVE().toString(tpl);
 				cellText = resolveCASrowReferences(cellText, selectedIndices[i],
 						GeoCasCell.ROW_REFERENCE_STATIC, false);

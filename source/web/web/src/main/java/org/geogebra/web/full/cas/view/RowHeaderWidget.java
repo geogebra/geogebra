@@ -65,14 +65,14 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	 *            row number
 	 */
 	public void setLabel(int number) {
-		((Label) (getWidget(0))).setText(number + "");
+		((Label) getWidget(0)).setText(number + "");
 	}
 
 	/**
 	 * @return index in view (starts with 0)
 	 */
 	public int getIndex() {
-		return Integer.parseInt(((Label) (getWidget(0))).getText()) - 1;
+		return Integer.parseInt(((Label) getWidget(0)).getText()) - 1;
 	}
 
 	@Override

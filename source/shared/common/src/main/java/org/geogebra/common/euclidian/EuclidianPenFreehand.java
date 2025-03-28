@@ -887,7 +887,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		RecoSegment r1;
 		RecoSegment r2;
 		int i;
-		double dist;
 		double[] pt = new double[2];
 
 		for (i = 0; i < nsides; ++i) {
@@ -898,6 +897,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			r1.reversed = (Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1)) < (Math
 					.hypot(pt[0] - r1.x2, pt[1] - r1.y2));
 		}
+		double dist;
 		for (i = 0; i < nsides; ++i) {
 			r1 = recos[recognizer_queue_length - nsides + i];
 			r2 = recos[
@@ -977,7 +977,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		Inertia s = new Inertia();
 		Inertia s1 = new Inertia();
 		Inertia s2 = new Inertia();
-		int k, i1 = 0, i2 = 0, n1 = 0, n2;
+		int k, i1 = 0, i2 = 0;
 		double det1, det2;
 		int nsides = n;
 
@@ -1030,6 +1030,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				break;
 			}
 		}
+		int n1;
 		if (i1 > start) {
 			n1 = this.findPolygonal(start, i1,
 					(i2 == end) ? (nsides - 1) : (nsides - 2), offset1,
@@ -1044,7 +1045,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		brk[n1 + 1 + offset1] = i2;
 
 		inertias[offset2 + n1].copyValuesFrom(s);
-
+		int n2;
 		if (i2 < end) {
 			n2 = this.findPolygonal(i2, end, nsides - n1 - 1, offset1 + n1 + 1,
 					offset2 + n1 + 1);

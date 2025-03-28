@@ -1168,18 +1168,11 @@ public class PlotterSurface {
 
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
-		int longitude = manager.getLongitudeDefault();
-
-		float u, v;
-
-		float dt = (float) 1 / longitude;
-		float da = (float) (extent * dt);
-
 		manager.setDummyTexture();
 		manager.normalToScale(v1.crossProduct(v2));
 
-		u = (float) Math.cos(start);
-		v = (float) Math.sin(start);
+		float u = (float) Math.cos(start);
+		float v = (float) Math.sin(start);
 		v1.mul(a * u, m);
 		v2.mul(b * v, tmpCoords);
 		m.add(tmpCoords, m);
@@ -1204,7 +1197,9 @@ public class PlotterSurface {
 		// first point
 		tmpCoords3.setW(1);
 		manager.triangleFanVertex(tmpCoords3.setAdd3(center, m));
-
+		int longitude = manager.getLongitudeDefault();
+		float dt = (float) 1 / longitude;
+		float da = (float) (extent * dt);
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cos(start + i * da);
 			v = (float) Math.sin(start + i * da);
@@ -1337,13 +1332,6 @@ public class PlotterSurface {
                          double max, boolean minFading, boolean maxFading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
-		int longitude = manager.getLongitudeDefault();
-
-		float u, v;
-
-		float dt = (float) 1 / longitude;
-		float da = (float) (extent * dt);
-
 		center1.set(vz);
 		center1.mulInside3(min);
 		center1.addInside(center);
@@ -1371,7 +1359,10 @@ public class PlotterSurface {
 		if (!fading) {
 			manager.setDummyTexture();
 		}
-
+		int longitude = manager.getLongitudeDefault();
+		float u, v;
+		float dt = (float) 1 / longitude;
+		float da = (float) (extent * dt);
 		for (int i = 0; i <= longitude; i++) {
 			u = (float) Math.cos(start + i * da);
 			v = (float) Math.sin(start + i * da);
@@ -1451,11 +1442,6 @@ public class PlotterSurface {
 			double max, boolean minFading, boolean maxFading, int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
-		float c, s;
-
-		float dt = (float) 1 / longitude;
-		float da = (float) (extent * dt);
-
 		center1.set(vz);
 		center1.mulInside3(min);
 		center1.addInside(center);
@@ -1469,6 +1455,9 @@ public class PlotterSurface {
 			manager.setDummyTexture();
 		}
 
+		float dt = (float) 1 / longitude;
+		float da = (float) (extent * dt);
+		float c, s;
 		for (int i = 0; i <= longitude; i++) {
 			c = (float) Math.cos(start + i * da);
 			s = (float) Math.sin(start + i * da);
@@ -1539,18 +1528,10 @@ public class PlotterSurface {
 		manager.texture(0, 0);
 		manager.normalToScale(v1.crossProduct(v2));
 
-		int longitude = manager.getLongitudeDefault();
-
-		Coords m1;
-
-		float dt = (float) (tMax - tMin) / longitude;
-
-		float u, v;
-
 		// first point on the branch
-		u = (float) Math.cosh(tMin);
-		v = (float) Math.sinh(tMin);
-		m1 = v1.mul(a * u).add(v2.mul(b * v));
+		float u = (float) Math.cosh(tMin);
+		float v = (float) Math.sinh(tMin);
+		Coords m1 = v1.mul(a * u).add(v2.mul(b * v));
 
 		// center of the fan is midpoint of branch ends
 		u = (float) Math.cosh(tMax);
@@ -1561,7 +1542,8 @@ public class PlotterSurface {
 
 		// first point
 		manager.triangleFanVertex(center.add(m1));
-
+		int longitude = manager.getLongitudeDefault();
+		float dt = (float) (tMax - tMin) / longitude;
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cosh(tMin + i * dt);
 			v = (float) Math.sinh(tMin + i * dt);
@@ -1605,14 +1587,10 @@ public class PlotterSurface {
 		Coords m1;
 
 		float dt = (float) (tMax - tMin) / longitude;
-
-		float u, v;
-		double t;
-
 		// first point
-		t = tMin;
-		u = (float) (p * t * t / 2);
-		v = (float) (p * t);
+		double t = tMin;
+		float u = (float) (p * t * t / 2);
+		float v = (float) (p * t);
 		m1 = v1.mul(u).add(v2.mul(v));
 
 		// center of the fan is midpoint of branch ends

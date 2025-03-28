@@ -161,7 +161,6 @@ public class OptionsPanelW extends FlowPanel
 		this.setVisible(true);
 
 		// add plot-specific tab
-		String tabTitle = plotType.getTranslatedKey(loc);
 		spHistogram = new ScrollPanel();
 		mainPanel.setStyleName("daScrollPanel");
 		spHistogram.add(mainPanel);
@@ -229,6 +228,7 @@ public class OptionsPanelW extends FlowPanel
 
 		}
 		if (showHistogramTab) {
+			String tabTitle = plotType.getTranslatedKey(loc);
 			tabPanel.add(spHistogram, tabTitle);
 		}
 		tabPanel.add(spGraph, loc.getMenu("Graph"));

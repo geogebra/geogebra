@@ -528,7 +528,7 @@ public interface Manager3DInterface {
 	/**
 	 * Calculate the intersection of two quadrics, if it's a conic
 	 * 
-	 * @param labels
+	 * @param labels output labels
 	 * 
 	 * @param quadric1
 	 *            quadric1

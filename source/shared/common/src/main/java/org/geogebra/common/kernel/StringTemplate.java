@@ -1769,7 +1769,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		ExpressionValue left = value.wrap().getLeft();
 		ExpressionValue right = value.wrap().getRight();
 		if (left != null && right != null) {
-			return ((left.evaluatesToList() || isNDvector(left)) && (isNDvector(right)))
+			return ((left.evaluatesToList() || isNDvector(left)) && isNDvector(right))
 					|| (isNDvector(left) && (right.evaluatesToList() || isNDvector(right)));
 		}
 		return false;

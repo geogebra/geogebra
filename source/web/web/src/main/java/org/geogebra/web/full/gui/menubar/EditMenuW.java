@@ -39,14 +39,6 @@ public class EditMenuW extends Submenu {
 	 * initializes the menu
 	 */
 	void initActions() {
-		/*
-		 * layer values: -1 means nothing selected -2 means different layers
-		 * selected
-		 */
-		int layer = selection.getSelectedLayer();
-		boolean justCreated = !(getApp().getActiveEuclidianView()
-				.getEuclidianController().getJustCreatedGeos().isEmpty());
-		boolean haveSelection = !selection.getSelectedGeos().isEmpty();
 		clearItems();
 		if (getApp().getUndoRedoMode() == UndoRedoMode.GUI) {
 			addUndoRedo();
@@ -65,6 +57,14 @@ public class EditMenuW extends Submenu {
 
 		addSelectAllItem();
 		if (!getApp().isUnbundledOrWhiteboard()) {
+			/*
+			 * layer values: -1 means nothing selected -2 means different layers
+			 * selected
+			 */
+			int layer = selection.getSelectedLayer();
+			boolean justCreated = !(getApp().getActiveEuclidianView()
+					.getEuclidianController().getJustCreatedGeos().isEmpty());
+			boolean haveSelection = !selection.getSelectedGeos().isEmpty();
 			addSelectCurrentLayer();
 			addDescentdantsItem();
 			addPredecessorsItem();

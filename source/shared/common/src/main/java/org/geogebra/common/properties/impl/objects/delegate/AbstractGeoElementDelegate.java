@@ -40,7 +40,7 @@ public abstract class AbstractGeoElementDelegate implements GeoElementDelegate {
 
 	protected boolean isApplicableToGeoList(GeoList list) {
 		for (int i = 0; i < list.size(); i++) {
-			if (!(checkIsApplicable(list.get(i)))) {
+			if (!checkIsApplicable(list.get(i))) {
 				return false;
 			}
 		}

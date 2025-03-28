@@ -31,7 +31,6 @@ public class CmdNSolveODE extends CommandProcessor {
 	@Override
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n < 3) {
@@ -61,7 +60,7 @@ public class CmdNSolveODE extends CommandProcessor {
 		if (dim1 == 0) {
 			throw argErr(c, arg[0]);
 		}
-
+		boolean[] ok = new boolean[n];
 		if (n == 4) {
 			if ((ok[0] = true) // already checked before
 					&& (ok[1] = arg[1].isGeoNumeric()) && (ok[2] = true) // already

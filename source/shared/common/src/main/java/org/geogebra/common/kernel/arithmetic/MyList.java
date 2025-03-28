@@ -1249,7 +1249,7 @@ public class MyList extends ValidExpression
 			return true;
 		}
 		for (int i = 0; i < size(); i++) {
-			if ((get(i)).inspect(t)) {
+			if (get(i).inspect(t)) {
 				return true;
 			}
 		}

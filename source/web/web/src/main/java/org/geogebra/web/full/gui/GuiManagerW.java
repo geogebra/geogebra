@@ -537,7 +537,7 @@ public class GuiManagerW extends GuiManager
 		}
 
 		if (viewId == App.VIEW_SPREADSHEET) {
-			(getApp()).getActiveEuclidianView().requestFocus();
+			getApp().getActiveEuclidianView().requestFocus();
 		}
 	}
 
@@ -1171,8 +1171,7 @@ public class GuiManagerW extends GuiManager
 				&& getApp().isEuclidianView3Dinited()) {
 			return (EuclidianView) getApp().getEuclidianView3D();
 		}
-		return (getApp()).getEuclidianView1();
-		// return app.getEuclidianView1();
+		return getApp().getEuclidianView1();
 	}
 
 	/**

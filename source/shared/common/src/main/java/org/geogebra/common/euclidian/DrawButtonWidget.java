@@ -185,9 +185,6 @@ public class DrawButtonWidget {
 			}
 		}
 
-		// Starting position of the image
-		int imgStart = (int) (getHeight() - imgHeight - textHeight - imgGap) / 2;
-
 		// prepare colors and paint
 		g.setColor(view.getBackgroundCommon());
 		GColor bg = geoButton.getBackgroundColor();
@@ -251,6 +248,8 @@ public class DrawButtonWidget {
 		g.setColor(geoButton.getObjectColor());
 
 		MyImage im = geoButton.getFillImage();
+		// Starting position of the image
+		int imgStart = (int) (getHeight() - imgHeight - textHeight - imgGap) / 2;
 		// draw image
 		if (im != null) {
 			GGeneralPath path = getClipRectangle(arcSize / 2., widthCorrection);

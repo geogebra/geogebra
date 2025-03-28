@@ -84,10 +84,7 @@ public class SpreadsheetTraceManager {
 	 *            geo to trace
 	 */
 	public void addSpreadsheetTraceGeo(GeoElement spreadsheetTraceable) {
-
 		SpreadsheetTraceSettings t = spreadsheetTraceable.getTraceSettings();
-		Construction cons = app.getKernel().getConstruction();
-
 		// Set trace columns
 		if (t.traceColumn1 == -1) {
 			t.traceColumn1 = getNextTraceColumn();
@@ -133,7 +130,7 @@ public class SpreadsheetTraceManager {
 		// clear the trace columns and put the current trace into the
 		// spreadsheet
 		clearGeoTraceColumns(spreadsheetTraceable);
-
+		Construction cons = app.getKernel().getConstruction();
 		if (t.showTraceList) {
 			for (int column = t.traceColumn1; column <= t.traceColumn2; column++) {
 				createTraceListCell(cons, column, t.traceRow1);

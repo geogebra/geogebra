@@ -138,7 +138,6 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	}
 
 	private void setQuadric() {
-		double[] coeffs = new double[10];
 		Polynomial lhs = equation.getNormalForm();
 		ev[0] = lhs.getCoefficient("xx");
 		ev[1] = lhs.getCoefficient("yy");
@@ -153,6 +152,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 		ev[8] = lhs.getCoefficient("y");
 		ev[9] = lhs.getCoefficient("z");
 
+		double[] coeffs = new double[10];
 		for (int i = 0; i < 4; i++) {
 			coeffs[i] = ev[i].evaluateDouble();
 		}

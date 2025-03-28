@@ -905,7 +905,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 	private void doResize() {
 		int w = (getOffsetWidth() / 2) - PANEL_GAP;
-		int h = (getOffsetHeight()) - getHeaderWidget().getOffsetHeight()
+		int h = getOffsetHeight() - getHeaderWidget().getOffsetHeight()
 				- getFooterWidget().getOffsetHeight()
 				- lblUsedTools.getOffsetHeight() - MARGIN_Y;
 

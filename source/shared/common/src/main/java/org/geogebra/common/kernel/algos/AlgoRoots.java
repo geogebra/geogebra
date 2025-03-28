@@ -354,7 +354,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 					}
 				}
 			} else if ((Math.abs(y[i]) < Kernel.MIN_PRECISION)
-					&& (signChanged(f, x, Math.min(x - lastRoot, deltax / 2)))) {
+					&& signChanged(f, x, Math.min(x - lastRoot, deltax / 2))) {
 				// left endpoint is root by pure luck...
 				lastRoot = x;
 				add(xlist, x, f);

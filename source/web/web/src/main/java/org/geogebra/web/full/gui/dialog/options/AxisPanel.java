@@ -159,9 +159,6 @@ public class AxisPanel extends FlowPanel
 		cbDrawAtBorder = new ComponentCheckbox(loc, false, "StickToEdge",
 				model::applyDrawAtBorder);
 
-		FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross,
-				cbDrawAtBorder);
-
 		distancePanel.setStyleName("listBoxPanel tickPanel");
 		showTicksPanel.setStyleName("listBoxPanel");
 		labelPanel.setStyleName("listBoxPanel tickPanel");
@@ -177,6 +174,8 @@ public class AxisPanel extends FlowPanel
 		add(labelPanel);
 		add(unitPanel);
 		if (!view3D) {
+			FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross,
+					cbDrawAtBorder);
 			add(crossPanel);
 		}
 		add(cbAllowSelection);

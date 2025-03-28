@@ -798,15 +798,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private void updateHyperbolicCylinder(GeoQuadric3D quadric,
 			Renderer renderer) {
-		double min, max;
-		double radius;
 		Coords center = quadric.getMidpoint3D();
 		double r0 = quadric.getHalfAxis(0);
-		double r1 = quadric.getHalfAxis(1);
 
 		Coords ev0 = quadric.getEigenvec3D(0);
-		Coords ev1 = quadric.getEigenvec3D(1);
-		Coords ev2 = quadric.getEigenvec3D(2);
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		setPackSurface();
 		surface.start(getReusableSurfaceIndex());
@@ -816,6 +811,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		uMinMax[0] = Double.POSITIVE_INFINITY;
 		uMinMax[1] = Double.NEGATIVE_INFINITY;
 		getView3D().getMinIntervalOutsideClipping(uMinMax, center, ev0.mul(r0));
+		double min, max;
+		double radius;
 		if (uMinMax[0] < -1) { // bottom exists
 			min = -DrawConic3D.acosh(-uMinMax[0]);
 		} else if (uMinMax[0] <= 1) { // top ends at pole
@@ -830,6 +827,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		} else { // bottom pole is cut
 			max = -DrawConic3D.acosh(-uMinMax[1]);
 		}
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
 		if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
 			radius = quadric.getHalfAxis(0);
 			double radius2 = quadric.getHalfAxis(1);
@@ -860,6 +859,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			vMinMax[0] = Double.POSITIVE_INFINITY;
 			vMinMax[1] = Double.NEGATIVE_INFINITY;
 			getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2);
+			double r1 = quadric.getHalfAxis(1);
 			if (min < 0) {
 				surface.drawHyperbolicCylinder(center, ev0.mul(-1), ev1.mul(-1),
 						ev2, r0, r1, -max, -min, vMinMax[0], vMinMax[1],

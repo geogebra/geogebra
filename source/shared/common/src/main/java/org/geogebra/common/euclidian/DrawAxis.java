@@ -53,12 +53,6 @@ public class DrawAxis {
 	 *            graphics
 	 */
 	protected void drawAxes(GGraphics2D g2) {
-		// TRAC-5292
-		// problem exporting to PDF
-		// GGB-766
-		// also needed for Braille
-		char minusSign = view.getApplication().getExportType()
-				.getAxisMinusSign();
 
 		// xCrossPix: yAxis crosses the xAxis at this x pixel
 		double xCrossPix = view.getXAxisCrossingPixel();
@@ -70,11 +64,7 @@ public class DrawAxis {
 		int yAxisEnd = view.positiveAxes[1] ? (int) yCrossPix
 				: view.getHeight();
 
-		// xAxis start value (for drawing half-axis)
-		int xAxisStart = view.positiveAxes[0] ? (int) xCrossPix : 0;
-
 		// for axes ticks
-
 		boolean bold = view.areAxesBold();
 		boolean filled = (view.axesLineType
 				& EuclidianStyleConstants.AXES_FILL_ARROWS) != 0;
@@ -134,7 +124,14 @@ public class DrawAxis {
 
 		beforeZeroY = null;
 		beforeZeroX = null;
-
+		// TRAC-5292
+		// problem exporting to PDF
+		// GGB-766
+		// also needed for Braille
+		char minusSign = view.getApplication().getExportType()
+				.getAxisMinusSign();
+		// xAxis start value (for drawing half-axis)
+		int xAxisStart = view.positiveAxes[0] ? (int) xCrossPix : 0;
 		// ========================================
 		// X-AXIS
 		if (view.showAxes[0]) {

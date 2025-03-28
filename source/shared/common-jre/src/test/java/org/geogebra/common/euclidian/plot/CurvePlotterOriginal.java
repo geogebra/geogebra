@@ -125,15 +125,12 @@ public class CurvePlotterOriginal {
 		// [(left + right)/2, right]
 		// see catch block
 
-		boolean needLabelPos = calcLabelPos;
 		GPoint labelPoint = null;
 
 		// The following algorithm by John Gillam avoids multiple
 		// evaluations of the curve for the same parameter value t
 		// see an explanation of this algorithm below.
 
-		double[] move = curve.newDoubleArray();
-		boolean nextLineToNeedsMoveToFirst = false;
 		double[] eval = curve.newDoubleArray();
 		double[] eval0, eval1;
 
@@ -191,7 +188,9 @@ public class CurvePlotterOriginal {
 		double t = t1;
 		double left = t1;
 		boolean distanceOK, angleOK, segOffScreen, minDistReached;
-
+		boolean nextLineToNeedsMoveToFirst = false;
+		double[] move = curve.newDoubleArray();
+		boolean needLabelPos = calcLabelPos;
 		// Actual plotting algorithm:
 		// use bisection for interval until we reach
 		// a small pixel distance between two points and

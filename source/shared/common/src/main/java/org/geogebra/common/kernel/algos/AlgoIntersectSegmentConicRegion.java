@@ -204,7 +204,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 		case 3: {
 			int[] order = { 0, 1, 2, 3 };
-			boolean[] isPartValid = { false, false, false };
 
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[4];
@@ -242,6 +241,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 			// counting no of output segments and assigning them as output
 			count = 0;
+			boolean[] isPartValid = { false, false, false };
 			for (int i = 0; i < 3; i++) {
 				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
@@ -272,8 +272,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 		}
 		case 4: {
 			int[] order = { 0, 1, 2, 3, 4 };
-			boolean[] isPartValid = { false, false, false, false };
-
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[5];
 			int count = 1;
@@ -331,6 +329,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 			// counting no of output segments and assigning them as output
 			count = 0;
+			boolean[] isPartValid = { false, false, false, false };
 			for (int i = 0; i < 4; i++) {
 				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
@@ -363,7 +362,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 			double t1, t2, t3, t4, temp;
 			int[] order = { 0, 1, 2, 3, 4 };
-			boolean[] isPartValid = { false, false, false, false, false };
 
 			// get intersect point on segment
 			GeoPoint[] pnt = { getSegment().getStartPoint(), intersectPoints[0],
@@ -428,6 +426,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 			// counting no of output segments and assigning them as output
 			int count = 0;
+			boolean[] isPartValid = { false, false, false, false, false };
 			for (int i = 0; i < 4; i++) {
 				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(

@@ -186,8 +186,6 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}
 
 	private void findParameters() {
-		int sign = 1;
-		double k = 0.001d; // debug("findParameters():\n================");
 		// Remember some values to speed up later calculations:
 		x1 = xd[0];
 		y1 = yd[0];
@@ -207,7 +205,8 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		} else {
 			increasing = false;
 		}
-
+		int sign = 1;
+		double k = 0.001d;
 		if (allplus) { // a>0 and c>0
 			if (!increasing) {
 				sign = -1;

@@ -1264,8 +1264,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return;
 		}
 
-		IndexHTMLBuilder ib = new IndexHTMLBuilder(false);
-
 		SpreadsheetViewInterface spreadsheet = gm.getSpreadsheetView();
 		
 		MyTableInterface table = spreadsheet.getSpreadsheetTable();
@@ -1321,7 +1319,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		// end headers
 		sb.append("</tr>\n");
-
+		IndexHTMLBuilder ib = new IndexHTMLBuilder(false);
 		for (int row = 0 ; row < rows ; row++) {
 			
 			sb.append("<tr>\n");

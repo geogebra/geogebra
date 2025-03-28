@@ -17,7 +17,6 @@ public class HTML5Export {
 	 */
 	public static String getFullString(App app) {
 		StringBuilder sb = new StringBuilder();
-		GuiManagerInterface gui = app.getGuiManager();
 		sb.append("<!DOCTYPE html>\n");
 		sb.append("<html>\n");
 		sb.append("<head>\n");
@@ -45,6 +44,7 @@ public class HTML5Export {
 		sb.append("\"showAlgebraInput\":").append(app.showAlgebraInput).append(",\n");
 
 		sb.append("\"showToolBar\":").append(app.showToolBar).append(",\n");
+		GuiManagerInterface gui = app.getGuiManager();
 		if (app.showToolBar) {
 			if (gui != null) {
 				sb.append("\"customToolBar\":\"");

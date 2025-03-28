@@ -59,7 +59,7 @@ abstract class QuadTree {
 		int config = (intersect(r.evals[0], r.evals[1]) << 3)
 				| (intersect(r.evals[1], r.evals[2]) << 2)
 				| (intersect(r.evals[2], r.evals[3]) << 1)
-				| (intersect(r.evals[3], r.evals[0]));
+				| intersect(r.evals[3], r.evals[0]);
 		if (config == 15 || config == 0) {
 			return QuadTreeEdgeConfig.EMPTY.flag();
 		}
@@ -69,7 +69,7 @@ abstract class QuadTree {
 	/**
 	 * @param c1 the value of curve at one of the square vertices
 	 * @param c2 the value of curve at the other vertex
-	 * @return true if the edge connecting two vertices intersect with curve
+	 * @return 1 if the edge connecting two vertices intersect with curve
 	 * segment
 	 */
 	private static int intersect(double c1, double c2) {

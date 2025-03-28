@@ -166,7 +166,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
 		updateMetrics(g2);
-		String labelText = getLabelText();
 		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : GColor.WHITE;
@@ -195,7 +194,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		drawSelected.drawOpenControl(g2, boxLeft, boxTop, boxWidth, boxHeight);
 
 		if (geo.isLabelVisible()) {
-			drawLabel(g2, geoList, labelText);
+			drawLabel(g2, geoList, getLabelText());
 		}
 
 		drawOptions.draw(g2, boxLeft, boxTop + boxHeight + COMBO_CONTEXT_GAP);

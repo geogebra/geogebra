@@ -666,13 +666,9 @@ public class PlotterBrush implements PathPlotter {
 
 		vn2.setCrossProduct3(v2, v1);
 
-		float dt = (float) 1 / longitude;
-		float da = (float) (extent * dt);
-		float u, v;
-
 		// start arrow
-		u = (float) Math.cos(arcStart);
-		v = (float) Math.sin(arcStart);
+		float u = (float) Math.cos(arcStart);
+		float v = (float) Math.sin(arcStart);
 
 		vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
 
@@ -693,6 +689,8 @@ public class PlotterBrush implements PathPlotter {
 		moveTo(tmpCoords, vn1, vn2);
 
 		// arc
+		float dt = (float) 1 / longitude;
+		float da = (float) (extent * dt);
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cos(arcStart + i * da);
 			v = (float) Math.sin(arcStart + i * da);
@@ -904,11 +902,9 @@ public class PlotterBrush implements PathPlotter {
 
 		float dt = (float) (tMax - tMin) / longitude;
 
-		float u, v;
-		double t;
-		t = tMin;
-		u = (float) (p * t * t / 2);
-		v = (float) (p * t);
+		double t = tMin;
+		float u = (float) (p * t * t / 2);
+		float v = (float) (p * t);
 
 		m.setAdd(m.setMul(v1, u), tmpCoords.setMul(v2, v));
 

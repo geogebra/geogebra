@@ -176,7 +176,6 @@ public class AlgoContinuedFraction extends AlgoElement {
 	private int decimalToFraction(double dec, double AccuracyFactor,
 			long[] denom, int maxSteps) {
 		double Z;
-		double ScratchValue;
 
 		if (Double.isNaN(dec)) {
 			return -1;
@@ -214,7 +213,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		do {
 			denom[steps] = (long) Math.floor(Z);
 			Z = 1.0 / (Z - Math.floor(Z));
-			ScratchValue = FractionDenominator;
+			double ScratchValue = FractionDenominator;
 			FractionDenominator = FractionDenominator * Math.floor(Z)
 					+ PreviousDenominator;
 			PreviousDenominator = ScratchValue;

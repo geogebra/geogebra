@@ -550,9 +550,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 			GColor col = geo1.getObjectColor();
 			GColor bgCol = geo1.getBackgroundColor();
 			
-			String stylePre = "";
-			String stylePost = "";
-			
 			int fontStyle = 0;
 			
 			if (geo1 instanceof TextProperties) {
@@ -632,6 +629,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 				text1 = text1 + currencyEnd;
 			}
 
+			String stylePre = "";
+			String stylePost = "";
 			// make sure latex isn't wrapped in \text{}
 			if (((geo1 instanceof TextProperties
 					&& !((TextProperties) geo1).isLaTeXTextCommand())

@@ -265,9 +265,6 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	 * Loads prepared frequencies and values from GeoLists into arrays
 	 */
 	private boolean loadPreparedDataValues() {
-
-		GeoElement geo;
-
 		if (rowList == null || colList == null || freqMatrix == null
 				|| !rowList.isDefined() || !colList.isDefined()
 				|| !freqMatrix.isDefined() || !freqMatrix.isMatrix()) {
@@ -287,7 +284,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		colValues = new String[colCount];
 		rowSum = new int[rowCount];
 		colSum = new int[colCount];
-
+		GeoElement geo;
 		for (int i = 0; i < rowCount; i++) {
 			geo = rowList.get(i);
 			if (!geo.isGeoText()) {

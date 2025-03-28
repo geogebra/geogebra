@@ -198,7 +198,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 						getMaxLengthIndex(drawingMatrix.getVy())));
 	}
 
-	final private static int getMaxLengthIndex(Coords v) {
+	private static int getMaxLengthIndex(Coords v) {
 		int ret = 0;
 		double max = Math.abs(v.getX());
 		double l = Math.abs(v.getY());
@@ -230,12 +230,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 		Renderer renderer = getView3D().getRenderer();
 		GeoPlane3D geo = getPlane();
-		CoordSys coordsys = geo.getCoordSys();
 
-		float xmin1 = (float) geo.getXmin(), xmax1 = (float) geo.getXmax(),
-				xdelta1 = xmax1 - xmin1;
-		float ymin1 = (float) geo.getYmin(), ymax1 = (float) geo.getYmax(),
-				ydelta1 = ymax1 - ymin1;
+		float xmin1 = (float) geo.getXmin(), xmax1 = (float) geo.getXmax();
+		float ymin1 = (float) geo.getYmin(), ymax1 = (float) geo.getYmax();
 
 		// update bounds
 		updateBounds(xmin1, xmax1, ymin1, ymax1);
@@ -250,7 +247,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		surface.setNbU(2);
 		surface.setV(ymin1, ymax1);
 		surface.setNbV(2);
-
+		float xdelta1 = xmax1 - xmin1;
+		float ydelta1 = ymax1 - ymin1;
 		if (!getView3D().useClippingCube()) {
 			float fading;
 			fading = xdelta1 * geo.getFading();
@@ -263,6 +261,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		endPacking();
 
 		// grid
+		CoordSys coordsys = geo.getCoordSys();
 		if (shouldBePackedForManager()) {
 			setPackCurve();
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();
