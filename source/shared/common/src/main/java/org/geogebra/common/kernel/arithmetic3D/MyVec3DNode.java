@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
@@ -287,8 +286,18 @@ public class MyVec3DNode extends ValidExpression
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		return t.check(this) || x.inspect(t) || y.inspect(t) || z.inspect(t);
+	public int getChildCount() {
+		return 3;
+	}
+
+	@Override
+	public ExpressionValue getChild(int index) {
+		switch (index) {
+		case 0: return x;
+		case 1: return y;
+		case 2: return z;
+		default: return super.getChild(index);
+		}
 	}
 
 	/**

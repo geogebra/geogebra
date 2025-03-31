@@ -99,7 +99,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					.getValidExpressionNoExceptionHandling(input);
 
 			if (kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV
-					&& ve.inspect(Inspecting.vectorDivisionFinder)) {
+					&& ve.any(Inspecting::isVectorDivision)) {
 				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalDivision);
 			}
 

@@ -260,10 +260,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		sb.append(definition);
 
 		if (definitionObject != null)  {
-			definitionObject.inspect(registerUndefinedVariables);
+			definitionObject.any(registerUndefinedVariables);
 
 			if (equations2.getKernel().degreesMode()) {
-				return definitionObject.inspect(DegreeVariableChecker
+				return definitionObject.any(DegreeVariableChecker
 						.getInstance());
 			}
 		}

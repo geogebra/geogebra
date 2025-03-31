@@ -6325,11 +6325,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return t.process(this);
 	}
 
-	@Override
-	final public boolean inspect(Inspecting t) {
-		return t.check(this);
-	}
-
 	/**
 	 * Says if this geo has a "meta geo", e.g. a segment coming from a polygon
 	 * 

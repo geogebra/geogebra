@@ -619,7 +619,7 @@ public class ParametricProcessor {
 	public ValidExpression checkParametricEquationF(ValidExpression ve,
 			ValidExpression fallback, Construction cons, EvalInfo info) {
 		CollectUndefinedVariables collector = new Traversing.CollectUndefinedVariables();
-		ve.inspect(collector);
+		ve.any(collector);
 		final TreeSet<String> undefinedVariables = collector.getResult();
 		if (undefinedVariables.size() == 1) {
 			try {
@@ -655,7 +655,7 @@ public class ParametricProcessor {
 	 */
 	public GeoElement[] processXEquation(Equation equ, EvalInfo info) {
 		CollectUndefinedVariables collector = new Traversing.CollectUndefinedVariables();
-		equ.inspect(collector);
+		equ.any(collector);
 		final TreeSet<String> undefinedVariables = collector.getResult();
 		// case 3DLine
 		if (undefinedVariables.isEmpty()) {

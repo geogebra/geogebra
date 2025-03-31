@@ -12,7 +12,7 @@ public class RadianExpressionFilter implements ExpressionFilter {
     @Override
     public boolean isAllowed(ValidExpression expression) {
         boolean containsRadian = expression
-                .inspect(expressionValue -> {
+                .any(expressionValue -> {
                     if (expressionValue instanceof MySpecialDouble) {
                         MySpecialDouble doubleVal = (MySpecialDouble) expressionValue;
                         return doubleVal.isAngle()

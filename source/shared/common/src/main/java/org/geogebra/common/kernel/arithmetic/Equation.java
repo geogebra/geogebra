@@ -591,8 +591,17 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		return t.check(this) || lhs.inspect(t) || rhs.inspect(t);
+	public int getChildCount() {
+		return 2;
+	}
+
+	@Override
+	public ExpressionValue getChild(int index) {
+		switch (index) {
+		case 0: return lhs;
+		case 1: return rhs;
+		default: return super.getChild(index);
+		}
 	}
 
 	/**
@@ -778,7 +787,7 @@ public class Equation extends ValidExpression implements EquationValue {
 					&& (n.getLeft() instanceof MyList
 							|| n.getRight() instanceof MyList);
 		};
-		return rhs.inspect(check);
+		return rhs.any(check);
 	}
 
 	/**

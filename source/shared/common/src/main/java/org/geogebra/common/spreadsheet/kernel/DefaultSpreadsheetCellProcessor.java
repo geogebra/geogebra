@@ -92,7 +92,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	private boolean checkCircularDefinition(String input, Kernel kernel) {
 		try {
 			ValidExpression parsed = kernel.getParser().parseGeoGebraExpression(input);
-			if (parsed.inspect(v -> v instanceof Variable
+			if (parsed.any(v -> v instanceof Variable
 					&& cellName.equals(((Variable) v).getName()))) {
 				return true;
 			}

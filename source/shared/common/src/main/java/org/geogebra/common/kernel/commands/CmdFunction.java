@@ -130,8 +130,8 @@ public class CmdFunction extends CommandProcessor {
 				// construct the equivalent of parsing a<=x<=b
 				ExpressionNode interval = buildInterval(kernel, low, fv, high);
 
-				boolean mayUseIndependent = !Inspecting.dynamicGeosFinder.check(geoFun)
-						&& !interval.inspect(Inspecting.dynamicGeosFinder);
+				boolean mayUseIndependent = !Inspecting.isDynamicGeoElement(geoFun)
+						&& !interval.any(Inspecting::isDynamicGeoElement);
 
 				// copied from CmdIf from here
 

@@ -110,7 +110,7 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 				GeoPointND eval = app.getKernel().getAlgebraProcessor().evaluateToPoint(
 						"(" + String.join(",", newDef) + ")", ErrorHelper.silent(), true);
 
-				if (Inspecting.dynamicGeosFinder.check(eval)) {
+				if (Inspecting.isDynamicGeoElement(eval)) {
 					try {
 						((AbsoluteScreenLocateable) geo).setStartPoint(eval);
 					} catch (CircularDefinitionException e) {

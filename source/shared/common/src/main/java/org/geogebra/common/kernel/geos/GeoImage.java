@@ -1232,7 +1232,7 @@ public class GeoImage extends GeoElement implements
 		if (corners[idx] == null || corners[idx].hasChildren()) {
 			return;
 		}
-		if (Inspecting.dynamicGeosFinder.check(corners[idx])) {
+		if (Inspecting.isDynamicGeoElement(corners[idx])) {
 			corners[idx].remove();
 		}
 		setCorner(null, idx);

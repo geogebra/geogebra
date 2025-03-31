@@ -58,7 +58,7 @@ public class SymbolicProcessor {
 		public boolean check(ExpressionValue v) {
 			String label = ve.wrap().getLabel();
 			if (v instanceof GeoSymbolic && label != null) {
-				return ((GeoSymbolic) v).getValue().inspect(this);
+				return ((GeoSymbolic) v).getValue().any(this);
 			}
 			if (v instanceof Variable) {
 				return ((Variable) v).getName().equals(label);
@@ -138,7 +138,7 @@ public class SymbolicProcessor {
 					throw buildArgNumberError(cmd);
 				}
 			}
-			if (replaced.inspect(Inspecting.vectorDivisionFinder)) {
+			if (replaced.any(Inspecting::isVectorDivision)) {
 				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalDivision);
 			}
 
@@ -234,7 +234,7 @@ public class SymbolicProcessor {
 				.withLabels(false);
 		SubExpressionEvaluator evaluator = new SubExpressionEvaluator(this, ve, subInfo);
 		ExpressionNode replaced = ve.traverse(evaluator).wrap();
-		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
+		if (replaced.any(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
 					.wrap();

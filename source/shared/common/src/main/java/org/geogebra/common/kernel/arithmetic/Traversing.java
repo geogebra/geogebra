@@ -898,7 +898,7 @@ public interface Traversing {
 				}
 				// a1.5 -> a*1.5: inspect subexpressions
 				if (expressionFromVariableName.isExpressionNode()) {
-					expressionFromVariableName.inspect(this);
+					expressionFromVariableName.any(this);
 				}
 			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]
 

@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -515,8 +515,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof ListValue && rt instanceof ListValue
-					&& !right.inspect(v -> v instanceof FunctionVariable)
-					&& !left.inspect(v -> v instanceof FunctionVariable)) {
+					&& right.none(Inspecting::isFunctionVariable)
+					&& left.none(Inspecting::isFunctionVariable)) {
 				ListValue leftList = (ListValue) lt;
 				ListValue rightList = (ListValue) rt;
 				int size = leftList.size();

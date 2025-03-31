@@ -41,8 +41,6 @@ import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.GeoSurfaceReplacer;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
-import org.geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -902,7 +900,7 @@ public class GeoCasCell extends GeoElement
 		// FromBase["101",2] should still go to CAS
 		useGeoGebraFallback = useGeoGebraFallback
 				|| (!input.contains("FromBase")
-						&& ve.inspect(Inspecting.textFinder));
+						&& ve.any(Inspecting::isText));
 
 		// get all used GeoElement variables
 		// check for function
@@ -1603,7 +1601,7 @@ public class GeoCasCell extends GeoElement
 					.size(); i++) {
 				boolean isComplex = ((MyList) ((ExpressionNode) ve).getLeft())
 						.get(i)
-						.inspect(Inspecting.ComplexChecker.INSTANCE);
+						.any(Inspecting::isComplexNumber);
 				if (!isComplex) {
 					results.add(((MyList) ((ExpressionNode) ve).getLeft())
 							.get(i));
@@ -1834,7 +1832,7 @@ public class GeoCasCell extends GeoElement
 
 	private void setEquationMode() {
 		if (this.inputVE != null && this.inputVE.unwrap() instanceof Equation
-				&& this.inputVE.inspect(new Inspecting() {
+				&& this.inputVE.any(new Inspecting() {
 
 					@Override
 					public boolean check(ExpressionValue v) {
@@ -1960,7 +1958,7 @@ public class GeoCasCell extends GeoElement
 					if (lastOutputEvaluationGeo instanceof GeoFunction) {
 						ExpressionNode expr = ((GeoFunction) lastOutputEvaluationGeo)
 								.getFunctionExpression();
-						expr.inspect(new ArbconstAlgoFixer());
+						expr.any(new ArbconstAlgoFixer());
 					}
 				} else if (!lastOutputEvaluationGeo.isDefined()) {
 					// newly created GeoElement is undefined, we can set our
@@ -3279,7 +3277,7 @@ public class GeoCasCell extends GeoElement
 		if (expandedEvalVE == null) {
 			return false;
 		}
-		return expandedEvalVE.inspect(IneqFinder.INSTANCE);
+		return expandedEvalVE.any(Inspecting::isInequality);
 	}
 
 	private void clearStrings() {
@@ -3418,7 +3416,7 @@ public class GeoCasCell extends GeoElement
 		if (getGeoElementVariables() != null) {
 			return true;
 		}
-		return inputVE != null && inputVE.inspect(CommandFinder.INSTANCE);
+		return inputVE != null && inputVE.any(Inspecting::isCommand);
 	}
 
 	/**

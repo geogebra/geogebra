@@ -461,7 +461,7 @@ public class Derivative {
 			return new ExpressionNode(kernel0, 0d);
 		}
 		ExpressionNode en = VectorArithmetic.computeCoord(left.wrap(), i);
-		if (!en.inspect(checkCoordOperations)) {
+		if (!en.any(checkCoordOperations)) {
 			return en.derivative(fv, kernel0);
 		}
 		Log.debug("fast derivatives can't handle " + ('x' + i) + " for "

@@ -250,9 +250,9 @@ public class CmdIf extends CommandProcessor {
 
 		boolean mayUseIndependent = true;
 		for (int i = 0; i < functions.size(); i++) {
-			if (Inspecting.dynamicGeosFinder.check(functions.get(i))
-					|| (i < conditions.size() && Inspecting.dynamicGeosFinder
-							.check(conditions.get(i)))) {
+			if (Inspecting.isDynamicGeoElement(functions.get(i))
+					|| (i < conditions.size() && Inspecting
+					.isDynamicGeoElement(conditions.get(i)))) {
 				mayUseIndependent = false;
 				break;
 			}

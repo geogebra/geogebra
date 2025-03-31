@@ -494,7 +494,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				// with a single "y" variable on the left-hand side
 				&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
 				// and any variables on the right-hand side (if any) are all "x".
-				&& equation.getRHS().inspect(value -> "x".equals(unwrapVariable(value)));
+				&& equation.getRHS().any(value -> "x".equals(unwrapVariable(value)));
 	}
 
 	private static boolean isLinearEquation(GeoElement geoElement) {

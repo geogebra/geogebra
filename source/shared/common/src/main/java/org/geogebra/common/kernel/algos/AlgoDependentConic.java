@@ -64,7 +64,7 @@ public class AlgoDependentConic extends AlgoElement
 		// check coefficients
 		for (int i = 0; i < 6; i++) {
 			// find constant parts of input and evaluate them right now
-			if (!ev[i].inspect(Inspecting.dynamicGeosFinder)) {
+			if (!ev[i].any(Inspecting::isDynamicGeoElement)) {
 				ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
 			}
 			// check that coefficient is a number: this may throw an exception

@@ -27,7 +27,7 @@ public class Fractions {
 	 */
 	protected static ExpressionValue getResolution(ExpressionNode expr,
 			Kernel kernel, boolean allowPi) {
-		if (!expr.inspect(Fractions::isDecimal)) {
+		if (!expr.any(Fractions::isDecimal)) {
 			ExpressionValue[] fraction = new ExpressionValue[2];
 			expr.getFraction(fraction, true);
 			if (fraction[0] != null) {

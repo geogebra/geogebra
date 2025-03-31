@@ -11,7 +11,7 @@ public class ComplexExpressionFilter implements ExpressionFilter {
     @Override
     public boolean isAllowed(ValidExpression expression) {
         boolean containsComplexValues = expression
-                .inspect(expressionValue -> expressionValue.getValueType() == ValueType.COMPLEX);
+                .any(expressionValue -> expressionValue.getValueType() == ValueType.COMPLEX);
         return !containsComplexValues;
     }
 }

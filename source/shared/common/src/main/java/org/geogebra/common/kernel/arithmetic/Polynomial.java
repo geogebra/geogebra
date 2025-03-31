@@ -691,7 +691,7 @@ public class Polynomial implements HasDebugString {
 			if (this.degree() == 0) {
 				terms.get(0).coefficient = terms.get(0).coefficient.wrap()
 						.power(rt);
-			} else if (Inspecting.dynamicGeosFinder.check(rt)) {
+			} else if (Inspecting.isDynamicGeoElement(rt)) {
 				if (!(rt.evaluate(
 						StringTemplate.defaultTemplate) instanceof NumberValue)) {
 					equ.setIsPolynomial(false);

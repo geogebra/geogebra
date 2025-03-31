@@ -63,7 +63,7 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 
 		// check coefficients
 		for (int i = 0; i < 4; i++) {
-			if (!ev[i].inspect(Inspecting.dynamicGeosFinder)) {
+			if (!ev[i].any(Inspecting::isDynamicGeoElement)) {
 				ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
 			}
 

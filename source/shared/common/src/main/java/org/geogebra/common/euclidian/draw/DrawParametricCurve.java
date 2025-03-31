@@ -184,7 +184,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		if (geo.getLineType() == EuclidianStyleConstants.LINE_TYPE_POINTWISE
 				&& (curve instanceof GeoFunction)) {
 			((GeoFunction) curve).getFunctionExpression()
-					.inspect(checkPointwise());
+					.any(checkPointwise());
 		}
 		updateStrokes(geo);
 		if (dataExpression != null) {

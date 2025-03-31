@@ -105,7 +105,7 @@ public class AlgoListElement extends AlgoElement {
 				&& (geoList.getParentAlgorithm() == null || geoList
 						.getParentAlgorithm() instanceof AlgoDependentList)
 				// for {a,x} also return number a, not function
-				&& !Inspecting.dynamicGeosFinder.check(toCopy)) {
+				&& !Inspecting.isDynamicGeoElement(toCopy)) {
 			for (int i = 0; i < geoList.size(); i++) {
 				if (TestGeo.canSet(geoList.get(i), toCopy)) {
 					toCopy = geoList.get(i);

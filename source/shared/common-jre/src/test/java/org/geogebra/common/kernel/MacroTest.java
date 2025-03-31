@@ -166,7 +166,7 @@ public class MacroTest extends BaseUnitTest {
 				+ "1 + 0.5sin(2 - 90°) * 5 + sin(2) (6 * 1.5 - t)))"));
 		gc1.update();
 		// verify that all used variables are in main construction rather than macro construction
-		gc1.getFun(0).getFunctionExpression().inspect(val -> {
+		gc1.getFun(0).getFunctionExpression().any(val -> {
 			if (val instanceof GeoElement) {
 				assertThat(((GeoElement) val).getConstruction(), equalTo(getConstruction()));
 			}

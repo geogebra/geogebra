@@ -61,7 +61,7 @@ public class AlgoDependentLine extends AlgoElement
 
 		// check coefficients
 		for (int i = 0; i < 3; i++) {
-			if (!ev[i].inspect(Inspecting.dynamicGeosFinder)) {
+			if (!ev[i].any(Inspecting::isDynamicGeoElement)) {
 				ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
 			}
 

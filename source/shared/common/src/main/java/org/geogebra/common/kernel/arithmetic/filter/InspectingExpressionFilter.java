@@ -24,7 +24,7 @@ final public class InspectingExpressionFilter implements ExpressionFilter {
 
 	@Override
 	public boolean isAllowed(ValidExpression expression) {
-		return !expression.inspect(inspecting);
+		return !expression.any(inspecting);
 	}
 
 	private class ExpressionNodeInspecting implements Inspecting {

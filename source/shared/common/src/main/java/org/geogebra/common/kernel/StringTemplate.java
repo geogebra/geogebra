@@ -2972,7 +2972,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * or GeoDummyVariable
 	 */
 	private boolean containsVariable(ExpressionValue value) {
-		return value.inspect((v) -> v.isVariable()
+		return value.any((v) -> v.isVariable()
 				|| v instanceof FunctionVariable
 				|| v instanceof GeoDummyVariable);
 	}

@@ -462,7 +462,7 @@ public final class SimplifyUtils {
 
 	private int checkOperationCount(ExpressionNode node, OperationCountChecker checker) {
 		checker.reset();
-		node.inspect(checker);
+		node.any(checker);
 		return checker.getCount();
 	}
 

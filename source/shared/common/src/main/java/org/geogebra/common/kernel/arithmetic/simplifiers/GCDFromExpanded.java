@@ -41,7 +41,7 @@ public final class GCDFromExpanded implements SimplifyNode {
 	@Override
 	public ExpressionNode apply(ExpressionNode node) {
 		flatten = new ArrayList<>();
-		node.inspect(this::flattenNode);
+		node.any(this::flattenNode);
 		ExpressionNode reduceExpressions = utils.reduceExpressions(flatten);
 		int sumOfInts = 0;
 		ExpressionNode rest = null;
@@ -169,7 +169,7 @@ public final class GCDFromExpanded implements SimplifyNode {
 		if (value.isOperation(Operation.PLUS)) {
 			ExpressionValue left = simplifyIfProduct(value.wrap().getLeftTree());
 			ExpressionValue right = simplifyIfProduct(value.wrap().getRightTree());
-			return left.inspect(this::flattenNode) && right.inspect(this::flattenNode);
+			return left.any(this::flattenNode) && right.any(this::flattenNode);
 		}
 
 		if (value.isLeaf() || ExpressionValueUtils.isSqrtNode(value)) {

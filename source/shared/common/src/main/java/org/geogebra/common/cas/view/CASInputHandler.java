@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -1037,8 +1036,7 @@ public class CASInputHandler {
 					isPlottable &= !(ml.getItem(i)
 							.unwrap() instanceof MySpecialDouble)
 							&& !ml.getItem(i++).unwrap()
-									.inspect(Inspecting.UnplottableChecker
-											.getChecker(dim));
+									.any(new UnplottableChecker(dim));
 				}
 			} else if (ve.unwrap() instanceof Command) {
 				isPlottable &= ((Command) ve.unwrap()).getName().equals("If");
@@ -1049,8 +1047,8 @@ public class CASInputHandler {
 		if (ve != null
 				&& !cell.getAssignmentType().equals(AssignmentType.DELAYED)) {
 			if (cell.showOutput() && !cell.isError()
-					&& (isPlottable || !ve.unwrap().inspect(
-							Inspecting.UnplottableChecker.getChecker(dim)))) {
+					&& (isPlottable || !ve.unwrap().any(
+							new UnplottableChecker(dim)))) {
 				renderer.setMarbleValue(marbleShown);
 				renderer.setMarbleVisible(true);
 			} else {

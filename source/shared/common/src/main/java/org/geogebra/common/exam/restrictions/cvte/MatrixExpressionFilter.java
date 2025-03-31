@@ -14,7 +14,7 @@ public class MatrixExpressionFilter implements ExpressionFilter {
 	}
 
 	private boolean containsMatrixExpression(ValidExpression expression) {
-		return expression.inspect(subExpression -> {
+		return expression.any(subExpression -> {
 			if (subExpression.evaluatesToList()) {
 				ExpressionValue value = subExpression.evaluate(StringTemplate.defaultTemplate);
 				return value != null && (value.unwrap() instanceof ListValue)

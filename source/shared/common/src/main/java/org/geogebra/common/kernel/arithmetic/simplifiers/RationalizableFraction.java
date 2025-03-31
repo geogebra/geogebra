@@ -102,7 +102,7 @@ public final class RationalizableFraction {
 
 	private static int getSquareRootCount(ExpressionValue node) {
 		sqrtCountChecker.reset();
-		node.inspect(sqrtCountChecker);
+		node.any(sqrtCountChecker);
 		return sqrtCountChecker.getCount();
 	}
 

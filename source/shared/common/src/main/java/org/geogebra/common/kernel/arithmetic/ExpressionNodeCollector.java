@@ -28,7 +28,7 @@ public final class ExpressionNodeCollector<T> {
 	 * @return itself to chain methods.
 	 */
 	public ExpressionNodeCollector<T> filter(Inspecting filter) {
-		root.inspect(v -> {
+		root.any(v -> {
 			if (v == null) {
 				return false;
 			}

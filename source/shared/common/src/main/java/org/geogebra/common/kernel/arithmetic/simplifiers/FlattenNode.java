@@ -24,7 +24,7 @@ public final class FlattenNode implements Inspecting, Iterable<ExpressionValue> 
 	 */
 	public FlattenNode(ExpressionNode node, SimplifyUtils utils) {
 		this.utils = utils;
-		node.inspect(this);
+		node.any(this);
 	}
 
 	@Override
@@ -40,9 +40,9 @@ public final class FlattenNode implements Inspecting, Iterable<ExpressionValue> 
 		}
 		if (ev.isOperation(Operation.PLUS) || ev.isOperation(Operation.MINUS)) {
 			minus = false;
-			boolean leftInspect = ev.wrap().getLeft().inspect(this);
+			boolean leftInspect = ev.wrap().getLeft().any(this);
 			minus = ev.isOperation(Operation.MINUS);
-			boolean rightInspect = ev.wrap().getRight().inspect(this);
+			boolean rightInspect = ev.wrap().getRight().any(this);
 			return leftInspect
 					&& rightInspect;
 		}

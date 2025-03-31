@@ -280,7 +280,7 @@ public class PolynomialUtils {
 				if (coeff[i][j] != null) {
 					// find constant parts of input and evaluate them right now
 					if (simplify && !coeff[i][j]
-							.inspect(Inspecting.dynamicGeosFinder)) {
+							.any(Inspecting::isDynamicGeoElement)) {
 						coeff[i][j] = coeff[i][j]
 								.evaluate(StringTemplate.defaultTemplate);
 					}

@@ -11,10 +11,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -311,5 +313,13 @@ public class BaseUnitTest {
 
 	protected Drawable getDrawable(GeoElementND geo) {
 		return (Drawable) app.getActiveEuclidianView().getDrawableFor(geo);
+	}
+
+	protected ValidExpression parseExpression(String expression) {
+		try {
+			return kernel.getParser().parseGeoGebraExpression(expression);
+		} catch (ParseException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 }

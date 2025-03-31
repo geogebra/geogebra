@@ -372,7 +372,7 @@ public class Command extends ValidExpression
 				new ExpressionNodeCollector<>(node);
 
 		List<String> integralVarNames = collector
-				.filter(v -> v instanceof FunctionVariable)
+				.filter(Inspecting::isFunctionVariable)
 				.mapTo(t -> ((FunctionVariable) (t.unwrap())).getSetVarString());
 
 		if (vars != null) {
@@ -782,16 +782,13 @@ public class Command extends ValidExpression
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		if (t.check(this)) {
-			return true;
-		}
-		for (ExpressionNode arg : args) {
-			if (arg.inspect(t)) {
-				return true;
-			}
-		}
-		return false;
+	public int getChildCount() {
+		return args.size();
+	}
+
+	@Override
+	public ExpressionValue getChild(int index) {
+		return args.get(index);
 	}
 
 	@Override

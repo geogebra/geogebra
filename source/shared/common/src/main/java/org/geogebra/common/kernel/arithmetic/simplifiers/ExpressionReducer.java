@@ -38,7 +38,7 @@ public class ExpressionReducer implements SimplifyNode {
 		}
 		num = null;
 		expressions.clear();
-		node.inspect(this::numbersFirst);
+		node.any(this::numbersFirst);
 		expressions.sort(
 				Comparator.comparing(n -> ((ExpressionNode) n).evaluateDouble()).reversed());
 		double constValue = num != null ? num.evaluateDouble() : 1;
@@ -67,7 +67,7 @@ public class ExpressionReducer implements SimplifyNode {
 			num = utils.applyOrLet(num, operation, node);
 			return true;
 		}
-		return node.getLeft().inspect(this::numbersFirst)
-				&& node.getRight().inspect(this::numbersFirst);
+		return node.getLeft().any(this::numbersFirst)
+				&& node.getRight().any(this::numbersFirst);
 	}
 }

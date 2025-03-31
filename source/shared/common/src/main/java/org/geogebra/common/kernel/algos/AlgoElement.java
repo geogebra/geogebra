@@ -234,8 +234,8 @@ public abstract class AlgoElement extends ConstructionElement
 		ArrayList<Integer> updateInputIdx = new ArrayList<>();
 		for (int i = 0; i < this.getInput().length; i++) {
 			if (this.getInput(i) != other.getInput(i)) {
-				if (!Inspecting.dynamicGeosFinder.check(this.getInput(i))
-						&& !Inspecting.dynamicGeosFinder.check(other.getInput(i))
+				if (!Inspecting.isDynamicGeoElement(this.getInput(i))
+						&& !Inspecting.isDynamicGeoElement(other.getInput(i))
 						&& this.getInput(i).getGeoClassType()
 						== other.getInput(i).getGeoClassType()) {
 					updateInputIdx.add(i);

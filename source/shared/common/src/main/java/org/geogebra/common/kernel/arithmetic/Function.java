@@ -500,7 +500,7 @@ public class Function extends FunctionNVar
 	public LinkedList<PolyFunction> getSymbolicPolynomialFactors(
 			boolean rootFindingSimplification, boolean assumeFalseIfCASNeeded) {
 		int rootIdx = rootFindingSimplification ? 1 : 0;
-		if (factorParentExp != expression || expression.inspect(getVariableDegreeCheck())) {
+		if (factorParentExp != expression || expression.any(getVariableDegreeCheck())) {
 			// new expression
 			factorParentExp = expression;
 			if (symbolicPolyFactorList.size() < 1) {
@@ -915,7 +915,7 @@ public class Function extends FunctionNVar
 
 			// NB keepFractions ignored, so different answer given for f(x) =
 			// 3x^2 / 5, f'(x)
-			boolean factor = getExpression().inspect(v ->
+			boolean factor = getExpression().any(v ->
 				v.isOperation(Operation.POWER) && isMaxExpandDegreeReached(v.wrap())
 			);
 			if (factor) {

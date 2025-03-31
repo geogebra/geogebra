@@ -5,7 +5,6 @@ import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueU
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -21,8 +20,6 @@ import org.geogebra.common.plugin.Operation;
  * </ul>
  */
 public final class FactorOutGCDFromSurd implements SimplifyNode {
-
-	private double count;
 
 	private enum NodeType {
 		NONE,
@@ -122,18 +119,12 @@ public final class FactorOutGCDFromSurd implements SimplifyNode {
 	}
 
 	private boolean hasOnlyOnePlusOrMinus(ExpressionNode node) {
-		count = 0;
-		node.inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				if (v.isOperation(Operation.PLUS) || v.isOperation(Operation.MINUS)) {
-					count++;
-				}
-				return false;
+		int count = 0;
+		for (ExpressionValue value: node) {
+			if (value.isOperation(Operation.PLUS) || value.isOperation(Operation.MINUS)) {
+				count++;
 			}
-		});
+		}
 		return count <= 1;
-
 	}
 }

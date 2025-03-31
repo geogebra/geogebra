@@ -105,7 +105,7 @@ public class AlgoIntegralNumericInterval extends AlgoElement {
 	}
 
 	private boolean isInvalid(ExpressionNode integral) {
-		return integral == null || integral.inspect(v -> v instanceof MyDouble
+		return integral == null || integral.any(v -> v instanceof MyDouble
 				&& Double.isNaN(((MyDouble) v).getDouble()));
 	}
 

@@ -5,16 +5,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.TestErrorHandler;
@@ -80,18 +77,5 @@ public class ExpressionFilterTests extends BaseUnitTest {
 				new CommandDispatcherJre(getKernel()));
 		ap.addInputExpressionFilter(filter);
 		return ap;
-	}
-
-	private ExpressionNode parseExpression(String expression) {
-		try {
-			return getParser().parseExpression(expression);
-		} catch (Exception exception) {
-			fail("Should not throw an exception");
-		}
-		return null;
-	}
-
-	private Parser getParser() {
-		return getKernel().getParser();
 	}
 }

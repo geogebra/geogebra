@@ -337,7 +337,7 @@ public class ExpressionNode extends ValidExpression
 		// might
 		// result in evaluation, FunctionNVar important because of
 		// FunctionExpander
-		else if ((ev.inspect(Inspecting.CommandFinder.INSTANCE))
+		else if ((ev.any(Inspecting::isCommand))
 				|| ev.isConstant() || ev instanceof FunctionNVar
 				|| ev instanceof Equation || ev instanceof MyVecNode
 				|| ev instanceof MyVec3DNode) {
@@ -609,7 +609,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return true iff contains Freehand or DataFunction
 	 */
 	final public boolean includesFreehandOrData() {
-		return inspect(v -> v.isOperation(Operation.DATA) || v.isOperation(Operation.FREEHAND));
+		return any(v -> v.isOperation(Operation.DATA) || v.isOperation(Operation.FREEHAND));
 	}
 
 	/**
@@ -814,9 +814,18 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		return t.check(this) || left.inspect(t)
-				|| (right != null && !operation.isUnary() && right.inspect(t));
+	public int getChildCount() {
+		return right == null || operation.isUnary() ? 1 : 2;
+	}
+
+	@Override
+	public ExpressionValue getChild(int index) {
+		if (index == 0) {
+			return left;
+		} else if (index == 1 && right != null && !operation.isUnary()) {
+			return right;
+		}
+		return super.getChild(index);
 	}
 
 	@Override
@@ -3322,7 +3331,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether this expression has trigonometric operations
 	 */
 	public boolean has2piPeriodicOperations() {
-		return this.inspect(new Inspecting() {
+		return this.any(new Inspecting() {
 
 			@Override
 			public boolean check(ExpressionValue v) {
@@ -3481,7 +3490,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether this is a fraction not containing pi
 	 */
 	public boolean isFractionNoPi() {
-		return isFraction() && !resolve.inspect(Inspecting.SpecialDouble.INSTANCE);
+		return isFraction() && !resolve.any(Inspecting::isMySpecialDouble);
 	}
 
 	private void initFraction(boolean allowPi) {

@@ -465,7 +465,7 @@ public abstract class CommandProcessor {
 		for (int i = 0; i < over.length; i++) {
 			if (vars[i].isGeoText()) {
 				final int fi = i;
-				def.inspect(node -> updateObject(node, vars[fi], over[fi]));
+				def.any(node -> updateObject(node, vars[fi], over[fi]));
 			}
 		}
 		return resArg(def, argInfo);

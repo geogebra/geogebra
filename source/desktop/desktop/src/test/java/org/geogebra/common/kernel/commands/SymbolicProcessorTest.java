@@ -69,6 +69,6 @@ public class SymbolicProcessorTest {
 
 		// Assert that no calls to this method contains evaluated subexpressio
 		Mockito.verify(spy, Mockito.times(2)).doEvalSymbolicNoLabel(argThat(argument ->
-				!argument.inspect(v -> v instanceof GeoSymbolic)), any());
+				argument.none(v -> v instanceof GeoSymbolic)), any());
 	}
 }

@@ -156,7 +156,7 @@ public class AlgoAreEqual extends AlgoElement
 		// Then we check if none of the numbers used in the input exceed the
 		// precision we used when comparing the numerical result
 		return actual.getDefinition().isConstant()
-				&& !actual.getDefinition().inspect(v -> {
+				&& !actual.getDefinition().any(v -> {
 					if (v instanceof MyDouble) {
 						// Special numbers, such as E, Pi, and 1 degree are allowed
 						double d = ((MyDouble) v).getDouble();

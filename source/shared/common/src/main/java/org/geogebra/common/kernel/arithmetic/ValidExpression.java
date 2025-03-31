@@ -346,11 +346,6 @@ public abstract class ValidExpression
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		return t.check(this);
-	}
-
-	@Override
 	public String getDebugString() {
 		return debugString(this);
 	}
@@ -468,14 +463,14 @@ public abstract class ValidExpression
 	 * @return deep check for function variable
 	 */
 	public final boolean containsFunctionVariable() {
-		return this.inspect(v -> v instanceof FunctionVariable);
+		return any(Inspecting::isFunctionVariable);
 	}
 
 	/**
 	 * @return true if this expression contains a dummy variable.
 	 */
 	public final boolean containsGeoDummyVariable() {
-		return this.inspect(v -> v instanceof GeoDummyVariable);
+		return this.any(v -> v instanceof GeoDummyVariable);
 	}
 
 	/**
@@ -484,7 +479,7 @@ public abstract class ValidExpression
 	 * @return deep check for function variable with given name
 	 */
 	public final boolean containsFunctionVariable(final String name) {
-		return this.inspect(new Inspecting() {
+		return this.any(new Inspecting() {
 
 			@Override
 			public boolean check(ExpressionValue v) {
@@ -501,7 +496,7 @@ public abstract class ValidExpression
 	 */
 	public final boolean containsFunctionVariableOtherThan(
 			final FunctionVariable[] vars) {
-		return this.inspect(new Inspecting() {
+		return this.any(new Inspecting() {
 
 			@Override
 			public boolean check(ExpressionValue v) {
@@ -529,7 +524,7 @@ public abstract class ValidExpression
 	 * @return whether expression is included
 	 */
 	public boolean containsDeep(final ExpressionValue needle) {
-		return inspect(new Inspecting() {
+		return any(new Inspecting() {
 
 			@Override
 			public boolean check(ExpressionValue v) {
@@ -617,7 +612,7 @@ public abstract class ValidExpression
 	 * @return whether this contains Command instances
 	 */
 	public boolean containsCommands() {
-		return inspect(t -> t instanceof Command);
+		return any(t -> t instanceof Command);
 	}
 
 	@Override

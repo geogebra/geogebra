@@ -27,13 +27,13 @@ public class IntervalFunctionSupport {
 			return false;
 		}
 
-		return !hasMoreVariables(node) && !node.inspect(operatorChecker);
+		return !hasMoreVariables(node) && !node.any(operatorChecker);
 	}
 
 	private static boolean hasMoreVariables(ExpressionNode node) {
 		if (node == null) {
 			return false;
 		}
-		return node.inspect(new MultipleVariableChecker());
+		return node.any(new MultipleVariableChecker());
 	}
 }

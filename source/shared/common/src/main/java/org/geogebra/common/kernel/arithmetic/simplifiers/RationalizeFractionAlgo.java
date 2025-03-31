@@ -49,7 +49,7 @@ public final class RationalizeFractionAlgo {
 	 * @return if the expression has decimal numbers in it.
 	 */
 	static boolean checkDecimals(ExpressionNode node) {
-		return node.inspect(v -> v instanceof NumberValue && !isIntegerValue(v));
+		return node.any(v -> v instanceof NumberValue && !isIntegerValue(v));
 	}
 
 	private ExpressionNode rationalize() {

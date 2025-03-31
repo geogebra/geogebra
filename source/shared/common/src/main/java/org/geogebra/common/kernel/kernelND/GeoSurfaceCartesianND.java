@@ -1007,7 +1007,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	public boolean isMoveable() { // to make SetValue work
 		return getDefinition() != null
-				&& !getDefinition().inspect(Inspecting.dynamicGeosFinder);
+				&& !getDefinition().any(Inspecting::isDynamicGeoElement);
 	}
 
 	public FunctionVariable getComplexVariable() {

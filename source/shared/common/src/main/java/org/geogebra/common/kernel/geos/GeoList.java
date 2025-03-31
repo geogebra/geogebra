@@ -327,7 +327,7 @@ public class GeoList extends GeoElement
 		}
 		ret.setParentAlgorithm(getParentAlgorithm());
 		if (geo.getDefinition() != null
-				&& !geo.getDefinition().inspect(Inspecting.dynamicGeosFinder)) {
+				&& !geo.getDefinition().any(Inspecting::isDynamicGeoElement)) {
 			ret.setDefinition(geo.getDefinition().deepCopy(kernel));
 		}
 		return ret;

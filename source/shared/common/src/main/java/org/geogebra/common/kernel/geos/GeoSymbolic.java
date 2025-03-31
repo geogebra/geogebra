@@ -186,7 +186,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean containsOnlyX(ExpressionNode rhs) {
-		return !rhs.inspect(v -> v instanceof FunctionVariable
+		return !rhs.any(v -> v instanceof FunctionVariable
 				&& !((FunctionVariable) v).getSetVarString().equals("x"));
 	}
 
@@ -325,7 +325,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean argumentsDefined(Command casInput) {
-		return casInput.inspect(v ->
+		return casInput.any(v ->
 				!v.toValueString(StringTemplate.defaultTemplate).contains("?"));
 	}
 
@@ -1320,7 +1320,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean isCasValueDefined() {
-		return !value.inspect(Inspecting.isUndefinedInspector);
+		return !value.any(Inspecting::isUndefined);
 	}
 
 	@Override

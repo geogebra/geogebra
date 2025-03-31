@@ -42,6 +42,6 @@ public class CasAlgoChecker implements Inspecting {
 	}
 
 	private boolean hasExpressionWithCasOperations(DependentAlgo algo) {
-		return algo.getExpression() != null && algo.getExpression().inspect(this);
+		return algo.getExpression() != null && algo.getExpression().any(this);
 	}
 }

@@ -11,7 +11,7 @@ public enum ScientificOperationArgumentFilter implements ExpressionFilter, Inspe
 
 	@Override
 	public boolean isAllowed(ValidExpression expression) {
-		return !expression.inspect(this);
+		return !expression.any(this);
 	}
 
 	@Override

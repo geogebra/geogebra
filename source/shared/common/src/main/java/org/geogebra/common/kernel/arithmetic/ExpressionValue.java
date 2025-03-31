@@ -19,7 +19,10 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -30,10 +33,10 @@ import org.geogebra.common.plugin.Operation;
 /**
  *
  * @author Markus
- * 
+ *
  */
 
-public interface ExpressionValue {
+public interface ExpressionValue extends Iterable<ExpressionValue> {
 	/**
 	 * @return true if this is does not depend on any labeled or dependent geos
 	 */
@@ -175,7 +178,7 @@ public interface ExpressionValue {
 
 	/**
 	 * Resolve variables
-	 * 
+	 *
 	 * @param info
 	 *            evaluation flags
 	 */
@@ -203,7 +206,7 @@ public interface ExpressionValue {
 	 * Lets the traversing object go through the structure of this
 	 * ExpressionValue and return changed value. This method may change content
 	 * of this value, so you might need to use copy first.
-	 * 
+	 *
 	 * @param t
 	 *            traversing object
 	 * @return changed value
@@ -211,33 +214,69 @@ public interface ExpressionValue {
 	public ExpressionValue traverse(Traversing t);
 
 	/**
-	 * Similar to traverse, but only gives a boolean answer, the structure is
-	 * not changed
-	 * 
-	 * @param t
-	 *            inspecting object
-	 * @return true if inspecting object returned true for at least one of the
-	 *         sub-objects
+	 * Traverses the expression tree and returns true
+	 * if any of the nodes evaluates to true
+	 *
+	 * @param inspecting predicate testing each node
+	 * @return true if inspecting object returned true for at least one of the nodes
 	 */
-	public boolean inspect(Inspecting t);
+	default boolean any(Inspecting inspecting) {
+		for (ExpressionValue value: this) {
+			if (inspecting.check(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Traverses the expression tree and returns {@code true}
+	 * if none of the nodes evaluates to {@code true}.
+	 * <br/> Is identical to negating {@link ExpressionValue#any(Inspecting)}.
+	 *
+	 * @param inspecting predicate testing each node
+	 * @return {@code true} if inspecting object returned true for none of the nodes
+	 */
+	default boolean none(Inspecting inspecting) {
+		return !any(inspecting);
+	}
+
+	/**
+	 * Returns the number of direct children of this expression value.
+	 * @return a positive number
+	 */
+	default int getChildCount() {
+		return 0;
+	}
+
+	/**
+	 * Returns the direct child of this expression value at the given index.
+	 * @param index index of the child, must be less than {@link ExpressionValue#getChildCount()}
+	 * and greater than 0.
+	 * @return a child of this expression value at index.
+	 * @throws IndexOutOfBoundsException when the preconditions of the parameter index are not met.
+	 */
+	default ExpressionValue getChild(int index) {
+		throw new IndexOutOfBoundsException();
+	}
 
 	/**
 	 * If this is an expression node wrapping some other ExpressionValue, return
 	 * its content, otherwise return this.
-	 * 
+	 *
 	 * @return unwrapped content
 	 */
 	public ExpressionValue unwrap();
 
 	/**
 	 * Wraps this value in ExpressionNode if it's not already one.
-	 * 
+	 *
 	 * @return wrapped value
 	 */
 	public ExpressionNode wrap();
 
 	/**
-	 * 
+	 *
 	 * @return whether x(this) makes sense
 	 */
 	public boolean hasCoords();
@@ -287,7 +326,7 @@ public interface ExpressionValue {
 	/**
 	 * @return converts to valid expression, GeoText -&gt; MyTextBuffer,
 	 *         GeoNumeric -&gt; MyDouble etc.
-	 * 
+	 *
 	 */
 	public ExpressionValue toValidExpression();
 
@@ -303,4 +342,10 @@ public interface ExpressionValue {
 	 * @return whether this evaluates to RecurringDecimal
 	 */
 	boolean isRecurringDecimal();
+
+	@Override
+	@Nonnull
+	default Iterator<ExpressionValue> iterator() {
+		return new ExpressionValueTreeIterator(this);
+	}
 }

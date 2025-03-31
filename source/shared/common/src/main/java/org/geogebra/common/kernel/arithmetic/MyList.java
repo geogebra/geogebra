@@ -656,7 +656,7 @@ public class MyList extends ValidExpression
 				.evaluate(StringTemplate.defaultTemplate);
 		if (singleValue instanceof ListValue) {
 			ExpressionValue ev = ((ListValue) singleValue).getMyList().get(row);
-			if (ev.inspect(v -> v instanceof FunctionVariable)) {
+			if (ev.any(Inspecting::isFunctionVariable)) {
 				return convertToFunction(ev, list.getKernel());
 			}
 			return ev.evaluate(StringTemplate.defaultTemplate);
@@ -1244,16 +1244,13 @@ public class MyList extends ValidExpression
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		if (t.check(this)) {
-			return true;
-		}
-		for (int i = 0; i < size(); i++) {
-			if (get(i).inspect(t)) {
-				return true;
-			}
-		}
-		return false;
+	public int getChildCount() {
+		return listElements.size();
+	}
+
+	@Override
+	public ExpressionValue getChild(int index) {
+		return listElements.get(index);
 	}
 
 	@Override

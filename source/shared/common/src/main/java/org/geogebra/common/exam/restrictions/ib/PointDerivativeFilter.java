@@ -20,7 +20,7 @@ public final class PointDerivativeFilter implements ExpressionFilter, Inspecting
 	@Override
 	public boolean isAllowed(ValidExpression expression) {
 		// Inspecting searches for derivatives over a variable
-		return !expression.inspect(this);
+		return !expression.any(this);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public final class PointDerivativeFilter implements ExpressionFilter, Inspecting
 		ExpressionValue left = node.getLeft();
 		ExpressionValue right = node.getRight();
 		return left != null && left.isOperation(Operation.DERIVATIVE) && right != null
-				&& right.inspect(e -> e instanceof FunctionVariable);
+				&& right.any(e -> e instanceof FunctionVariable);
 	}
 
 	private boolean checkVariable(Variable variable) {
@@ -45,7 +45,7 @@ public final class PointDerivativeFilter implements ExpressionFilter, Inspecting
 				.withSymbolicMode(SymbolicMode.NONE);
 		try {
 			ExpressionValue value = variable.resolveAsExpressionValue(info);
-			return value.inspect(this);
+			return value.any(this);
 		} catch (Exception e) {
 			return false;
 		}

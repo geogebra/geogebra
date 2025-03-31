@@ -104,7 +104,7 @@ public class CmdZoomIn extends CmdScripting {
 			if (evs3D != null) {
 				evs3D.setUpdateScaleOrigin(false);
 				for (int i = 0; i < n; i++) {
-					if (Inspecting.dynamicGeosFinder.check(arg[i])) {
+					if (Inspecting.isDynamicGeoElement(arg[i])) {
 						evs3D.setUpdateScaleOrigin(true);
 						break;
 					}

@@ -132,7 +132,7 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 
 	private ArrayList<Double> extractConstants(ExpressionNode expression) {
 		ArrayList<Double> constants = new ArrayList<>();
-		expression.inspect(new Inspecting() {
+		expression.any(new Inspecting() {
 			@Override
 			public boolean check(ExpressionValue v) {
 				if (v instanceof MyDouble && v.isConstant()) {

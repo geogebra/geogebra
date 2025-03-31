@@ -982,7 +982,7 @@ public class AlgebraProcessor {
 		// collect undefined variables
 		CollectUndefinedVariables collector = new Traversing.CollectUndefinedVariables(
 				info.isMultipleUnassignedAllowed());
-		ve.inspect(collector);
+		ve.any(collector);
 		final TreeSet<String> undefinedVariables = collector.getResult();
 
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
@@ -2468,7 +2468,7 @@ public class AlgebraProcessor {
 				info.getSymbolicMode());
 		boolean isIndependent = true;
 		for (int i = 0; vars != null && i < vars.length; i++) {
-			if (Inspecting.dynamicGeosFinder.check(vars[i])) {
+			if (Inspecting.isDynamicGeoElement(vars[i])) {
 				isIndependent = false;
 			}
 		}
@@ -2816,7 +2816,7 @@ public class AlgebraProcessor {
 		if (lhs instanceof FunctionVariable
 				&& (!equ.getRHS().containsFreeFunctionVariable(null)
 				&& !equ.getRHS().evaluatesToNumber(true)
-				|| equ.getRHS().inspect(Inspecting.ComplexChecker.INSTANCE))) {
+				|| equ.getRHS().any(Inspecting::isComplexNumber))) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				GeoElement[] ret = processValidExpression(equ.getRHS(), info);
@@ -3025,7 +3025,7 @@ public class AlgebraProcessor {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isExplicit = equ.isExplicit("y");
-		boolean isIndependent = lhs.isConstant(info) && !def.inspect(Inspecting.dynamicGeosFinder);
+		boolean isIndependent = lhs.isConstant(info) && !def.any(Inspecting::isDynamicGeoElement);
 		if (isIndependent) {
 			// get coefficients
 			double a = lhs.getCoeffValue("x");
@@ -3181,7 +3181,7 @@ public class AlgebraProcessor {
 		boolean isIndependent = !equ.isFunctionDependent()
 				&& lhs.isConstant(info)
 				&& !equ.hasVariableDegree()
-				&& (equ.isPolynomial() || !equ.inspect(Inspecting.dynamicGeosFinder));
+				&& (equ.isPolynomial() || !equ.any(Inspecting::isDynamicGeoElement));
 		GeoImplicit poly;
 		GeoElement geo;
 		boolean is3d = equ.isForcedSurface() || equ.isForcedQuadric()
@@ -3357,7 +3357,7 @@ public class AlgebraProcessor {
 	}
 
 	private boolean containsText(ExpressionNode ev) {
-		return ev.inspect(Inspecting.textFinder);
+		return ev.any(Inspecting::isText);
 	}
 
 	private boolean willResultInSlider(ExpressionNode node) {
@@ -3391,7 +3391,7 @@ public class AlgebraProcessor {
 	GeoElement[] processNumber(ExpressionNode n, ExpressionValue evaluate,
 			EvalInfo info) {
 		GeoElement ret;
-		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
+		boolean isIndependent = !n.any(Inspecting::isDynamicGeoElement);
 		MyDouble val = ((NumberValue) evaluate).getNumber();
 		boolean isAngle = val.isAngle() || n.isForceAngle();
 		double value = val.getDouble();
@@ -3567,7 +3567,7 @@ public class AlgebraProcessor {
 		GeoBoolean ret;
 		String label = n.getLabel();
 
-		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
+		boolean isIndependent = !n.any(Inspecting::isDynamicGeoElement);
 
 		if (isIndependent) {
 
@@ -3622,7 +3622,7 @@ public class AlgebraProcessor {
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
 		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;
 
-		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
+		boolean isIndependent = !n.any(Inspecting::isDynamicGeoElement);
 
 		// make point if complex parts are present, e.g. 3 + i
 		if (complex) {

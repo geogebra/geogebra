@@ -172,11 +172,6 @@ public class Resolution implements ExpressionValue {
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		return false;
-	}
-
-	@Override
 	public ExpressionValue unwrap() {
 		return null;
 	}

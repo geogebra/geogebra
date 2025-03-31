@@ -630,7 +630,7 @@ public class FunctionNVar extends ValidExpression
 			// changed
 
 			useCaching = !expression.containsCasEvaluableFunction()
-					&& !expression.inspect(new RandomCheck());
+					&& !expression.any(new RandomCheck());
 
 		}
 
@@ -1314,8 +1314,16 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		return t.check(this) || expression.inspect(t);
+	public int getChildCount() {
+		return 1;
+	}
+
+	@Override
+	public ExpressionValue getChild(int index) {
+		if (index == 0) {
+			return expression;
+		}
+		return super.getChild(index);
 	}
 
 	@Override

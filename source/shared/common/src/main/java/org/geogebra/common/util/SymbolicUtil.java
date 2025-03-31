@@ -8,6 +8,8 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoComplexSolve;
 import org.geogebra.common.kernel.cas.AlgoSolve;
@@ -73,7 +75,28 @@ public class SymbolicUtil {
 	 * @return true if expression tree contains an undefined variable or empty list
 	 */
 	public static boolean containsUndefinedOrIsEmpty(GeoElement geo) {
-		return geo.inspect(new UndefinedOrEmptyChecker());
+		return geo.any(SymbolicUtil::isUndefinedOrEmpty);
+	}
+
+	// Returns true if it is an undefined "?" (Double.NaN) value or empty list.
+	private static boolean isUndefinedOrEmpty(ExpressionValue v) {
+		// Return true for undefined "?"
+		if (v instanceof MyDouble) {
+			return !((MyDouble) v).isDefined();
+		}
+
+		// Return true for empty list
+		if (v instanceof MyList
+				&& ((MyList) v).size() == 0) {
+			return true;
+		}
+
+		// In case of a symbolic expression check its value
+		if (v instanceof GeoSymbolic) {
+			return (((GeoSymbolic) v).getValue()).any(SymbolicUtil::isUndefinedOrEmpty);
+		}
+
+		return false;
 	}
 
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {

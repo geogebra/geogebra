@@ -256,8 +256,17 @@ public class MyVecNode extends ValidExpression
 	}
 
 	@Override
-	public boolean inspect(Inspecting t) {
-		return t.check(this) || x.inspect(t) || y.inspect(t);
+	public int getChildCount() {
+		return 2;
+	}
+
+	@Override
+	public ExpressionValue getChild(int index) {
+		switch (index) {
+		case 0: return x;
+		case 1: return y;
+		default: return super.getChild(index);
+		}
 	}
 
 	@Override
