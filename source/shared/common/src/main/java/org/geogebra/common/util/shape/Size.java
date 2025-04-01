@@ -1,9 +1,11 @@
 package org.geogebra.common.util.shape;
 
+import java.util.Objects;
+
 /**
  * Size object.
  */
-public class Size {
+public final class Size {
 
 	private double width;
 	private double height;
@@ -32,5 +34,20 @@ public class Size {
 	 */
 	public double getHeight() {
 		return height;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Size)) {
+			return false;
+		}
+		Size other = (Size) object;
+		return Double.compare(width, other.width) == 0
+				&& Double.compare(height, other.height) == 0;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(width, height);
 	}
 }

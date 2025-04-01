@@ -1,12 +1,14 @@
 package org.geogebra.common.util.shape;
 
+import java.util.Objects;
+
 /**
  * Rectangle object.
  */
-public class Rectangle {
+public final class Rectangle {
 
-	private final Point origin;
-	private final Size size;
+	public final Point origin;
+	public final Size size;
 
 	/**
 	 * Creates an empty rectangle object.
@@ -99,5 +101,20 @@ public class Rectangle {
 	public Rectangle insetBy(double dx, double dy) {
 		return new Rectangle(new Point(getMinX() + dx, getMinY() + dy),
 				new Size(getWidth() - 2 * dx, getHeight() - 2 * dy));
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Rectangle)) {
+			return false;
+		}
+		Rectangle other = (Rectangle) object;
+		return Objects.equals(origin, other.origin)
+				&& Objects.equals(size, other.size);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(origin, size);
 	}
 }

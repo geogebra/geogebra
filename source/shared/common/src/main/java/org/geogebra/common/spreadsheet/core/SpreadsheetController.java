@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
@@ -55,6 +57,7 @@ public final class SpreadsheetController {
 	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
 	private boolean autoscrollRow;
 	private boolean autoscrollColumn;
+	private boolean didScrollWhileEditorActive = false;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -94,7 +97,13 @@ public final class SpreadsheetController {
 	}
 
 	void setViewport(Rectangle viewport) {
+		Point oldViewportOrigin = this.viewport != null ? this.viewport.origin : null;
+		Point newViewportOrigin = viewport != null ? viewport.origin : null;
+		boolean viewportOriginDidChange = !Objects.equals(oldViewportOrigin, newViewportOrigin);
 		this.viewport = viewport;
+		if (isEditorActive() && viewportOriginDidChange) {
+			didScrollWhileEditorActive = true;
+		}
 	}
 
 	Rectangle getViewport() {
@@ -196,6 +205,7 @@ public final class SpreadsheetController {
 		if (editor == null) {
 			editor = new Editor(controlsDelegate.getCellEditor());
 		}
+		didScrollWhileEditorActive = false;
 		editor.showAt(row, column, editExistingContent);
 		resetDragAction();
 		return true;
@@ -211,7 +221,7 @@ public final class SpreadsheetController {
 	}
 
 	private void resizeCellEditor() {
-		if (!isEditorActive()) {
+		if (!isEditorActive() || didScrollWhileEditorActive) {
 			return;
 		}
 		editor.updatePosition();

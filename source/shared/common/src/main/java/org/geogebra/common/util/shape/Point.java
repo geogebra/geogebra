@@ -1,9 +1,11 @@
 package org.geogebra.common.util.shape;
 
+import java.util.Objects;
+
 /**
  * Point object.
  */
-public class Point {
+public final class Point {
 
 	private double x;
 	private double y;
@@ -32,5 +34,19 @@ public class Point {
 	 */
 	public double getY() {
 		return y;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Point)) {
+			return false;
+		}
+		Point other = (Point) object;
+		return Double.compare(x, other.x) == 0 && Double.compare(y, other.y) == 0;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(x, y);
 	}
 }
