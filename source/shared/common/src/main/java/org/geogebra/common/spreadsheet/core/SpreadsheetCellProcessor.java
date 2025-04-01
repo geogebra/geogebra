@@ -20,4 +20,14 @@ public interface SpreadsheetCellProcessor {
 	 * Mark error for cell input.
 	 */
 	void markError();
+
+	/**
+	 * Whether string is too short for checking autocompletions.
+	 * Overridden for CJK support.
+	 * @param searchPrefix prefix for autocompletion lookup
+	 * @return whether string is too short
+	 */
+	default boolean isTooShortForAutocomplete(String searchPrefix) {
+		return searchPrefix.length() < 3;
+	}
 }

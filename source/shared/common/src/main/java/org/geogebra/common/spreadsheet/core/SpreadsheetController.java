@@ -1167,13 +1167,12 @@ public final class SpreadsheetController {
 		if (editor == null || controlsDelegate == null) {
 			return;
 		}
-		String searchPrefix = editor.cellEditor.getMathField().getText();
-		// input at least with 3 characters starting with =
-		if (searchPrefix == null || searchPrefix.length() < 4 || searchPrefix.indexOf("=") != 0) {
+		String searchPrefix = editor.cellEditor.getMathField().getCurrentWord();
+		if (tabularData.getCellProcessor().isTooShortForAutocomplete(searchPrefix)
+				|| !editor.cellEditor.getMathField().getText().startsWith("=")) {
 			controlsDelegate.hideAutoCompleteSuggestions();
 			return;
 		}
-		searchPrefix = searchPrefix.substring(1); // input without =
 		controlsDelegate.showAutoCompleteSuggestions(searchPrefix, getEditorBounds());
 	}
 

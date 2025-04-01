@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -169,5 +170,10 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 
 	private void buildNewInputWithErrorMark() {
 		processInput(buildRestoredInput(), ErrorHelper.silent(), null);
+	}
+
+	@Override
+	public boolean isTooShortForAutocomplete(String searchPrefix) {
+		return !InputHelper.needsAutocomplete(searchPrefix, algebraProcessor.getKernel());
 	}
 }
