@@ -200,7 +200,7 @@ tasks.register('deployIntoWar', Copy) {
     from compileGwt
     into warDirRel
 
-    into("web3d") {
+    into("web3d/sourcemaps/") {
         from "$warDirRel/WEB-INF/deploy/web3d/symbolMaps"
     }
 

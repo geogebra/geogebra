@@ -97,4 +97,15 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 		return base;
 	}
 
+	@Override
+	protected String getSourceMapUrl(LinkerContext context, String strongName, int fragmentId) {
+		String mapUrl = super.getSourceMapUrl(context, strongName, fragmentId);
+		return mapUrl == null ? null : mapUrl.replace("__BASE_PATH__", getSourceMapBasePath());
+	}
+
+	private String getSourceMapBasePath() {
+		String host = System.getenv("GWT_SOURCE_MAP_PATH");
+		return host == null ? "" : host;
+	}
+
 }

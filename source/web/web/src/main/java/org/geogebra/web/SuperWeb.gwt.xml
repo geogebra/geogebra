@@ -3,7 +3,8 @@
   <inherits name='org.geogebra.web.Web3D'/>
   <set-configuration-property name="devModeRedirectEnabled" value="true"/>
   <set-property name="compiler.useSourceMaps" value="true" />
+  <set-configuration-property name="compiler.embedSourceMaps" value="true"/>
   <set-configuration-property name="includeSourceMapUrl" 
-      value="https://apps-builds.s3-eu-central-1.amazonaws.com/geogebra/sourcemaps/__MODULE__/__HASH___sourceMap__FRAGMENT__.json"/>
+      value="__BASE_PATH__/__MODULE__/sourcemaps/__HASH___sourceMap__FRAGMENT__.json"/>
   <collapse-all-properties />
 </module>
