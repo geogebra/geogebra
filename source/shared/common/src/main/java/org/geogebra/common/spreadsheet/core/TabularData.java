@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 
@@ -86,5 +88,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 		// not needed in tests
 	}
 
+	@Nonnull
 	SpreadsheetCellProcessor getCellProcessor();
 }

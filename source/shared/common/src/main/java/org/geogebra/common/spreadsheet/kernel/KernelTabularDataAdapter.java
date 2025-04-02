@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
@@ -35,28 +37,18 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
-	private final KernelTabularDataProcessor processor;
-	private final CellFormat cellFormat;
-	private final SpreadsheetSettings spreadsheetSettings;
-	private final Kernel kernel;
-	private final SpreadsheetCellProcessor cellProcessor;
+	private final CellFormat cellFormat = new CellFormat(null);
+	private final @Nonnull KernelTabularDataProcessor processor;
+	private final @Nonnull SpreadsheetSettings spreadsheetSettings;
+	private final @Nonnull Kernel kernel;
+	private final @Nonnull SpreadsheetCellProcessor cellProcessor;
 
 	/**
-	 * @param spreadsheetSettings - spreadsheet settings
-	 * @param kernel - kernel
+	 * @param spreadsheetSettings spreadsheet settings
+	 * @param kernel kernel
 	 */
-	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings, Kernel kernel) {
-		this(spreadsheetSettings, kernel, null);
-	}
-
-	/**
-	 * @param spreadsheetSettings - spreadsheet settings
-	 * @param kernel - kernel
-	 * @param cellProcessor - cell processor
-	 */
-	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings, Kernel kernel,
-			SpreadsheetCellProcessor cellProcessor) {
-		this.cellFormat = new CellFormat(null);
+	public KernelTabularDataAdapter(@Nonnull SpreadsheetSettings spreadsheetSettings,
+			@Nonnull Kernel kernel) {
 		this.spreadsheetSettings = spreadsheetSettings;
 		this.kernel = kernel;
 		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
@@ -65,7 +57,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 			cellFormat.processXMLString(spreadsheetSettings.cellFormat());
 		});
 		this.processor = new KernelTabularDataProcessor(this);
-		this.cellProcessor = cellProcessor;
+		this.cellProcessor = new DefaultSpreadsheetCellProcessor(kernel.getAlgebraProcessor());
 	}
 
 	private void notifySizeChanged(SpreadsheetDimensions spreadsheetDimensions) {
@@ -338,7 +330,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public SpreadsheetCellProcessor getCellProcessor() {
+	public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
 		return cellProcessor;
 	}
 }

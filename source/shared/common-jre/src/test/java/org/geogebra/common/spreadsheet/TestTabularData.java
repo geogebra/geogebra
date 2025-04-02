@@ -3,6 +3,8 @@ package org.geogebra.common.spreadsheet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.TabularData;
@@ -142,7 +144,7 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public SpreadsheetCellProcessor getCellProcessor() {
+	public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
 		return cellProcessor;
 	}
 }
