@@ -8,6 +8,60 @@ import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
+import static org.geogebra.common.kernel.commands.Commands.Append;
+import static org.geogebra.common.kernel.commands.Commands.BarChart;
+import static org.geogebra.common.kernel.commands.Commands.BinomialCoefficient;
+import static org.geogebra.common.kernel.commands.Commands.BinomialDist;
+import static org.geogebra.common.kernel.commands.Commands.Cross;
+import static org.geogebra.common.kernel.commands.Commands.Derivative;
+import static org.geogebra.common.kernel.commands.Commands.Division;
+import static org.geogebra.common.kernel.commands.Commands.Dot;
+import static org.geogebra.common.kernel.commands.Commands.Element;
+import static org.geogebra.common.kernel.commands.Commands.Expand;
+import static org.geogebra.common.kernel.commands.Commands.First;
+import static org.geogebra.common.kernel.commands.Commands.Flatten;
+import static org.geogebra.common.kernel.commands.Commands.Identity;
+import static org.geogebra.common.kernel.commands.Commands.IndexOf;
+import static org.geogebra.common.kernel.commands.Commands.Insert;
+import static org.geogebra.common.kernel.commands.Commands.Integral;
+import static org.geogebra.common.kernel.commands.Commands.IntegralSymbolic;
+import static org.geogebra.common.kernel.commands.Commands.Invert;
+import static org.geogebra.common.kernel.commands.Commands.Join;
+import static org.geogebra.common.kernel.commands.Commands.Last;
+import static org.geogebra.common.kernel.commands.Commands.LeftSide;
+import static org.geogebra.common.kernel.commands.Commands.Length;
+import static org.geogebra.common.kernel.commands.Commands.Limit;
+import static org.geogebra.common.kernel.commands.Commands.LimitAbove;
+import static org.geogebra.common.kernel.commands.Commands.LimitBelow;
+import static org.geogebra.common.kernel.commands.Commands.Mod;
+import static org.geogebra.common.kernel.commands.Commands.NIntegral;
+import static org.geogebra.common.kernel.commands.Commands.NSolutions;
+import static org.geogebra.common.kernel.commands.Commands.NSolve;
+import static org.geogebra.common.kernel.commands.Commands.Normal;
+import static org.geogebra.common.kernel.commands.Commands.Numeric;
+import static org.geogebra.common.kernel.commands.Commands.Product;
+import static org.geogebra.common.kernel.commands.Commands.RandomElement;
+import static org.geogebra.common.kernel.commands.Commands.Remove;
+import static org.geogebra.common.kernel.commands.Commands.Reverse;
+import static org.geogebra.common.kernel.commands.Commands.RightSide;
+import static org.geogebra.common.kernel.commands.Commands.Sample;
+import static org.geogebra.common.kernel.commands.Commands.SampleSD;
+import static org.geogebra.common.kernel.commands.Commands.Sequence;
+import static org.geogebra.common.kernel.commands.Commands.Shuffle;
+import static org.geogebra.common.kernel.commands.Commands.SigmaXX;
+import static org.geogebra.common.kernel.commands.Commands.SigmaXY;
+import static org.geogebra.common.kernel.commands.Commands.Slider;
+import static org.geogebra.common.kernel.commands.Commands.Solutions;
+import static org.geogebra.common.kernel.commands.Commands.Solve;
+import static org.geogebra.common.kernel.commands.Commands.Sort;
+import static org.geogebra.common.kernel.commands.Commands.StepGraph;
+import static org.geogebra.common.kernel.commands.Commands.StickGraph;
+import static org.geogebra.common.kernel.commands.Commands.Substitute;
+import static org.geogebra.common.kernel.commands.Commands.Sum;
+import static org.geogebra.common.kernel.commands.Commands.Take;
+import static org.geogebra.common.kernel.commands.Commands.Transpose;
+import static org.geogebra.common.kernel.commands.Commands.nCr;
+import static org.geogebra.common.kernel.commands.Commands.stdev;
 import static org.geogebra.common.kernel.statistics.Statistic.COVARIANCE;
 import static org.geogebra.common.kernel.statistics.Statistic.MAX;
 import static org.geogebra.common.kernel.statistics.Statistic.MEAN;
@@ -51,17 +105,24 @@ import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibili
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
-import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.statistics.Statistic;
+import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 
 public class MmsExamRestrictions extends ExamRestrictions {
@@ -76,11 +137,11 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				createFeatureRestrictions(),
 				createInputExpressionFilters(),
 				createOutputExpressionFilters(),
-				Set.of(createCommandFilter()),
-				null,
+				createCommandFilters(),
+				createCommandArgumentFilters(),
 				createOperationFilter(),
 				createContextMenuItemFilters(),
-				null,
+				createSyntaxFilter(),
 				null,
 				null,
 				createVisibilityRestrictions(),
@@ -106,159 +167,21 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		return Set.of(new ComplexExpressionFilter());
 	}
 
-	/**
-	 * @return filer for IQB MMS exam
-	 */
-	public static CommandFilter createCommandFilter() {
-		CommandNameFilter nameFilter = new CommandNameFilter(true);
-		nameFilter.addCommands(Commands.Axes, Commands.Focus,
-				Commands.DelauneyTriangulation, Commands.Difference,
-				Commands.Rotate, Commands.TriangleCenter,
-				Commands.Envelope, Commands.Ends,
-				Commands.FirstAxisLength, Commands.SecondAxisLength,
-				Commands.FirstAxis, Commands.Height, Commands.InteriorAngles,
-				Commands.InverseBinomial, Commands.InverseBinomialMinimumTrials,
-				Commands.InverseCauchy, Commands.InverseChiSquared,
-				Commands.InverseExponential, Commands.InverseFDistribution,
-				Commands.InverseGamma, Commands.InverseHyperGeometric,
-				Commands.InverseLaplace, Commands.InverseLogistic, Commands.InverseLogNormal,
-				Commands.InverseNormal, Commands.InversePascal, Commands.InversePoisson,
-				Commands.InverseTDistribution, Commands.InverseWeibull, Commands.InverseZipf,
-				Commands.Diameter, Commands.ConvexHull, Commands.ShortestDistance,
-				Commands.CurveCartesian, Commands.Barycenter, Commands.MinimumSpanningTree,
-				Commands.Center, Commands.SecondAxis, Commands.Net, Commands.Top,
-				Commands.Surface, Commands.Prove, Commands.ProveDetails,
-				Commands.Point, Commands.PointIn, Commands.IntersectPath,
-				Commands.IntersectConic, Commands.Centroid, Commands.QuadricSide,
-				Commands.Sector, Commands.Mirror, Commands.Spline,
-				Commands.Stretch, Commands.Dilate, Commands.Bottom,
-				Commands.Translate, Commands.Shear, Commands.Polygon,
-				Commands.Arc, Commands.Circle, Commands.CircleSector,
-				Commands.CircleArc, Commands.OsculatingCircle, Commands.Cubic,
-				Commands.Polygon, Commands.Line, Commands.Segment, Commands.Ray,
-				Commands.Ellipse, Commands.LineBisector, Commands.OrthogonalLine,
-				Commands.Asymptote, Commands.RigidPolygon, Commands.Tangent,
-				Commands.AngularBisector,
-				Commands.Pyramid, Commands.Prism, Commands.Cone, Commands.Cylinder,
-				Commands.Sphere, Commands.TriangleCurve, Commands.Semicircle,
-				Commands.ImplicitCurve, Commands.Conic, Commands.Icosahedron, Commands.Hyperbola,
-				Commands.Parabola, Commands.Incircle, Commands.Directrix, Commands.Octahedron,
-				Commands.Locus, Commands.LocusEquation, Commands.Polar,
-				Commands.PolyLine, Commands.ConeInfinite, Commands.CylinderInfinite,
-				Commands.Tetrahedron, Commands.CircumcircleArc, Commands.CircumcircleSector,
-				Commands.Cube, Commands.Roots, Commands.ComplexRoot, Commands.Root,
-				Commands.RootList, Commands.Volume, Commands.Plane,
-				Commands.OrthogonalPlane,
-				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
-				Commands.IsInRegion, Commands.AffineRatio, Commands.Angle,
-				Commands.AngleBisector, Commands.ANOVA, Commands.ApplyMatrix, Commands.Arc,
-				Commands.Area, Commands.Asymptote,
-				Commands.AttachCopyToView, Commands.Axes, Commands.AxisStepX, Commands.AxisStepY,
-				Commands.Barycenter, Commands.Bernoulli, Commands.Bottom, Commands.Button,
-				Commands.CASLoaded, Commands.Cauchy, Commands.Cell, Commands.CellRange,
-				Commands.CenterView, Commands.Centroid, Commands.Checkbox, Commands.ChiSquared,
-				Commands.ChiSquaredTest, Commands.Circle, Commands.CircularArc,
-				Commands.CircleSector, Commands.CircumcircularArc, Commands.CircumcircularSector,
-				Commands.Classes, Commands.ClosestPoint, Commands.ClosestPointRegion,
-				Commands.Column, Commands.ColumnName, Commands.CompleteSquare, Commands.ComplexRoot,
-				Commands.Cone, Commands.Conic, Commands.ConjugateDiameter,
-				Commands.ConstructionStep, Commands.ContingencyTable, Commands.ContinuedFraction,
-				Commands.ConvexHull, Commands.CopyFreeObject, Commands.Corner, Commands.CrossRatio,
-				Commands.Cube, Commands.Cubic, Commands.Curvature, Commands.CurvatureVector,
-				Commands.Curve, Commands.Cylinder, Commands.DelauneyTriangulation,
-				Commands.Difference, Commands.Dilate, Commands.Direction, Commands.Directrix,
-				Commands.Distance, Commands.Div, Commands.Divisors, Commands.DivisorsList,
-				Commands.DivisorsSum, Commands.Dodecahedron, Commands.DotPlot,
-				Commands.DynamicCoordinates, Commands.Eccentricity, Commands.Ellipse,
-				Commands.Ends, Commands.Envelope, Commands.Erlang, Commands.Execute,
-				Commands.Exponential, Commands.ExportImage, Commands.Extremum,
-				Commands.FDistribution, Commands.FillCells, Commands.FillColumn, Commands.FillRow,
-				Commands.Fit, Commands.FitExp, Commands.FitGrowth, Commands.FitImplicit,
-				Commands.FitLineY, Commands.FitLineX, Commands.FitLog, Commands.FitLogistic,
-				Commands.FitPoly, Commands.FitPow, Commands.FitSin, Commands.Focus,
-				Commands.FormulaText, Commands.FractionText, Commands.FrequencyTable,
-				Commands.FromBase, Commands.Function, Commands.FutureValue, Commands.Gamma,
-				Commands.GeometricMean, Commands.GetTime, Commands.GroebnerDegRevLex,
-				Commands.GroebnerLex, Commands.GroebnerLexDeg, Commands.HarmonicMean,
-				Commands.Height, Commands.HideLayer, Commands.Hyperbola, Commands.Icosahedron,
-				Commands.ImplicitCurve, Commands.ImplicitDerivative, Commands.Incircle,
-				Commands.InfiniteCone, Commands.TurningPoint, Commands.InputBox,
-				Commands.IntegralBetween, Commands.InteriorAngles, Commands.Intersect,
-				Commands.IntersectConic, Commands.IntersectPath, Commands.InverseBinomial,
-				Commands.InverseCauchy, Commands.InverseChiSquared, Commands.InverseExponential,
-				Commands.InverseFDistribution, Commands.InverseGamma,
-				Commands.InverseHyperGeometric, Commands.InverseLogistic,
-				Commands.InverseLogNormal, Commands.InverseNormal, Commands.InversePascal,
-				Commands.InversePoisson, Commands.InverseTDistribution, Commands.InverseWeibull,
-				Commands.InverseZipf, Commands.IsDefined, Commands.IsFactored, Commands.IsInRegion,
-				Commands.IsInteger, Commands.IsPrime, Commands.IsVertexForm,
-				Commands.Iteration, Commands.IterationList, Commands.Laplace, Commands.LeftSum,
-				Commands.Length, Commands.LetterToUnicode, Commands.Line,
-				Commands.Excentricity, Commands.Locus, Commands.LocusEquation,
-				Commands.Logistic, Commands.LogNormal, Commands.LowerSum, Commands.mad,
-				Commands.MajorAxis, Commands.Maximize, Commands.Midpoint, Commands.Minimize,
-				Commands.MinimumSpanningTree, Commands.MinorAxis, Commands.Name, Commands.Net,
-				Commands.NextPrime, Commands.NormalQuantilePlot, Commands.NSolveODE,
-				Commands.Object, Commands.Octahedron, Commands.Ordinal, Commands.OsculatingCircle,
-				Commands.Pan, Commands.Parabola, Commands.Parameter, Commands.ParametricDerivative,
-				Commands.ParseToFunction, Commands.ParseToNumber, Commands.Pascal,
-				Commands.PathParameter, Commands.Payment, Commands.Perimeter, Commands.Periods,
-				Commands.PerpendicularBisector, Commands.PerpendicularLine,
-				Commands.OrthogonalVector, Commands.Plane, Commands.PlaneBisector,
-				Commands.PlaySound, Commands.PlotSolve, Commands.Point, Commands.PointIn,
-				Commands.PointList, Commands.Poisson, Commands.Polar, Commands.Polygon,
-				Commands.Polyline, Commands.Polynomial, Commands.PresentValue,
-				Commands.PreviousPrime, Commands.Prism, Commands.Prove, Commands.ProveDetails,
-				Commands.Pyramid, Commands.Radius, Commands.RandomBinomial,
-				Commands.RandomDiscrete, Commands.RandomNormal, Commands.RandomPointIn,
-				Commands.RandomPoisson, Commands.RandomPolynomial, Commands.RandomUniform,
-				Commands.Rate, Commands.Rationalize, Commands.Ray, Commands.ReadText,
-				Commands.RectangleSum, Commands.ReducedRowEchelonForm, Commands.Reflect,
-				Commands.Relation, Commands.RemovableDiscontinuity, Commands.Rename,
-				Commands.Repeat, Commands.ResidualPlot, Commands.RigidPolygon, Commands.Root,
-				Commands.RootList, Commands.RootMeanSquare, Commands.Roots, Commands.Rotate,
-				Commands.RotateText, Commands.Row, Commands.RunClickScript,
-				Commands.RunUpdateScript, Commands.SampleSD, Commands.stdev, Commands.SampleSDX,
-				Commands.SampleSDY, Commands.SampleVariance, Commands.ScientificText, Commands.SD,
-				Commands.stdevp, Commands.SDX, Commands.SDY, Commands.Sector, Commands.Segment,
-				Commands.SelectedElement, Commands.SelectedIndex, Commands.Semicircle,
-				Commands.SemiMajorAxisLength, Commands.SemiMinorAxisLength, Commands.SetActiveView,
-				Commands.SetAxesRatio, Commands.SetBackgroundColor, Commands.SetCaption,
-				Commands.SetColor, Commands.SetConditionToShowObject, Commands.SetConstructionStep,
-				Commands.SetCoords, Commands.SetDecoration, Commands.SetDynamicColor,
-				Commands.SetFilling, Commands.SetFixed, Commands.SetImage, Commands.SetLabelMode,
-				Commands.SetLayer, Commands.SetLevelOfDetail, Commands.SetLineStyle,
-				Commands.SetLineThickness, Commands.SetPerspective, Commands.SetPointSize,
-				Commands.SetPointStyle, Commands.SetSeed, Commands.SetSpinSpeed,
-				Commands.SetTooltipMode, Commands.SetTrace, Commands.SetValue,
-				Commands.SetViewDirection, Commands.SetVisibleInView, Commands.Shear,
-				Commands.ShortestDistance, Commands.ShowAxes, Commands.ShowGrid,
-				Commands.ShowLabel, Commands.ShowLayer, Commands.Side, Commands.SigmaXX,
-				Commands.SigmaXY, Commands.SigmaYY, Commands.Slope, Commands.SlopeField,
-				Commands.SlowPlot, Commands.SolveCubic, Commands.SolveODE, Commands.SolveQuartic,
-				Commands.Spearman, Commands.Sphere, Commands.Spline, Commands.Split,
-				Commands.StartAnimation, Commands.StartRecord, Commands.Stretch,
-				Commands.SumSquaredErrors, Commands.SurdText, Commands.Surface, Commands.SVD,
-				Commands.SXX, Commands.SXY, Commands.SYY, Commands.TableText, Commands.Tangent,
-				Commands.TaylorSeries, Commands.TDistribution, Commands.Tetrahedron,
-				Commands.TextToUnicode, Commands.TMean2Estimate, Commands.TMeanEstimate,
-				Commands.ToBase, Commands.ToolImage, Commands.Top, Commands.ToPoint,
-				Commands.ToPolar, Commands.Translate, Commands.TrapezoidalSum,
-				Commands.TravelingSalesman, Commands.TriangleCenter, Commands.TriangleCurve,
-				Commands.Triangular, Commands.TrigCombine, Commands.TrigExpand,
-				Commands.TrigSimplify, Commands.Trilinear, Commands.TTest, Commands.TTest2,
-				Commands.TTestPaired, Commands.Turtle, Commands.TurtleBack, Commands.TurtleDown,
-				Commands.TurtleForward, Commands.TurtleLeft, Commands.TurtleRight,
-				Commands.TurtleUp, Commands.Type, Commands.UnicodeToLetter, Commands.UnicodeToText,
-				Commands.Uniform, Commands.UnitOrthogonalVector, Commands.UnitVector,
-				Commands.UpperSum, Commands.Variance, Commands.Vector, Commands.Vertex,
-				Commands.VerticalText, Commands.Volume, Commands.Voronoi, Commands.Weibull,
-				Commands.Zip, Commands.Zipf, Commands.ZMean2Estimate, Commands.ZMean2Test,
-				Commands.ZMeanEstimate, Commands.ZMeanTest, Commands.ZoomIn, Commands.ZoomOut,
-				Commands.ZProportion2Estimate, Commands.ZProportion2Test,
-				Commands.ZProportionEstimate, Commands.ZProportionTest);
-		CommandFilterFactory.addBooleanCommands(nameFilter);
-		return nameFilter;
+	private static Set<CommandFilter> createCommandFilters() {
+		CommandFilter filter =
+				new CommandNameFilter(false, Append, BarChart, BinomialCoefficient, BinomialDist,
+						Cross, Derivative, Division, Dot, Element, Expand, First, Flatten,
+						Identity, IndexOf, Insert, Integral, IntegralSymbolic, Invert, Join, Last,
+						LeftSide, Length, Limit, LimitAbove, LimitBelow, Mod, nCr, NIntegral,
+						NSolutions, NSolve, Product, RandomElement, Remove, Reverse, RightSide,
+						Sample, SampleSD, Sequence, Shuffle, SigmaXX, SigmaXY, Slider, Solutions,
+						Solve, Sort, stdev, StepGraph, StickGraph, Sum, Take, Transpose, Numeric,
+						Substitute);
+		return Set.of(filter);
+	}
+
+	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
+		return Set.of(new MmsCommandArgumentFilter());
 	}
 
 	private static OperationFilter createOperationFilter() {
@@ -272,6 +195,19 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
 		return Set.of(contextMenuItem -> contextMenuItem != AlgebraContextMenuItem.Statistics
 				&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints);
+	}
+
+	private static SyntaxFilter createSyntaxFilter() {
+		LineSelectorSyntaxFilter filter = new LineSelectorSyntaxFilter();
+		filter.addSelector(Invert, 0);
+		filter.addSelector(Length, 0);
+		filter.addSelector(Normal, 0, 3);
+		filter.addSelector(Product, 0);
+		filter.addSelector(SigmaXX, 1);
+		filter.addSelector(SigmaXY, 1);
+		filter.addSelector(stdev, 0);
+		filter.addSelector(Sum, 0);
+		return filter;
 	}
 
 	private static StatisticsFilter createStatisticsFilter() {
@@ -308,6 +244,68 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		public Effect getEffect(GeoElement geoElement) {
 			return (geoElement instanceof GeoSymbolic && ((GeoSymbolic) geoElement).getTwinGeo()
 					.getParentAlgorithm() instanceof AlgoIntegralDefinite) ? HIDE : IGNORE;
+		}
+	}
+
+	private static final class MmsCommandArgumentFilter extends BaseCommandArgumentFilter {
+
+		@Override
+		public void checkAllowed(Command command, CommandProcessor commandProcessor)
+				throws MyError {
+			if (isCommand(command, BinomialDist)) {
+				if (command.getArgumentNumber() < 3) {
+					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
+				} else if (command.getArgument(2).getValueType() == ValueType.BOOLEAN) {
+					throw commandProcessor.argErr(command, command.getArgument(2));
+				}
+			} else if (isCommand(command, Invert)) {
+				if (command.getArgumentNumber() == 1) {
+					GeoElement[] args = commandProcessor.resArgs(command);
+					if (args[0].isGeoFunction()) {
+						throw commandProcessor.argErr(command, command.getArgument(0));
+					}
+				}
+			} else if (isCommand(command, Length)) {
+				if (command.getArgumentNumber() == 1) {
+					GeoElement[] args = commandProcessor.resArgs(command);
+					if (!args[0].isGeoList()) {
+						throw commandProcessor.argErr(command, command.getArgument(0));
+					}
+				} else {
+					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
+				}
+			} else if (isCommand(command, Normal)) {
+				if (command.getArgumentNumber() == 4) {
+					GeoElement[] args = commandProcessor.resArgs(command);
+					if (!args[3].isNumberValue()) {
+						throw commandProcessor.argErr(command, command.getArgument(3));
+					}
+				} else if (command.getArgumentNumber() != 2) {
+					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
+				}
+			} else if (isCommand(command, Product)) {
+				restrictArgumentCount(command, commandProcessor, 4);
+			} else if (isCommand(command, SampleSD)) {
+				restrictArgumentCount(command, commandProcessor, 2);
+			} else if (isCommand(command, SigmaXX)) {
+				if (command.getArgumentNumber() == 1) {
+					GeoElement[] args = commandProcessor.resArgs(command);
+					if (args[0].isGeoList()) {
+						GeoList list = (GeoList) args[0];
+						if (list.size() <= 0 || !list.get(0).isGeoNumeric()) {
+							throw commandProcessor.argErr(command, command.getArgument(0));
+						}
+					}
+				} else {
+					restrictArgumentCount(command, commandProcessor, 2);
+				}
+			} else if (isCommand(command, SigmaXY)) {
+				restrictArgumentCount(command, commandProcessor, 1);
+			} else if (isCommand(command, stdev)) {
+				restrictArgumentCount(command, commandProcessor, 2);
+			} else if (isCommand(command, Sum)) {
+				restrictArgumentCount(command, commandProcessor, 4);
+			}
 		}
 	}
 }

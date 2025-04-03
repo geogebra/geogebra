@@ -51,11 +51,11 @@ public class ExamTypeTests {
 		switch (t) {
 		case GENERIC:
 		case IB:
-		case BAYERN_CAS:
-		case MMS: return Set.of(
+		case BAYERN_CAS: return Set.of(
 				Commands.CSolve, Commands.CSolutions,
 				Commands.NSolve, Commands.NSolutions,
 				Commands.Solve, Commands.Solutions);
+		case MMS:
 		case REALSCHULE:
 		case NIEDERSACHSEN: return Set.of(
 				Commands.NSolve, Commands.NSolutions,

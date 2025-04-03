@@ -187,6 +187,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.equationBehaviour = equationBehaviour;
 		this.disabledAlgorithms = disabledAlgorithms != null ? disabledAlgorithms : Set.of();
 		this.statisticsFilter = statisticsFilter;
+		assert this.commandArgumentFilters.isEmpty()
+				|| this.syntaxFilter != null : "If commandArgumentFilter is specified, syntax"
+				+ "filter must be present to filter syntaxes.";
 	}
 
 	/**

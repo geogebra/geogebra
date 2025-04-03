@@ -20,6 +20,7 @@ import org.geogebra.common.exam.restrictions.mms.MmsValueConverter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -123,5 +124,39 @@ public class MmsExamTests extends BaseExamTests {
 				converter.toOutputValueString(barchart, StringTemplate.defaultTemplate));
 		assertEquals("a = " + definition,
 				converter.toLabelAndDescription(barchart, StringTemplate.defaultTemplate));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Union({1}, {2})",
+			"Quartile1({1, 2, 3})",
+			"Q1({1, 2, 3})",
+	})
+	public void testRestrictedCommands(String expression) {
+		assertNull(evaluate(expression, "1"));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"BinomialDist(1, 0.5)",
+			"BinomialDist(1, 0.5, false)",
+			"Invert(sin(x))",
+			"Length((1, 2))",
+			"Product(a^2, a, 0, 5)",
+			"SampleSD({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3})",
+			"SigmaXX({(1, 2), (3, 4)})",
+			"SigmaXY({(1, 2), (3, 4)})",
+			"stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3})",
+			"Sum(a^2, a, 0, 5)",
+	})
+	public void testRestrictedArguments(String expression) {
+		// Specify a valid output, so that we know that the input has been filtered or not.
+		assertNull(evaluate(expression, "1"));
+	}
+
+	@Test
+	public void testRestrictedSumSyntax() {
+		String sumSyntax = app.getLocalization().getCommandSyntax(Commands.Sum.getCommand());
+		assertFalse(sumSyntax.toLowerCase().contains("end value"));
 	}
 }

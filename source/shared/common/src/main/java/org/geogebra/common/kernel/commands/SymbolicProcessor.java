@@ -137,6 +137,10 @@ public class SymbolicProcessor {
 						&& isInvalidArgNumberInFallback(cmd)) {
 					throw buildArgNumberError(cmd);
 				}
+				CommandProcessor processor = cmdDispatcher.commandTableSwitch(cmd);
+				if (processor != null) {
+					cmdDispatcher.checkIsAllowedByCommandArgumentFilters(cmd, processor);
+				}
 			}
 			if (replaced.any(Inspecting::isVectorDivision)) {
 				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalDivision);

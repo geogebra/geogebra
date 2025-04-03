@@ -218,12 +218,14 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * Checks whether a command is allowed based on its arguments
-	 * @param command Command
-	 * @param commandProcessor CommandProcessor
-	 * @throws MyError When the command is not allowed with the given arguments
+	 * Checks if command is allowed by the set of command argument filters. Throws an error
+	 * if the command with its arguments is not allowed.
+	 *
+	 * @param command command with its arguments to test
+	 * @param commandProcessor a command processor
+	 * @throws MyError thrown if the arguments for the command are not allowed
 	 */
-	private void checkIsAllowedByCommandArgumentFilters(Command command,
+	public void checkIsAllowedByCommandArgumentFilters(Command command,
 			CommandProcessor commandProcessor) throws MyError {
 		for (CommandArgumentFilter filter : commandArgumentFilters) {
 			filter.checkAllowed(command, commandProcessor);

@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.commands.selector;
 
 import static org.junit.Assert.assertEquals;
 
-import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.test.annotation.Issue;
@@ -77,26 +76,6 @@ public class CommandFilterFactoryTest {
 		assertAllowed(true, Commands.BarChart);
 		assertAllowed(true, Commands.StepGraph);
 		assertAllowed(true, Commands.StickGraph);
-	}
-
-	@Test
-	public void testMmsCommandFilter() {
-		filter = MmsExamRestrictions.createCommandFilter();
-		assertAllowed(false, Commands.AreEqual);
-		assertAllowed(false, Commands.Hyperbola);
-		assertAllowed(false, Commands.Slope);
-		assertAllowed(false, Commands.Intersect);
-		// disabled commands that have different english and internal name
-		assertAllowed(false, Commands.DelaunayTriangulation);
-		assertAllowed(false, Commands.SemiMajorAxisLength);
-		assertAllowed(false, Commands.SemiMinorAxisLength);
-		assertAllowed(false, Commands.MajorAxis);
-		assertAllowed(false, Commands.ConjugateDiameter);
-		assertAllowed(false, Commands.Curve);
-		assertAllowed(false, Commands.MinorAxis);
-		assertAllowed(false, Commands.Side);
-		assertAllowed(false, Commands.Reflect);
-		assertAllowed(false, Commands.Asymptote);
 	}
 
 	private void assertAllowed(boolean shouldAllow, Commands command) {
