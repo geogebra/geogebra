@@ -385,7 +385,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		/**
 		 * Minimal polynomial of cos(2pi/n), see GGB-2137 for details.
 		 */
-		COS_2PI_OVER_N_MINPOLY("cos2piOverNMinpoly", "cos2piOverNMinpoly(n):=begin local j, p, q, r; p:=simplify((tchebyshev1(n)-1)/(x-1)); for j from 1 to n/2 do q:=tchebyshev1(j)-1; r:=gcd(p,q); p:=simplify(p/r); od; return factorsqrfree(primpart(p)); end");
+		COS_2PI_OVER_N_MINPOLY("cos2piOverNMinpoly", "cos2piOverNMinpoly(n):=begin local j, p, q, r; p:=simplify((tchebyshev1(n)-1)/(x-1)); for j from 1 to n/2 do q:=tchebyshev1(j)-1; r:=gcd(p,q); p:=simplify(p/r); od; return factorsqrfree(primpart(p)); end"),
+		/**
+		 * Checks equations for equality, see
+		 * <a href="https://geogebra-jira.atlassian.net/browse/APPS-6413">APPS-6413</a> for details
+		 */
+		IS_EQUAL_EQUATIONS("ggbIsEqualEquations", "ggbIsEqualEquations(eq1,eq2):=when(ggbIsZero(eq1)&&ggbIsZero(eq2),true,when(ggbIsZero(eq1)||ggbIsZero(eq2),false,type(normal(equal2diff(eq1)/equal2diff(eq2)))!=DOM_SYMBOLIC))");
 
 		/** function name */
 		final public String functionName;
@@ -434,6 +439,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(CHECK_DERIVATIVE, XCOORD);
 			setDependency(CHECK_DERIVATIVE, YCOORD);
 			setDependency(CHECK_DERIVATIVE, IS_ALMOST_ZERO);
+			setDependency(IS_EQUAL_EQUATIONS, IS_ZERO);
 		}
 
 		/**

@@ -2798,4 +2798,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("f(x):=b", "b");
 		t("Integral[f]", "b * x + c_{1}");
 	}
+
+	@Test
+	@Issue("APPS-6413")
+	public void testEqualityOfPlanes() {
+		t("(2x - 3y + z = -1) == (-2x + 3y - z = 1)", "true");
+		t("(4x - 3y + 2z = -1) == (-4x + 3y - 2z = 1)", "true");
+		t("eq1 := 2x - 3y + z = -1", "2 * x - 3 * y + z = -1");
+		t("eq2 := -2x + 3y - z = 1", "-2 * x + 3 * y - z = 1");
+		t("eq1 == eq2", "true");
+		t("(0 = 0) == (0 = 0)", "true");
+		t("(2x - 3y + z = -1) == (0 = 0)", "false");
+		t("(0 = 0) == (3x + y - 2z = 5)", "false");
+		t("(4x - 6y + z = -1) == (-4x + 6y - 2z = 1)", "false");
+	}
 }

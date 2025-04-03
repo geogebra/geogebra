@@ -113,17 +113,24 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			} else if (stringType.equals(StringType.OGP)) {
 				sb.append("AreEqual[").append(leftStr).append(",").append(rightStr).append("]");
 			} else {
-
 				if (tpl.getStringType().isGiac()) {
-					// brackets needed round FIRST argument for eg
-					// $1==$2 where $1=y=9 and $2=y=9
-					// **AND** **ALSO** round whole expressions eg
-					// Evaluate(sinh(x)+cosh(x)==exp(x))
-					sb.append(CustomFunctions.IS_ZERO).append("((");
-					tpl.append(sb, leftStr, left, operation);
-					sb.append(")-(");
-					tpl.append(sb, rightStr, right, operation);
-					sb.append("))");
+					if (left.unwrap() instanceof Equation && right.unwrap() instanceof Equation) {
+						sb.append(CustomFunctions.IS_EQUAL_EQUATIONS).append("(");
+						tpl.append(sb, leftStr, left, operation);
+						sb.append(",");
+						tpl.append(sb, rightStr, right, operation);
+						sb.append(")");
+					} else {
+						// brackets needed round FIRST argument for eg
+						// $1==$2 where $1=y=9 and $2=y=9
+						// **AND** **ALSO** round whole expressions eg
+						// Evaluate(sinh(x)+cosh(x)==exp(x))
+						sb.append(CustomFunctions.IS_ZERO).append("((");
+						tpl.append(sb, leftStr, left, operation);
+						sb.append(")-(");
+						tpl.append(sb, rightStr, right, operation);
+						sb.append("))");
+					}
 				} else {
 
 					tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl.equalSign());
