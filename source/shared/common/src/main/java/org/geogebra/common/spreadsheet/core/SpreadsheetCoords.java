@@ -1,7 +1,12 @@
 package org.geogebra.common.spreadsheet.core;
 
-public class SpreadsheetCoords {
+import com.google.j2objc.annotations.Property;
+
+public final class SpreadsheetCoords {
+
+	@Property("readonly")
 	public int row;
+	@Property("readonly")
 	public int column;
 
 	public SpreadsheetCoords() {

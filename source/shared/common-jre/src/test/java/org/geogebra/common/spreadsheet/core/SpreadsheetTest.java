@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
@@ -188,6 +190,43 @@ public class SpreadsheetTest extends BaseUnitTest {
 		Mockito.verify(delegate, Mockito.times(3)).notifyRepaintNeeded();
 	}
 
+	// Style bar
+
+	@Test
+	public void testStyleBarInitialState() {
+		assertFalse(spreadsheet.getStyleBarModel().getState().isEnabled);
+	}
+
+	@Test
+	public void testStyleBarWithSingleCellSelected() {
+		spreadsheet.selectCell(0, 0, false, false);
+		assertTrue(spreadsheet.getStyleBarModel().getState().isEnabled);
+	}
+
+	@Test
+	public void testStyleBarWithRangeSelected() {
+		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
+		spreadsheet.selectCell(0, 0, false, false);
+		styleBarModel.setBold(true);
+		// extend selection, style bar should reflect traits of first cell in selection
+		spreadsheet.selectCell(2, 2, true, false);
+		assertTrue(styleBarModel.getState().fontTraits.contains(SpreadsheetStyle.FontTrait.BOLD));
+	}
+
+	@Test
+	public void testStyleBarChangeNotifications() {
+		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
+		spreadsheet.selectCell(0, 0, false, false);
+		// start listening for change notifications
+		Counter numberOfChangeNotifications = new Counter();
+		styleBarModel.stateChanged.addListener(newState -> numberOfChangeNotifications.increment());
+		styleBarModel.setBold(true); // should trigger change notification
+		styleBarModel.setBold(true); // should NOT trigger change notification
+		assertEquals(1, numberOfChangeNotifications.value);
+		styleBarModel.setBold(false); // should trigger change notification
+		assertEquals(2, numberOfChangeNotifications.value);
+	}
+
 	private static class TestCellRenderableFactory implements CellRenderableFactory {
 		@Override
 		public SelfRenderable getRenderable(Object data, SpreadsheetStyle style,
@@ -199,5 +238,13 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	private SpreadsheetDelegate mockSpreadsheetDelegate() {
 		return Mockito.mock(SpreadsheetDelegate.class);
+	}
+
+	private static final class Counter {
+		int value = 0;
+
+		void increment() {
+			value++;
+		}
 	}
 }

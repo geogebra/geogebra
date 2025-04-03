@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.style;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -42,6 +43,7 @@ public class CellFormat implements CellFormatInterface {
 	public static final int FORMAT_BORDER = 1;
 	public static final int FORMAT_BGCOLOR = 2;
 	public static final int FORMAT_FONTSTYLE = 3;
+	public static final int FORMAT_FGCOLOR = 4;
 
 	private int formatCount = 5;
 
@@ -498,7 +500,7 @@ public class CellFormat implements CellFormatInterface {
 	 */
 	@Override
 	public void setFormat(SpreadsheetCoords cell, int formatType, Object formatValue) {
-		ArrayList<TabularRange> crList = new ArrayList<>();
+		List<TabularRange> crList = new ArrayList<>();
 		crList.add(new TabularRange(cell.row, cell.column));
 		setFormat(crList, formatType, formatValue);
 	}
@@ -512,7 +514,7 @@ public class CellFormat implements CellFormatInterface {
 	 *            format value
 	 */
 	public void doSetFormat(SpreadsheetCoords cell, int formatType, Object formatValue) {
-		ArrayList<TabularRange> crList = new ArrayList<>();
+		List<TabularRange> crList = new ArrayList<>();
 		crList.add(new TabularRange(cell.row, cell.column));
 		doSetFormat(crList, formatType, formatValue);
 	}
@@ -521,7 +523,7 @@ public class CellFormat implements CellFormatInterface {
 	 * Add a format value to a cell range.
 	 */
 	public void setFormat(TabularRange cr, int formatType, Object formatValue) {
-		ArrayList<TabularRange> crList = new ArrayList<>();
+		List<TabularRange> crList = new ArrayList<>();
 		crList.add(cr);
 		setFormat(crList, formatType, formatValue);
 	}
@@ -529,7 +531,7 @@ public class CellFormat implements CellFormatInterface {
 	/**
 	 * Add a format value to a list of cell ranges.
 	 */
-	public void setFormat(ArrayList<TabularRange> crList, int formatType,
+	public void setFormat(List<TabularRange> crList, int formatType,
 			Object value) {
 
 		doSetFormat(crList, formatType, value);
@@ -541,7 +543,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void doSetFormat(ArrayList<TabularRange> crList, int formatType,
+	private void doSetFormat(List<TabularRange> crList, int formatType,
 			Object value) {
 		HashMap<SpreadsheetCoords, Object> formatTable = formatMapArray[formatType];
 

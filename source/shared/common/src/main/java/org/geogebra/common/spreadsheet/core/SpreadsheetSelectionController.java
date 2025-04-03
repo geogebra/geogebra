@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.util.MulticastEvent;
+
 /**
  * Provides implementations for selection-related methods of {@link SpreadsheetController}
  */
@@ -19,8 +21,11 @@ final class SpreadsheetSelectionController {
 	 */
 	private final List<Selection> selections = new ArrayList<>();
 
+	final MulticastEvent<List<Selection>> selectionsChanged = new MulticastEvent<>();
+
 	void clearSelections() {
 		selections.clear();
+		notifySelectionChanged();
 	}
 
 	void selectAll() {
@@ -40,12 +45,20 @@ final class SpreadsheetSelectionController {
 	}
 
 	/**
+	 * @return A copy of the current list of selections.
+	 */
+	List<Selection> getSelectionsCopy() {
+		return new ArrayList<>(selections);
+	}
+
+	/**
 	 * Clears the list of selection and adds a single element to it
 	 * @param selection Selection
 	 */
 	public void setSelection(Selection selection) {
 		this.selections.clear();
 		this.selections.add(selection);
+		notifySelectionChanged();
 	}
 
 	/**
@@ -156,6 +169,7 @@ final class SpreadsheetSelectionController {
 		clearSelections();
 		selections.addAll(independent);
 		selections.add(merged);
+		notifySelectionChanged();
 	}
 
 	/**
@@ -166,12 +180,17 @@ final class SpreadsheetSelectionController {
 	 */
 	private void extendSelection(Selection current, Selection other, boolean addSelection) {
 		Selection extendedSelection = current.getExtendedSelection(other);
-		this.selections.remove(current);
+		selections.remove(current);
 		if (addSelection) {
-			this.selections.add(extendedSelection);
+			selections.add(extendedSelection);
+			notifySelectionChanged();
 			return;
 		}
 		setSelection(extendedSelection);
+	}
+
+	private void notifySelectionChanged() {
+		selectionsChanged.notifyListeners(selections);
 	}
 
 	public boolean isSelected(int row, int column) {

@@ -73,7 +73,7 @@ public final class SpreadsheetRenderer {
 			}
 
 			if (!hasError) {
-				graphics.setColor(style.getTextColor());
+				graphics.setColor(style.getTextColor(row, column, style.getDefaultTextColor()));
 				renderable.draw(graphics, cellBorder);
 			}
 		}
@@ -96,7 +96,7 @@ public final class SpreadsheetRenderer {
 	 */
 	public void drawErrorCell(int row, int column, GGraphics2D graphics, Rectangle viewport,
 			double offsetX, double offsetY) {
-		graphics.setColor(style.geErrorGridColor());
+		graphics.setColor(style.getErrorGridColor());
 		graphics.setStroke(borderStroke);
 
 		double topLeftX = Math.max(layout.getX(column) - offsetX, layout.getRowHeaderWidth());
@@ -150,7 +150,7 @@ public final class SpreadsheetRenderer {
 	}
 
 	private void drawErrorString(GGraphics2D graphics, double topLeftX, double topLeftY) {
-		graphics.setColor(style.getTextColor());
+		graphics.setColor(style.getDefaultTextColor());
 		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
 		graphics.drawString(tabularData.getErrorString(), topLeftX + TEXT_PADDING,
 				topLeftY + TEXT_HEIGHT + TEXT_PADDING);

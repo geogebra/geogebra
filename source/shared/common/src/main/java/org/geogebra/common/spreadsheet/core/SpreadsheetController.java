@@ -10,13 +10,13 @@ import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.statistics.AlgoTableToChart;
-import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Point;
@@ -36,17 +36,16 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
  */
 public final class SpreadsheetController {
 
-	private final ContextMenuItems contextMenuItems;
-	private final SpreadsheetSelectionController selectionController
+	final SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
-	final private TabularData<?> tabularData;
+	private final TabularData<?> tabularData;
 
 	//@NonOwning
 	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
 	private Editor editor;
 	private final TableLayout layout;
+	private final ContextMenuItems contextMenuItems;
 
-	private final SpreadsheetStyle style;
 	private DragState dragState;
 	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
@@ -67,7 +66,6 @@ public final class SpreadsheetController {
 		this.viewport = new Rectangle(0, 0, 0, 0);
 		this.cellDragPasteHandler = tabularData.getCellDragPasteHandler();
 		resetDragAction();
-		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(), tabularData.numberOfColumns(),
 				TableLayout.DEFAULT_CELL_HEIGHT, TableLayout.DEFAULT_CELL_WIDTH);
 		contextMenuItems = new ContextMenuItems(this, selectionController);
@@ -112,10 +110,6 @@ public final class SpreadsheetController {
 
 	TableLayout getLayout() {
 		return layout;
-	}
-
-	SpreadsheetStyle getStyle() {
-		return style;
 	}
 
 	@CheckForNull Rectangle getEditorBounds() {
@@ -188,6 +182,19 @@ public final class SpreadsheetController {
 
 	boolean isSelected(int row, int column) {
 		return selectionController.isSelected(row, column);
+	}
+
+	/**
+	 * @return The "first" (upper left) cell in the last selection range, or null if there
+	 * is no selection.
+	 */
+	@Nullable SpreadsheetCoords getLastSelectionUpperLeftCell() {
+		List<TabularRange> visibleSelections = getVisibleSelections();
+		if (visibleSelections.isEmpty()) {
+			return null;
+		}
+		TabularRange range = visibleSelections.get(visibleSelections.size() - 1);
+		return new SpreadsheetCoords(range.getFromRow(), range.getFromColumn());
 	}
 
 	public String getColumnName(int column) {
@@ -959,7 +966,7 @@ public final class SpreadsheetController {
 		return selectionController.isSingleSelectionType();
 	}
 
-	private void storeUndoInfo() {
+	void storeUndoInfo() {
 		if (undoProvider != null) {
 			undoProvider.storeUndoInfo();
 		}

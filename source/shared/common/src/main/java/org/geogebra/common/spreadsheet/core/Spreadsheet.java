@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -20,7 +21,8 @@ import org.geogebra.common.util.shape.Rectangle;
 public final class Spreadsheet implements TabularDataChangeListener {
 
 	private final SpreadsheetController controller;
-
+	private final SpreadsheetStyle style;
+	private final SpreadsheetStyleBarModel styleBarModel;
 	private final SpreadsheetRenderer renderer;
 	private @CheckForNull SpreadsheetDelegate spreadsheetDelegate;
 
@@ -32,8 +34,12 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	public Spreadsheet(@Nonnull TabularData<?> tabularData,
 			@Nonnull CellRenderableFactory rendererFactory, @CheckForNull UndoProvider undoProvider) {
 		controller = new SpreadsheetController(tabularData);
+		style = new SpreadsheetStyle(tabularData.getFormat());
+		styleBarModel = new SpreadsheetStyleBarModel(controller, controller.selectionController,
+				style);
+		style.stylingApplied.addListener(this::stylingApplied);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
-				controller.getStyle(), tabularData);
+				style, tabularData);
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
 		if (undoProvider != null) {
@@ -45,6 +51,17 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	// layout
 
 	// styling
+
+	public @Nonnull SpreadsheetStyleBarModel getStyleBarModel() {
+		return styleBarModel;
+	}
+
+	private void stylingApplied(@Nonnull List<TabularRange> ranges) {
+		ranges.forEach(range ->
+			range.forEach((row, column) -> renderer.invalidate(row, column))
+		);
+		notifyRepaintNeeded();
+    }
 
 	// drawing
 
@@ -64,10 +81,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelectionBorder(range, graphics, viewport, false, false);
 		}
-		if (!visibleSelections.isEmpty()) {
-			TabularRange range = visibleSelections.get(visibleSelections.size() - 1);
-			TabularRange firstCell = new TabularRange(range.getFromRow(), range.getFromColumn());
-			renderer.drawSelectionBorder(firstCell, graphics, viewport, true, false);
+		SpreadsheetCoords selectedCell = controller.getLastSelectionUpperLeftCell();
+		if (selectedCell != null) {
+			renderer.drawSelectionBorder(new TabularRange(selectedCell.row, selectedCell.column),
+					graphics, viewport, true, false);
 		}
 		GPoint2D draggingDot = controller.getDraggingDot();
 		if (draggingDot != null) {
@@ -96,7 +113,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawSelectionHeader(selection, graphics, controller.getViewport())
 		);
 		graphics.translate(-offsetX, 0);
-		graphics.setColor(controller.getStyle().getGridColor());
+		graphics.setColor(style.getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
 			renderer.drawColumnBorder(column, graphics);
 		}
@@ -107,7 +124,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 
 		graphics.translate(offsetX, -offsetY);
-		graphics.setColor(controller.getStyle().getGridColor());
+		graphics.setColor(style.getGridColor());
 		for (int row = portion.fromRow + 1; row <= portion.toRow; row++) {
 			renderer.drawRowBorder(row, graphics);
 		}
@@ -116,7 +133,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawRowHeader(row, graphics, controller::getRowName);
 		}
 		graphics.translate(0, offsetY);
-		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());
+		graphics.setColor(style.getHeaderBackgroundColor());
 		renderer.fillRect(graphics, 0, 0,
 				layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
 
@@ -148,9 +165,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	private void setHeaderColor(GGraphics2D graphics, boolean isSelected) {
 		if (isSelected) {
-			graphics.setColor(controller.getStyle().getSelectedTextColor());
+			graphics.setColor(style.getSelectedTextColor());
 		} else {
-			graphics.setColor(controller.getStyle().getTextColor());
+			graphics.setColor(style.getDefaultTextColor());
 		}
 	}
 
