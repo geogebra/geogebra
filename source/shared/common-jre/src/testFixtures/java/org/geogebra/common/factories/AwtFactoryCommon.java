@@ -7,6 +7,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGradientPaint;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
@@ -74,5 +76,15 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
             this.subImage = subimage;
             this.rect = rect;
         }
+    }
+
+    @Override
+    public GGraphics2D getSVGGraphics(int width, int height) {
+        return new GGraphicsCommon();
+    }
+
+    @Override
+    public GGraphics2D getPDFGraphics(int width, int height) {
+        return new GGraphicsCommon();
     }
 }

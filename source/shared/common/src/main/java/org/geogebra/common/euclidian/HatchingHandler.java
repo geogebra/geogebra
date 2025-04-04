@@ -57,7 +57,7 @@ public class HatchingHandler {
 	 *            needed to determine right font
 	 * @return texture paint
 	 */
-	public final GPaint setHatching(GBasicStroke defObjStroke,
+	public final GPaint getHatchingTexture(GBasicStroke defObjStroke,
 			GColor color, GColor bgColor, double backgroundTransparency,
 			double hatchDist, double angleDegrees, FillType fillType,
 			String symbol, App app) {
@@ -105,7 +105,7 @@ public class HatchingHandler {
 			yInt *= exportScale;
 			dist *= exportScale;
 		}
-
+		bufferedImage = null;
 		GGraphics2D g2d = createImage(bgColor, backgroundTransparency,
 				xInt * exportScale, yInt * exportScale, exportType);
 		g2d.setColor(color);
@@ -196,7 +196,7 @@ public class HatchingHandler {
 		}
 
 		// use the middle square of our 3 x 3 grid to fill with
-		if (exportType != ExportType.NONE) {
+		if (bufferedImage == null) {
 			return new VectorPatternPaint(g2d, width, height, startX, startY, exportType);
 		} else {
 			return AwtFactory.getPrototype().newTexturePaint(
@@ -259,6 +259,7 @@ public class HatchingHandler {
 	 * @param image    image
 	 * @param fallback geo to be used as foreground color if image is not valid
 	 * @param alpha    alpha value
+	 * @param bgColor  object background color
 	 */
 	public void setTexture(GGraphics2D g3, MyImage image, GeoElementND fallback,
 			GColor bgColor, double alpha) {
@@ -307,6 +308,8 @@ public class HatchingHandler {
 		} else {
 			tp = AwtFactory.getPrototype().newTexturePaint(image, tr);
 		}
+		// setColor is overridden by setPaint for most graphics objects
+		// except for canvas2pdf that needs the background color to emulate transparency
 		g3.setColor(view.getBackgroundCommon().deriveWithAlpha(0));
 		g3.setPaint(tp);
 	}

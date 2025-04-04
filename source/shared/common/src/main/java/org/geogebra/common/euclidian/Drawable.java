@@ -715,7 +715,7 @@ public abstract class Drawable extends DrawableND {
 			return;
 		}
 		// use decoStroke as it is always full (not dashed/dotted etc)
-		GPaint gpaint = getHatchingHandler().setHatching(decoStroke,
+		GPaint gpaint = getHatchingHandler().getHatchingTexture(decoStroke,
 				color, geo.getBackgroundColor(),
 				geo.getAlphaValue(), geo.getHatchingDistance(),
 				geo.getHatchingAngle(), geo.getFillType(),

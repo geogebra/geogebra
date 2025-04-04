@@ -87,7 +87,7 @@ public class ChartFilling {
 
 	private void setHatchPaint(Drawable drawable, GColor barColor, HatchingHandler hatchingHandler,
 			ChartStyle chartStyle, int index, GGraphics2D g2) {
-		GPaint gpaint = hatchingHandler.setHatching(drawable.getDecoStroke(),
+		GPaint gpaint = hatchingHandler.getHatchingTexture(drawable.getDecoStroke(),
 				barColor, drawable.getGeoElement().getBackgroundColor(),
 				chartStyle.getBarAlpha(index),
 				chartStyle.getBarHatchDistance(index),

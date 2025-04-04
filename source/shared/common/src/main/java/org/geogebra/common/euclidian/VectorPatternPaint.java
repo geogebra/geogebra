@@ -11,7 +11,7 @@ import org.geogebra.common.main.App;
 public class VectorPatternPaint implements GPaint {
 
 	public final App.ExportType type;
-	private GGraphics2D patternGraphics;
+	private final GGraphics2D patternGraphics;
 
 	private final int startX;
 	private final int startY;
