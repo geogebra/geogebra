@@ -29,6 +29,7 @@ $slider-diameter: 15px;
 		text-align: initial;
 		background: initial;
 		line-height: initial;
+		scrollbar-color: initial;
 	}
 
 	.gwt-Button {
@@ -90,6 +91,7 @@ $slider-diameter: 15px;
 		border-width: 0px;
 		background: initial;
 		table-layout: initial;
+		display: table;
 	}
 
 	.thumb {
@@ -100,7 +102,12 @@ $slider-diameter: 15px;
 		text-transform: initial;
 		line-height: initial;
 		box-shadow: initial;
-	}	
+	}
+
+	.geogebraweb-table-spreadsheet td,
+	.geogebraweb-table-spreadsheet th {
+		border-radius: 0;
+	}
 
 	input:not([type]),
 	input[type=text],
