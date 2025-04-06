@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
  * Filters return early, meaning that if an expression is found that needs to be filtered,
  * further evaluation halts.
  */
-final public class InspectingExpressionFilter implements ExpressionFilter {
+public class InspectingExpressionFilter implements ExpressionFilter {
 
 	final Inspecting inspecting = new ExpressionNodeInspecting();
 	final ExpressionFilter filter;

@@ -80,17 +80,26 @@ import static org.geogebra.common.plugin.Operation.BETA_INCOMPLETE;
 import static org.geogebra.common.plugin.Operation.BETA_INCOMPLETE_REGULARIZED;
 import static org.geogebra.common.plugin.Operation.CI;
 import static org.geogebra.common.plugin.Operation.CONJUGATE;
+import static org.geogebra.common.plugin.Operation.DIVIDE;
 import static org.geogebra.common.plugin.Operation.EI;
 import static org.geogebra.common.plugin.Operation.ERF;
+import static org.geogebra.common.plugin.Operation.FUNCTION;
 import static org.geogebra.common.plugin.Operation.GAMMA;
 import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE;
 import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE_REGULARIZED;
 import static org.geogebra.common.plugin.Operation.IMAGINARY;
+import static org.geogebra.common.plugin.Operation.IS_SUBSET_OF;
+import static org.geogebra.common.plugin.Operation.IS_SUBSET_OF_STRICT;
 import static org.geogebra.common.plugin.Operation.LAMBERTW;
+import static org.geogebra.common.plugin.Operation.MINUS;
+import static org.geogebra.common.plugin.Operation.MULTIPLY;
+import static org.geogebra.common.plugin.Operation.PLUS;
 import static org.geogebra.common.plugin.Operation.POLYGAMMA;
+import static org.geogebra.common.plugin.Operation.POWER;
 import static org.geogebra.common.plugin.Operation.PSI;
 import static org.geogebra.common.plugin.Operation.RANDOM;
 import static org.geogebra.common.plugin.Operation.REAL;
+import static org.geogebra.common.plugin.Operation.SET_DIFFERENCE;
 import static org.geogebra.common.plugin.Operation.SI;
 import static org.geogebra.common.plugin.Operation.ZETA;
 
@@ -106,9 +115,12 @@ import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRe
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionNodeFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -160,7 +172,11 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
-		return Set.of(new ComplexExpressionFilter());
+		return Set.of(
+				new ComplexExpressionFilter(),
+				new MmsListOperationFilter().asInspecting(),
+				new MmsFunctionExpressionFilter().asInspecting()
+		);
 	}
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
@@ -188,7 +204,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		Set<Operation> restrictedOperations = Set.of(
 				ARG, CONJUGATE, REAL, IMAGINARY, ALT, RANDOM, ARCTAN2, ARCTAN2D, BETA,
 				BETA_INCOMPLETE, BETA_INCOMPLETE_REGULARIZED, GAMMA, GAMMA_INCOMPLETE,
-				GAMMA_INCOMPLETE_REGULARIZED, ERF, PSI, POLYGAMMA, SI, CI, EI, ZETA, LAMBERTW);
+				GAMMA_INCOMPLETE_REGULARIZED, ERF, PSI, POLYGAMMA, SI, CI, EI, ZETA, LAMBERTW,
+				IS_SUBSET_OF, IS_SUBSET_OF_STRICT, SET_DIFFERENCE);
 		return operation -> !restrictedOperations.contains(operation);
 	}
 
@@ -306,6 +323,47 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			} else if (isCommand(command, Sum)) {
 				restrictArgumentCount(command, commandProcessor, 4);
 			}
+		}
+	}
+
+	private static boolean isList(ExpressionValue value) {
+		return value.evaluatesToList() && value.getListDepth() != 2;
+	}
+
+	private static boolean isNumber(ExpressionValue value) {
+		return value.getValueType() == ValueType.NUMBER;
+	}
+
+	private static final class MmsListOperationFilter extends ExpressionNodeFilter {
+
+		private static final Set<Operation> operations =
+				Set.of(PLUS, MINUS, MULTIPLY, DIVIDE, POWER);
+
+		@Override
+		protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
+			if (operations.stream().noneMatch(expressionNode::isOperation)) {
+				return true;
+			}
+			ExpressionValue left = expressionNode.getLeft();
+			ExpressionValue right = expressionNode.getRight();
+			if (isList(left)) {
+				return !isList(right) && !isNumber(right);
+			} else if (isNumber(left)) {
+				return !isList(right);
+			}
+			return true;
+		}
+	}
+
+	private static final class MmsFunctionExpressionFilter extends ExpressionNodeFilter {
+
+		@Override
+		protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
+			Operation operation = expressionNode.getOperation();
+			if (Operation.isSimpleFunction(operation) || operation == FUNCTION) {
+				return !isList(expressionNode.getLeft());
+			}
+			return true;
 		}
 	}
 }

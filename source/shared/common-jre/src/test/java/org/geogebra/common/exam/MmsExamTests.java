@@ -8,9 +8,11 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.RemoveLabel
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class MmsExamTests extends BaseExamTests {
@@ -126,6 +129,32 @@ public class MmsExamTests extends BaseExamTests {
 				converter.toLabelAndDescription(barchart, StringTemplate.defaultTemplate));
 	}
 
+	/**
+	 * @return an array of parameters for grid testing list and number operations
+	 */
+	public static String[] createParameters() {
+		String[] lists = {"{1, 2, 3}", "{{1}, 2, 3}"};
+		String[] numbers = {"2", "(1 + 2)"};
+		String[] operators = {"+", "-", "*", "/", "^"};
+		List<String> parameters = new ArrayList<>();
+		for (String list : lists) {
+			for (String number : numbers) {
+				for (String operator : operators) {
+					parameters.add(list + " " + operator + " " + number);
+					parameters.add(number + " " + operator + " " + list);
+					parameters.add(list + " " + operator + " " + list);
+				}
+			}
+		}
+		return parameters.toArray(new String[0]);
+	}
+
+	@ParameterizedTest
+	@MethodSource(value = "createParameters")
+	public void testRestrictedListNumberOperation(String expression) {
+		assertNull(evaluate(expression));
+	}
+
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"Union({1}, {2})",
@@ -134,6 +163,40 @@ public class MmsExamTests extends BaseExamTests {
 	})
 	public void testRestrictedCommands(String expression) {
 		assertNull(evaluate(expression, "1"));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"{1, 2} ⊆ {1, 2, 3}",
+			"{1, 2} ⊂ {1, 2, 3}",
+			"{1, 2} \\ {1, 2, 3}",
+	})
+	public void testRestrictedListOperations(String expression) {
+		assertNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"f({1, 2, 3})",
+			"sin({1, 2, 3})",
+			"tan({1, 2, 3})",
+	})
+	public void testRestrictedFunctions(String expression) {
+		evaluate("f(x) = x^2");
+		assertNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"{{1, 2}, {3, 4}}",
+			"{(1, 2), (3, 4)}",
+			"{{1, 2}, {3, 4}} + {{5, 6}, {7, 8}}",
+			"{{1, 2}, {3, 4}} - {{5, 6}, {7, 8}}",
+			"{{1, 2}, {3, 4}} * {{5, 6}, {7, 8}}",
+			"{{1, 2}, {3, 4}} / {{5, 6}, {7, 8}}",
+	})
+	public void testAllowedLists(String expression) {
+		assertNotNull(evaluate(expression));
 	}
 
 	@ParameterizedTest
