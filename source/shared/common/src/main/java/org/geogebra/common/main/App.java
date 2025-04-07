@@ -135,6 +135,7 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
@@ -4281,7 +4282,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return 9999 (or 200 in web)
 	 */
 	public int getMaxSpreadsheetRowsVisible() {
-		return Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
+		return Spreadsheet.MAX_ROWS;
 	}
 
 	/**
@@ -4289,7 +4290,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return 9999 (or 200 in web)
 	 */
 	public int getMaxSpreadsheetColumnsVisible() {
-		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
+		return Spreadsheet.MAX_COLUMNS;
 	}
 
 	/**

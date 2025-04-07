@@ -139,7 +139,7 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public CellDragPasteHandler<String> getCellDragPasteHandler() {
+	public CellDragPasteHandler getCellDragPasteHandler() {
 		return null;
 	}
 

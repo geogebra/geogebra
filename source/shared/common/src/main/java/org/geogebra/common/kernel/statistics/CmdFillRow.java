@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -42,7 +43,7 @@ public class CmdFillRow extends CommandProcessor {
 
 				int row = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
-				if (row < 0 || row > Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
+				if (row < 0 || row > Spreadsheet.MAX_ROWS) {
 					throw argErr(c, arg[0]);
 				}
 

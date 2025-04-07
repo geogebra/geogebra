@@ -1,16 +1,17 @@
-package org.geogebra.common.spreadsheet.core;
+package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.spreadsheet.core.TabularData;
 
 /**
  * Sortable list of copy/paste cell operations.
  */
 final class CopyPasteCellOperationList {
-	private List<CopyPasteCellOperation> list = new ArrayList<>();
+	private final List<CopyPasteCellOperation> list = new ArrayList<>();
 
 	void clear() {
 		list.clear();

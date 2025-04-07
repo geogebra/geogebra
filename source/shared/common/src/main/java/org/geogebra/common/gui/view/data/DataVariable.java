@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -18,6 +17,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
@@ -629,8 +629,8 @@ public class DataVariable {
 		// CASE 2: spreadsheet cell
 		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 		boolean isCell = location != null
-				&& location.column < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-				&& location.row < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
+				&& location.column < Spreadsheet.MAX_COLUMNS
+				&& location.row < Spreadsheet.MAX_ROWS;
 
 		if (isCell) {
 			for (DataItem dataItem : itemList) {

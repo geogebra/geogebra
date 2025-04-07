@@ -20,6 +20,8 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public final class Spreadsheet implements TabularDataChangeListener {
 
+	public static final int MAX_COLUMNS = 9999;
+	public static final int MAX_ROWS = 9999;
 	private final SpreadsheetController controller;
 	private final SpreadsheetStyle style;
 	private final SpreadsheetStyleBarModel styleBarModel;

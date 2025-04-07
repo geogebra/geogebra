@@ -1,6 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
@@ -232,7 +231,7 @@ final class Selection {
 	 * @return Resulting SelectionType
 	 */
 	private SelectionType getSelectionTypeForExtendingWith(Selection newSelection) {
-		List<SelectionType> selectionTypes = Arrays.asList(this.type, newSelection.type);
+		List<SelectionType> selectionTypes = List.of(this.type, newSelection.type);
 		if (this.type == newSelection.type) {
 			return this.type;
 		} else if (selectionTypes.contains(SelectionType.ALL)) {

@@ -1,4 +1,4 @@
-package org.geogebra.common.spreadsheet.core;
+package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteAdapter;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
@@ -7,6 +7,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.TabularClipboard;
+import org.geogebra.common.spreadsheet.core.TabularData;
+import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 /**

@@ -3,11 +3,11 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
@@ -80,8 +80,8 @@ public class GeoElementSpreadsheet {
 	 */
 	public static String getSpreadsheetCellName(int column, int row) {
 
-		if (column >= Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-				|| row >= Kernel.MAX_SPREADSHEET_ROWS_DESKTOP || column < 0
+		if (column >= Spreadsheet.MAX_COLUMNS
+				|| row >= Spreadsheet.MAX_ROWS || column < 0
 				|| row < 0) {
 			return null;
 		}
@@ -163,7 +163,7 @@ public class GeoElementSpreadsheet {
 			s = s.substring(1);
 		}
 
-		if (column > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP) {
+		if (column > Spreadsheet.MAX_COLUMNS) {
 			return -1;
 		}
 		return column - 1;
@@ -191,7 +191,7 @@ public class GeoElementSpreadsheet {
 			return -1;
 		}
 
-		if (ret + 1 > Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
+		if (ret + 1 > Spreadsheet.MAX_ROWS) {
 			return -1;
 		}
 

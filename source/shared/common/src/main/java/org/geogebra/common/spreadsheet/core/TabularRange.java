@@ -5,8 +5,6 @@ import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.kernel.Kernel;
-
 /**
  * Represents a row x column range of tabular data with absolute and inclusive end cells.
  * For example TabularRange(2, 1, 5, 7) means an 3x6 sized area
@@ -175,8 +173,8 @@ public final class TabularRange {
 	 */
 	public boolean contains(SpreadsheetCoords location) {
 		if (location != null
-				&& location.column < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-				&& location.row < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
+				&& location.column < Spreadsheet.MAX_COLUMNS
+				&& location.row < Spreadsheet.MAX_ROWS) {
 			return contains(location.row, location.column);
 		}
 		return false;
@@ -236,13 +234,13 @@ public final class TabularRange {
 	 * @return true if the cell range has valid coordinates for this table
 	 */
 	public boolean isValid() {
-		return (minRow >= -1 && minRow < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP)
+		return (minRow >= -1 && minRow < Spreadsheet.MAX_ROWS)
 				&& (maxRow >= -1
-				&& maxRow < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP)
+				&& maxRow < Spreadsheet.MAX_ROWS)
 				&& (minColumn >= -1
-				&& minColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP)
+				&& minColumn < Spreadsheet.MAX_COLUMNS)
 				&& (maxColumn >= -1
-				&& maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP);
+				&& maxColumn < Spreadsheet.MAX_COLUMNS);
 	}
 
 	/**

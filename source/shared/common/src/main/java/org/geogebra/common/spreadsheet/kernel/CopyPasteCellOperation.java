@@ -1,7 +1,7 @@
-package org.geogebra.common.spreadsheet.core;
+package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
+import org.geogebra.common.spreadsheet.core.TabularData;
 
 /**
  * It represents a copy/paste operation of a spreadsheet cell.

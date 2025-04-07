@@ -1,4 +1,4 @@
-package org.geogebra.common.spreadsheet.core;
+package org.geogebra.common.spreadsheet.kernel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -11,12 +11,12 @@ import org.geogebra.common.cas.MockCASGiac;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
-import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
+import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
-public class CellDragPasteHandlerTest extends BaseUnitTest {
+public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 
 	private CellDragPasteHandler cellDragPasteHandler;
 	private KernelTabularDataAdapter tabularData;
@@ -25,7 +25,7 @@ public class CellDragPasteHandlerTest extends BaseUnitTest {
 	public void setup() {
 		super.setup();
 		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
-		cellDragPasteHandler = new CellDragPasteHandler(tabularData, getKernel());
+		cellDragPasteHandler = new KernelCellDragPasteHandler(tabularData, getKernel());
 	}
 
 	@Test

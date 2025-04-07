@@ -119,14 +119,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Maximal number of spreadsheet columns if these are increased above 32000,
 	 * you need to change traceRow to an int[]
 	 */
-	final public static int MAX_SPREADSHEET_COLUMNS_DESKTOP = 9999;
-	/** Maximal number of spreadsheet rows */
-	final public static int MAX_SPREADSHEET_ROWS_DESKTOP = 9999;
-
-	/**
-	 * Maximal number of spreadsheet columns if these are increased above 32000,
-	 * you need to change traceRow to an int[]
-	 */
 	final public static int MAX_SPREADSHEET_COLUMNS_WEB = 200;
 	/** Maximal number of spreadsheet rows */
 	final public static int MAX_SPREADSHEET_ROWS_WEB = 350;

@@ -26,7 +26,6 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
-import org.geogebra.common.spreadsheet.core.TabularDataPasteGeos;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 
@@ -317,8 +316,8 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public CellDragPasteHandler<GeoElement> getCellDragPasteHandler() {
-		return new CellDragPasteHandler<>(this, kernel);
+	public CellDragPasteHandler getCellDragPasteHandler() {
+		return new KernelCellDragPasteHandler(this, kernel);
 	}
 
 	@Override
