@@ -286,6 +286,11 @@ public class SpreadsheetDemo {
 				public boolean handleKeyPressForAutoComplete(int keyCode) {
 					return false;
 				}
+
+				@Override
+				public void showSnackbar(@Nonnull String messageKey) {
+					// Not needed
+				}
 			});
 		}
 

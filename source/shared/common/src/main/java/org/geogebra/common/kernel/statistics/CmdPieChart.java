@@ -29,7 +29,7 @@ public class CmdPieChart extends CommandProcessor {
 			center = (GeoPoint) validate(args[1], args[1] instanceof GeoPoint, c);
 		}
 		GeoList data = (GeoList) validate(args[0], args[0].isGeoList(), c);
-		AlgoPieChart algo =  new AlgoPieChart(cons, data, center, radius);
+		AlgoPieChart algo = new AlgoPieChart(cons, data, center, radius);
 		algo.getChart().setLabel(c.getLabel());
 		return new GeoElement[] {algo.getChart()};
 	}

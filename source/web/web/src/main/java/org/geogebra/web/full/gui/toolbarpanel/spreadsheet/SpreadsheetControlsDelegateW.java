@@ -420,4 +420,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	public AppW getApplication() {
 		return editor.app;
 	}
+
+	@Override
+	public void showSnackbar(@Nonnull String messageKey) {
+		String translatedMessage = loc.getMenu(messageKey);
+		getApplication().getToolTipManager().showBottomMessage(translatedMessage,
+				getApplication());
+	}
 }

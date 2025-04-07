@@ -196,6 +196,14 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	/**
+	 * @param constructionDelegate {@link SpreadsheetConstructionDelegate}
+	 */
+	public void setSpreadsheetConstructionDelegate(
+			SpreadsheetConstructionDelegate constructionDelegate) {
+		controller.setSpreadsheetConstructionDelegate(constructionDelegate);
+	}
+
+	/**
 	 * @param x screen coordinate of event
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift

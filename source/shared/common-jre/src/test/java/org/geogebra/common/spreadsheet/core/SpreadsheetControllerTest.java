@@ -24,6 +24,7 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.spreadsheet.kernel.ChartBuilder;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.junit.AfterClass;
@@ -36,7 +37,8 @@ import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
+public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
+        SpreadsheetConstructionDelegate {
     private final double cellHeight = TableLayout.DEFAULT_CELL_HEIGHT;
     private final double cellWidth = 40;
     private final double rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
@@ -49,6 +51,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     private boolean autoCompleteShown = false;
     private String autoCompleteSearchPrefix = "";
     private final List<Integer> receivedKeys = new ArrayList<>();
+    private String chartCommand = "";
+    private String chartError = "";
 
     @BeforeClass
     public static void setupOnce() {
@@ -76,6 +80,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
 
         controller = new SpreadsheetController(tabularData);
         controller.setControlsDelegate(this);
+        controller.setSpreadsheetConstructionDelegate(this);
         controller.getLayout().setHeightForRows(cellHeight, 0, 5);
         controller.getLayout().setWidthForColumns(cellWidth, 0, 5);
         setViewport(new Rectangle(0, 100, 0, 120));
@@ -644,6 +649,50 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         assertEquals("=A1:D1", cellEditor.getMathField().getText());
     }
 
+    @Test
+    public void testPieChartValidDataHasNoError() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        selectCells(0, 0, 2, 0);
+        controller.createChart(Identifier.PIE_CHART);
+        assertEquals("=PieChart(A1:A3,(0,0))", chartCommand);
+        assertEquals("", chartError);
+    }
+
+    @Test
+    public void testPieChartSkipsInvalidData() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "b");
+        tabularData.setContent(3, 0, "3");
+        tabularData.setContent(4, 0, "");
+        tabularData.setContent(5, 0, "a");
+        selectCells(0, 0, 5, 0);
+        controller.createChart(Identifier.PIE_CHART);
+        assertEquals("=PieChart(A1:A6,(0,0))", chartCommand);
+        assertEquals("", chartError);
+    }
+
+    @Test
+    public void testPieChartNotEnoughDataError() {
+        tabularData.setContent(0, 0, "1");
+        selectCells(0, 0, 0, 0);
+        controller.createChart(Identifier.PIE_CHART);
+		assertEquals("", chartCommand);
+        assertEquals("StatsDialog.NoData", chartError);
+    }
+
+    @Test
+    public void testPieChartMultipleColumnError() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(0, 1, "2");
+        selectCells(0, 0, 0, 1);
+        controller.createChart(Identifier.PIE_CHART);
+        assertEquals("", chartCommand);
+        assertEquals("ChartError.OneColumn", chartError);
+    }
+
     // Helpers
 
     private void setViewport(Rectangle viewport) {
@@ -771,5 +820,15 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void showSnackbar(String messageKey) {
+        this.chartError = messageKey;
+    }
+
+    @Override
+    public void createPieChart(TabularData<?> data, TabularRange range) {
+        chartCommand = ChartBuilder.getPieChartCommand(data, range);
     }
 }

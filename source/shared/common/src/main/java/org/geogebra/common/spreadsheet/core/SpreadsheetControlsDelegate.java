@@ -57,4 +57,10 @@ public interface SpreadsheetControlsDelegate {
 	 * shouldn't be processed any further), false otherwise.
 	 */
 	boolean handleKeyPressForAutoComplete(int keyCode);
+
+	/**
+	 * Show snackbar with given message.
+	 * @param messageKey Message key found in the menu localization bundle.
+	 */
+	void showSnackbar(@Nonnull String messageKey);
 }

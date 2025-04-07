@@ -15,8 +15,6 @@ import javax.annotation.Nullable;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
-import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Point;
@@ -42,6 +40,7 @@ public final class SpreadsheetController {
 
 	//@NonOwning
 	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
+	private @CheckForNull SpreadsheetConstructionDelegate constructionDelegate;
 	private Editor editor;
 	private final TableLayout layout;
 	private final ContextMenuItems contextMenuItems;
@@ -78,6 +77,14 @@ public final class SpreadsheetController {
 		this.controlsDelegate = controlsDelegate;
 		editor = null;
 		initCopyPasteCut();
+	}
+
+	/**
+	 * @param constructionDelegate {@link SpreadsheetConstructionDelegate}
+	 */
+	public void setSpreadsheetConstructionDelegate(SpreadsheetConstructionDelegate
+			constructionDelegate) {
+		this.constructionDelegate = constructionDelegate;
 	}
 
 	/**
@@ -1125,9 +1132,8 @@ public final class SpreadsheetController {
 		sb.append(command.getCommand());
 		sb.append("(");
 		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
-			sb.append(GeoElementSpreadsheet.getSpreadsheetCellName(fromCol, fromRow));
-			sb.append(":");
-			sb.append(GeoElementSpreadsheet.getSpreadsheetCellName(toCol, toRow));
+			sb.append(tabularData.getCellName(fromRow, fromCol)).append(":")
+					.append(tabularData.getCellName(toRow, toCol));
 		}
 		sb.append(")");
 
@@ -1136,8 +1142,37 @@ public final class SpreadsheetController {
 
 	// Charts
 
-	void createChart(AlgoTableToChart.ChartType chartType) {
-		// to do implement for different charts
+	void createChart(ContextMenuItem.Identifier chartType) {
+		Selection last = getLastSelection();
+		TabularRange range = last == null ? null : last.getRange();
+
+		if (range == null) {
+			return;
+		}
+
+		switch (chartType) {
+		case PIE_CHART:
+			createPieChart(range);
+			break;
+		case BAR_CHART:
+		case HISTOGRAM:
+		case LINE_CHART:
+		default:
+		}
+	}
+
+	private void createPieChart(TabularRange range) {
+		if (constructionDelegate == null || controlsDelegate == null) {
+			return;
+		}
+
+		if (range.isEntireColumn() || range.isPartialColumn() && !range.isPartialRow()
+				&& !range.isEntireRow()) {
+			constructionDelegate.createPieChart(tabularData, range);
+		} else {
+			controlsDelegate.showSnackbar(range.isSingleCell() ? "StatsDialog.NoData"
+					: "ChartError.OneColumn");
+		}
 	}
 
 	// Autocomplete

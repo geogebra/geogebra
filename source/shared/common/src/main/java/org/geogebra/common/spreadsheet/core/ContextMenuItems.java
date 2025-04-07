@@ -1,10 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
@@ -64,7 +62,7 @@ public class ContextMenuItems {
     }
 
     private List<ContextMenuItem> tableItems(int row, int column) {
-        return Arrays.asList(
+        return List.of(
                 new ContextMenuItem(Identifier.CUT, () -> cutCells(row, column)),
                 new ContextMenuItem(Identifier.COPY, () -> copyCells(row, column)),
                 new ContextMenuItem(Identifier.PASTE, () -> pasteCells(row, column))
@@ -72,28 +70,17 @@ public class ContextMenuItems {
     }
 
     private List<ContextMenuItem> cellItems(int fromRow, int toRow, int fromCol, int toCol) {
-        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? Arrays.asList(
+        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? List.of(
                 new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, fromCol)),
                 new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, fromCol)),
                 new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, fromCol)),
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.CALCULATE,
-                        Arrays.asList(Identifier.SUM, Identifier.MEAN),
-                        Arrays.asList(
+                        List.of(Identifier.SUM, Identifier.MEAN),
+                        List.of(
                                 () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
                                 () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                new ContextMenuItem(Identifier.CREATE_CHART,
-                        Arrays.asList(Identifier.LINE_CHART, Identifier.BAR_CHART,
-                                Identifier.HISTOGRAM, Identifier.PIE_CHART),
-                        Arrays.asList(
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.LineGraph),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.BarChart),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.Histogram),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.PieChart))),
+                getChartMenuItem(),
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
                         () -> insertRowAt(fromRow, false)),
@@ -106,14 +93,14 @@ public class ContextMenuItems {
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(fromRow)),
                 new ContextMenuItem(Identifier.DELETE_COLUMN, () -> deleteColumnAt(fromCol)))
-                : Arrays.asList(
+                : List.of(
                 new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, fromCol)),
                 new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, fromCol)),
                 new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, fromCol)),
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.CALCULATE,
-                        Arrays.asList(Identifier.SUM, Identifier.MEAN),
-                        Arrays.asList(
+                        List.of(Identifier.SUM, Identifier.MEAN),
+                        List.of(
                                 () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
                                 () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
                 new ContextMenuItem(Identifier.DIVIDER),
@@ -128,6 +115,21 @@ public class ContextMenuItems {
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(fromRow)),
                 new ContextMenuItem(Identifier.DELETE_COLUMN, () -> deleteColumnAt(fromCol)));
+    }
+
+    private ContextMenuItem getChartMenuItem() {
+        return new ContextMenuItem(Identifier.CREATE_CHART,
+                List.of(Identifier.LINE_CHART, Identifier.BAR_CHART,
+                        Identifier.HISTOGRAM, Identifier.PIE_CHART),
+                List.of(
+                        () -> spreadsheetController.createChart(
+                                Identifier.LINE_CHART),
+                        () -> spreadsheetController.createChart(
+                                Identifier.BAR_CHART),
+                        () -> spreadsheetController.createChart(
+                                Identifier.HISTOGRAM),
+                        () -> spreadsheetController.createChart(
+                                Identifier.PIE_CHART)));
     }
 
     private void pasteCells(int row, int column) {
@@ -184,28 +186,17 @@ public class ContextMenuItems {
     }*/
 
     private List<ContextMenuItem> rowItems(int fromRow, int toRow) {
-        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? Arrays.asList(
+        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? List.of(
                 new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, -1)),
                 new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, -1)),
                 new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, -1)),
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.CALCULATE,
-                        Arrays.asList(Identifier.SUM, Identifier.MEAN),
-                        Arrays.asList(
+                        List.of(Identifier.SUM, Identifier.MEAN),
+                        List.of(
                                 () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
                                 () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                new ContextMenuItem(Identifier.CREATE_CHART,
-                        Arrays.asList(Identifier.LINE_CHART, Identifier.BAR_CHART,
-                                Identifier.HISTOGRAM, Identifier.PIE_CHART),
-                        Arrays.asList(
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.LineGraph),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.BarChart),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.Histogram),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.PieChart))),
+                getChartMenuItem(),
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
                         () -> insertRowAt(fromRow, false)),
@@ -213,14 +204,14 @@ public class ContextMenuItems {
                         () -> insertRowAt(toRow + 1, true)),
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(fromRow)))
-                : Arrays.asList(
+                : List.of(
                 new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, -1)),
                 new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, -1)),
                 new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, -1)),
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.CALCULATE,
-                        Arrays.asList(Identifier.SUM, Identifier.MEAN),
-                        Arrays.asList(
+                        List.of(Identifier.SUM, Identifier.MEAN),
+                        List.of(
                                 () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
                                 () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
                 new ContextMenuItem(Identifier.DIVIDER),
@@ -233,27 +224,16 @@ public class ContextMenuItems {
     }
 
     private List<ContextMenuItem> columnItems(int fromCol, int toCol) {
-        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? Arrays.asList(
+        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? List.of(
                 new ContextMenuItem(Identifier.CUT, () -> cutCells(-1, fromCol)),
                 new ContextMenuItem(Identifier.COPY, () -> copyCells(-1, fromCol)),
                 new ContextMenuItem(Identifier.PASTE, () -> pasteCells(-1, fromCol)),
                 new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.CALCULATE, Arrays.asList(Identifier.SUM,
-                        Identifier.MEAN), Arrays.asList(
+                new ContextMenuItem(Identifier.CALCULATE, List.of(Identifier.SUM,
+                        Identifier.MEAN), List.of(
                             () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
                             () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                new ContextMenuItem(Identifier.CREATE_CHART,
-                        Arrays.asList(Identifier.LINE_CHART, Identifier.BAR_CHART,
-                                Identifier.HISTOGRAM, Identifier.PIE_CHART),
-                        Arrays.asList(
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.LineGraph),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.BarChart),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.Histogram),
-                                () -> spreadsheetController.createChart(
-                                        AlgoTableToChart.ChartType.PieChart))),
+                getChartMenuItem(),
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
                         () -> insertColumnAt(fromCol, false)),
@@ -262,13 +242,13 @@ public class ContextMenuItems {
                 new ContextMenuItem(Identifier.DIVIDER),
                 new ContextMenuItem(Identifier.DELETE_COLUMN,
                         () -> deleteColumnAt(fromCol)))
-                : Arrays.asList(
+                : List.of(
                 new ContextMenuItem(Identifier.CUT, () -> cutCells(-1, fromCol)),
                 new ContextMenuItem(Identifier.COPY, () -> copyCells(-1, fromCol)),
                 new ContextMenuItem(Identifier.PASTE, () -> pasteCells(-1, fromCol)),
                 new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.CALCULATE, Arrays.asList(Identifier.SUM,
-                        Identifier.MEAN), Arrays.asList(
+                new ContextMenuItem(Identifier.CALCULATE, List.of(Identifier.SUM,
+                        Identifier.MEAN), List.of(
                         () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
                         () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
                 new ContextMenuItem(Identifier.DIVIDER),

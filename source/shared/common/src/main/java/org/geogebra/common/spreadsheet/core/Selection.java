@@ -265,12 +265,10 @@ final class Selection {
 	 * @return Name of this selection, depending on naming of columns in the data.
 	 */
 	public String getName(TabularData<?> tabularData) {
-		String startCell = tabularData.getColumnName(range.getMinColumn())
-				+ tabularData.getRowName(range.getMinRow());
+		String startCell = tabularData.getCellName(range.getMinRow(), range.getMinColumn());
 		if (range.isSingleCell()) {
 			return startCell;
 		}
-		return startCell + ":" + tabularData.getColumnName(range.getMaxColumn())
-				+ tabularData.getRowName(range.getMaxRow());
+		return startCell + ":" + tabularData.getCellName(range.getMaxRow(), range.getMaxColumn());
 	}
 }

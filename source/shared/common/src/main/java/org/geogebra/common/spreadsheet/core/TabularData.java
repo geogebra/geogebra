@@ -90,4 +90,8 @@ public interface TabularData<T> extends HasTabularValues<T> {
 
 	@Nonnull
 	SpreadsheetCellProcessor getCellProcessor();
+
+	default String getCellName(int row, int column) {
+		return getColumnName(column) + getRowName(row);
+	}
 }

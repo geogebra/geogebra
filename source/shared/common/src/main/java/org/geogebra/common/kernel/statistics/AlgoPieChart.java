@@ -51,16 +51,18 @@ public class AlgoPieChart extends AlgoElement {
 		double sum = 0;
 		for (int i = 0; i < data.size(); i++) {
 			double value = data.get(i).evaluateDouble();
-			if (Double.isFinite(value) && value >= 0) {
+			if (isValidValue(value)) {
 				sum += value;
-				chart.getData().add(value);
-			} else {
+			} else if (value < 0) {
 				chart.setUndefined();
 				return;
 			}
 		}
 		for (int i = 0; i < data.size(); i++) {
-			chart.getData().set(i, chart.getData().get(i) / sum);
+			double value = data.get(i).evaluateDouble();
+			if (isValidValue(value)) {
+				chart.getData().add(value / sum);
+			}
 		}
 		chart.setCenter(new GPoint2D(center.getInhomX(), center.getInhomY()));
 		if (radius != null) {
@@ -70,7 +72,7 @@ public class AlgoPieChart extends AlgoElement {
 	}
 
 	private void updateDefaultStyle() {
-		for (int i = 0; i < data.size() ; i++) {
+		for (int i = 0; i < chart.getData().size() ; i++) {
 			if (chart.getStyle().getBarColor(i + 1) != null) {
 				continue;
 			}
@@ -89,5 +91,9 @@ public class AlgoPieChart extends AlgoElement {
 
 	public GeoElement getChart() {
 		return chart;
+	}
+
+	private boolean isValidValue(double value) {
+		return Double.isFinite(value) && value >= 0;
 	}
 }

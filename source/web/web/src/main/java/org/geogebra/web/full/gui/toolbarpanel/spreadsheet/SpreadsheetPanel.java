@@ -4,6 +4,7 @@ import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDelegate;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;
@@ -78,6 +79,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 		spreadsheet.setControlsDelegate(controlsDelegate);
 		spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
+		spreadsheet.setSpreadsheetConstructionDelegate(initConstructionDelegate());
 
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
@@ -183,6 +185,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private SpreadsheetDelegate initSpreadsheetDelegate() {
 		return this::repaint;
+	}
+
+	private DefaultSpreadsheetConstructionDelegate initConstructionDelegate() {
+		return new DefaultSpreadsheetConstructionDelegate(app.getKernel().getAlgebraProcessor());
 	}
 
 	/**
