@@ -502,15 +502,6 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	/**
-	 * returns array of independent GeoElements whose visual representation is
-	 * at streen coords (x,y). order: points, vectors, lines, conics
-	 */
-	/*
-	 * final public ArrayList getMoveableHits(Point p) { return
-	 * getMoveableHits(getHits(p)); }
-	 */
-
-	/**
 	 * @param view
 	 *            view
 	 * @return array of changeable GeoElements out of hits

@@ -68,7 +68,7 @@ public class AlgoSpline extends AlgoElement {
 	 * @param inputList
 	 *            list of points
 	 * @param degree
-	 *            grade of polynoms
+	 *            grade of polynomials
 	 */
 	public AlgoSpline(final Construction cons, final String label,
 			final GeoList inputList, final GeoNumberValue degree,

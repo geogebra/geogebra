@@ -89,7 +89,7 @@ public class AlgoSVD extends AlgoElement {
 
 		try {
 			// make matrix from input list
-			if (!makeMatrixes()) {
+			if (!makeMatrices()) {
 				listOfMatrices.setUndefined();
 				return;
 			}
@@ -112,7 +112,7 @@ public class AlgoSVD extends AlgoElement {
 	}
 
 	// convert list into matrix
-	private final boolean makeMatrixes() {
+	private boolean makeMatrices() {
 		GeoElement geo = null;
 		GeoList row = null;
 		M = new Array2DRowRealMatrix(rows, columns);

@@ -61,7 +61,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	private DrawEquationD drawEquation;
 	private GgbAPIHeadless ggbapi;
 	private SoundManager soundManager;
-	private boolean is3Dactive;
+	private boolean is3DActive;
 	private EuclidianView3DNoGui ev3d;
 
 	/**
@@ -173,12 +173,12 @@ public class AppDNoGui extends AppCommon implements AppDI {
 
 	@Override
 	public void setActiveView(int evID) {
-		this.is3Dactive = evID == App.VIEW_EUCLIDIAN3D;
+		this.is3DActive = evID == App.VIEW_EUCLIDIAN3D;
 	}
 
 	@Override
 	public EuclidianView getActiveEuclidianView() {
-		return is3Dactive && ev3d != null ? ev3d : euclidianView;
+		return is3DActive && ev3d != null ? ev3d : euclidianView;
 	}
 
 	@Override

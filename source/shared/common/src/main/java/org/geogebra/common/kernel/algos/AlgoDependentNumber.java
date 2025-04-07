@@ -135,7 +135,7 @@ public class AlgoDependentNumber extends AlgoElement
 		} else if (isAngle) {
 			number = new GeoAngle(cons);
 
-			// check fileloading to make loading old files (<=4.2) works
+			// check file loading to make loading old files (<=4.2) works
 			// no allowReflexAngle or forceReflexAngle in XML by default
 			if (!cons.isFileLoading() || cons.isAllowUnboundedAngles()) {
 				// make sure eg summing angles of polygon a+b+c+d gives correct

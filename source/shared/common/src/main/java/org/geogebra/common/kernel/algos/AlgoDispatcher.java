@@ -3451,8 +3451,8 @@ public class AlgoDispatcher {
 			GeoImplicit p1, GeoConic c1, double x, double y) {
 		AlgoIntersectImplicitpolys algo = getIntersectionAlgorithm(p1, c1);
 		int idx = algo.getClosestPointIndex(x, y);
-		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
-		GeoPoint point = salgo.getPoint();
+		AlgoIntersectSingle singleAlgo = new AlgoIntersectSingle(label, algo, idx);
+		GeoPoint point = singleAlgo.getPoint();
 		return point;
 	}
 

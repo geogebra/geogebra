@@ -180,14 +180,14 @@ public class AlgoIf extends AlgoElement {
 					kernel.convertNumberValueToExpressionNode(
 							this.alternatives.get(1)));
 		}
-		MyList cond = new MyList(kernel), funs = new MyList(kernel);
+		MyList cond = new MyList(kernel), functions = new MyList(kernel);
 		for (GeoBoolean f : conditions) {
 			cond.addListElement(kernel.convertNumberValueToExpressionNode(f));
 		}
 		for (GeoElement f : alternatives) {
-			funs.addListElement(kernel.convertNumberValueToExpressionNode(f));
+			functions.addListElement(kernel.convertNumberValueToExpressionNode(f));
 		}
-		return new ExpressionNode(kernel, cond, Operation.IF_LIST, funs);
+		return new ExpressionNode(kernel, cond, Operation.IF_LIST, functions);
 	}
 
 	@Override

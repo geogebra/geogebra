@@ -51,13 +51,13 @@ public interface AbsoluteScreenLocateable extends Locateable {
 
 	/**
 	 * 
-	 * @return real world x coordinate
+	 * @return real world x-coordinate
 	 */
 	public double getRealWorldLocX();
 
 	/**
 	 * 
-	 * @return y real worldcoordinate
+	 * @return real world y-coordinate
 	 */
 	public double getRealWorldLocY();
 
