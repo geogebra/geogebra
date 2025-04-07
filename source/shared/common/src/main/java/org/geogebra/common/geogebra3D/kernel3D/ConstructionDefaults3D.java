@@ -143,7 +143,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 		// polyhedron
 		GeoPolyhedron polyhedron = new GeoPolyhedron(cons,
-				GeoPolyhedron.TYPE_UNKNOWN);
+				GeoPolyhedron.Type.UNKNOWN);
 		polyhedron.setLocalVariableLabel("Polyhedron");
 		polyhedron.setObjColor(colPolyhedron());
 		polyhedron.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
@@ -152,7 +152,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 		// archimedean solids (other than tetrahedron and cube)
 		GeoPolyhedron archimedean = new GeoPolyhedron(cons,
-				GeoPolyhedron.TYPE_UNKNOWN);
+				GeoPolyhedron.Type.UNKNOWN);
 		archimedean.setLocalVariableLabel("Archimedean");
 		archimedean.setObjColor(colQuadricAndArchimedeanSolid);
 		archimedean.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
@@ -161,7 +161,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 		// pyramid and cone
 		GeoPolyhedron pyramid = new GeoPolyhedron(cons,
-				GeoPolyhedron.TYPE_PYRAMID);
+				GeoPolyhedron.Type.PYRAMID);
 		pyramid.setLocalVariableLabel("Pyramid");
 		pyramid.setObjColor(colPyramidAndCone);
 		pyramid.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
@@ -169,7 +169,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_PYRAMID_AND_CONE, pyramid);
 
 		// prism and cylinder
-		GeoPolyhedron prism = new GeoPolyhedron(cons, GeoPolyhedron.TYPE_PRISM);
+		GeoPolyhedron prism = new GeoPolyhedron(cons, GeoPolyhedron.Type.PRISM);
 		prism.setLocalVariableLabel("Prism");
 		prism.setObjColor(colPrismAndCylinder);
 		prism.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
@@ -259,15 +259,15 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 		case POLYHEDRON:
 			switch (((GeoPolyhedron) geo).getPolyhedronType()) {
-			case GeoPolyhedron.TYPE_PYRAMID:
-			case GeoPolyhedron.TYPE_TETRAHEDRON:
+			case PYRAMID:
+			case TETRAHEDRON:
 				return DEFAULT_PYRAMID_AND_CONE;
-			case GeoPolyhedron.TYPE_PRISM:
-			case GeoPolyhedron.TYPE_CUBE:
+			case PRISM:
+			case CUBE:
 				return DEFAULT_PRISM_AND_CYLINDER;
-			case GeoPolyhedron.TYPE_OCTAHEDRON:
-			case GeoPolyhedron.TYPE_DODECAHEDRON:
-			case GeoPolyhedron.TYPE_ICOSAHEDRON:
+			case OCTAHEDRON:
+			case DODECAHEDRON:
+			case ICOSAHEDRON:
 				return DEFAULT_ARCHIMDEAN_SOLID;
 			default:
 				return DEFAULT_POLYHEDRON;

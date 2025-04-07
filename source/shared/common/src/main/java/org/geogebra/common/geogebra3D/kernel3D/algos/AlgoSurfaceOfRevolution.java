@@ -119,7 +119,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		if (changeableAngle != null) {
 			ChangeableParent changeableParent = new ChangeableParent(
 					changeableAngle, this.line,
-					new RotationConverter(this.line));
+					new RotationConverter(this.line), surface);
 			surface.setChangeableParent(changeableParent);
 		}
 

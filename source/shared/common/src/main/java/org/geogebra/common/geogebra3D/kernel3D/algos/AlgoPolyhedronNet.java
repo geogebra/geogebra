@@ -29,7 +29,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 
-	protected GeoPolyhedron p;
+	protected GeoPolyhedron polyhedron;
 	protected NumberValue v;
 	private GeoNumeric vNum = null;
 
@@ -61,7 +61,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	public AlgoPolyhedronNet(Construction c, String[] labels, GeoPolyhedron p,
 			NumberValue v) {
 		super(c);
-		this.p = p;
+		this.polyhedron = p;
 		this.v = v;
 		vNum = ChangeableParent.getGeoNumeric(v);
 
@@ -213,7 +213,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	 *            director geo
 	 */
 	final void setChangeableParent(GeoPolygon3D polygon) {
-		ChangeableParent.setPolyhedronNet(polygon, vNum, p);
+		ChangeableParent.setPolyhedronNet(polygon, vNum, polyhedron, polyhedron);
 	}
 
 	/**
@@ -319,7 +319,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	@Override
 	public void compute() {
 
-		if (!p.isDefined()) {
+		if (!polyhedron.isDefined()) {
 			setUndefined();
 			return;
 		}
@@ -332,7 +332,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		}
 
 		// update bottom points
-		GeoPolygon bottomFace = p.getBottomFace();
+		GeoPolygon bottomFace = polyhedron.getBottomFace();
 		if (bottomFace.isConvex()) {
 			getNet().setDefined();
 			Coords[] points = getPointsCoords(bottomFace);
@@ -390,7 +390,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		outputPolygonsBottom.updateParentAlgorithm();
 		outputPolygonsSide.updateParentAlgorithm();
 
-		if (p.getType() == GeoPolyhedron.TYPE_PRISM) {
+		if (polyhedron.getType() == GeoPolyhedron.Type.PRISM) {
 			outputSegmentsTop.updateParentAlgorithm();
 			outputPolygonsTop.updateParentAlgorithm();
 		}

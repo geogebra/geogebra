@@ -12,14 +12,21 @@ import java.util.List;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.UpdateActionStore;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
+import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
+import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
@@ -244,6 +251,48 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertEquals(50, startPoint.getInhomX(), .1);
 		getUndoManager().redo();
 		assertEquals(100, startPoint.getInhomX(), .1);
+	}
+
+	@Test
+	@Issue("APPS-6416")
+	public void undoDraggingNet() {
+		activateUndo();
+		add("c=Cube((0,0,0),(0,0,1))");
+		add("Net(c,0)");
+		GeoSegment3D edgeJT = (GeoSegment3D) lookup("edgeJT");
+		GeoNumeric param = edgeJT.getChangeableParent3D().getNumber();
+		EuclidianView3D view3D = get3Dview();
+		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
+				getUndoManager());
+		getApp().getSelectionManager().addSelectedGeo(edgeJT);
+		actionStore.storeSelection(MoveMode.DEPENDENT);
+		assertThat(edgeJT.getStartPointAsGeoElement(), hasValue("(1, 1, 0)"));
+		assertThat(param, hasValue("0"));
+		Coords startPoint = new Coords(1, 1, 0);
+		edgeJT.getChangeableParent3D().record(view3D, startPoint);
+		edgeJT.getChangeableParent3D().move(new Coords(1, 0, 0),
+				null, view3D.getViewDirection(),
+				null, null,  view3D);
+		assertThat(edgeJT.getStartPointAsGeoElement(), hasValue("(2, 0, 0)"));
+		assertThat(param, hasValue("1"));
+		assertEquals(20, getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D).size());
+		actionStore.storeUndo();
+		getUndoManager().undo();
+		assertThat(edgeJT.getStartPointAsGeoElement(), hasValue("(1, 1, 0)"));
+		assertThat(param, hasValue("0"));
+		// check that no new points were created
+		assertEquals(20, getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D).size());
+		getUndoManager().redo();
+		assertThat(edgeJT.getStartPointAsGeoElement(), hasValue("(2, 0, 0)"));
+		assertThat(param, hasValue("1"));
+		assertEquals(20, getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D).size());
+
+	}
+
+	private EuclidianView3D get3Dview() {
+		return new EuclidianView3DNoGui(
+				new EuclidianController3DNoGui(getApp(), getKernel()),
+				this.getSettings().getEuclidian(3));
 	}
 
 	@Test

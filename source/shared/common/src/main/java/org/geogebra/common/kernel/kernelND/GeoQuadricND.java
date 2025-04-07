@@ -171,7 +171,8 @@ public abstract class GeoQuadricND extends GeoElement
 		if (quadric.hasChangeableParent3D()) {
 			setChangeableParent(quadric.changeableParent.getNumber(),
 					quadric.changeableParent.getDirector().toGeoElement(),
-					quadric.changeableParent.getConverter());
+					quadric.changeableParent.getConverter(),
+					quadric.changeableParent.getSurface());
 		}
 		reuseDefinition(geo);
 	}
@@ -583,11 +584,11 @@ public abstract class GeoQuadricND extends GeoElement
 	 *            number
 	 * @param direction
 	 *            direction
-	 * 
+	 * @param solidQuadric solid quadric (cone/cylinder) that this is a side of
 	 */
 	final public void setChangeableParent(GeoNumeric number,
-			GeoElement direction, CoordConverter converter) {
-		changeableParent = new ChangeableParent(number, direction, converter);
+			GeoElement direction, CoordConverter converter, GeoElementND solidQuadric) {
+		changeableParent = new ChangeableParent(number, direction, converter, solidQuadric);
 	}
 
 	@Override

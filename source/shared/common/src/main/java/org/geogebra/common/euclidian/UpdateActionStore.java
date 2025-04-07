@@ -53,6 +53,10 @@ public class UpdateActionStore {
 	private ArrayList<GeoElement> getGeosToStore() {
 		ArrayList<GeoElement> geosToStore = new ArrayList<>();
 		for (GeoElement geo : selection.getSelectedGeos()) {
+			if (geo.hasChangeableParent3D()) {
+				geosToStore.add(geo.getChangeableParent3D().getSurface());
+				continue;
+			}
 			if (geo.getParentAlgorithm() != null
 					&& !geo.isPointOnPath() && !geo.isPointInRegion()) {
 				geosToStore.addAll(geo.getParentAlgorithm().getDefinedAndLabeledInput());

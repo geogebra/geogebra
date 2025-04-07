@@ -38,7 +38,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	protected OutputHandler<GeoPolygon3D> outputPolygonsSide;
 	protected OutputHandler<GeoPolygon3D> outputPolygonsTop;
 	ChangeableParent heightChangeableParent = null;
-	private int shift;
+	private final int shift;
 
 	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
 
@@ -250,7 +250,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		GeoNumeric changeableHeight = ChangeableParent.getGeoNumeric(height);
 		if (changeableHeight != null) {
 			heightChangeableParent = new ChangeableParent(changeableHeight,
-					polygon, new ExtrudeConverter());
+					polygon, new ExtrudeConverter(), getPolyhedron());
 		}
 
 		initCoords();

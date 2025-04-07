@@ -110,8 +110,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 	}
 
 	@Override
-	protected int getPolyhedronType() {
-		return GeoPolyhedron.TYPE_PYRAMID;
+	protected GeoPolyhedron.Type getPolyhedronType() {
+		return GeoPolyhedron.Type.PYRAMID;
 	}
 
 	@Override

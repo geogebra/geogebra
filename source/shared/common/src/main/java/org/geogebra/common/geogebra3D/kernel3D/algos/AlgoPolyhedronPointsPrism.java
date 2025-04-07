@@ -120,8 +120,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	}
 
 	@Override
-	protected int getPolyhedronType() {
-		return GeoPolyhedron.TYPE_PRISM;
+	protected GeoPolyhedron.Type getPolyhedronType() {
+		return GeoPolyhedron.Type.PRISM;
 	}
 
 	/**

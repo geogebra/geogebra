@@ -84,9 +84,9 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		if (height instanceof GeoNumeric) {
 			if (((GeoNumeric) height).isIndependent()) {
 				side.setChangeableParent((GeoNumeric) height, bottom,
-						new ExtrudeConverter());
+						new ExtrudeConverter(), quadric);
 				top.setChangeableParent((GeoNumeric) height, bottom,
-						new ExtrudeConverter());
+						new ExtrudeConverter(), quadric);
 			}
 		}
 

@@ -2042,12 +2042,12 @@ public class Manager3D implements Manager3DInterface {
 		 */
 		switch (((GeoPolyhedron) p).getType()) {
 
-		case GeoPolyhedron.TYPE_PYRAMID:
+		case PYRAMID:
 			algo = new AlgoPolyhedronNetPyramid(cons, labels, (GeoPolyhedron) p,
 					v);
 			return algo.getOutput();
 
-		case GeoPolyhedron.TYPE_PRISM:
+		case PRISM:
 			algo = new AlgoPolyhedronNetPrism(cons, labels, (GeoPolyhedron) p,
 					v);
 			return algo.getOutput();

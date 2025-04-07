@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.geogebra3D.kernel3D.solid.PlatonicSolid;
 import org.geogebra.common.kernel.Construction;
@@ -108,7 +109,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	}
 
 	@Override
-	protected int getPolyhedronType() {
+	protected GeoPolyhedron.Type getPolyhedronType() {
 		return AlgoArchimedeanSolid.getPolyhedronType(name);
 	}
 

@@ -20,6 +20,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  */
 public class ChangeableParent {
 
+	private final GeoElementND surface;
 	private GeoNumeric changeableNumber = null;
 	private GeoElementND directorGeo = null;
 	private double startValue;
@@ -59,10 +60,10 @@ public class ChangeableParent {
 	 *            polyhedron parent
 	 */
 	static public void setPolyhedronNet(GeoPolygon polygon, GeoNumeric num,
-			GeoPolyhedronInterface polyhedron) {
+			GeoPolyhedronInterface polyhedron, GeoPolyhedronInterface net) {
 		if (num != null) {
 			ChangeableParent cp = new ChangeableParent(polygon, num,
-					polyhedron);
+					polyhedron, net);
 			polygon.setChangeableParent(cp);
 
 			// set segments (if not already done)
@@ -86,12 +87,15 @@ public class ChangeableParent {
 	 *            director
 	 * @param converter
 	 *            converts mouse movement to parameter value
+	 * @param surface object changing as a result of moving the parent
 	 */
-	public ChangeableParent(GeoNumeric number, GeoElementND director, CoordConverter converter) {
+	public ChangeableParent(GeoNumeric number, GeoElementND director, CoordConverter converter,
+			GeoElementND surface) {
 		changeableNumber = number;
 		directorGeo = director;
 		forPolyhedronNet = false;
 		this.converter = converter;
+		this.surface = surface;
 	}
 
 	/**
@@ -105,12 +109,13 @@ public class ChangeableParent {
 	 *            parent polyhedron
 	 */
 	public ChangeableParent(GeoElement child, GeoNumeric number,
-			GeoPolyhedronInterface parent) {
+			GeoPolyhedronInterface parent, GeoElementND surface) {
 		changeableNumber = number;
 		directorGeo = child;
 		forPolyhedronNet = true;
 		this.converter = new PolyhedronNetConverter();
 		this.parent = parent;
+		this.surface = surface;
 	}
 
 	/**
@@ -261,6 +266,10 @@ public class ChangeableParent {
 	 */
 	public CoordConverter getConverter() {
 		return converter;
+	}
+
+	public GeoElement getSurface() {
+		return surface == null ? null : surface.toGeoElement();
 	}
 
 }

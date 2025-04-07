@@ -81,7 +81,7 @@ public class GeoFactory3D extends GeoFactory {
 		case "polyline3d":
 			return new GeoPolyLine3D(cons1, null);
 		case "polyhedron":
-			return new GeoPolyhedron(cons1, GeoPolyhedron.TYPE_UNKNOWN);
+			return new GeoPolyhedron(cons1, GeoPolyhedron.Type.UNKNOWN);
 		case "quadric3d":
 		case "quadric":
 			GeoQuadric3D quadric = new GeoQuadric3D(cons1);

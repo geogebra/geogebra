@@ -106,12 +106,12 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 
 		int sz = points.length;
 
-		Coords[] topP = getPointsCoords(p.getTopFace());
+		Coords[] topP = getPointsCoords(polyhedron.getTopFace());
 
 		Coords topCo = topP[0];
 		topCo.projectPlane(bottomPolygon.getCoordSys().getMatrixOrthonormal(),
 				pp1);
-		double dd1 = p.getOrientedHeight();
+		double dd1 = polyhedron.getOrientedHeight();
 		if (dd1 < 0) { // top point below the bottom face : negative rotation
 			f *= -1;
 			dd1 *= -1;
@@ -158,7 +158,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		// rotation of the top face around first top segment
 		Coords o = topP[1];
 		Coords vs = bottomSegsDirections[0];
-		GeoPolygon side0 = p.getFirstSideFace();
+		GeoPolygon side0 = polyhedron.getFirstSideFace();
 		for (int i = 0; i < sz - 2; i++) {
 			wpoint3 = outputPointsTop.getElement(i);
 			cCoord = wpoint3.getInhomCoordsInD3();
@@ -195,7 +195,7 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 			}
 		}
 
-		getNet().setArea(p.getArea());
+		getNet().setArea(polyhedron.getArea());
 
 	}
 

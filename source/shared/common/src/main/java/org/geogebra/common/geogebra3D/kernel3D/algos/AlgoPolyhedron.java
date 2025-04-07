@@ -70,7 +70,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 * 
 	 * @return type for the output polyhedron
 	 */
-	abstract protected int getPolyhedronType();
+	abstract protected GeoPolyhedron.Type getPolyhedronType();
 
 	/**
 	 * 

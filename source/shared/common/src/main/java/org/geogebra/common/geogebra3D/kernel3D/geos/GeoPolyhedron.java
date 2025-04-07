@@ -70,28 +70,13 @@ public class GeoPolyhedron extends GeoElement3D
 		Path, GeoPolyhedronInterface, GeoNumberValue, Region, HasFaces {
 
 	/** unknown */
-	public static final int TYPE_UNKNOWN = 0;
-	/** pyramid */
-	public static final int TYPE_PYRAMID = 1;
-	/** prism */
-	public static final int TYPE_PRISM = 3;
-	/** tetrahedron */
-	public static final int TYPE_TETRAHEDRON = 4;
-	/** cube */
-	public static final int TYPE_CUBE = 5;
-	/** octahedron */
-	public static final int TYPE_OCTAHEDRON = 6;
-	/** dodecahedron */
-	public static final int TYPE_DODECAHEDRON = 7;
-	/** icosahedron */
-	public static final int TYPE_ICOSAHEDRON = 8;
-	/** net */
-	public static final int TYPE_NET = 9;
-	/** one of the TYPE_* constants */
-	int type;
+	public enum Type {
+		UNKNOWN, PYRAMID, PRISM, TETRAHEDRON,
+		CUBE, OCTAHEDRON, DODECAHEDRON, ICOSAHEDRON, NET
+	}
 
-	/** vertices */
-	// protected ArrayList<GeoPoint3D> points;
+	/** one of the TYPE_* constants */
+	Type type;
 
 	/** edges index */
 	protected TreeMap<ConstructionElementCycle, Long> segmentsIndex;
@@ -298,7 +283,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * @param polyhedronType
 	 *            polyhedron type
 	 */
-	public GeoPolyhedron(Construction c, int polyhedronType) {
+	public GeoPolyhedron(Construction c, Type polyhedronType) {
 		super(c);
 
 		// needs to be done before setConstructionDefaults() as color depends on
@@ -378,7 +363,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * 
 	 * @return the type of polyhedron
 	 */
-	public int getType() {
+	public Type getType() {
 		return type;
 	}
 
@@ -1376,20 +1361,20 @@ public class GeoPolyhedron extends GeoElement3D
 	@Override
 	public String getTypeString() {
 		switch (type) {
-		case TYPE_PRISM:
+		case PRISM:
 			return "Prism";
-		case TYPE_PYRAMID:
+		case PYRAMID:
 			return "Pyramid";
 
-		case TYPE_TETRAHEDRON:
+		case TETRAHEDRON:
 			return "Tetrahedron";
-		case TYPE_CUBE:
+		case CUBE:
 			return "Cube";
-		case TYPE_OCTAHEDRON:
+		case OCTAHEDRON:
 			return "Octahedron";
-		case TYPE_DODECAHEDRON:
+		case DODECAHEDRON:
 			return "Dodecahedron";
-		case TYPE_ICOSAHEDRON:
+		case ICOSAHEDRON:
 			return "Icosahedron";
 
 		default:
@@ -1401,7 +1386,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * 
 	 * @return polyhedron type
 	 */
-	public int getPolyhedronType() {
+	public Type getPolyhedronType() {
 		return type;
 	}
 

@@ -172,7 +172,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	}
 
 	@Override
-	protected int getPolyhedronType() {
+	protected GeoPolyhedron.Type getPolyhedronType() {
 		return getPolyhedronType(name);
 	}
 
@@ -182,19 +182,19 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	 *            command name
 	 * @return polyhedron type for the command name
 	 */
-	static public int getPolyhedronType(Commands name) {
+	static public GeoPolyhedron.Type getPolyhedronType(Commands name) {
 		switch (name) {
 		default:
 		case Tetrahedron:
-			return GeoPolyhedron.TYPE_TETRAHEDRON;
+			return GeoPolyhedron.Type.TETRAHEDRON;
 		case Cube:
-			return GeoPolyhedron.TYPE_CUBE;
+			return GeoPolyhedron.Type.CUBE;
 		case Octahedron:
-			return GeoPolyhedron.TYPE_OCTAHEDRON;
+			return GeoPolyhedron.Type.OCTAHEDRON;
 		case Dodecahedron:
-			return GeoPolyhedron.TYPE_DODECAHEDRON;
+			return GeoPolyhedron.Type.DODECAHEDRON;
 		case Icosahedron:
-			return GeoPolyhedron.TYPE_ICOSAHEDRON;
+			return GeoPolyhedron.Type.ICOSAHEDRON;
 		}
 	}
 

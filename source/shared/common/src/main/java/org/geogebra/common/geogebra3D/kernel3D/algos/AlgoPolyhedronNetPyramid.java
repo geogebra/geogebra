@@ -227,10 +227,10 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 			p1 = new Coords(4);
 		}
 
-		Coords topCoords = p.getTopPoint();
+		Coords topCoords = polyhedron.getTopPoint();
 		topCoords.projectPlane(
 				bottomPolygon.getCoordSys().getMatrixOrthonormal(), p1);
-		double d1 = p.getOrientedHeight();
+		double d1 = polyhedron.getOrientedHeight();
 		double f = f0;
 		Coords faceDirection = bottomPolygon.getDirectionInD3();
 		if (d1 < 0) { // top point below the bottom face : negative rotation
@@ -257,7 +257,7 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 			rotate(wpoint, topCoords, p1, o, vs, f, faceDirection, d1, false);
 		}
 
-		getNet().setArea(p.getArea());
+		getNet().setArea(polyhedron.getArea());
 
 	}
 
