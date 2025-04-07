@@ -22,6 +22,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.InternalClipboard;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -76,7 +77,7 @@ public class CopyPasteW extends CopyPaste {
 					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
 			txt.setLabel(null);
 			app.getDrawEquation().checkFirstCall();
-			String asciiFormula = app.getSyntaxAdapter().convertMath(formula);
+			String asciiFormula = new SyntaxAdapterImpl(app.getKernel()).convertMath(formula);
 			txt.setContent(asciiFormula);
 			center(txt, ev, app);
 		}

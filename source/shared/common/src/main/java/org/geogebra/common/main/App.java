@@ -142,7 +142,6 @@ import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
@@ -443,7 +442,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
-	private SyntaxAdapterImpl syntaxAdapter;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -3984,20 +3982,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public AsyncManagerI getAsyncManager() {
 		return Runnable::run;
-	}
-
-	/**
-	 * @return syntax adapter for all math fields.
-	 */
-	public SyntaxAdapterImpl getSyntaxAdapter() {
-		if (syntaxAdapter == null) {
-			syntaxAdapter = createSyntaxAdapter();
-		}
-		return syntaxAdapter;
-	}
-
-	protected SyntaxAdapterImpl createSyntaxAdapter() {
-		return new SyntaxAdapterImpl(kernel);
 	}
 
 	/**

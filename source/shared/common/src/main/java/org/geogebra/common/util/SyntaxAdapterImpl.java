@@ -1,12 +1,5 @@
 package org.geogebra.common.util;
 
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.Operation;
 
@@ -15,10 +8,9 @@ import org.geogebra.common.plugin.Operation;
  * Compared to parent class, this adds awareness of existing GeoGebra objects
  * and built-in functions.
  */
-public class SyntaxAdapterImpl extends AbstractSyntaxAdapter implements ExamRestrictable {
+public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 
 	private final Kernel kernel;
-	private boolean supportsMixedNumbers = true;
 
 	/**
 	 * @param kernel
@@ -64,26 +56,8 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter implements ExamRest
 		return operation != null && casName.length() > 1;
 	}
 
-	@Override
-	public boolean supportsMixedNumbers() {
-		return supportsMixedNumbers;
-	}
-
 	protected Kernel getKernel() {
 		return kernel;
 	}
 
-	@Override
-	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
-		if (featureRestrictions.contains(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS)) {
-			supportsMixedNumbers = false;
-		}
-	}
-
-	@Override
-	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
-			@Nonnull ExamType examType) {
-		supportsMixedNumbers = true;
-	}
 }

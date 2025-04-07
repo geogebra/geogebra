@@ -7,9 +7,11 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -40,6 +42,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 	private static final int PADDING_TOP = 8;
 
+	private final Kernel kernel;
 	private final AppWFull app;
 	private final GeoGebraFrameFull frame;
 	private KeyboardFlowPanel main;
@@ -85,6 +88,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 */
 	public MathFieldEditor(App app) {
 		this.app = (AppWFull) app;
+		kernel = this.app.getKernel();
 		this.frame = this.app.getAppletFrame();
 	}
 
@@ -92,7 +96,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 
-		mathField = new MathFieldW(app.getSyntaxAdapter(), main,
+		mathField = new MathFieldW(new SyntaxAdapterImplWithPaste(kernel), main,
 				canvas, listener, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setOnBlur(this);

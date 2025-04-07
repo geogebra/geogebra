@@ -246,7 +246,7 @@ public class EditorScreenReaderTest {
 			desc.append(ScreenReaderSerializer.fullDescription(comp, null));
 		}
 		assertEquals("1,2", desc.toString());
-		GeoGebraSerializer gs = new GeoGebraSerializer(null);
+		GeoGebraSerializer gs = new GeoGebraSerializer();
 		gs.setComma("");
 		assertEquals(gs.serialize(mf), "(1,2)");
 	}
@@ -262,7 +262,7 @@ public class EditorScreenReaderTest {
 		mfi.update();
 		ExpressionReader er = ScreenReader.getExpressionReader(app);
 		for (String s : output) {
-			String readerOutput = mfi.getEditorState().getDescription(er, null)
+			String readerOutput = mfi.getEditorState().getDescription(er)
 					.replaceAll(" +", " ");
 			if (!readerOutput.matches(s)) {
 				assertEquals(s, readerOutput);

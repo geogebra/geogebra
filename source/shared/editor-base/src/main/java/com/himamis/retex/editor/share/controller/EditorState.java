@@ -3,7 +3,6 @@ package com.himamis.retex.editor.share.controller;
 import java.util.function.Predicate;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.Tag;
@@ -372,7 +371,7 @@ public class EditorState {
 	 *            expression reader
 	 * @return description of cursor position
 	 */
-	public String getDescription(ExpressionReader er, SyntaxAdapter adapter) {
+	public String getDescription(ExpressionReader er) {
 		MathComponent prev = currentField.getArgument(currentOffset - 1);
 		MathComponent next = currentField.getArgument(currentOffset);
 		StringBuilder sb = new StringBuilder();
@@ -403,7 +402,7 @@ public class EditorState {
 			sb.append(" ");
 		}
 		if (prev != null) {
-			sb.append(describePrev(prev, er, adapter));
+			sb.append(describePrev(prev, er));
 		} else {
 			sb.append(describeParent(ExpRelation.START_OF,
 					currentField.getParent(),
@@ -453,15 +452,15 @@ public class EditorState {
 				&& currentField.getParentIndex() == 0;
 	}
 
-	private String describePrev(MathComponent parent, ExpressionReader er, SyntaxAdapter adapter) {
+	private String describePrev(MathComponent parent, ExpressionReader er) {
 		if (parent instanceof MathFunction
 				&& Tag.SUPERSCRIPT == ((MathFunction) parent).getName()) {
 			return er.localize(ExpRelation.AFTER.toString(), er.power(
 					GeoGebraSerializer.serialize(currentField
-							.getArgument(currentField.indexOf(parent) - 1), adapter),
+							.getArgument(currentField.indexOf(parent) - 1)),
 					GeoGebraSerializer
 							.serialize(
-									((MathFunction) parent).getArgument(0), adapter)));
+									((MathFunction) parent).getArgument(0))));
 		}
 		if (parent instanceof MathCharacter) {
 			StringBuilder sb = new StringBuilder();

@@ -92,9 +92,8 @@ public class KeyboardInputAdapter {
 		adapters.add(new StringInput("mixedNumber") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
-				if (mfi.getInputController().addMixedNumberIfPossible(mfi.getEditorState())) {
-					mfi.notifyAndUpdate("mixedNumber");
-				}
+				mfi.getInputController().mixedNumber(mfi.getEditorState());
+				mfi.notifyAndUpdate("mixedNumber");
 			}
 		});
 

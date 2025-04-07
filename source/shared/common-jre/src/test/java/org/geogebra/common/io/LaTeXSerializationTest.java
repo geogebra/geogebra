@@ -308,7 +308,7 @@ public class LaTeXSerializationTest {
 	}
 
 	private static void checkCanonical(String input, String output) {
-		checkCanonical(input, output, new GeoGebraSerializer(null));
+		checkCanonical(input, output, new GeoGebraSerializer());
 	}
 
 	private static void checkCanonical(String input, String output,
@@ -321,7 +321,7 @@ public class LaTeXSerializationTest {
 	}
 
 	private static void checkCanonicalInputBox(String input, String output) {
-		GeoGebraSerializer geoGebraSerializer = new GeoGebraSerializer(null);
+		GeoGebraSerializer geoGebraSerializer = new GeoGebraSerializer();
 		geoGebraSerializer.forceRoundBrackets();
 		checkCanonical(input, output, geoGebraSerializer);
 	}

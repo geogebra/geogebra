@@ -105,6 +105,8 @@ public class SpreadsheetDemo {
 	}
 
 	private static void initParentPanel(JFrame frame, SpreadsheetPanel spreadsheetPanel) {
+		JScrollBar verticalScrollBar = new JScrollBar();
+		JScrollBar horizontalScrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
 		JPanel scrollPanel = new JPanel();
 		scrollPanel.setLayout(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
 
@@ -121,8 +123,6 @@ public class SpreadsheetDemo {
 		});
 
 		JPanel spreadsheetContainer = new JPanel();
-		JScrollBar verticalScrollBar = new JScrollBar();
-		JScrollBar horizontalScrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
 		spreadsheetContainer.setLayout(new BoxLayout(spreadsheetContainer, BoxLayout.X_AXIS));
 		spreadsheetContainer.add(spreadsheetPanel);
 		spreadsheetContainer.add(verticalScrollBar);
@@ -170,7 +170,7 @@ public class SpreadsheetDemo {
 
 		public SpreadsheetPanel(Spreadsheet spreadsheet, AppCommon app, JFrame frame) {
 			this.spreadsheet = spreadsheet;
-			this.mathField = new MathFieldD(app.getSyntaxAdapter(),
+			this.mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()),
 					editorBox::repaint);
 			editorBox.setBorder(new BevelBorder(BevelBorder.RAISED));
 			editorBox.add(mathField);
@@ -339,8 +339,8 @@ public class SpreadsheetDemo {
 			@Override
 			public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
 				Point locationInWindow = getParent().getLocation();
-				editorBox.setBounds((int) editorBounds.getMinX() + locationInWindow.x,
-						(int) editorBounds.getMinY() + locationInWindow.y,
+				editorBox.setBounds((int) editorBounds.getMinX() + (int)locationInWindow.x,
+						(int) editorBounds.getMinY() + (int)locationInWindow.y,
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
 				mathField.setBounds(0, 0,
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());

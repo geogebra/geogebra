@@ -46,7 +46,7 @@ public class EditorParserTest {
 
 	private static void assertParsesAs(String input, String serialized) {
 		MathFormula formula = parseForEditor(input);
-		GeoGebraSerializer serializer = new GeoGebraSerializer(null);
+		GeoGebraSerializer serializer = new GeoGebraSerializer();
 		String result = serializer.serialize(formula);
 		assertEquals(serialized, result);
 	}
