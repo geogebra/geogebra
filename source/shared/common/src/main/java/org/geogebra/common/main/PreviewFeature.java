@@ -29,8 +29,6 @@ public enum PreviewFeature {
 	MMS_EXAM,
 	/** APPS-5641 */
 	IB_EXAM,
-	/** APPS-5740 */
-	REALSCHULE_EXAM,
 	WTR_EXAM,
 	CREATE_CHART_MENU_ITEM;
 

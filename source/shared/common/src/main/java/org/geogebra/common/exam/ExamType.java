@@ -230,8 +230,6 @@ public enum ExamType {
 			return PreviewFeature.isAvailable(PreviewFeature.IB_EXAM);
 		case MMS:
 			return PreviewFeature.isAvailable(PreviewFeature.MMS_EXAM);
-		case REALSCHULE:
-			return PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_EXAM);
 		case WTR:
 			return PreviewFeature.isAvailable(PreviewFeature.WTR_EXAM);
 		default:
