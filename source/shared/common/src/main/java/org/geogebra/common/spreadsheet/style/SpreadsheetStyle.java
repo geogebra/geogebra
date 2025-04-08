@@ -115,7 +115,7 @@ public final class SpreadsheetStyle {
 	}
 
 	/**
-	 * Set the text alignemnt for a list of ranges.
+	 * Set the text alignment for a list of ranges.
 	 */
 	public void setTextAlignment(@Nonnull TextAlignment textAlignment,
 			@Nonnull  List<TabularRange> ranges) {
