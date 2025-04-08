@@ -65,12 +65,12 @@ public enum ExamType {
 	REALSCHULE() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Bayern Realschulrechner";
+			return "Bayern Grafikrechner";
 		}
 
 		@Override
 		public String getShortDisplayName(Localization loc, AppConfig config) {
-			return "Realschule";
+			return "Bayern GR";
 		}
 
 		@Override
