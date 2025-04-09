@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.full.html5.GMenuBarMock;
-import org.geogebra.web.full.html5.MenuItemFactory;
+import org.geogebra.web.full.gui.menubar.GMenuBarMock;
 import org.geogebra.web.html5.main.AppW;
 
 public class ContextMenuMock {

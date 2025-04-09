@@ -1,6 +1,4 @@
-package org.geogebra.web.full.html5;
-
-import org.geogebra.web.full.gui.AriaMenuItemMock;
+package org.geogebra.web.full.gui;
 
 public class AriaMenuCheckMock extends AriaMenuItemMock {
 	private boolean checked = false;

@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.web.html5.io;
 
 import static org.junit.Assert.assertTrue;
 
@@ -29,9 +29,9 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 		JLMContext2d.class, RootPanel.class, ResizeComposite.class})
 public class LoadFromJsonFileTest {
 	private static final String CLOSED_AV_JSON_PATH =
-			"src/test/java/org/geogebra/web/html5/main/closedAV.json";
+			"src/test/resources/org/geogebra/web/html5/io/closedAV.json";
 	private static final String jsonPath =
-			"src/test/java/org/geogebra/web/html5/main/inRegion.json";
+			"src/test/resources/org/geogebra/web/html5/io/inRegion.json";
 
 	private AppWFull app;
 

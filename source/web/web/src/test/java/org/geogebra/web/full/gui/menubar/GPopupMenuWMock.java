@@ -1,6 +1,5 @@
-package org.geogebra.web.full.html5;
+package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.web.full.gui.menubar.GMenuBar;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;

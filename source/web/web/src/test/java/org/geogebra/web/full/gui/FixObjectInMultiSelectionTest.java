@@ -1,4 +1,4 @@
-package org.geogebra.common.euclidian;
+package org.geogebra.web.full.gui;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.web.full.gui.ContextMenuMock;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;

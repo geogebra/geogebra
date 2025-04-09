@@ -1,9 +1,8 @@
-package org.geogebra.web.main;
+package org.geogebra.web.full.main;
 
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.AppletParameters;

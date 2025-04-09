@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.web.html5.io;
 
 import static org.junit.Assert.assertEquals;
 
@@ -39,7 +39,7 @@ public class TemplateSaveTest {
 		settings.setLastHighlighterThickness(1);
 		settings.setLastSelectedHighlighterColor(GColor.newColor(219, 97, 20));
 		settings.setDeleteToolSize(61);
-		String pathString = "src/test/java/org/geogebra/web/html5/main/templateXML.txt";
+		String pathString = "src/test/resources/org/geogebra/web/html5/io/templateXML.txt";
 		String fileContent = FileIO.load(pathString);
 		StringBuilder sb = new StringBuilder();
 		app.getActiveEuclidianView().getXML(sb, false);

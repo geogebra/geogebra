@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.web.html5.io;
 
 import static org.junit.Assert.assertEquals;
 

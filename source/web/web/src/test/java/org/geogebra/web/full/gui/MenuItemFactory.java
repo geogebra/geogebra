@@ -1,11 +1,11 @@
-package org.geogebra.web.full.html5;
+package org.geogebra.web.full.gui;
 
 import java.util.List;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.AriaMenuItemMock;
-import org.geogebra.web.full.gui.ContextMenuItemFactory;
+import org.geogebra.web.full.gui.menubar.GCheckmarkMenuItemMock;
+import org.geogebra.web.full.gui.menubar.GPopupMenuWMock;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;

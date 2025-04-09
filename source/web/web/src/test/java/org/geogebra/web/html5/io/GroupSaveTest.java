@@ -1,4 +1,4 @@
-package org.geogebra.common.main.saveLoad.group;
+package org.geogebra.web.html5.io;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -28,6 +28,8 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 public class GroupSaveTest {
     private static AppWFull app;
     private static Construction cons;
+    private String pathString = "src/test/resources/org/geogebra/web/html5/io"
+            + "/consWithGroupXML.txt";
 
     @Before
     public void initTest() {
@@ -47,8 +49,7 @@ public class GroupSaveTest {
         geos.add(A);
         geos.add(line.getOutput(0));
         cons.createGroup(geos);
-        String pathString = "src/test/java/org/geogebra/common/main/saveLoad/group"
-                + "/consWithGroupXML.txt";
+
         String fileContent = FileIO.load(pathString);
         StringBuilder consXMLStrBuilder = new StringBuilder();
         app.getKernel().getConstruction().getConstructionXML(consXMLStrBuilder, false);
@@ -57,8 +58,6 @@ public class GroupSaveTest {
 
     @Test
     public void testLoadGroup() {
-        String pathString = "src/test/java/org/geogebra/common/main/saveLoad/group"
-                + "/consWithGroupXML.txt";
         String fileContent = FileIO.load(pathString);
         app.getGgbApi().evalXML(fileContent);
         ArrayList<GeoElement> groupedGeos = cons.getGroups().get(0).getGroupedGeos();
