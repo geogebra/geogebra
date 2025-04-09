@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -50,7 +52,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	public final static int POPUP_MENU_DISTANCE = 8;
 	public final static int QUICK_STYLE_BAR_HEIGHT = 48;
 	private final PropertyWrapper propertyWrapper;
-	private ContextMenuGeoElementW contextMenu;
+	private @CheckForNull ContextMenuGeoElementW contextMenu;
 
 	/**
 	 * @param ev - parent view
@@ -289,8 +291,10 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		IconButton contextMenuBtn = new IconButton(getApp(), null,
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.more_vert_black()), "More");
 
-		contextMenu = createContextMenu(contextMenuBtn);
 		contextMenuBtn.addFastClickHandler((event) -> {
+			if (contextMenu == null) {
+				contextMenu = createContextMenu(contextMenuBtn);
+			}
 			getApp().closePopups();
 			GPopupMenuW popupMenu = contextMenu.getWrappedPopup();
 			if (popupMenu.isMenuShown()) {

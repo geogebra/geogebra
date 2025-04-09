@@ -147,6 +147,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(MathFieldW.class, "checkCode", Void.class);
         StubGenerator.replaceMethodWithMock(Document.class, "createTextNode", Void.class);
         StubGenerator.replaceMethodWithMock(FocusUtil.class, "focusNoScroll", Void.class);
+        StubGenerator.replaceMethodWithMock(CopyPasteW.class, "navigatorSupports", Void.class);
     }
 
     @Override

@@ -42,9 +42,9 @@ import elemental2.dom.EventListener;
 import elemental2.dom.EventTarget;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
+import elemental2.dom.PermissionDescriptor;
 import elemental2.dom.Response;
 import elemental2.dom.URL;
-import elemental2.promise.Promise;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -519,15 +519,18 @@ public class CopyPasteW extends CopyPaste {
 	public static void checkClipboard(AsyncOperation<Boolean> callback) {
 		if (navigatorSupports("clipboard.read")) {
 			if (navigatorSupports("permissions")) {
-				Promise<Permissions.Permission> promise =
-						Permissions.query(JsPropertyMap.of("name", "clipboard-read"));
-
-				promise.then((result) -> {
-					if ("granted".equals(result.state)) {
+				PermissionDescriptor descriptor = PermissionDescriptor.create();
+				descriptor.setName("clipboard-read");
+				DomGlobal.navigator.permissions.query(descriptor).then((result) -> {
+					if (result != null && "granted".equals(result.state)) {
 						onPermission(callback);
 					} else {
 						callback.callback(true);
 					}
+					return null;
+				}).catch_(err -> {
+					Log.debug("No read permission");
+					callback.callback(true);
 					return null;
 				});
 			} else {
@@ -536,11 +539,15 @@ public class CopyPasteW extends CopyPaste {
 				callback.callback(true);
 			}
 		} else {
-			callback.callback(!StringUtil.empty(BrowserStorage.LOCAL.getItem(pastePrefix)));
+			callback.callback(hasLocalPaste());
 		}
 	}
 
-	private static boolean navigatorSupports(String s) {
+	private static Boolean hasLocalPaste() {
+		return !StringUtil.empty(BrowserStorage.LOCAL.getItem(pastePrefix));
+	}
+
+	static boolean navigatorSupports(String s) {
 		return Js.isTruthy(Js.asPropertyMap(DomGlobal.navigator).nestedGet(s));
 	}
 }
