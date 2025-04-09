@@ -4014,6 +4014,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		public char getAxisMinusSign() {
 			switch (this) {
 			case PDF_HTML5:
+				return Unicode.MINUS;
 			case PDF_EMBEDFONTS:
 			case PNG_BRAILLE:
 				return '-';

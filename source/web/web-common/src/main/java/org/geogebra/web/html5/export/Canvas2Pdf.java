@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.export;
 
+import org.geogebra.web.html5.util.JsRunnable;
+
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsConstructor;
@@ -12,7 +14,11 @@ import jsinterop.base.JsPropertyMap;
 public class Canvas2Pdf {
 
 	@JsProperty(name = "canvas2pdf")
-	public static native Object get();
+	public static native Canvas2Pdf get();
+
+	public native void runAfterFontsLoaded(JsRunnable callback);
+
+	public native void setFontPath(String path);
 
 	@JsType(isNative = true, namespace = "canvas2pdf")
 	public static class PdfContext extends CanvasRenderingContext2D {

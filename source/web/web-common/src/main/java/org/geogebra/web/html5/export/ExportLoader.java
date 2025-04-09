@@ -3,6 +3,7 @@ package org.geogebra.web.html5.export;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.gwtutil.ScriptLoadCallback;
+import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
@@ -47,11 +48,16 @@ public final class ExportLoader {
 	 * @param callback to be executed when canvas2pdf is loaded
 	 */
 	@JsOverlay
-	public static void onCanvas2PdfLoaded(Runnable callback) {
+	public static void onCanvas2PdfLoaded(JsRunnable callback) {
+		Runnable onFontsLoaded = () -> {
+			Canvas2Pdf.get().setFontPath(StyleInjector.normalizeUrl(GWT.getModuleBaseURL())
+					+ "js/");
+			Canvas2Pdf.get().runAfterFontsLoaded(callback);
+		};
 		if (getCanvas2Pdf() != null) {
-			callback.run();
+			onFontsLoaded.run();
 		} else {
-			load(callback, "canvas2pdf");
+			load(onFontsLoaded, "canvas2pdf");
 		}
 	}
 

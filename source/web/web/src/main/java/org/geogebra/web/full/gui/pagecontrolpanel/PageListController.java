@@ -226,9 +226,12 @@ public class PageListController implements PageListControllerInterface,
 				ev.exportPaintPre(pdfGraphics, scale, false);
 				ev.drawObjects(pdfGraphics);
 
-			} catch (Exception e) {
-				Log.error(
-						"problem exporting slide " + i + " " + e.getMessage());
+			} catch (RuntimeException e) {
+				if (e.getMessage().contains("Font not loaded")) {
+					throw e;
+				}
+				Log.warn("Problem exporting slide " + i + ".");
+				Log.debug(e);
 			}
 		}
 

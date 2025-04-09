@@ -35,7 +35,6 @@ import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
@@ -1313,33 +1312,9 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void drawStringWithOutline(GGraphics2D g2c, String text, double x,
 			double y, GColor col) {
-
-		// Unicode doesn't work in PDF Export currently
-		// so draw in LaTeX (uses shapes)
-		if (appW.isExporting()) {
-
-			// PDF export doesn't support Unicode
-			// so use LaTeX when
-			if (ExportType.PDF_HTML5.equals(appW.getExportType())
-					&& !StringUtil.isASCII(text)) {
-				// different corner for LaTeX
-				int offsetY = getFontSize();
-
-				// no callback as we're exporting
-				// so font will be loaded already
-				appW.getDrawEquation().drawEquation(appW, null, g2c, (int) x,
-						(int) (y - offsetY), text, g2c.getFont(), false, col,
-						getBackgroundCommon(), true, false, null);
-
-				return;
-			}
-
-			// no outline when exporting
-			super.drawStringWithOutline(g2c, text, x, y, col);
-		}
-
 		// no outline if label color == background color
-		if (g2c instanceof GGraphics2DW && !col.equals(getBackgroundCommon())
+		if (!appW.isExporting()
+				&& g2c instanceof GGraphics2DW && !col.equals(getBackgroundCommon())
 				&& !app.fileVersionBefore(EuclidianView.LABEL_OUTLINES_FROM)) {
 			GGraphics2DW g2 = (GGraphics2DW) g2c;
 			g2.setColor(getBackgroundCommon());

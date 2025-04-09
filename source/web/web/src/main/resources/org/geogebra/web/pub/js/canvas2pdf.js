@@ -9,7 +9,7 @@
  *  Joshua Gould
  *
  *  @license Copyright (c) 2017 Joshua Gould
- */
+*/
 (function(global) {
 	'use strict';
 	/**
@@ -18,6 +18,29 @@
 	 */
 	var canvas2pdf = (typeof canvas2pdf !== 'undefined') ? canvas2pdf : {};
 	global.canvas2pdf = canvas2pdf; // browser global
+	const pendingFonts = new Set();
+	const fonts = {};
+	const fontsLoadedCallbacks = [];
+	canvas2pdf.setFontPath = function(fontPath) {
+		canvas2pdf.fontPath = fontPath;
+	}
+	canvas2pdf.runAfterFontsLoaded = function(callback) {
+		try {
+			callback();
+		} catch (e) {
+			console.log("will retry after fonts loaded: " + e);
+			fontsLoadedCallbacks.push(callback);
+		}
+	}
+	canvas2pdf.addFonts = function(json) {
+		Object.assign(fonts, json);
+		Object.keys(json).forEach(name => pendingFonts.delete(name));
+		if (!pendingFonts.size) {
+			const callbacks = [...fontsLoadedCallbacks];
+			fontsLoadedCallbacks.splice(0);
+			callbacks.forEach(canvas2pdf.runAfterFontsLoaded);
+		}
+	}
 
 	function hslToHex(h, s, l, a) {
 		h = h % 360 + (h < 0) * 360;
@@ -561,6 +584,30 @@
 				c = new PDFFont(b);
 				this.add(c);
 				this.fonts.push(c);
+				if (b.startsWith("Roboto")) {
+					c.subtype = "Type0";
+					const descendant = this.add(new PDFFont("Unicode"));
+					c.baseFont = "Unicode";
+					c.spec = descendant.spec = fonts[b];
+					if (!c.spec) {
+						pendingFonts.add(b);
+						const script = document.createElement("script");
+						script.src = canvas2pdf.fontPath + b.split("-")[0] + ".js";
+						document.head.append(script);
+						throw new Error("Font not loaded: " + b);
+					}
+					descendant.subtype = "CIDFontType2";
+					descendant.cidToGidMap = "Identity";
+					descendant.ratio = b.includes("Serif") ? 1 : .65;
+					this.fonts.push(descendant);
+					c.descendantFonts.push(descendant);
+					c.encoding = "Identity-H";
+					c.toUnicode = this.add(new PDFUnicodeMapping(c.spec));
+					descendant.fontDescriptor = this.add(new PDFFontDescriptor());
+					descendant.fontDescriptor.spec = c.spec;
+					descendant.systemInfo = this.add(new PDFSystemInfo());
+					descendant.fontDescriptor.fontFile = this.add(new PDFFontFile(c.spec));
+				}
 			}
 
 			a.setFont(c)
@@ -569,6 +616,10 @@
 
 	PDFKitMini.prototype.textAdd = function(x, y, text) {
 		var state = this.textStyle.clone();
+		if (this.currentPage.isUnicode || [...text].find(r => r.charCodeAt(0) > 0x7f)) {
+			state.setFontName(state.fontName.startsWith("Times") ? "RobotoSerif" : "Roboto");
+			this.currentPage.isUnicode = true;
+		}
 		this.setFont(state);
 
 		this.currentPage.textAdd(x, y, text, state);
@@ -700,6 +751,9 @@
 	};
 
 	PDFKitMini.prototype.opacity = function(alpha) {
+		if (typeof alpha == 'undefined') {
+			return this.currentPage.currentAlpha;
+		}
 		this.currentPage.setAlpha(alpha)
 	};
 
@@ -770,7 +824,7 @@
 
 		this._write(PDFObject.convert({
 			Size: this.objects.length + 1,
-			Root: new PDFReference(this.catalog.id + " 0 R"),
+			Root: PDFReference.of(this.catalog),
 		}));
 
 		this._write("startxref");
@@ -787,7 +841,7 @@
 	PDFCatalog.prototype.setPages = function(a) {
 		this.props = {
 			"Type": "Catalog",
-			"Pages": new PDFReference(a.id + " 0 R")
+			"Pages": PDFReference.of(a),
 		};
 	};
 
@@ -861,7 +915,7 @@
 			this.fonts.push(d.font);
 		}
 
-		text = PDFObject.convert(new String(text));
+		text = PDFObject.convert(new String(text), d.font.spec);
 
 		this.setAlpha(d.alpha);
 
@@ -994,6 +1048,7 @@
 
 	PDFPage.prototype.restoreContext = function() {
 		this.pdfStream.addText("Q ");
+		this.currentAlpha = undefined;
 	};
 
 	PDFPage.prototype.fill = function(rule) {
@@ -1214,17 +1269,16 @@
 
 		props["Parent"] = new PDFReference(this.pagesID + " 0 R");
 		props["MediaBox"] = [0, 0, this.width, this.height];
-		props["Contents"] = new PDFReference(this.pdfStream.id + " 0 R");
+		props["Contents"] = PDFReference.of(this.pdfStream);
 
-		var fontProps = "<<";
+		var fontProps = {};
 
 		if (this.fonts.length > 0) {
 			for (var c = 0; c < this.fonts.length; c++) {
 				var e = this.fonts[c];
-				fontProps += "/F" + e.id + " " + e.id + " 0 R"
+				fontProps["F" + e.id] = PDFReference.of(e);
 			}
 		}
-		fontProps += ">>";
 
 		var alphaProps = {};
 
@@ -1245,30 +1299,28 @@
 			}
 		}
 
-		var imageProps = "<<";
+		var imageProps = {};
 
 		if (this.images.length > 0) {
 			for (var d = 0; d < this.images.length; d++) {
 				e = this.images[d];
-				imageProps += "/Image" + e.id + " " + e.id + " 0 R"
+				imageProps["Image" + e.id] = PDFReference.of(e);
 			}
 		}
-		imageProps += ">>";
 
-		var patternProps = "<<";
+		var patternProps = {};
 
 		if (this.fillImages.length > 0) {
 			for (d = 0; d < this.fillImages.length; d++) {
 				e = this.fillImages[d];
-				patternProps += "/Paint" + e.id + " " + e.id + " 0 R"
+				patternProps["Paint" + e.id] = PDFReference.of(e);
 			}
 		}
-		patternProps += ">>";
 
 		props["Resources"] = {};
 
 		if (this.fonts.length > 0) {
-			props["Resources"]["Font"] = new PDFReference(fontProps);
+			props["Resources"]["Font"] = fontProps;
 		}
 
 		if (this.alphas.length > 0) {
@@ -1276,22 +1328,105 @@
 		}
 
 		if (this.fillImages.length > 0) {
-			props["Resources"]["Pattern"] = new PDFReference(patternProps);
+			props["Resources"]["Pattern"] = patternProps;
 		}
 
 		if (this.images.length > 0) {
-			props["Resources"]["XObject"] = new PDFReference(imageProps);
+			props["Resources"]["XObject"] = imageProps;
 		}
 
 		return PDFObject.makeObject(props, this.id);
 	};
 
+	function PDFUnicodeMapping(spec) {
+		const bfchars = spec.unicodes
+			.map((unicode, gid) => `<${PDFObject.toHex(gid)}><${PDFObject.toHex(unicode)}>`).join('\n');
+		this.stream = `/CIDInit /ProcSet findresource begin
+                       10 dict begin
+                       begincmap
+                       /CIDSystemInfo
+                       << /Registry (Adobe)
+                       /Ordering (UCS)
+                       /Supplement 0
+                       >> def
+                       /CMapName /Adobe-Identity-UCS def
+                       /CMapType 2 def
+                       1 begincodespacerange
+                       <0000> <FFFF>
+                       endcodespacerange
+                       ${spec.unicodes.length} beginbfchar
+                       ${bfchars}
+                       endbfchar
+                       endcmap
+                       CMapName currentdict /CMap defineresource pop
+                       end
+                       end`;
+	}
+
+	PDFUnicodeMapping.prototype.getObject = function() {
+		var stream = bufferToString(this.stream);
+		var props = {
+			"Length": stream.length,
+		};
+		return PDFObject.makeObject(props, this.id, stream);
+	};
+
+	function PDFSystemInfo() {
+		// hardcoded
+	}
+
+	PDFSystemInfo.prototype.getObject = function() {
+		const props = {
+			"Supplement": 0,
+			"Registry": new PDFReference("(Adobe)"),
+			"Ordering": new PDFReference("(Identity)")
+		}
+		return PDFObject.makeObject(props, this.id);
+	}
+
+	function PDFFontDescriptor() {
+
+	}
+
+	PDFFontDescriptor.prototype.getObject = function() {
+		const props = {
+			"CapHeight": 939,
+			"StemV": 56,
+			"FontBBox": this.spec.bbox,
+			"FontFile2": PDFReference.of(this.fontFile),
+			"Descent": this.spec.bbox[2],
+			"Type": "FontDescriptor",
+			"Flags": 32,
+			"FontName": "Unicode",
+			"ItalicAngle": 0,
+			"Ascent": this.spec.bbox[3],
+		}
+		return PDFObject.makeObject(props, this.id);
+	}
+
+	function PDFFontFile(spec) {
+		this.buffer = atob(spec.base64);
+	}
+
+	PDFFontFile.prototype.getObject = function() {
+		const props = {
+			"Length": this.buffer.length,
+			"Length1": this.buffer.length,
+		}
+		return PDFObject.makeObject(props, this.id, this.buffer);
+	}
+
 	function PDFFont(a) {
 		this.fontName = a;
+		this.descendantFonts = [];
+		this.subtype = "Type1";
+		this.encoding = "WinAnsiEncoding";
 	}
 
 	PDFFont.TIMES = ["Times-Roman", "Times-Italic", "Times-Bold", "Times-BoldItalic"];
 	PDFFont.HELVETICA = ["Helvetica", "Helvetica-Oblique", "Helvetica-Bold", "Helvetica-BoldOblique"];
+	PDFFont.ROBOTO = ["Roboto-Regular", "Roboto-Italic", "Roboto-Bold", "Roboto-BoldItalic"];
+	PDFFont.ROBOTO_SERIF = ["RobotoSerif-Regular", "RobotoSerif-Italic", "RobotoSerif-Bold", "RobotoSerif-BoldItalic"];
 
 	PDFFont.getPDFName = function(font, bold, italic) {
 		var index = (bold ? 2 : 0) + (italic ? 1 : 0);
@@ -1299,18 +1434,41 @@
 		if (font == "Helvetica") {
 			return PDFFont.HELVETICA[index];
 		}
+		if (font == "Roboto") {
+			return PDFFont.ROBOTO[index];
+		}
+		if (font == "RobotoSerif") {
+			return PDFFont.ROBOTO_SERIF[index];
+		}
 
 		return PDFFont.TIMES[index];
 	};
 
 	PDFFont.prototype.getObject = function() {
 		var props = {
-			"Subtype": "Type1",
+			"Subtype": this.subtype,
 			"Name": "F" + this.id,
-			"BaseFont": this.fontName,
-			"Encoding": "WinAnsiEncoding",
-			"Type": "Font"
+			"BaseFont": this.baseFont || this.fontName,
+			"Encoding": this.encoding,
+			"Type": "Font",
+			"DescendantFonts": this.descendantFonts.map(f => PDFReference.of(f)),
 		};
+		if (this.toUnicode) {
+			props["ToUnicode"] = PDFReference.of(this.toUnicode);
+		}
+		if (this.systemInfo) {
+			props["CIDSystemInfo"] = PDFReference.of(this.systemInfo);
+		}
+		if (this.fontDescriptor) {
+			props["FontDescriptor"] = PDFReference.of(this.fontDescriptor);
+		}
+		if (this.cidToGidMap) {
+			props["FontMatrix"] = this.spec.matrix;
+			props["FontBBox"] = this.spec.bbox;
+			props["W"] = new PDFReference('['
+				+ this.spec.widths.map((width, idx) => width && idx ? `${idx} [${width * this.ratio}]`: '').join("") + ']');
+			props["CIDToGIDMap"] = this.cidToGidMap;
+		}
 
 		return PDFObject.makeObject(props, this.id);
 	};
@@ -1436,7 +1594,7 @@
 			"Length": this.stream.length
 		}
 		if (this.mask) {
-			props["SMask"] = new PDFReference(this.mask.id + " 0 R");
+			props["SMask"] = PDFReference.of(this.mask);
 		}
 		if (canvas2pdf.useFlateDecode) {
 			props["Filter"] = "FlateDecode";
@@ -1558,7 +1716,7 @@
 		var matrix = [this.matrix ? this.matrix.m11 : 1, 0, 0, this.matrix ? this.matrix.m22 : 1, 0, 0];
 		if (this.vectorPattern) {
 			this.stream = `/x${this.vectorPattern.id} Do`;
-			vectorRef[`x${this.vectorPattern.id}`] = new PDFReference(this.vectorPattern.id + " 0 R");
+			vectorRef[`x${this.vectorPattern.id}`] = PDFReference.of(this.vectorPattern);
 			matrix = [1, 0, 0, -1, 0, 0];
 		}
 		var props = {
@@ -1670,35 +1828,34 @@
 
 			return ret;
 		}
-
-		PDFObject.convert = function(object) {
-			var e, i, isUnicode, items, key, out, string, val, _i, _ref;
+		PDFObject.toHex = function(num) {
+			return num.toString(16).padStart(4, '0');
+		};
+		PDFObject.fromUnicode = function(num, spec) {
+			const index = spec.unicodes.indexOf(num);
+			return index <= 0 ? spec.unicodes.indexOf(63) : index;
+		}
+		PDFObject.convert = function(object, currentFontSpec) {
+			var e, i, items, key, out, string, val, _i, _ref;
 			if (typeof object === 'string') {
 				return '/' + object;
 			} else if (object instanceof String) {
-				string = object.replace(escapableRe, function(c) {
-					return escapable[c];
-				});
-				isUnicode = false;
-				for (i = _i = 0, _ref = string.length; _i < _ref; i = _i += 1) {
-					if (string.charCodeAt(i) > 0x7f) {
-						isUnicode = true;
-						break;
-					}
-				}
+				string = object;
+				const isUnicode = !!currentFontSpec || [...string].find(r => r.charCodeAt(0) > 0x7f);
 				// just remove Unicode characters for now...
 				if (isUnicode) {
 					var newString = "";
 					for (i = _i = 0, _ref = string.length; _i < _ref; i = _i += 1) {
-						if (string.charCodeAt(i) <= 0x7f) {
-							newString += string[i];
-						} else {
-							newString += "?";
-						}
+						const hexChar = PDFObject.toHex(PDFObject.fromUnicode(string.codePointAt(i), currentFontSpec));
+						newString += hexChar;
 					}
-					string = newString;
+					return '<' + newString + '>';
+				} else {
+					string = object.replace(escapableRe, function(c) {
+						return escapable[c];
+					});
+					return '(' + string + ')';
 				}
-				return '(' + string + ')';
 				//} else if (Buffer.isBuffer(object)) {
 				//  return '<' + object.toString('hex') + '>';
 			} else if (object instanceof PDFReference) {
@@ -1720,7 +1877,7 @@
 				out = ['<<'];
 				for (key in object) {
 					val = object[key];
-					out.push('/' + key + ' ' + PDFObject.convert(val));
+					out.push('/' + key + ' ' + PDFObject.convert(val) + "\n");
 				}
 				out.push('>>');
 				return out.join("") + "\n";
@@ -1740,6 +1897,10 @@
 
 		PDFReference.prototype.toString = function() {
 			return this.str
+		}
+
+		PDFReference.of = function(obj) {
+			return new PDFReference(obj.id + " 0 R");
 		}
 
 		return PDFReference;
