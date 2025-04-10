@@ -2,9 +2,12 @@ package org.geogebra.common.kernel.arithmetic.filter;
 
 import static org.geogebra.common.plugin.Operation.NO_OPERATION;
 
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -18,29 +21,31 @@ public interface OperationFilter {
 	boolean isAllowed(Operation operation);
 
 	/**
-	 * Determines whether the specified expression is allowed or not
-	 * with the specified filter for operations based on their occurrence in the expression.
-	 * @param expressionValue the expression to be evaluated
-	 * @param operationFilter the filter for operations
-	 * @return {@code true} if the expression is allowed, {@code false} otherwise
+	 * Converts this into an {@link ExpressionFilter} that filters nodes with operations
+	 * that are restricted by this operation filter.
+	 * @return an expression filter base on this operation filter
 	 */
-	static boolean isAllowed(ExpressionValue expressionValue, OperationFilter operationFilter) {
-		ExpressionNode expressionNode = null;
-		if (expressionValue instanceof ExpressionNode) {
-			expressionNode = (ExpressionNode) expressionValue;
-		} else if (expressionValue instanceof GeoSymbolic
-				&& ((GeoSymbolic) expressionValue).getValue() instanceof ExpressionNode) {
-			expressionNode = (ExpressionNode) ((GeoSymbolic) expressionValue).getValue();
-		}
-		if (expressionNode == null) {
+	@Nonnull
+	default ExpressionFilter toExpressionFilter() {
+		return this::isAllowed;
+	}
+
+	/**
+	 * Creates an operation filter that restricts the set of operations passed as parameter.
+	 * @param operations operations to restrict
+	 * @return an operation filter
+	 */
+	@Nonnull
+	static OperationFilter restricting(@Nonnull Set<Operation> operations) {
+		return operation -> !operations.contains(operation);
+	}
+
+	private boolean isAllowed(@Nonnull ExpressionValue expressionValue) {
+		if (!(expressionValue instanceof ExpressionNode)) {
 			return true;
 		}
-
+		ExpressionNode expressionNode = (ExpressionNode) expressionValue;
 		Operation operation = expressionNode.getOperation();
-		ExpressionValue right = expressionNode.getRight();
-		ExpressionValue left = expressionNode.getLeft();
-		return (operation == NO_OPERATION || operationFilter.isAllowed(operation))
-				&& (right == null || isAllowed(right, operationFilter))
-				&& (left == null || isAllowed(left, operationFilter));
+		return operation == NO_OPERATION || isAllowed(operation);
 	}
 }

@@ -72,6 +72,7 @@ import static org.geogebra.common.kernel.statistics.Statistic.Q1;
 import static org.geogebra.common.kernel.statistics.Statistic.Q3;
 import static org.geogebra.common.kernel.statistics.Statistic.SD;
 import static org.geogebra.common.plugin.Operation.ALT;
+import static org.geogebra.common.plugin.Operation.AND;
 import static org.geogebra.common.plugin.Operation.ARCTAN2;
 import static org.geogebra.common.plugin.Operation.ARCTAN2D;
 import static org.geogebra.common.plugin.Operation.ARG;
@@ -82,17 +83,29 @@ import static org.geogebra.common.plugin.Operation.CI;
 import static org.geogebra.common.plugin.Operation.CONJUGATE;
 import static org.geogebra.common.plugin.Operation.DIVIDE;
 import static org.geogebra.common.plugin.Operation.EI;
+import static org.geogebra.common.plugin.Operation.EQUAL_BOOLEAN;
 import static org.geogebra.common.plugin.Operation.ERF;
 import static org.geogebra.common.plugin.Operation.FUNCTION;
 import static org.geogebra.common.plugin.Operation.GAMMA;
 import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE;
 import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE_REGULARIZED;
+import static org.geogebra.common.plugin.Operation.GREATER;
+import static org.geogebra.common.plugin.Operation.GREATER_EQUAL;
 import static org.geogebra.common.plugin.Operation.IMAGINARY;
+import static org.geogebra.common.plugin.Operation.IMPLICATION;
+import static org.geogebra.common.plugin.Operation.IS_ELEMENT_OF;
 import static org.geogebra.common.plugin.Operation.IS_SUBSET_OF;
 import static org.geogebra.common.plugin.Operation.IS_SUBSET_OF_STRICT;
 import static org.geogebra.common.plugin.Operation.LAMBERTW;
+import static org.geogebra.common.plugin.Operation.LESS;
+import static org.geogebra.common.plugin.Operation.LESS_EQUAL;
 import static org.geogebra.common.plugin.Operation.MINUS;
 import static org.geogebra.common.plugin.Operation.MULTIPLY;
+import static org.geogebra.common.plugin.Operation.NOT;
+import static org.geogebra.common.plugin.Operation.NOT_EQUAL;
+import static org.geogebra.common.plugin.Operation.OR;
+import static org.geogebra.common.plugin.Operation.PARALLEL;
+import static org.geogebra.common.plugin.Operation.PERPENDICULAR;
 import static org.geogebra.common.plugin.Operation.PLUS;
 import static org.geogebra.common.plugin.Operation.POLYGAMMA;
 import static org.geogebra.common.plugin.Operation.POWER;
@@ -101,8 +114,10 @@ import static org.geogebra.common.plugin.Operation.RANDOM;
 import static org.geogebra.common.plugin.Operation.REAL;
 import static org.geogebra.common.plugin.Operation.SET_DIFFERENCE;
 import static org.geogebra.common.plugin.Operation.SI;
+import static org.geogebra.common.plugin.Operation.XOR;
 import static org.geogebra.common.plugin.Operation.ZETA;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -118,7 +133,9 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.arithmetic.filter.AllowedExpressionsProvider;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.DeepExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionNodeFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
@@ -174,8 +191,12 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
 		return Set.of(
 				new ComplexExpressionFilter(),
-				new MmsListOperationFilter().asInspecting(),
-				new MmsFunctionExpressionFilter().asInspecting()
+				new DeepExpressionFilter(new MmsListOperationFilter()),
+				new DeepExpressionFilter(new MmsFunctionExpressionFilter()),
+				new DeepExpressionFilter(
+						OperationFilter.restricting(restrictedInequalityOperations())
+								.toExpressionFilter())
+						.allowWhen(operatorInInequality())
 		);
 	}
 
@@ -205,8 +226,14 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				ARG, CONJUGATE, REAL, IMAGINARY, ALT, RANDOM, ARCTAN2, ARCTAN2D, BETA,
 				BETA_INCOMPLETE, BETA_INCOMPLETE_REGULARIZED, GAMMA, GAMMA_INCOMPLETE,
 				GAMMA_INCOMPLETE_REGULARIZED, ERF, PSI, POLYGAMMA, SI, CI, EI, ZETA, LAMBERTW,
-				IS_SUBSET_OF, IS_SUBSET_OF_STRICT, SET_DIFFERENCE);
-		return operation -> !restrictedOperations.contains(operation);
+				EQUAL_BOOLEAN, NOT_EQUAL, AND, OR, NOT, XOR, IMPLICATION,
+				PARALLEL, PERPENDICULAR, IS_ELEMENT_OF, IS_SUBSET_OF, IS_SUBSET_OF_STRICT,
+				SET_DIFFERENCE);
+		return OperationFilter.restricting(restrictedOperations);
+	}
+
+	private static Set<Operation> restrictedInequalityOperations() {
+		return Set.of(LESS, GREATER, LESS_EQUAL, GREATER_EQUAL);
 	}
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
@@ -262,6 +289,20 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			return (geoElement instanceof GeoSymbolic && ((GeoSymbolic) geoElement).getTwinGeo()
 					.getParentAlgorithm() instanceof AlgoIntegralDefinite) ? HIDE : IGNORE;
 		}
+	}
+
+	private static AllowedExpressionsProvider operatorInInequality() {
+		Set<Operation> inequalityOperators = restrictedInequalityOperations();
+		return expressionValue -> {
+			if (expressionValue instanceof ExpressionNode) {
+				ExpressionNode node = (ExpressionNode) expressionValue;
+				if (node.containsFreeFunctionVariable(null)
+						&& inequalityOperators.contains(node.getOperation())) {
+					return List.of(node);
+				}
+			}
+			return null;
+		};
 	}
 
 	private static final class MmsCommandArgumentFilter extends BaseCommandArgumentFilter {

@@ -107,4 +107,12 @@ public interface Inspecting {
 	static boolean isFunctionVariable(ExpressionValue value) {
 		return value instanceof FunctionVariable;
 	}
+
+	/**
+	 * @param value value to test
+	 * @return {@code true} if value is a {@link BooleanValue}
+	 */
+	static boolean isBooleanValue(ExpressionValue value) {
+		return value instanceof BooleanValue;
+	}
 }

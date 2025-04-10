@@ -68,8 +68,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.filter.CompositeExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.DeepExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.InspectingExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.AbsExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.InnerProductExpressionFilter;
@@ -321,7 +321,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				new InnerProductExpressionFilter(),
 				new PowerInnerProductExpressionFilter(),
 				new VectorProductExpressionFilter());
-		return Set.of(new InspectingExpressionFilter(new CompositeExpressionFilter(filters)));
+		return Set.of(new DeepExpressionFilter(new CompositeExpressionFilter(filters)));
 	}
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
@@ -491,10 +491,10 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		return
 				// it is an equation
 				equation != null
-				// with a single "y" variable on the left-hand side
-				&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
-				// and any variables on the right-hand side (if any) are all "x".
-				&& equation.getRHS().any(value -> "x".equals(unwrapVariable(value)));
+						// with a single "y" variable on the left-hand side
+						&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
+						// and any variables on the right-hand side (if any) are all "x".
+						&& equation.getRHS().any(value -> "x".equals(unwrapVariable(value)));
 	}
 
 	private static boolean isLinearEquation(GeoElement geoElement) {

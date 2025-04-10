@@ -222,4 +222,44 @@ public class MmsExamTests extends BaseExamTests {
 		String sumSyntax = app.getLocalization().getCommandSyntax(Commands.Sum.getCommand());
 		assertFalse(sumSyntax.toLowerCase().contains("end value"));
 	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"1 == 2",
+			"1 != 2",
+			"1 < 2",
+			"1 > 2",
+			"1 <= 2",
+			"1 >= 2",
+			"true && false",
+			"true || false",
+			"!true",
+			"true ⊕ false",
+			"true -> false",
+			"3x < 5 + (true && true)",
+			"5 ∈ {1, 2, 3, 4, 5}"
+	})
+	public void testRestrictedOperators(String expression) {
+		assertNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"2 x – 1 < 3",
+			"4 >= 5x^2"
+	})
+	public void testInequalitiesAllowed(String expression) {
+		assertNotNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"a ∥ b",
+			"a ⊥ b",
+	})
+	public void testRestrictedLineOperators(String expression) {
+		evaluate("a : x + 5 = 0");
+		evaluate("b : x - 5 = 0");
+		assertNull(evaluate(expression));
+	}
 }

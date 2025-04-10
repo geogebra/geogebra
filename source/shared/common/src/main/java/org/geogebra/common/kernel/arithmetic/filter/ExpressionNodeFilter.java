@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
 /**
  * Base class for filtering expression nodes based on some criteria.
- * Look into {@link InspectingExpressionFilter} to filter at every level
+ * Look into {@link DeepExpressionFilter} to filter at every level
  * of an expression tree.
  */
 public abstract class ExpressionNodeFilter implements ExpressionFilter {

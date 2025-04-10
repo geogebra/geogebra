@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.kernel.arithmetic.filter.CompositeExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.DeepExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.InspectingExpressionFilter;
 
 /**
  * ExpressionFilter factory for the Graphing app.
@@ -27,6 +27,6 @@ final public class GraphingExpressionFilterFactory {
 				new VectorProductExpressionFilter());
 		CompositeExpressionFilter compositeExpressionFilter =
 				new CompositeExpressionFilter(filters);
-		return new InspectingExpressionFilter(compositeExpressionFilter);
+		return new DeepExpressionFilter(compositeExpressionFilter);
 	}
 }

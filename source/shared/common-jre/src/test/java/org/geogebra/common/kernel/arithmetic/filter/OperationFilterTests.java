@@ -37,7 +37,7 @@ public class OperationFilterTests {
 	private final OperationFilter operationFilter =
 			operation -> !Set.of(RANDOM, SIN, COS).contains(operation);
 	private final ExpressionFilter operationExpressionFilter =
-			expression -> OperationFilter.isAllowed(expression, operationFilter);
+			new DeepExpressionFilter(operationFilter.toExpressionFilter());
 
 	private void setupApp(SuiteSubApp subApp) {
 		app = AppCommonFactory.create(createConfig(subApp));
@@ -68,6 +68,7 @@ public class OperationFilterTests {
 			"sin(pi / 2)",
 			"cos(1)",
 			"1 / cos(pi / 6)",
+			"{ cos(1) }"
 	})
 	public void testRestrictedExpressionsInGraphing(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);

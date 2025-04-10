@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.DisabledAlgorithms;
+import org.geogebra.common.kernel.arithmetic.filter.DeepExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -484,7 +485,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			filters.addAll(expressionFilters);
 		}
 		if (operationFilter != null) {
-			filters.add(expression -> OperationFilter.isAllowed(expression, operationFilter));
+			filters.add(new DeepExpressionFilter(operationFilter.toExpressionFilter()));
 		}
 		return filters;
 	}
