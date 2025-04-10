@@ -803,7 +803,11 @@ public class AppletParameters {
 		return getIntDataParam("maxHeight", -1);
 	}
 
-	public boolean getParamFontAwesome() {
-		return getBoolDataParam("fontAwesome", false);
+	/**
+	 * @param fallback value to be used if not set
+	 * @return value of the data-param-fontAwesome attribute
+	 */
+	public boolean getParamFontAwesome(boolean fallback) {
+		return getBoolDataParam("fontAwesome", fallback);
 	}
 }
