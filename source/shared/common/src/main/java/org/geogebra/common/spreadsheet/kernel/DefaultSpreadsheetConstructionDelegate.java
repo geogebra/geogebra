@@ -28,5 +28,14 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 		}
 		processCommand(command);
 	}
+
+	@Override
+	public void createBarChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
+		String command = ChartBuilder.getBarChartCommand(data, range);
+		if (command == null) {
+			return;
+		}
+		processCommand(command);
+	}
 }
 

@@ -28,7 +28,6 @@ public final class ChartBuilder {
 	private static String getPieChartCommand(TabularData<?> data,
 			int fromRow, int fromCol, int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("=");
 		sb.append("PieChart");
 		sb.append("(");
 		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
@@ -37,6 +36,37 @@ public final class ChartBuilder {
 		}
 		sb.append(",");
 		sb.append("(0,0)");
+		sb.append(")");
+		return sb.toString();
+	}
+
+	/**
+	 * Builds the bar chart command based on selection range: first column as list of data,
+	 * second column as list of frequencies.
+	 * @param data - data
+	 * @param range - selected range
+	 * @return bar chart command, e.g. =BarChart(A1:A3,B1:B3)
+	 */
+	@Nullable
+	public static String getBarChartCommand(TabularData<?> data, TabularRange range) {
+		if (range.getWidth() == 2) {
+			return getBarChartCommand(data, range.getFromRow(), range.getFromColumn(),
+					range.getToRow(), range.getToColumn());
+		}
+		return null;
+	}
+
+	private static String getBarChartCommand(TabularData<?> data,
+			int fromRow, int fromCol, int toRow, int toCol) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("BarChart");
+		sb.append("(");
+		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
+			sb.append(data.getCellName(fromRow, fromCol)).append(":")
+					.append(data.getCellName(toRow, fromCol));
+			sb.append(",").append(data.getCellName(fromRow, toCol)).append(":")
+					.append(data.getCellName(toRow, toCol));
+		}
 		sb.append(")");
 		return sb.toString();
 	}

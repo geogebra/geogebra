@@ -656,7 +656,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         tabularData.setContent(2, 0, "3");
         selectCells(0, 0, 2, 0);
         controller.createChart(Identifier.PIE_CHART);
-        assertEquals("=PieChart(A1:A3,(0,0))", chartCommand);
+        assertEquals("PieChart(A1:A3,(0,0))", chartCommand);
         assertEquals("", chartError);
     }
 
@@ -670,7 +670,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         tabularData.setContent(5, 0, "a");
         selectCells(0, 0, 5, 0);
         controller.createChart(Identifier.PIE_CHART);
-        assertEquals("=PieChart(A1:A6,(0,0))", chartCommand);
+        assertEquals("PieChart(A1:A6,(0,0))", chartCommand);
         assertEquals("", chartError);
     }
 
@@ -691,6 +691,40 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         controller.createChart(Identifier.PIE_CHART);
         assertEquals("", chartCommand);
         assertEquals("ChartError.OneColumn", chartError);
+    }
+
+    @Test
+    public void testBarChartValidDataHasNoError() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        tabularData.setContent(0, 1, "4");
+        tabularData.setContent(1, 1, "5");
+        tabularData.setContent(2, 1, "6");
+        selectCells(0, 0, 2, 1);
+        controller.createChart(Identifier.BAR_CHART);
+        assertEquals("BarChart(A1:A3,B1:B3)", chartCommand);
+        assertEquals("", chartError);
+    }
+
+    @Test
+    public void testBarChartNotEnoughDataError() {
+        tabularData.setContent(0, 0, "1");
+        selectCells(0, 0, 0, 0);
+        controller.createChart(Identifier.BAR_CHART);
+        assertEquals("", chartCommand);
+        assertEquals("StatsDialog.NoData", chartError);
+    }
+
+    @Test
+    public void testBarChartTwoColumnNeededError() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(0, 1, "2");
+        tabularData.setContent(0, 2, "3");
+        selectCells(0, 0, 0, 2);
+        controller.createChart(Identifier.BAR_CHART);
+        assertEquals("", chartCommand);
+        assertEquals("ChartError.TwoColumns", chartError);
     }
 
     // Helpers
@@ -830,5 +864,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     @Override
     public void createPieChart(TabularData<?> data, TabularRange range) {
         chartCommand = ChartBuilder.getPieChartCommand(data, range);
+    }
+
+    @Override
+    public void createBarChart(TabularData<?> data, TabularRange range) {
+        chartCommand = ChartBuilder.getBarChartCommand(data, range);
     }
 }

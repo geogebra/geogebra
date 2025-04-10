@@ -161,7 +161,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			GeoNumeric width) {
 		this(cons, list1, null, width, null, null, null, TYPE_BARCHART_RAWDATA);
 		sum.setLabel(label);
-
 	}
 
 	/**
@@ -181,7 +180,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		this(cons, list1, null, width, null, null, null, scale,
 				TYPE_BARCHART_RAWDATA);
 		sum.setLabel(label);
-
 	}
 
 	/******************************************************
@@ -232,7 +230,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 *            second list
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2) {
-
 		this(cons, list1, list2, null, null, null, null,
 				TYPE_BARCHART_FREQUENCY_TABLE);
 	}
@@ -254,7 +251,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoList list2, GeoNumberValue width) {
-
 		this(cons, list1, list2, width, null, null, null,
 				TYPE_BARCHART_FREQUENCY_TABLE_WIDTH);
 		sum.setLabel(label);
@@ -275,7 +271,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
 			GeoNumberValue width) {
-
 		this(cons, list1, list2, width, null, null, null,
 				TYPE_BARCHART_FREQUENCY_TABLE_WIDTH);
 	}
@@ -306,10 +301,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoList list2, GeoNumberValue width, GeoBoolean isHorizontal,
 			GeoBoolean join, GeoNumeric pointType, int type) {
-
 		this(cons, list1, list2, width, isHorizontal, join, pointType, type);
 		sum.setLabel(label);
-
 	}
 
 	/******************************************************
@@ -335,10 +328,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
 			GeoNumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
 			GeoNumeric pointType, int type) {
-
 		this(cons, list1, list2, width, isHorizontal, join, pointType, null,
 				type);
-
 	}
 
 	/******************************************************
@@ -409,7 +400,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	public AlgoBarChart(Construction cons, String label, GeoNumberValue p1,
 			GeoNumberValue p2, GeoNumberValue p3, GeoBoolean isCumulative,
 			int type) {
-
 		super(cons);
 
 		this.type = type;
@@ -454,7 +444,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	protected AlgoBarChart(GeoNumberValue p1, GeoNumberValue p2,
 			GeoNumberValue p3, GeoBoolean isCumulative, int type,
 			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders) {
-
 		super(p1.getConstruction(), false);
 
 		this.type = type;
@@ -502,7 +491,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		barWidth = widthGeo.evaluateDouble();
 		this.yval = vals;
 		this.leftBorder = borders;
-
 	}
 
 	private AlgoBarChart(Construction cons, double[] vals, double[] borders,
@@ -521,29 +509,20 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-
 		ArrayList<GeoElement> list = new ArrayList<>();
 
 		switch (type) {
-		default:
-			// do nothing
-			break;
-
 		case TYPE_BARCHART_EXPRESSION:
-
 			input = new GeoElement[3];
 			input[0] = a.toGeoElement();
 			input[1] = b.toGeoElement();
 			input[2] = list1;
 			break;
-
 		case TYPE_BARCHART_RAWDATA:
 			createHelperAlgos(list1, scale);
-
 			// fall through
 		case TYPE_BARCHART_FREQUENCY_TABLE:
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
-
 			list.add(list1);
 			if (list2 != null) {
 				list.add(list2);
@@ -559,9 +538,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			input = new GeoElement[list.size()];
 			input = list.toArray(input);
 			break;
-
 		case TYPE_STICKGRAPH:
-
 			list.add(list1);
 			if (list2 != null) {
 				list.add(list2);
@@ -574,9 +551,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			input = new GeoElement[list.size()];
 			input = list.toArray(input);
 			break;
-
 		case TYPE_STEPGRAPH:
-
 			list.add(list1);
 			if (list2 != null) {
 				list.add(list2);
@@ -592,7 +567,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			input = new GeoElement[list.size()];
 			input = list.toArray(input);
 			break;
-
 		case TYPE_BARCHART_BERNOULLI:
 		case TYPE_BARCHART_BINOMIAL:
 		case TYPE_BARCHART_PASCAL:
@@ -614,10 +588,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			input = new GeoElement[inputList.size()];
 			input = inputList.toArray(input);
 			break;
+		default:
+			// do nothing
+			break;
 		}
 		setOnlyOutput(sum);
 		setDependencies(); // done by AlgoElement
-
 	}
 
 	// ======================================================
@@ -647,7 +623,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * @return maximum frequency of a bar chart
 	 */
 	public double getFreqMax() {
-
 		freqMax = 0.0;
 		for (int k = 0; k < yval.length; ++k) {
 			freqMax = Math.max(yval[k], freqMax);
@@ -736,7 +711,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * @return the type of graph to draw
 	 */
 	public DrawType getDrawType() {
-
 		// case 1: step graphs
 		if (type == TYPE_STEPGRAPH) {
 			if (hasJoin != null && hasJoin.getBoolean()) {
@@ -771,7 +745,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * @return point style
 	 */
 	public int getPointType() {
-
 		if (type == TYPE_STICKGRAPH) {
 			return DrawBarGraph.POINT_LEFT;
 		}
@@ -784,7 +757,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			p = DrawBarGraph.POINT_NONE;
 		}
 		return p;
-
 	}
 
 	// ======================================================
@@ -793,22 +765,15 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 	@Override
 	public void compute() {
-
 		isAreaSum = true;
 
 		switch (type) {
-
-		default:
-			// do nothing
-			break;
 		case TYPE_BARCHART_FREQUENCY_TABLE:
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
 			computeWithFrequency();
 			break;
-
 		case TYPE_STICKGRAPH:
 		case TYPE_STEPGRAPH:
-
 			isAreaSum = false;
 
 			if (list1 == null || !list1.isDefined()) {
@@ -827,21 +792,17 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				computeFromValueFrequencyLists(list1, list2);
 			}
 			break;
-
 		case TYPE_BARCHART_EXPRESSION:
 			computeWithExp();
 			break;
-
 		case TYPE_BARCHART_RAWDATA:
 			computeWithRawData();
 			break;
-
 		case TYPE_BARCHART_BINOMIAL:
 		case TYPE_BARCHART_POISSON:
 		case TYPE_BARCHART_HYPERGEOMETRIC:
 		case TYPE_BARCHART_PASCAL:
 		case TYPE_BARCHART_ZIPF:
-
 			if (!prepareDistributionLists()) {
 				sum.setUndefined();
 				return;
@@ -849,7 +810,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			barWidth = -1;
 			computeWithFrequency();
 			break;
-
+		default:
+			// do nothing
+			break;
 		}
 	}
 
@@ -861,7 +824,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			return;
 		}
 
-		int N = list1.size();
+		int N;
 
 		double ad = a.getDouble();
 		double bd = b.getDouble();
@@ -906,11 +869,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		sum.setIntervals(N);
 		sum.setValue(ySum * barWidth);
 		dataSize = ySum;
-
 	}
 
 	private void computeWithRawData() {
-
 		if (widthGeo == null || !widthGeo.isDefined()) {
 			sum.setUndefined();
 			return;
@@ -923,11 +884,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		computeFromValueFrequencyLists(algoFreq.getValue(),
 				algoFreq.getResult());
-
 	}
 
 	private void computeWithFrequency() {
-
 		if (list1 == null || !list1.isDefined()) {
 			sum.setUndefined();
 			return;
@@ -937,33 +896,25 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			sum.setUndefined();
 			return;
 		}
-		if (list1.size() == 0 || list1.size() != list2.size()) {
-			sum.setUndefined();
-			return;
-		}
 
 		if (type == TYPE_BARCHART_FREQUENCY_TABLE_WIDTH) {
-
 			if (widthGeo == null || !widthGeo.isDefined()) {
 				sum.setUndefined();
 				return;
 			}
-			barWidth = ((GeoNumeric) widthGeo).getDouble();
+			barWidth = widthGeo.getDouble();
 			if (barWidth < 0) {
 				sum.setUndefined();
 				return;
 			}
-
 		} else {
 			barWidth = -1;
 		}
 
 		computeFromValueFrequencyLists(list1, list2);
-
 	}
 
 	private void computeFromValueFrequencyLists(GeoList xList, GeoList yList) {
-
 		if (barWidth < 0) {
 			if (xList.size() > 1) {
 				double x1, x2;
@@ -1042,7 +993,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			sum.setValue(Math.abs(ySum));
 		}
 		dataSize = ySum;
-
 	}
 
 	/**
@@ -1052,7 +1002,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 *            point list
 	 */
 	private void computeFromPointList(GeoList list) {
-
 		final int N = list.size();
 		sum.setIntervals(N);
 		if (yval == null || yval.length < N) {
@@ -1065,7 +1014,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		double ySum = 0;
 
 		for (int i = 0; i < N; i++) {
-
 			GeoElement geo = list.get(i);
 			Coords coords = ((GeoPointND) geo).getCoordsInD3();
 			double x = coords.getX();
@@ -1265,5 +1213,4 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		sum.setToolTipText(sb.toString());
 	}
-
 }
