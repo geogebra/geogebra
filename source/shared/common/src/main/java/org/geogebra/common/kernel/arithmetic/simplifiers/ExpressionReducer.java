@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isIntegerValue;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -39,8 +38,6 @@ public class ExpressionReducer implements SimplifyNode {
 		num = null;
 		expressions.clear();
 		node.any(this::numbersFirst);
-		expressions.sort(
-				Comparator.comparing(n -> ((ExpressionNode) n).evaluateDouble()).reversed());
 		double constValue = num != null ? num.evaluateDouble() : 1;
 		ExpressionValue result = null;
 		if (Math.abs(constValue) != 1) {

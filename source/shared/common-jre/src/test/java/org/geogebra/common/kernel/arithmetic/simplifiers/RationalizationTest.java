@@ -191,8 +191,8 @@ public class RationalizationTest extends BaseAppTest {
 			"1 / (2 * (1 - sqrt(2))), -((1 + sqrt(2)) / 2)",
 			"1 / sqrt(3 + 4), sqrt(7) / 7",
 			"2 / sqrt(2),sqrt(2)",
-			"4 / (sqrt(5) - 1),sqrt(5) + 1",
-			"8 / (sqrt(5) - 1),2sqrt(5) + 2",
+			"4 / (sqrt(5) - 1), 1 + sqrt(5)",
+			"8 / (sqrt(5) - 1), 2 + 2sqrt(5)",
 			"sqrt(2 + 3) / (1 + sqrt(2 + 5)), (sqrt(35) - sqrt(5)) / 6",
 			"1 / (2 * (1 + sqrt(2))),(sqrt(2) - 1) / 2",
 			"1 / (2 * (1 - sqrt(2))),-((1 + sqrt(2)) / 2)",
@@ -243,7 +243,7 @@ public class RationalizationTest extends BaseAppTest {
 		rationalizationShouldBe("(7 + sqrt(8)) / (4 + sqrt(8))",
 				"(10 - 3sqrt(2)) / 4");
 		rationalizationShouldBe("(-10 + sqrt(5)) / (-2 + sqrt(5))",
-				"-15 - 8sqrt(5)");
+				"-8sqrt(5) - 15");
 		rationalizationShouldBe(genericSqrtFraction(-8, 8, -2, 6),
 				"2sqrt(3) + 2sqrt(2) - 4sqrt(6) - 8");
 
@@ -284,9 +284,7 @@ public class RationalizationTest extends BaseAppTest {
 	}
 
 	private String genericSqrtFraction(int a, int b, int c, int d) {
-		String s = "(" + a + " + sqrt(" + b + ")) / " + "(" + c + " + sqrt(" + d + "))";
-		Log.debug("Generic: " + s);
-		return s;
+		return "(" + a + " + sqrt(" + b + ")) / " + "(" + c + " + sqrt(" + d + "))";
 	}
 
 	@Test
@@ -302,40 +300,35 @@ public class RationalizationTest extends BaseAppTest {
 
 	}
 
-	@ParameterizedTest
-	@MethodSource("allShouldBeNumericallyOK")
-	public void shouldBeNumericallyOK(int a, int b, int c, int d) {
-		ExpressionNode ex = new ExpressionNode(getKernel(), a)
-				.plus(new ExpressionNode(getKernel(), b).sqrt())
-				.divide(new ExpressionNode(getKernel(), c)
-						.plus(new ExpressionNode(getKernel(), d).sqrt()));
-		double expected = ex.evaluateDouble();
-		ExpressionValue resolution = rationalization.getResolution(ex);
-		if (resolution == null) {
-			return;
-		}
-		double actual = resolution
-				.deepCopy(getKernel()).evaluateDouble();
-		String message = Arrays.toString(
-				new double[]{a, b, c, d, actual, expected})
-				+ ex.toString(StringTemplate.defaultTemplate)
-				+ " -> " + resolution;
-		assertTrue(!Double.isFinite(expected) || DoubleUtil.isEqual(expected, actual),
-				message);
-	}
-
-	private static Stream<Arguments> allShouldBeNumericallyOK() {
-		List<Arguments> arguments = new ArrayList<>();
+	@Test
+	public void allShouldBeNumericallyOK() {
+		StringBuilder failures = new StringBuilder();
 		for (int a = -5; a <= 5; a++) {
 			for (int b = 0; b <= 10; b++) {
 				for (int c = -5; c <= 5; c++) {
 					for (int d = 0; d <= 10; d++) {
-						arguments.add(Arguments.of(a, b, c, d));
+						ExpressionNode ex = new ExpressionNode(getKernel(), a)
+								.plus(new ExpressionNode(getKernel(), b).sqrt())
+								.divide(new ExpressionNode(getKernel(), c)
+										.plus(new ExpressionNode(getKernel(), d).sqrt()));
+						double expected = ex.evaluateDouble();
+						ExpressionValue resolution = rationalization.getResolution(ex);
+						if (resolution == null) {
+							continue;
+						}
+						double actual = resolution
+								.deepCopy(getKernel()).evaluateDouble();
+						if (Double.isFinite(expected) && !DoubleUtil.isEqual(expected, actual)) {
+							failures.append(Arrays.toString(
+											new double[]{a, b, c, d, actual, expected}))
+									.append(ex.toString(StringTemplate.defaultTemplate))
+									.append(" -> ").append(resolution).append("\n");
+						}
 					}
 				}
 			}
 		}
-		return arguments.stream();
+		assertEquals("", failures.toString());
 	}
 
 	@ParameterizedTest
@@ -343,7 +336,7 @@ public class RationalizationTest extends BaseAppTest {
 			"-1, 5, -2, 5, 3 + sqrt(5)",
 			"-5, 2, -5, 3, (25 - 5sqrt(2) + 5sqrt(3) - sqrt(6)) / 22",
 			"-5, 2, -3, 10, 2sqrt(5) + 3sqrt(2) - 15 - 5sqrt(10)",
-			"-10, 5, -2, 5, -15 - 8sqrt(5)",
+			"-10, 5, -2, 5, -8sqrt(5) - 15",
 			"-5, 3, -2, 6, (2sqrt(3) + 3sqrt(2) - 10 - 5sqrt(6)) / 2",
 			"-5, 2, -1, 3, (sqrt(6) + sqrt(2) - 5 - 5sqrt(3)) / 2",
 			"-5, 2, 1, 6, (5 - sqrt(2) + 2sqrt(3) - 5sqrt(6)) / 5",
@@ -354,16 +347,19 @@ public class RationalizationTest extends BaseAppTest {
 			"-4, 8, -5, 2, (16 - 6sqrt(2)) / 23",
 			"1, 8, -5, 9, -((1 + 2sqrt(2)) / 2)",
 			"-5, 0, -5, 2, (25 + 5sqrt(2)) / 23",
-			"0, 5, -3, 2, -((sqrt(10) + 3sqrt(5)) / 7)",
+			"0, 5, -3, 2, -((3sqrt(5) + sqrt(10)) / 7)",
 			"-2, 2, -1, 10, (2sqrt(5) + sqrt(2) - 2 - 2sqrt(10)) / 9",
-			"10, 10, -4, 6, -((2sqrt(15) + 4sqrt(10) + 10sqrt(6) + 40) / 10)",
-			"-1, 9, -2, 7, (2sqrt(7) + 4) / 3",
-			"-5, 0, -3, 10, -(5sqrt(10) + 15)",
+			"10, 10, -4, 6, -((40 + 10sqrt(6) + 4sqrt(10) + 2sqrt(15)) / 10)",
+			"-1, 9, -2, 7, (4 + 2sqrt(7)) / 3",
+			"-5, 0, -3, 10, -15 - 5sqrt(10)",
 			"9, 3, 0, 8, (9sqrt(2) + sqrt(6)) / 4",
 			"-5, 3, 0, 8, (sqrt(6) - 5sqrt(2)) / 4",
 			"-1, 3, 0, 10, (sqrt(30) - sqrt(10)) / 10",
 			"-5, 3, -2, 6 , (2sqrt(3) + 3sqrt(2) - 10 - 5sqrt(6)) / 2",
-			"7, 4, -3, 6, -3sqrt(6) - 9"
+			"7, 4, -3, 6, -9 - 3sqrt(6)",
+			"6, 7, 5, 2,  (30 - 6sqrt(2) + 5sqrt(7) - sqrt(14)) / 23",
+			"-9, 2, 3, 6, (9sqrt(6) + 3sqrt(2) - 27 - 2sqrt(3)) / 3",
+			"-3, 2, 7, 7, (3sqrt(7) + 7sqrt(2) - 21 - sqrt(14)) / 42"
 	})
 	public void testSerializationWithDependentGeos(int a, int b, int c, int d,
 			String expected) {
@@ -385,6 +381,13 @@ public class RationalizationTest extends BaseAppTest {
 		e.setSymbolicMode(true, true);
 		GeoText text = add("FormulaText(e)");
 		assertEquals("3 + \\sqrt{5}", text.getTextString());
+	}
 
+	@Test
+	void testMinusPlacement() {
+		rationalizationShouldBe(genericSqrtFraction(10, 10, -4, 6),
+				"-((40 + 10sqrt(6) + 4sqrt(10) + 2sqrt(15)) / 10)");
+		rationalizationShouldBe(genericSqrtFraction(-3, 2, 7, 7),
+				"(3sqrt(7) + 7sqrt(2) - 21 - sqrt(14)) / 42");
 	}
 }

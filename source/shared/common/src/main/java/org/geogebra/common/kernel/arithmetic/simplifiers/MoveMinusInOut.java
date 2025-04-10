@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
-import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isIntegerValue;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAtomic;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isDivNode;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isMinusOne;
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isMultiplyNode;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * <p>Simplifier to "move into" minus sign or "move out from" expression to improve readability.</p>
@@ -41,61 +41,29 @@ public class MoveMinusInOut implements SimplifyNode {
 				ExpressionNode fraction = node.getRightTree();
 				ExpressionValue numerator = fraction.getLeft();
 				ExpressionValue negated = utils.negateTagByTag(numerator);
-				negated = negated.traverse(this::sortOperands);
-				if (utils.isAllNegative(negated)) { // TODO: make isAllNegative() work
+
+				OrderedExpressionNode orderedNode = new OrderedExpressionNode(negated.wrap(),
+						utils);
+				if (orderedNode.isAllNegative()) {
 					return node;
 				}
-				return utils.newDiv(negated.traverse(this::sortOperands), fraction.getRight());
+				return utils.newDiv(orderedNode, fraction.getRight());
 			} else {
 				ExpressionNode negated = utils.negateTagByTag(node.getRight());
-				if (utils.isAllNegative(negated)) {
+				OrderedExpressionNode orderedNode = new OrderedExpressionNode(negated.wrap(),
+						utils);
+				if (orderedNode.isAllNegative()) {
 					negated = node;
 				}
-				return negated.traverse(this::sortOperands).wrap();
+				return orderedNode;
 			}
 		}
 
-		if (isDivNode(node)) {
-			if (isIntegerValue(node.getLeft())) {
-				return utils.newDiv(utils.newDouble(node.getLeft()), node.getRight());
-			}
-			ExpressionValue sortedNumerator = node.getLeft().traverse(this::sortOperands);
-			if (sortedNumerator.wrap().getLeft().evaluateDouble() < 0) {
-				ExpressionNode negatedNumerator = utils.negateTagByTag(sortedNumerator);
-				ExpressionNode fraction = utils.newDiv(negatedNumerator, node.getRight());
-				return fraction.multiplyR(-1);
-			}
+		OrderedExpressionNode orderedNode = new OrderedExpressionNode(node, utils);
+		if (orderedNode.hasNumeratorNegativesOnly() && !isAtomic(orderedNode.getLeft())) {
+			ExpressionNode numerator = utils.negateTagByTag(node.getLeftTree());
+			return utils.newDiv(numerator, orderedNode.getRight()).multiplyR(-1);
 		}
-
-		return node.traverse(this::sortOperands).wrap();
-	}
-
-	ExpressionValue sortOperands(ExpressionValue ev) {
-		ExpressionNode node = ev.wrap();
-		ExpressionValue left = node.getLeft();
-		ExpressionValue right = node.getRight();
-		if (node.isOperation(Operation.MINUS) && isAtomic(node.getRight())
-				&& node.getRight().evaluateDouble() < 0) {
-			right = utils.negateAtomic(right);
-			node = utils.newNode(left, Operation.PLUS, right);
-		}
-
-		if (node.isOperation(Operation.PLUS)) {
-			if (left.evaluateDouble() < right.evaluateDouble()) {
-				return utils.newNode(right.traverse(this::sortOperands),
-						Operation.PLUS, left.traverse(this::sortOperands));
-			}
-			return utils.newNode(left.traverse(this::sortOperands),
-					Operation.PLUS, right.traverse(this::sortOperands));
-		}
-
-		return ev;
-	}
-
-	/**
-	 * Package-private to be able to test it isolated.
-	 */
-	ExpressionNode sort(ExpressionNode node) {
-		return node.traverse(this::sortOperands).wrap();
+		return orderedNode;
 	}
 }

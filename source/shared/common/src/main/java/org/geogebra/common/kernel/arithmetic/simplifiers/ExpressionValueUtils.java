@@ -146,7 +146,7 @@ public final class ExpressionValueUtils {
 	 * @return if ev is atomic
 	 */
 	public static boolean isAtomic(ExpressionValue ev) {
-		return ev.isLeaf() || isSqrtNode(ev)
+		return ev.isLeaf() || isIntegerValue(ev) || isSqrtNode(ev)
 				|| (isMultiplyNode(ev) && isSqrtNode(ev.wrap().getRight()));
 	}
 

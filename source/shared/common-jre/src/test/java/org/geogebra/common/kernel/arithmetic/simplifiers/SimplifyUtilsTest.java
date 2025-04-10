@@ -218,38 +218,6 @@ public class SimplifyUtilsTest extends BaseSimplifyTest {
 						negated.toOutputValueString(StringTemplate.defaultTemplate)));
 	}
 
-	@Disabled
-	@ParameterizedTest
-	@CsvSource({
-			"-3",
-			"-sqrt(2)",
-			"-3sqrt(2)",
-			"-2-3",
-			"-2-3-4-5-7sqrt(7)"
-	})
-	void testAllNegative(String definition) {
-		ExpressionValue value = add(definition).getDefinition();
-		assertTrue(utils.isAllNegative(value));
-	}
-
-	@ParameterizedTest
-	@CsvSource({
-			"3",
-			"sqrt(2)",
-			"3sqrt(2)",
-			"2+3",
-			"-2+3",
-			"2-3",
-			"-2-3+4-5-7sqrt(7)",
-			"-2-3-4+5-7sqrt(7)",
-			"-2+3-4-5-7sqrt(7)",
-			"sqrt(2) + sqrt(5) - sqrt(10) - 5"
-	})
-	void testNotAllNegative(String definition) {
-		ExpressionValue value = add(definition).getDefinition();
-		assertFalse(utils.isAllNegative(value));
-	}
-
 	@ParameterizedTest
 	@CsvSource({
 			"3, -3",

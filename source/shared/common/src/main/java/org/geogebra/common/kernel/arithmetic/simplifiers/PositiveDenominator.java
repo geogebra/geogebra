@@ -57,8 +57,9 @@ public class PositiveDenominator implements SimplifyNode {
 			if (ExpressionValueUtils.isMultiplyNode(right)) {
 				if (ExpressionValueUtils.isAtomicSurdAdditionNode(right.wrap().getLeft())) {
 					SurdAddition tag = new SurdAddition(right.wrap().getLeftTree(), utils);
-					right = tag.multiply(right.wrap().getRight());
-					if (utils.isAllNegative(right)) {
+					OrderedExpressionNode orderedNode = new OrderedExpressionNode(
+							tag.multiply(right.wrap().getRight()), utils);
+					if (orderedNode.isAllNegative()) {
 						right = utils.negateTagByTag(right);
 						if (v > 0) {
 							right = right.wrap().multiplyR(-1);

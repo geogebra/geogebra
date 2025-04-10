@@ -12,8 +12,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class MoveMinusInOutTest extends BaseSimplifyTest {
 	@ParameterizedTest
 	@CsvSource({
-			"-(sqrt(5) - 6), -(sqrt(5) - 6)",
-			"-(sqrt(5) + 6), -(6 + sqrt(5))",
+			"-(sqrt(5) - 6), 6 - sqrt(5)",
+			"-(sqrt(5) + 6), -sqrt(5) - 6",
 			"-((sqrt(5) - 6) / 5), (6 - sqrt(5)) / 5",
 			"-((sqrt(5) + 6) / 5), -((sqrt(5) + 6) / 5)",
 	})
@@ -35,9 +35,10 @@ public class MoveMinusInOutTest extends BaseSimplifyTest {
 	void testSortOperands(String definition, String expected) {
 		GeoElementND geo = add(definition);
 		ExpressionNode node = geo.getDefinition();
-		ExpressionNode sorted = ((MoveMinusInOut) getSimplifier()).sort(node);
-		assertAll(() -> assertEquals(expected, sorted.toString(StringTemplate.defaultTemplate)),
-				() -> assertEquals(node.evaluateDouble(), sorted.evaluateDouble(), 0));
+		ExpressionNode orderedNode = new OrderedExpressionNode(node, utils);
+		assertAll(() -> assertEquals(expected,
+						orderedNode.toString(StringTemplate.defaultTemplate)),
+				() -> assertEquals(node.evaluateDouble(), orderedNode.evaluateDouble(), 0));
 	}
 
 	@Override

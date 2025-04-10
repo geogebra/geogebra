@@ -34,7 +34,8 @@ public class DistributeMultiplier implements SimplifyNode {
 		if (isAtomicSurdAdditionNode(node.getRight())) {
 			SurdAddition tag = new SurdAddition(node.getRightTree(), utils);
 			ExpressionValue multiply = tag.multiply(left);
-			if (utils.isAllNegative(multiply)) {
+			OrderedExpressionNode orderedNode = new OrderedExpressionNode(multiply, utils);
+			if (orderedNode.isAllNegative()) {
 				multiply = utils.negateTagByTag(multiply).multiplyR(-1);
 			}
 			return multiply.wrap();

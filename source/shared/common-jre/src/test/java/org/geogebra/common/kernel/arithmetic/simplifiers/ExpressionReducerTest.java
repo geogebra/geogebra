@@ -21,11 +21,11 @@ public class ExpressionReducerTest extends BaseAppTest {
 
 	@ParameterizedTest
 	@CsvSource({
-			"sqrt(2)*2*sqrt(6)*5*7, 70sqrt(6) sqrt(2)",
+			"sqrt(2)*2*sqrt(6)*5*7, 70sqrt(2) sqrt(6)",
 			"sqrt(6)*2*sqrt(2)*5*7, 70sqrt(6) sqrt(2)",
-			"sqrt(2)*2*-sqrt(6)*5*7, -70sqrt(6) sqrt(2)",
-			"sqrt(2)*2*sqrt(6)*-5*7, -70sqrt(6) sqrt(2)",
-			"sqrt(2)*2*sqrt(6)*-5*-7, 70sqrt(6) sqrt(2)"
+			"sqrt(2)*2*-sqrt(6)*5*7, -70sqrt(2) sqrt(6)",
+			"sqrt(2)*2*sqrt(6)*-5*7, -70sqrt(2) sqrt(6)",
+			"sqrt(2)*2*sqrt(6)*-5*-7, 70sqrt(2) sqrt(6)"
 	})
 	void testReduce(String definition, String expected) {
 		GeoElementND product = add(definition);
