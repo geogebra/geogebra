@@ -1,8 +1,11 @@
 package org.geogebra.common.io;
 
 import java.text.Normalizer;
+import java.util.Set;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.test.TestStringUtil;
@@ -19,7 +22,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorTypingTest {
-	private static EditorChecker checker;
+	private EditorChecker checker;
+	private AppCommon app;
 
 	/**
 	 * Reset LaTeX factory
@@ -33,7 +37,8 @@ public class EditorTypingTest {
 
 	@Before
 	public void setUp() {
-		checker = new EditorChecker(AppCommonFactory.create());
+		app = AppCommonFactory.create3D();
+		checker = new EditorChecker(app);
 	}
 
 	@Test
@@ -931,6 +936,16 @@ public class EditorTypingTest {
 				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
 				.right(1).type("2").right(1).type("3")
 				.checkGGBMath("1 + 2 / 3");
+	}
+
+	@Test
+	public void shouldNotSerializeMixedNumberIfDisabled() {
+		app.applyRestrictions(Set.of(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS),
+				ExamType.WTR);
+		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.type("1")
+				.right(1).type("2").right(1).type("3")
+				.checkGGBMath("1 * 2 / 3", app.getEditorFeatures());
 	}
 
 	@Test

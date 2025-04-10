@@ -1,10 +1,12 @@
 package org.geogebra.common.exam;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.SuiteSubApp;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -43,5 +45,11 @@ public class WtrExamTests extends BaseExamTests {
 	})
 	public void testRestrictedOperations(String expression) {
 		assertNull(evaluate(expression));
+	}
+
+	@Test
+	public void testMixedNumbers() {
+		assertFalse(app.getEditorFeatures().areMixedNumbersEnabled(),
+				"mixed numbers should be disabled");
 	}
 }

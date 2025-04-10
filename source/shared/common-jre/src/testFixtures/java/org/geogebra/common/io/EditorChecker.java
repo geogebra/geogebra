@@ -8,6 +8,8 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -16,6 +18,7 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.controller.CursorController;
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.AddPlaceholders;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -57,7 +60,7 @@ class EditorChecker {
 	public void checkAsciiMath(String output) {
 		MathSequence rootComponent = getRootComponent();
 		assertEquals(output,
-				GeoGebraSerializer.serialize(rootComponent));
+				GeoGebraSerializer.serialize(rootComponent, (EditorFeatures) null));
 		// clean the checker after typing
 		fromParser("");
 	}
@@ -70,10 +73,14 @@ class EditorChecker {
 	}
 
 	public void checkGGBMath(String output) {
+		checkGGBMath(output, null);
+	}
+
+	public void checkGGBMath(String output, @CheckForNull EditorFeatures editorFeatures) {
 		MathSequence rootComponent = getRootComponent();
-
-		String exp = GeoGebraSerializer.serialize(rootComponent);
-
+		StringBuilder sb = new StringBuilder();
+		new GeoGebraSerializer(editorFeatures).serialize(rootComponent, sb);
+		String exp = sb.toString();
 		try {
 			ValidExpression en = parse(exp);
 			assertEquals(output, en.toString(StringTemplate.defaultTemplate));

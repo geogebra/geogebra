@@ -13,6 +13,7 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
 
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.dom.DomGlobal;
@@ -51,7 +52,8 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		FlowPanel wrapper = new FlowPanel();
 		wrapper.setWidth("100%");
 		wrapper.getElement().getStyle().setOverflow(Overflow.HIDDEN);
-		MathFieldW mathField = new MathFieldW(null, wrapper, canvas, listener);
+		MathFieldW mathField = new MathFieldW(null, wrapper, canvas, listener,
+				new EditorFeatures());
 		if (el.hasAttribute("maxHeight")) {
 			mathField.setMaxHeight(Double.parseDouble(el.getAttribute("maxHeight")));
 		}

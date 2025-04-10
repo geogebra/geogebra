@@ -56,6 +56,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -149,8 +150,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            listener for special events
 	 */
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
-					  MathFieldListener listener) {
-		this(converter, parent, canvas, listener, sMetaModel);
+					  MathFieldListener listener, EditorFeatures features) {
+		this(converter, parent, canvas, listener, sMetaModel, features);
 	}
 
 	/**
@@ -167,14 +168,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            model
 	 */
 	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
-			MathFieldListener listener, MetaModel metaModel) {
-
+			MathFieldListener listener, MetaModel metaModel, EditorFeatures features) {
 		this.metaModel = metaModel;
 		FactoryProviderGWT.ensureLoaded();
 		html = canvas;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setSyntaxAdapter(converter);
+		mathFieldInternal.setEditorFeatures(features);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
@@ -472,8 +473,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	/** Read position in current */
 	public void readPosition() {
 		if (expressionReader != null) {
-			setAriaLabel(this.mathFieldInternal.getEditorState()
-					.getDescription(expressionReader));
+			setAriaLabel(this.mathFieldInternal.getEditorStateDescription(expressionReader));
 		}
 	}
 

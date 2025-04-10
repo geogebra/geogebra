@@ -1,6 +1,7 @@
 package com.himamis.retex.editor.share.syntax;
 
 import com.himamis.retex.editor.share.controller.EditorState;
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.editor.MathFieldInternalListener;
 import com.himamis.retex.editor.share.meta.Tag;
@@ -51,7 +52,8 @@ public class SyntaxController implements MathFieldInternalListener {
 			int commasAfter = editorState.countCommasAfterCurrent();
 			if (commasBefore < fn.getPlaceholders().size()
 					&& (commasBefore + commasAfter + 1 == fn.getPlaceholders().size())) {
-				String serializedCommand = GeoGebraSerializer.serialize(fn.getArgument(0));
+				String serializedCommand = GeoGebraSerializer.serialize(fn.getArgument(0),
+						(EditorFeatures) null);
 				if (serializedCommand.equals(fn.getCommandForSyntax())) {
 					hint.update(serializedCommand, fn.getPlaceholders(), commasBefore);
 				}

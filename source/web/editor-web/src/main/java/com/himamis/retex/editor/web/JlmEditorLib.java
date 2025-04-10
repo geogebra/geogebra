@@ -4,6 +4,7 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.RootPanel;
 
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
@@ -52,7 +53,7 @@ public class JlmEditorLib extends JlmLib {
 						// TODO Auto-generated method stub
 						return true;
 					}
-				});
+				}, new EditorFeatures());
 		fld.requestViewFocus();
 	}
 

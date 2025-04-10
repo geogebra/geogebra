@@ -143,10 +143,12 @@ import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5Checksum;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -443,6 +445,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
+	private EditorFeatures editorFeatures;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -3986,6 +3989,20 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * @return set of editor features for math fields
+	 */
+	public EditorFeatures getEditorFeatures() {
+		if (editorFeatures == null) {
+			editorFeatures = new EditorFeatures();
+		}
+		return editorFeatures;
+	}
+
+	protected SyntaxAdapterImpl createSyntaxAdapter() {
+		return new SyntaxAdapterImpl(kernel);
+	}
+
+	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */
 	public enum InputPosition {
@@ -4939,6 +4956,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (featureRestrictions.contains(ExamFeatureRestriction.RATIONALIZATION)) {
 			kernel.setRationalization(null);
 		}
+		if (featureRestrictions.contains(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS)) {
+			getEditorFeatures().setMixedNumbersEnabled(false);
+		}
 	}
 
 	@Override
@@ -4955,6 +4975,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 		if (featureRestrictions.contains(ExamFeatureRestriction.RATIONALIZATION)) {
 			kernel.setRationalization(new Rationalization());
+		}
+		if (featureRestrictions.contains(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS)) {
+			getEditorFeatures().setMixedNumbersEnabled(true);
 		}
 		resetCommandDict();
 	}

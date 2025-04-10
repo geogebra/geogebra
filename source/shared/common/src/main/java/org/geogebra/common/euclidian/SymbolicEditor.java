@@ -20,6 +20,7 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -36,19 +37,22 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	protected final App app;
 	protected final EuclidianView view;
+	private final EditorFeatures editorFeatures;
 
 	protected TeXSerializer texSerializer;
 
 	private GeoInputBox geoInputBox;
 	private DrawInputBox drawInputBox;
-	private final GeoGebraSerializer asciiSerializer = new GeoGebraSerializer();
+	private final GeoGebraSerializer asciiSerializer;
 	private double baseline;
 
 	protected SymbolicEditor(App app, EuclidianView view) {
 		this.app = app;
 		this.view = view;
 		this.texSerializer = new TeXSerializer(new SyntaxAdapterImpl(app.getKernel()));
+		this.editorFeatures = app.getEditorFeatures();
 		texSerializer.useSimpleMatrixPlaceholders(true);
+		asciiSerializer = new GeoGebraSerializer(editorFeatures);
 		asciiSerializer.forceRoundBrackets();
 	}
 
@@ -239,7 +243,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 */
 	public EditorContent getEditorStateWithQuestionMarks() {
 		MathFormula formula = getMathFieldInternal().getFormula();
-		GeoGebraSerializer geoGebraSerializer = new GeoGebraSerializer();
+		GeoGebraSerializer geoGebraSerializer = new GeoGebraSerializer(editorFeatures);
 		geoGebraSerializer.setShowPlaceholderAsQuestionmark(true);
 		String content;
 		if (getGeoInputBox().getLinkedGeo() instanceof GeoVectorND) {

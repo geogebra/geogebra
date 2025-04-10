@@ -6,6 +6,7 @@ import static org.geogebra.common.SuiteSubApp.GEOMETRY;
 import static org.geogebra.common.SuiteSubApp.GRAPHING;
 import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
+import static org.geogebra.common.exam.restrictions.ExamFeatureRestriction.DISABLE_MIXED_NUMBERS;
 import static org.geogebra.common.exam.restrictions.ExamFeatureRestriction.RATIONALIZATION;
 import static org.geogebra.common.exam.restrictions.ExamFeatureRestriction.SURD;
 import static org.geogebra.common.kernel.commands.Commands.BinomialCoefficient;
@@ -77,7 +78,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		super(ExamType.WTR,
 				Set.of(GRAPHING, GEOMETRY, G3D, CAS, PROBABILITY),
 				SCIENTIFIC,
-				Set.of(SURD, RATIONALIZATION),
+				Set.of(SURD, RATIONALIZATION, DISABLE_MIXED_NUMBERS),
 				createInputExpressionFilters(),
 				createOutputExpressionFilters(),
 				createCommandFilters(),

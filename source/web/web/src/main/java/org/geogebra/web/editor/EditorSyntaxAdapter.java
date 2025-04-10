@@ -8,4 +8,5 @@ public class EditorSyntaxAdapter extends AbstractSyntaxAdapter {
 	public boolean isFunction(String casName) {
 		return false;
 	}
+
 }

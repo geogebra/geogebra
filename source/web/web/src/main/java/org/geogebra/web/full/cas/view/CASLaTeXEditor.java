@@ -69,7 +69,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		inputSuggestions = new InputSuggestions(null);
 		canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), this,
-				canvas, this);
+				canvas, this, app.getEditorFeatures());
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		mf.setOnBlur(this);
 		add(mf);

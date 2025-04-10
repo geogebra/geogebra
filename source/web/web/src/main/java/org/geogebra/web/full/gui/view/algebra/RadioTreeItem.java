@@ -1633,8 +1633,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		FactoryProviderGWT.ensureLoaded();
-		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(kernel), latexItem, canvas,
-				getLatexController());
+		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), latexItem, canvas,
+				getLatexController(), app.getEditorFeatures());
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");

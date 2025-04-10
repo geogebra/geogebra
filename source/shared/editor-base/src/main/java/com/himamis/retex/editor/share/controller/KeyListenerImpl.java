@@ -70,8 +70,8 @@ public class KeyListenerImpl {
 			}
 			return false;
 		case JavaKeyCodes.VK_M:
-			if (ctrlPressed) {
-				inputController.mixedNumber(editorState);
+			if (ctrlPressed && inputController.supportsMixedNumbers()) {
+				inputController.addMixedNumber(editorState);
 				return true;
 			}
 			return false;

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import com.google.j2objc.annotations.Weak;
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.MetaArray;
@@ -37,7 +40,8 @@ public class InputController {
 	private MathField mathField;
 
 	private boolean plainTextMode = false;
-	private SyntaxAdapter formatConverter;
+	private @CheckForNull SyntaxAdapter syntaxAdapter;
+	private @CheckForNull EditorFeatures editorFeatures;
 	private boolean useSimpleScripts = true;
 	private boolean allowAbs = true;
 
@@ -64,8 +68,8 @@ public class InputController {
 		this.plainTextMode = plainTextMode;
 	}
 
-	public void setFormatConverter(SyntaxAdapter formatConverter) {
-		this.formatConverter = formatConverter;
+	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
+		this.syntaxAdapter = syntaxAdapter;
 	}
 
 	public void setUseSimpleScripts(boolean useSimpleScripts) {
@@ -210,7 +214,7 @@ public class InputController {
 		newBraces(editorState, power, ch);
 	}
 
-	private FunctionPower getFunctionPower(EditorState editorState) {
+	private static FunctionPower getFunctionPower(EditorState editorState) {
 		FunctionPower power = new FunctionPower();
 		int initialOffset = editorState.getCurrentOffsetOrSelection();
 		MathComponent last = editorState.getCurrentField()
@@ -566,10 +570,10 @@ public class InputController {
 			editorState.addArgument(merge);
 			return;
 		}
-		if (formatConverter != null) {
+		if (syntaxAdapter != null) {
 			FunctionPower function = getFunctionPower(editorState);
 			char unicode = meta.getUnicode();
-			if (unicode == ' ' && formatConverter.isFunction(function.name)) {
+			if (unicode == ' ' && syntaxAdapter.isFunction(function.name)) {
 				newBraces(editorState, function, '(');
 				return;
 			}
@@ -600,7 +604,7 @@ public class InputController {
 		int start = name.length() - 1;
 
 		while (start >= 0) {
-			if (formatConverter.isFunction(name.substring(start))) {
+			if (syntaxAdapter != null && syntaxAdapter.isFunction(name.substring(start))) {
 				return true;
 			}
 
@@ -608,10 +612,6 @@ public class InputController {
 		}
 
 		return false;
-	}
-
-	public String convert(String exp) {
-		return formatConverter.convert(exp);
 	}
 
 	/**
@@ -1429,7 +1429,7 @@ public class InputController {
 	 * Add mixed number, move to numerator if integer part present
 	 * @param state current state
 	 */
-	public void mixedNumber(EditorState state) {
+	public void addMixedNumber(EditorState state) {
 		MetaFunction meta = metaModel.getGeneral(Tag.FRAC);
 		MathFunction function = new MathFunction(meta);
 		function.setPreventingNestedFractions(true);
@@ -1440,6 +1440,18 @@ public class InputController {
 			state.setCurrentField(function.getArgument(0));
 			state.setCurrentOffset(0);
 		}
+	}
+
+	public void setEditorFeatures(EditorFeatures editorFeatures) {
+		this.editorFeatures = editorFeatures;
+	}
+
+	public String convert(String exp) {
+		return syntaxAdapter == null ? exp : syntaxAdapter.convert(exp);
+	}
+
+	public boolean supportsMixedNumbers() {
+		return editorFeatures == null || editorFeatures.areMixedNumbersEnabled();
 	}
 
 	public static class FunctionPower {
