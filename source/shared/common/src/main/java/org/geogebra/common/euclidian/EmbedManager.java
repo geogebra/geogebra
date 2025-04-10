@@ -149,8 +149,6 @@ public interface EmbedManager {
 
 	void setContentSync(String label, String base64);
 
-	void onError(GeoEmbed geoEmbed);
-
 	void sendCommand(GeoEmbed chart, String cmd);
 
 	void setGraphAxis(GeoEmbed chart, int axis, double crossing);

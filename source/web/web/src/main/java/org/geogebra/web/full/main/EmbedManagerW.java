@@ -5,6 +5,7 @@ import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -82,7 +83,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	private int counter;
 	private final HashMap<Integer, String> content = new HashMap<>();
 	private final HashMap<Integer, String> urls = new HashMap<>();
-	private final HashMap<GeoElement, Runnable> errorHandlers = new HashMap<>();
+	private final Set<DrawEmbed> pendingAddition = new HashSet<>();
 	private final HashMap<String, EmbedResolver> customEmbedResolvers = new HashMap<>();
 	private List<GeoEmbed> unresolvedEmbeds = new ArrayList<>();
 
@@ -99,7 +100,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 	@Override
 	public void add(final DrawEmbed drawEmbed) {
-		if (widgets.get(drawEmbed) != null) {
+		if (widgets.get(drawEmbed) != null || pendingAddition.contains(drawEmbed)) {
 			return;
 		}
 		int embedID = drawEmbed.getEmbedID();
@@ -107,6 +108,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		String appName = drawEmbed.getGeoEmbed().getAppName();
 		if ("extension".equals(appName) || "external".equals(appName)) {
 			if (drawEmbed.getGeoEmbed().hasExternalProtocol()) {
+				pendingAddition.add(drawEmbed);
 				GeoEmbed customEmbed = drawEmbed.getGeoEmbed();
 				if (hasResolverForType(customEmbed.getExternalType())) {
 					resolveEmbed(customEmbed).then(content -> {
@@ -259,6 +261,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	private void addExtension(DrawEmbed drawEmbed, String content) {
+		pendingAddition.remove(drawEmbed);
 		Widget parentPanel = createParentPanel(drawEmbed, content);
 		addWidgetToCache(drawEmbed, parentPanel);
 	}
@@ -670,14 +673,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			} else {
 				urls.put(embedID, url);
 			}
-		}
-	}
-
-	@Override
-	public void onError(GeoEmbed geoEmbed) {
-		Runnable handler = errorHandlers.get(geoEmbed);
-		if (handler != null) {
-			handler.run();
 		}
 	}
 
