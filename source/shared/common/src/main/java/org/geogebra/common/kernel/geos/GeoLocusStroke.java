@@ -894,9 +894,11 @@ public class GeoLocusStroke extends GeoLocus
 	 */
 	public void setCoords(double[] coords) {
 		myPointList.clear();
+		ArrayList<MyPoint> points = new ArrayList<>();
 		for (int i = 0; i < coords.length - 1; i += 2) {
-			myPointList.add(new MyPoint(coords[i], coords[i + 1]));
+			points.add(new MyPoint(coords[i], coords[i + 1]));
 		}
+		appendPointArray(points);
 		updateRepaint();
 	}
 
