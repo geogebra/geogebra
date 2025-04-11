@@ -1158,6 +1158,8 @@ public final class SpreadsheetController {
 			createBarChart(range);
 			break;
 		case HISTOGRAM:
+			createHistogram(range);
+			break;
 		case LINE_CHART:
 		default:
 		}
@@ -1184,6 +1186,19 @@ public final class SpreadsheetController {
 
 		if (range.getWidth() == 2) {
 			constructionDelegate.createBarChart(tabularData, range);
+		} else {
+			controlsDelegate.showSnackbar(range.isSingleCell() ? "StatsDialog.NoData"
+					: "ChartError.TwoColumns");
+		}
+	}
+
+	private void createHistogram(TabularRange range) {
+		if (constructionDelegate == null || controlsDelegate == null) {
+			return;
+		}
+
+		if (range.getWidth() == 2) {
+			constructionDelegate.createHistogram(tabularData, range);
 		} else {
 			controlsDelegate.showSnackbar(range.isSingleCell() ? "StatsDialog.NoData"
 					: "ChartError.TwoColumns");

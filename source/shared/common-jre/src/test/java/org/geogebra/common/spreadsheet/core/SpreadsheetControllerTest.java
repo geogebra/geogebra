@@ -727,6 +727,41 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertEquals("ChartError.TwoColumns", chartError);
     }
 
+    @Test
+    public void testHistogramValidDataHasNoError() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        tabularData.setContent(3, 0, "4");
+        tabularData.setContent(0, 1, "4");
+        tabularData.setContent(1, 1, "5");
+        tabularData.setContent(2, 1, "6");
+        selectCells(0, 0, 3, 1);
+        controller.createChart(Identifier.HISTOGRAM);
+        assertEquals("Histogram(A1:A4,B1:B4)", chartCommand);
+        assertEquals("", chartError);
+    }
+
+    @Test
+    public void testHistogramNotEnoughDataError() {
+        tabularData.setContent(0, 0, "1");
+        selectCells(0, 0, 0, 0);
+        controller.createChart(Identifier.HISTOGRAM);
+        assertEquals("", chartCommand);
+        assertEquals("StatsDialog.NoData", chartError);
+    }
+
+    @Test
+    public void testHistogramTwoColumnNeededError() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(0, 1, "2");
+        tabularData.setContent(0, 2, "3");
+        selectCells(0, 0, 0, 2);
+        controller.createChart(Identifier.HISTOGRAM);
+        assertEquals("", chartCommand);
+        assertEquals("ChartError.TwoColumns", chartError);
+    }
+
     // Helpers
 
     private void setViewport(Rectangle viewport) {
@@ -869,5 +904,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     @Override
     public void createBarChart(TabularData<?> data, TabularRange range) {
         chartCommand = ChartBuilder.getBarChartCommand(data, range);
+    }
+
+    @Override
+    public void createHistogram(TabularData<?> data, TabularRange range) {
+        chartCommand = ChartBuilder.getHistogramCommand(data, range);
     }
 }

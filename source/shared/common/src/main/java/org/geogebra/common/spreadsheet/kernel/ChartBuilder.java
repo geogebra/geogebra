@@ -9,9 +9,9 @@ public final class ChartBuilder {
 
 	/**
 	 * Builds the pie chart command with selection range and center (0,0).
-	 * @param data - data
-	 * @param range - selected range
-	 * @return pie chart command, e.g. =PieChart(A1:A3,(0,0))
+	 * @param data The spreadsheet data.
+	 * @param range The range in {@code data} from which to create the chart.
+	 * @return Pie chart command, e.g. =PieChart(A1:A3,(0,0))
 	 */
 	@Nullable
 	public static String getPieChartCommand(TabularData<?> data, TabularRange range) {
@@ -43,23 +43,24 @@ public final class ChartBuilder {
 	/**
 	 * Builds the bar chart command based on selection range: first column as list of data,
 	 * second column as list of frequencies.
-	 * @param data - data
-	 * @param range - selected range
-	 * @return bar chart command, e.g. =BarChart(A1:A3,B1:B3)
+	 * @param data The spreadsheet data.
+	 * @param range The range in {@code data} from which to create the chart.
+	 * @return Bar chart command, e.g. =BarChart(A1:A3,B1:B3)
 	 */
 	@Nullable
 	public static String getBarChartCommand(TabularData<?> data, TabularRange range) {
 		if (range.getWidth() == 2) {
-			return getBarChartCommand(data, range.getFromRow(), range.getFromColumn(),
+			return getChartCommandWithTwoListParameter("BarChart", data,
+					range.getFromRow(), range.getFromColumn(),
 					range.getToRow(), range.getToColumn());
 		}
 		return null;
 	}
 
-	private static String getBarChartCommand(TabularData<?> data,
-			int fromRow, int fromCol, int toRow, int toCol) {
+	private static String getChartCommandWithTwoListParameter(String commandName,
+			TabularData<?> data, int fromRow, int fromCol, int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("BarChart");
+		sb.append(commandName);
 		sb.append("(");
 		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
 			sb.append(data.getCellName(fromRow, fromCol)).append(":")
@@ -69,6 +70,23 @@ public final class ChartBuilder {
 		}
 		sb.append(")");
 		return sb.toString();
+	}
+
+	/**
+	 * Builds the histogram command based on selection range: first column as list of class
+	 * boundaries, second column as list of heights.
+	 * @param data The spreadsheet data.
+	 * @param range The range in {@code data} from which to create the chart.
+	 * @return Histogram command, e.g. =Histogram(A1:A3,B1:B3)
+	 */
+	@Nullable
+	public static String getHistogramCommand(TabularData<?> data, TabularRange range) {
+		if (range.getWidth() == 2) {
+			return getChartCommandWithTwoListParameter("Histogram", data,
+					range.getFromRow(), range.getFromColumn(),
+					range.getToRow(), range.getToColumn());
+		}
+		return null;
 	}
 }
 

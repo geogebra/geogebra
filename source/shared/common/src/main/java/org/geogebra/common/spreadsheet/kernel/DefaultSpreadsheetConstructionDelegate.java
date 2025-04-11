@@ -37,5 +37,14 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 		}
 		processCommand(command);
 	}
+
+	@Override
+	public void createHistogram(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
+		String command = ChartBuilder.getHistogramCommand(data, range);
+		if (command == null) {
+			return;
+		}
+		processCommand(command);
+	}
 }
 
