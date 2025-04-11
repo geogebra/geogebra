@@ -378,7 +378,7 @@
 					height: 24px;
 					position: absolute;
 					margin: 8px 8px 0 78px;
-					background-color: purple(600);
+					background-color: var(--ggb-primary-color);
 					border-radius: 50%;
 
 					.checkmark {
@@ -402,7 +402,7 @@
 
 			&.selected, &.selected:hover {
 				.cardImagePanel {
-					border-color: purple(600);
+					border-color: var(--ggb-primary-color);
 
 					.checkMarkPanel {
 						visibility: visible;
@@ -410,7 +410,7 @@
 				}
 
 				.cardTitle {
-					color: purple(600);
+					color: var(--ggb-primary-color);
 				}
 			}
 		}
