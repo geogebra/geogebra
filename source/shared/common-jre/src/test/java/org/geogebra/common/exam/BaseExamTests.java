@@ -124,9 +124,9 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         return evaluate(expression, expression);
     }
 
-    protected GeoElementND[] evaluate(String expression, String mockedCasGiacOutput) {
+    protected GeoElementND[] evaluate(String expression, String mockedCasOutput) {
         if (currentSubApp == SuiteSubApp.CAS && mockCASGiac != null) {
-            mockCASGiac.memorize(mockedCasGiacOutput);
+            mockCASGiac.memorize(mockedCasOutput);
         }
         EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
         return algebraProcessor.processAlgebraCommandNoExceptionHandling(
@@ -141,11 +141,11 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     }
 
     protected GeoElement evaluateGeoElement(String expression) {
-        return (GeoElement) evaluate(expression)[0];
+        return evaluateGeoElement(expression, expression);
     }
 
-    protected GeoElement evaluateGeoElement(String expression, String mockedCasGiacOutput) {
-        return (GeoElement) evaluate(expression, mockedCasGiacOutput)[0];
+    protected GeoElement evaluateGeoElement(String expression, String mockedCasOutput) {
+        return (GeoElement) evaluate(expression, mockedCasOutput)[0];
     }
 
     @BeforeEach

@@ -31,6 +31,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in CsvSources
 public class MmsExamTests extends BaseExamTests {
 	private static final Set<VisibilityRestriction> visibilityRestrictions =
 			MmsExamRestrictions.createVisibilityRestrictions();
@@ -42,39 +43,55 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
+	@CsvSource({
 			// Restricted inequalities
-			"x > 0",
-			"y <= 1",
-			"x < y",
-			"x - y > 2",
-			"x^2 + 2y^2 < 1",
-			"f: x > 0",
-			"f(x) = x > 2",
+			"x > 0,						x > 0",
+			"y <= 1,					y <= 1",
+			"x < y,						x < y",
+			"x - y > 2,					x - y > 2",
+			"x^2 + 2y^2 < 1,			x^2 + 2y^2 < 1",
+			"f: x > 0,					f: x > 0",
+			"f(x) = x > 2,				f(x) = x > 2",
 			// Restricted integrals
-			"Integral(g, -5, 5)",
-			"Integral(g, x, -5, 5)",
-			"NIntegral(g, -5, 5)",
+			"'Integral(g, -5, 5)',		0",
+			"'Integral(g, x, -5, 5)',	0",
+			"'NIntegral(g, -5, 5)',		0.0",
 			// Restricted vectors
-			"a = (1, 2)",
-			"b = (1, 2) + 0",
+			"'a = (1, 2)',				'(1, 2)'",
+			"'b = (1, 2) + 0',			'(1, 2)'",
+			// Restricted implicit curves
+			"x^2 = 1,					x^2 = 1",
+			"2^x = 2,					2^x = 2",
+			"sin(x) = 0,				sin(x) = 0",
+			"y - x^2 = 0,				-x^2 + y = 0",
+			"x^2 = y,					x^2 = y",
+			"x^2 + y^2 = 4,				x^2 + y^2 = 4",
+			"x^2 / 9 + y^2 / 4 = 1,		1 / 9 * x^2 + 1 / 4 * y^2 = 1",
+			"x^2 - y^2 = 4,				x^2 - y^2 = 4",
+			"x^3 + y^2 = 2,				x^3 + y^2 = 2",
+			"y^3 = x,					y^3 = x",
 	})
-	public void testRestrictedVisibility(String expression) {
-		evaluateGeoElement("g(x) = x"); // For integrals
-		assertTrue(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
-				visibilityRestrictions));
+	public void testRestrictedVisibility(String expression, String mockedCasOutput) {
+		evaluateGeoElement("g(x) = x", "x"); // For integrals
+		assertTrue(VisibilityRestriction.isVisibilityRestricted(
+				evaluateGeoElement(expression, mockedCasOutput), visibilityRestrictions));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
+	@CsvSource({
 			// Unrestricted integrals
-			"Integral(f)",
-			"Integral(f, x)",
+			"Integral(g),		1 / 2 * x^2 + arbconst(1 + 33)",
+			"'Integral(g, x)', 	1 / 2 * x^2 + arbconst(1 + 66)",
+			// Unrestricted functions
+			"y = 2x,			y = (2 * x)",
+			"f(x) = x^2,		x^2",
+			"y = x^2,			y = (x^2)",
+			"y = x^3,			y = (x^3)",
 	})
-	public void testUnrestrictedVisibility(String expression) {
-		evaluateGeoElement("f(x) = x");
-		assertFalse(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
-				visibilityRestrictions));
+	public void testUnrestrictedVisibility(String expression, String mockedCasOutput) {
+		evaluateGeoElement("g(x) = x", "x"); // For integrals
+		assertFalse(VisibilityRestriction.isVisibilityRestricted(
+				evaluateGeoElement(expression, mockedCasOutput), visibilityRestrictions));
 	}
 
 	@Test

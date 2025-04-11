@@ -121,6 +121,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
@@ -130,8 +131,11 @@ import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRe
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.filter.AllowedExpressionsProvider;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
@@ -145,9 +149,11 @@ import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
@@ -270,7 +276,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		return Set.of(
 				new HiddenIntegralAreaVisibilityRestriction(),
 				new HiddenInequalityVisibilityRestriction(),
-				new HiddenVectorVisibilityRestriction());
+				new HiddenVectorVisibilityRestriction(),
+				new HiddenImplicitCurveVisibilityRestriction());
 	}
 
 	/**
@@ -289,6 +296,105 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		public Effect getEffect(GeoElement geoElement) {
 			return (geoElement instanceof GeoSymbolic && ((GeoSymbolic) geoElement).getTwinGeo()
 					.getParentAlgorithm() instanceof AlgoIntegralDefinite) ? HIDE : IGNORE;
+		}
+	}
+
+	/**
+	 * Restricts the visibility of implicit curves.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>
+	 *         {@link GeoConic}s in implicit form:
+	 *         <ul>
+	 *             <li>x^2 = 1</li>
+	 *             <li>y - x^2 = 0</li>
+	 *             <li>x^2 = y</li>
+	 *             <li>x^2 + y^2 = 4</li>
+	 *             <li>x^2 / 9 + y^2 / 4 = 1</li>
+	 *             <li>x^2 - y^2 = 4</li>
+	 *         </ul>
+	 *     </li>
+	 *     <li>
+	 *         {@link GeoImplicitCurve}s:
+	 *         <ul>
+	 *             <li>2^x = 2</li>
+	 *             <li>sin(x) = 0</li>
+	 *             <li>x^3 + y^2 = 2</li>
+	 *             <li>y^3 = x</li>
+	 *         </ul>
+	 *     </li>
+	 * </ul>
+	 */
+	private static final class HiddenImplicitCurveVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return isImplicitCurve(geoElement) ? HIDE : IGNORE;
+		}
+
+		private boolean isImplicitCurve(GeoElement geoElement) {
+			if (isGeoImplicitCurve(geoElement)) {
+				return true;
+			}
+			if (isExplicitEquation(geoElement)) {
+				return false;
+			}
+			return isGeoConic(geoElement);
+		}
+
+		private static boolean isGeoImplicitCurve(GeoElement geoElement) {
+			return geoElement instanceof GeoImplicitCurve || geoElement instanceof GeoSymbolic
+					&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoImplicitCurve;
+		}
+
+		private static boolean isGeoConic(GeoElement geoElement) {
+			return geoElement instanceof GeoConic || geoElement instanceof GeoSymbolic
+					&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoConic;
+		}
+
+		@SuppressWarnings("PMD.SimplifyBooleanReturns")
+		private static boolean isExplicitEquation(GeoElement geoElement) {
+			Equation equation = unwrapEquation(geoElement);
+			if (equation == null) {
+				return false;
+			}
+			// Explicit equations should have a single "y" variable on the left-hand side
+			if (!"y".equals(unwrapVariable(equation.getLHS().unwrap()))) {
+				return false;
+			}
+			// and all the variables (if any) on the right-hand side should be "x".
+			if (!allVariablesAreX(equation.getRHS())) {
+				return false;
+			}
+			return true;
+		}
+
+		private static boolean allVariablesAreX(ExpressionNode expressionNode) {
+			return expressionNode.none(value -> {
+				String variable = unwrapVariable(value);
+				return variable != null && !variable.equals("x");
+			});
+		}
+
+		@Nullable
+		private static Equation unwrapEquation(GeoElement geoElement) {
+			ExpressionNode definition = geoElement.getDefinition();
+			if (definition != null && definition.unwrap() instanceof Equation) {
+				return (Equation) definition.unwrap();
+			}
+			if (geoElement instanceof EquationValue) {
+				return ((EquationValue) geoElement).getEquation();
+			}
+			return null;
+		}
+
+		@Nullable
+		private static String unwrapVariable(ExpressionValue expressionValue) {
+			if (expressionValue instanceof FunctionVariable) {
+				return ((FunctionVariable) expressionValue).getSetVarString();
+			}
+			return null;
 		}
 	}
 
