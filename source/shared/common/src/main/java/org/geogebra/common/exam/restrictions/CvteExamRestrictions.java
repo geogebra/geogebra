@@ -12,7 +12,6 @@ import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.St
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.ALLOW;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
-
 import static org.geogebra.common.plugin.Operation.ALT;
 import static org.geogebra.common.plugin.Operation.ARG;
 import static org.geogebra.common.plugin.Operation.BETA;
@@ -57,8 +56,6 @@ import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRe
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
-import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.arithmetic.Equation;

@@ -2,18 +2,16 @@ package org.geogebra.common.exam;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 
 public class ExamTypeTests {
@@ -25,18 +23,19 @@ public class ExamTypeTests {
 		AppCommon helpApp = AppCommonFactory.create3D();
 		CommandDispatcher commandDispatcher1 =
 				helpApp.getKernel().getAlgebraProcessor().getCommandDispatcher();
-		examRestrictions.applyTo(helpApp.getKernel().getAlgoDispatcher(),
+		examRestrictions.applyTo(new ExamController.ContextDependencies(
+				helpApp,
+				helpApp.getKernel().getAlgoDispatcher(),
 				commandDispatcher1,
 				helpApp.getKernel().getAlgebraProcessor(),
+				helpApp.getLocalization(),
+				helpApp.getSettings(),
+				new StatisticGroupsBuilder(),
 				null,
 				null,
 				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
+				null
+				), null,
 				null,
 				null);
 		Set<Commands> all = Set.of(Commands.CSolve, Commands.CSolutions,

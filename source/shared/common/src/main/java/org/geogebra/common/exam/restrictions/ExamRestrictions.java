@@ -244,9 +244,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 					.getEquationBehaviour();
 			dependencies.algebraProcessor.getKernel().setEquationBehaviour(equationBehaviour);
 		}
-		if (dependencies.statisticGroupsBuilder != null) {
-			dependencies.statisticGroupsBuilder.setStatisticsFilter(statisticsFilter);
-		}
+		dependencies.statisticGroupsBuilder.setStatisticsFilter(statisticsFilter);
 		if (syntaxFilter != null) {
 			if (dependencies.autoCompleteProvider != null) {
 				dependencies.autoCompleteProvider.addSyntaxFilter(syntaxFilter);
