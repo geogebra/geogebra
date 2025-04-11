@@ -8,7 +8,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
 /**
@@ -20,12 +20,12 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 	private final TempStorage tempStorage;
 	private final FileViewCommon common;
 
-	private final AppW app;
+	private final AppWFull app;
 
 	/**
 	 * @param app - application
 	 */
-	public OpenTemporaryFileView(AppW app) {
+	public OpenTemporaryFileView(AppWFull app) {
 		this.app = app;
 		app.registerOpenFileListener(this);
 		common = new FileViewCommon(app, "Open", false);

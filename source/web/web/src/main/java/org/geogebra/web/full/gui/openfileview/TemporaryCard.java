@@ -6,6 +6,7 @@ import org.geogebra.web.full.gui.browser.MaterialCardController;
 import org.geogebra.web.full.gui.dialog.template.ContextMenuButtonDeleteCard;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.full.gui.util.ExamSaveDialog;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -14,7 +15,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * Material card
  */
 public class TemporaryCard extends FlowPanel implements MaterialCardI {
-	private final AppW app;
+	private final AppWFull app;
 	private final MaterialCardController controller;
 
 	/**
@@ -23,7 +24,7 @@ public class TemporaryCard extends FlowPanel implements MaterialCardI {
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public TemporaryCard(final Material m, final AppW app) {
+	public TemporaryCard(final Material m, final AppWFull app) {
 		this.app = app;
 		controller = new MaterialCardController(app);
 		controller.setMaterial(m);

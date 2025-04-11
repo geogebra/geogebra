@@ -145,32 +145,11 @@ public final class ExamController {
 	 * @apiNote This method is intended for the Web use case, and must be called once on app
 	 * initialization, before any attempts to start an exam.
 	 */
-	public void registerContext(@Nonnull Object context,
-			@Nonnull AlgoDispatcher algoDispatcher,
-			@Nonnull CommandDispatcher commandDispatcher,
-			@Nonnull AlgebraProcessor algebraProcessor,
-			@Nonnull Localization localization,
-			@Nonnull Settings settings,
-			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
-			@CheckForNull AutocompleteProvider autocompleteProvider,
-			@CheckForNull ToolsProvider toolsProvider,
-			@CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@CheckForNull Construction construction) {
+	public void registerContext(ContextDependencies contextDependencies) {
 		if (activeDependencies != null) {
 			throw new IllegalStateException(
 					"registerContexts() must not be mixed with calls to setActiveContext()");
 		}
-		ContextDependencies contextDependencies = new ContextDependencies(context,
-				algoDispatcher,
-				commandDispatcher,
-				algebraProcessor,
-				localization,
-				settings,
-				statisticGroupsBuilder,
-				autocompleteProvider,
-				toolsProvider,
-				scheduledPreviewFromInputBar,
-				construction);
 		if (registeredDependencies == null) {
 			registeredDependencies = new ArrayList<>();
 		}
@@ -615,20 +594,10 @@ public final class ExamController {
 			return; // log/throw?
 		}
 		if (dependencies != null) {
-			examRestrictions.applyTo(dependencies.algoDispatcher,
-					dependencies.commandDispatcher,
-					dependencies.algebraProcessor,
+			examRestrictions.applyTo(dependencies,
 					propertiesRegistry,
-					dependencies.context,
-					dependencies.localization,
-					dependencies.settings,
-					dependencies.statisticGroupsBuilder,
-					dependencies.autoCompleteProvider,
-					dependencies.toolsProvider,
 					geoElementPropertiesFactory,
-					dependencies.scheduledPreviewFromInputBar,
-					contextMenuFactory,
-					dependencies.construction);
+					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -640,20 +609,10 @@ public final class ExamController {
 			return;
 		}
 		if (dependencies != null) {
-			examRestrictions.removeFrom(dependencies.algoDispatcher,
-					dependencies.commandDispatcher,
-					dependencies.algebraProcessor,
+			examRestrictions.removeFrom(dependencies,
 					propertiesRegistry,
-					dependencies.context,
-					dependencies.localization,
-					dependencies.settings,
-					dependencies.statisticGroupsBuilder,
-					dependencies.autoCompleteProvider,
-					dependencies.toolsProvider,
 					geoElementPropertiesFactory,
-					dependencies.scheduledPreviewFromInputBar,
-					contextMenuFactory,
-					dependencies.construction);
+					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}
@@ -740,42 +699,54 @@ public final class ExamController {
 		}
 	}
 
-	private static class ContextDependencies {
+	public static class ContextDependencies {
 		@NonOwning
 		@Nonnull
-		final Object context;
+		public final Object context;
 		@NonOwning
 		@Nonnull
-		final AlgoDispatcher algoDispatcher;
+		public final AlgoDispatcher algoDispatcher;
 		@NonOwning
 		@Nonnull
-		final CommandDispatcher commandDispatcher;
+		public final CommandDispatcher commandDispatcher;
 		@NonOwning
 		@Nonnull
-		final AlgebraProcessor algebraProcessor;
+		public final AlgebraProcessor algebraProcessor;
 		@NonOwning
 		@Nonnull
-		final Localization localization;
+		public final Localization localization;
 		@NonOwning
 		@CheckForNull
-		final Settings settings;
+		public final Settings settings;
 		@NonOwning
 		@Nonnull
-		final StatisticGroupsBuilder statisticGroupsBuilder;
+		public final StatisticGroupsBuilder statisticGroupsBuilder;
 		@NonOwning
 		@CheckForNull
-		final AutocompleteProvider autoCompleteProvider;
+		public final AutocompleteProvider autoCompleteProvider;
 		@NonOwning
 		@CheckForNull
-		final ToolsProvider toolsProvider;
+		public final ToolsProvider toolsProvider;
 		@NonOwning
 		@CheckForNull
-		final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
+		public final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
 		@NonOwning
 		@CheckForNull
-		final Construction construction;
+		public final Construction construction;
 
-		ContextDependencies(@Nonnull Object context,
+		/**
+		 * @param context context (e.g. App instance)
+		 * @param algoDispatcher algorithm dispatcher
+		 * @param commandDispatcher command dispatcher
+		 * @param algebraProcessor algebra processor
+		 * @param localization localization
+		 * @param settings settings
+		 * @param autoCompleteProvider autocomplete provider
+		 * @param toolsProvider tools provider
+		 * @param scheduledPreviewFromInputBar scheduled preview provider
+		 * @param construction construction
+		 */
+		public ContextDependencies(@Nonnull Object context,
 				@Nonnull AlgoDispatcher algoDispatcher,
 				@Nonnull CommandDispatcher commandDispatcher,
 				@Nonnull AlgebraProcessor algebraProcessor,

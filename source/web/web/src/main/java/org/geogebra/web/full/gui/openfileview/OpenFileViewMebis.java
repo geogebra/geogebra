@@ -18,7 +18,6 @@ import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.user.client.DOM;
@@ -37,7 +36,7 @@ public class OpenFileViewMebis extends HeaderFileView
 	/**
 	 * application
 	 */
-	protected AppW app;
+	protected AppWFull app;
 
 	private FlowPanel buttonPanel;
 	private StandardButton newFileBtn;

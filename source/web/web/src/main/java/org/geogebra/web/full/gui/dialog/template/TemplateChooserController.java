@@ -5,30 +5,33 @@ import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
 public class TemplateChooserController implements TemplateChooserControllerI {
     private final ArrayList<TemplatePreviewCard> templates;
+    private final AppWFull app;
     private TemplatePreviewCard selected;
 
     /** Controller for the template chooser dialog
      */
-    public TemplateChooserController() {
+    public TemplateChooserController(AppWFull app) {
         templates = new ArrayList<>();
+        this.app = app;
     }
 
     @Override
-    public void fillTemplates(AppW appW, List<Material> templates) {
+    public void fillTemplates(List<Material> templates) {
         getTemplates().clear();
-        getTemplates().add(buildCard(appW, null, false));
+        getTemplates().add(buildCard(app, null, false));
         for (Material material : templates) {
-            getTemplates().add(buildCard(appW, material, true));
+            getTemplates().add(buildCard(app, material, true));
         }
         setSelected(getTemplates().get(0));
     }
 
-    private TemplatePreviewCard buildCard(AppW appW, Material material, boolean hasMoreButton) {
+    private TemplatePreviewCard buildCard(AppWFull appW, Material material, boolean hasMoreButton) {
         return new TemplatePreviewCard(appW, material, hasMoreButton,
 				this::setSelected);
     }

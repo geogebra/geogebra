@@ -10,9 +10,9 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.PreviewCardRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
@@ -34,7 +34,7 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	 * @param card
 	 *            associated preview card
 	 */
-	public ContextMenuButtonPreviewCard(AppW app, PagePreviewCard card) {
+	public ContextMenuButtonPreviewCard(AppWFull app, PagePreviewCard card) {
 		super(app);
 		this.card = card;
 	}

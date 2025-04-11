@@ -1,12 +1,11 @@
 package org.geogebra.web.full.gui.dialog.template;
 
 import org.geogebra.common.contextmenu.ContextMenuItem;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.contextmenu.ImageMap;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
-import org.geogebra.web.html5.main.AppW;
 
 public class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
     private MaterialCardI card;
@@ -15,7 +14,7 @@ public class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
      * @param app application
      * @param card material card
      */
-    public ContextMenuButtonDeleteCard(AppW app, MaterialCardI card) {
+    public ContextMenuButtonDeleteCard(AppWFull app, MaterialCardI card) {
         super(app);
         this.card = card;
         initPopup();
@@ -28,7 +27,7 @@ public class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
     }
 
     private void addDeleteItem() {
-        for (ContextMenuItem item : GlobalScope.contextMenuFactory.makeMaterialContextMenu()) {
+        for (ContextMenuItem item : app.getContextMenuFactory().makeMaterialContextMenu()) {
             wrappedPopup.addItem(new AriaMenuItem(item.getLocalizedTitle(loc),
 					ImageMap.get(item.getIcon()), this::onDelete));
         }

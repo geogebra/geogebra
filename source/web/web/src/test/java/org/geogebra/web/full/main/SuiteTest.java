@@ -52,7 +52,7 @@ public class SuiteTest {
 	@Test
 	public void styleBarTest() {
 		app = AppMocker.mockApplet(new AppletParameters("suite"));
-		QuickStyleBar styleBar = new QuickStyleBar(app.getActiveEuclidianView()) {
+		QuickStyleBar styleBar = new QuickStyleBar(app.getActiveEuclidianView(), app) {
 			@Override
 			public boolean isVisible() {
 				return true; // force updateStyleBar to do something

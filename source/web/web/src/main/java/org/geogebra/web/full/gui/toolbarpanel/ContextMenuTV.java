@@ -47,7 +47,7 @@ public class ContextMenuTV {
 	/**
 	 * application
 	 */
-	protected AppW app;
+	protected AppWFull app;
 	private final int columnIdx;
 	private final GeoElement geo;
 
@@ -59,7 +59,7 @@ public class ContextMenuTV {
 	 * @param column
 	 *            index of column
 	 */
-	public ContextMenuTV(AppW app, TableValuesView view,
+	public ContextMenuTV(AppWFull app, TableValuesView view,
 			GeoElement geo, int column) {
 		this.app = app;
 		this.view = view;
@@ -86,7 +86,7 @@ public class ContextMenuTV {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
-		List<TableValuesContextMenuItem> items = GlobalScope.contextMenuFactory
+		List<TableValuesContextMenuItem> items = app.getContextMenuFactory()
 				.makeTableValuesContextMenu(column, columnIdx, view.getTableValuesModel(),
 				app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC,
 				GlobalScope.examController.isExamActive());

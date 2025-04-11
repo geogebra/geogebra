@@ -8,10 +8,10 @@ import org.geogebra.web.full.gui.browser.MaterialCardController;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.DoubleClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -29,7 +29,7 @@ public class TemplatePreviewCard extends FlowPanel
      * @param hasMoreButton - context menu button
      * @param callback - callback
      */
-    public TemplatePreviewCard(final AppW app, final Material material, boolean hasMoreButton,
+    public TemplatePreviewCard(final AppWFull app, final Material material, boolean hasMoreButton,
                                final AsyncOperation<TemplatePreviewCard> callback) {
         controller = new MaterialCardController(app);
         controller.setMaterial(material);
@@ -62,7 +62,7 @@ public class TemplatePreviewCard extends FlowPanel
         }
     }
 
-    private void buildGUI(AppW app, boolean hasMoreButton) {
+    private void buildGUI(AppWFull app, boolean hasMoreButton) {
         addStyleName("mowPreviewCard");
         if (!(NavigatorUtil.isMobile())) {
             addStyleName("desktop");

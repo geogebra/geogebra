@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotSame;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
@@ -28,14 +29,13 @@ public class ExamControllerMultiAppTest {
 	@Test
 	public void shouldNotifyAllDelegates() {
 		TestExamDelegate firstDelegate = new TestExamDelegate();
-		controller.registerContext(this,
+		controller.registerContext(new ExamController.ContextDependencies(this,
 				app.getKernel().getAlgoDispatcher(),
 				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				app.getKernel().getAlgebraProcessor(),
-				app.getLocalization(),
-				app.getSettings(),
-				app.getKernel().getStatisticGroupsBuilder(),
-				null, null, null, null);
+				app.getLocalization(), app.getSettings(), new StatisticGroupsBuilder(),
+				null, app, null, null));
+
 		controller.registerDelegate(firstDelegate);
 		TestExamDelegate secondDelegate = new TestExamDelegate();
 		controller.registerDelegate(secondDelegate);

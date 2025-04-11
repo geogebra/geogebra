@@ -1090,7 +1090,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 								resetOnFileNew();
 							} else {
 								getGuiManager().getTemplateController()
-										.fillTemplates(AppW.this, result);
+										.fillTemplates(result);
 								getDialogManager().showTemplateChooser();
 							}
 						}

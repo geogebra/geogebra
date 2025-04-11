@@ -1812,7 +1812,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public EuclidianStyleBar newDynamicStylebar(final EuclidianView ev) {
-		return new QuickStyleBar(ev);
+		return new QuickStyleBar(ev, getApp());
 	}
 
 	@Override
@@ -2068,7 +2068,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public TemplateChooserController getTemplateController() {
 		if (templateController == null) {
-			templateController = new TemplateChooserController();
+			templateController = new TemplateChooserController(getApp());
 		}
 		return templateController;
 	}

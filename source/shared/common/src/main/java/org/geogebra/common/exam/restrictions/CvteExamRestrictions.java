@@ -12,6 +12,7 @@ import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.St
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.ALLOW;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
+
 import static org.geogebra.common.plugin.Operation.ALT;
 import static org.geogebra.common.plugin.Operation.ARG;
 import static org.geogebra.common.plugin.Operation.BETA;
@@ -45,6 +46,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteEquationBehaviour;
@@ -54,14 +56,11 @@ import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibili
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
-import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationBehaviour;
-import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -75,8 +74,6 @@ import org.geogebra.common.kernel.arithmetic.filter.graphing.AbsExpressionFilter
 import org.geogebra.common.kernel.arithmetic.filter.graphing.InnerProductExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.PowerInnerProductExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.VectorProductExpressionFilter;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -84,9 +81,6 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
-import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.localization.AutocompleteProvider;
-import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -120,22 +114,12 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 
 	@Override
 	public void applyTo(
-			@Nullable AlgoDispatcher algoDispatcher,
-			@Nullable CommandDispatcher commandDispatcher,
-			@Nullable AlgebraProcessor algebraProcessor,
+			@Nonnull ExamController.ContextDependencies dependencies,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context,
-			@Nullable Localization localization,
-			@Nullable Settings settings,
-			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
-			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory,
-			@Nullable Construction construction) {
-		if (settings != null) {
-			casEnabled = settings.getCasSettings().isEnabled();
+			@Nullable ContextMenuFactory contextMenuFactory) {
+		if (dependencies.settings != null) {
+			casEnabled = dependencies.settings.getCasSettings().isEnabled();
 			// Note: The effect we want to achieve here is disable the symbolic versions of the
 			// Derivative and Integral commands, and replace them on the fly with their numeric
 			// counterparts (a requirement of APPS-4871/APPS-4961). This behavior is
@@ -144,36 +128,22 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			// Careful: setting the "CAS enabled" setting to false here only makes because
 			// CvTE exam is restricted to the Graphing subapp of Suite, and the Graphing
 			// standalone app disables CAS, but it's enabled in Suite (see app config).
-			settings.getCasSettings().setEnabled(false);
+			dependencies.settings.getCasSettings().setEnabled(false);
 		}
-		super.applyTo(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
-				context, localization, settings, statisticGroupsBuilder, autoCompleteProvider,
-				toolsProvider, geoElementPropertiesFactory, scheduledPreviewFromInputBar,
-				contextMenuFactory, construction);
+		super.applyTo(dependencies, propertiesRegistry,
+				geoElementPropertiesFactory, contextMenuFactory);
 	}
 
 	@Override
 	public void removeFrom(
-			@Nullable AlgoDispatcher algoDispatcher,
-			@Nullable CommandDispatcher commandDispatcher,
-			@Nullable AlgebraProcessor algebraProcessor,
+			@Nonnull ExamController.ContextDependencies dependencies,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context,
-			@Nullable Localization localization,
-			@Nullable Settings settings,
-			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
-			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory,
-			@Nullable Construction construction) {
-		super.removeFrom(algoDispatcher, commandDispatcher, algebraProcessor, propertiesRegistry,
-				context, localization, settings, statisticGroupsBuilder, autoCompleteProvider,
-				toolsProvider, geoElementPropertiesFactory, scheduledPreviewFromInputBar,
-				contextMenuFactory, construction);
-		if (settings != null) {
-			settings.getCasSettings().setEnabled(casEnabled);
+			@Nullable ContextMenuFactory contextMenuFactory) {
+		super.removeFrom(dependencies, propertiesRegistry,
+				geoElementPropertiesFactory, contextMenuFactory);
+		if (dependencies.settings != null) {
+			dependencies.settings.getCasSettings().setEnabled(casEnabled);
 		}
 	}
 

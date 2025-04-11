@@ -8,8 +8,7 @@ public interface TemplateChooserControllerI {
 
     /**
      * fill templates list given a material list
-     * @param appW see {@link AppW}
      * @param templates list of materials having type ggs-templates
      */
-    void fillTemplates(AppW appW, List<Material> templates);
+    void fillTemplates(List<Material> templates);
 }

@@ -13,9 +13,9 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -38,7 +38,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * @param card
 	 *            related card
 	 */
-	public ContextMenuButtonMaterialCard(AppW app, Material mat,
+	public ContextMenuButtonMaterialCard(AppWFull app, Material mat,
 			MaterialCard card) {
 		super(app);
 		this.material = mat;

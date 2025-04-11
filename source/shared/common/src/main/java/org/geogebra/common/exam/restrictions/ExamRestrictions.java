@@ -12,30 +12,22 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
-import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
-import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.EquationBehaviour;
-import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
-import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.DisabledAlgorithms;
 import org.geogebra.common.kernel.arithmetic.filter.DeepExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoElementSetup;
-import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
@@ -228,89 +220,71 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * Apply the exam restrictions.
 	 */
 	public void applyTo(
-			@Nullable AlgoDispatcher algoDispatcher,
-			@Nullable CommandDispatcher commandDispatcher,
-			@Nullable AlgebraProcessor algebraProcessor,
+			@Nonnull ExamController.ContextDependencies dependencies,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context,
-			@Nullable Localization localization,
-			@Nullable Settings settings,
-			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
-			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory,
-			@Nullable Construction construction) {
-		if (algoDispatcher != null) {
-			algoDispatcher.addDisabledAlgorithms(disabledAlgorithms);
+			@Nullable ContextMenuFactory contextMenuFactory) {
+		dependencies.algoDispatcher.addDisabledAlgorithms(disabledAlgorithms);
+		for (CommandFilter commandFilter : commandFilters) {
+			dependencies.commandDispatcher.addCommandFilter(commandFilter);
 		}
-		if (commandDispatcher != null) {
-			for (CommandFilter commandFilter : commandFilters) {
-				commandDispatcher.addCommandFilter(commandFilter);
-			}
-			commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
-			for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
-				commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
-			}
+		dependencies.commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
+		for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
+			dependencies.commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
 		}
-		if (algebraProcessor != null) {
-			for (ExpressionFilter expressionFilter : inputExpressionFilters) {
-				algebraProcessor.addInputExpressionFilter(expressionFilter);
-			}
-			for (ExpressionFilter expressionFilter : outputExpressionFilters) {
-				algebraProcessor.addOutputExpressionFilter(expressionFilter);
-			}
-			algebraProcessor.reinitCommands();
-			if (equationBehaviour != null) {
-				originalEquationBehaviour = algebraProcessor.getKernel().getEquationBehaviour();
-				algebraProcessor.getKernel().setEquationBehaviour(equationBehaviour);
-			}
+		for (ExpressionFilter expressionFilter : inputExpressionFilters) {
+			dependencies.algebraProcessor.addInputExpressionFilter(expressionFilter);
 		}
-		if (statisticGroupsBuilder != null) {
-			statisticGroupsBuilder.setStatisticsFilter(statisticsFilter);
+		for (ExpressionFilter expressionFilter : outputExpressionFilters) {
+			dependencies.algebraProcessor.addOutputExpressionFilter(expressionFilter);
+		}
+		dependencies.algebraProcessor.reinitCommands();
+		if (equationBehaviour != null) {
+			originalEquationBehaviour = dependencies.algebraProcessor.getKernel()
+					.getEquationBehaviour();
+			dependencies.algebraProcessor.getKernel().setEquationBehaviour(equationBehaviour);
+		}
+		if (dependencies.statisticGroupsBuilder != null) {
+			dependencies.statisticGroupsBuilder.setStatisticsFilter(statisticsFilter);
 		}
 		if (syntaxFilter != null) {
-			if (autoCompleteProvider != null) {
-				autoCompleteProvider.addSyntaxFilter(syntaxFilter);
+			if (dependencies.autoCompleteProvider != null) {
+				dependencies.autoCompleteProvider.addSyntaxFilter(syntaxFilter);
 			}
-			if (localization != null) {
-				localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
-			}
+			dependencies.localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
 		}
-		if (autoCompleteProvider != null) {
-			autoCompleteProvider.setOperationFilter(operationFilter);
+		if (dependencies.autoCompleteProvider != null) {
+			dependencies.autoCompleteProvider.setOperationFilter(operationFilter);
 		}
 		if (propertiesRegistry != null) {
 			propertyRestrictions.forEach((name, restriction) -> {
-				Property property = propertiesRegistry.lookup(name, context);
+				Property property = propertiesRegistry.lookup(name, dependencies.context);
 				if (property != null) {
 					restriction.applyTo(property);
 				}
 			});
 		}
-		if (toolsProvider != null && toolsFilter != null) {
-			toolsProvider.addToolsFilter(toolsFilter);
+		if (dependencies.toolsProvider != null && toolsFilter != null) {
+			dependencies.toolsProvider.addToolsFilter(toolsFilter);
 		}
 		if (geoElementPropertiesFactory != null) {
 			geoElementPropertiesFactory.addFilter(restrictedGeoElementVisibilityPropertyFilter);
 			propertyRestrictions.forEach(geoElementPropertiesFactory::addRestriction);
 		}
-		if (algebraProcessor != null) {
-			algebraProcessor.addGeoElementSetup(restrictedGeoElementVisibilitySetup);
-		}
-		if (scheduledPreviewFromInputBar != null) {
-			scheduledPreviewFromInputBar.addGeoElementSetup(restrictedGeoElementVisibilitySetup);
+		dependencies.algebraProcessor.addGeoElementSetup(restrictedGeoElementVisibilitySetup);
+		if (dependencies.scheduledPreviewFromInputBar != null) {
+			dependencies.scheduledPreviewFromInputBar.addGeoElementSetup(
+					restrictedGeoElementVisibilitySetup);
 		}
 		if (contextMenuFactory != null) {
 			contextMenuItemFilters.forEach(contextMenuFactory::addFilter);
 		}
-		if (settings != null && construction != null) {
-			this.restrictedSettings = settings;
-			this.restrictedDefaults = construction.getConstructionDefaults();
-			saveSettings(settings, restrictedDefaults);
-			applySettingsRestrictions(settings, restrictedDefaults);
-			construction.initUndoInfo();
+		if (dependencies.settings != null && dependencies.construction != null) {
+			this.restrictedSettings = dependencies.settings;
+			this.restrictedDefaults = dependencies.construction.getConstructionDefaults();
+			saveSettings(dependencies.settings, restrictedDefaults);
+			applySettingsRestrictions(dependencies.settings, restrictedDefaults);
+			dependencies.construction.initUndoInfo();
 		}
 	}
 
@@ -319,84 +293,65 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * {@link #applyTo}).
 	 */
 	public void removeFrom(
-			@Nullable AlgoDispatcher algoDispatcher,
-			@Nullable CommandDispatcher commandDispatcher,
-			@Nullable AlgebraProcessor algebraProcessor,
+			@Nonnull ExamController.ContextDependencies dependencies,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context,
-			@Nullable Localization localization,
-			@Nullable Settings settings,
-			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
-			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-			@Nullable ContextMenuFactory contextMenuFactory,
-			@Nullable Construction construction) {
-		if (algoDispatcher != null) {
-			algoDispatcher.removeDisabledAlgorithms(disabledAlgorithms);
+			@Nullable ContextMenuFactory contextMenuFactory) {
+		dependencies.algoDispatcher.removeDisabledAlgorithms(disabledAlgorithms);
+		for (CommandFilter commandFilter : commandFilters) {
+			dependencies.commandDispatcher.removeCommandFilter(commandFilter);
 		}
-		if (commandDispatcher != null) {
-			for (CommandFilter commandFilter : commandFilters) {
-				commandDispatcher.removeCommandFilter(commandFilter);
-			}
-			commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
-			for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
-				commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
-			}
+		dependencies.commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
+		for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
+			dependencies.commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
 		}
-		if (algebraProcessor != null) {
-			for (ExpressionFilter expressionFilter : inputExpressionFilters) {
-				algebraProcessor.removeInputExpressionFilter(expressionFilter);
-			}
-			for (ExpressionFilter expressionFilter : outputExpressionFilters) {
-				algebraProcessor.removeOutputExpressionFilter(expressionFilter);
-			}
-			algebraProcessor.reinitCommands();
-			if (equationBehaviour != null) { // only restore it if we overwrote it
-				algebraProcessor.getKernel().setEquationBehaviour(originalEquationBehaviour);
-			}
+		for (ExpressionFilter expressionFilter : inputExpressionFilters) {
+			dependencies.algebraProcessor.removeInputExpressionFilter(expressionFilter);
 		}
-		if (statisticGroupsBuilder != null) {
-			statisticGroupsBuilder.setStatisticsFilter(null);
+		for (ExpressionFilter expressionFilter : outputExpressionFilters) {
+			dependencies.algebraProcessor.removeOutputExpressionFilter(expressionFilter);
 		}
+		dependencies.algebraProcessor.reinitCommands();
+		if (equationBehaviour != null) { // only restore it if we overwrote it
+			dependencies.algebraProcessor.getKernel()
+					.setEquationBehaviour(originalEquationBehaviour);
+		}
+		dependencies.statisticGroupsBuilder.setStatisticsFilter(null);
 		if (syntaxFilter != null) {
-			if (autoCompleteProvider != null) {
-				autoCompleteProvider.removeSyntaxFilter(syntaxFilter);
+			if (dependencies.autoCompleteProvider != null) {
+				dependencies.autoCompleteProvider.removeSyntaxFilter(syntaxFilter);
 			}
-			if (localization != null) {
-				localization.getCommandSyntax().removeSyntaxFilter(syntaxFilter);
-			}
+			dependencies.localization.getCommandSyntax().removeSyntaxFilter(syntaxFilter);
 		}
-		if (autoCompleteProvider != null) {
-			autoCompleteProvider.setOperationFilter(null);
+		if (dependencies.autoCompleteProvider != null) {
+			dependencies.autoCompleteProvider.setOperationFilter(null);
 		}
 		if (propertiesRegistry != null) {
 			propertyRestrictions.forEach((name, restriction) -> {
-				Property property = propertiesRegistry.lookup(name, context);
+				Property property = propertiesRegistry.lookup(name, dependencies.context);
 				if (property != null) {
 					restriction.removeFrom(property);
 				}
 			});
 		}
-		if (toolsProvider != null && toolsFilter != null) {
-			toolsProvider.removeToolsFilter(toolsFilter);
+		if (dependencies.toolsProvider != null && toolsFilter != null) {
+			dependencies.toolsProvider.removeToolsFilter(toolsFilter);
 		}
 		if (geoElementPropertiesFactory != null) {
 			geoElementPropertiesFactory.removeFilter(restrictedGeoElementVisibilityPropertyFilter);
 			propertyRestrictions.forEach(geoElementPropertiesFactory::removeRestriction);
 		}
-		if (algebraProcessor != null) {
-			algebraProcessor.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
-		}
-		if (scheduledPreviewFromInputBar != null) {
-			scheduledPreviewFromInputBar.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
+		dependencies.algebraProcessor.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
+		if (dependencies.scheduledPreviewFromInputBar != null) {
+			dependencies.scheduledPreviewFromInputBar
+					.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
 		}
 		if (contextMenuFactory != null) {
 			contextMenuItemFilters.forEach(contextMenuFactory::removeFilter);
 		}
-		if (settings != null && construction != null) {
-			removeSettingsRestrictions(settings, construction.getConstructionDefaults());
+		if (dependencies.settings != null && dependencies.construction != null) {
+			removeSettingsRestrictions(dependencies.settings,
+					dependencies.construction.getConstructionDefaults());
 		}
 	}
 

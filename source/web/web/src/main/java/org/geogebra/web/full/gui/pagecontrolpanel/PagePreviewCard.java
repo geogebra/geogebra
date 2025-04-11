@@ -7,9 +7,9 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.gwtproject.dom.style.shared.Unit;
@@ -31,7 +31,7 @@ public class PagePreviewCard extends FlowPanel
 	/** Height of one card with the bottom margin */
 	static final int TOTAL_HEIGHT = CARD_HEIGHT + MARGIN;
 
-	private final AppW app;
+	private final AppWFull app;
 	private int pageIndex;
 	private Label number;
 	private FlowPanel imagePanel;
@@ -51,7 +51,7 @@ public class PagePreviewCard extends FlowPanel
 	 * @param file
 	 *            see {@link GgbFile}
 	 */
-	public PagePreviewCard(AppW app, int pageIndex, GgbFile file) {
+	public PagePreviewCard(AppWFull app, int pageIndex, GgbFile file) {
 		this.app = app;
 		this.pageIndex = pageIndex;
 		this.file = file;

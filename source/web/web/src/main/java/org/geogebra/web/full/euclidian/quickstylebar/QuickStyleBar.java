@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.undo.UndoActionObserver;
 import org.geogebra.common.main.undo.UndoActionType;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.PropertyWrapper;
@@ -30,6 +29,7 @@ import org.geogebra.web.full.gui.ContextMenuGeoElementW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -53,14 +53,16 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	public final static int QUICK_STYLE_BAR_HEIGHT = 48;
 	private final PropertyWrapper propertyWrapper;
 	private @CheckForNull ContextMenuGeoElementW contextMenu;
+	GeoElementPropertiesFactory geoElementPropertiesFactory;
 
 	/**
 	 * @param ev - parent view
 	 */
-	public QuickStyleBar(EuclidianView ev) {
+	public QuickStyleBar(EuclidianView ev, AppWFull app) {
 		this.ev = ev;
 		this.stylebarPositioner = new StylebarPositioner(ev.getApplication());
 		this.propertyWrapper = new PropertyWrapper(ev.getApplication());
+		geoElementPropertiesFactory = app.getGeoElementPropertiesFactory();
 		addStyleName("quickStylebar");
 		addHandlers();
 		buildGUI();
@@ -72,8 +74,6 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		if (activeGeoList.isEmpty()) {
 			return;
 		}
-		GeoElementPropertiesFactory geoElementPropertiesFactory =
-				GlobalScope.geoElementPropertiesFactory;
 		Property imageOpacityProperty = geoElementPropertiesFactory.createImageOpacityProperty(
 				getApp().getLocalization(), activeGeoList);
 		addPropertyPopupButton(activeGeoList, null, false, imageOpacityProperty);

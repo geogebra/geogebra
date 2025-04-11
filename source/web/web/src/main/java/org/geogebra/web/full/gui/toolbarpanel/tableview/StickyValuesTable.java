@@ -19,12 +19,12 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.DefineFunctionsDialogTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.cell.client.Cell;
@@ -51,7 +51,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private static final int LINE_HEIGHT = 56;
 	protected final TableValuesModel tableModel;
 	protected final TableValuesView view;
-	private final AppW app;
+	private final AppWFull app;
 	private final HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;
 	private ContextMenuTV contextMenu;
@@ -100,11 +100,11 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	/**
-	 * @param app  {@link AppW}
+	 * @param app  application
 	 * @param view to feed table with data.
 	 * @param shadedColumns whether to allow adding columns
 	 */
-	public StickyValuesTable(AppW app, TableValuesView view, boolean shadedColumns) {
+	public StickyValuesTable(AppWFull app, TableValuesView view, boolean shadedColumns) {
 		getTable().addStyleName("shaded");
 		this.app = app;
 		this.view = view;

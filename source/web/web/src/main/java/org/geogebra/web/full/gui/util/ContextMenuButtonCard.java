@@ -10,7 +10,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.event.logical.shared.CloseEvent;
@@ -29,7 +28,7 @@ public class ContextMenuButtonCard extends StandardButton
 	/** localization */
 	protected Localization loc;
 	/** application */
-	protected AppW app;
+	protected AppWFull app;
 	/** geogebra frame */
 	protected GeoGebraFrameFull frame;
 
@@ -37,11 +36,11 @@ public class ContextMenuButtonCard extends StandardButton
 	 * @param app
 	 *            application
 	 */
-	public ContextMenuButtonCard(AppW app) {
+	public ContextMenuButtonCard(AppWFull app) {
 		super(MaterialDesignResources.INSTANCE.more_vert_black(), null, 24);
 		this.app = app;
 		loc = app.getLocalization();
-		frame = ((AppWFull) app).getAppletFrame();
+		frame = app.getAppletFrame();
 		initButton();
 	}
 

@@ -15,7 +15,6 @@ import org.geogebra.common.gui.view.algebra.contextmenu.impl.RemoveSlider;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateInputAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateOutputAction;
@@ -57,7 +56,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	/**
 	 * @return see {@link AppW}
 	 */
-	public AppW getApp() {
+	public AppWFull getApp() {
 		return mApp;
 	}
 
@@ -66,12 +65,9 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		wrappedPopup.clearItems();
-		List<AlgebraContextMenuItem> actions = GlobalScope.contextMenuFactory
-				.makeAlgebraContextMenu(
-						geo,
-						mApp.getKernel().getAlgebraProcessor(),
-						getApp().getSubAppCode(),
-						mApp.getSettings().getAlgebra());
+		List<AlgebraContextMenuItem> actions = getApp().getContextMenuFactory()
+				.makeAlgebraContextMenu(geo, mApp.getKernel().getAlgebraProcessor(),
+						getApp().getSubAppCode(), mApp.getSettings().getAlgebra());
 		for (AlgebraContextMenuItem action : actions) {
 			addAction(action);
 		}

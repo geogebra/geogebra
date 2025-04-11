@@ -4,6 +4,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -16,7 +17,7 @@ import org.gwtproject.user.client.ui.Label;
  * Material card
  */
 public class MaterialCard extends FlowPanel implements MaterialCardI {
-	private AppW app;
+	private AppWFull app;
 	// image of material
 	private MaterialImagePanel imgPanel;
 	// material information
@@ -31,7 +32,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public MaterialCard(final Material m, final AppW app) {
+	public MaterialCard(final Material m, final AppWFull app) {
 		this.app = app;
 		controller = new MaterialCardController(app);
 		controller.setMaterial(m);

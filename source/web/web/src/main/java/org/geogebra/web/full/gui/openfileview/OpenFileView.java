@@ -20,7 +20,6 @@ import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
@@ -28,7 +27,7 @@ public class OpenFileView extends HeaderFileView
 		implements OpenFileListener, EventRenderable {
 
 	private final FileViewCommon common;
-	private final AppW app;
+	private final AppWFull app;
 	private final BrowserDevice.FileOpenButton openFileBtn;
 	private StandardButton googleDriveBtn;
 
