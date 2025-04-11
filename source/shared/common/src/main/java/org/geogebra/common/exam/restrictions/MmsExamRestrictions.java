@@ -185,7 +185,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				ExamFeatureRestriction.HIDE_SPECIAL_POINTS,
 				ExamFeatureRestriction.SPREADSHEET,
 				ExamFeatureRestriction.SURD,
-				ExamFeatureRestriction.RATIONALIZATION);
+				ExamFeatureRestriction.RATIONALIZATION,
+				ExamFeatureRestriction.DISABLE_MIXED_NUMBERS);
 	}
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {

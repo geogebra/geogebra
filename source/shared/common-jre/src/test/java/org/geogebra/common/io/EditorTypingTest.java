@@ -974,6 +974,16 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void shouldNotSerializeMixedNumberMMSRestriction() {
+		app.applyRestrictions(Set.of(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS),
+				ExamType.MMS);
+		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.type("5")
+				.right(1).type("1").right(1).type("2")
+				.checkGGBMath("5 * 1 / 2", app.getEditorFeatures());
+	}
+
+	@Test
 	public void shouldSerializeAssignment() {
 		checker.type("a=")
 				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
