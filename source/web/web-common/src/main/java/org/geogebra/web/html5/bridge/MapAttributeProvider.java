@@ -10,7 +10,7 @@ import jsinterop.base.JsPropertyMap;
 
 public class MapAttributeProvider implements AttributeProvider {
 
-	private final HashMap<String, String> map = new HashMap<>();
+	private final HashMap<String, /* NonNull */ String> map = new HashMap<>();
 	private Element element;
 
 	/**
@@ -42,7 +42,11 @@ public class MapAttributeProvider implements AttributeProvider {
 
 	@Override
 	public void setAttribute(String attribute, String value) {
-		map.put(attribute.toLowerCase(Locale.US), value);
+		if (value == null) {
+			removeAttribute(attribute);
+		} else {
+			map.put(attribute.toLowerCase(Locale.US), value);
+		}
 	}
 
 	@Override
