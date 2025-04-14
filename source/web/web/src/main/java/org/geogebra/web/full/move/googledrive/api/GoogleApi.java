@@ -1,6 +1,6 @@
 package org.geogebra.web.full.move.googledrive.api;
 
-import org.geogebra.web.html5.util.JsRunnable;
+import org.geogebra.gwtutil.JsRunnable;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;

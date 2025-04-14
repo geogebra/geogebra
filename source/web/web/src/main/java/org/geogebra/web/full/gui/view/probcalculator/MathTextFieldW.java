@@ -6,9 +6,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.gwtutil.JsRunnable;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
-import org.geogebra.web.html5.util.JsRunnable;
 import org.gwtproject.dom.style.shared.Unit;
 
 import com.himamis.retex.editor.share.event.MathFieldListener;

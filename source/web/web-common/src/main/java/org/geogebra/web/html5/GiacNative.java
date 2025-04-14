@@ -1,6 +1,6 @@
 package org.geogebra.web.html5;
 
-import org.geogebra.web.html5.util.JsRunnable;
+import org.geogebra.gwtutil.JsRunnable;
 
 import elemental2.core.Function;
 import elemental2.core.JsArray;

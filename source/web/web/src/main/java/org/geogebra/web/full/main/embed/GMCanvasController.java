@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.embed;
 
-import org.geogebra.web.html5.util.JsRunnable;
+import org.geogebra.gwtutil.JsRunnable;
 
 import jsinterop.annotations.JsType;
 

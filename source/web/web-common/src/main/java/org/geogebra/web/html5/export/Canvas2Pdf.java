@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.export;
 
-import org.geogebra.web.html5.util.JsRunnable;
+import org.geogebra.gwtutil.JsRunnable;
 
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;

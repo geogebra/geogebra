@@ -2,8 +2,8 @@ package org.geogebra.web.html5.export;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
+import org.geogebra.gwtutil.JsRunnable;
 import org.geogebra.gwtutil.ScriptLoadCallback;
-import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;

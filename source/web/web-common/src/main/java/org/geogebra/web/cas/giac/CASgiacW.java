@@ -7,10 +7,10 @@ import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
+import org.geogebra.gwtutil.JsRunnable;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.GiacNative;
-import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.GWT;

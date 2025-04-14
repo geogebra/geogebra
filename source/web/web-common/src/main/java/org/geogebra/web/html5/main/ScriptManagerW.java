@@ -12,11 +12,11 @@ import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsRunnable;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.scripting.Sandbox;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.JsRunnable;
 
 import elemental2.core.Function;
 import elemental2.core.JsArray;
