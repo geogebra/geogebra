@@ -18,7 +18,6 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
@@ -96,6 +95,7 @@ public final class CvteExamTests extends BaseExamTests {
             "y = x^2",
             "y = x^3",
             "y = x^2 - 5x + 2",
+            "y = 2y + x",
             // Other enabled inputs
             "x",
             "f(x) = x^2",
@@ -128,6 +128,7 @@ public final class CvteExamTests extends BaseExamTests {
             "y^2 = x",
             "x^3 + y^2 = 2",
             "y^3 = x",
+            "y = 2y + x^2",
             // Restricted inequalities
             "x > 0",
             "y <= 1",

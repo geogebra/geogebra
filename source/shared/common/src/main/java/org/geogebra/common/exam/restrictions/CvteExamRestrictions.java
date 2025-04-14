@@ -452,16 +452,28 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				|| geoElement instanceof EquationValue;
 	}
 
+	@SuppressWarnings("PMD.SimplifyBooleanReturns")
 	private static boolean isExplicitEquation(GeoElement geoElement) {
 		Equation equation = unwrapEquation(geoElement);
-		// A GeoElement is an explicit equation if
-		return
-				// it is an equation
-				equation != null
-						// with a single "y" variable on the left-hand side
-						&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
-						// and any variables on the right-hand side (if any) are all "x".
-						&& equation.getRHS().any(value -> "x".equals(unwrapVariable(value)));
+		if (equation == null) {
+			return false;
+		}
+		// Explicit equations should have a single "y" variable on the left-hand side
+		if (!"y".equals(unwrapVariable(equation.getLHS().unwrap()))) {
+			return false;
+		}
+		// and all variables (if any) on the right-hand side should be "x".
+		if (anyVariableDiffersFromX(equation.getRHS())) {
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean anyVariableDiffersFromX(ExpressionNode expressionNode) {
+		return expressionNode.any(value -> {
+			String variable = unwrapVariable(value);
+			return variable != null && !variable.equals("x");
+		});
 	}
 
 	private static boolean isLinearEquation(GeoElement geoElement) {
