@@ -511,7 +511,7 @@
 	};
 
 	PDFKitMini.prototype.addPage = function(pageOptions) {
-		this.currentPage = new PDFPage(this, this.pageWidth, this.pageHeight, this.pages.id);
+		this.currentPage = new PDFPage(this, this.pageWidth, this.pageHeight, this.pages);
 		this.currentPage.dpi = pageOptions?.dpi || 72;
 		this.add(this.currentPage);
 		this.pages.addPage(this.currentPage);
@@ -598,7 +598,6 @@
 					}
 					descendant.subtype = "CIDFontType2";
 					descendant.cidToGidMap = "Identity";
-					descendant.ratio = b.includes("Serif") ? 1 : .65;
 					this.fonts.push(descendant);
 					c.descendantFonts.push(descendant);
 					c.encoding = "Identity-H";
@@ -876,7 +875,7 @@
 		return PDFObject.makeObject(props, this.id);
 	};
 
-	function PDFPage(pdf0, width0, height0, pagesID) {
+	function PDFPage(pdf0, width0, height0, parentPagesList) {
 		this.pdf = pdf0;
 		this.fonts = [];
 		this.images = [];
@@ -892,7 +891,7 @@
 		// initial transform, identity matrix
 		this.width = 72 * width0;
 		this.height = 72 * height0;
-		this.pagesID = pagesID;
+		this.parentPagesList = parentPagesList;
 		this._ctm = [1, 0, 0, 1, 0, 0];
 	}
 
@@ -1267,7 +1266,7 @@
 			"Type": "Page"
 		};
 
-		props["Parent"] = new PDFReference(this.pagesID + " 0 R");
+		props["Parent"] = PDFReference.of(this.parentPagesList);
 		props["MediaBox"] = [0, 0, this.width, this.height];
 		props["Contents"] = PDFReference.of(this.pdfStream);
 
@@ -1465,8 +1464,9 @@
 		if (this.cidToGidMap) {
 			props["FontMatrix"] = this.spec.matrix;
 			props["FontBBox"] = this.spec.bbox;
+			const ratio = this.spec.matrix[0] / 0.001;
 			props["W"] = new PDFReference('['
-				+ this.spec.widths.map((width, idx) => width && idx ? `${idx} [${width * this.ratio}]`: '').join("") + ']');
+				+ this.spec.widths.map((width, idx) => width && idx ? `${idx} [${Math.round(width * ratio)}]`: '').join("") + ']');
 			props["CIDToGIDMap"] = this.cidToGidMap;
 		}
 
