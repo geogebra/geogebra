@@ -220,7 +220,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 						NSolutions, NSolve, Product, RandomElement, Remove, Reverse, RightSide,
 						Sample, SampleSD, Sequence, Shuffle, SigmaXX, SigmaXY, Slider, Solutions,
 						Solve, Sort, stdev, StepGraph, StickGraph, Sum, Take, Transpose, Numeric,
-						Substitute);
+						Substitute, Normal);
 		return Set.of(filter);
 	}
 
@@ -442,10 +442,15 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			} else if (isCommand(command, Normal)) {
 				if (command.getArgumentNumber() == 4) {
 					GeoElement[] args = commandProcessor.resArgs(command);
-					if (!args[3].isNumberValue()) {
+					if (!isNumberValue(args[3])) {
 						throw commandProcessor.argErr(command, command.getArgument(3));
 					}
-				} else if (command.getArgumentNumber() != 2) {
+				} else if (command.getArgumentNumber() == 3) {
+					GeoElement[] args = commandProcessor.resArgs(command);
+					if (!isNumberValue(args[2])) {
+						throw commandProcessor.argErr(command, command.getArgument(2));
+					}
+				} else {
 					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
 				}
 			} else if (isCommand(command, Product)) {
@@ -471,6 +476,10 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			} else if (isCommand(command, Sum)) {
 				restrictArgumentCount(command, commandProcessor, 4);
 			}
+		}
+
+		private boolean isNumberValue(GeoElement geoElement) {
+			return geoElement.isNumberValue() && !geoElement.isGeoBoolean();
 		}
 	}
 

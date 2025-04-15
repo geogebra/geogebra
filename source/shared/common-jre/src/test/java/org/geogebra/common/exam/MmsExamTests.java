@@ -228,10 +228,21 @@ public class MmsExamTests extends BaseExamTests {
 			"SigmaXY({(1, 2), (3, 4)})",
 			"stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3})",
 			"Sum(a^2, a, 0, 5)",
+			"Normal(2, 0.5, 1, true)",
+			"Normal(2, 0.5, x, true)",
 	})
 	public void testRestrictedArguments(String expression) {
 		// Specify a valid output, so that we know that the input has been filtered or not.
 		assertNull(evaluate(expression, "1"));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Normal(2, 0.5, 1)",
+			"Normal(2, 0.5, 1, 2)",
+	})
+	public void testUnrestrictedArguments(String expression) {
+		assertNotNull(evaluate(expression, "1"));
 	}
 
 	@Test
