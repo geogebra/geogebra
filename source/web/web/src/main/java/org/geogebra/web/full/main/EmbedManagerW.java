@@ -801,8 +801,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			ge.initDefaultPosition(view);
 		}
 		app.invokeLater(() -> {
-			showAndSelect(ge);
+			if (!ge.isLabelSet()) {
+				showAndSelect(ge);
+			}
 			view.update(ge);
+			view.repaintView();
 		});
 	}
 }
