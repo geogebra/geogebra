@@ -55,7 +55,7 @@ public class ScientificActivity extends BaseActivity {
 		TableValuesView tableValuesView =
 				(TableValuesView) ((GuiManagerW) app.getGuiManager()).getTableValuesView();
 		tableController.setup(tableValuesView);
-		tableValuesView.noAlgebraLabelVisibleCheck();
+		tableValuesView.setAlgebraLabelVisibleCheck(false);
 	}
 
 	@Override

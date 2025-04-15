@@ -2,6 +2,7 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -125,6 +126,7 @@ public interface GeoGebraActivity {
 				((GuiManagerW) app.getGuiManager()).getTableValuesViewOrNull();
 		if (tableValues != null) {
 			tableValues.getTableValuesModel().setAllowsAddingColumns(true);
+			((TableValuesView) tableValues).setAlgebraLabelVisibleCheck(true);
 		}
 	}
 

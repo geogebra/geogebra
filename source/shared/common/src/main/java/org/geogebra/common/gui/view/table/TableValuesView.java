@@ -481,11 +481,10 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	/**
-	 * Disable checking algebraLabelVisible
-	 * for Scientific data table.
+	 * Enable or disable checking algebraLabelVisible the data table.
 	 */
-	public void noAlgebraLabelVisibleCheck() {
-		this.algebraLabelVisibleCheck = false;
+	public void setAlgebraLabelVisibleCheck(boolean enabled) {
+		this.algebraLabelVisibleCheck = enabled;
 	}
 
 	/**

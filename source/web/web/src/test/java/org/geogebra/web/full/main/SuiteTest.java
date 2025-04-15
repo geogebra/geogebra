@@ -10,8 +10,13 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.web.full.euclidian.quickstylebar.QuickStyleBar;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.test.AppMocker;
@@ -63,6 +68,21 @@ public class SuiteTest {
 		app.getSelectionManager().addSelectedGeo(app.getKernel().lookupLabel("h"));
 		styleBar.updateStyleBar();
 		assertEquals(5, styleBar.getWidgetCount());
+	}
+
+	@Test
+	public void tableOfValues() {
+		app = AppMocker.mockApplet(new AppletParameters("suite"));
+		app.switchToSubapp(SuiteSubApp.SCIENTIFIC);
+		app.switchToSubapp(SuiteSubApp.CAS);
+		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+		GeoElementND[] geos = algebraProcessor.processAlgebraCommand("x", false);
+		new LabelController().hideLabel(geos[0]);
+		app.getGuiManager().addGeoToTableValuesView(geos[0].toGeoElement());
+		assertEquals("f", geos[0].getLabelSimple());
+		assertTrue("CAS should allow adding columns",
+				app.getGuiManager().getTableValuesViewOrNull()
+						.getTableValuesModel().allowsAddingColumns());
 	}
 
 	private String getValueString(String label) {
