@@ -21,6 +21,7 @@ public class WtrExamTests extends BaseExamTests {
 	@ValueSource(strings = {
 			"BinomialDist()",
 			"Normal(2, 0.5, 1, true)",
+			"BinomialDist(5, 0.2, 1, false && true)",
 	})
 	public void testRestrictedCommands(String expression) {
 		assertNull(evaluate(expression));
@@ -44,6 +45,39 @@ public class WtrExamTests extends BaseExamTests {
 			"gamma(5)",
 	})
 	public void testRestrictedOperations(String expression) {
+		assertNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"{}",
+			"{0}",
+			"{0,1}",
+			"Sequence(n, n, 1, 10)",
+			"Sequence({1, 2, 3}, x, 1, 2)",
+			"{{0, 1}, {{1, 2}, 1}"
+	})
+	public void testRestrictedLists(String expression) {
+		assertNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			// matrices (are composed of lists, but should be allowed)
+			"{{0,1},{1,0}}",
+			"{{0},{1}}"
+	})
+	public void testAllowedLists(String expression) {
+		assertNotNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"3i",
+			"1 / (1 - 2i)",
+			"i^2",
+	})
+	public void testRestrictedComplexExpressions(String expression) {
 		assertNull(evaluate(expression));
 	}
 
