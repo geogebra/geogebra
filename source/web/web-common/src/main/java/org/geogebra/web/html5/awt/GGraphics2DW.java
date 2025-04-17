@@ -41,7 +41,6 @@ import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
-import elemental2.dom.ImageData;
 import jsinterop.base.Js;
 
 public class GGraphics2DW implements GGraphics2DWI {
@@ -829,18 +828,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 		context.fill("evenodd");
 	}
 
-	public ImageData getImageData(int x, int y, int width, int height) {
-		return context.getImageData(x, y, width, height);
-	}
-
-	/**
-	 * @param data
-	 *            Imagedata to put on the canvas
-	 */
-	public void putImageData(ImageData data, double x, double y) {
-		context.putImageData(data, (int) x, (int) y);
-	}
-
 	@Override
 	public void setAntialiasing() {
 		// not needed
@@ -950,10 +937,22 @@ public class GGraphics2DW implements GGraphics2DWI {
 		context.drawImage(((MyImageW) img).getImage(), dx, dy, dw, dh);
 	}
 
+	/**
+	 * @param img image element
+	 * @param x left
+	 * @param y top
+	 */
 	public void drawImage(HTMLImageElement img, int x, int y) {
 		context.drawImage(img, x, y);
 	}
 
+	/**
+	 * @param img image element
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
+	 */
 	public void drawImage(HTMLCanvasElement img, int x, int y, int width, int height) {
 		context.drawImage(img, x, y, width, height);
 	}

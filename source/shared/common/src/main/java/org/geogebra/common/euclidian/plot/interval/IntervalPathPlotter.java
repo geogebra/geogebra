@@ -10,8 +10,23 @@ public interface IntervalPathPlotter {
 
 	void lineTo(double x, double y);
 
+	/**
+	 * Draws a line segment.
+	 * @param x1 start point's x-coordinate
+	 * @param y1 start point's y-coordinate
+	 * @param x2 end point's x-coordinate
+	 * @param y2 end point's y-coordinate
+	 */
 	void segment(double x1, double y1, double x2, double y2);
 
+	/**
+	 * Draws a line segment clipped to view bounds.
+	 * @param bounds view bounds
+	 * @param x1 start point's x-coordinate
+	 * @param y1 start point's y-coordinate
+	 * @param x2 end point's x-coordinate
+	 * @param y2 end point's y-coordinate
+	 */
 	void segment(EuclidianViewBounds bounds, double x1, double y1, double x2, double y2);
 
 	void draw(GGraphics2D g2);

@@ -1422,6 +1422,21 @@ public class Coords implements AnimatableValue<Coords> {
 				inPlaneCoords);
 	}
 
+	/**
+	 * returns this projected on the plane represented by the matrix, with
+	 * vector v used for direction.
+	 * <p>
+	 * Attempt this to be of dimension 4, the matrix to be of dimension 4*4, and
+	 * the vector to be of dimension 4.
+	 *
+	 * @param m
+	 *            matrix {v1 v2 ?? o} where (o,v1,v2) is a coord sys for the
+	 *            plane, and v3
+	 * @param v
+	 *            the direction used for projection
+	 * @param globalCoords
+	 *            output: global coords
+	 */
 	public void projectPlaneThruV(CoordMatrix m, Coords v,
 			Coords globalCoords) {
 		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords);

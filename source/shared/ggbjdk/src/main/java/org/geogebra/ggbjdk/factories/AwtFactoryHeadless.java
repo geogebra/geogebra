@@ -42,8 +42,8 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 	}
 
 	@Override
-	public GRectangle newRectangle(int x, int y, int w, int h) {
-		return new Rectangle(x, y, w, h);
+	public GRectangle newRectangle(int x, int y, int width, int height) {
+		return new Rectangle(x, y, width, height);
 	}
 
 	@Override
@@ -77,9 +77,9 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 	}
 
 	@Override
-	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double w,
-			double h) {
-		return new Ellipse2D.Double(x, y, w, h);
+	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double width,
+			double height) {
+		return new Ellipse2D.Double(x, y, width, height);
 	}
 
 	@Override

@@ -3,33 +3,48 @@ package org.geogebra.common.awt;
 public interface GRectangle extends GRectangle2D {
 
 	@Override
-	public double getY();
+	double getY();
 
 	@Override
-	public double getX();
+	double getX();
 
 	@Override
-	public double getWidth();
+	double getWidth();
 
 	@Override
-	public double getHeight();
+	double getHeight();
 
-	public void setBounds(int x, int y, int width, int height);
+	/**
+	 * Sets the bounding <code>Rectangle</code> of this
+	 * <code>Rectangle</code> to the specified
+	 * <code>x</code>, <code>y</code>, <code>width</code>,
+	 * and <code>height</code>.
+	 * <p>
+	 * This method is included for completeness, to parallel the
+	 * <code>setBounds</code> method of <code>Component</code>.
+	 * @param x the new X coordinate for the upper-left
+	 *                    corner of this <code>Rectangle</code>
+	 * @param y the new Y coordinate for the upper-left
+	 *                    corner of this <code>Rectangle</code>
+	 * @param width the new width for this <code>Rectangle</code>
+	 * @param height the new height for this <code>Rectangle</code>
+	 */
+	void setBounds(int x, int y, int width, int height);
 
-	public void setLocation(int xLabel, int i);
+	void setLocation(int xLabel, int i);
 
-	public void setBounds(GRectangle rectangle);
+	void setBounds(GRectangle rectangle);
 
-	public void add(GRectangle bb);
+	void add(GRectangle bb);
 
 	@Override
-	public void add(double x, double y);
+	void add(double x, double y);
 
-	// public boolean contains(PathPoint prevP);
-	public boolean contains(GPoint2D p1);
+	// boolean contains(PathPoint prevP);
+	boolean contains(GPoint2D p1);
 
-	public GRectangle union(GRectangle bounds);
+	GRectangle union(GRectangle bounds);
 
-	public void setSize(int width, int height);
+	void setSize(int width, int height);
 
 }

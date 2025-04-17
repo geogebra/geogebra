@@ -48,9 +48,20 @@ public class TwoVarInferenceModel {
 
 	public interface TwoVarInferenceListener {
 
-		void setStatTable(int row, String[] rowNames, int length,
+		/**
+		 * @param rows number of rows
+		 * @param rowNames row names
+		 * @param columns number of columns
+		 * @param columnNames column names
+		 */
+		void setStatTable(int rows, String[] rowNames, int columns,
 				String[] columnNames);
 
+		/**
+		 * @param value value
+		 * @param row row
+		 * @param col column
+		 */
 		void setFormattedValueAt(double value, int row, int col);
 
 		GeoList getDataSelected();
@@ -59,8 +70,18 @@ public class TwoVarInferenceModel {
 
 		double[] getValueArray(GeoList list);
 
+		/**
+		 * Add item to alternative hypothesis panel
+		 * @param name name
+		 * @param tail tail type (&lt;, &ht; or !=)
+		 * @param value value
+		 */
 		void addAltHypItem(String name, String tail, double value);
 
+		/**
+		 * Select hypothesis.
+		 * @param idx hypothesis index
+		 */
 		void selectAltHyp(int idx);
 
 	}

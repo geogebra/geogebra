@@ -2085,6 +2085,16 @@ public enum Operation {
 		return false;
 	}
 
+	/**
+	 * @param ev evaluator
+	 * @param lt value of left expression
+	 * @param rt value of right expression
+	 * @param left definition of left expression
+	 * @param right definition of right expression
+	 * @param tpl string template (used for string addition)
+	 * @param holdsLaTeX whether to treat strings as LaTeX
+	 * @return evaluation result
+	 */
 	public abstract ExpressionValue handle(ExpressionNodeEvaluator ev,
 			ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX);

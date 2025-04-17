@@ -41,10 +41,18 @@ public interface ToStringConverter {
 	 */
 	@Nonnull String toLabelAndDescription(GeoElement object, StringTemplate tpl);
 
+	/**
+	 * @param object construction element
+	 * @return output value string, using default template
+	 */
 	default @Nonnull String convert(GeoElement object) {
 		return toOutputValueString(object, StringTemplate.defaultTemplate);
 	}
 
+	/**
+	 * @param object construction element
+	 * @return string containing label and description, using default template
+	 */
 	default @Nonnull String toLabelAndDescription(GeoElement object) {
 		return toLabelAndDescription(object, StringTemplate.defaultTemplate);
 	}

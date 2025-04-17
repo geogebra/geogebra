@@ -12,6 +12,12 @@ public interface SpreadsheetHeader extends KeyDownHandler {
 
 	void onPointerMove(PointerEvent event);
 
+	/**
+	 * Show context menu.
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @param b whether position should be relative
+	 */
 	void showContextMenu(int x, int y, boolean b);
 
 	boolean isResizing();

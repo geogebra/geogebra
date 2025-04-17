@@ -89,6 +89,12 @@ public abstract class ProbabilityTable {
 		setTable(distType, params, xMin, xMax);
 	}
 
+	/**
+	 * @param distType2 distribution type
+	 * @param params distribution parameters
+	 * @param xMin2 minimum of selected interval
+	 * @param xMax2 maximum od selected interval
+	 */
 	public abstract void setTable(Dist distType2, GeoNumberValue[] params, int xMin2,
 			int xMax2);
 

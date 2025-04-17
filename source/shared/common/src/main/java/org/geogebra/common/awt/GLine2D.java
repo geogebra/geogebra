@@ -2,17 +2,23 @@ package org.geogebra.common.awt;
 
 public interface GLine2D extends GShape {
 
-	public abstract void setLine(double x1, double y1, double x2, double y2);
+	/**
+	 * @param x1 start point's x-coordinate
+	 * @param y1 start point's y-coordinate
+	 * @param x2 end point's x-coordinate
+	 * @param y2 end point's y-coordinate
+	 */
+	void setLine(double x1, double y1, double x2, double y2);
 
-	public abstract GPoint2D getP1();
+	GPoint2D getP1();
 
-	public abstract GPoint2D getP2();
+	GPoint2D getP2();
 
-	public abstract double getX1();
+	double getX1();
 
-	public abstract double getY1();
+	double getY1();
 
-	public abstract double getX2();
+	double getX2();
 
-	public abstract double getY2();
+	double getY2();
 }

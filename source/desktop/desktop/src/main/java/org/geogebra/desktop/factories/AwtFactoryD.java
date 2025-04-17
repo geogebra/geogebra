@@ -66,8 +66,8 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GRectangle newRectangle(int x, int y, int w, int h) {
-		return new GRectangleD(x, y, w, h);
+	public GRectangle newRectangle(int x, int y, int width, int height) {
+		return new GRectangleD(x, y, width, height);
 	}
 
 	@Override
@@ -172,9 +172,9 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double w,
-			double h) {
-		return new GEllipse2DDoubleD(x, y, w, h);
+	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double width,
+			double height) {
+		return new GEllipse2DDoubleD(x, y, width, height);
 	}
 
 	@Override
@@ -226,9 +226,9 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GGradientPaint newGradientPaint(double x, double y, GColor bg2,
-			double x2, double i, GColor bg) {
-		return new GGradientPaintD(x, y, bg2, x2, i, bg);
+	public GGradientPaint newGradientPaint(double x1, double y1, GColor color1,
+			double x2, double y2, GColor color2) {
+		return new GGradientPaintD(x1, y1, color1, x2, y2, color2);
 	}
 
 	@Override

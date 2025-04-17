@@ -1,7 +1,16 @@
 package org.geogebra.common.util;
 
 public interface LaTeXCache {
-	public void remove();
+	/**
+	 * Remove cached formula
+	 */
+	void remove();
 
-	public Object getCachedLaTeXKey(String a, int b, int c, Object color);
+	/**
+	 * @param content formula text
+	 * @param fontStyle font style
+	 * @param fontSize font size
+	 * @return key for LaTeX cache
+	 */
+	Object getCachedLaTeXKey(String content, int fontSize, int fontStyle, Object color);
 }

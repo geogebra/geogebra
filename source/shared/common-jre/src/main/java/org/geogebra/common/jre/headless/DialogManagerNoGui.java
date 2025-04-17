@@ -90,7 +90,7 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	}
 
 	@Override
-	public void showNumberInputDialogRotate(String menu,
+	public void showNumberInputDialogRotate(String title,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
 		DialogManager.rotateObject(app, getInput(),
@@ -102,7 +102,7 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	}
 
 	@Override
-	public void showNumberInputDialogDilate(String menu,
+	public void showNumberInputDialogDilate(String title,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
 		// TODO Auto-generated method stub

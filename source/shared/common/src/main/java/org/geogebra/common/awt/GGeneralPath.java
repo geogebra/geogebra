@@ -2,34 +2,66 @@ package org.geogebra.common.awt;
 
 public interface GGeneralPath extends GShape {
 
-	public abstract void moveTo(double x, double y);
+	void moveTo(double x, double y);
 
-	public abstract void reset();
+	void reset();
 
-	public abstract void lineTo(double x, double y);
+	/**
+	 * Ad a line segment to this path.
+	 * @param x endpoint's x-coordinate
+	 * @param y endpoint's y-coordinate
+	 */
+	void lineTo(double x, double y);
 
-	public abstract void append(GShape s, boolean connect);
+	void append(GShape s, boolean connect);
 
-	public abstract void closePath();
+	void closePath();
 
-	public abstract GShape createTransformedShape(
-			GAffineTransform affineTransform);
+	GShape createTransformedShape(GAffineTransform affineTransform);
 
-	public abstract GPoint2D getCurrentPoint();
+	GPoint2D getCurrentPoint();
 
 	@Override
-	public abstract boolean contains(GRectangle2D p);
+	boolean contains(GRectangle2D p);
 
-	public abstract boolean contains(double x, double y, double w, double h);
+	/**
+	 * Whether this contains a  rectangle with given boundaries
+	 * @param x rectangle's left
+	 * @param y rectangle's top
+	 * @param w width of the recangle
+	 * @param h height of the rectangle
+	 * @return whether rectangle is inside this shape.
+	 */
+	boolean contains(double x, double y, double w, double h);
 
 	@Override
-	public abstract boolean intersects(GRectangle2D arg0);
+	boolean intersects(GRectangle2D arg0);
 
-	public abstract boolean contains(GPoint2D p);
+	/**
+	 * @param p point
+	 * @return whether the point is inside this shape.
+	 */
+	boolean contains(GPoint2D p);
 
-	public abstract void curveTo(double x1, double y1, double x2, double y2,
+	/**
+	 * Add a bezier curve segment to this path.
+	 * @param x1 first control point's x-coordinate
+	 * @param y1 first control point's y-coordinate
+	 * @param x2 second control point's x-coordinate
+	 * @param y2 second control point's y-coordinate
+	 * @param x3 end point's x-coordinate
+	 * @param y3 end point's y-coordinate
+	 */
+	void curveTo(double x1, double y1, double x2, double y2,
 			double x3, double y3);
 
-	public abstract void quadTo(double x, double y, double x1, double y1);
+	/**
+	 * Add a quadratic curve segment to this path.
+	 * @param x1 control point's x-coordinate
+	 * @param y1 control point's y-coordinate
+	 * @param x2 end point's x-coordinate
+	 * @param y2 end point's y-coordinate
+	 */
+	void quadTo(double x1, double y1, double x2, double y2);
 
 }

@@ -81,6 +81,12 @@ public class GPoint {
 		return Math.sqrt((x - d.x) * (x - d.x) + (y - d.y) * (y - d.y));
 	}
 
+	/**
+	 * Distance from point (dx, dy)
+	 * @param dx other point's x-coordinate
+	 * @param dy other point's y-coordinate
+	 * @return Euclidean distance
+	 */
 	public double distance(double dx, double dy) {
 		return (int) Math.sqrt((x - dx) * (x - dx) + (y - dy) * (y - dy));
 	}

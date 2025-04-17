@@ -127,6 +127,12 @@ public final class MyImageW implements MyImage {
 		}
 	}
 
+	/**
+	 * Draw this image in context.
+	 * @param context graphics context
+	 * @param x horizontal offset
+	 * @param y vertical offset
+	 */
 	public void render(JLMContext2d context, int x, int y) {
 		context.drawImage(img, x, y);
 	}

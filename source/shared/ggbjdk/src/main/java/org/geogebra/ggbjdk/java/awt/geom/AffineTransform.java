@@ -2983,25 +2983,25 @@ public class AffineTransform implements GAffineTransform {
      * overwritten by a previous operation before they can be transformed.
      * The coordinates are stored in the arrays starting at the indicated
      * offset in the order <code>[x0, y0, x1, y1, ..., xn, yn]</code>.
-     * @param srcPts the array containing the source point coordinates.
+     * @param srcCoordinates the array containing the source point coordinates.
      * Each point is stored as a pair of x,&nbsp;y coordinates.
-     * @param dstPts the array into which the transformed point
+     * @param destCoordinates the array into which the transformed point
      * coordinates are returned.  Each point is stored as a pair of
      * x,&nbsp;y coordinates.
-     * @param srcOff the offset to the first point to be transformed
+     * @param srcOffset the offset to the first point to be transformed
      * in the source array
-     * @param dstOff the offset to the location of the first
+     * @param destOffset the offset to the location of the first
      * transformed point that is stored in the destination array
-     * @param numPts the number of point objects to be transformed
+     * @param nPoints the number of point objects to be transformed
      * @since 1.2
      */
     @Override
-	public void transform(double[] srcPts, int srcOff,
-                          double[] dstPts, int dstOff,
-                          int numPts) {
+	public void transform(double[] srcCoordinates, int srcOffset,
+                          double[] destCoordinates, int destOffset,
+                          int nPoints) {
         double M00, M01, M02, M10, M11, M12;    // For caching
-        if (dstPts == srcPts &&
-            dstOff > srcOff && dstOff < srcOff + numPts * 2)
+        if (destCoordinates == srcCoordinates &&
+            destOffset > srcOffset && destOffset < srcOffset + nPoints * 2)
         {
             // If the arrays overlap partially with the destination higher
             // than the source and we transform the coordinates normally
@@ -3011,9 +3011,9 @@ public class AffineTransform implements GAffineTransform {
             // to their final destination with correct overwrite
             // handling and then transform them in place in the new
             // safer location.
-            System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts * 2);
+            System.arraycopy(srcCoordinates, srcOffset, destCoordinates, destOffset, nPoints * 2);
             // srcPts = dstPts;         // They are known to be equal.
-            srcOff = dstOff;
+            srcOffset = destOffset;
         }
         switch (state) {
         default:
@@ -3023,66 +3023,66 @@ public class AffineTransform implements GAffineTransform {
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M00 = m00; M01 = m01; M02 = m02;
             M10 = m10; M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = M00 * x + M01 * y + M02;
-                dstPts[dstOff++] = M10 * x + M11 * y + M12;
+            while (--nPoints >= 0) {
+                double x = srcCoordinates[srcOffset++];
+                double y = srcCoordinates[srcOffset++];
+                destCoordinates[destOffset++] = M00 * x + M01 * y + M02;
+                destCoordinates[destOffset++] = M10 * x + M11 * y + M12;
             }
             return;
         case (APPLY_SHEAR | APPLY_SCALE):
             M00 = m00; M01 = m01;
             M10 = m10; M11 = m11;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = M00 * x + M01 * y;
-                dstPts[dstOff++] = M10 * x + M11 * y;
+            while (--nPoints >= 0) {
+                double x = srcCoordinates[srcOffset++];
+                double y = srcCoordinates[srcOffset++];
+                destCoordinates[destOffset++] = M00 * x + M01 * y;
+                destCoordinates[destOffset++] = M10 * x + M11 * y;
             }
             return;
         case (APPLY_SHEAR | APPLY_TRANSLATE):
             M01 = m01; M02 = m02;
             M10 = m10; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = M01 * srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = M10 * x + M12;
+            while (--nPoints >= 0) {
+                double x = srcCoordinates[srcOffset++];
+                destCoordinates[destOffset++] = M01 * srcCoordinates[srcOffset++] + M02;
+                destCoordinates[destOffset++] = M10 * x + M12;
             }
             return;
         case (APPLY_SHEAR):
             M01 = m01; M10 = m10;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = M01 * srcPts[srcOff++];
-                dstPts[dstOff++] = M10 * x;
+            while (--nPoints >= 0) {
+                double x = srcCoordinates[srcOffset++];
+                destCoordinates[destOffset++] = M01 * srcCoordinates[srcOffset++];
+                destCoordinates[destOffset++] = M10 * x;
             }
             return;
         case (APPLY_SCALE | APPLY_TRANSLATE):
             M00 = m00; M02 = m02;
             M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = M00 * srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = M11 * srcPts[srcOff++] + M12;
+            while (--nPoints >= 0) {
+                destCoordinates[destOffset++] = M00 * srcCoordinates[srcOffset++] + M02;
+                destCoordinates[destOffset++] = M11 * srcCoordinates[srcOffset++] + M12;
             }
             return;
         case (APPLY_SCALE):
             M00 = m00; M11 = m11;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = M00 * srcPts[srcOff++];
-                dstPts[dstOff++] = M11 * srcPts[srcOff++];
+            while (--nPoints >= 0) {
+                destCoordinates[destOffset++] = M00 * srcCoordinates[srcOffset++];
+                destCoordinates[destOffset++] = M11 * srcCoordinates[srcOffset++];
             }
             return;
         case (APPLY_TRANSLATE):
             M02 = m02; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = srcPts[srcOff++] + M12;
+            while (--nPoints >= 0) {
+                destCoordinates[destOffset++] = srcCoordinates[srcOffset++] + M02;
+                destCoordinates[destOffset++] = srcCoordinates[srcOffset++] + M12;
             }
             return;
         case (APPLY_IDENTITY):
-            if (srcPts != dstPts || srcOff != dstOff) {
-                System.arraycopy(srcPts, srcOff, dstPts, dstOff,
-                                 numPts * 2);
+            if (srcCoordinates != destCoordinates || srcOffset != destOffset) {
+                System.arraycopy(srcCoordinates, srcOffset, destCoordinates, destOffset,
+                                 nPoints * 2);
             }
             return;
         }

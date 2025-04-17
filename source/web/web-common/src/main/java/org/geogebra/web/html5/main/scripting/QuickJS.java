@@ -50,6 +50,11 @@ public class QuickJS {
 
 		public native Object evalCode(String code);
 
+		/**
+		 * @param target object handle
+		 * @param name property name
+		 * @param value value
+		 */
 		public native void setProp(QuickJSHandle target, String name, Object value);
 
 		public native QuickJSHandle newArray();

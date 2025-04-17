@@ -1970,15 +1970,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public void setAxisUnits(int view, String xLabel, String yLabel,
-			String zLabel) {
+	public void setAxisUnits(int view, String xUnit, String yUnit,
+			String zUnit) {
 		int index = view < 0 ? 3 : view;
 		if (index < 1 || index > 3) {
 			return;
 		}
 		EuclidianSettings evs = app.getSettings().getEuclidian(index);
 		evs.beginBatch();
-		String[] labels = {xLabel, yLabel, zLabel};
+		String[] labels = {xUnit, yUnit, zUnit};
 		for (int i = 0; i < 3; i++) {
 			evs.setAxisUnitLabel(i, labels[i]);
 		}
@@ -2102,16 +2102,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance) {
 		return app.getCompanion().exportCollada(xmin, xmax, ymin, ymax,
-				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-				zTickDistance);
-	}
-
-	@Override
-	final public void exportGeometry3D(Geometry3DGetter getter, double xmin,
-			double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance,
-			double yTickDistance, double zTickDistance) {
-		app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
 				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
 				zTickDistance);
 	}

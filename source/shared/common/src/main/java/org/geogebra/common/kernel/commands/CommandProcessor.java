@@ -751,6 +751,14 @@ public abstract class CommandProcessor {
 		return arg[arg.length - 1];
 	}
 
+	/**
+	 *
+	 * @param kernel kernel
+	 * @param args arguments
+	 * @param length number of arguments to be taken
+	 * @param type list element type
+	 * @return list containing all arguments
+	 */
 	public GeoList wrapInList(Kernel kernel, GeoElement[] args,
 			int length, GeoClass type) {
 		return wrapInList(args, length, type, null);
@@ -763,8 +771,8 @@ public abstract class CommandProcessor {
 	 * @param args
 	 *            array of arguments
 	 * @param type
-	 *            -1 for any GeoElement object type; GeoElement.GEO_CLASS_ANGLE,
-	 *            etc. for specific types
+	 *            DEFAULT for any GeoElement object type; other GeoClass enum values
+	 *            for specific types
 	 * @return null if GeoElement objects did not have the correct type
 	 * @author Markus Hohenwarter
 	 * @param length

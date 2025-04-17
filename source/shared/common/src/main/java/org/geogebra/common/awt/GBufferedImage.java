@@ -4,12 +4,28 @@ public interface GBufferedImage {
 
 	public int TYPE_INT_ARGB = 2;
 
+	/**
+	 * @return width in pixels
+	 */
 	int getWidth();
 
+	/**
+	 * @return height in pixels
+	 */
 	int getHeight();
 
+	/**
+	 * @return graphics object with the same dimensions as this image.
+	 */
 	GGraphics2D createGraphics();
 
+	/**
+	 * @param x left
+	 * @param y top
+	 * @param w width
+	 * @param h height
+	 * @return rectangular section of this image
+	 */
 	GBufferedImage getSubimage(int x, int y, int w, int h);
 
 	void flush();

@@ -2,37 +2,61 @@ package org.geogebra.common.awt;
 
 public interface GRectangle2D extends GRectangularShape {
 
-	public double getY();
+	double getY();
 
-	public double getX();
+	double getX();
 
-	public double getWidth();
+	double getWidth();
 
-	public double getHeight();
+	double getHeight();
 
-	public void setRect(double x, double y, double width, double height);
+	/**
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
+	 */
+	void setRect(double x, double y, double width, double height);
 
-	public void setFrame(double x, double y, double width, double height);
+	/**
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
+	 */
+	void setFrame(double x, double y, double width, double height);
 
 	@Override
-	public boolean intersects(double minX, double minY, double lengthX,
+	boolean intersects(double minX, double minY, double lengthX,
 			double lengthY);
 
 	@Override
-	public boolean intersects(GRectangle2D viewRect);
+	boolean intersects(GRectangle2D viewRect);
 
-	public GRectangle2D createIntersection(GRectangle2D r);
+	GRectangle2D createIntersection(GRectangle2D r);
 
-	public double getMinX();
+	double getMinX();
 
-	public double getMaxX();
+	double getMaxX();
 
-	public double getMinY();
+	double getMinY();
 
-	public double getMaxY();
+	double getMaxY();
 
-	public boolean intersectsLine(double xc, double yc, double xe, double ye);
+	/**
+	 * @param xc start point's x-coordinate
+	 * @param yc start point-s y-coordinate
+	 * @param xe end point's x-coordinate
+	 * @param ye end point's y-coordinate
+	 * @return whether this intersects a segment between two points
+	 */
+	boolean intersectsLine(double xc, double yc, double xe, double ye);
 
-	public void add(double x, double y);
+	/**
+	 * Extends this rectangle to include point (x,y).
+	 * @param x point's c-coordinate
+	 * @param y point's y-coordinate
+	 */
+	void add(double x, double y);
 
 }

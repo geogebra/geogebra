@@ -27,7 +27,7 @@ public interface MaterialsManagerI {
 
 	String getAutosaveJSON();
 
-	public void restoreAutoSavedFile(String json);
+	void restoreAutoSavedFile(String json);
 
 	public void deleteAutoSavedFile();
 
@@ -39,10 +39,22 @@ public interface MaterialsManagerI {
 
 	void export(App app);
 
+	/**
+	 * @param url data URL
+	 * @param string preferred name
+	 * @param extension file extension
+	 */
 	void exportImage(String url, String string, String extension);
 
 	void nativeShare(String s, String string);
 
+	/**
+	 * @param url data URL
+	 * @param filename preferred name
+	 * @param extension file extension
+	 * @param titleKey dialog title key
+	 * @param app application
+	 */
 	void showExportAsPictureDialog(String url, String filename,
 			String extension, String titleKey, App app);
 

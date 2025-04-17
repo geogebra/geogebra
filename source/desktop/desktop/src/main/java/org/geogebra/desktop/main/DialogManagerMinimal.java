@@ -102,7 +102,7 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showNumberInputDialogDilate(String menu,
+	public void showNumberInputDialogDilate(String title,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
 		// TODO Auto-generated method stub
@@ -277,10 +277,10 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showNumberInputDialogRotate(String menu,
+	public void showNumberInputDialogRotate(String title,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
-		String inputString = prompt(menu + " " + getLocalization().getMenu("Angle"),
+		String inputString = prompt(title + " " + getLocalization().getMenu("Angle"),
 				defaultAngle);
 
 		rotateObject(app, inputString, false, selectedPolygons,

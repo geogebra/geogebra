@@ -182,7 +182,7 @@ public class MD5Checksum {
 		return lWordArray;
 	}
 
-	public static int rotateLeft(int lValue, int iShiftBits) {
+	private static int rotateLeft(int lValue, int iShiftBits) {
 		return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 	}
 

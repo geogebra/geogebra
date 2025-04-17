@@ -85,6 +85,14 @@ public class DrawStyledVector {
 		return area == null ? null : area.getBounds();
 	}
 
+	/**
+	 * Checks if this shape intersects given rectangle.
+	 * @param x1 rectangle's left
+	 * @param y1 rectangle's top
+	 * @param w rectangle's width
+	 * @param h rectangle's height
+	 * @return whether this shape instersects the rectangle.
+	 */
 	public boolean intersects(int x1, int y1, int w, int h) {
 		return area != null && area.intersects(x1, y1, w, h);
 	}

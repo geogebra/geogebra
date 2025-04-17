@@ -159,8 +159,8 @@ public abstract class DialogManager {
 	public abstract boolean showSliderCreationDialog(int x, int y);
 
 	/**
-	 * @param menu
-	 *            title
+	 * @param title
+	 *            localized title
 	 * @param selectedPolygons
 	 *            selected polygons
 	 * @param selectedPoints
@@ -170,11 +170,23 @@ public abstract class DialogManager {
 	 * @param ec
 	 *            controller
 	 */
-	public abstract void showNumberInputDialogRotate(String menu,
+	public abstract void showNumberInputDialogRotate(String title,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec);
 
-	public abstract void showNumberInputDialogDilate(String menu,
+	/**
+	 * @param title
+	 *            localized title
+	 * @param selectedPolygons
+	 *            selected polygons
+	 * @param selectedPoints
+	 *            selected points
+	 * @param selGeos
+	 *            selected geos
+	 * @param ec
+	 *            controller
+	 */
+	public abstract void showNumberInputDialogDilate(String title,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec);
 
@@ -221,16 +233,42 @@ public abstract class DialogManager {
 	public abstract void showNumberInputDialogCirclePointRadius(String title,
 			GeoPointND geoPointND, EuclidianView view);
 
+	/**
+	 * @param title dialog title
+	 * @param message message
+	 * @param initText initial input
+	 * @param callback called when number is created
+	 */
 	public abstract void showNumberInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback);
 
+	/**
+	 * @param title dialog title
+	 * @param message message
+	 * @param initText initial input
+	 * @param changingSign whether to show sign-changing checkbox
+	 * @param checkBoxText text for sign-changing checkbox
+	 * @param callback called when number is created
+	 */
 	public abstract void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback);
 
+	/**
+	 * @param title title
+	 * @param message message
+	 * @param initText initial text
+	 * @param callback called when angle created
+	 */
 	public abstract void showAngleInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback);
 
+	/**
+	 * @param x screen x-coordinate for the button
+	 * @param y screen y-coordinate for the button
+	 * @param textfield whether the dialog is actually for input box (sic)
+	 * @return ignore
+	 */
 	public abstract boolean showButtonCreationDialog(int x, int y,
 			boolean textfield);
 
@@ -502,8 +540,14 @@ public abstract class DialogManager {
 
 	public abstract void closeAll();
 
-	public abstract void showRenameDialog(GeoElement geo, boolean b,
-			String label, boolean c);
+	/**
+	 * @param geo object to be renamed
+	 * @param storeUndo whether to store undo point afterward
+	 * @param label suggested label
+	 * @param selectText whether to select content
+	 */
+	public abstract void showRenameDialog(GeoElement geo, boolean storeUndo,
+			String label, boolean selectText);
 
 	public abstract void showPropertiesDialog(ArrayList<GeoElement> geos);
 

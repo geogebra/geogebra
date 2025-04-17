@@ -11203,6 +11203,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		numOfTargets = 2;
 	}
 
+	/**
+	 * Platform-dependent handling of touch start event with two pointers.
+	 * @param x1 x-coordinate of the first pointer
+	 * @param y1 y-coordinate of the first pointer
+	 * @param x2 x-coordinate of the second pointer
+	 * @param y2 y-coordinate of the second pointer
+	 */
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		twoTouchStartCommon(x1, y1, x2, y2);
 	}
@@ -11396,11 +11403,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Common part of handling touch start event with two pointers.
+	 * @param x1 x-coordinate of the first pointer
+	 * @param y1 y-coordinate of the first pointer
+	 * @param x2 x-coordinate of the second pointer
+	 * @param y2 y-coordinate of the second pointer
+	 */
 	final public void twoTouchStartCommon(double x1, double y1, double x2,
 			double y2) {
 		this.setOldDistance(MyMath.length(x1 - x2, y1 - y2));
 	}
 
+	/**
+	 * Platform-dependent handling touch move event with two pointers.
+	 * @param x1 x-coordinate of the first pointer
+	 * @param y1 y-coordinate of the first pointer
+	 * @param x2 x-coordinate of the second pointer
+	 * @param y2 y-coordinate of the second pointer
+	 */
 	public void twoTouchMove(double x1, double y1, double x2, double y2) {
 		twoTouchMoveCommon(x1, y1, x2, y2);
 	}

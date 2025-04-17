@@ -998,6 +998,11 @@ public abstract class Drawable extends DrawableND {
 		return decoStroke;
 	}
 
+	/**
+	 * @param laTeX whether caption is using LaTeX
+	 * @param captionHeight caption height in px
+	 * @return y-coordinate of the caption
+	 */
 	public int getCaptionY(boolean laTeX, int captionHeight) {
 		return yLabel;
 	}

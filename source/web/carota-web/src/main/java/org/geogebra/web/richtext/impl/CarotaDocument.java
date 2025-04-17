@@ -15,6 +15,11 @@ public class CarotaDocument implements HasContent {
 
 	public native void select(int start, int end);
 
+	/**
+	 * @param start selection offset
+	 * @param end selection end
+	 * @param takeFocus whether to move focus
+	 */
 	public native void select(int start, int end, boolean takeFocus);
 
 	public native void insert(String text);

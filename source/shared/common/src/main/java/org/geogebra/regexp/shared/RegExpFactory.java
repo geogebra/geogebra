@@ -39,14 +39,27 @@ public class RegExpFactory {
 		return prototype;
 	}
 
+	/**
+	 * @param pattern pattern
+	 * @return compiled regular expression
+	 */
 	public RegExp compile(String pattern) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * @param pattern pattern
+	 * @param flags concatenation of flags (g,i,m supported everywhere, u,v,s,y in JS)
+	 * @return compiled regular expression
+	 */
 	public RegExp compile(String pattern, String flags) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * @param input plain text
+	 * @return pattern matching plain text, with special characters escaped
+	 */
 	public String quote(String input) {
 		throw new UnsupportedOperationException();
 	}

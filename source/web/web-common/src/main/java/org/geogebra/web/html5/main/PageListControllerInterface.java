@@ -111,6 +111,11 @@ public interface PageListControllerInterface extends ActionExecutor {
 	 */
 	void selectSlide(String pageId);
 
+	/**
+	 * @param eventType event type
+	 * @param pageIdx page index
+	 * @param appState plain JS object
+	 */
 	void handlePageAction(String eventType, String pageIdx, Object appState);
 
 	PageContent getPageContent(String pageId);

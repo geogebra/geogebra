@@ -107,9 +107,9 @@ public class GAffineTransformD implements GAffineTransform {
 	}
 
 	@Override
-	public void transform(double[] labelCoords, int i, double[] labelCoords2,
-			int j, int k) {
-		at.transform(labelCoords, i, labelCoords2, j, k);
+	public void transform(double[] srcCoordinates, int srcOffset, double[] destCoordinates,
+			int destOffset, int nPoints) {
+		at.transform(srcCoordinates, srcOffset, destCoordinates, destOffset, nPoints);
 
 	}
 

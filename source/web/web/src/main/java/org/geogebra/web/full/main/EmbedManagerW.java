@@ -585,11 +585,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void initAppEmbed(GeoEmbed ge) {
-		ge.setEmbedId(nextID());
-		ge.attr("showToolBar", true);
-		ge.attr("showAlgebraInput", true);
-		ge.attr("allowStyleBar", true);
+	public void initAppEmbed(GeoEmbed geoEmbed) {
+		geoEmbed.setEmbedId(nextID());
+		geoEmbed.attr("showToolBar", true);
+		geoEmbed.attr("showAlgebraInput", true);
+		geoEmbed.attr("allowStyleBar", true);
 	}
 
 	/**

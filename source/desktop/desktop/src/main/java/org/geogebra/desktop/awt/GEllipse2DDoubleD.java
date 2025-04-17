@@ -26,9 +26,9 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 	}
 
 	@Override
-	public void setFrame(double xUL, double yUL, double diameter,
-			double diameter2) {
-		impl.setFrame(xUL, yUL, diameter, diameter2);
+	public void setFrame(double xUL, double yUL, double width,
+			double height) {
+		impl.setFrame(xUL, yUL, width, height);
 	}
 
 	@Override
@@ -86,7 +86,6 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 	public void setFrameFromCenter(double centerX, double centerY,
 			double cornerX, double cornerY) {
 		impl.setFrameFromCenter(centerX, centerY, cornerX, cornerY);
-
 	}
 
 }

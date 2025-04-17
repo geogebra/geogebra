@@ -98,6 +98,10 @@ public abstract class HttpRequest implements Cancelable {
 		// for now Android only
 	}
 
+	/**
+	 * @param name header name
+	 * @return value of response header with given name, null if not set
+	 */
 	public String getResponseHeader(String name) {
 		return null;
 	}

@@ -12,6 +12,12 @@ public final class RewritePhys {
 		// utility class, no instantiation
 	}
 
+	/**
+	 * @param bytes PNG as bytes
+	 * @param ppmx pixels per meter -- horizontal
+	 * @param ppmy pixels per meter -- vertical
+	 * @return encoded PNG
+	 */
 	@JsMethod(name = "rewrite_pHYs_chunk")
 	public static native String rewritePhysChunk(Uint8Array bytes, double ppmx, double ppmy);
 }

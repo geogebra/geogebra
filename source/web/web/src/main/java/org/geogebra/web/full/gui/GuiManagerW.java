@@ -408,7 +408,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void loadImage(final GeoPoint imageLoc, final Object object,
-			final boolean altDown, EuclidianView ev) {
+			final boolean fromClipboard, EuclidianView ev) {
 		if (getApp().getToolbar() != null) {
 			getApp().getToolbar().closeAllSubmenu();
 		}

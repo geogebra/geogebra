@@ -911,11 +911,23 @@ public class GgbAPIW extends GgbAPI {
 		construction.getLabelManager().setMultiuserSuffix(labelPrefix);
 	}
 
+	/**
+	 * Asynchronously evaluates a command.
+	 * @param command command
+	 * @param onSuccess success callback
+	 * @param onFailure failure callback
+	 */
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
 			RejectCallbackFn onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);
 	}
 
+	/**
+	 * Asynchronously evaluates a command.
+	 * @param command command
+	 * @param onSuccess success callback, takes comma separated labels
+	 * @param onFailure failure callback
+	 */
 	public void asyncEvalCommandGetLabels(String command, ResolveCallbackFn<String> onSuccess,
 			RejectCallbackFn onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommandGetLabels(command, onSuccess, onFailure);

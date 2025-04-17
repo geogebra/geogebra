@@ -50,7 +50,15 @@ public abstract class AwtFactory {
 
 	public abstract GRectangle2D newRectangle2D();
 
-	public abstract GRectangle newRectangle(int x, int y, int w, int h);
+	/**
+	 * Creates a rectangle.
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
+	 * @return rectangle of given size
+	 */
+	public abstract GRectangle newRectangle(int x, int y, int width, int height);
 
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
 			int pixelHeight, double pixelRatio);
@@ -84,6 +92,15 @@ public abstract class AwtFactory {
 
 	public abstract GBasicStroke newBasicStroke(double f, int cap, int join);
 
+	/**
+	 *
+	 * @param width stroke width
+	 * @param endCap one of GBasicStroke.CAP_* values
+	 * @param lineJoin one of GBasicStroke.JOIN_* values
+	 * @param miterLimit miter limit
+	 * @param dash dash pattern
+	 * @return stroke definition
+	 */
 	public abstract GBasicStroke newBasicStroke(double width, int endCap,
 			int lineJoin, double miterLimit, double[] dash);
 
@@ -95,8 +112,16 @@ public abstract class AwtFactory {
 
 	public abstract GEllipse2DDouble newEllipse2DDouble();
 
+	/**
+	 * Creates an ellipse with axes parallel to the coordinate grid.
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
+	 * @return ellipse of given size.
+	 */
 	public abstract GEllipse2DDouble newEllipse2DDouble(double x, double y,
-			double w, double h);
+			double width, double height);
 
 	public abstract GArc2D newArc2D();
 
@@ -115,8 +140,18 @@ public abstract class AwtFactory {
 
 	public abstract GBasicStroke newBasicStrokeJoinMitre(double f);
 
-	public abstract GGradientPaint newGradientPaint(double x, double y,
-			GColor bg2, double x2, double i, GColor bg);
+	/**
+	 * Creates new linear gradient paint.
+	 * @param x1 start point's x-coordinate
+	 * @param y1 start point's x-coordinate
+	 * @param color1 stat color
+	 * @param x2 end point's x-coordinate
+	 * @param y2 end point's x-coordinate
+	 * @param color2 end color
+	 * @return gradient paint
+	 */
+	public abstract GGradientPaint newGradientPaint(double x1, double y1,
+			GColor color1, double x2, double y2, GColor color2);
 
 	public abstract GPaint newTexturePaint(GBufferedImage subimage,
 			GRectangle rect);

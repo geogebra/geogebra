@@ -24,6 +24,12 @@ import org.gwtproject.user.client.ui.Widget;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
+	/**
+	 * @param geos selected elements
+	 * @param invoker invoker
+	 * @param x x-coordinate relative to app frame
+	 * @param y y-coordinate relative to app frame
+	 */
 	void showPopupMenu(ArrayList<GeoElement> geos, Widget invoker, int x, int y);
 
 	void setFocusedPanel(int evID, boolean updatePropertiesView);

@@ -60,10 +60,14 @@ public interface AutoCompleteTextField
 
 	void prepareShowSymbolButton(boolean b);
 
+	/**
+	 * @deprecated use the Rectangle variant instead
+	 */
+	@Deprecated
 	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height);
 
-	public String getCommand();
+	String getCommand();
 
 	void setPrefSize(int width, int height);
 

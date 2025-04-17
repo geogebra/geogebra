@@ -711,6 +711,14 @@ public interface JavaScriptAPI {
 	 */
 	void setRepaintingActive(boolean flag);
 
+	/**
+	 * @param filename output filename
+	 * @param exportScale exported pixels:screen pixels ratio
+	 * @param transparent whether the background should be transparent
+	 * @param DPI dots per inch (stored as metadata)
+	 * @param greyscale whether to flatten colors to greyscale
+	 * @return success
+	 */
 	boolean writePNGtoFile(String filename, double exportScale,
 			boolean transparent, double DPI, boolean greyscale);
 
@@ -749,15 +757,37 @@ public interface JavaScriptAPI {
 	void setAxesVisible(int view, boolean xVisible, boolean yVisible,
 			boolean zVisible);
 
+	/**
+	 * @param view 1 for graphics view 1, 2 for GV 2, -1 for 3D
+	 * @param xStep x-axis step
+	 * @param yStep y-axis step
+	 * @param zStep z-axis step
+	 */
 	void setAxisSteps(int view, String xStep, String yStep,
 			String zStep);
 
+	/**
+	 * @param view 1 for graphics view 1, 2 for GV 2, -1 for 3D
+	 * @param xLabel x-axis label
+	 * @param yLabel y-axis label
+	 * @param zLabel z-axis label
+	 */
 	void setAxisLabels(int view, String xLabel, String yLabel,
 			String zLabel);
 
-	void setAxisUnits(int view, String xLabel, String yLabel,
-			String zLabel);
+	/**
+	 * @param view 1 for graphics view 1, 2 for GV 2, -1 for 3D
+	 * @param xUnit x-axis unit
+	 * @param yUnit y-axis unit
+	 * @param zUnit z-axis unit
+	 */
+	void setAxisUnits(int view, String xUnit, String yUnit,
+			String zUnit);
 
+	/**
+	 * @param view 1 for graphics view 1, 2 for GV 2, -1 for 3D
+	 * @param capture point capturing mode
+	 */
 	void setPointCapture(int view, int capture);
 
 	/**
@@ -991,8 +1021,21 @@ public interface JavaScriptAPI {
 	 */
 	double getListValue(String objName, int index);
 
+	/**
+	 * Sets coordinates of an image corner.
+	 * @param objName image label
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @param index corner index (0 for bottom left, 1 bottom right, 2 upper left)
+	 */
 	void setCorner(String objName, double x, double y, int index);
 
+	/**
+	 * Sets coordinates of an image corner.
+	 * @param objName image label
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	void setCorner(String objName, double x, double y);
 
 	void setPerspective(String s);
@@ -1026,9 +1069,21 @@ public interface JavaScriptAPI {
 	 */
 	void enableShiftDragZoom(boolean enable);
 
+	/**
+	 * @param label object label
+	 * @param size font size
+	 * @param bold whether to use bold
+	 * @param italic whether to use italic
+	 * @param serif whether to use a serif font
+	 */
 	void setFont(String label, int size, boolean bold, boolean italic,
 			boolean serif);
 
+	/**
+	 * Change the rounding setting.
+	 * @param format number of digits followed by type
+	 *   (s=significant digits, d=decimal places, r=show rational numbers as fractions by default)
+	 */
 	void setRounding(String format);
 
 	void newConstruction();
@@ -1084,11 +1139,6 @@ public interface JavaScriptAPI {
 	 *         {@link #setRounding(String)}
 	 */
 	String getRounding();
-
-	void exportGeometry3D(Geometry3DGetter getter, double xmin, double xmax,
-			double ymin, double ymax, double zmin, double zmax, double xyScale,
-			double xzScale, double xTickDistance, double yTickDistance,
-			double zTickDistance);
 
 	/**
 	 * @param view

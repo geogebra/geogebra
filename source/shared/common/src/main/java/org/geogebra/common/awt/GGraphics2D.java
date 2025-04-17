@@ -25,8 +25,18 @@ public interface GGraphics2D {
 	 */
 	void draw(@Nonnull GShape s);
 
+	/**
+	 * @param img image
+	 * @param x left
+	 * @param y top
+	 */
 	void drawImage(GBufferedImage img, int x, int y);
 
+	/**
+	 * @param img image
+	 * @param x left
+	 * @param y top
+	 */
 	void drawImage(MyImage img, int x, int y);
 
 	/**
@@ -252,27 +262,6 @@ public interface GGraphics2D {
 	GColor getBackground();
 
 	/**
-	 * Intersects the current <code>Clip</code> with the interior of the
-	 * specified <code>Shape</code> and sets the <code>Clip</code> to the
-	 * resulting intersection. The specified <code>Shape</code> is transformed
-	 * with the current <code>Graphics2D</code> <code>Transform</code> before
-	 * being intersected with the current <code>Clip</code>. This method is used
-	 * to make the current <code>Clip</code> smaller. To make the
-	 * <code>Clip</code> larger, use <code>setClip</code>. The <i>user clip</i>
-	 * modified by this method is independent of the clipping associated with
-	 * device bounds and visibility. If no clip has previously been set, or if
-	 * the clip has been cleared using {@link #setClip(GShape) setClip} with a
-	 * <code>null</code> argument, the specified <code>Shape</code> becomes the
-	 * new user clip.
-	 * 
-	 * @param s
-	 *            the <code>Shape</code> to be intersected with the current
-	 *            <code>Clip</code>. If <code>s</code> is <code>null</code>,
-	 *            this method clears the current <code>Clip</code>.
-	 */
-	// public abstract void clip(GShape s);
-
-	/**
 	 * Get the rendering context of the <code>Font</code> within this
 	 * <code>Graphics2D</code> context. The {@link GFontRenderContext}
 	 * encapsulates application hints such as anti-aliasing and fractional
@@ -301,10 +290,31 @@ public interface GGraphics2D {
 
 	void setColor(GColor selColor);
 
+	/**
+	 * Fills a rectangle with current paint.
+	 * @param x left
+	 * @param y top
+	 * @param w width
+	 * @param h height
+	 */
 	void fillRect(int x, int y, int w, int h);
 
+	/**
+	 * Clears a rectangle.
+	 * TODO not obvious if this should fill it with current color or make it transparent.
+	 * @param x left
+	 * @param y top
+	 * @param w width
+	 * @param h height
+	 */
 	void clearRect(int x, int y, int w, int h);
 
+	/**
+	 * @param x1 start point's x-coordinate
+	 * @param y1 start point's y-coordinate
+	 * @param x2 end point's x-coordinate
+	 * @param y2 end point's y-coordinate
+	 */
 	void drawLine(int x1, int y1, int x2, int y2);
 
 	void setClip(GShape shape);
@@ -313,13 +323,41 @@ public interface GGraphics2D {
 
 	void resetClip();
 
+	/**
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
+	 */
 	void drawRect(int x, int y, int width, int height);
 
+	/**
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
+	 */
 	void setClip(int x, int y, int width, int height);
 
+	/**
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
+	 * @param saveContext whether the state of context should be saved before clipping
+	 */
 	void setClip(int x, int y, int width, int height,
 			boolean saveContext);
 
+	/**
+	 * Draws a round rectangle.
+	 * @param x left
+	 * @param y top
+	 * @param width width from left to right border
+	 * @param height height from top to bottom border
+	 * @param arcWidth vertical arc diameter (NOT radius)
+	 * @param arcHeight horizontal arc diameter (NOT radius)
+	 */
 	void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
@@ -349,7 +387,7 @@ public interface GGraphics2D {
 	 * @param width rectangle width in pixels
 	 * @param height rectangle height in pixels
 	 * @param arcWidth arc width in pixels
-	 * @param arcHeight arx height in pixels
+	 * @param arcHeight arc height in pixels
 	 */
 	default void fillRoundRect(double x, double y, double width, double height,
 			double arcWidth, double arcHeight) {
@@ -357,6 +395,17 @@ public interface GGraphics2D {
 				(int) Math.round(height), (int) Math.round(arcWidth), (int) Math.round(arcHeight));
 	}
 
+	/**
+	 * Fill round rectangle.
+	 * Default implementation rounds the coordinates,
+	 * platforms can take advantage of higher precision.
+	 * @param x left boundary in pixels
+	 * @param y top boundary in pixels
+	 * @param width rectangle width in pixels
+	 * @param height rectangle height in pixels
+	 * @param arcWidth arc width in pixels
+	 * @param arcHeight arc height in pixels
+	 */
 	void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
@@ -371,6 +420,12 @@ public interface GGraphics2D {
 
 	void updateCanvasColor();
 
+	/**
+	 * @param x1 start point's x-coordinate
+	 * @param y1 start point's y-coordinate
+	 * @param x2 end point's x-coordinate
+	 * @param y2 end point's y-coordinate
+	 */
 	void drawStraightLine(double x1, double y1, double x2, double y2);
 
 	/**
@@ -428,5 +483,15 @@ public interface GGraphics2D {
 	void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
 			int dy, int dw, int dh);
 
+	/**
+	 * @param img
+	 *            source
+	 * @param dx
+	 *            destination rectangle min x
+	 * @param dy
+	 *            destination rectangle min y
+	 * @param dw destination width
+	 * @param dh destination height
+	 */
 	void drawImage(MyImage img, int dx, int dy, int dw, int dh);
 }

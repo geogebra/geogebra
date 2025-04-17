@@ -127,7 +127,11 @@ public interface EmbedManager {
 	 */
 	void openGraspableMTool();
 
-	void initAppEmbed(GeoEmbed ge);
+	/**
+	 * Initialize embedded app (for calculator embeds).
+	 * @param geoEmbed embedded element
+	 */
+	void initAppEmbed(GeoEmbed geoEmbed);
 
 	/**
 	 * @param embed drawable

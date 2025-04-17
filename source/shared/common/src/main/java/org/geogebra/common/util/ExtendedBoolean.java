@@ -43,6 +43,10 @@ public enum ExtendedBoolean {
 		}
 	}
 
+	/**
+	 * @param other extended boolean
+	 * @return TRUE if at least one is true, FALSE if both false, undefined otherwise
+	 */
 	public ExtendedBoolean or(ExtendedBoolean other) {
 		return negate().and(other.negate()).negate();
 	}

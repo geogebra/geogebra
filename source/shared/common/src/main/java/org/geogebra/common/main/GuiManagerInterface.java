@@ -75,7 +75,13 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView);
 
-	void loadImage(GeoPoint loc, Object object, boolean altDown,
+	/**
+	 * @param loc image corner
+	 * @param object unused -- TODO
+	 * @param fromClipboard whether it's from clipboard
+	 * @param view view to insert image in
+	 */
+	void loadImage(GeoPoint loc, Object object, boolean fromClipboard,
 				   EuclidianView view);
 
 	/**
@@ -278,6 +284,13 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void setShowConstructionProtocolNavigation(boolean show, int id);
 
+	/**
+	 * @param show whether to show navigation
+	 * @param id view ID
+	 * @param playButton whether to include play button
+	 * @param playDelay value of delay between steps (in seconds)
+	 * @param showProtButton whether to include CP button
+	 */
 	void setShowConstructionProtocolNavigation(boolean show, int id,
 			boolean playButton, double playDelay, boolean showProtButton);
 

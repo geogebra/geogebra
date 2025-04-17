@@ -89,8 +89,18 @@ public class CarotaTable implements HasContentAndFormat {
 	@Override
 	public native <T> T getFormatting(String key, T fallback);
 
+	/**
+	 * @param property property name
+	 * @param value new value
+	 */
 	public native void setCellProperty(String property, String value);
 
+	/**
+	 * Apply style change to a selected range.
+	 * @param property property name
+	 * @param value new value
+	 * @param range selected range
+	 */
 	public native void setCellProperty(String property, String value, CarotaSelection range);
 
 	public native String getCellProperty(String property);

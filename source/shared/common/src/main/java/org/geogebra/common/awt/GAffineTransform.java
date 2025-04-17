@@ -1,59 +1,108 @@
 package org.geogebra.common.awt;
 
 public interface GAffineTransform {
-	public void setTransform(GAffineTransform a);
+	void setTransform(GAffineTransform a);
 
-	public void setTransform(double m00, double m10, double m01, double m11,
+	/**
+	 * Set transform from matrix entries.
+	 */
+	void setTransform(double m00, double m10, double m01, double m11,
 			double m02, double m12);
 
-	public void concatenate(GAffineTransform a);
+	void concatenate(GAffineTransform a);
 
-	public double getScaleX();
+	double getScaleX();
 
-	public double getScaleY();
+	double getScaleY();
 
-	public double getShearX();
+	double getShearX();
 
-	public double getShearY();
+	double getShearY();
 
-	public GShape createTransformedShape(GShape shape);
+	GShape createTransformedShape(GShape shape);
 
-	public GPoint2D transform(GPoint2D src, GPoint2D dest);
+	GPoint2D transform(GPoint2D src, GPoint2D dest);
 
-	public void transform(double[] labelCoords, int i, double[] labelCoords2,
-			int j, int k);
+	/**
+	 * @param srcCoordinates source coordinates x1, y1, x2, y2 ...
+	 * @param srcOffset offset in source array
+	 * @param destCoordinates output array
+	 * @param destOffset offset in destination array
+	 * @param nPoints number of points to transform
+	 */
+	void transform(double[] srcCoordinates, int srcOffset, double[] destCoordinates,
+			int destOffset, int nPoints);
 
-	// public void transform(float[] labelCoords, int i, float[] labelCoords2,
+	GAffineTransform createInverse() throws Exception;
+
+	void scale(double xscale, double yscale);
+
+	void translate(double ax, double ay);
+
+	double getTranslateX();
+
+	double getTranslateY();
+
+	// void transform(float[] pointCoords, int pointIdx, double[] coords,
 	// int j, int k);
 
-	public GAffineTransform createInverse() throws Exception;
+	void rotate(double theta);
 
-	public void scale(double xscale, double yscale);
+	boolean isIdentity();
 
-	public void translate(double ax, double ay);
+	void setToTranslation(double tx, double ty);
 
-	public double getTranslateX();
+	void setToScale(double sx, double sy);
 
-	public double getTranslateY();
+	void getMatrix(double[] m);
 
-	// public void transform(float[] pointCoords, int pointIdx, double[] coords,
-	// int j, int k);
+	/**
+	 * Sets this transform to a rotation transformation.
+	 * The matrix representing this transform becomes:
+	 * <pre>
+	 *          [   cos(theta)    -sin(theta)    0   ]
+	 *          [   sin(theta)     cos(theta)    0   ]
+	 *          [       0              0         1   ]
+	 * </pre>
+	 * Rotating by a positive angle theta rotates points on the positive
+	 * X axis toward the positive Y axis.
+	 * Note also the discussion of
+	 * <a href="#quadrantapproximation">Handling 90-Degree Rotations</a>
+	 * above.
+	 * @param theta the angle of rotation measured in radians
+	 */
+	void setToRotation(double theta);
 
-	public void rotate(double theta);
+	/**
+	 * Sets this transform to a translated rotation transformation.
+	 * This operation is equivalent to translating the coordinates so
+	 * that the anchor point is at the origin (S1), then rotating them
+	 * about the new origin (S2), and finally translating so that the
+	 * intermediate origin is restored to the coordinates of the original
+	 * anchor point (S3).
+	 * <p>
+	 * This operation is equivalent to the following sequence of calls:
+	 * <pre>
+	 *     setToTranslation(anchorx, anchory); // S3: final translation
+	 *     rotate(theta);                      // S2: rotate around anchor
+	 *     translate(-anchorx, -anchory);      // S1: translate anchor to origin
+	 * </pre>
+	 * The matrix representing this transform becomes:
+	 * <pre>
+	 *          [   cos(theta)    -sin(theta)    x-x*cos+y*sin  ]
+	 *          [   sin(theta)     cos(theta)    y-x*sin-y*cos  ]
+	 *          [       0              0               1        ]
+	 * </pre>
+	 * Rotating by a positive angle theta rotates points on the positive
+	 * X axis toward the positive Y axis.
+	 * Note also the discussion of
+	 * <a href="#quadrantapproximation">Handling 90-Degree Rotations</a>
+	 * above.
+	 *
+	 * @param theta the angle of rotation measured in radians
+	 * @param anchorx the X coordinate of the rotation anchor point
+	 * @param anchory the Y coordinate of the rotation anchor point
+	 */
+	void setToRotation(double theta, double anchorx, double anchory);
 
-	public boolean isIdentity();
-
-	public void setToTranslation(double tx, double ty);
-
-	public void setToScale(double sx, double sy);
-
-	public void getMatrix(double[] m);
-
-	public void setToRotation(double theta);
-
-	public void setToRotation(double theta, double x, double y);
-
-	// public void transform(double[] doubleCoords, int pointIdx, float[]
-	// coords,
-	// int j, int k);
 }

@@ -157,11 +157,11 @@ public abstract class Ellipse2D extends RectangularShape {
          * @since 1.2
          */
         @Override
-		public void setFrame(double x, double y, double w, double h) {
+		public void setFrame(double x, double y, double width, double height) {
             this.x = x;
             this.y = y;
-            this.width = w;
-            this.height = h;
+            this.width = width;
+            this.height = height;
         }
 
         /**

@@ -314,6 +314,12 @@ public abstract class RendererImpl {
 
 	public abstract void setClipPlanes(double[][] minMax);
 
+	/**
+	 * @param r red
+	 * @param g green
+	 * @param b blue
+	 * @param a alpha
+	 */
 	public abstract void setColor(float r, float g, float b, float a);
 
 	public abstract void initMatrix();
@@ -410,6 +416,12 @@ public abstract class RendererImpl {
 
 	abstract public void disableDepthMask();
 
+	/**
+	 * @param r red
+	 * @param g green
+	 * @param b blue
+	 * @param a alpha
+	 */
 	abstract public void setClearColor(float r, float g, float b, float a);
 
 	abstract public void setPolygonOffset(float factor, float units);
@@ -459,6 +471,13 @@ public abstract class RendererImpl {
 
 	public abstract void setLightPosition(float[] values);
 
+	/**
+	 * Sets ambient and diffuse components of lighting.
+	 * @param ambient0 ambient component (first source)
+	 * @param diffuse0 diffuse component (first source)
+	 * @param ambient1 ambient component (second source)
+	 * @param diffuse1 diffuse component (second source)
+	 */
 	public abstract void setLightAmbientDiffuse(float ambient0, float diffuse0,
 			float ambient1, float diffuse1);
 

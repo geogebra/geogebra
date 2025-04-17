@@ -11,11 +11,30 @@ public interface IsEuclidianController extends LongTouchHandler {
 
 	void setExternalHandling(boolean b);
 
+	/**
+	 * Handle touch start event for two pointers.
+	 * @param x1 firt posinter's x-coordinate
+	 * @param y1 first pointer's y-coodinate
+	 * @param x2 second posinter's x-coordinate
+	 * @param y2 second pointer's y-coodinate
+	 */
 	void twoTouchStart(double x1, double y1, double x2, double y2);
 
+	/**
+	 * Change the default pointer event type.
+	 * @param pointerEventType pointer event type
+	 * @param pointerDown whether this was triggered by pointer down event
+	 */
 	void setDefaultEventType(PointerEventType pointerEventType,
 			boolean pointerDown);
 
+	/**
+	 * Handle touch move event for two pointers.
+	 * @param x1 firt posinter's x-coordinate
+	 * @param y1 first pointer's y-coodinate
+	 * @param x2 second posinter's x-coordinate
+	 * @param y2 second pointer's y-coodinate
+	 */
 	void twoTouchMove(double x1, double y1, double x2, double y2);
 
 	int getEvNo();
