@@ -96,7 +96,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	 * @param transparent whether to use transparent background
 	 * @param format export format (PNG, WEBP)
 	 * @param greyscale whether to use greyscale colors
-	 * @return data URL in given formt
+	 * @return data URL in given format
 	 */
 	String getExportImageDataUrl(double scale, boolean transparent,
 			ExportType format, boolean greyscale);

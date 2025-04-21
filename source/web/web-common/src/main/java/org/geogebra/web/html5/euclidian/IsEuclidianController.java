@@ -14,9 +14,9 @@ public interface IsEuclidianController extends LongTouchHandler {
 	/**
 	 * Handle touch start event for two pointers.
 	 * @param x1 firt posinter's x-coordinate
-	 * @param y1 first pointer's y-coodinate
+	 * @param y1 first pointer's y-coordinate
 	 * @param x2 second posinter's x-coordinate
-	 * @param y2 second pointer's y-coodinate
+	 * @param y2 second pointer's y-coordinate
 	 */
 	void twoTouchStart(double x1, double y1, double x2, double y2);
 
@@ -31,9 +31,9 @@ public interface IsEuclidianController extends LongTouchHandler {
 	/**
 	 * Handle touch move event for two pointers.
 	 * @param x1 firt posinter's x-coordinate
-	 * @param y1 first pointer's y-coodinate
+	 * @param y1 first pointer's y-coordinate
 	 * @param x2 second posinter's x-coordinate
-	 * @param y2 second pointer's y-coodinate
+	 * @param y2 second pointer's y-coordinate
 	 */
 	void twoTouchMove(double x1, double y1, double x2, double y2);
 

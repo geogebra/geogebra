@@ -28,7 +28,7 @@ public interface GGeneralPath extends GShape {
 	 * Whether this contains a  rectangle with given boundaries
 	 * @param x rectangle's left
 	 * @param y rectangle's top
-	 * @param w width of the recangle
+	 * @param w width of the rectangle
 	 * @param h height of the rectangle
 	 * @return whether rectangle is inside this shape.
 	 */

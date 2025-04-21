@@ -1238,7 +1238,7 @@ public interface Manager3DInterface {
 	 * Creates segment bisector where the segment is given by two points,
 	 * direction of thebisector is given by a line or plane.
 	 * @param label output label
-	 * @param a segment enpoint
+	 * @param a segment endpoint
 	 * @param b segment endpoint
 	 * @param orientation bisector orientation
 	 * @return segment bisector
