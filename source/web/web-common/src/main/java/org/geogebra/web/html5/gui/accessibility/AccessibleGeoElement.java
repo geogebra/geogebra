@@ -46,6 +46,8 @@ public class AccessibleGeoElement implements AccessibleWidget {
 		this.label = factory.newLabel();
 		this.button = factory.newButton();
 		this.view = view;
+		label.getElement().setAttribute("role", "status");
+		label.getElement().setAttribute("aria-live", "polite");
 		update();
 		button.addClickHandler(event -> {
 			view.select(geo);
