@@ -88,5 +88,20 @@ public final class ChartBuilder {
 		}
 		return null;
 	}
+
+	/**
+	 * Builds the line graph command based on selection range: first column as list of
+	 * x-coordinates, second column as list of y-coordinates.
+	 * @param data The spreadsheet data.
+	 * @param range The range in {@code data} from which to create the chart.
+	 * @param toColumn The column to use as list of y-coordinates.
+	 * @return Line graph command, e.g. =LineGraph(A1:A3,B1:B3)
+	 */
+	public static String getLineGraphCommand(TabularData<?> data, TabularRange range,
+			int toColumn) {
+		return getChartCommandWithTwoListParameter("LineGraph", data,
+				range.getFromRow(), range.getFromColumn(),
+				range.getToRow(), toColumn);
+	}
 }
 

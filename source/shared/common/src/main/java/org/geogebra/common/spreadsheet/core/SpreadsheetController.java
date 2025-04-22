@@ -1155,12 +1155,12 @@ public final class SpreadsheetController {
 			createPieChart(range);
 			break;
 		case BAR_CHART:
-			createBarChart(range);
-			break;
 		case HISTOGRAM:
-			createHistogram(range);
+			createChartWithTwoParameter(range, chartType);
 			break;
 		case LINE_CHART:
+			createLineChart(range);
+			break;
 		default:
 		}
 	}
@@ -1179,26 +1179,35 @@ public final class SpreadsheetController {
 		}
 	}
 
-	private void createBarChart(TabularRange range) {
+	private void createChartWithTwoParameter(TabularRange range,
+			ContextMenuItem.Identifier chartType) {
 		if (constructionDelegate == null || controlsDelegate == null) {
 			return;
 		}
 
 		if (range.getWidth() == 2) {
-			constructionDelegate.createBarChart(tabularData, range);
+			switch (chartType) {
+			case BAR_CHART:
+				constructionDelegate.createBarChart(tabularData, range);
+				break;
+			case HISTOGRAM:
+				constructionDelegate.createHistogram(tabularData, range);
+				break;
+			default:
+			}
 		} else {
 			controlsDelegate.showSnackbar(range.isSingleCell() ? "StatsDialog.NoData"
 					: "ChartError.TwoColumns");
 		}
 	}
 
-	private void createHistogram(TabularRange range) {
+	private void createLineChart(TabularRange range) {
 		if (constructionDelegate == null || controlsDelegate == null) {
 			return;
 		}
 
-		if (range.getWidth() == 2) {
-			constructionDelegate.createHistogram(tabularData, range);
+		if (range.getWidth() >= 2) {
+			constructionDelegate.createLineGraph(tabularData, range);
 		} else {
 			controlsDelegate.showSnackbar(range.isSingleCell() ? "StatsDialog.NoData"
 					: "ChartError.TwoColumns");

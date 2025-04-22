@@ -762,6 +762,61 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertEquals("ChartError.TwoColumns", chartError);
     }
 
+    @Test
+    public void testLineGraphValidDataHasNoError() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        tabularData.setContent(0, 1, "4");
+        tabularData.setContent(1, 1, "5");
+        tabularData.setContent(2, 1, "6");
+        selectCells(0, 0, 2, 1);
+        controller.createChart(Identifier.LINE_CHART);
+        assertEquals("LineGraph(A1:A3,B1:B3)", chartCommand);
+        assertEquals("", chartError);
+    }
+
+    @Test
+    public void testLineGraphNotEnoughDataError() {
+        tabularData.setContent(0, 0, "1");
+        selectCells(0, 0, 0, 0);
+        controller.createChart(Identifier.LINE_CHART);
+        assertEquals("", chartCommand);
+        assertEquals("StatsDialog.NoData", chartError);
+    }
+
+    @Test
+    public void testLineGraphTwoColumnNeededError() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(0, 1, "2");
+        tabularData.setContent(0, 2, "3");
+        selectCells(0, 0, 2, 0);
+        controller.createChart(Identifier.LINE_CHART);
+        assertEquals("", chartCommand);
+        assertEquals("ChartError.TwoColumns", chartError);
+    }
+
+    @Test
+    public void testMultipleLineGraphForMultipleColumn() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        tabularData.setContent(0, 1, "4");
+        tabularData.setContent(1, 1, "5");
+        tabularData.setContent(2, 1, "6");
+        tabularData.setContent(0, 2, "7");
+        tabularData.setContent(1, 2, "8");
+        tabularData.setContent(2, 2, "9");
+        tabularData.setContent(0, 3, "10");
+        tabularData.setContent(1, 3, "11");
+        tabularData.setContent(2, 3, "12");
+        selectCells(0, 0, 2, 3);
+        controller.createChart(Identifier.LINE_CHART);
+        assertEquals("LineGraph(A1:A3,B1:B3)LineGraph(A1:A3,C1:C3)LineGraph(A1:A3,D1:D3)",
+                chartCommand);
+        assertEquals("", chartError);
+    }
+
     // Helpers
 
     private void setViewport(Rectangle viewport) {
@@ -909,5 +964,15 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     @Override
     public void createHistogram(TabularData<?> data, TabularRange range) {
         chartCommand = ChartBuilder.getHistogramCommand(data, range);
+    }
+
+    @Override
+    public void createLineGraph(TabularData<?> data, TabularRange range) {
+        StringBuilder strBuilder = new StringBuilder();
+        for (int col = range.getFromColumn() + 1; col <= range.getToColumn(); col++) {
+            strBuilder.append(ChartBuilder.getLineGraphCommand(data, range, col));
+        }
+
+        chartCommand = strBuilder.toString();
     }
 }

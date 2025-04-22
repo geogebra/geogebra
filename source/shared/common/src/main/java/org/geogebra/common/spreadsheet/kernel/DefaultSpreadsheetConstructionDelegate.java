@@ -46,5 +46,13 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 		}
 		processCommand(command);
 	}
+
+	@Override
+	public void createLineGraph(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
+		for (int toCol = range.getFromColumn() + 1; toCol <= range.getToColumn(); toCol++) {
+			String command = ChartBuilder.getLineGraphCommand(data, range, toCol);
+			processCommand(command);
+		}
+	}
 }
 
