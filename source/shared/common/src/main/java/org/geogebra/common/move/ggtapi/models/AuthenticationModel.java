@@ -201,6 +201,9 @@ public abstract class AuthenticationModel {
 		this.loginStarted = false;
 	}
 
+	/**
+	 * Prevent any login prompt.
+	 */
 	public void preventLoginPrompt() {
 		this.preventLoginPrompt = true;
 	}

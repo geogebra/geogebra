@@ -16,10 +16,17 @@ public class CaptionProperties {
 		this.view = view;
 	}
 
+	/**
+	 * Set the caption.
+	 * @param caption new caption
+	 */
 	public void update(CaptionText caption) {
 		this.caption = caption;
 	}
 
+	/**
+	 * @return whether caption has a subscript
+	 */
 	public boolean hasSubscript() {
 		return caption != null && caption.text().contains("_");
 	}
@@ -76,6 +83,9 @@ public class CaptionProperties {
 				(double) bgColor.getBlue() / 255, 1);
 	}
 
+	/**
+	 * @return whether caption has a background color
+	 */
 	public boolean hasBackgroundColor() {
 		return caption != null && caption.backgroundColor() != null;
 	}

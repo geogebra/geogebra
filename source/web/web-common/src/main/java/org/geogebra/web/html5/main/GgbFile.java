@@ -71,6 +71,11 @@ public class GgbFile extends HashMap<String, ArchiveEntry> implements ZipFile {
 		return counter;
 	}
 
+	/**
+	 * Add archive entry.
+	 * @param key file name in the archive
+	 * @param val entry content
+	 */
 	public void put(String key, String val) {
 		put(key, new ArchiveEntry(key, val));
 	}

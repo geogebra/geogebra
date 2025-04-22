@@ -562,6 +562,10 @@ public class ToolbarPanel extends FlowPanel
 		updatePanelVisibility(isOpen);
 	}
 
+	/**
+	 * Close the panel.
+	 * @param snap TODO always false
+	 */
 	public void close(boolean snap) {
 		close(snap, OPEN_ANIM_TIME);
 	}
@@ -890,6 +894,10 @@ public class ToolbarPanel extends FlowPanel
 		dispatchEvent(EventType.TOOLS_PANEL_SELECTED);
 	}
 
+	/**
+	 * Open the table view.
+	 * @param fade to use fade animation
+	 */
 	public void openTableView(boolean fade) {
 		openTableView(null, fade);
 	}
@@ -1326,10 +1334,16 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
+	/**
+	 * Hide toolbar with animation.
+	 */
 	public void hideToolbar() {
 		navRail.onClosePressed(true);
 	}
 
+	/**
+	 * Hide toolbar immediately.
+	 */
 	public void hideToolbarImmediate() {
 		navRail.onClose(true, 0);
 	}
@@ -1373,10 +1387,6 @@ public class ToolbarPanel extends FlowPanel
 		ToolbarTab active = getSelectedTabId() == TabIds.TABLE
 				? getTab(TabIds.TABLE) : getTab(TabIds.ALGEBRA);
 		active.paintToCanvas(context2d, counter, left + 72, top);
-	}
-
-	public void setAVIconNonSelect(boolean exam) {
-		navRail.setAVIconNonSelect(exam);
 	}
 
 	/**

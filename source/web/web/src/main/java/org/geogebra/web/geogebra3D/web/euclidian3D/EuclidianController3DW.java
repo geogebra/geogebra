@@ -87,6 +87,10 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg.onPointerEventStart(event);
 	}
 
+	/**
+	 * Handle mouse wheel event.
+	 * @param event wheel event
+	 */
 	public void onMouseWheel(WheelEvent event) {
 		mtg.onMouseWheel(event);
 	}

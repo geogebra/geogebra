@@ -90,6 +90,9 @@ public class GTextBox extends TextBox
 		isFocused = b;
 	}
 
+	/**
+	 * @return whether this is focused (baseson a flag)
+	 */
 	public boolean hasFocus() {
 		return isFocused;
 	}

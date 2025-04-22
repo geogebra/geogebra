@@ -181,6 +181,11 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		// used for some input3D
 	}
 
+	/**
+	 * Draw point cursor.
+	 *
+	 * @param point point cursor
+	 */
 	public void drawPointAlready(GeoPoint3D point) {
 		getView().drawPointAlready(point.getMoveMode());
 	}
@@ -250,6 +255,9 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		}
 	}
 
+	/**
+	 * Update stylus beam (with 3D input device) for moved element.
+	 */
 	public void updateStylusBeamForMovedGeo() {
 		// used for some 3D inputs
 	}
@@ -262,6 +270,9 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		return isStereoBuffered;
 	}
 
+	/**
+	 * @return if stereo (specific right-ey rendering) is wanted
+	 */
 	public boolean wantsStereo() {
 		return isStereoBuffered();
 	}

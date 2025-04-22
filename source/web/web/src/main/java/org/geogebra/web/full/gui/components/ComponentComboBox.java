@@ -203,6 +203,10 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 		updateSelectionText(getSelectedText());
 	}
 
+	/**
+	 * Add a change handler.
+	 * @param handler change handler
+	 */
 	public void addChangeHandler(Runnable handler) {
 		controller.addChangeHandler(handler);
 	}

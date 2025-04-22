@@ -977,8 +977,14 @@ public class ProbabilityManager {
 		}
 	}
 
-	public double rightProbability(double high, GeoNumberValue[] params, Dist distType) {
-		return 1 - probability(high, params, distType, true);
+	/**
+	 * @param bound bound of the interval
+	 * @param params distribution parameters
+	 * @param distType distribution type
+	 * @return probability that random variable with given type and parameters is > bound
+	 */
+	public double rightProbability(double bound, GeoNumberValue[] params, Dist distType) {
+		return 1 - probability(bound, params, distType, true);
 	}
 
 	/**

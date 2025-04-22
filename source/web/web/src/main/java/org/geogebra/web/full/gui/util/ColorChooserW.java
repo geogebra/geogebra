@@ -713,6 +713,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		update();
 	}
 
+	/**
+	 * Set color change handler.
+	 * @param handler color change handler
+	 */
 	public void addChangeHandler(ColorChangeHandler handler) {
 		this.changeHandler = handler;
 	}
@@ -742,6 +746,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		btnCustomColor.setVisible(enabled);
 	}
 
+	/**
+	 * Enable or disable opacity
+	 * @param enabled whether to enable it
+	 */
 	public void enableOpacity(boolean enabled) {
 		opacityPanel.setVisible(enabled);
 	}

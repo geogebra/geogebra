@@ -49,6 +49,10 @@ public interface Locateable extends GeoElementND {
 		return 1;
 	}
 
+	/**
+	 * @param idx index
+	 * @return start point / corner with given index
+	 */
 	default GeoElementND getStartPoint(int idx) {
 		return getStartPoint();
 	}

@@ -347,11 +347,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST,
 			EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE };
 
-	private final static int[] axesStyles = { EuclidianStyleConstants.NO_AXES,
-			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
-			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS,
-			EuclidianStyleConstants.AXES_LINE_TYPE_FULL };
-
 	// end
 	private int fontSize;
 	private GAffineTransform coordTransform = AwtFactory.getPrototype()
@@ -537,16 +532,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return ret;
 	}
 
+	/**
+	 * @param i index
+	 * @return line type
+	 */
 	public static int getLineType(int i) {
 		return lineTypes[i];
 	}
 
+	/**
+	 * @return number of line types
+	 */
 	public static int getLineTypeLength() {
 		return lineTypes.length;
-	}
-
-	public static int getAxesStyle(int i) {
-		return axesStyles[i];
 	}
 
 	public static int getPointStyleLength() {
@@ -564,6 +562,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return ret;
 	}
 
+	/**
+	 * TODO move to stylebar or properties code
+	 * @param i index
+	 * @return point style
+	 */
 	public static int getPointStyle(int i) {
 		return pointStyles[i];
 	}
@@ -4462,6 +4465,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		previewDrawable = p;
 	}
 
+	/**
+	 * @param mode app mode
+	 * @return whether preview is needed on touch start
+	 */
 	public boolean wantsUpdatePreviewForTouchStartPhone(int mode) {
         return getPreviewDrawable() == null && mode != EuclidianConstants.MODE_COPY_VISUAL_STYLE;
     }
@@ -6099,6 +6106,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	/**
+	 * Disable blur events (inw Web) for the next 500ms.
+	 */
 	public void cancelBlur() {
 		// TODO Auto-generated method stub
 	}
@@ -6440,6 +6450,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
+	/**
+	 * Initialize symbolic editor for input boxes.
+	 * @return symbolic editor
+	 */
 	public SymbolicEditor initSymbolicEditor() {
 		return createSymbolicEditor(LatexRendererSettings.create());
 	}
@@ -6554,6 +6568,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		drawShape(g2, shapePolygon);
 	}
 
+	/**
+	 * If the graphics object supports layers, add one for the embeded widget.
+	 * @param g2 graphics
+	 * @param drawEmbed embedded widget
+	 */
 	public void embed(GGraphics2D g2, DrawWidget drawEmbed) {
 		//web only
 	}

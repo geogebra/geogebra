@@ -198,10 +198,18 @@ public class MyMath2 {
 		}
 	}
 
+	/**
+	 * @param x real number
+	 * @return digamma of x
+	 */
 	public static double psi(double x) {
 		return Gamma.digamma(x);
 	}
 
+	/**
+	 * @param x real number
+	 * @return logGamma of x
+	 */
 	public static double logGamma(double x) {
 		return Gamma.logGamma(x);
 	}

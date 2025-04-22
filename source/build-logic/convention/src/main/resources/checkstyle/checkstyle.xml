@@ -122,7 +122,7 @@
         </module>
         <module name="MissingJavadocMethod">
             <property name="minLineCount" value="1"/>
-            <property name="allowedAnnotations" value="Override, Test, Before, BeforeEach, BeforeClass, BeforeAll, After, AfterEach, AfterAll, ParameterizedTest"/>
+            <property name="allowedAnnotations" value="Override, Test, Before, BeforeEach, BeforeClass, BeforeAll, After, AfterEach, AfterAll, AfterClass, ParameterizedTest"/>
         </module>
         <module name="JavadocMethod">
             <property name="accessModifiers" value="public"/>

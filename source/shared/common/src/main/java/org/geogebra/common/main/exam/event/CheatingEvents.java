@@ -35,6 +35,9 @@ public class CheatingEvents {
         return events.isEmpty();
     }
 
+    /**
+     * @return number of cheating events
+     */
     public int size() {
         return events.size();
     }

@@ -156,6 +156,9 @@ public class LoginOperationW extends LogInOperation {
 		return app.getLAF() == null || app.getLAF().isExternalLoginAllowed();
 	}
 
+	/**
+	 * @return load user data from session storage
+	 */
 	public boolean loadUserFromSession() {
 		return ((AuthenticationModelW) getModel()).loadUserFromSession(getGeoGebraTubeAPI());
 	}

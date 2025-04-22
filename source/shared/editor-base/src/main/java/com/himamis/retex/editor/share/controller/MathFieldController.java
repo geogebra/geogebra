@@ -213,12 +213,18 @@ public class MathFieldController {
 		drawWithStub(renderer);
 	}
 
+	/**
+	 * Update editor state to select component at given path.
+	 * @param mathFormula formula
+	 * @param path selection path
+	 * @param state editor state
+	 */
 	public void setSelectedPath(MathFormula mathFormula,
 			ArrayList<Integer> path, EditorState state) {
 		setSelectedPath(mathFormula.getRootComponent(), path, state, 0);
 	}
 
-	private void setSelectedPath(MathContainer rootComponent,
+	private static void setSelectedPath(MathContainer rootComponent,
 			ArrayList<Integer> path, EditorState state, int depth) {
 		if (path.size() <= depth) {
 			return;

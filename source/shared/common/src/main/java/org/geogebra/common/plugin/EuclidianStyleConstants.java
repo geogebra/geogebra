@@ -176,6 +176,11 @@ public class EuclidianStyleConstants {
 
 	public static final int NO_AXES = -1;
 
+	/**
+	 * Get line style for given index.
+	 * @param i index
+	 * @return line style
+	 */
 	public static Integer getLineStyleOptions(int i) {
 		return lineStyleOptions[i];
 	}

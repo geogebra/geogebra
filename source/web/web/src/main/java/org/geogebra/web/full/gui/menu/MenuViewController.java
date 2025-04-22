@@ -243,6 +243,11 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		updateMenuItemGroups();
 	}
 
+	/**
+	 * TODO move the caller into controller
+	 * @param widget widget
+	 * @return whether the widget is the submenu
+	 */
 	public boolean isSubMenu(Widget widget) {
 		return submenuContainer.getWidget() == widget;
 	}

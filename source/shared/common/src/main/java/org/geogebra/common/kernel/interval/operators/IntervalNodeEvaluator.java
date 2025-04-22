@@ -32,10 +32,20 @@ public class IntervalNodeEvaluator {
 		sinCos = new IntervalSinCos(this);
 	}
 
+	/**
+	 * @param interval first interval
+	 * @param other second interval
+	 * @return interval * other
+	 */
 	public Interval multiply(Interval interval, Interval other) {
 		return multiply.compute(interval, other);
 	}
 
+	/**
+	 * @param interval first interval
+	 * @param other second interval
+	 * @return interval / other
+	 */
 	public Interval divide(Interval interval, Interval other) {
 		return divide.compute(interval, other);
 	}
@@ -93,6 +103,11 @@ public class IntervalNodeEvaluator {
 		return nroot.compute(interval, n);
 	}
 
+	/**
+	 * @param interval first interval
+	 * @param other second interval
+	 * @return set difference interval \ other
+	 */
 	public Interval difference(Interval interval, Interval other) {
 		return misc.difference(interval, other);
 	}
@@ -205,10 +220,18 @@ public class IntervalNodeEvaluator {
 		return trigonometric.tanh(interval);
 	}
 
+	/**
+	 * @param interval interval
+	 * @return e^interval
+	 */
 	public Interval exp(Interval interval) {
 		return misc.exp(interval);
 	}
 
+	/**
+	 * @param interval interval
+	 * @return logarighm of the interval
+	 */
 	public Interval log(Interval interval) {
 		return misc.log(interval);
 	}
@@ -221,26 +244,54 @@ public class IntervalNodeEvaluator {
 		return nroot.compute(interval, 2);
 	}
 
+	/**
+	 * @param interval interval
+	 * @return absolute value of the interval
+	 */
 	public Interval abs(Interval interval) {
 		return misc.abs(interval);
 	}
 
+	/**
+	 * @param interval interval
+	 * @return base 10 logarighm of the interval
+	 */
 	public Interval log10(Interval interval) {
 		return misc.log10(interval);
 	}
 
+	/**
+	 * @param interval interval
+	 * @return base 2 logarithm of the interval
+	 */
 	public Interval log2(Interval interval) {
 		return misc.log2(interval);
 	}
 
+	/**
+	 * @param interval first interval
+	 * @param other second interval
+	 * @return hull of the intervals
+	 */
 	public Interval hull(Interval interval, Interval other) {
 		return misc.hull(interval, other);
 	}
 
+	/**
+	 * @param interval first interval
+	 * @param other second interval
+	 * @return intersection of the intervalss
+	 */
 	public Interval intersect(Interval interval, Interval other) {
 		return misc.intersect(interval, other);
 	}
 
+	/**
+	 * If the union is not an interval, the result is undefined.
+	 * @param interval first interval
+	 * @param other second interval
+	 * @return union of the intervalss
+	 */
 	public Interval union(Interval interval, Interval other) {
 		return misc.union(interval, other);
 	}
@@ -278,22 +329,47 @@ public class IntervalNodeEvaluator {
 		return interval.isNegative() || interval.isUndefined();
 	}
 
+	/**
+	 * @param value1 first interval
+	 * @param value2 second interval
+	 * @return value1 + value2
+	 */
 	public Interval plus(Interval value1, Interval value2) {
 		return new Interval(value1).add(value2);
 	}
 
+	/**
+	 * @param value1 first interval
+	 * @param value2 second interval
+	 * @return value1 - value2
+	 */
 	public Interval minus(Interval value1, Interval value2) {
 		return new Interval(value1).subtract(value2);
 	}
 
+	/**
+	 * @param leftValue base
+	 * @param rightValue exponent value
+	 * @param right exponent definition
+	 * @return leftValue ^ rightValue
+	 */
 	public Interval handlePower(Interval leftValue, Interval rightValue, IntervalNode right) {
 		return power.handle(leftValue, rightValue, right);
 	}
 
+	/**
+	 * @param interval interval
+	 * @return 1/interval
+	 */
 	public Interval multiplicativeInverse(Interval interval) {
 		return divide.compute(one(), interval);
 	}
 
+	/**
+	 * @param base logarithm base
+	 * @param arg logarith argument
+	 * @return log(base,arg)
+	 */
 	public Interval logBase(Interval base, Interval arg) {
 		return divide(log(arg), log(base));
 	}

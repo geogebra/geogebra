@@ -63,6 +63,10 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 		}
 	}
 
+	/**
+	 * Disable or enable the action button (TODO why style only?)
+	 * @param disabled whether to disable it.
+	 */
 	public void disableActionButton(boolean disabled) {
 		Dom.toggleClass(actionButton, "disabled", disabled);
 	}

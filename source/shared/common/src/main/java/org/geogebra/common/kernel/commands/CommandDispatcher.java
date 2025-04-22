@@ -1063,6 +1063,11 @@ public abstract class CommandDispatcher {
 		return isAllowedByCommandFilters(Commands.Solve);
 	}
 
+	/**
+	 * Checks if a command can be processed.
+	 * @param command command
+	 * @return whether processor for that command is available (not filtered)
+	 */
 	public boolean hasProcessor(Command command) {
 		return getProcessor(command) != null;
 	}

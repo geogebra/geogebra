@@ -571,10 +571,17 @@ public class TeXBuilder {
 		return atomToComponent.get(atom);
 	}
 
+	/**
+	 * @param syntaxAdapter syntax adapter
+	 */
 	public void setSyntaxAdapter(SyntaxAdapter syntaxAdapter) {
 		teXSerializer.setSyntaxAdapter(syntaxAdapter);
 	}
 
+	/**
+	 * Enable or disable (simple) placeholders in the serializer.
+	 * @param enable whether to enable
+	 */
 	public void enablePlaceholder(boolean enable) {
 		teXSerializer.setPlaceholderEnabled(enable);
 	}

@@ -159,6 +159,9 @@ public class AccessibleDropDown implements AccessibleWidget {
 		return geo instanceof GeoList && ((GeoList) geo).drawAsComboBox();
 	}
 
+	/**
+	 * Close the dropdown.
+	 */
 	public void close() {
 		options.setVisible(false);
 	}

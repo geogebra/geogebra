@@ -12,6 +12,9 @@ public interface PenTransformer {
 
 	void updatePreview(GPoint newPoint);
 
+	/**
+	 * @return maximal distance for snapping to edge
+	 */
 	default int snapThreshold() {
 		return 24;
 	}

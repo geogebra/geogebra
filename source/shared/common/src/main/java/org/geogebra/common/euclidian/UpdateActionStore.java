@@ -78,10 +78,17 @@ public class UpdateActionStore {
 		}
 	}
 
+	/**
+	 * Remove all items related to given element.
+	 * @param geo element
+	 */
 	public void remove(GeoElement geo) {
 		undoItems.removeIf(it -> it.hasGeo(geo));
 	}
 
+	/**
+	 * Clear all items.
+	 */
 	public void clear() {
 		undoItems.clear();
 	}

@@ -93,6 +93,9 @@ public final class GeoGebraElement {
 		// needed for GWT
 	}
 
+	/**
+	 * Remove all content.
+	 */
 	public void clear() {
 		el.setInnerHTML("");
 	}

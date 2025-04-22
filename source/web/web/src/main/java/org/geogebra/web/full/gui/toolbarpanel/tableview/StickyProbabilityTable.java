@@ -21,7 +21,7 @@ public class StickyProbabilityTable extends StickyTable<List<String>> {
 	public StickyProbabilityTable() {
 		getTable().addStyleName("fullWidth");
 		getTable().setRowStyles(
-				(row, rowIndex) -> adapter.isHighligheted(rowIndex) ? "highlighted" : "");
+				(row, rowIndex) -> adapter.isHighlighted(rowIndex) ? "highlighted" : "");
 	}
 
 	private void addColumn(final int col) {

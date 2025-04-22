@@ -719,6 +719,10 @@ public class DataDisplayModel {
 				id == 0 ? PlotType.BARCHART : PlotType.BOXPLOT);
 	}
 
+	/**
+	 * Change selected plot type.
+	 * @param selectedPlot plot type
+	 */
 	public void setSelectedPlot(PlotType selectedPlot) {
 		app.getSettings().getDataAnalysis().setPlotType(id, selectedPlot);
 	}

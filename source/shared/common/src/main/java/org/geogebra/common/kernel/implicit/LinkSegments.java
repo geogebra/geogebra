@@ -124,10 +124,16 @@ public class LinkSegments {
 		openPointLists.clear();
 	}
 
+	/**
+	 * @param locusPoints points
+	 */
 	public void updatePoints(List<MyPoint> locusPoints) {
 		this.locusPoints = locusPoints;
 	}
 
+	/**
+	 * FLush the points.
+	 */
 	public void flush() {
 		flushPoints();
 	}

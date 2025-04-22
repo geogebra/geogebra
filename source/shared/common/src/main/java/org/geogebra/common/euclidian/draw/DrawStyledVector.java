@@ -97,6 +97,10 @@ public class DrawStyledVector {
 		return area != null && area.intersects(x1, y1, w, h);
 	}
 
+	/**
+	 * Fill the shape in given graphics.
+	 * @param g2 graphics
+	 */
 	public void fill(GGraphics2D g2) {
 		g2.fill(area);
 	}

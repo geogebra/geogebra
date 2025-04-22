@@ -49,6 +49,10 @@ public abstract class ChiSquareCell {
 		this.column = column1;
 	}
 
+	/**
+	 * Update text content of the cell.
+	 * @param text new text content
+	 */
 	public void updateCellData(String text) {
 		statsCollection.chiSquareData[row][column] = text;
 	}

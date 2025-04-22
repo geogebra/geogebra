@@ -19,14 +19,24 @@ public class IndexHTMLBuilder {
 		}
 	}
 
+	/**
+	 * Add text as is (keep special characters).
+	 * @param s text to add
+	 */
 	public void append(String s) {
 		sb.append(s);
 	}
 
+	/**
+	 * Start subscript.
+	 */
 	public void startIndex() {
 		sb.append("<sub><font size=\"-1\">");
 	}
 
+	/**
+	 * End subscript.
+	 */
 	public void endIndex() {
 		sb.append("</font></sub>");
 	}
@@ -41,14 +51,25 @@ public class IndexHTMLBuilder {
 		return sb.toString();
 	}
 
+	/**
+	 * Clear all content.
+	 */
 	public void clear() {
 		sb.setLength(needsTag ? "<html>".length() : 0);
 	}
 
+	/**
+	 * TODO unused
+	 * @return whether raw HTML can be appended
+	 */
 	public boolean canAppendRawHtml() {
 		return true;
 	}
 
+	/**
+	 * Append string, replace special characters with HTML entities
+	 * @param str string
+	 */
 	public void appendHTML(String str) {
 		sb.append(StringUtil.toHTMLString(str));
 	}

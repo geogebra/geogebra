@@ -224,10 +224,20 @@ public class CSVParser {
 		return pending != null;
 	}
 
+	/**
+	 * @param nextLine line of the file
+	 * @return parsed values
+	 * @throws CSVException if not valid CSV syntax
+	 */
 	public String[] parseLineMulti(String nextLine) throws CSVException {
 		return parseLine(nextLine, true);
 	}
 
+	/**
+	 * @param nextLine line of the file
+	 * @return parsed values
+	 * @throws CSVException if not valid CSV syntax
+	 */
 	public String[] parseLine(String nextLine) throws CSVException {
 		return parseLine(nextLine, false);
 	}

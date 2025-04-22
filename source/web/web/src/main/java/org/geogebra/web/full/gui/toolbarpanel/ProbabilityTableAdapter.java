@@ -65,10 +65,18 @@ public class ProbabilityTableAdapter extends ProbabilityTable {
 		data.addAll(rows);
 	}
 
-	public boolean isHighligheted(int rowIndex) {
+	/**
+	 * @param rowIndex row index
+	 * @return whether the row is highlighted
+	 */
+	public boolean isHighlighted(int rowIndex) {
 		return highlighted.test(rowIndex);
 	}
 
+	/**
+	 * @param col column index
+	 * @return column name
+	 */
 	public String getColumnName(int col) {
 		return getColumnNames()[col];
 	}

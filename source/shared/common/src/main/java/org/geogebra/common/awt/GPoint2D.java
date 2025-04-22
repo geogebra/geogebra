@@ -38,14 +38,30 @@ public class GPoint2D {
 		return 0;
 	}
 
+	/**
+	 * Gets Euclidean distance to a point.
+	 * @param q other point
+	 * @return euclidean distance
+	 */
 	public double distance(GPoint2D q) {
 		return Math.hypot(getX() - q.getX(), getY() - q.getY());
 	}
 
+	/**
+	 * Gets Euclidean distance to a point.
+	 * @param x1 x-coord of the other point
+	 * @param y1 y-coord of the other point
+	 * @return euclidean distance
+	 */
 	public double distance(double x1, double y1) {
 		return Math.hypot(getX() - x1, getY() - y1);
 	}
 
+	/**
+	 * Gts squared distance to a point
+	 * @param to other point
+	 * @return squared distance
+	 */
 	public double distanceSq(GPoint2D to) {
 		return distanceSq(x, y, to.getX(), to.getY());
 	}

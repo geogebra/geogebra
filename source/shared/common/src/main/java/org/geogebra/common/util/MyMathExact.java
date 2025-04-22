@@ -92,14 +92,25 @@ public class MyMathExact {
 			return fixedScale;
 		}
 
+		/**
+		 * @return copy of this
+		 */
 		public FixedScaleDecimal copy() {
 			return new FixedScaleDecimal(this.getScale(), impl);
 		}
 
+		/**
+		 * @return this * -1
+		 */
 		public FixedScaleDecimal negate() {
 			return new FixedScaleDecimal(this.getScale(), impl.negate());
 		}
 
+		/**
+		 * Add another decimal and this.
+		 * @param md other decimal
+		 * @return the sum
+		 */
 		public FixedScaleDecimal add(FixedScaleDecimal md) {
 			return new FixedScaleDecimal(this.getScale(), impl.add(md.getImpl()));
 		}
@@ -166,18 +177,30 @@ public class MyMathExact {
 			return new FixedScaleDecimal(thisScale, ret.getImpl());
 		}
 
+		/**
+		 * @return absolute value
+		 */
 		public BigDecimal abs() {
 			return impl.abs();
 		}
 
+		/**
+		 * @return wrapped value as double.
+		 */
 		public double doubleValue() {
 			return impl.doubleValue();
 		}
 
+		/**
+		 * @return wrapped value as integer
+		 */
 		public int intValue() {
 			return impl.intValue();
 		}
 
+		/**
+		 * @return signum of wrapped value
+		 */
 		public int signum() {
 			return impl.signum();
 		}
@@ -225,12 +248,24 @@ public class MyMathExact {
 			return this.fixedScale;
 		}
 
-		public FixedScaleDecimal getEntry(int i, int j) {
-			return data[i][j].copy();
+		/**
+		 * Get matrix entry
+		 * @param row row
+		 * @param column column
+		 * @return entry
+		 */
+		public FixedScaleDecimal getEntry(int row, int column) {
+			return data[row][column].copy();
 		}
 
-		public void setEntry(int i, int j, FixedScaleDecimal md) {
-			data[i][j] = new FixedScaleDecimal(fixedScale, md.getImpl());
+		/**
+		 * Set matrix entry
+		 * @param row row
+		 * @param column column
+		 * @param md value
+		 */
+		public void setEntry(int row, int column, FixedScaleDecimal md) {
+			data[row][column] = new FixedScaleDecimal(fixedScale, md.getImpl());
 		}
 
 		/**

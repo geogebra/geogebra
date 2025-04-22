@@ -95,12 +95,8 @@ public class PathPlotterMock implements PathPlotter {
 		return result().hashCode();
 	}
 
-	public int size() {
+	protected int size() {
 		return log.size();
-	}
-
-	public String filter(Predicate<String> test) {
-		return log.stream().filter(test).collect(Collectors.joining(","));
 	}
 
 	public void setDelimiter(String delimiter) {

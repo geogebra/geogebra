@@ -55,6 +55,9 @@ public class DynamicPropertyList {
 		clear();
 	}
 
+	/**
+	 * Clear all stored (geo, expression) pairs.
+	 */
 	public void clear() {
 		pairs.clear();
 	}

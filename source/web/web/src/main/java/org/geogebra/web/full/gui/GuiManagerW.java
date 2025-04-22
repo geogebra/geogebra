@@ -603,10 +603,6 @@ public class GuiManagerW extends GuiManager
 		return probCalculator != null;
 	}
 
-	public boolean hasPlotPanelEuclidianView() {
-		return hasProbabilityCalculator();
-	}
-
 	@Override
 	public void updateSpreadsheetColumnWidths() {
 		// unimplemented in web

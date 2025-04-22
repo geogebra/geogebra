@@ -49,18 +49,18 @@ public final class FlattenNode implements Inspecting, Iterable<ExpressionValue> 
 		return false;
 	}
 
+	/**
+	 * Gets number of terms.
+	 * @return number of terms.
+	 */
 	public int size() {
 		return flatten.size();
 	}
 
-	public Integer multiplierAt(int index) {
-		return multipliers.get(index);
-	}
-
-	public int multiplierCount() {
-		return multipliers.size();
-	}
-
+	/**
+	 * @param index index
+	 * @return term of the flattened node
+	 */
 	public ExpressionValue get(int index) {
 		return flatten.get(index);
 	}

@@ -116,6 +116,10 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		        .getWindowScrollLeft()) / app.getGeoGebraElement().getScaleX());
 	}
 
+	/**
+	 * @param e DOM event
+	 * @return absolute x-coordinate
+	 */
 	public int getAbsoluteX(DomEvent<?> e) {
 		return getAbsoluteX(e, app);
 	}
@@ -132,6 +136,10 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		        .getWindowScrollTop()) / app.getGeoGebraElement().getScaleY());
 	}
 
+	/**
+	 * @param e DOM event
+	 * @return absolute y-coordinate
+	 */
 	public int getAbsoluteY(DomEvent<?> e) {
 		return getAbsoluteY(e, app);
 	}

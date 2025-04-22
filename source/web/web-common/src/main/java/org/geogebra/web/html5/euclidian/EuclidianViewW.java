@@ -1047,6 +1047,9 @@ public class EuclidianViewW extends EuclidianView implements
 		return getCanvasElement();
 	}
 
+	/**
+	 * Mark the reset icon as focused, repaint.
+	 */
 	public void focusResetIcon() {
 		setResetIconSelected(true);
 	}

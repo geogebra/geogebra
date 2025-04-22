@@ -184,6 +184,9 @@ public class MathSequence extends MathContainer {
 		return keepCommas;
 	}
 
+	/**
+	 * Prevent commas from being removed.
+	 */
 	public void setKeepCommas() {
 		this.keepCommas = true;
 	}

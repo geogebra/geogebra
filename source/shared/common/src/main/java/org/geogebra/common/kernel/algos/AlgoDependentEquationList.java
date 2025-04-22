@@ -158,6 +158,9 @@ public class AlgoDependentEquationList extends AlgoElement
 		return list.getDefinition().toString(tpl);
 	}
 
+	/**
+	 * @return whether all equations are of valid type
+	 */
 	public boolean validate() {
 		return validTypes;
 	}

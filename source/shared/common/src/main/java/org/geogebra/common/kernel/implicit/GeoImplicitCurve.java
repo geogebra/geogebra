@@ -2209,6 +2209,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 	}
 
+	/**
+	 * @param threshold threshold for fast drawing
+	 */
 	public static void setFastDrawThreshold(int threshold) {
 		AdaptiveQuadTree.setFastDrawThreshold(threshold);
 	}

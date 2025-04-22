@@ -3708,6 +3708,9 @@ public class ExpressionNode extends ValidExpression
 		return MyDouble.exactEqual(getRight().evaluateDouble(), MyMath.DEG);
 	}
 
+	/**
+	 * Force evaluation to cartesian surface.
+	 */
 	public void setForceSurfaceCartesian() {
 		this.forceSurface = true;
 	}
@@ -3716,6 +3719,9 @@ public class ExpressionNode extends ValidExpression
 		return forceSurface;
 	}
 
+	/**
+	 * Force evaluation to an angle.
+	 */
 	public void setForceAngle() {
 		this.forceAngle = true;
 	}

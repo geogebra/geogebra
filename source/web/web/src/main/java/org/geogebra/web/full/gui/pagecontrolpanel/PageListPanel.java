@@ -110,6 +110,10 @@ public class PageListPanel
 		pageController.loadNewPageStoreUndo(index);
 	}
 
+	/**
+	 * Create and load new page
+	 * @param selected whether to select it
+	 */
 	public void loadNewPage(boolean selected) {
 		loadNewPage(selected, PageListController.nextID());
 	}
@@ -309,6 +313,10 @@ public class PageListPanel
 		update();
 	}
 
+	/**
+	 * If card is selected, persist slide in a file associated with the card
+	 * @param card slide card
+	 */
 	public void saveSlide(PagePreviewCard card) {
 		pageController.refreshSlide(card);
 	}

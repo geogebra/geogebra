@@ -28,10 +28,19 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 			this.translationKey = translationKey;
 		}
 
+		/**
+		 * Convert this to a menu item.
+		 * @return this as menu item
+		 */
 		public TableValuesContextMenuItem toContextMenuItem() {
 			return new TableValuesContextMenuItem(this, new String[]{});
 		}
 
+		/**
+		 * Convert this to a menu item.
+		 * @param translationPlaceholderValues translation placeholder values
+		 * @return this as menu item
+		 */
 		public TableValuesContextMenuItem toContextMenuItem(String[] translationPlaceholderValues) {
 			return new TableValuesContextMenuItem(this, translationPlaceholderValues);
 		}

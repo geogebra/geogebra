@@ -565,6 +565,11 @@ public final class DrawDropDownList extends CanvasDrawable
 		return boxWidth;
 	}
 
+	/**
+	 * @param x x-coordinate in pixels
+	 * @param y y-coordinate in pixels
+	 * @return whether the open button was hit
+	 */
 	public boolean isControlHit(int x, int y) {
 		return drawSelected.isOpenButtonHit(x, y);
 	}

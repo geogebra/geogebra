@@ -340,6 +340,9 @@ public abstract class DataAnalysisController {
 		}
 	}
 
+	/**
+	 * Reset list of selected data to null.
+	 */
 	public void disposeDataListSelected() {
 		dataSelected = null;
 	}

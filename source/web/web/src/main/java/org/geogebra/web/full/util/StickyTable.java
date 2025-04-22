@@ -134,10 +134,20 @@ public abstract class StickyTable<T> extends FlowPanel {
 				".values tr th:nth-child(" + (column + 1) + ") .content");
 	}
 
+	/**
+	 * Get element in table header matching a CSS selector.
+	 * @param className selector (.class)
+	 * @return element
+	 */
 	public Element getHeaderElementByClassName(String className) {
 		return Dom.querySelectorForElement(cellTable.getTableHeadElement(), className);
 	}
 
+	/**
+	 * Get element in table body matching a CSS selector.
+	 * @param className selector (.class)
+	 * @return element
+	 */
 	public Element getTableElementByClassName(String className) {
 		return Dom.querySelectorForElement(cellTable.getTableBodyElement(), className);
 	}
@@ -225,10 +235,19 @@ public abstract class StickyTable<T> extends FlowPanel {
 		return (Panel) scroller.getWidget();
 	}
 
+	/**
+	 * Get a cell element.
+	 * @param row row number
+	 * @param column column number
+	 * @return cell element
+	 */
 	public Element getCell(int row, int column) {
 		return cellTable.getTableBodyElement().getChild(row).getChild(column).cast();
 	}
 
+	/**
+	 * Flush the changes in the model.
+	 */
 	public void flush() {
 		cellTable.flush();
 	}
@@ -264,6 +283,10 @@ public abstract class StickyTable<T> extends FlowPanel {
 		setBodyHeight(height);
 	}
 
+	/**
+	 * Open function definition dialog.
+	 * TODO move out of this widget
+	 */
 	public void openDefineFunctions() {
 		// nothing to do here
 	}

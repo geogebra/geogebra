@@ -322,6 +322,10 @@ public class ToolBarW extends FlowPanel
 		event.stopPropagation();
 	}
 
+	/**
+	 * Select menu button.
+	 * @param index button index
+	 */
 	public void selectMenuButton(int index) {
 		tb.selectMenuButton(index);
 	}

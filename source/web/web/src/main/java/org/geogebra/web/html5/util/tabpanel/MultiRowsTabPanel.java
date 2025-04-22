@@ -41,6 +41,10 @@ public class MultiRowsTabPanel extends Composite
 		return addHandler(selectionHandler, SelectionEvent.getType());
 	}
 
+	/**
+	 * Select given tab.
+	 * @param index tab index
+	 */
 	public void selectTab(int index) {
 		tabBar.selectTab(index);
 	}

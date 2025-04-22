@@ -37,10 +37,19 @@ public class ArchiveEntry {
 		this(fileName, string, null);
 	}
 
+	/**
+	 * @param data encoded data
+	 * @return size in KiB (subject to rounding errors)
+	 */
 	public static int dataUrlToBinarySizeKB(String data) {
 		return data.length() * 3 / 4 / 1024;
 	}
 
+	/**
+	 * Copy under new filename.
+	 * @param fileName new filename
+	 * @return renamed copy of this
+	 */
 	public ArchiveEntry copy(String fileName) {
 		return new ArchiveEntry(fileName, string, data);
 	}

@@ -50,6 +50,11 @@ public class CarotaTable implements HasContentAndFormat {
 	@Override
 	public native void onEscape(EditorCallback editorCallback);
 
+	/**
+	 * Start editing.
+	 * @param x cursor x-coordinate
+	 * @param y cursor y-coordinate
+	 */
 	@JsOverlay
 	public final void startEditing(int x, int y) {
 		startEditing(getHitCell(x, y), x, y);
@@ -151,31 +156,49 @@ public class CarotaTable implements HasContentAndFormat {
 
 	private native void removeColumn(int j);
 
+	/**
+	 * Insert row above selection.
+	 */
 	@JsOverlay
 	public final void insertRowAbove() {
 		addRow(selectionY(), selectionY());
 	}
 
+	/**
+	 * Insert row below selection.
+	 */
 	@JsOverlay
 	public final void insertRowBelow() {
 		addRow(selectionY() + 1, selectionY());
 	}
 
+	/**
+	 * Insert column left of selection.
+	 */
 	@JsOverlay
 	public final void insertColumnLeft() {
 		addColumn(selectionX(), selectionX());
 	}
 
+	/**
+	 * Insert column right of selection.
+	 */
 	@JsOverlay
 	public final void insertColumnRight() {
 		addColumn(selectionX() + 1, selectionX());
 	}
 
+	/**
+	 * Remove the row that contains the selected cell.
+	 */
 	@JsOverlay
 	public final void removeRow() {
 		removeRow(selectionY());
 	}
 
+	/**
+	 * Remove the column that contains the selected cell.
+	 */
 	@JsOverlay
 	public final void removeColumn() {
 		removeColumn(selectionX());

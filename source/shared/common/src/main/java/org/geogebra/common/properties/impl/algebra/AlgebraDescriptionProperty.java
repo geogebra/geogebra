@@ -52,6 +52,10 @@ public class AlgebraDescriptionProperty extends AbstractNamedEnumeratedProperty<
         kernel.updateConstruction();
     }
 
+    /**
+     * Switch the target view between AV and spreadsheet.
+     * @param isSpreadsheet whether this is for (classic) spreadsheet
+     */
     public void usesSpreadsheet(boolean isSpreadsheet) {
         this.isSpreadsheet = isSpreadsheet;
     }

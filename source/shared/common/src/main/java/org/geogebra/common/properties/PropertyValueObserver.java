@@ -22,6 +22,10 @@ public interface PropertyValueObserver<V> {
         // empty default implementation
     }
 
+    /**
+     * Called right before value is set.
+     * @param property property
+     */
     default void onWillSetValue(ValuedProperty<V> property) {
         // empty default implementation
     }

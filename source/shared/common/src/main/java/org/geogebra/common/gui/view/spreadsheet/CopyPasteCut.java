@@ -415,6 +415,9 @@ public abstract class CopyPasteCut {
 				getTable().getSelectionType());
 	}
 
+	/**
+	 * Delete all cells.
+	 */
 	public void deleteAll() {
 		delete(0, 0, tableModel.getColumnCount(), tableModel.getRowCount());
 	}

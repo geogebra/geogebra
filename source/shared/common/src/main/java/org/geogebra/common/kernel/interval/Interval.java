@@ -395,10 +395,6 @@ public class Interval {
 		return new double[] {low, high};
 	}
 
-	public void setZero() {
-		set(IntervalConstants.zero());
-	}
-
 	/**
 	 *
 	 * @return if interval is [0].
@@ -407,14 +403,26 @@ public class Interval {
 		return isZeroWithDelta(precision);
 	}
 
+	/**
+	 * @param value value
+	 * @return whether value lies in the closure of the interval
+	 */
 	public boolean contains(double value) {
 		return value >= low && value <= high;
 	}
 
+	/**
+	 * @param value value
+	 * @return whether value lies in the inside of the interval
+	 */
 	public boolean containsExclusive(int value) {
 		return value > low && value < high;
 	}
 
+	/**
+	 * @param interval other interval
+	 * @return whether the inside of this interval contains the other interval
+	 */
 	public boolean contains(Interval interval) {
 		return interval.low > low && interval.high < high;
 	}
@@ -721,10 +729,9 @@ public class Interval {
 		return isInverted() ? new Interval(high, Double.POSITIVE_INFINITY) : undefined();
 	}
 
-	public boolean isLessThanOrEqual(Interval y2) {
-		return isLessThan(y2) || almostEqual(y2, 1E-7);
-	}
-
+	/**
+	 * @return midpoint of the interval
+	 */
 	public double middle() {
 		return low + getLength() / 2;
 	}
@@ -737,10 +744,9 @@ public class Interval {
 		this.precision = precision;
 	}
 
-	public void setDefaultPrecision() {
-		precision = PRECISION;
-	}
-
+	/**
+	 * @return whether low and high are exactly equal
+	 */
 	public boolean isExactSingleton() {
 		return MyDouble.exactEqual(low,  high);
 	}

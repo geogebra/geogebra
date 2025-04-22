@@ -119,10 +119,16 @@ public class EventDispatcher implements ClientView {
 		return disabledScriptTypes.contains(scriptType);
 	}
 
+	/**
+	 * Disable all listeners.
+	 */
 	public void disableListeners() {
 		listenersEnabled = false;
 	}
 
+	/**
+	 * Enable all listeners.
+	 */
 	public void enableListeners() {
 		listenersEnabled = true;
 	}

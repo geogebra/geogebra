@@ -999,6 +999,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return kernel.getConstruction().getUndoManager();
 	}
 
+	/**
+	 * Notify undo manager that properties change occurred.
+	 */
 	public void setPropertiesOccurred() {
 		getUndoManager().setPropertiesOccurred();
 	}
@@ -1010,14 +1013,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		getUndoManager().storeUndoInfoForProperties(isUndoActive());
 	}
 
+	/**
+	 * @return whether object renaming is allowed
+	 */
 	public boolean letRename() {
 		return true;
 	}
 
+	/**
+	 * @return whether deletion is allowed
+	 */
 	public boolean letDelete() {
 		return true;
 	}
 
+	/**
+	 * @return whether redefinition is allowed
+	 */
 	public boolean letRedefine() {
 		return true;
 	}
@@ -1138,6 +1150,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return scriptManager;
 	}
 
+	/**
+	 * @return whether script manager was initialized
+	 */
 	public final boolean hasScriptManager() {
 		return scriptManager != null;
 	}
@@ -1421,6 +1436,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return view.getMode();
 	}
 
+	/**
+	 * Sets the active mode
+	 * @param mode mode number (EuclidianConstants.MODE_*)
+	 */
 	public void setMode(int mode) {
 		setMode(mode, ModeSetter.TOOLBAR);
 	}
@@ -1509,8 +1528,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
-	public void registerSavedStateListener(SavedStateListener l) {
-		savedListeners.add(l);
+	/**
+	 * Register saved state listener.
+	 * @param listener listener
+	 */
+	public void registerSavedStateListener(SavedStateListener listener) {
+		savedListeners.add(listener);
 	}
 
 	/**
@@ -2039,10 +2062,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		showToolBarHelp = toolbarHelp;
 	}
 
+	/**
+	 * @return whether the toolbar is shown.
+	 */
 	public boolean showToolBar() {
 		return showToolBar;
 	}
 
+	/**
+	 * @return whether the menu (bar in classic 5, button in other apps) is shown
+	 */
 	public boolean showMenuBar() {
 		return showMenuBar;
 	}
@@ -2961,6 +2990,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return GeoGebraConstants.VERSION_STRING + "?";
 	}
 
+	/**
+	 * Zoom the active view.
+	 * @param px zoom center's x-ccordinate
+	 * @param py zoom center's y-ccordinate
+	 * @param zoomFactor zoom factor
+	 */
 	public final void zoom(double px, double py, double zoomFactor) {
 		getActiveEuclidianView().zoom(px, py, zoomFactor, 15, true);
 	}
@@ -3105,6 +3140,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		geoForCopyStyle = geo;
 	}
 
+	/**
+	 * Dispatchan event
+	 * @param evt event to dispatch
+	 */
 	public void dispatchEvent(Event evt) {
 		getEventDispatcher().dispatchEvent(evt);
 	}
@@ -3119,6 +3158,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return myXMLio;
 	}
 
+	/**
+	 * @return whether event dispatcher was initialized.
+	 */
 	public boolean hasEventDispatcher() {
 		return eventDispatcher != null;
 	}
@@ -3149,10 +3191,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
+	/**
+	 * Notify that the spreadsheet model is needed.
+	 */
 	public void setNeedsSpreadsheetTableModel() {
 		needsSpreadsheetTableModel = true;
 	}
 
+	/**
+	 * @return whether spreadsheet table model is needed.
+	 */
 	public boolean needsSpreadsheetTableModel() {
 		return needsSpreadsheetTableModel;
 	}
@@ -3530,6 +3578,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// overwritten in AppW
 	}
 
+	/**
+	 * Persist current width and height.
+	 */
 	public void persistWidthAndHeight() {
 		// overwritten in AppW
 	}
@@ -3625,6 +3676,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return ok;
 	}
 
+	/**
+	 * @return whether 3D view is enabled
+	 */
 	public boolean is3DViewEnabled() {
 		return _3DViewEnabled && is3D();
 	}
@@ -3693,6 +3747,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return isUnbundled() || isWhiteboardActive();
 	}
 
+	/**
+	 * TODO move to Web
+	 * @return whether the app can resize
+	 */
 	public boolean canResize() {
 		return !isApplet();
 	}
@@ -3713,14 +3771,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		this.tubeID = uniqueId;
 	}
 
+	/**
+	 * @return whether the app has focus
+	 */
 	public boolean hasFocus() {
 		return true;
 	}
 
+	/**
+	 * @return whether euclidian view for plane was initialized
+	 */
 	final public boolean hasEuclidianViewForPlane() {
 		return companion.hasEuclidianViewForPlane();
 	}
 
+	/**
+	 * @return whether euclidian view for plane exists and is visible
+	 */
 	final public boolean hasEuclidianViewForPlaneVisible() {
 		return companion.hasEuclidianViewForPlaneVisible();
 	}
@@ -3739,6 +3806,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		companion.addToViewsForPlane(geo);
 	}
 
+	/**
+	 * @param mode mode
+	 * @return whether the mode is valid (has a known name)
+	 */
 	public boolean isModeValid(int mode) {
 		return mode >= 0 && !"".equals(getToolName(mode));
 	}
@@ -4058,6 +4129,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		void run(int viewID, String viewName);
 	}
 
+	/**
+	 * Load construction from zipped XML.
+	 * @param zipFile zip file content
+	 * @return success
+	 */
 	final public boolean loadXML(byte[] zipFile) {
 		return loadXML(new ByteArrayZipFile(zipFile));
 	}
@@ -4097,6 +4173,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
+	/**
+	 * Reset handle for currently open file.
+	 */
 	public void resetCurrentFile() {
 		//
 	}
@@ -4119,6 +4198,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		scheduledPreview.run();
 	}
 
+	/**
+	 * Cancel input bar preview.
+	 */
 	public void cancelPreview() {
 		// not needed in basic implementation
 	}
@@ -4228,10 +4310,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return ev.getExportImage(scale);
 	}
 
+	/**
+	 * Notify table about batch update start.
+	 */
 	public void batchUpdateStart() {
 		kernel.notifyTableViewAboutBatchUpdate(true);
 	}
 
+	/**
+	 * Notify table about batch update end.
+	 */
 	public void batchUpdateEnd() {
 		kernel.notifyTableViewAboutBatchUpdate(false);
 	}
@@ -4366,6 +4454,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return euclidianController;
 	}
 
+	/**
+	 * @return whether to use transparent cursor for dragging
+	 */
 	final public boolean useTransparentCursorWhenDragging() {
 		return useTransparentCursorWhenDragging;
 	}
@@ -4547,6 +4638,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return specialPointsManager;
 	}
 
+	/**
+	 * @return whether special points manager is initialized
+	 */
 	public boolean hasSpecialPointsManager() {
 		return specialPointsManager != null;
 	}
@@ -4644,6 +4738,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
+	/**
+	 * TODO inline
+	 * @param s string
+	 * @return MD5 checksum
+	 */
 	public String md5Encrypt(String s) {
 		return MD5Checksum.compute(s);
 	}
@@ -4656,6 +4755,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		settings = newSettingsBuilder().newSettings();
 	}
 
+	/**
+	 * @return settings builder for this app
+	 */
 	public SettingsBuilder newSettingsBuilder() {
 		return new SettingsBuilder(this);
 	}
@@ -4670,6 +4772,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return "";
 	}
 
+	/**
+	 * Remove all videos / embeds.
+	 */
 	public void clearMedia() {
 		// remove all videos / embeds
 	}
@@ -4864,11 +4969,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
+	/**
+	 * Create a formula controller for editing in EV.
+	 * @param view view
+	 * @param geo formula
+	 * @return formula controller
+	 */
 	public InlineFormulaController createInlineFormulaController(EuclidianView view,
 			GeoFormula geo) {
 		return null;
 	}
 
+	/**
+	 * Create a Murok table controller for editing in EV.
+	 * @param view view
+	 * @param table table
+	 * @return table controller
+	 */
 	public InlineTableController createTableController(EuclidianView view, GeoInlineTable table) {
 		return null;
 	}
@@ -4894,6 +5011,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// Overwritten in subclass - nothing to do here
 	}
 
+	/**
+	 * Close the menu and hide the keyboard.
+	 */
 	public void closeMenuHideKeyboard() {
 		// nothing here
 	}

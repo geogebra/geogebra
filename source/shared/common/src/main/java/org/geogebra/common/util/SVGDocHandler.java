@@ -97,6 +97,9 @@ public class SVGDocHandler implements DocHandler {
 		}
 	}
 
+	/**
+	 * Make sure the SVG document does not preserve aspect ratio.
+	 */
 	public void removeAspectRatio() {
 		attrs.put("preserveAspectRatio", "none");
 	}

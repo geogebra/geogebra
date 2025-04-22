@@ -292,6 +292,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return NavigatorUtil.getWindowWidth() < 600 || NavigatorUtil.getWindowHeight() < 600;
 	}
 
+	/**
+	 * @return whether navigation rail should be compact (based on app width)
+	 */
 	public boolean hasCompactNavigationRail() {
 		return app.getWidth() < 600;
 	}

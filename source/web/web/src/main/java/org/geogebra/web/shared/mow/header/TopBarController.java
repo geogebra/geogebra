@@ -236,6 +236,9 @@ public class TopBarController {
 		return pageControlPanel;
 	}
 
+	/**
+	 * Set touch style for cards.
+	 */
 	public void setTouchStyleForPagePreviewCards() {
 		getPageControlPanel().setIsTouch();
 	}

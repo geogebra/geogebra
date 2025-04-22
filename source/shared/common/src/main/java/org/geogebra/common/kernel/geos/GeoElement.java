@@ -437,6 +437,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		setAlgebraLabelVisible(lab == null || !lab.startsWith(LabelManager.HIDDEN_PREFIX));
 	}
 
+	/**
+	 * Add a prefix to the label
+	 * @param prefix prefix
+	 */
 	public void addLabelPrefix(final String prefix) {
 		label = prefix + label;
 	}
@@ -6195,10 +6199,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return getLabelTextOrHTML(false); // columnHeadingsForTraceDialog.toString();
 	}
 
+	/**
+	 * @return whether this element is a lead element of a group
+	 */
 	public boolean isLead() {
 		return parentGroup == null || parentGroup.isLead(this);
 	}
 
+	/**
+	 * @return whether this element is in a group
+	 */
 	public boolean hasGroup() {
 		return parentGroup != null;
 	}
@@ -7087,6 +7097,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return this;
 	}
 
+	/**
+	 * For elements that can be split (strokes), split them and return the selected part.
+	 * @param removeOriginal whether to remove original element
+	 * @return partial selection
+	 */
 	public List<GeoElement> getPartialSelection(boolean removeOriginal) {
 		return Collections.singletonList(this);
 	}
@@ -7188,6 +7203,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		dynamicCaption = null;
 	}
 
+	/**
+	 * Remove this as zoom listener from all views.
+	 */
 	public void removeZoomerAnimationListenerIfNeeded() {
 		// implemented in GeoFunction
 	}

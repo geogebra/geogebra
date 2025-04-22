@@ -22,6 +22,9 @@ public class GMenuBarMock extends GMenuBar {
 		this.items = new ArrayList<>();
 	}
 
+	/**
+	 * @param title item title
+	 */
 	public void add(String title) {
 		items.add(strip(title));
 	}

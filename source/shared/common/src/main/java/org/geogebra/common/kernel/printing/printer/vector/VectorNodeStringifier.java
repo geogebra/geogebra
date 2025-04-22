@@ -43,6 +43,11 @@ public class VectorNodeStringifier {
         valueExpressionPrinter = new ValueExpressionPrinter();
     }
 
+    /**
+     * Get definition string representation.
+     * @param tpl template
+     * @return definition string
+     */
     public String toString(StringTemplate tpl) {
         return printVector(activePrinter, defaultExpressionPrinter, vector, tpl);
     }
@@ -55,10 +60,21 @@ public class VectorNodeStringifier {
                 vector, tpl);
     }
 
+    /**
+     * Get definition string representation.
+     * @param tpl template
+     * @param mode printing mode
+     * @return definition string
+     */
     public String toString(StringTemplate tpl, VectorPrintingMode mode) {
         return printVector(printerMap.get(mode), defaultExpressionPrinter, vector, tpl);
     }
 
+    /**
+     * Get vector's value string representation.
+     * @param tpl string template
+     * @return value string
+     */
     public String toValueString(StringTemplate tpl) {
         return printVector(activePrinter, valueExpressionPrinter, vector, tpl);
     }

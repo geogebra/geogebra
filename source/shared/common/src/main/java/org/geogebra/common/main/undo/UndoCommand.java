@@ -183,10 +183,18 @@ public class UndoCommand {
 		return Objects.equals(slideID, other.slideID);
 	}
 
+	/**
+	 * @param label object label
+	 * @return whether label is among labels associated with this object
+	 */
 	public boolean hasLabel(String label) {
 		return labels != null && labels.contains(label);
 	}
 
+	/**
+	 * Whether this command and the next one should be undone/redone together.
+	 * @return whether to stitch commands
+	 */
 	public boolean shouldStitchToNext() {
 		return stitchToNext;
 	}

@@ -104,12 +104,18 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		return S;
 	}
 
-	// Made public for LocusEqu
+	/**
+	 * TODO unused?
+	 * @return first line
+	 */
 	public GeoLine geth() {
 		return g;
 	}
 
-	// Made public for LocusEqu
+	/**
+	 * TODO unused?
+	 * @return second line
+	 */
 	public GeoLine getg() {
 		return h;
 	}

@@ -3685,6 +3685,11 @@ public class MyXMLHandler implements DocHandler {
 		return ymax;
 	}
 
+	/**
+	 * Toggles the construction default mode for parsing.
+	 * If set, construction defaults are applied to an element before style parsing.
+	 * @param needsConstructionDefaults whether construction defaults should be applied
+	 */
 	public void setNeedsConstructionDefaults(boolean needsConstructionDefaults) {
 		geoHandler.setNeedsConstructionDefaults(needsConstructionDefaults);
 	}

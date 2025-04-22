@@ -51,7 +51,11 @@ public class GCheckmarkMenuItem {
 		return menuItem;
 	}
 
-	public void setChecked(boolean b) {
-		panel.setChecked(b);
+	/**
+	 * Sets the state of the checkmark.
+	 * @param checked true if checked
+	 */
+	public void setChecked(boolean checked) {
+		panel.setChecked(checked);
 	}
 }

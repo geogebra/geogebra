@@ -124,7 +124,7 @@ public class RecurringDecimalModel {
 		return nines * tens;
 	}
 
-	public double toDouble() {
+	protected double toDouble() {
 		return numerator() / ((double) denominator());
 	}
 }

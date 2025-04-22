@@ -10,6 +10,10 @@ public class CustomEmbedElement extends EmbedElement {
 		super(widget);
 	}
 
+	/**
+	 * Sets HTML content.
+	 * @param content HTML content
+	 */
 	public void setInnerHTML(String content) {
 		getElement().setInnerHTML(content);
 	}

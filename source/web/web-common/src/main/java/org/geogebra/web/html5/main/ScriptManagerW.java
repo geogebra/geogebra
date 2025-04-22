@@ -80,6 +80,11 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}
 
+	/**
+	 * Call external ggbOnInit
+	 * @param arg argumen
+	 * @param self exported API object
+	 */
 	public static void ggbOnInitExternal(String arg, Object self) {
 		JsEval.callNativeGlobalFunction("ggbOnInit", arg, self);
 	}

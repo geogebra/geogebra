@@ -430,6 +430,9 @@ public class GeoConicPartParameters {
 		}
 	}
 
+	/**
+	 * Update all values.
+	 */
 	public void update() {
 		setParametersKeepOrientation(valueDefined, paramStart, paramEnd);
 	}

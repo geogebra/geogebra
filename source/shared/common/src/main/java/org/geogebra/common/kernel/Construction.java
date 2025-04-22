@@ -1007,6 +1007,10 @@ public class Construction {
 		}
 	}
 
+	/**
+	 * @param elem construction element
+	 * @return whether construction element is registered as EV listener
+	 */
 	public final boolean isRegisteredEuclidianViewCE(EuclidianViewCE elem) {
 		return euclidianViewCE.contains(elem);
 	}
@@ -2973,6 +2977,9 @@ public class Construction {
 		}
 	}
 
+	/**
+	 * @return whether any function variables are registered
+	 */
 	public boolean hasRegisteredFunctionVariable() {
 		return !registeredFV.isEmpty();
 	}
@@ -3335,6 +3342,10 @@ public class Construction {
 		return labelManager;
 	}
 
+	/**
+	 * Checks for objects that are only supported with the 3D app.
+	 * @return whether 3D object or inputboxes are present
+	 */
 	public boolean requires3D() {
 		return has3DObjects() || hasInputBoxes(any -> true);
 	}
@@ -3343,10 +3354,18 @@ public class Construction {
 		return groups;
 	}
 
+	/**
+	 * Add a group to the list.
+	 * @param group group to add
+	 */
 	public void addGroupToGroupList(Group group) {
 		getGroups().add(group);
 	}
 
+	/**
+	 * Remove a group from the list.
+	 * @param group group to remove
+	 */
 	public void removeGroupFromGroupList(Group group) {
 		getGroups().remove(group);
 	}

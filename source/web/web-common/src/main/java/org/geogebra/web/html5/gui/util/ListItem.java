@@ -39,6 +39,9 @@ public class ListItem extends ComplexPanel {
 		}
 	}
 
+	/**
+	 * @param text plain text content
+	 */
 	public void setText(String text) {
 		getElement().setInnerText(text);
 	}

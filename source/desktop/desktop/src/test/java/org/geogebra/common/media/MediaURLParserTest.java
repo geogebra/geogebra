@@ -127,7 +127,7 @@ public class MediaURLParserTest {
 				MediaURLParser.toEmbeddableUrl("https://www.bavarikon.de/object/bav:foo"));
 	}
 
-	public static void checkVideo(String url,
+	private static void checkVideo(String url,
 			AsyncOperation<VideoURL> callback) {
 		callback.callback(MediaURLParser.checkVideo(url));
 	}

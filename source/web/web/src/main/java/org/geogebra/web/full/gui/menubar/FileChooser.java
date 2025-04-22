@@ -23,6 +23,9 @@ public class FileChooser extends FileUpload implements ChangeHandler {
 		getElement().setAttribute("accept", ".ggs");
 	}
 
+	/**
+	 * Open the system file chooser.
+	 */
 	public void open() {
 		click();
 	}

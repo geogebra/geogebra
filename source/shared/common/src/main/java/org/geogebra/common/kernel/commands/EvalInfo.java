@@ -489,6 +489,9 @@ public class EvalInfo {
 		return isRedefinition;
 	}
 
+	/**
+	 * @return whether analytics events may be logged
+	 */
 	public boolean useAnalytics() {
 		return useAnalytics;
 	}

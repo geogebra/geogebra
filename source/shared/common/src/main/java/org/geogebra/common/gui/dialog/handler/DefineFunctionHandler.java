@@ -71,6 +71,9 @@ public class DefineFunctionHandler implements ErrorHandler {
 		errorOccurred = false;
 	}
 
+	/**
+	 * @return whether errors occured.
+	 */
 	public boolean hasErrorOccurred() {
 		return errorOccurred;
 	}

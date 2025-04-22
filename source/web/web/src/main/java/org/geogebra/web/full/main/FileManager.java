@@ -271,6 +271,9 @@ public abstract class FileManager extends MaterialsManager {
 		return false;
 	}
 
+	/**
+	 * Reset handle for local saving.
+	 */
 	public void resetFileHandle() {
 		fileHandle = null;
 	}

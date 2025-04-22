@@ -312,6 +312,10 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		return lbRegression.getSelectedIndex();
 	}
 
+	/**
+	 * Set regression model index.
+	 * @param idx regression model index
+	 */
 	public void setRegressionIdx(int idx) {
 		lbRegression.setSelectedIndex(idx);
 	}

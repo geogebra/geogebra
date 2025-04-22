@@ -528,6 +528,10 @@ public class EuclidianViewCompanion {
 		// used for some input3D
 	}
 
+	/**
+	 * @param geo parametric curve
+	 * @return new parametric curve drawable
+	 */
 	public DrawableND newDrawParametricCurve(ParametricCurve geo) {
 		return new DrawParametricCurve(view, geo);
 	}

@@ -3422,6 +3422,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return cons.getYAxis();
 	}
 
+	/**
+	 * TODO use geo.isAxis instead
+	 * Does *not* check for z-axis.
+	 * @param geo element
+	 * @return whether element is xAxis or yAxis
+	 */
 	final public boolean isAxis(GeoElement geo) {
 		return (geo == cons.getXAxis()) || (geo == cons.getYAxis());
 	}
@@ -4260,10 +4266,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
+	/**
+	 * @return whether undo is possible (enabled and available)
+	 */
 	public boolean undoPossible() {
 		return undoActive && cons != null && cons.undoPossible();
 	}
 
+	/**
+	 * @return whether redo is possible (enabled and available)
+	 */
 	public boolean redoPossible() {
 		return undoActive && cons != null && cons.redoPossible();
 	}
@@ -4474,6 +4486,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				macro.getCommandName()));
 	}
 
+	/**
+	 * Remove macro with given name.
+	 * @param macroName macro name
+	 */
 	public void removeMacro(String macroName) {
 		removeMacro(getMacro(macroName));
 	}
@@ -4606,6 +4622,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		wantAnimationStarted = animationRequested;
 	}
 
+	/**
+	 * @return whether animation start was requested during initialization
+	 */
 	public boolean wantAnimationStarted() {
 		return wantAnimationStarted;
 	}
@@ -4802,12 +4821,24 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
-	public GeoElement[] polygonND(String[] labels, GeoPointND[] P) {
-		return getAlgoDispatcher().polygon(labels, P);
+	/**
+	 * Create a polygon.
+	 * @param labels output labels
+	 * @param points vertices
+	 * @return polygon
+	 */
+	public GeoElement[] polygonND(String[] labels, GeoPointND[] points) {
+		return getAlgoDispatcher().polygon(labels, points);
 	}
 
-	public GeoElement[] polyLineND(String label, GeoPointND[] P) {
-		return getAlgoDispatcher().polyLine(label, P);
+	/**
+	 * Create a polyline.
+	 * @param label output label
+	 * @param points vertices
+	 * @return polyline
+	 */
+	public GeoElement[] polyLineND(String label, GeoPointND[] points) {
+		return getAlgoDispatcher().polyLine(label, points);
 	}
 
 	/**
@@ -4860,22 +4891,51 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return new AlgoDispatcher(cons1);
 	}
 
+	/**
+	 * Create a ray.
+	 * @param label output label
+	 * @param p start point
+	 * @param q end point
+	 * @return ray
+	 */
 	public GeoRayND ray(String label, GeoPoint p, GeoPoint q) {
 		return getAlgoDispatcher().ray(label, p, q);
 	}
 
+	/**
+	 * Create a segment.
+	 * @param label output label
+	 * @param p start point
+	 * @param q end point
+	 * @return segment
+	 */
 	public GeoSegmentND segment(String label, GeoPoint p, GeoPoint q) {
 		return getAlgoDispatcher().segment(label, p, q);
 	}
 
-	public GeoElement[] polygon(String[] labels, GeoPointND[] p) {
-		return getAlgoDispatcher().polygon(labels, p);
+	/**
+	 * Create a polygon.
+	 * @param labels output label
+	 * @param points vertics
+	 * @return polygon
+	 */
+	public GeoElement[] polygon(String[] labels, GeoPointND[] points) {
+		return getAlgoDispatcher().polygon(labels, points);
 	}
 
+	/**
+	 * Create a polyline.
+	 * @param label output label
+	 * @param p vertics
+	 * @return polyline
+	 */
 	public GeoElement[] polyLine(String label, GeoPointND[] p) {
 		return getAlgoDispatcher().polyLine(label, p);
 	}
 
+	/**
+	 * @return whether algebra processor is initialized
+	 */
 	public boolean hasAlgebraProcessor() {
 		return algProcessor != null;
 	}
@@ -4945,10 +5005,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return forceUpdatingBoundingBox && app.isHTML5Applet();
 	}
 
+	/**
+	 * @return whether to use CAS for derivatives
+	 */
 	public boolean useCASforDerivatives() {
 		return !app.isScreenshotGenerator();
 	}
 
+	/**
+	 * @return whether to use CAS for integrals
+	 */
 	public boolean useCASforIntegrals() {
 		return !app.isScreenshotGenerator();
 	}
@@ -5119,6 +5185,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return geoFactory.createGeoElement(cons1, type);
 	}
 
+	/**
+	 * @param cons2 construction
+	 * @return new implicit polynomial
+	 */
 	public GeoImplicit newImplicitPoly(Construction cons2) {
 		return geoFactory.newImplicitPoly(cons2);
 	}
@@ -5175,6 +5245,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return new ConstructionCompanion(cons1);
 	}
 
+	/**
+	 * @return whether the user interrupted loading
+	 */
 	public boolean userStopsLoading() {
 		return userStopsLoading;
 	}

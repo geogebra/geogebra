@@ -511,6 +511,9 @@ public abstract class DockPanelW extends ResizeComposite
 		context2d.fillRect(left, top, getOffsetWidth(), getOffsetHeight());
 	}
 
+	/**
+	 * Handle screen orientation change.
+	 */
 	public void onOrientationChange() {
 		// only for toolbar
 	}

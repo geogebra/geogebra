@@ -51,6 +51,9 @@ public class StatPanelSettings extends PlotSettings {
 			this.mode = mode;
 		}
 
+		/**
+		 * @return numeric value
+		 */
 		public int mode() {
 			return mode;
 		}
@@ -71,6 +74,9 @@ public class StatPanelSettings extends PlotSettings {
 		this.dataSource = dataSource;
 	}
 
+	/**
+	 * @return group type
+	 */
 	public GroupType groupType() {
 		return dataSource.getGroupType();
 	}

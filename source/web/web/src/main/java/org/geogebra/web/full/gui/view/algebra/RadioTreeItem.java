@@ -175,6 +175,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private int index;
 	private AlgebraOutputFormatButton symbolicButton;
 
+	/**
+	 * Mark this for update on next repaint.
+	 */
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
 	}
@@ -1296,6 +1299,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		main.removeFromParent();
 	}
 
+	/**
+	 * @return whether this item has the help popup.
+	 */
 	public final boolean hasHelpPopup() {
 		return this.helpPopup != null;
 	}
@@ -2027,6 +2033,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	}
 
+	/**
+	 * Prevent blur handling in the next 200ms.
+	 */
 	public void preventBlur() {
 		getController().preventBlur();
 	}
@@ -2075,10 +2084,16 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		WarningErrorHandler.setUndefinedValiables(vars);
 	}
 
+	/**
+	 * Clear the list of undefined variables.
+	 */
 	public void clearUndefinedVariables() {
 		WarningErrorHandler.setUndefinedValiables(null);
 	}
 
+	/**
+	 * Called when editing stops.
+	 */
 	public void onStopEdit() {
 		// for slider only
 	}
@@ -2100,6 +2115,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		controls.focusFirstMoreMenuElement();
 	}
 
+	/**
+	 * @return whether this item has the 3 dot menu.
+	 */
 	public boolean hasMoreMenu() {
 		return inputControl.hasMoreMenu();
 	}

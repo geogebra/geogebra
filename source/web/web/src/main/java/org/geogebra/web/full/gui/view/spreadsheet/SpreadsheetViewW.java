@@ -477,10 +477,18 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// Update
 	// ===============================================================
 
+	/**
+	 * Update font sizes.
+	 */
 	public void updateFonts() {
 		table.updateFonts();
 	}
 
+	/**
+	 * Set row height.
+	 * @param row row index
+	 * @param height height in px
+	 */
 	public void setRowHeight(int row, int height) {
 		table.setRowHeight(row, height);
 	}
@@ -543,18 +551,34 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// Spreadsheet Settings
 	// ================================================
 
+	/**
+	 * Enable or disable autocomplete.
+	 * @param enableAutoComplete whether to enable
+	 */
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		table.setEnableAutoComplete(enableAutoComplete);
 	}
 
+	/**
+	 * @param showRowHeader whether to show row header
+	 * @param showColumnHeader whether to show column header
+	 */
 	public void setShowHeader(boolean showRowHeader, boolean showColumnHeader) {
 		table.setShowHeader(showRowHeader, showColumnHeader);
 	}
 
+	/**
+	 * Show or hide vertical scrollbar
+	 * @param showVScrollBar whether to show it
+	 */
 	public void setShowVScrollBar(boolean showVScrollBar) {
 		table.setShowVScrollBar(showVScrollBar);
 	}
 
+	/**
+	 * Show or hide horizontal scrollbar.
+	 * @param showHScrollBar whether to show it
+	 */
 	public void setShowHScrollBar(boolean showHScrollBar) {
 		table.setShowHScrollBar(showHScrollBar);
 	}
@@ -577,20 +601,29 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	/**
-	 * @return whether stylebar is visible
+	 * @return whether style bar is visible
 	 */
 	public boolean isVisibleStyleBar() {
 		return styleBar == null || styleBar.isVisible();
 	}
 
+	/**
+	 * @return whether a column is selected
+	 */
 	public boolean isColumnSelect() {
 		return settings().isColumnSelect();
 	}
 
+	/**
+	 * Update view after special editor setting changed.
+	 */
 	public void updateAllowSpecialEditor() {
 		repaintView();
 	}
 
+	/**
+	 * @return whether to allow special "editors" (dropdowns, checkboxes)
+	 */
 	public boolean allowSpecialEditor() {
 		return settings().allowSpecialEditor();
 	}
@@ -837,6 +870,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		keyboardEnabled = b;
 	}
 
+	/**
+	 * Notify whenletter or digit is typed.
+	 */
 	public void letterOrDigitTyped() {
 		this.sskl.letterOrDigitTyped();
 	}

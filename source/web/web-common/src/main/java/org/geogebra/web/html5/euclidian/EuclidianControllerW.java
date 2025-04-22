@@ -97,6 +97,10 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.handleLongTouch(x, y);
 	}
 
+	/**
+	 * Handle mouse wheel event.
+	 * @param event mouse wheel event
+	 */
 	public void onMouseWheel(WheelEvent event) {
 		mtg.onMouseWheel(event);
 	}

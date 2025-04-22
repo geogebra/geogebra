@@ -176,6 +176,10 @@ public final class MeasurementController {
 		return tool != null ? tool.toString() : "";
 	}
 
+	/**
+	 * @param measurementToolId tool ID
+	 * @return measurement tool
+	 */
 	public MeasurementTool getTool(MeasurementToolId measurementToolId) {
 		return tools.get(measurementToolId.getMode());
 	}

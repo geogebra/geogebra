@@ -536,6 +536,9 @@ abstract public class Input3D {
 		mouse3DPosition.setZ(getInputPosition()[2]);
 	}
 
+	/**
+	 * @return whether mouse input is available
+	 */
 	public boolean hasMouse() {
 		return hasMouse(view3D, mouse3DPosition);
 	}
@@ -886,6 +889,10 @@ abstract public class Input3D {
 		return mouse3DLoc;
 	}
 
+	/**
+	 * TODO remove
+	 * @return right removed?
+	 */
 	public boolean wasRightReleased() {
 		return wasRightReleased;
 	}
@@ -894,6 +901,10 @@ abstract public class Input3D {
 		wasRightReleased = flag;
 	}
 
+	/**
+	 * TODO remove
+	 * @return left released?
+	 */
 	public boolean wasLeftReleased() {
 		return wasLeftReleased;
 	}

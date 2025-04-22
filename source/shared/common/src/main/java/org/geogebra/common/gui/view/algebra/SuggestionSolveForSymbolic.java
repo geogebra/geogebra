@@ -100,6 +100,10 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		return  "{" + StringUtil.join(", ", labels) + "}";
 	}
 
+	/**
+	 * @param geo construction element
+	 * @return whether this suggestion is applicable to the element
+	 */
 	public static boolean isValid(GeoElementND geo) {
 		return isEquation(geo);
 	}

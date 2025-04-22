@@ -129,6 +129,9 @@ public class TransformableRectangle {
 				Math.max(corner2.getY(), corner3.getY()));
 	}
 
+	/**
+	 * @return list of corners
+	 */
 	public List<GPoint2D> toPoints() {
 		return Arrays.asList(corner0, corner1, corner3);
 	}
@@ -247,6 +250,12 @@ public class TransformableRectangle {
 		}
 	}
 
+	/**
+	 * Convert coordinates from screen coord system to widgetcoord system.
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @return point in widgett coordinates
+	 */
 	public GPoint2D getInversePoint(double x, double y) {
 		return inverseScaledTransform.transform(new GPoint2D(x, y), null);
 	}
@@ -301,10 +310,16 @@ public class TransformableRectangle {
 		return aspectRatio;
 	}
 
+	/**
+	 * @return distance between left and right corners
+	 */
 	public double realWidth() {
 		return corner0.distance(corner1);
 	}
 
+	/**
+	 * @return distance between top and bottom corners
+	 */
 	public double realHeight() {
 		return corner0.distance(corner3);
 	}

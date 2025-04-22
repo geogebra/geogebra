@@ -322,10 +322,6 @@ public abstract class FunctionInspector
 		return App.VIEW_FUNCTION_INSPECTOR;
 	}
 
-	public void repaint() {
-		//
-	}
-
 	@Override
 	public void startBatchUpdate() {
 		//

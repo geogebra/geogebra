@@ -14,6 +14,10 @@ public class JlmEditorApi extends JlmApi {
 		super(library);
 	}
 
+	/**
+	 * Create an editor in specific element.
+	 * @param element element
+	 */
 	public void edit(Element element) {
 		((JlmEditorLib) this.library).edit(element);
 	}

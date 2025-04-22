@@ -418,6 +418,10 @@ public abstract class BoundingBox<T extends GShape> {
 		this.fixed = fixed;
 	}
 
+	/**
+	 * Set transform of the box.
+	 * @param directTransform transform
+	 */
 	public void setTransform(GAffineTransform directTransform) {
 		// only cropbox and rotatable box
 	}

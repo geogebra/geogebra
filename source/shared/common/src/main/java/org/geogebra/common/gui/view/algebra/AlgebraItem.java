@@ -75,6 +75,11 @@ public class AlgebraItem {
 				&& !GeoFunction.isUndefined(text1) && !GeoFunction.isUndefined(text2);
 	}
 
+	/**
+	 * Check that the element is a list of equations with integers on RHS.
+	 * @param geo element
+	 * @return whether the element is a list of equations with integers on RHS.
+	 */
 	public static boolean checkAllRHSareIntegers(GeoElementND geo) {
 		return geo instanceof GeoList && allRHSareIntegers((GeoList) geo);
 	}

@@ -131,14 +131,18 @@ public class IntervalExpressionNode implements IntervalNode {
 		return right;
 	}
 
-	public boolean hasLeft() {
+	private boolean hasLeft() {
 		return left != null;
 	}
 
-	public boolean hasRight() {
+	private boolean hasRight() {
 		return right != null;
 	}
 
+	/**
+	 * @param operation operation
+	 * @return whether this node has given operation (on top level)
+	 */
 	public boolean isOperation(IntervalOperation operation) {
 		return this.operation.equals(operation);
 	}

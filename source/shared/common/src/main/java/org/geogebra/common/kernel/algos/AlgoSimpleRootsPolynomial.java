@@ -81,11 +81,6 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		doCalc(pf);
 	}
 
-	public void setRootsPolynomialWithinRange(PolynomialFunction pf, double min,
-			double max) {
-		doCalc(pf, min, max);
-	}
-
 	@Override
 	public GeoPoint[] getIntersectionPoints() {
 		return points.getOutput(new GeoPoint[0]);

@@ -198,6 +198,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return platform == GeoGebraConstants.Platform.OFFLINE;
 	}
 
+	/**
+	 * @return whether file features are enabled
+	 */
 	public boolean enableFileFeatures() {
 		return enableFileFeatures;
 	}

@@ -437,18 +437,30 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Turn spotlight on.
+	 */
 	public void spotlightOn() {
 		spotlightController.turnOn();
 	}
 
+	/**
+	 * Turn spotlight off.
+	 */
 	public void spotlightOff() {
 		spotlightController.turnOff();
 	}
 
+	/**
+	 * @return active spotlight
+	 */
 	public GeoSpotlight getSpotlight() {
 		return spotlightController.spotlight();
 	}
 
+	/**
+	 * Reset spotlight reference.
+	 */
 	public void clearSpotlight() {
 		spotlightController.clear();
 	}
@@ -1540,10 +1552,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return count;
 	}
 
+	/**
+	 * @return number of selected geos
+	 */
 	public final int selGeos() {
 		return getSelectedGeoList().size();
 	}
 
+	/**
+	 * @return number of selected points
+	 */
 	public final int selPoints() {
 		return getSelectedPointList().size();
 	}
@@ -1564,6 +1582,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return getSelectedPolyLineList().size();
 	}
 
+	/**
+	 * @return number of selected polygons
+	 */
 	public final int selPolygons() {
 		return getSelectedPolygonList().size();
 	}
@@ -3982,6 +4003,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		showListToolTip(message);
 	}
 
+	/**
+	 * Show tooltip for list tool.
+	 * @param message localized tooltip text
+	 */
 	public void showListToolTip(String message) {
 		// Overridden in the subclasses
 	}
@@ -5401,6 +5426,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Show Quick Style Bar.
+	 */
 	public void showDynamicStylebar() {
 		// implemented in EuclidianControllerW
 	}
@@ -6678,14 +6706,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return pressedInputBox != null && view.textfieldClicked(x, y, type);
 	}
 
+	/**
+	 * Reset moved point.
+	 */
 	public void resetMovedGeoPoint() {
 		movedGeoPoint = null;
 	}
 
+	/**
+	 * Set drag start point to last pointer coordinates.
+	 */
 	public void setStartPointLocation() {
 		setStartPointLocation(xRW, yRW);
 	}
 
+	/**
+	 * Set drag start point to last pointer coordinates offset by given distances.
+	 */
 	public void setStartPointLocationWithOrigin(double x, double y) {
 		setStartPointLocation(xRW - x, yRW - y);
 	}
@@ -8307,10 +8344,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// Floating stylebar not supported
 	}
 
+	/**
+	 * TODO unify with arrow handling in GlobalKeyDispatcher
+	 * Handle arrow key typed, does not move the view.
+	 */
 	public void onArrowKeyTyped() {
 		hideDynamicStylebar();
 	}
 
+	/**
+	 * Cancel ongoing drag.
+	 */
 	public void cancelDrag() {
 		moveMode = MoveMode.NONE;
 	}
@@ -11164,6 +11208,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return textfieldHasFocus;
 	}
 
+	/**
+	 * Updte properties that depend on environment zoom/scale
+	 * (when embedded in a browser).
+	 */
 	public void calculateEnvironment() {
 		// only needed in Web
 	}
@@ -11699,6 +11747,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoPoint.updateCascade();
 	}
 
+	/**
+	 * Notify that a dialog was opened.
+	 */
 	public void setDialogOccurred() {
 		// use in 3D
 	}
@@ -12250,6 +12301,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Called when coord system changed.
+	 */
 	public void onCoordSystemChanged() {
 		notifyCoordSystemListeners();
 	}
@@ -12307,6 +12361,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.modeChangeListener = modeChangeListener;
 	}
 
+	/**
+	 * Add callback for pointer up event.
+	 * @param callback callback
+	 */
 	public void addPointerUpCallback(Runnable callback) {
 		this.pointerUpCallback = callback;
 	}
@@ -12435,6 +12493,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.popupJustClosed = value;
 	}
 
+	/**
+	 * Reset created point.
+	 */
 	public void resetPointCreated() {
 		this.pointCreated = null;
 	}

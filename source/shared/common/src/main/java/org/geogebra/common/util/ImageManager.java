@@ -236,6 +236,10 @@ abstract public class ImageManager {
 	 */
 	public abstract void addExternalImage(String filename0, String urlBase64);
 
+	/**
+	 * @param name image filename
+	 * @return URL for temporary use (blob URL in Web)
+	 */
 	public String getExternalImageSrc(String name) {
 		return name;
 	}

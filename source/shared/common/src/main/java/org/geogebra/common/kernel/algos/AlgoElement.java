@@ -218,6 +218,11 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 	}
 
+	/**
+	 * Whether all input points are freely moveable in given view.
+	 * @param view view
+	 * @return whether points are movable
+	 */
 	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
 		return view.getFreeInputPoints(this).size() == input.length;
 	}

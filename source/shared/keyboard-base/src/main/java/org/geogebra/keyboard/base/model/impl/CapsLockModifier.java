@@ -22,6 +22,9 @@ public class CapsLockModifier implements KeyModifier {
 		this.upperKeys = upperKeys;
 	}
 
+	/**
+	 * Toggle capslock.
+	 */
 	public void toggleCapsLock() {
 		capsLock = !capsLock;
 	}

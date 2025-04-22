@@ -119,26 +119,51 @@ public class CoordSys {
 	// //////////////////////////
 	// setters
 
+	/**
+	 * Sets theorigin.
+	 * @param o origin
+	 */
 	public void setOrigin(Coords o) {
 		origin.set(o);
 	}
 
+	/**
+	 * Sets the 1st vector.
+	 * @param v vector
+	 */
 	public void setVx(Coords v) {
 		setV(v, 0);
 	}
 
+	/**
+	 * Sets the 2nd vector.
+	 * @param v vector
+	 */
 	public void setVy(Coords v) {
 		setV(v, 1);
 	}
 
+	/**
+	 * Sets the 3rd vector.
+	 * @param v vector
+	 */
 	public void setVz(Coords v) {
 		setV(v, 2);
 	}
 
+	/**
+	 * Sets vector at given index.
+	 * @param v vector
+	 * @param i index
+	 */
 	public void setV(Coords v, int i) {
 		vectors[i].set(v);
 	}
 
+	/**
+	 * @param i index
+	 * @return vector at given index
+	 */
 	public Coords getV(int i) {
 		return vectors[i];
 	}

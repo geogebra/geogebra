@@ -207,8 +207,11 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		event.release();
 	}
 
+	/**
+	 * TODO remove?
+	 */
 	public void resetToolTipManager() {
-		// TODO Auto-generated method stub
+		// not implemented
 	}
 
 	@Override
@@ -257,6 +260,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		return longTouchManager;
 	}
 
+	/**
+	 * Reset move finish delay to default.
+	 */
 	public void resetDelay() {
 		delayUntilMoveFinish = 150;
 	}

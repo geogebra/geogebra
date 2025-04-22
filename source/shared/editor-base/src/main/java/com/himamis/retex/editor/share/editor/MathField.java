@@ -83,6 +83,10 @@ public interface MathField {
 
 	boolean useCustomPaste();
 
+	/**
+	 * Parse input as math formula in editor format.
+	 * @param str formula in editor format
+	 */
 	default void parse(String str) {
 		getInternal().parse(str);
 	}

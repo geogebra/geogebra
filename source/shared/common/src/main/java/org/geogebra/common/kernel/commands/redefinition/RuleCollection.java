@@ -13,6 +13,11 @@ public class RuleCollection {
 		this.rules = rules;
 	}
 
+	/**
+	 * @param from original element
+	 * @param to new element
+	 * @return whether redefinition from original to new is allowed
+	 */
 	public boolean allowed(GeoElementND from, GeoElementND to) {
 		return allowed(from.getGeoClassType(), to.getGeoClassType());
 	}

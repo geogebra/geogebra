@@ -259,6 +259,9 @@ public class DataVariable {
 		return classes;
 	}
 
+	/**
+	 * @return whether header is enabled
+	 */
 	public boolean enableHeader() {
 		return enableHeader;
 	}

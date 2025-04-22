@@ -3650,6 +3650,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return stringType.equals(StringType.LATEX);
 	}
 
+	/**
+	 * TODO move out
+	 * @param value value
+	 * @return whether the value is radian
+	 */
 	public boolean isRad(ExpressionValue value) {
 		return value.toString(this).equals(RAD);
 	}
@@ -3673,6 +3678,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return whether to allow "y=" instead of "f(x,...)=" for functions
+	 */
 	public boolean allowShortLhs() {
 		return allowShortLhs;
 	}

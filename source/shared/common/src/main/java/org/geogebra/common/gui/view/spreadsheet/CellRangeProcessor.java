@@ -1447,6 +1447,11 @@ public class CellRangeProcessor {
 		}
 	}
 
+	/**
+	 * @param range
+	 *            range
+	 * @return range description ("Row 7", "Column B", "A1:D3")
+	 */
 	public String getCellRangeString(TabularRange range) {
 		return getCellRangeString(range, true);
 	}

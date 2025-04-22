@@ -287,6 +287,10 @@ public class PointDt {
 				(v * (a.x - b.x) - u * (b.x - x)) / den);
 	}
 
+	/**
+	 * @param flag direction (see ComparePoint).
+	 * @return comparator for given direction
+	 */
 	public static Comparator<PointDt> getComparator(int flag) {
 		return new ComparePoint(flag);
 	}

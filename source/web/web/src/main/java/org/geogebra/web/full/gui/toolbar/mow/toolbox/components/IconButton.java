@@ -242,6 +242,11 @@ public class IconButton extends StandardButton implements SetLabels {
 		return mode;
 	}
 
+	/**
+	 * Checks if a mode is reachable from here, directly or via popup.
+	 * @param mode app mode
+	 * @return whether the mode can be activated with this button
+	 */
 	public boolean containsMode(int mode) {
 		return getMode() == mode;
 	}

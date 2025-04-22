@@ -662,6 +662,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return editor;
 	}
 
+	/**
+	 * Gets a row height.
+	 * @param row row index
+	 * @return height in pixels
+	 */
 	public int getRowHeight(int row) {
 		return ssGrid.getRowFormatter().getElement(row).getOffsetHeight();
 	}
@@ -714,14 +719,25 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return view.isEqualsRequired();
 	}
 
+	/**
+	 * Set localized labels.
+	 */
 	public void setLabels() {
 		// not needed
 	}
 
+	/**
+	 * Gets preferred column width.
+	 * @return preferred column width in pixels
+	 */
 	public int preferredColumnWidth() {
 		return preferredColumnWidth;
 	}
 
+	/**
+	 * TODO unused
+	 * @param preferredColumnWidth preferred column width in pixels
+	 */
 	public void setPreferredColumnWidth(int preferredColumnWidth) {
 		this.preferredColumnWidth = preferredColumnWidth;
 	}
@@ -1540,10 +1556,18 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		repaint();
 	}
 
+	/**
+	 * Pass a keyPressed event to the editor.
+	 * @param e keyboard event
+	 */
 	public void sendEditorKeyPressEvent(KeyPressEvent e) {
 		editor.sendKeyPressEvent(e);
 	}
 
+	/**
+	 * Pass a keyDown event to the editor.
+	 * @param e keyboard event
+	 */
 	public void sendEditorKeyDownEvent(KeyDownEvent e) {
 		editor.sendKeyDownEvent(e);
 	}
@@ -1609,7 +1633,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		});
 	}
 
-	// Keep row heights of table and row header in sync
+	/**
+	 * Keep row heights of table and row header in sync.
+	 */
 	public void setRowHeight(final int row, final int rowHeight) {
 		setRowHeight(row, rowHeight, true);
 	}
@@ -1658,7 +1684,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		});
 	}
 	
-	/* 
+	/**
 	 * Fits the content of spreadsheet for its header on the left.
 	 */
 	public void syncTableTop() {
@@ -2409,10 +2435,18 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
+	/**
+	 * Scroll the table vertically.
+	 * @param scrollPosition scroll position in pixels
+	 */
 	public void setVerticalScrollPosition(int scrollPosition) {
 		scroller.setVerticalScrollPosition(scrollPosition);
 	}
 
+	/**
+	 * Scroll the table horizontally.
+	 * @param scrollPosition scroll position in pixels
+	 */
 	public void setHorizontalScrollPosition(int scrollPosition) {
 		scroller.setHorizontalScrollPosition(scrollPosition);
 	}
@@ -2434,14 +2468,26 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		renderSelection();
 	}
 
+	/**
+	 * Show or hide vertical scrollbar
+	 * @param showVScrollBar whether to show it
+	 */
 	public void setShowVScrollBar(boolean showVScrollBar) {
 		scroller.setShowVScrollBar(showVScrollBar);
 	}
 
+	/**
+	 * Show or hide horizontal scrollbar
+	 * @param showHScrollBar whether to show it
+	 */
 	public void setShowHScrollBar(boolean showHScrollBar) {
 		scroller.setShowHScrollBar(showHScrollBar);
 	}
 
+	/**
+	 * Enable or disable autocomplete.
+	 * @param enableAutoComplete whether to enable it
+	 */
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		editor.setEnableAutoComplete(enableAutoComplete);
 	}
@@ -2488,6 +2534,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return this.spreadsheetModeProcessor;
 	}
 
+	/**
+	 * Mark a cell to be resized by height.
+	 * @param gPoint cell coordinates
+	 */
 	public void addResizeHeight(GPoint gPoint) {
 		cellResizeHeightSet.add(gPoint);
 	}

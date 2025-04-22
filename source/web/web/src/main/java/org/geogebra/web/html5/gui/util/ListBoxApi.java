@@ -6,9 +6,8 @@ import java.util.List;
 import org.gwtproject.user.client.ui.ListBox;
 
 /**
+ * TODO these static methods should just be methods of ListBox
  * @author gabor
- *
- *         some listbox functionalities
  */
 public class ListBoxApi {
 
@@ -16,7 +15,7 @@ public class ListBoxApi {
 	 * @param value
 	 *            the value to search
 	 * @param lb
-	 *            Listbox for shearching
+	 *            Listbox for searching
 	 * @return the index if found -1 if not.
 	 */
 	public static int getIndexOf(String value, ListBox lb) {
@@ -60,6 +59,10 @@ public class ListBoxApi {
 		return sel;
 	}
 
+	/**
+	 * @param valueOf option value
+	 * @param cbRows box
+	 */
 	public static void select(String valueOf, ListBox cbRows) {
 		cbRows.setSelectedIndex(getIndexOf(valueOf, cbRows));
 	}

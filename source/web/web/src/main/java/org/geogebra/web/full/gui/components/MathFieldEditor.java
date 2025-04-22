@@ -133,6 +133,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		mathField.setOnFocus(evt -> main.getParent().addStyleName("focusState"));
 	}
 
+	/**
+	 * Add a blur handler.
+	 * @param handler blur handler
+	 */
 	public void addBlurHandler(BlurHandler handler) {
 		blurHandlers.add(handler);
 	}
@@ -161,6 +165,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		}
 	}
 
+	/**
+	 * Move focus to the editor.
+	 */
 	public void focus() {
 		mathField.setFocus(true);
 	}
@@ -306,6 +313,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		}
 	}
 
+	/**
+	 * Show or hide.
+	 * @param visible whether to show this
+	 */
 	public void setVisible(boolean visible) {
 		main.setVisible(visible);
 	}
@@ -348,6 +359,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		this.useKeyboardButton = useKeyboardButton;
 	}
 
+	/**
+	 * Toggle between text and math mode
+	 * @param paramTextMode true for text mode
+	 */
 	public void setTextMode(boolean paramTextMode) {
 		mathField.setPlainTextMode(paramTextMode);
 	}
@@ -388,24 +403,38 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		mathField.setExpressionReader(null);
 	}
 
+	/**
+	 * Sets right margin.
+	 * @param rightMargin right margin
+	 */
 	public void setRightMargin(int rightMargin) {
 		mathField.setRightMargin(rightMargin);
 	}
 
+	/**
+	 * Adjust caret position.
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	public void adjustCaret(double x, double y) {
 		mathField.adjustCaret((int) x, (int) y, 1);
 	}
 
+	/**
+	 * Select entry at given coordinates.
+	 * @param x pixel x-coordinate
+	 * @param y pixel y-coordinate
+	 */
 	public void selectEntryAt(int x, int y) {
 		mathField.getInternal().selectEntryAt(x, y);
 	}
 
+	/**
+	 * Set unhandled arrow listener to the editor.
+	 * @param listener unhandled arrow listener
+	 */
 	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
 		mathField.getInternal().setUnhandledArrowListener(listener);
-	}
-
-	public void setAllowAbs(boolean b) {
-		mathField.getInternal().setAllowAbs(b);
 	}
 
 	/**

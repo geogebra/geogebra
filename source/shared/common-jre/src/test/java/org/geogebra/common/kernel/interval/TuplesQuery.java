@@ -12,14 +12,13 @@ public class TuplesQuery {
 		this.tuples = tuples;
 	}
 
-	public Stream<IntervalTuple> invertedTuples() {
-		return tuples.stream().filter(t -> t.y().isInverted());
-	}
-
-	public Stream<IntervalTuple> emptyTuples() {
+	private Stream<IntervalTuple> emptyTuples() {
 		return tuples.stream().filter(t -> t.y().isUndefined());
 	}
 
+	/**
+	 * @return whether all tuples have undefined y-value
+	 */
 	public boolean noDefinedTuples() {
 		return tuples.count() == emptyTuples().count();
 	}

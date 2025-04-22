@@ -23,9 +23,9 @@ public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 	}
 
 	@Override
-	public void setChecked(boolean value) {
-		super.setChecked(value);
-		menuCheck.setChecked(value);
+	public void setChecked(boolean checked) {
+		super.setChecked(checked);
+		menuCheck.setChecked(checked);
 	}
 
 	public boolean isChecked() {

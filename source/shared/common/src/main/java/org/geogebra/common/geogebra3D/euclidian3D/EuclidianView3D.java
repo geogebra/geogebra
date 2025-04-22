@@ -1150,6 +1150,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		animator.setCoordSystemFromMouseMove(dx, dy, mode);
 	}
 
+	/**
+	 * @param factor scale factor
+	 * @param scaleOld old scale
+	 * @param mode scale mode
+	 */
 	final public void setCoordSystemFromAxisScale(double factor,
 			double scaleOld, MoveMode mode) {
 		animator.setCoordSystemFromAxisScale(factor, scaleOld, mode);
@@ -2080,10 +2085,18 @@ public abstract class EuclidianView3D extends EuclidianView
 		return false;
 	}
 
+	/**
+	 * @param type event type
+	 * @return point capturing threshold for given event type (in pixels)
+	 */
 	public int getCapturingThreshold(PointerEventType type) {
 		return getCompanion().getCapturingThreshold(type);
 	}
 
+	/**
+	 * @param i axis index
+	 * @return axis drawable
+	 */
 	public DrawAxis3D getAxisDrawable(int i) {
 		return axisDrawable[i];
 	}
@@ -2306,6 +2319,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		return new DrawExtrusion3D(this, selectedPolygons, selectedConics);
 	}
 
+	/**
+	 * Create preview for surface of revolution.
+	 * @param selectedPaths selected paths
+	 * @return the preview
+	 */
 	public Previewable createPreviewSurfaceOfRevolution(
 			ArrayList<Path> selectedPaths) {
 		return new DrawSurfaceOfRevolution(this, selectedPaths);
@@ -3672,14 +3690,26 @@ public abstract class EuclidianView3D extends EuclidianView
 		return axesLabels[i];
 	}
 
+	/**
+	 * @param i axis index
+	 * @return axis label font
+	 */
 	public GFont getAxisLabelFont(int i) {
 		return getFontLine().deriveFont(axesLabelsStyle[i]);
 	}
 
+	/**
+	 * @param i axis index
+	 * @return axis unit label
+	 */
 	public String getAxisUnitLabel(int i) {
 		return axesUnitLabels[i];
 	}
 
+	/**
+	 * @param i axis index
+	 * @return whether the unit of given axis
+	 */
 	public boolean getPiAxisUnit(int i) {
 		return piAxisUnit[i];
 	}
@@ -3762,6 +3792,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		return null;
 	}
 
+	/**
+	 * Check if given axis is plotted in positive direction only.
+	 * @param i axis index
+	 * @return if it's positive only
+	 */
 	public boolean getPositiveAxis(int i) {
 		return positiveAxes[i];
 	}
@@ -3798,14 +3833,23 @@ public abstract class EuclidianView3D extends EuclidianView
 	// PROJECTION (ORTHO/PERSPECTIVE/...)
 	// ///////////////////////////////////////////////
 
+	/**
+	 * Notify view about change by zoom.
+	 */
 	public void setViewChangedByZoom() {
 		viewChangedByZoom = true;
 	}
 
+	/**
+	 * Notify view about change by translation.
+	 */
 	public void setViewChangedByTranslate() {
 		viewChangedByTranslate = true;
 	}
 
+	/**
+	 * Notify view about change by rotation.
+	 */
 	public void setViewChangedByRotate() {
 		viewChangedByRotate = true;
 	}
@@ -3911,6 +3955,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		return projection;
 	}
 
+	/**
+	 * @return whethr projection is parallel (orthographic or oblique)
+	 */
 	public boolean hasParallelProjection() {
 		return getProjection() == PROJECTION_ORTHOGRAPHIC || getProjection() == PROJECTION_OBLIQUE;
 	}
@@ -4081,14 +4128,25 @@ public abstract class EuclidianView3D extends EuclidianView
 		renderer.updateGlassesValues();
 	}
 
+	/**
+	 * @return eye separation (horizontal).
+	 */
 	public double getEyeSep() {
 		return eyeX[1] - eyeX[0];
 	}
 
+	/**
+	 * @param i eye index
+	 * @return horizontal coordinate
+	 */
 	public double getEyeX(int i) {
 		return eyeX[i];
 	}
 
+	/**
+	 * @param i eye index
+	 * @return vertical coordinate
+	 */
 	public double getEyeY(int i) {
 		return eyeY[i];
 	}
@@ -4248,11 +4306,35 @@ public abstract class EuclidianView3D extends EuclidianView
 		Log.debug("unimplemented");
 	}
 
+	/**
+	 * for a line described by (o,v), return the min and max parameters to draw
+	 * the line
+	 *
+	 * @param minmax
+	 *            initial interval
+	 * @param o
+	 *            origin of the line
+	 * @param v
+	 *            direction of the line
+	 * @return interval to draw the line
+	 */
 	public double[] getIntervalClippedLarge(double[] minmax, Coords o,
 			Coords v) {
 		return clippingCubeDrawable.getIntervalClippedLarge(minmax, o, v);
 	}
 
+	/**
+	 * for a line described by (o,v), return the min and max parameters to draw
+	 * the line
+	 *
+	 * @param minmax
+	 *            initial interval
+	 * @param o
+	 *            origin of the line
+	 * @param v
+	 *            direction of the line
+	 * @return interval to draw the line
+	 */
 	public double[] getIntervalClipped(double[] minmax, Coords o, Coords v) {
 		return clippingCubeDrawable.getIntervalClipped(minmax, o, v);
 	}
@@ -4670,6 +4752,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		// not used in 3D
 	}
 
+	/**
+	 * Start animated translation and scaling.
+	 * @param dx horizontal translation (screen coordinates)
+	 * @param dy vertical translation (screen coordinates)
+	 * @param scaleFactor scale factor
+	 */
 	public void screenTranslateAndScale(double dx, double dy,
 			double scaleFactor) {
 		animator.screenTranslateAndScale(dx, dy, scaleFactor);
@@ -4686,6 +4774,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
+	/**
+	 * Stop screen translation and scaling.
+	 */
 	public void stopScreenTranslateAndScale() {
 		animator.stopScreenTranslateAndScale();
 	}
@@ -4695,6 +4786,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		coords.mulInside(getXscale(), getYscale(), getZscale());
 	}
 
+	/**
+	 * Scales each coordinate by the respective RW-> screen scale.
+	 * @param coords coordinates
+	 */
 	public void scaleXYZ(Coords3 coords) {
 		coords.mulInside(getXscale(), getYscale(), getZscale());
 	}
@@ -4838,6 +4933,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
+	/**
+	 * @param mouse3DLoc mouse location
+	 * @return 3D mouse event
+	 */
 	public Mouse3DEvent createMouse3DEvent(GPointWithZ mouse3DLoc) {
 		return new Mouse3DEvent(mouse3DLoc);
 	}
@@ -5125,6 +5224,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		return true;
 	}
 
+	/**
+	 * @return whether to show plane outline
+	 */
 	public boolean showPlaneOutlineIfNeeded() {
 		return !isXRDrawing();
 	}

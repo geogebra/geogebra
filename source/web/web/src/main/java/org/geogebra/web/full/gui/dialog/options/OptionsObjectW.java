@@ -928,6 +928,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		return wrappedPanel;
 	}
 
+	/**
+	 * Select given tab.
+	 * @param index tab index
+	 */
 	public void selectTab(int index) {
 		tabPanel.selectTab(index < 0 ? 0 : index);
 	}

@@ -236,6 +236,10 @@ public class TextEditPanel extends FlowPanel
 		toolBar.add(btnLatex);
 	}
 
+	/**
+	 * Sets HTML content
+	 * @param text HTML content
+	 */
 	public void setText(String text) {
 		editor.getElement().setInnerHTML(text);
 	}

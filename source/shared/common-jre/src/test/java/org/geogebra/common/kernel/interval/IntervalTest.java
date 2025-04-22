@@ -55,6 +55,10 @@ public class IntervalTest {
 		return interval;
 	}
 
+	/**
+	 * @param singleton single value
+	 * @return interval containing the single value
+	 */
 	public static Interval interval(double singleton) {
 		return new Interval(singleton);
 	}

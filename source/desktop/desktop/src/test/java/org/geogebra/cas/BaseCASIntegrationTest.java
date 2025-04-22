@@ -179,7 +179,7 @@ public class BaseCASIntegrationTest {
 		return app;
 	}
 
-	public GeoElement lookup(String label) {
+	protected GeoElement lookup(String label) {
 		return getApp().getKernel().lookupLabel(label);
 	}
 }

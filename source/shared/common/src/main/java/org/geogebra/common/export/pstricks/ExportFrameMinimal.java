@@ -136,6 +136,9 @@ public class ExportFrameMinimal implements ExportSettings {
 		cbitem = slider;
 	}
 
+	/**
+	 * Set the keep color flag.
+	 */
 	public void setKeepColor() {
 		this.keepDotColors = true;
 	}

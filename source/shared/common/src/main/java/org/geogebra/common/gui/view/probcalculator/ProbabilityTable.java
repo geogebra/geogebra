@@ -85,6 +85,9 @@ public abstract class ProbabilityTable {
 		return probCalc.isCumulative();
 	}
 
+	/**
+	 * Set localized labels.
+	 */
 	public final void setLabels() {
 		setTable(distType, params, xMin, xMax);
 	}

@@ -118,7 +118,12 @@ public class CASTableNoGui implements CASTable {
 		this.selectedRow = row;
 	}
 
-	public void setInput(int i, String s) {
-		inputs[i] = s;
+	/**
+	 * Set input for given row.
+	 * @param row row index
+	 * @param input input
+	 */
+	public void setInput(int row, String input) {
+		inputs[row] = input;
 	}
 }

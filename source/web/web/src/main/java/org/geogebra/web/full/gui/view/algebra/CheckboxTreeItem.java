@@ -74,6 +74,10 @@ public class CheckboxTreeItem extends RadioTreeItem {
 		main.add(controls);
 	}
 
+	/**
+	 * @param ti tree item
+	 * @return unchecked cast of the item
+	 */
 	public static CheckboxTreeItem as(TreeItem ti) {
 		return (CheckboxTreeItem) ti;
 	}

@@ -70,6 +70,9 @@ public class SyntaxHintImpl implements SyntaxHint {
 				+ '}';
 	}
 
+	/**
+	 * Invalidate the placeholders.
+	 */
 	public void invalidate() {
 		placeholders = Collections.emptyList();
 	}

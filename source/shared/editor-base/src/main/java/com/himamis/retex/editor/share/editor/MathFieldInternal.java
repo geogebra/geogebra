@@ -225,6 +225,9 @@ public class MathFieldInternal
 
 	}
 
+	/**
+	 * Move caret into the first element of the protected component.
+	 */
 	public void setLockedCaretPath() {
 		setCaretPath(LOCKED_CARET_PATH);
 	}
@@ -278,6 +281,9 @@ public class MathFieldInternal
 		return keyListener;
 	}
 
+	/**
+	 * Update the content.
+	 */
 	public void update() {
 		update(false);
 	}
@@ -737,6 +743,10 @@ public class MathFieldInternal
 		return "";
 	}
 
+	/**
+	 * Convert to editor format and insert.
+	 * @param text string in any supported syntax (LaTeX, MathML, ascii math)
+	 */
 	public void convertAndInsert(String text) {
 		insertString(inputController.convert(text));
 	}
@@ -1012,6 +1022,10 @@ public class MathFieldInternal
 		}
 	}
 
+	/**
+	 * Abs value not possible in fields that support austrian style point coordinates.
+	 * @param b whether to allow abs value
+	 */
 	public void setAllowAbs(boolean b) {
 		inputController.setAllowAbs(b);
 	}
@@ -1027,6 +1041,10 @@ public class MathFieldInternal
 		selectCurrentEntry();
 	}
 
+	/**
+	 * @param expressionReader expression reader
+	 * @return editor state description serialized for screen reader
+	 */
 	public String getEditorStateDescription(ExpressionReader expressionReader) {
 		return getEditorState().getDescription(expressionReader, editorFeatures);
 	}

@@ -561,6 +561,10 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		}
 	}
 
+	/**
+	 * @param direction 1 for right, 0 for left (default)
+	 * @return left or right component
+	 */
 	public Widget getChild(int direction) {
 		return direction == 1 ? getRightComponent() : getLeftComponent();
 	}

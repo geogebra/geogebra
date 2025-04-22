@@ -55,10 +55,6 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		g.setLabel(label);
 	}
 
-	public static boolean hasMoreThanTwoVariables(GeoFunctionNVar funNVar) {
-		return funNVar.getFunctionVariables().length > 2;
-	}
-
 	@Override
 	public Commands getClassName() {
 		return Commands.Polynomial;

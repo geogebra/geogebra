@@ -203,6 +203,10 @@ public class FunctionInspectorModel {
 		columnNames[COL_DIFFERENCE] = loc.getMenu("fncInspector.Difference");
 	}
 
+	/**
+	 * @param col column index
+	 * @return column name
+	 */
 	public String getColumnName(int col) {
 		return col < columnNames.length ? columnNames[col] : "-";
 	}
@@ -658,10 +662,17 @@ public class FunctionInspectorModel {
 		listener.addTableColumn(getColumnName(columnType));
 	}
 
+	/**
+	 * Remove last column.
+	 */
 	public void removeColumn() {
 		extraColumnList.remove(extraColumnList.size() - 1);
 	}
 
+	/**
+	 * Change the step value
+	 * @param value step
+	 */
 	public void applyStep(double value) {
 		step = value;
 	}
@@ -776,10 +787,16 @@ public class FunctionInspectorModel {
 
 	}
 
+	/**
+	 * Move start forward one step.
+	 */
 	public void stepStartForward() {
 		start += step;
 	}
 
+	/**
+	 * Move start backward one step.
+	 */
 	public void stepStartBackward() {
 		start -= step;
 	}

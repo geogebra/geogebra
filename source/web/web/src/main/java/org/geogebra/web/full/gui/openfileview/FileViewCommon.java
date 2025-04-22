@@ -271,6 +271,9 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		Dom.toggleClass(contentPanel, "compact", smallScreen);
 	}
 
+	/**
+	 * Clear the materials panel.
+	 */
 	public void clearMaterials() {
 		materialPanel.clear();
 	}
@@ -302,30 +305,57 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		materialPanel.add(card);
 	}
 
+	/**
+	 * Add to content panel.
+	 *
+	 * @param widget widget to add
+	 */
 	public void addToContent(Widget widget) {
 		contentPanel.add(widget);
 	}
 
+	/**
+	 * Clear content panel.
+	 */
 	public void clearContents() {
 		contentPanel.clear();
 	}
 
+	/**
+	 * @return whether it's empty.
+	 */
 	public boolean hasNoMaterials() {
 		return materialCount() == 0;
 	}
 
+	/**
+	 * @return Number of widgets (material cards + more button).
+	 */
 	public int materialCount() {
 		return materialPanel.getWidgetCount();
 	}
 
+	/**
+	 * @param index index
+	 * @return material card at given position
+	 */
 	public Widget materialAt(int index) {
 		return materialPanel.getWidget(index);
 	}
 
+	/**
+	 * Add a widget (material card or more button) to the panel.
+	 * @param widget widget
+	 */
 	public void addMaterialOrLoadMoreFilesPanel(Widget widget) {
 		materialPanel.add(widget);
 	}
 
+	/**
+	 * Insert a material card at given position.
+	 * @param widget material card
+	 * @param idx index
+	 */
 	public void insertMaterial(Widget widget, int idx) {
 		materialPanel.insert(widget, idx);
 	}

@@ -202,6 +202,10 @@ public class ArchiveLoader {
 		processJSON(Global.JSON.parse(encoded));
 	}
 
+	/**
+	 * @param encoded JSON-encoded archive
+	 * @param file output file
+	 */
 	public void setFileFromJsonString(String encoded, GgbFile file) {
 		setFileFromJson(Js.uncheckedCast(Global.JSON.parse(encoded)), file);
 	}

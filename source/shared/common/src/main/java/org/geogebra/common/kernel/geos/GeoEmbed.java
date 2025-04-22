@@ -283,6 +283,11 @@ public class GeoEmbed extends GeoWidget {
 		return settings.entrySet();
 	}
 
+	/**
+	 * Set an attribute (for Calc embeds those are the app parameters).
+	 * @param key attribute name
+	 * @param value attribute value
+	 */
 	public void attr(String key, Object value) {
 		settings.put(key, String.valueOf(value));
 	}
@@ -306,6 +311,9 @@ public class GeoEmbed extends GeoWidget {
 		hasLocation = true;
 	}
 
+	/**
+	 * @return whether screen location was initialized
+	 */
 	public boolean hasLocation() {
 		return hasLocation;
 	}
@@ -347,6 +355,10 @@ public class GeoEmbed extends GeoWidget {
 		return url.split(":", 2);
 	}
 
+	/**
+	 * @param type external type
+	 * @return whether this is an embed of given type
+	 */
 	public boolean isTypeOf(String type) {
 		return getExternalType().equals(type);
 	}

@@ -274,8 +274,9 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 	// Mouse Listeners
 	// ===============================================
 
-	// transfer focus to the table
-	// @Override
+	/**
+	 * Focus this widget (deferred).
+	 */
 	public void requestFocus() {
 		Scheduler.get().scheduleDeferred(requestFocusCommand);
 	}
@@ -395,6 +396,9 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		return getContainer().getOffsetWidth();
 	}
 
+	/**
+	 * @param top top offset in pixels
+	 */
 	public void setTop(int top) {
 		container.getElement().getStyle().setTop(top, Unit.PX);
 	}

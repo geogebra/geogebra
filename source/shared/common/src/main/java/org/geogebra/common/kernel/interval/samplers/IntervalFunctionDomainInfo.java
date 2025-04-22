@@ -7,14 +7,26 @@ public class IntervalFunctionDomainInfo {
 
 	private Interval domainBefore = IntervalConstants.undefined();
 
+	/**
+	 * @param domain new domain
+	 * @return whether min has decreased AND max has increased
+	 */
 	public boolean hasZoomedOut(Interval domain) {
 		return isMinLower(domain) && isMaxHigher(domain);
 	}
 
+	/**
+	 * @param domain new domain
+	 * @return whether min has decreased
+	 */
 	public boolean hasPannedLeft(Interval domain) {
 		return isMinLower(domain);
 	}
 
+	/**
+	 * @param domain new domain
+	 * @return whether max has increased
+	 */
 	public boolean hasPannedRight(Interval domain) {
 		return isMaxHigher(domain);
 	}
@@ -27,6 +39,10 @@ public class IntervalFunctionDomainInfo {
 		return domain.getLow() < domainBefore.getLow();
 	}
 
+	/**
+	 * Mark for update: set former domain.
+	 * @param domain former domain
+	 */
 	public void update(Interval domain) {
 		domainBefore = domain;
 	}

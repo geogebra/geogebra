@@ -91,6 +91,10 @@ public class EmbedElement {
 		getGreatParent().setVisible(visible);
 	}
 
+	/**
+	 * @param uiEnabled whether to show JS in Scripting tab in Settings
+	 * @param runningEnabled whether to allow running JS
+	 */
 	public void setJsEnabled(boolean uiEnabled, boolean runningEnabled) {
 		// only for ggb
 	}

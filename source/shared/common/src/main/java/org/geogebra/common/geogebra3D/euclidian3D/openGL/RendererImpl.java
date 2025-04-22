@@ -457,6 +457,9 @@ public abstract class RendererImpl {
 
 	public abstract boolean useShaders();
 
+	/**
+	 * Set matrix view from screen matrix.
+	 */
 	final public void setMatrixView() {
 		setMatrixView(renderer.getToScreenMatrix());
 	}

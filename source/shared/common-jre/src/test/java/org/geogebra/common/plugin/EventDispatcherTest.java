@@ -47,6 +47,7 @@ public class EventDispatcherTest extends BaseUnitTest implements EventListener {
 		verifyClientListenersNotified(EventType.TABLE_PANEL_SELECTED);
 	}
 
+	@Override
 	public AppCommon createAppCommon() {
 		return AppCommonFactory.create3D();
 	}

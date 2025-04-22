@@ -442,6 +442,10 @@ public class Material implements Serializable {
 				+ this.thumbnail;
 	}
 
+	/**
+	 * JSON representation of the object.
+	 * @return material as JSON
+	 */
 	public JSONObject toJson() {
 		return toJson(false);
 	}
@@ -609,10 +613,16 @@ public class Material implements Serializable {
 		this.fromAnotherDevice = fromAnotherDevice;
 	}
 
+	/**
+	 * @return author ID
+	 */
 	public int getAuthorID() {
 		return creator == null ? -1 : creator.getId();
 	}
 
+	/**
+	 * @return whether 3d is present
+	 */
 	public boolean has3d() {
 		return is3d;
 	}
@@ -621,6 +631,9 @@ public class Material implements Serializable {
 		this.is3d = is3d;
 	}
 
+	/**
+	 * @return whether spreadsheet is open
+	 */
 	public boolean hasSpreadsheet() {
 		return spreadsheet;
 	}
@@ -629,6 +642,9 @@ public class Material implements Serializable {
 		this.spreadsheet = spreadsheet;
 	}
 
+	/**
+	 * @return whether CAS view is open
+	 */
 	public boolean hasCas() {
 		return cas;
 	}
@@ -637,6 +653,9 @@ public class Material implements Serializable {
 		this.cas = cas;
 	}
 
+	/**
+	 * @return whether construction protocol is open
+	 */
 	public boolean hasGraphics2() {
 		return graphics2;
 	}
@@ -645,6 +664,9 @@ public class Material implements Serializable {
 		this.graphics2 = graphics2;
 	}
 
+	/**
+	 * @return whether construction protocol is open
+	 */
 	public boolean hasConstprot() {
 		return constprot;
 	}
@@ -653,6 +675,9 @@ public class Material implements Serializable {
 		this.constprot = constprot;
 	}
 
+	/**
+	 * @return whether probability calculator is open
+	 */
 	public boolean hasPropcalc() {
 		return propcalc;
 	}
@@ -661,6 +686,9 @@ public class Material implements Serializable {
 		this.propcalc = propcalc;
 	}
 
+	/**
+	 * @return whether data analysis is open
+	 */
 	public boolean hasDataanalysis() {
 		return dataanalysis;
 	}
@@ -669,6 +697,9 @@ public class Material implements Serializable {
 		this.dataanalysis = dataanalysis;
 	}
 
+	/**
+	 * @return whether function inspector is open
+	 */
 	public boolean hasFuncinsp() {
 		return funcinsp;
 	}
@@ -677,6 +708,9 @@ public class Material implements Serializable {
 		this.funcinsp = funcinsp;
 	}
 
+	/**
+	 * @return whether there are macros
+	 */
 	public boolean hasMacro() {
 		return macro;
 	}

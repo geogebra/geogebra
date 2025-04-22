@@ -152,6 +152,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		keyboardButton.setEnabled(keyboardButtonEnabled);
 	}
 
+	/**
+	 * Remove widget from the wrapping panel.
+	 * @param widget widget to remove
+	 */
 	public void removeContent(IsWidget widget) {
 		main.remove(widget);
 	}
@@ -356,6 +360,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				: defaultTextFieldController;
 	}
 
+	/**
+	 * Add a widget to the wrapping panel.
+	 * @param widget widget to add
+	 */
 	public void addContent(IsWidget widget) {
 		main.add(widget);
 	}
@@ -379,8 +387,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this(0, app);
 	}
 
-	public void setEnabled(boolean b) {
-		this.textField.setEnabled(b);
+	/**
+	 * Enable or disable this.
+	 * @param enable true to enable
+	 */
+	public void setEnabled(boolean enable) {
+		this.textField.setEnabled(enable);
 	}
 
 	public boolean isEnabled() {
@@ -563,14 +575,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (next > -1) {
 			this.curWordStart = next;
 		}
-	}
-
-	/*
-	 * just show syntax error (already correctly formulated by
-	 * CommandProcessor.argErr())
-	 */
-	public void showError(MyError e) {
-		app.showError(e);
 	}
 
 	@Override
@@ -1341,6 +1345,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.setFocus(focus);
 	}
 
+	/**
+	 * Set insertion handler.
+	 * @param newInsertHandler insertion handler
+	 */
 	public void addInsertHandler(InsertHandler newInsertHandler) {
 		this.insertHandler = newInsertHandler;
 	}

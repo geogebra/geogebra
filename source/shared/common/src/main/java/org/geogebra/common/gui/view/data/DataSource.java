@@ -75,10 +75,17 @@ public class DataSource {
 		this.selectedIndex = selectedIndex;
 	}
 
+	/**
+	 * @return whether header is enabled
+	 */
 	public boolean enableHeader() {
 		return getSelectedDataVariable().enableHeader();
 	}
 
+	/**
+	 * Enable or disable header.
+	 * @param enableHeader whether to enable header
+	 */
 	public void setEnableHeader(boolean enableHeader) {
 		getSelectedDataVariable().setEnableHeader(enableHeader);
 	}
@@ -93,6 +100,9 @@ public class DataSource {
 		return getSelectedDataVariable().getGeoClass() == GeoClass.NUMERIC;
 	}
 
+	/**
+	 * TODO remove (unused)?
+	 */
 	public void setNumericData(boolean isNumericData) {
 		getSelectedDataVariable().setGeoClass(GeoClass.NUMERIC);
 	}
@@ -101,6 +111,9 @@ public class DataSource {
 		return getSelectedDataVariable().getGeoClass();
 	}
 
+	/**
+	 * TODO remove (unused)?
+	 */
 	public void setGeoClass(GeoClass geoClass) {
 		getSelectedDataVariable().setGeoClass(geoClass);
 	}
@@ -109,6 +122,11 @@ public class DataSource {
 		return getSelectedDataVariable().getGeoClass() == GeoClass.POINT;
 	}
 
+	/**
+	 * TODO remove (unused)?
+	 * @param index index
+	 * @return data variable
+	 */
 	public DataVariable getDataVariable(int index) {
 		return dataList.get(index);
 	}
@@ -159,6 +177,10 @@ public class DataSource {
 		return getSelectedDataVariable().getClassStart();
 	}
 
+	/**
+	 * Set the class start.
+	 * @param classStart start value for the first class
+	 */
 	public void setClassStart(double classStart) {
 		getSelectedDataVariable().setClassStart(classStart);
 	}
@@ -167,6 +189,10 @@ public class DataSource {
 		return getSelectedDataVariable().getClassWidth();
 	}
 
+	/**
+	 * Set the class width.
+	 * @param classWidth class width
+	 */
 	public void setClassWidth(double classWidth) {
 		getSelectedDataVariable().setClassWidth(classWidth);
 	}

@@ -684,6 +684,22 @@ public class Function extends FunctionNVar
 		return true;
 	}
 
+	/**
+	 * Expands the given expression and builds a PolyFunction (or
+	 * SymbolicPolyFunction) object with the coefficients of the resulting
+	 * polynomial.
+	 *
+	 * @param ev
+	 *            expression value to be expanded
+	 *
+	 * @return null when node is not a polynomial
+	 * @param symbolic
+	 *            true for symbolic coefficients (SymbolicPolyFunction), false
+	 *            for numeric coefficients (PolyFunction)
+	 * @param assumeFalseIfCASNeeded
+	 *            true to assume that function is not polynomial if we couldn't
+	 *            prove it's polynomial without CAS
+	 */
 	public PolyFunction expandToPolyFunction(ExpressionValue ev,
 			boolean symbolic, boolean assumeFalseIfCASNeeded) {
 		return expandToPolyFunction(ev, symbolic, assumeFalseIfCASNeeded, symbolic);

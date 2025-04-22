@@ -119,6 +119,10 @@ public class PropertyWidgetAdapter {
 		return fontSizeMenu;
 	}
 
+	/**
+	 * @param property property
+	 * @return label settings panel
+	 */
 	public LabelSettingsPanel getLabelPanel(FlagListPropertyCollection<?> property) {
 		return new LabelSettingsPanel(property);
 	}

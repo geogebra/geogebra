@@ -23,6 +23,12 @@ public class FunctionVariableAdapter
 				&& input.endsWith(VARIABLE_TAG);
 	}
 
+	/**
+	 * To allow special handling when typed, we wrap variable names in tags
+	 * that are removed when processing kyeboard input.
+	 * @param varName variable name
+	 * @return keyboard input string
+	 */
 	public static String wrap(String varName) {
 		return VARIABLE_TAG + varName + VARIABLE_TAG;
 	}

@@ -54,6 +54,10 @@ public class MyCellEditorW implements BaseCellEditor {
 		this.allowProcessGeo = allowProcessGeo;
 	}
 
+	/**
+	 * Enables or disables autocomplete.
+	 * @param enableAutoComplete whether to enable it.
+	 */
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		autoCompleteTextField.setAutoComplete(enableAutoComplete);
 	}
@@ -585,6 +589,9 @@ public class MyCellEditorW implements BaseCellEditor {
 		return autoCompleteTextField.isSuggesting();
 	}
 
+	/**
+	 * Allow editing on key press when no cell selected.
+	 */
 	public void setAllowAutoEdit() {
 		this.allowAutoEdit = true;
 	}

@@ -133,12 +133,12 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		negButton.setLabel(app.getLocalization().getMenu(negLabel));
 	}
 
+	/**
+	 * Enables or disables the positive button.
+	 * @param disabled whether to disable
+	 */
 	public void setPosBtnDisabled(boolean disabled) {
 		setBtnDisabled(posButton, disabled);
-	}
-
-	public void setNegBtnDisabled(boolean disabled) {
-		setBtnDisabled(negButton, disabled);
 	}
 
 	private void setBtnDisabled(StandardButton btn, boolean disabled) {
@@ -221,6 +221,9 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		});
 	}
 
+	/**
+	 * Show without centering.
+	 */
 	public void showDirectly() {
 		super.show();
 	}

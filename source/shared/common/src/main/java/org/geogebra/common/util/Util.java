@@ -30,10 +30,17 @@ public final class Util {
 			this.value = value;
 		}
 
+		/**
+		 * Replace wrapped value
+		 * @param value value
+		 */
 		public void set(T value) {
 			this.value = value;
 		}
 
+		/**
+		 * @return wrapped value
+		 */
 		public T get() {
 			return value;
 		}
@@ -93,10 +100,17 @@ public final class Util {
 		return nums[nums.length - 1];
 	}
 
+	/**
+	 * @param i index
+	 * @return font size for the UI
+	 */
 	public static int menuFontSizes(int i) {
 		return MENU_FONT_SIZES[i];
 	}
 
+	/**
+	 * @return number of available font sizes for the UI.
+	 */
 	public static int menuFontSizesLength() {
 		return MENU_FONT_SIZES.length;
 	}

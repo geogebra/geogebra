@@ -54,6 +54,10 @@ public class GraphingToolSet {
         EuclidianConstants.MODE_VECTOR_FROM_POINT,
         EuclidianConstants.MODE_RELATION);
 
+    /**
+     * @param tool tool
+     * @return whether given toll is available in Graphing
+     */
     public static boolean isAvailable(int tool) {
         return !notAllowedToolsGraphingCalc.contains(tool);
     }

@@ -470,6 +470,10 @@ public final class EuclidianConstants {
 	 */
 	public static final int MAX_PEN_HIGHLIGHTER_SIZE = 30;
 
+	/**
+	 * @param mode mode
+	 * @return base icon name
+	 */
 	public static String getModeIconName(int mode) {
 		return mode == EuclidianConstants.MODE_DELETE ? "eraser" : getModeTextSimple(mode);
 	}
@@ -1087,6 +1091,11 @@ public final class EuclidianConstants {
 						ret.replace(prop + "_", prop.toLowerCase(Locale.ROOT) + "_"));
 	}
 
+	/**
+	 * Get tranlation key for the help text associated with given mode.
+	 * @param mode mode
+	 * @return tranlation key
+	 */
 	public static String getHelpTransKey(int mode) {
 		return EuclidianConstants.getModeTextSimple(mode) + ".Help";
 	}

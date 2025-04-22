@@ -39,18 +39,30 @@ public class AppMocker {
 
 	}
 
+	/**
+	 * @return mock of graphing app
+	 */
 	public static AppWFull mockGraphing() {
 		return mockApp("graphing");
 	}
 
+	/**
+	 * @return mock of cas app
+	 */
 	public static AppWFull mockCas() {
 		return mockApp("cas");
 	}
 
+	/**
+	 * @return mock of geometry app
+	 */
 	public static AppWFull mockGeometry() {
 		return mockApp("geometry");
 	}
 
+	/**
+	 * @return mock of notes app
+	 */
 	public static AppWFull mockNotes() {
 		return mockApp("notes");
 	}
@@ -63,6 +75,9 @@ public class AppMocker {
 		return mockApplet(new AppletParameters(appName));
 	}
 
+	/**
+	 * @return mock of scientific app
+	 */
 	public static AppW mockScientific() {
 		return mockApp("scientific");
 	}

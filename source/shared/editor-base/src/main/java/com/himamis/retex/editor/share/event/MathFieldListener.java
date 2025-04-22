@@ -13,6 +13,9 @@ public interface MathFieldListener {
 
 	boolean onArrowKeyPressed(int keyCode);
 
+	/**
+	 * Celled when string inserted.
+	 */
 	default void onInsertString() {
 		// rarely needed
 	}

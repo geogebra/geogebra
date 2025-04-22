@@ -407,18 +407,35 @@ public class PlotterSurface {
 
 	}
 
+	/**
+	 * Creates a vertex at coordinates v (direct buffer mode).
+	 *
+	 * @param p
+	 *            vertex
+	 */
 	public void vertexDirect(Coords3 p) {
 		manager.vertexDirect(p);
 	}
 
-	public void normalDirect(Coords3 n0) {
-		manager.normalDirect(n0);
+	/**
+	 * Creates a normal at coordinates n (direct buffer mode).
+	 *
+	 * @param normal normal
+	 */
+	public void normalDirect(Coords3 normal) {
+		manager.normalDirect(normal);
 	}
 
+	/**
+	 * End current geometry (direct buffer mode).
+	 */
 	public void endGeometryDirect() {
 		manager.endGeometryDirect();
 	}
 
+	/**
+	 * End current geometry.
+	 */
 	public void endGeometry() {
 		manager.endGeometry();
 	}

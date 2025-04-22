@@ -58,6 +58,9 @@ public class LayerManager {
 		drawingOrder.remove(geo);
 	}
 
+	/**
+	 * Clear the order.
+	 */
 	public void clear() {
 		drawingOrder.clear();
 	}

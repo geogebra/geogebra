@@ -40,6 +40,10 @@ public class PenCategoryController {
 		return getPenSettings().getLastSelectedPenColor();
 	}
 
+	/**
+	 * Sets last pen color in the settings.
+	 * @param lastPenColor last pen color
+	 */
 	public void setLastPenColor(GColor lastPenColor) {
 		getPenSettings().setLastSelectedPenColor(lastPenColor);
 	}
@@ -48,6 +52,10 @@ public class PenCategoryController {
 		return getPenSettings().getLastSelectedHighlighterColor();
 	}
 
+	/**
+	 * Set last highlighter color in settings.
+	 * @param lastHighlighterColor last highlighter color
+	 */
 	public void setLastHighlighterColor(GColor lastHighlighterColor) {
 		getPenSettings().setLastSelectedHighlighterColor(lastHighlighterColor);
 	}

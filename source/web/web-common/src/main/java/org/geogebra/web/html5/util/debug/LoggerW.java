@@ -69,6 +69,10 @@ public class LoggerW extends Log {
 		}
 	}
 
+	/**
+	 * Logs a message about loading a module.
+	 * @param string name of the module
+	 */
 	public static void loaded(String string) {
 		Log.debug("Loaded: " + string);
 	}

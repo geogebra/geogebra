@@ -148,6 +148,9 @@ public class DropDownComboBoxController implements SetLabels {
 		return dropDown.isOpened();
 	}
 
+	/**
+	 * CLose popup.
+	 */
 	public void closePopup() {
 		dropDown.close();
 	}
@@ -181,6 +184,10 @@ public class DropDownComboBoxController implements SetLabels {
 		}
 	}
 
+	/**
+	 * Add a change handler.
+	 * @param changeHandler change handler
+	 */
 	public void addChangeHandler(Runnable changeHandler) {
 		this.changeHandlers.add(changeHandler);
 	}

@@ -9,6 +9,10 @@ public class SplitterImpl {
 
 	protected Element baseDivElement;
 
+	/**
+	 * Set up elements and return the base.
+	 * @return base element
+	 */
 	public Element createElement() {
 		return baseDivElement = Document.get().createDivElement();
 	}

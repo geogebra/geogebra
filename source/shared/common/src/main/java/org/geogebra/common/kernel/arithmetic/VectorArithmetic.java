@@ -78,6 +78,13 @@ public class VectorArithmetic {
 		return computeCoord(exp, i, exp.getKernel(), VECTOR_OPS);
 	}
 
+	/**
+	 * Extract a coordinate from an expression.
+	 * @param exp expression
+	 * @param i coordinate index
+	 * @param complex whether to consider complex operations
+	 * @return coordinate
+	 */
 	public static ExpressionNode computeCoord(ExpressionNode exp, int i, boolean complex) {
 		return computeCoord(exp, i, exp.getKernel(), complex ? COMPLEX_OPS : VECTOR_OPS);
 	}

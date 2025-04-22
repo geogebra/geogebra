@@ -93,6 +93,11 @@ public class MathArray extends MathContainer {
 		return (MathSequence) super.getArgument(i);
 	}
 
+	/**
+	 * Set argument at given index.
+	 * @param i index
+	 * @param argument argument
+	 */
 	public void setArgument(int i, MathSequence argument) {
 		super.setArgument(i, argument);
 	}
@@ -196,6 +201,9 @@ public class MathArray extends MathContainer {
 		return meta.getRowKey();
 	}
 
+	/**
+	 * @return whether this array is one-dimensional.
+	 */
 	public boolean is1DArray() {
 		return rows() == 1 && meta.isArray();
 	}
@@ -210,10 +218,6 @@ public class MathArray extends MathContainer {
 
 	public boolean isMatrix() {
 		return meta.isMatrix();
-	}
-
-	public boolean separatorIsComma() {
-		return meta.getField().getTexName().equals(",");
 	}
 
 	@Override

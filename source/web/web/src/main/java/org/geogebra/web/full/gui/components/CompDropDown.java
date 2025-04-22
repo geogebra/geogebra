@@ -145,6 +145,10 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 		selectedOption.setText(controller.getSelectedText());
 	}
 
+	/**
+	 * Add a change handler.
+	 * @param changeHandler change handler
+	 */
 	public void addChangeHandler(Runnable changeHandler) {
 		controller.addChangeHandler(changeHandler);
 	}

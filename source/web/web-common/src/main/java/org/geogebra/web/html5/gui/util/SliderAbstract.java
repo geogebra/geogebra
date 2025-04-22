@@ -31,28 +31,53 @@ public abstract class SliderAbstract<T> extends FocusWidget {
 		addMouseMoveHandler(DomEvent::stopPropagation);
 	}
 
+	/**
+	 * Add input handler.
+	 * @param handler input handler
+	 */
 	public void addInputHandler(SliderInputHandler handler) {
 		Dom.addEventListener(range, "input", evt -> handler.onSliderInput());
 	}
 
+	/**
+	 * @return slider value
+	 */
 	public T getValue() {
 		return convert(range.getValue());
 	}
 
+	/**
+	 * @param val native value
+	 * @return converted value
+	 */
 	protected abstract T convert(String val);
 
+	/**
+	 * Set range minimum.
+	 * @param min minimum
+	 */
 	public void setMinimum(double min) {
 		range.setAttribute("min", String.valueOf(min));
 	}
 
+	/**
+	 * Set range maximum.
+	 * @param max maximum
+	 */
 	public void setMaximum(double max) {
 		range.setAttribute("max", String.valueOf(max));
 	}
 
+	/**
+	 * @param step step
+	 */
 	public void setStep(double step) {
 		range.setAttribute("step", String.valueOf(step));
 	}
 
+	/**
+	 * @param step tick spacing
+	 */
 	public void setTickSpacing(int step) {
 		range.setAttribute("step", String.valueOf(step));
 	}
@@ -68,6 +93,10 @@ public abstract class SliderAbstract<T> extends FocusWidget {
 		valueChangeHandlers.add(handler);
 	}
 
+	/**
+	 * Set slider value.
+	 * @param value new value
+	 */
 	public void setValue(T value) {
 		range.setValue(String.valueOf(value));
 	}

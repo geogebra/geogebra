@@ -234,6 +234,11 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 
 	}
 
+	/**
+	 * Get i-th local variable.
+	 * @param i index
+	 * @return local variable
+	 */
 	public GeoNumeric getLocalVar(int i) {
 		return this.localVar[i];
 	}

@@ -269,14 +269,23 @@ public class DataAnalysisModel {
 		return ctrl.getDataSource();
 	}
 
+	/**
+	 * @return group type
+	 */
 	public GroupType groupType() {
 		return ctrl.getDataSource().getGroupType();
 	}
 
+	/**
+	 * @return whether 2nd display panel is shown
+	 */
 	public boolean showDataDisplayPanel2() {
 		return showDataDisplayPanel2;
 	}
 
+	/**
+	 * @return whether data panel is shown
+	 */
 	public boolean showDataPanel() {
 		return showDataPanel;
 	}
@@ -305,6 +314,9 @@ public class DataAnalysisModel {
 		getListener().updateStatDataPanelVisibility();
 	}
 
+	/**
+	 * @return whether stat panel is shown
+	 */
 	public boolean showStatPanel() {
 		return showStatPanel;
 	}
@@ -475,6 +487,10 @@ public class DataAnalysisModel {
 		return ctrl.getDataTitles();
 	}
 
+	/**
+	 * TODO remove?
+	 * Update selection.
+	 */
 	public void updateSelection() {
 		// updateDialog(true);
 	}
@@ -495,6 +511,9 @@ public class DataAnalysisModel {
 		return getMode() == MODE_REGRESSION;
 	}
 
+	/**
+	 * Update the UI.
+	 */
 	public void updateGUI() {
 		getListener().updateGUI();
 	}
@@ -507,6 +526,10 @@ public class DataAnalysisModel {
 		this.listener = listener;
 	}
 
+	/**
+	 * Set analysis mode.
+	 * @param mode EuclidianConstants.MODE_*
+	 */
 	public void setMode(int mode) {
 		app.getSettings().getDataAnalysis().setMode(mode);
 	}

@@ -121,6 +121,9 @@ public class SliderPanelW extends FlowPanel implements HasDataTest  {
 		}
 	}
 
+	/**
+	 * @param value slider value
+	 */
 	public void setValue(Double value) {
 		slider.setValue(value);
 	}

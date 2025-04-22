@@ -352,6 +352,9 @@ public class GeoSymbolic extends GeoElement
 		this.wrapInNumeric = wrapInNumeric;
 	}
 
+	/**
+	 * @return whether this should be wrapped in numeric command for symbolic toggle
+	 */
 	public boolean shouldWrapInNumeric() {
 		return wrapInNumeric;
 	}

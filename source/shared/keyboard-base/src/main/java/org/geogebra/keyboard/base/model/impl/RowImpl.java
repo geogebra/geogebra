@@ -10,6 +10,10 @@ public class RowImpl implements Row {
 
     private List<WeightedButton> buttons = new ArrayList<>();
 
+    /**
+     * Add a button to the row.
+     * @param button button to add
+     */
     public void addButton(WeightedButton button) {
         buttons.add(button);
     }

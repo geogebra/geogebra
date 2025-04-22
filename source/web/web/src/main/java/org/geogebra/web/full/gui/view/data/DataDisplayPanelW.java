@@ -486,10 +486,16 @@ public class DataDisplayPanelW extends FlowPanel implements
 		getModel().updatePlot(true);
 	}
 
+	/**
+	 * Detaching from kernel (not implemented)
+	 */
 	public void detachView() {
 		// plotPanel.detachView();
 	}
 
+	/**
+	 * Attach to kernel.
+	 */
 	public void attachView() {
 		plotPanel.attachView();
 	}
@@ -663,6 +669,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 		imagePanel.setPixelSize(width, height);
 	}
 
+	/**
+	 * Resize content to fit the size.
+	 * @param update whether to update plot
+	 */
 	public void resize(boolean update) {
 		resize(getOffsetWidth(), getOffsetHeight(), update);
 	}
@@ -677,6 +687,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 		resize(true);
 	}
 
+	/**
+	 * Update the plot.
+	 */
 	public void update() {
 		model.updatePlot(true);
     }

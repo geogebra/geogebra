@@ -87,6 +87,9 @@ public abstract class TextPreviewer {
 	 */
 	protected abstract void updateViewportSize(GeoText previewGeo);
 
+	/**
+	 * Update the fonts.
+	 */
 	public void updateFonts() {
 		ev.updateFonts();
 	}

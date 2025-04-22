@@ -37,6 +37,10 @@ public class ComponentToast extends GPopupPanel {
 		add(content);
 	}
 
+	/**
+	 * Update content.
+	 * @param contentStr new content as HTML
+	 */
 	public void updateContent(String contentStr) {
 		content.getElement().setInnerHTML(contentStr);
 	}

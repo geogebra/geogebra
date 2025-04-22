@@ -14,6 +14,9 @@ public abstract class UtilFactoryJre extends UtilFactory  {
 		setupRegexFactory();
 	}
 
+	/**
+	 * Set regular expression factory prototype.
+	 */
 	public static void setupRegexFactory() {
 		RegExpFactory.setPrototypeIfNull(new JavaRegExpFactory());
 	}

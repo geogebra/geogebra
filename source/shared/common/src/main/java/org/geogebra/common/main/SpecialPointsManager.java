@@ -384,10 +384,18 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		updateSpecialPoints(null);
 	}
 
+	/**
+	 * Register special points listener
+	 * @param listener listener
+	 */
 	public void registerSpecialPointsListener(SpecialPointsListener listener) {
 		specialPointsListeners.add(listener);
 	}
 
+	/**
+	 * Unregister special points listener
+	 * @param listener listener
+	 */
 	public void deregisterSpecialPointsListener(SpecialPointsListener listener) {
 		specialPointsListeners.remove(listener);
 	}

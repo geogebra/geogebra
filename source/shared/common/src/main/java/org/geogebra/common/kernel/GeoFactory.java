@@ -255,6 +255,11 @@ public class GeoFactory {
 		return new GeoSurfaceCartesian2D(cons, point, fun);
 	}
 
+	/**
+	 * @param dimension 2 for 2D, 3 for 3D
+	 * @param cons construction
+	 * @return a locus
+	 */
 	public GeoLocusND<? extends MyPoint> newLocus(int dimension, Construction cons) {
 		return new GeoLocus(cons);
 	}

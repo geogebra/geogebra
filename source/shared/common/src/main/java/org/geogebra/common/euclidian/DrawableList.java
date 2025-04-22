@@ -86,6 +86,9 @@ public class DrawableList extends ArrayList<Drawable> {
 		}
 	}
 
+	/**
+	 * Sort in drawing order.
+	 */
 	public void sort() {
 		Collections.sort(this, comparator);
 	}

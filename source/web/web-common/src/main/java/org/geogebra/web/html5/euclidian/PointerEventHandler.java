@@ -255,6 +255,10 @@ public class PointerEventHandler {
 		globalHandlers.addEventListener(DomGlobal.window, "pointerup", clickOutsideHandler);
 	}
 
+	/**
+	 * Make the view capture all pointer events.
+	 * @param view graphics view
+	 */
 	public static void startCapture(EuclidianViewW view) {
 		setCapture(view.getAbsolutePanel().getElement());
 	}

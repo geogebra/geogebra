@@ -224,6 +224,10 @@ public class VideoManagerW implements VideoManager {
 		return playerOf(video).isOffline();
 	}
 
+	/**
+	 * @param drawable video's drawable representation
+	 * @return main element of the widget
+	 */
 	public Element getElement(DrawVideo drawable) {
 		return playerOf(drawable).asWidget().getElement();
 	}

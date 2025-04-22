@@ -17,10 +17,16 @@ public interface Service {
 
 	String getGroupsEndpoint(String materialId, GroupIdentifier.GroupCategory category);
 
+	/**
+	 * @return whther multiuser is supported.
+	 */
 	default boolean hasMultiuser() {
 		return false;
 	}
 
+	/**
+	 * @return whether CSRF is required.
+	 */
 	default boolean requiresCSRF() {
 		return false;
 	}

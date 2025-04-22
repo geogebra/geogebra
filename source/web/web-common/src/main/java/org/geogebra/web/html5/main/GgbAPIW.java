@@ -315,6 +315,11 @@ public class GgbAPIW extends GgbAPI {
 		return createArchiveContent(includeThumbnail, archiveContent);
 	}
 
+	/**
+	 * Get plain JS object representation of the current file.
+	 * @param includeThumbnail whether to include thumbnail
+	 * @return current file as JS object
+	 */
 	public JsPropertyMap<Object> getFileJSON(boolean includeThumbnail) {
 		return export(getFile(includeThumbnail));
 	}
@@ -620,6 +625,10 @@ public class GgbAPIW extends GgbAPI {
 		getCompressed(arch, clb);
 	}
 
+	/**
+	 * Pass an archive with all the macros to the consumer.
+	 * @param clb file consumer
+	 */
 	public void getZippedMacrosAsync(final FileConsumer clb) {
 		getCompressed(createAllMacrosArchive(), clb);
 	}
@@ -1367,6 +1376,10 @@ public class GgbAPIW extends GgbAPI {
 		return new JsObjectWrapperW(JsPropertyMap.of());
 	}
 
+	/**
+	 * Switch to a different subapp.
+	 * @param appCode app name
+	 */
 	public void switchCalculator(String appCode) {
 		((AppW) app).switchToSubapp(SuiteSubApp.forCode(appCode));
 	}

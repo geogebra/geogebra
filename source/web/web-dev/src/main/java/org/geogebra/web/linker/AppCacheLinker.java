@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package org.geogebra.web.linker;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -110,7 +111,7 @@ public class AppCacheLinker extends AbstractLinker {
 	 *            the tree logger to record to
 	 * @param artifacts
 	 *            {@code null} to generate an empty cache manifest
-	 * @param toReturn
+	 * @param toReturn output artifact set
 	 */
 	private void emitLandingPageCacheManifest(LinkerContext context,
 			TreeLogger logger, ArtifactSet artifacts, ArtifactSet toReturn)

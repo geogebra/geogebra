@@ -144,6 +144,9 @@ public class MyVec3DNode extends ValidExpression
 		return z;
 	}
 
+	/**
+	 * @return whether this vector has spherical coordinates.
+	 */
 	public boolean hasSphericalCoords() {
 		return mode == Kernel.COORD_SPHERICAL;
 	}
@@ -339,6 +342,9 @@ public class MyVec3DNode extends ValidExpression
 		setVectorPrintingMode();
 	}
 
+	/**
+	 * Reset CAS vector flag.
+	 */
 	public void clearCASVector() {
 		isCASVector = false;
 	}

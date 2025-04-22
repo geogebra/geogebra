@@ -98,6 +98,11 @@ public enum ToolCategory {
         this.allowedInExam = allowedInExam;
     }
 
+    /**
+     * Gets localized header text..
+     * @param loc localization
+     * @return localized header
+     */
     public String getLocalizedHeader(Localization loc) {
         return loc.getMenu("ToolCategory." + header);
     }

@@ -196,6 +196,10 @@ public abstract class ScriptManager implements EventListener {
 		registerGlobalListener(storeUndoListeners, JSFunctionName);
 	}
 
+	/**
+	 * Unregister store undo listener
+	 * @param JSFunctionName function name or reference
+	 */
 	public synchronized void unregisterStoreUndoListener(Object JSFunctionName) {
 		storeUndoListeners.remove(fromNative(JSFunctionName));
 	}
@@ -491,6 +495,9 @@ public abstract class ScriptManager implements EventListener {
 		return clickListenerMap;
 	}
 
+	/**
+	 * Set global script.
+	 */
 	public void setGlobalScript() {
 		// to be overridden
 	}

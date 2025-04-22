@@ -64,6 +64,9 @@ public class GridDropdown extends SimplePanel implements FastClickHandler {
 		showGridPopup();
 	}
 
+	/**
+	 * Show popup close to the button.
+	 */
 	public void showGridPopup() {
 		popup.showRelativeTo(button);
 	}

@@ -26,6 +26,7 @@ public class RandomCmdTest extends BaseUnitTest {
 		getApp().setRandomSeed(42);
 	}
 
+	@Override
 	public AppCommon createAppCommon() {
 		return AppCommonFactory.create3D();
 	}

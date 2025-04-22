@@ -20,26 +20,44 @@ public class GSpinnerW extends GTextBox {
 		addStyleName("ggbSpinner");
 	}
 
+	/**
+	 * @param value minimum
+	 */
 	public void setMinValue(Double value) {
 		getElement().setAttribute("min", value.toString());
 	}
 
+	/**
+	 * @param value maximum
+	 */
 	public void setMaxValue(Double value) {
 		getElement().setAttribute("max", value.toString());
 	}
 
+	/**
+	 * @param value step
+	 */
 	public void setStepValue(Double value) {
 		getElement().setAttribute("step", value.toString());
 	}
 
+	/**
+	 * @param value minu=imum
+	 */
 	public void setMinValue(Integer value) {
 		getElement().setAttribute("min", value.toString());
 	}
 
+	/**
+	 * @param value maximum
+	 */
 	public void setMaxValue(Integer value) {
 		getElement().setAttribute("max", value.toString());
 	}
 
+	/**
+	 * @param value step
+	 */
 	public void setStepValue(Integer value) {
 		getElement().setAttribute("step", value.toString());
 	}

@@ -152,6 +152,9 @@ public abstract class Drawable extends DrawableND {
 		this.geo = geo;
 	}
 
+	/**
+	 * Iniitialize the dynamic caption.
+	 */
 	public void initDynamicCaption() {
 		drawDynamicCaption = new DrawDynamicCaption(view, this);
 	}

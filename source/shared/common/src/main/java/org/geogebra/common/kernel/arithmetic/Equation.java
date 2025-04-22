@@ -209,6 +209,9 @@ public class Equation extends ValidExpression implements EquationValue {
 		return forceFunction;
 	}
 
+	/**
+	 * Force this equation to evaluate to a function.
+	 */
 	public void setForceFunction() {
 		this.forceFunction = true;
 	}

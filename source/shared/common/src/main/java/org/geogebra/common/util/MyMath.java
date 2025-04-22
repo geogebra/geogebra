@@ -73,14 +73,26 @@ public final class MyMath {
 		}
 	}
 
+	/**
+	 * @param a argument
+	 * @return hyperbolic cos of the argument
+	 */
 	public static double cosh(double a) {
 		return Math.cosh(a);
 	}
 
+	/**
+	 * @param a argument
+	 * @return hyperbolic sin of the argument
+	 */
 	public static double sinh(double a) {
 		return Math.sinh(a);
 	}
 
+	/**
+	 * @param a argument
+	 * @return hyperbolic tangens of the argument
+	 */
 	public static double tanh(double a) {
 		return Math.tanh(a);
 	}
@@ -103,6 +115,10 @@ public final class MyMath {
 		return 1 / sinh(a);
 	}
 
+	/**
+	 * @param a argument
+	 * @return hyperbolic secant of the argument
+	 */
 	public static double sech(double a) {
 		return 1 / cosh(a);
 	}
@@ -602,6 +618,12 @@ public final class MyMath {
 		return (v0 < 0 && v1 >= 0) || (v0 > 0 && v1 <= 0);
 	}
 
+	/**
+	 * @param a first number
+	 * @param b second number
+	 * @param c third number
+	 * @return maximum of 3 numbers
+	 */
 	public static int max(int a, int b, int c) {
 		return Math.max(a, Math.max(b, c));
 	}

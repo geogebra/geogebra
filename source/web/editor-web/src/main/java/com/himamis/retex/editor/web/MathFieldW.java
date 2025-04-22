@@ -213,6 +213,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		MathFieldW.isGlobalEvent = globalEvent;
 	}
 
+	/**
+	 * Forget all instances.
+	 */
 	public static void removeAll() {
 		instances.clear();
 	}
@@ -224,6 +227,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.getMathFieldController().setLineBreakEnabled(b);
 	}
 
+	/**
+	 * Toggle the simple script behavior (exit sript when operator is typed).
+	 * @param useSimpleScripts whether to use simple scripts.
+	 */
 	public void setUseSimpleScripts(boolean useSimpleScripts) {
 		mathFieldInternal.getInputController().setUseSimpleScripts(useSimpleScripts);
 	}
@@ -869,6 +876,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.update();
 	}
 
+	/**
+	 * Delete the word at the cursor.
+	 */
 	public void deleteCurrentWord() {
 		this.mathFieldInternal.deleteCurrentWord();
 	}
@@ -928,6 +938,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		elh.addEventListener("focus", o);
 	}
 
+	/**
+	 * Reset the hidden textarea to remove half-composed letters.
+	 */
 	public void clearState() {
 		Js.<HTMLTextAreaElement>uncheckedCast(inputTextArea.getElement()).value = "";
 	}
@@ -1087,6 +1100,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.insertFunction(text);
 	}
 
+	/**
+	 * Toggle between math and plain text mode.
+	 * @param plainText plain text mode
+	 */
 	public void setPlainTextMode(boolean plainText) {
 		this.mathFieldInternal.setPlainTextMode(plainText);
 	}
@@ -1099,7 +1116,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 	}
 
-	public int toCanvasPixels(int x, double extScale) {
+	private int toCanvasPixels(int x, double extScale) {
 		return (int) (x / scale / extScale);
 	}
 

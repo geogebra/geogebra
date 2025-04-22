@@ -66,6 +66,10 @@ public class EditorListener implements MathFieldListener {
 		return false;
 	}
 
+	/**
+	 * Register client listener.
+	 * @param fn client listener
+	 */
 	public void registerClientListener(Function fn) {
 		listeners.push(fn);
 	}

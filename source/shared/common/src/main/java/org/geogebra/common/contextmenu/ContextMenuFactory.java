@@ -230,6 +230,11 @@ public final class ContextMenuFactory {
 		return filter(items);
 	}
 
+	/**
+	 * Create input context menu.
+	 * @param includeHelpItem whether to include the help item
+	 * @return context menu items
+	 */
 	@Nonnull
 	public List<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem

@@ -10,11 +10,11 @@ public class CoordSystemInfo {
 		this.view = view;
 	}
 
-	public double deltaX() {
+	private double deltaX() {
 		return view.xZero - view.xZeroOld;
 	}
 
-	public double deltaY() {
+	private double deltaY() {
 		return view.yZero - view.yZeroOld;
 	}
 

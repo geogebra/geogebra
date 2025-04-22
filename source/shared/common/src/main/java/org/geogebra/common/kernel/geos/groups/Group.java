@@ -57,6 +57,9 @@ public class Group {
         return geosGroup;
     }
 
+    /**
+     * @return stream of elements of this group.
+     */
     public Stream<GeoElement> stream() {
         return geosGroup.stream();
     }

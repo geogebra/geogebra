@@ -51,8 +51,13 @@ public class BaseWidgetFactory {
 		return new ListBox();
 	}
 
-	public SliderW newSlider(int i, int j) {
-		return new SliderW(i, j);
+	/**
+	 * @param min min
+	 * @param max max
+	 * @return slider with given range
+	 */
+	public SliderW newSlider(int min, int max) {
+		return new SliderW(min, max);
 	}
 
 	/**

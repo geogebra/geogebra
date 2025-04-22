@@ -186,10 +186,17 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	// FOR PREVIEWABLE
 	// /////////////////////////////////////////////////////
 
-	public void setOutputPointsEuclidianVisible(boolean b) {
+	/**
+	 * Sets visibility of output points.
+	 * @param visible visibility flag
+	 */
+	public void setOutputPointsEuclidianVisible(boolean visible) {
 		//
 	}
 
+	/**
+	 * Notify about update of output points.
+	 */
 	public void notifyUpdateOutputPoints() {
 		//
 	}

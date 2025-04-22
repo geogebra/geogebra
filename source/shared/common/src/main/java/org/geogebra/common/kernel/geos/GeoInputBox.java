@@ -587,6 +587,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		this.serifContent = serifContent;
 	}
 
+	/**
+	 * @return whether there were errors in last input evaluation
+	 */
 	public boolean hasError() {
 		return !StringUtil.emptyTrim(getTempUserEvalInput());
 	}
@@ -657,6 +660,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return isSymbolicMode() && linkedGeo.hasSpecialEditor();
 	}
 
+	/**
+	 * Validate the input, add preprocessed content to the builder.
+	 * @param editorState editor state
+	 * @param sb string builder
+	 * @return whether it's valid
+	 */
 	public boolean validate(EditorContent editorState, StringBuilder sb) {
 		return inputBoxProcessor.validate(editorState, sb);
 	}

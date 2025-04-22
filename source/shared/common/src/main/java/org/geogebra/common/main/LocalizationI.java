@@ -126,6 +126,10 @@ public abstract class LocalizationI {
 		return !(first < 0 || first > 0x00FF);
 	}
 
+	/**
+	 * @param row row index
+	 * @return keyboard row definition
+	 */
 	public String getKeyboardRow(int row) {
 		return getMenu("Keyboard.row" + row);
 	}

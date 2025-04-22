@@ -552,10 +552,17 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			// not used for this view
 		}
 
+		/**
+		 * Notify about clearing.
+		 */
 		public void notifyClear() {
 			// only for Web
 		}
 
+		/**
+		 * TODO not expose
+		 * @return row list
+		 */
 		public ArrayList<RowData> getrowList() {
 			return rowList;
 		}
@@ -609,10 +616,19 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			}
 		}
 
+		/**
+		 * Get construction index of the geo in given row.
+		 * @param row row index
+		 * @return constructionindex
+		 */
 		public int getConstructionIndex(int row) {
 			return rowList.get(row).getGeo().getConstructionIndex();
 		}
 
+		/**
+		 * @param row row index
+		 * @return row
+		 */
 		public RowData getRow(int row) {
 			return rowList.get(row);
 		}
@@ -631,10 +647,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		public int getColumnCount() {
 			return columnsCount;
-		}
-
-		public int getRowIndex(RowData row) {
-			return rowList.indexOf(row);
 		}
 
 		/**
@@ -906,6 +918,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			notifyAddAll(kernel.getLastConstructionStep());
 		}
 
+		/**
+		 * Update all.
+		 */
 		public void updateAll() {
 			// platform dependent, TODO move this to view
 		}
@@ -1399,7 +1414,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			this.translationKey = key;
 		}
 
-		public String getTranslation(Localization loc) {
+		protected String getTranslation(Localization loc) {
 			return loc.getMenu(translationKey);
 		}
 

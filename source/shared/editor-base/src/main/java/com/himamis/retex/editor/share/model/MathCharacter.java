@@ -180,6 +180,11 @@ public class MathCharacter extends MathComponent {
 		return s.length() == 2 && s.charAt(0) == '\uD83C' && s.charAt(1) >> 4 == 0xDFF;
 	}
 
+	/**
+	 * Chaeck if this character has a specific unicode value.
+	 * @param c unicode valu
+	 * @return whether it matches
+	 */
 	public boolean isUnicode(char c) {
 		return meta.getUnicode() == c;
 	}

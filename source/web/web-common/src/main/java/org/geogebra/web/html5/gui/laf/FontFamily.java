@@ -57,10 +57,16 @@ public enum FontFamily {
 		this.cssName = cssName;
 	}
 
+	/**
+	 * @return display name
+	 */
 	public String displayName() {
 		return displayName;
 	}
 
+	/**
+	 * @return css name
+	 */
 	public String cssName() {
 		return cssName;
 	}

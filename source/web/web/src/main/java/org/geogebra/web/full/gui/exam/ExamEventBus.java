@@ -9,6 +9,10 @@ import org.geogebra.common.exam.ExamState;
 public final class ExamEventBus implements ExamListener {
 	private final List<ExamListener> childListeners = new ArrayList<>();
 
+	/**
+	 * Add a listener to the bus.
+	 * @param listener listener
+	 */
 	public void add(ExamListener listener) {
 		childListeners.add(listener);
 	}

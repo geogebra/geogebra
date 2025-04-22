@@ -1590,6 +1590,10 @@ public class GeoText extends GeoElement
 		}
 	}
 
+	/**
+	 * Unregister an update listener.
+	 * @param geo element that no longer needs to get updates
+	 */
 	public void unregisterUpdateListener(GeoElement geo) {
 		updateListeners.remove(geo);
 	}

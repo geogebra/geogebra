@@ -754,6 +754,9 @@ public interface Traversing {
 			variableReplacerAlgorithm = new VariableReplacerAlgorithm(kernel);
 		}
 
+		/**
+		 * @param value whether to allow splitting into products of unknowns
+		 */
 		public void setSimplifyMultiplication(boolean value) {
 			variableReplacerAlgorithm.setMultipleUnassignedAllowed(value);
 		}

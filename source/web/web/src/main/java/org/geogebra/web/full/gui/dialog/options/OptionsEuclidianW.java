@@ -712,6 +712,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 		return (DialogManagerW) app.getDialogManager();
 	}
 
+	/**
+	 * Set label text, add colon sign.
+	 * @param cb label
+	 * @param string translation key
+	 */
 	public void setTextColon(FormLabel cb, String string) {
 		cb.setText(loc.getMenu(string) + ":");
 	}

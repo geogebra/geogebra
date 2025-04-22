@@ -453,6 +453,11 @@ public abstract class CopyPaste {
 		}
 	}
 
+	/**
+	 * Paste from clipboard via given paste handler.
+	 * @param app application
+	 * @param stringAsyncOperation paste handler
+	 */
 	public void paste(App app, AsyncOperation<String> stringAsyncOperation) {
 		pasteFromXML(app);
 	}

@@ -953,6 +953,9 @@ public class PageListController implements PageListControllerInterface,
 		listener.updateContentPanelHeight();
 	}
 
+	/**
+	 * @return generated ID for next slide
+	 */
 	public static String nextID() {
 		return "p" + Math.floor(Math.random() * 1E6);
 	}

@@ -216,6 +216,9 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		toolTipText = text;
 	}
 
+	/**
+	 * @return whether to stack adjacent points
+	 */
 	public boolean stackAdjacentDots() {
 		return stackAdjacentDots != null && stackAdjacentDots.getBoolean();
 	}

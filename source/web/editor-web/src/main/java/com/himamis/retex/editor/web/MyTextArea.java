@@ -43,6 +43,10 @@ public class MyTextArea extends FocusWidget {
 		addDomHandler(handler, CompositionUpdateEvent.getType());
 	}
 
+	/**
+	 * Add a composition end handler.
+	 * @param handler composition end handler.
+	 */
 	public void addCompositionEndHandler(EditorCompositionHandler handler) {
 		addDomHandler(handler, CompositionEndEvent.getType());
 	}

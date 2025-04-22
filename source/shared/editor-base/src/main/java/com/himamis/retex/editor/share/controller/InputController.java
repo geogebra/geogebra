@@ -1446,10 +1446,17 @@ public class InputController {
 		this.editorFeatures = editorFeatures;
 	}
 
+	/**
+	 * @param exp string in any convertable syntax (LaTeX, MathML, ...)
+	 * @return string in editor syntax
+	 */
 	public String convert(String exp) {
 		return syntaxAdapter == null ? exp : syntaxAdapter.convert(exp);
 	}
 
+	/**
+	 * @return whether mixed numbers are supported
+	 */
 	public boolean supportsMixedNumbers() {
 		return editorFeatures == null || editorFeatures.areMixedNumbersEnabled();
 	}

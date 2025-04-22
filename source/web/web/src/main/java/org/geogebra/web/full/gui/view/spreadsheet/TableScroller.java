@@ -235,7 +235,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		columnHeader.setLeft(l);
 	}
 	
-	/* 
+	/**
 	 * Fits the content of spreadsheet for its header on the left.
 	 */
 	public void syncTableTop() {

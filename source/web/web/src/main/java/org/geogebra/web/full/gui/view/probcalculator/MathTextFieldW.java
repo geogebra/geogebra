@@ -92,10 +92,18 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 		return getMathField().getText();
 	}
 
+	/**
+	 * Add input handler.
+	 * @param inputHandler input handler
+	 */
 	public void addInputHandler(JsRunnable inputHandler) {
 		this.inputHandlers.add(inputHandler);
 	}
 
+	/**
+	 * Add change handler.
+	 * @param inputHandler change handler
+	 */
 	public void addChangeHandler(JsConsumer<Boolean> inputHandler) {
 		this.changeHandlers.add(inputHandler);
 	}

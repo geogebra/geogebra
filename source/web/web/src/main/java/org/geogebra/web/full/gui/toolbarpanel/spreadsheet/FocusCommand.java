@@ -19,6 +19,9 @@ public class FocusCommand implements Scheduler.ScheduledCommand {
 		}
 	}
 
+	/**
+	 * Cancel this command.
+	 */
 	public void cancel() {
 		canceled = true;
 	}

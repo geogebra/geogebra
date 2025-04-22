@@ -131,6 +131,10 @@ public class ChartStyle {
 		setTag(2, fillType, numBar);
 	}
 
+	/**
+	 * @param numBar bar index
+	 * @return bar fill type
+	 */
 	public FillType getBarFillType(int numBar) {
 		return getBarFillType(numBar, FillType.STANDARD);
 	}

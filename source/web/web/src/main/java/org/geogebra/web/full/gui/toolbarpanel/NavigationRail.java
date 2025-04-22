@@ -550,10 +550,6 @@ class NavigationRail extends FlowPanel {
 		setSelected(btnSpreadsheet, tabId == TabIds.SPREADSHEET, exam);
 	}
 
-	public void setAVIconNonSelect(boolean exam) {
-		setSelected(btnAlgebra, false, exam);
-	}
-
 	/**
 	 * @param context2d context
 	 * @param left distance from left canvas edge

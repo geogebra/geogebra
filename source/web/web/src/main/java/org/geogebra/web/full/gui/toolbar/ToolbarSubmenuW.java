@@ -152,8 +152,11 @@ public class ToolbarSubmenuW extends FlowPanel implements HasHide {
 		return itemList;
 	}
 
-	public void setMaxHeight(int d) {
-		itemList.getElement().getStyle().setProperty("maxHeight", d + "px");
+	/**
+	 * @param maxHeight max height in px
+	 */
+	public void setMaxHeight(int maxHeight) {
+		itemList.getElement().getStyle().setProperty("maxHeight", maxHeight + "px");
 	}
 
 	@Override

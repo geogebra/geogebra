@@ -43,10 +43,18 @@ public class AppletParameters {
 		return attributeProvider.getAttribute(attribute);
 	}
 
+	/**
+	 * @param attribute attribute name
+	 * @return whether attribute is set
+	 */
 	public boolean hasAttribute(String attribute) {
 		return attributeProvider.hasAttribute(attribute);
 	}
 
+	/**
+	 * Remove an attibute.
+	 * @param attribute attribute name
+	 */
 	public void removeAttribute(String attribute) {
 		attributeProvider.removeAttribute(attribute);
 	}
@@ -169,6 +177,9 @@ public class AppletParameters {
 		return getStringDataParam("examMode", null);
 	}
 
+	/**
+	 * @return whether enable3D is set
+	 */
 	public boolean hasDataParamEnable3D() {
 		return hasAttribute("enable3D");
 	}
@@ -711,10 +722,17 @@ public class AppletParameters {
 		return getBoolDataParam("useLocalizedPointNames", true);
 	}
 
+	/**
+	 * @return value of detachKeyboard parameter, defaulting to "auto"
+	 */
 	public String getParamDetachKeyboard() {
 		return getStringDataParam("detachKeyboard", "auto");
 	}
 
+	/**
+	 * @param fallback default value
+	 * @return value of showKeyboardOnFocus parameter
+	 */
 	public String getParamShowKeyboardOnFocus(String fallback) {
 		return getStringDataParam("showKeyboardOnFocus", fallback);
 	}

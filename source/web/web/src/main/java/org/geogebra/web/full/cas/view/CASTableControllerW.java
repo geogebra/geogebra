@@ -396,6 +396,9 @@ public class CASTableControllerW extends CASTableCellController implements
 		return view.getConsoleTable().getTextBeforeEdit();
 	}
 
+	/**
+	 * Stop editing.
+	 */
 	public void stopEditing() {
 		view.getConsoleTable().stopEditing();
 	}

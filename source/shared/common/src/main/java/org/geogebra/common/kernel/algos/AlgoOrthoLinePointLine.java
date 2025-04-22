@@ -128,11 +128,6 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		return P;
 	}
 
-	// Made public for LocusEqu
-	public GeoLine getl() {
-		return l instanceof GeoLine ? (GeoLine) l : null;
-	}
-
 	// calc the line g through P and normal to l
 	@Override
 	public final void compute() {

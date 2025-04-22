@@ -52,14 +52,26 @@ public class SliderPanel extends FlowPanel implements SliderInputHandler {
 		slider.setMaximum(max);
 	}
 
+	/**
+	 * Set slider step.
+	 * @param step step
+	 */
 	public void setTickSpacing(int step) {
 		slider.setTickSpacing(step);
 	}
 
+	/**
+	 * Add a change handler.
+	 * @param handler change handler
+	 */
 	public void addValueChangeHandler(ValueChangeHandler<Integer> handler) {
 		slider.addValueChangeHandler(handler);
 	}
 
+	/**
+	 * Add an input handler.
+	 * @param handler input event handler
+	 */
 	public void addInputHandler(Consumer<Integer> handler) {
 		slider.addInputHandler(() -> handler.accept(slider.getValue()));
 	}

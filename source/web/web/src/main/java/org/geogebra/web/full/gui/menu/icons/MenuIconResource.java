@@ -10,6 +10,10 @@ public class MenuIconResource {
 		this.menuIconProvider = menuIconProvider;
 	}
 
+	/**
+	 * @param icon icon
+	 * @return spec for icon
+	 */
 	public IconSpec getImageResource(Icon icon) {
 		return menuIconProvider.matchIconWithResource(icon);
 	}

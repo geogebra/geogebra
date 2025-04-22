@@ -296,7 +296,7 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	/**
-	 * Prevent blur in the next 200ms
+	 * Prevent blur handling in the next 200ms
 	 */
 	public void preventBlur() {
 		this.preventBlur = true;
@@ -491,6 +491,9 @@ public class RadioTreeItemController implements ClickHandler,
 		item.stopEditing(item.getText(), null, true);
 	}
 
+	/**
+	 * Show keyboard, make sure it's passing key strokes to this item.
+	 */
 	public void showKeyboard() {
 		app.showKeyboard(item);
 	}
@@ -639,8 +642,12 @@ public class RadioTreeItemController implements ClickHandler,
 		return item.getAV();
 	}
 
-	public void setFocus(boolean b) {
-		item.setFocus(b);
+	/**
+	 * Focus or blur the item.
+	 * @param focus true to focus
+	 */
+	public void setFocus(boolean focus) {
+		item.setFocus(focus);
 	}
 
 	public AppW getApp() {
@@ -655,6 +662,9 @@ public class RadioTreeItemController implements ClickHandler,
 		this.editHeight = editHeight - VERTICAL_PADDING;
 	}
 
+	/**
+	 * @return whether multiple geos are selected.
+	 */
 	public boolean hasMultiGeosSelected() {
 		return selectionCtrl.hasMultGeos();
 	}

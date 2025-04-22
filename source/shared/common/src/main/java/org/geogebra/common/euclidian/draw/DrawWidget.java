@@ -120,6 +120,12 @@ public abstract class DrawWidget extends Drawable implements HasTransformation {
 		return rectangle.getDirectTransform();
 	}
 
+	/**
+	 * Get point in widget coordinates from EV coordinates.
+	 * @param x x-coordinate in EV
+	 * @param y y-coordinate in EV
+	 * @return transformed point
+	 */
 	public GPoint2D getInversePoint(int x, int y) {
 		return rectangle.getInversePoint(x, y);
 	}

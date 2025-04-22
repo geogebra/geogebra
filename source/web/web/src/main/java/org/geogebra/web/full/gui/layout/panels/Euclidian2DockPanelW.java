@@ -85,12 +85,11 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		return eview1;
 	}
 
+	/**
+	 * @param w widget to remove
+	 */
 	public void remove(Widget w) {
 		euclidianpanel.remove(w);
-	}
-
-	public Euclidian2DockPanelW getEuclidianView2Wrapper() {
-		return this;
 	}
 
 	@Override

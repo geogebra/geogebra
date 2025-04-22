@@ -146,7 +146,7 @@ public class InputBarHelpPanel {
 
 	}
 
-	public Collection<String> getCommands(int i) {
+	protected Collection<String> getCommands(int i) {
 		return mCommands.get(i);
 	}
 
@@ -174,7 +174,7 @@ public class InputBarHelpPanel {
 		return this.mMathFuncDict;
 	}
 
-	public LowerCaseDictionary getSubDictionary(int i) {
+	protected LowerCaseDictionary getSubDictionary(int i) {
 		return mSubDict[i];
 	}
 
@@ -193,6 +193,10 @@ public class InputBarHelpPanel {
 		return getSubDictionary(category);
 	}
 
+	/**
+	 * @param i category index (0 to getCategoriesCount())
+	 * @return category name
+	 */
 	public String getCategoryName(int i) {
 		return mApp.getKernel().getAlgebraProcessor().getSubCommandSetName(i);
 	}

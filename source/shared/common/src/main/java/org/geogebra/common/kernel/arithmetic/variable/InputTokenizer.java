@@ -188,6 +188,10 @@ public class InputTokenizer {
 
 	}
 
+	/**
+	 * @param input input
+	 * @return whether input is the special symbol for imaginary unit
+	 */
 	public static boolean isImaginaryUnit(String input) {
 		return input.length() == 1 && input.charAt(0) == Unicode.IMAGINARY;
 	}

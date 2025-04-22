@@ -215,6 +215,9 @@ public class DataItem {
 	// Utility methods
 	// ==============================================
 
+	/**
+	 * Clear the references.
+	 */
 	public void clearItem() {
 		// TODO: dereference the geo fields -- needed ??
 	}

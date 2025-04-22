@@ -30,6 +30,9 @@ public class ViewCounter {
 		}
 	}
 
+	/**
+	 * Increment the counter.
+	 */
 	public void increment() {
 		count++;
 	}

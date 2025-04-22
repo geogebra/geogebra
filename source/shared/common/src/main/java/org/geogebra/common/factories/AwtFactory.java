@@ -292,11 +292,21 @@ public abstract class AwtFactory {
 		return ret;
 	}
 
-	public GGraphics2D getSVGGraphics(int xInt, int yInt) {
+	/**
+	 * @param width width in SVG units
+	 * @param height height in SVG units
+	 * @return graphics for SVG export
+	 */
+	public GGraphics2D getSVGGraphics(int width, int height) {
 		return null;
 	}
 
-	public GGraphics2D getPDFGraphics(int xInt, int yInt) {
+	/**
+	 * @param width width in pixels
+	 * @param height height in pixels
+	 * @return graphics for PDF export
+	 */
+	public GGraphics2D getPDFGraphics(int width, int height) {
 		return null;
 	}
 }

@@ -924,6 +924,10 @@ public class Command extends ValidExpression
 		this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
 	}
 
+	/**
+	 * Remove last argument and return it.
+	 * @return last argument
+	 */
 	public ExpressionNode removeLastArgument() {
 		return args.remove(args.size() - 1);
 	}

@@ -9,6 +9,10 @@ public class TopBarIconResource {
 		this.topBarIconProvider = topBarIconProvider;
 	}
 
+	/**
+	 * @param icon icon
+	 * @return spec for given icon
+	 */
 	public IconSpec getImageResource(TopBarIcon icon) {
 		return topBarIconProvider.matchIconWithResource(icon);
 	}

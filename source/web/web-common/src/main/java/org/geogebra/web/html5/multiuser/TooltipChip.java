@@ -20,6 +20,9 @@ public class TooltipChip extends Label {
 		style.setBackgroundColor(color.toString());
 	}
 
+	/**
+	 * Hide the chip.
+	 */
 	public void hide() {
 		getElement().addClassName("invisible");
 	}

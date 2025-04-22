@@ -171,6 +171,16 @@ public class ButtonFactory {
 				weight);
 	}
 
+	/**
+	 * Creates a button that has a custom resource and custom action.
+	 * See {@link Action} and {@link Resource}
+	 *
+	 * @param resource name of the resource
+	 * @param action the action of the key
+	 * @param weight weight of the button
+	 *
+	 * @return a button
+	 */
 	public WeightedButton createCustomConstantButton(
 			String resource, String action, float weight) {
 		return createCustomConstantButton(resource, action, weight, Background.FUNCTIONAL);

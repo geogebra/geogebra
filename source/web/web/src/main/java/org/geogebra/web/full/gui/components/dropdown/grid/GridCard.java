@@ -54,6 +54,10 @@ public class GridCard extends FlowPanel implements SetLabels {
 		add(cardTitle);
 	}
 
+	/**
+	 * Toggle selection.
+	 * @param selected whether the card should be selected
+	 */
 	public void setSelected(boolean selected) {
 		Dom.toggleClass(this, "selected", selected);
 	}

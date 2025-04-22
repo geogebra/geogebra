@@ -140,6 +140,15 @@ public class AlgebraController {
 		return latex;
 	}
 
+	/**
+	 * Evaluate the text entered in input. Used in Android and iOS.
+	 *
+	 * @param input
+	 *            input string
+	 * @param errorHandler
+	 *            interface to handle errors from evaluating the input
+	 * @return evaluation was successful
+	 */
 	public boolean onTextEntered(String input, ErrorHandler errorHandler) {
 		return onTextEntered(input, errorHandler, null);
 	}

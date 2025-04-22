@@ -289,6 +289,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return prop.apply(geo);
 	}
 
+	/**
+	 * Get style portion of XML for an element.
+	 * @param label object name
+	 * @return style XML
+	 */
 	public synchronized String getStyleXML(String label) {
 		return getGeoProperty(label, GeoElement::getStyleXML, "");
 	}
@@ -1837,6 +1842,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return GeoGebraConstants.VERSION_STRING;
 	}
 
+	/**
+	 * Update the construction (refresh random numbers etc.).
+	 */
 	public void updateConstruction() {
 		kernel.updateConstruction();
 	}

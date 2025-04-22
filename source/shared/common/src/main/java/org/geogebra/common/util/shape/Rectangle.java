@@ -86,6 +86,12 @@ public final class Rectangle {
 		return origin.getY() + size.getHeight();
 	}
 
+	/**
+	 * Copy of this, translated by given distances in each direction.
+	 * @param dx horizontal translation
+	 * @param dy vertical translation
+	 * @return translated rectangle
+	 */
 	public Rectangle translatedBy(double dx, double dy) {
 		return new Rectangle(new Point(getMinX() + dx, getMinY() + dy), size);
 	}

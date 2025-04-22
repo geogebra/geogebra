@@ -187,10 +187,17 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 				MaterialDesignResources.INSTANCE.mow_card_multiuser(), 24);
 	}
 
+	/**
+	 * Update localized labels.
+	 */
 	public void setLabels() {
 		updateVisibility(getMaterial());
 	}
 
+	/**
+	 * Update thumbnail
+	 * @param mat material
+	 */
 	public void setThumbnail(Material mat) {
 		imgPanel.setBackground(mat);
 	}

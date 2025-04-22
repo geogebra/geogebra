@@ -76,6 +76,10 @@ public class EditorState {
 		currentOffset++;
 	}
 
+	/**
+	 * Increase current offset by an amount.
+	 * @param size number to add to current offset
+	 */
 	public void addCurrentOffset(int size) {
 		currentOffset += size;
 	}

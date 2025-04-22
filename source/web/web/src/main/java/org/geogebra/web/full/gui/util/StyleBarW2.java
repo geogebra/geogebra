@@ -260,6 +260,10 @@ public abstract class StyleBarW2 extends StyleBarW {
 		setPopupHandlerWithUndoAction(btnColor, this::processColor);
 	}
 
+	/**
+	 * @param geoElement element
+	 * @return whether element has text color setting
+	 */
 	public boolean hasTextColor(GeoElement geoElement) {
 		return geoElement instanceof TextStyle;
 	}

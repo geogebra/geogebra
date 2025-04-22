@@ -58,6 +58,11 @@ public class TwoTailedResultModel extends AbstractResultModel {
 		this.high = new InputEntry(high);
 	}
 
+	/**
+	 * Set result using the partial results.
+	 * @param leftResult left tail probability
+	 * @param rightResult right tail probability
+	 */
 	public void setTwoTailedResult(String leftResult, String rightResult) {
 		twoTailedResult = new TextEntry(leftResult + PLUS_SIGN + rightResult + EQUALS_SIGN);
 	}
@@ -90,10 +95,16 @@ public class TwoTailedResultModel extends AbstractResultModel {
 				result);
 	}
 
+	/**
+	 * Set greater sign to sharp inequality.
+	 */
 	public void setGreaterThan() {
 		greaterSign = new TextEntry(X_GREATER_THAN);
 	}
 
+	/**
+	 * Set greater sign to unsharp inequality.
+	 */
 	public void setGreaterThanOrEqualTo() {
 		greaterSign = new TextEntry(GREATER_THAN_OR_EQUAL_TO_X);
 	}

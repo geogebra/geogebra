@@ -257,6 +257,9 @@ public class AppCompanion {
 		return false; // implemented in App3DCompanion
 	}
 
+	/**
+	 * Update fonts in 3D components.
+	 */
 	public void updateFonts3D() {
 		// no 3D views to update fonts
 	}

@@ -235,6 +235,10 @@ public class PagePreviewCard extends FlowPanel
 		grabY = y - getAbsoluteTop();
 	}
 
+	/**
+	 * @param index card index
+	 * @return top offset
+	 */
 	public static int computeTop(int index) {
 		return MARGIN + index * TOTAL_HEIGHT;
 	}
@@ -243,10 +247,19 @@ public class PagePreviewCard extends FlowPanel
 		return computeTop(getPageIndex());
 	}
 
+	/**
+	 * Reset top CSS property.
+	 */
 	public void resetTop() {
 		setTop(getComputedTop());
 	}
 
+	/**
+	 * Clamp top between container border and last card top.
+	 * @param top top offset
+	 * @param cardCount card count
+	 * @return clamped top
+	 */
 	public static int clampTop(int top, int cardCount) {
 		return Math.max(MARGIN, Math.min(top, computeTop(cardCount - 1)));
 	}
@@ -275,10 +288,16 @@ public class PagePreviewCard extends FlowPanel
 		return infoPanel.getCardTitle();
 	}
 
+	/**
+	 * Clear the background.
+	 */
 	public void clearBackground() {
 		imagePanel.getElement().getStyle().setBackgroundImage("");
 	}
 
+	/**
+	 * @return update preview from the associated archive.
+	 */
 	public boolean updatePreviewFromFile() {
 		return setPreviewImage(getFile().get("geogebra_thumbnail.png"));
 	}

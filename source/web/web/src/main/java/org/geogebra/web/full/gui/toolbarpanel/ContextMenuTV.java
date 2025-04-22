@@ -290,6 +290,9 @@ public class ContextMenuTV {
 		wrappedPopup.showAndFocus(source, x, y);
 	}
 
+	/**
+	 * Hide the popup menu.
+	 */
 	public void hide() {
 		wrappedPopup.hideMenu();
 	}

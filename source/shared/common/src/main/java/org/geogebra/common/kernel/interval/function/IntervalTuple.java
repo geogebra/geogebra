@@ -103,6 +103,9 @@ public class IntervalTuple {
 		return "{x: " + x().toShortString() + ": " + y().toShortString() + "}";
 	}
 
+	/**
+	 * @return piece
+	 */
 	public int piece() {
 		return piece;
 	}

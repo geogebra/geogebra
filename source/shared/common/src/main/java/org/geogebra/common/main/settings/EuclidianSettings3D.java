@@ -294,6 +294,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		this.b = b2;
 	}
 
+	/**
+	 * Apply rotation setting to a view.
+	 * @param view view
+	 */
 	public void updateRotXY(EuclidianView3DInterface view) {
 		view.setRotXYinDegrees(a, b);
 	}
@@ -358,6 +362,9 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 	}
 
+	/**
+	 * @return whether to use the clipping cube
+	 */
 	public boolean useClippingCube() {
 		return useClippingCube;
 	}
@@ -373,6 +380,9 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 	}
 
+	/**
+	 * @return whether to show the clipping cube
+	 */
 	public boolean showClippingCube() {
 		return showClippingCube;
 	}

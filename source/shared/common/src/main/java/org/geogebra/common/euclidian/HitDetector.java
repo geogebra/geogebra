@@ -211,6 +211,9 @@ public class HitDetector {
 		}
 	}
 
+	/**
+	 * Reset the hits.
+	 */
 	public void reset() {
 		hits = new Hits();
 	}

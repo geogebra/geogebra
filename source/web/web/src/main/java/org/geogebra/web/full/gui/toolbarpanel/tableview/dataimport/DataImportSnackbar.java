@@ -118,6 +118,9 @@ public class DataImportSnackbar extends FlowPanel {
 		add(errorHolder);
 	}
 
+	/**
+	 * Hide the snackbar.
+	 */
 	public void hide() {
 		fadeOut.run();
 	}

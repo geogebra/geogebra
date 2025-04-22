@@ -47,6 +47,10 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 		this(app, tools, updateParentCallback, false);
 	}
 
+	/**
+	 * Add widget to the content part of this popup.
+	 * @param widget widget
+	 */
 	public void addContent(Widget widget) {
 		contentPanel.add(widget);
 	}

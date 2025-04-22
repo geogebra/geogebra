@@ -327,7 +327,10 @@ public class StandardButton extends Widget implements HasResource {
 		return btnImage;
 	}
 
-	public void setTabIndex(int i) {
-		getElement().setTabIndex(i);
+	/**
+	 * @param tabIndex tab index
+	 */
+	public void setTabIndex(int tabIndex) {
+		getElement().setTabIndex(tabIndex);
 	}
 }

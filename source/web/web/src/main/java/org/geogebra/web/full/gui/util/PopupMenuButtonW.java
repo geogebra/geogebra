@@ -123,6 +123,9 @@ public class PopupMenuButtonW extends StandardButton
 		}
 	}
 
+	/**
+	 * Reset current popup reference.
+	 */
 	public static void resetCurrentPopup() {
 		currentPopup = null;
 	}

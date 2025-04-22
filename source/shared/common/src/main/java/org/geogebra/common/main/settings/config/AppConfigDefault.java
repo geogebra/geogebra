@@ -84,6 +84,10 @@ public class AppConfigDefault extends AbstractAppConfig {
 				|| SCIENTIFIC_APPCODE.equals(appName) || SUITE_APPCODE.equals(appName);
 	}
 
+	/**
+	 * @param appName app name
+	 * @return whether the app is not classic
+	 */
 	public static boolean isUnbundledOrNotes(String appName) {
 		return isUnbundled(appName) || NOTES_APPCODE.equals(appName);
 	}

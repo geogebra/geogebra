@@ -3243,6 +3243,11 @@ public class GeoList extends GeoElement
 		return false;
 	}
 
+	/**
+	 * Gets text for selection in dropdown mode.
+	 * @param tpl string template
+	 * @return display string of the selected item
+	 */
 	public String getSelectedItemDisplayString(StringTemplate tpl) {
 		return getItemDisplayString(getSelectedElement(), tpl);
 	}

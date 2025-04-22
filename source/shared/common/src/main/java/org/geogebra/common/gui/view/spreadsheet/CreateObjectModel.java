@@ -144,10 +144,6 @@ public class CreateObjectModel {
 		listener.setVisible(false);
 	}
 
-	public void apply() {
-		// processInput();
-	}
-
 	/**
 	 * Mark as success and close
 	 */
@@ -311,6 +307,11 @@ public class CreateObjectModel {
 		}
 	}
 
+	/**
+	 * Gets non-latex description of the created element.
+	 * @param sb builder
+	 * @return text
+	 */
 	public String getNonLatexText(IndexHTMLBuilder sb) {
 		return newGeo.toGeoElement().getAlgebraDescriptionTextOrHTMLDefault(sb);
 	}
@@ -343,6 +344,9 @@ public class CreateObjectModel {
 		this.objectType = objectType;
 	}
 
+	/**
+	 * Set type to list.
+	 */
 	public void setListType() {
 		objectType = TYPE_LIST;
 	}

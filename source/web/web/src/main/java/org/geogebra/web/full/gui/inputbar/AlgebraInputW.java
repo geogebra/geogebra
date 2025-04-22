@@ -270,7 +270,7 @@ public class AlgebraInputW extends FlowPanel
 		} catch (Exception ee) {
 			app.showGenericError(ee);
 		} catch (MyError ee) {
-			inputField.showError(ee);
+			app.showError(ee);
 		}
 	}
 

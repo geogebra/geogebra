@@ -137,6 +137,9 @@ public class TableSettings extends AbstractSettings {
 		sb.append("/>\n");
 	}
 
+	/**
+	 * Reset min, max and step.
+	 */
 	public void resetMinMaxStep() {
 		valuesStep = valuesMax = valuesMin = 0;
 	}

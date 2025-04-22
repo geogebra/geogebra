@@ -295,35 +295,35 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	final public GeoElement[] polygonND(String[] labels, GeoPointND[] P) {
+	final public GeoElement[] polygonND(String[] labels, GeoPointND[] points) {
 
 		boolean is3D = false;
-		for (int i = 0; i < P.length && !is3D; i++) {
-			if (P[i].isGeoElement3D()) {
+		for (int i = 0; i < points.length && !is3D; i++) {
+			if (points[i].isGeoElement3D()) {
 				is3D = true;
 			}
 		}
 
 		if (is3D) {
-			return getManager3D().polygon3D(labels, P);
+			return getManager3D().polygon3D(labels, points);
 		}
-		return super.polygon(labels, P);
+		return super.polygon(labels, points);
 	}
 
 	@Override
-	public GeoElement[] polyLineND(String label, GeoPointND[] P) {
+	public GeoElement[] polyLineND(String label, GeoPointND[] points) {
 
 		boolean is3D = false;
-		for (int i = 0; i < P.length && !is3D; i++) {
-			if (P[i].isGeoElement3D()) {
+		for (int i = 0; i < points.length && !is3D; i++) {
+			if (points[i].isGeoElement3D()) {
 				is3D = true;
 			}
 		}
 
 		if (is3D) {
-			return getManager3D().polyLine3D(label, P);
+			return getManager3D().polyLine3D(label, points);
 		}
-		return super.polyLine(label, P);
+		return super.polyLine(label, points);
 
 	}
 

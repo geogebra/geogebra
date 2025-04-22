@@ -432,6 +432,9 @@ public class GeneralPathClipped implements GShape {
 				2 * radius);
 	}
 
+	/**
+	 * @return number of points
+	 */
 	public int size() {
 		return pathPoints.size();
 	}

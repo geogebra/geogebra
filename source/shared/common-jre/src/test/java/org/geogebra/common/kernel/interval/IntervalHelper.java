@@ -5,14 +5,29 @@ import org.geogebra.common.kernel.interval.operators.RMath;
 
 public class IntervalHelper {
 
+	/**
+	 * Create an interval containing a single value
+	 * @param singleton single value
+	 * @return interval
+	 */
 	public static Interval interval(double singleton) {
 		return new Interval(singleton);
 	}
 
+	/**
+	 * @param low minimum
+	 * @param high maximum
+	 * @return inverted interval
+	 */
 	public static Interval invertedInterval(double low, double high) {
 		return interval(low, high).invert();
 	}
 
+	/**
+	 * @param low minimum
+	 * @param high maximum
+	 * @return interval
+	 */
 	public static Interval interval(double low, double high) {
 		return new Interval(low, high);
 	}

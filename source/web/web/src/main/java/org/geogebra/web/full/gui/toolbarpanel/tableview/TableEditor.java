@@ -151,6 +151,11 @@ public class TableEditor implements UnhandledArrowListener {
 		return mathTextField.getText();
 	}
 
+	/**
+	 * Make sure cursor is adjusted to the position given by the event
+	 * once the editor appears.
+	 * @param evt event
+	 */
 	public void adjustCursor(Event evt) {
 		this.event = evt;
 	}

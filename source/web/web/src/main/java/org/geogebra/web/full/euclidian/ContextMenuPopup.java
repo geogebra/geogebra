@@ -68,6 +68,9 @@ public class ContextMenuPopup extends StandardButton
 		popup.show(this, 0, getOffsetHeight());
 	}
 
+	/**
+	 * Update the popup.
+	 */
 	public void updatePopup() {
 		// override if the menu needs updating when opened
 	}

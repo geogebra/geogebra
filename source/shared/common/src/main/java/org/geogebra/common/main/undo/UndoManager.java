@@ -300,6 +300,11 @@ public abstract class UndoManager implements UndoProvider {
 		}
 	}
 
+	/**
+	 * Replay all actions related to given slide from current checkpoint until given action.
+	 * @param slideID slide ID
+	 * @param until first action not to be replayed (null=replay all)
+	 */
 	public void replayActions(String slideID, @Nonnull UndoCommand until) {
 		replayActions(getCheckpoint(slideID), slideID, until);
 	}
@@ -505,6 +510,12 @@ public abstract class UndoManager implements UndoProvider {
 		buildAction(action, args).withUndo(type, undoArgs).storeAndNotifyUnsaved();
 	}
 
+	/**
+	 * Create action builder with given attributes.
+	 * @param action forward action
+	 * @param args arguments (semantics depend on action type)
+	 * @return action builder
+	 */
 	public UndoCommandBuilder buildAction(ActionType action, String... args) {
 		return new UndoCommandBuilder(this, app.getSlideID(), action, args);
 	}
@@ -514,6 +525,10 @@ public abstract class UndoManager implements UndoProvider {
 		app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
 	}
 
+	/**
+	 * Add action executor.
+	 * @param executor action executor
+	 */
 	public void addActionExecutor(ActionExecutor executor) {
 		executors.add(executor);
 	}

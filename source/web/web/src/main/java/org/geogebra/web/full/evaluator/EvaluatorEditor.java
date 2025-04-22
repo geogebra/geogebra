@@ -115,6 +115,9 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 		return mathFieldEditor.asWidget();
 	}
 
+	/**
+	 * Focus the editor.
+	 */
 	public void requestFocus() {
 		mathFieldEditor.requestFocus();
 	}

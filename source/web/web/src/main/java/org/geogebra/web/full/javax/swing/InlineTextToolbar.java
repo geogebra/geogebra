@@ -128,6 +128,10 @@ public class InlineTextToolbar implements FastClickHandler {
 				: "";
 	}
 
+	/**
+	 * Adds a widget.
+	 * @param widget widget to add
+	 */
 	public void add(Widget widget) {
 		panel.add(widget);
 	}

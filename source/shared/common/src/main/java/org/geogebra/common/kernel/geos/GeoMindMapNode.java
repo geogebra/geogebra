@@ -42,6 +42,11 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 			return this == TOP || this == BOTTOM;
 		}
 
+		/**
+		 * Check for opposite alignments.
+		 * @param alignment other alignment
+		 * @return whether this and the other alignment are opposite
+		 */
 		public boolean isOpposite(NodeAlignment alignment) {
 			return alignment != null && Math.abs(ordinal() - alignment.ordinal()) == 2;
 		}
@@ -225,6 +230,10 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		return children;
 	}
 
+	/**
+	 * Add a child.
+	 * @param child child node
+	 */
 	public void addChild(GeoMindMapNode child) {
 		children.add(child);
 	}

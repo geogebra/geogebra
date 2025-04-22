@@ -338,6 +338,9 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setEditable(true);
 	}
 
+	/**
+	 * @return whether the last evaluation had errors
+	 */
 	public boolean hasError() {
 		return getGeoInputBox().hasError();
 	}

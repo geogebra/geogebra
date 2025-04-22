@@ -148,7 +148,7 @@ public class ScreenReader {
 		readText(geo.getAuralTextForMove(), app);
 	}
 
-	public static String getStartFraction(Localization loc) {
+	private static String getStartFraction(Localization loc) {
 		return localize(loc, "startFraction", "start fraction");
 	}
 
@@ -156,71 +156,115 @@ public class ScreenReader {
 		return loc.getMenuDefault(TRANSLATION_PREFIX + key, fallback) + " ";
 	}
 
-	public static String getMiddleFraction(Localization loc) {
+	private static String getMiddleFraction(Localization loc) {
 		return " " + localize(loc, "fractionOver", "over");
 	}
 
-	public static String getEndFraction(Localization loc) {
+	private static String getEndFraction(Localization loc) {
 		return " " + localize(loc, "endFraction", "end fraction");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized times
+	 */
 	public static String getTimes(Localization loc) {
 		return " " + localize(loc, "times", "times");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized plus
+	 */
 	public static String getPlus(Localization loc) {
 		return " " + localize(loc, "plus", "plus");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized minus
+	 */
 	public static String getMinus(Localization loc) {
 		return " " + localize(loc, "minus", "minus");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized start of cbrt
+	 */
 	public static String getStartCbrt(Localization loc) {
 		return localize(loc, "startCbrt", "start cube root");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized end of cbrt
+	 */
 	public static String getEndCbrt(Localization loc) {
 		return " " + localize(loc, "endCbrt", "end cube root");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized start of abs
+	 */
 	public static String getStartAbs(Localization loc) {
 		return localize(loc, "startAbs", "start absolute value");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized end of abs
+	 */
 	public static String getEndAbs(Localization loc) {
 		return " " + localize(loc, "endAbs", " end absolute value");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized start of sqrt
+	 */
 	public static String getStartSqrt(Localization loc) {
 		return localize(loc, "startSqrtCbrt", "start square root");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized end of sqrt
+	 */
 	public static String getEndSqrt(Localization loc) {
 		return " " + localize(loc, "endSqrt", "end square root");
 	}
 
-	public static String getSquared(Localization loc) {
+	private static String getSquared(Localization loc) {
 		return localize(loc, "squared", "squared");
 	}
 
-	public static String getCubed(Localization loc) {
+	private static String getCubed(Localization loc) {
 		return localize(loc, "cubed", "cubed");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized word "degree"
+	 */
 	public static String getDegree(Localization loc) {
 		return localize(loc, "degree", "degree");
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized word "degrees"
+	 */
 	public static String getDegrees(Localization loc) {
 		return localize(loc, "degrees", "degrees");
 	}
 
-	public static String getStartPower(Localization loc) {
+	private static String getStartPower(Localization loc) {
 		return localize(loc, "startPower", "to the power of");
 	}
 
-	public static String getEndPower(Localization loc) {
+	private static String getEndPower(Localization loc) {
 		return " " + localize(loc, "endPower", "end power");
 	}
 

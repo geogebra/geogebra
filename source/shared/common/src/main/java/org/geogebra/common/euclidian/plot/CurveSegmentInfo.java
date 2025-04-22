@@ -120,6 +120,9 @@ public class CurveSegmentInfo {
 		}
 	}
 
+	/**
+	 * @return whether min step was not reached
+	 */
 	public boolean hasNotReachedMinStep() {
 		return !reachedminStep;
 	}

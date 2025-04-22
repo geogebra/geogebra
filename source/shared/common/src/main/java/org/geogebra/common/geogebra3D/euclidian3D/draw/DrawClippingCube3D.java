@@ -257,6 +257,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         }
     }
 
+	/**
+	 * @param index index
+	 * @return reduction value
+	 */
     public double getRV(int index) {
 		return REDUCTION_VALUES[index];
 	}

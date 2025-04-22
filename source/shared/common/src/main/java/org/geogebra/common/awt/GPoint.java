@@ -77,6 +77,10 @@ public class GPoint {
 		return (x << 16) ^ y;
 	}
 
+	/**
+	 * @param d other point
+	 * @return distance to other point
+	 */
 	public double distance(GPoint d) {
 		return Math.sqrt((x - d.x) * (x - d.x) + (y - d.y) * (y - d.y));
 	}

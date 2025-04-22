@@ -9,6 +9,10 @@ public class ToolboxIconResource {
 		this.toolboxIconProvider = toolboxIconProvider;
 	}
 
+	/**
+	 * @param icon icon
+	 * @return spec for given icon
+	 */
 	public IconSpec getImageResource(ToolboxIcon icon) {
 		return toolboxIconProvider.matchIconWithResource(icon);
 	}

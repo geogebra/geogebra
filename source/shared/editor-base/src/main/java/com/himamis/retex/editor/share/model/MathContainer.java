@@ -482,6 +482,9 @@ abstract public class MathContainer extends MathComponent implements Iterable<Ma
 		return this;
 	}
 
+	/**
+	 * Mark as protected from deletion.
+	 */
 	public void setProtected() {
 		isProtected = true;
 	}

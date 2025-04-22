@@ -106,6 +106,11 @@ public class ScreenReaderBuilder {
 		return texAtomSerializer;
 	}
 
+	/**
+	 * Appends a translation given by key and default.
+	 * @param key translation key
+	 * @param fallback to be used if translation not available
+	 */
 	public void appendMenuDefault(String key, String fallback) {
 		sb.append(loc.getMenuDefault(key, fallback));
 	}

@@ -25,6 +25,9 @@ public class ExamSaveDialog {
 		setActionHandlers(app, onDialogClosed);
 	}
 
+	/**
+	 * Show the dialog.
+	 */
 	public void show() {
 		examSave.center();
 	}

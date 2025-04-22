@@ -72,14 +72,28 @@ public class Browser {
 		return hasGlobal("WebAssembly");
 	}
 
+	/**
+	 * @param propertyName property name
+	 * @return whether global object has a truthy property with given name
+	 */
 	public static boolean hasGlobal(String propertyName) {
 		return hasProperty(DomGlobal.window, propertyName);
 	}
 
+	/**
+	 * @param base object to check
+	 * @param propertyName property name
+	 * @return whether given object has a truthy property with given name
+	 */
 	public static boolean hasProperty(Object base, String propertyName) {
 		return base != null && Js.isTruthy(Js.asPropertyMap(base).get(propertyName));
 	}
 
+	/**
+	 * @param base object
+	 * @param propertyName property name
+	 * @return whether property is declared for given object (may be falsy)
+	 */
 	public static boolean hasDeclaredProperty(Object base, String propertyName) {
 		return base != null && Js.asPropertyMap(base).has(propertyName);
 	}
@@ -424,6 +438,10 @@ public class Browser {
 		return Global.decodeURIComponent(Global.escape(DomGlobal.atob(base64)));
 	}
 
+	/**
+	 * Disable browser context menu for element.
+	 * @param element element
+	 */
 	public static void removeDefaultContextMenu(Element element) {
 		setAllowContextMenu(element, false);
 	}

@@ -33,14 +33,21 @@ public class EditorKeyboard {
 		});
 	}
 
-	public void setProcessing(KeyboardListener listener) {
-		tabbedKeyboard.setProcessing(listener);
+	/**
+	 * Sets keyboard processing component.
+	 * @param processingComponent keyboard processing component
+	 */
+	public void setProcessing(KeyboardListener processingComponent) {
+		tabbedKeyboard.setProcessing(processingComponent);
 	}
 
 	public TabbedKeyboard getTabbedKeyboard() {
 		return tabbedKeyboard;
 	}
 
+	/**
+	 * @param listener keyboard close listener
+	 */
 	public void setListener(KeyboardCloseListener listener) {
 		tabbedKeyboard.setListener(listener);
 	}

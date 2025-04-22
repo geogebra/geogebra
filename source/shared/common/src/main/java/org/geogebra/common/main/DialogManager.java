@@ -97,7 +97,7 @@ public abstract class DialogManager {
 		createRedefineDialog(geo, str, handler);
 	}
 
-	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
+	protected void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		// overridden in the classes
 	}
 
@@ -456,10 +456,16 @@ public abstract class DialogManager {
 				});
 	}
 
+	/**
+	 * Show audio input dialog.
+	 */
 	public void showAudioInputDialog() {
 		// nothing to do here
 	}
 
+	/**
+	 * Show video input dialog.
+	 */
 	public void showVideoInputDialog() {
 		// nothing to do here -> implemented in extended class
 	}
@@ -742,6 +748,10 @@ public abstract class DialogManager {
 		// 3D stuff
 	}
 
+	/**
+	 * TODO implement overrides
+	 * @return whether function inspector is visible
+	 */
 	public boolean hasFunctionInspector() {
 		return false;
 	}
@@ -1115,14 +1125,23 @@ public abstract class DialogManager {
 		return null;
 	}
 
+	/**
+	 * Show the template chooser dialog.
+	 */
 	public void showTemplateChooser() {
 		// only needed in web
 	}
 
+	/**
+	 * Close the template chooser dialog.
+	 */
 	public void closeTemplateChooser() {
 		// only needed in web
 	}
 
+	/**
+	 * Show the Save dialog.
+	 */
 	public void showSaveDialog() {
 		// needed in web
 	}

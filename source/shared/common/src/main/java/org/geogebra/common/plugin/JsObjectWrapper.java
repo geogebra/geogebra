@@ -21,10 +21,20 @@ public abstract class JsObjectWrapper {
 
 	protected abstract JsObjectWrapper wrap(Object nativeObject);
 
+	/**
+	 * Pass int property to the consumer if it exists
+	 * @param key property name
+	 * @param consumer consumer
+	 */
 	public void ifIntPropertySet(String key, Consumer<Integer> consumer) {
 		ifPropertySet(key, consumer);
 	}
 
+	/**
+	 * Pass object property to the consumer if it exists
+	 * @param key property name
+	 * @param consumer consumer
+	 */
 	public void ifObjectPropertySet(String key, Consumer<JsObjectWrapper> consumer) {
 		ifPropertySet(key, obj -> consumer.accept(wrap(obj)));
 	}

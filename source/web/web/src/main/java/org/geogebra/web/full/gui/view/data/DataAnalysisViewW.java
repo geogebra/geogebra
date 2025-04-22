@@ -315,6 +315,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return model.getDataSource();
 	}
 
+	/**
+	 * @return group type
+	 */
 	public GroupType groupType() {
 		return daCtrl.getDataSource().getGroupType();
 	}
@@ -536,6 +539,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		updateGUI();
 	}
 
+	/**
+	 * @param value number
+	 * @return formatted number
+	 */
 	public String format(double value) {
 		return model.format(value);
 	}

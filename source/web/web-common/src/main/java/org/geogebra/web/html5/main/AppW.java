@@ -502,6 +502,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return asyncManager;
 	}
 
+	/**
+	 * Notify async manager that commands were loaded.
+	 */
 	public void commandsLoaded() {
 		getAsyncManager().onResourceLoaded();
 	}
@@ -2209,6 +2212,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		popups.add(widget);
 	}
 
+	/**
+	 * Center and resize views.
+	 */
 	public void centerAndResizeViews() {
 		// to be overridden in AppWFull
 	}
@@ -2732,6 +2738,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
+	/**
+	 * Adds image insertion callback
+	 * @param runnable image insertion callback
+	 */
 	public void addInsertImageCallback(Runnable runnable) {
 		this.insertImageCallback = runnable;
 	}
@@ -2781,6 +2791,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				&& getLAF() != null && getLAF().hasLoginButton();
 	}
 
+	/**
+	 * @return whether file features are enabled
+	 */
 	public boolean enableFileFeatures() {
 		return this.appletParameters.getDataParamEnableFileFeatures();
 	}
@@ -2849,10 +2862,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return Browser.getPixelRatio() * geoGebraElement.readScaleX();
 	}
 
-	public void addWindowResizeListener(RequiresResize mtg) {
-		this.euclidianHandlers.add(mtg);
+	/**
+	 * Add window resize listener.
+	 * @param resizeListener listener
+	 */
+	public void addWindowResizeListener(RequiresResize resizeListener) {
+		this.euclidianHandlers.add(resizeListener);
 	}
 
+	/**
+	 * @return whether toolbar help is allowed to be shown (for Classic)
+	 */
 	public boolean showToolBarHelp() {
 		return getAppletParameters().getDataParamShowToolBarHelp(true);
 	}
@@ -2919,6 +2939,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
+	/**
+	 * Update material URL
+	 * @param material material
+	 */
 	public void updateMaterialURL(Material material) {
 		updateMaterialURL(material.getSharingKeySafe(), material.getTitle());
 	}
@@ -3290,10 +3314,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// overridden in Full
 	}
 
-	public EmbedManager newEmbedManager() {
-		return null;
-	}
-
 	/**
 	 * Force resize after 0 timeout. In Chrome this is needed after switching
 	 * between tabs, in iOS safari for resizing.
@@ -3311,6 +3331,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		popupRegistry.add(popup);
 	}
 
+	/**
+	 * Close registered popups.
+	 */
 	public void closePopupsInRegistry() {
 		popupRegistry.closeAll();
 	}

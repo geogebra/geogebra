@@ -176,7 +176,7 @@ public class AlgoIntersectImplicitpolyParametric
 			return;
 		}
 
-		setRootsPolynomialWithinRange(sum, minT, maxT);
+		doCalc(sum, minT, maxT);
 		mergeWithTangentPoints();
 	}
 

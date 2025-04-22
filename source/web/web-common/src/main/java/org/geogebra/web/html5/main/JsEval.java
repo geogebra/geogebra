@@ -57,10 +57,20 @@ public class JsEval {
 		return "function".equals(Js.typeof(object));
 	}
 
+	/**
+	 * Check if object is undefined.
+	 * @param object object
+	 * @return whether it's undefined
+	 */
 	public static boolean isUndefined(Object object) {
 		return "undefined".equals(Js.typeof(object));
 	}
 
+	/**
+	 * TODO with recent GWT this is just `instanceof String`
+	 * @param object object
+	 * @return whether it's JS string
+	 */
 	public static boolean isJSString(Object object) {
 		return "string".equals(Js.typeof(object));
 	}

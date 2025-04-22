@@ -96,6 +96,10 @@ public enum Statistic {
 		}
 	}
 
+	/**
+	 * @param loc localization
+	 * @return localized name
+	 */
 	public String getLocalizedName(Localization loc) {
 		return loc.getCommand(getCommandName());
 	}

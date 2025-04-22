@@ -906,6 +906,9 @@ final public class GeoSegment extends GeoLine
 		return endStyle;
 	}
 
+	/**
+	 * @return whether one or more ends are decorated.
+	 */
 	public boolean hasSegmentStyle() {
 		return !(startStyle.isDefault() && endStyle.isDefault());
 	}

@@ -180,8 +180,17 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return sb.toString();
 	}
 
-	public static String toHTMLString(String title) {
-		return toHTMLString(title, true);
+	/**
+	 * Converts the given unicode string to an html string where special
+	 * characters are converted to <code>&amp;#xxx;</code> sequences (xxx is the
+	 * unicode value of the character)
+	 *
+	 * @param str
+	 *            unicode string
+	 * @return HTML string
+	 */
+	public static String toHTMLString(String str) {
+		return toHTMLString(str, true);
 	}
 
 	/**
@@ -1847,6 +1856,11 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
         }
     }
 
+	/**
+	 * Remove leading PNG marker
+	 * @param pngURL data URL
+	 * @return base64 encoded image
+	 */
 	public static String removePngMarker(String pngURL) {
 		return pngURL.substring(pngMarker.length());
 	}

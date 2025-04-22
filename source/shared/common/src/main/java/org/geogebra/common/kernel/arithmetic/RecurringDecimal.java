@@ -25,6 +25,9 @@ public class RecurringDecimal extends MyDouble {
 		setImprecise(true);
 	}
 
+	/**
+	 * @return value of the decimal
+	 */
 	public double toDouble() {
 		return model.toDouble();
 	}

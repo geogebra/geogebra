@@ -98,10 +98,17 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		return hashCode;
 	}
 
+	/**
+	 * Clear the list.
+	 */
 	public void clear() {
 		list.clear();
 	}
 
+	/**
+	 * @param index index
+	 * @return intrval at given index
+	 */
 	public Interval valueAt(int index) {
 		return get(index).y();
 	}

@@ -142,6 +142,9 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		return container;
 	}
 
+	/**
+	 * @param left left offset in pixels
+	 */
 	public void setLeft(int left) {
 		container.getElement().getStyle().setLeft(left, Unit.PX);
 	}

@@ -41,6 +41,11 @@ final public class CellRangeUtil {
 		return true;
 	}
 
+	/**
+	 * @param selection arbitrary selection
+	 * @param app application
+	 * @return intersection of potential selection with table model
+	 */
 	public static TabularRange getActual(TabularRange selection, App app) {
 		return getActual(selection, app.getSpreadsheetTableModel());
 	}

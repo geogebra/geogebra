@@ -470,7 +470,10 @@ public class EuclidianSettings extends AbstractSettings {
 	public boolean getShowAxis(int axis) {
 		return showAxes[axis];
 	}
-	
+
+	/**
+	 * @return whether x and y axes are shown
+	 */
 	public boolean axisShown() {
 		return showAxes[0] && showAxes[1];
 	}
@@ -479,6 +482,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return showAxes;
 	}
 
+	/**
+	 * @param axis axis index
+	 * @return whether given axis is logarithmic
+	 */
 	public boolean getLogAxis(int axis) {
 		return logAxes[axis];
 	}
@@ -561,6 +568,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return showAxesNumbers;
 	}
 
+	/**
+	 * @param i axis index
+	 * @return numbering distance for the axis
+	 */
 	public GeoNumberValue getAxisNumberingDistance(int i) {
 		return axisNumberingDistances[i];
 	}
@@ -625,6 +636,10 @@ public class EuclidianSettings extends AbstractSettings {
 		}
 	}
 
+	/**
+	 * @param axis axis index
+	 * @return whether numbering distance for the axis is automatic
+	 */
 	public boolean getAutomaticAxesNumberingDistance(int axis) {
 		return automaticAxesNumberingDistances[axis];
 	}

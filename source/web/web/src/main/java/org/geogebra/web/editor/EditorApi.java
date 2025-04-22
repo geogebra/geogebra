@@ -82,6 +82,10 @@ public class EditorApi {
 				Js.isTruthy(options.get("transparent")), callback);
 	}
 
+	/**
+	 * Register client listener.
+	 * @param fn client listener
+	 */
 	public void registerClientListener(Function fn) {
 		listener.registerClientListener(fn);
 	}
