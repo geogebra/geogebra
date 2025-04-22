@@ -196,4 +196,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean hasDataImport() {
 		return false;
 	}
+
+	@Override
+	public boolean isCASEnabled() {
+		return getSubAppCode() != null;
+	}
 }
