@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
+import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitPolynomials;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -649,7 +649,7 @@ public class CmdIntersect extends CommandProcessor {
 	 */
 	final private GeoPoint intersectImplicitpolyConicSingle(String label,
 			GeoImplicit p1, GeoConic c1, GeoNumberValue idx) {
-		AlgoIntersectImplicitpolys algo = getAlgoDispatcher()
+		AlgoIntersectImplicitPolynomials algo = getAlgoDispatcher()
 				.getIntersectionAlgorithm(p1, c1);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);
 		GeoPoint point = salgo.getPoint();

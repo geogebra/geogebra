@@ -40,7 +40,7 @@ import org.geogebra.common.util.debug.Log;
  * Algorithm to intersect two implicit polynomial equations
  * <p>output: GeoPoints if finitely many intersection points.</p>
  */
-public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
+public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial {
 
 	private GeoImplicit p1;
 	private GeoImplicit p2;
@@ -65,7 +65,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 * @param c1
 	 *            conic
 	 */
-	public AlgoIntersectImplicitpolys(Construction c, GeoImplicit p1,
+	public AlgoIntersectImplicitPolynomials(Construction c, GeoImplicit p1,
 			GeoConic c1) {
 		super(c, p1.toGeoElement(), c1);
 		this.p1 = p1;
@@ -84,7 +84,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 * @param p2
 	 *            second polynomial
 	 */
-	public AlgoIntersectImplicitpolys(Construction c, GeoImplicit p1,
+	public AlgoIntersectImplicitPolynomials(Construction c, GeoImplicit p1,
 			GeoImplicit p2) {
 		super(c, p1.toGeoElement(), p2.toGeoElement());
 		this.p1 = p1;
@@ -400,9 +400,9 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			nrRealRoots = getNearRoots(roots, eqnSolver, 1E-5);
 		}
 		for (int i = 0; i < nrRealRoots; i++) {
-			PolynomialFunction tx = new PolynomialFunction(
-					new double[] { roots[i], 0 });
 			PolynomialFunction ty = new PolynomialFunction(
+					new double[] { roots[i], 0 });
+			PolynomialFunction tx = new PolynomialFunction(
 					new double[] { 0, 1 });
 			double[] res = AlgoIntersectImplicitpolyPolyLine
 					.lineIntersect(a.getCoeff(), tx, ty).getCoefficients();

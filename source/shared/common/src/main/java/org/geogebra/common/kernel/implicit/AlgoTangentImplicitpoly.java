@@ -89,7 +89,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 
 		if (!pointOnPath) {
 			GeoImplicit tangentCurve = algoTangentPoly.getTangentCurve();
-			algoIntersect = new AlgoIntersectImplicitpolys(cons, p,
+			algoIntersect = new AlgoIntersectImplicitPolynomials(cons, p,
 					tangentCurve);
 
 			cons.removeFromConstructionList(algoIntersect);
@@ -125,7 +125,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 				c, p, g);
 
 		GeoImplicit tangentCurve = algoTangentPoly.getTangentCurve();
-		algoIntersect = new AlgoIntersectImplicitpolys(cons, p, tangentCurve);
+		algoIntersect = new AlgoIntersectImplicitPolynomials(cons, p, tangentCurve);
 		cons.removeFromConstructionList(algoIntersect);
 		ip = algoIntersect.getIntersectionPoints();
 
