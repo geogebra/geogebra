@@ -3,6 +3,7 @@ package org.geogebra.common.main.localization;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.syntax.EnglishCommandSyntax;
@@ -35,6 +37,9 @@ public class AutocompleteProvider {
 	private final boolean isForClassicCAS;
 	private LocalizedCommandSyntax englishCommandSyntax;
 	private @CheckForNull OperationFilter operationFilter;
+	private static Map<String, String> functionAliasSyntaxes = Map.of(
+			Commands.nCr.name(), ParserFunctions.COMBINATORIAL_SUFFIX
+	);
 
 	/**
 	 * @param app application
@@ -119,7 +124,9 @@ public class AutocompleteProvider {
 		if (englishOnly) {
 			internalCommandName = app.englishToInternal(localizedCommandName);
 		}
-
+		if (functionAliasSyntaxes.containsKey(internalCommandName)) {
+			return localizedCommandName + functionAliasSyntaxes.get(internalCommandName);
+		}
 		String syntaxString;
 		if (isCas() || needsCasSyntaxString(internalCommandName)) {
 			LocalizedCommandSyntax commandSyntax = app.getLocalization().getCommandSyntax();

@@ -15,6 +15,7 @@ import org.geogebra.common.plugin.Operation;
  */
 public interface ParserFunctions {
 	String NROOT_SUFFIX = "( <x>, <n> )";
+	String COMBINATORIAL_SUFFIX = "( <n>, <r> )";
 
 	/**
 	 * Updates local names of functions

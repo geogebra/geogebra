@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.inputfield;
 
+import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.ownership.GlobalScope;
@@ -35,6 +36,11 @@ public class AutoCompletePopup extends GPopupMenuW {
 		this.component = component;
 		getPopupPanel().addStyleName("autoCompletePopup");
 		getPopupPanel().addStyleName("customScrollbar");
+	}
+
+	@Override
+	protected void returnFocus(MayHaveFocus anchor) {
+		// keep focus in input
 	}
 
 	private void fillContent(final String curWord) {

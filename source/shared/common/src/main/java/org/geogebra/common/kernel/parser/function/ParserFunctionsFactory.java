@@ -191,8 +191,8 @@ public class ParserFunctionsFactory {
 
 		put(pf, 1, "vectorize", Operation.MATRIXTOVECTOR, null);
 
-		put(pf, 2, "nPr", Operation.NPR, "( <n>, <r> )");
-		put(pf, 2, "nCr", Operation.NCR, "( <n>, <r> )");
+		put(pf, 2, "nPr", Operation.NPR, ParserFunctions.COMBINATORIAL_SUFFIX);
+		put(pf, 2, "nCr", Operation.NCR, ParserFunctions.COMBINATORIAL_SUFFIX);
 	}
 
 	private static void addExtraFunctions(ParserFunctionsImpl pf) {
