@@ -84,6 +84,12 @@ public class FractionTest extends SymbolicArithmeticTest {
 	}
 
 	@Test
+	public void testExactFractionSimplification() {
+		t("15.3/2.55", "6");
+		t("19.69", "1969 / 100");
+	}
+
+	@Test
 	public void testExactFractionSignificantDigits() {
 		getKernel().setPrintFigures(2);
 		assertThat(add("1/3"), hasExactFraction(false));

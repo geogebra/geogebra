@@ -319,7 +319,9 @@ public class MySpecialDouble extends MyDouble {
 			initFraction();
 		}
 		if (!Double.isNaN(denominator)) {
-			fractionV[0] = new MyDouble(kernel, denominator * getDouble());
+			// we only set denominator to a valid number if number of decimals is low
+			// => rounding here is lossless
+			fractionV[0] = new MyDouble(kernel, Math.round(denominator * getDouble()));
 			fractionV[1] = new MyDouble(kernel, denominator);
 			return true;
 		}
