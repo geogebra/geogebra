@@ -315,20 +315,12 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		@SuppressWarnings("PMD.SimplifyBooleanReturns")
 		@Override
 		public boolean isAllowed(GeoElement geoElement, AlgebraOutputFormat outputFormat) {
-			GeoPoint geoPoint;
-			if (geoElement instanceof GeoPoint) {
-				geoPoint = (GeoPoint) geoElement;
-			} else if (geoElement instanceof GeoSymbolic
-					&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoPoint) {
-				geoPoint = (GeoPoint) ((GeoSymbolic) geoElement).getTwinGeo();
-			} else {
-				return true;
-			}
+			GeoElementND unwrappedElement = geoElement.unwrapSymbolic();
 			// Restrict the exact (calculated cartesian) output format for polar coordinates
-			if (geoPoint.isPolar() && outputFormat == AlgebraOutputFormat.EXACT) {
-				return false;
-			}
-			return true;
+			boolean blocked = unwrappedElement instanceof GeoPoint
+					&& ((GeoPoint) unwrappedElement).isPolar()
+					&& outputFormat == AlgebraOutputFormat.EXACT;
+			return !blocked;
 		}
 	}
 
