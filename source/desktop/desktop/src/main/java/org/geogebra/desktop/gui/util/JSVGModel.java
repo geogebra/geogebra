@@ -34,6 +34,10 @@ public class JSVGModel implements SVGModel {
 	private int height;
 	private boolean tidy = false;
 
+	public static class InvalidLinkException extends IllegalStateException {
+		//
+	}
+
 	public JSVGModel(String content) {
 		this.content = content;
 	}
@@ -92,7 +96,7 @@ public class JSVGModel implements SVGModel {
 	private void checkLinks(Node root) {
 		if ("link".equals(root.getLocalName())
 				&& root.getAttributes().getNamedItem("href") != null) {
-			throw new IllegalStateException();
+			throw new InvalidLinkException();
 		}
 		Node child = root.getFirstChild();
 		while (child != null) {

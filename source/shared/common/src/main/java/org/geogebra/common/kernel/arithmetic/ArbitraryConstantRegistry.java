@@ -302,13 +302,15 @@ public class ArbitraryConstantRegistry {
 				((AlgoElement) outCE).getOutput(0).updateCascade();
 			} else if (outCE instanceof GeoCasCell) {
 				outCE.update();
-				if (((GeoCasCell) outCE).getTwinGeo() != null) {
-					((GeoCasCell) outCE).getTwinGeo().update();
+				GeoElement twinGeo = ((GeoCasCell) outCE).getTwinGeo();
+				if (twinGeo != null) {
+					twinGeo.update();
 				}
 			} else if (outCE instanceof GeoSymbolic) {
 				((GeoSymbolic) outCE).updateCascade();
-				if (((GeoSymbolic) outCE).getTwinGeo() != null) {
-					((GeoSymbolic) outCE).getTwinGeo().update();
+				GeoElementND twinGeo = ((GeoSymbolic) outCE).getTwinGeo();
+				if (twinGeo != null) {
+					twinGeo.update();
 				}
 			} else if (outCE != null) {
 				outCE.update();

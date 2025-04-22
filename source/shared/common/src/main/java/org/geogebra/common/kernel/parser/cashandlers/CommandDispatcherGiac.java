@@ -445,10 +445,13 @@ public class CommandDispatcherGiac {
 					break;
 
 				default:
-					throw new CASException(
-							"Giac: bad number of args for ggbvect(): "
-									+ args.size());
+					if (kernel.lookupLabel(cmdName) == null && kernel.getMacro(cmdName) == null) {
+						Log.debug("Giac: bad number of args for ggbvect(): "
+										+ args.size());
+						return new ExpressionNode(kernel, Double.NaN);
 
+					}
+					return null;
 				}
 
 				ret = new ExpressionNode(kernel, vec, Operation.NO_OPERATION,

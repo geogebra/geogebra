@@ -2121,7 +2121,7 @@ public class Construction {
 				try {
 					cell = Integer.parseInt(labelString);
 				} catch (Exception e) {
-					Log.debug(e);
+					Log.debug(e.getMessage());
 				}
 				if (cell > 0) {
 					return this.getCasCell(cell - 1);

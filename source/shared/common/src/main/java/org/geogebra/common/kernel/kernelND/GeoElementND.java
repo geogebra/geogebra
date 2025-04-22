@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.MyImage;
@@ -1592,9 +1594,10 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	boolean isEuclidianShowable();
 
 	/**
-	 * @return the unwrapped geo
+	 * For symbolic geos return their twin (if it exists), for others return self.
+	 * @return twin or null for symbolic geos, the geo itself otherwise.
 	 */
-	GeoElementND unwrapSymbolic();
+	@CheckForNull GeoElementND unwrapSymbolic();
 
 	/**
 	 * @return app
@@ -1684,4 +1687,9 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	boolean isImplicitEquation();
 
 	boolean isFreeOrExpression();
+
+	/**
+	 * @return whether this element is an inequality (in one or more variables)
+	 */
+	boolean isInequality();
 }

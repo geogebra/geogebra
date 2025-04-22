@@ -2,6 +2,8 @@ package org.geogebra.common.exam;
 
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -254,6 +256,9 @@ public final class ExamControllerTests extends BaseExamTests {
 		examController.startExam(ExamType.GENERIC, null);
 
 		assertNull(evaluate("Max(1, 2)"));
+		assertThat(errorAccumulator.getErrorsSinceReset(),
+				containsString("Illegal number of arguments"));
+		errorAccumulator.resetError();
 	}
 
 	@Test
@@ -291,6 +296,7 @@ public final class ExamControllerTests extends BaseExamTests {
 		assertAll(
 				() -> assertNotNull(evaluate("f(x) = x")),
 				() -> assertNull(evaluate("Derivative(f)")));
+		errorAccumulator.resetError();
 		examController.finishExam();
 		examController.exitExam();
 	}

@@ -109,7 +109,9 @@ public class AppCommon extends App {
 
 			@Override
 			public void print(Level level, Object logEntry) {
-				if (logEntry instanceof Throwable) {
+				if (logEntry instanceof RuntimeException) {
+					throw new AssertionError(logEntry);
+				} else if (logEntry instanceof Throwable) {
 					((Throwable) logEntry).printStackTrace(); // NOPMD
 				} else {
 					System.out.println(logEntry); // NOPMD

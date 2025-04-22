@@ -1313,9 +1313,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 	}
 
-	/**
-	 * @return whether this element is an inequality (in one or more variables)
-	 */
+	@Override
 	public boolean isInequality() {
 		return false;
 	}
@@ -7093,7 +7091,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public GeoElementND unwrapSymbolic() {
+	public @CheckForNull GeoElementND unwrapSymbolic() {
 		return this;
 	}
 

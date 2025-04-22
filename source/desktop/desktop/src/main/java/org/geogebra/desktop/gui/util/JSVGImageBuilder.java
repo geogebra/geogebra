@@ -18,6 +18,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.svg.SVGDocument;
 
 import io.sf.carte.echosvg.anim.dom.SAXSVGDocumentFactory;
+import io.sf.carte.echosvg.bridge.BridgeException;
 import io.sf.carte.echosvg.dom.util.SAXIOException;
 
 /**
@@ -54,7 +55,6 @@ public final class JSVGImageBuilder {
 		return fromContent(new JSVGModel(content));
 	}
 
-
 	private static SVGImage fromContent(JSVGModel model) {
 		model.tidyContent();
 		Reader reader = new StringReader(model.content);
@@ -78,23 +78,26 @@ public final class JSVGImageBuilder {
 		try {
 			model.build();
 			return new SVGImage(model);
+		} catch (JSVGModel.InvalidLinkException | BridgeException ex) {
+			LoggerD.debug(ex.getMessage());
+			return unsupportedImage();
 		} catch (Exception e) {
 			LoggerD.debug(e);
 			return unsupportedImage();
 		}
 	}
 
-	public static SVGImage unsupportedImage() {
+	static SVGImage unsupportedImage() {
 		if (unsupportedImage == null) {
 			unsupportedImage = fromContent(UNSUPPORTED_SVG);
 		}
 		return unsupportedImage;
 	}
 
-
 	/**
 	 * Method to fetch the SVG image from an url
 	 * @param url the url from which to fetch the SVG image
+	 * @return SVG image
 	 */
 	public static SVGImage fromUrl(URL url) {
 		SAXSVGDocumentFactory f = new SAXSVGDocumentFactory();

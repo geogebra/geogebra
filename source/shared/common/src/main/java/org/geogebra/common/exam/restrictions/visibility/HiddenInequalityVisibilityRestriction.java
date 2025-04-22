@@ -6,7 +6,7 @@ import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestric
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Restricts the visibility of inequalities.
@@ -24,10 +24,7 @@ public final class HiddenInequalityVisibilityRestriction implements VisibilityRe
 	@Nonnull
 	@Override
 	public Effect getEffect(GeoElement geoElement) {
-		return (geoElement.isInequality()
-				|| (geoElement instanceof GeoSymbolic
-				&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoElement
-				&& ((GeoElement) ((GeoSymbolic) geoElement).getTwinGeo()).isInequality())
-		) ? HIDE : IGNORE;
+		GeoElementND unwrappedSymbolic = geoElement.unwrapSymbolic();
+		return (unwrappedSymbolic != null && unwrappedSymbolic.isInequality()) ? HIDE : IGNORE;
 	}
 }

@@ -1,5 +1,7 @@
 package org.geogebra.common.exam;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -8,6 +10,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class WtrExamTests extends BaseExamTests {
@@ -18,13 +21,15 @@ public class WtrExamTests extends BaseExamTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"BinomialDist()",
-			"Normal(2, 0.5, 1, true)",
-			"BinomialDist(5, 0.2, 1, false && true)",
-	})
-	public void testRestrictedCommands(String expression) {
+	@CsvSource(value = {
+			"BinomialDist(); Illegal number of arguments",
+			"Normal(2, 0.5, 1, true); Illegal argument: Boolean",
+			"BinomialDist(5, 0.2, 1, false && true); Sorry, something went wrong",
+	}, delimiter = ';')
+	public void testRestrictedCommands(String expression, String expectedError) {
 		assertNull(evaluate(expression));
+		assertThat(errorAccumulator.getErrorsSinceReset(), containsString(expectedError));
+		errorAccumulator.resetError();
 	}
 
 	@ParameterizedTest
@@ -53,12 +58,21 @@ public class WtrExamTests extends BaseExamTests {
 			"{}",
 			"{0}",
 			"{0,1}",
-			"Sequence(n, n, 1, 10)",
-			"Sequence({1, 2, 3}, x, 1, 2)",
-			"{{0, 1}, {{1, 2}, 1}"
+			"{{0, 1}, {{1, 2}, 1}}",
+			"Sequence({1, 2, 3}, x, 1, 2)"
 	})
-	public void testRestrictedLists(String expression) {
+	public void testRestrictedListsInInput(String expression) {
 		assertNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Sequence(n, n, 1, 10)",
+	})
+	public void testRestrictedListsInOutput(String expression) {
+		assertNull(evaluate(expression));
+		assertThat(errorAccumulator.getErrorsSinceReset(), containsString("Unknown command"));
+		errorAccumulator.resetError();
 	}
 
 	@ParameterizedTest

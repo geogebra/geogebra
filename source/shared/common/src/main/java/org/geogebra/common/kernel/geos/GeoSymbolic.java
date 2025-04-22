@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -250,7 +251,7 @@ public class GeoSymbolic extends GeoElement
 			boolean rIsMatrix = eq.getRHS().getLeft() instanceof MyList
 					&& ((MyList) (eq.getRHS().getLeft())).isMatrix();
 			if (lIsDummy && rIsMatrix) {
-				ret = (ExpressionValue) (eq.getRHS().getLeft());
+				ret = eq.getRHS().getLeft();
 			}
 		}
 		return ret;
@@ -594,9 +595,9 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	/**
-	 * @return geo for drawing
+	 * @return geo for drawing, null if the output contains variables
 	 */
-	public GeoElementND getTwinGeo() {
+	public @CheckForNull GeoElementND getTwinGeo() {
 		if (isTwinUpToDate) {
 			return twinGeo;
 		}
@@ -1223,7 +1224,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	public GeoElementND unwrapSymbolic() {
+	public @CheckForNull GeoElementND unwrapSymbolic() {
 		return getTwinGeo();
 	}
 
@@ -1324,8 +1325,10 @@ public class GeoSymbolic extends GeoElement
 			return false;
 		}
 		ExpressionValue unwrapped = value.unwrap();
-		return unwrapped instanceof ListValue || (unwrapped instanceof GeoSymbolic
-				&& ((GeoSymbolic) unwrapped).unwrapSymbolic().isGeoList()) ;
+		if (unwrapped instanceof GeoSymbolic) {
+			unwrapped = ((GeoSymbolic) unwrapped).unwrapSymbolic();
+		}
+		return unwrapped instanceof ListValue;
 	}
 
 	private boolean isCasValueDefined() {

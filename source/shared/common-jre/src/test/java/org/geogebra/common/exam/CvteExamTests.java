@@ -54,6 +54,10 @@ public final class CvteExamTests extends BaseExamTests {
                 () -> assertNull(evaluate("{If(true, l1)}")),
                 () -> assertNull(evaluate("{IterationList(x^2,3,2)}")),
                 () -> assertNull(evaluate("{Sequence(k,k,1,3)}")));
+        assertEquals("Please check your input"
+                + "Sorry, something went wrong. Please check your input".repeat(3) ,
+                errorAccumulator.getErrorsSinceReset());
+        errorAccumulator.resetError();
     }
 
     @Test
@@ -232,6 +236,7 @@ public final class CvteExamTests extends BaseExamTests {
         assertNull(evaluate("Intersect(f, g, h, i, f)"));
         assertTrue(errorAccumulator.getErrorsSinceReset()
                 .contains("Illegal number of arguments: 5"));
+        errorAccumulator.resetError();
     }
 
     @Test

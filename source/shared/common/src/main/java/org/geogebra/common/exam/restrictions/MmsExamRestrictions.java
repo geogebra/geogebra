@@ -86,6 +86,7 @@ import static org.geogebra.common.plugin.Operation.EI;
 import static org.geogebra.common.plugin.Operation.EQUAL_BOOLEAN;
 import static org.geogebra.common.plugin.Operation.ERF;
 import static org.geogebra.common.plugin.Operation.FUNCTION;
+import static org.geogebra.common.plugin.Operation.FUNCTION_NVAR;
 import static org.geogebra.common.plugin.Operation.GAMMA;
 import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE;
 import static org.geogebra.common.plugin.Operation.GAMMA_INCOMPLETE_REGULARIZED;
@@ -138,6 +139,7 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.filter.AllowedExpressionsProvider;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
@@ -157,6 +159,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
@@ -356,7 +359,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		@Nonnull
 		@Override
 		public Effect getEffect(GeoElement geoElement) {
-			return (geoElement instanceof GeoSymbolic && ((GeoSymbolic) geoElement).getTwinGeo()
+			GeoElementND unwrappedTwin = geoElement.unwrapSymbolic();
+			return (unwrappedTwin != null && unwrappedTwin
 					.getParentAlgorithm() instanceof AlgoIntegralDefinite) ? HIDE : IGNORE;
 		}
 	}
@@ -579,8 +583,16 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		@Override
 		protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
 			Operation operation = expressionNode.getOperation();
-			if (Operation.isSimpleFunction(operation) || operation == FUNCTION) {
+			if (Operation.isSimpleFunction(operation)) {
 				return !isList(expressionNode.getLeft());
+			}
+			if (operation == FUNCTION) {
+				return !isList(expressionNode.getRight());
+			}
+			if (operation == FUNCTION_NVAR) {
+				return !(expressionNode.getRight() instanceof MyList)
+						|| ((MyList) expressionNode.getRight()).elements()
+							.noneMatch(MmsExamRestrictions::isList);
 			}
 			return true;
 		}

@@ -944,10 +944,7 @@ public class AlgebraProcessor {
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
 					handler, callback0, info);
 
-		} catch (ParseException e) {
-			ErrorHelper.handleException(e, app, handler);
 		} catch (Exception e) {
-			Log.debug(e);
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, cmd, loc, handler);
@@ -1014,7 +1011,6 @@ public class AlgebraProcessor {
 					app.storeUndoInfo();
 				}
 			} catch (Throwable ex) {
-				// ex.printStackTrace();
 				// do nothing
 			}
 			if (geoElements != null) {
@@ -2290,7 +2286,11 @@ public class AlgebraProcessor {
 				} catch (CircularDefinitionException e) {
 					throw e;
 				} catch (Exception | MyError e) {
-					Log.debug(e);
+					if (replaceable.getLabelSimple() != null) {
+						Log.debug(e);
+					} else {
+						Log.debug("Replacing unlabeled element");
+					}
 					throw new MyError(loc, Errors.ReplaceFailed);
 				}
 			}

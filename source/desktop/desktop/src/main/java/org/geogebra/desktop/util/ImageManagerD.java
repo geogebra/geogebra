@@ -588,13 +588,16 @@ public class ImageManagerD extends ImageManager {
 	}
 
 	/**
-	 *
-	 * @param panel graphics configuration
+	 * @param graphicsConfiguration graphics configuration
+	 * @return whether pixel ratio changed
 	 */
-	public boolean updatePixelRatio(GraphicsConfiguration panel) {
+	public boolean updatePixelRatio(GraphicsConfiguration graphicsConfiguration) {
+		if (graphicsConfiguration == null) {
+			return false; // don't log NPE in tests
+		}
 		try {
 			double oldRatio = pixelRatio;
-			pixelRatio = panel.getDefaultTransform().getScaleX();
+			pixelRatio = graphicsConfiguration.getDefaultTransform().getScaleX();
 			if (pixelRatio != oldRatio) {
 				iconTable.clear();
 				return true;

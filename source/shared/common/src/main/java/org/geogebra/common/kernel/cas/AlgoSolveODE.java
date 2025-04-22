@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.cas;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator;
@@ -187,9 +188,11 @@ public class AlgoSolveODE extends AlgoElement {
 			} else {
 				integrator.integrate(ode, 0.0, yy2, end.getDouble(), yy2);
 			}
+		} catch (MathIllegalArgumentException e) {
+			Log.debug(e.getMessage());
+			locus.setDefined(false);
 		} catch (RuntimeException e) {
-			// catches ArithmeticException, IllegalStateException and
-			// ArithmeticException
+			// catches IllegalStateException and ArithmeticException
 			Log.debug(e);
 			locus.setDefined(false);
 		} // now y contains final state at time t=16.0

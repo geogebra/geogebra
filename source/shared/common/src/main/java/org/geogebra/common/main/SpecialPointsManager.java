@@ -155,6 +155,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		boolean suppressLabelsActive = cons.isSuppressLabelsActive();
 		kernel.setSilentMode(true);
 		GeoElementND unwrapped = geo.unwrapSymbolic();
+		if (unwrapped == null) {
+			return;
+		}
 		try {
 			unwrapped.setCanBeRemovedAsInput(false);
 			doGetSpecialPoints(unwrapped, xAxis, yAxis, retList);

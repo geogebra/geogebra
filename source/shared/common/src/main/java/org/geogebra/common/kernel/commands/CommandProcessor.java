@@ -172,7 +172,7 @@ public abstract class CommandProcessor {
 	private void unwrapSymbolicIfNeeded(GeoElement[] result, EvalInfo info) {
 		if (info.getSymbolicMode() == SymbolicMode.NONE) {
 			for (int i = 0; i < result.length; i++) {
-				result[i] = result[i].unwrapSymbolic().toGeoElement();
+				result[i] = (GeoElement) result[i].unwrapSymbolic();
 			}
 		}
 	}

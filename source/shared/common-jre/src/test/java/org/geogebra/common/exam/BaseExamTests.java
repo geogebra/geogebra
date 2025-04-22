@@ -1,6 +1,9 @@
 package org.geogebra.common.exam;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
@@ -34,6 +37,7 @@ import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.test.commands.ErrorAccumulator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 public abstract class BaseExamTests implements ExamControllerDelegate {
@@ -124,9 +128,9 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         return evaluate(expression, expression);
     }
 
-    protected GeoElementND[] evaluate(String expression, String mockedCasOutput) {
+    protected GeoElementND[] evaluate(String expression, String... mockedCasOutput) {
         if (currentSubApp == SuiteSubApp.CAS && mockCASGiac != null) {
-            mockCASGiac.memorize(mockedCasOutput);
+            Arrays.stream(mockedCasOutput).forEach(mockCASGiac::memorize);
         }
         EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
         return algebraProcessor.processAlgebraCommandNoExceptionHandling(
@@ -146,6 +150,11 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
 
     protected GeoElement evaluateGeoElement(String expression, String mockedCasOutput) {
         return (GeoElement) evaluate(expression, mockedCasOutput)[0];
+    }
+
+    protected GeoElement evaluateGeoElementNumeric(String expression, String mockedCasOutput) {
+        return (GeoElement) evaluate(expression, mockedCasOutput,
+                mockedCasOutput, mockedCasOutput)[0];
     }
 
     @BeforeEach
@@ -189,5 +198,12 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         if (!subApp.equals(currentSubApp)) {
             switchApp(subApp);
         }
+    }
+
+    @AfterEach
+    public void checkErrors() {
+        assertEquals("", errorAccumulator.getErrorsSinceReset()
+                .replace("Sorry, something went wrong. Please check your input", "").trim());
+        errorAccumulator.resetError();
     }
 }

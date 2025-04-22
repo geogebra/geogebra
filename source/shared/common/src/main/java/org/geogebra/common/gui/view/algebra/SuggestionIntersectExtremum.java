@@ -163,7 +163,9 @@ public class SuggestionIntersectExtremum extends Suggestion {
 	 *         line or conic)
 	 */
 	private static boolean mayHaveSpecialPoints(GeoElement geo) {
-		return geo.isRealValuedFunction() && !geo.unwrapSymbolic().isNumberValue();
+		GeoElementND unwrappedSymbolic = geo.unwrapSymbolic();
+		return geo.isRealValuedFunction() && unwrappedSymbolic != null
+				&& !unwrappedSymbolic.isNumberValue();
 	}
 
 	@Override

@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1319,5 +1320,12 @@ public class MyList extends ValidExpression
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * @return elements of the list as a stream.
+	 */
+	public Stream<ExpressionValue> elements() {
+		return listElements.stream();
 	}
 }

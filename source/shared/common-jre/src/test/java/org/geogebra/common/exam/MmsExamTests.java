@@ -7,6 +7,9 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateIn
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.RemoveLabel;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
 import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.APPROXIMATION;
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -77,7 +80,7 @@ public class MmsExamTests extends BaseExamTests {
 	public void testRestrictedVisibility(String expression, String mockedCasOutput) {
 		evaluateGeoElement("g(x) = x", "x"); // For integrals
 		assertTrue(VisibilityRestriction.isVisibilityRestricted(
-				evaluateGeoElement(expression, mockedCasOutput), visibilityRestrictions));
+				evaluateGeoElementNumeric(expression, mockedCasOutput), visibilityRestrictions));
 	}
 
 	@ParameterizedTest
@@ -118,6 +121,8 @@ public class MmsExamTests extends BaseExamTests {
 	@Test
 	public void testRestrictedComplexNumberOutput() {
 		assertNull(evaluate("sqrt(-5)", "ί*√5"));
+		assertEquals("Please check your input", errorAccumulator.getErrorsSinceReset());
+		errorAccumulator.resetError();
 	}
 
 	@Test
@@ -139,7 +144,7 @@ public class MmsExamTests extends BaseExamTests {
 	@Test
 	public void testRestrictedChartOutput() {
 		String definition = "BarChart({10, 11, 12}, {5, 8, 12})";
-		GeoElement barchart = evaluateGeoElement(definition);
+		GeoElement barchart = evaluateGeoElementNumeric(definition, "?");
 		MmsValueConverter converter = new MmsValueConverter(new GeoElementValueConverter());
 		assertEquals(definition,
 				converter.toValueString(barchart, StringTemplate.defaultTemplate));
@@ -183,6 +188,8 @@ public class MmsExamTests extends BaseExamTests {
 	})
 	public void testRestrictedCommands(String expression) {
 		assertNull(evaluate(expression, "1"));
+		assertThat(errorAccumulator.getErrorsSinceReset(), containsString("Unknown command"));
+		errorAccumulator.resetError();
 	}
 
 	@ParameterizedTest
@@ -202,8 +209,9 @@ public class MmsExamTests extends BaseExamTests {
 			"tan({1, 2, 3})",
 	})
 	public void testRestrictedFunctions(String expression) {
-		evaluate("f(x) = x^2");
-		assertNull(evaluate(expression));
+		evaluate("f(x) = x^2", "x^2");
+		// mocked output: sin(1,2,3) should not be {1,2,3}, but only types matter here
+		assertNull(evaluate(expression, "{1,2,3}"));
 	}
 
 	@ParameterizedTest
@@ -220,23 +228,25 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"BinomialDist(1, 0.5)",
-			"BinomialDist(1, 0.5, false)",
-			"Invert(sin(x))",
-			"Length((1, 2))",
-			"Product(a^2, a, 0, 5)",
-			"SampleSD({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3})",
-			"SigmaXX({(1, 2), (3, 4)})",
-			"SigmaXY({(1, 2), (3, 4)})",
-			"stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3})",
-			"Sum(a^2, a, 0, 5)",
-			"Normal(2, 0.5, 1, true)",
-			"Normal(2, 0.5, x, true)",
-	})
-	public void testRestrictedArguments(String expression) {
+	@CsvSource(value = {
+			"BinomialDist(1, 0.5); Illegal number of arguments",
+			"BinomialDist(1, 0.5, false); Illegal argument: false",
+			"Invert(sin(x)); Illegal argument",
+			"Length((1, 2)); Illegal argument",
+			"Product(a^2, a, 0, 5); Illegal number of arguments",
+			"SampleSD({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}); Illegal number of arguments",
+			"SigmaXX({(1, 2), (3, 4)}); Illegal argument",
+			"SigmaXY({(1, 2), (3, 4)}); Illegal number of arguments",
+			"stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}); Illegal number of arguments",
+			"Sum(a^2, a, 0, 5); Illegal number of arguments",
+			"Normal(2, 0.5, 1, true); Illegal argument: true",
+			"Normal(2, 0.5, x, true); Illegal argument: true",
+	}, delimiter = ';')
+	public void testRestrictedArguments(String expression, String expectedError) {
 		// Specify a valid output, so that we know that the input has been filtered or not.
 		assertNull(evaluate(expression, "1"));
+		assertThat(errorAccumulator.getErrorsSinceReset(), containsString(expectedError));
+		errorAccumulator.resetError();
 	}
 
 	@ParameterizedTest
@@ -292,6 +302,7 @@ public class MmsExamTests extends BaseExamTests {
 		evaluate("a : x + 5 = 0");
 		evaluate("b : x - 5 = 0");
 		assertNull(evaluate(expression));
+		errorAccumulator.resetError();
 	}
 
 	@ParameterizedTest
