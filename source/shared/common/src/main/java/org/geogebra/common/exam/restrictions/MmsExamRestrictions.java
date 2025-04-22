@@ -129,6 +129,8 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
 import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -152,6 +154,7 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.statistics.Statistic;
@@ -182,7 +185,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				createVisibilityRestrictions(),
 				null,
 				null,
-				createStatisticsFilter());
+				createStatisticsFilter(),
+				createAlgebraOutputFormatFilters());
 	}
 
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
@@ -265,6 +269,64 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		Set<Statistic> filteredStatistics = Set.of(MEAN, SD, MIN, Q1, MEDIAN,
 				Q3, MAX, PMCC, COVARIANCE);
 		return statistic -> !filteredStatistics.contains(statistic);
+	}
+
+	private static Set<AlgebraOutputFormatFilter> createAlgebraOutputFormatFilters() {
+		return Set.of(new PolarCoordinateCartesianFormatFilter());
+	}
+
+	/**
+	 * Output format filter for polar coordinate points to restrict cartesian output format.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>
+	 *         (3; π / 3)
+	 *         <ul>
+	 *             <li>
+	 *                 Restricted (3 / 2, 3 * √3 / 2) output format
+	 *                 ({@link AlgebraOutputFormat#EXACT})
+	 *             </li>
+	 *             <li>
+	 *                 Allowed (3; 1.0471975511966 rad) output format
+	 *                 ({@link AlgebraOutputFormat#APPROXIMATION})
+	 *             </li>
+	 *         </ul>
+	 *     </li>
+	 *     <li>
+	 *         (1; 2)
+	 *         <ul>
+	 *             <li>
+	 *                 Restricted (cos(2), sin(2)) output format
+	 *                 ({@link AlgebraOutputFormat#EXACT})
+	 *             </li>
+	 *             <li>
+	 *                 Allowed (1; 2 rad) output format
+	 *                 ({@link AlgebraOutputFormat#APPROXIMATION})
+	 *             </li>
+	 *         </ul>
+	 *     </li>
+	 * </ul>
+	 */
+	private static final class PolarCoordinateCartesianFormatFilter
+			implements AlgebraOutputFormatFilter {
+		@SuppressWarnings("PMD.SimplifyBooleanReturns")
+		@Override
+		public boolean isAllowed(GeoElement geoElement, AlgebraOutputFormat outputFormat) {
+			GeoPoint geoPoint;
+			if (geoElement instanceof GeoPoint) {
+				geoPoint = (GeoPoint) geoElement;
+			} else if (geoElement instanceof GeoSymbolic
+					&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoPoint) {
+				geoPoint = (GeoPoint) ((GeoSymbolic) geoElement).getTwinGeo();
+			} else {
+				return true;
+			}
+			// Restrict the exact (calculated cartesian) output format for polar coordinates
+			if (geoPoint.isPolar() && outputFormat == AlgebraOutputFormat.EXACT) {
+				return false;
+			}
+			return true;
+		}
 	}
 
 	/**

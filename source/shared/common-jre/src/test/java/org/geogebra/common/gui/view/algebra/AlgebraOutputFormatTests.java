@@ -7,8 +7,10 @@ import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.FRACTION;
 import static org.geogebra.common.gui.view.algebra.AlgebraOutputOperator.APPROXIMATELY_EQUALS;
 import static org.geogebra.common.gui.view.algebra.AlgebraOutputOperator.EQUALS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
@@ -19,6 +21,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
@@ -35,6 +38,7 @@ public class AlgebraOutputFormatTests {
     private AppCommon app;
     private AlgebraProcessor algebraProcessor;
     private MockCASGiac mockCASGiac;
+    private AlgebraSettings algebraSettings;
 
     @ParameterizedTest
     @CsvSource({
@@ -49,8 +53,8 @@ public class AlgebraOutputFormatTests {
         setupApp(SuiteSubApp.CAS);
         assertEquals(
                 List.of(),
-                AlgebraOutputFormat
-                        .getPossibleFormats(evaluate(expression, mockedCasOutput), false));
+                AlgebraOutputFormat.getPossibleFormats(
+                        evaluate(expression, mockedCasOutput), false, Set.of()));
     }
 
     @ParameterizedTest
@@ -74,7 +78,7 @@ public class AlgebraOutputFormatTests {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(),
-                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false));
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false, Set.of()));
     }
 
     @ParameterizedTest
@@ -90,8 +94,8 @@ public class AlgebraOutputFormatTests {
         setupApp(SuiteSubApp.CAS);
         assertEquals(
                 List.of(FRACTION, APPROXIMATION),
-                AlgebraOutputFormat
-                        .getPossibleFormats(evaluate(expression, mockedCasOutput), false));
+                AlgebraOutputFormat.getPossibleFormats(
+                        evaluate(expression, mockedCasOutput), false, Set.of()));
     }
 
     @ParameterizedTest
@@ -106,7 +110,7 @@ public class AlgebraOutputFormatTests {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(FRACTION, APPROXIMATION),
-                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false));
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false, Set.of()));
     }
 
     @ParameterizedTest
@@ -120,7 +124,7 @@ public class AlgebraOutputFormatTests {
         setupApp(SuiteSubApp.CAS);
         assertEquals(
                 List.of(EXACT, APPROXIMATION),
-                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false));
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false, Set.of()));
     }
 
     @ParameterizedTest
@@ -133,7 +137,7 @@ public class AlgebraOutputFormatTests {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(EXACT, ENGINEERING),
-                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), true));
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), true, Set.of()));
     }
 
     @ParameterizedTest
@@ -146,7 +150,7 @@ public class AlgebraOutputFormatTests {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(FRACTION, APPROXIMATION, ENGINEERING),
-                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), true));
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), true, Set.of()));
     }
 
     @ParameterizedTest
@@ -159,7 +163,7 @@ public class AlgebraOutputFormatTests {
         setupApp(SuiteSubApp.GRAPHING);
         assertEquals(
                 List.of(EXACT, ENGINEERING),
-                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), true));
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), true, Set.of()));
     }
 
     @ParameterizedTest
@@ -174,8 +178,9 @@ public class AlgebraOutputFormatTests {
                 List.of(EXACT, APPROXIMATION),
                 AlgebraOutputFormat.getPossibleFormats(evaluate(expression,
                         // Calculated internally multiple times which requires multiple mock values
-                        mockedCasOutput1, mockedCasOutput1, mockedCasOutput2, mockedCasOutput2),
-                        false));
+                        mockedCasOutput1, mockedCasOutput1, mockedCasOutput1, mockedCasOutput1,
+                        mockedCasOutput2, mockedCasOutput2, mockedCasOutput2, mockedCasOutput2
+                ), false, Set.of()));
     }
 
     @Test
@@ -184,15 +189,15 @@ public class AlgebraOutputFormatTests {
         GeoElement geoElement = evaluate("sqrt(2)");
         assertEquals(
                 List.of(EXACT, APPROXIMATION),
-                AlgebraOutputFormat.getPossibleFormats(geoElement, false));
+                AlgebraOutputFormat.getPossibleFormats(geoElement, false, Set.of()));
 
-        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, false));
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
     }
 
     @Test
@@ -201,15 +206,15 @@ public class AlgebraOutputFormatTests {
         GeoElement geoElement = evaluate("1 / 2");
         assertEquals(
                 List.of(FRACTION, APPROXIMATION),
-                AlgebraOutputFormat.getPossibleFormats(geoElement, false));
+                AlgebraOutputFormat.getPossibleFormats(geoElement, false, Set.of()));
 
-        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false));
+        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
     }
 
     @Test
@@ -218,15 +223,15 @@ public class AlgebraOutputFormatTests {
         GeoElement geoElement = evaluate("1 / 2");
         assertEquals(
                 List.of(FRACTION, APPROXIMATION),
-                AlgebraOutputFormat.getPossibleFormats(geoElement, false));
+                AlgebraOutputFormat.getPossibleFormats(geoElement, false, Set.of()));
 
-        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, false);
-        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false));
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, false, Set.of());
+        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, false, Set.of()));
     }
 
     @Test
@@ -235,15 +240,15 @@ public class AlgebraOutputFormatTests {
         GeoElement geoElement = evaluate("1.2345678");
         assertEquals(
                 List.of(EXACT, ENGINEERING),
-                AlgebraOutputFormat.getPossibleFormats(geoElement, true));
+                AlgebraOutputFormat.getPossibleFormats(geoElement, true, Set.of()));
 
-        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, true);
-        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, true));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, true);
-        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, true);
-        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, true));
+        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
     }
 
     @Test
@@ -252,19 +257,19 @@ public class AlgebraOutputFormatTests {
         GeoElement geoElement = evaluate("1.234");
         assertEquals(
                 List.of(FRACTION, APPROXIMATION, ENGINEERING),
-                AlgebraOutputFormat.getPossibleFormats(geoElement, true));
+                AlgebraOutputFormat.getPossibleFormats(geoElement, true, Set.of()));
 
-        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, true));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, true);
-        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, true);
-        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, true));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, true);
-        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, true));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, true);
-        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true));
-        AlgebraOutputFormat.switchToNextFormat(geoElement, true);
-        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, true));
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(FRACTION, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
     }
 
     @ParameterizedTest
@@ -289,10 +294,158 @@ public class AlgebraOutputFormatTests {
                 .getOutputOperator(evaluate(expression)));
     }
 
+    @Test
+    public void testPossibleFormatsWithFilter() {
+        setupApp(SuiteSubApp.GRAPHING);
+        GeoElement geoElement = evaluate("1.234");
+
+        AlgebraOutputFormatFilter approximationFormatFilter =
+                (element, format) -> format != APPROXIMATION;
+
+        assertEquals(
+                List.of(FRACTION, APPROXIMATION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(geoElement, true, Set.of()));
+        assertEquals(
+                List.of(FRACTION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(
+                        geoElement, true, Set.of(approximationFormatFilter)));
+    }
+
+    @Test
+    public void testPossibleFormatsWithMultipleFilters() {
+        setupApp(SuiteSubApp.GRAPHING);
+        GeoElement geoElement = evaluate("1.234");
+
+        AlgebraOutputFormatFilter approximationFormatFilter =
+                (element, format) -> format != APPROXIMATION;
+        AlgebraOutputFormatFilter fractionFormatFilter =
+                (element, format) -> format != FRACTION;
+
+        assertEquals(
+                List.of(FRACTION, APPROXIMATION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(geoElement, true, Set.of()));
+        assertEquals(
+                List.of(ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(
+                        geoElement, true, Set.of(approximationFormatFilter, fractionFormatFilter)));
+    }
+
+    @Test
+    public void testSwitchFromDisabledFormatWhileInEnabledFormat() {
+        setupApp(SuiteSubApp.GRAPHING);
+        GeoElement geoElement = evaluate("1.234");
+        AlgebraOutputFormatFilter approximationFormatFilter =
+                (element, format) -> format != APPROXIMATION;
+
+        assertEquals(
+                List.of(FRACTION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(
+                        geoElement, true, Set.of(approximationFormatFilter)));
+        assertEquals(FRACTION, AlgebraOutputFormat.getActiveFormat(geoElement));
+        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(
+                geoElement, true, Set.of(approximationFormatFilter)));
+
+        AlgebraOutputFormat.switchFromDisabledFormat(
+                geoElement, true, Set.of(approximationFormatFilter));
+
+        assertEquals(FRACTION, AlgebraOutputFormat.getActiveFormat(geoElement));
+        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(
+                geoElement, true, Set.of(approximationFormatFilter)));
+    }
+
+    @Test
+    public void testSwitchFromDisabledFormatWhileInDisabledFormat1() {
+        setupApp(SuiteSubApp.GRAPHING);
+        GeoElement geoElement = evaluate("1.234");
+        AlgebraOutputFormat.switchToNextFormat(geoElement, true, Set.of());
+        assertEquals(
+                List.of(FRACTION, APPROXIMATION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(geoElement, true, Set.of()));
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getActiveFormat(geoElement));
+
+        AlgebraOutputFormatFilter approximationFormatFilter =
+                (element, format) -> format != APPROXIMATION;
+
+        AlgebraOutputFormat.switchFromDisabledFormat(
+                geoElement, true, Set.of(approximationFormatFilter));
+        assertEquals(
+                List.of(FRACTION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(
+                        geoElement, true, Set.of(approximationFormatFilter)));
+        assertEquals(FRACTION, AlgebraOutputFormat.getActiveFormat(geoElement));
+    }
+
+    @Test
+    public void testSwitchFromDisabledFormatWhileInDisabledFormat2() {
+        setupApp(SuiteSubApp.GRAPHING);
+        GeoElement geoElement = evaluate("1.234");
+        assertEquals(
+                List.of(FRACTION, APPROXIMATION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(geoElement, true, Set.of()));
+
+        AlgebraOutputFormatFilter fractionFormatFilter = (element, format) -> format != FRACTION;
+
+        assertEquals(
+                List.of(APPROXIMATION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(
+                        geoElement, true, Set.of(fractionFormatFilter)));
+        assertEquals(FRACTION, AlgebraOutputFormat.getActiveFormat(geoElement));
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(
+                geoElement, true, Set.of(fractionFormatFilter)));
+
+        AlgebraOutputFormat.switchFromDisabledFormat(
+                geoElement, true, Set.of(fractionFormatFilter));
+
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getActiveFormat(geoElement));
+        assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(
+                geoElement, true, Set.of(fractionFormatFilter)));
+    }
+
+    @Test
+    public void testSwitchFromDisabledFormatByDefault() {
+        setupApp(SuiteSubApp.GRAPHING);
+        algebraSettings.setEngineeringNotationEnabled(true);
+        GeoElement geoElement1 = evaluate("1.234");
+
+        assertEquals(
+                List.of(FRACTION, APPROXIMATION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(geoElement1, true,
+                        algebraSettings.getAlgebraOutputFormatFilters()));
+        assertEquals(FRACTION, AlgebraOutputFormat.getActiveFormat(geoElement1));
+
+        AlgebraOutputFormatFilter fractionFormatFilter = (element, format) -> format != FRACTION;
+        algebraSettings.addAlgebraOutputFormatFilter(fractionFormatFilter);
+
+        GeoElement geoElement2 = evaluate("1.234");
+        assertEquals(
+                List.of(APPROXIMATION, ENGINEERING),
+                AlgebraOutputFormat.getPossibleFormats(geoElement2, true,
+                        algebraSettings.getAlgebraOutputFormatFilters()));
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getActiveFormat(geoElement2));
+    }
+
+    @Test
+    public void testNextFormatWhileInOnlyPossibleFormat() {
+        setupApp(SuiteSubApp.GRAPHING);
+        GeoElement geoElement = evaluate("1.234");
+        AlgebraOutputFormatFilter fractionFormatFilter = (element, format) -> format != FRACTION;
+        AlgebraOutputFormat.switchFromDisabledFormat(
+                geoElement, false, Set.of(fractionFormatFilter));
+
+        assertEquals(
+                List.of(APPROXIMATION),
+                AlgebraOutputFormat.getPossibleFormats(
+                        geoElement, false, Set.of(fractionFormatFilter)));
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getActiveFormat(geoElement));
+        assertNull(AlgebraOutputFormat.getNextFormat(
+                geoElement, false, Set.of(fractionFormatFilter)));
+    }
+
     private void setupApp(SuiteSubApp subApp) {
         app = AppCommonFactory.create(createConfig(subApp));
         mockCASGiac = subApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
         algebraProcessor = app.getKernel().getAlgebraProcessor();
+        algebraSettings = app.getSettings().getAlgebra();
     }
 
     private AppConfig createConfig(SuiteSubApp subApp) {

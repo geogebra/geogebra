@@ -211,6 +211,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				createVisibilityRestrictions(),
 				createEquationBehaviour(),
 				null,
+				null,
 				null);
 	}
 

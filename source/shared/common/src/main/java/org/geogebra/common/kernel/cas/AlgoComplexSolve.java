@@ -26,11 +26,9 @@ public class AlgoComplexSolve extends AlgoSolve {
 
 	@Override
 	protected void convertOutputToSymbolic(GeoList raw) {
-		List<GeoSymbolic> geoSymbolics = raw.elements().map(geo -> {
-			GeoSymbolic symbolic = new GeoSymbolic(cons);
-			symbolic.setDefinition(geo.getDefinition());
-			return symbolic;
-		}).collect(Collectors.toList());
+		List<GeoSymbolic> geoSymbolics = raw.elements()
+				.map(geo -> new GeoSymbolic(cons, geo.getDefinition()))
+				.collect(Collectors.toList());
 		raw.clear();
 		geoSymbolics.forEach(raw::add);
 	}

@@ -9,10 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Set;
+
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -162,8 +165,11 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 		PreviewFeature.enableFeaturePreviews = true;
 		examController.startExam(ExamType.REALSCHULE, null);
 		GeoElement geoElement = evaluateGeoElement("1.234");
-		assertTrue(settings.getAlgebra().isEngineeringNotationEnabled());
-		assertTrue(AlgebraOutputFormat.getPossibleFormats(geoElement, true).contains(ENGINEERING));
+		boolean enableEngineeringNotation = settings.getAlgebra().isEngineeringNotationEnabled();
+		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters =
+				settings.getAlgebra().getAlgebraOutputFormatFilters();
+		assertTrue(AlgebraOutputFormat.getPossibleFormats(geoElement,
+				enableEngineeringNotation, algebraOutputFormatFilters).contains(ENGINEERING));
 		PreviewFeature.enableFeaturePreviews = false;
 	}
 }

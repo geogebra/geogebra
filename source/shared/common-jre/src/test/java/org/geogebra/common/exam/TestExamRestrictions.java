@@ -55,6 +55,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				createVisibilityRestrictions(),
 				null,
 				createDisabledAlgorithms(),
+				null,
 				null);
 	}
 

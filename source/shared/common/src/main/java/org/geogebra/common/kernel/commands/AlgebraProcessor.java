@@ -24,6 +24,7 @@ import java.util.TreeSet;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -1175,19 +1176,27 @@ public class AlgebraProcessor {
 			boolean containsRestrictedOutputExpressions = Arrays.stream(geos)
 					.map(ExpressionValue::wrap)
 					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
-			if (containsRestrictedInputExpression || containsRestrictedOutputExpressions) {
-				// Remove filtered geos
+			// If the expression does not contain any restriction,
+			if (!containsRestrictedInputExpression && !containsRestrictedOutputExpressions) {
+				// apply the element setups
+				if (!geoElementSetups.isEmpty()) {
+					Arrays.stream(geos).forEach(geoElement -> {
+						geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
+						geoElement.updateRepaint();
+					});
+				}
+				// and switch to an enabled algebra output format,
+				Arrays.stream(geos).map(GeoElementND::toGeoElement).forEach(geoElement ->
+						AlgebraOutputFormat.switchFromDisabledFormat(geoElement,
+								app.getSettings().getAlgebra().isEngineeringNotationEnabled(),
+								app.getSettings().getAlgebra().getAlgebraOutputFormatFilters()));
+			} else {
+				// otherwise remove the elements from the construction.
 				Arrays.stream(geos).forEach(GeoElementND::remove);
 				filteredGeos = null;
 				MyError myError = new MyError(loc, Errors.InvalidInput);
 				ErrorHelper.handleError(myError, null, loc, handler);
 				removeSliders(sliders);
-			}
-			if (!geoElementSetups.isEmpty()) {
-				Arrays.stream(geos).forEach(geoElement -> {
-					geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
-					geoElement.updateRepaint();
-				});
 			}
 		}
 		if (callback0 != null) {

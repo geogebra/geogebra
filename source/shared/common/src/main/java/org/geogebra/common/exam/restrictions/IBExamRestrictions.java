@@ -390,6 +390,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				createDisabledAlgorithms(),
+				null,
 				null);
 	}
 

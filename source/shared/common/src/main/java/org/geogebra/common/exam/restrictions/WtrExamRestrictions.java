@@ -106,6 +106,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
+				null,
 				null);
 	}
 

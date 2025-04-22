@@ -24,6 +24,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Set;
+
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
@@ -1343,7 +1345,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	private AlgebraOutputFormat getNextFormat(GeoSymbolic symbolic) {
-		return AlgebraOutputFormat.getNextFormat(symbolic, false);
+		return AlgebraOutputFormat.getNextFormat(symbolic, false, Set.of());
 	}
 
 	@Test
@@ -1356,7 +1358,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertTrue("high precision numbers should be fractions",
 				AlgebraItem.evaluatesToFraction(fourDigits));
 		assertEquals(AlgebraOutputFormat.APPROXIMATION, getNextFormat(fourDigits));
-		AlgebraOutputFormat.switchToNextFormat(fourDigits, false);
+		AlgebraOutputFormat.switchToNextFormat(fourDigits, false, Set.of());
 		assertEquals(AlgebraOutputFormat.FRACTION, getNextFormat(fourDigits));
 	}
 
@@ -1367,7 +1369,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertFalse("command outputs should not be considered fractions",
 				AlgebraItem.evaluatesToFraction(normal));
 		assertEquals(AlgebraOutputFormat.APPROXIMATION, getNextFormat(normal));
-		AlgebraOutputFormat.switchToNextFormat(normal, false);
+		AlgebraOutputFormat.switchToNextFormat(normal, false, Set.of());
 		assertEquals(AlgebraOutputFormat.EXACT, getNextFormat(normal));
 	}
 

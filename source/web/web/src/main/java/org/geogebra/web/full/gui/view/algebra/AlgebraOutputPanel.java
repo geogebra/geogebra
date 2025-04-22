@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import java.util.Set;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputOperator;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -82,15 +85,17 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 * @return The multi-state toggle button (symbolic, engineering mode)
 	 */
 	public static AlgebraOutputFormatButton createOutputFormatButton(
-			final GeoElement geo, boolean engineeringNotation) {
+			GeoElement geo, boolean engineeringNotation,
+			Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
 		final AlgebraOutputFormatButton button = new AlgebraOutputFormatButton();
 
 		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				AlgebraOutputFormat nextFormat = AlgebraOutputFormat.getNextFormat(geo,
-						engineeringNotation);
-				AlgebraOutputFormat.switchToNextFormat(geo, engineeringNotation);
+				AlgebraOutputFormat nextFormat = AlgebraOutputFormat.getNextFormat(
+						geo, engineeringNotation, algebraOutputFormatFilters);
+				AlgebraOutputFormat.switchToNextFormat(
+						geo, engineeringNotation, algebraOutputFormatFilters);
 				button.select(nextFormat);
 			}
 		});
@@ -104,8 +109,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 * @param geo GeoElement
 	 */
 	public static void updateOutputPanelButton(AlgebraOutputFormatButton button, FlowPanel parent,
-			GeoElement geo, boolean engineering) {
-		button.select(AlgebraOutputFormat.getNextFormat(geo, engineering));
+			GeoElement geo, boolean engineering,
+			Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
+		button.select(AlgebraOutputFormat.getNextFormat(
+				geo, engineering, algebraOutputFormatFilters));
 		parent.add(button);
 	}
 

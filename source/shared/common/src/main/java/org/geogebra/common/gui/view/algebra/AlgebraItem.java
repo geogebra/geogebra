@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -418,9 +420,11 @@ public class AlgebraItem {
 	 *            the element
 	 * @return true if both rows should be shown.
 	 */
-	public static boolean shouldShowBothRows(GeoElement element, AlgebraSettings algebraSettings) {
-		boolean hasDifferentOutputFormats = !AlgebraOutputFormat.getPossibleFormats(
-				element, algebraSettings.isEngineeringNotationEnabled()).isEmpty();
+	public static boolean shouldShowBothRows(@Nonnull GeoElement element,
+			@Nonnull AlgebraSettings algebraSettings) {
+		boolean hasDifferentOutputFormats = !AlgebraOutputFormat.getPossibleFormats(element,
+				algebraSettings.isEngineeringNotationEnabled(),
+				algebraSettings.getAlgebraOutputFormatFilters()).isEmpty();
 		boolean hasOutputRow = hasDifferentOutputFormats || hasDefinitionAndValueMode(element);
 		return hasOutputRow && shouldShowOutputRow(element, algebraSettings.getStyle());
 	}

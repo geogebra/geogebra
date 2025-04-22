@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.cas;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -35,14 +37,13 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 	 */
 	public AlgoDependentSymbolic(
 			Construction c,
-			ExpressionNode def,
+			@Nonnull ExpressionNode def,
 			ArrayList<GeoElement> vars,
 			ArbitraryConstantRegistry constant,
 			boolean addToConstructionList) {
 		super(c, addToConstructionList);
-		this.symbolic = new GeoSymbolic(cons);
+		this.symbolic = new GeoSymbolic(cons, def);
 		symbolic.setArbitraryConstant(constant);
-		symbolic.setDefinition(def);
 		this.vars = vars;
 		setInputOutput();
 		compute();

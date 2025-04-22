@@ -17,6 +17,7 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
 import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.EquationBehaviour;
@@ -67,6 +68,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final @Nonnull Set<CommandArgumentFilter> commandArgumentFilters;
 	private final @Nonnull Set<ContextMenuItemFilter> contextMenuItemFilters;
 	private final @Nonnull Set<DisabledAlgorithms> disabledAlgorithms;
+	private final @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters;
 	private final @CheckForNull StatisticsFilter statisticsFilter;
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
@@ -152,7 +154,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<VisibilityRestriction> visibilityRestrictions,
 			@Nullable EquationBehaviour equationBehaviour,
 			@Nullable Set<DisabledAlgorithms> disabledAlgorithms,
-			@Nullable StatisticsFilter statisticsFilter) {
+			@Nullable StatisticsFilter statisticsFilter,
+			@Nullable Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -180,6 +183,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.equationBehaviour = equationBehaviour;
 		this.disabledAlgorithms = disabledAlgorithms != null ? disabledAlgorithms : Set.of();
 		this.statisticsFilter = statisticsFilter;
+		this.algebraOutputFormatFilters =
+				algebraOutputFormatFilters != null ? algebraOutputFormatFilters : Set.of();
+
 		assert this.commandArgumentFilters.isEmpty()
 				|| this.syntaxFilter != null : "If commandArgumentFilter is specified, syntax"
 				+ "filter must be present to filter syntaxes.";
@@ -277,12 +283,16 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (contextMenuFactory != null) {
 			contextMenuItemFilters.forEach(contextMenuFactory::addFilter);
 		}
-		if (dependencies.settings != null && dependencies.construction != null) {
+		if (dependencies.settings != null) {
+			if (dependencies.construction != null) {
+				this.restrictedDefaults = dependencies.construction.getConstructionDefaults();
+				saveSettings(dependencies.settings, restrictedDefaults);
+				applySettingsRestrictions(dependencies.settings, restrictedDefaults);
+				dependencies.construction.initUndoInfo();
+			}
 			this.restrictedSettings = dependencies.settings;
-			this.restrictedDefaults = dependencies.construction.getConstructionDefaults();
-			saveSettings(dependencies.settings, restrictedDefaults);
-			applySettingsRestrictions(dependencies.settings, restrictedDefaults);
-			dependencies.construction.initUndoInfo();
+			this.algebraOutputFormatFilters.forEach(
+					dependencies.settings.getAlgebra()::addAlgebraOutputFormatFilter);
 		}
 	}
 
@@ -347,9 +357,13 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (contextMenuFactory != null) {
 			contextMenuItemFilters.forEach(contextMenuFactory::removeFilter);
 		}
-		if (dependencies.settings != null && dependencies.construction != null) {
-			removeSettingsRestrictions(dependencies.settings,
-					dependencies.construction.getConstructionDefaults());
+		if (dependencies.settings != null) {
+			if (dependencies.construction != null) {
+				removeSettingsRestrictions(dependencies.settings,
+						dependencies.construction.getConstructionDefaults());
+			}
+			algebraOutputFormatFilters.forEach(
+					dependencies.settings.getAlgebra()::removeAlgebraOutputFormatFilter);
 		}
 	}
 

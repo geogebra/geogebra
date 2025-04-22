@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -90,9 +91,11 @@ public class GeoSymbolic extends GeoElement
 
 	/**
 	 * @param c construction
+	 * @param definition definition
 	 */
-	public GeoSymbolic(Construction c) {
+	public GeoSymbolic(Construction c, @Nonnull ExpressionNode definition) {
 		super(c);
+		setDefinition(definition);
 		symbolicMode = true;
 		fixed = true;
 	}
@@ -127,8 +130,8 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public GeoElement copy() {
-		GeoSymbolic copy = new GeoSymbolic(cons);
-		copy.set(this);
+		GeoSymbolic copy = new GeoSymbolic(cons, getDefinition().deepCopy(kernel));
+		copy.setFromSymbolic(this);
 		return copy;
 	}
 
@@ -137,15 +140,18 @@ public class GeoSymbolic extends GeoElement
 		reuseDefinition(geo);
 		fVars.clear();
 		if (geo instanceof GeoSymbolic) {
-			GeoSymbolic symbolic = (GeoSymbolic) geo;
-			fVars.addAll(symbolic.fVars);
-			value = symbolic.getValue();
-			casOutputString = symbolic.casOutputString;
-			numericValue = symbolic.numericValue;
-			numericPrintFigures = symbolic.numericPrintFigures;
-			numericPrintDecimals = symbolic.numericPrintDecimals;
-			isTwinUpToDate = false;
+			setFromSymbolic((GeoSymbolic) geo);
 		}
+	}
+
+	private void setFromSymbolic(GeoSymbolic symbolic) {
+		fVars.addAll(symbolic.fVars);
+		value = symbolic.getValue();
+		casOutputString = symbolic.casOutputString;
+		numericValue = symbolic.numericValue;
+		numericPrintFigures = symbolic.numericPrintFigures;
+		numericPrintDecimals = symbolic.numericPrintDecimals;
+		isTwinUpToDate = false;
 	}
 
 	@Override

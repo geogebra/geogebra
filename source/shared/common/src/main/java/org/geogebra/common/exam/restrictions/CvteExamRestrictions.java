@@ -106,6 +106,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				createVisibilityRestrictions(),
 				createEquationBehaviour(),
 				null,
+				null,
 				null);
 	}
 

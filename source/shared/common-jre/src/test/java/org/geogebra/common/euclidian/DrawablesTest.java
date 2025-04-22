@@ -21,6 +21,7 @@ import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAudio;
@@ -92,7 +93,8 @@ public class DrawablesTest extends BaseUnitTest {
 		GeoFormula formula = new GeoFormula(construction, null);
 		formula.setContent("\\frac{a}{b}");
 		formula.setLabel("formula");
-		GeoSymbolic symbolic = new GeoSymbolic(construction);
+		GeoSymbolic symbolic = new GeoSymbolic(construction,
+				new ExpressionNode(getKernel(), Double.NaN));
 		symbolic.setLabel("symbolic");
 		GeoInlineText text = new GeoInlineText(construction, new GPoint2D());
 		text.setLabel("inlinetext");

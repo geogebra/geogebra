@@ -6,6 +6,7 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Delete;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateInput;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.RemoveLabel;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
+import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.APPROXIMATION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,10 +21,12 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.exam.restrictions.mms.MmsValueConverter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -289,5 +292,25 @@ public class MmsExamTests extends BaseExamTests {
 		evaluate("a : x + 5 = 0");
 		evaluate("b : x - 5 = 0");
 		assertNull(evaluate(expression));
+	}
+
+	@ParameterizedTest
+	@CsvSource({
+			"'(3; π / 3)', 	'(3 / 2, 3 * √3 / 2)'",
+			"'(1; 2)', 		'(cos(2), sin(2))'",
+	})
+	public void testRestrictedCartesianOutputFormatForPolarCoordinates(
+			String expression, String mockedCasOutput) {
+		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
+		GeoElement geoElement = evaluateGeoElement(expression, mockedCasOutput);
+		assertEquals(
+				List.of(APPROXIMATION),
+				AlgebraOutputFormat.getPossibleFormats(geoElement,
+						algebraSettings.isEngineeringNotationEnabled(),
+						algebraSettings.getAlgebraOutputFormatFilters()));
+		assertEquals(APPROXIMATION, AlgebraOutputFormat.getActiveFormat(geoElement));
+		assertNull(AlgebraOutputFormat.getNextFormat(geoElement,
+				algebraSettings.isEngineeringNotationEnabled(),
+				algebraSettings.getAlgebraOutputFormatFilters()));
 	}
 }

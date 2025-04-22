@@ -273,12 +273,12 @@ public final class CvteExamTests extends BaseExamTests {
     @Test
     public void testSurdsAreDisabled() {
         GeoElement element = evaluateGeoElement("sqrt(8)");
-        assertNull(AlgebraOutputFormat.getNextFormat(element, false));
+        assertNull(AlgebraOutputFormat.getNextFormat(element, false, Set.of()));
     }
 
     @Test
     public void testRationalizationIsDisabled() {
         GeoElement element = evaluateGeoElement("1/sqrt(8)");
-        assertNull(AlgebraOutputFormat.getNextFormat(element, false));
+        assertNull(AlgebraOutputFormat.getNextFormat(element, false, Set.of()));
     }
 }

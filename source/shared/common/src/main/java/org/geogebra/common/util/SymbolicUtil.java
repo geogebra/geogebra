@@ -100,8 +100,8 @@ public class SymbolicUtil {
 	}
 
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
-		GeoSymbolic opposite = new GeoSymbolic(symbolic.getConstruction());
-		opposite.setDefinition(symbolic.getDefinition().deepCopy(symbolic.getKernel()));
+		GeoSymbolic opposite = new GeoSymbolic(symbolic.getConstruction(),
+				symbolic.getDefinition().deepCopy(symbolic.getKernel()));
 		toggleNumericSolve(opposite);
 		return opposite;
 	}

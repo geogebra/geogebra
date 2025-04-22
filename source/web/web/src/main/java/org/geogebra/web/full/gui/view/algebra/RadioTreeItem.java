@@ -12,12 +12,15 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
+import java.util.Set;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -423,7 +426,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			addControls();
 			createOutputButtonIfNeeded();
 			AlgebraOutputPanel.updateOutputPanelButton(symbolicButton, controls, geo,
-					isEngineeringNotationEnabled());
+					isEngineeringNotationEnabled(), getAlgebraOutputFormatFilters());
 		} else if (controls != null) {
 			AlgebraOutputPanel.removeSymbolicButton(controls);
 		}
@@ -432,18 +435,23 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private boolean shouldShowOutputButton(GeoElement geo) {
 		return AlgebraOutputFormat.getNextFormat(geo,
-				isEngineeringNotationEnabled()) != null;
+				isEngineeringNotationEnabled(), getAlgebraOutputFormatFilters()) != null;
 	}
 
 	private boolean isEngineeringNotationEnabled() {
 		return app.getSettings().getAlgebra().isEngineeringNotationEnabled();
 	}
 
+	private Set<AlgebraOutputFormatFilter> getAlgebraOutputFormatFilters() {
+		return app.getSettings().getAlgebra().getAlgebraOutputFormatFilters();
+	}
+
 	private void createOutputButtonIfNeeded() {
 		symbolicButton = AlgebraOutputPanel.getSymbolicButtonIfExists(controls);
 		if (symbolicButton == null) {
 			symbolicButton = AlgebraOutputPanel.createOutputFormatButton(geo,
-					isEngineeringNotationEnabled());
+					isEngineeringNotationEnabled(),
+					app.getSettings().getAlgebra().getAlgebraOutputFormatFilters());
 		}
 		Dom.toggleClass(symbolicButton, "hasOutputRow", AlgebraItem.hasDefinitionAndValueMode(geo));
 	}

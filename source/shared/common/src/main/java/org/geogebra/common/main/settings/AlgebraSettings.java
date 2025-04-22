@@ -1,9 +1,14 @@
 package org.geogebra.common.main.settings;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -18,6 +23,7 @@ public class AlgebraSettings extends AbstractSettings {
 	private boolean showAuxiliaryObjects = false;
 	private boolean modeChanged = false;
 	private boolean engineeringNotationEnabled = false;
+	private final Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters = new HashSet<>();
 
 	private List<Integer> collapsedNodes = null;
 
@@ -106,6 +112,35 @@ public class AlgebraSettings extends AbstractSettings {
 	 */
 	public boolean isEngineeringNotationEnabled() {
 		return engineeringNotationEnabled;
+	}
+
+	/**
+	 * Retrieves the set of {@link AlgebraOutputFormatFilter}s.
+	 * @return the set of filters
+	 */
+	@Nonnull
+	public Set<AlgebraOutputFormatFilter> getAlgebraOutputFormatFilters() {
+		return algebraOutputFormatFilters;
+	}
+
+	/**
+	 * Adds the {@link AlgebraOutputFormatFilter} to the set of filters (used to filter
+	 * specific formats from the possible output formats of an element in the algebra view).
+	 * @param algebraOutputFormatFilter the filter to be added
+	 */
+	public void addAlgebraOutputFormatFilter(
+			@Nonnull AlgebraOutputFormatFilter algebraOutputFormatFilter) {
+		algebraOutputFormatFilters.add(algebraOutputFormatFilter);
+	}
+
+	/**
+	 * Removes the previously added {@link AlgebraOutputFormatFilter},
+	 * undoing the effect of {@link AlgebraSettings#addAlgebraOutputFormatFilter}.
+	 * @param algebraOutputFormatFilter the filter to be removed
+	 */
+	public void removeAlgebraOutputFormatFilter(
+			@Nonnull AlgebraOutputFormatFilter algebraOutputFormatFilter) {
+		algebraOutputFormatFilters.remove(algebraOutputFormatFilter);
 	}
 
 	/**

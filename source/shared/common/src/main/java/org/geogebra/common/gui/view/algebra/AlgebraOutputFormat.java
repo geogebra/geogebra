@@ -5,6 +5,8 @@ import static org.geogebra.common.gui.view.algebra.AlgebraOutputOperator.EQUALS;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,15 +28,17 @@ public enum AlgebraOutputFormat {
     FRACTION, EXACT, APPROXIMATION, ENGINEERING;
 
     /**
-     * Retrieves all the possible output formats for the given {code GeoElement}.
+     * Retrieves all the possible output formats for the given {@code GeoElement}.
      * @param geoElement the {@code GeoElement} for which to retrieve the possible formats
      * @param enableEngineeringFormat whether the engineering notation should be included if possible
+     * @param algebraOutputFormatFilters filters to be applied
      * @return the list of possible output formats
      * @apiNote This method is public only for testing, for integration other methods should be sufficient.
      */
     @Nonnull
     public static List<AlgebraOutputFormat> getPossibleFormats(@Nonnull GeoElement geoElement,
-            boolean enableEngineeringFormat) {
+            boolean enableEngineeringFormat,
+            @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         ArrayList<AlgebraOutputFormat> possibleFormats = new ArrayList<>();
 
         boolean hasEngineeringFormat = geoElement instanceof HasSymbolicMode
@@ -51,26 +55,41 @@ public enum AlgebraOutputFormat {
             possibleFormats.add(ENGINEERING);
         }
 
-        return possibleFormats;
+        return possibleFormats.stream().filter(format ->
+                algebraOutputFormatFilters.stream().allMatch(filter ->
+                        filter.isAllowed(geoElement, format)))
+                .collect(Collectors.toList());
     }
 
     /**
      * Retrieves the next output format from the sequence of possible formats for the given {@code GeoElement}.
      * @param geoElement the {@code GeoElement} for which to retrieve the next format
      * @param enableEngineeringFormat whether the engineering notation should be included if possible
+     * @param algebraOutputFormatFilters filters to be applied to the possible list of formats
      * @return the next format in the sequence or {@code null} if switching between formats is not available.
      * @apiNote This method can be used to decide whether an entry in the algebra view has a toggle button, and if so, which one to display.
      */
     @Nullable
     public static AlgebraOutputFormat getNextFormat(@Nonnull GeoElement geoElement,
-            boolean enableEngineeringFormat) {
+            boolean enableEngineeringFormat,
+            @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         AlgebraOutputFormat activeFormat = getActiveFormat(geoElement);
         List<AlgebraOutputFormat> possibleFormats =
-                getPossibleFormats(geoElement, enableEngineeringFormat);
-        int currentIndex = possibleFormats.indexOf(activeFormat);
-        if (currentIndex == -1) {
+                getPossibleFormats(geoElement, enableEngineeringFormat, algebraOutputFormatFilters);
+        // If there are no possible formats, then switching should not be available.
+        if (possibleFormats.isEmpty()) {
             return null;
         }
+        // If the active format is the only possible format, switching should not be available.
+        int currentIndex = possibleFormats.indexOf(activeFormat);
+        if (possibleFormats.size() == 1 && currentIndex == 0) {
+            return null;
+        }
+        // If the active format is disabled, then we return the first possible format.
+        if (currentIndex == -1) {
+            return possibleFormats.get(0);
+        }
+        // Select the next one from the list of possible formats.
         int nextIndex = (currentIndex + 1) % possibleFormats.size();
         return possibleFormats.get(nextIndex);
     }
@@ -79,12 +98,15 @@ public enum AlgebraOutputFormat {
      * Switches the output format of the given {@code GeoElement} to the next format in the sequence.
      * @param geoElement the {@code GeoElement} for which to switch the output format
      * @param enableEngineeringFormat whether the engineering notation should be included if possible
+     * @param algebraOutputFormatFilters filters to be applied to the possible list of formats
      * @apiNote This method can be used directly as a toggle button action in the algebra view entry.
      */
     public static void switchToNextFormat(@Nonnull GeoElement geoElement,
-            boolean enableEngineeringFormat) {
+            boolean enableEngineeringFormat,
+            @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         AlgebraOutputFormat activeFormat = getActiveFormat(geoElement);
-        AlgebraOutputFormat nextFormat = getNextFormat(geoElement, enableEngineeringFormat);
+        AlgebraOutputFormat nextFormat =
+                getNextFormat(geoElement, enableEngineeringFormat, algebraOutputFormatFilters);
         if (nextFormat == null) {
             return;
         }
@@ -110,7 +132,13 @@ public enum AlgebraOutputFormat {
         ) ? EQUALS : APPROXIMATELY_EQUALS;
     }
 
-    private static AlgebraOutputFormat getActiveFormat(GeoElement geoElement) {
+    /**
+     * Retrieves the current output format for the given {@code GeoElement}.
+     * @param geoElement the {@code GeoElement} for which to retrieve the current format
+     * @return the current format of {@code GeoElement}
+     */
+    @Nonnull
+    public static AlgebraOutputFormat getActiveFormat(@Nonnull GeoElement geoElement) {
         if (SymbolicUtil.isEngineeringNotationMode(geoElement)) {
             return ENGINEERING;
         }
@@ -126,6 +154,23 @@ public enum AlgebraOutputFormat {
         }
 
         return EXACT;
+    }
+
+    /**
+     * Switches the output format of the given {@code GeoElement}
+     * if the current format is disabled (filtered), to the first possible (unfiltered) format.
+     * @param geoElement the {@code GeoElement} for which to switch the output format if necessary
+     * @param enableEngineeringFormat whether the engineering notation should be included if possible
+     * @param algebraOutputFormatFilters filters to be applied to the possible list of formats
+     */
+    public static void switchFromDisabledFormat(@Nonnull GeoElement geoElement,
+            boolean enableEngineeringFormat,
+            @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
+        AlgebraOutputFormat currentFormat = getActiveFormat(geoElement);
+        if (algebraOutputFormatFilters.stream().anyMatch(filter ->
+                !filter.isAllowed(geoElement, currentFormat))) {
+            switchToNextFormat(geoElement, enableEngineeringFormat, algebraOutputFormatFilters);
+        }
     }
 
     private static boolean isSymbolicFormat(AlgebraOutputFormat format,
