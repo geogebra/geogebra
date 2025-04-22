@@ -71,10 +71,11 @@ public class UpdateActionStore {
 	/**
 	 * Add single element if not already present
 	 * @param geo element to add
+	 * @param mode move mode
 	 */
-	public void addIfNotPresent(GeoElement geo) {
+	public void addIfNotPresent(GeoElement geo, MoveMode mode) {
 		if (undoItems.stream().noneMatch(it -> it.hasGeo(geo))) {
-			undoItems.add(new UndoItem(geo, MoveMode.NONE));
+			undoItems.add(new UndoItem(geo, mode));
 		}
 	}
 

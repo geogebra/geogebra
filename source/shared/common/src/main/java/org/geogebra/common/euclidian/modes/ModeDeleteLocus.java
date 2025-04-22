@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
@@ -74,7 +75,7 @@ public class ModeDeleteLocus {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo instanceof GeoLocusStroke) {
-				dragUpdateStore.addIfNotPresent(geo);
+				dragUpdateStore.addIfNotPresent(geo, MoveMode.NONE);
 				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geo);
 
 				if (hasVisiblePart) { // still something visible, don't delete
@@ -152,7 +153,7 @@ public class ModeDeleteLocus {
 						eventY - ec.getDeleteToolSize() / 2,
 						ec.getDeleteToolSize(), ec.getDeleteToolSize());
 				UpdateActionStore as = getDragUpdateStore();
-				as.addIfNotPresent(geos[0]);
+				as.addIfNotPresent(geos[0], MoveMode.NONE);
 				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geos[0]);
 
 				if (!hasVisiblePart) { // still something visible, don't delete

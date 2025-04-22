@@ -6026,7 +6026,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (movedGeoNumeric.isAnimating()) {
 			kernel.getAnimationManager().stopAnimation();
 		}
-
+		storeUndo.addIfNotPresent(movedGeoNumeric, MoveMode.NUMERIC);
 		movedGeoNumeric.setValue(newVal);
 		movedGeoNumeric.updateRepaint();
 	}
@@ -10349,6 +10349,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				notifyCoordSystemMoveStop();
 			}
 		} else {
+			if (movedGeoNumeric != null) {
+				storeUndo.storeUndo(); // single click updates fixed sliders, save changes here
+			}
 			resetMovedGeoElement();
 			// no hits: release mouse button creates a point
 			// for the transformation tools

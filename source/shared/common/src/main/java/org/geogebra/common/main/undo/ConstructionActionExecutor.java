@@ -66,7 +66,6 @@ public class ConstructionActionExecutor
 
 	private void executeUpdateAction(String[] args) {
 		for (String arg: args) {
-			Log.warn(arg);
 			if (arg.charAt(0) == '<') {
 				evalXML(arg);
 			} else if (arg.startsWith(DEL)) {

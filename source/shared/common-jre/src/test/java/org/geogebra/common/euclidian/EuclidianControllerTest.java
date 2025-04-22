@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -13,6 +15,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
@@ -979,6 +982,21 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 		assertEquals(36, b.getWidth(), Kernel.MAX_PRECISION);
 		assertEquals(140, b.getHeight(), Kernel.MAX_PRECISION);
+	}
+
+	@Test
+	public void testUndoSliderDrag() {
+		getApp().getKernel().setUndoActive(true);
+		getApp().getKernel().initUndoInfo();
+		GeoNumeric slider = add("Slider(-5,5,.1)");
+		slider.setSliderFixed(true);
+		assertEquals(0, slider.evaluateDouble(), .001);
+		dragStart(148, 58);
+		assertEquals(0.1, slider.evaluateDouble(), .001);
+		dragEnd(160, 58);
+		assertEquals(1.1, slider.evaluateDouble(), .001);
+		getApp().getKernel().undo();
+		assertEquals(0, slider.evaluateDouble(), .001);
 	}
 
 	@Override
