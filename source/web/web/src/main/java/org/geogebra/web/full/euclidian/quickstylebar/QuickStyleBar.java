@@ -292,9 +292,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.more_vert_black()), "More");
 
 		contextMenuBtn.addFastClickHandler((event) -> {
-			if (contextMenu == null) {
-				contextMenu = createContextMenu(contextMenuBtn);
-			}
+			contextMenu = createContextMenu(contextMenuBtn);
 			getApp().closePopups();
 			GPopupMenuW popupMenu = contextMenu.getWrappedPopup();
 			if (popupMenu.isMenuShown()) {
