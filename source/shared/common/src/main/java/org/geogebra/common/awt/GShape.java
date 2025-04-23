@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Geometric shape.
+ */
 public interface GShape {
 
 	/**

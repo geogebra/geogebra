@@ -4,6 +4,9 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Caption text.
+ */
 public interface CaptionText {
 
 	String text();

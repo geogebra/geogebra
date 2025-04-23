@@ -19,6 +19,9 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	private boolean parentPending = false;
 	private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
 
+	/**
+	 * Direction from parent node to child.
+	 */
 	public enum NodeAlignment {
 		// The order is intentionally inverted
 		BOTTOM(0.5, 1, 0.5, 0),

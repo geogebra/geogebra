@@ -5,6 +5,9 @@ import static org.geogebra.common.kernel.arithmetic.MyDouble.isNumberImprecise;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+/**
+ * Binary operation supporting both fixed and arbitrary precision computation.
+ */
 public enum DoubleOperation {
 	PLUS {
 		@Override

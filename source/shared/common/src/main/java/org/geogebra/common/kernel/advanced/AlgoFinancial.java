@@ -49,6 +49,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class AlgoFinancial extends AlgoElement {
 
+	/** Calculation type */
 	public enum CalculationType {
 		RATE, NPER, PMT, PV, FV
 	}

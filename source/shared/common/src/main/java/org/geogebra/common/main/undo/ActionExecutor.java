@@ -2,6 +2,9 @@ package org.geogebra.common.main.undo;
 
 import org.geogebra.common.plugin.ActionType;
 
+/**
+ * Runs undoable actions.
+ */
 public interface ActionExecutor {
 
 	/**

@@ -3,6 +3,9 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.interval.Interval;
 
+/**
+ * Interval path plotter.
+ */
 public interface IntervalPathPlotter {
 	void reset();
 

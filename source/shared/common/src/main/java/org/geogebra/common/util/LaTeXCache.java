@@ -1,5 +1,8 @@
 package org.geogebra.common.util;
 
+/**
+ * LaTeX cache.
+ */
 public interface LaTeXCache {
 	/**
 	 * Remove cached formula

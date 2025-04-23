@@ -5,6 +5,9 @@ import org.gwtproject.user.client.ui.InsertPanel;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Widget;
 
+/**
+ * Dock control panel.
+ */
 public interface DockControlPanel extends SetLabels, IsWidget, InsertPanel {
 	boolean isVisible();
 

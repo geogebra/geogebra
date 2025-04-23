@@ -53,6 +53,9 @@ public class DataDisplayModel {
 	// can have two open at once
 	private int id;
 
+	/**
+	 * UI delegate for the model.
+	 */
 	public interface IDataDisplayListener {
 
 		void addDisplayTypeItem(PlotType histogram);
@@ -94,8 +97,9 @@ public class DataDisplayModel {
 
 	}
 
-	@SuppressWarnings("javadoc")
-	// keys for these need to be in "menu" category of ggbtrans
+	/**
+	 * Plot types, keys for these need to be in "menu" category of ggbtrans
+	 */
 	public enum PlotType {
 		HISTOGRAM("Histogram"),
 

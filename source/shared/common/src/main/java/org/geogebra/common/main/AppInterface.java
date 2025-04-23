@@ -18,6 +18,9 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 
+/**
+ * Facade for the App class.
+ */
 public interface AppInterface {
 	abstract public void invokeLater(Runnable runnable);
 

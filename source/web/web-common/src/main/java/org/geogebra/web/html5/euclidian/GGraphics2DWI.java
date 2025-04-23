@@ -9,6 +9,9 @@ import org.gwtproject.dom.client.Element;
 
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
+/**
+ * 2D graphics with Web-specific methods.
+ */
 public interface GGraphics2DWI extends GGraphics2D {
 
 	int getOffsetWidth();

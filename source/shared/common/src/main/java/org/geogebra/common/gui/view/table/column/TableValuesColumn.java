@@ -4,6 +4,9 @@ import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
+/**
+ * Table values column.
+ */
 public interface TableValuesColumn extends TableValuesListener {
 
 	/**

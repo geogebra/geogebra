@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.toolbar.images;
 
 import org.geogebra.web.resources.SVGResource;
 
-@SuppressWarnings("javadoc")
+/** Toolbar resource bundle */
 public interface ToolbarResources {
 
 	SVGResource mode_select_32();

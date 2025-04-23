@@ -32,6 +32,9 @@ import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.renderer.share.TeXIcon;
 
+/**
+ * Formula input field.
+ */
 public interface MathField {
 
 	void setTeXIcon(TeXIcon icon);

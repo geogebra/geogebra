@@ -1,5 +1,8 @@
 package org.geogebra.common.gui;
 
+/**
+ * Focusable component.
+ */
 public interface MayHaveFocus {
 	boolean focusIfVisible(boolean reverse);
 

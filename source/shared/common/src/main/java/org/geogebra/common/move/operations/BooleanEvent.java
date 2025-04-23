@@ -11,7 +11,7 @@ public class BooleanEvent implements GenericEvent<BooleanRenderable> {
 	}
 
 	@Override
-	public void fire(BooleanRenderable view) {
-		view.render(value);
+	public void fire(BooleanRenderable target) {
+		target.render(value);
 	}
 }

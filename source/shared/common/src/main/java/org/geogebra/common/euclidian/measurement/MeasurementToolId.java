@@ -7,6 +7,9 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PRO
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Measurement tool types.
+ */
 public enum MeasurementToolId {
 	/**
 	 * No tool

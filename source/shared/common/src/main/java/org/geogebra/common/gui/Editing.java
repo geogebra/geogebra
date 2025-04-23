@@ -2,7 +2,13 @@ package org.geogebra.common.gui;
 
 import org.geogebra.common.kernel.View;
 
+/**
+ * View that contains an editor.
+ */
 public interface Editing extends View {
+	/**
+	 * Cencel editing an item.
+	 */
 	public void cancelEditItem();
 
 	/**

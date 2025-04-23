@@ -7,6 +7,9 @@ import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
 
+/**
+ * Foreground color property type.
+ */
 public enum ColorPropertyType {
 	DEFAULT, WITH_OPACITY, OPAQUE, TEXT;
 

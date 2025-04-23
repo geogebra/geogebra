@@ -2,10 +2,16 @@ package org.geogebra.common.move.ggtapi;
 
 import java.util.Locale;
 
+/**
+ * Mebis specific identifier of groups for sharing.
+ */
 public class GroupIdentifier {
 	public final String name;
 	private final GroupCategory category;
 
+	/**
+	 * Group category.
+	 */
 	public enum GroupCategory {
 		CLASS, COURSE
 	}

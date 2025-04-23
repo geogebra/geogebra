@@ -26,9 +26,18 @@
 
 package com.himamis.retex.editor.share.event;
 
+/**
+ * Listener for focus and blur events.
+ */
 public interface FocusListener {
 
+	/**
+	 * Called when editor is focused.
+	 */
 	void onFocusGained();
 
+	/**
+	 * Called when editor loses focus.
+	 */
 	void onFocusLost();
 }

@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
+/**
+ * Text insertion handler.
+ */
 public interface InsertHandler {
 
 	/**

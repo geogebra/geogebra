@@ -15,6 +15,9 @@ package org.geogebra.common.gui;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Input handler.
+ */
 public interface InputHandler {
 	/**
 	 * Processes inputString and returns success state.

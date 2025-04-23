@@ -66,6 +66,9 @@ public class DataAnalysisModel {
 	public static final int THICKNESS_CURVE = 4;
 	public static final int THICKNESS_BAR_CHART = 3;
 
+	/**
+	 * UI delegate for the model.
+	 */
 	public interface IDataAnalysisListener extends ICreateColor {
 		void onModeChange(PlotType polyType1, PlotType polyType2);
 
@@ -100,6 +103,10 @@ public class DataAnalysisModel {
 		DataDisplayModel getDisplayModel(int zeroBasedIndex);
 	}
 
+	/**
+	 * TODO just move the colors array to common
+	 * Color provider.
+	 */
 	public interface ICreateColor {
 		GColor createColor(int idx);
 	}

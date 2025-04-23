@@ -2,6 +2,9 @@ package org.geogebra.common.export.pstricks;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
+/**
+ * Export settings.
+ */
 public interface ExportSettings {
 	static final int FILL_NONE = 0, FILL_OPAQUE = 1, FILL_OPACITY_PEN = 2,
 			FILL_LAYER = 3;

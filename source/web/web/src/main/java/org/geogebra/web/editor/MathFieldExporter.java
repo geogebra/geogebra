@@ -15,6 +15,7 @@ public class MathFieldExporter {
 	private static final String SVG_PREFIX = "data:image/svg+xml;utf8,";
 	private final MathFieldW mathField;
 
+	/** Image consumer */
 	@JsFunction
 	public interface ImageConsumer {
 		void accept(EquationExportImage image);

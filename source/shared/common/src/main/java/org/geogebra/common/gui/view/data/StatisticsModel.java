@@ -40,6 +40,9 @@ public class StatisticsModel {
 	private IStatisticsModelListener listener;
 	private Localization loc;
 
+	/**
+	 * UI delegate for this model.
+	 */
 	public interface IStatisticsModelListener {
 		void addInferenceMode(String item);
 

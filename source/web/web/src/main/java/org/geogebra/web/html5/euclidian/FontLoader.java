@@ -35,8 +35,8 @@ public final class FontLoader {
 	}
 
 	@JsFunction
-	public interface FontLoadCallback {
-		void fontLoadeded(String familyName, String variation);
+	interface FontLoadCallback {
+		void fontLoaded(String familyName, String variation);
 	}
 
 	/**

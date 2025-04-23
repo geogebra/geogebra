@@ -3,6 +3,9 @@ package org.geogebra.web.html5.util.keyboard;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.RequiresResize;
 
+/**
+ * Virtual keyboard.
+ */
 public interface VirtualKeyboardW extends IsWidget, RequiresResize {
 
 	void show();

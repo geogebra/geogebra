@@ -4,6 +4,9 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 
+/**
+ * Factory for export graphics.
+ */
 public interface ExportGraphicsFactory {
 	GGraphics2D createGraphics(FunctionalNVar ef, Inequality inequality, GeoGebraExport export);
 }

@@ -6,6 +6,9 @@ import org.geogebra.common.plugin.Operation;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+/**
+ * Interval arithmetic operations.
+ */
 public enum IntervalOperation {
 	UNSUPPORTED {
 		@Override

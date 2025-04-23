@@ -3,6 +3,9 @@ package org.geogebra.common.main;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 
+/**
+ * Material manager.
+ */
 public interface MaterialsManagerI {
 
 	void openMaterial(Material material);

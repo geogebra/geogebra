@@ -18,7 +18,9 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
-@SuppressWarnings("javadoc")
+/**
+ * All commands available in AV or CAS, including aliases of renamed commands.
+ */
 public enum Commands implements CommandsConstants,
 
 		GetCommand {

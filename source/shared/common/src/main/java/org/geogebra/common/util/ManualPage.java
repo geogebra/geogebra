@@ -1,5 +1,8 @@
 package org.geogebra.common.util;
 
+/**
+ * Manual pages and groups thereof.
+ */
 public enum ManualPage {
 	/** Url for wiki article about functions */
 	OPERATORS("Predefined_Functions_and_Operators"),

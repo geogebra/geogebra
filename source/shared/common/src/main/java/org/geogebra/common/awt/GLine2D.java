@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * 2D line.
+ */
 public interface GLine2D extends GShape {
 
 	/**

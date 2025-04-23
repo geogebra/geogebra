@@ -166,10 +166,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
+	/**
+	 * Insertion handler.
+	 */
 	public interface InsertHandler {
 		void onInsert(String text);
 	}
 
+	/**
+	 * Backspace handler.
+	 */
 	public interface OnBackSpaceHandler {
 		void onBackspace();
 	}

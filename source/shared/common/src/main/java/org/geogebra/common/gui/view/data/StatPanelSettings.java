@@ -43,6 +43,9 @@ public class StatPanelSettings extends PlotSettings {
 
 	private CoordMode coordMode = CoordMode.STANDTOSTAND;
 
+	/**
+	 * Moodes of coordinate transformations.
+	 */
 	public enum CoordMode {
 		STANDTOSTAND(0), LOGTOSTAND(1), STANDTOLOG(2), LOGTOLOG(3);
 		private int mode;

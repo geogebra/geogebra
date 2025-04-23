@@ -6,6 +6,9 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.Resource;
 import org.gwtproject.resources.client.TextResource;
 
+/**
+ * Resources needed in both Web3D and WebSimple.
+ */
 @Resource
 public interface GuiResourcesSimple extends ClientBundle {
 
@@ -156,9 +159,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/ruler_protractor/triangle_protractor.svg")
 	SVGResource triangle_protractor();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/alpha.svg")
-	SVGResource alpha();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/rotate_right.svg")
 	SVGResource rotateIcon();

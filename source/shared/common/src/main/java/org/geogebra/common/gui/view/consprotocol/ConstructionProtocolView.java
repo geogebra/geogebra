@@ -1390,6 +1390,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 				+ "\" target=\"_blank\" >" + string + "</a>";
 	}
 
+	/**
+	 * Available column types.
+	 */
 	public enum Columns {
 
 		NUMBER("No."),

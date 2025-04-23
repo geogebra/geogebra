@@ -1,5 +1,8 @@
 package org.geogebra.web.richtext;
 
+/**
+ * Listener for editor events.
+ */
 public interface EditorChangeListener {
 
 	/**

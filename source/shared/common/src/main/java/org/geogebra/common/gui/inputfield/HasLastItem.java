@@ -2,6 +2,9 @@ package org.geogebra.common.gui.inputfield;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Provider of last items for the ANS functionality.
+ */
 public interface HasLastItem {
 
 	/**

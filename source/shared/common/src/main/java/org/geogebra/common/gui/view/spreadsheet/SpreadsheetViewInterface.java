@@ -7,6 +7,9 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Spreadsheet view (Classic).
+ */
 public interface SpreadsheetViewInterface extends View {
 
 	final static String LEFT_CLASS_RULE = Unicode.LESS_EQUAL + " x <";

@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Stroke style.
+ */
 public interface GBasicStroke {
 	public static final int CAP_BUTT = 0; // Java & GWT
 	public static final int CAP_ROUND = 1; // Java & GWT

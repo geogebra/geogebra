@@ -3,6 +3,9 @@ package org.geogebra.web.html5.main;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+/**
+ * Type annotation for generating TypeScript type definition.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TS {
 	String CLIENT_LISTENER = "(evt: ClientEvent) => void";

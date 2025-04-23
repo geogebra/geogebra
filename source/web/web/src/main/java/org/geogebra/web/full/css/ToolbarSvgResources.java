@@ -5,6 +5,9 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.Resource;
 
+/**
+ *  SVG icon bundle for toolbar
+ */
 @Resource
 public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 

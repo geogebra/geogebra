@@ -28,6 +28,9 @@ public class StatTableModel {
 	private Construction cons;
 	private StatTableListener listener;
 
+	/**
+	 * UI delegate for this model
+	 */
 	public interface StatTableListener {
 
 		GeoList getDataSelected();

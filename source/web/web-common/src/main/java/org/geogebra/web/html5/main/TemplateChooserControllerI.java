@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 
+/**
+ * Controller for template chooser.
+ * TODO not needed if we move the caller from web-common to web
+ */
 public interface TemplateChooserControllerI {
 
     /**

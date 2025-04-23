@@ -34,6 +34,9 @@ public class ToolManagerDialogModel {
 	private final List<Macro> deletedMacros;
 	private final ToolManagerDialogListener listener;
 
+	/**
+	 * Tool manager dialog delegate.
+	 */
 	public interface ToolManagerDialogListener {
 
 		void removeMacroFromToolbar(int i);

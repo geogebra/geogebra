@@ -1,5 +1,8 @@
 package org.geogebra.common.move.ggtapi.models;
 
+/**
+ * Actions that can be performed with a resource.
+ */
 public enum ResourceAction {
 	EDIT("Edit"),
 	VIEW("ViewMaterial"),

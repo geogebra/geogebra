@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.view.table.importer;
 
+/**
+ * Data import delegate.
+ */
 public interface DataImporterDelegate {
 
 	/**

@@ -10,6 +10,10 @@ import org.geogebra.common.util.AttributedString;
 
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class TableValuesContextMenuItem implements ContextMenuItem {
+
+	/**
+	 * Table context menu item.
+	 */
 	public enum Item {
 		Edit("Edit"),
 		ClearColumn("ClearColumn"),

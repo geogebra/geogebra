@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * General path.
+ */
 public interface GGeneralPath extends GShape {
 
 	void moveTo(double x, double y);

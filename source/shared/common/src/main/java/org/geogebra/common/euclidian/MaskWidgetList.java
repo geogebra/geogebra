@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian;
 
+/**
+ * List of mask widgets.
+ */
 public interface MaskWidgetList {
 
 	/**

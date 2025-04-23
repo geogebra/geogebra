@@ -10,6 +10,9 @@ import org.geogebra.common.main.App;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
+/**
+ * Class for drawing LaTeX equations.
+ */
 public interface DrawEquationI {
 	/**
 	 * @param app

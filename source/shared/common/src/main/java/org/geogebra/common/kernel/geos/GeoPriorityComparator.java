@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+/**
+ * Parametrized comparator.
+ */
 public interface GeoPriorityComparator {
 
 	/**

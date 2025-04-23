@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian;
 
+/**
+ * Passes text to native screen reader.
+ */
 public interface ScreenReaderAdapter {
 
 	/**

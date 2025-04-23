@@ -1,6 +1,14 @@
 package org.geogebra.common.move.events;
 
+/**
+ * Event that can be fired on given type of targets.
+ * @param <T> receiving type
+ */
 public interface GenericEvent<T> {
 
-	void fire(T view);
+	/**
+	 * Fire the event.
+	 * @param target target
+	 */
+	void fire(T target);
 }

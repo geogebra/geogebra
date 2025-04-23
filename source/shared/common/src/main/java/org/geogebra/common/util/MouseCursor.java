@@ -1,5 +1,8 @@
 package org.geogebra.common.util;
 
+/**
+ * Mouse cursor types for spreadsheet.
+ */
 public enum MouseCursor {
 
 	/** Cross */

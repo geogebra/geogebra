@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Ellipse shape.
+ */
 public interface GEllipse2DDouble extends GRectangularShape {
 
 	/**

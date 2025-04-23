@@ -5,6 +5,9 @@ import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.user.client.ui.IsWidget;
 
+/**
+ * Algebra view wrapping panel.
+ */
 public interface AlgebraPanelInterface extends IsWidget {
 
 	void scrollAVToBottom();

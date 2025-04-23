@@ -6,6 +6,9 @@ import org.geogebra.common.gui.view.spreadsheet.HasTableSelection;
 import org.geogebra.common.spreadsheet.core.Direction;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 
+/**
+ * Cell format interface.
+ */
 public interface CellFormatInterface {
 
 	Object getCellFormat(int x, int y, int formatBorder);

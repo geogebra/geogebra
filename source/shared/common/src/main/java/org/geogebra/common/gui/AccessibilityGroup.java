@@ -2,6 +2,9 @@ package org.geogebra.common.gui;
 
 import org.geogebra.common.main.App;
 
+/**
+ * Groups of objects accessible by tabbing.
+ */
 public enum AccessibilityGroup {
 	MENU, GEOGEBRA_LOGO, SUBAPP_CHOOSER, SHARE, ASSIGN, SIGN_IN_TEXT, SIGN_IN_ICON, AVATAR,
 	ALGEBRA_CLOSE, UNDO, REDO, ZOOM_NOTES_PLUS, ZOOM_NOTES_MINUS, ZOOM_NOTES_HOME,
@@ -9,6 +12,9 @@ public enum AccessibilityGroup {
 	EV_CONTROLS, EV2_CONTROLS, EV3D_CONTROLS, PAGE_LIST_OPEN,
 	ALT_GEOTEXT, GEO_ELEMENT, ALGEBRA_ITEM;
 
+	/**
+	 * Controls in a single view.
+	 */
 	public enum ViewControlId {
 		ALT_GEO,
 		RESET_BUTTON,

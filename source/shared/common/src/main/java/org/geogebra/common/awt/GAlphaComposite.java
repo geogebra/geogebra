@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Alpha composite.
+ */
 public interface GAlphaComposite extends GComposite {
 
 	public static final int CLEAR = 1;

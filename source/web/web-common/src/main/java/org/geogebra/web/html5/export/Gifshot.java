@@ -1,8 +1,8 @@
 package org.geogebra.web.html5.export;
 
 import org.geogebra.common.util.InjectJsInterop;
+import org.geogebra.gwtutil.JsConsumer;
 
-import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
@@ -10,12 +10,8 @@ import jsinterop.base.JsPropertyMap;
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public class Gifshot {
 
-	@JsFunction
-	public interface GifshotCallback {
-		void consume(GifshotResult result);
-	}
-
-	public native void createGIF(JsPropertyMap<Object> settings, GifshotCallback callback);
+	public native void createGIF(JsPropertyMap<Object> settings,
+			JsConsumer<GifshotResult> callback);
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 	public static class GifshotResult {

@@ -6,6 +6,9 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.Panel;
 
+/**
+ * Panel containing a graphics view.
+ */
 public interface EuclidianPanelWAbstract {
 
 	AbsolutePanel getAbsolutePanel();

@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Special points listener.
+ */
 public interface SpecialPointsListener {
 
     /**

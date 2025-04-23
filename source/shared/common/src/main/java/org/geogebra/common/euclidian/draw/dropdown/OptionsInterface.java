@@ -1,5 +1,9 @@
 package org.geogebra.common.euclidian.draw.dropdown;
 
+/**
+ * Interface for DrawOptions.
+ * TODO use class directly?
+ */
 public interface OptionsInterface {
 	void scrollDown();
 

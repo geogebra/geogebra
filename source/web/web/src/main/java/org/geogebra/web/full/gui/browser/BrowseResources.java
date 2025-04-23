@@ -4,6 +4,9 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.Resource;
 
+/**
+ * Icons for Open File View
+ */
 @Resource
 public interface BrowseResources extends ClientBundle {
 

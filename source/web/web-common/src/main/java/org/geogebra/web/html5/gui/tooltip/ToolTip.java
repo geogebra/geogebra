@@ -9,6 +9,9 @@ public class ToolTip {
 	public final String url;
 	private final Role role;
 
+	/**
+	 * Tooltip role.
+	 */
 	public enum Role {
 		INFO, ALERT
 	}

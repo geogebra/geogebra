@@ -389,6 +389,9 @@ public class InternalClipboard {
 				.anyMatch(geo -> geo instanceof GeoMindMapNode);
 	}
 
+	/**
+	 * Escape function.
+	 */
 	public interface EscapeFunction {
 		String escape(String key);
 	}

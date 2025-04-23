@@ -34,6 +34,9 @@ import com.google.j2objc.annotations.Weak;
  */
 public final class TableValuesKeyboardNavigationController {
 
+	/**
+	 * Keys handled by navigation controller.
+	 */
 	public enum Key {
 		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
 	}

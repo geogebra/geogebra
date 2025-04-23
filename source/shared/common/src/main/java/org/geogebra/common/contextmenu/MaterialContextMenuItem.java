@@ -5,6 +5,9 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
 
+/**
+ * Menu items for material context menu.
+ */
 public enum MaterialContextMenuItem implements ContextMenuItem {
 	Delete("Delete", ContextMenuIcon.Delete);
 

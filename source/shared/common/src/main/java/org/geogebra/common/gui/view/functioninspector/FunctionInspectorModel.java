@@ -71,6 +71,10 @@ public class FunctionInspectorModel {
 	protected final Localization loc;
 	private final RoundingOptions roundingOptions;
 
+	/**
+	 * Color identifiers.
+	 * TODO just use colors directly.
+	 */
 	public enum Colors {
 		GEO, GEO2, EVEN_ROW, GRID
 	}
@@ -131,6 +135,9 @@ public class FunctionInspectorModel {
 	private int printFigures = -1;
 	private int printDecimals = 4;
 
+	/**
+	 * UI delegate for the model.
+	 */
 	public interface IFunctionInspectorListener {
 
 		void updateXYTable(boolean isTable);

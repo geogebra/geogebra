@@ -7,6 +7,9 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.gwtproject.dom.client.Element;
 
+/**
+ * Extended virtual keyboard interface.
+ */
 public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 
 	void setStyleName();

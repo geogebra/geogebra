@@ -2,6 +2,9 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 
+/**
+ * Save dialog.
+ */
 public interface SaveDialogI {
 
 	void show();

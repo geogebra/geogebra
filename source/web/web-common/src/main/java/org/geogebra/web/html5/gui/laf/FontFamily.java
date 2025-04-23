@@ -1,5 +1,8 @@
 package org.geogebra.web.html5.gui.laf;
 
+/**
+ * Available font families (both web fonts and system fonts).
+ */
 public enum FontFamily {
 
 	ARIAL("Arial", "Arial, sans-serif"),

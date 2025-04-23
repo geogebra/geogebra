@@ -2,6 +2,9 @@ package org.geogebra.common.euclidian.inline;
 
 import org.geogebra.common.awt.GColor;
 
+/**
+ * Inline formula controller.
+ */
 public interface InlineFormulaController {
 
 	void setLocation(int x, int y);

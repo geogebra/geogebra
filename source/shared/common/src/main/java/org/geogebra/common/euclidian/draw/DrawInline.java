@@ -4,6 +4,9 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.RemoveNeeded;
 
+/**
+ * Drawable representation of inline-editable construction element.
+ */
 public interface DrawInline extends RemoveNeeded, HasTransformation {
 	/**
 	 * Update editor from geo

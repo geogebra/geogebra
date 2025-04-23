@@ -49,10 +49,6 @@ import org.geogebra.common.util.ManualPage;
 
 public interface GuiManagerInterface extends SettingListener {
 
-	enum Help {
-		COMMAND, TOOL, GENERIC
-	}
-
 	void updateMenubar();
 
 	void updateMenubarSelection();

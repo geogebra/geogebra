@@ -447,23 +447,11 @@ public final class DrawDropDownList extends CanvasDrawable
 		return draw instanceof DrawDropDownList ? (DrawDropDownList) draw : null;
 	}
 
-	/**
-	 * Moves dropdown selector up or down by one item.
-	 * 
-	 * @param down
-	 *            Sets if selection indicator should move down or up.
-	 */
 	@Override
 	public void moveSelectorVertical(boolean down) {
 		drawOptions.moveSelectorVertical(down);
 	}
 
-	/**
-	 * Moves the selector horizontally, if dropdown have more columns than one.
-	 * 
-	 * @param left
-	 *            Indicates that selector should move left or right.
-	 */
 	@Override
 	public void moveSelectorHorizontal(boolean left) {
 		drawOptions.moveSelectorHorizontal(left);

@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 
+/**
+ * Node simplifier.
+ */
 public interface SimplifyNode {
 
 	/**

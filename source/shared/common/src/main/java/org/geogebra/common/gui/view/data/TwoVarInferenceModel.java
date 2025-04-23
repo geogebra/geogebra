@@ -46,6 +46,9 @@ public class TwoVarInferenceModel {
 	private TwoVarInferenceListener listener;
 	private Localization loc;
 
+	/**
+	 * UI delegate for this model.
+	 */
 	public interface TwoVarInferenceListener {
 
 		/**

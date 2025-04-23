@@ -6,6 +6,7 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.Resource;
 import org.gwtproject.resources.client.TextResource;
 
+/** Resource bundle for the full app.*/
 @Resource
 public interface GuiResources extends ClientBundle {
 

@@ -10,13 +10,23 @@ import jsinterop.base.JsPropertyMap;
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public final class FFlate {
 
+	/** Callback for compression */
 	@JsFunction
 	public interface ZipCallback {
+		/**
+		 * @param err (optional) error
+		 * @param data zipped file
+		 */
 		void call(Object err, Uint8Array data);
 	}
 
+	/** Callback for decompression */
 	@JsFunction
 	public interface UnzipCallback {
+		/**
+		 * @param err (optional) error
+		 * @param data map {file name => file content}
+		 */
 		void call(Object err, JsPropertyMap<Uint8Array> data);
 	}
 

@@ -2,6 +2,9 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 
+/**
+ * Input keyboard button.
+ */
 public interface InputKeyboardButton {
 
 	/**

@@ -2,6 +2,9 @@ package org.geogebra.common.properties;
 
 import javax.annotation.Nonnull;
 
+/**
+ * Properties registry listener.
+ */
 public interface PropertiesRegistryListener {
 
 	/**

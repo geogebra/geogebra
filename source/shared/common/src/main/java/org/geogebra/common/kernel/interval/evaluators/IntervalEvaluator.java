@@ -3,6 +3,9 @@ package org.geogebra.common.kernel.interval.evaluators;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.interval.Interval;
 
+/**
+ * Interval evaluator.
+ */
 public interface IntervalEvaluator {
 	void setNode(ExpressionNode node);
 

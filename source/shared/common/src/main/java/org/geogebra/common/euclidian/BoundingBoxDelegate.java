@@ -3,6 +3,9 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GShape;
 
+/**
+ * Bounding box delegate.
+ */
 public interface BoundingBoxDelegate {
 	void createHandlers();
 

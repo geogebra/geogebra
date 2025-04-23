@@ -5,6 +5,9 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
 
+/**
+ * Items in input context menu.
+ */
 public enum InputContextMenuItem implements ContextMenuItem {
 	Expression("Expression", ContextMenuIcon.Expression),
 	Text("Text", ContextMenuIcon.Text),

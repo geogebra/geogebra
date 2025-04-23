@@ -3,6 +3,9 @@ package org.geogebra.web.html5.util;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 
+/**
+ * Frame collector for animation.
+ */
 public interface FrameCollectorW {
 
 	/**

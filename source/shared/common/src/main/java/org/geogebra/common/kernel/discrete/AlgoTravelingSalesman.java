@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.discrete.tsp.TSP;
 import org.geogebra.common.kernel.discrete.tsp.TSPSolver;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -61,7 +60,7 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 			}
 		}
 
-		final TSP tsp = new TSPSolver();
+		final TSPSolver tsp = new TSPSolver();
 
 		tsp.solve(nodes);
 

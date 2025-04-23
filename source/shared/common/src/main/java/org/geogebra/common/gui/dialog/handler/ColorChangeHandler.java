@@ -2,6 +2,9 @@ package org.geogebra.common.gui.dialog.handler;
 
 import org.geogebra.common.awt.GColor;
 
+/**
+ * Color change handler.
+ */
 public interface ColorChangeHandler {
 	void onColorChange(GColor color);
 

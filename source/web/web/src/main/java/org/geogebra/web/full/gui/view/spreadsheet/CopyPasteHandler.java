@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
+/**
+ * Copy and paste handler.
+ */
 public interface CopyPasteHandler {
 	/**
 	 * @param text

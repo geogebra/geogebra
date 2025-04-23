@@ -2,6 +2,9 @@ package org.geogebra.keyboard.base;
 
 import java.util.Map;
 
+/**
+ * Factory for creating all keyboard tabs.
+ */
 public interface KeyboardFactory {
 	/**
 	 * Creates a math keyboard with numbers and operators.

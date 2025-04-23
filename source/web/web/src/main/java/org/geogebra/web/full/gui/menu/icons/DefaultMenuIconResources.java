@@ -4,6 +4,9 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.Resource;
 
+/**
+ * Default menu icon bundle.
+ */
 @Resource
 public interface DefaultMenuIconResources extends ClientBundle {
 

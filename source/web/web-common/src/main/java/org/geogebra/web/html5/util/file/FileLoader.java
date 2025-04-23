@@ -10,6 +10,9 @@ import org.geogebra.web.html5.factories.UtilFactoryW;
  */
 public class FileLoader {
 
+	/**
+	 * File load callback.
+	 */
 	public interface Callback {
 		void onLoad(String fileContent);
 	}

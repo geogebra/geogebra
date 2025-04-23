@@ -1,5 +1,8 @@
 package org.geogebra.common.gui;
 
+/**
+ * Direction of rotation of the 3D view.
+ */
 public enum SliderInput {
 	/**
 	 * 3D rotation around z

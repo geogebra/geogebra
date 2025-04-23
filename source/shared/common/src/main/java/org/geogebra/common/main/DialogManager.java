@@ -298,6 +298,9 @@ public abstract class DialogManager {
 		app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
 	}
 
+	/**
+	 * Factory for rotated elements.
+	 */
 	public interface CreateGeoForRotate {
 		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo,
 				GeoNumberValue num);
@@ -305,6 +308,9 @@ public abstract class DialogManager {
 		public GeoElementND getPivot();
 	}
 
+	/**
+	 * Factory for elements rotated around a point.
+	 */
 	public static class CreateGeoForRotatePoint implements CreateGeoForRotate {
 
 		private GeoPointND point;
@@ -756,6 +762,9 @@ public abstract class DialogManager {
 		return false;
 	}
 
+	/**
+	 * Factory for elements given by radius and additional arguments.
+	 */
 	public interface CreateGeoFromRadius {
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num);
 	}

@@ -5,6 +5,9 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
 
+/**
+ * Items in AV context menu.
+ */
 public enum AlgebraContextMenuItem implements ContextMenuItem {
 	Statistics("Statistics"),
 	Delete("Delete"),

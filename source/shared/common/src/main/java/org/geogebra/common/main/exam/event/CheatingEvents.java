@@ -19,6 +19,9 @@ public class CheatingEvents {
 
     public Delegate delegate;
 
+    /**
+     * Cheating events delegate.
+     */
     public interface Delegate {
         void cheatingEventAdded(CheatingEvent cheatingEvent);
     }

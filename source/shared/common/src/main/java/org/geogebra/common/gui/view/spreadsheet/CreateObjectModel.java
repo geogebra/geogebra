@@ -43,6 +43,9 @@ public class CreateObjectModel {
 	private ICreateObjectListener listener;
 	private Localization loc;
 
+	/**
+	 * UI delegate for the model.
+	 */
 	public interface ICreateObjectListener {
 		void setName(String name);
 

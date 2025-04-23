@@ -32,8 +32,8 @@ public abstract class BaseEvent implements GenericEvent<EventRenderable> {
 	}
 
 	@Override
-	public void fire(EventRenderable view) {
-		view.renderEvent(this);
+	public void fire(EventRenderable target) {
+		target.renderEvent(this);
 	}
 
 }

@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.interval.node;
 
 import org.geogebra.common.kernel.interval.Interval;
 
+/**
+ * Interval node leaf, may be a variable or constant.
+ */
 public interface IntervalExpressionValue extends IntervalNode {
 
 	/**

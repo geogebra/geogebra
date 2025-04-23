@@ -18,7 +18,7 @@ public final class WebAudioWrapper {
 	private AudioContext context;
 	private ScriptProcessorNode processor;
 
-	public interface FunctionAudioListener {
+	interface FunctionAudioListener {
 		double getValueAt(double t);
 	}
 

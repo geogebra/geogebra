@@ -5,6 +5,9 @@ import java.util.List;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 
+/**
+ * Transformer for points created by pen tool.
+ */
 public interface PenTransformer {
 	boolean isActive();
 

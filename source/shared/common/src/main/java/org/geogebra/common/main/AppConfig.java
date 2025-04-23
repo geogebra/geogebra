@@ -24,6 +24,9 @@ import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
+/**
+ * Application configuration.
+ */
 public interface AppConfig extends ExamRestrictable, Serializable {
 
 	void adjust(DockPanelData dp);

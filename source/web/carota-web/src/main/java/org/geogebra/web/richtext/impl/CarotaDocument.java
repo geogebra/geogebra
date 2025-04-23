@@ -1,5 +1,7 @@
 package org.geogebra.web.richtext.impl;
 
+import org.geogebra.gwtutil.JsRunnable;
+
 import elemental2.core.JsArray;
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsProperty;
@@ -49,13 +51,13 @@ public class CarotaDocument implements HasContent {
 	public native void load(Object content);
 
 	@Override
-	public native void selectionChanged(EditorCallback editorCallback);
+	public native void selectionChanged(JsRunnable editorCallback);
 
 	@Override
-	public native void contentChanged(EditorCallback editorCallback);
+	public native void contentChanged(JsRunnable editorCallback);
 
 	@Override
-	public native void onEscape(EditorCallback editorCallback);
+	public native void onEscape(JsRunnable editorCallback);
 
 	@Override
 	public native Object save();

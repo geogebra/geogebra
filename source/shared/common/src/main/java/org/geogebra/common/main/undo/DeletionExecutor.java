@@ -3,6 +3,9 @@ package org.geogebra.common.main.undo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Performs deletion of objects.
+ */
 public interface DeletionExecutor {
 
 	/**

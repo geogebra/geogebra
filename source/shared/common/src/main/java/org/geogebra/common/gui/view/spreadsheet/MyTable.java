@@ -7,6 +7,9 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 
+/**
+ * Spreadsheet table component (Classic).
+ */
 public interface MyTable extends MyTableInterface {
 
 	public static final int TABLE_MODE_STANDARD = 0;

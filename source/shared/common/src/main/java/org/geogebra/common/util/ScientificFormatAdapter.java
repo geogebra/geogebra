@@ -1,5 +1,8 @@
 package org.geogebra.common.util;
 
+/**
+ * Scientific number format (fixed number of significant digits).
+ */
 public interface ScientificFormatAdapter {
 
 	public int getSigDigits();

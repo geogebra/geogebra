@@ -19,6 +19,9 @@ import org.geogebra.common.util.StringUtil;
 
 public class AlgoTableToChart extends AlgoElement {
 
+	/**
+	 * Chart types supported by tables.
+	 */
 	public enum ChartType {
 		PieChart,
 		BarChart,

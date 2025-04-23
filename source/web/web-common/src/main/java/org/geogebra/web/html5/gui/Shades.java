@@ -1,5 +1,8 @@
 package org.geogebra.web.html5.gui;
 
+/**
+ * Shades of the neutral color.
+ */
 public enum Shades {
 	NEUTRAL_0("neutral-0"),
 	NEUTRAL_100("neutral-100"),

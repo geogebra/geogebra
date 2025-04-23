@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Rectangle.
+ */
 public interface GRectangle extends GRectangle2D {
 
 	@Override

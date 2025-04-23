@@ -1,5 +1,7 @@
 package org.geogebra.web.richtext.impl;
 
+import org.geogebra.gwtutil.JsRunnable;
+
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsProperty;
@@ -40,15 +42,15 @@ public class CarotaTable implements HasContentAndFormat {
 	public native void load(Object data);
 
 	@Override
-	public native void contentChanged(EditorCallback editorCallback);
+	public native void contentChanged(JsRunnable editorCallback);
 
-	public native void sizeChanged(EditorCallback editorCallback);
-
-	@Override
-	public native void selectionChanged(EditorCallback editorCallback);
+	public native void sizeChanged(JsRunnable editorCallback);
 
 	@Override
-	public native void onEscape(EditorCallback editorCallback);
+	public native void selectionChanged(JsRunnable editorCallback);
+
+	@Override
+	public native void onEscape(JsRunnable editorCallback);
 
 	/**
 	 * Start editing.

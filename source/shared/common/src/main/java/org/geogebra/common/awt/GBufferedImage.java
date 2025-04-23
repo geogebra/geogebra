@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Image that can be used as a canvas.
+ */
 public interface GBufferedImage {
 
 	public int TYPE_INT_ARGB = 2;

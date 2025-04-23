@@ -1,5 +1,8 @@
 package org.geogebra.common.util;
 
+/**
+ * Time format adapter.
+ */
 public interface TimeFormatAdapter {
 
     /**

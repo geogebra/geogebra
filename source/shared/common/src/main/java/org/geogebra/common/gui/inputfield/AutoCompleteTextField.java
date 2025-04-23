@@ -11,6 +11,9 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.util.TextObject;
 
+/**
+ * Texi input component with autocompletion.
+ */
 public interface AutoCompleteTextField
 		extends TextObject {
 

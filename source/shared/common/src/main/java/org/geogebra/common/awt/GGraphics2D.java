@@ -4,6 +4,9 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.font.GTextLayout;
 
+/**
+ * 2D graphics.
+ */
 public interface GGraphics2D {
 
 	/**

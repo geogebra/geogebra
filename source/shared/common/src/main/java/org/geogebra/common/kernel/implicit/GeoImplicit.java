@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public interface GeoImplicit extends Path, EquationValue {
 
+	/** Equation form */
 	enum Form {
 		IMPLICIT, USER
 	}

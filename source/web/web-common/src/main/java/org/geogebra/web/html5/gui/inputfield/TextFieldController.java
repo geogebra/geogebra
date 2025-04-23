@@ -6,6 +6,9 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
 
+/**
+ * Text field controller.
+ */
 public interface TextFieldController {
 
 	void update();

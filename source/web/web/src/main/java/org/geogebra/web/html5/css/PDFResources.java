@@ -4,6 +4,9 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.Resource;
 import org.gwtproject.resources.client.TextResource;
 
+/**
+ * PDF.js resources
+ */
 @Resource
 public interface PDFResources extends ClientBundle {
 

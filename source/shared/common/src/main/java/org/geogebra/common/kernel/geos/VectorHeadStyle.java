@@ -5,6 +5,9 @@ import org.geogebra.common.euclidian.draw.DefaultVectorShape;
 import org.geogebra.common.euclidian.draw.DrawVectorModel;
 import org.geogebra.common.euclidian.draw.VectorShape;
 
+/**
+ * Vector decorations.
+ */
 public enum VectorHeadStyle {
 	DEFAULT {
 		@Override

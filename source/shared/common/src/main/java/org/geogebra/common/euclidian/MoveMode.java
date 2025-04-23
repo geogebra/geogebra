@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian;
 
+/**
+ * Modes of moving elements in graphics view.
+ */
 public enum MoveMode {
 	NONE,
 	POINT,

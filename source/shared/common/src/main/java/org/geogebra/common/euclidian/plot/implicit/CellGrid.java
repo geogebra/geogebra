@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 
+/**
+ * Cell grid.
+ * @param <T> grid cell type
+ */
 public interface CellGrid<T> {
 	void resize(EuclidianViewBounds bounds);
 

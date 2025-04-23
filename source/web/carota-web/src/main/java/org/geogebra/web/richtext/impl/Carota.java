@@ -27,8 +27,15 @@ public class Carota {
 	@JsProperty
 	public native CarotaRuns getRuns();
 
+	/**
+	 * Filter/processor for inserted strings.
+	 */
 	@JsFunction
 	public interface InsertFilter {
+		/**
+		 * @param text inserted text
+		 * @return processed text
+		 */
 		String onInserted(String text);
 	}
 

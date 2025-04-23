@@ -4,6 +4,9 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 
+/**
+ * Classic spreadsheet header for rows or columns.
+ */
 public interface SpreadsheetHeader extends KeyDownHandler {
 
 	void onPointerDown(PointerEvent event);

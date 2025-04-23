@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+/**
+ * Point with homogeneous 2D cartesian coordinates.
+ */
 public interface HasCoordinates {
 	void setUndefined();
 

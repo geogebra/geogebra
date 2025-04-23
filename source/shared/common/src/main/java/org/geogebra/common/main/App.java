@@ -4093,6 +4093,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		bottom
 	}
 
+	/**
+	 * Export types.
+	 */
 	public enum ExportType {
 		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, PDF_HTML5, EPS, EMF,
 
@@ -4127,6 +4130,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		NONE
 	}
 
+	/**
+	 * Runs for every view.
+	 */
 	public interface ViewCallback {
 		void run(int viewID, String viewName);
 	}

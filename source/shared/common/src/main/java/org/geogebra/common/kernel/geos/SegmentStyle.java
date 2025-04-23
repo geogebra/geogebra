@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.Locale;
 
+/**
+ * Segment end decorations.
+ */
 public enum SegmentStyle {
 	DEFAULT, LINE, SQUARE_OUTLINE, SQUARE, ARROW,
 	ARROW_FILLED, CIRCLE_OUTLINE, CIRCLE;

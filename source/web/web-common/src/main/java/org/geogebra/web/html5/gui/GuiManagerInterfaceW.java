@@ -22,6 +22,9 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
 import org.gwtproject.user.client.ui.Widget;
 
+/**
+ * GUI manager for the web platform.
+ */
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	/**

@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+/**
+ * Construction element that provides short text for screen reader.
+ */
 public interface HasAuralText {
 
 	/**

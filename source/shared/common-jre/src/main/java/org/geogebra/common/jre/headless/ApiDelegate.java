@@ -2,6 +2,9 @@ package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.euclidian.EuclidianView;
 
+/**
+ * API delegate
+ */
 public interface ApiDelegate {
 
 	/**

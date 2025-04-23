@@ -5,8 +5,9 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.Resource;
 
+/** Material design icons. */
 @Resource
-public interface MaterialDesignResources extends ClientBundle, ResourceIconProvider {
+public interface MaterialDesignResources extends ClientBundle {
 
 	MaterialDesignResources INSTANCE = new MaterialDesignResourcesImpl();
 
@@ -514,19 +515,15 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/drag_pad.svg")
 	SVGResource move_canvas();
 
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
 	SVGResource newFileMenu();
 
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_search_black_24px.svg")
 	SVGResource openFileMenu();
 
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_insert_drive_file_black_24px.svg")
 	SVGResource fileMenu();
 
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
 	SVGResource downloadMenu();
 

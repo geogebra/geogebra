@@ -43,7 +43,10 @@ import org.geogebra.common.util.MyMath;
 
 // TODO find a better package for this
 // (see also https://git.geogebra.org/ggb/geogebra/-/merge_requests/7181#note_52771)
-@SuppressWarnings("javadoc")
+
+/**
+ * Arithmetic operations.
+ */
 public enum Operation {
 	NO_OPERATION {
 		@Override

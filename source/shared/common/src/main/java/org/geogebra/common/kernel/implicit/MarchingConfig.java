@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.implicit;
 
 import org.geogebra.common.kernel.MyPoint;
 
+/**
+ * Marching square/rectangle configuration.
+ */
 public interface MarchingConfig {
 
 	int flag();

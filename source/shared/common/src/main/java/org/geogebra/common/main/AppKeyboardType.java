@@ -1,5 +1,8 @@
 package org.geogebra.common.main;
 
+/**
+ * Keyboard type.
+ */
 public enum AppKeyboardType {
 	SCIENTIFIC,
 

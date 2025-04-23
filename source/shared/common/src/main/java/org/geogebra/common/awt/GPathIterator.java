@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Path iterator.
+ */
 public interface GPathIterator {
 
 	public static final int WIND_EVEN_ODD = 0;

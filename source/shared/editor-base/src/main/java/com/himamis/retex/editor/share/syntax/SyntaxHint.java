@@ -1,5 +1,8 @@
 package com.himamis.retex.editor.share.syntax;
 
+/**
+ * Syntax hint.
+ */
 public interface SyntaxHint {
 
 	/**

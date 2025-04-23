@@ -3,6 +3,9 @@ package org.geogebra.common.kernel.printing.printer;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 
+/**
+ * Vector value serializer.
+ */
 public interface Printer {
 
     /**

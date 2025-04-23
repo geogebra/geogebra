@@ -4,6 +4,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 
+/**
+ * Spreadsheet table (classic).
+ */
 public interface MyTableInterface extends HasTableSelection {
 
 	public App getApplication();

@@ -136,6 +136,7 @@ public abstract class Analytics {
 		public static final String SYMBOLS = "symbols";
 	}
 
+	/** Event sources */
 	public enum InputSource {
 		ALGEBRA("Algebra"),
 		DATA_TABLE("Data Table"),

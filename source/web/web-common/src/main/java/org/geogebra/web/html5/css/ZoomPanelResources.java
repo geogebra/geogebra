@@ -4,6 +4,9 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.Resource;
 
+/**
+ * Icons for zoom panel.
+ */
 @Resource
 public interface ZoomPanelResources extends ClientBundle {
 

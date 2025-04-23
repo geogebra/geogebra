@@ -4,6 +4,9 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.kernel.interval.Interval;
 
+/**
+ * A collection of consecutive intervals.
+ */
 public interface DiscreteSpace {
 
 	void rescale(Interval interval, int count);

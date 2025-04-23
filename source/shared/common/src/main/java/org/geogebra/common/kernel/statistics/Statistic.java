@@ -5,6 +5,9 @@ import org.geogebra.common.main.Localization;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Statistics to compute from one or two sets of data.
+ */
 public enum Statistic {
 	NULL(null), LENGTH(Commands.Length), MEAN(Commands.mean, "\\overline{%v}"),
 	SD(Commands.SD, "%t%v"), SAMPLE_SD(Commands.SampleSD, "%t%v"),

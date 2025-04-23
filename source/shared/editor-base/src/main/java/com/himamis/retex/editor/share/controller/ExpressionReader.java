@@ -2,6 +2,9 @@ package com.himamis.retex.editor.share.controller;
 
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 
+/**
+ * Expression serializer for screen reader.
+ */
 public interface ExpressionReader {
 
 	String localize(String key, String... parameters);

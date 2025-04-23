@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Quadratic curve.
+ */
 public interface GQuadCurve2D extends GShape {
 
 	void setCurve(double[] parpoints, int i);

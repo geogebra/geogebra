@@ -46,7 +46,9 @@ public class SpreadsheetContextMenu<T> {
 
 	private Localization loc;
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * Context menu command.
+	 */
 	public enum MenuCommand {
 		ShowObject, ShowLabel, HideLabel,
 

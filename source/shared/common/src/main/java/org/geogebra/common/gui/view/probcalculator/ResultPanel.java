@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.view.probcalculator;
 
+/**
+ * Results panel.
+ */
 public interface ResultPanel {
 	void showInterval();
 

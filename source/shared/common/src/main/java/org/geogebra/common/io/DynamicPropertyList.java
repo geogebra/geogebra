@@ -10,6 +10,9 @@ public class DynamicPropertyList {
 
 	private LinkedList<GeoExpPair> pairs = new LinkedList<>();
 
+	/**
+	 * Consumer of (geo, property value) pairs.
+	 */
 	public interface Handler {
 		public void accept(GeoElement geo, String val) throws CircularDefinitionException;
 	}

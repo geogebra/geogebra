@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.geos.properties;
 
 import java.util.Locale;
 
+/**
+ * Horizontal alignment.
+ */
 public enum HorizontalAlignment {
 	LEFT, CENTER, RIGHT;
 

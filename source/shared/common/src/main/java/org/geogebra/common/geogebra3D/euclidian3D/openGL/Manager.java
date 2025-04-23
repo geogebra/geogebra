@@ -19,6 +19,9 @@ import org.geogebra.common.kernel.matrix.Coords3;
  */
 abstract public class Manager {
 
+	/**
+	 * Geometry type.
+	 */
 	public static enum Type { // quads and quad strips are not supported in
 								// gwtgl
 		TRIANGLE_STRIP, TRIANGLE_FAN, TRIANGLES, LINE_LOOP, LINE_STRIP

@@ -26,13 +26,35 @@
 
 package com.himamis.retex.editor.share.event;
 
+/**
+ * Key event listener.
+ */
 public interface KeyListener {
 
+	/**
+	 * Called when key is pressed.
+	 * @param keyEvent key event
+	 * @return whether it was handled by this listener
+	 */
 	boolean onKeyPressed(KeyEvent keyEvent);
-	
+
+	/**
+	 * Called when key is released.
+	 * @param keyEvent key event
+	 * @return whether it was handled by this listener
+	 */
 	boolean onKeyReleased(KeyEvent keyEvent);
-	
+
+	/**
+	 * Called when key is typed.
+	 * @param keyEvent key event
+	 * @return whether it was handled by this listener
+	 */
 	boolean onKeyTyped(KeyEvent keyEvent);
 
+	/**
+	 * TODO remove
+	 * @return whether it was handled by this listener
+	 */
 	boolean onKeyTyped(KeyEvent keyEvent, boolean fireUpdate);
 }

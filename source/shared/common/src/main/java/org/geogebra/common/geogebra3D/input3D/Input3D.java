@@ -20,10 +20,16 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
  */
 abstract public class Input3D {
 
+	/**
+	 * Input device type.
+	 */
 	public enum DeviceType {
 		HAND, PEN
 	}
 
+	/**
+	 * Direction in which we can be out of visible field.
+	 */
 	public enum OutOfField {
 		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES
 	}

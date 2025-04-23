@@ -1,5 +1,8 @@
 package org.geogebra.common.util;
 
+/**
+ * Relevant file extensions (supported for import or export).
+ */
 public enum FileExtensions {
 
 	// only these 4 PNG/JPG/JPEG/SVG are allowed image formats in .ggb files

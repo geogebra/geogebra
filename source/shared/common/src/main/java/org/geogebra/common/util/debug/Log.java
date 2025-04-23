@@ -17,6 +17,7 @@ public abstract class Log {
 	private static volatile Log logger;
 	private static Object lock = new Object();
 
+	/** Logging level */
 	public enum Level {
 		EMERGENCY,
 		ALERT,

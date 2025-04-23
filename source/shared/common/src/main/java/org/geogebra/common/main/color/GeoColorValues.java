@@ -2,6 +2,9 @@ package org.geogebra.common.main.color;
 
 import org.geogebra.common.awt.GColor;
 
+/**
+ * Colors for construction elements.
+ */
 public enum GeoColorValues implements ColorValues {
 
 	BLACK_900(GColor.newColorRGB(0x1C1C1F)),

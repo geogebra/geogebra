@@ -14,7 +14,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class EuclidianView3DAnimator {
 
-	@SuppressWarnings("javadoc")
+	/** Animation type */
 	public enum AnimationType {
 		OFF, ANIMATED_SCALE, CONTINUE_ROTATION, ROTATION, ROTATION_NO_ANIMATION,
 

@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian;
 
+/**
+ * Listener for animated coordinate system changes.
+ */
 public interface CoordSystemAnimationListener {
 
 	/**

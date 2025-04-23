@@ -55,6 +55,9 @@ public interface GeoGebraConstants {
 		}
 	}
 
+	/**
+	 * Platform
+	 */
 	public enum Platform {
 
 		DESKTOP("d"),
@@ -127,10 +130,6 @@ public interface GeoGebraConstants {
 		public boolean isMobile() {
 			return this == ANDROID || this == IOS;
 		}
-	}
-
-	enum MenuType {
-		DEFAULT, EXAM
 	}
 
 	String SUITE_APPNAME = "GeoGebraCalculatorSuite";

@@ -2,6 +2,10 @@ package org.geogebra.web.richtext.impl;
 
 import jsinterop.annotations.JsType;
 
+/**
+ * Methods for Murok table.
+ * TODO either let CarotaDocument also implement this, or just remove this.
+ */
 @JsType(isNative = true)
 public interface HasContentAndFormat extends HasContent {
 

@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.inputfield;
 
+/**
+ * Text input field with error display.
+ */
 public interface Input {
 
 	/**

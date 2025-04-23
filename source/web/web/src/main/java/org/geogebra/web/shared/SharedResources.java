@@ -5,6 +5,9 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.Resource;
 
+/**
+ * Generic icon set.
+ */
 @Resource
 public interface SharedResources extends ClientBundle {
 

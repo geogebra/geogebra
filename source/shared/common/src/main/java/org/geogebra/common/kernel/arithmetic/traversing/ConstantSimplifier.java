@@ -6,6 +6,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 
+/**
+ * Simplifier of constant sub-expressions.
+ */
 public enum ConstantSimplifier implements Traversing, Inspecting {
 
 	INSTANCE;

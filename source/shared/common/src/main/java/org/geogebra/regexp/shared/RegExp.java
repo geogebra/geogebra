@@ -16,6 +16,9 @@
 
 package org.geogebra.regexp.shared;
 
+/**
+ * Compiled regular expression.
+ */
 public interface RegExp {
 
 	/**

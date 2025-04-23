@@ -15,6 +15,9 @@ package org.geogebra.common.gui.inputfield;
  */
 public class DynamicTextElement {
 
+	/**
+	 * Types of dynamic text elements.
+	 */
 	public enum DynamicTextType {
 		VALUE, DEFINITION, FORMULA_TEXT, STATIC
 	}

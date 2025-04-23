@@ -7,6 +7,9 @@ import org.geogebra.web.html5.main.AppW;
 
 import elemental2.promise.Promise;
 
+/**
+ * Look and feel properties.
+ */
 public interface GLookAndFeelI {
 	int COMMAND_LINE_HEIGHT = 43;
 	int TOOLBAR_HEIGHT = 53;

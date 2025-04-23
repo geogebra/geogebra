@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian.plot.interval;
 
+/**
+ * Interval function model.
+ */
 public interface IntervalFunctionModel {
 	void update();
 

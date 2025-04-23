@@ -1,6 +1,8 @@
 package com.himamis.retex.editor.share.util;
 
-@SuppressWarnings("javadoc")
+/**
+ * Key codes for the browser. Some overlap with {@link JavaKeyCodes}, some do not.
+ */
 public interface GWTKeycodes {
 
 	/**

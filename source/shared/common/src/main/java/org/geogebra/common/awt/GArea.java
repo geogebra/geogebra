@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * 2D area supporting boolean operations.
+ */
 public interface GArea extends GShape {
 
 	/**

@@ -16,6 +16,9 @@
 
 package org.geogebra.regexp.shared;
 
+/**
+ * Match result.
+ */
 public interface MatchResult {
 
 	/**

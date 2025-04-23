@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.interval.operators;
 
 import org.geogebra.common.kernel.interval.Interval;
 
+/**
+ * Misc interval operands.
+ */
 public interface IntervalMiscOperands {
 	/**
 	 * Gives e^x where e is the euclidean constant

@@ -3,6 +3,9 @@ package org.geogebra.web.html5.gui.inputfield;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Widget;
 
+/**
+ * Input field with autocomplete.
+ */
 public interface AutoCompleteW {
 	boolean getAutoComplete();
 

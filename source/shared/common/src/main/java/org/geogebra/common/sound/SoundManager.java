@@ -5,6 +5,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Sound manager.
+ */
 public interface SoundManager {
 
 	void pauseResumeSound(boolean b);

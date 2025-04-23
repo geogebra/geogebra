@@ -9,6 +9,10 @@ import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.App;
 
 public class MultiVarStatTableModel extends StatTableModel {
+
+	/**
+	 * UI delegate for this model.
+	 */
 	public interface MultiVarStatTableListener extends StatTableListener {
 
 		String[] getDataTitles();

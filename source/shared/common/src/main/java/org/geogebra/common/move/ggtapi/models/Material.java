@@ -16,6 +16,9 @@ import org.geogebra.common.util.debug.Log;
 @SuppressWarnings("serial")
 public class Material implements Serializable {
 
+	/**
+	 * Storage provider.
+	 */
     public enum Provider {
 		TUBE("GeoGebra"),
 		GOOGLE("Google Drive"),
@@ -49,6 +52,9 @@ public class Material implements Serializable {
 		}
 	}
 
+	/**
+	 * Resource type (values names must match API-supported values).
+	 */
 	public enum MaterialType {
 		ggb, ggt, ggs, link, book, ws, csv, flexiblews, ggsTemplate;
 

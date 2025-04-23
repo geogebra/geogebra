@@ -32,6 +32,9 @@ public class TwoVarStatModel {
 	private long n2;
 	private TwoVarStatListener listener;
 
+	/**
+	 * UI delegate for this model.
+	 */
 	public interface TwoVarStatListener {
 
 		void setValueAt(String value, int row, int col);

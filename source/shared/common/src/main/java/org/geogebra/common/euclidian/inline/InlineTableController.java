@@ -6,6 +6,9 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.properties.BorderType;
 
+/**
+ * Inline table controller.
+ */
 public interface InlineTableController extends HasTextFormat {
 
 	/**

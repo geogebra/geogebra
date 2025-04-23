@@ -1,5 +1,8 @@
 package org.geogebra.common.util;
 
+/**
+ * Boolean with added unknown value.
+ */
 public enum ExtendedBoolean {
 	TRUE, FALSE, UNKNOWN;
 

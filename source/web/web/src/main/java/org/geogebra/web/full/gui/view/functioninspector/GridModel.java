@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.util.debug.Log;
 
 public class GridModel {
-	private static final String PREFIX = "[GRID MODEL]";
 
 	private IGridListener listener;
 	private List<String> headers;
@@ -15,6 +14,9 @@ public class GridModel {
 	private int rowCount;
 	private DataCell editCell;
 
+	/**
+	 * UI delegate for the model.
+	 */
 	public interface IGridListener {
 		/** Column/header operations */
 		void appendColumn(String name);
@@ -282,29 +284,5 @@ public class GridModel {
 			editCell = data.get(row).get(col);
 			editCell.setEditable(false);
 		}
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\n " + PREFIX + "    ");
-		for (String header: headers) {
-			sb.append(header);
-			sb.append(" ");
-		}
-		sb.append("\n");
-		int rowIdx = 0;
-		for (List<DataCell> row: data) {
-			sb.append(PREFIX);
-			sb.append(rowIdx);
-			sb.append(". : (");
-			for (DataCell cell: row) {
-				sb.append(cell.toString());
-				sb.append(" ");
-			}
-			rowIdx++;
-			sb.append(")\n");
-		}
-		return sb.toString();
 	}
 }

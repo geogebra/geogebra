@@ -2,10 +2,13 @@ package org.geogebra.web.full.main;
 
 import org.gwtproject.dom.client.Element;
 
+/**
+ * Header resizer.
+ */
 public interface HeaderResizer {
 
 	/**
-	 * Updates heeader according to screen size.
+	 * Updates header according to screen size.
 	 */
 	void resizeHeader();
 

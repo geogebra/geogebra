@@ -3,6 +3,9 @@ package org.geogebra.web.html5.gui.view.browser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 
+/**
+ * Open file view.
+ */
 public interface BrowseViewI {
 
 	void setMaterialsDefaultStyle();

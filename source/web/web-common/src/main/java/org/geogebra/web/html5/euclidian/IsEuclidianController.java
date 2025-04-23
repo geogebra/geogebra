@@ -7,6 +7,9 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 
+/**
+ * Common interface for 2D and 3D Euclidian controller in Web.
+ */
 public interface IsEuclidianController extends LongTouchHandler {
 
 	void setExternalHandling(boolean b);

@@ -4,6 +4,9 @@ import org.gwtproject.dom.client.Element;
 
 import jsinterop.base.Js;
 
+/**
+ * Provider of applet parameters, maps parameter names to values and supports overwriting.
+ */
 public interface AttributeProvider {
 
 	/**

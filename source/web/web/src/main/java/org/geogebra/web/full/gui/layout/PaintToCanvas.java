@@ -2,6 +2,9 @@ package org.geogebra.web.full.gui.layout;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
+/**
+ * Component that can be painted on canvas.
+ */
 public interface PaintToCanvas {
 	/**
 	 * Paint content of this component to a context.

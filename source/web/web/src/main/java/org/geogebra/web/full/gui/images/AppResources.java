@@ -4,6 +4,7 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.Resource;
 
+/** Generic resource bundle. */
 @Resource
 public interface AppResources extends ClientBundle {
 	

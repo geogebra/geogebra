@@ -5,6 +5,9 @@ import java.util.Collection;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.util.HttpRequest;
 
+/**
+ * Backend service providing access to ggb/ggs resources.
+ */
 public interface Service {
 
 	HttpRequest createRequest(AuthenticationModel model);

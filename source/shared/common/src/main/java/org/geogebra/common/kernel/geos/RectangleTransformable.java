@@ -3,6 +3,9 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
+/**
+ * Element wih bounding rectanlge that can be transformed.
+ */
 public interface RectangleTransformable extends GeoElementND {
 
 	/**

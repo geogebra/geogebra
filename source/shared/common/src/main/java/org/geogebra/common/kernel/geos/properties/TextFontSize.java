@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos.properties;
 
+/**
+ * Relative font sizes.
+ */
 public enum TextFontSize {
 	EXTRA_SMALL("ExtraSmall"),
 	VERY_SMALL("VerySmall"),

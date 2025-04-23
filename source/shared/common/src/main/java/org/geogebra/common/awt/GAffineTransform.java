@@ -1,5 +1,8 @@
 package org.geogebra.common.awt;
 
+/**
+ * Affine transform.
+ */
 public interface GAffineTransform {
 	void setTransform(GAffineTransform a);
 

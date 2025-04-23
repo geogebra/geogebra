@@ -10,6 +10,9 @@ import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Suite subapp.
+ */
 public enum SuiteSubApp {
 	GRAPHING(GRAPHING_APPCODE),
 	GEOMETRY(GEOMETRY_APPCODE),

@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 
+/**
+ * Object with horizontal alignment property.
+ */
 public interface HasAlignment {
 
     /**

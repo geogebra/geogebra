@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.interval.operators;
 
 import org.geogebra.common.kernel.interval.Interval;
 
+/**
+ * Interval arithmetic.
+ */
 public interface IntervalArithmetic {
 
 	/**

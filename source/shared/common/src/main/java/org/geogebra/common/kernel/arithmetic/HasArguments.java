@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.arithmetic;
 
+/**
+ * Common interface for algos and commands.
+ */
 public interface HasArguments {
 
 	/**

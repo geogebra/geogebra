@@ -2,6 +2,9 @@ package org.geogebra.web.full.util;
 
 import elemental2.dom.Event;
 
+/**
+ * Cell click handler.
+ */
 public interface CellClickHandler {
 	/**
 	 * @param row table row

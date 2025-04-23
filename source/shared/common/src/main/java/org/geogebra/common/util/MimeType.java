@@ -3,6 +3,9 @@ package org.geogebra.common.util;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
+/**
+ * Mime types that can be opened by the apps.
+ */
 public enum MimeType {
 	GEOGEBRA("application/vnd.geogebra.file", FileExtensions.GEOGEBRA.toString(),
 			"Download.GeoGebraFile"),

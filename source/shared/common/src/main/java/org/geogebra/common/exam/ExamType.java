@@ -21,6 +21,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.ToStringConverter;
 
+/**
+ * Exam types.
+ */
 public enum ExamType {
 
 	GENERIC() {
