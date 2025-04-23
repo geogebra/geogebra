@@ -79,6 +79,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.main.undo.UndoHistory;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.events.BaseEvent;
@@ -2532,7 +2533,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));
 		final Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective(), getGuiManager().getLayout());
-
+		if (autocompleteProvider != null && primarySyntaxFilter != null) {
+			autocompleteProvider.removeSyntaxFilter(primarySyntaxFilter);
+		}
 		if (examController.isExamActive()) {
 			examController.reapplyRestrictionsToRestrictables();
 		}
@@ -2693,6 +2696,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public AutocompleteProvider getAutocompleteProvider() {
 		if (autocompleteProvider == null) {
 			autocompleteProvider = new AutocompleteProvider(this, false);
+			SyntaxFilter filter = getConfig().newCommandSyntaxFilter();
+			if (filter != null) {
+				autocompleteProvider.addSyntaxFilter(filter);
+			}
 		}
 		return autocompleteProvider;
 	}

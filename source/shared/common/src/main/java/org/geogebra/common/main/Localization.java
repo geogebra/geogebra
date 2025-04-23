@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1131,7 +1133,7 @@ public abstract class Localization extends LocalizationI {
 		return Errors.InvalidInput.getError(this);
 	}
 
-	public LocalizedCommandSyntax getCommandSyntax() {
+	public @Nonnull LocalizedCommandSyntax getCommandSyntax() {
 		return commandSyntax;
 	}
 

@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 @RunWith(GgbMockitoTestRunner.class)
 public class GraphingTest {
 
-	private AppW app;
+	private AppWFull app;
 
 	@Before
 	public void setup() {
@@ -45,6 +45,12 @@ public class GraphingTest {
 	public void noEquationDragging() {
 		assertTrue("should not allow dragging equations",
 				app.getSettings().getAlgebra().isEquationChangeByDragRestricted());
+	}
+
+	@Test
+	public void syntaxesShouldBeFiltered() {
+		assertEquals(1, app.getAutocompleteProvider()
+				.getSyntaxes("Invert").size());
 	}
 
 	@Test

@@ -446,6 +446,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	private Material activeMaterial;
 	private EditorFeatures editorFeatures;
+	/** Syntax filter enforced by AppConfig. */
+	protected SyntaxFilter primarySyntaxFilter;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -628,9 +630,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		AppConfig config = getConfig();
 		localization.setDecimalPlaces(config.getDecimalPlaces());
 		localization.setSignificantFigures(config.getSignificantFigures());
-		SyntaxFilter syntaxFilter = config.newCommandSyntaxFilter();
-		if (syntaxFilter != null) {
-			localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
+		primarySyntaxFilter = config.newCommandSyntaxFilter();
+		if (primarySyntaxFilter != null) {
+			localization.getCommandSyntax().addSyntaxFilter(primarySyntaxFilter);
 		}
 	}
 
@@ -4584,11 +4586,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Set the app config and reinitialize the app.
 	 */
 	public void setConfig(AppConfig config) {
+		if (primarySyntaxFilter != null && getLocalization() != null) {
+			getLocalization().getCommandSyntax().removeSyntaxFilter(primarySyntaxFilter);
+		}
 		this.appConfig = config;
+
 		if (kernel != null) {
 			kernel.setEquationBehaviour(config.getEquationBehaviour());
 			kernel.getAlgebraProcessor().setEnableStructures(config.isEnableStructures());
 			initSettingsUpdater().resetSettingsOnAppStart();
+		}
+		primarySyntaxFilter = config.newCommandSyntaxFilter();
+		if (primarySyntaxFilter != null && getLocalization() != null) {
+			getLocalization().getCommandSyntax().addSyntaxFilter(primarySyntaxFilter);
 		}
 		resetAlgebraOutputFilter();
 	}
