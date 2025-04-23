@@ -181,8 +181,8 @@ public class MathCharacter extends MathComponent {
 	}
 
 	/**
-	 * Chaeck if this character has a specific unicode value.
-	 * @param c unicode valu
+	 * Check if this character has a specific unicode value.
+	 * @param c unicode value
 	 * @return whether it matches
 	 */
 	public boolean isUnicode(char c) {

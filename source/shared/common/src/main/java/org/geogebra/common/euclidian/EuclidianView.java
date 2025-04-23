@@ -6569,7 +6569,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * If the graphics object supports layers, add one for the embeded widget.
+	 * If the graphics object supports layers, add one for the embedded widget.
 	 * @param g2 graphics
 	 * @param drawEmbed embedded widget
 	 */

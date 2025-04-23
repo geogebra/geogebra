@@ -153,7 +153,7 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * Iniitialize the dynamic caption.
+	 * Initialize the dynamic caption.
 	 */
 	public void initDynamicCaption() {
 		drawDynamicCaption = new DrawDynamicCaption(view, this);

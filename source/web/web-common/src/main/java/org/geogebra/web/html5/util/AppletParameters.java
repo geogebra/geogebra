@@ -52,7 +52,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * Remove an attibute.
+	 * Remove an attribute.
 	 * @param attribute attribute name
 	 */
 	public void removeAttribute(String attribute) {

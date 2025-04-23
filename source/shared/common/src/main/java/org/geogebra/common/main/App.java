@@ -2992,8 +2992,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Zoom the active view.
-	 * @param px zoom center's x-ccordinate
-	 * @param py zoom center's y-ccordinate
+	 * @param px zoom center's x-coordinate
+	 * @param py zoom center's y-coordinate
 	 * @param zoomFactor zoom factor
 	 */
 	public final void zoom(double px, double py, double zoomFactor) {

@@ -72,7 +72,7 @@ public class DefineFunctionHandler implements ErrorHandler {
 	}
 
 	/**
-	 * @return whether errors occured.
+	 * @return whether errors occurred.
 	 */
 	public boolean hasErrorOccurred() {
 		return errorOccurred;

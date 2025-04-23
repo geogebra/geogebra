@@ -1092,9 +1092,9 @@ public final class EuclidianConstants {
 	}
 
 	/**
-	 * Get tranlation key for the help text associated with given mode.
+	 * Get translation key for the help text associated with given mode.
 	 * @param mode mode
-	 * @return tranlation key
+	 * @return translation key
 	 */
 	public static String getHelpTransKey(int mode) {
 		return EuclidianConstants.getModeTextSimple(mode) + ".Help";

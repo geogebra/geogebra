@@ -11212,7 +11212,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Updte properties that depend on environment zoom/scale
+	 * Update properties that depend on environment zoom/scale
 	 * (when embedded in a browser).
 	 */
 	public void calculateEnvironment() {

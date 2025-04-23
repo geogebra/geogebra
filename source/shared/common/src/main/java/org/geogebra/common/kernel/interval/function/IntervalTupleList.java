@@ -107,7 +107,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 	/**
 	 * @param index index
-	 * @return intrval at given index
+	 * @return interval at given index
 	 */
 	public Interval valueAt(int index) {
 		return get(index).y();

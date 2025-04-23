@@ -1447,7 +1447,7 @@ public class InputController {
 	}
 
 	/**
-	 * @param exp string in any convertable syntax (LaTeX, MathML, ...)
+	 * @param exp string in any convertible syntax (LaTeX, MathML, ...)
 	 * @return string in editor syntax
 	 */
 	public String convert(String exp) {

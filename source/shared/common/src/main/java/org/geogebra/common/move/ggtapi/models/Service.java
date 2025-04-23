@@ -18,7 +18,7 @@ public interface Service {
 	String getGroupsEndpoint(String materialId, GroupIdentifier.GroupCategory category);
 
 	/**
-	 * @return whther multiuser is supported.
+	 * @return whether multiuser is supported.
 	 */
 	default boolean hasMultiuser() {
 		return false;

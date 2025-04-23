@@ -228,7 +228,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
-	 * Toggle the simple script behavior (exit sript when operator is typed).
+	 * Toggle the simple script behavior (exit script when operator is typed).
 	 * @param useSimpleScripts whether to use simple scripts.
 	 */
 	public void setUseSimpleScripts(boolean useSimpleScripts) {
