@@ -1,6 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +30,7 @@ public final class SpreadsheetStyleBarModel {
 	 */
 	public static class State {
 		static final State DISABLED = new State(false, null,
-				SpreadsheetStyle.TextAlignment.DEFAULT, null, null, null, null);
+				SpreadsheetStyle.TextAlignment.DEFAULT, null, null);
 
 		/** @return true if at least one UI element in the style bar is enabled */
 		@Property("readonly")
@@ -47,16 +46,12 @@ public final class SpreadsheetStyleBarModel {
 		public final @Nullable GColor backgroundColor;
 		@Property("readonly")
 		public final @Nullable GColor textColor;
-		final @Nullable List<Selection> selections;
-		final @Nullable SpreadsheetCoords firstCell;
 
 		State(boolean isEnabled,
 				@Nullable Set<SpreadsheetStyle.FontTrait> fontTraits,
 				@Nullable SpreadsheetStyle.TextAlignment textAlignment,
 				@Nullable GColor backgroundColor,
-				@Nullable GColor textColor,
-				@Nullable List<Selection> selections,
-				@Nullable SpreadsheetCoords firstCell) {
+				@Nullable GColor textColor) {
 			this.isEnabled = isEnabled;
 			this.fontTraits = fontTraits != null
 					? fontTraits : Set.of();
@@ -64,8 +59,6 @@ public final class SpreadsheetStyleBarModel {
 					? textAlignment : SpreadsheetStyle.TextAlignment.DEFAULT;
 			this.backgroundColor = backgroundColor;
 			this.textColor = textColor;
-			this.selections = selections != null ? new ArrayList<>(selections) : null;
-			this.firstCell = firstCell;
 		}
 
 		/**
@@ -96,15 +89,12 @@ public final class SpreadsheetStyleBarModel {
 					&& Objects.equals(fontTraits, other.fontTraits)
 					&& textAlignment == other.textAlignment
 					&& Objects.equals(backgroundColor, other.backgroundColor)
-					&& Objects.equals(textColor, other.textColor)
-					&& Objects.equals(selections, other.selections)
-					&& Objects.equals(firstCell, other.firstCell);
+					&& Objects.equals(textColor, other.textColor);
 		}
 
 		@Override
 		public int hashCode() {
-			return Objects.hash(isEnabled, fontTraits, textAlignment, backgroundColor, textColor,
-					selections, firstCell);
+			return Objects.hash(isEnabled, fontTraits, textAlignment, backgroundColor, textColor);
 		}
 	}
 
@@ -131,7 +121,7 @@ public final class SpreadsheetStyleBarModel {
 		this.spreadsheetController = spreadsheetController;
 		this.selectionController = selectionController;
 		this.style = style;
-		style.stylingApplied.addListener(this::stylingApplied);
+		style.stylingChanged.addListener(this::stylingChanged);
 		state = State.DISABLED;
 		stateChanged = new MulticastEvent<>();
 		selectionController.selectionsChanged.addListener(this::selectionsChanged);
@@ -197,7 +187,7 @@ public final class SpreadsheetStyleBarModel {
 
 	// Change notification
 
-	private void stylingApplied(List<TabularRange> unused) {
+	private void stylingChanged(List<TabularRange> unused) {
 		updateStateAndNotifyChanged();
 	}
 
@@ -211,7 +201,6 @@ public final class SpreadsheetStyleBarModel {
 		if (state.equals(previousState)) {
 			return;
 		}
-		spreadsheetController.storeUndoInfo(); // only create undo point if there's a state change
 		stateChanged.notifyListeners(state);
 	}
 
@@ -226,8 +215,7 @@ public final class SpreadsheetStyleBarModel {
 		SpreadsheetStyle.TextAlignment textAlignment = style.getTextAlignment(row, column);
 		GColor backgroundColor = style.getBackgroundColor(row, column, null);
 		GColor textColor = style.getTextColor(row, column, null);
-		return new State(true, fontTraits, textAlignment, backgroundColor, textColor,
-				selectionController.getSelectionsCopy(), firstCell);
+		return new State(true, fontTraits, textAlignment, backgroundColor, textColor);
 	}
 
 	// Utils

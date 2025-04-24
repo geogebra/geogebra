@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.spreadsheet.core.SpreadsheetTestHelpers.simulateCellMouseClick;
+import static org.geogebra.common.spreadsheet.core.SpreadsheetTestHelpers.simulateDownArrowPress;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -7,6 +9,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
@@ -21,6 +27,7 @@ import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -31,13 +38,14 @@ public class SpreadsheetTest extends BaseUnitTest {
 	private final double cellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
 	private TabularData<?> tabularData;
+	private UndoProvider undoProvider;
 	private SpreadsheetDelegate delegate;
 
 	@Before
 	public void setupSpreadsheet() {
 		tabularData = new TestTabularData();
-		spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory(), null);
+		undoProvider = mock();
+		spreadsheet = new Spreadsheet(tabularData, new TestCellRenderableFactory(), undoProvider);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		resetViewport();
@@ -226,6 +234,31 @@ public class SpreadsheetTest extends BaseUnitTest {
 		styleBarModel.setBold(false); // should trigger change notification
 		assertEquals(2, numberOfChangeNotifications.value);
 	}
+
+	@Test
+	@Issue("APPS-6534")
+	public void testSelectionChangeShouldNotCreateUndoPoint() {
+		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
+		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
+		verifyNoInteractions(undoProvider);
+	}
+
+	@Test
+	public void testStyleChangesShouldCreateUndoPoints() {
+		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
+		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
+		styleBarModel.setItalic(true);
+		verify(undoProvider, times(1)).storeUndoInfo();
+		styleBarModel.setItalic(true); // not an actual style change, should not create undo point
+		verify(undoProvider, times(1)).storeUndoInfo();
+		styleBarModel.setItalic(false);
+		verify(undoProvider, times(2)).storeUndoInfo();
+		simulateDownArrowPress(spreadsheet.getController());
+		styleBarModel.setTextAlignment(SpreadsheetStyle.TextAlignment.LEFT);
+		verify(undoProvider, times(3)).storeUndoInfo();
+	}
+
+	// Helpers
 
 	private static class TestCellRenderableFactory implements CellRenderableFactory {
 		@Override

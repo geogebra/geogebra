@@ -30,7 +30,7 @@ public final class SpreadsheetStyle {
 	 * Observability (notifications about style changes).
 	 * The event payload is the list of affected ranges.
 	 */
-	public final MulticastEvent<List<TabularRange>> stylingApplied = new MulticastEvent<>();
+	public final MulticastEvent<List<TabularRange>> stylingChanged = new MulticastEvent<>();
 
 	private final CellFormat format;
 	private boolean showGrid = true;
@@ -39,8 +39,8 @@ public final class SpreadsheetStyle {
 		this.format = format;
 	}
 
-	private void notifyStylingApplied(@Nonnull List<TabularRange> ranges) {
-		stylingApplied.notifyListeners(ranges);
+	private void notifyStylingChanged(@Nonnull List<TabularRange> ranges) {
+		stylingChanged.notifyListeners(ranges);
 	}
 
 	// Grid & borders
@@ -96,8 +96,10 @@ public final class SpreadsheetStyle {
 	public void setFontTraits(@Nonnull Set<FontTrait> traits,
 			@Nonnull List<TabularRange> ranges) {
 		Integer cellFormat = cellFormatFromFontTraits(traits);
-		format.setFormat(ranges, CellFormat.FORMAT_FONTSTYLE, cellFormat);
-		notifyStylingApplied(ranges);
+		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_FONTSTYLE, cellFormat);
+		if (changed) {
+			notifyStylingChanged(ranges);
+		}
 	}
 
 	// Text alignment
@@ -120,8 +122,10 @@ public final class SpreadsheetStyle {
 	public void setTextAlignment(@Nonnull TextAlignment textAlignment,
 			@Nonnull  List<TabularRange> ranges) {
 		Integer cellFormat = cellFormatFromTextAlignment(textAlignment);
-		format.setFormat(ranges, CellFormat.FORMAT_ALIGN, cellFormat);
-		notifyStylingApplied(ranges);
+		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_ALIGN, cellFormat);
+		if (changed) {
+			notifyStylingChanged(ranges);
+		}
 	}
 
 	// Text color
@@ -148,8 +152,10 @@ public final class SpreadsheetStyle {
 	 * @param ranges list of ranges
 	 */
 	public void setTextColor(GColor color, List<TabularRange> ranges) {
-		format.setFormat(ranges, CellFormat.FORMAT_FGCOLOR, color);
-		notifyStylingApplied(ranges);
+		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_FGCOLOR, color);
+		if (changed) {
+			notifyStylingChanged(ranges);
+		}
 	}
 
 	// Cell & header colors
@@ -171,8 +177,10 @@ public final class SpreadsheetStyle {
 	 * @param ranges list of ranges
 	 */
 	public void setBackgroundColor(GColor color, List<TabularRange> ranges) {
-		format.setFormat(ranges, CellFormat.FORMAT_BGCOLOR, color);
-		notifyStylingApplied(ranges);
+		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_BGCOLOR, color);
+		if (changed) {
+			notifyStylingChanged(ranges);
+		}
 	}
 
 	public GColor getHeaderBackgroundColor() {

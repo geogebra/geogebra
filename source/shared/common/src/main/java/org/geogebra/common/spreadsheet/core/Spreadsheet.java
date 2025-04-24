@@ -39,7 +39,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		style = new SpreadsheetStyle(tabularData.getFormat());
 		styleBarModel = new SpreadsheetStyleBarModel(controller, controller.selectionController,
 				style);
-		style.stylingApplied.addListener(this::stylingApplied);
+		style.stylingChanged.addListener(this::stylingChanged);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				style, tabularData);
 		setViewport(new Rectangle(0, 0, 0, 0));
@@ -58,7 +58,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		return styleBarModel;
 	}
 
-	private void stylingApplied(@Nonnull List<TabularRange> ranges) {
+	private void stylingChanged(@Nonnull List<TabularRange> ranges) {
+		controller.storeUndoInfo();
 		ranges.forEach(range ->
 			range.forEach((row, column) -> renderer.invalidate(row, column))
 		);

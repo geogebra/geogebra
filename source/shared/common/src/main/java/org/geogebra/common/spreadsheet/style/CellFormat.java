@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -521,26 +522,29 @@ public class CellFormat implements CellFormatInterface {
 
 	/**
 	 * Add a format value to a cell range.
+	 *
+	 * @return {@code true} if the overall format did change, {@code false} otherwise.
 	 */
-	public void setFormat(TabularRange cr, int formatType, Object formatValue) {
+	public boolean setFormat(TabularRange cr, int formatType, Object formatValue) {
 		List<TabularRange> crList = new ArrayList<>();
 		crList.add(cr);
-		setFormat(crList, formatType, formatValue);
+		return setFormat(crList, formatType, formatValue);
 	}
 
 	/**
 	 * Add a format value to a list of cell ranges.
+	 *
+	 * @return {@code true} if the overall format did change, {@code false} otherwise.
 	 */
-	public void setFormat(List<TabularRange> crList, int formatType,
-			Object value) {
-
+	public boolean setFormat(List<TabularRange> crList, int formatType, Object value) {
+		String previousCellFormatString = cellFormatString;
 		doSetFormat(crList, formatType, value);
-
 		setCellFormatString();
 		if (table != null) {
 			table.updateCellFormat(cellFormatString);
 			table.repaint();
 		}
+		return !Objects.equals(previousCellFormatString, cellFormatString);
 	}
 
 	private void doSetFormat(List<TabularRange> crList, int formatType,
