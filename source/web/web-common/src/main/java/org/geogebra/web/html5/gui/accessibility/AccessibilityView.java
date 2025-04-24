@@ -76,7 +76,6 @@ public class AccessibilityView implements View {
 
 	@Override
 	public void add(final GeoElement geo) {
-
 		if (!isInteractive(geo) || widgets.containsKey(geo)) {
 			return;
 		}
@@ -84,7 +83,9 @@ public class AccessibilityView implements View {
 		AccessibleWidget prevWidget = getPreviousWidget(geo);
 		addControl(control, prevWidget);
 		widgets.put(geo, control);
-		attachToDom();
+		if (!controls.isAttached()) {
+			attachToDom();
+		}
 	}
 
 	private AccessibleWidget createControl(GeoElement geo) {
@@ -285,7 +286,7 @@ public class AccessibilityView implements View {
 		}
 		app.getKernel().notifyAddAll(this);
 		ArrayList<GeoElement> list = app.getSelectionManager().getSelectedGeos();
-		if (list != null && list.size() == 1) {
+		if (list.size() == 1) {
 			selectWidget(list.get(0));
 		}
 	}
