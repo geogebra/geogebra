@@ -30,22 +30,25 @@ public class IconButtonWithPopup extends IconButton {
 		this.appW = appW;
 		this.tools = tools;
 		AriaHelper.setAriaHasPopup(this);
+		initPopup(tools);
 
 		addFastClickHandler(source -> {
 			deselectButtons.run();
-			initAndShowPopup(tools);
+			showHidePopupAndUpdateSelection();
 			setActive(true);
 		});
 	}
 
-	private void initAndShowPopup(List<Integer> tools) {
+	private void initPopup(List<Integer> tools) {
 		if (categoryPopup == null) {
 			categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
 			categoryPopup.setAutoHideEnabled(false);
 
 			categoryPopup.addCloseHandler((event) -> AriaHelper.setAriaExpanded(this, false));
 		}
+	}
 
+	private void showHidePopupAndUpdateSelection() {
 		showHidePopup();
 		updateSelection();
 	}

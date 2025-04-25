@@ -382,7 +382,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				getElement().getStyle().setTop(position.y, Unit.PX);
 			} else {
 				setVisible(false);
-				getApp().closePopups();
+				closeQuickStyleBarPopups();
 			}
 		});
 	}
@@ -398,11 +398,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 			return;
 		}
 
-		for (IconButton button : quickButtons) {
-			if (button instanceof IconButtonWithProperty) {
-				((IconButtonWithProperty) button).closePopup();
-			}
-		}
+		closeQuickStyleBarPopups();
 		updateStyleBar();
 	}
 
@@ -434,5 +430,13 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	private boolean isImageGeoSelected() {
 		return ev.getEuclidianController().getAppSelectedGeos().size() == 1
 				&& ev.getEuclidianController().getAppSelectedGeos().get(0).isGeoImage();
+	}
+
+	private void closeQuickStyleBarPopups() {
+		for (IconButton button : quickButtons) {
+			if (button instanceof IconButtonWithProperty) {
+				((IconButtonWithProperty) button).closePopup();
+			}
+		}
 	}
 }

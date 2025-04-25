@@ -279,7 +279,7 @@ public class IconButton extends StandardButton implements SetLabels {
 		default:
 			GGWToolBar.getImageResource(mode, appW, toolImg -> {
 				image = new ImageIconSpec((SVGResource) toolImg);
-				setIcon(image);
+				setIcon(image.withFill(isActive() ? selectionColor : GColor.BLACK.toString()));
 			});
 			return image;
 		}
