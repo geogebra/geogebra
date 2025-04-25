@@ -408,6 +408,7 @@
 	}
 
 	.inlineTextToolbar {
+		display: inline-block;
 		padding: 0 16px 6px 16px;
 
 		&.selectedItem {
