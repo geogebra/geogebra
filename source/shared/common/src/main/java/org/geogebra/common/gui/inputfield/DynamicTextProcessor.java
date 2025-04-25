@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.inputfield;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.gui.inputfield.DynamicTextElement.DynamicTextType;
 import org.geogebra.common.kernel.StringTemplate;
@@ -11,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
@@ -224,7 +226,7 @@ public class DynamicTextProcessor {
 	 *            boolean
 	 * @return GeoText string, e.g. "value is " + a
 	 */
-	public String buildGeoGebraString(ArrayList<DynamicTextElement> list,
+	public String buildGeoGebraString(List<DynamicTextElement> list,
 			boolean latex) {
 
 		if (list == null || list.size() == 0) {
@@ -274,5 +276,26 @@ public class DynamicTextProcessor {
 
 		return sb.toString();
 
+	}
+
+	/**
+	 * Update a text element from a list of dynamic text elements.
+	 *
+	 * @param text list of dynamic elements
+	 * @param geo0 edited text (will be replaced)
+	 * @param isLatex whether text is of LaTeX type
+	 * @param handler error handler
+	 * @param callback called after the text is updated
+	 */
+	public void process(List<DynamicTextElement> text, GeoText geo0,
+			boolean isLatex, ErrorHandler handler, Runnable callback) {
+		app.getKernel().getAlgebraProcessor().changeGeoElement(geo0,
+				buildGeoGebraString(text, isLatex), true, true,
+				handler, geo1 -> {
+					((GeoText) geo1).setLaTeX(isLatex, true);
+					geo1.updateRepaint();
+					app.getSelectionManager().addSelectedGeo(geo1);
+					callback.run();
+				});
 	}
 }

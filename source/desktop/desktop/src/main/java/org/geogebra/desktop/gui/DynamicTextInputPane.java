@@ -10,6 +10,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
@@ -23,6 +25,8 @@ import javax.swing.text.Element;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyleConstants;
 
+import org.geogebra.common.gui.inputfield.DynamicTextElement;
+import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -135,7 +139,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			pos = getDocument().getLength(); // insert at end
 		}
 
-		int mode = DynamicTextField.MODE_VALUE;
+		DynamicTextElement.DynamicTextType mode = DynamicTextElement.DynamicTextType.VALUE;
 		String s;
 
 		if (text.endsWith(")")) {
@@ -158,7 +162,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				if (bracketCount != 0 || commaIndex == -1) {
 					// no second argument
 					text = temp;
-					mode = DynamicTextField.MODE_FORMULATEXT;
+					mode = DynamicTextElement.DynamicTextType.FORMULA_TEXT;
 				}
 
 			} else if (text.startsWith(
@@ -166,7 +170,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 				// strip off outer command
 				text = text.substring(s.length(), text.length() - 1);
-				mode = DynamicTextField.MODE_DEFINITION;
+				mode = DynamicTextElement.DynamicTextType.DEFINITION;
 			}
 		}
 
@@ -190,59 +194,36 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * @return String to convert to GeoText eg "value is "+a
 	 */
 	public String buildGeoGebraString(boolean latex) {
-
-		char currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
-
 		StringBuilder sb = new StringBuilder();
 		Element elem;
+		List<DynamicTextElement> elements = new ArrayList<>();
 		for (int i = 0; i < getDoc().getLength(); i++) {
 			try {
 				elem = getDoc().getCharacterElement(i);
 				if (elem.getName().equals("component")) {
-
+					if (sb.length() > 0) {
+						elements.add(new DynamicTextElement(sb.toString(),
+								DynamicTextElement.DynamicTextType.STATIC));
+						sb.setLength(0);
+					}
 					DynamicTextField tf = (DynamicTextField) StyleConstants
 							.getComponent(elem.getAttributes());
-
-					if (tf.getMode() == DynamicTextField.MODE_DEFINITION) {
-						sb.append("\"+");
-						sb.append("Name[");
-						sb.append(tf.getText());
-						sb.append(']');
-						sb.append("+\"");
-					} else if (latex || tf
-							.getMode() == DynamicTextField.MODE_FORMULATEXT) {
-						sb.append("\"+");
-						sb.append("LaTeX["); // internal name for FormulaText[ ]
-						sb.append(tf.getText());
-						sb.append(']');
-						sb.append("+\"");
-					} else {
-						// tf.getMode() == DynamicTextField.MODE_VALUE
-
-						// brackets needed for eg "hello"+(a+3)
-						sb.append("\"+(");
-						sb.append(tf.getText());
-						sb.append(")+\"");
-					}
+					elements.add(new DynamicTextElement(tf.getText(), tf.getMode()));
 
 				} else if (elem.getName().equals("content")) {
-
-					String content = getDoc().getText(i, 1);
-					currentQuote = StringUtil.processQuotes(sb, content,
-							currentQuote);
-
+					sb.append(getDoc().getText(i, 1));
 				}
 
 			} catch (BadLocationException e) {
 				Log.debug(e);
 			}
 		}
+		if (sb.length() > 0) {
+			elements.add(new DynamicTextElement(sb.toString(),
+					DynamicTextElement.DynamicTextType.STATIC));
+		}
 
-		// add quotes at start and end so it parses to a text
-		sb.insert(0, '"');
-		sb.append('"');
-
-		return sb.toString();
+		return new DynamicTextProcessor(app).buildGeoGebraString(elements, latex);
 
 	}
 
@@ -382,10 +363,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 		private static final long serialVersionUID = 1L;
 
-		public static final int MODE_VALUE = 0;
-		public static final int MODE_DEFINITION = 1;
-		public static final int MODE_FORMULATEXT = 2;
-		int mode = MODE_VALUE;
+		DynamicTextElement.DynamicTextType mode = DynamicTextElement.DynamicTextType.VALUE;
 		TextInputDialogD id;
 
 		JPopupMenu contextMenu;
@@ -472,11 +450,11 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			return this.getPreferredSize();
 		}
 
-		public int getMode() {
+		public DynamicTextElement.DynamicTextType getMode() {
 			return mode;
 		}
 
-		public void setMode(int mode) {
+		public void setMode(DynamicTextElement.DynamicTextType mode) {
 			this.mode = mode;
 		}
 
@@ -511,18 +489,18 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 			JCheckBoxMenuItem item = new JCheckBoxMenuItem(
 					app.getLocalization().getMenu("Value"));
-			item.setSelected(mode == MODE_VALUE);
+			item.setSelected(mode == DynamicTextElement.DynamicTextType.VALUE);
 			item.addActionListener(arg0 -> {
-				mode = MODE_VALUE;
+				mode = DynamicTextElement.DynamicTextType.VALUE;
 				id.handleDocumentEvent();
 			});
 			contextMenu.add(item);
 
 			item = new JCheckBoxMenuItem(
 					app.getLocalization().getMenu("Definition"));
-			item.setSelected(mode == MODE_DEFINITION);
+			item.setSelected(mode == DynamicTextElement.DynamicTextType.DEFINITION);
 			item.addActionListener(arg0 -> {
-				mode = MODE_DEFINITION;
+				mode = DynamicTextElement.DynamicTextType.DEFINITION;
 				id.handleDocumentEvent();
 			});
 			contextMenu.add(item);

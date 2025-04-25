@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -261,18 +262,10 @@ public class TextOptionsModel extends OptionsModel {
 		this.editGeo = editGeo;
 	}
 
-	public void applyEditedGeo(ArrayList<DynamicTextElement> text,
+	public void applyEditedGeo(List<DynamicTextElement> text,
 			final boolean isLatex, ErrorHandler handler) {
 		GeoText geo0 = getGeoTextAt(0);
-		app.getKernel().getAlgebraProcessor().changeGeoElement(geo0,
-				dTProcessor.buildGeoGebraString(text, isLatex), true, true,
-				handler, geo1 -> {
-					((GeoText) geo1).setLaTeX(isLatex, true);
-					geo1.updateRepaint();
-					app.getSelectionManager().addSelectedGeo(geo1);
-					editGeo = null;
-				});
-
+		dTProcessor.process(text, geo0, isLatex, handler, () -> editGeo = null);
 		storeUndoInfo();
 	}
 
