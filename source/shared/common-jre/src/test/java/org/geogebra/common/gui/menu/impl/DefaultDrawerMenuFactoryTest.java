@@ -108,9 +108,8 @@ public class DefaultDrawerMenuFactoryTest {
 
 	@Test
 	public void testEnableFileFeatureDisabled() {
-		Action[] fileFeatureEnabledActions = {
-				Action.CLEAR_CONSTRUCTION, Action.SHOW_SEARCH_VIEW,
-				Action.SAVE_FILE, Action.SHARE_FILE, Action.SIGN_IN, Action.SIGN_OUT};
+		Action[] fileFeatureEnabledActions = { Action.SHOW_SEARCH_VIEW, Action.SAVE_FILE,
+				Action.SHARE_FILE, Action.SIGN_IN, Action.SIGN_OUT};
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.GRAPHING, null, null, false, false, true);

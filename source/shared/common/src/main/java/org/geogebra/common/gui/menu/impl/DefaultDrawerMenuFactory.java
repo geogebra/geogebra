@@ -120,10 +120,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private MenuItemGroup createMainMenuItemGroup() {
-		MenuItem clearConstruction = enableFileFeatures ? clearConstruction() : null;
 		MenuItem startExamMode = createExamEntry ? startExamMode() : null;
 		if (isScientificCalc()) {
-			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
+			return new MenuItemGroupImpl(removeNulls(clearConstruction(), startExamMode));
 		}
 		MenuItem openFile = enableFileFeatures ? openFile() : null;
 		MenuItem save = enableFileFeatures && logInOperation != null ? saveFileOnline() : null;
@@ -132,7 +131,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem downloadAs = isWeb() ? showDownloadAs() : null;
 		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
 		MenuItem exportImage = isSuiteScientific() ? null : exportImage();
-		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, saveOffline,
+		return new MenuItemGroupImpl(removeNulls(clearConstruction(), openFile, save, saveOffline,
 				share, exportImage, downloadAs, printPreview, startExamMode));
 	}
 
