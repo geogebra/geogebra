@@ -220,7 +220,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		}
 
 		List<Integer> appsTools
-				= ToolboxConstants.getAppsCategory(Browser.isGraspableMathEnabled());
+				= ToolboxConstants.getAppsCategory(Browser.isGeogebraOrInternalHost());
 		addToggleButtonWithMenuPopup(ToolboxCategory.MORE,
 				toolboxIconResource.getImageResource(ToolboxIcon.APPS),
 				"Tools.More", appsTools);

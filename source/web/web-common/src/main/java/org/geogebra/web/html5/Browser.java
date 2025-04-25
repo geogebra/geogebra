@@ -167,10 +167,9 @@ public class Browser {
 	}
 
 	/**
-	 * @return right now GraspableMath is only enabled on geogebra.org and
-	 * development hosts
+	 * @return whether host is geogebra or internally used host for development
 	 */
-	public static boolean isGraspableMathEnabled() {
+	public static boolean isGeogebraOrInternalHost() {
 		String host = DomGlobal.location.host;
 		return host != null
 				&& (host.contains("www.geogebra.org")

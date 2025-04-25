@@ -31,6 +31,7 @@ import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MenuIconResource;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -164,7 +165,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 					hasLoginButton(app) ? app.getLoginOperation() : null,
 					shouldCreateExamEntry(app),
 					app.enableFileFeatures(),
-					addAppSwitcher);
+					addAppSwitcher,
+					Browser.isGeogebraOrInternalHost());
 		}
 	}
 

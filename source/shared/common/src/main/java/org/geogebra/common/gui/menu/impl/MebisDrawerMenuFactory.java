@@ -22,7 +22,7 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	public MebisDrawerMenuFactory(GeoGebraConstants.Platform platform,
 								  GeoGebraConstants.Version version,
 								  LogInOperation logInOperation, boolean enableFileFeatures) {
-		super(platform, version, null, logInOperation, false, enableFileFeatures);
+		super(platform, version, null, logInOperation, false, enableFileFeatures, true);
 	}
 
 	@Override
