@@ -11,6 +11,7 @@ import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
+import org.geogebra.common.gui.menu.impl.ExternalDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.MebisDrawerMenuFactory;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -158,15 +159,24 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		} else {
 			boolean addAppSwitcher = app.isSuite();
 			String versionStr = GeoGebraConstants.getVersionString6();
-			return new DefaultDrawerMenuFactory(
+			if (Browser.isGeogebraOrInternalHost()) {
+				return new DefaultDrawerMenuFactory(
+						app.getPlatform(),
+						version, app.getLocalization().getPlainDefault("VersionA",
+						"Version %0", versionStr),
+						hasLoginButton(app) ? app.getLoginOperation() : null,
+						shouldCreateExamEntry(app),
+						app.enableFileFeatures(),
+						addAppSwitcher);
+			}
+			return new ExternalDrawerMenuFactory(
 					app.getPlatform(),
 					version, app.getLocalization().getPlainDefault("VersionA",
 					"Version %0", versionStr),
 					hasLoginButton(app) ? app.getLoginOperation() : null,
 					shouldCreateExamEntry(app),
 					app.enableFileFeatures(),
-					addAppSwitcher,
-					Browser.isGeogebraOrInternalHost());
+					addAppSwitcher);
 		}
 	}
 

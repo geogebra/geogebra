@@ -19,18 +19,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private final LogInOperation logInOperation;
 	private final boolean createExamEntry;
 	private final boolean enableFileFeatures;
-	private final boolean isGeogebraHost;
 	private final String versionNumber;
-
-	/**
-	 * Create a new DrawerMenuFactory.
-	 * @param platform platform
-	 * @param version version
-	 */
-	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
-			GeoGebraConstants.Version version) {
-		this(platform, version, null);
-	}
 
 	/**
 	 * Create a new DrawerMenuFactory.
@@ -57,7 +46,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 			GeoGebraConstants.Version version,
 			LogInOperation logInOperation,
 			boolean createExamEntry) {
-		this(platform, version, null, logInOperation, createExamEntry, true, true);
+		this(platform, version, null, logInOperation, createExamEntry, true);
 	}
 
 	/**
@@ -68,17 +57,15 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * login based on the {@link LogInOperation#isLoggedIn()} method.
 	 * @param enableFileFeatures whether to show sign-in related file features
 	 * @param createExamEntry whether the factory should create the start exam button
-	 * @param isGeogebraHost whether host is geogebra or internal host
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
 			String versionNumber,
 			LogInOperation logInOperation,
 			boolean createExamEntry,
-			boolean enableFileFeatures,
-			boolean isGeogebraHost) {
+			boolean enableFileFeatures) {
 		this(platform, version, versionNumber, logInOperation, createExamEntry,
-				enableFileFeatures, false, isGeogebraHost);
+				enableFileFeatures, false);
 	}
 
 	/**
@@ -91,7 +78,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * @param createExamEntry whether the factory should create the start exam button
 	 * @param enableFileFeatures whether to show sign-in related file features
 	 * @param isSuiteApp whether it is the Suite app
-	 * @param isGeogebraHost whether host is geogebra or internal host
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
@@ -99,15 +85,13 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 			LogInOperation logInOperation,
 			boolean createExamEntry,
 			boolean enableFileFeatures,
-			boolean isSuiteApp,
-			boolean isGeogebraHost) {
+			boolean isSuiteApp) {
 		super(version, isSuiteApp);
 		this.platform = platform;
 		this.versionNumber = versionNumber;
 		this.logInOperation = logInOperation;
 		this.createExamEntry = createExamEntry;
 		this.enableFileFeatures = enableFileFeatures;
-		this.isGeogebraHost = isGeogebraHost;
 	}
 
 	@Override
@@ -231,10 +215,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return new ActionableItemImpl(Icon.PRINT, "PrintPreview", Action.PREVIEW_PRINT);
 	}
 
-	private MenuItem showHelpAndFeedback() {
-		if (!isGeogebraHost) {
-			return null;
-		}
+	protected MenuItem showHelpAndFeedback() {
 		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL,
 				"Tutorial", Action.SHOW_TUTORIALS);
 		ActionableItem askQuestion = new ActionableItemImpl(Icon.HELP,
