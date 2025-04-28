@@ -9,7 +9,7 @@ public interface TopBarIconProvider {
 
 	/**
 	 * @param icon icon kind
-	 * @return icon defintion
+	 * @return icon definition
 	 */
 	IconSpec matchIconWithResource(TopBarIcon icon);
 }

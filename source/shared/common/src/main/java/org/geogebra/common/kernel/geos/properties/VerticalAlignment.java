@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.geos.properties;
 import java.util.Locale;
 
 /**
- * Vertical alignement of a textual element.
+ * Vertical alignment of a textual element.
  */
 public enum VerticalAlignment {
 	TOP, MIDDLE, BOTTOM;

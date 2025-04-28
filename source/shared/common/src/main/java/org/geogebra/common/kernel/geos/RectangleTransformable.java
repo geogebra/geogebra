@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
- * Element wih bounding rectanlge that can be transformed.
+ * Element with bounding rectangle that can be transformed.
  */
 public interface RectangleTransformable extends GeoElementND {
 
