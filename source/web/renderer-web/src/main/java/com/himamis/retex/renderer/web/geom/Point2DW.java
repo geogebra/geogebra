@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the ReTeX library - https://github.com/himamis/ReTeX
  *
  * Copyright (C) 2015 Balazs Bencze
