@@ -192,7 +192,7 @@ public class DrawLocus extends Drawable {
 				(int) rectangle.getHeight() + 2 * BITMAP_PADDING);
 	}
 
-	protected void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
+	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
 		lazyCreateGeneralPath();
 		// Use the last plotted point for positioning the label:
 		setLabelPosition(pointList);

@@ -189,6 +189,7 @@ public enum BernsteinMarchingConfig implements MarchingConfig {
 	},
 
 	T1111(15) {
+
 		@Override
 		public MyPoint[] getPoints(MarchingRect r) {
 			return new MyPoint[]{

@@ -1,18 +1,16 @@
 package org.geogebra.common.kernel.arithmetic.bernstein;
 
-import static org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomial1Var.copyArrayTo;
-
 import org.geogebra.common.util.MyMath;
 
 public class BernsteinBuilder1Var {
 
 	private double[] powerBasisCoeffs;
 
-	BernsteinPolynomial build(double[] powerCoeffs,
+	BernsteinPolynomial1D build(double[] powerCoeffs,
 			int degree, char variable, double min, double max) {
 		powerBasisCoeffs = powerCoeffs;
 		double[] bernsteinCoeffs = createBernsteinCoeffs(degree, min, max);
-		return new BernsteinPolynomial1Var(bernsteinCoeffs, variable, min, max);
+		return new BernsteinPolynomial1D(bernsteinCoeffs, variable, min, max);
 	}
 
 	private double[] createBernsteinCoeffs(int degree, double min, double max) {
@@ -24,7 +22,7 @@ public class BernsteinBuilder1Var {
 				partialBernsteinCoeffs[j] = b_ij;
 			}
 
-			copyArrayTo(partialBernsteinCoeffs, lastValues);
+			System.arraycopy(partialBernsteinCoeffs, 0, lastValues, 0, lastValues.length);
 		}
 		return partialBernsteinCoeffs;
 	}

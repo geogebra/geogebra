@@ -14,8 +14,6 @@ package org.geogebra.common.euclidian.draw;
 
 import static org.geogebra.common.main.PreviewFeature.IMPLICIT_PLOTTER;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -24,7 +22,6 @@ import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.implicit.BernsteinPlotter;
 import org.geogebra.common.euclidian.plot.implicit.CoordSystemAnimatedPlotter;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomialConverter;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.PreviewFeature;
@@ -134,15 +131,5 @@ public class DrawImplicitCurve extends DrawLocus {
 			return;
 		}
 		implicitCurve.getLocus();
-	}
-
-	@Override
-	protected void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
-		if (bernsteinBasedPlotter) {
-			lazyCreateGeneralPath();
-			setLabelPosition(pointList);
-		} else {
-			super.buildGeneralPath(pointList);
-		}
 	}
 }

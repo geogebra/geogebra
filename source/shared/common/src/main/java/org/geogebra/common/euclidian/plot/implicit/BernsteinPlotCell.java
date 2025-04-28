@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian.plot.implicit;
 
 import org.geogebra.common.kernel.arithmetic.Splittable;
-import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomial;
+import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomial2D;
 import org.geogebra.common.kernel.implicit.MarchingConfig;
 
 /**
@@ -20,7 +20,7 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 	}
 
 	final BernsteinBoundingBox boundingBox;
-	final BernsteinPolynomial polynomial;
+	final BernsteinPolynomial2D polynomial;
 	private final BernsteinPlotCellKind kind;
 	private MarchingConfig marchingConfig;
 
@@ -29,7 +29,7 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 	 * @param box bounding box of the cell
 	 * @param polynomial restricted to the cell.
 	 */
-	public BernsteinPlotCell(BernsteinBoundingBox box, BernsteinPolynomial polynomial) {
+	public BernsteinPlotCell(BernsteinBoundingBox box, BernsteinPolynomial2D polynomial) {
 		boundingBox = box;
 		this.polynomial = polynomial;
 		kind = classify();
@@ -48,10 +48,7 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 			return BernsteinPlotCellKind.CELL2;
 		}
 
-		BernsteinPolynomial dx = polynomial.derivative("x");
-		BernsteinPolynomial dy = polynomial.derivative("y");
-
-		if (dx.hasNoSolution() != dy.hasNoSolution()) {
+		if (polynomial.onlyOnePartialDerivateHasSolution()) {
 			return BernsteinPlotCellKind.CELL1;
 		}
 
@@ -60,14 +57,38 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 
 	@Override
 	public BernsteinPlotCell[] split() {
-		BernsteinPolynomial[][] polynomials = polynomial.split2D();
+		BernsteinPolynomial2D[][] polynomials = polynomial.split();
 		BernsteinBoundingBox[] boxes = boundingBox.split();
 		BernsteinPlotCell[] cells = new BernsteinPlotCell[4];
-		cells[0] = new BernsteinPlotCell(boxes[0], polynomials[0][0]);
-		cells[1] = new BernsteinPlotCell(boxes[1], polynomials[1][0]);
-		cells[2] = new BernsteinPlotCell(boxes[2], polynomials[0][1]);
-		cells[3] = new BernsteinPlotCell(boxes[3], polynomials[1][1]);
+		BernsteinPolynomial2D[] poly0 = polynomials[0];
+		if (poly0 != null) {
+			cells[0] = createCell(boxes[0], poly0[0]);
+			cells[2] = createCell(boxes[2], poly0[1]);
+		} else {
+			cells[0] = null;
+			cells[2] = null;
+		}
+		BernsteinPolynomial2D[] poly1 = polynomials[1];
+		if (poly1 != null) {
+			cells[1] = createCell(boxes[1], poly1[0]);
+			cells[3] = createCell(boxes[3], poly1[1]);
+		} else {
+			cells[1] = null;
+			cells[3] = null;
+		}
 		return cells;
+	}
+
+	private BernsteinPlotCell createCell(BernsteinBoundingBox box,
+			BernsteinPolynomial2D polynomial) {
+		if (polynomial == null) {
+			return null;
+		}
+
+		if (polynomial.hasNoSolution()) {
+			return null;
+		}
+		return new BernsteinPlotCell(box, polynomial);
 	}
 
 	@Override
@@ -89,5 +110,9 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 
 	public void setMarchingConfig(MarchingConfig marchingConfig) {
 		this.marchingConfig = marchingConfig;
+	}
+
+	public void release() {
+		boundingBox.release();
 	}
 }

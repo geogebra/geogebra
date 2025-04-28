@@ -19,16 +19,28 @@ public enum BinomialCoefficientsSign {
 	 * @return the sign.
 	 */
 	public static BinomialCoefficientsSign from1Var(double[] bernsteinCoeffs, int degree) {
-		double count = 0;
-		for (int i = 0; i < degree + 1; i++) {
-			count += Math.signum(bernsteinCoeffs[i]);
+		boolean hasPositive = false, hasNegative = false;
+
+		for (int i = 0; i < bernsteinCoeffs.length; i++) {
+			if (bernsteinCoeffs[i] >= 0) {
+				hasPositive = true;
+			} else if (bernsteinCoeffs[i] < 0) {
+				hasNegative = true;
+			}
+
+			if (hasPositive && hasNegative) {
+				return Mixed;
+			}
 		}
 
-		if (Math.abs(count) == degree + 1) {
-			return count < 0 ? AllNegative : AllPositive;
+		if (hasPositive) {
+			return AllPositive;
 		}
 
-		return Mixed;
+		if (hasNegative) {
+			return AllNegative;
+		}
+		return None;
 	}
 
 	/**

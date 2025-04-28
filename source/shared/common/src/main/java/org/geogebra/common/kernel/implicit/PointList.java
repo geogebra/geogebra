@@ -11,14 +11,14 @@ class PointList {
 	MyPoint end;
 	LinkedList<MyPoint> pts = new LinkedList<>();
 
-	public PointList(MyPoint start, MyPoint end) {
+	PointList(MyPoint start, MyPoint end) {
 		this.start = start;
 		this.end = end;
 		this.start.setLineTo(false);
 		this.end.setLineTo(true);
 	}
 
-	public void mergeTo(PointList pl) {
+	void mergeTo(PointList pl) {
 		this.pts.addLast(this.end);
 		if (pl == this) {
 			MyPoint startCopy = new MyPoint(this.start.x, this.start.y,
@@ -49,14 +49,14 @@ class PointList {
 		}
 	}
 
-	public void extendBack(MyPoint p) {
+	void extendBack(MyPoint p) {
 		p.setLineTo(false);
 		this.start.setLineTo(true);
 		this.pts.addFirst(start);
 		this.start = p;
 	}
 
-	public void extendFront(MyPoint p) {
+	void extendFront(MyPoint p) {
 		p.setLineTo(true);
 		this.pts.addLast(this.end);
 		this.end = p;

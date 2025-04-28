@@ -16,4 +16,5 @@ public interface MarchingConfig {
 	boolean isInvalid();
 
 	boolean isEmpty();
+
 }

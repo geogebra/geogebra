@@ -55,7 +55,7 @@ abstract class QuadTree {
 		// pt.setUndefined();
 	}
 
-	public int edgeConfig(Rect r) {
+	public int edgeConfig(ImplicitCurveMarchingRect r) {
 		int config = (intersect(r.evals[0], r.evals[1]) << 3)
 				| (intersect(r.evals[1], r.evals[2]) << 2)
 				| (intersect(r.evals[2], r.evals[3]) << 1)

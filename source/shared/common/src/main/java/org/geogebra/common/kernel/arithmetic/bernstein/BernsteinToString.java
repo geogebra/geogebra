@@ -10,7 +10,7 @@ public class BernsteinToString {
 	 * @param polynomial to serialize
 	 * @return String representation of the polynomial
 	 */
-	public static String toString1Var(BernsteinPolynomial1Var polynomial) {
+	public static String toString1Var(BernsteinPolynomial1D polynomial) {
 		if (polynomial.isConstant()) {
 			return "" + (int) polynomial.bernsteinCoeffs[0];
 		}
@@ -59,7 +59,7 @@ public class BernsteinToString {
 	 * @param polynomial to serialize
 	 * @return String representation of the polynomial
 	 */
-	public static String toString2Var(BernsteinPolynomial2Var polynomial) {
+	public static String toString2Var(BernsteinPolynomial2D polynomial) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = polynomial.degreeX; i >= 0; i--) {
 			BernsteinPolynomial c = i < polynomial.bernsteinCoeffs.length

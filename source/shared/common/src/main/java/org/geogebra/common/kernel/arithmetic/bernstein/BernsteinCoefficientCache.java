@@ -22,16 +22,21 @@ public class BernsteinCoefficientCache {
 	 * Make current coefficients as last.
 	 */
 	public void update() {
-		System.arraycopy(current, 0, last, 0, last.length);
+		last = current;
 	}
 
 	/**
 	 * Sets the ith current coefficient
+	 *
 	 * @param i index of the coefficient
-	 * @param coeffs the value.
+	 * @param coeffs the value
+	 * @param newLength the new length of the ith current coefficient
 	 */
-	public void set(int i, double[] coeffs) {
-		current[i] = coeffs;
+	public void set(int i, double[] coeffs, int size, int newLength) {
+		current[i] = new double[size];
+		for (int j = 0; j < newLength; j++) {
+			current[i][j] = coeffs[j];
+		}
 	}
 
 	/**
@@ -40,6 +45,14 @@ public class BernsteinCoefficientCache {
 	 * @param coeffs the value.
 	 */
 	public void setLast(int i, double[] coeffs) {
+		last[i] = coeffs;
+	}
+
+	public int size() {
+		return current.length;
+	}
+
+	public void setLastNoCopy(int i, double[] coeffs) {
 		last[i] = coeffs;
 	}
 }

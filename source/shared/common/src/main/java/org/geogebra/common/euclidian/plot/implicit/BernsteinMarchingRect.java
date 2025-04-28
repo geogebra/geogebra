@@ -2,7 +2,7 @@ package org.geogebra.common.euclidian.plot.implicit;
 
 import java.util.Arrays;
 
-import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomial;
+import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomial2D;
 import org.geogebra.common.kernel.implicit.MarchingRect;
 
 public class BernsteinMarchingRect implements MarchingRect {
@@ -15,15 +15,11 @@ public class BernsteinMarchingRect implements MarchingRect {
 	 */
 	public BernsteinMarchingRect(BernsteinPlotCell cell) {
 		this.box = cell.boundingBox;
-		BernsteinPolynomial poly = cell.polynomial;
+		BernsteinPolynomial2D poly = cell.polynomial;
 		corners[0] = poly.evaluate(0, 0);
 		corners[1] = poly.evaluate(1, 0);
 		corners[2] = poly.evaluate(1, 1);
 		corners[3] = poly.evaluate(0, 1);
-	}
-
-	public static BernsteinMarchingRect as(MarchingRect r) {
-		return (BernsteinMarchingRect) r;
 	}
 
 	@Override

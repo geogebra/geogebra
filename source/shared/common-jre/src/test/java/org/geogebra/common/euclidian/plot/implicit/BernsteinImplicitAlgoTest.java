@@ -30,12 +30,10 @@ public class BernsteinImplicitAlgoTest extends BaseUnitTest {
 		GeoImplicitCurve curve = add("(3x^2 - y^2)^2 * y^2 - (x^2 + y^2)^4 = 0");
 		List<MyPoint> points = new ArrayList<>();
 		List<BernsteinPlotCell> cells = new ArrayList<>();
-		BernsteinPlotterSettings settings =
-				new BernsteinPlotterDefaultSettings();
 		LinkSegments segments = new LinkSegments(points);
 		BernsteinImplicitAlgo algo =
 				new BernsteinImplicitAlgo(bounds, curve, cells,
-						segments, settings.getAlgoSettings());
+						segments, 10);
 		algo.compute();
 		BernsteinPlotCell cell0 = cells.get(0);
 		BernsteinMarchingRect rect = new BernsteinMarchingRect(cell0);

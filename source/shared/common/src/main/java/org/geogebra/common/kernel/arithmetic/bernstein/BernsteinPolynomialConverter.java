@@ -12,57 +12,71 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 
 public class BernsteinPolynomialConverter {
 
-	private final BernsteinBuilder1Var builder1Var = new BernsteinBuilder1Var();
-	private final BernsteinBuilder2Var builder2Var;
+	private final BernsteinBuilder1Var builder1D = new BernsteinBuilder1Var();
+	private final BernsteinBuilder2Var builder2D;
 
 	public BernsteinPolynomialConverter() {
-		builder2Var = new BernsteinBuilder2Var(builder1Var);
+		builder2D = new BernsteinBuilder2Var(builder1D);
 	}
 
 	/**
 	 *
 	 * @param geo to convert
 	 * @param limits of the result polynomial.
-	 * @return the equivalent Bernstein polynomial of geo if possible, null otherwise.
+	 * @return the {@link BernsteinPolynomial1D} instance if possible, null otherwise.
 	 */
-	public BernsteinPolynomial from(GeoElement geo, BoundsRectangle limits) {
-		if (geo.isGeoImplicitCurve()) {
-			GeoImplicitCurve curve = (GeoImplicitCurve) geo;
-			return curve.isDefined() ? fromImplicitCurve(curve, limits) : null;
-		} else if (geo instanceof GeoFunctionNVar) {
-			FunctionNVar function = ((GeoFunctionNVar) geo).getFunction();
-			return function != null ? fromFunctionNVar(function, limits) : null;
-		} else if (geo instanceof GeoFunction) {
+	public BernsteinPolynomial1D bernsteinPolynomial1DFrom(GeoElement geo,
+			BoundsRectangle limits) {
+		Polynomial polynomial = null;
+		if (geo instanceof GeoFunction) {
 			Function function = ((GeoFunction) geo).getFunction();
-			return function != null ? fromFunctionNVar(function, limits) : null;
+			if (function != null) {
+				polynomial = function.getPolynomial();
+			}
+		} else if (geo instanceof GeoImplicitCurve) {
+			FunctionNVar function = ((GeoImplicitCurve) geo).getFunctionDefinition();
+			if (function != null) {
+				polynomial = function.getPolynomial();
+			}
+		}
+
+		if (polynomial != null) {
+			return from1DPolynomial(polynomial, polynomial.degree('x'),
+					polynomial.degree('y'), limits);
 		}
 		return null;
 	}
 
-	private BernsteinPolynomial fromImplicitCurve(GeoImplicitCurve curve, BoundsRectangle limits) {
-		FunctionNVar functionNVar = curve.getFunctionDefinition();
-		return fromFunctionNVar(functionNVar, limits);
-	}
-
-	private BernsteinPolynomial fromFunctionNVar(FunctionNVar functionNVar,
+	/**
+	 *
+	 * @param geo to convert.
+	 * @param limits of the result polynomial.
+	 * @return the {@link BernsteinPolynomial2D} instance if possible, null otherwise.
+	 */
+	public BernsteinPolynomial2D bernsteinPolynomial2DFrom(GeoElement geo,
 			BoundsRectangle limits) {
-		Polynomial polynomial = functionNVar.getPolynomial();
-		return fromPolynomial(polynomial, polynomial.degree('x'),
+		FunctionNVar function = null;
+		if (geo.isGeoFunctionNVar()) {
+			function = ((GeoFunctionNVar) geo).getFunction();
+		} else if (geo.isGeoImplicitCurve()) {
+			function = ((GeoImplicitCurve) geo).getFunctionDefinition();
+		}
+		if (function == null) {
+			return null;
+		}
+		Polynomial polynomial = function.getPolynomial();
+		return builder2D.build(polynomial, polynomial.degree('x'),
 				polynomial.degree('y'), limits);
 	}
 
-	BernsteinPolynomial fromPolynomial(Polynomial polynomial, int degreeX, int degreeY,
+	BernsteinPolynomial1D from1DPolynomial(Polynomial polynomial, int degreeX, int degreeY,
 			BoundsRectangle limits) {
-		if (degreeX != 0 && degreeY != 0) {
-			return builder2Var.build(polynomial, degreeX, degreeY, limits);
-		}
-
 		if (degreeY == 0) {
-			return builder1Var.build(coeffsFromPolynomial(polynomial, degreeX, 'x'),
+			return builder1D.build(coeffsFromPolynomial(polynomial, degreeX, 'x'),
 					degreeX, 'x', limits.getXmin(), limits.getXmax());
 		}
 
-		return builder1Var.build(coeffsFromPolynomial(polynomial, degreeY, 'y'),
+		return builder1D.build(coeffsFromPolynomial(polynomial, degreeY, 'y'),
 				degreeY, 'y', limits.getYmin(), limits.getYmax());
 	}
 

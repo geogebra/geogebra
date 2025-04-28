@@ -17,8 +17,8 @@ class AdaptiveQuadTree extends QuadTree {
 	private int segmentCheckDepth;
 	private int sw;
 	private int sh;
-	private Rect[][] grid;
-	private final Timer timer = Timer.newTimer();
+	private ImplicitCurveMarchingRect[][] grid;
+	private final Timer timer = new Timer();
 	private static int fastDrawThreshold = 10;
 
 	public static void setFastDrawThreshold(int threshold) {
@@ -26,18 +26,14 @@ class AdaptiveQuadTree extends QuadTree {
 	}
 
 	private static class Timer {
-		public long now;
-		public long elapse;
+		private long now;
+		private long elapse;
 
-		public static Timer newTimer() {
-			return new Timer();
-		}
-
-		public void reset() {
+		void reset() {
 			this.now = System.currentTimeMillis();
 		}
 
-		public void record() {
+        void record() {
 			this.elapse = System.currentTimeMillis() - now;
 		}
 	}
@@ -61,7 +57,7 @@ class AdaptiveQuadTree extends QuadTree {
 				return;
 			}
 
-			this.grid = new Rect[sh][sw];
+			this.grid = new ImplicitCurveMarchingRect[sh][sw];
 
 			double frx = w / sw;
 			double fry = h / sh;
@@ -96,7 +92,8 @@ class AdaptiveQuadTree extends QuadTree {
 				for (j = 1; j <= sw; j++) {
 					cur = curve.evaluateImplicitCurve(xcoords[j], ycoords[i],
 							factor);
-					Rect rect = new Rect(j - 1, i - 1, frx, fry, false);
+					ImplicitCurveMarchingRect
+							rect = new ImplicitCurveMarchingRect(j - 1, i - 1, frx, fry, false);
 					rect.coords.val[0] = xcoords[j - 1];
 					rect.coords.val[1] = ycoords[i - 1];
 					rect.evals[0] = vertices[j - 1];
@@ -167,15 +164,15 @@ class AdaptiveQuadTree extends QuadTree {
 		return false;
 	}
 
-	public void createTree(Rect r, int depth, int factor) {
-		Rect[] n = r.split(curve, factor);
+	public void createTree(ImplicitCurveMarchingRect r, int depth, int factor) {
+		ImplicitCurveMarchingRect[] n = r.split(curve, factor);
 		plot(n[0], depth, factor);
 		plot(n[1], depth, factor);
 		plot(n[2], depth, factor);
 		plot(n[3], depth, factor);
 	}
 
-	public void plot(Rect r, int depth, int factor) {
+	public void plot(ImplicitCurveMarchingRect r, int depth, int factor) {
 		if (depth < segmentCheckDepth) {
 			createTree(r, depth + 1, factor);
 			return;

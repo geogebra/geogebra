@@ -18,8 +18,9 @@ public class BernsteinPlotter extends CoordSystemAnimatedPlotter {
 
 	private VisualDebug visualDebug;
 	private final PlotterAlgo algo;
+	private final List<BernsteinPlotCell> cells = new ArrayList<>();
 	private final List<MyPoint> points = new ArrayList<>();
-	private final BernsteinPlotterSettings settings = new BernsteinPlotterDefaultSettings();
+	private final BernsteinPlotterSettings settings = new BernsteinPlotterSettings();
 
 	/**
 	 * @param geo to draw
@@ -31,10 +32,10 @@ public class BernsteinPlotter extends CoordSystemAnimatedPlotter {
 			GeneralPathClippedForCurvePlotter gp, CoordSys transformedCoordSys) {
 		this.gp = gp;
 		this.transformedCoordSys = transformedCoordSys;
-		List<BernsteinPlotCell> cells = new ArrayList<>();
 		LinkSegments segments = new LinkSegments(points);
-		algo = new BernsteinImplicitAlgo(bounds, geo, cells, segments, settings.getAlgoSettings());
-		if (settings.visualDebug()) {
+		algo = new BernsteinImplicitAlgo(bounds, geo, cells, segments,
+				settings.minCellSizeInPixels());
+		if (settings.hasVisualDebug()) {
 			visualDebug = new BernsteinPlotterVisualDebug(bounds, cells);
 		}
 	}
@@ -43,7 +44,7 @@ public class BernsteinPlotter extends CoordSystemAnimatedPlotter {
 	public void draw(GGraphics2D g2) {
 		updateOnDemand();
 		CurvePlotterUtils.draw(gp, points, transformedCoordSys);
-		if (settings.visualDebug()) {
+		if (settings.hasVisualDebug()) {
 			visualDebug.draw(g2);
 		}
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Draws visual debug on EV, cell bounds, kinds, possible solutions, edges, etc.
@@ -27,8 +28,19 @@ final class BernsteinPlotterVisualDebug implements VisualDebug {
 		}
 
 		for (BernsteinPlotCell cell : cells) {
-			drawCell(g2, cell);
+			if (found(cell.boundingBox)) {
+				drawCell(g2, cell);
+				if (cell.getMarchingConfig() == BernsteinMarchingConfig.T1111) {
+					Log.debug(cell.polynomial);
+				}
+			}
 		}
+
+	}
+
+	private boolean found(BernsteinBoundingBox box) {
+		return box.x1() > 0.15 && box.x2() < 0.16
+				&& box.y1() < -0.01;
 	}
 
 	private void drawCell(GGraphics2D g2, BernsteinPlotCell cell) {

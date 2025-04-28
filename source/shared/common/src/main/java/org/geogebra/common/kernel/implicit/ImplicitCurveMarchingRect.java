@@ -5,11 +5,10 @@ import java.util.Objects;
 
 import org.geogebra.common.kernel.matrix.Coords;
 
-class Rect implements MarchingRect {
+class ImplicitCurveMarchingRect implements MarchingRect {
 	/**
 	 * 
 	 */
-	// private final GeoImplicitCurve geoImplicitCurve;
 	/**
 	 * {top, right, bottom, left}
 	 */
@@ -23,7 +22,7 @@ class Rect implements MarchingRect {
 	boolean singular;
 	Coords coords = new Coords(3);
 
-	public Rect(int x, int y, double fx, double fy, boolean singular) {
+	public ImplicitCurveMarchingRect(int x, int y, double fx, double fy, boolean singular) {
 		this.x = x;
 		this.y = y;
 		this.fx = fx;
@@ -32,15 +31,15 @@ class Rect implements MarchingRect {
 		this.shares = 0;
 	}
 
-	public Rect[] split(GeoImplicitCurve geoImplicitCurve, int factor) {
+	public ImplicitCurveMarchingRect[] split(GeoImplicitCurve geoImplicitCurve, int factor) {
 		double fx2 = fx * 0.5;
 		double fy2 = fy * 0.5;
 		double x1 = this.coords.val[0];
 		double y1 = this.coords.val[1];
 
-		Rect[] rect = new Rect[4];
+		ImplicitCurveMarchingRect[] rect = new ImplicitCurveMarchingRect[4];
 		for (int i = 0; i < 4; i++) {
-			rect[i] = new Rect(x, y, fx2, fy2, singular);
+			rect[i] = new ImplicitCurveMarchingRect(x, y, fx2, fy2, singular);
 			rect[i].coords.set(x1, y1, 0.0);
 			rect[i].evals[i] = this.evals[i];
 			rect[i].shares = this.shares & GeoImplicitCurve.MASK[i];
@@ -96,7 +95,7 @@ class Rect implements MarchingRect {
 			return false;
 		}
 
-		Rect rect = (Rect) o;
+		ImplicitCurveMarchingRect rect = (ImplicitCurveMarchingRect) o;
 		return x == rect.x && y == rect.y && shares == rect.shares && status == rect.status
 				&& Double.compare(fx, rect.fx) == 0
 				&& Double.compare(fy, rect.fy) == 0 && singular == rect.singular
