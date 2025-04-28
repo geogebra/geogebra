@@ -5,7 +5,7 @@ import org.apache.commons.math3.fitting.CurveFitter;
 import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -149,7 +149,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
 			for (int i = 0; i < datasize; i++) {
 				curvefitter.addObservedPoint(1.0, xdata[i], ydata[i]);
-			} // for all datapoints
+			}
 
 			curvefitter.fit(prfunction, prfunction.getStartValues());
 
@@ -188,15 +188,8 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		MyDouble[] coeffs = prfunction.getCoeffs();
-
-		double[] ret = new double[coeffs.length];
-
-		for (int i = 0; i < coeffs.length; i++) {
-			ret[i] = coeffs[i].getDouble();
-		}
-
-		return ret;
+		return prfunction.getCoeffs().stream()
+				.mapToDouble(ExpressionValue::evaluateDouble).toArray();
 	}
 
 }

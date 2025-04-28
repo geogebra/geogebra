@@ -1538,6 +1538,8 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("c=Slider[0,10]", "0");
 		tRound("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]",
 				unicode("1x^2 + 0x + 1"));
+		tRound("Fit[ {(0,1),(1,2),(2,5)},?*x^2+?*x+? ]",
+				unicode("1x^2 + 0x + 1"));
 		// for APPS-2451
 		t("Translate[Fit[ {(0,0),(1,4)}, {x} ],(1,1)]",
 				"(4 * (x - 1)) + 1");

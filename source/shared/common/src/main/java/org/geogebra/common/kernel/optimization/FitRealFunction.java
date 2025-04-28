@@ -1,16 +1,18 @@
 package org.geogebra.common.kernel.optimization;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -43,15 +45,15 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *   
  *   Interface:
  *   
- *       FitRealFunction(Function)                Makes a copy of Function with gliders
- *                                                replaced by mydouble parameters
+ *       FitRealFunction(Function)                Makes a copy of Function with sliders
+ *                                                replaced by MyDouble parameters
  *       value(double,double[])                    Evaluates for x and pars[]
  *       gradient(double,double[])                Evaluates a gradient for x and pars[] numerically
  *   
  *   For AlgoFitNL:
  *   
  *       getNumberOfParameters()             Get number of gliders/parameters found and changed
- *       getStartParameters()                Get array of startvalues for parameters.
+ *       getStartParameters()                Get array of start values for parameters.
  *       getGeoFunction(double[])            Get FitFunction as GeoFunction with parameters replaced
  *   
  *   For later extensions and external use:
@@ -77,18 +79,13 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	// / --- Properties --- ///
 	private Kernel kernel = null;
 	private int numberOfParameters = 0;
-	private GeoElement[] gliders = null; // Pointers to gliders, need for new
-										// startvalues
-	private Function newf = null;
-	private double lastvalue = 0.0d;
-	private MyDouble[] mydoubles = null;
+	private GeoElement[] sliders = null; // Pointers to sliders, need for new
+										// start values
+	private Function bestFitFunction = null;
+	private final List<MyDouble> parameterValues = new ArrayList<>();
 	private boolean parametersOK = true;
 
 	// / --- Interface --- ///
-
-	/** Probably not needed? */
-	public FitRealFunction() {
-	}
 
 	/**
 	 * Main constructor
@@ -108,50 +105,47 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	 *            double variable
 	 * @param pars
 	 *            double[] parameters
-	 * @return functionvalue
+	 * @return function value
 	 */
 	@Override
 	public final double value(double x, double... pars) {
 		for (int i = 0; i < numberOfParameters; i++) {
-			mydoubles[i].set(pars[i]);
-			// mydoubles[i].setLabel("p_{"+i+"}");
-		} // for all parameter
-		lastvalue = newf.value(x);
-		return lastvalue;
+			parameterValues.get(i).set(pars[i]);
+		}
+		return bestFitFunction.value(x);
 	}
 
 	/**
 	 * Returns array of partial derivatives with respect to parameters.
-	 * 
+	 * <p>
 	 * Derivatives are approximated numerically, the step for given slider is
-	 * 
 	 * max(1E-5, 0.01 * slider step)
-	 * 
+	 * </p>
 	 * @param x
 	 *            double variable
-	 * @param pars
+	 * @param parameters
 	 *            double[] parameters
 	 */
 	@Override
-	public final double[] gradient(double x, double... pars) {
-		double oldf, newf1;
-		double deltap = 1.0E-5; // 1E-10 and 1E-15 is far too small, keep E-5
+	public final double[] gradient(double x, double... parameters) {
+		double oldValue, newValue;
+		double deltaP = 1.0E-5; // 1E-10 and 1E-15 is far too small, keep E-5
 								// until search algo is made
 		double[] gradient = new double[numberOfParameters];
 		for (int i = 0; i < numberOfParameters; i++) {
-			oldf = value(x, pars);
-			double old = pars[i];
-			double deltaI = deltap;
-			if (gliders[i] instanceof GeoNumeric) {
-				double step = gliders[i].getAnimationStep();
+			oldValue = value(x, parameters);
+			double old = parameters[i];
+			double deltaI = deltaP;
+			if (sliders[i] instanceof GeoNumeric) {
+				double step = sliders[i].getAnimationStep();
 				if (step > 1E-13) {
-					deltaI = Math.min(step * 0.01, deltap);
+					deltaI = Math.min(step * 0.01, deltaP);
 				}
 			}
-			pars[i] += deltaI;
-			newf1 = value(x, pars);
-			gradient[i] = (newf1 - oldf) / deltap;
-			pars[i] = old;
+			parameters[i] += deltaI;
+			newValue = value(x, parameters);
+			gradient[i] = (newValue - oldValue) / deltaP;
+			parameters[i] = old;
 		}
 		return gradient;
 	}
@@ -164,50 +158,47 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	 */
 	public void setFunction(Function f) {
 		kernel = f.getKernel();
-		FunctionVariable fvar = f.getFunctionVariable();
-
-		Set<GeoElement> hash = f
-				.getVariables(SymbolicMode.NONE); // Get
-																		// a,b,c,...
-																// to array
-		if (hash.isEmpty()) {
-			// throw (new Exception("No gliders/parameters in
-			// fit-function..."));
-			this.parametersOK = false;
-		} else {
-			gliders = hash.toArray(new GeoElement[0]);
-		} // if no gliders
-
-		numberOfParameters = gliders.length;
-
-		mydoubles = new MyDouble[numberOfParameters]; // Make my own parameters
-		double temp;
-		for (int i = 0; i < numberOfParameters; i++) {
-			temp = ((NumberValue) gliders[i]).getDouble();
-			mydoubles[i] = new MyDouble(kernel);
-			mydoubles[i].set(temp); // Set mydoubles to start values from a,b,c
-		} // for all parameters
 
 		ExpressionNode node = f.getExpression();
-
-		ExpressionNode enf = node.deepCopy(kernel); // Make new
-													// tree
-													// for
-													// new
-													// function
-		// ExpressionNode enf=new ExpressionNode(kernel,evf);
-
-		for (int i = 0; i < numberOfParameters; i++) {
-			enf = enf
-					.replace(gliders[i],
-							mydoubles[i]
-									.evaluate(StringTemplate.defaultTemplate))
-					.wrap();
+		ExpressionNode expressionWithConstants = node.deepCopy(kernel);
+		Set<GeoNumeric> parameters = new HashSet<>();
+		parameterValues.clear();
+		HashMap<GeoNumeric, MyDouble> paramToValue = new HashMap<>();
+		// traversing done in 2 steps here to maintain backward compatibility,
+		// order of coefficients depends on HashMap sorting
+		expressionWithConstants.traverse(val -> {
+			if (val instanceof MyDouble && Double.isNaN(val.evaluateDouble())) {
+				GeoNumeric adHocParam = new GeoNumeric(kernel.getConstruction());
+				MyDouble paramValue = new MyDouble(kernel);
+				parameters.add(adHocParam);
+				paramToValue.put(adHocParam, paramValue);
+				return paramValue;
+			} else if (val instanceof GeoNumeric
+					&& ((GeoNumeric) val).isLabelSet()) {
+				GeoNumeric numericVal = (GeoNumeric) val;
+				if (parameters.add(numericVal)) {
+					MyDouble paramValue = new MyDouble(kernel);
+					parameters.add(numericVal);
+					paramToValue.put(numericVal, paramValue);
+					return paramValue;
+				}
+				return paramToValue.get(val);
+			}
+			return val;
+		});
+		if (parameters.isEmpty()) {
+			this.parametersOK = false;
+		} else {
+			sliders = parameters.toArray(new GeoElement[0]);
 		}
-		enf.resolveVariables(new EvalInfo(false));
-		// should we dispose this??? if(this.newf!=null)
-		this.newf = new Function(enf, fvar);
+		for (GeoNumeric param: parameters) {
+			parameterValues.add(paramToValue.get(param));
+		}
 
+		numberOfParameters = sliders.length;
+		expressionWithConstants.resolveVariables(new EvalInfo(false));
+		FunctionVariable functionVariable = f.getFunctionVariable();
+		this.bestFitFunction = new Function(expressionWithConstants, functionVariable);
 	}
 
 	/**
@@ -221,14 +212,11 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	 * @return initial value of all parameters
 	 */
 	public final double[] getStartValues() {
-		double[] startvalues = new double[numberOfParameters];
+		double[] startValues = new double[numberOfParameters];
 		for (int i = 0; i < numberOfParameters; i++) {
-			startvalues[i] = ((NumberValue) gliders[i]).getDouble(); // Only
-																		// first
-																		// time:
-																		// mydoubles[i].getDouble();
-		} // for all parameters
-		return startvalues;
+			startValues[i] = ((NumberValue) sliders[i]).getDouble();
+		}
+		return startValues;
 	}
 
 	/**
@@ -237,21 +225,21 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	 * @return f(x)
 	 */
 	public final double value(double x) {
-		return newf.value(x);
+		return bestFitFunction.value(x);
 	}
 
 	/**
 	 * @return wrapped function
 	 */
 	public final Function getFunction() {
-		return newf;
+		return bestFitFunction;
 	}
 
 	/**
 	 * @return coefficients
 	 */
-	public MyDouble[] getCoeffs() {
-		return mydoubles;
+	public List<MyDouble> getCoeffs() {
+		return parameterValues;
 	}
 
 	/**
