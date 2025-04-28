@@ -6,6 +6,7 @@ import static org.geogebra.common.SuiteSubApp.GEOMETRY;
 import static org.geogebra.common.SuiteSubApp.GRAPHING;
 import static org.geogebra.common.SuiteSubApp.PROBABILITY;
 import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
+import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.ALLOW;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
 import static org.geogebra.common.kernel.commands.Commands.Append;
@@ -155,11 +156,13 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
@@ -334,7 +337,9 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				new HiddenIntegralAreaVisibilityRestriction(),
 				new HiddenInequalityVisibilityRestriction(),
 				new HiddenVectorVisibilityRestriction(),
-				new HiddenImplicitCurveVisibilityRestriction());
+				new HiddenImplicitCurveVisibilityRestriction(),
+				new HiddenLineVisibilityRestriction(),
+				new AllowedLinearFunctionVisibilityRestriction());
 	}
 
 	/**
@@ -410,49 +415,61 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			return geoElement instanceof GeoConic || geoElement instanceof GeoSymbolic
 					&& ((GeoSymbolic) geoElement).getTwinGeo() instanceof GeoConic;
 		}
+	}
+
+	/**
+	 * Restricts the visibility of lines.
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>x = 0</li>
+	 *     <li>x + y = 0</li>
+	 *     <li>2x - 3y = 4</li>
+	 * </ul>
+	 */
+	private static final class HiddenLineVisibilityRestriction implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return isLine(geoElement) ? HIDE : IGNORE;
+		}
 
 		@SuppressWarnings("PMD.SimplifyBooleanReturns")
-		private static boolean isExplicitEquation(GeoElement geoElement) {
-			Equation equation = unwrapEquation(geoElement);
-			if (equation == null) {
-				return false;
+		private boolean isLine(GeoElementND geoElement) {
+			if (geoElement instanceof GeoSymbolic) {
+				return isLine(((GeoSymbolic) geoElement).getTwinGeo());
 			}
-			// Explicit equations should have a single "y" variable on the left-hand side
-			if (!"y".equals(unwrapVariable(equation.getLHS().unwrap()))) {
-				return false;
+			if (geoElement instanceof GeoLine) {
+				return true;
 			}
-			// and all the variables (if any) on the right-hand side should be "x".
-			if (!allVariablesAreX(equation.getRHS())) {
-				return false;
-			}
-			return true;
+			return false;
+		}
+	}
+
+	/**
+	 * Allows the visibility of linear functions (linear explicit equations).
+	 * <p>Examples: </p>
+	 * <ul>
+	 *     <li>y = 2x</li>
+	 *     <li>y = 5x - 2</li>
+	 * </ul>
+	 */
+	private static final class AllowedLinearFunctionVisibilityRestriction
+			implements VisibilityRestriction {
+		@Nonnull
+		@Override
+		public Effect getEffect(GeoElement geoElement) {
+			return isLinearFunction(geoElement) ? ALLOW : IGNORE;
 		}
 
-		private static boolean allVariablesAreX(ExpressionNode expressionNode) {
-			return expressionNode.none(value -> {
-				String variable = unwrapVariable(value);
-				return variable != null && !variable.equals("x");
-			});
+		private boolean isLinearFunction(GeoElement geoElement) {
+			return isLinearEquation(geoElement) && isExplicitEquation(geoElement);
 		}
 
-		@Nullable
-		private static Equation unwrapEquation(GeoElement geoElement) {
-			ExpressionNode definition = geoElement.getDefinition();
-			if (definition != null && definition.unwrap() instanceof Equation) {
-				return (Equation) definition.unwrap();
+		private boolean isLinearEquation(GeoElementND geoElement) {
+			if (geoElement instanceof GeoSymbolic) {
+				return isLinearEquation(((GeoSymbolic) geoElement).getTwinGeo());
 			}
-			if (geoElement instanceof EquationValue) {
-				return ((EquationValue) geoElement).getEquation();
-			}
-			return null;
-		}
-
-		@Nullable
-		private static String unwrapVariable(ExpressionValue expressionValue) {
-			if (expressionValue instanceof FunctionVariable) {
-				return ((FunctionVariable) expressionValue).getSetVarString();
-			}
-			return null;
+			return geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND;
 		}
 	}
 
@@ -588,5 +605,49 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			}
 			return true;
 		}
+	}
+
+	@SuppressWarnings("PMD.SimplifyBooleanReturns")
+	private static boolean isExplicitEquation(GeoElement geoElement) {
+		Equation equation = unwrapEquation(geoElement);
+		if (equation == null) {
+			return false;
+		}
+		// Explicit equations should have a single "y" variable on the left-hand side
+		if (!"y".equals(unwrapVariable(equation.getLHS().unwrap()))) {
+			return false;
+		}
+		// and all the variables (if any) on the right-hand side should be "x".
+		if (!allVariablesAreX(equation.getRHS())) {
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean allVariablesAreX(ExpressionNode expressionNode) {
+		return expressionNode.none(value -> {
+			String variable = unwrapVariable(value);
+			return variable != null && !variable.equals("x");
+		});
+	}
+
+	@Nullable
+	private static Equation unwrapEquation(GeoElement geoElement) {
+		ExpressionNode definition = geoElement.getDefinition();
+		if (definition != null && definition.unwrap() instanceof Equation) {
+			return (Equation) definition.unwrap();
+		}
+		if (geoElement instanceof EquationValue) {
+			return ((EquationValue) geoElement).getEquation();
+		}
+		return null;
+	}
+
+	@Nullable
+	private static String unwrapVariable(ExpressionValue expressionValue) {
+		if (expressionValue instanceof FunctionVariable) {
+			return ((FunctionVariable) expressionValue).getSetVarString();
+		}
+		return null;
 	}
 }

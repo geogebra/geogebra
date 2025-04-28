@@ -76,6 +76,10 @@ public class MmsExamTests extends BaseExamTests {
 			"x^2 - y^2 = 4,				x^2 - y^2 = 4",
 			"x^3 + y^2 = 2,				x^3 + y^2 = 2",
 			"y^3 = x,					y^3 = x",
+			// Restricted lines
+			"x = 0,						x = 0",
+			"x + y = 0,					x + y = 0",
+			"2x - 3y = 4,				2*x - 3*y = 4"
 	})
 	public void testRestrictedVisibility(String expression, String mockedCasOutput) {
 		evaluateGeoElement("g(x) = x", "x"); // For integrals
@@ -90,6 +94,7 @@ public class MmsExamTests extends BaseExamTests {
 			"'Integral(g, x)', 	1 / 2 * x^2 + arbconst(1 + 66)",
 			// Unrestricted functions
 			"y = 2x,			y = (2 * x)",
+			"y = 5x - 2,		y = (5 * x - 2)",
 			"f(x) = x^2,		x^2",
 			"y = x^2,			y = (x^2)",
 			"y = x^3,			y = (x^3)",
