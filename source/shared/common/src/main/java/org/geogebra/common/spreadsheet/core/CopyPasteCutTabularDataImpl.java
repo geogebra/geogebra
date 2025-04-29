@@ -85,12 +85,13 @@ final class CopyPasteCutTabularDataImpl<T>
 	}
 
 	private void pasteExternal(TabularRange destination, String[][] data) {
+		TabularDataPasteInterface<T> paste = tabularData.getPaste();
 		TabularRange tiledRange = CopyPasteCutTabularData.getTiledRange(destination, data);
-		if (tiledRange != null) {
-			tabularData.getPaste()
-					.pasteExternal(tabularData, data, tiledRange);
-			addDestinationToPastedSelections(tiledRange, SelectionType.CELLS);
+		if (paste == null || tiledRange == null) {
+			return;
 		}
+		paste.pasteExternal(tabularData, data, tiledRange);
+		addDestinationToPastedSelections(tiledRange, SelectionType.CELLS);
 	}
 
 	@Override

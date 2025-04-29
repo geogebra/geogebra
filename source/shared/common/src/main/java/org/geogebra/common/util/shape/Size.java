@@ -7,8 +7,8 @@ import java.util.Objects;
  */
 public final class Size {
 
-	private double width;
-	private double height;
+	public final double width;
+	public final double height;
 
 	/**
 	 * Create a size object.

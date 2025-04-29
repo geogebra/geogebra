@@ -98,8 +98,8 @@ public class Settings {
 		if (spreadsheetSettings == null) {
 			spreadsheetSettings = new SpreadsheetSettings();
 		} else {
-			spreadsheetSettings = new SpreadsheetSettings(
-					spreadsheetSettings.getListeners());
+			spreadsheetSettings = new SpreadsheetSettings(spreadsheetSettings.getListeners(),
+					spreadsheetSettings.getCustomRowAndColumnSizeProvider());
 		}
 
 		if (consProtSettings == null) {
@@ -298,8 +298,8 @@ public class Settings {
 		if (spreadsheetSettings == null) {
 			spreadsheetSettings = new SpreadsheetSettings();
 		} else {
-			spreadsheetSettings = new SpreadsheetSettings(
-					spreadsheetSettings.getListeners());
+			spreadsheetSettings = new SpreadsheetSettings(spreadsheetSettings.getListeners(),
+					spreadsheetSettings.getCustomRowAndColumnSizeProvider());
 		}
 	}
 

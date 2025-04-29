@@ -4,12 +4,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 /**
- * Represents a row x column range of tabular data with absolute and inclusive end cells.
- * For example TabularRange(2, 1, 5, 7) means an 3x6 sized area
- * begins from row 2 column 1 and ends at row 5 column 7
+ * A finite (bounded along both axes), semi-finite (unbounded along one axis),
+ * or infinite (unbounded along both axes) rectangular range.
+ * <p>
+ * Note: End indexes (for finite ranges) are inclusive!
+ * </p>
  */
+// TODO This needs more documentation.
+//  - What are anchor column/rows?
+//  - What are the invariants for all indexes?
+//  - What are the possible cases (combinations of -1 and >= 0 values) for min/max rows/columns?
+//  - For example, the conditions in isColumn() is not clear:
+//    > return (anchorRow == -1 || minRow == -1) && anchorColumn != -1;
+//    Why are anchorRow and minRow checked, but not maxRow?
+//    Why is anchorColumn checked, but neither minColumn nor maxColumn?
 public final class TabularRange {
 	private final int anchorColumn;
 	private final int anchorRow;
@@ -322,7 +333,7 @@ public final class TabularRange {
 	 * Run action for each (row, column) pair of the range.
 	 * @param action to run for each (row, column).
 	 */
-	public void forEach(RangeAction action) {
+	public void forEach(@Nonnull TabularRangeAction action) {
 		for (int row = getMinRow(); row <= getMaxRow() ; row++) {
 			for (int column = getMinColumn(); column <= getMaxColumn(); column++) {
 				action.run(row, column);

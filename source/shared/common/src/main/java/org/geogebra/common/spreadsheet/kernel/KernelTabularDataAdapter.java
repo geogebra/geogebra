@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Kernel;
@@ -20,10 +21,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
-import org.geogebra.common.spreadsheet.core.CustomRowAndColumnSizeProvider;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
-import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
@@ -59,9 +58,9 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		this.cellProcessor = new DefaultSpreadsheetCellProcessor(kernel.getAlgebraProcessor());
 	}
 
-	private void notifySizeChanged(SpreadsheetDimensions spreadsheetDimensions) {
+	private void notifySizeChanged(SpreadsheetSettings spreadsheetSettings) {
 		for (TabularDataChangeListener listener: changeListeners) {
-			listener.tabularDataSizeDidChange(spreadsheetDimensions);
+			listener.tabularDataSizeDidChange(spreadsheetSettings);
 		}
 	}
 
@@ -170,11 +169,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public void reset(int rows, int columns) {
-		// TODO
-	}
-
-	@Override
 	public int numberOfRows() {
 		return this.spreadsheetSettings.getRows();
 	}
@@ -233,7 +227,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public String serializeContentAt(int row, int column) {
+	public @Nonnull String serializeContentAt(int row, int column) {
 		GeoElement geoElement = contentAt(row, column);
 		return geoElement == null ? ""
 				: geoElement.getRedefineString(true, false);
@@ -267,17 +261,17 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public GeoElement contentAt(int row, int column) {
+	public @CheckForNull GeoElement contentAt(int row, int column) {
 		return data.get(row) != null ? data.get(row).get(column) : null;
 	}
 
 	@Override
-	public String getColumnName(int column) {
+	public @Nonnull String getColumnName(int column) {
 		return GeoElementSpreadsheet.getSpreadsheetColumnName(column);
 	}
 
 	@Override
-	public void addChangeListener(TabularDataChangeListener changeListener) {
+	public void addChangeListener(@Nonnull TabularDataChangeListener changeListener) {
 		changeListeners.add(changeListener);
 	}
 
@@ -287,18 +281,8 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public CellFormat getFormat() {
-		return cellFormat;
-	}
-
-	@Override
 	public int getAlignment(int row, int column) {
 		return cellFormat.getAlignment(column, row, contentAt(row, column) instanceof GeoText);
-	}
-
-	@Override
-	public void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
-		spreadsheetSettings.setCustomRowAndColumnSizeProvider(provider);
 	}
 
 	@Override

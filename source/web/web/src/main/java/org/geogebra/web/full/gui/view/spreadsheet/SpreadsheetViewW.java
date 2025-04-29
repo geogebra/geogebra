@@ -499,7 +499,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void setColumnWidthsFromSettings() {
 
 		int prefWidth = table.preferredColumnWidth();
-		Map<Integer, Double> widthMap = settings().getWidthMap();
+		Map<Integer, Double> widthMap = settings().getColumnWidths();
 
 		for (int col = 0; col < table.getColumnCount(); ++col) {
 			if (widthMap.containsKey(col)) {
@@ -520,7 +520,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		table.setRowHeight(prefHeight, false);
 
 		// now set custom row heights
-		Map<Integer, Double> heightMap = settings().getHeightMap();
+		Map<Integer, Double> heightMap = settings().getRowHeights();
 		Log.debug("height map size: " + heightMap.size());
 		for (int row = 0; row < table.getRowCount(); ++row) {
 			if (heightMap.containsKey(row)) {

@@ -3,7 +3,10 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContextMenuItem {
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
+public final class ContextMenuItem {
 	public enum Identifier {
 		CUT("Cut"), COPY("Copy"),
 		PASTE("Paste"),
@@ -24,45 +27,48 @@ public class ContextMenuItem {
 		DELETE_COLUMN("ContextMenu.deleteColumn"),
 		DIVIDER("");
 
-		public final String localizationKey;
+		public final @Nonnull String localizationKey;
 
-		Identifier(String localizationKey) {
+		Identifier(@Nonnull String localizationKey) {
 			this.localizationKey = localizationKey;
 		}
 	}
 
-	private final Identifier identifier;
-
-	private final Runnable action;
-
-	private List<ContextMenuItem> subMenuItems = new ArrayList<>();
+	private final @Nonnull Identifier identifier;
+	private final @CheckForNull Runnable action;
+	private @CheckForNull List<ContextMenuItem> subMenuItems;
 
 	/**
 	 * @param identifier {@link Identifier}
 	 * @param action the menu action.
 	 */
-	public ContextMenuItem(Identifier identifier, Runnable action) {
+	public ContextMenuItem(@Nonnull Identifier identifier, @CheckForNull Runnable action) {
 		this.identifier = identifier;
 		this.action = action;
+		this.subMenuItems = null;
 	}
 
 	/**
+	 * Only use for divider and other non-functional items!
 	 * @param identifier {@link Identifier}
 	 */
-	public ContextMenuItem(Identifier identifier) {
+	public ContextMenuItem(@Nonnull Identifier identifier) {
 		this.identifier = identifier;
-		action = null;
+		this.action = null;
+		this.subMenuItems = null;
 	}
 
 	/**
 	 * @param identifier {@link Identifier}
 	 * @param subMenuIdentifiers list of {@link Identifier} for submenu items
-	 * @param subMenuActions list of menu action for submebu items
+	 * @param subMenuActions list of actions for submenu items
 	 */
-	public ContextMenuItem(Identifier identifier, List<Identifier> subMenuIdentifiers,
-						   List<Runnable> subMenuActions) {
+	public ContextMenuItem(@Nonnull Identifier identifier,
+			@Nonnull List<Identifier> subMenuIdentifiers,
+			@Nonnull List<Runnable> subMenuActions) {
 		this.identifier = identifier;
 		action = null;
+		subMenuItems = new ArrayList<>();
 		for (int index = 0; index < subMenuIdentifiers.size(); index++) {
 			ContextMenuItem subMenuItem = new ContextMenuItem(subMenuIdentifiers.get(index),
 					subMenuActions.get(index));
@@ -70,19 +76,24 @@ public class ContextMenuItem {
 		}
 	}
 
-	public String getLocalizationKey() {
+	public @Nonnull String getLocalizationKey() {
 		return identifier.localizationKey;
 	}
 
+	/**
+	 * Run the item's action.
+	 */
 	public void performAction() {
-		action.run();
+		if (action != null) {
+			action.run();
+		}
 	}
 
-	public Identifier getIdentifier() {
+	public @Nonnull Identifier getIdentifier() {
 		return identifier;
 	}
 
-	public List<ContextMenuItem> getSubMenuItems() {
+	public @CheckForNull List<ContextMenuItem> getSubMenuItems() {
 		return subMenuItems;
 	}
 }

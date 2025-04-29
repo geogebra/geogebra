@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.kernel;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
@@ -23,7 +25,7 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 	 * @return A string representation of the content suitable for a cell editor.
 	 */
 	@Override
-	public String getStringForEditor(Object data) {
+	public @Nonnull String getStringForEditor(Object data) {
 		if (data instanceof String) {
 			return (String) data;
 		}

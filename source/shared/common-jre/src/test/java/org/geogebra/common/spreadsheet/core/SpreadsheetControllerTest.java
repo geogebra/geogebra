@@ -17,7 +17,8 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.awt.GPoint;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
@@ -25,6 +26,7 @@ import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.ChartBuilder;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.junit.AfterClass;
@@ -91,7 +93,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
             }
 
             @Override
-            public int getScrollBarWidth() {
+            public double getScrollBarWidth() {
                 return 5;
             }
 
@@ -353,7 +355,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     private void runContextItemAt(int row, int column, Identifier identifier) {
-        controller.getContextMenuItems().get(row, column).stream()
+        ContextMenuBuilder contextMenuBuilder = new ContextMenuBuilder(controller);
+        contextMenuBuilder.build(row, column).stream()
                 .filter(item -> item.getIdentifier() == identifier)
                 .findFirst().ifPresentOrElse(ContextMenuItem::performAction,
                         () -> fail("There was a problem performing this action!"));
@@ -621,7 +624,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         tabularData.setContent(0, 0, "=2");
         simulateCellMouseClick(1, 0, 2);
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
-        GPoint center = getCenter(0, 0);
+        Point center = getCenter(0, 0);
         controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
         center = getCenter(0, 1);
         controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
@@ -638,7 +641,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         tabularData.setContent(0, 3, "=2");
         simulateCellMouseClick(1, 0, 2);
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
-        GPoint center = getCenter(0, 3);
+        Point center = getCenter(0, 3);
         controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
         center = getCenter(0, 2);
         controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
@@ -841,18 +844,18 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     private void simulateCellMouseClick(int row, int column, int nrClicks) {
-        GPoint center = getCenter(row, column);
+        Point center = getCenter(row, column);
         for (int click = 0; click < nrClicks; click++) {
             controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
             controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
         }
     }
 
-    private GPoint getCenter(int row, int column) {
+    private Point getCenter(int row, int column) {
         TableLayout layout = controller.getLayout();
         Rectangle cellBounds = layout.getBounds(row, column)
                 .translatedBy(layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
-        return new GPoint((int) (cellBounds.getMinX() + cellBounds.getWidth() / 2),
+        return new Point((int) (cellBounds.getMinX() + cellBounds.getWidth() / 2),
             (int) (cellBounds.getMinY() + cellBounds.getWidth() / 2));
     }
 
@@ -898,12 +901,12 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     // SpreadsheetControlsDelegate
 
     @Override
-    public SpreadsheetCellEditor getCellEditor() {
+    public @Nonnull SpreadsheetCellEditor getCellEditor() {
         return cellEditor;
     }
 
     @Override
-    public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
+    public void showContextMenu(@Nonnull List<ContextMenuItem> actions, @Nonnull Point point) {
         // Not needed
     }
 
@@ -918,7 +921,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Override
-    public void showAutoCompleteSuggestions(String input, Rectangle editorBounds) {
+    public void showAutoCompleteSuggestions(@Nonnull String input,
+            @Nonnull Rectangle editorBounds) {
         autoCompleteShown = true;
         autoCompleteSearchPrefix = input;
     }
@@ -947,22 +951,22 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Override
-    public void showSnackbar(String messageKey) {
+    public void showSnackbar(@Nonnull String messageKey) {
         this.chartError = messageKey;
     }
 
     @Override
-    public void createPieChart(TabularData<?> data, TabularRange range) {
+    public void createPieChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
         chartCommand = ChartBuilder.getPieChartCommand(data, range);
     }
 
     @Override
-    public void createBarChart(TabularData<?> data, TabularRange range) {
+    public void createBarChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
         chartCommand = ChartBuilder.getBarChartCommand(data, range);
     }
 
     @Override
-    public void createHistogram(TabularData<?> data, TabularRange range) {
+    public void createHistogram(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
         chartCommand = ChartBuilder.getHistogramCommand(data, range);
     }
 

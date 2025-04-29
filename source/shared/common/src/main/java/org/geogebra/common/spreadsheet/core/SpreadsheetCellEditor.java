@@ -22,14 +22,14 @@ public interface SpreadsheetCellEditor {
 	 * @param textAlignment The text alignment of the editor. One of {@link CellFormat}'s
 	 * ALIGN_LEFT, ALIGN_CENTER, or ALIGN_RIGHT.
 	 */
-	void show(Rectangle editorBounds, Rectangle viewport, int textAlignment);
+	void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment);
 
 	/**
 	 * Move the spreadsheet cell editor to a new position.
 	 * @param editorBounds The editor (=cell) bounds in viewport-relative coordinates.
 	 * @param viewport The current visible viewport.
 	 */
-	void updatePosition(Rectangle editorBounds, Rectangle viewport);
+	void updatePosition(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport);
 
 	/**
 	 * Hide the spreadsheet cell editor.

@@ -6,29 +6,31 @@ import java.util.stream.Stream;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
-public class ContextMenuItems {
+/**
+ * A builder for (spreadsheet) context menus.
+ */
+public final class ContextMenuBuilder {
+
     static final int HEADER_INDEX = -1;
     private final SpreadsheetSelectionController selectionController;
     private final SpreadsheetController spreadsheetController;
 
     /**
      * @param spreadsheetController {@link SpreadsheetController}
-     * @param selectionController {@link SpreadsheetSelectionController}
      */
-    public ContextMenuItems(SpreadsheetController spreadsheetController,
-            SpreadsheetSelectionController selectionController) {
+    ContextMenuBuilder(SpreadsheetController spreadsheetController) {
         this.spreadsheetController = spreadsheetController;
-        this.selectionController = selectionController;
+        this.selectionController = spreadsheetController.selectionController;
     }
 
     /**
      * Gets the context menu items for the specific <b>single</b> cell / row / column
      * @param row of the cell.
      * @param column of the cell.
-     * @return map of the menu key and its action.
+     * @return list of menu items.
      */
-    public List<ContextMenuItem> get(int row, int column) {
-        return get(row, row, column, column);
+    public List<ContextMenuItem> build(int row, int column) {
+        return build(row, row, column, column);
     }
 
     /**
@@ -39,7 +41,7 @@ public class ContextMenuItems {
      * @param toCol Index of the rightmost column
      * @return list of the menu key and its action.
      */
-    public List<ContextMenuItem> get(int fromRow, int toRow, int fromCol, int toCol) {
+    public List<ContextMenuItem> build(int fromRow, int toRow, int fromCol, int toCol) {
         if (shouldShowTableItems(fromRow, fromCol)) {
             return tableItems(fromRow, fromCol);
         } else if (fromRow == HEADER_INDEX) {

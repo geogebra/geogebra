@@ -2,9 +2,10 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -15,21 +16,21 @@ public interface SpreadsheetControlsDelegate {
 	/**
 	 * @return A cell editor instance.
 	 */
-	SpreadsheetCellEditor getCellEditor();
+	@Nonnull SpreadsheetCellEditor getCellEditor();
 
 	/**
 	 * Show context menu and take over focus (for keyboard navigation).
 	 * @param actions list of actions
-	 * @param coords preferred top left coordinates (lower right corner of the selected cell range)
+	 * @param point preferred top left coordinates (lower right corner of the selected cell range)
 	 */
-	void showContextMenu(List<ContextMenuItem> actions, GPoint coords);
+	void showContextMenu(@Nonnull List<ContextMenuItem> actions, @Nonnull Point point);
 
 	/**
 	 * Hide context menu (and potential submenus), move focus to spreadsheet.
 	 */
 	void hideContextMenu();
 
-	ClipboardInterface getClipboard();
+	@CheckForNull ClipboardInterface getClipboard();
 
 	/**
 	 * Show completion suggestions for the cell currently being edited. If the suggestions UI is not
@@ -38,7 +39,7 @@ public interface SpreadsheetControlsDelegate {
 	 * @param editorBounds The bounds of the cell being edited (in viewport-relative coordinates).
 	 * Use this to position the suggestions UI.
 	 */
-	void showAutoCompleteSuggestions(@Nonnull String input, Rectangle editorBounds);
+	void showAutoCompleteSuggestions(@Nonnull String input, @Nonnull Rectangle editorBounds);
 
 	/**
 	 * Hide the command suggestions UI (if currently visible).

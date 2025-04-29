@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.kernel;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularRange;
@@ -13,8 +14,7 @@ public final class ChartBuilder {
 	 * @param range The range in {@code data} from which to create the chart.
 	 * @return Pie chart command, e.g. =PieChart(A1:A3,(0,0))
 	 */
-	@Nullable
-	public static String getPieChartCommand(TabularData<?> data, TabularRange range) {
+	public static @CheckForNull String getPieChartCommand(TabularData<?> data, TabularRange range) {
 		if (range.isEntireColumn()) {
 			return getPieChartCommand(data, 0, range.getMinColumn(),
 					data.numberOfRows() - 2, range.getMaxColumn());
@@ -25,7 +25,7 @@ public final class ChartBuilder {
 		return null;
 	}
 
-	private static String getPieChartCommand(TabularData<?> data,
+	private static @Nonnull String getPieChartCommand(TabularData<?> data,
 			int fromRow, int fromCol, int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("PieChart");
@@ -47,8 +47,7 @@ public final class ChartBuilder {
 	 * @param range The range in {@code data} from which to create the chart.
 	 * @return Bar chart command, e.g. =BarChart(A1:A3,B1:B3)
 	 */
-	@Nullable
-	public static String getBarChartCommand(TabularData<?> data, TabularRange range) {
+	public static @CheckForNull String getBarChartCommand(TabularData<?> data, TabularRange range) {
 		if (range.getWidth() == 2) {
 			return getChartCommandWithTwoListParameter("BarChart", data,
 					range.getFromRow(), range.getFromColumn(),
@@ -57,7 +56,7 @@ public final class ChartBuilder {
 		return null;
 	}
 
-	private static String getChartCommandWithTwoListParameter(String commandName,
+	private static @Nonnull String getChartCommandWithTwoListParameter(String commandName,
 			TabularData<?> data, int fromRow, int fromCol, int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(commandName);
@@ -79,8 +78,7 @@ public final class ChartBuilder {
 	 * @param range The range in {@code data} from which to create the chart.
 	 * @return Histogram command, e.g. =Histogram(A1:A3,B1:B3)
 	 */
-	@Nullable
-	public static String getHistogramCommand(TabularData<?> data, TabularRange range) {
+	public static @CheckForNull String getHistogramCommand(TabularData<?> data, TabularRange range) {
 		if (range.getWidth() == 2) {
 			return getChartCommandWithTwoListParameter("Histogram", data,
 					range.getFromRow(), range.getFromColumn(),

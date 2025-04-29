@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
@@ -42,15 +42,15 @@ public final class SpreadsheetStyleBarModel {
 		public final @Nonnull SpreadsheetStyle.TextAlignment textAlignment;
 		/** Background color of the selected cell. */
 		@Property("readonly")
-		public final @Nullable GColor backgroundColor;
+		public final @CheckForNull GColor backgroundColor;
 		@Property("readonly")
-		public final @Nullable GColor textColor;
+		public final @CheckForNull GColor textColor;
 
 		State(boolean isEnabled,
-				@Nullable Set<SpreadsheetStyle.FontTrait> fontTraits,
-				@Nullable SpreadsheetStyle.TextAlignment textAlignment,
-				@Nullable GColor backgroundColor,
-				@Nullable GColor textColor) {
+				@CheckForNull Set<SpreadsheetStyle.FontTrait> fontTraits,
+				@CheckForNull SpreadsheetStyle.TextAlignment textAlignment,
+				@CheckForNull GColor backgroundColor,
+				@CheckForNull GColor textColor) {
 			this.isEnabled = isEnabled;
 			this.fontTraits = fontTraits != null
 					? fontTraits : Set.of();
@@ -180,7 +180,7 @@ public final class SpreadsheetStyleBarModel {
 	 * @param backgroundColor Cell background color. Pass {@code null} to clear any active
 	 * background color.
 	 */
-	public void setBackgroundColor(@Nullable GColor backgroundColor) {
+	public void setBackgroundColor(@CheckForNull GColor backgroundColor) {
 		style.setBackgroundColor(backgroundColor, getSelectedRanges());
 	}
 

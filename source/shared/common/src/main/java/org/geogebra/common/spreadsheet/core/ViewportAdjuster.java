@@ -15,7 +15,7 @@ import org.geogebra.common.util.shape.Size;
  */
 // TODO testing: This class contains a lot of tricky logic, so it should be directly unit-tested
 //  (not just indirectly via SpreadsheetController).
-public final class ViewportAdjuster {
+final class ViewportAdjuster {
 
 	private final TableLayout layout;
 	private final ViewportAdjusterDelegate viewportAdjusterDelegate;
@@ -159,7 +159,7 @@ public final class ViewportAdjuster {
 		return row >= 0 && row < layout.numberOfRows();
 	}
 
-	public void updateScrollPaneSize(Size size) {
+	void updateScrollPaneSize(Size size) {
 		viewportAdjusterDelegate.updateScrollableContentSize(size);
 	}
 

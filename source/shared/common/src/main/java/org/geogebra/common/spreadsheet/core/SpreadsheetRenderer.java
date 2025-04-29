@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -20,6 +21,7 @@ import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -31,7 +33,7 @@ public final class SpreadsheetRenderer {
 
 	private final CellRenderableFactory converter;
 	private final TableLayout layout;
-	private final Map<GPoint, SelfRenderable> renderableCache = new HashMap<>();
+	private final Map<SpreadsheetCoords, SelfRenderable> renderableCache = new HashMap<>();
 	private final StringRenderer stringRenderer = new StringRenderer();
 	private final List<SelfRenderable> rowHeaders = new ArrayList<>();
 	private final List<SelfRenderable> columnHeaders = new ArrayList<>();
@@ -45,15 +47,16 @@ public final class SpreadsheetRenderer {
 	private final static int TEXT_PADDING = 10;
 	private final static int TEXT_HEIGHT = 16;
 
-	SpreadsheetRenderer(TableLayout layout, CellRenderableFactory converter,
-			SpreadsheetStyle style, TabularData tabularData) {
+	SpreadsheetRenderer(@Nonnull TableLayout layout, @Nonnull CellRenderableFactory converter,
+			@Nonnull SpreadsheetStyle style, @Nonnull TabularData tabularData) {
 		this.converter = converter;
 		this.layout = layout;
 		this.style = style;
 		this.tabularData = tabularData;
 	}
 
-	void drawCell(int row, int column, GGraphics2D graphics, Object content, boolean hasError) {
+	void drawCell(int row, int column, GGraphics2D graphics, @CheckForNull Object content,
+			boolean hasError) {
 		if (style.showBorder(row, column)) {
 			drawCellBorder(row, column, graphics);
 		}
@@ -62,7 +65,8 @@ public final class SpreadsheetRenderer {
 			return;
 		}
 
-		SelfRenderable renderable = renderableCache.computeIfAbsent(new GPoint(row, column),
+		SelfRenderable renderable = renderableCache.computeIfAbsent(
+				new SpreadsheetCoords(row, column),
 				ignore -> converter.getRenderable(content, style, row, column));
 		if (renderable != null) {
 			Rectangle cellBorder = layout.getBounds(row, column);
@@ -295,18 +299,18 @@ public final class SpreadsheetRenderer {
 	}
 
 	void invalidate(int row, int column) {
-		renderableCache.remove(new GPoint(row, column));
+		renderableCache.remove(new SpreadsheetCoords(row, column));
 	}
 
-	void drawDraggingDot(GPoint2D dot, GGraphics2D graphics) {
+	void drawDraggingDot(Point location, GGraphics2D graphics) {
 		int dotSize = 4;
 		graphics.setColor(style.getSelectionBorderColor());
-		fillRect(graphics, dot.getX() - dotSize, dot.getY() - dotSize,
+		fillRect(graphics, location.x - dotSize, location.y - dotSize,
 				dotSize * 2, dotSize * 2);
 		graphics.setStroke(gridStroke);
 		graphics.setColor(GColor.WHITE);
-		drawRectangleWithStraightLines(graphics, dot.getX() - dotSize,
-				dot.getY() - dotSize, dot.getX() + dotSize, dot.getY() + dotSize);
+		drawRectangleWithStraightLines(graphics, location.x - dotSize,
+				location.y - dotSize, location.x + dotSize, location.y + dotSize);
 	}
 
 	void drawEditorBorder(Rectangle bounds, GGraphics2D graphics) {

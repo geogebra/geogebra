@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
@@ -7,91 +8,129 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 
 /**
  * Interacting with the structure and contents of tabular data.
+ * @apiNote All indices (e.g., row, column) are 0-based.
  */
 public interface TabularData<T> extends HasTabularValues<T> {
 
-	// structure
-	void reset(int rows, int columns);
+	// -- Delegates & Listeners --
 
+	@Nonnull SpreadsheetCellProcessor getCellProcessor();
+
+	@CheckForNull TabularDataPasteInterface<T> getPaste();
+
+	@CheckForNull CellDragPasteHandler getCellDragPasteHandler();
+
+	void addChangeListener(@Nonnull TabularDataChangeListener listener);
+
+	// -- Structure --
+
+	/**
+	 * Insert a row at the given index, shifting all subsequent rows down by one.
+	 * @param row Index of new row.
+	 */
 	void insertRowAt(int row);
 
+	/**
+	 * Delete the content at the given row index, and shift all subsequent rows up by one.
+	 * @param row Index of row to delete.
+	 */
 	void deleteRowAt(int row);
 
+	/**
+	 * Insert a column at the given index, shifting all subsequent columns right by one.
+	 * @param column Index of column to add.
+	 */
 	void insertColumnAt(int column);
 
+	/**
+	 * Delete the content at the given cell index, and shift all subsequence columns left by one.
+	 * @param column Index of column to delete.
+	 */
 	void deleteColumnAt(int column);
 
-	// content
-	void setContent(int row, int column, Object content);
-
-	void removeContentAt(int row, int column);
-
 	/**
-	 * @param row table row
-	 * @param column table column
-	 * @return content of given cell formatted for external use (clipboard)
+	 * Expand the size of the data if necessary (i.e., if the given number of rows or columns
+	 * is less than the current size, nothing happens).
+	 * @param numberOfRows Minimum number of rows.
+	 * @param numberOfColumns Minimum number of columns.
 	 */
-	String serializeContentAt(int row, int column);
-
-	String getColumnName(int column);
-
-	default String getRowName(int row) {
-		return String.valueOf(row + 1);
-	}
-
-	void addChangeListener(TabularDataChangeListener listener);
-
-	TabularDataPasteInterface<T> getPaste();
-
-	/**
-	 * Checks the capacity of the data and expands it if needed.
-	 *
-	 * @param rows that needed.
-	 * @param cols that needed.
-	 */
-	default void ensureCapacity(int rows, int cols) {
-		int maxRows = numberOfRows();
-		for (int i = maxRows; i <= rows; i++) {
+	default void ensureCapacity(int numberOfRows, int numberOfColumns) {
+		int rows = numberOfRows();
+		for (int i = rows; i <= numberOfRows; i++) {
 			insertRowAt(i);
 		}
-
-		int maxColumns = numberOfColumns();
-		for (int i = maxColumns; i <= cols; i++) {
+		int columns = numberOfColumns();
+		for (int i = columns; i <= numberOfColumns; i++) {
 			insertColumnAt(i);
 		}
 	}
 
-	CellFormat getFormat();
+	@Nonnull String getColumnName(int column);
 
-	/**
-	 * @return The (cell value) alignment for the given cell. One of {@link CellFormat}'s
-	 * ALIGN_LEFT, ALIGN_CENTER, or ALIGN_RIGHT.
-	 */
-	int getAlignment(int row, int column);
-
-	boolean hasError(int row, int column);
-
-	default void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
-		// not needed in tests
+	default @Nonnull String getRowName(int row) {
+		return String.valueOf(row + 1);
 	}
 
-	String getErrorString();
+	default @Nonnull String getCellName(int row, int column) {
+		return getColumnName(column) + getRowName(row);
+	}
 
-	CellDragPasteHandler getCellDragPasteHandler();
+	// -- Content --
 
 	/**
-	 * Remove empty cell flag
-	 * @param row table row
-	 * @param column table column
+	 * Set the content of cell (row, column), replacing any existing content.
+	 * Will grow the size of the data (number of rows/columns) if row/column is outside the
+	 * current size.
+	 * @param row Row index of cell.
+	 * @param column Column index of cell.
+	 * @param content The content for (row, column). If {@code null}, clears the cell.
+	 */
+	void setContent(int row, int column, @CheckForNull Object content);
+
+	/**
+	 * Replace the content of cell (row, column) with {@code null}.
+	 * Will not shrink the size of the data (number of rows/columns) if row/column is the
+	 * last cell with content on the right or bottom edge.
+	 * @param row Row index of cell.
+	 * @param column Column index of cell.
+	 */
+	void removeContentAt(int row, int column);
+
+	/**
+	 * Remove "empty cell" flag.
+	 * @param row Row index of cell.
+	 * @param column Column index of cell.
 	 */
 	default void markNonEmpty(int row, int column) {
 		// not needed in tests
 	}
 
-	@Nonnull
-	SpreadsheetCellProcessor getCellProcessor();
+	/**
+	 * Serialize cell content (e.g. for clipboard).
+	 * @param row Row index of cell.
+	 * @param column Column index of cell.
+	 * @return Content of given cell formatted for external use (clipboard), or an empty string
+	 * if there is no content at (row, column).
+	 */
+	@Nonnull String serializeContentAt(int row, int column);
 
-	default String getCellName(int row, int column) {
-		return getColumnName(column) + getRowName(row);
-	}
+	/**
+	 * @return The (cell value) alignment for the given cell. One of {@link CellFormat}'s
+	 * {@link CellFormat#ALIGN_LEFT ALIGN_LEFT}, {@link CellFormat#ALIGN_CENTER ALIGN_CENTER}, or
+	 * {@link CellFormat#ALIGN_RIGHT ALIGN_RIGHT}.
+	 */
+	int getAlignment(int row, int column);
+
+	/**
+	 * Check for errors in spreadsheet data.
+	 * @param row Row index of cell.
+	 * @param column Column index of cell.
+	 * @return {@code true} if cell (row, column) currently has an error.
+	 */
+	boolean hasError(int row, int column);
+
+	/**
+	 * @return A generic error message to display for cells with errors.
+	 */
+	String getErrorString();
 }

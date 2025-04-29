@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 
@@ -17,5 +19,6 @@ public interface CellRenderableFactory {
 	 * @param data cell content
 	 * @return renderable representation of the cell data
 	 */
-	SelfRenderable getRenderable(Object data, SpreadsheetStyle fontStyle, int row, int column);
+	@CheckForNull SelfRenderable getRenderable(@CheckForNull Object data,
+			@CheckForNull SpreadsheetStyle fontStyle, int row, int column);
 }

@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -12,7 +15,7 @@ import org.geogebra.common.util.shape.Rectangle;
  *
  * @apiNote This type is not designed to be thread-safe.
  */
-public final class TableLayout implements CustomRowAndColumnSizeProvider {
+public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvider {
 	public static final double DEFAULT_CELL_WIDTH = 120;
 	public static final double DEFAULT_CELL_HEIGHT = 36;
 	public static final double DEFAULT_ROW_HEADER_WIDTH = 52;
@@ -64,14 +67,21 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 		return columnWidths.length;
 	}
 
-	Rectangle getBounds(int row, int column) {
+	@Nonnull Rectangle getBounds(int row, int column) {
 		return new Rectangle(cumulativeWidths[column],
 				cumulativeWidths[column] + columnWidths[column],
 				cumulativeHeights[row],
 				cumulativeHeights[row] + rowHeights[row]);
 	}
 
-	Rectangle getBounds(TabularRange selection, Rectangle viewport) {
+	/**
+	 * Get selection bounds, relative to some viewport.
+	 * @param selection A selection.
+	 * @param viewport The current viewport.
+	 * @return Screen bounds of the selection if it's finite, or {@code null} if it's empty
+	 * or unbounded in either direction (e.g. whole column).
+	 */
+	@CheckForNull Rectangle getBounds(TabularRange selection, Rectangle viewport) {
 		double offsetX = -viewport.getMinX() + getRowHeaderWidth();
 		double offsetY = -viewport.getMinY() + getColumnHeaderHeight();
 		if (selection.getMinColumn() >= 0 && selection.getMinRow() >= 0) {
@@ -85,14 +95,14 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 		return null;
 	}
 
-	Rectangle getRowHeaderBounds(int row) {
+	@Nonnull Rectangle getRowHeaderBounds(int row) {
 		return new Rectangle(0,
 				rowHeaderWidth,
 				cumulativeHeights[row],
 				cumulativeHeights[row] + rowHeights[row]);
 	}
 
-	Rectangle getColumnHeaderBounds(int column) {
+	@Nonnull Rectangle getColumnHeaderBounds(int column) {
 		return new Rectangle(cumulativeWidths[column],
 				cumulativeWidths[column] + columnWidths[column],
 				0,
@@ -114,7 +124,7 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 	 * @return The {@link DragState} for the given point in the spreadsheet.
 	 */
 	// TODO find a better method name
-	DragState getResizeAction(double x, double y, Rectangle viewport) {
+	@Nonnull DragState getResizeAction(double x, double y, Rectangle viewport) {
 		double xAbs = x + viewport.getMinX();
 		double yAbs = y + viewport.getMinY();
 		int row = findRow(yAbs);
@@ -172,43 +182,17 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 		}
 	}
 
-	@Override
-	public Map<Integer, Double> getCustomColumnWidths() {
-		Map<Integer, Double> widths = new HashMap<>();
-		for (int i = 0; i < columnWidths.length; i++) {
-			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
-				widths.put(i, columnWidths[i]);
-			}
-		}
-		return widths;
-	}
-
-	@Override
-	public Map<Integer, Double> getCustomRowHeights() {
-		Map<Integer, Double> heights = new HashMap<>();
-		for (int i = 0; i < rowHeights.length; i++) {
-			if (rowHeights[i] != DEFAULT_CELL_HEIGHT) {
-				heights.put(i, rowHeights[i]);
-			}
-		}
-		return heights;
-	}
-
 	void dimensionsDidChange(SpreadsheetDimensions dimensions) {
 		setNumberOfColumns(dimensions.getColumns());
 		setNumberOfRows(dimensions.getRows());
 		for (int i = 0; i < columnWidths.length; i++) {
-			columnWidths[i] = dimensions.getWidthMap().getOrDefault(i, DEFAULT_CELL_WIDTH);
+			columnWidths[i] = dimensions.getColumnWidths().getOrDefault(i, DEFAULT_CELL_WIDTH);
 		}
 		for (int i = 0; i < rowHeights.length; i++) {
-			rowHeights[i] = dimensions.getHeightMap().getOrDefault(i, DEFAULT_CELL_HEIGHT);
+			rowHeights[i] = dimensions.getRowHeights().getOrDefault(i, DEFAULT_CELL_HEIGHT);
 		}
 		updateCumulativeHeights(0);
 		updateCumulativeWidths(0);
-	}
-
-	void setTableSize(int rows, int columns) {
-		// TODO
 	}
 
 	/**
@@ -221,7 +205,6 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 		for (int column = minColumn; column <= maxColumn; column++) {
 			columnWidths[column] = width;
 		}
-
 		updateCumulativeWidths(minColumn);
 	}
 
@@ -366,6 +349,30 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 		for (int column = numberOfColumns - 1; column > resizeUntil; column--) {
 			setWidthForColumns(getWidth(column - 1), column, column);
 		}
+	}
+
+	// -- SpreadsheetCustomRowAndColumnSizeProvider
+
+	@Override
+	public @Nonnull Map<Integer, Double> getCustomColumnWidths() {
+		Map<Integer, Double> widths = new HashMap<>();
+		for (int i = 0; i < columnWidths.length; i++) {
+			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
+				widths.put(i, columnWidths[i]);
+			}
+		}
+		return widths;
+	}
+
+	@Override
+	public @Nonnull Map<Integer, Double> getCustomRowHeights() {
+		Map<Integer, Double> heights = new HashMap<>();
+		for (int i = 0; i < rowHeights.length; i++) {
+			if (rowHeights[i] != DEFAULT_CELL_HEIGHT) {
+				heights.put(i, rowHeights[i]);
+			}
+		}
+		return heights;
 	}
 
 	/**

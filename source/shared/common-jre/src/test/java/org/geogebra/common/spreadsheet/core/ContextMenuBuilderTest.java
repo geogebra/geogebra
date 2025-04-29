@@ -1,7 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.spreadsheet.core.ContextMenuBuilder.HEADER_INDEX;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.*;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -10,7 +10,6 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,10 +20,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public final class ContextMenuItemsTest {
-	private ContextMenuItems items;
-	private final SpreadsheetSelectionController selectionController =
-			new SpreadsheetSelectionController();
+public final class ContextMenuBuilderTest {
+	private ContextMenuBuilder builder;
 	private SpreadsheetController controller;
 	private TabularData<String> data;
 	private TestClipboard clipboard;
@@ -35,10 +32,10 @@ public final class ContextMenuItemsTest {
 		fillTestData();
 		clipboard = new TestClipboard();
 		controller = new SpreadsheetController(data);
+		builder = new ContextMenuBuilder(controller);
 		CopyPasteCutTabularDataImpl<?> copyPasteCut =
 				new CopyPasteCutTabularDataImpl<>(data, clipboard, controller.getLayout(),
 						new SpreadsheetSelectionController());
-		items = new ContextMenuItems(controller, selectionController);
 		controller.setCopyPasteCut(copyPasteCut);
 	}
 
@@ -62,12 +59,12 @@ public final class ContextMenuItemsTest {
 						DELETE_ROW, DELETE_COLUMN));
 	}
 
-	private void testMenuOrder(int row, int column, List<Identifier> identifiers) {
-		List<ContextMenuItem> menuItems = items.get(row, column);
+	private void testMenuOrder(int row, int column, List<Identifier> expected) {
+		List<ContextMenuItem> menuItems = builder.build(row, column);
 		List<Identifier> actual =
 				menuItems.stream().map(ContextMenuItem::getIdentifier)
 						.collect(Collectors.toList());
-		assertEquals(actual, identifiers);
+		assertEquals(expected, actual);
 	}
 
 	@Test
@@ -95,7 +92,7 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testDeleteSelectedCells() {
 		TabularRange range = new TabularRange(6, 2, 8, 4);
-		selectionController.select(new Selection(range), false, true);
+		controller.selectionController.select(new Selection(range), false, true);
 		runItemAt(2, 4, DELETE);
 		checkRangeIsDeleted(range);
 	}
@@ -115,7 +112,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void runItemAt(int row, int column, Identifier id) {
-		List<ContextMenuItem> contextMenuItems = items.get(row, column);
+		List<ContextMenuItem> contextMenuItems = builder.build(row, column);
 		Optional<ContextMenuItem> item = contextMenuItems.stream()
 				.filter(t -> t.getIdentifier().equals(id)).findAny();
 		if (item.isPresent()) {
@@ -126,7 +123,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private Optional<ContextMenuItem> getItemAt(int row, int column, Identifier id) {
-		List<ContextMenuItem> contextMenuItems = items.get(row, column);
+		List<ContextMenuItem> contextMenuItems = builder.build(row, column);
 		Optional<ContextMenuItem> item = contextMenuItems.stream()
 				.filter(t -> t.getIdentifier().equals(id)).findAny();
 		if (item.isPresent()) {
@@ -260,7 +257,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
-		selectionController.select(new Selection(
+		controller.selectionController.select(new Selection(
 						new TabularRange(fromRow, fromColumn, toRow, toColumn)),
 				false, false);
 	}
@@ -297,7 +294,7 @@ public final class ContextMenuItemsTest {
 	public void testPasteCellSelection() {
 		selectCells(1, 1, 2, 2);
 		runItemAt(1, 1, COPY);
-		selectionController.clearSelections();
+		controller.selectionController.clearSelections();
 		runItemAt(2, 4, PASTE);
 		assertEquals("cell11", data.contentAt(2, 4));
 		assertEquals("cell12", data.contentAt(2, 5));
@@ -369,7 +366,7 @@ public final class ContextMenuItemsTest {
 	public void testClickingOnCellWithRowsAndColumnsSelectedEnablesInsertingRow() {
 		controller.selectRow(1, false, false);
 		controller.selectColumn(2, false, true);
-		List<ContextMenuItem> contextMenuItems = items.get(1, 2);
+		List<ContextMenuItem> contextMenuItems = builder.build(1, 2);
 		assertTrue(contextMenuItems.stream().anyMatch(
 				item -> item.getIdentifier() == INSERT_ROW_ABOVE));
 	}

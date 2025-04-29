@@ -2,6 +2,9 @@ package org.geogebra.common.spreadsheet.core;
 
 import com.google.j2objc.annotations.Property;
 
+/**
+ * Spreadsheet cell coordinates (0-based)
+ */
 public final class SpreadsheetCoords {
 
 	@Property("readonly")

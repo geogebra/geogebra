@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import javax.annotation.CheckForNull;
+
 /**
  * Utility class designed to handle dragging a selection in order to copy its content to adjacent
  * cells
@@ -10,12 +12,12 @@ public interface CellDragPasteHandler {
 	 * Specifies the range that should be copied
 	 * @param rangeToCopy {@link TabularRange}
 	 */
-	void setRangeToCopy(TabularRange rangeToCopy);
+	void setRangeToCopy(@CheckForNull TabularRange rangeToCopy);
 
 	/**
 	 * @return The selected range used to copy a selection to.
 	 */
-	TabularRange getDragPasteDestinationRange();
+	@CheckForNull TabularRange getDragPasteDestinationRange();
 
 	/**
 	 * Pastes the selected range to the chosen destination.

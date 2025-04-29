@@ -44,8 +44,11 @@ public class SpreadsheetTest extends BaseUnitTest {
 	@Before
 	public void setupSpreadsheet() {
 		tabularData = new TestTabularData();
-		undoProvider = mock();
-		spreadsheet = new Spreadsheet(tabularData, new TestCellRenderableFactory(), undoProvider);
+        undoProvider = mock();
+		spreadsheet = new Spreadsheet(tabularData,
+				getSettings().getSpreadsheet(),
+				new TestCellRenderableFactory(),
+                undoProvider);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		resetViewport();
@@ -56,7 +59,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 			}
 
 			@Override
-			public int getScrollBarWidth() {
+			public double getScrollBarWidth() {
 				return 5;
 			}
 

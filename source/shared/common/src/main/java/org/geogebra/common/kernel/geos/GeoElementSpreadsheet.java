@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Construction;
@@ -43,7 +45,7 @@ public class GeoElementSpreadsheet {
 	 *            column number
 	 * @return column name
 	 */
-	public static String getSpreadsheetColumnName(int column) {
+	public static @Nonnull String getSpreadsheetColumnName(int column) {
 		int i = column + 1;
 		String col = "";
 		while (i > 0) {

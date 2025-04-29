@@ -11,13 +11,13 @@ import org.junit.Test;
 
 public class SpreadsheetStyleTest extends BaseUnitTest {
 
-	private CellFormat cellFormat;
 	private SpreadsheetStyle style;
+	private CellFormat cellFormat;
 
 	@Before
 	public void setupStyle() {
-		cellFormat = new CellFormat(null);
-		style = new SpreadsheetStyle(cellFormat);
+		style = new SpreadsheetStyle();
+		cellFormat = style.getFormat();
 	}
 
 	@Test

@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -51,6 +50,7 @@ import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.CursorMap;
@@ -75,6 +75,7 @@ public class SpreadsheetDemo {
 			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(
 					appCommon.getSettings().getSpreadsheet(), appCommon.getKernel());
 			Spreadsheet spreadsheet = new Spreadsheet(adapter,
+					appCommon.getSettings().getSpreadsheet(),
 					new GeoElementCellRendererFactory(new AwtReTeXGraphicsBridgeD()), null);
 
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
@@ -239,8 +240,9 @@ public class SpreadsheetDemo {
 				}
 
 				@Override
-				public void showContextMenu(List<ContextMenuItem> items, GPoint position) {
-					contextMenu.show(editorOverlay, position.x, position.y);
+				public void showContextMenu(List<ContextMenuItem> items, Point position) {
+					contextMenu.show(editorOverlay,
+							(int)Math.round(position.x), (int)Math.round(position.y));
 					contextMenu.removeAll();
 					for (ContextMenuItem item: items) {
 						String localizationKey = item.getLocalizationKey();
@@ -338,7 +340,7 @@ public class SpreadsheetDemo {
 
 			@Override
 			public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
-				Point locationInWindow = getParent().getLocation();
+				java.awt.Point locationInWindow = getParent().getLocation();
 				editorBox.setBounds((int) editorBounds.getMinX() + locationInWindow.x,
 						(int) editorBounds.getMinY() + locationInWindow.y,
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());

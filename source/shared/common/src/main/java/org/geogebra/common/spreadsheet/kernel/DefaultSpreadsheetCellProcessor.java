@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.TokenMgrException;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.error.ErrorLogger;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -27,10 +28,9 @@ import org.geogebra.common.util.debug.Log;
  * Sends spreadsheet cell editor input towards the AlgebraProcessor.
  * (This class is an adapter between the Spreadsheet core and the Kernel.)
  */
-public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor {
+public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor, ErrorLogger {
 
 	private final AlgebraProcessor algebraProcessor;
-	private final ErrorHandler errorHandler;
 	private String cellName;
 	private String input;
 
@@ -40,7 +40,6 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	 */
 	public DefaultSpreadsheetCellProcessor(@Nonnull AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
-		this.errorHandler = new SpreadsheetErrorHandler(this);
 	}
 
 	/**
@@ -73,7 +72,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 			return;
 		}
 		try {
-			processInput(buildProperInput(input, cellName), errorHandler,
+			processInput(buildProperInput(input, cellName), this,
 					(geos) -> {
 						if (geos != null && geos.length > 0 && geos[0] != null) {
 							Arrays.stream(geos).forEach(this::setInitialProperties);
@@ -175,5 +174,37 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	@Override
 	public boolean isTooShortForAutocomplete(String searchPrefix) {
 		return !InputHelper.needsAutocomplete(searchPrefix, algebraProcessor.getKernel());
+	}
+
+	// -- ErrorLogger --
+
+	@Override
+	public void showError(String msg) {
+		markError();
+	}
+
+	@Override
+	public void showCommandError(String command, String message) {
+		markError();
+	}
+
+	@Override
+	public String getCurrentCommand() {
+		return null;
+	}
+
+	@Override
+	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
+		return false;
+	}
+
+	@Override
+	public void resetError() {
+		// nothing to do here
+	}
+
+	@Override
+	public void log(Throwable e) {
+		Log.warn(e.getMessage());
 	}
 }

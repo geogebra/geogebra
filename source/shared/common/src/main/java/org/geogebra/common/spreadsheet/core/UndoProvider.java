@@ -6,5 +6,4 @@ public interface UndoProvider {
 	 * Stores current undo info
 	 */
 	void storeUndoInfo();
-
 }

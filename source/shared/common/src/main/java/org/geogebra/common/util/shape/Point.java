@@ -7,8 +7,8 @@ import java.util.Objects;
  */
 public final class Point {
 
-	private double x;
-	private double y;
+	public final double x;
+	public final double y;
 
 	/**
 	 * Creates a point with coordinates specified
@@ -34,6 +34,10 @@ public final class Point {
 	 */
 	public double getY() {
 		return y;
+	}
+
+	public double distanceTo(double x1, double y1) {
+		return Math.hypot(x - x1, y - y1);
 	}
 
 	@Override

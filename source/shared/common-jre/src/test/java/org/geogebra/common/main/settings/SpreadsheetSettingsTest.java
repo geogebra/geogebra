@@ -15,6 +15,6 @@ public class SpreadsheetSettingsTest {
 		String xml = app.getXML();
 		app.getSettings().getSpreadsheet().addWidthNoFire(2, 50);
 		app.setXML(xml, true);
-		assertEquals(42, app.getSettings().getSpreadsheet().getWidthMap().get(2), 0.1);
+		assertEquals(42, app.getSettings().getSpreadsheet().getColumnWidths().get(2), 0.1);
 	}
 }

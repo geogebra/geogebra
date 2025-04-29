@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -35,8 +35,12 @@ public final class SpreadsheetStyle {
 	private final CellFormat format;
 	private boolean showGrid = true;
 
-	public SpreadsheetStyle(CellFormat format) {
-		this.format = format;
+	public SpreadsheetStyle() {
+		this.format = new CellFormat(null);
+	}
+
+	public CellFormat getFormat() {
+		return format;
 	}
 
 	private void notifyStylingChanged(@Nonnull List<TabularRange> ranges) {
@@ -141,7 +145,7 @@ public final class SpreadsheetStyle {
 	 * @param fallback fallback value to return (can be null)
 	 * @return The cell's text color if non-null, or the fallback color otherwise.
 	 */
-	public GColor getTextColor(int row, int column, @Nullable GColor fallback) {
+	public GColor getTextColor(int row, int column, @CheckForNull GColor fallback) {
 		GColor textColor = (GColor) format.getCellFormat(column, row, CellFormat.FORMAT_FGCOLOR);
 		return textColor == null ? fallback : textColor;
 	}
@@ -211,7 +215,7 @@ public final class SpreadsheetStyle {
 
 	// Format conversion utils
 
-	private TextAlignment textAlignmentFromCellFormat(@Nullable Integer cellFormat) {
+	private TextAlignment textAlignmentFromCellFormat(@CheckForNull Integer cellFormat) {
 		if (cellFormat == null) {
 			return TextAlignment.DEFAULT;
 		}
@@ -241,7 +245,7 @@ public final class SpreadsheetStyle {
 		return null;
 	}
 
-	private Set<FontTrait> fontTraitsFromCellFormat(@Nullable Integer cellFormat) {
+	private Set<FontTrait> fontTraitsFromCellFormat(@CheckForNull Integer cellFormat) {
 		Set<FontTrait> traits = new HashSet<>();
 		if (cellFormat != null) {
 			switch (cellFormat) {

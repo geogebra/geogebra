@@ -2,6 +2,9 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.function.Consumer;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 /**
  * Provides copy, paste and cut capability for tabular data.
  * Implementations should handle internal (cell to cell) and external (cell from/to clipboard)
@@ -12,21 +15,21 @@ public interface CopyPasteCutTabularData {
 	/**
 	 * @param source range of cells to copy.
 	 */
-	void copy(TabularRange source);
+	void copy(@Nonnull TabularRange source);
 
 	/**
 	 * Copy cells ensuring that the content is copied by value (deep copy).
 	 *
 	 * @param source range of cells to copy.
 	 */
-	void copyDeep(TabularRange source);
+	void copyDeep(@Nonnull TabularRange source);
 
 	/**
 	 * Paste previously copied content to the destination range of cells
 	 * @param destination to paste content to.
 	 * @param externalContent external clipboard content
 	 */
-	void paste(TabularRange destination, String[][] externalContent);
+	void paste(@Nonnull TabularRange destination, @CheckForNull String[][] externalContent);
 
 	/**
 	 * Paste previously copied content to the given row, column
@@ -35,14 +38,14 @@ public interface CopyPasteCutTabularData {
 	 * @param startRow to paste content to.
 	 * @param startColumn to paste content to.
 	 */
-	void paste(int startRow, int startColumn, String[][] externalContent);
+	void paste(int startRow, int startColumn, @CheckForNull String[][] externalContent);
 
 	/**
 	 * Cuts range of cells.
 	 *
 	 * @param range of cells to cut.
 	 */
-	void cut(TabularRange range);
+	void cut(@Nonnull TabularRange range);
 
 	/**
 	 * Selects one or multiple destination ranges to which content was pasted to
@@ -54,7 +57,7 @@ public interface CopyPasteCutTabularData {
 	 * @param reader gets clipboard content if present and distinct from internal clipboard,
 	 *    null otherwise
 	 */
-	void readExternalClipboard(Consumer<String> reader);
+	void readExternalClipboard(@Nonnull Consumer<String> reader);
 
 	/**
 	 * Range for tiled pasting of tabular data. The size is a multiple of tileHeight vertically

@@ -7,9 +7,9 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -34,9 +34,12 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param undoProvider undo provider, may be null
 	 */
 	public Spreadsheet(@Nonnull TabularData<?> tabularData,
-			@Nonnull CellRenderableFactory rendererFactory, @CheckForNull UndoProvider undoProvider) {
+			@Nonnull SpreadsheetDimensions spreadsheetDimensions,
+			@Nonnull CellRenderableFactory rendererFactory,
+			@CheckForNull UndoProvider undoProvider) {
 		controller = new SpreadsheetController(tabularData);
-		style = new SpreadsheetStyle(tabularData.getFormat());
+		spreadsheetDimensions.setCustomRowAndColumnSizeProvider(controller.getLayout());
+		this.style = new SpreadsheetStyle();
 		styleBarModel = new SpreadsheetStyleBarModel(controller, controller.selectionController,
 				style);
 		style.stylingChanged.addListener(this::stylingChanged);
@@ -47,12 +50,47 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (undoProvider != null) {
 			controller.setUndoProvider(undoProvider);
 		}
-		tabularData.setCustomRowAndColumnSizeProvider(controller.getLayout());
 	}
 
-	// layout
+	// Delegates
 
-	// styling
+	public void setControlsDelegate(@CheckForNull SpreadsheetControlsDelegate controlsDelegate) {
+		controller.setControlsDelegate(controlsDelegate);
+	}
+
+	public void setSpreadsheetDelegate(@CheckForNull SpreadsheetDelegate spreadsheetDelegate) {
+		this.spreadsheetDelegate = spreadsheetDelegate;
+	}
+
+	public void setSpreadsheetConstructionDelegate(
+			@CheckForNull SpreadsheetConstructionDelegate constructionDelegate) {
+		controller.setSpreadsheetConstructionDelegate(constructionDelegate);
+	}
+
+	public void setViewportAdjustmentHandler(
+			@CheckForNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
+		controller.setViewportAdjustmentHandler(viewportAdjusterDelegate);
+	}
+
+	// Layout
+
+	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
+		controller.getLayout().setWidthForColumns(width, minColumn, maxColumn);
+	}
+
+	public void setHeightForRows(double height, int minRow, int maxRow) {
+		controller.getLayout().setHeightForRows(height, minRow, maxRow);
+	}
+
+	public double getTotalWidth() {
+		return controller.getLayout().getTotalWidth();
+	}
+
+	public double getTotalHeight() {
+		return controller.getLayout().getTotalHeight();
+	}
+
+	// Styling
 
 	public @Nonnull SpreadsheetStyleBarModel getStyleBarModel() {
 		return styleBarModel;
@@ -66,7 +104,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		notifyRepaintNeeded();
     }
 
-	// drawing
+	// Drawing
 
 	/**
 	 * Draws current viewport of the spreadsheet
@@ -89,9 +127,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawSelectionBorder(new TabularRange(selectedCell.row, selectedCell.column),
 					graphics, viewport, true, false);
 		}
-		GPoint2D draggingDot = controller.getDraggingDot();
-		if (draggingDot != null) {
-			renderer.drawDraggingDot(draggingDot, graphics);
+		Point draggingDotLocation = controller.getDraggingDotLocation();
+		if (draggingDotLocation != null) {
+			renderer.drawDraggingDot(draggingDotLocation, graphics);
 		}
 		TabularRange dragPasteSelection = controller.getDragPasteSelection();
 		if (dragPasteSelection != null) {
@@ -104,7 +142,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 	}
 
-	void drawCells(GGraphics2D graphics, Rectangle viewport) {
+	private void drawCells(GGraphics2D graphics, Rectangle viewport) {
 		TableLayout layout = controller.getLayout();
 		TableLayout.Portion portion =
 				layout.getLayoutIntersecting(viewport);
@@ -174,44 +212,41 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 	}
 
-	// keyboard (use com.himamis.retex.editor.share.event.KeyListener?)
+	private void notifyRepaintNeeded() {
+		if (spreadsheetDelegate != null) {
+			spreadsheetDelegate.notifyRepaintNeeded();
+		}
+	}
 
-	// touch
+	// Viewport & scrolling
 
-	// - TabularSelection
+	public @Nonnull Rectangle getViewport() {
+		return controller.getViewport();
+	}
 
 	/**
 	 * @param viewport The viewport (visible rectangle) relative to the table, in points.
 	 */
-	public void setViewport(Rectangle viewport) {
+	public void setViewport(@Nonnull Rectangle viewport) {
 		this.controller.setViewport(viewport);
 	}
 
-	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
-		controller.setControlsDelegate(controlsDelegate);
+	/**
+	 * If the pointer is at the top / right / bottom / left corner while dragging,
+	 * starts scrolling the viewport
+	 */
+	public void scrollForDragIfNeeded() {
+		controller.scrollForDragIfNeeded();
 	}
 
-	/**
-	 * @param spreadsheetDelegate {@link SpreadsheetDelegate}
-	 */
-	public void setSpreadsheetDelegate(SpreadsheetDelegate spreadsheetDelegate) {
-		this.spreadsheetDelegate = spreadsheetDelegate;
-	}
-
-	/**
-	 * @param constructionDelegate {@link SpreadsheetConstructionDelegate}
-	 */
-	public void setSpreadsheetConstructionDelegate(
-			SpreadsheetConstructionDelegate constructionDelegate) {
-		controller.setSpreadsheetConstructionDelegate(constructionDelegate);
-	}
+	// Mouse events
 
 	/**
 	 * @param x screen coordinate of event
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
 	 */
-	public void handlePointerUp(double x, double y, Modifiers modifiers) {
+	public void handlePointerUp(double x, double y, @Nonnull Modifiers modifiers) {
 		controller.handlePointerUp(x, y, modifiers);
 	}
 
@@ -220,7 +255,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
 	 */
-	public void handlePointerDown(double x, double y, Modifiers modifiers) {
+	public void handlePointerDown(double x, double y, @Nonnull Modifiers modifiers) {
 		controller.handlePointerDown(x, y, modifiers);
 	}
 
@@ -229,43 +264,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
 	 */
-	public void handlePointerMove(double x, double y, Modifiers modifiers) {
+	public void handlePointerMove(double x, double y, @Nonnull Modifiers modifiers) {
 		controller.handlePointerMove(x, y, modifiers);
-	}
-
-	/**
-	 * @param keyCode keyboard code, see {@link com.himamis.retex.editor.share.util.JavaKeyCodes}
-	 * @param key key typed if printable, empty otherwise (Alt, Ctrl, F1, Backspace)
-	 * @param modifiers alt/shift/ctrl modifiers
-	 */
-	public void handleKeyPressed(int keyCode, String key, Modifiers modifiers) {
-		controller.handleKeyPressed(keyCode, key, modifiers);
-	}
-
-	@Override
-	public void tabularDataDidChange(int row, int column) {
-		renderer.invalidate(row, column);
-		notifyRepaintNeeded();
-	}
-
-	@Override
-	public void tabularDataSizeDidChange(SpreadsheetDimensions dimensions) {
-		controller.tabularDataSizeDidChange(dimensions);
-		notifyRepaintNeeded();
-	}
-
-	private void notifyRepaintNeeded() {
-		if (spreadsheetDelegate != null) {
-			spreadsheetDelegate.notifyRepaintNeeded();
-		}
-	}
-
-	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
-		controller.getLayout().setWidthForColumns(width, minColumn, maxColumn);
-	}
-
-	public void setHeightForRows(double height, int minRow, int maxRow) {
-		controller.getLayout().setHeightForRows(height, minRow, maxRow);
 	}
 
 	/**
@@ -277,21 +277,22 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		return controller.getDragAction(x, y).cursor;
 	}
 
-	public double getTotalWidth() {
-		return controller.getLayout().getTotalWidth();
-	}
+	// Key events
 
-	public double getTotalHeight() {
-		return controller.getLayout().getTotalHeight();
-	}
-
-	public boolean isEditorActive() {
-		return controller.isEditorActive();
+	/**
+	 * @param keyCode keyboard code, see {@link com.himamis.retex.editor.share.util.JavaKeyCodes}
+	 * @param key key typed if printable, empty otherwise (Alt, Ctrl, F1, Backspace)
+	 * @param modifiers alt/shift/ctrl modifiers
+	 */
+	public void handleKeyPressed(int keyCode, String key, @Nonnull Modifiers modifiers) {
+		controller.handleKeyPressed(keyCode, key, modifiers);
 	}
 
 	public void tabPressed() {
 		controller.moveRight(false);
 	}
+
+	// Selection
 
 	/**
 	 * Clears the selection, committing any pending cell edits beforehand.
@@ -320,16 +321,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.selectCell(row, column, extend, add);
 	}
 
-	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate mockForScrollable) {
-		controller.setViewportAdjustmentHandler(mockForScrollable);
-	}
+	// Editor
 
-	/**
-	 * If the pointer is at the top / right / bottom / left corner while dragging,
-	 * starts scrolling the viewport
-	 */
-	public void scrollForDragIfNeeded() {
-		controller.scrollForDragIfNeeded();
+	public boolean isEditorActive() {
+		return controller.isEditorActive();
 	}
 
 	/**
@@ -343,11 +338,23 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.saveContentAndHideCellEditor();
 	}
 
-	public SpreadsheetController getController() {
-		return controller;
+	// -- TabularDataChangeListener --
+
+	@Override
+	public void tabularDataDidChange(int row, int column) {
+		renderer.invalidate(row, column);
+		notifyRepaintNeeded();
 	}
 
-	public Rectangle getViewport() {
-		return controller.getViewport();
+	@Override
+	public void tabularDataSizeDidChange(SpreadsheetDimensions dimensions) {
+		controller.tabularDataSizeDidChange(dimensions);
+		notifyRepaintNeeded();
+	}
+
+	// Test support API (do not use except for tests)
+
+	SpreadsheetController getController() {
+		return controller;
 	}
 }

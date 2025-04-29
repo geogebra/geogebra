@@ -16,7 +16,7 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 public class TestTabularData implements TabularData<String> {
 	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
 		@Override
-		public void process(String input, int row, int column) {
+		public void process(@Nonnull String input, int row, int column) {
 			setContent(row, column, input);
 		}
 
@@ -42,11 +42,6 @@ public class TestTabularData implements TabularData<String> {
 			row.add(null);
 		}
 		return row;
-	}
-
-	@Override
-	public void reset(int rows, int columns) {
-		// not needed in test
 	}
 
 	@Override
@@ -99,28 +94,23 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public String serializeContentAt(int row, int column) {
+	public @Nonnull String serializeContentAt(int row, int column) {
 		return data.get(row).get(column);
 	}
 
 	@Override
-	public String getColumnName(int column) {
+	public @Nonnull String getColumnName(int column) {
 		return Character.toString('A' + column);
 	}
 
 	@Override
-	public void addChangeListener(TabularDataChangeListener listener) {
+	public void addChangeListener(@Nonnull TabularDataChangeListener listener) {
 		// not needed in test
 	}
 
 	@Override
-	public TabularDataPasteInterface<String> getPaste() {
+	public @Nonnull TabularDataPasteInterface<String> getPaste() {
 		return new TabularDataPasteText();
-	}
-
-	@Override
-	public CellFormat getFormat() {
-		return new CellFormat(null);
 	}
 
 	@Override

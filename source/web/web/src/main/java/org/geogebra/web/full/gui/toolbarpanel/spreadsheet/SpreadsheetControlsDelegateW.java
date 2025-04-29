@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -18,6 +17,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.style.CellFormat;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
@@ -166,7 +166,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	// CONTEXT MENU
 
 	@Override
-	public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
+	public void showContextMenu(List<ContextMenuItem> actions, Point location) {
 		contextMenu.clearItems();
 		parent.cancelFocus();
 		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting");
@@ -178,10 +178,10 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 				String itemText = loc.getMenu(item.getLocalizationKey());
 				AriaMenuItem menuItem;
 
-				if (!item.getSubMenuItems().isEmpty()) {
+				List<ContextMenuItem> subMenuItems = item.getSubMenuItems();
+				if (subMenuItems != null && !subMenuItems.isEmpty()) {
 					AriaMenuBar subMenu = new AriaMenuBar();
-					for (int i = 0; i < item.getSubMenuItems().size(); i++) {
-						ContextMenuItem subMenuItem = item.getSubMenuItems().get(i);
+					for (ContextMenuItem subMenuItem : subMenuItems) {
 						SVGResource subMenuIcon = getActionIcon(subMenuItem.getIdentifier());
 						subMenu.addItem(new AriaMenuItem(loc.getMenu(subMenuItem
 								.getLocalizationKey()), subMenuIcon,
@@ -197,7 +197,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			}
 		}
 
-		positionContextMenu(coords.x, coords.y);
+		positionContextMenu((int) Math.round(location.x), (int) Math.round(location.y));
 		contextMenu.getPopupMenu().focus();
 	}
 

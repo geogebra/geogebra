@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.util.MulticastEvent;
 
@@ -40,14 +41,14 @@ final class SpreadsheetSelectionController {
 	 * the current selection state, and compare that against the selection state after some
 	 * (potentially selection-modifying) operations.
 	 */
-	Stream<Selection> getSelections() {
+	@Nonnull Stream<Selection> getSelections() {
 		return selections.stream();
 	}
 
 	/**
 	 * @return A copy of the current list of selections.
 	 */
-	List<Selection> getSelectionsCopy() {
+	@Nonnull List<Selection> getSelectionsCopy() {
 		return new ArrayList<>(selections);
 	}
 
@@ -88,7 +89,7 @@ final class SpreadsheetSelectionController {
 	}
 
 	void selectCell(int rowIndex, int columnIndex, boolean extendSelection, boolean addSelection) {
-		Selection selection = Selection.getSingleCellSelection(rowIndex, columnIndex);
+		Selection selection = new Selection(rowIndex, columnIndex);
 		select(selection, extendSelection, addSelection);
 	}
 
@@ -146,7 +147,8 @@ final class SpreadsheetSelectionController {
 	 * @param extendSelection Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add this selection to the current selections (CTRL)
 	 */
-	public void select(Selection selection, boolean extendSelection, boolean addSelection) {
+	public void select(@Nonnull Selection selection, boolean extendSelection,
+			boolean addSelection) {
 		Selection lastSelection = getLastSelection();
 		if (extendSelection && lastSelection != null) {
 			extendSelection(lastSelection, selection, addSelection);

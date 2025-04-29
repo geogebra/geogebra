@@ -28,12 +28,12 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.moveRight(false, numberOfColumns);
 		selectionController.moveDown(false, numberOfRows);
 		assertRangeEquals(selectionController.getLastSelection(),
-				Selection.getSingleCellSelection(2, 2));
+				new Selection(2, 2));
 		selectionController.moveLeft(false);
 		selectionController.moveUp(false);
 
 		assertRangeEquals(selectionController.getLastSelection(),
-				Selection.getSingleCellSelection(1, 1));
+				new Selection(1, 1));
 	}
 
 	@Test
@@ -44,7 +44,7 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.moveLeft(false);
 
 		assertRangeEquals(selectionController.getLastSelection(),
-				Selection.getSingleCellSelection(3, 0));
+				new Selection(3, 0));
 	}
 
 	@Test
@@ -55,7 +55,7 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.moveRight(false, numberOfColumns);
 
 		assertRangeEquals(selectionController.getLastSelection(),
-				Selection.getSingleCellSelection(3, numberOfColumns - 1));
+				new Selection(3, numberOfColumns - 1));
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.moveUp(false);
 
 		assertRangeEquals(selectionController.getLastSelection(),
-				Selection.getSingleCellSelection(0, 3));
+				new Selection(0, 3));
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.moveDown(false, numberOfRows);
 
 		assertRangeEquals(selectionController.getLastSelection(),
-				Selection.getSingleCellSelection(numberOfRows - 1, 3));
+				new Selection(numberOfRows - 1, 3));
 	}
 
 	@Test
