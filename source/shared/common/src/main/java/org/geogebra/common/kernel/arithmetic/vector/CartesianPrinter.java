@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.vector;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
@@ -7,9 +9,9 @@ import org.geogebra.common.main.settings.GeneralSettings;
 
 class CartesianPrinter implements Printer {
 
-    private final GeneralSettings settings;
+    private final @CheckForNull GeneralSettings settings;
 
-    public CartesianPrinter(GeneralSettings settings) {
+    public CartesianPrinter(@CheckForNull GeneralSettings settings) {
         this.settings = settings;
     }
 
@@ -19,7 +21,7 @@ class CartesianPrinter implements Printer {
         if (tpl.getStringType().isGiac()) {
             return GiacPrinter.print(tpl, xCoord, yCoord, vector);
         }
-        if (tpl.usePointTemplate()) {
+        if (tpl.usePointTemplate() && settings != null) {
             String fn = settings.getPointEditorTemplate();
             return fn + '('
                     + xCoord
