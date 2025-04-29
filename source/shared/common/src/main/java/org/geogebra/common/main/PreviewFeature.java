@@ -30,7 +30,9 @@ public enum PreviewFeature {
 	/** APPS-5641 */
 	IB_EXAM,
 	WTR_EXAM,
-	CREATE_CHART_MENU_ITEM;
+	CREATE_CHART_MENU_ITEM,
+	/** APPS-6016 */
+	SPREADSHEET_STYLEBAR;
 
 	/**
 	 * Global flag to activate feature previews.

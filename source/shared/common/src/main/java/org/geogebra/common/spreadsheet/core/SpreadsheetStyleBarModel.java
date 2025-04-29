@@ -16,7 +16,6 @@ import com.google.j2objc.annotations.Property;
 
 /**
  * An observable model for the spreadsheet style bar.
- *
  * @apiNote Depending on the type of client (mobile, Web) and screen orientation (portrait,
  * landscape), clients may hide the style bar entirely (see APPS-6439 for details).
  * This functionality (hiding the style bar) is not provided here and needs to be handled
