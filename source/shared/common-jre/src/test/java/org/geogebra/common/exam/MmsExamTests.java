@@ -198,13 +198,23 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"{1, 2} ⊆ {1, 2, 3}",
-			"{1, 2} ⊂ {1, 2, 3}",
-			"{1, 2} \\ {1, 2, 3}",
+	@CsvSource(delimiterString = "->", value = {
+			"{1, 2} ⊆ {1, 2, 3}			-> true",
+			"{1, 2} ⊂ {1, 2, 3}			-> true",
+			"{1, 2} \\ {1, 2, 3}		-> {}",
+			"{1, 2, 3} + 5				-> {6, 7, 8}",
+			"{1, 5, 11} / 5				-> {1 / 5, 1, 11 / 5}",
+			"{1, 2, 3} * 5				-> {5, 10, 15}",
+			"{1, 2, 3}^2				-> {1, 4, 9}",
+			"5 + {1, 2, 3}				-> {5, 10, 15}",
+			"{1, 2, 3} + a				-> {ggbtmpvara 1,ggbtmpvara 2,ggbtmpvara 3}",
+			"{1, 2, 3} + {4, 5, 6}		-> {5, 7, 9}",
+			"{1, 2, 3} ^ {3, 2, 1}		-> {1, 4, 3}",
+			"{1, 2, {3, 4, 5} + 6, 7}	-> {1, 2, {9, 10, 11}, 7}",
+			"{1, 2, {3, 4, 5}, 6} + 7	-> {8, 9, poly1[3, 4, 12], 13}",
 	})
-	public void testRestrictedListOperations(String expression) {
-		assertNull(evaluate(expression));
+	public void testRestrictedListOperations(String expression, String mockedCasOutput) {
+		assertNull(evaluate(expression, mockedCasOutput));
 	}
 
 	@ParameterizedTest

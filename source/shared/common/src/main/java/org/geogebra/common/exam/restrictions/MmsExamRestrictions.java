@@ -562,26 +562,19 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		return value.evaluatesToList() && value.getListDepth() != 2;
 	}
 
-	private static boolean isNumber(ExpressionValue value) {
-		return value.getValueType() == ValueType.NUMBER;
-	}
-
 	private static final class MmsListOperationFilter extends ExpressionNodeFilter {
 
 		private static final Set<Operation> operations =
 				Set.of(PLUS, MINUS, MULTIPLY, DIVIDE, POWER);
 
+		@SuppressWarnings("PMD.SimplifyBooleanReturns")
 		@Override
 		protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
 			if (operations.stream().noneMatch(expressionNode::isOperation)) {
 				return true;
 			}
-			ExpressionValue left = expressionNode.getLeft();
-			ExpressionValue right = expressionNode.getRight();
-			if (isList(left)) {
-				return !isList(right) && !isNumber(right);
-			} else if (isNumber(left)) {
-				return !isList(right);
+			if (isList(expressionNode.getLeft()) || isList(expressionNode.getRight())) {
+				return false;
 			}
 			return true;
 		}
