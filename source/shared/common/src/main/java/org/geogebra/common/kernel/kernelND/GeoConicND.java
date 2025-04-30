@@ -1311,6 +1311,11 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
+	public boolean isParametric() {
+		return getEquationForm() == Form.PARAMETRIC && parameter != null;
+	}
+
+	@Override
 	final public boolean isSpecificFormPossible() {
 		switch (type) {
 		case CONIC_CIRCLE:

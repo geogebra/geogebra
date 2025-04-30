@@ -7,7 +7,6 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateIn
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.RemoveLabel;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
 import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.APPROXIMATION;
-import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -317,6 +316,19 @@ public class MmsExamTests extends BaseExamTests {
 		evaluate("a : x + 5 = 0");
 		evaluate("b : x - 5 = 0");
 		assertNull(evaluate(expression));
+		errorAccumulator.resetError();
+	}
+
+	@SuppressWarnings({"checkstyle:RegexpSinglelineCheck", "checkstyle:LineLengthCheck"})
+	@ParameterizedTest
+	@CsvSource(delimiterString = "->", value = {
+			"(1 + cos(t), 2 + sin(t)) -> (cos(ggbtmpvart)+1,sin(ggbtmpvart)+2)",
+			"(2t², t³ - 1)            -> (2*ggbtmpvart^2,ggbtmpvart^3-1)",
+			"sin(2 θ)                 -> sin(2*ggbtmpvarθ)",
+			"(sin(2*t); t)            -> (cos(ggbtmpvart)*sin(2*ggbtmpvart),sin(2*ggbtmpvart)*sin(ggbtmpvart))"
+	})
+	public void testRestrictedParametricOrPolarCurves(String expression, String mockedCasOutput) {
+		assertNull(evaluate(expression, mockedCasOutput));
 		errorAccumulator.resetError();
 	}
 

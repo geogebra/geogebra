@@ -161,6 +161,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.statistics.Statistic;
@@ -218,7 +219,9 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
-		return Set.of(new ComplexExpressionFilter());
+		return Set.of(
+				new ComplexExpressionFilter(),
+				new ParametricCurveExpressionFilter()); // produced by ParametricProcessor
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -642,5 +645,34 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			return ((FunctionVariable) expressionValue).getSetVarString();
 		}
 		return null;
+	}
+
+	private static final class ParametricCurveExpressionFilter extends ExpressionNodeFilter {
+
+		@Override
+		protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
+			ExpressionValue value = expressionNode.unwrap();
+			if (value instanceof GeoElement) {
+				GeoElementND element = ((GeoElement) value).unwrapSymbolic();
+				if (isParametricCurve(element)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		@SuppressWarnings("PMD.SimplifyBooleanReturns")
+		private static boolean isParametricCurve(@Nullable GeoElementND geoElement) {
+			if (geoElement == null) {
+				return false;
+			}
+			if (geoElement.isGeoConic() && geoElement.isParametric()) {
+				return true;
+			}
+			if (geoElement instanceof GeoCurveCartesianND) {
+				return true;
+			}
+			return false;
+		}
 	}
 }

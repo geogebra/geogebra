@@ -13,8 +13,6 @@ import javax.annotation.Nullable;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
-import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -602,13 +600,6 @@ public class GeoSymbolic extends GeoElement
 			return twinGeo;
 		}
 		GeoElementND newTwin = ensureNotInConstruction(createTwinGeo());
-
-		if (newTwin instanceof LinearEquationRepresentable) {
-			((LinearEquationRepresentable) newTwin).setToUserForm();
-		} else if (newTwin instanceof QuadraticEquationRepresentable) {
-			((QuadraticEquationRepresentable) newTwin).setToUserForm();
-		}
-
 		if (newTwin instanceof GeoList) {
 			newTwin.setEuclidianVisible(true);
 		}
