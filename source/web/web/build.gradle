@@ -250,6 +250,7 @@ tasks.register('run', ReadableDev) {
         ProcessBuilder pb = new ProcessBuilder(Os.isFamily(Os.FAMILY_WINDOWS)
                 ? ['cmd', '/c', 'START', '/MIN', file('..\\..\\..\\gradlew.bat').absolutePath, 'watchSass']
                 : [file('../../../gradlew').absolutePath, 'watchSass'])
+        pb.directory(file("."))
         sassCompilation = pb.start()
     }
     doLast {
