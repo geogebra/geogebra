@@ -55,7 +55,7 @@ public class ExamTypeTests {
 				Commands.NSolve, Commands.NSolutions,
 				Commands.Solve, Commands.Solutions);
 		case MMS:
-		case REALSCHULE:
+		case BAYERN_GR:
 		case NIEDERSACHSEN: return Set.of(
 				Commands.NSolve, Commands.NSolutions,
 				Commands.Solve, Commands.Solutions);

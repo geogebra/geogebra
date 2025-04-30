@@ -65,7 +65,7 @@ public enum ExamType {
 		}
 	},
 
-	REALSCHULE() {
+	BAYERN_GR() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
 			return "Bayern Grafikrechner";

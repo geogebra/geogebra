@@ -44,7 +44,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 	@Test
 	public void testSettingsRestrictions() {
 		createDefaultSetting();
-		examController.startExam(ExamType.REALSCHULE, null);
+		examController.startExam(ExamType.BAYERN_GR, null);
 		realSchuleRestrictionsShouldBeApplied();
 		finishExam();
 		defaultSettingsShouldBeRestored();
@@ -78,7 +78,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 
 	@Test
 	public void testExpressionRestrictions() {
-		examController.startExam(ExamType.REALSCHULE, null);
+		examController.startExam(ExamType.BAYERN_GR, null);
 		assertNull(evaluate("abs((1,2))"));
 		assertNull(evaluate("3+abs((1,2))"));
 		assertThat(evaluateGeoElement("2+abs(3)"), hasValue("5"));
@@ -115,7 +115,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 
 	@Test
 	public void testSettingsRestrictionsAfterFileNew() {
-		examController.startExam(ExamType.REALSCHULE, null);
+		examController.startExam(ExamType.BAYERN_GR, null);
 		realSchuleRestrictionsShouldBeApplied();
 
 		// emulating AppW.fileNew(), which is not reachable from common.
@@ -141,7 +141,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 			"(1, 2)",
 	})
 	public void testUnrestrictedVisibility(String expression) {
-		examController.startExam(ExamType.REALSCHULE, null);
+		examController.startExam(ExamType.BAYERN_GR, null);
 		assertTrue(evaluateGeoElement(expression).isEuclidianToggleable());
 	}
 
@@ -156,14 +156,14 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 			"sin(x) = 0",
 	})
 	public void testRestrictedVisibility(String expression) {
-		examController.startExam(ExamType.REALSCHULE, null);
+		examController.startExam(ExamType.BAYERN_GR, null);
 		assertFalse(evaluateGeoElement(expression).isEuclidianToggleable());
 	}
 
 	@Test
 	public void testEnabledEngineeringNotation() {
 		PreviewFeature.enableFeaturePreviews = true;
-		examController.startExam(ExamType.REALSCHULE, null);
+		examController.startExam(ExamType.BAYERN_GR, null);
 		GeoElement geoElement = evaluateGeoElement("1.234");
 		boolean enableEngineeringNotation = settings.getAlgebra().isEngineeringNotationEnabled();
 		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters =

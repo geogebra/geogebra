@@ -195,7 +195,7 @@ import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty
 public final class RealschuleExamRestrictions extends ExamRestrictions {
 
 	RealschuleExamRestrictions() {
-		super(ExamType.REALSCHULE,
+		super(ExamType.BAYERN_GR,
 				Set.of(CAS, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
 				GRAPHING,
 				createFeatureRestrictions(),
