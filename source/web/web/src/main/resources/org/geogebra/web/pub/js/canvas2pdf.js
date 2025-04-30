@@ -1072,6 +1072,8 @@
 		// RG 	setrgbcolor (stroke).
 		// rg 	setrgbcolor (fill).
 		// d dash array + offset
+		// this.lineDash - user preferred dash pattern
+		// this.currentDashLength -- length of last dash pattern in the stream
 		if (this.lineDash && this.lineDash.length) {
 			this.pdfStream.addText("[");
 			for (var i = 0; i < this.lineDash.length; i++) {
@@ -1080,6 +1082,10 @@
 			}
 			// offset 0
 			this.pdfStream.addText("] 0 d ");
+			this.currentDashLength = this.lineDash.length;
+		} else if (this.currentDashLength) {
+			this.pdfStream.addText("[] 0 d ");
+			this.currentDashLength = 0;
 		}
 		this.setAlpha(this.alpha);
 
