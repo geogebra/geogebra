@@ -672,7 +672,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 */
 	@Override
 	@Deprecated
-	public DialogManager getDialogManager() {
+	public DialogManagerD getDialogManager() {
 		return dialogManager;
 	}
 

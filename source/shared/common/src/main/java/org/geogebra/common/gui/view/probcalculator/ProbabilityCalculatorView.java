@@ -385,6 +385,9 @@ public abstract class ProbabilityCalculatorView
 		updateStylebar();
 	}
 
+	/**
+	 * @return the reult panel
+	 */
 	public abstract ResultPanel getResultPanel();
 
 	protected abstract void updateOutput(boolean updateDistributionView);
@@ -1386,6 +1389,11 @@ public abstract class ProbabilityCalculatorView
 		}
 	}
 
+	/**
+	 * Set random variable interval.
+	 * @param low2 lower bound
+	 * @param high2 upper bound
+	 */
 	public abstract void setInterval(double low2, double high2);
 
 	@Override
@@ -1997,6 +2005,9 @@ public abstract class ProbabilityCalculatorView
 		return parameterLabels;
 	}
 
+	/**
+	 * @return the probability distribution manager
+	 */
 	public abstract ProbabilityManager getProbManager();
 
 	public EuclidianView getPlotPanel() {

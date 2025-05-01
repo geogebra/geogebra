@@ -44,15 +44,15 @@ public class BernsteinCoefficientCache {
 	 * @param i index of the coefficient
 	 * @param coeffs the value.
 	 */
-	public void setLast(int i, double[] coeffs) {
+	public void setLastNoCopy(int i, double[] coeffs) {
 		last[i] = coeffs;
 	}
 
+	/**
+	 * @return size of the current part
+	 */
 	public int size() {
 		return current.length;
 	}
 
-	public void setLastNoCopy(int i, double[] coeffs) {
-		last[i] = coeffs;
-	}
 }

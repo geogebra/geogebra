@@ -3552,6 +3552,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return loginOperation;
 	}
 
+	/**
+	 * Creates a new command dispatcher (platform dependent, to support code splitting).
+	 * @param cmdKernel kernel
+	 * @return command dispatcher
+	 */
 	public abstract CommandDispatcher newCommandDispatcher(Kernel cmdKernel);
 
 	/**
@@ -4134,6 +4139,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Runs for every view.
 	 */
 	public interface ViewCallback {
+		/**
+		 * @param viewID view ID
+		 * @param viewName view name as translation key
+		 */
 		void run(int viewID, String viewName);
 	}
 

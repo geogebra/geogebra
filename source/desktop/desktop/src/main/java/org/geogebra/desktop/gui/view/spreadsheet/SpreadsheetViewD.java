@@ -89,10 +89,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	private SpreadsheetStyleBar styleBar;
 	// toolbar manager
 	SpreadsheetToolbarManager toolbarManager;
-
-	// current toolbar mode
-	private int mode = -1;
-
 	private FormulaBar formulaBar;
 	private JPanel spreadsheetPanel;
 
@@ -263,18 +259,8 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		return spreadsheet.getColumnHeader();
 	}
 
-	@Override
-	public void columnHeaderRevalidate() {
-		spreadsheet.getColumnHeader().revalidate();
-	}
-
 	public JTableHeader getTableHeader() {
 		return tableHeader;
-	}
-
-	@Override
-	public int getMode() {
-		return mode;
 	}
 
 	/**
@@ -395,9 +381,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	/** Respond to changes in mode sent by GUI manager */
 	@Override
 	public void setMode(int mode, ModeSetter m) {
-
-		this.mode = mode;
-
 		if (isTraceDialogVisible()) {
 			traceDialog.toolbarModeChanged(mode);
 		}

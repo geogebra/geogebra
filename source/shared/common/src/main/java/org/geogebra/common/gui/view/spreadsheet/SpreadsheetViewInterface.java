@@ -25,20 +25,39 @@ public interface SpreadsheetViewInterface extends View {
 	// Y <- X
 	static final String Y_FROM_X = "Y " + Unicode.IMPLIED_FROM + " X";
 
+	/**
+	 * @return spreadsheet table
+	 */
 	public MyTableInterface getSpreadsheetTable();
 
+	/**
+	 * Revalidate row header (desktop only).
+	 */
 	public void rowHeaderRevalidate();
 
-	public void columnHeaderRevalidate();
+	/**
+	 * Store new cell format in settings.
+	 * @param cellFormat cell format
+	 */
+	public void updateCellFormat(String cellFormat);
 
-	public void updateCellFormat(String s);
-
+	/**
+	 * @return parent application
+	 */
 	public App getApplication();
 
-	public int getMode();
-
+	/**
+	 * Scroll into view if needed.
+	 * @param geo element
+	 * @param labelNew new label
+	 */
 	public void scrollIfNeeded(GeoElement geo, String labelNew);
 
+	/**
+	 * Show a dialog to set up tracing.
+	 * @param geo element to be traced
+	 * @param traceCell trace destination
+	 */
 	public void showTraceDialog(GeoElement geo, TabularRange traceCell);
 
 	public void setKeyboardEnabled(boolean enable);

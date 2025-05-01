@@ -36,6 +36,11 @@ public final class Point {
 		return y;
 	}
 
+	/**
+	 * @param x1 other point's x-coordinate
+	 * @param y1 other point's y-coordinate
+	 * @return Euclidean distance to another point
+	 */
 	public double distanceTo(double x1, double y1) {
 		return Math.hypot(x - x1, y - y1);
 	}

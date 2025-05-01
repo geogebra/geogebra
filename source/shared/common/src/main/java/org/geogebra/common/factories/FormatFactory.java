@@ -27,11 +27,27 @@ public abstract class FormatFactory {
 		}
 	}
 
+	/**
+	 * @param sigDigit number of significant digits
+	 * @param maxWidth maximum width
+	 * @param sciNote whether to use scientific notation
+	 * @return number format for specific number of significant digits
+	 */
 	public abstract ScientificFormatAdapter getScientificFormat(int sigDigit,
 			int maxWidth, boolean sciNote);
 
+	/**
+	 * @param digits number of decimal digits
+	 * @return number format with fixed number of decimal digits
+	 */
 	public abstract NumberFormatAdapter getNumberFormat(int digits);
 
+	/**
+	 * @param pattern in the JRE all the pattern options of DecimalFormat are supported,
+	 * in GWT the emulation is very limited. TODO replace with enum?
+	 * @param digits number of decimal digits
+	 * @return number format with fixed number of decimal digits
+	 */
 	public abstract NumberFormatAdapter getNumberFormat(String pattern,
 			int digits);
 
@@ -40,7 +56,7 @@ public abstract class FormatFactory {
 	}
 
 	/**
-	 * Gets scientific format that is optimized for speed, not pretty output.
+	 * Gets a scientific format that is optimized for speed, not pretty output.
 	 * 
 	 * @param digits
 	 *            precision

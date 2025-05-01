@@ -271,6 +271,11 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 		}
 	}
 
+	/**
+	 * Divide polynomial by a constant
+	 * @param v divisor
+	 * @return resulting polynomial (new instance)
+	 */
 	public BernsteinPolynomial1D divide(double v) {
 		return multiply(1.0 / v);
 	}

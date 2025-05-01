@@ -77,7 +77,7 @@ public class RMath {
 	/**
 	 *
 	 * @param n any double.
-	 * @param power to raise of.
+	 * @param power to raise the number to.
 	 * @return the previous number of n^{power}
 	 */
 	public static double powLow(double n, double power) {
@@ -87,110 +87,11 @@ public class RMath {
 	/**
 	 *
 	 * @param n any double.
-	 * @param power to raise of.
+	 * @param power to raise the number to.
 	 * @return the next number of n^{power}
 	 */
 	public static double powHigh(double n, double power) {
 		return next(Math.pow(n, power));
 	}
 
-	public static double subHigh(double m, double n) {
-		return next(m - n);
-	}
-
-	public static double cosLow(double x) {
-		return prev(Math.cos(x));
-	}
-
-	public static double cosHigh(double x) {
-		return next(Math.cos(x));
-	}
-
-	public static double tanLow(double x) {
-		return prev(Math.tan(x));
-	}
-
-	public static double tanHigh(double x) {
-		return next(Math.tan(x));
-	}
-
-	public static double asinLow(double x) {
-		return prev(Math.asin(x));
-	}
-
-	public static double asinHigh(double x) {
-		return prev(Math.asin(x));
-	}
-
-	public static double acosLow(double x) {
-		return prev(Math.acos(x));
-	}
-
-	public static double acosHigh(double x) {
-		return next(Math.acos(x));
-	}
-
-	public static double atanLow(double x) {
-		return prev(Math.atan(x));
-	}
-
-	public static double atanHigh(double x) {
-		return next(Math.atan(x));
-	}
-
-	public static double sinhLow(double x) {
-		return prev(Math.sinh(x));
-	}
-
-	public static double sinhHigh(double x) {
-		return next(Math.sinh(x));
-	}
-
-	public static double coshLow(double x) {
-		return prev(Math.cosh(x));
-	}
-
-	public static double coshHigh(double x) {
-		return next(Math.cosh(x));
-	}
-
-	public static double tanhLow(double x) {
-		return prev(Math.tanh(x));
-	}
-
-	public static double tanhHigh(double x) {
-		return next(Math.tanh(x));
-	}
-
-	public static double expLow(double x) {
-		return prev(Math.exp(x));
-	}
-
-	public static double expHigh(double x) {
-		return next(Math.exp(x));
-	}
-
-	public static double logLow(double x) {
-		return prev(Math.log(x));
-	}
-
-	public static double logHigh(double x) {
-		return next(Math.log(x));
-	}
-
-	public static double secLow(double x) {
-		return prev(1 / Math.cos(x));
-	}
-
-	public static double secHigh(double x) {
-		return next(1 / Math.cos(x));
-	}
-
-	public static double nrootLow(double x, double n) {
-		return powLow(x, 1 / n);
-	}
-
-	public static double nrootHigh(double x, double n) {
-		return powHigh(x, 1 / n);
-	}
 }

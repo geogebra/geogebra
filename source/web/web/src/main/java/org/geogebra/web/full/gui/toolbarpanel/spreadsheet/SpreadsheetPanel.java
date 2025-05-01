@@ -310,6 +310,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		};
 	}
 
+	/**
+	 * Commit editor changes and hide the editor.
+	 */
 	public void saveContentAndHideCellEditor() {
 		spreadsheet.saveContentAndHideCellEditor();
 	}

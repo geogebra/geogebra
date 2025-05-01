@@ -5,8 +5,16 @@ package org.geogebra.common.awt;
  */
 public interface GGeneralPath extends GShape {
 
+	/**
+	 * Add a move-to point
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	void moveTo(double x, double y);
 
+	/**
+	 * Remove all points.
+	 */
 	void reset();
 
 	/**
@@ -16,12 +24,28 @@ public interface GGeneralPath extends GShape {
 	 */
 	void lineTo(double x, double y);
 
+	/**
+	 * Append a shape
+	 * @param s other shape
+	 * @param connect whether to connect both (line-to instead rather than move-to)
+	 */
 	void append(GShape s, boolean connect);
 
+	/**
+	 * Close the path.
+	 */
 	void closePath();
 
+	/**
+	 * Create a transformed path.
+	 * @param affineTransform affine transform
+	 * @return a path obtained by transforming this
+	 */
 	GShape createTransformedShape(GAffineTransform affineTransform);
 
+	/**
+	 * @return current point
+	 */
 	GPoint2D getCurrentPoint();
 
 	@Override

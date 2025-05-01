@@ -10,7 +10,7 @@ public class BernsteinBoundingBox implements Splittable<BernsteinBoundingBox> {
 	private double y1;
 	private double x2;
 	private double y2;
-	public static final BernsteinBoundingBoxPool pool = new BernsteinBoundingBoxPool();
+	private static final BernsteinBoundingBoxPool pool = new BernsteinBoundingBoxPool();
 
 	/**
 	 *
@@ -93,18 +93,30 @@ public class BernsteinBoundingBox implements Splittable<BernsteinBoundingBox> {
 				+ '}';
 	}
 
+	/**
+	 * @return left
+	 */
 	public double x1() {
 		return x1;
 	}
 
+	/**
+	 * @return top
+	 */
 	public double y1() {
 		return y1;
 	}
 
+	/**
+	 * @return right
+	 */
 	public double x2() {
 		return x2;
 	}
 
+	/**
+	 * @return bottom
+	 */
 	public double y2() {
 		return y2;
 	}
@@ -117,6 +129,9 @@ public class BernsteinBoundingBox implements Splittable<BernsteinBoundingBox> {
 		return y2 - y1;
 	}
 
+	/**
+	 * Release this to a pool.
+	 */
 	public void release() {
 		pool.release(this);
 	}

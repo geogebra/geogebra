@@ -16,5 +16,8 @@ public abstract class FlagListProperty extends AbstractValuedProperty<List<Boole
 		super(localization, name);
 	}
 
+	/**
+	 * @return localized names of the flags
+	 */
 	public abstract List<String> getFlagNames();
 }

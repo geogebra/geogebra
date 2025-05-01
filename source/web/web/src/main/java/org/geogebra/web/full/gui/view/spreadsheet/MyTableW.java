@@ -591,16 +591,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	/**
-	 * Simple getter method
-	 * 
-	 * @return Kernel
-	 */
-	@Override
-	public Kernel getKernel() {
-		return kernel;
-	}
-
-	/**
 	 * @return table model
 	 */
 	public SpreadsheetTableModel getModel() {

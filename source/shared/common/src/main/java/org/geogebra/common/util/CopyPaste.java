@@ -53,14 +53,36 @@ public abstract class CopyPaste {
 	// check if name is valid for geo
 	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
+	/**
+	 * Copy elements to internal clipboard as XML.
+	 * @param app application
+	 * @param selection elements to copy
+	 */
 	public abstract void copyToXML(App app, List<GeoElement> selection);
 
+	/**
+	 * Paste elements from internal XML clipboard.
+	 * @param app application
+	 */
 	public abstract void pasteFromXML(App app);
 
+	/**
+	 * Duplicate given elements.
+	 * TODO check if we can just use InternalClipboard
+	 * @param app application
+	 * @param geos elements to duplicate
+	 */
 	public abstract void duplicate(App app, List<GeoElement> geos);
 
+	/**
+	 * Clear both internal and system clipboard (if possible).
+	 */
 	public abstract void clearClipboard();
 
+	/**
+	 * Copy plain text to system keyboard.
+	 * @param text text to copy
+	 */
 	public abstract void copyTextToSystemClipboard(String text);
 
 	/**

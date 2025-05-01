@@ -84,8 +84,8 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 	}
 
 	@Override
-	public void setBackground(boolean b) {
-		video.setBackground(b);
+	public void setBackground(boolean background) {
+		video.setBackground(background);
 	}
 
 	public GeoVideo getVideo() {

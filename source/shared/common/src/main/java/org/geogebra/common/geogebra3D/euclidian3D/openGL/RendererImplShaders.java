@@ -405,9 +405,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	abstract protected void glBufferDataIndices(int numBytes,
 			GLBufferIndices arrayI);
 
-	/**
-	 * attribute vertex pointers
-	 */
 	@Override
 	public void attribPointers() {
 

@@ -114,8 +114,8 @@ public class AwtFactoryD extends AwtFactory {
 	 */
 
 	@Override
-	public GRectangle newRectangle(int w, int h) {
-		return new GRectangleD(w, h);
+	public GRectangle newRectangle(int width, int height) {
+		return new GRectangleD(width, height);
 	}
 
 	@Override

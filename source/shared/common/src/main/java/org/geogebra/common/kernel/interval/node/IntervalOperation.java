@@ -352,6 +352,9 @@ public enum IntervalOperation {
 	public abstract IntervalExpressionValue handle(IntervalNodeEvaluator evaluator,
 			@NonNull IntervalNode left, IntervalNode right);
 
+	/**
+	 * @return corresponding operation for <code>ExpressionValue</code>s
+	 */
 	public abstract Operation mappedOperation();
 
 	static IntervalExpressionValue toValue(@NonNull Interval interval) {

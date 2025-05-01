@@ -2832,24 +2832,6 @@ public class AffineTransform implements GAffineTransform {
         }
     }
 
-    /**
-     * Transforms the specified <code>ptSrc</code> and stores the result
-     * in <code>ptDst</code>.
-     * If <code>ptDst</code> is <code>null</code>, a new {@link GPoint2D}
-     * object is allocated and then the result of the transformation is
-     * stored in this object.
-     * In either case, <code>ptDst</code>, which contains the
-     * transformed point, is returned for convenience.
-     * If <code>ptSrc</code> and <code>ptDst</code> are the same
-     * object, the input point is correctly overwritten with
-     * the transformed point.
-     * @param ptSrc the specified <code>Point2D</code> to be transformed
-     * @param ptDst the specified <code>Point2D</code> that stores the
-     * result of transforming <code>ptSrc</code>
-     * @return the <code>ptDst</code> after transforming
-     * <code>ptSrc</code> and storing the result in <code>ptDst</code>.
-     * @since 1.2
-     */
     @Override
 	public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {

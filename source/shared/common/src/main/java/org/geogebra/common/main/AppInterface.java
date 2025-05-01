@@ -64,6 +64,11 @@ public interface AppInterface {
 	 */
 	public abstract void showError(String localizedError);
 
+	/**
+	 * Show error in two-line message dialog.
+	 * @param string error title
+	 * @param str error details
+	 */
 	public abstract void showError(String string, String str);
 
 	/**
@@ -155,7 +160,12 @@ public interface AppInterface {
 	 */
 	public abstract SpreadsheetTableModel getSpreadsheetTableModel();
 
-	public abstract void setXML(String string, boolean b);
+	/**
+	 * Evaluate XML content.
+	 * @param string XML content
+	 * @param clearAll whether to clear construction first
+	 */
+	public abstract void setXML(String string, boolean clearAll);
 
 	/**
 	 * Returns API that can be used from external applications
@@ -179,6 +189,11 @@ public interface AppInterface {
 	 */
 	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
 
+	/**
+	 * Call external javascript function.
+	 * @param string function name
+	 * @param args function argument
+	 */
 	public abstract void callAppletJavaScript(String string, String args);
 
 	/**

@@ -9,8 +9,18 @@ import org.geogebra.common.kernel.interval.Interval;
 public interface IntervalPathPlotter {
 	void reset();
 
+	/**
+	 * Add a move-to point.
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	void moveTo(double x, double y);
 
+	/**
+	 * Add a line segment from current point to given coordinates.
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	void lineTo(double x, double y);
 
 	/**
@@ -34,7 +44,19 @@ public interface IntervalPathPlotter {
 
 	void draw(GGraphics2D g2);
 
+	/**
+	 * Add segment from lower bound of y to upper bound of the view.
+	 * @param bounds view bounds
+	 * @param x x-coordinate range of the segment
+	 * @param y lower bound for the segment
+	 */
 	void leftToTop(EuclidianViewBounds bounds, Interval x, Interval y);
 
+	/**
+	 * Add segment from upper bound of y to lower bound of the view.
+	 * @param bounds view bounds
+	 * @param x x-coordinate range of the segment
+	 * @param y upper bound for the segment
+	 */
 	void leftToBottom(EuclidianViewBounds bounds, Interval x, Interval y);
 }

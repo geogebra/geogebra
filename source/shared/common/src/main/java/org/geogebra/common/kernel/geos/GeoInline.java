@@ -95,6 +95,10 @@ public abstract class GeoInline extends GeoElement implements Translateable, Rot
 		this.height = height;
 	}
 
+	/**
+	 * Set minimal height.
+	 * @param minHeight minimal height in pixels.
+	 */
 	public abstract void setMinHeight(double minHeight);
 
 	/**

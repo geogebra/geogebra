@@ -159,14 +159,31 @@ public abstract class PropertiesView implements View {
 		return geos;
 	}
 
+	/**
+	 * Activate an option panel.
+	 * @param type option type (objects / AV / ...)
+	 * @param subType tab index within the panel
+	 */
 	public abstract void setOptionPanel(OptionType type, int subType);
 
+	/**
+	 * Notify properties view about mouse press event in graphics.
+	 */
 	public abstract void mousePressedForPropertiesView();
 
+	/**
+	 * Update view contents.
+	 */
 	public abstract void updatePropertiesView();
 
+	/**
+	 * Detach from Kernel and clear.
+	 */
 	public abstract void detachView();
 
+	/**
+	 * Attach to Kernel.
+	 */
 	public abstract void attachView();
 
 	/**

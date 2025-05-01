@@ -295,6 +295,11 @@ public abstract class ConstructionElement
 	 */
 	public abstract String getDefinition(StringTemplate tpl);
 
+	/**
+	 * TODO part of attempt to remove Kernel dependency in some ExpressionValues
+	 * @param tpl template
+	 * @return string
+	 */
 	public abstract String toString(GTemplate tpl);
 
 	protected Localization getLoc() {

@@ -82,8 +82,8 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 	}
 
 	@Override
-	public void setBackground(boolean b) {
-		geoEmbed.setBackground(b);
+	public void setBackground(boolean background) {
+		geoEmbed.setBackground(background);
 	}
 
 	/**

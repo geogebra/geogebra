@@ -33,22 +33,52 @@ public class StatTableModel {
 	 */
 	public interface StatTableListener {
 
+		/**
+		 * @return list of selected data
+		 */
 		GeoList getDataSelected();
 
+		/**
+		 * @return regression model
+		 */
 		GeoElement getRegressionModel();
 
+		/**
+		 * @return regression mode
+		 */
 		Regression getRegressionMode();
 
+		/**
+		 * @return whether data is valid
+		 */
 		boolean isValidData();
 
-		void setValueAt(double value, int row, int i);
+		/**
+		 * Set value in the table.
+		 * @param value value
+		 * @param row row
+		 * @param column column (excluding header)
+		 */
+		void setValueAt(double value, int row, int column);
 
+		/**
+		 * @return whether the view is valid (correct data source)
+		 */
 		boolean isViewValid();
 
+		/**
+		 * @return app mode
+		 */
 		int getMode();
 
+		/**
+		 * @return group type
+		 */
 		GroupType groupType();
 
+		/**
+		 * @return whether data is all numeric
+		 */
 		boolean isNumericData();
 	}
 

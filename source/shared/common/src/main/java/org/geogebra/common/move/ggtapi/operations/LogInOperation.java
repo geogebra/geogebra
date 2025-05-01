@@ -281,6 +281,9 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		dispatchEvent(event);
 	}
 
+	/**
+	 * @return the resources API
+	 */
 	public abstract MaterialRestAPI getResourcesAPI();
 
 	/**

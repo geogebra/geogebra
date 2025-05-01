@@ -280,18 +280,30 @@ public interface GGraphics2D {
 	 * @return a reference to an instance of FontRenderContext.
 	 * @see GFontRenderContext
 	 * @see GTextLayout
-	 * @since 1.2
 	 */
-
 	GFontRenderContext getFontRenderContext();
 
+	/**
+	 * @return current color
+	 */
 	GColor getColor();
 
+	/**
+	 * @return current font
+	 */
 	GFont getFont();
 
+	/**
+	 * Set font for {@code drawString} methods.
+	 * @param font font
+	 */
 	void setFont(GFont font);
 
-	void setColor(GColor selColor);
+	/**
+	 * Set color for both strokes and filling
+	 * @param color color
+	 */
+	void setColor(GColor color);
 
 	/**
 	 * Fills a rectangle with current paint.
@@ -320,10 +332,21 @@ public interface GGraphics2D {
 	 */
 	void drawLine(int x1, int y1, int x2, int y2);
 
+	/**
+	 * Set clipping shape.
+	 * @param shape clipping shape
+	 */
 	void setClip(GShape shape);
 
+	/**
+	 * @param shape clip shape
+	 * @param saveContext whether to save context state before
+	 */
 	void setClip(GShape shape, boolean saveContext);
 
+	/**
+	 * Reset clipping.
+	 */
 	void resetClip();
 
 	/**

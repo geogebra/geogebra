@@ -73,8 +73,17 @@ public interface TextProperties extends TextStyle {
 	 */
 	public boolean isLaTeXTextCommand();
 
-	public void setNeedsUpdatedBoundingBox(boolean b);
+	/**
+	 * Mark this for re-computation of bounding box.
+	 * @param needsUpdate whether update is needed
+	 */
+	public void setNeedsUpdatedBoundingBox(boolean needsUpdate);
 
-	public void calculateCornerPoint(GeoPoint corner, int double1);
+	/**
+	 * Calculate coordinates of a corner.
+	 * @param corner output coordinates
+	 * @param index corner index
+	 */
+	public void calculateCornerPoint(GeoPoint corner, int index);
 
 }

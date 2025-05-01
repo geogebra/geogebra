@@ -15,18 +15,32 @@ public final class BernsteinCoefficientsCache2Var {
 		this.size = size;
 	}
 
+	/**
+	 * Move data from current to last.
+	 */
 	public void update() {
 		System.arraycopy(current, 0, last, 0, last.length);
 	}
 
+	/**
+	 * @param i index
+	 * @param coeffs coefficients
+	 */
 	public void set(int i, BernsteinPolynomial1D[] coeffs) {
 		current[i] = coeffs;
 	}
 
+	/**
+	 * @param i index
+	 * @param coeffs coefficients
+	 */
 	public void setLast(int i, BernsteinPolynomial1D[] coeffs) {
 		last[i] = coeffs;
 	}
 
+	/**
+	 * @return array size
+	 */
 	public int size() {
 		return size;
 	}

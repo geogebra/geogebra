@@ -539,12 +539,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public void setMode(int mode0, ModeSetter m) {
+	public void setMode(int mode0, ModeSetter modeSetter) {
 		int mode = mode0;
 		setModeFinished = false;
 
 		// can't move this after otherwise Object Properties doesn't work
-		kernel.notifyModeChanged(mode, m);
+		kernel.notifyModeChanged(mode, modeSetter);
 		// notifyModeChanged called another setMode => nothing to do here
 		if (setModeFinished) {
 			return;
@@ -552,12 +552,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// select toolbar button, returns *actual* mode selected - only for
 		// desktop
 
-		int newMode = setToolbarMode(mode, m);
+		int newMode = setToolbarMode(mode, modeSetter);
 
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER
 				&& newMode != mode) {
 			mode = newMode;
-			kernel.notifyModeChanged(mode, m);
+			kernel.notifyModeChanged(mode, modeSetter);
 		}
 
 		if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {
@@ -579,7 +579,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		if ((mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)
-				&& m == ModeSetter.TOOLBAR) {
+				&& modeSetter == ModeSetter.TOOLBAR) {
 			// save the selected geos so they can be re-selected later
 			ArrayList<GeoElement> temp = new ArrayList<>();
 			if (getApp().getSelectionManager().getSelectedGeos() != null) {
@@ -673,6 +673,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public abstract String getToolbarDefinition();
 
+	/**
+	 * Set definition of the main toolbar.
+	 * @param toolBarDefinition toolbar definition (see {@link ToolBar} for the syntax)
+	 */
 	public abstract void setToolBarDefinition(String toolBarDefinition);
 
 	@Override
@@ -683,7 +687,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	/**
-	 * Add / remove macros from toolbar.
+	 * Add / remove macros from the toolbar.
 	 * 
 	 * @param initial
 	 *            initial toolbar definition

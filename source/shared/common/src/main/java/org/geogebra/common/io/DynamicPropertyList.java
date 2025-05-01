@@ -14,7 +14,12 @@ public class DynamicPropertyList {
 	 * Consumer of (geo, property value) pairs.
 	 */
 	public interface Handler {
-		public void accept(GeoElement geo, String val) throws CircularDefinitionException;
+		/**
+		 * @param geo construction element
+		 * @param val property value
+		 * @throws CircularDefinitionException if property value depends on geo and it shouldn't
+		 */
+		void accept(GeoElement geo, String val) throws CircularDefinitionException;
 	}
 
 	private static class GeoExpPair {

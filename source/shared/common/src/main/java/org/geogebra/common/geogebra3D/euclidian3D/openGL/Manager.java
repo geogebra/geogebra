@@ -22,7 +22,7 @@ abstract public class Manager {
 	/**
 	 * Geometry type.
 	 */
-	public static enum Type { // quads and quad strips are not supported in
+	public enum Type { // quads and quad strips are not supported in
 								// gwtgl
 		TRIANGLE_STRIP, TRIANGLE_FAN, TRIANGLES, LINE_LOOP, LINE_STRIP
 	}
@@ -194,10 +194,22 @@ abstract public class Manager {
 	// LIST METHODS
 	// ///////////////////////////////////////////
 
+	/**
+	 * @param old index
+	 * @param mayBePacked whether to allow packing
+	 * @return list index
+	 */
 	abstract public int startNewList(int old, boolean mayBePacked);
 
+	/**
+	 * End current list.
+	 */
 	abstract public void endList();
 
+	/**
+	 * Start a new geometry.
+	 * @param type geometry type
+	 */
 	abstract public void startGeometry(Type type);
 
 	/**
@@ -212,6 +224,9 @@ abstract public class Manager {
 		startGeometry(type);
 	}
 
+	/**
+	 * End current geometry.
+	 */
 	abstract public void endGeometry();
 
 	/**
@@ -329,10 +344,22 @@ abstract public class Manager {
 	// DRAWING METHODS
 	// ///////////////////////////////////////////
 
+	/**
+	 * Draw a geometry set.
+	 * @param index index of the set
+	 */
 	abstract public void draw(int index);
 
+	/**
+	 * Draw label for the current geometry set.
+	 * @param index index of the set
+	 */
 	abstract public void drawLabel(int index);
 
+	/**
+	 * Remove a geometry set.
+	 * @param index index of the set
+	 */
 	abstract public void remove(int index);
 
 	/**
@@ -776,7 +803,7 @@ abstract public class Manager {
 		 * @param coords
 		 *            coords
 		 */
-		public void scaleXYZ(Coords coords);
+		void scaleXYZ(Coords coords);
 		
 		/**
 		 * scale and normalize x, y, z values
@@ -786,22 +813,22 @@ abstract public class Manager {
 		 *            
 		 * @return false if nothing scaled (then use coords instead of ret)
 		 */
-		public boolean scaleAndNormalizeNormalXYZ(Coords coords, Coords ret);
+		boolean scaleAndNormalizeNormalXYZ(Coords coords, Coords ret);
 
 		/**
 		 * @return scale on x-axis
 		 */
-		public double getXscale();
+		double getXscale();
 
 		/**
 		 * @return scale on y-axis
 		 */
-		public double getYscale();
+		double getYscale();
 
 		/**
 		 * @return scale on z-axis
 		 */
-		public double getZscale();
+		double getZscale();
 	}
 
 	/**

@@ -5,7 +5,14 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 
+/**
+ * UI element for opening files, consists of a header and the list of materials.
+ */
 public abstract class HeaderFileView implements BrowseViewI {
+
+	/**
+	 * @return content panel
+	 */
 	public abstract AnimatingPanel getPanel();
 
 	@Override

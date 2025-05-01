@@ -16,9 +16,9 @@ public class IntervalTrigonometric {
 			interval.setUndefined();
 		} else {
 			double low = interval.getLow() <= -1 ? -PI_HALF_HIGH
-					: RMath.asinLow(interval.getLow());
+					: RMath.prev(Math.asin(interval.getLow()));
 			double high = interval.getHigh() >= 1 ? PI_HALF_HIGH
-					: RMath.asinHigh(interval.getHigh());
+					: RMath.prev(Math.asin(interval.getHigh()));
 			interval.set(low, high);
 		}
 
@@ -33,8 +33,9 @@ public class IntervalTrigonometric {
 		if (interval.isUndefined() || interval.getHigh() < -1 || interval.getLow() > 1) {
 			interval.setUndefined();
 		} else {
-			double low = interval.getHigh() >= 1 ? 0 : RMath.acosLow(interval.getHigh());
-			double high = interval.getLow() <= -1 ? PI_HIGH : RMath.acosHigh(interval.getLow());
+			double low = interval.getHigh() >= 1 ? 0 : RMath.prev(Math.acos(interval.getHigh()));
+			double high = interval.getLow() <= -1 ? PI_HIGH
+					: RMath.next(Math.acos(interval.getLow()));
 			interval.set(low, high);
 		}
 		return interval;
@@ -46,7 +47,8 @@ public class IntervalTrigonometric {
 	 */
 	public Interval atan(Interval interval) {
 		if (!interval.isUndefined()) {
-			interval.set(RMath.atanLow(interval.getLow()), RMath.atanHigh(interval.getHigh()));
+			interval.set(RMath.prev(Math.atan(interval.getLow())),
+					RMath.next(Math.atan(interval.getHigh())));
 		}
 		return interval;
 	}
@@ -57,7 +59,8 @@ public class IntervalTrigonometric {
 	 */
 	public Interval sinh(Interval interval) {
 		if (!interval.isUndefined()) {
-			interval.set(RMath.sinhLow(interval.getLow()), RMath.sinhHigh(interval.getHigh()));
+			interval.set(RMath.prev(Math.sinh(interval.getLow())),
+					RMath.next(Math.sinh(interval.getHigh())));
 		}
 		return interval;
 	}
@@ -75,11 +78,11 @@ public class IntervalTrigonometric {
 			double low = interval.getLow();
 			double high = interval.getHigh();
 			if (high < 0) {
-				interval.set(RMath.coshLow(high), RMath.coshHigh(low));
+				interval.set(RMath.prev(Math.cosh(high)), RMath.next(Math.cosh(low)));
 			} else if (low >= 0) {
-				interval.set(RMath.coshLow(low), RMath.coshHigh(high));
+				interval.set(RMath.prev(Math.cosh(low)), RMath.next(Math.cosh(high)));
 			} else {
-				interval.set(1, RMath.coshHigh(-low > high ? low : high));
+				interval.set(1, RMath.next(Math.cosh(-low > high ? low : high)));
 			}
 		}
 
@@ -92,7 +95,8 @@ public class IntervalTrigonometric {
 	 */
 	public Interval tanh(Interval interval) {
 		if (!interval.isUndefined()) {
-			interval.set(RMath.tanhLow(interval.getLow()), RMath.tanhHigh(interval.getHigh()));
+			interval.set(RMath.prev(Math.tanh(interval.getLow())),
+					RMath.next(Math.tanh(interval.getHigh())));
 		}
 		return interval;
 	}

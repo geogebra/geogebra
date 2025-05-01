@@ -205,10 +205,18 @@ public enum QuadTreeEdgeConfig implements MarchingConfig {
 		return null;
 	}
 
+	/**
+	 * @param r rectangle
+	 * @return first value for continuity comparison
+	 */
 	public double getQ1(MarchingRect r) {
 		return 0;
 	}
 
+	/**
+	 * @param r rectangle
+	 * @return second value for continuity comparison
+	 */
 	public double getQ2(MarchingRect r) {
 		return 0;
 	}
@@ -228,6 +236,10 @@ public enum QuadTreeEdgeConfig implements MarchingConfig {
 		return this == EMPTY;
 	}
 
+	/**
+	 * @param config configuration bits forming an int
+	 * @return enum representation of given configuration
+	 */
 	public static QuadTreeEdgeConfig fromFlag(int config) {
 		return map.getOrDefault(config, T_INV);
 	}

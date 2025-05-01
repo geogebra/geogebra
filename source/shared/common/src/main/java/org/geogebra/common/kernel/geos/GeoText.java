@@ -1015,18 +1015,18 @@ public class GeoText extends GeoElement
 	/**
 	 * @param result
 	 *            point for storing result
-	 * @param n
+	 * @param index
 	 *            index of corner (1 for lower left, then anticlockwise)
 	 */
 	@Override
-	public void calculateCornerPoint(GeoPoint result, int n) {
+	public void calculateCornerPoint(GeoPoint result, int index) {
 		// adapted from GeoImage by Michael Borcherds 2007-11-26
 		if (hasAbsoluteScreenLocation || boundingBox == null) {
 			result.setUndefined();
 			return;
 		}
 
-		switch (n) {
+		switch (index) {
 		case 4: // top left
 			result.setCoords(boundingBox.getX(), boundingBox.getY(), 1.0);
 			break;
@@ -1084,13 +1084,13 @@ public class GeoText extends GeoElement
 	}
 
 	/**
-	 * @param needsUpdatedBoundingBox
+	 * @param needsUpdate
 	 *            true to make sure this object updates itself
 	 */
 	@Override
 	public final void setNeedsUpdatedBoundingBox(
-			boolean needsUpdatedBoundingBox) {
-		this.needsUpdatedBoundingBox = needsUpdatedBoundingBox;
+			boolean needsUpdate) {
+		this.needsUpdatedBoundingBox = needsUpdate;
 	}
 
 	// Michael Borcherds 2008-04-30

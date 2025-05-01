@@ -74,7 +74,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		public static final boolean ENABLE_AUTOCOMPLETE = false;
 	}
 
-	public boolean hasInitialized() {
+	private boolean hasInitialized() {
 		return !(rowHeights == null && columnWidths == null);
 	}
 
@@ -112,6 +112,11 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		settingChanged();
 	}
 
+	/**
+	 * Set column width, do not notify listeners.
+	 * @param index column index
+	 * @param width width
+	 */
 	public void addWidthNoFire(int index, double width) {
 		getColumnWidths().put(index, width);
 	}
@@ -143,6 +148,11 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		settingChanged();
 	}
 
+	/**
+	 * Set row height, do not notify listeners.
+	 * @param row row index
+	 * @param height height
+	 */
 	public void addHeightNoFire(int row, double height) {
 		getRowHeights().put(row, height);
 	}

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 
-@SuppressWarnings("unused")
 /**
  * Grid representation will be needed to fix the glitches.
  */
@@ -19,9 +18,6 @@ public class BernsteinCellGrid implements CellGrid<BernsteinPlotCell> {
 		cells = new BernsteinPlotCell[1][1];
 	}
 
-	/**
-	 * @return All cells of the grid as a flattened list
-	 */
 	@Override
 	public final List<BernsteinPlotCell> toList() {
 		if (cells == null) {

@@ -189,8 +189,20 @@ public enum ExamType {
 		return null;
 	}
 
+	/**
+	 * Get name for the start dialog.
+	 * @param loc localization
+	 * @param config application config
+	 * @return full display name
+	 */
 	public abstract String getDisplayName(Localization loc, AppConfig config);
 
+	/**
+	 * Get name for a status bar.
+	 * @param loc localization
+	 * @param config application config
+	 * @return short display name
+	 */
 	public abstract String getShortDisplayName(Localization loc, AppConfig config);
 
 	/**

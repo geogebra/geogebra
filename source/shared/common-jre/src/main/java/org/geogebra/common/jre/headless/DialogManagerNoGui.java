@@ -56,11 +56,11 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 	}
 
 	@Override
-	public void showNumberInputDialogSegmentFixed(String menu,
-			final GeoPointND geoPoint2) {
+	public void showNumberInputDialogSegmentFixed(String title,
+			final GeoPointND startPoint) {
 		final NumberInputHandler handler = new NumberInputHandler(
-				geoPoint2.getKernel().getAlgebraProcessor());
-		new SegmentHandler(geoPoint2, geoPoint2.getKernel())
+				startPoint.getKernel().getAlgebraProcessor());
+		new SegmentHandler(startPoint, startPoint.getKernel())
 				.doSegmentFixedAsync(getInput(), handler, this, obj -> {
 					// ignore
 				});

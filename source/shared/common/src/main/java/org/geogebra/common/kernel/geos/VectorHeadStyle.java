@@ -21,5 +21,9 @@ public enum VectorHeadStyle {
 		}
 	};
 
+	/**
+	 * @param model vector model
+	 * @return vector shape
+	 */
 	public abstract VectorShape createShape(DrawVectorModel model);
 }

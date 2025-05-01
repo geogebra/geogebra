@@ -36,8 +36,14 @@ public abstract class MarchingConfigProvider {
 
 	protected abstract MarchingConfig empty();
 
+	/**
+	 * @return maximal number of segment lists that can be simultaneously open
+	 */
 	public abstract int listThreshold();
 
+	/**
+	 * @return whether order can change when new points are added
+	 */
 	public abstract boolean canChangePointOrder();
 
 	protected int configure(MarchingRect r) {

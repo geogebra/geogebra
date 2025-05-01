@@ -8,5 +8,12 @@ import org.geogebra.common.kernel.arithmetic.Inequality;
  * Factory for export graphics.
  */
 public interface ExportGraphicsFactory {
+
+	/**
+	 * @param ef function
+	 * @param inequality inequality
+	 * @param export export
+	 * @return export graphics
+	 */
 	GGraphics2D createGraphics(FunctionalNVar ef, Inequality inequality, GeoGebraExport export);
 }

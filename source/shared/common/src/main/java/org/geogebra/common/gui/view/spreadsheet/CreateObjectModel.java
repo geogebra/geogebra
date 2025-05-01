@@ -63,6 +63,11 @@ public class CreateObjectModel {
 
 		boolean isTranspose();
 
+		/**
+		 * Update the preview.
+		 * @param latexStr latex formula
+		 * @param isLatexDrawable whether to use LaTeX rendering
+		 */
 		void updatePreview(String latexStr, boolean isLatexDrawable);
 	}
 

@@ -87,8 +87,8 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showNumberInputDialogSegmentFixed(String menu,
-			GeoPointND geoPoint2) {
+	public void showNumberInputDialogSegmentFixed(String title,
+			GeoPointND startPoint) {
 		// TODO Auto-generated method stub
 
 	}

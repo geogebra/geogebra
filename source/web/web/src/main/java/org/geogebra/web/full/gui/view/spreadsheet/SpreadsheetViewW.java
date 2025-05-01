@@ -56,10 +56,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// toolbar manager
 	SpreadsheetToolbarManagerW toolbarManager;
-
-	// current toolbar mode
-	private int mode = -1;
-
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
 	private boolean allowSettingUpdate = true;
@@ -177,16 +173,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// TODO//spreadsheet.getRowHeader().revalidate();
 	}
 
-	@Override
-	public void columnHeaderRevalidate() {
-		// TODO//spreadsheet.getColumnHeader().revalidate();
-	}
-
-	@Override
-	public int getMode() {
-		return mode;
-	}
-
 	/**
 	 * @return spreadsheet styleBar
 	 */
@@ -299,8 +285,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		if (m != ModeSetter.TOOLBAR) {
 			return;
 		}
-
-		this.mode = mode;
 		toolbarManager.handleModeChange(mode);
 	}
 

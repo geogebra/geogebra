@@ -3647,12 +3647,12 @@ public class GeoCasCell extends GeoElement
 	}
 
 	@Override
-	public void setNeedsUpdatedBoundingBox(boolean b) {
+	public void setNeedsUpdatedBoundingBox(boolean needsUpdate) {
 		//
 	}
 
 	@Override
-	public void calculateCornerPoint(GeoPoint corner, int double1) {
+	public void calculateCornerPoint(GeoPoint corner, int index) {
 		corner.setUndefined();
 	}
 

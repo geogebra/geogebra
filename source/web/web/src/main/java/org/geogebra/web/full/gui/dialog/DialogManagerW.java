@@ -423,12 +423,12 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showNumberInputDialogSegmentFixed(String title,
-			GeoPointND geoPoint1) {
+			GeoPointND startPoint) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
 		ComponentInputDialog segmentInputDialog = new InputDialogSegmentFixedW((AppW) app, data,
-				handler, geoPoint1, app.getKernel());
+				handler, startPoint, app.getKernel());
 		segmentInputDialog.show();
 	}
 

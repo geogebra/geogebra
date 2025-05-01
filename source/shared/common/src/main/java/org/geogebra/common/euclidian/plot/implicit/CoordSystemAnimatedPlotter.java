@@ -36,6 +36,9 @@ public abstract class CoordSystemAnimatedPlotter implements CoordSystemAnimation
 		}
 	}
 
+	/**
+	 * Actually update the state.
+	 */
 	public abstract void update();
 
 	protected void enableUpdate() {

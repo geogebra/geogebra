@@ -34,8 +34,17 @@ public interface GRectangle extends GRectangle2D {
 	 */
 	void setBounds(int x, int y, int width, int height);
 
-	void setLocation(int xLabel, int i);
+	/**
+	 * Set location.
+	 * @param x left
+	 * @param y top
+	 */
+	void setLocation(int x, int y);
 
+	/**
+	 * Set bounds (i.e. copy size and position).
+	 * @param rectangle bounding rectangle
+	 */
 	void setBounds(GRectangle rectangle);
 
 	void add(GRectangle bb);
@@ -48,6 +57,11 @@ public interface GRectangle extends GRectangle2D {
 
 	GRectangle union(GRectangle bounds);
 
+	/**
+	 * Set size.
+	 * @param width width
+	 * @param height height
+	 */
 	void setSize(int width, int height);
 
 }

@@ -129,9 +129,9 @@ public class BasicStatTable extends JPanel
 	}
 
 	@Override
-	public void setValueAt(double value, int row, int col) {
+	public void setValueAt(double value, int row, int column) {
 		statTable.getModel().setValueAt(daView.getModel().format(value), row,
-				col);
+				column);
 	}
 
 	@Override

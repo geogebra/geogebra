@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.implicit.MarchingConfig;
 
 /**
  * BernsteinPlotCell is the basic building block of the algorithm.
- * A cell consist a bounding box, a Bernstein polynomial limited to that bounding box.
+ * A cell consists of a bounding box, a Bernstein polynomial limited to that bounding box.
  * The algo splits the screen into these cells, decides if there might be a solution in
  * that cell, and if there might be, splits it further until a given box size. If that minimal size
  * is reached, we declare that there is a solution in that cell.
@@ -100,6 +100,9 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 				+ '}';
 	}
 
+	/**
+	 * @return whether a solution might exist in this cell
+	 */
 	public boolean mightHaveSolution() {
 		return kind != BernsteinPlotCellKind.CELL2;
 	}
@@ -112,6 +115,9 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 		this.marchingConfig = marchingConfig;
 	}
 
+	/**
+	 * Release the associated objects for reuse.
+	 */
 	public void release() {
 		boundingBox.release();
 	}

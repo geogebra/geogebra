@@ -29,8 +29,8 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 			return evaluator.computeUnaryInverted(interval, this::exp);
 		}
 
-		return new Interval(RMath.expLow(interval.getLow()),
-					RMath.expHigh(interval.getHigh()));
+		return new Interval(RMath.prev(Math.exp(interval.getLow())),
+				RMath.next(Math.exp(interval.getHigh())));
 	}
 
 	@Override
@@ -41,8 +41,8 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 		if (!interval.isUndefined() && interval.getHigh() >= 0) {
 			double low = interval.getLow();
-			return new Interval(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
-					RMath.logHigh(interval.getHigh()));
+			return new Interval(low <= 0 ? NEGATIVE_INFINITY : RMath.prev(Math.log(low)),
+					RMath.next(Math.log(interval.getHigh())));
 		}
 
 		return IntervalConstants.undefined();

@@ -53,22 +53,54 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void updateMenubarSelection();
 
+	/**
+	 * Show popup menu for selected elements.
+	 * @param selectedGeos selected elements
+	 * @param view graphic view
+	 * @param mouseLoc mouse location
+	 */
 	void showPopupMenu(ArrayList<GeoElement> selectedGeos,
-					   EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
+					   EuclidianViewInterfaceCommon view,
 					   GPoint mouseLoc);
 
+	/**
+	 * Show popup menu for choosing one of possible elements.
+	 * @param selectedGeos selected elements
+	 * @param geos elements to choose from
+	 * @param view graphic view
+	 */
 	void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 							ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 							GPoint p);
 
-	void setMode(int mode, ModeSetter m);
+	/**
+	 * Update UI for new app mode.
+	 * @param mode app mode
+	 * @param modeSetter source of mode change
+	 */
+	void setMode(int mode, ModeSetter modeSetter);
 
+	/**
+	 * Redo last undone action.
+	 */
 	void redo();
 
+	/**
+	 * Undo last action.
+	 */
 	void undo();
 
+	/**
+	 * Save current construction (opens save dialog on first save).
+	 * @return success
+	 */
 	boolean save();
 
+	/**
+	 * Set focused panel.
+	 * @param event pointer event TODO pass view ID instead
+	 * @param updatePropertiesView whether to update properties view
+	 */
 	void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView);
 
 	/**
@@ -85,19 +117,45 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void loadWebcam();
 
+	/**
+	 * @return whether AV is initialized and showing
+	 */
 	boolean hasAlgebraViewShowing();
 
+	/**
+	 * @return whether AV is initialized
+	 */
 	boolean hasAlgebraView();
 
+	/**
+	 * Update fonts in all components.
+	 */
 	void updateFonts();
 
+	/**
+	 * @return if construction protocolis initialized
+	 */
 	boolean isUsingConstructionProtocol();
 
+	/**
+	 * Append construction protocol XML to a builder.
+	 * @param sb XML string builder
+	 */
 	void getConsProtocolXML(StringBuilder sb);
 
+	/**
+	 * Show graphics view options context menu.
+	 * @param view graphics view
+	 * @param mouseLoc pointer location
+	 */
 	void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 							 GPoint mouseLoc);
 
+	/**
+	 * Show 3D graphics view options context menu.
+	 * @param view graphics view
+	 * @param mouseLoc pointer location
+	 */
 	void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
 							   GPoint mouseLoc);
 
@@ -345,24 +403,57 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void updateNavBars();
 
+	/**
+	 * Replace selected text in input bar.
+	 * @param string replacement string
+	 */
 	void replaceInputSelection(String string);
 
+	/**
+	 * Set output bar content.
+	 * @param definitionForInputBar text for input bar
+	 */
 	void setInputText(String definitionForInputBar);
 
+	/**
+	 * Set image corner from selected points.
+	 * @param geoImage image to be positioned
+	 */
 	void setImageCornersFromSelection(GeoImage geoImage);
 
+	/**
+	 * Refresh toolbar to make sure the custom tool icons are up to date.
+	 */
 	void refreshCustomToolsInToolBar();
 
+	/**
+	 * Get XML for construction protocol and data analysis.
+	 * @param sb XML builder
+	 */
 	void getExtraViewsXML(StringBuilder sb);
 
+	/**
+	 * @param type help page type
+	 * @param pageName help page specifier (tool or command name)
+	 * @return help URL
+	 */
 	String getHelpURL(ManualPage type, String pageName);
 
 	String getReportBugUrl();
 
 	String getLicenseUrl();
 
+	/**
+	 * Open context menu for an element in AV.
+	 * @param geo construction element
+	 */
 	void openMenuInAVFor(GeoElement geo);
 
+	/**
+	 * Add all views settings to XML builder.
+	 * @param sb XML builder
+	 * @param asPreference whether this is for preference XML (as opposed to .ggb file)
+	 */
 	void getViewsXML(StringBuilder sb, boolean asPreference);
 
 	void closeFullscreenView();

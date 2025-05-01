@@ -111,9 +111,16 @@ public abstract class DrawWidget extends Drawable implements HasTransformation {
 	 */
 	public abstract int getEmbedID();
 
+	/**
+	 * @return whether the widget is in the background (hidden and not editable)
+	 */
 	public abstract boolean isBackground();
 
-	public abstract void setBackground(boolean b);
+	/**
+	 * Switch between foreground (in front of graphics, editable) and background (hidden) mode.
+	 * @param background whether it should be in the background.
+	 */
+	public abstract void setBackground(boolean background);
 
 	@Override
 	public GAffineTransform getTransform() {

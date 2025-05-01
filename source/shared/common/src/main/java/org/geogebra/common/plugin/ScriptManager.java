@@ -429,6 +429,10 @@ public abstract class ScriptManager implements EventListener {
 		unregisterObjectListener(clickListenerMap, objName);
 	}
 
+	/**
+	 * Run the app initialization callbacks: ggbOnInit from the file, from browser,
+	 * and the appletOnLoad callback.
+	 */
 	public abstract void ggbOnInit();
 
 	// ------ getters for listeners -------------

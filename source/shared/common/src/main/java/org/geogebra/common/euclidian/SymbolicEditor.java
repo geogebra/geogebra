@@ -173,6 +173,10 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		setProtection();
 	}
 
+	/**
+	 * Paint the box in given graphics (desktop only).
+	 * @param g2 graphics
+	 */
 	public abstract void repaintBox(GGraphics2D g2);
 
 	public GeoInputBox getGeoInputBox() {

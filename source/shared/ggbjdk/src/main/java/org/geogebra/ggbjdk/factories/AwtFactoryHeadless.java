@@ -47,8 +47,8 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 	}
 
 	@Override
-	public GRectangle newRectangle(int w, int h) {
-		return new Rectangle(w, h);
+	public GRectangle newRectangle(int width, int height) {
+		return new Rectangle(width, height);
 	}
 
 	@Override

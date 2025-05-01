@@ -367,7 +367,7 @@ public class DrawAudio extends DrawWidget {
 	}
 
 	@Override
-	public void setBackground(boolean b) {
+	public void setBackground(boolean background) {
 		// background state not possible for audios
 	}
 

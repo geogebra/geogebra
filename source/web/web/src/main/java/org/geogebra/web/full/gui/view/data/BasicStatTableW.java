@@ -129,9 +129,9 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	@Override
-	public void setValueAt(double value, int row, int col) {
+	public void setValueAt(double value, int row, int column) {
 		statTable.setValueAt(daView.getModel().format(value), row,
-				col + 1);
+				column + 1);
 	}
 
 	@Override

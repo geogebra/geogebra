@@ -6,6 +6,10 @@ public abstract class Factory {
 	private static final Object lock = new Object();
 	private static volatile Factory prototype;
 
+	/**
+	 * @param subTitle relation pane subtitle
+	 * @return relation pane
+	 */
 	public abstract RelationPane newRelationPane(String subTitle);
 
 	/**

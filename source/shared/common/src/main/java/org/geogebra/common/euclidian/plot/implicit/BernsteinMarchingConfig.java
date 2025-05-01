@@ -263,10 +263,17 @@ public enum BernsteinMarchingConfig implements MarchingConfig {
 		return this == EMPTY;
 	}
 
+	/**
+	 * @param config configuration bits forming an int
+	 * @return enum representation of given configuration
+	 */
 	public static BernsteinMarchingConfig fromFlag(int config) {
 		return map.getOrDefault(config, T_INV);
 	}
 
+	/**
+	 * @return color for visual debugging
+	 */
 	public GColor color() {
 		return GColor.BLACK;
 	}

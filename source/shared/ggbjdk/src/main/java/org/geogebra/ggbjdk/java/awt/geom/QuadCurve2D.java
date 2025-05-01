@@ -352,16 +352,6 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
                                   double ctrlx, double ctrly,
                                   double x2, double y2);
 
-    /**
-     * Sets the location of the end points and control points of this
-     * <code>QuadCurve2D</code> to the <code>double</code> coordinates at
-     * the specified offset in the specified array.
-     * @param coords the array containing coordinate values
-     * @param offset the index into the array from which to start
-     *          getting the coordinate values and assigning them to this
-     *          <code>QuadCurve2D</code>
-     * @since 1.2
-     */
     @Override
 	public void setCurve(double[] coords, int offset) {
         setCurve(coords[offset + 0], coords[offset + 1],

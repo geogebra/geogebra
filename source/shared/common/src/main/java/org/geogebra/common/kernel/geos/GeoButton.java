@@ -591,7 +591,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 	}
 
 	@Override
-	public void setNeedsUpdatedBoundingBox(boolean b) {
+	public void setNeedsUpdatedBoundingBox(boolean needsUpdate) {
 		//
 	}
 
@@ -600,11 +600,11 @@ public class GeoButton extends GeoElement implements TextProperties,
 	 * 
 	 * @param pt
 	 *            point to set
-	 * @param cornerNumber
+	 * @param index
 	 *            1,2,3,4,5
 	 */
 	@Override
-	public void calculateCornerPoint(GeoPoint pt, int cornerNumber) {
+	public void calculateCornerPoint(GeoPoint pt, int index) {
 		EuclidianView ev = kernel.getApplication().getEuclidianView1();
 		DrawableND drawer = ev.getDrawableFor(this);
 
@@ -620,7 +620,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 
 		double x, y;
 
-		switch (cornerNumber) {
+		switch (index) {
 		default:
 		case 1:
 			x = bounds.getMinX();

@@ -7,14 +7,14 @@ import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.util.Domvas;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.gwtproject.dom.client.Style;
+import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.EventListener;
 
 /**
- * Base class for Toolbar Tabs-
+ * Base class for Toolbar Tabs.
  * @author Laszlo
  */
 public abstract class ToolbarTab extends ScrollPanel implements ShowableTab, SetLabels,
@@ -36,7 +36,7 @@ public abstract class ToolbarTab extends ScrollPanel implements ShowableTab, Set
 	@Override
 	public void onResize() {
 		setHeight(TAB_HEIGHT_PCT);
-		getContainerElement().getStyle().setHeight(TAB_HEIGHT, Style.Unit.PCT);
+		getContainerElement().getStyle().setHeight(TAB_HEIGHT, Unit.PCT);
 	}
 
 	/**
@@ -67,6 +67,9 @@ public abstract class ToolbarTab extends ScrollPanel implements ShowableTab, Set
 		return getElement().hasClassName("tab");
 	}
 
+	/**
+	 * @return ID of this tab
+	 */
 	public abstract DockPanelData.TabIds getID();
 
 	/**

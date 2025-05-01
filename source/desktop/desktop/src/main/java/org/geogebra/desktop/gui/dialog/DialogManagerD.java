@@ -381,11 +381,11 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public void showNumberInputDialogSegmentFixed(String title,
-			GeoPointND geoPoint1) {
+			GeoPointND startPoint) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogSegmentFixedD((AppD) app, title,
-				handler, geoPoint1, app.getKernel());
+				handler, startPoint, app.getKernel());
 		id.setVisible(true);
 	}
 

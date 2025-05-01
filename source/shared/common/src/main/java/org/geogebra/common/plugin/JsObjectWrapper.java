@@ -39,9 +39,22 @@ public abstract class JsObjectWrapper {
 		ifPropertySet(key, obj -> consumer.accept(wrap(obj)));
 	}
 
+	/**
+	 * Set object property.
+	 * @param property property name
+	 * @param value property value
+	 */
 	public abstract void setProperty(String property, Object value);
 
+	/**
+	 * Set object property.
+	 * @param property property name
+	 * @param value property value
+	 */
 	public abstract void setProperty(String property, int value);
 
+	/**
+	 * @return wrapped object
+	 */
 	public abstract Object getNativeObject();
 }

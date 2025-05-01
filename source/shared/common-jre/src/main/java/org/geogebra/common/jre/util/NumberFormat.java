@@ -20,7 +20,7 @@ public class NumberFormat extends DecimalFormat implements NumberFormatAdapter {
 	}
 
 	/**
-	 * Format with pattern
+	 * Format with a pattern
 	 * 
 	 * @param pattern
 	 *            format pattern

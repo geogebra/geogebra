@@ -338,16 +338,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	/**
 	 * Simple getter method
 	 * 
-	 * @return Kernel
-	 */
-	@Override
-	public Kernel getKernel() {
-		return kernel;
-	}
-
-	/**
-	 * Simple getter method
-	 * 
 	 * @return App
 	 */
 	@Override

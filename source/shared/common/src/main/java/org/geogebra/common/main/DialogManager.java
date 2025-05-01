@@ -75,8 +75,18 @@ public abstract class DialogManager {
 		return loc;
 	}
 
+	/**
+	 * Show function inspector for given function (classic)
+	 * @param geoFunction function
+	 * @return success
+	 */
 	public abstract boolean showFunctionInspector(GeoFunction geoFunction);
 
+	/**
+	 * Show data source dialog for data analysis (Classic)
+	 * @param mode app mode
+	 * @param doAutoLoadSelectedGeos whether to load selected geos
+	 */
 	public abstract void showDataSourceDialog(int mode,
 			boolean doAutoLoadSelectedGeos);
 
@@ -101,8 +111,13 @@ public abstract class DialogManager {
 		// overridden in the classes
 	}
 
-	public abstract void showNumberInputDialogSegmentFixed(String menu,
-			GeoPointND geoPoint2);
+	/**
+	 * Show dialog for segment with fixed length.
+	 * @param title localized title
+	 * @param startPoint segment start point
+	 */
+	public abstract void showNumberInputDialogSegmentFixed(String title,
+			GeoPointND startPoint);
 
 	/**
 	 * 
@@ -227,9 +242,20 @@ public abstract class DialogManager {
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction);
 
+	/**
+	 * Show checkbox creation dialog.
+	 * @param corner position for checkbox after creation
+	 * @param bool TODO always null
+	 */
 	public abstract void showBooleanCheckboxCreationDialog(GPoint corner,
 			GeoBoolean bool);
 
+	/**
+	 * Show dialog for circle with center and radius.
+	 * @param title dialog title
+	 * @param geoPointND circle center
+	 * @param view view
+	 */
 	public abstract void showNumberInputDialogCirclePointRadius(String title,
 			GeoPointND geoPointND, EuclidianView view);
 
@@ -550,6 +576,9 @@ public abstract class DialogManager {
 				inputString, false, handler, true, checkNumber);
 	}
 
+	/**
+	 * TODO make this desktop only
+	 */
 	public abstract void closeAll();
 
 	/**
@@ -561,8 +590,17 @@ public abstract class DialogManager {
 	public abstract void showRenameDialog(GeoElement geo, boolean storeUndo,
 			String label, boolean selectText);
 
+	/**
+	 * Show the properties view.
+	 * @param geos selected elements
+	 */
 	public abstract void showPropertiesDialog(ArrayList<GeoElement> geos);
 
+	/**
+	 * Show the properties view.
+	 * @param type option type
+	 * @param geos selected elements
+	 */
 	public abstract void showPropertiesDialog(OptionType type,
 			ArrayList<GeoElement> geos);
 
@@ -651,6 +689,9 @@ public abstract class DialogManager {
 		showTextDialog(null, startPoint, rw);
 	}
 
+	/**
+	 * Open help for current tool.
+	 */
 	public abstract void openToolHelp();
 
 	protected void showTextDialog(GeoText text, GeoPointND startPoint,
@@ -667,6 +708,13 @@ public abstract class DialogManager {
 		app.setDefaultCursor();
 	}
 
+	/**
+	 * Show text tool dialog.
+	 * @param text initial text
+	 * @param startPoint position for newly created text
+	 * @param rw whether position is in RW coordinates
+	 * @return text tool dialog
+	 */
 	public abstract TextInputDialog createTextDialog(GeoText text,
 			GeoPointND startPoint, boolean rw);
 

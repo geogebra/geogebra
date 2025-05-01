@@ -257,22 +257,62 @@ public abstract class RendererImpl {
 	 */
 	abstract public void setDashTexture(int i);
 
+	/**
+	 * Draw elements of given type
+	 * @param type geometry type
+	 * @param length length
+	 */
 	abstract public void draw(Manager.Type type, int length);
 
+	/**
+	 * Bind buffer for indices.
+	 * @param buffer buffer index
+	 */
 	abstract public void bindBufferForIndices(int buffer);
 
+	/**
+	 * @return whether textures are enabled
+	 */
 	abstract public boolean areTexturesEnabled();
 
+	/**
+	 * Load vertex buffer.
+	 * @param fbVertices vertex buffer
+	 * @param length length
+	 */
 	abstract public void loadVertexBuffer(GLBuffer fbVertices, int length);
 
+	/**
+	 * Load color buffer.
+	 * @param fbColors color buffer
+	 * @param length length
+	 */
 	abstract public void loadColorBuffer(GLBuffer fbColors, int length);
 
+	/**
+	 * Load texture buffer.
+	 * @param fbTextures texture buffer
+	 * @param length length
+	 */
 	abstract public void loadTextureBuffer(GLBuffer fbTextures, int length);
 
+	/**
+	 * Disable texture buffer.
+	 */
 	abstract public void disableTextureBuffer();
 
+	/**
+	 * Load buffer of normals.
+	 * @param fbNormals buffer of normals
+	 * @param length length
+	 */
 	abstract public void loadNormalBuffer(GLBuffer fbNormals, int length);
 
+	/**
+	 * Load buffer of indices.
+	 * @param arrayI buffer of indices
+	 * @param length length
+	 */
 	abstract public void loadIndicesBuffer(GLBufferIndices arrayI, int length);
 
 	/**
@@ -300,18 +340,41 @@ public abstract class RendererImpl {
 	abstract public void glClear(int flag);
 
 	// GL flags getters
+
+	/**
+	 * @return BLEND constant
+	 */
 	abstract public int getGL_BLEND();
 
+	/**
+	 * @return CULL_FACE constant
+	 */
 	abstract public int getGL_CULL_FACE();
 
+	/**
+	 * @return COLOR_BUFFER_BIT constant
+	 */
 	abstract public int getGL_COLOR_BUFFER_BIT();
 
+	/**
+	 * @return DEPTH_BUFFER_BIT constant
+	 */
 	abstract public int getGL_DEPTH_BUFFER_BIT();
 
+	/**
+	 * @return DEPTH_TEST constant
+	 */
 	abstract public int getGL_DEPTH_TEST();
 
+	/**
+	 * Disable culling.
+	 */
 	abstract public void disableCulling();
 
+	/**
+	 * Set clip panes.
+	 * @param minMax clipping ranges in each direction
+	 */
 	public abstract void setClipPlanes(double[][] minMax);
 
 	/**
@@ -322,98 +385,240 @@ public abstract class RendererImpl {
 	 */
 	public abstract void setColor(float r, float g, float b, float a);
 
+	/**
+	 * Initialize transformation matrix.
+	 */
 	public abstract void initMatrix();
 
+	/**
+	 * Initialize matrix for face to screen.
+	 */
 	public abstract void initMatrixForFaceToScreen();
 
+	/**
+	 * Reset matrix.
+	 */
 	public abstract void resetMatrix();
 
+	/**
+	 * Update orthogonal values.
+	 */
 	public abstract void updateOrthoValues();
 
+	/**
+	 * Enable textures.
+	 */
 	public abstract void enableTextures();
 
+	/**
+	 * Disable textures.
+	 */
 	public abstract void disableTextures();
 
+	/**
+	 * Enable fading.
+	 */
 	public abstract void enableFading();
 
+	/**
+	 * Enable line dash.
+	 */
 	public abstract void enableDash();
 
+	/**
+	 * Enable dash for hidden parts.
+	 */
 	public abstract void enableDashHidden();
 
+	/**
+	 * Enable or disable light.
+	 * @param light 0 or 1
+	 */
 	public abstract void setLight(int light);
 
+	/**
+	 * Enable COLOR_MATERIAL.
+	 */
 	public abstract void setColorMaterial();
 
+	/**
+	 * Set light model.
+	 */
 	public abstract void setLightModel();
 
+	/**
+	 * Set alpha function.
+	 */
 	public abstract void setAlphaFunc();
 
+	/**
+	 * Set view.
+	 */
 	public abstract void setView();
 
+	/**
+	 * Set viewport size.
+	 */
 	public abstract void glViewPort();
 
+	/**
+	 * Set orthogonal projection.
+	 */
 	public abstract void viewOrtho();
 
+	/**
+	 * Set perspective projection.
+	 */
 	public abstract void viewPersp();
 
+	/**
+	 * Set glasses projection.
+	 */
 	public abstract void viewGlasses();
 
+	/**
+	 * Set oblique projection.
+	 */
 	public abstract void viewOblique();
 
+	/**
+	 * @return new manager
+	 */
 	public abstract Manager createManager();
 
+	/**
+	 * @return light position
+	 */
 	public abstract float[] getLightPosition();
 
+	/**
+	 * Draw surface outline.
+	 */
 	public abstract void drawSurfacesOutline();
 
+	/**
+	 * Enable clip planes.
+	 */
 	public abstract void enableClipPlanes();
 
+	/**
+	 * Disable clip planes.
+	 */
 	public abstract void disableClipPlanes();
 
+	/**
+	 * Use shader program.
+	 */
 	public abstract void useShaderProgram();
 
+	/**
+	 * Prepare for drawing.
+	 */
 	public abstract void draw();
 
+	/**
+	 * Remove shader programs.
+	 */
 	public abstract void dispose();
 
+	/**
+	 * Update perspective value.
+	 */
 	public abstract void updatePerspValues();
 
+	/**
+	 * Update glasses value.
+	 */
 	public abstract void updateGlassesValues();
 
+	/**
+	 * Update oblique projection value.
+	 */
 	public abstract void updateProjectionObliqueValues();
 
+	/**
+	 * Enable textures for text.
+	 */
 	public abstract void enableTexturesForText();
 
+	/**
+	 * Initialize rendering values.
+	 */
 	public abstract void initRenderingValues();
 
+	/**
+	 * Draw face to screen above.
+	 */
 	public abstract void drawFaceToScreenAbove();
 
+	/**
+	 * Draw face to screen below.
+	 */
 	public abstract void drawFaceToScreenBelow();
 
+	/**
+	 * Enable lighting on initialization.
+	 */
 	public abstract void enableLightingOnInit();
 
+	/**
+	 * Initialize culling.
+	 */
 	public abstract void initCulling();
 
+	/**
+	 * Draw transparent, not curved shapes.
+	 */
 	public abstract void drawTranspNotCurved();
 
+	/**
+	 * Enable culling for front-facing facets.
+	 */
 	public abstract void setCullFaceFront();
 
+	/**
+	 * Enable culling for back-facing facets.
+	 */
 	public abstract void setCullFaceBack();
 
+	/**
+	 * Initialize shaders.
+	 */
 	abstract public void initShaders();
 
+	/**
+	 * Disable shine effect.
+	 */
 	public abstract void disableShine();
 
+	/**
+	 * Enable shine effect.
+	 */
 	public abstract void enableShine();
 
+	/**
+	 * Set color buffer to back left.
+	 */
 	abstract public void setBufferLeft();
 
+	/**
+	 * Set color buffer to back right.
+	 */
 	abstract public void setBufferRight();
 
+	/**
+	 * TODO unused
+	 */
 	abstract public void setStencilFunc(int value);
 
+	/**
+	 * Enable depth mask.
+	 */
 	abstract public void enableDepthMask();
 
+	/**
+	 * Disable depth mask.
+	 */
 	abstract public void disableDepthMask();
 
 	/**
@@ -424,22 +629,56 @@ public abstract class RendererImpl {
 	 */
 	abstract public void setClearColor(float r, float g, float b, float a);
 
+	/**
+	 * Set polygon offset
+	 * @param factor factor
+	 * @param units units
+	 */
 	abstract public void setPolygonOffset(float factor, float units);
 
+	/**
+	 * Set layer.
+	 * @param layer layer
+	 */
 	abstract public void setLayer(int layer);
 
+	/**
+	 * Generate texture names
+	 * @param number number of textures to be generated
+	 * @param index output array for names
+	 */
 	abstract public void genTextures2D(int number, int[] index);
 
+	/**
+	 * Bind texture.
+	 * @param index index
+	 */
 	abstract public void bindTexture(int index);
 
+	/**
+	 * Enable alpha test.
+	 */
 	abstract public void enableAlphaTest();
 
+	/**
+	 * Disable alpha test.
+	 */
 	abstract public void disableAlphaTest();
 
+	/**
+	 * Enable multi-sample.
+	 */
 	abstract public void enableMultisample();
 
+	/**
+	 * Disable multi-sample.
+	 */
 	abstract public void disableMultisample();
 
+	/**
+	 * Set label origin.
+	 * @param origin label origin
+	 */
 	public abstract void setLabelOrigin(float[] origin);
 
 	/**
@@ -449,12 +688,24 @@ public abstract class RendererImpl {
 		// Used for rotation in some shaders
 	}
 
+	/**
+	 * Enable lighting.
+	 */
 	public abstract void enableLighting();
 
+	/**
+	 * Disable lighting.
+	 */
 	public abstract void disableLighting();
 
+	/**
+	 * Initialize lighting.
+	 */
 	public abstract void initLighting();
 
+	/**
+	 * @return whether shaders are used
+	 */
 	public abstract boolean useShaders();
 
 	/**
@@ -464,14 +715,31 @@ public abstract class RendererImpl {
 		setMatrixView(renderer.getToScreenMatrix());
 	}
 
+	/**
+	 * Set view matrix.
+	 * @param matrix view matrix
+	 */
 	public abstract void setMatrixView(CoordMatrix4x4 matrix);
 
+	/**
+	 * Set projection matrix for AR.
+	 */
 	public abstract void setProjectionMatrixViewForAR();
 
+	/**
+	 * Unset view matrix.
+	 */
 	public abstract void unsetMatrixView();
 
+	/**
+	 * Push scene matrix.
+	 */
 	public abstract void pushSceneMatrix();
 
+	/**
+	 * Set light position.
+	 * @param values light coordinates
+	 */
 	public abstract void setLightPosition(float[] values);
 
 	/**
@@ -490,6 +758,9 @@ public abstract class RendererImpl {
 	 */
 	abstract public void createDummyTexture();
 
+	/**
+	 * attribute vertex pointers
+	 */
 	abstract public void attribPointers();
 
 	/**

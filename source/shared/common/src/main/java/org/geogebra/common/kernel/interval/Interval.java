@@ -375,7 +375,7 @@ public class Interval {
 		if (isUndefined()) {
 			return 0;
 		}
-		return RMath.subHigh(high, low);
+		return RMath.next(high - low);
 	}
 
 	/**

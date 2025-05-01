@@ -46,8 +46,14 @@ public abstract class AwtFactory {
 		}
 	}
 
+	/**
+	 * @return a new affine transform
+	 */
 	public abstract GAffineTransform newAffineTransform();
 
+	/**
+	 * @return a new rectangle
+	 */
 	public abstract GRectangle2D newRectangle2D();
 
 	/**
@@ -60,6 +66,12 @@ public abstract class AwtFactory {
 	 */
 	public abstract GRectangle newRectangle(int x, int y, int width, int height);
 
+	/**
+	 * @param pixelWidth width in pixels
+	 * @param pixelHeight height in pixels
+	 * @param pixelRatio ratio between physical pixels and DIP
+	 * @return a new buffered image
+	 */
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
 			int pixelHeight, double pixelRatio);
 
@@ -69,7 +81,7 @@ public abstract class AwtFactory {
 	 * @param pixelHeight
 	 *            height
 	 * @param g2
-	 *            graphics (used for pixel rratio)
+	 *            graphics (used for the pixel ratio)
 	 * @return image
 	 */
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
@@ -77,19 +89,53 @@ public abstract class AwtFactory {
 		return newBufferedImage(pixelWidth, pixelHeight, 1);
 	}
 
+	/**
+	 * @param width width in pixels
+	 * @param height height in pixels
+	 * @param transparency whether to enable alpha
+	 * @return a new image
+	 */
 	public abstract GBufferedImage createBufferedImage(int width, int height,
 			boolean transparency);
 
+	/**
+	 * @param width width
+	 * @param height height
+	 * @return a new dimension
+	 */
 	public abstract GDimension newDimension(int width, int height);
 
-	public abstract GRectangle newRectangle(int w, int h);
+	/**
+	 * @param width width
+	 * @param height height
+	 * @return a new rectangle with given size
+	 */
+	public abstract GRectangle newRectangle(int width, int height);
 
+	/**
+	 * @return a new empty rectangle
+	 */
 	public abstract GRectangle newRectangle();
 
+	/**
+	 * @return a new empty general path
+	 */
 	public abstract GGeneralPath newGeneralPath();
 
+	/**
+	 * Creates a stroke with round cap and join.
+	 * @param f thickness
+	 * @return a new stroke
+	 */
 	public abstract GBasicStroke newMyBasicStroke(double f);
 
+	/**
+	 * Creates a stroke with given cap and join.
+	 * @param f thickness
+	 * @param cap one of GBasicStroke.CAP_* values
+	 * @param join one of GBasicStroke.JOIN_* values
+	 * @return a new stroke
+	 */
 	public abstract GBasicStroke newBasicStroke(double f, int cap, int join);
 
 	/**
@@ -104,12 +150,26 @@ public abstract class AwtFactory {
 	public abstract GBasicStroke newBasicStroke(double width, int endCap,
 			int lineJoin, double miterLimit, double[] dash);
 
+	/**
+	 * @param f thickness
+	 * @return stroke with square cap and miter join
+	 */
 	public abstract GBasicStroke newBasicStroke(double f);
 
+	/**
+	 * @return a new line segment
+	 */
 	public abstract GLine2D newLine2D();
 
+	/**
+	 * @param bb bounding box
+	 * @return a new rectangle wih given bounds
+	 */
 	public abstract GRectangle newRectangle(GRectangle bb);
 
+	/**
+	 * @return a new empty ellipse
+	 */
 	public abstract GEllipse2DDouble newEllipse2DDouble();
 
 	/**
@@ -123,21 +183,53 @@ public abstract class AwtFactory {
 	public abstract GEllipse2DDouble newEllipse2DDouble(double x, double y,
 			double width, double height);
 
+	/**
+	 * @return a new empty arc
+	 */
 	public abstract GArc2D newArc2D();
 
+	/**
+	 * @return a new empty quadratic curve
+	 */
 	public abstract GQuadCurve2D newQuadCurve2D();
 
+	/**
+	 * @return a new area
+	 */
 	public abstract GArea newArea();
 
+	/**
+	 * Converts a shape to an Area object.
+	 * @param shape shape
+	 * @return a new area
+	 */
 	public abstract GArea newArea(GShape shape);
 
+	/**
+	 * @param rule winding rule (GpathIterator.WIND_EVEN_ODD or GpathIterator.WIND_NON_ZERO).
+	 * @return a new general path
+	 */
 	public abstract GGeneralPath newGeneralPath(int rule);
 
+	/**
+	 * @param string text
+	 * @param fontLine font
+	 * @param frc font rendering context
+	 * @return text layout
+	 */
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
 
+	/**
+	 * @param alpha opacity
+	 * @return a new alpha composite
+	 */
 	public abstract GAlphaComposite newAlphaComposite(double alpha);
 
+	/**
+	 * @param f thickness
+	 * @return stroke with given thickness, square cap and a miter join
+	 */
 	public abstract GBasicStroke newBasicStrokeJoinMitre(double f);
 
 	/**
@@ -153,9 +245,19 @@ public abstract class AwtFactory {
 	public abstract GGradientPaint newGradientPaint(double x1, double y1,
 			GColor color1, double x2, double y2, GColor color2);
 
+	/**
+	 * @param subimage texture image
+	 * @param rect target rectangle
+	 * @return texture paint
+	 */
 	public abstract GPaint newTexturePaint(GBufferedImage subimage,
 			GRectangle rect);
 
+	/**
+	 * @param subimage texture image
+	 * @param rect target rectangle
+	 * @return texture paint
+	 */
 	public abstract GPaint newTexturePaint(MyImage subimage, GRectangle rect);
 
 	/**

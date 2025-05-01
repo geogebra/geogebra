@@ -8,5 +8,10 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
  */
 public interface ExpressionPrinter {
 
+    /**
+     * @param expression expression to serialize
+     * @param tpl string template
+     * @return serialized expression
+     */
     String print(ExpressionValue expression, StringTemplate tpl);
 }
