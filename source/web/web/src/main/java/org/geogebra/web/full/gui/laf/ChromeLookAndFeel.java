@@ -76,4 +76,9 @@ public class ChromeLookAndFeel extends GLookAndFeel {
 	private Object getStorage() {
 		return Js.asPropertyMap(DomGlobal.window).nestedGet("chrome.storage.local");
 	}
+
+	@Override
+	public boolean hasHelpMenu() {
+		return true;
+	}
 }

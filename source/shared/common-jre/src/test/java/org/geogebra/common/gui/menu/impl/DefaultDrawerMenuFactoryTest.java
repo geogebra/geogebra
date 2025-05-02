@@ -112,7 +112,7 @@ public class DefaultDrawerMenuFactoryTest {
 				Action.SHARE_FILE, Action.SIGN_IN, Action.SIGN_OUT};
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.GRAPHING, null, null, false, false, true);
+				GeoGebraConstants.Version.GRAPHING, null, null, false, false);
 		DrawerMenu menu = factory.createDrawerMenu();
 
 		for (MenuItemGroup menuItemGroup : menu.getMenuItemGroups()) {

@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.laf;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.promise.Promise;
@@ -80,5 +81,12 @@ public interface GLookAndFeelI {
 	 */
 	default boolean hasLockedEnvironment() {
 		return false;
+	}
+
+	/**
+	 * @return whether help and feedback should be shown in main menu or not
+	 */
+	default boolean hasHelpMenu() {
+		return Browser.isGeogebraOrInternalHost();
 	}
 }

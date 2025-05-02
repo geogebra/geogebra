@@ -84,4 +84,9 @@ public class BundleLookAndFeel extends GLookAndFeel {
 	public boolean hasLoginButton() {
 		return true;
 	}
+
+	@Override
+	public boolean hasHelpMenu() {
+		return true;
+	}
 }
