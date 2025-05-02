@@ -163,7 +163,7 @@ public abstract class AwtFactory {
 
 	/**
 	 * @param bb bounding box
-	 * @return a new rectangle wih given bounds
+	 * @return a new rectangle with given bounds
 	 */
 	public abstract GRectangle newRectangle(GRectangle bb);
 
