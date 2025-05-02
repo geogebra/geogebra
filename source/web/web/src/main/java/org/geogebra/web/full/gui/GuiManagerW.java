@@ -233,6 +233,7 @@ public class GuiManagerW extends GuiManager
 
 		if (getUnbundledToolbar() != null) {
 			getUnbundledToolbar().updateUndoRedoActions();
+			getUnbundledToolbar().updateTopBarUndoRedo();
 		}
 	}
 

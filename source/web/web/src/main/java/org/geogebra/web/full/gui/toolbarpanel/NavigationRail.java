@@ -399,6 +399,7 @@ class NavigationRail extends FlowPanel {
 
 		toolbarPanel.updateUndoRedoPosition();
 		toolbarPanel.updateUndoRedoActions();
+		toolbarPanel.updateTopBarUndoRedo();
 		toolbarPanel.updateStyle();
 	}
 

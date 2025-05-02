@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,7 @@ import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.layout.scientific.ScientificEmbedTopBar;
 import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.SpreadsheetTab;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
@@ -96,6 +99,7 @@ public class ToolbarPanel extends FlowPanel
 	private FlowPanel heading;
 	private DockPanelDecorator decorator;
 	private final ExamController examController = GlobalScope.examController;
+	private ScientificEmbedTopBar topBar;
 
 	/**
 	 * @param app application
@@ -221,6 +225,16 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
+	 * Updates undo/redo button visibility and its position.
+	 */
+	public void updateTopBarUndoRedo() {
+		if (topBar != null) {
+			topBar.updateUndoRedoVisibility();
+			topBar.updateUndoRedoPosition();
+		}
+	}
+
+	/**
 	 * This setter is for tests only.
 	 * @param eventDispatcher event dispatcher
 	 */
@@ -294,6 +308,12 @@ public class ToolbarPanel extends FlowPanel
 		if (needsNavRail()) {
 			add(navRail);
 		}
+		if (app.isApplet() && (SCIENTIFIC_APPCODE.equals(app.getConfig().getSubAppCode())
+				|| SCIENTIFIC_APPCODE.equals(app.getConfig().getAppCode()))) {
+			topBar = new ScientificEmbedTopBar(app);
+			add(topBar);
+		}
+
 		main = new FlowPanel();
 		sinkEvents(Event.ONCLICK);
 		main.addStyleName("main");
