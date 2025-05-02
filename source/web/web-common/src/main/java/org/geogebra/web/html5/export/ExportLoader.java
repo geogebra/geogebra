@@ -20,7 +20,7 @@ public final class ExportLoader {
 		// utility class
 	}
 
-	@JsProperty(name = "C2S")
+	@JsProperty(name = "canvasToSvg")
 	public static native Object getCanvas2Svg();
 
 	@JsProperty(name = "canvas2pdf")

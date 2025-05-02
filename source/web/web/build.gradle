@@ -134,7 +134,8 @@ def createHtml = { inlineCss ->
         }
     }
     file("war/calculator.html").text = file("war/suite.html").text
-    file("war/notes-murokdev.html").text = file("war/notes.html").text.replace('<!--LANGUAGE LINKS-->', '<script src="http://localhost:8080/murok.js"></script><script src="http://localhost:8080/canvas2pdf.js"></script>');
+    file("war/notes-murokdev.html").text = file("war/notes.html").text.replace('<!--LANGUAGE LINKS-->',
+            '<script src="http://localhost:8080/murok.js"></script><script src="http://localhost:8080/canvas2pdf.js"></script><script src="http://localhost:8080/canvas-to-svg.umd.js"></script>')
 }
 
 tasks.register('copyHtml') {
