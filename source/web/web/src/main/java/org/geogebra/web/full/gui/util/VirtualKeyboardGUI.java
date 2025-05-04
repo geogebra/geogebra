@@ -12,16 +12,32 @@ import org.gwtproject.dom.client.Element;
  */
 public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 
+	/**
+	 * Update style name.
+	 */
 	void setStyleName();
 
-	void endEditing();
-
+	/**
+	 * Set component processing the pressed keys.
+	 * @param makeKeyboardListener keyboard listener
+	 */
 	void setProcessing(KeyboardListener makeKeyboardListener);
 
+	/**
+	 * Set the close event listener.
+	 * @param listener close listener
+	 */
 	void setListener(KeyboardCloseListener listener);
 
+	/**
+	 * Hide the keyboard.
+	 * @param runnable called when (animated) hiding is finished.
+	 */
 	void remove(Runnable runnable);
 
+	/**
+	 * Update keys for current localization.
+	 */
 	void checkLanguage();
 
 	/**

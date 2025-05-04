@@ -6,5 +6,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Caption factory.
  */
 public interface CaptionFactory {
+	/**
+	 * @param geo construction element
+	 * @return 3D caption
+	 */
 	CaptionText createStaticCaption3D(GeoElement geo);
 }

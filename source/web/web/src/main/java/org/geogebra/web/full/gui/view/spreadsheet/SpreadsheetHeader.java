@@ -9,21 +9,40 @@ import org.gwtproject.event.dom.client.KeyDownHandler;
  */
 public interface SpreadsheetHeader extends KeyDownHandler {
 
+	/**
+	 * Handle pointer down event.
+	 * @param event pointer down event
+	 */
 	void onPointerDown(PointerEvent event);
 
+	/**
+	 * Handle pointer up event.
+	 * @param event pointer up event
+	 */
 	void onPointerUp(PointerEvent event);
 
+	/**
+	 * Handle pointer move event.
+	 * @param event pointer move event
+	 */
 	void onPointerMove(PointerEvent event);
 
 	/**
-	 * Show context menu.
+	 * Show the context menu.
 	 * @param x x-coordinate
 	 * @param y y-coordinate
 	 * @param b whether position should be relative
 	 */
 	void showContextMenu(int x, int y, boolean b);
 
+	/**
+	 * @return whether resizing is active
+	 */
 	boolean isResizing();
 
-	void updateSelection(SpreadsheetCoords p);
+	/**
+	 * Update selection.
+	 * @param selectedCell selected cell
+	 */
+	void updateSelection(SpreadsheetCoords selectedCell);
 }

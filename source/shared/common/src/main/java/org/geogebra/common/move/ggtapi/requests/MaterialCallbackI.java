@@ -10,8 +10,16 @@ import org.geogebra.common.move.ggtapi.models.Pagination;
  */
 public interface MaterialCallbackI {
 
+	/**
+	 * Materials parsed from API call.
+	 * @param result materials
+	 * @param meta pagination
+	 */
 	void onLoaded(List<Material> result, Pagination meta);
 
+	/**
+	 * @param exception exception
+	 */
 	void onError(Throwable exception);
 
 }

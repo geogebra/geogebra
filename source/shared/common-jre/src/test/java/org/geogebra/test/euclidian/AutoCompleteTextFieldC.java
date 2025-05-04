@@ -121,7 +121,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void prepareShowSymbolButton(boolean b) {
+	public void prepareShowSymbolButton(boolean show) {
 		// for test, not needed
 	}
 

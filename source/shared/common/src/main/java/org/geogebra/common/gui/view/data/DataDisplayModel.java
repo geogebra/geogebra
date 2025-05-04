@@ -58,22 +58,49 @@ public class DataDisplayModel {
 	 */
 	public interface IDataDisplayListener {
 
-		void addDisplayTypeItem(PlotType histogram);
+		/**
+		 * Add display type item.
+		 * @param plotType plot type
+		 */
+		void addDisplayTypeItem(PlotType plotType);
 
+		/**
+		 * Update the scatter plot.
+		 */
 		void updateScatterPlot();
 
+		/**
+		 * Update the frequency table.
+		 */
 		void updateFrequencyTable();
 
+		/**
+		 * @param type plot type
+		 */
 		void setSelectedType(PlotType type);
 
+		/**
+		 * Show the control panel.
+		 */
 		void showControlPanel();
 
+		/**
+		 * Show the options button.
+		 */
 		void setOptionsButtonVisible();
 
+		/**
+		 * Show invalid data fallback.
+		 */
 		void showInvalidDataDisplay();
 
-		void setTableFromGeoFrequencyTable(AlgoFrequencyTable parentAlgorithm,
-				boolean b);
+		/**
+		 * Set table from frequency table
+		 * @param frequencyTable frequency table
+		 * @param useClasses whether to use classes
+		 */
+		void setTableFromGeoFrequencyTable(AlgoFrequencyTable frequencyTable,
+				boolean useClasses);
 
 		void updatePlotPanelSettings();
 
@@ -83,17 +110,34 @@ public class DataDisplayModel {
 
 		void showPlotPanel();
 
+		/**
+		 * Update the stem plot.
+		 * @param latex LaTeX content of the stem plot
+		 */
 		void updateStemPlot(String latex);
 
+		/**
+		 * Update XY tiles
+		 * @param isPointList whether to use point list
+		 * @param isLeftToRight whether it is left to right
+		 */
 		void updateXYTitles(boolean isPointList, boolean isLeftToRight);
 
+		/**
+		 * Add element to plot panel
+		 * @param listGeo element to add
+		 */
 		void geoToPlotPanel(GeoElement listGeo);
 
+		/**
+		 * Remove frequency table.
+		 */
 		void removeFrequencyTable();
 
+		/**
+		 * Resize content to fit.
+		 */
 		void resize();
-
-		// void updatePlot(boolean b);
 
 	}
 

@@ -29,5 +29,9 @@ public interface InputKeyboardButton {
 	 */
 	void detach();
 
+	/**
+	 * Enable or disable.
+	 * @param enabled whether to enable
+	 */
 	void setEnabled(boolean enabled);
 }

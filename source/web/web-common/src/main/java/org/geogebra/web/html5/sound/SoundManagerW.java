@@ -36,9 +36,9 @@ public class SoundManagerW implements SoundManager {
 	}
 
 	@Override
-	public void pauseResumeSound(boolean b) {
-		FunctionSoundW.getInstance().pause(b);
-		mp3active = b;
+	public void pauseResumeSound(boolean resume) {
+		FunctionSoundW.getInstance().pause(resume);
+		mp3active = resume;
 	}
 
 	@Override

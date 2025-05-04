@@ -393,13 +393,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
-	/**
-	 * Returns the construction protocol navigation bar instance.
-	 * 
-	 * @param id
-	 *            view id
-	 * @return construction protocol for the view id
-	 */
 	@Override
 	final public ConstructionProtocolNavigation getConstructionProtocolNavigation(
 			int id) {
@@ -453,11 +446,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	protected abstract ConstructionProtocolNavigation newConstructionProtocolNavigation(
 			int viewID);
 
-	/**
-	 * Returns the default construction protocol navigation bar instance.
-	 * 
-	 * @return construction protocol for the view id
-	 */
 	@Override
 	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
 		return getConstructionProtocolNavigation(App.VIEW_EUCLIDIAN);

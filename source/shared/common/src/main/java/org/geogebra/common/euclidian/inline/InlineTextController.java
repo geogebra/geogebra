@@ -42,6 +42,11 @@ public interface InlineTextController extends HasTextFormat {
 	 */
 	void setHeight(int height);
 
+	/**
+	 * Bring to foreground and move caret to a position.
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	void toForeground(int x, int y);
 
 	/**
@@ -60,12 +65,23 @@ public interface InlineTextController extends HasTextFormat {
 	 */
 	void draw(GGraphics2D g2);
 
+	/**
+	 * @param x  x-coordinate in pixels
+	 * @param y y-coordinate in pixels
+	 * @return link URL at given coordinates
+	 */
 	String urlByCoordinate(int x, int y);
 
 	void updateContentIfChanged();
 
 	void saveContent();
 
+	/**
+	 * Set affine transform.
+	 * @param angle rotation angle
+	 * @param sx horizontal scale factor
+	 * @param sy vertical scale factor
+	 */
 	void setTransform(double angle, double sx, double sy);
 
 	boolean isEditing();

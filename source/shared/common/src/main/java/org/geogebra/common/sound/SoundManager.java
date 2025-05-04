@@ -10,7 +10,11 @@ import org.geogebra.common.util.AsyncOperation;
  */
 public interface SoundManager {
 
-	void pauseResumeSound(boolean b);
+	/**
+	 * Pause or resume sound.
+	 * @param resume whether to resume
+	 */
+	void pauseResumeSound(boolean resume);
 
 	/**
 	 * Plays a single note using the midi sequencer.

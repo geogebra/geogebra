@@ -33,6 +33,9 @@ public final class MulticastEvent<T> {
 	 * @param <T> The type of the event arguments.
 	 */
 	public interface Listener<T> {
+		/**
+		 * @param arguments event argument
+		 */
 		void notify(@Nullable T arguments);
 	}
 

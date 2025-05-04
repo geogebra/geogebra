@@ -37,6 +37,10 @@ import com.himamis.retex.renderer.share.TeXIcon;
  */
 public interface MathField {
 
+	/**
+	 * Update the image of the currently edited formula.
+	 * @param icon icon
+	 */
 	void setTeXIcon(TeXIcon icon);
 
 	/**
@@ -50,10 +54,22 @@ public interface MathField {
 
 	void requestViewFocus();
 
+	/**
+	 * Set a focus listener.
+	 * @param focusListener focus listener
+	 */
 	void setFocusListener(FocusListener focusListener);
 
+	/**
+	 * Set a pointer event listener.
+	 * @param clickListener pointer event listener
+	 */
 	void setClickListener(ClickListener clickListener);
 
+	/**
+	 * Set a keyboard event listener.
+	 * @param keyListener keyboard event listener
+	 */
 	void setKeyListener(KeyListener keyListener);
 
 	void repaint();

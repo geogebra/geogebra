@@ -64,7 +64,7 @@ class OptionItemList {
 				.orElse(null);
 	}
 
-	Object indexOf(OptionItem item) {
+	int indexOf(OptionItem item) {
 		return items.indexOf(item);
 	}
 

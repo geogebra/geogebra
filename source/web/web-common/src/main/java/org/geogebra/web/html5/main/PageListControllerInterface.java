@@ -26,13 +26,13 @@ public interface PageListControllerInterface extends ActionExecutor {
 	void refreshSlide(int index);
 
 	/**
-	 * @return JSON representation of current multislide file in the format of
+	 * @return JSON representation of the current multipage file in the format of
 	 *         GeoGebra Book
 	 */
 	String getStructureJSON();
 
 	/**
-	 * @return number of slides in current file
+	 * @return number of slides in the current file
 	 */
 	int getSlideCount();
 
@@ -94,6 +94,10 @@ public interface PageListControllerInterface extends ActionExecutor {
 	 */
 	void updatePreviewImage();
 
+	/**
+	 * Update preview image.
+	 * @param slideID page ID
+	 */
 	void updatePreviewImage(String slideID);
 
 	/**
@@ -103,6 +107,10 @@ public interface PageListControllerInterface extends ActionExecutor {
 	 */
 	String exportPDF(double scale, double dpi);
 
+	/**
+	 * Handle clicking a page card.
+	 * @param slideID slide ID
+	 */
 	void clickPage(String slideID);
 
 	/**
@@ -118,11 +126,26 @@ public interface PageListControllerInterface extends ActionExecutor {
 	 */
 	void handlePageAction(String eventType, String pageIdx, Object appState);
 
+	/**
+	 * @param pageId page ID
+	 * @return plain JS object describing a page (name, file content, thumbnail)
+	 */
 	PageContent getPageContent(String pageId);
 
+	/**
+	 * Set content for a page.
+	 * @param pageId page ID
+	 * @param content plain JS object describing a page (name, file content, thumbnail)
+	 */
 	void setPageContent(String pageId, PageContent content);
 
+	/**
+	 * @return ID of the active page
+	 */
 	String getActivePage();
 
+	/**
+	 * @return array of all page IDs
+	 */
 	String[] getPages();
 }

@@ -65,6 +65,11 @@ public interface Editor {
 	 */
 	String getHyperLinkURL();
 
+	/**
+	 * Insert a hyperlink.
+	 * @param url link URL
+	 * @param text link text
+	 */
 	void insertHyperlink(String url, String text);
 
 	/**
@@ -72,27 +77,71 @@ public interface Editor {
 	 */
 	String getContent();
 
-	void draw(CanvasRenderingContext2D canvasElement);
+	/**
+	 * Draw editor on canvas.
+	 * @param context2D canvas context
+	 */
+	void draw(CanvasRenderingContext2D context2D);
 
+	/**
+	 * @param width width in pixels
+	 */
 	void setWidth(int width);
 
+	/**
+	 * @return the plaintext representation of the hyperlink range
+	 */
 	String getHyperlinkRangeText();
 
+	/**
+	 * @return plain text representation of the selection
+	 */
 	String getSelectionRangeText();
 
+	/**
+	 * Replace selection with a text.
+	 * @param text new text content
+	 */
 	void setSelection(String text);
 
+	/**
+	 * Update text of selected hyperlink.
+	 * @param input text
+	 */
 	void setHyperlinkUrl(String input);
 
+	/**
+	 * Returns link URL at given cursor position.
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @return hyperlink URL at given coordinates.
+	 */
 	String urlByCoordinate(int x, int y);
 
+	/**
+	 * Switch selection to list.
+	 * @param listType "number" for numbered, "bullet" for a bullet list
+	 */
 	void switchListTo(String listType);
 
+	/**
+	 * @return "number" for numbered, "bullet" for a bullet list
+	 */
 	String getListStyle();
 
+	/**
+	 * @return minimal height in pixels
+	 */
 	int getMinHeight();
 
+	/**
+	 * @param sx external scale factor
+	 */
 	void setExternalScale(double sx);
 
+	/**
+	 * Add text insertion filter (for pasted text).
+	 * @param handleInsert text insertion filter
+	 */
 	void addInsertFilter(Carota.InsertFilter handleInsert);
 }

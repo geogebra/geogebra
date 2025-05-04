@@ -720,7 +720,7 @@ public class TabbedKeyboard extends FlowPanel
 	/**
 	 * Stop editing.
 	 */
-	public void endEditing() {
+	private void endEditing() {
 		if (processField != null) {
 			processField.endEditing();
 		}

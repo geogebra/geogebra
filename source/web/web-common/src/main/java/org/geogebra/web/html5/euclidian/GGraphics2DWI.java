@@ -22,8 +22,18 @@ public interface GGraphics2DWI extends GGraphics2D {
 
 	Canvas getCanvas();
 
+	/**
+	 * Set device pixel ratio.
+	 * @param pixelRatio pixel ratio
+	 */
 	void setDevicePixelRatio(double pixelRatio);
 
+	/**
+	 * Set the logical (Canvas) and physical (CSS) size of the graphics,
+	 * make sure color and transform are reset.
+	 * @param realWidth width
+	 * @param realHeight height
+	 */
 	void setCoordinateSpaceSize(int realWidth, int realHeight);
 
 	double getDevicePixelRatio();
@@ -34,6 +44,10 @@ public interface GGraphics2DWI extends GGraphics2D {
 
 	void startDebug();
 
+	/**
+	 * Set both physical (CSS) and logical (canvas) size of the graphics.
+	 * @param preferredSize preferred dimensions
+	 */
 	void setPreferredSize(GDimension preferredSize);
 
 	int getCoordinateSpaceHeight();
@@ -45,11 +59,20 @@ public interface GGraphics2DWI extends GGraphics2D {
 
 	JLMContext2d getContext();
 
+	/**
+	 * Set the size of the graphics without resetting color or transform.
+	 * @param width width
+	 * @param height height
+	 */
 	void setCoordinateSpaceSizeNoTransformNoColor(int width, int height);
 
 	void clearAll();
 
-	void fillWith(GColor backgroundCommon);
+	/**
+	 * Fill the graphics with a single color
+	 * @param color fill color
+	 */
+	void fillWith(GColor color);
 
 	/**
 	 * @return canvas element

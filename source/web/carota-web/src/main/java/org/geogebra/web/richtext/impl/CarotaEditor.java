@@ -46,8 +46,8 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
-	public void draw(CanvasRenderingContext2D canvasElement) {
-		editor.draw(canvasElement);
+	public void draw(CanvasRenderingContext2D context2D) {
+		editor.draw(context2D);
 	}
 
 	@Override

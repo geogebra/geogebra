@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Export settings.
  */
 public interface ExportSettings {
-	static final int FILL_NONE = 0, FILL_OPAQUE = 1, FILL_OPACITY_PEN = 2,
+	int FILL_NONE = 0, FILL_OPAQUE = 1, FILL_OPACITY_PEN = 2,
 			FILL_LAYER = 3;
 
 	double getLatexHeight();
@@ -27,6 +27,11 @@ public interface ExportSettings {
 
 	double textYminValue();
 
+	/**
+	 * TODO move this out
+	 * Callback for finished export.
+	 * @param code exported code
+	 */
 	void write(StringBuilder code);
 
 	boolean getAsyCompactCse5();

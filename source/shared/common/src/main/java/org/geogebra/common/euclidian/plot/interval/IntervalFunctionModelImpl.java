@@ -29,9 +29,6 @@ public class IntervalFunctionModelImpl implements IntervalFunctionModel {
 		this.path = path;
 	}
 
-	/**
-	 * Updates what's necessary.
-	 */
 	@Override
 	public void update() {
 		if (resampleNeeded) {
@@ -41,9 +38,6 @@ public class IntervalFunctionModelImpl implements IntervalFunctionModel {
 		path.update();
 	}
 
-	/**
-	 * Updates the entire model.
-	 */
 	@Override
 	public void resample() {
 		sampler.resample(bounds.domain());
@@ -51,10 +45,6 @@ public class IntervalFunctionModelImpl implements IntervalFunctionModel {
 		resampleNeeded = false;
 	}
 
-	/**
-	 *
-	 * update function domain to plot due to the visible x range.
-	 */
 	@Override
 	public void updateDomain() {
 		sampler.extend(bounds.domain());
@@ -67,9 +57,6 @@ public class IntervalFunctionModelImpl implements IntervalFunctionModel {
 		}
 	}
 
-	/**
-	 * Clears the entire model.
-	 */
 	@Override
 	public void clear() {
 		path.reset();

@@ -20,12 +20,29 @@ public interface AttributeProvider {
 				: new MapAttributeProvider(Js.asPropertyMap(options));
 	}
 
+	/**
+	 * @param attribute attribute name
+	 * @return attribute value
+	 */
 	String getAttribute(String attribute);
 
+	/**
+	 * @param attribute attribute name
+	 * @return whether attribute is set
+	 */
 	boolean hasAttribute(String attribute);
 
+	/**
+	 * Removes (unsets) an attribute.
+	 * @param attribute attribute name
+	 */
 	void removeAttribute(String attribute);
 
+	/**
+	 * Sets an attribute. If {@code null} is supplied, removes the attribute.
+	 * @param attribute attribute name
+	 * @param value value
+	 */
 	void setAttribute(String attribute, String value);
 
 	Element getElement();

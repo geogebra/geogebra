@@ -858,29 +858,6 @@ public class Rectangle extends Rectangle2D implements GRectangle
         return new Rectangle(tx1, ty1, (int) tx2, (int) ty2);
     }
 
-    /**
-     * Computes the union of this <code>Rectangle</code> with the
-     * specified <code>Rectangle</code>. Returns a new
-     * <code>Rectangle</code> that
-     * represents the union of the two rectangles.
-     * <p>
-     * If either {@code Rectangle} has any dimension less than zero
-     * the rules for <a href=#NonExistent>non-existent</a> rectangles
-     * apply.
-     * If only one has a dimension less than zero, then the result
-     * will be a copy of the other {@code Rectangle}.
-     * If both have dimension less than zero, then the result will
-     * have at least one dimension less than zero.
-     * <p>
-     * If the resulting {@code Rectangle} would have a dimension
-     * too large to be expressed as an {@code int}, the result
-     * will have a dimension of {@code Integer.MAX_VALUE} along
-     * that dimension.
-     * @param r the specified <code>Rectangle</code>
-     * @return    the smallest <code>Rectangle</code> containing both
-     *            the specified <code>Rectangle</code> and this
-     *            <code>Rectangle</code>.
-     */
     @Override
 	public Rectangle union(GRectangle r) {
         long tx2 = this.width;
@@ -1027,29 +1004,6 @@ public class Rectangle extends Rectangle2D implements GRectangle
         add(pt.x, pt.y);
     }
 
-    /**
-     * Adds a <code>Rectangle</code> to this <code>Rectangle</code>.
-     * The resulting <code>Rectangle</code> is the union of the two
-     * rectangles.
-     * <p>
-     * If either {@code Rectangle} has any dimension less than 0, the
-     * result will have the dimensions of the other {@code Rectangle}.
-     * If both {@code Rectangle}s have at least one dimension less
-     * than 0, the result will have at least one dimension less than 0.
-     * <p>
-     * If either {@code Rectangle} has one or both dimensions equal
-     * to 0, the result along those axes with 0 dimensions will be
-     * equivalent to the results obtained by adding the corresponding
-     * origin coordinate to the result rectangle along that axis,
-     * similar to the operation of the {@link #add(GPoint)} method,
-     * but contribute no further dimension beyond that.
-     * <p>
-     * If the resulting {@code Rectangle} would have a dimension
-     * too large to be expressed as an {@code int}, the result
-     * will have a dimension of {@code Integer.MAX_VALUE} along
-     * that dimension.
-     * @param  r the specified <code>Rectangle</code>
-     */
     @Override
 	public void add(GRectangle r) {
         long tx2 = this.width;

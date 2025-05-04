@@ -7,7 +7,13 @@ import jsinterop.base.JsPropertyMap;
  */
 public interface ExportedApi extends JsPropertyMap<Object> {
 
+	/**
+	 * @param ggbAPI the applet API
+	 */
 	void setGgbAPI(GgbAPIW ggbAPI);
 
+	/**
+	 * @param scriptManager the script manager
+	 */
 	void setScriptManager(ScriptManagerW scriptManager);
 }

@@ -42,6 +42,10 @@ public interface FunctionalNVar extends Evaluate2Var, VarString {
 	 */
 	boolean isBooleanFunction();
 
+	/**
+	 * Set a flag to force this to resolve to inequality
+	 * @param inequality inequality flag
+	 */
 	void setForceInequality(boolean inequality);
 
 	boolean isForceInequality();

@@ -5,8 +5,15 @@ package org.geogebra.common.util;
  */
 public interface NumberFormatAdapter {
 
-	public int getMaximumFractionDigits();
+	/**
+	 * @return number of fractional digits
+	 */
+	int getMaximumFractionDigits();
 
-	public String format(double x);
+	/**
+	 * @param value value to format
+	 * @return formatted value
+	 */
+	String format(double value);
 
 }

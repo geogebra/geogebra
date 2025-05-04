@@ -71,7 +71,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	/**
-	 * Fire touch event at the specified coordinates (right click if not unbundled)
+	 * Fire touch event at the specified coordinates (right-click if not unbundled)
 	 */
 	public void handleLongTouch(int x, int y) {
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,

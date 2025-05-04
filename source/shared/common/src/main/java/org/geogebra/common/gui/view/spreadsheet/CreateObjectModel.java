@@ -47,12 +47,23 @@ public class CreateObjectModel {
 	 * UI delegate for the model.
 	 */
 	public interface ICreateObjectListener {
+		/**
+		 * @param name name
+		 */
 		void setName(String name);
 
 		boolean isVisible();
 
+		/**
+		 * Show or hide the dialog.
+		 * @param value visibility
+		 */
 		void setVisible(boolean value);
 
+		/**
+		 * Show or hide sort options.
+		 * @param isVisible visibility
+		 */
 		void setSortVisible(boolean isVisible);
 
 		boolean isCopiedByValue();

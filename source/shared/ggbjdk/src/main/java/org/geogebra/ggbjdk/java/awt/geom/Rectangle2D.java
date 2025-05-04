@@ -491,18 +491,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
                 (y + h) <= y0 + getHeight());
     }
 
-    /**
-     * Returns a new <code>Rectangle2D</code> object representing the
-     * intersection of this <code>Rectangle2D</code> with the specified
-     * <code>Rectangle2D</code>.
-     * @param r the <code>Rectangle2D</code> to be intersected with
-     * this <code>Rectangle2D</code>
-     * @return the largest <code>Rectangle2D</code> contained in both
-     *          the specified <code>Rectangle2D</code> and in this
-     *          <code>Rectangle2D</code>.
-     * @since 1.2
-     */
-    @Override
+     @Override
 	public abstract GRectangle2D createIntersection(GRectangle2D r);
 
     /**

@@ -5,7 +5,13 @@ package org.geogebra.common.euclidian.draw;
  * TODO remove?
  */
 public interface DrawableVisibility {
+	/**
+	 * @param visible visibility flag
+	 */
 	void setVisible(boolean visible);
 
+	/**
+	 * @return whether it's visible
+	 */
 	boolean isVisible();
 }

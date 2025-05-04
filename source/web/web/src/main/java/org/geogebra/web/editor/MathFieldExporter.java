@@ -18,6 +18,9 @@ public class MathFieldExporter {
 	/** Image consumer */
 	@JsFunction
 	public interface ImageConsumer {
+		/**
+		 * @param image exported image
+		 */
 		void accept(EquationExportImage image);
 	}
 

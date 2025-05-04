@@ -7,6 +7,9 @@ import org.geogebra.common.kernel.interval.Interval;
  * Interval path plotter.
  */
 public interface IntervalPathPlotter {
+	/**
+	 * Reset the path.
+	 */
 	void reset();
 
 	/**
@@ -42,6 +45,10 @@ public interface IntervalPathPlotter {
 	 */
 	void segment(EuclidianViewBounds bounds, double x1, double y1, double x2, double y2);
 
+	/**
+	 * Draw on graphics.
+	 * @param g2 graphics
+	 */
 	void draw(GGraphics2D g2);
 
 	/**

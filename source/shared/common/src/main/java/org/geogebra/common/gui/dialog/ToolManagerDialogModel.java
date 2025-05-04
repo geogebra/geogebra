@@ -39,8 +39,15 @@ public class ToolManagerDialogModel {
 	 */
 	public interface ToolManagerDialogListener {
 
-		void removeMacroFromToolbar(int i);
+		/**
+		 * Remove macro from toolbar
+		 * @param mode macro's mode
+		 */
+		void removeMacroFromToolbar(int mode);
 
+		/**
+		 * Refresh custom tools in toolbar.
+		 */
 		void refreshCustomToolsInToolBar();
 
 	}

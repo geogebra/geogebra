@@ -12,37 +12,77 @@ import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.util.TextObject;
 
 /**
- * Texi input component with autocompletion.
+ * Text input component with autocompletion.
  */
 public interface AutoCompleteTextField
 		extends TextObject {
 
+	/**
+	 * Show or hide button for symbols popup or virtual keyboard
+	 * @param b whether to show it
+	 */
 	void showPopupSymbolButton(boolean b);
 
+	/**
+	 * Turn autocompletion on or off.
+	 * @param b whether to allow autocompletion
+	 */
 	void setAutoComplete(boolean b);
 
+	/**
+	 * Focus or blur this component.
+	 * @param b whether to focus
+	 */
 	void setFocus(boolean b);
 
-	// javax.swing.JTextField
+	/**
+	 * Set font.
+	 * @param font font
+	 */
 	void setFont(GFont font);
 
-	// javax.swing.JComponent
+	/**
+	 * Set text color.
+	 * @param color color
+	 */
 	void setForeground(GColor color);
 
-	// javax.swing.JComponent
+	/**
+	 * Set background color.
+	 * @param color color
+	 */
 	void setBackground(GColor color);
 
-	// javax.swing.JComponent
+	/**
+	 * Focus the component.
+	 */
 	void requestFocus();
 
+	/**
+	 * Add focus listener
+	 * @param focusListener focus listener.
+	 */
 	void addFocusListener(FocusListenerDelegate focusListener);
 
+	/**
+	 * Add keyboard event handler.
+	 * @param handler keyboard event handler
+	 */
 	void addKeyHandler(KeyHandler handler);
 
+	/**
+	 * @return caret position
+	 */
 	int getCaretPosition();
 
+	/**
+	 * @param caretPos caret position
+	 */
 	void setCaretPosition(int caretPos);
 
+	/**
+	 * @param geoTextField related input box
+	 */
 	void setUsedForInputBox(GeoInputBox geoTextField);
 
 	boolean hasFocus();
@@ -54,6 +94,9 @@ public interface AutoCompleteTextField
 
 	DrawInputBox getDrawTextField();
 
+	/**
+	 * @param df related input box drawable representation
+	 */
 	void setDrawTextField(DrawInputBox df);
 
 	/**
@@ -61,7 +104,11 @@ public interface AutoCompleteTextField
 	 */
 	void removeSymbolTable();
 
-	void prepareShowSymbolButton(boolean b);
+	/**
+	 * Note: in Web, the button opens the keyboard instead of a symbol popup.
+	 * @param show whether to show the symbol popup button
+	 */
+	void prepareShowSymbolButton(boolean show);
 
 	/**
 	 * @deprecated use the Rectangle variant instead
@@ -72,8 +119,17 @@ public interface AutoCompleteTextField
 
 	String getCommand();
 
+	/**
+	 * Set preferred size.
+	 * @param width width
+	 * @param height height
+	 */
 	void setPrefSize(int width, int height);
 
+	/**
+	 * Deferred set text.
+	 * @param text text field content
+	 */
 	void wrapSetText(String text);
 
 	/**
@@ -83,6 +139,12 @@ public interface AutoCompleteTextField
 	 */
 	void setAuralText(String text);
 
+	/**
+	 * Draw bounds in graphics.
+	 * @param g2 graphics
+	 * @param bgColor background color
+	 * @param inputFieldBounds bounds rectangle
+	 */
 	void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle inputFieldBounds);
 
 	/**

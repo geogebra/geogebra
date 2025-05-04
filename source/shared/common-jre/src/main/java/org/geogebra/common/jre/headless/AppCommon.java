@@ -394,7 +394,7 @@ public class AppCommon extends App {
 		return new SoundManager() {
 
 			@Override
-			public void pauseResumeSound(boolean b) {
+			public void pauseResumeSound(boolean resume) {
 				// stub
 			}
 

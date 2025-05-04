@@ -23,6 +23,10 @@ public class CheatingEvents {
      * Cheating events delegate.
      */
     public interface Delegate {
+        /**
+         * Called when cheating event happens.
+         * @param cheatingEvent cheating event
+         */
         void cheatingEventAdded(CheatingEvent cheatingEvent);
     }
 

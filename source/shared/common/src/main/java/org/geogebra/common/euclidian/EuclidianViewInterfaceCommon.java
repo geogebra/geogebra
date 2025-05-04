@@ -1060,4 +1060,14 @@ public interface EuclidianViewInterfaceCommon
 	 * @return EV positioner
 	 */
 	EvPositioner getEvPositioner();
+
+	/**
+	 * @return width for export
+	 */
+	int getExportWidth();
+
+	/**
+	 * @return height for export
+	 */
+	int getExportHeight();
 }

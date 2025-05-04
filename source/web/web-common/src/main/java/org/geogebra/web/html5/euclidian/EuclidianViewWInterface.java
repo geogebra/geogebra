@@ -2,13 +2,8 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.function.Consumer;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianStyleBar;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import org.geogebra.common.euclidian.Hits;
-import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.Widget;
@@ -19,21 +14,13 @@ import org.gwtproject.user.client.ui.Widget;
  * @author mathieu
  *
  */
-public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
+public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon {
 
 	/**
 	 * 
-	 * @return canvas
+	 * @return canvas element
 	 */
 	Element getCanvasElement();
-
-	Hits getHits();
-
-	boolean hasStyleBar();
-
-	EuclidianStyleBar getStyleBar();
-
-	int getViewWidth();
 
 	/**
 	 * @param x
@@ -42,52 +29,28 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	 *            event y-coord
 	 * @param type
 	 *            event type
-	 * @return whether textfield was clicked
+	 * @return whether an input box was clicked
 	 */
 	boolean textfieldClicked(int x, int y, PointerEventType type);
 
-	@Override
-	int getViewID();
-
-	double getXZero();
-
-	double getYZero();
-
-	@Override
-	double getXscale();
-
 	/**
-	 * @param xZero screen coordinate of x=0 in real world coords
-	 * @param yZero screen coordinate of y=0 in real world coords
-	 * @param xScale x-scale
-	 * @param yScale y-scale
+	 * @return absolute left in the browser window
 	 */
-	void setCoordSystem(double xZero, double yZero, double xScale, double yScale);
-
-	@Override
-	double getYscale();
-
-	void rememberOrigins();
-
-	/**
-	 * @param dx x-axis shift
-	 * @param dy y-axis shift
-	 * @param dz z-axis shift
-	 */
-	void translateCoordSystemInPixels(int dx, int dy, int dz);
-
-	void setHits(GPoint gPoint, PointerEventType touch);
-
-	Previewable getPreviewDrawable();
-
-	void updatePreviewableForProcessMode();
-
 	int getAbsoluteLeft();
 
+	/**
+	 * @return absolute top in the browser window
+	 */
 	int getAbsoluteTop();
 
+	/**
+	 * @return the graphics
+	 */
 	GGraphics2DWI getG2P();
 
+	/**
+	 * Reset pointer event handler.
+	 */
 	void resetPointerEventHandler();
 
 	/**
@@ -110,12 +73,12 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	String getExportImageDataUrl(double scale, boolean transparent,
 			boolean greyscale);
 
-	App getApplication();
-
 	String getCanvasBase64WithTypeString();
 
-	void requestFocus();
-
+	/**
+	 * @param transparency whether to make the background transparent
+	 * @param callback gets the base64 encoded SVG
+	 */
 	void getExportSVG(boolean transparency, Consumer<String> callback);
 
 	/**
@@ -125,13 +88,19 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	 */
 	String getExportPDF(double scale, double dpi);
 
-	int getExportWidth();
-
-	int getExportHeight();
-
+	/**
+	 * @return whether this is attached to DOM
+	 */
 	boolean isAttached();
 
+	/**
+	 * Add a widget floating over the view.
+	 * @param box widget
+	 */
 	void add(Widget box);
 
+	/**
+	 * @return canvas for export
+	 */
 	Object getExportCanvas();
 }

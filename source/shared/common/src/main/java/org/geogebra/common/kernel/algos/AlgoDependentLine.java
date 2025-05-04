@@ -28,14 +28,13 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  *
  * @author Markus
  */
 public class AlgoDependentLine extends AlgoElement
-		implements EvaluateAtPoint, DependentAlgo {
+		implements DependentAlgo {
 
 	private Equation equation;
 	private ExpressionValue[] ev = new ExpressionValue[3]; // input
@@ -128,14 +127,6 @@ public class AlgoDependentLine extends AlgoElement
 			return g.getDefinition().toString(tpl);
 		}
 		return equation.toString(tpl);
-	}
-
-	@Override
-	final public double evaluate(GeoPoint P) {
-		double mat0 = ev[0].evaluateDouble(); // x\u00b2
-		double mat1 = ev[1].evaluateDouble(); // y\u00b2
-		double mat2 = ev[2].evaluateDouble(); // constant
-		return P.x * mat0 + P.y * mat1 + P.z * mat2;
 	}
 
 	@Override

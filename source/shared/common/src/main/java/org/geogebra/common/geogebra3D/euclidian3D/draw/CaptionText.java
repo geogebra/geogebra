@@ -23,17 +23,39 @@ public interface CaptionText {
 
 	GColor backgroundColor();
 
+	/**
+	 * Update the caption.
+	 * @param text new text
+	 * @param font font
+	 * @param fgColor color
+	 */
 	void update(String text, GFont font, GColor fgColor);
 
 	String textToDraw();
 
 	GeoElement getGeoElement();
 
+	/**
+	 * Create internal font.
+	 * @param original base font
+	 */
 	void createFont(GFont original);
 
+	/**
+	 * TODO remove ?
+	 * @param geo element
+	 */
 	void register(GeoElement geo);
 
+	/**
+	 * @param text text
+	 * @param font font
+	 * @return whether text or font are different
+	 */
 	boolean hasChanged(String text, GFont font);
 
+	/**
+	 * @return whether this is valid
+	 */
 	boolean isValid();
 }

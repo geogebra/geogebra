@@ -20,5 +20,9 @@ public interface MarchingRect {
 
 	double bottomRight();
 
+	/**
+	 * @param i corner index
+	 * @return corner evaluation
+	 */
 	double cornerAt(int i);
 }

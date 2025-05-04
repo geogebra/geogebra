@@ -12,13 +12,11 @@ import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
  */
 public interface IsEuclidianController extends LongTouchHandler {
 
-	void setExternalHandling(boolean b);
-
 	/**
 	 * Handle touch start event for two pointers.
-	 * @param x1 first posinter's x-coordinate
+	 * @param x1 first pointer's x-coordinate
 	 * @param y1 first pointer's y-coordinate
-	 * @param x2 second posinter's x-coordinate
+	 * @param x2 second pointer's x-coordinate
 	 * @param y2 second pointer's y-coordinate
 	 */
 	void twoTouchStart(double x1, double y1, double x2, double y2);
@@ -40,23 +38,53 @@ public interface IsEuclidianController extends LongTouchHandler {
 	 */
 	void twoTouchMove(double x1, double y1, double x2, double y2);
 
+	/**
+	 * @return EV number (1 for EV1, 2 for EV2)
+	 */
 	int getEvNo();
 
 	LongTouchManager getLongTouchManager();
 
+	/**
+	 * TODO remove
+	 * @param b ignored
+	 */
 	void setActualSticky(boolean b);
 
 	boolean isDraggingBeyondThreshold();
 
+	/**
+	 * @return app mode
+	 */
 	int getMode();
 
-	void setMode(int i, ModeSetter ms);
+	/**
+	 * Notify controller about mode change.
+	 * @param mode app mode
+	 * @param ms mode setter
+	 */
+	void setMode(int mode, ModeSetter ms);
 
+	/**
+	 * Handle pointer down event.
+	 * @param e pointer down event
+	 */
 	void onPointerEventStart(AbstractEvent e);
 
+	/**
+	 * Handle pointer move event.
+	 * @param e pointer move event
+	 */
 	void onPointerEventMove(PointerEvent e);
 
+	/**
+	 * Handle pointer up event.
+	 * @param e pointer up event
+	 */
 	void onPointerEventEnd(PointerEvent e);
 
+	/**
+	 * @return mouse, touch and gesture controller
+	 */
 	MouseTouchGestureControllerW getOffsets();
 }

@@ -1142,7 +1142,9 @@ public class GGWToolBar extends Composite
 		return toolBar != null && toolBar.isMobileToolbar();
 	}
 
-	@Override
+	/**
+	 * @return whether this is shown and attached
+	 */
 	public boolean isShown() {
 		return Dom.isAttachedAndVisible(this);
 	}

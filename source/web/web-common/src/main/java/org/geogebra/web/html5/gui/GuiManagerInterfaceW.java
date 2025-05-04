@@ -35,42 +35,94 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void showPopupMenu(ArrayList<GeoElement> geos, Widget invoker, int x, int y);
 
+	/**
+	 * @param evID view ID
+	 * @param updatePropertiesView whether to update properties view
+	 */
 	void setFocusedPanel(int evID, boolean updatePropertiesView);
 
+	/**
+	 * @param width width in pixels
+	 * @param height height in pixels
+	 */
 	void resize(int width, int height);
 
+	/**
+	 * @param viewId view ID
+	 * @return toolbar definition
+	 */
 	String getToolbarDefinition(Integer viewId);
 
+	/**
+	 * @param snackbarRight whether the snack bar is on the right
+	 * @return top offset of the move button
+	 */
 	int getMoveTopBelowSnackbar(int snackbarRight);
 
+	/**
+	 * Remove a tool from toolbar definition
+	 * @param mode tool's mode number
+	 */
 	void removeFromToolbarDefinition(int mode);
 
 	String getCustomToolbarDefinition();
 
 	SetLabels getInputHelpPanel();
 
+	/**
+	 * Set the algebra input
+	 * @param ai algebra input
+	 */
 	void addAlgebraInput(AlgebraInput ai);
 
 	AlgebraInput getAlgebraInput();
 
+	/**
+	 * Set active toolbar.
+	 * @param toolbarID view ID associated with the toolbar
+	 */
 	void setActiveToolbarId(int toolbarID);
 
 	void removePopup();
 
+	/**
+	 * Set current definition of the main toolbar
+	 * @param toolBarDefinition toolbar definition.
+	 */
 	void setToolBarDefinition(String toolBarDefinition);
 
+	/**
+	 * Set active view.
+	 * @param evID view ID
+	 */
 	void setActiveView(int evID);
 
 	boolean isDraggingViews();
 
-	void setDraggingViews(boolean b, boolean temporary);
+	/**
+	 * Start or stop dragging views.
+	 * @param enable whether to enable dragging
+	 * @param temporary whether this is temporary
+	 */
+	void setDraggingViews(boolean enable, boolean temporary);
 
 	void refreshDraggingViews();
 
+	/**
+	 * Set general definition string of the toolbar.
+	 * @param toolbarDefinition toolbar definition
+	 */
 	void setGeneralToolBarDefinition(String toolbarDefinition);
 
+	/**
+	 * @param query search query
+	 * @return Open File view with resources matching a query
+	 */
 	BrowseViewI getBrowseView(String query);
 
+	/**
+	 * @return Open File view
+	 */
 	BrowseViewI getBrowseView();
 
 	/**
@@ -80,16 +132,42 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void showSciSettingsView();
 
+	/**
+	 * Show or hide the toolbar.
+	 * @param show whether to show
+	 */
 	void showToolBar(boolean show);
 
+	/**
+	 * Show or hide the menu button.
+	 * @param show whether to show
+	 */
 	void showMenuBar(boolean show);
 
+	/**
+	 * Show or hide the algebra input.
+	 * @param show whether to show
+	 */
 	void showAlgebraInput(boolean show);
 
+	/**
+	 * @param ev view
+	 * @param viewID view ID
+	 * @return style bar for given view
+	 */
 	EuclidianStyleBar newEuclidianStylebar(EuclidianView ev, int viewID);
 
+	/**
+	 * @param ev view
+	 * @return dynamic style bar for given view
+	 */
 	EuclidianStyleBar newDynamicStylebar(EuclidianView ev);
 
+	/**
+	 * Add style bar to a view
+	 * @param ev view
+	 * @param dynamicStylebar style bar
+	 */
 	void addStylebar(EuclidianView ev,
 					 EuclidianStyleBar dynamicStylebar);
 
@@ -97,10 +175,22 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void exportGGB();
 
+	/**
+	 * Wait for login event, run callback after.
+	 * @param onSuccess callback
+	 */
 	void listenToLogin(Runnable onSuccess);
 
+	/**
+	 * Update pixel ratio in the views.
+	 * @param ratio device pixel ratio
+	 */
 	void setPixelRatio(double ratio);
 
+	/**
+	 * @param mode tool's mode number
+	 * @return help URL for a tool
+	 */
 	String getTooltipURL(int mode);
 
 	void updateToolbarActions();
@@ -115,10 +205,19 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	@Override
 	SpreadsheetViewInterface getSpreadsheetView();
 
+	/**
+	 * Set active panel and toolbar.
+	 * @param viewID view ID
+	 */
 	void setActivePanelAndToolbar(int viewID);
 
 	void switchToolsToAV();
 
+	/**
+	 * Get keyboard listener for a panel.
+	 * @param panel dock panel
+	 * @return keyboard listener
+	 */
 	MathKeyboardListener getKeyboardListener(DockPanel panel);
 
 	/**
@@ -194,6 +293,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void setRunAfterLogin(Runnable runAfterLogin);
 
+	/**
+	 * Called when side toolbar is opened or closed
+	 * @param viewId active view of the side toolbar
+	 * @param isVisible whether it's visible
+	 */
 	void onToolbarVisibilityChanged(int viewId, boolean isVisible);
 
 	/**
@@ -244,5 +348,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void toggleSpreadsheetView();
 
+	/**
+	 * Open help page in a new tab or external browser (if running in Electron)
+	 * @param page page type
+	 * @param detail page specifier
+	 */
 	void openHelp(ManualPage page, @CheckForNull String detail);
 }

@@ -69,9 +69,11 @@ public class TwoVarInferenceModel {
 
 		GeoList getDataSelected();
 
+		/**
+		 * @param idx 0 or 1
+		 * @return selected data index
+		 */
 		int getSelectedDataIndex(int idx);
-
-		double[] getValueArray(GeoList list);
 
 		/**
 		 * Add item to alternative hypothesis panel
@@ -241,7 +243,7 @@ public class TwoVarInferenceModel {
 
 		GeoList dataList1 = (GeoList) dataCollection
 				.get(listener.getSelectedDataIndex(0));
-		double[] sample1 = listener.getValueArray(dataList1);
+		double[] sample1 = DataAnalysisController.getValueArray(dataList1);
 		SummaryStatistics stats1 = new SummaryStatistics();
 		for (int i = 0; i < sample1.length; i++) {
 			stats1.addValue(sample1[i]);
@@ -249,7 +251,7 @@ public class TwoVarInferenceModel {
 
 		GeoList dataList2 = (GeoList) dataCollection
 				.get(listener.getSelectedDataIndex(1));
-		double[] sample2 = listener.getValueArray(dataList2);
+		double[] sample2 = DataAnalysisController.getValueArray(dataList2);
 		SummaryStatistics stats2 = new SummaryStatistics();
 		for (int i = 0; i < sample2.length; i++) {
 			stats2.addValue(sample2[i]);

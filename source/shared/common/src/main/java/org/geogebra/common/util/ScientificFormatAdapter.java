@@ -5,12 +5,25 @@ package org.geogebra.common.util;
  */
 public interface ScientificFormatAdapter {
 
-	public int getSigDigits();
+	/**
+	 * @return number of significant digits
+	 */
+	int getSigDigits();
 
-	public void setSigDigits(int SigDigit);
+	/**
+	 * @param sigDigits number of significant digits
+	 */
+	void setSigDigits(int sigDigits);
 
-	public void setMaxWidth(int mWidth);
+	/**
+	 * @param mWidth maximum width
+	 */
+	void setMaxWidth(int mWidth);
 
-	public String format(double d);
+	/**
+	 * @param d number
+	 * @return formatted number
+	 */
+	String format(double d);
 
 }

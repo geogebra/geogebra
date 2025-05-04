@@ -9,9 +9,16 @@ public interface OptionsInterface {
 
 	void scrollUp();
 
+	/**
+	 * @param idx hover index
+	 */
 	void setHoverIndex(int idx);
 
 	int getItemCount();
 
-	Object indexOf(OptionItem item);
+	/**
+	 * @param item item
+	 * @return index of given item
+	 */
+	int indexOf(OptionItem item);
 }

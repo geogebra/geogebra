@@ -10,5 +10,8 @@ import org.geogebra.keyboard.base.Keyboard;
  */
 public interface KeyboardObserver {
 
+    /**
+     * @param keyboard keyboard
+     */
     void keyboardModelChanged(Keyboard keyboard);
 }

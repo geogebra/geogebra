@@ -121,7 +121,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -1627,9 +1626,8 @@ public class GuiManagerW extends GuiManager
 			}
 			return;
 		}
-		ToolBarInterface tb = getApp().getToolbar();
-		boolean currentlyVisible = tb != null && tb
-				.isShown();
+		GGWToolBar tb = getApp().getToolbar();
+		boolean currentlyVisible = tb != null && tb.isShown();
 		if (!show) {
 			showMenuBar(false);
 		}
@@ -1706,14 +1704,14 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void setDraggingViews(final boolean draggingViews,
+	public void setDraggingViews(final boolean enable,
 			final boolean temporary) {
 		if (!temporary) {
-			this.oldDraggingViews = draggingViews;
+			this.oldDraggingViews = enable;
 		}
-		this.draggingViews = draggingViews;
+		this.draggingViews = enable;
 		if (layout != null) {
-			layout.getDockManager().enableDragging(draggingViews);
+			layout.getDockManager().enableDragging(enable);
 		}
 	}
 

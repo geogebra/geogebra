@@ -138,6 +138,10 @@ public interface TableValues extends View, StatisticsView {
 	 */
 	TableValuesProcessor getProcessor();
 
+	/**
+	 * Add and show an element.
+	 * @param geo construction element
+	 */
 	void addAndShow(GeoElement geo);
 
 	/**

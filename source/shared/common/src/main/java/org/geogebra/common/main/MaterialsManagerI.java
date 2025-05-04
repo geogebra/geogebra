@@ -8,6 +8,10 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
  */
 public interface MaterialsManagerI {
 
+	/**
+	 * Open a resource
+	 * @param material resource to open
+	 */
 	void openMaterial(Material material);
 
 	/**
@@ -18,28 +22,72 @@ public interface MaterialsManagerI {
 	 */
 	void delete(Material material, boolean permanent, Runnable onSuccess);
 
+	/**
+	 * Rename a resource.
+	 * @param newTitle new title
+	 * @param mat resource
+	 */
 	void rename(String newTitle, Material mat);
 
+	/**
+	 * Rename a resource.
+	 * @param newTitle new title
+	 * @param mat resource
+	 * @param callback runs after rename
+	 */
 	void rename(String newTitle, Material mat, Runnable callback);
 
-	void setFileProvider(Provider google);
+	/**
+	 * Set file provider.
+	 * @param provider file provider
+	 */
+	void setFileProvider(Provider provider);
 
+	/**
+	 * @return file provider
+	 */
 	Provider getFileProvider();
 
+	/**
+	 * Maybe store auto-save file in local storage.
+	 * @param counter tick counter, actual save only happens after certain number of ticks
+	 */
 	void autoSave(int counter);
 
+	/**
+	 * @return JSON representation of the current file
+	 */
 	String getAutosaveJSON();
 
+	/**
+	 * Restore auto-saved file
+	 * @param json JSON representation of the archive
+	 */
 	void restoreAutoSavedFile(String json);
 
-	public void deleteAutoSavedFile();
+	/**
+	 * Delete auto-saved file.
+	 */
+	void deleteAutoSavedFile();
 
+	/**
+	 * Save current file.
+	 * @param app application
+	 * @return success
+	 */
 	boolean save(App app);
 
+	/**
+	 * TODO relates to offline saving, may need fixing or removing
+	 * @param i material id
+	 * @return Whether to keep offline copy
+	 */
 	boolean shouldKeep(int i);
 
-	void getFromTube(int id, boolean fromAnotherDevice);
-
+	/**
+	 * Export as .ggb file
+	 * @param app application
+	 */
 	void export(App app);
 
 	/**
@@ -49,7 +97,12 @@ public interface MaterialsManagerI {
 	 */
 	void exportImage(String url, String string, String extension);
 
-	void nativeShare(String s, String string);
+	/**
+	 * Share using native dialog.
+	 * @param base64 file base 64
+	 * @param title file name without extension
+	 */
+	void nativeShare(String base64, String title);
 
 	/**
 	 * @param url data URL
@@ -84,7 +137,16 @@ public interface MaterialsManagerI {
 	 */
 	void open(String url);
 
+	/**
+	 * Save current file to local filesystem if possible
+	 * @param app application
+	 * @param callback callback
+	 * @return success
+	 */
 	boolean saveCurrentLocalIfPossible(App app, Runnable callback);
 
+	/**
+	 * @return whether online saving is preferred
+	 */
 	boolean isOnlineSavingPreferred();
 }

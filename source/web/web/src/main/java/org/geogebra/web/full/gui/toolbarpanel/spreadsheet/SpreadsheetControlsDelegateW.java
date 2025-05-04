@@ -26,7 +26,6 @@ import org.geogebra.web.full.gui.view.algebra.ToastController;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.util.ClipboardW;
-import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -404,11 +403,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	@Override
 	public void autocomplete(String s) {
 		//  nothing to do here
-	}
-
-	@Override
-	public void updatePosition(AbstractSuggestionDisplay sug) {
-		// nothing to do here
 	}
 
 	@Override

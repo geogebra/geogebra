@@ -1039,8 +1039,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	@Override
-	public void prepareShowSymbolButton(boolean b) {
-		this.setShowSymbolTableIcon(b);
+	public void prepareShowSymbolButton(boolean show) {
+		this.setShowSymbolTableIcon(show);
 	}
 
 	@Override

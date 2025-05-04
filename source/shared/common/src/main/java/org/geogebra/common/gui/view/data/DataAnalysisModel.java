@@ -70,36 +70,98 @@ public class DataAnalysisModel {
 	 * UI delegate for the model.
 	 */
 	public interface IDataAnalysisListener extends ICreateColor {
+		/**
+		 * @param polyType1 type of plot in the first panel
+		 * @param polyType2 type of plot in the second panel
+		 */
 		void onModeChange(PlotType polyType1, PlotType polyType2);
 
-		void setPlotPanelOVNotNumeric(int mode, PlotType plotType,
+		/**
+		 * Sets the plot types if data is not numeric.
+		 * TODO this and the next 4 methods do the same, simplify
+		 * @param mode app mode
+		 * @param plotType1 plot type in the first panel
+		 * @param plotType2 plot type in the second panel
+		 */
+		void setPlotPanelOVNotNumeric(int mode, PlotType plotType1,
 				PlotType plotType2);
 
-		void setPlotPanelOVRawData(int mode, PlotType pt1, PlotType pt2);
+		/**
+		 * Sets the plot types for raw data grouping.
+		 * @param mode app mode
+		 * @param plotType1 plot type in the first panel
+		 * @param plotType2 plot type in the second panel
+		 */
+		void setPlotPanelOVRawData(int mode, PlotType plotType1, PlotType plotType2);
 
-		void setPlotPanelOVFrequency(int mode, PlotType plotType,
+		/**
+		 * Sets the plot types for frequency grouping.
+		 * @param mode app mode
+		 * @param plotType1 plot type in the first panel
+		 * @param plotType2 plot type in the second panel
+		 */
+		void setPlotPanelOVFrequency(int mode, PlotType plotType1,
 				PlotType plotType2);
 
-		void setPlotPanelOVClass(int mode, PlotType plotType,
+		/**
+		 * Sets the plot types for class grouping.
+		 * @param mode app mode
+		 * @param plotType1 plot type in the first panel
+		 * @param plotType2 plot type in the second panel
+		 */
+		void setPlotPanelOVClass(int mode, PlotType plotType1,
 				PlotType plotType2);
 
-		void setPlotPanelRegression(int mode, PlotType plotType,
+		/**
+		 * Sets the plot types for regressions.
+		 * @param mode app mode
+		 * @param plotType1 plot type in the first panel
+		 * @param plotType2 plot type in the second panel
+		 */
+		void setPlotPanelRegression(int mode, PlotType plotType1,
 				PlotType plotType2);
 
+		/**
+		 * Sets the plot types for multi-variable plot.
+		 * @param mode app mode
+		 * @param plotType plot type in the first panel
+		 */
 		void setPlotPanelMultiVar(int mode, PlotType plotType);
 
+		/**
+		 * @param dataArray data
+		 */
 		void loadDataTable(ArrayList<GeoElement> dataArray);
 
+		/**
+		 * Show or hide statistics data panel.
+		 */
 		void updateStatDataPanelVisibility();
 
+		/**
+		 * @return data analysis controller
+		 */
 		DataAnalysisController getController();
 
+		/**
+		 * Show or hide second plot panel.
+		 * @param show whether to show second plot panel
+		 */
 		void showComboPanel2(boolean show);
 
 		void updateGUI();
 
+		/**
+		 * @return data analysis model
+		 */
 		DataAnalysisModel getModel();
 
+		/**
+		 * TODO model should not be accessed through UI delegate, refactor
+		 * Get model for one of the panels.
+		 * @param zeroBasedIndex 0 or 1
+		 * @return data display model
+		 */
 		DataDisplayModel getDisplayModel(int zeroBasedIndex);
 	}
 
@@ -108,6 +170,10 @@ public class DataAnalysisModel {
 	 * Color provider.
 	 */
 	public interface ICreateColor {
+		/**
+		 * @param idx index
+		 * @return color
+		 */
 		GColor createColor(int idx);
 	}
 

@@ -14,8 +14,8 @@ class TestFormatFactory extends FormatFactoryW {
 			}
 
 			@Override
-			public String format(double x) {
-				return String.valueOf(x);
+			public String format(double value) {
+				return String.valueOf(value);
 			}
 		};
 	}

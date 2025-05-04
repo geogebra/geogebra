@@ -22,8 +22,15 @@ import org.geogebra.common.util.NormalizerMinimal;
  * Facade for the App class.
  */
 public interface AppInterface {
-	abstract public void invokeLater(Runnable runnable);
+	/**
+	 * Schedule a task to run on main thread after current task is finished.
+	 * @param runnable task to schedule
+	 */
+	void invokeLater(Runnable runnable);
 
+	/**
+	 * @return whether this is an "applet" rather than full-sized app.
+	 */
 	public abstract boolean isApplet();
 
 	/**
@@ -290,8 +297,16 @@ public interface AppInterface {
 
 	public abstract Localization getLocalization();
 
+	/**
+	 * Create XML serializer and deserializer.
+	 * @param cons construction
+	 * @return XML IO
+	 */
 	public abstract MyXMLio createXMLio(Construction cons);
 
+	/**
+	 * Show the toolbar customization UI.
+	 */
 	public abstract void showCustomizeToolbarGUI();
 
 	public abstract boolean isSelectionRectangleAllowed();

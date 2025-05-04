@@ -59,7 +59,6 @@ import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
 import org.geogebra.web.html5.gui.tooltip.ToolTip;
@@ -1459,11 +1458,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (controls != null) {
 			updateButtonPanelPosition();
 		}
-	}
-
-	@Override
-	public void updatePosition(AbstractSuggestionDisplay sug) {
-		sug.setPositionRelativeTo(content);
 	}
 
 	@Override

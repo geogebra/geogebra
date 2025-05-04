@@ -194,22 +194,6 @@ public class Manager3D implements Manager3DInterface {
 		return p;
 	}
 
-	/** Point in region with cartesian coordinates (x,y,z) */
-	@Override
-	final public GeoPoint3D point3DIn(Region region, Coords coords,
-			boolean coords2D) {
-		AlgoPoint3DInRegion algo = new AlgoPoint3DInRegion(cons, region,
-				coords);
-		GeoPoint3D p = algo.getP();
-		if (coords2D) {
-			p.setCartesian();
-		} else {
-			p.setCartesian3D();
-		}
-		p.update();
-		return p;
-	}
-
 	/** Point in region */
 	@Override
 	final public GeoPoint3D point3DIn(String label, Region region,
@@ -1530,16 +1514,16 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoPoint3D closestPoint(String label, Path p, GeoPointND P) {
-		AlgoClosestPoint3D algo = new AlgoClosestPoint3D(cons, p, P);
+	public GeoPoint3D closestPoint(String label, Path p, GeoPointND point) {
+		AlgoClosestPoint3D algo = new AlgoClosestPoint3D(cons, p, point);
 		algo.getP().setLabel(label);
 		return (GeoPoint3D) algo.getP();
 	}
 
 	@Override
-	public GeoPointND closestPoint(String label, Region r, GeoPointND P) {
+	public GeoPointND closestPoint(String label, Region r, GeoPointND point) {
 		AlgoClosestPointToRegion3D algo = new AlgoClosestPointToRegion3D(cons,
-				label, r, P);
+				label, r, point);
 		return algo.getOutputPoint();
 	}
 

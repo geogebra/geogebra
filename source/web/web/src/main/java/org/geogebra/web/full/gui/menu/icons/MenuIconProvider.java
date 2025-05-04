@@ -8,5 +8,9 @@ import org.geogebra.web.html5.gui.view.IconSpec;
  */
 public interface MenuIconProvider {
 
+	/**
+	 * @param icon icon kind
+	 * @return icon definition
+	 */
 	IconSpec matchIconWithResource(Icon icon);
 }

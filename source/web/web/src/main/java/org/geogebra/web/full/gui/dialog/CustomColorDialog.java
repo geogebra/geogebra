@@ -26,12 +26,19 @@ public class CustomColorDialog extends ComponentDialog {
 
 	private GColor origColor;
 	private PreviewPanel preview;
-	private Localization loc;
+	private final Localization loc;
 
 	/** Listener for color selection, initial color provider. */
 	public interface ICustomColor {
+		/**
+		 * @return initial color for custom color picker
+		 */
 		GColor getSelectedColor();
 
+		/**
+		 * Notify when custom color is picked.
+		 * @param color custom color
+		 */
 		void onCustomColor(GColor color);
 	}
 

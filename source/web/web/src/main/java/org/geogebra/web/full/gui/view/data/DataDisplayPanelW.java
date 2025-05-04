@@ -506,9 +506,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	@Override
-	public void addDisplayTypeItem(PlotType type) {
-		lbDisplayType.addItem(loc.getMenu(type.getKey()));
-		plotTypes.add(type);
+	public void addDisplayTypeItem(PlotType plotType) {
+		lbDisplayType.addItem(loc.getMenu(plotType.getKey()));
+		plotTypes.add(plotType);
 	}
 
 	@Override
@@ -541,9 +541,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	@Override
 	public void setTableFromGeoFrequencyTable(
-			AlgoFrequencyTable parentAlgorithm, boolean b) {
+			AlgoFrequencyTable frequencyTable, boolean useClasses) {
 		Log.debug("setTableFromGeoFrequencyTable");
-		frequencyTable.setTableFromGeoFrequencyTable(parentAlgorithm, b);
+		this.frequencyTable.setTableFromGeoFrequencyTable(frequencyTable, useClasses);
 		resize(false);
 	}
 

@@ -67,7 +67,7 @@ public class AVItemHeaderScientific extends SimplePanel
 	}
 
 	@Override
-	public void setError(String s) {
+	public void setError(String errorMessage) {
 		// not implemented
 	}
 

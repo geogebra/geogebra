@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
+import org.geogebra.common.gui.view.data.DataAnalysisController;
 import org.geogebra.common.gui.view.data.OneVarModel;
 import org.geogebra.common.gui.view.data.StatisticsModel;
 import org.geogebra.common.kernel.Kernel;
@@ -382,7 +383,7 @@ public class OneVarInferencePanelW extends FlowPanel
 
 	private void evaluate() {
 		GeoList dataList = statDialog.getController().getDataSelected();
-		double[] sample = statDialog.getController().getValueArray(dataList);
+		double[] sample = DataAnalysisController.getValueArray(dataList);
 
 		model.evaluate(sample);
 	}

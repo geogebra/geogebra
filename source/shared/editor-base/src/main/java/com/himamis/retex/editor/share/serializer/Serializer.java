@@ -7,6 +7,10 @@ import com.himamis.retex.editor.share.model.MathFormula;
  */
 public interface Serializer {
 
+    /**
+     * @param formula formula
+     * @return serialized formula
+     */
     String serialize(MathFormula formula);
 
 }

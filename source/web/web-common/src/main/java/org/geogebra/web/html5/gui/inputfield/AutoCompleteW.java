@@ -9,12 +9,24 @@ import org.gwtproject.user.client.ui.Widget;
 public interface AutoCompleteW {
 	boolean getAutoComplete();
 
+	/**
+	 * Focus or blur the input field.
+	 * @param focus whether to focus
+	 */
 	void setFocus(boolean focus);
 
+	/**
+	 * Insert a string at caret position.
+	 * @param text string to insert
+	 */
 	void insertString(String text);
 
 	String getText();
 
+	/**
+	 * Set text content.
+	 * @param s text content.
+	 */
 	void setText(String s);
 
 	boolean isSuggesting();
@@ -23,9 +35,11 @@ public interface AutoCompleteW {
 
 	Widget toWidget();
 
+	/**
+	 * Insert autocompletion result.
+	 * @param s autocompletion result
+	 */
 	void autocomplete(String s);
-
-	void updatePosition(AbstractSuggestionDisplay sug);
 
 	/**
 	 * @return current command: in context where commands are allowed that means current word,

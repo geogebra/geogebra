@@ -132,11 +132,6 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 		return statDialog.getController().getDataSelected();
 	}
 
-	@Override
-	public double[] getValueArray(GeoList list) {
-		return statDialog.getController().getValueArray(list);
-	}
-
 	/**
 	 * @return selected rows
 	 */

@@ -841,12 +841,12 @@ public class GGraphics2DW implements GGraphics2DWI {
 	/**
 	 * Fill the whole rectangle with color.
 	 *
-	 * @param fillColor
+	 * @param color
 	 *            fill color
 	 */
 	@Override
-	public void fillWith(GColor fillColor) {
-		this.setColor(fillColor);
+	public void fillWith(GColor color) {
+		this.setColor(color);
 		this.fillRect(0, 0, getOffsetWidth(), getOffsetHeight());
 	}
 

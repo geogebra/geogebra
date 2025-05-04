@@ -222,10 +222,10 @@ public class MarblePanel extends FlowPanel
 	}
 
 	@Override
-	public void setError(String title) {
+	public void setError(String errorMessage) {
 		if (btnWarning != null) {
-			btnWarning.setAltText(title);
-			btnWarning.setTitle(title);
+			btnWarning.setAltText(errorMessage);
+			btnWarning.setTitle(errorMessage);
 		}
 	}
 }

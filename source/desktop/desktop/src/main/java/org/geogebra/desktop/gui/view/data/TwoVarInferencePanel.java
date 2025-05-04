@@ -399,11 +399,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public double[] getValueArray(GeoList list) {
-		return daView.getController().getValueArray(list);
-	}
-
-	@Override
 	public void addAltHypItem(String name, String tail, double value) {
 		cbAltHyp.addItem(name + " " + tail + " " + daView.format(value));
 	}

@@ -13,7 +13,7 @@ public class ShowSearchView extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {
-		showBrowser(app, (HeaderFileView) app.getGuiManager().getBrowseView(null));
+		showBrowser(app, (HeaderFileView) app.getGuiManager().getBrowseView());
 		AppletParameters articleElement = app.getAppletParameters();
 		if (articleElement.getDataParamPerspective().startsWith("search:")) {
 			articleElement.setAttribute("perspective", "");

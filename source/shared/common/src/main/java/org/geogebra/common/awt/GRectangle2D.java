@@ -36,6 +36,16 @@ public interface GRectangle2D extends GRectangularShape {
 	@Override
 	boolean intersects(GRectangle2D viewRect);
 
+	/**
+	 * Returns a new <code>Rectangle2D</code> object representing the
+	 * intersection of this <code>Rectangle2D</code> with the specified
+	 * <code>Rectangle2D</code>.
+	 * @param r the <code>Rectangle2D</code> to be intersected with
+	 * this <code>Rectangle2D</code>
+	 * @return the largest <code>Rectangle2D</code> contained in both
+	 *          the specified <code>Rectangle2D</code> and in this
+	 *          <code>Rectangle2D</code>.
+	 */
 	GRectangle2D createIntersection(GRectangle2D r);
 
 	double getMinX();

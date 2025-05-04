@@ -28,14 +28,13 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  *
  * @author Markus
  */
 public class AlgoDependentConic extends AlgoElement
-		implements EvaluateAtPoint, DependentAlgo {
+		implements DependentAlgo {
 
 	private Equation equation;
 	private ExpressionValue[] ev = new ExpressionValue[6]; // input
@@ -118,19 +117,6 @@ public class AlgoDependentConic extends AlgoElement
 		} catch (Throwable e) {
 			conic.setUndefined();
 		}
-	}
-
-	@Override
-	final public double evaluate(GeoPoint P) {
-		double mat0 = ev[0].evaluateDouble(); // x\u00b2
-		double mat1 = ev[2].evaluateDouble(); // y\u00b2
-		double mat2 = ev[5].evaluateDouble(); // constant
-		double mat3 = ev[1].evaluateDouble() / 2.0; // xy
-		double mat4 = ev[3].evaluateDouble() / 2.0; // x
-		double mat5 = ev[4].evaluateDouble() / 2.0;
-		return P.x * (mat0 * P.x + mat3 * P.y + mat4 * P.z)
-				+ P.y * (mat3 * P.x + mat1 * P.y + mat5 * P.z)
-				+ P.z * (mat4 * P.x + mat5 * P.y + mat2 * P.z);
 	}
 
 	@Override

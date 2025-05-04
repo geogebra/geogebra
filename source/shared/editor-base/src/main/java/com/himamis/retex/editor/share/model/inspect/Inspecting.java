@@ -7,6 +7,10 @@ import com.himamis.retex.editor.share.model.MathComponent;
  */
 public interface Inspecting {
 
+    /**
+     * @param mathComponent formula component
+     * @return whether the component has this property
+     */
     boolean check(MathComponent mathComponent);
 
 }

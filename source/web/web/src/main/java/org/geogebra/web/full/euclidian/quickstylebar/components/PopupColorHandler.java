@@ -8,6 +8,10 @@ import org.geogebra.common.properties.ValuedProperty;
  */
 public interface PopupColorHandler {
 
+	/**
+	 * @param prop color property
+	 * @param value new value
+	 */
 	void fireActionPerformed(ValuedProperty<GColor> prop, GColor value);
 
 }

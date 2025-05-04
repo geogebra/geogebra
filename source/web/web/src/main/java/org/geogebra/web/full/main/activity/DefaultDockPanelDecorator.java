@@ -11,12 +11,12 @@ import org.gwtproject.user.client.ui.Widget;
 public class DefaultDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
-	public Panel decorate(Widget algebraTab, Panel panel, AppW app) {
-		return panel;
+	public Panel decorate(Widget algebraTab, Panel algebraPanel, AppW app) {
+		return algebraPanel;
 	}
 
 	@Override
-	public void onResize(AlgebraViewW aview, int offsetHeight) {
+	public void onResize(AlgebraViewW algebraView, int offsetHeight) {
 		// nothing to do.
 	}
 

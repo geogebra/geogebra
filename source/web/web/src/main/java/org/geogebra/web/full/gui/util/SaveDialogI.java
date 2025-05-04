@@ -11,6 +11,10 @@ public interface SaveDialogI {
 
 	void setTitle();
 
+	/**
+	 * Set material type for saving.
+	 * @param type material type (ggb, ggs, ggsTemplate)
+	 */
 	void setSaveType(MaterialType type);
 
 	void hide();

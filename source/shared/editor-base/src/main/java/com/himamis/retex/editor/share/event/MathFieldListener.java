@@ -8,10 +8,22 @@ package com.himamis.retex.editor.share.event;
  */
 public interface MathFieldListener {
 
+	/**
+	 * Called when Enter is pressed.
+	 */
 	void onEnter();
 
+	/**
+	 * Called when a key is typed
+	 * @param key key name (may be null)
+	 */
 	void onKeyTyped(String key);
 
+	/**
+	 * Called when arrow key is pressed
+	 * @param keyCode key code
+	 * @return whether key was handled
+	 */
 	boolean onArrowKeyPressed(int keyCode);
 
 	/**
@@ -23,5 +35,10 @@ public interface MathFieldListener {
 
 	boolean onEscape();
 
+	/**
+	 * Called when tab pressed
+	 * @param shiftDown whether Shift key is pressed
+	 * @return whether the key was handled
+	 */
 	boolean onTab(boolean shiftDown);
 }

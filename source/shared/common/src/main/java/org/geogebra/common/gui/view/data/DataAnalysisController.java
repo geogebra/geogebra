@@ -370,7 +370,7 @@ public abstract class DataAnalysisController {
 	 *            list of geos
 	 * @return array of values
 	 */
-	public double[] getValueArray(GeoList dataList) {
+	public static double[] getValueArray(GeoList dataList) {
 		ArrayList<Double> list = new ArrayList<>();
 		for (int i = 0; i < dataList.size(); i++) {
 			GeoElement geo = dataList.get(i);

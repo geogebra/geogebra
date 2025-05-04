@@ -5,23 +5,36 @@ package org.geogebra.common.awt;
  */
 public interface GPathIterator {
 
-	public static final int WIND_EVEN_ODD = 0;
-	public static final int WIND_NON_ZERO = 1;
+	int WIND_EVEN_ODD = 0;
+	int WIND_NON_ZERO = 1;
 
-	public static final int SEG_MOVETO = 0;
-	public static final int SEG_LINETO = 1;
-	public static final int SEG_QUADTO = 2;
-	public static final int SEG_CUBICTO = 3;
-	public static final int SEG_CLOSE = 4;
+	int SEG_MOVETO = 0;
+	int SEG_LINETO = 1;
+	int SEG_QUADTO = 2;
+	int SEG_CUBICTO = 3;
+	int SEG_CLOSE = 4;
 
-	public int getWindingRule();
+	/**
+	 * @return the winding rule
+	 */
+	int getWindingRule();
 
-	public boolean isDone();
+	/**
+	 * @return true iff there are no segments left
+	 */
+	boolean isDone();
 
-	public void next();
+	/**
+	 * Go to next segment.
+	 */
+	void next();
 
 	// public int currentSegment(float[] coords);
 
-	public int currentSegment(double[] coords);
+	/**
+	 * @param coords output array for coordinates
+	 * @return segment type
+	 */
+	int currentSegment(double[] coords);
 
 }

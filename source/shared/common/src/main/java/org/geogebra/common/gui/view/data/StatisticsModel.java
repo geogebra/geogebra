@@ -44,14 +44,30 @@ public class StatisticsModel {
 	 * UI delegate for this model.
 	 */
 	public interface IStatisticsModelListener {
+		/**
+		 * Ad an inference mode.
+		 * @param item localized inference mode
+		 */
 		void addInferenceMode(String item);
 
+		/**
+		 * Select an inference mode.
+		 * @param string localized inference mode
+		 */
 		void selectInferenceMode(String string);
 
 		String getSeparator();
 
+		/**
+		 * Update one variable inference.
+		 * @param mode inference mode
+		 */
 		void updateOneVarInference(int mode);
 
+		/**
+		 * Update two variable inference.
+		 * @param mode inference mode
+		 */
 		void updateTwoVarInference(int mode);
 
 		void updateAnovaTable();

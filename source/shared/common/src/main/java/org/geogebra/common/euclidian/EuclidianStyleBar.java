@@ -63,9 +63,19 @@ public interface EuclidianStyleBar {
 	 */
 	void resetFirstPaint();
 
+	/**
+	 * Re-initialize.
+	 */
 	void reinit();
 
+	/**
+	 * Show or hide the style bar.
+	 * @param visible whether it should be visible
+	 */
 	void setVisible(boolean visible);
-	
+
+	/**
+	 * @return whether the style bar is visible.
+	 */
 	boolean isVisible();
 }

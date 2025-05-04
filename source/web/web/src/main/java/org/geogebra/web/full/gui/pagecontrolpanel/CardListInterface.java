@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import org.gwtproject.user.client.ui.ScrollPanel;
-
 /**
  * Interface for updating card container visuals.
  * 
@@ -9,7 +7,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  *
  */
 public interface CardListInterface {
-	/** rebuilds container */
+	/** rebuilds the container */
 	void update();
 
 	/**
@@ -21,23 +19,6 @@ public interface CardListInterface {
 	void scrollBy(int diff);
 
 	/**
-	 * 
-	 * @return the vertical scroll position of the cards.
-	 */
-	int getVerticalScrollPosition();
-
-	/**
-	 * 
-	 * @return the height of the visible area of the scroll panel.
-	 */
-	int getScrollParentHeight();
-
-	/**
-	 * @return the scrollPanel
-	 */
-	ScrollPanel getScrollPanel();
-
-	/**
 	 * resets the page control panel
 	 */
 	void reset();
@@ -47,8 +28,15 @@ public interface CardListInterface {
 	 */
 	void open();
 
+	/**
+	 * Update content height.
+	 */
 	void updateContentPanelHeight();
 
+	/**
+	 * Update card indices.
+	 * @param index first index to update
+	 */
 	void updateIndexes(int index);
 }
 

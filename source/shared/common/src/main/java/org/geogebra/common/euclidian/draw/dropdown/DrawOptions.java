@@ -315,7 +315,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 	}
 
 	@Override
-	public Object indexOf(OptionItem item) {
+	public int indexOf(OptionItem item) {
 		return items.indexOf(item);
 	}
 

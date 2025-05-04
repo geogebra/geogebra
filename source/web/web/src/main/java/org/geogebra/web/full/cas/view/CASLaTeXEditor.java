@@ -13,7 +13,6 @@ import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -272,11 +271,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	@Override
 	public void autocomplete(String text) {
 		KeyboardInputAdapter.onKeyboardInput(mf.getInternal(), text);
-	}
-
-	@Override
-	public void updatePosition(AbstractSuggestionDisplay sugPanel) {
-		sugPanel.setPositionRelativeTo(this);
 	}
 
 	@Override

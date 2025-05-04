@@ -84,8 +84,16 @@ public interface ClientView extends View {
 	 */
 	void stopAnimation();
 
+	/**
+	 * Notify client that objects were grouped.
+	 * @param geos construction elements
+	 */
 	void groupObjects(ArrayList<GeoElement> geos);
 
+	/**
+	 * Notify client that objects were ungrouped.
+	 * @param geos construction elements
+	 */
 	void ungroupObjects(ArrayList<GeoElement> geos);
 
 	/**

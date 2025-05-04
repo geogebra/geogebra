@@ -185,10 +185,6 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	public void resolveVariables(EvalInfo info);
 
 	/**
-	 * @return kernel
-	 */
-	// public Kernel getKernel();
-	/**
 	 * @param tpl
 	 *            string template
 	 * @return string representation of this object
@@ -333,8 +329,13 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	/**
 	 * @return whether this evaluates to 3D vector on non-complex 2D
 	 */
-	public boolean evaluatesToNDVector();
+	boolean evaluatesToNDVector();
 
+	/**
+	 *
+	 * @param operation operation
+	 * @return whether this is an expression node with given operation on top level
+	 */
 	boolean isOperation(Operation operation);
 
 	/**

@@ -60,7 +60,10 @@ public interface SpreadsheetViewInterface extends View {
 	 */
 	public void showTraceDialog(GeoElement geo, TabularRange traceCell);
 
-	public void setKeyboardEnabled(boolean enable);
+	/**
+	 * @param enable whether to enable keyboard
+	 */
+	void setKeyboardEnabled(boolean enable);
 
 	/**
 	 * @return whether this view is visible

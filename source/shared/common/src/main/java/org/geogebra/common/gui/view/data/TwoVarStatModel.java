@@ -37,14 +37,28 @@ public class TwoVarStatModel {
 	 */
 	public interface TwoVarStatListener {
 
+		/**
+		 * @param value value
+		 * @param row row
+		 * @param col column
+		 */
 		void setValueAt(String value, int row, int col);
 
+		/**
+		 * @param value value
+		 * @param row row
+		 * @param col column
+		 */
 		void setValueAt(double value, int row, int col);
 
+		/**
+		 * @return selected data
+		 */
 		GeoList getDataSelected();
 
-		double[] getValueArray(GeoList dataList1);
-
+		/**
+		 * Clear the table.
+		 */
 		void clear();
 
 	}
@@ -176,7 +190,7 @@ public class TwoVarStatModel {
 
 			GeoList dataList1 = (GeoList) dataCollection
 					.get(selectedDataIndex[0]);
-			double[] sample1 = listener.getValueArray(dataList1);
+			double[] sample1 = DataAnalysisController.getValueArray(dataList1);
 			SummaryStatistics stats1 = new SummaryStatistics();
 			for (int i = 0; i < sample1.length; i++) {
 				stats1.addValue(sample1[i]);
@@ -184,7 +198,7 @@ public class TwoVarStatModel {
 
 			GeoList dataList2 = (GeoList) dataCollection
 					.get(selectedDataIndex[1]);
-			double[] sample2 = listener.getValueArray(dataList2);
+			double[] sample2 = DataAnalysisController.getValueArray(dataList2);
 			SummaryStatistics stats2 = new SummaryStatistics();
 			for (int i = 0; i < sample2.length; i++) {
 				stats2.addValue(sample2[i]);
@@ -217,7 +231,7 @@ public class TwoVarStatModel {
 
 			GeoList dataList1 = (GeoList) dataCollection
 					.get(selectedDataIndex[0]);
-			double[] sample1 = listener.getValueArray(dataList1);
+			double[] sample1 = DataAnalysisController.getValueArray(dataList1);
 			SummaryStatistics stats1 = new SummaryStatistics();
 			for (int i = 0; i < sample1.length; i++) {
 				stats1.addValue(sample1[i]);
@@ -225,7 +239,7 @@ public class TwoVarStatModel {
 
 			GeoList dataList2 = (GeoList) dataCollection
 					.get(selectedDataIndex[1]);
-			double[] sample2 = listener.getValueArray(dataList2);
+			double[] sample2 = DataAnalysisController.getValueArray(dataList2);
 			SummaryStatistics stats2 = new SummaryStatistics();
 			for (int i = 0; i < sample2.length; i++) {
 				stats2.addValue(sample2[i]);

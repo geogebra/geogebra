@@ -13,5 +13,9 @@ public interface SyntaxAdapter {
 	 */
 	String convert(String exp);
 
+	/**
+	 * @param casName function name
+	 * @return whether a function with this name is supported
+	 */
 	boolean isFunction(String casName);
 }

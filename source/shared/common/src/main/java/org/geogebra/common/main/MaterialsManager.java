@@ -1,11 +1,6 @@
 package org.geogebra.common.main;
 
-import java.util.List;
-
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Pagination;
-import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.util.debug.Log;
 
 public abstract class MaterialsManager implements MaterialsManagerI {
 
@@ -15,9 +10,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	public static final String FILE_PREFIX = "file_";
 	/** characters not allowed in filename */
 	public static final String reservedCharacters = "*/:<>?\\|+,.;=[]";
-
-	/** files waiting for download */
-	int notDownloadedFileCount;
 
 	/**
 	 * @param matID
@@ -87,35 +79,6 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 	 */
 	public static String getTitleFromKey(String key) {
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
-	}
-
-	@Override
-	public void getFromTube(final int id, final boolean fromAnotherDevice) {
-		getApp().getLoginOperation().getResourcesAPI().getItem(id + "",
-				new MaterialCallbackI() {
-
-					@Override
-					public void onLoaded(final List<Material> parseResponse,
-							Pagination meta) {
-						MaterialsManager.this.notDownloadedFileCount--;
-						// edited on Tube, not edited locally
-						if (parseResponse.size() == 1) {
-							Log.debug("SYNC downloading file:" + id);
-							Material tubeMat = parseResponse.get(0);
-							tubeMat.setSyncStamp(tubeMat.getModified());
-							tubeMat.setFromAnotherDevice(fromAnotherDevice);
-							MaterialsManager.this.updateFile(null,
-									tubeMat.getModified(), tubeMat);
-						}
-					}
-
-					@Override
-					public void onError(final Throwable exception) {
-						MaterialsManager.this.notDownloadedFileCount--;
-						Log.debug("SYNC error loading from tube" + id);
-					}
-				});
-
 	}
 
 	/**

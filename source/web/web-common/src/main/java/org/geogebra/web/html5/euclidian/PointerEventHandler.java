@@ -63,7 +63,6 @@ public class PointerEventHandler {
 
 	private void twoPointersDown(PointerState pointer1, PointerState pointer2) {
 		tc.getLongTouchManager().cancelTimer();
-		tc.setExternalHandling(true);
 		tc.twoTouchStart(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
 	}
 

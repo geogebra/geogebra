@@ -11,7 +11,7 @@ public interface FrameCollectorW {
 	/**
 	 * @param width pixel width
 	 * @param height pixel height
-	 * @return encoded animted image
+	 * @return encoded animated image
 	 */
 	String finish(int width, int height);
 

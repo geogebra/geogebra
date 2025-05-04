@@ -29,8 +29,15 @@ public interface Property extends PropertySupplier {
      */
     boolean isEnabled();
 
+    /**
+     * @return whether the property is read-only
+     */
     boolean isFrozen();
 
+    /**
+     * Mark as read-only.
+     * @param frozen whether it's read-only
+     */
     void setFrozen(boolean frozen);
 
     @Override

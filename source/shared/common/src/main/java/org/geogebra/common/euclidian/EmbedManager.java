@@ -151,10 +151,26 @@ public interface EmbedManager {
 	 */
 	void setContent(int embedID, String content);
 
-	void setContentSync(String label, String base64);
+	/**
+	 * TODO unused -- check multiuser
+	 * @param label embed label
+	 * @param url file URL
+	 */
+	void setContentSync(String label, String url);
 
+	/**
+	 * Execute command in an embedded app.
+	 * @param chart chart
+	 * @param cmd command
+	 */
 	void sendCommand(GeoEmbed chart, String cmd);
 
+	/**
+	 * Set graph axis in a chart
+	 * @param chart chart
+	 * @param axis axis index
+	 * @param crossing cross coordinate
+	 */
 	void setGraphAxis(GeoEmbed chart, int axis, double crossing);
 
 	/**
@@ -172,7 +188,7 @@ public interface EmbedManager {
 
 	/**
 	 * Adds a resolving function for specific embedded element type. The function gets an ID of the
-	 * embed and returns a promise that resolves to a HTML string.
+	 * embed and returns a promise that resolves to an2 HTML string.
 	 *
 	 * @param type the embed type
 	 * @param callback the resolving callback

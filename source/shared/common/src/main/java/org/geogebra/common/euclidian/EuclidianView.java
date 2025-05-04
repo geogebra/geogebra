@@ -5220,9 +5220,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
-	/**
-	 * @return export width in pixels
-	 */
+	@Override
 	public int getExportWidth() {
 		if (selectionRectangle != null) {
 			return (int) selectionRectangle.getWidth();
@@ -5238,9 +5236,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return getWidth();
 	}
 
-	/**
-	 * @return export height in pixels
-	 */
+	@Override
 	public int getExportHeight() {
 		if (selectionRectangle != null) {
 			return (int) selectionRectangle.getHeight();

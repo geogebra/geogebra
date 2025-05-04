@@ -125,11 +125,6 @@ public class TwoVarStatPanelD extends StatTable
 		return statDialog.getController().getDataSelected();
 	}
 
-	@Override
-	public double[] getValueArray(GeoList list) {
-		return statDialog.getController().getValueArray(list);
-	}
-
 	public Integer[] getSelectedDataIndex() {
 		return model.getSelectedDataIndex();
 	}

@@ -37,8 +37,8 @@ public class NumberFormatW implements NumberFormatAdapter {
 	}
 
 	@Override
-	public String format(double x) {
-		return nf.format(x);
+	public String format(double value) {
+		return nf.format(value);
 
 	}
 

@@ -163,10 +163,25 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void attachSpreadsheetView();
 
+	/**
+	 * Show or hide a view.
+	 * @param visible whether to show
+	 * @param viewID view ID
+	 */
 	void setShowView(boolean visible, int viewID);
 
+	/**
+	 * Show or hide a view.
+	 * @param visible whether to show
+	 * @param viewID view ID
+	 * @param isPermanent whether the change is permanent (view can be detached on hide)
+	 */
 	void setShowView(boolean visible, int viewID, boolean isPermanent);
 
+	/**
+	 * @param viewID view ID
+	 * @return whether view is showing
+	 */
 	boolean showView(int viewID);
 
 	View getConstructionProtocolData();
@@ -181,6 +196,11 @@ public interface GuiManagerInterface extends SettingListener {
 
 	View getDataAnalysisView();
 
+	/**
+	 * Get plot panel view
+	 * @param id view ID
+	 * @return plot panel view
+	 */
 	View getPlotPanelView(int id);
 
 	View getPropertiesView();
@@ -191,6 +211,11 @@ public interface GuiManagerInterface extends SettingListener {
 
 	boolean hasProbabilityCalculator();
 
+	/**
+	 * Add algebra view's settings to XML builder.
+	 * @param sb XML builder
+	 * @param asPreference if it's for the preference
+	 */
 	void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
 
 	/**
@@ -204,6 +229,10 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void updateAlgebraInput();
 
+	/**
+	 * Show or hide auxiliary objects.
+	 * @param flag whether to show the auxiliary objects
+	 */
 	void setShowAuxiliaryObjects(boolean flag);
 
 	void updatePropertiesView();
@@ -221,8 +250,17 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void mouseReleasedForPropertiesView(boolean creatorMode);
 
+	/**
+	 * Update the UI after file was loaded.
+	 * @param success whether loading was successful
+	 * @param isMacroFile whether the loaded file is a .ggt
+	 */
 	void updateGUIafterLoadFile(boolean success, boolean isMacroFile);
 
+	/**
+	 * Start editing definition of an element (in AV or text tool dialog)
+	 * @param geoElement element to edit
+	 */
 	void startEditing(GeoElement geoElement);
 
 	boolean noMenusOpen();
@@ -273,6 +311,10 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void showGridCmd();
 
+	/**
+	 * Update UI after redefinition.
+	 * @param geo redefined element
+	 */
 	void doAfterRedefine(GeoElementND geo);
 
 	/**
@@ -295,6 +337,10 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void detachAlgebraView();
 
+	/**
+	 * Set the dock panel layout.
+	 * @param layout layout
+	 */
 	void setLayout(Layout layout);
 
 	void initialize();
@@ -318,14 +364,31 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	boolean hasEuclidianView2(int idx);
 
+	/**
+	 * @param idx index
+	 * @return secondary euclidian view
+	 */
 	EuclidianViewInterfaceCommon getEuclidianView2(int idx);
 
+	/**
+	 * @param idx index
+	 * @return whether secondary euclidian view was initialized
+	 */
 	boolean hasEuclidianView2EitherShowingOrNot(int idx);
 
+	/**
+	 * @return algebra view
+	 */
 	Editing getAlgebraView();
 
+	/**
+	 * Apply algebra view settings.
+	 */
 	void applyAlgebraViewSettings();
 
+	/**
+	 * Update frame size.
+	 */
 	void updateFrameSize();
 
 	/**
@@ -334,8 +397,16 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	int getActiveToolbarId();
 
+	/**
+	 * @return construction protocol view
+	 */
 	ConstructionProtocolView getConstructionProtocolView();
 
+	/**
+	 * Show or hide navigation bar for construction protocol in given view.
+	 * @param show whether to show
+	 * @param id view ID
+	 */
 	void setShowConstructionProtocolNavigation(boolean show, int id);
 
 	/**
@@ -348,6 +419,10 @@ public interface GuiManagerInterface extends SettingListener {
 	void setShowConstructionProtocolNavigation(boolean show, int id,
 			boolean playButton, double playDelay, boolean showProtButton);
 
+	/**
+	 * Update checkboxes for construction protocol navigation setting.
+	 * @param id view ID
+	 */
 	void updateCheckBoxesForShowConstructionProtocolNavigation(int id);
 
 	/**
@@ -372,34 +447,74 @@ public interface GuiManagerInterface extends SettingListener {
 	boolean checkAutoCreateSliders(String string,
 								   AsyncOperation<String[]> callback);
 
+	/**
+	 * Apply construction protocol settings.
+	 * @param cpSettings settings
+	 */
 	void applyCPsettings(ConstructionProtocolSettings cpSettings);
 
 	ConstructionProtocolNavigation getCPNavigationIfExists();
 
+	/**
+	 * Returns the construction protocol navigation bar instance.
+	 *
+	 * @param id
+	 *            view id
+	 * @return construction protocol for the view id
+	 */
 	ConstructionProtocolNavigation getConstructionProtocolNavigation(int id);
 
+	/**
+	 * Returns the default construction protocol navigation bar instance.
+	 *
+	 * @return construction protocol for the view id
+	 */
 	ConstructionProtocolNavigation getConstructionProtocolNavigation();
 
+	/**
+	 * @return navigation bars for all the views
+	 */
 	Collection<ConstructionProtocolNavigation> getAllCPNavigations();
 
 	void logout();
 
 	int getEuclidianViewCount();
 
+	/**
+	 * Add single tool to main toolbar.
+	 * @param mode tool's mode number
+	 */
 	void addToToolbarDefinition(int mode);
 
+	/**
+	 * @return main toolbar definition string
+	 * (see {@link org.geogebra.common.gui.toolbar.ToolBar} for syntax)
+	 */
 	String getToolbarDefinition();
 
+	/**
+	 * Register construction protocol view
+	 * @param view construction protocol view
+	 */
 	void registerConstructionProtocolView(ConstructionProtocolView view);
 
+	/**
+	 * Update the style bar in properties view.
+	 */
 	void updatePropertiesViewStylebar();
 
+	/**
+	 * Set URL for given image to the URL of a tool icon and start loading it.
+	 * @param mode mode/tool ID
+	 * @param geoImage image
+	 * @param onload callback after loading
+	 */
 	void getToolImageURL(int mode, GeoImage geoImage, AsyncOperation<String> onload);
 
 	EuclidianViewInterfaceCommon getPlotPanelEuclidianView();
 
 	/**
-	 * redraw Navigation Bars if necessary (eg step changed)
+	 * Redraw Navigation Bars if necessary (e.g. step changed)
 	 */
 	void updateNavBars();
 

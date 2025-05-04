@@ -23,8 +23,14 @@ public interface GShape {
 	 */
 	boolean contains(int x, int y);
 
+	/**
+	 * @return shape bounds
+	 */
 	GRectangle getBounds();
 
+	/**
+	 * @return shape bounds
+	 */
 	GRectangle2D getBounds2D();
 
 	/**
@@ -42,6 +48,11 @@ public interface GShape {
 	 */
 	boolean contains(double x, double y);
 
+	/**
+	 * Path iterator for the outline of this shape.
+	 * @param affineTransform transformation
+	 * @return the iterator
+	 */
 	GPathIterator getPathIterator(GAffineTransform affineTransform);
 
 	/**
@@ -50,15 +61,15 @@ public interface GShape {
 	 * @param y rectangle's top
 	 * @param w rectangle's width
 	 * @param h rectangle's height
-	 * @return whether this shape instersects the rectangle.
+	 * @return whether this shape intersects the rectangle.
 	 */
-	public boolean intersects(double x, double y, double w, double h);
+	boolean intersects(double x, double y, double w, double h);
 
 	/**
 	 * Checks if this shape intersects given rectangle.
 	 * @param r the rectangle
-	 * @return whether this shape instersects the rectangle.
+	 * @return whether this shape intersects the rectangle.
 	 */
-	public boolean intersects(GRectangle2D r);
+	boolean intersects(GRectangle2D r);
 
 }

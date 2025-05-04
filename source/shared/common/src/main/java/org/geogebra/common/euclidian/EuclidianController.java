@@ -369,7 +369,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private ModeDeleteLocus deleteMode;
 	private ModeShape shapeMode;
 	private final GPoint2D startPoint = new GPoint2D();
-	private boolean externalHandling;
 	private long lastPointerRelease;
 	private boolean animationButtonPressed = false;
 	private boolean textfieldHasFocus = false;
@@ -11630,14 +11629,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				this.setOldDistance(newDistance);
 			}
 		}
-	}
-
-	public boolean isExternalHandling() {
-		return externalHandling;
-	}
-
-	public void setExternalHandling(boolean b) {
-		this.externalHandling = b;
 	}
 
 	/**

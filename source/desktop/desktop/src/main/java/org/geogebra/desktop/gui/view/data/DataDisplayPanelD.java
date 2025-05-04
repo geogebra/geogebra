@@ -683,8 +683,8 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	};
 
 	@Override
-	public void addDisplayTypeItem(PlotType type) {
-		cbDisplayType.addItem(type);
+	public void addDisplayTypeItem(PlotType plotType) {
+		cbDisplayType.addItem(plotType);
 	}
 
 	protected void updateOtherDataDisplay() {
@@ -723,8 +723,8 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	@Override
 	public void setTableFromGeoFrequencyTable(
-			AlgoFrequencyTable parentAlgorithm, boolean b) {
-		frequencyTable.setTableFromGeoFrequencyTable(parentAlgorithm, b);
+			AlgoFrequencyTable frequencyTable, boolean useClasses) {
+		this.frequencyTable.setTableFromGeoFrequencyTable(frequencyTable, useClasses);
 
 	}
 

@@ -278,11 +278,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	}
 
 	@Override
-	public double[] getValueArray(GeoList list) {
-		return daView.getController().getValueArray(list);
-	}
-
-	@Override
 	public void addAltHypItem(String name, String tail, double value) {
 		lbAltHyp.addItem(name + " " + tail + " " + daView.format(value));
 	}

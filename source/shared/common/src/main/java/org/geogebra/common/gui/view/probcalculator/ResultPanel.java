@@ -14,8 +14,14 @@ public interface ResultPanel {
 
 	void showRight();
 
+	/**
+	 * @param value whether result field is editable
+	 */
 	void setResultEditable(boolean value);
 
+	/**
+	 * @param text result value
+	 */
 	void updateResult(String text);
 
 	/**

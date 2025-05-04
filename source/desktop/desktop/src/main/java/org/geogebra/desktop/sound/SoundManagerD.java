@@ -237,21 +237,21 @@ public class SoundManagerD implements SoundManager {
 	/**
 	 * Pauses/resumes current sound.
 	 * 
-	 * @param doResume
+	 * @param resume
 	 *            : true = resume play, false = pause
 	 */
 	@Override
-	public void pauseResumeSound(boolean doResume) {
+	public void pauseResumeSound(boolean resume) {
 
 		if (currentSoundType == SOUNDTYPE_MIDI && midiSound != null) {
-			midiSound.pause(!doResume);
+			midiSound.pause(!resume);
 		}
 
 		if (currentSoundType == SOUNDTYPE_FUNCTION && functionSound != null) {
-			functionSound.pause(!doResume);
+			functionSound.pause(!resume);
 		}
 
-		isPaused = !doResume;
+		isPaused = !resume;
 	}
 
 	@Override

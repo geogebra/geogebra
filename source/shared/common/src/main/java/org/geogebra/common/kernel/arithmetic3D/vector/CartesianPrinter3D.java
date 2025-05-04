@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic3D.vector;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
@@ -7,9 +9,9 @@ import org.geogebra.common.main.settings.GeneralSettings;
 
 class CartesianPrinter3D implements Printer {
 
-	private final GeneralSettings settings;
+	private final @CheckForNull GeneralSettings settings;
 
-	public CartesianPrinter3D(GeneralSettings settings) {
+	public CartesianPrinter3D(@CheckForNull GeneralSettings settings) {
 		this.settings = settings;
 	}
 

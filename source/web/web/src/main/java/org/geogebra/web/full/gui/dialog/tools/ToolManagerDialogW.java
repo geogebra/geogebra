@@ -333,8 +333,8 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	}
 
 	@Override
-	public void removeMacroFromToolbar(int i) {
-		appw.getGuiManager().removeFromToolbarDefinition(i);
+	public void removeMacroFromToolbar(int mode) {
+		appw.getGuiManager().removeFromToolbarDefinition(mode);
 	}
 
 	@Override

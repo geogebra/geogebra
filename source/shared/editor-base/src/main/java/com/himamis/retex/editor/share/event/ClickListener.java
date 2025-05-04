@@ -30,17 +30,37 @@ package com.himamis.retex.editor.share.event;
  * Pointer event listener.
  */
 public interface ClickListener {
-	
+
+	/**
+	 * Handle pointer down event.
+	 * @param x x-coordinate in DIP
+	 * @param y y-coordinate in DIP
+	 */
 	void onPointerDown(int x, int y);
 
+	/**
+	 * Handle pointer up event.
+	 * @param x x-coordinate in DIP
+	 * @param y y-coordinate in DIP
+	 */
 	void onPointerUp(int x, int y);
 
+	/**
+	 * Handle pointer move event.
+	 * @param x x-coordinate in DIP
+	 * @param y y-coordinate in DIP
+	 */
 	void onPointerMove(int x, int y);
 
+	/**
+	 * Handle long-press event.
+	 * @param x x-coordinate in DIP
+	 * @param y y-coordinate in DIP
+	 */
 	void onLongPress(int x, int y);
 
 	/**
-	 * handle scroll
+	 * Handle scroll.
 	 * @param dx x distance from current call to last call
 	 * @param dy y distance from current call to last call
 	 */

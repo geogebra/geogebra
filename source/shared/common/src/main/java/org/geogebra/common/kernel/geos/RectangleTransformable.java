@@ -44,6 +44,11 @@ public interface RectangleTransformable extends GeoElementND {
 	 */
 	GPoint2D getLocation();
 
+	/**
+	 * Set bounding rectangle size
+	 * @param width width in pixels
+	 * @param height height in pixels
+	 */
 	void setSize(double width, double height);
 
 	/**

@@ -290,21 +290,6 @@ public class PageListPanel
 		}
 	}
 
-	@Override
-	public int getVerticalScrollPosition() {
-		return scrollPanel.getVerticalScrollPosition();
-	}
-
-	@Override
-	public int getScrollParentHeight() {
-		return scrollPanel.getParent().getOffsetHeight();
-	}
-
-	@Override
-	public ScrollPanel getScrollPanel() {
-		return scrollPanel;
-	}
-
 	/**
 	 * set true if touch event occurred
 	 */

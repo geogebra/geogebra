@@ -29,6 +29,10 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
  */
 public interface AppConfig extends ExamRestrictable, Serializable {
 
+	/**
+	 * Adjust panel positions.
+	 * @param dp dock panel data
+	 */
 	void adjust(DockPanelData dp);
 
 	String getAVTitle();

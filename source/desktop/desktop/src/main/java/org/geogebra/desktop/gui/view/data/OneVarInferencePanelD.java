@@ -23,6 +23,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import org.geogebra.common.gui.view.data.DataAnalysisController;
 import org.geogebra.common.gui.view.data.OneVarModel;
 import org.geogebra.common.gui.view.data.StatisticsModel;
 import org.geogebra.common.kernel.Kernel;
@@ -445,10 +446,9 @@ public class OneVarInferencePanelD extends JPanel
 	private void evaluate() {
 
 		GeoList dataList = statDialog.getController().getDataSelected();
-		double[] sample = statDialog.getController().getValueArray(dataList);
+		double[] sample = DataAnalysisController.getValueArray(dataList);
 
 		model.evaluate(sample);
-
 	}
 
 	// ============================================================

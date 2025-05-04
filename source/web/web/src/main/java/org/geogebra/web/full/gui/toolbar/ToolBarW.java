@@ -442,9 +442,4 @@ public class ToolBarW extends FlowPanel
 		toolbarPosition = tb;
 	}
 
-	@Override
-	public boolean isShown() {
-		return isVisible();
-	}
-
 }

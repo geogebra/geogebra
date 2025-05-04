@@ -393,6 +393,10 @@ public class InternalClipboard {
 	 * Escape function.
 	 */
 	public interface EscapeFunction {
+		/**
+		 * @param key raw string
+		 * @return escaped string
+		 */
 		String escape(String key);
 	}
 }

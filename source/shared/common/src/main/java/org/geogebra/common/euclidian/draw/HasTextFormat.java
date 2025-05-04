@@ -54,21 +54,40 @@ public interface HasTextFormat {
 
 	/**
 	 * Switch the list type of selected text
-	 * @param listType - numbered or bullet list
+	 * @param listType - "number" for numbered, "bullet" for a bullet list
 	 */
 	void switchListTo(String listType);
 
 	boolean copySelection();
 
+	/**
+	 * Replace selection with a text.
+	 * @param text replacement text
+	 */
 	void setSelectionText(String text);
 
+	/**
+	 * @return vertical alignment
+	 */
 	VerticalAlignment getVerticalAlignment();
 
+	/**
+	 * @param alignment vertical alignment
+	 */
 	void setVerticalAlignment(VerticalAlignment alignment);
 
+	/**
+	 * @return horizontal alignment
+	 */
 	HorizontalAlignment getHorizontalAlignment();
 
+	/**
+	 * @param alignment horizontal alignment
+	 */
 	void setHorizontalAlignment(HorizontalAlignment alignment);
 
+	/**
+	 * @return editable element
+	 */
 	GeoInline getInline();
 }

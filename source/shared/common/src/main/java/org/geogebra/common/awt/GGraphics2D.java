@@ -439,9 +439,17 @@ public interface GGraphics2D {
 
 	void setTransparent();
 
+	/**
+	 * @param needsInterpolationRenderingHint whether interpolation should be enabled
+	 * @return old interpolation hint
+	 */
 	Object setInterpolationHint(
 			boolean needsInterpolationRenderingHint);
 
+	/**
+	 * Reset interpolation hint to value previously obtained from setInterpolationHint.
+	 * @param oldInterpolationHint interpolation hint.
+	 */
 	void resetInterpolationHint(Object oldInterpolationHint);
 
 	void updateCanvasColor();

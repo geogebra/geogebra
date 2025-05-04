@@ -29,12 +29,12 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	private StandardButton defFuncBtn;
 
 	@Override
-	public Panel decorate(Widget algebraTab, Panel wrapper, AppW appW) {
+	public Panel decorate(Widget algebraTab, Panel algebraPanel, AppW appW) {
 		this.algebraTab = algebraTab;
 		this.app = appW;
 		main = new FlowPanel();
 		main.setWidth("100%");
-		main.add(wrapper);
+		main.add(algebraPanel);
 		main.addStyleName("algebraPanel");
 		algebraTab.setStyleName("scientific");
 		return buildAndStylePanel();
@@ -58,7 +58,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	@Override
-	public void onResize(AlgebraViewW aView, int offsetHeight) {
+	public void onResize(AlgebraViewW algebraView, int offsetHeight) {
 		GeoGebraFrameW frame = app.getAppletFrame();
 		toggleSmallScreen(main, frame.shouldHaveSmallScreenLayout());
 	}

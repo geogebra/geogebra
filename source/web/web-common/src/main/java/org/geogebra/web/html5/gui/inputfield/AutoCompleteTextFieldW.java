@@ -170,6 +170,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * Insertion handler.
 	 */
 	public interface InsertHandler {
+		/**
+		 * @param text inserted text
+		 */
 		void onInsert(String text);
 	}
 
@@ -177,6 +180,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * Backspace handler.
 	 */
 	public interface OnBackSpaceHandler {
+		/**
+		 * Called when backspace is pressed.
+		 */
 		void onBackspace();
 	}
 
@@ -1425,12 +1431,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void autocomplete(String s) {
 		getTextField().setText(s);
 		validateAutoCompletion(s);
-	}
-
-	@Override
-	public void updatePosition(AbstractSuggestionDisplay sug) {
-		sug.setPositionRelativeTo(textField);
-
 	}
 
 	@Override

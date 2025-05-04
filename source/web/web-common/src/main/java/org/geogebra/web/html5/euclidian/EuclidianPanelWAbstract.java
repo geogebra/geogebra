@@ -19,24 +19,57 @@ public interface EuclidianPanelWAbstract {
 
 	EuclidianView getEuclidianView();
 
-	void setPixelSize(int x, int y);
+	/**
+	 * Set size in pixels
+	 * @param width width
+	 * @param height height
+	 */
+	void setPixelSize(int width, int height);
 
+	/**
+	 * @return width in pixels
+	 */
 	int getOffsetWidth();
 
+	/**
+	 * @return height in pixels
+	 */
 	int getOffsetHeight();
 
+	/**
+	 * Resize the content.
+	 */
 	void onResize();
 
+	/**
+	 * Schedule resizing the content.
+	 */
 	void deferredOnResize();
 
+	/**
+	 * Update navigation bar.
+	 */
 	void updateNavigationBar();
 
+	/**
+	 * @return the DOM element
+	 */
 	Element getElement();
 
+	/**
+	 * Reset old size.
+	 */
 	void reset();
 
+	/**
+	 * @return whether this is attached to DOM
+	 */
 	boolean isAttached();
 
+	/**
+	 * Enable or disable pointer events in zoom panel.
+	 * @param enable whether to enable
+	 */
 	void enableZoomPanelEvents(boolean enable);
 
 }

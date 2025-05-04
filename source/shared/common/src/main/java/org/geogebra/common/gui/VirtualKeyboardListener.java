@@ -5,6 +5,9 @@ package org.geogebra.common.gui;
  */
 public interface VirtualKeyboardListener {
 
-	public void insertString(String string);
+	/**
+	 * @param string string to insert
+	 */
+	void insertString(String string);
 
 }

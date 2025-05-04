@@ -362,8 +362,8 @@ public class ToolManagerDialogD extends Dialog
 	}
 
 	@Override
-	public void removeMacroFromToolbar(int i) {
-		app.getGuiManager().removeFromToolbarDefinition(i);
+	public void removeMacroFromToolbar(int mode) {
+		app.getGuiManager().removeFromToolbarDefinition(mode);
 	}
 
 	@Override

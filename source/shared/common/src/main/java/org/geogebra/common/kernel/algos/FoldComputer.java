@@ -14,14 +14,36 @@ import org.geogebra.common.plugin.Operation;
  */
 public interface FoldComputer {
 
-	public GeoElement getTemplate(Construction cons, GeoClass listElement);
+	/**
+	 * Create element of the resulting type.
+	 * @param cons construction
+	 * @param listElement element class of the folded list
+	 * @return template element
+	 */
+	GeoElement getTemplate(Construction cons, GeoClass listElement);
 
-	public void add(GeoElement geoElement, Operation op);
+	/**
+	 * Apply operation to current state and given element.
+	 * @param geoElement element
+	 * @param op operation
+	 */
+	void add(GeoElement geoElement, Operation op);
 
-	public void setFrom(GeoElement geoElement, Kernel kernel);
+	/**
+	 * @param geoElement element
+	 * @param kernel kernel
+	 */
+	void setFrom(GeoElement geoElement, Kernel kernel);
 
-	public boolean check(GeoElement geoElement);
+	/**
+	 * @param geoElement construction element
+	 * @return whether it can be used as argument
+	 */
+	boolean check(GeoElement geoElement);
 
-	public void finish();
+	/**
+	 * Update result after last computation.
+	 */
+	void finish();
 
 }

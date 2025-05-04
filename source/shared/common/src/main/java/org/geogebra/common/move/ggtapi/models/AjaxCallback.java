@@ -4,7 +4,14 @@ package org.geogebra.common.move.ggtapi.models;
  * Callback for HTTP requests.
  */
 public interface AjaxCallback {
-	public void onSuccess(String response);
+	/**
+	 * @param response response text
+	 */
+	void onSuccess(String response);
 
-	public void onError(String error);
+	/**
+	 * Called if the request status is an error.
+	 * @param error error message
+	 */
+	void onError(String error);
 }

@@ -4,7 +4,14 @@ package org.geogebra.common.awt;
  * Affine transform.
  */
 public interface GAffineTransform {
-	void setTransform(GAffineTransform a);
+
+	/**
+	 * Sets this transform to a copy of the transform in the specified
+	 * <code>AffineTransform</code> object.
+	 * @param Tx0 the <code>AffineTransform</code> object from which to
+	 * copy the transform
+	 */
+	void setTransform(GAffineTransform Tx0);
 
 	/**
 	 * Set transform from matrix entries.
@@ -12,17 +19,73 @@ public interface GAffineTransform {
 	void setTransform(double m00, double m10, double m01, double m11,
 			double m02, double m12);
 
-	void concatenate(GAffineTransform a);
+	/**
+	 * Concatenates an <code>AffineTransform</code> <code>Tx</code> to
+	 * this <code>AffineTransform</code> Cx in the most commonly useful
+	 * way to provide a new user space
+	 * that is mapped to the former user space by <code>Tx</code>.
+	 * Cx is updated to perform the combined transformation.
+	 * Transforming a point p by the updated transform Cx' is
+	 * equivalent to first transforming p by <code>Tx</code> and then
+	 * transforming the result by the original transform Cx like this:
+	 * Cx'(p) = Cx(Tx(p))
+	 * In matrix notation, if this transform Cx is
+	 * represented by the matrix [this] and <code>Tx</code> is represented
+	 * by the matrix [Tx] then this method does the following:
+	 * <pre>
+	 *          [this] = [this] x [Tx]
+	 * </pre>
+	 * @param Tx0 the <code>AffineTransform</code> object to be
+	 * concatenated with this <code>AffineTransform</code> object.
+	 */
+	void concatenate(GAffineTransform Tx0);
 
+	/**
+	 * Returns the X coordinate scaling element (m00) of the 3x3
+	 * affine transformation matrix.
+	 * @return a double value that is the X coordinate of the scaling
+	 *  element of the affine transformation matrix.
+	 * @see #getMatrix
+	 */
 	double getScaleX();
 
+	/**
+	 * Returns the Y coordinate scaling element (m11) of the 3x3
+	 * affine transformation matrix.
+	 * @return a double value that is the Y coordinate of the scaling
+	 *  element of the affine transformation matrix.
+	 * @see #getMatrix
+	 */
 	double getScaleY();
 
+	/**
+	 * Returns the X coordinate shearing element (m01) of the 3x3
+	 * affine transformation matrix.
+	 * @return a double value that is the X coordinate of the shearing
+	 *  element of the affine transformation matrix.
+	 * @see #getMatrix
+	 */
 	double getShearX();
 
+	/**
+	 * Returns the Y coordinate shearing element (m10) of the 3x3
+	 * affine transformation matrix.
+	 * @return a double value that is the Y coordinate of the shearing
+	 *  element of the affine transformation matrix.
+	 * @see #getMatrix
+	 */
 	double getShearY();
 
-	GShape createTransformedShape(GShape shape);
+	/**
+	 * Returns a new {@link GShape} object defined by the geometry of the
+	 * specified <code>Shape</code> after it has been transformed by
+	 * this transform.
+	 * @param pSrc the specified <code>Shape</code> object to be
+	 * transformed by this transform.
+	 * @return a new <code>Shape</code> object that defines the geometry
+	 * of the transformed <code>Shape</code>, or null if {@code pSrc} is null.
+	 */
+	GShape createTransformedShape(GShape pSrc);
 
 	/**
 	 * Transforms the specified <code>ptSrc</code> and stores the result
@@ -55,26 +118,111 @@ public interface GAffineTransform {
 
 	GAffineTransform createInverse() throws Exception;
 
-	void scale(double xscale, double yscale);
+	/**
+	 * Concatenates this transform with a scaling transformation.
+	 * This is equivalent to calling concatenate(S), where S is an
+	 * <code>AffineTransform</code> represented by the following matrix:
+	 * <pre>
+	 *          [   sx   0    0   ]
+	 *          [   0    sy   0   ]
+	 *          [   0    0    1   ]
+	 * </pre>
+	 * @param sx the factor by which coordinates are scaled along the
+	 * X axis direction
+	 * @param sy the factor by which coordinates are scaled along the
+	 * Y axis direction
+	 */
+	void scale(double sx, double sy);
 
-	void translate(double ax, double ay);
+	/**
+	 * Concatenates this transform with a translation transformation.
+	 * This is equivalent to calling concatenate(T), where T is an
+	 * <code>AffineTransform</code> represented by the following matrix:
+	 * <pre>
+	 *          [   1    0    tx  ]
+	 *          [   0    1    ty  ]
+	 *          [   0    0    1   ]
+	 * </pre>
+	 * @param tx the distance by which coordinates are translated in the
+	 * X axis direction
+	 * @param ty the distance by which coordinates are translated in the
+	 * Y axis direction
+	 */
+	void translate(double tx, double ty);
 
 	double getTranslateX();
 
 	double getTranslateY();
 
-	// void transform(float[] pointCoords, int pointIdx, double[] coords,
-	// int j, int k);
-
+	/**
+	 * Concatenates this transform with a rotation transformation.
+	 * This is equivalent to calling concatenate(R), where R is an
+	 * <code>AffineTransform</code> represented by the following matrix:
+	 * <pre>
+	 *          [   cos(theta)    -sin(theta)    0   ]
+	 *          [   sin(theta)     cos(theta)    0   ]
+	 *          [       0              0         1   ]
+	 * </pre>
+	 * Rotating by a positive angle theta rotates points on the positive
+	 * X axis toward the positive Y axis.
+	 * Note also the discussion of
+	 * <a href="#quadrantapproximation">Handling 90-Degree Rotations</a>
+	 * above.
+	 * @param theta the angle of rotation measured in radians
+	 */
 	void rotate(double theta);
 
 	boolean isIdentity();
 
+	/**
+	 * Sets this transform to a translation transformation.
+	 * The matrix representing this transform becomes:
+	 * <pre>
+	 *          [   1    0    tx  ]
+	 *          [   0    1    ty  ]
+	 *          [   0    0    1   ]
+	 * </pre>
+	 * @param tx the distance by which coordinates are translated in the
+	 * X axis direction
+	 * @param ty the distance by which coordinates are translated in the
+	 * Y axis direction
+	 */
 	void setToTranslation(double tx, double ty);
 
+	/**
+	 * Sets this transform to a scaling transformation.
+	 * The matrix representing this transform becomes:
+	 * <pre>
+	 *          [   sx   0    0   ]
+	 *          [   0    sy   0   ]
+	 *          [   0    0    1   ]
+	 * </pre>
+	 * @param sx the factor by which coordinates are scaled along the
+	 * X axis direction
+	 * @param sy the factor by which coordinates are scaled along the
+	 * Y axis direction
+	 */
 	void setToScale(double sx, double sy);
 
-	void getMatrix(double[] m);
+	/**
+	 * Retrieves the 6 specifiable values in the 3x3 affine transformation
+	 * matrix and places them into an array of double precisions values.
+	 * The values are stored in the array as
+	 * {&nbsp;m00&nbsp;m10&nbsp;m01&nbsp;m11&nbsp;m02&nbsp;m12&nbsp;}.
+	 * An array of 4 doubles can also be specified, in which case only the
+	 * first four elements representing the non-transform
+	 * parts of the array are retrieved and the values are stored into
+	 * the array as {&nbsp;m00&nbsp;m10&nbsp;m01&nbsp;m11&nbsp;}
+	 * @param flatmatrix the double array used to store the returned
+	 * values.
+	 * @see #getScaleX
+	 * @see #getScaleY
+	 * @see #getShearX
+	 * @see #getShearY
+	 * @see #getTranslateX
+	 * @see #getTranslateY
+	 */
+	void getMatrix(double[] flatmatrix);
 
 	/**
 	 * Sets this transform to a rotation transformation.

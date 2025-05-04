@@ -655,12 +655,12 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 	}
 
 	@Override
-	public void updateSelection(SpreadsheetCoords p) {
+	public void updateSelection(SpreadsheetCoords selectedCell) {
 		// switch to row selection mode and select row
 		if (table.getSelectionType() != SelectionType.ROWS) {
 			table.setSelectionType(SelectionType.ROWS);
 		}
-		table.setRowSelectionInterval(p.row, p.row);
+		table.setRowSelectionInterval(selectedCell.row, selectedCell.row);
 		renderSelection();
 	}
 }

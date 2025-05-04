@@ -328,9 +328,19 @@ public abstract class DialogManager {
 	 * Factory for rotated elements.
 	 */
 	public interface CreateGeoForRotate {
+		/**
+		 *
+		 * @param ec controller
+		 * @param geo element to be rotated
+		 * @param num angle
+		 * @return rotated element
+		 */
 		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo,
 				GeoNumberValue num);
 
+		/**
+		 * @return point or line to rotate around
+		 */
 		public GeoElementND getPivot();
 	}
 
@@ -814,6 +824,11 @@ public abstract class DialogManager {
 	 * Factory for elements given by radius and additional arguments.
 	 */
 	public interface CreateGeoFromRadius {
+		/**
+		 * @param kernel kernel
+		 * @param num radius
+		 * @return circle, cone, cylinder or sphere
+		 */
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num);
 	}
 

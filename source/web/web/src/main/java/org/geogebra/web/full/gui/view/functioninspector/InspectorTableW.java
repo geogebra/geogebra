@@ -204,8 +204,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		rf.setStyleName(selectedRow, "selected");
 	}
 
-	@Override
-	public void removeLastCell(int row) {
+	private void removeLastCell(int row) {
 		removeCell(row, model.getColumnCount());
 	}
 

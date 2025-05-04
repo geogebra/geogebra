@@ -14,6 +14,9 @@ public class FileLoader {
 	 * File load callback.
 	 */
 	public interface Callback {
+		/**
+		 * @param fileContent file content (plain text)
+		 */
 		void onLoad(String fileContent);
 	}
 

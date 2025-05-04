@@ -24,6 +24,10 @@ public interface SaveController {
 	 */
 	void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback, boolean addTempCheckBox);
 
+	/**
+	 * Show dialog for local saving.
+	 * @param afterSave callback
+	 */
 	void showLocalSaveDialog(Runnable afterSave);
 
 	/**

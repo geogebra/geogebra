@@ -1559,11 +1559,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.fileNew();
 	}
 
-	/**
-	 * @param view
-	 *            view number
-	 * @return JSON string describing the view
-	 */
 	@Override
 	public String getViewProperties(int view) {
 		if (view == 2 && (app.getGuiManager() == null

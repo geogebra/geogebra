@@ -428,7 +428,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	}
 
 	@Override
-	public void updateSelection(SpreadsheetCoords p) {
+	public void updateSelection(SpreadsheetCoords selectedCell) {
 		// switch to column selection mode and select column
 		if (table
 				.getSelectionType() != SelectionType.COLUMNS) {
@@ -436,7 +436,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		}
 
 		// selectNone();
-		table.setColumnSelectionInterval(p.column, p.column);
+		table.setColumnSelectionInterval(selectedCell.column, selectedCell.column);
 		renderSelection();
 	}
 

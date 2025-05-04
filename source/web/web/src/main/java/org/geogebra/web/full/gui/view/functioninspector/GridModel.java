@@ -21,22 +21,37 @@ public class GridModel {
 		/** Column/header operations */
 		void appendColumn(String name);
 
+		/**
+		 * Set column headers.
+		 * @param names column names
+		 */
 		void setHeaders(String[] names);
 
+		/**
+		 * @param col column index
+		 * @param title new name
+		 */
 		void updateHeader(int col, String title);
 
+		/**
+		 * Remove the last column.
+		 */
 		void removeColumn();
 
 		/** Body cell operations */
 		void updateDataCell(int row, int col, DataCell cell);
 
-		void removeLastCell(int row);
-
 		/** Row operations */
 		void addRow(List<DataCell> row);
 
+		/**
+		 * Remove all rows.
+		 */
 		void removeAllRows();
 
+		/**
+		 * Remove the last row.
+		 */
 		void removeLastRow();
 	}
 	

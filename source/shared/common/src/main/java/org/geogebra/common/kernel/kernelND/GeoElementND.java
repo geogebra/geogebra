@@ -61,36 +61,36 @@ import org.geogebra.common.util.LaTeXCache;
 public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/** label mode: name */
-	public static final int LABEL_NAME = 0;
+	int LABEL_NAME = 0;
 	/** label mode: name + value */
-	public static final int LABEL_NAME_VALUE = 1;
+	int LABEL_NAME_VALUE = 1;
 	/** label mode: value */
-	public static final int LABEL_VALUE = 2;
+	int LABEL_VALUE = 2;
 	/** label mode: caption */
-	public static final int LABEL_CAPTION = 3; // Michael Borcherds 2008-02-18
+	int LABEL_CAPTION = 3; // Michael Borcherds 2008-02-18
 	/** label mode: default */
-	public static final int LABEL_DEFAULT = 4;
+	int LABEL_DEFAULT = 4;
 	/** label mode: default, name */
-	public static final int LABEL_DEFAULT_NAME = 5;
+	int LABEL_DEFAULT_NAME = 5;
 	/** label mode: default, name + value */
-	public static final int LABEL_DEFAULT_NAME_VALUE = 6;
+	int LABEL_DEFAULT_NAME_VALUE = 6;
 	/** label mode: default, value */
-	public static final int LABEL_DEFAULT_VALUE = 7;
+	int LABEL_DEFAULT_VALUE = 7;
 	/** label mode: default, caption */
-	public static final int LABEL_DEFAULT_CAPTION = 8;
+	int LABEL_DEFAULT_CAPTION = 8;
 	/** caption + value */
-	public static final int LABEL_CAPTION_VALUE = 9;
+	int LABEL_CAPTION_VALUE = 9;
 
 	/** tooltip mode: iff AV showing */
-	public static final int TOOLTIP_ALGEBRAVIEW_SHOWING = 0;
+	int TOOLTIP_ALGEBRAVIEW_SHOWING = 0;
 	/** tooltip mode: always on */
-	public static final int TOOLTIP_ON = 1;
+	int TOOLTIP_ON = 1;
 	/** tooltip mode: always off */
-	public static final int TOOLTIP_OFF = 2;
+	int TOOLTIP_OFF = 2;
 	/** tooltip mode: caption, always on */
-	public static final int TOOLTIP_CAPTION = 3;
+	int TOOLTIP_CAPTION = 3;
 	/** tooltip mode: next spreadsheet cell, always on */
-	public static final int TOOLTIP_NEXTCELL = 4;
+	int TOOLTIP_NEXTCELL = 4;
 
 	/** maximal animation speed */
 	final public static double MAX_ANIMATION_SPEED = 100;
@@ -104,46 +104,46 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	final public static int ANIMATION_INCREASING_ONCE = 3;
 
 	/** Decoration type: no decoration */
-	public static final int DECORATION_NONE = 0;
+	int DECORATION_NONE = 0;
 	// segment decorations
 	/** Decoration type: one tick */
-	public static final int DECORATION_SEGMENT_ONE_TICK = 1;
+	int DECORATION_SEGMENT_ONE_TICK = 1;
 	/** Decoration type: two ticks */
-	public static final int DECORATION_SEGMENT_TWO_TICKS = 2;
+	int DECORATION_SEGMENT_TWO_TICKS = 2;
 	/** Decoration type: three ticks */
-	public static final int DECORATION_SEGMENT_THREE_TICKS = 3;
+	int DECORATION_SEGMENT_THREE_TICKS = 3;
 	// Michael Borcherds 2007-10-06
 	/** Decoration type: one arow */
-	public static final int DECORATION_SEGMENT_ONE_ARROW = 4;
+	int DECORATION_SEGMENT_ONE_ARROW = 4;
 	/** Decoration type: two arrows */
-	public static final int DECORATION_SEGMENT_TWO_ARROWS = 5;
+	int DECORATION_SEGMENT_TWO_ARROWS = 5;
 	/** Decoration type: three arrows */
-	public static final int DECORATION_SEGMENT_THREE_ARROWS = 6;
+	int DECORATION_SEGMENT_THREE_ARROWS = 6;
 	// Michael Borcherds 2007-10-06
 	// angle decorations
 	/** Decoration type for angles: two arcs */
-	public static final int DECORATION_ANGLE_TWO_ARCS = 1;
+	int DECORATION_ANGLE_TWO_ARCS = 1;
 	/** Decoration type for angles: three arcs */
-	public static final int DECORATION_ANGLE_THREE_ARCS = 2;
+	int DECORATION_ANGLE_THREE_ARCS = 2;
 	/** Decoration type for angles: one tick */
-	public static final int DECORATION_ANGLE_ONE_TICK = 3;
+	int DECORATION_ANGLE_ONE_TICK = 3;
 	/** Decoration type for angles: two ticks */
-	public static final int DECORATION_ANGLE_TWO_TICKS = 4;
+	int DECORATION_ANGLE_TWO_TICKS = 4;
 	/** Decoration type for angles: three ticks */
-	public static final int DECORATION_ANGLE_THREE_TICKS = 5;
+	int DECORATION_ANGLE_THREE_TICKS = 5;
 
 	/**
 	 * Decoration type for angles: counterclockwise arrow
 	 * 
 	 * @author Michael Borcherds, 2007-10-22
 	 */
-	public static final int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6;
+	int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6;
 	/**
 	 * Decoration type for angles: clockwise arrow
 	 * 
 	 * @author Michael Borcherds, 2007-10-22
 	 */
-	public static final int DECORATION_ANGLE_ARROW_CLOCKWISE = 7;
+	int DECORATION_ANGLE_ARROW_CLOCKWISE = 7;
 
 	/**
 	 * Sets label of a GeoElement and updates Construction list and GeoElement
@@ -660,8 +660,8 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * @return alpha value (transparency)
 	 * 
-	 *         NOTE: can be -1 for lists, see GeoList.getAlphaValue(),
-	 *         GeoList.setgetAlphaValue()
+	 * @apiNote can be -1 for lists, see GeoList.getAlphaValue(),
+	 *         GeoList.setAlphaValue()
 	 */
 	double getAlphaValue();
 
@@ -1407,7 +1407,12 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	long getID();
 
-	int compareTo(ConstructionElement cycleNext);
+	/**
+	 * Compare construction index with another element.
+	 * @param other other element
+	 * @return comparison result
+	 */
+	int compareTo(ConstructionElement other);
 
 	/**
 	 * @param viewID
@@ -1671,7 +1676,12 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 */
 	String getStyleXML();
 
-	ExtendedBoolean isEqualExtended(GeoElementND geoPolygon);
+	/**
+	 * Check if two objects have equal value
+	 * @param other other element
+	 * @return whether objects are equal, or UNKNOWN if it cannot be determined
+	 */
+	ExtendedBoolean isEqualExtended(GeoElementND other);
 
 	/**
 	 * @param algoElement
@@ -1679,6 +1689,9 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 */
 	void setParentAlgorithm(AlgoElement algoElement);
 
+	/**
+	 * @param cons construction
+	 */
 	void setConstruction(Construction cons);
 
 	/**

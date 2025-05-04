@@ -43,11 +43,24 @@ public interface AlgebraItemHeader extends IsWidget, SetLabels {
 	 */
 	void setIndex(int index);
 
-	void setError(String s);
+	/**
+	 * Set error message.
+	 * @param errorMessage error message
+	 */
+	void setError(String errorMessage);
 
+	/**
+	 * @return height in pixels
+	 */
 	int getOffsetHeight();
 
+	/**
+	 * @return absolute top offset in pixels
+	 */
 	int getAbsoluteTop();
 
+	/**
+	 * @return absolute left offset in pixels
+	 */
 	int getAbsoluteLeft();
 }

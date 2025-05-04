@@ -78,12 +78,24 @@ public interface AccessibilityManagerInterface {
 	 */
 	void focusAnchorOrMenu();
 
+	/**
+	 * Register a focusable element.
+	 * @param focusable focusable element
+	 */
 	void register(MayHaveFocus focusable);
 
+	/**
+	 * Unregister a focusable element.
+	 * @param focusable focusable element
+	 */
 	void unregister(MayHaveFocus focusable);
 
 	void setTabOverGeos();
 
+	/**
+	 * Read slider update.
+	 * @param geo slider
+	 */
 	void readSliderUpdate(GeoNumeric geo);
 
 	/**

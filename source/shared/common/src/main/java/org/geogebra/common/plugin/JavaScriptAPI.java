@@ -246,6 +246,11 @@ public interface JavaScriptAPI {
 	 */
 	boolean isSelectionAllowed(String objName);
 
+	/**
+	 * Set the auxiliary property of an object
+	 * @param objName object label
+	 * @param flag whether to make the object auxiliary
+	 */
 	void setAuxiliary(String objName, boolean flag);
 
 	/**
@@ -531,6 +536,10 @@ public interface JavaScriptAPI {
 	 */
 	boolean isIndependent(String objName);
 
+	/**
+	 * Unregister undo point listener.
+	 * @param jsFunction function name or reference
+	 */
 	void unregisterStoreUndoListener(Object jsFunction);
 
 	/**
@@ -669,6 +678,11 @@ public interface JavaScriptAPI {
 	 */
 	void setCoords(String objName, double x, double y);
 
+	/**
+	 * Set coordinates of a point, vector or line.
+	 * @param objName object
+	 * @param coords coordinates
+	 */
 	void setCoords(String objName, double... coords);
 
 	/**
@@ -985,8 +999,16 @@ public interface JavaScriptAPI {
 	 */
 	void unregisterClickListener(Object jsFunction);
 
+	/**
+	 * Register client listener.
+	 * @param jsFunction function name or reference
+	 */
 	void registerClientListener(Object jsFunction);
 
+	/**
+	 * Unregister client listener.
+	 * @param jsFunction function name or reference
+	 */
 	void unregisterClientListener(Object jsFunction);
 
 	/**
@@ -1006,6 +1028,10 @@ public interface JavaScriptAPI {
 	 */
 	void unregisterObjectClickListener(String objName);
 
+	/**
+	 * Register undo point listener. Listener is called after each undo-worthy action.
+	 * @param jsFunction function name or reference
+	 */
 	void registerStoreUndoListener(Object jsFunction);
 
 	/**
@@ -1038,34 +1064,52 @@ public interface JavaScriptAPI {
 	 */
 	void setCorner(String objName, double x, double y);
 
+	/**
+	 * Change applet perspective
+	 * @param s encoded perspective
+	 */
 	void setPerspective(String s);
 
+	/**
+	 * Gets number of CAS cells.
+	 * @return number of CAS cells (Classic)
+	 */
 	int getCASObjectNumber();
 
+	/**
+	 * @return the GeoGebra app version
+	 */
 	String getVersion();
 
+	/**
+	 * Enable or disable CAS.
+	 * @param enable whether to enable
+	 */
 	void enableCAS(boolean enable);
 
+	/**
+	 * Enable or disable 3D.
+	 * @param enable whether to enable
+	 */
 	void enable3D(boolean enable);
 
 	/**
 	 * @param enable
-	 *            whether geogebra-web applet rightclick enabled or not
+	 *            whether geogebra-web applet right-click enabled or not
 	 */
 	void enableRightClick(boolean enable);
 
 	/**
 	 * @param enable
 	 * 
-	 *            whether labels draggable in geogebra-web applets or not
+	 *            whether labels draggable or not
 	 */
 	void enableLabelDrags(boolean enable);
 
 	/**
 	 * @param enable
 	 * 
-	 *            whether shift - drag - zoom enabled in geogebra-web applets or
-	 *            not
+	 *            whether shift - drag - zoom enabled or not
 	 */
 	void enableShiftDragZoom(boolean enable);
 
@@ -1086,6 +1130,9 @@ public interface JavaScriptAPI {
 	 */
 	void setRounding(String format);
 
+	/**
+	 * Reset the construction to empty state.
+	 */
 	void newConstruction();
 
 	/**
@@ -1098,10 +1145,23 @@ public interface JavaScriptAPI {
 	 */
 	void redo();
 
+	/**
+	 * Get properties of a graphics view.
+	 * @param viewID
+	 *            view number
+	 * @return JSON string describing the view
+	 */
 	String getViewProperties(int viewID);
 
+	/**
+	 * Log out the current user.
+	 */
 	void logout();
 
+	/**
+	 * Authenticate a user.
+	 * @param token login token
+	 */
 	void login(String token);
 
 	/**
@@ -1113,6 +1173,11 @@ public interface JavaScriptAPI {
 	 */
 	String getToolName(int mode);
 
+	/**
+	 * Evaluate an expression in LaTeX form.
+	 * @param input LaTeX input
+	 * @param mode compatibility mode
+	 */
 	void evalLaTeX(String input, int mode);
 
 	/**

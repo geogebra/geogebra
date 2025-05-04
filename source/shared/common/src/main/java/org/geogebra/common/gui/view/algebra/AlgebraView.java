@@ -28,8 +28,15 @@ public interface AlgebraView extends Editing, SetLabels {
 	 */
 	public boolean isVisible();
 
+	/**
+	 * Start editing an element
+	 * @param geo construction element
+	 */
 	public void startEditItem(GeoElement geo);
 
+	/**
+	 * @return whether any item is being edited
+	 */
 	public boolean isEditItem();
 
 	// For WebSimple
@@ -107,15 +114,31 @@ public interface AlgebraView extends Editing, SetLabels {
 
 	}
 
+	/**
+	 * Focus or blur the view.
+	 * @param b true to focus
+	 */
 	public void setFocus(boolean b);
 
-	public GeoElement getLastSelectedGeo();
+	/**
+	 * @return last selected element
+	 */
+	GeoElement getLastSelectedGeo();
 
-	public void setLastSelectedGeo(GeoElement geo);
+	/**
+	 * @param geo last selected element
+	 */
+	void setLastSelectedGeo(GeoElement geo);
 
-	public boolean isAttachedToKernel();
+	/**
+	 * @return whether the view is attached to the kernel
+	 */
+	boolean isAttachedToKernel();
 
-	public SortMode getTreeMode();
+	/**
+	 * @return the sorting mode
+	 */
+	SortMode getTreeMode();
 
 	/**
 	 * Should not be called directly, use AlgebraSettings instead
@@ -129,7 +152,7 @@ public interface AlgebraView extends Editing, SetLabels {
 	 * @param visible
 	 *            whether to show AV input
 	 */
-	public void setShowAlgebraInput(boolean visible);
+	void setShowAlgebraInput(boolean visible);
 
     /**
      * remove the geo (with no check)

@@ -467,6 +467,10 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public String toStringDescription(StringTemplate tpl);
 
+	/**
+	 * Add a number to path parameter.
+	 * @param d parameter change
+	 */
 	public void addToPathParameter(double d);
 
 	/**
@@ -493,7 +497,13 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	void pointChanged(GeoPolygon polygon);
 
+	/**
+	 * @return vertical increment
+	 */
 	NumberValue getVerticalIncrement();
 
+	/**
+	 * @param step vertical increment
+	 */
 	void setVerticalIncrement(NumberValue step);
 }

@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.keyboard.web.KeyboardCloseListener;
-import org.geogebra.web.html5.gui.ToolBarInterface;
+import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.HasAppletProperties;
 import org.gwtproject.dom.client.Element;
@@ -21,7 +21,7 @@ public interface HeaderPanelDeck
 	void hidePanel(MyHeaderPanel panel);
 
 	/** @return toolbar */
-	ToolBarInterface getToolbar();
+	GGWToolBar getToolbar();
 
 	/**
 	 * Update component heights to account for input bar

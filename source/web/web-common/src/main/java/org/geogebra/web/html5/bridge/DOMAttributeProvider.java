@@ -28,6 +28,7 @@ public class DOMAttributeProvider implements AttributeProvider {
 
 	@Override
 	public void setAttribute(String attribute, String value) {
+		// TODO value = null should remove it
 		el.setAttribute(DATA_PARAM + attribute, value);
 	}
 

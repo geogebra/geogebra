@@ -240,11 +240,20 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public Renderer getRenderer();
 
-	public void setXZero(double xZero);
+	/**
+	 * @param xZero x-coordinate of the origin
+	 */
+	void setXZero(double xZero);
 
-	public void setYZero(double xZero);
+	/**
+	 * @param yZero y-coordinate of the origin
+	 */
+	void setYZero(double yZero);
 
-	public void setZZero(double xZero);
+	/**
+	 * @param zZero z-coordinate of the origin
+	 */
+	void setZZero(double zZero);
 
 	/**
 	 * @param da

@@ -25,6 +25,10 @@ public interface GLookAndFeelI {
 
 	boolean undoRedoSupported();
 
+	/**
+	 * Add window closing handler to prevent losing unsaved changes.
+	 * @param app application
+	 */
 	void addWindowClosingHandler(AppW app);
 
 	void removeWindowClosingHandler();
@@ -41,12 +45,25 @@ public interface GLookAndFeelI {
 
 	boolean printSupported();
 
+	/**
+	 * @param dim dimension
+	 * @param appName app name
+	 * @return platform
+	 */
 	Platform getPlatform(int dim, String appName);
 
+	/**
+	 * Store language code for next app start.
+	 * @param language language code
+	 */
 	void storeLanguage(String language);
 
 	Promise<String> loadLanguage();
 
+	/**
+	 * Toggle fullscreen mode
+	 * @param b whether to go fullscreen
+	 */
 	void toggleFullscreen(boolean b);
 
 	boolean isOfflineExamSupported();
@@ -72,6 +89,11 @@ public interface GLookAndFeelI {
 
 	boolean isExternalLoginAllowed();
 
+	/**
+	 * Override action for a resource.
+	 * @param action basic action
+	 * @return overridden action
+	 */
 	ResourceAction getDisplayAction(ResourceAction action);
 
 	/**
