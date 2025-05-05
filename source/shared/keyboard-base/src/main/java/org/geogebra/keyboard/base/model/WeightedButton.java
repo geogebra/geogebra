@@ -15,5 +15,8 @@ public interface WeightedButton extends Button {
      */
     float getWeight();
 
+	/**
+	 * @return alternative text for assistive technologies
+	 */
 	String getAltText();
 }

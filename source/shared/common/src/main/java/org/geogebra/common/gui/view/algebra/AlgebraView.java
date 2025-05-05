@@ -39,7 +39,10 @@ public interface AlgebraView extends Editing, SetLabels {
 	 */
 	public boolean isEditItem();
 
-	// For WebSimple
+	/**
+	 * (Web only, moved here because of WebSimple)
+	 * @return element dragged from AV to graphics
+	 */
 	public GeoElement getDraggedGeo();
 
 	/**

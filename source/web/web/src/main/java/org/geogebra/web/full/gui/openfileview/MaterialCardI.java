@@ -28,5 +28,8 @@ public interface MaterialCardI {
 	 */
 	String getCardTitle();
 
+	/**
+	 * @return card controller
+	 */
 	MaterialCardController getController();
 }

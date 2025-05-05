@@ -33,6 +33,10 @@ public interface MathFieldListener {
 		// rarely needed
 	}
 
+	/**
+	 * Called when Escape key is pressed.
+	 * @return whether key was handled
+	 */
 	boolean onEscape();
 
 	/**

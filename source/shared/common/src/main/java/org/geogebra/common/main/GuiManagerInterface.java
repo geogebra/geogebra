@@ -571,11 +571,19 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void getViewsXML(StringBuilder sb, boolean asPreference);
 
+	/**
+	 * Make right panel (toolbar) go from full screen to default width.
+	 */
 	void closeFullscreenView();
 
-	@CheckForNull
-	InputKeyboardButton getInputKeyboardButton();
+	/**
+	 * @return input keyboard button for Web input boxes
+	 */
+	@CheckForNull InputKeyboardButton getInputKeyboardButton();
 
+	/**
+	 * @return whether table of values view is visible
+	 */
 	default boolean isTableViewShowing() {
 		return false;
 	}

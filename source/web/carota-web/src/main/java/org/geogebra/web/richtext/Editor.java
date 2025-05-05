@@ -8,6 +8,9 @@ import elemental2.dom.CanvasRenderingContext2D;
 /** The interface to the Carota editor */
 public interface Editor {
 
+	/**
+	 * Serialize and reload content (to refresh fonts).
+	 */
 	void reload();
 
 	/**

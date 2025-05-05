@@ -204,7 +204,6 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 	/**
 	 * Sets initial title for the material to save.
 	 */
-	@Override
 	public void setTitle() {
 		app.getSaveController().updateSaveTitle(getInputField()
 						.getTextComponent(), getDefaultTitle());

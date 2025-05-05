@@ -89,9 +89,15 @@ public interface AutoCompleteTextField
 
 	boolean usedForInputBox();
 
-	// GGB-986
+	/**
+	 * @return associated input box (can be null)
+	 */
 	GeoInputBox getInputBox();
 
+	/**
+	 * TODO desktop only, move there
+	 * @return drawable widget for associated input box (can be null)
+	 */
 	DrawInputBox getDrawTextField();
 
 	/**

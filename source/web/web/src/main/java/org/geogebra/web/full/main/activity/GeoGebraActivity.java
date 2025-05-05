@@ -96,6 +96,9 @@ public interface GeoGebraActivity {
 	 */
 	boolean isWhiteboard();
 
+	/**
+	 * @return API for integration with external websites
+	 */
 	ExportedApi getExportedApi();
 
 	/**
@@ -115,6 +118,9 @@ public interface GeoGebraActivity {
 	 */
 	void markSaveProcess(String title, MaterialVisibility visibility);
 
+	/**
+	 * @return data table controller for SciCalc, null otherwise
+	 */
 	ScientificDataTableController getTableController();
 
 	/**

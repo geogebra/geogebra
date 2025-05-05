@@ -27,5 +27,8 @@ public interface ExpressionReader {
 	 */
 	void debug(String label);
 
+	/**
+	 * @return serialization adapter
+	 */
 	SerializationAdapter getAdapter();
 }

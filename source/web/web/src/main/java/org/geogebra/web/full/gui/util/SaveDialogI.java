@@ -7,9 +7,10 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
  */
 public interface SaveDialogI {
 
+	/**
+	 * Show the dialog, centered.
+	 */
 	void show();
-
-	void setTitle();
 
 	/**
 	 * Set material type for saving.
@@ -17,8 +18,14 @@ public interface SaveDialogI {
 	 */
 	void setSaveType(MaterialType type);
 
+	/**
+	 * Hide the dialog.
+	 */
 	void hide();
 
+	/**
+	 * @return whether the dialog is showing
+	 */
 	boolean isShowing();
 
 	/**

@@ -47,6 +47,9 @@ public interface HasKeyboard {
 	 */
 	List<String> getInputBoxFunctionVars();
 
+	/**
+	 * @return provider that defines feedback for template keys (vector, matrix)
+	 */
 	TemplateKeyProvider getTemplateKeyProvider();
 
 	/**

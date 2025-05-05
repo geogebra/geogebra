@@ -19,5 +19,8 @@ public interface RendererWInterface {
 	 */
 	void setBuffering(boolean useBuffer);
 
+	/**
+	 * @return canvas with WebGL context
+	 */
 	Canvas getCanvas();
 }

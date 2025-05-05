@@ -57,7 +57,13 @@ public interface DockPanelDecorator {
 	 */
 	void resizeTableSmallScreen(int tabHeight, StickyTable<?> table);
 
+	/**
+	 * Update localized texts.
+	 */
 	void setLabels();
 
+	/**
+	 * @return whether table of values should have shaded columns
+	 */
 	boolean hasShadedColumns();
 }

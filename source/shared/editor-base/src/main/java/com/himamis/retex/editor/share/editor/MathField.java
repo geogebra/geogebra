@@ -50,8 +50,14 @@ public interface MathField {
 	 */
 	boolean showKeyboard();
 
+	/**
+	 * Show copy and paste buttons (mobile only).
+	 */
 	void showCopyPasteButtons();
 
+	/**
+	 * Focus this input field.
+	 */
 	void requestViewFocus();
 
 	/**
@@ -72,16 +78,34 @@ public interface MathField {
 	 */
 	void setKeyListener(KeyListener keyListener);
 
+	/**
+	 * Mark the component for repaint.
+	 */
 	void repaint();
 
+	/**
+	 * Invalidate layout (mobile, desktop).
+	 */
 	void requestLayout();
 
+	/**
+	 * @return whether this has a parent component
+	 */
 	boolean hasParent();
 
+	/**
+	 * @return whether this input field has focus
+	 */
 	boolean hasFocus();
 
+	/**
+	 * @return model describing all available math components (functions, arrays)
+	 */
 	MetaModel getMetaModel();
 
+	/**
+	 * Hide copy and paste buttons.
+	 */
 	void hideCopyPasteButtons();
 
 	/**
@@ -94,12 +118,25 @@ public interface MathField {
 	 */
 	void scroll(int dx, int dy);
 
+	/**
+	 * Fire input change event.
+	 */
 	void fireInputChangedEvent();
 
+	/**
+	 * Paste from system keyboard.
+	 */
 	void paste();
 
+	/**
+	 * Copy to system keyboard.
+	 */
 	void copy();
 
+	/**
+	 * TODO remove this
+	 * @return whether an old Firefox hack is needed (always false)
+	 */
 	boolean useCustomPaste();
 
 	/**
