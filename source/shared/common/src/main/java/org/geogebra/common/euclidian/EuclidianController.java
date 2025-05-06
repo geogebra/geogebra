@@ -10666,6 +10666,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
+		if (app.isWhiteboardActive()) {
+			selection.clearSelectedGeos();
+		}
+
 		boolean control = event.isControlDown();
 		boolean alt = event.isAltDown();
 		boolean shift = event.isShiftDown();
@@ -10743,10 +10747,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						ArrayList<GeoElement> geos = new ArrayList<>();
 						geos.add(geo);
 						showPopupMenuChooseGeo(geos, hits);
+						updateSelectionShowBoundingBox(geo);
 					}
 				}
 			}
 		}
+	}
+
+	private void updateSelectionShowBoundingBox(GeoElement geo) {
+		if (!app.isWhiteboardActive()) {
+			return;
+		}
+
+		selection.addSelectedGeo(geo);
+		updateBoundingBoxFromSelection(view.getBoundingBox() != null
+				&& view.getBoundingBox().isCropBox());
 	}
 
 	private boolean canShowPopupMenu() {
