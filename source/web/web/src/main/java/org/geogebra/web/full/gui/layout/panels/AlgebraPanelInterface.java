@@ -10,18 +10,39 @@ import org.gwtproject.user.client.ui.IsWidget;
  */
 public interface AlgebraPanelInterface extends IsWidget {
 
+	/**
+	 * Scroll to the bottom.
+	 */
 	void scrollAVToBottom();
 
+	/**
+	 * @return parent split pane
+	 */
 	DockSplitPaneW getParentSplitPane();
 
+	/**
+	 * Save scroll position.
+	 */
 	void saveAVScrollPosition();
 
+	/**
+	 * Fit content to size (deferred).
+	 */
 	void deferredOnResize();
 
+	/**
+	 * @return inner width in pixels
+	 */
 	int getInnerWidth();
 
+	/**
+	 * @return ID of the active tab (ALGEBRA for Classic dock panel)
+	 */
 	DockPanelData.TabIds getTabId();
 
+	/**
+	 * Scroll to the active item.
+	 */
 	void scrollToActiveItem();
 
 	/**
@@ -31,8 +52,14 @@ public interface AlgebraPanelInterface extends IsWidget {
 	MathKeyboardListener updateKeyboardListener(
 			MathKeyboardListener mathKeyboardListener);
 
+	/**
+	 * @return height in pixels
+	 */
 	int getOffsetHeight();
 
+	/**
+	 * @return vertical offset in pixels
+	 */
 	int getAbsoluteTop();
 
 	/**

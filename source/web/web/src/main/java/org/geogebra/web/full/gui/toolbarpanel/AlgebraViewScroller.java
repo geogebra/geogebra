@@ -39,7 +39,7 @@ public class AlgebraViewScroller {
 	}
 
 	/**
-	 * Save scroll position
+	 * Save scroll position.
 	 */
 	public void save() {
 		savedPosition = panel.getVerticalScrollPosition();

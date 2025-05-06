@@ -39,7 +39,7 @@ public final class SpreadsheetStyle {
 		this.format = new CellFormat(null);
 	}
 
-	public CellFormat getFormat() {
+	CellFormat getFormat() {
 		return format;
 	}
 
