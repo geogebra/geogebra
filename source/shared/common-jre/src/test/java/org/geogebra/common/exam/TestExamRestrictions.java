@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
-import org.geogebra.common.kernel.arithmetic.filter.RadianExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.RadianGradianFilter;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
@@ -70,7 +70,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
 		return Set.of(new ComplexExpressionFilter(),
-				new RadianExpressionFilter());
+				new RadianGradianFilter());
 	}
 
 	private static ToolCollectionFilter createToolCollectionFilter() {

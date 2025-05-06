@@ -596,4 +596,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	public boolean canHaveClickScript() {
 		return isDrawable();
 	}
+
+	public void setKeepDegrees() {
+		this.keepDegrees = true;
+	}
 }

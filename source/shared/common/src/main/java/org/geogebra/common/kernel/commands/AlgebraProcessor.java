@@ -3409,6 +3409,9 @@ public class AlgebraProcessor {
 			if (isAngle) {
 				boolean keepDegrees = n.getOperation().doesReturnDegrees()
 						&& !app.getConfig().isAngleUnitSettingEnabled();
+				if (app.getSettings().getAlgebra().isAngleConversionRestricted()) {
+					keepDegrees = true;
+				}
 				ret = new GeoAngle(cons, value, AngleStyle.UNBOUNDED, keepDegrees);
 			} else {
 				ret = new GeoNumeric(cons, value);
@@ -3452,6 +3455,10 @@ public class AlgebraProcessor {
 			boolean isAngle, ExpressionValue evaluate) {
 		AlgoDependentNumber algo = new AlgoDependentNumber(cons, root, isAngle,
 				evaluate);
+		if (algo.getNumber() instanceof GeoAngle
+				&& app.getSettings().getAlgebra().isAngleConversionRestricted()) {
+			((GeoAngle) algo.getNumber()).setKeepDegrees();
+		}
 		return algo.getNumber();
 	}
 

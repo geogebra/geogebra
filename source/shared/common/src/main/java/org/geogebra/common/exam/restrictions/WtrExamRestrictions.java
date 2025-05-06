@@ -70,6 +70,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.expression.ExpressionRestriction;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -78,12 +79,14 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
+import org.geogebra.common.kernel.arithmetic.filter.RadianGradianFilter;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelector;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
@@ -116,7 +119,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 				new RestrictBooleanExpressions(),
 				new AllowBooleanCommandArguments(),
 				new RestrictLists(),
-				new AllowListsForMatrices()));
+				new AllowListsForMatrices()), new RadianGradianFilter());
 	}
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
@@ -291,11 +294,11 @@ public class WtrExamRestrictions extends ExamRestrictions {
 			for (ExpressionValue subExpression : expression) {
 				List<ExpressionValue> childExpressions = childExpressionsOf(subExpression);
 				if (
-						// If the expression is a list
+					// If the expression is a list
 						subExpression instanceof MyList
-						// with a list for every element (matrix),
-						&& !childExpressions.isEmpty()
-						&& childExpressions.stream().allMatch(this::isWrappedListExpression)
+								// with a list for every element (matrix),
+								&& !childExpressions.isEmpty()
+								&& childExpressions.stream().allMatch(this::isWrappedListExpression)
 				) {
 					// then allow the current list with all of its list elements
 					allowedSubExpressions.add(subExpression);
@@ -317,5 +320,20 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		private boolean isWrappedListExpression(ExpressionValue expressionValue) {
 			return expressionValue.unwrap() instanceof MyList;
 		}
+	}
+
+	@Override
+	public void applySettingsRestrictions(@Nonnull Settings settings,
+			@Nonnull ConstructionDefaults defaults) {
+		super.applySettingsRestrictions(settings, defaults);
+		settings.getAlgebra().isAngleConversionRestricted(true);
+	}
+
+	@Override
+	public void removeSettingsRestrictions(@Nonnull Settings settings,
+			@Nonnull ConstructionDefaults defaults) {
+		super.removeSettingsRestrictions(settings, defaults);
+		settings.getAlgebra().isAngleConversionRestricted(false);
+
 	}
 }

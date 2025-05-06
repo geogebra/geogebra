@@ -4946,7 +4946,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @apiNote DO NOT CACHE THE RETURN VALUE, the converter may change at runtime (e.g., for
 	 * certain exams).
 	 */
-	public ToStringConverter getGeoElementValueConverter() {
+	public @Nonnull ToStringConverter getGeoElementValueConverter() {
 		if (valueConverter == null) {
 			if (getConfig().shouldHideEquations()) {
 				valueConverter = new ProtectiveGeoElementValueConverter();
@@ -5088,10 +5088,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
 			@Nonnull ExamType examType) {
 		resetCommandDict();
-		if (featureRestrictions.contains(ExamFeatureRestriction.HIDE_CALCULATED_EQUATION)) {
-			algebraOutputFilter = examType.wrapAlgebraOutputFilter(getAlgebraOutputFilter());
-			valueConverter = examType.wrapValueConverter(getGeoElementValueConverter());
-		}
+
+		algebraOutputFilter = examType.wrapAlgebraOutputFilter(getAlgebraOutputFilter());
+		valueConverter = examType.wrapValueConverter(getGeoElementValueConverter());
+
 		if (featureRestrictions.contains(ExamFeatureRestriction.HIDE_SPECIAL_POINTS)) {
 			getSpecialPointsManager().isEnabled = false;
 		}

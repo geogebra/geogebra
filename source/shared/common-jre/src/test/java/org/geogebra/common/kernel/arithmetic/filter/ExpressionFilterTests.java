@@ -27,7 +27,7 @@ public class ExpressionFilterTests extends BaseUnitTest {
 
 	@Test
 	public void testRadianExpression() throws Exception {
-		ExpressionFilter filter = new RadianExpressionFilter();
+		ExpressionFilter filter = new RadianGradianFilter();
 		ValidExpression expression = parse("3rad");
 		assertFalse(filter.isAllowed(expression));
 	}

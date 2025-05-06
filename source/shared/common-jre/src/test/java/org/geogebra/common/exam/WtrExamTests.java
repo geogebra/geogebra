@@ -2,16 +2,23 @@ package org.geogebra.common.exam;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.ToStringConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class WtrExamTests extends BaseExamTests {
 	@BeforeEach
@@ -99,5 +106,30 @@ public class WtrExamTests extends BaseExamTests {
 	public void testMixedNumbers() {
 		assertFalse(app.getEditorFeatures().areMixedNumbersEnabled(),
 				"mixed numbers should be disabled");
+	}
+
+	@Test
+	public void testRadians() {
+		assertNull(evaluate("3 rad"));
+		assertNull(evaluate("3 rad + 4 deg"));
+	}
+
+	@Test
+	public void showOnlyDefinition() {
+		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		evaluate("b=2");
+		ToStringConverter ansProvider = app.getGeoElementValueConverter();
+		GeoElementND dynamic = evaluate("b*deg")[0];
+		assertEquals("b" + Unicode.DEGREE_STRING, ansProvider.convert(dynamic.toGeoElement()));
+		GeoElementND stat = evaluate("3*deg")[0];
+		assertEquals("3" + Unicode.DEGREE_STRING, ansProvider.convert(stat.toGeoElement()));
+	}
+
+	@Test
+	public void asindShouldEvaluateToDegrees() {
+		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		GeoElementND angle = evaluate("asind(.5)")[0];
+		assertEquals("30" + Unicode.DEGREE_STRING,
+				angle.toValueString(StringTemplate.defaultTemplate));
 	}
 }

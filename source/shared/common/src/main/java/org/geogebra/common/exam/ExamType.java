@@ -15,6 +15,8 @@ import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.mms.MmsValueConverter;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleValueConverter;
+import org.geogebra.common.exam.restrictions.wtr.WtrAlgebraOutputFilter;
+import org.geogebra.common.exam.restrictions.wtr.WtrValueConverter;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
@@ -170,6 +172,18 @@ public enum ExamType {
 		@Override
 		public String getShortDisplayName(Localization loc, AppConfig config) {
 			return "WTR";
+		}
+
+		@Override
+		public AlgebraOutputFilter wrapAlgebraOutputFilter(
+				@Nullable AlgebraOutputFilter wrappedFilter) {
+			return new WtrAlgebraOutputFilter(wrappedFilter);
+		}
+
+		@Override
+		public ToStringConverter wrapValueConverter(
+				@Nonnull ToStringConverter wrappedConverter) {
+			return new WtrValueConverter(wrappedConverter);
 		}
 	};
 

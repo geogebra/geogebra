@@ -35,6 +35,7 @@ public class AlgebraSettings extends AbstractSettings {
 			AlgebraStyle.DEFINITION_AND_VALUE,
 			AlgebraStyle.VALUE, AlgebraStyle.DEFINITION,
 			AlgebraStyle.DESCRIPTION);
+	private boolean angleConversionRestricted;
 
 	/**
 	 * @param listeners
@@ -286,5 +287,13 @@ public class AlgebraSettings extends AbstractSettings {
 
 	public void setEquationChangeByDragRestricted(boolean equationChangeByDragRestricted) {
 		this.equationChangeByDragRestricted = equationChangeByDragRestricted;
+	}
+
+	public boolean isAngleConversionRestricted() {
+		return this.angleConversionRestricted;
+	}
+
+	public void isAngleConversionRestricted(boolean angleConversionRestricted) {
+		this.angleConversionRestricted = angleConversionRestricted;
 	}
 }

@@ -530,7 +530,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		if (previewGeo
 				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
-				|| getController().isInputAsText()) {
+				|| getController().isInputAsText()
+				|| !previewGeo.isAllowedToShowValue()) {
 			clearPreview();
 
 		} else if (isInputTreeItem()) {

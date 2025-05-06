@@ -3688,20 +3688,11 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private boolean hasSimpleNumbers() {
-		return areLeftAndRightNumbers() && isRightDeg() && !isRightPiOrE();
-	}
-
-	private boolean isRightPiOrE() {
-		if (getRight() == null) {
-			return false;
-		}
-
-		double value = getRight().evaluateDouble();
-		return DoubleUtil.isEqual(value, Math.PI) || DoubleUtil.isEqual(value, Math.E);
+		return areLeftAndRightNumbers() && isRightDeg();
 	}
 
 	private boolean areLeftAndRightNumbers() {
-		return getLeft().unwrap() instanceof NumberValue && getRight().unwrap() instanceof MyDouble;
+		return getLeft().unwrap() instanceof MyDouble && getRight().unwrap() instanceof MyDouble;
 	}
 
 	private boolean isRightDeg() {

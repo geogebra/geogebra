@@ -647,9 +647,10 @@ public class GeoNumeric extends GeoElement
 		}
 
 		if (label != null && isAlgebraLabelVisible()) {
-			return label + tpl.getEqualsWithSpace() + toValueString(tpl);
+			return label + tpl.getEqualsWithSpace()
+					+ app.getGeoElementValueConverter().toValueString(this, tpl);
 		} else {
-			return toValueString(tpl);
+			return app.getGeoElementValueConverter().toValueString(this, tpl);
 		}
 	}
 
