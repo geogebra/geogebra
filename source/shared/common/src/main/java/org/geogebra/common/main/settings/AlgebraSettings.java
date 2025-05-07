@@ -293,7 +293,7 @@ public class AlgebraSettings extends AbstractSettings {
 		return this.angleConversionRestricted;
 	}
 
-	public void isAngleConversionRestricted(boolean angleConversionRestricted) {
+	public void setAngleConversionRestricted(boolean angleConversionRestricted) {
 		this.angleConversionRestricted = angleConversionRestricted;
 	}
 }

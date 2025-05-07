@@ -326,14 +326,14 @@ public class WtrExamRestrictions extends ExamRestrictions {
 	public void applySettingsRestrictions(@Nonnull Settings settings,
 			@Nonnull ConstructionDefaults defaults) {
 		super.applySettingsRestrictions(settings, defaults);
-		settings.getAlgebra().isAngleConversionRestricted(true);
+		settings.getAlgebra().setAngleConversionRestricted(true);
 	}
 
 	@Override
 	public void removeSettingsRestrictions(@Nonnull Settings settings,
 			@Nonnull ConstructionDefaults defaults) {
 		super.removeSettingsRestrictions(settings, defaults);
-		settings.getAlgebra().isAngleConversionRestricted(false);
+		settings.getAlgebra().setAngleConversionRestricted(false);
 
 	}
 }
