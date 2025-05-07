@@ -11,6 +11,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,6 +24,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.exam.restrictions.mms.MmsValueConverter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -350,5 +352,23 @@ public class MmsExamTests extends BaseExamTests {
 		assertNull(AlgebraOutputFormat.getNextFormat(geoElement,
 				algebraSettings.isEngineeringNotationEnabled(),
 				algebraSettings.getAlgebraOutputFormatFilters()));
+	}
+
+	@ParameterizedTest
+	@CsvSource(delimiterString = "->", value = {
+			"x + x + x + x               -> 4x		        -> x + x + x + x",
+			"x^2 + x^2                   -> 2x^2		    -> x² + x²",
+			"x^2 + x^2 + y + y + 5 - 4   -> 2x^2 + 2y + 1	-> x² + x² + y + y + 5 - 4",
+	})
+	public void testRestrictedFunctionOutput(String expression, String mockedCasOutput,
+			String expectedOutput) {
+		GeoElement geoElement = evaluateGeoElement(expression, mockedCasOutput);
+
+		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
+		assertFalse(AlgebraItem.shouldShowBothRows(geoElement, algebraSettings));
+
+		String actualOutput = app.getGeoElementValueConverter()
+				.toOutputValueString(geoElement, StringTemplate.defaultTemplate);
+		assertEquals(expectedOutput, actualOutput);
 	}
 }
