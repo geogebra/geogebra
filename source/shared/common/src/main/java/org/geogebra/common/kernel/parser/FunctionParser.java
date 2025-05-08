@@ -206,9 +206,12 @@ public class FunctionParser {
 		if (cell != null && (geo == null || geo.isGeoLine() || geo.isGeoConic()
 				|| geo.isGeoSurfaceCartesian() || list)) {
 			if (cell.getFunctionVariables().length < 2) {
-
+				Operation operation = list ? Operation.ELEMENT_OF : Operation.FUNCTION;
+				if (geo != null && geo.isGeoSurfaceCartesian() && myList.size() == 1) {
+					operation = Operation.VEC_FUNCTION;
+				}
 				return new ExpressionNode(kernel, cell,
-						list ? Operation.ELEMENT_OF : Operation.FUNCTION,
+						operation,
 						list ? myList : myList.get(0));
 			}
 			return new ExpressionNode(kernel, cell,

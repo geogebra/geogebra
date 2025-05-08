@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeFalse;
@@ -22,9 +23,11 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Rule;
 import org.junit.Test;
@@ -731,9 +734,9 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	 * @param string
 	 *            AV input
 	 */
-	private void in(String string) {
-		kernel.getAlgebraProcessor().processAlgebraCommand(string,
-				false);
+	private GeoElementND[] in(String string) {
+		return kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(string,
+				false, TestErrorHandler.INSTANCE, false, null);
 	}
 
 	/* Normal */
@@ -2737,6 +2740,14 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void matrixFunctionEvaluation() {
 		add("f(x):=x^2");
 		t("f({{1,1},{0,1}})", "{{1,2},{0,1}}");
+	}
+
+	@Test
+	public void complexFunctionFromCASToAV() {
+		add("q(z):=z^2+" + Unicode.IMAGINARY);
+		in("A=(1,2)");
+		assertEquals("-3 + 5" + Unicode.IMAGINARY,
+				in("q(A)")[0].toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test

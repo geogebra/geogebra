@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -1698,9 +1699,12 @@ public enum Operation {
 			}
 			if (rt instanceof VectorValue) {
 				GeoVec2D arg = ((VectorValue) rt).getVector();
-
-				if (lt instanceof GeoSurfaceCartesianND) {
-					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
+				ExpressionValue evaluableLeft = lt;
+				if (left instanceof GeoCasCell) {
+					evaluableLeft = ((GeoCasCell) left).getTwinGeo();
+				}
+				if (evaluableLeft instanceof GeoSurfaceCartesianND) {
+					return ((GeoSurfaceCartesianND) evaluableLeft).evaluateSurface(
 							arg.getX(), arg.getY());
 				}
 				throw ev.illegalArgument(lt);
