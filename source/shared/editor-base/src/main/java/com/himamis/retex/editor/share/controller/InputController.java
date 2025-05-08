@@ -1442,8 +1442,19 @@ public class InputController {
 		}
 	}
 
+	/**
+	 * @param editorFeatures set of available editor features
+	 */
 	public void setEditorFeatures(EditorFeatures editorFeatures) {
 		this.editorFeatures = editorFeatures;
+	}
+
+	/**
+	 * @return Set of available editor features
+	 */
+	@CheckForNull
+	public EditorFeatures getEditorFeatures() {
+		return editorFeatures;
 	}
 
 	/**

@@ -36,8 +36,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import javax.annotation.CheckForNull;
-
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
@@ -110,7 +108,6 @@ public class MathFieldInternal
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
 	private final MathFormulaConverter formulaConverter;
-	private @CheckForNull EditorFeatures editorFeatures;
 
 	/**
 	 * @param mathField
@@ -151,12 +148,8 @@ public class MathFieldInternal
 		inputController.setSyntaxAdapter(syntaxAdapter);
 	}
 
-	/**
-	 * @param editorFeatures set of available editor features
-	 */
-	public void setEditorFeatures(EditorFeatures editorFeatures) {
-		this.editorFeatures = editorFeatures;
-		inputController.setEditorFeatures(editorFeatures);
+	private EditorFeatures getEditorFeatures() {
+		return inputController.getEditorFeatures();
 	}
 
 	private void setupMathField() {
@@ -724,7 +717,8 @@ public class MathFieldInternal
 			MathContainer parent = editorState.getSelectionStart().getParent();
 			if (parent == null) {
 				// all the formula is selected
-				return GeoGebraSerializer.serialize(editorState.getRootComponent(), editorFeatures);
+				return GeoGebraSerializer.serialize(editorState.getRootComponent(),
+						getEditorFeatures());
 			}
 
 			int start = parent.indexOf(editorState.getSelectionStart());
@@ -732,7 +726,7 @@ public class MathFieldInternal
 
 			if (end >= 0 && start >= 0) {
 				StringBuilder sb = new StringBuilder();
-				GeoGebraSerializer serializer = new GeoGebraSerializer(editorFeatures);
+				GeoGebraSerializer serializer = new GeoGebraSerializer(getEditorFeatures());
 				for (int i = start; i <= end; i++) {
 					serializer.serialize(parent.getArgument(i), sb);
 				}
@@ -839,7 +833,7 @@ public class MathFieldInternal
 			field = field.getParent();
 		}
 		reverse(path);
-		setFormula(GeoGebraSerializer.reparse(getFormula(), editorFeatures));
+		setFormula(GeoGebraSerializer.reparse(getFormula(), getEditorFeatures()));
 		for (MathFieldListener listener: listeners) {
 			listener.onInsertString();
 		}
@@ -954,7 +948,7 @@ public class MathFieldInternal
 	 * @return the contained formula serialized in the GeoGebra format
 	 */
 	public String getText() {
-		GeoGebraSerializer s = new GeoGebraSerializer(editorFeatures);
+		GeoGebraSerializer s = new GeoGebraSerializer(getEditorFeatures());
 		return s.serialize(getFormula());
 	}
 
@@ -1046,10 +1040,10 @@ public class MathFieldInternal
 	 * @return editor state description serialized for screen reader
 	 */
 	public String getEditorStateDescription(ExpressionReader expressionReader) {
-		return getEditorState().getDescription(expressionReader, editorFeatures);
+		return getEditorState().getDescription(expressionReader, getEditorFeatures());
 	}
 
 	public GeoGebraSerializer getSerializer() {
-		return new GeoGebraSerializer(editorFeatures);
+		return new GeoGebraSerializer(getEditorFeatures());
 	}
 }
