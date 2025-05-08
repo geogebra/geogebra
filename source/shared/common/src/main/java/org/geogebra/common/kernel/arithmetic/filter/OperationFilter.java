@@ -18,15 +18,14 @@ public interface OperationFilter {
 	 * @param operation operation to be evaluated
 	 * @return {@code true} if the operation is allowed, {@code false} otherwise
 	 */
-	boolean isAllowed(Operation operation);
+	boolean isAllowed(@Nonnull Operation operation);
 
 	/**
 	 * Converts this into an {@link ExpressionFilter} that filters nodes with operations
 	 * that are restricted by this operation filter.
 	 * @return an expression filter base on this operation filter
 	 */
-	@Nonnull
-	default ExpressionFilter toExpressionFilter() {
+	default @Nonnull ExpressionFilter toExpressionFilter() {
 		return this::isAllowed;
 	}
 
@@ -35,8 +34,7 @@ public interface OperationFilter {
 	 * @param operations operations to restrict
 	 * @return an operation filter
 	 */
-	@Nonnull
-	static OperationFilter restricting(@Nonnull Set<Operation> operations) {
+	static @Nonnull OperationFilter restricting(@Nonnull Set<Operation> operations) {
 		return operation -> !operations.contains(operation);
 	}
 

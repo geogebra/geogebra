@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.filter;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
@@ -13,7 +15,7 @@ public enum ScientificOperationArgumentFilter implements ExpressionFilter, Inspe
 	INSTANCE;
 
 	@Override
-	public boolean isAllowed(ValidExpression expression) {
+	public boolean isAllowed(@Nonnull ValidExpression expression) {
 		return !expression.any(this);
 	}
 

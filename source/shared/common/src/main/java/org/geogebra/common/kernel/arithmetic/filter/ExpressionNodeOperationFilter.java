@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.filter;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.plugin.Operation;
 
@@ -12,12 +14,12 @@ public class ExpressionNodeOperationFilter extends ExpressionNodeFilter {
 
 	final Operation operation;
 
-	public ExpressionNodeOperationFilter(Operation operation) {
+	public ExpressionNodeOperationFilter(@Nonnull Operation operation) {
 		this.operation = operation;
 	}
 
 	@Override
-	protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
+	protected boolean isExpressionNodeAllowed(@Nonnull ExpressionNode expressionNode) {
 		return !expressionNode.isOperation(operation) || isExpressionNodeAllowedForOperation(
 				expressionNode);
 	}
@@ -28,7 +30,7 @@ public class ExpressionNodeOperationFilter extends ExpressionNodeFilter {
 	 * @param expression expression node
 	 * @return true if operation is allowed. returns false by default.
 	 */
-	protected boolean isExpressionNodeAllowedForOperation(ExpressionNode expression) {
+	protected boolean isExpressionNodeAllowedForOperation(@Nonnull ExpressionNode expression) {
 		return false;
 	}
 }

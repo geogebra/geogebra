@@ -30,7 +30,7 @@ final public class DeepExpressionFilter implements ExpressionFilter {
 	}
 
 	@Override
-	public boolean isAllowed(ValidExpression expression) {
+	public boolean isAllowed(@Nonnull ValidExpression expression) {
 		HashSet<ExpressionValue> allowedExpressionValues = new HashSet<>();
 
 		for (ExpressionValue child : expression) {
@@ -70,8 +70,7 @@ final public class DeepExpressionFilter implements ExpressionFilter {
 	 * @param provider provider
 	 * @return this filter
 	 */
-	@Nonnull
-	public DeepExpressionFilter allowWhen(@Nonnull AllowedExpressionsProvider provider) {
+	public @Nonnull DeepExpressionFilter allowWhen(@Nonnull AllowedExpressionsProvider provider) {
 		providers.add(provider);
 		return this;
 	}

@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.filter;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
@@ -10,7 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
  */
 public abstract class ExpressionNodeFilter implements ExpressionFilter {
 	@Override
-	final public boolean isAllowed(ValidExpression expression) {
+	final public boolean isAllowed(@Nonnull ValidExpression expression) {
 		if (!expression.isExpressionNode()) {
 			return true;
 		}
@@ -23,5 +25,5 @@ public abstract class ExpressionNodeFilter implements ExpressionFilter {
 	 * @param expressionNode expression node to test
 	 * @return true if expression node is allowed
 	 */
-	protected abstract boolean isExpressionNodeAllowed(ExpressionNode expressionNode);
+	protected abstract boolean isExpressionNodeAllowed(@Nonnull ExpressionNode expressionNode);
 }

@@ -575,7 +575,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 
 		@SuppressWarnings("PMD.SimplifyBooleanReturns")
 		@Override
-		protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
+		protected boolean isExpressionNodeAllowed(@Nonnull ExpressionNode expressionNode) {
 			if (operations.stream().noneMatch(expressionNode::isOperation)) {
 				return true;
 			}
@@ -589,7 +589,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	private static final class MmsFunctionExpressionFilter extends ExpressionNodeFilter {
 
 		@Override
-		protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
+		protected boolean isExpressionNodeAllowed(@Nonnull ExpressionNode expressionNode) {
 			Operation operation = expressionNode.getOperation();
 			if (Operation.isSimpleFunction(operation)) {
 				return !isList(expressionNode.getLeft());
@@ -653,7 +653,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	private static final class ParametricCurveExpressionFilter extends ExpressionNodeFilter {
 
 		@Override
-		protected boolean isExpressionNodeAllowed(ExpressionNode expressionNode) {
+		protected boolean isExpressionNodeAllowed(@Nonnull ExpressionNode expressionNode) {
 			ExpressionValue value = expressionNode.unwrap();
 			if (value instanceof GeoElement) {
 				GeoElementND element = ((GeoElement) value).unwrapSymbolic();

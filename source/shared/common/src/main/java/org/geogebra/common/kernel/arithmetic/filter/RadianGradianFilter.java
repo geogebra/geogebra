@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.filter;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
@@ -11,7 +13,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 public class RadianGradianFilter implements ExpressionFilter {
 
     @Override
-    public boolean isAllowed(ValidExpression expression) {
+    public boolean isAllowed(@Nonnull ValidExpression expression) {
         boolean containsDegree = false;
         for (ExpressionValue expressionValue: expression) {
             if (expressionValue instanceof MySpecialDouble) {

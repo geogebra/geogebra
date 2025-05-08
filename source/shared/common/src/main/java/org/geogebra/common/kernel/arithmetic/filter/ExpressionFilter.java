@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.filter;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
 /**
@@ -11,6 +13,5 @@ public interface ExpressionFilter {
 	 * @param expression An expression
 	 * @return true if the expression is allowed.
 	 */
-	boolean isAllowed(ValidExpression expression);
-
+	boolean isAllowed(@Nonnull ValidExpression expression);
 }

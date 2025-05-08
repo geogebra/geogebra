@@ -1,5 +1,7 @@
 package org.geogebra.common.exam.restrictions.ib;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -18,7 +20,7 @@ import org.geogebra.common.plugin.Operation;
 public final class PointDerivativeFilter implements ExpressionFilter, Inspecting {
 
 	@Override
-	public boolean isAllowed(ValidExpression expression) {
+	public boolean isAllowed(@Nonnull ValidExpression expression) {
 		// Inspecting searches for derivatives over a variable
 		return !expression.any(this);
 	}

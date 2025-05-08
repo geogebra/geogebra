@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.arithmetic.filter;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
 /**
@@ -15,12 +17,12 @@ final public class CompositeExpressionFilter implements ExpressionFilter {
 	 * Creates a new CompositeExpressionFilter
 	 * @param filters expression filters to combine
 	 */
-	public CompositeExpressionFilter(List<ExpressionFilter> filters) {
+	public CompositeExpressionFilter(@Nonnull List<ExpressionFilter> filters) {
 		this.filters = filters;
 	}
 
 	@Override
-	public boolean isAllowed(ValidExpression expression) {
+	public boolean isAllowed(@Nonnull ValidExpression expression) {
 		return filters.stream().allMatch(filter -> filter.isAllowed(expression));
 	}
 }

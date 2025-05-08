@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.filter.graphing;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionNodeOperationFilter;
 import org.geogebra.common.plugin.Operation;
@@ -11,7 +13,7 @@ final public class InnerProductExpressionFilter extends ExpressionNodeOperationF
 	}
 
 	@Override
-	protected boolean isExpressionNodeAllowedForOperation(ExpressionNode expression) {
+	protected boolean isExpressionNodeAllowedForOperation(@Nonnull ExpressionNode expression) {
 		return !(expression.getLeft().evaluatesToNDVector() && expression.getRight()
 				.evaluatesToNDVector());
 	}
