@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -21,6 +22,7 @@ final class SpreadsheetSelectionController {
 	 * If nothing is selected, the list is empty.
 	 */
 	private final List<Selection> selections = new ArrayList<>();
+	private List<Selection> previousSelections = List.of();
 
 	final MulticastEvent<List<Selection>> selectionsChanged = new MulticastEvent<>();
 
@@ -168,7 +170,7 @@ final class SpreadsheetSelectionController {
 				merged = mergeResult;
 			}
 		}
-		clearSelections();
+		selections.clear();
 		selections.addAll(independent);
 		selections.add(merged);
 		notifySelectionChanged();
@@ -192,7 +194,12 @@ final class SpreadsheetSelectionController {
 	}
 
 	private void notifySelectionChanged() {
-		selectionsChanged.notifyListeners(selections);
+		if (Objects.equals(previousSelections, selections)) {
+			return;
+		}
+		List<Selection> newSelections = List.copyOf(selections);
+		selectionsChanged.notifyListeners(newSelections);
+		previousSelections = newSelections;
 	}
 
 	public boolean isSelected(int row, int column) {
