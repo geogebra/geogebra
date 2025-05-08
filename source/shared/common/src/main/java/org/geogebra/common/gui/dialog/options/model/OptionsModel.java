@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
@@ -51,6 +52,7 @@ public abstract class OptionsModel {
 
 	protected abstract boolean isValidAt(int index);
 
+	@MissingDoc
 	public abstract void updateProperties();
 
 	public boolean checkGeos() {
@@ -77,6 +79,7 @@ public abstract class OptionsModel {
 		return false;
 	}
 
+	@MissingDoc
 	public abstract PropertyListener getListener();
 
 	public final boolean updateMPanel(Object[] geos2) {

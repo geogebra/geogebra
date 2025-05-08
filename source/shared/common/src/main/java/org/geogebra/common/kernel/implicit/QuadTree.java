@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.implicit;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -79,6 +80,7 @@ abstract class QuadTree {
 		return 0;
 	}
 
+	@MissingDoc
 	public abstract void updatePath();
 
 	public LinkSegments segments() {

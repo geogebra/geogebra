@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -43,6 +44,7 @@ public class ScriptInputModel extends OptionsModel {
 
 
 	public interface IScriptInputListener extends PropertyListener {
+		@MissingDoc
 		void setInput(String text, ScriptType type);
 	}
 

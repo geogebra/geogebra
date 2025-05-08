@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.kernel.Construction;
@@ -102,12 +103,16 @@ public class DataDisplayModel {
 		void setTableFromGeoFrequencyTable(AlgoFrequencyTable frequencyTable,
 				boolean useClasses);
 
+		@MissingDoc
 		void updatePlotPanelSettings();
 
+		@MissingDoc
 		void showManualClassesPanel();
 
+		@MissingDoc
 		void showNumClassesPanel();
 
+		@MissingDoc
 		void showPlotPanel();
 
 		/**

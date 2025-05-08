@@ -1,5 +1,7 @@
 package org.geogebra.common.awt;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * Stroke style.
  */
@@ -19,14 +21,19 @@ public interface GBasicStroke {
 	 */
 	GShape createStrokedShape(GShape shape, int capacity);
 
+	@MissingDoc
 	int getEndCap();
 
+	@MissingDoc
 	double getMiterLimit();
 
+	@MissingDoc
 	int getLineJoin();
 
+	@MissingDoc
 	double getLineWidth();
 
+	@MissingDoc
 	double[] getDashArray();
 
 }

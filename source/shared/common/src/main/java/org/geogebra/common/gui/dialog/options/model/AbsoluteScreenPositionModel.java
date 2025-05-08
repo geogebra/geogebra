@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
@@ -19,6 +20,7 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 
 	public interface PositionListener extends PropertyListener {
 
+		@MissingDoc
 		void setLocation(int x);
 	}
 

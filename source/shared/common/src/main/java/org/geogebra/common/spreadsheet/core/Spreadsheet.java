@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
@@ -54,19 +55,31 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	// Delegates
 
+	/**
+	 * @param controlsDelegate delegate for controls
+	 */
 	public void setControlsDelegate(@CheckForNull SpreadsheetControlsDelegate controlsDelegate) {
 		controller.setControlsDelegate(controlsDelegate);
 	}
 
+	/**
+	 * @param spreadsheetDelegate delegate for repaint notifications
+	 */
 	public void setSpreadsheetDelegate(@CheckForNull SpreadsheetDelegate spreadsheetDelegate) {
 		this.spreadsheetDelegate = spreadsheetDelegate;
 	}
 
+	/**
+	 * @param constructionDelegate delegate for creating objects in the construction
+	 */
 	public void setSpreadsheetConstructionDelegate(
 			@CheckForNull SpreadsheetConstructionDelegate constructionDelegate) {
 		controller.setSpreadsheetConstructionDelegate(constructionDelegate);
 	}
 
+	/**
+	 * @param viewportAdjusterDelegate delegate for scrollable container hosting the spreadsheet
+	 */
 	public void setViewportAdjustmentHandler(
 			@CheckForNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
 		controller.setViewportAdjustmentHandler(viewportAdjusterDelegate);
@@ -74,10 +87,22 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	// Layout
 
+	/**
+	 * Sets the width for a range of columns.
+	 * @param width double
+	 * @param minColumn Index from where to start setting the width
+	 * @param maxColumn Index of where to stop setting the width (inclusive)
+	 */
 	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
 		controller.getLayout().setWidthForColumns(width, minColumn, maxColumn);
 	}
 
+	/**
+	 * Sets the height for a range of rows.
+	 * @param height double
+	 * @param minRow Index from where to start setting the height
+	 * @param maxRow Index of where to stop setting the width (inclusive)
+	 */
 	public void setHeightForRows(double height, int minRow, int maxRow) {
 		controller.getLayout().setHeightForRows(height, minRow, maxRow);
 	}
@@ -288,6 +313,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.handleKeyPressed(keyCode, key, modifiers);
 	}
 
+	/**
+	 * Handle pressing the Tab key.
+	 */
 	public void tabPressed() {
 		controller.moveRight(false);
 	}
@@ -334,6 +362,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.scrollEditorIntoView();
 	}
 
+	@MissingDoc
 	public void saveContentAndHideCellEditor() {
 		controller.saveContentAndHideCellEditor();
 	}

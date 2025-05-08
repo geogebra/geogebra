@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl.objects.delegate;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -7,9 +8,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public interface GeoElementDelegate {
 
+	@MissingDoc
 	GeoElement getElement();
 
+	@MissingDoc
 	void checkIsApplicable() throws NotApplicablePropertyException;
 
+	@MissingDoc
 	boolean isEnabled();
 }

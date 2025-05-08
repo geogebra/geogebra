@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D;
 import org.geogebra.common.kernel.Construction;
@@ -663,6 +664,7 @@ public class GeoImplicitSurface extends GeoElement3D
 			this.update();
 		}
 
+		@MissingDoc
 		public abstract void update();
 
 		public int config(Cube cube) {

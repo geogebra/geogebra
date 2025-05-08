@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -65,8 +66,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void removeFromToolbarDefinition(int mode);
 
+	@MissingDoc
 	String getCustomToolbarDefinition();
 
+	@MissingDoc
 	SetLabels getInputHelpPanel();
 
 	/**
@@ -75,6 +78,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void addAlgebraInput(AlgebraInput ai);
 
+	@MissingDoc
 	AlgebraInput getAlgebraInput();
 
 	/**
@@ -83,6 +87,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void setActiveToolbarId(int toolbarID);
 
+	@MissingDoc
 	void removePopup();
 
 	/**
@@ -97,6 +102,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void setActiveView(int evID);
 
+	@MissingDoc
 	boolean isDraggingViews();
 
 	/**
@@ -106,6 +112,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void setDraggingViews(boolean enable, boolean temporary);
 
+	@MissingDoc
 	void refreshDraggingViews();
 
 	/**
@@ -130,6 +137,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	boolean isOpenFileViewLoaded();
 
+	@MissingDoc
 	void showSciSettingsView();
 
 	/**
@@ -171,8 +179,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void addStylebar(EuclidianView ev,
 					 EuclidianStyleBar dynamicStylebar);
 
+	@MissingDoc
 	void recalculateEnvironments();
 
+	@MissingDoc
 	void exportGGB();
 
 	/**
@@ -193,10 +203,13 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	String getTooltipURL(int mode);
 
+	@MissingDoc
 	void updateToolbarActions();
 
+	@MissingDoc
 	void resetMenu();
 
+	@MissingDoc
 	void resetMenuIfScreenChanged();
 
 	@Override
@@ -211,6 +224,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void setActivePanelAndToolbar(int viewID);
 
+	@MissingDoc
 	void switchToolsToAV();
 
 	/**
@@ -262,6 +276,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void updateUnbundledToolbar();
 
+	@MissingDoc
 	void updateUnbundledToolbarContent();
 
 	/**
@@ -329,6 +344,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void showPointsTV(int column, boolean show);
 
+	@MissingDoc
 	boolean isAlgebraViewActive();
 
 	/**
@@ -346,6 +362,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void addToolToNotesToolbox(String iconUrl, String name, String category, Object callback);
 
+	@MissingDoc
 	void toggleSpreadsheetView();
 
 	/**

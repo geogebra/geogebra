@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -48,6 +49,7 @@ public interface FunctionalNVar extends Evaluate2Var, VarString {
 	 */
 	void setForceInequality(boolean inequality);
 
+	@MissingDoc
 	boolean isForceInequality();
 
 	/**

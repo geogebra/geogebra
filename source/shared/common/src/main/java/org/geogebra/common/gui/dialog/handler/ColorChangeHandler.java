@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.handler;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 
 /**
@@ -17,6 +18,7 @@ public interface ColorChangeHandler {
 	 */
 	void onAlphaChange();
 
+	@MissingDoc
 	void onClearBackground();
 
 	/**

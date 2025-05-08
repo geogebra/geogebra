@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.data;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 
@@ -26,6 +27,7 @@ public interface PlotPanelEuclidianViewInterface
 	 */
 	public double getPixelOffset();
 
+	@MissingDoc
 	public void updateSizeKeepDrawables();
 
 }

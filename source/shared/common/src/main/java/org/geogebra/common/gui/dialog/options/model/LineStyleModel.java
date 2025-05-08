@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -23,20 +24,28 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	public interface ILineStyleListener extends PropertyListener {
+		@MissingDoc
 		void setThicknessSliderValue(int value);
 
+		@MissingDoc
 		void setThicknessSliderMinimum(int minimum);
 
+		@MissingDoc
 		void setOpacitySliderValue(int value);
 
+		@MissingDoc
 		void selectCommonLineStyle(boolean equalStyle, int type);
 
+		@MissingDoc
 		void setLineTypeVisible(boolean value);
 
+		@MissingDoc
 		void setLineStyleHiddenVisible(boolean value);
 
+		@MissingDoc
 		void selectCommonLineStyleHidden(boolean equalStyle, int type);
 
+		@MissingDoc
 		void setLineOpacityVisible(boolean value);
 	}
 

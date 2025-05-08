@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * Passes text to native screen reader.
  */
@@ -21,5 +23,6 @@ public interface ScreenReaderAdapter {
 	 */
     void readDelayed(String text);
 
+	@MissingDoc
 	void cancelReadDelayed();
 }

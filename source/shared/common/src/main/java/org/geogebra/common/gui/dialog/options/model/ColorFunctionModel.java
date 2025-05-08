@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -13,18 +14,25 @@ public class ColorFunctionModel extends OptionsModel {
 	private Kernel kernel;
 
 	public interface IColorFunctionListener extends PropertyListener {
+		@MissingDoc
 		void setRedText(String text);
 
+		@MissingDoc
 		void setGreenText(String text);
 
+		@MissingDoc
 		void setBlueText(String text);
 
+		@MissingDoc
 		void setAlphaText(String text);
 
+		@MissingDoc
 		void showAlpha(boolean value);
 
+		@MissingDoc
 		void setDefaultValues(GeoElement geo0);
 
+		@MissingDoc
 		void updateSelection(Object[] geos);
 	}
 

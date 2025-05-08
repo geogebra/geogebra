@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.CASFactory;
@@ -38,6 +39,7 @@ public interface AppInterface {
 	 */
 	public abstract void storeUndoInfo();
 
+	@MissingDoc
 	public abstract void closePopups();
 
 	/**
@@ -243,6 +245,7 @@ public interface AppInterface {
 	 */
 	public abstract void copyGraphicsViewToClipboard();
 
+	@MissingDoc
 	public abstract void exitAll();
 
 	/**
@@ -285,16 +288,22 @@ public interface AppInterface {
 	 */
 	public abstract boolean isHTML5Applet();
 
+	@MissingDoc
 	public abstract CASFactory getCASFactory();
 
+	@MissingDoc
 	public abstract Factory getFactory();
 
+	@MissingDoc
 	public abstract NormalizerMinimal getNormalizer();
 
+	@MissingDoc
 	public abstract void reset();
 
+	@MissingDoc
 	public abstract void resetUniqueId();
 
+	@MissingDoc
 	public abstract Localization getLocalization();
 
 	/**
@@ -309,6 +318,7 @@ public interface AppInterface {
 	 */
 	public abstract void showCustomizeToolbarGUI();
 
+	@MissingDoc
 	public abstract boolean isSelectionRectangleAllowed();
 
 	/**
@@ -325,5 +335,6 @@ public interface AppInterface {
 	 */
 	public abstract MyImage getInternalImageAdapter(String filename, int width, int height);
 
+	@MissingDoc
 	abstract ScriptManager newScriptManager();
 }

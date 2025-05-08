@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.printing.printable.vector;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
 /**
@@ -7,13 +8,18 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
  */
 public interface PrintableVector {
 
-    ExpressionValue getX();
+	@MissingDoc
+	ExpressionValue getX();
 
-    ExpressionValue getY();
+	@MissingDoc
+	ExpressionValue getY();
 
-    ExpressionValue getZ();
+	@MissingDoc
+	ExpressionValue getZ();
 
-    boolean isCASVector();
+	@MissingDoc
+	boolean isCASVector();
 
-    int getCoordinateSystem();
+	@MissingDoc
+	int getCoordinateSystem();
 }

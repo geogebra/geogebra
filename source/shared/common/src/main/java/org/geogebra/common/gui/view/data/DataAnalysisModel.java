@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
@@ -149,6 +150,7 @@ public class DataAnalysisModel {
 		 */
 		void showComboPanel2(boolean show);
 
+		@MissingDoc
 		void updateGUI();
 
 		/**

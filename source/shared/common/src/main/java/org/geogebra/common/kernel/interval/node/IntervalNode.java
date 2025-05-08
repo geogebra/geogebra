@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval.node;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.interval.Interval;
 
 /**
@@ -30,5 +31,6 @@ public interface IntervalNode {
 	 */
 	boolean hasFunctionVariable();
 
+	@MissingDoc
 	IntervalNode simplify();
 }

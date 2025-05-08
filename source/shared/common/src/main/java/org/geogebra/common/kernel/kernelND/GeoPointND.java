@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.LocateableList;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
@@ -339,6 +340,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public void setPath(Path path);
 
+	@MissingDoc
 	public Coords getCoords();
 
 	/**

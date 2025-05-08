@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ChartStyle;
@@ -30,50 +31,73 @@ public class FillingModel extends MultipleOptionsModel {
 	enum FillingProperty {ALPHA, IMAGE, SYMBOL, FILL_TYPE}
 
 	public interface IFillingListener extends IComboListener {
+		@MissingDoc
 		void setSymbolsVisible(boolean isVisible);
 
+		@MissingDoc
 		void setFillingImage(String imageFileName);
 
+		@MissingDoc
 		void setFillInverseVisible(boolean isVisible);
 
+		@MissingDoc
 		void setFillTypeVisible(boolean isVisible);
 
+		@MissingDoc
 		void setFillInverseSelected(boolean value);
 
+		@MissingDoc
 		void setFillValue(int value);
 
+		@MissingDoc
 		void setAngleValue(int value);
 
+		@MissingDoc
 		void setDistanceValue(int value);
 
+		@MissingDoc
 		void setBarChart(int cols);
 
+		@MissingDoc
 		void setImageFillType();
 
+		@MissingDoc
 		void setDottedFillType();
 
+		@MissingDoc
 		void setSymbolFillType();
 
+		@MissingDoc
 		void setBrickFillType();
 
+		@MissingDoc
 		void setCrossHatchedFillType();
 
+		@MissingDoc
 		void setHatchFillType();
 
+		@MissingDoc
 		void setStandardFillType();
 
+		@MissingDoc
 		int getSelectedBarIndex();
 
+		@MissingDoc
 		void selectSymbol(String barSymbol);
 
+		@MissingDoc
 		String getSelectedSymbolText();
 
+		@MissingDoc
 		double getFillingValue();
 
+		@MissingDoc
 		FillType getSelectedFillType();
 
+		@MissingDoc
 		int getDistanceValue();
 
+		@MissingDoc
 		int getAngleValue();
 	}
 

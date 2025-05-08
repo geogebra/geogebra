@@ -143,6 +143,9 @@ public interface JavaScriptAPI {
 	 */
 	void setOnTheFlyPointCreationActive(boolean flag);
 
+	/**
+	 * Create an undo point.
+	 */
 	void setUndoPoint();
 
 	/**

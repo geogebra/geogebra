@@ -40,10 +40,6 @@ final class Selection {
 		return type;
 	}
 
-	boolean isEmpty() {
-		return range.isEmptyRange();
-	}
-
 	boolean contains(int row, int column) {
 		return range.contains(row, column);
 	}

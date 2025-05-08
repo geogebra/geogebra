@@ -17,6 +17,7 @@ import java.util.Collection;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -49,8 +50,10 @@ import org.geogebra.common.util.ManualPage;
 
 public interface GuiManagerInterface extends SettingListener {
 
+	@MissingDoc
 	void updateMenubar();
 
+	@MissingDoc
 	void updateMenubarSelection();
 
 	/**
@@ -159,8 +162,10 @@ public interface GuiManagerInterface extends SettingListener {
 	void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
 							   GPoint mouseLoc);
 
+	@MissingDoc
 	boolean hasSpreadsheetView();
 
+	@MissingDoc
 	void attachSpreadsheetView();
 
 	/**
@@ -184,16 +189,22 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	boolean showView(int viewID);
 
+	@MissingDoc
 	View getConstructionProtocolData();
 
+	@MissingDoc
 	Editing getCasView();
 
+	@MissingDoc
 	boolean hasCasView();
 
+	@MissingDoc
 	SpreadsheetViewInterface getSpreadsheetView();
 
+	@MissingDoc
 	View getProbabilityCalculator();
 
+	@MissingDoc
 	View getDataAnalysisView();
 
 	/**
@@ -203,12 +214,16 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	View getPlotPanelView(int id);
 
+	@MissingDoc
 	View getPropertiesView();
 
+	@MissingDoc
 	View getTableValuesView();
 
+	@MissingDoc
 	TableValuesPoints getTableValuesPoints();
 
+	@MissingDoc
 	boolean hasProbabilityCalculator();
 
 	/**
@@ -223,10 +238,13 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void updateActions();
 
+	@MissingDoc
 	void updateSpreadsheetColumnWidths();
 
+	@MissingDoc
 	void updateConstructionProtocol();
 
+	@MissingDoc
 	void updateAlgebraInput();
 
 	/**
@@ -235,6 +253,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void setShowAuxiliaryObjects(boolean flag);
 
+	@MissingDoc
 	void updatePropertiesView();
 
 	/**
@@ -263,36 +282,52 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void startEditing(GeoElement geoElement);
 
+	@MissingDoc
 	boolean noMenusOpen();
 
+	@MissingDoc
 	void openFile();
 
+	@MissingDoc
 	Layout getLayout();
 
+	@MissingDoc
 	void showGraphicExport();
 
+	@MissingDoc
 	void showPSTricksExport();
 
+	@MissingDoc
 	void showWebpageExport();
 
+	@MissingDoc
 	void detachPropertiesView();
 
+	@MissingDoc
 	boolean hasPropertiesView();
 
+	@MissingDoc
 	void attachPropertiesView();
 
+	@MissingDoc
 	void attachAlgebraView();
 
+	@MissingDoc
 	void attachCasView();
 
+	@MissingDoc
 	void attachConstructionProtocolView();
 
+	@MissingDoc
 	void attachProbabilityCalculatorView();
 
+	@MissingDoc
 	void attachDataAnalysisView();
 
+	@MissingDoc
 	void detachDataAnalysisView();
 
+	@MissingDoc
 	boolean hasDataAnalysisView();
 
 	/**
@@ -305,10 +340,13 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void attachView(int viewId);
 
+	@MissingDoc
 	EuclidianView getActiveEuclidianView();
 
+	@MissingDoc
 	void showAxesCmd();
 
+	@MissingDoc
 	void showGridCmd();
 
 	/**
@@ -327,14 +365,19 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void detachView(int viewId);
 
+	@MissingDoc
 	void detachProbabilityCalculatorView();
 
+	@MissingDoc
 	void detachCasView();
 
+	@MissingDoc
 	void detachConstructionProtocolView();
 
+	@MissingDoc
 	void detachSpreadsheetView();
 
+	@MissingDoc
 	void detachAlgebraView();
 
 	/**
@@ -343,8 +386,10 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void setLayout(Layout layout);
 
+	@MissingDoc
 	void initialize();
 
+	@MissingDoc
 	void resetSpreadsheet();
 
 	/**
@@ -355,6 +400,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void setScrollToShow(boolean scrollToShow);
 
+	@MissingDoc
 	void updateToolbar();
 
 	/**
@@ -453,6 +499,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void applyCPsettings(ConstructionProtocolSettings cpSettings);
 
+	@MissingDoc
 	ConstructionProtocolNavigation getCPNavigationIfExists();
 
 	/**
@@ -476,8 +523,10 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	Collection<ConstructionProtocolNavigation> getAllCPNavigations();
 
+	@MissingDoc
 	void logout();
 
+	@MissingDoc
 	int getEuclidianViewCount();
 
 	/**
@@ -511,6 +560,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	void getToolImageURL(int mode, GeoImage geoImage, AsyncOperation<String> onload);
 
+	@MissingDoc
 	EuclidianViewInterfaceCommon getPlotPanelEuclidianView();
 
 	/**
@@ -554,8 +604,10 @@ public interface GuiManagerInterface extends SettingListener {
 	 */
 	String getHelpURL(ManualPage type, String pageName);
 
+	@MissingDoc
 	String getReportBugUrl();
 
+	@MissingDoc
 	String getLicenseUrl();
 
 	/**

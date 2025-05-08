@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -41,5 +42,6 @@ public abstract class TextPropertyModel extends OptionsModel {
 
 	protected abstract String getText();
 
+	@MissingDoc
 	public abstract String getTitle();
 }

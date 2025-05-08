@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 
 /**
@@ -7,5 +8,6 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
  */
 public interface HasTextFormatter {
 
+	@MissingDoc
 	HasTextFormat getFormatter();
 }

@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.data;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -56,6 +57,7 @@ public class StatisticsModel {
 		 */
 		void selectInferenceMode(String string);
 
+		@MissingDoc
 		String getSeparator();
 
 		/**
@@ -70,6 +72,7 @@ public class StatisticsModel {
 		 */
 		void updateTwoVarInference(int mode);
 
+		@MissingDoc
 		void updateAnovaTable();
 
 	}

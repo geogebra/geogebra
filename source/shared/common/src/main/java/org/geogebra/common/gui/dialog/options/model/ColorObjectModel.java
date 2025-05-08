@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -22,14 +23,18 @@ public class ColorObjectModel extends OptionsModel {
 
 	public interface IColorObjectListener extends PropertyListener {
 
+		@MissingDoc
 		void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
 				boolean hasBackground, boolean hasAlpha);
 
+		@MissingDoc
 		void updatePreview(GColor col, double alpha);
 
+		@MissingDoc
 		boolean isBackgroundColorSelected();
 
+		@MissingDoc
 		void updateNoBackground(GeoElement geo, GColor col, double alpha,
 				boolean updateAlphaOnly, boolean allFillable);
 

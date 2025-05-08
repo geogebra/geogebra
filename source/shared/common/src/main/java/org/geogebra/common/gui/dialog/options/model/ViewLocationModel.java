@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -10,10 +11,13 @@ public class ViewLocationModel extends OptionsModel {
 	private IGraphicsViewLocationListener listener;
 
 	public interface IGraphicsViewLocationListener extends PropertyListener {
+		@MissingDoc
 		public void selectView(int index, boolean isSelected);
 
+		@MissingDoc
 		public void setCheckBox3DVisible(boolean flag);
 
+		@MissingDoc
 		public void setCheckBoxForPlaneVisible(boolean flag);
 
 		// public void setCheckBoxAlgebraVisible(boolean flag);

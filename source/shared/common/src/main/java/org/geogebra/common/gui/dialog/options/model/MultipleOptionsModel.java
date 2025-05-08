@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -14,6 +15,7 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 		super(app);
 	}
 
+	@MissingDoc
 	public abstract List<String> getChoices(Localization loc);
 
 	@Override

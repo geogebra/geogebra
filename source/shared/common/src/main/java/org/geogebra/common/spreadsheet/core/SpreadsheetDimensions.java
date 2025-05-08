@@ -22,10 +22,20 @@ public interface SpreadsheetDimensions {
 	 */
 	@Nonnull Map<Integer, Double> getRowHeights();
 
+	/**
+	 * @return number of rows
+	 */
 	int getRows();
 
+	/**
+	 * @return number of columns
+	 */
 	int getColumns();
 
+	/**
+	 * Set provider for row and column size overrides.
+	 * @param customRowAndColumnSizeProvider size override provider
+	 */
 	void setCustomRowAndColumnSizeProvider(@CheckForNull SpreadsheetCustomRowAndColumnSizeProvider
 			customRowAndColumnSizeProvider);
 }

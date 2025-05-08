@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -16,6 +17,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	private boolean isDefaults;
 
 	public interface IReflexAngleListener extends IComboListener {
+		@MissingDoc
 		void setComboLabels();
 	}
 

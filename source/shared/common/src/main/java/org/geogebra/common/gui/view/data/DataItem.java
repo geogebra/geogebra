@@ -360,7 +360,7 @@ public class DataItem {
 			StringTemplate tpl = StringTemplate.defaultTemplate;
 			TabularRange range = getRangeList().get(0);
 
-			if (range.isColumn() || range.isPartialColumn()) {
+			if (range.isContiguousColumns() || range.isPartialColumn()) {
 				GeoElement geo = RelativeCopy.getValue(app,
 						range.getMinColumn(), range.getMinRow());
 

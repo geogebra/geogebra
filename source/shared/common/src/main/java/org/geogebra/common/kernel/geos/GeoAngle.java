@@ -597,6 +597,9 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		return isDrawable();
 	}
 
+	/**
+	 * Force this angle to show value in degrees, even when radian mode is used in Kernel.
+	 */
 	public void setKeepDegrees() {
 		this.keepDegrees = true;
 	}

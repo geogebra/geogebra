@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
@@ -34,20 +35,28 @@ public class TextOptionsModel extends OptionsModel {
 
 	public interface ITextOptionsListener extends PropertyListener {
 
+		@MissingDoc
 		void selectSize(int index);
 
+		@MissingDoc
 		void selectFont(int index);
 
+		@MissingDoc
 		void selectDecimalPlaces(int index);
 
+		@MissingDoc
 		void updateWidgetVisibility();
 
+		@MissingDoc
 		void selectFontStyle(int style);
 
+		@MissingDoc
 		void setEditorText(ArrayList<DynamicTextElement> list);
 
+		@MissingDoc
 		void updatePreviewPanel();
 
+		@MissingDoc
 		void reinitEditor();
 
 	}

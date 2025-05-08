@@ -1,11 +1,13 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 public class ShowObjectModel extends BooleanOptionModel {
 	public interface IShowObjectListener extends IBooleanOptionListener {
+		@MissingDoc
 		void updateCheckbox(boolean value, boolean isEnabled);
 
 	}

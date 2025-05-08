@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.inline;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 
 /**
@@ -41,6 +42,7 @@ public interface InlineFormulaController {
 	 */
 	void toForeground(int x, int y);
 
+	@MissingDoc
 	void toBackground();
 
 	/**
@@ -58,10 +60,13 @@ public interface InlineFormulaController {
 	 */
 	void setFontSize(int fontSize);
 
+	@MissingDoc
 	boolean isInForeground();
 
+	@MissingDoc
 	void discard();
 
+	@MissingDoc
 	String getText();
 
 	/**

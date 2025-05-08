@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -15,8 +16,10 @@ public class MultiVarStatTableModel extends StatTableModel {
 	 */
 	public interface MultiVarStatTableListener extends StatTableListener {
 
+		@MissingDoc
 		String[] getDataTitles();
 
+		@MissingDoc
 		boolean isMinimalTable();
 
 	}

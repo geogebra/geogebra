@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -14,6 +15,7 @@ public class ShowLabelModel extends OptionsModel {
 	private IShowLabelListener listener;
 
 	public interface IShowLabelListener extends PropertyListener {
+		@MissingDoc
 		void update(boolean isEqualVal, boolean isEqualMode, int mode);
 
 	}

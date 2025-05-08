@@ -6,6 +6,7 @@ import org.apache.commons.math3.distribution.TDistribution;
 import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.stat.inference.TTest;
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
@@ -67,6 +68,7 @@ public class TwoVarInferenceModel {
 		 */
 		void setFormattedValueAt(double value, int row, int col);
 
+		@MissingDoc
 		GeoList getDataSelected();
 
 		/**

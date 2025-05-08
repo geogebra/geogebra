@@ -83,14 +83,23 @@ public final class TabularRange {
 		return maxColumn;
 	}
 
-	public boolean isColumn() {
+	/**
+	 * @return whether this range consists of one or more columns
+	 */
+	public boolean isContiguousColumns() {
 		return (anchorRow == -1 || minRow == -1) && anchorColumn != -1;
 	}
 
-	public boolean isRow() {
+	/**
+	 * @return whether this range consists of one or more rows
+	 */
+	public boolean isContiguousRows() {
 		return (anchorColumn == -1 || minColumn == -1) && anchorRow != -1;
 	}
 
+	/**
+	 * @return whether this range contains all spreadsheet cells
+	 */
 	public boolean areAllCellsSelected() {
 		return minRow == -1 && minColumn == -1;
 	}
@@ -135,28 +144,28 @@ public final class TabularRange {
 	 * @return Whether this contains a single row
 	 */
 	public boolean isSingleRow() {
-		return minRow == maxRow && isRow();
+		return minRow == maxRow && isContiguousRows();
 	}
 
 	/**
 	 * @return Whether this contains a single column
 	 */
 	public boolean isSingleColumn() {
-		return minColumn == maxColumn && isColumn();
+		return minColumn == maxColumn && isContiguousColumns();
 	}
 
 	/**
 	 * @return true if cell range is part of a row, but bigger than one cell
 	 */
 	public boolean isPartialRow() {
-		return !isSingleCell() && !isRow() && (maxRow - minRow == 0);
+		return !isSingleCell() && !isContiguousRows() && (maxRow - minRow == 0);
 	}
 
 	/**
 	 * @return true if cell range is part of a column, but bigger than one cell
 	 */
 	public boolean isPartialColumn() {
-		return !isSingleCell() && !isColumn() && (maxColumn - minColumn == 0);
+		return !isSingleCell() && !isContiguousColumns() && (maxColumn - minColumn == 0);
 	}
 
 	/**
@@ -173,6 +182,10 @@ public final class TabularRange {
 		return minColumn == -1 && maxColumn == -1;
 	}
 
+	/**
+	 * Creates a copy of this range.
+	 * @return copy of this range
+	 */
 	public TabularRange duplicate() {
 		return new TabularRange(anchorRow, anchorColumn, minRow, minColumn, maxRow, maxColumn);
 	}
@@ -200,10 +213,20 @@ public final class TabularRange {
 		return intersectsRow(row) && intersectsColumn(column);
 	}
 
+	/**
+	 * Check intersection with a column, always true for row ranges.
+	 * @param column column index
+	 * @return whether this range intersects a given column.
+	 */
 	public boolean intersectsColumn(int column) {
 		return column >= minColumn && column <= maxColumn || minColumn == -1;
 	}
 
+	/**
+	 * Check intersection with a row, always true for column ranges.
+	 * @param row row index
+	 * @return whether this range intersects a given row
+	 */
 	public boolean intersectsRow(int row) {
 		return row >= minRow && row <= maxRow || minRow == -1;
 	}
@@ -269,7 +292,7 @@ public final class TabularRange {
 	public ArrayList<TabularRange> toPartialColumnList() {
 		ArrayList<TabularRange> list = new ArrayList<>();
 
-		if (isColumn()) {
+		if (isContiguousColumns()) {
 			for (int col = minColumn; col <= maxColumn; col++) {
 				TabularRange tr = new TabularRange(-1, col, 0, col, maxRow, col);
 				list.add(tr);
@@ -289,7 +312,7 @@ public final class TabularRange {
 	public ArrayList<TabularRange> toPartialRowList() {
 		ArrayList<TabularRange> list = new ArrayList<>();
 
-		if (isRow()) {
+		if (isContiguousRows()) {
 			for (int row = minRow; row <= maxRow; row++) {
 				list.add(new TabularRange(row, 0, row, -1, row, maxColumn));
 			}
@@ -301,6 +324,12 @@ public final class TabularRange {
 		return list;
 	}
 
+	/**
+	 * Factory method, same as constructor up to the order of arguments.
+	 * @return range with given bounds
+	 * @deprecated use constructor instead
+	 */
+	@Deprecated
 	public static TabularRange range(int fromRow, int toRow, int fromCol, int toCol) {
 		return new TabularRange(fromRow, fromCol, toRow, toCol);
 	}

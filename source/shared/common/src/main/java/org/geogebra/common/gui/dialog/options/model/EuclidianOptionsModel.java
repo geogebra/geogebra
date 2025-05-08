@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -516,11 +517,20 @@ public class EuclidianOptionsModel {
 	}
 
 	public interface IBasicTab {
+		@MissingDoc
 		void updateAxes(GColor color, boolean isShown, boolean isBold);
+
+		@MissingDoc
 		void updateAxisFontStyle(boolean isSerif, boolean isBold,
 				boolean isItalic);
+
+		@MissingDoc
 		void updateBackgroundColor(GColor color);
+
+		@MissingDoc
 		void selectTooltipType(int index);
+
+		@MissingDoc
 		void selectAxesStyle(int index);
 
 		/**
@@ -530,7 +540,11 @@ public class EuclidianOptionsModel {
 		 *            whether the checkboxes should be enabled
 		 */
 		void updateConsProtocolPanel(boolean isVisible);
+
+		@MissingDoc
 		void showMouseCoords(boolean value);
+
+		@MissingDoc
 		void enableLock(boolean zoomable);
 
 		/**
@@ -575,6 +589,8 @@ public class EuclidianOptionsModel {
 		 *            true if the lines should be bold.
 		 */
 		void updateRuler(BackgroundType bgTypeIdx, GColor color, int lineStyle, boolean bold);
+
+		@MissingDoc
 		void updateGrid(GColor color, boolean isShown, boolean isBold,
 				int gridType);
 		/**

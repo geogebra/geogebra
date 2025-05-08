@@ -1,5 +1,7 @@
 package org.geogebra.common.awt;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * Affine transform.
  */
@@ -116,6 +118,7 @@ public interface GAffineTransform {
 	void transform(double[] srcCoordinates, int srcOffset, double[] destCoordinates,
 			int destOffset, int nPoints);
 
+	@MissingDoc
 	GAffineTransform createInverse() throws Exception;
 
 	/**
@@ -150,8 +153,10 @@ public interface GAffineTransform {
 	 */
 	void translate(double tx, double ty);
 
+	@MissingDoc
 	double getTranslateX();
 
+	@MissingDoc
 	double getTranslateY();
 
 	/**
@@ -172,6 +177,7 @@ public interface GAffineTransform {
 	 */
 	void rotate(double theta);
 
+	@MissingDoc
 	boolean isIdentity();
 
 	/**

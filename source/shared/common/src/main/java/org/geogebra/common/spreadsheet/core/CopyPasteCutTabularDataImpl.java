@@ -46,9 +46,9 @@ final class CopyPasteCutTabularDataImpl<T>
 	@Override
 	public void copyDeep(TabularRange source) {
 		TabularRange sourceToCopy = source;
-		if (source.isColumn()) {
+		if (source.isContiguousColumns()) {
 			sourceToCopy = getColumnCopy(source);
-		} else if (source.isRow()) {
+		} else if (source.isContiguousRows()) {
 			sourceToCopy = getRowCopy(source);
 		} else if (source.areAllCellsSelected()) {
 			sourceToCopy = getAllCellsCopy();

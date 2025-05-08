@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.inline;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -33,10 +34,13 @@ public interface InlineTableController extends HasTextFormat {
 	 */
 	void setHeight(double height);
 
+	@MissingDoc
 	void removeFromDom();
 
+	@MissingDoc
 	void update();
 
+	@MissingDoc
 	boolean isInEditMode();
 
 	/**
@@ -53,8 +57,10 @@ public interface InlineTableController extends HasTextFormat {
 	 */
 	void toForeground(int x, int y);
 
+	@MissingDoc
 	void toBackground();
 
+	@MissingDoc
 	void updateContent();
 
 	/**
@@ -74,16 +80,22 @@ public interface InlineTableController extends HasTextFormat {
 	 */
 	String urlByCoordinate(int x, int y);
 
+	@MissingDoc
 	void insertRowAbove();
 
+	@MissingDoc
 	void insertRowBelow();
 
+	@MissingDoc
 	void insertColumnLeft();
 
+	@MissingDoc
 	void insertColumnRight();
 
+	@MissingDoc
 	void removeRow();
 
+	@MissingDoc
 	void removeColumn();
 
 	/**
@@ -91,6 +103,7 @@ public interface InlineTableController extends HasTextFormat {
 	 */
 	void setBorderThickness(int borderThickness);
 
+	@MissingDoc
 	int getBorderThickness();
 
 	/**
@@ -130,12 +143,16 @@ public interface InlineTableController extends HasTextFormat {
 	 */
 	void setHeading(GColor color, boolean isRow);
 
+	@MissingDoc
 	void saveContent();
 
+	@MissingDoc
 	boolean isSingleCellSelection();
 
+	@MissingDoc
 	boolean hasSelection();
 
+	@MissingDoc
 	int getSelectedColumn();
 
 	/**

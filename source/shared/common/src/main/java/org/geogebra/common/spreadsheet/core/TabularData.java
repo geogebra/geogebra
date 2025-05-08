@@ -14,12 +14,25 @@ public interface TabularData<T> extends HasTabularValues<T> {
 
 	// -- Delegates & Listeners --
 
+	/**
+	 * @return cell processor
+	 */
 	@Nonnull SpreadsheetCellProcessor getCellProcessor();
 
+	/**
+	 * @return provider of paste operations
+	 */
 	@CheckForNull TabularDataPasteInterface<T> getPaste();
 
+	/**
+	 * @return utility for pasting data by pointer drag
+	 */
 	@CheckForNull CellDragPasteHandler getCellDragPasteHandler();
 
+	/**
+	 * Add a listener for data update and data dimension change.
+	 * @param listener change listener
+	 */
 	void addChangeListener(@Nonnull TabularDataChangeListener listener);
 
 	// -- Structure --
@@ -65,12 +78,28 @@ public interface TabularData<T> extends HasTabularValues<T> {
 		}
 	}
 
+	/**
+	 * Get name of a column.
+	 * @param column column index
+	 * @return column name
+	 */
 	@Nonnull String getColumnName(int column);
 
+	/**
+	 * Get name of a row.
+	 * @param row row index
+	 * @return row name
+	 */
 	default @Nonnull String getRowName(int row) {
 		return String.valueOf(row + 1);
 	}
 
+	/**
+	 * Get a cell name.
+	 * @param row row index
+	 * @param column column index
+	 * @return cell name
+	 */
 	default @Nonnull String getCellName(int row, int column) {
 		return getColumnName(column) + getRowName(row);
 	}

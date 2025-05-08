@@ -5,5 +5,10 @@ package org.geogebra.common.spreadsheet.core;
  */
 @FunctionalInterface
 public interface TabularRangeAction {
+
+	/**
+	 * @param row row index
+	 * @param column column index
+	 */
 	void run(int row, int column);
 }

@@ -30,6 +30,9 @@ public interface SpreadsheetControlsDelegate {
 	 */
 	void hideContextMenu();
 
+	/**
+	 * @return Interface to system clipboard.
+	 */
 	@CheckForNull ClipboardInterface getClipboard();
 
 	/**

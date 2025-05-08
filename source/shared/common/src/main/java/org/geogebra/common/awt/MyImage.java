@@ -1,5 +1,7 @@
 package org.geogebra.common.awt;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * Wrapper for images that can be either bitmap or SVG
  * 
@@ -10,14 +12,19 @@ package org.geogebra.common.awt;
  */
 public interface MyImage {
 
+	@MissingDoc
 	int getWidth();
 
+	@MissingDoc
 	int getHeight();
 
+	@MissingDoc
 	boolean isSVG();
 
+	@MissingDoc
 	GGraphics2D createGraphics();
 
+	@MissingDoc
 	String toLaTeXStringBase64();
 
 	/**

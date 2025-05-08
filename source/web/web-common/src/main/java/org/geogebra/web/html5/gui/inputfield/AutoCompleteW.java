@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.inputfield;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -7,6 +8,7 @@ import org.gwtproject.user.client.ui.Widget;
  * Input field with autocomplete.
  */
 public interface AutoCompleteW {
+	@MissingDoc
 	boolean getAutoComplete();
 
 	/**
@@ -21,6 +23,7 @@ public interface AutoCompleteW {
 	 */
 	void insertString(String text);
 
+	@MissingDoc
 	String getText();
 
 	/**
@@ -29,10 +32,13 @@ public interface AutoCompleteW {
 	 */
 	void setText(String s);
 
+	@MissingDoc
 	boolean isSuggesting();
 
+	@MissingDoc
 	void requestFocus();
 
+	@MissingDoc
 	Widget toWidget();
 
 	/**
@@ -47,5 +53,6 @@ public interface AutoCompleteW {
 	 */
 	String getCommand();
 
+	@MissingDoc
 	AppW getApplication();
 }

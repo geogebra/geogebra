@@ -1,11 +1,13 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.main.App;
 
 public abstract class BooleanOptionModel extends OptionsModel {
 	private IBooleanOptionListener listener;
 
 	public interface IBooleanOptionListener extends PropertyListener {
+		@MissingDoc
 		void updateCheckbox(boolean isEqual);
 	}
 
@@ -14,8 +16,10 @@ public abstract class BooleanOptionModel extends OptionsModel {
 		this.setListener(listener);
 	}
 
+	@MissingDoc
 	public abstract boolean getValueAt(int index);
 
+	@MissingDoc
 	public abstract void apply(int index, boolean value);
 
 	@Override
@@ -48,5 +52,6 @@ public abstract class BooleanOptionModel extends OptionsModel {
 		this.listener = listener;
 	}
 
+	@MissingDoc
 	public abstract String getTitle();
 }

@@ -237,7 +237,7 @@ public class CellRangeProcessor {
 		// has at least three data values.
 		int columnCount = 0;
 		for (TabularRange cr : rangeList) {
-			if (!cr.isColumn()) {
+			if (!cr.isContiguousColumns()) {
 				return false;
 			}
 			if (!containsMinimumGeoNumeric(cr, 3)) {
@@ -353,7 +353,7 @@ public class CellRangeProcessor {
 				for (int col = cr.getMinColumn(); col <= cr
 						.getMaxColumn(); col++) {
 
-					if (cr.isColumn()) {
+					if (cr.isContiguousColumns()) {
 						tempRange = new TabularRange(-1, col);
 						tempRange = CellRangeUtil.getActual(tempRange, app);
 					} else {
@@ -370,7 +370,7 @@ public class CellRangeProcessor {
 
 				for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 
-					if (cr.isRow()) {
+					if (cr.isContiguousRows()) {
 						tempRange = new TabularRange(row, -1);
 						tempRange = CellRangeUtil.getActual(tempRange, app);
 					} else {
@@ -952,7 +952,7 @@ public class CellRangeProcessor {
 	public boolean isAllColumns(ArrayList<TabularRange> rangeList) {
 		boolean isAllColumns = true;
 		for (TabularRange cr : rangeList) {
-			if (!cr.isColumn()) {
+			if (!cr.isContiguousColumns()) {
 				isAllColumns = false;
 			}
 		}
@@ -1468,7 +1468,7 @@ public class CellRangeProcessor {
 
 		String s;
 
-		if (range.isColumn()) {
+		if (range.isContiguousColumns()) {
 			s = loc.getCommand("Column") + " " + GeoElementSpreadsheet
 					.getSpreadsheetColumnName(range.getMinColumn());
 			if (!onlyFirstRowColumn && !range.is1D()) {
@@ -1477,7 +1477,7 @@ public class CellRangeProcessor {
 								.getSpreadsheetColumnName(range.getMaxColumn());
 			}
 
-		} else if (range.isRow()) {
+		} else if (range.isContiguousRows()) {
 			s = loc.getCommand("Row") + " " + (range.getMinRow() + 1);
 
 			if (!onlyFirstRowColumn && !range.is1D()) {

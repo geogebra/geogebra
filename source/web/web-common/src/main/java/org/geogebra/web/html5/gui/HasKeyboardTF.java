@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusHandler;
@@ -80,5 +81,6 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	 */
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler);
 
+	@MissingDoc
 	void onBackSpace();
 }

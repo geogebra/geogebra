@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
@@ -14,12 +15,16 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
  */
 public interface GGraphics2DWI extends GGraphics2D {
 
+	@MissingDoc
 	int getOffsetWidth();
 
+	@MissingDoc
 	int getOffsetHeight();
 
+	@MissingDoc
 	int getCoordinateSpaceWidth();
 
+	@MissingDoc
 	Canvas getCanvas();
 
 	/**
@@ -36,12 +41,16 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	void setCoordinateSpaceSize(int realWidth, int realHeight);
 
+	@MissingDoc
 	double getDevicePixelRatio();
 
+	@MissingDoc
 	int getAbsoluteTop();
 
+	@MissingDoc
 	int getAbsoluteLeft();
 
+	@MissingDoc
 	void startDebug();
 
 	/**
@@ -50,13 +59,16 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	void setPreferredSize(GDimension preferredSize);
 
+	@MissingDoc
 	int getCoordinateSpaceHeight();
 
 	@Override
 	GFontW getFont();
 
+	@MissingDoc
 	void forceResize();
 
+	@MissingDoc
 	JLMContext2d getContext();
 
 	/**
@@ -66,6 +78,7 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	void setCoordinateSpaceSizeNoTransformNoColor(int width, int height);
 
+	@MissingDoc
 	void clearAll();
 
 	/**
@@ -84,7 +97,9 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	boolean isAttached();
 
+	@MissingDoc
 	int embed();
 
+	@MissingDoc
 	void resetLayer();
 }

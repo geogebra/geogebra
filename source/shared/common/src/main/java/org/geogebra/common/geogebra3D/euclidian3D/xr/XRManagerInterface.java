@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.xr;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -31,11 +32,14 @@ public interface XRManagerInterface<T> {
     /** in projection matrix, we don't trust factors more than 10% precision */
     float PROJECT_FACTOR_RELATIVE_PRECISION = 0.10f;
 
-    Coords getHittingDirection();
+	@MissingDoc
+	Coords getHittingDirection();
 
-    Coords getHittingOrigin();
+	@MissingDoc
+	Coords getHittingOrigin();
 
-    Coords getHittingFloor();
+	@MissingDoc
+	Coords getHittingFloor();
 
     /**
      * @param event event
@@ -48,27 +52,33 @@ public interface XRManagerInterface<T> {
      */
     double checkHittingFloorZ(double z);
 
-    double getHittingDistance();
+	@MissingDoc
+	double getHittingDistance();
 
-    void setBackgroundColor();
+	@MissingDoc
+	void setBackgroundColor();
 
     /**
      * @param backgroundStyle background style
      */
     void setBackgroundStyle(Renderer.BackgroundStyle backgroundStyle);
 
-    Renderer.BackgroundStyle getBackgroundStyle();
+	@MissingDoc
+	Renderer.BackgroundStyle getBackgroundStyle();
 
     /**
      * @param z z-coordinate of first floor
      */
     void setFirstFloor(double z);
 
-    void setXRScaleAtStart();
+	@MissingDoc
+	void setXRScaleAtStart();
 
-    CoordMatrix4x4 getUndoRotationMatrix();
+	@MissingDoc
+	CoordMatrix4x4 getUndoRotationMatrix();
 
-    CoordMatrix4x4 getViewModelMatrix();
+	@MissingDoc
+	CoordMatrix4x4 getViewModelMatrix();
 
     /**
      * Convert XR coordinates to construction coordinates.
@@ -82,13 +92,17 @@ public interface XRManagerInterface<T> {
      */
     void setProjectionMatrixViewForXR(CoordMatrix4x4 projectionMatrix);
 
-    void fitThickness();
+	@MissingDoc
+	void fitThickness();
 
-    float getXRScaleFactor();
+	@MissingDoc
+	float getXRScaleFactor();
 
-    void resetScaleFromXR();
+	@MissingDoc
+	void resetScaleFromXR();
 
-    String getXRRatioInString();
+	@MissingDoc
+	String getXRRatioInString();
 
     /**
      * @param ratio XR ratio
@@ -100,5 +114,6 @@ public interface XRManagerInterface<T> {
      */
     void setRatioIsShown(boolean ratioIsShown);
 
-    void calculateAndShowRatio();
+	@MissingDoc
+	void calculateAndShowRatio();
 }

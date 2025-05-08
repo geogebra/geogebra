@@ -114,11 +114,11 @@ public class CellFormat implements CellFormatInterface {
 	}
 
 	@Override
-	public int getAlignment(int col, int row, boolean isText) {
+	public int getAlignment(int col, int row, boolean textCell) {
 		Integer alignment = (Integer) getCellFormat(col, row, CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
 			return alignment;
-		} else if (isText) {
+		} else if (textCell) {
 			return ALIGN_LEFT;
 		} else {
 			return ALIGN_RIGHT;
@@ -427,7 +427,7 @@ public class CellFormat implements CellFormatInterface {
 	 * format does not exist, returns null.
 	 */
 	@Override
-	public Object getCellFormat(int x, int y, int formatType) {
+	public Object getCellFormat(int col, int row, int formatType) {
 
 		NonNullHashMap formatMap = formatMapArray[formatType];
 		if (formatMap == null || formatMap.isEmpty()) {
@@ -436,9 +436,9 @@ public class CellFormat implements CellFormatInterface {
 		Object formatObject = null;
 
 		// Create special keys for the cell, row and column
-		SpreadsheetCoords rowKey = newCoords(-1, y);
-		SpreadsheetCoords columnKey = newCoords(x, -1);
-		SpreadsheetCoords cellKey = newCoords(x, y);
+		SpreadsheetCoords rowKey = newCoords(-1, row);
+		SpreadsheetCoords columnKey = newCoords(col, -1);
+		SpreadsheetCoords cellKey = newCoords(col, row);
 
 		// Check there is a format for this cell
 		if (formatMap.containsKey(cellKey)) {
@@ -500,10 +500,10 @@ public class CellFormat implements CellFormatInterface {
 	 * Add a format value to a single cell.
 	 */
 	@Override
-	public void setFormat(SpreadsheetCoords cell, int formatType, Object formatValue) {
+	public void setFormat(SpreadsheetCoords cell, int formatType, Object value) {
 		List<TabularRange> crList = new ArrayList<>();
 		crList.add(new TabularRange(cell.row, cell.column));
-		setFormat(crList, formatType, formatValue);
+		setFormat(crList, formatType, value);
 	}
 
 	/**
@@ -563,7 +563,7 @@ public class CellFormat implements CellFormatInterface {
 
 		for (TabularRange cr : crList) {
 			// cr.debug();
-			if (cr.isRow()) {
+			if (cr.isContiguousRows()) {
 
 				if (highestIndexRow < cr.getMaxRow()) {
 					highestIndexRow = cr.getMaxRow();
@@ -586,7 +586,7 @@ public class CellFormat implements CellFormatInterface {
 				}
 			}
 
-			else if (cr.isColumn()) {
+			else if (cr.isContiguousColumns()) {
 
 				if (highestIndexColumn < cr.getMaxColumn()) {
 					highestIndexColumn = cr.getMaxColumn();
@@ -679,7 +679,7 @@ public class CellFormat implements CellFormatInterface {
 			return;
 		}
 
-		if (cr.isRow()) {
+		if (cr.isContiguousRows()) {
 
 			switch (borderStyle) {
 
@@ -726,7 +726,7 @@ public class CellFormat implements CellFormatInterface {
 			return;
 		}
 
-		if (cr.isColumn()) {
+		if (cr.isContiguousColumns()) {
 
 			switch (borderStyle) {
 
@@ -959,9 +959,6 @@ public class CellFormat implements CellFormatInterface {
 	// XML handling
 	// ========================================================
 
-	/**
-	 * Returns XML representation of the format maps
-	 */
 	@Override
 	public void getXML(StringBuilder sb) {
 
@@ -1048,12 +1045,6 @@ public class CellFormat implements CellFormatInterface {
 
 	}
 
-	/**
-	 * Decodes XML string and puts format values into the format maps.
-	 * 
-	 * @param xml
-	 *            String to be decoded
-	 */
 	@Override
 	public void processXMLString(String xml) {
 		clearAll();

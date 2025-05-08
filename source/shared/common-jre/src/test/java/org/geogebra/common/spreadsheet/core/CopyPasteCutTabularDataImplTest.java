@@ -162,7 +162,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.selectPastedContent();
 		Selection lastSelection = selectionController.getLastSelection();
 		assertNotNull(lastSelection);
-		assertTrue(lastSelection.getRange().isRow());
+		assertTrue(lastSelection.getRange().isContiguousRows());
 	}
 
 	@Test
@@ -202,7 +202,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.selectPastedContent();
 		Selection lastSelection = selectionController.getLastSelection();
 		assertNotNull(lastSelection);
-		assertTrue(lastSelection.getRange().isColumn());
+		assertTrue(lastSelection.getRange().isContiguousColumns());
 	}
 
 	@Test

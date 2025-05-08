@@ -111,6 +111,10 @@ public final class SpreadsheetStyle {
 
 	// Text alignment
 
+	/**
+	 * Returns text alignment for the cell at (row, column).
+	 * @return one of the CellFomat.ALIGN_* constants
+	 */
 	public Integer getAlignment(int row, int column) {
 		return (Integer) format.getCellFormat(column, row, CellFormat.FORMAT_ALIGN);
 	}

@@ -251,7 +251,7 @@ final class SpreadsheetSelectionController {
 	 * @return Whether currently only rows are selected
 	 */
 	boolean areOnlyRowsSelected() {
-		return selections.stream().allMatch(selection -> selection.getRange().isRow());
+		return selections.stream().allMatch(selection -> selection.getRange().isContiguousRows());
 	}
 
 	/**
@@ -267,7 +267,8 @@ final class SpreadsheetSelectionController {
 	 * @return Whether currently only columns are selected
 	 */
 	boolean areOnlyColumnsSelected() {
-		return selections.stream().allMatch(selection -> selection.getRange().isColumn());
+		return selections.stream().allMatch(
+				selection -> selection.getRange().isContiguousColumns());
 	}
 
 	/**
@@ -275,7 +276,8 @@ final class SpreadsheetSelectionController {
 	 */
 	boolean areOnlyCellsSelected() {
 		return selections.stream().allMatch(
-				selection -> !selection.getRange().isRow() && !selection.getRange().isColumn());
+				selection -> !selection.getRange().isContiguousRows()
+						&& !selection.getRange().isContiguousColumns());
 	}
 
 	boolean isSingleSelectionType() {

@@ -1,16 +1,22 @@
 package org.geogebra.common.awt;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * Rectangle.
  */
 public interface GRectangle2D extends GRectangularShape {
 
+	@MissingDoc
 	double getY();
 
+	@MissingDoc
 	double getX();
 
+	@MissingDoc
 	double getWidth();
 
+	@MissingDoc
 	double getHeight();
 
 	/**
@@ -48,12 +54,16 @@ public interface GRectangle2D extends GRectangularShape {
 	 */
 	GRectangle2D createIntersection(GRectangle2D r);
 
+	@MissingDoc
 	double getMinX();
 
+	@MissingDoc
 	double getMaxX();
 
+	@MissingDoc
 	double getMinY();
 
+	@MissingDoc
 	double getMaxY();
 
 	/**

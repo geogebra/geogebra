@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.implicit;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -180,9 +181,12 @@ public interface GeoImplicit extends Path, EquationValue {
 	 */
 	void setExpanded(Equation equationExpanded);
 
+	@MissingDoc
 	void setToUser();
 
+	@MissingDoc
 	void setToImplicit();
 
+	@MissingDoc
 	Form getEquationForm();
 }

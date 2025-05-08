@@ -2,6 +2,7 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.function.Consumer;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App.ExportType;
@@ -73,6 +74,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon {
 	String getExportImageDataUrl(double scale, boolean transparent,
 			boolean greyscale);
 
+	@MissingDoc
 	String getCanvasBase64WithTypeString();
 
 	/**

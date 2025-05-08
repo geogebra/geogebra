@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Locateable;
 
@@ -94,6 +95,7 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	 */
 	public int getTotalWidth(EuclidianViewInterfaceCommon view);
 
+	@MissingDoc
 	boolean isFurniture();
 
 	/**

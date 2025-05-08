@@ -277,28 +277,28 @@ public class KernelCellDragPasteHandler implements CellDragPasteHandler {
 	}
 
 	private int getMinRowIndexFromOrigin() {
-		if (rangeToCopy.isColumn()) {
+		if (rangeToCopy.isContiguousColumns()) {
 			return 0;
 		}
 		return rangeToCopy.getMinRow();
 	}
 
 	private int getMaxRowIndexFromOrigin() {
-		if (rangeToCopy.isColumn()) {
+		if (rangeToCopy.isContiguousColumns()) {
 			return tabularData.numberOfRows() - 1;
 		}
 		return rangeToCopy.getMaxRow();
 	}
 
 	private int getMinColumnIndexFromOrigin() {
-		if (rangeToCopy.isRow()) {
+		if (rangeToCopy.isContiguousRows()) {
 			return 0;
 		}
 		return rangeToCopy.getMinColumn();
 	}
 
 	private int getMaxColumnIndexFromOrigin() {
-		if (rangeToCopy.isRow()) {
+		if (rangeToCopy.isContiguousRows()) {
 			return tabularData.numberOfColumns() - 1;
 		}
 		return rangeToCopy.getMaxColumn();

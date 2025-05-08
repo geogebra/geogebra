@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -54,8 +55,10 @@ public interface EuclidianStyleBar {
 	 */
 	int getPointCaptureSelectedIndex();
 
+	@MissingDoc
 	void updateGUI();
 
+	@MissingDoc
 	void hidePopups();
 
 	/**

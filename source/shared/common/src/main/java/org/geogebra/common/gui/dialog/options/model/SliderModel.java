@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -24,28 +25,40 @@ public class SliderModel extends OptionsModel {
 	private GColor lineColor;
 
 	public interface ISliderOptionsListener extends PropertyListener {
+		@MissingDoc
 		void setMinText(String text);
 
+		@MissingDoc
 		void setMaxText(String text);
 
+		@MissingDoc
 		void setWidthText(String text);
 
+		@MissingDoc
 		void setBlobSizeText(String text);
 
+		@MissingDoc
 		void setLineThicknessSizeText(String text);
 
+		@MissingDoc
 		void setBlobColor(GColor color);
 
+		@MissingDoc
 		void setLineColor(GColor color);
 
+		@MissingDoc
 		void setWidthUnitText(String text);
 
+		@MissingDoc
 		void selectFixed(boolean value);
 
+		@MissingDoc
 		void selectRandom(boolean value);
 
+		@MissingDoc
 		void setRandomVisible(boolean value);
 
+		@MissingDoc
 		void setSliderDirection(int i);
 
 		@Override

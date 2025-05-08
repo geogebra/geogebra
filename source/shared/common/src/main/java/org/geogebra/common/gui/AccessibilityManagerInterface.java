@@ -1,5 +1,6 @@
 package org.geogebra.common.gui;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -90,6 +91,7 @@ public interface AccessibilityManagerInterface {
 	 */
 	void unregister(MayHaveFocus focusable);
 
+	@MissingDoc
 	void setTabOverGeos();
 
 	/**

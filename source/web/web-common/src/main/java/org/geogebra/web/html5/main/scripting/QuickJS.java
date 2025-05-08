@@ -147,6 +147,5 @@ public class QuickJS {
 	@JsFunction
 	interface MethodWrapper {
 		Object call(Object... arguments);
-
 	}
 }

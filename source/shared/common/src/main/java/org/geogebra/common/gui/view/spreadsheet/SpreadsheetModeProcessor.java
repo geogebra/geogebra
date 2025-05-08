@@ -37,7 +37,7 @@ public class SpreadsheetModeProcessor {
 	 */
 	public void performAutoFunctionCreation(TabularRange cr, boolean shiftDown) {
 
-		if (cr.isColumn() || cr.isRow()) {
+		if (cr.isContiguousColumns() || cr.isContiguousRows()) {
 			return;
 		}
 
@@ -105,7 +105,7 @@ public class SpreadsheetModeProcessor {
 
 	private int getMaxUsedColumn(TabularRange cr) {
 
-		if (cr.isRow() || cr.isColumn()) {
+		if (cr.isContiguousRows() || cr.isContiguousColumns()) {
 			return cr.getMaxColumn();
 		}
 
@@ -120,7 +120,7 @@ public class SpreadsheetModeProcessor {
 
 	private int getMaxUsedRow(TabularRange cr) {
 
-		if (cr.isRow() || cr.isColumn()) {
+		if (cr.isContiguousRows() || cr.isContiguousColumns()) {
 			return cr.getMaxRow();
 		}
 

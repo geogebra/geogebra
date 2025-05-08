@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.webcam;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * Interface for handling WebCam dialogs
  * @author laszlo
@@ -11,7 +13,8 @@ public interface WebcamDialogInterface {
 	
 	/** resize the WebCam dialog */
 	void resize();
-	
+
+	@MissingDoc
 	void showAndResize();
 	
 	/** center WebCam dialog */

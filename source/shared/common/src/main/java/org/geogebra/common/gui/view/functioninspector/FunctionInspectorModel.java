@@ -15,6 +15,7 @@ package org.geogebra.common.gui.view.functioninspector;
 import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -140,31 +141,44 @@ public class FunctionInspectorModel {
 	 */
 	public interface IFunctionInspectorListener {
 
+		@MissingDoc
 		void updateXYTable(boolean isTable);
 
+		@MissingDoc
 		void updateInterval(ArrayList<String> property,
 				ArrayList<String> value);
 
+		@MissingDoc
 		void setXYValueAt(Double value, int row, int col);
 
+		@MissingDoc
 		Object getXYValueAt(int row, int col);
 
+		@MissingDoc
 		void addTableColumn(String name);
 
+		@MissingDoc
 		void setGeoName(String name);
 
+		@MissingDoc
 		void changeTableSelection();
 
+		@MissingDoc
 		void updateHighAndLow(boolean isAscending, boolean isLowSelected);
 
+		@MissingDoc
 		void setStepText(String text);
 
+		@MissingDoc
 		void setStepVisible(boolean isVisible);
 
+		@MissingDoc
 		GColor getColor(Colors id);
 
+		@MissingDoc
 		int getSelectedXYRow();
 
+		@MissingDoc
 		void changedNumberFormat();
 	}
 

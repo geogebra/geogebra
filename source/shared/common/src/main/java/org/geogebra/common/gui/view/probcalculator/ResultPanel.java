@@ -1,17 +1,24 @@
 package org.geogebra.common.gui.view.probcalculator;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * Results panel.
  */
 public interface ResultPanel {
+	@MissingDoc
 	void showInterval();
 
+	@MissingDoc
 	void showTwoTailed();
 
+	@MissingDoc
 	void showTwoTailedOnePoint();
 
+	@MissingDoc
 	void showLeft();
 
+	@MissingDoc
 	void showRight();
 
 	/**

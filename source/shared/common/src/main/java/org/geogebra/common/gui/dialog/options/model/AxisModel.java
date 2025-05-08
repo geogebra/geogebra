@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -300,6 +301,7 @@ public class AxisModel {
 
 	public interface IAxisModelListener {
 
+		@MissingDoc
 		void setCrossText(String text);
 	}
 

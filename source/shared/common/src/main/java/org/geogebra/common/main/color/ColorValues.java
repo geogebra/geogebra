@@ -1,5 +1,6 @@
 package org.geogebra.common.main.color;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 
 /**
@@ -7,5 +8,6 @@ import org.geogebra.common.awt.GColor;
  */
 public interface ColorValues {
 
+	@MissingDoc
 	GColor getColor();
 }

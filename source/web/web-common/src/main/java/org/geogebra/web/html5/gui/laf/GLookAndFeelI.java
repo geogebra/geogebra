@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.web.html5.Browser;
@@ -15,14 +16,19 @@ public interface GLookAndFeelI {
 	int COMMAND_LINE_HEIGHT = 43;
 	int TOOLBAR_HEIGHT = 53;
 
+	@MissingDoc
 	boolean isSmart();
 
+	@MissingDoc
 	boolean supportsGoogleDrive();
 
+	@MissingDoc
 	boolean isTablet();
 
+	@MissingDoc
 	String getType();
 
+	@MissingDoc
 	boolean undoRedoSupported();
 
 	/**
@@ -31,18 +37,25 @@ public interface GLookAndFeelI {
 	 */
 	void addWindowClosingHandler(AppW app);
 
+	@MissingDoc
 	void removeWindowClosingHandler();
 
+	@MissingDoc
 	boolean copyToClipboardSupported();
 
+	@MissingDoc
 	Object getLoginListener();
 
+	@MissingDoc
 	boolean autosaveSupported();
 
+	@MissingDoc
 	boolean exportSupported();
 
+	@MissingDoc
 	boolean isEmbedded();
 
+	@MissingDoc
 	boolean printSupported();
 
 	/**
@@ -58,6 +71,7 @@ public interface GLookAndFeelI {
 	 */
 	void storeLanguage(String language);
 
+	@MissingDoc
 	Promise<String> loadLanguage();
 
 	/**
@@ -66,8 +80,10 @@ public interface GLookAndFeelI {
 	 */
 	void toggleFullscreen(boolean b);
 
+	@MissingDoc
 	boolean isOfflineExamSupported();
 
+	@MissingDoc
 	boolean hasHeader();
 
 	/**
@@ -87,6 +103,7 @@ public interface GLookAndFeelI {
 	 */
 	String getClientId();
 
+	@MissingDoc
 	boolean isExternalLoginAllowed();
 
 	/**

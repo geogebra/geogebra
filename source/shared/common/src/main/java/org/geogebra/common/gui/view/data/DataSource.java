@@ -609,7 +609,7 @@ public class DataSource {
 		case DataAnalysisModel.MODE_MULTIVAR:
 			ArrayList<TabularRange> r;
 			for (TabularRange cr : rangeList) {
-				if (cr.isRow() || cr.isPartialRow()) {
+				if (cr.isContiguousRows() || cr.isPartialRow()) {
 					r = cr.toPartialRowList();
 					for (TabularRange cr2 : r) {
 						itemList.add(new DataItem(cr2, app));

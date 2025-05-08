@@ -43,26 +43,52 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 		setHeightForRows(defaultRowHeight, 0, rows - 1);
 	}
 
+	/**
+	 * Get width of a column.
+	 * @param column column index
+	 * @return width in points
+	 */
 	public double getWidth(int column) {
 		return columnWidths[column];
 	}
 
+	/**
+	 * Get height of a row.
+	 * @param row row index
+	 * @return height in points
+	 */
 	public double getHeight(int row) {
 		return rowHeights[row];
 	}
 
-	public double getX(int column) {
+	/**
+	 * Get the left edge of a column.
+	 * @param column column index
+	 * @return x-coordinate of column's left edge
+	 */
+	public double getMinX(int column) {
 		return cumulativeWidths[column];
 	}
 
-	public double getY(int row) {
+	/**
+	 * Get the top edge of a row.
+	 * @param row row index
+	 * @return y-coordinate of row's top edge
+	 */
+	public double getMinY(int row) {
 		return cumulativeHeights[row];
 	}
 
+	/**
+	 * @return number of rows
+	 */
 	public int numberOfRows() {
 		return rowHeights.length;
 	}
 
+	/**
+	 * @return number of columns
+	 */
 	public int numberOfColumns() {
 		return columnWidths.length;
 	}
@@ -85,10 +111,10 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 		double offsetX = -viewport.getMinX() + getRowHeaderWidth();
 		double offsetY = -viewport.getMinY() + getColumnHeaderHeight();
 		if (selection.getMinColumn() >= 0 && selection.getMinRow() >= 0) {
-			double minX = getX(selection.getMinColumn());
-			double minY = getY(selection.getMinRow());
-			double maxX = getX(selection.getMaxColumn() + 1);
-			double maxY = getY(selection.getMaxRow() + 1);
+			double minX = getMinX(selection.getMinColumn());
+			double minY = getMinY(selection.getMinRow());
+			double maxX = getMinX(selection.getMaxColumn() + 1);
+			double maxY = getMinY(selection.getMaxRow() + 1);
 			return new Rectangle(minX + offsetX, maxX + offsetX,
 					minY + offsetY, maxY + offsetY);
 		}
@@ -196,7 +222,7 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 	}
 
 	/**
-	 * Sets the width for a range of columns
+	 * Sets the width for a range of columns.
 	 * @param width double
 	 * @param minColumn Index from where to start setting the width
 	 * @param maxColumn Index of where to stop setting the width (inclusive)
@@ -215,7 +241,7 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 	}
 
 	/**
-	 * Sets the height for a range of rows
+	 * Sets the height for a range of rows.
 	 * @param height double
 	 * @param minRow Index from where to start setting the height
 	 * @param maxRow Index of where to stop setting the width (inclusive)
@@ -284,10 +310,22 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 		return columnHeaderHeight;
 	}
 
+	/**
+	 * Get new column width after resize.
+	 * @param col row index
+	 * @param x resizing cursor's x-coordinate
+	 * @return column height
+	 */
 	public double getWidthForColumnResize(int col, double x) {
 		return Math.max(MIN_CELL_SIZE, x - cumulativeWidths[col] - rowHeaderWidth);
 	}
 
+	/**
+	 * Get new row height after resize.
+	 * @param row row index
+	 * @param y resizing cursor's y-coordinate
+	 * @return row height
+	 */
 	public double getHeightForRowResize(int row, double y) {
 		return Math.max(MIN_CELL_SIZE, y - cumulativeHeights[row] - columnHeaderHeight);
 	}

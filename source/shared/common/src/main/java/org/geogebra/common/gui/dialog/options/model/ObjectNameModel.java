@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.kernel.StringTemplate;
@@ -23,18 +24,25 @@ public class ObjectNameModel extends OptionsModel {
 	private LabelController labelController = null;
 
 	public interface IObjectNameListener extends PropertyListener {
+		@MissingDoc
 		void setNameText(String text);
 
+		@MissingDoc
 		void setDefinitionText(String text);
 
+		@MissingDoc
 		void setCaptionText(String text);
 
+		@MissingDoc
 		void updateGUI(boolean showDefinition, boolean showCaption);
 
+		@MissingDoc
 		void updateDefLabel();
 
+		@MissingDoc
 		void updateCaption(String text);
 
+		@MissingDoc
 		void updateName(String text);
 	}
 

@@ -85,7 +85,7 @@ public final class SpreadsheetRenderer {
 
 	private void drawCellBorder(int row, int column, GGraphics2D graphics) {
 		graphics.setStroke(borderStroke);
-		drawRectangleWithStraightLines(graphics, layout.getX(column), layout.getY(row),
+		drawRectangleWithStraightLines(graphics, layout.getMinX(column), layout.getMinY(row),
 				layout.getWidth(column), layout.getHeight(row));
 	}
 
@@ -103,10 +103,10 @@ public final class SpreadsheetRenderer {
 		graphics.setColor(style.getErrorGridColor());
 		graphics.setStroke(borderStroke);
 
-		double topLeftX = Math.max(layout.getX(column) - offsetX, layout.getRowHeaderWidth());
-		double topLeftY = Math.max(layout.getY(row) - offsetY, layout.getColumnHeaderHeight());
-		double topRightX = layout.getX(column) - offsetX + layout.getWidth(column);
-		double topRightY = layout.getY(row) - offsetY;
+		double topLeftX = Math.max(layout.getMinX(column) - offsetX, layout.getRowHeaderWidth());
+		double topLeftY = Math.max(layout.getMinY(row) - offsetY, layout.getColumnHeaderHeight());
+		double topRightX = layout.getMinX(column) - offsetX + layout.getWidth(column);
+		double topRightY = layout.getMinY(row) - offsetY;
 
 		double width = layout.getWidth(column);
 		double height = layout.getHeight(row);
@@ -135,11 +135,11 @@ public final class SpreadsheetRenderer {
 	}
 
 	private boolean leftOutOfBounds(int column, double offsetX) {
-		return layout.getX(column) - offsetX < layout.getRowHeaderWidth();
+		return layout.getMinX(column) - offsetX < layout.getRowHeaderWidth();
 	}
 
 	private boolean topOutOfBounds(int row, double offsetY) {
-		return layout.getY(row) - offsetY < layout.getColumnHeaderHeight();
+		return layout.getMinY(row) - offsetY < layout.getColumnHeaderHeight();
 	}
 
 	private void drawErrorTriangle(GGraphics2D graphics, double topRightX, double topRightY) {
@@ -168,9 +168,9 @@ public final class SpreadsheetRenderer {
 
 	void drawRowBorder(int row, GGraphics2D graphics) {
 		graphics.setStroke(gridStroke);
-		graphics.drawStraightLine(0, layout.getY(row),
+		graphics.drawStraightLine(0, layout.getMinY(row),
 				style.isShowGrid()
-						? layout.getTotalWidth() : layout.getRowHeaderWidth(), layout.getY(row));
+						? layout.getTotalWidth() : layout.getRowHeaderWidth(), layout.getMinY(row));
 	}
 
 	private void ensureHeaders(List<SelfRenderable> rowHeaders, int row,
@@ -183,7 +183,7 @@ public final class SpreadsheetRenderer {
 
 	void drawColumnBorder(int column, GGraphics2D graphics) {
 		graphics.setStroke(gridStroke);
-		graphics.drawStraightLine(layout.getX(column), 0, layout.getX(column),
+		graphics.drawStraightLine(layout.getMinX(column), 0, layout.getMinX(column),
 				style.isShowGrid()
 						? layout.getTotalHeight() : layout.getColumnHeaderHeight());
 	}
@@ -275,8 +275,8 @@ public final class SpreadsheetRenderer {
 		double minX = 0;
 		double minY, height, width;
 		if (range.getMinRow() >= 0) {
-			minY = layout.getY(range.getMinRow()) + offsetY;
-			height = layout.getY(range.getMaxRow() + 1) - layout.getY(range.getMinRow());
+			minY = layout.getMinY(range.getMinRow()) + offsetY;
+			height = layout.getMinY(range.getMaxRow() + 1) - layout.getMinY(range.getMinRow());
 		} else {
 			minY = 0;
 			height = viewport.getHeight();
@@ -286,8 +286,8 @@ public final class SpreadsheetRenderer {
 		fillRect(graphics, minX, minY, layout.getRowHeaderWidth(), height);
 		minY = 0;
 		if (range.getMinColumn() >= 0) {
-			minX = layout.getX(range.getMinColumn()) + offsetX;
-			width = layout.getX(range.getMaxColumn() + 1) - layout.getX(range.getMinColumn());
+			minX = layout.getMinX(range.getMinColumn()) + offsetX;
+			width = layout.getMinX(range.getMaxColumn() + 1) - layout.getMinX(range.getMinColumn());
 		} else {
 			minX = 0;
 			width = viewport.getWidth();

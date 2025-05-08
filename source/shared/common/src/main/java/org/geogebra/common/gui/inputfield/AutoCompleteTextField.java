@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.inputfield;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -85,8 +86,10 @@ public interface AutoCompleteTextField
 	 */
 	void setUsedForInputBox(GeoInputBox geoTextField);
 
+	@MissingDoc
 	boolean hasFocus();
 
+	@MissingDoc
 	boolean usedForInputBox();
 
 	/**
@@ -123,6 +126,7 @@ public interface AutoCompleteTextField
 	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height);
 
+	@MissingDoc
 	String getCommand();
 
 	/**

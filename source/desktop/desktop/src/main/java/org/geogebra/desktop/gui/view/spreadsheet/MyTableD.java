@@ -783,11 +783,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				this.setAutoscrolls(false);
 
 				// row selection
-				if (tr.isRow()) {
+				if (tr.isContiguousRows()) {
 					setRowSelectionInterval(tr.getMinRow(), tr.getMaxRow());
 
 					// column selection
-				} else if (tr.isColumn()) {
+				} else if (tr.isContiguousColumns()) {
 					setColumnSelectionInterval(tr.getMinColumn(),
 							tr.getMaxColumn());
 

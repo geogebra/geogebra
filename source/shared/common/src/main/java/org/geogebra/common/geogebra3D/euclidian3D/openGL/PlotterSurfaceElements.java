@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.matrix.Coords3;
@@ -32,8 +33,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	private GLBufferIndices arrayI;
 
 	private interface DrawEllipticSurface {
+		@MissingDoc
 		public void drawNCr(Coords normal);
 
+		@MissingDoc
 		public void drawNCrm(Coords normal);
 
 		/**

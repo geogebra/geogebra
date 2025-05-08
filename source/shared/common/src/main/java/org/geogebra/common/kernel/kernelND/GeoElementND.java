@@ -18,6 +18,7 @@ import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.MyImage;
@@ -1405,6 +1406,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 */
 	boolean isLimitedPath();
 
+	@MissingDoc
 	long getID();
 
 	/**
@@ -1635,8 +1637,10 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 */
 	boolean hasSpecialEditor();
 
+	@MissingDoc
 	boolean isMeasurementTool();
 
+	@MissingDoc
 	boolean hasDynamicCaption();
 
 	/**
@@ -1699,6 +1703,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 */
 	boolean isImplicitEquation();
 
+	@MissingDoc
 	boolean isFreeOrExpression();
 
 	/**

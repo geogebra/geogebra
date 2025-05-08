@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.algos;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -25,6 +26,7 @@ public interface AlgoJoinPointsSegmentInterface {
 	 */
 	public void modifyInputPoints(GeoPointND A, GeoPointND B);
 
+	@MissingDoc
 	public void compute();
 
 }

@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -13,8 +14,10 @@ public class ShowConditionModel extends OptionsModel {
 	private IShowConditionListener listener;
 
 	public interface IShowConditionListener extends PropertyListener {
+		@MissingDoc
 		void setText(String text);
 
+		@MissingDoc
 		void updateSelection(Object[] geos);
 
 	}

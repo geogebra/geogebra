@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -52,6 +53,7 @@ public class CreateObjectModel {
 		 */
 		void setName(String name);
 
+		@MissingDoc
 		boolean isVisible();
 
 		/**
@@ -66,12 +68,16 @@ public class CreateObjectModel {
 		 */
 		void setSortVisible(boolean isVisible);
 
+		@MissingDoc
 		boolean isCopiedByValue();
 
+		@MissingDoc
 		boolean isScannedByColumn();
 
+		@MissingDoc
 		boolean isLeftToRight();
 
+		@MissingDoc
 		boolean isTranspose();
 
 		/**

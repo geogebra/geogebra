@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.inline;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 
@@ -8,6 +9,7 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
  */
 public interface InlineTextController extends HasTextFormat {
 
+	@MissingDoc
 	boolean updateFontSize();
 
 	/**
@@ -72,8 +74,10 @@ public interface InlineTextController extends HasTextFormat {
 	 */
 	String urlByCoordinate(int x, int y);
 
+	@MissingDoc
 	void updateContentIfChanged();
 
+	@MissingDoc
 	void saveContent();
 
 	/**
@@ -84,5 +88,6 @@ public interface InlineTextController extends HasTextFormat {
 	 */
 	void setTransform(double angle, double sx, double sy);
 
+	@MissingDoc
 	boolean isEditing();
 }

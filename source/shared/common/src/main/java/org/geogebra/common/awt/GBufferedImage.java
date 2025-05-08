@@ -1,5 +1,7 @@
 package org.geogebra.common.awt;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * Image that can be used as a canvas.
  */
@@ -31,6 +33,7 @@ public interface GBufferedImage {
 	 */
 	GBufferedImage getSubimage(int x, int y, int w, int h);
 
+	@MissingDoc
 	void flush();
 
 	/**

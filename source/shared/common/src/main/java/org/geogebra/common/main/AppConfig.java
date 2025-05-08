@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -35,6 +36,7 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	 */
 	void adjust(DockPanelData dp);
 
+	@MissingDoc
 	String getAVTitle();
 
 	/**
@@ -57,20 +59,28 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	 */
 	String getAppNameWithoutCalc();
 
+	@MissingDoc
 	String getTutorialKey();
 
+	@MissingDoc
 	boolean showKeyboardHelpButton();
 
+	@MissingDoc
 	boolean isSimpleMaterialPicker();
 
+	@MissingDoc
 	boolean hasPreviewPoints();
 
+	@MissingDoc
 	boolean allowsSuggestions();
 
+	@MissingDoc
 	boolean shouldKeepRatioEuclidian();
 
+	@MissingDoc
 	int getDefaultPrintDecimals();
 
+	@MissingDoc
 	boolean hasSingleEuclidianViewWhichIs3D();
 
 	/**
@@ -360,6 +370,7 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	 */
 	int getMainGraphicsViewId();
 
+	@MissingDoc
 	boolean hasOneVarStatistics();
 
 	/**
@@ -367,6 +378,7 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	 */
 	boolean hasSpreadsheetView();
 
+	@MissingDoc
 	boolean hasDataImport();
 
 }

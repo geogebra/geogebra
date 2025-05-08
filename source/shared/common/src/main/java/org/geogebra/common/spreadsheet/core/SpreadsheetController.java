@@ -275,16 +275,26 @@ public final class SpreadsheetController {
 		}
 	}
 
-	public boolean hasError(int row, int column) {
+	boolean hasError(int row, int column) {
 		return tabularData.hasError(row, column);
 	}
 
+	/**
+	 * Get the name of a column.
+	 * @param column column index
+	 * @return column name
+	 */
 	public @Nonnull String getColumnName(int column) {
 		return tabularData.getColumnName(column);
 	}
 
-	public @Nonnull String getRowName(int column) {
-		return tabularData.getRowName(column);
+	/**
+	 * Get the name of a row.
+	 * @param row row index
+	 * @return row name
+	 */
+	public @Nonnull String getRowName(int row) {
+		return tabularData.getRowName(row);
 	}
 
 	// Viewport
@@ -366,7 +376,7 @@ public final class SpreadsheetController {
 		selectionController.selectAll();
 	}
 
-	public void selectCell(int rowIndex, int columnIndex, boolean extend, boolean addSelection) {
+	void selectCell(int rowIndex, int columnIndex, boolean extend, boolean addSelection) {
 		selectionController.selectCell(rowIndex, columnIndex, extend, addSelection);
 	}
 
@@ -409,6 +419,9 @@ public final class SpreadsheetController {
 		return new SpreadsheetCoords(range.getFromRow(), range.getFromColumn());
 	}
 
+	/**
+	 * Deselect all cells.
+	 */
 	public void clearSelection() {
 		selectionController.clearSelections();
 	}

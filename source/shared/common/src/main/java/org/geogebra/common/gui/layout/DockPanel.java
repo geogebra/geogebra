@@ -1,15 +1,20 @@
 package org.geogebra.common.gui.layout;
 
+import org.geogebra.common.annotation.MissingDoc;
+
 /**
  * @author judit interface for geogebra.gui.layout.DockPanel
  * 
  */
 public interface DockPanel {
 
+	@MissingDoc
 	String getToolbarString();
 
+	@MissingDoc
 	String getDefaultToolbarString();
 
+	@MissingDoc
 	int getViewId();
 
 	/**
@@ -31,6 +36,7 @@ public interface DockPanel {
 	 */
 	public boolean isVisible();
 
+	@MissingDoc
 	void deferredOnResize();
 
 	/**

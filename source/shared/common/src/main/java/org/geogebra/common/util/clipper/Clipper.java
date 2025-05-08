@@ -1,5 +1,6 @@
 package org.geogebra.common.util.clipper;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public interface Clipper {
@@ -38,23 +39,31 @@ public interface Clipper {
 	 * modified to be compatible with double
 	 */
 	public interface ZFillCallback {
+		@MissingDoc
 		void zFill(DoublePoint bot1, DoublePoint top1, DoublePoint bot2,
 				DoublePoint top2, DoublePoint pt);
 	}
 
+	@MissingDoc
 	boolean addPath(Path pg, PolyType polyType, boolean Closed);
 
+	@MissingDoc
 	boolean addPaths(Paths ppg, PolyType polyType, boolean closed);
 
+	@MissingDoc
 	void clear();
 
+	@MissingDoc
 	boolean execute(ClipType clipType, Paths solution);
 
+	@MissingDoc
 	boolean execute(ClipType clipType, Paths solution,
 			PolyFillType subjFillType, PolyFillType clipFillType);
 
+	@MissingDoc
 	boolean execute(ClipType clipType, PolyTree polytree);
 
+	@MissingDoc
 	public boolean execute(ClipType clipType, PolyTree polytree,
 			PolyFillType subjFillType, PolyFillType clipFillType);
 }

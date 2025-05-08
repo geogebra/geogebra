@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -28,6 +29,7 @@ public abstract class CommonOptionsModel<T> extends OptionsModel {
 		return true;
 	}
 
+	@MissingDoc
 	public abstract List<T> getChoices(Localization loc);
 
 	@Override

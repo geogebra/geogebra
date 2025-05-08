@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 
@@ -37,8 +38,10 @@ public interface ShareController {
 	 */
 	void saveAndTerminateMultiuser(Material mat, MaterialCallbackI after);
 
+	@MissingDoc
 	void disconnectMultiuser();
 
+	@MissingDoc
 	void assign();
 
 	/**
@@ -46,5 +49,6 @@ public interface ShareController {
 	 */
 	void setAssign(boolean isAssign);
 
+	@MissingDoc
 	boolean isAssign();
 }
