@@ -1,5 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.spreadsheet.style.SpreadsheetStyle.DEFAULT_CELL_ALIGNMENT;
+import static org.geogebra.common.spreadsheet.style.SpreadsheetStyle.textAlignmentFromCellFormat;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -24,12 +27,15 @@ import com.google.j2objc.annotations.Property;
 @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
 public final class SpreadsheetStyleBarModel {
 
+	private static final SpreadsheetStyle.TextAlignment DEFAULT_TEXT_ALIGNMENT =
+			textAlignmentFromCellFormat(DEFAULT_CELL_ALIGNMENT);
+
 	/**
 	 * The style bar's current state.
 	 */
 	public static class State {
 		static final State DISABLED = new State(false, null,
-				SpreadsheetStyle.TextAlignment.DEFAULT, null, null);
+				DEFAULT_TEXT_ALIGNMENT, null, null);
 
 		/** @return true if at least one UI element in the style bar is enabled */
 		@Property("readonly")
@@ -54,8 +60,7 @@ public final class SpreadsheetStyleBarModel {
 			this.isEnabled = isEnabled;
 			this.fontTraits = fontTraits != null
 					? fontTraits : Set.of();
-			this.textAlignment = textAlignment != null
-					? textAlignment : SpreadsheetStyle.TextAlignment.DEFAULT;
+			this.textAlignment = textAlignment != null ? textAlignment : DEFAULT_TEXT_ALIGNMENT;
 			this.backgroundColor = backgroundColor;
 			this.textColor = textColor;
 		}

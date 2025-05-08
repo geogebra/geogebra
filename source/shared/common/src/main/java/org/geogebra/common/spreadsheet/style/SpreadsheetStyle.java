@@ -16,12 +16,15 @@ import org.geogebra.common.util.MulticastEvent;
 @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
 public final class SpreadsheetStyle {
 
+	/** Fallback alignment when {@link CellFormat} has no information regarding alignment. */
+	public static final Integer DEFAULT_CELL_ALIGNMENT = CellFormat.ALIGN_RIGHT;
+
 	public enum FontTrait {
 		BOLD, ITALIC
 	}
 
 	public enum TextAlignment {
-		DEFAULT, LEFT, CENTERED, RIGHT
+		LEFT, CENTERED, RIGHT
 	}
 
 	public static final GColor SPREADSHEET_ERROR_BORDER = GColor.newColorRGB(0xB00020);
@@ -124,7 +127,7 @@ public final class SpreadsheetStyle {
 	 * Set the text alignment for a list of ranges.
 	 */
 	public void setTextAlignment(@Nonnull TextAlignment textAlignment,
-			@Nonnull  List<TabularRange> ranges) {
+			@Nonnull List<TabularRange> ranges) {
 		Integer cellFormat = cellFormatFromTextAlignment(textAlignment);
 		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_ALIGN, cellFormat);
 		if (changed) {
@@ -215,23 +218,25 @@ public final class SpreadsheetStyle {
 
 	// Format conversion utils
 
-	private TextAlignment textAlignmentFromCellFormat(@CheckForNull Integer cellFormat) {
-		if (cellFormat == null) {
-			return TextAlignment.DEFAULT;
-		}
-		switch (cellFormat) {
+	/**
+	 * Converts {@link CellFormat} {@code ALIGN_*} fields to {@link TextAlignment} values.
+	 * @param cellFormat one of {@link CellFormat} alignment fields
+	 * @return TextAlignment
+	 */
+	@Nonnull
+	public static TextAlignment textAlignmentFromCellFormat(@CheckForNull Integer cellFormat) {
+		switch (cellFormat != null ? cellFormat : DEFAULT_CELL_ALIGNMENT) {
 		case CellFormat.ALIGN_LEFT:
 			return TextAlignment.LEFT;
 		case CellFormat.ALIGN_CENTER:
 			return TextAlignment.CENTERED;
 		case CellFormat.ALIGN_RIGHT:
-			return TextAlignment.RIGHT;
 		default:
-			return TextAlignment.DEFAULT;
+			return TextAlignment.RIGHT;
 		}
 	}
 
-	private Integer cellFormatFromTextAlignment(@Nonnull TextAlignment textAlignment) {
+	private static Integer cellFormatFromTextAlignment(@Nonnull TextAlignment textAlignment) {
 		switch (textAlignment) {
 		case LEFT:
 			return CellFormat.ALIGN_LEFT;
@@ -239,13 +244,11 @@ public final class SpreadsheetStyle {
 			return CellFormat.ALIGN_CENTER;
 		case RIGHT:
 			return CellFormat.ALIGN_RIGHT;
-		case DEFAULT:
-			break;
 		}
 		return null;
 	}
 
-	private Set<FontTrait> fontTraitsFromCellFormat(@CheckForNull Integer cellFormat) {
+	private static Set<FontTrait> fontTraitsFromCellFormat(@CheckForNull Integer cellFormat) {
 		Set<FontTrait> traits = new HashSet<>();
 		if (cellFormat != null) {
 			switch (cellFormat) {
@@ -266,7 +269,7 @@ public final class SpreadsheetStyle {
 		return traits;
 	}
 
-	private Integer cellFormatFromFontTraits(Set<FontTrait> traits) {
+	private static Integer cellFormatFromFontTraits(Set<FontTrait> traits) {
 		boolean bold = traits.contains(FontTrait.BOLD);
 		boolean italic = traits.contains(FontTrait.ITALIC);
 		int cellFormat = CellFormat.STYLE_PLAIN;

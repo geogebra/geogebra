@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.rendering;
 
+import static org.geogebra.common.spreadsheet.style.SpreadsheetStyle.DEFAULT_CELL_ALIGNMENT;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -40,7 +42,7 @@ public final class SelfRenderable {
 		this.renderer = renderer;
 		this.renderable = renderable;
 		this.background = background;
-		this.alignment = alignment == null ? CellFormat.ALIGN_RIGHT : alignment;
+		this.alignment = alignment == null ? DEFAULT_CELL_ALIGNMENT : alignment;
 		this.fontStyle = fontStyle == null ? GFont.PLAIN : fontStyle;
 		if (this.alignment != CellFormat.ALIGN_LEFT) {
 			width = renderer.measure(renderable, this.fontStyle);
