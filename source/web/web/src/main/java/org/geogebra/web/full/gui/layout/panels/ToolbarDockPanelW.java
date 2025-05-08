@@ -58,6 +58,9 @@ public class ToolbarDockPanelW extends DockPanelW
 		if (toolbar != null) {
 			toolbar.resize();
 		}
+		if (zoomPanel != null) {
+			zoomPanel.updateFullscreenVisibility(isBottomRight());
+		}
 	}
 
 	@Override

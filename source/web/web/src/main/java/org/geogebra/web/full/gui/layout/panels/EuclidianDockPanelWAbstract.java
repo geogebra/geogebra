@@ -6,7 +6,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
-import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
@@ -20,7 +19,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.InsertPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -239,9 +237,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel,
-			InsertPanel controls) {
-		if (allowZoomPanel()) {
+	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel) {
+		if (zoomPanel != null && allowZoomPanel()) {
 			dockLayoutPanel.addSouth(zoomPanel, 0);
 		}
 	}
@@ -266,11 +263,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				zoomPanel.setFullScreen(true);
 			}
 		}
-	}
-
-	private boolean isBottomRight() {
-		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout().getDockManager();
-		return dm.getRoot() == null || dm.getRoot().isBottomRight(this);
 	}
 
 	/**

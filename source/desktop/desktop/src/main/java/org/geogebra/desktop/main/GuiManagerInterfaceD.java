@@ -54,8 +54,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	void updateFrameTitle();
 
-	void setShowToolBarHelp(boolean b);
-
 	boolean saveCurrentFile();
 
 	DialogManager getDialogManager();

@@ -225,7 +225,6 @@ public class PerspectiveDecoder {
 				return defaultPerspective;
 			}
 		}
-		Log.error("Perspective not found " + code);
 		return null;
 	}
 

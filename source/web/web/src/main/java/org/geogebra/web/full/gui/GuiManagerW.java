@@ -1618,11 +1618,21 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showToolBar(final boolean show) {
+		getApp().setShowToolBar(show);
+		getApp().getAppletParameters().setAttribute("showToolBar", String.valueOf(show));
 		if (app.isWhiteboardActive()) {
 			if (show) {
 				frame.attachNotesUI(getApp());
 			} else {
 				frame.detachNotesToolbar(getApp());
+			}
+			return;
+		}
+		if (app.isUnbundled()) {
+			ToolbarPanel unbundledToolbar = getUnbundledToolbar();
+			if (unbundledToolbar != null) {
+				unbundledToolbar.initGUI();
+				unbundledToolbar.resize();
 			}
 			return;
 		}
@@ -1632,11 +1642,10 @@ public class GuiManagerW extends GuiManager
 			showMenuBar(false);
 		}
 		if (currentlyVisible != show) {
-			getApp().setShowToolBar(show);
-			getApp().getAppletParameters().removeAttribute("showToolBar");
 			getApp().persistWidthAndHeight();
 			getApp().addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
-					: GLookAndFeel.TOOLBAR_HEIGHT);
+						: GLookAndFeel.TOOLBAR_HEIGHT);
+
 			getApp().updateCenterPanelAndViews();
 			getApp().getAppletFrame().refreshKeyboard();
 			if (show) {

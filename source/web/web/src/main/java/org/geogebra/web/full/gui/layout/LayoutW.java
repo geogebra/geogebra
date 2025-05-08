@@ -111,7 +111,7 @@ public class LayoutW extends Layout {
 		if (app.isApplet()) {
 			app.setCustomToolBar();
 
-			app.setShowToolBarNoUpdate(app.getAppletParameters()
+			app.setShowToolBar(app.getAppletParameters()
 					.getDataParamShowToolBar(false));
 			app.setShowAlgebraInput(app.getAppletParameters()
 					.getDataParamShowAlgebraInput(false), false);

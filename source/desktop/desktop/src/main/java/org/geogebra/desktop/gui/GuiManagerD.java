@@ -757,11 +757,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
-	@Override
-	public void setShowToolBarHelp(boolean flag) {
-		ToolbarContainer.setShowHelp(flag);
-	}
-
 	public boolean isConsProtNavigationPlayButtonVisible() {
 		return getConstructionProtocolNavigation().isPlayButtonVisible();
 	}

@@ -80,7 +80,7 @@ public class LayoutD extends Layout implements SettingListener {
 		app.getGuiManager()
 				.setToolBarDefinition(perspective.getToolbarDefinition());
 
-		app.setShowToolBarNoUpdate(perspective.getShowToolBar());
+		app.setShowToolBar(perspective.getShowToolBar());
 		app.setShowToolBarHelpNoUpdate(perspective.getShowToolBarHelp());
 		app.setToolbarPosition(perspective.getToolBarPosition(), false);
 

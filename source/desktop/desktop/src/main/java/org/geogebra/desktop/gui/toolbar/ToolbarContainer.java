@@ -52,14 +52,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Show help text at the right.
-	 */
-	private static boolean showHelp = false;
-
-	/**
 	 * Application instance.
 	 */
-	AppD app;
+	final AppD app;
 	LocalizationD loc;
 
 	/**
@@ -193,7 +188,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			add(getGridButtonPanel(), BorderLayout.SOUTH);
 		}
 
-		if (showHelp && (orientation == SwingConstants.NORTH
+		if (app.showToolBarHelp() && (orientation == SwingConstants.NORTH
 				|| orientation == SwingConstants.SOUTH)) {
 			add(getToolbarHelpPanel(), BorderLayout.CENTER);
 			updateHelpText();
@@ -545,7 +540,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			oldWidth = getWidth();
 
 			// update help text if we show one
-			if (ToolbarContainer.showHelp) {
+			if (app.showToolBarHelp()) {
 				updateHelpText();
 			}
 		}
@@ -736,21 +731,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		}
 		return null;
 
-	}
-
-	/**
-	 * @return If the help text is displayed.
-	 */
-	public static boolean showHelp() {
-		return showHelp;
-	}
-
-	/**
-	 * @param showHelp
-	 *            true to enable tool help (in the right part)
-	 */
-	public static void setShowHelp(boolean showHelp) {
-		ToolbarContainer.showHelp = showHelp;
 	}
 
 	// Component listener methods

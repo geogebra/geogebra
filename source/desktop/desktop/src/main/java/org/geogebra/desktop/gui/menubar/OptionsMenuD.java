@@ -280,7 +280,7 @@ public class OptionsMenuD extends BaseMenu
 				app.getKernel().updateConstruction(false);
 				// set default layout options
 				app.setToolbarPosition(SwingConstants.NORTH, false);
-				app.setShowToolBarNoUpdate(true);
+				app.setShowToolBar(true);
 				app.setShowToolBarHelpNoUpdate(false);
 				app.setShowDockBar(true, false);
 				app.setDockBarEast(true);

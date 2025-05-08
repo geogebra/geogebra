@@ -2056,10 +2056,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return exportType;
 	}
 
-	public void setShowToolBarNoUpdate(boolean toolbar) {
-		showToolBar = toolbar;
-	}
-
 	public void setShowToolBarHelpNoUpdate(boolean toolbarHelp) {
 		showToolBarHelp = toolbarHelp;
 	}
@@ -2082,7 +2078,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		showMenuBar = flag;
 	}
 
-	public void setShowToolBar(boolean toolbar) {
+	public final void setShowToolBar(boolean toolbar) {
 		showToolBar = toolbar;
 	}
 

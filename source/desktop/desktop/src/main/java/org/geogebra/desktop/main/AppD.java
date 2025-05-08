@@ -2479,14 +2479,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		getGuiManager().updateFrameTitle();
 	}
 
-	@Override
-	public void setShowToolBar(boolean toolbar, boolean help) {
-		super.setShowToolBar(toolbar, help);
-		if (toolbar && getGuiManager() != null) {
-			getGuiManager().setShowToolBarHelp(help);
-		}
-	}
-
 	// **************************************************************************
 	// GUI Getters/Setters
 	// **************************************************************************
@@ -4488,7 +4480,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				.getToolbarPanelContainer();
 		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
 		toolBarContainer.setOrientation(toolbarPosition);
-		ToolbarContainer.setShowHelp(showToolBarHelp);
+		app.setShowToolBarHelpNoUpdate(showToolBarHelp);
 
 		switch (toolbarPosition) {
 		default:

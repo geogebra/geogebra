@@ -27,7 +27,6 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.DockLayoutPanel;
-import org.gwtproject.user.client.ui.InsertPanel;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.ResizeComposite;
 import org.gwtproject.user.client.ui.SimplePanel;
@@ -394,11 +393,10 @@ public abstract class DockPanelW extends ResizeComposite
 		buildGUIIfNecessary(false);
 
 		dockPanel.clear();
-		boolean needsZoomButtonsInControlPanel = app.isWhiteboardActive();
-		if (hasStyleBar() || needsZoomButtonsInControlPanel) {
+		if (hasStyleBar()) {
 			if (app.getSettings().getLayout().showTitleBar()
 					&& (app.allowStylebar() || needsResetIcon()
-							|| forceCloseButton() || needsZoomButtonsInControlPanel)) {
+							|| forceCloseButton())) {
 				addDockControlPanel();
 			}
 
@@ -407,7 +405,7 @@ public abstract class DockPanelW extends ResizeComposite
 			}
 		}
 
-		addZoomPanel(dockPanel, dockControlPanel);
+		addZoomPanel(dockPanel);
 
 		if (!app.allowStylebar() && needsResetIcon()) {
 			showResetIcon();
@@ -428,11 +426,9 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Adds a panel zoom buttons on it.
 	 *  @param dockLayoutPanel main panel for adding bottom controls
-	 * @param controls top controls panel
 	 *
 	 */
-	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel,
-			InsertPanel controls) {
+	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel) {
 		if (zoomPanel != null) {
 			dockLayoutPanel.addSouth(zoomPanel, 0);
 		}
@@ -1092,6 +1088,11 @@ public abstract class DockPanelW extends ResizeComposite
 		if (height > 0) {
 			content.setHeight(height + "px");
 		}
+	}
+
+	protected boolean isBottomRight() {
+		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout().getDockManager();
+		return dm.getRoot() == null || dm.getRoot().isBottomRight(this);
 	}
 
 	private void addDockControlPanel() {
