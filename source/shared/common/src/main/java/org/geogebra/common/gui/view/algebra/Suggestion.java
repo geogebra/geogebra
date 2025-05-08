@@ -9,11 +9,8 @@ import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Localization;
 
 abstract public class Suggestion {
-
-	private static final int MODE_NONE = -1;
 
 	/**
 	 * @param geo
@@ -70,13 +67,6 @@ abstract public class Suggestion {
 			GeoElement[] input, boolean[] algosMissing);
 
 	/**
-	 * @param loc
-	 *            localization
-	 * @return label for suggestion button
-	 */
-	abstract public String getCommand(Localization loc);
-
-	/**
 	 * This method runs the necessary commands to execute this suggestion.
 	 * Implement the main logic of suggestions here.
 	 * Calling store undo info is not necessary inside this method.
@@ -93,28 +83,5 @@ abstract public class Suggestion {
 	public final void execute(GeoElementND geo) {
 		runCommands(geo);
 		geo.getKernel().storeUndoInfo();
-	}
-
-	/**
-	 * @return whether this is the slider suggestion
-	 */
-	public boolean isAutoSlider() {
-		return false;
-	}
-
-	/**
-	 * 
-	 * @return tool mode to use.
-	 */
-	public int getMode() {
-		return MODE_NONE;
-	}
-	
-	/**
-	 * 
-	 * @return if the suggestion has associated with
-	 */
-	public boolean hasMode() {
-		return getMode() != MODE_NONE;
 	}
 }

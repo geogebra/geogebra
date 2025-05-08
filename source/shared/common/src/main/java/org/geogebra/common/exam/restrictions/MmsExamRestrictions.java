@@ -43,6 +43,7 @@ import static org.geogebra.common.kernel.commands.Commands.Numeric;
 import static org.geogebra.common.kernel.commands.Commands.Product;
 import static org.geogebra.common.kernel.commands.Commands.RandomElement;
 import static org.geogebra.common.kernel.commands.Commands.Remove;
+import static org.geogebra.common.kernel.commands.Commands.RemoveUndefined;
 import static org.geogebra.common.kernel.commands.Commands.Reverse;
 import static org.geogebra.common.kernel.commands.Commands.RightSide;
 import static org.geogebra.common.kernel.commands.Commands.Sample;
@@ -127,6 +128,7 @@ import javax.annotation.Nullable;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
+import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
@@ -197,7 +199,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
-		return Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION,
+		return Set.of(
 				ExamFeatureRestriction.HIDE_CALCULATED_EQUATION,
 				ExamFeatureRestriction.HIDE_SPECIAL_POINTS,
 				ExamFeatureRestriction.SPREADSHEET,
@@ -233,7 +235,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 						NSolutions, NSolve, Product, RandomElement, Remove, Reverse, RightSide,
 						Sample, SampleSD, Sequence, Shuffle, SigmaXX, SigmaXY, Slider, Solutions,
 						Solve, Sort, stdev, StepGraph, StickGraph, Sum, Take, Transpose, Numeric,
-						Substitute, Normal);
+						Substitute, Normal, RemoveUndefined);
 		return Set.of(filter);
 	}
 
@@ -258,7 +260,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
 		return Set.of(contextMenuItem -> contextMenuItem != AlgebraContextMenuItem.Statistics
-				&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints);
+				&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints
+				&& !TableValuesContextMenuItem.Item.Regression.isSameItemAs(contextMenuItem));
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {

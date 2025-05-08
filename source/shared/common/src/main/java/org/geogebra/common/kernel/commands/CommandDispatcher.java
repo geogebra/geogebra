@@ -337,7 +337,7 @@ public abstract class CommandDispatcher {
 		try {
 			Commands command = Commands.valueOf(cmdName);
 			if (!isAllowedByCommandFilters(command)) {
-				Log.info("The command is not allowed by the command filter");
+				Log.info("Command not allowed by the command filter:" + c);
 				return null;
 			}
 

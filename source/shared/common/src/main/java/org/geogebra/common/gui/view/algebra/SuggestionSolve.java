@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
 public class SuggestionSolve extends Suggestion {
@@ -18,11 +17,6 @@ public class SuggestionSolve extends Suggestion {
 
 	public SuggestionSolve(String... labels) {
 		this.labels = labels;
-	}
-
-	@Override
-	public String getCommand(Localization loc)  {
-		return loc.getMenu("Solve");
 	}
 
 	/**

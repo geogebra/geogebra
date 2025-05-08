@@ -160,7 +160,7 @@ public final class ExamControllerTests extends BaseExamTests {
 		assertAll(
 				// feature restrictions
 				() -> assertTrue(examController
-						.isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION)),
+						.isFeatureRestricted(ExamFeatureRestriction.HIDE_SPECIAL_POINTS)),
 				// command restrictions
 				() -> assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative)),
 				// TODO commandArgumentFilters
@@ -176,7 +176,7 @@ public final class ExamControllerTests extends BaseExamTests {
 		examController.exitExam();
 		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		assertFalse(examController
-				.isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION));
+				.isFeatureRestricted(ExamFeatureRestriction.HIDE_SPECIAL_POINTS));
 	}
 
 	@Test

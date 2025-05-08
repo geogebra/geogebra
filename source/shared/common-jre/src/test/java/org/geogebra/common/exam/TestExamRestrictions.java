@@ -42,7 +42,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 		super(examType,
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
-				Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION),
+				Set.of(ExamFeatureRestriction.HIDE_SPECIAL_POINTS),
 				createExpressionFilters(),
 				null,
 				createCommandFilters(),

@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.scientific.LabelController;
 
 public class SuggestionStatistics extends Suggestion {
@@ -29,11 +29,6 @@ public class SuggestionStatistics extends Suggestion {
 	private ArrayList<String> statCommands = new ArrayList<>(Arrays.asList(
 			Commands.Min.getCommand(), Commands.Q1.getCommand(), Commands.Median.getCommand(),
 			Commands.Q3.getCommand(), Commands.Max.getCommand()));
-
-	@Override
-	public String getCommand(Localization loc) {
-		return loc.getMenu("Statistics");
-	}
 
 	@Override
 	public void runCommands(GeoElementND geo) {
@@ -78,14 +73,15 @@ public class SuggestionStatistics extends Suggestion {
 
 	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
 			boolean isSymbolicMode) {
+		LabelHiderCallback callback;
 		if (isSymbolicMode) {
-			LabelHiderCallback callback = new LabelHiderCallback();
+			callback = new LabelHiderCallback();
 			callback.setStoreUndo(false);
-			algebraProcessor.processAlgebraCommand(
-					cmd, false, callback);
 		} else {
-			algebraProcessor.processAlgebraCommand(cmd, false);
+			callback = null;
 		}
+		algebraProcessor.processAlgebraCommandNoExceptionHandling(cmd, false,
+				ErrorHelper.silent(), false, callback);
 	}
 
 	private static boolean[] getNeededAlgos(GeoElementND geo) {

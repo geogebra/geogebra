@@ -256,7 +256,6 @@ import static org.geogebra.common.kernel.commands.Commands.RectangleSum;
 import static org.geogebra.common.kernel.commands.Commands.Reflect;
 import static org.geogebra.common.kernel.commands.Commands.RemovableDiscontinuity;
 import static org.geogebra.common.kernel.commands.Commands.Remove;
-import static org.geogebra.common.kernel.commands.Commands.RemoveUndefined;
 import static org.geogebra.common.kernel.commands.Commands.ReplaceAll;
 import static org.geogebra.common.kernel.commands.Commands.ResidualPlot;
 import static org.geogebra.common.kernel.commands.Commands.Reverse;
@@ -292,7 +291,6 @@ import static org.geogebra.common.kernel.commands.Commands.Split;
 import static org.geogebra.common.kernel.commands.Commands.StickGraph;
 import static org.geogebra.common.kernel.commands.Commands.Stretch;
 import static org.geogebra.common.kernel.commands.Commands.Substitute;
-import static org.geogebra.common.kernel.commands.Commands.Sum;
 import static org.geogebra.common.kernel.commands.Commands.SumSquaredErrors;
 import static org.geogebra.common.kernel.commands.Commands.SurdText;
 import static org.geogebra.common.kernel.commands.Commands.Surface;
@@ -428,7 +426,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				ProveDetails, Radius, Ray, RigidPolygon, Sector, Segment, TriangleCenter,
 				TriangleCurve, Trilinear, Vertex, Corner, DynamicCoordinates, ToComplex, ToPoint,
 				Append, Classes, Element, First, Flatten, Frequency, IndexOf, Insert,
-				Join, Last, OrdinalRank, PointList, Product, RandomElement, Remove, RemoveUndefined,
+				Join, Last, OrdinalRank, PointList, Product, RandomElement, Remove,
 				Reverse, SelectedIndex, Shuffle, Sort, Take, TiedRank, Union, Unique, Zip, CountIf,
 				Bernoulli, Cauchy, Erlang, Exponential, Gamma, InverseCauchy, InverseExponential,
 				InverseGamma, InverseLogNormal, InverseLogistic, InversePascal, InverseWeibull,
@@ -437,7 +435,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				RandomUniform, Triangular, Uniform, Weibull, Zipf, Covariance, FitImplicit,
 				FitLineX, GeometricMean, HarmonicMean, Percentile,
 				RootMeanSquare, Sample, SampleVariance, SigmaXX, SigmaXY, SigmaYY,
-				Spearman, Sum, SumSquaredErrors, Sxx, Sxy, Syy, TTestPaired, ContinuedFraction,
+				Spearman, SumSquaredErrors, Sxx, Sxy, Syy, TTestPaired, ContinuedFraction,
 				FormulaText, FractionText, LetterToUnicode, Ordinal, ReplaceAll, Split,
 				ScientificText, SurdText, Text, TextToUnicode, UnicodeToLetter, UnicodeToText,
 				Dilate, Reflect, Rotate, Shear, Stretch, Translate, MatrixRank,

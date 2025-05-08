@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.CommandNotFoundError;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -164,6 +165,8 @@ public class StatisticGroupsBuilder {
 				statisticGroups.add(new StatisticGroup(true, heading, formula));
 			} catch (CommandNotLoadedError err) {
 				throw err;
+			} catch (CommandNotFoundError err) {
+				Log.debug(err.getMessage());
 			} catch (Throwable e) {
 				Log.debug(e);
 			}

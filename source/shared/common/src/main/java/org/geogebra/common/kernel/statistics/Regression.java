@@ -56,4 +56,8 @@ public enum Regression {
 		return cmd;
 	}
 
+	public Commands getCommand() {
+		return command;
+	}
+
 }

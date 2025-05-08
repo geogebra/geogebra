@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -25,11 +25,6 @@ import org.geogebra.common.util.DoubleUtil;
 public class SuggestionIntersectExtremum extends Suggestion {
 
 	private static Suggestion INSTANCE = new SuggestionIntersectExtremum();
-
-	@Override
-	public String getCommand(Localization loc) {
-		return loc.getMenu("Suggestion.SpecialPoints");
-	}
 
 	@Override
 	public void runCommands(GeoElementND geo) {
@@ -88,26 +83,27 @@ public class SuggestionIntersectExtremum extends Suggestion {
 			return null;
 		}
 
-		PolyFunction poly = function.expandToPolyFunction(
+		return function.expandToPolyFunction(
 				function.getFunctionExpression(), false, true);
-		return poly;
 	}
 
 	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
 			boolean isSymbolicMode) {
 		if (isSymbolicMode) {
-			GeoElementND[] pointLists = algebraProcessor.processAlgebraCommand(
-					cmd, false, new LabelHiderCallback());
+			GeoElementND[] pointLists = algebraProcessor
+					.processAlgebraCommandNoExceptionHandling(cmd, false,
+							ErrorHelper.silent(), false, new LabelHiderCallback());
 			setPointsColorToGray(pointLists);
 		} else {
-			algebraProcessor.processAlgebraCommand(cmd, false);
+			algebraProcessor.processAlgebraCommandNoExceptionHandling(cmd, false,
+					ErrorHelper.silent(), false, null);
 		}
 	}
 
 	private void setPointsColorToGray(GeoElementND[] pointLists) {
-		for (int i = 0; i < pointLists.length; i++) {
-			pointLists[i].setObjColor(ConstructionDefaults.colDepPointG);
-			pointLists[i].updateRepaint();
+		for (GeoElementND pointList : pointLists) {
+			pointList.setObjColor(ConstructionDefaults.colDepPointG);
+			pointList.updateRepaint();
 		}
 	}
 
