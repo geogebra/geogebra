@@ -24,18 +24,18 @@ public class SpecialPointPopupHelper {
      */
     public static List<String> getContentRows(App app, List<GeoElement> previewPoints) {
         List<String> contentRows = new ArrayList<>();
-		GeoElement point = previewPoints.get(0);
+        GeoElement point = previewPoints.get(0);
         for (GeoElement geo : previewPoints) {
-			if (geo.getParentAlgorithm() != null && geo.isEqual(point)) {
-                contentRows.add(getContentRow(app, geo));
+            AlgoElement parentAlgorithm = geo.getParentAlgorithm();
+            if (parentAlgorithm != null && geo.isEqual(point)) {
+                contentRows.add(getContentRow(app, parentAlgorithm));
             }
         }
         contentRows.add(point.getAlgebraDescriptionRHS());
         return contentRows;
     }
 
-    private static String getContentRow(App app, GeoElement geo) {
-        AlgoElement parentAlgo = geo.getParentAlgorithm();
+    private static String getContentRow(App app, AlgoElement parentAlgo) {
         GetCommand cmd = parentAlgo.getClassName();
         Localization localization = app.getLocalization();
         if (cmd == Commands.Intersect) {
@@ -52,9 +52,11 @@ public class SpecialPointPopupHelper {
                     }
                 }
             }
-			return localization.getCommand("Intersect");
+            return localization.getMenu("Intersect.tooltip");
         } else if (cmd == Commands.Roots) {
-            return localization.getCommand("Root");
+            return localization.getMenu("Root");
+        } else if (cmd == Commands.Extremum) {
+            return localization.getMenu("Extremum.tooltip");
         } else if (cmd == Commands.RemovableDiscontinuity) {
             return localization.getMenu("RemovableDiscontinuity");
         }
