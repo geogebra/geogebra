@@ -741,13 +741,6 @@ public class TextInputDialogD extends InputDialogD
 	}
 
 	/**
-	 * @return apply button
-	 */
-	public JButton getApplyButton() {
-		return btApply;
-	}
-
-	/**
 	 * Returns state of LaTeX Formula checkbox.
 	 * 
 	 * @return true if switched to LaTeX mode
@@ -1142,6 +1135,9 @@ public class TextInputDialogD extends InputDialogD
 								}
 
 								app.doAfterRedefine(newText);
+								// if the geo was replaced in construction, we have to select
+								// the new one to update references, in e.g. the properties view
+								app.getSelectionManager().addSelectedGeo(newText);
 								callback.callback(obj != null);
 							}
 						});
