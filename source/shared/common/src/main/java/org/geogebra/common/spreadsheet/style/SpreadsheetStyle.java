@@ -113,7 +113,7 @@ public final class SpreadsheetStyle {
 
 	/**
 	 * Returns text alignment for the cell at (row, column).
-	 * @return one of the CellFomat.ALIGN_* constants
+	 * @return one of the CellFormat.ALIGN_* constants
 	 */
 	public Integer getAlignment(int row, int column) {
 		return (Integer) format.getCellFormat(column, row, CellFormat.FORMAT_ALIGN);
