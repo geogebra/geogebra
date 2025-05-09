@@ -10,6 +10,8 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
+import org.gwtproject.event.logical.shared.CloseEvent;
+import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RequiresResize;
@@ -18,7 +20,7 @@ import org.gwtproject.user.client.ui.RequiresResize;
  * Calculator chooser for suite
  */
 public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable,
-		RequiresResize {
+		RequiresResize, CloseHandler<GPopupPanel> {
 	private FlowPanel contentPanel;
 	private final ExamController examController = GlobalScope.examController;
 
@@ -33,6 +35,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 		buildGUI();
 		app.addWindowResizeListener(this);
+		addCloseHandler(this);
 	}
 
 	/**
@@ -98,7 +101,6 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	@Override
 	public void hide() {
 		super.hide();
-		((AppW) app).unregisterPopup(this);
 	}
 
 	@Override
@@ -107,5 +109,10 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 			Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 		}
+	}
+
+	@Override
+	public void onClose(CloseEvent<GPopupPanel> event) {
+		((AppW) app).unregisterPopup(this);
 	}
 }

@@ -18,6 +18,7 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {
+		app.closePopups();
 		app.getSaveController().showDialogIfNeeded(createExamCallback(app), false);
 	}
 
