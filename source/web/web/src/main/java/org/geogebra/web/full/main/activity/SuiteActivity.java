@@ -53,7 +53,7 @@ public class SuiteActivity extends BaseActivity {
 
 	@Override
 	public BaseActivity getSubapp() {
-		if (GeoGebraConstants.SCIENTIFIC_APPCODE.equals(getConfig().getSubAppCode())) {
+		if (isSubAppScientific()) {
 			if (scientificSubApp == null) {
 				scientificSubApp = new ScientificActivity();
 				GlobalHeader.INSTANCE.initButtonsIfOnHeader();
@@ -65,10 +65,19 @@ public class SuiteActivity extends BaseActivity {
 
 	@Override
 	public HeaderResizer getHeaderResizer(GeoGebraFrameW frame) {
-		if (GeoGebraConstants.SCIENTIFIC_APPCODE.equals(getConfig().getSubAppCode())) {
+		if (isSubAppScientific()) {
 			return getSubapp().getHeaderResizer(frame);
 		}
 		return super.getHeaderResizer(frame);
+	}
+
+	private boolean isSubAppScientific() {
+		return GeoGebraConstants.SCIENTIFIC_APPCODE.equals(getConfig().getSubAppCode());
+	}
+
+	@Override
+	public boolean useValidInput() {
+		return !isSubAppScientific();
 	}
 
 	@Override
