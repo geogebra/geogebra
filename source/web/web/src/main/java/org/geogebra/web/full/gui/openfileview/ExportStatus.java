@@ -12,6 +12,7 @@ public enum ExportStatus {
 	AVAILABLE("available"),
 	ERROR("error");
 
+	public static final String DOWNLOAD_ALL = "Alle dateien herunterladen";
 	private final String status;
 	private final static String MESSAGE_PENDING_IN_PROGRESS = "Download wird vorbereitet...";
 	private final static String MESSAGE_AVAILABLE = "Download bereit";

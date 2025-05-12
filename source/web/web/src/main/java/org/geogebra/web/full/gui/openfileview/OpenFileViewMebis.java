@@ -120,7 +120,7 @@ public class OpenFileViewMebis extends HeaderFileView
 	private void initButtonPanel() {
 		buttonPanel = new FlowPanel();
 		downloadAllFiles = new StandardButton(MaterialDesignResources.INSTANCE.downloadMenu(),
-				"Alle dateien herunterladen", 18);
+				ExportStatus.DOWNLOAD_ALL, 18);
 		downloadAllFiles.addFastClickHandler(source -> {
 				downloadAllFiles.setEnabled(false);
 				getExportStatus.cancel();
