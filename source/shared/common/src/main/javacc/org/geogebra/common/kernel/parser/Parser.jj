@@ -146,7 +146,8 @@ public class Parser implements ParserInterface {
 		myReInit(stripEqualSign(parseString));
 		ValidExpression ret = buildValidExpression();
 		processUndecided();
-		return ret;
+		// most commands are wrapped at this point, except for CellRange that was created as A1:A9
+		return ret instanceof Command ? ret.wrap() : ret;
 	}
 
 	public ValidExpression parseGeoGebraExpressionLowPrecision(String parseString) throws ParseException {

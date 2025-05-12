@@ -2458,4 +2458,36 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic s = add("a(2/3)^2");
 		assertThat(s, hasValue("4 / 9 a"));
 	}
+
+	@Test
+	public void testCellRange() {
+		add("A1=1");
+		GeoElement middle = add("A2=2");
+		middle.setFixed(false);
+		add("A3=3");
+		GeoElement range = add("CellRange(A1,A3)");
+		assertThat(range, hasValue("{1, 2, 3}"));
+		add("A2=4");
+		assertThat(range, hasValue("{1, 4, 3}"));
+	}
+
+	@Test
+	public void testCellRangeShorthand() {
+		add("A1=1");
+		GeoElement middle = add("A2=2");
+		middle.setFixed(false);
+		add("A3=3");
+		GeoElement range = add("A1:A3");
+		assertThat(range, hasValue("{1, 2, 3}"));
+		add("A2=4");
+		assertThat(range, hasValue("{1, 4, 3}"));
+	}
+
+	@Test
+	public void testPieChart() {
+		add("A1=1");
+		add("A2=2");
+		add("A3=3");
+		assertThat(add("PieChart(A1:A3,(0,0))"), hasValue("PieChart({1, 2, 3}, (0, 0))"));
+	}
 }

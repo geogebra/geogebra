@@ -122,7 +122,7 @@ public abstract class CasTestJsonCommon {
 	}
 
 	protected static void checkMissingCategories() {
-		for (String key : Ggb2giac.getMap(app).keySet()) {
+		for (String key : Ggb2giac.getMap().keySet()) {
 			if (testcases != null && testcases.get(key) == null
 					&& testcases.get(key.substring(0, key.indexOf("."))) == null
 					&& forCAS(key)

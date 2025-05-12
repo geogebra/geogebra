@@ -3,7 +3,6 @@ package org.geogebra.common.cas.giac;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.PreviewFeature;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -30,7 +29,7 @@ public class Ggb2giac {
 	 * @param casSyntax
 	 *            CAS syntax,parameters as %0,%1
 	 */
-	public static void p(String signature, String casSyntax) {
+	private static void p(String signature, String casSyntax) {
 
 		// replace _ with \_ to make sure it's not replaced with "unicode95u"
 
@@ -38,11 +37,9 @@ public class Ggb2giac {
 	}
 
 	/**
-	 * @param app
-	 *            application, unused
 	 * @return map signature =&gt; syntax
 	 */
-	public static Map<String, String> getMap(App app) {
+	public static Map<String, String> getMap() {
 
 		// these commands aren't supported in the CAS View
 		// not supported in CAS

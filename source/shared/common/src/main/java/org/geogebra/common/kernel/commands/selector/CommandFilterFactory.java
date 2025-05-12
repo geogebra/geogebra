@@ -135,9 +135,8 @@ public final class CommandFilterFactory {
 				// Chart Commands
 				Commands.BoxPlot, Commands.ContingencyTable,
 				Commands.DotPlot, Commands.FrequencyPolygon, Commands.FrequencyTable,
-				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
+				Commands.HistogramRight, Commands.NormalQuantilePlot,
 				Commands.ResidualPlot, Commands.StemPlot,
-				Commands.LineGraph, Commands.PieChart,
 				// Barycentric Commands
 				Commands.TriangleCenter, Commands.Barycenter, Commands.Trilinear, Commands.Cubic,
 				Commands.TriangleCurve,
@@ -183,7 +182,7 @@ public final class CommandFilterFactory {
 				Commands.Surface, Commands.Tetrahedron, Commands.Top,
 				Commands.Volume, Commands.QuadricSide, Commands.OrthogonalPlane,
 				// SpreadSheet Commands
-				Commands.Cell, Commands.CellRange, Commands.Column,
+				Commands.Cell, Commands.Column,
 				Commands.ColumnName, Commands.FillCells, Commands.FillColumn,
 				Commands.FillRow, Commands.Row
 		);

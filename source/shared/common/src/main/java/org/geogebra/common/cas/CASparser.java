@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -468,8 +469,11 @@ public class CASparser implements CASParserInterface {
 	synchronized Map<String, String> getTranslationResourceBundle() {
 		if (rbCasTranslations == null) {
 
-			rbCasTranslations = Ggb2giac
-					.getMap(parser.getKernel().getApplication());
+			App application = parser.getKernel().getApplication();
+			rbCasTranslations = Ggb2giac.getMap();
+			if (application.isUnbundled()) {
+				rbCasTranslations.remove("CellRange.2");
+			}
 		}
 		return rbCasTranslations;
 	}

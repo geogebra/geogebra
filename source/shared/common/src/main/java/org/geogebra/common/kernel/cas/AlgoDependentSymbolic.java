@@ -10,9 +10,12 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 
@@ -59,6 +62,20 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 	@Override
 	public void compute() {
 		symbolic.computeOutput();
+		for (ExpressionValue val: symbolic.getDefinition()) {
+			if (val instanceof Command
+					&& Commands.CellRange.name().equals(((Command) val).getName())) {
+				String start = getCellName(((Command) val).getArgument(0));
+				String end = getCellName(((Command) val).getArgument(1));
+				kernel.getApplication().getSpreadsheetTableModel().getCellRangeManager()
+						.getAlgoCellRange(cons, null, start, end).addToItemsAlgoUpdateSets(this);
+			}
+		}
+	}
+
+	private String getCellName(ExpressionValue v) {
+		ExpressionValue unwarapped = v.unwrap();
+		return unwarapped instanceof GeoElement ? ((GeoElement) unwarapped).getLabelSimple() : "";
 	}
 
 	@Override

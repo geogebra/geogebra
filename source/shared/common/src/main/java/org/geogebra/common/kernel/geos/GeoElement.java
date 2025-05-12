@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import static com.himamis.retex.editor.share.input.Character.isLetter;
+import static org.geogebra.common.kernel.ConstructionDefaults.DEFAULT_LINE;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1298,7 +1299,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		// x = y or x^2 = y to an inequality the result would have an alpha of 0)
 		if ((!geo.isFillable() && !geo.isMask()) || isInequality()) {
 			ConstructionDefaults defaults = cons.getConstructionDefaults();
-			setAlphaValue(defaults.getDefaultGeo(defaults.getDefaultType(this)).getAlphaValue());
+			int defaultType = defaults.getDefaultType(this);
+			if (defaultType != DEFAULT_LINE) {
+				setAlphaValue(defaults.getDefaultGeo(defaultType).getAlphaValue());
+			}
 		}
 
 		bgColor = geo.bgColor;

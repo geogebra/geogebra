@@ -96,7 +96,6 @@ public class AlgoCellRange extends AlgoElement {
 		}
 
 		super.remove();
-
 		cons.getApplication().getSpreadsheetTableModel().getCellRangeManager()
 				.unregisterCellRangeListenerAlgo(this);
 
