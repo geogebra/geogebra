@@ -60,14 +60,50 @@
 				flex-grow: 1;
 			}
 
+			.exportStatusPanel {
+				display: flex;
+				align-items: flex-start;
+				margin: 0 8px 30px 24px;
+				max-width: 976px;
+				min-height: 44px;
+				border-radius: 12px;
+				background-color: var(--ggb-light-color);
+
+				.statusImage {
+					padding: 12px 0 0 12px;
+					margin: 0 8px auto 0;
+				}
+
+				.message {
+					padding: 12px 12px 0 0;
+					font-weight: 500;
+					line-height: 20px;
+				}
+
+				.help {
+					padding: 0 12px 12px 0;
+					font-size: 14px;
+					font-weight: 400;
+					line-height: 20px;
+				}
+
+				.dialogContainedButton {
+					min-width: 190px;
+					margin: auto 12px auto 0;
+				}
+
+				&.error {
+					background-color: colors.$error-8;
+				}
+			}
+
 			.center {
 				margin: 0px auto;
 			}
 			.gwt-ListBox {
 				cursor: pointer;
-				position: absolute;
-				right: 24px;
-				//margin-top: 36px;
+				float: right;
+				margin-right: 24px;
 				border-radius: 0px;
 				box-shadow: none;
 				border: none;
@@ -81,8 +117,7 @@
 				}
 			}
 			.materialPanel {
-				position: absolute;
-				top: 98px;
+				position: relative;
 				padding: 8px 8px 8px 24px;
 				box-sizing: border-box;
 				width: 100%;
@@ -398,6 +433,7 @@
 
 	.fileViewButtonPanel {
 		margin-left: 24px;
+		margin-bottom: 24px;
 		.containedButton {
 			form {
 				height: 0;

@@ -57,6 +57,9 @@ public final class GColor implements GPaint {
 	public static final GColor PURPLE = newColor(102, 102, 255);
 	/** PURPLE A400 */
 	public static final GColor PURPLE_A400 = newColor(213, 0, 249);
+	/** ERROR COLOR
+	 */
+	public static final GColor ERROR = newColorRGB(0xB00020);
 	/** NEUTRAL 400 */
 	public static final GColor NEUTRAL_400 = newColorRGB(0xD1D0D6);
 	/** MOW TEXT PRIMARY */

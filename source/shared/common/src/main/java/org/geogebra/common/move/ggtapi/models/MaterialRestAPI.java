@@ -729,4 +729,24 @@ public class MaterialRestAPI implements BackendAPI {
 		return service.getActions(owns(material), model.getLoggedInUser() != null
 				&& !model.getLoggedInUser().isStudent());
 	}
+
+	/**
+	 * Request to start the export of all materials of a logged-in user.
+	 * @param callback on success request and show status
+	 * (see {@see org.geogebra.web.full.gui.openfileview.OpenFileViewMebis#startExport()})
+	 */
+	public void startExport(AjaxCallback callback) {
+		performWithAuthentication(HttpMethod.POST, "/materials/export",
+				null, callback);
+	}
+
+	/**
+	 * Requests the status of export process (possible stats
+	 * {@see org.geogebra.web.full.gui.openfileview.ExportStatus}
+	 * @param callback update the panel showing status message according the status
+	 */
+	public void getExportStatus(AjaxCallback callback) {
+		performWithAuthentication(HttpMethod.GET, "/materials/export/status",
+				null, callback);
+	}
 }

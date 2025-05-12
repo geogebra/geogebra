@@ -1,30 +1,45 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.models.ResourceOrdering;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.util.HttpRequestW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
+import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ListBox;
+import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.Blob;
+import elemental2.dom.URL;
+import elemental2.dom.XMLHttpRequest;
+import jsinterop.base.Js;
 
 /**
  * View for browsing materials
@@ -39,8 +54,10 @@ public class OpenFileViewMebis extends HeaderFileView
 	protected AppWFull app;
 
 	private FlowPanel buttonPanel;
+	private StandardButton downloadAllFiles;
 	private StandardButton newFileBtn;
 	private final FileOpenButton openFileBtn;
+	private SimplePanel exportStatusPanel;
 	private FlowPanel loadMoreFilesPanel;
 
 	private ListBox sortDropDown;
@@ -50,6 +67,8 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private ResourceOrdering order = ResourceOrdering.modified;
 	private static final ResourceOrdering[] map = ResourceOrdering.values();
+	private Timer getExportStatus;
+	private ExportStatus lastExportStatus;
 
 	/**
 	 * @param app
@@ -69,8 +88,9 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private void initGUI() {
 		this.allMaterialsCB = getUserMaterialsCB();
-		initButtonPanel();
 		initSortDropdown();
+		initButtonPanel();
+		exportStatusPanel = new SimplePanel();
 	}
 
 	/**
@@ -86,7 +106,8 @@ public class OpenFileViewMebis extends HeaderFileView
 		} else {
 			setSmallButtonStyle();
 			common.addToContent(buttonPanel);
-			common.addToContent(sortDropDown);
+			common.addToContent(exportStatusPanel);
+			startRequestingExportStatus();
 			common.addContent();
 		}
 	}
@@ -98,17 +119,29 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private void initButtonPanel() {
 		buttonPanel = new FlowPanel();
+		downloadAllFiles = new StandardButton(MaterialDesignResources.INSTANCE.downloadMenu(),
+				"Alle dateien herunterladen", 18);
+		downloadAllFiles.addFastClickHandler(source -> {
+				downloadAllFiles.setEnabled(false);
+				getExportStatus.cancel();
+				startExport();
+			});
+
 		newFileBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.file_plus(),
 				localize("New.Mebis"), 18);
 		newFileBtn.addFastClickHandler(source -> newFile());
+
 		openFileBtn.setImageAndText(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
 						.getSafeUri().asString(),
 				localize("mow.offlineMyFiles"));
 		openFileBtn.setAcceptedFileType(".ggs");
+
+		buttonPanel.add(downloadAllFiles);
 		buttonPanel.add(openFileBtn);
 		buttonPanel.add(newFileBtn);
+		buttonPanel.add(sortDropDown);
 	}
 
 	private void initSortDropdown() {
@@ -169,9 +202,11 @@ public class OpenFileViewMebis extends HeaderFileView
 	}
 
 	private void setSmallButtonStyle() {
+		downloadAllFiles.setStyleName("containedButton");
 		newFileBtn.setStyleName("containedButton");
 		newFileBtn.addStyleName("buttonMargin16");
 		openFileBtn.setStyleName("containedButton");
+		openFileBtn.addStyleName("buttonMargin16");
 		buttonPanel.setStyleName("fileViewButtonPanel");
 	}
 
@@ -266,7 +301,6 @@ public class OpenFileViewMebis extends HeaderFileView
 		default:
 			return false;
 		}
-
 	}
 
 	@Override
@@ -362,5 +396,118 @@ public class OpenFileViewMebis extends HeaderFileView
 		if (loadMoreFilesPanel != null) {
 			loadMoreFilesPanel.removeFromParent();
 		}
+	}
+
+	// EXPORT STATUS
+	protected void startExport() {
+		app.getLoginOperation().getResourcesAPI().startExport(new AjaxCallback() {
+			@Override
+			public void onSuccess(String response) {
+				startRequestingExportStatus();
+			}
+
+			@Override
+			public void onError(String error) {
+				Log.debug("Cannot start export: " + error);
+			}
+		});
+	}
+
+	private void updateExportStatusPanel(ExportStatus status) {
+		FlowPanel statusPanel = null;
+		switch (status) {
+		case NOT_STARTED:
+			stopStatusRequestEnableDownload();
+			break;
+		case PENDING:
+		case IN_PROGRESS:
+			downloadAllFiles.setEnabled(false);
+			statusPanel = ExportStatusPanelBuilder.getPendingInProgressPanel();
+			break;
+		case AVAILABLE:
+			stopStatusRequestEnableDownload();
+			statusPanel = ExportStatusPanelBuilder.getAvailablePanel(this::downloadExportedFiles);
+			break;
+		case ERROR:
+			stopStatusRequestEnableDownload();
+			statusPanel = ExportStatusPanelBuilder.getErrorPanel();
+			break;
+		}
+
+		updateStatusAndDownloadDirectly(status);
+		exportStatusPanel.setWidget(statusPanel);
+	}
+
+	private void updateStatusAndDownloadDirectly(ExportStatus newStatus) {
+		if ((lastExportStatus == ExportStatus.IN_PROGRESS
+				|| lastExportStatus == ExportStatus.PENDING)
+				&& newStatus == ExportStatus.AVAILABLE
+				&& viewIsOpen()) {
+			downloadExportedFiles();
+		}
+		lastExportStatus = newStatus;
+	}
+
+	private boolean viewIsOpen() {
+		return buttonPanel.isAttached();
+	}
+
+	private void downloadExportedFiles() {
+		AuthenticationModel model = app.getLoginOperation().getModel();
+		HttpRequestW request = new HttpRequestW();
+		request.setAuth(model.getLoginToken());
+		request.setContentTypeJson();
+		String endpoint = app.getLoginOperation().getResourcesAPI().getUrl()
+				+ "/materials/export/download";
+		request.setResponseType("blob");
+		model.refreshToken(request, () -> request.sendRequest("GET",
+				endpoint, null, downloadFilesCallback(), Log::error));
+	}
+
+	private void stopStatusRequestEnableDownload() {
+		getExportStatus.cancel();
+		downloadAllFiles.setEnabled(true);
+	}
+
+	private void requestExportStatus() {
+		if (getExportStatus == null) {
+			getExportStatus = new Timer() {
+				@Override
+				public void run() {
+					app.getLoginOperation().getResourcesAPI().getExportStatus(
+							new AjaxCallback() {
+								@Override
+								public void onSuccess(String response) {
+									try {
+										JSONObject jsonObject = new JSONObject(response);
+										ExportStatus status = ExportStatus.getStatus(jsonObject
+												.getString("status"));
+										updateExportStatusPanel(status);
+									} catch (JSONException e) {
+										Log.debug("Cannot parse export response");
+									}
+								}
+
+								@Override
+								public void onError(String error) {
+									Log.debug("Cannot call for export status: " + error);
+								}
+							});
+				}
+			};
+		}
+		getExportStatus.run();
+	}
+
+	private void startRequestingExportStatus() {
+		requestExportStatus();
+		getExportStatus.scheduleRepeating(5000);
+	}
+
+	private Consumer<XMLHttpRequest> downloadFilesCallback() {
+		return xmlHttpRequest -> {
+			String url = URL.createObjectURL(Js.<Blob>uncheckedCast(xmlHttpRequest.response));
+			Browser.downloadURL(url, "download.zip");
+		};
 	}
 }

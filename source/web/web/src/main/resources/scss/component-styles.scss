@@ -594,10 +594,22 @@
 			color: neutral(700);
 		}
 
-		&.disabled {
+		&.disabled, &[disabled] {
+			img {
+				opacity: 0.34;
+			}
+
 			.gwt-Label {
 				color: neutral(500);
 				background-color: neutral(200);
+			}
+
+			&:hover {
+				cursor: default;
+				background-color: neutral(200);
+				img {
+					opacity: 0.34;
+				}
 			}
 		}
 	}

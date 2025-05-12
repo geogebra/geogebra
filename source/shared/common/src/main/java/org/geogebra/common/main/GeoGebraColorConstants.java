@@ -171,6 +171,9 @@ public class GeoGebraColorConstants {
 	public static final GColor PURPLE_600 = rgb(0x6557D2); // primary purple
 	public static final GColor PURPLE_700 = rgb(0x5145A8);
 
+	/** MEBIS PURPLE A400 */
+	public static final GColor MEBIS_PURPLE_A400 = GColor.newColorRGB(0x723B86);
+
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
 	 * from colors.properties value = RBG color
