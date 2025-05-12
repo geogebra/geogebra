@@ -495,7 +495,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Returns whether this ExpressionNode should evaluate to a GeoVector. This
 	 * method returns true when all GeoElements in this tree are GeoVectors and
-	 * there are no other constanct VectorValues (i.e. constant points)
+	 * there are no other constant VectorValues (i.e. constant points)
 	 * 
 	 * @return true if this should evaluate to GeoVector
 	 */

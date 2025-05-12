@@ -170,7 +170,7 @@ var GGBApplet = function() {
      * @param baseDir
      */
     applet.setJNLPBaseDir = function(baseDir) {
-        //not needed, for comaptibility only
+        //not needed, for compatibility only
     };
 
     /**
