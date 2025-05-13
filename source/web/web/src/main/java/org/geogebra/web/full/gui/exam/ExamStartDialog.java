@@ -39,7 +39,7 @@ public class ExamStartDialog extends ComponentDialog {
 		Label startText = BaseWidgetFactory.INSTANCE.newSecondaryText(
 				localization.getMenu("exam_start_dialog_text"), "examStartText");
 		addDialogContent(startText);
-		if (mayChoseType((AppW) app)) {
+		if (mayChooseType((AppW) app)) {
 			ArrayList<RadioButtonData<ExamType>> data = new ArrayList<>();
 			for (ExamType region : ExamType.getAvailableValues(localization, app.getConfig())) {
 				String displayName = region.getDisplayName(localization,
@@ -55,7 +55,11 @@ public class ExamStartDialog extends ComponentDialog {
 		}
 	}
 
-	private boolean mayChoseType(AppW app) {
+	/**
+	 * @param app application
+	 * @return whether it's possible to choose multiple exam types in the app
+	 */
+	public static boolean mayChooseType(AppW app) {
 		return app.isSuite() && (!app.isLockedExam()
 				|| ExamType.CHOOSE.equals(app.getAppletParameters().getParamExamMode()));
 	}

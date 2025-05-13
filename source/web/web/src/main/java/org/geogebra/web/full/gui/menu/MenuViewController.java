@@ -20,6 +20,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
@@ -158,11 +159,12 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		} else {
 			boolean addAppSwitcher = app.isSuite();
 			String versionStr = GeoGebraConstants.getVersionString6();
+			String versionString = app.getLocalization().getPlainDefault("VersionA",
+					"Version %0", versionStr);
 			if (app.getLAF().hasHelpMenu()) {
 				return new DefaultDrawerMenuFactory(
 						app.getPlatform(),
-						version, app.getLocalization().getPlainDefault("VersionA",
-						"Version %0", versionStr),
+						version, versionString,
 						hasLoginButton(app) ? app.getLoginOperation() : null,
 						shouldCreateExamEntry(app),
 						app.enableFileFeatures(),
@@ -170,8 +172,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 			}
 			return new ExternalDrawerMenuFactory(
 					app.getPlatform(),
-					version, app.getLocalization().getPlainDefault("VersionA",
-					"Version %0", versionStr),
+					version, versionString,
 					hasLoginButton(app) ? app.getLoginOperation() : null,
 					shouldCreateExamEntry(app),
 					app.enableFileFeatures(),
@@ -194,7 +195,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private boolean shouldCreateExamEntry(AppW app) {
-		return app.getConfig().hasExam() && app.getLAF().isOfflineExamSupported();
+		return app.getConfig().hasExam() && (app.getLAF().isOfflineExamSupported()
+				|| !StringUtil.empty(app.getAppletParameters().getParamExamLaunchURL()));
 	}
 
 	private boolean hasLoginButton(AppW app) {

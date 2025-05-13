@@ -828,4 +828,11 @@ public class AppletParameters {
 	public boolean getParamFontAwesome(boolean fallback) {
 		return getBoolDataParam("fontAwesome", fallback);
 	}
+
+	/**
+	 * @return exam launch URL
+	 */
+	public String getParamExamLaunchURL() {
+		return getStringDataParam("examLaunchURL", "");
+	}
 }
