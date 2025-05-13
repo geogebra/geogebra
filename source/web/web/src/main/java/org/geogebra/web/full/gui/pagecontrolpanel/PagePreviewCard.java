@@ -36,7 +36,7 @@ public class PagePreviewCard extends FlowPanel
 	private Label number;
 	private FlowPanel imagePanel;
 	private CardInfoPanel infoPanel;
-	private ContextMenuButtonPreviewCard contextMenu;
+	private PagePreviewCardContextMenu contextMenu;
 	private int grabY; // where the user grabbed the card when dragging.
 	/**
 	 * ggb file
@@ -95,8 +95,8 @@ public class PagePreviewCard extends FlowPanel
 		infoPanel = new CardInfoPanel();
 		infoPanel.addStyleName("mowTitlePanel");
 
-		contextMenu = new ContextMenuButtonPreviewCard(app, this);
-		infoPanel.add(contextMenu);
+		contextMenu = new PagePreviewCardContextMenu(app, this);
+		infoPanel.add(contextMenu.getTriggerButton());
 
 		cardPanel.add(imagePanel);
 		cardPanel.add(infoPanel);

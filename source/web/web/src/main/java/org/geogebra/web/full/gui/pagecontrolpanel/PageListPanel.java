@@ -15,6 +15,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.PersistablePanel;
+import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.MouseMoveEvent;
 import org.gwtproject.event.dom.client.MouseOutEvent;
@@ -23,6 +24,7 @@ import org.gwtproject.event.dom.client.TouchEndEvent;
 import org.gwtproject.event.dom.client.TouchMoveEvent;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.ScrollPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 
 import jsinterop.base.Js;
 
@@ -41,6 +43,7 @@ public class PageListPanel
 	private StandardButton plusButton;
 	private final PageListController pageController;
 	private boolean isTouch = false;
+	private SimplePanel indicator;
 
 	/**
 	 * @param app
@@ -107,6 +110,16 @@ public class PageListPanel
 	 */
 	public void loadNewPage(boolean selected, String id) {
 		int index = addNewPreviewCard(selected, id);
+		pageController.loadNewPageStoreUndo(index);
+	}
+
+	/**
+	 * Create and load a new page at specified index
+	 * @param atIndex define where to insert new page
+	 * @param id generated ID for next slide
+	 */
+	public void loadNewPage(int atIndex, String id) {
+		int index = addNewPreviewCardAt(atIndex, id);
 		pageController.loadNewPageStoreUndo(index);
 	}
 
@@ -184,6 +197,20 @@ public class PageListPanel
 		pageController.addNewPreviewCard(selected, index, new GgbFile(id));
 		addPreviewCard(pageController.getCard(index));
 		return index;
+	}
+
+	/**
+	 * Create new preview card
+	 * @param index at which new page will be inserted
+	 * @param id generated ID for next slide
+	 * @return index of new slide
+	 */
+	protected int addNewPreviewCardAt(int index, String id) {
+		PagePreviewCard newCard = pageController.addNewPreviewCard(true, index, new GgbFile(id));
+		addPreviewCard(newCard);
+		pageController.updatePreviewImage();
+		update();
+		return newCard.getPageIndex();
 	}
 
 	private void addPreviewCard(final PagePreviewCard card) {
@@ -321,5 +348,32 @@ public class PageListPanel
 			pageController.updatePreviewImage();
 		}
 	}
+
+	/**
+	 * Show indicator after last card, so the user knows where the new page will be added.
+	 */
+	public void showIndicator() {
+		if (indicator == null) {
+			indicator = new SimplePanel();
+			indicator.addStyleName("pageInsertIndicator");
+		}
+		if (!indicator.isAttached()) {
+			contentPanel.add(indicator);
+		}
+
+		indicator.setVisible(true);
+		PagePreviewCard lastCard = pageController.getCard(pageController.getSlideCount() - 1);
+		indicator.getElement().getStyle().setTop(lastCard.getBottom(), Unit.PX);
+	}
+
+	/**
+	 * Hide indicator (on context menu close).
+	 */
+	public void hideIndicator() {
+		if (indicator != null) {
+			indicator.setVisible(false);
+		}
+	}
+
 }
 

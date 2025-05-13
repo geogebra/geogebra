@@ -206,6 +206,15 @@
 			width: 100%;
 			margin-bottom: 64px;
 			padding: 16px 0;
+
+			.pageInsertIndicator {
+				width: 192px;
+				height: 2px;
+				border-radius: 1px;
+				position: relative;
+				left: 32px;
+				background-color: var(--ggb-primary-color);
+			}
 		}
 	}
 	.mowPageControlPanel.animateIn {

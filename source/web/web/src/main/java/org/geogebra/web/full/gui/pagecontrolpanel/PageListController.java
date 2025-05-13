@@ -122,6 +122,13 @@ public class PageListController implements PageListControllerInterface,
 		return slides.get(i);
 	}
 
+	/**
+	 * @return last card
+	 */
+	public PagePreviewCard getLastCard() {
+		return cardAt(slides.size() - 1);
+	}
+
 	@Override
 	public void refreshSlide(int index) {
 		refreshSlide(slides.get(index));
@@ -713,6 +720,11 @@ public class PageListController implements PageListControllerInterface,
 		}
 		event.preventDefault();
 		event.stopPropagation();
+
+		if (isRightClick(event)) {
+			showContextMenu(event.getClientX(), event.getClientY());
+		}
+
 		dragCtrl.start(event.getClientX(), event.getClientY());
 	}
 
@@ -990,5 +1002,11 @@ public class PageListController implements PageListControllerInterface,
 	private boolean isRightClick(HumanInputEvent<?> event) {
 		return event.isControlKeyDown()
 				|| event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT;
+	}
+
+	private void showContextMenu(int x, int y) {
+		app.getAppletFrame().getPageControlPanel().showIndicator();
+		PageControlPanelContextMenu contextMenu = new PageControlPanelContextMenu(app, this);
+		contextMenu.show(x, y);
 	}
 }

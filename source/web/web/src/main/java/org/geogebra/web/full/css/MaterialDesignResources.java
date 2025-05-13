@@ -193,6 +193,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/format_list_numbered-24px.svg")
 	SVGResource numberedList();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/control_point_duplicate.svg")
+	SVGResource duplicatePage();
+
 	// LINES
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_line_dash_dot.svg")
