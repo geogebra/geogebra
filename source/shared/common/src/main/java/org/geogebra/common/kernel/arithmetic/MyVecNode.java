@@ -18,8 +18,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
-import java.util.Set;
+import static org.geogebra.common.kernel.arithmetic.MyList.isEquation;
 
+import java.util.Set;
+import java.util.stream.Stream;
+
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.vector.VectorPrinterMapBuilder2D;
@@ -149,6 +153,21 @@ public class MyVecNode extends ValidExpression
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (tpl.getStringType().isGiac() && isEquation(x) && isEquation(y)) {
+			Traversing.VariableReplacer replacer = new Traversing.VariableReplacer(kernel);
+			Stream.of("x", "y", "z").forEach(varName ->
+					replacer.addVars(varName, new FunctionVariable(kernel, varName))
+			);
+			ExpressionValue xCopy = x.deepCopy(kernel).traverse(replacer);
+			ExpressionValue yCopy = y.deepCopy(kernel).traverse(replacer);
+			Construction cons = kernel.getConstruction();
+			boolean suppressLabelsActive = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+			GeoElement[] geos = kernel.getAlgebraProcessor()
+					.processEquationIntersect(xCopy, yCopy);
+			cons.setSuppressLabelCreation(suppressLabelsActive);
+			return geos[0].toValueString(tpl);
+		}
 		return stringifier.toValueString(tpl);
 	}
 

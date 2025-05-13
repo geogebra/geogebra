@@ -634,7 +634,12 @@ public class MyList extends ValidExpression
 
 	}
 
-	private static boolean isEquation(ExpressionValue ex) {
+	/**
+	 *
+	 * @param ex {@link ExpressionValue}
+	 * @return if ex is an Equation
+	 */
+	static boolean isEquation(ExpressionValue ex) {
 		return ex != null && (ex.unwrap() instanceof Equation);
 	}
 

@@ -3702,7 +3702,13 @@ public class AlgebraProcessor {
 		return label != null && StringUtil.isLowerCase(label.charAt(0));
 	}
 
-	private GeoElement[] processEquationIntersect(ExpressionValue x,
+	/**
+	 *
+	 * @param x {@link ExpressionNode}
+	 * @param y {@link ExpressionNode}
+	 * @return the intersection of x and y, if they have any.
+	 */
+	public GeoElement[] processEquationIntersect(ExpressionValue x,
 			ExpressionValue y) {
 
 		GeoElement[] ret = processCommand(intersectCommand(x, y),

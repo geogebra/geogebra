@@ -2823,4 +2823,10 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("(0 = 0) == (3x + y - 2z = 5)", "false");
 		t("(4x - 6y + z = -1) == (-4x + 6y - 2z = 1)", "false");
 	}
+
+	@Test
+	public void test3DLine() {
+		t("(x=5, y=3+z)", "X = (5, " + Unicode.lambda + " + 3, "
+				 + Unicode.lambda + ")");
+	}
 }
