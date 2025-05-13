@@ -76,7 +76,7 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 	/**
 	 * @return color values
 	 */
-	public List<GColor> createColorValues() {
+	public static List<GColor> createColorValues() {
 		GColor[] primColor = GeoGebraColorConstants.getPrimarySwatchColors();
 		GColor[] scolors = GeoGebraColorConstants.getMainColorSwatchColors();
 		return List.of(

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -86,15 +89,17 @@ public class CellFormat implements CellFormatInterface {
 	private static final String borderToken = "b";
 	private static final String fontStyleToken = "f";
 	private static final String bgColorToken = "c";
+	private static final String fgColorToken = "t";
 
 	// map to convert token to format type
-	private static HashMap<String, Integer> formatTokenMap = new HashMap<>();
+	private static final HashMap<String, Integer> formatTokenMap = new HashMap<>();
 
 	static {
 		formatTokenMap.put(alignToken, FORMAT_ALIGN);
 		formatTokenMap.put(borderToken, FORMAT_BORDER);
 		formatTokenMap.put(fontStyleToken, FORMAT_FONTSTYLE);
 		formatTokenMap.put(bgColorToken, FORMAT_BGCOLOR);
+		formatTokenMap.put(fgColorToken, FORMAT_FGCOLOR);
 	}
 
 	/**
@@ -629,12 +634,7 @@ public class CellFormat implements CellFormatInterface {
 	}
 
 	private void setCellFormatString() {
-		StringBuilder sb = encodeFormats();
-		if (sb == null) {
-			cellFormatString = null;
-		} else {
-			cellFormatString = sb.toString();
-		}
+		cellFormatString = encodeFormats();
 	}
 
 	/**
@@ -961,8 +961,7 @@ public class CellFormat implements CellFormatInterface {
 
 	@Override
 	public void getXML(StringBuilder sb) {
-
-		StringBuilder cellFormat = encodeFormats();
+		String cellFormat = encodeFormats();
 		if (cellFormat == null) {
 			return;
 		}
@@ -972,7 +971,6 @@ public class CellFormat implements CellFormatInterface {
 		sb.append(cellFormat);
 		sb.append("\"");
 		sb.append("/>\n");
-
 	}
 
 	/**
@@ -980,16 +978,17 @@ public class CellFormat implements CellFormatInterface {
 	 * @return StringBuilder object containing all current formats encoded as
 	 *         strings
 	 */
-	public StringBuilder encodeFormats() {
-
+	@CheckForNull
+	public String encodeFormats() {
 		StringBuilder sb = new StringBuilder();
 
 		// create a set containing all cells with formats
 		HashSet<SpreadsheetCoords> masterKeySet = new HashSet<>();
-		for (int i = 0; i < formatMapArray.length; i++) {
-			masterKeySet.addAll(formatMapArray[i].keySet());
+		for (NonNullHashMap nonNullHashMap : formatMapArray) {
+			masterKeySet.addAll(nonNullHashMap.keySet());
 		}
-		if (masterKeySet.size() == 0) {
+
+		if (masterKeySet.isEmpty()) {
 			return null;
 		}
 
@@ -1003,46 +1002,27 @@ public class CellFormat implements CellFormatInterface {
 			sb.append(formatDelimiter);
 			sb.append(cell.row);
 
-			Integer align = (Integer) formatMapArray[FORMAT_ALIGN].get(cell);
-			if (align != null) {
-				sb.append(formatDelimiter);
-				sb.append(alignToken);
-				sb.append(formatDelimiter);
-				sb.append(align);
+			for (Map.Entry<String, Integer> entry : formatTokenMap.entrySet()) {
+				String token = entry.getKey();
+				Integer formatFlag = entry.getValue();
+				Object value = formatMapArray[formatFlag].get(cell);
+				if (value != null) {
+					sb.append(formatDelimiter);
+					sb.append(token);
+					sb.append(formatDelimiter);
+					if (value instanceof GColor) {
+						sb.append(((GColor) value).getARGB());
+					} else {
+						sb.append(value);
+					}
+				}
 			}
-
-			Byte border = (Byte) formatMapArray[FORMAT_BORDER].get(cell);
-			if (border != null) {
-				sb.append(formatDelimiter);
-				sb.append(borderToken);
-				sb.append(formatDelimiter);
-				sb.append(border);
-			}
-
-			GColor bgColor = (GColor) formatMapArray[FORMAT_BGCOLOR].get(cell);
-			if (bgColor != null) {
-				sb.append(formatDelimiter);
-				sb.append(bgColorToken);
-				sb.append(formatDelimiter);
-				sb.append(bgColor.getARGB()); // convert to RGB integer
-			}
-
-			Integer fStyle = (Integer) formatMapArray[FORMAT_FONTSTYLE]
-					.get(cell);
-			if (fStyle != null) {
-				sb.append(formatDelimiter);
-				sb.append(fontStyleToken);
-				sb.append(formatDelimiter);
-				sb.append(fStyle);
-			}
-
 		}
 
 		// remove the first delimiter
 		sb.deleteCharAt(0);
 
-		return sb;
-
+		return sb.toString();
 	}
 
 	@Override
@@ -1082,7 +1062,7 @@ public class CellFormat implements CellFormatInterface {
 		Object formatValue;
 		for (int i = 2; i < f.length; i = i + 2) {
 			formatType = formatTokenMap.get(f[i]);
-			if (formatType == FORMAT_BGCOLOR) {
+			if (formatType == FORMAT_BGCOLOR || formatType == FORMAT_FGCOLOR) {
 
 				// #4299 changed to Long
 				// this Integer is of the form 0xAARRGGBB,
