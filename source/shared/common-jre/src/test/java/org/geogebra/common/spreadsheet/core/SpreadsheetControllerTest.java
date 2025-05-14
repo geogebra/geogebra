@@ -354,12 +354,16 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
                 new TabularRange(0, 0, 1, 1));
     }
 
-    private void runContextItemAt(int row, int column, Identifier identifier) {
-        ContextMenuBuilder contextMenuBuilder = new ContextMenuBuilder(controller);
-        contextMenuBuilder.build(row, column).stream()
-                .filter(item -> item.getIdentifier() == identifier)
-                .findFirst().ifPresentOrElse(ContextMenuItem::performAction,
-                        () -> fail("There was a problem performing this action!"));
+    private void runContextItemAt(int row, int column, Identifier id) {
+        ContextMenuItem contextMenuItem = new ContextMenuBuilder(controller).build(row, column)
+                .stream().filter(item -> item.getIdentifier().equals(id)).findAny().orElse(null);
+        if (contextMenuItem == null) {
+            fail("No such menu item at (" + row + ", " + column + "): " + id);
+        }
+        if (!(contextMenuItem instanceof ContextMenuItem.ActionableItem)) {
+            fail("Item at (" + row + ", " + column + "): " + id + " is not runnable");
+        }
+        ((ContextMenuItem.ActionableItem) contextMenuItem).performAction();
     }
 
     @Test
@@ -906,7 +910,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Override
-    public void showContextMenu(@Nonnull List<ContextMenuItem> actions, @Nonnull Point point) {
+    public void showContextMenu(@Nonnull List<ContextMenuItem> items, @Nonnull Point point) {
         // Not needed
     }
 

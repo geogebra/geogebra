@@ -20,10 +20,10 @@ public interface SpreadsheetControlsDelegate {
 
 	/**
 	 * Show context menu and take over focus (for keyboard navigation).
-	 * @param actions list of actions
+	 * @param items list of context menu items
 	 * @param point preferred top left coordinates (lower right corner of the selected cell range)
 	 */
-	void showContextMenu(@Nonnull List<ContextMenuItem> actions, @Nonnull Point point);
+	void showContextMenu(@Nonnull List<ContextMenuItem> items, @Nonnull Point point);
 
 	/**
 	 * Hide context menu (and potential submenus), move focus to spreadsheet.

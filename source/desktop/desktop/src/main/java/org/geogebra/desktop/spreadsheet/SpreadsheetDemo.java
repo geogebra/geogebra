@@ -33,11 +33,11 @@ import javax.swing.JScrollBar;
 import javax.swing.OverlayLayout;
 import javax.swing.border.BevelBorder;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
@@ -234,25 +234,30 @@ public class SpreadsheetDemo {
 
 				private ClipboardInterface clipboard = new ClipboardD();
 
+				@Nonnull
 				@Override
 				public SpreadsheetCellEditor getCellEditor() {
 					return editor;
 				}
 
 				@Override
-				public void showContextMenu(List<ContextMenuItem> items, Point position) {
+				public void showContextMenu(
+						@Nonnull List<ContextMenuItem> items, @Nonnull Point position) {
 					contextMenu.show(editorOverlay,
 							(int)Math.round(position.x), (int)Math.round(position.y));
 					contextMenu.removeAll();
 					for (ContextMenuItem item: items) {
 						String localizationKey = item.getLocalizationKey();
 						JMenuItem btn = new JMenuItem(localizationKey);
-						btn.setAction(new AbstractAction(localizationKey) {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								item.performAction();
-							}
-						});
+						if (item instanceof ActionableItem) {
+							ActionableItem actionableItem = (ActionableItem) item;
+							btn.setAction(new AbstractAction() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									actionableItem.performAction();
+								}
+							});
+						}
 						contextMenu.add(btn);
 					}
 					contextMenu.setVisible(true);
@@ -270,7 +275,8 @@ public class SpreadsheetDemo {
 				}
 
 				@Override
-				public void showAutoCompleteSuggestions(String input, Rectangle editorBounds) {
+				public void showAutoCompleteSuggestions(
+						@Nonnull String input, @Nonnull Rectangle editorBounds) {
 					// Not needed
 				}
 

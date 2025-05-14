@@ -11,6 +11,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.Divider;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
@@ -32,6 +35,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Widget;
@@ -157,6 +161,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		clipboard = new ClipboardW();
 	}
 
+	@Nonnull
 	@Override
 	public SpreadsheetCellEditor getCellEditor() {
 		return editor;
@@ -165,46 +170,45 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	// CONTEXT MENU
 
 	@Override
-	public void showContextMenu(List<ContextMenuItem> actions, Point location) {
+	public void showContextMenu(@Nonnull List<ContextMenuItem> items, @Nonnull Point location) {
 		contextMenu.clearItems();
 		parent.cancelFocus();
 		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting");
-		for (ContextMenuItem item : actions) {
-			if (ContextMenuItem.Identifier.DIVIDER.equals(item.getIdentifier())) {
-				contextMenu.addVerticalSeparator();
-			} else {
-				SVGResource image = getActionIcon(item.getIdentifier());
-				String itemText = loc.getMenu(item.getLocalizationKey());
-				AriaMenuItem menuItem;
-
-				List<ContextMenuItem> subMenuItems = item.getSubMenuItems();
-				if (subMenuItems != null && !subMenuItems.isEmpty()) {
-					AriaMenuBar subMenu = new AriaMenuBar();
-					for (ContextMenuItem subMenuItem : subMenuItems) {
-						SVGResource subMenuIcon = getActionIcon(subMenuItem.getIdentifier());
-						subMenu.addItem(new AriaMenuItem(loc.getMenu(subMenuItem
-								.getLocalizationKey()), subMenuIcon,
-								performAndHideMenu(subMenuItem)));
-					}
-
-					menuItem = new AriaMenuItem(itemText, image, subMenu);
-				} else {
-					menuItem = new AriaMenuItem(itemText, image, performAndHideMenu(item));
-				}
-
-				contextMenu.addItem(menuItem);
-			}
-		}
-
+		addItems(contextMenu.getPopupMenu(), items);
 		positionContextMenu((int) Math.round(location.x), (int) Math.round(location.y));
 		contextMenu.getPopupMenu().focus();
 	}
 
-	private Scheduler.ScheduledCommand performAndHideMenu(ContextMenuItem item) {
-		return () -> {
-			item.performAction();
-			hideContextMenu();
-		};
+	private void addItems(AriaMenuBar popupMenu, List<ContextMenuItem> items) {
+		for (ContextMenuItem item : items) {
+			if (item instanceof Divider) {
+				popupMenu.addSeparator();
+			} else if (item instanceof SubMenuItem) {
+				popupMenu.addItem(createSubMenuItem((SubMenuItem) item));
+			} else if (item instanceof ActionableItem) {
+				popupMenu.addItem(createActionableItem((ActionableItem) item));
+			}
+		}
+	}
+
+	private AriaMenuItem createActionableItem(ActionableItem actionableItem) {
+		String text = loc.getMenu(actionableItem.getLocalizationKey());
+		SVGResource image = getActionIcon(actionableItem.getIdentifier());
+		ScheduledCommand scheduledCommand = () -> performAndHideMenu(actionableItem);
+		return new AriaMenuItem(text, image, scheduledCommand);
+	}
+
+	private AriaMenuItem createSubMenuItem(SubMenuItem subMenuItem) {
+		String text = loc.getMenu(subMenuItem.getLocalizationKey());
+		SVGResource image = getActionIcon(subMenuItem.getIdentifier());
+		AriaMenuBar ariaMenuBar = new AriaMenuBar();
+		addItems(ariaMenuBar, subMenuItem.getItems());
+		return new AriaMenuItem(text, image, ariaMenuBar);
+	}
+
+	private void performAndHideMenu(ActionableItem item) {
+		item.performAction();
+		hideContextMenu();
 	}
 
 	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {
@@ -303,7 +307,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	// AUTOCOMPLETE
 
 	@Override
-	public void showAutoCompleteSuggestions(String input, Rectangle editorBounds) {
+	public void showAutoCompleteSuggestions(@Nonnull String input, @Nonnull Rectangle editorBounds) {
 		int left = (int) editorBounds.getMinX() + getAbsoluteSpreadsheetLeft()
 				- getAbsoluteAppLeft();
 		int top = (int) editorBounds.getMinY() + getAbsoluteSpreadsheetTop() - getAbsoluteAppTop();

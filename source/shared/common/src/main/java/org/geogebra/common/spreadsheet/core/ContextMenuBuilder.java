@@ -1,10 +1,33 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.main.PreviewFeature.CREATE_CHART_MENU_ITEM;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.BAR_CHART;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CALCULATE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CREATE_CHART;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CUT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_ROW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.HISTOGRAM;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_LEFT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.LINE_CHART;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MEAN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PIE_CHART;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.SUM;
+
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.geogebra.common.main.PreviewFeature;
-import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.Divider;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
 
 /**
  * A builder for (spreadsheet) context menus.
@@ -65,73 +88,41 @@ public final class ContextMenuBuilder {
 
     private List<ContextMenuItem> tableItems(int row, int column) {
         return List.of(
-                new ContextMenuItem(Identifier.CUT, () -> cutCells(row, column)),
-                new ContextMenuItem(Identifier.COPY, () -> copyCells(row, column)),
-                new ContextMenuItem(Identifier.PASTE, () -> pasteCells(row, column))
+                new ActionableItem(CUT, () -> cutCells(row, column)),
+                new ActionableItem(COPY, () -> copyCells(row, column)),
+                new ActionableItem(PASTE, () -> pasteCells(row, column))
         );
     }
 
     private List<ContextMenuItem> cellItems(int fromRow, int toRow, int fromCol, int toCol) {
-        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? List.of(
-                new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, fromCol)),
-                new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, fromCol)),
-                new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, fromCol)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.CALCULATE,
-                        List.of(Identifier.SUM, Identifier.MEAN),
-                        List.of(
-                                () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
-                                () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                getChartMenuItem(),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-                        () -> insertRowAt(fromRow, false)),
-                new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-                        () -> insertRowAt(toRow + 1, true)),
-                new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-                        () -> insertColumnAt(fromCol, false)),
-                new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-                        () -> insertColumnAt(toCol + 1, true)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(fromRow)),
-                new ContextMenuItem(Identifier.DELETE_COLUMN, () -> deleteColumnAt(fromCol)))
-                : List.of(
-                new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, fromCol)),
-                new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, fromCol)),
-                new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, fromCol)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.CALCULATE,
-                        List.of(Identifier.SUM, Identifier.MEAN),
-                        List.of(
-                                () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
-                                () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-                        () -> insertRowAt(fromRow, false)),
-                new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-                        () -> insertRowAt(toRow + 1, true)),
-                new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-                        () -> insertColumnAt(fromCol, false)),
-                new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-                        () -> insertColumnAt(toCol + 1, true)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(fromRow)),
-                new ContextMenuItem(Identifier.DELETE_COLUMN, () -> deleteColumnAt(fromCol)));
+        return Stream.of(
+                new ActionableItem(CUT, () -> cutCells(fromRow, fromCol)),
+                new ActionableItem(COPY, () -> copyCells(fromRow, fromCol)),
+                new ActionableItem(PASTE, () -> pasteCells(fromRow, fromCol)),
+                new Divider(),
+                new SubMenuItem(CALCULATE, List.of(
+                        new ActionableItem(SUM, () -> spreadsheetController.calculate(
+                                SpreadsheetCommand.SUM)),
+                        new ActionableItem(MEAN, () -> spreadsheetController.calculate(
+                                SpreadsheetCommand.MEAN)))),
+                PreviewFeature.isAvailable(CREATE_CHART_MENU_ITEM) ? getChartMenuItem() : null,
+                new Divider(),
+                new ActionableItem(INSERT_ROW_ABOVE, () -> insertRowAt(fromRow, false)),
+                new ActionableItem(INSERT_ROW_BELOW, () -> insertRowAt(toRow + 1, true)),
+                new ActionableItem(INSERT_COLUMN_LEFT, () -> insertColumnAt(fromCol, false)),
+                new ActionableItem(INSERT_COLUMN_RIGHT, () -> insertColumnAt(toCol + 1, true)),
+                new Divider(),
+                new ActionableItem(DELETE_ROW, () -> deleteRowAt(fromRow)),
+                new ActionableItem(DELETE_COLUMN, () -> deleteColumnAt(fromCol))
+        ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private ContextMenuItem getChartMenuItem() {
-        return new ContextMenuItem(Identifier.CREATE_CHART,
-                List.of(Identifier.LINE_CHART, Identifier.BAR_CHART,
-                        Identifier.HISTOGRAM, Identifier.PIE_CHART),
-                List.of(
-                        () -> spreadsheetController.createChart(
-                                Identifier.LINE_CHART),
-                        () -> spreadsheetController.createChart(
-                                Identifier.BAR_CHART),
-                        () -> spreadsheetController.createChart(
-                                Identifier.HISTOGRAM),
-                        () -> spreadsheetController.createChart(
-                                Identifier.PIE_CHART)));
+        return new SubMenuItem(CREATE_CHART, List.of(
+                new ActionableItem(LINE_CHART, () -> spreadsheetController.createChart(LINE_CHART)),
+                new ActionableItem(BAR_CHART, () -> spreadsheetController.createChart(BAR_CHART)),
+                new ActionableItem(HISTOGRAM, () -> spreadsheetController.createChart(HISTOGRAM)),
+                new ActionableItem(PIE_CHART, () -> spreadsheetController.createChart(PIE_CHART))));
     }
 
     private void pasteCells(int row, int column) {
@@ -170,97 +161,44 @@ public final class ContextMenuBuilder {
         spreadsheetController.notifyDataDimensionsChanged();
     }
 
-    /*private void deleteCells(int row, int column) {
-        List<Selection> selections = selectionController.selections();
-        if (selections.isEmpty()) {
-            tabularData.setContent(row, column, null);
-        } else {
-            selections.stream().forEach(selection -> deleteCells(selection.getRange()));
-        }
-    }
-
-    private void deleteCells(TabularRange range) {
-        for (int row = range.getFromRow(); row < range.getToRow(); row++) {
-            for (int column = range.getFromColumn(); column < range.getToRow(); column++) {
-                tabularData.setContent(row, column, null);
-            }
-        }
-    }*/
-
     private List<ContextMenuItem> rowItems(int fromRow, int toRow) {
-        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? List.of(
-                new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, -1)),
-                new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, -1)),
-                new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, -1)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.CALCULATE,
-                        List.of(Identifier.SUM, Identifier.MEAN),
-                        List.of(
-                                () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
-                                () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                getChartMenuItem(),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-                        () -> insertRowAt(fromRow, false)),
-                new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-                        () -> insertRowAt(toRow + 1, true)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(fromRow)))
-                : List.of(
-                new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, -1)),
-                new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, -1)),
-                new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, -1)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.CALCULATE,
-                        List.of(Identifier.SUM, Identifier.MEAN),
-                        List.of(
-                                () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
-                                () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-                        () -> insertRowAt(fromRow, false)),
-                new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-                        () -> insertRowAt(toRow + 1, true)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(fromRow)));
+        return Stream.of(
+                new ActionableItem(CUT, () -> cutCells(fromRow, -1)),
+                new ActionableItem(COPY, () -> copyCells(fromRow, -1)),
+                new ActionableItem(PASTE, () -> pasteCells(fromRow, -1)),
+                new Divider(),
+                new SubMenuItem(CALCULATE, List.of(
+                        new ActionableItem(SUM, () -> spreadsheetController.calculate(
+                                SpreadsheetCommand.SUM)),
+                        new ActionableItem(MEAN, () -> spreadsheetController.calculate(
+                                SpreadsheetCommand.MEAN)))),
+                PreviewFeature.isAvailable(CREATE_CHART_MENU_ITEM) ? getChartMenuItem() : null,
+                new Divider(),
+                new ActionableItem(INSERT_ROW_ABOVE, () -> insertRowAt(fromRow, false)),
+                new ActionableItem(INSERT_ROW_BELOW, () -> insertRowAt(toRow + 1, true)),
+                new Divider(),
+                new ActionableItem(DELETE_ROW, () -> deleteRowAt(fromRow))
+        ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private List<ContextMenuItem> columnItems(int fromCol, int toCol) {
-        return PreviewFeature.isAvailable(PreviewFeature.CREATE_CHART_MENU_ITEM) ? List.of(
-                new ContextMenuItem(Identifier.CUT, () -> cutCells(-1, fromCol)),
-                new ContextMenuItem(Identifier.COPY, () -> copyCells(-1, fromCol)),
-                new ContextMenuItem(Identifier.PASTE, () -> pasteCells(-1, fromCol)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.CALCULATE, List.of(Identifier.SUM,
-                        Identifier.MEAN), List.of(
-                            () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
-                            () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                getChartMenuItem(),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-                        () -> insertColumnAt(fromCol, false)),
-                new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-                        () -> insertColumnAt(toCol + 1, true)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.DELETE_COLUMN,
-                        () -> deleteColumnAt(fromCol)))
-                : List.of(
-                new ContextMenuItem(Identifier.CUT, () -> cutCells(-1, fromCol)),
-                new ContextMenuItem(Identifier.COPY, () -> copyCells(-1, fromCol)),
-                new ContextMenuItem(Identifier.PASTE, () -> pasteCells(-1, fromCol)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.CALCULATE, List.of(Identifier.SUM,
-                        Identifier.MEAN), List.of(
-                        () -> spreadsheetController.calculate(SpreadsheetCommand.SUM),
-                        () -> spreadsheetController.calculate(SpreadsheetCommand.MEAN))),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-                        () -> insertColumnAt(fromCol, false)),
-                new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-                        () -> insertColumnAt(toCol + 1, true)),
-                new ContextMenuItem(Identifier.DIVIDER),
-                new ContextMenuItem(Identifier.DELETE_COLUMN,
-                        () -> deleteColumnAt(fromCol)));
+        return Stream.of(
+                new ActionableItem(CUT, () -> cutCells(-1, fromCol)),
+                new ActionableItem(COPY, () -> copyCells(-1, fromCol)),
+                new ActionableItem(PASTE, () -> pasteCells(-1, fromCol)),
+                new Divider(),
+                new SubMenuItem(CALCULATE, List.of(
+                        new ActionableItem(SUM, () -> spreadsheetController.calculate(
+                                SpreadsheetCommand.SUM)),
+                        new ActionableItem(MEAN, () -> spreadsheetController.calculate(
+                                SpreadsheetCommand.MEAN)))),
+                PreviewFeature.isAvailable(CREATE_CHART_MENU_ITEM) ? getChartMenuItem() : null,
+                new Divider(),
+                new ActionableItem(INSERT_COLUMN_LEFT, () -> insertColumnAt(fromCol, false)),
+                new ActionableItem(INSERT_COLUMN_RIGHT, () -> insertColumnAt(toCol + 1, true)),
+                new Divider(),
+                new ActionableItem(DELETE_COLUMN, () -> deleteColumnAt(fromCol))
+        ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private void deleteRowAt(int row) {

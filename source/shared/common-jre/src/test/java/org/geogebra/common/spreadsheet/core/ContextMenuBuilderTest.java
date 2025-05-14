@@ -11,10 +11,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -112,24 +112,15 @@ public final class ContextMenuBuilderTest {
 	}
 
 	private void runItemAt(int row, int column, Identifier id) {
-		List<ContextMenuItem> contextMenuItems = builder.build(row, column);
-		Optional<ContextMenuItem> item = contextMenuItems.stream()
-				.filter(t -> t.getIdentifier().equals(id)).findAny();
-		if (item.isPresent()) {
-			item.get().performAction();
-		} else {
+		ContextMenuItem contextMenuItem = builder.build(row, column).stream()
+				.filter(item -> item.getIdentifier().equals(id)).findAny().orElse(null);
+		if (contextMenuItem == null) {
 			fail("No such menu item at (" + row + ", " + column + "): " + id);
 		}
-	}
-
-	private Optional<ContextMenuItem> getItemAt(int row, int column, Identifier id) {
-		List<ContextMenuItem> contextMenuItems = builder.build(row, column);
-		Optional<ContextMenuItem> item = contextMenuItems.stream()
-				.filter(t -> t.getIdentifier().equals(id)).findAny();
-		if (item.isPresent()) {
-			return item;
+		if (!(contextMenuItem instanceof ActionableItem)) {
+			fail("Item at (" + row + ", " + column + "): " + id + " is not runnable");
 		}
-		return item;
+		((ActionableItem) contextMenuItem).performAction();
 	}
 
 	@Test
