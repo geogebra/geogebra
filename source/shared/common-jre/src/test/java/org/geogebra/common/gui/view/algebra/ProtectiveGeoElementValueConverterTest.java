@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.algebra;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.view.algebra.filter.FunctionAndEquationFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.junit.Test;
@@ -10,7 +11,7 @@ import org.junit.Test;
 public class ProtectiveGeoElementValueConverterTest extends BaseUnitTest {
 
 	private ProtectiveGeoElementValueConverter converter =
-			new ProtectiveGeoElementValueConverter();
+			new ProtectiveGeoElementValueConverter(new FunctionAndEquationFilter());
 
 	@Test
 	public void testHidesCommandInput() {

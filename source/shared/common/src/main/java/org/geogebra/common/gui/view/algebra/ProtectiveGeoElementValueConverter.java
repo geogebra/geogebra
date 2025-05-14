@@ -6,7 +6,7 @@ import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.gui.view.algebra.filter.FunctionAndEquationFilter;
+import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
@@ -19,8 +19,12 @@ import org.geogebra.common.util.ToStringConverter;
 public class ProtectiveGeoElementValueConverter implements ToStringConverter {
 
 	private final ToStringConverter defaultConverter = new GeoElementValueConverter();
-	private final FunctionAndEquationFilter functionAndEquationFilter
-			= new FunctionAndEquationFilter();
+	private final AlgebraOutputFilter functionAndEquationFilter;
+
+	public ProtectiveGeoElementValueConverter(
+			AlgebraOutputFilter filter) {
+		this.functionAndEquationFilter = filter;
+	}
 
 	@Override
 	public  @Nonnull String toOutputValueString(GeoElement element, StringTemplate template) {

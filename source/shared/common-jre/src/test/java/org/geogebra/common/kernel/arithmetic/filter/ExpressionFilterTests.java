@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.arithmetic.filter;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
@@ -15,9 +16,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Test;
 
 public class ExpressionFilterTests extends BaseUnitTest {
+
+	private ErrorAccumulator errorAccumulator = new ErrorAccumulator();
+
 	@Test
 	public void testComplexExpression() throws Exception {
 		ExpressionFilter filter = new ComplexExpressionFilter();
@@ -38,20 +43,25 @@ public class ExpressionFilterTests extends BaseUnitTest {
 		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
 		GeoElementND[] minusValue = process(algebraProcessor, "1-2");
 		assertNotNull(minusValue);
+		assertEquals("", errorAccumulator.getErrors());
 	}
 
 	@Test
 	public void testOperationFilterRejecting() {
 		ExpressionFilter filter = ev -> !ev.isOperation(Operation.PLUS);
 		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
-		assertThrows(MyError.class, () -> process(algebraProcessor, "1+2"));
+		process(algebraProcessor, "1+2");
+		assertEquals("Sorry, something went wrong. Please check your input",
+				errorAccumulator.getErrors());
 	}
 
 	@Test
 	public void testNoListOperationsInScientific() {
 		ExpressionFilter filter = ScientificOperationArgumentFilter.INSTANCE;
 		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
-		assertThrows(MyError.class, () -> process(algebraProcessor, "{1,2,3} + 3"));
+		process(algebraProcessor, "{1,2,3} + 3");
+		assertEquals("Sorry, something went wrong. Please check your input",
+				errorAccumulator.getErrors());
 	}
 
 	@Test
@@ -60,11 +70,12 @@ public class ExpressionFilterTests extends BaseUnitTest {
 		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
 		GeoElementND[] values = process(algebraProcessor, "mean({1,2,3}, {4,5,6})");
 		assertThat(values[0].evaluateDouble(), is(2.1333333333333333));
+		assertEquals("", errorAccumulator.getErrors());
 	}
 
 	private GeoElementND[] process(AlgebraProcessor ap, String input) {
 		return ap.processAlgebraCommandNoExceptionHandling(parseExpression(input),
-				false, TestErrorHandler.INSTANCE,
+				false, errorAccumulator,
 				null, new EvalInfo(false));
 	}
 

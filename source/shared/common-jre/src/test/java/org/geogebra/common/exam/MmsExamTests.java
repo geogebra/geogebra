@@ -11,7 +11,6 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,11 +21,11 @@ import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
-import org.geogebra.common.exam.restrictions.mms.MmsValueConverter;
+import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
-import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -151,7 +150,8 @@ public class MmsExamTests extends BaseExamTests {
 	public void testRestrictedChartOutput() {
 		String definition = "BarChart({10, 11, 12}, {5, 8, 12})";
 		GeoElement barchart = evaluateGeoElementNumeric(definition, "?");
-		MmsValueConverter converter = new MmsValueConverter(new GeoElementValueConverter());
+		ProtectiveGeoElementValueConverter converter =
+				new ProtectiveGeoElementValueConverter(new MmsAlgebraOutputFilter(null));
 		assertEquals(definition,
 				converter.toValueString(barchart, StringTemplate.defaultTemplate));
 		assertEquals(definition,

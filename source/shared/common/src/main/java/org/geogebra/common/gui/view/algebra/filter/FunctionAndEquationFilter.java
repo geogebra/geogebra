@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 /**
  * Filters the value of functions and equations that are not safe to show to the user.
  */
-public class FunctionAndEquationFilter {
+public class FunctionAndEquationFilter implements AlgebraOutputFilter {
 
     private List<Commands> fitCommands =
             Arrays.asList(
@@ -42,6 +42,7 @@ public class FunctionAndEquationFilter {
      * @param element The GeoElementND for which we check whether it's allowed to show its value
      * @return True if it's allowed to show the element's value, otherwise false.
      */
+    @Override
     public boolean isAllowed(GeoElementND element) {
         if (!isFunctionOrEquation(element)) {
             return true;

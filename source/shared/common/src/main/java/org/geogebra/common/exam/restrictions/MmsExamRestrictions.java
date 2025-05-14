@@ -150,6 +150,7 @@ import org.geogebra.common.kernel.arithmetic.filter.DeepExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionNodeFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
+import org.geogebra.common.kernel.arithmetic.filter.RadianGradianFilter;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
@@ -216,7 +217,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				new DeepExpressionFilter(
 						OperationFilter.restricting(restrictedInequalityOperations())
 								.toExpressionFilter())
-						.allowWhen(operatorInInequality())
+						.allowWhen(operatorInInequality()),
+				new RadianGradianFilter()
 		);
 	}
 

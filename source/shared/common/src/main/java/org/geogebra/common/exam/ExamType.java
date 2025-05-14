@@ -5,23 +5,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.exam.restrictions.cvte.CvteAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.cvte.CvteValueConverter;
 import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.mms.MmsValueConverter;
 import org.geogebra.common.exam.restrictions.realschule.RealschuleAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.realschule.RealschuleValueConverter;
 import org.geogebra.common.exam.restrictions.wtr.WtrAlgebraOutputFilter;
-import org.geogebra.common.exam.restrictions.wtr.WtrValueConverter;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
-import org.geogebra.common.util.ToStringConverter;
 
 /**
  * Exam types.
@@ -59,12 +53,6 @@ public enum ExamType {
 				@Nullable AlgebraOutputFilter wrappedFilter) {
 			return new CvteAlgebraOutputFilter(wrappedFilter);
 		}
-
-		@Override
-		public ToStringConverter wrapValueConverter(
-				@Nonnull ToStringConverter wrappedConverter) {
-			return new CvteValueConverter(wrappedConverter);
-		}
 	},
 
 	BAYERN_GR() {
@@ -82,12 +70,6 @@ public enum ExamType {
 		public AlgebraOutputFilter wrapAlgebraOutputFilter(
 				@Nullable AlgebraOutputFilter wrappedFilter) {
 			return new RealschuleAlgebraOutputFilter(wrappedFilter);
-		}
-
-		@Override
-		public ToStringConverter wrapValueConverter(
-				@Nonnull ToStringConverter wrappedConverter) {
-			return new RealschuleValueConverter(wrappedConverter);
 		}
 	},
 
@@ -107,11 +89,6 @@ public enum ExamType {
 		public AlgebraOutputFilter wrapAlgebraOutputFilter(
 				@Nullable AlgebraOutputFilter wrappedFilter) {
 			return new MmsAlgebraOutputFilter(wrappedFilter);
-		}
-
-		@Override
-		public ToStringConverter wrapValueConverter(@Nonnull ToStringConverter wrappedConverter) {
-			return new MmsValueConverter(wrappedConverter);
 		}
 	},
 
@@ -179,12 +156,6 @@ public enum ExamType {
 				@Nullable AlgebraOutputFilter wrappedFilter) {
 			return new WtrAlgebraOutputFilter(wrappedFilter);
 		}
-
-		@Override
-		public ToStringConverter wrapValueConverter(
-				@Nonnull ToStringConverter wrappedConverter) {
-			return new WtrValueConverter(wrappedConverter);
-		}
 	};
 
 	public static final String CHOOSE = "choose";
@@ -226,16 +197,6 @@ public enum ExamType {
 	public AlgebraOutputFilter wrapAlgebraOutputFilter(
 			@Nullable AlgebraOutputFilter wrappedFilter) {
 		return wrappedFilter;
-	}
-
-	/**
-	 * @param wrappedConverter The currently used value converter
-	 * @return The value converter for this exam type. By default, returns the currently used
-	 * value converter.
-	 */
-	public ToStringConverter wrapValueConverter(
-			@Nullable ToStringConverter wrappedConverter) {
-		return wrappedConverter;
 	}
 
 	/**

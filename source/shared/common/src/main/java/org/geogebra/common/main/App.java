@@ -60,7 +60,6 @@ import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionF
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
-import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.gui.view.algebra.filter.DefaultAlgebraOutputFilter;
@@ -4944,11 +4943,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public @Nonnull ToStringConverter getGeoElementValueConverter() {
 		if (valueConverter == null) {
-			if (getConfig().shouldHideEquations()) {
-				valueConverter = new ProtectiveGeoElementValueConverter();
-			} else {
-				valueConverter = new GeoElementValueConverter();
-			}
+			valueConverter = new ProtectiveGeoElementValueConverter(getAlgebraOutputFilter());
 		}
 		return valueConverter;
 	}
@@ -5086,7 +5081,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		resetCommandDict();
 
 		algebraOutputFilter = examType.wrapAlgebraOutputFilter(getAlgebraOutputFilter());
-		valueConverter = examType.wrapValueConverter(getGeoElementValueConverter());
+		valueConverter = null;
 
 		if (featureRestrictions.contains(ExamFeatureRestriction.HIDE_SPECIAL_POINTS)) {
 			getSpecialPointsManager().isEnabled = false;

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.BaseExamTests;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -24,8 +25,8 @@ public class CvteValueConverterTests extends BaseExamTests {
 
 	@Test
 	public void testValueRestrictions() {
-		ToStringConverter converter = new CvteValueConverter(
-				new GeoElementValueConverter());
+		ToStringConverter converter = new ProtectiveGeoElementValueConverter(
+				new CvteAlgebraOutputFilter(null));
 
 		// For Lines, Rays, Conics, Implicit Equations and Functions created with command or tool:
 		// When using the ANS button the "Definition" is inserted into the AV inputBar.
@@ -51,8 +52,8 @@ public class CvteValueConverterTests extends BaseExamTests {
 
 	@Test
 	public void testLabelRestrictions() throws NotApplicablePropertyException {
-		ToStringConverter converter = new CvteValueConverter(
-				new GeoElementValueConverter());
+		ToStringConverter converter = new ProtectiveGeoElementValueConverter(
+				new CvteAlgebraOutputFilter(null));
 
 		Localization localization = app.getLocalization();
 		StringTemplate defaultTemplate = StringTemplate.defaultTemplate;
