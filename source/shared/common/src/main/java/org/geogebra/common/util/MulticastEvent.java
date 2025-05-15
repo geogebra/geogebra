@@ -3,8 +3,8 @@ package org.geogebra.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * A multicast (i.e., one-to-many) eventing / notification mechanism.
@@ -32,11 +32,9 @@ public final class MulticastEvent<T> {
 	 * The notification listener interface.
 	 * @param <T> The type of the event arguments.
 	 */
+	@FunctionalInterface
 	public interface Listener<T> {
-		/**
-		 * @param arguments event argument
-		 */
-		void notify(@Nullable T arguments);
+		void notify(@CheckForNull T argument);
 	}
 
 	private final List<MulticastEvent.Listener<T>> listeners = new ArrayList<>();
@@ -62,9 +60,9 @@ public final class MulticastEvent<T> {
 
 	/**
 	 * Notify all listeners, forwarding the {@code arguments}.
-	 * @param arguments event arguments (payload)
+	 * @param argument event argument (payload)
 	 */
-	public void notifyListeners(@Nullable T arguments) {
-		listeners.forEach(listener -> listener.notify(arguments));
+	public void notifyListeners(@CheckForNull T argument) {
+		listeners.forEach(listener -> listener.notify(argument));
 	}
 }

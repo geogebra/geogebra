@@ -40,16 +40,11 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 		cellProcessor.process(mathField.getText(), row, column);
 	}
 
-	void discardInput() {
-		mathField.parse("");
-	}
-
 	@Override
 	public void onEnter() {
 		if (spreadsheetController.handleKeyPress(JavaKeyCodes.VK_ENTER)) {
 			return;
 		}
-		commitInput();
 		spreadsheetController.onEnter();
 	}
 
@@ -58,7 +53,6 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 		if (spreadsheetController.handleKeyPress(JavaKeyCodes.VK_ESCAPE)) {
 			return true;
 		}
-		discardInput();
 		spreadsheetController.onEsc();
 		return true;
 	}
@@ -68,7 +62,6 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 		if (spreadsheetController.handleKeyPress(JavaKeyCodes.VK_TAB)) {
 			return true;
 		}
-		commitInput();
 		spreadsheetController.onTab();
 		return true;
 	}

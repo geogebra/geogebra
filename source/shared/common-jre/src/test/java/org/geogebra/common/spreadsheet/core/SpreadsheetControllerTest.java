@@ -10,6 +10,7 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -29,6 +30,7 @@ import org.geogebra.common.spreadsheet.kernel.ChartBuilder;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
+import org.geogebra.test.annotation.Issue;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -822,6 +824,37 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertEquals("LineGraph(A1:A3,B1:B3)LineGraph(A1:A3,C1:C3)LineGraph(A1:A3,D1:D3)",
                 chartCommand);
         assertEquals("", chartError);
+    }
+
+    @Test
+    @Issue("APPS-6533")
+    public void testEmptyInputInCellWithoutContent() {
+        simulateCellMouseClick(0, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_ENTER);
+        assertNull(controller.contentAt(0, 0));
+    }
+
+    @Test
+    @Issue("APPS-6533")
+    public void testEmptyInputInCellWithContent() {
+        simulateCellMouseClick(0, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_1);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_ENTER);
+        assertNotNull(controller.contentAt(0, 0));
+
+        simulateCellMouseClick(0, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_BACK_SPACE);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_BACK_SPACE);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_ENTER);
+        assertNull(controller.contentAt(0, 0));
+    }
+
+    @Test
+    @Issue("APPS-6533")
+    public void testClickAwayFromEmptyCellShouldntCreateContent() {
+        simulateCellMouseClick(0, 0, 2);
+        simulateCellMouseClick(0, 1, 1);
+        assertNull(controller.contentAt(0, 0));
     }
 
     // Helpers

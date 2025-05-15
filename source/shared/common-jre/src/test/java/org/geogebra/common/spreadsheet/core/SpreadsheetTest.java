@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import static org.geogebra.common.spreadsheet.core.SpreadsheetTestHelpers.simulateCellMouseClick;
 import static org.geogebra.common.spreadsheet.core.SpreadsheetTestHelpers.simulateDownArrowPress;
+import static org.geogebra.common.spreadsheet.core.SpreadsheetTestHelpers.simulateRightArrowPress;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -198,6 +199,17 @@ public class SpreadsheetTest extends BaseUnitTest {
 		tabularData.setContent(0, 0, slider);
 		Mockito.verify(delegate, Mockito.times(2)).notifyRepaintNeeded();
 		slider.update();
+		Mockito.verify(delegate, Mockito.times(3)).notifyRepaintNeeded();
+	}
+
+	@Test
+	public void testSelectionChangeShouldTriggerRepaint() {
+		Mockito.verify(delegate, Mockito.times(0)).notifyRepaintNeeded();
+		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
+		Mockito.verify(delegate, Mockito.times(1)).notifyRepaintNeeded();
+		simulateDownArrowPress(spreadsheet.getController());
+		Mockito.verify(delegate, Mockito.times(2)).notifyRepaintNeeded();
+		simulateRightArrowPress(spreadsheet.getController());
 		Mockito.verify(delegate, Mockito.times(3)).notifyRepaintNeeded();
 	}
 

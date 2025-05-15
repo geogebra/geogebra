@@ -28,6 +28,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	private final SpreadsheetStyleBarModel styleBarModel;
 	private final SpreadsheetRenderer renderer;
 	private @CheckForNull SpreadsheetDelegate spreadsheetDelegate;
+	private @Nonnull List<Selection> currentSelections = List.of();
 
 	/**
 	 * @param tabularData data source
@@ -39,6 +40,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			@Nonnull CellRenderableFactory rendererFactory,
 			@CheckForNull UndoProvider undoProvider) {
 		controller = new SpreadsheetController(tabularData);
+		controller.selectionController.selectionsChanged.addListener(this::selectionsChanged);
 		spreadsheetDimensions.setCustomRowAndColumnSizeProvider(controller.getLayout());
 		this.style = new SpreadsheetStyle();
 		styleBarModel = new SpreadsheetStyleBarModel(controller, controller.selectionController,
@@ -121,10 +123,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		return styleBarModel;
 	}
 
-	private void stylingChanged(@Nonnull List<TabularRange> ranges) {
+	private void stylingChanged(@CheckForNull List<TabularRange> ranges) {
+		if (ranges == null) {
+			return;
+		}
 		controller.storeUndoInfo();
 		ranges.forEach(range ->
-			range.forEach((row, column) -> renderer.invalidate(row, column))
+			range.forEach(renderer::invalidate)
 		);
 		notifyRepaintNeeded();
     }
@@ -347,6 +352,24 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	void selectCell(int row, int column, boolean extend, boolean add) {
 		controller.selectCell(row, column, extend, add);
+	}
+
+	private void selectionsChanged(@CheckForNull List<Selection> newSelections) {
+		@Nonnull List<Selection> nonNullNewSelections = newSelections != null
+				? List.copyOf(newSelections) : List.of();
+		// invalidate and repaint previous & new selected cells
+		invalidate(currentSelections);
+		invalidate(nonNullNewSelections);
+		currentSelections = nonNullNewSelections;
+		notifyRepaintNeeded();
+	}
+
+	private void invalidate(@CheckForNull List<Selection> selections) {
+		if (selections == null) {
+			return;
+		}
+		selections.forEach(selection ->
+				selection.getRange().forEach(renderer::invalidate));
 	}
 
 	// Editor

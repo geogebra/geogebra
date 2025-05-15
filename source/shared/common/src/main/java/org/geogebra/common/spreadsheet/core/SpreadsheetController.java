@@ -235,6 +235,10 @@ public final class SpreadsheetController {
 		storeUndoInfo();
 	}
 
+	private void deleteContentAt(int row, int column) {
+		tabularData.removeContentAt(row, column);
+	}
+
 	/**
 	 * Updates the ScrollPane size and adjusts the viewport if needed, while also creating an
 	 * undo point.
@@ -516,7 +520,7 @@ public final class SpreadsheetController {
 	 */
 	void saveContentAndHideCellEditor() {
 		if (editor != null && editor.isVisible()) {
-			editor.commit();
+			commitInput();
 			editor.hide();
 		}
 	}
@@ -529,6 +533,33 @@ public final class SpreadsheetController {
 		if (viewportAdjuster != null && editor != null && editor.isVisible()) {
 			viewport = viewportAdjuster.adjustViewportIfNeeded(editor.row, editor.column, viewport);
 			editor.updatePosition();
+		}
+	}
+
+	private void commitInput() {
+		if (editor == null || !isEditorActive()) {
+			return;
+		}
+		editor.commitInput();
+		deleteCellIfEmpty(editor.row, editor.column);
+	}
+
+	private void discardInput() {
+		if (editor == null || !isEditorActive()) {
+			return;
+		}
+		editor.discardInput();
+		deleteCellIfEmpty(editor.row, editor.column);
+	}
+
+	private void deleteCellIfEmpty(int row, int column) {
+		if (editor == null) {
+			return;
+		}
+		Object data = tabularData.contentAt(row, column);
+		String cellContent = editor.cellEditor.getCellDataSerializer().getStringForEditor(data);
+		if (cellContent.isBlank()) {
+			deleteContentAt(row, column);
 		}
 	}
 
@@ -961,6 +992,7 @@ public final class SpreadsheetController {
 	 * viewport if necessary.
 	 */
 	void onEnter() {
+		commitInput();
 		moveDown(false);
 		adjustViewportIfNeeded();
 		showCellEditorAtSelection(true);
@@ -971,6 +1003,7 @@ public final class SpreadsheetController {
 	 * viewport if necessary.
 	 */
 	void onTab() {
+		commitInput();
 		hideCellEditor();
 		moveRight(false);
 		adjustViewportIfNeeded();
@@ -980,6 +1013,7 @@ public final class SpreadsheetController {
 	 * Hides the cell editor if active.
 	 */
 	void onEsc() {
+		discardInput();
 		hideCellEditor();
 	}
 
@@ -1290,6 +1324,7 @@ public final class SpreadsheetController {
 		@CheckForNull Rectangle bounds;
 		int row;
 		int column;
+		@CheckForNull Object previousCellContent;
 
 		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
 			this.cellEditor = cellEditor;
@@ -1299,9 +1334,10 @@ public final class SpreadsheetController {
 			this.row = row;
 			this.column = column;
 			MathFieldInternal mathField = cellEditor.getMathField();
+			previousCellContent = tabularData.contentAt(row, column);
 			if (editExistingContent) {
-				Object content = tabularData.contentAt(row, column);
-				mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
+				mathField.parse(cellEditor.getCellDataSerializer()
+						.getStringForEditor(previousCellContent));
 			} else {
 				mathField.parse("");
 			}
@@ -1346,10 +1382,17 @@ public final class SpreadsheetController {
 			KeyboardInputAdapter.type(cellEditor.getMathField(), key);
 		}
 
-		void commit() {
+		void commitInput() {
 			if (mathFieldAdapter != null) {
 				mathFieldAdapter.commitInput();
 			}
+			previousCellContent = null;
+		}
+
+		void discardInput() {
+			// restore previous cell content
+			tabularData.setContent(row, column, previousCellContent);
+			previousCellContent = null;
 		}
 
 		boolean isComputedCell() {
