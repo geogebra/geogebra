@@ -1405,9 +1405,9 @@ public interface Manager3DInterface {
 
 	/**
 	 * @param label output label
-	 * @param coefX coefficients of linear function t->x
-	 * @param coefY coefficients of linear function t->y
-	 * @param coefZ coefficients of linear function t->z
+	 * @param coefX coefficients of linear function t&#8594;x
+	 * @param coefY coefficients of linear function t&#8594;y
+	 * @param coefZ coefficients of linear function t&#8594;z
 	 * @return 3D line
 	 */
 	GeoLineND line3D(String label, ExpressionValue[] coefX,

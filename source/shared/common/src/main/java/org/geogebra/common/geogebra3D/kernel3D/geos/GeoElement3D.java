@@ -29,78 +29,69 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for describing GeoElement in 3D version.
- * 
- * <p>
- * 
+ *
  * <h3>How to create a new Element</h3>
  * <p>
- * 
  * We'll call here our new element "GeoNew3D"
- * 
- * <p>
+ * </p><p>
  * 
  * <b> In GeoElement3D (this class), create an new constant to identify GeoNew3D
  * </b>
- * <p>
+ * </p>
  * <code> public static final int GEO_CLASS_NEW3D = 30??; </code>
- * <p>
- * 
  * <b> Create an new class GeoNew3D </b>
  * <ul>
- * <li>It will eventually extend another class (at least GeoElement3D) :
- * <p>
+ * <li>It will eventually extend another class (at least GeoElement3D) :<br>
  * <code>
    final public class GeoNew3D extends ??? {
    </code></li>
- * <li>Your IDE will add auto-generated methods ; modify it :
- * <p>
- * <code>
+ * <li>Your IDE will add auto-generated methods; modify it :<br>
+ * <pre><code>
     public GeoElement copy() {
         return null;
     }
-    <br>
+
     public int getGeoClassType() {
        return GEO_CLASS_NEW3D;
     }
-   <br>
+
     protected String getTypeString() {
         return "New3D";
     }
-   <br>
+
     public boolean isDefined() {
        return true;
     }
-   <br>
+
     public boolean isEqual(GeoElementND Geo) {
        return false;
     }
-   <br>
+
     public void set(GeoElement geo) {
 
     }
-   <br>
+
     public void setUndefined() {
 
     }
-   <br>
+
     protected boolean showInAlgebraView() {
         return true;
     }
-   <br>
+
     protected boolean showInEuclidianView() {
        return true;
     }
-   <br>
+
     public String toValueString() {
         return "todo";
     }
-    <br>
+
     protected String getClassName() {
         return "GeoNew3D";
     }
-  </code></li>
- * <li>Create a constructor
- * <p>
+  </code></pre></li>
+ * <li>Create a constructor <br>
  * <code>
     public GeoNew3D(Construction c, ?? args) { <br> &nbsp;&nbsp;
         super(c); // eventually + args <br> &nbsp;&nbsp;
@@ -119,17 +110,10 @@ import org.geogebra.common.util.debug.Log;
  * </li>
  * </ul>
  * 
- * 
- * 
- *
- * @author ggb3D
- * 
  */
 public abstract class GeoElement3D extends GeoElement {
 	private StringBuilder sbToString;
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
-
-	/********************************************************/
 
 	/**
 	 * Creates new GeoElement for given construction

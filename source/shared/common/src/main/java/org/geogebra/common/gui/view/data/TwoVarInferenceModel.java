@@ -78,9 +78,9 @@ public class TwoVarInferenceModel {
 		int getSelectedDataIndex(int idx);
 
 		/**
-		 * Add item to alternative hypothesis panel
+		 * Add item to the alternative hypothesis panel.
 		 * @param name name
-		 * @param tail tail type (&lt;, &ht; or !=)
+		 * @param tail tail type (&lt;, &gt; or !=)
 		 * @param value value
 		 */
 		void addAltHypItem(String name, String tail, double value);

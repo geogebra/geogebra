@@ -18,7 +18,7 @@ public enum ExtendedBoolean {
 	 *            boolean
 	 * @return TRUE or FALSE
 	 */
-	final public static ExtendedBoolean newExtendedBoolean(boolean b) {
+	public static ExtendedBoolean newExtendedBoolean(boolean b) {
 		return b ? TRUE : FALSE;
 	}
 
@@ -35,7 +35,7 @@ public enum ExtendedBoolean {
 	}
 
 	/**
-	 * @return value of this && other
+	 * @return value of this &amp;&amp; other
 	 */
 	public ExtendedBoolean and(ExtendedBoolean other) {
 		switch (this) {

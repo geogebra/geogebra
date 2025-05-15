@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.inputfield;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
@@ -12,7 +11,9 @@ import org.gwtproject.event.dom.client.KeyPressEvent;
  */
 public interface TextFieldController {
 
-	@MissingDoc
+	/**
+	 * Update the text field.
+	 */
 	void update();
 
 	/**

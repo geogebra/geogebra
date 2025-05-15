@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
  *
  * Examples:
  * <ul>
- *     <li>-sqrt(15) + 6 -> 6 - sqrt(15)</li>
- *     <li>-((sqrt(5) - 6) / 5) -> (6 - sqrt(5)) / 5"</li>
+ *     <li>-sqrt(15) + 6 &#8594; 6 - sqrt(15)</li>
+ *     <li>-((sqrt(5) - 6) / 5) &#8594; (6 - sqrt(5)) / 5"</li>
  * </ul>
  **/
 public class MoveMinusInOut implements SimplifyNode {

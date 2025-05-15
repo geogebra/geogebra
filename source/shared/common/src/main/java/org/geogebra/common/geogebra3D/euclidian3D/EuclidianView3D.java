@@ -4787,7 +4787,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * Scales each coordinate by the respective RW-> screen scale.
+	 * Scales each coordinate by the respective RW&#8594; screen scale.
 	 * @param coords coordinates
 	 */
 	public void scaleXYZ(Coords3 coords) {

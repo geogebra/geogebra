@@ -17,10 +17,10 @@ import org.geogebra.common.util.DoubleUtil;
  *
  * Examples:
  * <ul>
- *     <li>2 / 2sqrt(3) -> 1 / sqrt(3)</li>
- *     <li>2 (-1 + sqrt(2)) / 4 -> -1 + sqrt(2) / 2</li>
- *     <li>-9 (8 + sqrt(10))) / 54 -> (-8 - sqrt(10)) / 6</li>
- *     <li>-4 (sqrt(2) + sqrt(3) - 2sqrt(6) - 4) / -2 -> 2sqrt(2) + 2sqrt(3) - 4sqrt(6) - 8</li>
+ *     <li>2 / 2sqrt(3) &#8594; 1 / sqrt(3)</li>
+ *     <li>2 (-1 + sqrt(2)) / 4 &#8594; -1 + sqrt(2) / 2</li>
+ *     <li>-9 (8 + sqrt(10))) / 54 &#8594; (-8 - sqrt(10)) / 6</li>
+ *     <li>-4 (sqrt(2) + sqrt(3) - 2sqrt(6) - 4) / -2 &#8594; 2sqrt(2) + 2sqrt(3) - 4sqrt(6) - 8</li>
  * </ul>
  */
 public class CancelGCDInFraction implements SimplifyNode {

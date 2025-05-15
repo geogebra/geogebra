@@ -12,9 +12,9 @@ import org.geogebra.common.plugin.Operation;
  *
  * Examples:
  * <ul>
- *     <li>3 + sqrt(2) / -5 -> -((3 + sqrt(2)) / 5)</li>
- *     <li>7 (3 + sqrt(2)) / -5 -> (21 + 7sqrt(2)) / 5</li>
- *     <li>(3 (-3 - sqrt(2)) / 7) -> (-(9 - 3sqrt(2))) / 7</li>
+ *     <li>3 + sqrt(2) / -5 &#8594; -((3 + sqrt(2)) / 5)</li>
+ *     <li>7 (3 + sqrt(2)) / -5 &#8594; (21 + 7sqrt(2)) / 5</li>
+ *     <li>(3 (-3 - sqrt(2)) / 7) &#8594; (-(9 - 3sqrt(2))) / 7</li>
  * </ul>
  */
 public class PositiveDenominator implements SimplifyNode {

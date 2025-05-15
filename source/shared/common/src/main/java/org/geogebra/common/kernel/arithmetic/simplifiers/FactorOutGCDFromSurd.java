@@ -14,9 +14,9 @@ import org.geogebra.common.plugin.Operation;
  *
  * Examples:
  * <ul>
- *     <li>12 - 4sqrt(2) -> 4 (3 - sqrt(2)</li>
- *     <li>3 (2 + 2sqrt(2)) -> 6 (1 + sqrt(2))</li>
- *     <li>(2 - 2sqrt(2)) / 4 -> (2 (1 - sqrt(2))) / 4</li>
+ *     <li>12 - 4sqrt(2) &#8594; 4 (3 - sqrt(2)</li>
+ *     <li>3 (2 + 2sqrt(2)) &#8594; 6 (1 + sqrt(2))</li>
+ *     <li>(2 - 2sqrt(2)) / 4 &#8594; (2 (1 - sqrt(2))) / 4</li>
  * </ul>
  */
 public final class FactorOutGCDFromSurd implements SimplifyNode {

@@ -10,7 +10,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Utility class to find out properties of ExpressionValue in a short way.
- * Methods are include null checking, so for boolean methods they return false if ev is null.
+ * Methods include null checking, so for boolean methods they return false if ev is null.
  * No {@link Kernel} instance needed in this class.
  */
 public final class ExpressionValueUtils {
@@ -140,7 +140,7 @@ public final class ExpressionValueUtils {
 
 	/**
 	 * Checks if expression is one of the main building blocks of the rationalization algo:
-	 *  n, sqrt(a) or m * sqrt(a) where n, m, a are integers and a >= 0
+	 *  n, sqrt(a) or m * sqrt(a) where n, m, a are integers and a &gt;= 0
 	 *
 	 * @param ev to check.
 	 * @return if ev is atomic

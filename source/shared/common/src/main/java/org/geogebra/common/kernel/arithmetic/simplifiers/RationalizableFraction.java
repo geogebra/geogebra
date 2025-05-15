@@ -17,7 +17,7 @@ import org.geogebra.common.plugin.Operation;
  * <p>The most complicated fraction that supported is <b>(a + sqrt(b)) / (c + sqrt(d))</b></p>
  *
  * It also gets the simplest, extracted form.
- * Example: (-10 + sqrt(5)) / (-2 + sqrt(5)) - > -15 - 8sqrt(5)
+ * Example: (-10 + sqrt(5)) / (-2 + sqrt(5)) &#8594; -15 - 8sqrt(5)
  *
  */
 public final class RationalizableFraction {

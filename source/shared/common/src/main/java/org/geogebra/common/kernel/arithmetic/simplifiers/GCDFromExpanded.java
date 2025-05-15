@@ -16,13 +16,14 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * <p>It factorizes GCD from expanded expression<br>
- * <b>a + b sqrt(m) + c sqrt(n) - d sqrt(o) -> gcd * (g + h sqrt(m) + j sqrt(n) + k sqrt(o))</b><br>
+ * <b>a + b sqrt(m) + c sqrt(n) - d sqrt(o) &#8594;
+ * gcd * (g + h sqrt(m) + j sqrt(n) + k sqrt(o))</b><br>
  * where gcd is the general common divisor of a, b, c and d.</p>
  *
  * <p>if no such non-trivial gcd, it returns the node in reduced form
  * @see SimplifyUtils#reduceExpressions(List) </p>
  *
- * <p>It is used for the nominator after expanding and before canceling GCD in fraction</p>
+ * <p>It is used for the nominator after expanding and before canceling GCD in a fraction</p>
  */
 public final class GCDFromExpanded implements SimplifyNode {
 	private final SimplifyUtils utils;

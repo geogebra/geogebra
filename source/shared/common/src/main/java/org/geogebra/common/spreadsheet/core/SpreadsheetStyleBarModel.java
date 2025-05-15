@@ -37,7 +37,7 @@ public final class SpreadsheetStyleBarModel {
 		static final State DISABLED = new State(false, null,
 				DEFAULT_TEXT_ALIGNMENT, null, null);
 
-		/** @return true if at least one UI element in the style bar is enabled */
+		/** Is true if at least one UI element in the style bar is enabled */
 		@Property("readonly")
 		public final boolean isEnabled;
 		/** Font traits of the selected cell. An empty set means default font style. */

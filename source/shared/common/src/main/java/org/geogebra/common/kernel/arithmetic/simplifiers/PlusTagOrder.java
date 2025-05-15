@@ -9,8 +9,8 @@ import org.geogebra.common.plugin.Operation;
  *
  * Examples:
  * <ul>
- *     <li>-1 + sqrt(2) -> sqrt(2) - 1</li>
- *     <li>(-1 + sqrt(2)) / 2 -> (sqrt(2) - 1) / 2</li>
+ *     <li>-1 + sqrt(2) &#8594; sqrt(2) - 1</li>
+ *     <li>(-1 + sqrt(2)) / 2 &#8594; (sqrt(2) - 1) / 2</li>
  * </ul>
  */
 public class PlusTagOrder implements SimplifyNode {

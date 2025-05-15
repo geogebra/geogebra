@@ -739,7 +739,7 @@ public class DockManagerW extends DockManager {
 	 * 
 	 * <p>0: Top 1: Right 2: Bottom 3: Left</p>
 	 * 
-	 * </p>A definition string like "0,3,2" is read by the program this way: - Go to
+	 * <p>A definition string like "0,3,2" is read by the program this way: - Go to
 	 * the top (=0) container of the root pane. - Go to the container at the
 	 * left (=3) of the current container. - Insert the DockPanel at the bottom
 	 * (=2) of the current container.</p>

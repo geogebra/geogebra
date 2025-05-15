@@ -7,10 +7,11 @@ import org.geogebra.common.properties.GroupedEnumeratedProperty;
 
 /**
  * This is a utility class that provides methods for displaying data with dividers for a
- * grouped enumerated property. <p></p>It allows converting between model indices
+ * grouped enumerated property.
+ * <p>It allows converting between model indices
  * (corresponding to a valid position in {@link EnumeratedProperty#getValues()})
  * and view indices (corresponds to a valid position with an array containing values and dividers
- * together {see @link GroupedEnumeratedProperty#getGroupDividerIndices()}).
+ * together {see @link GroupedEnumeratedProperty#getGroupDividerIndices()}).</p>
  */
 public final class DividerIndicesViewAdapter {
 

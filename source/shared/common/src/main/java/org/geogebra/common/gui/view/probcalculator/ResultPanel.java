@@ -22,7 +22,7 @@ public interface ResultPanel {
 	void showRight();
 
 	/**
-	 * @param value whether result field is editable
+	 * @param value whether the result field is editable
 	 */
 	void setResultEditable(boolean value);
 
@@ -40,8 +40,8 @@ public interface ResultPanel {
 
 	/**
 	 * Update two-tailed result.
-	 * @param lowProb probability of X < low
-	 * @param highProb probability of X > high
+	 * @param lowProb probability of X &lt; low
+	 * @param highProb probability of X &gt; high
 	 */
 	void updateTwoTailedResult(String lowProb, String highProb);
 
@@ -64,12 +64,12 @@ public interface ResultPanel {
 	boolean isFieldResult(Object source);
 
 	/**
-	 * Change sign to >.
+	 * Change sign to &gt;.
 	 */
 	void setGreaterThan();
 
 	/**
-	 * Change sign to >=.
+	 * Change sign to &gt;=.
 	 */
 	void setGreaterOrEqualThan();
 }

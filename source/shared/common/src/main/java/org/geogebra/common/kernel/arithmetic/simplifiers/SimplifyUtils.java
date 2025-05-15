@@ -448,7 +448,7 @@ public final class SimplifyUtils {
 	/**
 	 * Reduce node if it is a pure product.
 	 *
-	 *  Example: 2*sqrt(2)*3*sqrt(7)*(-1) -> -6 sqrt(14)
+	 *  Example: 2*sqrt(2)*3*sqrt(7)*(-1) &#8594; -6 sqrt(14)
 	 *
 	 * @param node to check
 	 * @return the reduced product or node itself, if not applicable.
@@ -496,7 +496,7 @@ public final class SimplifyUtils {
 	 * <p>
 	 * The list can contain integers, and sqrts and multiplied sqrts.
 	 * For example {sqrt(2), 2, 6sqrt(3), 2sqrt(2), 5, -4sqrt(3)}
-	 * -> 3sqrt(2) + 2sqrt(3) + 7</p>
+	 * &#8594; 3sqrt(2) + 2sqrt(3) + 7</p>
 	 * @param list of expressions.
 	 * @return the reduced {@link ExpressionNode}
 	 */
@@ -631,7 +631,7 @@ public final class SimplifyUtils {
 
 	/**
 	 * Multiply node tag by tag:
-	 * a + sqrt(b) - c sqrt(b) with m -> am + m sqrt(b) mc sqrt(d)
+	 * a + sqrt(b) - c sqrt(b) with m -&gt; am + m sqrt(b) mc sqrt(d)
 	 *
 	 * @param node to multiply
 	 * @param multiplier to multiply with
@@ -648,11 +648,11 @@ public final class SimplifyUtils {
 
 	/**
 	 * Negate atomic expressions in the most simplified way:
-	 *
-	 *   a -> -a where a is integer
-	 *   sqrt(a) -> -sqrt(a)
-	 *   c sqrt(a) -> -c sqrt(a)
-	 *
+	 * <ul>
+	 *   <li>a &#8594; -a where a is integer</li>
+	 *   <li>sqrt(a) &#8594; -sqrt(a)</li>
+	 *   <li>c sqrt(a) &#8594; -c sqrt(a)</li>
+	 *</ul>
 	 *
 	 * @param ev to negate.
 	 * @return the negated expression.

@@ -1,22 +1,38 @@
 package org.geogebra.common.awt;
 
-import org.geogebra.common.annotation.MissingDoc;
-
 /**
  * Rectangle.
  */
 public interface GRectangle2D extends GRectangularShape {
 
-	@MissingDoc
+	/**
+	 * Returns the Y coordinate of the upper-left corner of
+	 * the rectangle in <code>double</code> precision.
+	 * @return the Y coordinate of the upper-left corner of
+	 * the rectangle.
+	 */
 	double getY();
 
-	@MissingDoc
+	/**
+	 * Returns the X coordinate of the upper-left corner of
+	 * the rectangle in <code>double</code> precision.
+	 * @return the X coordinate of the upper-left corner of
+	 * the rectangle.
+	 */
 	double getX();
 
-	@MissingDoc
+	/**
+	 * Returns the width of the rectangle in
+	 * <code>double</code> precision.
+	 * @return the width of the rectangle.
+	 */
 	double getWidth();
 
-	@MissingDoc
+	/**
+	 * Returns the height of the rectangle in
+	 * <code>double</code> precision.
+	 * @return the height of the rectangle.
+	 */
 	double getHeight();
 
 	/**
@@ -54,16 +70,40 @@ public interface GRectangle2D extends GRectangularShape {
 	 */
 	GRectangle2D createIntersection(GRectangle2D r);
 
-	@MissingDoc
+	/**
+	 * Returns the smallest Y coordinate of the framing
+	 * rectangle of the <code>Shape</code> in <code>double</code>
+	 * precision.
+	 * @return the smallest Y coordinate of the framing
+	 *          rectangle of the <code>Shape</code>.
+	 */
 	double getMinX();
 
-	@MissingDoc
+	/**
+	 * Returns the largest X coordinate of the
+	 * rectangle of the <code>Shape</code> in <code>double</code>
+	 * precision.
+	 * @return the largest X coordinate of the
+	 *          rectangle of the <code>Shape</code>.
+	 */
 	double getMaxX();
 
-	@MissingDoc
+	/**
+	 * Returns the smallest Y coordinate of the
+	 * rectangle of the <code>Shape</code> in <code>double</code>
+	 * precision.
+	 * @return the smallest Y coordinate of the
+	 *          rectangle of the <code>Shape</code>.
+	 */
 	double getMinY();
 
-	@MissingDoc
+	/**
+	 * Returns the largest Y coordinate of the
+	 * rectangle of the <code>Shape</code> in <code>double</code>
+	 * precision.
+	 * @return the largest Y coordinate of the
+	 *          rectangle of the <code>Shape</code>.
+	 */
 	double getMaxY();
 
 	/**

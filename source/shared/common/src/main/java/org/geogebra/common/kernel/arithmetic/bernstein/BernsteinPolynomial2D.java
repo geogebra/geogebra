@@ -190,7 +190,7 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 
 	/**
 	 * Splits polynomial into two:
-	 * b(x) => b1(x1), b2(x2) where x is element of [a, b],
+	 * b(x) &#8594; b1(x1), b2(x2) where x is element of [a, b],
 	 * and x1, x2 are elements of [a, (b-a)/ 2], ((b-a)/2, b] respectively.
 	 * @return the two polynomials
 	 */

@@ -12,11 +12,11 @@ import org.geogebra.common.util.DoubleUtil;
  * <p>Simplifies square roots in all across the node as much as possible.</p>
  * <br>Examples:
  * <ul>
- *  <li>sqrt(4) -> 2</li>
- *  <li>sqrt(3 + 2) -> sqrt(5)</li>
- *  <li>sqrt(18) -> 3sqrt(2)</li>
- *  <li>2sqrt(18) -> 6sqrt(2)</li>
- *  <li>sqrt(54) -> 3sqrt(6)</li>
+ *  <li>sqrt(4) &#8594; 2</li>
+ *  <li>sqrt(3 + 2) &#8594; sqrt(5)</li>
+ *  <li>sqrt(18) &#8594; 3sqrt(2)</li>
+ *  <li>2sqrt(18) &#8594; 6sqrt(2)</li>
+ *  <li>sqrt(54) &#8594; 3sqrt(6)</li>
  * </ul>
  */
 public class ReduceRoot implements SimplifyNode {

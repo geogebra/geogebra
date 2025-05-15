@@ -16,7 +16,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  * Equation form property for objects described by linear equations (lines, planes).
  *
  * TODO there is a PlaneEqnModel, so it looks like planes need different handling
- *  -> add code in this class, or even introduce a new property?
+ *  &#8594; add code in this class, or even introduce a new property?
  */
 public class LinearEquationFormProperty extends AbstractNamedEnumeratedProperty<Integer> {
 

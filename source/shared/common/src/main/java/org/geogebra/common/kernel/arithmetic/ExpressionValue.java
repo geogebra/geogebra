@@ -228,7 +228,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	/**
 	 * Traverses the expression tree and returns {@code true}
 	 * if none of the nodes evaluates to {@code true}.
-	 * <br/> Is identical to negating {@link ExpressionValue#any(Inspecting)}.
+	 * <p> Identical to negating {@link ExpressionValue#any(Inspecting)}.</p>
 	 *
 	 * @param inspecting predicate testing each node
 	 * @return {@code true} if inspecting object returned true for none of the nodes

@@ -11,10 +11,10 @@ import org.geogebra.common.plugin.Operation;
  *
  * Examples:
  * <ul>
- *     <li>expression p evaluates an integer n -> p is replaced by n</li>
- *     <li>n + 0 or 0 + n -> n</li>
- *     <li>n / 0, n >= 0 -> infinity</li>
- *     <li>n / 0, n < 0 -> negative infinity</li>
+ *     <li>expression p evaluates an integer n &#8594; p is replaced by n</li>
+ *     <li>n + 0 or 0 + n &#8594; n</li>
+ *     <li>n / 0, n &gt;= 0 &#8594; infinity</li>
+ *     <li>n / 0, n &lt; 0 &#8594; negative infinity</li>
  * </ul>
  *
  */

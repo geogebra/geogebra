@@ -25,7 +25,7 @@ public final class FFlate {
 	public interface UnzipCallback {
 		/**
 		 * @param err (optional) error
-		 * @param data map {file name => file content}
+		 * @param data map {file name &#8594; file content}
 		 */
 		void call(Object err, JsPropertyMap<Uint8Array> data);
 	}
