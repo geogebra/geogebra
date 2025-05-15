@@ -34,6 +34,9 @@ public final class MulticastEvent<T> {
 	 */
 	@FunctionalInterface
 	public interface Listener<T> {
+		/**
+		 * @param argument event argument
+		 */
 		void notify(@CheckForNull T argument);
 	}
 
