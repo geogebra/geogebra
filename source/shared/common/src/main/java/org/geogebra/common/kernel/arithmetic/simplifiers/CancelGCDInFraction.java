@@ -11,7 +11,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * <p>Cancels GCD from numerator and denominator, if there is any.
+ * <p>Cancels GCD from numerator and denominator if there is any.
  * The fraction should be factored out first. @see {@link FactorOutGCDFromSurd} or
  * {@link ExpandAndFactorOutGCD}</p>
  *
@@ -20,7 +20,8 @@ import org.geogebra.common.util.DoubleUtil;
  *     <li>2 / 2sqrt(3) &#8594; 1 / sqrt(3)</li>
  *     <li>2 (-1 + sqrt(2)) / 4 &#8594; -1 + sqrt(2) / 2</li>
  *     <li>-9 (8 + sqrt(10))) / 54 &#8594; (-8 - sqrt(10)) / 6</li>
- *     <li>-4 (sqrt(2) + sqrt(3) - 2sqrt(6) - 4) / -2 &#8594; 2sqrt(2) + 2sqrt(3) - 4sqrt(6) - 8</li>
+ *     <li>-4 (sqrt(2) + sqrt(3) - 2sqrt(6) - 4) / -2
+ *         &#8594; 2sqrt(2) + 2sqrt(3) - 4sqrt(6) - 8</li>
  * </ul>
  */
 public class CancelGCDInFraction implements SimplifyNode {
@@ -108,8 +109,8 @@ public class CancelGCDInFraction implements SimplifyNode {
 
 	private ExpressionNode applyForMultipliedNumerator(ExpressionNode node) {
 		int num = multiplier;
-		int denom = (int) Math.round(node.getRightTree().evaluateDouble());
-		GCDInFraction gcd = new GCDInFraction(utils, num, denom);
+		int denominator = (int) Math.round(node.getRightTree().evaluateDouble());
+		GCDInFraction gcd = new GCDInFraction(utils, num, denominator);
 
 		if (gcd.isTrivial()) {
 			return node;

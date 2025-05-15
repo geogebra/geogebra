@@ -18,7 +18,8 @@ import org.geogebra.common.plugin.Operation;
  *
  * For example:
  * <ul>
- *     <li> (-8 + 2sqrt(2) (-2 - sqrt(6)) / 16 &#8594; -4 (sqrt(2) + sqrt(3) -  2sqrt(6) - 4) / 16</li>
+ *     <li> (-8 + 2sqrt(2) (-2 - sqrt(6)) / 16
+ *         &#8594; -4 (sqrt(2) + sqrt(3) -  2sqrt(6) - 4) / 16</li>
  *     <li>(-8 - sqrt(10))(sqrt(4) + 7) &#8594; -9sqrt(10) - 72 where no GCD can be factored out
  *     (but can be highly reduced).</li>
  * </ul>
