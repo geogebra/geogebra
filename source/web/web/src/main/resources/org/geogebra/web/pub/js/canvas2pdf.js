@@ -275,6 +275,10 @@
 		this.doc.addPage(pageOptions);
 	};
 
+	canvas2pdf.PdfContext.prototype.removePage = function() {
+		this.doc.removePage();
+	};
+
 	canvas2pdf.PdfContext.prototype.save = function() {
 		this.doc.save();
 	};
@@ -525,6 +529,10 @@
 		}
 	};
 
+	PDFKitMini.prototype.removePage = function() {
+		this.pages.removePage();
+	}
+
 	PDFKitMini.prototype.font = function(font) {
 		this.currentPage.setFontName(font);
 	};
@@ -581,6 +589,13 @@
 			}
 
 			if (null == c) {
+				if (!fonts[b] && b.startsWith("Roboto")) {
+					pendingFonts.add(b);
+					const script = document.createElement("script");
+					script.src = canvas2pdf.fontPath + b.split("-")[0] + ".js";
+					document.head.append(script);
+					throw new Error("Font not loaded: " + b);
+				}
 				c = new PDFFont(b);
 				this.add(c);
 				this.fonts.push(c);
@@ -589,13 +604,6 @@
 					const descendant = this.add(new PDFFont("Unicode"));
 					c.baseFont = "Unicode";
 					c.spec = descendant.spec = fonts[b];
-					if (!c.spec) {
-						pendingFonts.add(b);
-						const script = document.createElement("script");
-						script.src = canvas2pdf.fontPath + b.split("-")[0] + ".js";
-						document.head.append(script);
-						throw new Error("Font not loaded: " + b);
-					}
 					descendant.subtype = "CIDFontType2";
 					descendant.cidToGidMap = "Identity";
 					this.fonts.push(descendant);
@@ -857,6 +865,10 @@
 		a.setPageNumber(this.pages.length);
 		return a
 	};
+
+	PDFPages.prototype.removePage = function() {
+		this.pages.splice(-1);
+	}
 
 	PDFPages.prototype.getObject = function() {
 		var refs = "[";
@@ -1848,7 +1860,6 @@
 			} else if (object instanceof String) {
 				string = object;
 				const isUnicode = !!currentFontSpec || [...string].find(r => r.charCodeAt(0) > 0x7f);
-				// just remove Unicode characters for now...
 				if (isUnicode) {
 					var newString = "";
 					for (i = _i = 0, _ref = string.length; _i < _ref; i = _i += 1) {

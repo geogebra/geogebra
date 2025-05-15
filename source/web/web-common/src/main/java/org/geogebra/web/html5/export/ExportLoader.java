@@ -52,7 +52,7 @@ public final class ExportLoader {
 		Runnable onFontsLoaded = () -> {
 			Canvas2Pdf.get().setFontPath(StyleInjector.normalizeUrl(GWT.getModuleBaseURL())
 					+ "js/");
-			Canvas2Pdf.get().runAfterFontsLoaded(callback);
+			callback.run();
 		};
 		if (getCanvas2Pdf() != null) {
 			onFontsLoaded.run();

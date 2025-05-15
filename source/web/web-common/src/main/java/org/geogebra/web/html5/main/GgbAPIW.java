@@ -42,6 +42,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.export.Canvas2Pdf;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -1040,35 +1041,35 @@ public class GgbAPIW extends GgbAPI {
 	final public void exportPDF(double scale, String filename,
 			Consumer<String> callback, String sliderLabel, double dpi) {
 		ExportLoader.onCanvas2PdfLoaded(() -> {
-			String pdf;
+			StringConsumer pdfConsumer = pdf -> {
+				if (filename != null) {
+					Browser.exportImage(pdf, filename);
+				}
+
+				if (callback != null) {
+					callback.accept(pdf);
+				}
+			};
 
 			if (app.isWhiteboardActive()) {
 				// export each slide as separate page
-				pdf = ((AppW) app).getPageController().exportPDF(scale, dpi);
+				((AppW) app).getPageController().exportPDF(scale, dpi, pdfConsumer);
 			} else {
-				EuclidianView ev = app.getActiveEuclidianView();
+				Canvas2Pdf.get().runAfterFontsLoaded(() -> {
+					EuclidianView ev = app.getActiveEuclidianView();
 
-				if (ev instanceof EuclidianViewW) {
-					EuclidianViewW evw = (EuclidianViewW) ev;
+					if (ev instanceof EuclidianViewW) {
+						EuclidianViewW evw = (EuclidianViewW) ev;
 
-					if (sliderLabel == null) {
-						pdf = evw.getExportPDF(scale, dpi);
-					} else {
-						pdf = AnimationExporter.export(kernel.getApplication(), 0,
-								(GeoNumeric) kernel.lookupLabel(sliderLabel),
-								filename, scale, Double.NaN, ExportType.PDF_HTML5);
+						if (sliderLabel == null) {
+							pdfConsumer.consume(evw.getExportPDF(scale, dpi));
+						} else {
+							AnimationExporter.export(kernel.getApplication(), 0,
+									(GeoNumeric) kernel.lookupLabel(sliderLabel),
+									pdfConsumer, scale, Double.NaN, ExportType.PDF_HTML5);
+						}
 					}
-				} else {
-					return;
-				}
-			}
-
-			if (filename != null) {
-				Browser.exportImage(pdf, filename);
-			}
-
-			if (callback != null) {
-				callback.accept(pdf);
+				});
 			}
 		});
 	}
@@ -1080,7 +1081,8 @@ public class GgbAPIW extends GgbAPI {
 
 		// each frame as ExportType.PNG
 		AnimationExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
-				(GeoNumeric) kernel.lookupLabel(sliderLabel), filename,
+				(GeoNumeric) kernel.lookupLabel(sliderLabel),
+				url -> Browser.exportImage(url, filename),
 				scale, rotate, ExportType.PNG);
 
 	}
@@ -1091,7 +1093,8 @@ public class GgbAPIW extends GgbAPI {
 			double rotate) {
 		// each frame as ExportType.WEBP
 		AnimationExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
-				(GeoNumeric) kernel.lookupLabel(sliderLabel), filename,
+				(GeoNumeric) kernel.lookupLabel(sliderLabel),
+				url -> Browser.downloadURL(url, filename),
 				scale, rotate, ExportType.WEBP);
 	}
 

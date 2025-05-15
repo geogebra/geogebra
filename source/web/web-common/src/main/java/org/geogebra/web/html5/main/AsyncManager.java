@@ -204,7 +204,6 @@ public class AsyncManager implements AsyncManagerI {
 	 * additional modules
 	 */
 	public void onResourceLoaded() {
-		Log.debug("resource loaded called");
 		while (callbacks.size() > 0) {
 			try {
 				callbackRunning = true;

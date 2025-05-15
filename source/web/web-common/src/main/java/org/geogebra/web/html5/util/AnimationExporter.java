@@ -24,19 +24,18 @@ public class AnimationExporter {
 	 *            delay
 	 * @param slider
 	 *            slider
-	 * @param filename
-	 *            filename
+	 * @param consumer
+	 *            callback that gets the base64-encoded file
 	 * @param scale
 	 *            scale
 	 * @param rotate
 	 *            rotation
 	 * @param frameFormat
 	 *            GIF/WebM/PDF
-	 * @return result as base64 URL (not GIF though)
 	 */
-	public static String export(App app, int timeBetweenFrames,
+	public static void export(App app, int timeBetweenFrames,
 			GeoNumeric slider,
-			String filename, double scale, double rotate,
+			StringConsumer consumer, double scale, double rotate,
 			ExportType frameFormat) {
 
 		app.getKernel().getAnimationManager().stopAnimation();
@@ -95,66 +94,45 @@ public class AnimationExporter {
 			break;
 		}
 
-		EuclidianViewWInterface ev = (EuclidianViewWInterface) app
-				.getActiveEuclidianView();
-
-		final Encoder encoder = getEncoder(timeBetweenFrames, filename,
-				frameFormat, ev);
-
-		FrameCollectorW collector = new FrameCollectorW() {
-
-			@Override
-			public String finish(int width, int height) {
-				// Log.debug("finished");
-				return encoder.finish(width, height);
-			}
-
-			@Override
-			public void addFrame(EuclidianViewWInterface view,
-					double exportScale, ExportType format) {
-				String url = view.getExportImageDataUrl(exportScale, false,
-						format, false);
-				encoder.addFrame(url);
-			}
-
-		};
+		final FrameCollectorW encoder = getEncoder(timeBetweenFrames, consumer,
+				frameFormat);
 
 		app.setWaitCursor();
 
 		try {
-			return exportAnimatedGIF(app, collector, slider, n, val, min, max,
+			exportAnimation(app, encoder, slider, n, val, min, max,
 					step,
-					scale, rotate, frameFormat);
-		} catch (Exception ex) {
+					scale, rotate);
+		} catch (RuntimeException ex) {
+			if (ex.getMessage().contains("Font not loaded")) {
+				throw ex;
+			}
 			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex);
 		} finally {
 			app.setDefaultCursor();
 		}
-
-		return null;
 	}
 
-	private static Encoder getEncoder(int timeBetweenFrames,
-			String filename, ExportType frameFormat,
-			EuclidianViewWInterface ev) {
+	private static FrameCollectorW getEncoder(int timeBetweenFrames,
+			StringConsumer consumer, ExportType frameFormat) {
 
 		switch (frameFormat) {
-		default:
-		case PNG:
-			return new AnimatedGifEncoderW(timeBetweenFrames, filename);
 		case WEBP:
-			return new WebMEncoderW(timeBetweenFrames, filename);
-
+		case WEBM:
+			return new WebMEncoderW(timeBetweenFrames, consumer);
 		case PDF_HTML5:
-			return new PDFEncoderW(ev);
+			return new PDFEncoderW(consumer);
+		case PNG:
+		default:
+			return new AnimatedGifEncoderW(timeBetweenFrames, consumer);
 		}
 
 	}
 
-	private static String exportAnimatedGIF(App app, FrameCollectorW encoder,
+	private static void exportAnimation(App app, FrameCollectorW encoder,
 			GeoNumeric num, int n, double val0, double min, double max,
-			double step0, double scale, double rotate, ExportType format) {
+			double step0, double scale, double rotate) {
 		Log.debug("exporting animation");
 		double val = val0;
 		double step = step0;
@@ -171,10 +149,10 @@ public class AnimationExporter {
 			if (rotate > 0 && ev instanceof EuclidianView3DInterface) {
 				((EuclidianView3DInterface) ev).setRotAnimation(-i * rotate / n,
 						false, false);
-				((EuclidianView3DInterface) ev).repaintView();
+				ev.repaintView();
 			}
 
-			encoder.addFrame(ev, scale, format);
+			encoder.addFrame(ev, scale);
 
 			val += step;
 
@@ -188,7 +166,7 @@ public class AnimationExporter {
 		int width = (int) Math.round(ev.getExportWidth() * scale);
 		int height = (int) Math.round(ev.getExportHeight() * scale);
 
-		return encoder.finish(width, height);
+		encoder.finish(width, height);
 	}
 
 }

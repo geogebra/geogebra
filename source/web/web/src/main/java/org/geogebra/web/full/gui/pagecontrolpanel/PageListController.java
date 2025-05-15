@@ -41,6 +41,7 @@ import org.geogebra.web.html5.main.PageContent;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.PDFEncoderW;
+import org.geogebra.web.html5.util.StringConsumer;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Touch;
 import org.gwtproject.event.dom.client.HumanInputEvent;
@@ -58,6 +59,8 @@ import org.gwtproject.event.dom.client.TouchMoveEvent;
 import org.gwtproject.event.dom.client.TouchMoveHandler;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.event.dom.client.TouchStartHandler;
+
+import com.google.gwt.core.client.Scheduler;
 
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Any;
@@ -85,6 +88,7 @@ public class PageListController implements PageListControllerInterface,
 	private Material activeMaterial = null;
 	private final UndoManager undoManager;
 	private boolean selectedCardChangedAfterLoad;
+	private int exportedPages;
 
 	/**
 	 * @param app
@@ -195,13 +199,13 @@ public class PageListController implements PageListControllerInterface,
 	 * Save all slides as PDF.
 	 */
 	@Override
-	public String exportPDF(double scale, double dpi) {
+	public void exportPDF(double scale, double dpi, StringConsumer consumer) {
 
-		EuclidianViewW ev = app.getEuclidianView1();
+		EuclidianViewW ev1 = app.getEuclidianView1();
 
 		// assume height/width same for all slides
-		int width = (int) Math.floor(ev.getExportWidth() * scale);
-		int height = (int) Math.floor(ev.getExportHeight() * scale);
+		int width = (int) Math.floor(ev1.getExportWidth() * scale);
+		int height = (int) Math.floor(ev1.getExportHeight() * scale);
 
 		int currentIndex = selectedCard.getPageIndex();
 		savePreviewCard(selectedCard);
@@ -211,41 +215,48 @@ public class PageListController implements PageListControllerInterface,
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
-			return "";
+			consumer.consume(null);
+			return;
 		}
-
+		ctx.removePage();
 		app.setExporting(ExportType.PDF_HTML5, scale);
 
 		GGraphics2DW pdfGraphics = new GGraphics2DW(ctx);
 
-		int n = slides.size();
+		this.exportedPages = 0;
 
-		for (int i = 0; i < n; i++) {
-
-			try {
-				loadSlide(i);
-
-				ev = app.getEuclidianView1();
-
-				if (i > 0) {
-					ctx.addPage();
-				}
-				ev.exportPaintPre(pdfGraphics, scale, false);
-				ev.drawObjects(pdfGraphics);
-
-			} catch (RuntimeException e) {
-				if (e.getMessage().contains("Font not loaded")) {
-					throw e;
-				}
-				Log.warn("Problem exporting slide " + i + ".");
-				Log.debug(e);
+		app.registerOpenFileListener(() -> {
+			int n = slides.size();
+			if (exportedPages == n) {
+				return true;
 			}
-		}
-
-		app.setExporting(ExportType.NONE, 1);
-		loadSlide(currentIndex);
-
-		return ctx.getPDFbase64();
+			Canvas2Pdf.get().runAfterFontsLoaded(() -> {
+				try {
+					ctx.addPage();
+					EuclidianViewW ev = app.getEuclidianView1();
+					ev.exportPaintPre(pdfGraphics, scale, false);
+					ev.updateAllDrawablesForView(false);
+					ev.drawObjects(pdfGraphics);
+				} catch (RuntimeException e) {
+					if (e.getMessage().contains("Font not loaded")) {
+						ctx.removePage();
+						throw e;
+					}
+					Log.warn("Problem exporting slide " + exportedPages + ".");
+					Log.debug(e);
+				}
+				exportedPages++;
+				if (exportedPages == n) {
+					app.setExporting(ExportType.NONE, 1);
+					Scheduler.get().scheduleDeferred(() -> loadSlide(currentIndex));
+					consumer.consume(ctx.getPDFbase64());
+				} else {
+					app.loadGgbFile(slides.get(exportedPages).getFile(), true);
+				}
+			});
+			return exportedPages == n;
+		});
+		app.loadGgbFile(slides.get(0).getFile(), true);
 	}
 
 	/**

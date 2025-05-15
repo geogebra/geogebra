@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.main.undo.ActionExecutor;
+import org.geogebra.web.html5.util.StringConsumer;
 
 /**
  * Controller for multipage files
@@ -103,9 +104,9 @@ public interface PageListControllerInterface extends ActionExecutor {
 	/**
 	 * export all sliders as PDF
 	 * @param scale decides level of detail for rasterized images and patterns
-	 * @return base64 encoded PDF
+	 * @param consumer gets the base64 encoded PDF
 	 */
-	String exportPDF(double scale, double dpi);
+	void exportPDF(double scale, double dpi, StringConsumer consumer);
 
 	/**
 	 * Handle clicking a page card.

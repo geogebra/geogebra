@@ -11,7 +11,7 @@ import jsinterop.base.JsPropertyMap;
 public class Gifshot {
 
 	public native void createGIF(JsPropertyMap<Object> settings,
-			JsConsumer<GifshotResult> callback);
+			JsConsumer<Object> callback);
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 	public static class GifshotResult {

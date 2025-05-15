@@ -14,35 +14,24 @@ import jsinterop.base.JsPropertyMap;
  *
  * adapted from GifShot class
  */
-public class PDFEncoderW implements Encoder {
+public class PDFEncoderW implements FrameCollectorW {
 
-	private final EuclidianViewW ev;
+	private final StringConsumer consumer;
+	private EuclidianViewW ev;
 
 	private Canvas2Pdf.PdfContext ctx;
 
 	private GGraphics2D g4copy;
 
-	private boolean firstPage = true;
-
-	/**
-	 * @param view
-	 *            EV to export
-	 */
-	public PDFEncoderW(EuclidianViewWInterface view) {
-
-		this.ev = (EuclidianViewW) view;
-
-		initialize();
+	public PDFEncoderW(StringConsumer consumer) {
+		this.consumer = consumer;
 	}
 
-	/**
-	 * @param url
-	 *            adds a new frame
-	 */
 	@Override
-	public void addFrame(String url) {
-		if (firstPage) {
-			firstPage = false;
+	public void addFrame(EuclidianViewWInterface view,
+			double exportScale) {
+		if (ev == null) {
+			initialize(view);
 		} else {
 			ctx.addPage();
 		}
@@ -50,21 +39,17 @@ public class PDFEncoderW implements Encoder {
 		ev.drawObjects(g4copy);
 	}
 
-	/**
-	 * Finish PDF and return it
-	 */
 	@Override
-	public String finish(int width, int height) {
+	public void finish(int width, int height) {
 		ev.getApplication().setExporting(ExportType.NONE, 1);
-
-		return ctx.getPDFbase64();
+		consumer.consume(ctx.getPDFbase64());
 	}
 
 	/**
 	 * Load JS and set up
 	 */
-	public void initialize() {
-
+	private void initialize(EuclidianViewWInterface ev) {
+		this.ev = (EuclidianViewW) ev;
 		double scale = 1;
 		int width = (int) Math.floor(ev.getExportWidth() * scale);
 		int height = (int) Math.floor(ev.getExportHeight() * scale);

@@ -40,5 +40,7 @@ public class Canvas2Pdf {
 		public native void addPage();
 
 		public native CanvasPattern createPattern(Object context, String repetition);
+
+		public native void removePage();
 	}
 }

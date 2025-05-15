@@ -3,9 +3,11 @@ package org.geogebra.web.html5.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.ExportLoader;
+import org.geogebra.web.html5.export.Gifshot;
 
 import elemental2.core.JsArray;
 import jsinterop.base.Js;
@@ -17,13 +19,13 @@ import jsinterop.base.JsPropertyMap;
  * @author bencze
  * @author Laszlo Gal - GifShot integration
  */
-public class AnimatedGifEncoderW implements Encoder {
+public class AnimatedGifEncoderW implements FrameCollectorW {
 
 	/**
 	 * Milliseconds between frames.
 	 */
 	private final int frameDelay;
-	private final String filename;
+	private final StringConsumer filename;
 
 	private final List<String> gifs;
 
@@ -31,19 +33,18 @@ public class AnimatedGifEncoderW implements Encoder {
 	 * @param frameDelay
 	 *            delay between the frames in milliseconds
 	 */
-	public AnimatedGifEncoderW(int frameDelay, String filename) {
+	public AnimatedGifEncoderW(int frameDelay, StringConsumer filename) {
 		this.frameDelay = frameDelay;
 		this.filename = filename;
 		this.gifs = new ArrayList<>();
 		ExportLoader.onGifshotLoaded(() -> { /* preload while the images are being prepared */ });
 	}
 
-	/**
-	 * @param url
-	 *            adds a new frame
-	 */
 	@Override
-	public void addFrame(String url) {
+	public void addFrame(EuclidianViewWInterface view,
+			double exportScale) {
+		String url = view.getExportImageDataUrl(exportScale, false,
+				App.ExportType.PNG, false);
 		gifs.add(url);
 	}
 
@@ -51,14 +52,13 @@ public class AnimatedGifEncoderW implements Encoder {
 	 * Finishes the internal gif object and starts rendering.
 	 */
 	@Override
-	public String finish(int width, int height) {
+	public void finish(int width, int height) {
 		ExportLoader.onGifshotLoaded(() ->
 				finish(gifs, filename, width, height, frameDelay * 0.001));
-		return null;
 	}
 
 	private void finish(List<String> urls,
-			String filename, double width, double height, double delaySeconds) {
+			StringConsumer consumer, double width, double height, double delaySeconds) {
 
 		JsPropertyMap<Object> settings = JsPropertyMap.of();
 		settings.set("images", JsArray.asJsArray(urls.toArray()));
@@ -67,10 +67,11 @@ public class AnimatedGifEncoderW implements Encoder {
 		settings.set("interval", delaySeconds);
 
 		ExportLoader.getGifshot().createGIF(settings, (obj) -> {
-			if (Js.isFalsy(obj.error)) {
-				Browser.exportImage(obj.image, filename);
+			Gifshot.GifshotResult res = Js.uncheckedCast(obj);
+			if (Js.isFalsy(res.error)) {
+				consumer.consume(res.image);
 			} else {
-				Log.error(obj);
+				Log.error(res);
 			}
 		});
 	}

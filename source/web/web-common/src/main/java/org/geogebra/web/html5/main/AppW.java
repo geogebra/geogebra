@@ -817,7 +817,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			return;
 		}
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
-				() -> getAsyncManager().scheduleCallback(
+				() -> getAsyncManager().runOrSchedule(
 						() -> runAfterLoadImages(def, asSlide)));
 		imageLoader.load();
 	}
