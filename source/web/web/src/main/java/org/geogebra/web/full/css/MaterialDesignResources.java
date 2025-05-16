@@ -568,6 +568,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_arrow_filled.svg")
 	SVGResource stylingbar_start_arrow_filled();
 
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_arrow_outlined.svg")
+	SVGResource stylingbar_start_arrow_outlined();
+
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_circle.svg")
 	SVGResource stylingbar_start_circle();
 
@@ -586,11 +589,23 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_square_outlined.svg")
 	SVGResource stylingbar_start_square_outlined();
 
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_crows_foot.svg")
+	SVGResource stylingbar_start_crows_foot();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_diamond_outlined.svg")
+	SVGResource stylingbar_start_diamond_outlined();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_diamond_filled.svg")
+	SVGResource stylingbar_start_diamond_filled();
+
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_arrow.svg")
 	SVGResource stylingbar_end_arrow();
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_arrow_filled.svg")
 	SVGResource stylingbar_end_arrow_filled();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_arrow_outlined.svg")
+	SVGResource stylingbar_end_arrow_outlined();
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_circle.svg")
 	SVGResource stylingbar_end_circle();
@@ -609,6 +624,15 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_square_outlined.svg")
 	SVGResource stylingbar_end_square_outlined();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_crows_foot.svg")
+	SVGResource stylingbar_end_crows_foot();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_diamond_filled.svg")
+	SVGResource stylingbar_end_diamond_filled();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_diamond_outlined.svg")
+	SVGResource stylingbar_end_diamond_outlined();
 
 	// DIALOG
 

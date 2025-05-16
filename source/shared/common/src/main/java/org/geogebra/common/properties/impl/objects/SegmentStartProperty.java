@@ -18,12 +18,18 @@ public class SegmentStartProperty extends AbstractEnumeratedProperty<SegmentStyl
 		implements IconsEnumeratedProperty<SegmentStyle> {
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_SEGMENT_START_DEFAULT, PropertyResource.ICON_SEGMENT_START_LINE,
-			PropertyResource.ICON_SEGMENT_START_SQUARE_OUTLINE,
-			PropertyResource.ICON_SEGMENT_START_SQUARE, PropertyResource.ICON_SEGMENT_START_ARROW,
+			PropertyResource.ICON_SEGMENT_START_DEFAULT,
+			PropertyResource.ICON_SEGMENT_START_LINE,
+			PropertyResource.ICON_SEGMENT_START_ARROW,
+			PropertyResource.ICON_SEGMENT_START_CROWS_FOOT,
+			PropertyResource.ICON_SEGMENT_START_ARROW_OUTLINE,
 			PropertyResource.ICON_SEGMENT_START_ARROW_FILLED,
 			PropertyResource.ICON_SEGMENT_START_CIRCLE_OUTLINE,
-			PropertyResource.ICON_SEGMENT_START_CIRCLE
+			PropertyResource.ICON_SEGMENT_START_CIRCLE,
+			PropertyResource.ICON_SEGMENT_START_SQUARE_OUTLINE,
+			PropertyResource.ICON_SEGMENT_START_SQUARE,
+			PropertyResource.ICON_SEGMENT_START_DIAMOND_OUTLINE,
+			PropertyResource.ICON_SEGMENT_START_DIAMOND
 	};
 
 	private final GeoElementDelegate delegate;
@@ -37,9 +43,12 @@ public class SegmentStartProperty extends AbstractEnumeratedProperty<SegmentStyl
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.LineStartStyle");
 		delegate = new SegmentPropertyDelegate(element);
-		setValues(List.of(SegmentStyle.DEFAULT, SegmentStyle.LINE, SegmentStyle.SQUARE_OUTLINE,
-				SegmentStyle.SQUARE, SegmentStyle.ARROW, SegmentStyle.ARROW_FILLED,
-				SegmentStyle.CIRCLE_OUTLINE, SegmentStyle.CIRCLE));
+		setValues(List.of(SegmentStyle.DEFAULT, SegmentStyle.LINE,
+				SegmentStyle.ARROW, SegmentStyle.CROWS_FOOT,
+				SegmentStyle.ARROW_OUTLINE, SegmentStyle.ARROW_FILLED,
+				SegmentStyle.CIRCLE_OUTLINE, SegmentStyle.CIRCLE,
+				SegmentStyle.SQUARE_OUTLINE, SegmentStyle.SQUARE,
+				SegmentStyle.DIAMOND_OUTLINE, SegmentStyle.DIAMOND));
 	}
 
 	@Override

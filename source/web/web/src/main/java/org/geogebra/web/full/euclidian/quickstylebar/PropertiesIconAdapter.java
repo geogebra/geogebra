@@ -69,34 +69,50 @@ public class PropertiesIconAdapter {
 			return res.stylingbar_start_default();
 		case ICON_SEGMENT_START_LINE:
 			return res.stylingbar_start_line();
-		case ICON_SEGMENT_START_SQUARE_OUTLINE:
-			return res.stylingbar_start_square_outlined();
-		case ICON_SEGMENT_START_SQUARE:
-			return res.stylingbar_start_square();
 		case ICON_SEGMENT_START_ARROW:
 			return res.stylingbar_start_arrow();
+		case ICON_SEGMENT_START_CROWS_FOOT:
+			return res.stylingbar_start_crows_foot();
+		case ICON_SEGMENT_START_ARROW_OUTLINE:
+			return res.stylingbar_start_arrow_outlined();
 		case ICON_SEGMENT_START_ARROW_FILLED:
 			return res.stylingbar_start_arrow_filled();
 		case ICON_SEGMENT_START_CIRCLE_OUTLINE:
 			return res.stylingbar_start_circle_outlined();
 		case ICON_SEGMENT_START_CIRCLE:
 			return res.stylingbar_start_circle();
+		case ICON_SEGMENT_START_SQUARE_OUTLINE:
+			return res.stylingbar_start_square_outlined();
+		case ICON_SEGMENT_START_SQUARE:
+			return res.stylingbar_start_square();
+		case ICON_SEGMENT_START_DIAMOND_OUTLINE:
+			return res.stylingbar_start_diamond_outlined();
+		case ICON_SEGMENT_START_DIAMOND:
+			return res.stylingbar_start_diamond_filled();
 		case ICON_SEGMENT_END_DEFAULT:
 			return res.stylingbar_end_default();
 		case ICON_SEGMENT_END_LINE:
 			return res.stylingbar_end_line();
-		case ICON_SEGMENT_END_SQUARE_OUTLINE:
-			return res.stylingbar_end_square_outlined();
-		case ICON_SEGMENT_END_SQUARE:
-			return res.stylingbar_end_square();
 		case ICON_SEGMENT_END_ARROW:
 			return res.stylingbar_end_arrow();
+		case ICON_SEGMENT_END_CROWS_FOOT:
+			return res.stylingbar_end_crows_foot();
+		case ICON_SEGMENT_END_ARROW_OUTLINE:
+			return res.stylingbar_end_arrow_outlined();
 		case ICON_SEGMENT_END_ARROW_FILLED:
 			return res.stylingbar_end_arrow_filled();
 		case ICON_SEGMENT_END_CIRCLE_OUTLINE:
 			return res.stylingbar_end_circle_outlined();
 		case ICON_SEGMENT_END_CIRCLE:
 			return res.stylingbar_end_circle();
+		case ICON_SEGMENT_END_SQUARE_OUTLINE:
+			return res.stylingbar_end_square_outlined();
+		case ICON_SEGMENT_END_SQUARE:
+			return res.stylingbar_end_square();
+		case ICON_SEGMENT_END_DIAMOND_OUTLINE:
+			return res.stylingbar_end_diamond_outlined();
+		case ICON_SEGMENT_END_DIAMOND:
+			return res.stylingbar_end_diamond_filled();
 		case ICON_CELL_BORDER_ALL:
 			return res.border_all();
 		case ICON_CELL_BORDER_INNER:

@@ -120,8 +120,14 @@ public class DrawSegmentWithEndings {
 		case CIRCLE_OUTLINE:
 			return getSolidCircle();
 		case ARROW:
+		case ARROW_OUTLINE:
 		case ARROW_FILLED:
 			return getArrow(style);
+		case DIAMOND:
+		case DIAMOND_OUTLINE:
+			return getSolidDiamond();
+		case CROWS_FOOT:
+			return getCrowsFoot();
 		}
 		return null;
 	}
@@ -160,6 +166,47 @@ public class DrawSegmentWithEndings {
 		return t.createTransformedShape(r);
 	}
 
+	private GShape getCrowsFoot() {
+		double x = isStartStyle ? line.getX1() : line.getX2();
+		double y = isStartStyle ? line.getY1() : line.getY2();
+		double dist = isStartStyle ? x - lineThickness : x + lineThickness;
+
+		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
+		initRotateTrans(getAngle(), x, y, t);
+		GGeneralPath crowsFootPath = AwtFactory.getPrototype().newGeneralPath();
+		crowsFootPath.moveTo(x, y);
+		crowsFootPath.lineTo(dist, y + lineThickness);
+		crowsFootPath.moveTo(x, y);
+		crowsFootPath.lineTo(dist, y);
+		crowsFootPath.moveTo(x, y);
+		crowsFootPath.lineTo(dist, y - lineThickness);
+
+		GShape strokedCrowsFoot = createStrokedShape(crowsFootPath);
+		GShape transformedCrowsFoot = t.createTransformedShape(strokedCrowsFoot);
+		return transformedCrowsFoot;
+	}
+
+	private GShape getSolidDiamond() {
+		double x = isStartStyle ? line.getX1() : line.getX2();
+		double y = isStartStyle ? line.getY1() : line.getY2();
+
+		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
+		initRotateTrans(getAngle(), x, y, t);
+		GGeneralPath diamondPath = AwtFactory.getPrototype().newGeneralPath();
+		diamondPath.moveTo(x + lineThickness, y);
+		diamondPath.lineTo(x, y - lineThickness);
+		diamondPath.lineTo(x - lineThickness, y);
+		diamondPath.lineTo(x, y + lineThickness);
+		diamondPath.closePath();
+
+		GShape strokedDiamond = AwtFactory.getPrototype().newMyBasicStroke(0.5f)
+				.createStrokedShape(diamondPath, 255);
+		GShape transformedDiamond = t.createTransformedShape(strokedDiamond);
+		GArea area = GCompositeShape.toArea(transformedDiamond);
+		area.add(GCompositeShape.toArea(t.createTransformedShape(diamondPath)));
+		return area;
+	}
+
 	private GShape createStrokedShape(GShape shape) {
 		return drawSegment.getDecoStroke().createStrokedShape(shape, 255);
 	}
@@ -192,16 +239,19 @@ public class DrawSegmentWithEndings {
 
 		arrowPath.lineTo(arrowSideX, y + lineThickness);
 		boolean filled = style.equals(SegmentStyle.ARROW_FILLED);
-		if (filled) {
+		boolean outlined = style.equals(SegmentStyle.ARROW_OUTLINE);
+		if (filled || outlined) {
 			arrowPath.lineTo(arrowSideX, y - lineThickness);
 			arrowPath.closePath();
 		} else {
 			arrowPath.moveTo(arrowSideX, y - lineThickness);
 			arrowPath.lineTo(x, y);
 		}
-		GShape strokedArrow = createStrokedShape(arrowPath);
+
+		GShape strokedArrow = outlined ? AwtFactory.getPrototype().newBasicStroke(0.5f)
+				.createStrokedShape(arrowPath, 255) : createStrokedShape(arrowPath);
 		GShape transformedArrow = t.createTransformedShape(strokedArrow);
-		if (filled) {
+		if (filled || outlined) {
 			GArea area = GCompositeShape.toArea(transformedArrow);
 			area.add(GCompositeShape.toArea(t.createTransformedShape(arrowPath)));
 			return area;
