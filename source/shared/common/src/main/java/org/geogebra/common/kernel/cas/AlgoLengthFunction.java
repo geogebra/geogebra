@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.cas;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -9,11 +8,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
+ *  Calculate Function Length between the numbers A and B: integral from
+ *  A to B on T = sqrt(1+(f')^2)
  * @author Victor Franco Espino
- * @version 19-04-2007
- * 
- *          Calculate Function Length between the numbers A and B: integral from
- *          A to B on T = sqrt(1+(f')^2)
  */
 
 public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
@@ -22,7 +19,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	private GeoNumeric B; // input
 	private GeoFunction f; // f1 is f'(x)
 	private GeoNumeric length; // output
-	private UnivariateFunction lengthFunction; // is T = sqrt(1+(f')^2)
+	private LengthFunction lengthFunction; // is T = sqrt(1+(f')^2)
 
 	/**
 	 * @param cons
@@ -94,9 +91,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		double a = A.getValue();
 		double b = B.getValue();
 
-		double lenVal = Math.abs(
-				AlgoIntegralDefinite.numericIntegration(lengthFunction, a, b));
-		length.setValue(lenVal);
+		length.setValue(lengthFunction.integral(a, b));
 	}
 
 	@Override
@@ -108,7 +103,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
 
 		// Integral of length function
-		lengthFunction = new LengthFunction(f1);
+		lengthFunction = new LengthFunction(f1, f);
 		cons.removeFromConstructionList(algoCAS);
 	}
 }

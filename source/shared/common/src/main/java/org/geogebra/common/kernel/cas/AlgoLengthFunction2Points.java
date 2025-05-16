@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.cas;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -10,11 +9,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
+ * Calculate Function Length between the points A and B: integral from
+ * A to B on T = sqrt(1+(f')^2)
  * @author Victor Franco Espino
- * @version 19-04-2007
- * 
- *          Calculate Function Length between the points A and B: integral from
- *          A to B on T = sqrt(1+(f')^2)
  */
 
 public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
@@ -23,7 +20,7 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 	private GeoPointND B; // input
 	private GeoFunction f;
 	private GeoNumeric length; // output
-	private UnivariateFunction lengthFunction; // is T = sqrt(1+(f')^2)
+	private LengthFunction lengthFunction; // is T = sqrt(1+(f')^2)
 
 	/**
 	 * @param cons
@@ -79,10 +76,7 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 	public final void compute() {
 		double a = A.getInhomCoordsInD3().getX();
 		double b = B.getInhomCoordsInD3().getX();
-
-		double lenVal = Math.abs(
-				AlgoIntegralDefinite.numericIntegration(lengthFunction, a, b));
-		length.setValue(lenVal);
+		length.setValue(lengthFunction.integral(a, b));
 	}
 
 	// locusequability makes no sense here
@@ -94,6 +88,6 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 				new EvalInfo(false));
 		cons.removeFromConstructionList(algoCAS);
 		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
-		lengthFunction = new LengthFunction(f1);
+		lengthFunction = new LengthFunction(f1, f);
 	}
 }
