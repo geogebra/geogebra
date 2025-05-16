@@ -58,6 +58,8 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.event.dom.client.DomEvent;
+import org.gwtproject.event.dom.client.DragStartEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Frame;
 import org.gwtproject.user.client.ui.Widget;
@@ -303,6 +305,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 		if (ge.hasExternalProtocol()) {
 			FlowPanel container = createContainer(embed, "custom-embed");
+			container.addDomHandler(DomEvent::preventDefault, DragStartEvent.getType());
 			container.getElement().setInnerHTML(content);
 			return container;
 		}
