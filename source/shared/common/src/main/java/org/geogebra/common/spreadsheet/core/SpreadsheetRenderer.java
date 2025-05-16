@@ -57,8 +57,13 @@ public final class SpreadsheetRenderer {
 
 	void drawCell(int row, int column, GGraphics2D graphics, @CheckForNull Object content,
 			boolean hasError) {
+		Rectangle cellBounds = layout.getBounds(row, column);
+		GColor backgroundColor = style.getBackgroundColor(row, column, null);
+		if (backgroundColor != null) {
+			drawCellBackground(graphics, backgroundColor, cellBounds);
+		}
 		if (style.showBorder(row, column)) {
-			drawCellBorder(row, column, graphics);
+			drawCellBorder(graphics, cellBounds);
 		}
 
 		if (content == null) {
@@ -69,24 +74,25 @@ public final class SpreadsheetRenderer {
 				new SpreadsheetCoords(row, column),
 				ignore -> converter.getRenderable(content, style, row, column));
 		if (renderable != null) {
-			Rectangle cellBorder = layout.getBounds(row, column);
 			if (renderable.getBackground() != null) {
-				graphics.setColor(renderable.getBackground());
-				fillRect(graphics, cellBorder.getMinX(), cellBorder.getMinY(),
-						cellBorder.getWidth(), cellBorder.getHeight());
+				drawCellBackground(graphics, renderable.getBackground(), cellBounds);
 			}
-
 			if (!hasError) {
 				graphics.setColor(style.getTextColor(row, column, style.getDefaultTextColor()));
-				renderable.draw(graphics, cellBorder);
+				renderable.draw(graphics, cellBounds);
 			}
 		}
 	}
 
-	private void drawCellBorder(int row, int column, GGraphics2D graphics) {
+	private void drawCellBorder(GGraphics2D graphics, Rectangle frame) {
 		graphics.setStroke(borderStroke);
-		drawRectangleWithStraightLines(graphics, layout.getMinX(column), layout.getMinY(row),
-				layout.getWidth(column), layout.getHeight(row));
+		drawRectangleWithStraightLines(graphics, frame.getMinX(), frame.getMinY(),
+				frame.getWidth(), frame.getHeight());
+	}
+
+	private void drawCellBackground(GGraphics2D graphics, GColor color, Rectangle frame) {
+		graphics.setColor(color);
+		fillRect(graphics, frame.getMinX(), frame.getMinY(), frame.getWidth(), frame.getHeight());
 	}
 
 	/**
