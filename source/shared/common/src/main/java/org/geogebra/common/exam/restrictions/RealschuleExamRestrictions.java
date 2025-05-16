@@ -96,6 +96,8 @@ import static org.geogebra.common.kernel.commands.Commands.MinorAxis;
 import static org.geogebra.common.kernel.commands.Commands.MixedNumber;
 import static org.geogebra.common.kernel.commands.Commands.Mod;
 import static org.geogebra.common.kernel.commands.Commands.ModularExponent;
+import static org.geogebra.common.kernel.commands.Commands.NSolutions;
+import static org.geogebra.common.kernel.commands.Commands.NSolve;
 import static org.geogebra.common.kernel.commands.Commands.Net;
 import static org.geogebra.common.kernel.commands.Commands.Numeric;
 import static org.geogebra.common.kernel.commands.Commands.Octahedron;
@@ -132,6 +134,8 @@ import static org.geogebra.common.kernel.commands.Commands.SemiMinorAxisLength;
 import static org.geogebra.common.kernel.commands.Commands.Semicircle;
 import static org.geogebra.common.kernel.commands.Commands.Shear;
 import static org.geogebra.common.kernel.commands.Commands.Slope;
+import static org.geogebra.common.kernel.commands.Commands.Solutions;
+import static org.geogebra.common.kernel.commands.Commands.Solve;
 import static org.geogebra.common.kernel.commands.Commands.SolveCubic;
 import static org.geogebra.common.kernel.commands.Commands.SolveQuartic;
 import static org.geogebra.common.kernel.commands.Commands.Sphere;
@@ -243,7 +247,8 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				Polygon, Polyline, Prove, ProveDetails, Radius, RigidPolygon, Sector, Segment,
 				Slope, Tangent, TriangleCenter, TriangleCurve, Trilinear, Vertex, Polynomial,
 				TaylorPolynomial, Asymptote, OsculatingCircle, CommonDenominator, CompleteSquare,
-				Div, Mod, Division, Function));
+				Div, Mod, Division, Function, Solve, NSolve, Solutions, NSolutions, CSolve,
+				CSolutions));
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {

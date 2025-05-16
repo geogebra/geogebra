@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.commands.Commands;
  */
 public final class CommandNameFilter implements CommandFilter {
 
-	private Set<Commands> allowedCommands;
-	private boolean inverse;
+	private final Set<Commands> allowedCommands;
+	private final boolean inverse;
 
 	/**
 	 * New command filter
@@ -32,7 +32,7 @@ public final class CommandNameFilter implements CommandFilter {
 	 */
 	public CommandNameFilter(boolean inverse, Commands... commands) {
 		this.inverse = inverse;
-		allowedCommands = new HashSet(convertToInternal(commands));
+		allowedCommands = new HashSet<>(convertToInternal(commands));
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package org.geogebra.common.exam;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
@@ -16,14 +15,12 @@ import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
-import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremumTest;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -117,7 +114,7 @@ public class ExamTypeTests {
 
 	@ParameterizedTest
 	@EnumSource(ExamType.class)
-	public void specialPointsConsistent(ExamType t) throws InvalidValuesException {
+	public void specialPointsConsistent(ExamType t) {
 		applyRestrictions(ExamRestrictions.forExamType(t));
 		GeoElementND function = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("sin(x)", false)[0];
@@ -201,7 +198,6 @@ public class ExamTypeTests {
 				Commands.NSolve, Commands.NSolutions,
 				Commands.Solve, Commands.Solutions);
 		case MMS:
-		case BAYERN_GR:
 		case NIEDERSACHSEN: return Set.of(
 				Commands.NSolve, Commands.NSolutions,
 				Commands.Solve, Commands.Solutions);
