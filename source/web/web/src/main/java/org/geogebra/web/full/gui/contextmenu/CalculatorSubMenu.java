@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.contextmenu;
 
-import static org.geogebra.common.GeoGebraConstants.REALSCHULE_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.BAYERN_GRAPHING_APPCODE;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
@@ -34,7 +34,7 @@ public class CalculatorSubMenu extends AriaMenuBar {
 			if (app.isMebis()) {
 				addItem(factory.newAriaMenuItem(null,
 						"Grafikrechner (Bayern)",
-						() -> embedManager.addCalcWithPreselectedApp(REALSCHULE_APPCODE,
+						() -> embedManager.addCalcWithPreselectedApp(BAYERN_GRAPHING_APPCODE,
 								GeoGebraConstants.GRAPHING_APPCODE)));
 			}
 		}

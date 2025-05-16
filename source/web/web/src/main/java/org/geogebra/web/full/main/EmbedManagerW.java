@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main;
 
-import static org.geogebra.common.GeoGebraConstants.REALSCHULE_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.BAYERN_GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 
 import java.util.ArrayList;
@@ -161,7 +161,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
-		boolean isRealschuleExam = drawEmbed.getGeoEmbed().getAppName().equals(REALSCHULE_APPCODE);
+		boolean isBayernGraphingExam = drawEmbed.getGeoEmbed().getAppName().equals(
+				BAYERN_GRAPHING_APPCODE);
 		FlowPanel scaler = new FlowPanel();
 		addToGraphics(scaler);
 
@@ -181,9 +182,9 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 				.setAttribute("appName", drawEmbed.getGeoEmbed().getAppName())
 				.setAttribute("examMode", app.getAppletParameters().getParamExamMode())
 				.setAttribute("borderColor", "#CCC");
-		if (isRealschuleExam) {
+		if (isBayernGraphingExam) {
 			parameters.setAttribute("appName", SUITE_APPCODE)
-					.setAttribute("examMode", REALSCHULE_APPCODE);
+					.setAttribute("examMode", BAYERN_GRAPHING_APPCODE);
 		}
 		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
 			parameters.setAttribute(entry.getKey(), entry.getValue());
