@@ -1,5 +1,11 @@
 package org.geogebra.common.ownership;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -32,6 +38,19 @@ public final class GlobalScope {
 	// intentionally assignable (for testing)
 	public static ExamController examController = new ExamController(
 			propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
+
+	/**
+	 * @return The list of enabled (not-disabled) {@link SuiteSubApp}s in case an exam is currently active,
+	 * or a list of all {@code SuiteSubApp} values otherwise.
+	 */
+	public static @Nonnull List<SuiteSubApp> getEnabledSubApps() {
+		if (examController.isExamActive()) {
+			return SuiteSubApp.availableValues().stream()
+					.filter(subApp -> !examController.isDisabledSubApp(subApp))
+					.collect(Collectors.toList());
+		}
+		return SuiteSubApp.availableValues();
+	}
 
 	/**
 	 * Prevent instantiation.

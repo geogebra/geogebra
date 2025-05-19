@@ -10,6 +10,7 @@ import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
 import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
+import org.geogebra.common.ownership.GlobalScope;
 
 abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 
@@ -48,10 +49,13 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 
 	@Nullable
 	MenuItem showSwitchCalculator() {
-		return isSuiteApp
-				? new ActionableItemImpl(Icon.GEOGEBRA,
-				"SwitchCalculator", Action.SWITCH_CALCULATOR)
-				: null;
+		if (!isSuiteApp) {
+			return null;
+		}
+		if (GlobalScope.getEnabledSubApps().size() == 1) {
+			return null;
+		}
+		return new ActionableItemImpl(Icon.GEOGEBRA, "SwitchCalculator", Action.SWITCH_CALCULATOR);
 	}
 
 	@SafeVarargs
