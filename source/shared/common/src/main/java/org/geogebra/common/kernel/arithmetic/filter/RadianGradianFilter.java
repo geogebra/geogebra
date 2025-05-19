@@ -5,7 +5,6 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
 /**
  * An {@link ExpressionFilter} based on the use of radian or gradian in expressions.
@@ -13,7 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 public class RadianGradianFilter implements ExpressionFilter {
 
     @Override
-    public boolean isAllowed(@Nonnull ValidExpression expression) {
+    public boolean isAllowed(@Nonnull ExpressionValue expression) {
         boolean containsDegree = false;
         for (ExpressionValue expressionValue: expression) {
             if (expressionValue instanceof MySpecialDouble) {

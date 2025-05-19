@@ -9,6 +9,7 @@ import static org.geogebra.common.SuiteSubApp.SCIENTIFIC;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.ALLOW;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.HIDE;
 import static org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction.Effect.IGNORE;
+import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.APPROXIMATION;
 import static org.geogebra.common.kernel.commands.Commands.Append;
 import static org.geogebra.common.kernel.commands.Commands.BarChart;
 import static org.geogebra.common.kernel.commands.Commands.BinomialCoefficient;
@@ -136,6 +137,7 @@ import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormatFilter;
 import org.geogebra.common.gui.view.table.dialog.StatisticsFilter;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -167,6 +169,8 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.kernel.statistics.AlgoRealDistribution2Params;
+import org.geogebra.common.kernel.statistics.AlgoRealDistribution2ParamsInterval;
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
@@ -286,7 +290,44 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<AlgebraOutputFormatFilter> createAlgebraOutputFormatFilters() {
-		return Set.of(new PolarCoordinateCartesianFormatFilter());
+		return Set.of(new NormalCommandAlgebraOutputFormatFilter(),
+				new PolarCoordinateCartesianFormatFilter());
+	}
+
+	/**
+	 * Output format filter for Normal command to only allow the numeric (approximated) format.
+	 * <p>Example: {@code Normal(2, 0.5, 1)}</p>
+	 * <ul>
+	 *     <li>
+	 *         Restricted {@code (erf(-√2) + 1) / 2} output format
+	 *         ({@link AlgebraOutputFormat#EXACT})
+	 *     </li>
+	 *     <li>
+	 *         Allowed {@code 0.0227501319482} output format
+	 *         ({@link AlgebraOutputFormat#APPROXIMATION})
+	 *     </li>
+	 * </ul>
+	 */
+	private static final class NormalCommandAlgebraOutputFormatFilter
+			implements AlgebraOutputFormatFilter {
+		@SuppressWarnings("PMD.SimplifyBooleanReturns")
+		@Override
+		public boolean isAllowed(GeoElement geoElement, AlgebraOutputFormat outputFormat) {
+			if (isNormalCommand(geoElement) && outputFormat != APPROXIMATION) {
+				return false;
+			}
+			return true;
+		}
+
+		private boolean isNormalCommand(GeoElement geoElement) {
+			GeoElementND geoElementND = geoElement.unwrapSymbolic();
+			if (geoElementND == null) {
+				return false;
+			}
+			AlgoElement parentAlgorithm = geoElementND.getParentAlgorithm();
+			return parentAlgorithm instanceof AlgoRealDistribution2Params
+					|| parentAlgorithm instanceof AlgoRealDistribution2ParamsInterval;
+		}
 	}
 
 	/**
@@ -294,27 +335,27 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 * <p>Examples: </p>
 	 * <ul>
 	 *     <li>
-	 *         (3; π / 3)
+	 *         {@code (3; π / 3)}
 	 *         <ul>
 	 *             <li>
-	 *                 Restricted (3 / 2, 3 * √3 / 2) output format
+	 *                 Restricted {@code (3 / 2, 3 * √3 / 2)} output format
 	 *                 ({@link AlgebraOutputFormat#EXACT})
 	 *             </li>
 	 *             <li>
-	 *                 Allowed (3; 1.0471975511966 rad) output format
+	 *                 Allowed {@code (3; 1.0471975511966 rad)} output format
 	 *                 ({@link AlgebraOutputFormat#APPROXIMATION})
 	 *             </li>
 	 *         </ul>
 	 *     </li>
 	 *     <li>
-	 *         (1; 2)
+	 *         {@code (1; 2)}
 	 *         <ul>
 	 *             <li>
-	 *                 Restricted (cos(2), sin(2)) output format
+	 *                 Restricted {@code (cos(2), sin(2))} output format
 	 *                 ({@link AlgebraOutputFormat#EXACT})
 	 *             </li>
 	 *             <li>
-	 *                 Allowed (1; 2 rad) output format
+	 *                 Allowed {@code (1; 2 rad)} output format
 	 *                 ({@link AlgebraOutputFormat#APPROXIMATION})
 	 *             </li>
 	 *         </ul>
@@ -354,9 +395,9 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 * Restricts the visibility of integrals with area.
 	 * <p>Examples: </p>
 	 * <ul>
-	 *     <li>Integral(f, -5, 5)</li>
-	 *     <li>Integral(f, x, -5, 5)</li>
-	 *     <li>NIntegral(f, -5, 5)</li>
+	 *     <li>{@code Integral(f, -5, 5)}</li>
+	 *     <li>{@code Integral(f, x, -5, 5)}</li>
+	 *     <li>{@code NIntegral(f, -5, 5)}</li>
 	 * </ul>
 	 */
 	private static final class HiddenIntegralAreaVisibilityRestriction
@@ -377,21 +418,21 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 *     <li>
 	 *         {@link GeoConic}s in implicit form:
 	 *         <ul>
-	 *             <li>x^2 = 1</li>
-	 *             <li>y - x^2 = 0</li>
-	 *             <li>x^2 = y</li>
-	 *             <li>x^2 + y^2 = 4</li>
-	 *             <li>x^2 / 9 + y^2 / 4 = 1</li>
-	 *             <li>x^2 - y^2 = 4</li>
+	 *             <li>{@code x^2 = 1}</li>
+	 *             <li>{@code y - x^2 = 0}</li>
+	 *             <li>{@code x^2 = y}</li>
+	 *             <li>{@code x^2 + y^2 = 4}</li>
+	 *             <li>{@code x^2 / 9 + y^2 / 4 = 1}</li>
+	 *             <li>{@code x^2 - y^2 = 4}</li>
 	 *         </ul>
 	 *     </li>
 	 *     <li>
 	 *         {@link GeoImplicitCurve}s:
 	 *         <ul>
-	 *             <li>2^x = 2</li>
-	 *             <li>sin(x) = 0</li>
-	 *             <li>x^3 + y^2 = 2</li>
-	 *             <li>y^3 = x</li>
+	 *             <li>{@code 2^x = 2}</li>
+	 *             <li>{@code sin(x) = 0}</li>
+	 *             <li>{@code x^3 + y^2 = 2}</li>
+	 *             <li>{@code y^3 = x}</li>
 	 *         </ul>
 	 *     </li>
 	 * </ul>
@@ -429,9 +470,9 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 * Restricts the visibility of lines.
 	 * <p>Examples: </p>
 	 * <ul>
-	 *     <li>x = 0</li>
-	 *     <li>x + y = 0</li>
-	 *     <li>2x - 3y = 4</li>
+	 *     <li>{@code x = 0}</li>
+	 *     <li>{@code x + y = 0}</li>
+	 *     <li>{@code 2x - 3y = 4}</li>
 	 * </ul>
 	 */
 	private static final class HiddenLineVisibilityRestriction implements VisibilityRestriction {
@@ -457,8 +498,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 * Allows the visibility of linear functions (linear explicit equations).
 	 * <p>Examples: </p>
 	 * <ul>
-	 *     <li>y = 2x</li>
-	 *     <li>y = 5x - 2</li>
+	 *     <li>{@code y = 2x}</li>
+	 *     <li>{@code y = 5x - 2}</li>
 	 * </ul>
 	 */
 	private static final class AllowedLinearFunctionVisibilityRestriction

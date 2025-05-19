@@ -264,40 +264,32 @@ public class AlgebraProcessor {
 	 * Add an input expression filter (used for dynamically filtering valid input expressions).
 	 * @param filter An input expression filter.
 	 */
-	public void addInputExpressionFilter(ExpressionFilter filter) {
-		if (filter != null) {
-			inputExpressionFilters.add(filter);
-		}
+	public void addInputExpressionFilter(@Nonnull ExpressionFilter filter) {
+		inputExpressionFilters.add(filter);
 	}
 
 	/**
 	 * Remove an input expression filter.
 	 * @param filter An input expression filter.
 	 */
-	public void removeInputExpressionFilter(ExpressionFilter filter) {
-		if (filter != null) {
-			inputExpressionFilters.remove(filter);
-		}
+	public void removeInputExpressionFilter(@Nonnull ExpressionFilter filter) {
+		inputExpressionFilters.remove(filter);
 	}
 
 	/**
 	 * Add an output expression filter (used for dynamically filtering output expressions).
 	 * @param filter An output expression filter.
 	 */
-	public void addOutputExpressionFilter(ExpressionFilter filter) {
-		if (filter != null) {
-			outputExpressionFilters.add(filter);
-		}
+	public void addOutputExpressionFilter(@Nonnull ExpressionFilter filter) {
+		outputExpressionFilters.add(filter);
 	}
 
 	/**
 	 * Remove an output expression filter.
 	 * @param filter An output expression filter.
 	 */
-	public void removeOutputExpressionFilter(ExpressionFilter filter) {
-		if (filter != null) {
-			outputExpressionFilters.remove(filter);
-		}
+	public void removeOutputExpressionFilter(@Nonnull ExpressionFilter filter) {
+		outputExpressionFilters.remove(filter);
 	}
 
 	private boolean isExpressionAllowed(ValidExpression expression,
@@ -1169,25 +1161,29 @@ public class AlgebraProcessor {
 			ErrorHandler handler, @Nullable Set<GeoNumeric> sliders) {
 		GeoElementND[] filteredGeos = geos;
 		if (geos != null) {
+			// Switch to an enabled algebra output format
+			// before checking if the output expression is restricted.
+			Arrays.stream(geos).map(GeoElementND::toGeoElement).forEach(geoElement ->
+					AlgebraOutputFormat.switchFromDisabledFormat(geoElement,
+							app.getSettings().getAlgebra().isEngineeringNotationEnabled(),
+							app.getSettings().getAlgebra().getAlgebraOutputFormatFilters()));
+
+			// Check if any input or output expression should be restricted.
 			boolean containsRestrictedInputExpression =
 					!isExpressionAllowed(input, inputExpressionFilters);
 			boolean containsRestrictedOutputExpressions = Arrays.stream(geos)
 					.map(ExpressionValue::wrap)
 					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
+
 			// If the expression does not contain any restriction,
 			if (!containsRestrictedInputExpression && !containsRestrictedOutputExpressions) {
-				// apply the element setups
+				// apply the element setups,
 				if (!geoElementSetups.isEmpty()) {
 					Arrays.stream(geos).forEach(geoElement -> {
 						geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
 						geoElement.updateRepaint();
 					});
 				}
-				// and switch to an enabled algebra output format,
-				Arrays.stream(geos).map(GeoElementND::toGeoElement).forEach(geoElement ->
-						AlgebraOutputFormat.switchFromDisabledFormat(geoElement,
-								app.getSettings().getAlgebra().isEngineeringNotationEnabled(),
-								app.getSettings().getAlgebra().getAlgebraOutputFormatFilters()));
 			} else {
 				// otherwise remove the elements from the construction.
 				Arrays.stream(geos).forEach(GeoElementND::remove);

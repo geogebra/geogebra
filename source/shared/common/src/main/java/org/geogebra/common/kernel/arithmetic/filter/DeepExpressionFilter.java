@@ -8,7 +8,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 
 /**
@@ -30,7 +29,7 @@ final public class DeepExpressionFilter implements ExpressionFilter {
 	}
 
 	@Override
-	public boolean isAllowed(@Nonnull ValidExpression expression) {
+	public boolean isAllowed(@Nonnull ExpressionValue expression) {
 		HashSet<ExpressionValue> allowedExpressionValues = new HashSet<>();
 
 		for (ExpressionValue child : expression) {
@@ -43,18 +42,15 @@ final public class DeepExpressionFilter implements ExpressionFilter {
 				}
 			}
 
-			// Restrict expression early if not an exception
-			if (child instanceof ValidExpression && !wrappedFilter.isAllowed(
-					(ValidExpression) child) && !allowedExpressionValues.contains(child)) {
+			// The expression is restricted if the child expression
+			// is restricted and not allowed as an exception.
+			if (!wrappedFilter.isAllowed(child) && !allowedExpressionValues.contains(child)) {
 				return false;
 			}
 
 			// Recursively iterate over the output of the GeoSymbolic object
 			if (child instanceof GeoSymbolic) {
-				GeoSymbolic symbolic = (GeoSymbolic) child;
-				if (symbolic.getValue() != null
-						&& symbolic.getValue() instanceof ValidExpression
-						&& !isAllowed((ValidExpression) symbolic.getValue())) {
+				if (!isAllowed(((GeoSymbolic) child).getOutputExpression())) {
 					return false;
 				}
 			}

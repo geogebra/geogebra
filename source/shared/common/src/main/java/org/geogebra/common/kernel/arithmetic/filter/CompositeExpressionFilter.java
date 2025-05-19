@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
 /**
  * Combines a list of filters into a single ExpressionFilter.
@@ -22,7 +22,7 @@ final public class CompositeExpressionFilter implements ExpressionFilter {
 	}
 
 	@Override
-	public boolean isAllowed(@Nonnull ValidExpression expression) {
+	public boolean isAllowed(@Nonnull ExpressionValue expression) {
 		return filters.stream().allMatch(filter -> filter.isAllowed(expression));
 	}
 }

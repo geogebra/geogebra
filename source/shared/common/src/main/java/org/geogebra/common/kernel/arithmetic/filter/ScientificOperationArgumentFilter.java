@@ -5,7 +5,6 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
 /**
  * Operation argument filter for the scientific app.
@@ -15,7 +14,7 @@ public enum ScientificOperationArgumentFilter implements ExpressionFilter, Inspe
 	INSTANCE;
 
 	@Override
-	public boolean isAllowed(@Nonnull ValidExpression expression) {
+	public boolean isAllowed(@Nonnull ExpressionValue expression) {
 		return !expression.any(this);
 	}
 

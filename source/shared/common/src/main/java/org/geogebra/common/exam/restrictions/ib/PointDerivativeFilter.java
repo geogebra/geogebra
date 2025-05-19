@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -20,7 +19,7 @@ import org.geogebra.common.plugin.Operation;
 public final class PointDerivativeFilter implements ExpressionFilter, Inspecting {
 
 	@Override
-	public boolean isAllowed(@Nonnull ValidExpression expression) {
+	public boolean isAllowed(@Nonnull ExpressionValue expression) {
 		// Inspecting searches for derivatives over a variable
 		return !expression.any(this);
 	}

@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.arithmetic.filter;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
 /**
  * Base class for filtering expression nodes based on some criteria.
@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
  */
 public abstract class ExpressionNodeFilter implements ExpressionFilter {
 	@Override
-	final public boolean isAllowed(@Nonnull ValidExpression expression) {
+	final public boolean isAllowed(@Nonnull ExpressionValue expression) {
 		if (!expression.isExpressionNode()) {
 			return true;
 		}

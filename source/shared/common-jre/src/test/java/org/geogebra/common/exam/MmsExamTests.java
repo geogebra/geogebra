@@ -335,12 +335,15 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@ParameterizedTest
-	@CsvSource({
-			"'(3; π / 3)', 	'(3 / 2, 3 * √3 / 2)'",
-			"'(1; 2)', 		'(cos(2), sin(2))'",
+	@CsvSource(delimiterString = "->", value = {
+			// Normal command outputs
+			"Normal(2, 0.5, 1) 		-> (erf(-√2) + 1) / 2",
+			"Normal(2, 0.5, 1, 2)	-> 1 / 2 - (erf(-√2) + 1) / 2",
+			// Cartesian output for polar coordinates
+			"(3; π / 3) 			-> (3 / 2, 3 * √3 / 2)",
+			"(1; 2) 				-> (cos(2), sin(2))",
 	})
-	public void testRestrictedCartesianOutputFormatForPolarCoordinates(
-			String expression, String mockedCasOutput) {
+	public void testRestrictedOutputFormats(String expression, String mockedCasOutput) {
 		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
 		GeoElement geoElement = evaluateGeoElement(expression, mockedCasOutput);
 		assertEquals(

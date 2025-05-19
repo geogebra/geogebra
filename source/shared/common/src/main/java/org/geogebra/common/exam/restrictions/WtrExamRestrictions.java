@@ -119,7 +119,8 @@ public class WtrExamRestrictions extends ExamRestrictions {
 				new RestrictBooleanExpressions(),
 				new AllowBooleanCommandArguments(),
 				new RestrictLists(),
-				new AllowListsForMatrices()), new RadianGradianFilter());
+				new AllowListsForMatrices()),
+				new RadianGradianFilter());
 	}
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {

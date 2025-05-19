@@ -176,6 +176,27 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	/**
+	 * Retrieves the output expression of this {@code GeoSymbolic}
+	 * in a format visible to the user in the Algebra view.
+	 * <p>
+	 * Unlike {@link GeoSymbolic#getValue()}, this method takes into account the format
+	 * of the output (e.g., for an input of {@code Normal(2, 0.5, 1)}, the output in the default format
+	 * would be {@code (erf(-√2) + 1) / 2}, whereas after switching
+	 * to the approximated output format, it would be {@code 0.0227501319482}).
+	 * @return the output expression of {@code GeoSymbolic}
+	 */
+	@Nonnull
+	public ExpressionValue getOutputExpression() {
+		if (symbolicMode || !hasNumericValue()) {
+			if (value != null) {
+				return value;
+			}
+			return getDefinition();
+		}
+		return getNumericValueExpression();
+	}
+
+	/**
 	 * If this represents explicit equation, return the right hand side, otherwise return this.
 	 * @return right hand side or this
 	 */
@@ -197,6 +218,19 @@ public class GeoSymbolic extends GeoElement
 
 	private boolean hasNumericValue() {
 		return numericValue != null || getTwinGeo() != null;
+	}
+
+	private ExpressionValue getNumericValueExpression() {
+		assert hasNumericValue();
+		GeoElementND twin = getTwinGeo();
+		if (twin != null && twin.isGeoAngle()) {
+			return twin;
+		} else if (numericValue != null) {
+			return numericValue;
+		} else {
+			assert twin != null;
+			return twin;
+		}
 	}
 
 	private String getNumericValueString(StringTemplate tpl) {
