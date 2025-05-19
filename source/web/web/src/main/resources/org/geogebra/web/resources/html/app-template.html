@@ -370,7 +370,7 @@ var codebase = "<!--CODEBASE-->";
 		for (var key in defaultParams) {
 			$e("ggw").setAttribute("data-param-" + key, defaultParams[key]);
 		}
-		// $e("ggw").setAttribute("data-param-examLaunchURL", `seb://${location.host}${location.pathname}?examMode=$mode`);
+		$e("ggw").setAttribute("data-param-examLaunchURL", `seb://${location.host}${location.pathname}?examMode=$mode`);
 		if (isEmbed()) {
 			$e("ggw").setAttribute("data-param-enableFileFeatures", false);
 		}

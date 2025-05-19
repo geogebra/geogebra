@@ -2015,4 +2015,25 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.rulingDialog {
 		max-width: 540px;
 	}
+
+	.examSEBDialog {
+		.downloadSEBLink {
+			cursor: pointer;
+			display: flex;
+			margin: 8px 0 12px 0;
+			width: fit-content;
+
+			.buttonText {
+				color: var(--ggb-primary-color);
+				text-decoration-line: underline;
+				height: 16px;
+				line-height: 16px;
+				padding: 10px 4px 10px 0;
+			}
+
+			.buttonImage {
+				padding: 10px 0;
+			}
+		}
+	}
 }

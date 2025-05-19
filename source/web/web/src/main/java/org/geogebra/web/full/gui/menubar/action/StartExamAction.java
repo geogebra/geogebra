@@ -8,11 +8,11 @@ import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.gwtutil.SafeExamBrowser;
+import org.geogebra.web.full.gui.exam.ExamSEBDialog;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 /**
@@ -25,11 +25,21 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 	@Override
 	public void execute(AppWFull app) {
 		app.closePopups();
-		app.getSaveController().showDialogIfNeeded((s) -> showDialog(app), false);
+		app.getSaveController().showDialogIfNeeded((s) -> showDialog(app, false), false);
 	}
 
-	private void showDialog(AppWFull app) {
-		if (app.getLAF().isOfflineExamSupported() || SafeExamBrowser.get() != null) {
+	/**
+	 * Starts exam directly with {@link ExamStartDialog} in case exam mode is started through
+	 * link with examMode parameter
+	 * @param app application
+	 */
+	public void startExamDirectly(AppWFull app) {
+		showDialog(app, true);
+	}
+
+	private void showDialog(AppWFull app, boolean startExamDirectly) {
+		if (app.getLAF().isOfflineExamSupported() || SafeExamBrowser.get() != null
+			|| startExamDirectly) {
 			showExamDialog(app, (examType) -> startExam(app, examType));
 		} else {
 			if (ExamStartDialog.mayChooseType(app)) {
@@ -41,14 +51,13 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 	}
 
 	private void showSEBDialog(AppWFull app, ExamType examType) {
-		ComponentDialog runSEB = new ComponentDialog(app,
-				new DialogData("exam_menu_entry", "Cancel", "LaunchSEB"), true, true);
-		// dialog content out of scope (APPS-6525)
+		DialogData data = new DialogData("exam_menu_entry", "Cancel", "ExamSEBDialog.LaunchSEB");
+		ExamSEBDialog sebDialog = new ExamSEBDialog(app, data);
 		String examMode = examType == ExamType.GENERIC ? app.getConfig().getAppCode()
 				: examType.name().toLowerCase();
-		runSEB.setOnPositiveAction(() -> location.replace(app.getAppletParameters()
+		sebDialog.setOnPositiveAction(() -> location.replace(app.getAppletParameters()
 				.getParamExamLaunchURL().replace("$mode", examMode)));
-		runSEB.show();
+		sebDialog.show();
 	}
 
 	/**

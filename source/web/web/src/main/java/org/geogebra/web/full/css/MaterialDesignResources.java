@@ -634,11 +634,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_diamond_outlined.svg")
 	SVGResource stylingbar_end_diamond_outlined();
 
-	// DIALOG
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/bar_chart_black.svg")
-	SVGResource bar_chart_black();
-
 	// EUCLIDIAN 3D STYLEBAR
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/3d/stylingbar_graphics3D_plane.svg")
@@ -675,6 +670,14 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/camera_white.svg")
 	SVGResource camera_white();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/bar_chart_black.svg")
+	SVGResource bar_chart_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/open_in_new.svg")
+	SVGResource open_in_new_tab();
+
+	// OPEN FILE VIEW
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/folder_black_24dp.svg")
 	SVGResource open_local_file();
