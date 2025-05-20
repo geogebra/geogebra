@@ -41,6 +41,7 @@ import static org.geogebra.common.kernel.commands.Commands.CircumcircularSector;
 import static org.geogebra.common.kernel.commands.Commands.Circumference;
 import static org.geogebra.common.kernel.commands.Commands.ClosestPoint;
 import static org.geogebra.common.kernel.commands.Commands.ClosestPointRegion;
+import static org.geogebra.common.kernel.commands.Commands.Coefficients;
 import static org.geogebra.common.kernel.commands.Commands.CommonDenominator;
 import static org.geogebra.common.kernel.commands.Commands.CompleteSquare;
 import static org.geogebra.common.kernel.commands.Commands.Cone;
@@ -53,6 +54,7 @@ import static org.geogebra.common.kernel.commands.Commands.Cube;
 import static org.geogebra.common.kernel.commands.Commands.Cubic;
 import static org.geogebra.common.kernel.commands.Commands.Cylinder;
 import static org.geogebra.common.kernel.commands.Commands.CylinderInfinite;
+import static org.geogebra.common.kernel.commands.Commands.Degree;
 import static org.geogebra.common.kernel.commands.Commands.Dilate;
 import static org.geogebra.common.kernel.commands.Commands.Direction;
 import static org.geogebra.common.kernel.commands.Commands.Directrix;
@@ -67,7 +69,10 @@ import static org.geogebra.common.kernel.commands.Commands.Eliminate;
 import static org.geogebra.common.kernel.commands.Commands.Ellipse;
 import static org.geogebra.common.kernel.commands.Commands.Ends;
 import static org.geogebra.common.kernel.commands.Commands.Envelope;
+import static org.geogebra.common.kernel.commands.Commands.Expand;
 import static org.geogebra.common.kernel.commands.Commands.ExtendedGCD;
+import static org.geogebra.common.kernel.commands.Commands.Factor;
+import static org.geogebra.common.kernel.commands.Commands.Factors;
 import static org.geogebra.common.kernel.commands.Commands.Focus;
 import static org.geogebra.common.kernel.commands.Commands.Function;
 import static org.geogebra.common.kernel.commands.Commands.GroebnerDegRevLex;
@@ -75,16 +80,23 @@ import static org.geogebra.common.kernel.commands.Commands.GroebnerLex;
 import static org.geogebra.common.kernel.commands.Commands.GroebnerLexDeg;
 import static org.geogebra.common.kernel.commands.Commands.Height;
 import static org.geogebra.common.kernel.commands.Commands.Hyperbola;
+import static org.geogebra.common.kernel.commands.Commands.IFactor;
 import static org.geogebra.common.kernel.commands.Commands.Icosahedron;
+import static org.geogebra.common.kernel.commands.Commands.ImplicitDerivative;
 import static org.geogebra.common.kernel.commands.Commands.Incircle;
 import static org.geogebra.common.kernel.commands.Commands.IntegralSymbolic;
 import static org.geogebra.common.kernel.commands.Commands.IntersectConic;
 import static org.geogebra.common.kernel.commands.Commands.IntersectPath;
 import static org.geogebra.common.kernel.commands.Commands.InverseLaplace;
+import static org.geogebra.common.kernel.commands.Commands.IsTangent;
+import static org.geogebra.common.kernel.commands.Commands.IsVertexForm;
 import static org.geogebra.common.kernel.commands.Commands.JordanDiagonalization;
 import static org.geogebra.common.kernel.commands.Commands.LUDecomposition;
 import static org.geogebra.common.kernel.commands.Commands.Laplace;
 import static org.geogebra.common.kernel.commands.Commands.Length;
+import static org.geogebra.common.kernel.commands.Commands.Limit;
+import static org.geogebra.common.kernel.commands.Commands.LimitAbove;
+import static org.geogebra.common.kernel.commands.Commands.LimitBelow;
 import static org.geogebra.common.kernel.commands.Commands.Line;
 import static org.geogebra.common.kernel.commands.Commands.LinearEccentricity;
 import static org.geogebra.common.kernel.commands.Commands.Locus;
@@ -99,22 +111,27 @@ import static org.geogebra.common.kernel.commands.Commands.ModularExponent;
 import static org.geogebra.common.kernel.commands.Commands.NSolutions;
 import static org.geogebra.common.kernel.commands.Commands.NSolve;
 import static org.geogebra.common.kernel.commands.Commands.Net;
+import static org.geogebra.common.kernel.commands.Commands.NextPrime;
 import static org.geogebra.common.kernel.commands.Commands.Numeric;
 import static org.geogebra.common.kernel.commands.Commands.Octahedron;
 import static org.geogebra.common.kernel.commands.Commands.OrthogonalPlane;
 import static org.geogebra.common.kernel.commands.Commands.OsculatingCircle;
 import static org.geogebra.common.kernel.commands.Commands.Parabola;
 import static org.geogebra.common.kernel.commands.Commands.Parameter;
+import static org.geogebra.common.kernel.commands.Commands.ParametricDerivative;
+import static org.geogebra.common.kernel.commands.Commands.PartialFractions;
 import static org.geogebra.common.kernel.commands.Commands.Perimeter;
 import static org.geogebra.common.kernel.commands.Commands.PerpendicularBisector;
 import static org.geogebra.common.kernel.commands.Commands.PerpendicularLine;
 import static org.geogebra.common.kernel.commands.Commands.PerpendicularVector;
 import static org.geogebra.common.kernel.commands.Commands.Plane;
 import static org.geogebra.common.kernel.commands.Commands.PlaneBisector;
+import static org.geogebra.common.kernel.commands.Commands.PlotSolve;
 import static org.geogebra.common.kernel.commands.Commands.Polar;
 import static org.geogebra.common.kernel.commands.Commands.Polygon;
 import static org.geogebra.common.kernel.commands.Commands.Polyline;
 import static org.geogebra.common.kernel.commands.Commands.Polynomial;
+import static org.geogebra.common.kernel.commands.Commands.PreviousPrime;
 import static org.geogebra.common.kernel.commands.Commands.Prism;
 import static org.geogebra.common.kernel.commands.Commands.Prove;
 import static org.geogebra.common.kernel.commands.Commands.ProveDetails;
@@ -125,6 +142,7 @@ import static org.geogebra.common.kernel.commands.Commands.Radius;
 import static org.geogebra.common.kernel.commands.Commands.Rationalize;
 import static org.geogebra.common.kernel.commands.Commands.Reflect;
 import static org.geogebra.common.kernel.commands.Commands.Relation;
+import static org.geogebra.common.kernel.commands.Commands.RemovableDiscontinuity;
 import static org.geogebra.common.kernel.commands.Commands.RigidPolygon;
 import static org.geogebra.common.kernel.commands.Commands.Rotate;
 import static org.geogebra.common.kernel.commands.Commands.Sector;
@@ -133,14 +151,17 @@ import static org.geogebra.common.kernel.commands.Commands.SemiMajorAxisLength;
 import static org.geogebra.common.kernel.commands.Commands.SemiMinorAxisLength;
 import static org.geogebra.common.kernel.commands.Commands.Semicircle;
 import static org.geogebra.common.kernel.commands.Commands.Shear;
+import static org.geogebra.common.kernel.commands.Commands.Simplify;
 import static org.geogebra.common.kernel.commands.Commands.Slope;
 import static org.geogebra.common.kernel.commands.Commands.Solutions;
 import static org.geogebra.common.kernel.commands.Commands.Solve;
 import static org.geogebra.common.kernel.commands.Commands.SolveCubic;
+import static org.geogebra.common.kernel.commands.Commands.SolveODE;
 import static org.geogebra.common.kernel.commands.Commands.SolveQuartic;
 import static org.geogebra.common.kernel.commands.Commands.Sphere;
 import static org.geogebra.common.kernel.commands.Commands.Stretch;
 import static org.geogebra.common.kernel.commands.Commands.Substitute;
+import static org.geogebra.common.kernel.commands.Commands.SurdText;
 import static org.geogebra.common.kernel.commands.Commands.Surface;
 import static org.geogebra.common.kernel.commands.Commands.Tangent;
 import static org.geogebra.common.kernel.commands.Commands.TaylorPolynomial;
@@ -150,6 +171,9 @@ import static org.geogebra.common.kernel.commands.Commands.Top;
 import static org.geogebra.common.kernel.commands.Commands.Translate;
 import static org.geogebra.common.kernel.commands.Commands.TriangleCenter;
 import static org.geogebra.common.kernel.commands.Commands.TriangleCurve;
+import static org.geogebra.common.kernel.commands.Commands.TrigCombine;
+import static org.geogebra.common.kernel.commands.Commands.TrigExpand;
+import static org.geogebra.common.kernel.commands.Commands.TrigSimplify;
 import static org.geogebra.common.kernel.commands.Commands.Trilinear;
 import static org.geogebra.common.kernel.commands.Commands.UnitPerpendicularVector;
 import static org.geogebra.common.kernel.commands.Commands.UnitVector;
@@ -229,7 +253,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				Volume, Bottom, Cone, Cube, Cylinder, Dodecahedron, Ends, Icosahedron, Octahedron,
 				Plane, QuadricSide, Surface, Tetrahedron, Top, Sphere, Prism, Pyramid,
 				PlaneBisector, OrthogonalPlane, ConeInfinite, CylinderInfinite, IntersectConic,
-				Height, Net, Assume, CFactor, CIFactor, IntegralSymbolic, CSolutions, CSolve,
+				Height, Net, Assume, CFactor, CIFactor, IntegralSymbolic,
 				Eliminate, GroebnerLex, GroebnerDegRevLex, GroebnerLexDeg, Numeric, MixedNumber,
 				Rationalize, SolveCubic, SolveQuartic, JordanDiagonalization, Eigenvectors, Laplace,
 				InverseLaplace, Substitute, ToExponential, ExtendedGCD, ModularExponent,
@@ -247,8 +271,13 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				Polygon, Polyline, Prove, ProveDetails, Radius, RigidPolygon, Sector, Segment,
 				Slope, Tangent, TriangleCenter, TriangleCurve, Trilinear, Vertex, Polynomial,
 				TaylorPolynomial, Asymptote, OsculatingCircle, CommonDenominator, CompleteSquare,
-				Div, Mod, Division, Function, Solve, NSolve, Solutions, NSolutions, CSolve,
-				CSolutions));
+				Div, Mod, Division, Function,
+				Solve, NSolve, Solutions, NSolutions, CSolve, CSolutions,
+				Coefficients, Degree, Expand, Factor, Factors, IFactor, ImplicitDerivative,
+				IsTangent, IsVertexForm, Limit, LimitAbove, LimitBelow, NextPrime,
+				ParametricDerivative, PartialFractions, PlotSolve, PreviousPrime,
+				RemovableDiscontinuity, Simplify, SolveODE, SurdText, TrigCombine, TrigExpand,
+				TrigSimplify));
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
