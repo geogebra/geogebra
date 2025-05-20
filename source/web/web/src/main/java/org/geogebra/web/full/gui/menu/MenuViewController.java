@@ -195,8 +195,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private boolean shouldCreateExamEntry(AppW app) {
-		return app.getConfig().hasExam() && (app.getLAF().isOfflineExamSupported()
-				|| !StringUtil.empty(app.getAppletParameters().getParamExamLaunchURL()));
+		return (app.getConfig().hasExam() && app.getLAF().isOfflineExamSupported())
+				|| !StringUtil.empty(app.getAppletParameters().getParamExamLaunchURL());
 	}
 
 	private boolean hasLoginButton(AppW app) {

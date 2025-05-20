@@ -161,7 +161,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
-		boolean isBayernGraphingExam = drawEmbed.getGeoEmbed().getAppName().equals(
+		boolean isBayernGraphingCalc = drawEmbed.getGeoEmbed().getAppName().equals(
 				BAYERN_GRAPHING_APPCODE);
 		FlowPanel scaler = new FlowPanel();
 		addToGraphics(scaler);
@@ -180,11 +180,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 				.setAttribute("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
 				.setAttribute("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
 				.setAttribute("appName", drawEmbed.getGeoEmbed().getAppName())
-				.setAttribute("examMode", app.getAppletParameters().getParamExamMode())
+				.setAttribute("featureSet", app.getAppletParameters().getParamFeatureSet())
 				.setAttribute("borderColor", "#CCC");
-		if (isBayernGraphingExam) {
+		if (isBayernGraphingCalc) {
 			parameters.setAttribute("appName", SUITE_APPCODE)
-					.setAttribute("examMode", BAYERN_GRAPHING_APPCODE);
+					.setAttribute("featureSet", BAYERN_GRAPHING_APPCODE);
 		}
 		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
 			parameters.setAttribute(entry.getKey(), entry.getValue());

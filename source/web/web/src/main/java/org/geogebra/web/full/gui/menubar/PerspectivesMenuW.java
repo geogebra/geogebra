@@ -103,7 +103,7 @@ public class PerspectivesMenuW extends Submenu {
 		app.setActivePerspective(perspective);
 		// app.getToolbar().closeAllSubmenu();
 		if (StringUtil.emptyOrZero(app.getTubeId())
-				&& StringUtil.empty(app.getAppletParameters().getParamExamMode())
+				&& StringUtil.empty(app.getAppletParameters().getParamFeatureSet())
 				&& app.getAppletParameters().getDataParamApp()) {
 			Browser.changeMetaTitle(app.getLocalization()
 					.getMenu(perspective.getId()));

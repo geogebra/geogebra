@@ -11,6 +11,11 @@ import org.gwtproject.user.client.ui.FlowPanel;
 public class ScientificEmbedTopBar extends FlowPanel {
 	private final static int LEFT_PADDING_WITH_NAV_RAIL = 88;
 	private final static int LEFT_PADDING = 16;
+	/**
+	 * Padding if floating menu is shown on top of calc.
+	 * It would be better to have the menu button in the top bar to fix centering,
+	 * but that's out of scope for APPS-6498 */
+	private static final int LEFT_PADDING_WITH_MENU = 56;
 	public final AppW appW;
 	private StandardButton undoBtn;
 	private StandardButton redoBtn;
@@ -137,7 +142,11 @@ public class ScientificEmbedTopBar extends FlowPanel {
 	 * portrait/landscape view.
 	 */
 	public void updateUndoRedoPosition() {
-		getElement().getStyle().setPaddingLeft(appW.isPortrait() ? LEFT_PADDING
+		getElement().getStyle().setPaddingLeft(appW.isPortrait() ? getPortraitPadding()
 				: LEFT_PADDING_WITH_NAV_RAIL, Unit.PX);
+	}
+
+	private double getPortraitPadding() {
+		return appW.showMenuBar() ? LEFT_PADDING_WITH_MENU : LEFT_PADDING;
 	}
 }

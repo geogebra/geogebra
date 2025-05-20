@@ -4,8 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.gwtutil.SafeExamBrowser;
-import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -83,8 +81,7 @@ public class ExamUtil {
 	 * @return whether we're running in a secure browser
 	 */
 	public static boolean hasExternalSecurityCheck(AppW app) {
-		return app.isLockedExam() && (SecureBrowser.get() != null || SafeExamBrowser.get() != null
-				|| app.getLAF().hasLockedEnvironment());
+		return app.isLockedExam() && app.isSecuredBrowser();
 	}
 
 	private void startCheating() {

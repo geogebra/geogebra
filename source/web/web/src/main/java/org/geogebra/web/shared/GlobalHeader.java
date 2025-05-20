@@ -347,7 +347,26 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	/**
 	 * switch right buttons with exam timer and info button
 	 */
-	public void addExamTimer() {
+	public void addExamTimer(AppW app) {
+		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
+			@Override
+			public void execute(double timestamp) {
+				if (examController.isExamActive()) {
+					if (examController.isCheating()) {
+						app.getGuiManager()
+								.updateUnbundledToolbarStyle();
+						if (examTypeHolder != null) {
+							examTypeHolder.addStyleName("cheat");
+						}
+					}
+					if (getTimer() != null) {
+						getTimer().setText(
+								examController.getDurationFormatted(app.getLocalization()));
+					}
+					AnimationScheduler.get().requestAnimationFrame(this);
+				}
+			}
+		});
 		if (getButtonElement() == null) {
 			return;
 		}
@@ -390,22 +409,6 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		examId.add(timer);
 		examId.add(examInfoBtn);
 		// run timer
-		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
-			@Override
-			public void execute(double timestamp) {
-				if (examController.isExamActive()) {
-					if (examController.isCheating()) {
-						getApp().getGuiManager()
-								.updateUnbundledToolbarStyle();
-						if (examTypeHolder != null) {
-							examTypeHolder.addStyleName("cheat");
-						}
-					}
-					getTimer().setText(examController.getDurationFormatted(app.getLocalization()));
-					AnimationScheduler.get().requestAnimationFrame(this);
-				}
-			}
-		});
 		onResize();
 	}
 

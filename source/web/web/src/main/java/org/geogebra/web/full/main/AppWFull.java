@@ -352,12 +352,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				String appCode = appletParameters.getDataParamAppName();
 				String supportedModes = hasExamModes() ? getSupportedExamModes(appCode) : appCode;
 				showErrorDialog("Invalid exam mode: "
-						+ appletParameters.getParamExamMode()
+						+ appletParameters.getParamFeatureSet()
 						+ "\n Supported exam modes: " + supportedModes);
-				appletParameters.setAttribute("examMode", "");
+				appletParameters.removeAttribute("examMode");
+				appletParameters.removeAttribute("featureSet");
 			}
 		} else {
-			ExamType examType = ExamType.byName(appletParameters.getParamExamMode());
+			ExamType examType = ExamType.byName(appletParameters.getParamFeatureSet());
 			if (examType != null) {
 				ExamRestrictions restriction = ExamRestrictions.forExamType(examType);
 				// TODO properties registry won't be restricted (out of scope for APPS-6411).
@@ -385,7 +386,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return exam region forced by examMode and appName parameters
 	 */
 	public ExamType getForcedExamType() {
-		String paramExamMode = appletParameters.getParamExamMode();
+		String paramExamMode = appletParameters.getParamFeatureSet();
 		if (paramExamMode.equals(appletParameters.getDataParamAppName())
 			|| paramExamMode.equals(CHOOSE)) {
 			return ExamType.GENERIC;
@@ -1432,16 +1433,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void loadPreferences(Perspective p) {
 		GeoGebraPreferencesW.loadForApp(this, p);
-		if (attachedToExam) {
-			examController.reapplySettingsRestrictions();
-		} else if (!StringUtil.empty(getAppletParameters().getParamExamMode())) {
-			ExamType examType = ExamType.byName(getAppletParameters().getParamExamMode());
-			if (examType != null) {
-				ExamRestrictions.forExamType(examType)
-						.applySettingsRestrictions(getSettings(),
-								getKernel().getConstruction().getConstructionDefaults());
-			}
-		}
+		reapplyRestrictions();
 	}
 
 	/**
@@ -2401,7 +2393,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				guiManager.updateUnbundledToolbarContent();
 				if (supportsExamUI()) {
 					new ExamUtil(this).addVisibilityAndBlurHandlers();
-					GlobalHeader.INSTANCE.addExamTimer();
+					GlobalHeader.INSTANCE.addExamTimer(this);
 					guiManager.initInfoBtnAction();
 				}
 			}
@@ -2612,6 +2604,20 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	protected void resetFileHandle() {
 		if (fm != null) {
 			fm.resetFileHandle();
+		}
+	}
+
+	@Override
+	public void reapplyRestrictions() {
+		if (attachedToExam && !GlobalScope.examController.isIdle()) {
+			examController.reapplySettingsRestrictions();
+		} else if (!StringUtil.empty(getAppletParameters().getParamFeatureSet())) {
+			ExamType examType = ExamType.byName(getAppletParameters().getParamFeatureSet());
+			if (examType != null) {
+				ExamRestrictions.forExamType(examType)
+						.applySettingsRestrictions(getSettings(),
+								getKernel().getConstruction().getConstructionDefaults());
+			}
 		}
 	}
 

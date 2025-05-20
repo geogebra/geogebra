@@ -71,11 +71,6 @@ public class BundleLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean hasHeader() {
-		return false;
-	}
-
-	@Override
 	public boolean isExternalLoginAllowed() {
 		return !NavigatorUtil.isMacOS();
 	}

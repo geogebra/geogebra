@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scientific Calc for Bavaria</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+</head>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<body>
+<script>
+    const parameters = {
+        appName:"scientific",
+        featureSet:"scientific",
+        disableJavaScript:"true",
+        fitToScreen:"true",
+        showMenuBar:"true",
+        showToolBar:"true",
+        showAlgebraInput:"true",
+        enableFileFeatures:"false",
+        showZoomButtons:"true",
+        showFullscreenButton:"true"
+    }
+
+    window.addEventListener("load", () => {
+        const app = document.createElement('div');
+        app.classList.add('geogebraweb');
+        parameters['examLaunchURL'] = `seb://${location.host}${location.pathname}`;
+        for (const [key, value] of Object.entries(parameters)) {
+            app.setAttribute(`data-param-${key.toLowerCase()}`, value);
+        }
+        const script = document.createElement('script');
+        script.src = "web3d/web3d.nocache.js";
+        document.body.append(app);
+        document.head.appendChild(script);
+    });
+</script>
+</body>
+</html>

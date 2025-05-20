@@ -61,7 +61,7 @@ public class ExamStartDialog extends ComponentDialog {
 	 */
 	public static boolean mayChooseType(AppW app) {
 		return app.isSuite() && (!app.isLockedExam()
-				|| ExamType.CHOOSE.equals(app.getAppletParameters().getParamExamMode()));
+				|| ExamType.CHOOSE.equals(app.getAppletParameters().getParamFeatureSet()));
 	}
 
 	@Override

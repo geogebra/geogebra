@@ -241,7 +241,7 @@ class NavigationRail extends FlowPanel {
 
 	private boolean useExamStyle() {
 		return examController.isExamActive()
-				&& app.getAppletParameters().getDataParamApp();
+				&& app.getAppletParameters().getDataParamFitToScreen();
 	}
 
 	private void addCloseOrientationStyles() {

@@ -80,11 +80,10 @@ public interface GLookAndFeelI {
 	 */
 	void toggleFullscreen(boolean b);
 
-	@MissingDoc
+	/**
+	 * @return whether we're in a browser that supports exam mode (ChromeOS app, Electron)
+	 */
 	boolean isOfflineExamSupported();
-
-	@MissingDoc
-	boolean hasHeader();
 
 	/**
 	 * @return whether login/logout button should be inside the app

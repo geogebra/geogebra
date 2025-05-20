@@ -35,11 +35,6 @@ public class ChromeLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean hasHeader() {
-		return false;
-	}
-
-	@Override
 	public boolean hasLoginButton() {
 		return true;
 	}

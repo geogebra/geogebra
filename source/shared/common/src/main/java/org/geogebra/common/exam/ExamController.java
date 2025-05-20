@@ -644,7 +644,9 @@ public final class ExamController {
 	 * Re-apply settings restrictions for ClearAll during exam.
 	 */
 	public void reapplySettingsRestrictions() {
-		examRestrictions.reapplySettingsRestrictions();
+		if (examRestrictions != null) {
+			examRestrictions.reapplySettingsRestrictions();
+		}
 	}
 
 	/**

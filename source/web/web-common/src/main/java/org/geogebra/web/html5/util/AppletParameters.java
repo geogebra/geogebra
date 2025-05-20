@@ -173,8 +173,12 @@ public class AppletParameters {
 	/**
 	 * @return value of data-param-examMode or null
 	 */
-	public String getParamExamMode() {
-		return getStringDataParam("examMode", null);
+	public String getParamFeatureSet() {
+		return getStringDataParam("featureSet", null);
+	}
+
+	public boolean getParamExamMode() {
+		return getBoolDataParam("examMode", false);
 	}
 
 	/**

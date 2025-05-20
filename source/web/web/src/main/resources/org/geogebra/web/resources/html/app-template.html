@@ -67,7 +67,8 @@ var codebase = "<!--CODEBASE-->";
 
 			$e("ggw").setAttribute("data-param-appname", window.appID || "classic");
 			if (getURLparam("examMode")) {
-				setParamFromURL("examMode");
+				$e("ggw").setAttribute("data-param-featureSet", getURLparam(paramName));
+				$e("ggw").setAttribute("data-param-examMode", "true");
 			} else if(id){
 				if (isAppSupportingPerspective(id + "")) {
 					$e("ggw").setAttribute("data-param-perspective", id);

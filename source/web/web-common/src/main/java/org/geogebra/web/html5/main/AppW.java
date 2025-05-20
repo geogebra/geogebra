@@ -92,6 +92,8 @@ import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.gwtutil.SafeExamBrowser;
+import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.regexp.client.NativeRegExpFactory;
 import org.geogebra.regexp.shared.RegExpFactory;
 import org.geogebra.web.html5.Browser;
@@ -1042,9 +1044,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		resetUrl();
 		if (examController.isExamActive()) {
 			setActiveMaterial(examController.getNewTempMaterial());
-			examController.reapplySettingsRestrictions();
 		}
+		reapplyRestrictions();
 		setSaved();
+	}
+
+	protected void reapplyRestrictions() {
+		// only with full UI
 	}
 
 	protected void resetFileHandle() {
@@ -3478,7 +3484,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void resetUrl() {
 		if (appletParameters.getDataParamApp()
-				&& StringUtil.empty(appletParameters.getParamExamMode())) {
+				&& StringUtil.empty(appletParameters.getParamFeatureSet())) {
 			Browser.resetUrl();
 			Browser.changeUrl("/" + appletParameters.getParamShareLinkPrefix());
 		}
@@ -3568,15 +3574,24 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * @return whether the exam mode is set from the outside and we're in app mode
+	 * @return whether the exam mode is set from the outside, and we're in app mode
 	 */
 	public boolean isLockedExam() {
-		return !StringUtil.empty(getAppletParameters().getParamExamMode())
-				&& supportsExamUI();
+		return !StringUtil.empty(getAppletParameters().getParamFeatureSet())
+				&& (isSecuredBrowser() && supportsExamUI()
+					|| getAppletParameters().getParamExamMode());
+	}
+
+	/**
+	 * @return whether the browser has some level of security features
+	 */
+	public boolean isSecuredBrowser() {
+		return SecureBrowser.get() != null || SafeExamBrowser.get() != null
+				|| getLAF().hasLockedEnvironment();
 	}
 
 	protected boolean supportsExamUI() {
-		return appletParameters.getDataParamApp() && !isWhiteboardActive();
+		return appletParameters.getDataParamFitToScreen() && !isWhiteboardActive();
 	}
 
 	/**

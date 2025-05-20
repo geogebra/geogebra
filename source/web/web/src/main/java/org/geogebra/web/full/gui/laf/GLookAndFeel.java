@@ -201,11 +201,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public boolean hasHeader() {
-		return true;
-	}
-
-	@Override
 	public boolean hasLoginButton() {
 		return Browser.isNotCrossOriginIframe();
 	}
