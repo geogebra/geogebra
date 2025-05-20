@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.geogebra.common.cas.MockCASGiac;
+import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
@@ -84,23 +84,23 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void casListShouldNotBeMoveable() {
-		MockCASGiac mockGiac = setupGiac();
-		mockGiac.memorize("{(1, -1), (1, 1)}");
+		MockedCasGiac mockGiac = setupGiac();
+		mockGiac.memorize("Intersect(x² + y² = 2, (x - 2)² + y² = 2)", "{(1,1),(1,-1)}");
 		GeoCasCell f = new GeoCasCell(getConstruction());
 		getConstruction().addToConstructionList(f, false);
 		f.setInput("l5:=Intersect(x^2+y^2=2,(x-2)^2+y^2=2)");
 		f.computeOutput();
 		GeoList list = (GeoList) f.getTwinGeo();
 		list.setLabel("l5");
-		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		assertThat(list, hasValue("{(1, 1), (1, -1)}"));
 		moveObjectWithArrowKey(list, 1, -2);
-		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		assertThat(list, hasValue("{(1, 1), (1, -1)}"));
 	}
 
 	@Test
 	public void casFreeListShouldNotBeMoveable() {
-		MockCASGiac mockGiac = setupGiac();
-		mockGiac.memorize("{(1, -1), (1, 1)}");
+		MockedCasGiac mockGiac = setupGiac();
+		mockGiac.memorize("Evaluate({(1, -1), (1, 1)})", "{(1,-1),(1,1)}");
 		GeoCasCell f = new GeoCasCell(getConstruction());
 		getConstruction().addToConstructionList(f, false);
 		f.setInput("l5:={(1, -1), (1, 1)}");
@@ -129,8 +129,10 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		assertTrue("List should have been updated", accumulator.getEvents().contains("UPDATE l1"));
 	}
 
-	private MockCASGiac setupGiac() {
-		return new MockCASGiac(getApp());
+	private MockedCasGiac setupGiac() {
+		MockedCasGiac mockedCasGiac = new MockedCasGiac();
+		mockedCasGiac.applyTo(getApp());
+		return mockedCasGiac;
 	}
 
 	@Test

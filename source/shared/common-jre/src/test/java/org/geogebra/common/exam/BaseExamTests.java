@@ -3,7 +3,6 @@ package org.geogebra.common.exam;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
@@ -13,7 +12,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.cas.MockCASGiac;
+import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -41,7 +40,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 public abstract class BaseExamTests implements ExamControllerDelegate {
-
     protected final PropertiesRegistry propertiesRegistry =
             new DefaultPropertiesRegistry();
     protected final GeoElementPropertiesFactory geoElementPropertiesFactory =
@@ -57,8 +55,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected boolean didRequestClearClipboard = false;
 
     protected AppCommon app;
-    @Nullable
-    protected MockCASGiac mockCASGiac;
+    protected final MockedCasGiac mockedCasGiac = new MockedCasGiac();
     protected AlgoDispatcher algoDispatcher;
     protected CommandDispatcher commandDispatcher;
     protected CommandDispatcher previousCommandDispatcher;
@@ -94,7 +91,9 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
 
         currentSubApp = subApp;
         app = AppCommonFactory.create(createConfig(subApp));
-        mockCASGiac = currentSubApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
+        if (currentSubApp == SuiteSubApp.CAS) {
+            mockedCasGiac.applyTo(app);
+        }
         activeMaterial = null;
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         algoDispatcher = app.getKernel().getAlgoDispatcher();
@@ -111,7 +110,9 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected void setInitialApp(SuiteSubApp subApp) {
         currentSubApp = subApp;
         app = AppCommonFactory.create(createConfig(subApp));
-        mockCASGiac = currentSubApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
+        if (currentSubApp == SuiteSubApp.CAS) {
+            mockedCasGiac.applyTo(app);
+        }
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         algoDispatcher = app.getKernel().getAlgoDispatcher();
         commandDispatcher = algebraProcessor.getCommandDispatcher();
@@ -125,13 +126,6 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     }
 
     protected GeoElementND[] evaluate(String expression) {
-        return evaluate(expression, expression);
-    }
-
-    protected GeoElementND[] evaluate(String expression, String... mockedCasOutput) {
-        if (currentSubApp == SuiteSubApp.CAS && mockCASGiac != null) {
-            Arrays.stream(mockedCasOutput).forEach(mockCASGiac::memorize);
-        }
         EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
         return algebraProcessor.processAlgebraCommandNoExceptionHandling(
                 expression, false, errorAccumulator, evalInfo, null);
@@ -145,16 +139,7 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     }
 
     protected GeoElement evaluateGeoElement(String expression) {
-        return evaluateGeoElement(expression, expression);
-    }
-
-    protected GeoElement evaluateGeoElement(String expression, String mockedCasOutput) {
-        return (GeoElement) evaluate(expression, mockedCasOutput)[0];
-    }
-
-    protected GeoElement evaluateGeoElementNumeric(String expression, String mockedCasOutput) {
-        return (GeoElement) evaluate(expression, mockedCasOutput,
-                mockedCasOutput, mockedCasOutput)[0];
+        return (GeoElement) evaluate(expression)[0];
     }
 
     @BeforeEach

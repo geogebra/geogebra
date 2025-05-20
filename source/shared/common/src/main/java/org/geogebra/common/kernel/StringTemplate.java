@@ -3731,9 +3731,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	/**
 	 * @return Copy of this that does not use surd for fractional powers
+	 * @apiNote It only makes a difference if {@code stringType} is {@link StringType#GIAC}.
 	 */
 	public StringTemplate deriveWithoutSurds() {
-		assert stringType == StringType.GIAC;
 		StringTemplate copy = copy();
 		copy.useSurdForFractionalPowers = false;
 		return copy;

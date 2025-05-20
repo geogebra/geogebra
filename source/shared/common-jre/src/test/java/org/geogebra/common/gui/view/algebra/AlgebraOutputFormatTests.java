@@ -15,7 +15,7 @@ import java.util.Set;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.cas.MockCASGiac;
+import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -28,33 +28,48 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
+import org.geogebra.common.util.MockedCasValues;
+import org.geogebra.common.util.MockedCasValuesExtension;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@ExtendWith(MockedCasValuesExtension.class)
 public class AlgebraOutputFormatTests {
     private AppCommon app;
     private AlgebraProcessor algebraProcessor;
-    private MockCASGiac mockCASGiac;
     private AlgebraSettings algebraSettings;
+    private final MockedCasGiac mockedCasGiac = new MockedCasGiac();
 
     @ParameterizedTest
-    @CsvSource({
-            "x^2,       x^2",
-            "1,         1",
-            "x = 0,     x = 0",
-            "sqrt(4),   2",
-            "2000,      2000",
-            "-10,       -10",
+    @ValueSource(strings = {
+            "x^2",
+            "1",
+            "x = 0",
+            "sqrt(4)",
+            "2000",
+            "-10",
     })
-    public void testNoToggleButtonInCas(String expression, String mockedCasOutput) {
+    @MockedCasValues({
+            "Evaluate(x²)       -> x^2",
+            "Evaluate(1)        -> 1",
+            "Round(1, 2)        -> 1.0",
+            "Evaluate(x = 0)    -> x=0",
+            "Evaluate(sqrt(4))  -> 2",
+            "Round(2, 2)        -> 2.0",
+            "Evaluate(2000)     -> 2000",
+            "Round(2000, 2)     -> 2000.0",
+            "Evaluate(-10)      -> -10",
+            "Round(-10, 2)      -> -10.0",
+    })
+    public void testNoToggleButtonInCas(String expression) {
         setupApp(SuiteSubApp.CAS);
         assertEquals(
                 List.of(),
                 AlgebraOutputFormat.getPossibleFormats(
-                        evaluate(expression, mockedCasOutput), false, Set.of()));
+                        evaluate(expression), false, Set.of()));
     }
 
     @ParameterizedTest
@@ -82,20 +97,33 @@ public class AlgebraOutputFormatTests {
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "1 / 2,         1 / 2",
-            "(5(2)/(3)),    17 / 3",
-            "2^(-1),        1 / 2",
-            "sin(30°),      1 / 2",
-            "1.234,         617 / 500",
-            "1.23456789,    123456789 / 1000000000",
+    @ValueSource(strings = {
+            "1 / 2",
+            "(5(2)/(3))",
+            "2^(-1)",
+            "sin(30°)",
+            "1.234",
+            "1.23456789",
     })
-    public void testFractionalOutputsInCas(String expression, String mockedCasOutput) {
+    @MockedCasValues({
+            "Evaluate(1 / 2)                    -> 1/2",
+            "Round(1 / 2, 2)                    -> 0.5",
+            "Evaluate(5 * 2 / 3)                -> 10/3",
+            "Round(10 / 3, 2)                   -> 3.33",
+            "Evaluate(2⁻¹)                      -> 1/2",
+            "Round(1 / 2, 2)                    -> 0.5",
+            "Evaluate(sin(30°))                 -> 1/2",
+            "Round(1 / 2, 2)                    -> 0.5",
+            "Evaluate(1.23)                     -> 123456789/100000000",
+            "Round(617 / 500, 2)                -> 1.23",
+            "Evaluate(1.23)                     -> 123456789/100000000",
+            "Round(123456789 / 100000000, 2)    -> 1.23",
+    })
+    public void testFractionalOutputsInCas(String expression) {
         setupApp(SuiteSubApp.CAS);
         assertEquals(
                 List.of(FRACTION, APPROXIMATION),
-                AlgebraOutputFormat.getPossibleFormats(
-                        evaluate(expression, mockedCasOutput), false, Set.of()));
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false, Set.of()));
     }
 
     @ParameterizedTest
@@ -119,6 +147,16 @@ public class AlgebraOutputFormatTests {
             "sqrt(2)",
             "e",
             "π",
+    })
+    @MockedCasValues({
+            "Evaluate(sin(1 / 2))   -> sin(1/2)",
+            "Round(sin(1 / 2), 2)   -> 0.48",
+            "Evaluate(sqrt(2))      -> √2",
+            "Round(sqrt(2), 2)      -> 1.41",
+            "Evaluate(ℯ)            -> ℯ",
+            "Round(ℯ, 2)            -> 2.72",
+            "Evaluate(π)            -> pi",
+            "Round(π, 2)            -> 3.14",
     })
     public void testNonFractionalDecimalOutputsInCas(String expression) {
         setupApp(SuiteSubApp.CAS);
@@ -167,23 +205,28 @@ public class AlgebraOutputFormatTests {
     }
 
     @ParameterizedTest
-    @CsvSource({                        // Mocked CAS outputs
-            "'Solve(x^2 = 1 / 2, x)',   '{x=(-√2/2),x=(√2/2)}', '{x=-0.7071,x=0.7071}'",
-            "'Solve(x^2 = 2, x)',       '{x=(-√2),x=(√2)}',     '{x=-1.4142,x=1.4142}'",
+    @ValueSource(strings = {
+            "Solve(x^2 = 1 / 2, x)",
+            "Solve(x^2 = 2, x)",
     })
-    public void testApproximationAndSymbolicOutputInSolveResult(String expression,
-            String mockedCasOutput1, String mockedCasOutput2) {
-        setupApp(SuiteSubApp.CAS);
-        assertEquals(
-                List.of(EXACT, APPROXIMATION),
-                AlgebraOutputFormat.getPossibleFormats(evaluate(expression,
-                        // Calculated internally multiple times which requires multiple mock values
-                        mockedCasOutput1, mockedCasOutput1,
-                        mockedCasOutput2, mockedCasOutput2, mockedCasOutput2, mockedCasOutput2
-                ), false, Set.of()));
+    @MockedCasValues({
+            "Solve(x² = 1 / 2, x)   -> {x=(-√2/2),x=(√2/2)}",
+            "NSolve(x² = 1 / 2, x)  -> {x=-0.7071067811865,x=0.7071067811865}",
+            "Solve(x² = 2, x)       -> {x=(-√2),x=(√2)}",
+            "NSolve(x² = 2, x)      -> {x=-1.414213562373,x=1.414213562373}"
+    })
+    public void testApproximationAndSymbolicOutputInSolveResult(String expression) {
+    setupApp(SuiteSubApp.CAS);
+    assertEquals(
+            List.of(EXACT, APPROXIMATION),
+            AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false, Set.of()));
     }
 
     @Test
+    @MockedCasValues({
+            "Evaluate(sqrt(2))  -> √2",
+            "Round(sqrt(2), 2)  -> 1.41",
+    })
     public void testSwitchingBetweenApproximationAndEquals() {
         setupApp(SuiteSubApp.CAS);
         GeoElement geoElement = evaluate("sqrt(2)");
@@ -218,6 +261,10 @@ public class AlgebraOutputFormatTests {
     }
 
     @Test
+    @MockedCasValues({
+            "Evaluate(1 / 2)    -> 1/2",
+            "Round(1 / 2, 2)    -> 0.5",
+    })
     public void testSwitchingBetweenFractionAndApproximationInCas() {
         setupApp(SuiteSubApp.CAS);
         GeoElement geoElement = evaluate("1 / 2");
@@ -443,7 +490,9 @@ public class AlgebraOutputFormatTests {
 
     private void setupApp(SuiteSubApp subApp) {
         app = AppCommonFactory.create(createConfig(subApp));
-        mockCASGiac = subApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
+        if (subApp == SuiteSubApp.CAS) {
+            mockedCasGiac.applyTo(app);
+        }
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         algebraSettings = app.getSettings().getAlgebra();
     }
@@ -466,18 +515,9 @@ public class AlgebraOutputFormatTests {
         return null;
     }
 
-    private GeoElement evaluate(String expression, String... mockedCasOutputs) {
-        if (app.getConfig().getSubApp() == SuiteSubApp.CAS && mockCASGiac != null) {
-            for (String mockedCasOutput : mockedCasOutputs) {
-                mockCASGiac.memorize(mockedCasOutput);
-            }
-        }
+    private GeoElement evaluate(String expression) {
         EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
         return (GeoElement) algebraProcessor.processAlgebraCommandNoExceptionHandling(
                 expression, false, new ErrorAccumulator(), evalInfo, null)[0];
-    }
-
-    private GeoElement evaluate(String expression) {
-        return evaluate(expression, expression);
     }
 }

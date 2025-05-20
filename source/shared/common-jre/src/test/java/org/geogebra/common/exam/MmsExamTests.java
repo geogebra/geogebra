@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,14 +29,17 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.util.MockedCasValues;
+import org.geogebra.common.util.MockedCasValuesExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-@SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in CsvSources
+@SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in CsvSources/MockedCasValues
+@ExtendWith(MockedCasValuesExtension.class)
 public class MmsExamTests extends BaseExamTests {
 	private static final Set<VisibilityRestriction> visibilityRestrictions =
 			MmsExamRestrictions.createVisibilityRestrictions();
@@ -49,63 +51,102 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@ParameterizedTest
-	@CsvSource({
+	@ValueSource(strings = {
 			// Restricted inequalities
-			"x > 0,						x > 0",
-			"y <= 1,					y <= 1",
-			"x < y,						x < y",
-			"x - y > 2,					x - y > 2",
-			"x^2 + 2y^2 < 1,			x^2 + 2y^2 < 1",
-			"f: x > 0,					f: x > 0",
-			"f(x) = x > 2,				f(x) = x > 2",
+			"x > 0",
+			"y <= 1",
+			"x < y",
+			"x - y > 2",
+			"x^2 + 2y^2 < 1",
+			"f: x > 0",
+			"f(x) = x > 2",
 			// Restricted integrals
-			"'Integral(g, -5, 5)',		0",
-			"'Integral(g, x, -5, 5)',	0",
-			"'NIntegral(g, -5, 5)',		0.0",
+			"Integral(g, -5, 5)",
+			"Integral(g, x, -5, 5)",
+			"NIntegral(g, -5, 5)",
 			// Restricted vectors
-			"'a = (1, 2)',				'(1, 2)'",
-			"'b = (1, 2) + 0',			'(1, 2)'",
+			"a = (1, 2)",
+			"b = (1, 2) + 0",
 			// Restricted implicit curves
-			"x^2 = 1,					x^2 = 1",
-			"2^x = 2,					2^x = 2",
-			"sin(x) = 0,				sin(x) = 0",
-			"y - x^2 = 0,				-x^2 + y = 0",
-			"x^2 = y,					x^2 = y",
-			"x^2 + y^2 = 4,				x^2 + y^2 = 4",
-			"x^2 / 9 + y^2 / 4 = 1,		1 / 9 * x^2 + 1 / 4 * y^2 = 1",
-			"x^2 - y^2 = 4,				x^2 - y^2 = 4",
-			"x^3 + y^2 = 2,				x^3 + y^2 = 2",
-			"y^3 = x,					y^3 = x",
+			"x^2 = 1",
+			"2^x = 2",
+			"sin(x) = 0",
+			"y - x^2 = 0",
+			"x^2 = y",
+			"x^2 + y^2 = 4",
+			"x^2 / 9 + y^2 / 4 = 1",
+			"x^2 - y^2 = 4",
+			"x^3 + y^2 = 2",
+			"y^3 = x",
 			// Restricted lines
-			"x = 0,						x = 0",
-			"x + y = 0,					x + y = 0",
-			"2x - 3y = 4,				2*x - 3*y = 4"
+			"x = 0",
+			"x + y = 0",
+			"2x - 3y = 4",
 	})
-	public void testRestrictedVisibility(String expression, String mockedCasOutput) {
-		evaluateGeoElement("g(x) = x", "x"); // For integrals
-		assertTrue(VisibilityRestriction.isVisibilityRestricted(
-				evaluateGeoElementNumeric(expression, mockedCasOutput), visibilityRestrictions));
+	@MockedCasValues({
+			"Evaluate(x) 					-> x",
+			"Evaluate(x > 0) 				-> x>0",
+			"Evaluate(y ≤ 1) 				-> y<=1",
+			"Evaluate(x < y) 				-> y>x",
+			"Evaluate(x - y > 2) 			-> (x-y)>2",
+			"Evaluate(x² + 2y² < 1) 		-> (x^2+2*y^2)<1",
+			"Evaluate(x > 2) 				-> x>2",
+			"Integral(x, -5, 5) 			-> 0",
+			"Round(0, 2) 					-> 0.0",
+			"Integral(x, x, -5, 5) 			-> 0",
+			"NIntegral(x, -5, 5) 			-> 0.0",
+			"Evaluate((1, 2)) 				-> (1,2)",
+			"Evaluate((1, 2) + 0) 			-> (1,2)",
+			"Evaluate(x² = 1) 				-> x^2=1",
+			"Evaluate(2^x = 2) 				-> 2^x=2",
+			"Evaluate(sin(x) = 0) 			-> sin(x)=0",
+			"Evaluate(y - x² = 0) 			-> -x^2+y=0",
+			"Evaluate(x² = y) 				-> x^2=y",
+			"Evaluate(x² + y² = 4) 			-> x^2+y^2=4",
+			"Evaluate(x² / 9 + y² / 4 = 1) 	-> 1/9*x^2+1/4*y^2=1",
+			"Evaluate(x² - y² = 4) 			-> x^2-y^2=4",
+			"Evaluate(x³ + y² = 2) 			-> x^3+y^2=2",
+			"Evaluate(y³ = x) 				-> y^3=x",
+			"Evaluate(x = 0) 				-> x=0",
+			"Evaluate(x + y = 0) 			-> x+y=0",
+			"Evaluate(2x - 3y = 4) 			-> 2*x-3*y=4",
+	})
+	public void testRestrictedVisibility(String expression) {
+		evaluateGeoElement("g(x) = x"); // For integrals
+		assertTrue(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(
+				expression), visibilityRestrictions));
 	}
 
 	@ParameterizedTest
-	@CsvSource({
+	@ValueSource(strings = {
 			// Unrestricted integrals
-			"Integral(g),		1 / 2 * x^2 + arbconst(1 + 33)",
-			"'Integral(g, x)', 	1 / 2 * x^2 + arbconst(1 + 66)",
+			"Integral(g)",
+			"Integral(g, x)",
 			// Unrestricted functions
-			"y = 2x,			y = (2 * x)",
-			"y = 5x - 2,		y = (5 * x - 2)",
-			"f(x) = x^2,		x^2",
-			"y = x^2,			y = (x^2)",
-			"y = x^3,			y = (x^3)",
+			"y = 2x",
+			"y = 5x - 2",
+			"f(x) = x^2",
+			"y = x^2",
+			"y = x^3",
 	})
-	public void testUnrestrictedVisibility(String expression, String mockedCasOutput) {
-		evaluateGeoElement("g(x) = x", "x"); // For integrals
+	@MockedCasValues({
+			"Evaluate(x) 			-> x",
+			"Integral(x) 			-> 1/2*x^2+arbconst(1+33)",
+			"Integral(x, 0) 		-> 1/2*x^2+arbconst(2+66)",
+			"Evaluate(y = 2x) 		-> y=(2*x)",
+			"Evaluate(y = 5x - 2) 	-> y=(5*x-2)",
+			"Evaluate(x²) 			-> x^2",
+			"Evaluate(y = x²) 		-> y=(x^2)",
+			"Evaluate(y = x³) 		-> y=(x^3)",
+	})
+	public void testUnrestrictedVisibility(String expression) {
+		evaluateGeoElement("g(x) = x"); // For integrals
 		assertFalse(VisibilityRestriction.isVisibilityRestricted(
-				evaluateGeoElement(expression, mockedCasOutput), visibilityRestrictions));
+				evaluateGeoElement(expression), visibilityRestrictions));
 	}
 
 	@Test
+	@MockedCasValues({"Evaluate({1, 2, 3}) -> {1,2,3}"})
 	public void testRestrictedStatisticsContextMenuItems() {
 		assertEquals(
 				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
@@ -114,7 +155,7 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@ParameterizedTest
-	@CsvSource({
+	@ValueSource(strings = {
 			"1 + i",
 			"(1 + i) * (2 - 3i)",
 			"5 - i + 2",
@@ -124,22 +165,25 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@Test
+	@MockedCasValues({"Evaluate(sqrt(-5)) -> ί*√5"})
 	public void testRestrictedComplexNumberOutput() {
-		assertNull(evaluate("sqrt(-5)", "ί*√5"));
+		assertNull(evaluate("sqrt(-5)"));
 		assertEquals("Please check your input", errorAccumulator.getErrorsSinceReset());
 		errorAccumulator.resetError();
 	}
 
 	@Test
+	@MockedCasValues({"Evaluate(x²) -> x^2"})
 	public void testRestrictedSpecialPointsContextMenuItem() {
 		assertEquals(
 				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
 				contextMenuFactory.makeAlgebraContextMenu(
-						evaluateGeoElement("f(x)=xx", "x^2"),
+						evaluateGeoElement("f(x)=xx"),
 						algebraProcessor, CAS_APPCODE, app.getSettings().getAlgebra()));
 	}
 
 	@Test
+	@MockedCasValues({"Evaluate(x²) -> x^2"})
 	public void testRestrictedSpecialPoints() {
 		GeoElement f = evaluateGeoElement("xx");
 		app.getSpecialPointsManager().updateSpecialPoints(f);
@@ -147,9 +191,13 @@ public class MmsExamTests extends BaseExamTests {
 	}
 
 	@Test
+	@MockedCasValues({
+			"BarChart({10, 11, 12}, {5, 8, 12}) -> 25",
+			"Round(25, 2) 						-> 25.0",
+	})
 	public void testRestrictedChartOutput() {
 		String definition = "BarChart({10, 11, 12}, {5, 8, 12})";
-		GeoElement barchart = evaluateGeoElementNumeric(definition, "?");
+		GeoElement barchart = evaluateGeoElement(definition);
 		ProtectiveGeoElementValueConverter converter =
 				new ProtectiveGeoElementValueConverter(new MmsAlgebraOutputFilter(null));
 		assertEquals(definition,
@@ -160,62 +208,41 @@ public class MmsExamTests extends BaseExamTests {
 				converter.toLabelAndDescription(barchart, StringTemplate.defaultTemplate));
 	}
 
-	/**
-	 * @return an array of parameters for grid testing list and number operations
-	 */
-	public static String[] createParameters() {
-		String[] lists = {"{1, 2, 3}", "{{1}, 2, 3}"};
-		String[] numbers = {"2", "(1 + 2)"};
-		String[] operators = {"+", "-", "*", "/", "^"};
-		List<String> parameters = new ArrayList<>();
-		for (String list : lists) {
-			for (String number : numbers) {
-				for (String operator : operators) {
-					parameters.add(list + " " + operator + " " + number);
-					parameters.add(number + " " + operator + " " + list);
-					parameters.add(list + " " + operator + " " + list);
-				}
-			}
-		}
-		return parameters.toArray(new String[0]);
-	}
-
-	@ParameterizedTest
-	@MethodSource(value = "createParameters")
-	public void testRestrictedListNumberOperation(String expression) {
-		assertNull(evaluate(expression));
-	}
-
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"Union({1}, {2})",
 			"Quartile1({1, 2, 3})",
 			"Q1({1, 2, 3})",
 	})
+	@MockedCasValues({
+			"Union({1}, {2}) 		-> {1,2}",
+			"Quartile1({1, 2, 3}) 	-> 1.0",
+			"Round(1, 2) 			-> 1.0",
+	})
 	public void testRestrictedCommands(String expression) {
-		assertNull(evaluate(expression, "1"));
+		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString("Unknown command"));
 		errorAccumulator.resetError();
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
-			"{1, 2} ⊆ {1, 2, 3}			-> true",
-			"{1, 2} ⊂ {1, 2, 3}			-> true",
-			"{1, 2} \\ {1, 2, 3}		-> {}",
-			"{1, 2, 3} + 5				-> {6, 7, 8}",
-			"{1, 5, 11} / 5				-> {1 / 5, 1, 11 / 5}",
-			"{1, 2, 3} * 5				-> {5, 10, 15}",
-			"{1, 2, 3}^2				-> {1, 4, 9}",
-			"5 + {1, 2, 3}				-> {5, 10, 15}",
-			"{1, 2, 3} + a				-> {ggbtmpvara 1,ggbtmpvara 2,ggbtmpvara 3}",
-			"{1, 2, 3} + {4, 5, 6}		-> {5, 7, 9}",
-			"{1, 2, 3} ^ {3, 2, 1}		-> {1, 4, 3}",
-			"{1, 2, {3, 4, 5} + 6, 7}	-> {1, 2, {9, 10, 11}, 7}",
-			"{1, 2, {3, 4, 5}, 6} + 7	-> {8, 9, poly1[3, 4, 12], 13}",
+	@ValueSource(strings = {
+			"{1, 2} ⊆ {1, 2, 3}",
+			"{1, 2} ⊂ {1, 2, 3}",
+			"{1, 2} \\ {1, 2, 3}",
+			"{1, 2, 3} + 5",
+			"{1, 5, 11} / 5",
+			"{1, 2, 3} * 5",
+			"{1, 2, 3}^2",
+			"5 + {1, 2, 3}",
+			"{1, 2, 3} + a",
+			"{1, 2, 3} + {4, 5, 6}",
+			"{1, 2, 3} ^ {3, 2, 1}",
+			"{1, 2, {3, 4, 5} + 6, 7}",
+			"{1, 2, {3, 4, 5}, 6} + 7",
 	})
-	public void testRestrictedListOperations(String expression, String mockedCasOutput) {
-		assertNull(evaluate(expression, mockedCasOutput));
+	public void testRestrictedListOperations(String expression) {
+		assertNull(evaluate(expression));
 	}
 
 	@ParameterizedTest
@@ -224,10 +251,15 @@ public class MmsExamTests extends BaseExamTests {
 			"sin({1, 2, 3})",
 			"tan({1, 2, 3})",
 	})
+	@MockedCasValues({
+			"Evaluate(x²) 				-> x^2",
+			"Evaluate({1, 2, 3}²) 		-> {1,4,9}",
+			"Evaluate(sin({1, 2, 3})) 	-> {sin(1),sin(2),sin(3)}",
+			"Evaluate(tan({1, 2, 3})) 	-> {tan(1),tan(2),tan(3)}",
+	})
 	public void testRestrictedFunctions(String expression) {
-		evaluate("f(x) = x^2", "x^2");
-		// mocked output: sin(1,2,3) should not be {1,2,3}, but only types matter here
-		assertNull(evaluate(expression, "{1,2,3}"));
+		evaluate("f(x) = x^2");
+		assertNull(evaluate(expression));
 	}
 
 	@ParameterizedTest
@@ -239,28 +271,59 @@ public class MmsExamTests extends BaseExamTests {
 			"{{1, 2}, {3, 4}} * {{5, 6}, {7, 8}}",
 			"{{1, 2}, {3, 4}} / {{5, 6}, {7, 8}}",
 	})
+	@MockedCasValues({
+			"Evaluate({{1, 2}, {3, 4}}) 					-> {{1,2},{3,4}}",
+			"Evaluate({(1, 2), (3, 4)}) 					-> {(1,2),(3,4)}",
+			"Evaluate({{1, 2}, {3, 4}} + {{5, 6}, {7, 8}}) 	-> {{6,8},{10,12}}",
+			"Evaluate({{1, 2}, {3, 4}} - {{5, 6}, {7, 8}}) 	-> {{-4,-4},{-4,-4}}",
+			"Evaluate({{1, 2}, {3, 4}} {{5, 6}, {7, 8}}) 	-> {{19,22},{43,50}}",
+			"Evaluate({{1, 2}, {3, 4}} / {{5, 6}, {7, 8}}) 	-> {{1/5,1/3},{3/7,1/2}}",
+	})
 	public void testAllowedLists(String expression) {
 		assertNotNull(evaluate(expression));
 	}
 
+	@SuppressWarnings("checkstyle:LineLengthCheck")
 	@ParameterizedTest
-	@CsvSource(value = {
-			"BinomialDist(1, 0.5); Illegal number of arguments",
-			"BinomialDist(1, 0.5, false); Illegal argument: false",
-			"Invert(sin(x)); Illegal argument",
-			"Length((1, 2)); Illegal argument",
-			"Product(a^2, a, 0, 5); Illegal number of arguments",
-			"SampleSD({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}); Illegal number of arguments",
-			"SigmaXX({(1, 2), (3, 4)}); Illegal argument",
-			"SigmaXY({(1, 2), (3, 4)}); Illegal number of arguments",
-			"stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}); Illegal number of arguments",
-			"Sum(a^2, a, 0, 5); Illegal number of arguments",
-			"Normal(2, 0.5, 1, true); Illegal argument: true",
-			"Normal(2, 0.5, x, true); Illegal argument: true",
-	}, delimiter = ';')
+	@CsvSource(delimiter = ';', value = {
+			"BinomialDist(1, 0.5); 									Illegal number of arguments",
+			"BinomialDist(1, 0.5, false); 							Illegal argument: false",
+			"Invert(sin(x)); 										Illegal argument",
+			"Length((1, 2)); 										Illegal argument",
+			"Product(a^2, a, 0, 5); 								Illegal number of arguments",
+			"SampleSD({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}); 	Illegal number of arguments",
+			"stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}); 	Illegal number of arguments",
+			"SigmaXX({(1, 2), (3, 4)}); 							Illegal argument",
+			"SigmaXY({(1, 2), (3, 4)}); 							Illegal number of arguments",
+			"Sum(a^2, a, 0, 5); 									Illegal number of arguments",
+			"Normal(2, 0.5, 1, true); 								Illegal argument: true",
+			"Normal(2, 0.5, x, true); 								Illegal argument: true",
+	})
+	@MockedCasValues({
+			"BinomialDist(1, 0.5) 										-> 1",
+			"Round(1, 2) 												-> 1.0",
+			"BinomialDist(1, 0.5, false) 								-> ?",
+			"Numeric(BinomialDist(1, 0.5, false)) 						-> ?",
+			"Invert(sin(x)) 											-> -asin(x)+2*arbint(0)*pi+pi",
+			"Length((1, 2)) 											-> √5",
+			"Round(sqrt(5), 2) 											-> 2.24",
+			"Product(a², a, 0, 5) 										-> 0",
+			"Round(0, 2) 												-> 0.0",
+			"stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}) 			-> ?",
+			"Numeric(stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3})) -> 18378519.31067*ί",
+			"Round(18378519.31ί, 2) 									-> 18378519.31*ί",
+			"SigmaXX({(1, 2), (3, 4)}) 									-> 10",
+			"Round(10, 2) 												-> 10.0",
+			"SigmaXY({(1, 2), (3, 4)}) 									-> 14",
+			"Round(14, 2) 												-> 14.0",
+			"Sum(a², a, 0, 5) 											-> 55",
+			"Round(55, 2) 												-> 55.0",
+			"Normal(2, 0.5, 1, true) 									-> (erf(-√2)+1)/2",
+			"Round((erf(-sqrt(2)) + 1) / 2, 2) 							-> 0.02",
+			"Normal(2, 0.5, x, true) 									-> (erf(x*√2-2*√2)+1)/2",
+	})
 	public void testRestrictedArguments(String expression, String expectedError) {
-		// Specify a valid output, so that we know that the input has been filtered or not.
-		assertNull(evaluate(expression, "1"));
+		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString(expectedError));
 		errorAccumulator.resetError();
 	}
@@ -270,8 +333,14 @@ public class MmsExamTests extends BaseExamTests {
 			"Normal(2, 0.5, 1)",
 			"Normal(2, 0.5, 1, 2)",
 	})
+	@MockedCasValues({
+			"Normal(2, 0.5, 1) 							-> (erf(-√2)+1)/2",
+			"Round((erf(-sqrt(2)) + 1) / 2, 2) 			-> 0.02",
+			"Normal(2, 0.5, 1, 2) 						-> 1/2-(erf(-√2)+1)/2",
+			"Round(1 / 2 - (erf(-sqrt(2)) + 1) / 2, 2) 	-> 0.48",
+	})
 	public void testUnrestrictedArguments(String expression) {
-		assertNotNull(evaluate(expression, "1"));
+		assertNotNull(evaluate(expression));
 	}
 
 	@Test
@@ -294,7 +363,7 @@ public class MmsExamTests extends BaseExamTests {
 			"true ⊕ false",
 			"true -> false",
 			"3x < 5 + (true && true)",
-			"5 ∈ {1, 2, 3, 4, 5}"
+			"5 ∈ {1, 2, 3, 4, 5}",
 	})
 	public void testRestrictedOperators(String expression) {
 		assertNull(evaluate(expression));
@@ -302,8 +371,12 @@ public class MmsExamTests extends BaseExamTests {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
-			"2 x – 1 < 3",
-			"4 >= 5x^2"
+			"2x – 1 < 3",
+			"4 >= 5x^2",
+	})
+	@MockedCasValues({
+			"Evaluate(2x - 1 < 3) 	-> (2*x-1)<3",
+			"Evaluate(4 ≥ 5x²) 		-> (5*x^2)<=4",
 	})
 	public void testInequalitiesAllowed(String expression) {
 		assertNotNull(evaluate(expression));
@@ -314,6 +387,12 @@ public class MmsExamTests extends BaseExamTests {
 			"a ∥ b",
 			"a ⊥ b",
 	})
+	@MockedCasValues({
+			"Evaluate(x + 5 = 0) 				-> x+5=0",
+			"Evaluate(x - 5 = 0) 				-> x-5=0",
+			"Evaluate(x + 5 = 0 ∥ x - 5 = 0) 	-> x+5=(-5=0)",
+			"Evaluate(x + 5 = 0 ⟂ x - 5 = 0) 	-> x+5=(-5=0)",
+	})
 	public void testRestrictedLineOperators(String expression) {
 		evaluate("a : x + 5 = 0");
 		evaluate("b : x - 5 = 0");
@@ -321,31 +400,45 @@ public class MmsExamTests extends BaseExamTests {
 		errorAccumulator.resetError();
 	}
 
-	@SuppressWarnings({"checkstyle:RegexpSinglelineCheck", "checkstyle:LineLengthCheck"})
+	@SuppressWarnings("checkstyle:LineLengthCheck")
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
-			"(1 + cos(t), 2 + sin(t)) -> (cos(ggbtmpvart)+1,sin(ggbtmpvart)+2)",
-			"(2t², t³ - 1)            -> (2*ggbtmpvart^2,ggbtmpvart^3-1)",
-			"sin(2 θ)                 -> sin(2*ggbtmpvarθ)",
-			"(sin(2*t); t)            -> (cos(ggbtmpvart)*sin(2*ggbtmpvart),sin(2*ggbtmpvart)*sin(ggbtmpvart))"
+	@ValueSource(strings = {
+			"(1 + cos(t), 2 + sin(t))",
+			"(2t^2, t^3 - 1)",
+			"sin(2 θ)",
+			"(sin(2*t); t)"
 	})
-	public void testRestrictedParametricOrPolarCurves(String expression, String mockedCasOutput) {
-		assertNull(evaluate(expression, mockedCasOutput));
+	@MockedCasValues({
+			"Evaluate((1 + cos(t), 2 + sin(t))) -> (cos(ggbtmpvart)+1,sin(ggbtmpvart)+2)",
+			"Evaluate((2t², t³ - 1)) 			-> (2*ggbtmpvart^2,ggbtmpvart^3-1)",
+			"Evaluate(sin(2θ)) 					-> sin(2*ggbtmpvarθ)",
+			"Evaluate((sin(2t); t)) 			-> (cos(ggbtmpvart)*sin(2*ggbtmpvart),sin(2*ggbtmpvart)*sin(ggbtmpvart))",
+	})
+	public void testRestrictedParametricOrPolarCurves(String expression) {
+		assertNull(evaluate(expression));
 		errorAccumulator.resetError();
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
+	@ValueSource(strings = {
 			// Normal command outputs
-			"Normal(2, 0.5, 1) 		-> (erf(-√2) + 1) / 2",
-			"Normal(2, 0.5, 1, 2)	-> 1 / 2 - (erf(-√2) + 1) / 2",
+			"Normal(2, 0.5, 1)",
+			"Normal(2, 0.5, 1, 2)",
 			// Cartesian output for polar coordinates
-			"(3; π / 3) 			-> (3 / 2, 3 * √3 / 2)",
-			"(1; 2) 				-> (cos(2), sin(2))",
+			"(3; π / 3)",
+			"(1; 2)",
 	})
-	public void testRestrictedOutputFormats(String expression, String mockedCasOutput) {
+	@MockedCasValues({
+			"Normal(2, 0.5, 1) 							-> (erf(-√2)+1)/2",
+			"Round((erf(-sqrt(2)) + 1) / 2, 2) 			-> 0.02",
+			"Normal(2, 0.5, 1, 2) 						-> 1/2-(erf(-√2)+1)/2",
+			"Round(1 / 2 - (erf(-sqrt(2)) + 1) / 2, 2) 	-> 0.48",
+			"Evaluate((3; π / 3)) 						-> (3/2,3*√3/2)",
+			"Evaluate((1; 2)) 							-> (cos(2),sin(2))",
+	})
+	public void testRestrictedOutputFormats(String expression) {
 		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
-		GeoElement geoElement = evaluateGeoElement(expression, mockedCasOutput);
+		GeoElement geoElement = evaluateGeoElement(expression);
 		assertEquals(
 				List.of(APPROXIMATION),
 				AlgebraOutputFormat.getPossibleFormats(geoElement,
@@ -359,13 +452,17 @@ public class MmsExamTests extends BaseExamTests {
 
 	@ParameterizedTest
 	@CsvSource(delimiterString = "->", value = {
-			"x + x + x + x               -> 4x		        -> x + x + x + x",
-			"x^2 + x^2                   -> 2x^2		    -> x² + x²",
-			"x^2 + x^2 + y + y + 5 - 4   -> 2x^2 + 2y + 1	-> x² + x² + y + y + 5 - 4",
+			"x + x + x + x 				-> x + x + x + x",
+			"x^2 + x^2 					-> x² + x²",
+			"x^2 + x^2 + y + y + 5 - 4 	-> x² + x² + y + y + 5 - 4",
 	})
-	public void testRestrictedFunctionOutput(String expression, String mockedCasOutput,
-			String expectedOutput) {
-		GeoElement geoElement = evaluateGeoElement(expression, mockedCasOutput);
+	@MockedCasValues({
+			"Evaluate(x + x + x + x) 			-> 4*x",
+			"Evaluate(x² + x²) 					-> 2*x^2",
+			"Evaluate(x² + x² + y + y + 5 - 4) 	-> 2*x^2+2*y+1",
+	})
+	public void testRestrictedFunctionOutput(String expression, String expectedOutput) {
+		GeoElement geoElement = evaluateGeoElement(expression);
 
 		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
 		assertFalse(AlgebraItem.shouldShowBothRows(geoElement, algebraSettings));

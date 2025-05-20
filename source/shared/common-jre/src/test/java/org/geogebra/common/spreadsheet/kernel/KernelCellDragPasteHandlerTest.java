@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.cas.MockCASGiac;
+import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -192,21 +192,22 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	public void testLinearPatternCAS() {
 		getApp().setCasConfig();
 		getApp().getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
-		MockCASGiac mockCASGiac = new MockCASGiac(getApp());
-		mockCASGiac.memorize("1");
+		MockedCasGiac mockedCasGiac = new MockedCasGiac();
+		mockedCasGiac.applyTo(getApp());
+		mockedCasGiac.memorize("Evaluate(1)", "1");
+		mockedCasGiac.memorize("Round(1, 13)", "1.0");
+		mockedCasGiac.memorize("Evaluate(2)", "2");
+		mockedCasGiac.memorize("Round(2, 13)", "2.0");
+		mockedCasGiac.memorize("Evaluate(1 + 2)", "3");
+		mockedCasGiac.memorize("Round(3, 13)", "3.0");
 		add("A1=1");
-		mockCASGiac.memorize("2");
 		add("B1=2");
-		mockCASGiac.memorize("2");
 		add("A2=2");
-		mockCASGiac.memorize("2");
 		add("B2=2");
-		mockCASGiac.memorize("3");
 		add("C1=A1+B1");
-		mockCASGiac.memorize("4");
 		setRangeToCopy(0, 0, 2, 2);
 		pasteToDestination(1, 2);
-		assertThat(lookup("C2"), hasValue("4"));
+		assertThat(lookup("C1"), hasValue("3"));
 	}
 
 	@Test

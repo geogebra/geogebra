@@ -11,7 +11,7 @@ import java.util.Set;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.cas.MockCASGiac;
+import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -24,15 +24,19 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
+import org.geogebra.common.util.MockedCasValues;
+import org.geogebra.common.util.MockedCasValuesExtension;
 import org.geogebra.test.commands.ErrorAccumulator;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in MockedCasValues
+@ExtendWith(MockedCasValuesExtension.class)
 public class OperationFilterTests {
 	private AppCommon app;
 	private AlgebraProcessor algebraProcessor;
-	private MockCASGiac mockCASGiac;
+	private final MockedCasGiac mockedCasGiac = new MockedCasGiac();
 
 	private final OperationFilter operationFilter =
 			operation -> !Set.of(RANDOM, SIN, COS).contains(operation);
@@ -41,7 +45,9 @@ public class OperationFilterTests {
 
 	private void setupApp(SuiteSubApp subApp) {
 		app = AppCommonFactory.create(createConfig(subApp));
-		mockCASGiac = subApp == SuiteSubApp.CAS ? new MockCASGiac(app) : null;
+		if (subApp == SuiteSubApp.CAS) {
+			mockedCasGiac.applyTo(app);
+		}
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		algebraProcessor.addInputExpressionFilter(operationExpressionFilter);
 		algebraProcessor.addOutputExpressionFilter(operationExpressionFilter);
@@ -76,25 +82,39 @@ public class OperationFilterTests {
 	}
 
 	@ParameterizedTest
-	@CsvSource({
-			"1 + 2,     3",
-			"tan(x),    tan(x)",
-			"sqrt(3),   sqrt(3)",
+	@ValueSource(strings = {
+			"1 + 2",
+			"tan(x)",
+			"sqrt(3)",
 	})
-	public void testAllowedExpressionsInCas(String expression, String mockedCasOutput) {
+	@MockedCasValues({
+			"Evaluate(1 + 2) 	-> 3",
+			"Round(3, 2) 		-> 3.0",
+			"Evaluate(tan(x)) 	-> tan(x)",
+			"Evaluate(sqrt(3)) 	-> √3",
+			"Round(sqrt(3), 2) 	-> 1.73",
+	})
+	public void testAllowedExpressionsInCas(String expression) {
 		setupApp(SuiteSubApp.CAS);
-		assertNotNull(evaluate(expression, mockedCasOutput));
+		assertNotNull(evaluate(expression));
 	}
 
 	@ParameterizedTest
-	@CsvSource({
-			"1 / random(),  3052978 / 2737471",
-			"sin(pi / 2),   1",
-			"cotan(x),      cos(x) / sin(x)"
+	@ValueSource(strings = {
+			"1 / random()",
+			"sin(pi / 2)",
+			"cotan(x)",
 	})
-	public void testRestrictedExpressionsInCas(String expression, String mockedCasOutput) {
+	@MockedCasValues({
+			"Evaluate(1 / 0.54) 			-> 7038785/3278052",
+			"Round(7038785 / 3278052, 2) 	-> 2.15",
+			"Evaluate(sin(π / 2)) 			-> 1",
+			"Round(1, 2) 					-> 1.0",
+			"Evaluate(cot(x)) 				-> cos(x)/sin(x)",
+	})
+	public void testRestrictedExpressionsInCas(String expression) {
 		setupApp(SuiteSubApp.CAS);
-		assertNull(evaluate(expression, mockedCasOutput));
+		assertNull(evaluate(expression));
 	}
 
 	private AppConfig createConfig(SuiteSubApp subApp) {
@@ -115,18 +135,9 @@ public class OperationFilterTests {
 		return null;
 	}
 
-	private GeoElementND[] evaluate(String expression, String... mockedCasOutputs) {
-		if (app.getConfig().getSubApp() == SuiteSubApp.CAS && mockCASGiac != null) {
-			for (String mockedCasOutput : mockedCasOutputs) {
-				mockCASGiac.memorize(mockedCasOutput);
-			}
-		}
+	private GeoElementND[] evaluate(String expression) {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
 		return algebraProcessor.processAlgebraCommandNoExceptionHandling(
 				expression, false, new ErrorAccumulator(), evalInfo, null);
-	}
-
-	private GeoElementND[] evaluate(String expression) {
-		return evaluate(expression, expression);
 	}
 }

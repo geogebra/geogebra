@@ -12,13 +12,13 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Solve;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.SpecialPoints;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Statistics;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.cas.MockCASGiac;
+import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.gui.view.algebra.contextmenu.impl.CreateSlider;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
@@ -33,16 +33,21 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.common.util.MockedCasValues;
+import org.geogebra.common.util.MockedCasValuesExtension;
 import org.geogebra.test.TestErrorHandler;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in MockedCasValues
+@ExtendWith(MockedCasValuesExtension.class)
 public class AlgebraContextMenuTests {
 	private final ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
 
 	private AlgebraProcessor algebraProcessor;
 	private AlgebraSettings algebraSettings;
 	private String appCode;
-	private MockCASGiac mockCASGiac;
+	private final MockedCasGiac mockedCasGiac = new MockedCasGiac();
 	private Kernel kernel;
 
 	@Test
@@ -281,9 +286,12 @@ public class AlgebraContextMenuTests {
 	// CAS app
 
 	@Test
+	@MockedCasValues({
+			"Evaluate(5) 	-> 5",
+			"Round(5, 13) 	-> 5.0",
+	})
 	public void testForSimpleInputWithSliderInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
-		mockCASGiac.memorize("5");
 		GeoElement number = add("slider=5");
 		new CreateSlider(algebraProcessor, new LabelController()).execute(number);
 		assertEquals(
@@ -297,9 +305,12 @@ public class AlgebraContextMenuTests {
 	}
 
 	@Test
+	@MockedCasValues({
+			"Evaluate(5) 	-> 5",
+			"Round(5, 13) 	-> 5.0",
+	})
 	public void testForSimpleInputWithoutLabelInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
-		mockCASGiac.memorize("5");
 		GeoElement geoElement = add("5");
 		new LabelController().hideLabel(geoElement);
 		assertEquals(
@@ -314,9 +325,12 @@ public class AlgebraContextMenuTests {
 	}
 
 	@Test
+	@MockedCasValues({
+			"Evaluate(5) 	-> 5",
+			"Round(5, 13) 	-> 5.0",
+	})
 	public void testForSimpleInputWithoutSliderInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
-		mockCASGiac.memorize("5");
 		GeoElement geoElement = add("5");
 		assertEquals(
 				List.of(RemoveLabel,
@@ -330,9 +344,9 @@ public class AlgebraContextMenuTests {
 	}
 
 	@Test
+	@MockedCasValues({"Evaluate({1, 2, 3}) -> {1,2,3}"})
 	public void testForInputWithStatisticsInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
-		mockCASGiac.memorize("{1, 2, 3}");
 		assertEquals(
 				List.of(CreateTableValues,
 						RemoveLabel,
@@ -346,9 +360,9 @@ public class AlgebraContextMenuTests {
 	}
 
 	@Test
+	@MockedCasValues({"Evaluate(x) -> x"})
 	public void testForInputWithSpecialPointsInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
-		mockCASGiac.memorize("x");
 		assertEquals(
 				List.of(CreateTableValues,
 						RemoveLabel,
@@ -364,7 +378,7 @@ public class AlgebraContextMenuTests {
 	private void setupApp(String appCode) {
 		this.appCode = appCode;
 		AppCommon app = AppCommonFactory.create(makeAppConfig(appCode));
-		mockCASGiac = new MockCASGiac(app);
+		mockedCasGiac.applyTo(app);
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		algebraSettings = app.getSettings().getAlgebra();
 		kernel = app.getKernel();
