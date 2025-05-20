@@ -49,7 +49,6 @@ import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteEquationBehaviour;
-import org.geogebra.common.exam.restrictions.cvte.CvteSyntaxFilter;
 import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
 import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
@@ -78,6 +77,7 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -204,7 +204,16 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {
-		return new CvteSyntaxFilter();
+		LineSelectorSyntaxFilter filter = new LineSelectorSyntaxFilter();
+		// allow only Circle(<Center>, <Radius>)
+		filter.addSelector(Commands.Circle, 0);
+		// allow only Extremum(<Function>, <Start x-Value>, <End x-Value>)
+		filter.addSelector(Commands.Extremum, 1);
+		// allow only Root( <Function>, <Start x-Value>, <End x-Value> )
+		filter.addSelector(Commands.Root, 2);
+		// allow only Invert( <Function> )
+		filter.addSelector(Commands.Invert, 1);
+		return filter;
 	}
 
 	private static OperationFilter createOperationFilter() {
