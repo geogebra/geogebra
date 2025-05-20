@@ -41,6 +41,7 @@ import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamOptions;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
@@ -362,6 +363,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				// TODO properties registry won't be restricted (out of scope for APPS-6411).
 				restriction.applyTo(getExamDependencies(), null,
 						geoElementPropertiesFactory, contextMenuFactory);
+				getRestrictables().forEach(r ->
+				r.applyRestrictions(restriction.getFeatureRestrictions(), examType));
 			}
 		}
 	}
@@ -2407,12 +2410,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void attachToExamController() {
 		examController.registerContext(getExamDependencies());
-		examController.registerRestrictable(this);
-		examController.registerRestrictable(getEuclidianView1());
-		examController.registerRestrictable(getConfig());
+		getRestrictables().forEach(examController::registerRestrictable);
 		examController.registerDelegate(new ExamControllerDelegateW(this));
 		examController.addListener(getExamEventBus());
 		attachedToExam = true;
+	}
+
+	private Stream<ExamRestrictable> getRestrictables() {
+		return Stream.of(this, getEuclidianView1(), getConfig());
 	}
 
 	private ExamController.ContextDependencies getExamDependencies() {
@@ -2432,9 +2437,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void detachFromExamController() {
 		examController.unregisterContext(this);
-		examController.unregisterRestrictable(this);
-		examController.unregisterRestrictable(getEuclidianView1());
-		examController.unregisterRestrictable(getConfig());
+		getRestrictables().forEach(examController::unregisterRestrictable);
 		examController.removeListener(getExamEventBus());
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
 			GlobalScope.examController.unregisterRestrictable(
