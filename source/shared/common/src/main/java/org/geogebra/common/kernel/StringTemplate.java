@@ -2273,7 +2273,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& ExpressionNode.isConstantDouble(
 							((ExpressionNode) left).getRight(), Math.PI)) {
 				sb.append(leftStr);
-			} else if (left.isLeaf() && !isSinglePowerArg(left)) {
+			} else if (left.isLeaf() && !isSinglePowerArg(left, valueForm)) {
 				appendWithBrackets(sb, leftStr);
 			} else {
 				append(sb, leftStr, left, Operation.DIVIDE);
@@ -2282,7 +2282,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append("/");
 			appendOptionalSpace(sb);
 			// right wing
-			if (right.isLeaf() && !isSinglePowerArg(right)) {
+			if (right.isLeaf() && !isSinglePowerArg(right, valueForm)) {
 				appendWithBrackets(sb, rightStr);
 			} else {
 				append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
@@ -2822,7 +2822,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// left wing
 			if ((leftStr.charAt(0) != '-')
-					&& isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
+					&& isSinglePowerArg(left, valueForm) || left.isOperation(Operation.NROOT)
 					|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 				// e^x
 
@@ -2866,7 +2866,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		default:
-			if ((isSinglePowerArg(right) && !isFraction(right))
+			if ((isSinglePowerArg(right, valueForm) && !isFraction(right))
 					|| ((ExpressionNode
 					.opID(right) > Operation.POWER.ordinal())
 					&& (ExpressionNode.opID(right) != Operation.EXP
@@ -3004,11 +3004,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * Checks for composite expressions and numbers like -5, 2*10^5
 	 * @param val expression value
-	 * @return whether val can be used as argument for power/factorial without brackets
+	 * @param valueForm whether construction elements are printed as value (rather than label)
+	 * @return whether val can be used as an argument for power/factorial without brackets
 	 */
-	public boolean isSinglePowerArg(ExpressionValue val) {
-		return val instanceof MySpecialDouble
-				? !((MySpecialDouble) val).isScientificNotation() : val.isLeaf();
+	public boolean isSinglePowerArg(ExpressionValue val, boolean valueForm) {
+		if (val instanceof MySpecialDouble) {
+			return !((MySpecialDouble) val).isScientificNotation();
+		} if (valueForm && val instanceof GeoNumeric) {
+			ExpressionNode definition = ((GeoNumeric) val).getDefinition();
+			return definition == null || !definition.isFraction();
+		} else {
+			return val.isLeaf();
+		}
 	}
 
 	private boolean isTrigFunction(ExpressionNode expr) {
