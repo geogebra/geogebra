@@ -732,7 +732,7 @@ public class PageListController implements PageListControllerInterface,
 		event.preventDefault();
 		event.stopPropagation();
 
-		if (isRightClick(event)) {
+		if (isRightClick(event) && !dragCtrl.hitCard(event.getClientX(), event.getClientY())) {
 			showContextMenu(event.getClientX(), event.getClientY());
 		}
 

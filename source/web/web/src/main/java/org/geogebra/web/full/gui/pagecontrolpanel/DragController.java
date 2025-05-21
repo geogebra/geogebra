@@ -413,4 +413,14 @@ class DragController {
 	private CardListInterface getListener() {
 		return cards.getListener();
 	}
+
+	/**
+	 * Whether a card was hit
+	 * @param x horizontal position
+	 * @param y vertical position
+	 * @return true, if a card is found at position (x,y)
+	 */
+	public boolean hitCard(int x, int y) {
+		return cardIndexAt(x, y) != -1;
+	}
 }
