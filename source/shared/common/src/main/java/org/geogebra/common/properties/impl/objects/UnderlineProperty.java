@@ -38,6 +38,9 @@ public class UnderlineProperty extends AbstractValuedProperty<Boolean>
 	@Override
 	public Boolean getValue() {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
-		return element.getFormatter().getFormat("underline", false);
+		if (element.getFormatter() != null) {
+			return element.getFormatter().getFormat("underline", false);
+		}
+		return false;
 	}
 }

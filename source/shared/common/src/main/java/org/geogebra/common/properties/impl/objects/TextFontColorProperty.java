@@ -45,7 +45,8 @@ public class TextFontColorProperty extends ElementColorProperty
 
 	@Override
 	public GColor getValue() {
-		if (element instanceof HasTextFormatter) {
+		if (element instanceof HasTextFormatter
+				&& ((HasTextFormatter) element).getFormatter() != null) {
 			return GColor.getGColor(((HasTextFormatter) element).getFormatter()
 					.getFormat("color", null));
 		}

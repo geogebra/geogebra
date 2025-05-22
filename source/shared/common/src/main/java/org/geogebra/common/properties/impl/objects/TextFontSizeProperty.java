@@ -72,7 +72,8 @@ public class TextFontSizeProperty extends AbstractNamedEnumeratedProperty<TextFo
 	@Override
 	public TextFontSize getValue() {
 		GeoElement element = delegate.getElement();
-		if (element instanceof HasTextFormatter) {
+		if (element instanceof HasTextFormatter
+				&& ((HasTextFormatter) element).getFormatter() != null) {
 			Double fontSize = ((HasTextFormatter) element).getFormatter().getFormat("size",
 					(double) 0);
 			return fontSizes.get(GeoText.getFontSizeIndex(fontSize / ev.getFontSize()));

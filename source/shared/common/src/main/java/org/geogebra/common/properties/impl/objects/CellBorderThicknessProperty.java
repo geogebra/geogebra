@@ -35,7 +35,7 @@ public class CellBorderThicknessProperty extends AbstractRangeProperty<Integer> 
 	@Override
 	public Integer getValue() {
 		InlineTableController formatter = getFormatter();
-		return formatter.getBorderThickness();
+		return formatter != null ? formatter.getBorderThickness() : 1;
 	}
 
 	private InlineTableController getFormatter() {

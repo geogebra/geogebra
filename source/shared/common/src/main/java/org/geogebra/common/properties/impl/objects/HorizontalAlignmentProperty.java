@@ -55,6 +55,10 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 
 	@Override
 	public HorizontalAlignment getValue() {
-		return ((HasTextFormatter) delegate.getElement()).getFormatter().getHorizontalAlignment();
+		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
+		if (element.getFormatter() != null) {
+			return element.getFormatter().getHorizontalAlignment();
+		}
+		return HorizontalAlignment.LEFT;
 	}
 }

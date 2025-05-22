@@ -53,6 +53,6 @@ public class CellBorderProperty extends AbstractEnumeratedProperty<BorderType>
 	public BorderType getValue() {
 		InlineTableController formatter =
 				(InlineTableController) ((GeoInlineTable) delegate.getElement()).getFormatter();
-		return formatter.getBorderStyle();
+		return formatter != null ? formatter.getBorderStyle() : BorderType.ALL;
 	}
 }

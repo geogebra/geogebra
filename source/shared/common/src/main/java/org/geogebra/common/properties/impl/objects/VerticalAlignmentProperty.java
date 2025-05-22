@@ -55,6 +55,10 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 
 	@Override
 	public VerticalAlignment getValue() {
-		return ((HasTextFormatter) delegate.getElement()).getFormatter().getVerticalAlignment();
+		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
+		if (element.getFormatter() != null) {
+			return element.getFormatter().getVerticalAlignment();
+		}
+		return VerticalAlignment.BOTTOM;
 	}
 }

@@ -54,7 +54,8 @@ public class BoldProperty extends AbstractValuedProperty<Boolean>
 		if (element instanceof TextProperties) {
 			TextProperties textProperties = (TextProperties) element;
 			return (textProperties.getFontStyle() & GFont.BOLD) != 0;
-		} else if (element instanceof HasTextFormatter) {
+		} else if (element instanceof HasTextFormatter
+				&& ((HasTextFormatter) element).getFormatter() != null) {
 			HasTextFormatter hasTextFormatter = (HasTextFormatter) element;
 			return hasTextFormatter.getFormatter().getFormat("bold", false);
 		}
