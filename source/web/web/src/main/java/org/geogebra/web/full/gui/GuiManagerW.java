@@ -628,10 +628,13 @@ public class GuiManagerW extends GuiManager
 		} else {
 			geogebraFrame.getStyle().setHeight(height, Unit.PX);
 			geogebraFrame.getStyle().setWidth(width, Unit.PX);
-			getApp().getEuclidianViewpanel().setPixelSize(width, height);
-
-			// maybe onResize is OK too
-			getApp().getEuclidianViewpanel().deferredOnResize();
+			getApp().getEuclidianViewpanel().setPixelSize(width - borderThickness,
+					height - borderThickness);
+			getApp().getEuclidianViewpanel().onResize();
+			getApp().getActiveEuclidianView().updateSize();
+			// store the size in App so that reset button works
+			getApp().setAppletWidth(width);
+			getApp().setAppletHeight(height);
 		}
 		if (this.algebraInput != null) {
 			this.algebraInput.setWidth((width - borderThickness) + "px");

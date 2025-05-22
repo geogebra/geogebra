@@ -16,7 +16,6 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
-import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -163,23 +162,20 @@ public class DockManagerW extends DockManager {
 			if (rootPane != null) {
 				Widget rootPaneParent = rootPane.getParent();
 				String styles = rootPane.getStyleName();
+				rootPane.clear();
 				if (rootPaneParent != null) {
 					if (rootPaneParent instanceof VerticalPanel) {
-						rootPane.clear();
 						rootPane.removeFromParent();
 						rootPane = splitPanes[0];
 						((VerticalPanel) rootPaneParent).add(rootPane);
 					} else if (rootPaneParent instanceof DockLayoutPanel) {
-						rootPane.clear();
 						rootPane.removeFromParent();
 						rootPane = splitPanes[0];
 						((DockLayoutPanel) rootPaneParent).add(rootPane);
 					} else {
-						rootPane.clear();
 						rootPane = splitPanes[0];
 					}
 				} else {
-					rootPane.clear();
 					rootPane = splitPanes[0];
 				}
 				if (rootPane != null) {
@@ -1737,19 +1733,6 @@ public class DockManagerW extends DockManager {
 	}
 
 	/**
-	 * Set active tab(s) from perspective
-	 * @param p perspective
-	 */
-	public void setActiveTab(Perspective p) {
-		for (DockPanelData dpData: p.getDockPanelData()) {
-			DockPanelW panel = getPanel(dpData.getViewId());
-			if (panel != null) {
-				panel.setTabId(dpData.getTabId());
-			}
-		}
-	}
-
-	/**
 	 * Paint all panels to a canvas
 	 * @param c canvas
 	 * @param callback consumer for the resulting base64 string (without marker)
@@ -1769,5 +1752,12 @@ public class DockManagerW extends DockManager {
 		context2d.scale(scale, scale);
 		ViewCounter counter = callback == null ? null : new ViewCounter(c, callback);
 		rootPane.paintToCanvas(context2d, counter, 0, 0);
+	}
+
+	/**
+	 * Sets root pane to null.
+	 */
+	public void resetRootPane() {
+		rootPane = null;
 	}
 }

@@ -128,6 +128,7 @@ import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
+import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.LayoutW;
@@ -1549,6 +1550,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
+			((DockManagerW) getLayout().getDockManager()).resetRootPane();
 			return;
 		}
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
