@@ -173,11 +173,11 @@ public class GuiManagerW extends GuiManager
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
 	private ToolBarW toolbarForUpdate = null;
-	private GeoGebraFrameFull frame;
+	private final GeoGebraFrameFull frame;
 
 	private ColorPanel colorPanel;
 
-	private Localization loc;
+	private final Localization loc;
 
 	private GGWMenuBar mainMenuBar;
 
@@ -809,7 +809,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
-			toolbarPanel = (GGWToolBar) getApp().getToolbar();
+			toolbarPanel = getApp().getToolbar();
 			if (toolbarPanel != null && !toolbarPanel.isInited()) {
 				toolbarPanel.init(getApp());
 			}
@@ -985,7 +985,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	public void closePropertiesView() {
 		if (propertiesView != null) {
-			((PropertiesViewW) propertiesView).close();
+			propertiesView.close();
 		}
 	}
 
@@ -2264,15 +2264,6 @@ public class GuiManagerW extends GuiManager
 			inputKeyboardButton = new InputKeyboardButtonW(getApp());
 		}
 		return inputKeyboardButton;
-	}
-
-	@Override
-	public boolean isTableViewShowing() {
-		if (!app.getConfig().hasTableView() || !app.isUnbundled() || !showView(App.VIEW_ALGEBRA)) {
-			return false;
-		}
-		ToolbarPanel toolbar = getUnbundledToolbar();
-		return toolbar.getSelectedTabId() == DockPanelData.TabIds.TABLE;
 	}
 
 	@Override
