@@ -511,6 +511,11 @@ ValidExpression buildValidExpression() :
         // f(x) =  x^2 + 3
         LOOKAHEAD(2147483647)
         ve = functionExpressionnode()
+        {
+			if (ve.unwrap() instanceof Equation) {
+				ve = ((Equation) ve.unwrap()).equationOrAssignment();
+			}
+		}
      |
        // spreadsheet range like A1:B2
     LOOKAHEAD (3)

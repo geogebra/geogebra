@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -491,6 +492,15 @@ public class FunctionParser {
 			rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
 		}
 
+		// Command mistaken for function label - force equation (only on creation)
+		if (isCommand(funLabel) && !kernel.getLoadingMode()
+				&& kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
+			Command cmd = new Command(kernel, funLabel, true);
+			MyList vars = createListOfVariables(localVars, Variable::new);
+			cmd.addArgument(buildOpNode(Operation.NO_OPERATION, vars));
+			return new Equation(kernel, cmd.wrap(), rhs).wrap();
+		}
+
 		// command without variables: return expressionnode
 		// only check for function variables outside of command, eg
 		// Derivative[f(x)]+x #4533
@@ -510,11 +520,7 @@ public class FunctionParser {
 						new FunctionVariable(kernel, localVars.get(0)).wrap().apply(op), rhs)
 								.wrap();
 			}
-			MyList vars = new MyList(kernel, n);
-			for (String localVar : localVars) {
-				FunctionVariable funVar = new FunctionVariable(kernel, localVar);
-				vars.addListElement(funVar);
-			}
+			MyList vars = createListOfVariables(localVars, FunctionVariable::new);
 			return new Equation(kernel, buildOpNode(op, vars), rhs).wrap();
 		}
 		GeoElement existing = kernel.lookupLabel(funLabel);
@@ -526,10 +532,7 @@ public class FunctionParser {
 						new FunctionVariable(kernel, localVars.get(0)));
 
 			} else { // assume localVars.size() > 1
-				MyList argList = new MyList(kernel);
-				for (String localVar : localVars) {
-					argList.addListElement(new FunctionVariable(kernel, localVar));
-				}
+				MyList argList = createListOfVariables(localVars, FunctionVariable::new);
 				lhs = new ExpressionNode(kernel, existing, Operation.FUNCTION_NVAR, argList);
 			}
 			return new Equation(kernel, lhs, rhs).wrap();
@@ -543,6 +546,20 @@ public class FunctionParser {
 		rhs = new ExpressionNode(kernel, fun);
 		rhs.setLabel(funLabel);
 		return rhs;
+	}
+
+	/**
+	 * @param localVars List of variables
+	 * @param constructor Constructor for either a {@link FunctionVariable} or a {@link Variable}
+	 * @return A list of FunctionVariables or Variables, depending on the constructor used
+	 */
+	private MyList createListOfVariables(List<String> localVars,
+			BiFunction<Kernel, String, ExpressionValue> constructor) {
+		MyList vars = new MyList(kernel, localVars.size());
+		for (String var : localVars) {
+			vars.addListElement(constructor.apply(kernel, var));
+		}
+		return vars;
 	}
 
 	private boolean functionVariablesAreEqual(FunctionVariable[] vars, List<String> localVars) {

@@ -35,7 +35,9 @@ import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -2489,5 +2491,39 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("A2=2");
 		add("A3=3");
 		assertThat(add("PieChart(A1:A3,(0,0))"), hasValue("PieChart({1, 2, 3}, (0, 0))"));
+	}
+
+	@Test
+	@Issue("APPS-6522")
+	public void testCommandAsLabelCreatesEquationInsteadOfFunction() {
+		add("m = {{1, 2}, {x, y}}");
+		GeoSymbolic determinant = add("Determinant(m) = 0");
+		assertThat(determinant.getDefinition().unwrap(), instanceOf(Equation.class));
+		assertThat(determinant, hasValue("-2 x + y = 0"));
+
+		GeoSymbolic invert = add("Invert(m) = 0");
+		assertThat(invert,
+				hasValue("{{(-y) / (2x - y), 2 / (2x - y)}, {x / (2x - y), -1 / (2x - y)}} = 0"));
+		assertThat(invert.getDefinition().unwrap(), instanceOf(Equation.class));
+	}
+
+	@Test
+	@Issue("APPS-6522")
+	public void testUndoRedoKeepsFunction() {
+		app.setUndoActive(true);
+
+		add("m = {{1, 2}, {x, y}}");
+		app.storeUndoInfo();
+		GeoSymbolic symbolic = add("Det(m) = 0");
+		app.storeUndoInfo();
+		symbolic.setLabel("Determinant");
+		app.storeUndoInfo();
+
+		assertThat(symbolic, hasValue("0"));
+		assertThat(symbolic.getDefinition().unwrap(), instanceOf(Function.class));
+		app.getUndoManager().undo();
+		app.getUndoManager().redo();
+		assertThat(lookup("Determinant"), hasValue("0"));
+		assertThat(lookup("Determinant").getDefinition().unwrap(), instanceOf(Function.class));
 	}
 }
