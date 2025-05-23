@@ -62,6 +62,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
@@ -74,6 +75,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -153,6 +155,7 @@ import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -4285,14 +4288,31 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			ex.printStackTrace();
 		}
 
+		Set<String> existingLabels = getKernel().getConstruction().getAllLabels();
+		Set<String> duplicateLabels = ad.getKernel().getConstruction()
+				.getGeoSetWithCasCellsConstructionOrder()
+				.stream()
+				.map(GeoElement::getLabelSimple)
+				.filter(existingLabels::contains)
+				.collect(Collectors.toSet());
+
+		boolean overwrite = false;
+		if (!duplicateLabels.isEmpty()) {
+			ExtendedBoolean rename = ad.getGuiManager()
+					.shouldRenameObjectsOnInsertFile(duplicateLabels);
+			if (!rename.isDefined()) {
+				return;
+			}
+			overwrite = !rename.boolVal();
+		}
+
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
+		getCopyPaste().insertFrom(ad, this, duplicateLabels, overwrite);
 
-		getCopyPaste().insertFrom(ad, this);
+		ad.getGuiManager().showRenamedObjectsDialog(duplicateLabels);
+		ad.exitFrame();
 
-		// forgotten something important!
-		// ad should be closed!
-		ad.exit();
 		// this is also needed to make it possible
 		// to load the same file once again
 		ad.getFrame().dispose();

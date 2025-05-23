@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -53,6 +56,9 @@ public class CopyPasteD extends CopyPaste {
 	protected EuclidianViewInterfaceCommon copySource;
 	protected AppState copyObject;
 	protected AppState copyObject2;
+
+	private Set<String> duplicateLabels;
+	private boolean overwriteElements;
 
 	/**
 	 * Returns whether the clipboard is empty
@@ -457,7 +463,8 @@ public class CopyPasteD extends CopyPaste {
 			} else {
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
-			createdGeos = handleLabels(app, copiedXMLlabelsforSameWindow, putdown);
+			createdGeos = handleLabels(app, copiedXMLlabelsforSameWindow,
+					duplicateLabels, overwriteElements, putdown);
 		} else {
 			// here the possible macros should be copied as well,
 			// in case we should copy any macros
@@ -491,7 +498,8 @@ public class CopyPasteD extends CopyPaste {
 			} else {
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
-			createdGeos = handleLabels(app, copiedXMLlabels, putdown);
+			createdGeos = handleLabels(app, copiedXMLlabels,
+					duplicateLabels, overwriteElements, putdown);
 		}
 
 		app.setBlockUpdateScripts(scriptsBlocked);
@@ -537,14 +545,18 @@ public class CopyPasteD extends CopyPaste {
 	 * Copy and paste all geos from source app to target app.
 	 * @param fromApp source app
 	 * @param toApp target app
+	 * @param duplicateLabels Set of duplicated labels that may need renaming
+	 * @param overwrite Whether duplicated elements should be overwritten
 	 */
-	public void insertFrom(App fromApp, App toApp) {
+	public void insertFrom(App fromApp, App toApp,
+			@Nonnull Set<String> duplicateLabels, boolean overwrite) {
 		copyToXML(fromApp,
 						new ArrayList<>(fromApp.getKernel()
 								.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
 						true);
 
-		// and paste
+		this.duplicateLabels = duplicateLabels;
+		this.overwriteElements = overwrite;
 		pasteFromXML(toApp, true);
 	}
 }

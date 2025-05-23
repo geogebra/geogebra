@@ -392,21 +392,24 @@ public abstract class CopyPaste {
 	/**
 	 * Convenience method to set new labels instead of labels
 	 *
-	 * @param app
-	 *            application
-	 * @param labels
-	 *            new labels
-	 * @param renameInScripts
-	 *            whether to update references in scripts after rename
+	 * @param app application
+	 * @param labels new labels
+	 * @param duplicateLabels Set of duplicated labels that may need renaming
+	 * @param overwriteElements Whether the duplicated elements should be overwritten
+	 * @param renameInScripts whether to update references in scripts after rename
 	 * @return list of elements
 	 */
 	protected static ArrayList<GeoElement> handleLabels(App app,
-			List<String> labels, boolean renameInScripts) {
+			List<String> labels, Set<String> duplicateLabels,
+			boolean overwriteElements, boolean renameInScripts) {
 		ArrayList<GeoElement> ret = new ArrayList<>();
 
 		Kernel kernel = app.getKernel();
 		GeoElement geo;
 		String oldLabel;
+		String oldLabelNoPrefix;
+		boolean isFreeLabel;
+
 		for (int i = 0; i < labels.size(); i++) {
 			String ll = labels.get(i);
 			geo = kernel.lookupLabel(ll);
@@ -440,12 +443,24 @@ public abstract class CopyPaste {
 				}
 
 				oldLabel = geo.getLabelSimple();
-				geo.setLabel(geo.getIndexLabel(
-						geo.getLabelSimple().substring(labelPrefix.length())));
+				oldLabelNoPrefix = oldLabel.substring(labelPrefix.length());
+				isFreeLabel = duplicateLabels != null
+						&& !duplicateLabels.contains(oldLabelNoPrefix);
+				GeoElement oldGeo = kernel.lookupLabel(oldLabelNoPrefix);
+
+				if (oldGeo == null) {
+					geo.setLabel(oldLabelNoPrefix);
+				} else if (overwriteElements && oldGeo.getGeoClassType() == geo.getGeoClassType()) {
+					oldGeo.remove();
+					geo.setLabel(oldLabelNoPrefix);
+				} else {
+					geo.setLabel(isFreeLabel
+							? oldLabelNoPrefix : geo.getIndexLabel(oldLabelNoPrefix));
+				}
+
 				// geo.getLabelSimple() is now not the oldLabel, ideally
 				if (renameInScripts) {
-					geo.getKernel().renameLabelInScripts(oldLabel,
-							geo.getLabelSimple());
+					geo.getKernel().renameLabelInScripts(oldLabel, geo.getLabelSimple());
 				}
 
 				ret.add(geo);

@@ -2,11 +2,13 @@ package org.geogebra.desktop.main;
 
 import java.awt.Component;
 import java.io.File;
+import java.util.Set;
 
 import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ManualPage;
 
@@ -67,5 +69,9 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	void openHelp(ManualPage page, String detail);
 
 	void updateToolbarDefinition();
+
+	ExtendedBoolean shouldRenameObjectsOnInsertFile(Set<String> duplicateLabels);
+
+	void showRenamedObjectsDialog(Set<String> duplicateLabels);
 
 }

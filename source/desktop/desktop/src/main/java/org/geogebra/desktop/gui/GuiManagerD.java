@@ -26,6 +26,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
@@ -66,14 +67,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
@@ -132,7 +134,6 @@ import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
-import org.geogebra.common.util.ManualPage;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -3020,5 +3021,38 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public void loadWebcam() {
 		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @param duplicateLabels Set of duplicated labels
+	 * @return
+	 * <ul>
+	 *     <li>True if duplicated elements should be renamed</li>
+	 *     <li>False if duplicated elements should be overwritten</li>
+	 *     <li>Unknown if inserting a file should be canceled</li>
+	 * </ul>
+	 */
+	@Override
+	public ExtendedBoolean shouldRenameObjectsOnInsertFile(Set<String> duplicateLabels) {
+		Object[] options = { loc.getMenu("Rename"),
+				loc.getMenu("Overwrite"), loc.getMenu("Cancel") };
+		int returnValue = JOptionPane.showOptionDialog(getApp().getMainComponent(),
+				loc.getMenu("DuplicateObjects") + ": " + String.join(", ", duplicateLabels),
+				loc.getMenu("DuplicateObjects"),
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+		switch (returnValue) {
+		case 0: return ExtendedBoolean.TRUE;
+		case 1: return ExtendedBoolean.FALSE;
+		default: return ExtendedBoolean.UNKNOWN;
+		}
+	}
+
+	@Override
+	public void showRenamedObjectsDialog(Set<String> duplicateLabels) {
+		String message = duplicateLabels.isEmpty() ? loc.getMenu("NoObjectsRenamed")
+				: loc.getMenu("ObjectsRenamed") + ": " + String.join(", ", duplicateLabels);
+		JOptionPane.showMessageDialog(getApp().getMainComponent(), message,
+				loc.getMenu("General.ImportSuccessful"), JOptionPane.INFORMATION_MESSAGE);
 	}
 }

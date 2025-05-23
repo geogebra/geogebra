@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -334,7 +335,13 @@ public class InternalClipboard {
 			app.setActiveView(App.VIEW_EUCLIDIAN2);
 		}
 
-		ArrayList<GeoElement> createdElements = CopyPaste.handleLabels(app, copiedXmlLabels, false);
+		Set<String> duplicateLabels = copiedXmlLabels
+				.stream()
+				.map(label -> label.substring(CopyPaste.labelPrefix.length()))
+				.collect(Collectors.toSet());
+
+		ArrayList<GeoElement> createdElements = CopyPaste.handleLabels(
+				app, copiedXmlLabels, duplicateLabels, false, false);
 
 		app.setBlockUpdateScripts(scriptsBlocked);
 		app.getActiveEuclidianView().invalidateDrawableList();
