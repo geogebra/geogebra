@@ -264,11 +264,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public Widget toWidget() {
-		return this;
-	}
-
-	@Override
 	public void autocomplete(String text) {
 		KeyboardInputAdapter.onKeyboardInput(mf.getInternal(), text);
 	}

@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.util.keyboard;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
@@ -41,6 +40,8 @@ public interface KeyboardManagerInterface {
 	 */
 	void clearAndUpdateKeyboard();
 
-	@MissingDoc
+	/**
+	 * Remove the keyboard from DOM.
+	 */
 	void removeFromDom();
 }

@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.view.browser;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -9,7 +8,9 @@ import org.geogebra.common.util.AsyncOperation;
  */
 public interface BrowseViewI {
 
-	@MissingDoc
+	/**
+	 * Update the material list if empty.
+	 */
 	void setMaterialsDefaultStyle();
 
 	/**
@@ -23,7 +24,9 @@ public interface BrowseViewI {
 	 */
 	void clearMaterials();
 
-	@MissingDoc
+	/**
+	 * Close the view.
+	 */
 	void close();
 
 	/**
@@ -38,7 +41,9 @@ public interface BrowseViewI {
 	 */
 	void refreshMaterial(Material material, boolean isLocal);
 
-	@MissingDoc
+	/**
+	 * Set localized labels.
+	 */
 	void setLabels();
 
 	/**

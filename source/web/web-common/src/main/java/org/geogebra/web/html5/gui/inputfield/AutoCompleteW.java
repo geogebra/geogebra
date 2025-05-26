@@ -1,14 +1,14 @@
 package org.geogebra.web.html5.gui.inputfield;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Input field with autocomplete.
  */
 public interface AutoCompleteW {
-	@MissingDoc
+	/**
+	 * @return whether autocomplete is active
+	 */
 	boolean getAutoComplete();
 
 	/**
@@ -23,7 +23,9 @@ public interface AutoCompleteW {
 	 */
 	void insertString(String text);
 
-	@MissingDoc
+	/**
+	 * @return text value
+	 */
 	String getText();
 
 	/**
@@ -32,14 +34,15 @@ public interface AutoCompleteW {
 	 */
 	void setText(String s);
 
-	@MissingDoc
+	/**
+	 * @return whether the autocomplete suggestion panel is open
+	 */
 	boolean isSuggesting();
 
-	@MissingDoc
+	/**
+	 * Move focus to the text field.
+	 */
 	void requestFocus();
-
-	@MissingDoc
-	Widget toWidget();
 
 	/**
 	 * Insert autocompletion result.
@@ -53,6 +56,8 @@ public interface AutoCompleteW {
 	 */
 	String getCommand();
 
-	@MissingDoc
+	/**
+	 * @return parent application
+	 */
 	AppW getApplication();
 }

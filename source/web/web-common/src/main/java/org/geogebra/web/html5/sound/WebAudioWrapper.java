@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.sound;
 
-import org.geogebra.common.annotation.MissingDoc;
-
 import elemental2.core.Float32Array;
 import elemental2.media.AudioContext;
 import elemental2.media.AudioProcessingEvent;
@@ -21,7 +19,6 @@ public final class WebAudioWrapper {
 	private ScriptProcessorNode processor;
 
 	interface FunctionAudioListener {
-		@MissingDoc
 		double getValueAt(double t);
 	}
 

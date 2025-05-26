@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.bridge;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.gwtproject.dom.client.Element;
 
 import jsinterop.base.Js;
@@ -46,6 +45,8 @@ public interface AttributeProvider {
 	 */
 	void setAttribute(String attribute, String value);
 
-	@MissingDoc
+	/**
+	 * @return element in which the applet should be rendered
+	 */
 	Element getElement();
 }

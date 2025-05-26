@@ -3,11 +3,12 @@ package org.geogebra.web.full.cas.view;
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.gwtproject.event.dom.client.HumanInputEvent;
+import org.gwtproject.user.client.ui.IsWidget;
 
 /**
  * Common interface for plaintext or LaTeX based CAS editors
  */
-public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
+public interface CASEditorW extends CASTableCellEditor, AutoCompleteW, IsWidget {
 
 	/**
 	 * Clear the editor

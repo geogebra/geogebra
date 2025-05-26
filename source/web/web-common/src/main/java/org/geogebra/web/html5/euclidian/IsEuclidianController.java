@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.euclidian;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.ModeSetter;
@@ -44,7 +43,9 @@ public interface IsEuclidianController extends LongTouchHandler {
 	 */
 	int getEvNo();
 
-	@MissingDoc
+	/**
+	 * @return handler for long touch events
+	 */
 	LongTouchManager getLongTouchManager();
 
 	/**
@@ -53,7 +54,9 @@ public interface IsEuclidianController extends LongTouchHandler {
 	 */
 	void setActualSticky(boolean b);
 
-	@MissingDoc
+	/**
+	 * @return whether current pointer movement exceeded the threshold for dragging
+	 */
 	boolean isDraggingBeyondThreshold();
 
 	/**

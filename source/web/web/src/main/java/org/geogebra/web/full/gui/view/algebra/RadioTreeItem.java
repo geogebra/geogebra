@@ -1222,11 +1222,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public final Widget toWidget() {
-		return main;
-	}
-
-	@Override
 	public void onResize() {
 		updateButtonPanelPosition();
 	}

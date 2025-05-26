@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusHandler;
@@ -8,7 +7,7 @@ import org.gwtproject.event.dom.client.KeyPressHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 
 /**
- * Interface for textfields, which has keyboard
+ * Interface for text fields which can use onscreen keyboard
  *
  */
 public interface HasKeyboardTF extends MathKeyboardListener {
@@ -19,7 +18,7 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	/** remove dummy cursor when editing ends */
 	void endOnscreenKeyboardEditing();
 
-	/** add a dummy cursor to a textfield */
+	/** add a dummy cursor to a text field */
 	void addDummyCursor();
 
 	/**
@@ -51,7 +50,7 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	void setCursorPos(int pos);
 
 	/**
-	 * set text of textfield
+	 * set text of text field
 	 * 
 	 * @param text
 	 *            text to set
@@ -81,6 +80,8 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	 */
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler);
 
-	@MissingDoc
+	/**
+	 * Handle the backspace key.
+	 */
 	void onBackSpace();
 }

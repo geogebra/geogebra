@@ -138,7 +138,7 @@ public class CASTableCellW extends VerticalPanel {
 			boolean asText) {
 		clear();
 		textField = casEditorW;
-		add(textField.toWidget());
+		add(textField.asWidget());
 		textBeforeEdit = inputPanel.getText();
 
 		textField.setEditAsText(asText);

@@ -71,7 +71,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.FocusWidget;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
-import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -1363,11 +1362,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public void addInsertHandler(InsertHandler newInsertHandler) {
 		this.insertHandler = newInsertHandler;
-	}
-
-	@Override
-	public Widget toWidget() {
-		return this;
 	}
 
 	@Override

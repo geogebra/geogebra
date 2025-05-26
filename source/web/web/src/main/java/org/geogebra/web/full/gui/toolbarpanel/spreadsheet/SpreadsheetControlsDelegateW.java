@@ -38,7 +38,6 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
@@ -397,11 +396,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	@Override
 	public boolean isSuggesting() {
 		return autocomplete != null && autocomplete.isSuggesting();
-	}
-
-	@Override
-	public Widget toWidget() {
-		return editor.mathField.asWidget();
 	}
 
 	@Override

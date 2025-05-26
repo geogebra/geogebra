@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.euclidian;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
@@ -12,16 +11,25 @@ import org.gwtproject.user.client.ui.Panel;
  */
 public interface EuclidianPanelWAbstract {
 
-	@MissingDoc
+	/**
+	 * @return panel that hosts euclidian view and floating widgets
+	 */
 	AbsolutePanel getAbsolutePanel();
 
-	@MissingDoc
+	/**
+	 * @return euclidian view panel
+	 */
 	Panel getEuclidianPanel();
 
-	@MissingDoc
+	/**
+	 * TODO view should create the canvas
+	 * @return main canvas for the euclidian view
+	 */
 	Canvas getCanvas();
 
-	@MissingDoc
+	/**
+	 * @return the wrapped euclidian view
+	 */
 	EuclidianView getEuclidianView();
 
 	/**

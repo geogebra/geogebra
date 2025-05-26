@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.euclidian;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
@@ -15,16 +14,24 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
  */
 public interface GGraphics2DWI extends GGraphics2D {
 
-	@MissingDoc
+	/**
+	 * @return offset width
+	 */
 	int getOffsetWidth();
 
-	@MissingDoc
+	/**
+	 * @return offset height
+	 */
 	int getOffsetHeight();
 
-	@MissingDoc
+	/**
+	 * @return width in logical pixels
+	 */
 	int getCoordinateSpaceWidth();
 
-	@MissingDoc
+	/**
+	 * @return the canvas
+	 */
 	Canvas getCanvas();
 
 	/**
@@ -41,16 +48,24 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	void setCoordinateSpaceSize(int realWidth, int realHeight);
 
-	@MissingDoc
+	/**
+	 * @return stored device pixel ratio
+	 */
 	double getDevicePixelRatio();
 
-	@MissingDoc
+	/**
+	 * @return absolute vertical offset within the window
+	 */
 	int getAbsoluteTop();
 
-	@MissingDoc
+	/**
+	 * @return absolute horizontal offset within the window
+	 */
 	int getAbsoluteLeft();
 
-	@MissingDoc
+	/**
+	 * Turn on debug mode (to show line-to, move-to, curve-to points)
+	 */
 	void startDebug();
 
 	/**
@@ -59,16 +74,25 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	void setPreferredSize(GDimension preferredSize);
 
-	@MissingDoc
+	/**
+	 * @return height in logical pixels
+	 */
 	int getCoordinateSpaceHeight();
 
+	/**
+	 * @return current font
+	 */
 	@Override
 	GFontW getFont();
 
-	@MissingDoc
+	/**
+	 * Resize twice to force context reset.
+	 */
 	void forceResize();
 
-	@MissingDoc
+	/**
+	 * @return rendering context
+	 */
 	JLMContext2d getContext();
 
 	/**
@@ -78,7 +102,9 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	void setCoordinateSpaceSizeNoTransformNoColor(int width, int height);
 
-	@MissingDoc
+	/**
+	 * Clears the whole graphics.
+	 */
 	void clearAll();
 
 	/**
@@ -97,9 +123,14 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	boolean isAttached();
 
-	@MissingDoc
+	/**
+	 * Add a layer for an embedded element
+	 * @return new layer
+	 */
 	int embed();
 
-	@MissingDoc
+	/**
+	 * Remove all layers other than the base one (reset layer counter to 0).
+	 */
 	void resetLayer();
 }

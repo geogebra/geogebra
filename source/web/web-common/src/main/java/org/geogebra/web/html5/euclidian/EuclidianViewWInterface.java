@@ -2,9 +2,9 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.function.Consumer;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.main.App.ExportType;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.Widget;
@@ -74,7 +74,9 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon {
 	String getExportImageDataUrl(double scale, boolean transparent,
 			boolean greyscale);
 
-	@MissingDoc
+	/**
+	 * @return data URL of PNG export of this view, scaled to {@link MyXMLio#THUMBNAIL_PIXELS_X}
+	 */
 	String getCanvasBase64WithTypeString();
 
 	/**
