@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDelegate;
+import org.geogebra.common.spreadsheet.core.SpreadsheetStyleBarModel;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
@@ -324,5 +325,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		if (focusCommand != null) {
 			focusCommand.cancel();
 		}
+	}
+
+	public SpreadsheetStyleBarModel getStyleBarModel() {
+		return spreadsheet.getStyleBarModel();
 	}
 }

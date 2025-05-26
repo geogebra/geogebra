@@ -20,6 +20,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventDispatcher;
@@ -34,6 +35,7 @@ import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificEmbedTopBar;
+import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.SpreadsheetStyleBar;
 import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.SpreadsheetTab;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
@@ -92,6 +94,7 @@ public class ToolbarPanel extends FlowPanel
 	private final List<ToolbarTab> tabs = new ArrayList<>();
 	private @CheckForNull TableTab tabTable;
 	private @CheckForNull ToolsTab tabTools;
+	private @CheckForNull SpreadsheetTab spreadsheetTab;
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
@@ -100,6 +103,7 @@ public class ToolbarPanel extends FlowPanel
 	private DockPanelDecorator decorator;
 	private final ExamController examController = GlobalScope.examController;
 	private ScientificEmbedTopBar topBar;
+	private SpreadsheetStyleBar spreadsheetStyleBar;
 
 	/**
 	 * @param app application
@@ -350,7 +354,6 @@ public class ToolbarPanel extends FlowPanel
 		} else {
 			removeTab(TabIds.TABLE);
 		}
-		SpreadsheetTab spreadsheetTab;
 		if (app.getConfig().hasSpreadsheetView()) {
 			spreadsheetTab = new SpreadsheetTab(this);
 			addTab(spreadsheetTab, false);
@@ -358,17 +361,21 @@ public class ToolbarPanel extends FlowPanel
 			removeTab(TabIds.SPREADSHEET);
 		}
 		addMoveBtn();
+		buildHeading();
+		add(main);
+		hideDragger();
+		if (examController.isExamActive()) {
+			navRail.resetExamStyle();
+		}
+	}
+
+	private void buildHeading() {
 		heading = new FlowPanel();
 		heading.setVisible(getToolbarDockPanel().isAlone());
 		createCloseButton();
 		heading.setStyleName("toolPanelHeading");
 		if (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC) {
 			add(heading);
-		}
-		add(main);
-		hideDragger();
-		if (examController.isExamActive()) {
-			navRail.resetExamStyle();
 		}
 	}
 
@@ -389,7 +396,7 @@ public class ToolbarPanel extends FlowPanel
 				.toolbar_close_portrait_black() : MaterialDesignResources.INSTANCE
 				.toolbar_close_landscape_black();
 		StandardButton close = new StandardButton(icon, null, 24, 24);
-		close.addStyleName("flatButton");
+		close.addStyleName("flatButton closeButton");
 		close.getElement().getStyle().setFloat(Float.RIGHT);
 		close.addFastClickHandler(source -> {
 			navRail.setAnimating(true);
@@ -894,6 +901,13 @@ public class ToolbarPanel extends FlowPanel
 		if (tab != TabIds.TOOLS) {
 			resetFullscreenButton();
 		}
+		if (spreadsheetStyleBar != null) {
+			spreadsheetStyleBar.setVisible(tab == TabIds.SPREADSHEET);
+		}
+		if (spreadsheetTab != null) {
+			spreadsheetTab.showStyleBar(tab == TabIds.SPREADSHEET
+				&& !heading.isVisible());
+		}
 	}
 
 	/**
@@ -1012,6 +1026,7 @@ public class ToolbarPanel extends FlowPanel
 
 		navRail.resize();
 		resizeTabs();
+		updateSpreadsheetStyleBarStyle();
 	}
 
 	/**
@@ -1157,8 +1172,10 @@ public class ToolbarPanel extends FlowPanel
 		navRail.onOrientationChange();
 		hideDragger();
 		heading.clear();
+		addSpreadsheetStyleBar();
 		createCloseButton();
 		updateHeadingStyle(isAlone);
+		updateSpreadsheetStyleBarStyle();
 	}
 
 	/**
@@ -1320,6 +1337,15 @@ public class ToolbarPanel extends FlowPanel
 		}
 	}
 
+	private void updateSpreadsheetStyleBarStyle() {
+		if (spreadsheetTab != null) {
+			spreadsheetTab.updateSpreadsheetStyleBarStyle(app.isPortrait());
+		}
+		if (spreadsheetStyleBar != null) {
+			Dom.toggleClass(spreadsheetStyleBar, "portrait", "landscape", app.isPortrait());
+		}
+	}
+
 	/**
 	 * Hide the view opposite to the toolbar panel
 	 */
@@ -1379,7 +1405,30 @@ public class ToolbarPanel extends FlowPanel
 
 	private void setHeadingHeight(int to) {
 		heading.setVisible(to > 0);
+		initSpreadsheetStyleBar();
+		if (to > 0 && spreadsheetStyleBar != null && !spreadsheetStyleBar.isAttached()) {
+			addSpreadsheetStyleBar();
+		}
+		if (spreadsheetTab != null) {
+			spreadsheetTab.showStyleBar(to == 0);
+		}
 		heading.setHeight(to + "px");
+	}
+
+	private void initSpreadsheetStyleBar() {
+		if (spreadsheetStyleBar == null && spreadsheetTab != null
+			&& spreadsheetTab.getSpreadsheetPanel() != null) {
+			spreadsheetStyleBar = new SpreadsheetStyleBar(app,
+					spreadsheetTab.getSpreadsheetPanel().getStyleBarModel(), true);
+		}
+	}
+
+	private void addSpreadsheetStyleBar() {
+		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)
+				&& spreadsheetTab != null && spreadsheetTab.getSpreadsheetPanel() != null) {
+			Dom.toggleClass(spreadsheetStyleBar, "portrait", "landscape", app.isPortrait());
+			heading.insert(spreadsheetStyleBar, 0);
+		}
 	}
 
 	/**

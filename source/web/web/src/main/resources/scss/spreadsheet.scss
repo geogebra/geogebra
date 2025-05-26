@@ -170,4 +170,36 @@
 		borderLeft: 1px solid white;
 		background-color: var(--ggb-primary-color);
 	}
+
+	.spreadsheetStyleBar {
+		position: relative;
+		display: flex;
+		height: 36px;
+		margin: 6px 8px;
+
+		&.portrait {
+			left: 0;
+			width: 100%;
+		}
+
+		&.landscape {
+			left: 72px;
+			width: calc(100% - 72px)
+		}
+	}
+
+	.toolPanelHeading .spreadsheetStyleBar {
+		width: calc(100% - 48px);
+		position: absolute;
+		margin-left: 0;
+
+		&.portrait {
+			width: calc(100% - 100px);
+			left: 100px;
+		}
+
+		&.landscape {
+			left: 172px;
+		}
+	}
 }

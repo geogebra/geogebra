@@ -44,7 +44,6 @@ public class UndoRedoPanel extends PersistablePanel {
 		btnRedo = new StandardButton(MaterialDesignResources.INSTANCE.redo_border(), 24);
 		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
 		btnRedo.addStyleName("flatButton");
-		btnRedo.addStyleName("buttonActive");
 		btnRedo.addStyleName("redo");
 		btnRedo.addFastClickHandler(event -> onRedoPressed());
 		add(btnRedo);
@@ -73,15 +72,8 @@ public class UndoRedoPanel extends PersistablePanel {
 	protected void updateUndoActions() {
 		Dom.toggleClass(btnUndo, "buttonActive", "buttonInactive",
 				app.getKernel().undoPossible());
-
-		if (app.getKernel().redoPossible()) {
-			btnRedo.removeStyleName("hideButton");
-		} else {
-			if (!btnRedo.getElement().hasClassName("hideButton")) {
-				app.getAccessibilityManager().focusAnchor();
-			}
-			btnRedo.addStyleName("hideButton");
-		}
+		Dom.toggleClass(btnRedo, "buttonActive", "buttonInactive",
+				app.getKernel().redoPossible());
 	}
 
 	protected void setTabIndexes() {
