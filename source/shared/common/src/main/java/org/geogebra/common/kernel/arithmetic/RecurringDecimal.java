@@ -44,20 +44,12 @@ public class RecurringDecimal extends MyDouble {
 
 	/**
 	 * @param tpl {@link StringTemplate}
-	 * @return the latex string of fraction.
+	 * @return the string representation of this as a fraction.
 	 */
 	public String toFraction(StringTemplate tpl) {
-		return toFraction(wrap(), tpl);
-	}
-
-	/**
-	 * @param expression of the recurring decimal.
-	 * @param tpl {@link StringTemplate}
-	 * @return the latex string of fraction.
-	 */
-	public static String toFraction(ExpressionNode expression, StringTemplate tpl) {
+		ExpressionNode expression = wrap();
 		return Fractions.getResolution(expression, expression.getKernel(),
-				false).toValueString(tpl);
+				false, true).toValueString(tpl);
 	}
 
 	/**

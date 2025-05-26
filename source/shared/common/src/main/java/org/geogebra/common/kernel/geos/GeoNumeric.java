@@ -684,7 +684,7 @@ public class GeoNumeric extends GeoElement
 		if (isRecurringDecimal()) {
 			RecurringDecimal rd = asRecurringDecimal();
 			if (symbolicMode) {
-				return RecurringDecimal.toFraction(rd.wrap(), tpl);
+				return rd.toFraction(tpl);
 			} else {
 				return kernel.format(rd.toDouble(), tpl);
 			}

@@ -28,4 +28,22 @@ public class DrawAxisTest extends BaseUnitTest {
 		assertEquals("180" + Unicode.DEGREE_STRING,
 				DrawAxis.tickDescription(view, 3, 0));
 	}
+
+	@Test
+	public void testDecimalDescription() {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		GeoNumberValue distance = add("0.3");
+		view.getSettings().setAxisNumberingDistance(0, distance);
+		assertEquals("0.9",
+				DrawAxis.tickDescription(view, 3, 0));
+	}
+
+	@Test
+	public void testFractionDescription() {
+		EuclidianView view = getApp().getActiveEuclidianView();
+		GeoNumberValue distance = add("3/10");
+		view.getSettings().setAxisNumberingDistance(0, distance);
+		assertEquals("9 / 10",
+				DrawAxis.tickDescription(view, 3, 0));
+	}
 }

@@ -26,10 +26,10 @@ public class Fractions {
 	 * @return resolved expression: either MyDouble or simple fraction
 	 */
 	protected static ExpressionValue getResolution(ExpressionNode expr,
-			Kernel kernel, boolean allowPi) {
+			Kernel kernel, boolean allowPi, boolean expandPlusAndDecimals) {
 		if (!expr.any(Fractions::isDecimal)) {
 			ExpressionValue[] fraction = new ExpressionValue[2];
-			expr.getFraction(fraction, true);
+			expr.getFraction(fraction, expandPlusAndDecimals);
 			if (fraction[0] != null) {
 				ExpressionValue ltVal = fraction[0].evaluate(StringTemplate.defaultTemplate);
 				double lt = ltVal.evaluateDouble();

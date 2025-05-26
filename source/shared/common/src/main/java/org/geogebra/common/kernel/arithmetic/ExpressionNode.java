@@ -3493,9 +3493,19 @@ public class ExpressionNode extends ValidExpression
 		return isFraction() && !resolve.any(Inspecting::isMySpecialDouble);
 	}
 
+	/**
+	 * Initialize fractional resolution, not allowing conversion from 0.1 to 1/10.
+	 * @param allowPi whether to allow multiples of pi
+	 */
+	public void initFractionNoDecimalConversion(boolean allowPi) {
+		if (resolve == null || !resolve.isExpressionNode()) {
+			resolve = Fractions.getResolution(this, kernel, allowPi, false);
+		}
+	}
+
 	private void initFraction(boolean allowPi) {
 		if (resolve == null || !resolve.isExpressionNode()) {
-			resolve = Fractions.getResolution(this, kernel, allowPi);
+			resolve = Fractions.getResolution(this, kernel, allowPi, true);
 		}
 	}
 

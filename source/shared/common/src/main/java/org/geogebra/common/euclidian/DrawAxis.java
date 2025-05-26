@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -1214,16 +1215,17 @@ public class DrawAxis {
 	/**
 	 * @param stepValue
 	 *            step as a number
-	 * @param labelno
+	 * @param numberOfSteps
 	 *            step coefficient
 	 * @return description of labelno*stepValue
 	 */
-	public static String multiple(GeoNumberValue stepValue, long labelno) {
+	public static String multiple(GeoNumberValue stepValue, long numberOfSteps) {
 		StringTemplate tpl = stepValue.getAngleDim() == 1
 				? StringTemplate.axesTemplate
 				: StringTemplate.defaultTemplate;
-		return stepValue.getDefinition().multiply(labelno)
-				.toFractionString(tpl);
+		ExpressionNode product = stepValue.getDefinition().multiply(numberOfSteps);
+		product.initFractionNoDecimalConversion(tpl.allowPiHack());
+		return product.toFractionString(tpl);
 	}
 
 	private boolean isCurrencyUnit(int axis) {
