@@ -363,11 +363,12 @@ public abstract class UndoManager implements UndoProvider {
 				iterator.next();
 			}
 		}
-		EmbedManager manager = app.getEmbedManager();
-		if (manager != null) {
-			manager.executeAction(ActionType.EMBEDDED_PRUNE_STATE_LIST);
+		if (app.hasEmbedManager()) {
+			EmbedManager manager = app.getEmbedManager();
+			if (manager != null) {
+				manager.executeAction(ActionType.EMBEDDED_PRUNE_STATE_LIST);
+			}
 		}
-		// debugStates();
 	}
 
 	/**

@@ -1,12 +1,12 @@
 package org.geogebra.web.full.main;
 
-import static org.geogebra.common.GeoGebraConstants.BAYERN_GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.draw.DrawWidget;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -161,8 +162,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
-		boolean isBayernGraphingCalc = drawEmbed.getGeoEmbed().getAppName().equals(
-				BAYERN_GRAPHING_APPCODE);
+		ExamType examType = ExamType.byName(drawEmbed.getGeoEmbed().getAppName());
 		FlowPanel scaler = new FlowPanel();
 		addToGraphics(scaler);
 
@@ -182,9 +182,9 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 				.setAttribute("appName", drawEmbed.getGeoEmbed().getAppName())
 				.setAttribute("featureSet", app.getAppletParameters().getParamFeatureSet())
 				.setAttribute("borderColor", "#CCC");
-		if (isBayernGraphingCalc) {
+		if (examType != null) {
 			parameters.setAttribute("appName", SUITE_APPCODE)
-					.setAttribute("featureSet", BAYERN_GRAPHING_APPCODE);
+					.setAttribute("featureSet", examType.name().toLowerCase(Locale.ROOT));
 		}
 		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
 			parameters.setAttribute(entry.getKey(), entry.getValue());

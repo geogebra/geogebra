@@ -2262,6 +2262,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
+	public boolean hasEmbedManager() {
+		return embedManager != null;
+	}
+
+	@Override
 	public final @Nonnull
 	VideoManagerW getVideoManager() {
 		if (videoManager == null) {

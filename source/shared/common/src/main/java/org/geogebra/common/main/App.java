@@ -4771,6 +4771,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
+	/**
+	 * @return whether embed manager was initialized
+	 */
+	public boolean hasEmbedManager() {
+		return false;
+	}
+
 	protected void initSettings() {
 		settings = newSettingsBuilder().newSettings();
 	}
