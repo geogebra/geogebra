@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeFalse;
@@ -2828,5 +2827,20 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void test3DLine() {
 		t("(x=5, y=3+z)", "X = (5, " + Unicode.lambda + " + 3, "
 				 + Unicode.lambda + ")");
+	}
+
+	@Test
+	@Issue("APPS-6514")
+	public void testGammaOnUndoRedo() {
+		getApp().setUndoActive(true);
+		GeoCasCell geo = add("gamma(4)");
+		getApp().storeUndoInfo();
+		add("1 + 1");
+		getApp().storeUndoInfo();
+
+		getApp().getUndoManager().undo();
+		assertEquals("gamma(4)", geo.getInternalInput());
+		getApp().getUndoManager().redo();
+		assertEquals("gamma(4)", geo.getInternalInput());
 	}
 }

@@ -178,7 +178,9 @@ public class GgbScript extends Script {
 				// e.g. for German panel in Gerade(t)
 				// do not translate Gerade to Line
 				// needed for #4391
-				else if (app.getInternalCommand(starr[i]) != null) {
+				// make sure reserved functions are added without alteration
+				else if (app.getInternalCommand(starr[i]) != null
+						&& !app.getParserFunctions().isReserved(starr[i])) {
 					if (i == 1 && isAssignment) {
 						retone.append(starr[i]);
 					} else {
