@@ -476,7 +476,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	public long timeoutMillis = 5000;
 	final private static String EVALFA = "evalfa(";
 	private StringBuilder expSB = new StringBuilder(EVALFA);
-	private MaxSizeHashMap<String, String> casGiacCache = new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
+	private final MaxSizeHashMap<String, String> casGiacCache
+			= new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 
 	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
 	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
@@ -1482,6 +1483,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		return casGiacCache.size();
 	}
 
+	@Override
 	public void clearCache() {
 		casGiacCache.clear();
 	}

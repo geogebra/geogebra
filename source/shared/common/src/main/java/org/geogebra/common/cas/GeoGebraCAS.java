@@ -1241,6 +1241,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	@Override
 	public void clearCache() {
 		getPolynomialCoeffsCache.clear();
+		getCurrentCAS().clearCache();
 	}
 
 	/**

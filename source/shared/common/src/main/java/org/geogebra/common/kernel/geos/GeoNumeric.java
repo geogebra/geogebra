@@ -429,7 +429,7 @@ public class GeoNumeric extends GeoElement
 		// make sure shaded-only integrals are drawn
 		if ((algo = getParentAlgorithm()) instanceof AlgoIntegralDefiniteInterface) {
 			AlgoIntegralDefiniteInterface aid = (AlgoIntegralDefiniteInterface) algo;
-			if (aid.evaluateOnly()) {
+			if (aid.isShadeOnly()) {
 				return true;
 			}
 		}

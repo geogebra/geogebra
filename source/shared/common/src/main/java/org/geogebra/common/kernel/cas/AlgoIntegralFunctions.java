@@ -211,7 +211,7 @@ public class AlgoIntegralFunctions extends AlgoElement
 		}
 
 		// return if it should not be evaluated (i.e. is shade-only)
-		if (evaluateOnly()) {
+		if (isShadeOnly()) {
 			n.setValue(Double.NaN);
 			return;
 		}
@@ -222,7 +222,7 @@ public class AlgoIntegralFunctions extends AlgoElement
 	}
 
 	@Override
-	public boolean evaluateOnly() {
+	public boolean isShadeOnly() {
 		return evaluate != null && !evaluate.getBoolean();
 	}
 

@@ -320,7 +320,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		double fb = f.value(upperLimit);
 		if (Double.isInfinite(lowerLimit) || Double.isInfinite(upperLimit) || Double.isNaN(fa)
 				|| Double.isInfinite(fa) || Double.isNaN(fb) || Double.isInfinite(fb)) {
-			if (!this.evaluateNumerically && !evaluateOnly()
+			if (!this.evaluateNumerically && !isShadeOnly()
 					&& !f.includesFreehandOrData()) {
 				computeSpecial();
 			} else {
@@ -330,7 +330,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		}
 
 		// return if it should not be evaluated (i.e. is shade-only)
-		if (evaluateOnly()) {
+		if (isShadeOnly()) {
 			n.setValue(Double.NaN);
 			return;
 		}
@@ -634,24 +634,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			Log.debug(e);
 			n.setUndefined();
 		}
-
-		/*
-		 * sb.append("Numeric[Integral[");
-		 * sb.append(f.toValueString(StringTemplate.maxPrecision));
-		 * sb.append(",");
-		 * sb.append(f.getVarString(StringTemplate.defaultTemplate));
-		 * sb.append(",");
-		 * sb.append(a.toValueString(StringTemplate.maxPrecision));
-		 * sb.append(",");
-		 * sb.append(b.toValueString(StringTemplate.maxPrecision));
-		 * sb.append("]]"); try{ String functionOut = kernel
-		 * .evaluateCachedGeoGebraCAS(sb.toString(),arbconst); if (functionOut
-		 * == null || functionOut.length() == 0) { n.setUndefined(); } else { //
-		 * read result back into function, do NOT show errors if eg complex
-		 * number occurs
-		 * n.setValue(kernel.getAlgebraProcessor().evaluateToDouble(functionOut,
-		 * true)); } }catch(Throwable e){ n.setUndefined(); }
-		 */
 
 	}
 
@@ -1015,7 +997,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * make sure shaded-only integrals are drawn
 	 */
 	@Override
-	public boolean evaluateOnly() {
+	public boolean isShadeOnly() {
 		return evaluateOnlySet() || validButUndefined;
 	}
 

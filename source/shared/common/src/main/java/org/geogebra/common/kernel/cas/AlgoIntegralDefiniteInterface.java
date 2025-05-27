@@ -10,5 +10,5 @@ public interface AlgoIntegralDefiniteInterface extends ReplaceChildrenByValues {
 	/**
 	 * @return if the integral is for shading only
 	 */
-	public boolean evaluateOnly();
+	boolean isShadeOnly();
 }

@@ -4792,7 +4792,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 		}
 		CasAlgoChecker checker = new CasAlgoChecker();
-		for (AlgoElement algo : cons.getAlgoList()) {
+		ArrayList<AlgoElement> toRefresh = new ArrayList<>(cons.getAlgoList());
+		for (AlgoElement algo : toRefresh) {
 			if (algo instanceof AlgoCasBase) {
 				((AlgoCasBase) algo).clearCasEvalMap();
 			}

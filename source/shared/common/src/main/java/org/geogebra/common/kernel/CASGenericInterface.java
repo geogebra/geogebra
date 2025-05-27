@@ -187,4 +187,8 @@ public interface CASGenericInterface extends SettingListener {
 			HashMap<PVariable, BigInteger> substitutions,
 			String polys, String freeVars, String dependantVars);
 
+	/**
+	 * Clear the raw evaluation cache.
+	 */
+	void clearCache();
 }

@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.desktop.cas.giac.CASgiacD;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,6 +50,16 @@ public class DelayedCasLoadingTest {
 		active = true;
 		app.getKernel().refreshCASCommands();
 		assertEquals("cos(x)", derivative.toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	@Issue("APPS-6541")
+	public void finiteIntegralShouldUpdateAfterLoad() {
+		GeoElementND integral = add("Integral(exp(-x),1,inf)");
+		assertEquals("?", integral.toValueString(StringTemplate.testTemplate));
+		active = true;
+		app.getKernel().refreshCASCommands();
+		assertEquals("0.36788", integral.toValueString(StringTemplate.editTemplate));
 	}
 
 	@Test
