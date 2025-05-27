@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -44,10 +47,10 @@ import org.gwtproject.user.client.ui.RootPanel;
  * Handles creating, showing and updating the keyboard
  */
 public final class KeyboardManager
-		implements RequiresResize, KeyboardManagerInterface {
+		implements RequiresResize, KeyboardManagerInterface, SettingListener {
 
 	private final AppW app;
-	private VirtualKeyboardGUI keyboard;
+	private @CheckForNull VirtualKeyboardGUI keyboard;
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
@@ -66,6 +69,7 @@ public final class KeyboardManager
 				app.getAppletParameters().getDetachKeyboardParent(),
 				app.getGeoGebraElement().getParentElement(),
 				shouldDetach());
+		app.getSettings().getGeneral().addListener(this);
 	}
 
 	/**
@@ -99,7 +103,9 @@ public final class KeyboardManager
 	 * Update keyboard style.
 	 */
 	private void updateStyle() {
-		Dom.toggleClass(keyboard.asWidget(), "detached", shouldDetach());
+		if (keyboard != null) {
+			Dom.toggleClass(keyboard.asWidget(), "detached", shouldDetach());
+		}
 	}
 
 	/**
@@ -140,8 +146,7 @@ public final class KeyboardManager
 	 * @return height inside of the geogebra window
 	 */
 	public int estimateKeyboardHeight() {
-		ensureKeyboardsExist();
-		int realHeight = keyboard.getOffsetHeight();
+		int realHeight = ensureKeyboardsExist().getOffsetHeight();
 		if (realHeight > 0) {
 			return realHeight;
 		}
@@ -194,12 +199,12 @@ public final class KeyboardManager
 	 */
 	public void setListeners(MathKeyboardListener textField,
 			KeyboardCloseListener listener) {
-		ensureKeyboardsExist();
-		((OnscreenTabbedKeyboard) keyboard).clearAndUpdate();
+		VirtualKeyboardGUI keyboardUI = ensureKeyboardsExist();
+		((OnscreenTabbedKeyboard) keyboardUI).clearAndUpdate();
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
-		keyboard.setListener(listener);
+		keyboardUI.setListener(listener);
 	}
 
 	/**
@@ -208,11 +213,10 @@ public final class KeyboardManager
 	 */
 	@Nonnull
 	public VirtualKeyboardGUI getOnScreenKeyboard() {
-		ensureKeyboardsExist();
-		return keyboard;
+		return ensureKeyboardsExist();
 	}
 
-	private void ensureKeyboardsExist() {
+	private VirtualKeyboardGUI ensureKeyboardsExist() {
 		if (keyboard == null) {
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
@@ -220,7 +224,9 @@ public final class KeyboardManager
 			if (processing != null) {
 				keyboard.setProcessing(processing);
 			}
+			return keyboard;
 		}
+		return keyboard;
 	}
 
 	@Override
@@ -248,12 +254,12 @@ public final class KeyboardManager
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		processing = makeKeyboardListener(textField, app.getLastItemProvider());
 		if (keyboard != null) {
+			keyboard.setProcessing(processing);
 			if (textField != null) {
 				addExtraSpaceForKeyboard();
 			} else {
 				removeExtraSpaceForKeyboard();
 			}
-			keyboard.setProcessing(processing);
 		}
 	}
 
@@ -351,5 +357,12 @@ public final class KeyboardManager
 		}
 
 		return null;
+	}
+
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		if (keyboard != null) {
+			keyboard.checkLanguage();
+		}
 	}
 }

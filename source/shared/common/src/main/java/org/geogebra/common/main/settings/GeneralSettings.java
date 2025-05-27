@@ -29,7 +29,12 @@ public class GeneralSettings extends AbstractSettings {
 		return coordFormat == Kernel.COORD_STYLE_AUSTRIAN ? "$pointAt" : "$point";
 	}
 
+	/**
+	 * Set coordinate format.
+	 * @param coordFormat one of Kernel.COORD_STYLE_* constants
+	 */
 	public void setCoordFormat(int coordFormat) {
 		this.coordFormat = coordFormat;
+		settingChanged();
 	}
 }
