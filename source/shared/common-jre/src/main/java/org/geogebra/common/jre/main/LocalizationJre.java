@@ -11,6 +11,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
@@ -99,6 +101,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	@Override
+	@Nonnull
 	final public String getMenu(String key) {
 		if (key == null) {
 			return "";

@@ -1,5 +1,7 @@
 package org.geogebra.common.main.error;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -12,7 +14,7 @@ public interface ErrorHandler {
 	 * @param msg
 	 *            localized error message
 	 */
-	void showError(String msg);
+	void showError(@Nullable String msg);
 
 	/**
 	 * Show command help dialog

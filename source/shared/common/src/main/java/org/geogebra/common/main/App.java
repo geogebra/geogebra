@@ -2308,6 +2308,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return kernel for this window
 	 */
+	@Nonnull
 	public final Kernel getKernel() {
 		return kernel;
 	}
