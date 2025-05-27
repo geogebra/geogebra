@@ -2464,6 +2464,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		guiManager.updateUnbundledToolbarContent();
 		reinitAlgebraView();
 		setActivePerspective(getGuiManager().getLayout().getDefaultPerspectives(0));
+		detachFromExamController();
 	}
 
 	@Override
