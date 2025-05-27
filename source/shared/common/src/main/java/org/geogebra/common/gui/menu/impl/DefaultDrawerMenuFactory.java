@@ -18,6 +18,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private final GeoGebraConstants.Platform platform;
 	private final LogInOperation logInOperation;
 	private final boolean createExamEntry;
+	private final boolean createSwitchCalcEntry;
 	private final boolean enableFileFeatures;
 	private final String versionNumber;
 
@@ -65,7 +66,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 			boolean createExamEntry,
 			boolean enableFileFeatures) {
 		this(platform, version, versionNumber, logInOperation, createExamEntry,
-				enableFileFeatures, false);
+				enableFileFeatures, false, true);
 	}
 
 	/**
@@ -85,13 +86,15 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 			LogInOperation logInOperation,
 			boolean createExamEntry,
 			boolean enableFileFeatures,
-			boolean isSuiteApp) {
+			boolean isSuiteApp,
+			boolean createSwitchCalcEntry) {
 		super(version, isSuiteApp);
 		this.platform = platform;
 		this.versionNumber = versionNumber;
 		this.logInOperation = logInOperation;
 		this.createExamEntry = createExamEntry;
 		this.enableFileFeatures = enableFileFeatures;
+		this.createSwitchCalcEntry = createSwitchCalcEntry;
 	}
 
 	@Override
@@ -135,7 +138,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {
-		return new MenuItemGroupImpl(removeNulls(showSwitchCalculator(),
+		MenuItem switchCalcItem = createSwitchCalcEntry ? showSwitchCalculator() : null;
+		return new MenuItemGroupImpl(removeNulls(switchCalcItem,
 				showSettings(), showHelpAndFeedback()));
 	}
 

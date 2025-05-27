@@ -115,7 +115,11 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 	@Override
 	public void examStateChanged(ExamState newState) {
 		if (newState == ExamState.ACTIVE || newState == ExamState.IDLE) {
-			updateGUI();
+			boolean shouldShowAppsPicker = GlobalScope.getEnabledSubApps().size() > 1;
+			if (shouldShowAppsPicker) {
+				updateGUI();
+			}
+			appPickerButton.setVisible(shouldShowAppsPicker);
 		}
 	}
 }

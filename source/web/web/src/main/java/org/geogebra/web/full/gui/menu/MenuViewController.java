@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.menu;
 import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
@@ -168,7 +169,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 						hasLoginButton(app) ? app.getLoginOperation() : null,
 						shouldCreateExamEntry(app),
 						app.enableFileFeatures(),
-						addAppSwitcher);
+						addAppSwitcher,
+						shouldCreateSwitchCalcEntry(app));
 			}
 			return new ExternalDrawerMenuFactory(
 					app.getPlatform(),
@@ -176,7 +178,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 					hasLoginButton(app) ? app.getLoginOperation() : null,
 					shouldCreateExamEntry(app),
 					app.enableFileFeatures(),
-					addAppSwitcher);
+					addAppSwitcher,
+					shouldCreateSwitchCalcEntry(app));
 		}
 	}
 
@@ -197,6 +200,11 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	private boolean shouldCreateExamEntry(AppW app) {
 		return (app.getConfig().hasExam() && app.getLAF().isOfflineExamSupported())
 				|| !StringUtil.empty(app.getAppletParameters().getParamExamLaunchURL());
+	}
+
+	private boolean shouldCreateSwitchCalcEntry(AppW app) {
+		ExamType examType = ExamType.byName(app.getAppletParameters().getParamFeatureSet());
+		return examType == null || GlobalScope.getEnabledSubAppsFor(examType).size() > 1;
 	}
 
 	private boolean hasLoginButton(AppW app) {

@@ -8,6 +8,8 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
@@ -50,6 +52,16 @@ public final class GlobalScope {
 					.collect(Collectors.toList());
 		}
 		return SuiteSubApp.availableValues();
+	}
+
+	/**
+	 * @param examType {@link ExamType}
+	 * @return The list of enabled {@link SuiteSubApp}s for given {@link ExamType}
+	 */
+	public static @Nonnull List<SuiteSubApp> getEnabledSubAppsFor(ExamType examType) {
+		ExamRestrictions restrictions = ExamRestrictions.forExamType(examType);
+		return SuiteSubApp.availableValues().stream().filter(subApp -> !restrictions
+				.getDisabledSubApps().contains(subApp)).collect(Collectors.toList());
 	}
 
 	/**
