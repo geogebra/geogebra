@@ -37,6 +37,17 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 		setWidget(mainWidget);
 	}
 
+	/**
+	 * @param loc localization
+	 * @param model model
+	 */
+	public ListBoxPanel(Localization loc, final MultipleOptionsModel model) {
+		this(loc, model.getTitle());
+		setModel(model);
+		model.setListener(this);
+		model.fillModes(loc);
+	}
+
 	MultipleOptionsModel getMultipleModel() {
 		return (MultipleOptionsModel) getModel();
 	}

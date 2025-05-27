@@ -58,4 +58,5 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 		this.listener = listener;
 	}
 
+	public abstract String getTitle();
 }

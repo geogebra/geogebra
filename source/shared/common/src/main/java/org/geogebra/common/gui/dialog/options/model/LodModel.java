@@ -45,6 +45,11 @@ public class LodModel extends MultipleOptionsModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "LevelOfDetail";
+	}
+
+	@Override
 	public List<String> getChoices(Localization loc) {
 		List<String> result = new ArrayList<>();
 		result.add(loc.getMenu("Speed"));

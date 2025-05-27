@@ -8,6 +8,11 @@ import org.geogebra.common.main.Localization;
 
 public class TooltipModel extends MultipleOptionsModel {
 
+	@Override
+	public String getTitle() {
+		return "Tooltip";
+	}
+
 	public TooltipModel(App app) {
 		super(app);
 	}

@@ -492,7 +492,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			nameLabelA.setText(loc.getMenu("Opacity") + ":");
 			btRemove.setText(loc.getPlainTooltip("Remove"));
-			// btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 		}
 
 		@Override
@@ -556,16 +555,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		@Override
 		public void updateSelection(Object[] geos) {
 			// updateSelection(geos);
-		}
-	}
-
-	private class LayerPanel extends ListBoxPanel {
-
-		public LayerPanel() {
-			super(loc, "Layer");
-			LayerModel model = new LayerModel(app);
-			model.setListener(this);
-			setModel(model);
 		}
 	}
 
@@ -844,14 +833,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		OptionsTab tab = makeOptionsTab("Advanced");
 		ShowConditionPanel showConditionPanel = new ShowConditionPanel();
 		ColorFunctionPanel colorFunctionPanel = new ColorFunctionPanel();
-		LayerPanel layerPanel = new LayerPanel();
+		LayerModel model = new LayerModel(app);
+		ListBoxPanel layerPanel = new ListBoxPanel(loc, model);
 		CheckboxPanel selectionAllowedPanel = new CheckboxPanel(loc,
 				new SelectionAllowedModel(null, app));
 
 		tab.add(showConditionPanel);
 		tab.add(colorFunctionPanel);
 		GroupModel group = new GroupModel(app);
-		group.add(layerPanel.getModel());
+		group.add(model);
 		group.add(selectionAllowedPanel.getModel());
 		GroupOptionsPanel misc = new GroupOptionsPanel("Miscellaneous", loc,
 				group);

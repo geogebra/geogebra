@@ -36,6 +36,7 @@ import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import org.geogebra.common.gui.dialog.options.model.LodModel;
+import org.geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
@@ -288,9 +289,6 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof FillingModel) {
 			return new FillingPanel((FillingModel) m, app);
 		}
-		if (m instanceof LodModel) {
-			return new LodPanel((LodModel) m);
-		}
 		if (m instanceof DecoAngleModel) {
 			return new IconDropdownPanelW((IconOptionsModel) m,
 					app, GeoGebraIconW.getAngleDecoIcons());
@@ -338,14 +336,12 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof CenterImageModel) {
 			return new CenterImagePanel((CenterImageModel) m, app, this);
 		}
-		if (m instanceof CoordsModel) {
-			return new CoordsPanel((CoordsModel) m, app);
-		}
-		if (m instanceof LineEqnModel) {
-			return new LineEqnPanel((LineEqnModel) m, app);
-		}
-		if (m instanceof PlaneEqnModel) {
-			return new PlaneEqnPanel((PlaneEqnModel) m, app);
+		if (m instanceof CoordsModel
+				|| m instanceof LineEqnModel
+				|| m instanceof PlaneEqnModel
+				|| m instanceof TextFieldAlignmentModel
+				|| m instanceof LodModel) {
+			return new ListBoxPanel(loc, (MultipleOptionsModel) m);
 		}
 		if (m instanceof ConicEqnModel) {
 			return new ConicEqnPanel((ConicEqnModel) m, app);
@@ -353,9 +349,7 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof AnimationSpeedModel) {
 			return new AnimationSpeedPanelW((AnimationSpeedModel) m, app);
 		}
-		if (m instanceof TextFieldAlignmentModel) {
-			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
-		}
+
 		if (m instanceof DrawArrowsModel) {
 			return new CheckboxPanel(loc, (DrawArrowsModel) m);
 		}
@@ -599,15 +593,6 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public ColorObjectModel getModel() {
 			return model;
-		}
-	}
-
-	private static class TextFieldAlignmentPanel extends ListBoxPanel {
-
-		TextFieldAlignmentPanel(TextFieldAlignmentModel model, AppW app) {
-			super(app.getLocalization(), "stylebar.Align");
-			model.setListener(this);
-			setModel(model);
 		}
 	}
 
@@ -1413,15 +1398,6 @@ public class OptionsTab extends FlowPanel {
 		}
 	} // StartPointPanel
 
-	private static class CoordsPanel extends ListBoxPanel {
-
-		public CoordsPanel(CoordsModel model, AppW app) {
-			super(app.getLocalization(), "Coordinates");
-			model.setListener(this);
-			setModel(model);
-		}
-	} // CoordsPanel
-
 	private static class CenterImagePanel extends CheckboxPanel {
 
 		private final OptionsTab tab;
@@ -1440,30 +1416,10 @@ public class OptionsTab extends FlowPanel {
 		
 	}
 
-	private static class LineEqnPanel extends ListBoxPanel {
-
-		public LineEqnPanel(LineEqnModel model, AppW app) {
-			super(app.getLocalization(), "Equation");
-			model.setListener(this);
-			setModel(model);
-		}
-	}
-
-	private static class PlaneEqnPanel extends ListBoxPanel {
-
-		public PlaneEqnPanel(PlaneEqnModel model, AppW app) {
-			super(app.getLocalization(), "Equation");
-			model.setListener(this);
-			setModel(model);
-		}
-	} // LineEqnPanel
-
 	private class ConicEqnPanel extends ListBoxPanel {
 
 		public ConicEqnPanel(ConicEqnModel model, AppW app) {
-			super(app.getLocalization(), "Equation");
-			model.setListener(this);
-			setModel(model);
+			super(app.getLocalization(), model);
 		}
 
 		@Override

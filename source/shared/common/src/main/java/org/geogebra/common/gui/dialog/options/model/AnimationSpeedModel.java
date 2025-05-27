@@ -27,6 +27,11 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 		return (IAnimationSpeedListener) super.getListener();
 	}
 
+	@Override
+	public String getTitle() {
+		return "AnimationSpeed";
+	}
+
 	public AnimationSpeedModel(App app) {
 		super(app);
 		kernel = app.getKernel();

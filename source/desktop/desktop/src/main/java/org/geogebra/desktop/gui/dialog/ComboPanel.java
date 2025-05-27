@@ -48,6 +48,12 @@ class ComboPanel extends JPanel implements ActionListener,
 		add(comboBox);
 	}
 
+	public ComboPanel(MultipleOptionsModel model, AppD app) {
+		this(app, model.getTitle());
+		setModel(model);
+		model.setListener(this);
+	}
+
 	@Override
 	public void setLabels() {
 		if (hasLabel()) {

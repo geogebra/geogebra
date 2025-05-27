@@ -55,6 +55,11 @@ public class StartPointModel extends MultipleGeosModel {
 
 	}
 
+	@Override
+	public String getTitle() {
+		return "StartingPoint";
+	}
+
 	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
 		handler.resetError();

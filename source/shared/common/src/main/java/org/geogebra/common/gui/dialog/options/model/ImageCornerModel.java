@@ -42,6 +42,11 @@ public class ImageCornerModel extends MultipleGeosModel {
 
 	}
 
+	@Override
+	public String getTitle() {
+		return "CornerPoint";
+	}
+
 	public int getCornerNumber() {
 		return cornerIdx < 2 ? (cornerIdx + 1) : (cornerIdx + 2);
 	}

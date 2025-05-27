@@ -176,11 +176,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private CheckboxPanel showTrimmedIntersectionLines;
 	private ColorPanel colorPanel;
 	private LabelPanel labelPanel;
-	private TooltipPanel tooltipPanel;
-	private LayerPanel layerPanel;
-	private CoordsPanel coordPanel;
-	private LineEqnPanel lineEqnPanel;
-	private PlaneEqnPanel planeEqnPanel;
+	private ComboPanel tooltipPanel;
+	private ComboPanel layerPanel;
+	private ComboPanel coordPanel;
+	private ComboPanel lineEqnPanel;
+	private ComboPanel planeEqnPanel;
 	private CheckboxPanel symbolicPanel;
 	private ConicEqnPanel conicEqnPanel;
 	private PointSizePanel pointSizePanel;
@@ -273,8 +273,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		if (!isDefaults) {
 			namePanel = new NamePanelD(app, this);
 			labelPanel = new LabelPanel();
-			tooltipPanel = new TooltipPanel();
-			layerPanel = new LayerPanel();
+			tooltipPanel = new ComboPanel(new TooltipModel(app), app);
+			layerPanel = new ComboPanel(new LayerModel(app), app);
 			scriptEditPanel = new ScriptEditPanel();
 			textEditPanel = new TextEditPanel(this);
 			startPointPanel = new StartPointPanel();
@@ -295,9 +295,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		showTrimmedIntersectionLines = getCheckboxPanel(
 				new TrimmedIntersectionLinesModel(null, app));
 		colorPanel = new ColorPanel(this, colChooser);
-		coordPanel = new CoordsPanel();
-		lineEqnPanel = new LineEqnPanel();
-		planeEqnPanel = new PlaneEqnPanel();
+		coordPanel = new ComboPanel(new CoordsModel(app), app);
+		lineEqnPanel = new ComboPanel(new LineEqnModel(app), app);
+		planeEqnPanel = new ComboPanel(new PlaneEqnModel(app), app);
 		conicEqnPanel = new ConicEqnPanel();
 		pointSizePanel = new PointSizePanel();
 		pointStylePanel = new PointStylePanel();
@@ -1108,29 +1108,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	} // LabelPanel
 
-	private class TooltipPanel extends ComboPanel {
-		private static final long serialVersionUID = 1L;
-
-		public TooltipPanel() {
-			super(app, "Tooltip");
-			TooltipModel model = new TooltipModel(app);
-			model.setListener(this);
-			setModel(model);
-		}
-	} // TooltipPanel
-
-	private class LayerPanel extends ComboPanel {
-		private static final long serialVersionUID = 1L;
-
-		public LayerPanel() {
-			super(app, "Layer");
-			LayerModel model = new LayerModel(app);
-			model.setListener(this);
-			setModel(model);
-		}
-	} // TooltipPanel
-
-    private CheckboxPanel getCheckboxPanel(BooleanOptionModel model) {
+	private CheckboxPanel getCheckboxPanel(BooleanOptionModel model) {
 		return new CheckboxPanel(app,  PropertiesPanelD.this, model);
 	}
 
@@ -1592,53 +1570,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	}
 
 	/**
-	 * panel to select the kind of coordinates (cartesian or polar) for GeoPoint
-	 * and GeoVector
-	 * 
-	 * @author Markus Hohenwarter
+	 * Panel for conic equation type
 	 */
-
-	private class CoordsPanel extends ComboPanel {
-		private static final long serialVersionUID = 1L;
-
-		public CoordsPanel() {
-			super(app, "Coordinates");
-			CoordsModel model = new CoordsModel(app);
-			model.setListener(this);
-			setModel(model);
-		}
-	} // CoordsPanel
-
-	private class LineEqnPanel extends ComboPanel {
-		private static final long serialVersionUID = 1L;
-
-		public LineEqnPanel() {
-			super(app, "Equation");
-			LineEqnModel model = new LineEqnModel(app);
-			model.setListener(this);
-			setModel(model);
-		}
-	}
-
-	private class PlaneEqnPanel extends ComboPanel {
-		private static final long serialVersionUID = 1L;
-
-		public PlaneEqnPanel() {
-			super(app, "Equation");
-			PlaneEqnModel model = new PlaneEqnModel(app);
-			model.setListener(this);
-			setModel(model);
-		}
-	}
-
 	private class ConicEqnPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;
 
 		public ConicEqnPanel() {
-			super(app, "Equation");
-			ConicEqnModel model = new ConicEqnModel(app);
-			model.setListener(this);
-			setModel(model);
+			super(new ConicEqnModel(app), app);
 		}
 
 		@Override

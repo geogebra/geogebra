@@ -65,6 +65,11 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "AngleBetween";
+	}
+
+	@Override
 	public List<String> getChoices(Localization loc) {
 		List<String> result = new ArrayList<>();
 

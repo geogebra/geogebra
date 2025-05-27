@@ -197,6 +197,11 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		}
 	}
 
+	@Override
+	public String getTitle() {
+		return "Equation";
+	}
+
 	/**
 	 * @param geo0
 	 *            element
@@ -218,7 +223,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	@Override
 	public List<String> getChoices(Localization localization) {
 		// Not used
-		return null;
+		return List.of();
 	}
 
 	@Override

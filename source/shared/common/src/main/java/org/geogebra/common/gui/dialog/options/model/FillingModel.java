@@ -249,6 +249,11 @@ public class FillingModel extends MultipleOptionsModel {
 
 	}
 
+	@Override
+	public String getTitle() {
+		return "Filling";
+	}
+
 	// Methods that set value for single bar if single bar is selected
 	// and bar has tag for value
 

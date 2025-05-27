@@ -41,4 +41,8 @@ public class LayerModel extends MultipleOptionsModel {
 		return getGeoAt(index).getLayer();
 	}
 
+	@Override
+	public String getTitle() {
+		return "Layer";
+	}
 }

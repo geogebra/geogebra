@@ -30,6 +30,11 @@ public class TextFieldAlignmentModel extends MultipleOptionsModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "stylebar.Align";
+	}
+
+	@Override
 	protected void apply(int index, int value) {
 		GeoInputBox inputBox = (GeoInputBox) getGeoAt(index);
 		HorizontalAlignment alignment = HorizontalAlignment.values()[value];

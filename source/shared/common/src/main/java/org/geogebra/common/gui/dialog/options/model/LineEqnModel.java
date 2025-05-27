@@ -119,4 +119,9 @@ public class LineEqnModel extends MultipleOptionsModel {
 		return equationForm == null ? -1 : eqnValues.indexOf(equationForm);
 	}
 
+	@Override
+	public String getTitle() {
+		return "Equation";
+	}
+
 }
