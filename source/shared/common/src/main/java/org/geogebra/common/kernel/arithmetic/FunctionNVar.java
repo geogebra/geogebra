@@ -15,9 +15,9 @@ package org.geogebra.common.kernel.arithmetic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -646,7 +646,7 @@ public class FunctionNVar extends ValidExpression
 		try {
 			if (useCaching) {
 				// check if result is in cache
-
+				kernel.getGeoGebraCAS().initCurrentCAS();
 				resultFun = lookupCasEvalMap(casString);
 				if (resultFun != null) {
 					resultFun.getExpression().traverse(
@@ -1431,7 +1431,7 @@ public class FunctionNVar extends ValidExpression
 	 * @param map
 	 *            map from XML in the string -&gt; string form
 	 */
-	public void updateCASEvalMap(TreeMap<String, String> map) {
+	public void updateCASEvalMap(Map<String, String> map) {
 		if (map == null) {
 			return;
 		}

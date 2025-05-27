@@ -4,6 +4,10 @@ import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Map;
+import java.util.Objects;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.cas.CASparser;
@@ -14,6 +18,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.config.AppConfigCas;
@@ -26,6 +31,7 @@ public class DelayedCasLoadingTest {
 
 	private AppCommon app;
 	private static boolean active = false;
+	private boolean casInitialized = false;
 
 	/**
 	 * Init app and the delayed CAS
@@ -33,10 +39,12 @@ public class DelayedCasLoadingTest {
 	@Before
 	public void init() {
 		active = false;
+		casInitialized = false;
 		app = AppCommonFactory.create();
 		CASFactory factory = new CASFactory() {
 			@Override
 			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
+				casInitialized = true;
 				return new DelayedCasGiacD(parser);
 			}
 		};
@@ -137,6 +145,21 @@ public class DelayedCasLoadingTest {
 		assertEquals("{-1, 1}", solve.toValueString(StringTemplate.testTemplate));
 		assertEquals("{-1, 1}", nSolve.toValueString(StringTemplate.testTemplate));
 		assertEquals("{1, 1}", plotSolve.toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	public void simplifyShouldTriggerLoad() {
+		GeoFunction f = (GeoFunction) add("f(x)=x+x");
+		Objects.requireNonNull(f.getFunction()).updateCASEvalMap(
+				Map.of("Simplify[x + x]", "(3 * x)"));
+		GeoElementND simplified = add("Simplify(f)");
+		assertEquals("3x",
+				simplified.toValueString(StringTemplate.defaultTemplate));
+		assertTrue("CAS should be loaded", casInitialized);
+		active = true;
+		app.getKernel().refreshCASCommands();
+		assertEquals("2x",
+				simplified.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	private GeoElementND add(String s) {

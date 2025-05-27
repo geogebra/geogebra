@@ -112,8 +112,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
-	@Override
-	public synchronized void setCurrentCAS() {
+	private synchronized void setCurrentCAS() {
 		try {
 			cas = getGiac();
 			app.getSettings().getCasSettings().addListener(cas);

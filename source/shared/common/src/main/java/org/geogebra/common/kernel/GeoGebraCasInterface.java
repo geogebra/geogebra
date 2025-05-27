@@ -54,12 +54,6 @@ public interface GeoGebraCasInterface {
 			Kernel kernel);
 
 	/**
-	 * Sets the currently used CAS for evaluateGeoGebraCAS().
-	 * 
-	 */
-	public void setCurrentCAS();
-
-	/**
 	 * Returns whether the given command is available in the underlying CAS.
 	 * 
 	 * @param cmd

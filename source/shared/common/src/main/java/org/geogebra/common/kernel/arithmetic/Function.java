@@ -15,8 +15,8 @@ package org.geogebra.common.kernel.arithmetic;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
@@ -1175,7 +1175,7 @@ public class Function extends FunctionNVar
 	}
 
 	@Override
-	public void updateCASEvalMap(TreeMap<String, String> map) {
+	public void updateCASEvalMap(Map<String, String> map) {
 		if (map == null) {
 			return;
 		}
