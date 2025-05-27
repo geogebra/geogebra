@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.vector.LatexVectorPrinter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -761,33 +762,8 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 			inputs[0] = kernel.format(x, tpl);
 			inputs[1] = kernel.format(y, tpl);
 			inputs[2] = kernel.format(z, tpl);
-			buildTabular(inputs, sb);
+			LatexVectorPrinter.printLaTeXVector(sb, inputs);
 		}
-	}
-
-	private static String buildTabular(String[] inputs, StringBuilder sb) {
-		boolean alignOnDecimalPoint = true;
-		for (String s : inputs) {
-			if (s.indexOf('.') == -1) {
-				alignOnDecimalPoint = false;
-				break;
-			}
-		}
-
-		sb.append("\\left( \\begin{align}");
-		if (alignOnDecimalPoint) {
-			for (int i = 0; i < inputs.length; i++) {
-				inputs[i] = inputs[i].replace(".", "\\hspace{-0.2em} &.");
-			}
-		}
-
-		for (String input : inputs) {
-			sb.append(input);
-			sb.append(" \\\\ ");
-		}
-
-		sb.append("\\end{align} \\right)");
-		return sb.toString();
 	}
 
 	@Override
@@ -866,7 +842,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 			String[] inputs = new String[2];
 			inputs[0] = kernel.format(x, tpl);
 			inputs[1] = kernel.format(y, tpl);
-			return buildTabular(inputs, sb);
+			return LatexVectorPrinter.printLaTeXVector(sb, inputs);
 		}
 
 		return sb.toString();
@@ -884,7 +860,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 			if (vn.getDimension() > 2) {
 				inputs[2] = vn.getZ().toString(tpl);
 			}
-			return buildTabular(inputs, new StringBuilder());
+			return LatexVectorPrinter.printLaTeXVector(new StringBuilder(), inputs);
 		}
 		return definition.toString(tpl);
 	}

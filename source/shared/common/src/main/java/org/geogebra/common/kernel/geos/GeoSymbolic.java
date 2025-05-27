@@ -165,7 +165,8 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if ((symbolicMode || tpl.getStringType().isGiac()) || !hasNumericValue()) {
+		if ((symbolicMode || tpl.getStringType().isGiac()) || !hasNumericValue()
+				|| isParametricTwin()) {
 			if (value != null) {
 				return value.toValueString(tpl);
 			}
@@ -173,6 +174,14 @@ public class GeoSymbolic extends GeoElement
 		} else {
 			return getNumericValueString(tpl);
 		}
+	}
+
+	private boolean isParametricTwin() {
+		Equation eqn = twinGeo != null
+				&& twinGeo.getDefinition() != null
+				&& twinGeo.getDefinition().unwrap() instanceof Equation
+				? (Equation) twinGeo.getDefinition().unwrap() : null;
+		return eqn != null && "X".equals(eqn.getLHS().toString(StringTemplate.defaultTemplate));
 	}
 
 	/**

@@ -13,7 +13,7 @@ class VectorPrinter implements Printer {
     VectorPrinter() {
         defaultPrinter = new CartesianPrinter3D(null);
         editPrinter = new EditVectorPrinter();
-        latexPrinter = new LatexVectorPrinter();
+        latexPrinter = new LatexVector3DPrinter();
     }
 
     @Override

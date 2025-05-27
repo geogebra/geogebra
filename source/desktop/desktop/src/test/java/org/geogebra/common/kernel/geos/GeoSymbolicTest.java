@@ -924,6 +924,26 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testSymbolicDiffersVector() {
+		add("v=(1,2)");
+		GeoSymbolic dependent = add("v + v");
+		assertFalse("Simple vector should not have toggle",
+				AlgebraItem.isSymbolicDiffers(dependent));
+	}
+
+	@Test
+	public void testSymbolicDiffersVectorFunction() {
+		GeoSymbolic geo = add("(x,1)+(2,3)");
+		geo.setSymbolicMode(false, false);
+		String text1 = geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplate);
+		geo.setSymbolicMode(true, false);
+		String text2 = geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplate);
+		assertEquals(text1, text2);
+	}
+
+	@Test
 	public void testStrings() {
 		t("\"Hello World!\"", "Hello World!");
 		GeoElement element = app.getKernel().getConstruction().getLastGeoElement();
