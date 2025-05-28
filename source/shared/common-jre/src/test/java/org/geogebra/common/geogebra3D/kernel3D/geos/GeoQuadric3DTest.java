@@ -1,14 +1,17 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.test.annotation.Issue;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
@@ -45,6 +48,20 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 		assertThat(add("x^2+y^2+z^2=1"), hasType("Sphere"));
 		assertThat(add("x^2+y^2+z^2=0"), hasType("Point"));
 		assertThat(add("x^2+z^2=0"), hasType("Line"));
+	}
+
+	@Test
+	@Issue("APPS-6570")
+	public void shouldLoadAsImplicitFromFile() {
+		add("a=1");
+		getApp().getGgbApi().evalXML(
+				"<expression label=\"b\" exp=\"a*x^2=z^2\" type=\"quadric\" />"
+				+ "<element type=\"quadric\" label=\"b\">"
+				+ "<show object=\"true\" label=\"false\" ev=\"7\"/>"
+				+ "</element>");
+		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+				((GeoQuadric3D) lookup("b")).getEquationForm());
+		assertThat(add("FormulaText(b,true,true)"), hasValue("b: \\,x² - z²\\, = \\,0"));
 	}
 
 	private Matcher<GeoElement> hasType(String type) {

@@ -1,7 +1,9 @@
 package org.geogebra.common.kernel.kernelND;
 
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
+
 /** interface for 3D quadrics */
-public interface GeoQuadric3DInterface {
+public interface GeoQuadric3DInterface extends QuadraticEquationRepresentable {
 
 	/**
 	 * sets quadric's matrix from coefficients of equation from array

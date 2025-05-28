@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
 import org.geogebra.common.kernel.PathRegionHandling;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -65,6 +66,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.statistics.Regression;
@@ -3577,6 +3579,10 @@ public class MyXMLHandler implements DocHandler {
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {
 				result[0].setLoadedLabel(label);
+				if (result[0] instanceof GeoQuadric3DInterface) {
+					((GeoQuadric3DInterface) result[0]).setEquationForm(
+							QuadraticEquationRepresentable.Form.IMPLICIT);
+				}
 			} else {
 				Log.error(
 						"error in <expression>: " + exp + ", label: " + label);
