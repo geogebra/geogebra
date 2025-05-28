@@ -243,7 +243,7 @@ public final class SpreadsheetController {
 	 * Updates the ScrollPane size and adjusts the viewport if needed, while also creating an
 	 * undo point.
 	 */
-	public void notifyDataDimensionsChanged() {
+	private void notifyDataDimensionsChanged() {
 		notifyViewportAdjuster();
 		adjustViewportIfNeeded();
 		storeUndoInfo();
@@ -1088,12 +1088,44 @@ public final class SpreadsheetController {
 		}
 	}
 
-	@CheckForNull CopyPasteCutTabularData getCopyPasteCut() {
-		return copyPasteCut;
-	}
-
 	void setCopyPasteCut(@CheckForNull CopyPasteCutTabularData copyPasteCut) {
 		this.copyPasteCut = copyPasteCut;
+	}
+
+	void pasteCells(int row, int column) {
+		if (copyPasteCut == null) {
+			return;
+		}
+		if (!selectionController.hasSelection()) {
+			pasteToSelections(Stream.of(new TabularRange(row, column)));
+		} else {
+			pasteToSelections(selectionController.getSelections().map(Selection::getRange));
+		}
+	}
+
+	void copyCells(int row, int column) {
+		if (copyPasteCut == null) {
+			return;
+		}
+		if (!selectionController.hasSelection()) {
+			copyPasteCut.copyDeep(new TabularRange(row, row, column, column));
+		} else {
+			selectionController.getSelections().forEach(
+					selection -> copyPasteCut.copyDeep(selection.getRange()));
+		}
+	}
+
+	void cutCells(int row, int column) {
+		if (copyPasteCut == null) {
+			return;
+		}
+		if (!selectionController.hasSelection()) {
+			copyPasteCut.cut(new TabularRange(row, row, column, column));
+		} else {
+			selectionController.getSelections().forEach(
+					selection -> copyPasteCut.cut(selection.getRange()));
+		}
+		notifyDataDimensionsChanged();
 	}
 
 	private void cutSelections() {
@@ -1110,7 +1142,7 @@ public final class SpreadsheetController {
 		getSelections().forEach(selection -> copyPasteCut.copyDeep(selection.getRange()));
 	}
 
-	void pasteToSelections(@Nonnull Stream<TabularRange> destinations) {
+	private void pasteToSelections(@Nonnull Stream<TabularRange> destinations) {
 		if (copyPasteCut == null) {
 			return;
 		}

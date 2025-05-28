@@ -35,7 +35,6 @@ import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
 public final class ContextMenuBuilder {
 
     static final int HEADER_INDEX = -1;
-    private final SpreadsheetSelectionController selectionController;
     private final SpreadsheetController spreadsheetController;
 
     /**
@@ -43,7 +42,6 @@ public final class ContextMenuBuilder {
      */
     ContextMenuBuilder(SpreadsheetController spreadsheetController) {
         this.spreadsheetController = spreadsheetController;
-        this.selectionController = spreadsheetController.selectionController;
     }
 
     /**
@@ -88,17 +86,17 @@ public final class ContextMenuBuilder {
 
     private List<ContextMenuItem> tableItems(int row, int column) {
         return List.of(
-                new ActionableItem(CUT, () -> cutCells(row, column)),
-                new ActionableItem(COPY, () -> copyCells(row, column)),
-                new ActionableItem(PASTE, () -> pasteCells(row, column))
+                new ActionableItem(CUT, () -> spreadsheetController.cutCells(row, column)),
+                new ActionableItem(COPY, () -> spreadsheetController.copyCells(row, column)),
+                new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(row, column))
         );
     }
 
     private List<ContextMenuItem> cellItems(int fromRow, int toRow, int fromCol, int toCol) {
         return Stream.of(
-                new ActionableItem(CUT, () -> cutCells(fromRow, fromCol)),
-                new ActionableItem(COPY, () -> copyCells(fromRow, fromCol)),
-                new ActionableItem(PASTE, () -> pasteCells(fromRow, fromCol)),
+                new ActionableItem(CUT, () -> spreadsheetController.cutCells(fromRow, fromCol)),
+                new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, fromCol)),
+                new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, fromCol)),
                 new Divider(),
                 new SubMenuItem(CALCULATE, List.of(
                         new ActionableItem(SUM, () -> spreadsheetController.calculate(
@@ -112,8 +110,10 @@ public final class ContextMenuBuilder {
                 new ActionableItem(INSERT_COLUMN_LEFT, () -> insertColumnAt(fromCol, false)),
                 new ActionableItem(INSERT_COLUMN_RIGHT, () -> insertColumnAt(toCol + 1, true)),
                 new Divider(),
-                new ActionableItem(DELETE_ROW, () -> deleteRowAt(fromRow)),
-                new ActionableItem(DELETE_COLUMN, () -> deleteColumnAt(fromCol))
+                new ActionableItem(DELETE_ROW,
+                        () -> spreadsheetController.deleteRowAt(fromRow)),
+                new ActionableItem(DELETE_COLUMN,
+                        () -> spreadsheetController.deleteColumnAt(fromCol))
         ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
@@ -125,47 +125,11 @@ public final class ContextMenuBuilder {
                 new ActionableItem(PIE_CHART, () -> spreadsheetController.createChart(PIE_CHART))));
     }
 
-    private void pasteCells(int row, int column) {
-        if (!selectionController.hasSelection()) {
-            spreadsheetController.pasteToSelections(Stream.of(new TabularRange(row, column)));
-        } else {
-            spreadsheetController.pasteToSelections(
-                    selectionController.getSelections().map(Selection::getRange));
-        }
-    }
-
-    private void copyCells(int row, int column) {
-        CopyPasteCutTabularData copyPasteCut = spreadsheetController.getCopyPasteCut();
-        if (copyPasteCut == null) {
-            return;
-        }
-        if (!selectionController.hasSelection()) {
-            copyPasteCut.copyDeep(new TabularRange(row, row, column, column));
-        } else {
-            selectionController.getSelections().forEach(
-                    selection -> copyPasteCut.copyDeep(selection.getRange()));
-        }
-    }
-
-    private void cutCells(int row, int column) {
-        CopyPasteCutTabularData copyPasteCut = spreadsheetController.getCopyPasteCut();
-        if (copyPasteCut == null) {
-            return;
-        }
-        if (!selectionController.hasSelection()) {
-            copyPasteCut.cut(new TabularRange(row, row, column, column));
-        } else {
-            selectionController.getSelections().forEach(
-                    selection -> copyPasteCut.cut(selection.getRange()));
-        }
-        spreadsheetController.notifyDataDimensionsChanged();
-    }
-
     private List<ContextMenuItem> rowItems(int fromRow, int toRow) {
         return Stream.of(
-                new ActionableItem(CUT, () -> cutCells(fromRow, -1)),
-                new ActionableItem(COPY, () -> copyCells(fromRow, -1)),
-                new ActionableItem(PASTE, () -> pasteCells(fromRow, -1)),
+                new ActionableItem(CUT, () -> spreadsheetController.cutCells(fromRow, -1)),
+                new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, -1)),
+                new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, -1)),
                 new Divider(),
                 new SubMenuItem(CALCULATE, List.of(
                         new ActionableItem(SUM, () -> spreadsheetController.calculate(
@@ -177,15 +141,15 @@ public final class ContextMenuBuilder {
                 new ActionableItem(INSERT_ROW_ABOVE, () -> insertRowAt(fromRow, false)),
                 new ActionableItem(INSERT_ROW_BELOW, () -> insertRowAt(toRow + 1, true)),
                 new Divider(),
-                new ActionableItem(DELETE_ROW, () -> deleteRowAt(fromRow))
+                new ActionableItem(DELETE_ROW, () -> spreadsheetController.deleteRowAt(fromRow))
         ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private List<ContextMenuItem> columnItems(int fromCol, int toCol) {
         return Stream.of(
-                new ActionableItem(CUT, () -> cutCells(-1, fromCol)),
-                new ActionableItem(COPY, () -> copyCells(-1, fromCol)),
-                new ActionableItem(PASTE, () -> pasteCells(-1, fromCol)),
+                new ActionableItem(CUT, () -> spreadsheetController.cutCells(-1, fromCol)),
+                new ActionableItem(COPY, () -> spreadsheetController.copyCells(-1, fromCol)),
+                new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(-1, fromCol)),
                 new Divider(),
                 new SubMenuItem(CALCULATE, List.of(
                         new ActionableItem(SUM, () -> spreadsheetController.calculate(
@@ -197,16 +161,9 @@ public final class ContextMenuBuilder {
                 new ActionableItem(INSERT_COLUMN_LEFT, () -> insertColumnAt(fromCol, false)),
                 new ActionableItem(INSERT_COLUMN_RIGHT, () -> insertColumnAt(toCol + 1, true)),
                 new Divider(),
-                new ActionableItem(DELETE_COLUMN, () -> deleteColumnAt(fromCol))
+                new ActionableItem(DELETE_COLUMN,
+                        () -> spreadsheetController.deleteColumnAt(fromCol))
         ).filter(Objects::nonNull).collect(Collectors.toList());
-    }
-
-    private void deleteRowAt(int row) {
-        spreadsheetController.deleteRowAt(row);
-    }
-
-    private void deleteColumnAt(int column) {
-        spreadsheetController.deleteColumnAt(column);
     }
 
     private void insertColumnAt(int column, boolean right) {
