@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.plugin.Operation;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * <p>It factorizes GCD from expanded expression<br>
@@ -30,7 +30,7 @@ public final class GCDFromExpanded implements SimplifyNode {
 	private List<ExpressionValue> flatten;
 	private final Map<Integer, Integer> sqrtMap = new HashMap<>();
 
-	public GCDFromExpanded(@NonNull SimplifyUtils utils) {
+	public GCDFromExpanded(@Nonnull SimplifyUtils utils) {
 		this.utils = utils;
 	}
 

@@ -3,7 +3,7 @@ package org.geogebra.common.util.debug;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.SuiteSubApp;
 
@@ -41,7 +41,7 @@ public abstract class Analytics {
 	 * @param name event name
 	 * @param params parameters
 	 */
-	public static void logEvent(String name, @Nullable Map<String, Object> params) {
+	public static void logEvent(String name, @CheckForNull Map<String, Object> params) {
 		if (INSTANCE != null) {
 			INSTANCE.recordEvent(name, params);
 		} else {
@@ -54,7 +54,7 @@ public abstract class Analytics {
 	 * @param name event name
 	 * @param params event parameters
 	 */
-	protected abstract void recordEvent(String name, @Nullable Map<String, Object> params);
+	protected abstract void recordEvent(String name, @CheckForNull Map<String, Object> params);
 
 	/**
 	 * Analytics events.

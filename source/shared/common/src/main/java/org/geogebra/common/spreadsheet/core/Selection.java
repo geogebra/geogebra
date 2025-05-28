@@ -221,7 +221,7 @@ final class Selection {
 	 * @param newSelection New Selection
 	 * @return Resulting SelectionType
 	 */
-	@Nonnull private SelectionType getSelectionTypeForExtendingWith(Selection newSelection) {
+	private @Nonnull SelectionType getSelectionTypeForExtendingWith(Selection newSelection) {
 		List<SelectionType> selectionTypes = List.of(this.type, newSelection.type);
 		if (this.type == newSelection.type) {
 			return this.type;

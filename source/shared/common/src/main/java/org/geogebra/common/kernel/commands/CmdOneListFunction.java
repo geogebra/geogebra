@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
@@ -111,7 +111,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 		throw argErr(command, element);
 	}
 
-	protected GeoElement doCommand(String label, GeoList list, @Nullable EvalInfo info) {
+	protected GeoElement doCommand(String label, GeoList list, @CheckForNull EvalInfo info) {
 		return doCommand(label, list);
 	}
 

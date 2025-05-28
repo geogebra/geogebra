@@ -135,9 +135,8 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 		return null;
 	}
 
-	@CheckForNull
 	@Override
-	public SyntaxFilter newCommandSyntaxFilter() {
+	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
 		return null;
 	}
 

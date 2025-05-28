@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -239,8 +238,7 @@ public class StylebarPositioner {
 	 *         top of the stylebar.
 	 */
 	@SuppressWarnings("WeakerAccess")
-	@Nullable
-	public GPoint getPositionOnCanvas(int stylebarHeight, int stylebarWidth,
+	public @CheckForNull GPoint getPositionOnCanvas(int stylebarHeight, int stylebarWidth,
 			GRectangle canvasRect) {
 		List<GeoElement> activeGeoList = createActiveGeoList();
 		if (activeGeoList.isEmpty()) {

@@ -101,8 +101,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	@Override
-	@Nonnull
-	final public String getMenu(String key) {
+	final public @Nonnull String getMenu(String key) {
 		if (key == null) {
 			return "";
 		}

@@ -180,26 +180,22 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	/**
 	 * @return the Command filter for the app.
 	 */
-	@CheckForNull
-	CommandFilter getCommandFilter();
+	@CheckForNull CommandFilter getCommandFilter();
 
 	/**
 	 * @return new command filter for the app.
 	 */
-	@CheckForNull
-	CommandFilter createCommandFilter();
+	@CheckForNull CommandFilter createCommandFilter();
 
 	/**
 	 * @return the Command Argument filter for the app.
 	 */
-	@CheckForNull
-	CommandArgumentFilter getCommandArgumentFilter();
+	@CheckForNull CommandArgumentFilter getCommandArgumentFilter();
 
 	/**
 	 * @return command syntax filter
 	 */
-	@CheckForNull
-	SyntaxFilter newCommandSyntaxFilter();
+	@CheckForNull SyntaxFilter newCommandSyntaxFilter();
 
 	/**
 	 * @return whether the app should show the tools panel or not
@@ -216,15 +212,13 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	 * @return The sub-app code if exists.
 	 * E.g. in the Suite app the Graphing sub-app has "suite" app code and "graphing" sub-app code.
 	 */
-	@CheckForNull
-	String getSubAppCode();
+	@CheckForNull String getSubAppCode();
 
 	/**
 	 * @return The sub-app code if exists.
 	 * E.g. in the Suite app the Graphing sub-app has "suite" app code and "graphing" sub-app code.
 	 */
-	@CheckForNull
-	SuiteSubApp getSubApp();
+	@CheckForNull SuiteSubApp getSubApp();
 
 	/**
 	 * @return creates a settings updater
@@ -253,8 +247,7 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	 *
 	 * @return operation argument filter
 	 */
-	@CheckForNull
-	ExpressionFilter createExpressionFilter();
+	@CheckForNull ExpressionFilter createExpressionFilter();
 
 	/**
 	 * @return creates app specific parser functions
@@ -278,8 +271,7 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	 * {@code getEnforcedLineEquationForm()}, {@code getEnforcedConicEquationForm()}.
 	 * @return This app config's equation behaviour
 	 */
-	@Nonnull
-	EquationBehaviour getEquationBehaviour();
+	@Nonnull EquationBehaviour getEquationBehaviour();
 
 	/**
 	 * Initializes this app config's equation behaviour to its default value

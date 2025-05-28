@@ -38,8 +38,7 @@ public interface VisibilityRestriction {
 	 * @param geoElement The geo element to evaluate.
 	 * @return The effect of the restriction for the given geo element.
 	 */
-	@Nonnull
-	Effect getEffect(GeoElement geoElement);
+	@Nonnull Effect getEffect(GeoElement geoElement);
 
 	/**
 	 * Determine whether a {@code GeoElement}'s visibility is restricted for a set of restrictions.

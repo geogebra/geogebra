@@ -18,8 +18,7 @@ public interface Property extends PropertySupplier {
     /**
      * @return The raw, unlocalized name of the property.
      */
-    @Nonnull
-    String getRawName();
+    @Nonnull String getRawName();
 
     /**
      * Returns whether the property is enabled. In some cases

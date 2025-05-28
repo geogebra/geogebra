@@ -119,8 +119,7 @@ public class AlgebraSettings extends AbstractSettings {
 	 * Retrieves the set of {@link AlgebraOutputFormatFilter}s.
 	 * @return the set of filters
 	 */
-	@Nonnull
-	public Set<AlgebraOutputFormatFilter> getAlgebraOutputFormatFilters() {
+	public @Nonnull Set<AlgebraOutputFormatFilter> getAlgebraOutputFormatFilters() {
 		return algebraOutputFormatFilters;
 	}
 

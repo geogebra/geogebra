@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
@@ -401,10 +399,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private final GeoFunctionConverter functionConverter = new GeoFunctionConverter();
 	private final StatisticGroupsBuilder statisticGroupsBuilder = new StatisticGroupsBuilder();
 
-	@CheckForNull
-	private Surds surds = new Surds();
-	@CheckForNull
-	private Rationalization rationalization = new Rationalization();
+	private @CheckForNull Surds surds = new Surds();
+	private @CheckForNull Rationalization rationalization = new Rationalization();
 
 	/**
 	 * @param app
@@ -5330,15 +5326,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return The current equation behaviour (may change at runtime, e.g. during exams).
 	 */
-	@CheckForNull
-	public EquationBehaviour getEquationBehaviour() {
+	public @CheckForNull EquationBehaviour getEquationBehaviour() {
 		return equationBehaviour;
 	}
 
 	/**
 	 * Set the current equation behaviour (may change at runtime, e.g. during exams).
 	 */
-	public void setEquationBehaviour(@Nonnull EquationBehaviour equationBehaviour) {
+	public void setEquationBehaviour(@CheckForNull EquationBehaviour equationBehaviour) {
 		this.equationBehaviour = equationBehaviour;
 	}
 
@@ -5370,7 +5365,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets the surds operation.
 	 * @param surds surds. Null if surds is not available
 	 */
-	public void setSurds(@Nullable Surds surds) {
+	public void setSurds(@CheckForNull Surds surds) {
 		this.surds = surds;
 	}
 
@@ -5378,8 +5373,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Gets the surd operation
 	 * @return operation or null if unavailable
 	 */
-	@CheckForNull
-	public Surds getSurds() {
+	public @CheckForNull Surds getSurds() {
 		return surds;
 	}
 
@@ -5387,7 +5381,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Sets the rationalization operation.
 	 * @param rationalization rationalization. Null if rationalization is not available
 	 */
-	public void setRationalization(@Nullable Rationalization rationalization) {
+	public void setRationalization(@CheckForNull Rationalization rationalization) {
 		this.rationalization = rationalization;
 	}
 
@@ -5395,8 +5389,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Gets the rationalization operation.
 	 * @return operation or null if unavailable
 	 */
-	@CheckForNull
-	public Rationalization getRationalization() {
+	public @CheckForNull Rationalization getRationalization() {
 		return rationalization;
 	}
 }

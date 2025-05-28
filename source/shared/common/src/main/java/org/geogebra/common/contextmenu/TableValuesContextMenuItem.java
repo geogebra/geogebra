@@ -74,14 +74,12 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		this.translationPlaceholderValues = translationPlaceholderValues;
 	}
 
-	@Nonnull
-	public Item getItem() {
+	public @Nonnull Item getItem() {
 		return item;
 	}
 
-	@Nonnull
 	@Override
-	public AttributedString getLocalizedTitle(@Nonnull Localization localization) {
+	public @Nonnull AttributedString getLocalizedTitle(@Nonnull Localization localization) {
 		return MenuItemFormatting.parse(
 				localization.getPlainArray(item.translationKey, null,
 						translationPlaceholderValues)

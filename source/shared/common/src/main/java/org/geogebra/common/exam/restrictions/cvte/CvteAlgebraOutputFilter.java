@@ -1,6 +1,6 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -18,9 +18,9 @@ import org.geogebra.common.main.App;
  */
 public final class CvteAlgebraOutputFilter implements AlgebraOutputFilter {
 
-    private final @Nullable AlgebraOutputFilter wrappedFilter;
+    private final @CheckForNull AlgebraOutputFilter wrappedFilter;
 
-    public CvteAlgebraOutputFilter(@Nullable AlgebraOutputFilter wrappedFilter) {
+    public CvteAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
         this.wrappedFilter = wrappedFilter;
     }
 

@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.exam;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
@@ -36,19 +35,17 @@ public class ExamControllerDelegateW implements ExamControllerDelegate {
 	}
 
 	@Override
-	public void examSetActiveMaterial(@Nullable Material material) {
+	public void examSetActiveMaterial(@CheckForNull Material material) {
 		app.setActiveMaterial(material);
 	}
 
-	@CheckForNull
 	@Override
-	public Material examGetActiveMaterial() {
+	public @CheckForNull Material examGetActiveMaterial() {
 		return app.getActiveMaterial();
 	}
 
-	@CheckForNull
 	@Override
-	public SuiteSubApp examGetCurrentSubApp() {
+	public @CheckForNull SuiteSubApp examGetCurrentSubApp() {
 		String subAppCode = app.getConfig().getSubAppCode();
 		if (!app.isSuite() || subAppCode == null) {
 			return null;

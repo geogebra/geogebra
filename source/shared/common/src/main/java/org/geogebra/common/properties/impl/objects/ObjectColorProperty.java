@@ -26,9 +26,8 @@ public class ObjectColorProperty extends ElementColorProperty {
 		super(localization, new ObjectColorPropertyDelegate(element));
 	}
 
-	@Nonnull
 	@Override
-	public List<GColor> getValues() {
+	public @Nonnull List<GColor> getValues() {
 		return Arrays.stream(GeoColorValues.values()).map(ColorValues::getColor)
 				.collect(Collectors.toList());
 	}

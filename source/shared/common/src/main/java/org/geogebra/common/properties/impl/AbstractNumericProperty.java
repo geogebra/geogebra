@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -38,9 +38,8 @@ public abstract class AbstractNumericProperty extends AbstractValuedProperty<Str
 		return "";
 	}
 
-	@Nullable
 	@Override
-	public String validateValue(String value) {
+	public @CheckForNull String validateValue(String value) {
 		if (!util.isNumber(value)) {
 			return getLocalization().getError("InvalidInput");
 		}

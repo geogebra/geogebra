@@ -2,8 +2,8 @@ package org.geogebra.common.exam;
 
 import java.util.Date;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.main.AppConfig;
@@ -71,7 +71,7 @@ public final class ExamSummary {
 	 */
 	public ExamSummary(@Nonnull ExamType examType,
 			@Nonnull Date startDate,
-			@Nullable Date finishDate,
+			@CheckForNull Date finishDate,
 			@Nonnull CheatingEvents cheatingEvents,
 			@Nonnull AppConfig appConfig,
 			@Nonnull  TimeFormatAdapter timeFormatter,

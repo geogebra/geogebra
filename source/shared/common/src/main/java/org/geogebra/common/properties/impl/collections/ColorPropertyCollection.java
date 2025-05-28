@@ -21,9 +21,8 @@ public class ColorPropertyCollection<T extends ElementColorProperty>
 		super(properties);
 	}
 
-	@Nonnull
-    @Override
-	public List<GColor> getValues() {
+	@Override
+	public @Nonnull List<GColor> getValues() {
 		return getFirstProperty().getValues();
 	}
 }

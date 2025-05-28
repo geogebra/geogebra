@@ -1,7 +1,7 @@
 package org.geogebra.common.exam.restrictions;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.common.properties.Property;
@@ -20,7 +20,7 @@ public class PropertyRestriction {
      * @param shouldFreeze whether the property should be frozen
      * @param valueFilter an optional {@link ValueFilter} to be applied to an enumerated property
      */
-    public PropertyRestriction(boolean shouldFreeze, @Nullable ValueFilter valueFilter) {
+    public PropertyRestriction(boolean shouldFreeze, @CheckForNull ValueFilter valueFilter) {
         this.shouldFreeze = shouldFreeze;
         this.valueFilter = valueFilter;
     }

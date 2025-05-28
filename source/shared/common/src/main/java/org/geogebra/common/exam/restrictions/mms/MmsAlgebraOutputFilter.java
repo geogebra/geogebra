@@ -1,6 +1,6 @@
 package org.geogebra.common.exam.restrictions.mms;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.exam.restrictions.wtr.AlgebraConversionFilter;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
@@ -8,13 +8,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public final class MmsAlgebraOutputFilter implements AlgebraOutputFilter {
 
-    private final @Nullable AlgebraOutputFilter wrappedFilter;
+    private final @CheckForNull AlgebraOutputFilter wrappedFilter;
     private final AlgebraConversionFilter algebraConversionFilter;
 
     /**
      * @param wrappedFilter parent filter
      */
-    public MmsAlgebraOutputFilter(@Nullable AlgebraOutputFilter wrappedFilter) {
+    public MmsAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
         this.wrappedFilter = wrappedFilter;
         this.algebraConversionFilter = new AlgebraConversionFilter();
     }

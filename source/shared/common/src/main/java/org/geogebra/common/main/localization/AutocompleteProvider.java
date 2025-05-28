@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Macro;
@@ -32,8 +31,7 @@ import com.google.j2objc.annotations.Weak;
 public class AutocompleteProvider {
 	@NonOwning
 	@Weak
-	@Nonnull
-	private final App app;
+	private final @Nonnull App app;
 	private final boolean isForClassicCAS;
 	private LocalizedCommandSyntax englishCommandSyntax;
 	private @CheckForNull OperationFilter operationFilter;
@@ -70,7 +68,7 @@ public class AutocompleteProvider {
 	 * Sets a filter to restrict operations in the completions.
 	 * @param operationFilter an optional operation filter
 	 */
-	public void setOperationFilter(@Nullable OperationFilter operationFilter) {
+	public void setOperationFilter(@CheckForNull OperationFilter operationFilter) {
 		this.operationFilter = operationFilter;
 	}
 
@@ -223,12 +221,11 @@ public class AutocompleteProvider {
 	public static class Completion {
 		public final MatchedString match;
 		public final List<String> syntaxes;
-		@CheckForNull
-		public final String helpPage;
+		public final @CheckForNull String helpPage;
 		public final ManualPage helpType;
 
 		private Completion(MatchedString match, List<String> syntaxes, ManualPage helpType,
-				@Nullable String helpPage) {
+				@CheckForNull String helpPage) {
 			this.match = match;
 			this.syntaxes = syntaxes;
 			this.helpPage = helpPage;
@@ -247,8 +244,7 @@ public class AutocompleteProvider {
 			return syntaxes;
 		}
 
-		@CheckForNull
-		public String getHelpPage() {
+		public @CheckForNull String getHelpPage() {
 			return helpPage;
 		}
 

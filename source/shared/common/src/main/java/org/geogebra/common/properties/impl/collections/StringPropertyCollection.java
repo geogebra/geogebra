@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.collections;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.properties.aliases.StringProperty;
 
@@ -19,9 +19,8 @@ public class StringPropertyCollection<T extends StringProperty>
 		super(properties);
 	}
 
-	@Nullable
 	@Override
-	public String validateValue(String value) {
+	public @CheckForNull String validateValue(String value) {
 		for (T property : getProperties()) {
 			String invalidMessage = property.validateValue(value);
 			if (invalidMessage != null) {

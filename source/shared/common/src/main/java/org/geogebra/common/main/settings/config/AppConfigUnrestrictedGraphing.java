@@ -75,9 +75,8 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 		return null;
 	}
 
-	@CheckForNull
 	@Override
-	public SyntaxFilter newCommandSyntaxFilter() {
+	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
 		return null;
 	}
 

@@ -1452,8 +1452,7 @@ public class InputController {
 	/**
 	 * @return Set of available editor features
 	 */
-	@CheckForNull
-	public EditorFeatures getEditorFeatures() {
+	public @CheckForNull EditorFeatures getEditorFeatures() {
 		return editorFeatures;
 	}
 

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -16,8 +18,6 @@ import org.geogebra.common.kernel.arithmetic.OperationCountChecker;
 import org.geogebra.common.kernel.arithmetic.Surds;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Utility class to easily create and manipulate ExpressionValues/Nodes in Simplifiers
@@ -34,7 +34,7 @@ public final class SimplifyUtils {
 	/**
 	 * @param kernel {@link Kernel}
 	 */
-	public SimplifyUtils(@NonNull Kernel kernel) {
+	public SimplifyUtils(@Nonnull Kernel kernel) {
 		this.kernel = kernel;
 		this.surds = new Surds();
 		productReducer = new ExpressionReducer(this, Operation.MULTIPLY);
@@ -47,7 +47,7 @@ public final class SimplifyUtils {
 	 * @param right tree.
 	 * @return the new node
 	 */
-	public ExpressionNode newNode(@NonNull ExpressionValue left, Operation operation,
+	public ExpressionNode newNode(@Nonnull ExpressionValue left, Operation operation,
 			ExpressionValue right) {
 		return new ExpressionNode(kernel, left, operation, right);
 	}
@@ -56,7 +56,7 @@ public final class SimplifyUtils {
 	 * @param ev {@link ExpressionValue}
 	 * @return a new node with the double value of ev.
 	 */
-	public ExpressionValue newDouble(@NonNull ExpressionValue ev) {
+	public ExpressionValue newDouble(@Nonnull ExpressionValue ev) {
 		return newDouble(ev.evaluateDouble());
 	}
 
@@ -78,8 +78,8 @@ public final class SimplifyUtils {
 	 * @param denominator of div
 	 * @return the new node with div.
 	 */
-	public ExpressionNode newDiv(@NonNull ExpressionValue numerator,
-			@NonNull ExpressionValue denominator) {
+	public ExpressionNode newDiv(@Nonnull ExpressionValue numerator,
+			@Nonnull ExpressionValue denominator) {
 		return newNode(numerator, Operation.DIVIDE, denominator);
 	}
 
@@ -88,7 +88,7 @@ public final class SimplifyUtils {
 	 * @param node to flip.
 	 * @return a new node with the same operation, but left- rightTrees are flipped.
 	 */
-	public ExpressionNode flipTrees(@NonNull ExpressionNode node) {
+	public ExpressionNode flipTrees(@Nonnull ExpressionNode node) {
 		return newNode(node.getRightTree(), node.getOperation(), node.getLeftTree());
 	}
 
@@ -100,8 +100,8 @@ public final class SimplifyUtils {
 	 * @return the new node with div.
 	 */
 
-	public ExpressionNode div(@NonNull ExpressionValue numerator,
-			@NonNull ExpressionValue denominator) {
+	public ExpressionNode div(@Nonnull ExpressionValue numerator,
+			@Nonnull ExpressionValue denominator) {
 		double valDenominator = denominator.evaluateDouble();
 		if (valDenominator == 1) {
 			return numerator.wrap();
@@ -120,7 +120,7 @@ public final class SimplifyUtils {
 	 * @param node2 to multiply.
 	 * @return the node with the multiplied value
 	 */
-	public ExpressionNode multiply(@NonNull ExpressionNode node1, @NonNull ExpressionNode node2) {
+	public ExpressionNode multiply(@Nonnull ExpressionNode node1, @Nonnull ExpressionNode node2) {
 		if (isOne(node1)) {
 			return node2;
 		}
@@ -349,7 +349,7 @@ public final class SimplifyUtils {
 	 * @param node to flip
 	 * @return flipped node
 	 */
-	public ExpressionValue flipSign(@NonNull ExpressionNode node) {
+	public ExpressionValue flipSign(@Nonnull ExpressionNode node) {
 		ExpressionNode leftTree = node.getLeftTree();
 		double leftNumber = leftTree.evaluateDouble();
 

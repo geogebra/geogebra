@@ -14,12 +14,11 @@ import org.geogebra.common.jre.io.StreamUtil;
  */
 public class XmlExtractor {
 
-    /**
-     * @param zipInputStream the .ggb file in ZipInputStream form
-     * @return geogebra.xml in byte array form
-     */
-    @CheckForNull
-    public byte[] getBytes(ZipInputStream zipInputStream) {
+	/**
+	 * @param zipInputStream the .ggb file in ZipInputStream form
+	 * @return geogebra.xml in byte array form
+	 */
+	public @CheckForNull byte[] getBytes(ZipInputStream zipInputStream) {
         try {
             while (true) {
                 ZipEntry entry =  zipInputStream.getNextEntry();

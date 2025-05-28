@@ -289,7 +289,7 @@ final class SpreadsheetSelectionController {
 	 * @return Whether there is at least one selection that is of type {@link SelectionType#ALL}
 	 */
 	boolean areAllCellsSelected() {
-		return selections.size() > 0 && selections.stream().anyMatch(
+		return !selections.isEmpty() && selections.stream().anyMatch(
 				selection -> selection.getType() == SelectionType.ALL);
 	}
 

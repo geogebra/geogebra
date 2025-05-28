@@ -50,8 +50,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean isVisible;
 	private boolean labelVisible;
 
-	@Nonnull
-	private final  GeneralPathClipped gp;
+	private final @Nonnull GeneralPathClipped gp;
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 

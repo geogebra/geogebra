@@ -1,15 +1,15 @@
 package org.geogebra.common.exam.restrictions.realschule;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public final class RealschuleAlgebraOutputFilter implements AlgebraOutputFilter {
 
-	private final @Nullable AlgebraOutputFilter wrappedFilter;
+	private final @CheckForNull AlgebraOutputFilter wrappedFilter;
 
-	public RealschuleAlgebraOutputFilter(@Nullable AlgebraOutputFilter wrappedFilter) {
+	public RealschuleAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
 		this.wrappedFilter = wrappedFilter;
 	}
 

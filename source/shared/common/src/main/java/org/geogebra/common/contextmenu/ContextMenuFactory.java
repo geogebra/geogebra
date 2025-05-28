@@ -98,8 +98,7 @@ public final class ContextMenuFactory {
 	 *                or {@link GeoGebraConstants#GEOMETRY_APPCODE}.
 	 * @return List of context menu items.
 	 */
-	@Nonnull
-	public List<AlgebraContextMenuItem> makeAlgebraContextMenu(
+	public @Nonnull List<AlgebraContextMenuItem> makeAlgebraContextMenu(
 			@CheckForNull GeoElement geoElement,
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull String appCode,
@@ -182,8 +181,7 @@ public final class ContextMenuFactory {
 	 * @param isExamActive Weather the application is currently in exam mode.
 	 * @return List of context menu items.
 	 */
-	@Nonnull
-	public List<TableValuesContextMenuItem> makeTableValuesContextMenu(
+	public @Nonnull List<TableValuesContextMenuItem> makeTableValuesContextMenu(
 			@Nonnull GeoEvaluatable geoEvaluatable,
 			int columnIndex,
 			@Nonnull TableValuesModel tableValuesModel,
@@ -214,8 +212,7 @@ public final class ContextMenuFactory {
 	 * @param includeHelpItem Weather the Help item is enabled in the app.
 	 * @return List of context menu items.
 	 */
-	@Nonnull
-	public List<InputContextMenuItem> makeInputContextMenu(
+	public @Nonnull List<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem, boolean includeImageItem
 	) {
 		List<InputContextMenuItem> items = new ArrayList<>();
@@ -235,8 +232,7 @@ public final class ContextMenuFactory {
 	 * @param includeHelpItem whether to include the help item
 	 * @return context menu items
 	 */
-	@Nonnull
-	public List<InputContextMenuItem> makeInputContextMenu(
+	public @Nonnull List<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem
 	) {
 		return makeInputContextMenu(includeHelpItem, false);
@@ -247,8 +243,7 @@ public final class ContextMenuFactory {
 	 *
 	 * @return List of context menu items.
 	 */
-	@Nonnull
-	public List<MaterialContextMenuItem> makeMaterialContextMenu() {
+	public @Nonnull List<MaterialContextMenuItem> makeMaterialContextMenu() {
 		return filter(List.of(MaterialContextMenuItem.Delete));
 	}
 

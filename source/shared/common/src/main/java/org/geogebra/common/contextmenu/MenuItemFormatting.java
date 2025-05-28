@@ -19,8 +19,7 @@ final class MenuItemFormatting {
 	 * @param str The input string potentially containing subscript markup.
 	 * @return An {@code AttributedString} with subscript attributes applied as needed.
 	 */
-	@Nonnull
-	static AttributedString parse(String str) {
+	static @Nonnull AttributedString parse(String str) {
 		StringBuilder parsedString = new StringBuilder(str);
 		List<Range> subscriptRanges = new ArrayList<>();
 
@@ -40,8 +39,7 @@ final class MenuItemFormatting {
 		return attributedString;
 	}
 
-	@CheckForNull
-	private static Range findRawSubscript(String rawText, int fromIndex) {
+	private static @CheckForNull Range findRawSubscript(String rawText, int fromIndex) {
 		int start = rawText.indexOf("_{", fromIndex);
 		if (start != -1) {
 			int end = rawText.indexOf("}", fromIndex + 2);

@@ -241,9 +241,8 @@ public class WtrExamRestrictions extends ExamRestrictions {
 	}
 
 	private static final class RestrictComplexExpressions implements ExpressionRestriction {
-		@Nonnull
 		@Override
-		public Set<ExpressionValue> getRestrictedSubExpressions(
+		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
 				@Nonnull ExpressionValue expression) {
 			return filter(expression, subExpression ->
 					subExpression.getValueType() == ValueType.COMPLEX);
@@ -251,18 +250,16 @@ public class WtrExamRestrictions extends ExamRestrictions {
 	}
 
 	private static final class RestrictBooleanExpressions implements ExpressionRestriction {
-		@Nonnull
 		@Override
-		public Set<ExpressionValue> getRestrictedSubExpressions(
+		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
 				@Nonnull ExpressionValue expression) {
 			return filter(expression, subExpression -> subExpression instanceof BooleanValue);
 		}
 	}
 
 	private static final class AllowBooleanCommandArguments implements ExpressionRestriction {
-		@Nonnull
 		@Override
-		public Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
+		public @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
 			return streamOf(expression)
 					// For commands,
 					.filter(subExpression -> subExpression instanceof Command)
@@ -279,18 +276,16 @@ public class WtrExamRestrictions extends ExamRestrictions {
 	}
 
 	private static final class RestrictLists implements ExpressionRestriction {
-		@Nonnull
 		@Override
-		public Set<ExpressionValue> getRestrictedSubExpressions(
+		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
 				@Nonnull ExpressionValue expression) {
 			return filter(expression, subExpression -> subExpression instanceof MyList);
 		}
 	}
 
 	private static final class AllowListsForMatrices implements ExpressionRestriction {
-		@Nonnull
 		@Override
-		public Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
+		public @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
 			Set<ExpressionValue> allowedSubExpressions = new HashSet<>();
 			for (ExpressionValue subExpression : expression) {
 				List<ExpressionValue> childExpressions = childExpressionsOf(subExpression);
@@ -335,6 +330,5 @@ public class WtrExamRestrictions extends ExamRestrictions {
 			@Nonnull ConstructionDefaults defaults) {
 		super.removeSettingsRestrictions(settings, defaults);
 		settings.getAlgebra().setAngleConversionRestricted(false);
-
 	}
 }

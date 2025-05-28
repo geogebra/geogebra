@@ -5,7 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.junit.Test;
 
@@ -39,8 +39,8 @@ public class TabularRangeTest {
 		assertThat(cellB3.getRectangularUnion(cellA4), nullValue());
 	}
 
-	private void assertRangeEquals(@Nullable TabularRange range, int anchorRow, int anchorColumn,
-			int row2, int col2) {
+	private void assertRangeEquals(@CheckForNull TabularRange range,
+			int anchorRow, int anchorColumn, int row2, int col2) {
 		assertNotNull(range);
 		assertEquals(range.getFromRow(), anchorRow);
 		assertEquals(range.getFromColumn(), anchorColumn);

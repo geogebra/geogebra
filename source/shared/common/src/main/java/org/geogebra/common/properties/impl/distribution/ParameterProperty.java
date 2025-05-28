@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.distribution;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -57,9 +57,8 @@ public class ParameterProperty extends AbstractNumericProperty {
 		return parseNumberValue("0");
 	}
 
-	@Nullable
 	@Override
-	public String validateValue(String value) {
+	public @CheckForNull String validateValue(String value) {
 		if (super.validateValue(value) != null) {
 			return "";
 		}

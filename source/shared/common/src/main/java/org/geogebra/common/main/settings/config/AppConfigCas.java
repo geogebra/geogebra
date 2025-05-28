@@ -87,9 +87,8 @@ public class AppConfigCas extends AppConfigGraphing {
 		return null;
 	}
 
-	@CheckForNull
 	@Override
-	public SyntaxFilter newCommandSyntaxFilter() {
+	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
 		return new CASSyntaxFilter();
 	}
 

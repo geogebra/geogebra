@@ -52,7 +52,7 @@ public class SymbolicProcessor {
 	private static final class RecursiveEquationFinder implements Inspecting {
 		private final ExpressionValue ve;
 
-		protected RecursiveEquationFinder(ExpressionValue ve) {
+		private RecursiveEquationFinder(ExpressionValue ve) {
 			this.ve = ve;
 		}
 
@@ -60,7 +60,8 @@ public class SymbolicProcessor {
 		public boolean check(ExpressionValue v) {
 			String label = ve.wrap().getLabel();
 			if (v instanceof GeoSymbolic && label != null) {
-				return ((GeoSymbolic) v).getValue().any(this);
+				ExpressionValue value = ((GeoSymbolic) v).getValue();
+				return value != null && value.any(this);
 			}
 			if (v instanceof Variable) {
 				return ((Variable) v).getName().equals(label);
@@ -89,7 +90,8 @@ public class SymbolicProcessor {
 					return ev;
 				}
 				GeoSymbolic symbolic = processor.evalSymbolicNoLabel(ev, evalInfo);
-				ExpressionValue outputValue = symbolic.getValue().unwrap();
+				ExpressionValue symbolicValue = symbolic.getValue();
+				ExpressionValue outputValue = symbolicValue != null ? symbolicValue.unwrap() : null;
 				if (outputValue instanceof NumberValue
 						&& !((NumberValue) outputValue).isDefined()) {
 					// If processing of sub-expression failed

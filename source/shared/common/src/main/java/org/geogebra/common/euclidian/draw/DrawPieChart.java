@@ -135,9 +135,8 @@ public class DrawPieChart extends Drawable {
 		return isEuclidianVisible() && rect.contains(getBounds());
 	}
 
-	@CheckForNull
 	@Override
-	public GRectangle getBounds() {
+	public @CheckForNull GRectangle getBounds() {
 		return outline.getBounds();
 	}
 }

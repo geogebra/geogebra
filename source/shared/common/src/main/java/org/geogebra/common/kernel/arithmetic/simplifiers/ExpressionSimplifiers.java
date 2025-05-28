@@ -2,14 +2,13 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.util.debug.Log;
-
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Simplifier list to run on {@link ExpressionNode}
@@ -53,7 +52,7 @@ public class ExpressionSimplifiers {
 	 * @param node to run on.
 	 * @return the simplified node.
 	 */
-	public ExpressionNode run(@Nullable ExpressionValue node) {
+	public ExpressionNode run(@CheckForNull ExpressionValue node) {
 		if (node == null) {
 			return null;
 		}

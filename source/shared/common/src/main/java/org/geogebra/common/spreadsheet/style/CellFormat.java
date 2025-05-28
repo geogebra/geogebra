@@ -978,8 +978,7 @@ public class CellFormat implements CellFormatInterface {
 	 * @return StringBuilder object containing all current formats encoded as
 	 *         strings
 	 */
-	@CheckForNull
-	public String encodeFormats() {
+	public @CheckForNull String encodeFormats() {
 		StringBuilder sb = new StringBuilder();
 
 		// create a set containing all cells with formats

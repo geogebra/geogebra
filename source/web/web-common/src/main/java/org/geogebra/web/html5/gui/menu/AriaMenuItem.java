@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.util.AttributedString;
 import org.geogebra.common.util.Range;
@@ -55,7 +54,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	 * @param icon icon
 	 * @param cmd item action
 	 */
-	public AriaMenuItem(AttributedString text, @Nullable ResourcePrototype icon,
+	public AriaMenuItem(AttributedString text, @CheckForNull ResourcePrototype icon,
 			ScheduledCommand cmd) {
 		this();
 		Set<Range> attribute = text.getAttribute(AttributedString.Attribute.Subscript);

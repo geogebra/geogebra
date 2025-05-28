@@ -234,9 +234,8 @@ public class SpreadsheetDemo {
 
 				private ClipboardInterface clipboard = new ClipboardD();
 
-				@Nonnull
 				@Override
-				public SpreadsheetCellEditor getCellEditor() {
+				public @Nonnull SpreadsheetCellEditor getCellEditor() {
 					return editor;
 				}
 
@@ -335,7 +334,7 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
+			public void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment) {
 				if (!frame.getContentPane().isAncestorOf(editorBox)) {
 					frame.getContentPane().add(editorBox);
 				}
@@ -345,7 +344,7 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
+			public void updatePosition(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport) {
 				java.awt.Point locationInWindow = getParent().getLocation();
 				editorBox.setBounds((int) editorBounds.getMinX() + locationInWindow.x,
 						(int) editorBounds.getMinY() + locationInWindow.y,

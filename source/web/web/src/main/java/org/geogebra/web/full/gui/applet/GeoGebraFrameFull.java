@@ -798,8 +798,7 @@ public class GeoGebraFrameFull
 	 * @param app Needed for the initialization.
 	 * @return notes layout
 	 */
-	@Nonnull
-	public NotesLayout getNotesLayoutSafe(AppW app) {
+	public @Nonnull NotesLayout getNotesLayoutSafe(AppW app) {
 		if (notesLayout == null) {
 			notesLayout = new NotesLayout(app);
 		}

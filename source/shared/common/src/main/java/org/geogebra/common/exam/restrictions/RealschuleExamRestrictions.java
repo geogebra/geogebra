@@ -463,9 +463,8 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class HiddenSingleVariableEquationVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return (geoElement instanceof EquationValue
 					&& isOnlyX(((EquationValue) geoElement).getEquationVariables())
 			) ? HIDE : IGNORE;

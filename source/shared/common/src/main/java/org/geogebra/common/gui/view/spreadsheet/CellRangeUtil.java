@@ -2,7 +2,7 @@ package org.geogebra.common.gui.view.spreadsheet;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -21,7 +21,7 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 final public class CellRangeUtil {
 
 	/** @return true if this cell range contains no geos */
-	public static boolean isEmpty(@Nullable TabularRange selection, App app) {
+	public static boolean isEmpty(@CheckForNull TabularRange selection, App app) {
 		return selection != null && toGeoList(selection, app).isEmpty();
 	}
 

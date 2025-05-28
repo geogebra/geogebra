@@ -38,21 +38,18 @@ abstract class AbstractAppConfig implements AppConfig {
         return appCode;
     }
 
-    @CheckForNull
-    @Override
-    public String getSubAppCode() {
+	@Override
+	public @CheckForNull String getSubAppCode() {
         return subAppCode == null ? null : subAppCode.appCode;
     }
 
-    @CheckForNull
-    @Override
-    public SuiteSubApp getSubApp() {
+	@Override
+	public @CheckForNull SuiteSubApp getSubApp() {
         return subAppCode;
     }
 
-    @Nonnull
-    @Override
-    public final EquationBehaviour getEquationBehaviour() {
+	@Override
+	public final @Nonnull EquationBehaviour getEquationBehaviour() {
         return equationBehaviour;
     }
 

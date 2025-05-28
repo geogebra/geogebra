@@ -1,18 +1,18 @@
 package org.geogebra.common.exam.restrictions.wtr;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public class WtrAlgebraOutputFilter implements AlgebraOutputFilter {
-	private final @Nullable AlgebraOutputFilter wrappedFilter;
+	private final @CheckForNull AlgebraOutputFilter wrappedFilter;
 	private final AlgebraConversionFilter conversionFilter;
 
 	/**
 	 * @param wrappedFilter parent filter
 	 */
-	public WtrAlgebraOutputFilter(@Nullable AlgebraOutputFilter wrappedFilter) {
+	public WtrAlgebraOutputFilter(@CheckForNull AlgebraOutputFilter wrappedFilter) {
 		this.wrappedFilter = wrappedFilter;
 		this.conversionFilter = new AlgebraConversionFilter();
 	}

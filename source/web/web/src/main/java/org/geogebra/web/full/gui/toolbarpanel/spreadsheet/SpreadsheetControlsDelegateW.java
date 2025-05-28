@@ -81,7 +81,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 
 		@Override
-		public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
+		public void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment) {
 			mathField.attach(parent);
 			updatePosition(editorBounds, viewport);
 			mathField.setRightMargin(8);
@@ -93,7 +93,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 
 		@Override
-		public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
+		public void updatePosition(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport) {
 			Rectangle bounds = editorBounds.insetBy(-2, -2);
 			double dx = parent.getAbsoluteLeft() - app.getAbsLeft();
 			double dy = parent.getAbsoluteTop() - app.getAbsTop();
@@ -128,9 +128,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			return cellProcessor;
 		}
 
-		@Nonnull
 		@Override
-		public SpreadsheetCellDataSerializer getCellDataSerializer() {
+		public @Nonnull SpreadsheetCellDataSerializer getCellDataSerializer() {
 			return new DefaultSpreadsheetCellDataSerializer();
 		}
 	}
@@ -160,9 +159,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		clipboard = new ClipboardW();
 	}
 
-	@Nonnull
 	@Override
-	public SpreadsheetCellEditor getCellEditor() {
+	public @Nonnull SpreadsheetCellEditor getCellEditor() {
 		return editor;
 	}
 

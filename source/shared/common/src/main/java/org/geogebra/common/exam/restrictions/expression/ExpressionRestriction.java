@@ -13,33 +13,31 @@ import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
  * Restriction for {@link ExpressionValue}s (used in exam restrictions).
  */
 public interface ExpressionRestriction {
-    /**
-     * Returns the set of sub-expressions that should be restricted in the given expression.
-     * <p>
-     * If there is at least one sub-expression that is restricted,
-     * then the entire expression should be restricted (unless it's allowed
-     * by at least one other restriction, see {@code getAllowedSubExpressions}).
-     * @param expression the expression to check
-     * @return set of restricted sub-expressions
-     */
-    @Nonnull
-    default Set<ExpressionValue> getRestrictedSubExpressions(@Nonnull ExpressionValue expression) {
+	/**
+	 * Returns the set of sub-expressions that should be restricted in the given expression.
+	 * <p>
+	 * If there is at least one sub-expression that is restricted,
+	 * then the entire expression should be restricted (unless it's allowed
+	 * by at least one other restriction, see {@code getAllowedSubExpressions}).
+	 * @param expression the expression to check
+	 * @return set of restricted sub-expressions
+	 */
+	default @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(@Nonnull ExpressionValue expression) {
         return Set.of();
     }
 
-    /**
-     * Return the set of sub-expressions that should be allowed.
-     * <p>
-     * An allowed sub-expression overrides any restrictions placed on an expression.
-     * It serves as an exception for overlapping restriction conditions,
-     * such as restricted booleans, with the exception of boolean arguments
-     * ({@code getRestrictedSubExpressions} should return all booleans,
-     * {@code getAllowedSubExpressions} should return boolean arguments).
-     * @param expression the expression to check
-     * @return set of allowed sub-expressions
-     */
-    @Nonnull
-    default Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
+	/**
+	 * Return the set of sub-expressions that should be allowed.
+	 * <p>
+	 * An allowed sub-expression overrides any restrictions placed on an expression.
+	 * It serves as an exception for overlapping restriction conditions,
+	 * such as restricted booleans, with the exception of boolean arguments
+	 * ({@code getRestrictedSubExpressions} should return all booleans,
+	 * {@code getAllowedSubExpressions} should return boolean arguments).
+	 * @param expression the expression to check
+	 * @return set of allowed sub-expressions
+	 */
+	default @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
         return Set.of();
     }
 
@@ -71,23 +69,21 @@ public interface ExpressionRestriction {
         return false;
     }
 
-    /**
-     * Constructs an {@link ExpressionFilter} from a set of {@code ExpressionRestriction}.
-     * @param restrictions the set of expression restrictions
-     * @return the expression filter with the combined effect of the expression restrictions
-     */
-    @Nonnull
-    static ExpressionFilter toFilter(@Nonnull Set<ExpressionRestriction> restrictions) {
+	/**
+	 * Constructs an {@link ExpressionFilter} from a set of {@code ExpressionRestriction}.
+	 * @param restrictions the set of expression restrictions
+	 * @return the expression filter with the combined effect of the expression restrictions
+	 */
+	static @Nonnull ExpressionFilter toFilter(@Nonnull Set<ExpressionRestriction> restrictions) {
         return expression -> !isExpressionRestricted(expression, restrictions);
     }
 
-    /**
-     * Constructs an {@link ExpressionFilter} from {@code ExpressionRestriction}s.
-     * @param restrictions expression restrictions
-     * @return the expression filter with the combined effect of the expression restrictions
-     */
-    @Nonnull
-    static ExpressionFilter toFilter(@Nonnull ExpressionRestriction... restrictions) {
+	/**
+	 * Constructs an {@link ExpressionFilter} from {@code ExpressionRestriction}s.
+	 * @param restrictions expression restrictions
+	 * @return the expression filter with the combined effect of the expression restrictions
+	 */
+	static @Nonnull ExpressionFilter toFilter(@Nonnull ExpressionRestriction... restrictions) {
         return toFilter(Set.of(restrictions));
     }
 }

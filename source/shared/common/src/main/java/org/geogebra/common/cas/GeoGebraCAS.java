@@ -1082,6 +1082,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if (variableContainer instanceof GeoSymbolic) {
 			variableContainer = ((GeoSymbolic) variableContainer).getValue();
 		}
+		if (variableContainer == null) {
+			return false;
+		}
 
 		return containsExpressionVariablesOrFunctionVariablesFromList(
 				variableContainer, listOfVars)

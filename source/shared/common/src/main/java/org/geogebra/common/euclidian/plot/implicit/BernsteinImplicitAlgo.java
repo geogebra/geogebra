@@ -5,14 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.arithmetic.BoundsRectangle;
 import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomial2D;
 import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomialConverter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.LinkSegments;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 public class BernsteinImplicitAlgo implements PlotterAlgo {
 
@@ -32,8 +32,8 @@ public class BernsteinImplicitAlgo implements PlotterAlgo {
 	 * @param segments to make segments as the final result of the algo.
 	 * @param minCellSizeInPixels cell size that should not split further.
 	 */
-	public BernsteinImplicitAlgo(@NonNull EuclidianViewBounds bounds, @NonNull GeoElement curve,
-			@NonNull List<BernsteinPlotCell> cells, @NonNull LinkSegments segments,
+	public BernsteinImplicitAlgo(@Nonnull EuclidianViewBounds bounds, @Nonnull GeoElement curve,
+			@Nonnull List<BernsteinPlotCell> cells, @Nonnull LinkSegments segments,
 			int minCellSizeInPixels) {
 		this.bounds = bounds;
 		this.curve = curve;

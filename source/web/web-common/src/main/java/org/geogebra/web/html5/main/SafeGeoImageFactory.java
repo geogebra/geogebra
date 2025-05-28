@@ -3,7 +3,7 @@ package org.geogebra.web.html5.main;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -75,7 +75,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 * @return the corresponding GeoImage object
 	 */
 	public GeoImage create(String fileName, String content,
-			@Nullable FileExtensions originalExtension) {
+			@CheckForNull FileExtensions originalExtension) {
 		ensureResultImageExists();
 		ArchiveEntry imageFile = new ArchiveEntry(fileName, content);
 		SafeImage safeImage = new SafeImage(imageFile, this,

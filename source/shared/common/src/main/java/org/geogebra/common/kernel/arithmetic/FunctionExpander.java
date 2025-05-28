@@ -41,8 +41,10 @@ public class FunctionExpander implements Traversing {
 					.deepCopy(geo.getKernel()).traverse(this);
 		}
 		if (geo instanceof GeoCasCell) {
-			return ((GeoCasCell) geo).getValue()
-					.deepCopy(geo.getKernel()).traverse(this).unwrap();
+			ExpressionValue geoCasCellValue = ((GeoCasCell) geo).getValue();
+			if (geoCasCellValue != null) {
+				return geoCasCellValue.deepCopy(geo.getKernel()).traverse(this).unwrap();
+			}
 		}
 		return geo;
 	}
@@ -111,9 +113,12 @@ public class FunctionExpander implements Traversing {
 				} else if (geo instanceof GeoSymbolic) {
 					GeoSymbolic symbolic = (GeoSymbolic) geo;
 					FunctionExpander expander = newFunctionExpander(symbolic);
-					en2 = (ExpressionNode) symbolic.getValue().wrap()
-							.getCopy(symbolic.getKernel()).traverse(expander);
-					fv = ((GeoSymbolic) geo).getFunctionVariables();
+					ExpressionValue symbolicValue = symbolic.getValue();
+					if (symbolicValue != null) {
+						en2 = (ExpressionNode) symbolicValue.wrap()
+								.getCopy(symbolic.getKernel()).traverse(expander);
+						fv = ((GeoSymbolic) geo).getFunctionVariables();
+					}
 				}
 				if (geo instanceof GeoCasCell) {
 					ValidExpression ve = ((GeoCasCell) geo)
@@ -260,9 +265,9 @@ public class FunctionExpander implements Traversing {
 			if (((GeoCasCell) ev).isKeepInputUsed()) {
 				return expand((GeoCasCell) ev);
 			}
-			if (((GeoCasCell) ev).getValue() != null) {
-				return ((GeoCasCell) ev).getValue().wrap()
-					.getCopy(((GeoCasCell) ev).getKernel());
+			ExpressionValue geoCasCellValue = ((GeoCasCell) ev).getValue();
+			if (geoCasCellValue != null) {
+				return geoCasCellValue.wrap().getCopy(((GeoCasCell) ev).getKernel());
 			}
 		} else if (ev instanceof FunctionNVar) {
 			variables = ((FunctionNVar) ev).fVars;

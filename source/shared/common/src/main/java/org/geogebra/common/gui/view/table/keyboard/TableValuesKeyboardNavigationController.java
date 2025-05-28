@@ -46,11 +46,9 @@ public final class TableValuesKeyboardNavigationController {
 	public TableValuesKeyboardNavigationControllerDelegate delegate;
 
 	@NonOwning
-	@Nonnull
-	private final TableValues tableValuesView;
+	private final @Nonnull TableValues tableValuesView;
 	@NonOwning
-	@Nonnull
-	private final TableValuesModel tableValuesModel;
+	private final @Nonnull TableValuesModel tableValuesModel;
 
 	private boolean isReadonly = false;
 	private int selectedRow = -1;

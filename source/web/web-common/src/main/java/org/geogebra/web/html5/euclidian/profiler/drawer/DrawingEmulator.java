@@ -2,7 +2,7 @@ package org.geogebra.web.html5.euclidian.profiler.drawer;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -74,7 +74,7 @@ public class DrawingEmulator {
 	}
 
 	private int getSleepInterval(
-			@Nullable Coordinate previousCoordinate, Coordinate actualCoordinate) {
+			@CheckForNull Coordinate previousCoordinate, Coordinate actualCoordinate) {
 		if (previousCoordinate == null) {
 			return 0;
 		} else {

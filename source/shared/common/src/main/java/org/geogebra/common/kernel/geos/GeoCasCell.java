@@ -407,8 +407,9 @@ public class GeoCasCell extends GeoElement
 			sb.append(geo.toValueString(StringTemplate.latexTemplateCAS));
 		} else {
 			// as GeoLocuses can not be converted to value strings
-			sb.append(geo.algoParent
-					.getDefinition(StringTemplate.latexTemplateCAS));
+			AlgoElement parentAlgo = geo.algoParent;
+			sb.append(parentAlgo != null
+					? parentAlgo.getDefinition(StringTemplate.latexTemplateCAS) : "");
 		}
 	}
 
@@ -3622,8 +3623,11 @@ public class GeoCasCell extends GeoElement
 	 */
 	public String getOutputOrInput(StringTemplate tpl, boolean output) {
 		if (!output) {
-			return getValue().toAssignmentString(
-					getFormulaString(tpl, output), getAssignmentType());
+			ValidExpression value = getValue();
+			if (value == null) {
+				return "?";
+			}
+			return value.toAssignmentString(getFormulaString(tpl, output), getAssignmentType());
 		}
 		return getOutput(tpl);
 	}

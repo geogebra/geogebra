@@ -211,8 +211,7 @@ public final class KeyboardManager
 	 * Lazy loading getter
 	 * @return the keyboard
 	 */
-	@Nonnull
-	public VirtualKeyboardGUI getOnScreenKeyboard() {
+	public @Nonnull VirtualKeyboardGUI getOnScreenKeyboard() {
 		return ensureKeyboardsExist();
 	}
 

@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.menu;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.web.full.gui.HeaderView;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -19,7 +19,7 @@ class HeaderedMenuView extends FlowPanel {
 		return headerView;
 	}
 
-	void setHeaderView(@Nullable HeaderView headerView) {
+	void setHeaderView(@CheckForNull HeaderView headerView) {
 		removeHeaderView();
 		this.headerView = headerView;
 		addHeaderView();

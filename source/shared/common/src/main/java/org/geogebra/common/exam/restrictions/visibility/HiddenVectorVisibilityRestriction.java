@@ -16,9 +16,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * </ul>
  */
 public final class HiddenVectorVisibilityRestriction implements VisibilityRestriction {
-	@Nonnull
 	@Override
-	public Effect getEffect(GeoElement geoElement) {
+	public @Nonnull Effect getEffect(GeoElement geoElement) {
 		return geoElement.isGeoVector() ? HIDE : IGNORE;
 	}
 }

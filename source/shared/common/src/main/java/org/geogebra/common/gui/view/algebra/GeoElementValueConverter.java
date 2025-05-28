@@ -25,15 +25,13 @@ public class GeoElementValueConverter implements ToStringConverter {
 				: element.toOutputValueString(template);
 	}
 
-	@Nonnull
 	@Override
-	public String toValueString(GeoElement object, StringTemplate tpl) {
+	public @Nonnull String toValueString(GeoElement object, StringTemplate tpl) {
 		return object.toValueString(tpl);
 	}
 
-	@Nonnull
 	@Override
-	public String toLabelAndDescription(GeoElement element, StringTemplate template) {
+	public @Nonnull String toLabelAndDescription(GeoElement element, StringTemplate template) {
 		String labelDescription;
 		switch (element.getLabelMode()) {
 		case LABEL_CAPTION_VALUE:

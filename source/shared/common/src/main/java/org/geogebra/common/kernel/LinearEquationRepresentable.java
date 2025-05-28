@@ -38,8 +38,7 @@ public interface LinearEquationRepresentable {
 		 * @return The enum case whose rawValue matches the passed-in rawValue, or {@code null}
 		 * if no such enum case was found.
 		 */
-		@CheckForNull
-		public static Form valueOf(int rawValue) {
+		public static @CheckForNull Form valueOf(int rawValue) {
 			switch (rawValue) {
 			case CONST_IMPLICIT:
 				return IMPLICIT;
@@ -64,8 +63,7 @@ public interface LinearEquationRepresentable {
 	/**
 	 * @return The equation form of this object.
 	 */
-	@CheckForNull
-	Form getEquationForm();
+	@CheckForNull Form getEquationForm();
 
 	/**
 	 * Set the equation form of this object.

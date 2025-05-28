@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Construction;
@@ -46,8 +46,7 @@ public final class ConstructionItemProvider implements HasLastItem {
 		return "";
 	}
 
-	@Nullable
-	private GeoElement getPreviousElementFrom(GeoElement element) {
+	private @CheckForNull GeoElement getPreviousElementFrom(GeoElement element) {
 		TreeSet<GeoElement> elements = cons.getGeoSetWithCasCellsConstructionOrder();
 		Iterator<GeoElement> iterator = elements.descendingIterator();
 		if (element == null) {

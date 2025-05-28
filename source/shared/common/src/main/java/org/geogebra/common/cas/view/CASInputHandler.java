@@ -371,13 +371,12 @@ public class CASInputHandler {
 		if (success && needInsertRow) {
 			String ggbcmd1 = ggbcmd;
 			ValidExpression outputVE = cellValue.getValue();
-			String assignmentLabel = outputVE.getLabelForAssignment();
 			String label = cellValue.getEvalVE().getLabelForAssignment();
 			GeoCasCell newRowValue = new GeoCasCell(kernel.getConstruction());
 			StringBuilder sb = new StringBuilder(label);
 			boolean isDerivative = "Derivative".equals(ggbcmd);
 			boolean isIntegral = !isDerivative && "Integral".equals(ggbcmd);
-			if ((isDerivative || isIntegral)
+			if ((isDerivative || isIntegral) && outputVE != null
 					&& outputVE.unwrap() instanceof FunctionNVar) {
 				if (isDerivative) {
 					sb.append('\'');
@@ -387,8 +386,7 @@ public class CASInputHandler {
 								.getVarString(StringTemplate.defaultTemplate))
 						.append(')');
 				sb.append(outputVE.getAssignmentOperator());
-				sb.append(ggbcmd).append('[').append(assignmentLabel)
-						.append(']');
+				sb.append(ggbcmd).append('[').append(outputVE.getLabelForAssignment()).append(']');
 				ggbcmd1 = "Evaluate";
 			}
 			newRowValue.setInput(sb.toString());
@@ -644,76 +642,8 @@ public class CASInputHandler {
 					.getGeoCasCell(selectedIndices[i]);
 			if ("NSolve".equals(ggbcmd) && selCellValue != null) {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-				try {
-					StringBuilder inputStr = new StringBuilder();
-					// check if input is polynomial
-					inputStr.append(CustomFunctions.GGBIS_POLYNOMIAL);
-					inputStr.append("(");
-					inputStr.append(selCellValue.getValue()
-							.toString(StringTemplate.giacTemplate));
-					inputStr.append(")");
-
-					String casResult = cas.getCurrentCAS()
-							.evaluateRaw(inputStr.toString());
-					Set<GeoElement> cellVars = selCellValue.getInputVE()
-							.getVariables(SymbolicMode.NONE);
-					Iterator<GeoElement> it = cellVars.iterator();
-					while (it.hasNext()) {
-						GeoElement curr = it.next();
-						// if input was geoCasCell
-						if (curr instanceof GeoCasCell) {
-							// we should use only the variables from output
-							Set<GeoElement> currCellVars = ((GeoCasCell) curr)
-									.getValue()
-									.getVariables(SymbolicMode.NONE);
-							Iterator<GeoElement> currIt = currCellVars
-									.iterator();
-							if (vars.isEmpty()) {
-								vars.addAll(currCellVars);
-							} else {
-								while (currIt.hasNext()) {
-									GeoElement currEl = currIt.next();
-									int j;
-									for (j = 0; j < vars.size(); j++) {
-										if (currEl
-												.toString(
-														StringTemplate.defaultTemplate)
-												.equals(vars.get(j).toString(
-														StringTemplate.defaultTemplate))) {
-											break;
-										}
-									}
-									if (j == vars.size()) {
-										vars.add(currEl);
-									}
-								}
-							}
-							continue;
-						}
-						if (vars.isEmpty()) {
-							vars.add(curr);
-						} else {
-							int j;
-							for (j = 0; j < vars.size(); j++) {
-								if (curr.toString(
-										StringTemplate.defaultTemplate)
-										.equals(vars.get(j).toString(
-												StringTemplate.defaultTemplate))) {
-									break;
-								}
-							}
-							if (j == vars.size()) {
-								vars.add(curr);
-							}
-						}
-					}
-					// case it is not
-					if ("false".equals(casResult) || "0".equals(casResult)) {
-						foundNonPolynomial = true;
-					}
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					Log.debug(e);
+				if (!isPolynomial(cas, selCellValue, vars)) {
+					foundNonPolynomial = true;
 				}
 			}
 			String cellText;
@@ -790,6 +720,84 @@ public class CASInputHandler {
 
 		// process given row and below, then start editing
 		processRowThenEdit(currentRow, true, oldXML);
+	}
+
+	private boolean isPolynomial(
+			GeoGebraCAS cas, GeoCasCell selCellValue, ArrayList<GeoElement> vars) {
+		try {
+			StringBuilder inputStr = new StringBuilder();
+			// check if input is polynomial
+			inputStr.append(CustomFunctions.GGBIS_POLYNOMIAL);
+			inputStr.append("(");
+			ValidExpression selCellValueExpression = selCellValue.getValue();
+			if (selCellValueExpression == null) {
+				return true;
+			}
+			inputStr.append(selCellValueExpression.toString(StringTemplate.giacTemplate));
+			inputStr.append(")");
+
+			String casResult = cas.getCurrentCAS()
+					.evaluateRaw(inputStr.toString());
+			Set<GeoElement> cellVars = selCellValue.getInputVE()
+					.getVariables(SymbolicMode.NONE);
+			for (GeoElement curr : cellVars) {
+				// if input was geoCasCell
+				if (curr instanceof GeoCasCell) {
+					GeoCasCell geoCasCell = (GeoCasCell) curr;
+					ExpressionValue geoCasCellValue = geoCasCell.getValue();
+					// we should use only the variables from output
+					Set<GeoElement> currCellVars = geoCasCellValue != null
+							? geoCasCellValue.getVariables(SymbolicMode.NONE) : Set.of();
+					Iterator<GeoElement> currIt = currCellVars
+							.iterator();
+					if (vars.isEmpty()) {
+						vars.addAll(currCellVars);
+					} else {
+						while (currIt.hasNext()) {
+							GeoElement currEl = currIt.next();
+							int j;
+							for (j = 0; j < vars.size(); j++) {
+								if (currEl
+										.toString(
+												StringTemplate.defaultTemplate)
+										.equals(vars.get(j).toString(
+												StringTemplate.defaultTemplate))) {
+									break;
+								}
+							}
+							if (j == vars.size()) {
+								vars.add(currEl);
+							}
+						}
+					}
+					continue;
+				}
+				if (vars.isEmpty()) {
+					vars.add(curr);
+				} else {
+					int j;
+					for (j = 0; j < vars.size(); j++) {
+						if (curr.toString(
+										StringTemplate.defaultTemplate)
+								.equals(vars.get(j).toString(
+										StringTemplate.defaultTemplate))) {
+							break;
+						}
+					}
+					if (j == vars.size()) {
+						vars.add(curr);
+					}
+				}
+			}
+			// case it is not
+			if ("false".equals(casResult) || "0".equals(casResult)) {
+				return false;
+			}
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			Log.debug(e);
+		}
+		return true;
 	}
 
 	/**

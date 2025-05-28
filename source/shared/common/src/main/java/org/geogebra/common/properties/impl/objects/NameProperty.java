@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
@@ -55,9 +55,8 @@ public class NameProperty extends AbstractValuedProperty<String> implements Stri
 		}
 	}
 
-	@Nullable
 	@Override
-	public String validateValue(String value) {
+	public @CheckForNull String validateValue(String value) {
 		GeoElement element = delegate.getElement();
 		if (value.isEmpty() || !LabelManager.isValidLabel(value, element.getKernel(), element)) {
 			return getLocalization().getError("InvalidInput");

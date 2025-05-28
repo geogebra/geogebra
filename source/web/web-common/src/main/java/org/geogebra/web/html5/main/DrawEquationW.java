@@ -2,6 +2,8 @@ package org.geogebra.web.html5.main;
 
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -24,8 +26,6 @@ import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Web LaTeX helper class
@@ -156,7 +156,7 @@ public class DrawEquationW extends DrawEquation {
 	 *            whether to use serif font
 	 * @return graphics
 	 */
-	public Graphics2DW paintOnCleanCanvas(String text0, @NonNull Canvas c,
+	public Graphics2DW paintOnCleanCanvas(String text0, @Nonnull Canvas c,
 			int fontSize, final GColor fgColor, boolean serif) {
 		JLMContext2d ctx = JLMContextHelper.as(c.getContext2d());
 

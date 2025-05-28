@@ -23,11 +23,11 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	}
 
 	@Override
-	public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
+	public void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment) {
 	}
 
 	@Override
-	public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
+	public void updatePosition(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport) {
 		// not needed in tests
 	}
 
@@ -35,21 +35,18 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	public void hide() {
 	}
 
-	@Nonnull
 	@Override
-	public MathFieldInternal getMathField() {
+	public @Nonnull MathFieldInternal getMathField() {
 		return mathField.getInternal();
 	}
 
-	@Nonnull
 	@Override
-	public SpreadsheetCellProcessor getCellProcessor() {
+	public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
 		return tabularData.getCellProcessor();
 	}
 
-	@Nonnull
 	@Override
-	public SpreadsheetCellDataSerializer getCellDataSerializer() {
+	public @Nonnull SpreadsheetCellDataSerializer getCellDataSerializer() {
 		return cellDataSerializer;
 	}
 }

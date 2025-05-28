@@ -111,9 +111,8 @@ public class AppConfigScientific extends AppConfigGraphing {
 		return new ScientificCommandArgumentFilter();
 	}
 
-	@CheckForNull
 	@Override
-	public SyntaxFilter newCommandSyntaxFilter() {
+	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
 		return new ScientificSyntaxFilter();
 	}
 

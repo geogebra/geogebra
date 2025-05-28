@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.distribution;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.view.probcalculator.PropertyResultPanel;
 import org.geogebra.common.gui.view.probcalculator.result.EditableResultEntry;
 import org.geogebra.common.gui.view.probcalculator.result.ResultModel;
@@ -63,7 +65,7 @@ public class ProbabilityResultProperty implements Property {
 	}
 
 	@Override
-	public String getRawName() {
+	public @Nonnull String getRawName() {
 		return "ProbabilityResult";
 	}
 

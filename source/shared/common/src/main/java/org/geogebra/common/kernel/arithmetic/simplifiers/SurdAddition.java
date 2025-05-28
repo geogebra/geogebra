@@ -32,8 +32,7 @@ final class SurdAddition {
 
 	}
 
-	@CheckForNull
-	public ExpressionNode factorOut() {
+	public @CheckForNull ExpressionNode factorOut() {
 		ensureIntegerFirst();
 		if (ExpressionValueUtils.isSqrtNode(b) || ExpressionValueUtils.isNegativeSqrt(b)) {
 			return null;

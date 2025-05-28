@@ -703,38 +703,27 @@ public final class ExamController {
 
 	public static class ContextDependencies {
 		@NonOwning
-		@Nonnull
-		public final Object context;
+		public final @Nonnull Object context;
 		@NonOwning
-		@Nonnull
-		public final AlgoDispatcher algoDispatcher;
+		public final @Nonnull AlgoDispatcher algoDispatcher;
 		@NonOwning
-		@Nonnull
-		public final CommandDispatcher commandDispatcher;
+		public final @Nonnull CommandDispatcher commandDispatcher;
 		@NonOwning
-		@Nonnull
-		public final AlgebraProcessor algebraProcessor;
+		public final @Nonnull AlgebraProcessor algebraProcessor;
 		@NonOwning
-		@Nonnull
-		public final Localization localization;
+		public final @Nonnull Localization localization;
 		@NonOwning
-		@CheckForNull
-		public final Settings settings;
+		public final @CheckForNull Settings settings;
 		@NonOwning
-		@Nonnull
-		public final StatisticGroupsBuilder statisticGroupsBuilder;
+		public final @Nonnull StatisticGroupsBuilder statisticGroupsBuilder;
 		@NonOwning
-		@CheckForNull
-		public final AutocompleteProvider autoCompleteProvider;
+		public final @CheckForNull AutocompleteProvider autoCompleteProvider;
 		@NonOwning
-		@CheckForNull
-		public final ToolsProvider toolsProvider;
+		public final @CheckForNull ToolsProvider toolsProvider;
 		@NonOwning
-		@CheckForNull
-		public final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
+		public final @CheckForNull ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
 		@NonOwning
-		@CheckForNull
-		public final Construction construction;
+		public final @CheckForNull Construction construction;
 
 		/**
 		 * @param context context (e.g. App instance)

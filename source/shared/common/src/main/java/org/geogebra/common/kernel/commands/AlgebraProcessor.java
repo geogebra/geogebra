@@ -21,8 +21,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.io.MathMLParser;
@@ -1138,7 +1138,8 @@ public class AlgebraProcessor {
 		if (unwrappedDefinition instanceof MyVecNDNode) {
 			((MyVecNDNode) unwrappedDefinition).setupCASVector();
 		}
-		ExpressionValue unwrappedValue = element.getValue().unwrap();
+		ExpressionValue value = element.getValue();
+		ExpressionValue unwrappedValue = value != null ? value.unwrap() : null;
 		if (unwrappedValue instanceof MyVecNDNode) {
 			((MyVecNDNode) unwrappedValue).setupCASVector();
 		}
@@ -1158,7 +1159,7 @@ public class AlgebraProcessor {
 	 */
 	GeoElementND[] postProcessCreatedElements(ValidExpression input,
 			AsyncOperation<GeoElementND[]> callback0, GeoElementND[] geos,
-			ErrorHandler handler, @Nullable Set<GeoNumeric> sliders) {
+			ErrorHandler handler, @CheckForNull Set<GeoNumeric> sliders) {
 		GeoElementND[] filteredGeos = geos;
 		if (geos != null) {
 			// Switch to an enabled algebra output format

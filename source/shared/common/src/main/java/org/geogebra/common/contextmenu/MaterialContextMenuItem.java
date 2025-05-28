@@ -19,9 +19,8 @@ public enum MaterialContextMenuItem implements ContextMenuItem {
 		this.icon = icon;
 	}
 
-	@Nonnull
 	@Override
-	public AttributedString getLocalizedTitle(@Nonnull Localization localization) {
+	public @Nonnull AttributedString getLocalizedTitle(@Nonnull Localization localization) {
 		return new AttributedString(localization.getMenu(translationKey));
 	}
 

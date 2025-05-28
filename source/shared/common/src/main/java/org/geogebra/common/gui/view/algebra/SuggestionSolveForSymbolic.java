@@ -139,17 +139,16 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 			return new String[0];
 		}
 
-		Set<GeoElement> varSet = ((GeoSymbolic) geo).getValue()
-				.getVariables(SymbolicMode.SYMBOLIC);
+		ExpressionValue symbolicValue = ((GeoSymbolic) geo).getValue();
+		Set<GeoElement> varSet = symbolicValue != null
+				? symbolicValue.getVariables(SymbolicMode.SYMBOLIC) : Set.of();
 		List<String> varStrings = new ArrayList<>();
-		if (varSet != null) {
-			for (GeoElement var : varSet) {
-				String varName = var instanceof GeoDummyVariable
-						? ((GeoDummyVariable) var).getVarName()
-						: var.getLabelSimple();
-				if (!varStrings.contains(varName)) {
-					varStrings.add(varName);
-				}
+		for (GeoElement var : varSet) {
+			String varName = var instanceof GeoDummyVariable
+					? ((GeoDummyVariable) var).getVarName()
+					: var.getLabelSimple();
+			if (!varStrings.contains(varName)) {
+				varStrings.add(varName);
 			}
 		}
 		return varStrings.toArray(new String[0]);

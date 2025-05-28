@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -20,7 +22,7 @@ public class AlgebraOutputFormatButton extends StandardButton {
 	 * Selects on the three different button states and updates the icon
 	 * @param format Index
 	 */
-	public void select(AlgebraOutputFormat format) {
+	public void select(@Nonnull AlgebraOutputFormat format) {
 		setIcon(getIconFor(format));
 		Dom.toggleClass(this, "show-fraction",
 				format == AlgebraOutputFormat.FRACTION);

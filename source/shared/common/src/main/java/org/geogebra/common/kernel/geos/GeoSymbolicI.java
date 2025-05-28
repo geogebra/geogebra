@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -34,7 +34,6 @@ public interface GeoSymbolicI {
 	/**
 	 * @return computed expression
 	 */
-	@Nullable
-	ExpressionValue getValue();
+	@CheckForNull ExpressionValue getValue();
 
 }

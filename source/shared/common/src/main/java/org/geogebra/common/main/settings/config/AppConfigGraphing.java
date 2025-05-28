@@ -222,9 +222,8 @@ public class AppConfigGraphing extends AbstractAppConfig {
 		return new GraphingCommandArgumentFilter();
 	}
 
-	@CheckForNull
 	@Override
-	public SyntaxFilter newCommandSyntaxFilter() {
+	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
 		return new GraphingSyntaxFilter();
 	}
 

@@ -27,13 +27,11 @@ public class XmlHeaderReader {
         private String appCode;
         private String subAppCode;
 
-        @CheckForNull
-        public String getAppCode() {
+		public @CheckForNull String getAppCode() {
             return appCode;
         }
 
-        @CheckForNull
-        public String getSubAppCode() {
+		public @CheckForNull String getSubAppCode() {
             return subAppCode;
         }
 
@@ -52,12 +50,11 @@ public class XmlHeaderReader {
                 new HeaderAttributes().addAppCode(GeoGebraConstants.GRAPHING_APPCODE);
     }
 
-    /**
-     * @param inputStream InputStream of the .ggb file
-     * @return new HeaderAttributes instance containing the app code of the app and sub-app
-     */
-    @CheckForNull
-    public HeaderAttributes getHeaderAttributes(InputStream inputStream) {
+	/**
+	 * @param inputStream InputStream of the .ggb file
+	 * @return new HeaderAttributes instance containing the app code of the app and sub-app
+	 */
+	public @CheckForNull HeaderAttributes getHeaderAttributes(InputStream inputStream) {
         Reader reader = transformer.getReader(inputStream);
         String xmlString = reader != null ? getString(reader) : null;
         String headerString = xmlString != null ? getHeader(xmlString) : null;

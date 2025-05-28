@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.applet.panel;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.applet.FrameWithHeaderAndKeyboard;
@@ -32,8 +32,7 @@ public class PanelTransitioner {
 	 * @return Returns the panel that is currently visible.
 	 * Returns null if there aren't any panels on top of the main frame.
 	 */
-	@Nullable
-	public MyHeaderPanel getCurrentPanel() {
+	public @CheckForNull MyHeaderPanel getCurrentPanel() {
 		return currentPanel;
 	}
 

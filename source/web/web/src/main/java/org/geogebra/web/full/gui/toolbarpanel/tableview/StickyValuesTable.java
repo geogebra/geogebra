@@ -137,9 +137,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 						editor.stopEditing();
 					}
 
-					@CheckForNull
 					@Override
-					public String getCellEditorContent(int row, int column) {
+					public @CheckForNull String getCellEditorContent(int row, int column) {
 						return editor.getText();
 					}
 

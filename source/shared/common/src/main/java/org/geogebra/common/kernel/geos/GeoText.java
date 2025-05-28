@@ -308,8 +308,7 @@ public class GeoText extends GeoElement
 	 * @return the string wrapped in this text
 	 */
 	@Override
-	@CheckForNull
-	final public String getTextString() {
+	final public @CheckForNull String getTextString() {
 		return str;
 	}
 

@@ -1,6 +1,6 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -19,7 +19,7 @@ final class Cvte {
      * @return true if element matches the condition above.
      */
     @SuppressWarnings("PMD.SimplifyBooleanReturns")
-    static boolean isCalculatedEquationAllowed(@Nullable GeoElementND element) {
+    static boolean isCalculatedEquationAllowed(@CheckForNull GeoElementND element) {
         if (element == null) {
             return false;
         }

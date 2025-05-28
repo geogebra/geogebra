@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -41,12 +41,9 @@ public class OptionsAlgebraW
 		private FormLabel lblSortMode;
 		private FormLabel lblDescriptionMode;
 
-		@Nullable
-		private CompDropDown angleUnit;
-		@Nullable
-		private FormLabel lblAngleUnit;
-		@Nullable
-		private FlowPanel angleUnitRow;
+		private @CheckForNull CompDropDown angleUnit;
+		private @CheckForNull FormLabel lblAngleUnit;
+		private @CheckForNull FlowPanel angleUnitRow;
 
 		/**
 		 * algebra tab in algebra settings panel

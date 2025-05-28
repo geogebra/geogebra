@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.main;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -102,7 +102,7 @@ public class MyError extends Error {
 	public static MyError forCommand(Localization loc0, String errorName,
 			String commandName,
 			Throwable cause,
-			@Nullable Errors errorType) {
+			@CheckForNull Errors errorType) {
 		// set localized message
 		MyError ret = new MyError(errorName, cause);
 		ret.loc = loc0;

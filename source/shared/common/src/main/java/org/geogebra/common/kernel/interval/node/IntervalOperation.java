@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.interval.node;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 import org.geogebra.common.plugin.Operation;
-
-import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Interval arithmetic operations.
@@ -350,14 +350,14 @@ public enum IntervalOperation {
 	 * @return the value of the operation.
 	 */
 	public abstract IntervalExpressionValue handle(IntervalNodeEvaluator evaluator,
-			@NonNull IntervalNode left, IntervalNode right);
+			@Nonnull IntervalNode left, IntervalNode right);
 
 	/**
 	 * @return corresponding operation for <code>ExpressionValue</code>s
 	 */
 	public abstract Operation mappedOperation();
 
-	static IntervalExpressionValue toValue(@NonNull Interval interval) {
+	static IntervalExpressionValue toValue(@Nonnull Interval interval) {
 		return new IntervalFunctionValue(interval);
 	}
 }

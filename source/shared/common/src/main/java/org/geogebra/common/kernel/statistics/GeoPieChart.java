@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.statistics;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -144,7 +146,7 @@ public class GeoPieChart extends GeoElement implements ChartStyleGeo {
 	}
 
 	@Override
-	public ChartStyle getStyle() {
+	public @Nonnull ChartStyle getStyle() {
 		return chartStyle;
 	}
 

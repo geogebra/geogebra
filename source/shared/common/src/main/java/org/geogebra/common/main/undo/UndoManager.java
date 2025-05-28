@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
@@ -280,7 +280,7 @@ public abstract class UndoManager implements UndoProvider {
 	 */
 	protected abstract void loadUndoInfo(AppState state, String slideID);
 
-	protected void loadUndoInfo(UndoCommand cmd, @Nullable String slideId,
+	protected void loadUndoInfo(UndoCommand cmd, @CheckForNull String slideId,
 			@Nonnull UndoCommand until) {
 		loadUndoInfo(extractFromCommand(cmd), slideId);
 		replayActions(cmd, slideId, until);
@@ -309,7 +309,7 @@ public abstract class UndoManager implements UndoProvider {
 		replayActions(getCheckpoint(slideID), slideID, until);
 	}
 
-	private void replayActions(@Nullable UndoCommand checkpoint, @Nullable String slideID,
+	private void replayActions(@CheckForNull UndoCommand checkpoint, @CheckForNull String slideID,
 			@Nonnull UndoCommand until) {
 		boolean checkpointReached = checkpoint == null;
 

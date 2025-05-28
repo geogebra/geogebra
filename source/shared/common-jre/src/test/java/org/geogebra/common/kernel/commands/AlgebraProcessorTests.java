@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
@@ -111,7 +111,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 		Analytics mockAnalytics = new Analytics() {
 
 			@Override
-			protected void recordEvent(String name, @Nullable Map<String, Object> params) {
+			protected void recordEvent(String name, @CheckForNull Map<String, Object> params) {
 				loggedCommands.add(Objects.requireNonNull(params).get(Analytics.Param.COMMAND));
 			}
 		};

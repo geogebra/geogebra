@@ -2,7 +2,6 @@ package org.geogebra.common.properties;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.ownership.NonOwning;
 
@@ -34,7 +33,7 @@ public interface PropertiesRegistry {
 	 *
 	 * @param context The current context (may be `null`).
 	 */
-	void setCurrentContext(@NonOwning @Nullable Object context);
+	void setCurrentContext(@NonOwning @CheckForNull Object context);
 
 	/**
 	 * Register a property with the registry in the current context. The registration key is the
@@ -60,7 +59,7 @@ public interface PropertiesRegistry {
 	 * Same as {@link #register(Property)}, but using the provided context instead of the
 	 * current context.
 	 */
-	void register(@Nonnull Property property, @Nullable Object context);
+	void register(@Nonnull Property property, @CheckForNull Object context);
 
 	/**
 	 * Remove a property from the registry in the current context.
@@ -73,7 +72,7 @@ public interface PropertiesRegistry {
 	 * Same as {@link #unregister(Property)}, but using the provided context instead of the
 	 * current context.
 	 */
-	void unregister(@Nonnull Property property, @Nullable Object context);
+	void unregister(@Nonnull Property property, @CheckForNull Object context);
 
 	/**
 	 * Look up a property by raw (unlocalized) name in the current context.
@@ -89,7 +88,7 @@ public interface PropertiesRegistry {
 	 * @return The property with the given name in the given context, or null if no such
 	 * property could be found.
 	 */
-	@CheckForNull Property lookup(@Nonnull String rawName, @Nullable Object context);
+	@CheckForNull Property lookup(@Nonnull String rawName, @CheckForNull Object context);
 
 	/**
 	 * "Release" (i.e., clear out strong references to) all properties registered for the
@@ -100,5 +99,5 @@ public interface PropertiesRegistry {
 	 *
 	 * @param context A context (may be null).
 	 */
-	void releaseProperties(@Nullable Object context);
+	void releaseProperties(@CheckForNull Object context);
 }

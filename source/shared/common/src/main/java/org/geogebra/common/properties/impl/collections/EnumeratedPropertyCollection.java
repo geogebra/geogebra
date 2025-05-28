@@ -14,9 +14,8 @@ abstract public class EnumeratedPropertyCollection<T extends EnumeratedProperty<
 		super(properties);
 	}
 
-	@Nonnull
 	@Override
-	public List<S> getValues() {
+	public @Nonnull List<S> getValues() {
 		return getFirstProperty().getValues();
 	}
 

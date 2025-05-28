@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
@@ -162,19 +161,17 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     }
 
     @Override
-    public void examSetActiveMaterial(@Nullable Material material) {
+    public void examSetActiveMaterial(@CheckForNull Material material) {
         activeMaterial = material;
     }
 
-    @CheckForNull
-    @Override
-    public Material examGetActiveMaterial() {
+	@Override
+	public @CheckForNull Material examGetActiveMaterial() {
         return activeMaterial;
     }
 
-    @CheckForNull
-    @Override
-    public SuiteSubApp examGetCurrentSubApp() {
+	@Override
+	public @CheckForNull SuiteSubApp examGetCurrentSubApp() {
         return currentSubApp;
     }
 

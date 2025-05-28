@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.arithmetic.Fractions;
 import org.geogebra.common.kernel.cas.AlgoSolve;
@@ -27,16 +27,15 @@ import org.geogebra.common.util.SymbolicUtil;
 public enum AlgebraOutputFormat {
     FRACTION, EXACT, APPROXIMATION, ENGINEERING;
 
-    /**
-     * Retrieves all the possible output formats for the given {@code GeoElement}.
-     * @param geoElement the {@code GeoElement} for which to retrieve the possible formats
-     * @param enableEngineeringFormat whether the engineering notation should be included if possible
-     * @param algebraOutputFormatFilters filters to be applied
-     * @return the list of possible output formats
-     * @apiNote This method is public only for testing, for integration other methods should be sufficient.
-     */
-    @Nonnull
-    public static List<AlgebraOutputFormat> getPossibleFormats(@Nonnull GeoElement geoElement,
+	/**
+	 * Retrieves all the possible output formats for the given {@code GeoElement}.
+	 * @param geoElement the {@code GeoElement} for which to retrieve the possible formats
+	 * @param enableEngineeringFormat whether the engineering notation should be included if possible
+	 * @param algebraOutputFormatFilters filters to be applied
+	 * @return the list of possible output formats
+	 * @apiNote This method is public only for testing, for integration other methods should be sufficient.
+	 */
+	public static @Nonnull List<AlgebraOutputFormat> getPossibleFormats(@Nonnull GeoElement geoElement,
             boolean enableEngineeringFormat,
             @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         ArrayList<AlgebraOutputFormat> possibleFormats = new ArrayList<>();
@@ -61,16 +60,15 @@ public enum AlgebraOutputFormat {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Retrieves the next output format from the sequence of possible formats for the given {@code GeoElement}.
-     * @param geoElement the {@code GeoElement} for which to retrieve the next format
-     * @param enableEngineeringFormat whether the engineering notation should be included if possible
-     * @param algebraOutputFormatFilters filters to be applied to the possible list of formats
-     * @return the next format in the sequence or {@code null} if switching between formats is not available.
-     * @apiNote This method can be used to decide whether an entry in the algebra view has a toggle button, and if so, which one to display.
-     */
-    @Nullable
-    public static AlgebraOutputFormat getNextFormat(@Nonnull GeoElement geoElement,
+	/**
+	 * Retrieves the next output format from the sequence of possible formats for the given {@code GeoElement}.
+	 * @param geoElement the {@code GeoElement} for which to retrieve the next format
+	 * @param enableEngineeringFormat whether the engineering notation should be included if possible
+	 * @param algebraOutputFormatFilters filters to be applied to the possible list of formats
+	 * @return the next format in the sequence or {@code null} if switching between formats is not available.
+	 * @apiNote This method can be used to decide whether an entry in the algebra view has a toggle button, and if so, which one to display.
+	 */
+	public static @CheckForNull AlgebraOutputFormat getNextFormat(@Nonnull GeoElement geoElement,
             boolean enableEngineeringFormat,
             @Nonnull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
         AlgebraOutputFormat activeFormat = getActiveFormat(geoElement);
@@ -119,26 +117,24 @@ public enum AlgebraOutputFormat {
         }
     }
 
-    /**
-     * Retrieves the operator to use for the given {@code GeoElement} in the output row of the algebra view entry.
-     * @param geoElement the {@code GeoElement} in the algebra view entry
-     * @return the symbol to display in the output row of the algebra view
-     */
-    @Nonnull
-    public static AlgebraOutputOperator getOutputOperator(@Nonnull GeoElement geoElement) {
+	/**
+	 * Retrieves the operator to use for the given {@code GeoElement} in the output row of the algebra view entry.
+	 * @param geoElement the {@code GeoElement} in the algebra view entry
+	 * @return the symbol to display in the output row of the algebra view
+	 */
+	public static @Nonnull AlgebraOutputOperator getOutputOperator(@Nonnull GeoElement geoElement) {
         return (!AlgebraItem.isSymbolicDiffers(geoElement)
                 || isCASOutputTypeSymbolic(geoElement)
                 || Fractions.isExactFraction(geoElement.unwrapSymbolic(), geoElement.getKernel())
         ) ? EQUALS : APPROXIMATELY_EQUALS;
     }
 
-    /**
-     * Retrieves the current output format for the given {@code GeoElement}.
-     * @param geoElement the {@code GeoElement} for which to retrieve the current format
-     * @return the current format of {@code GeoElement}
-     */
-    @Nonnull
-    public static AlgebraOutputFormat getActiveFormat(@Nonnull GeoElement geoElement) {
+	/**
+	 * Retrieves the current output format for the given {@code GeoElement}.
+	 * @param geoElement the {@code GeoElement} for which to retrieve the current format
+	 * @return the current format of {@code GeoElement}
+	 */
+	public static @Nonnull AlgebraOutputFormat getActiveFormat(@Nonnull GeoElement geoElement) {
         if (SymbolicUtil.isEngineeringNotationMode(geoElement)) {
             return ENGINEERING;
         }

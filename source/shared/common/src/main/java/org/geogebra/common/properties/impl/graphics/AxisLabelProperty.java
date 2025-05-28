@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -43,9 +43,8 @@ public class AxisLabelProperty extends AbstractValuedProperty<String> implements
 		euclidianSettings.setAxisLabel(axis, value);
 	}
 
-	@Nullable
 	@Override
-	public String validateValue(String value) {
+	public @CheckForNull String validateValue(String value) {
 		return null;
 	}
 

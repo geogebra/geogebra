@@ -2,7 +2,6 @@ package org.geogebra.common.exam;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -33,7 +32,7 @@ public interface ExamControllerDelegate {
 	 *
 	 * @param material A material.
 	 */
-	void examSetActiveMaterial(@Nullable Material material);
+	void examSetActiveMaterial(@CheckForNull Material material);
 
 	/**
 	 * @return The current active material, or null.

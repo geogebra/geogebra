@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.ChartStyle;
 
@@ -24,7 +26,7 @@ public class BarChartGeoNumeric extends GeoNumeric implements ChartStyleGeo {
 	}
 
 	@Override
-	public ChartStyle getStyle() {
+	public @Nonnull ChartStyle getStyle() {
 		return chartStyle;
 	}
 

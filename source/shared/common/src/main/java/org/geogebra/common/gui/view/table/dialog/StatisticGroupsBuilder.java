@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
@@ -56,14 +55,13 @@ public class StatisticGroupsBuilder {
 			SIGMAXY, PMCC, COVARIANCE
 	);
 
-	@CheckForNull
-	private StatisticsFilter statisticsFilter = null;
+	private @CheckForNull StatisticsFilter statisticsFilter = null;
 
 	/**
 	 * Sets a filter to restrict certain statistics from being built.
 	 * @param statisticsFilter a statistics filter to be set
 	 */
-	public void setStatisticsFilter(@Nullable StatisticsFilter statisticsFilter) {
+	public void setStatisticsFilter(@CheckForNull StatisticsFilter statisticsFilter) {
 		this.statisticsFilter = statisticsFilter;
 	}
 

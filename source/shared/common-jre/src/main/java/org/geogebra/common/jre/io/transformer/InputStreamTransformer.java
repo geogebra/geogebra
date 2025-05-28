@@ -22,12 +22,11 @@ public class InputStreamTransformer {
         this.xmlExtractor = new XmlExtractor();
     }
 
-    /**
-     * @param inputStream input stream
-     * @return reader reader
-     */
-    @CheckForNull
-    public Reader getReader(InputStream inputStream) {
+	/**
+	 * @param inputStream input stream
+	 * @return reader reader
+	 */
+	public @CheckForNull Reader getReader(InputStream inputStream) {
         return getReader(new InputStreamZipFile(inputStream));
     }
 

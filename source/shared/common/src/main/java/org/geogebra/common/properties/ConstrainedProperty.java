@@ -1,6 +1,6 @@
 package org.geogebra.common.properties;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 /**
  * A property whose values are constrained to a subset of all possible values.
@@ -16,7 +16,6 @@ public interface ConstrainedProperty<V> extends ValuedProperty<V> {
 	 * @param value value to validate for this property
 	 * @return null if the value is valid, otherwise a localized error message
 	 */
-	@Nullable
-	String validateValue(V value);
+	@CheckForNull String validateValue(V value);
 
 }

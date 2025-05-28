@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.menu.impl;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.menu.MenuItemGroup;
 
@@ -16,9 +16,8 @@ abstract class AbstractMenuItemGroup implements MenuItemGroup {
 		this.title = title;
 	}
 
-	@Nullable
 	@Override
-	public String getTitle() {
+	public @CheckForNull String getTitle() {
 		return title;
 	}
 }

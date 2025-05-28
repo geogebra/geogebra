@@ -9,8 +9,7 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 
 public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstructionDelegate {
 
-	@Nonnull
-	private final AlgebraProcessor algebraProcessor;
+	private final @Nonnull AlgebraProcessor algebraProcessor;
 
 	public DefaultSpreadsheetConstructionDelegate(@Nonnull AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;

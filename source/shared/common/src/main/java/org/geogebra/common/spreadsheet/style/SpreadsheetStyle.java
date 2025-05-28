@@ -227,8 +227,7 @@ public final class SpreadsheetStyle {
 	 * @param cellFormat one of {@link CellFormat} alignment fields
 	 * @return TextAlignment
 	 */
-	@Nonnull
-	public static TextAlignment textAlignmentFromCellFormat(@CheckForNull Integer cellFormat) {
+	public static @Nonnull TextAlignment textAlignmentFromCellFormat(@CheckForNull Integer cellFormat) {
 		switch (cellFormat != null ? cellFormat : DEFAULT_CELL_ALIGNMENT) {
 		case CellFormat.ALIGN_LEFT:
 			return TextAlignment.LEFT;

@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 
@@ -28,7 +30,7 @@ public abstract class AbstractProperty implements Property {
 	}
 
 	@Override
-	public String getRawName() {
+	public @Nonnull String getRawName() {
 		return name;
 	}
 

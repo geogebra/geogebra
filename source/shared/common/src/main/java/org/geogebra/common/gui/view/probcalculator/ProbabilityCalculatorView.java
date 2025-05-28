@@ -3,7 +3,7 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -100,7 +100,7 @@ public abstract class ProbabilityCalculatorView
 
 	private EuclidianView plotPanel;
 
-	private @Nullable ProbabilityTable table;
+	private @CheckForNull ProbabilityTable table;
 	/** enable/disable integral ---- use for testing */
 	protected boolean hasIntegral = true;
 

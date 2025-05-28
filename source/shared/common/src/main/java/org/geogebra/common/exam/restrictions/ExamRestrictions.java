@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
@@ -64,7 +63,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final @Nonnull Set<ExpressionFilter> inputExpressionFilters;
 	private final @Nonnull Set<ExpressionFilter> outputExpressionFilters;
 	private final @Nonnull Set<CommandFilter> commandFilters;
-	private final @Nullable OperationFilter operationFilter;
+	private final @CheckForNull OperationFilter operationFilter;
 	private final @Nonnull Set<CommandArgumentFilter> commandArgumentFilters;
 	private final @Nonnull Set<ContextMenuItemFilter> contextMenuItemFilters;
 	private final @Nonnull Set<DisabledAlgorithms> disabledAlgorithms;
@@ -78,8 +77,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final Map<String, PropertyRestriction> propertyRestrictions;
 	private final GeoElementPropertyFilter restrictedGeoElementVisibilityPropertyFilter;
 	private final GeoElementSetup restrictedGeoElementVisibilitySetup;
-	private final @Nullable EquationBehaviour equationBehaviour;
-	private @Nullable EquationBehaviour originalEquationBehaviour;
+	private final @CheckForNull EquationBehaviour equationBehaviour;
+	private @CheckForNull EquationBehaviour originalEquationBehaviour;
 	private RestorableSettings savedSettings;
 	private Settings restrictedSettings = null;
 	private ConstructionDefaults restrictedDefaults;
@@ -139,23 +138,23 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	protected ExamRestrictions(
 			@Nonnull ExamType examType,
-			@Nullable Set<SuiteSubApp> disabledSubApps,
-			@Nullable SuiteSubApp defaultSubApp,
-			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
-			@Nullable Set<ExpressionFilter> inputExpressionFilters,
-			@Nullable Set<ExpressionFilter> outputExpressionFilters,
-			@Nullable Set<CommandFilter> commandFilters,
-			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
-			@Nullable OperationFilter operationFilter,
-			@Nullable Set<ContextMenuItemFilter> contextMenuItemFilters,
-			@Nullable SyntaxFilter syntaxFilter,
-			@Nullable ToolCollectionFilter toolsFilter,
-			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
-			@Nullable Set<VisibilityRestriction> visibilityRestrictions,
-			@Nullable EquationBehaviour equationBehaviour,
-			@Nullable Set<DisabledAlgorithms> disabledAlgorithms,
-			@Nullable StatisticsFilter statisticsFilter,
-			@Nullable Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
+			@CheckForNull Set<SuiteSubApp> disabledSubApps,
+			@CheckForNull SuiteSubApp defaultSubApp,
+			@CheckForNull Set<ExamFeatureRestriction> featureRestrictions,
+			@CheckForNull Set<ExpressionFilter> inputExpressionFilters,
+			@CheckForNull Set<ExpressionFilter> outputExpressionFilters,
+			@CheckForNull Set<CommandFilter> commandFilters,
+			@CheckForNull Set<CommandArgumentFilter> commandArgumentFilters,
+			@CheckForNull OperationFilter operationFilter,
+			@CheckForNull Set<ContextMenuItemFilter> contextMenuItemFilters,
+			@CheckForNull SyntaxFilter syntaxFilter,
+			@CheckForNull ToolCollectionFilter toolsFilter,
+			@CheckForNull Map<String, PropertyRestriction> propertyRestrictions,
+			@CheckForNull Set<VisibilityRestriction> visibilityRestrictions,
+			@CheckForNull EquationBehaviour equationBehaviour,
+			@CheckForNull Set<DisabledAlgorithms> disabledAlgorithms,
+			@CheckForNull StatisticsFilter statisticsFilter,
+			@CheckForNull Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -227,9 +226,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public void applyTo(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable ContextMenuFactory contextMenuFactory) {
+			@CheckForNull PropertiesRegistry propertiesRegistry,
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@CheckForNull ContextMenuFactory contextMenuFactory) {
 		dependencies.algoDispatcher.addDisabledAlgorithms(disabledAlgorithms);
 		for (CommandFilter commandFilter : commandFilters) {
 			dependencies.commandDispatcher.addCommandFilter(commandFilter);
@@ -302,9 +301,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public void removeFrom(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable ContextMenuFactory contextMenuFactory) {
+			@CheckForNull PropertiesRegistry propertiesRegistry,
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@CheckForNull ContextMenuFactory contextMenuFactory) {
 		dependencies.algoDispatcher.removeDisabledAlgorithms(disabledAlgorithms);
 		for (CommandFilter commandFilter : commandFilters) {
 			dependencies.commandDispatcher.removeCommandFilter(commandFilter);
@@ -444,8 +443,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters(
-			@Nullable Set<ExpressionFilter> expressionFilters,
-			@Nullable OperationFilter operationFilter
+			@CheckForNull Set<ExpressionFilter> expressionFilters,
+			@CheckForNull OperationFilter operationFilter
 	) {
 		HashSet<ExpressionFilter> filters = new HashSet<>();
 		if (expressionFilters != null) {

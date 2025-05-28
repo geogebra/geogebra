@@ -19,8 +19,7 @@ public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 	 * one of these values, otherwise a {@link RuntimeException} will be thrown.
 	 * @return the list of available values
 	 */
-	@Nonnull
-	List<V> getValues();
+	@Nonnull List<V> getValues();
 
 	/**
 	 * Adds a {@link ValueFilter} to this property which can modify the list of available values

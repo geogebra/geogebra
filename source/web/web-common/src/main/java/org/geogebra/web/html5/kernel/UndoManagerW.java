@@ -2,6 +2,8 @@ package org.geogebra.web.html5.kernel;
 
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
@@ -100,7 +102,7 @@ public class UndoManagerW extends DefaultUndoManager {
 	}
 
 	@Override
-	public void replayActions(final String slideID, final UndoCommand until) {
+	public void replayActions(final String slideID, @Nonnull final UndoCommand until) {
 		super.replayActions(slideID, until);
 		updatePreviewCard(slideID);
 	}

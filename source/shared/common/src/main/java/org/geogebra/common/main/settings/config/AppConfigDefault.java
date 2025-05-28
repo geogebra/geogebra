@@ -232,9 +232,8 @@ public class AppConfigDefault extends AbstractAppConfig {
 		return null;
 	}
 
-	@CheckForNull
 	@Override
-	public SyntaxFilter newCommandSyntaxFilter() {
+	public @CheckForNull SyntaxFilter newCommandSyntaxFilter() {
 		return null;
 	}
 

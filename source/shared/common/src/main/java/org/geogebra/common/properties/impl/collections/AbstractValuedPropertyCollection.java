@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
@@ -28,7 +30,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 	}
 
 	@Override
-	public String getRawName() {
+	public @Nonnull String getRawName() {
 		return getFirstProperty().getRawName();
 	}
 

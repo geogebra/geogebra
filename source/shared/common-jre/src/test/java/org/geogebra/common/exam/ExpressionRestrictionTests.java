@@ -39,27 +39,24 @@ public class ExpressionRestrictionTests {
             new RestrictPlusOperation()));
 
     private static class RestrictPlusOperation implements ExpressionRestriction {
-        @Nonnull
-        @Override
-        public Set<ExpressionValue> getRestrictedSubExpressions(
+		@Override
+		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
                 @Nonnull ExpressionValue expression) {
             return filter(expression, subExpression -> subExpression.isOperation(Operation.PLUS));
         }
     }
 
     private static final class RestrictBooleanExpressions implements ExpressionRestriction {
-        @Nonnull
-        @Override
-        public Set<ExpressionValue> getRestrictedSubExpressions(
+		@Override
+		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
                 @Nonnull ExpressionValue expression) {
             return filter(expression, subExpression -> subExpression instanceof BooleanValue);
         }
     }
 
     private static class AllowBooleanCommandArguments implements ExpressionRestriction {
-        @Nonnull
-        @Override
-        public Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
+		@Override
+		public @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
             return streamOf(expression)
                     // For commands
                     .filter(subExpression -> subExpression instanceof Command)

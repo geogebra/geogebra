@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -185,24 +186,27 @@ public class AlgoLaTeX extends AlgoElement {
 					useLaTeX = false;
 				}
 			} else {
+				String textString = null;
 				if (geoToShow.isGeoText()) {
-					// needed for eg Text commands eg FormulaText[Text[
-					text.setTextString(((GeoText) geo).getTextString());
-				} else if (geoToShow.isGeoCasCell() && ((GeoCasCell) geoToShow)
-						.getValue() != null) {
-					text.setTextString(
-							((GeoCasCell) geoToShow).getValue()
-									.toString(((GeoCasCell) geoToShow)
-											.getLaTeXTemplate()));
+					textString = ((GeoText) geo).getTextString();
 				} else {
-					ExpressionNode definition = geoToShow.getDefinition();
-                    if (definition != null) {
-						definition.initRationalizedFraction();
+					if (geoToShow.isGeoCasCell()) {
+						GeoCasCell geoCasCell = (GeoCasCell) geoToShow;
+						ExpressionValue geoCasCellValue = geoCasCell.getValue();
+						if (geoCasCellValue != null) {
+							textString = geoCasCellValue.toString(geoCasCell.getLaTeXTemplate());
+						}
 					}
-					text.setTextString(getGeoString(geoToShow, tpl, substitute));
+					if (textString == null) {
+						ExpressionNode definition = geoToShow.getDefinition();
+						if (definition != null) {
+							definition.initRationalizedFraction();
+						}
+						textString = getGeoString(geoToShow, tpl, substitute);
+					}
 				}
+				text.setTextString(textString);
 			}
-
 		}
 
 		text.setLaTeX(useLaTeX, false);

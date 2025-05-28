@@ -49,8 +49,7 @@ public interface TableValuesKeyboardNavigationControllerDelegate {
 	 * @return The current content of the editor for the given cell. May return null or an
 	 * empty string if the cell is empty.
 	 */
-	@CheckForNull
-	String getCellEditorContent(int row, int column);
+	@CheckForNull String getCellEditorContent(int row, int column);
 
 	/**
 	 * Show a warning about invalid cell content.

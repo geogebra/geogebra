@@ -3,7 +3,7 @@ package org.geogebra.common.gui.menu.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
@@ -47,8 +47,7 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 		return new ActionableItemImpl(Icon.SAVE, "Save", Action.SAVE_FILE);
 	}
 
-	@Nullable
-	MenuItem showSwitchCalculator() {
+	@CheckForNull MenuItem showSwitchCalculator() {
 		if (!isSuiteApp) {
 			return null;
 		}

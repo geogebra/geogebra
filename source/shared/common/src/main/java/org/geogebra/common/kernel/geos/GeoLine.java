@@ -867,9 +867,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 	}
 
-	@Override // EquationLinear
-	@CheckForNull
-	public Form getEquationForm() {
+	@Override
+	public @CheckForNull Form getEquationForm() {
 		return equationForm;
 	}
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -961,7 +960,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param geo to ensure to be visible.
 	 * @param fade decides if tab should fade during animation.
 	 */
-	public void openTableView(@Nullable GeoEvaluatable geo, boolean fade) {
+	public void openTableView(@CheckForNull GeoEvaluatable geo, boolean fade) {
 		if (!needsNavRail() || !app.getConfig().hasTableView()) {
 			openAlgebra(fade);
 			return;
@@ -1254,8 +1253,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param tabIdentifier one of the App.VIEW_ int constants
 	 * @return the tab identified by the parameter, or null if no related tab is found
 	 */
-	@Nullable
-	public ShowableTab getTab(int tabIdentifier) {
+	public @CheckForNull ShowableTab getTab(int tabIdentifier) {
 		switch (tabIdentifier) {
 		case App.VIEW_ALGEBRA:
 			return getTab(TabIds.ALGEBRA);

@@ -1,7 +1,6 @@
 package org.geogebra.common.exam.restrictions.realschule;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -16,7 +15,7 @@ import org.geogebra.common.kernel.statistics.FitAlgo;
 public class Realschule {
 
 	@SuppressWarnings("PMD.SimplifyBooleanReturns")
-	static boolean isCalculatedEquationAllowed(@Nullable GeoElementND element) {
+	static boolean isCalculatedEquationAllowed(@CheckForNull GeoElementND element) {
 		if (element == null) {
 			return false;
 		}

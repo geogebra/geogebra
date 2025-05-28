@@ -21,9 +21,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  * </ul>
  */
 public final class HiddenInequalityVisibilityRestriction implements VisibilityRestriction {
-	@Nonnull
 	@Override
-	public Effect getEffect(GeoElement geoElement) {
+	public @Nonnull Effect getEffect(GeoElement geoElement) {
 		GeoElementND unwrappedSymbolic = geoElement.unwrapSymbolic();
 		return (unwrappedSymbolic != null && unwrappedSymbolic.isInequality()) ? HIDE : IGNORE;
 	}

@@ -1281,7 +1281,10 @@ public interface Traversing {
 				}
 			}
 			if (ev instanceof GeoSymbolic) {
-				((GeoSymbolic) ev).getValue().traverse(this);
+				ExpressionValue symbolicValue = ((GeoSymbolic) ev).getValue();
+				if (symbolicValue != null) {
+					symbolicValue.traverse(this);
+				}
 			}
 			return ev;
 		}

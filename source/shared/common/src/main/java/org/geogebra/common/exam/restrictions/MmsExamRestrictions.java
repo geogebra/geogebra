@@ -124,8 +124,8 @@ import static org.geogebra.common.plugin.Operation.ZETA;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
@@ -402,9 +402,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class HiddenIntegralAreaVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			GeoElementND unwrappedTwin = geoElement.unwrapSymbolic();
 			return (unwrappedTwin != null && unwrappedTwin
 					.getParentAlgorithm() instanceof AlgoIntegralDefinite) ? HIDE : IGNORE;
@@ -439,9 +438,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class HiddenImplicitCurveVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return isImplicitCurve(geoElement) ? HIDE : IGNORE;
 		}
 
@@ -476,9 +474,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 * </ul>
 	 */
 	private static final class HiddenLineVisibilityRestriction implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return isLine(geoElement) ? HIDE : IGNORE;
 		}
 
@@ -504,9 +501,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class AllowedLinearFunctionVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return isLinearFunction(geoElement) ? ALLOW : IGNORE;
 		}
 
@@ -537,7 +533,6 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static final class MmsCommandArgumentFilter extends BaseCommandArgumentFilter {
-
 		@Override
 		public void checkAllowed(Command command, CommandProcessor commandProcessor)
 				throws MyError {
@@ -612,7 +607,6 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static final class MmsListOperationFilter extends ExpressionNodeFilter {
-
 		private static final Set<Operation> operations =
 				Set.of(PLUS, MINUS, MULTIPLY, DIVIDE, POWER);
 
@@ -630,7 +624,6 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static final class MmsFunctionExpressionFilter extends ExpressionNodeFilter {
-
 		@Override
 		protected boolean isExpressionNodeAllowed(@Nonnull ExpressionNode expressionNode) {
 			Operation operation = expressionNode.getOperation();
@@ -673,8 +666,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		});
 	}
 
-	@Nullable
-	private static Equation unwrapEquation(GeoElement geoElement) {
+	private static @CheckForNull Equation unwrapEquation(GeoElement geoElement) {
 		ExpressionNode definition = geoElement.getDefinition();
 		if (definition != null && definition.unwrap() instanceof Equation) {
 			return (Equation) definition.unwrap();
@@ -685,8 +677,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		return null;
 	}
 
-	@Nullable
-	private static String unwrapVariable(ExpressionValue expressionValue) {
+	private static @CheckForNull String unwrapVariable(ExpressionValue expressionValue) {
 		if (expressionValue instanceof FunctionVariable) {
 			return ((FunctionVariable) expressionValue).getSetVarString();
 		}
@@ -694,7 +685,6 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	}
 
 	private static final class ParametricCurveExpressionFilter extends ExpressionNodeFilter {
-
 		@Override
 		protected boolean isExpressionNodeAllowed(@Nonnull ExpressionNode expressionNode) {
 			ExpressionValue value = expressionNode.unwrap();
@@ -708,7 +698,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		}
 
 		@SuppressWarnings("PMD.SimplifyBooleanReturns")
-		private static boolean isParametricCurve(@Nullable GeoElementND geoElement) {
+		private static boolean isParametricCurve(@CheckForNull GeoElementND geoElement) {
 			if (geoElement == null) {
 				return false;
 			}

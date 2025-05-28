@@ -5,7 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.exam.restrictions.cvte.CvteAlgebraOutputFilter;
@@ -16,6 +17,7 @@ import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
+import org.geogebra.common.util.ToStringConverter;
 
 /**
  * Exam types.
@@ -50,7 +52,7 @@ public enum ExamType {
 
 		@Override
 		public AlgebraOutputFilter wrapAlgebraOutputFilter(
-				@Nullable AlgebraOutputFilter wrappedFilter) {
+				@CheckForNull AlgebraOutputFilter wrappedFilter) {
 			return new CvteAlgebraOutputFilter(wrappedFilter);
 		}
 	},
@@ -68,7 +70,7 @@ public enum ExamType {
 
 		@Override
 		public AlgebraOutputFilter wrapAlgebraOutputFilter(
-				@Nullable AlgebraOutputFilter wrappedFilter) {
+				@CheckForNull AlgebraOutputFilter wrappedFilter) {
 			return new RealschuleAlgebraOutputFilter(wrappedFilter);
 		}
 	},
@@ -87,7 +89,7 @@ public enum ExamType {
 
 		@Override
 		public AlgebraOutputFilter wrapAlgebraOutputFilter(
-				@Nullable AlgebraOutputFilter wrappedFilter) {
+				@CheckForNull AlgebraOutputFilter wrappedFilter) {
 			return new MmsAlgebraOutputFilter(wrappedFilter);
 		}
 	},
@@ -153,7 +155,7 @@ public enum ExamType {
 
 		@Override
 		public AlgebraOutputFilter wrapAlgebraOutputFilter(
-				@Nullable AlgebraOutputFilter wrappedFilter) {
+				@CheckForNull AlgebraOutputFilter wrappedFilter) {
 			return new WtrAlgebraOutputFilter(wrappedFilter);
 		}
 	};
@@ -165,7 +167,7 @@ public enum ExamType {
 	 * @param shortName exam name
 	 * @return exam type or null
 	 */
-	public static ExamType byName(@Nullable String shortName) {
+	public static ExamType byName(@CheckForNull String shortName) {
 		for (ExamType region: values()) {
 			if (region.name().equalsIgnoreCase(shortName)) {
 				return region;
@@ -195,8 +197,18 @@ public enum ExamType {
 	 * @return The output filter for this exam type. By default, returns the currently used filter.
 	 */
 	public AlgebraOutputFilter wrapAlgebraOutputFilter(
-			@Nullable AlgebraOutputFilter wrappedFilter) {
+			@CheckForNull AlgebraOutputFilter wrappedFilter) {
 		return wrappedFilter;
+	}
+
+	/**
+	 * @param wrappedConverter The currently used value converter
+	 * @return The value converter for this exam type. By default, returns the currently used
+	 * value converter.
+	 */
+	public ToStringConverter wrapValueConverter(
+			@Nonnull ToStringConverter wrappedConverter) {
+		return wrappedConverter;
 	}
 
 	/**

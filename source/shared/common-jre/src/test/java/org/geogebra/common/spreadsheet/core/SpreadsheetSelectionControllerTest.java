@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.MulticastEvent;
@@ -338,7 +338,7 @@ public class SpreadsheetSelectionControllerTest {
 		MulticastEvent.Listener<List<Selection>> listener =
 				new MulticastEvent.Listener<List<Selection>>() {
 					@Override
-					public void notify(@Nullable List<Selection> arguments) {
+					public void notify(@CheckForNull List<Selection> arguments) {
 						numberOfNotifications.value++;
 						lastNotificationPayload.value = arguments;
 					}
@@ -365,7 +365,7 @@ public class SpreadsheetSelectionControllerTest {
 				lastNotificationPayload.value);
 	}
 
-	private void assertRangeEquals(@Nullable Selection selection, Selection other) {
+	private void assertRangeEquals(@CheckForNull Selection selection, Selection other) {
 		assertNotNull("Selection should not be null", selection);
 		TabularRange selectionRange = selection.getRange();
 		TabularRange otherRange = other.getRange();

@@ -2,7 +2,7 @@ package org.geogebra.web.html5.util.debug;
 
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.html5.util.debug.firebase.Firebase;
@@ -26,7 +26,7 @@ public class AnalyticsW extends Analytics {
 	}
 
 	@Override
-	protected void recordEvent(String name, @Nullable Map<String, Object> params) {
+	protected void recordEvent(String name, @CheckForNull Map<String, Object> params) {
 		JsPropertyMap<Object> map = params != null ? convertToJsPropertyMap(params) : null;
 		analytics.logEvent(name, map);
 	}

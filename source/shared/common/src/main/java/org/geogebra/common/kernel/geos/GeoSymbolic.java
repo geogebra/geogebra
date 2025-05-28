@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -78,11 +77,9 @@ public class GeoSymbolic extends GeoElement
 	private ArbitraryConstantRegistry constant;
 	private boolean wrapInNumeric = false;
 
-	@Nullable
-	private GeoElement twinGeo;
+	private @CheckForNull GeoElement twinGeo;
 
-	@Nullable
-	private ExpressionValue numericValue;
+	private @CheckForNull ExpressionValue numericValue;
 	private int numericPrintFigures;
 	private int numericPrintDecimals;
 	private ConditionalSerializer conditionalSerializer;
@@ -194,8 +191,7 @@ public class GeoSymbolic extends GeoElement
 	 * to the approximated output format, it would be {@code 0.0227501319482}).
 	 * @return the output expression of {@code GeoSymbolic}
 	 */
-	@Nonnull
-	public ExpressionValue getOutputExpression() {
+	public @Nonnull ExpressionValue getOutputExpression() {
 		if (symbolicMode || !hasNumericValue()) {
 			if (value != null) {
 				return value;
@@ -774,13 +770,17 @@ public class GeoSymbolic extends GeoElement
 			@Override
 			public ExpressionValue process(ExpressionValue ev) {
 				if (ev instanceof GeoSymbolic) {
-					GeoSymbolic symbolic = (GeoSymbolic) ev;
-					ExpressionValue value = symbolic.getValue().deepCopy(kernel);
-					return value.traverse(this);
-				} else if (ev instanceof GeoDummyVariable) {
+					ExpressionValue symbolicValue = ((GeoSymbolic) ev).getValue();
+					if (symbolicValue != null) {
+						ExpressionValue symbolicValueCopy = symbolicValue.deepCopy(kernel);
+						return symbolicValueCopy.traverse(this);
+					}
+				}
+				if (ev instanceof GeoDummyVariable) {
 					GeoDummyVariable variable = (GeoDummyVariable) ev;
 					return new Variable(variable.getKernel(), variable.getVarName());
-				} else if (ev instanceof Command) {
+				}
+				if (ev instanceof Command) {
 					Command command = (Command) ev;
 					command = checkIntegralCommand(command);
 					return command;

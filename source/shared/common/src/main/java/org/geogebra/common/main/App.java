@@ -2308,8 +2308,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return kernel for this window
 	 */
-	@Nonnull
-	public final Kernel getKernel() {
+	public final @Nonnull Kernel getKernel() {
 		return kernel;
 	}
 
@@ -4500,12 +4499,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	@Override
-	public void addToolsFilter(ToolCollectionFilter filter) {
+	public void addToolsFilter(@Nonnull ToolCollectionFilter filter) {
 		toolFilters.add(filter);
 	}
 
 	@Override
-	public void removeToolsFilter(ToolCollectionFilter filter) {
+	public void removeToolsFilter(@Nonnull ToolCollectionFilter filter) {
 		toolFilters.remove(filter);
 	}
 
@@ -4514,7 +4513,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * depending on platform (iOS, Android) or during exams.
 	 */
 	@Override
-	public ToolCollection getAvailableTools() {
+	public @Nonnull ToolCollection getAvailableTools() {
 		ToolCollection toolCollection = createToolCollectionFactory().createToolCollection();
 		toolCollection.filter(this::isModeValid);
 		if (getPlatform().isMobile()) {

@@ -706,9 +706,8 @@ public abstract class GeoQuadricND extends GeoElement
 		return false;
 	}
 
-	@Override // EquationQuadric
-	@CheckForNull
-	public Form getEquationForm() {
+	@Override
+	public @CheckForNull Form getEquationForm() {
 		return equationForm;
 	}
 

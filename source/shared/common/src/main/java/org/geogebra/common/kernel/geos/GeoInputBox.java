@@ -53,13 +53,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private HorizontalAlignment textAlignment = HorizontalAlignment.LEFT;
 
-	private @Nonnull
-	GeoElementND linkedGeo;
+	private @Nonnull GeoElementND linkedGeo;
 
-	private @Nonnull
-	InputBoxProcessor inputBoxProcessor;
-	private @Nonnull
-	InputBoxRenderer inputBoxRenderer;
+	private @Nonnull InputBoxProcessor inputBoxProcessor;
+	private @Nonnull InputBoxRenderer inputBoxRenderer;
 
 	private String tempUserEvalInput;
 	private String tempUserDisplayInput;
@@ -239,8 +236,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * Returns the linked geo
 	 * @return linked geo
 	 */
-	public @Nonnull
-	GeoElementND getLinkedGeo() {
+	public @Nonnull GeoElementND getLinkedGeo() {
 		return linkedGeo;
 	}
 

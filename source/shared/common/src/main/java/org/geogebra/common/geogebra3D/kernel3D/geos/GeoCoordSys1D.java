@@ -937,9 +937,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 				O.get(2) + t * V.get(2), O.get(3) + t * V.get(3));
 	}
 
-	@Override // EquationLinear
-	@CheckForNull
-	public Form getEquationForm() {
+	@Override
+	public @CheckForNull Form getEquationForm() {
 		return equationForm;
 	}
 

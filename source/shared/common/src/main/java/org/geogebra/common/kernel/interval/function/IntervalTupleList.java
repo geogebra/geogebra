@@ -41,9 +41,8 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		return index > -1 && index < list.size() ? list.get(index) : null;
 	}
 
-	@Nonnull
 	@Override
-	public Iterator<IntervalTuple> iterator() {
+	public @Nonnull Iterator<IntervalTuple> iterator() {
 		return list.iterator();
 	}
 

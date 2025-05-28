@@ -472,9 +472,8 @@ public class GeoPlane3D extends GeoElement3D
 		return label + ": " + toValueString(tpl);
 	}
 
-	@Override // EquationLinear
-	@CheckForNull
-	public Form getEquationForm() {
+	@Override
+	public @CheckForNull Form getEquationForm() {
 		return equationForm;
 	}
 

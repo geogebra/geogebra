@@ -32,7 +32,6 @@ import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.MyImage;
@@ -290,8 +289,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	/** parent algorithm */
 	@Weak
-	@Nullable
-	protected AlgoElement algoParent = null;
+	protected @CheckForNull AlgoElement algoParent = null;
 
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
@@ -2819,21 +2817,18 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		} else if (isGeoImage()) {
 			return defaultNumberedLabel("picture"); // Name.picture
 		} else if (isGeoLocus()) {
-
-			if (algoParent.getClassName().equals(Commands.SolveODE)
-					|| algoParent instanceof AlgoIntegralODE
-					|| algoParent.getClassName().equals(Commands.NSolveODE)) {
-				// Name.numericalIntegral
-				return defaultNumberedLabel("numericalIntegral");
-
-			} else if (algoParent.getClassName().equals(Commands.SlopeField)) {
-
-				return defaultNumberedLabel("slopefield"); // Name.slopefield
-			} else if (algoParent instanceof GraphAlgo) {
-
-				return defaultNumberedLabel("graph"); // Name.graph
+			if (algoParent != null) {
+				if (algoParent.getClassName().equals(Commands.SolveODE)
+						|| algoParent instanceof AlgoIntegralODE
+						|| algoParent.getClassName().equals(Commands.NSolveODE)) {
+					// Name.numericalIntegral
+					return defaultNumberedLabel("numericalIntegral");
+				} else if (algoParent.getClassName().equals(Commands.SlopeField)) {
+					return defaultNumberedLabel("slopefield"); // Name.slopefield
+				} else if (algoParent instanceof GraphAlgo) {
+					return defaultNumberedLabel("graph"); // Name.graph
+				}
 			}
-
 			return defaultNumberedLabel("locus"); // Name.locus
 		} else if (isGeoInputBox()) {
 			return defaultNumberedLabel("textfield"); // Name.textfield
@@ -3755,13 +3750,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	final public String getLongDescription() {
-		if (algoParent == null) {
+		AlgoElement finalAlgoParent = algoParent;
+		if (finalAlgoParent == null) {
 			return getNameDescription();
 		}
 
 		return getNameDescription()
 				+ ": " // add dependency information
-				+ algoParent.toString(StringTemplate.defaultTemplate);
+				+ finalAlgoParent.toString(StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -3821,6 +3817,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 		// add dependency information
 		if (algoParent != null) {
+			String algoParentString = algoParent.toString(StringTemplate.defaultTemplate);
 			// In order to present the text correctly in Hebrew and Arabic:
 			final boolean rightToLeft = getLoc().isRightToLeftReadingOrder();
 			if (rightToLeft) {
@@ -3832,9 +3829,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			} else {
 				sbLongDescHTML.append(": ");
 			}
-			sbLongDescHTML.append(indicesToHTML(
-					algoParent.toString(StringTemplate.defaultTemplate),
-					false));
+			sbLongDescHTML.append(indicesToHTML(algoParentString, false));
 			if (rightToLeft) {
 				// sbLongDescHTML.append("\u200e");
 				sbLongDescHTML.append(Unicode.LEFT_TO_RIGHT_MARK);
@@ -4126,8 +4121,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            fallback text
 	 * @return LaTeX text
 	 */
-	@CheckForNull
-	public String getLaTeXAlgebraDescriptionWithFallback(
+	public @CheckForNull String getLaTeXAlgebraDescriptionWithFallback(
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean fallback) {
 		String ret = null;
@@ -4161,8 +4155,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return string used to render a LaTeX form of the geo's algebra
 	 *         description.
 	 */
-	@CheckForNull
-	public final String getLaTeXAlgebraDescription(
+	public final @CheckForNull String getLaTeXAlgebraDescription(
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl,
@@ -4176,14 +4169,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            template
 	 * @return LaTeX description without LHS
 	 */
-	@CheckForNull
-	public final String getLaTeXDescriptionRHS(final boolean substituteNumbers,
+	public final @CheckForNull String getLaTeXDescriptionRHS(final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, false);
 	}
 
-	@CheckForNull
-	private String getLaTeXAlgebraDescription(final GeoElement geo,
+	private @CheckForNull String getLaTeXAlgebraDescription(final GeoElement geo,
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean includeLHS) {
 

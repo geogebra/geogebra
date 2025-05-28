@@ -2397,8 +2397,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return drawable for the given GeoElement.
 	 */
 	@Override
-	@CheckForNull
-	final public DrawableND getDrawableFor(GeoElementND geo) {
+	final public @CheckForNull DrawableND getDrawableFor(GeoElementND geo) {
 		return drawableMap.get(geo);
 	}
 
@@ -6617,9 +6616,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				: settings.getHeight();
 	}
 
-	@CheckForNull
 	@Override
-	public EvPositioner getEvPositioner() {
+	public @CheckForNull EvPositioner getEvPositioner() {
 		return null;
 	}
 

@@ -96,7 +96,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 						geo, engineeringNotation, algebraOutputFormatFilters);
 				AlgebraOutputFormat.switchToNextFormat(
 						geo, engineeringNotation, algebraOutputFormatFilters);
-				button.select(nextFormat);
+				if (nextFormat != null) {
+					button.select(nextFormat);
+				}
 			}
 		});
 		return button;
@@ -111,8 +113,11 @@ public class AlgebraOutputPanel extends FlowPanel {
 	public static void updateOutputPanelButton(AlgebraOutputFormatButton button, FlowPanel parent,
 			GeoElement geo, boolean engineering,
 			Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
-		button.select(AlgebraOutputFormat.getNextFormat(
-				geo, engineering, algebraOutputFormatFilters));
+		AlgebraOutputFormat nextFormat = AlgebraOutputFormat.getNextFormat(
+				geo, engineering, algebraOutputFormatFilters);
+		if (nextFormat != null) {
+			button.select(nextFormat);
+		}
 		parent.add(button);
 	}
 

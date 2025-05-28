@@ -43,21 +43,19 @@ public final class AttributedString {
         attributes.get(attribute).add(range);
     }
 
-    /**
-     * Retrieves the set of ranges where the specified attribute is applied.
-     *
-     * @param attribute The attribute to look for.
-     * @return A set of {@link Range} objects where the attribute is applied, or {@code null} if
-     * the attribute is not present.
-     */
-    @CheckForNull
-    public Set<Range> getAttribute(@Nonnull Attribute attribute) {
+	/**
+	 * Retrieves the set of ranges where the specified attribute is applied.
+	 *
+	 * @param attribute The attribute to look for.
+	 * @return A set of {@link Range} objects where the attribute is applied, or {@code null} if
+	* the attribute is not present.
+	 */
+	public @CheckForNull Set<Range> getAttribute(@Nonnull Attribute attribute) {
         Set<Range> ranges = attributes.get(attribute);
         return ranges == null ? null : Collections.unmodifiableSet(ranges);
     }
 
-    @Nonnull
-    public String getRawValue() {
+	public @Nonnull String getRawValue() {
         return rawValue;
     }
 

@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
@@ -113,9 +113,9 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	@Override
 	public void applyTo(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable ContextMenuFactory contextMenuFactory) {
+			@CheckForNull PropertiesRegistry propertiesRegistry,
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@CheckForNull ContextMenuFactory contextMenuFactory) {
 		if (dependencies.settings != null) {
 			casEnabled = dependencies.settings.getCasSettings().isEnabled();
 			// Note: The effect we want to achieve here is disable the symbolic versions of the
@@ -135,9 +135,9 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	@Override
 	public void removeFrom(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable ContextMenuFactory contextMenuFactory) {
+			@CheckForNull PropertiesRegistry propertiesRegistry,
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@CheckForNull ContextMenuFactory contextMenuFactory) {
 		super.removeFrom(dependencies, propertiesRegistry,
 				geoElementPropertiesFactory, contextMenuFactory);
 		if (dependencies.settings != null) {
@@ -343,9 +343,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class AllowedExplicitEquationVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return isExplicitEquation(geoElement) ? ALLOW : IGNORE;
 		}
 	}
@@ -360,9 +359,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class AllowedCenterAndRadiusCircleCommandVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius
 					? ALLOW : IGNORE;
 		}
@@ -382,9 +380,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class AllowedLinearEquationVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return isLinearEquation(geoElement) ? ALLOW : IGNORE;
 		}
 	}
@@ -401,9 +398,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class HiddenConicVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return geoElement.isGeoConic() ? HIDE : IGNORE;
 		}
 	}
@@ -429,23 +425,20 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class HiddenEquationVisibilityRestriction
 			implements VisibilityRestriction {
-		@Nonnull
 		@Override
-		public Effect getEffect(GeoElement geoElement) {
+		public @Nonnull Effect getEffect(GeoElement geoElement) {
 			return isEquation(geoElement) ? HIDE : IGNORE;
 		}
 	}
 
-	@Nullable
-	private static String unwrapVariable(ExpressionValue expressionValue) {
+	private static @CheckForNull String unwrapVariable(ExpressionValue expressionValue) {
 		if (expressionValue instanceof FunctionVariable) {
 			return ((FunctionVariable) expressionValue).getSetVarString();
 		}
 		return null;
 	}
 
-	@Nullable
-	private static Equation unwrapEquation(GeoElement geoElement) {
+	private static @CheckForNull Equation unwrapEquation(GeoElement geoElement) {
 		ExpressionNode definition = geoElement.getDefinition();
 		if (definition != null && definition.unwrap() instanceof Equation) {
 			return (Equation) definition.unwrap();

@@ -17,9 +17,8 @@ public class EquationBehaviourGeometry extends DefaultEquationBehaviour {
 		return LinearEquationRepresentable.Form.EXPLICIT;
 	}
 
-	@Nonnull
 	@Override
-	public LinearEquationRepresentable.Form getRayCommandEquationForm() {
+	public @Nonnull LinearEquationRepresentable.Form getRayCommandEquationForm() {
 		return LinearEquationRepresentable.Form.EXPLICIT;
 	}
 

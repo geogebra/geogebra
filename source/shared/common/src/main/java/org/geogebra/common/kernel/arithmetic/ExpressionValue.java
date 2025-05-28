@@ -345,8 +345,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	boolean isRecurringDecimal();
 
 	@Override
-	@Nonnull
-	default Iterator<ExpressionValue> iterator() {
+	default @Nonnull Iterator<ExpressionValue> iterator() {
 		return new ExpressionValueTreeIterator(this);
 	}
 }
