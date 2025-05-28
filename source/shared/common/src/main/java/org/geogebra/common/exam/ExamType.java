@@ -226,8 +226,6 @@ public enum ExamType {
 
 	private boolean isAvailable() {
 		switch (this) {
-		case CVTE:
-			return PreviewFeature.isAvailable(PreviewFeature.CVTE_EXAM);
 		case IB:
 			return PreviewFeature.isAvailable(PreviewFeature.IB_EXAM);
 		case MMS:

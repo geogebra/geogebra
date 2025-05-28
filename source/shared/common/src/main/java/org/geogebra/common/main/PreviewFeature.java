@@ -23,8 +23,6 @@ public enum PreviewFeature {
 	LOG_AXES,
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
-	/** APPS-4961 */
-	CVTE_EXAM,
 	/** APPS-4867 */
 	MMS_EXAM,
 	/** APPS-5641 */
