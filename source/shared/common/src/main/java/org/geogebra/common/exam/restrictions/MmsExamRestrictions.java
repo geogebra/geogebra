@@ -180,7 +180,7 @@ import org.geogebra.common.plugin.Operation;
 public class MmsExamRestrictions extends ExamRestrictions {
 
 	/**
-	 * Restrictions for IQB MMS
+	 * Restrictions for MMS
 	 */
 	protected MmsExamRestrictions() {
 		super(ExamType.MMS,

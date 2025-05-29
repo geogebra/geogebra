@@ -79,7 +79,7 @@ public enum ExamType {
 
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Deutschland IQB MMS Abitur";
+			return "Deutschland MMS Abitur";
 		}
 
 		@Override
