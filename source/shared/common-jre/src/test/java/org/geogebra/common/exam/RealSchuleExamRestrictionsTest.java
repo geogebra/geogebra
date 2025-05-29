@@ -2,6 +2,7 @@ package org.geogebra.common.exam;
 
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.ENGINEERING;
+import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.EXACT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
@@ -24,6 +26,7 @@ import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -171,5 +174,16 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 		assertTrue(AlgebraOutputFormat.getPossibleFormats(geoElement,
 				enableEngineeringNotation, algebraOutputFormatFilters).contains(ENGINEERING));
 		PreviewFeature.enableFeaturePreviews = false;
+	}
+
+	@Issue("APPS-6634")
+	@Test
+	public void testDefaultFormatForMinusOne() {
+		GeoElement geoElement = evaluateGeoElement("-1");
+		assertEquals(
+				List.of(EXACT, ENGINEERING),
+				AlgebraOutputFormat.getPossibleFormats(geoElement, true, Set.of()));
+		assertEquals(EXACT, AlgebraOutputFormat.getActiveFormat(geoElement));
+		assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
 	}
 }

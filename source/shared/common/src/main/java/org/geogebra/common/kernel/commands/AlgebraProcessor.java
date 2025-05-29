@@ -3443,7 +3443,8 @@ public class AlgebraProcessor {
 		return app.getSettings().getAlgebra().isEngineeringNotationEnabled()
 				&& !app.getKernel().getLoadingMode()
 				&& !app.getKernel().useSignificantFigures
-				&& number.evaluateDouble() < Math.pow(10, -app.getKernel().getPrintDecimals());
+				&& Math.abs(number.evaluateDouble())
+				< Math.pow(10, -app.getKernel().getPrintDecimals());
 	}
 
 	/**
