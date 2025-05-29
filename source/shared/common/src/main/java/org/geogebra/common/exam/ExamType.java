@@ -145,7 +145,7 @@ public enum ExamType {
 	WTR() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Deutschland IQB WTR Abitur";
+			return "Deutschland WTR Abitur";
 		}
 
 		@Override
