@@ -171,6 +171,14 @@
 		background-color: var(--ggb-primary-color);
 	}
 
+	.spreadsheetTabPanel {
+		height: 100%;
+
+		&.withStyleBar {
+			height: calc(100% - 48px); // 48px height of spreadsheet style bar
+		}
+	}
+
 	.spreadsheetStyleBar {
 		position: relative;
 		display: flex;

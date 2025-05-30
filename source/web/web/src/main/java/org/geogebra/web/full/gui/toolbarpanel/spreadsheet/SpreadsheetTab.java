@@ -17,6 +17,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 public class SpreadsheetTab extends ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
+	private FlowPanel tabPanel;
 	private @CheckForNull SpreadsheetPanel spreadsheetPanel;
 	private @CheckForNull SpreadsheetStyleBar spreadsheetStyleBar;
 
@@ -31,19 +32,21 @@ public class SpreadsheetTab extends ToolbarTab {
 
 	private void createContent() {
 		SpreadsheetPanel panel = new SpreadsheetPanel(toolbarPanel.getApp());
-		FlowPanel tabPanel = new FlowPanel();
+		tabPanel = new FlowPanel();
+		tabPanel.addStyleName("spreadsheetTabPanel");
 
 		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)) {
 			spreadsheetStyleBar = new SpreadsheetStyleBar(toolbarPanel.getApp(),
 					panel.getStyleBarModel(), false);
 			updateSpreadsheetStyleBarStyle(toolbarPanel.getApp().isPortrait());
 			toolbarPanel.insert(spreadsheetStyleBar, 2);
+			tabPanel.addStyleName("withStyleBar");
 		}
 
 		tabPanel.add(panel);
 		add(tabPanel);
 
-		panel.getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
+		tabPanel.getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
 		spreadsheetPanel = panel;
 	}
 
@@ -96,6 +99,7 @@ public class SpreadsheetTab extends ToolbarTab {
 	public void showStyleBar(boolean show) {
 		if (spreadsheetStyleBar != null) {
 			spreadsheetStyleBar.setVisible(show);
+			Dom.toggleClass(tabPanel, "withStyleBar", show);
 		}
 	}
 
