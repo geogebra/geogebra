@@ -44,11 +44,20 @@ public class DrawButtonWidget {
 	private boolean draggedOrContext;
 	private double textHeight;
 	private double textWidth;
+	private int imgGap = 0;
 	private boolean firstCall = true;
 	private final ButtonHighlightArea halo;
 	private MyImage tinted;
 	private GColor lastTintColor;
 	private String lastTintImage;
+	private boolean hasText;
+	private GTextLayout t = null;
+	private int startX = 0;
+	private int startY = 0;
+	private int imgHeight = 0;
+	private int imgWidth = 0;
+	private double widthCorrection;
+	private boolean latex;
 
 	private final static int MARGIN_TOP = 6;
 	private final static int MARGIN_BOTTOM = 5;
@@ -88,107 +97,14 @@ public class DrawButtonWidget {
 	 * 
 	 * @param g
 	 *            graphics
-	 * @param multiplier
-	 *            font size multiplier
-	 * @param mayResize
-	 *            whether we can resize fonts
 	 */
-	public void paintComponent(GGraphics2D g, double multiplier,
-			boolean mayResize) {
-		String caption = getCaption();
-		boolean latex = isLaTeX();
+	public void paintComponent(GGraphics2D g) {
 		g.setAntialiasing();
-
-		font = font.deriveFont(geoButton.getFontStyle(),
-				(int) (multiplier * 12));
 		g.setFont(font);
-
-		boolean hasText = geoButton.isLabelVisible() && caption.length() > 0;
-
-		int imgHeight = 0;
-		int imgWidth = 0;
-		int imgGap = 0;
-		textHeight = 0;
-		textWidth = 0;
-
-		if (geoButton.getFillImage() != null) {
-			imgHeight = geoButton.getFillImage().getHeight();
-			imgWidth = geoButton.getFillImage().getWidth();
-			if (hasText) {
-				imgGap = 4;
-			}
-		}
-		GTextLayout t = null;
-		// get dimensions
-		if (hasText) {
-			if (latex) {
-				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), font, caption,
-						getSerif());
-				textHeight = d.getHeight();
-				textWidth = d.getWidth();
-			} else {
-				t = AwtFactory.getPrototype().newTextLayout(caption, font,
-						g.getFontRenderContext());
-				textHeight = t.getAscent() + t.getDescent();
-				textWidth = t.getAdvance();
-			}
-		}
-		// With fixed size the font are resized if is too big
-		if (mayResize && (geoButton.isFixedSize() && ((int) textHeight + imgGap
-				+ (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
-				|| (int) textWidth
-						+ (MARGIN_LEFT + MARGIN_RIGHT) > getWidth()))) {
-			resize(g, imgGap, latex);
-			return;
-		}
-
-		int currentWidth = Math.max((int) (textWidth
-				+ (MARGIN_LEFT + MARGIN_RIGHT)),
-				minSize);
-		currentWidth = Math.max(currentWidth,
-				imgWidth + (MARGIN_LEFT + MARGIN_RIGHT));
-
-		int currentHeight = (int) textHeight == DEFAULT_TEXT_HEIGHT && imgHeight == 0
-				? DEFAULT_BUTTON_HEIGHT : Math.max((int) (textHeight + imgHeight + imgGap
-				+ (MARGIN_TOP + MARGIN_BOTTOM)), minSize);
-
-		// Initial offset for subimage if button has fixed size
-		int startX = 0;
-		int startY = 0;
-		double widthCorrection = 0;
-		if (!geoButton.isFixedSize()) {
-			// Some combinations of style, serif / sans and letters
-			// overflow from the drawing if the text is extra large
-			if (geoButton.getFontStyle() >= 2) {
-				widthCorrection = Math.sin(0.50) * t.getDescent();
-				currentWidth += (int) widthCorrection;
-			}
-			if (geoButton.isSerifFont()) {
-				currentWidth += currentWidth / 10;
-			}
-			if (geoButton.isSerifFont() && geoButton.getFontStyle() >= 2) {
-				widthCorrection = -widthCorrection;
-				currentWidth += currentWidth / 4;
-			}
-			geoButton.setWidth(currentWidth);
-			geoButton.setHeight(currentHeight);
-		} else {
-			// With fixed size the image is cut if is too big
-			if (imgHeight > getHeight() - textHeight - imgGap) {
-				startY = (int) (imgHeight - (getHeight() - textHeight - imgGap)) / 2;
-				imgHeight = (int) (getHeight() - textHeight - imgGap);
-			}
-			if (imgWidth > getWidth()) {
-				startX = (imgWidth - getWidth()) / 2;
-				imgWidth = getWidth();
-			}
-		}
-
 		// prepare colors and paint
 		g.setColor(view.getBackgroundCommon());
 		GColor bg = geoButton.getBackgroundColor();
-		// background not set by user
+		// background is not set by user
 		if (bg == null) {
 			bg = GColor.WHITE;
 		}
@@ -272,6 +188,102 @@ public class DrawButtonWidget {
 		if (hasText) {
 			drawText(g, t, imgStart + imgGap + imgHeight, latex, widthCorrection,
 					shadowSize);
+		}
+	}
+
+	/**
+	 * Update text and image dimensions for painting.
+	 *
+	 * @param g
+	 *            graphics
+	 * @param multiplier
+	 *            font size multiplier
+	 * @param mayResize
+	 *            whether we can resize fonts
+	 */
+	public void preparePaint(GGraphics2D g, double multiplier, boolean mayResize) {
+		String caption = getCaption();
+		latex = isLaTeX();
+
+		font = font.deriveFont(geoButton.getFontStyle(),
+				(int) (multiplier * 12));
+
+		hasText = geoButton.isLabelVisible() && caption.length() > 0;
+
+		textHeight = 0;
+		textWidth = 0;
+
+		if (geoButton.getFillImage() != null) {
+			imgHeight = geoButton.getFillImage().getHeight();
+			imgWidth = geoButton.getFillImage().getWidth();
+			imgGap = hasText ? 4 : 0;
+		} else {
+			imgHeight = imgWidth = imgGap = 0;
+		}
+		t = null;
+		// get dimensions
+		if (hasText) {
+			if (latex) {
+				GDimension d = CanvasDrawable.measureLatex(
+						view.getApplication(), font, caption,
+						getSerif());
+				textHeight = d.getHeight();
+				textWidth = d.getWidth();
+			} else {
+				t = AwtFactory.getPrototype().newTextLayout(caption, font,
+						g.getFontRenderContext());
+				textHeight = t.getAscent() + t.getDescent();
+				textWidth = t.getAdvance();
+			}
+		}
+		// With fixed size the font are resized if is too big
+		if (mayResize && (geoButton.isFixedSize() && ((int) textHeight + imgGap
+				+ (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
+				|| (int) textWidth
+				+ (MARGIN_LEFT + MARGIN_RIGHT) > getWidth()))) {
+			resize(g, imgGap, latex);
+			return;
+		}
+		int currentWidth = Math.max((int) (textWidth
+						+ (MARGIN_LEFT + MARGIN_RIGHT)),
+				minSize);
+		currentWidth = Math.max(currentWidth,
+				imgWidth + (MARGIN_LEFT + MARGIN_RIGHT));
+
+		int currentHeight = (int) textHeight == DEFAULT_TEXT_HEIGHT && imgHeight == 0
+				? DEFAULT_BUTTON_HEIGHT : Math.max((int) (textHeight + imgHeight + imgGap
+				+ (MARGIN_TOP + MARGIN_BOTTOM)), minSize);
+
+		// Initial offset for subimage if button has fixed size
+		startX = 0;
+		startY = 0;
+		widthCorrection = 0;
+		if (!geoButton.isFixedSize()) {
+			// Some combinations of style, serif / sans and letters
+			// overflow from the drawing if the text is extra large
+			if (geoButton.getFontStyle() >= 2) {
+				widthCorrection = Math.sin(0.50) * t.getDescent();
+				currentWidth += (int) widthCorrection;
+			}
+			if (geoButton.isSerifFont()) {
+				currentWidth += currentWidth / 10;
+			}
+			if (geoButton.isSerifFont() && geoButton.getFontStyle() >= 2) {
+				widthCorrection = -widthCorrection;
+				currentWidth += currentWidth / 4;
+			}
+			geoButton.setWidth(currentWidth);
+			geoButton.setHeight(currentHeight);
+		} else {
+			// With fixed size the image is cut if is too big
+			if (imgHeight > getHeight() - textHeight - imgGap) {
+				startY = (int) (imgHeight - (getHeight() - textHeight - imgGap)) / 2;
+				imgHeight = (int) (getHeight() - textHeight - imgGap);
+			}
+			if (imgWidth > getWidth()) {
+				startX = (imgWidth - getWidth()) / 2;
+				imgWidth = getWidth();
+			}
 		}
 	}
 
@@ -388,7 +400,7 @@ public class DrawButtonWidget {
 		}
 
 		double ret = GeoText.getRelativeFontSize(i);
-		paintComponent(g, ret, false);
+		preparePaint(g, ret, false);
 	}
 
 	private boolean isLaTeX() {

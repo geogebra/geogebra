@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.geos;
 /**
  * Element with text properties
  */
-public interface TextProperties extends TextStyle {
+public interface TextProperties extends TextStyle, HasCorners {
 
 	/**
 	 * 
@@ -72,18 +72,5 @@ public interface TextProperties extends TextStyle {
 	 * @return whether this was created using a command with LaTeX output
 	 */
 	public boolean isLaTeXTextCommand();
-
-	/**
-	 * Mark this for re-computation of bounding box.
-	 * @param needsUpdate whether update is needed
-	 */
-	public void setNeedsUpdatedBoundingBox(boolean needsUpdate);
-
-	/**
-	 * Calculate coordinates of a corner.
-	 * @param corner output coordinates
-	 * @param index corner index
-	 */
-	public void calculateCornerPoint(GeoPoint corner, int index);
 
 }

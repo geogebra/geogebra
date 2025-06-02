@@ -237,7 +237,6 @@ public class DrawInputBox extends CanvasDrawable {
 			getTextField().setVisible(false);
 			view.getViewTextField().setBoxVisible(false);
 		}
-
 		int length = getGeoInputBox().getLength();
 		if (length != oldLength && isSelectedForInput()) {
 			if (!canSetWidgetPixelSize()) {
@@ -268,7 +267,9 @@ public class DrawInputBox extends CanvasDrawable {
 		view.getViewTextField().revalidateBox();
 
 		updateLabelSize();
-
+		if (geoInputBox.needsUpdatedBoundingBox()) {
+			recomputeSize();
+		}
 		view.getViewTextField().setBoxBounds(labelRectangle);
 	}
 

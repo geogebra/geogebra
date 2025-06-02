@@ -19,6 +19,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -121,9 +122,15 @@ public final class DrawDropDownList extends CanvasDrawable
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 			getDynamicCaption().update();
 		}
-		labelRectangle.setBounds(xLabel, yLabel,
-				(int) (getHitRect().getWidth()),
-				(int) (getHitRect().getHeight()));
+		if (isVisible) {
+			setLabelFont("");
+			updateMetrics(view.getGraphicsForPen());
+			if (geoList.needsUpdatedBoundingBox()) {
+				drawOptions.update(view.getGraphicsForPen());
+			}
+			initScreenLocation();
+		}
+		labelRectangle.setLocation(xLabel, yLabel);
 		geoList.setTotalWidth(getTotalWidth());
 		geoList.setTotalHeight(getTotalHeight());
 	}
@@ -131,7 +138,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			setLabelFont("");
 			drawOnCanvas(g2);
 		}
 	}
@@ -156,11 +162,22 @@ public final class DrawDropDownList extends CanvasDrawable
 	 */
 	@Override
 	public GRectangle getBounds() {
-		if (getHitRect() == null) {
+		if (labelRectangle == null) {
 			return null;
 		}
 
-		return getHitRect().getBounds();
+		return labelRectangle.getBounds();
+	}
+
+	@Override
+	public GRectangle2D getBoundsForCorner() {
+		int labelGap = getLabelGap();
+		if (getDynamicCaption() != null && getDynamicCaption().getWidth() == 0) {
+			labelGap = 0;
+		}
+		int totalWidth = labelSize.getX() + getPreferredWidth() + labelGap;
+		return AwtFactory.getPrototype().newRectangle(boxLeft + boxWidth - totalWidth, yLabel,
+				labelSize.getX() + drawOptions.getMaxItemWidth() + labelGap, getTotalHeight());
 	}
 
 	@Override
@@ -172,10 +189,6 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		drawSelected.drawBounds(geoList, g2, bgColor, boxLeft, boxTop, boxWidth,
 				boxHeight);
-
-		if (!geoList.hasScreenLocation() && boxWidth != 0) {
-			initScreenLocation();
-		}
 
 		g2.setPaint(GColor.LIGHT_GRAY);
 		highlightLabel(g2, latexLabel);
@@ -201,8 +214,10 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	private void initScreenLocation() {
-		geoList.setScreenLocation(Math.min(xLabel, boxLeft),
-				Math.min(yLabel, boxTop));
+		if (!geoList.hasScreenLocation() && boxWidth != 0) {
+			geoList.setScreenLocation(Math.min(xLabel, boxLeft),
+					Math.min(yLabel, boxTop));
+		}
 	}
 
 	private int alignTextToBottom(GGraphics2D g2, int top, int height,
@@ -325,7 +340,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @return The whole width of the widget including the label.
 	 */
 	public int getTotalWidth() {
-		return labelSize.getX() + getPreferredWidth();
+		return labelSize.getX() + getPreferredWidth() + getLabelGap();
 	}
 
 	/**

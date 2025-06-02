@@ -408,7 +408,14 @@ public class GeoText extends GeoElement
 
 	private void notifyListeners() {
 		for (GeoElement geo : updateListeners) {
-			kernel.notifyUpdateVisualStyle(geo, GProperty.CAPTION);
+			// dynamic caption change will trigger corner changes for any object that has
+			// corners except texts (those do not render the caption)
+			if (geo instanceof HasCorners && !geo.isGeoText()
+					&& ((HasCorners) geo).needsUpdatedBoundingBox()) {
+				geo.updateRepaint();
+			} else {
+				kernel.notifyUpdateVisualStyle(geo, GProperty.CAPTION);
+			}
 			if (geo.isGeoNumeric()) {
 				((GeoNumeric) geo).notifyScreenReader();
 			}

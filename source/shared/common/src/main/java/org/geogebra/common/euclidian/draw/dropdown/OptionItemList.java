@@ -1,10 +1,8 @@
 package org.geogebra.common.euclidian.draw.dropdown;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
@@ -46,17 +44,14 @@ class OptionItemList {
 	}
 
 	private void calculateItemDimensions() {
-		int width = maxOfItems(OptionItem::getWidth, OptionItem::getWidth);
-		int height = maxOfItems(OptionItem::getHeight, OptionItem::getHeight);
+		int width = maxOfItems(OptionItem::getWidth);
+		int height = maxOfItems(OptionItem::getHeight);
 		maxDimension = AwtFactory.getPrototype().newDimension(width + 2 * HORIZONTAL_PADDING,
 				height + 2 * VERTICAL_PADDING);
 	}
 
-	private int maxOfItems(ToDoubleFunction<OptionItem> extractor,
-			Function<OptionItem, Integer> mapper) {
-		return items.stream().max(
-						Comparator.comparingDouble(extractor))
-				.map(mapper).orElse(0);
+	private int maxOfItems(ToIntFunction<OptionItem> extractor) {
+		return items.stream().mapToInt(extractor).max().orElse(0);
 	}
 
 	OptionItem at(int x, int y) {

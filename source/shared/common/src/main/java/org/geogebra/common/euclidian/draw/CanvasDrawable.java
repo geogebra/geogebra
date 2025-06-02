@@ -381,13 +381,6 @@ public abstract class CanvasDrawable extends Drawable {
 		return false;
 	}
 
-	/**
-	 * @return hit rectangle
-	 */
-	public GRectangle getHitRect() {
-		return labelRectangle;
-	}
-
 	@Override
 	public GRectangle getBounds() {
 		updateHitRect();
@@ -395,8 +388,15 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	private void updateHitRect() {
-		hitRect.setBounds(geo.labelOffsetX, boxTop,
-				boxWidth + boxLeft - geo.labelOffsetX, boxHeight);
+		int left, width;
+		if (getDynamicCaption() != null) {
+			width = getDynamicCaption().getWidth() + boxWidth;
+			left = boxLeft - getDynamicCaption().getWidth();
+		} else {
+			left = xLabel;
+			width = boxWidth + boxLeft - xLabel;
+		}
+		hitRect.setBounds(left, boxTop, width, boxHeight);
 	}
 
 }

@@ -19,11 +19,11 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.geos.HasCorners;
 
 public class AlgoTextCorner extends AlgoElement {
 
-	private TextProperties txt; // input
+	private HasCorners txt; // input
 	private GeoPoint corner; // output
 	private GeoNumberValue number;
 
@@ -37,7 +37,7 @@ public class AlgoTextCorner extends AlgoElement {
 	 * @param number
 	 *            corner index (1=SW, 2=SE, 3=NE, 4=NW)
 	 */
-	public AlgoTextCorner(Construction cons, String label, TextProperties arg,
+	public AlgoTextCorner(Construction cons, String label, HasCorners arg,
 			GeoNumberValue number) {
 		super(cons);
 		this.txt = arg;

@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -40,6 +40,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 
 	private GeoPointND startPoint;
 	private boolean absLocation = true;
+	private boolean needsUpdateBoundingBox;
 
 	private double width = 40.0;
 	private double height = 30.0;
@@ -592,7 +593,12 @@ public class GeoButton extends GeoElement implements TextProperties,
 
 	@Override
 	public void setNeedsUpdatedBoundingBox(boolean needsUpdate) {
-		//
+		this.needsUpdateBoundingBox = needsUpdate;
+	}
+
+	@Override
+	public boolean needsUpdatedBoundingBox() {
+		return needsUpdateBoundingBox;
 	}
 
 	/**
@@ -606,14 +612,26 @@ public class GeoButton extends GeoElement implements TextProperties,
 	@Override
 	public void calculateCornerPoint(GeoPoint pt, int index) {
 		EuclidianView ev = kernel.getApplication().getEuclidianView1();
-		DrawableND drawer = ev.getDrawableFor(this);
+		calculateFromBounds(this, ev, pt, index);
+	}
+
+	/**
+	 * Compute a corner from the bounds of the drawable widget.
+	 * @param geo construction element
+	 * @param view view rendering the widget
+	 * @param pt output point
+	 * @param index corner index
+	 */
+	public static void calculateFromBounds(GeoElement geo, EuclidianView view,
+			GeoPoint pt, int index) {
+		DrawableND drawer = view.getDrawableFor(geo);
 
 		if (!(drawer instanceof Drawable)) {
 			// file loading (null) or 3D (Drawable3D)
 			pt.setUndefined();
 			return;
 		}
-		GRectangle bounds = ((Drawable) drawer).getBounds();
+		GRectangle2D bounds = ((Drawable) drawer).getBoundsForCorner();
 		if (bounds == null) {
 			return;
 		}
@@ -621,7 +639,6 @@ public class GeoButton extends GeoElement implements TextProperties,
 		double x, y;
 
 		switch (index) {
-		default:
 		case 1:
 			x = bounds.getMinX();
 			y = bounds.getMaxY();
@@ -638,13 +655,12 @@ public class GeoButton extends GeoElement implements TextProperties,
 			x = bounds.getMinX();
 			y = bounds.getMinY();
 			break;
-		case 5:
-			pt.setCoords(bounds.getMaxX() - bounds.getMinX(),
-					bounds.getMaxY() - bounds.getMinY(), 1);
+		default:
+			pt.setUndefined();
 			return;
 		}
 
-		pt.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y), 1);
+		pt.setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
 	}
 
 }

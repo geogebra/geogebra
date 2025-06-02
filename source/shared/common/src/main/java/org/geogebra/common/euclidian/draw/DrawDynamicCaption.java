@@ -44,13 +44,23 @@ public class DrawDynamicCaption {
 	 * draw dynamic caption
 	 * @param g2 canvas
 	 */
+	public void updateAndDraw(GGraphics2D g2) {
+		if (noCaption()) {
+			return;
+		}
+		update();
+		measure(g2);
+		draw(g2);
+	}
+
+	/**
+	 * draw dynamic caption
+	 * @param g2 canvas
+	 */
 	public void draw(GGraphics2D g2) {
 		if (noCaption()) {
 			return;
 		}
-
-		update();
-		measure(g2);
 		highlight();
 		position();
 		drawCaption.draw(g2);

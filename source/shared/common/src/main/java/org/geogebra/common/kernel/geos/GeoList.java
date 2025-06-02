@@ -21,6 +21,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
@@ -141,6 +142,7 @@ public class GeoList extends GeoElement
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
 	private GeoPointND startPoint;
+	private boolean needsUpdateBoundingBox;
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -3421,12 +3423,22 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void setNeedsUpdatedBoundingBox(boolean needsUpdate) {
-		//
+		this.needsUpdateBoundingBox = needsUpdate;
+	}
+
+	@Override
+	public boolean needsUpdatedBoundingBox() {
+		return this.needsUpdateBoundingBox;
 	}
 
 	@Override
 	public void calculateCornerPoint(GeoPoint corner, int index) {
-		corner.setUndefined();
+		if (drawAsComboBox) {
+			EuclidianView ev = kernel.getApplication().getEuclidianView1();
+			GeoButton.calculateFromBounds(this, ev, corner, index);
+		} else {
+			corner.setUndefined();
+		}
 	}
 
 	@Override

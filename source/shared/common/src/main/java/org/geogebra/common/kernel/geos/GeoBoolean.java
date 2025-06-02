@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -42,7 +42,7 @@ import org.geogebra.common.util.StringUtil;
  * @author Markus
  */
 public class GeoBoolean extends GeoElement implements BooleanValue,
-		GeoNumberValue, AbsoluteScreenLocateable, HasExtendedAV, Locateable {
+		GeoNumberValue, AbsoluteScreenLocateable, HasExtendedAV, HasCorners {
 
 	private boolean value = false;
 	private boolean isDefined = true;
@@ -51,6 +51,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	private List<GeoElement> conditionals;
 	private GeoPointND startPoint;
+	private boolean needsUpdateBoundingBox;
 
 	/**
 	 * Creates new boolean
@@ -488,6 +489,11 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
+	public boolean needsUpdatedBoundingBox() {
+		return this.needsUpdateBoundingBox;
+	}
+
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return 32;
 	}
@@ -595,5 +601,16 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public BigDecimal toDecimal() {
 		return value ? BigDecimal.ONE : BigDecimal.ZERO;
+	}
+
+	@Override
+	public void calculateCornerPoint(GeoPoint corner, int index) {
+		EuclidianView ev = kernel.getApplication().getEuclidianView1();
+		GeoButton.calculateFromBounds(this, ev, corner, index);
+	}
+
+	@Override
+	public void setNeedsUpdatedBoundingBox(boolean needsUpdate) {
+		this.needsUpdateBoundingBox = needsUpdate;
 	}
 }

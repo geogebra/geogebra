@@ -77,7 +77,7 @@ public final class DrawButton extends Drawable {
 
 		xLabel = geoButton.getScreenLocX(view);
 		yLabel = geoButton.getScreenLocY(view);
-
+		myButton.preparePaint(view.getGraphicsForPen(), geoButton.getFontSizeMultiplier(), true);
 		labelRectangle.setBounds(xLabel, yLabel, myButton.getWidth(),
 				myButton.getHeight());
 
@@ -88,8 +88,7 @@ public final class DrawButton extends Drawable {
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			myButton.setSelected(geoButton.doHighlighting());
-			myButton.paintComponent(g2, geoButton.getFontSizeMultiplier(),
-					true);
+			myButton.paintComponent(g2);
 		}
 	}
 

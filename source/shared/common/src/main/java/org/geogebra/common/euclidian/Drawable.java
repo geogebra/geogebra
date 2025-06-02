@@ -254,7 +254,7 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public final void drawLabel(GGraphics2D g2) {
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
-			getDynamicCaption().draw(g2);
+			getDynamicCaption().updateAndDraw(g2);
 			return;
 		}
 		if (labelDesc == null) {
@@ -865,6 +865,10 @@ public abstract class Drawable extends DrawableND {
 	 */
 	@Override
 	public @CheckForNull GRectangle2D getBoundsForStylebarPosition() {
+		return getBounds();
+	}
+
+	public @CheckForNull GRectangle2D getBoundsForCorner() {
 		return getBounds();
 	}
 

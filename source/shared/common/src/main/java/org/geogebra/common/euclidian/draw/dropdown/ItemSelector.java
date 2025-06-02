@@ -18,11 +18,11 @@ class ItemSelector implements MoveSelector {
 	private int dragOffset;
 	private boolean dragDirection;
 	private final DropDownModel model;
-	private final OptionsInterface listener;
+	private final DrawOptions listener;
 	private final App app;
 	private GPoint dragStartPoint;
 
-	ItemSelector(DropDownModel model, OptionsInterface listener) {
+	ItemSelector(DropDownModel model, DrawOptions listener) {
 		this.model = model;
 		this.listener = listener;
 		hovered = null;

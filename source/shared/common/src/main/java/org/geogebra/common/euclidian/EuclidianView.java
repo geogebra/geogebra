@@ -72,7 +72,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
-import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.HasCorners;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -2045,7 +2045,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private static boolean needsSynchUpdate(GeoElement geo, boolean tracing) {
 		// Keep update of input boxes synchronous #4416
-		return (geo.isGeoText() && ((GeoText) geo).needsUpdatedBoundingBox())
+		return (geo instanceof HasCorners && ((HasCorners) geo).needsUpdatedBoundingBox())
 				|| geo.isGeoInputBox()
 				|| (geo.getTrace() && !tracing)
 				|| geo.isMask()
@@ -2208,7 +2208,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				&& (geo.isLabelSet() || isPlotPanel())) {
 			return geo.isEuclidianVisible()
 
-					|| (geo.isGeoText() && ((GeoText) geo)
+					|| (geo instanceof HasCorners && ((HasCorners) geo)
 							.needsUpdatedBoundingBox())
 					|| (geo.isGeoAngle() && geo.getParentAlgorithm() instanceof AlgoAngle);
 		}

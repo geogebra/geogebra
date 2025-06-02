@@ -11,7 +11,7 @@ import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
-class DrawOptions implements MoveSelector, OptionsInterface {
+class DrawOptions implements MoveSelector {
 	static final int MARGIN = 5;
 	static final int ROUND = 8;
 	private final DrawDropDownList drawDropDownList;
@@ -52,10 +52,15 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		if (isVisible()) {
 			model.setPosition(leftPos, topPos);
 			updateStartItem();
-			items.fill(g2);
-			table.update(drawDropDownList.getBoxWidth(), drawDropDownList.getLabelFontSize());
+
+			update(g2);
 			table.draw(g2);
 		}
+	}
+
+	void update(GGraphics2D g2) {
+		items.fill(g2);
+		table.update(drawDropDownList.getBoxWidth(), drawDropDownList.getLabelFontSize());
 	}
 
 	private void updateStartItem() {
@@ -95,7 +100,6 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		return false;
 	}
 
-	@Override
 	public void setHoverIndex(int idx) {
 		if (model.itemCount() <= idx) {
 			items.update(model);
@@ -110,7 +114,6 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		}
 	}
 
-	@Override
 	public int getItemCount() {
 		return items.size();
 	}
@@ -314,7 +317,6 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		setDragging(false);
 	}
 
-	@Override
 	public int indexOf(OptionItem item) {
 		return items.indexOf(item);
 	}
@@ -330,12 +332,10 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		return evt;
 	}
 
-	@Override
 	public void scrollUp() {
 		scroller.scroll(DropDownScrollMode.UP);
 	}
 
-	@Override
 	public void scrollDown() {
 		scroller.scroll(DropDownScrollMode.DOWN);
 	}

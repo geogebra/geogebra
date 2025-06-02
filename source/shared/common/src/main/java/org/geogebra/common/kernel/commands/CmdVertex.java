@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoly;
-import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.geos.HasCorners;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -98,11 +98,11 @@ public class CmdVertex extends CommandProcessor {
 				return ret;
 			}
 			// Corner[ <Text>, <number> ]
-			else if ((ok[0] = (arg[0] instanceof TextProperties))
+			else if ((ok[0] = (arg[0] instanceof HasCorners))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 
 				AlgoTextCorner algo = new AlgoTextCorner(cons, c.getLabel(),
-						(TextProperties) arg[0], (GeoNumberValue) arg[1]);
+						(HasCorners) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getCorner() };
 				return ret;

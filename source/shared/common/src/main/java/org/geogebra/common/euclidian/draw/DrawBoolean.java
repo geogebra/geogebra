@@ -18,6 +18,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -55,6 +56,7 @@ public final class DrawBoolean extends Drawable {
 	private String oldCaption;
 
 	private int textWidth = 0;
+	private int textHeight = 0;
 
 	/**
 	 * Creates new DrawBoolean
@@ -99,7 +101,7 @@ public final class DrawBoolean extends Drawable {
 			oldCaption = "";
 			labelDesc = "";
 		}
-
+		updateTextWidth();
 		updateLabel();
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 			getDynamicCaption().update();
@@ -132,9 +134,11 @@ public final class DrawBoolean extends Drawable {
 		}
 	}
 
-	private void drawLabel(GGraphics2D g2, int checkboxX) {
+	private void updateTextWidth() {
+		GGraphics2D g2 = view.getGraphicsForPen();
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
-			getDynamicCaption().draw(g2);
+			getDynamicCaption().update();
+			getDynamicCaption().measure(g2);
 			textWidth = getDynamicCaption().getWidth();
 		} else if (isLatexLabel()) {
 			GDimension d = CanvasDrawable.measureLatex(
@@ -142,9 +146,25 @@ public final class DrawBoolean extends Drawable {
 					labelDesc);
 
 			textWidth = d.getWidth();
+			textHeight = d.getHeight();
+		} else {
+			GTextLayout layout = getTextLayout(labelDesc,
+					view.getFontPoint(), g2);
 
+			// ie labelDesc != ""
+			if (layout != null) {
+				textWidth = (int) Math.round(layout.getBounds().getWidth());
+				textHeight = (int) Math.round(layout.getBounds().getHeight());
+			}
+		}
+	}
+
+	private void drawLabel(GGraphics2D g2, int checkboxX) {
+		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
+			getDynamicCaption().draw(g2);
+		} else if (isLatexLabel()) {
 			int captionX = checkboxX + CHECKBOX_SIZE + LABEL_MARGIN_LATEX;
-			int captionY = getCaptionY(true, d.getHeight());
+			int captionY = getCaptionY(true, textHeight);
 
 			App app = view.getApplication();
 			g2.setPaint(geo.getObjectColor());
@@ -158,23 +178,13 @@ public final class DrawBoolean extends Drawable {
 			firstCall = false;
 		} else {
 			g2.setPaint(geo.getObjectColor());
-			GTextLayout layout = getTextLayout(labelDesc,
-					view.getFontPoint(), g2);
-
-			// ie labelDesc != ""
-			if (layout != null) {
-				int width = (int) Math.round(layout.getBounds().getWidth());
-				int height = (int) Math
-						.round(layout.getBounds().getHeight());
-				textWidth = width;
+			if (!StringUtil.empty(labelDesc)) {
 				int captionX = checkboxX + CHECKBOX_SIZE + LABEL_MARGIN_TEXT;
-				int captionY = getCaptionY(false, height);
+				int captionY = getCaptionY(false, textHeight);
 				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 						labelDesc, captionX, captionY, false);
 			}
 		}
-
-		updateLabel();
 	}
 
 	@Override
@@ -293,6 +303,11 @@ public final class DrawBoolean extends Drawable {
 			gp.lineTo(21.99, 6.83);
 		}
 
+	}
+
+	@Override
+	public GRectangle2D getBoundsForCorner() {
+		return labelRectangle;
 	}
 
 }
