@@ -141,6 +141,12 @@ public class AuralTextTest {
 	}
 
 	@Test
+	public void textAuralSurd() {
+		aural("LaTeX(\"\u221a\\surd\\surdsign\")",
+				"\u221a\u221a\u221a", "edit");
+	}
+
+	@Test
 	public void textAural() {
 		aural("LaTeX(\"a\\geq b\\leq c\")", "a" + Unicode.GREATER_EQUAL + "b"
 				+ Unicode.LESS_EQUAL + "c", "edit");
