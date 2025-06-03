@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -365,15 +366,22 @@ public class SpreadsheetSelectionControllerTest {
 				lastNotificationPayload.value);
 	}
 
+	@Test
+	public void testTrimSelectionToSize() {
+		selectionController.select(new Selection(new TabularRange(4, 5, 10, 10)), false, false);
+		selectionController.trimSelectionToSize(7, 8);
+		assertEquals(selectionController.getLastSelection().getRange(),
+				new TabularRange(4, 5, 6, 7));
+		selectionController.trimSelectionToSize(2, 3);
+		assertNull(selectionController.getLastSelection());
+	}
+
 	private void assertRangeEquals(@CheckForNull Selection selection, Selection other) {
 		assertNotNull("Selection should not be null", selection);
 		TabularRange selectionRange = selection.getRange();
 		TabularRange otherRange = other.getRange();
 		assertEquals(selection.getType(), other.getType());
-		assertEquals(selectionRange.getMinRow(), otherRange.getMinRow());
-		assertEquals(selectionRange.getMaxRow(), otherRange.getMaxRow());
-		assertEquals(selectionRange.getMinColumn(), otherRange.getMinColumn());
-		assertEquals(selectionRange.getMaxColumn(), otherRange.getMaxColumn());
+		assertEquals(selectionRange, otherRange);
 	}
 
 	private boolean assertListsAreEqual(List<Integer> list1, List<Integer> list2) {

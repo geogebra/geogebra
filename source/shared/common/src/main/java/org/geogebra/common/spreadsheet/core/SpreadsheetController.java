@@ -244,6 +244,7 @@ public final class SpreadsheetController {
 	 * undo point.
 	 */
 	private void notifyDataDimensionsChanged() {
+		selectionController.trimSelectionToSize(layout.numberOfRows(), layout.numberOfColumns());
 		notifyViewportAdjuster();
 		adjustViewportIfNeeded();
 		storeUndoInfo();
@@ -600,19 +601,31 @@ public final class SpreadsheetController {
 
 		if (modifiers.secondaryButton && controlsDelegate != null) {
 			if (isSelected(row, column) && shouldKeepSelectionForContextMenu()) {
-				showContextMenu(x, y, selectionController.getUppermostSelectedRowIndex(),
-						selectionController.getBottommostSelectedRowIndex(),
-						selectionController.getLeftmostSelectedColumnIndex(),
-						selectionController.getRightmostSelectedColumnIndex());
+				// clicked inside selection: don't reset selection and show menu
+				showContextMenuForSelection(x, y);
 				return;
 			}
-			showContextMenu(x, y, row, row, column, column);
+			// clicked outside of selection: update selection to handle shift
+			updateCellSelection(row, column, modifiers);
+			showContextMenuForSelection(x, y);
+			return;
 		}
 
 		if (row >= 0 && column >= 0 && selectionController.isOnlyCellSelected(row, column)) {
 			showCellEditor(row, column, true);
 			return;
 		}
+		updateCellSelection(row, column, modifiers);
+	}
+
+	private void showContextMenuForSelection(double x, double y) {
+		showContextMenu(x, y, selectionController.getUppermostSelectedRowIndex(),
+					selectionController.getBottommostSelectedRowIndex(),
+					selectionController.getLeftmostSelectedColumnIndex(),
+					selectionController.getRightmostSelectedColumnIndex());
+	}
+
+	private void updateCellSelection(int row, int column, Modifiers modifiers) {
 		if (!modifiers.ctrlOrCmd && !modifiers.shift && selectionController.hasSelection()) {
 			selectionController.clearSelections();
 		}

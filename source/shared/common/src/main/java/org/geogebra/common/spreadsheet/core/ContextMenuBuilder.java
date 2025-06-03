@@ -93,6 +93,8 @@ public final class ContextMenuBuilder {
     }
 
     private List<ContextMenuItem> cellItems(int fromRow, int toRow, int fromCol, int toCol) {
+        boolean allRows = isAllRows(fromRow, toRow);
+        boolean allColumns = isAllColumns(fromCol, toCol);
         return Stream.of(
                 new ActionableItem(CUT, () -> spreadsheetController.cutCells(fromRow, fromCol)),
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, fromCol)),
@@ -109,10 +111,10 @@ public final class ContextMenuBuilder {
                 new ActionableItem(INSERT_ROW_BELOW, () -> insertRowAt(toRow + 1, true)),
                 new ActionableItem(INSERT_COLUMN_LEFT, () -> insertColumnAt(fromCol, false)),
                 new ActionableItem(INSERT_COLUMN_RIGHT, () -> insertColumnAt(toCol + 1, true)),
-                new Divider(),
-                new ActionableItem(DELETE_ROW,
+                allRows && allColumns ? null : new Divider(),
+                allRows ? null : new ActionableItem(DELETE_ROW,
                         () -> spreadsheetController.deleteRowAt(fromRow)),
-                new ActionableItem(DELETE_COLUMN,
+                allColumns ? null : new ActionableItem(DELETE_COLUMN,
                         () -> spreadsheetController.deleteColumnAt(fromCol))
         ).filter(Objects::nonNull).collect(Collectors.toList());
     }
@@ -126,6 +128,7 @@ public final class ContextMenuBuilder {
     }
 
     private List<ContextMenuItem> rowItems(int fromRow, int toRow) {
+        boolean allRows = isAllRows(fromRow, toRow);
         return Stream.of(
                 new ActionableItem(CUT, () -> spreadsheetController.cutCells(fromRow, -1)),
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, -1)),
@@ -140,12 +143,14 @@ public final class ContextMenuBuilder {
                 new Divider(),
                 new ActionableItem(INSERT_ROW_ABOVE, () -> insertRowAt(fromRow, false)),
                 new ActionableItem(INSERT_ROW_BELOW, () -> insertRowAt(toRow + 1, true)),
-                new Divider(),
-                new ActionableItem(DELETE_ROW, () -> spreadsheetController.deleteRowAt(fromRow))
+                allRows ? null : new Divider(),
+                allRows ? null : new ActionableItem(DELETE_ROW,
+                        () -> spreadsheetController.deleteRowAt(fromRow))
         ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private List<ContextMenuItem> columnItems(int fromCol, int toCol) {
+        boolean allColumns = isAllColumns(fromCol, toCol);
         return Stream.of(
                 new ActionableItem(CUT, () -> spreadsheetController.cutCells(-1, fromCol)),
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(-1, fromCol)),
@@ -160,10 +165,18 @@ public final class ContextMenuBuilder {
                 new Divider(),
                 new ActionableItem(INSERT_COLUMN_LEFT, () -> insertColumnAt(fromCol, false)),
                 new ActionableItem(INSERT_COLUMN_RIGHT, () -> insertColumnAt(toCol + 1, true)),
-                new Divider(),
-                new ActionableItem(DELETE_COLUMN,
+                allColumns ? null : new Divider(),
+                allColumns ? null : new ActionableItem(DELETE_COLUMN,
                         () -> spreadsheetController.deleteColumnAt(fromCol))
         ).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    private boolean isAllColumns(int fromCol, int toCol) {
+        return fromCol == 0 && toCol == spreadsheetController.getLayout().numberOfColumns() - 1;
+    }
+
+    private boolean isAllRows(int fromRow, int toRow) {
+        return fromRow == 0 && toRow == spreadsheetController.getLayout().numberOfRows() - 1;
     }
 
     private void insertColumnAt(int column, boolean right) {

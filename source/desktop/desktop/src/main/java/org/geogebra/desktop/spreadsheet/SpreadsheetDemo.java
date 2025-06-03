@@ -243,7 +243,7 @@ public class SpreadsheetDemo {
 				public void showContextMenu(
 						@Nonnull List<ContextMenuItem> items, @Nonnull Point position) {
 					contextMenu.show(editorOverlay,
-							(int)Math.round(position.x), (int)Math.round(position.y));
+							(int) Math.round(position.x), (int) Math.round(position.y));
 					contextMenu.removeAll();
 					for (ContextMenuItem item: items) {
 						String localizationKey = item.getLocalizationKey();

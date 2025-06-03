@@ -32,7 +32,7 @@ final class SpreadsheetSelectionController {
 	}
 
 	void selectAll() {
-		setSelection(new Selection(TabularRange.range(-1, -1,
+		setSelection(new Selection(new TabularRange(-1, -1,
 						-1, -1)));
 	}
 
@@ -73,7 +73,7 @@ final class SpreadsheetSelectionController {
 	void selectRow(int rowIndex,
 			boolean extendSelection, boolean addSelection) {
 		Selection row = new Selection(
-				TabularRange.range(rowIndex, rowIndex, -1, -1));
+				new TabularRange(rowIndex, -1, rowIndex, -1));
 		select(row, extendSelection, addSelection);
 	}
 
@@ -86,7 +86,7 @@ final class SpreadsheetSelectionController {
 	void selectColumn(int columnIndex,
 			boolean extendSelection, boolean addSelection) {
 		Selection column = new Selection(
-				TabularRange.range(-1, -1, columnIndex, columnIndex));
+				new TabularRange(-1, columnIndex, -1, columnIndex));
 		select(column, extendSelection, addSelection);
 	}
 
@@ -383,5 +383,32 @@ final class SpreadsheetSelectionController {
 			}
 		}
 		return index;
+	}
+
+	/**
+	 * Trim selections that exceed the spreadsheet size.
+	 * Selections that are completely out of range are removed.
+	 * @param rowCount number of rows
+	 * @param colCount number of columns
+	 */
+	void trimSelectionToSize(int rowCount, int colCount) {
+		ArrayList<Selection> trimmed = new ArrayList<>();
+		for (Selection selection : selections) {
+			TabularRange range = selection.getRange();
+			if (range.getMinColumn() >= colCount || range.getMinRow() >= rowCount) {
+				continue;
+			}
+			if (range.getMaxColumn() >= colCount) {
+				range = new TabularRange(range.getMinRow(), range.getMinColumn(),
+						range.getMaxRow(), colCount - 1);
+			}
+			if (range.getMaxRow() >= rowCount) {
+				range = new TabularRange(range.getMinRow(), range.getMinColumn(),
+						rowCount - 1, range.getMaxColumn());
+			}
+			trimmed.add(new Selection(range));
+		}
+		selections.clear();
+		selections.addAll(trimmed);
 	}
 }

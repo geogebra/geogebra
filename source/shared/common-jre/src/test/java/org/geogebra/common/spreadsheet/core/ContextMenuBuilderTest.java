@@ -17,7 +17,6 @@ import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public final class ContextMenuBuilderTest {
@@ -61,10 +60,12 @@ public final class ContextMenuBuilderTest {
 
 	private void testMenuOrder(int row, int column, List<Identifier> expected) {
 		List<ContextMenuItem> menuItems = builder.build(row, column);
-		List<Identifier> actual =
-				menuItems.stream().map(ContextMenuItem::getIdentifier)
-						.collect(Collectors.toList());
-		assertEquals(expected, actual);
+		assertEquals(expected, getIdentifiers(menuItems));
+	}
+
+	private List<Identifier> getIdentifiers(List<ContextMenuItem> menuItems) {
+		return menuItems.stream().map(ContextMenuItem::getIdentifier)
+				.collect(Collectors.toList());
 	}
 
 	@Test
@@ -75,40 +76,26 @@ public final class ContextMenuBuilderTest {
 	}
 
 	@Test
+	public void testRowMenuOrderFull() {
+		List<ContextMenuItem> menuItems = builder.build(0, 99, HEADER_INDEX, HEADER_INDEX);
+		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW),
+				getIdentifiers(menuItems));
+	}
+
+	@Test
 	public void testColumnMenuOrder() {
 		testMenuOrder(HEADER_INDEX, 1,
 				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_COLUMN_LEFT,
 						INSERT_COLUMN_RIGHT, DIVIDER, DELETE_COLUMN));
 	}
 
-	@Ignore
 	@Test
-	public void testDeleteCell() {
-		runItemAt(2, 1, DELETE);
-		assertNull(data.contentAt(2, 1));
-	}
-
-	@Ignore
-	@Test
-	public void testDeleteSelectedCells() {
-		TabularRange range = new TabularRange(6, 2, 8, 4);
-		controller.selectionController.select(new Selection(range), false, true);
-		runItemAt(2, 4, DELETE);
-		checkRangeIsDeleted(range);
-	}
-
-	private void checkRangeIsDeleted(TabularRange range) {
-		int count = 0;
-		for (int row = range.getFromRow(); row < range.getToRow(); row++) {
-			for (int column = range.getFromColumn(); column < range.getToColumn(); column++) {
-				if (data.contentAt(row, column) == null) {
-					count++;
-				}
-			}
-		}
-		int allSelectedCells = (range.getToRow() - range.getFromRow())
-				* (range.getToColumn() - range.getFromColumn());
-		assertEquals(allSelectedCells, count);
+	public void testColumnMenuOrderFull() {
+		List<ContextMenuItem> menuItems = builder.build(HEADER_INDEX, HEADER_INDEX, 0, 99);
+		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT),
+				getIdentifiers(menuItems));
 	}
 
 	private void runItemAt(int row, int column, Identifier id) {
