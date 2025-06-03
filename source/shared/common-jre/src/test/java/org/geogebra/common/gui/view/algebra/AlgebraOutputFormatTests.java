@@ -216,10 +216,22 @@ public class AlgebraOutputFormatTests {
             "NSolve(x² = 2, x)      -> {x=-1.414213562373,x=1.414213562373}"
     })
     public void testApproximationAndSymbolicOutputInSolveResult(String expression) {
-    setupApp(SuiteSubApp.CAS);
-    assertEquals(
-            List.of(EXACT, APPROXIMATION),
-            AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false, Set.of()));
+        setupApp(SuiteSubApp.CAS);
+        assertEquals(
+                List.of(EXACT, APPROXIMATION),
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false, Set.of()));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "1 / sqrt(2)",
+            "sqrt(3) / sqrt(2)",
+    })
+    public void testRationalizableFractions(String expression) {
+        setupApp(SuiteSubApp.GRAPHING);
+        assertEquals(
+                List.of(EXACT, APPROXIMATION),
+                AlgebraOutputFormat.getPossibleFormats(evaluate(expression), false, Set.of()));
     }
 
     @Test

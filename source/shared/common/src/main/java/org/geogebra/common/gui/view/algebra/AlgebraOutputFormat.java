@@ -141,7 +141,7 @@ public enum AlgebraOutputFormat {
 
         if (hasDifferentSymbolicAndNumericFormat(geoElement)) {
             return SymbolicUtil.isSymbolicMode(geoElement)
-                    ? (AlgebraItem.evaluatesToFraction(geoElement) ? FRACTION : EXACT)
+                    ? (hasFractionalFormat(geoElement) ? FRACTION : EXACT)
                     : APPROXIMATION;
         }
 
