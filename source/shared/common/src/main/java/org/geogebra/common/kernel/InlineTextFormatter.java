@@ -50,7 +50,10 @@ public class InlineTextFormatter {
 
 		for (GeoElement geo : targetGeos) {
 			if (geo instanceof HasTextFormatter) {
-				changed = formatFn.apply(((HasTextFormatter) geo).getFormatter()) || changed;
+				HasTextFormat formatter = ((HasTextFormatter) geo).getFormatter();
+				if (formatter != null) {
+					changed = formatFn.apply(formatter) || changed;
+				}
 			}
 		}
 

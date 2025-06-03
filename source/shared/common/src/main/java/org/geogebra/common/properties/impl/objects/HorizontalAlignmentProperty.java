@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
@@ -46,9 +47,10 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 	@Override
 	protected void doSetValue(HorizontalAlignment value) {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
-		if (getLocalization() != null && !value.equals(element.getFormatter()
-				.getHorizontalAlignment())) {
-			element.getFormatter().setHorizontalAlignment(value);
+		HasTextFormat formatter = element.getFormatter();
+		if (getLocalization() != null && formatter != null
+				&& !value.equals(formatter.getHorizontalAlignment())) {
+			formatter.setHorizontalAlignment(value);
 		}
 		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);
 	}
@@ -56,8 +58,9 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 	@Override
 	public HorizontalAlignment getValue() {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
-		if (element.getFormatter() != null) {
-			return element.getFormatter().getHorizontalAlignment();
+		HasTextFormat formatter = element.getFormatter();
+		if (formatter != null) {
+			return formatter.getHorizontalAlignment();
 		}
 		return HorizontalAlignment.LEFT;
 	}

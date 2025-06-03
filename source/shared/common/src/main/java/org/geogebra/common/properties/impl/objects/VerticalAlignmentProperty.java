@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
@@ -46,9 +47,10 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 	@Override
 	protected void doSetValue(VerticalAlignment value) {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
-		if (getLocalization() != null && !value.equals(element.getFormatter()
+		HasTextFormat formatter = element.getFormatter();
+		if (getLocalization() != null && formatter != null && !value.equals(formatter
 				.getVerticalAlignment())) {
-			element.getFormatter().setVerticalAlignment(value);
+			formatter.setVerticalAlignment(value);
 		}
 		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);
 	}
@@ -56,8 +58,9 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 	@Override
 	public VerticalAlignment getValue() {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
-		if (element.getFormatter() != null) {
-			return element.getFormatter().getVerticalAlignment();
+		HasTextFormat formatter = element.getFormatter();
+		if (formatter != null) {
+			return formatter.getVerticalAlignment();
 		}
 		return VerticalAlignment.BOTTOM;
 	}

@@ -39,9 +39,9 @@ public class ItalicProperty extends AbstractValuedProperty<Boolean> implements B
 			}
 		} else if (element instanceof HasTextFormatter) {
 			HasTextFormatter hasTextFormatter = (HasTextFormatter) element;
-			if (getLocalization() != null && !value.equals(hasTextFormatter.getFormatter()
+			if (getLocalization() != null && !value.equals(hasTextFormatter
 					.getFormat("italic", false))) {
-				hasTextFormatter.getFormatter().format("italic", value);
+				hasTextFormatter.format("italic", value);
 			}
 			element.updateVisualStyle(GProperty.COMBINED);
 		}
@@ -53,10 +53,9 @@ public class ItalicProperty extends AbstractValuedProperty<Boolean> implements B
 		if (element instanceof TextProperties) {
 			TextProperties textProperties = (TextProperties) element;
 			return (textProperties.getFontStyle() & GFont.ITALIC) != 0;
-		} else if (element instanceof HasTextFormatter
-				&& ((HasTextFormatter) element).getFormatter() != null) {
+		} else if (element instanceof HasTextFormatter) {
 			HasTextFormatter hasTextFormatter = (HasTextFormatter) element;
-			return hasTextFormatter.getFormatter().getFormat("italic", false);
+			return hasTextFormatter.getFormat("italic", false);
 		}
 
 		return false;

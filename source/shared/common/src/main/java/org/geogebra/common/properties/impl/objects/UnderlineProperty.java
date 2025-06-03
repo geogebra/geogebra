@@ -28,9 +28,9 @@ public class UnderlineProperty extends AbstractValuedProperty<Boolean>
 	@Override
 	protected void doSetValue(Boolean value) {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
-		if (getLocalization() != null && !value.equals(element.getFormatter()
+		if (getLocalization() != null && !value.equals(element
 				.getFormat("underline", false))) {
-			element.getFormatter().format("underline", value);
+			element.format("underline", value);
 		}
 		((GeoElement) element).updateVisualStyle(GProperty.COMBINED);
 	}
@@ -38,9 +38,6 @@ public class UnderlineProperty extends AbstractValuedProperty<Boolean>
 	@Override
 	public Boolean getValue() {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
-		if (element.getFormatter() != null) {
-			return element.getFormatter().getFormat("underline", false);
-		}
-		return false;
+		return element.getFormat("underline", false);
 	}
 }

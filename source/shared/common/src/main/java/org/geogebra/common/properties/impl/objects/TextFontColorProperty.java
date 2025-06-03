@@ -39,15 +39,14 @@ public class TextFontColorProperty extends ElementColorProperty
 				List.of(element));
 
 		if (element instanceof HasTextFormatter) {
-			((HasTextFormatter) element).getFormatter().format("color", value.toString());
+			((HasTextFormatter) element).format("color", value.toString());
 		}
 	}
 
 	@Override
 	public GColor getValue() {
-		if (element instanceof HasTextFormatter
-				&& ((HasTextFormatter) element).getFormatter() != null) {
-			return GColor.getGColor(((HasTextFormatter) element).getFormatter()
+		if (element instanceof HasTextFormatter) {
+			return GColor.getGColor(((HasTextFormatter) element)
 					.getFormat("color", null));
 		}
 

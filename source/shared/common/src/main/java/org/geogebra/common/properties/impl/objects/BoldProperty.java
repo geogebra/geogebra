@@ -40,9 +40,9 @@ public class BoldProperty extends AbstractValuedProperty<Boolean>
 			}
 		} else if (element instanceof HasTextFormatter) {
 			HasTextFormatter hasTextFormatter = (HasTextFormatter) element;
-			if (getLocalization() != null && !value.equals(hasTextFormatter.getFormatter()
+			if (getLocalization() != null && !value.equals(hasTextFormatter
 					.getFormat("bold", false))) {
-				hasTextFormatter.getFormatter().format("bold", value);
+				hasTextFormatter.format("bold", value);
 			}
 			element.updateVisualStyle(GProperty.COMBINED);
 		}
@@ -54,10 +54,9 @@ public class BoldProperty extends AbstractValuedProperty<Boolean>
 		if (element instanceof TextProperties) {
 			TextProperties textProperties = (TextProperties) element;
 			return (textProperties.getFontStyle() & GFont.BOLD) != 0;
-		} else if (element instanceof HasTextFormatter
-				&& ((HasTextFormatter) element).getFormatter() != null) {
+		} else if (element instanceof HasTextFormatter) {
 			HasTextFormatter hasTextFormatter = (HasTextFormatter) element;
-			return hasTextFormatter.getFormatter().getFormat("bold", false);
+			return hasTextFormatter.getFormat("bold", false);
 		}
 
 		return false;

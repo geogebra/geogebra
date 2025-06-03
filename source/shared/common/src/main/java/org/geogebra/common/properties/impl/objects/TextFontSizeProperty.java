@@ -64,7 +64,7 @@ public class TextFontSizeProperty extends AbstractNamedEnumeratedProperty<TextFo
 			((TextProperties) element).setFontSizeMultiplier(size);
 		} else if (element instanceof HasTextFormatter) {
 			size = size * ev.getFontSize();
-			((HasTextFormatter) element).getFormatter().format("size", size);
+			((HasTextFormatter) element).format("size", size);
 		}
 		element.updateVisualStyleRepaint(GProperty.FONT);
 	}
@@ -72,9 +72,8 @@ public class TextFontSizeProperty extends AbstractNamedEnumeratedProperty<TextFo
 	@Override
 	public TextFontSize getValue() {
 		GeoElement element = delegate.getElement();
-		if (element instanceof HasTextFormatter
-				&& ((HasTextFormatter) element).getFormatter() != null) {
-			Double fontSize = ((HasTextFormatter) element).getFormatter().getFormat("size",
+		if (element instanceof HasTextFormatter) {
+			Double fontSize = ((HasTextFormatter) element).getFormat("size",
 					(double) 0);
 			return fontSizes.get(GeoText.getFontSizeIndex(fontSize / ev.getFontSize()));
 		}

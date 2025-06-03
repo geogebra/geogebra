@@ -85,7 +85,10 @@ public class InlineFormattingItems {
 	private void fillInlines() {
 		for (GeoElement geo : geos) {
 			if (geo instanceof HasTextFormatter) {
-				inlines.add(((HasTextFormatter) geo).getFormatter());
+				HasTextFormat formatter = ((HasTextFormatter) geo).getFormatter();
+				if (formatter != null) {
+					inlines.add(formatter);
+				}
 			}
 		}
 	}
