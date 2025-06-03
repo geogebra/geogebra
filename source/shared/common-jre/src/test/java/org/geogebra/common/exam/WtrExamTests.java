@@ -66,7 +66,9 @@ public class WtrExamTests extends BaseExamTests {
 			"{0}",
 			"{0,1}",
 			"{{0, 1}, {{1, 2}, 1}}",
-			"Sequence({1, 2, 3}, x, 1, 2)"
+			"Sequence({1, 2, 3}, x, 1, 2)",
+			"{{0,1},{1,0}}",
+			"{{0},{1}}"
 	})
 	public void testRestrictedListsInInput(String expression) {
 		assertNull(evaluate(expression));
@@ -80,16 +82,6 @@ public class WtrExamTests extends BaseExamTests {
 		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString("Unknown command"));
 		errorAccumulator.resetError();
-	}
-
-	@ParameterizedTest
-	@ValueSource(strings = {
-			// matrices (are composed of lists, but should be allowed)
-			"{{0,1},{1,0}}",
-			"{{0},{1}}"
-	})
-	public void testAllowedLists(String expression) {
-		assertNotNull(evaluate(expression));
 	}
 
 	@ParameterizedTest

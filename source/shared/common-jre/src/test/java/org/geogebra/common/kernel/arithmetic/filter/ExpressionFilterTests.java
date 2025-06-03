@@ -21,7 +21,7 @@ import org.junit.Test;
 
 public class ExpressionFilterTests extends BaseUnitTest {
 
-	private ErrorAccumulator errorAccumulator = new ErrorAccumulator();
+	private final ErrorAccumulator errorAccumulator = new ErrorAccumulator();
 
 	@Test
 	public void testComplexExpression() throws Exception {
@@ -60,6 +60,15 @@ public class ExpressionFilterTests extends BaseUnitTest {
 		ExpressionFilter filter = ScientificOperationArgumentFilter.INSTANCE;
 		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
 		process(algebraProcessor, "{1,2,3} + 3");
+		assertEquals("Sorry, something went wrong. Please check your input",
+				errorAccumulator.getErrors());
+	}
+
+	@Test
+	public void testNoMatrixInScientific() {
+		ExpressionFilter filter = ScientificOperationArgumentFilter.INSTANCE;
+		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
+		process(algebraProcessor, "{{1,2},{3,4}}");
 		assertEquals("Sorry, something went wrong. Please check your input",
 				errorAccumulator.getErrors());
 	}

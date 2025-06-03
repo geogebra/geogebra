@@ -58,11 +58,7 @@ import static org.geogebra.common.plugin.Operation.TANH;
 import static org.geogebra.common.util.StreamUtils.filter;
 import static org.geogebra.common.util.StreamUtils.streamOf;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -118,8 +114,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 				new RestrictComplexExpressions(),
 				new RestrictBooleanExpressions(),
 				new AllowBooleanCommandArguments(),
-				new RestrictLists(),
-				new AllowListsForMatrices()),
+				new RestrictLists()),
 				new RadianGradianFilter());
 	}
 
@@ -128,8 +123,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 				new RestrictComplexExpressions(),
 				new RestrictBooleanExpressions(),
 				new AllowBooleanCommandArguments(),
-				new RestrictLists(),
-				new AllowListsForMatrices()));
+				new RestrictLists()));
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -280,41 +274,6 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		public @Nonnull Set<ExpressionValue> getRestrictedSubExpressions(
 				@Nonnull ExpressionValue expression) {
 			return filter(expression, subExpression -> subExpression instanceof MyList);
-		}
-	}
-
-	private static final class AllowListsForMatrices implements ExpressionRestriction {
-		@Override
-		public @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
-			Set<ExpressionValue> allowedSubExpressions = new HashSet<>();
-			for (ExpressionValue subExpression : expression) {
-				List<ExpressionValue> childExpressions = childExpressionsOf(subExpression);
-				if (
-					// If the expression is a list
-						subExpression instanceof MyList
-								// with a list for every element (matrix),
-								&& !childExpressions.isEmpty()
-								&& childExpressions.stream().allMatch(this::isWrappedListExpression)
-				) {
-					// then allow the current list with all of its list elements
-					allowedSubExpressions.add(subExpression);
-					childExpressions.stream().map(ExpressionValue::unwrap)
-							.forEach(allowedSubExpressions::add);
-				}
-			}
-			return allowedSubExpressions;
-		}
-
-		private List<ExpressionValue> childExpressionsOf(ExpressionValue expression) {
-			ArrayList<ExpressionValue> childExpressions = new ArrayList<>();
-			for (int childIndex = 0; childIndex < expression.getChildCount(); childIndex++) {
-				childExpressions.add(expression.getChild(childIndex));
-			}
-			return Collections.unmodifiableList(childExpressions);
-		}
-
-		private boolean isWrappedListExpression(ExpressionValue expressionValue) {
-			return expressionValue.unwrap() instanceof MyList;
 		}
 	}
 

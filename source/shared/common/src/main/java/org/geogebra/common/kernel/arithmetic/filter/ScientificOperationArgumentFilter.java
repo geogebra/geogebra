@@ -4,24 +4,24 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.MyList;
 
 /**
  * Operation argument filter for the scientific app.
  */
-public enum ScientificOperationArgumentFilter implements ExpressionFilter, Inspecting {
+public enum ScientificOperationArgumentFilter implements ExpressionFilter {
 
 	INSTANCE;
 
 	@Override
 	public boolean isAllowed(@Nonnull ExpressionValue expression) {
-		return !expression.any(this);
+		return !expression.any(exp ->
+				exp.isExpressionNode() && !exp.isLeaf() && containsList((ExpressionNode) exp)
+						|| isMatrix(exp));
 	}
 
-	@Override
-	public boolean check(ExpressionValue expression) {
-		return expression.isExpressionNode() && !expression.isLeaf()
-				&& containsList((ExpressionNode) expression);
+	private boolean isMatrix(ExpressionValue expression) {
+		return expression instanceof MyList && ((MyList) expression).isMatrix();
 	}
 
 	private boolean containsList(ExpressionNode expression) {
