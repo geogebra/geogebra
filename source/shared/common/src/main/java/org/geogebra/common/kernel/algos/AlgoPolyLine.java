@@ -12,6 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -70,17 +73,12 @@ public class AlgoPolyLine extends AlgoElement {
 		super(cons);
 		this.points = points;
 		this.geoList = geoList;
-
-		// Log.debug(penStroke);
-
-		// poly = new GeoPolygon(cons, points);
 		createPolyLine();
 
 		// compute polygon points
 		compute();
 
 		setInputOutput(); // for AlgoElement
-
 	}
 
 	/**
@@ -100,13 +98,6 @@ public class AlgoPolyLine extends AlgoElement {
 	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_POLYLINE;
-	}
-
-	/**
-	 * @return - true, if poly is pen stroke
-	 */
-	public boolean getIsPenStroke() {
-		return false;
 	}
 
 	/**
@@ -141,19 +132,23 @@ public class AlgoPolyLine extends AlgoElement {
 			input[0] = geoList;
 
 		} else {
-			input = new GeoElement[points.length];
-			for (int i = 0; i < points.length; i++) {
-				input[i] = (GeoElement) points[i];
-			}
+			updateInput();
 		}
 		// set dependencies
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement element : input) {
+			element.addAlgorithm(this);
 		}
 
 		// set output
 		setOnlyOutput(poly);
 		setDependencies();
+	}
+
+	private void updateInput() {
+		input = new GeoElement[points.length];
+		for (int i = 0; i < points.length; i++) {
+			input[i] = (GeoElement) points[i];
+		}
 	}
 
 	@Override
@@ -228,10 +223,36 @@ public class AlgoPolyLine extends AlgoElement {
 	}
 
 	/**
-	 * @return ND points (same as GetPoints in 2D)
+	 * Insert a 2D point into the polyline.
+	 * @param i index before which to insert
+	 * @param x inhomogeneous x-coordinate
+	 * @param y inhomogeneous y-coordinate
+	 * @return newly inserted point
 	 */
-	public final GeoPointND[] getPointsND() {
-		return points;
+	public GeoPointND insertPoint(int i, double x, double y) {
+		ArrayList<GeoPointND> newPoints = new ArrayList<>(List.of(points));
+		GeoPointND copy = newPoints.get(i - 1).copy();
+		copy.setCoords(x, y, 1);
+		newPoints.add(i, copy);
+		setPoints(newPoints);
+		return copy;
 	}
 
+	/**
+	 * Removes a point from the poly-line.
+	 * @param i index
+	 */
+	public void removePoint(int i) {
+		ArrayList<GeoPointND> newPoints = new ArrayList<>(List.of(points));
+		newPoints.remove(i);
+		setPoints(newPoints);
+	}
+
+	private void setPoints(ArrayList<GeoPointND> newPoints) {
+		points = newPoints.toArray(new GeoPointND[0]);
+		poly.setPoints(points);
+		updateInput();
+		poly.updateRepaint();
+		resetFreeInputPoints();
+	}
 }

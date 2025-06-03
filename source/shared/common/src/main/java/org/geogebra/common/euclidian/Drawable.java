@@ -578,7 +578,7 @@ public abstract class Drawable extends DrawableND {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public @Nonnull EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y, int hitThreshold) {
+	public @Nonnull ShapeManipulationHandler hitBoundingBoxHandler(int x, int y, int hitThreshold) {
 		if (getBoundingBox() != null && getBoundingBox() == view.getBoundingBox()) {
 			return getBoundingBox().getHitHandler(x, y, hitThreshold);
 		}
@@ -826,6 +826,15 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
+		// do nothing here
+	}
+
+	/**
+	 * @param point new control point position
+	 * @param handler handler ID
+	 */
+	public void updateByControlPointMovement(GPoint2D point,
+			ControlPointHandler handler) {
 		// do nothing here
 	}
 

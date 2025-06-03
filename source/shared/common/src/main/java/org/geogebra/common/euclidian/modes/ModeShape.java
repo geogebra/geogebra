@@ -14,13 +14,13 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -297,10 +297,10 @@ public class ModeShape {
 			return conic;
 		} else if (mode == EuclidianConstants.MODE_SHAPE_LINE) {
 			GeoPoint[] points = getRealPointsOfLine(event);
-			AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(
+			AlgoPolyLine algo = new AlgoPolyLine(
 					view.getKernel().getConstruction(),
-					points[0], points[1]);
-			GeoSegment segment = algo.getSegment();
+					points);
+			GeoPolyLine segment = algo.getPoly();
 			segment.setLabelVisible(false);
 			segment.setLabel(null);
 			view.setShapeLine(null);

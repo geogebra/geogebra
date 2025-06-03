@@ -39,7 +39,7 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 
 	@Override
 	protected void createHandlers() {
-		initHandlers(8);
+		initHandlers(4, 4);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class MindMapBoundingBox extends MediaBoundingBox {
 	}
 
 	@Override
-	public EuclidianBoundingBoxHandler getHitHandler(int x, int y, int hitThreshold) {
+	public ShapeManipulationHandler getHitHandler(int x, int y, int hitThreshold) {
 		for (int i = 0; i < ADD_HANDLERS.length; i++) {
 			double plusX = corners[4 + i].x + ADD_HANDLERS[i].getDx() * PLUS_DISTANCE;
 			double plusY = corners[4 + i].y + ADD_HANDLERS[i].getDy() * PLUS_DISTANCE;

@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
@@ -28,6 +29,7 @@ public abstract class BoundingBox<T extends GShape> {
 	protected static final int SIDE_HANDLER_WIDTH = 10;
 	protected static final int SIDE_HANDLER_HEIGHT = 4;
 	protected static final int HANDLER_RADIUS = 6;
+	protected static final int SPLITTER_RADIUS = 4;
 	protected static final int ROTATION_HANDLER_RADIUS = 12;
 	private static final int ROTATION_ICON_SIZE = 18;
 
@@ -101,17 +103,16 @@ public abstract class BoundingBox<T extends GShape> {
 	/**
 	 * Initialize the array of handlers, don't specify positions
 	 *
-	 * @param nrHandlers
+	 * @param nrCornerHandlers
 	 *            rebuild the list of handlers
 	 */
-	protected void initHandlers(int nrHandlers) {
+	protected void initHandlers(int nrCornerHandlers, int nrOtherHandlers) {
 		handlers.clear();
-		int nrCornerHandlers = Math.min(nrHandlers, DEFAULT_HANDLER_COUNT);
 		addCornerHandlers(nrCornerHandlers);
-		if (nrHandlers > DEFAULT_HANDLER_COUNT) {
+		if (nrOtherHandlers > 0) {
 			addSideHandlers();
 		}
-		if (nrHandlers > ROTATION_HANDLER_INDEX) {
+		if (nrOtherHandlers > ROTATION_HANDLER_INDEX - DEFAULT_HANDLER_COUNT) {
 			handlers.add(createCornerHandler());
 		}
 
@@ -191,9 +192,7 @@ public abstract class BoundingBox<T extends GShape> {
 			}
 		}
 
-		if (handlers.size() > ROTATION_HANDLER_INDEX) {
-			drawRotationHandler(g2);
-		}
+		drawRotationHandler(g2);
 	}
 
 	protected void drawRoundedRectangle(GGraphics2D g2, GRectangle2D sideHandler) {
@@ -203,10 +202,12 @@ public abstract class BoundingBox<T extends GShape> {
 	}
 
 	protected void drawRotationHandler(GGraphics2D g2) {
-		g2.drawImage(rotationHandlerImage,
-				(int) handlers.get(ROTATION_HANDLER_INDEX).getBounds().getX() + 3,
-				(int) handlers.get(ROTATION_HANDLER_INDEX).getBounds().getY() + 3,
-				ROTATION_ICON_SIZE, ROTATION_ICON_SIZE);
+		if (handlers.size() > ROTATION_HANDLER_INDEX) {
+			g2.drawImage(rotationHandlerImage,
+					(int) handlers.get(ROTATION_HANDLER_INDEX).getBounds().getX() + 3,
+					(int) handlers.get(ROTATION_HANDLER_INDEX).getBounds().getY() + 3,
+					ROTATION_ICON_SIZE, ROTATION_ICON_SIZE);
+		}
 	}
 
 	protected void fillHandlerWhite(GGraphics2D g2, GShape handler) {
@@ -302,7 +303,7 @@ public abstract class BoundingBox<T extends GShape> {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public @Nonnull EuclidianBoundingBoxHandler getHitHandler(int x, int y,
+	public @Nonnull ShapeManipulationHandler getHitHandler(int x, int y,
 			int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 
@@ -424,5 +425,14 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	public void setTransform(GAffineTransform directTransform) {
 		// only cropbox and rotatable box
+	}
+
+	/**
+	 * Handle double-clicking a handler.
+	 * @param pointer pointer position
+	 * @param hitThreshold hitting threshold
+	 */
+	public void handleDoubleClick(GPoint pointer, int hitThreshold) {
+		// only for poly-lines
 	}
 }

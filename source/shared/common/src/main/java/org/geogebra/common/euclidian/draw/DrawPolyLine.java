@@ -20,14 +20,22 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.ControlPointHandler;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
+import org.geogebra.common.euclidian.PolyLineBoundingBox;
 import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoPolyLine;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -39,10 +47,11 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
-public class DrawPolyLine extends Drawable implements Previewable {
+public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedDrawable {
 
 	private GeoPolyLine poly;
 	private boolean isVisible;
+
 	private boolean labelVisible;
 
 	private GeneralPathClipped gp;
@@ -52,6 +61,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private ArrayList<GPoint2D> pointList = new ArrayList<>();
 	private boolean startPointAdded = false;
 	private GPoint2D endPoint = new GPoint2D();
+	private PolyLineBoundingBox boundingBox;
+	private DrawSegmentWithEndings segmentWithEndings;
 
 	/**
 	 * @param view
@@ -63,7 +74,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		this.view = view;
 		this.poly = poly;
 		geo = poly;
-
+		segmentWithEndings = new DrawSegmentWithEndings(this, poly);
 		update();
 	}
 
@@ -103,7 +114,62 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				// offscreen points too
 			}
 			drawAndUpdateTraceIfNeeded(poly.getTrace());
+			if (view.getApplication().isWhiteboardActive()) {
+				if (getBounds() != null) {
+					rebuildHandlers();
+				} else {
+					getBoundingBox().setRectangle(null);
+				}
+			}
+			if (segmentWithEndings != null && poly.hasStyledEndpoint()) {
+				segmentWithEndings.update(objStroke);
+			}
 		}
+	}
+
+	private void rebuildHandlers() {
+		getBoundingBox().setRectangle(getBounds());
+		for (int i = 0; i < poly.getNumPoints(); i++) {
+			boundingBox.setHandlerFromCenter(i,
+					view.toScreenCoordXd(poly.getPoint(i).getInhomX()),
+					view.toScreenCoordYd(poly.getPoint(i).getInhomY()));
+		}
+		for (int i = 1; i < poly.getNumPoints(); i++) {
+			boundingBox.setHandlerFromCenter(i + poly.getNumPoints() - 1,
+					(view.toScreenCoordXd(poly.getPoint(i - 1).getInhomX())
+							+ view.toScreenCoordXd(poly.getPoint(i).getInhomX())) / 2,
+					(view.toScreenCoordYd(poly.getPoint(i - 1).getInhomY())
+							+ view.toScreenCoordYd(poly.getPoint(i).getInhomY())) / 2);
+		}
+	}
+
+	@Override
+	public void updateByControlPointMovement(GPoint2D point,
+			ControlPointHandler handler) {
+		AlgoElement parentAlgorithm = poly.getParentAlgorithm();
+		if (!(parentAlgorithm instanceof AlgoPolyLine)) {
+			return;
+		}
+		if (handler.id >= poly.getNumPoints()) {
+			double realX = view.toRealWorldCoordX(point.getX());
+			double realY = view.toRealWorldCoordY(point.getY());
+			int index = handler.id - poly.getNumPoints() + 1;
+			((AlgoPolyLine) parentAlgorithm)
+					.insertPoint(index, realX, realY);
+			view.setHitHandler(new ControlPointHandler(index));
+			return;
+		}
+		GeoPointND updated = poly.getPoint(handler.id);
+		GeoPointND anchorPoint = poly.getPoint(handler.id == 0 ? 1 : handler.id - 1);
+		GPoint2D anchor = new GPoint2D(view.toScreenCoordX(anchorPoint.getInhomX()),
+				view.toScreenCoordYd(anchorPoint.getInhomY()));
+		GPoint2D snap = ModeShape.snapPoint(anchor.getX(), anchor.getY(),
+				point.getX(), point.getY());
+		double realX = view.toRealWorldCoordX(snap.getX());
+		double realY = view.toRealWorldCoordY(snap.getY());
+		updated.setCoords(realX, realY, 1);
+		parentAlgorithm.update();
+		view.getKernel().notifyRepaint();
 	}
 
 	@Override
@@ -204,7 +270,11 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			}
 		}
 		if (isVisible) {
-
+			if (poly.hasStyledEndpoint()) {
+				drawLabelIfVisible(g2);
+				segmentWithEndings.draw(g2);
+				return;
+			}
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(gp);
@@ -215,11 +285,15 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				g2.draw(gp);
 			}
 
-			if (labelVisible) {
-				g2.setPaint(poly.getLabelColor());
-				g2.setFont(view.getFontPoint());
-				drawLabel(g2);
-			}
+			drawLabelIfVisible(g2);
+		}
+	}
+
+	private void drawLabelIfVisible(GGraphics2D g2) {
+		if (labelVisible) {
+			g2.setPaint(poly.getLabelColor());
+			g2.setFont(view.getFontPoint());
+			drawLabel(g2);
 		}
 	}
 
@@ -454,5 +528,102 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 
 		return view.getCoordsForView(points.get(i).getInhomCoordsInD3());
+	}
+
+	@Override
+	public PolyLineBoundingBox getBoundingBox() {
+		if (boundingBox == null) {
+			boundingBox = new PolyLineBoundingBox(poly, view.getApplication());
+			boundingBox.setColor(view.getApplication().getPrimaryColor());
+		}
+		boundingBox.updateFrom(geo);
+		return boundingBox;
+	}
+
+	@Override
+	public ArrayList<GPoint2D> toPoints() {
+		ArrayList<GPoint2D> points = new ArrayList<>();
+		for (GeoPointND pt : poly.getPoints()) {
+			points.add(
+					new MyPoint(view.toScreenCoordXd(pt.getInhomX()),
+							view.toScreenCoordYd(pt.getInhomY())));
+		}
+		return points;
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> points) {
+		int i = 0;
+		for (GeoPointND pt : poly.getPoints()) {
+			pt.setCoords(view.toRealWorldCoordX(points.get(i).getX()),
+					view.toRealWorldCoordY(points.get(i).getY()), 1);
+			i++;
+		}
+		poly.updateRepaint();
+	}
+
+	@Override
+	public double getX1() {
+		return getScreenX(0);
+	}
+
+	private double getScreenX(int idx) {
+		GeoPoint point = poly.getPoint(idx);
+		if (point == null) {
+			return 0;
+		}
+		return view.toScreenCoordXd(point.getX());
+	}
+
+	@Override
+	public double getX2() {
+		return getScreenX(poly.getNumPoints() - 1);
+	}
+
+	@Override
+	public double getY1() {
+		return getScreenY(0);
+	}
+
+	private double getScreenY(int idx) {
+		GeoPoint point = poly.getPoint(idx);
+		if (point == null) {
+			return 0;
+		}
+		return view.toScreenCoordYd(point.getY());
+	}
+
+	@Override
+	public double getY2() {
+		return getScreenY(poly.getNumPoints() - 1);
+	}
+
+	@Override
+	public double getAngle(boolean isStart) {
+		if (isStart) {
+			return getSegmentAngle(0, 1);
+		}
+		return getSegmentAngle(poly.getNumPoints() - 2, poly.getNumPoints() - 1);
+	}
+
+	private double getSegmentAngle(int from, int to) {
+		return Math.atan2(getScreenY(to) - getScreenY(from), getScreenX(to) - getScreenX(from));
+	}
+
+	@Override
+	public void setHighlightingStyle(GGraphics2D g2) {
+		g2.setPaint(geo.getSelColor());
+		g2.setStroke(selStroke);
+	}
+
+	@Override
+	public void setBasicStyle(GGraphics2D g2) {
+		g2.setStroke(decoStroke);
+		g2.setColor(getObjectColor());
+	}
+
+	@Override
+	public GShape getLine() {
+		return gp;
 	}
 }

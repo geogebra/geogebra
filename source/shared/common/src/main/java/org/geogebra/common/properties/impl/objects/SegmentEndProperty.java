@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.HasSegmentStyle;
 import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
@@ -58,14 +58,14 @@ public class SegmentEndProperty extends AbstractEnumeratedProperty<SegmentStyle>
 
 	@Override
 	protected void doSetValue(SegmentStyle value) {
-		GeoSegment element = (GeoSegment) delegate.getElement();
+		HasSegmentStyle element = (HasSegmentStyle) delegate.getElement();
 		element.setEndStyle(value);
 		element.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override
 	public SegmentStyle getValue() {
-		return ((GeoSegment) delegate.getElement()).getEndStyle();
+		return ((HasSegmentStyle) delegate.getElement()).getEndStyle();
 	}
 }
 

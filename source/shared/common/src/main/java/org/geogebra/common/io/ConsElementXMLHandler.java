@@ -55,13 +55,13 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.HasAlignment;
+import org.geogebra.common.kernel.geos.HasSegmentStyle;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.LimitedPath;
@@ -1072,14 +1072,14 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleSegmentStartStyle(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoSegment)) {
+		if (!(geo instanceof HasSegmentStyle)) {
 			Log.debug("wrong element type for segment style: "
 					+ geo.getGeoClassType());
 			return false;
 		}
 
 		try {
-			((GeoSegment) geo).setStartStyle(SegmentStyle.fromString(attrs.get("val")));
+			((HasSegmentStyle) geo).setStartStyle(SegmentStyle.fromString(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1087,14 +1087,14 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleSegmentEndStyle(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoSegment)) {
+		if (!(geo instanceof HasSegmentStyle)) {
 			Log.debug("wrong element type for segment style: "
 					+ geo.getGeoClassType());
 			return false;
 		}
 
 		try {
-			((GeoSegment) geo).setEndStyle(SegmentStyle.fromString(attrs.get("val")));
+			((HasSegmentStyle) geo).setEndStyle(SegmentStyle.fromString(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;

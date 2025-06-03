@@ -37,7 +37,7 @@ import org.geogebra.common.util.ExtendedBoolean;
  * @author Markus Hohenwarter
  */
 final public class GeoSegment extends GeoLine
-		implements GeoSegmentND, SegmentProperties {
+		implements GeoSegmentND, SegmentProperties, HasSegmentStyle {
 
 	// GeoSegment is constructed by AlgoJoinPointsSegment
 	// private GeoPoint A, B;
@@ -482,13 +482,7 @@ final public class GeoSegment extends GeoLine
 		sb.append(keepTypeOnGeometricTransform);
 		sb.append("\"/>\n");
 
-		sb.append("\t<startStyle val=\"");
-		sb.append(startStyle.toString());
-		sb.append("\"/>\n");
-
-		sb.append("\t<endStyle val=\"");
-		sb.append(endStyle.toString());
-		sb.append("\"/>\n");
+		appendStartEndStyle(sb);
 	}
 
 	/**
@@ -878,39 +872,24 @@ final public class GeoSegment extends GeoLine
 		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
 	}
 
-	/**
-	 * @param startStyle - segment start style
-	 */
+	@Override
 	public void setStartStyle(SegmentStyle startStyle) {
 		this.startStyle = startStyle;
 	}
 
-	/**
-	 * @param endStyle - segment end style
-	 */
+	@Override
 	public void setEndStyle(SegmentStyle endStyle) {
 		this.endStyle = endStyle;
 	}
 
-	/**
-	 * @return segment start style
-	 */
+	@Override
 	public SegmentStyle getStartStyle() {
 		return startStyle;
 	}
 
-	/**
-	 * @return segment end style
-	 */
+	@Override
 	public SegmentStyle getEndStyle() {
 		return endStyle;
-	}
-
-	/**
-	 * @return whether one or more ends are decorated.
-	 */
-	public boolean hasSegmentStyle() {
-		return !(startStyle.isDefault() && endStyle.isDefault());
 	}
 
 	@Override

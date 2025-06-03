@@ -23,7 +23,7 @@ public class RotatableBoundingBox implements BoundingBoxDelegate {
 
 	@Override
 	public void createHandlers() {
-		box.initHandlers(9);
+		box.initHandlers(4, 5);
 	}
 
 	@Override

@@ -1180,8 +1180,7 @@ public abstract class AlgoElement extends ConstructionElement
 		if (this instanceof AlgoLocusStroke) {
 			return new ArrayList<>(0);
 		}
-		if (freeInputPoints == null || (this instanceof AlgoPolyLine
-				&& ((AlgoPolyLine) this).getIsPenStroke())) {
+		if (freeInputPoints == null) {
 			freeInputPoints = new ArrayList<>(input.length);
 
 			// don't use free points from dependent algos with expression trees
@@ -1204,6 +1203,10 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		return freeInputPoints;
+	}
+
+	protected void resetFreeInputPoints() {
+		freeInputPoints = null;
 	}
 
 	/**

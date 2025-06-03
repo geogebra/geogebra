@@ -38,7 +38,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		Traceable, Transformable, Mirrorable, MatrixTransformable,
-		Translateable, Dilateable, GeoPoly {
+		Translateable, Dilateable, GeoPoly, HasSegmentStyle {
 
 	/** maximum number of points when created by tool */
 	public static final int POLYLINE_MAX_POINTS = 500;
@@ -53,6 +53,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	private StringBuilder sbToString = new StringBuilder(50);
 
 	private boolean trace;
+	private SegmentStyle startStyle = SegmentStyle.DEFAULT;
+	private SegmentStyle endStyle = SegmentStyle.DEFAULT;
 
 	/**
 	 * common constructor for 2D.
@@ -448,6 +450,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	protected void getStyleXML(StringBuilder sb) {
 		getLineStyleXML(sb);
 		super.getStyleXML(sb);
+		appendStartEndStyle(sb);
 	}
 
 	@Override
@@ -630,5 +633,25 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	@Override
 	public boolean hasDrawable3D() {
 		return true;
+	}
+
+	@Override
+	public void setStartStyle(SegmentStyle startStyle) {
+		this.startStyle = startStyle;
+	}
+
+	@Override
+	public void setEndStyle(SegmentStyle endStyle) {
+		this.endStyle = endStyle;
+	}
+
+	@Override
+	public SegmentStyle getStartStyle() {
+		return startStyle;
+	}
+
+	@Override
+	public SegmentStyle getEndStyle() {
+		return endStyle;
 	}
 }

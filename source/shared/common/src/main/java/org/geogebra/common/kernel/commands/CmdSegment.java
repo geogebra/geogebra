@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -80,6 +81,11 @@ public class CmdSegment extends CommandProcessor {
 	 * @return segment [ab]
 	 */
 	protected GeoElement segment(String label, GeoPointND a, GeoPointND b) {
+		if (app.isWhiteboardActive()) {
+			AlgoPolyLine algo = new AlgoPolyLine(cons, new GeoPointND[]{a, b});
+			algo.getPoly().setLabel(label);
+			return algo.getPoly();
+		}
 		return getAlgoDispatcher().segment(label, (GeoPoint) a, (GeoPoint) b);
 	}
 }

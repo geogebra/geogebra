@@ -197,7 +197,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * bounding box
 	 */
 	protected BoundingBox<? extends GShape> boundingBox;
-	private EuclidianBoundingBoxHandler hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
+	private ShapeManipulationHandler hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
 
 	// shape tools
 	/**
@@ -1045,7 +1045,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return handler that was hit
 	 */
-	public @Nonnull EuclidianBoundingBoxHandler getHitHandler() {
+	public @Nonnull ShapeManipulationHandler getHitHandler() {
 		return hitHandler;
 	}
 
@@ -6702,5 +6702,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public EuclidianCursor getDefaultCursor() {
 		return EuclidianCursor.HIT;
+	}
+
+	public void setHitHandler(ControlPointHandler controlPointHandler) {
+		this.hitHandler = controlPointHandler;
 	}
 }

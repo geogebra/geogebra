@@ -22,7 +22,7 @@ public class CropBox implements BoundingBoxDelegate {
 
 	@Override
 	public void createHandlers() {
-		box.initHandlers(CROP_HANDLERS);
+		box.initHandlers(4, 4);
 	}
 
 	@Override

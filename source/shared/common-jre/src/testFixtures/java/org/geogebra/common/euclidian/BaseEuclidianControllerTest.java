@@ -19,7 +19,7 @@ import org.junit.Before;
 
 public class BaseEuclidianControllerTest extends BaseUnitTest {
 
-	private EuclidianController ec;
+	protected EuclidianController ec;
 
 	@Override
 	public AppCommon createAppCommon() {

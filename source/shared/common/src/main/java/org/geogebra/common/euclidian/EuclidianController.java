@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian;
 
 import static org.geogebra.common.euclidian.EuclidianCursor.CROSSHAIR;
+import static org.geogebra.common.euclidian.EuclidianCursor.DRAG;
 import static org.geogebra.common.euclidian.EuclidianCursor.HIT;
 import static org.geogebra.common.euclidian.EuclidianCursor.MINDMAP;
 import static org.geogebra.common.euclidian.EuclidianCursor.MOVE;
@@ -6660,14 +6661,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void wrapMouseclicked(boolean control, int clickCount,
-			PointerEventType type) {
+	private void handleDoubleClick(boolean control, PointerEventType type) {
 		if (!app.showMenuBar() || control || penMode(this.mode)
 				|| isModeCreatingObjectsByDrag()) {
 			return;
 		}
+		BoundingBox<?> box = view.getBoundingBox();
+		if (box != null) {
+			box.handleDoubleClick(mouseLoc, app.getCapturingThreshold(type));
+		}
 		// double-click on object selects MODE_MOVE and opens redefine dialog
-		if (clickCount == 2 && !app.isWhiteboardActive()) {
+		if (!app.isWhiteboardActive()) {
 			selection.clearSelectedGeos(true, false);
 			app.updateSelection(false);
 			setViewHits(type);
@@ -7620,7 +7624,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		storeUndo.storeSelection(moveMode);
 
 		// handle rotation
-		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
+		ShapeManipulationHandler hitHandler = view.getHitHandler();
+		if (hitHandler == EuclidianBoundingBoxHandler.ROTATION) {
 			GRectangle2D bounds = view.getBoundingBox().getRectangle();
 			// bounds exist
 			if (bounds != null) {
@@ -7641,8 +7646,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (getResizedShape().getGeoElement().isSelected()) {
 					dontClearSelection = true;
 					GPoint2D p = new GPoint2D(event.getX(), event.getY());
-					getResizedShape().updateByBoundingBoxResize(p,
-							view.getHitHandler());
+					if (hitHandler instanceof EuclidianBoundingBoxHandler) {
+						getResizedShape().updateByBoundingBoxResize(p,
+								(EuclidianBoundingBoxHandler) hitHandler);
+					} else if (hitHandler instanceof ControlPointHandler) {
+						storeUndo.addIfNotPresent(getResizedShape().getGeoElement(), moveMode);
+						getResizedShape().updateByControlPointMovement(p,
+								(ControlPointHandler) hitHandler);
+					}
 				}
 				hideDynamicStylebar();
 				view.repaintView();
@@ -7650,7 +7661,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			// resize, multi-selection
 			else if (isMultiResize) {
-				handleResizeMultiple(event, view.getHitHandler());
+				handleResizeMultiple(event, (EuclidianBoundingBoxHandler) hitHandler);
 				return;
 			}
 		}
@@ -9972,7 +9983,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
 		final boolean newSelection = getAppSelectedGeos() == null || getAppSelectedGeos().isEmpty();
-		final EuclidianBoundingBoxHandler handler = view.getHitHandler();
+		final ShapeManipulationHandler handler = view.getHitHandler();
 
 		final GeoPointND firstPoint = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
@@ -10012,7 +10023,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (view.getHitHandler().isAddHandler() && !draggingBeyondThreshold) {
 			Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, event.getType());
 			if (d instanceof DrawMindMap) {
-				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
+				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(
+						(EuclidianBoundingBoxHandler) view.getHitHandler());
 				selectAndShowSelectionUI(child);
 				updateDrawableAndMoveToForeground(child);
 				lastMowHit = child;
@@ -10135,10 +10147,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!isDraggingOccurredBeyondThreshold()) {
 				showDynamicStylebar();
+			} else {
+				storeUndo();
+				setResizedShape(null);
+				return true;
 			}
-			storeUndo();
-			setResizedShape(null);
-			return true;
 		} else if (isMultiResize) { // resize, multi selection
 			view.resetHitHandler();
 			storeUndo();
@@ -10156,7 +10169,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean shouldShowDynamicStylebarAfterMouseRelease(boolean newSelection,
-			EuclidianBoundingBoxHandler handler) {
+			ShapeManipulationHandler handler) {
 		return !draggingBeyondThreshold || view.getSelectionRectangle() != null
 				|| (view.getBoundingBox() != null && !getAppSelectedGeos().isEmpty()
 				&& newSelection)
@@ -10229,7 +10242,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 
 		if (this.doubleClickStarted && !isDraggingOccurredBeyondThreshold() && !rightClick) {
-			wrapMouseclicked(control, 2, type);
+			handleDoubleClick(control, type);
 		}
 		this.doubleClickStarted = false;
 		this.lastPointerRelease = System.currentTimeMillis();
@@ -12411,16 +12424,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void setBoundingBoxCursor() {
-		EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
+		ShapeManipulationHandler nrHandler = view.getHitHandler();
+		if (!(nrHandler instanceof EuclidianBoundingBoxHandler)) {
+			view.setCursor(DRAG);
+			return;
+		}
+		EuclidianBoundingBoxHandler handler = (EuclidianBoundingBoxHandler) nrHandler;
 		BoundingBox<?> box = view.getBoundingBox();
 		if (box != null) {
-			EuclidianCursor cursor = box.getCursor(nrHandler);
+			EuclidianCursor cursor = box.getCursor(handler);
 			if (cursor != null) {
 				view.setCursor(cursor);
 			}
 		}
 		if (view.getFocusedGroupGeoBoundingBox() != null) {
-			EuclidianCursor cursor = view.getFocusedGroupGeoBoundingBox().getCursor(nrHandler);
+			EuclidianCursor cursor = view.getFocusedGroupGeoBoundingBox().getCursor(handler);
 			if (cursor != null) {
 				view.setCursor(cursor);
 			}

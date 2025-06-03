@@ -23,7 +23,7 @@ public class MultiBoundingBox extends BoundingBox<GShape> {
 
 	@Override
 	protected void createHandlers() {
-		initHandlers(hasRotationHandler ? 9 : 8);
+		initHandlers(4, hasRotationHandler ? 5 : 4);
 		createBoundingBoxHandlers();
 	}
 

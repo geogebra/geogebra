@@ -4,6 +4,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
@@ -11,14 +12,14 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.HasSegmentStyle;
 import org.geogebra.common.kernel.geos.SegmentStyle;
 
 public class DrawSegmentWithEndings {
-	private final GeoSegment segment;
-	private GLine2D line;
-	private final DrawSegment drawSegment;
+	private final HasSegmentStyle segment;
+	//private GLine2D line;
+	//private final Drawable drawSegment;
+	private final EndDecoratedDrawable drawable;
 	private int lineThickness;
 	private int posX;
 	private int posY;
@@ -28,22 +29,23 @@ public class DrawSegmentWithEndings {
 	private GShape subtractedLine;
 
 	/**
-	 * @param drawSegment segment drawable
+	 * @param drawable segment drawable
 	 * @param segment segment construction element
 	 */
-	public DrawSegmentWithEndings(DrawSegment drawSegment, GeoSegment segment) {
-		this.drawSegment = drawSegment;
+	public DrawSegmentWithEndings(EndDecoratedDrawable drawable,
+			HasSegmentStyle segment) {
 		this.segment = segment;
+		this.drawable = drawable;
 	}
 
 	/**
 	 * Update all parts of the drawn shape
 	 */
-	public void update() {
+	public void update(GBasicStroke objStroke) {
 		SegmentStyle startStyle = segment.getStartStyle();
 		SegmentStyle endStyle = segment.getEndStyle();
 
-		createSolidShape(startStyle, endStyle);
+		createSolidShape(objStroke, startStyle, endStyle);
 	}
 
 	/**
@@ -51,20 +53,20 @@ public class DrawSegmentWithEndings {
 	 * @param g2 {@link GGraphics2D}
 	 */
 	public void draw(GGraphics2D g2) {
-		if (drawSegment.isHighlighted()) {
-			drawSegment.setHighlightingStyle(g2);
-			g2.draw(line);
-			drawSafely(solidStart, g2, true);
-			drawSafely(solidEnd, g2, true);
+		if (drawable.isHighlighted()) {
+			drawable.setHighlightingStyle(g2);
+			g2.draw(drawable.getLine());
+			drawEndingIfExists(solidStart, g2, true);
+			drawEndingIfExists(solidEnd, g2, true);
 		}
-		drawSegment.setBasicStyle(g2);
+		drawable.setBasicStyle(g2);
 		g2.fill(subtractedLine);
 
-		drawSafely(solidStart, g2, segment.getStartStyle().isOutline());
-		drawSafely(solidEnd, g2, segment.getEndStyle().isOutline());
+		drawEndingIfExists(solidStart, g2, segment.getStartStyle().isOutline());
+		drawEndingIfExists(solidEnd, g2, segment.getEndStyle().isOutline());
 	}
 
-	private void drawSafely(GShape end, GGraphics2D g2, boolean outline) {
+	private void drawEndingIfExists(GShape end, GGraphics2D g2, boolean outline) {
 		if (end != null) {
 			if (outline) {
 				g2.draw(end);
@@ -74,10 +76,11 @@ public class DrawSegmentWithEndings {
 		}
 	}
 
-	private void createSolidShape(SegmentStyle startStyle, SegmentStyle endStyle) {
+	private void createSolidShape(GBasicStroke objStroke,
+			SegmentStyle startStyle, SegmentStyle endStyle) {
 		solidStart = createSolidStart(startStyle);
 		solidEnd = createSolidEnd(endStyle);
-		subtractedLine = subtractFromLine(solidStart, solidEnd);
+		subtractedLine = subtractFromLine(objStroke, solidStart, solidEnd);
 	}
 
 	private GShape createSolidStart(SegmentStyle style) {
@@ -92,8 +95,9 @@ public class DrawSegmentWithEndings {
 		return createSolidEnding(style);
 	}
 
-	private GArea subtractFromLine(GShape... shapes) {
-		GShape strokedLine = drawSegment.getObjStroke().createStrokedShape(line, 255);
+	private GArea subtractFromLine(GBasicStroke objStroke, GShape... shapes) {
+		GShape strokedLine = objStroke.createStrokedShape(drawable.getLine(),
+				255);
 		GArea area = GCompositeShape.toArea(strokedLine);
 		for (GShape shape : shapes) {
 			if (shape != null) {
@@ -133,17 +137,17 @@ public class DrawSegmentWithEndings {
 	}
 
 	private GShape getLine() {
-		double x1 = isStartStyle ? line.getX1() : line.getX2();
-		double y1 = isStartStyle ? line.getY1() - lineThickness
-				: line.getY2() - lineThickness;
-		double y2 = isStartStyle ? line.getY1() + lineThickness
-				: line.getY2() + lineThickness;
+		double x1 = isStartStyle ? getX1() : getX2();
+		double y1 = isStartStyle ? getY1() - lineThickness
+				: getY2() - lineThickness;
+		double y2 = isStartStyle ? getY1() + lineThickness
+				: getY2() + lineThickness;
 
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
 		initRotateTrans(getAngle(), x1, y1 + lineThickness, t);
 		GLine2D line2D = AwtFactory.getPrototype().newLine2D();
 		line2D.setLine(x1, y1, x1, y2);
-		GShape strokedShape = drawSegment.getDecoStroke().createStrokedShape(line2D, 255);
+		GShape strokedShape = drawable.getDecoStroke().createStrokedShape(line2D, 255);
 		return t.createTransformedShape(strokedShape);
 	}
 
@@ -167,8 +171,8 @@ public class DrawSegmentWithEndings {
 	}
 
 	private GShape getCrowsFoot() {
-		double x = isStartStyle ? line.getX1() : line.getX2();
-		double y = isStartStyle ? line.getY1() : line.getY2();
+		double x = isStartStyle ? getX1() : getX2();
+		double y = isStartStyle ? getY1() : getY2();
 		double dist = isStartStyle ? x - lineThickness : x + lineThickness;
 
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
@@ -182,13 +186,12 @@ public class DrawSegmentWithEndings {
 		crowsFootPath.lineTo(dist, y - lineThickness);
 
 		GShape strokedCrowsFoot = createStrokedShape(crowsFootPath);
-		GShape transformedCrowsFoot = t.createTransformedShape(strokedCrowsFoot);
-		return transformedCrowsFoot;
+		return t.createTransformedShape(strokedCrowsFoot);
 	}
 
 	private GShape getSolidDiamond() {
-		double x = isStartStyle ? line.getX1() : line.getX2();
-		double y = isStartStyle ? line.getY1() : line.getY2();
+		double x = isStartStyle ? getX1() : getX2();
+		double y = isStartStyle ? getY1() : getY2();
 
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
 		initRotateTrans(getAngle(), x, y, t);
@@ -208,28 +211,40 @@ public class DrawSegmentWithEndings {
 	}
 
 	private GShape createStrokedShape(GShape shape) {
-		return drawSegment.getDecoStroke().createStrokedShape(shape, 255);
+		return drawable.getDecoStroke().createStrokedShape(shape, 255);
 	}
 
 	private void calculatePositions() {
-		GeoElement geo = drawSegment.getGeoElement();
-		line = drawSegment.getLine();
-		lineThickness = geo.getLineThickness();
-		posX = isStartStyle ? (int) line.getX1() - lineThickness
-				: (int) line.getX2() - lineThickness;
-		posY = isStartStyle ? (int) line.getY1() - lineThickness
-				: (int) line.getY2() - lineThickness;
+		lineThickness = segment.getLineThickness();
+		posX = isStartStyle ? (int) getX1() - lineThickness
+				: (int) getX2() - lineThickness;
+		posY = isStartStyle ? (int) getY1() - lineThickness
+				: (int) getY2() - lineThickness;
+	}
+
+	private double getX1() {
+		return drawable.getX1();
+	}
+
+	private double getX2() {
+		return drawable.getX2();
+	}
+
+	private double getY1() {
+		return drawable.getY1();
+	}
+
+	private double getY2() {
+		return drawable.getY2();
 	}
 
 	private double getAngle() {
-		double deltaX = line.getX2() - line.getX1();
-		double deltaY = line.getY2() - line.getY1();
-		return Math.atan2(deltaY, deltaX);
+		return drawable.getAngle(isStartStyle);
 	}
 
 	private GShape getArrow(SegmentStyle style) {
-		double x = isStartStyle ? line.getX1() : line.getX2();
-		double y = isStartStyle ? line.getY1() : line.getY2();
+		double x = isStartStyle ? getX1() : getX2();
+		double y = isStartStyle ? getY1() : getY2();
 		double arrowSideX = isStartStyle ? x + lineThickness : x - lineThickness;
 
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();

@@ -6,7 +6,7 @@ package org.geogebra.common.euclidian;
  * @author csilla
  *
  */
-public enum EuclidianBoundingBoxHandler {
+public enum EuclidianBoundingBoxHandler implements ShapeManipulationHandler {
 
 	/**
 	 * top right corner handler of bounding box
@@ -77,9 +77,7 @@ public enum EuclidianBoundingBoxHandler {
 		return dx != 0 && dy != 0;
 	}
 
-	/**
-	 * @return whether this is a mind-map add handler
-	 */
+	@Override
 	public boolean isAddHandler() {
 		return this == ADD_TOP
 				|| this == ADD_RIGHT
