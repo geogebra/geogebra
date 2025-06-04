@@ -740,6 +740,7 @@ ExpressionNode functionExpressionnode():
     ExpressionNode cond = null;
     Token funName = null;
     Token varName = null;
+    Token assignmentOp = null;
     ArrayList<String> localVars;
 }
 {
@@ -762,10 +763,10 @@ ExpressionNode functionExpressionnode():
             kernel.getConstruction().registerFunctionVariable(varName.image);
         } )*
       // closing ) and assignment with expressionnode
-          ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode() (cond = conditions())?
+          ")" ( <EQUAL > | assignmentOp = <ASSIGNMENT> ) rhs = expressionnode() (cond = conditions())?
         {
             String funLabel = funName.image.substring(0, funName.image.length() - 1);
-            return functionParser.assignment(rhs, funLabel, localVars, cond);
+            return functionParser.assignment(rhs, funLabel, localVars, cond, assignmentOp != null);
         }
 )
 }

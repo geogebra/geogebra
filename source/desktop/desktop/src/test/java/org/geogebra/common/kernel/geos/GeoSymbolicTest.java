@@ -855,7 +855,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testDerivativeShorthand() {
 		t("f(x)=exp(x)", EULER_STRING + "^(x)");
-		t("f'(x)=f'(x)", EULER_STRING + "^(x)");
+		t("f'(x):=f'(x)", EULER_STRING + "^(x)");
 		checkInput("f'", "f'(x) = f'(x)");
 	}
 
@@ -2545,5 +2545,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		app.getUndoManager().redo();
 		assertThat(lookup("Determinant"), hasValue("0"));
 		assertThat(lookup("Determinant").getDefinition().unwrap(), instanceOf(Function.class));
+	}
+
+	@Test
+	@Issue("APPS-6548")
+	public void derivativeEquation() {
+		add("f(x)=x^2");
+		GeoSymbolic derivativeEqn = add("f'(x)=6");
+		assertEquals("2x = 6", derivativeEqn.toValueString(StringTemplate.defaultTemplate));
+		assertNull(lookup("f'"));
 	}
 }

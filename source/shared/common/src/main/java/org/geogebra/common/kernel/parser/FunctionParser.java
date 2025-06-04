@@ -73,6 +73,50 @@ public class FunctionParser {
 		this.inputBoxParsing = inputBoxParsing;
 	}
 
+	private class ParsedLabel {
+		GeoElement geo = null;
+		GeoCasCell cell = null;
+		// check for derivative using f'' notation
+		int order = 0;
+		String label;
+		ExpressionValue indexVal;
+
+		public void parseDerivativeLabel(String funcName) {
+			label = funcName;
+			geo = kernel.lookupLabel(funcName);
+			cell = kernel.lookupCasCellLabel(funcName);
+
+			if (cell == null && geo == null && label.startsWith("log_")) {
+				indexVal = getLogIndex(label, kernel);
+				return;
+
+			}
+
+			if (cell == null && (geo == null || !hasDerivative(geo))) {
+
+				int index = funcName.length() - 1;
+				while (index >= 0 && isDerivativeChar(funcName.charAt(index))
+						&& kernel.getAlgebraProcessor().enableStructures()) {
+					order++;
+					index--;
+				}
+
+				while (index < funcName.length()) {
+					label = funcName.substring(0, index + 1);
+					geo = kernel.lookupLabel(label);
+					cell = kernel.lookupCasCellLabel(label);
+					// stop if f' is defined but f is not defined, see #1444
+					if (cell != null || (geo != null && (hasDerivative(geo)))) {
+						break;
+					}
+
+					order--;
+					index++;
+				}
+			}
+		}
+	}
+
 	/**
 	 * @param cimage
 	 *            function name+bracket, e.g. "f("
@@ -102,55 +146,24 @@ public class FunctionParser {
 			return point;
 		}
 		boolean forceCommand = cimage.charAt(cimage.length() - 1) == '[';
-		GeoElement geo = null;
-		GeoCasCell cell = null;
-		// check for derivative using f'' notation
-		int order = 0;
-
-		String label = funcName;
-		if (!forceCommand) {
-
-			// f(t)=t(t+1)
-			if (kernel.getConstruction().isRegisteredFunctionVariable(funcName)) {
-				ExpressionNode expr = new ExpressionNode(kernel, new Variable(kernel, funcName),
-						Operation.MULTIPLY_OR_FUNCTION, myList.get(0));
-				undecided.add(expr);
-				return expr;
-			}
-
-			geo = kernel.lookupLabel(funcName);
-			cell = kernel.lookupCasCellLabel(funcName);
-
-			if (cell == null && geo == null && label.startsWith("log_")) {
-				ExpressionValue indexVal = getLogIndex(label, kernel);
-				return new ExpressionNode(kernel, indexVal, Operation.LOGB,
-						myList.get(0));
-			}
-
-			if (cell == null && (geo == null || !hasDerivative(geo))) {
-
-				int index = funcName.length() - 1;
-				while (index >= 0 && isDerivativeChar(cimage.charAt(index))
-						&& kernel.getAlgebraProcessor().enableStructures()) {
-					order++;
-					index--;
-				}
-
-				while (index < funcName.length()) {
-					label = funcName.substring(0, index + 1);
-					geo = kernel.lookupLabel(label);
-					cell = kernel.lookupCasCellLabel(label);
-					// stop if f' is defined but f is not defined, see #1444
-					if (cell != null || (geo != null && (hasDerivative(geo)))) {
-						break;
-					}
-
-					order--;
-					index++;
-				}
-			}
+		// f(t)=t(t+1)
+		if (!forceCommand && kernel.getConstruction().isRegisteredFunctionVariable(funcName)) {
+			ExpressionNode expr = new ExpressionNode(kernel, new Variable(kernel, funcName),
+					Operation.MULTIPLY_OR_FUNCTION, myList.get(0));
+			undecided.add(expr);
+			return expr;
 		}
-
+		ParsedLabel parsedLabel = new ParsedLabel();
+		if (!forceCommand) {
+			parsedLabel.parseDerivativeLabel(funcName);
+		}
+		if (parsedLabel.indexVal != null) {
+			return new ExpressionNode(kernel, parsedLabel.indexVal, Operation.LOGB,
+					myList.get(0));
+		}
+		String label = parsedLabel.label;
+		GeoElement geo = parsedLabel.geo;
+		GeoCasCell cell = parsedLabel.cell;
 		if (forceCommand || (geo == null && cell == null)) {
 			Operation op = getOperation(funcName, myList.size());
 			if (op != null) {
@@ -180,7 +193,8 @@ public class FunctionParser {
 							point.setLabel(funcName);
 							return point;
 						}
-					} if (kernel.getSymbolicMode() == SymbolicMode.NONE
+					}
+					if (kernel.getSymbolicMode() == SymbolicMode.NONE
 							&& !geoGebraCASParsing && myList.size() == 1) {
 						return new ExpressionNode(kernel, new Variable(kernel, funcName),
 								Operation.MULTIPLY,	myList.get(0));
@@ -196,9 +210,9 @@ public class FunctionParser {
 			}
 		}
 		// make sure we don't send 0th derivative to CAS
-		if (cell != null && order > 0) {
+		if (cell != null && parsedLabel.order > 0) {
 
-			return derivativeNode(kernel, cell, order, false, myList.getItem(0));
+			return derivativeNode(kernel, cell, parsedLabel.order, false, myList.getItem(0));
 
 		}
 		boolean list = geo != null && geo.isGeoList();
@@ -226,11 +240,11 @@ public class FunctionParser {
 				false, !inputBoxParsing);
 		// number of arguments
 
-		if (order > 0) { // derivative
+		if (parsedLabel.order > 0) { // derivative
 							// n-th derivative of geo
 			if (hasDerivative(geo)) {// function
 				registerFunctionVars((VarString) geo);
-				return derivativeNode(kernel, geoExp, order, geo.isGeoCurveCartesian(),
+				return derivativeNode(kernel, geoExp, parsedLabel.order, geo.isGeoCurveCartesian(),
 						myList.get(0));
 			}
 			throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected, funcName);
@@ -485,22 +499,49 @@ public class FunctionParser {
 		return new ExpressionNode(kernel, left, operation, functionArgument);
 	}
 
-	public ExpressionNode assignment(ExpressionNode rhs0, String funLabel, List<String> localVars,
-			ExpressionValue cond) {
-		ExpressionNode rhs = rhs0;
-		if (cond != null) {
-			rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
+	/**
+	 * Build an assignment or equation from user input in the form
+	 * funLabel(localVars)=rhs,condition
+	 * where condition is optional and = may be replaced by the assignment operator.
+	 * @param rhs right-hand side
+	 * @param funLabel function label
+	 * @param localVars function variable names
+	 * @param condition conditional expression
+	 * @param forceAssignment if ":=" was used instead of "="
+	 * @return assignment or equation
+	 */
+	public ExpressionNode assignment(ExpressionNode rhs, String funLabel, List<String> localVars,
+			ExpressionValue condition, boolean forceAssignment) {
+		ExpressionNode rhsWithCondition = rhs;
+		if (condition != null) {
+			rhsWithCondition = new ExpressionNode(kernel, condition,
+					Operation.IF_SHORT, rhsWithCondition);
 		}
+		return assignment(rhsWithCondition, funLabel, localVars, forceAssignment);
+	}
 
-		// Command mistaken for function label - force equation (only on creation)
-		if (isCommand(funLabel) && !kernel.getLoadingMode()
+	private ExpressionNode assignment(ExpressionNode rhs, String funLabel, List<String> localVars,
+				boolean forceAssignment) {
+		if  (!kernel.getLoadingMode() && !forceAssignment
 				&& kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
-			Command cmd = new Command(kernel, funLabel, true);
-			MyList vars = createListOfVariables(localVars, Variable::new);
-			cmd.addArgument(buildOpNode(Operation.NO_OPERATION, vars));
-			return new Equation(kernel, cmd.wrap(), rhs).wrap();
+			// Command mistaken for function label - force equation (only on creation)
+			if (isCommand(funLabel)) {
+				Command cmd = new Command(kernel, funLabel, true);
+				MyList vars = createListOfVariables(localVars, Variable::new);
+				cmd.addArgument(buildOpNode(Operation.NO_OPERATION, vars));
+				return new Equation(kernel, cmd.wrap(), rhs).wrap();
+			}
+			ParsedLabel parsedLabel = new ParsedLabel();
+			parsedLabel.parseDerivativeLabel(funLabel);
+			if (parsedLabel.order > 0) {
+				if (hasDerivative(parsedLabel.geo)) {// function
+					registerFunctionVars((VarString) parsedLabel.geo);
+					ExpressionNode lhs = derivativeNode(kernel, parsedLabel.geo, parsedLabel.order,
+							false, new FunctionVariable(kernel, localVars.get(0)));
+					return new Equation(kernel, lhs, rhs).wrap();
+				}
+			}
 		}
-
 		// command without variables: return expressionnode
 		// only check for function variables outside of command, eg
 		// Derivative[f(x)]+x #4533
