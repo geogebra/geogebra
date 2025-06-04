@@ -75,6 +75,8 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 		assertFalse(controller.hasFDefinitionErrorOccurred());
 		assertEquals("x", controller.getDefinitionOfF());
 		assertEquals(1, getUndoHistorySize());
+		assertFalse(controller.getFunctionF().isEuclidianVisible());
+		assertFalse(controller.getFunctionF().isPointsVisible());
 
 		// define g
 		assertTrue(controller.defineFunctions("x", "ln(x)"));

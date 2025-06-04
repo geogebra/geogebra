@@ -4,8 +4,8 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.web.html5.gui.HasThumbnailURL;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -15,7 +15,7 @@ import org.gwtproject.user.client.ui.Widget;
  * @author mathieu
  *
  */
-public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon {
+public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon, HasThumbnailURL {
 
 	/**
 	 * 
@@ -73,11 +73,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon {
 	 */
 	String getExportImageDataUrl(double scale, boolean transparent,
 			boolean greyscale);
-
-	/**
-	 * @return data URL of PNG export of this view, scaled to {@link MyXMLio#THUMBNAIL_PIXELS_X}
-	 */
-	String getCanvasBase64WithTypeString();
 
 	/**
 	 * @param transparency whether to make the background transparent

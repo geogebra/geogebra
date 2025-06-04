@@ -5,7 +5,6 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
@@ -60,7 +59,7 @@ public class ExamSaveDialog {
 			if (material != null) {
 				material.setTitle(examSave.getInputText());
 				material.setBase64(app.getGgbApi().getBase64());
-				material.setThumbnailBase64(getThumbnail(app));
+				material.setThumbnailBase64(app.getGgbApi().getThumbnailDataURL());
 				GlobalScope.examController.saveTempMaterial(material);
 				app.setSaved();
 			} else {
@@ -76,10 +75,5 @@ public class ExamSaveDialog {
 
 		app.getToolTipManager().showBottomMessage(
 				app.getLocalization().getMenu(msg), app);
-	}
-
-	private static String getThumbnail(AppW app) {
-		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(0.5, false, false);
 	}
 }

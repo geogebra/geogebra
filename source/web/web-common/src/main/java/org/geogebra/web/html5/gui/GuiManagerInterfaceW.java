@@ -362,7 +362,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void addToolToNotesToolbox(String iconUrl, String name, String category, Object callback);
 
-	@MissingDoc
+	/**
+	 * Show or hide the spreadsheet view (Classic or unbundled).
+	 */
 	void toggleSpreadsheetView();
 
 	/**
@@ -371,4 +373,5 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param detail page specifier
 	 */
 	void openHelp(ManualPage page, @CheckForNull String detail);
+
 }

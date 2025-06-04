@@ -44,6 +44,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.PrintableW;
+import org.geogebra.web.html5.gui.HasThumbnailURL;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -75,13 +76,20 @@ import org.gwtproject.user.client.ui.TreeItem;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.Js;
+
 /**
  * HTML5 version of AV
  *
  */
 public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
-		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
+		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW, HasThumbnailURL {
 
+	private final static int THUMBNAIL_SIZE = 256;
+	private final static double THUMBNAIL_SCALE = .75;
 	/** app */
 	private final AppW app;
 	/** Localization */
@@ -2307,5 +2315,20 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (inputPanelLatex != null) {
 			inputPanelLatex.resetItemHeader();
 		}
+	}
+
+	@Override
+	public String getCanvasBase64WithTypeString() {
+		HTMLCanvasElement canvas = (HTMLCanvasElement) DomGlobal.document
+				.createElement("canvas");
+		canvas.width = THUMBNAIL_SIZE;
+		canvas.height = THUMBNAIL_SIZE;
+		CanvasRenderingContext2D context = Js.uncheckedCast(canvas.getContext("2d"));
+		context.scale(THUMBNAIL_SCALE, THUMBNAIL_SCALE);
+		AlgebraCanvasExporter ax = new AlgebraCanvasExporter(this,
+				context,
+				(int) (THUMBNAIL_SIZE / THUMBNAIL_SCALE));
+		ax.paintToCanvas(0, 0);
+		return canvas.toDataURL();
 	}
 }

@@ -66,6 +66,8 @@ public final class ScientificDataTableController {
 		function.setAuxiliaryObject(true);
 		function.rename(LabelManager.HIDDEN_PREFIX + unprefixedLabel);
 		function.setCaption(unprefixedLabel);
+		function.setEuclidianVisible(false);
+		function.setPointsVisible(false);
 		return function;
 	}
 

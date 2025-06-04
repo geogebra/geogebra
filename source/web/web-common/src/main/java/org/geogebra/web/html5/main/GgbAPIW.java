@@ -17,6 +17,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -46,6 +47,7 @@ import org.geogebra.web.html5.export.Canvas2Pdf;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.HasThumbnailURL;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
@@ -479,8 +481,7 @@ public class GgbAPIW extends GgbAPI {
 		// write construction thumbnails
 		if (includeThumbnail) {
 			ArchiveEntry thumb = new ArchiveEntry(MyXMLio.XML_FILE_THUMBNAIL,
-					((EuclidianViewWInterface) getViewForThumbnail())
-					.getCanvasBase64WithTypeString());
+					getThumbnailDataURL());
 			archiveContent.put(MyXMLio.XML_FILE_THUMBNAIL, thumb);
 		}
 
@@ -492,17 +493,31 @@ public class GgbAPIW extends GgbAPI {
 	 * @return base64 encoded thumbnail
 	 */
 	public String getThumbnailBase64() {
-		return StringUtil.removePngMarker(((EuclidianViewWInterface) getViewForThumbnail())
-				.getCanvasBase64WithTypeString());
+		return StringUtil.removePngMarker(getThumbnailDataURL());
+	}
+
+	/**
+	 * @return data URL of the thumbnail
+	 */
+	public String getThumbnailDataURL() {
+		View viewForThumbnail = getViewForThumbnail();
+		if (viewForThumbnail instanceof HasThumbnailURL) {
+			return ((HasThumbnailURL) viewForThumbnail)
+					.getCanvasBase64WithTypeString();
+		}
+		return "";
 	}
 
 	/**
 	 * @return view for thumbnail
 	 */
-	public EuclidianViewInterfaceCommon getViewForThumbnail() {
+	public View getViewForThumbnail() {
 		EuclidianViewInterfaceCommon ret = getViewForThumbnail(true);
 		if (ret == null) {
 			ret = getViewForThumbnail(false);
+		}
+		if (ret == null && app.getGuiManager().hasAlgebraViewShowing()) {
+			return app.getAlgebraView();
 		}
 		if (ret == null) {
 			ret = app.getActiveEuclidianView();
