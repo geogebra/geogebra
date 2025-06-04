@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.ActionType;
@@ -29,47 +30,43 @@ public class UpdateActionStore {
 	}
 
 	/**
-	 * Stores list of geos to items
-	 * @param geos to store.
-	 * @param moveMode active move mode
-	 */
-	void store(List<GeoElement> geos, MoveMode moveMode) {
-		clear();
-		for (GeoElement geo: geos) {
-			undoItems.add(new UndoItem(geo, moveMode));
-		}
-	}
-
-	/**
 	 * Store selected geo to items.
 	 * @param moveMode active move mode
 	 */
 	public void storeSelection(MoveMode moveMode) {
 		if (undoItems.isEmpty()) {
-			store(getGeosToStore(), moveMode);
+			storeItems(moveMode);
 		}
 	}
 
-	private ArrayList<GeoElement> getGeosToStore() {
-		ArrayList<GeoElement> geosToStore = new ArrayList<>();
+	private void storeItems(MoveMode defaultMode) {
 		for (GeoElement geo : selection.getSelectedGeos()) {
 			if (geo.hasChangeableParent3D()) {
-				geosToStore.add(geo.getChangeableParent3D().getSurface());
+				GeoNumeric num = geo.getChangeableParent3D().getNumber();
+				if (num.isLabelSet()) {
+					undoItems.add(new UndoItem(num, MoveMode.NUMERIC));
+				} else {
+					undoItems.add(new UndoItem(geo.getChangeableParent3D().getSurface(),
+							defaultMode));
+				}
 				continue;
 			}
 			if (geo.getParentAlgorithm() != null
 					&& !geo.isPointOnPath() && !geo.isPointInRegion()) {
-				geosToStore.addAll(geo.getParentAlgorithm().getDefinedAndLabeledInput());
+				addAll(geo.getParentAlgorithm().getDefinedAndLabeledInput(), defaultMode);
 			} else if (geo instanceof GeoImage) {
-				geosToStore.addAll(((GeoImage) geo).getDefinedAndLabeledStartPoints());
+				addAll(((GeoImage) geo).getDefinedAndLabeledStartPoints(), defaultMode);
 			}
-			geosToStore.add(geo);
+			undoItems.add(new UndoItem(geo, defaultMode));
 		}
-		return geosToStore;
+	}
+
+	private void addAll(List<? extends GeoElement> geos, MoveMode mode) {
+		geos.forEach(geo -> undoItems.add(new UndoItem(geo, mode)));
 	}
 
 	/**
-	 * Add single element if not already present
+	 * Add a single element if not already present
 	 * @param geo element to add
 	 * @param mode move mode
 	 */

@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
@@ -135,7 +134,7 @@ public class PolyLineBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		if (parentAlgorithm instanceof AlgoPolyLine) {
 			UpdateActionStore store = new UpdateActionStore(app.getSelectionManager(),
 					app.getKernel().getConstruction().getUndoManager());
-			store.store(List.of(poly), MoveMode.NONE);
+			store.addIfNotPresent(poly, MoveMode.NONE);
 			action.accept((AlgoPolyLine) parentAlgorithm);
 			store.storeUndo();
 		}

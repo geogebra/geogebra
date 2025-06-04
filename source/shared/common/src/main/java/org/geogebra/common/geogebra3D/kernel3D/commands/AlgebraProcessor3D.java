@@ -44,24 +44,15 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	 * @param kernel
 	 *            kernel
 	 * @param cd
-	 *            commands dispatcher
+	 *            command dispatcher
 	 */
 	public AlgebraProcessor3D(Kernel kernel, CommandDispatcher cd) {
 		super(kernel, cd);
 	}
 
-	/**
-	 * creates 3D point or 3D vector
-	 * 
-	 * @param n
-	 *            point expression
-	 * @param evaluate
-	 *            evaluated expression
-	 * @return 3D point or 3D vector
-	 */
 	@Override
 	protected GeoElement[] processPointVector3D(ExpressionNode n,
-			ExpressionValue evaluate) {
+			ExpressionValue evaluate, EvalInfo evalInfo) {
 		String label = n.getLabel();
 
 		double[] p = ((Vector3DValue) evaluate).getPointAsDouble();
@@ -115,7 +106,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		if (mode == Kernel.COORD_SPHERICAL) {
 			((GeoVec4D) ret[0]).setMode(Kernel.COORD_SPHERICAL);
 		}
-		ret[0].setLabel(label);
+		if (evalInfo.isLabelOutput()) {
+			ret[0].setLabel(label);
+		}
 		return ret;
 	}
 

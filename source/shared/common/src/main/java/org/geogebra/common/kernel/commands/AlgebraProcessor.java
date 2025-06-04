@@ -2059,9 +2059,8 @@ public class AlgebraProcessor {
 	public GeoElement[] processValidExpression(ValidExpression exp,
 			EvalInfo info) throws MyError, CircularDefinitionException {
 		EvalInfo evalInfo = info;
-		ValidExpression expression = exp;
 		// check for existing labels
-		String[] labels = expression.getLabels();
+		String[] labels = exp.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
 		// detect clashes caused by unstable output length in XML
 		// in such case just rename the old geo and continue
@@ -2088,13 +2087,13 @@ public class AlgebraProcessor {
 		// we have to make sure that the macro mode is
 		// set back at the end
 		try {
-			ret = doProcessValidExpression(expression, evalInfo);
+			ret = doProcessValidExpression(exp, evalInfo);
 			if (ret == null) { // eg (1,2,3) running in 2D
-				if (isFreehandFunction(expression)) {
-					return kernel.lookupLabel(expression.getLabel()).asArray();
+				if (isFreehandFunction(exp)) {
+					return kernel.lookupLabel(exp.getLabel()).asArray();
 				}
 				throw new MyError(loc,
-						loc.getInvalidInputError() + ":\n" + expression);
+						loc.getInvalidInputError() + ":\n" + exp);
 			}
 		} finally {
 			isRedefining = false;
@@ -2103,7 +2102,7 @@ public class AlgebraProcessor {
 		if (!info.getKeepDefinition()) {
 			stripDefinition(ret);
 		}
-		processReplace(replaceable, ret, expression, evalInfo);
+		processReplace(replaceable, ret, exp, evalInfo);
 
 		return ret;
 	}
@@ -3330,7 +3329,7 @@ public class AlgebraProcessor {
 		} else if (eval instanceof VectorValue) {
 			return processPointVector(n, eval, info);
 		} else if (eval instanceof Vector3DValue) {
-			return processPointVector3D(n, eval);
+			return processPointVector3D(n, eval, info);
 		} else if (eval instanceof TextValue) {
 			return processText(n, eval, info);
 		} else if (eval instanceof MyList) {
@@ -3773,10 +3772,11 @@ public class AlgebraProcessor {
 	 *            3D point expression
 	 * @param evaluate
 	 *            evaluated node n
+	 * @param evalInfo flags for evaluation
 	 * @return null
 	 */
 	protected GeoElement[] processPointVector3D(ExpressionNode n,
-			ExpressionValue evaluate) {
+			ExpressionValue evaluate, EvalInfo evalInfo) {
 
 		return null;
 	}

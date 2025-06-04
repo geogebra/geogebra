@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
@@ -201,6 +201,28 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-6589")
+	public void undoDraggingPointOnPath3D() {
+		activateUndo();
+		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
+				getUndoManager());
+		GeoPoint3D pt = add("A=Point(zAxis)");
+		final GeoPoint3D dependent = add("B=A+(0,1)");
+		getApp().getSelectionManager().addSelectedGeo(pt);
+		actionStore.storeSelection(MoveMode.POINT);
+		pt.setCoords(0, 0, 3, 1);
+		pt.update();
+		actionStore.storeUndo();
+		getUndoManager().undo();
+		assertThat(pt, hasValue("(0, 0, 0)"));
+		assertThat(dependent, hasValue("(0, 1, 0)"));
+		getUndoManager().redo();
+		assertThat(pt, hasValue("(0, 0, 3)"));
+		assertThat(dependent, hasValue("(0, 1, 3)"));
+		assertThat(String.join(",", getApp().getGgbApi().getAllObjectNames()), equalTo("A,B"));
+	}
+
+	@Test
 	public void undoDraggingPointInRegion() {
 		activateUndo();
 		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
@@ -256,9 +278,20 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 	@Test
 	@Issue("APPS-6416")
 	public void undoDraggingNet() {
+		undoDraggingNet("0");
+	}
+
+	@Test
+	@Issue("APPS-6589")
+	public void undoDraggingNetNamed() {
+		add("slider=Slider(0,1,.1)");
+		undoDraggingNet("slider");
+	}
+
+	private void undoDraggingNet(String paramDefinition) {
 		activateUndo();
 		add("c=Cube((0,0,0),(0,0,1))");
-		add("Net(c,0)");
+		add("Net(c," + paramDefinition + ")");
 		GeoSegment3D edgeJT = (GeoSegment3D) lookup("edgeJT");
 		GeoNumeric param = edgeJT.getChangeableParent3D().getNumber();
 		EuclidianView3D view3D = get3Dview();
@@ -286,7 +319,6 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertThat(edgeJT.getStartPointAsGeoElement(), hasValue("(2, 0, 0)"));
 		assertThat(param, hasValue("1"));
 		assertEquals(20, getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D).size());
-
 	}
 
 	private EuclidianView3D get3Dview() {
