@@ -1,13 +1,21 @@
 package org.geogebra.common.kernel.cas;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Algo for CAS commands CSolve and CSolutions
@@ -25,11 +33,109 @@ public class AlgoComplexSolve extends AlgoSolve {
 	}
 
 	@Override
-	protected void convertOutputToSymbolic(GeoList raw) {
-		List<GeoSymbolic> geoSymbolics = raw.elements()
-				.map(geo -> new GeoSymbolic(cons, geo.getDefinition()))
-				.collect(Collectors.toList());
-		raw.clear();
-		geoSymbolics.forEach(raw::add);
+	protected void convertOutputToSameType(GeoList raw) {
+		raw.replaceAll(geo -> {
+			if (geo instanceof GeoList) {
+				convertOutputToSameType((GeoList) geo);
+				return geo;
+			}
+			String var;
+			GeoSymbolicPoint pt = new GeoSymbolicPoint(geo.getConstruction());
+			ExpressionNode definition = geo.getDefinition();
+			if (geo instanceof GeoNumeric) {
+				pt.setCoords(geo.evaluateDouble(), 0 , 1);
+				var = geo.getLabelSimple();
+				definition = addImaginaryPart(definition);
+			} else if (geo instanceof GeoPlaneND) {
+				Coords equationVector = ((GeoPlaneND) geo).getCoordSys().getEquationVector();
+				pt.setCoords(equationVector.getW() / equationVector.getZ(), 0 , 1);
+				var = "z";
+			} else if (geo instanceof GeoLine) {
+				var = ((EquationValue) geo).getEquationVariables()[0];
+				pt.setCoords(((GeoLine) geo).getZ(), 0 , 1);
+			} else {
+				pt.set(geo);
+				var = geo.getLabelSimple();
+			}
+			pt.setComplex();
+			if (getClassName() == Commands.CSolve && var != null) {
+				pt.setComplexSolutionVar(var);
+			}
+			if (definition.unwrap() instanceof Equation) {
+				definition = addImaginaryPart(((Equation) definition.unwrap()).getRHS());
+			}
+			pt.setDefinition(definition);
+			pt.setSymbolicMode(solutions.isSymbolicMode(), false);
+			return pt;
+		});
+	}
+
+	private ExpressionNode addImaginaryPart(ExpressionNode definition) {
+		return definition.plus(new ExpressionNode(kernel, new MyDouble(kernel, 0),
+				Operation.MULTIPLY, kernel.getImaginaryUnit()));
+	}
+
+	private static class GeoSymbolicPoint extends GeoPoint implements HasSymbolicMode {
+		private boolean symbolicMode;
+
+		public GeoSymbolicPoint(Construction construction) {
+			super(construction);
+		}
+
+		@Override
+		public void initSymbolicMode() {
+			symbolicMode = true;
+		}
+
+		@Override
+		public void setSymbolicMode(boolean symbolicMode, boolean updateParent) {
+			this.symbolicMode = symbolicMode;
+		}
+
+		@Override
+		public boolean isSymbolicMode() {
+			return symbolicMode;
+		}
+
+		@Override
+		public String toValueString(StringTemplate tpl) {
+			ExpressionNode definition = getDefinition();
+			return symbolicMode && definition != null
+					? prependCSolveVar(definition.toValueString(tpl), tpl)
+					: super.toValueString(tpl);
+		}
+
+		private String prependCSolveVar(String defString, StringTemplate tpl) {
+			return complexSolutionVar == null ? defString
+					: complexSolutionVar + tpl.getEqualsWithSpace() + defString;
+		}
+
+		@Override
+		public boolean supportsEngineeringNotation() {
+			return false;
+		}
+
+		@Override
+		public void setEngineeringNotationMode(boolean mode) {
+			// no engineering
+		}
+
+		@Override
+		public boolean isEngineeringNotationMode() {
+			return false;
+		}
+
+		@Override
+		public GeoSymbolicPoint copy() {
+			GeoSymbolicPoint copy = new GeoSymbolicPoint(cons);
+			copy.set(this);
+			copy.setSymbolicMode(symbolicMode, false);
+			return copy;
+		}
+
+		@Override
+		public boolean isLaTeXDrawableGeo() {
+			return true;
+		}
 	}
 }

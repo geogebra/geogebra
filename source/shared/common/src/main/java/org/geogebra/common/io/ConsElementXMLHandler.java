@@ -2031,7 +2031,7 @@ public class ConsElementXMLHandler {
 			geo.setLineThickness(0);
 		}
 
-		if (!symbolicTagProcessed && (geo.isGeoText() || geo.isGeoInputBox())) {
+		if (!symbolicTagProcessed && (geo.isGeoText() || geo.isGeoInputBox() || geo.isGeoList())) {
 			((HasSymbolicMode) geo).setSymbolicMode(false, false);
 		}
 		if (xmlHandler.casMap != null && geo instanceof CasEvaluableFunction) {

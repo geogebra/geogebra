@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ConditionalSerializer;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -49,6 +50,7 @@ import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -833,7 +835,7 @@ public class GeoSymbolic extends GeoElement
 		if (isOutputOfCSolveCommand()) {
 			handleOutputOfCSolveCommand(result);
 		} else if (algoParent instanceof AlgoComplexSolve && result instanceof GeoLine) {
-			return createPointFromLine((GeoLine) result);
+			return createPointFromEquation((GeoLine) result);
 		}
 		return result;
 	}
@@ -869,7 +871,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	/**
-	 * In case the created, complex GeoPoint(s) are the outcome of the CSolve command, we want to
+	 * In case the created, complex GeoPoint(s) are the outcome of the CSolve command. We want to
 	 * make sure they are printed in the form x = a + b*i. If the result is a list containing both
 	 * GeoPoints and GeoLines, this method ensures the created GeoLines are replaced by a GeoPoint.
 	 * @param result GeoElement
@@ -878,7 +880,6 @@ public class GeoSymbolic extends GeoElement
 		if (result instanceof GeoList) {
 			unifySolutionFormatForCSolveCommand((GeoList) result);
 		}
-		markPointsAsOutputOfCSolveCommand(result);
 	}
 
 	/**
@@ -905,40 +906,28 @@ public class GeoSymbolic extends GeoElement
 	 * @param list GeoList
 	 */
 	private void unifySolutionFormatForCSolveCommand(GeoList list) {
-		list.elements().filter(element -> element instanceof GeoLine)
-				.forEach(line -> {
-					GeoPoint replace = createPointFromLine((GeoLine) line);
-					list.replace(line, replace);
-				});
+		list.replaceAll(element -> {
+			if (element instanceof GeoLine || element instanceof GeoPlaneND) {
+				return createPointFromEquation((EquationValue) element);
+			}
+			return element;
+		});
 	}
 
-	private GeoPoint createPointFromLine(GeoLine line) {
+	private GeoPoint createPointFromEquation(EquationValue equation) {
 		GeoPoint point = new GeoPoint(getConstruction(), 0, 0, 1);
-		ExpressionValue lhs = line.getEquation().getLHS().unwrap();
-		ExpressionValue rhs = line.getEquation().getRHS().unwrap();
+		ExpressionValue lhs = equation.getEquation().getLHS().unwrap();
+		ExpressionValue rhs = equation.getEquation().getRHS().unwrap();
 		if (lhs instanceof FunctionVariable) {
 			String varStr = ((FunctionVariable) lhs).getSetVarString();
 			point.setComplexSolutionVar(varStr);
 			if (rhs.isNumberValue()) {
-				if (varStr.equals("x")) {
-					point.setX(rhs.evaluateDouble());
-				} else if (varStr.equals("y")) {
-					point.setY(rhs.evaluateDouble());
-				}
+				point.setX(rhs.evaluateDouble());
 			}
 		}
 		point.setComplex();
 		point.updateCoords();
 		return point;
-	}
-
-	private void markPointsAsOutputOfCSolveCommand(GeoElement result) {
-		if (result instanceof GeoList) {
-			((GeoList) result).elements().filter(element -> element instanceof GeoPoint)
-					.forEach(point -> ((GeoPoint) point).setOutputOfCSolve(true));
-		} else if (result instanceof GeoPoint) {
-			((GeoPoint) result).setOutputOfCSolve(true);
-		}
 	}
 
 	@Override

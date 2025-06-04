@@ -146,8 +146,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	private ArrayList<GeoElement> incidenceList;
 	private NumberValue verticalIncrement;
 
-	private boolean outputOfCSolve = false;
-	private String complexSolutionVar = "";
+	protected String complexSolutionVar = null;
 
 	/**
 	 * create an undefined GeoPoint
@@ -346,6 +345,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			if (geo instanceof GeoPoint) {
 				GeoPoint pt = (GeoPoint) p;
 				setCoords(pt.x, pt.y, pt.z, macroFeedback);
+				complexSolutionVar = pt.complexSolutionVar;
 			} else {
 				setCoords(p.getInhomX(), p.getInhomY(), 1, macroFeedback);
 			}
@@ -1544,7 +1544,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		} else if (getToStringMode() == Kernel.COORD_SPHERICAL) {
 			buildValueStringCoordSpherical(kernel, tpl, getInhomX(),
 					getInhomY(), 0, sbToString);
-		} else if (outputOfCSolve) {
+		} else if (complexSolutionVar != null) {
 			printAsOutputOfCSolve(tpl);
 		} else {
 			buildValueString(kernel, tpl, getToStringMode(), getInhomX(), getInhomY(), sbToString);
@@ -2999,15 +2999,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			return false;
 		}
 		return super.isCommandOutput();
-	}
-
-	/**
-	 * Sets the {@link #outputOfCSolve} flag which indicates whether a point should be printed
-	 * e.g. in the form <b>x = i, x = -i</b>
-	 * @param outputOfCSolve Whether this element is an output of the CSolve command
-	 */
-	public void setOutputOfCSolve(boolean outputOfCSolve) {
-		this.outputOfCSolve = outputOfCSolve;
 	}
 
 	/**

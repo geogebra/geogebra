@@ -110,7 +110,12 @@ public class MoveGeosTest extends BaseUnitTest {
 	@Test
 	public void testCircleInListWithoutPoint() {
 		shouldValueBeEqualAfterMove("{Circle((2, 2), 1)}", "(x - 3)² + (y - 3)² = 1");
+	}
 
+	@Test
+	public void testMatrixElementFixed() {
+		// also relevant for Element(CSolve({x^2+1=0}),1)
+		shouldValueBeEqualAfterMove("Element({{(1,2)}},1)", "(1, 2)");
 	}
 
 	private void shouldValueBeEqualAfterMove(String command, String expected) {

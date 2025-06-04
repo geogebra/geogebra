@@ -585,9 +585,10 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	@Issue("APPS-5829")
 	public void cmdCSolve() {
-		t("CSolve(x^2 = -1)", "{ί, (-ί)}");
-		t("CSolve(x^2 = -3, x)", "{(ί * sqrt(3)), ((-ί) * sqrt(3))}");
-		t("CSolve({x^2 = -1}, {x})", "{{{x = (-ί)}, {x = ί}}}");
+		t("CSolve(x^2 = -1)", "{x = ί, x = (-ί)}");
+		t("CSolve(x^2 = 4)", "{x = -2 + (0 * ί), x = 2 + (0 * ί)}");
+		t("CSolve(x^2 = -3, x)", "{x = (ί * sqrt(3)), x = ((-ί) * sqrt(3))}");
+		t("CSolve({x^2 = -1}, {x})", "{{x = (-ί)}, {x = ί}}");
 	}
 
 	@Test
@@ -595,6 +596,6 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	public void cmdCSolutions() {
 		t("CSolutions(x^2 = -4)", "{(2 * ί), (-2 * ί)}");
 		t("CSolutions(x^2 = -18, x)", "{((3 * ί) * sqrt(2)), ((-3 * ί) * sqrt(2))}");
-		t("CSolutions({x^2 = -4}, {x})", "{{{(-2 * ί)}, {(2 * ί)}}}");
+		t("CSolutions({x^2 = -4}, {x})", "{{(-2 * ί)}, {(2 * ί)}}");
 	}
 }

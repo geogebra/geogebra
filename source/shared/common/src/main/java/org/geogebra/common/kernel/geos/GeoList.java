@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
@@ -134,6 +135,8 @@ public class GeoList extends GeoElement
 	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
 	private boolean emphasizeRightAngle = true;
 	private int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
+
+	private boolean symbolic = false;
 
 	private int totalWidth = 0;
 	private int totalHeight = 0;
@@ -911,7 +914,9 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (isDefined && tpl.isDisplayStyle() && isMatrix()) {
+		if (isDefined && tpl.isDisplayStyle() && isMatrix()
+				&& !elements.isEmpty()
+				&& elements.get(0).isFreeOrExpression()) {
 			return toMatrixString(false, tpl);
 		}
 		return isDefined ? buildValueString(tpl).toString() : "?";
@@ -1566,13 +1571,14 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
-		if (isMatrix()) {
+		if (isMatrix() && !elements.isEmpty()
+				&& elements.get(0).isFreeOrExpression()) {
 			return toMatrixString(symbolic, tpl);
 		} else if (isEngineeringNotationMode()) {
 			return toValueString(tpl);
 		}
-
-		return super.toLaTeXString(symbolic, tpl);
+		return symbolic ? getDefinition(tpl)
+				: app.getGeoElementValueConverter().toValueString(this, tpl);
 	}
 
 	private String toMatrixString(boolean symbolic, StringTemplate tpl) {
@@ -3005,6 +3011,7 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
+		symbolic = mode;
 		for (int i = 0; i < this.size(); i++) {
 			if (get(i) instanceof HasSymbolicMode) {
 				((HasSymbolicMode) get(i)).setSymbolicMode(mode, updateParent);
@@ -3014,7 +3021,10 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean isSymbolicMode() {
-		return size() > 0 && get(0) instanceof HasSymbolicMode
+		if (size() == 0) {
+			return symbolic;
+		}
+		return get(0) instanceof HasSymbolicMode
 				&& ((HasSymbolicMode) get(0)).isSymbolicMode();
 	}
 
@@ -3548,5 +3558,13 @@ public class GeoList extends GeoElement
 			return ':';
 		}
 		return '=';
+	}
+
+	/**
+	 * Replace all elements.
+	 * @param operator maps old element to replacement
+	 */
+	public void replaceAll(UnaryOperator<GeoElement> operator) {
+		elements.replaceAll(operator);
 	}
 }

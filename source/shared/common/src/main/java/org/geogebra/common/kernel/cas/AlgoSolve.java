@@ -35,7 +35,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoSolve extends AlgoElement implements UsesCAS {
 
-	private final GeoList solutions;
+	protected final GeoList solutions;
 	private final GeoElement equations;
 	private final ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 	private Commands type;
@@ -63,11 +63,21 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		compute();
 		if (type != Commands.PlotSolve) {
 			solutions.setEuclidianVisible(false);
-		} else {
-			solutions.setTypeStringForXML("point");
 		}
-		if (type == Commands.Solve || type == Commands.NSolve) {
+		switch (type) {
+		case CSolve:
+		case CSolutions:
+			solutions.setSymbolicMode(true, false);
+			//$FALL-THROUGH$
+		case PlotSolve:
+			solutions.setTypeStringForXML("point");
+			break;
+		case Solve:
+		case NSolve:
 			solutions.setTypeStringForXML("line");
+			break;
+		default:
+			solutions.setTypeStringForXML("numeric");
 		}
 	}
 
@@ -122,7 +132,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 				solutions.setUndefined();
 				return;
 			}
-			convertOutputToSymbolic(raw);
+			convertOutputToSameType(raw);
 			if (equations.isGeoList() && raw.size() > 1
 					&& (!raw.get(0).isGeoList())) {
 				solutions.clear();
@@ -151,10 +161,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 	}
 
 	/**
-	 * Makes sure the output elements are converted to GeoSymbolics
+	 * Makes sure the output elements are converted to a uniform type.
 	 * @param raw GeoList with the output
 	 */
-	protected void convertOutputToSymbolic(GeoList raw) {
+	protected void convertOutputToSameType(GeoList raw) {
 		// Overridden in AlgoComplexSolve
 	}
 

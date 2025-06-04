@@ -4,6 +4,7 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.suite.BaseSuiteTest;
@@ -47,4 +48,43 @@ public class AlgoSolveTest extends BaseSuiteTest {
 		assertEquals(add("NSolve(a^2=x)").toValueString(StringTemplate.defaultTemplate),
 				"{x = 0.49}");
 	}
+
+	@Test
+	@Issue("APPS-6583")
+	public void testCSolutionsZ() {
+		add("w=1+0i");
+		GeoList list = add("CSolutions(z^3=w)");
+		list.setSymbolicMode(true, false);
+		assertEquals("l1\\, = \\,\\left\\{1 + 0 \\; i,\\;\\frac{i \\; \\sqrt{3} - 1}{2},"
+						+ "\\;\\frac{-i \\; \\sqrt{3} - 1}{2}\\right\\}",
+				list.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplate));
+	}
+
+	@Test
+	@Issue("APPS-6583")
+	public void testCSolveX() {
+		add("w=1+0i");
+		GeoList list = add("CSolve(x^3=w)");
+		list.setSymbolicMode(true, false);
+		assertEquals("l1\\, = \\,\\left\\{x\\, = \\,1 + 0 \\; i,\\;x\\, = \\,\\frac{1}{2}"
+						+ " \\; \\left(i \\; \\sqrt{3} - 1 \\right),\\;x\\, = \\,\\frac{1}{2}"
+						+ " \\; \\left(-i \\; \\sqrt{3} - 1 \\right)\\right\\}",
+				list.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplate));
+	}
+
+	@Test
+	@Issue("APPS-6583")
+	public void testCSolveZ() {
+		add("w=1+0i");
+		GeoList list = add("CSolve(z^3=w)");
+		list.setSymbolicMode(true, false);
+		assertEquals("l1\\, = \\,\\left\\{z\\, = \\,1 + 0 \\; i,\\;z\\, = \\,\\frac{1}{2}"
+						+ " \\; \\left(i \\; \\sqrt{3} - 1 \\right),\\;z\\, = \\,\\frac{1}{2}"
+						+ " \\; \\left(-i \\; \\sqrt{3} - 1 \\right)\\right\\}",
+				list.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplate));
+	}
+
 }

@@ -1164,10 +1164,12 @@ public class AlgebraProcessor {
 		if (geos != null) {
 			// Switch to an enabled algebra output format
 			// before checking if the output expression is restricted.
-			Arrays.stream(geos).map(GeoElementND::toGeoElement).forEach(geoElement ->
-					AlgebraOutputFormat.switchFromDisabledFormat(geoElement,
-							app.getSettings().getAlgebra().isEngineeringNotationEnabled(),
-							app.getSettings().getAlgebra().getAlgebraOutputFormatFilters()));
+			if (!app.getSettings().getAlgebra().getAlgebraOutputFormatFilters().isEmpty()) {
+				Arrays.stream(geos).map(GeoElementND::toGeoElement).forEach(geoElement ->
+						AlgebraOutputFormat.switchFromDisabledFormat(geoElement,
+								app.getSettings().getAlgebra().isEngineeringNotationEnabled(),
+								app.getSettings().getAlgebra().getAlgebraOutputFormatFilters()));
+			}
 
 			// Check if any input or output expression should be restricted.
 			boolean containsRestrictedInputExpression =

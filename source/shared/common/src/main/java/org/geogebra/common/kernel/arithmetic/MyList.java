@@ -801,11 +801,16 @@ public class MyList extends ValidExpression
 	public String toString(StringTemplate tpl, boolean valueMode,
 			boolean printBrackets) {
 		if (tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX
-				&& isMatrix() && printBrackets && isAllLists) {
+				&& isMatrix() && printBrackets && isAllLists
+				&& (valueMode || isExpressions())) {
 			return toMatrixString(tpl);
 		} else {
 			return toFlatString(tpl, valueMode, printBrackets);
 		}
+	}
+
+	private boolean isExpressions() {
+		return !listElements.isEmpty() && !listElements.get(0).unwrap().isGeoElement();
 	}
 
 	private String toFlatString(StringTemplate tpl, boolean valueMode, boolean printBrackets) {

@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.geos;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Objects;
 
@@ -10,6 +12,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,5 +101,34 @@ public class GeoListTest extends BaseUnitTest {
 	public void listShouldDisplayCorrectEngineeringNotation3() {
 		GeoList list = add("{3, ?}");
 		assertThat(list.get(1).toValueString(engineeringNotationTemplate), is("?"));
+	}
+
+	@Test
+	@Issue("APPS-6583")
+	public void nestedCommandList() {
+		// same issue with CSolutions, but use Sequence so that we don't need CAS
+		GeoList list = add("{Sequence(x=k,k,1,3)}");
+		assertEquals("m1\\, = \\,\\left\\{Sequence\\left(x\\, = \\,k, k, 1, 3 \\right)\\right\\}",
+				list.getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void reloadSymbolicFlag() {
+		GeoList list = addAvInput("l={1/2-1/3}");
+		assertTrue("List of fractions initially symbolic", list.isSymbolicMode());
+		reload();
+		list = (GeoList) lookup("l");
+		assertTrue("List stays symbolic after reload", list.isSymbolicMode());
+		list.setSymbolicMode(false, false);
+		list = (GeoList) lookup("l");
+		assertFalse("List stays non-symbolic after reload", list.isSymbolicMode());
+	}
+
+	@Test
+	public void emptyListSymbolicFlag() {
+		GeoList list = add("{}");
+		assertFalse("Empty list initially non-symbolic", list.isSymbolicMode());
+		list.setSymbolicMode(true, false);
+		assertTrue("Symbolic flag should change", list.isSymbolicMode());
 	}
 }
