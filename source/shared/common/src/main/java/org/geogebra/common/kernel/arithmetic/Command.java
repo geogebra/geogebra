@@ -21,9 +21,10 @@ package org.geogebra.common.kernel.arithmetic;
 import static org.geogebra.common.kernel.arithmetic.ExpressionNode.getLabelOrDefinition;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Kernel;
@@ -38,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
@@ -256,7 +258,7 @@ public class Command extends ValidExpression
 			}
 			sbToString.setLength(0);
 			if ("Integral".equals(name)) {
-				String var = getIntegralVar(tpl);
+				String var = getIntegralVar();
 				appendIntegral(this, sbToString, var, tpl);
 				return sbToString.toString();
 			} else if ("Sum".equals(name) && getArgumentNumber() == 4) {
@@ -335,56 +337,66 @@ public class Command extends ValidExpression
 	}
 
 	/*
-	 * Guess the function variable from first argument of Integral
+	 * Guess the function variable from the first argument of Integral
 	 * Side effect: replace f -> f(v) in the first argument
 	 */
-	private String getIntegralVar(StringTemplate tpl) {
+	private String getIntegralVar() {
 		ExpressionNode argument = getArgument(0);
 		SymbolicMode symbolicMode = kernel.getSymbolicMode();
 		Set<GeoElement> vars = argument.getVariables(symbolicMode);
 		String var = getFunctionVarName(argument, vars);
-		if (!vars.isEmpty()) {
-			for (GeoElement geo : vars) {
-				// get function from construction
-				String label = geo.getLabel(StringTemplate.defaultTemplate);
-				GeoElement geoFunc = getKernel().getConstruction()
-						.geoTableVarLookup(label);
-				GeoCasCell geoCASCell = getKernel().getConstruction()
-						.lookupCasCellLabel(label);
-				replaceFunctionNode(geo, geoFunc);
-				replaceFunctionNodeCas(geo, geoCASCell);
-				// make sure that we get from set the variable and not
-				// the function, needed for TRAC-5364
-				if (geo instanceof GeoDummyVariable && geoFunc == null
-						&& geoCASCell == null && SymbolicMode.NONE.equals(symbolicMode)) {
-					var = geo.toString(tpl);
-				}
-			}
+		for (GeoElement geo : vars) {
+			// get function from construction
+			String label = geo.getLabel(StringTemplate.defaultTemplate);
+			GeoElement geoFunc = getKernel().getConstruction()
+					.geoTableVarLookup(label);
+			GeoCasCell geoCASCell = getKernel().getConstruction()
+					.lookupCasCellLabel(label);
+			replaceFunctionNode(geo, geoFunc);
+			replaceFunctionNodeCas(geo, geoCASCell);
 		}
 		return var;
 	}
 
-	private String getFunctionVarName(ExpressionNode node, Set<GeoElement> vars) {
+	private String getFunctionVarName(ExpressionNode node, @Nonnull Set<GeoElement> vars) {
 		if (node.containsFreeFunctionVariable(DEFAULT_FUNCTION_VAR_NAME)) {
 			return DEFAULT_FUNCTION_VAR_NAME;
 		}
-		ExpressionNodeCollector<String> collector =
-				new ExpressionNodeCollector<>(node);
-
-		List<String> integralVarNames = collector
-				.filter(Inspecting::isFunctionVariable)
-				.mapTo(t -> ((FunctionVariable) (t.unwrap())).getSetVarString());
-
-		if (vars != null) {
-			List<String> dummyVarNames = getDummyVarNames(vars);
-			integralVarNames.addAll(dummyVarNames);
+		// classic CAS: variables are GeoDummyVariable
+		Set<String> dummyVarNames = getDummyVarNames(vars);
+		// unbundled CAS: some variables are FunctionVariable
+		for (ExpressionValue part: node) {
+			if (part instanceof FunctionVariable) {
+				dummyVarNames.add(((FunctionVariable) part).getSetVarString());
+			}
 		}
-		Collections.sort(integralVarNames);
-		return integralVarNames.size() > 0 ? integralVarNames.get(0) : DEFAULT_FUNCTION_VAR_NAME;
+		// if we didn't find any free variable, look inside symbolics
+		if (dummyVarNames.isEmpty()) {
+			for (GeoElement el: vars) {
+				if (el instanceof GeoSymbolic) {
+					FunctionVariable[] functionVariables =
+							((GeoSymbolic) el).getFunctionVariables();
+					for (FunctionVariable fv: functionVariables) {
+						dummyVarNames.add(fv.getSetVarString());
+					}
+				}
+			}
+		}
+		return dummyVarNames.stream().min(Command::compareIntegralVar)
+				.orElse(DEFAULT_FUNCTION_VAR_NAME);
 	}
 
-	private static List<String> getDummyVarNames(Set<GeoElement> vars) {
-		final ArrayList<String> list = new ArrayList<>();
+	private static int compareIntegralVar(String v1, String v2) {
+		if (v1.equals(DEFAULT_FUNCTION_VAR_NAME)) {
+			return v2.equals(DEFAULT_FUNCTION_VAR_NAME) ? 0 : -1;
+		} else if (v2.equals(DEFAULT_FUNCTION_VAR_NAME)) {
+			return 1;
+		}
+		return v1.compareTo(v2);
+	}
+
+	private static Set<String> getDummyVarNames(Set<GeoElement> vars) {
+		final HashSet<String> list = new HashSet<>();
 		for (GeoElement var: vars) {
 			if (var instanceof GeoDummyVariable) {
 				list.add(((GeoDummyVariable) var).getVarName());
@@ -606,7 +618,7 @@ public class Command extends ValidExpression
 		if ("CurveCartesian".equals(name)) {
 			return ValueType.PARAMETRIC2D;
 		}
-		if ("Vector".equals(name) && (args.size() > 0)
+		if ("Vector".equals(name) && !args.isEmpty()
 				&& args.get(0).getValueType() == ValueType.VECTOR3D) {
 			return ValueType.VECTOR3D;
 		}

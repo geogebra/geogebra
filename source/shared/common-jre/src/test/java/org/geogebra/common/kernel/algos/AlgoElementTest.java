@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.algos;
 
-import static org.geogebra.common.BaseUnitTest.hasProperty;
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,6 +39,7 @@ public class AlgoElementTest {
 			"Sequence(Integral(x^k),k,1,2);"
 					+ "Sequence\\left(\\int x^{k}\\,\\mathrm{d}x, k, 1, 2 \\right)"},
 			delimiterString = ";")
+	@Issue("APPS-4732")
 	public void latexIntegral(String cmd, String latex) {
 		add("f(n)=n^2");
 		assertEquals(latex, add(cmd).getDefinition(StringTemplate.latexTemplate));
@@ -84,8 +84,10 @@ public class AlgoElementTest {
 			"Integral(t-d,a,b);\\int\\limits_{a}^{b}t - d\\,\\mathrm{d}d",
 			"Integral(s-d,a,b);\\int\\limits_{a}^{b}s - d\\,\\mathrm{d}d",
 			"Integral(s-r,a,b);\\int\\limits_{a}^{b}s - r\\,\\mathrm{d}r",
-			"Integral(t-x,a,b);\\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x"},
+			"Integral(t-x,a,b);\\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x",
+			"Integral(t,a,b);\\int\\limits_{a}^{b}t\\,\\mathrm{d}t"},
 			delimiterString = ";")
+	@Issue("APPS-5345")
 	public void latexIntegralShouldHaveCorrectDerivativeVariable(String cmd, String latex) {
 		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		assertEquals(latex, add(cmd).getDefinition(StringTemplate.latexTemplate));

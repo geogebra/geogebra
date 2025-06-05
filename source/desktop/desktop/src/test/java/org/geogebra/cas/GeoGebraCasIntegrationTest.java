@@ -1952,6 +1952,36 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	@Test
+	@Issue("TRAC-5364")
+	public void integralWithoutArgs() {
+		t("f(r):=r^2", "r^(2)");
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		kernel.getConstruction().addToConstructionList(f, false);
+		f.setInput("Integral(f)");
+		f.setEvalCommand("Keepinput");
+		f.computeOutput();
+
+		assertEquals(
+				"\\mathbf{\\int f\\left(r \\right)\\,\\mathrm{d}r}",
+				f.getLaTeXOutput());
+	}
+
+	@Test
+	@Issue("TRAC-5364")
+	public void integralAddition() {
+		t("f(x):=x^2", "x^(2)");
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		kernel.getConstruction().addToConstructionList(f, false);
+		f.setInput("Integral(f+x)");
+		f.setEvalCommand("Keepinput");
+		f.computeOutput();
+
+		assertEquals(
+				"\\mathbf{\\int f\\left(x \\right) + x\\,\\mathrm{d}x}",
+				f.getLaTeXOutput());
+	}
+
+	@Test
 	public void ticket_Ticket3370_1() {
 		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
 		kernel.getConstruction().addToConstructionList(f, false);
@@ -2649,15 +2679,15 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
 	}
 
-	/** See APPS-801 */
 	@Test
+	@Issue("APPS-801")
 	public void marbleForLeftSideShouldCreateFunction() {
 		t("f:LeftSide(1=x)", "1");
 		GeoCasCell casCell = kernel.lookupCasCellLabel("f");
 		casCell.plot();
 		assertEquals(
-				casCell.getTwinGeo().getGeoClassType(),
-				GeoClass.FUNCTION);
+				GeoClass.FUNCTION,
+				casCell.getTwinGeo().getGeoClassType());
 	}
 
 	@Test
