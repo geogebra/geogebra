@@ -22,7 +22,7 @@ public class SoundManagerW implements SoundManager {
 	private final AppW app;
 	private final EuclidianView view;
 	private boolean mp3active = true;
-	private final Map<GeoAudio, HTMLAudioElement> geoAudioElements;
+	private final Map<GeoElement, HTMLAudioElement> geoAudioElements;
 	private AsyncOperation<Boolean> urlCallback = null;
 
 	/**
@@ -39,6 +39,13 @@ public class SoundManagerW implements SoundManager {
 	public void pauseResumeSound(boolean resume) {
 		FunctionSoundW.getInstance().pause(resume);
 		mp3active = resume;
+		for (HTMLAudioElement element: geoAudioElements.values()) {
+			if (resume) {
+				element.play();
+			} else {
+				element.pause();
+			}
+		}
 	}
 
 	@Override
@@ -102,9 +109,7 @@ public class SoundManagerW implements SoundManager {
 	 *            The geo element.
 	 */
 	protected void onCanPlay(HTMLAudioElement audio, GeoElement geo) {
-		if (geo instanceof GeoAudio) {
-			geoAudioElements.put((GeoAudio) geo, audio);
-		}
+		geoAudioElements.put(geo, audio);
 		if (mp3active) {
 			audio.play();
 		}
@@ -145,6 +150,10 @@ public class SoundManagerW implements SoundManager {
 		audio.src = file;
 		audio.oncanplay = p0 -> {
 			onCanPlay(audio, geo);
+			return null;
+		};
+		audio.onended = evt -> {
+			geoAudioElements.remove(geo);
 			return null;
 		};
 
@@ -258,19 +267,15 @@ public class SoundManagerW implements SoundManager {
 
 	@Override
 	public void play(GeoAudio geo) {
-		final HTMLAudioElement audio = geoAudioToElement(geo);
+		final HTMLAudioElement audio = geoAudioElements.get(geo);
 		if (audio != null) {
 			audio.play();
 		}
 	}
 
-	protected HTMLAudioElement geoAudioToElement(GeoAudio geo) {
-		return geoAudioElements.get(geo);
-	}
-
 	@Override
 	public void pause(GeoAudio geo) {
-		final HTMLAudioElement audio = geoAudioToElement(geo);
+		final HTMLAudioElement audio = geoAudioElements.get(geo);
 		if (audio != null) {
 			audio.pause();
 		}
@@ -278,7 +283,7 @@ public class SoundManagerW implements SoundManager {
 
 	@Override
 	public boolean isPlaying(GeoAudio geo) {
-		final HTMLAudioElement audio = geoAudioToElement(geo);
+		final HTMLAudioElement audio = geoAudioElements.get(geo);
 		if (audio != null) {
 			return !audio.paused;
 		}

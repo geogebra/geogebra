@@ -25,6 +25,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.sound.PauseControl;
 
 public class Decoder {
 	public static final int BUFFER_SIZE = 2 * 1152;
@@ -40,8 +41,6 @@ public class Decoder {
 
 	private SourceDataLine line;
 	private final byte[] buffer = new byte[BUFFER_SIZE * 2];
-	private boolean stop;
-	private volatile boolean pause;
 
 	public void decodeFrame(Header header, Bitstream stream)
 			throws IOException {
@@ -94,36 +93,35 @@ public class Decoder {
 		}
 	}
 
-	public void play(String name, InputStream in) throws IOException {
-		stop = false;
+	public void play(String name, InputStream in, PauseControl control) throws IOException {
 		int frameCount = Integer.MAX_VALUE;
 
 		// int testing;
 		// frameCount = 100;
-
-		Decoder decoder = new Decoder();
 		Bitstream stream = new Bitstream(in);
 		SourceDataLine line1 = null;
 		int error = 0;
-		for (int frame = 0; !stop && frame < frameCount; frame++) {
-			if (pause) {
-				line1.stop();
-				while (pause && !stop) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// ignore
+		for (int frame = 0; frame < frameCount; frame++) {
+			if (control.pause) {
+				if (line1 != null) {
+					line1.stop();
+					while (control.pause) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// ignore
+						}
 					}
+					line1.flush();
+					line1.start();
 				}
-				line1.flush();
-				line1.start();
 			}
 			try {
 				Header header = stream.readFrame();
 				if (header == null) {
 					break;
 				}
-				if (decoder.channels == 0) {
+				if (channels == 0) {
 					int channels1 = (header
 							.mode() == Header.MODE_SINGLE_CHANNEL)
 							? 1 : 2;
@@ -138,9 +136,9 @@ public class Decoder {
 							SourceDataLine.class, format);
 					line1 = (SourceDataLine) AudioSystem.getLine(info);
 					if (BENCHMARK) {
-						decoder.initOutputBuffer(null, channels1);
+						initOutputBuffer(null, channels1);
 					} else {
-						decoder.initOutputBuffer(line1, channels1);
+						initOutputBuffer(line1, channels1);
 					}
 					// TODO sometimes the line can not be opened (maybe not
 					// enough system resources?): display error message
@@ -148,11 +146,13 @@ public class Decoder {
 					line1.open(format);
 					line1.start();
 				}
-				while (line1.available() < 100) {
-					Thread.yield();
-					Thread.sleep(200);
+				if (line1 != null) {
+					while (line1.available() < 100) {
+						Thread.yield();
+						Thread.sleep(200);
+					}
 				}
-				decoder.decodeFrame(header, stream);
+				decodeFrame(header, stream);
 			} catch (Exception e) {
 				if (error++ > 1000) {
 					break;
@@ -174,15 +174,6 @@ public class Decoder {
 			line1.close();
 			line1 = null;
 		}
-	}
-
-	public void stop() {
-		this.stop = true;
-	}
-
-	public boolean pause() {
-		this.pause = !pause;
-		return pause;
 	}
 
 }

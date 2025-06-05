@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 
@@ -38,6 +40,7 @@ public class SoundManagerD implements SoundManager {
 
 	private boolean isRunning = false;
 	private boolean isPaused = false;
+	private List<PauseControl> controls = new ArrayList<>();
 
 	/**
 	 * Constructor
@@ -107,11 +110,6 @@ public class SoundManagerD implements SoundManager {
 	}
 
 	/**
-	 * decoder to play MP3s
-	 */
-	Decoder decoder;
-
-	/**
 	 * Plays an audio file with the .mid / .mp3
 	 * 
 	 * @param fileName filename
@@ -125,45 +123,9 @@ public class SoundManagerD implements SoundManager {
 						|| !(fileName.endsWith(".midi")
 						&& fileName.endsWith(".mid"))) {
 
-					InputStream is;
-
-					if (fileName.startsWith(StringUtil.mp3Marker)) {
-
-						String mp3base64 = fileName
-								.substring(StringUtil.mp3Marker.length());
-
-						byte[] mp3 = Base64.decode(mp3base64);
-
-						is = new ByteArrayInputStream(mp3);
-
-					} else if (fileName.startsWith("#")) {
-						// eg PlaySound["#12345"] to play from GeoGebraTube
-						String id = fileName.substring(1);
-
-						String url = app.getURLforID(id);
-
-						// #5094
-						is = new URL(url).openStream();
-
-					} else if (fileName.startsWith("http:")
-							|| fileName.startsWith("https:")) {
-
-						is = new URL(fileName).openStream();
-
-					} else {
-						// assume local file
-						// eg c:\
-						// eg file://
-						is = new FileInputStream(fileName);
-
-					}
-
-					if (decoder == null) {
-						decoder = new Decoder();
-					}
-
-					Thread thread = new Thread(
-							new PlayMP3Thread(decoder, fileName, is));
+					PauseControl control = new PauseControl();
+					controls.add(control);
+					Thread thread = new Thread(playMp3(fileName, control));
 					thread.start();
 
 					return;
@@ -181,6 +143,47 @@ public class SoundManagerD implements SoundManager {
 
 		});
 
+	}
+
+	private Runnable playMp3(String fileName, PauseControl control) {
+		return () -> {
+			try (InputStream is = openStream(fileName)) {
+				new Decoder().play(fileName, is, control);
+			} catch (Exception e) {
+				Log.debug(e);
+			}
+			controls.remove(control);
+		};
+	}
+
+	private InputStream openStream(String fileName) {
+		try {
+			if (fileName.startsWith(StringUtil.mp3Marker)) {
+				String mp3base64 = fileName
+						.substring(StringUtil.mp3Marker.length());
+				byte[] mp3 = Base64.decode(mp3base64);
+				return new ByteArrayInputStream(mp3);
+			} else if (fileName.startsWith("#")) {
+				// eg PlaySound["#12345"] to play from GeoGebraTube
+				String id = fileName.substring(1);
+				String url = app.getURLforID(id);
+
+				// #5094
+				return new URL(url).openStream();
+			} else if (fileName.startsWith("http:")
+					|| fileName.startsWith("https:")) {
+
+				return new URL(fileName).openStream();
+			} else {
+				// assume local file
+				// eg c:\
+				// eg file://
+				return new FileInputStream(fileName);
+			}
+		} catch (Exception ex) {
+			Log.debug(ex);
+		}
+		return InputStream.nullInputStream();
 	}
 
 	@Override
@@ -249,6 +252,9 @@ public class SoundManagerD implements SoundManager {
 
 		if (currentSoundType == SOUNDTYPE_FUNCTION && functionSound != null) {
 			functionSound.pause(!resume);
+		}
+		for (PauseControl pauseControl: controls) {
+			pauseControl.pause = !resume;
 		}
 
 		isPaused = !resume;
