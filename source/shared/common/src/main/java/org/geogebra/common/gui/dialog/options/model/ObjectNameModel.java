@@ -3,11 +3,11 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -61,12 +61,12 @@ public class ObjectNameModel extends OptionsModel {
 	public void updateProperties() {
 		// take name of first geo
 		GeoElement geo0 = getGeoAt(0);
-		updateName(geo0);
 
 		// if a focus lost is called in between, we keep the current definition
 		// text
 		// redefinitionForFocusLost = tfDefinition.getText();
 		setCurrentGeo(geo0);
+		listener.updateName(getLabel());
 		nameInputHandler.setGeoElement(geo0);
 		defInputHandler.setGeoElement(geo0);
 
@@ -90,14 +90,6 @@ public class ObjectNameModel extends OptionsModel {
 		}
 
 		listener.updateGUI(showDefinition, showCaption);
-	}
-
-	private void updateName(GeoElement geo) {
-		String name = "";
-		if (getLabelController().hasLabel(geo)) {
-			name = geo.getLabel(StringTemplate.editTemplate);
-		}
-		listener.updateName(name);
 	}
 
 	@Override
@@ -140,11 +132,15 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	private void resetLabel(String name) {
-		final String strName = currentGeo
-				.getLabel(StringTemplate.defaultTemplate);
+		final String strName = getLabel();
 		if (!strName.equals(name)) {
 			listener.setNameText(strName);
 		}
+	}
+
+	private String getLabel() {
+		String label = currentGeo.getLabelSimple();
+		return label == null || label.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : label;
 	}
 
 	private LabelController getLabelController() {
