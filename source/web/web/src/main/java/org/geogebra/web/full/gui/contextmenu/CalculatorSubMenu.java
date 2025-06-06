@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.contextmenu;
 
 import static org.geogebra.common.GeoGebraConstants.BAYERN_GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 
 import java.util.Set;
 
@@ -9,10 +10,21 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ContextMenuItemFactory;
 import org.geogebra.web.full.gui.dialog.AppDescription;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
+
+import elemental2.dom.DomGlobal;
 
 public class CalculatorSubMenu extends AriaMenuBar {
 	private final AppW app;
@@ -42,14 +54,43 @@ public class CalculatorSubMenu extends AriaMenuBar {
 			addItem(SuiteSubApp.GEOMETRY);
 			addItem(SuiteSubApp.CAS);
 			addItem(SuiteSubApp.PROBABILITY);
-			addItem(SuiteSubApp.SCIENTIFIC);
-			if (app.isMebis() && (examType == null || examType == ExamType.BAYERN_GR)) {
-				addItem(factory.newAriaMenuItem(null,
-						"Grafikrechner (Bayern)",
-						() -> embedManager.addCalcWithPreselectedApp(BAYERN_GRAPHING_APPCODE,
-								GeoGebraConstants.GRAPHING_APPCODE)));
+			if (app.isMebis() && !isElectron()) {
+				addItemWithButton(AppDescription.get(SuiteSubApp.SCIENTIFIC).getNameKey(),
+						"/taschenrechner", () -> embedManager
+								.addCalcWithPreselectedApp(appOrExamModeName, SCIENTIFIC_APPCODE));
+			} else {
+				addItem(SuiteSubApp.SCIENTIFIC);
+			}
+
+			if (app.isMebis() && !isElectron()) {
+				if (examType == null || examType == ExamType.BAYERN_GR) {
+					addItemWithButton("Grafikrechner (Bayern)",
+							"/grafikrechnerbayern",
+							() -> embedManager.addCalcWithPreselectedApp(BAYERN_GRAPHING_APPCODE,
+									GeoGebraConstants.GRAPHING_APPCODE));
+				}
 			}
 		}
+	}
+
+	private void addItemWithButton(String itemText, String url,
+			Scheduler.ScheduledCommand cmd) {
+		FlowPanel itemHolder = new FlowPanel();
+		itemHolder.addStyleName("itemWithButton");
+
+		Label text = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				app.getLocalization().getMenu(itemText),
+				"text");
+		text.addClickHandler(event -> cmd.execute());
+		Image newTabImage = new NoDragImage(MaterialDesignResources
+				.INSTANCE.open_in_new_tab().getSafeUri().asString());
+		newTabImage.addClickHandler(event -> Browser.openWindow(url));
+
+		itemHolder.add(text);
+		itemHolder.add(newTabImage);
+		AriaMenuItem ariaMenuItem = new AriaMenuItem(itemHolder, () -> {});
+		ariaMenuItem.addStyleName("ariaItemWithButton");
+		addItem(ariaMenuItem);
 	}
 
 	private void addItem(SuiteSubApp subApp) {
@@ -61,5 +102,9 @@ public class CalculatorSubMenu extends AriaMenuBar {
 				app.getLocalization().getMenu(description.getNameKey()),
 				() -> embedManager.addCalcWithPreselectedApp(appOrExamModeName,
 						subApp.appCode)));
+	}
+
+	private boolean isElectron() {
+		return DomGlobal.location.host == null || DomGlobal.location.host.isBlank();
 	}
 }

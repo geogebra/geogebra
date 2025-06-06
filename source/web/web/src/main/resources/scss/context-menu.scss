@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	.gwt-PopupPanel {
@@ -113,6 +114,37 @@
 					vertical-align: bottom;
 					margin-left: 0;
 					padding-left: 0;
+				}
+				&.ariaItemWithButton {
+					padding: 0 6px;
+				}
+				&.ariaItemWithButton.selectedItem {
+					background: white;
+					cursor: default;
+				}
+
+				.itemWithButton {
+					display: flex;
+					align-items: center;
+
+					.text {
+						line-height: 32px;
+						padding: 0 10px;
+						flex-grow: 0;
+						margin-right: auto;
+					}
+
+					.gwt-Image {
+						position: static;
+						margin: 2px;
+						padding: 4px;
+						border-radius: 50%;
+					}
+
+					.text:hover, .gwt-Image:hover {
+						background-color: neutral(200);
+						cursor: pointer;
+					}
 				}
 
 				min-width: 64px;
