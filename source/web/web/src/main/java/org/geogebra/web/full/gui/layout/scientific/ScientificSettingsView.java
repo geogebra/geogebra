@@ -10,9 +10,9 @@ import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -47,9 +47,9 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 	}
 
 	private void createHeader() {
-		headerView = new HeaderView();
+		headerView = new HeaderView(app);
 		headerView.setCaption(localization.getMenu("Settings"));
-		StandardButton backButton = headerView.getBackButton();
+		IconButton backButton = headerView.getBackButton();
 		backButton.addFastClickHandler(this);
 
 		setHeaderWidget(headerView);

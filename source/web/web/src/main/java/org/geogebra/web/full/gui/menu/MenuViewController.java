@@ -348,7 +348,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	HeaderView createHeaderView() {
-		HeaderView headerView = new HeaderView();
+		HeaderView headerView = new HeaderView(frame.getApp());
 		headerView.setElevated(false);
 		headerView.setCompact(true);
 		return headerView;

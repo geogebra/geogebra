@@ -1,52 +1,44 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
 /**
  * Header view containing a back button and a label.
- * 
- * @author balazs
  */
 public class HeaderView extends FlowPanel {
-
-	private static final String HEADER_VIEW_STYLE_NAME = "headerView";
-	private static final String SMALL_HEADER_STYLE_NAME = "smallHeaderView";
-	private static final String BACK_BUTTON_STYLE_NAME = "headerBackButton";
-	private static final String CAPTION_STYLE_NAME = "headerCaption";
-	private static final String DROPPED_HEADER_STYLE_NAME = "droppedHeaderView";
-	private static final String COMPACT_HEADER_STYLE_NAME = "compactHeaderView";
-
-	private StandardButton backButton;
+	private IconButton backButton;
 	private Label caption;
 
 	/**
 	 * Create a HeaderView.
+	 * @param appW {@link AppW}
 	 */
-	public HeaderView() {
-		addStyleName(HEADER_VIEW_STYLE_NAME);
-		createView();
+	public HeaderView(AppW appW) {
+		addStyleName("headerView");
+		createView(appW);
 	}
 
-	private void createView() {
-		createButton();
+	private void createView(AppW appW) {
+		createButton(appW);
 		createCaption();
 	}
 
-	private void createButton() {
-		backButton = new StandardButton(
-				GuiResourcesSimple.INSTANCE.arrow_back(), null, 24);
-		backButton.setStyleName(BACK_BUTTON_STYLE_NAME);
-		backButton.addStyleName("flatButtonHeader");
+	private void createButton(AppW appW) {
+		backButton = new IconButton(appW, new ImageIconSpec(GuiResourcesSimple
+				.INSTANCE.arrow_back()), "Back");
+		backButton.addStyleName("headerBackButton");
 
 		add(backButton);
 	}
 
 	private void createCaption() {
-		caption = BaseWidgetFactory.INSTANCE.newPrimaryText("", CAPTION_STYLE_NAME);
+		caption = BaseWidgetFactory.INSTANCE.newPrimaryText("", "headerCaption");
 		add(caption);
 	}
 
@@ -55,7 +47,7 @@ public class HeaderView extends FlowPanel {
 	 * 
 	 * @return back button
 	 */
-	public StandardButton getBackButton() {
+	public IconButton getBackButton() {
 		return backButton;
 	}
 
@@ -76,7 +68,7 @@ public class HeaderView extends FlowPanel {
 	 *            whether to use smallscreen design
 	 */
 	public void resizeTo(boolean smallScreen) {
-		setStyleName(SMALL_HEADER_STYLE_NAME, smallScreen);
+		setStyleName("smallHeaderView", smallScreen);
 	}
 
 	/**
@@ -85,7 +77,7 @@ public class HeaderView extends FlowPanel {
 	 * @param elevated true to show shadow
 	 */
 	public void setElevated(boolean elevated) {
-		setStyleName(DROPPED_HEADER_STYLE_NAME, !elevated);
+		setStyleName("droppedHeaderView", !elevated);
 	}
 
 	/**
@@ -94,6 +86,6 @@ public class HeaderView extends FlowPanel {
 	 * @param compact compact
 	 */
 	public void setCompact(boolean compact) {
-		setStyleName(COMPACT_HEADER_STYLE_NAME, compact);
+		setStyleName("compactHeaderView", compact);
 	}
 }

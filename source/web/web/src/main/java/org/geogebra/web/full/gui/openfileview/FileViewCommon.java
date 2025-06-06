@@ -9,6 +9,7 @@ import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -79,9 +80,9 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	}
 
 	private void initHeader(boolean withSearch) {
-		headerView = new HeaderView();
+		headerView = new HeaderView(app);
 		headerView.setCaption(title);
-		StandardButton backButton = headerView.getBackButton();
+		IconButton backButton = headerView.getBackButton();
 		backButton.addFastClickHandler(source -> {
 			updateAnimateOutStyle();
 			CSSEvents.runOnAnimation(this::close, getElement(), getAnimateOutStyle());

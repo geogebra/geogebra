@@ -149,14 +149,25 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Small press icon buttons, used in notes top bar
+	 * Small press icon buttons, with aria-label, no data-title
 	 * @param appW - application
 	 * @param image - svg
 	 * @param ariaLabel - aria label
-	 * @param clickHandler - click handler
 	 */
-	public IconButton(AppW appW, Runnable clickHandler, IconSpec image,
-			String ariaLabel) {
+	public IconButton(AppW appW, IconSpec image, String ariaLabel) {
+		this(appW.getLocalization(), image, ariaLabel);
+		addStyleName("small");
+		selectionColor = getSelectionColor(appW);
+	}
+
+	/**
+	 * Small press icon buttons, used in notes top bar
+	 * @param appW - application
+	 * @param clickHandler - click handler
+	 * @param image - svg
+	 * @param ariaLabel - aria label
+	 */
+	public IconButton(AppW appW, Runnable clickHandler, IconSpec image, String ariaLabel) {
 		this(appW.getLocalization(), image, ariaLabel);
 		if (ariaLabel != null) {
 			dataTitleTransKey = ariaLabel;
