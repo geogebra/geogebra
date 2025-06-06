@@ -5602,11 +5602,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @return graphics object (for pen)
-	 */
-	public abstract GGraphics2D getGraphicsForPen();
-
-	/**
 	 * @return whether stylebar of this view exists
 	 */
 	@Override

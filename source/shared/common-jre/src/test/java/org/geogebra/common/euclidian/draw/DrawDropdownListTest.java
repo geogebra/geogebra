@@ -4,12 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.junit.Test;
 
 public class DrawDropdownListTest extends BaseUnitTest {
+
+	private GGraphics2D graphics2D = new GGraphicsCommon();
 
 	@Test
 	public void dropdownShouldSelectFirstItem() {
@@ -22,7 +26,7 @@ public class DrawDropdownListTest extends BaseUnitTest {
 		DrawDropDownList dropDownList = (DrawDropDownList) drawableFor;
 		assertEquals(0, dropDownList.getOptionCount());
 		dropDownList.toggleOptions();
-		dropDownList.draw(getApp().getActiveEuclidianView().getGraphicsForPen());
+		dropDownList.draw(graphics2D);
 		assertEquals(3, dropDownList.getOptionCount());
 	}
 
@@ -37,7 +41,7 @@ public class DrawDropdownListTest extends BaseUnitTest {
 		DrawDropDownList dropDownList = (DrawDropDownList) drawableFor;
 		assertEquals(0, dropDownList.getOptionCount());
 		dropDownList.toggleOptions();
-		dropDownList.draw(getApp().getActiveEuclidianView().getGraphicsForPen());
+		dropDownList.draw(graphics2D);
 		assertEquals(3, dropDownList.getOptionCount());
 	}
 }

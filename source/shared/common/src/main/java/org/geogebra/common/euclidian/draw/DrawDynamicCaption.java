@@ -49,7 +49,7 @@ public class DrawDynamicCaption {
 			return;
 		}
 		update();
-		measure(g2);
+		measure();
 		draw(g2);
 	}
 
@@ -68,9 +68,8 @@ public class DrawDynamicCaption {
 
 	/**
 	 * measure label
-	 * @param g2 canvas
 	 */
-	public void measure(GGraphics2D g2) {
+	public void measure() {
 		String textString = getDynamicCaption().getTextString();
 		if (getDynamicCaption().isLaTeX()) {
 			App app = drawCaption.getView().getApplication();
@@ -86,8 +85,7 @@ public class DrawDynamicCaption {
 			}
 		} else {
 			GFont font = drawCaption.getTextFont();
-			GTextLayout layout = Drawable.getTextLayout(textString,
-					font, g2);
+			GTextLayout layout = drawCaption.getTextLayout(textString, font);
 			if (layout != null) {
 				captionHeight = (int) layout.getBounds().getHeight();
 				captionWidth = (int) layout.getBounds().getWidth();

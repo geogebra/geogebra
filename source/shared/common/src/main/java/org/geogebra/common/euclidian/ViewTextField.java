@@ -125,4 +125,12 @@ public abstract class ViewTextField {
 			getTextField().setUsedForInputBox(null);
 		}
 	}
+
+	/**
+	 * Force draw the component onto the view's graphics.
+	 * @param inputBox drawable input box
+	 */
+	public void draw(DrawInputBox inputBox) {
+		// desktop only
+	}
 }

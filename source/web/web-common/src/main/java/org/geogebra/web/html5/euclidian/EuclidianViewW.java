@@ -345,11 +345,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public final GGraphics2DWI getGraphicsForPen() {
-		return g2p;
-	}
-
-	@Override
 	public final boolean isShowing() {
 		return g2p != null && g2p.getCanvas() != null
 				&& Dom.isAttachedAndVisible(g2p.getCanvas());

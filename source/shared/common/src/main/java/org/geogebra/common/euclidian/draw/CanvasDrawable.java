@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
@@ -141,18 +140,16 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	/**
-	 * @param g2
-	 *            graphics
 	 * @param geo0
-	 *            geoelement
+	 *            construction element
 	 * @param text
 	 *            text
 	 * @return whether it's LaTeX
 	 */
-	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,
+	protected boolean measureLabel(GeoElement geo0,
 			String text) {
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
-			getDynamicCaption().measure(g2);
+			getDynamicCaption().measure();
 			return getDynamicCaption().setLabelSize();
 		}
 		boolean latex = false;
@@ -164,7 +161,7 @@ public abstract class CanvasDrawable extends Drawable {
 				labelSize.x = d.getWidth();
 				labelSize.y = d.getHeight();
 			} else {
-				g2.setFont(getLabelFont());
+				GGraphics2D g2 = view.getTempGraphics2D(getLabelFont());
 				setLabelSize(
 						EuclidianStatic.drawIndexedString(view.getApplication(),
 								g2, text, 0, 0, false, false, null, null));
@@ -249,20 +246,6 @@ public abstract class CanvasDrawable extends Drawable {
 		if (geo.isVisible()) {
 			drawWidget(g2);
 		}
-	}
-
-	/**
-	 * @param g2
-	 *            graphics
-	 * @param text
-	 *            text
-	 * @param font
-	 *            font
-	 * @return layout of text for given font
-	 */
-	public static GTextLayout getLayout(GGraphics2D g2, String text, GFont font) {
-		// make sure layout won't be null ("" makes it null).
-		return getTextLayout(StringUtil.empty(text) ? "A" : text, font, g2);
 	}
 
 	/**

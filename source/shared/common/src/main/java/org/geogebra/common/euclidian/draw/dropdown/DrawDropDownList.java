@@ -124,9 +124,9 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 		if (isVisible) {
 			setLabelFont("");
-			updateMetrics(view.getGraphicsForPen());
+			updateMetrics();
 			if (geoList.needsUpdatedBoundingBox()) {
-				drawOptions.update(view.getGraphicsForPen());
+				drawOptions.update();
 			}
 			initScreenLocation();
 		}
@@ -182,7 +182,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
-		updateMetrics(g2);
+		updateMetrics();
 		int textLeft = boxLeft + COMBO_TEXT_MARGIN;
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : GColor.WHITE;
@@ -200,7 +200,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			textBottom = boxTop
 					+ (boxHeight - selectedDimension.getHeight()) / 2;
 		} else {
-			textBottom = alignTextToBottom(g2, boxTop, boxHeight, selectedText);
+			textBottom = alignTextToBottom(boxTop, boxHeight, selectedText);
 		}
 
 		drawSelectedText(g2, textLeft, textBottom, true);
@@ -220,16 +220,16 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 	}
 
-	private int alignTextToBottom(GGraphics2D g2, int top, int height,
+	private int alignTextToBottom(int top, int height,
 			String text) {
-		int base = (height + getTextDescent(g2, text)) / 2;
+		int base = (height + getTextDescent(text)) / 2;
 		return top + base + (height - base) / 2;
 	}
 
-	private int getTextDescent(GGraphics2D g2, String text) {
+	private int getTextDescent(String text) {
 		// make sure layout won't be null ("" makes it null).
 
-		GTextLayout layout = getLayout(g2, text, getLabelFont());
+		GTextLayout layout = getLayout(text, getLabelFont());
 		return (int) layout.getDescent();
 	}
 
@@ -273,7 +273,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		return LABEL_COMBO_GAP;
 	}
 
-	private void updateMetrics(GGraphics2D g2) {
+	private void updateMetrics() {
 		drawOptions.onResize(view.getWidth(), view.getHeight());
 
 		GeoElement geoItem = geoList.getSelectedElement();
@@ -287,9 +287,9 @@ public final class DrawDropDownList extends CanvasDrawable
 					StringTemplate.realTemplate);
 			seLatex = isLatexString(selectedText);
 		}
-
+		GGraphics2D g2 = view.getTempGraphics2D(getLabelFont());
 		selectedDimension = drawSelectedText(g2, 0, 0, false);
-		latexLabel = measureLabel(g2, geoList, getLabelText());
+		latexLabel = measureLabel(geoList, getLabelText());
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth, boxHeight);
 	}
 
@@ -304,7 +304,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		g2.setFont(font);
 
-		GTextLayout layout = getLayout(g2, selectedText, font);
+		GTextLayout layout = getLayout(selectedText, font);
 
 		final int w = (int) layout.getBounds().getWidth();
 
@@ -473,7 +473,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	/**
-	 * @return if combo have more columns than one.
+	 * @return if the dropdown list has more columns than one.
 	 */
 	public boolean isMultiColumn() {
 		return model.getColCount() > 1;

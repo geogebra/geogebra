@@ -16,6 +16,9 @@
         <value>
           <package name="" withSubpackages="true" static="true" />
           <emptyLine />
+          <package name="android" withSubpackages="true" static="false" />
+          <package name="androidx" withSubpackages="true" static="false" />
+          <emptyLine />
           <package name="java" withSubpackages="true" static="false" />
           <emptyLine />
           <package name="javax" withSubpackages="true" static="false" />

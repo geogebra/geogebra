@@ -79,8 +79,7 @@ public final class DrawText extends Drawable {
 
 		textFont = view.getApplication().getPlainFontCommon()
 				.deriveFont(GFont.PLAIN, view.getFontSize());
-		alignment = new AlignDrawText(text, this,
-				view.getTempGraphics2D(textFont));
+		alignment = new AlignDrawText(text, this);
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
 		updateStrokes(text);

@@ -53,13 +53,13 @@ class DrawOptions implements MoveSelector {
 			model.setPosition(leftPos, topPos);
 			updateStartItem();
 
-			update(g2);
+			update();
 			table.draw(g2);
 		}
 	}
 
-	void update(GGraphics2D g2) {
-		items.fill(g2);
+	void update() {
+		items.fill(drawDropDownList);
 		table.update(drawDropDownList.getBoxWidth(), drawDropDownList.getLabelFontSize());
 	}
 

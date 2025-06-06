@@ -194,20 +194,18 @@ public class DrawButtonWidget {
 	/**
 	 * Update text and image dimensions for painting.
 	 *
-	 * @param g
-	 *            graphics
 	 * @param multiplier
 	 *            font size multiplier
 	 * @param mayResize
 	 *            whether we can resize fonts
 	 */
-	public void preparePaint(GGraphics2D g, double multiplier, boolean mayResize) {
+	public void preparePaint(double multiplier, boolean mayResize) {
 		String caption = getCaption();
 		latex = isLaTeX();
 
 		font = font.deriveFont(geoButton.getFontStyle(),
 				(int) (multiplier * 12));
-
+		GGraphics2D g = view.getTempGraphics2D(font);
 		hasText = geoButton.isLabelVisible() && caption.length() > 0;
 
 		textHeight = 0;
@@ -400,7 +398,7 @@ public class DrawButtonWidget {
 		}
 
 		double ret = GeoText.getRelativeFontSize(i);
-		preparePaint(g, ret, false);
+		preparePaint(ret, false);
 	}
 
 	private boolean isLaTeX() {

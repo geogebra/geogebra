@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.ToIntFunction;
 
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoList;
 
@@ -29,10 +28,10 @@ class OptionItemList {
 		return items.get(idx);
 	}
 
-	void fill(GGraphics2D g2) {
+	void fill(DrawDropDownList drawable) {
 		items.clear();
 		for (int i = 0; i < geoList.size(); i++) {
-			OptionItem item = new OptionItem(geoList, g2, i);
+			OptionItem item = new OptionItem(geoList, drawable, i);
 			items.add(item);
 		}
 	}

@@ -135,21 +135,20 @@ public final class DrawBoolean extends Drawable {
 	}
 
 	private void updateTextWidth() {
-		GGraphics2D g2 = view.getGraphicsForPen();
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 			getDynamicCaption().update();
-			getDynamicCaption().measure(g2);
+			getDynamicCaption().measure();
 			textWidth = getDynamicCaption().getWidth();
 		} else if (isLatexLabel()) {
 			GDimension d = CanvasDrawable.measureLatex(
-					view.getApplication(), g2.getFont(),
+					view.getApplication(), view.getFontPoint(),
 					labelDesc);
 
 			textWidth = d.getWidth();
 			textHeight = d.getHeight();
 		} else {
 			GTextLayout layout = getTextLayout(labelDesc,
-					view.getFontPoint(), g2);
+					view.getFontPoint());
 
 			// ie labelDesc != ""
 			if (layout != null) {

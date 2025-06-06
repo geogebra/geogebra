@@ -39,7 +39,7 @@ public class InputBoxBounds {
 	 * @param labelDesc label description.
 	 */
 	public void update(EuclidianView view, double labelTop, GFont textFont, String labelDesc) {
-		GGraphics2D g2 = view.getGraphicsForPen();
+		GGraphics2D g2 = view.getTempGraphics2D(textFont);
 		bounds = renderer.measureBounds(g2, geoInputBox, textFont, labelDesc);
 
 		if (hasWindowResized(labelTop, view.getHeight())) {

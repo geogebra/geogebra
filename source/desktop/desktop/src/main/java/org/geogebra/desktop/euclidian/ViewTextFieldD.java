@@ -1,5 +1,7 @@
 package org.geogebra.desktop.euclidian;
 
+import java.awt.Graphics2D;
+
 import javax.swing.Box;
 
 import org.geogebra.common.awt.GGraphics2D;
@@ -118,5 +120,10 @@ public class ViewTextFieldD extends ViewTextField {
 	@Override
 	protected void applyChanges() {
 		// Clear implementation, not needed.
+	}
+
+	@Override
+	public void draw(DrawInputBox inputBox) {
+		inputBox.draw(new GGraphics2DD((Graphics2D) euclidianView.getJPanel().getGraphics()));
 	}
 }

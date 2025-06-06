@@ -394,14 +394,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
 			BufferedImage.TYPE_INT_RGB).createGraphics();
 
-	/**
-	 * @return temporary graphics that is stored in this view
-	 */
-	final public Graphics2D getTempGraphics2D() {
-		g2Dtemp.setFont(((AppD) app).getPlainFont());
-		return g2Dtemp;
-	}
-
 	@Override
 	final public GGraphics2D getTempGraphics2D(GFont font) {
 		g2Dtemp.setFont(GFontD.getAwtFont(font));

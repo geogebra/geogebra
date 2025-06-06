@@ -493,15 +493,6 @@ public class EuclidianViewD extends EuclidianView
 		return euclidianController;
 	}
 
-	/**
-	 * @return graphics of the underlying component
-	 */
-	@Override
-	public GGraphics2D getGraphicsForPen() {
-		return new GGraphics2DD((Graphics2D) evjpanel.getGraphics());
-
-	}
-
 	@Override
 	public void setBoldAxes(boolean bold) {
 		// TODO Auto-generated method stub
@@ -860,14 +851,6 @@ public class EuclidianViewD extends EuclidianView
 	@Override
 	public void setBackground(GColor bgColor) {
 		evjpanel.setBackground(GColorD.getAwtColor(bgColor));
-	}
-
-	/**
-	 * @return temporary graphics that is stored in this view
-	 */
-	final public GGraphics2D getTempGraphics2D() {
-		g2Dtemp.setFont(getApplication().getPlainFontCommon());
-		return g2Dtemp;
 	}
 
 	@Override

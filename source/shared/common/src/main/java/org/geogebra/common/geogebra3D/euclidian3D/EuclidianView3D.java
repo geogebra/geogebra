@@ -4297,11 +4297,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public GGraphics2D getGraphicsForPen() {
-		return null;
-	}
-
-	@Override
 	protected void drawResetIcon(GGraphics2D g) {
 		Log.debug("unimplemented");
 	}

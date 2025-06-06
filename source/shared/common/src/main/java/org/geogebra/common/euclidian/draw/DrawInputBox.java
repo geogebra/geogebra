@@ -137,7 +137,7 @@ public class DrawInputBox extends CanvasDrawable {
 			// also caused problems when Object Properties opened
 			if (!getTextField().getText().equals(initialText)) {
 				updateModel();
-				draw(getView().getGraphicsForPen());
+				view.getViewTextField().draw(DrawInputBox.this);
 			}
 
 			view.getViewTextField().setBoxVisible(false);
@@ -490,7 +490,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private boolean recomputeSize() {
-		return measureLabel(view.getGraphicsForPen(), getGeoInputBox(), labelDesc);
+		return measureLabel(getGeoInputBox(), labelDesc);
 	}
 
 	@Override

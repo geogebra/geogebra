@@ -57,7 +57,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	public void repaint() {
 		updateBackgroundIfNecessary();
-		paint(getGraphicsForPen());
+		paint(g2);
 	}
 
 	@Override
@@ -214,11 +214,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 				return true;
 			}
 		};
-	}
-
-	@Override
-	public GGraphics2D getGraphicsForPen() {
-		return g2;
 	}
 
 	@Override

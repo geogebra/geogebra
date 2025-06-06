@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian.draw.dropdown;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
@@ -13,17 +12,17 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 class OptionItem {
 	private final GeoList list;
+	private final CanvasDrawable drawable;
 	private GFont font;
-	private final GGraphics2D g2;
 	private final int index;
 	private GDimension dimension;
 	private String text;
 	private boolean latex;
 	private GRectangle rect;
 
-	public OptionItem(GeoList list, GGraphics2D g2, int idx) {
+	public OptionItem(GeoList list, CanvasDrawable drawable, int idx) {
 		this.list = list;
-		this.g2 = g2;
+		this.drawable = drawable;
 		index = idx;
 		formatText(list, idx);
 		rect = null;
@@ -69,7 +68,7 @@ class OptionItem {
 	}
 
 	private void calculateDimensionsOfLayout() {
-		GTextLayout layout = CanvasDrawable.getLayout(g2, text, font);
+		GTextLayout layout = drawable.getLayout(text, font);
 		setDimension(Math.round(layout.getBounds().getWidth()),
 				 Math.round(layout.getBounds().getHeight()));
 	}

@@ -147,7 +147,7 @@
             <property name="allowStaticMemberImports" value="true"/>
         </module>
         <module name="ImportOrder">
-            <property name="groups" value="android,/^java\./,javax,org,com"/>
+            <property name="groups" value="/^androidx?/,/^java\./,javax,org,com"/>
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
             <property name="option" value="top"/>

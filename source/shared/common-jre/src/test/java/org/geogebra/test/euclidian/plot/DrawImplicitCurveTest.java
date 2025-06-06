@@ -11,6 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawImplicitCurve;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
@@ -22,6 +24,7 @@ public class DrawImplicitCurveTest extends BaseUnitTest {
 
 	public static final String REFERENCE_FILE = "src/test/resources/implicitPath.txt";
 	private static final boolean SAVE_REFERENCE = false;
+	private final GGraphics2D graphics2D = new GGraphicsCommon();
 
 	@Test
 	public void testImplicitCurvesPlotTheSame() {
@@ -40,7 +43,7 @@ public class DrawImplicitCurveTest extends BaseUnitTest {
 		};
 		geo.setEuclidianVisible(true);
 		drawImplicitCurve.update();
-		drawImplicitCurve.draw(view.getGraphicsForPen());
+		drawImplicitCurve.draw(graphics2D);
 		if (SAVE_REFERENCE) {
 			saveLog(plotterMock);
 			return;
@@ -77,7 +80,7 @@ public class DrawImplicitCurveTest extends BaseUnitTest {
 		DrawImplicitCurve drawImplicitCurve = new DrawImplicitCurve(view, geo);
 		geo.setEuclidianVisible(true);
 		drawImplicitCurve.update();
-		drawImplicitCurve.draw(view.getGraphicsForPen());
+		drawImplicitCurve.draw(graphics2D);
 		fail();
 	}
 }

@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for Audio elements.
@@ -103,17 +102,13 @@ public class DrawAudio extends DrawWidget {
 				size + PLAY_LEFT_PADDING, size);
 
 		// NPE in Classic 5 on file loading
-		try {
-			updateSlider(view.getGraphicsForPen());
-		} catch (Exception e) {
-			Log.debug(e);
-		}
+		updateSlider();
 		playing = geoAudio.isPlaying();
 	}
 
-	private void updateSlider(GGraphics2D g2) {
+	private void updateSlider() {
 		GFont font = view.getApplication().getFontCommon(false, GFont.PLAIN, TIME_FONT);
-		g2.setFont(font);
+		GGraphics2D g2 = view.getTempGraphics2D(font);
 		duration = geoAudio.getDuration();
 		String textAll = getElapsedTime(duration, duration);
 		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll,

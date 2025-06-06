@@ -62,7 +62,7 @@ public class SimpleTextRenderer implements TextRenderer {
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		drawable.measureLabel(graphics, geo, labelDescription);
+		drawable.measureLabel(geo, labelDescription);
 		int height = Math.max(drawable.boxHeight, DrawInputBox.MIN_HEIGHT);
 		return AwtFactory.getPrototype().newRectangle(
 				drawable.boxLeft, drawable.computeBoxTop(height), drawable.boxWidth, height);
@@ -70,10 +70,10 @@ public class SimpleTextRenderer implements TextRenderer {
 
 	private int getTruncIndex(String text, GGraphics2D g2, double boxWidth) {
 		int idx = text.length();
-		int mt = drawable.measureTextWidth(text, g2.getFont(), g2);
+		int mt = drawable.measureTextWidth(text, g2.getFont());
 		while (mt > boxWidth && idx > 0) {
 			idx--;
-			mt = drawable.measureTextWidth(text.substring(0, idx), g2.getFont(), g2);
+			mt = drawable.measureTextWidth(text.substring(0, idx), g2.getFont());
 
 		}
 		return idx;

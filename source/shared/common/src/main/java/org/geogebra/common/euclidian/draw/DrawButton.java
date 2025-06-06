@@ -77,7 +77,7 @@ public final class DrawButton extends Drawable {
 
 		xLabel = geoButton.getScreenLocX(view);
 		yLabel = geoButton.getScreenLocY(view);
-		myButton.preparePaint(view.getGraphicsForPen(), geoButton.getFontSizeMultiplier(), true);
+		myButton.preparePaint(geoButton.getFontSizeMultiplier(), true);
 		labelRectangle.setBounds(xLabel, yLabel, myButton.getWidth(),
 				myButton.getHeight());
 

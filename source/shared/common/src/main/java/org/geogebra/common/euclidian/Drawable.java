@@ -843,12 +843,10 @@ public abstract class Drawable extends DrawableND {
 	 *            text
 	 * @param font
 	 *            font
-	 * @param g2
-	 *            graphics
 	 * @return width of text with given font
 	 */
-	public int measureTextWidth(String text, GFont font, GGraphics2D g2) {
-		GTextLayout layout = getTextLayout(text, font, g2);
+	public int measureTextWidth(String text, GFont font) {
+		GTextLayout layout = getTextLayout(text, font);
 		return layout != null ? (int) layout.getAdvance() : 0;
 	}
 
@@ -857,16 +855,26 @@ public abstract class Drawable extends DrawableND {
 	 *            text
 	 * @param font
 	 *            font
-	 * @param g2
-	 *            graphics
 	 * @return text layout
 	 */
-	public static @CheckForNull GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
+	public @CheckForNull GTextLayout getTextLayout(String text, GFont font) {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}
 		return AwtFactory.getPrototype().newTextLayout(text, font,
-				g2.getFontRenderContext());
+				view.getTempGraphics2D(font).getFontRenderContext());
+	}
+
+	/**
+	 * @param text
+	 *            text
+	 * @param font
+	 *            font
+	 * @return layout of text for given font
+	 */
+	public GTextLayout getLayout(String text, GFont font) {
+		// make sure layout won't be null ("" makes it null).
+		return getTextLayout(StringUtil.empty(text) ? "A" : text, font);
 	}
 
 	/**

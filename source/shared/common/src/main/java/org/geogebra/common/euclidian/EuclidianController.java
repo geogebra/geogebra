@@ -11800,7 +11800,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (freehandModePrepared) {
 			freehandModePrepared = false;
 			pen = null;
-			resetModeAfterFreehandClearCanvas();
 		}
 		if (freehandModeSet) {
 			freehandModeSet = false;
@@ -11811,10 +11810,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.previousMode = -1;
 			this.view.repaint();
 		}
-	}
-
-	protected void resetModeAfterFreehandClearCanvas() {
-		// DO NOT REMOVE: USED IN ANDROID
 	}
 
 	/**
