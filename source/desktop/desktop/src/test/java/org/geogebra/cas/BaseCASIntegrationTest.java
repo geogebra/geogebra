@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
-import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
@@ -83,19 +82,18 @@ public class BaseCASIntegrationTest {
 	}
 
 	/**
-	 * ta contains the code shared by {@link #t} and {@link #tk}. In explicit:
-	 * If tkiontki is false, it behaves exactly like t used to. If tkiontki is
-	 * true, it switches to Keepinput mode, simulating evaluation with
-	 * Keepinput.
+	 * Evaluates input in given CAS cell.
+	 * If keepInput is false, it behaves like the default CAS mode ({@code Evaluate}).
+	 * If keepInput is true, it simulates evaluation with {@code Keepinput} mode.
 	 * 
 	 * <p>
-	 * Note: Direct calls to ta are "Not Recommended". Use t or tk instead.
+	 * Note: Direct calls to ta are "Not Recommended". Use {@link #t} and {@link #tk} instead.
 	 * </p>
 	 * 
 	 * @param f
 	 *            CAS cell
 	 * @param keepInput
-	 *            To Keepinput or not to Keepinput.
+	 *            whether to use KeepInput mode
 	 * @param input
 	 *            The input.
 	 * @param expectedResult
@@ -106,45 +104,37 @@ public class BaseCASIntegrationTest {
 	protected void ta(GeoCasCell f, boolean keepInput, String input,
 			String expectedResult, String... validResults) {
 		String result;
+		f.setInput(input);
+		if (keepInput) {
+			f.setEvalCommand("Keepinput");
+		}
+		processCasCell(f);
 
-		try {
+		boolean includesNumericCommand = false;
+		HashSet<Command> commands = new HashSet<>();
 
-			f.setInput(input);
-			if (keepInput) {
-				f.setEvalCommand("Keepinput");
+		f.getInputVE().traverse(CommandCollector.getCollector(commands));
+
+		if (!commands.isEmpty()) {
+			for (Command cmd : commands) {
+				String cmdName = cmd.getName();
+				// Numeric used
+				includesNumericCommand = includesNumericCommand
+						|| ("Numeric".equals(cmdName)
+								&& cmd.getArgumentNumber() > 1);
 			}
-			processCasCell(f);
+		}
 
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<>();
-
-			f.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			result = f.getValue() != null
-					? f.getValue()
-							.toString(includesNumericCommand
-									? StringTemplate.testNumeric
-									: StringTemplate.testTemplate)
-					: f.getOutput(StringTemplate.testTemplate);
-			if (f.getValue() != null
-					&& f.getValue().unwrap() instanceof GeoElement) {
-				result = ((GeoElement) f.getValue().unwrap())
-						.toValueString(StringTemplate.testTemplate);
-			}
-
-		} catch (Throwable t) {
-			String sts = CasTestJsonCommon.stacktrace(t);
-			result = t.getClass().getName() + ":" + t.getMessage() + sts;
+		result = f.getValue() != null
+				? f.getValue()
+						.toString(includesNumericCommand
+								? StringTemplate.testNumeric
+								: StringTemplate.testTemplate)
+				: f.getOutput(StringTemplate.testTemplate);
+		if (f.getValue() != null
+				&& f.getValue().unwrap() instanceof GeoElement) {
+			result = ((GeoElement) f.getValue().unwrap())
+					.toValueString(StringTemplate.testTemplate);
 		}
 
 		assertThat(result, equalToIgnoreWhitespaces(logger, input,

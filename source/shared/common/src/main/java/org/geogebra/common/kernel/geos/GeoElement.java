@@ -70,6 +70,7 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionValueType;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
@@ -6684,7 +6685,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public boolean evaluatesToNDVector() {
-		ValueType vt = getValueType();
+		ExpressionValueType vt = getValueType();
 		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
 	}
 

@@ -310,7 +310,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	/**
 	 * @return type of this value after evaluation
 	 */
-	public ValueType getValueType();
+	public ExpressionValueType getValueType();
 
 	/**
 	 * @param kernel

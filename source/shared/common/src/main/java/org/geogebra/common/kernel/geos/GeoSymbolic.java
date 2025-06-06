@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionValueType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -114,7 +115,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	public ValueType getValueType() {
+	public ExpressionValueType getValueType() {
 		if (value != null) {
 			return value.getValueType();
 		}

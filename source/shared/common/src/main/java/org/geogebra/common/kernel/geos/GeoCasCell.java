@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionValueType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -3549,8 +3550,7 @@ public class GeoCasCell extends GeoElement
 	}
 
 	@Override
-	public ValueType getValueType() {
-		// TODO Auto-generated method stub
+	public ExpressionValueType getValueType() {
 		if (outputVE != null) {
 			return outputVE.getValueType();
 		}

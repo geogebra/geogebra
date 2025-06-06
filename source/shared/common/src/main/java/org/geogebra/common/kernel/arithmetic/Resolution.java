@@ -14,7 +14,7 @@ import org.geogebra.common.plugin.Operation;
  */
 public class Resolution implements ExpressionValue {
 
-	private ValueType type;
+	private ExpressionValueType type = ValueType.UNKNOWN;
 	private int listDepth = 0;
 
 	/**
@@ -29,7 +29,7 @@ public class Resolution implements ExpressionValue {
 	 * @param type
 	 *            result type
 	 */
-	public void setType(ValueType type) {
+	public void setType(ExpressionValueType type) {
 		this.type = type;
 	}
 
@@ -75,7 +75,7 @@ public class Resolution implements ExpressionValue {
 
 	@Override
 	public int getListDepth() {
-		return listDepth;
+		return getValueType().getListDepth();
 	}
 
 	@Override
@@ -207,7 +207,7 @@ public class Resolution implements ExpressionValue {
 	}
 
 	@Override
-	public ValueType getValueType() {
+	public ExpressionValueType getValueType() {
 		return type;
 	}
 

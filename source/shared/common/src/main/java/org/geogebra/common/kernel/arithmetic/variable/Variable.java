@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionValueType;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -341,7 +342,7 @@ public class Variable extends ValidExpression {
 	}
 
 	@Override
-	public ValueType getValueType() {
+	public ExpressionValueType getValueType() {
 		GeoElement reference = kernel.lookupLabel(name);
 		if (reference != null) {
 			return reference.getValueType();

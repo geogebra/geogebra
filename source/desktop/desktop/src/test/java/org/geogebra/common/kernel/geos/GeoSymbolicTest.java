@@ -2555,4 +2555,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertEquals("2x = 6", derivativeEqn.toValueString(StringTemplate.defaultTemplate));
 		assertNull(lookup("f'"));
 	}
+
+	@Test
+	@Issue("APPS-6580")
+	public void matrixPower() {
+		add("A={{1,2,3},{0,1,0},{1,0,1}}");
+		GeoSymbolic power = add("(2*Identity(3)-A)^2");
+		assertThat(power, hasValue("{{4, -4, -6}, {0, 1, 0}, {-2, 2, 4}}"));
+	}
 }

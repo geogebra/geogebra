@@ -1299,8 +1299,9 @@ public class MyList extends ValidExpression
 	}
 
 	@Override
-	public ValueType getValueType() {
-		return ValueType.LIST;
+	public ListValueType getValueType() {
+		return ListValueType.of(listElements.isEmpty() ? ValueType.UNKNOWN
+				: listElements.get(0).getValueType());
 	}
 
 	/**

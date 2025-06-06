@@ -71,7 +71,7 @@ public class Command extends ValidExpression
 	private boolean allowEvaluationForTypeCheck;
 	private StringBuilder sbToString;
 
-	private ValueType lastType = null;
+	private ExpressionValueType lastType = null;
 
 	/**
 	 * for commands with different output types and that need to know each
@@ -603,10 +603,10 @@ public class Command extends ValidExpression
 	}
 
 	@Override
-	public ValueType getValueType() {
+	public ExpressionValueType getValueType() {
 		if ("Sequence".equals(name) || "IterationList".equals(name)
 				|| "KeepIf".equals(name) || "Identity".equals(name)) {
-			return ValueType.LIST;
+			return ListValueType.of(args.get(0).getValueType());
 		}
 		if ("Function".equals(name)) {
 			return ValueType.FUNCTION;
@@ -649,7 +649,7 @@ public class Command extends ValidExpression
 					.getValueType();
 		} catch (Throwable ex) {
 			if (!kernel.getGeoGebraCAS().isCommandAvailable(this)) {
-				return lastType;
+				return lastType == null ? ValueType.UNKNOWN : lastType;
 			}
 
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
@@ -660,7 +660,7 @@ public class Command extends ValidExpression
 				throw wrapError(ex);
 			}
 		}
-		return lastType;
+		return lastType == null ? ValueType.UNKNOWN : lastType;
 	}
 
 	private MyError wrapError(Throwable ex) {

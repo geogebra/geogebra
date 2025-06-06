@@ -10,7 +10,7 @@ import org.geogebra.common.util.debug.Log;
  * Possible value types of expression after evaluation
  *
  */
-public enum ValueType {
+public enum ValueType implements ExpressionValueType {
 	/**
 	 * Has no algebraic properties, eg a button
 	 */
@@ -48,10 +48,6 @@ public enum ValueType {
 	 */
 	TEXT,
 	/**
-	 * List of objects
-	 */
-	LIST,
-	/**
 	 * Function R^n -&gt; R
 	 */
 	FUNCTION,
@@ -71,27 +67,12 @@ public enum ValueType {
 	 *            left argument
 	 * @param right
 	 *            right argument
-	 * @param res
-	 *            resolution to keep list depth if we have a list
 	 * @return expected type
 	 */
-	public static ValueType resolve(Operation op, ExpressionValue left,
-			ExpressionValue right, Resolution res) {
-		ValueType ret = doResolve(op, left, right);
-		if (ret == ValueType.LIST && left != null) {
-			res.setListDepth(left.getListDepth());
-
-		}
-		return ret;
-	}
-
-	private static ValueType doResolve(Operation op, ExpressionValue left,
+	public static ExpressionValueType resolve(Operation op, ExpressionValue left,
 			ExpressionValue right) {
 
 		switch (op) {
-		default:
-			Log.error("missing case in doResolve(): " + op);
-			break;
 		case PLUS:
 		case INVISIBLE_PLUS:
 			if (right.evaluatesToText()) {
@@ -101,16 +82,16 @@ public enum ValueType {
 		case MINUS:
 			return plusMinusType(left, right);
 		case MULTIPLY:
-			ValueType leftType = left.getValueType();
-			ValueType rightType = right.getValueType();
+			ExpressionValueType leftType = left.getValueType();
+			ExpressionValueType rightType = right.getValueType();
 
 			// eg Evaluate((x,y)*(({{1,2},{4,5}})*(x,y))+({6,7})*(x,y))
 			// (x,y,z)(({{1,2,3},{4,5,6},{7,8,9}})(x,y,z))+({10,11,12})(x,y,z)
-			if (leftType == ValueType.TEXT || leftType == ValueType.LIST) {
+			if (leftType == ValueType.TEXT || leftType.getListDepth() > 0) {
 				return leftType;
 			}
 
-			if (rightType == ValueType.TEXT || rightType == ValueType.LIST) {
+			if (rightType == ValueType.TEXT || rightType.getListDepth() > 0) {
 				if (leftType == ValueType.NONCOMPLEX2D && right.getListDepth() == 2) {
 					return leftType;
 				}
@@ -132,7 +113,7 @@ public enum ValueType {
 			return leftType;
 		case DIVIDE:
 			if (right.evaluatesToList()) {
-				return ValueType.LIST;
+				return right.getValueType();
 			}
 			if (right.getValueType() == COMPLEX) {
 				return COMPLEX;
@@ -148,20 +129,20 @@ public enum ValueType {
 		case ABS:
 		case ALT:
 		case ARG:
-			return ValueType.LIST.check(left, ValueType.NUMBER);
+			return checkList(left, ValueType.NUMBER);
 
 		case ARBCOMPLEX:
 			return ValueType.COMPLEX;
 
 		case CONJUGATE:
-			return ValueType.LIST.check(left, ValueType.COMPLEX);
+			return checkList(left, ValueType.COMPLEX);
 
 		case LOGB:
 		case NROOT:
 		case ROUND2:
 		case ARCTAN2:
-			return ValueType.COMPLEX.check(left, ValueType.LIST.check(left,
-					ValueType.LIST.check(right, ValueType.NUMBER)));
+			return ValueType.COMPLEX.check(left, checkList(left,
+					checkList(right, ValueType.NUMBER)));
 
 		case ACOSH:
 		case ASINH:
@@ -205,10 +186,10 @@ public enum ValueType {
 		case LOG10:
 		case LOG2:
 			return ValueType.COMPLEX.check(left,
-					ValueType.LIST.check(left, ValueType.NUMBER));
+					checkList(left, ValueType.NUMBER));
 		case FUNCTION:
 			return ValueType.COMPLEX.check(right,
-					ValueType.LIST.check(right, ValueType.NUMBER));
+					checkList(right, ValueType.NUMBER));
 		case FUNCTION_NVAR:
 		case FREEHAND:
 		case DATA:
@@ -248,10 +229,12 @@ public enum ValueType {
 		case IS_SUBSET_OF_STRICT:
 		case NOT_EQUAL:
 		case EQUAL_BOOLEAN:
-		case ELEMENT_OF:
 			return ValueType.BOOLEAN;
+		case ELEMENT_OF:
+			ExpressionValueType leftExprType = left.getValueType();
+			return leftExprType.getElementType();
 		case NOT:
-			return ValueType.LIST.check(left, ValueType.BOOLEAN);
+			return checkList(left, ValueType.BOOLEAN);
 		case OR:
 		case AND:
 		case XOR:
@@ -263,8 +246,8 @@ public enum ValueType {
 		case LESS_EQUAL:
 		case GREATER:
 		case GREATER_EQUAL:
-			return ValueType.LIST.check(left,
-					ValueType.LIST.check(right, ValueType.BOOLEAN));
+			return checkList(left,
+					checkList(right, ValueType.BOOLEAN));
 		case LAMBERTW:
 		case POLYGAMMA:
 			break;
@@ -279,7 +262,7 @@ public enum ValueType {
 			break;
 
 		case SET_DIFFERENCE:
-			return ValueType.LIST;
+			return left.getValueType();
 
 		case SUBSTITUTION:
 			break;
@@ -288,7 +271,7 @@ public enum ValueType {
 		case PRODUCT:
 			break;
 		case SEQUENCE:
-			return ValueType.LIST;
+			return ListValueType.of(ValueType.NUMBER);
 		case VECTORPRODUCT:
 			return ValueType.VECTOR3D.check(left, ValueType.NUMBER);
 		case VEC_FUNCTION:
@@ -302,7 +285,7 @@ public enum ValueType {
 		case XCOORD:
 		case YCOORD:
 		case ZCOORD:
-			return ValueType.LIST.check(left, ValueType.NUMBER);
+			return checkList(left, ValueType.NUMBER);
 		case REAL:
 		case IMAGINARY:
 		case RANDOM:
@@ -310,14 +293,17 @@ public enum ValueType {
 		case ZETA:
 			break;
 
+		default:
+			Log.error("missing case in doResolve(): " + op);
+			break;
 		}
 		return ValueType.NUMBER;
 	}
 
-	private static ValueType plusMinusType(ExpressionValue left,
+	private static ExpressionValueType plusMinusType(ExpressionValue left,
 			ExpressionValue right) {
 		if (right.evaluatesToList()) {
-			return ValueType.LIST;
+			return right.getValueType();
 		}
 		if (right.getValueType() == ValueType.VECTOR3D
 				|| left.getValueType() == ValueType.VECTOR3D) {
@@ -330,11 +316,26 @@ public enum ValueType {
 		return COMPLEX.check(right, left.getValueType());
 	}
 
-	private ValueType check(ExpressionValue arg, ValueType fallback) {
+	private ExpressionValueType check(ExpressionValue arg, ExpressionValueType fallback) {
 		return arg.getValueType() == this ? this : fallback;
+	}
+
+	private static ExpressionValueType checkList(ExpressionValue arg,
+			ExpressionValueType fallback) {
+		return arg.getValueType().getListDepth() > 0 ? ListValueType.of(fallback) : fallback;
 	}
 
 	public boolean isVector() {
 		return this == NONCOMPLEX2D || this == VECTOR3D || this == COMPLEX;
+	}
+
+	@Override
+	public int getListDepth() {
+		return 0;
+	}
+
+	@Override
+	public ExpressionValueType getElementType() {
+		return UNKNOWN;
 	}
 }

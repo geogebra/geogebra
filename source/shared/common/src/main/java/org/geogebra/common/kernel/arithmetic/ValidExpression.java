@@ -559,7 +559,7 @@ public abstract class ValidExpression
 
 	@Override
 	public final boolean evaluatesToList() {
-		return getValueType() == ValueType.LIST;
+		return getValueType().getListDepth() > 0;
 	}
 
 	@Override
@@ -573,7 +573,7 @@ public abstract class ValidExpression
 	}
 
 	@Override
-	public abstract ValueType getValueType();
+	public abstract ExpressionValueType getValueType();
 
 	@Override
 	public ExpressionValue getUndefinedCopy(Kernel kernel) {
@@ -587,7 +587,7 @@ public abstract class ValidExpression
 
 	@Override
 	public boolean evaluatesToNDVector() {
-		ValueType vt = getValueType();
+		ExpressionValueType vt = getValueType();
 		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
 	}
 

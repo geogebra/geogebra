@@ -85,6 +85,7 @@ public class ExpressionNode extends ValidExpression
 	public boolean leaf = false;
 	private boolean brackets;
 	private ExpressionValue resolve;
+	private ExpressionValueType resultType;
 
 	// used by NDerivative / NIntegral / NInvert commands
 	// (answer not displayed in Algebra View)
@@ -408,6 +409,8 @@ public class ExpressionNode extends ValidExpression
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		if (resolve instanceof ExpressionNode) {
 			resolve = null;
+			// TODO resolve and resultType are reset at the same time for compatibility.
+			resultType = null;
 		}
 		return kernel.getExpressionNodeEvaluator().evaluate(this, tpl);
 	}
@@ -1076,13 +1079,6 @@ public class ExpressionNode extends ValidExpression
 			return left.isConstant();
 		}
 		return left.isConstant() && right.isConstant();
-	}
-
-	private ExpressionValue computeResolve() {
-		Resolution res = new Resolution();
-		res.setType(ValueType.resolve(operation, left, right, res));
-
-		return res;
 	}
 
 	@Override
@@ -3311,20 +3307,16 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	@Override
-	public ValueType getValueType() {
-		if (resolve == null) {
-
-			resolve = computeResolve();
+	public ExpressionValueType getValueType() {
+		if (resultType == null) {
+			resultType = ValueType.resolve(operation, left, right);
 		}
-		return resolve.getValueType();
+		return resultType;
 	}
 
 	@Override
 	public int getListDepth() {
-		if (resolve == null) {
-			resolve = computeResolve();
-		}
-		return resolve.getListDepth();
+		return getValueType().getListDepth();
 	}
 
 	/**
@@ -3669,6 +3661,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public void reset() {
 		resolve = null;
+		resultType = null;
 	}
 
 	/**

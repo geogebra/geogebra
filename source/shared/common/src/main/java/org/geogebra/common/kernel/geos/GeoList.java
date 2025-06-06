@@ -50,6 +50,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
+import org.geogebra.common.kernel.arithmetic.ListValueType;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -2970,9 +2971,9 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public ValueType getValueType() {
-		return ValueType.LIST;
-
+	public ListValueType getValueType() {
+		return ListValueType.of(elements.isEmpty() ? ValueType.UNKNOWN
+				: elements.get(0).getValueType());
 	}
 
 	@Override
