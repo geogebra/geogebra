@@ -557,7 +557,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void createSegmentStartStyleBtn() {
 		ImageOrText[] segmentStartStyleIcons = GeoGebraIconW.createSegmentStartStyleIcons();
 		btnSegmentStartStyle = new PopupMenuButtonW(app, segmentStartStyleIcons,
-				2, 4, SelectionTable.MODE_ICON) {
+				3, 4, SelectionTable.MODE_ICON) {
 			@Override
 			public void update(List<GeoElement> geos) {
 				boolean geosOK = checkGeoSegment(geos);
@@ -593,7 +593,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void createSegmentEndStyleBtn() {
 		ImageOrText[] segmentEndStyleIcons = GeoGebraIconW.createSegmentEndStyleIcons();
 		btnSegmentEndStyle = new PopupMenuButtonW(app, segmentEndStyleIcons,
-				2, 4, SelectionTable.MODE_ICON) {
+				3, 4, SelectionTable.MODE_ICON) {
 			@Override
 			public void update(List<GeoElement> geos) {
 				boolean geosOK = checkGeoSegment(geos);

@@ -380,6 +380,12 @@ public enum GuiResourcesD implements ImageResourceD {
 	FOLDER("/gui/images/folder.png"), TEXT_X_GENERIC(
 			"/gui/images/text-x-generic.png"),
 
+	STYLEBAR_START_CROWS_FOOT("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_crows_foot.svg"),
+
+	STYLEBAR_START_ARROW_OUTLINED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_arrow_outlined.svg"),
+
 	STYLEBAR_START_ARROW("/org/geogebra/common/icons/svg/web/"
 			+ "stylingbar/segmentStart/start_arrow.svg"),
 
@@ -404,6 +410,18 @@ public enum GuiResourcesD implements ImageResourceD {
 	STYLEBAR_START_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/web/"
 			+ "stylingbar/segmentStart/start_square_outlined.svg"),
 
+	STYLEBAR_START_DIAMOND_OUTLINED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_diamond_outlined.svg"),
+
+	STYLEBAR_START_DIAMOND_FILLED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentStart/start_diamond_filled.svg"),
+
+	STYLEBAR_END_CROWS_FOOT("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_crows_foot.svg"),
+
+	STYLEBAR_END_ARROW_OUTLINED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_arrow_outlined.svg"),
+
 	STYLEBAR_END_ARROW("/org/geogebra/common/icons/svg/web/"
 			+ "stylingbar/segmentEnd/end_arrow.svg"),
 
@@ -427,6 +445,12 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	STYLEBAR_END_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/"
 			+ "web/stylingbar/segmentEnd/end_square_outlined.svg"),
+
+	STYLEBAR_END_DIAMOND_OUTLINED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_diamond_outlined.svg"),
+
+	STYLEBAR_END_DIAMOND_FILLED("/org/geogebra/common/icons/svg/web/"
+			+ "stylingbar/segmentEnd/end_diamond_filled.svg"),
 
 	SPLASH("/org/geogebra/desktop/splash.png");
 

@@ -309,10 +309,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		lineStylePanelHidden = new LineStyleHiddenPanel();
 		drawArrowsPanel = getCheckboxPanel(new DrawArrowsModel(null, app));
 		segmentStartStylePanel = new IconDropdownPanelD(getStartImages(),
-				new SegmentStyleModel(app, true));
+				new SegmentStyleModel(app, true), 2);
 		segmentEndStylePanel = new IconDropdownPanelD(getEndImages(),
-				new SegmentStyleModel(app, false));
-		vectorStylePanel = new IconDropdownPanelD(getVectorImages(), new VectorHeadStyleModel(app));
+				new SegmentStyleModel(app, false), 2);
+		vectorStylePanel = new IconDropdownPanelD(getVectorImages(),
+				new VectorHeadStyleModel(app), 1);
 		// added by Loic BEGIN
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
@@ -355,23 +356,31 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private List<ImageResourceD> getEndImages() {
 		return Arrays.asList(GuiResourcesD.STYLEBAR_END_DEFAULT,
 		GuiResourcesD.STYLEBAR_END_LINE,
-		GuiResourcesD.STYLEBAR_END_SQUARE_OUTLINED,
-		GuiResourcesD.STYLEBAR_END_SQUARE,
 		GuiResourcesD.STYLEBAR_END_ARROW,
+		GuiResourcesD.STYLEBAR_END_CROWS_FOOT,
+		GuiResourcesD.STYLEBAR_END_ARROW_OUTLINED,
 		GuiResourcesD.STYLEBAR_END_ARROW_FILLED,
 		GuiResourcesD.STYLEBAR_END_CIRCLE_OUTLINED,
-		GuiResourcesD.STYLEBAR_END_CIRCLE);
+		GuiResourcesD.STYLEBAR_END_CIRCLE,
+		GuiResourcesD.STYLEBAR_END_SQUARE_OUTLINED,
+		GuiResourcesD.STYLEBAR_END_SQUARE,
+		GuiResourcesD.STYLEBAR_END_DIAMOND_OUTLINED,
+		GuiResourcesD.STYLEBAR_END_DIAMOND_FILLED);
 	}
 
 	private List<ImageResourceD> getStartImages() {
 		return Arrays.asList(GuiResourcesD.STYLEBAR_START_DEFAULT,
 		GuiResourcesD.STYLEBAR_START_LINE,
-		GuiResourcesD.STYLEBAR_START_SQUARE_OUTLINED,
-		GuiResourcesD.STYLEBAR_START_SQUARE,
 		GuiResourcesD.STYLEBAR_START_ARROW,
+		GuiResourcesD.STYLEBAR_START_CROWS_FOOT,
+		GuiResourcesD.STYLEBAR_START_ARROW_OUTLINED,
 		GuiResourcesD.STYLEBAR_START_ARROW_FILLED,
 		GuiResourcesD.STYLEBAR_START_CIRCLE_OUTLINED,
-		GuiResourcesD.STYLEBAR_START_CIRCLE);
+		GuiResourcesD.STYLEBAR_START_CIRCLE,
+		GuiResourcesD.STYLEBAR_START_SQUARE_OUTLINED,
+		GuiResourcesD.STYLEBAR_START_SQUARE,
+		GuiResourcesD.STYLEBAR_START_DIAMOND_OUTLINED,
+		GuiResourcesD.STYLEBAR_START_DIAMOND_FILLED);
 	}
 
 	private List<ImageResourceD> getVectorImages() {
@@ -2702,7 +2711,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		private PopupMenuButtonD dropdown;
 		private JLabel label;
 
-		IconDropdownPanelD(List<ImageResourceD> imgFileNameList, IconOptionsModel model) {
+		IconDropdownPanelD(List<ImageResourceD> imgFileNameList, IconOptionsModel model,
+				int nrOfColumns) {
 			super(new FlowLayout(FlowLayout.LEFT));
 			this.model = model;
 			model.setListener(this);
@@ -2712,7 +2722,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 				iconArray[i] = GeoGebraIconD.createFileImageIcon(
 						imgFileNameList.get(i));
 			}
-			dropdown = new PopupMenuButtonD(app, iconArray, -1, 1,
+			dropdown = new PopupMenuButtonD(app, iconArray, -1, nrOfColumns,
 					new Dimension(36, 36), SelectionTable.MODE_ICON);
 			dropdown.setSelectedIndex(0);
 			dropdown.setStandardButton(true);

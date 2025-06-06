@@ -301,10 +301,10 @@ public class OptionsTab extends FlowPanel {
 			IOptionPanel ssp;
 			if (((SegmentStyleModel) m).isStartStyle()) {
 				ssp = new IconDropdownPanelW((SegmentStyleModel) m,
-						app, GeoGebraIconW.createSegmentStartStyleIcons());
+						app, GeoGebraIconW.createSegmentStartStyleIcons(), 2);
 			} else {
 				ssp = new IconDropdownPanelW((SegmentStyleModel) m, app,
-						GeoGebraIconW.createSegmentEndStyleIcons());
+						GeoGebraIconW.createSegmentEndStyleIcons(), 2);
 
 			}
 			ssp.getWidget().addStyleName("inlineOption");
@@ -603,7 +603,8 @@ public class OptionsTab extends FlowPanel {
 		AppW app;
 		IconOptionsModel model;
 
-		public IconDropdownPanelW(IconOptionsModel model, AppW app, ImageOrText[] images) {
+		public IconDropdownPanelW(IconOptionsModel model, AppW app, ImageOrText[] images,
+				int nrOfColumns) {
 			this.app = app;
 			this.model = model;
 			model.setListener(this);
@@ -614,7 +615,7 @@ public class OptionsTab extends FlowPanel {
 			mainWidget.add(styleLbl);
 
 			stylePopup = new PopupMenuButtonW(app, images,
-					-1, 1, SelectionTable.MODE_ICON) {
+					-1, nrOfColumns, SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -627,6 +628,10 @@ public class OptionsTab extends FlowPanel {
 			setWidget(mainWidget);
 			setLabels();
 			getWidget().setStyleName("optionsPanel");
+		}
+
+		public IconDropdownPanelW(IconOptionsModel model, AppW app, ImageOrText[] images) {
+			this(model, app, images, 1);
 		}
 
 		@Override

@@ -20,16 +20,21 @@ public class GeoGebraIconW {
 
 	private static final SVGResource[] segmentStartStyleIcons = {
 			matIcons.stylingbar_start_default(), matIcons.stylingbar_start_line(),
+			matIcons.stylingbar_start_arrow(), matIcons.stylingbar_start_crows_foot(),
+			matIcons.stylingbar_start_arrow_outlined(), matIcons.stylingbar_start_arrow_filled(),
+			matIcons.stylingbar_start_circle_outlined(), matIcons.stylingbar_start_circle(),
 			matIcons.stylingbar_start_square_outlined(), matIcons.stylingbar_start_square(),
-			matIcons.stylingbar_start_arrow(), matIcons.stylingbar_start_arrow_filled(),
-			matIcons.stylingbar_start_circle_outlined(), matIcons.stylingbar_start_circle()
+			matIcons.stylingbar_start_diamond_outlined(),
+			matIcons.stylingbar_start_diamond_filled()
 	};
 
 	private static final SVGResource[] segmentEndStyleIcons = {
 			matIcons.stylingbar_end_default(), matIcons.stylingbar_end_line(),
+			matIcons.stylingbar_end_arrow(), matIcons.stylingbar_end_crows_foot(),
+			matIcons.stylingbar_end_arrow_outlined(), matIcons.stylingbar_end_arrow_filled(),
+			matIcons.stylingbar_end_circle_outlined(), matIcons.stylingbar_end_circle(),
 			matIcons.stylingbar_end_square_outlined(), matIcons.stylingbar_end_square(),
-			matIcons.stylingbar_end_arrow(), matIcons.stylingbar_end_arrow_filled(),
-			matIcons.stylingbar_end_circle_outlined(), matIcons.stylingbar_end_circle()
+			matIcons.stylingbar_end_diamond_outlined(), matIcons.stylingbar_end_diamond_filled()
 	};
 
 	private static final SVGResource[] vectorHeadStyleIcons = {
