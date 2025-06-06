@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
         <script src="web3d/js/webfont.js?v=1.15"></script>
         <script>
-        function getURLparam(param){
+        function getURLParam(param){
             var parts = location.href.split("?");
             if (parts.length<2) {
             return null;
@@ -21,9 +21,9 @@
         }
 
         function loadggb(){
-            var filename = getURLparam("filename") || "https://cdn.geogebra.org/resource/jYTNR7uJ/zuJ2pQo7dBVOFYld/material-jYTNR7uJ.ggb";
+            var filename = getURLParam("filename") || "https://cdn.geogebra.org/resource/jYTNR7uJ/zuJ2pQo7dBVOFYld/material-jYTNR7uJ.ggb";
             document.getElementsByClassName("geogebraweb")[0].setAttribute("data-param-filename", filename);
-            if (getURLparam("disableAutoscale")) {
+            if (getURLParam("disableAutoscale")) {
                 document.getElementsByClassName("geogebraweb")[0].setAttribute("data-param-scaleContainerClass", "container");
             }
             webScript = document.createElement("script");

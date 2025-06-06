@@ -18,7 +18,6 @@ var latestVersion="5.0.580.0";
 var module = "web3d";
 var defaultParams = {"vendor":"<!--VENDOR-->", "preloadModules":""};
 var prerelease = false;
-var debug = false;
 var startDelay = 0;
 var marginTop = 0;
 var analyticsVersion = 'V'+latestVersion;
@@ -37,8 +36,8 @@ var codebase = "<!--CODEBASE-->";
 	var finalLang = null;
 	
 	function setParamFromURL(paramName){
-		if (getURLparam(paramName)) {
-			$e("ggw").setAttribute("data-param-"+paramName,getURLparam(paramName));
+		if (getURLParam(paramName)) {
+			$e("ggw").setAttribute("data-param-"+paramName,getURLParam(paramName));
 		}
 	}
 
@@ -66,8 +65,8 @@ var codebase = "<!--CODEBASE-->";
 			$e("ggw").className="geogebraweb";
 
 			$e("ggw").setAttribute("data-param-appname", window.appID || "classic");
-			if (getURLparam("examMode")) {
-				$e("ggw").setAttribute("data-param-featureSet", getURLparam("examMode"));
+			if (getURLParam("examMode")) {
+				$e("ggw").setAttribute("data-param-featureSet", getURLParam("examMode"));
 				$e("ggw").setAttribute("data-param-examMode", "true");
 			} else if(id){
 				if (isAppSupportingPerspective(id + "")) {
@@ -273,7 +272,7 @@ var codebase = "<!--CODEBASE-->";
 		}
 		return "en";
 	}
-	function getURLparam(param){
+	function getURLParam(param){
 		return new URLSearchParams(location.search).get(param);
 	}
 	function switchLang(lang){
@@ -331,24 +330,24 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function showStartScreen(){
-		var lang = getURLparam("lang") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";
+		var lang = getURLParam("lang") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";
 		window.setTimeout(showInEnglish, 1000);
 		switchLang(validLang(lang));
 	}
 
-	function setPrerelease(prereleaseParam){
+	function setPrerelease() {
 		document.body.className += "prerelease";
-		$e("ggw").setAttribute("data-param-prerelease",prereleaseParam);
-		$e("ggw").setAttribute("data-param-showlogging",true);
+		$e("ggw").setAttribute("data-param-prerelease", true);
+		$e("ggw").setAttribute("data-param-showlogging", true);
 	}
 
-	function setDebug(debugParam){
-		$e("ggw").setAttribute("data-param-showlogging",debugParam);
+	function setDebug(){
+		$e("ggw").setAttribute("data-param-showlogging", true);
 	}
 
 	function getPerspective(){
-		if (getURLparam("perspective")) {
-			return getURLparam("perspective");
+		if (getURLParam("perspective")) {
+			return getURLParam("perspective");
 		}
 		var parts = location.pathname.split("/");
 		var path = parts.length == 1 || parts[parts.length-1].length? parts[parts.length-1] : parts[parts.length-2] ;
@@ -376,11 +375,12 @@ var codebase = "<!--CODEBASE-->";
 		if (isEmbed()) {
 			$e("ggw").setAttribute("data-param-enableFileFeatures", false);
 		}
-		if (location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease) {
-			setPrerelease(prerelease || "true");
+		const prereleaseParam = getURLParam("prerelease");
+		if ((prereleaseParam || prerelease) && ("false" != prereleaseParam)) {
+			setPrerelease();
 		}
-		if (getURLparam("debug") || debug || isLocalhost()) {
-			setDebug(debug || true);
+		if (isLocalhost()) {
+			setDebug();
 		}
 	}
 
@@ -404,7 +404,7 @@ var codebase = "<!--CODEBASE-->";
 		}
 
 		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
-		var tubeid = getURLparam("id");
+		var tubeid = getURLParam("id");
 		var checkId = getParametersFromPath();
 		if(checkId && !names[checkId[3]]){
 			tubeid = checkId[3];
@@ -413,7 +413,7 @@ var codebase = "<!--CODEBASE-->";
 			}
 		}
 
-		var skipAppsPicker = getURLparam("command") || getURLparam("state") || getURLparam("filename");
+		var skipAppsPicker = getURLParam("command") || getURLParam("state") || getURLParam("filename");
 		resizeStart();
 		window.addEventListener && window.addEventListener("resize", resizeStart);
 		if ($e("ggw")) {
