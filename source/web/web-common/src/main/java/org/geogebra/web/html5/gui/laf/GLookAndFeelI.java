@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.web.html5.Browser;
@@ -16,19 +15,29 @@ public interface GLookAndFeelI {
 	int COMMAND_LINE_HEIGHT = 43;
 	int TOOLBAR_HEIGHT = 53;
 
-	@MissingDoc
+	/**
+	 * @return whether this is SMART Notebook integration
+	 */
 	boolean isSmart();
 
-	@MissingDoc
+	/**
+	 * @return whether saving to and loading from Google Drive is supported
+	 */
 	boolean supportsGoogleDrive();
 
-	@MissingDoc
+	/**
+	 * @return whether this is for tablets
+	 */
 	boolean isTablet();
 
-	@MissingDoc
+	/**
+	 * @return type name, only for API usage telemetry
+	 */
 	String getType();
 
-	@MissingDoc
+	/**
+	 * @return whether GeoGebra's own undo stack is supported
+	 */
 	boolean undoRedoSupported();
 
 	/**
@@ -37,25 +46,40 @@ public interface GLookAndFeelI {
 	 */
 	void addWindowClosingHandler(AppW app);
 
-	@MissingDoc
+	/**
+	 * Remove window closing handler if supported.
+	 * @see #addWindowClosingHandler(AppW)
+	 */
 	void removeWindowClosingHandler();
 
-	@MissingDoc
+	/**
+	 * @return whether copy to clipboard is supported
+	 */
 	boolean copyToClipboardSupported();
 
-	@MissingDoc
-	Object getLoginListener();
+	/**
+	 * @return name of a global JS function that should be called after login
+	 */
+	String getLoginListener();
 
-	@MissingDoc
+	/**
+	 * @return whether auto-save is supported
+	 */
 	boolean autosaveSupported();
 
-	@MissingDoc
+	/**
+	 * @return whether export functionality is supported
+	 */
 	boolean exportSupported();
 
-	@MissingDoc
+	/**
+	 * @return whether the app is embedded in another system (SMART Notebook, PowerPoint)
+	 */
 	boolean isEmbedded();
 
-	@MissingDoc
+	/**
+	 * @return whether print is supported
+	 */
 	boolean printSupported();
 
 	/**
@@ -71,7 +95,9 @@ public interface GLookAndFeelI {
 	 */
 	void storeLanguage(String language);
 
-	@MissingDoc
+	/**
+	 * @return user preferred language as promise (async in Chrome app)
+	 */
 	Promise<String> loadLanguage();
 
 	/**
@@ -102,7 +128,9 @@ public interface GLookAndFeelI {
 	 */
 	String getClientId();
 
-	@MissingDoc
+	/**
+	 * @return whether login through external provider (Google, MS, ...) is allowed
+	 */
 	boolean isExternalLoginAllowed();
 
 	/**
