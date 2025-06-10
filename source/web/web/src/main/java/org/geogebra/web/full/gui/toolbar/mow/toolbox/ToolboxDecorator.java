@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.shared.mow.header.NotesTopBar;
 
 public class ToolboxDecorator {
@@ -18,19 +19,23 @@ public class ToolboxDecorator {
 		}
 	}
 
-	/**
-	position toolbox to the left side of screen
-	 */
+	/** position toolbox to the left side of screen */
 	public void positionLeft() {
 		toolboxMow.removeStyleName("bottomAligned");
 		toolboxMow.addStyleName("leftAligned");
 	}
 
-	/**
-	 position toolbox to the bottom of screen
-	 */
+	/** position toolbox to the bottom of screen */
 	public void positionBottom() {
 		toolboxMow.removeStyleName("leftAligned");
 		toolboxMow.addStyleName("bottomAligned");
+	}
+
+	/**
+	 * decorate toolbox according exam mode
+	 * @param examActive whether the exam mode is active
+	 */
+	public void examMode(boolean examActive) {
+		Dom.toggleClass(toolboxMow, "examMode", examActive);
 	}
 }

@@ -58,6 +58,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 
 	private void buildGui() {
 		decorator.positionLeft();
+		decorator.examMode(renderedExamState != ExamState.IDLE);
 
 		addSelectModeButton();
 		addPenModeButton();

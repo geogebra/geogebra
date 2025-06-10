@@ -1,4 +1,5 @@
 @use 'z-index';
+@use 'colors';
 @use 'colorMap' as *;
 
 .GeoGebraFrame{
@@ -19,6 +20,15 @@
 
 		&.withTopBar {
 			transform: translateY(calc(-50% + 24px));
+		}
+
+		&.examMode {
+			border: 2px solid colors.$exam-notes-toolbox-border;
+			background-color: colors.$exam-notes-toolbox-bg;
+
+			.iconButton.active, .iconButton:hover {
+				background-color: colors.$exam-notes-toolbox-btn-selected;
+			}
 		}
 
 		.divider {
