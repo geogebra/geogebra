@@ -1,6 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import static org.geogebra.common.main.PreviewFeature.CREATE_CHART_MENU_ITEM;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.BAR_CHART;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CALCULATE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
@@ -24,7 +23,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Divider;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
@@ -105,7 +103,7 @@ public final class ContextMenuBuilder {
                                 SpreadsheetCommand.SUM)),
                         new ActionableItem(MEAN, () -> spreadsheetController.calculate(
                                 SpreadsheetCommand.MEAN)))),
-                PreviewFeature.isAvailable(CREATE_CHART_MENU_ITEM) ? getChartMenuItem() : null,
+                getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_ROW_ABOVE, () -> insertRowAt(fromRow, false)),
                 new ActionableItem(INSERT_ROW_BELOW, () -> insertRowAt(toRow + 1, true)),
@@ -139,7 +137,7 @@ public final class ContextMenuBuilder {
                                 SpreadsheetCommand.SUM)),
                         new ActionableItem(MEAN, () -> spreadsheetController.calculate(
                                 SpreadsheetCommand.MEAN)))),
-                PreviewFeature.isAvailable(CREATE_CHART_MENU_ITEM) ? getChartMenuItem() : null,
+                getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_ROW_ABOVE, () -> insertRowAt(fromRow, false)),
                 new ActionableItem(INSERT_ROW_BELOW, () -> insertRowAt(toRow + 1, true)),
@@ -161,7 +159,7 @@ public final class ContextMenuBuilder {
                                 SpreadsheetCommand.SUM)),
                         new ActionableItem(MEAN, () -> spreadsheetController.calculate(
                                 SpreadsheetCommand.MEAN)))),
-                PreviewFeature.isAvailable(CREATE_CHART_MENU_ITEM) ? getChartMenuItem() : null,
+                getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_COLUMN_LEFT, () -> insertColumnAt(fromCol, false)),
                 new ActionableItem(INSERT_COLUMN_RIGHT, () -> insertColumnAt(toCol + 1, true)),

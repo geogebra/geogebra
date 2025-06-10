@@ -53,9 +53,9 @@ public final class ContextMenuBuilderTest {
 	@Test
 	public void testCellMenuOrder() {
 		testMenuOrder(1, 1,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_ROW_ABOVE,
-						INSERT_ROW_BELOW, INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT, DIVIDER,
-						DELETE_ROW, DELETE_COLUMN));
+				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
+						INSERT_ROW_ABOVE, INSERT_ROW_BELOW, INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT, DIVIDER, DELETE_ROW, DELETE_COLUMN));
 	}
 
 	private void testMenuOrder(int row, int column, List<Identifier> expected) {
@@ -71,30 +71,30 @@ public final class ContextMenuBuilderTest {
 	@Test
 	public void testRowMenuOrder() {
 		testMenuOrder(1, HEADER_INDEX,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_ROW_ABOVE,
-						INSERT_ROW_BELOW, DIVIDER, DELETE_ROW));
+				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
+						INSERT_ROW_ABOVE, INSERT_ROW_BELOW, DIVIDER, DELETE_ROW));
 	}
 
 	@Test
 	public void testRowMenuOrderFull() {
 		List<ContextMenuItem> menuItems = builder.build(0, 99, HEADER_INDEX, HEADER_INDEX);
-		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_ROW_ABOVE,
-						INSERT_ROW_BELOW),
+		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
+						INSERT_ROW_ABOVE, INSERT_ROW_BELOW),
 				getIdentifiers(menuItems));
 	}
 
 	@Test
 	public void testColumnMenuOrder() {
 		testMenuOrder(HEADER_INDEX, 1,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_COLUMN_LEFT,
-						INSERT_COLUMN_RIGHT, DIVIDER, DELETE_COLUMN));
+				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
+						INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT, DIVIDER, DELETE_COLUMN));
 	}
 
 	@Test
 	public void testColumnMenuOrderFull() {
 		List<ContextMenuItem> menuItems = builder.build(HEADER_INDEX, HEADER_INDEX, 0, 99);
-		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, DIVIDER, INSERT_COLUMN_LEFT,
-						INSERT_COLUMN_RIGHT),
+		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
+						INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT),
 				getIdentifiers(menuItems));
 	}
 
