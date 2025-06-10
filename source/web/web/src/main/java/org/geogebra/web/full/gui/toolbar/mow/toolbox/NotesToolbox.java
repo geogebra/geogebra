@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.ModeChangeListener;
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -19,6 +21,7 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPo
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.pen.PenIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.text.TextIconButton;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
@@ -28,7 +31,7 @@ import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeListener {
+public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeListener, ExamListener {
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
@@ -37,17 +40,19 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	private final ToolboxIconResource toolboxIconResource;
 	private IconButton lastSelectedButtonWithMenu;
 	private final Map<ToolboxCategory, IconButtonWithMenu> buttonsWithMenu = new HashMap<>();
+	private ExamState renderedExamState = ExamState.IDLE;
 
 	/**
 	 * MOW toolbox
 	 * @param appW - application
 	 * @param isTopBarAttached - whether it has {@link NotesTopBar} or not
 	 */
-	public NotesToolbox(AppW appW, boolean isTopBarAttached) {
+	public NotesToolbox(AppWFull appW, boolean isTopBarAttached) {
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this, isTopBarAttached);
 		controller = new ToolboxController(appW, this);
 		toolboxIconResource = appW.getToolboxIconResource();
+		appW.getExamEventBus().add(this);
 		buildGui();
 	}
 
@@ -159,7 +164,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	}
 
 	private void addUploadButton() {
-		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.UPLOAD.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.UPLOAD.getName())
+				|| renderedExamState != ExamState.IDLE) {
 			return;
 		}
 
@@ -169,7 +175,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	}
 
 	private void addLinkButton() {
-		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.LINK.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.LINK.getName())
+			|| renderedExamState != ExamState.IDLE) {
 			return;
 		}
 
@@ -294,5 +301,12 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			Log.debug("Category " + category.toLowerCase()
 					+ " is not allowed to have a custom tool");
 		}
+	}
+
+	@Override
+	public void examStateChanged(ExamState newState) {
+		this.renderedExamState = newState;
+		clear();
+		buildGui();
 	}
 }

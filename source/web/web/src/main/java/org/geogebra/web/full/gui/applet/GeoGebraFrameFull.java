@@ -747,7 +747,7 @@ public class GeoGebraFrameFull
 	/**
 	 * Adds the notes toolbar and (if allowed) the undo panel and page control
 	 */
-	public void attachNotesUI(AppW app) {
+	public void attachNotesUI(AppWFull app) {
 		NotesLayout notesLayout = getNotesLayoutSafe(app);
 
 		NotesTopBar notesTopBar = notesLayout.getTopBar();
@@ -768,9 +768,8 @@ public class GeoGebraFrameFull
 	/**
 	 * Remove notes toolbar
 	 */
-	public void detachNotesToolbar(AppW app) {
-		NotesLayout notesLayout = getNotesLayoutSafe(app);
-		if (notesLayout.getToolbar() != null) {
+	public void detachNotesToolbar() {
+		if (notesLayout != null && notesLayout.getToolbar() != null) {
 			remove(notesLayout.getToolbar());
 		}
 	}
@@ -798,7 +797,7 @@ public class GeoGebraFrameFull
 	 * @param app Needed for the initialization.
 	 * @return notes layout
 	 */
-	public @Nonnull NotesLayout getNotesLayoutSafe(AppW app) {
+	public @Nonnull NotesLayout getNotesLayoutSafe(AppWFull app) {
 		if (notesLayout == null) {
 			notesLayout = new NotesLayout(app);
 		}

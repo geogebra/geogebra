@@ -3591,7 +3591,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	protected boolean supportsExamUI() {
-		return appletParameters.getDataParamFitToScreen() && !isWhiteboardActive();
+		return appletParameters.getDataParamFitToScreen();
 	}
 
 	/**

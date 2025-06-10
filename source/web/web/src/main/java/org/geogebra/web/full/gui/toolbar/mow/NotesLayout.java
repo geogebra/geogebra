@@ -5,6 +5,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.NotesToolbox;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.user.client.ui.Widget;
@@ -19,7 +20,7 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 	/**
 	 * @param appW application
 	 */
-	public NotesLayout(AppW appW) {
+	public NotesLayout(AppWFull appW) {
 		this.appW = appW;
 		topBar = new NotesTopBar(appW);
 		this.toolbar = appW.showToolBar() ? new NotesToolbox(appW, topBar.wasAttached()) : null;

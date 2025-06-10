@@ -815,7 +815,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
-	 * Updates the stylebar in Algebra View
+	 * Updates the style bar in Algebra View
 	 */
 	public final void updateAVStylebar() {
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
@@ -830,7 +830,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void showExamWelcomeMessage() {
 		if (examController.isIdle()) {
-			if (isUnbundled()) {
+			if (isUnbundledOrWhiteboard()) {
 				new StartExamAction().startExamDirectly(this);
 			} else {
 				resetViewsEnabled();
