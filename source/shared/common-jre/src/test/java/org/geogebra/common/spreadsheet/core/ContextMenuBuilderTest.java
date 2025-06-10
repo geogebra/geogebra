@@ -1,7 +1,18 @@
 package org.geogebra.common.spreadsheet.core;
 
 import static org.geogebra.common.spreadsheet.core.ContextMenuBuilder.HEADER_INDEX;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.*;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CALCULATE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CUT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_ROW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DIVIDER;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_LEFT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -16,6 +27,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +42,7 @@ public final class ContextMenuBuilderTest {
 		data = new TestTabularData();
 		fillTestData();
 		clipboard = new TestClipboard();
-		controller = new SpreadsheetController(data);
+		controller = new SpreadsheetController(data, new SpreadsheetStyling());
 		builder = new ContextMenuBuilder(controller);
 		CopyPasteCutTabularDataImpl<?> copyPasteCut =
 				new CopyPasteCutTabularDataImpl<>(data, clipboard, controller.getLayout(),

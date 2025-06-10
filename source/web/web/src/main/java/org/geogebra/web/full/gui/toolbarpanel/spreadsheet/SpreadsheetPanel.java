@@ -8,6 +8,7 @@ import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
+import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -68,13 +69,12 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		mathField = new MathTextFieldW(app, new MetaModel());
 		SpreadsheetControlsDelegateW controlsDelegate = initControlsDelegate();
 
-		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(
-				app.getSettings().getSpreadsheet(), app.getKernel());
+		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(app);
 		app.getKernel().notifyAddAll(tabularData);
 		spreadsheet = new Spreadsheet(tabularData,
-				app.getSettings().getSpreadsheet(),
 				new GeoElementCellRendererFactory(new AwtReTexGraphicsBridgeW()),
 				app.getUndoManager());
+		new SpreadsheetSettingsAdapter(spreadsheet, app).registerListeners();
 
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);

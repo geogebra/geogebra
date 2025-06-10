@@ -1,6 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import static org.geogebra.common.spreadsheet.core.TableLayout.DEFAULT_CELL_HEIGHT;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -19,24 +18,24 @@ public class TableLayoutTest {
 	@Test
 	public void testFindColumn() {
 		assertThat(layout.findColumn(-5), equalTo(-1));
-		double cellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
-		assertThat(layout.findColumn(cellWidth - 1), equalTo(-1));
-		assertThat(layout.findColumn(cellWidth + 1), equalTo(0));
-		assertThat(layout.findColumn(cellWidth + 40), equalTo(1));
-		assertThat(layout.findColumn(cellWidth + 41), equalTo(1));
-		assertThat(layout.findColumn(cellWidth + 80), equalTo(2));
+		double rowHeaderWidth = layout.getRowHeaderWidth();
+		assertThat(layout.findColumn(rowHeaderWidth - 1), equalTo(-1));
+		assertThat(layout.findColumn(rowHeaderWidth + 1), equalTo(0));
+		assertThat(layout.findColumn(rowHeaderWidth + 40), equalTo(1));
+		assertThat(layout.findColumn(rowHeaderWidth + 41), equalTo(1));
+		assertThat(layout.findColumn(rowHeaderWidth + 80), equalTo(2));
 		assertThat(layout.findColumn(10000), equalTo(5));
 	}
 
 	@Test
 	public void testFindRow() {
 		assertThat(layout.findRow(-5), equalTo(-1));
-		int colHeader = (int) DEFAULT_CELL_HEIGHT;
-		assertThat(layout.findRow(colHeader - 1), equalTo(-1));
-		assertThat(layout.findRow(colHeader + 1), equalTo(0));
-		assertThat(layout.findRow(colHeader + 20), equalTo(1));
-		assertThat(layout.findRow(colHeader + 21), equalTo(1));
-		assertThat(layout.findRow(colHeader + 40), equalTo(2));
+		double columnHeaderHeight = layout.getColumnHeaderHeight();
+		assertThat(layout.findRow(columnHeaderHeight - 1), equalTo(-1));
+		assertThat(layout.findRow(columnHeaderHeight + 1), equalTo(0));
+		assertThat(layout.findRow(columnHeaderHeight + 20), equalTo(1));
+		assertThat(layout.findRow(columnHeaderHeight + 21), equalTo(1));
+		assertThat(layout.findRow(columnHeaderHeight + 40), equalTo(2));
 		assertThat(layout.findRow(10000), equalTo(5));
 	}
 
@@ -46,7 +45,7 @@ public class TableLayoutTest {
 				new Rectangle(0, 100, 0, 100));
 		assertThat(pt.fromRow, equalTo(0));
 		assertThat(pt.fromColumn, equalTo(0));
-		assertThat(pt.toRow, equalTo(3));
+		assertThat(pt.toRow, equalTo(4));
 		assertThat(pt.toColumn, equalTo(1));
 
 		pt = layout.getLayoutIntersecting(

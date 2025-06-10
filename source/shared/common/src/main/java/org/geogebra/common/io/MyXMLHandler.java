@@ -648,8 +648,6 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_SPREADSHEET_LAYOUT_SUITE;
 			break;
 		case "spreadsheetView":
-			app.getSettings().getSpreadsheet().getRowHeights().clear();
-			app.getSettings().getSpreadsheet().getColumnWidths().clear();
 			mode = MODE_SPREADSHEET_VIEW;
 			break;
 		case "scripting":

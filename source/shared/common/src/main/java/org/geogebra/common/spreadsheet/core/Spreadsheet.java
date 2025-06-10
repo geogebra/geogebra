@@ -8,8 +8,9 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MouseCursor;
+import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -21,10 +22,13 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public final class Spreadsheet implements TabularDataChangeListener {
 
+	public final MulticastEvent<String> cellFormatXmlChanged = new MulticastEvent<>();
+	public final MulticastEvent<CellSizes> cellSizesChanged;
+
 	public static final int MAX_COLUMNS = 9999;
 	public static final int MAX_ROWS = 9999;
 	private final SpreadsheetController controller;
-	private final SpreadsheetStyle style;
+	private final SpreadsheetStyling styling;
 	private final SpreadsheetStyleBarModel styleBarModel;
 	private final SpreadsheetRenderer renderer;
 	private @CheckForNull SpreadsheetDelegate spreadsheetDelegate;
@@ -32,27 +36,31 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	/**
 	 * @param tabularData data source
-	 * @param rendererFactory converts custom data type to rendable objects
+	 * @param rendererFactory converts custom data type to renderable objects
 	 * @param undoProvider undo provider, may be null
 	 */
 	public Spreadsheet(@Nonnull TabularData<?> tabularData,
-			@Nonnull SpreadsheetDimensions spreadsheetDimensions,
 			@Nonnull CellRenderableFactory rendererFactory,
 			@CheckForNull UndoProvider undoProvider) {
-		controller = new SpreadsheetController(tabularData);
+
+		styling = new SpreadsheetStyling();
+		styling.stylingChanged.addListener(this::stylingChanged);
+
+		controller = new SpreadsheetController(tabularData, styling);
+		controller.setUndoProvider(undoProvider);
 		controller.selectionController.selectionsChanged.addListener(this::selectionsChanged);
-		spreadsheetDimensions.setCustomRowAndColumnSizeProvider(controller.getLayout());
-		this.style = new SpreadsheetStyle();
-		styleBarModel = new SpreadsheetStyleBarModel(controller, controller.selectionController,
-				style);
-		style.stylingChanged.addListener(this::stylingChanged);
-		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
-				style, tabularData);
-		setViewport(new Rectangle(0, 0, 0, 0));
+		cellSizesChanged = controller.cellSizesChanged;
+
+		// get notified when number or size of rows/columns changes
 		tabularData.addChangeListener(this);
-		if (undoProvider != null) {
-			controller.setUndoProvider(undoProvider);
-		}
+
+		styleBarModel = new SpreadsheetStyleBarModel(controller, controller.selectionController,
+				styling);
+
+		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
+				styling, tabularData);
+
+		setViewport(new Rectangle(0, 0, 0, 0));
 	}
 
 	// Delegates
@@ -127,12 +135,24 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (ranges == null) {
 			return;
 		}
+		// style bar -> SpreadsheetSettings
+		cellFormatXmlChanged.notifyListeners(styling.getCellFormatXml());
+
 		controller.storeUndoInfo();
+
 		ranges.forEach(range ->
 			range.forEach(renderer::invalidate)
 		);
 		notifyRepaintNeeded();
     }
+
+	/**
+	 * SpreadsheetSettings -> style bar
+	 * @param cellFormatXml the cell format XML
+	 */
+	public void setCellFormatXml(String cellFormatXml) {
+		styling.setCellFormatXml(cellFormatXml);
+	}
 
 	// Drawing
 
@@ -184,7 +204,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawSelectionHeader(selection, graphics, controller.getViewport())
 		);
 		graphics.translate(-offsetX, 0);
-		graphics.setColor(style.getGridColor());
+		graphics.setColor(styling.getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
 			renderer.drawColumnBorder(column, graphics);
 		}
@@ -195,7 +215,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 
 		graphics.translate(offsetX, -offsetY);
-		graphics.setColor(style.getGridColor());
+		graphics.setColor(styling.getGridColor());
 		for (int row = portion.fromRow + 1; row <= portion.toRow; row++) {
 			renderer.drawRowBorder(row, graphics);
 		}
@@ -204,7 +224,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawRowHeader(row, graphics, controller::getRowName);
 		}
 		graphics.translate(0, offsetY);
-		graphics.setColor(style.getHeaderBackgroundColor());
+		graphics.setColor(styling.getHeaderBackgroundColor());
 		renderer.fillRect(graphics, 0, 0,
 				layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
 
@@ -236,9 +256,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	private void setHeaderColor(GGraphics2D graphics, boolean isSelected) {
 		if (isSelected) {
-			graphics.setColor(style.getSelectedTextColor());
+			graphics.setColor(styling.getSelectedTextColor());
 		} else {
-			graphics.setColor(style.getDefaultTextColor());
+			graphics.setColor(styling.getDefaultTextColor());
 		}
 	}
 
@@ -398,15 +418,22 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		notifyRepaintNeeded();
 	}
 
+	// Call chain:
+	// KernelTabularDataAdapter (on settings change)
+	//   -> Spreadsheet.tabularDataDimensionsDidChange()
 	@Override
-	public void tabularDataSizeDidChange(SpreadsheetDimensions dimensions) {
-		controller.tabularDataSizeDidChange(dimensions);
+	public void tabularDataDimensionsDidChange(SpreadsheetDimensions spreadsheetDimensions) {
+		controller.tabularDataDimensionsDidChange(spreadsheetDimensions);
 		notifyRepaintNeeded();
 	}
 
-	// Test support API (do not use except for tests)
+	// Test support API (DO NOT USE except for tests!)
 
 	SpreadsheetController getController() {
 		return controller;
+	}
+
+	SpreadsheetStyling getStyling() {
+		return styling;
 	}
 }

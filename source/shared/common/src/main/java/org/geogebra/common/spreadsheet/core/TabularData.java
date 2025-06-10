@@ -4,7 +4,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
-import org.geogebra.common.spreadsheet.style.CellFormat;
 
 /**
  * Interacting with the structure and contents of tabular data.
@@ -30,7 +29,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	@CheckForNull CellDragPasteHandler getCellDragPasteHandler();
 
 	/**
-	 * Add a listener for data update and data dimension change.
+	 * Add a listener for data update and data dimension changes.
 	 * @param listener change listener
 	 */
 	void addChangeListener(@Nonnull TabularDataChangeListener listener);
@@ -126,6 +125,13 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	void removeContentAt(int row, int column);
 
 	/**
+	 * @param row Row index
+	 * @param column Column index
+	 * @return true if the cell at (row, column) contains a text object (GeoText).
+	 */
+	boolean isTextContentAt(int row, int column);
+
+	/**
 	 * Remove "empty cell" flag.
 	 * @param row Row index of cell.
 	 * @param column Column index of cell.
@@ -142,13 +148,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * if there is no content at (row, column).
 	 */
 	@Nonnull String serializeContentAt(int row, int column);
-
-	/**
-	 * @return The (cell value) alignment for the given cell. One of {@link CellFormat}'s
-	 * {@link CellFormat#ALIGN_LEFT ALIGN_LEFT}, {@link CellFormat#ALIGN_CENTER ALIGN_CENTER}, or
-	 * {@link CellFormat#ALIGN_RIGHT ALIGN_RIGHT}.
-	 */
-	int getAlignment(int row, int column);
 
 	/**
 	 * Check for errors in spreadsheet data.

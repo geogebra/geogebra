@@ -32,6 +32,16 @@ final class SpreadsheetTestHelpers {
 		}
 	}
 
+	static void simulateColumnResize(SpreadsheetController controller, int column, double delta) {
+		TableLayout layout = controller.getLayout();
+		Rectangle cellBounds = layout.getBounds(0, column);
+		double cellResizeDragX = cellBounds.getMaxX() + layout.getRowHeaderWidth();
+		double cellResizeDragY = layout.getColumnHeaderHeight() / 2;
+		controller.handlePointerDown(cellResizeDragX, cellResizeDragY, Modifiers.NONE);
+		controller.handlePointerMove(cellResizeDragX + delta, cellResizeDragY, Modifiers.NONE);
+		controller.handlePointerUp(cellResizeDragX + delta, cellResizeDragY, Modifiers.NONE);
+	}
+
 	private static GPoint getCellCenter(SpreadsheetController controller, int row, int column) {
 		TableLayout layout = controller.getLayout();
 		Rectangle cellBounds = layout.getBounds(row, column)

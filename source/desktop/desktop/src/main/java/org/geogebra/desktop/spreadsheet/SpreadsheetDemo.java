@@ -47,6 +47,7 @@ import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializ
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
+import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
@@ -72,11 +73,10 @@ public class SpreadsheetDemo {
 			Dimension preferredSize = new Dimension(800, 600);
 			frame.setPreferredSize(preferredSize);
 			AppCommon appCommon = new AppCommon(new LocalizationCommon(3), new AwtFactoryD());
-			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(
-					appCommon.getSettings().getSpreadsheet(), appCommon.getKernel());
-			Spreadsheet spreadsheet = new Spreadsheet(adapter,
-					appCommon.getSettings().getSpreadsheet(),
+			KernelTabularDataAdapter tabularDataAdapter = new KernelTabularDataAdapter(appCommon);
+			Spreadsheet spreadsheet = new Spreadsheet(tabularDataAdapter,
 					new GeoElementCellRendererFactory(new AwtReTeXGraphicsBridgeD()), null);
+			new SpreadsheetSettingsAdapter(spreadsheet, appCommon).registerListeners();
 
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
 			spreadsheet.setWidthForColumns(60, 0, 10);
@@ -85,7 +85,7 @@ public class SpreadsheetDemo {
 			spreadsheet.setWidthForColumns(90, 2, 4);
 			spreadsheet.setHeightForRows(40, 3, 5);
 			SpreadsheetPanel spreadsheetPanel = new SpreadsheetPanel(spreadsheet, appCommon, frame);
-			appCommon.getKernel().attach(adapter);
+			appCommon.getKernel().attach(tabularDataAdapter);
 			/*appCommon.getGgbApi().evalCommand(String.join("\n", "C4=7", "C5=8",
 					"A1=4", "B2=true", "B3=Button()", "B4=sqrt(x)"));*/
 			appCommon.setXML(readDemoFile(), true);

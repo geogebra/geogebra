@@ -14,7 +14,7 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.MulticastEvent;
 
 @SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
-public final class SpreadsheetStyle {
+public final class SpreadsheetStyling {
 
 	/** Fallback alignment when {@link CellFormat} has no information regarding alignment. */
 	public static final Integer DEFAULT_CELL_ALIGNMENT = CellFormat.ALIGN_RIGHT;
@@ -35,19 +35,21 @@ public final class SpreadsheetStyle {
 	 */
 	public final MulticastEvent<List<TabularRange>> stylingChanged = new MulticastEvent<>();
 
-	private final CellFormat format;
+	private final CellFormat cellFormat = new CellFormat(null);
 	private boolean showGrid = true;
 
-	public SpreadsheetStyle() {
-		this.format = new CellFormat(null);
+	/**
+	 * @param cellFormatXml cell format XML
+	 */
+	public void setCellFormatXml(@CheckForNull String cellFormatXml) {
+		cellFormat.processXMLString(cellFormatXml);
 	}
 
-	CellFormat getFormat() {
-		return format;
-	}
-
-	private void notifyStylingChanged(@Nonnull List<TabularRange> ranges) {
-		stylingChanged.notifyListeners(ranges);
+	/**
+	 * @return An XML string containing cell format information.
+	 */
+	public String getCellFormatXml() {
+		return cellFormat.encodeFormats();
 	}
 
 	// Grid & borders
@@ -74,7 +76,7 @@ public final class SpreadsheetStyle {
 	 * @return whether to show border for given cell
 	 */
 	public boolean showBorder(int row, int column) {
-		Byte border = (Byte) format.getCellFormat(column, row, CellFormat.FORMAT_BORDER);
+		Byte border = (Byte) cellFormat.getCellFormat(column, row, CellFormat.FORMAT_BORDER);
 		return border != null && border != 0;
 	}
 
@@ -86,7 +88,7 @@ public final class SpreadsheetStyle {
 	 * @return font style of given cell (see {@link GFont#getStyle()})
 	 */
 	public Integer getFontStyle(int row, int column) {
-		return (Integer) format.getCellFormat(column, row, CellFormat.FORMAT_FONTSTYLE);
+		return (Integer) cellFormat.getCellFormat(column, row, CellFormat.FORMAT_FONTSTYLE);
 	}
 
 	/**
@@ -102,10 +104,10 @@ public final class SpreadsheetStyle {
 	 */
 	public void setFontTraits(@Nonnull Set<FontTrait> traits,
 			@Nonnull List<TabularRange> ranges) {
-		Integer cellFormat = cellFormatFromFontTraits(traits);
-		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_FONTSTYLE, cellFormat);
+		boolean changed = cellFormat.setFormat(ranges, CellFormat.FORMAT_FONTSTYLE,
+				cellFormatFromFontTraits(traits));
 		if (changed) {
-			notifyStylingChanged(ranges);
+			stylingChanged.notifyListeners(ranges);
 		}
 	}
 
@@ -116,7 +118,7 @@ public final class SpreadsheetStyle {
 	 * @return one of the CellFormat.ALIGN_* constants
 	 */
 	public Integer getAlignment(int row, int column) {
-		return (Integer) format.getCellFormat(column, row, CellFormat.FORMAT_ALIGN);
+		return (Integer) cellFormat.getCellFormat(column, row, CellFormat.FORMAT_ALIGN);
 	}
 
 	/**
@@ -132,10 +134,10 @@ public final class SpreadsheetStyle {
 	 */
 	public void setTextAlignment(@Nonnull TextAlignment textAlignment,
 			@Nonnull List<TabularRange> ranges) {
-		Integer cellFormat = cellFormatFromTextAlignment(textAlignment);
-		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_ALIGN, cellFormat);
+		boolean changed = cellFormat.setFormat(ranges, CellFormat.FORMAT_ALIGN,
+				cellFormatFromTextAlignment(textAlignment));
 		if (changed) {
-			notifyStylingChanged(ranges);
+			stylingChanged.notifyListeners(ranges);
 		}
 	}
 
@@ -153,7 +155,8 @@ public final class SpreadsheetStyle {
 	 * @return The cell's text color if non-null, or the fallback color otherwise.
 	 */
 	public GColor getTextColor(int row, int column, @CheckForNull GColor fallback) {
-		GColor textColor = (GColor) format.getCellFormat(column, row, CellFormat.FORMAT_FGCOLOR);
+		GColor textColor = (GColor) cellFormat.getCellFormat(column, row,
+				CellFormat.FORMAT_FGCOLOR);
 		return textColor == null ? fallback : textColor;
 	}
 
@@ -163,9 +166,9 @@ public final class SpreadsheetStyle {
 	 * @param ranges list of ranges
 	 */
 	public void setTextColor(GColor color, List<TabularRange> ranges) {
-		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_FGCOLOR, color);
+		boolean changed = cellFormat.setFormat(ranges, CellFormat.FORMAT_FGCOLOR, color);
 		if (changed) {
-			notifyStylingChanged(ranges);
+			stylingChanged.notifyListeners(ranges);
 		}
 	}
 
@@ -178,7 +181,7 @@ public final class SpreadsheetStyle {
 	 * @return background color of given cell
 	 */
 	public GColor getBackgroundColor(int row, int column, GColor fallback) {
-		GColor bgColor = (GColor) format.getCellFormat(column, row, CellFormat.FORMAT_BGCOLOR);
+		GColor bgColor = (GColor) cellFormat.getCellFormat(column, row, CellFormat.FORMAT_BGCOLOR);
 		return bgColor == null ? fallback : bgColor;
 	}
 
@@ -188,9 +191,9 @@ public final class SpreadsheetStyle {
 	 * @param ranges list of ranges
 	 */
 	public void setBackgroundColor(GColor color, List<TabularRange> ranges) {
-		boolean changed = format.setFormat(ranges, CellFormat.FORMAT_BGCOLOR, color);
+		boolean changed = cellFormat.setFormat(ranges, CellFormat.FORMAT_BGCOLOR, color);
 		if (changed) {
-			notifyStylingChanged(ranges);
+			stylingChanged.notifyListeners(ranges);
 		}
 	}
 

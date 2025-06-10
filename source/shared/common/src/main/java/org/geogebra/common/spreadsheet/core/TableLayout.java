@@ -15,18 +15,20 @@ import org.geogebra.common.util.shape.Rectangle;
  *
  * @apiNote This type is not designed to be thread-safe.
  */
-public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvider {
-	public static final double DEFAULT_CELL_WIDTH = 120;
-	public static final double DEFAULT_CELL_HEIGHT = 36;
-	public static final double DEFAULT_ROW_HEADER_WIDTH = 52;
+public final class TableLayout {
+	private static final double DEFAULT_CELL_WIDTH = 120;
+	private static final double DEFAULT_CELL_HEIGHT = 36;
+	private static final double DEFAULT_ROW_HEADER_WIDTH = 52;
 
 	private static final int MIN_CELL_SIZE = 10;
 	private double[] columnWidths;
 	private double[] rowHeights;
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
+	public final double defaultRowHeight;
+	public final double defaultColumnWidth;
 	private double rowHeaderWidth = DEFAULT_ROW_HEADER_WIDTH;
-	private double columnHeaderHeight = DEFAULT_CELL_HEIGHT;
+	private double columnHeaderHeight;
 
 	/**
 	 * @param rows Number of rows
@@ -39,8 +41,15 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 		cumulativeWidths = new double[columns + 1];
 		rowHeights = new double[rows];
 		cumulativeHeights = new double[rows + 1];
+		this.defaultRowHeight = defaultRowHeight;
+		this.defaultColumnWidth = defaultColumnWidth;
+		this.columnHeaderHeight = defaultRowHeight;
 		setWidthForColumns(defaultColumnWidth, 0, columns - 1);
 		setHeightForRows(defaultRowHeight, 0, rows - 1);
+	}
+
+	TableLayout(int rows, int columns) {
+		this(rows, columns, DEFAULT_CELL_HEIGHT, DEFAULT_CELL_WIDTH);
 	}
 
 	/**
@@ -212,10 +221,10 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 		setNumberOfColumns(dimensions.getColumns());
 		setNumberOfRows(dimensions.getRows());
 		for (int i = 0; i < columnWidths.length; i++) {
-			columnWidths[i] = dimensions.getColumnWidths().getOrDefault(i, DEFAULT_CELL_WIDTH);
+			columnWidths[i] = dimensions.getColumnWidths().getOrDefault(i, defaultColumnWidth);
 		}
 		for (int i = 0; i < rowHeights.length; i++) {
-			rowHeights[i] = dimensions.getRowHeights().getOrDefault(i, DEFAULT_CELL_HEIGHT);
+			rowHeights[i] = dimensions.getRowHeights().getOrDefault(i, defaultRowHeight);
 		}
 		updateCumulativeHeights(0);
 		updateCumulativeWidths(0);
@@ -334,8 +343,8 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 	 * Resets all rows and columns to their default sizes
 	 */
 	public void resetCellSizes() {
-		setWidthForColumns(DEFAULT_CELL_WIDTH, 0, columnWidths.length - 1);
-		setHeightForRows(DEFAULT_CELL_HEIGHT, 0, rowHeights.length - 1);
+		setWidthForColumns(defaultColumnWidth, 0, columnWidths.length - 1);
+		setHeightForRows(defaultRowHeight, 0, rowHeights.length - 1);
 	}
 
 	/**
@@ -349,7 +358,7 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 		for (int row = resizeFrom; row < numberOfRows - 1; row++) {
 			setHeightForRows(getHeight(row + 1), row, row);
 		}
-		setHeightForRows(DEFAULT_CELL_HEIGHT, numberOfRows - 1, numberOfRows - 1);
+		setHeightForRows(defaultRowHeight, numberOfRows - 1, numberOfRows - 1);
 	}
 
 	/**
@@ -361,8 +370,7 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 		for (int column = resizeFrom; column < numberOfColumns - 1; column++) {
 			setWidthForColumns(getWidth(column + 1), column, column);
 		}
-		setWidthForColumns(DEFAULT_CELL_WIDTH,
-				numberOfColumns - 1, numberOfColumns - 1);
+		setWidthForColumns(defaultColumnWidth, numberOfColumns - 1, numberOfColumns - 1);
 	}
 
 	/**
@@ -389,24 +397,28 @@ public final class TableLayout implements SpreadsheetCustomRowAndColumnSizeProvi
 		}
 	}
 
-	// -- SpreadsheetCustomRowAndColumnSizeProvider
-
-	@Override
+	/**
+	 * @return A {@code columnIndex => width} map for all columns that are not of
+	 * {@code defaultColumnWidth} width.
+	 */
 	public @Nonnull Map<Integer, Double> getCustomColumnWidths() {
 		Map<Integer, Double> widths = new HashMap<>();
 		for (int i = 0; i < columnWidths.length; i++) {
-			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
+			if (columnWidths[i] != defaultColumnWidth) {
 				widths.put(i, columnWidths[i]);
 			}
 		}
 		return widths;
 	}
 
-	@Override
+	/**
+	 * @return A {@code rowIndex => height} map for all rows that are not of
+	 * {@code defaultRowHeight} height.
+	 */
 	public @Nonnull Map<Integer, Double> getCustomRowHeights() {
 		Map<Integer, Double> heights = new HashMap<>();
 		for (int i = 0; i < rowHeights.length; i++) {
-			if (rowHeights[i] != DEFAULT_CELL_HEIGHT) {
+			if (rowHeights[i] != defaultRowHeight) {
 				heights.put(i, rowHeights[i]);
 			}
 		}

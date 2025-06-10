@@ -11,9 +11,9 @@ import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteText;
-import org.geogebra.common.spreadsheet.style.CellFormat;
 
 public class TestTabularData implements TabularData<String> {
+
 	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
 		@Override
 		public void process(@Nonnull String input, int row, int column) {
@@ -89,6 +89,11 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
+	public boolean isTextContentAt(int row, int column) {
+		return false;
+	}
+
+	@Override
 	public String contentAt(int row, int column) {
 		return data.get(row).get(column);
 	}
@@ -111,11 +116,6 @@ public class TestTabularData implements TabularData<String> {
 	@Override
 	public @Nonnull TabularDataPasteInterface<String> getPaste() {
 		return new TabularDataPasteText();
-	}
-
-	@Override
-	public int getAlignment(int row, int column) {
-		return CellFormat.ALIGN_RIGHT;
 	}
 
 	@Override

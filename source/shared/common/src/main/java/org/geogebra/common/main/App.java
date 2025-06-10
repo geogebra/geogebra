@@ -1850,6 +1850,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (getGuiManager() != null) {
 			getGuiManager().getViewsXML(sb, asPreference);
 		}
+
+		// save spreadsheet settings
+		getSettings().getSpreadsheet().getXML(sb, asPreference);
 	}
 
 	private void getScriptingXML(StringBuilder sb, boolean asPreference) {

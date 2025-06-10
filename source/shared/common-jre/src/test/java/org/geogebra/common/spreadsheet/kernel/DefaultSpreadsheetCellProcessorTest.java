@@ -32,10 +32,8 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Before
 	public void setUp() {
-		processor =
-				new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor());
-		getKernel().attach(new KernelTabularDataAdapter(
-				getSettings().getSpreadsheet(), getKernel()));
+		processor = new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor());
+		getKernel().attach(new KernelTabularDataAdapter(getApp()));
 	}
 
 	@Test

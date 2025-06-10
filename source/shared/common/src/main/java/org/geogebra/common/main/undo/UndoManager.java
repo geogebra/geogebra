@@ -563,6 +563,7 @@ public abstract class UndoManager implements UndoProvider {
 			embedManager.storeEmbeds();
 		}
 		app.getActiveEuclidianView().resetInlineObjects();
+		app.getSettings().getSpreadsheet().resetBeforeReload();
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package org.geogebra.common.spreadsheet.rendering;
 
-import static org.geogebra.common.spreadsheet.style.SpreadsheetStyle.DEFAULT_CELL_ALIGNMENT;
+import static org.geogebra.common.spreadsheet.style.SpreadsheetStyling.DEFAULT_CELL_ALIGNMENT;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;

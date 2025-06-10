@@ -3,7 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
-import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 
 /**
  * Creates renderers for custom data types stored in {@link TabularData}
@@ -20,5 +20,5 @@ public interface CellRenderableFactory {
 	 * @return renderable representation of the cell data
 	 */
 	@CheckForNull SelfRenderable getRenderable(@CheckForNull Object data,
-			@CheckForNull SpreadsheetStyle fontStyle, int row, int column);
+			@CheckForNull SpreadsheetStyling fontStyle, int row, int column);
 }

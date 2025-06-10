@@ -24,7 +24,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	@Override
 	public void setup() {
 		super.setup();
-		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
+		tabularData = new KernelTabularDataAdapter(getApp());
 		cellDragPasteHandler = new KernelCellDragPasteHandler(tabularData, getKernel());
 	}
 

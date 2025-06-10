@@ -25,7 +25,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 	@Override
 	public void setup() {
 		super.setup();
-		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
+		tabularData = new KernelTabularDataAdapter(getApp());
 		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, clipboard,
 				layout, selectionController);
 	}

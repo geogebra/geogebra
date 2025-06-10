@@ -27,6 +27,8 @@ import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.ChartBuilder;
+import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -43,13 +45,12 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         SpreadsheetConstructionDelegate {
-    private final double cellHeight = TableLayout.DEFAULT_CELL_HEIGHT;
-    private final double cellWidth = 40;
-    private final double rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
     private SpreadsheetController controller;
     private TabularData<String> tabularData;
+    private SpreadsheetStyling spreadsheetStyling;
     private SpreadsheetCellEditor cellEditor;
+    private TableLayout layout;
     private ClipboardInterface clipboard;
     private Rectangle viewport;
     private boolean autoCompleteShown = false;
@@ -79,15 +80,18 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     @Before
     public void setup() {
         tabularData = new TestTabularData();
+        spreadsheetStyling = new SpreadsheetStyling();
         clipboard = new TestClipboard();
         cellEditor = new TestSpreadsheetCellEditor(tabularData);
 
-        controller = new SpreadsheetController(tabularData);
+        controller = new SpreadsheetController(tabularData, spreadsheetStyling);
         controller.setControlsDelegate(this);
         controller.setSpreadsheetConstructionDelegate(this);
-        controller.getLayout().setHeightForRows(cellHeight, 0, 5);
-        controller.getLayout().setWidthForColumns(cellWidth, 0, 5);
-        setViewport(new Rectangle(0, 100, 0, 120));
+        layout = controller.getLayout();
+        setViewport(new Rectangle(0,
+                layout.getRowHeaderWidth() + layout.defaultColumnWidth * 2.5,
+                0,
+                layout.getColumnHeaderHeight() + layout.defaultRowHeight * 2.5));
         controller.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
             @Override
             public void setScrollPosition(double x, double y) {
@@ -116,13 +120,21 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     @Test
     public void testViewportIsAdjustedRightwardsWithMouseClick() {
-        controller.handlePointerDown(rowHeaderCellWidth + 90, cellHeight + 10, Modifiers.NONE);
+        setViewport(new Rectangle(0,
+                layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
+                0,
+                layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
+        controller.handlePointerDown(layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
+                layout.getColumnHeaderHeight() + 10, Modifiers.NONE);
         assertNotEquals(0, viewport.getMinX(), 0);
     }
 
     @Test
     public void testViewportIsNotAdjustedRightwardsWithArrowKey() {
-        setViewport(new Rectangle(0, 500, 0, 500));
+        setViewport(new Rectangle(0,
+                layout.getRowHeaderWidth() + layout.defaultColumnWidth * 3 + 10,
+                0,
+                layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
         controller.selectCell(2, 0, false, false);
         fakeRightArrowPress();
         assertEquals(0, viewport.getMinX(), 0);
@@ -130,8 +142,12 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     @Test
     public void testViewportIsNotAdjustedRightwardsWithMouseClick() {
-        setViewport(new Rectangle(0, 140, 0, 100));
-        controller.handlePointerDown(rowHeaderCellWidth + 60, cellHeight + 5, Modifiers.NONE);
+        setViewport(new Rectangle(0,
+                layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
+                0,
+                layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
+        controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
+                layout.getColumnHeaderHeight() + 5, Modifiers.NONE);
         assertEquals(0, viewport.getMinX(), 0);
     }
 
@@ -144,7 +160,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     @Test
     public void testViewportIsNotAdjustedHorizontallyWithArrowKey() {
-        setViewport(new Rectangle(0, 300, 0, 300));
+        setViewport(new Rectangle(0,
+                layout.getRowHeaderWidth() + 2 * layout.defaultColumnWidth + 10,
+                0,
+                layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
         controller.selectCell(2, 0, false, false);
         fakeRightArrowPress();
         assertEquals(0, viewport.getMinX(), 0);
@@ -154,7 +173,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     @Test
     public void testViewportIsAdjustedDownwardsWithArrowKey() {
-        setViewport(new Rectangle(0, 300, 0, 100));
+        setViewport(new Rectangle(0,
+                layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
+                0,
+                layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
         controller.selectCell(1, 1, false, false);
         fakeDownArrowPress();
         assertNotEquals(0, viewport.getMinY(), 0);
@@ -162,7 +184,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     @Test
     public void testViewportIsAdjustedDownwardsWithMouseClick() {
-        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 80, Modifiers.NONE);
+        controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
+                layout.getColumnHeaderHeight() + 80, Modifiers.NONE);
         assertNotEquals(0, viewport.getMinY(), 0);
     }
 
@@ -175,7 +198,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     @Test
     public void testViewportIsNotAdjustedDownwardsWithMouseClick() {
-        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 30, Modifiers.NONE);
+        controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
+                layout.getColumnHeaderHeight() + 30, Modifiers.NONE);
         assertEquals(0, viewport.getMinY(), 0);
     }
 
@@ -188,7 +212,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     @Test
     public void testViewportIsNotAdjustedUpwardsWithArrowKey() {
-        setViewport(new Rectangle(0, 120, 0, 200));
+        setViewport(new Rectangle(0,
+                layout.getRowHeaderWidth() + layout.defaultColumnWidth * 2 + 10,
+                0,
+                layout.getColumnHeaderHeight() + layout.defaultRowHeight * 3 + 10));
         controller.selectCell(2, 1, false, false);
         fakeDownArrowPress();
         double verticalScrollPosition = viewport.getMinY();
@@ -213,13 +240,16 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     @Test
     public void testTappingOnResizeRowWhileEverythingIsSelected() {
         // Tap of top left corner (select everything)
-        controller.handlePointerDown(30, 30, Modifiers.NONE);
-        controller.handlePointerUp(30, 30, Modifiers.NONE);
+        double x = layout.getRowHeaderWidth() / 2;
+        double y = layout.getRowHeaderWidth() / 2;
+        controller.handlePointerDown(x, y, Modifiers.NONE);
+        controller.handlePointerUp(x, y, Modifiers.NONE);
 
         try {
             // Tap on the edge of row 1 and 2 in the row header
-            controller.handlePointerDown(30, cellHeight * 2, Modifiers.NONE);
-            controller.handlePointerUp(30, cellHeight * 2, Modifiers.NONE);
+            y = layout.getColumnHeaderHeight() + layout.defaultRowHeight;
+            controller.handlePointerDown(x, y, Modifiers.NONE);
+            controller.handlePointerUp(x, y, Modifiers.NONE);
         } catch (Exception exception) {
             fail("Tapping on the edge of row 1 and 2 in the row header caused exception: "
                     + exception);
@@ -235,8 +265,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         double initialSpreadsheetHeight = controller.getLayout().getTotalHeight();
 
         // Tap on the edge of row 1 and 2 in the row header
-        controller.handlePointerDown(30, cellHeight * 2, Modifiers.NONE);
-        controller.handlePointerUp(30, cellHeight * 2, Modifiers.NONE);
+        double x = layout.getRowHeaderWidth() / 2;
+        double y = layout.getColumnHeaderHeight() + layout.defaultRowHeight;
+        controller.handlePointerDown(x, y, Modifiers.NONE);
+        controller.handlePointerUp(x, y, Modifiers.NONE);
 
         assertEquals(initialSpreadsheetHeight, controller.getLayout().getTotalHeight(), 0.0);
     }
@@ -349,7 +381,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     @Test
     public void testRightClickingMultiCellSelectionShouldNotChangeSelection() {
         selectCells(0, 0, 1, 1);
-        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
+        controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
+                layout.getColumnHeaderHeight() + 10,
                 new Modifiers(false, false, false, true));
         assertEquals(1, controller.getSelections().count());
 		assertEquals(controller.getSelections().findFirst().get().getRange(),
@@ -372,7 +405,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     public void testRightClickingMultiRowAndColumnSelectionShouldChangeSelection() {
         controller.selectRow(0, false, false);
         controller.selectColumn(2, false, true);
-        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
+        controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
+                layout.getColumnHeaderHeight() + 10,
                 new Modifiers(false, false, false, true));
         assertEquals(1, controller.getSelections().count());
         assertEquals(controller.getSelections().findFirst().get().getRange(),
@@ -892,8 +926,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         TableLayout layout = controller.getLayout();
         Rectangle cellBounds = layout.getBounds(row, column)
                 .translatedBy(layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
-        return new Point((int) (cellBounds.getMinX() + cellBounds.getWidth() / 2),
-            (int) (cellBounds.getMinY() + cellBounds.getWidth() / 2));
+        return new Point(cellBounds.getMinX() + cellBounds.getWidth() / 2,
+            cellBounds.getMinY() + cellBounds.getHeight() / 2);
     }
 
     /**

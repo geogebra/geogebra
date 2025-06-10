@@ -14,7 +14,7 @@ import org.geogebra.common.spreadsheet.rendering.LaTeXRenderer;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
-import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.renderer.share.TeXConstants;
@@ -32,14 +32,16 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 	}
 
 	@Override
-	public SelfRenderable getRenderable(Object data, SpreadsheetStyle style, int row, int column) {
+	public SelfRenderable getRenderable(Object data, SpreadsheetStyling styling, int row,
+			int column) {
 		if (data == null) {
 			return null;
 		}
-		Integer fontStyle = style.getFontStyle(row, column);
+		Integer fontStyle = styling.getFontStyle(row, column);
 		GeoElement geoElement = (GeoElement) data;
-		GColor background = style.getBackgroundColor(row, column, geoElement.getBackgroundColor());
-		Integer align = style.getAlignment(row, column);
+		GColor background = styling.getBackgroundColor(row, column,
+				geoElement.getBackgroundColor());
+		Integer align = styling.getAlignment(row, column);
 		if (align == null) {
 			align = (data instanceof GeoText) ? CellFormat.ALIGN_LEFT : CellFormat.ALIGN_RIGHT;
 		}

@@ -10,7 +10,7 @@ public class SpreadsheetSettingsTest {
 	AppCommon app = AppCommonFactory.create3D();
 
 	@Test
-	public void shouldReload() {
+	public void testSpreadsheetSettingsShouldBeUpdatedOnFileLoad() {
 		app.getSettings().getSpreadsheet().addWidth(2, 42);
 		String xml = app.getXML();
 		app.getSettings().getSpreadsheet().addWidthNoFire(2, 50);

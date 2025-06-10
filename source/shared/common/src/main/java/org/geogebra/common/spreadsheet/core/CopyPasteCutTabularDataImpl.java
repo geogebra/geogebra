@@ -199,8 +199,8 @@ final class CopyPasteCutTabularDataImpl<T>
 	@Override
 	public void cut(TabularRange range) {
 		copyDeep(range);
-		TabularRange visibleRange = range.restrictTo(tabularData.numberOfRows(),
+		TabularRange validRange = range.restrictTo(tabularData.numberOfRows(),
 				tabularData.numberOfColumns());
-		visibleRange.forEach(tabularData::removeContentAt);
+		validRange.forEach(tabularData::removeContentAt);
 	}
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.common.utils.Box;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import org.junit.Test;
 public class SpreadsheetSelectionControllerTest {
 
 	private final SpreadsheetController controller =
-			new SpreadsheetController(new TestTabularData());
+			new SpreadsheetController(new TestTabularData(), null);
 
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();

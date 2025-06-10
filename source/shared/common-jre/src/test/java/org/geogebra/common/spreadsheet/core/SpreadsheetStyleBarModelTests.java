@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.junit.Test;
 
 public class SpreadsheetStyleBarModelTests {
@@ -15,14 +15,14 @@ public class SpreadsheetStyleBarModelTests {
 	public void testStateEqualitySame() {
 		SpreadsheetStyleBarModel.State state1 = new SpreadsheetStyleBarModel.State(
 				true,
-				Set.of(SpreadsheetStyle.FontTrait.BOLD),
-				SpreadsheetStyle.TextAlignment.LEFT,
+				Set.of(SpreadsheetStyling.FontTrait.BOLD),
+				SpreadsheetStyling.TextAlignment.LEFT,
 				null,
 				null);
 		SpreadsheetStyleBarModel.State state2 = new SpreadsheetStyleBarModel.State(
 				true,
-				Set.of(SpreadsheetStyle.FontTrait.BOLD),
-				SpreadsheetStyle.TextAlignment.LEFT,
+				Set.of(SpreadsheetStyling.FontTrait.BOLD),
+				SpreadsheetStyling.TextAlignment.LEFT,
 				null,
 				null);
 		assertTrue(state1.equals(state2));
@@ -32,14 +32,14 @@ public class SpreadsheetStyleBarModelTests {
 	public void testStateEqualityDifferentFontTraits() {
 		SpreadsheetStyleBarModel.State state1 = new SpreadsheetStyleBarModel.State(
 				true,
-				Set.of(SpreadsheetStyle.FontTrait.BOLD),
-				SpreadsheetStyle.TextAlignment.LEFT,
+				Set.of(SpreadsheetStyling.FontTrait.BOLD),
+				SpreadsheetStyling.TextAlignment.LEFT,
 				null,
 				null);
 		SpreadsheetStyleBarModel.State state2 = new SpreadsheetStyleBarModel.State(
 				true,
-				Set.of(SpreadsheetStyle.FontTrait.ITALIC),
-				SpreadsheetStyle.TextAlignment.LEFT,
+				Set.of(SpreadsheetStyling.FontTrait.ITALIC),
+				SpreadsheetStyling.TextAlignment.LEFT,
 				null,
 				null);
 		assertFalse(state1.equals(state2));
@@ -50,13 +50,13 @@ public class SpreadsheetStyleBarModelTests {
 		SpreadsheetStyleBarModel.State state1 = new SpreadsheetStyleBarModel.State(
 				true,
 				null,
-				SpreadsheetStyle.TextAlignment.LEFT,
+				SpreadsheetStyling.TextAlignment.LEFT,
 				GColor.BLUE,
 				null);
 		SpreadsheetStyleBarModel.State state2 = new SpreadsheetStyleBarModel.State(
 				true,
 				null,
-				SpreadsheetStyle.TextAlignment.LEFT,
+				SpreadsheetStyling.TextAlignment.LEFT,
 				GColor.RED,
 				null);
 		assertFalse(state1.equals(state2));

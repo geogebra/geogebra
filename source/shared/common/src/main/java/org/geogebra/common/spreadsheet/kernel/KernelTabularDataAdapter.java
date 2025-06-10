@@ -26,42 +26,37 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
-import org.geogebra.common.spreadsheet.style.CellFormat;
 
 /**
  * Listens to changes of spreadsheet data (=GeoElements) in Kernel and passes
  * relevant notifications to Spreadsheet component.
  */
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
-	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
-	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
-	private final CellFormat cellFormat = new CellFormat(null);
-	private final @Nonnull KernelTabularDataProcessor processor;
-	private final @Nonnull SpreadsheetSettings spreadsheetSettings;
+
+	private final @Nonnull App app;
 	private final @Nonnull Kernel kernel;
+	private final @Nonnull KernelTabularDataProcessor processor;
 	private final @Nonnull SpreadsheetCellProcessor cellProcessor;
+	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
+	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
 
 	/**
-	 * @param spreadsheetSettings spreadsheet settings
-	 * @param kernel kernel
+	 * @param app the App
 	 */
-	public KernelTabularDataAdapter(@Nonnull SpreadsheetSettings spreadsheetSettings,
-			@Nonnull Kernel kernel) {
-		this.spreadsheetSettings = spreadsheetSettings;
-		this.kernel = kernel;
-		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
+	public KernelTabularDataAdapter(@Nonnull App app) {
+		this.app = app;
+		// careful: the SpreadsheetSettings instance may change at runtime, don't store a reference!
+		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
+		// OK: the SpreadsheetSettings listeners are carried over when a new instance is created
 		spreadsheetSettings.addListener((settings) -> {
-			notifySizeChanged(spreadsheetSettings);
-			cellFormat.processXMLString(spreadsheetSettings.cellFormat());
+			// changeListeners is really just the Spreadsheet instance
+			for (TabularDataChangeListener listener: changeListeners) {
+				listener.tabularDataDimensionsDidChange((SpreadsheetSettings) settings);
+			}
 		});
+		this.kernel = app.getKernel();
 		this.processor = new KernelTabularDataProcessor(this);
 		this.cellProcessor = new DefaultSpreadsheetCellProcessor(kernel.getAlgebraProcessor());
-	}
-
-	private void notifySizeChanged(SpreadsheetSettings spreadsheetSettings) {
-		for (TabularDataChangeListener listener: changeListeners) {
-			listener.tabularDataSizeDidChange(spreadsheetSettings);
-		}
 	}
 
 	@Override
@@ -77,14 +72,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void remove(GeoElement geo) {
 		removeByLabel(geo.getLabelSimple());
-	}
-
-	private void removeByLabel(String labelSimple) {
-		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
-		if (pt != null && pt.column != -1) {
-			setContent(pt.row, pt.column, null);
-			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
-		}
 	}
 
 	@Override
@@ -168,74 +155,26 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		// not needed
 	}
 
-	@Override
-	public int numberOfRows() {
-		return this.spreadsheetSettings.getRows();
-	}
-
-	@Override
-	public int numberOfColumns() {
-		return this.spreadsheetSettings.getColumns();
-	}
-
-	@Override
-	public void insertRowAt(int row) {
-		spreadsheetSettings.setRowsNoFire(numberOfRows() + 1);
-		processor.insertRowAt(row);
-	}
-
-	@Override
-	public void deleteRowAt(int row) {
-		spreadsheetSettings.setRowsNoFire(numberOfRows() - 1);
-		processor.deleteRowAt(row);
-	}
-
-	@Override
-	public void insertColumnAt(int column) {
-		spreadsheetSettings.setColumnsNoFire(numberOfColumns() + 1);
-		processor.insertColumnAt(column);
-	}
-
-	@Override
-	public void deleteColumnAt(int column) {
-		spreadsheetSettings.setColumnsNoFire(numberOfColumns() - 1);
-		processor.deleteColumnAt(column);
-	}
-
-	@Override
-	public void setContent(int row, int column, Object content) {
-		if (content != null) {
-			GeoElement geo = (GeoElement) content;
-			unfixSymbolic(geo);
-			setLabel(geo, row, column);
-			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
-			if (numberOfRows() <= row) {
-				spreadsheetSettings.setRowsNoFire(row + 1);
-			}
-			if (numberOfColumns() <= column) {
-				spreadsheetSettings.setColumnsNoFire(column + 1);
-			}
-		} else {
-			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
+	// Helpers
+	
+	private void removeByLabel(String labelSimple) {
+		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
+		if (pt != null && pt.column != -1) {
+			setContent(pt.row, pt.column, null);
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
 		}
-	}
-
-	@Override
-	public void removeContentAt(int row, int column) {
-		processor.removeContentAt(row, column);
-		setContent(row, column, null);
-	}
-
-	@Override
-	public @Nonnull String serializeContentAt(int row, int column) {
-		GeoElement geoElement = contentAt(row, column);
-		return geoElement == null ? ""
-				: geoElement.getRedefineString(true, false);
 	}
 
 	private void unfixSymbolic(GeoElement geo) {
 		if (geo instanceof GeoSymbolic && geo.isLocked()) {
 			geo.setFixed(false);
+		}
+	}
+
+	private void setLabel(GeoElement geo, int row, int column) {
+		String label = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+		if (kernel.getConstruction().isFreeLabel(label)) {
+			geo.rename(label);
 		}
 	}
 
@@ -253,12 +192,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		geo.updateVisualStyle(GProperty.VISIBLE);
 	}
 
-	private void setLabel(GeoElement geo, int row, int column) {
-		String label = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
-		if (kernel.getConstruction().isFreeLabel(label)) {
-			geo.rename(label);
-		}
-	}
+	// -- HasTabularValues --
 
 	@Override
 	public @CheckForNull GeoElement contentAt(int row, int column) {
@@ -266,13 +200,20 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public @Nonnull String getColumnName(int column) {
-		return GeoElementSpreadsheet.getSpreadsheetColumnName(column);
+	public int numberOfRows() {
+		return app.getSettings().getSpreadsheet().getRows();
 	}
 
 	@Override
-	public void addChangeListener(@Nonnull TabularDataChangeListener changeListener) {
-		changeListeners.add(changeListener);
+	public int numberOfColumns() {
+		return app.getSettings().getSpreadsheet().getColumns();
+	}
+
+	// -- TabularData --
+
+	@Override
+	public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
+		return cellProcessor;
 	}
 
 	@Override
@@ -281,13 +222,86 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public int getAlignment(int row, int column) {
-		return cellFormat.getAlignment(column, row, contentAt(row, column) instanceof GeoText);
+	public CellDragPasteHandler getCellDragPasteHandler() {
+		return new KernelCellDragPasteHandler(this, kernel);
 	}
 
 	@Override
-	public String getErrorString() {
-		return kernel.getLocalization().getError("Error").toUpperCase(Locale.ROOT);
+	public void addChangeListener(@Nonnull TabularDataChangeListener changeListener) {
+		changeListeners.add(changeListener);
+	}
+
+	@Override
+	public void insertRowAt(int row) {
+		app.getSettings().getSpreadsheet().setRowsNoFire(numberOfRows() + 1);
+		processor.insertRowAt(row);
+	}
+
+	@Override
+	public void deleteRowAt(int row) {
+		app.getSettings().getSpreadsheet().setRowsNoFire(numberOfRows() - 1);
+		processor.deleteRowAt(row);
+	}
+
+	@Override
+	public void insertColumnAt(int column) {
+		app.getSettings().getSpreadsheet().setColumnsNoFire(numberOfColumns() + 1);
+		processor.insertColumnAt(column);
+	}
+
+	@Override
+	public void deleteColumnAt(int column) {
+		app.getSettings().getSpreadsheet().setColumnsNoFire(numberOfColumns() - 1);
+		processor.deleteColumnAt(column);
+	}
+
+	@Override
+	public @Nonnull String getColumnName(int column) {
+		return GeoElementSpreadsheet.getSpreadsheetColumnName(column);
+	}
+
+	@Override
+	public void setContent(int row, int column, Object content) {
+		if (content != null) {
+			GeoElement geo = (GeoElement) content;
+			unfixSymbolic(geo);
+			setLabel(geo, row, column);
+			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
+			if (numberOfRows() <= row) {
+				app.getSettings().getSpreadsheet().setRowsNoFire(row + 1);
+			}
+			if (numberOfColumns() <= column) {
+				app.getSettings().getSpreadsheet().setColumnsNoFire(column + 1);
+			}
+		} else {
+			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
+		}
+	}
+
+	@Override
+	public void removeContentAt(int row, int column) {
+		processor.removeContentAt(row, column);
+		setContent(row, column, null);
+	}
+
+	@Override
+	public boolean isTextContentAt(int row, int column) {
+		return contentAt(row, column) instanceof GeoText;
+	}
+
+	@Override
+	public void markNonEmpty(int row, int column) {
+		GeoElement geo = contentAt(row, column);
+		if (geo != null) {
+			geo.setEmptySpreadsheetCell(false);
+		}
+	}
+
+	@Override
+	public @Nonnull String serializeContentAt(int row, int column) {
+		GeoElement geoElement = contentAt(row, column);
+		return geoElement == null ? ""
+				: geoElement.getRedefineString(true, false);
 	}
 
 	@Override
@@ -300,20 +314,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public CellDragPasteHandler getCellDragPasteHandler() {
-		return new KernelCellDragPasteHandler(this, kernel);
-	}
-
-	@Override
-	public void markNonEmpty(int row, int column) {
-		GeoElement geo = contentAt(row, column);
-		if (geo != null) {
-			geo.setEmptySpreadsheetCell(false);
-		}
-	}
-
-	@Override
-	public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
-		return cellProcessor;
+	public String getErrorString() {
+		return kernel.getLocalization().getError("Error").toUpperCase(Locale.ROOT);
 	}
 }

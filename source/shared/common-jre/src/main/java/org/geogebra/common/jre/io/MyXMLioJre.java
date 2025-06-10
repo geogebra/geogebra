@@ -700,7 +700,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 		XMLStreamJre streamJre = (XMLStreamJre) stream;
 		xmlParser.parse(xmlHandler, streamJre.getReader());
 		streamJre.closeReader();
-
 	}
 
 	/**

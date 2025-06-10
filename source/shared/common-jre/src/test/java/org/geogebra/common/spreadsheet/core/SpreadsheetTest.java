@@ -24,7 +24,7 @@ import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
-import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -35,10 +35,9 @@ import org.mockito.Mockito;
 
 public class SpreadsheetTest extends BaseUnitTest {
 
-	private final double cellHeight = TableLayout.DEFAULT_CELL_HEIGHT;
-	private final double cellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
 	private TabularData<?> tabularData;
+	private TableLayout layout;
 	private UndoProvider undoProvider;
 	private SpreadsheetDelegate delegate;
 
@@ -47,11 +46,11 @@ public class SpreadsheetTest extends BaseUnitTest {
 		tabularData = new TestTabularData();
         undoProvider = mock();
 		spreadsheet = new Spreadsheet(tabularData,
-				getSettings().getSpreadsheet(),
 				new TestCellRenderableFactory(),
                 undoProvider);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
+		layout = spreadsheet.getController().getLayout();
 		resetViewport();
 		spreadsheet.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
 			@Override
@@ -94,9 +93,9 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// initially we have 2 columns
 		assertThat(graphics.toString(), startsWith("A,B,1"));
-		spreadsheet.handlePointerDown(cellWidth + 40, 5, Modifiers.NONE);
-		spreadsheet.handlePointerMove(cellWidth + 10, 5, Modifiers.NONE);
-		spreadsheet.handlePointerUp(cellWidth + 10, 5, Modifiers.NONE);
+		spreadsheet.handlePointerDown(layout.getRowHeaderWidth() + 40, 5, Modifiers.NONE);
+		spreadsheet.handlePointerMove(layout.getRowHeaderWidth() + 10, 5, Modifiers.NONE);
+		spreadsheet.handlePointerUp(layout.getRowHeaderWidth() + 10, 5, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 3
@@ -114,9 +113,9 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.selectColumn(2, true, false);
 		spreadsheet.selectColumn(3, true, false);
 		spreadsheet.selectColumn(4, true, false);
-		spreadsheet.handlePointerDown(cellWidth + 80, 5, Modifiers.NONE);
-		spreadsheet.handlePointerMove(cellWidth + 50, 5, Modifiers.NONE);
-		spreadsheet.handlePointerUp(cellWidth + 50, 5, Modifiers.NONE);
+		spreadsheet.handlePointerDown(layout.getRowHeaderWidth() + 80, 5, Modifiers.NONE);
+		spreadsheet.handlePointerMove(layout.getRowHeaderWidth() + 50, 5, Modifiers.NONE);
+		spreadsheet.handlePointerUp(layout.getRowHeaderWidth() + 50, 5, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 6
@@ -129,9 +128,9 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// initially we have 5 rows
 		assertThat(graphics.toString(), endsWith(",5"));
-		spreadsheet.handlePointerDown(15, cellHeight + 20, Modifiers.NONE);
-		spreadsheet.handlePointerMove(15, cellHeight + 40, Modifiers.NONE);
-		spreadsheet.handlePointerUp(15, cellHeight + 40, Modifiers.NONE);
+		spreadsheet.handlePointerDown(15, layout.getColumnHeaderHeight() + 20, Modifiers.NONE);
+		spreadsheet.handlePointerMove(15, layout.getColumnHeaderHeight() + 40, Modifiers.NONE);
+		spreadsheet.handlePointerUp(15, layout.getColumnHeaderHeight() + 40, Modifiers.NONE);
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 4
@@ -179,9 +178,9 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.selectRow(2, true, false);
 		spreadsheet.selectRow(3, true, false);
 		spreadsheet.selectRow(4, true, false);
-		spreadsheet.handlePointerDown(15, cellHeight + 20, Modifiers.NONE);
-		spreadsheet.handlePointerMove(15, cellHeight + 45, Modifiers.NONE);
-		spreadsheet.handlePointerUp(15, cellHeight + 45, Modifiers.NONE);
+		spreadsheet.handlePointerDown(15, layout.getColumnHeaderHeight() + 20, Modifiers.NONE);
+		spreadsheet.handlePointerMove(15, layout.getColumnHeaderHeight() + 45, Modifiers.NONE);
+		spreadsheet.handlePointerUp(15, layout.getColumnHeaderHeight() + 45, Modifiers.NONE);
 		resetViewport();
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
@@ -191,7 +190,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	@Test
 	public void spreadsheetShouldRepaintAfterUpdatingSlider() {
-		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
+		tabularData = new KernelTabularDataAdapter(getApp());
 		tabularData.addChangeListener(spreadsheet);
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
 
@@ -233,7 +232,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		styleBarModel.setBold(true);
 		// extend selection, style bar should reflect traits of first cell in selection
 		spreadsheet.selectCell(2, 2, true, false);
-		assertTrue(styleBarModel.getState().fontTraits.contains(SpreadsheetStyle.FontTrait.BOLD));
+		assertTrue(styleBarModel.getState().fontTraits.contains(SpreadsheetStyling.FontTrait.BOLD));
 	}
 
 	@Test
@@ -269,15 +268,15 @@ public class SpreadsheetTest extends BaseUnitTest {
 		styleBarModel.setItalic(false);
 		verify(undoProvider, times(2)).storeUndoInfo();
 		simulateDownArrowPress(spreadsheet.getController());
-		styleBarModel.setTextAlignment(SpreadsheetStyle.TextAlignment.LEFT);
+		styleBarModel.setTextAlignment(SpreadsheetStyling.TextAlignment.LEFT);
 		verify(undoProvider, times(3)).storeUndoInfo();
 	}
 
 	// Helpers
 
-	private static class TestCellRenderableFactory implements CellRenderableFactory {
+	static class TestCellRenderableFactory implements CellRenderableFactory {
 		@Override
-		public SelfRenderable getRenderable(Object data, SpreadsheetStyle style,
+		public SelfRenderable getRenderable(Object data, SpreadsheetStyling styling,
 				int row, int column) {
 			return data == null ? null : new SelfRenderable(new StringRenderer(),
 					GFont.PLAIN, CellFormat.ALIGN_LEFT, data);

@@ -144,10 +144,13 @@ public abstract class MyXMLio {
 		// save construction
 		c.getConstructionXML(sb, getListenersToo);
 
-		// save ProbabilityCalculator settings
+		// save ProbabilityCalculator, Algebra view settings
 		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null) {
 			consApp.getGuiManager().getViewsXML(sb, false);
 		}
+
+		// save spreadsheet settings
+		consApp.getSettings().getSpreadsheet().getXML(sb, false);
 
 		sb.append("</geogebra>");
 		return sb;

@@ -98,8 +98,7 @@ public class Settings {
 		if (spreadsheetSettings == null) {
 			spreadsheetSettings = new SpreadsheetSettings();
 		} else {
-			spreadsheetSettings = new SpreadsheetSettings(spreadsheetSettings.getListeners(),
-					spreadsheetSettings.getCustomRowAndColumnSizeProvider());
+			spreadsheetSettings = new SpreadsheetSettings(spreadsheetSettings.getListeners());
 		}
 
 		if (consProtSettings == null) {
@@ -292,14 +291,13 @@ public class Settings {
 	}
 
 	/**
-	 * Restores spreadsheet defaults
+	 * Restores spreadsheet defaults (used only by SpreadsheetViewD/SpreadsheetViewW)
 	 */
 	public void restoreDefaultSpreadsheetSettings() {
 		if (spreadsheetSettings == null) {
 			spreadsheetSettings = new SpreadsheetSettings();
 		} else {
-			spreadsheetSettings = new SpreadsheetSettings(spreadsheetSettings.getListeners(),
-					spreadsheetSettings.getCustomRowAndColumnSizeProvider());
+			spreadsheetSettings = new SpreadsheetSettings(spreadsheetSettings.getListeners());
 		}
 	}
 

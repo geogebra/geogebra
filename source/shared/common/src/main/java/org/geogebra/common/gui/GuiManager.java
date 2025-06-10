@@ -151,9 +151,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public void getViewsXML(StringBuilder sb, boolean asPreference) {
-		// save spreadsheetView settings
-		getSpreadsheetViewXML(sb, asPreference);
-
 		// save ProbabilityCalculator settings
 		if (hasProbabilityCalculator()) {
 			getProbabilityCalculatorXML(sb);

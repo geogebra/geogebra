@@ -20,7 +20,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
-import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -41,28 +41,28 @@ public final class SpreadsheetRenderer {
 	private final static GBasicStroke dashedGridStroke = EuclidianStatic.getStroke(
 			gridStroke.getLineWidth(), EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 	private final static GBasicStroke borderStroke = AwtFactory.getPrototype().newBasicStroke(2);
-	private final SpreadsheetStyle style;
+	private final SpreadsheetStyling styling;
 	private final TabularData tabularData;
 	private final static int ERROR_TRIANGLE_WIDTH = 10;
 	private final static int TEXT_PADDING = 10;
 	private final static int TEXT_HEIGHT = 16;
 
 	SpreadsheetRenderer(@Nonnull TableLayout layout, @Nonnull CellRenderableFactory converter,
-			@Nonnull SpreadsheetStyle style, @Nonnull TabularData tabularData) {
+			@Nonnull SpreadsheetStyling styling, @Nonnull TabularData tabularData) {
 		this.converter = converter;
 		this.layout = layout;
-		this.style = style;
+		this.styling = styling;
 		this.tabularData = tabularData;
 	}
 
 	void drawCell(int row, int column, GGraphics2D graphics, @CheckForNull Object content,
 			boolean hasError) {
 		Rectangle cellBounds = layout.getBounds(row, column);
-		GColor backgroundColor = style.getBackgroundColor(row, column, null);
+		GColor backgroundColor = styling.getBackgroundColor(row, column, null);
 		if (backgroundColor != null) {
 			drawCellBackground(graphics, backgroundColor, cellBounds);
 		}
-		if (style.showBorder(row, column)) {
+		if (styling.showBorder(row, column)) {
 			drawCellBorder(graphics, cellBounds);
 		}
 
@@ -72,13 +72,13 @@ public final class SpreadsheetRenderer {
 
 		SelfRenderable renderable = renderableCache.computeIfAbsent(
 				new SpreadsheetCoords(row, column),
-				ignore -> converter.getRenderable(content, style, row, column));
+				ignore -> converter.getRenderable(content, styling, row, column));
 		if (renderable != null) {
 			if (renderable.getBackground() != null) {
 				drawCellBackground(graphics, renderable.getBackground(), cellBounds);
 			}
 			if (!hasError) {
-				graphics.setColor(style.getTextColor(row, column, style.getDefaultTextColor()));
+				graphics.setColor(styling.getTextColor(row, column, styling.getDefaultTextColor()));
 				renderable.draw(graphics, cellBounds);
 			}
 		}
@@ -106,7 +106,7 @@ public final class SpreadsheetRenderer {
 	 */
 	public void drawErrorCell(int row, int column, GGraphics2D graphics, Rectangle viewport,
 			double offsetX, double offsetY) {
-		graphics.setColor(style.getErrorGridColor());
+		graphics.setColor(styling.getErrorGridColor());
 		graphics.setStroke(borderStroke);
 
 		double topLeftX = Math.max(layout.getMinX(column) - offsetX, layout.getRowHeaderWidth());
@@ -160,7 +160,7 @@ public final class SpreadsheetRenderer {
 	}
 
 	private void drawErrorString(GGraphics2D graphics, double topLeftX, double topLeftY) {
-		graphics.setColor(style.getDefaultTextColor());
+		graphics.setColor(styling.getDefaultTextColor());
 		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
 		graphics.drawString(tabularData.getErrorString(), topLeftX + TEXT_PADDING,
 				topLeftY + TEXT_HEIGHT + TEXT_PADDING);
@@ -175,7 +175,7 @@ public final class SpreadsheetRenderer {
 	void drawRowBorder(int row, GGraphics2D graphics) {
 		graphics.setStroke(gridStroke);
 		graphics.drawStraightLine(0, layout.getMinY(row),
-				style.isShowGrid()
+				styling.isShowGrid()
 						? layout.getTotalWidth() : layout.getRowHeaderWidth(), layout.getMinY(row));
 	}
 
@@ -190,7 +190,7 @@ public final class SpreadsheetRenderer {
 	void drawColumnBorder(int column, GGraphics2D graphics) {
 		graphics.setStroke(gridStroke);
 		graphics.drawStraightLine(layout.getMinX(column), 0, layout.getMinX(column),
-				style.isShowGrid()
+				styling.isShowGrid()
 						? layout.getTotalHeight() : layout.getColumnHeaderHeight());
 	}
 
@@ -202,11 +202,11 @@ public final class SpreadsheetRenderer {
 	}
 
 	void drawHeaderBackgroundAndOutline(GGraphics2D graphics, Rectangle rectangle) {
-		graphics.setColor(style.getHeaderBackgroundColor());
+		graphics.setColor(styling.getHeaderBackgroundColor());
 		fillRect(graphics, 0, 0, rectangle.getWidth(), layout.getColumnHeaderHeight());
 		fillRect(graphics, 0, 0, layout.getRowHeaderWidth(), rectangle.getHeight());
 		double bottom = layout.getColumnHeaderHeight();
-		graphics.setColor(style.getGridColor());
+		graphics.setColor(styling.getGridColor());
 		graphics.drawStraightLine(0, bottom, rectangle.getWidth(), bottom);
 		double right = layout.getRowHeaderWidth();
 		graphics.drawStraightLine(right, 0, right, rectangle.getHeight());
@@ -215,7 +215,7 @@ public final class SpreadsheetRenderer {
 	void drawSelection(TabularRange selection, GGraphics2D graphics, Rectangle viewport) {
 		Rectangle bounds = layout.getBounds(selection, viewport);
 		if (bounds != null) {
-			graphics.setColor(style.getSelectionColor());
+			graphics.setColor(styling.getSelectionColor());
 			fillRect(graphics, bounds.getMinX(), bounds.getMinY(),
 					bounds.getWidth(), bounds.getHeight());
 		}
@@ -226,8 +226,8 @@ public final class SpreadsheetRenderer {
 		Rectangle bounds = layout.getBounds(selection, viewport);
 		if (bounds != null) {
 			setStroke(graphics, thickOutline, dashed);
-			graphics.setColor(dashed ? style.getDashedSelectionBorderColor()
-					: style.getSelectionBorderColor());
+			graphics.setColor(dashed ? styling.getDashedSelectionBorderColor()
+					: styling.getSelectionBorderColor());
 			double minX = Math.max(bounds.getMinX(), layout.getRowHeaderWidth());
 			double minY = Math.max(bounds.getMinY(), layout.getColumnHeaderHeight());
 			double maxX = bounds.getMaxX();
@@ -287,8 +287,8 @@ public final class SpreadsheetRenderer {
 			minY = 0;
 			height = viewport.getHeight();
 		}
-		graphics.setColor(range.getMinColumn() == -1 ? style.getSelectionHeaderColor()
-				: style.getGridColor());
+		graphics.setColor(range.getMinColumn() == -1 ? styling.getSelectionHeaderColor()
+				: styling.getGridColor());
 		fillRect(graphics, minX, minY, layout.getRowHeaderWidth(), height);
 		minY = 0;
 		if (range.getMinColumn() >= 0) {
@@ -298,8 +298,8 @@ public final class SpreadsheetRenderer {
 			minX = 0;
 			width = viewport.getWidth();
 		}
-		graphics.setColor(range.getMinRow() == -1 ? style.getSelectionHeaderColor()
-				: style.getGridColor());
+		graphics.setColor(range.getMinRow() == -1 ? styling.getSelectionHeaderColor()
+				: styling.getGridColor());
 		fillRect(graphics, minX, minY, width, layout.getColumnHeaderHeight());
 
 	}
@@ -310,7 +310,7 @@ public final class SpreadsheetRenderer {
 
 	void drawDraggingDot(Point location, GGraphics2D graphics) {
 		int dotSize = 4;
-		graphics.setColor(style.getSelectionBorderColor());
+		graphics.setColor(styling.getSelectionBorderColor());
 		fillRect(graphics, location.x - dotSize, location.y - dotSize,
 				dotSize * 2, dotSize * 2);
 		graphics.setStroke(gridStroke);
@@ -320,7 +320,7 @@ public final class SpreadsheetRenderer {
 	}
 
 	void drawEditorBorder(Rectangle bounds, GGraphics2D graphics) {
-		graphics.setColor(style.getSelectionBorderColor());
+		graphics.setColor(styling.getSelectionBorderColor());
 		graphics.setStroke(borderStroke);
 		drawRectangleWithStraightLines(graphics,
 				bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());

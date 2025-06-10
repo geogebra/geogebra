@@ -20,10 +20,8 @@ public class DefaultSpreadsheetCellProcessorSymbolicTest extends BaseSymbolicTes
 
 	@Before
 	public void setUp() {
-		processor =
-				new DefaultSpreadsheetCellProcessor(kernel.getAlgebraProcessor());
-		kernel.attach(new KernelTabularDataAdapter(
-				app.getSettings().getSpreadsheet(), kernel));
+		processor = new DefaultSpreadsheetCellProcessor(kernel.getAlgebraProcessor());
+		kernel.attach(new KernelTabularDataAdapter(app));
 	}
 
 	@Test

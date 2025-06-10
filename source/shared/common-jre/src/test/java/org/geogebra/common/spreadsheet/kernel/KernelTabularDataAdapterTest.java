@@ -16,8 +16,7 @@ public class KernelTabularDataAdapterTest extends BaseUnitTest {
 
 	@Before
 	public void setupData() {
-		tabularData = new KernelTabularDataAdapter(getApp().getSettings().getSpreadsheet(),
-				getKernel());
+		tabularData = new KernelTabularDataAdapter(getApp());
 		getKernel().attach(tabularData);
 	}
 
