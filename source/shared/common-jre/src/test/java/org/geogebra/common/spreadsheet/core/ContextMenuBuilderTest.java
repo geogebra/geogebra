@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 import static org.geogebra.common.spreadsheet.core.ContextMenuBuilder.HEADER_INDEX;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CALCULATE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CREATE_CHART;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CUT;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
