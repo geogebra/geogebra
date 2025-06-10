@@ -90,7 +90,7 @@ public class SpreadsheetUndoTest extends BaseUnitTest {
 		String xmlAfterFirstUndo = construction.getCurrentUndoXML(false).toString();
 		assertEquals(xmlAfterFirstUndo, xmlAfterColAResize);
 
-		// undo columnn A resize
+		// undo column A resize
 		undoManager.undo();
 		String xmlAfterSecondUndo = construction.getCurrentUndoXML(false).toString();
 		assertEquals(xmlAfterSecondUndo, initialXml);
