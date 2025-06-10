@@ -15,8 +15,6 @@ import java.util.Collection;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 
-import org.geogebra.common.annotation.MissingDoc;
-
 /**
  * A hypergraph, consisting of a set of vertices of type <code>V</code> and a
  * set of hyperedges of type <code>E</code> which connect the vertices. This is
@@ -515,6 +513,8 @@ public interface Hypergraph<V, E> {
 	 */
 	Collection<V> getSuccessors(V vertex);
 
-	@MissingDoc
-	public Hypergraph<V, E> newInstance();
+	/**
+	 * @return new hypergraph
+	 */
+	Hypergraph<V, E> newInstance();
 }

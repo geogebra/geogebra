@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.parser;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -63,6 +62,11 @@ public interface ParserInterface {
 	 */
 	String parseLabel(String label) throws ParseException;
 
-	@MissingDoc
+	/**
+	 * Parse expression, but use fixed precision for numbers (do not store all digits as string).
+	 * @param str input
+	 * @return parsed input
+	 * @throws ParseException if input uses invalid syntax
+	 */
 	ValidExpression parseGeoGebraExpressionLowPrecision(String str) throws ParseException;
 }
