@@ -20,10 +20,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class WtrExamTests extends BaseExamTests {
+public class WtrExamTests extends BaseExamTestSetup {
 	@BeforeEach
 	public void setupWtrExam() {
-		setInitialApp(SuiteSubApp.SCIENTIFIC);
+		setupApp(SuiteSubApp.SCIENTIFIC);
 		examController.startExam(ExamType.WTR, null);
 	}
 
@@ -96,7 +96,7 @@ public class WtrExamTests extends BaseExamTests {
 
 	@Test
 	public void testMixedNumbers() {
-		assertFalse(app.getEditorFeatures().areMixedNumbersEnabled(),
+		assertFalse(getApp().getEditorFeatures().areMixedNumbersEnabled(),
 				"mixed numbers should be disabled");
 	}
 
@@ -108,9 +108,9 @@ public class WtrExamTests extends BaseExamTests {
 
 	@Test
 	public void showOnlyDefinition() {
-		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		evaluate("b=2");
-		ToStringConverter ansProvider = app.getGeoElementValueConverter();
+		ToStringConverter ansProvider = getApp().getGeoElementValueConverter();
 		GeoElementND dynamic = evaluate("b*deg")[0];
 		assertEquals("b" + Unicode.DEGREE_STRING, ansProvider.convert(dynamic.toGeoElement()));
 		GeoElementND stat = evaluate("3*deg")[0];
@@ -119,7 +119,7 @@ public class WtrExamTests extends BaseExamTests {
 
 	@Test
 	public void asindShouldEvaluateToDegrees() {
-		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		GeoElementND angle = evaluate("asind(.5)")[0];
 		assertEquals("30" + Unicode.DEGREE_STRING,
 				angle.toValueString(StringTemplate.defaultTemplate));

@@ -2,9 +2,8 @@ package org.geogebra.common.exam.restrictions.cvte;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.BaseExamTests;
-import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -16,11 +15,11 @@ import org.geogebra.common.util.ToStringConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CvteValueConverterTests extends BaseExamTests {
+public class CvteValueConverterTests extends BaseAppTestSetup {
 
 	@BeforeEach
 	public void setup() {
-		setInitialApp(SuiteSubApp.GRAPHING);
+		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
@@ -55,7 +54,7 @@ public class CvteValueConverterTests extends BaseExamTests {
 		ToStringConverter converter = new ProtectiveGeoElementValueConverter(
 				new CvteAlgebraOutputFilter(null));
 
-		Localization localization = app.getLocalization();
+		Localization localization = getApp().getLocalization();
 		StringTemplate defaultTemplate = StringTemplate.defaultTemplate;
 
 		// For Lines, Rays, Conics, Implicit Equations and Functions created with command or tool:

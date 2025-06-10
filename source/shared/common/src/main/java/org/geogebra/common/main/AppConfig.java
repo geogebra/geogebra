@@ -372,5 +372,4 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 
 	@MissingDoc
 	boolean hasDataImport();
-
 }

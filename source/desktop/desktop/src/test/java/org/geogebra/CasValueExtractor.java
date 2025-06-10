@@ -84,7 +84,7 @@ public class CasValueExtractor {
 
 	@BeforeEach
 	public void setup() {
-		app.getKernel().setPrintDecimals(13);
+		app.getSettingsUpdater().resetSettingsOnAppStart();
 	}
 
 	@AfterAll

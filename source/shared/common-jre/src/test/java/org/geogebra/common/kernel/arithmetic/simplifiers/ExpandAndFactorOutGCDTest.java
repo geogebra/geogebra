@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import org.junit.jupiter.api.Test;
 
-public class ExpandAndFactorOutGCDTest extends BaseSimplifyTest {
+public class ExpandAndFactorOutGCDTest extends BaseSimplifyTestSetup {
 
 	@Test
 	public void testSimplify() {
@@ -32,10 +32,10 @@ public class ExpandAndFactorOutGCDTest extends BaseSimplifyTest {
 
 	@Test
 	void testExpandWithGeos() {
-		add("a = -5");
-		add("b = 2");
-		add("c = -1");
-		add("d = 3");
+		evaluate("a = -5");
+		evaluate("b = 2");
+		evaluate("c = -1");
+		evaluate("d = 3");
 		shouldSimplify("((a + sqrt(b)) (c - sqrt(d))) / -2",
 				"(5 - sqrt(2) + 5sqrt(3) - sqrt(6))/ -2");
 	}

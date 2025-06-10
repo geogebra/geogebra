@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class OrderedExpressionNodeTest extends BaseSimplifyTest {
+public class OrderedExpressionNodeTest extends BaseSimplifyTestSetup {
 	private SimplifyUtils utils;
 
 	@BeforeEach
@@ -29,7 +29,7 @@ public class OrderedExpressionNodeTest extends BaseSimplifyTest {
 	}
 
 	private OrderedExpressionNode createOrderedNode(String definition) {
-		ExpressionValue value = add(definition).getDefinition();
+		ExpressionValue value = evaluateGeoElement(definition).getDefinition();
 		return new OrderedExpressionNode(value, utils);
 	}
 

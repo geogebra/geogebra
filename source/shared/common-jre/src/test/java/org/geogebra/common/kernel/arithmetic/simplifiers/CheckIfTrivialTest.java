@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class CheckIfTrivialTest extends BaseSimplifyTest {
+public class CheckIfTrivialTest extends BaseSimplifyTestSetup {
 
 	@Override
 	protected Class<? extends SimplifyNode> getSimplifierClass() {

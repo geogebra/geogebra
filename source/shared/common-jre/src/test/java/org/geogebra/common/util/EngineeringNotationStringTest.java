@@ -18,11 +18,18 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.function.Function;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class EngineeringNotationStringTest extends BaseUnitTest {
+public class EngineeringNotationStringTest extends BaseAppTestSetup {
+	@BeforeEach
+	public void setup() {
+		setupApp(SuiteSubApp.GRAPHING);
+	}
+
 	@SuppressWarnings({"checkstyle:RegexpSinglelineCheck", "checkstyle:LineLengthCheck"})
 	@ParameterizedTest
 	@CsvSource({

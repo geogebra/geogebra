@@ -23,8 +23,6 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.PreviewFeature;
-import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,16 +30,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class RealSchuleExamRestrictionsTest extends BaseExamTests {
-
-	private Settings settings;
-	private EuclidianSettings evSettings;
-
+public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	@BeforeEach
 	public void setupExam() {
-		setInitialApp(SuiteSubApp.GRAPHING);
-		settings = app.getSettings();
-		evSettings = settings.getEuclidian(1);
+		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test
@@ -57,24 +49,24 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 		coordFormatShouldBe(Kernel.COORD_STYLE_DEFAULT);
 		axisLabelsShouldBe("xAxis", "yAxis");
 		gridShouldBe(EuclidianView.GRID_ISOMETRIC);
-		GeoPoint point = new GeoPoint(app.getKernel().getConstruction());
+		GeoPoint point = new GeoPoint(getKernel().getConstruction());
 		assertEquals(point.getPointStyle(), EuclidianStyleConstants.POINT_STYLE_DOT);
 	}
 
 	private void createDefaultSetting() {
-		settings.getGeneral().setCoordFormat(Kernel.COORD_STYLE_DEFAULT);
-		evSettings.setAxisLabel(0, "xAxis");
-		evSettings.setAxisLabel(1, "yAxis");
-		evSettings.setAxisNumberingDistance(0, 1.5);
-		evSettings.setAxisNumberingDistance(1, 4.1);
-		evSettings.setGridType(EuclidianView.GRID_ISOMETRIC);
+		getApp().getSettings().getGeneral().setCoordFormat(Kernel.COORD_STYLE_DEFAULT);
+		getApp().getSettings().getEuclidian(1).setAxisLabel(0, "xAxis");
+		getApp().getSettings().getEuclidian(1).setAxisLabel(1, "yAxis");
+		getApp().getSettings().getEuclidian(1).setAxisNumberingDistance(0, 1.5);
+		getApp().getSettings().getEuclidian(1).setAxisNumberingDistance(1, 4.1);
+		getApp().getSettings().getEuclidian(1).setGridType(EuclidianView.GRID_ISOMETRIC);
 	}
 
 	private void realSchuleRestrictionsShouldBeApplied() {
 		coordFormatShouldBe(Kernel.COORD_STYLE_AUSTRIAN);
 		axisLabelsShouldBe("x", "y");
 		gridShouldBe(EuclidianView.GRID_CARTESIAN);
-		GeoPoint point = new GeoPoint(app.getKernel().getConstruction());
+		GeoPoint point = new GeoPoint(getKernel().getConstruction());
 		assertEquals(point.getPointStyle(), EuclidianStyleConstants.POINT_STYLE_CROSS);
 		assertFalse(createFixedEqnModel().isValidAt(0));
 	}
@@ -88,8 +80,8 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 	}
 
 	private FixObjectModel createFixedEqnModel() {
-		GeoConic circle = (GeoConic) evaluateGeoElement("x^2+y^2=0");
-		FixObjectModel model = new FixObjectModel(null, app);
+		GeoConic circle = evaluateGeoElement("x^2+y^2=0");
+		FixObjectModel model = new FixObjectModel(null, getApp());
 		model.setGeos(new Object[]{circle});
 		return model;
 	}
@@ -100,20 +92,20 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 	}
 
 	private void gridShouldBe(int expected) {
-		assertEquals(expected, evSettings.getGridType());
+		assertEquals(expected, getApp().getSettings().getEuclidian(1).getGridType());
 	}
 
 	private void axisLabelsShouldBe(String... labels) {
 		if (labels.length != 2) {
 			fail();
 		}
-		String[] axesLabels = evSettings.getAxesLabels();
+		String[] axesLabels = getApp().getSettings().getEuclidian(1).getAxesLabels();
 		assertEquals(labels[0], axesLabels[0]);
 		assertEquals(labels[1], axesLabels[1]);
 	}
 
 	private void coordFormatShouldBe(int expected) {
-		assertEquals(expected, settings.getGeneral().getCoordFormat());
+		assertEquals(expected, getApp().getSettings().getGeneral().getCoordFormat());
 	}
 
 	@Test
@@ -122,7 +114,7 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 		realSchuleRestrictionsShouldBeApplied();
 
 		// emulating AppW.fileNew(), which is not reachable from common.
-		evSettings.reset();
+		getApp().getSettings().getEuclidian(1).reset();
 		examController.reapplySettingsRestrictions();
 
 		realSchuleRestrictionsShouldBeApplied();
@@ -145,7 +137,8 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 	})
 	public void testUnrestrictedVisibility(String expression) {
 		examController.startExam(ExamType.BAYERN_GR, null);
-		assertTrue(evaluateGeoElement(expression).isEuclidianToggleable());
+		GeoElement geoElement = evaluateGeoElement(expression);
+		assertTrue(geoElement.isEuclidianToggleable());
 	}
 
 	@ParameterizedTest
@@ -160,18 +153,18 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTests {
 	})
 	public void testRestrictedVisibility(String expression) {
 		examController.startExam(ExamType.BAYERN_GR, null);
-		assertFalse(evaluateGeoElement(expression).isEuclidianToggleable());
+		GeoElement geoElement = evaluateGeoElement(expression);
+		assertFalse(geoElement.isEuclidianToggleable());
 	}
 
 	@Test
 	public void testEnabledEngineeringNotation() {
 		PreviewFeature.enableFeaturePreviews = true;
 		examController.startExam(ExamType.BAYERN_GR, null);
-		GeoElement geoElement = evaluateGeoElement("1.234");
-		boolean enableEngineeringNotation = settings.getAlgebra().isEngineeringNotationEnabled();
-		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters =
-				settings.getAlgebra().getAlgebraOutputFormatFilters();
-		assertTrue(AlgebraOutputFormat.getPossibleFormats(geoElement,
+		boolean enableEngineeringNotation = getAlgebraSettings().isEngineeringNotationEnabled();
+		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters = getAlgebraSettings()
+				.getAlgebraOutputFormatFilters();
+		assertTrue(AlgebraOutputFormat.getPossibleFormats(evaluateGeoElement("1.234"),
 				enableEngineeringNotation, algebraOutputFormatFilters).contains(ENGINEERING));
 		PreviewFeature.enableFeaturePreviews = false;
 	}

@@ -4,16 +4,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.BaseExamTests;
+import org.geogebra.common.exam.BaseExamTestSetup;
 import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RealschuleAlgebraOutputFilterTests extends BaseExamTests {
+public class RealschuleAlgebraOutputFilterTests extends BaseExamTestSetup {
 
 	@Before
 	public void setup() {
-		setInitialApp(SuiteSubApp.GRAPHING);
+		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@Test

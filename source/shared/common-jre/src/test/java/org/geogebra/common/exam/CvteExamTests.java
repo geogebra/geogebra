@@ -1,5 +1,7 @@
 package org.geogebra.common.exam;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_POINT;
 import static org.geogebra.common.kernel.commands.Commands.Curve;
 import static org.geogebra.common.kernel.commands.Commands.CurveCartesian;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,7 +17,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
@@ -34,13 +35,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public final class CvteExamTests extends BaseExamTests {
+public final class CvteExamTests extends BaseExamTestSetup {
     private static final Set<VisibilityRestriction> visibilityRestrictions =
             CvteExamRestrictions.createVisibilityRestrictions();
 
     @BeforeEach
     public void setupCvteExam() {
-        setInitialApp(SuiteSubApp.GRAPHING);
+        setupApp(SuiteSubApp.GRAPHING);
         examController.startExam(ExamType.CVTE, null);
     }
 
@@ -55,7 +56,7 @@ public final class CvteExamTests extends BaseExamTests {
                 () -> assertNull(evaluate("{IterationList(x^2,3,2)}")),
                 () -> assertNull(evaluate("{Sequence(k,k,1,3)}")));
         assertEquals("Please check your input"
-                + "Sorry, something went wrong. Please check your input".repeat(3) ,
+                + "Sorry, something went wrong. Please check your input".repeat(3),
                 errorAccumulator.getErrorsSinceReset());
         errorAccumulator.resetError();
     }
@@ -78,10 +79,10 @@ public final class CvteExamTests extends BaseExamTests {
     @Test
     public void testToolRestrictions() {
         assertAll(
-                () -> assertTrue(app.getAvailableTools().contains(EuclidianConstants.MODE_MOVE)),
-                () -> assertFalse(app.getAvailableTools().contains(EuclidianConstants.MODE_POINT)),
-                () -> assertTrue(commandDispatcher.isAllowedByCommandFilters(Curve)),
-                () -> assertTrue(commandDispatcher.isAllowedByCommandFilters(CurveCartesian)));
+                () -> assertTrue(getApp().getAvailableTools().contains(MODE_MOVE)),
+                () -> assertFalse(getApp().getAvailableTools().contains(MODE_POINT)),
+                () -> assertTrue(getCommandDispatcher().isAllowedByCommandFilters(Curve)),
+                () -> assertTrue(getCommandDispatcher().isAllowedByCommandFilters(CurveCartesian)));
     }
 
     @ParameterizedTest
@@ -258,12 +259,12 @@ public final class CvteExamTests extends BaseExamTests {
     @Test
     public void testEquationFormPropertyFrozen() {
         GeoElement line = evaluateGeoElement("y = 4");
-        PropertiesArray properties = geoElementPropertiesFactory
-                .createGeoElementProperties(algebraProcessor, app.getLocalization(), List.of(line));
+        PropertiesArray properties = geoElementPropertiesFactory.createGeoElementProperties(
+                getAlgebraProcessor(), getApp().getLocalization(), List.of(line));
         LinearEquationFormProperty equationFormProperty = null;
         for (Property property : properties.getProperties()) {
-            if (property instanceof NamedEnumeratedPropertyCollection<?, ?>) {
-                Property firstProperty = ((NamedEnumeratedPropertyCollection) property)
+            if (property instanceof NamedEnumeratedPropertyCollection) {
+                Property firstProperty = ((NamedEnumeratedPropertyCollection<?, ?>) property)
                         .getFirstProperty();
                 if (firstProperty instanceof LinearEquationFormProperty) {
                     equationFormProperty = (LinearEquationFormProperty) firstProperty;

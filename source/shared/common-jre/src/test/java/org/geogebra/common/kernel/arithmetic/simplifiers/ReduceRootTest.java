@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class ReduceRootTest extends BaseSimplifyTest {
+public class ReduceRootTest extends BaseSimplifyTestSetup {
 
 	@ParameterizedTest
 	@CsvSource({

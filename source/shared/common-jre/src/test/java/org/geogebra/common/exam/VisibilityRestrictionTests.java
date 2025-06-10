@@ -10,36 +10,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 
-import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
-import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.config.AppConfigGraphing;
-import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class VisibilityRestrictionTests {
-	private App app;
-	private AlgebraProcessor algebraProcessor;
-
+public class VisibilityRestrictionTests extends BaseAppTestSetup {
 	@BeforeEach
-	public void setup() {
-		app = AppCommonFactory.create(new AppConfigGraphing());
-		algebraProcessor = app.getKernel().getAlgebraProcessor();
-		app.getSettingsUpdater().resetSettingsOnAppStart();
+	public void setupApp() {
+		setupApp(SuiteSubApp.GRAPHING);
 	}
 
 	@ParameterizedTest
@@ -51,8 +41,7 @@ public class VisibilityRestrictionTests {
 			"(1, 2)",
 	})
 	public void testEmptySetOfVisibilityRestrictions(String expression) {
-		assertFalse(isVisibilityRestricted(evaluateGeoElement(expression),
-				Set.of()));
+		assertFalse(isVisibilityRestricted(evaluateGeoElement(expression), Set.of()));
 	}
 
 	@Test
@@ -60,8 +49,7 @@ public class VisibilityRestrictionTests {
 		Set<VisibilityRestriction> visibilityRestrictions = Set.of(
 				geoElement -> geoElement.isInequality() ? HIDE : IGNORE,
 				geoElement -> geoElement.isAngle() ? HIDE : IGNORE);
-		assertFalse(isVisibilityRestricted(evaluateGeoElement("x = 2"),
-				visibilityRestrictions));
+		assertFalse(isVisibilityRestricted(evaluateGeoElement("x = 2"), visibilityRestrictions));
 	}
 
 	@Test
@@ -69,8 +57,7 @@ public class VisibilityRestrictionTests {
 		Set<VisibilityRestriction> visibilityRestrictions = Set.of(
 				geoElement -> geoElement.isInequality() ? HIDE : IGNORE,
 				geoElement -> geoElement.isAngle() ? HIDE : IGNORE);
-		assertTrue(isVisibilityRestricted(evaluateGeoElement("x > 2"),
-				visibilityRestrictions));
+		assertTrue(isVisibilityRestricted(evaluateGeoElement("x > 2"), visibilityRestrictions));
 	}
 
 	@Test
@@ -115,12 +102,6 @@ public class VisibilityRestrictionTests {
 	public void testInequalityRestrictions(String expression) {
 		assertTrue(isVisibilityRestricted(evaluateGeoElement(expression),
 				Set.of(new HiddenInequalityVisibilityRestriction())));
-	}
-
-	private GeoElement evaluateGeoElement(String expression) {
-		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
-		return (GeoElement) algebraProcessor.processAlgebraCommandNoExceptionHandling(
-				expression, false, new ErrorAccumulator(), evalInfo, null)[0];
 	}
 
 	private static boolean isEquation(GeoElement geoElement) {

@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import org.junit.jupiter.api.Test;
 
-public class PlusTagOrderTest extends BaseSimplifyTest {
+public class PlusTagOrderTest extends BaseSimplifyTestSetup {
 
 	@Test
 	public void testApply() {

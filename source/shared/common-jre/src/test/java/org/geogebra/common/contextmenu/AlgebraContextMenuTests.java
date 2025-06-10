@@ -1,5 +1,10 @@
 package org.geogebra.common.contextmenu;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.AddLabel;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.CreateSlider;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.CreateTableValues;
@@ -16,271 +21,235 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.geogebra.common.AppCommonFactory;
-import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.cas.MockedCasGiac;
+import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.view.algebra.contextmenu.impl.CreateSlider;
-import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.settings.AlgebraSettings;
-import org.geogebra.common.main.settings.config.AppConfigCas;
-import org.geogebra.common.main.settings.config.AppConfigGeometry;
-import org.geogebra.common.main.settings.config.AppConfigGraphing;
-import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
-import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
-import org.geogebra.test.TestErrorHandler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in MockedCasValues
 @ExtendWith(MockedCasValuesExtension.class)
-public class AlgebraContextMenuTests {
+public class AlgebraContextMenuTests extends BaseAppTestSetup {
 	private final ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
-
-	private AlgebraProcessor algebraProcessor;
-	private AlgebraSettings algebraSettings;
-	private String appCode;
-	private final MockedCasGiac mockedCasGiac = new MockedCasGiac();
-	private Kernel kernel;
 
 	@Test
 	public void testAlgebraContextMenuWithInvalidGeoElement() {
-		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(Delete),
 				contextMenuFactory.makeAlgebraContextMenu(
-						null, algebraProcessor, appCode, algebraSettings)
-		);
+						null, getAlgebraProcessor(), GRAPHING_APPCODE, getAlgebraSettings()));
 	}
 
 	// Geometry app
 
 	@Test
 	public void testForDefaultAlgebraInputInGeometryApp() {
-		setupApp(GeoGebraConstants.GEOMETRY_APPCODE);
+		setupApp(SuiteSubApp.GEOMETRY);
 		assertEquals(
 				List.of(SpecialPoints,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("x"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("x"),
+						getAlgebraProcessor(), GEOMETRY_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithStatisticsInGeometryApp() {
-		setupApp(GeoGebraConstants.GEOMETRY_APPCODE);
+		setupApp(SuiteSubApp.GEOMETRY);
 		assertEquals(
 				List.of(Statistics,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("{1, 2, 3}"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
+						getAlgebraProcessor(), GEOMETRY_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithOutputInGeometryApp() {
-		setupApp(GeoGebraConstants.GEOMETRY_APPCODE);
+		setupApp(SuiteSubApp.GEOMETRY);
 		assertEquals(
 				List.of(DuplicateInput,
 						DuplicateOutput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("1 + 2"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("1 + 2"),
+						getAlgebraProcessor(), GEOMETRY_APPCODE, getAlgebraSettings()));
 	}
 
 	// Scientific app
 
 	@Test
 	public void testForInputWithNoLabelInScientificApp() {
-		setupApp(GeoGebraConstants.SCIENTIFIC_APPCODE);
-		GeoElement geoElement = add("5");
+		setupApp(SuiteSubApp.SCIENTIFIC);
+		GeoElement geoElement = evaluateGeoElement("5");
 		geoElement.setAlgebraLabelVisible(false);
 		assertEquals(
 				List.of(AddLabel,
 						DuplicateInput,
 						Delete),
-				contextMenuFactory.makeAlgebraContextMenu(
-						geoElement, algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(geoElement,
+						getAlgebraProcessor(), SCIENTIFIC_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithLabelInScientificApp() {
-		setupApp(GeoGebraConstants.SCIENTIFIC_APPCODE);
-		GeoElement geoElement = add("5");
+		setupApp(SuiteSubApp.SCIENTIFIC);
+		GeoElement geoElement = evaluateGeoElement("5");
 		geoElement.setAlgebraLabelVisible(true);
 		assertEquals(
 				List.of(RemoveLabel,
 						DuplicateInput,
 						Delete),
-				contextMenuFactory.makeAlgebraContextMenu(
-						geoElement, algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(geoElement,
+						getAlgebraProcessor(), SCIENTIFIC_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithDuplicateOutputInScientificApp() {
-		setupApp(GeoGebraConstants.SCIENTIFIC_APPCODE);
-		GeoElement geoElement = add("1 + 2");
+		setupApp(SuiteSubApp.SCIENTIFIC);
+		GeoElement geoElement = evaluateGeoElement("1 + 2");
 		assertEquals(
 				List.of(RemoveLabel,
 						DuplicateInput,
 						DuplicateOutput,
 						Delete),
-				contextMenuFactory.makeAlgebraContextMenu(
-						geoElement, algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(geoElement,
+						getAlgebraProcessor(), SCIENTIFIC_APPCODE, getAlgebraSettings()));
 	}
 
 	// Graphing app
 
 	@Test
 	public void testForInputWithSpecialPointsAndTableValuesInGraphingApp() {
-		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(CreateTableValues,
 						SpecialPoints,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("x"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("x"),
+						getAlgebraProcessor(), GRAPHING_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithSliderInGraphingApp() {
-		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(CreateSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("1"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("1"),
+						getAlgebraProcessor(), GRAPHING_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForSliderCommandInGraphingApp() {
-		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(RemoveSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("Slider(-5,5,1)"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("Slider(-5,5,1)"),
+						getAlgebraProcessor(), GRAPHING_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithStatisticsInGraphingApp() {
-		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(CreateTableValues,
 						Statistics,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("{1, 2, 3}"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
+						getAlgebraProcessor(), GRAPHING_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForPotentialSliderGraphingApp() {
-		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(CreateSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("1"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("1"),
+						getAlgebraProcessor(), GRAPHING_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForSliderGraphingApp() {
-		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		setupApp(SuiteSubApp.GRAPHING);
 		assertEquals(
 				List.of(RemoveSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("Slider(0, 5, 1)"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("Slider(0, 5, 1)"),
+						getAlgebraProcessor(), GRAPHING_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithOnlyEngineeringNotationOutputInGraphingApp() {
-		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
-		algebraSettings.setEngineeringNotationEnabled(true);
+		setupApp(SuiteSubApp.GRAPHING);
+		getAlgebraSettings().setEngineeringNotationEnabled(true);
 		assertEquals(
 				List.of(CreateSlider,
 						DuplicateInput,
 						DuplicateOutput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("1234567"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("1234567"),
+						getAlgebraProcessor(), GRAPHING_APPCODE, getAlgebraSettings()));
 	}
 
 	// Graphing 3D app
 
 	@Test
 	public void testForInputWithSolutionInGraphing3DApp() {
-		setupApp(GeoGebraConstants.G3D_APPCODE);
+		setupApp(SuiteSubApp.G3D);
 		assertEquals(
 				List.of(Solve,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("x^(2) - 5x + 6 = 0"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("x^(2) - 5x + 6 = 0"),
+						getAlgebraProcessor(), G3D_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithSpecialPointsInGraphing3DApp() {
-		setupApp(GeoGebraConstants.G3D_APPCODE);
+		setupApp(SuiteSubApp.G3D);
 		assertEquals(
 				List.of(SpecialPoints,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("x"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("x"),
+						getAlgebraProcessor(), G3D_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	public void testForInputWithStatisticsInGraphing3DApp() {
-		setupApp(GeoGebraConstants.G3D_APPCODE);
+		setupApp(SuiteSubApp.G3D);
 		assertEquals(
 				List.of(Statistics,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("{1, 2, 3}"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
+						getAlgebraProcessor(), G3D_APPCODE, getAlgebraSettings()));
 	}
 
 	// CAS app
@@ -291,17 +260,16 @@ public class AlgebraContextMenuTests {
 			"Round(5, 13) 	-> 5.0",
 	})
 	public void testForSimpleInputWithSliderInCasApp() {
-		setupApp(GeoGebraConstants.CAS_APPCODE);
-		GeoElement number = add("slider=5");
-		new CreateSlider(algebraProcessor, new LabelController()).execute(number);
+		setupApp(SuiteSubApp.CAS);
+		GeoElement number = evaluateGeoElement("slider=5");
+		new CreateSlider(getAlgebraProcessor(), new LabelController()).execute(number);
 		assertEquals(
 				List.of(RemoveSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						kernel.lookupLabel("slider"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(getKernel().lookupLabel("slider"),
+						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
@@ -310,8 +278,8 @@ public class AlgebraContextMenuTests {
 			"Round(5, 13) 	-> 5.0",
 	})
 	public void testForSimpleInputWithoutLabelInCasApp() {
-		setupApp(GeoGebraConstants.CAS_APPCODE);
-		GeoElement geoElement = add("5");
+		setupApp(SuiteSubApp.CAS);
+		GeoElement geoElement = evaluateGeoElement("5");
 		new LabelController().hideLabel(geoElement);
 		assertEquals(
 				List.of(AddLabel,
@@ -320,8 +288,7 @@ public class AlgebraContextMenuTests {
 						Delete,
 						Settings),
 				contextMenuFactory.makeAlgebraContextMenu(
-						geoElement, algebraProcessor, appCode, algebraSettings)
-		);
+						geoElement, getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
@@ -330,8 +297,8 @@ public class AlgebraContextMenuTests {
 			"Round(5, 13) 	-> 5.0",
 	})
 	public void testForSimpleInputWithoutSliderInCasApp() {
-		setupApp(GeoGebraConstants.CAS_APPCODE);
-		GeoElement geoElement = add("5");
+		setupApp(SuiteSubApp.CAS);
+		GeoElement geoElement = evaluateGeoElement("5");
 		assertEquals(
 				List.of(RemoveLabel,
 						CreateSlider,
@@ -339,14 +306,13 @@ public class AlgebraContextMenuTests {
 						Delete,
 						Settings),
 				contextMenuFactory.makeAlgebraContextMenu(
-						geoElement, algebraProcessor, appCode, algebraSettings)
-		);
+						geoElement, getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	@MockedCasValues({"Evaluate({1, 2, 3}) -> {1,2,3}"})
 	public void testForInputWithStatisticsInCasApp() {
-		setupApp(GeoGebraConstants.CAS_APPCODE);
+		setupApp(SuiteSubApp.CAS);
 		assertEquals(
 				List.of(CreateTableValues,
 						RemoveLabel,
@@ -354,15 +320,14 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("{1, 2, 3}"), algebraProcessor, appCode, algebraSettings)
-		);
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
+						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
 	}
 
 	@Test
 	@MockedCasValues({"Evaluate(x) -> x"})
 	public void testForInputWithSpecialPointsInCasApp() {
-		setupApp(GeoGebraConstants.CAS_APPCODE);
+		setupApp(SuiteSubApp.CAS);
 		assertEquals(
 				List.of(CreateTableValues,
 						RemoveLabel,
@@ -370,34 +335,7 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						add("x"), algebraProcessor, appCode, algebraSettings)
-		);
-	}
-
-	private void setupApp(String appCode) {
-		this.appCode = appCode;
-		AppCommon app = AppCommonFactory.create(makeAppConfig(appCode));
-		mockedCasGiac.applyTo(app);
-		algebraProcessor = app.getKernel().getAlgebraProcessor();
-		algebraSettings = app.getSettings().getAlgebra();
-		kernel = app.getKernel();
-		app.getSettingsUpdater().resetSettingsOnAppStart();
-	}
-
-	private AppConfig makeAppConfig(String appCode) {
-		switch (appCode) {
-		case GeoGebraConstants.CAS_APPCODE: return new AppConfigCas();
-		case GeoGebraConstants.G3D_APPCODE: return new AppConfigGraphing3D();
-		case GeoGebraConstants.GEOMETRY_APPCODE: return new AppConfigGeometry();
-		case GeoGebraConstants.SCIENTIFIC_APPCODE: return new AppConfigScientific();
-		default: return new AppConfigGraphing();
-		}
-	}
-
-	private GeoElement add(String command) {
-		GeoElementND[] geoElements = algebraProcessor.processAlgebraCommandNoExceptionHandling(
-				command, false, TestErrorHandler.INSTANCE, false, null);
-		return (GeoElement) geoElements[0];
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("x"),
+						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
 	}
 }

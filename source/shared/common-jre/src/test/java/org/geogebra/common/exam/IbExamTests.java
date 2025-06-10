@@ -16,11 +16,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in CsvSources
-public class IbExamTests extends BaseExamTests {
+public class IbExamTests extends BaseExamTestSetup {
 
 	@BeforeEach
 	public void setupIbExam() {
-		setInitialApp(SuiteSubApp.GRAPHING);
+		setupApp(SuiteSubApp.GRAPHING);
 		examController.startExam(ExamType.IB, null);
 	}
 
@@ -56,7 +56,7 @@ public class IbExamTests extends BaseExamTests {
 				() -> assertNotNull(evaluate("f(x) = x^3")),
 				() -> assertNotNull(evaluate("l1 = {x}")),
 				() -> assertNull(evaluate("SetValue(l1, 1, f')")),
-				() -> assertEquals(app.getKernel().getConstruction().lookupLabel("l1")
+				() -> assertEquals(getKernel().getConstruction().lookupLabel("l1")
 						.toString(StringTemplate.defaultTemplate), "l1 = {x}"));
 	}
 

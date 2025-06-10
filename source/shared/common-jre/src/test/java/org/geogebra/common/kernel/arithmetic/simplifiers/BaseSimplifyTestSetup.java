@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -14,14 +16,13 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.junit.jupiter.api.BeforeEach;
 
-public abstract class BaseSimplifyTest extends BaseAppTest {
+public abstract class BaseSimplifyTestSetup extends BaseAppTestSetup {
+	protected SimplifyUtils utils;
 
-	SimplifyUtils utils;
-
-	final SimplifyNode getSimplifier() {
+	protected final SimplifyNode getSimplifier() {
         try {
-		Class<? extends SimplifyNode> simplifierClass = getSimplifierClass();
-        Constructor<?> const1 = simplifierClass.getConstructor(SimplifyUtils.class);
+			Class<? extends SimplifyNode> simplifierClass = getSimplifierClass();
+			Constructor<?> const1 = simplifierClass.getConstructor(SimplifyUtils.class);
 			return (SimplifyNode) const1.newInstance(utils);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException
 				 | InvocationTargetException e) {
@@ -32,6 +33,7 @@ public abstract class BaseSimplifyTest extends BaseAppTest {
 
 	@BeforeEach
 	public void setUpUtils() {
+		setupApp(SuiteSubApp.GRAPHING);
 		utils = new SimplifyUtils(getKernel());
 	}
 
@@ -61,8 +63,8 @@ public abstract class BaseSimplifyTest extends BaseAppTest {
 								.replaceAll("\\s+", ""));
 	}
 
-	protected GeoNumeric newSymbolicNumeric(String actualDef) {
-		GeoNumeric actual = (GeoNumeric) add(actualDef);
+	protected final GeoNumeric newSymbolicNumeric(String actualDef) {
+		GeoNumeric actual = evaluateGeoElement(actualDef);
 		actual.setSymbolicMode(true, true);
 		return actual;
 	}
@@ -76,10 +78,9 @@ public abstract class BaseSimplifyTest extends BaseAppTest {
 	}
 
 	private boolean isAccepted(String def) {
-		return getSimplifier().isAccepted(add(def).getDefinition());
+		return getSimplifier().isAccepted(evaluateGeoElement(def).getDefinition());
 	}
 
 	protected abstract Class<? extends SimplifyNode> getSimplifierClass();
-
 }
 

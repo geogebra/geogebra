@@ -4,16 +4,24 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class SurdAdditionTest extends BaseAppTest {
+public class SurdAdditionTest extends BaseAppTestSetup {
+	@BeforeEach
+	public void setup() {
+		setupApp(SuiteSubApp.GRAPHING);
+	}
+
 	@ParameterizedTest
 	@CsvSource({
 			"16 - 6sqrt(2), 2 (8 - 3sqrt(2))",
@@ -34,7 +42,7 @@ public class SurdAdditionTest extends BaseAppTest {
 	}
 
 	private SurdAddition newTag(String definition) {
-		GeoElementND tag = add(definition);
+		GeoElementND tag = evaluateGeoElement(definition);
 		return new SurdAddition(tag.getDefinition(), new SimplifyUtils(getKernel()));
 	}
 
@@ -71,8 +79,9 @@ public class SurdAdditionTest extends BaseAppTest {
 	public void testMultiplyWithExpression(String multiplierDef, String definition,
 			String expected) {
 		SurdAddition tag = newTag(definition);
-		GeoElementND multiplier = add(multiplierDef);
-		ExpressionNode expectedResult = add(definition).getDefinition().multiply(multiplier);
+		GeoElementND multiplier = evaluateGeoElement(multiplierDef);
+		ExpressionNode expectedResult = evaluateGeoElement(definition).getDefinition()
+				.multiply(multiplier);
 		ExpressionValue ev = tag.multiply(multiplier.getDefinition());
 		assertAll(() -> assertEquals(expected, ev.toString(StringTemplate.defaultTemplate)),
 				() -> assertEquals(expectedResult.evaluateDouble(), ev.evaluateDouble(),

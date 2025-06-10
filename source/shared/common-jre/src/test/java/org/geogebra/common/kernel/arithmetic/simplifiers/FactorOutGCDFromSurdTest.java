@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import org.junit.jupiter.api.Test;
 
-public class FactorOutGCDFromSurdTest extends BaseSimplifyTest {
+public class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
 
 	@Test
 	public void testFactorAdditionOfPositives() {

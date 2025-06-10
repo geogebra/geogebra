@@ -6,13 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
 
+import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -22,20 +20,18 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
-public class RationalizationTest extends BaseAppTest {
+public class RationalizationTest extends BaseAppTestSetup {
 
 	private final Rationalization rationalization = new Rationalization();
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	public void setUp() {
+		setupApp(SuiteSubApp.GRAPHING);
 		getKernel().setPrintDecimals(15);
 	}
 
@@ -52,7 +48,7 @@ public class RationalizationTest extends BaseAppTest {
 			"(sqrt(3) + 1) / (sqrt(2) - 1)"
 	})
 	public void testSupported(String definition) {
-		GeoElementND geo = add(definition);
+		GeoElementND geo = evaluateGeoElement(definition);
 		ExpressionValue resolution = rationalization.getResolution(geo.getDefinition());
 		assertNotNull(resolution);
 	}
@@ -73,14 +69,14 @@ public class RationalizationTest extends BaseAppTest {
 			"((4+sqrt(10+0.0001))/(-2+sqrt(0.0001+10))),",
 	})
 	public void shouldBeUnsupported(String definition) {
-		GeoElementND geo = add(definition);
+		GeoElementND geo = evaluateGeoElement(definition);
 		ExpressionValue resolution = rationalization.getResolution(geo.getDefinition());
 		assertNull(resolution);
 	}
 
 	@Test
 	public void decimalValueShouldBeOK() {
-		GeoNumeric num = add("1/sqrt(2)");
+		GeoNumeric num = evaluateGeoElement("1/sqrt(2)");
 		num.setSymbolicMode(false, true);
 		assertEquals("0.707106781186547",
 				num.getFormulaString(StringTemplate.defaultTemplate, true));
@@ -170,7 +166,7 @@ public class RationalizationTest extends BaseAppTest {
 	}
 
 	private void rationalizationShouldBe(String definition, String expected, StringTemplate tpl) {
-		GeoNumeric num = add(definition);
+		GeoNumeric num = evaluateGeoElement(definition);
 		ExpressionValue resolution = rationalization.getResolution(num.getDefinition());
 		assertNotNull(resolution, "resolution is null, " + definition + " is not supported");
 		assertEquals(num.evaluateDouble(), resolution.evaluateDouble(),
@@ -221,7 +217,7 @@ public class RationalizationTest extends BaseAppTest {
 	}
 
 	private boolean isPassDecimal(String command) {
-		GeoNumeric numeric = add(command);
+		GeoNumeric numeric = evaluateGeoElement(command);
 		numeric.setSymbolicMode(true, true);
 		return checkDecimals(numeric.getDefinition());
 	}
@@ -363,23 +359,23 @@ public class RationalizationTest extends BaseAppTest {
 	})
 	public void testSerializationWithDependentGeos(int a, int b, int c, int d,
 			String expected) {
-		add("a = " + a);
-		add("b = " + b);
-		add("c = " + c);
-		add("d = " + d);
+		evaluate("a = " + a);
+		evaluate("b = " + b);
+		evaluate("c = " + c);
+		evaluate("d = " + d);
 		rationalizationShouldBe("(a + sqrt(b)) / (c + sqrt(d))", expected);
 	}
 
 	@Test
 	public void testFormulaText() {
 		PreviewFeature.setPreviewFeaturesEnabled(true);
-		add("a = -1");
-		add("b = 5");
-		add("c = -2");
-		add("d = 5");
-		GeoNumeric e = add("e = (a + sqrt(b)) / (c + sqrt(d))");
+		evaluate("a = -1");
+		evaluate("b = 5");
+		evaluate("c = -2");
+		evaluate("d = 5");
+		GeoNumeric e = evaluateGeoElement("e = (a + sqrt(b)) / (c + sqrt(d))");
 		e.setSymbolicMode(true, true);
-		GeoText text = add("FormulaText(e)");
+		GeoText text = evaluateGeoElement("FormulaText(e)");
 		assertEquals("3 + \\sqrt{5}", text.getTextString());
 	}
 

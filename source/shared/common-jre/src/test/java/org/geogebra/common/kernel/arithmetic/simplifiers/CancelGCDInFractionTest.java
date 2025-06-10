@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class CancelGCDInFractionTest extends BaseSimplifyTest {
+public class CancelGCDInFractionTest extends BaseSimplifyTestSetup {
 	@Test
 	public void testAccept() {
 		shouldAccept("(-8 - sqrt(10)) / 54");

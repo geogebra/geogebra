@@ -1,10 +1,9 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class PositiveDenominatorTests extends BaseSimplifyTest {
+public class PositiveDenominatorTests extends BaseSimplifyTestSetup {
 
 	@ParameterizedTest
 	@CsvSource({
