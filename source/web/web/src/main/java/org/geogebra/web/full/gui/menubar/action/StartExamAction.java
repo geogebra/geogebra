@@ -79,6 +79,7 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 		examStartDialog.setOnPositiveAction(() ->
 				callback.accept(examStartDialog.getSelectedRegion()));
 		examController.prepareExam();
+		app.deleteAutosavedFile();
 		examStartDialog.show();
 	}
 

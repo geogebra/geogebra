@@ -265,7 +265,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private KeyboardManager keyboardManager;
 	/** dialog manager */
 	protected DialogManagerW dialogManager = null;
-	private String autosavedMaterial = null;
+	private @CheckForNull String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
 	private final Map<SuiteSubApp, Material> constructionJson = new HashMap<>();
@@ -296,11 +296,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		this.device = device;
 		this.geoElementPropertiesFactory = new GeoElementPropertiesFactory();
 		this.contextMenuFactory = new ContextMenuFactory();
-
-		if (getAppletParameters().getDataParamApp()) {
-			startDialogChain();
-		}
-
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 
@@ -319,6 +314,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		initActivity();
 		initCoreObjects();
 		checkExamPerspective();
+		if (getAppletParameters().getDataParamApp()) {
+			startDialogChain();
+		}
 		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
 			setupHeader();
@@ -2749,5 +2747,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public ContextMenuFactory getContextMenuFactory() {
 		return attachedToExam ? GlobalScope.contextMenuFactory : contextMenuFactory;
+	}
+
+	/**
+	 * Delete any auto-saved file from previous session.
+	 */
+	public void deleteAutosavedFile() {
+		autosavedMaterial = null;
+		getFileManager().deleteAutoSavedFile();
 	}
 }

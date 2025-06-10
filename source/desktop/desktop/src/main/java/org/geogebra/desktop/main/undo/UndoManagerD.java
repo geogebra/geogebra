@@ -79,7 +79,9 @@ public class UndoManagerD extends UndoManager {
 				UndoCommand command = new UndoCommand(appStateToAdd);
 				maybeStoreUndoCommand(command);
 				pruneStateList();
-				notifyUnsaved();
+				if (undoInfoList.size() > 1) {
+					notifyUnsaved();
+				}
 			} catch (Exception | OutOfMemoryError e) {
 				Log.debug("storeUndoInfo: " + e);
 				Log.debug(e);
