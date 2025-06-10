@@ -170,7 +170,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	public void showContextMenu(@Nonnull List<ContextMenuItem> items, @Nonnull Point location) {
 		contextMenu.clearItems();
 		parent.cancelFocus();
-		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting");
+		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting", "stats");
 		addItems(contextMenu.getPopupMenu(), items);
 		positionContextMenu((int) Math.round(location.x), (int) Math.round(location.y));
 		contextMenu.getPopupMenu().focus();
