@@ -91,6 +91,14 @@ public class TopBarController {
 	}
 
 	/**
+	 * on zoom to fit press
+	 */
+	public void onZoomToFit() {
+		appW.closePopups();
+		appW.setViewShowAllObjects();
+	}
+
+	/**
 	 * on home press
 	 */
 	public void onHome() {

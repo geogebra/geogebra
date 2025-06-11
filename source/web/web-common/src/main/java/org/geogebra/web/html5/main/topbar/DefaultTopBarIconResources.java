@@ -30,6 +30,9 @@ public interface DefaultTopBarIconResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_home_black_24px.svg")
 	SVGResource home();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/show_all_objects_black.svg")
+	SVGResource show_all_objects();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/drag_pad.svg")
 	SVGResource pan_view();
 

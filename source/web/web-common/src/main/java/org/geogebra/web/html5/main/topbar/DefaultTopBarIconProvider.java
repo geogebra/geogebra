@@ -27,6 +27,8 @@ public class DefaultTopBarIconProvider implements TopBarIconProvider {
 			return res.zoom_out();
 		case STANDARD_VIEW:
 			return res.home();
+		case ZOOM_TO_FIT:
+			return res.show_all_objects();
 		case PAN_VIEW:
 			return res.pan_view();
 		case FULLSCREEN_ON:

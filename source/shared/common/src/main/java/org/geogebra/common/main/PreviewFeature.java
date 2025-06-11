@@ -29,7 +29,9 @@ public enum PreviewFeature {
 	IB_EXAM,
 	WTR_EXAM,
 	/** APPS-6016 */
-	SPREADSHEET_STYLEBAR;
+	SPREADSHEET_STYLEBAR,
+	/** MOW-1672 */
+	ZOOM_TO_FIT;
 
 	/**
 	 * Global flag to activate feature previews.
