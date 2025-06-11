@@ -95,16 +95,6 @@ public class HorizontalAlignmentPopup extends GPopupPanel implements CloseHandle
 		lastSelectedButton = button;
 	}
 
-	/**
-	 * Show alignment popup at given position.
-	 * @param left of popup
-	 * @param top of popup
-	 */
-	public void showAt(int left, int top) {
-		super.show();
-		setPopupPosition(left, top);
-	}
-
 	@Override
 	public void onClose(CloseEvent event) {
 		horizontalAlignmentButton.setActive(false);

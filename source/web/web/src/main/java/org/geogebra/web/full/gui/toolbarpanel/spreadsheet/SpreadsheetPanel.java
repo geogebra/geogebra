@@ -127,7 +127,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		});
 		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
 			elemental2.dom.Element target = Js.uncheckedCast(event.target);
-			if (target.closest(".spreadsheetScrollOverlay,.gwt-PopupPanel,.iconButton") != null) {
+			if (target.closest(".spreadsheetScrollOverlay,.gwt-PopupPanel,.iconButton,"
+					+ ".colorChooser") != null) {
 				return;
 			}
 			spreadsheet.clearSelectionOnly();

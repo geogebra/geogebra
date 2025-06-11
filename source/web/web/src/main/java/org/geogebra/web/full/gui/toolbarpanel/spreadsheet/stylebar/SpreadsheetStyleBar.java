@@ -5,6 +5,7 @@ import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -14,9 +15,13 @@ import org.gwtproject.user.client.ui.Widget;
 public class SpreadsheetStyleBar extends FlowPanel {
 	private final AppW appW;
 	private final SpreadsheetStyleBarModel styleBarModel;
+	private IconButton backgroundColorButton;
+	private IconButton fontColorButton;
 	private IconButton boldButton;
 	private IconButton italicButton;
 	private IconButton horizontalAlignmentButton;
+	private SpreadsheetStyleBarColorPopup backgroundColorPopup;
+	private SpreadsheetStyleBarColorPopup fontColorPopup;
 	private HorizontalAlignmentPopup horizontalAlignmentPopup;
 
 	/**
@@ -46,6 +51,18 @@ public class SpreadsheetStyleBar extends FlowPanel {
 
 	private void initStyleBar() {
 		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
+
+		backgroundColorButton = buildIconButton(res.color_black(), "stylebar.BgColor");
+		backgroundColorButton.addFastClickHandler(source -> {
+			toggleBackgroundColorPopup();
+			backgroundColorButton.setActive(!backgroundColorButton.isActive());
+		});
+
+		fontColorButton = buildIconButton(res.text_color(), "stylebar.Color");
+		fontColorButton.addFastClickHandler(source -> {
+			toggleFontColorPopup();
+			fontColorButton.setActive(!fontColorButton.isActive());
+		});
 
 		boldButton = buildIconButton(res.text_bold_black(), "Bold");
 		boldButton.addFastClickHandler(source -> styleBarModel.setBold(!boldButton.isActive()));
@@ -86,6 +103,12 @@ public class SpreadsheetStyleBar extends FlowPanel {
 	}
 
 	private void updateButtonState(SpreadsheetStyleBarModel.State newState) {
+		if (backgroundColorButton != null && backgroundColorPopup != null) {
+			backgroundColorPopup.updateState(newState.backgroundColor);
+		}
+		if (fontColorButton != null && fontColorPopup != null) {
+			fontColorPopup.updateState(newState.textColor);
+		}
 		if (boldButton != null) {
 			boldButton.setActive(newState.fontTraits.contains(SpreadsheetStyling.FontTrait.BOLD));
 		}
@@ -109,22 +132,42 @@ public class SpreadsheetStyleBar extends FlowPanel {
 
 	private void toggleAlignmentPopup() {
 		initAlignmentPopup();
+		togglePopupVisibility(horizontalAlignmentPopup, horizontalAlignmentButton);
+	}
 
-		if (horizontalAlignmentPopup.isShowing()) {
-			horizontalAlignmentPopup.hide();
-		} else {
-			horizontalAlignmentPopup.showAt(getAnchorLeft(horizontalAlignmentButton),
-					getAnchorBottom(horizontalAlignmentButton));
+	// Background color
+
+	private void initBackgroundColorPopup() {
+		if (backgroundColorPopup == null) {
+			backgroundColorPopup = new SpreadsheetStyleBarColorPopup(appW, backgroundColorButton,
+					styleBarModel::setBackgroundColor);
 		}
 	}
 
-	// Helpers
-
-	private int getAnchorLeft(IconButton anchor) {
-		return (int) (anchor.getAbsoluteLeft() - appW.getAbsLeft());
+	private void toggleBackgroundColorPopup() {
+		initBackgroundColorPopup();
+		togglePopupVisibility(backgroundColorPopup, backgroundColorButton);
 	}
 
-	private int getAnchorBottom(IconButton anchor) {
-		return (int) (anchor.getAbsoluteTop() + anchor.getOffsetHeight() - appW.getAbsTop());
+	// Font color
+
+	private void initFontColorPopup() {
+		if (fontColorPopup == null) {
+			fontColorPopup = new SpreadsheetStyleBarColorPopup(appW, fontColorButton,
+					styleBarModel::setTextColor);
+		}
+	}
+
+	private void toggleFontColorPopup() {
+		initFontColorPopup();
+		togglePopupVisibility(fontColorPopup, fontColorButton);
+	}
+
+	private void togglePopupVisibility(GPopupPanel popup, IconButton anchor) {
+		if (popup.isShowing()) {
+			popup.hide();
+		} else {
+			popup.showRelativeTo(anchor);
+		}
 	}
 }
