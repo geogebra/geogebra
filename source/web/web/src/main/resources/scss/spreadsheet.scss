@@ -182,6 +182,7 @@
 	.spreadsheetStyleBar {
 		position: relative;
 		display: flex;
+		gap: 8px;
 		height: 36px;
 		margin: 6px 8px;
 
@@ -199,7 +200,7 @@
 	.toolPanelHeading .spreadsheetStyleBar {
 		width: calc(100% - 48px);
 		position: absolute;
-		margin-left: 0;
+		margin-left: 8px;
 
 		&.portrait {
 			width: calc(100% - 100px);
