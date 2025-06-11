@@ -1,20 +1,14 @@
 package org.geogebra.common.kernel.algos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.geogebra.common.BaseAppTest;
+import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.jupiter.api.Test;
 
-public class AlgoStadiumTest extends BaseAppTest {
-
-	private Construction cons;
+public class AlgoStadiumTest extends BaseAppTestSetup {
 
 	@Test
 	void testXml() {
@@ -26,7 +20,7 @@ public class AlgoStadiumTest extends BaseAppTest {
 	}
 
 	private AlgoStadium createAlgo() {
-		cons = getKernel().getConstruction();
+		Construction cons = getKernel().getConstruction();
 		GeoPoint p = new GeoPoint(cons, -4, 1, 1);
 		GeoPoint q = new GeoPoint(cons, 4, 1, 1);
 		GeoNumeric height = new GeoNumeric(cons, 4);
