@@ -30,8 +30,8 @@ public class HeaderView extends FlowPanel {
 	}
 
 	private void createButton(AppW appW) {
-		backButton = new IconButton(appW, new ImageIconSpec(GuiResourcesSimple
-				.INSTANCE.arrow_back()), "Back");
+		backButton = new IconButton(appW, "Back", new ImageIconSpec(GuiResourcesSimple
+				.INSTANCE.arrow_back()));
 		backButton.addStyleName("headerBackButton");
 
 		add(backButton);

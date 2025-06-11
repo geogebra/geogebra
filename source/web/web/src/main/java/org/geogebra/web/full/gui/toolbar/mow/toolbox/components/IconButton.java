@@ -32,27 +32,26 @@ public class IconButton extends StandardButton implements SetLabels {
 	private String selectionColor;
 
 	/**
-	 * Constructor
-	 * @param mode - tool mode
-	 * @param appW - application
+	 * Press icon button with given tool mode.
+	 * @param mode tool mode
+	 * @param appW {@link AppW}
 	 */
 	public IconButton(int mode, AppW appW) {
-		this(appW.getLocalization(), new ImageIconSpec(SVGResourcePrototype.EMPTY),
+		this(appW, new ImageIconSpec(SVGResourcePrototype.EMPTY),
 				appW.getToolAriaLabel(mode));
 		this.mode = mode;
 		this.appW = appW;
-		selectionColor = getSelectionColor(appW);
 		AriaHelper.setDataTitle(this, appW.getToolName(mode));
 		image = getIconFromMode(mode, appW.getToolboxIconResource());
 		setActive(getElement().hasClassName("active"));
 		addStyleName("iconButton");
 	}
 
-	/** Constructor
-	 * @param mode - tool mode
-	 * @param appW - application
-	 * @param icon - image
-	 * @param onHandler - switch on handler
+	/** Press icon button with given tool mode.
+	 * @param mode tool mode
+	 * @param appW {@link AppW}
+	 * @param icon {@link IconSpec} image
+	 * @param onHandler switch on handler
 	 */
 	public IconButton(int mode, AppW appW, IconSpec icon, Runnable onHandler) {
 		this(appW, icon, appW.getToolAriaLabel(mode), appW.getToolAriaLabel(mode),
@@ -62,14 +61,14 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Constructor press icon button
-	 * @param loc - localization
-	 * @param icon - image
-	 * @param ariaLabel - label
-	 * @param onHandler - on press handler
+	 * Press icon button with given aria-label.
+	 * @param appW {@link AppW}
+	 * @param icon {@link IconSpec} image
+	 * @param ariaLabel aria-label
+	 * @param onHandler on press handler
 	 */
-	public IconButton(Localization loc, IconSpec icon, String ariaLabel, Runnable onHandler) {
-		this(loc, icon, ariaLabel);
+	public IconButton(AppW appW, IconSpec icon, String ariaLabel, Runnable onHandler) {
+		this(appW, icon, ariaLabel);
 		addFastClickHandler(event -> {
 			if (!isDisabled() && onHandler != null) {
 				onHandler.run();
@@ -78,29 +77,29 @@ public class IconButton extends StandardButton implements SetLabels {
 		});
 	}
 
-	private IconButton(Localization loc, IconSpec icon, String ariaLabel) {
+	private IconButton(AppW appW, IconSpec icon, String ariaLabel) {
 		super(icon, DEFAULT_BUTTON_WIDTH);
 		addStyleName("iconButton");
 		image = icon;
-		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
+		selectionColor = getSelectionColor(appW);
+		AriaHelper.setLabel(this, appW.getLocalization().getMenu(ariaLabel));
 		ariaLabelTransKey = ariaLabel;
-		localization = loc;
+		localization = appW.getLocalization();
 	}
 
 	/**
-	 * Constructor toggle icon button
-	 * @param appW - application
-	 * @param icon - image
-	 * @param ariaLabel - label
-	 * @param dataTitle - tooltip
-	 * @param onHandler - switch on handler
-	 * @param offHandler - switch off handler
+	 * Toggle icon button with given aria-label, data-title.
+	 * @param appW {@link AppW}
+	 * @param icon {@link IconSpec} image
+	 * @param ariaLabel aria-label
+	 * @param dataTitle data-title
+	 * @param onHandler switch on handler
+	 * @param offHandler switch off handler
 	 */
 	public IconButton(AppW appW, IconSpec icon, String ariaLabel, String dataTitle,
 			Runnable onHandler, Runnable offHandler) {
-		this(appW.getLocalization(), icon, ariaLabel);
+		this(appW, icon, ariaLabel);
 		dataTitleTransKey = dataTitle;
-		selectionColor = getSelectionColor(appW);
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
@@ -115,14 +114,14 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Constructor toggle icon button with dataTest
-	 * @param appW - application
-	 * @param icon - image
-	 * @param ariaLabel - label
-	 * @param dataTitle - tooltip
-	 * @param dataTest - id for ui test
-	 * @param onHandler - switch on handler
-	 * @param offHandler - switch off handler
+	 * Toggle icon button with given aria-label, data-title and data-test.
+	 * @param appW {@link AppW}
+	 * @param icon {@link IconSpec} image
+	 * @param ariaLabel aria-label
+	 * @param dataTitle data-title
+	 * @param dataTest data-test
+	 * @param onHandler switch on handler
+	 * @param offHandler switch off handler
 	 */
 	public IconButton(AppW appW, IconSpec icon, String ariaLabel, String dataTitle,
 			String dataTest, Runnable onHandler, Runnable offHandler) {
@@ -131,44 +130,32 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Constructor
-	 * @param appW - application
-	 * @param icon - image
-	 * @param ariaLabel - label
-	 * @param dataTitle - title
-	 * @param dataTest - test
-	 * @param onHandler - on press handler
+	 * Press button with given aria-label and data-title.
+	 * @param appW {@link AppW}
+	 * @param icon {@link IconSpec} image
+	 * @param ariaLabel aria-label
+	 * @param dataTitle data-title
+	 * @param dataTest data-test
+	 * @param onHandler on press handler
 	 */
 	public IconButton(AppW appW, IconSpec icon, String ariaLabel, String dataTitle,
 			String dataTest, Runnable onHandler) {
-		this(appW.getLocalization(), icon, ariaLabel, onHandler);
+		this(appW, icon, ariaLabel, onHandler);
 		dataTitleTransKey = dataTitle;
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		TestHarness.setAttr(this, dataTest);
-		selectionColor = getSelectionColor(appW);
 	}
 
 	/**
-	 * Small press icon buttons, with aria-label, no data-title
-	 * @param appW - application
-	 * @param image - svg
-	 * @param ariaLabel - aria label
+	 * Small press icon buttons, with identical aria label and data-title.
+	 * @param appW {@link AppW}
+	 * @param icon {@link IconSpec} image
+	 * @param ariaLabel aria-label (also used as data title)
+	 * @param clickHandler click handler
 	 */
-	public IconButton(AppW appW, IconSpec image, String ariaLabel) {
-		this(appW.getLocalization(), image, ariaLabel);
-		addStyleName("small");
-		selectionColor = getSelectionColor(appW);
-	}
-
-	/**
-	 * Small press icon buttons, used in notes top bar
-	 * @param appW - application
-	 * @param clickHandler - click handler
-	 * @param image - svg
-	 * @param ariaLabel - aria label
-	 */
-	public IconButton(AppW appW, Runnable clickHandler, IconSpec image, String ariaLabel) {
-		this(appW.getLocalization(), image, ariaLabel);
+	public IconButton(AppW appW, Runnable clickHandler, IconSpec icon,
+			String ariaLabel) {
+		this(appW, icon, ariaLabel);
 		if (ariaLabel != null) {
 			dataTitleTransKey = ariaLabel;
 			AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitleTransKey));
@@ -183,8 +170,19 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Disable button
-	 * @param isDisabled - whether is disabled or not
+	 * Small press icon buttons, only with aria label (without data-title).
+	 * @param appW {@link AppW}
+	 * @param ariaLabel aria-;abel
+	 * @param icon {@link IconSpec} image
+	 */
+	public IconButton(AppW appW, String ariaLabel, IconSpec icon) {
+		this(appW, icon, ariaLabel);
+		addStyleName("small");
+	}
+
+	/**
+	 * Disable button.
+	 * @param isDisabled whether is disabled or not
 	 */
 	public void setDisabled(boolean isDisabled) {
 		AriaHelper.setAriaDisabled(this, isDisabled);
@@ -192,7 +190,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * @param isActive - whether is on or off
+	 * @param isActive whether is on or off
 	 */
 	public void setActive(boolean isActive) {
 		AriaHelper.setPressedState(this, isActive);
@@ -201,7 +199,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Remove active state
+	 * Remove active state.
 	 */
 	public void deactivate() {
 		AriaHelper.setPressedState(this, false);
@@ -219,9 +217,9 @@ public class IconButton extends StandardButton implements SetLabels {
 
 	/**
 	 * Updates the image and the aria attributes
-	 * @param image - image
-	 * @param mode - tool mode
-	 * @param appW - application
+	 * @param image image
+	 * @param mode tool mode
+	 * @param appW {@link AppW}
 	 */
 	public void updateImgAndTxt(IconSpec image, int mode, AppW appW) {
 		this.image = isActive() ? image.withFill(selectionColor) : image;
@@ -232,7 +230,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Updates the aria label and the data title for this Icon Button (e.g. when language changes)
+	 * Updates the aria label and the data title for this Icon Button (e.g. when language changes).
 	 */
 	@Override
 	public void setLabels() {
@@ -275,8 +273,8 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * @param mode - tool mode
-	 * @param toolboxIconResource - icon resource
+	 * @param mode tool mode
+	 * @param toolboxIconResource icon resource
 	 * @return icon
 	 */
 	public IconSpec getIconFromMode(Integer mode, ToolboxIconResource toolboxIconResource) {

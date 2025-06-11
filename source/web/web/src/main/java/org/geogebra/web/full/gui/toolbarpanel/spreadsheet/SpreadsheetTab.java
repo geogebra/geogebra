@@ -6,6 +6,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
+import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.stylebar.SpreadsheetStyleBar;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.dom.style.shared.Unit;
