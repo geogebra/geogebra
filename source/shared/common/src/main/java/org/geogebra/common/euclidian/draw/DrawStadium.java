@@ -27,7 +27,7 @@ public class DrawStadium extends DrawLocus {
 
 	/**
 	 * @return midpoints of left, right and bottom sides of the bounding rectangle
-	 * (asuming the stadium is horizontal)
+	 * (assuming the stadium is horizontal)
 	 */
 	@Override
 	public ArrayList<GPoint2D> toPoints() {
