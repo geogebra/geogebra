@@ -225,7 +225,7 @@ public abstract class BoundingBox<T extends GShape> {
 	protected void setHandlerBorderStyle(GGraphics2D g2) {
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(1.0f, GBasicStroke.CAP_BUTT,
 				GBasicStroke.JOIN_MITER));
-		g2.setColor(GColor.NEUTRAL_400);
+		g2.setColor(GeoGebraColorConstants.NEUTRAL_400);
 	}
 
 	/**

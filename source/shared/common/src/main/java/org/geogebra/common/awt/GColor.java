@@ -60,8 +60,7 @@ public final class GColor implements GPaint {
 	/** ERROR COLOR
 	 */
 	public static final GColor ERROR = newColorRGB(0xB00020);
-	/** NEUTRAL 400 */
-	public static final GColor NEUTRAL_400 = newColorRGB(0xD1D0D6);
+
 	/** MOW TEXT PRIMARY */
 	public static final GColor TEXT_PRIMARY = newColor(0, 0, 0, 138);
 	/** MOW WIDGET BACKGROUND */

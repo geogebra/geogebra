@@ -97,7 +97,7 @@ public class PolyLineBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		for (GShape handler : handlers) {
 			if (index < poly.getNumPoints()) {
 				fillHandlerWhite(g2, handler);
-				g2.setColor(GColor.NEUTRAL_400);
+				g2.setColor(GeoGebraColorConstants.NEUTRAL_600);
 				g2.draw(handler);
 			} else {
 				g2.setColor(GeoGebraColorConstants.NEUTRAL_600);
