@@ -22,7 +22,7 @@ public class SyntaxLocalizationTest {
 			int size = signature == null ? 0 : signature.size();
 			if (cmd.getTable() == CommandsConstants.TABLE_CAS
 					|| cmd == Commands.Polyhedron || cmd == Commands.CSolutions
-					|| cmd == Commands.CSolve) {
+					|| cmd == Commands.CSolve || cmd == Commands.Stadium) {
 				continue;
 			}
 			if (cmd.getTable() == CommandsConstants.TABLE_ENGLISH) {

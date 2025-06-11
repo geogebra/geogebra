@@ -429,6 +429,7 @@ public final class EuclidianConstants {
 	 * Triangle protractor
 	 */
 	public static final int MODE_TRIANGLE_PROTRACTOR = 129;
+	public static final int MODE_SHAPE_STADIUM = 130;
 
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
@@ -926,6 +927,8 @@ public final class EuclidianConstants {
 			return "Protractor";
 		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
 			return "TriangleProtractor";
+		case EuclidianConstants.MODE_SHAPE_STADIUM:
+			return "Stadium";
 		default:
 			return "";
 		}
@@ -1005,6 +1008,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_SHAPE_SQUARE:
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+		case EuclidianConstants.MODE_SHAPE_STADIUM:
 		case EuclidianConstants.MODE_SELECT_MOW:
 			return true;
 		default: return false;

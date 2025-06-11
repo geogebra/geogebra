@@ -58,7 +58,6 @@ import com.google.j2objc.annotations.AutoreleasePool;
 
 /**
  * AlgoElement is the superclass of all algorithms.
- * 
  * @author Markus
  */
 public abstract class AlgoElement extends ConstructionElement
@@ -73,9 +72,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * list of output
-	 * 
 	 * @deprecated use setOutputLength(), setOutput(), getOutputLength(),
-	 *             getOutput() instead
+	 * getOutput() instead
 	 */
 	@Deprecated
 	private GeoElement[] output;
@@ -100,9 +98,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Creates new algorithm
-	 * 
-	 * @param c
-	 *            construction
+	 * @param c construction
 	 */
 	public AlgoElement(Construction c) {
 		this(c, true);
@@ -110,11 +106,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Creates new algorithm
-	 * 
-	 * @param c
-	 *            construction
-	 * @param addToConstructionList
-	 *            true to add this to construction list
+	 * @param c construction
+	 * @param addToConstructionList true to add this to construction list
 	 */
 	protected AlgoElement(Construction c, boolean addToConstructionList) {
 		super(c);
@@ -134,10 +127,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * initialize output list
-	 * 
-	 * @param n
-	 *            Output length
-	 * 
+	 * @param n Output length
 	 */
 	protected final void setOutputLength(int n) {
 		output = new GeoElement[n];
@@ -145,10 +135,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * initialize output list
-	 * 
-	 * @param g
-	 *            only output
-	 * 
+	 * @param g only output
 	 */
 	protected void setOnlyOutput(GeoElementND g) {
 		output = new GeoElement[1];
@@ -157,11 +144,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * set output number i
-	 * 
-	 * @param i
-	 *            index
-	 * @param geo
-	 *            output geo
+	 * @param i index
+	 * @param geo output geo
 	 */
 	protected final void setOutput(int i, GeoElement geo) {
 		output[i] = geo;
@@ -169,17 +153,14 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * sets the output to the given array
-	 * 
-	 * @param geo
-	 *            the output to set
+	 * @param geo the output to set
 	 */
 	protected void setOutput(GeoElement[] geo) {
 		output = geo;
 	}
 
 	/**
-	 * @param i
-	 *            index
+	 * @param i index
 	 * @return output geo at position i
 	 */
 	public GeoElement getOutput(int i) {
@@ -187,7 +168,6 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
 	 * @return number of outputs
 	 */
 	public int getOutputLength() {
@@ -254,7 +234,7 @@ public abstract class AlgoElement extends ConstructionElement
 			// at least one input must have changed, but better to avoid OutOfBounds.
 			return false;
 		}
-		for (Integer i: updateInputIdx) {
+		for (Integer i : updateInputIdx) {
 			this.getInput(i).set(other.getInput(i));
 		}
 		// start cascade from the ancestor to make sure siblings are updated too
@@ -270,9 +250,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * Don't use this if you are accessing output directly, or use setOutput or
 	 * setOutputLength, because the OutputHandler changes output on it's own and
 	 * will 'overwrite' any direct changes.
-	 * 
-	 * @param <T>
-	 *            extends GeoElement: type of the OutputHandler
+	 * @param <T> extends GeoElement: type of the OutputHandler
 	 */
 	public class OutputHandler<T extends GeoElementND> {
 		private ElementFactory<T> fac;
@@ -288,8 +266,7 @@ public abstract class AlgoElement extends ConstructionElement
 		private int labelsSetLength = 0;
 
 		/**
-		 * @param fac
-		 *            elementFactory to create new Elements of type T
+		 * @param fac elementFactory to create new Elements of type T
 		 */
 		public OutputHandler(ElementFactory<T> fac) {
 			this.fac = fac;
@@ -301,10 +278,8 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		/**
-		 * @param fac
-		 *            elementFactory to create new Elements of type T
-		 * @param labels
-		 *            array of labels to use for Outputelements.
+		 * @param fac elementFactory to create new Elements of type T
+		 * @param labels array of labels to use for Outputelements.
 		 */
 		public OutputHandler(ElementFactory<T> fac, String[] labels) {
 			this(fac);
@@ -322,10 +297,9 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		/**
-		 * @param size
-		 *            makes room in this OutputHandler for size Objects.<br>
-		 *            if there are currently more objects than size, they become
-		 *            undefined.
+		 * @param size makes room in this OutputHandler for size Objects.<br>
+		 * if there are currently more objects than size, they become
+		 * undefined.
 		 */
 		public void adjustOutputSize(int size) {
 			adjustOutputSize(size, true);
@@ -334,12 +308,8 @@ public abstract class AlgoElement extends ConstructionElement
 		/**
 		 * makes room in this OutputHandler for size Objects.<br>
 		 * if there are currently more objects than size, they become undefined.
-		 *
-		 * @param size
-		 *            new size
-		 * 
-		 * @param setDependencies
-		 *            set dependencies
+		 * @param size new size
+		 * @param setDependencies set dependencies
 		 */
 		public void adjustOutputSize(int size, boolean setDependencies) {
 			if (outputList.size() < size) {
@@ -353,9 +323,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 		/**
 		 * increases size of output by given number
-		 * 
-		 * @param size
-		 *            size increment
+		 * @param size size increment
 		 */
 		public void augmentOutputSize(int size) {
 			augmentOutputSize(size, true);
@@ -363,11 +331,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 		/**
 		 * increases size of output to given size
-		 * 
-		 * @param increment
-		 *            new size
-		 * @param setDependencies
-		 *            true to set dependencies right away
+		 * @param increment new size
+		 * @param setDependencies true to set dependencies right away
 		 */
 		public void augmentOutputSize(int increment, boolean setDependencies) {
 			int size = increment + outputList.size();
@@ -388,13 +353,9 @@ public abstract class AlgoElement extends ConstructionElement
 
 		/**
 		 * add the geos list to the output
-		 * 
-		 * @param geos
-		 *            geos to be added
-		 * @param setDependencies
-		 *            says if the dependencies have to be set for this output
-		 * @param refresh
-		 *            if true, output array is recomputed using outputhandler
+		 * @param geos geos to be added
+		 * @param setDependencies says if the dependencies have to be set for this output
+		 * @param refresh if true, output array is recomputed using outputhandler
 		 */
 		public void addOutput(T[] geos, boolean setDependencies,
 				boolean refresh) {
@@ -408,10 +369,8 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		/**
-		 * @param geo
-		 *            geo to be added
-		 * @param setDependencies
-		 *            true to set dependencies of given geo now
+		 * @param geo geo to be added
+		 * @param setDependencies true to set dependencies of given geo now
 		 */
 		public void addOutput(T geo, boolean setDependencies) {
 			outputList.add(geo);
@@ -422,10 +381,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 		/**
 		 * set setLabels to true
-		 * 
-		 * @param labels
-		 *            use this Strings as labels. If labels == null, default
-		 *            labels are used
+		 * @param labels use this Strings as labels. If labels == null, default
+		 * labels are used
 		 */
 		public void setLabels(String[] labels) {
 			this.labels = labels;
@@ -443,9 +400,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 		/**
 		 * set setLabels to true
-		 * 
-		 * @param label
-		 *            use this String as indexed labels.
+		 * @param label use this String as indexed labels.
 		 */
 		public void setIndexLabels(String label) {
 			this.indexLabel = label;
@@ -501,9 +456,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 		/**
 		 * set the label to the next geo with no label (or create new one)
-		 * 
-		 * @param label
-		 *            label
+		 * @param label label
 		 * @return corresponding geo
 		 */
 		public T addLabel(String label) {
@@ -526,9 +479,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 		/**
 		 * Returns output element at given position
-		 * 
-		 * @param i
-		 *            position (starting with 0)
+		 * @param i position (starting with 0)
 		 * @return get the i<sup>th</sup> Element of this OutputHandler
 		 */
 		public T getElement(int i) {
@@ -536,8 +487,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		/**
-		 * @param a
-		 *            type of the Output
+		 * @param a type of the Output
 		 * @return content of this OutputHandler as array
 		 */
 		public T[] getOutput(T[] a) {
@@ -552,8 +502,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		/**
-		 * @param labels2
-		 *            output labels
+		 * @param labels2 output labels
 		 */
 		public void setLabelsMulti(String[] labels2) {
 			// if only one label (e.g. "A") for more than one output, new labels
@@ -571,16 +520,13 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Produces objects of type &lt;S&gt;
-	 * 
-	 * @param <S>
-	 *            element type
+	 * @param <S> element type
 	 */
 	public interface ElementFactory<S extends GeoElementND> {
 
 		/**
 		 * this is called by the OutputHandler every Time a new Element is
 		 * needed.
-		 * 
 		 * @return a new Element of type S. (e.g. new GeoPoint(cons))
 		 */
 		public S newElement();
@@ -593,9 +539,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Converts algorithm identifier into command name
-	 * 
-	 * @param classname
-	 *            algorithm identifier
+	 * @param classname algorithm identifier
 	 * @return internal command name
 	 */
 	final static String getCommandString(GetCommand classname) {
@@ -630,7 +574,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * @return whether this algo has NEAR-TO relations (ie ambiguous output
-	 *         =&gt; we pick the nearest possibility to last output)
+	 * =&gt; we pick the nearest possibility to last output)
 	 */
 	public boolean isNearToAlgorithm() {
 		return false;
@@ -657,7 +601,6 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * update input random numbers without label
-	 * 
 	 * @return whether something was updated
 	 */
 	public boolean updateUnlabeledRandomGeos() {
@@ -706,9 +649,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * Updates all AlgoElements in the given ArrayList. Note: this method is
 	 * more efficient than calling updateCascade() for all individual
 	 * AlgoElements.
-	 * 
-	 * @param algos
-	 *            list of algos that need updating
+	 * @param algos list of algos that need updating
 	 */
 	public static void updateCascadeAlgos(ArrayList<AlgoElement> algos) {
 		if (algos == null) {
@@ -743,6 +684,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	// public part
+
 	/**
 	 * @return list of output
 	 */
@@ -767,9 +709,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Note : maybe overridden for xOy plane additional input
-	 * 
-	 * @param i
-	 *            index
+	 * @param i index
 	 * @return i-th input
 	 */
 	public GeoElementND getInput(int i) {
@@ -788,7 +728,6 @@ public abstract class AlgoElement extends ConstructionElement
 	 * output which must be set by every algorithm. Note: setDependencies() is
 	 * called by every algorithm in topological order (i.e. possible helper
 	 * algos call this method before the using algo does).
-	 * 
 	 * @see #setInputOutput()
 	 */
 	final protected void setDependencies() {
@@ -823,10 +762,8 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @param standardInput
-	 *            input
-	 * @param efficientInput
-	 *            input without moving point for locus
+	 * @param standardInput input
+	 * @param efficientInput input without moving point for locus
 	 */
 	protected final void setEfficientDependencies(GeoElement[] standardInput,
 			GeoElementND[] efficientInput) {
@@ -859,9 +796,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * sets the given geo to be child of this algo
-	 * 
-	 * @param output
-	 *            output element
+	 * @param output output element
 	 */
 	protected void setOutputDependencies(GeoElementND output) {
 		// parent algorithm of output
@@ -933,9 +868,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * sets if the "not labeled" inputs are protected from remove
-	 * 
-	 * @param flag
-	 *            flag
+	 * @param flag flag
 	 */
 	public void setProtectedInput(boolean flag) {
 		protectedInput = flag;
@@ -943,9 +876,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Tells this algorithm to react on the deletion of one of its outputs.
-	 * 
-	 * @param out
-	 *            output to be removed
+	 * @param out output to be removed
 	 */
 	public void remove(GeoElement out) {
 		remove();
@@ -954,9 +885,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * Calls doRemove() for all output objects of this algorithm except for
 	 * keepGeo.
-	 * 
-	 * @param keepGeo
-	 *            geo to be kept
+	 * @param keepGeo geo to be kept
 	 */
 	public void removeOutputExcept(GeoElement keepGeo) {
 
@@ -995,7 +924,6 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Returns whether all output objects have the same type.
-	 * 
 	 * @return whether all outputs have the same type
 	 */
 	final public boolean hasSingleOutputType() {
@@ -1036,7 +964,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * Compares using getConstructionIndex() to order algos in update order.
 	 * Note: 0 is only returned for this == obj.
-	 * 
+	 *
 	 * overrides ConstructionElement.compareTo()
 	 */
 	@Override
@@ -1115,11 +1043,8 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * adds all predecessors of this object to the given list the set is kept
 	 * topologically sorted
-	 * 
-	 * @param set
-	 *            set of geos to be added
-	 * @param onlyIndependent
-	 *            whether only independent geos should be added
+	 * @param set set of geos to be added
+	 * @param onlyIndependent whether only independent geos should be added
 	 */
 	@Override
 	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
@@ -1137,10 +1062,8 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @param set
-	 *            predecessors set
-	 * @param check
-	 *            filter for adding predecessors
+	 * @param set predecessors set
+	 * @param check filter for adding predecessors
 	 */
 	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
 			Inspecting check) {
@@ -1157,8 +1080,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @param set
-	 *            set of randomizable predecessors
+	 * @param set set of randomizable predecessors
 	 */
 	public final void addRandomizablePredecessorsToSet(
 			TreeSet<GeoElement> set) {
@@ -1173,7 +1095,6 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Returns all moveable input points of this algorithm.
-	 * 
 	 * @return list of moveable input points
 	 */
 	public ArrayList<GeoElementND> getFreeInputPoints() {
@@ -1211,10 +1132,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Removes input points from a superset.
-	 * 
-	 * @param superset
-	 *            set from which we remove the points
-	 * 
+	 * @param superset set from which we remove the points
 	 */
 	public void removeInputPoints(ArrayList<GeoElement> superset) {
 		for (int i = 0; i < input.length; i++) {
@@ -1333,10 +1251,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * translate class name to internal command name GeoGebra File Format
-	 * 
-	 * @param tpl
-	 *            string template
-	 * 
+	 * @param tpl string template
 	 * @return internal command name
 	 */
 	public String getDefinitionName(StringTemplate tpl) {
@@ -1384,11 +1299,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Adds XML representation of this algo to the string builder
-	 * 
-	 * @param sb
-	 *            string builder
-	 * @param includeOutputGeos
-	 *            true to include output geos
+	 * @param sb string builder
+	 * @param includeOutputGeos true to include output geos
 	 */
 	public final void getXML(StringBuilder sb, boolean includeOutputGeos) {
 		// this is needed for helper commands like
@@ -1419,8 +1331,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @param cmdName
-	 *            command name
+	 * @param cmdName command name
 	 * @return whether this algo should print &lt;expression&gt; in XML
 	 */
 	protected boolean hasExpXML(String cmdName) {
@@ -1429,11 +1340,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Adds XML representation of this algo to the string builder OGP version
-	 * 
-	 * @param sb
-	 *            string builder
-	 * @param includeOutputGeos
-	 *            true to include output geos
+	 * @param sb string builder
+	 * @param includeOutputGeos true to include output geos
 	 */
 	public final void getXML_OGP(StringBuilder sb, boolean includeOutputGeos) {
 		// this is needed for helper commands like
@@ -1466,9 +1374,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * concatenate output XML to sb
-	 * 
-	 * @param sb
-	 *            string builder
+	 * @param sb string builder
 	 */
 	protected void getOutputXML(StringBuilder sb) {
 		// output
@@ -1485,11 +1391,8 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * Expressions should be shown as out = expression e.g. &lt;expression
 	 * label="u" exp="a + 7 b"/&gt;
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @param sb
-	 *            builder for the expression XML tag
+	 * @param tpl string template
+	 * @param sb builder for the expression XML tag
 	 */
 	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
 		String expString = toExpString(tpl);
@@ -1541,7 +1444,7 @@ public abstract class AlgoElement extends ConstructionElement
 		sb.append("<command name=\"");
 		if ("".equals(cmdname)) {
 			sb.append("AlgoNonCommand"); // In such cases we may want to add a
-											// Command for the Algo
+			// Command for the Algo
 		} else {
 			sb.append(cmdname);
 		}
@@ -1592,7 +1495,7 @@ public abstract class AlgoElement extends ConstructionElement
 					// to make sure that this really becomes a vector again
 					// eg g:X = (-5, 5) + t (4, -3)
 					sb.append("Vector["); // in XML, so don't want this
-											// translated
+					// translated
 					StringUtil.encodeXML(sb, cmd);
 					sb.append("]");
 				} else {
@@ -1615,7 +1518,6 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
 	 * @return input length
 	 */
 	final public int getInputLength() {
@@ -1623,7 +1525,6 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
 	 * @return input length for XML (undo/redo/replace)
 	 */
 	protected int getInputLengthForXML() {
@@ -1631,7 +1532,6 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
 	 * @return input length for command description
 	 */
 	protected int getInputLengthForCommandDescription() {
@@ -1639,15 +1539,14 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
 	 * @return input length for XML (undo/redo), maybe +1 for xOy plane
 	 */
 	final protected int getInputLengthForXMLMayNeedXOYPlane() {
 
 		if (!cons.isGettingXMLForReplace() || kernel.getXOYPlane() == null) { // saving
-																				// mode,
-																				// or
-																				// 2D
+			// mode,
+			// or
+			// 2D
 			return getInputLength();
 		}
 
@@ -1655,14 +1554,13 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
 	 * @return input length for command description, maybe +1 for xOy plane
 	 */
 	final protected int getInputLengthForCommandDescriptionMayNeedXOYPlane() {
 
 		if (kernel.isSaving() || kernel.noNeedToSpecifyXOYPlane()) { // saving
-																		// mode,
-																		// or 2D
+			// mode,
+			// or 2D
 			return getInputLength();
 		}
 
@@ -1670,9 +1568,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
-	 * @param i
-	 *            index
+	 * @param i index
 	 * @return input or xOy plane if i == input length
 	 */
 	final protected GeoElementND getInputMaybeXOYPlane(int i) {
@@ -1686,11 +1582,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * get XML for command output
-	 * 
-	 * @param sb
-	 *            current string builder
-	 * @param tpl
-	 *            template for string
+	 * @param sb current string builder
+	 * @param tpl template for string
 	 */
 	protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {
 		sb.append("\t<output");
@@ -1725,12 +1618,11 @@ public abstract class AlgoElement extends ConstructionElement
 	private boolean isGeoListImageType(GeoList list) {
 		return list.getElementType() == GeoClass.IMAGE
 				|| (list.size() > 0 && list.get(0) instanceof GeoList
-						&& isGeoListImageType((GeoList) list.get(0)));
+				&& isGeoListImageType((GeoList) list.get(0)));
 	}
 
 	/**
-	 * @param i
-	 *            index
+	 * @param i index
 	 * @return output geo at position i for command output XML
 	 */
 	protected GeoElement getOutputForCmdXML(int i) {
@@ -1745,9 +1637,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * Sets whether the output of this command should be labeled. This setting
 	 * is used for getXML().
-	 * 
-	 * @param flag
-	 *            whether the output of this command should be labeled
+	 * @param flag whether the output of this command should be labeled
 	 */
 	public void setPrintedInXML(boolean flag) {
 		isPrintedInXML = flag;
@@ -1767,9 +1657,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Returns string representation of this element
-	 *
-	 * @param tpl
-	 *            string template
+	 * @param tpl string template
 	 * @return e.g. "A=(1,2)"
 	 */
 	public String toString(StringTemplate tpl) {
@@ -1778,9 +1666,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * May differ from toString where LHS is needed
-	 * 
-	 * @param tpl
-	 *            string template
+	 * @param tpl string template
 	 * @return expression string
 	 */
 	protected String toExpString(StringTemplate tpl) {
@@ -1795,8 +1681,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @param stopUpdateCascade
-	 *            whether this algo should stop updateCascade calls
+	 * @param stopUpdateCascade whether this algo should stop updateCascade calls
 	 */
 	protected final void setStopUpdateCascade(boolean stopUpdateCascade) {
 		this.stopUpdateCascade = stopUpdateCascade;
@@ -1811,9 +1696,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Makes sure that this algorithm will be updated after the given algorithm.
-	 * 
-	 * @param updateAfterAlgo
-	 *            algo after which this should be updated
+	 * @param updateAfterAlgo algo after which this should be updated
 	 * @see #getUpdateAfterAlgo()
 	 */
 	final public void setUpdateAfterAlgo(AlgoElement updateAfterAlgo) {
@@ -1823,9 +1706,8 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * Returns the algorithm the should be updated right before this algorithm.
 	 * This is being used in AlgorithmSet to sort algorithms by updating order.
-	 * 
 	 * @return null when there is no special algorithm that needs to be updated
-	 *         first
+	 * first
 	 * @see #getUpdateAfterAlgo()
 	 */
 	final public AlgoElement getUpdateAfterAlgo() {
@@ -1865,8 +1747,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @param outputHandler
-	 *            the outputHandler to set
+	 * @param outputHandler the outputHandler to set
 	 */
 	public void setOutputHandler(List<OutputHandler<?>> outputHandler) {
 		this.outputHandler = outputHandler;
@@ -1881,7 +1762,6 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Check for undefined inputs, may be overridden
-	 * 
 	 * @return whether all relevant inputs are defined
 	 */
 	public boolean isUndefined() {
@@ -1906,10 +1786,8 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @param geo1
-	 *            output
-	 * @param geo2
-	 *            second geo -- possibly also output
+	 * @param geo1 output
+	 * @param geo2 second geo -- possibly also output
 	 * @return whether geo1 appears in output array before geo2
 	 */
 	public boolean isBefore(GeoElement geo1, GeoElement geo2) {
@@ -1934,16 +1812,13 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Resets output labels after redefinition
-	 * 
-	 * @param oldGeoLabel
-	 *            old label
+	 * @param oldGeoLabel old label
 	 */
 	public void resetLabels(String oldGeoLabel) {
 		LabelManager.setLabels(oldGeoLabel, getOutput());
 	}
 
 	/**
-	 *
 	 * @return true if when AV has description mode, we want to show description instead of definition
 	 */
 	public boolean mayShowDescriptionInsteadOfDefinition() {
@@ -1952,9 +1827,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	/**
 	 * Extract input variables from definition.
-	 * 
-	 * @param unwrap
-	 *            definition
+	 * @param unwrap definition
 	 */
 	protected void setInputFrom(ExpressionNode unwrap) {
 		input = unwrap.getGeoElementVariables(SymbolicMode.NONE);

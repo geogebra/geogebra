@@ -684,6 +684,7 @@ public abstract class CommandDispatcher {
 			case Textfield:
 			case Normalize:
 			case ExportImage:
+			case Stadium:
 				return getBasicCommandProcessorFactory().getProcessor(command, kernel);
 
 			case CFactor:

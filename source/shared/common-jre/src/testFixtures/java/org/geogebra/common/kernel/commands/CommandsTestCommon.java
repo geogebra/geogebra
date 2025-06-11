@@ -4463,4 +4463,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Heaviside(1)", "1");
 		t("Heaviside(10000)", "1");
 	}
+
+	@Test
+	public void cmdStadium() {
+		t("First(Stadium((1,2),(3,2),1),2)", "{(1, 2.5), (3, 2.5)}");
+	}
 }

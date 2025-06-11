@@ -182,7 +182,8 @@ public enum GeoClass {
 
 	MIND_MAP("MindMap", 150, false),
 
-	PIECHART("PieChart", 80, false);
+	PIECHART("PieChart", 80, false),
+	SHAPE_STADIUM("Stadium", 150, false);
 
 	/**
 	 * name MUST be in ggbtrans/properties

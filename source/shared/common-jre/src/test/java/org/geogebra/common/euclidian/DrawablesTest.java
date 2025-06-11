@@ -119,6 +119,7 @@ public class DrawablesTest extends BaseUnitTest {
 					|| GeoClass.DEFAULT == type
 					|| GeoClass.CLIPPINGCUBE3D == type
 					|| GeoClass.INLINE_TEXT == type
+					|| GeoClass.SHAPE_STADIUM == type
 			);
 		}
 

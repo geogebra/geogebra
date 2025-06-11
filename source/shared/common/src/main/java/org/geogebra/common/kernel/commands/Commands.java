@@ -1231,7 +1231,8 @@ public enum Commands implements CommandsConstants,
 
 	LUDecomposition(TABLE_CAS),
 
-	QRDecomposition(TABLE_CAS);
+	QRDecomposition(TABLE_CAS),
+	Stadium(TABLE_GEOMETRY);
 
 	private static final Commands[] RENAMED = {
 			Commands.Binomial, Commands.BinomialCoefficient, Commands.Mean,

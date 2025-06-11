@@ -135,6 +135,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSpotlight;
+import org.geogebra.common.kernel.geos.GeoStadium;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -553,6 +554,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_MASK:
 		case EuclidianConstants.MODE_SHAPE_SQUARE:
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+		case EuclidianConstants.MODE_SHAPE_STADIUM:
 			return true;
 
 		}
@@ -711,8 +713,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			pen.resetPenOffsets();
 		}
 
-		if (view.getShapePolygon() != null) {
-			view.setShapePolygon(null);
+		if (view.getShapePath() != null) {
+			view.setShapePath(null);
 			getShapeMode().clearPointList();
 			view.repaintView();
 		}
@@ -6917,6 +6919,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| geo.isGeoImage()
 				|| geo.isGeoList()
 				|| geo.isGeoVector()
+				|| geo instanceof GeoStadium
 				|| geo instanceof GeoLocusStroke;
 	}
 

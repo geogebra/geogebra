@@ -33,6 +33,7 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawSlope;
+import org.geogebra.common.euclidian.draw.DrawStadium;
 import org.geogebra.common.euclidian.draw.DrawSurface;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.draw.DrawTurtle;
@@ -70,6 +71,7 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoStadium;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoTurtle;
@@ -155,6 +157,10 @@ public class EuclidianDraw {
 		case PENSTROKE:
 			d = new DrawLocus(ev, ((GeoLocusNDInterface) geo).getLocus(),
 					CoordSys.XOY);
+			d.update();
+			break;
+		case SHAPE_STADIUM:
+			d = new DrawStadium(ev, (GeoStadium) geo, CoordSys.XOY);
 			d.update();
 			break;
 		case POLYLINE:

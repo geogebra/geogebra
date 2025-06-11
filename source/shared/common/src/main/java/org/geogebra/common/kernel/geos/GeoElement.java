@@ -2818,6 +2818,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		} else if (isGeoImage()) {
 			return defaultNumberedLabel("picture"); // Name.picture
 		} else if (isGeoLocus()) {
+			if (GeoClass.SHAPE_STADIUM.equals(getGeoClassType())) {
+				return defaultNumberedLabel("shape");
+			}
 			if (algoParent != null) {
 				if (algoParent.getClassName().equals(Commands.SolveODE)
 						|| algoParent instanceof AlgoIntegralODE

@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewBoundsImp;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
@@ -61,6 +62,7 @@ public class ModeShape {
 	private final GGeneralPath polygon = AwtFactory.getPrototype()
 			.newGeneralPath();
 	private ArrayList<GPoint> pointListFreePoly = new ArrayList<>();
+	private final ModeShapeStadium modeShapeStadium;
 
 	/**
 	 * @param view
@@ -69,6 +71,8 @@ public class ModeShape {
 	public ModeShape(EuclidianView view) {
 		this.ec = view.getEuclidianController();
 		this.view = view;
+		modeShapeStadium = new ModeShapeStadium(view.getKernel().getConstruction(),
+				new EuclidianViewBoundsImp(view));
 	}
 
 	/**
@@ -86,6 +90,10 @@ public class ModeShape {
 	 */
 	public void handleMousePressedForShapeMode(AbstractEvent event) {
 		moveEnded = true;
+		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_STADIUM) {
+			modeShapeStadium.setStartPoint(event.getX(), event.getY());
+			return;
+		}
 		if (!dragPointSet || (pointListFreePoly.isEmpty()
 				&& ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM)) {
 			dragStartPoint.setLocation(event.getX(), event.getY());
@@ -105,6 +113,7 @@ public class ModeShape {
 				pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
 			}
 		}
+
 	}
 
 	/**
@@ -151,11 +160,11 @@ public class ModeShape {
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
 			updateTriangle(event);
-			view.setShapePolygon(polygon);
+			view.setShapePath(polygon);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_PENTAGON) {
 			updateRegularPolygon(event);
-			view.setShapePolygon(polygon);
+			view.setShapePath(polygon);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_MASK) {
 			updateRectangle(event, false);
@@ -163,6 +172,11 @@ public class ModeShape {
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			updateFreeFormPolygon(event, wasDragged);
+		} else if (mode == EuclidianConstants.MODE_SHAPE_STADIUM) {
+			modeShapeStadium.updatePreview(event.getX(), event.getY());
+			view.setShapePath(modeShapeStadium.getGpPreview());
+			view.repaintView();
+
 		}
 	}
 
@@ -317,7 +331,7 @@ public class ModeShape {
 			}
 			AlgoPolygon algo = getPolyAlgo(points);
 			createPolygon(algo);
-			view.setShapePolygon(null);
+			view.setShapePath(null);
 			view.repaintView();
 			wasDragged = false;
 			return algo.getOutput(0);
@@ -347,10 +361,18 @@ public class ModeShape {
 				pointListFreePoly.clear();
 				dragPointSet = false;
 				polygon.reset();
-				view.setShapePolygon(null);
+				view.setShapePath(null);
 				view.repaintView();
 				return algo.getOutput(0);
 			}
+		} else if (mode == EuclidianConstants.MODE_SHAPE_STADIUM) {
+			GeoElement stadium =
+					modeShapeStadium.create(view.getKernel().getConstruction(),
+							event.getX(), event.getY());
+			wasDragged = false;
+			view.setShapePath(null);
+			view.repaintView();
+			return stadium;
 		}
 		// if was drag finished with release
 		wasDragged = false;
@@ -405,7 +427,7 @@ public class ModeShape {
 					}
 					polygon.lineTo(event.getX(), event.getY());
 				}
-				view.setShapePolygon(polygon);
+				view.setShapePath(polygon);
 				view.repaintView();
 			}
 		}
@@ -635,7 +657,7 @@ public class ModeShape {
 		if (wasDrag) {
 			polygon.lineTo(event.getX(), event.getY());
 		}
-		view.setShapePolygon(polygon);
+		view.setShapePath(polygon);
 		view.repaintView();
 	}
 

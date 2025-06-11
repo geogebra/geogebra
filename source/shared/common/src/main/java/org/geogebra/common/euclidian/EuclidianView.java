@@ -217,9 +217,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected GLine2D shapeLine;
 	/**
-	 * preview shape for triangle/regular polygon/polygon
+	 * preview shape for triangle/regular polygon/polygon and stadium
 	 */
-	protected GGeneralPath shapePolygon;
+	protected GGeneralPath shapePath;
 	// design for shapes
 
 	/**
@@ -2953,11 +2953,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param shapePolygon
+	 * @param shapePath
 	 *            - preview of polygon for ShapeTriangle/RegularPolygon/Polygon
 	 */
-	public void setShapePolygon(GGeneralPath shapePolygon) {
-		this.shapePolygon = shapePolygon;
+	public void setShapePath(GGeneralPath shapePath) {
+		this.shapePath = shapePath;
 	}
 
 	@Override
@@ -4354,8 +4354,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return shapePolygon
 	 */
-	public GGeneralPath getShapePolygon() {
-		return shapePolygon;
+	public GGeneralPath getShapePath() {
+		return shapePath;
 	}
 
 	/**
@@ -6555,7 +6555,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		drawMaskPreview(g2);
 		drawShape(g2, shapeEllipse);
 		drawShape(g2, shapeLine);
-		drawShape(g2, shapePolygon);
+		drawShape(g2, shapePath);
 	}
 
 	/**
