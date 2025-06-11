@@ -917,4 +917,18 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertThat(lookup("A").getDefinitionForEditor(), equalTo("A=$point(3,0)"));
 	}
 
+	@Test
+	@Issue("APPS-6689")
+	public void shouldStaySymbolic() {
+		add("A=(?,?)");
+		GeoInputBox input = add("ib=InputBox(A)");
+		GeoList tabOrder = add("tabOrder={4,ib}");
+		tabOrder.setSymbolicMode(false, false);
+		input.setSymbolicMode(true);
+		assertTrue("input box initially symbolic", input.isSymbolicMode());
+		reload();
+		assertTrue("input box symbolic after reload",
+				((GeoInputBox) lookup("ib")).isSymbolicMode());
+	}
+
 }

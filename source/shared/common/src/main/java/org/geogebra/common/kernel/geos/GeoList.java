@@ -3014,7 +3014,7 @@ public class GeoList extends GeoElement
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		symbolic = mode;
 		for (int i = 0; i < this.size(); i++) {
-			if (get(i) instanceof HasSymbolicMode) {
+			if (get(i) instanceof HasSymbolicMode && !get(i).isLabelSet()) {
 				((HasSymbolicMode) get(i)).setSymbolicMode(mode, updateParent);
 			}
 		}
