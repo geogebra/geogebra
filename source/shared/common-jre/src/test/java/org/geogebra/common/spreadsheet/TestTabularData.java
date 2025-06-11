@@ -17,7 +17,7 @@ public class TestTabularData implements TabularData<String> {
 	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
 		@Override
 		public void process(@Nonnull String input, int row, int column) {
-			setContent(row, column, input);
+			setContent(row, column, input.isEmpty() ? null : input);
 		}
 
 		@Override

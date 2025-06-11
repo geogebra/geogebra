@@ -236,10 +236,6 @@ public final class SpreadsheetController {
 		updateLayout(fromCol, fromRow);
 	}
 
-	private void deleteContentAt(int row, int column) {
-		tabularData.removeContentAt(row, column);
-	}
-
 	// Call chain:
 	// KernelTabularDataAdapter (on settings change)
 	//   -> Spreadsheet.tabularDataDimensionsDidChange()
@@ -518,7 +514,7 @@ public final class SpreadsheetController {
 	}
 
 	/**
-	 * Saves the content of the editor and hides it afterwards
+	 * Saves the content of the editor and hides it afterwards.
 	 */
 	void saveContentAndHideCellEditor() {
 		if (editor != null && editor.isVisible()) {
@@ -543,7 +539,6 @@ public final class SpreadsheetController {
 			return;
 		}
 		editor.commitInput();
-		deleteCellIfEmpty(editor.row, editor.column);
 	}
 
 	private void discardInput() {
@@ -551,18 +546,6 @@ public final class SpreadsheetController {
 			return;
 		}
 		editor.discardInput();
-		deleteCellIfEmpty(editor.row, editor.column);
-	}
-
-	private void deleteCellIfEmpty(int row, int column) {
-		if (editor == null) {
-			return;
-		}
-		Object data = tabularData.contentAt(row, column);
-		String cellContent = editor.cellEditor.getCellDataSerializer().getStringForEditor(data);
-		if (cellContent.isBlank()) {
-			deleteContentAt(row, column);
-		}
 	}
 
 	private int getAlignment(int row, int column) {
@@ -703,8 +686,9 @@ public final class SpreadsheetController {
 			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd, true);
 			break;
 		case DRAG_DOT:
-			pasteDragSelectionToDestination();
-			onLayoutChange();
+			if (pasteDragSelectionToDestination()) {
+				onLayoutChange();
+			}
 		}
 		autoscrollColumn = autoscrollRow = false;
 		resetDragAction();
@@ -825,16 +809,16 @@ public final class SpreadsheetController {
 		cellDragPasteHandler.setDestinationForPaste(row, column);
 	}
 
-	private void pasteDragSelectionToDestination() {
+	private boolean pasteDragSelectionToDestination() {
 		if (cellDragPasteHandler == null) {
-			return;
+			return false;
 		}
 		Selection lastSelection = getLastSelection();
 		TabularRange destinationRange = cellDragPasteHandler.getDragPasteDestinationRange();
 		if (lastSelection == null || destinationRange == null) {
-			return;
+			return false;
 		}
-		cellDragPasteHandler.pasteToDestination();
+		boolean success = cellDragPasteHandler.pasteToDestination();
 		cellDragPasteHandler.setRangeToCopy(null);
 		TabularRange mergedRange = lastSelection.getRange().getRectangularUnion(destinationRange);
 		if (mergedRange != null) {
@@ -842,6 +826,7 @@ public final class SpreadsheetController {
 		} else {
 			select(destinationRange, false, false);
 		}
+		return success;
 	}
 
 	private void extendSelectionByDrag(double x, double y,

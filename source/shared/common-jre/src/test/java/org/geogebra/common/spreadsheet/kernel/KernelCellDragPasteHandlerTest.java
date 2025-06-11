@@ -32,7 +32,7 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	public void testPasteSingleCell1() {
 		tabularData.setContent(0, 0, add("=12"));
 		setRangeToCopy(0, 0, 0, 0);
-		pasteToDestination(0, 1);
+		assertTrue(pasteToDestination(0, 1));
 		assertCellContentIsEqual(0, 0, 0, 1);
 	}
 
@@ -60,6 +60,14 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 		setRangeToCopy(0, 0, 1, 1);
 		pasteToDestination(1, 1);
 		assertCellContentIsEqual(0, 1, 1, 1);
+	}
+
+	@Test
+	@Issue("APPS-6628")
+	public void testPasteSingleCellEmpty() {
+		tabularData.setContent(0, 0, null);
+		setRangeToCopy(0, 0, 0, 0);
+		assertFalse(pasteToDestination(0, 1));
 	}
 
 	@Test
@@ -257,9 +265,9 @@ public class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 				TabularRange.range(fromRow, toRow, fromColumn, toColumn));
 	}
 
-	private void pasteToDestination(int destinationRow, int destinationColumn) {
+	private boolean pasteToDestination(int destinationRow, int destinationColumn) {
 		cellDragPasteHandler.setDestinationForPaste(destinationRow, destinationColumn);
-		cellDragPasteHandler.pasteToDestination();
+		return cellDragPasteHandler.pasteToDestination();
 	}
 
 	private void assertCellContentIsEqual(int originRow, int originColumn,

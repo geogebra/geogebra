@@ -22,6 +22,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.error.ErrorLogger;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -66,6 +67,14 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		this.cellName = cellName;
 		this.input = input;
 		Kernel kernel = algebraProcessor.getKernel();
+		if (StringUtil.empty(input)) {
+			GeoElement cell = kernel.lookupLabel(cellName);
+			if (cell != null) {
+				cell.removeOrSetUndefinedIfHasFixedDescendent();
+				kernel.getApplication().storeUndoInfo();
+			}
+			return;
+		}
 		if (checkCircularDefinition(input, kernel)) {
 			markError();
 			kernel.getApplication().storeUndoInfo();

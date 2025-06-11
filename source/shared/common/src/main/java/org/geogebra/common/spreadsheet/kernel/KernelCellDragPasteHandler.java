@@ -77,18 +77,33 @@ public class KernelCellDragPasteHandler implements CellDragPasteHandler {
 	}
 
 	@Override
-	public void pasteToDestination() {
-		if (getDragPasteDestinationRange() == null || rangeToCopy == null) {
-			return;
+	public boolean pasteToDestination() {
+		if (getDragPasteDestinationRange() == null || rangeToCopy == null || isEmptyCells()) {
+			return false;
 		}
 		setPasteDirection();
 		try {
 			kernel.getConstruction().startCollectingRedefineCalls();
 			pasteToCorrectDirection();
 			kernel.getConstruction().processCollectedRedefineCalls();
+			return true;
 		} catch (CircularDefinitionException | ParseException | XMLParseException e) {
 			Log.error(e);
 		}
+		return false;
+	}
+
+	private boolean isEmptyCells() {
+		TabularRange tr = rangeToCopy.restrictTo(tabularData.numberOfRows(),
+				tabularData.numberOfColumns());
+		for (int row = tr.getMinRow(); row <= tr.getMaxRow() ; row++) {
+			for (int column = tr.getMinColumn(); column <= tr.getMaxColumn(); column++) {
+				if (tabularData.contentAt(row, column) != null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override

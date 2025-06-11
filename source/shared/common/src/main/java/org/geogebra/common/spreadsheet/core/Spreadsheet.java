@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
@@ -405,7 +404,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.scrollEditorIntoView();
 	}
 
-	@MissingDoc
+	/**
+	 * Saves the content of the editor and hides it afterwards.
+	 */
 	public void saveContentAndHideCellEditor() {
 		controller.saveContentAndHideCellEditor();
 	}

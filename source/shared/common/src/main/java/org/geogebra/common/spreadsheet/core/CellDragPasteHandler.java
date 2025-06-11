@@ -21,8 +21,10 @@ public interface CellDragPasteHandler {
 
 	/**
 	 * Pastes the selected range to the chosen destination.
+	 * @apiNote if empty cells are pasted, target cells are unchanged (rather than deleted)
+	 * @return whether paste changed the table content
 	 */
-	void pasteToDestination();
+	boolean pasteToDestination();
 
 	/**
 	 * Sets the destination where the original selection should be copied to

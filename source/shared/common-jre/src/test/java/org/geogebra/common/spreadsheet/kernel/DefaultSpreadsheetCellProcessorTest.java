@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
@@ -260,5 +261,27 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		assertSerializedAs("=$A$1", "B4");
 		processor.process("=First(A1,3)", "B5");
 		assertSerializedAs("=First(A1,3)", "B5");
+	}
+
+	@Test
+	@Issue("APPS-6628")
+	public void emptyStringInEmptyCellShouldHaveNoEffect() {
+		activateUndo();
+		processor.process("", "A2");
+		assertNull(lookup("A2"));
+		assertFalse(getKernel().getConstruction().getUndoManager().undoPossible());
+	}
+
+	@Test
+	@Issue("APPS-6628")
+	public void emptyStringInExistingCellShouldDelete() {
+		activateUndo();
+		add("A2=42");
+		getApp().storeUndoInfo();
+		processor.process("", "A2");
+		assertNull(lookup("A2"));
+		assertTrue(getKernel().getConstruction().getUndoManager().undoPossible());
+		getKernel().undo();
+		assertThat(lookup("A2"), hasValue("42"));
 	}
 }
