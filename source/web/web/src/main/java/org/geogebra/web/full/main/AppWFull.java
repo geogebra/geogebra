@@ -59,10 +59,8 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
@@ -2218,7 +2216,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp,
 						!getSettings().getCasSettings().isEnabled());
+				getKernel().removeFiltersFromConfig();
 				setConfig(activity.getConfig());
+				getKernel().setFiltersFromConfig();
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
 				reinitAlgebraView();
@@ -2513,14 +2513,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void switchToSubapp(SuiteSubApp subApp) {
 		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subApp.appCode);
 		getDialogManager().hideCalcChooser();
-		CommandFilter commandFilter = getConfig().getCommandFilter();
-		if (commandFilter != null) {
-			getKernel().getAlgebraProcessor().getCmdDispatcher().removeCommandFilter(commandFilter);
-		}
-		ExpressionFilter expressionFilter = getConfig().createExpressionFilter();
-		if (expressionFilter != null) {
-			getKernel().getAlgebraProcessor().removeInputExpressionFilter(expressionFilter);
-		}
+		getKernel().removeFiltersFromConfig();
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		getGuiManager().closePropertiesView();
@@ -2550,7 +2543,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		frame.fitSizeToScreen();
 
 		kernel.initUndoInfo();
-		kernel.resetFiltersFromConfig();
+		kernel.setFiltersFromConfig();
 		resetCommandDict();
 		if (suiteAppPickerButton != null) {
 			suiteAppPickerButton.setIconAndLabel(subApp);

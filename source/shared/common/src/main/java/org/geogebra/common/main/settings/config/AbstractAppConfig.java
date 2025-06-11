@@ -10,6 +10,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.kernel.EquationBehaviour;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -22,6 +23,7 @@ abstract class AbstractAppConfig implements AppConfig {
     private SuiteSubApp subAppCode;
     protected transient CommandFilter commandFilter;
     protected transient EquationBehaviour equationBehaviour;
+    private ExpressionFilter expressionFilter;
 
     AbstractAppConfig(String appCode) {
         this(appCode, null);
@@ -106,5 +108,13 @@ abstract class AbstractAppConfig implements AppConfig {
     public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions,
             @Nonnull ExamType examType) {
         initializeEquationBehaviour();
+    }
+
+    @Override
+    public ExpressionFilter getExpressionFilter() {
+        if (expressionFilter == null) {
+            expressionFilter = createExpressionFilter();
+        }
+        return expressionFilter;
     }
 }

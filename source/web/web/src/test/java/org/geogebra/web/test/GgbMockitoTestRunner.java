@@ -57,6 +57,7 @@ import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
 import com.himamis.retex.editor.web.ClickAdapterW;
 import com.himamis.retex.editor.web.MathFieldW;
+import com.himamis.retex.renderer.web.font.opentype.Opentype;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.ImageW;
@@ -148,6 +149,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(Document.class, "createTextNode", Void.class);
         StubGenerator.replaceMethodWithMock(FocusUtil.class, "focusNoScroll", Void.class);
         StubGenerator.replaceMethodWithMock(CopyPasteW.class, "navigatorSupports", Void.class);
+        StubGenerator.replaceMethodWithMock(Opentype.class, "loadFont", Void.class);
     }
 
     @Override

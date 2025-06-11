@@ -311,10 +311,6 @@ public abstract class CommandDispatcher {
 		// external commands: visible to users
 		cmdTable = new HashMap<>(500);
 
-		for (Commands comm : Commands.values()) {
-			cmdTable.put(comm.name(), null);
-		}
-
 		// =============================================================
 		// CAS
 		// do *after* above loop as we must add only those CAS commands without
@@ -1024,6 +1020,9 @@ public abstract class CommandDispatcher {
 	 */
 	public void addCommandFilter(@Nonnull CommandFilter filter) {
 		commandFilters.add(filter);
+		if (cmdTable != null) {
+			cmdTable.clear();
+		}
 	}
 
 	/**

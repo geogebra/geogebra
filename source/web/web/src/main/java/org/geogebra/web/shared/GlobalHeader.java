@@ -503,6 +503,9 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 
 	@Override
 	public void examStateChanged(ExamState newState) {
+		if (app == null) {
+			return;
+		}
 		if (newState == ExamState.ACTIVE) {
 			focusableWidgets.forEach(widget -> widget.detachFrom(app));
 		} else if (newState == ExamState.FINISHED) {

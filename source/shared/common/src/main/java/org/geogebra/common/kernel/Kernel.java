@@ -443,7 +443,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public AlgebraProcessor getAlgebraProcessor() {
 		if (algProcessor == null) {
 			algProcessor = newAlgebraProcessor(this);
-			ExpressionFilter expressionFilter = app.getConfig().createExpressionFilter();
+			ExpressionFilter expressionFilter = app.getConfig().getExpressionFilter();
 			if (expressionFilter != null) {
 				algProcessor.addInputExpressionFilter(expressionFilter);
 			}
@@ -5338,19 +5338,35 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Reset command, operation and parsing filters from current config
+	 * Reset command, operation and parsing filters from current config.
 	 */
-	public void resetFiltersFromConfig() {
+	public void setFiltersFromConfig() {
 		AppConfig config = app.getConfig();
 		CommandFilter commandFilter = config.getCommandFilter();
 		if (commandFilter != null) {
 			getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
 		}
 		getAlgebraProcessor().setEnableStructures(config.isEnableStructures());
-		ExpressionFilter expressionFilter = config.createExpressionFilter();
+		ExpressionFilter expressionFilter = config.getExpressionFilter();
 
 		if (expressionFilter != null) {
 			getAlgebraProcessor().addInputExpressionFilter(expressionFilter);
+		}
+	}
+
+	/**
+	 * Remove command and input expression filters implied by AppConfig.
+	 * To be called before config is swapped.
+	 * See also {@link #setFiltersFromConfig()}.
+	 */
+	public void removeFiltersFromConfig() {
+		CommandFilter commandFilter = app.getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			getAlgebraProcessor().getCmdDispatcher().removeCommandFilter(commandFilter);
+		}
+		ExpressionFilter expressionFilter = app.getConfig().getExpressionFilter();
+		if (expressionFilter != null) {
+			getAlgebraProcessor().removeInputExpressionFilter(expressionFilter);
 		}
 	}
 

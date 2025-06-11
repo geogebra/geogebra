@@ -250,6 +250,12 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	@CheckForNull ExpressionFilter createExpressionFilter();
 
 	/**
+	 * Unlike {@link #createExpressionFilter()} this always returns the same instance.
+	 * @return expression filter
+	 */
+	ExpressionFilter getExpressionFilter();
+
+	/**
 	 * @return creates app specific parser functions
 	 */
 	ParserFunctionsFactory createParserFunctionsFactory();
