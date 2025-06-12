@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
@@ -37,4 +38,27 @@ public class ExpressionNodeTest extends BaseUnitTest {
 		assertThat(en.integral(x, k).toString(StringTemplate.testTemplate),
 				is("x^(2) / 2 + 1 * x + (2 * x) / 3"));
 	}
+
+	@Test
+	public void testValueTypeOfMatrixElement() {
+		MyList matrix = new MyList(getKernel());
+		MyList row = new MyList(getKernel());
+		matrix.addListElement(row);
+		ExpressionNode num = new ExpressionNode(getKernel(), 42);
+		row.addListElement(num);
+		MyList indices = new MyList(getKernel());
+		indices.addListElement(num);
+		ExpressionNode elementOf = new ExpressionNode(getKernel(),
+				matrix, Operation.ELEMENT_OF, indices);
+		assertEquals(ListValueType.of(ValueType.NUMBER), elementOf.getValueType());
+		indices.addListElement(num);
+		elementOf = new ExpressionNode(getKernel(),
+				matrix, Operation.ELEMENT_OF, indices);
+		assertEquals(ValueType.NUMBER, elementOf.getValueType());
+		indices.addListElement(num);
+		elementOf = new ExpressionNode(getKernel(),
+				matrix, Operation.ELEMENT_OF, indices);
+		assertEquals(ValueType.UNKNOWN, elementOf.getValueType());
+	}
+
 }

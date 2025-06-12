@@ -606,7 +606,8 @@ public class Command extends ValidExpression
 	public ExpressionValueType getValueType() {
 		if ("Sequence".equals(name) || "IterationList".equals(name)
 				|| "KeepIf".equals(name) || "Identity".equals(name)) {
-			return ListValueType.of(args.get(0).getValueType());
+			return args.isEmpty() ? ValueType.UNKNOWN
+					: ListValueType.of(args.get(0).getValueType());
 		}
 		if ("Function".equals(name)) {
 			return ValueType.FUNCTION;

@@ -206,6 +206,13 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-6696")
+	public void tupleOfMatrixEntries() {
+		add("m1={{7}}");
+		t("(m1(1,1),m1(1,1))", "(7, 7)");
+	}
+
+	@Test
 	public void invalidTuples() {
 		shouldFail("((1,2),3)", "Please check", getApp());
 		shouldFail("(0,(1,2,3))", "Please check", getApp());

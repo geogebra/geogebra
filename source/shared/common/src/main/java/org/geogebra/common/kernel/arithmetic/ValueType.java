@@ -231,8 +231,14 @@ public enum ValueType implements ExpressionValueType {
 		case EQUAL_BOOLEAN:
 			return ValueType.BOOLEAN;
 		case ELEMENT_OF:
-			ExpressionValueType leftExprType = left.getValueType();
-			return leftExprType.getElementType();
+			if (right instanceof ListValue) {
+				ExpressionValueType elementType = left.getValueType();
+				for (int i = 0; i < ((ListValue) right).size(); i++) {
+					elementType = elementType.getElementType();
+				}
+				return elementType;
+			}
+			return ValueType.UNKNOWN;
 		case NOT:
 			return checkList(left, ValueType.BOOLEAN);
 		case OR:
