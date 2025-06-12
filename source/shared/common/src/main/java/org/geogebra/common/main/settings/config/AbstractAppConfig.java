@@ -23,7 +23,7 @@ abstract class AbstractAppConfig implements AppConfig {
     private SuiteSubApp subAppCode;
     protected transient CommandFilter commandFilter;
     protected transient EquationBehaviour equationBehaviour;
-    private ExpressionFilter expressionFilter;
+    private transient ExpressionFilter expressionFilter;
 
     AbstractAppConfig(String appCode) {
         this(appCode, null);
@@ -52,6 +52,9 @@ abstract class AbstractAppConfig implements AppConfig {
 
 	@Override
 	public final @Nonnull EquationBehaviour getEquationBehaviour() {
+        if (equationBehaviour == null) {
+            initializeEquationBehaviour();
+        }
         return equationBehaviour;
     }
 

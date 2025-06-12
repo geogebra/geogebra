@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.junit.Test;
 
 public class AppConfigTest {
@@ -20,11 +21,14 @@ public class AppConfigTest {
 		ObjectOutputStream os = new ObjectOutputStream(bos);
 		AppConfigGraphing obj = new AppConfigGraphing();
 		obj.getCommandFilter();
+		obj.getExpressionFilter();
 		os.writeObject(obj);
 		os.close();
 		ObjectInputStream is = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
 		Object after = is.readObject();
 		is.close();
 		assertThat(after, instanceOf(AppConfigGraphing.class));
+		assertThat(((AppConfig) after).getEquationBehaviour(),
+				instanceOf(DefaultEquationBehaviour.class));
 	}
 }
