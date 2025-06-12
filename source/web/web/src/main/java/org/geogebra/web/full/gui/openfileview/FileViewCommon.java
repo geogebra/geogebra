@@ -13,6 +13,7 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
@@ -43,7 +44,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	private FlowPanel materialPanel;
 	private final LocalizationW loc;
 	private Button signInTextButton;
-	private StandardButton signInIconButton;
+	private IconButton signInIconButton;
 	private ProfileAvatar profilePanel;
 	private StandardButton examInfoBtn;
 	private Label timer;
@@ -167,13 +168,14 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		return button;
 	}
 
-	private StandardButton getLoginIconButton(SignInControllerI signInController) {
-		StandardButton button = new StandardButton(MaterialDesignResources.INSTANCE.login(), 24);
-		button.setStyleName("signInIcon flatButtonHeader");
-		button.addFastClickHandler(event -> {
+	private IconButton getLoginIconButton(SignInControllerI signInController) {
+		Runnable onClick = () -> {
 			signInController.login();
 			signInController.initLoginTimer();
-		});
+		};
+		IconButton button = new IconButton(app, onClick,
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.login()), "SignIn");
+		button.addStyleName("signInIcon");
 		return button;
 	}
 

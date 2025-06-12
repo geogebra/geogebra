@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -76,10 +78,11 @@ public class ScientificEmbedTopBar extends FlowPanel {
 	}
 
 	private void addSettingsButton() {
-		StandardButton settings = createTopBarButton(MaterialDesignResources.INSTANCE.gear(),
-				"Settings", "settingsBtnScientific");
-		settings.addFastClickHandler(source -> appW.getGuiManager().showSciSettingsView());
-		add(settings);
+		IconButton settingsButton = new IconButton(appW, () ->
+				appW.getGuiManager().showSciSettingsView(), new ImageIconSpec(
+				MaterialDesignResources.INSTANCE.gear()), "Settings");
+		settingsButton.addStyleName("settingsBtnScientific");
+		add(settingsButton);
 	}
 
 	private StandardButton createTopBarButton(SVGResource icon, String title, String className) {

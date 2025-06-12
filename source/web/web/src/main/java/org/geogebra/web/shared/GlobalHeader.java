@@ -25,6 +25,7 @@ import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconResources;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.GeoGebraGlobal;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
@@ -107,6 +108,10 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 
 	private RootPanel getSignInTextButton() {
 		return RootPanel.get("signInTextID");
+	}
+
+	private @CheckForNull RootPanel getSignInIconButton() {
+		return RootPanel.get("signInIconID");
 	}
 
 	private void registerSignInButtonsAsFocusable() {
@@ -469,6 +474,12 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		if (getAssignButton() != null && app != null) {
 			getAssignButton().getElement().setInnerText(app.getLocalization()
 					.getMenu("assignButton.title"));
+		}
+		if (getShareButton() != null && app != null && shareButtonInitialized) {
+			AriaHelper.setTitle(getShareButton(), app.getLocalization().getMenu("Share"));
+		}
+		if (getSignInIconButton() != null && app != null) {
+			AriaHelper.setTitle(getSignInIconButton(), app.getLocalization().getMenu("SignIn"));
 		}
 	}
 

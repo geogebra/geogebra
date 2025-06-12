@@ -263,7 +263,7 @@ class NavigationRail extends FlowPanel {
 
 	private void setAltTexts() {
 		if (btnMenu != null) {
-			btnMenu.setImageAltText(app.getLocalization().getMenu("Menu"));
+			btnMenu.setLabel();
 		}
 		setButtonText(btnAlgebra, app.getConfig().getAVTitle());
 		setButtonText(btnTools, "Tools");
