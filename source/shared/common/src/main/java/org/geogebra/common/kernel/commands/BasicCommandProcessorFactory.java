@@ -277,8 +277,8 @@ public class BasicCommandProcessorFactory implements CommandProcessorFactory {
 			return new CmdDefined(kernel);
 		case Spline:
 			return new CmdSpline(kernel);
-		// case Nyquist:
-		// return new CmdNyquist(kernel);
+		case BezierCurve:
+			return new CmdBezierCurve(kernel);
 		case FormulaText:
 		case LaTeX:
 			return new CmdLaTeX(kernel);

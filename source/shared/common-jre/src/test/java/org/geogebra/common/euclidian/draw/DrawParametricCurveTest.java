@@ -66,6 +66,7 @@ public class DrawParametricCurveTest extends BaseUnitTest {
 	private boolean isIntervalPlotterEnabledForInput(String input, EuclidianView view) {
 		CurveEvaluable function = add(input);
 		DrawParametricCurve drawParametricCurve = new DrawParametricCurve(view, function);
+		drawParametricCurve.update();
 		return drawParametricCurve.isIntervalPlotterEnabled();
 	}
 }

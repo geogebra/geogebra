@@ -924,6 +924,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_MASK:
 			return resourceBundle.mode_mask();
 
+		case EuclidianConstants.MODE_SHAPE_CURVE:
+			return resourceBundle.mode_curve();
+
 		case EuclidianConstants.MODE_TABLE:
 			return resourceBundle.mode_table();
 
@@ -949,7 +952,7 @@ public class GGWToolBar extends Composite
 	}
 
 	/**
-	 * @return tool bar
+	 * @return toolbar
 	 */
 	public ToolBarW getToolBar() {
 		return toolBar;

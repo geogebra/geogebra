@@ -4468,4 +4468,12 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void cmdStadium() {
 		t("First(Stadium((1,2),(3,2),1),2)", "{(1, 2.5), (3, 2.5)}");
 	}
+
+	@Test
+	public void cmdBezierCurve() {
+		t("BezierCurve((0,0),(0,1),(1,1),(1,0))",
+				"((0 * t^(3)) + (0 * ((1 - t) * t^(2))) + (3 * ((1 - t)^(2) * t))"
+						+ " + (1 * (1 - t)^(3)), (0 * t^(3)) + (3 * ((1 - t) * t^(2)))"
+						+ " + (3 * ((1 - t)^(2) * t)) + (0 * (1 - t)^(3)))");
+	}
 }

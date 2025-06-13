@@ -431,9 +431,11 @@ public final class EuclidianConstants {
 	public static final int MODE_TRIANGLE_PROTRACTOR = 129;
 	public static final int MODE_SHAPE_STADIUM = 130;
 
+	public static final int MODE_SHAPE_CURVE = 132;
+
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
-	/** max delay between taps of a doublecklick */
+	/** max delay between taps of a double click */
 	public static final long DOUBLE_CLICK_DELAY = 300;
 	/** ignore drag until this many milliseconds after drag start */
 	public static final long DRAGGING_DELAY = 100;
@@ -929,6 +931,8 @@ public final class EuclidianConstants {
 			return "TriangleProtractor";
 		case EuclidianConstants.MODE_SHAPE_STADIUM:
 			return "Stadium";
+		case EuclidianConstants.MODE_SHAPE_CURVE:
+			return "Curve";
 		default:
 			return "";
 		}
@@ -1010,6 +1014,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
 		case EuclidianConstants.MODE_SHAPE_STADIUM:
 		case EuclidianConstants.MODE_SELECT_MOW:
+		case EuclidianConstants.MODE_SHAPE_CURVE:
 			return true;
 		default: return false;
 		}

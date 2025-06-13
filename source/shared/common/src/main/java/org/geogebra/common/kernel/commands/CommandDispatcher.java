@@ -602,6 +602,7 @@ public abstract class CommandDispatcher {
 			case TurningPoint:
 			case Polynomial:
 			case Spline:
+			case BezierCurve:
 				// case Nyquist:
 			case Function:
 			case Curve:

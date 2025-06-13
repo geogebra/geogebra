@@ -303,6 +303,7 @@ public class EuclidianDraw {
 			} else {
 				d = ev.getCompanion()
 						.newDrawParametricCurve((ParametricCurve) geo);
+				d.update();
 			}
 			break;
 		case FORMULA:
@@ -327,6 +328,7 @@ public class EuclidianDraw {
 		case CURVE_CARTESIAN:
 		case CURVE_CARTESIAN3D:
 			d = ev.getCompanion().newDrawParametricCurve((GeoCurveCartesianND) geo);
+			d.update();
 			break;
 
 		case LIST:

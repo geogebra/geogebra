@@ -69,6 +69,7 @@ import static org.geogebra.common.kernel.commands.Commands.BarChart;
 import static org.geogebra.common.kernel.commands.Commands.Barycenter;
 import static org.geogebra.common.kernel.commands.Commands.Bernoulli;
 import static org.geogebra.common.kernel.commands.Commands.BetaDist;
+import static org.geogebra.common.kernel.commands.Commands.BezierCurve;
 import static org.geogebra.common.kernel.commands.Commands.Bottom;
 import static org.geogebra.common.kernel.commands.Commands.BoxPlot;
 import static org.geogebra.common.kernel.commands.Commands.CFactor;
@@ -415,7 +416,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				Iteration, IterationList, IsVertexForm, LeftSum, Limit, LimitAbove, LimitBelow,
 				LowerSum, NSolveODE, Normalize, Numerator, OsculatingCircle, ParametricDerivative,
 				PartialFractions, PathParameter, Polynomial, RectangleSum, RemovableDiscontinuity,
-				RootList, SlopeField, SolveODE, Spline, TaylorPolynomial, TrapezoidalSum,
+				RootList, SlopeField, SolveODE, BezierCurve, Spline,
+				TaylorPolynomial, TrapezoidalSum,
 				TrigCombine, TrigExpand, TrigSimplify, UpperSum, AffineRatio, Angle, AngleBisector,
 				Arc, AreCollinear, AreConcurrent, AreConcyclic, AreCongruent, AreEqual, AreParallel,
 				ArePerpendicular, Area, Barycenter, Centroid, CircularArc, CircularSector,

@@ -97,6 +97,8 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 
 	@Test
 	public void shouldUpdateOnAppSwitch() {
+		getApp().getKernel().getAlgebraProcessor().addCommandFilter(
+				cmd -> !cmd.name().startsWith("Bezier"));
 		shouldUpdateOnAppSwitch("en", "Curve");
 	}
 

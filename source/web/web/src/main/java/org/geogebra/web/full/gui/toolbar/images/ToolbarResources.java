@@ -284,6 +284,8 @@ public interface ToolbarResources {
 
 	SVGResource mode_mask();
 
+	SVGResource mode_curve();
+
 	SVGResource mode_equation();
 
 	SVGResource mode_table();

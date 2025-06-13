@@ -344,6 +344,8 @@ public enum Commands implements CommandsConstants,
 
 	Spline(TABLE_FUNCTION),
 
+	BezierCurve(TABLE_FUNCTION),
+
 	// see
 	// Feature.IMPLICIT_CURVES
 	ImplicitSurface(TABLE_ENGLISH),

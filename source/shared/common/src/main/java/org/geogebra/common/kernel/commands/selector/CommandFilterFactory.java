@@ -109,7 +109,7 @@ public final class CommandFilterFactory {
 				Commands.CurvatureVector, Commands.DataFunction, Commands.Function,
 				Commands.ImplicitCurve, Commands.IterationList, Commands.NSolveODE,
 				Commands.OsculatingCircle, Commands.ParametricDerivative, Commands.PathParameter,
-				Commands.RootList, Commands.Roots, Commands.Spline,
+				Commands.RootList, Commands.Roots, Commands.Spline, Commands.BezierCurve,
 				// Vector And Matrix Commands
 				Commands.ApplyMatrix,
 				//Geometry Commands

@@ -59,7 +59,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 	private IntervalPlotter intervalPlotter;
 	private final CurveEvaluable curve;
-	private GeneralPathClippedForCurvePlotter gp;
+	protected GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible;
 	private boolean labelVisible;
 	private boolean fillCurve;
@@ -90,7 +90,6 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		createGeneralPath();
 		plotConditional = new PlotConditionalFunction(view, gp);
 		createIntervalPlotter();
-		update();
 	}
 
 	private void createIntervalPlotter() {
@@ -120,7 +119,12 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			updateIntervalPlot();
 		} else {
 			updateParametric();
+			updateBoundingBox();
 		}
+	}
+
+	protected void updateBoundingBox() {
+		// overridden
 	}
 
 	private void enableIntervalPlotterIfSupported() {
@@ -607,4 +611,5 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	public boolean isIntervalPlotterEnabled() {
 		return this.intervalPlotter.isEnabled();
 	}
+
 }

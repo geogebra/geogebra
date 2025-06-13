@@ -10,6 +10,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MASK;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIND_MAP;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_CIRCLE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_CURVE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_ELLIPSE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_FREEFORM;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_LINE;
@@ -32,7 +33,7 @@ public class ToolboxConstants {
 			MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO);
 	static List<Integer> shapeCategory = Arrays.asList(MODE_SHAPE_RECTANGLE,
 			MODE_SHAPE_SQUARE , MODE_SHAPE_TRIANGLE , MODE_SHAPE_CIRCLE , MODE_SHAPE_ELLIPSE,
-			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK);
+			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK, MODE_SHAPE_CURVE);
 	static List<Integer> appsCategory = Arrays.asList(
 			MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE);
 

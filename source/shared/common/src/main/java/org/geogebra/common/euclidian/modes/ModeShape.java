@@ -15,9 +15,11 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewBoundsImp;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.algos.AlgoBezierCurve;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -56,6 +58,8 @@ public class ModeShape {
 	 * preview for ShapeLine
 	 */
 	private final GLine2D line = AwtFactory.getPrototype().newLine2D();
+
+	private final GGeneralPath curve = AwtFactory.getPrototype().newGeneralPath();
 	/**
 	 * preview for ShapeTriangle
 	 */
@@ -157,6 +161,17 @@ public class ModeShape {
 			line.setLine(dragStartPoint.getX(), dragStartPoint.getY(),
 					snap.getX(), snap.getY());
 			view.setShapeLine(line);
+			view.repaintView();
+		}  else if (mode == EuclidianConstants.MODE_SHAPE_CURVE) {
+			curve.reset();
+			curve.moveTo(dragStartPoint.getX(), dragStartPoint.getY());
+			GPoint2D control = getControl(event.getX(), event.getY(), dragStartPoint.x,
+					dragStartPoint.y);
+			GPoint2D control2 = getControl(dragStartPoint.x,
+					dragStartPoint.y, event.getX(), event.getY());
+			curve.curveTo(control.x, control.y, control2.x, control2.y,
+					event.getX(), event.getY());
+			view.setShapePath(curve);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
 			updateTriangle(event);
@@ -373,10 +388,39 @@ public class ModeShape {
 			view.setShapePath(null);
 			view.repaintView();
 			return stadium;
+		} else if (mode == EuclidianConstants.MODE_SHAPE_CURVE) {
+			GeoPoint start = invisibleScreenPoint(dragStartPoint.getX(), dragStartPoint.getY());
+			GeoPoint end = invisibleScreenPoint(event.getX(), event.getY());
+			GPoint2D control1 = getControl(event.getX(), event.getY(), dragStartPoint.x,
+					dragStartPoint.y);
+			GPoint2D control2 = getControl(dragStartPoint.x,
+					dragStartPoint.y, event.getX(), event.getY());
+			GeoPoint controlPoint1 = invisibleScreenPoint(control1.x, control1.y);
+			GeoPoint controlPoint2 = invisibleScreenPoint(control2.x, control2.y);
+			AlgoBezierCurve algo = new AlgoBezierCurve(
+					view.getKernel().getConstruction(),
+					start, controlPoint1, controlPoint2, end);
+			GeoCurveCartesian curve = algo.getResult();
+			curve.setLabelVisible(false);
+			curve.setLabel(null);
+			view.setShapePath(null);
+			view.repaintView();
+			wasDragged = false;
+			return curve;
 		}
 		// if was drag finished with release
 		wasDragged = false;
 		return null;
+	}
+
+	private GPoint2D getControl(int x1, int y1, int x2, int y2) {
+		double dx = x2 - x1;
+		double dy = y2 - y1;
+		if (Math.abs(dx) > Math.abs(dy)) {
+			return new GPoint2D((2 * x1 + x2) / 3.0 , y2);
+		} else {
+			return new GPoint2D(x2, (2 * y1 + y2) / 3.0);
+		}
 	}
 
 	private AlgoPolygon getPolyAlgo(GeoPointND[] pointArray) {

@@ -6,9 +6,11 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawAngle;
+import org.geogebra.common.euclidian.draw.DrawBezierCurve;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.algos.AlgoBezierCurve;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -529,10 +531,15 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
+	 * Creates a drawable for curve, NOT responsible for update
 	 * @param geo parametric curve
 	 * @return new parametric curve drawable
 	 */
 	public DrawableND newDrawParametricCurve(ParametricCurve geo) {
+		AlgoElement parentAlgorithm = geo.getParentAlgorithm();
+		if (parentAlgorithm instanceof AlgoBezierCurve) {
+			return new DrawBezierCurve(view, geo, (AlgoBezierCurve) parentAlgorithm);
+		}
 		return new DrawParametricCurve(view, geo);
 	}
 

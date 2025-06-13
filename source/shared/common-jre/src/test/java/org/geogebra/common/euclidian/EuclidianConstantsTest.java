@@ -37,7 +37,7 @@ public class EuclidianConstantsTest extends BaseUnitTest {
 
 	@Test
 	public void allModesShouldHaveHelpPage() {
-		String pathname = "../../manual/en/modules/ROOT/pages/tools";
+		String pathname = "../../../../manual/en/modules/ROOT/pages/tools";
 		File manual = new File(pathname);
 		assumeTrue(manual.isDirectory());
 		StringBuilder missing = new StringBuilder();

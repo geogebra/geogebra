@@ -6,8 +6,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -909,6 +907,15 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		checkContent("q1 = 6");
 		GeoElement rectangle = lookup("q1");
 		assertEquals(0, rectangle.getAlphaValue(), Kernel.MIN_PRECISION);
+	}
+
+	@Test
+	public void shapeCurveTool() {
+		setMode(EuclidianConstants.MODE_SHAPE_CURVE);
+		dragStart(50, 50);
+		dragEnd(200, 150);
+		checkContent(unicode("a:(1t^3 + 9(1 - t) t^2 + 6(1 - t)² t + 4(1 - t)^3,"
+				+ " -1t^3 - 3(1 - t) t^2 - 9(1 - t)^2 t - 3(1 - t)^3)"));
 	}
 
 	@Test
