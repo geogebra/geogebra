@@ -78,7 +78,7 @@ public class StatsDialogTV extends ComponentDialog {
 	 * Add regression UI and show
 	 * @param initialRegression pre-selected (linear) regression
 	 */
-	public void addRegressionChooserHasError(List<RegressionSpecification> available,
+	public void addRegressionChooser(List<RegressionSpecification> available,
 			List<StatisticGroup> initialRegression) {
 		List<String> items = new ArrayList<>();
 		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));

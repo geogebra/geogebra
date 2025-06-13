@@ -26,7 +26,7 @@ public class GroupHeader extends FlowPanel {
 	 *            selection manager
 	 * @param parent
 	 *            parent item
-	 * @param strlab
+	 * @param label
 	 *            localized name
 	 * @param key
 	 *            english name (for sorting)
@@ -36,13 +36,13 @@ public class GroupHeader extends FlowPanel {
 	 *            image when collapsed
 	 */
 	public GroupHeader(SelectionManager selection, TreeItem parent,
-			String strlab, String key, SafeUri showUrl, SafeUri hiddenUrl) {
+			String label, String key, SafeUri showUrl, SafeUri hiddenUrl) {
 		
 		this.setStyleName("elemHeading");
 		this.label = key;
 		
 		add(open = new OpenButton(showUrl, hiddenUrl, parent, "algebraOpenButton"));
-		add(il = new GroupNameLabel(selection, parent, strlab));
+		add(il = new GroupNameLabel(selection, parent, label));
 	}
 
 	/**

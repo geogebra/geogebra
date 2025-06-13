@@ -37,12 +37,12 @@ public class GroupNameLabel extends Label implements ClickHandler {
 	 *            selection manager
 	 * @param parent
 	 *            parent
-	 * @param strlab
+	 * @param label
 	 *            text
 	 */
 	public GroupNameLabel(SelectionManager selection, TreeItem parent,
-			String strlab) {
-		super(strlab);
+			String label) {
+		super(label);
 		this.selection = selection;
 		par = parent;
 		addClickHandler(this);

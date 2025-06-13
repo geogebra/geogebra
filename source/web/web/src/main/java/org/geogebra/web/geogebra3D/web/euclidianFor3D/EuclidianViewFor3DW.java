@@ -18,7 +18,7 @@ public class EuclidianViewFor3DW extends EuclidianViewW {
 	/**
 	 * @param euclidianViewPanel
 	 *            parent panel
-	 * @param euclidiancontroller
+	 * @param euclidianController
 	 *            controller
 	 * @param evNo
 	 *            view number
@@ -26,9 +26,9 @@ public class EuclidianViewFor3DW extends EuclidianViewW {
 	 *            settings
 	 */
 	public EuclidianViewFor3DW(EuclidianPanelWAbstract euclidianViewPanel,
-			EuclidianController euclidiancontroller, int evNo,
+			EuclidianController euclidianController, int evNo,
 			EuclidianSettings settings) {
-		super(euclidianViewPanel, euclidiancontroller, evNo, settings);
+		super(euclidianViewPanel, euclidianController, evNo, settings);
 	}
 
 	@Override

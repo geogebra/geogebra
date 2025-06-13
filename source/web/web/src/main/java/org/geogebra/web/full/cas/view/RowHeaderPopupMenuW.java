@@ -40,7 +40,7 @@ public class RowHeaderPopupMenuW extends
 	}
 
 	private void initMenu() {
-		// "Insert Above" menuitem
+		// "Insert Above" menu item
 		AriaMenuItem miCopyInput = new AriaMenuItem(loc.getMenu("CopyInput"),
 				null,
 				() -> actionPerformed(CellAction.COPY_INPUT));
@@ -57,7 +57,7 @@ public class RowHeaderPopupMenuW extends
 				() -> actionPerformed(CellAction.INSERT_ABOVE));
 		rowHeaderPopupMenu.addItem(miInsertAbove);
 
-		// "Insert Below" menuitem
+		// "Insert Below" menu item
 		AriaMenuItem miInsertBelow = new AriaMenuItem(
 				loc.getMenu("InsertBelow"), null,
 				() -> actionPerformed(CellAction.INSERT_BELOW));

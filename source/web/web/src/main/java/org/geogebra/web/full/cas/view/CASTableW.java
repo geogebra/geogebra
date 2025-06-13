@@ -294,7 +294,7 @@ public class CASTableW extends Grid implements CASTable {
 	 * Convert event into cell coordinates
 	 * 
 	 * @param event
-	 *            mouise / touch event
+	 *            mouse / touch event
 	 * @return (column, row)
 	 */
 	public GPoint getPointForEvent(HumanInputEvent<?> event) {
@@ -368,7 +368,7 @@ public class CASTableW extends Grid implements CASTable {
 	/**
 	 * @param row
 	 *            row index
-	 * @return whether row is among the selectted ones
+	 * @return whether row is among the selected ones
 	 */
 	public boolean isSelectedIndex(int row) {
 		for (Integer item : getSelectedRows()) {

@@ -42,7 +42,7 @@ public class RowHeaderHandler implements MouseUpHandler {
 				table.setSelectedRows(releasedRow, releasedRow);
 			}
 			if (table.getSelectedRows().length > 0) {
-				// Don't istantiate RowHeaderPopupMenuW() directly. Use
+				// Don't instantiate RowHeaderPopupMenuW() directly. Use
 				// guimanager for this,
 				// because it must store in GuiManagerW.currentPopup - in this
 				// way the popup will hide

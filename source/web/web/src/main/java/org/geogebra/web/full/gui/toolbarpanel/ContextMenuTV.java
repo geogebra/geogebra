@@ -207,7 +207,7 @@ public class ContextMenuTV {
 			List<StatisticGroup> regression = view.getRegression(getColumnIdx(),
 					availableRegressions.get(0));
 			StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-			dialog.addRegressionChooserHasError(availableRegressions, regression);
+			dialog.addRegressionChooser(availableRegressions, regression);
 		});
 	}
 

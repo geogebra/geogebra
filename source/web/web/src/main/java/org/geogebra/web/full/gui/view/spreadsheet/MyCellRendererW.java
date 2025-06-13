@@ -362,15 +362,15 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			if (mw != null) {
 				SimplePanel sp = new SimplePanel();
 				sp.addStyleName("SVCenterParent");
-				Canvas canv = Canvas.createIfSupported();
-				canv.addStyleName("SVCenterContent");
-				canv.setCoordinateSpaceWidth(mw.getWidth());
-				canv.setCoordinateSpaceHeight(mw.getHeight());
-				canv.setWidth(mw.getWidth() + "px");
-				canv.setHeight(mw.getHeight() + "px");
-				CanvasRenderingContext2D c2d = Js.uncheckedCast(canv.getContext2d());
+				Canvas canvas = Canvas.createIfSupported();
+				canvas.addStyleName("SVCenterContent");
+				canvas.setCoordinateSpaceWidth(mw.getWidth());
+				canvas.setCoordinateSpaceHeight(mw.getHeight());
+				canvas.setWidth(mw.getWidth() + "px");
+				canvas.setHeight(mw.getHeight() + "px");
+				CanvasRenderingContext2D c2d = Js.uncheckedCast(canvas.getContext2d());
 				c2d.drawImage(mw.getImage(), 0, 0);
-				sp.add(canv);
+				sp.add(canvas);
 				table1.setWidget(row, column, sp);
 				table1.getCellFormatter().getElement(row, column)
 						.addClassName("SVCenterTD");

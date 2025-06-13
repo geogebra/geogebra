@@ -21,10 +21,10 @@ public class FileDropHandlerW {
 	 * 
 	 * @param ce
 	 *            Element that listens to the drop events
-	 * @param appl
+	 * @param app
 	 *            application
 	 */
-	protected static void registerDropHandler(Element ce, AppW appl,
+	protected static void registerDropHandler(Element ce, AppW app,
 			GlobalHandlerRegistry list) {
 		if (ce == null) {
 			return;
@@ -55,27 +55,27 @@ public class FileDropHandlerW {
 
 				//at first this tries to open the fileToHandle as image,
 				//if not possible, try to open as ggb or ggt.
-				if (!appl.openFileAsImage(fileToHandle)) {
-					appl.openFile(fileToHandle);
+				if (!app.openFileAsImage(fileToHandle)) {
+					app.openFile(fileToHandle);
 				}
 			} else if (dt.items.length > 0) {
 				for (int i = 0; i < dt.items.length; i++) {
-					insertText(dt.items.getAt(i), appl);
+					insertText(dt.items.getAt(i), app);
 				}
 			}
 		});
 	}
 
-	private static void insertText(DataTransferItem dt, AppW appl) {
+	private static void insertText(DataTransferItem dt, AppW app) {
 		final StringConsumer handler;
 		if (dt.type.startsWith("image/")) {
 			String ext = dt.type.split("[/+]")[1];
-			handler = s -> appl.imageDropHappened("drop." + ext , s);
+			handler = s -> app.imageDropHappened("drop." + ext , s);
 		} else if (dt.type.equals("text/plain")) {
-			handler = s -> CopyPasteW.pastePlainText(appl, s);
+			handler = s -> CopyPasteW.pastePlainText(app, s);
 		} else if (dt.type.equals("application/x-latex")
 				|| dt.type.equals("application/mathml-presentation+xml")) {
-			handler = s -> CopyPasteW.pasteFormula(appl, s);
+			handler = s -> CopyPasteW.pasteFormula(app, s);
 		} else {
 			handler = null;
 		}

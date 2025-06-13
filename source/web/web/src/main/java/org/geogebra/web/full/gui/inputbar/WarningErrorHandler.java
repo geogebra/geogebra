@@ -70,17 +70,17 @@ public final class WarningErrorHandler implements ErrorLogger {
 	 *            kernel
 	 * @return undefined vars or null in symbolic mode
 	 */
-	public static String getUndefinedValiables(Kernel kernel) {
+	public static String getUndefinedVariables(Kernel kernel) {
 		return kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV ? null
 				: undefinedVariables;
 	}
 
 	/**
-	 * @param undefinedValiables
+	 * @param undefinedVariables
 	 *            undefined variables
 	 */
-	public static void setUndefinedValiables(String undefinedValiables) {
-		WarningErrorHandler.undefinedVariables = undefinedValiables;
+	public static void setUndefinedVariables(String undefinedVariables) {
+		WarningErrorHandler.undefinedVariables = undefinedVariables;
 	}
 
 	@Override

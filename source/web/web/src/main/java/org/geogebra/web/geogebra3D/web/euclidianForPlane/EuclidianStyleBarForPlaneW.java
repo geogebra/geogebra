@@ -6,7 +6,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 
 /**
- * Stylebar for view for plane
+ * Style bar for view for plane
  * 
  * @author Mathieu
  */

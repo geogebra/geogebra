@@ -25,7 +25,7 @@ public class ExamStartDialog extends ComponentDialog {
 
 	/**
 	 * @param app application
-	 * @param data dialog transkeys
+	 * @param data dialog translation keys
 	 */
 	public ExamStartDialog(AppWFull app, DialogData data) {
 		super(app, data, false, true);

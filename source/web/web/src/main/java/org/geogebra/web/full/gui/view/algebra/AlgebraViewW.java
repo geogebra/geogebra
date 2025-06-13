@@ -975,15 +975,15 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *
 	 * @param ti
 	 *            tree item
-	 * @param ob
-	 *            object
+	 * @param label
+	 *            (localized) label
 	 * @param key
 	 *            sorting key
 	 */
-	public final void setUserObject(TreeItem ti, final String ob, String key) {
-		ti.setUserObject(ob);
+	public final void setUserObject(TreeItem ti, final String label, String key) {
+		ti.setUserObject(label);
 		GroupHeader group = new GroupHeader(this.app.getSelectionManager(), ti,
-				ob, key,
+				label, key,
 				SharedResources.INSTANCE.algebra_tree_open().getSafeUri(),
 				SharedResources.INSTANCE.algebra_tree_closed().getSafeUri());
 		group.getElement().getStyle().setFontSize(getFontSizeWeb(),
@@ -1712,7 +1712,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				getActiveTreeItem().previewValue(geos[0]);
 			}
 		} else if (inputPanelLatex != null) {
-			if (WarningErrorHandler.getUndefinedValiables(kernel) != null) {
+			if (WarningErrorHandler.getUndefinedVariables(kernel) != null) {
 				inputPanelLatex.clearUndefinedVariables();
 			} else {
 				inputPanelLatex.clearPreviewAndSuggestions();

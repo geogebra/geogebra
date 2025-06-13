@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.layout;
 
 /**
- * The state of the drag'n'drop procedure.
+ * The state of the drag and drop procedure.
  * 
  * @author Florian Sonner
  */
