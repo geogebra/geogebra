@@ -2072,14 +2072,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public void setUndefinedVariables(String vars) {
-		WarningErrorHandler.setUndefinedValiables(vars);
+		WarningErrorHandler.setUndefinedVariables(vars);
 	}
 
 	/**
 	 * Clear the list of undefined variables.
 	 */
 	public void clearUndefinedVariables() {
-		WarningErrorHandler.setUndefinedValiables(null);
+		WarningErrorHandler.setUndefinedVariables(null);
 	}
 
 	/**
