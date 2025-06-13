@@ -891,6 +891,22 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertNull(controller.contentAt(0, 0));
     }
 
+    @Issue("APPS-6703")
+    @Test
+    public void testCut() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+
+        // test code path without selection (see impl of cutCells)
+        controller.cutCells(0, 0);
+        assertNull(controller.contentAt(0, 0));
+
+        // test code path with selection (see impl of cutCells)
+        simulateCellMouseClick(1, 0, 1);
+        controller.cutCells(1, 0);
+        assertNull(controller.contentAt(1, 0));
+    }
+
     // Helpers
 
     private void setViewport(Rectangle viewport) {
