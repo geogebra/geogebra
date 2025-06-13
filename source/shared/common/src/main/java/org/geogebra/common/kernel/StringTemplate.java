@@ -44,6 +44,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	// rounding hack, see Kernel.format()
 	private static final double ROUND_HALF_UP_FACTOR = 1.0 + 1E-15;
 	private static final String RAD = "rad";
+	private static final String LATEX_THICK_SPACE = "\\;";
 
 	private final String name;
 
@@ -2163,7 +2164,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String multiplicationSpace() {
 		// wide space for multiplication space in LaTeX
-		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
+		return (stringType.equals(StringType.LATEX)) ? " " + LATEX_THICK_SPACE + " " : " ";
 	}
 
 	/**
@@ -3703,7 +3704,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		} else {
 			sb.append(localization.getComma());
 			if (isLatex()) {
-				sb.append("\\;");
+				sb.append(LATEX_THICK_SPACE);
 			} else {
 				appendOptionalSpace(sb);
 			}
@@ -3796,12 +3797,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String getCartesianDelimiter(@CheckForNull GeneralSettings settings) {
 		if (isLatex()) {
-			return ",\\;";
+			String delimiter = isAustrianCoordStyle(settings)
+					? LATEX_THICK_SPACE + getPointCoordBar() : ",";
+			return delimiter + LATEX_THICK_SPACE;
 		}
-		String delimiter = settings != null
-				&& settings.getCoordFormat() == Kernel.COORD_STYLE_AUSTRIAN
+		String delimiter = isAustrianCoordStyle(settings)
 				? (getOptionalSpace() + getPointCoordBar()) : ",";
 		return delimiter + getOptionalSpace();
+	}
+
+	private boolean isAustrianCoordStyle(GeneralSettings settings) {
+		return settings != null && settings.getCoordFormat() == Kernel.COORD_STYLE_AUSTRIAN;
 	}
 
 	/**

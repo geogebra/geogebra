@@ -7,6 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -15,6 +16,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -188,12 +190,49 @@ public class AlgebraItemTest extends BaseUnitTest {
     }
 
     @Test
+    @Issue("APPS-4059")
     public void testCoordStyleAustrianPreview() {
         getApp().setGraphingConfig();
         getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_AUSTRIAN);
-        GeoPoint point = getKernel().getAlgoDispatcher().point(1, 2, false);
+        GeoPoint point = addAvInput("A=(1,2)");
         assertThat(AlgebraItem.getPreviewLatexForGeoElement(point),
-                endsWith("\\left(1 | 2 \\right)"));
+                endsWith("\\left(1\\;|\\;2 \\right)"));
+    }
+
+    @Test
+    @Issue("APPS-6704")
+    public void testCoordStyleAustrianForSpecialPoints() {
+        getKernel().setPrintDecimals(2);
+        getApp().setGraphingConfig();
+        getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_AUSTRIAN);
+
+        // Add function and create special points
+        GeoFunction function = addAvInput("f(x) = x^2-3x");
+        Objects.requireNonNull(SuggestionIntersectExtremum.get(function)).execute(function);
+
+        // Assert that input row shows the definition
+        // and the output row shows the coordinates in austrian format
+        GeoElement intersectionPoint = lookup("A");
+        assertThat(AlgebraItem.getPreviewLatexForGeoElement(intersectionPoint),
+                equalTo("Intersect\\left(f, xAxis \\right)"));
+        assertThat(AlgebraItem.getOutputTextForGeoElement(intersectionPoint),
+                equalTo("A\\left(0 | 0 \\right)"));
+
+        GeoElement extremumPoint = lookup("C");
+        assertThat(AlgebraItem.getPreviewLatexForGeoElement(extremumPoint),
+                equalTo("C\\, = \\,Extremum\\left(f \\right)"));
+        assertThat(AlgebraItem.getOutputTextForGeoElement(extremumPoint),
+                equalTo("\\left(1.5 | -2.25 \\right)"));
+    }
+
+    @Test
+    public void testPreviewLatexForAngleWithGivenSize() {
+        getSettings().getAlgebra().setStyle(AlgebraStyle.DESCRIPTION);
+        add("A=(1, 2)");
+        add("B=(3, 0)");
+        GeoElement angle = add("Angle(A,B,45)");
+        assertThat(AlgebraItem.getPreviewLatexForGeoElement(angle),
+                equalTo("\\text{α = Angle between A, B, A'}"));
     }
 
     @Test

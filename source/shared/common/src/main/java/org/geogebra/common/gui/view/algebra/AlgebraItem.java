@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
-import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -195,6 +194,7 @@ public class AlgebraItem {
 	 * Returns the preview string for the geo element in the input row of the Algebra View.
 	 * @param element geo element
 	 * @return input preview string in LaTeX
+	 * @implNote Only used by Android and iOS
 	 */
 	public static String getPreviewLatexForGeoElement(GeoElement element) {
 		String latex = getPreviewFormula(element, StringTemplate.numericLatex);
@@ -529,7 +529,6 @@ public class AlgebraItem {
 			StringTemplate stringTemplate) {
 		Settings settings = element.getApp().getSettings();
 		int algebraStyle = settings.getAlgebra().getStyle();
-		int coordsFormat = settings.getGeneral().getCoordFormat();
 
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
 			return element.getAlgebraDescription(stringTemplate);
@@ -538,9 +537,6 @@ public class AlgebraItem {
 		} else if ((AlgebraStyle.DESCRIPTION == algebraStyle || AlgebraStyle.VALUE == algebraStyle)
 				&& !isTextItem(element)) {
 			return getDescriptionString(element, algebraStyle, stringTemplate);
-		} else if (CoordinatesFormat.COORD_FORMAT_AUSTRIAN == coordsFormat
-				&& element.isGeoPoint()) {
-			return element.toString(stringTemplate);
 		} else {
 			return null;
 		}
