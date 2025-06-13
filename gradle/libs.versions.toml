@@ -70,7 +70,7 @@ hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
 spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.1.7" }
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4.0.1"}
-
+openrewrite-plugin = {module = "org.openrewrite.rewrite:org.openrewrite.rewrite.gradle.plugin", version = "7.4.1"}
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }
 
 [plugins]
@@ -93,3 +93,4 @@ geogebra-javacc = { id = "javacc-conventions" }
 geogebra-version = { id = "version-conventions" }
 geogebra-app-specs = { id = "app-specs-convention" }
 geogebra-idea = { id = "idea-conventions" }
+geogebra-rewrite = { id = "rewrite-conventions" }
