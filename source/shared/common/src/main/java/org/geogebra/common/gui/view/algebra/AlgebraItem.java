@@ -213,11 +213,18 @@ public class AlgebraItem {
 			return element.getDefinition(StringTemplate.numericLatex);
 		}
 
-		boolean substituteNumbers = element instanceof GeoNumeric && element.isSimple();
-		return element.getLaTeXAlgebraDescriptionWithFallback(
-				substituteNumbers
-						|| (element instanceof GeoNumeric && element.isSimple()),
+		return element.getLaTeXAlgebraDescriptionWithFallback(isSimpleNumber(element),
 				StringTemplate.numericLatex, true);
+	}
+
+	/**
+	 * Checks if element is a simple number.
+	 * @param geo element
+	 * @return {@code true} if it's a simple number
+	 */
+	public static boolean isSimpleNumber(GeoElement geo) {
+		return geo instanceof GeoNumeric && geo.isSimple()
+				&& !((GeoNumeric) geo).isDecimalFraction();
 	}
 
 	/**

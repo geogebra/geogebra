@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -827,15 +826,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return geo.getDefinition(tpl);
 		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
-				substituteNumbers
-						|| isSimpleNumber(),
+				substituteNumbers || AlgebraItem.isSimpleNumber(geo),
 				tpl, true);
 
-	}
-
-	private boolean isSimpleNumber() {
-		return geo instanceof GeoNumeric && geo.isSimple()
-				&& !((GeoNumeric) geo).isDecimalFraction();
 	}
 
 	private boolean isAlgebraStyleDefAndValue() {

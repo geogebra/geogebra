@@ -179,6 +179,15 @@ public class AlgebraItemTest extends BaseUnitTest {
     }
 
     @Test
+    @Issue("APPS-6636")
+    public void testFractionPreviewKeepsOriginalInput() {
+        getApp().setGraphingConfig();
+        GeoNumeric numeric = addAvInput("0.5");
+        assertThat(AlgebraItem.getPreviewLatexForGeoElement(numeric),
+                equalTo("a\\, = \\,0.5"));
+    }
+
+    @Test
     public void testCoordStyleAustrianPreview() {
         getApp().setGraphingConfig();
         getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_AUSTRIAN);
