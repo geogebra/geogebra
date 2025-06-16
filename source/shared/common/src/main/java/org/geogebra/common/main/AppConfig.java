@@ -74,7 +74,9 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	@MissingDoc
 	boolean allowsSuggestions();
 
-	@MissingDoc
+	/**
+	 * @return whether zoom to fit should keep aspect ratio
+	 */
 	boolean shouldKeepRatioEuclidian();
 
 	@MissingDoc

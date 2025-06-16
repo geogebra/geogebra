@@ -68,4 +68,9 @@ public class AppConfigNotes extends AppConfigDefault {
 	public boolean showGridOnFileNew() {
 		return false;
 	}
+
+	@Override
+	public boolean shouldKeepRatioEuclidian() {
+		return true;
+	}
 }
