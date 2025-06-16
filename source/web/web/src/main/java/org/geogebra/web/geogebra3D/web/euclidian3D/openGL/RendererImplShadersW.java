@@ -464,7 +464,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0,
 				WebGLRenderingContext.RGBA, WebGLRenderingContext.RGBA,
 				WebGLRenderingContext.UNSIGNED_BYTE,
-				Js.<elemental2.dom.ImageData>uncheckedCast(data));
+				Js.<ImageData>uncheckedCast(data));
 		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
 
 		return newIndex;

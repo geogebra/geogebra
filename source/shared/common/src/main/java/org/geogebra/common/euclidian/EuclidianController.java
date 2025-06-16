@@ -8995,7 +8995,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void setDragCursor() {
-		view.setCursor(EuclidianCursor.DRAG);
+		view.setCursor(DRAG);
 	}
 
 	protected void switchModeForMousePressedND(AbstractEvent e) {

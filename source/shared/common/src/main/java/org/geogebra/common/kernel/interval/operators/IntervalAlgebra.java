@@ -177,7 +177,7 @@ public class IntervalAlgebra {
 
 	private Interval powerOfInterval(Interval interval, Interval other) {
 		if (interval.isUndefined() || other.isUndefined()) {
-			return IntervalConstants.undefined();
+			return undefined();
 		}
 
 		if (other.isInverted()) {

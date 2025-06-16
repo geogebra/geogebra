@@ -71,7 +71,6 @@
         <exclude name="PrematureDeclaration"/>
         <exclude name="LinguisticNaming"/>
         <exclude name="UseUnderscoresInNumericLiterals"/>
-        <exclude name="UnnecessaryFullyQualifiedName"/>
         <exclude name="UseShortArrayInitializer"/>
         <exclude name="UnnecessaryCast"/>
         <exclude name="EmptyControlStatement"/> <!-- handled by checkstyle -->

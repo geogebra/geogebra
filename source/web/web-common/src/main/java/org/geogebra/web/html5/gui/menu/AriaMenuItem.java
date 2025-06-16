@@ -153,7 +153,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	private void setHTMLContent(Node textNode, ResourcePrototype icon) {
 		getElement().removeAllChildren();
 		try {
-			elemental2.dom.Element el = Js.uncheckedCast(getElement());
+			Element el = Js.uncheckedCast(getElement());
 			if (icon != null) {
 				img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
 				img.setAttribute("src", NoDragImage.safeURI(icon));
@@ -175,7 +175,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 		getElement().removeAllChildren();
 		this.textNode = DomGlobal.document.createTextNode(text);
 		try {
-			elemental2.dom.Element el = Js.uncheckedCast(getElement());
+			Element el = Js.uncheckedCast(getElement());
 			if (icon != null) {
 				img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
 				if (icon instanceof ImageIconSpec) {
@@ -184,7 +184,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 					img.classList.add("menuImg");
 					el.appendChild(img);
 				} else {
-					elemental2.dom.Element iconElem = Js.uncheckedCast(icon.toElement());
+					Element iconElem = Js.uncheckedCast(icon.toElement());
 					el.insertAdjacentElement("afterbegin", iconElem);
 				}
 

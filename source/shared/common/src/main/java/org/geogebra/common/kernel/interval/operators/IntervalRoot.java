@@ -27,7 +27,7 @@ public class IntervalRoot {
 	 */
 	Interval compute(Interval interval, Interval other) {
 		if (!other.isSingleton()) {
-			return IntervalConstants.undefined();
+			return undefined();
 		}
 
 		double power = other.getLow();

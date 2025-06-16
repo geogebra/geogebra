@@ -5,7 +5,6 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 
 public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
@@ -22,7 +21,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval exp(Interval interval) {
 		if (interval.isUndefined()) {
-			return IntervalConstants.undefined();
+			return undefined();
 		}
 
 		if (interval.isInverted()) {
@@ -45,7 +44,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 					RMath.next(Math.log(interval.getHigh())));
 		}
 
-		return IntervalConstants.undefined();
+		return undefined();
 	}
 
 	@Override

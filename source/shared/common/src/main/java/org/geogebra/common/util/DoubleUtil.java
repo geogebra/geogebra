@@ -15,7 +15,7 @@ public class DoubleUtil {
 	 * @return whether fractional part of the number is zero within current
 	 *         precision (false for +/-Infinity, NaN
 	 */
-	final public static boolean isInteger(double x) {
+	public static boolean isInteger(double x) {
 	
 		if (Double.isInfinite(x) || Double.isNaN(x)) {
 			return false;
@@ -54,8 +54,8 @@ public class DoubleUtil {
 		if (a == b) {
 			return true;
 		}
-		return ((a - Kernel.STANDARD_PRECISION) <= b)
-				&& (b <= (a + Kernel.STANDARD_PRECISION));
+		return ((a - STANDARD_PRECISION) <= b)
+				&& (b <= (a + STANDARD_PRECISION));
 	}
 
 	/**
@@ -76,9 +76,9 @@ public class DoubleUtil {
 	final public static boolean isEpsilon(double e, double x, double y,
 			double z) {
 		double eAbs = Math.abs(e);
-		return !(eAbs > Kernel.STANDARD_PRECISION || eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION
-				|| eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION
-				|| eAbs > Math.abs(z) * Kernel.STANDARD_PRECISION);
+		return !(eAbs > STANDARD_PRECISION || eAbs > Math.abs(x) * STANDARD_PRECISION
+				|| eAbs > Math.abs(y) * STANDARD_PRECISION
+				|| eAbs > Math.abs(z) * STANDARD_PRECISION);
 	}
 
 	/**
@@ -93,15 +93,15 @@ public class DoubleUtil {
 	 *            point y
 	 * @return whether x and y are both zero
 	 */
-	final public static boolean isEpsilon(double e, double x, double y) {
+	public static boolean isEpsilon(double e, double x, double y) {
 		double eAbs = Math.abs(e);
-		return !(eAbs > Kernel.STANDARD_PRECISION || eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION
-				|| eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION);
+		return !(eAbs > STANDARD_PRECISION || eAbs > Math.abs(x) * STANDARD_PRECISION
+				|| eAbs > Math.abs(y) * STANDARD_PRECISION);
 	}
 
 	/** @return is abs(val) &lt; STANDARD_PRECISION ? */
 	public static boolean isZero(double val) {
-		return (-Kernel.STANDARD_PRECISION < val) && (val < Kernel.STANDARD_PRECISION);
+		return (-STANDARD_PRECISION < val) && (val < STANDARD_PRECISION);
 	}
 
 	/** @return is abs(val) &lt; epsilon ? */
@@ -143,7 +143,7 @@ public class DoubleUtil {
 	 * @return x == y, with standard precision
 	 */
 	public static boolean isRatioEqualTo1(double x, double y) {
-		return isRatioEqualTo1(x, y, Kernel.STANDARD_PRECISION);
+		return isRatioEqualTo1(x, y, STANDARD_PRECISION);
 	}
 
 	/**
@@ -187,8 +187,8 @@ public class DoubleUtil {
 	 *            x
 	 * @return whether e is zero compared to x
 	 */
-	final public static boolean isEpsilonToX(double e, double x) {
-		return Math.abs(e) < Math.abs(x) * Kernel.STANDARD_PRECISION;
+	public static boolean isEpsilonToX(double e, double x) {
+		return Math.abs(e) < Math.abs(x) * STANDARD_PRECISION;
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class DoubleUtil {
 	 * @return x &gt; y + STANDARD_PRECISION
 	 */
 	final public static boolean isGreater(double x, double y) {
-		return x > (y + Kernel.STANDARD_PRECISION);
+		return x > (y + STANDARD_PRECISION);
 	}
 
 	/**
@@ -248,8 +248,8 @@ public class DoubleUtil {
 	 *            upper bound
 	 * @return x + standard precision &gt; y
 	 */
-	final public static boolean isGreaterEqual(double x, double y) {
-		return (x + Kernel.STANDARD_PRECISION) > y;
+	public static boolean isGreaterEqual(double x, double y) {
+		return (x + STANDARD_PRECISION) > y;
 	}
 
 	/**
@@ -278,8 +278,8 @@ public class DoubleUtil {
 	 *            x
 	 * @return whether e is zero compared to STANDARD_PRECISION and x
 	 */
-	final public static boolean isEpsilon(double e, double x) {
-		return isEpsilonWithPrecision(e, x, Kernel.STANDARD_PRECISION);
+	public static boolean isEpsilon(double e, double x) {
+		return isEpsilonWithPrecision(e, x, STANDARD_PRECISION);
 	}
 
 	/**
@@ -303,7 +303,7 @@ public class DoubleUtil {
 		double fracVal = val * Kernel.INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
 
-		if (isEqual(fracVal, roundVal, Kernel.STANDARD_PRECISION * prec)) {
+		if (isEqual(fracVal, roundVal, STANDARD_PRECISION * prec)) {
 			return roundVal / Kernel.INV_MIN_PRECISION;
 		}
 		return val;
@@ -318,7 +318,7 @@ public class DoubleUtil {
 		double fracVal = val * Kernel.INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
 
-		if (isEqual(fracVal, roundVal, Kernel.STANDARD_PRECISION)) {
+		if (isEqual(fracVal, roundVal, STANDARD_PRECISION)) {
 			return roundVal / Kernel.INV_MIN_PRECISION;
 		}
 		return val;
@@ -334,7 +334,7 @@ public class DoubleUtil {
 	 */
 	final public static double checkInteger(double x) {
 		double roundVal = Math.round(x);
-		if (Math.abs(x - roundVal) < Kernel.STANDARD_PRECISION) {
+		if (Math.abs(x - roundVal) < STANDARD_PRECISION) {
 			return roundVal;
 		}
 		return x;
@@ -347,7 +347,7 @@ public class DoubleUtil {
 	 * @return angle
 	 */
 	final public static double convertToAngleValue(double val) {
-		if ((val > Kernel.STANDARD_PRECISION) && (val < Kernel.PI_2)) {
+		if ((val > STANDARD_PRECISION) && (val < Kernel.PI_2)) {
 			return val;
 		}
 	
@@ -396,7 +396,7 @@ public class DoubleUtil {
 		}
 		
 		// now try slower check for eg 1/3
-		double[] polishedRoot = AlgoFractionText.decimalToFraction(root, Kernel.STANDARD_PRECISION);
+		double[] polishedRoot = AlgoFractionText.decimalToFraction(root, STANDARD_PRECISION);
 		if (polishedRoot[1] != 0 && Math.abs(polishedRoot[0]) < 999
 				&& Math.abs(polishedRoot[1]) < 20) {
 			root2 = polishedRoot[0] / polishedRoot[1];
@@ -520,7 +520,7 @@ public class DoubleUtil {
 		// point numbers are _not_ easy to handle (APPS-158, APPS-1824)
 
 		int length = (int) ((max - min) / step);
-		if (min + length * step < max - Kernel.STANDARD_PRECISION) {
+		if (min + length * step < max - STANDARD_PRECISION) {
 			length++;
 		}
 		if (length <= 0) {

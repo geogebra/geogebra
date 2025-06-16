@@ -7,7 +7,6 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 
 public class IntervalDivide {
 
@@ -39,7 +38,7 @@ public class IntervalDivide {
 
 	private Interval divide(Interval numerator, Interval divisor) {
 		if (divisor.isZero()) {
-			return IntervalConstants.undefined();
+			return undefined();
 		}
 
 		if (isZeroByZero(numerator, divisor) || divisor.isWhole()
