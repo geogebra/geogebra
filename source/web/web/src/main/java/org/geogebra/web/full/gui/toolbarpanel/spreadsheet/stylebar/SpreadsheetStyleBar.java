@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
 public class SpreadsheetStyleBar extends FlowPanel {
@@ -23,23 +24,20 @@ public class SpreadsheetStyleBar extends FlowPanel {
 	private SpreadsheetStyleBarColorPopup backgroundColorPopup;
 	private SpreadsheetStyleBarColorPopup fontColorPopup;
 	private HorizontalAlignmentPopup horizontalAlignmentPopup;
+	private SimplePanel divider;
 
 	/**
 	 * Spreadsheet style bar
 	 * @param appW application
 	 * @param styleBarModel model {@link SpreadsheetStyleBarModel}
-	 * @param withDivider whether the style bar should add a divider at the start
 	 */
-	public SpreadsheetStyleBar(AppW appW, SpreadsheetStyleBarModel styleBarModel,
-			boolean withDivider) {
+	public SpreadsheetStyleBar(AppW appW, SpreadsheetStyleBarModel styleBarModel) {
 		this.appW = appW;
 		this.styleBarModel = styleBarModel;
 		styleBarModel.stateChanged.addListener(this::updateState);
-		decorateStyleBar();
-		if (withDivider) {
-			addDivider();
-		}
+		addDivider();
 		initStyleBar();
+		decorateStyleBar();
 	}
 
 	// UI related methods
@@ -87,7 +85,7 @@ public class SpreadsheetStyleBar extends FlowPanel {
 	}
 
 	private void addDivider() {
-		add(BaseWidgetFactory.INSTANCE.newDivider(true));
+		add(divider = BaseWidgetFactory.INSTANCE.newDivider(true));
 	}
 
 	// State update
@@ -169,5 +167,12 @@ public class SpreadsheetStyleBar extends FlowPanel {
 		} else {
 			popup.showRelativeTo(anchor);
 		}
+	}
+
+	/**
+	 * @param dividerVisible whether the style bar should add a divider at the start
+	 */
+	public void setDividerVisible(boolean dividerVisible) {
+		divider.setVisible(dividerVisible);
 	}
 }

@@ -99,10 +99,11 @@ public class ToolbarPanel extends FlowPanel
 	private final ScheduledCommand deferredOnRes = this::resize;
 	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
-	private DockPanelDecorator decorator;
+	private final FlowPanel styleBarWrapper;
+	private final DockPanelDecorator decorator;
 	private final ExamController examController = GlobalScope.examController;
 	private ScientificEmbedTopBar topBar;
-	private SpreadsheetStyleBar spreadsheetStyleBar;
+	private @CheckForNull SpreadsheetStyleBar spreadsheetStyleBar;
 
 	/**
 	 * @param app application
@@ -111,6 +112,7 @@ public class ToolbarPanel extends FlowPanel
 		this.app = (AppWFull) app;
 		this.decorator = decorator;
 		eventDispatcher = app.getEventDispatcher();
+		styleBarWrapper = new FlowPanel();
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
 		initGUI();
@@ -304,7 +306,8 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void initGUI() {
 		clear();
-
+		tabs.clear();
+		styleBarWrapper.clear();
 		addStyleName("toolbar");
 		maybeAddUndoRedoPanel();
 		navRail = new NavigationRail(this);
@@ -321,7 +324,6 @@ public class ToolbarPanel extends FlowPanel
 		sinkEvents(Event.ONCLICK);
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab(this);
-		tabs.add(tabAlgebra);
 		tabContainer = new TabContainer(this);
 
 		addTab(tabAlgebra, true);
@@ -329,7 +331,7 @@ public class ToolbarPanel extends FlowPanel
 			tabTools = new ToolsTab(this);
 			addTab(tabTools, false);
 		} else {
-			removeTab(TabIds.TOOLS);
+			tabTools = null;
 		}
 		// reset tool even if toolbar not available (needed on app switch)
 		app.setMoveMode();
@@ -341,7 +343,6 @@ public class ToolbarPanel extends FlowPanel
 			tabDist = new DistributionTab(this, table);
 			addTab(tabDist, false);
 		} else {
-			removeTab(TabIds.DISTRIBUTION);
 			table = null;
 		}
 		if (isTableTabExpected()) {
@@ -351,16 +352,17 @@ public class ToolbarPanel extends FlowPanel
 							getDecorator().hasShadedColumns()) : () -> table);
 			addTab(tabTable, false);
 		} else {
-			removeTab(TabIds.TABLE);
+			tabTable = null;
 		}
 		if (app.getConfig().hasSpreadsheetView()) {
 			spreadsheetTab = new SpreadsheetTab(this);
 			addTab(spreadsheetTab, false);
 		} else {
-			removeTab(TabIds.SPREADSHEET);
+			spreadsheetTab = null;
 		}
 		addMoveBtn();
 		buildHeading();
+		add(styleBarWrapper);
 		add(main);
 		hideDragger();
 		if (examController.isExamActive()) {
@@ -376,10 +378,6 @@ public class ToolbarPanel extends FlowPanel
 		if (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC) {
 			add(heading);
 		}
-	}
-
-	private void removeTab(TabIds tabID) {
-		tabs.removeIf(tab -> tab.getID() == tabID);
 	}
 
 	protected boolean needsNavRail() {
@@ -894,6 +892,10 @@ public class ToolbarPanel extends FlowPanel
 			for (ToolbarTab tabUI : tabs) {
 				tabUI.setActive(tabUI.getID() == tab);
 			}
+			if (tab == TabIds.SPREADSHEET) {
+				initSpreadsheetStyleBar();
+				addSpreadsheetStyleBar();
+			}
 			resizeTabs();
 		});
 		updateMoveButton();
@@ -902,10 +904,6 @@ public class ToolbarPanel extends FlowPanel
 		}
 		if (spreadsheetStyleBar != null) {
 			spreadsheetStyleBar.setVisible(tab == TabIds.SPREADSHEET);
-		}
-		if (spreadsheetTab != null) {
-			spreadsheetTab.showStyleBar(tab == TabIds.SPREADSHEET
-				&& !heading.isVisible());
 		}
 	}
 
@@ -1336,9 +1334,6 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void updateSpreadsheetStyleBarStyle() {
-		if (spreadsheetTab != null) {
-			spreadsheetTab.updateSpreadsheetStyleBarStyle(app.isPortrait());
-		}
 		if (spreadsheetStyleBar != null) {
 			Dom.toggleClass(spreadsheetStyleBar, "portrait", "landscape", app.isPortrait());
 		}
@@ -1403,12 +1398,9 @@ public class ToolbarPanel extends FlowPanel
 
 	private void setHeadingHeight(int to) {
 		heading.setVisible(to > 0);
-		initSpreadsheetStyleBar();
-		if (to > 0 && spreadsheetStyleBar != null && !spreadsheetStyleBar.isAttached()) {
+		if (getSelectedTabId() == TabIds.SPREADSHEET) {
+			initSpreadsheetStyleBar();
 			addSpreadsheetStyleBar();
-		}
-		if (spreadsheetTab != null) {
-			spreadsheetTab.showStyleBar(to == 0);
 		}
 		heading.setHeight(to + "px");
 	}
@@ -1417,15 +1409,21 @@ public class ToolbarPanel extends FlowPanel
 		if (spreadsheetStyleBar == null && spreadsheetTab != null
 			&& spreadsheetTab.getSpreadsheetPanel() != null) {
 			spreadsheetStyleBar = new SpreadsheetStyleBar(app,
-					spreadsheetTab.getSpreadsheetPanel().getStyleBarModel(), true);
+					spreadsheetTab.getSpreadsheetPanel().getStyleBarModel());
 		}
 	}
 
 	private void addSpreadsheetStyleBar() {
 		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)
-				&& spreadsheetTab != null && spreadsheetTab.getSpreadsheetPanel() != null) {
+				&& spreadsheetStyleBar != null) {
 			Dom.toggleClass(spreadsheetStyleBar, "portrait", "landscape", app.isPortrait());
-			heading.insert(spreadsheetStyleBar, 0);
+			boolean headingVisible = heading.isVisible();
+			if (headingVisible) {
+				heading.insert(spreadsheetStyleBar, 0);
+			} else {
+				styleBarWrapper.add(spreadsheetStyleBar);
+			}
+			spreadsheetStyleBar.setDividerVisible(headingVisible);
 		}
 	}
 
