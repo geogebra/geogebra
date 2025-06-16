@@ -39,7 +39,8 @@ public final class SpreadsheetSettingsAdapter {
 		spreadsheetSettings.addListener((settings) -> {
 			notifyIfSettingsCellFormatChanged();
 		});
-		previousCellFormatXml = getCellFormatXml();
+		spreadsheet.tabularDataDimensionsDidChange(spreadsheetSettings);
+		previousCellFormatXml = spreadsheetSettings.getCellFormatXml();
 		spreadsheet.setCellFormatXml(previousCellFormatXml);
 
 		spreadsheet.cellSizesChanged.addListener(this::spreadsheetCellSizesDidChange);
