@@ -205,8 +205,8 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	protected boolean resetEVsettingsNeeded = false;
 	/** Euclidian settings */
-	protected EuclidianSettings evSet = null;
-	private static boolean isPreferencesXML = false;
+	protected EuclidianSettings evSettings = null;
+	private boolean isPreferencesXML = false;
 
 	TreeMap<String, String> casMap;
 
@@ -266,6 +266,7 @@ public class MyXMLHandler implements DocHandler {
 		ztick.clear();
 		xValuesLabel = null;
 		xValuesCaption = null;
+		isPreferencesXML = false;
 	}
 
 	private void initKernelVars() {
@@ -493,13 +494,13 @@ public class MyXMLHandler implements DocHandler {
 			break;
 		case MODE_EUCLIDIAN_VIEW:
 			if ("euclidianView".equals(eName)) {
-				evSet = null;
+				evSettings = null;
 				mode = MODE_GEOGEBRA;
 			}
 			break;
 		case MODE_EUCLIDIAN_VIEW3D:
 			if ("euclidianView3D".equals(eName)) {
-				evSet = null;
+				evSettings = null;
 				mode = MODE_GEOGEBRA;
 			}
 			break;
@@ -659,7 +660,6 @@ public class MyXMLHandler implements DocHandler {
 		case "gui":
 			mode = MODE_GUI;
 			hasGuiElement = true;
-			isPreferencesXML = false;
 
 			// if (ggbFileFormat < 3.3) // safe to reset every time
 			tmp_perspective = new Perspective();
@@ -779,28 +779,28 @@ public class MyXMLHandler implements DocHandler {
 		PenToolsSettings penTools = app.getSettings().getPenTools();
 		switch (eName) {
 		case "axesColor":
-			ok = handleAxesColor(evSet, attrs);
+			ok = handleAxesColor(attrs);
 			break;
 		case "axis":
-			ok = handleAxis(evSet, attrs);
+			ok = handleAxis(attrs);
 			break;
 		case "bgColor":
-			ok = handleBgColor(evSet, attrs);
+			ok = handleBgColor(attrs);
 			break;
 		case "coordSystem":
-			ok = handleCoordSystem(evSet, attrs);
+			ok = handleCoordSystem(attrs);
 			break;
 		case "evSettings":
-			ok = handleEvSettings(evSet, attrs);
+			ok = handleEvSettings(attrs);
 			break;
 		case "eraserSize":
 			ok = handleEraserSize(penTools, attrs);
 			break;
 		case "grid":
-			ok = handleGrid(evSet, attrs);
+			ok = handleGrid(attrs);
 			break;
 		case "gridColor":
-			ok = handleGridColor(evSet, attrs);
+			ok = handleGridColor(attrs);
 			break;
 		case "highlighterSize":
 			ok = handleHighlighterSize(penTools, attrs);
@@ -809,13 +809,13 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleHighlighterColor(penTools, attrs);
 			break;
 		case "lineStyle":
-			ok = handleLineStyle(evSet, attrs);
+			ok = handleLineStyle(attrs);
 			break;
 		case "labelStyle":
-			ok = handleLabelStyle(evSet, attrs);
+			ok = handleLabelStyle(attrs);
 			break;
 		case "language":
-			ok = handleLanguage(app, attrs);
+			ok = handleLanguage(attrs);
 			break;
 		case "penSize":
 			ok = handlePenSize(penTools, attrs);
@@ -824,13 +824,13 @@ public class MyXMLHandler implements DocHandler {
 			ok = handlePenColor(penTools, attrs);
 			break;
 		case "rulerColor":
-			ok = handleRulerColor(evSet, attrs);
+			ok = handleRulerColor(attrs);
 			break;
 		case "rulerType":
-			ok = handleRulerType(evSet, attrs);
+			ok = handleRulerType(attrs);
 			break;
 		case "size":
-			ok = handleEvSize(evSet, attrs);
+			ok = handleEvSize(attrs);
 			break;
 		case "viewNumber":
 			/*
@@ -860,16 +860,16 @@ public class MyXMLHandler implements DocHandler {
 		if ("viewNumber".equals(eName)) {
 			int number = Integer.parseInt(attrs.get("viewNo"));
 			if (number == 2) {
-				evSet = app.getSettings().getEuclidian(2);
+				evSettings = app.getSettings().getEuclidian(2);
 			} else {
-				evSet = app.getSettings().getEuclidian(1);
+				evSettings = app.getSettings().getEuclidian(1);
 			}
 		} else {
 			startEuclidianViewElementCheckViewId(eName, attrs);
 		}
 
-		if (evSet == null) {
-			evSet = app.getSettings().getEuclidian(1);
+		if (evSettings == null) {
+			evSettings = app.getSettings().getEuclidian(1);
 		}
 
 		// make sure eg is reset the first time (for each EV) we get the
@@ -877,7 +877,7 @@ public class MyXMLHandler implements DocHandler {
 		// "viewNumber" not stored for EV1 so we need to do this here
 		if (resetEVsettingsNeeded) {
 			resetEVsettingsNeeded = false;
-			evSet.reset();
+			evSettings.reset();
 		}
 
 		if (!startEuclidianViewElementSwitch(eName, attrs)) {
@@ -1084,8 +1084,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleCoordSystem(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleCoordSystem(LinkedHashMap<String, String> attrs) {
 		if (attrs.get("xZero") != null) {
 			try {
 				double xZero = parseDoubleNaN(attrs.get("xZero"));
@@ -1098,22 +1097,22 @@ public class MyXMLHandler implements DocHandler {
 				if (strYscale != null) {
 					yscale = StringUtil.parseDouble(strYscale);
 				}
-				ev.setCoordSystemFromXml(xZero, yZero, scale, yscale, true);
+				evSettings.setCoordSystemFromXml(xZero, yZero, scale, yscale, true);
 
-				xmin.put(ev, null);
-				xmax.put(ev, null);
-				ymin.put(ev, null);
-				ymax.put(ev, null);
+				xmin.put(evSettings, null);
+				xmax.put(evSettings, null);
+				ymin.put(evSettings, null);
+				ymax.put(evSettings, null);
 				return true;
 			} catch (RuntimeException e) {
 				return false;
 			}
 		}
 		try {
-			xmin.put(ev, attrs.get("xMin"));
-			xmax.put(ev, attrs.get("xMax"));
-			ymin.put(ev, attrs.get("yMin"));
-			ymax.put(ev, attrs.get("yMax"));
+			xmin.put(evSettings, attrs.get("xMin"));
+			xmax.put(evSettings, attrs.get("xMax"));
+			ymin.put(evSettings, attrs.get("yMin"));
+			ymax.put(evSettings, attrs.get("yMax"));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1137,14 +1136,11 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Basic ev settings like grid / axes visible
 	 * 
-	 * @param ev
-	 *            settings
 	 * @param attrs
 	 *            tag attributes
 	 * @return success
 	 */
-	protected boolean handleEvSettings(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	protected boolean handleEvSettings(LinkedHashMap<String, String> attrs) {
 		try {
 			// axes attribute was removed with V3.0, see handleAxis()
 			// this code is for downward compatibility
@@ -1152,20 +1148,20 @@ public class MyXMLHandler implements DocHandler {
 			if (strAxes != null) {
 				boolean showAxes = parseBoolean(strAxes);
 				// #2534
-				ev.setShowAxes(showAxes, showAxes);
+				evSettings.setShowAxes(showAxes, showAxes);
 			}
 
-			ev.showGrid(parseBoolean(attrs.get("grid")));
+			evSettings.showGrid(parseBoolean(attrs.get("grid")));
 
 			try {
-				ev.setGridIsBold(parseBoolean(attrs.get("gridIsBold")));
+				evSettings.setGridIsBold(parseBoolean(attrs.get("gridIsBold")));
 			} catch (RuntimeException e) {
 				// not a number: ignore
 			}
 
 			try {
 				if (attrs.get("lockedAxesRatio") != null) {
-					ev.setLockedAxesRatio(StringUtil
+					evSettings.setLockedAxesRatio(StringUtil
 							.parseDouble(attrs.get("lockedAxesRatio")));
 				}
 			} catch (RuntimeException e) {
@@ -1173,7 +1169,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			try {
-				ev.setGridType(Integer.parseInt(attrs.get("gridType")));
+				evSettings.setGridType(Integer.parseInt(attrs.get("gridType")));
 			} catch (RuntimeException e) {
 				// not a number: ignore
 			}
@@ -1198,22 +1194,22 @@ public class MyXMLHandler implements DocHandler {
 						pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_DEFAULT;
 					}
 				}
-				ev.setPointCapturing(pointCapturingMode);
+				evSettings.setPointCapturing(pointCapturingMode);
 			} else {
-				ev.setPointCapturing(
+				evSettings.setPointCapturing(
 						EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 			}
 
 			geoHandler.updatePointStyle(attrs);
 
 			boolean asm = parseBoolean(attrs.get("allowShowMouseCoords"));
-			ev.setAllowShowMouseCoords(asm);
+			evSettings.setAllowShowMouseCoords(asm);
 
 			String att = attrs.get("allowToolTips");
 			if (att != null) {
-				ev.setAllowToolTips(Integer.parseInt(att));
+				evSettings.setAllowToolTips(Integer.parseInt(att));
 			} else {
-				ev.setAllowToolTips(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC);
+				evSettings.setAllowToolTips(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC);
 			}
 
 			String del = attrs.get("deleteToolSize");
@@ -1226,7 +1222,7 @@ public class MyXMLHandler implements DocHandler {
 			if (strRightAngleStyle == null) {
 				// before v3.0 the default was a dot to show a right angle
 				// ev.setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_DOT);
-				if (!ev.is3D()) {
+				if (!evSettings.is3D()) {
 					app.setRightAngleStyle(
 							EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 				} else {
@@ -1234,7 +1230,7 @@ public class MyXMLHandler implements DocHandler {
 							app.getLocalization().getRightAngleStyle());
 				}
 			} else {
-				if (!ev.isViewForPlane()) {
+				if (!evSettings.isViewForPlane()) {
 					// ev.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
 					app.setRightAngleStyle(
 							Integer.parseInt(strRightAngleStyle));
@@ -1247,27 +1243,21 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	// is there a reason why it was static?
-	private boolean handleEvSize(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
-		// removed, needed to resize applet correctly
-		// if (app.isApplet())
-		// return true;
-
+	private boolean handleEvSize(LinkedHashMap<String, String> attrs) {
 		try {
 			if (!isPreferencesXML) {
 				int width = Integer.parseInt(attrs.get("width"));
 				int height = Integer.parseInt(attrs.get("height"));
 				if (width > 0 && height > 0) {
 					GDimension evSize = AwtFactory.getPrototype().newDimension(width, height);
-					ev.setPreferredSize(evSize);
+					evSettings.setPreferredSize(evSize);
 					// inconsistent files may store window size < EV size; we prefer the bigger one
 					if (app.getPreferredSize() != null
 							&& app.getPreferredSize().getWidth() <= width
 							&& app.getPreferredSize().getHeight() <= height) {
 						app.setPreferredSize(evSize);
 					}
-					ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(
+					evSettings.setSizeFromFile(AwtFactory.getPrototype().newDimension(
 							width, height));
 				}
 			}
@@ -1408,47 +1398,41 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Background color handling for view
 	 * 
-	 * @param evSet
-	 *            settings
 	 * @param attrs
 	 *            tag attributes
 	 * @return success
 	 */
-	protected static boolean handleBgColor(EuclidianSettings evSet,
-			LinkedHashMap<String, String> attrs) {
+	protected boolean handleBgColor(LinkedHashMap<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
 		}
-		evSet.setBackground(col);
+		evSettings.setBackground(col);
 		return true;
 	}
 
-	private static boolean handleAxesColor(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleAxesColor(LinkedHashMap<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
 		}
-		ev.setAxesColor(col);
+		evSettings.setAxesColor(col);
 		return true;
 	}
 
-	private static boolean handleGridColor(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleGridColor(LinkedHashMap<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
 		}
-		ev.setGridColor(col);
+		evSettings.setGridColor(col);
 		return true;
 	}
 
-	private static boolean handleRulerType(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleRulerType(LinkedHashMap<String, String> attrs) {
 		int rulerType = Integer.parseInt(attrs.get("val"));
-		ev.setRulerType(rulerType);
-		ev.setRulerBold(Boolean.parseBoolean(attrs.get("bold")));
+		evSettings.setRulerType(rulerType);
+		evSettings.setRulerBold(Boolean.parseBoolean(attrs.get("bold")));
 		return true;
 	}
 
@@ -1493,31 +1477,28 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private static boolean handleLanguage(App app,
-			  LinkedHashMap<String, String> attrs) {
+	private boolean handleLanguage(LinkedHashMap<String, String> attrs) {
 		// this may be either BCP language tag or Java locale string (old files)
 		String lang = attrs.get("val");
 		app.setLanguage(lang);
 		return true;
 	}
 
-	private static boolean handleRulerColor(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleRulerColor(LinkedHashMap<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
 		}
-		ev.setBgRulerColor(col);
+		evSettings.setBgRulerColor(col);
 		return true;
 	}
 
-	private static boolean handleLineStyle(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleLineStyle(LinkedHashMap<String, String> attrs) {
 		try {
-			ev.setAxesLineStyle(Integer.parseInt(attrs.get("axes")));
-			ev.setGridLineStyle(Integer.parseInt(attrs.get("grid")));
+			evSettings.setAxesLineStyle(Integer.parseInt(attrs.get("axes")));
+			evSettings.setGridLineStyle(Integer.parseInt(attrs.get("grid")));
 			if (attrs.containsKey("ruler")) {
-				ev.setRulerLineStyle(Integer.parseInt(attrs.get("ruler")));
+				evSettings.setRulerLineStyle(Integer.parseInt(attrs.get("ruler")));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -1528,17 +1509,14 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Label style for axes
 	 * 
-	 * @param ev
-	 *            euclidian settings
 	 * @param attrs
 	 *            tag attributes
 	 * @return success
 	 */
-	protected static boolean handleLabelStyle(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	protected boolean handleLabelStyle(LinkedHashMap<String, String> attrs) {
 		try {
-			ev.setAxisFontStyle(Integer.parseInt(attrs.get("axes")));
-			ev.setAxesLabelsSerif("true".equals(attrs.get("serif")));
+			evSettings.setAxisFontStyle(Integer.parseInt(attrs.get("axes")));
+			evSettings.setAxesLabelsSerif("true".equals(attrs.get("serif")));
 			return true;
 		} catch (RuntimeException e) {
 			logError(e);
@@ -1546,8 +1524,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	protected boolean handleGrid(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	protected boolean handleGrid(LinkedHashMap<String, String> attrs) {
 		// <grid distX="2.0" distY="4.0"/>
 		try {
 			double[] dists = new double[3];
@@ -1564,7 +1541,7 @@ public class MyXMLHandler implements DocHandler {
 				dists[2] = Math.PI / 6; // default
 			}
 
-			ev.setGridDistances(dists);
+			evSettings.setGridDistances(dists);
 
 			return true;
 		} catch (RuntimeException e) {
@@ -1577,14 +1554,11 @@ public class MyXMLHandler implements DocHandler {
 	 * &lt;axis id="0" label="x" unitLabel="x" showNumbers="true" tickDistance=
 	 * "2"/&gt;
 	 * 
-	 * @param ev
-	 *            settings
 	 * @param attrs
 	 *            attributes of &lt;axis&gt; tag
 	 * @return true iff successful
 	 */
-	protected boolean handleAxis(EuclidianSettings ev,
-			LinkedHashMap<String, String> attrs) {
+	protected boolean handleAxis(LinkedHashMap<String, String> attrs) {
 
 		try {
 			int axis = Integer.parseInt(attrs.get("id"));
@@ -1596,35 +1570,35 @@ public class MyXMLHandler implements DocHandler {
 			// show this axis
 			if (strShowAxis != null) {
 				boolean showAxis = parseBoolean(strShowAxis);
-				ev.setShowAxis(axis, showAxis);
+				evSettings.setShowAxis(axis, showAxis);
 			}
 
 			String selectionAllowedStr = attrs.get("selectionAllowed");
 			if (selectionAllowedStr != null) {
 				boolean selectionAllowed = parseBoolean(selectionAllowedStr);
-				ev.setSelectionAllowed(axis, selectionAllowed);
+				evSettings.setSelectionAllowed(axis, selectionAllowed);
 			}
 
 			// set label
-			ev.setAxisLabel(axis, label);
+			evSettings.setAxisLabel(axis, label);
 
 			// set unitlabel
 			if (!StringUtil.empty(unitLabel)) {
-				ev.setAxisUnitLabel(axis, unitLabel);
+				evSettings.setAxisUnitLabel(axis, unitLabel);
 			}
 
 			// set showNumbers
-			ev.setShowAxisNumbers(axis, showNumbers);
+			evSettings.setShowAxisNumbers(axis, showNumbers);
 
 			// check if tickDistance is given
 			String tickExpr = attrs.get("tickExpression");
 			if (tickExpr != null) {
 				if (axis == 0) {
-					xtick.put(evSet, tickExpr);
+					xtick.put(evSettings, tickExpr);
 				} else if (axis == 1) {
-					ytick.put(evSet, tickExpr);
+					ytick.put(evSettings, tickExpr);
 				} else {
-					ztick.put(evSet, tickExpr);
+					ztick.put(evSettings, tickExpr);
 				}
 			}
 			String strTickDist = attrs.get("tickDistance");
@@ -1644,7 +1618,7 @@ public class MyXMLHandler implements DocHandler {
 					}
 					distNum.setDefinition(def);
 				}
-				ev.setAxesNumberingDistance(distNum, axis);
+				evSettings.setAxesNumberingDistance(distNum, axis);
 			}
 
 			// tick style
@@ -1652,12 +1626,12 @@ public class MyXMLHandler implements DocHandler {
 			if (strTickStyle != null) {
 				int tickStyle = Integer.parseInt(strTickStyle);
 				// ev.getAxesTickStyles()[axis] = tickStyle;
-				ev.setAxisTickStyle(axis, tickStyle);
+				evSettings.setAxisTickStyle(axis, tickStyle);
 			} else {
 				// before v3.0 the default tickStyle was MAJOR_MINOR
 				// ev.getAxesTickStyles()[axis] =
 				// EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR_MINOR;
-				ev.setAxisTickStyle(axis,
+				evSettings.setAxisTickStyle(axis,
 						EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR_MINOR);
 			}
 
@@ -1669,22 +1643,22 @@ public class MyXMLHandler implements DocHandler {
 				acb = parseBoolean(axisCrossEdge);
 			}
 			if (acb) {
-				ev.setAxisCross(axis, 0);
-				ev.setDrawBorderAxes(axis, true);
+				evSettings.setAxisCross(axis, 0);
+				evSettings.setDrawBorderAxes(axis, true);
 			} else if (axisCross != null) {
 				double ac = StringUtil.parseDouble(axisCross);
-				ev.setAxisCross(axis, ac);
-				ev.setDrawBorderAxes(axis, false);
+				evSettings.setAxisCross(axis, ac);
+				evSettings.setDrawBorderAxes(axis, false);
 			} else {
-				ev.setAxisCross(axis, 0);
-				ev.setDrawBorderAxes(axis, false);
+				evSettings.setAxisCross(axis, 0);
+				evSettings.setDrawBorderAxes(axis, false);
 			}
 
 			// positive direction only
 			String posAxis = attrs.get("positiveAxis");
 			if (posAxis != null) {
 				boolean isPositive = Boolean.parseBoolean(posAxis);
-				ev.setPositiveAxis(axis, isPositive);
+				evSettings.setPositiveAxis(axis, isPositive);
 			}
 
 			return true;
@@ -1894,50 +1868,50 @@ public class MyXMLHandler implements DocHandler {
 		boolean ok = true;
 		switch (eName) {
 		case "consProtColumns":
-			ok = handleConsProtColumns(app, attrs);
+			ok = handleConsProtColumns(attrs);
 			break;
 		case "consProtocol":
 			ok = handleConsProtocol(attrs);
 			break;
 		case "consProtNavigationBar":
-			ok = handleConsProtNavigationBar(app, attrs);
+			ok = handleConsProtNavigationBar(attrs);
 			break;
 		case "dataAnalysis":
 			ok = handleDataAnalysis(attrs);
 			break;
 		case "font":
-			ok = handleFont(app, attrs);
+			ok = handleFont(attrs);
 			break;
 		case "graphicsSettings":
 			ok = true;
 			break;
 		case "menuFont":
-			ok = handleMenuFont(app, attrs);
+			ok = handleMenuFont(attrs);
 			break;
 		case "labelingStyle":
-			ok = handleLabelingStyle(app, attrs);
+			ok = handleLabelingStyle(attrs);
 			break;
 		case "perspectives":
 			mode = MODE_GUI_PERSPECTIVES;
 			perspectiveElementFound = false;
 			break;
 		case "show":
-			ok = handleGuiShow(app, attrs);
+			ok = handleGuiShow(attrs);
 			break;
 		case "splitDivider":
 			ok = compLayout.handleSplitDivider(attrs);
 			break;
 		case "settings":
-			ok = handleGuiSettings(app, attrs);
+			ok = handleGuiSettings(attrs);
 			break;
 		case "toolbar":
 			ok = handleToolbar(attrs);
 			break;
 		case "tooltipSettings":
-			ok = handleTooltipSettings(app, attrs);
+			ok = handleTooltipSettings(attrs);
 			break;
 		case "window":
-			ok = handleWindowSize(app, attrs);
+			ok = handleWindowSize(attrs);
 			break;
 		default:
 			Log.error("unknown tag in <gui>: " + eName);
@@ -1975,8 +1949,7 @@ public class MyXMLHandler implements DocHandler {
 		app.setTmpPerspective(tmp_perspective);
 	}
 
-	private static boolean handleConsProtColumns(App app,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleConsProtColumns(LinkedHashMap<String, String> attrs) {
 		try {
 
 			boolean[] colsVis = new boolean[attrs.keySet().size()];
@@ -2015,7 +1988,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleConsProtNavigationBar(App app1,
+	private boolean handleConsProtNavigationBar(
 			LinkedHashMap<String, String> attrs) {
 		try {
 
@@ -2028,14 +2001,14 @@ public class MyXMLHandler implements DocHandler {
 				String idStr = attrs.get("id");
 				for (String id : idStr.split(" ")) {
 					int viewId = Integer.parseInt(id);
-					app1.setShowConstructionProtocolNavigation(true, viewId,
+					app.setShowConstructionProtocolNavigation(true, viewId,
 							playButton, playDelay, showProtButton);
 				}
 			} else { // old XML
 				boolean show = parseBoolean(attrs.get("show"));
 				// Maybe there is not guiManager yet. In this case we store the
 				// navigation bar's states in ConstructionProtocolSettings
-				app1.setShowConstructionProtocolNavigation(show,
+				app.setShowConstructionProtocolNavigation(show,
 						App.VIEW_EUCLIDIAN, playButton, playDelay,
 						showProtButton);
 			}
@@ -2056,14 +2029,11 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Backward compatibility for version < 3.3
 	 * 
-	 * @param app1
-	 *            app
 	 * @param attrs
 	 *            gui tag attributes
 	 * @return success
 	 */
-	private boolean handleGuiShow(App app1,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleGuiShow(LinkedHashMap<String, String> attrs) {
 		try {
 			// backward compatibility to versions without the layout component
 			// if (ggbFileFormat < 3.3) {// also used in some special, newer
@@ -2072,7 +2042,7 @@ public class MyXMLHandler implements DocHandler {
 			compLayout.showSpreadsheet = parseBoolean(
 					attrs.get("spreadsheetView"));
 			String str = attrs.get("auxiliaryObjects");
-			app1.setShowAuxiliaryObjects(parseBoolean(str));
+			app.setShowAuxiliaryObjects(parseBoolean(str));
 			str = attrs.get("algebraInput");
 			tmp_perspective.setShowInputPanel(parseBooleanRev(str));
 			str = attrs.get("cmdList");
@@ -2088,15 +2058,12 @@ public class MyXMLHandler implements DocHandler {
 	 * Settings of the user, not saved in the file XML but for preferences XML.
 	 * 
 	 * &lt;settings ignoreDocument=".." showTitleBar=".." /&gt;
-	 * 
-	 * @param app
-	 *            app
+	 *
 	 * @param attrs
 	 *            settings tag attributes
 	 * @return success
 	 */
-	private static boolean handleGuiSettings(App app,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleGuiSettings(LinkedHashMap<String, String> attrs) {
 
 		// set that XML load is a preferences settings
 		isPreferencesXML = true;
@@ -2203,14 +2170,11 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Handle the window size: <window width=".." height=".." />
 	 * 
-	 * @param app
-	 *            app
 	 * @param attrs
 	 *            window tag attributes
 	 * @return success
 	 */
-	private static boolean handleWindowSize(App app,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleWindowSize(LinkedHashMap<String, String> attrs) {
 		try {
 			GDimension size = AwtFactory.getPrototype().newDimension(
 					Integer.parseInt(attrs.get("width")),
@@ -2223,8 +2187,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleFont(App app,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleFont(LinkedHashMap<String, String> attrs) {
 		try {
 			int guiSize = Integer.parseInt(attrs.get("size"));
 			app.setFontSize(guiSize, true); // set gui font size and update all fonts
@@ -2234,8 +2197,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleMenuFont(App app,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleMenuFont(LinkedHashMap<String, String> attrs) {
 		try {
 			int guiSize = Integer.parseInt(attrs.get("size"));
 			if (guiSize <= 0) {
@@ -2260,8 +2222,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleTooltipSettings(App app,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleTooltipSettings(LinkedHashMap<String, String> attrs) {
 		try {
 			String ttl = attrs.get("language");
 			if ("".equals(ttl)) {
@@ -2282,8 +2243,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleLabelingStyle(App app,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleLabelingStyle(LinkedHashMap<String, String> attrs) {
 		try {
 			int style = Integer.parseInt(attrs.get("val"));
 			app.setLabelingStyle(style);
@@ -2373,7 +2333,7 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_GUI_PERSPECTIVE_PANES;
 			break;
 		case "show":
-			ok = handleGuiShow(app, attrs);
+			ok = handleGuiShow(attrs);
 			break;
 		case "toolbar":
 			ok = handleToolbar(attrs);
@@ -3043,7 +3003,6 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 
 	protected void processEvSizes() {
-		// Set<EuclidianSettings> eSet0 = xmin.keySet();
 		ArrayList<EuclidianSettings> eSet = new ArrayList<>(
 				xmin.keySet());
 		eSet.addAll(xtick.keySet());
@@ -3474,7 +3433,7 @@ public class MyXMLHandler implements DocHandler {
 	 * Reads all attributes into a String array.
 	 * 
 	 * @param attrs
-	 *            ttribute map
+	 *            attribute map
 	 * @return success
 	 */
 	private static String[] getAttributeStrings(

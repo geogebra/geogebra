@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -57,8 +56,8 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			LinkedHashMap<String, String> attrs) {
 
 		// must do this first
-		if (evSet == null) {
-			evSet = app.getSettings().getEuclidian(3);
+		if (evSettings == null) {
+			evSettings = app.getSettings().getEuclidian(3);
 		}
 
 		// make sure eg is reset the first time (for each EV) we get the
@@ -66,7 +65,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		// "viewNumber" not stored for EV1 so we need to do this here
 		if (resetEVsettingsNeeded) {
 			resetEVsettingsNeeded = false;
-			evSet.reset();
+			evSettings.reset();
 		}
 
 		boolean ok = true;
@@ -77,41 +76,41 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			// ok = handleAxesColor(ev, attrs);
 			break;
 		case "axis":
-			ok = handleAxis(evSet, attrs);
+			ok = handleAxis(attrs);
 			break;
 		case "axesColored":
-			ok = handleColoredAxes((EuclidianSettings3D) evSet, attrs);
+			ok = handleColoredAxes((EuclidianSettings3D) evSettings, attrs);
 			break;
 		case "bgColor":
-			ok = handleBgColor(evSet, attrs);
+			ok = handleBgColor(attrs);
 			break;
 		case "coordSystem":
-			ok = handleCoordSystem3D((EuclidianSettings3D) evSet, attrs);
+			ok = handleCoordSystem3D((EuclidianSettings3D) evSettings, attrs);
 			break;
 		case "clipping":
-			ok = handleClipping((EuclidianSettings3D) evSet, attrs);
+			ok = handleClipping((EuclidianSettings3D) evSettings, attrs);
 			break;
 		case "evSettings":
-			ok = handleEvSettings(evSet, attrs);
+			ok = handleEvSettings(attrs);
 			break;
 		case "grid":
-			ok = handleGrid(evSet, attrs);
+			ok = handleGrid(attrs);
 			break;
 		case "light":
-			ok = handleLight((EuclidianSettings3D) evSet, attrs);
+			ok = handleLight((EuclidianSettings3D) evSettings, attrs);
 			break;
 		case "labelStyle":
-			ok = handleLabelStyle(evSet, attrs);
+			ok = handleLabelStyle(attrs);
 			break;
 		case "plate":
 		case "plane":
-			ok = handlePlate((EuclidianSettings3D) evSet, attrs);
+			ok = handlePlate((EuclidianSettings3D) evSettings, attrs);
 			break;
 		case "projection":
-			ok = handleProjection((EuclidianSettings3D) evSet, attrs);
+			ok = handleProjection((EuclidianSettings3D) evSettings, attrs);
 			break;
 		case "yAxisVertical":
-			ok = handleYAxisIsUp((EuclidianSettings3D) evSet, attrs);
+			ok = handleYAxisIsUp((EuclidianSettings3D) evSettings, attrs);
 			break;
 		default:
 			Log.error("unknown tag in <euclidianView3D>: " + eName);
@@ -293,18 +292,15 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/**
 	 * handles plane attributes (show grid) for EuclidianView3D
-	 * 
-	 * @param evs
-	 *            euclidian settings
+	 *
 	 * @param attrs
 	 *            attributes
 	 * @return true if all is done ok
 	 */
 	@Override
-	protected boolean handleGrid(EuclidianSettings evs,
-			LinkedHashMap<String, String> attrs) {
+	protected boolean handleGrid(LinkedHashMap<String, String> attrs) {
 		// distX, distY
-		super.handleGrid(evs, attrs);
+		super.handleGrid(attrs);
 
 		try {
 			String strShowGrid = attrs.get("show");
@@ -312,7 +308,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			// show the plane
 			if (strShowGrid != null) {
 				boolean showGrid = parseBoolean(strShowGrid);
-				evs.showGrid(showGrid);
+				evSettings.showGrid(showGrid);
 			}
 			return true;
 		} catch (Exception e) {
@@ -425,12 +421,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			LinkedHashMap<String, String> attrs) {
 		if ("viewId".equals(eName)) {
 			String plane = attrs.get("plane");
-			evSet = app.getSettings().getEuclidianForPlane(plane);
-			if (evSet == null) {
-				evSet = new EuclidianSettingsForPlane(app);
-				app.getSettings().setEuclidianSettingsForPlane(plane, evSet);
+			evSettings = app.getSettings().getEuclidianForPlane(plane);
+			if (evSettings == null) {
+				evSettings = new EuclidianSettingsForPlane(app);
+				app.getSettings().setEuclidianSettingsForPlane(plane, evSettings);
 			}
-			((EuclidianSettingsForPlane) evSet).setFromLoadFile(true);
+			((EuclidianSettingsForPlane) evSettings).setFromLoadFile(true);
 		}
 	}
 
@@ -438,7 +434,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	protected boolean startEuclidianViewElementSwitch(String eName,
 			LinkedHashMap<String, String> attrs) {
 		if ("transformForPlane".equals(eName)) {
-			return handleTransformForPlane((EuclidianSettingsForPlane) evSet, attrs);
+			return handleTransformForPlane((EuclidianSettingsForPlane) evSettings, attrs);
 		}
 
 		return super.startEuclidianViewElementSwitch(eName, attrs);

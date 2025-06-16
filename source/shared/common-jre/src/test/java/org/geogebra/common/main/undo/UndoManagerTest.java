@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.plugin.GeoClass;
@@ -319,6 +321,23 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertThat(edgeJT.getStartPointAsGeoElement(), hasValue("(2, 0, 0)"));
 		assertThat(param, hasValue("1"));
 		assertEquals(20, getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D).size());
+	}
+
+	@Test
+	@Issue("APPS-6654")
+	public void zoomAfterUndo() {
+		getApp().setXML(GeoGebraPreferencesXML.getXML(getApp()), false);
+		EuclidianView view = getApp().getActiveEuclidianView();
+		view.setKeepCenter(true);
+		activateUndo();
+		view.setCoordSystem(0, 0, 50, 50);
+		getUndoManager().storeUndoInfo();
+		view.setCoordSystem(100, 200, 50, 50);
+		getUndoManager().storeUndoInfo();
+		getUndoManager().undo();
+		assertEquals(0, view.getXZero(), 0);
+		getUndoManager().redo();
+		assertEquals(100, view.getXZero(), 0);
 	}
 
 	private EuclidianView3D get3Dview() {

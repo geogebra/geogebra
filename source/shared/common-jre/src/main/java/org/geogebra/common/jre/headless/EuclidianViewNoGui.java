@@ -139,8 +139,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public boolean isShowing() {
-		// TODO Auto-generated method stub
-		return false;
+		return app.showView(getViewID());
 	}
 
 	@Override
