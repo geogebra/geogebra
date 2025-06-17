@@ -50,6 +50,10 @@ public class BaseAppTestSetup {
 		app.getSettingsUpdater().resetSettingsOnAppStart();
 	}
 
+	protected void setupApp(AppConfig appConfig) {
+		app = AppCommonFactory.create(appConfig);
+	}
+
 	private static AppConfig createConfig(SuiteSubApp subApp) {
 		switch (subApp) {
 		case CAS:

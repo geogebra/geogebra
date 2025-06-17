@@ -167,6 +167,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * steps to set back to standard view
 	 */
 	protected static final int STANDARD_VIEW_STEPS = 15;
+	private static final double LEFT_MARGIN_NOTES = 64;
 
 	// or use volatile image
 	// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
@@ -245,7 +246,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			.newBasicStroke(1.0f, GBasicStroke.CAP_BUTT,
 					GBasicStroke.JOIN_MITER);
 
-	// changed from 1.8f (same as bold grid) Michael Borcherds 2008-04-12
 	static final GBasicStroke boldAxesStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
 					GBasicStroke.JOIN_MITER);
@@ -373,7 +373,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** tooltip mode in this view */
 	protected int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
-	// Michael Borcherds 2008-04-28
 	/** for toggle buttons */
 	public static final int GRID_NOT_SHOWN = -1;
 	/** cartesian grid */
@@ -452,8 +451,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// member variables
 	/** controller */
 	protected EuclidianController euclidianController;
-
-	// ggb3D 2009-02-05
 
 	private final GEllipse2DDouble circle = AwtFactory.getPrototype()
 			.newEllipse2DDouble(); // polar
@@ -633,7 +630,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			setMinMaxObjects();
 			kernel.getConstruction().setIgnoringNewTypes(false);
 		}
-		// ggb3D 2009-02-05
 		hitDetector.reset();
 
 		printScaleNF = FormatFactory.getPrototype().getNumberFormat("#.#####",
@@ -3165,7 +3161,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	// Michael Borcherds 2008-04-11
 	@Override
 	public boolean getGridIsBold() {
 		return gridIsBold;
@@ -4688,7 +4683,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		sbxml.append("\" grid=\"");
 		sbxml.append(showGrid);
 		sbxml.append("\" gridIsBold=\""); //
-		sbxml.append(gridIsBold); // Michael Borcherds 2008-04-11
+		sbxml.append(gridIsBold);
 		sbxml.append("\" pointCapturing=\"");
 
 		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML
@@ -5058,9 +5053,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// enlarge x/y if we want to keep ratio
 		if (keepRatio) {
-			double oldRatio =
-					(visibleRect.getMaxX() - visibleRect.getMinX())
-							/ (visibleRect.getMaxY() - visibleRect.getMinY());
+			double visibleWidth = visibleRect.getMaxX() - visibleRect.getMinX();
+			double unobstructedWidth = app.isWhiteboardActive()
+					? visibleWidth - LEFT_MARGIN_NOTES * getInvXscale() : visibleWidth;
+			double oldRatio = unobstructedWidth / visibleRect.getHeight();
 			double newRatio = (x1RW - x0RW) / (y1RW - y0RW);
 			if (newRatio > oldRatio) {
 				// enlarge y
@@ -5075,6 +5071,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				x0RW = center - delta * oldRatio / newRatio;
 				x1RW = center + delta * oldRatio / newRatio;
 			}
+			x0RW = x1RW - (x1RW - x0RW) / unobstructedWidth * visibleWidth;
 		}
 
 		return new Rectangle(x0RW, x1RW, y0RW, y1RW);
