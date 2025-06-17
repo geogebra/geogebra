@@ -41,9 +41,9 @@ public class TabbedKeyboard extends FlowPanel
 		implements ButtonHandler, RequiresResize {
 
 	/**
-	 * Height including the switcher
+	 * Height including the switcher (changed in APPS-4689)
 	 */
-	public static final int TOTAL_HEIGHT = 228;
+	public static final int TOTAL_HEIGHT = 221;
 
 	/**
 	 * minimum width of the whole application to use normal font (small font
