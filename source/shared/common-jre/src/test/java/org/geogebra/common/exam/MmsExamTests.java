@@ -16,18 +16,27 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
+import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -213,16 +222,38 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"Union({1}, {2})",
 			"Quartile1({1, 2, 3})",
 			"Q1({1, 2, 3})",
+			"CSolve(x^2 = 0)",
+			"CSolutions(x^2 = 0)",
 	})
 	@MockedCasValues({
 			"Union({1}, {2}) 		-> {1,2}",
 			"Quartile1({1, 2, 3}) 	-> 1.0",
 			"Round(1, 2) 			-> 1.0",
+			"CSolve(x² = 0) 		-> {x=0}",
+			"CSolutions(x² = 0) 	-> {0}",
 	})
 	public void testRestrictedCommands(String expression) {
 		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString("Unknown command"));
 		errorAccumulator.resetError();
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Solve(x^2 = 0)",
+			"Solutions(x^2 = 0)",
+			"NSolve(x^2 = 0)",
+			"NSolutions(x^2 = 0)",
+	})
+	@MockedCasValues({
+			"Solve(x² = 0, x) 	-> {x=0}",
+			"NSolve(x² = 0) 	-> {x=0.0}",
+			"Solve(x² = 0) 		-> {x=0}",
+			"Solutions(x² = 0) 	-> {0}",
+			"NSolutions(x² = 0) -> {0.0}",
+	})
+	public void testUnrestrictedCommands(String command) {
+		assertNotNull(evaluate(command));
 	}
 
 	@ParameterizedTest
@@ -468,5 +499,122 @@ public class MmsExamTests extends BaseExamTestSetup {
 		String actualOutput = getApp().getGeoElementValueConverter()
 				.toOutputValueString(geoElement, StringTemplate.defaultTemplate);
 		assertEquals(expectedOutput, actualOutput);
+	}
+
+	@Test
+	public void testOneVariableStatistics() throws InvalidValuesException {
+		TableValuesView tableValuesView = setupTableValues();
+		assertEquals(List.of(
+				"Sum",
+				"Sum of squares",
+				"Sample Standard Deviation",
+				"Cardinality"
+		), tableValuesView.getStatistics1Var(1).stream()
+				.map(StatisticGroup::getHeading).collect(Collectors.toList()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Sum({1, 2, 3})",
+			"SigmaXX({1, 2, 3})",
+			"SampleSD({1, 2, 3})",
+			"Length({1, 2, 3})",
+	})
+	@MockedCasValues({
+			"Sum({1, 2, 3}) 	-> 6",
+			"Round(6, 13) 		-> 6.0",
+			"SigmaXX({1, 2, 3}) -> 14",
+			"Round(14, 13) 		-> 14.0",
+			"stdev({1, 2, 3}) 	-> 1",
+			"Round(1, 13) 		-> 1.0",
+			"Length({1, 2, 3}) 	-> 3",
+			"Round(3, 13) 		-> 3.0",
+	})
+	public void testUnrestrictedCommandsNeededForOneVariableStatistics(String command) {
+		assertNotNull(evaluate(command));
+	}
+
+	@Test
+	public void testTwoVariableStatistics() throws InvalidValuesException {
+		TableValuesView tableValuesView = setupTableValues();
+		assertEquals(List.of(
+				// x
+				"Sum",
+				"Sum of squares",
+				"Sample Standard Deviation",
+				// y
+				"Sum",
+				"Sum of squares",
+				"Sample Standard Deviation",
+				// xy
+				"Sum of products",
+				"Cardinality"
+		), tableValuesView.getStatistics2Var(1).stream()
+				.map(StatisticGroup::getHeading).collect(Collectors.toList()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"RemoveUndefined({1, 2, 3})",
+			"x((1, 2))",
+			"y((1, 2))",
+			"Sum({1, 2, 3})",
+			"SigmaXX({1, 2, 3})",
+			"SampleSD({1, 2, 3})",
+			"SigmaXY({1, 2, 3}, {4, 5, 6})",
+			"Length({1, 2, 3})",
+	})
+	@MockedCasValues({
+			"RemoveUndefined({1, 2, 3}) 	-> {1,2,3}",
+			"Evaluate(1) 					-> 1",
+			"Round(1, 13) 					-> 1.0",
+			"Evaluate(2) 					-> 2",
+			"Round(2, 13) 					-> 2.0",
+			"Sum({1, 2, 3}) 				-> 6",
+			"Round(6, 13) 					-> 6.0",
+			"SigmaXX({1, 2, 3}) 			-> 14",
+			"Round(14, 13) 					-> 14.0",
+			"stdev({1, 2, 3}) 				-> 1",
+			"SigmaXY({1, 2, 3}, {4, 5, 6}) 	-> 32",
+			"Round(32, 13) 					-> 32.0",
+			"Length({1, 2, 3}) 				-> 3",
+			"Round(3, 13) 					-> 3.0",
+	})
+	public void testUnrestrictedCommandsNeededForTwoVariableStatistics(String command) {
+		assertNotNull(evaluate(command));
+	}
+
+	@Test
+	@MockedCasValues({"Evaluate(x² - 2) -> x^2-2"})
+	public void testNoSpecialPointsOptionInAlgebraContextMenu() {
+		GeoElement geoElement = evaluateGeoElement("x^2 - 2");
+		List<AlgebraContextMenuItem> contextMenuItems = contextMenuFactory.makeAlgebraContextMenu(
+				geoElement, getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings());
+		assertFalse(contextMenuItems.contains(AlgebraContextMenuItem.SpecialPoints));
+	}
+
+	@Test
+	@MockedCasValues({
+			"Evaluate(x² - 2) 		-> x^2-2",
+			"Intersect(f, xAxis) 	-> {(√2,0),(-√2,0)}",
+			"Extremum(f) 			-> {(0,-2)}",
+			"Intersect(f, yAxis) 	-> {(0,-2)}",
+	})
+	public void testNoSpecialPoints() {
+		GeoElement geoElement = evaluateGeoElement("x^2 - 2");
+		Objects.requireNonNull(SuggestionIntersectExtremum.get(geoElement)).execute(geoElement);
+		assertEquals(0, getKernel().getConstructionStep());
+	}
+
+	private TableValuesView setupTableValues() throws InvalidValuesException {
+		TableValuesView tableValuesView = new TableValuesView(getKernel());
+		tableValuesView.setValues(0, 5, 1);
+		GeoList geo = new GeoList(getKernel().getConstruction());
+		for (int i = 0; i < 3; i++) {
+			geo.add(new GeoNumeric(getKernel().getConstruction(), 1));
+		}
+		geo.setTableColumn(1);
+		tableValuesView.add(geo);
+		return tableValuesView;
 	}
 }

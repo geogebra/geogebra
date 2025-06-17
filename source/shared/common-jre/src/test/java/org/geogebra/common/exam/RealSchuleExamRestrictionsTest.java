@@ -157,6 +157,20 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 		assertFalse(geoElement.isEuclidianToggleable());
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Solve(x^2 = 0)",
+			"Solutions(x^2 = 0)",
+			"CSolve(x^2 = 0)",
+			"CSolutions(x^2 = 0)",
+			"NSolve(x^2 = 0)",
+			"NSolutions(x^2 = 0)",
+	})
+	public void testRestrictedCommands(String command) {
+		examController.startExam(ExamType.BAYERN_GR, null);
+		assertNull(evaluate(command));
+	}
+
 	@Test
 	public void testEnabledEngineeringNotation() {
 		PreviewFeature.enableFeaturePreviews = true;

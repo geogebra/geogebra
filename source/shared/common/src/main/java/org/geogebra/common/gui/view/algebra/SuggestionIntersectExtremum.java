@@ -93,7 +93,9 @@ public class SuggestionIntersectExtremum extends Suggestion {
 			GeoElementND[] pointLists = algebraProcessor
 					.processAlgebraCommandNoExceptionHandling(cmd, false,
 							ErrorHelper.silent(), false, new LabelHiderCallback());
-			setPointsColorToGray(pointLists);
+			if (pointLists != null) {
+				setPointsColorToGray(pointLists);
+			}
 		} else {
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(cmd, false,
 					ErrorHelper.silent(), false, null);

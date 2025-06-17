@@ -14,12 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
+import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -150,6 +152,19 @@ public final class CvteExamTests extends BaseExamTestSetup {
     public void testRestrictedVisibility(String expression) {
         assertTrue(VisibilityRestriction.isVisibilityRestricted(evaluateGeoElement(expression),
                 visibilityRestrictions));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Solve(x^2 = 0)",
+            "Solutions(x^2 = 0)",
+            "CSolve(x^2 = 0)",
+            "CSolutions(x^2 = 0)",
+            "NSolve(x^2 = 0)",
+            "NSolutions(x^2 = 0)",
+    })
+    public void testRestrictedCommands(String command) {
+        assertNull(evaluate(command));
     }
 
     @ParameterizedTest
@@ -286,5 +301,12 @@ public final class CvteExamTests extends BaseExamTestSetup {
     public void testRationalizationIsDisabled() {
         GeoElement element = evaluateGeoElement("1/sqrt(8)");
         assertNull(AlgebraOutputFormat.getNextFormat(element, false, Set.of()));
+    }
+
+    @Test
+    public void testNumberOfIntersectSpecialPoints() {
+        GeoElement geoElement = evaluateGeoElement("sin(x)");
+        Objects.requireNonNull(SuggestionIntersectExtremum.get(geoElement)).execute(geoElement);
+        assertEquals(2, getKernel().getConstructionStep());
     }
 }

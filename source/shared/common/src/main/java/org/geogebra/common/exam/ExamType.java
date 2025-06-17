@@ -76,7 +76,6 @@ public enum ExamType {
 	},
 
 	MMS() {
-
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
 			return "Deutschland MMS Abitur";

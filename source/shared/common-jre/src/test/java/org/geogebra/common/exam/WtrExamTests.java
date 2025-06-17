@@ -27,12 +27,19 @@ public class WtrExamTests extends BaseExamTestSetup {
 		examController.startExam(ExamType.WTR, null);
 	}
 
+	@SuppressWarnings("checkstyle:RegexpSingleline")
 	@ParameterizedTest
-	@CsvSource(value = {
-			"BinomialDist(); Illegal number of arguments",
-			"Normal(2, 0.5, 1, true); Illegal argument: Boolean",
-			"BinomialDist(5, 0.2, 1, false && true); Sorry, something went wrong",
-	}, delimiter = ';')
+	@CsvSource(delimiter = ';', value = {
+			"BinomialDist(); 							Illegal number of arguments",
+			"Normal(2, 0.5, 1, true); 					Illegal argument: Boolean",
+			"BinomialDist(5, 0.2, 1, false && true); 	Sorry, something went wrong",
+			"Solve(x^2 = 0); 							Unknown command : Solve",
+			"Solutions(x^2 = 0); 						Unknown command : Solutions",
+			"CSolve(x^2 = 0); 							Unknown command : CSolve",
+			"CSolutions(x^2 = 0); 						Unknown command : CSolutions",
+			"NSolve(x^2 = 0); 							Unknown command : NSolve",
+			"NSolutions(x^2 = 0); 						Unknown command : NSolutions",
+	})
 	public void testRestrictedCommands(String expression, String expectedError) {
 		assertNull(evaluate(expression));
 		assertThat(errorAccumulator.getErrorsSinceReset(), containsString(expectedError));

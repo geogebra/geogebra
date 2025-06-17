@@ -7,8 +7,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
+import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -93,5 +104,100 @@ public class IbExamTests extends BaseExamTestSetup {
 			assertThat(errorAccumulator.getErrorsSinceReset(), containsString(expectedError));
 			errorAccumulator.resetError();
 		}
+	}
+
+	@Test
+	public void testNumberOfIntersectSpecialPoints() {
+		GeoElement geoElement = evaluateGeoElement("sin(x)");
+		Objects.requireNonNull(SuggestionIntersectExtremum.get(geoElement)).execute(geoElement);
+		assertEquals(1, getKernel().getConstructionStep());
+	}
+
+	@Test
+	public void testOneVariableStatistics() throws InvalidValuesException {
+		TableValuesView tableValuesView = setupTableValues();
+		assertEquals(List.of(
+				"Mean",
+				"Sum",
+				"Sample Standard Deviation",
+				"Population Standard Deviation",
+				"Minimum",
+				"Lower quartile",
+				"Median",
+				"Upper quartile",
+				"Maximum"
+		), tableValuesView.getStatistics1Var(1).stream()
+				.map(StatisticGroup::getHeading).collect(Collectors.toList()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"mean({1, 2, 3})",
+			"Sum({1, 2, 3})",
+			"SampleSD({1, 2, 3})",
+			"SD({1, 2, 3})",
+			"Min({1, 2, 3})",
+			"Quartile1({1, 2, 3})",
+			"Median({1, 2, 3})",
+			"Quartile3({1, 2, 3})",
+			"Max({1, 2, 3})",
+	})
+	public void testUnrestrictedCommandsNeededForOneVariableStatistics(String command) {
+		assertNotNull(evaluate(command));
+	}
+
+	@Test
+	public void testTwoVariableStatistics() throws InvalidValuesException {
+		TableValuesView tableValuesView = setupTableValues();
+		assertEquals(List.of(
+				// x
+				"Mean",
+				"Sum",
+				"Sample Standard Deviation",
+				"Population Standard Deviation",
+				// y
+				"Mean",
+				"Sum",
+				"Sample Standard Deviation",
+				"Population Standard Deviation",
+				// xy
+				"Correlation Coefficient",
+				// x
+				"Minimum",
+				"Maximum",
+				// y
+				"Minimum",
+				"Maximum"
+		), tableValuesView.getStatistics2Var(1).stream()
+				.map(StatisticGroup::getHeading).collect(Collectors.toList()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"RemoveUndefined({1, 2, 3})",
+			"x((1, 2))",
+			"y((1, 2))",
+			"mean({1, 2, 3})",
+			"Sum({1, 2, 3})",
+			"SampleSD({1, 2, 3})",
+			"SD({1, 2, 3})",
+			"CorrelationCoefficient({1, 2, 3}, {4, 5, 6})",
+			"Min({1, 2, 3})",
+			"Max({1, 2, 3})",
+	})
+	public void testUnrestrictedCommandsNeededForTwoVariableStatistics(String command) {
+		assertNotNull(evaluate(command));
+	}
+
+	private TableValuesView setupTableValues() throws InvalidValuesException {
+		TableValuesView tableValuesView = new TableValuesView(getKernel());
+		tableValuesView.setValues(0, 5, 1);
+		GeoList geo = new GeoList(getKernel().getConstruction());
+		for (int i = 0; i < 3; i++) {
+			geo.add(new GeoNumeric(getKernel().getConstruction(), 1));
+		}
+		geo.setTableColumn(1);
+		tableValuesView.add(geo);
+		return tableValuesView;
 	}
 }
