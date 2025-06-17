@@ -1492,4 +1492,15 @@ public class GgbAPIW extends GgbAPI {
 			embedManager.registerEmbedResolver(type, callback);
 		}
 	}
+
+	/**
+	 * Focus keyboard input (AV, CAS), if not available, focus active graphics.
+	 */
+	public void focus() {
+		if (app.getGuiManager() != null) {
+			((AppW) app).getGuiManager().focus();
+		} else {
+			app.getEuclidianView1().requestFocus();
+		}
+	}
 }

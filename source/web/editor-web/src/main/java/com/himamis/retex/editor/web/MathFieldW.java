@@ -386,11 +386,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				powerHappened = false;
 				if (event.getUnicodeCharCode() > 31) {
 					keyListener.onKeyTyped(
-							new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
+							new KeyEvent(event.getNativeEvent().getKeyCode(), getModifiers(event),
 									getChar(event.getNativeEvent())));
 				}
 				event.stopPropagation();
-				event.preventDefault();
+				if (!controlDown(event)) {
+					// Cmd+"+" on Mac handled here rather than on key down, do not prevent
+					event.preventDefault();
+				}
 			}
 
 		}, KeyPressEvent.getType());

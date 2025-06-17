@@ -1170,4 +1170,11 @@ public class DefaultExportedApi implements ExportedApi {
 	public void registerEmbedResolver(String type, Object callback) {
 		getGgbAPI().registerEmbedResolver(type, callback);
 	}
+
+	/**
+	 * Focus keyboard input (AV, CAS), if not available, focus active graphics.
+	 */
+	public void focus() {
+		getGgbAPI().focus();
+	}
 }

@@ -368,10 +368,14 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void toggleSpreadsheetView();
 
 	/**
-	 * Open help page in a new tab or external browser (if running in Electron)
+	 * Open a help page in a new tab or external browser (if running in Electron)
 	 * @param page page type
 	 * @param detail page specifier
 	 */
 	void openHelp(ManualPage page, @CheckForNull String detail);
 
+	/**
+	 * Focus keyboard input (AV, CAS), if not available, focus active graphics.
+	 */
+	void focus();
 }

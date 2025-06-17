@@ -1248,6 +1248,16 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void focus() {
+		MathKeyboardListener listener = getKeyboardListener();
+		if (listener != null) {
+			listener.setFocus(true);
+		} else {
+			app.getActiveEuclidianView().requestFocus();
+		}
+	}
+
+	@Override
 	public void resetSpreadsheet() {
 		if (spreadsheetView != null) {
 			spreadsheetView.restart();
