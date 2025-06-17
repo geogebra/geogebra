@@ -430,7 +430,7 @@ public final class EuclidianConstants {
 	 */
 	public static final int MODE_TRIANGLE_PROTRACTOR = 129;
 	public static final int MODE_SHAPE_STADIUM = 130;
-
+	public static final int MODE_SHAPE_PARALLELOGRAM = 131;
 	public static final int MODE_SHAPE_CURVE = 132;
 
 	/** macro tools ID offset */
@@ -933,6 +933,8 @@ public final class EuclidianConstants {
 			return "Stadium";
 		case EuclidianConstants.MODE_SHAPE_CURVE:
 			return "Curve";
+		case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
+			return "Parallelogram";
 		default:
 			return "";
 		}
@@ -1015,6 +1017,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_SHAPE_STADIUM:
 		case EuclidianConstants.MODE_SELECT_MOW:
 		case EuclidianConstants.MODE_SHAPE_CURVE:
+		case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
 			return true;
 		default: return false;
 		}

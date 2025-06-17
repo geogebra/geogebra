@@ -573,6 +573,14 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_curve();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_parallelogram.svg")
+	SVGResource mode_parallelogram();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_stadium.svg")
+	SVGResource mode_stadium();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_equation.svg")
 	SVGResource mode_equation();
 

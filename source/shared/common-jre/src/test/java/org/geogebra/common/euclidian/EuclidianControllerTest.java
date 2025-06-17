@@ -910,6 +910,24 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	public void shapeParallelogramTool() {
+		setMode(EuclidianConstants.MODE_SHAPE_PARALLELOGRAM);
+		dragStart(50, 50);
+		dragEnd(200, 150);
+		checkContent("q1 = 4.5");
+		GeoElement rectangle = lookup("q1");
+		assertEquals(0, rectangle.getAlphaValue(), Kernel.MIN_PRECISION);
+	}
+
+	@Test
+	public void shapeStadiumTool() {
+		setMode(EuclidianConstants.MODE_SHAPE_STADIUM);
+		dragStart(50, 50);
+		dragEnd(200, 150);
+		checkContent("shape1 = Stadium((2, -2), (3, -2), 2)");
+	}
+
+	@Test
 	public void shapeCurveTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_CURVE);
 		dragStart(50, 50);

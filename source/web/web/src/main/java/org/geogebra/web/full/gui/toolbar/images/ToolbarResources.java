@@ -297,4 +297,8 @@ public interface ToolbarResources {
 	SVGResource mode_protractor();
 
 	SVGResource mode_triangle_protractor();
+
+	SVGResource mode_parallelogram();
+
+	SVGResource mode_stadium();
 }

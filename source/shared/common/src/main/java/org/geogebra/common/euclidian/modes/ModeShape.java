@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -35,8 +36,9 @@ public class ModeShape {
 
 	private static final double MAX_SNAP_DISTANCE = 20;
 	private static final double MAX_SNAP_SLOPE = 0.1;
-	private EuclidianView view;
-	private EuclidianController ec;
+	private static final double PARALLELOGRAM_RATIO = 0.75;
+	private final EuclidianView view;
+	private final EuclidianController ec;
 	/**
 	 * start point of dragging movement
 	 */
@@ -65,7 +67,7 @@ public class ModeShape {
 	 */
 	private final GGeneralPath polygon = AwtFactory.getPrototype()
 			.newGeneralPath();
-	private ArrayList<GPoint> pointListFreePoly = new ArrayList<>();
+	private final ArrayList<GPoint> pointListFreePoly = new ArrayList<>();
 	private final ModeShapeStadium modeShapeStadium;
 
 	/**
@@ -175,6 +177,10 @@ public class ModeShape {
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
 			updateTriangle(event);
+			view.setShapePath(polygon);
+			view.repaintView();
+		} else if (mode == EuclidianConstants.MODE_SHAPE_PARALLELOGRAM) {
+			updateParallelogram(event);
 			view.setShapePath(polygon);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_PENTAGON) {
@@ -336,14 +342,16 @@ public class ModeShape {
 			view.repaintView();
 			wasDragged = false;
 			return segment;
-		} else if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE
-				|| mode == EuclidianConstants.MODE_SHAPE_PENTAGON) {
-			GeoPoint[] points = null;
+		} else if (isPolygonToolWithFixedVertices(mode)) {
+			GeoPoint[] points;
 			if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
-				points = getRealPointsOfTriangle(event);
+				updateTriangle(event);
+			} else if (mode == EuclidianConstants.MODE_SHAPE_PENTAGON) {
+				updateRegularPolygon(event);
 			} else {
-				points = getRealPointsOfPolygon(event);
+				updateParallelogram(event);
 			}
+			points = getRealPointsOfPolygon();
 			AlgoPolygon algo = getPolyAlgo(points);
 			createPolygon(algo);
 			view.setShapePath(null);
@@ -371,7 +379,7 @@ public class ModeShape {
 									pointListFreePoly.get(
 											pointListFreePoly.size()
 													- 2)) == 0) {
-				AlgoPolygon algo = getPolyAlgo(getRealPointsOfFreeFormPolygon());
+				AlgoPolygon algo = getPolyAlgo(getRealPointsOfPolygon());
 				createPolygon(algo);
 				pointListFreePoly.clear();
 				dragPointSet = false;
@@ -411,6 +419,15 @@ public class ModeShape {
 		// if was drag finished with release
 		wasDragged = false;
 		return null;
+	}
+
+	/**
+	 * @return if this is a polygonal tool, other than free-form
+	 */
+	private boolean isPolygonToolWithFixedVertices(int mode) {
+		return mode == EuclidianConstants.MODE_SHAPE_TRIANGLE
+				|| mode == EuclidianConstants.MODE_SHAPE_PENTAGON
+				|| mode == EuclidianConstants.MODE_SHAPE_PARALLELOGRAM;
 	}
 
 	private GPoint2D getControl(int x1, int y1, int x2, int y2) {
@@ -477,17 +494,6 @@ public class ModeShape {
 		}
 	}
 
-	private GeoPoint[] getRealPointsOfFreeFormPolygon() {
-		pointListFreePoly.remove(pointListFreePoly.size() - 1);
-		GeoPoint[] realPoints = new GeoPoint[pointListFreePoly.size()];
-		int i = 0;
-		for (GPoint gPoint : pointListFreePoly) {
-			realPoints[i] = invisibleScreenPoint(gPoint.getX(), gPoint.getY());
-			i++;
-		}
-		return realPoints;
-	}
-
 	private GeoPoint invisibleScreenPoint(double startX, double startY) {
 		GeoPoint pt = new GeoPoint(view.getKernel().getConstruction(),
 				view.toRealWorldCoordX(startX), view.toRealWorldCoordY(startY), 1);
@@ -495,40 +501,18 @@ public class ModeShape {
 		return pt;
 	}
 
-	private GeoPoint[] getRealPointsOfPolygon(AbstractEvent event) {
-		GeoPoint[] points = new GeoPoint[5];
-		int[] pointsX;
-		int[] pointsY;
-
-		int radius = Math.abs(event.getY() - (dragStartPoint.y + event.getY()) / 2);
-
-		pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2, radius, 5, -Math.PI / 2);
-		pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2, radius, 5, -Math.PI / 2);
-
-		for (int i = 0; i < pointsX.length; i++) {
-			points[i] = invisibleScreenPoint(pointsX[i], pointsY[i]);
+	private GeoPoint[] getRealPointsOfPolygon() {
+		GPathIterator pathIterator = polygon.getPathIterator(null);
+		double[] point = new double[6];
+		ArrayList<GeoPoint> pts = new ArrayList<>(5);
+		while (!pathIterator.isDone()) {
+			int segmentType = pathIterator.currentSegment(point);
+			if (segmentType != GPathIterator.SEG_CLOSE) {
+				pts.add(invisibleScreenPoint(point[0], point[1]));
+			}
+			pathIterator.next();
 		}
-
-		return points;
-	}
-
-	private GeoPoint[] getRealPointsOfTriangle(AbstractEvent event) {
-		GeoPoint[] points = new GeoPoint[3];
-
-		int height = event.getY() - dragStartPoint.y;
-
-		if (height >= 0) {
-			points[0] = invisibleScreenPoint(dragStartPoint.x, event.getY());
-			points[1] = invisibleScreenPoint(event.getX(), event.getY());
-			points[2] = invisibleScreenPoint((dragStartPoint.x + event.getX()) / 2.0,
-					dragStartPoint.y);
-		} else {
-			points[0] = invisibleScreenPoint((dragStartPoint.x + event.getX()) / 2.0, event.getY());
-			points[1] = invisibleScreenPoint(dragStartPoint.x, dragStartPoint.y);
-			points[2] = invisibleScreenPoint(event.getX(), dragStartPoint.y);
-		}
-
-		return points;
+		return pts.toArray(new GeoPoint[0]);
 	}
 
 	private GeoPoint[] getRealPointsOfLine(AbstractEvent event) {
@@ -646,6 +630,30 @@ public class ModeShape {
 			pointsY[1] = dragStartPoint.y;
 			pointsY[2] = dragStartPoint.y;
 		}
+
+		polygon.moveTo(pointsX[0], pointsY[0]);
+		for (int index = 1; index < pointsX.length; index++) {
+			polygon.lineTo(pointsX[index], pointsY[index]);
+		}
+		polygon.closePath();
+	}
+
+	protected void updateParallelogram(AbstractEvent event) {
+		double[] pointsX = new double[4];
+		double[] pointsY = new double[4];
+
+		polygon.reset();
+
+		pointsX[0] = dragStartPoint.x;
+		pointsX[1] = PARALLELOGRAM_RATIO * event.getX()
+				+ (1 - PARALLELOGRAM_RATIO) * dragStartPoint.getX();
+		pointsX[2] = event.getX();
+		pointsX[3] = (1 - PARALLELOGRAM_RATIO) * event.getX()
+				+ PARALLELOGRAM_RATIO * dragStartPoint.getX();
+		pointsY[0] = dragStartPoint.y;
+		pointsY[1] = dragStartPoint.y;
+		pointsY[2] = event.getY();
+		pointsY[3] = event.getY();
 
 		polygon.moveTo(pointsX[0], pointsY[0]);
 		for (int index = 1; index < pointsX.length; index++) {

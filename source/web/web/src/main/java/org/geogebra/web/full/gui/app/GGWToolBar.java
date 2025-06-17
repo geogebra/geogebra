@@ -927,6 +927,12 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_SHAPE_CURVE:
 			return resourceBundle.mode_curve();
 
+		case EuclidianConstants.MODE_SHAPE_STADIUM:
+			return resourceBundle.mode_stadium();
+
+		case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
+			return resourceBundle.mode_parallelogram();
+
 		case EuclidianConstants.MODE_TABLE:
 			return resourceBundle.mode_table();
 

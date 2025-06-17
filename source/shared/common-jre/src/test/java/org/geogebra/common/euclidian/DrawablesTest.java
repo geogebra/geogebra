@@ -79,6 +79,7 @@ public class DrawablesTest extends BaseUnitTest {
 				"Cone[(0,0,0),(0,0,1),1]", "Side[Cone[(0,0,0),(0,0,1),1]]",
 				"IntersectRegion(x+y+0z=0,Cone[(0,0,0),(0,0,1),1])", "toolPic",
 				"PieChart({1,2,3})",
+				"Stadium((0,0),(1,1),2)",
 				"audio", "video", "embed", "symbolic", "inlinetext",
 				"formula", "table", "mindMap" };
 
@@ -119,7 +120,6 @@ public class DrawablesTest extends BaseUnitTest {
 					|| GeoClass.DEFAULT == type
 					|| GeoClass.CLIPPINGCUBE3D == type
 					|| GeoClass.INLINE_TEXT == type
-					|| GeoClass.SHAPE_STADIUM == type
 			);
 		}
 

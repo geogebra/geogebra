@@ -64,7 +64,6 @@ public class SVGTest {
 			case EuclidianConstants.MODE_SELECTION_LISTENER:
 			case EuclidianConstants.MODE_GRASPABLE_MATH:
 			case EuclidianConstants.MODE_CALCULATOR:
-			case EuclidianConstants.MODE_SHAPE_STADIUM:
 				continue;
 			default:
 				File icon = new File(SVG_PATH + "/mode_" + modeText + ".svg");

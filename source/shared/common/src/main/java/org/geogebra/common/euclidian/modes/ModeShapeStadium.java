@@ -48,9 +48,6 @@ public class ModeShapeStadium {
 		updatePoints(bounds.toRealWorldCoordX(sx), bounds.toRealWorldCoordY(sy));
 		previewAlgo.update();
 		ArrayList<MyPoint> points = previewAlgo.getPoints();
-		if (points == null) {
-			return;
-		}
 		gpPreview.reset();
 		MyPoint firstPoint = points.get(0);
 		gpPreview.moveTo(bounds.toScreenCoordXd(firstPoint.x),
