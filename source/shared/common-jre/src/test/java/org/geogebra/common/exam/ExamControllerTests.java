@@ -25,7 +25,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
@@ -49,7 +48,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	private Material activeMaterial;
 	private boolean didRequestClearApps = false;
 	private boolean didRequestClearClipboard = false;
-    private CommandDispatcher previousCommandDispatcher;
+	private CommandDispatcher previousCommandDispatcher;
 
 	private void switchApp(SuiteSubApp subApp) {
 		// keep references so that we can check if restrictions have been reverted correctly
@@ -184,7 +183,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	public void testRestrictions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.VLAANDEREN));
+		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.VLAANDEREN, null);
 
 		assertAll(
@@ -214,8 +213,6 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 
-		examController.setExamRestrictionsForTesting(
-				ExamRestrictions.forExamType(ExamType.BAYERN_CAS)); // only allows CAS app
 		examController.startExam(ExamType.BAYERN_CAS, null);
 		assertAll(
 				() -> assertEquals(SuiteSubApp.CAS, getCurrentSubApp()),
@@ -274,7 +271,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	public void testToolsExcludedDuringExam() {
 		setupApp(SuiteSubApp.GEOMETRY);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.GENERIC, null);
 
 		assertFalse(getApp().getAvailableTools().contains(EuclidianConstants.MODE_POINT));
@@ -284,7 +281,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	public void testCommandArgumentFilter() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.GENERIC, null);
 
 		assertNull(evaluate("Max(1, 2)"));
@@ -297,8 +294,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	public void testSyntaxFilter() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(
-				new TestExamRestrictions(ExamType.GENERIC));
+		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.GENERIC, null);
 
 		AutocompleteProvider provider = new AutocompleteProvider(getApp(), false);
@@ -337,7 +333,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	public void testAlgoDispatcherDisabledAlgorithms() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.GENERIC, null);
 
 		GeoPoint point = evaluateGeoElement("(1,2)");
@@ -355,7 +351,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	public void testVisibilityRestrictions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.GENERIC, null);
 		Set<VisibilityRestriction> visibilityRestrictions =
 				TestExamRestrictions.createVisibilityRestrictions();
@@ -384,7 +380,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	public void testRestrictedVisibilityInEuclidianViewAfterEditingUnrestrictedInput() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.GENERIC, null);
 		Set<VisibilityRestriction> visibilityRestrictions =
 				TestExamRestrictions.createVisibilityRestrictions();
@@ -414,12 +410,24 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	public void testSyntaxHelperIsUnrestrictedAfterExamMode() {
 		setupApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
+		examController.setExamRestrictionsFactory(TestExamRestrictions::new);
 		examController.startExam(ExamType.GENERIC, null);
-        assertTrue(autocompleteProvider.getCompletions("NDerivative").findAny().isEmpty());
+		assertTrue(autocompleteProvider.getCompletions("NDerivative").findAny().isEmpty());
 		examController.finishExam();
 		examController.exitExam();
 		assertFalse(autocompleteProvider.getCompletions("NDerivative").findAny().isEmpty());
+	}
+
+	@Issue("APPS-6698")
+	@Test
+	public void testRestrictionsOnlyAppliedOnce() {
+		setupApp(SuiteSubApp.CAS); // note: disabled subapp, will cause app switch on exam start
+		TestExamRestrictions restrictions = new TestExamRestrictions(ExamType.GENERIC);
+		examController.setExamRestrictionsFactory(examType -> restrictions);
+
+		examController.prepareExam();
+		examController.startExam(ExamType.GENERIC, null);
+		assertEquals(1, restrictions.appliedCount);
 	}
 
 	// ExamControllerDelegate

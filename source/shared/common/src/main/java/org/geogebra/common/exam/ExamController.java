@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
@@ -79,6 +80,8 @@ public final class ExamController {
 
 	private List<ExamControllerDelegate> delegates = new ArrayList<>();
 
+	private Function<ExamType, ExamRestrictions> examRestrictionsFactory =
+			ExamRestrictions::forExamType;
 	private @NonOwning PropertiesRegistry propertiesRegistry;
 	private @NonOwning GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private @NonOwning ContextMenuFactory contextMenuFactory;
@@ -209,7 +212,7 @@ public final class ExamController {
 		activeDependencies = contextDependencies;
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
-			applyRestrictionsToDelegates();
+			applyRestrictionsToDelegates(examRestrictions);
 			applyRestrictionsToContextDependencies(contextDependencies);
 		}
 	}
@@ -484,11 +487,13 @@ public final class ExamController {
 		tempStorage.clearTempMaterials();
 		createNewTempMaterial();
 
-		if (examRestrictions == null) {
-			examRestrictions = ExamRestrictions.forExamType(examType);
-		}
-		propertiesRegistry.addListener(examRestrictions);
-		applyRestrictionsToDelegates();
+		ExamRestrictions restrictions = examRestrictionsFactory.apply(examType);
+		propertiesRegistry.addListener(restrictions);
+		applyRestrictionsToDelegates(restrictions);
+		// delay setting the examRestrictions field until after delegates have been notified
+		// (see https://git.geogebra.org/ggb/geogebra/-/merge_requests/9370#note_76206)
+		examRestrictions = restrictions;
+
 		if (activeDependencies != null) {
 			applyRestrictionsToContextDependencies(activeDependencies);
 		} else if (registeredDependencies != null) {
@@ -573,15 +578,15 @@ public final class ExamController {
 		}
 	}
 
-	private void applyRestrictionsToDelegates() {
+	private void applyRestrictionsToDelegates(ExamRestrictions restrictions) {
 		forEachDelegate(delegate -> {
 			// switching away from restricted subapp only possible in mobile use case;
 			// in Web, there may be several Suite instances, so there's no "current subapp"
 			SuiteSubApp currentSubApp = delegate.examGetCurrentSubApp();
-			Set<SuiteSubApp> disabledSubApps = examRestrictions.getDisabledSubApps();
+			Set<SuiteSubApp> disabledSubApps = restrictions.getDisabledSubApps();
 			if (currentSubApp == null
 					|| (disabledSubApps != null && disabledSubApps.contains(currentSubApp))) {
-				delegate.examSwitchSubApp(examRestrictions.getDefaultSubApp());
+				delegate.examSwitchSubApp(restrictions.getDefaultSubApp());
 			}
 			if (delegate.examGetActiveMaterial() == null) {
 				delegate.examSetActiveMaterial(tempStorage.newMaterial());
@@ -689,8 +694,8 @@ public final class ExamController {
 
 	// Test support API
 
-	void setExamRestrictionsForTesting(ExamRestrictions examRestrictions) {
-		this.examRestrictions = examRestrictions;
+	void setExamRestrictionsFactory(Function<ExamType, ExamRestrictions> examRestrictionsFactory) {
+		this.examRestrictionsFactory = examRestrictionsFactory;
 	}
 
 	private void forEachDelegate(Consumer<ExamControllerDelegate> consumer) {

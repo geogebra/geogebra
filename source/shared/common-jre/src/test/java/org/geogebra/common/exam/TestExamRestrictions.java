@@ -10,7 +10,11 @@ import static org.geogebra.common.plugin.Operation.OR;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -35,8 +39,12 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 
 final class TestExamRestrictions extends ExamRestrictions {
+
+	int appliedCount = 0;
 
 	TestExamRestrictions(ExamType examType) {
 		super(examType,
@@ -57,6 +65,26 @@ final class TestExamRestrictions extends ExamRestrictions {
 				createDisabledAlgorithms(),
 				null,
 				null);
+	}
+
+	@Override
+	public void applyTo(@Nonnull ExamController.ContextDependencies dependencies,
+			@CheckForNull PropertiesRegistry propertiesRegistry,
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@CheckForNull ContextMenuFactory contextMenuFactory) {
+		super.applyTo(dependencies, propertiesRegistry, geoElementPropertiesFactory,
+				contextMenuFactory);
+		appliedCount++;
+	}
+
+	@Override
+	public void removeFrom(@Nonnull ExamController.ContextDependencies dependencies,
+			@CheckForNull PropertiesRegistry propertiesRegistry,
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@CheckForNull ContextMenuFactory contextMenuFactory) {
+		super.removeFrom(dependencies, propertiesRegistry, geoElementPropertiesFactory,
+				contextMenuFactory);
+		appliedCount--;
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
