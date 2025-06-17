@@ -72,7 +72,7 @@ public class ModeShapeStadium {
 	 */
 	public GeoElement create(Construction cons, int sx, int sy) {
 		updatePoints(bounds.toRealWorldCoordX(sx), bounds.toRealWorldCoordY(sy));
-		AlgoStadium algoCreate = new AlgoStadium(cons, p, q, heightNum);
+		AlgoStadium algoCreate = new AlgoStadium(cons, p.copy(), q.copy(), heightNum.copy());
 		GeoStadium stadium = (GeoStadium) algoCreate.getOutput(0);
 		stadium.setDefined(true);
 		stadium.setDefaultLabel();
