@@ -2998,7 +2998,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			for (int i = oldhits.size() - 1; i >= 0; i--) {
 				GeoElement oldgeo = oldhits.get(i);
 				if (!(TestGeo.getSpecificTest(app.getGeoForCopyStyle())
-						.check(oldgeo))) {
+						.test(oldgeo))) {
 					oldhits.remove(i);
 				}
 			}
@@ -5474,7 +5474,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (getTopHits.size() > 0) {
 			GeoElement geo = getTopHits.get(0);
-			if (TestGeo.PATH_NO_FILL_HIT.check(geo) && !geo.isGeoPolygon()) {
+			if (TestGeo.PATH_NO_FILL_HIT.test(geo) && !geo.isGeoPolygon()) {
 				companion.processModeLock((Path) geo);
 			} else if (geo.isGeoPoint()) {
 				companion.processModeLock((GeoPointND) geo);
@@ -9555,7 +9555,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			TestGeo test) {
 		for (int i = 0; i < hits.size(); i++) {
 			GeoElement geo = hits.get(i);
-			if (!test.check(geo)) {
+			if (!test.test(geo)) {
 				hits.remove(i);
 			}
 		}
@@ -9633,7 +9633,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// remove non-Points
 			for (int i = 0; i < hits.size(); i++) {
 				GeoElement geo = hits.get(i);
-				if (!(TestGeo.GEOPOINT.check(geo))) {
+				if (!(TestGeo.GEOPOINT.test(geo))) {
 					hits.remove(i);
 				}
 			}
@@ -9759,7 +9759,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_FITLINE:
 			for (int i = 0; i < hits.size(); i++) {
 				GeoElement geo = hits.get(i);
-				if (!(TestGeo.GEOPOINT.check(geo))) {
+				if (!(TestGeo.GEOPOINT.test(geo))) {
 					hits.remove(i);
 				}
 			}
@@ -9779,7 +9779,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_RELATION:
 			for (int i = 0; i < hits.size(); i++) {
 				GeoElement geo = hits.get(i);
-				if (!(TestGeo.GEOPOINT.check(geo))) {
+				if (!(TestGeo.GEOPOINT.test(geo))) {
 					hits.remove(i);
 				}
 			}

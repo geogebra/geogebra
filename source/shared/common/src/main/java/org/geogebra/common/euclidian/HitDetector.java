@@ -174,8 +174,8 @@ public class HitDetector {
 
 		for (Drawable d : ev.getAllDrawableList()) {
 			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && geo.isSelectionAllowed(ev)
-					&& filter.check(geo) && !hits.contains(geo)
+			if (geo.isEuclidianVisible() && geo.isSelectionAllowed(ev) && filter.test(geo)
+					&& !hits.contains(geo)
 					&& d.intersectsRectangle(rect)) {
 				d.setPartialHitClip(rect);
 				hits.add(geo);

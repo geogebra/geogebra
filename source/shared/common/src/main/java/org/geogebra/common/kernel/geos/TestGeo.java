@@ -570,17 +570,6 @@ public enum TestGeo implements Predicate<Object> {
 	}
 
 	/**
-	 * Checks whether given object passes this test
-	 * 
-	 * @param ob
-	 *            object to test
-	 * @return true if object passes
-	 */
-	public boolean check(Object ob) {
-		return test(ob);
-	}
-
-	/**
 	 * @param obj
 	 *            object
 	 * @return the most specific test this object can pass

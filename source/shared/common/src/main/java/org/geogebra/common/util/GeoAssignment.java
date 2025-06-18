@@ -355,7 +355,7 @@ public class GeoAssignment extends Assignment {
 		int k = 0;
 		while (k < input.length && typesOK) {
 			callsToCheckTypes++;
-			typesOK = inputTypes[k].check(input[k]);
+			typesOK = inputTypes[k].test(input[k]);
 			k++;
 		}
 		return typesOK;

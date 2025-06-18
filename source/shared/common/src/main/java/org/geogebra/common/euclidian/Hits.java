@@ -465,13 +465,13 @@ public class Hits extends ArrayList<GeoElement> {
 			GeoElement geo = get(i);
 			if (testFound == null) {
 				for (int j = 0; j < tests.length && testFound == null; j++) {
-					if (tests[j].check(geo)) {
+					if (tests[j].test(geo)) {
 						testFound = tests[j];
 						ret.add(geo);
 					}
 				}
 			} else {
-				if (testFound.check(geo)) {
+				if (testFound.test(geo)) {
 					ret.add(geo);
 				} else {
 					goFurther = false;
@@ -689,7 +689,7 @@ public class Hits extends ArrayList<GeoElement> {
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
 			for (int j = 0; j < geoclasses.length; ++j) {
-				boolean success = geoclasses[j].check(get(i));
+				boolean success = geoclasses[j].test(get(i));
 				if (other) {
 					success = !success;
 				}
@@ -711,7 +711,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	final public GeoElement getFirstHit(TestGeo geoclass) {
 		for (int i = 0; i < size(); ++i) {
-			if (geoclass.check(get(i))) {
+			if (geoclass.test(get(i))) {
 				return get(i);
 			}
 		}

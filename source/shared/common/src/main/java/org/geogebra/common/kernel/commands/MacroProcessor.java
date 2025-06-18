@@ -77,7 +77,7 @@ public class MacroProcessor extends CommandProcessor {
 
 		// check whether the types of the arguments are ok for our macro
 		for (int i = 0; i < macroInputTypes.length; i++) {
-			if (!macroInputTypes[i].check(arg[i])) {
+			if (!macroInputTypes[i].test(arg[i])) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(loc.getMenu("Macro"));
 				sb.append(" ");
