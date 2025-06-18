@@ -19,6 +19,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
+import org.gwtproject.dom.style.shared.Position;
 
 /**
  * Tab of Table Values View.
@@ -44,6 +45,7 @@ public class TableTab extends ToolbarTab {
 		this.app = toolbarPanel.getApp();
 		CustomScrollbar.apply(this);
 		buildEmptyTablePanel();
+		getContainerElement().getStyle().setPosition(Position.STATIC);
 	}
 
 	private void buildEmptyTablePanel() {
