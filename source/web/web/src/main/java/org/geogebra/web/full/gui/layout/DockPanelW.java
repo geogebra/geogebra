@@ -475,6 +475,9 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
+	 * The minimal size of the view when app size changes (e.g., orientation change).
+	 * It should be smaller when the keyboard is showing.
+	 * @param keyboardShowing whether the keyboard is showing
 	 * @return The height that AV should have minimally in portrait mode.
 	 */
 	public double getMinVHeight(boolean keyboardShowing) {

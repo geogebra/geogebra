@@ -1592,11 +1592,11 @@ public class DockManagerW extends DockManager {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
 			avHeight = toolbar.isOpen() ? avHeight
 					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
-			if (!app.getAppletFrame().isKeyboardShowing()) {
-				visibleKB = 0;
-			}
 		} else {
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
+		}
+		if (!app.getAppletFrame().isKeyboardShowing()) {
+			visibleKB = 0;
 		}
 
 		if (app.isPortrait()) {

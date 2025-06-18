@@ -24,7 +24,8 @@ import elemental2.dom.CanvasRenderingContext2D;
  */
 public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		implements DockComponent, PaintToCanvas {
-
+	/** The view sizes stored in XML and view sizes in DOM differ by 4 because of the splitter. */
+	public static final double HALF_SPLITTER_WIDTH = 4;
 	private Widget leftComponent;
 	private Widget rightComponent;
 	private int orientation;
@@ -836,7 +837,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 			// 72px is the width of navigation rail
 			int dividerPosition = getDividerLocation() - 72;
 			if (dividerPosition < 0.1 * getOffsetWidth()) {
-				hideToolbar(leftComponent);
+				if (app.showToolBar()) {
+					hideToolbar(leftComponent);
+				} else {
+					setDividerLocation(0);
+				}
 			}
 		}
 		if (app.isPortrait()) {
@@ -846,7 +851,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 			// 56 is the height of the navigation rail
 			int dividerPosition = getDividerLocation() + 56;
 			if (dividerPosition > 0.9 * getOffsetHeight()) {
-				hideToolbar(rightComponent);
+				if (app.showToolBar()) {
+					hideToolbar(rightComponent);
+				} else {
+					setDividerLocation(getOffsetHeight() - getSplitterSize());
+				}
 			}
 		}
 	}

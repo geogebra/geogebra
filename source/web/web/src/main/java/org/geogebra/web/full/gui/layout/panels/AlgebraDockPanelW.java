@@ -6,6 +6,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.ViewCounter;
@@ -235,10 +236,11 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	@Override
 	public double getMinVHeight(boolean keyboard) {
 		RadioTreeItem inputTreeItem = aview.getInputTreeItem();
+		int kbHeight = keyboard ? 0 : TabbedKeyboard.TOTAL_HEIGHT;
 		if (inputTreeItem == null) {
-			return 120;
+			return 120 + kbHeight;
 		}
-		return Math.max(inputTreeItem.getOffsetHeight(), 120);
+		return Math.max(inputTreeItem.getOffsetHeight(), 120) + kbHeight;
 	}
 
 	@Override

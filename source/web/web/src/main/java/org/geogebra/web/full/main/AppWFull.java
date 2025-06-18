@@ -10,6 +10,7 @@ import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 import static org.geogebra.common.exam.ExamType.CHOOSE;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
+import static org.geogebra.web.full.gui.layout.DockSplitPaneW.HALF_SPLITTER_WIDTH;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1864,8 +1865,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			dockPanelData[euclidian].setVisible(false);
 		}
 		if (algebraWidth != 0 || euclidianWidth != 0) {
+			double ratio;
+			if (isPortrait()) {
+				ratio = 1 - (algebraWidth + HALF_SPLITTER_WIDTH) / (algebraWidth + euclidianWidth);
+			} else {
+				ratio = algebraWidth / (algebraWidth + euclidianWidth);
+			}
 			forcedPerspective.getSplitPaneData()[0]
-					.setDivider(algebraWidth / (algebraWidth + euclidianWidth));
+					.setDivider(ratio);
 		}
 		if (algebra != -1 && oldAlgebra != -1) {
 			dockPanelData[algebra].setTabId(oldDockPanelData[oldAlgebra].getTabId());
