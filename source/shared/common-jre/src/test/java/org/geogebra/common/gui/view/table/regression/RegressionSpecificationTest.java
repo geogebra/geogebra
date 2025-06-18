@@ -1,29 +1,38 @@
-package org.geogebra.common.gui.view.table;
+package org.geogebra.common.gui.view.table.regression;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.junit.Before;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class RegressionSpecificationTest extends BaseUnitTest {
+public class RegressionSpecificationTest extends BaseAppTestSetup {
 	private TableValuesView view;
 	private GeoList listY;
 	private int column = 1;
 
-	@Before
+	@BeforeEach
 	public void setupTable() {
-		GeoList list = add("{1,2,3,4}");
-		listY = add("{1,8,27,64}");
-		GeoList listY2 = add("{5,7,5,3}");
+		setupApp(SuiteSubApp.GRAPHING);
+		getApp().setRounding("2d");
+		GeoList list = evaluateGeoElement("{1,2,3,4}");
+		listY = evaluateGeoElement("{1,8,27,64}");
+		GeoList listY2 = evaluateGeoElement("{5,7,5,3}");
 		getApp().getSettings().getTable().setValueList(list);
 		view = new TableValuesView(getKernel());
 		getKernel().attach(view);
@@ -36,7 +45,7 @@ public class RegressionSpecificationTest extends BaseUnitTest {
 
 	@Test
 	public void testRegressionCount() {
-		assertEquals(9, RegressionSpecification.getForListSize(listY.size()).size());
+		assertEquals(9, new RegressionSpecificationBuilder().getForListSize(listY.size()).size());
 	}
 
 	@Test
@@ -111,6 +120,34 @@ public class RegressionSpecificationTest extends BaseUnitTest {
 				getRegressionFormula(8));
 	}
 
+	@ParameterizedTest
+	@CsvSource(value = {"0:20.8x - 27 * 1",
+			"1:11.8x",
+			"2:7.5x² - 16.7x + 10.5 * 1",
+			"3:5.81x² - 7.55x",
+			"4:4.26x² - 6.98 * 1",
+			"5:7.5x² - 16.7x + 10.5 * 1",
+			"6:3.44ℯ^(x * 0.76) - 6.76",
+			"7:0.35ℯ^(1.37x)",
+			"8:-65.23x⁻¹ + 58.97 * 1",
+			"9:21.07x⁻¹",
+			"10:-44.73x⁻² + 40.92 * 1",
+			"11:9.27x⁻²",
+			"12:18.71x^0.5"}, delimiter = ':')
+	public void testCustomRegressions(int index, String expected) {
+		getApp().getRegressionSpecBuilder().applyRestrictions(
+				Set.of(ExamFeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS), ExamType.MMS);
+		assertEquals(expected, getRegressionFormula(index));
+	}
+
+	@Test
+	public void testCustomRegressionCount() {
+		getApp().getRegressionSpecBuilder().applyRestrictions(
+				Set.of(ExamFeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS), ExamType.MMS);
+		assertEquals(13, getApp().getRegressionSpecBuilder()
+				.getForListSize(listY.size()).size());
+	}
+
 	private String getRegressionFormula(int spec) {
 		GeoElement plot = view.plotRegression(column, getSpec(spec));
 		return plot.toValueString(StringTemplate.defaultTemplate);
@@ -123,6 +160,6 @@ public class RegressionSpecificationTest extends BaseUnitTest {
 	}
 
 	private RegressionSpecification getSpec(int i) {
-		return RegressionSpecification.getForListSize(listY.size()).get(i);
+		return getApp().getRegressionSpecBuilder().getForListSize(listY.size()).get(i);
 	}
 }

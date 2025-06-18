@@ -10,12 +10,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesPointsImpl;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -427,7 +429,9 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
-		tableValuesView.plotRegression(1, RegressionSpecification.getForListSize(10).get(0));
+		List<RegressionSpecification> specificationList =
+				new RegressionSpecificationBuilder().getForListSize(10);
+		tableValuesView.plotRegression(1, specificationList.get(0));
 		GeoElement f = lookup("f");
 		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
 		reload();
@@ -439,12 +443,13 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 	public void testReloadRegressionAfterImport() {
 		Reader reader = loadSample("integers-comma-noheader.csv");
 		dataImporter.importCSV(reader, '.');
-		GeoList x = tableValuesView.getValues();
-		GeoList y1 = (GeoList) tableValuesView.getEvaluatable(1);
+		assertEquals(10, tableValuesView.getValues().size());
+		assertEquals(10, ((GeoList) tableValuesView.getEvaluatable(1)).size());
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
-		tableValuesView.plotRegression(1, RegressionSpecification.getForListSize(10).get(0));
+		tableValuesView.plotRegression(1,
+				new RegressionSpecificationBuilder().getForListSize(10).get(0));
 		GeoElement f = lookup("f");
 		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
 		reload();

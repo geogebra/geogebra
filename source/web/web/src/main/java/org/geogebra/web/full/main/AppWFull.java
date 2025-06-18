@@ -2413,7 +2413,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private Stream<ExamRestrictable> getRestrictables() {
-		return Stream.of(this, getEuclidianView1(), getConfig());
+		return Stream.of(this, getEuclidianView1(), getConfig(), getRegressionSpecBuilder());
 	}
 
 	private ExamController.ContextDependencies getExamDependencies() {

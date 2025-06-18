@@ -72,6 +72,7 @@ public class Command extends ValidExpression
 	private StringBuilder sbToString;
 
 	private ExpressionValueType lastType = null;
+	private boolean respectingFilters = true;
 
 	/**
 	 * for commands with different output types and that need to know each
@@ -943,5 +944,19 @@ public class Command extends ValidExpression
 	 */
 	public ExpressionNode removeLastArgument() {
 		return args.remove(args.size() - 1);
+	}
+
+	/**
+	 * @param respectingFilters whether command is subject to command filtering
+	 */
+	public void setRespectingFilters(boolean respectingFilters) {
+		this.respectingFilters = respectingFilters;
+	}
+
+	/**
+	 * @return whether command is subject to command filtering
+	 */
+	public boolean isRespectingFilters() {
+		return respectingFilters;
 	}
 }

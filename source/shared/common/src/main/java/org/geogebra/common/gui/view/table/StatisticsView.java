@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.table;
 import java.util.List;
 
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /** Interface for statistics operation */

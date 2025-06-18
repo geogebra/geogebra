@@ -169,6 +169,8 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		expressionWithConstants.traverse(val -> {
 			if (val instanceof MyDouble && Double.isNaN(val.evaluateDouble())) {
 				GeoNumeric adHocParam = new GeoNumeric(kernel.getConstruction());
+				// value = 1 has a lower chance of degenerate function compared to value = 0
+				adHocParam.setValue(1);
 				MyDouble paramValue = new MyDouble(kernel);
 				parameters.add(adHocParam);
 				paramToValue.put(adHocParam, paramValue);

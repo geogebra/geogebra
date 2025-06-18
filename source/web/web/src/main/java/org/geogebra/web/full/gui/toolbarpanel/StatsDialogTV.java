@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
@@ -97,7 +97,9 @@ public class StatsDialogTV extends ComponentDialog {
 		setOnPositiveAction(() -> {
 			RegressionSpecification regression = available
 					.get(regressionChooser.getSelectedIndex());
-			view.plotRegression(column, regression);
+			if (regression.canPlot()) {
+				view.plotRegression(column, regression);
+			}
 		});
 		setRowsAndShow(initialRegression);
 	}

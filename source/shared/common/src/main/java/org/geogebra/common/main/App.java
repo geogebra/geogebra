@@ -65,6 +65,7 @@ import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.gui.view.algebra.filter.DefaultAlgebraOutputFilter;
 import org.geogebra.common.gui.view.algebra.filter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.gui.view.properties.PropertiesView;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
@@ -447,6 +448,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private EditorFeatures editorFeatures;
 	/** Syntax filter enforced by AppConfig. */
 	protected SyntaxFilter primarySyntaxFilter;
+	private final RegressionSpecificationBuilder regressionSpecificationBuilder
+			= new RegressionSpecificationBuilder();
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -5126,6 +5129,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			getEditorFeatures().setMixedNumbersEnabled(true);
 		}
 		resetCommandDict();
+	}
+
+	public RegressionSpecificationBuilder getRegressionSpecBuilder() {
+		return regressionSpecificationBuilder;
 	}
 
 	/**

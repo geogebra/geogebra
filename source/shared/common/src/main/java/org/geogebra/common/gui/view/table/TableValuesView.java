@@ -8,6 +8,8 @@ import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.gui.view.table.dimensions.LaTeXTextSizeMeasurer;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -54,6 +56,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	private final TableValuesInputProcessor processor;
 	private boolean algebraLabelVisibleCheck = true;
 	private final StatisticGroupsBuilder statisticGroupsBuilder;
+	private final RegressionSpecificationBuilder regressionSpecificationBuilder;
 
 	/**
 	 * Create a new Table Value View.
@@ -69,6 +72,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		labelController = new LabelController();
 		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
 		statisticGroupsBuilder = kernel.getStatisticGroupsBuilder();
+		regressionSpecificationBuilder = app.getRegressionSpecBuilder();
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -404,7 +408,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	public List<RegressionSpecification> getRegressionSpecifications(int column) {
 		GeoList[] cleanLists = statisticGroupsBuilder.getCleanListsTwoVariable(getEvaluatable(0),
 				getEvaluatable(column));
-		return RegressionSpecification.getForListSize(cleanLists[0].size());
+		return regressionSpecificationBuilder.getForListSize(cleanLists[0].size());
 	}
 
 	@Override

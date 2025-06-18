@@ -23,6 +23,9 @@ public enum ExamFeatureRestriction {
 	/** APPS-6310 */
 	SPREADSHEET,
 
+	/** APPS-6312 */
+	CUSTOM_MMS_REGRESSION_MODELS,
+
 	/** APPS-6519 */
 	DISABLE_MIXED_NUMBERS
 }

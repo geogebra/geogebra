@@ -129,7 +129,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
-import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.visibility.HiddenInequalityVisibilityRestriction;
 import org.geogebra.common.exam.restrictions.visibility.HiddenVectorVisibilityRestriction;
@@ -210,7 +209,8 @@ public class MmsExamRestrictions extends ExamRestrictions {
 				ExamFeatureRestriction.SPREADSHEET,
 				ExamFeatureRestriction.SURD,
 				ExamFeatureRestriction.RATIONALIZATION,
-				ExamFeatureRestriction.DISABLE_MIXED_NUMBERS);
+				ExamFeatureRestriction.DISABLE_MIXED_NUMBERS,
+				ExamFeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS);
 	}
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
@@ -266,8 +266,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
 		return Set.of(contextMenuItem -> contextMenuItem != AlgebraContextMenuItem.Statistics
-				&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints
-				&& !TableValuesContextMenuItem.Item.Regression.isSameItemAs(contextMenuItem));
+				&& contextMenuItem != AlgebraContextMenuItem.SpecialPoints);
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {

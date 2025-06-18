@@ -6,8 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
-import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -58,7 +58,7 @@ public class SymbolicRegressionTest extends BaseUnitTest {
 	@Issue("APPS-4104")
 	public void regressionShouldNotBeSymbolic() {
 		GeoElement regression = view.plotRegression(1,
-				RegressionSpecification.getForListSize(3).get(0));
+				new RegressionSpecificationBuilder().getForListSize(3).get(0));
 		assertThat(regression.getGeoClassType(), CoreMatchers.is(GeoClass.FUNCTION));
 		assertEquals("f", regression.getLabelSimple());
 		EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(getKernel(),

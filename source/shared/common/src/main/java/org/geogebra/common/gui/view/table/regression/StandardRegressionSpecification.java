@@ -1,8 +1,4 @@
-package org.geogebra.common.gui.view.table;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+package org.geogebra.common.gui.view.table.regression;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -10,16 +6,15 @@ import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.statistics.Regression;
 
-public final class RegressionSpecification {
+public final class StandardRegressionSpecification implements RegressionSpecification {
 
 	private final Regression regression;
 	private final int degree;
 	private final String label;
-	private static ArrayList<RegressionSpecification> specs = new ArrayList<>();
 	private final String formula;
 	private final String coeffOrdering;
 
-	private RegressionSpecification(Regression regression, int polynomialDegree, String formula,
+	StandardRegressionSpecification(Regression regression, int polynomialDegree, String formula,
 			String coefficientOrdering) {
 		this.regression = regression;
 		this.degree = polynomialDegree;
@@ -36,42 +31,12 @@ public final class RegressionSpecification {
 		}
 	}
 
-	/**
-	 * @param listSize size of selected list
-	 * @return all available regression types
-	 */
-	public static List<RegressionSpecification> getForListSize(int listSize) {
-		if (specs.isEmpty()) {
-			addSpec(Regression.LINEAR, 1, null, "ba");
-			addSpec(Regression.LOG, 0, "y = a + b\\cdot \\log(x)", "ab");
-			addSpec(Regression.POW, 0, "y = a \\cdot x^b", "ab");
-			addSpec(Regression.POLY, 2, null, "cba");
-			addSpec(Regression.POLY, 3, null, "dcba");
-			addSpec(Regression.POLY, 4, null, "edcba");
-			addSpec(Regression.EXP, 0, "y = a \\cdot e^{b\\ x}", "ab");
-			addSpec(Regression.GROWTH, 0, "y = a \\cdot b^x", "ab");
-			addSpec(Regression.SIN, 0, "y = a \\cdot \\sin(b\\ x + c) + d", "dabc");
-			addSpec(Regression.LOGISTIC, 0, "y = \\frac{a}{1 + b\\cdot e^{-c\\ x}}", "bca");
-		}
-		return specs.stream().filter(spec -> spec.coeffOrdering.length() <= listSize)
-				.collect(Collectors.toList());
-	}
-
-	private static void addSpec(Regression regression, int polynomialDegree, String formula,
-								String coefficientOrdering) {
-		specs.add(new RegressionSpecification(regression, polynomialDegree, formula,
-				coefficientOrdering));
-	}
-
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
-	/**
-	 * @param kernel kernel
-	 * @param points input data as a tuple (x-coordinates, y-coordinates)
-	 * @return regression command
-	 */
+	@Override
 	public Command buildCommand(Kernel kernel, MyVecNode points) {
 		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(),
 				false);
@@ -79,6 +44,7 @@ public final class RegressionSpecification {
 		return regression.buildCommand(kernel, degree, cleanData);
 	}
 
+	@Override
 	public String getFormula() {
 		return formula;
 	}
@@ -104,11 +70,23 @@ public final class RegressionSpecification {
 		return sb.toString();
 	}
 
+	@Override
 	public String getCoeffOrdering() {
 		return coeffOrdering;
 	}
 
-	public Regression getRegression() {
-		return regression;
+	@Override
+	public boolean hasCorrelationCoefficient() {
+		return regression == Regression.LINEAR;
+	}
+
+	@Override
+	public boolean canPlot() {
+		return true;
+	}
+
+	@Override
+	public boolean hasCoefficientOfDetermination() {
+		return true;
 	}
 }

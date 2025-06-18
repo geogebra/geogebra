@@ -7,14 +7,12 @@ import java.util.function.Function;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
-import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
-import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
+import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.ownership.GlobalScope;
@@ -193,12 +191,12 @@ public class ContextMenuTV {
 	}
 
 	private void showRegression() {
-		DialogData data = new DialogData("Regression",
-				getColumnTitleHTML(getHeaderHTMLName()), "Close", "Plot");
-		GeoList[] cleanLists = new StatisticGroupsBuilder().getCleanListsTwoVariable(
-				view.getEvaluatable(0), view.getEvaluatable(columnIdx));
 		final List<RegressionSpecification> availableRegressions =
-				RegressionSpecification.getForListSize(cleanLists[0].size());
+				view.getRegressionSpecifications(columnIdx);
+		boolean canPlot = availableRegressions.stream().allMatch(RegressionSpecification::canPlot);
+		DialogData data = new DialogData("Regression",
+				getColumnTitleHTML(getHeaderHTMLName()), "Close",
+				canPlot ? "Plot" : null);
 		if (availableRegressions.isEmpty()) {
 			showErrorDialog(data, "StatsDialog.NoDataMsgRegression");
 			return;
