@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.gwtproject.dom.client.Element;
 
+import jsinterop.base.Any;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -20,8 +21,12 @@ public class MapAttributeProvider implements AttributeProvider {
 		if (map != null) {
 			element = Js.uncheckedCast(map.get("element"));
 			map.delete("element");
-			map.forEach(key -> setAttribute(key,
-					map.getAsAny(key).asString()));
+			map.forEach(key -> {
+				Any value = map.getAsAny(key);
+				if (value != null) {
+					setAttribute(key, value.toString());
+				}
+			});
 		}
 	}
 
