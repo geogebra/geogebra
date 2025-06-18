@@ -6,6 +6,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -16,7 +17,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 public class SpreadsheetTab extends ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
-	private FlowPanel tabPanel;
+	private @CheckForNull FlowPanel tabPanel;
 	private @CheckForNull SpreadsheetPanel spreadsheetPanel;
 
 	/**
@@ -30,18 +31,20 @@ public class SpreadsheetTab extends ToolbarTab {
 
 	private void createContent() {
 		SpreadsheetPanel panel = new SpreadsheetPanel(toolbarPanel.getApp());
-		tabPanel = new FlowPanel();
-		tabPanel.addStyleName("spreadsheetTabPanel");
+		FlowPanel wrappingPanel = new FlowPanel();
+		wrappingPanel.addStyleName("spreadsheetTabPanel");
 
-		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)) {
-			tabPanel.addStyleName("withStyleBar");
+		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)
+			&& toolbarPanel.spreadsheetStyleBarAllowed()) {
+			wrappingPanel.addStyleName("withStyleBar");
 		}
 
-		tabPanel.add(panel);
-		add(tabPanel);
+		wrappingPanel.add(panel);
+		add(wrappingPanel);
 
-		tabPanel.getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
+		wrappingPanel.getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
 		spreadsheetPanel = panel;
+		tabPanel = wrappingPanel;
 	}
 
 	@Override
@@ -51,6 +54,9 @@ public class SpreadsheetTab extends ToolbarTab {
 
 	@Override
 	public void onResize() {
+		if (tabPanel != null) {
+			Dom.toggleClass(tabPanel, "withStyleBar", !toolbarPanel.isHeadingVisible());
+		}
 		if (spreadsheetPanel != null) {
 			spreadsheetPanel.onResize();
 		}

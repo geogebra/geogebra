@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.util.debug.Log;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.EventTarget;
@@ -95,7 +97,7 @@ public final class Dom {
 	 * @param add
 	 *            whether to add or remove
 	 */
-	public static void toggleClass(UIObject ui, String className, boolean add) {
+	public static void toggleClass(@Nonnull UIObject ui, String className, boolean add) {
 		if (add) {
 			ui.getElement().addClassName(className);
 		} else {

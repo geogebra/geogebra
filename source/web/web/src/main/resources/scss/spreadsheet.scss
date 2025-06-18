@@ -205,10 +205,18 @@
 		&.portrait {
 			width: calc(100% - 100px);
 			left: 100px;
+
+			&.noUndoRedo {
+				left: 0;
+			}
 		}
 
 		&.landscape {
 			left: 172px;
+
+			&.noUndoRedo {
+				left: 72px;
+			}
 		}
 	}
 }

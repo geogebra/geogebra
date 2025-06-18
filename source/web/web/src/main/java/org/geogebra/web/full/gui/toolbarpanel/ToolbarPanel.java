@@ -1414,6 +1414,9 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void addSpreadsheetStyleBar() {
+		if (!spreadsheetStyleBarAllowed()) {
+			return;
+		}
 		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)
 				&& spreadsheetStyleBar != null) {
 			Dom.toggleClass(spreadsheetStyleBar, "portrait", "landscape", app.isPortrait());
@@ -1423,8 +1426,26 @@ public class ToolbarPanel extends FlowPanel
 			} else {
 				styleBarWrapper.add(spreadsheetStyleBar);
 			}
-			spreadsheetStyleBar.setDividerVisible(headingVisible);
+			boolean undoRedoEnabled = app.getAppletParameters().getDataParamEnableUndoRedo();
+			Dom.toggleClass(spreadsheetStyleBar, "noUndoRedo", !undoRedoEnabled);
+			spreadsheetStyleBar.setDividerVisible(headingVisible && undoRedoEnabled);
 		}
+	}
+
+	/**
+	 * @return whether spreadsheet style bar is allowed or not
+	 */
+	public boolean spreadsheetStyleBarAllowed() {
+		return app.getAppletParameters().getDataParamShowMenuBar(false)
+				&& app.getAppletParameters().getDataParamShowToolBar(false)
+				|| app.getAppletParameters().getDataParamAllowStyleBar();
+	}
+
+	/**
+	 * @return whether heading is visible
+	 */
+	public boolean isHeadingVisible() {
+		return heading.isVisible();
 	}
 
 	/**

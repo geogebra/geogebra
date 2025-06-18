@@ -81,7 +81,10 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 	 * Updates selection highlighting in the popup menu
 	 */
 	public void updatePopupSelection() {
-		Dom.toggleClass(popupMenu.getSelectedItem(), "selectedItem", rulerButton.isActive());
+		AriaMenuItem selectedItem = popupMenu.getSelectedItem();
+		if (selectedItem != null) {
+			Dom.toggleClass(selectedItem, "selectedItem", rulerButton.isActive());
+		}
 	}
 
 	/**
