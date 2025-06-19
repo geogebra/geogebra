@@ -1,7 +1,10 @@
 package org.geogebra.web.html5.gui.accessibility;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -62,6 +65,14 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		components.add(geoTabber);
 		components.add(new PlayButtonTabber(app.getActiveEuclidianView()));
 		components.add(new ResetButtonTabber(app.getActiveEuclidianView()));
+		List<String> externalControlSelectors  = Arrays.stream(
+				app.getAppletParameters().getParamExternalControls().split(","))
+				.filter(s -> ! s.isEmpty())
+				.collect(Collectors.toList());
+		if (!externalControlSelectors.isEmpty()) {
+			components.add(new ExternalControl(externalControlSelectors, this,
+					app.getGlobalHandlers()));
+		}
 	}
 
 	@Override

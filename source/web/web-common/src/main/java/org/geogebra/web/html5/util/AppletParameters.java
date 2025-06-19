@@ -839,4 +839,8 @@ public class AppletParameters {
 	public String getParamExamLaunchURL() {
 		return getStringDataParam("examLaunchURL", "");
 	}
+
+	public String getParamExternalControls() {
+		return getStringDataParam("externalControls", "");
+	}
 }
