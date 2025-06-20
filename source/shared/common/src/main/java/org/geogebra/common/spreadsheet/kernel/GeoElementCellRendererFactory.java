@@ -50,7 +50,8 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 					.toValueString(StringTemplate.latexTemplate));
 			return new SelfRenderable(laTeXRenderer,
 					fontStyle, align,
-					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, 12, TeXFont.SANSSERIF),
+					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+							StringRenderer.FONT_SIZE, TeXFont.SANSSERIF),
 					background);
 		}
 		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {
