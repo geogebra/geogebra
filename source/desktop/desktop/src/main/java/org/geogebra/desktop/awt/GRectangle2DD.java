@@ -6,7 +6,8 @@ import org.geogebra.common.awt.GRectangle2D;
 
 public interface GRectangle2DD extends GRectangle2D, GRectangularShapeD {
 
-	GRectangle2DD impl = null;
-
+	/**
+	 * @return wrapped rectangle
+	 */
 	Rectangle2D getImpl();
 }

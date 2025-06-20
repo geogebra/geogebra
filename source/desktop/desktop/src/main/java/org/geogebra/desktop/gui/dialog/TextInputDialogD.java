@@ -625,6 +625,9 @@ public class TextInputDialogD extends InputDialogD
 		}
 	}
 
+	/**
+	 * Update table of recent symbols.
+	 */
 	public void updateRecentSymbolTable() {
 		recentSymbolTable.populateModel(recentSymbolList.toArray());
 	}
@@ -633,6 +636,9 @@ public class TextInputDialogD extends InputDialogD
 	// Getters/Setters
 	// =============================================================
 
+	/**
+	 * Update localized labels.
+	 */
 	public void setLabels() {
 		setLabels(loc.getMenu("Text"));
 	}
@@ -1160,7 +1166,6 @@ public class TextInputDialogD extends InputDialogD
 		app.setMoveMode();
 	}
 
-
 	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {
 		if (!isVisible) {
@@ -1176,6 +1181,9 @@ public class TextInputDialogD extends InputDialogD
 		}
 	}
 
+	/**
+	 * Reset the editing flag.
+	 */
 	public void reset() {
 		this.editOccurred = false;
 	}

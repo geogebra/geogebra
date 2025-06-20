@@ -816,10 +816,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	}
 
-	public void repaint() {
-		Log.debug("unimplemented");
-	}
-
 	/**
 	 * @return whether the parent dock panel is visible
 	 */

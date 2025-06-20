@@ -15,6 +15,7 @@ import org.geogebra.common.awt.GGraphics2D;
 public final class SVGImage {
 
 	private final SVGModel model;
+
 	public SVGImage(SVGModel model) {
 		this.model = model;
 	}
@@ -60,6 +61,10 @@ public final class SVGImage {
 		return model.getHeight();
 	}
 
+	/**
+	 * @param color fill color
+	 * @return tinted image
+	 */
 	public SVGImage tint(GColor color) {
 		model.setFill(color);
 		return new SVGImage(model);

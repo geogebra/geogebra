@@ -60,6 +60,9 @@ public class RowHeaderD extends JList implements RowHeader {
 		table.setRowSelectionAllowed(true);
 	}
 
+	/**
+	 * Update the icons.
+	 */
 	public void updateIcons() {
 		renderer.updateIcons();
 	}

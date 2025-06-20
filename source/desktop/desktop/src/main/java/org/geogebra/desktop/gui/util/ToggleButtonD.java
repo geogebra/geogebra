@@ -62,6 +62,10 @@ public class ToggleButtonD extends JButton {
 		this.setPreferredSize(d);
 	}
 
+	/**
+	 * Update the state of the button
+	 * @param geos selected elements
+	 */
 	public void update(List<GeoElement> geos) {
 		// override
 	}

@@ -103,7 +103,6 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		}
 
 		callbacks = new Relation[rels];
-		int height = 0;
 
 		for (int i = 0; i < rels; ++i) {
 			data[i][0] = relations[i].getInfo();
@@ -139,10 +138,10 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		table.getColumnModel().getColumn(0)
 				.setCellRenderer(new ClientsTableTextRenderer());
 		table.setBackground(UIManager.getColor("Label.background"));
-
+		int height = 0;
 		for (int i = 0; i < rels; ++i) {
 			int thisHeight = (int) (ROWHEIGHT
-					* (countLines(relations[i].getInfo())));
+					* countLines(relations[i].getInfo()));
 			table.setRowHeight(i, thisHeight - 2 * (ROWMARGIN + 1)); // button
 																		// border
 			height += thisHeight;
@@ -205,7 +204,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 				// Log.debug("resized to rh " + ROWHEIGHT);
 				for (int i = 0; i < r; ++i) {
 					int newHeight = (int) (ROWHEIGHT
-							* (countLines(table.getValueAt(i, 0).toString())));
+							* countLines(table.getValueAt(i, 0).toString()));
 					table.setRowHeight(i, newHeight - 2 * (ROWMARGIN + 1));
 				}
 			}
@@ -261,7 +260,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		RelationRow relation = callbacks[row].getExpandedRow(row);
 		table.setValueAt(relation.getInfo(), row, 0);
 		callbacks[row] = relation.getCallback();
-		table.setRowHeight(row, (int) (ROWHEIGHT * (countLines(relation.getInfo()))
+		table.setRowHeight(row, (int) (ROWHEIGHT * countLines(relation.getInfo())
 				- 2 * (ROWMARGIN + 1)));
 		int height = 0;
 

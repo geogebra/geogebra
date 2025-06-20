@@ -159,19 +159,33 @@ public class KeyboardSettings extends AbstractSettings {
 		Log.debug("Unsupported keyboard locale: " + string);
 	}
 
+	/**
+	 * @param index locale index
+	 */
 	public void setKeyboardLocale(int index) {
-		keyboardLocale = index <=0 ? null : supportedLocales.get(index - 1);
+		keyboardLocale = index <= 0 ? null : supportedLocales.get(index - 1);
 		settingChanged();
 	}
 
+	/**
+	 * @return number of supported locales
+	 */
 	public static int getLocaleCount() {
 		return supportedLocales.size();
 	}
 
+	/**
+	 * @param i locale index
+	 * @return language ("de") or language + country ("enGB")
+	 */
 	public static String getLocale(int i) {
 		return supportedLocales.get(i);
 	}
 
+	/**
+	 * @param loc language ("de") or language + country ("enGB")
+	 * @return index of given locale
+	 */
 	public static int indexOfLocale(String loc) {
 		return supportedLocales.indexOf(loc);
 	}

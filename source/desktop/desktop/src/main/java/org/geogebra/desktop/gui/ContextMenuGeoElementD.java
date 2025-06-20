@@ -31,9 +31,9 @@ import javax.swing.KeyStroke;
 
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoElement;

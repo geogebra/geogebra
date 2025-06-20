@@ -47,10 +47,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 	private boolean allowProcessGeo = false;
 
-	public boolean allowProcessGeo() {
-		return allowProcessGeo;
-	}
-
 	public void setAllowProcessGeo(boolean allowProcessGeo) {
 		this.allowProcessGeo = allowProcessGeo;
 	}
@@ -168,6 +164,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 		textField.setEqualsRequired(equalsRequired);
 	}
 
+	/**
+	 * Update localized labels.
+	 */
 	public void setLabels() {
 		textField.setDictionary(true);
 	}
@@ -271,7 +270,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 	 * Attempts to create or redefine the cell geo using the current editing
 	 * string
 	 * 
-	 * @return
+	 * @return success
 	 */
 	private boolean processGeo() {
 

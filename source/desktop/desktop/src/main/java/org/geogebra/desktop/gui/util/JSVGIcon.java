@@ -21,7 +21,6 @@ public final class JSVGIcon implements Icon {
 	private boolean antiAlias;
 	private final JSCGInterpolation interpolation = JSCGInterpolation.NEAREST_NEIGHBOR;
 
-
 	/**
 	 * Method to fetch the SVG icon from an url
 	 * @param url the url from which to fetch the SVG icon
@@ -59,7 +58,6 @@ public final class JSVGIcon implements Icon {
 
 		interpolation.apply(g);
 		g.translate(x, y);
-
 
 		final int width = getIconWidth();
 		final int height = getIconHeight();

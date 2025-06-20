@@ -32,10 +32,14 @@ public class DataImportD extends DataImport {
 		try {
 			HTMLflavor = new DataFlavor("text/html;class=java.lang.String");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
+	/**
+	 * @param t transferable object
+	 * @return whether the object has HTML flavor
+	 */
 	public static boolean hasHTMLFlavor(Transferable t) {
 		return t.isDataFlavorSupported(HTMLflavor);
 	}

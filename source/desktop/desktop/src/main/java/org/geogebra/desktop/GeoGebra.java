@@ -31,6 +31,10 @@ public class GeoGebra {
 	protected GeoGebra() {
 	}
 
+	/**
+	 * Run the app.
+	 * @param cmdArgs command line arguments
+	 */
 	public static void main(String[] cmdArgs) {
 		doMain(cmdArgs, GeoGebraFrame::new);
 	}

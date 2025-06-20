@@ -48,12 +48,20 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 		this.cmHeight = DoubleUtil.checkDecimalFraction(cmHeight);
 	}
 
-	public void startGroup(String s) {
-		os.println("<g id=\"" + s + "\">");
+	/**
+	 * Start a group.
+	 * @param id group ID
+	 */
+	public void startGroup(String id) {
+		os.println("<g id=\"" + id + "\">");
 	}
 
-	public void endGroup(String s) {
-		os.println("</g><!-- " + s + " -->");
+	/**
+	 * End a group.
+	 * @param id group ID
+	 */
+	public void endGroup(String id) {
+		os.println("</g><!-- " + id + " -->");
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package org.geogebra.desktop.util;
 
 public interface ImageResourceD {
-	public String getFilename();
+	/**
+	 * @return file name
+	 */
+	String getFilename();
 }

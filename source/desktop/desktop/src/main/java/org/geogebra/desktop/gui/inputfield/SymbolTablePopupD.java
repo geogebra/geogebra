@@ -98,6 +98,9 @@ public class SymbolTablePopupD {
 		popup.add(symbolTable);
 	}
 
+	/**
+	 * Update localized labels.
+	 */
 	public void setLabels() {
 		createSymbolTable();
 	}

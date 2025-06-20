@@ -408,6 +408,9 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		cbAltHyp.setSelectedIndex(idx);
 	}
 
+	/**
+	 * @param enablePooled whether to show "pooled" checkbox
+	 */
 	public void setEnablePooled(boolean enablePooled) {
 		ckPooled.setVisible(enablePooled);
 	}

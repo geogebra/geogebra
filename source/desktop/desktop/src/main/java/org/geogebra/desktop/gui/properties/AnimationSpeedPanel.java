@@ -93,6 +93,9 @@ public class AnimationSpeedPanel extends JPanel
 		animationModeCB.addActionListener(this);
 	}
 
+	/**
+	 * Mark this as part of slider panel.
+	 */
 	public void setPartOfSliderPanel() {
 		model.setShowSliders(true);
 	}
@@ -200,10 +203,6 @@ public class AnimationSpeedPanel extends JPanel
 
 	@Override
 	public void clearItems() {
-		// TODO Auto-generated method stub
-	}
-
-	public void addItem(GeoElement item) {
 		// TODO Auto-generated method stub
 	}
 }

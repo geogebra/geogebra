@@ -93,7 +93,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param kitString "geogebra", "javascript" or "latex"
 	 */
 	public void setEditorKit(ScriptType kitString) {
-		String str = getText();
+		final String str = getText();
 		type = kitString;
 		if (kitString == ScriptType.GGBSCRIPT) {
 			GeoGebraEditorKit ggbKit = new GeoGebraEditorKit(app);

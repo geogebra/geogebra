@@ -449,6 +449,11 @@ public class SpreadsheetViewDnD
 		}
 	}
 
+	/**
+	 * @param app2 app
+	 * @param spreadsheetView spreadsheet
+	 * @return new instance
+	 */
 	public static SpreadsheetViewDnD get(AppD app2,
 			SpreadsheetViewD spreadsheetView) {
 		return new SpreadsheetViewDnD(app2, spreadsheetView);

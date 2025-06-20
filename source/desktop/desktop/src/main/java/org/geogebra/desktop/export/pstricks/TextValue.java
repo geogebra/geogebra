@@ -25,6 +25,10 @@ public class TextValue extends JTextField implements KeyListener {
 		this.actionCommand = actionCommand;
 	}
 
+	/**
+	 * @return parsed value
+	 * @throws NumberFormatException if value is not a number
+	 */
 	public double getValue() throws NumberFormatException {
 		return Double.parseDouble(getText());
 	}

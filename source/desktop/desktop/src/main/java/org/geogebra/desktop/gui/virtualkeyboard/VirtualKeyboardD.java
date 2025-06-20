@@ -355,7 +355,7 @@ public class VirtualKeyboardD extends JFrame
 		CapsLockButton.setLocation(
 				new Point((int) (buttonSizeX / 2d), (int) (buttonSizeY * 4d)));
 
-		CapsLockButton.setFont(getFont((int) (minButtonSize()), false));
+		CapsLockButton.setFont(getFont((int) minButtonSize(), false));
 
 		setColor(CapsLockButton);
 		CapsLockButton.setVisible(getKeyboardMode() != KEYBOARD_NUMERIC);
@@ -405,7 +405,7 @@ public class VirtualKeyboardD extends JFrame
 		MathButton.setLocation(
 				new Point((int) (buttonSizeX * 10), (int) (buttonSizeY * 4d)));
 
-		MathButton.setFont(getFont((int) (minButtonSize()), false));
+		MathButton.setFont(getFont((int) minButtonSize(), false));
 		MathButton.setVisible(getKeyboardMode() != KEYBOARD_NUMERIC);
 		setColor(MathButton);
 	}
@@ -421,7 +421,7 @@ public class VirtualKeyboardD extends JFrame
 					(int) (buttonSizeY * 2d)));
 		}
 
-		NumericButton.setFont(getFont((int) (minButtonSize()), false));
+		NumericButton.setFont(getFont((int) minButtonSize(), false));
 
 		setColor(NumericButton);
 	}
@@ -444,7 +444,7 @@ public class VirtualKeyboardD extends JFrame
 			GreekButton.setLocation(new Point((int) (buttonSizeX * 10),
 					(int) buttonSizeY));
 		}
-		GreekButton.setFont(getFont((int) (minButtonSize()), false));
+		GreekButton.setFont(getFont((int) minButtonSize(), false));
 
 		setColor(GreekButton);
 
@@ -460,7 +460,7 @@ public class VirtualKeyboardD extends JFrame
 			EnglishButton.setLocation(new Point((int) (buttonSizeX * 10),
 					(int) (buttonSizeY * 0d)));
 		}
-		EnglishButton.setFont(getFont((int) (minButtonSize()), false));
+		EnglishButton.setFont(getFont((int) minButtonSize(), false));
 
 		EnglishButton.setVisible(true);
 
@@ -556,6 +556,10 @@ public class VirtualKeyboardD extends JFrame
 		return MathButton;
 	}
 
+	/**
+	 * Toggle between normal and numeric keyboard
+	 * @param numeric whether to show numeric keyboard
+	 */
 	public void toggleNumeric(boolean numeric) {
 		setMode(numeric ? KEYBOARD_NUMERIC : KEYBOARD_NORMAL, null);
 	}
@@ -1124,7 +1128,7 @@ public class VirtualKeyboardD extends JFrame
 			return currentFont;
 		}
 
-		return getFont((int) (minButtonSize()), true);
+		return getFont((int) minButtonSize(), true);
 	}
 
 	private Font getFont(int size, boolean setFont) {

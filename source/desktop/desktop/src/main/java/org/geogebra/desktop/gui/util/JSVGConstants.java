@@ -8,8 +8,8 @@ public class JSVGConstants {
 			+ "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \n"
 			+ "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n";
 
-	public static final String UNSUPPORTED_SVG = HEADER +
-			"<svg xmlns=\"http://www.w3.org/2000/svg\" enable-background=\"new 0 0 24 24\""
+	public static final String UNSUPPORTED_SVG = HEADER
+			+ "<svg xmlns=\"http://www.w3.org/2000/svg\" enable-background=\"new 0 0 24 24\""
 					+ " height=\"24px\" viewBox=\"0 0 24 24\" width=\"24px\" fill=\"#000000\">"
 					+ "<g><rect fill=\"none\" height=\"24\" width=\"24\"/></g><g>"
 					+ "<path d=\"M11.07,12.85c0.77-1.39,2.25-2.21,3.11-3.44c0.91-1.29,0.4-3.7"

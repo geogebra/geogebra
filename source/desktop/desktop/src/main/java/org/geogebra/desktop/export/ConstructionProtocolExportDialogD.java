@@ -242,7 +242,6 @@ public class ConstructionProtocolExportDialogD extends Dialog
 				FileExtensions.HTML, null,
 				app.getLocalization().getMenu("HTML"), true, false);
 
-
 		BufferedImage img = null;
 
 		if (includePicture) {

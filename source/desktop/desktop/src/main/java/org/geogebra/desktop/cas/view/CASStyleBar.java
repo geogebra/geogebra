@@ -21,8 +21,8 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
+import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -278,6 +278,9 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		return new ToggleButtonD[] { btnBold, btnItalic, btnUseAsText };
 	}
 
+	/**
+	 * Rebuild the UI.
+	 */
 	public void reinit() {
 		initGUI();
 	}

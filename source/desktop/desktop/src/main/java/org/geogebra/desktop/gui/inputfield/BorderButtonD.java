@@ -128,6 +128,10 @@ public class BorderButtonD extends AbstractBorder
 		this.borderOwner.validate();
 	}
 
+	/**
+	 * @param index icon index
+	 * @return whether given icon is visible
+	 */
 	public boolean isIconVisible(int index) {
 		return isVisibleIcon[index];
 	}

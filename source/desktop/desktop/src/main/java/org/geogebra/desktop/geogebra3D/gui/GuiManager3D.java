@@ -94,7 +94,7 @@ public class GuiManager3D extends GuiManagerD {
 		Localization loc = getApp().getLocalization();
 		showAxes3DAction = new AbstractAction(
 				loc.getMenu("Axes"),
-				(getApp()).getScaledIcon(GuiResourcesD.AXES)) {
+				getApp().getScaledIcon(GuiResourcesD.AXES)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -126,7 +126,7 @@ public class GuiManager3D extends GuiManagerD {
 
 		showPlaneAction = new AbstractAction(
 				loc.getMenu("Plane"),
-				(getApp()).getScaledIcon(GuiResources3D.PLANE)) {
+				getApp().getScaledIcon(GuiResources3D.PLANE)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

@@ -1245,6 +1245,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	// return r;
 	// }
 
+	/**
+	 * @return new graphic object
+	 */
 	abstract public GGraphics2D create();
 
 	@Override
@@ -1314,6 +1317,14 @@ abstract public class EpsGraphics implements GGraphics2D {
 		_transform = transformationStack.removeLast();
 	}
 
+	/**
+	 * Draw a string.
+	 * @param data characters to draw
+	 * @param offset number of characters to skip
+	 * @param length number of characters to draw
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	public void drawChars(char[] data, int offset, int length, int x, int y) {
 		drawString(new String(data).substring(offset, offset + length), x, y);
 	}

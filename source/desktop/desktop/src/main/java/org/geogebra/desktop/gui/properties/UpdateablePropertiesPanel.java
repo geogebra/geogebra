@@ -3,7 +3,15 @@ package org.geogebra.desktop.gui.properties;
 import javax.swing.JPanel;
 
 public interface UpdateablePropertiesPanel {
-	public JPanel updatePanel(Object[] geos);
+	/**
+	 * @param geos selected geos
+	 * @return self if OK, null otherwise
+	 */
+	JPanel updatePanel(Object[] geos);
 
-	public void setVisible(boolean flag);
+	/**
+	 * Show or hide the panel.
+	 * @param flag whether to sho this
+	 */
+	void setVisible(boolean flag);
 }

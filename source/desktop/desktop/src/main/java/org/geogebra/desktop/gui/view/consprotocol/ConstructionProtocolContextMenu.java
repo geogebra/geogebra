@@ -66,8 +66,6 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		// title for menu
 		JLabel title = new JLabel(loc.getMenu("ConstructionProtocol"));
 
-		JMenu colMenu = new JMenu(loc.getMenu("Columns"));
-
 		title.setFont(app.getBoldFont());
 		title.setBackground(Color.white);
 		title.setForeground(Color.black);
@@ -87,6 +85,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		// menu items
 
 		// "Columns" menu
+		JMenu colMenu = new JMenu(loc.getMenu("Columns"));
 		for (int k = 1; k < constprotView.getTableColumns().length; k++) {
 			JCheckBoxMenuItem item = new JCheckBoxMenuItem(
 					constprotView.getData().columns[k].getTranslatedTitle());

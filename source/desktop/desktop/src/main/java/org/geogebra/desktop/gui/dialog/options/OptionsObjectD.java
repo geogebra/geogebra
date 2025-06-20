@@ -283,6 +283,9 @@ public class OptionsObjectD extends OptionsObject
 		return wrappedPanel.getPreferredSize();
 	}
 
+	/**
+	 * @param preferredSize minimum panel size
+	 */
 	public void setMinimumSize(Dimension preferredSize) {
 		wrappedPanel.setMinimumSize(preferredSize);
 	}

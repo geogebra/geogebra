@@ -238,8 +238,7 @@ class NeuQuant {
 	 * Main Learning Loop ------------------
 	 */
 	public void learn() {
-		int j, b, g, r;
-		int step, delta, samplepixels;
+		int delta, samplepixels;
 		byte[] p;
 		int pix, lim;
 
@@ -266,7 +265,7 @@ class NeuQuant {
 		}
 
 		// fprintf(stderr,"beginning 1D learning: initial radius=%d\n", rad);
-
+		int step;
 		if (lengthcount < minpicturebytes) {
 			step = 3;
 		} else if ((lengthcount % prime1) != 0) {
@@ -284,6 +283,7 @@ class NeuQuant {
 		}
 
 		i = 0;
+		int b, j, g, r;
 		while (i < samplepixels) {
 			b = (p[pix + 0] & 0xff) << netbiasshift;
 			g = (p[pix + 1] & 0xff) << netbiasshift;
@@ -431,9 +431,7 @@ class NeuQuant {
 	 * -----------------------
 	 */
 	protected void alterneigh(int rad, int i, int b, int g, int r) {
-
-		int j, k, lo, hi, a, m;
-		int[] p;
+		int j, k, lo, hi, m;
 
 		lo = i - rad;
 		if (lo < -1) {
@@ -447,6 +445,8 @@ class NeuQuant {
 		j = i + 1;
 		k = i - 1;
 		m = 1;
+		int a;
+		int[] p;
 		while ((j < hi) || (k > lo)) {
 			a = radpower[m++];
 			if (j < hi) {

@@ -235,8 +235,11 @@ public class AlgebraViewD extends AlgebraTree
 
 	}
 
+	/**
+	 * Detaching from kernel is not supported.
+	 */
 	public void detachView() {
-		// does nothing : view may be used in object properties
+		// does nothing: view may be used in object properties
 	}
 
 	@Override

@@ -744,7 +744,11 @@ public class ToolCreationDialogD extends Dialog
 
 	}
 
-	public static boolean isMyCellRenderer(ListCellRenderer renderer) {
+	/**
+	 * @param renderer renderer
+	 * @return whether renderer belongs to this dialog
+	 */
+	public static boolean isMyCellRenderer(ListCellRenderer<?> renderer) {
 		return renderer instanceof GeoElementMaxLengthCellRenderer;
 	}
 

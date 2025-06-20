@@ -147,9 +147,6 @@ class LZWEncoder {
 	}
 
 	void compress(int init_bits, OutputStream outs) throws IOException {
-		int i /* = 0 */;
-		int disp;
-
 		// Set up the globals: g_init_bits - initial number of bits
 		g_init_bits = init_bits;
 
@@ -178,6 +175,8 @@ class LZWEncoder {
 
 		output(ClearCode, outs);
 		int c;
+		int i /* = 0 */;
+		int disp;
 		outer_loop:
 		while ((c = nextPixel()) != EOF) {
 			fcode = (c << maxbits) + ent;

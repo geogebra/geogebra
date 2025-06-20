@@ -799,6 +799,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		completionsPopup.showCompletions();
 	}
 
+	/**
+	 * Cancel autocompletion.
+	 */
 	public void cancelAutoCompletion() {
 		completions = null;
 	}

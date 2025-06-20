@@ -47,7 +47,7 @@ public final class FunctionSoundD extends FunctionSound
 	 *            = 8000, 16000, 11025, 16000, 22050, or 44100
 	 * @param bitDepth
 	 *            = 8 or 16
-	 * @return
+	 * @return success
 	 */
 	@Override
 	protected boolean initStreamingAudio(int sampleRate, int bitDepth) {

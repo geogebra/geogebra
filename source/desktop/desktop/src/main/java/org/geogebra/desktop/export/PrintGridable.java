@@ -64,12 +64,12 @@ public class PrintGridable implements Printable {
 		boundsHor.add(sum);
 		for (int i = 0; i < colWidths.length; i++) {
 			if ((sum + colWidths[i]
-					- boundsHor.get(boundsHor.size() - 1) > pWidth) && // the
+					- boundsHor.get(boundsHor.size() - 1) > pWidth) // the
 																		// next
 																		// cell
 																		// won't
 																		// fit
-					(sum > boundsHor.get(boundsHor.size() - 1))) { // the size
+					&& (sum > boundsHor.get(boundsHor.size() - 1))) { // the size
 																	// increased
 				boundsHor.add(sum);
 			}
@@ -82,12 +82,12 @@ public class PrintGridable implements Printable {
 		boundsVer.add(sum);
 		for (int i = 0; i < rowHeights.length; i++) {
 			if ((sum + rowHeights[i]
-					- boundsVer.get(boundsVer.size() - 1) > pHeight) && // the
+					- boundsVer.get(boundsVer.size() - 1) > pHeight) // the
 																		// next
 																		// cell
 																		// won't
 																		// fit
-					(sum > boundsVer.get(boundsVer.size() - 1))) { // the size
+					&& (sum > boundsVer.get(boundsVer.size() - 1))) { // the size
 																	// increased
 				boundsVer.add(sum);
 			}

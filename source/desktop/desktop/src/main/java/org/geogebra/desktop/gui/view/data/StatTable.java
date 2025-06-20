@@ -568,10 +568,16 @@ public class StatTable extends JScrollPane {
 					ActionEvent.ACTION_PERFORMED, "updateTable"));
 		}
 
+		/**
+		 * @return selected index
+		 */
 		public int getSelectedIndex() {
 			return comboBox.getSelectedIndex();
 		}
 
+		/**
+		 * @param index selected index
+		 */
 		public void setSelectedIndex(int index) {
 			comboBox.setSelectedIndex(index);
 		}

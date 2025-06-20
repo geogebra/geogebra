@@ -11,18 +11,21 @@
 
  */
 
+package org.geogebra.desktop;
+
+import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
+
 /**
  * GeoGebra Application
  *
  * @author Markus Hohenwarter
  */
-
-package org.geogebra.desktop;
-
-import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
-
 public class GeoGebra3D {
 
+	/**
+	 * Run the app.
+	 * @param cmdArgs command line arguments
+	 */
 	public static void main(String[] cmdArgs) {
 		GeoGebra.doMain(cmdArgs, GeoGebraFrame3D::new);
 	}

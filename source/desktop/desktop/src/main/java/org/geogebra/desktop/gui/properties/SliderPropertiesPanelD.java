@@ -139,8 +139,6 @@ public class SliderPropertiesPanelD extends JPanel
 		tfBlobSize = new MyTextFieldD(app, 4);
 		tfLineThickness = new MyTextFieldD(app, 4);
 		lbWidthUnit = new JLabel("");
-		JLabel lblBlobSizeUnit = new JLabel("px");
-		JLabel lblLineThicknessUnit = new JLabel("px");
 		tfields = new MyTextFieldD[5];
 		tLabels = new JLabel[5];
 		tfields[0] = tfMin;
@@ -148,6 +146,8 @@ public class SliderPropertiesPanelD extends JPanel
 		tfields[2] = tfWidth;
 		tfields[3] = tfBlobSize;
 		tfields[4] = tfLineThickness;
+		JLabel lblBlobSizeUnit = new JLabel("px");
+		JLabel lblLineThicknessUnit = new JLabel("px");
 
 		int numPairs = tLabels.length;
 

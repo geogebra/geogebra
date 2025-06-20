@@ -358,7 +358,7 @@ public class MyTextFieldD extends JTextField
 
 		GGraphics2DD.setAntialiasing(g2);
 
-		String text = getText();
+		final String text = getText();
 
 		// get font info
 		fontHeight = g2.getFontMetrics().getHeight();

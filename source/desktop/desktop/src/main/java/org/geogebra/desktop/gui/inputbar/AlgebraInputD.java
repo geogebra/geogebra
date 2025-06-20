@@ -212,6 +212,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		return inputField.hasFocus();
 	}
 
+	/**
+	 * Clear input.
+	 */
 	public void clear() {
 		inputField.setText(null);
 	}
@@ -220,6 +223,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		return inputField;
 	}
 
+	/**
+	 * Update orientation.
+	 * @param showInputTop whether input is the top part of the window
+	 */
 	public void updateOrientation(boolean showInputTop) {
 		inputField.setOpenSymbolTableUpwards(!showInputTop);
 	}

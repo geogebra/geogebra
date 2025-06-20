@@ -229,6 +229,9 @@ public class TitlePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * @param lst action listener; fired when any field changes
+	 */
 	public void addActionListener(ActionListener lst) {
 		listeners.add(lst);
 	}

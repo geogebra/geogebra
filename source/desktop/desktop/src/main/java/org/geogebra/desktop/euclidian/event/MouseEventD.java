@@ -48,10 +48,6 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 		return event.isShiftDown();
 	}
 
-	public static MouseEvent getEvent(AbstractEvent e) {
-		return ((MouseEventD) e).event;
-	}
-
 	@Override
 	public void release() {
 		MouseEventD.pool.add(this);

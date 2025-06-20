@@ -113,10 +113,11 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener, Se
 		add(btnShowData);
 		add(btnShowPlot2);
 		add(btnSwapXY);
-		// add(createDataSourcePanel());
-
 	}
 
+	/**
+	 * Rebuild the UI.
+	 */
 	public void reinit() {
 		createGUI();
 	}

@@ -211,12 +211,12 @@ public class DialogManagerD extends DialogManagerMinimal {
 		// a Chinese friendly version
 		InputDialogD id = new InputDialogD((AppD) app,
 				"<html>" + app.getLocalization().getPlain("NewNameForA",
-						"<b>" + geo.getNameDescription() + "</b>") + // eg New
+						"<b>" + geo.getNameDescription() + "</b>") // eg New
 																		// name
 																		// for
 																		// <b>Segment
 																		// a</b>
-						"</html>",
+						+ "</html>",
 				getLocalization().getMenu("Rename"),
 				initText, false, handler, false,
 				selectInitText, null);

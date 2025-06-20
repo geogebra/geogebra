@@ -1,9 +1,14 @@
 package org.geogebra.desktop.awt;
 
+import java.awt.Shape;
+
 import org.geogebra.common.awt.GShape;
 
 public interface GShapeD extends GShape {
 
-	public java.awt.Shape getAwtShape();
+	/**
+	 * @return the wrapped shape
+	 */
+	Shape getAwtShape();
 
 }

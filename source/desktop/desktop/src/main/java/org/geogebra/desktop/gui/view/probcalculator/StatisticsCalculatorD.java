@@ -617,6 +617,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	}
 
+	/**
+	 * Update the result.
+	 */
 	public void updateResult() {
 		updateResult(true);
 	}

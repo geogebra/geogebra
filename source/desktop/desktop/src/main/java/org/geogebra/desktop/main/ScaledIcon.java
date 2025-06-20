@@ -24,6 +24,9 @@ public class ScaledIcon implements Icon {
 		component = null;
 	}
 
+	/**
+	 * @param c parent component
+	 */
 	public ScaledIcon(Component c) {
 		this.source = new ImageIcon();
 		this.component = c;
@@ -101,6 +104,10 @@ public class ScaledIcon implements Icon {
 		return source.getImage();
 	}
 
+	/**
+	 * Set the image.
+	 * @param image image to scale
+	 */
 	public void setImage(Image image) {
 		source.setImage(image);
 	}
