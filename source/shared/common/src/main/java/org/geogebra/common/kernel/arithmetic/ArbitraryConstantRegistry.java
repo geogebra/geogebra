@@ -216,7 +216,7 @@ public class ArbitraryConstantRegistry {
 		GeoDummyVariable variable = new GeoDummyVariable(cons, label);
 		variable.setAuxiliaryObject(true);
 		variable.setLabel(label);
-		cons.getCASdummies().add(label);
+		cons.addProtectedLabel(label);
 		return variable;
 	}
 

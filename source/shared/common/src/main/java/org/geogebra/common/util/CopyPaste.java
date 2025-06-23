@@ -395,13 +395,12 @@ public abstract class CopyPaste {
 	 * @param app application
 	 * @param labels new labels
 	 * @param duplicateLabels Set of duplicated labels that may need renaming
-	 * @param overwriteElements Whether the duplicated elements should be overwritten
 	 * @param renameInScripts whether to update references in scripts after rename
 	 * @return list of elements
 	 */
 	protected static ArrayList<GeoElement> handleLabels(App app,
 			List<String> labels, Set<String> duplicateLabels,
-			boolean overwriteElements, boolean renameInScripts) {
+			boolean renameInScripts) {
 		ArrayList<GeoElement> ret = new ArrayList<>();
 
 		Kernel kernel = app.getKernel();
@@ -450,12 +449,10 @@ public abstract class CopyPaste {
 
 				if (oldGeo == null) {
 					geo.setLabel(oldLabelNoPrefix);
-				} else if (overwriteElements && oldGeo.getGeoClassType() == geo.getGeoClassType()) {
-					oldGeo.remove();
-					geo.setLabel(oldLabelNoPrefix);
 				} else {
 					geo.setLabel(isFreeLabel
-							? oldLabelNoPrefix : geo.getIndexLabel(oldLabelNoPrefix));
+							? oldLabelNoPrefix : geo.getConstruction()
+									.getIndexLabel(oldLabelNoPrefix, true));
 				}
 
 				// geo.getLabelSimple() is now not the oldLabel, ideally

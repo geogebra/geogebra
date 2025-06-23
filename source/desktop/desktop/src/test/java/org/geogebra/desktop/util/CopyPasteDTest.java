@@ -8,11 +8,16 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
@@ -59,9 +64,7 @@ public class CopyPasteDTest {
 		processCommand(toApp, "c = 5", false);
 		copy.insertFrom(fromApp, toApp, Collections.emptySet(), false);
 
-		assertThat(getLabeledGeosSize(toApp), equalTo(4));
-		assertTrue("The labels <C>, <b>, <B>, and <c> should all exist!",
-				containsLabels(toApp, Set.of("C", "b", "B", "c")));
+		assertEquals(Set.of("C", "b", "B", "c"), getLabels());
 	}
 
 	@Test
@@ -73,9 +76,7 @@ public class CopyPasteDTest {
 		processCommand(toApp, "C = 5", false);
 		copy.insertFrom(fromApp, toApp, Set.of("C"), false);
 
-		assertThat(getLabeledGeosSize(toApp), equalTo(4));
-		assertTrue("The labels <C>, <b>, <B>, and <C_{1}> should all exist!",
-				containsLabels(toApp, Set.of("C", "b", "B", "C_{1}")));
+		assertEquals(Set.of("C", "b", "B", "C_{1}"), getLabels());
 	}
 
 	@Test
@@ -91,9 +92,35 @@ public class CopyPasteDTest {
 		assertThat(toApp.getKernel().lookupLabel("C").getDefinitionForEditor(),
 				equalTo("C=$point(1,2)"));
 		assertTrue("The element labeled <C> should exist!",
-				containsLabels(toApp, Set.of("C")));
+				getLabels().contains("C"));
 		assertFalse("There should be no indexed label <C_{1]>!",
-				containsLabels(toApp, Set.of("C_{1}")));
+				getLabels().contains("C_{1}"));
+	}
+
+	@Test
+	@Issue("APPS-6665")
+	public void insertIntoShouldNotCreateDuplicateLabels() {
+		processCommand(fromApp, "A = (1, 1)", false);
+		processCommand(fromApp, "A_1 = (1, 2)", false);
+		processCommand(toApp, "A = (1, 3)", false);
+		copy.insertFrom(fromApp, toApp, Set.of("A"), false);
+
+		//assertThat(getLabeledGeosSize(toApp), equalTo(4));
+		assertEquals(Set.of("A", "A_1", "A_{2}"), getLabels());
+	}
+
+	@Test
+	@Issue("APPS-6665")
+	public void insertIntoShouldKeepDependentObjects() {
+		processCommand(toApp, "A = (1, 1)", false);
+		processCommand(fromApp, "A = (1, 2)", false);
+		processCommand(fromApp, "B = (1, 3)", false);
+		processCommand(fromApp, "s = Segment(A,B)", false);
+		copy.insertFrom(fromApp, toApp, Set.of("A"), true);
+		assertEquals(Set.of("A", "B", "s"), getLabels());
+		AlgoElement parentAlgorithm = toApp.getKernel().lookupLabel("s")
+				.getParentAlgorithm();
+		assertEquals(Commands.Segment, Objects.requireNonNull(parentAlgorithm).getClassName());
 	}
 
 	private void processCommand(AppCommon app, String command, boolean storeUndo) {
@@ -104,7 +131,8 @@ public class CopyPasteDTest {
 		return app.getKernel().getConstruction().getGeoSetConstructionOrder().size();
 	}
 
-	private boolean containsLabels(AppCommon app, Set<String> labels) {
-		return app.getKernel().getConstruction().getAllGeoLabels().containsAll(labels);
+	private Set<String> getLabels() {
+		return toApp.getKernel().getConstruction().getGeoSetConstructionOrder().stream()
+				.map(GeoElement::getLabelSimple).collect(Collectors.toSet());
 	}
 }

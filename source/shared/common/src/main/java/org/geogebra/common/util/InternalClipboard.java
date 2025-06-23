@@ -341,7 +341,7 @@ public class InternalClipboard {
 				.collect(Collectors.toSet());
 
 		ArrayList<GeoElement> createdElements = CopyPaste.handleLabels(
-				app, copiedXmlLabels, duplicateLabels, false, false);
+				app, copiedXmlLabels, duplicateLabels, false);
 
 		app.setBlockUpdateScripts(scriptsBlocked);
 		app.getActiveEuclidianView().invalidateDrawableList();

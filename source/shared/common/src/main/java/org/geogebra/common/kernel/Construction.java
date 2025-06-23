@@ -156,7 +156,7 @@ public class Construction {
 	/** algo set currently updated by GeoElement.updateDependentObjects() */
 	private AlgorithmSet algoSetCurrentlyUpdated;
 
-	private final TreeSet<String> casDummies = new TreeSet<>();
+	private final HashSet<String> protectedLabels = new HashSet<>();
 
 	/**
 	 * Table for (label, GeoCasCell) pairs, contains global variables used in
@@ -2229,13 +2229,13 @@ public class Construction {
 	/**
 	 * Returns true if label is not occupied by any GeoElement.
 	 * @param label label to be checked
-	 * @param includeCASvariables whether GeoCasCell labels should be checked too
-	 * @param includeDummies when true, this method also checks that label is not used for
-	 * a CAS dummy
+	 * @param includeCASVariables whether GeoCasCell labels should be checked too
+	 * @param checkProtectedLabels when true, this method also checks that label is not protected
+	 * (used by CAS dummy, or by merged construction)
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
-	public boolean isFreeLabel(String label, boolean includeCASvariables,
-			boolean includeDummies) {
+	public boolean isFreeLabel(String label, boolean includeCASVariables,
+			boolean checkProtectedLabels) {
 		if (label == null) {
 			return false;
 		}
@@ -2265,12 +2265,11 @@ public class Construction {
 		}
 
 		// optional: also check CAS variable table
-		if (includeCASvariables && geoCasCellTable != null
+		if (includeCASVariables && geoCasCellTable != null
 				&& geoCasCellTable.containsKey(label)) {
 			return false;
 		}
-
-		return !includeDummies || !casDummies.contains(label);
+		return !checkProtectedLabels || !protectedLabels.contains(label);
 	}
 
 	/**
@@ -2819,7 +2818,7 @@ public class Construction {
 
 		this.corner5Algos = null;
 		this.corner11Algos = null;
-		this.casDummies.clear();
+		this.protectedLabels.clear();
 		initGeoTables();
 
 		// reinit construction step
@@ -3047,10 +3046,10 @@ public class Construction {
 	}
 
 	/**
-	 * @return set of names that are used by CAS for dummies
+	 * Make sure a label won't be used by automatic labeling.
 	 */
-	public TreeSet<String> getCASdummies() {
-		return casDummies;
+	public void addProtectedLabel(String label) {
+		protectedLabels.add(label);
 	}
 
 	/**

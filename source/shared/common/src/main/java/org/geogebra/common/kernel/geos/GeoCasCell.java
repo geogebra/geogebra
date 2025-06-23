@@ -929,7 +929,7 @@ public class GeoCasCell extends GeoElement
 				} else {
 					// input variable, e.g. b in a + 3 b
 					getInVars().add(var);
-					cons.getCASdummies().addAll(invars);
+					invars.forEach(cons::addProtectedLabel);
 				}
 			}
 		}

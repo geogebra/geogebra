@@ -4310,7 +4310,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// so we have to use the CopyPaste class to copy it
 		getCopyPaste().insertFrom(ad, this, duplicateLabels, overwrite);
 
-		ad.getGuiManager().showRenamedObjectsDialog(duplicateLabels);
+		getGuiManager().showRenamedObjectsDialog(overwrite, duplicateLabels);
 		ad.exitFrame();
 
 		// this is also needed to make it possible

@@ -160,8 +160,7 @@ public class SymbolicProcessor {
 		if (vars != null) {
 			for (GeoElement var : vars) {
 				if (var instanceof GeoDummyVariable) {
-					cons.getCASdummies()
-							.add(((GeoDummyVariable) var).getVarName());
+					cons.addProtectedLabel(((GeoDummyVariable) var).getVarName());
 				} else if (var != null) {
 					noDummyVars.add(var);
 				}

@@ -58,7 +58,6 @@ public class CopyPasteD extends CopyPaste {
 	protected AppState copyObject2;
 
 	private Set<String> duplicateLabels;
-	private boolean overwriteElements;
 
 	/**
 	 * Returns whether the clipboard is empty
@@ -271,7 +270,7 @@ public class CopyPasteD extends CopyPaste {
 			return;
 		}
 
-		boolean scriptsBlocked = app.isBlockUpdateScripts();
+		final boolean scriptsBlocked = app.isBlockUpdateScripts();
 		app.setBlockUpdateScripts(true);
 
 		copiedXML = new StringBuilder();
@@ -464,7 +463,7 @@ public class CopyPasteD extends CopyPaste {
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
 			createdGeos = handleLabels(app, copiedXMLlabelsforSameWindow,
-					duplicateLabels, overwriteElements, putdown);
+					duplicateLabels, putdown);
 		} else {
 			// here the possible macros should be copied as well,
 			// in case we should copy any macros
@@ -499,7 +498,7 @@ public class CopyPasteD extends CopyPaste {
 				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
 			createdGeos = handleLabels(app, copiedXMLlabels,
-					duplicateLabels, overwriteElements, putdown);
+					duplicateLabels, putdown);
 		}
 
 		app.setBlockUpdateScripts(scriptsBlocked);
@@ -550,13 +549,21 @@ public class CopyPasteD extends CopyPaste {
 	 */
 	public void insertFrom(App fromApp, App toApp,
 			@Nonnull Set<String> duplicateLabels, boolean overwrite) {
+		Construction fromConstruction = fromApp.getKernel().getConstruction();
+		fromConstruction.getGeoSetConstructionOrder().stream()
+				.map(GeoElement::getLabelSimple)
+				.forEach(toApp.getKernel().getConstruction()::addProtectedLabel);
 		copyToXML(fromApp,
-						new ArrayList<>(fromApp.getKernel()
-								.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
+						new ArrayList<>(fromConstruction.getGeoSetWithCasCellsConstructionOrder()),
 						true);
 
 		this.duplicateLabels = duplicateLabels;
-		this.overwriteElements = overwrite;
+		if (overwrite) {
+			for (String label: duplicateLabels) {
+				GeoElement toRemove = toApp.getKernel().lookupLabel(label);
+				toRemove.remove();
+			}
+		}
 		pasteFromXML(toApp, true);
 	}
 }

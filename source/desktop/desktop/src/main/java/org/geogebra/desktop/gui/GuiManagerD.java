@@ -736,7 +736,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 
 			if (viewId == App.VIEW_SPREADSHEET) {
-				(getApp()).getActiveEuclidianView().requestFocus();
+				getApp().getActiveEuclidianView().requestFocus();
 			}
 		}
 
@@ -848,7 +848,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		showAxesAction = null;
 		initActions();
 
-		if ((getApp()).showMenuBar()) {
+		if (getApp().showMenuBar()) {
 			initMenubar();
 			// updateMenubar();
 
@@ -1878,7 +1878,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * @param file file to open
 	 */
 	public void openFile(File file) {
-		if ((getApp()).isSaved() || saveCurrentFile()) {
+		if (getApp().isSaved() || saveCurrentFile()) {
 			getApp().setWaitCursor();
 
 			if (getApp().macsandbox) {
@@ -2238,7 +2238,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
 				if (getApp().needsSpreadsheetTableModel()) {
-					(getApp()).getSpreadsheetTableModel(); // ensure create one if
+					getApp().getSpreadsheetTableModel(); // ensure create one if
 														// not already done
 				}
 			}
@@ -3049,9 +3049,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void showRenamedObjectsDialog(Set<String> duplicateLabels) {
-		String message = duplicateLabels.isEmpty() ? loc.getMenu("NoObjectsRenamed")
-				: loc.getMenu("ObjectsRenamed") + ": " + String.join(", ", duplicateLabels);
+	public void showRenamedObjectsDialog(boolean overwrite, Set<String> duplicateLabels) {
+		String message;
+		if (duplicateLabels.isEmpty()) {
+			message = loc.getMenu("NoObjectsRenamed");
+		} else {
+			message = loc.getMenu(overwrite ? "ObjectsReplaced" : "ObjectsRenamed")
+					+ ": " + String.join(", ", duplicateLabels);
+		}
 		JOptionPane.showMessageDialog(getApp().getMainComponent(), message,
 				loc.getMenu("General.ImportSuccessful"), JOptionPane.INFORMATION_MESSAGE);
 	}

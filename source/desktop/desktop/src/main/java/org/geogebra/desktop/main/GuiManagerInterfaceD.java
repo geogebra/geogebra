@@ -72,6 +72,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	ExtendedBoolean shouldRenameObjectsOnInsertFile(Set<String> duplicateLabels);
 
-	void showRenamedObjectsDialog(Set<String> duplicateLabels);
+	void showRenamedObjectsDialog(boolean overwrite, Set<String> duplicateLabels);
 
 }
