@@ -34,6 +34,7 @@ import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificEmbedTopBar;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.SpreadsheetTab;
 import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.stylebar.SpreadsheetStyleBar;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
@@ -47,6 +48,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
@@ -392,7 +394,7 @@ public class ToolbarPanel extends FlowPanel
 		SVGResource icon = app.isPortrait() ? MaterialDesignResources.INSTANCE
 				.toolbar_close_portrait_black() : MaterialDesignResources.INSTANCE
 				.toolbar_close_landscape_black();
-		StandardButton close = new StandardButton(icon, null, 24, 24);
+		IconButton close = new IconButton(app, "", new ImageIconSpec(icon));
 		close.addStyleName("flatButton closeButton");
 		close.getElement().getStyle().setFloat(Float.RIGHT);
 		close.addFastClickHandler(source -> {
