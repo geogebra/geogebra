@@ -77,7 +77,7 @@ public class CurveBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	 */
 	public void setHandlerFromCenter(int i, double x, double y) {
 		if (i < handlers.size()) {
-			double radius = i < 2 ? HANDLER_RADIUS : SPLITTER_RADIUS;
+			double radius = i == 0 || i == 3 ? END_POINT_RADIUS : SPLITTER_RADIUS;
 			handlers.get(i).setFrameFromCenter(x, y, x + radius, y + radius);
 			handlerCenterX[i] = x;
 			handlerCenterY[i] = y;

@@ -29,6 +29,7 @@ public abstract class BoundingBox<T extends GShape> {
 	protected static final int SIDE_HANDLER_WIDTH = 10;
 	protected static final int SIDE_HANDLER_HEIGHT = 4;
 	protected static final int HANDLER_RADIUS = 6;
+	protected static final int END_POINT_RADIUS = 5;
 	protected static final int SPLITTER_RADIUS = 4;
 	protected static final int ROTATION_HANDLER_RADIUS = 12;
 	private static final int ROTATION_ICON_SIZE = 18;

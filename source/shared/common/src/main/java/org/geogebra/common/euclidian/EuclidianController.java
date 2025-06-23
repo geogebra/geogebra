@@ -5281,6 +5281,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
 		case EuclidianConstants.MODE_SHAPE_STADIUM:
 		case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
+		case EuclidianConstants.MODE_SHAPE_CURVE:
 			setViewCursor(CROSSHAIR, shiftDown);
 			break;
 

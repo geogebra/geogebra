@@ -65,7 +65,7 @@ public class PolyLineBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	 */
 	public void setHandlerFromCenter(int i, double x, double y) {
 		if (i < handlers.size()) {
-			double radius = i < poly.getNumPoints() ? HANDLER_RADIUS : SPLITTER_RADIUS;
+			double radius = i < poly.getNumPoints() ? END_POINT_RADIUS : SPLITTER_RADIUS;
 			handlers.get(i).setFrameFromCenter(x, y, x + radius, y + radius);
 		}
 	}
