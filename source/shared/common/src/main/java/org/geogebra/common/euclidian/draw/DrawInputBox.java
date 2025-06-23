@@ -254,6 +254,10 @@ public class DrawInputBox extends CanvasDrawable {
 			}
 			return;
 		}
+		if (view.getSymbolicEditor() != null
+				&& view.getSymbolicEditor().getDrawInputBox() == this) {
+			view.getSymbolicEditor().updateStyle();
+		}
 
 		// show hide label by setting text
 		updateLabel();

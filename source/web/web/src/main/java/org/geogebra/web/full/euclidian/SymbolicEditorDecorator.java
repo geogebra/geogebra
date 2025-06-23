@@ -21,21 +21,21 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 	}
 
 	/**
-	 * Updates editor bounds, colors amd font size
-	 * according to the geoInputBox
+	 * Updates colors and font size according to the input box construction element.
 	 *
-	 * @param bounds to set.
 	 * @param geoInputBox the currently edited geo.
 	 * @param fontSize base font size.
 	 */
-	void update(GRectangle bounds, GeoInputBox geoInputBox, int fontSize) {
-		updateBounds(bounds);
+	void update(GeoInputBox geoInputBox, int fontSize) {
 		setForegroundColor(geoInputBox.getObjectColor());
 		setBackgroundColor(geoInputBox.getBackgroundColor());
 		setFontSize(fontSize * geoInputBox.getFontSizeMultiplier() + 3);
 	}
 
-	private void updateBounds(GRectangle bounds) {
+	/**
+	 * Updates editor bounds.
+	 */
+	public void updateBounds(GRectangle bounds) {
 		double fieldWidth = bounds.getWidth() - fixMargin;
 		setLeft(bounds.getX() + LEFT_OFFSET);
 		setTop(bounds.getY());

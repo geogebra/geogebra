@@ -15,16 +15,19 @@ import java.util.Collections;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.LatexRendererSettings;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.test.euclidian.TextFieldCommonJre;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -100,6 +103,20 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		editor.setKeyListener(key -> fail("Unexpected typing:" + key));
 		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
 				LatexRendererSettings.create());
+	}
+
+	@Test
+	public void shouldUpdateColor() {
+		getApp().getEuclidianView1().setViewTextField(new TextFieldCommonJre());
+		setupInput("a", "1");
+		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
+		((EuclidianViewNoGui) getApp().getEuclidianView1()).setSymbolicEditor(editor);
+		inputBox.setObjColor(GColor.GREEN);
+		inputBox.updateVisualStyle(GProperty.COLOR);
+		assertEquals(GColor.GREEN, editor.getForegroundColor());
 	}
 
 	@Test

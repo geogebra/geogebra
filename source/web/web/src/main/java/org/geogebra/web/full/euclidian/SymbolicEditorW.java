@@ -94,8 +94,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	@Override
 	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
-
-		decorator.update(bounds, getGeoInputBox(), app.getFontSize());
+		decorator.updateBounds(bounds);
+		decorator.update(getGeoInputBox(), app.getFontSize());
 		setBaseline(bounds.getY() + bounds.getHeight() / 2d);
 
 		colorEditor();
@@ -125,6 +125,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 			return;
 		}
 		editor.getStyle().clearBorderColor();
+	}
+
+	@Override
+	public void updateStyle() {
+		decorator.update(getGeoInputBox(), app.getFontSize());
+		colorEditor();
 	}
 
 	@Override

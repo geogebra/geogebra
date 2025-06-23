@@ -174,6 +174,13 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	/**
+	 * Update editor's foreground and background color and font size.
+	 */
+	public void updateStyle() {
+		// only needed in Web
+	}
+
+	/**
 	 * Paint the box in given graphics (desktop only).
 	 * @param g2 graphics
 	 */

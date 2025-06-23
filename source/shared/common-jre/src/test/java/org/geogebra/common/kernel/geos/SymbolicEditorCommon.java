@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.function.Consumer;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -15,6 +16,7 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 public class SymbolicEditorCommon extends SymbolicEditor {
 	private final MathFieldCommon mf;
 	private Consumer<String> keyListener;
+	private GColor foregroundColor;
 
 	/**
 	 * @param mf wrapped field
@@ -81,5 +83,14 @@ public class SymbolicEditorCommon extends SymbolicEditor {
 
 	public void setKeyListener(Consumer<String> keyListener) {
 		this.keyListener = keyListener;
+	}
+
+	public GColor getForegroundColor() {
+		return foregroundColor;
+	}
+
+	@Override
+	public void updateStyle() {
+		foregroundColor = getGeoInputBox().getObjectColor();
 	}
 }
