@@ -125,8 +125,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/** 3D view controlled by this */
 	protected EuclidianView3D view3D; // TODO move to EuclidianViewInterface
 
-	private final GPoint mouseLocOld = new GPoint();
-
 	/** says that a free point has just been created (used for 3D cursor) */
 	private boolean freePointJustCreated = false;
 
@@ -301,14 +299,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// //////////////////////////////////////////
 	// setters movedGeoElement -> movedGeoPoint, ...
 
-	private static double[] getMinMax(double min, double val, double max) {
-		double min1 = min, max1 = max;
-		if (val < min) {
+	private double[] getMinMax(double min, double max, double val, double size) {
+		double min1 = min + size, max1 = max - size;
+		if (!view3D.getSettings().useClippingCube()) {
+			// Allow dragging points out of the clipping cube,
+			// but not too much  to avoid disappearing (APPS-6659)
+			double delta = (max - min) / 2;
+			min1 -= delta;
+			max1 += delta;
+		}
+		if (val < min1) {
 			min1 = val;
-		} else if (val > max) {
+		} else if (val > max1) {
 			max1 = val;
 		}
-
 		return new double[] { min1, max1 };
 	}
 
@@ -330,14 +334,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 				* DrawPoint3D.DRAW_POINT_FACTOR;
 		double size;
 		size = pointSize / view3D.getXscale();
-		xMinMax = getMinMax(view3D.getXmin() + size, coords.getX(),
-				view3D.getXmax() - size);
+		xMinMax = getMinMax(view3D.getXmin(), view3D.getXmax(), coords.getX(), size);
 		size = pointSize / view3D.getYscale();
-		yMinMax = getMinMax(view3D.getYmin() + size, coords.getY(),
-				view3D.getYmax() - size);
+		yMinMax = getMinMax(view3D.getYmin(), view3D.getYmax(), coords.getX(), size);
 		size = pointSize / view3D.getZscale();
-		zMinMax = getMinMax(view3D.getZmin() + size, coords.getZ(),
-				view3D.getZmax() - size);
+		zMinMax = getMinMax(view3D.getZmin(), view3D.getZmax(), coords.getZ(), size);
 
 		updateMovedGeoPointStartValues(coords);
 
@@ -385,11 +386,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * 
 	 * @param point
 	 *            the point to move
-	 * @param useOldMouse
-	 *            if true, shift the point according to old mouse location
 	 */
-	protected void movePointOnCurrentPlane(GeoPointND point,
-			boolean useOldMouse) {
+	protected void movePointOnCurrentPlane(GeoPointND point) {
 
 		// Michael Borcherds
 		// move mouse fast, sometimes get mouseLoc = null
@@ -398,19 +396,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		// getting current pick point and direction v
-		if (useOldMouse) {
-			// if (movePointMode != MOVE_POINT_MODE_XY){
-			mouseLocOld.setLocation(mouseLoc.x, mouseLoc.y);
-			Coords positionOld = point.getCoords().copyVector();
-			// movePointMode = MOVE_POINT_MODE_XY;
-			// }
-			view3D.getPickFromScenePoint(positionOld,
-					mouseLoc.x - mouseLocOld.x, mouseLoc.y - mouseLocOld.y,
-					tmpCoordsForOrigin);
-			view3D.toSceneCoords3D(tmpCoordsForOrigin);
-		} else {
-			view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
-		}
+		view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
 
 		addOffsetForTranslation(tmpCoordsForOrigin);
 
@@ -3701,7 +3687,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			((EuclidianController3DCompanion) companion).moveAlongZAxis(g3d);
 		} else {
 			getCurrentPlane().set(g3d.getCoordsInD3(), 4);
-			movePointOnCurrentPlane(g3d, false);
+			movePointOnCurrentPlane(g3d);
 		}
 		return g3d.getInhomCoordsInD3();
 	}

@@ -117,7 +117,7 @@ public class EuclidianController3DCompanion
 						moveAlongZAxis(movedGeoPoint3D);
 					}
 				} else {
-					ec3D.movePointOnCurrentPlane(movedGeoPoint3D, false);
+					ec3D.movePointOnCurrentPlane(movedGeoPoint3D);
 				}
 
 				// update point decorations
@@ -371,7 +371,7 @@ public class EuclidianController3DCompanion
 			GeoPoint3D point3D = (GeoPoint3D) ec.getKernel().getManager3D().point3D(
 					0, 0, 0, false);
 			CoordMatrix4x4.identity(ec3D.getCurrentPlane());
-			ec3D.movePointOnCurrentPlane(point3D, false);
+			ec3D.movePointOnCurrentPlane(point3D);
 			point3D.setLabel(null);
 			return point3D;
 		} else {
