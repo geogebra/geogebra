@@ -15,6 +15,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -527,7 +528,7 @@ class NavigationRail extends FlowPanel {
 	 * Exam info button.
 	 */
 	public void initInfoBtnAction() {
-		final StandardButton examInfoBtn = GlobalHeader.INSTANCE
+		final IconButton examInfoBtn = GlobalHeader.INSTANCE
 				.getExamInfoBtn();
 		if (examInfoBtn == null) {
 			return;
@@ -535,7 +536,7 @@ class NavigationRail extends FlowPanel {
 		examInfoBtn.addFastClickHandler(source -> showExamDialog(examInfoBtn));
 	}
 
-	private void showExamDialog(StandardButton examInfoBtn) {
+	private void showExamDialog(IconButton examInfoBtn) {
 		new ExamLogAndExitDialog(app, true, examInfoBtn).show();
 	}
 

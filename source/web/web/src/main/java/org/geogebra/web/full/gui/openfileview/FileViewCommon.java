@@ -46,7 +46,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	private Button signInTextButton;
 	private IconButton signInIconButton;
 	private ProfileAvatar profilePanel;
-	private StandardButton examInfoBtn;
+	private IconButton examInfoBtn;
 	private Label timer;
 	private FlowPanel emptyListNotificationPanel;
 	private LoadSpinner spinner;
@@ -121,9 +121,8 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	}
 
 	private void addExamInfoButton() {
-		examInfoBtn = new StandardButton(
-				SharedResources.INSTANCE.info_black(), null, 24);
-		examInfoBtn.addStyleName("flatButtonHeader");
+		examInfoBtn = new IconButton(app, () -> {}, new ImageIconSpec(SharedResources.INSTANCE
+				.info_black()), "exam_log_header");
 		examInfoBtn.addStyleName("examInfoBtn");
 		examInfoBtn.addFastClickHandler(source -> showExamDialog(examInfoBtn));
 		headerView.add(examInfoBtn);

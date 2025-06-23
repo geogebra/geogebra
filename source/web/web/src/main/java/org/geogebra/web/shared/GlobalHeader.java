@@ -23,11 +23,12 @@ import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconResources;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.view.button.ActionButton;
@@ -62,7 +63,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	private MenuToggleButton menuBtn;
 	private AppW app;
 	private Label timer;
-	private StandardButton examInfoBtn;
+	private IconButton examInfoBtn;
 
 	private boolean shareButtonInitialized;
 
@@ -279,7 +280,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	/**
 	 * @return exam info button
 	 */
-	public StandardButton getExamInfoBtn() {
+	public IconButton getExamInfoBtn() {
 		return examInfoBtn;
 	}
 
@@ -384,9 +385,8 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		timerImg.addStyleName("timerImg");
 		timer = new Label("0:00");
 		timer.setStyleName("examTimer");
-		examInfoBtn = new StandardButton(
-				SharedResources.INSTANCE.info_black(), null, 24);
-		examInfoBtn.addStyleName("flatButtonHeader");
+		examInfoBtn = new IconButton(app, () -> {}, new ImageIconSpec(SharedResources.INSTANCE
+				.info_black()), "exam_log_header");
 		examInfoBtn.addStyleName("examInfoBtn");
 		// add exam panel to
 		Element exam = DOM.createDiv();
