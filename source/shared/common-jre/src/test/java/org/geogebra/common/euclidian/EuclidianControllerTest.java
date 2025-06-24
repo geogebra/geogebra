@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -934,6 +935,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		dragEnd(200, 150);
 		checkContent(unicode("a:(1t^3 + 9(1 - t) t^2 + 6(1 - t)² t + 4(1 - t)^3,"
 				+ " -1t^3 - 3(1 - t) t^2 - 9(1 - t)^2 t - 3(1 - t)^3)"));
+		assertFalse("Curves should not be fillable", lookup("a").isFillable());
 	}
 
 	@Test

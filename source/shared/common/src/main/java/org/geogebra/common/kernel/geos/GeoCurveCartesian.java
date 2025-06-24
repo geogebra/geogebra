@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -658,7 +659,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 
 	@Override
 	public boolean isFillable() {
-		return true;
+		return algoParent == null || algoParent.getClassName() != Commands.BezierCurve;
 	}
 
 	@Override
