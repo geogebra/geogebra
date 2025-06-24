@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
+import org.geogebra.common.kernel.geos.GeoStadium;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.groups.Group;
@@ -355,7 +356,7 @@ public class InternalClipboard {
 				if (created.isGeoPolygon() || created.isGeoSegment()
 						|| created.isGeoConic() || created instanceof GeoLocusStroke
 						|| created instanceof GeoWidget || created instanceof GeoImage
-						|| created instanceof GeoInline) {
+						|| created instanceof GeoInline || created instanceof GeoStadium) {
 					shapes.add(created);
 				}
 				if (created instanceof GeoMindMapNode) {
