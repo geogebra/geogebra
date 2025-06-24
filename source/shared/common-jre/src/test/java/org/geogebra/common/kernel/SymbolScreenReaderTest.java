@@ -56,7 +56,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	}
 
 	private String readFunction(String prime) {
-		return "Function " + prime + " Press enter to edit Press tab to select controls";
+		return "Function " + prime + " Press enter to edit Press tab to select next object";
 	}
 
 	@Test
@@ -90,14 +90,14 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		return slider
 				+ " Press space to start animation Press up arrow to increase the value"
 				+ " Press down arrow to decrease the value"
-				+ " Press enter to edit Press tab to select controls";
+				+ " Press enter to edit Press tab to select next object";
 	}
 
 	private String readSliderUpOnly(String slider) {
 		return slider
 				+ " Press space to start animation"
 				+ " Press up arrow to increase the value"
-				+ " Press enter to edit Press tab to select controls";
+				+ " Press enter to edit Press tab to select next object";
 	}
 
 	@Test
@@ -113,34 +113,35 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	public void testOneDegreeInGeoText() {
 		shouldRead(this.<GeoText>add("\"sin(y)=1°\""),
 				"sin open parenthesis y close parenthesis  equals 1 degree"
-						+ " Press enter to edit Press tab to select controls");
+						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	public void testMinusOneDegreeInGeoText() {
 		shouldRead(this.<GeoText>add("\"sin(y)=-1°\""),
 				"sin open parenthesis y close parenthesis  equals  minus 1 degree"
-				+ " Press enter to edit Press tab to select controls");
+				+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	public void testDegreeInGeoTextPlurar() {
 		shouldRead(this.<GeoText>add("\"sin(y)=35°\""),
 				"sin open parenthesis y close parenthesis  equals 35 degrees"
-				+ " Press enter to edit Press tab to select controls");
+				+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	public void testDegreeInLabel() {
 		shouldRead((GeoText) add("\"15°=(1,1)\""),
 				"15 degrees  equals  open parenthesis 1 comma 1 close parenthesis"
-						+ " Press enter to edit Press tab to select controls");
+						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	public void testDegreeAsLabel() {
 		shouldRead((GeoText) add("\"°=(1,1)\""), " degree  equals  open parenthesis"
-				+ " 1 comma 1 close parenthesis Press enter to edit Press tab to select controls");
+				+ " 1 comma 1 close parenthesis Press enter to edit"
+				+ " Press tab to select next object");
 	}
 
 	@Test
@@ -149,7 +150,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		text.setLaTeX(true, false);
 		shouldRead(text,
 				"sin open parenthesis x close parenthesis  equals 75 degrees"
-				+ " Press enter to edit Press tab to select controls");
+				+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
@@ -211,7 +212,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		GeoText geo = add("\"\\" + trigonometric + "^{-1}(x)\"");
 		geo.setLaTeX(true, true);
 		shouldRead(geo, " arc " + trigonometric + " open parenthesis x close parenthesis"
-				+ " Press enter to edit Press tab to select controls");
+				+ " Press enter to edit Press tab to select next object");
 	}
 
 	private void atMinus1ShouldReadAsArcHyperbolic(String trigonometric) {
@@ -219,7 +220,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		geo.setLaTeX(true, true);
 		shouldRead(geo, " arc hyperbolic " + trigonometric.replace("h", "")
 				+ " open parenthesis x close parenthesis"
-				+ " Press enter to edit Press tab to select controls");
+				+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
@@ -228,7 +229,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		shouldRead(point, "Point A  equals  open parenthesis 1 semicolon "
 				+ " 15 degrees close parenthesis"
 				+ " Press the arrow keys to move the object"
-				+ " Press enter to edit Press tab to select controls");
+				+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
@@ -261,14 +262,14 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	public void testSinSquared() {
 		GeoText text = add("\"sin^2\"");
 		text.setLaTeX(true, true);
-		shouldRead(text, "sin squared Press enter to edit Press tab to select controls");
+		shouldRead(text, "sin squared Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	public void testSinCubed() {
 		GeoText text = add("\"sin^3\"");
 		text.setLaTeX(true, true);
-		shouldRead(text, "sin cubed Press enter to edit Press tab to select controls");
+		shouldRead(text, "sin cubed Press enter to edit Press tab to select next object");
 	}
 
 	@Test
@@ -276,6 +277,6 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		GeoText text = add("\"sin^4\"");
 		text.setLaTeX(true, true);
 		shouldRead(text, "sin to the power of 4 end power "
-				+ "Press enter to edit Press tab to select controls");
+				+ "Press enter to edit Press tab to select next object");
 	}
 }
