@@ -9,6 +9,9 @@ import org.geogebra.test.LocalizationCommonUTF;
 
 public class AppCommonFactory {
 
+	/**
+	 * @return 2D app with default (Classic) config
+	 */
 	public static AppCommon create() {
 		return create(new AppConfigDefault());
 	}
@@ -20,6 +23,9 @@ public class AppCommonFactory {
 		return new AppCommon(new LocalizationCommonUTF(2), new AwtFactoryCommon(), appConfig);
 	}
 
+	/**
+	 * @return 3D app with default (classic) config
+	 */
 	public static AppCommon3D create3D() {
 		return create3D(new AppConfigDefault());
 	}

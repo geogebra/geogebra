@@ -136,8 +136,11 @@ public class MathFieldCommon implements MathField {
 		internal.update();
 	}
 
-	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
-		internal.setSyntaxAdapter(formatConverter);
+	/**
+	 * @param syntaxAdapter syntax adapter
+	 */
+	public void setFormatConverter(SyntaxAdapterImpl syntaxAdapter) {
+		internal.setSyntaxAdapter(syntaxAdapter);
 	}
 
 	public ArrayList<Integer> getCaretPath() {

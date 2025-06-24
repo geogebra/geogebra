@@ -47,6 +47,7 @@ public class AlgoAngleConic extends AlgoAngle {
 		super(cons);
 		this.c = c;
 		angle = new GeoAngle(cons);
+		angle.setIntervalMax(null);
 		setInputOutput(); // for AlgoElement
 		compute();
 		angle.setDrawable(true);

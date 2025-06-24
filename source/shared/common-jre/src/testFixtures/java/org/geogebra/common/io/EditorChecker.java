@@ -18,9 +18,9 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.controller.CursorController;
-import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.AddPlaceholders;
+import com.himamis.retex.editor.share.editor.EditorFeatures;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.Parser;

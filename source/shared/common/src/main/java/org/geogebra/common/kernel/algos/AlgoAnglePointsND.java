@@ -94,6 +94,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 	protected AlgoAnglePointsND(Construction cons) {
 		super(cons);
 		angle = new GeoAngle(cons); // not setting the angle interval
+		angle.setIntervalMax(null);
 		angle.setDrawable(true);
 	}
 

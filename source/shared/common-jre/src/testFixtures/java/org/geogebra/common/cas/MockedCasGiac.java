@@ -50,7 +50,8 @@ public final class MockedCasGiac {
 
 			@Override
 			protected String translateAndEvaluateCAS(ValidExpression exp, StringTemplate tpl) {
-				return evaluateCAS(casParser.translateToCAS(exp, StringTemplate.defaultTemplate, this));
+				return evaluateCAS(casParser.translateToCAS(exp,
+						StringTemplate.defaultTemplate, this));
 			}
 
 			@Override

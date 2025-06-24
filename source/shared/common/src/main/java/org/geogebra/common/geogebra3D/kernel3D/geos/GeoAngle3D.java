@@ -18,6 +18,7 @@ final public class GeoAngle3D extends GeoAngle {
 	 */
 	public GeoAngle3D(Construction c) {
 		super(c);
+		setIntervalMax(null);
 		hasOrientation = false;
 	}
 

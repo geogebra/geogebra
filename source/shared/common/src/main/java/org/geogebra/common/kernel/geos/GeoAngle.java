@@ -166,7 +166,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	/**
 	 * Creates new GeoAngle
-	 * 
+	 *
 	 * @param c
 	 *            Construction
 	 */
@@ -183,51 +183,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		// setEuclidianVisible(false);
 	}
 
-	@Override
-	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
-			boolean keepAdvanced, boolean setAuxiliaryProperty) {
-		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced, setAuxiliaryProperty);
-
-		if (geo.isGeoAngle()) {
-			setAngleStyle(((GeoAngle) geo).getAngleStyle());
-		}
-	}
-
 	/**
-	 * Creates labeled angle of given size
-	 * 
-	 * @param c
-	 *            Construction
-	 * @param label
-	 *            Name for angle
-	 * @param x
-	 *            Size of the angle
-	 */
-	public GeoAngle(Construction c, String label, double x) {
-		this(c, x);
-		setLabel(label);
-	}
-
-	/**
-	 * Creates labeled angle of given size
-	 * 
-	 * @param c
-	 *            Construction
-	 * @param x
-	 *            Size of the angle
-	 * @param style
-	 *            eg UNBOUNDED
-	 */
-	public GeoAngle(Construction c, double x, AngleStyle style) {
-		this(c);
-
-		// must set style before value
-		setAngleStyle(style);
-		setValue(x);
-	}
-
-	/**
-	 * Creates labeled angle of given size
+	 * Creates angle of given size
 	 *
 	 * @param c
 	 *            Construction
@@ -247,14 +204,9 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		setValue(x);
 	}
 
-	@Override
-	public GeoClass getGeoClassType() {
-		return GeoClass.ANGLE;
-	}
-
 	/**
 	 * Creates new angle of given size
-	 * 
+	 *
 	 * @param c
 	 *            Construction
 	 * @param x
@@ -263,6 +215,21 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	public GeoAngle(Construction c, double x) {
 		this(c);
 		setValue(x);
+	}
+
+	@Override
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
+			boolean keepAdvanced, boolean setAuxiliaryProperty) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced, setAuxiliaryProperty);
+
+		if (geo.isGeoAngle()) {
+			setAngleStyle(((GeoAngle) geo).getAngleStyle());
+		}
+	}
+
+	@Override
+	public GeoClass getGeoClassType() {
+		return GeoClass.ANGLE;
 	}
 
 	@Override

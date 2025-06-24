@@ -23,8 +23,14 @@ import org.hamcrest.core.IsEqual;
 
 public class AlgebraTestHelper {
 
-	public static void shouldFail(String string, String errorMsg, App app) {
-		shouldFail(string, errorMsg, null, app);
+	/**
+	 * Assert that evaluation fails with a given message.
+	 * @param input evaluated input
+	 * @param errorMsg expected error message
+	 * @param app application
+	 */
+	public static void shouldFail(String input, String errorMsg, App app) {
+		shouldFail(input, errorMsg, null, app);
 	}
 
 	/**
@@ -183,6 +189,11 @@ public class AlgebraTestHelper {
 		return matchers;
 	}
 
+	/**
+	 * Enable or disable CAS in settings.
+	 * @param app application
+	 * @param enabled whether to enable
+	 */
 	public static void enableCAS(App app, boolean enabled) {
 		app.getSettings().getCasSettings().setEnabled(enabled);
 	}

@@ -65,6 +65,9 @@ public class BaseCommandTest {
 		AlgebraTestHelper.checkSyntaxSingle(input, expected, processor, tpl);
 	}
 
+	/**
+	 * Reset the counter for syntax coverage checking.
+	 */
 	public static void resetSyntaxCounter() {
 		uncheckedSyntaxesCount = UNINITIALIZED;
 	}
