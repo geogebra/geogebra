@@ -412,7 +412,6 @@ public class ToolbarPanel extends FlowPanel
 	public void closeAnimation() {
 		DockSplitPaneW dockParent = getDockParent();
 		if (dockParent != null) {
-			dockParent.addStyleName("singlePanel");
 			int parentOffsetWidth = dockParent.getMaxWidgetSize();
 			dockParent.setWidgetSize(getToolbarDockPanel(), parentOffsetWidth - 1);
 			double targetSize = 2 * parentOffsetWidth / 3.0;
@@ -439,7 +438,6 @@ public class ToolbarPanel extends FlowPanel
 				updateUndoRedoPosition();
 				heading.setVisible(false);
 				parent.forceLayout();
-				parent.removeStyleName("singlePanel");
 				resetFullscreenButton();
 			}
 
@@ -1348,7 +1346,6 @@ public class ToolbarPanel extends FlowPanel
 		DockSplitPaneW dockParent = getDockParent();
 		animateHeadingHeight(0, HEADING_HEIGHT);
 		if (dockParent != null) {
-			dockParent.addStyleName("singlePanel");
 			DockPanelW opposite = (DockPanelW) dockParent.getOpposite(getToolbarDockPanel());
 			navRail.setAnimating(true);
 			setLastOpenWidth(getOffsetWidth());
@@ -1356,7 +1353,6 @@ public class ToolbarPanel extends FlowPanel
 			dockParent.animate(OPEN_ANIM_TIME, new AnimationCallback() {
 				@Override
 				public void onAnimationComplete() {
-					dockParent.removeStyleName("singlePanel");
 					app.getGuiManager().setShowView(false, opposite.getViewId());
 					navRail.setAnimating(false);
 					dockParent.forceLayout();

@@ -81,14 +81,6 @@
 			transition: left 0.2s;
 		}
 
-		&.singlePanel .gwt-SplitLayoutPanel-HDragger:after {
-			top: 12px;
-		}
-
-		&.singlePanel .gwt-SplitLayoutPanel-VDragger:after {
-			left: calc(100% - 48px);
-		}
-
 		.draggerParentHorizontal {
 			border-top-right-radius: 8px;
 			border-bottom-right-radius: 8px;
