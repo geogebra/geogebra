@@ -1813,7 +1813,7 @@ public class Ggb2giac {
 
 						+ "normalize(ggin)),when((ggin)[0]==equal,"
 						+ "(ggbvect[unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))]),"
-						+ "when(ggin[0]='pnt'&&size(ggin[1])==3,(unitV(ggin)),unitV(ggbvect[real(ggin[1]),im(ggin[1])]))))],ggbuvans][2]))");
+						+ "when(ggin[0]='pnt'&&size(ggin[1])==3&&type(ggin[1])==vector,(unitV(ggin)),unitV(ggbvect[real(ggin[1]),im(ggin[1])]))))],ggbuvans][2]))");
 
 		p("JordanDiagonalization.1", "{jordan(%0)}");
 

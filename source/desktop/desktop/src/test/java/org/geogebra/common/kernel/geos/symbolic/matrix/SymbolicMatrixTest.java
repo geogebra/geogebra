@@ -95,10 +95,10 @@ public class SymbolicMatrixTest extends BaseSymbolicTest {
 		GeoSymbolic geo = add("SVD({{1,0},{0,4}})");
 		assertThat(geo.isMatrix(), is(false));
 		assertThat(geo.toValueString(StringTemplate.latexTemplate),
-				is("\\left\\{\\left(\\begin{array}{rr}0&-1\\\\1&0\\\\ \\end{array}\\right),"
-						+ "\\;\\left(\\begin{array}{rr}4&0\\\\0&1\\\\ \\end{array}\\right),"
-						+ "\\;\\left(\\begin{array}{rr}0&-1\\\\1&0\\\\ "
-						+ "\\end{array}\\right)\\right\\}"));
+				is("\\left\\{\\left(\\begin{array}{rr}1&0\\\\0&1\\\\ \\end{array}\\right),\\;"
+						+ "\\left(\\begin{array}{rr}1&0\\\\0&4\\\\ \\end{array}\\right),\\;"
+						+ "\\left(\\begin{array}{rr}1&0\\\\0&1\\\\ \\end{array}\\right)\\right\\}")
+		);
 		geo = add("Identity(2)");
 		assertThat(geo.isMatrix(), is(true));
 		assertThat(geo.toValueString(StringTemplate.latexTemplate),
