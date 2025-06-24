@@ -45,7 +45,8 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 			if (ExamStartDialog.mayChooseType(app)) {
 				showExamDialog(app, examType -> showSEBDialog(app, examType));
 			} else {
-				showSEBDialog(app, ExamType.GENERIC);
+				ExamType forcedExamType = app.getForcedExamType();
+				showSEBDialog(app, forcedExamType == null ? ExamType.GENERIC : forcedExamType);
 			}
 		}
 	}

@@ -6,6 +6,7 @@ import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.main.AppWFull;
@@ -60,8 +61,9 @@ public class ExamStartDialog extends ComponentDialog {
 	 * @return whether it's possible to choose multiple exam types in the app
 	 */
 	public static boolean mayChooseType(AppW app) {
-		return app.isSuite() && (!app.isLockedExam()
-				|| ExamType.CHOOSE.equals(app.getAppletParameters().getParamFeatureSet()));
+		String featureSet = app.getAppletParameters().getParamFeatureSet();
+		return app.isSuite()
+				&& (StringUtil.empty(featureSet) || ExamType.CHOOSE.equals(featureSet));
 	}
 
 	@Override
