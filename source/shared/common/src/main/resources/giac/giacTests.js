@@ -1616,7 +1616,7 @@ var __giac = [
 { cat:"UnitVector", cmd:"UnitVector[(a, b)]", result:"ggbvect((a / sqrt(a\u00B2 + b\u00B2), b / sqrt(a\u00B2 + b\u00B2)))" },
 { cat:"UnitVector", cmd:"UnitVector[(2, 4, 4)]", result:"(1 / 3, 2 / 3, 2 / 3)" },
 { cat:"UnitVector", cmd:"UnitVector[Vector[(2, 4, 4)]]", result:"ggbvect((1 / 3, 2 / 3, 2 / 3))" },
-{ cat:"UnitVector", cmd:"UnitVector[(k+1,k+1)]", result:"(sqrt(2) / 2, sqrt(2) / 2)|OR|ggbvect(((k + 1) / (sqrt(2) abs(k + 1)), (k + 1) / (sqrt(2) abs(k + 1))))" },
+{ cat:"UnitVector", cmd:"UnitVector[(k+1,k+1)]", result:"(sqrt(2) / 2, sqrt(2) / 2)|OR|ggbvect(((k + 1) / (sqrt(2) abs(k + 1)), (k + 1) / (sqrt(2) abs(k + 1))))|OR|((k+1)/(sqrt(2)abs(k+1)),(k+1)/(sqrt(2)abs(k+1)))" },
 { cat:"UnitVector", cmd:"UnitVector[(k+1,k+2)]", result:"((k sqrt(2k\u00B2 + 6k + 5) + sqrt(2k\u00B2 + 6k + 5)) / (2k\u00B2 + 6k + 5), (k sqrt(2k\u00B2 + 6k + 5) + 2sqrt(2k\u00B2 + 6k + 5)) / (2k\u00B2 + 6k + 5))|OR|ggbvect(((k + 1) / sqrt(2k\u00B2 + 6k + 5), (k + 2) / sqrt(2k\u00B2 + 6k + 5)))" },
 { cat:"UnitVector", cmd:"UnitVector[(k+1,k+1,k+1)]", result:"((sqrt(3) k + sqrt(3)) / (3abs(k + 1)), (sqrt(3) k + sqrt(3)) / (3abs(k + 1)), (sqrt(3) k + sqrt(3)) / (3abs(k + 1)))|OR|((k + 1) / (sqrt(3) abs(k + 1)), (k + 1) / (sqrt(3) abs(k + 1)), (k + 1) / (sqrt(3) abs(k + 1)))|OR|((k + 1) sqrt(3) / 3 / abs(k + 1), (k + 1) sqrt(3) / 3 / abs(k + 1), (k + 1) sqrt(3) / 3 / abs(k + 1))" },
 { cat:"UnitVector", cmd:"UnitVector[(k+1,k+1,k+2)]", result:"((k + 1) sqrt(3k\u00B2 + 8k + 6) / (3k\u00B2 + 8k + 6), (k + 1) sqrt(3k\u00B2 + 8k + 6) / (3k\u00B2 + 8k + 6), (k + 2) sqrt(3k\u00B2 + 8k + 6) / (3k\u00B2 + 8k + 6))" },
