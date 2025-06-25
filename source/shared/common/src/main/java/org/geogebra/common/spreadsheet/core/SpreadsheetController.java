@@ -249,11 +249,13 @@ public final class SpreadsheetController {
 	private void updateLayout(int fromColumn, int fromRow) {
 		layout.setNumberOfColumns(tabularData.numberOfColumns());
 		layout.setNumberOfRows(tabularData.numberOfRows());
-		double w = layout.getWidth(Math.max(0, fromColumn - 1));
-		double h = layout.getHeight(Math.max(0, fromRow - 1));
-		layout.setWidthForColumns(w, fromColumn,
+		int clampedFromColumn = Math.max(0, fromColumn - 1);
+		int clampedFromRow = Math.max(0, fromRow - 1);
+		double w = layout.getWidth(clampedFromColumn);
+		double h = layout.getHeight(clampedFromRow);
+		layout.setWidthForColumns(w, clampedFromColumn,
 				tabularData.numberOfColumns() - 1);
-		layout.setHeightForRows(h, fromRow,
+		layout.setHeightForRows(h, clampedFromRow,
 				tabularData.numberOfRows() - 1);
 		onLayoutChange();
 	}

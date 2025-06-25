@@ -71,6 +71,13 @@ public final class Rectangle {
 	}
 
 	/**
+	 * @return Horizontal midpoint
+	 */
+	public double getMidX() {
+		return origin.getX() + size.getWidth() / 2;
+	}
+
+	/**
 	 * Get min y
 	 * @return min y
 	 */
@@ -84,6 +91,13 @@ public final class Rectangle {
 	 */
 	public double getMaxY() {
 		return origin.getY() + size.getHeight();
+	}
+
+	/**
+	 * @return Vertical midpoint
+	 */
+	public double getMidY() {
+		return origin.getY() + size.getHeight() / 2;
 	}
 
 	/**

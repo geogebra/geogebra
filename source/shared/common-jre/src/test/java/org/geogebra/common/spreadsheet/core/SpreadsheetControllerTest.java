@@ -907,6 +907,20 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertNull(controller.contentAt(1, 0));
     }
 
+    @Issue("APPS-6742")
+    @Test
+    public void testCut2() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+
+        // click into column A header to select entire column
+        simulateCellMouseClick(-1, 0, 1);
+        assertEquals(new TabularRange(-1, 0), controller.getLastSelection().getRange());
+
+        controller.cutCells(0, 0); // should not cause index out of bounds exception
+        assertNull(controller.contentAt(0, 0));
+    }
+
     // Helpers
 
     private void setViewport(Rectangle viewport) {
@@ -940,10 +954,21 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     private Point getCenter(int row, int column) {
         TableLayout layout = controller.getLayout();
+        if (row == -1 && column >= 0) {
+            // entire column, return center of column header
+            Rectangle cellBounds = layout.getBounds(0, column);
+            return new Point(layout.getRowHeaderWidth() + cellBounds.getMidX(),
+                    layout.getColumnHeaderHeight() / 2);
+        }
+        if (column == -1 && row >= 0) {
+            // entire row, return center of row header
+            Rectangle cellBounds = layout.getBounds(row, 0);
+            return new Point(layout.getRowHeaderWidth() / 2,
+                    layout.getColumnHeaderHeight() + cellBounds.getMidY());
+        }
         Rectangle cellBounds = layout.getBounds(row, column)
                 .translatedBy(layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
-        return new Point(cellBounds.getMinX() + cellBounds.getWidth() / 2,
-            cellBounds.getMinY() + cellBounds.getHeight() / 2);
+        return new Point(cellBounds.getMidX(), cellBounds.getMidY());
     }
 
     /**
