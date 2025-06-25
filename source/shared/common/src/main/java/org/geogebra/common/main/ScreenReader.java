@@ -68,10 +68,11 @@ public class ScreenReader {
 		}
 
 		// MOW-137: if selection originated in AV we don't want to move focus to EV
-		if (app.getGuiManager() != null && app.getGuiManager()
-				.getLayout().getDockManager().getFocusedViewId() != app
-						.getActiveEuclidianView().getViewID()) {
-			return;
+		GuiManagerInterface guiManager = app.getGuiManager();
+		int viewID = app.getActiveEuclidianView().getViewID();
+		if (guiManager != null && guiManager.getLayout() != null
+			&& guiManager.getLayout().getDockManager().getFocusedViewId() != viewID) {
+				return;
 		}
 
 		// WLY-298: do not steal focus from input box

@@ -15,6 +15,7 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -78,6 +79,7 @@ public class AppCommon extends App {
 	private boolean appletFlag = false;
 	private ImageManager imageManager;
 	private final HashMap<String, MyImageCommon> externalImages = new HashMap<>();
+	private GuiManager guiManager;
 
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
 		this(loc, awtFactory, new AppConfigDefault());
@@ -302,7 +304,7 @@ public class AppCommon extends App {
 
     @Override
     public GuiManagerInterface getGuiManager() {
-        return null;
+        return guiManager;
     }
 
     @Override
@@ -793,5 +795,9 @@ public class AppCommon extends App {
 	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
 		getSettings().getAlgebra().getXML(sb, asPreference);
 		getSettings().getSpreadsheet().getXML(sb, asPreference);
+	}
+
+	public void setGuiManager(GuiManager guiManager) {
+		this.guiManager = guiManager;
 	}
 }

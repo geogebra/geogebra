@@ -1276,9 +1276,7 @@ public abstract class GlobalKeyDispatcher {
 			return true;
 
 		case DELETE:
-			if (app.getGuiManager() != null
-					&& app.getGuiManager().hasSpreadsheetView()
-					&& app.getGuiManager().getSpreadsheetView().hasFocus()) {
+			if (isSpreadsheetFocused()) {
 				return false;
 			}
 			// DELETE selected objects
@@ -1288,8 +1286,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 
 		case BACKSPACE:
-			if (app.getGuiManager() != null
-					&& app.getGuiManager().getSpreadsheetView().hasFocus()) {
+			if (isSpreadsheetFocused()) {
 				return false;
 			}
 			// DELETE selected objects
@@ -1314,10 +1311,7 @@ public abstract class GlobalKeyDispatcher {
 
 		// ignore key events coming from tables like the spreadsheet to
 		// allow start editing, moving etc
-		if (fromSpreadsheet || (app.isUsingFullGui()
-				&& app.getGuiManager() != null
-				&& app.getGuiManager().hasSpreadsheetView()
-				&& app.getGuiManager().getSpreadsheetView().hasFocus())) {
+		if (fromSpreadsheet || isSpreadsheetFocused()) {
 			return false;
 		}
 
@@ -1516,6 +1510,12 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		return false;
+	}
+
+	private boolean isSpreadsheetFocused() {
+		return app.getGuiManager() != null
+				&& app.getGuiManager().hasSpreadsheetView()
+				&& app.getGuiManager().getSpreadsheetView().hasFocus();
 	}
 
 	private void readMovedPoints(List<GeoElement> geos) {

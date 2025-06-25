@@ -5,19 +5,26 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.test.EventAccumulator;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -145,5 +152,18 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false,
 				false);
 		assertThat(lookup("a"), nullValue());
+	}
+
+	@Test
+	@Issue("APPS-6737")
+	public void noSpreadsheetInstantiation() {
+		GuiManager guiManager = mock(GuiManager.class);
+		getApp().setGuiManager(guiManager);
+		GeoPoint point = add("(1,1)");
+		getApp().getSelectionManager().addSelectedGeo(point);
+		dispatcher.handleSelectedGeosKeys(KeyCodes.BACKSPACE, List.of(point),
+				false, false, false, false);
+		assertEquals(0, getConstruction().getGeoSetConstructionOrder().size());
+		verify(guiManager, never()).getSpreadsheetView();
 	}
 }
