@@ -8,6 +8,7 @@
 		overflow: hidden;
 		box-sizing: border-box;
 		position: relative;
+		z-index: 0;
 	}
 
 	div[data-title]:after,
