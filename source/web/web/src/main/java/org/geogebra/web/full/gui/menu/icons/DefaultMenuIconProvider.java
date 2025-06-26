@@ -51,6 +51,8 @@ public class DefaultMenuIconProvider implements MenuIconProvider {
 			return res.bugReport();
 		case INFO:
 			return res.info();
+		case PRIVACY_POLICY:
+			return res.privacyPolicy();
 		case SIGN_IN:
 			return res.signIn();
 		case SIGN_OUT:

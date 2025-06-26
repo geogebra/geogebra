@@ -226,10 +226,12 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				"Help", Action.SHOW_FORUM);
 		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
 				"ReportProblem", Action.REPORT_PROBLEM);
+		ActionableItem privacyPolicy = new ActionableItemImpl(Icon.PRIVACY_POLICY,
+				"PrivacyPolicy", Action.SHOW_PRIVACY_POLICY);
 		ActionableItem license = new ActionableItemImpl(Icon.INFO,
 				"AboutLicense", Action.SHOW_LICENSE);
 		return new SubmenuItemImpl(Icon.HELP, "HelpAndFeedback", versionNumber,
-				tutorials, askQuestion, reportProblem, license);
+				tutorials, askQuestion, reportProblem, privacyPolicy, license);
 	}
 
 	protected MenuItem showDownloadAs() {

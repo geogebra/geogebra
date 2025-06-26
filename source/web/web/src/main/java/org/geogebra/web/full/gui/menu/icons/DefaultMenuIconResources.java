@@ -60,6 +60,9 @@ public interface DefaultMenuIconResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/info-24px.svg")
 	SVGResource info();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/privacy_tip.svg")
+	SVGResource privacyPolicy();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/exit_to_app-24px.svg")
 	SVGResource signIn();
 

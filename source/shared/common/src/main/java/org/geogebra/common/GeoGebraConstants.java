@@ -213,7 +213,8 @@ public interface GeoGebraConstants {
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	/** mimetype of GGB files */
 	public static final String GGW_MIME_TYPE = "application/vnd.geogebra.file";
-
+	/** Privacy Policy */
+	String PRIVACY_POLICY_URL = "https://www.geogebra.org/privacy";
 	/** license URL */
 	public static final String GGB_LICENSE_URL = "https://www.geogebra.org/license";
 
