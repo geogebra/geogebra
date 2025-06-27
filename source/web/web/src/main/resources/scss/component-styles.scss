@@ -28,15 +28,54 @@
 		.checkboxLbl {
 			height: auto;
 			min-height: 20px;
-			line-height: 20px;
-			margin-left: 20px;
-			margin-top: 8px;
-			margin-bottom: 8px;
+			line-height: 24px;
+			margin: 6px 16px 6px 4px;
 			font-size: 100%;
+		}
 
-			&.disabled {
+		&.withLabel .checkbox {
+			margin-left: 7px;
+		}
+
+		&.keyboardFocus .checkbox {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			border-radius: 8px;
+			outline-offset: -7px;
+		}
+
+		&.disabled {
+			.checkboxLbl {
 				cursor: default;
 				color: neutral(500);
+			}
+
+			.checkbox {
+				cursor: default;
+
+				.hoverBg {
+					&:after {
+						background-image: none;
+					}
+				}
+
+				&:hover {
+					.hoverBg {
+						background-color: transparent;
+					}
+				}
+
+				.background {
+					border-color: neutral(500);
+				}
+
+				&.selected {
+					.background {
+						background-color: neutral(500);
+						border-color: transparent;
+					}
+				}
 			}
 		}
 	}
@@ -131,33 +170,6 @@
 			.hoverBg {
 				opacity: 1;
 				background-color: colors.$black-08;
-			}
-		}
-
-		&.disabled {
-			cursor: default;
-
-			.hoverBg {
-				&:after {
-					background-image: none;
-				}
-			}
-
-			&:hover {
-				.hoverBg {
-					background-color: transparent;
-				}
-			}
-
-			.background {
-				border-color: neutral(500);
-			}
-
-			&.selected {
-				.background {
-					background-color: neutral(500);
-					border-color: transparent;
-				}
 			}
 		}
 	}
@@ -1270,25 +1282,25 @@
 	input[type=range].slider {
 		-webkit-appearance: none;
 		width: 100%;
-    }
+	}
 
-    input[type=range].slider::-webkit-slider-runnable-track {
-    	width: 100%;
-    	height: 4px;
-        background: var(--ggb-selection-color);
-        border-radius: 5px;
-        cursor: pointer;
-    }
+	input[type=range].slider::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 4px;
+		background: var(--ggb-selection-color);
+		border-radius: 5px;
+		cursor: pointer;
+	}
 
-    input[type=range].slider::-webkit-slider-thumb {
-    	height: 18px;
-    	width: 18px;
-    	border-radius: 50%;
-    	background: var(--ggb-primary-color);
-    	cursor: pointer;
-    	-webkit-appearance: none;
-    	margin-top: -7px
-    }
+	input[type=range].slider::-webkit-slider-thumb {
+		height: 18px;
+		width: 18px;
+		border-radius: 50%;
+		background: var(--ggb-primary-color);
+		cursor: pointer;
+		-webkit-appearance: none;
+		margin-top: -7px
+	}
 
 	input[type=range].slider:hover::-webkit-slider-thumb {
 		outline: 8px solid var(--ggb-selection-color);

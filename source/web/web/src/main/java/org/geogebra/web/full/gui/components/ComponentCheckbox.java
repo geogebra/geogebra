@@ -12,35 +12,68 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
+import elemental2.dom.KeyboardEvent;
+
 /**
  * material design checkbox component
  */
 public class ComponentCheckbox extends FlowPanel implements SetLabels {
-	private Localization loc;
-	private boolean selected;
-	private boolean disabled = false;
+	private final Localization loc;
+	private boolean isSelected;
 	private FlowPanel checkbox;
 	private Label checkboxLbl;
-	private String checkboxTxt;
+	private final String checkboxTxt;
+	private final Consumer<Boolean> callback;
 
 	/**
-	 * @param loc - localization
-	 * @param setSelected - true if checkbox should be selected
-	 * @param templateTxt - text of checkbox
-	 * @param callback - on click action
+	 * @param loc {@link Localization}
+	 * @param selected whether the checkbox should be selected by default
+	 * @param checkboxText label of checkbox
+	 * @param callback click handler
 	 */
-	public ComponentCheckbox(Localization loc, boolean setSelected, String templateTxt,
+	public ComponentCheckbox(Localization loc, boolean selected, String checkboxText,
 			Consumer<Boolean> callback) {
 		this.loc = loc;
-		this.checkboxTxt = templateTxt;
+		isSelected = selected;
+		this.checkboxTxt = checkboxText;
+		this.callback = callback;
 
 		addStyleName("checkboxPanel");
+		buildComponent();
+		addClickAndKeyHandler();
+
+		setSelected(selected);
+		setLabels();
+		addAccessibilityInfo();
+	}
+
+	/**
+	 * @param loc {@link Localization}
+	 * @param selected whether the checkbox should be selected by default
+	 * @param callback click handler
+	 */
+	public ComponentCheckbox(Localization loc, boolean selected, Consumer<Boolean> callback) {
+		this(loc, selected, "", callback);
+	}
+
+	/**
+	 * @param loc {@link Localization}
+	 * @param selected whether it should be selected by default
+	 * @param checkboxText label of checkbox
+	 */
+	public ComponentCheckbox(Localization loc, boolean selected, String checkboxText) {
+		this(loc, selected, checkboxText, null);
+	}
+
+	private void buildComponent() {
 		checkbox = new FlowPanel();
 		checkbox.addStyleName("checkbox");
-		if (selected) {
-			checkbox.addStyleName("selected");
-		}
 
+		addCheckbox();
+		addLabel();
+	}
+
+	private void addCheckbox() {
 		SimplePanel background = new SimplePanel();
 		background.addStyleName("background");
 		SimplePanel checkMark = new SimplePanel();
@@ -55,24 +88,34 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		checkboxBg.addStyleName("ripple");
 		checkbox.add(checkboxBg);
 		add(checkbox);
+	}
 
-		if (!templateTxt.isEmpty()) {
+	private void addLabel() {
+		if (!checkboxTxt.isEmpty()) {
+			addStyleName("withLabel");
 			checkboxLbl = BaseWidgetFactory.INSTANCE.newPrimaryText("", "checkboxLbl");
 			add(checkboxLbl);
 		}
+	}
 
-		Dom.addEventListener(this.getElement(), "click", evt -> {
-			if (!disabled) {
-				setSelected(!isSelected());
-				if (callback != null) {
-					callback.accept(isSelected());
-				}
+	private void addClickAndKeyHandler() {
+		Dom.addEventListener(this.getElement(), "click", event -> runAction());
+
+		Dom.addEventListener(this.getElement(), "keydown", event -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if ("Space".equals(e.code)) {
+				runAction();
 			}
 		});
+	}
 
-		setSelected(setSelected);
-		setLabels();
-		addAccessibilityInfo();
+	private void runAction() {
+		if (!isDisabled()) {
+			setSelected(!isSelected());
+			if (callback != null) {
+				callback.accept(isSelected());
+			}
+		}
 	}
 
 	private void addAccessibilityInfo() {
@@ -82,29 +125,31 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * @param loc - localization
-	 * @param setSelected - true if checkbox should be selected
-	 * @param templateTxt - text of checkbox
-	 */
-	public ComponentCheckbox(Localization loc, boolean setSelected, String templateTxt) {
-		this(loc, setSelected, templateTxt, null);
-	}
-
-	/**
 	 * @return true if checkbox is selected
 	 */
 	public boolean isSelected() {
-		return selected;
+		return isSelected;
 	}
 
 	/**
-	 * @param selected
-	 *            true if switch is on
+	 * @param selected whether the checkbox is checked or not
 	 */
 	public void setSelected(boolean selected) {
-		this.selected = selected;
+		isSelected = selected;
 		updateCheckboxStyle();
 		AriaHelper.setChecked(this, selected);
+	}
+
+	/**
+	 * Set disabled state of checkbox
+	 * @param disabled whether checkbox should be disabled or enabled
+	 */
+	public void setDisabled(boolean disabled) {
+		Dom.toggleClass(this, "disabled", disabled);
+	}
+
+	private boolean isDisabled() {
+		return getStyleName().contains("disabled");
 	}
 
 	/**
@@ -112,18 +157,6 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	 */
 	public void updateCheckboxStyle() {
 		Dom.toggleClass(checkbox, "selected", isSelected());
-	}
-
-	/**
-	 * set disabled state of checkbox
-	 * @param isDisabled - true if should be disabled
-	 */
-	public void setDisabled(boolean isDisabled) {
-		disabled = isDisabled;
-		Dom.toggleClass(checkbox, "disabled", disabled);
-		if (checkboxLbl != null) {
-			Dom.toggleClass(checkboxLbl, "disabled", disabled);
-		}
 	}
 
 	@Override
