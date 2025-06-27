@@ -2,11 +2,9 @@ package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
-import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.full.gui.toolbarpanel.UndoRedoProvider;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 
@@ -19,8 +17,7 @@ public class ScientificEmbedTopBar extends FlowPanel {
 	 * but that's out of scope for APPS-6498 */
 	private static final int LEFT_PADDING_WITH_MENU = 56;
 	public final AppW appW;
-	private StandardButton undoBtn;
-	private StandardButton redoBtn;
+	private final UndoRedoProvider undoRedoProvider;
 
 	/**
 	 * Top bar including undo/redo and settings based on applet parameters.
@@ -29,6 +26,7 @@ public class ScientificEmbedTopBar extends FlowPanel {
 	 */
 	public ScientificEmbedTopBar(AppW appW) {
 		this.appW = appW;
+		undoRedoProvider = new UndoRedoProvider(appW);
 		addStyleName("scientificEmbedTopBar");
 
 		buildTopBar();
@@ -37,44 +35,12 @@ public class ScientificEmbedTopBar extends FlowPanel {
 
 	private void buildTopBar() {
 		if (isUndoRedoEnabled()) {
-			addUndoButton();
-			addRedoButton();
+			add(undoRedoProvider.getUndoButton());
+			add(undoRedoProvider.getRedoButton());
 		}
 		if (isSettingsEnabled()) {
 			addSettingsButton();
 		}
-	}
-
-	private void addUndoButton() {
-		undoBtn = createTopBarButton(MaterialDesignResources.INSTANCE.undo_border(),
-				"Undo", "undo");
-		undoBtn.addFastClickHandler(event -> onUndoPressed());
-		add(undoBtn);
-	}
-
-	private void addRedoButton() {
-		redoBtn = createTopBarButton(MaterialDesignResources.INSTANCE.redo_border(),
-				"Redo", "redo");
-		redoBtn.addFastClickHandler(event -> onRedoPressed());
-		add(redoBtn);
-	}
-
-	/**
-	 * Handler for Undo button.
-	 */
-	protected void onUndoPressed() {
-		appW.closePopups();
-		appW.closeMenuHideKeyboard();
-		appW.getGuiManager().undo();
-	}
-
-	/**
-	 * Handler for Redo button.
-	 */
-	protected void onRedoPressed() {
-		appW.closePopups();
-		appW.closeMenuHideKeyboard();
-		appW.getGuiManager().redo();
 	}
 
 	private void addSettingsButton() {
@@ -83,15 +49,6 @@ public class ScientificEmbedTopBar extends FlowPanel {
 				MaterialDesignResources.INSTANCE.gear()), "Settings");
 		settingsButton.addStyleName("settingsBtnScientific");
 		add(settingsButton);
-	}
-
-	private StandardButton createTopBarButton(SVGResource icon, String title, String className) {
-		StandardButton button = new StandardButton(icon, 24);
-		button.setTitle(appW.getLocalization().getMenu(title));
-		button.addStyleName("flatButtonHeader");
-		button.addStyleName(className);
-
-		return button;
 	}
 
 	/**
@@ -123,21 +80,7 @@ public class ScientificEmbedTopBar extends FlowPanel {
 	 * Enable/disable undo and redo buttons if undo/redo action is possible.
 	 */
 	public void updateUndoRedoVisibility() {
-		if (undoBtn == null || redoBtn == null) {
-			return;
-		}
-
-		Dom.toggleClass(undoBtn, "buttonActive", "buttonInactive",
-				appW.getKernel().undoPossible());
-
-		if (appW.getKernel().redoPossible()) {
-			redoBtn.removeStyleName("hidden");
-		} else {
-			if (!redoBtn.getElement().hasClassName("hidden")) {
-				appW.getAccessibilityManager().focusAnchor();
-			}
-			redoBtn.addStyleName("hidden");
-		}
+		undoRedoProvider.updateUndoRedoActions();
 	}
 
 	/**

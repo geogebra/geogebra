@@ -5,8 +5,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRANSLATEVIE
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -15,6 +13,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbarpanel.UndoRedoProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
@@ -34,8 +33,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	private final AppletParameters appletParams;
 	private final TopBarController controller;
 	private final List<IconButton> buttons = new ArrayList<>();
-	private @CheckForNull IconButton undoBtn;
-	private @CheckForNull IconButton redoBtn;
+	private final UndoRedoProvider undoRedoProvider;
 	private IconButton homeBtn;
 	private IconButton dragBtn;
 	private IconButton fullscreenButton;
@@ -49,6 +47,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 		this.appletParams = appW.getAppletParameters();
 		topBarIconResource = appW.getTopBarIconResource();
 		controller = new TopBarController(appW, topBarIconResource);
+		undoRedoProvider = new UndoRedoProvider(appW);
 
 		if (appW.getActiveEuclidianView() != null) {
 			appW.getActiveEuclidianView().getEuclidianController().addZoomerListener(this);
@@ -85,10 +84,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addUndoRedo() {
 		if (appletParams.getDataParamEnableUndoRedo()) {
-			undoBtn = addSmallPressButton(TopBarIcon.UNDO, "Undo",
-					controller::onUndo, AccessibilityGroup.UNDO);
-			redoBtn = addSmallPressButton(TopBarIcon.REDO, "Redo",
-					controller::onRedo, AccessibilityGroup.REDO);
+			add(undoRedoProvider.getUndoButton());
+			add(undoRedoProvider.getRedoButton());
 			addDivider();
 		}
 	}
@@ -143,10 +140,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	public void updateUndoRedoActions(Kernel kernel) {
 		kernel.getConstruction().getUndoManager().setAllowCheckpoints(
 				appletParams.getParamAllowUndoCheckpoints());
-		if (undoBtn != null && redoBtn != null) {
-			undoBtn.setDisabled(!kernel.undoPossible());
-			redoBtn.setDisabled(!kernel.redoPossible());
-		}
+		undoRedoProvider.updateUndoRedoActions();
 	}
 
 	private void addFullscreenButton() {

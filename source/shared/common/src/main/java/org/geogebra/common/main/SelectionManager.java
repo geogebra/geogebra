@@ -864,11 +864,16 @@ public class SelectionManager {
 
 	private void checkInputBoxAndFocus(GeoElement geo) {
 		EuclidianViewInterfaceCommon view = getViewOf(geo, kernel.getApplication());
-		if (geo instanceof GeoInputBox && geo.isEuclidianVisible()) {
-			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
-		} else {
-			view.getApplication().setActiveView(view.getViewID());
-			view.requestFocus();
+		if (view.isShowing()) {
+			if (geo instanceof GeoInputBox && geo.isEuclidianVisible()) {
+				((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
+			} else {
+				view.getApplication().setActiveView(view.getViewID());
+				view.requestFocus();
+			}
+		} else if (kernel.getApplication().getGuiManager() != null
+				&& kernel.getApplication().getGuiManager().hasAlgebraViewShowing()) {
+			kernel.getApplication().getAlgebraView().setFocus(true);
 		}
 	}
 

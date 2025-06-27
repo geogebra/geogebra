@@ -67,7 +67,8 @@ public class FocusableWidget implements MayHaveFocus {
 		if (btn.getParent() == null) {
 			return true;
 		} else {
-			return !btn.getParent().getElement().getStyle().getVisibility().equals("hidden");
+			return !btn.getParent().getElement().getStyle().getVisibility().equals("hidden")
+					&& !btn.getParent().getElement().getStyle().getDisplay().equals("none");
 		}
 	}
 

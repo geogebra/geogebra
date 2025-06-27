@@ -99,6 +99,7 @@ public class ToolbarPanel extends FlowPanel
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
+	private final UndoRedoProvider undoRedoProvider;
 	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
 	private final FlowPanel styleBarWrapper;
@@ -115,6 +116,7 @@ public class ToolbarPanel extends FlowPanel
 		this.decorator = decorator;
 		eventDispatcher = app.getEventDispatcher();
 		styleBarWrapper = new FlowPanel();
+		undoRedoProvider = new UndoRedoProvider(app);
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
 		initGUI();
@@ -150,8 +152,9 @@ public class ToolbarPanel extends FlowPanel
 		if (undoRedoPanel == null) {
 			maybeAddUndoRedoPanel();
 		}
+		undoRedoProvider.updateUndoRedoActions();
 		if (undoRedoPanel != null) {
-			undoRedoPanel.updateUndoActions();
+			undoRedoPanel.updateUndoRedoActions();
 		}
 	}
 
@@ -183,7 +186,7 @@ public class ToolbarPanel extends FlowPanel
 
 	private void setUndoPosition(double top, double left) {
 		assert undoRedoPanel != null;
-		undoRedoPanel.setVisible(true);
+		undoRedoPanel.setVisible(!heading.isVisible());
 		undoRedoPanel.getElement().getStyle().setTop(top, Unit.PX);
 		undoRedoPanel.getElement().getStyle().setLeft(left, Unit.PX);
 	}
@@ -221,7 +224,6 @@ public class ToolbarPanel extends FlowPanel
 
 	private void addUndoRedoButtons() {
 		getFrame().add(getUndoRedoPanel());
-		getUndoRedoPanel().setVisible(false);
 	}
 
 	private Widget getUndoRedoPanel() {
@@ -375,6 +377,7 @@ public class ToolbarPanel extends FlowPanel
 	private void buildHeading() {
 		heading = new FlowPanel();
 		heading.setVisible(getToolbarDockPanel().isAlone());
+		createUndoRedoButtons();
 		createCloseButton();
 		heading.setStyleName("toolPanelHeading");
 		if (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC) {
@@ -388,6 +391,19 @@ public class ToolbarPanel extends FlowPanel
 
 	public DockPanelDecorator getDecorator() {
 		return decorator;
+	}
+
+	private void createUndoRedoButtons() {
+		if (!app.getAppletParameters().getDataParamEnableUndoRedo()) {
+			return;
+		}
+		IconButton undoButton = undoRedoProvider.getUndoButton();
+		undoButton.addStyleName("flatButton");
+		heading.add(undoButton);
+
+		IconButton redoButton = undoRedoProvider.getRedoButton();
+		redoButton.addStyleName("flatButton");
+		heading.add(redoButton);
 	}
 
 	private void createCloseButton() {
@@ -1169,6 +1185,7 @@ public class ToolbarPanel extends FlowPanel
 		navRail.onOrientationChange();
 		hideDragger();
 		heading.clear();
+		createUndoRedoButtons();
 		addSpreadsheetStyleBar();
 		createCloseButton();
 		updateHeadingStyle(isAlone);
@@ -1180,9 +1197,7 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void setLabels() {
 		navRail.setLabels();
-		if (undoRedoPanel != null) {
-			undoRedoPanel.setLabels();
-		}
+		undoRedoProvider.setLabels();
 		if (moveBtn != null) {
 			String altText = app.getLocalization()
 					.getMenu(EuclidianConstants
@@ -1302,9 +1317,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	protected void setMenuButton(FocusableWidget focusableMenuButton) {
-		if (undoRedoPanel != null) {
-			undoRedoPanel.redoAnchor = focusableMenuButton;
-		}
+		undoRedoProvider.redoAnchor = focusableMenuButton;
 	}
 
 	/**
@@ -1331,6 +1344,7 @@ public class ToolbarPanel extends FlowPanel
 			}
 			heading.setStyleName("withShadow", localShadow);
 		}
+		Dom.toggleClass(heading, "portrait", "landscape", app.isPortrait());
 	}
 
 	private void updateSpreadsheetStyleBarStyle() {
@@ -1420,12 +1434,11 @@ public class ToolbarPanel extends FlowPanel
 			Dom.toggleClass(spreadsheetStyleBar, "portrait", "landscape", app.isPortrait());
 			boolean headingVisible = heading.isVisible();
 			if (headingVisible) {
-				heading.insert(spreadsheetStyleBar, 0);
+				heading.add(spreadsheetStyleBar);
 			} else {
 				styleBarWrapper.add(spreadsheetStyleBar);
 			}
 			boolean undoRedoEnabled = app.getAppletParameters().getDataParamEnableUndoRedo();
-			Dom.toggleClass(spreadsheetStyleBar, "noUndoRedo", !undoRedoEnabled);
 			spreadsheetStyleBar.setDividerVisible(headingVisible && undoRedoEnabled);
 		}
 	}

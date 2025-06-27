@@ -21,6 +21,7 @@
         margin: 6px;
         float: left;
         position: relative;
+        display: flex;
      }
 
      &.smallScreen .undoRedoCntScientific, &.smallScreen .settingsBtnScientific {

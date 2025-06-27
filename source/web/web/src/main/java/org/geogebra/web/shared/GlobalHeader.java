@@ -32,7 +32,6 @@ import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.view.button.ActionButton;
-import org.geogebra.web.shared.view.button.DisappearingActionButton;
 import org.gwtproject.animation.client.AnimationScheduler;
 import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
 import org.gwtproject.dom.client.Document;
@@ -319,11 +318,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	}
 
 	private ActionButton getRedoButton() {
-		RootPanel view = getViewById("redoButton");
-		if (view != null) {
-			return new DisappearingActionButton(app, view, "Redo");
-		}
-		return null;
+		return getActionButton("redoButton", "Redo");
 	}
 
 	private ActionButton getActionButton(String viewId, String title) {

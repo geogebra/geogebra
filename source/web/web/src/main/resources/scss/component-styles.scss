@@ -311,19 +311,6 @@
 		}
 	}
 
-	.buttonActive {
-		position: relative;
-
-		img {
-			opacity: 0.54;
-		}
-
-		&:hover {
-			img {
-				opacity: 0.84;
-			}
-		}
-	}
 
 	/* DROPDOWN COMPONENT */
 	.dropDownSelectorContainer {
@@ -900,18 +887,6 @@
 			background-color: neutral(200);
 		}
 	 }
-
-	 .buttonInactive {
-		cursor: default;
-
-		img {
-			opacity: 0.26;
-		}
-
-		&:hover {
-			background-color: transparent;
-		}
-	}
 
 	.searchBar.compact {
 		max-width: 488px;

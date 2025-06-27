@@ -47,7 +47,7 @@ public class ActionButton implements ActionView, SetLabels {
 
 	@Override
 	public void setEnabled(boolean enabled) {
-		Dom.toggleClass(view, "buttonActive", "buttonInactive", enabled);
+		Dom.toggleClass(view, "disabled", !enabled);
 	}
 
 	/**
