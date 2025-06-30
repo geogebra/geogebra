@@ -311,7 +311,7 @@ public enum TestGeo implements Predicate<Object> {
 	GEOLOCUS {
 		@Override
 		public boolean test(Object ob) {
-			return ob instanceof GeoLocus;
+			return !(ob instanceof GeoStadium) && ob instanceof GeoLocus;
 		}
 	},
 
