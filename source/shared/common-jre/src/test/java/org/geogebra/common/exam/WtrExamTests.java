@@ -31,8 +31,11 @@ public class WtrExamTests extends BaseExamTestSetup {
 	@ParameterizedTest
 	@CsvSource(delimiter = ';', value = {
 			"BinomialDist(); 							Illegal number of arguments",
-			"Normal(2, 0.5, 1, true); 					Illegal argument: Boolean",
+			"Normal(2, 0.5, 1, true); 					Illegal argument: true",
 			"BinomialDist(5, 0.2, 1, false && true); 	Sorry, something went wrong",
+			"BinomialDist(5, 0.2); 						Illegal number of arguments",
+			"BinomialDist(5, 0.2, true); 				Illegal number of arguments",
+			"BinomialDist(5, 0.2, {1, 2, 3, 4, 5}); 	Sorry, something went wrong",
 			"Solve(x^2 = 0); 							Unknown command : Solve",
 			"Solutions(x^2 = 0); 						Unknown command : Solutions",
 			"CSolve(x^2 = 0); 							Unknown command : CSolve",

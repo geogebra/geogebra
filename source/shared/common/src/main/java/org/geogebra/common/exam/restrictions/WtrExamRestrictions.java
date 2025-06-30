@@ -13,6 +13,7 @@ import static org.geogebra.common.kernel.commands.Commands.BinomialCoefficient;
 import static org.geogebra.common.kernel.commands.Commands.BinomialDist;
 import static org.geogebra.common.kernel.commands.Commands.Normal;
 import static org.geogebra.common.kernel.commands.Commands.nCr;
+import static org.geogebra.common.main.syntax.Syntax.ArgumentMatcher.isNumber;
 import static org.geogebra.common.plugin.Operation.ABS;
 import static org.geogebra.common.plugin.Operation.ACOSH;
 import static org.geogebra.common.plugin.Operation.ARCCOS;
@@ -59,6 +60,7 @@ import static org.geogebra.common.util.StreamUtils.filter;
 import static org.geogebra.common.util.StreamUtils.streamOf;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -77,12 +79,14 @@ import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.RadianGradianFilter;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.main.syntax.Syntax;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelector;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
@@ -164,73 +168,19 @@ public class WtrExamRestrictions extends ExamRestrictions {
 	}
 
 	private static final class WtrCommandArgumentFilter implements CommandArgumentFilter {
+		private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
+				BinomialDist, Set.of(
+						Syntax.of(BinomialDist,
+								isNumber(), isNumber(), isNumber(), GeoElement::isGeoBoolean)),
+				Normal, Set.of(
+						Syntax.of(Normal, isNumber(), isNumber(), isNumber()),
+						Syntax.of(Normal, isNumber(), isNumber(), isNumber(), isNumber())));
+
 		@Override
 		public void checkAllowed(Command command, CommandProcessor commandProcessor)
 				throws MyError {
-			String internalCommandName = command.getName();
-			if (BinomialDist.name().equals(internalCommandName)) {
-				checkBinomialDistribution(command, commandProcessor);
-			} else if (Normal.name().equals(internalCommandName)) {
-				checkNormalDistribution(command, commandProcessor);
-			}
-		}
-
-		private void checkBinomialDistribution(Command command, CommandProcessor commandProcessor) {
-			// only BinomialDist(<Number of Trials>, <Probability of Success>,
-			// <Variable value>, <Boolean Cumulative>) allowed
-			GeoElement[] arguments = commandProcessor.resArgs(command);
-			if (arguments.length != 4) {
-				throw commandProcessor.argNumErr(command, arguments.length);
-			}
-			GeoElement firstArgument = arguments[0];
-			if (!isNumberValue(firstArgument)) {
-				throw commandProcessor.argErr(command, firstArgument);
-			}
-			GeoElement secondArgument = arguments[1];
-			if (!isNumberValue(secondArgument)) {
-				throw commandProcessor.argErr(command, secondArgument);
-			}
-			GeoElement thirdArgument = arguments[2];
-			if (!isNumberValue(thirdArgument)) {
-				throw commandProcessor.argErr(command, thirdArgument);
-			}
-			GeoElement fourthArgument = arguments[3];
-			if (!fourthArgument.isGeoBoolean()) {
-				throw commandProcessor.argErr(command, fourthArgument);
-			}
-		}
-
-		private void checkNormalDistribution(Command command, CommandProcessor commandProcessor) {
-			// only Normal(<Mean>, <Standard deviation>, <Variable Value>)
-			// and Normal(<Mean>, <Standard deviation>, <Variable Value u>, <Variable Value v>)
-			// are allowed
-			GeoElement[] arguments = commandProcessor.resArgs(command);
-			if (arguments.length != 3 && arguments.length != 4) {
-				throw commandProcessor.argNumErr(command, arguments.length);
-			}
-			GeoElement firstArgument = arguments[0];
-			if (!isNumberValue(firstArgument)) {
-				throw commandProcessor.argErr(command, firstArgument);
-			}
-			GeoElement secondArgument = arguments[1];
-			if (!isNumberValue(secondArgument)) {
-				throw commandProcessor.argErr(command, secondArgument);
-			}
-			GeoElement thirdArgument = arguments[2];
-			if (!isNumberValue(thirdArgument)) {
-				throw commandProcessor.argErr(command, thirdArgument);
-			}
-			if (arguments.length != 4) {
-				return;
-			}
-			GeoElement fourthArgument = arguments[3];
-			if (!isNumberValue(fourthArgument)) {
-				throw commandProcessor.argErr(command, fourthArgument);
-			}
-		}
-
-		private boolean isNumberValue(GeoElement geoElement) {
-			return geoElement.isNumberValue() && !geoElement.isGeoBoolean();
+			Syntax.checkRestrictedSyntaxes(
+					allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 		}
 	}
 

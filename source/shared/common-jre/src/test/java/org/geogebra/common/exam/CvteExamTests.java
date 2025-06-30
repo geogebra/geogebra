@@ -53,14 +53,29 @@ public final class CvteExamTests extends BaseExamTestSetup {
         evaluate("l2={1,2}");
 
         assertAll(
-                () -> assertNull(evaluate("{l1, l2}")),
-                () -> assertNull(evaluate("{If(true, l1)}")),
-                () -> assertNull(evaluate("{IterationList(x^2,3,2)}")),
-                () -> assertNull(evaluate("{Sequence(k,k,1,3)}")));
-        assertEquals("Please check your input"
-                + "Sorry, something went wrong. Please check your input".repeat(3),
-                errorAccumulator.getErrorsSinceReset());
-        errorAccumulator.resetError();
+                () -> {
+                    assertNull(evaluate("{l1, l2}"));
+                    assertEquals("Please check your input", errorAccumulator.getErrorsSinceReset());
+                    errorAccumulator.resetError();
+                },
+                () -> {
+                    assertNull(evaluate("{If(true, l1)}"));
+                    assertEquals("Sorry, something went wrong. Please check your input",
+                            errorAccumulator.getErrorsSinceReset());
+                    errorAccumulator.resetError();
+                },
+                () -> {
+                    assertNull(evaluate("{IterationList(x^2,3,2)}"));
+                    assertEquals("Sorry, something went wrong. Please check your input",
+                            errorAccumulator.getErrorsSinceReset());
+                    errorAccumulator.resetError();
+                },
+                () -> {
+                    assertNull(evaluate("{Sequence(k,k,1,3)}"));
+                    assertEquals("Sorry, something went wrong. Please check your input",
+                            errorAccumulator.getErrorsSinceReset());
+                    errorAccumulator.resetError();
+                });
     }
 
     @Test
@@ -71,7 +86,7 @@ public final class CvteExamTests extends BaseExamTestSetup {
         errorAccumulator.resetError();
         assertNull(evaluate("Circle(A, B)"));
         assertThat(errorAccumulator.getErrorsSinceReset(),
-                containsString("Illegal argument: Point B"));
+                containsString("Illegal argument: B"));
 
         errorAccumulator.resetError();
         assertNotNull(evaluate("Circle(A, 1)"));
@@ -253,6 +268,33 @@ public final class CvteExamTests extends BaseExamTestSetup {
         assertTrue(errorAccumulator.getErrorsSinceReset()
                 .contains("Illegal number of arguments: 5"));
         errorAccumulator.resetError();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Circle((0, 0), Segment((1, 1), (2, 2)))",
+            "Circle((0, 0), (1, 1))",
+            "Circle((0, 0), (1, 0), (0, 1))",
+            "Circle(Line((0, 0), (1, 1)), (0, 0))",
+            "Circle((0, 0), 3, Vector((1, 1)))",
+            "Circle((0, 0), (1, 0), Vector((0, 1)))",
+            "Extremum(x^2)",
+            "Root(x^3 - 3 * x^2 - 4 * x + 12)",
+            "Root(x^2, 0)",
+    })
+    public void testRestrictedCommandArguments(String command) {
+        assertNull(evaluate(command));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Circle((0, 0), 5)",
+            "Circle(5 + i, 5)",
+            "Extremum(x^2, -5, 5)",
+            "Root(x^2, 0, 5)",
+    })
+    public void testUnrestrictedCommandArguments(String command) {
+        assertNotNull(evaluate(command));
     }
 
     @Test

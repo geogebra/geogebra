@@ -1,5 +1,12 @@
 package org.geogebra.common.exam.restrictions.cvte;
 
+import static org.geogebra.common.kernel.commands.Commands.Circle;
+import static org.geogebra.common.kernel.commands.Commands.Extremum;
+import static org.geogebra.common.kernel.commands.Commands.Intersect;
+import static org.geogebra.common.kernel.commands.Commands.Root;
+import static org.geogebra.common.main.syntax.Syntax.ArgumentMatcher.isNumber;
+
+import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
@@ -10,101 +17,39 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.syntax.Syntax;
 
 public final class CvteCommandArgumentFilter implements CommandArgumentFilter {
 	private final Set<VisibilityRestriction> visibilityRestrictions =
 			CvteExamRestrictions.createVisibilityRestrictions();
+	private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
+			Circle, Set.of(
+					Syntax.of(Circle, GeoElement::isGeoPoint, isNumber())),
+			Extremum, Set.of(
+					Syntax.of(Extremum, GeoElement::isGeoFunction, isNumber(), isNumber())),
+			Root, Set.of(
+					Syntax.of(Root, GeoElement::isGeoFunction, isNumber(), isNumber())),
+			Intersect, Set.of(
+					Syntax.of(Intersect, isElementWithUnrestrictedVisibility(),
+							isElementWithUnrestrictedVisibility()),
+					Syntax.of(Intersect, isElementWithUnrestrictedVisibility(),
+							isElementWithUnrestrictedVisibility(), any()),
+					Syntax.of(Intersect, isElementWithUnrestrictedVisibility(),
+							isElementWithUnrestrictedVisibility(), any(), any())));
 
 	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor)
 			throws MyError {
-		String internalCommandName = command.getName();
-		if (Commands.Circle.name().equals(internalCommandName)) {
-			checkCircle(command, commandProcessor);
-		} else if (Commands.Extremum.name().equals(internalCommandName)) {
-			checkExtremum(command, commandProcessor);
-		} else if (Commands.Root.name().equals(internalCommandName)) {
-			checkRoot(command, commandProcessor);
-		} else if (Commands.Intersect.name().equals(internalCommandName)) {
-			checkIntersect(command, commandProcessor);
-		}
+		Syntax.checkRestrictedSyntaxes(
+				allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 	}
 
-	private void checkCircle(Command command, CommandProcessor commandProcessor) throws MyError {
-		GeoElement[] arguments = commandProcessor.resArgs(command);
-		// only Circle(<Center>, <Radius>) allowed
-		if (arguments.length != 2) {
-			throw commandProcessor.argNumErr(command, arguments.length);
-		}
-		GeoElement firstArgument = arguments[0];
-		if (!firstArgument.isGeoPoint()) {
-			throw commandProcessor.argErr(command, firstArgument);
-		}
-		GeoElement secondArgument = arguments[1];
-		if (!secondArgument.isNumberValue()) {
-			throw commandProcessor.argErr(command, secondArgument);
-		}
+	private Syntax.ArgumentMatcher isElementWithUnrestrictedVisibility() {
+		return argument -> !VisibilityRestriction.isVisibilityRestricted(argument,
+				visibilityRestrictions);
 	}
 
-	private void checkExtremum(Command command, CommandProcessor commandProcessor) throws MyError {
-		// only Extremum(<Function>, <Start x-Value>, <End x-Value>) allowed
-		GeoElement[] arguments = commandProcessor.resArgs(command);
-		if (arguments.length != 3) {
-			throw commandProcessor.argNumErr(command, arguments.length);
-		}
-		GeoElement firstArgument = arguments[0];
-		if (!firstArgument.isGeoFunction()) {
-			throw commandProcessor.argErr(command, firstArgument);
-		}
-		GeoElement secondArgument = arguments[1];
-		if (!secondArgument.isNumberValue()) {
-			throw commandProcessor.argErr(command, secondArgument);
-		}
-		GeoElement thirdArgument = arguments[2];
-		if (!thirdArgument.isNumberValue()) {
-			throw commandProcessor.argErr(command, thirdArgument);
-		}
-	}
-
-	private void checkRoot(Command command, CommandProcessor commandProcessor) throws MyError {
-		// only Root( <Function>, <Start x-Value>, <End x-Value> ) allowed
-		GeoElement[] arguments = commandProcessor.resArgs(command);
-		if (arguments.length != 3) {
-			throw commandProcessor.argNumErr(command, arguments.length);
-		}
-		GeoElement firstArgument = arguments[0];
-		if (!firstArgument.isGeoFunction()) {
-			throw commandProcessor.argErr(command, firstArgument);
-		}
-		GeoElement secondArgument = arguments[1];
-		if (!secondArgument.isNumberValue()) {
-			throw commandProcessor.argErr(command, secondArgument);
-		}
-		GeoElement thirdArgument = arguments[2];
-		if (!thirdArgument.isNumberValue()) {
-			throw commandProcessor.argErr(command, thirdArgument);
-		}
-	}
-
-	private void checkIntersect(Command command, CommandProcessor commandProcessor) throws MyError {
-		// Intersection commands are only allowed if the visibility of the arguments are not
-		// restricted. There are always at least 2 arguments,
-		// and the first 2 are always the geo elements that are potentially restricted:
-		// Intersect(<Object>, <Object>)
-		// Intersect(<Object>, <Object>, <Unrelated parameter>)
-		// Intersect(<Object>, <Object>, <Unrelated parameter>, <Unrelated parameter>)
-		GeoElement[] arguments = commandProcessor.resArgs(command);
-		if (arguments.length >= 2) {
-			GeoElement firstArgument = arguments[0];
-			if (VisibilityRestriction.isVisibilityRestricted(firstArgument,
-					visibilityRestrictions)) {
-				throw commandProcessor.argErr(command, firstArgument);
-			}
-			GeoElement secondArgument = arguments[1];
-			if (VisibilityRestriction.isVisibilityRestricted(secondArgument,
-					visibilityRestrictions)) {
-				throw commandProcessor.argErr(command, secondArgument);
-			}
-		}
+	private Syntax.ArgumentMatcher any() {
+		return argument -> true;
 	}
 }

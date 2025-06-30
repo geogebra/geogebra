@@ -204,7 +204,7 @@ import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.graphing.GraphingExpressionFilterFactory;
 import org.geogebra.common.kernel.commands.CommandProcessor;
-import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
@@ -213,6 +213,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.main.syntax.Syntax;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelector;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -345,9 +346,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 				EuclidianConstants.MODE_RELATION,
 				EuclidianConstants.MODE_BUTTON_ACTION,
 				EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
-				EuclidianConstants.MODE_TEXTFIELD_ACTION
-
-		);
+				EuclidianConstants.MODE_TEXTFIELD_ACTION);
 	}
 
 	@Override
@@ -376,52 +375,20 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 		}
 	}
 
-	private static class RealschuleCommandArgumentFilter extends BaseCommandArgumentFilter {
+	private static final class RealschuleCommandArgumentFilter implements CommandArgumentFilter {
+		private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
+				Length, Set.of(
+						Syntax.of(Length, GeoElement::isGeoList),
+						Syntax.of(Length, GeoElement::isGeoText)),
+				Line, Set.of(
+						Syntax.of(Line, GeoElement::isGeoPoint, GeoElement::isGeoPoint),
+						Syntax.of(Line, GeoElement::isGeoPoint, GeoElement::isGeoVector)));
+
 		@Override
 		public void checkAllowed(Command command, CommandProcessor commandProcessor)
 				throws MyError {
-			GeoElement[] arguments = commandProcessor.resArgs(command);
-			if (isCommand(command, Length)) {
-				switch (command.getArgumentNumber()) {
-				case 1:
-					// Length(<Vector>) or Length(<Point>)
-					if (arguments[0].isGeoVector() || arguments[0].isGeoPoint()) {
-						throw commandProcessor.argErr(command, arguments[0]);
-					}
-					break;
-				case 3:
-					if (
-						// Length(<Function>, <Start x-Value>, <End x-Value>)
-							(arguments[0].isRealValuedFunction()
-									&& arguments[1].isGeoNumeric()
-									&& arguments[2].isGeoNumeric())
-
-									// Length(<Function>, <Start point>, <End point>)
-									|| (arguments[0].isRealValuedFunction()
-									&& arguments[1].isGeoPoint()
-									&& arguments[2].isGeoPoint())
-
-									// Length(<Curve>, <Start t-Value>, <End t-Value>)
-									|| (arguments[0].isGeoCurveCartesian()
-									&& arguments[1].isGeoNumeric()
-									&& arguments[2].isGeoNumeric())
-
-									// Length(<Curve>, <Start point>, <End point>)
-									|| (arguments[0].isGeoCurveCartesian()
-									&& arguments[1].isGeoPoint()
-									&& arguments[2].isGeoPoint())
-					) {
-						throw commandProcessor.argNumErr(command, 3);
-					}
-					break;
-				}
-			} else if (isCommand(command, Line)) {
-				// Line(<Point>, <Parallel line>)
-				if (command.getArgumentNumber() == 2
-						&& arguments[0].isGeoPoint() && arguments[1].isGeoLine()) {
-					throw commandProcessor.argNumErr(command, 2);
-				}
-			}
+			Syntax.checkRestrictedSyntaxes(
+					allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 		}
 	}
 

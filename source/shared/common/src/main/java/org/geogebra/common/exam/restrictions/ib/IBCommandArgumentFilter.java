@@ -1,46 +1,34 @@
 package org.geogebra.common.exam.restrictions.ib;
 
+import static org.geogebra.common.kernel.commands.Commands.Integral;
+import static org.geogebra.common.kernel.commands.Commands.Invert;
+import static org.geogebra.common.kernel.commands.Commands.Tangent;
+import static org.geogebra.common.main.syntax.Syntax.ArgumentMatcher.isNumber;
+
+import java.util.Map;
+import java.util.Set;
+
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.syntax.Syntax;
 
-public final class IBCommandArgumentFilter extends BaseCommandArgumentFilter {
+public final class IBCommandArgumentFilter implements CommandArgumentFilter {
+	private final Map<Commands, Set<Syntax>> allowedSyntaxesOfRestrictedCommands = Map.of(
+			Integral, Set.of(
+					Syntax.of(Integral, GeoElement::isGeoFunction, isNumber(), isNumber())),
+			Invert, Set.of(
+					Syntax.of(Invert, GeoElement::isMatrix)),
+			Tangent, Set.of(
+					Syntax.of(Tangent, GeoElement::isGeoPoint, GeoElement::isGeoFunction),
+					Syntax.of(Tangent, isNumber(), GeoElement::isGeoFunction)));
 
 	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError {
-		if (isCommand(command, Commands.Tangent)) {
-			checkTangentCommand(command, commandProcessor);
-		} else if (isCommand(command, Commands.Integral)) {
-			if (command.getArgumentNumber() != 3) {
-				throw commandProcessor.argNumErr(command, command.getArgumentNumber());
-			}
-		} else if (isCommand(command, Commands.Invert)) {
-			GeoElement[] elements = commandProcessor.resArgs(command);
-			if (elements.length == 1 && elements[0] instanceof GeoFunction) {
-				throw commandProcessor.argErr(command, elements[0]);
-			}
-		}
-	}
-
-	private void checkTangentCommand(Command command, CommandProcessor processor) throws MyError {
-		GeoElement[] elements = processor.resArgs(command);
-		if (elements.length == 2) {
-			// Point, Conic and inverse
-			if ((elements[0].isGeoPoint() && elements[1].isGeoConic())
-					|| (elements[0].isGeoConic() && elements[1].isGeoPoint())
-					// Line, Conic
-					|| (elements[0].isGeoLine() && elements[1].isGeoConic())
-					// Conic, Conic
-					|| (elements[0].isGeoConic() && elements[1].isGeoConic())
-					// Point, Implicit Curve and inverse
-					|| (elements[0].isGeoPoint() && elements[1].isGeoImplicitCurve()
-					|| (elements[0].isGeoImplicitCurve() && elements[1].isGeoPoint()))) {
-				throw processor.argErr(command, elements[0]);
-			}
-		}
+		Syntax.checkRestrictedSyntaxes(
+				allowedSyntaxesOfRestrictedCommands, command, commandProcessor);
 	}
 }

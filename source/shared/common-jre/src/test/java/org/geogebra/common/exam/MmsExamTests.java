@@ -238,6 +238,126 @@ public class MmsExamTests extends BaseExamTestSetup {
 		errorAccumulator.resetError();
 	}
 
+	@SuppressWarnings("checkstyle:LineLength")
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"BinomialDist(10, 0.5)",
+			"BinomialDist(10, 0.5, true)",
+			"Invert(2x)",
+			"Length(Vector((1, 1)))",
+			"Length((1, 1))",
+			"Length(\"text\")",
+			"Length(2x, -5, 5)",
+			"Length(2x, (-1, -1), (1, 1))",
+			"Length(x^2, -5, 5)",
+			"Length(x^2, (-1, -1), (1, 1))",
+			"Length(2a, a, 0, 1)",
+			"Normal(2, 0.5, 1, true)",
+			"Normal(2, 0.5, x)",
+			"Normal(2, 0.5, x, true)",
+			"Product(2a, a, 1, 5)",
+			"SampleSD({1, 2, 3}, {1, 2, 1})",
+			"SigmaXX({(1, 1), (2, 2), (3, 3)})",
+			"SigmaXX({1, 2, 3}, {1, 2, 1})",
+			"SigmaXY({(1, 1), (2, 2)})",
+			"stdev({1, 2, 3}, {1, 2, 1})",
+			"Sum(2a, a, -2, 5)",
+	})
+	@MockedCasValues({
+			"BinomialDist(10, 0.5) 																				-> 1",
+			"Round(1, 13) 																						-> 1.0",
+			"BinomialDist(10, 0.5, true) 																		-> ?",
+			"Numeric(BinomialDist(10, 0.5, true)) 																-> ?",
+			"Invert(2x) 																						-> 1/2*x",
+			"Vector((1, 1)) 																					-> ggbvect(1,1)",
+			"Length(Vector((1, 1))) 																			-> √2",
+			"Length((1, 1)) 																					-> √2",
+			"Round(sqrt(2), 13) 																				-> 1.414213562373",
+			"Length(text) 																						-> 4",
+			"Length(2x, -5, 5) 																					-> 10*√5",
+			"Round(10sqrt(5), 13) 																				-> 22.360679775",
+			"Length(2x, (-1, -1), (1, 1)) 																		-> ?",
+			"Numeric(Length(2x, (-1, -1), (1, 1))) 																-> ?",
+			"Length(x², -5, 5) 																					-> -1/4*(-ln(√101+10)-10*√101)+1/4*(-ln(√101-10)+10*√101)",
+			"Round(-1 / 4 (-ln(sqrt(101) + 10) - 10sqrt(101)) + 1 / 4 (-ln(sqrt(101) - 10) + 10sqrt(101)), 13) 	-> 51.74848958075",
+			"Length(x², (-1, -1), (1, 1)) 																		-> ?",
+			"Numeric(Length(x², (-1, -1), (1, 1))) 																-> ?",
+			"Length(2a, a, 0, 1) 																				-> √5",
+			"Round(sqrt(5), 13) 																				-> 2.2360679775",
+			"Normal(2, 0.5, 1, true) 																			-> (erf(-√2)+1)/2",
+			"Round((erf(-sqrt(2)) + 1) / 2, 13) 																-> 0.0227501319482",
+			"Normal(2, 0.5, x) 																					-> (erf(x*√2-2*√2)+1)/2",
+			"Normal(2, 0.5, x, true) 																			-> (erf(x*√2-2*√2)+1)/2",
+			"Product(2a, a, 1, 5) 																				-> 3840",
+			"Round(3840, 13) 																					-> 3840.0",
+			"stdev({1, 2, 3}, {1, 2, 1}) 																		-> √6/3",
+			"Round(sqrt(6) / 3, 13) 																			-> 0.8164965809277",
+			"SigmaXX({(1, 1), (2, 2), (3, 3)}) 																	-> 14",
+			"Round(14, 13) 																						-> 14.0",
+			"SigmaXX({1, 2, 3}, {1, 2, 1}) 																		-> 18",
+			"Round(18, 13) 																						-> 18.0",
+			"SigmaXY({(1, 1), (2, 2)}) 																			-> 5",
+			"Round(5, 13) 																						-> 5.0",
+			"Sum(2a, a, -2, 5) 																					-> 24",
+			"Round(24, 13) 																						-> 24.0",
+	})
+	public void testRestrictedCommandArguments(String command) {
+		assertNull(evaluate(command));
+	}
+
+	@SuppressWarnings("checkstyle:LineLength")
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"BinomialDist(10, 0.2, 3, true)",
+			"BinomialDist(10, 0.2, {1, 2, 3})",
+			"Invert({{1, 2}, {3, 4}})",
+			"Length({1, 2, 3})",
+			"Normal(2, 0.5, 1)",
+			"Normal(2, 0.5, 3, 6)",
+			"Product({1, 2, x})",
+			"Product({1, 2, 3, 4}, 2)",
+			"Product({1, 2, 3}, {1, 2, 1})",
+			"SampleSD({1, 2, 3})",
+			"SigmaXX({1, 2, 3})",
+			"SigmaXY({1, 2, 3}, {4, 5, 6})",
+			"stdev({1, 2, 3})",
+			"Sum({1, 2, 3})",
+			"Sum({1, 2, 3}, 2)",
+			"Sum({1, 2, 3}, {1, 2, 1})",
+	})
+	@MockedCasValues({
+			"BinomialDist(10, 0.2, 3, true) 								-> 8585216/9765625",
+			"Round(8585216 / 9765625, 13) 									-> 0.8791261184",
+			"BinomialDist(10, 0.2, {1, 2, 3}) 								-> 1507328/1953125",
+			"Round(1507328 / 1953125, 13) 									-> 0.771751936",
+			"Invert({{1, 2}, {3, 4}}) 										-> {{-2,1},{3/2,-1/2}}",
+			"Length({1, 2, 3}) 												-> 3",
+			"Round(3, 13) 													-> 3.0",
+			"Normal(2, 0.5, 1) 												-> (erf(-√2)+1)/2",
+			"Round((erf(-sqrt(2)) + 1) / 2, 13) 							-> 0.0227501319482",
+			"Normal(2, 0.5, 3, 6) 											-> (erf(-√2)+1)/2-(erf(-4*√2)+1)/2",
+			"Round((erf(-sqrt(2)) + 1) / 2 - (erf(-4 sqrt(2)) + 1) / 2, 13) -> 0.0227501319482",
+			"Product({1, 2, x}) 											-> 2*x",
+			"Product({1, 2, 3, 4}, 2) 										-> 2",
+			"Round(2, 13) 													-> 2.0",
+			"Product({1, 2, 3}, {1, 2, 1}) 									-> 12",
+			"Round(12, 13) 													-> 12.0",
+			"stdev({1, 2, 3}) 												-> 1",
+			"Round(1, 13) 													-> 1.0",
+			"SigmaXX({1, 2, 3}) 											-> 14",
+			"Round(14, 13) 													-> 14.0",
+			"SigmaXY({1, 2, 3}, {4, 5, 6}) 									-> 32",
+			"Round(32, 13) 													-> 32.0",
+			"Sum({1, 2, 3}) 												-> 6",
+			"Round(6, 13) 													-> 6.0",
+			"Sum({1, 2, 3}, 2) 												-> 3",
+			"Sum({1, 2, 3}, {1, 2, 1}) 										-> 8",
+			"Round(8, 13) 													-> 8.0",
+	})
+	public void testUnrestrictedCommandArguments(String command) {
+		assertNotNull(evaluate(command));
+	}
+
 	@ParameterizedTest
 	@ValueSource(strings = {
 			"Solve(x^2 = 0)",
@@ -328,7 +448,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"SigmaXY({(1, 2), (3, 4)}); 							Illegal number of arguments",
 			"Sum(a^2, a, 0, 5); 									Illegal number of arguments",
 			"Normal(2, 0.5, 1, true); 								Illegal argument: true",
-			"Normal(2, 0.5, x, true); 								Illegal argument: true",
+			"Normal(2, 0.5, x, true); 								Illegal argument: x",
 	})
 	@MockedCasValues({
 			"BinomialDist(1, 0.5) 										-> 1",
@@ -344,7 +464,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"Numeric(stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3})) -> 18378519.31067*ί",
 			"Round(18378519.31ί, 2) 									-> 18378519.31*ί",
 			"SigmaXX({(1, 2), (3, 4)}) 									-> 10",
-			"Round(10, 2) 												-> 10.0",
+			"Round(10, 13) 												-> 10.0",
 			"SigmaXY({(1, 2), (3, 4)}) 									-> 14",
 			"Round(14, 2) 												-> 14.0",
 			"Sum(a², a, 0, 5) 											-> 55",

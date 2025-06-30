@@ -6,6 +6,7 @@ import static org.geogebra.common.gui.view.algebra.AlgebraOutputFormat.EXACT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -192,5 +193,30 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 				AlgebraOutputFormat.getPossibleFormats(geoElement, true, Set.of()));
 		assertEquals(EXACT, AlgebraOutputFormat.getActiveFormat(geoElement));
 		assertEquals(ENGINEERING, AlgebraOutputFormat.getNextFormat(geoElement, true, Set.of()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Length(Vector((1, 1)))",
+			"Length((1, 1))",
+			"Line((0, 0), Line((-1, -1), (1, -1)))"
+	})
+	public void testRestrictedCommandArguments(String command) {
+		examController.startExam(ExamType.BAYERN_GR, null);
+		assertNull(evaluate(command));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Length({1, 2, 3})",
+			"Length(\"text\")",
+			"Line((0, 0), (1, 1))",
+			"Line(5 + i, (1, 1))",
+			"Line((1, 1), 5 + i)",
+			"Line((0, 0), Vector((1, 1)))",
+	})
+	public void testUnrestrictedCommandArguments(String command) {
+		examController.startExam(ExamType.BAYERN_GR, null);
+		assertNotNull(evaluate(command));
 	}
 }

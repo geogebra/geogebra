@@ -74,6 +74,7 @@ import static org.geogebra.common.kernel.statistics.Statistic.PMCC;
 import static org.geogebra.common.kernel.statistics.Statistic.Q1;
 import static org.geogebra.common.kernel.statistics.Statistic.Q3;
 import static org.geogebra.common.kernel.statistics.Statistic.SD;
+import static org.geogebra.common.main.syntax.Syntax.ArgumentMatcher.isNumber;
 import static org.geogebra.common.plugin.Operation.ALT;
 import static org.geogebra.common.plugin.Operation.AND;
 import static org.geogebra.common.plugin.Operation.ARCTAN2;
@@ -122,6 +123,7 @@ import static org.geogebra.common.plugin.Operation.XOR;
 import static org.geogebra.common.plugin.Operation.ZETA;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
@@ -144,7 +146,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.filter.AllowedExpressionsProvider;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.DeepExpressionFilter;
@@ -154,7 +155,7 @@ import org.geogebra.common.kernel.arithmetic.filter.OperationFilter;
 import org.geogebra.common.kernel.arithmetic.filter.RadianGradianFilter;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.commands.CommandProcessor;
-import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
@@ -172,6 +173,7 @@ import org.geogebra.common.kernel.statistics.AlgoRealDistribution2Params;
 import org.geogebra.common.kernel.statistics.AlgoRealDistribution2ParamsInterval;
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.syntax.Syntax;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
@@ -531,73 +533,46 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		};
 	}
 
-	private static final class MmsCommandArgumentFilter extends BaseCommandArgumentFilter {
+	private static final class MmsCommandArgumentFilter implements CommandArgumentFilter {
+		private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
+				BinomialDist, Set.of(
+						Syntax.of(BinomialDist, isNumber(), isNumber(), isNumber(),
+								GeoElement::isGeoBoolean),
+						Syntax.of(BinomialDist, isNumber(), isNumber(), GeoElement::isGeoList)),
+				Invert, Set.of(
+						Syntax.of(Invert, GeoElement::isMatrix)),
+				Length, Set.of(
+						Syntax.of(Length, GeoElement::isGeoList)),
+				Normal, Set.of(
+						Syntax.of(Normal, isNumber(), isNumber(), isNumber()),
+						Syntax.of(Normal, isNumber(), isNumber(), isNumber(), isNumber())),
+				Product, Set.of(
+						Syntax.of(Product, GeoElement::isGeoList),
+						Syntax.of(Product, GeoElement::isGeoList, isNumber()),
+						Syntax.of(Product, GeoElement::isGeoList, GeoElement::isGeoList)),
+				SampleSD, Set.of(
+						Syntax.of(SampleSD, GeoElement::isGeoList)),
+				SigmaXX, Set.of(
+						Syntax.of(SigmaXX, isNonEmptyListOfNumbers())),
+				SigmaXY, Set.of(
+						Syntax.of(SigmaXY, GeoElement::isGeoList, GeoElement::isGeoList)),
+				stdev, Set.of(
+						Syntax.of(stdev, GeoElement::isGeoList)),
+				Sum, Set.of(
+						Syntax.of(Sum, GeoElement::isGeoList),
+						Syntax.of(Sum, GeoElement::isGeoList, isNumber()),
+						Syntax.of(Sum, GeoElement::isGeoList, GeoElement::isGeoList)));
+
 		@Override
 		public void checkAllowed(Command command, CommandProcessor commandProcessor)
 				throws MyError {
-			if (isCommand(command, BinomialDist)) {
-				if (command.getArgumentNumber() < 3) {
-					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
-				} else if (command.getArgument(2).getValueType() == ValueType.BOOLEAN) {
-					throw commandProcessor.argErr(command, command.getArgument(2));
-				}
-			} else if (isCommand(command, Invert)) {
-				if (command.getArgumentNumber() == 1) {
-					GeoElement[] args = commandProcessor.resArgs(command);
-					if (args[0].isGeoFunction()) {
-						throw commandProcessor.argErr(command, command.getArgument(0));
-					}
-				}
-			} else if (isCommand(command, Length)) {
-				if (command.getArgumentNumber() == 1) {
-					GeoElement[] args = commandProcessor.resArgs(command);
-					if (!args[0].isGeoList()) {
-						throw commandProcessor.argErr(command, command.getArgument(0));
-					}
-				} else {
-					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
-				}
-			} else if (isCommand(command, Normal)) {
-				if (command.getArgumentNumber() == 4) {
-					GeoElement[] args = commandProcessor.resArgs(command);
-					if (!isNumberValue(args[3])) {
-						throw commandProcessor.argErr(command, command.getArgument(3));
-					}
-				} else if (command.getArgumentNumber() == 3) {
-					GeoElement[] args = commandProcessor.resArgs(command);
-					if (!isNumberValue(args[2])) {
-						throw commandProcessor.argErr(command, command.getArgument(2));
-					}
-				} else {
-					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
-				}
-			} else if (isCommand(command, Product)) {
-				restrictArgumentCount(command, commandProcessor, 4);
-			} else if (isCommand(command, SampleSD)) {
-				restrictArgumentCount(command, commandProcessor, 2);
-			} else if (isCommand(command, SigmaXX)) {
-				if (command.getArgumentNumber() == 1) {
-					GeoElement[] args = commandProcessor.resArgs(command);
-					if (args[0].isGeoList()) {
-						GeoList list = (GeoList) args[0];
-						if (list.size() <= 0 || !list.get(0).isGeoNumeric()) {
-							throw commandProcessor.argErr(command, command.getArgument(0));
-						}
-					}
-				} else {
-					restrictArgumentCount(command, commandProcessor, 2);
-				}
-			} else if (isCommand(command, SigmaXY)) {
-				restrictArgumentCount(command, commandProcessor, 1);
-			} else if (isCommand(command, stdev)) {
-				restrictArgumentCount(command, commandProcessor, 2);
-			} else if (isCommand(command, Sum)) {
-				restrictArgumentCount(command, commandProcessor, 4);
-			}
+			Syntax.checkRestrictedSyntaxes(
+					allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 		}
 
-		private boolean isNumberValue(GeoElement geoElement) {
-			return geoElement.isNumberValue() && !geoElement.isGeoBoolean();
+		private static Syntax.ArgumentMatcher isNonEmptyListOfNumbers() {
+			return argument -> argument.isGeoList() && ((GeoList) argument).size() > 0
+					&& ((GeoList) argument).get(0).isGeoNumeric();
 		}
 	}
 

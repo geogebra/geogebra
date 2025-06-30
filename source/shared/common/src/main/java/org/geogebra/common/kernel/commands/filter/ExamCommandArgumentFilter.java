@@ -1,37 +1,42 @@
 package org.geogebra.common.kernel.commands.filter;
 
+import static org.geogebra.common.kernel.commands.Commands.CopyFreeObject;
+import static org.geogebra.common.kernel.commands.Commands.SetFixed;
+
+import java.util.Map;
+import java.util.Set;
+
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.syntax.Syntax;
 
 /**
  * Filters out the commands that are not enabled in the exam mode
  */
-public class ExamCommandArgumentFilter extends BaseCommandArgumentFilter {
+public final class ExamCommandArgumentFilter implements CommandArgumentFilter {
+	private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
+			SetFixed, Set.of(
+					Syntax.of(SetFixed, this::notFunctionOrEquationFromUser,
+							GeoElement::isGeoBoolean),
+					Syntax.of(SetFixed, this::notFunctionOrEquationFromUser,
+							GeoElement::isGeoBoolean, GeoElement::isGeoBoolean)),
+			CopyFreeObject, Set.of(
+					Syntax.of(CopyFreeObject, this::notEquationValue)));
 
-	public ExamCommandArgumentFilter() {
-		super(Commands.SetFixed, Commands.CopyFreeObject);
+	private boolean notFunctionOrEquationFromUser(GeoElement argument) {
+		return !argument.isFunctionOrEquationFromUser();
+	}
+
+	private boolean notEquationValue(GeoElement argument) {
+		return !(argument instanceof EquationValue);
 	}
 
 	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor) {
-		if (!isFilteredCommand(command)) {
-			return;
-		}
-		GeoElement[] arguments = commandProcessor.resArgs(command);
-		if (arguments.length < 1) {
-			return;
-		}
-		GeoElement firstArgument = arguments[0];
-		boolean isSetFixed = isCommand(command, Commands.SetFixed);
-		if (isSetFixed && firstArgument.isFunctionOrEquationFromUser()) {
-			throw commandProcessor.argErr(command, firstArgument);
-		}
-		boolean isCopyFree = isCommand(command, Commands.CopyFreeObject);
-		if (isCopyFree && (firstArgument instanceof EquationValue)) {
-			throw commandProcessor.argErr(command, firstArgument);
-		}
+		Syntax.checkRestrictedSyntaxes(
+				allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 	}
 }

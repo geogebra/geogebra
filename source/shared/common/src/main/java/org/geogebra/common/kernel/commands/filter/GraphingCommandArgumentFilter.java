@@ -1,5 +1,13 @@
 package org.geogebra.common.kernel.commands.filter;
 
+import static org.geogebra.common.kernel.commands.Commands.Invert;
+import static org.geogebra.common.kernel.commands.Commands.Length;
+import static org.geogebra.common.kernel.commands.Commands.Line;
+import static org.geogebra.common.kernel.commands.Commands.PolyLine;
+import static org.geogebra.common.kernel.commands.Commands.Polyline;
+
+import java.util.Set;
+
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandNotFoundError;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -7,14 +15,15 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
-public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
+public final class GraphingCommandArgumentFilter implements CommandArgumentFilter {
+    private final Set<Commands> filteredCommands = Set.of(Line, Length, Polyline, PolyLine, Invert);
 
-    /**
-     * Default Constructor
-     */
-    public GraphingCommandArgumentFilter() {
-        super(Commands.Line, Commands.Length, Commands.Polyline, Commands.PolyLine,
-                Commands.Invert);
+    private boolean isFilteredCommand(Command command) {
+        return filteredCommands.stream().anyMatch(cmd -> cmd.name().equals(command.getName()));
+    }
+
+    private static boolean isCommand(Command command, Commands commandsValue) {
+        return command.getName().equals(commandsValue.name());
     }
 
     @Override
@@ -24,11 +33,11 @@ public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
         }
         GeoElement[] arguments = commandProcessor.resArgs(command);
 
-        if (isCommand(command, Commands.Line)) {
+        if (isCommand(command, Line)) {
             checkLine(command, arguments, commandProcessor);
-        } else if (isCommand(command, Commands.Length)) {
+        } else if (isCommand(command, Length)) {
             checkLength(command, arguments, commandProcessor);
-        } else if (isCommand(command, Commands.PolyLine) || isCommand(command, Commands.Polyline)) {
+        } else if (isCommand(command, PolyLine) || isCommand(command, Polyline)) {
             checkPolyline(command, arguments, commandProcessor);
         }
     }
