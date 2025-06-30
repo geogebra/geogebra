@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.MulticastEvent;
@@ -122,11 +123,26 @@ public final class SpreadsheetStyling {
 	}
 
 	/**
-	 * @return the text alignment for the cell at (row, column)
+	 * @return the user-defined text alignment for the cell at (row, column), or {@code null}
+	 * if no user-defined text alignment has been set for this cell.
 	 */
-	public @Nonnull TextAlignment getTextAlignment(int row, int column) {
+	public @CheckForNull TextAlignment getTextAlignment(int row, int column) {
 		Integer alignment = getAlignment(row, column);
+		if (alignment == null) {
+			return null;
+		}
 		return textAlignmentFromCellFormat(alignment);
+	}
+
+	/**
+	 * @param cellContent The content of some spreadsheet cell.
+	 * @return The default text alignment to use for the kind of object.
+	 */
+	public static @Nonnull TextAlignment getDefaultTextAlignment(@CheckForNull Object cellContent) {
+		if (cellContent instanceof GeoText || cellContent instanceof String) {
+			return TextAlignment.LEFT;
+		}
+		return TextAlignment.RIGHT;
 	}
 
 	/**
@@ -230,8 +246,8 @@ public final class SpreadsheetStyling {
 	 * @param cellFormat one of {@link CellFormat} alignment fields
 	 * @return TextAlignment
 	 */
-	public static @Nonnull TextAlignment textAlignmentFromCellFormat(@CheckForNull Integer cellFormat) {
-		switch (cellFormat != null ? cellFormat : DEFAULT_CELL_ALIGNMENT) {
+	public static @Nonnull TextAlignment textAlignmentFromCellFormat(@Nonnull Integer cellFormat) {
+		switch (cellFormat) {
 		case CellFormat.ALIGN_LEFT:
 			return TextAlignment.LEFT;
 		case CellFormat.ALIGN_CENTER:

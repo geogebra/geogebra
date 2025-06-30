@@ -274,7 +274,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 
 	// Helpers
 
-	static class TestCellRenderableFactory implements CellRenderableFactory {
+	public static class TestCellRenderableFactory implements CellRenderableFactory {
 		@Override
 		public SelfRenderable getRenderable(Object data, SpreadsheetStyling styling,
 				int row, int column) {

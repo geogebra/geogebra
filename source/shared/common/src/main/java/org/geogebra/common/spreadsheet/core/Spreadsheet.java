@@ -395,18 +395,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.clearSelection();
 	}
 
-	void selectRow(int row, boolean extend, boolean add) {
-		controller.selectRow(row, extend, add);
-	}
-
-	void selectColumn(int column, boolean extend, boolean add) {
-		controller.selectColumn(column, extend, add);
-	}
-
-	void selectCell(int row, int column, boolean extend, boolean add) {
-		controller.selectCell(row, column, extend, add);
-	}
-
 	private void selectionsChanged(MulticastEvent.Void unused) {
 		notifyRepaintNeeded();
 	}
@@ -454,11 +442,23 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	// Test support API (DO NOT USE except for tests!)
 
-	SpreadsheetController getController() {
+	public SpreadsheetController getController() {
 		return controller;
 	}
 
 	SpreadsheetStyling getStyling() {
 		return styling;
+	}
+
+	void selectRow(int row, boolean extend, boolean add) {
+		controller.selectRow(row, extend, add);
+	}
+
+	void selectColumn(int column, boolean extend, boolean add) {
+		controller.selectColumn(column, extend, add);
+	}
+
+	void selectCell(int row, int column, boolean extend, boolean add) {
+		controller.selectCell(row, column, extend, add);
 	}
 }
