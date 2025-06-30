@@ -6,6 +6,7 @@ import static com.himamis.retex.editor.share.util.JavaKeyCodes.VK_UP;
 import javax.annotation.Nonnull;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.editor.MathFieldInternalListener;
 import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -14,7 +15,8 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 /**
  * Adapts between a MathFieldInternal, spreadsheet input processing, and the SpreadsheetController.
  */
-final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledArrowListener {
+final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledArrowListener,
+		MathFieldInternalListener {
 
 	private final MathFieldInternal mathField;
 	private final int row, column;
@@ -69,12 +71,14 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 	@Override
 	public void onKeyTyped(String key) {
 		// TODO scroll cursor into view?
+		// note: this is fired *before* actually handling the input & updating the internal state
 		spreadsheetController.onEditorTextChanged();
 	}
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
 		// TODO scroll cursor into view?
+		// note: this is fired *before* actually handling the input & updating the internal state
 		return spreadsheetController.handleKeyPress(keyCode);
 	}
 
@@ -86,5 +90,11 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 		if (keyCode == VK_DOWN) {
 			mathField.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_END));
 		}
+	}
+
+	@Override
+	public void inputChanged(MathFieldInternal mathFieldInternal) {
+		// this can be any change: text changed, cursor movement, ...
+		spreadsheetController.onEditorTextOrCursorPositionChanged();
 	}
 }

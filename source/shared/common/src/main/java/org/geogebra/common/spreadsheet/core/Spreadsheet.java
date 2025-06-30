@@ -31,7 +31,23 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	private final SpreadsheetStyleBarModel styleBarModel;
 	private final SpreadsheetRenderer renderer;
 	private @CheckForNull SpreadsheetDelegate spreadsheetDelegate;
-	private @Nonnull List<Selection> currentSelections = List.of();
+
+	/**
+	 * Get the column name for a column index.
+	 * @param columnIndex A column index. Must be >= 0.
+	 * @return The column name (with uppercase letters).
+	 * @implNote This duplicates a method from GeoElementSpreadsheet (which we don't want to reuse
+	 * here).
+	 */
+	public static @Nonnull String getColumnName(int columnIndex) {
+		int i = columnIndex + 1;
+		String col = "";
+		while (i > 0) {
+			col = (char) ('A' + (i - 1) % 26) + col;
+			i = (i - 1) / 26;
+		}
+		return col;
+	}
 
 	/**
 	 * @param tabularData data source
@@ -48,6 +64,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller = new SpreadsheetController(tabularData, styling);
 		controller.setUndoProvider(undoProvider);
 		controller.selectionController.selectionsChanged.addListener(this::selectionsChanged);
+		controller.referencesChanged.addListener(this::referencesChanged);
 		cellSizesChanged = controller.cellSizesChanged;
 
 		// get notified when number or size of rows/columns changes
@@ -163,11 +180,12 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.setPaint(GColor.WHITE);
 		Rectangle viewport = controller.getViewport();
 		renderer.fillRect(graphics, 0, 0, viewport.getWidth(), viewport.getHeight());
+
 		List<TabularRange> visibleSelections = controller.getVisibleSelections();
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelection(range, graphics, viewport);
 		}
-		drawCells(graphics, viewport);
+		drawCells(graphics, viewport); // on top of selections
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelectionBorder(range, graphics, viewport, false, false);
 		}
@@ -176,6 +194,12 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawSelectionBorder(new TabularRange(selectedCell.row, selectedCell.column),
 					graphics, viewport, true, false);
 		}
+
+		SpreadsheetReferences references = controller.getCurrentReferences();
+		if (references != null) {
+			drawReferences(graphics, viewport, references);
+		}
+
 		Point draggingDotLocation = controller.getDraggingDotLocation();
 		if (draggingDotLocation != null) {
 			renderer.drawDraggingDot(draggingDotLocation, graphics);
@@ -251,6 +275,16 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			}
 		}
 		graphics.translate(offsetX, offsetY);
+	}
+
+	private void drawReferences(GGraphics2D graphics, Rectangle viewport,
+			@Nonnull SpreadsheetReferences references) {
+		SpreadsheetReferences deduplicatedReferences = references.removingDuplicates();
+		for (int index = 0; index < deduplicatedReferences.cellReferences.size(); index++) {
+			SpreadsheetReference reference = deduplicatedReferences.cellReferences.get(index);
+			boolean filled = reference.equalsIgnoringAbsolute(references.currentCellReference);
+			renderer.drawReference(reference, index, filled, graphics, viewport);
+		}
 	}
 
 	private void setHeaderColor(GGraphics2D graphics, boolean isSelected) {
@@ -373,22 +407,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.selectCell(row, column, extend, add);
 	}
 
-	private void selectionsChanged(@CheckForNull List<Selection> newSelections) {
-		@Nonnull List<Selection> nonNullNewSelections = newSelections != null
-				? List.copyOf(newSelections) : List.of();
-		// invalidate and repaint previous & new selected cells
-		invalidate(currentSelections);
-		invalidate(nonNullNewSelections);
-		currentSelections = nonNullNewSelections;
+	private void selectionsChanged(MulticastEvent.Void unused) {
 		notifyRepaintNeeded();
-	}
-
-	private void invalidate(@CheckForNull List<Selection> selections) {
-		if (selections == null) {
-			return;
-		}
-		selections.forEach(selection ->
-				selection.getRange().forEach(renderer::invalidate));
 	}
 
 	// Editor
@@ -409,6 +429,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void saveContentAndHideCellEditor() {
 		controller.saveContentAndHideCellEditor();
+	}
+
+	private void referencesChanged(MulticastEvent.Void unused) {
+		notifyRepaintNeeded();
 	}
 
 	// -- TabularDataChangeListener --

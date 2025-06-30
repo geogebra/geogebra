@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
@@ -101,11 +102,6 @@ public class TestTabularData implements TabularData<String> {
 	@Override
 	public @Nonnull String serializeContentAt(int row, int column) {
 		return data.get(row).get(column);
-	}
-
-	@Override
-	public @Nonnull String getColumnName(int column) {
-		return Character.toString('A' + column);
 	}
 
 	@Override

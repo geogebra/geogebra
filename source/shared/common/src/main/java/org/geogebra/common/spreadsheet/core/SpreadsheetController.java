@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +37,12 @@ public final class SpreadsheetController {
 
 	public final MulticastEvent<CellSizes> cellSizesChanged = new MulticastEvent<>();
 
+	/**
+	 * Fired when the list of cell references (in the currently editing cell), or the current
+	 * cell reference (the one under the cursor) changes.
+	 */
+	public final MulticastEvent<MulticastEvent.Void> referencesChanged = new MulticastEvent<>();
+
 	final SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
 	private final @Nonnull TabularData<?> tabularData;
@@ -43,9 +50,11 @@ public final class SpreadsheetController {
 
 	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
 	private @CheckForNull SpreadsheetConstructionDelegate constructionDelegate;
-	private Editor editor;
 	private final @Nonnull TableLayout layout;
 	private final @Nonnull ContextMenuBuilder contextMenuBuilder;
+
+	private Editor editor;
+	private SpreadsheetReferences currentReferences;
 
 	private @Nonnull DragState dragState;
 	private Rectangle viewport;
@@ -479,6 +488,7 @@ public final class SpreadsheetController {
 		if (editor == null) {
 			editor = new Editor(controlsDelegate.getCellEditor());
 		}
+		currentReferences = null;
 		didScrollWhileEditorActive = false;
 		editor.showAt(row, column, editExistingContent);
 		resetDragAction();
@@ -496,6 +506,7 @@ public final class SpreadsheetController {
 		if (isEditorActive()) {
 			editor.hide();
 		}
+		currentReferences = null;
 		if (controlsDelegate != null) {
 			controlsDelegate.hideAutoCompleteSuggestions();
 		}
@@ -521,7 +532,7 @@ public final class SpreadsheetController {
 	void saveContentAndHideCellEditor() {
 		if (editor != null && editor.isVisible()) {
 			commitInput();
-			editor.hide();
+			hideCellEditor();
 		}
 	}
 
@@ -559,6 +570,62 @@ public final class SpreadsheetController {
 		}
 		return tabularData.isTextContentAt(row, column)
 				? CellFormat.ALIGN_LEFT : CellFormat.ALIGN_RIGHT;
+	}
+
+	// Editor cell/range references
+
+	/**
+	 * @return A (possibly empty) list of cell or cell range references in the editor, or
+	 * {@code null} if the editor is currently not active.
+	 */
+	@CheckForNull SpreadsheetReferences getCurrentReferences() {
+		return currentReferences;
+	}
+
+	/**
+	 * @return A (possibly empty) list of cell or cell range references in the editor, or
+	 * {@code null} if the editor is currently not active.
+	 * @apiNote Non-private mostly for testability; use #getCurrentReferences() instead
+	 */
+	@CheckForNull List<SpreadsheetReference> getEditorCellReferences() {
+		if (editor == null || !isEditorActive()) {
+			return null;
+		}
+
+		MathFieldInternal mathField = editor.cellEditor.getMathField();
+		String input = mathField.getText();
+		if (input.isEmpty() || !input.startsWith("=")) {
+			return null;
+		}
+		ArrayList<String> characterSequences = new ArrayList<>();
+		Predicate<MathCharacter> include = w -> w.isCharacter() || ":".equals(w.getUnicodeString());
+		mathField.collectCharacterSequences(include, characterSequences);
+		ArrayList<SpreadsheetReference> cellRanges = new ArrayList<>();
+		for (String characterSequence : characterSequences) {
+			SpreadsheetReference cellRange =
+					SpreadsheetReferenceParsing.parseReference(characterSequence);
+			if (cellRange != null) {
+				cellRanges.add(cellRange);
+			}
+		}
+		return cellRanges;
+	}
+
+	/**
+	 * Returns the cell or range reference containing the (editor) cursor.
+	 * @return A cell or range reference, or {@code null} if the cursor is currently not inside
+	 * a cell reference (e.g., "A1") or range reference (e.g., "A1:A10").
+	 * @apiNote Non-private mostly for testability; prefer getCachedReferences()
+	 */
+	@CheckForNull SpreadsheetReference getCurrentEditorCellReference() {
+		if (editor == null || !isEditorActive()) {
+			return null;
+		}
+		String candidate = editor.getCurrentCellRangeCandidate();
+		if (candidate == null) {
+			return null;
+		}
+		return SpreadsheetReferenceParsing.parseReference(candidate);
 	}
 
 	// Mouse events
@@ -1028,6 +1095,16 @@ public final class SpreadsheetController {
 		hideCellEditor();
 	}
 
+	void onEditorTextOrCursorPositionChanged() {
+		SpreadsheetReferences editorReferences = new SpreadsheetReferences(
+				getEditorCellReferences(), getCurrentEditorCellReference());
+		SpreadsheetReferences previousReferences = currentReferences;
+		currentReferences = editorReferences;
+		if (!Objects.equals(previousReferences, editorReferences)) {
+			referencesChanged.notifyListeners(MulticastEvent.VOID);
+		}
+	}
+
 	private void startTyping(@CheckForNull String key, @Nonnull Modifiers modifiers) {
 		if (modifiers.ctrlOrCmd || modifiers.alt || StringUtil.empty(key)) {
 			return;
@@ -1356,7 +1433,7 @@ public final class SpreadsheetController {
 		if (editor == null || editorBounds == null || controlsDelegate == null) {
 			return;
 		}
-		String searchPrefix = editor.cellEditor.getMathField().getCurrentWord();
+		String searchPrefix = editor.cellEditor.getMathField().getCharactersLeftOfCursor();
 		if (tabularData.getCellProcessor().isTooShortForAutocomplete(searchPrefix)
 				|| !editor.cellEditor.getMathField().getText().startsWith("=")) {
 			controlsDelegate.hideAutoCompleteSuggestions();
@@ -1392,9 +1469,14 @@ public final class SpreadsheetController {
 			// If the cell editor is reused without first hiding it,
 			// remove the old listener and add the new one after reinitializing.
 			mathField.removeMathFieldListener(mathFieldAdapter);
+			if (mathFieldAdapter != null) {
+				mathField.unregisterMathFieldInternalListener(mathFieldAdapter);
+			}
+
 			mathFieldAdapter = new SpreadsheetMathFieldAdapter(mathField, row, column,
 					cellEditor.getCellProcessor(), SpreadsheetController.this);
 			mathField.addMathFieldListener(mathFieldAdapter);
+			mathField.registerMathFieldInternalListener(mathFieldAdapter);
 
 			mathField.setUnhandledArrowListener(mathFieldAdapter);
 
@@ -1446,21 +1528,30 @@ public final class SpreadsheetController {
 		}
 
 		void updateReference(String reference) {
-			Predicate<MathCharacter> rangeCheck =
+			Predicate<MathCharacter> predicate =
 					w -> w.isCharacter() || ":".equals(w.getUnicodeString());
 			String[] parts = reference.split(":");
 			String startCell = parts[0].trim();
 			String endCell = parts.length > 1 ? parts[1].trim() : startCell;
-			String currentWord = cellEditor.getMathField().getCurrentCharSequence(rangeCheck);
+			String currentWord = cellEditor.getMathField()
+					.getCharactersLeftOfCursorMatching(predicate);
 			boolean spaceNeeded = !currentWord.isEmpty();
 			if (currentWord.endsWith(":" + endCell)
 					|| currentWord.startsWith(startCell + ":")
 					|| currentWord.equals(endCell) || currentWord.equals(startCell)) {
 				cellEditor.getMathField().deleteCurrentCharSequence(
-						rangeCheck);
+						predicate);
 				spaceNeeded = false;
 			}
 			type(spaceNeeded ? " " + reference : reference);
+		}
+
+		private @CheckForNull String getCurrentCellRangeCandidate() {
+			Predicate<MathCharacter> predicate =
+					w -> w.isCharacter() || ":".equals(w.getUnicodeString());
+			String candidate = cellEditor.getMathField()
+					.getCharactersAroundCursorMatching(predicate);
+			return candidate == null || candidate.isEmpty() ? null : candidate;
 		}
 	}
 }

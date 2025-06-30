@@ -256,11 +256,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public @Nonnull String getColumnName(int column) {
-		return GeoElementSpreadsheet.getSpreadsheetColumnName(column);
-	}
-
-	@Override
 	public void setContent(int row, int column, Object content) {
 		if (content != null) {
 			GeoElement geo = (GeoElement) content;

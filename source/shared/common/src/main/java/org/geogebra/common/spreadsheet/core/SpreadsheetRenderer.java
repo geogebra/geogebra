@@ -1,10 +1,12 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -46,6 +48,20 @@ public final class SpreadsheetRenderer {
 	private final static int ERROR_TRIANGLE_WIDTH = 10;
 	private final static int TEXT_PADDING = 10;
 	private final static int TEXT_HEIGHT = 16;
+
+	private final static int[] REFERENCE_COLOR_RGB_VALUES =
+			{ 0x6557d2, 0xe0bf00, 0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70 };
+	private final static List<GColor> REFERENCE_COLORS =
+			Arrays.stream(REFERENCE_COLOR_RGB_VALUES)
+					.mapToObj(rgb -> GColor.newColorRGB(rgb))
+					.collect(Collectors.toList());
+	private final static int[] REFERENCE_STROKE_INDICES = { 0, 1, 2 };
+	private final static List<GBasicStroke> referenceStrokes =
+			Arrays.stream(REFERENCE_STROKE_INDICES)
+				.mapToObj(index -> AwtFactory.getPrototype().newBasicStroke(2,
+					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER, 4,
+					makeReferenceDashPattern(index)))
+				.collect(Collectors.toList());
 
 	SpreadsheetRenderer(@Nonnull TableLayout layout, @Nonnull CellRenderableFactory converter,
 			@Nonnull SpreadsheetStyling styling, @Nonnull TabularData tabularData) {
@@ -324,6 +340,46 @@ public final class SpreadsheetRenderer {
 		graphics.setStroke(borderStroke);
 		drawRectangleWithStraightLines(graphics,
 				bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
+	}
+
+	/**
+	 * Draw a spreadsheet reference.
+	 * @param reference A cell or cell range reference.
+	 * @param referenceIndex An index for drawing the different references using different colors.
+	 * @param filled Pass {@code true} to fill and stroke the reference rectangle, {@code false} to
+	 * only stroke the outline.
+	 * @param graphics The Graphics to draw to.
+	 * @param viewport The current viewport.
+	 */
+	void drawReference(@Nonnull SpreadsheetReference reference, int referenceIndex, boolean filled,
+			GGraphics2D graphics, Rectangle viewport) {
+		TabularRange range = makeTabularRange(reference);
+		Rectangle bounds = layout.getBounds(range, viewport);
+		if (bounds == null) {
+			return;
+		}
+		GColor color = REFERENCE_COLORS.get(referenceIndex % REFERENCE_COLORS.size());
+		if (filled) {
+			graphics.setColor(color.deriveWithAlpha(25)); // 0.1 * 255
+			fillRect(graphics, bounds.getMinX(), bounds.getMinY(),
+					bounds.getWidth(), bounds.getHeight());
+		}
+		graphics.setColor(color);
+		graphics.setStroke(referenceStrokes.get(referenceIndex % referenceStrokes.size()));
+		drawRectangleWithStraightLines(graphics,
+				bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
+	}
+
+	private static double[] makeReferenceDashPattern(int index) {
+		return new double[]{ 4.0, (index % 3) + 1 };
+	}
+
+	private static TabularRange makeTabularRange(SpreadsheetReference reference) {
+		if (reference.toCell == null) {
+			return new TabularRange(reference.fromCell.rowIndex, reference.fromCell.columnIndex);
+		}
+		return new TabularRange(reference.fromCell.rowIndex, reference.fromCell.columnIndex,
+				reference.toCell.rowIndex, reference.toCell.columnIndex);
 	}
 
 	/**

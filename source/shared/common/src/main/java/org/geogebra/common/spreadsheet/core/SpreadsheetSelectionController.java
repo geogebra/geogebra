@@ -24,7 +24,7 @@ final class SpreadsheetSelectionController {
 	private final List<Selection> selections = new ArrayList<>();
 	private List<Selection> previousSelections = List.of();
 
-	final MulticastEvent<List<Selection>> selectionsChanged = new MulticastEvent<>();
+	final MulticastEvent<MulticastEvent.Void> selectionsChanged = new MulticastEvent<>();
 
 	void clearSelections() {
 		selections.clear();
@@ -197,9 +197,8 @@ final class SpreadsheetSelectionController {
 		if (Objects.equals(previousSelections, selections)) {
 			return;
 		}
-		List<Selection> newSelections = List.copyOf(selections);
-		selectionsChanged.notifyListeners(newSelections);
-		previousSelections = newSelections;
+		selectionsChanged.notifyListeners(MulticastEvent.VOID);
+		previousSelections = List.copyOf(selections);
 	}
 
 	public boolean isSelected(int row, int column) {

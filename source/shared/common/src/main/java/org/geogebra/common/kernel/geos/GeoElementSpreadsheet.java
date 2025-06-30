@@ -39,14 +39,14 @@ public class GeoElementSpreadsheet {
 	private static StringBuilder sb;
 
 	/**
-	 * Converts column number to name
+	 * Converts column index to name
 	 * 
-	 * @param column
-	 *            column number
+	 * @param columnIndex
+	 *            column index
 	 * @return column name
 	 */
-	public static @Nonnull String getSpreadsheetColumnName(int column) {
-		int i = column + 1;
+	public static @Nonnull String getSpreadsheetColumnName(int columnIndex) {
+		int i = columnIndex + 1;
 		String col = "";
 		while (i > 0) {
 			col = (char) ('A' + (i - 1) % 26) + col;

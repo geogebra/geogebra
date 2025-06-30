@@ -17,6 +17,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -27,16 +28,18 @@ import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.ChartBuilder;
-import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.geogebra.test.annotation.Issue;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.KeyEvent;
@@ -59,7 +62,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     private String chartCommand = "";
     private String chartError = "";
 
-    @BeforeClass
+    @BeforeAll
     public static void setupOnce() {
         // required by MathField
         FactoryProvider.setInstance(new FactoryProviderCommon());
@@ -67,17 +70,17 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void enablePreviewFeatures() {
         PreviewFeature.setPreviewFeaturesEnabled(true);
     }
 
-    @AfterClass
+    @AfterAll
     public static void disablePreviewFeatures() {
         PreviewFeature.setPreviewFeaturesEnabled(false);
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         tabularData = new TestTabularData();
         spreadsheetStyling = new SpreadsheetStyling();
@@ -919,6 +922,110 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
         controller.cutCells(0, 0); // should not cause index out of bounds exception
         assertNull(controller.contentAt(0, 0));
+    }
+
+    // Editor cell/range references
+
+    @ParameterizedTest
+    @CsvSource(delimiterString = "->", value = {
+            "=AA1                               -> AA1",
+            "=A1+$A$2+AA1+$AB100                -> A1,$A$2,AA1,$AB100",
+            "=SUM(A1:A10)+10                    -> A1:A10",
+            "=SUM(A1:A5)+SUM(A1:C1)+SUM(A1:B2)  -> A1:A5,A1:C1,A1:B2",
+            "=SUM(SUM(A1:A10),B1)               -> A1:A10,B1",
+    })
+    public void testCellRangeReferences(String cellContent, String expectedReferences) {
+        tabularData.setContent(0, 1, cellContent);
+        simulateCellMouseClick(0, 1, 2);
+        List<SpreadsheetReference> expectedRanges =
+                List.of(expectedReferences.split(","))
+                .stream()
+                .map(reference ->
+                        SpreadsheetReferenceParsing.parseReference(reference))
+                .collect(Collectors.toList());
+        List<SpreadsheetReference> actualRanges = controller.getEditorCellReferences();
+        assertEquals(expectedRanges, actualRanges);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "A1",
+            "$A$1",
+            "+A1:A3"
+    })
+    public void testCellRangeReferencesButNotAFormula(String cellContent) {
+        tabularData.setContent(0, 1, cellContent);
+        simulateCellMouseClick(0, 1, 2);
+        List<SpreadsheetReference> actualRanges = controller.getEditorCellReferences();
+        assertNull(actualRanges);
+    }
+
+    @Test
+    public void testCurrentCellReference1() {
+        tabularData.setContent(0, 1, "=SUM(A1:A10)");
+        simulateCellMouseClick(0, 1, 2);
+
+        // note: "<x>" denotes currentField.arguments[currentOffset]
+
+        // MathSequence[=, FnAPPLY[MathSequence[S, U, M], MathSequence[A, 1, :, A, 1, 0]]<>]
+        assertNull(controller.getCurrentEditorCellReference());
+
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
+        // MathSequence[A, 1, :, A, 1, 0<>]
+        SpreadsheetReference range = new SpreadsheetReference(
+                new SpreadsheetCellReference(0, 0),
+                new SpreadsheetCellReference(9, 0));
+        assertEquals(range, controller.getCurrentEditorCellReference());
+
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
+        // MathSequence[A, 1, :, A, 1, <0>]
+        assertEquals(range, controller.getCurrentEditorCellReference());
+
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
+        assertNull(controller.getCurrentEditorCellReference());
+    }
+
+    @Test
+    public void testCurrentCellReference2() {
+        tabularData.setContent(0, 1, "=SUM(A1:A10)");
+        simulateCellMouseClick(0, 1, 2);
+
+        // note: "<x>" denotes currentField.arguments[currentOffset]
+
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_HOME);
+        // MathSequence[<=>, FnAPPLY[MathSequence[S, U, M], MathSequence[A, 1, :, A, 1, 0]]]
+        assertNull(controller.getCurrentEditorCellReference());
+
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
+        // MathSequence[=, <FnAPPLY[MathSequence[S, U, M], MathSequence[A, 1, :, A, 1, 0]]>]
+        assertNull(controller.getCurrentEditorCellReference());
+
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
+        // MathSequence[<S>, U, M]
+        assertNull(controller.getCurrentEditorCellReference());
+    }
+
+    @Test
+    public void testCurrentCellReference3() {
+        tabularData.setContent(0, 1, "=SUM(SUM(A1:A10),B1)");
+        simulateCellMouseClick(0, 1, 2);
+
+        // note: "<x>" denotes currentField.arguments[currentOffset]
+
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_HOME);
+        // MathSequence[<=>, FnAPPLY[MathSequence[S, U, M],
+        //   MathSequence[FnAPPLY[MathSequence[S, U, M], MathSequence[A, 1, :, A, 1, 0]], ,, B, 1]]]
+        assertNull(controller.getCurrentEditorCellReference());
+
+        for (int i = 0; i < 11; i++) {
+            simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
+        }
+        // MathSequence[<A>, 1, :, A, 1, 0]
+        SpreadsheetReference range = new SpreadsheetReference(
+                new SpreadsheetCellReference(0, 0),
+                new SpreadsheetCellReference(9, 0));
+        assertEquals(range, controller.getCurrentEditorCellReference());
     }
 
     // Helpers

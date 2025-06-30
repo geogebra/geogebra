@@ -195,7 +195,7 @@ public final class SpreadsheetStyleBarModel {
 		updateStateAndNotifyChanged();
 	}
 
-	private void selectionsChanged(List<Selection> unused) {
+	private void selectionsChanged(MulticastEvent.Void unused) {
 		updateStateAndNotifyChanged();
 	}
 

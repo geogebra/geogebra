@@ -82,7 +82,9 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 * @param column column index
 	 * @return column name
 	 */
-	@Nonnull String getColumnName(int column);
+	default @Nonnull String getColumnName(int column) {
+		return Spreadsheet.getColumnName(column);
+	}
 
 	/**
 	 * Get name of a row.

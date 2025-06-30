@@ -336,35 +336,28 @@ public class SpreadsheetSelectionControllerTest {
 	@Test
 	public void testSelectionChangeNotifications() {
 		final Box<Integer> numberOfNotifications = new Box<Integer>(0);
-		final Box<List<Selection>> lastNotificationPayload = new Box<List<Selection>>(null);
-		MulticastEvent.Listener<List<Selection>> listener =
-				new MulticastEvent.Listener<List<Selection>>() {
+		MulticastEvent.Listener<MulticastEvent.Void> listener =
+				new MulticastEvent.Listener<MulticastEvent.Void>() {
 					@Override
-					public void notify(@CheckForNull List<Selection> arguments) {
+					public void notify(MulticastEvent.Void unused) {
 						numberOfNotifications.value++;
-						lastNotificationPayload.value = arguments;
 					}
 				};
 		selectionController.selectionsChanged.addListener(listener);
 
 		selectionController.selectCell(0, 0, false, false);
 		assertEquals(1, numberOfNotifications.value.intValue());
-		assertEquals(List.of(new Selection(0, 0)), lastNotificationPayload.value);
 
 		selectionController.selectCell(1, 0, false, false);
 		assertEquals(2, numberOfNotifications.value.intValue());
-		assertEquals(List.of(new Selection(1, 0)), lastNotificationPayload.value);
 
 		// no notification should be sent out if selection didn't change
 		selectionController.selectCell(1, 0, false, false);
 		assertEquals(2, numberOfNotifications.value.intValue());
-		assertEquals(List.of(new Selection(1, 0)), lastNotificationPayload.value);
 
 		// adding to the selection should notify once
 		selectionController.select(new Selection(3, 0), false, true);
 		assertEquals(3, numberOfNotifications.value.intValue());
-		assertEquals(List.of(new Selection(1, 0), new Selection(3, 0)),
-				lastNotificationPayload.value);
 	}
 
 	@Test

@@ -54,6 +54,6 @@ public class InputSuggestions {
 	 */
 	public String getCommand(MathField mf) {
 		return mf == null || isPreventedFor(mf.getInternal().getEditorState())
-				? "" : mf.getInternal().getCurrentWord();
+				? "" : mf.getInternal().getCharactersLeftOfCursor();
 	}
 }

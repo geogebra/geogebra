@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
@@ -642,15 +645,15 @@ public class MathFieldInternal
 
 	/**
 	 * Delete characters left from the cursor that fit certain criteria.
-	 * @param check decides which characters to delete
+	 * @param predicate decides which characters to delete
 	 */
-	public void deleteCurrentCharSequence(Predicate<MathCharacter> check) {
+	public void deleteCurrentCharSequence(Predicate<MathCharacter> predicate) {
 		MathSequence sel = editorState.getCurrentField();
 		if (sel != null) {
 			for (int i = Math.min(editorState.getCurrentOffset() - 1,
 					sel.size() - 1); i >= 0; i--) {
 				if (sel.getArgument(i) instanceof MathCharacter) {
-					if (!check.test((MathCharacter) sel.getArgument(i))) {
+					if (!predicate.test((MathCharacter) sel.getArgument(i))) {
 						return;
 					}
 					sel.removeArgument(i);
@@ -663,24 +666,24 @@ public class MathFieldInternal
 	/**
 	 * @return sequence of letters left from the cursor (or selection end).
 	 */
-	public String getCurrentWord() {
-		return getCurrentCharSequence(MathCharacter::isCharacter);
+	public @Nonnull String getCharactersLeftOfCursor() {
+		return getCharactersLeftOfCursorMatching(MathCharacter::isCharacter);
 	}
 
 	/**
-	 * @param check decides which characters to include
-	 * @return sequence of characters left of the cursor (or selection end) matching the check
+	 * @param predicate decides which characters to include
+	 * @return sequence of characters left of the cursor (or selection end) matching the predicate
 	 */
-	public String getCurrentCharSequence(Predicate<MathCharacter> check) {
+	public @Nonnull String getCharactersLeftOfCursorMatching(Predicate<MathCharacter> predicate) {
 		StringBuilder str = new StringBuilder(" ");
-		MathSequence sel = editorState.getCurrentField();
-		if (sel != null) {
-			int wordEnd = editorState.getCurrentOffset() - 1;
+		MathSequence currentField = editorState.getCurrentField();
+		if (currentField != null) {
+			int index = editorState.getCurrentOffset() - 1;
 			if (editorState.getSelectionEnd() != null) {
-				wordEnd = editorState.getSelectionEnd().getParentIndex();
+				index = editorState.getSelectionEnd().getParentIndex();
 			}
-			for (int i = Math.min(wordEnd, sel.size() - 1); i >= 0; i--) {
-				if (!appendChar(str, sel, i, check)) {
+			for (int i = Math.min(index, currentField.size() - 1); i >= 0; i--) {
+				if (!appendChar(str, currentField, i, predicate)) {
 					break;
 				}
 			}
@@ -689,22 +692,95 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * @param str
-	 *            string builder
-	 * @param sel
-	 *            formula part
-	 * @param i
-	 *            index
-	 * @return whether char is a part of a word
+	 * @param predicate Which characters to include.
+	 * @return The characters in the current field around the cursor position that match the
+	 * predicate, up until (but not including) the first characters (looking left / right) for
+	 * which predicate returns false. Returns null if currentField is null.
 	 */
-	public static boolean appendChar(StringBuilder str, MathSequence sel,
-			int i, Predicate<MathCharacter> check) {
-		if (sel.getArgument(i) instanceof MathCharacter) {
-			if (!check.test((MathCharacter) sel.getArgument(i))) {
-				return false;
+	public @CheckForNull String getCharactersAroundCursorMatching(
+			Predicate<MathCharacter> predicate) {
+		MathSequence currentField = editorState.getCurrentField();
+		if (currentField == null) {
+			return null;
+		}
+		StringBuilder prefix = new StringBuilder();
+		if (editorState.getCurrentOffset() > 0) {
+			for (int i = editorState.getCurrentOffset() - 1; i >= 0; i--) {
+				if (!appendChar(prefix, currentField, i, predicate)) {
+					break;
+				}
 			}
-			str.append(((MathCharacter) sel.getArgument(i)).getUnicodeString());
-			return true;
+		}
+		StringBuilder suffix = new StringBuilder();
+		for (int i = editorState.getCurrentOffset(); i < currentField.size(); i++) {
+			if (!appendChar(suffix, currentField, i, predicate)) {
+				break;
+			}
+		}
+		return prefix.reverse().toString().trim() + suffix.toString().trim();
+	}
+
+	/**
+	 * Recursively collect all sequences of consecutive {@code MathCharacter}s matching the given
+	 * predicate.
+	 * @param predicate A predicate for which {@code MathCharacter}s to include.
+	 * @param characterSequences The result (out param).
+	 */
+	public void collectCharacterSequences(Predicate<MathCharacter> predicate,
+			ArrayList<String> characterSequences) {
+		collectCharacterSequences(editorState.getRootComponent(), predicate, characterSequences);
+	}
+
+	private void collectCharacterSequences(MathContainer root,
+			Predicate<MathCharacter> predicate,
+			ArrayList<String> characterSequences) {
+		ArrayList<MathCharacter> characterSequence = new ArrayList<>();
+		for (int i = 0; i < root.size(); i++) {
+			MathComponent argument = root.getArgument(i);
+			if (argument instanceof MathCharacter && predicate.test((MathCharacter) argument)) {
+				characterSequence.add((MathCharacter) argument);
+			} else {
+				if (!characterSequence.isEmpty()) {
+					characterSequences.add(toString(characterSequence));
+				}
+				characterSequence = new ArrayList<>();
+				if (argument instanceof MathContainer) {
+					collectCharacterSequences((MathContainer) argument, predicate,
+							characterSequences);
+				}
+			}
+		}
+		if (!characterSequence.isEmpty()) {
+			characterSequences.add(toString(characterSequence));
+		}
+	}
+
+	private @Nonnull String toString(List<MathCharacter> characters) {
+		StringBuilder sb = new StringBuilder();
+		for (MathCharacter character : characters) {
+			sb.append(character.toString());
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Append characters matching a predicate to a string builder.
+	 * @param sb
+	 *            string builder
+	 * @param sequence
+	 *            formula part
+	 * @param argumentIndex
+	 *            index
+	 * @return true if {@code sequence.arguments[argumentIndex]} is a MathCharacter satisfying predicate
+	 */
+	public static boolean appendChar(StringBuilder sb, MathSequence sequence,
+			int argumentIndex, Predicate<MathCharacter> predicate) {
+		if (sequence.getArgument(argumentIndex) instanceof MathCharacter) {
+			MathCharacter character = (MathCharacter) sequence.getArgument(argumentIndex);
+			if (predicate.test(character)) {
+				sb.append(character.getUnicodeString());
+				return true;
+			}
 		}
 		return false;
 	}
@@ -1006,8 +1082,17 @@ public class MathFieldInternal
 	 * @param mathFieldInternalListener listener
 	 */
 	public void registerMathFieldInternalListener(
-			MathFieldInternalListener mathFieldInternalListener) {
+			@Nonnull MathFieldInternalListener mathFieldInternalListener) {
 		mathFieldInternalListeners.add(mathFieldInternalListener);
+	}
+
+	/**
+	 * Unregister a listener.
+	 * @param mathFieldInternalListener a previously registered listener
+	 */
+	public void unregisterMathFieldInternalListener(
+			@Nonnull MathFieldInternalListener mathFieldInternalListener) {
+		mathFieldInternalListeners.remove(mathFieldInternalListener);
 	}
 
 	private void fireInputChangedEvent() {

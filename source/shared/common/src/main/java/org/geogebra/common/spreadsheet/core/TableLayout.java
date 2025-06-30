@@ -117,17 +117,18 @@ public final class TableLayout {
 	 * or unbounded in either direction (e.g. whole column).
 	 */
 	@CheckForNull Rectangle getBounds(TabularRange selection, Rectangle viewport) {
+		if (selection.getMinColumn() < 0 || selection.getMaxColumn() >= numberOfColumns()
+				|| selection.getMinRow() < 0 || selection.getMaxRow() >= numberOfRows()) {
+			return null;
+		}
 		double offsetX = -viewport.getMinX() + getRowHeaderWidth();
 		double offsetY = -viewport.getMinY() + getColumnHeaderHeight();
-		if (selection.getMinColumn() >= 0 && selection.getMinRow() >= 0) {
-			double minX = getMinX(selection.getMinColumn());
-			double minY = getMinY(selection.getMinRow());
-			double maxX = getMinX(selection.getMaxColumn() + 1);
-			double maxY = getMinY(selection.getMaxRow() + 1);
-			return new Rectangle(minX + offsetX, maxX + offsetX,
-					minY + offsetY, maxY + offsetY);
-		}
-		return null;
+		double minX = getMinX(selection.getMinColumn());
+		double minY = getMinY(selection.getMinRow());
+		double maxX = getMinX(selection.getMaxColumn() + 1);
+		double maxY = getMinY(selection.getMaxRow() + 1);
+		return new Rectangle(minX + offsetX, maxX + offsetX,
+				minY + offsetY, maxY + offsetY);
 	}
 
 	@Nonnull Rectangle getRowHeaderBounds(int row) {
