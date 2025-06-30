@@ -2,6 +2,8 @@ package org.geogebra.common.geogebra3D.euclidianForPlane;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
@@ -57,18 +59,16 @@ public class EuclidianControllerForPlaneCompanion
 	}
 
 	@Override
-	public void movePoint(AbstractEvent event) {
-
+	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
-
 		// cancel 3D controller stuff
-		if (((GeoElement) ec.movedGeoPoint).isGeoElement3D()) {
-			((GeoPoint3D) ec.movedGeoPoint).setWillingCoordsUndefined();
-			((GeoPoint3D) ec.movedGeoPoint).setWillingDirectionUndefined();
+		if (movedPoint.isGeoElement3D()) {
+			((GeoPoint3D) movedPoint).setWillingCoordsUndefined();
+			((GeoPoint3D) movedPoint).setWillingDirectionUndefined();
 		}
 
-		ec.movedGeoPoint.setCoords(coords, true);
-		ec.movedGeoPoint.updateCascade();
+		movedPoint.setCoords(coords, true);
+		movedPoint.updateCascade();
 	}
 
 	@Override

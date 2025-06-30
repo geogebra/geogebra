@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.TestGeo;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.AsyncOperation;
@@ -94,10 +95,11 @@ public class ModeMacro {
 		// only one point needed: try to create it
 		if (!objectFound && (macroInput[index].equals(TestGeo.GEOPOINT)
 				|| macroInput[index].equals(TestGeo.GEOPOINTND))) {
-			if (ec.createNewPoint(hits, true, true, false)) {
+			GeoPointND newPoint = ec.createNewPoint(hits, true, false, true, false, false);
+			if (newPoint != null) {
 				// take movedGeoPoint which is the newly created point
-				selection.getSelectedGeoList().add(ec.getMovedGeoPoint());
-				selection.addSelectedGeo(ec.getMovedGeoPoint());
+				selection.getSelectedGeoList().add(newPoint.toGeoElement());
+				selection.addSelectedGeo(newPoint);
 				objectFound = true;
 				ec.resetPointCreated();
 			}

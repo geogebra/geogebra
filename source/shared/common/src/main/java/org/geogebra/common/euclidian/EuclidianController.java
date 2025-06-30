@@ -236,7 +236,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private final SpotlightController spotlightController;
 	public double xRW;
 	public double yRW;
-	public GeoPointND movedGeoPoint;
+	protected @CheckForNull GeoPointND movedGeoPoint;
 	protected GeoElement resultedGeo;
 	public boolean draggingBeyondThreshold = false;
 	@Weak
@@ -3618,47 +3618,48 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	final protected boolean attachDetach(Hits hits, boolean selPreview) {
 		if (detachFrom != null || needsAttach) {
-			hits.remove(movedGeoPoint);
+			if (movedGeoPoint != null) {
+				hits.remove(movedGeoPoint);
+				// replace point with point it was dragged to
+				if (hits.containsGeoPoint()
+						&& movedGeoPoint.hasChildren()) {
+					try {
+						this.kernel.getConstruction().replace(
+								(GeoElement) movedGeoPoint,
+								hits.getFirstHit(TestGeo.GEOPOINTND));
+					} catch (Exception | MyError e) {
+						Log.debug(e);
+					}
 
-			// replace point with point it was dragged to
-			if (hits.containsGeoPoint()
-					&& movedGeoPoint.hasChildren()) {
-				try {
-					this.kernel.getConstruction().replace(
-							(GeoElement) movedGeoPoint,
-							hits.getFirstHit(TestGeo.GEOPOINTND));
-				} catch (Exception | MyError e) {
-					Log.debug(e);
-				}
+				} else {
+					// if the GeoPoint is moved from one element to the other it is
+					// first detached (which deletes the information about the
+					// target) and then attached. Therefore the target has to be
+					// stored beforehand
+					String attachTo = movedGeoPoint.isPointOnPath() ? movedGeoPoint
+							.getPath().getLabel(StringTemplate.defaultTemplate)
+							: "";
 
-			} else {
-				// if the GeoPoint is moved from one element to the other it is
-				// first detached (which deletes the information about the
-				// target) and then attached. Therefore the target has to be
-				// stored beforehand
-				String attachTo = movedGeoPoint.isPointOnPath() ? movedGeoPoint
-						.getPath().getLabel(StringTemplate.defaultTemplate)
-						: "";
+					// detach
+					if (detachFrom != null && !hits.contains(detachFrom)) {
+						String name = movedGeoPoint
+								.getLabel(StringTemplate.defaultTemplate);
+						this.app.getKernel().getAlgoDispatcher().detach(
+								movedGeoPoint, view.toRealWorldCoordX(mouseLoc.x),
+								view.toRealWorldCoordY(mouseLoc.y), detachFromPath,
+								detachFromRegion);
+						movedGeoPoint = (GeoPointND) this.kernel.getConstruction()
+								.geoTableVarLookup(name);
+					}
 
-				// detach
-				if (detachFrom != null && !hits.contains(detachFrom)) {
-					String name = movedGeoPoint
-							.getLabel(StringTemplate.defaultTemplate);
-					this.app.getKernel().getAlgoDispatcher().detach(
-							movedGeoPoint, view.toRealWorldCoordX(mouseLoc.x),
-							view.toRealWorldCoordY(mouseLoc.y), detachFromPath,
-							detachFromRegion);
-					movedGeoPoint = (GeoPointND) this.kernel.getConstruction()
-							.geoTableVarLookup(name);
-				}
-
-				// attach
-				if (needsAttach) {
-					if (!"".equals(attachTo)) {
-						Path path = (Path) this.kernel.getConstruction()
-								.geoTableVarLookup(attachTo);
-						this.kernel.getAlgoDispatcher().attach(movedGeoPoint,
-								path, view, getMouseLocRW());
+					// attach
+					if (needsAttach) {
+						if (!"".equals(attachTo)) {
+							Path path = (Path) this.kernel.getConstruction()
+									.geoTableVarLookup(attachTo);
+							this.kernel.getAlgoDispatcher().attach(movedGeoPoint,
+									path, view, getMouseLocRW());
+						}
 					}
 				}
 			}
@@ -4705,28 +4706,24 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * @return the current movedGeoPoint
-	 */
-	public GeoElement getMovedGeoPoint() {
-		return (GeoElement) movedGeoPoint;
-	}
-
-	/**
-	 * @param geo
+	 * @param geoPoint
 	 *            moved point (unchecked cas)
 	 */
-	public void setMovedGeoPoint(GeoPointND geo) {
-		movedGeoPoint = geo;
+	public void setMovedGeoPoint(GeoPointND geoPoint) {
+		GeoPointND unwrappedPoint = unwrapDynamicCoordinates(geoPoint);
+		movedGeoPoint = unwrappedPoint;
+		view.setShowMouseCoords(
+				!app.isApplet() && !unwrappedPoint.isPointOnPath());
+		setDragCursor();
+	}
 
-		AlgoElement algo = movedGeoPoint.getParentAlgorithm();
+	protected GeoPointND unwrapDynamicCoordinates(GeoPointND geoPoint) {
+		AlgoElement algo = geoPoint.getParentAlgorithm();
 		if (algo instanceof AlgoDynamicCoordinatesInterface) {
-			movedGeoPoint = ((AlgoDynamicCoordinatesInterface) algo)
+			return ((AlgoDynamicCoordinatesInterface) algo)
 					.getParentPoint();
 		}
-
-		view.setShowMouseCoords(
-				!app.isApplet() && !movedGeoPoint.isPointOnPath());
-		setDragCursor();
+		return geoPoint;
 	}
 
 	/**
@@ -4960,7 +4957,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				intersectPossible, true, complexPoint);
 	}
 
-	protected GeoPointND createNewPointND(Hits hits, boolean onPathPossible,
+	protected @CheckForNull GeoPointND createNewPointND(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
 			boolean doSingleHighlighting, boolean complexPoint) {
 		pointCreated = null;
@@ -4980,7 +4977,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			setDragCursor();
 			if (doSingleHighlighting) {
-				doSingleHighlighting(getMovedGeoPoint());
+				doSingleHighlighting(point.toGeoElement());
 			}
 
 			return point;
@@ -5606,8 +5603,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            in 3D we need to check left/right click
 	 */
 	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
-		if (app.isUsingFullGui()) {
-			getMovedGeoPoint().resetTraceColumns();
+		if (app.isUsingFullGui() && movedGeoPoint != null) {
+			movedGeoPoint.toGeoElement().resetTraceColumns();
 		}
 	}
 
@@ -5668,8 +5665,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void movePointWithOffset() {
-		movedGeoPoint.setCoords(getSnappedRealCoordX(), getSnappedRealCoordY(), 1.0);
-		movedGeoPoint.updateCascade();
+		if (movedGeoPoint != null) {
+			movedGeoPoint.setCoords(getSnappedRealCoordX(), getSnappedRealCoordY(), 1.0);
+			movedGeoPoint.updateCascade();
+		}
 	}
 
 	private double getSnappedRealCoordY() {
@@ -7695,7 +7694,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case POINT:
-			companion.movePoint(event);
+			if (movedGeoPoint != null) {
+				companion.movePoint(event, movedGeoPoint);
+			}
 			break;
 
 		case POINT_WITH_OFFSET:
@@ -8790,18 +8791,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				moveMode = MoveMode.VECTOR_NO_GRID;
 				return;
 			}
-			movedGeoPoint = new GeoPoint(kernel.getConstruction(), null, 0, 0,
+			GeoPoint newPoint = new GeoPoint(kernel.getConstruction(), null, 0, 0,
 					0);
+			movedGeoPoint = newPoint;
 
 			GeoPointND p = (GeoPointND) getAlgoDispatcher().translateND(null,
-					movedGeoPoint, (GeoVectorND) topHit)[0];
+					newPoint, (GeoVectorND) topHit)[0];
 
 			GeoElement newVecGeo = getAlgoDispatcher().vectorND(null,
-					movedGeoPoint, p);
+					newPoint, p);
 
 			// make sure vector looks the same when translated
-			movedGeoPoint.setEuclidianVisible(false);
-			movedGeoPoint.update();
+			newPoint.setEuclidianVisible(false);
+			newPoint.update();
 			p.setEuclidianVisible(false);
 			p.update();
 			newVecGeo
@@ -9837,7 +9839,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				.getSelectionThreshold(app.getCapturingThreshold(q.getType()));
 	}
 
-	protected GeoPointND createNewPoint(Hits hits, boolean onPathPossible,
+	/**
+	 * Creates or finds a point at mouse coordinates.
+	 * @param hits hit objects
+	 * @param onPathPossible whether creation of points on a path is allowed
+	 * @param inRegionPossible whether creation of point in a region is allowed
+	 * @param intersectPossible whether creation of intersections is allowed
+	 * @param doSingleHighlighting whether to do highlighting
+	 * @param complexPoint whether the style of created point should be complex
+	 * @return created point, hit point or null
+	 */
+	public GeoPointND createNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
 			boolean doSingleHighlighting, boolean complexPoint) {
 		GeoPointND newPoint = createNewPointND(hits, onPathPossible,
@@ -10306,7 +10318,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			);
 		}
 
-		if (getMovedGeoPoint() != null) {
+		if (movedGeoPoint != null) {
 			processReleaseForMovedGeoPoint(rightClick);
 		}
 		if (movedGeoElement instanceof GeoPointND
@@ -10447,13 +10459,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			processMode(hits, control, event.isShiftDown(), callback);
 
 		}
-
+		resetMovedGeoPoint();
 		endOfWrapMouseReleased(hits, event);
 
 		draggingOccurredBeforeRelease = false;
 	}
 
 	private void resetMovedGeoElement() {
+		// intentionally do not reset movedGeoPoint
+		// TODO what about movedGeoVector, movedGeoFunction, movedGeoNumeric, movedLabelGeoElement
 		movedGeoElement = null;
 		movedGeoBoolean = null;
 		movedGeoLine = null;
@@ -10462,7 +10476,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoImplicitCurve = null;
 		movedGeoText = null;
 		movedGeoImage = null;
-		movedGeoPoint = null;
 	}
 
 	private void focusGroupElement(GeoElement geo) {
@@ -11705,12 +11718,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void moveAttachDetach(AbstractEvent event) {
-
 		if (movedGeoPoint == null) {
 			return;
 		}
-
-		if (movedGeoPoint.isPointOnPath() || movedGeoPoint.isPointInRegion()) {
+		final GeoPointND movedPoint = movedGeoPoint;
+		if (movedPoint.isPointOnPath() || movedPoint.isPointInRegion()) {
 			int th = app.getCapturingThreshold(PointerEventType.MOUSE);
 			app.setCapturingThreshold(INCREASED_THRESHOLD_FACTOR * th);
 			this.view.setHits(new GPoint(event.getX(), event.getY()),
@@ -11725,8 +11737,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		hits.removePolygons();
 
 		// use view.getHits for Region, because it still contains Polygons
-		if (movedGeoPoint.isPointOnPath()
-				&& !hits.contains(movedGeoPoint.getPath())) {
+		if (movedPoint.isPointOnPath()
+				&& !hits.contains(movedPoint.getPath())) {
 			needsAttach = false;
 			detachFromPath = true;
 			detachFromRegion = false;
@@ -11739,7 +11751,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
 					view.toRealWorldCoordY(event.getY()), 1);
 		} else if (movedGeoPoint.isPointInRegion()
-				&& !view.getHits().contains(movedGeoPoint.getRegion())) {
+				&& !view.getHits().contains(movedPoint.getRegion())) {
 			// moved away from the Path/Region the point is attached to ->
 			// detach
 			needsAttach = false;
@@ -11764,17 +11776,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (getSelectedPathList().size() > 0) {
 				// moved point to a Path -> attach
 				needsAttach = true;
-				movedGeoPoint.setPath(getSelectedPathList().get(0));
-				movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
+				movedPoint.setPath(getSelectedPathList().get(0));
+				movedPoint.setCoords(view.toRealWorldCoordX(event.getX()),
 						view.toRealWorldCoordY(event.getY()), 1);
 			} else {
 				// move point
-				companion.movePoint(event);
+				companion.movePoint(event, movedPoint);
 				// already includes updateCascade
 				return;
 			}
 		}
-		movedGeoPoint.updateCascade();
+		movedPoint.updateCascade();
 	}
 
 	/**

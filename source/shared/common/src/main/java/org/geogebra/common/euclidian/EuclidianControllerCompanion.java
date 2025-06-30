@@ -2,6 +2,8 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
@@ -536,16 +538,16 @@ public class EuclidianControllerCompanion {
 	 * @param event
 	 *            mouse move event
 	 */
-	public void movePoint(AbstractEvent event) {
-		Coords oldCoords = ec.movedGeoPoint.getCoordsInD3();
-		if (ec.getMovedGeoPoint().isGeoElement3D()) {
+	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
+		Coords oldCoords = movedPoint.getCoordsInD3();
+		if (movedPoint.isGeoElement3D()) {
 			oldCoords = oldCoords.copy();
 		}
-		ec.movedGeoPoint.setCoords(DoubleUtil.checkDecimalFraction(ec.xRW),
+		movedPoint.setCoords(DoubleUtil.checkDecimalFraction(ec.xRW),
 				DoubleUtil.checkDecimalFraction(ec.yRW), 1.0);
 
 		if (event.isAltDown()) {
-			double multiplier = ec.movedGeoPoint.getAnimationStep();
+			double multiplier = movedPoint.getAnimationStep();
 
 			int n = (int) Math.ceil(1.0 / multiplier);
 
@@ -553,12 +555,12 @@ public class EuclidianControllerCompanion {
 				n = 1;
 			}
 
-			if (ec.movedGeoPoint.isPointOnPath()) {
+			if (movedPoint.isPointOnPath()) {
 				double minDist = Double.MAX_VALUE;
 
-				Path path = ec.movedGeoPoint.getPath();
+				Path path = movedPoint.getPath();
 
-				double t = ec.movedGeoPoint.getPathParameter().t;
+				double t = movedPoint.getPathParameter().t;
 
 				// convert to 0 <= t < 1
 				t = PathNormalizer.toNormalizedPathParameter(t,
@@ -576,17 +578,17 @@ public class EuclidianControllerCompanion {
 					}
 				}
 
-				ec.movedGeoPoint.getPathParameter().t = PathNormalizer
+				movedPoint.getPathParameter().t = PathNormalizer
 						.toParentPathParameter(t_1, path.getMinParameter(),
 								path.getMaxParameter());
 
 				path.pathChanged(ec.movedGeoPoint);
-				ec.movedGeoPoint.updateCoords();
+				movedPoint.updateCoords();
 			}
 		}
 
-		if (!oldCoords.isEqual(ec.movedGeoPoint.getCoordsInD3())) {
-			ec.movedGeoPoint.updateCascade();
+		if (!oldCoords.isEqual(movedPoint.getCoordsInD3())) {
+			movedPoint.updateCascade();
 		}
 	}
 

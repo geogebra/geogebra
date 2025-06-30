@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -64,9 +66,9 @@ public class EuclidianController3DCompanion
 	}
 
 	@Override
-	public void movePoint(AbstractEvent event) {
-		if (ec.movedGeoPoint instanceof GeoPoint3D) {
-			GeoPoint3D movedGeoPoint3D = (GeoPoint3D) ec.movedGeoPoint;
+	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
+		if (movedPoint instanceof GeoPoint3D) {
+			GeoPoint3D movedGeoPoint3D = (GeoPoint3D) movedPoint;
 
 			if (movedGeoPoint3D.isPointOnPath()) {
 
@@ -107,8 +109,8 @@ public class EuclidianController3DCompanion
 
 				// if (isShiftDown && mouseLoc != null){ //moves the point along
 				// z-axis
-				if (ec.movedGeoPoint.getMoveMode() == GeoPointND.MOVE_MODE_Z
-						|| (ec.movedGeoPoint
+				if (movedPoint.getMoveMode() == GeoPointND.MOVE_MODE_Z
+						|| (movedPoint
 								.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
 								&& ec3D.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
 					long maxDelay = EuclidianConstants.DRAGGING_DELAY_FOR_MOVING_POINT_ALONG_Z;
@@ -154,10 +156,10 @@ public class EuclidianController3DCompanion
 			checkPointCapturingXY(tmpCoords2);
 
 			ec.setRwCoords(tmpCoords2);
-			super.movePoint(ec3D.mouseEvent);
+			super.movePoint(ec3D.mouseEvent, movedPoint);
 
 			ec3D.view3D.getCursor3D()
-					.setCoords(ec.movedGeoPoint.getCoordsInD3(), false);
+					.setCoords(movedPoint.getCoordsInD3(), false);
 
 		}
 	}

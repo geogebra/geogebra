@@ -3,6 +3,8 @@ package org.geogebra.common.geogebra3D.input3D;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -110,12 +112,11 @@ public class EuclidianControllerInput3DCompanion extends
 	}
 
 	@Override
-	public void movePoint(AbstractEvent event) {
-
+	public void movePoint(AbstractEvent event, @Nonnull GeoPointND movedPoint) {
 		if (input3D.currentlyUseMouse2D() || (input3D
-						.hasMouseDirection() && !ec.movedGeoPoint
+						.hasMouseDirection() && !movedPoint
 						.isIndependent())) {
-			super.movePoint(event);
+			super.movePoint(event, movedPoint);
 		} else {
 			Coords v = new Coords(4);
 			if (input3D.hasMouseDirection()) {
@@ -129,13 +130,13 @@ public class EuclidianControllerInput3DCompanion extends
 
 			Coords coords = movedGeoPointStartCoords.add(v);
 			checkPointCapturingXYThenZ(coords);
-			ec.movedGeoPoint.setCoords(coords, true);
-			ec.movedGeoPoint.updateCascade();
+			movedPoint.setCoords(coords, true);
+			movedPoint.updateCascade();
 
 			if (ec.getMoveMode() == MoveMode.POINT
-					&& ec.movedGeoPoint.isGeoElement3D()
-					&& !ec.movedGeoPoint.isPointOnPath()
-					&& !ec.movedGeoPoint.hasRegion()) {
+					&& movedPoint.isGeoElement3D()
+					&& !movedPoint.isPointOnPath()
+					&& !movedPoint.hasRegion()) {
 				// update point decorations
 				((EuclidianView3D) ec.getView()).updatePointDecorations();
 			}
@@ -145,7 +146,7 @@ public class EuclidianControllerInput3DCompanion extends
 				StationaryCoords stationaryCoords = getViewCompanion()
 						.getStationaryCoords();
 				stationaryCoords.setCoords(
-						ec.movedGeoPoint.getInhomCoordsInD3(), time);
+						movedPoint.getInhomCoordsInD3(), time);
 				if (stationaryCoords.hasLongDelay(time)) {
 					releaseGrabbing();
 				}

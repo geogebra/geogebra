@@ -838,6 +838,18 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-6630")
+	public void testAttachDetachPointToolCrash() {
+		add("A = (1, -1)");
+		setMode(EuclidianConstants.MODE_ATTACH_DETACH);
+		add("y=0");
+		dragStart(50, 50);
+		dragEnd(50, 0);
+		assertEquals("Point(f)",
+				lookup("A").getDefinition(StringTemplate.testTemplate));
+	}
+
+	@Test
 	public void functionInspectorTool() {
 		setMode(EuclidianConstants.MODE_FUNCTION_INSPECTOR); // TODO 68
 	}
