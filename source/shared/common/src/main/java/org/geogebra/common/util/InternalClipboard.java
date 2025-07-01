@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoInputBox;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -356,7 +357,8 @@ public class InternalClipboard {
 				if (created.isGeoPolygon() || created.isGeoSegment()
 						|| created.isGeoConic() || created instanceof GeoLocusStroke
 						|| created instanceof GeoWidget || created instanceof GeoImage
-						|| created instanceof GeoInline || created instanceof GeoStadium) {
+						|| created instanceof GeoInline || created instanceof GeoStadium
+						|| created instanceof GeoCurveCartesian) {
 					shapes.add(created);
 				}
 				if (created instanceof GeoMindMapNode) {

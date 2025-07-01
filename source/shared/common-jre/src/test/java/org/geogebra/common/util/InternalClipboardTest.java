@@ -1,25 +1,35 @@
 package org.geogebra.common.util;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoStadium;
 import org.geogebra.test.EventAccumulator;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-public class InternalClipboardTest extends BaseUnitTest {
+public class InternalClipboardTest extends BaseAppTestSetup {
+
+	@BeforeEach
+	public void setup() {
+		setupApp(SuiteSubApp.GEOMETRY);
+	}
 
 	@Test
 	public void clipboardItemsShouldBeSorted() {
-		add("A=(0,0)");
-		add("B=(1,1)");
-		GeoElement s = add("s=Segment(A,B)");
+		getApp().setRounding("2");
+		evaluate("A=(0,0)");
+		evaluate("B=(1,1)");
+		GeoElement s = evaluateGeoElement("s=Segment(A,B)");
 		String clipboard = InternalClipboard.getTextToSave(getApp(),
 				Collections.singletonList(s), txt -> txt);
 		String labels = clipboard.split("\n")[0];
@@ -33,19 +43,24 @@ public class InternalClipboardTest extends BaseUnitTest {
 				acu.getEvents().get(acu.getEvents().size() - 2)); // last event is STOREUNDO
 	}
 
-	@Test
-	public void pastedStadiumShouldBeCentered() {
+	@ParameterizedTest
+	@CsvSource(value = {
+			"Stadium((1,1),(3,1),2);Stadium((-1, 0), (1, 0), 2)",
+			"BezierCurve((1,1),(3,1),(2,3),(5,3));BezierCurve((-2, -1), (0, -1), (-1, 1), (2, 1))"
+	}, delimiter = ';')
+	public void pastedElementsShouldBeCentered(String input, String centered) {
 		getApp().setNotesConfig();
-		add("ZoomIn(-10,-10,10,10)");
-		GeoStadium s = add("s=Stadium((1,1),(3,1),2)");
+		evaluate("ZoomIn(-10,-10,10,10)");
+		GeoElement s = evaluateGeoElement("s=" + input);
 		String clipboard = InternalClipboard.getTextToSave(getApp(),
-				Collections.singletonList(s), txt -> txt);
+				List.of(s), txt -> txt);
 		String labels = clipboard.split("\n")[0];
 		InternalClipboard.pasteGeoGebraXMLInternal(getApp(), Arrays.asList(labels.split(" ")),
 				clipboard.substring(clipboard.indexOf("\n")));
-		assertArrayEquals(new String[]{"s", "s_{1}"}, getApp().getGgbApi().getAllObjectNames());
-		assertEquals("Stadium((-1, 0), (1, 0), 2)",
-				lookup("s_{1}").getDefinition(StringTemplate.testTemplate));
+		assertArrayEquals(new String[]{"s", "s_{1}"},
+				getApp().getGgbApi().getAllObjectNames());
+		assertEquals(centered,
+				getKernel().lookupLabel("s_{1}").getDefinition(StringTemplate.testTemplate));
 	}
 
 }
