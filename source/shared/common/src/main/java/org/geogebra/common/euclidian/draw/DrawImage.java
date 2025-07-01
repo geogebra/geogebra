@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -268,56 +269,51 @@ public class DrawImage extends Drawable {
 	}
 
 	@Override
-	public void draw(GGraphics2D g3) {
+	public void draw(GGraphics2D g2) {
 		if (geoImage.isMeasurementTool() && view.getApplication().isExporting()) {
 			return;
 		}
 		if (isVisible) {
-			GComposite oldComp = g3.getComposite();
+			GComposite oldComp = g2.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null) {
 					alphaComp = AwtFactory.getPrototype()
 							.newAlphaComposite(alpha);
 				}
-				g3.setComposite(alphaComp);
+				g2.setComposite(alphaComp);
 			}
 			MyImage image = geoImage.getFillImage();
 			if (absoluteLocation) {
-				g3.drawImage(image, screenX, screenY);
+				g2.drawImage(image, screenX, screenY);
 				if (!isInBackground && isHighlighted()) {
-					// draw rectangle around image
-					g3.setStroke(selStroke);
-					g3.setPaint(GColor.HIGHLIGHT_GRAY);
-					drawHighlightRect(g3);
+					drawHighlightRectangle(g2);
 				}
 			} else {
-				g3.saveTransform();
-				g3.transform(at);
+				g2.saveTransform();
+				g2.transform(at);
 
 				// improve rendering quality for transformed images
-				Object oldInterpolationHint = g3
+				Object oldInterpolationHint = g2
 						.setInterpolationHint(needsInterpolationRenderingHint);
 				if (view.getBoundingBox() != null && view.getBoundingBox().isCropBox()
 						&& geo.isSelected()) {
-					g3.setComposite(AwtFactory.getPrototype().newAlphaComposite(0.5f));
-					g3.drawImage(image, 0, 0);
-					g3.setComposite(AwtFactory.getPrototype().newAlphaComposite(1.0f));
+					g2.setComposite(AwtFactory.getPrototype().newAlphaComposite(0.5f));
+					g2.drawImage(image, 0, 0);
+					g2.setComposite(AwtFactory.getPrototype().newAlphaComposite(1.0f));
 				}
+
 				if (!geoImage.isCropped()) {
-					g3.drawImage(image, 0, 0);
+					g2.drawImage(image, 0, 0);
 				} else {
 					GRectangle2D rect = geoImage.getCropBoxRelative();
 
-					g3.drawImage(image, (int) rect.getX(), (int) rect.getY(),
+					g2.drawImage(image, (int) rect.getX(), (int) rect.getY(),
 							(int) rect.getWidth(), (int) rect.getHeight(), (int) rect.getX(),
 							(int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight());
 				}
-				
-				g3.restoreTransform();
+
+				g2.restoreTransform();
 				if (!isInBackground && isHighlighted()) {
-					// draw rectangle around image
-					g3.setStroke(selStroke);
-					g3.setPaint(GColor.HIGHLIGHT_GRAY);
 
 					// changed to code below so that the line thicknesses aren't
 					// transformed
@@ -327,16 +323,25 @@ public class DrawImage extends Drawable {
 
 					// no highlight if we have bounding box for mow
 					if (!app.isWhiteboardActive()) {
-						drawHighlighting(g3);
+						// First layer - 4px purple
+						g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
+								Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH * 2));
+						g2.setPaint(GeoGebraColorConstants.PURPLE_700);
+						drawHighlightRectangle(g2, 0);
+						// Second layer - 2px white (inside)
+						g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
+								Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
+						g2.setPaint(GColor.WHITE);
+						drawHighlightRectangle(g2, -2);
 					}
 
 				}
 
 				// reset previous values
-				g3.resetInterpolationHint(oldInterpolationHint);
+				g2.resetInterpolationHint(oldInterpolationHint);
 			}
 
-			g3.setComposite(oldComp);
+			g2.setComposite(oldComp);
 		}
 	}
 
@@ -345,12 +350,12 @@ public class DrawImage extends Drawable {
 		return view.getApplication().getSelectionManager().isKeyboardFocused(geo);
 	}
 
-	private void drawHighlighting(GGraphics2D g3) {
+	private void drawHighlightRectangle(GGraphics2D g2, double extraOffset) {
 		// draw parallelogram around edge
-		double offX = HIGHLIGHT_OFFSET
+		double offX = (HIGHLIGHT_OFFSET + extraOffset)
 				* Math.abs(atInverse.getScaleX() + atInverse.getShearX());
 		double minX = labelRectangle.getMinX();
-		double offY = HIGHLIGHT_OFFSET
+		double offY = (HIGHLIGHT_OFFSET + extraOffset)
 				* Math.abs(atInverse.getScaleY() + atInverse.getShearY());
 		double minY = labelRectangle.getMinY();
 		double maxX = labelRectangle.getMaxX();
@@ -378,7 +383,7 @@ public class DrawImage extends Drawable {
 				minX - offX + rx, minY - offY, minX, minY - offY);
 		highlighting.closePath();
 		GShape shape = highlighting.createTransformedShape(at);
-		g3.draw(shape);
+		g2.draw(shape);
 	}
 
 	/**

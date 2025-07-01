@@ -12,14 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -57,12 +55,6 @@ public final class DrawText extends Drawable {
 	private int oldXpos;
 	private int oldYpos;
 	private boolean needsBoundingBoxOld;
-	/**
-	 * thickness for the highlight frame
-	 */
-	static final public int HIGHLIGHT_THICKNESS = 2;
-	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
-			.newBasicStroke(HIGHLIGHT_THICKNESS);
 
 	/**
 	 * Creates new DrawText
@@ -234,11 +226,8 @@ public final class DrawText extends Drawable {
 				drawMultilineText(g2, textFont);
 			}
 
-			// draw label rectangle
 			if (isHighlighted()) {
-				g2.setStroke(rectangleStroke);
-				g2.setPaint(GColor.HIGHLIGHT_GRAY);
-				drawHighlightRect(g2);
+				drawHighlightRectangle(g2);
 			}
 		}
 	}

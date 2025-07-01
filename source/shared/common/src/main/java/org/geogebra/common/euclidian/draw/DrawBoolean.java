@@ -122,12 +122,11 @@ public final class DrawBoolean extends Drawable {
 			g2.setFont(view.getFontPoint());
 			int checkboxX = geoBool.getAbsoluteScreenLocX() + LEGACY_OFFSET;
 			int checkboxY = geoBool.getAbsoluteScreenLocY() + LEGACY_OFFSET;
+			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
+					!geoBool.isSelectionAllowed(view), g2, checkboxX, checkboxY);
 			if (isHighlighted()) {
 				CheckBoxIcon.highlightIcon(g2, checkboxX, checkboxY);
 			}
-			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
-					!geoBool.isSelectionAllowed(view), g2, checkboxX, checkboxY);
-
 			if (geo.isLabelVisible()) {
 				drawLabel(g2, checkboxX);
 			}
@@ -231,16 +230,13 @@ public final class DrawBoolean extends Drawable {
 		private static GGeneralPath gp;
 
 		/**
-		 * @param g graphics
+		 * @param g2 graphics
 		 * @param x x-coordinate of the icon
 		 * @param y y-coordinate of the icon
 		 */
-		public static void highlightIcon(GGraphics2D g, int x, int y) {
-			g.setColor(GColor.HIGHLIGHT_GRAY);
-			g.setStroke(AwtFactory.getPrototype()
-					.newMyBasicStroke(Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
-
-			g.drawRoundRect(x, y, CHECKBOX_SIZE, CHECKBOX_SIZE, BORDER_DIAMETER, BORDER_DIAMETER);
+		public static void highlightIcon(GGraphics2D g2, int x, int y) {
+			Drawable.drawHighlightRectangle(g2, x + 1, y + 1,
+					CHECKBOX_SIZE - 2, CHECKBOX_SIZE - 2, BORDER_DIAMETER);
 		}
 
 		/**

@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
@@ -59,7 +60,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public abstract class Drawable extends DrawableND {
 
-	public static final double UI_ELEMENT_HIGHLIGHT_WIDTH = 5;
+	public static final double UI_ELEMENT_HIGHLIGHT_WIDTH = 2;
 	protected static final int HIGHLIGHT_OFFSET = 4;
 	private static final int HIGHLIGHT_DIAMETER = 8;
 	public static final int LATEX_Y_LABEL_OFFSET = 10;
@@ -1048,12 +1049,38 @@ public abstract class Drawable extends DrawableND {
 		return false;
 	}
 
-	protected void drawHighlightRect(GGraphics2D g2) {
-		g2.drawRoundRect((int) labelRectangle.getX() - HIGHLIGHT_OFFSET / 2,
-				(int) labelRectangle.getY() - HIGHLIGHT_OFFSET / 2,
-				(int) labelRectangle.getWidth() + HIGHLIGHT_OFFSET,
-				(int) labelRectangle.getHeight() + HIGHLIGHT_OFFSET,
-				HIGHLIGHT_DIAMETER, HIGHLIGHT_DIAMETER);
+	protected void drawHighlightRectangle(GGraphics2D g2) {
+		drawHighlightRectangle(g2,
+				(int) labelRectangle.getX(), (int) labelRectangle.getY(),
+				(int) labelRectangle.getWidth(), (int) labelRectangle.getHeight(),
+				HIGHLIGHT_DIAMETER);
+	}
+
+	/**
+	 * Draws the highlight rectangle around a focused object
+	 * @param g2 Graphics
+	 * @param x Left
+	 * @param y Top
+	 * @param width Width
+	 * @param height Height
+	 * @param arcSize Diameter
+	 */
+	public static void drawHighlightRectangle(GGraphics2D g2, int x, int y,
+			int width, int height, int arcSize) {
+		// First layer - 4px purple
+		int highlightWidth = (int) UI_ELEMENT_HIGHLIGHT_WIDTH * 2;
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(highlightWidth));
+		g2.setColor(GeoGebraColorConstants.PURPLE_700);
+		g2.drawRoundRect(x - highlightWidth / 2, y - highlightWidth / 2,
+				width + highlightWidth, height + highlightWidth,
+				arcSize, arcSize);
+		// Second layer - 2px white (inside)
+		highlightWidth = (int) UI_ELEMENT_HIGHLIGHT_WIDTH;
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(highlightWidth));
+		g2.setColor(GColor.WHITE);
+		g2.drawRoundRect(x - highlightWidth / 2, y - highlightWidth / 2,
+				width + highlightWidth, height + highlightWidth,
+				arcSize, arcSize);
 	}
 
 	protected void drawAndUpdateTraceIfNeeded(boolean showTrace) {

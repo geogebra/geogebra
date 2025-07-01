@@ -46,7 +46,6 @@ public class DrawButtonWidget {
 	private double textWidth;
 	private int imgGap = 0;
 	private boolean firstCall = true;
-	private final ButtonHighlightArea halo;
 	private MyImage tinted;
 	private GColor lastTintColor;
 	private String lastTintImage;
@@ -79,7 +78,6 @@ public class DrawButtonWidget {
 
 		this.x = 20;
 		this.y = 20;
-		halo = new ButtonHighlightArea(this);
 	}
 
 	private String getCaption() {
@@ -94,15 +92,13 @@ public class DrawButtonWidget {
 
 	/**
 	 * Paint this on given graphics
-	 * 
-	 * @param g
-	 *            graphics
+	 * @param g2 graphics
 	 */
-	public void paintComponent(GGraphics2D g) {
-		g.setAntialiasing();
-		g.setFont(font);
+	public void paintComponent(GGraphics2D g2) {
+		g2.setAntialiasing();
+		g2.setFont(font);
 		// prepare colors and paint
-		g.setColor(view.getBackgroundCommon());
+		g2.setColor(view.getBackgroundCommon());
 		GColor bg = geoButton.getBackgroundColor();
 		// background is not set by user
 		if (bg == null) {
@@ -131,37 +127,38 @@ public class DrawButtonWidget {
 
 		if (styleSettings.getButtonShadows()) {
 			shadowSize = (int) (getHeight() * 0.1);
-			g.setPaint(paint.slightlyDarker());
-			g.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
+			g2.setPaint(paint.slightlyDarker());
+			g2.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
 					getHeight() - 1, arcSize, arcSize);
 		}
 
+		g2.setPaint(paint);
+		g2.setStroke(EuclidianStatic.getDefaultStroke());
+		g2.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
+				getHeight() - 1 - shadowSize, arcSize, arcSize);
+
 		if (isSelected() && !pressed) {
-			halo.draw(g, widthCorrection, arcSize);
-		}
-
-		g.setPaint(paint);
-		g.setStroke(EuclidianStatic.getDefaultStroke());
-		g.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
-				getHeight() - 1 - shadowSize, arcSize, arcSize);
-
-		if (styleSettings.getButtonBorderColor() != null) {
-			g.setColor(styleSettings.getButtonBorderColor());
+			// Highlight Rectangle for focused Button
+			Drawable.drawHighlightRectangle(g2, x + 1, y + 1,
+					getWidth() + (int) widthCorrection - 2, getHeight() - 2, arcSize);
 		} else {
-			if (bg.getContrast(view.getBackgroundCommon()) >= 3.0) {
-				g.setColor(bg);
+			// (Custom) Button Border if Button is not focused
+			if (styleSettings.getButtonBorderColor() != null) {
+				g2.setColor(styleSettings.getButtonBorderColor());
 			} else {
-				g.setColor(view.getBackgroundCommon().getLuminance() > 0.5
-						? GColor.getBorderColorFrom(bg) : GColor.getBrightBorderColorFrom(bg));
+				if (bg.getContrast(view.getBackgroundCommon()) >= 3.0) {
+					g2.setColor(bg);
+				} else {
+					g2.setColor(view.getBackgroundCommon().getLuminance() > 0.5
+							? GColor.getBorderColorFrom(bg) : GColor.getBrightBorderColorFrom(bg));
+				}
 			}
+			g2.drawRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
+					getHeight() - 1 - shadowSize, arcSize, arcSize);
 		}
-
-		// draw border
-		g.drawRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
-				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
 		// prepare to draw text
-		g.setColor(geoButton.getObjectColor());
+		g2.setColor(geoButton.getObjectColor());
 
 		MyImage im = geoButton.getFillImage();
 		// Starting position of the image
@@ -169,24 +166,24 @@ public class DrawButtonWidget {
 		// draw image
 		if (im != null) {
 			GGeneralPath path = getClipRectangle(arcSize / 2., widthCorrection);
-			g.setClip(path);
+			g2.setClip(path);
 
 			if (im.isSVG()) {
 				imgHeight = (int) (getHeight() - textHeight - imgGap);
 				imgStart = 0;
-				drawSVG(im, g, getWidth(), imgHeight);
+				drawSVG(im, g2, getWidth(), imgHeight);
 			} else {
-				g.drawImage(im, startX, startY, imgWidth, imgHeight,
+				g2.drawImage(im, startX, startY, imgWidth, imgHeight,
 						x + (getWidth() - imgWidth) / 2,
 						y + imgStart, imgWidth, imgHeight);
 
 			}
-			g.resetClip();
+			g2.resetClip();
 		}
 
 		// draw the text center-aligned to the button
 		if (hasText) {
-			drawText(g, t, imgStart + imgGap + imgHeight, latex, widthCorrection,
+			drawText(g2, t, imgStart + imgGap + imgHeight, latex, widthCorrection,
 					shadowSize);
 		}
 	}

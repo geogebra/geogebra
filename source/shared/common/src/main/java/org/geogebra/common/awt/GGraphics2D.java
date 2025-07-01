@@ -397,7 +397,7 @@ public interface GGraphics2D {
 	 * @param width rectangle width in pixels
 	 * @param height rectangle height in pixels
 	 * @param arcWidth arc width in pixels
-	 * @param arcHeight arx height in pixels
+	 * @param arcHeight arc height in pixels
 	 */
 	default void drawRoundRect(double x, double y, double width, double height,
 			double arcWidth, double arcHeight) {

@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
@@ -97,7 +98,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		int old = highLightIndex;
 		highLightIndex = renderer.getGeometryManager().rectangleBounds(drawX,
 				drawY, drawZ, width / getFontScale(), height / getFontScale(),
-				highLightIndex, DrawText.HIGHLIGHT_THICKNESS);
+				highLightIndex, Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH);
 		renderer.getGeometryManager().remove(old);
 	}
 
