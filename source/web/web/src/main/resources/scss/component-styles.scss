@@ -507,6 +507,7 @@
 		@extend .materialTextButton;
 
 		border: 1px solid colors.$black-12;
+		box-sizing: border-box;
 	}
 
 	/** Material TEXT BUTTON used for dialogs negative action **/
@@ -1338,6 +1339,61 @@
 			width: calc(100% - 16px);
 			height: 36px;
 			padding: 0;
+		}
+	}
+
+	.sideSheet {
+		box-shadow: 0 6px 16px rgba(0, 0, 0, .28);
+		height: 100%;
+		min-width: 400px;
+		width: 100%;
+
+		.titlePanel {
+			display: flex;
+			height: 64px;
+
+			.title {
+				font-size: 22px;
+				height: 28px;
+				line-height: 28px;
+				margin: 18px 0 18px 16px;
+				color: neutral(800);
+			}
+
+			.closeBtn {
+				position: absolute;
+				right: 4px;
+				margin: 14px 0;
+			}
+
+			.backBtn {
+				margin: 14px 0 14px 4px;
+			}
+
+			&.withBackBtn .title {
+				margin-left: 0;
+			}
+		}
+
+		.contentPanel {
+			height: 100%;
+
+			&.withButtonPanel {
+				height: calc(100% - 132px);
+			}
+		}
+
+		.buttonPanel {
+			height: 68px;
+			padding: 16px;
+			border-top: 1px solid neutral(300);
+			box-sizing: border-box;
+			display: flex;
+			gap: 8px;
+
+			button {
+				margin: 0;
+			}
 		}
 	}
 }

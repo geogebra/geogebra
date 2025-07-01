@@ -11,6 +11,9 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.PreviewFeature;
+import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
+import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.full.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.full.gui.dialog.options.OptionsAlgebraW;
 import org.geogebra.web.full.gui.dialog.options.OptionsCASW;
@@ -37,9 +40,8 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class PropertiesViewW extends PropertiesView
 		implements ExamListener, RequiresResize, SetLabels {
-
+	private static final int DEFAULT_SETTINGS_WIDTH = 400;
 	private final FlowPanel wrappedPanel;
-
 	// option panels
 	private OptionsDefaultsW defaultsPanel;
 	private OptionsEuclidianW euclidianPanel;
@@ -84,10 +86,16 @@ public class PropertiesViewW extends PropertiesView
 
 		contentsPanel = new FlowPanel();
 		contentsPanel.addStyleName("contentsPanel");
-		wrappedPanel.add(contentsPanel);
-		wrappedPanel.add(getStyleBar().getWrappedPanel());
+		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
+			SideSheetData data = new SideSheetData("Settings");
+			ComponentSideSheet sideSheet = new ComponentSideSheet((AppW) app, data, this::close);
+			wrappedPanel.add(sideSheet);
+		} else {
+			wrappedPanel.add(contentsPanel);
+			wrappedPanel.add(getStyleBar().getWrappedPanel());
 
-		setOptionPanel(optionType, 0);
+			setOptionPanel(optionType, 0);
+		}
 	}
 
 	/**
@@ -344,7 +352,9 @@ public class PropertiesViewW extends PropertiesView
 		if (wPanel != null) {
 			onResize();
 		}
-		this.styleBar.selectButton(type);
+		if (styleBar != null) {
+			styleBar.selectButton(type);
+		}
 	}
 
 	/**
@@ -549,7 +559,7 @@ public class PropertiesViewW extends PropertiesView
 	 *            height
 	 */
 	public void resize(double width, double height) {
-		wrappedPanel.setPixelSize((int) Math.min(width, 500), (int) height);
+		wrappedPanel.setPixelSize((int) Math.min(width, DEFAULT_SETTINGS_WIDTH), (int) height);
 		onResize();
 	}
 

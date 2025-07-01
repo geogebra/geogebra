@@ -30,7 +30,11 @@ public enum PreviewFeature {
 	/** APPS-6016 */
 	SPREADSHEET_STYLEBAR,
 	/** MOW-1672 */
-	ZOOM_TO_FIT;
+	ZOOM_TO_FIT,
+	/**
+	 * APPS-6759
+	 */
+	SETTINGS_VIEW;
 
 	/**
 	 * Global flag to activate feature previews.
