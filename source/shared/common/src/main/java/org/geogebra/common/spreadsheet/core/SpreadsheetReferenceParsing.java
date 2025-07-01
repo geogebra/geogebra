@@ -9,7 +9,7 @@ import org.geogebra.regexp.shared.RegExp;
 /**
  * Methods for parsing spreadsheet cell references.
  *
- * @apiNote All inidices are 0-based.
+ * @apiNote All indices are 0-based.
  * @implNote This duplicates some code from GeoElementSpreadsheet, which we don't want to reuse
  * here (or refactor at this point).
  */
