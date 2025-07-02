@@ -3,7 +3,7 @@ import {selectors} from '@geogebra/web-test-harness/selectors'
 
 describe('Properties View', () => {
     beforeEach(() => {
-        cy.visit('graphing.html');
+        cy.visit('graphing-offline.html');
         cy.get("body.application");
     });
 

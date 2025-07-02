@@ -3,7 +3,7 @@ import {selectors} from '@geogebra/web-test-harness/selectors'
 
 describe('Properties View', () => {
     beforeEach(() => {
-        cy.visit('notes.html');
+        cy.visit('notes-offline.html');
         cy.get('[data-title="Settings"]').click();
         cy.get('.gwt-MenuItem').contains('Ruling').click();
     });
