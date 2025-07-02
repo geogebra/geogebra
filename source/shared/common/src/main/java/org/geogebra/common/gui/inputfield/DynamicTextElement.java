@@ -22,8 +22,8 @@ public class DynamicTextElement {
 		VALUE, DEFINITION, FORMULA_TEXT, STATIC
 	}
 
-	public DynamicTextType type = DynamicTextType.STATIC;
-	public String text = "";
+	public final DynamicTextType type;
+	public final String text;
 
 	/**
 	 * @param text
@@ -34,6 +34,11 @@ public class DynamicTextElement {
 	public DynamicTextElement(String text, DynamicTextType type) {
 		this.text = text;
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return type + ": \"" + text + "\"";
 	}
 
 }

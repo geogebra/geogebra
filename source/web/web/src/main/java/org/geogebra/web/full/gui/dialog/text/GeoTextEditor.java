@@ -202,11 +202,12 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 		editPanel.updatePreviewPanel();
 	}
 
-	private Node createValueElement(String value) {
+	private Node createValueElement(String value, DynamicTextType type) {
 		Element elem = DOM.createElement("input");
 		elem.setClassName(DYNAMIC_TEXT_CLASS);
 		elem.setPropertyString("type", "button");
 		elem.setPropertyString("value", value);
+		elem.setAttribute("data-type", type.name());
 		elem.getStyle().setFontSize(app.getSettings().getFontSettings().getAppFontSize(),
 				Unit.PX);
 		return Js.uncheckedCast(elem);
@@ -229,7 +230,7 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 		if (geo != null) {
 			text = geo.getLabel(StringTemplate.defaultTemplate);
 		}
-		insertElement(createValueElement(text));
+		insertElement(createValueElement(text, DynamicTextType.VALUE));
 	}
 
 	/**
@@ -272,7 +273,7 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 					lineElement.appendChild(createTextElement(lineSplit[i]));
 				}
 			} else {
-				lineElement.appendChild(createValueElement(dt.text));
+				lineElement.appendChild(createValueElement(dt.text, dt.type));
 			}
 		}
 	}
@@ -326,9 +327,14 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 		// convert input element to dynamic text string
 		if (DYNAMIC_TEXT_CLASS
 				.equals(childEl.getClassName())) {
+			String dataType = childEl.getAttribute("data-type");
+			DynamicTextType dynamicTextType = DynamicTextType.VALUE;
+			if (!StringUtil.empty(dataType)) {
+				dynamicTextType = DynamicTextType.valueOf(dataType);
+			}
 			list.add(new DynamicTextElement(
 					childEl.getPropertyString("value"),
-					DynamicTextType.VALUE));
+					dynamicTextType));
 
 			// convert DIV or P (browser dependent) to newline
 		} else if ("div".equalsIgnoreCase(tagName)

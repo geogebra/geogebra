@@ -9,10 +9,12 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
+import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
@@ -34,9 +36,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class DynamicTextProcessor {
 
 	@Weak
-	private App app;
+	private final App app;
 
-	private ArrayList<DynamicTextElement> dList;
+	private final ArrayList<DynamicTextElement> dList;
 
 	/**
 	 * Constructor
@@ -122,7 +124,7 @@ public class DynamicTextProcessor {
 		// STANDARD case: no leaf
 		else {
 
-			if (right != null && !en.containsMyStringBuffer()) {
+			if (right != null && isNotSplittable(en)) {
 				// neither left nor right are free texts, eg a+3 in
 				// (a+3)+"hello"
 				// so no splitting needed
@@ -229,7 +231,7 @@ public class DynamicTextProcessor {
 	public String buildGeoGebraString(List<DynamicTextElement> list,
 			boolean latex) {
 
-		if (list == null || list.size() == 0) {
+		if (list == null || list.isEmpty()) {
 			return "";
 		}
 
@@ -238,9 +240,9 @@ public class DynamicTextProcessor {
 		StringBuilder sb = new StringBuilder();
 		String text;
 		DynamicTextType mode;
-		for (int i = 0; i < list.size(); i++) {
-			text = list.get(i).text;
-			mode = list.get(i).type;
+		for (DynamicTextElement dynamicTextElement : list) {
+			text = dynamicTextElement.text;
+			mode = dynamicTextElement.type;
 
 			if (mode == DynamicTextType.STATIC) {
 				for (int k = 0; k < text.length(); k++) {
@@ -297,5 +299,10 @@ public class DynamicTextProcessor {
 					app.getSelectionManager().addSelectedGeo(geo1);
 					callback.run();
 				});
+	}
+
+	private boolean isNotSplittable(ExpressionNode en) {
+		return (!en.isOperation(Operation.PLUS) && !en.isOperation(Operation.MULTIPLY))
+				|| !en.any(part -> part instanceof TextValue);
 	}
 }

@@ -32,8 +32,10 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
+import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
@@ -134,11 +136,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	public DynamicTextField insertDynamicText(String text0, int pos0,
 			TextInputDialogD inputDialog) {
 		String text = text0;
-		int pos = pos0;
-		if (pos == -1) {
-			pos = getDocument().getLength(); // insert at end
-		}
-
 		DynamicTextElement.DynamicTextType mode = DynamicTextElement.DynamicTextType.VALUE;
 		String s;
 
@@ -174,6 +171,15 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			}
 		}
 
+		return insertDynamicInput(text, mode, pos0, inputDialog);
+	}
+
+	private DynamicTextField insertDynamicInput(String text, DynamicTextElement.DynamicTextType mode,
+			int pos0, TextInputDialogD inputDialog) {
+		int pos = pos0;
+		if (pos == -1) {
+			pos = getDocument().getLength(); // insert at end
+		}
 		DynamicTextField tf = new DynamicTextField(app, inputDialog);
 		tf.setText(text);
 		tf.setMode(mode);
@@ -182,7 +188,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		// insert the text field into the text pane
 		setCaretPosition(pos);
 		insertComponent(tf);
-
 		return tf;
 	}
 
@@ -237,7 +242,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 *            id
 	 */
 	public void setText(GeoText geo, TextInputDialogD id) {
-
 		super.setText("");
 
 		if (geo == null) {
@@ -249,78 +253,14 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			return;
 		}
 
-		// if dependent text then get the root
-		ExpressionNode root = ((AlgoDependentText) geo.getParentAlgorithm())
-				.getRoot();
-
 		// parse the root and set the text content
-		this.splitString(root, id);
-
-	}
-
-	/**
-	 * @param en
-	 *            en
-	 * @param id
-	 *            id
-	 */
-	public void splitString(ExpressionNode en, TextInputDialogD id) {
-		ExpressionValue left = en.getLeft();
-		ExpressionValue right = en.getRight();
-		StringTemplate tpl = StringTemplate.editTemplate;
-		if (en.isLeaf()) {
-
-			if (left.isGeoElement()) {
-				DynamicTextField d = insertDynamicText(
-						((GeoElement) left).getLabel(tpl), -1, id);
-				d.getDocument().addDocumentListener(id);
-			} else if (left.isExpressionNode()) {
-				splitString((ExpressionNode) left, id);
-			} else if (left instanceof MyStringBuffer) {
-				insertString(-1, left.toString(tpl).replaceAll("\"", ""), null);
+		List<DynamicTextElement> parts = new DynamicTextProcessor(geo.getKernel()
+				.getApplication()).buildDynamicTextList(geo);
+		for (DynamicTextElement part: parts) {
+			if (part.type == DynamicTextElement.DynamicTextType.STATIC) {
+				insertString(-1, part.text, null);
 			} else {
-				insertDynamicText(left.toString(tpl), -1, id);
-			}
-
-		}
-
-		// STANDARD case: no leaf
-		else {
-
-			if (right != null && !en.containsMyStringBuffer()) {
-				// neither left nor right are free texts, eg a+3 in
-				// (a+3)+"hello"
-				// so no splitting needed
-				insertDynamicText(en.toString(tpl), -1, id);
-				return;
-			}
-
-			// expression node
-			if (left.isGeoElement()) {
-				DynamicTextField d = insertDynamicText(
-						((GeoElement) left).getLabel(tpl), -1, id);
-				d.getDocument().addDocumentListener(id);
-			} else if (left.isExpressionNode()) {
-				this.splitString((ExpressionNode) left, id);
-			} else if (left instanceof MyStringBuffer) {
-				insertString(-1, left.toString(tpl).replaceAll("\"", ""), null);
-			} else {
-				insertDynamicText(left.toString(tpl), -1, id);
-			}
-
-			if (right != null) {
-				if (right.isGeoElement()) {
-					DynamicTextField d = insertDynamicText(
-							((GeoElement) right).getLabel(tpl), -1, id);
-					d.getDocument().addDocumentListener(id);
-				} else if (right.isExpressionNode()) {
-					this.splitString((ExpressionNode) right, id);
-				} else if (right instanceof MyStringBuffer) {
-					insertString(-1, right.toString(tpl).replaceAll("\"", ""),
-							null);
-				} else {
-					insertDynamicText(right.toString(tpl), -1, id);
-				}
+				insertDynamicInput(part.text, part.type, -1, id);
 			}
 		}
 
