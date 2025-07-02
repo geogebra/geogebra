@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
  * Handles copy/paste of {@link TabularData} when the content of the cell
  * is a {@link GeoElement}.
  */
-public final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
+final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
 
 	private final RelativeCopy relativeCopy;
 	private final App app;
@@ -26,7 +26,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 	/**
 	 * @param kernel Needed for {@link RelativeCopy}
 	 */
-	public TabularDataPasteGeos(Kernel kernel) {
+	TabularDataPasteGeos(Kernel kernel) {
 		this.relativeCopy = new RelativeCopy(kernel);
 		this.app = kernel.getApplication();
 		adapter = new CopyPasteAdapter(app, null);

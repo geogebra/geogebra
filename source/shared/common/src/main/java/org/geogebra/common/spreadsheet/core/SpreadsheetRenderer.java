@@ -31,7 +31,7 @@ import org.geogebra.common.util.shape.Rectangle;
  * to a graphics object, delegates rendering of individual cells to respective {@link CellRenderer}
  * implementations.
  */
-public final class SpreadsheetRenderer {
+final class SpreadsheetRenderer {
 
 	private final CellRenderableFactory converter;
 	private final TableLayout layout;
@@ -120,7 +120,7 @@ public final class SpreadsheetRenderer {
 	 * @param offsetX - x offset
 	 * @param offsetY - y offset
 	 */
-	public void drawErrorCell(int row, int column, GGraphics2D graphics, Rectangle viewport,
+	void drawErrorCell(int row, int column, GGraphics2D graphics, Rectangle viewport,
 			double offsetX, double offsetY) {
 		graphics.setColor(styling.getErrorGridColor());
 		graphics.setStroke(borderStroke);

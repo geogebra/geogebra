@@ -11,7 +11,7 @@ public final class TabularDataFormatter<T> {
 	/**
 	 * @param data tabular data
 	 */
-	public TabularDataFormatter(TabularData<T> data) {
+	TabularDataFormatter(TabularData<T> data) {
 		this.data = data;
 	}
 
@@ -22,7 +22,7 @@ public final class TabularDataFormatter<T> {
 	 * @param range to convert.
 	 * @return the string representation.
 	 */
-	public String toString(TabularRange range) {
+	String toString(TabularRange range) {
 		StringBuilder sb = new StringBuilder();
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {

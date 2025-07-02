@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
  * Utility class designed to handle dragging a selection in order to copy its content to adjacent
  * cells
  */
-public class KernelCellDragPasteHandler implements CellDragPasteHandler {
+final class KernelCellDragPasteHandler implements CellDragPasteHandler {
 
 	private enum PasteDirection { UP, RIGHT, DOWN, LEFT }
 
@@ -35,7 +35,7 @@ public class KernelCellDragPasteHandler implements CellDragPasteHandler {
 	 * @param tabularData {@link TabularData}
 	 * @param kernel {@link Kernel} - Needed for {@link RelativeCopy}
 	 */
-	public KernelCellDragPasteHandler(TabularData<GeoElement> tabularData, Kernel kernel) {
+	KernelCellDragPasteHandler(TabularData<GeoElement> tabularData, Kernel kernel) {
 		this.tabularData = tabularData;
 		this.kernel = kernel;
 		this.relativeCopy = new RelativeCopy(kernel);

@@ -15,7 +15,7 @@ import org.geogebra.common.util.shape.Rectangle;
  *
  * @apiNote This type is not designed to be thread-safe.
  */
-public final class TableLayout {
+final class TableLayout {
 	private static final double DEFAULT_CELL_WIDTH = 120;
 	private static final double DEFAULT_CELL_HEIGHT = 36;
 	private static final double DEFAULT_ROW_HEADER_WIDTH = 52;
@@ -25,8 +25,8 @@ public final class TableLayout {
 	private double[] rowHeights;
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
-	public final double defaultRowHeight;
-	public final double defaultColumnWidth;
+	final double defaultRowHeight;
+	final double defaultColumnWidth;
 	private double rowHeaderWidth = DEFAULT_ROW_HEADER_WIDTH;
 	private double columnHeaderHeight;
 
@@ -57,7 +57,7 @@ public final class TableLayout {
 	 * @param column column index
 	 * @return width in points
 	 */
-	public double getWidth(int column) {
+	double getWidth(int column) {
 		return columnWidths[column];
 	}
 
@@ -66,7 +66,7 @@ public final class TableLayout {
 	 * @param row row index
 	 * @return height in points
 	 */
-	public double getHeight(int row) {
+	double getHeight(int row) {
 		return rowHeights[row];
 	}
 
@@ -75,7 +75,7 @@ public final class TableLayout {
 	 * @param column column index
 	 * @return x-coordinate of column's left edge
 	 */
-	public double getMinX(int column) {
+	double getMinX(int column) {
 		return cumulativeWidths[column];
 	}
 
@@ -84,21 +84,21 @@ public final class TableLayout {
 	 * @param row row index
 	 * @return y-coordinate of row's top edge
 	 */
-	public double getMinY(int row) {
+	double getMinY(int row) {
 		return cumulativeHeights[row];
 	}
 
 	/**
 	 * @return number of rows
 	 */
-	public int numberOfRows() {
+	int numberOfRows() {
 		return rowHeights.length;
 	}
 
 	/**
 	 * @return number of columns
 	 */
-	public int numberOfColumns() {
+	int numberOfColumns() {
 		return columnWidths.length;
 	}
 
@@ -145,11 +145,11 @@ public final class TableLayout {
 				columnHeaderHeight);
 	}
 
-	public double getTotalHeight() {
+	double getTotalHeight() {
 		return cumulativeHeights[cumulativeHeights.length - 1] + getColumnHeaderHeight();
 	}
 
-	public double getTotalWidth() {
+	double getTotalWidth() {
 		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
 	}
 
@@ -192,7 +192,7 @@ public final class TableLayout {
 	 * Update number of columns, if columns are added they have 0 width
 	 * @param columns number of columns
 	 */
-	public void setNumberOfColumns(int columns) {
+	void setNumberOfColumns(int columns) {
 		if (columns > columnWidths.length) {
 			columnWidths = Arrays.copyOf(columnWidths, columns);
 			cumulativeWidths = new double[columns + 1];
@@ -207,7 +207,7 @@ public final class TableLayout {
 	 * Update number of rows, if rows are added they have 0 height
 	 * @param rows number of rows
 	 */
-	public void setNumberOfRows(int rows) {
+	void setNumberOfRows(int rows) {
 		if (rows > rowHeights.length) {
 			rowHeights = Arrays.copyOf(rowHeights, rows);
 			cumulativeHeights = new double[rows + 1];
@@ -237,7 +237,7 @@ public final class TableLayout {
 	 * @param minColumn Index from where to start setting the width
 	 * @param maxColumn Index of where to stop setting the width (inclusive)
 	 */
-	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
+	void setWidthForColumns(double width, int minColumn, int maxColumn) {
 		for (int column = minColumn; column <= maxColumn; column++) {
 			columnWidths[column] = width;
 		}
@@ -256,7 +256,7 @@ public final class TableLayout {
 	 * @param minRow Index from where to start setting the height
 	 * @param maxRow Index of where to stop setting the width (inclusive)
 	 */
-	public void setHeightForRows(double height, int minRow, int maxRow) {
+	void setHeightForRows(double height, int minRow, int maxRow) {
 		for (int row = minRow; row <= maxRow; row++) {
 			rowHeights[row] = height;
 		}
@@ -290,7 +290,7 @@ public final class TableLayout {
 	 * @param x position relative to viewport, in logical points
 	 * @return hit column index (0 based, hitting left counts), -1 if header is hit
 	 */
-	public int findColumn(double x) {
+	int findColumn(double x) {
 		return getClosestLowerIndex(cumulativeWidths, x - rowHeaderWidth);
 	}
 
@@ -298,7 +298,7 @@ public final class TableLayout {
 	 * @param y position relative to viewport, in logical points
 	 * @return hit row index (0 based, hitting top border counts), -1 if header is hit
 	 */
-	public int findRow(double y) {
+	int findRow(double y) {
 		return getClosestLowerIndex(cumulativeHeights, y - columnHeaderHeight);
 	}
 
@@ -326,7 +326,7 @@ public final class TableLayout {
 	 * @param x resizing cursor's x-coordinate
 	 * @return column height
 	 */
-	public double getWidthForColumnResize(int col, double x) {
+	double getWidthForColumnResize(int col, double x) {
 		return Math.max(MIN_CELL_SIZE, x - cumulativeWidths[col] - rowHeaderWidth);
 	}
 
@@ -336,14 +336,14 @@ public final class TableLayout {
 	 * @param y resizing cursor's y-coordinate
 	 * @return row height
 	 */
-	public double getHeightForRowResize(int row, double y) {
+	double getHeightForRowResize(int row, double y) {
 		return Math.max(MIN_CELL_SIZE, y - cumulativeHeights[row] - columnHeaderHeight);
 	}
 
 	/**
 	 * Resets all rows and columns to their default sizes
 	 */
-	public void resetCellSizes() {
+	void resetCellSizes() {
 		setWidthForColumns(defaultColumnWidth, 0, columnWidths.length - 1);
 		setHeightForRows(defaultRowHeight, 0, rowHeights.length - 1);
 	}
@@ -355,7 +355,7 @@ public final class TableLayout {
 	 * @param resizeFrom Index of where to start resizing the remaining rows
 	 * @param numberOfRows Number of rows
 	 */
-	public void resizeRemainingRowsAscending(int resizeFrom, int numberOfRows) {
+	void resizeRemainingRowsAscending(int resizeFrom, int numberOfRows) {
 		for (int row = resizeFrom; row < numberOfRows - 1; row++) {
 			setHeightForRows(getHeight(row + 1), row, row);
 		}
@@ -367,7 +367,7 @@ public final class TableLayout {
 	 * @param resizeFrom Index of where to start resizing the remaining columns
 	 * @param numberOfColumns Number of columns
 	 */
-	public void resizeRemainingColumnsAscending(int resizeFrom, int numberOfColumns) {
+	void resizeRemainingColumnsAscending(int resizeFrom, int numberOfColumns) {
 		for (int column = resizeFrom; column < numberOfColumns - 1; column++) {
 			setWidthForColumns(getWidth(column + 1), column, column);
 		}
@@ -381,7 +381,7 @@ public final class TableLayout {
 	 * @param resizeUntil Until which row index the resizing should be performed
 	 * @param numberOfRows Number of rows
 	 */
-	public void resizeRemainingRowsDescending(int resizeUntil, int numberOfRows) {
+	void resizeRemainingRowsDescending(int resizeUntil, int numberOfRows) {
 		for (int row = numberOfRows - 1; row > resizeUntil; row--) {
 			setHeightForRows(getHeight(row - 1), row, row);
 		}
@@ -392,7 +392,7 @@ public final class TableLayout {
 	 * @param resizeUntil Until which column index the resizing should be performed
 	 * @param numberOfColumns Number of columns
 	 */
-	public void resizeRemainingColumnsDescending(int resizeUntil, int numberOfColumns) {
+	void resizeRemainingColumnsDescending(int resizeUntil, int numberOfColumns) {
 		for (int column = numberOfColumns - 1; column > resizeUntil; column--) {
 			setWidthForColumns(getWidth(column - 1), column, column);
 		}
@@ -402,7 +402,7 @@ public final class TableLayout {
 	 * @return A {@code columnIndex => width} map for all columns that are not of
 	 * {@code defaultColumnWidth} width.
 	 */
-	public @Nonnull Map<Integer, Double> getCustomColumnWidths() {
+	@Nonnull Map<Integer, Double> getCustomColumnWidths() {
 		Map<Integer, Double> widths = new HashMap<>();
 		for (int i = 0; i < columnWidths.length; i++) {
 			if (columnWidths[i] != defaultColumnWidth) {
@@ -416,7 +416,7 @@ public final class TableLayout {
 	 * @return A {@code rowIndex => height} map for all rows that are not of
 	 * {@code defaultRowHeight} height.
 	 */
-	public @Nonnull Map<Integer, Double> getCustomRowHeights() {
+	@Nonnull Map<Integer, Double> getCustomRowHeights() {
 		Map<Integer, Double> heights = new HashMap<>();
 		for (int i = 0; i < rowHeights.length; i++) {
 			if (rowHeights[i] != defaultRowHeight) {
