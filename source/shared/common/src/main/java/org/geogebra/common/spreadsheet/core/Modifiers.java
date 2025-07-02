@@ -22,6 +22,7 @@ public final class Modifiers {
 	public final boolean secondaryButton;
 
 	public static final Modifiers NONE = new Modifiers(false, false, false, false);
+	public static final Modifiers SHIFT = new Modifiers(false, false, true, false);
 
 	/**
 	 * @param alt alt pressed?
