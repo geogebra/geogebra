@@ -48,7 +48,7 @@ public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory
 				new ClearAllAction(app.enableFileFeatures()));
 		actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new ShowSearchView());
 		actionHandler.setMenuAction(Action.SHOW_LICENSE, new ShowLicenseAction());
-		actionHandler.setMenuAction(Action.SHOW_LICENSE, new ShowPrivacyPolicyAction());
+		actionHandler.setMenuAction(Action.SHOW_PRIVACY_POLICY, new ShowPrivacyPolicyAction());
 		actionHandler.setMenuAction(Action.SHOW_SETTINGS, new ShowSettingsAction());
 		actionHandler.setMenuAction(Action.SAVE_FILE, new SaveAction());
 		actionHandler.setMenuAction(Action.SAVE_FILE_LOCAL, new SaveLocalAction());
