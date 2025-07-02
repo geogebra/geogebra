@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.MyMath;
 
 public final class GeoStadium extends GeoLocus implements MatrixTransformable, Translateable,
 		Transformable {
@@ -103,18 +102,8 @@ public final class GeoStadium extends GeoLocus implements MatrixTransformable, T
 	}
 
 	private void rotate(NumberValue angle, Coords coords) {
-		double phi = angle.getDouble();
-		double cos = MyMath.cos(phi);
-		double sin = Math.sin(phi);
-
-		double qx = coords.getX();
-		double qy = coords.getY();
-
 		for (GeoPoint pt : keyPoints) {
-			double x = pt.x;
-			double y = pt.y;
-			pt.setCoords((x - qx) * cos + (qy - y) * sin + qx,
-					(x - qx) * sin + (y - qy) * cos + qy, 1);
+			pt.rotate(angle, coords);
 		}
 		if (algoParent != null) {
 			algoParent.compute();
@@ -122,16 +111,8 @@ public final class GeoStadium extends GeoLocus implements MatrixTransformable, T
 	}
 
 	@Override
-	public void rotate(NumberValue r) {
-		double phi = r.getDouble();
-		double cos = MyMath.cos(phi);
-		double sin = Math.sin(phi);
-
-		for (GeoPoint pt : keyPoints) {
-			double x = pt.x;
-			double y = pt.y;
-			pt.setCoords(x * cos - y * sin, x * sin + y * cos, 1);
-		}
+	public void rotate(NumberValue angle) {
+		rotate(angle, new Coords(0, 0));
 	}
 
 	/**

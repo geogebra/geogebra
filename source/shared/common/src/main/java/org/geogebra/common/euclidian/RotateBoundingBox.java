@@ -2,6 +2,8 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
@@ -10,7 +12,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -27,9 +28,10 @@ public class RotateBoundingBox {
 	 * @param euclidianController {@link EuclidianController}
 	 * @param measurementController {@link MeasurementController}
 	 */
-	public RotateBoundingBox(EuclidianController euclidianController,
-			MeasurementController measurementController) {
+	public RotateBoundingBox(@Nonnull EuclidianController euclidianController,
+			@Nonnull MeasurementController measurementController) {
 		this.ec = euclidianController;
+		this.view = ec.getView();
 		this.measurementController = measurementController;
 		construction = ec.getKernel().getConstruction();
 	}
@@ -70,10 +72,10 @@ public class RotateBoundingBox {
 	private void rotateSelectedGeos(NumberValue angle) {
 		for (GeoElement geo : ec.selection.getSelectedGeos()) {
 			if (isRotationAllowed(geo)) {
-				((Rotatable) geo).rotate(angle, ec.rotationCenter);
-				geo.updateRepaint();
+				ec.rotateElement(geo, angle);
 			}
 		}
+		view.repaintView();
 	}
 
 	private boolean isRotationAllowed(GeoElement geo) {
@@ -105,9 +107,5 @@ public class RotateBoundingBox {
 				Math.atan2(-(eventPoint.y - center.y), eventPoint.x - center.x)
 						- Math.atan2(-(ec.lastMouseLoc.getY() - center.y),
 						ec.lastMouseLoc.getX() - center.x));
-	}
-
-	void setView(EuclidianView view) {
-		this.view = view;
 	}
 }

@@ -37,13 +37,6 @@ public class MeasureControllerTest extends BaseUnitTest {
 				getApp().getActiveEuclidianView());
 	}
 
-	private MeasurementTool newTool(MeasurementToolId id) {
-		MeasurementTool tool = new MeasurementTool(id, "", 0.0, 0.5,
-				this::createToolImage, NullPenTransformer.get());
-		tool.refresh();
-		return tool;
-	}
-
 	@Test
 	public void testUnselect() {
 		controller.unselect();

@@ -5641,19 +5641,29 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			tempNum = new MyDouble(kernel);
 		}
 		tempNum.set(angle);
-		if (rotGeoElement.isPointerChangeable()) {
-			((Rotatable) rotGeoElement).rotate(tempNum, rotationCenter);
+		rotateElement(rotGeoElement, tempNum);
+		rotationLastAngle = newAngle;
+	}
+
+	/**
+	 * Rotate an object around current center ({@link #rotationCenter}) by given angle.
+	 * @param rotGeoElement object to rotate
+	 * @param angle angle
+	 */
+	public void rotateElement(GeoElement rotGeoElement,
+			NumberValue angle) {
+		if (rotGeoElement.isPointerChangeable() || rotGeoElement instanceof GeoLocusStroke) {
+			((Rotatable) rotGeoElement).rotate(angle, rotationCenter);
 			rotGeoElement.updateCascade();
 		} else {
 			ArrayList<GeoElementND> pts = rotGeoElement.getFreeInputPoints(view);
 			for (GeoElementND pt : pts) {
 				if (pt.isGeoPoint()) {
-					((GeoPointND) pt).rotate(tempNum, rotationCenter);
+					((GeoPointND) pt).rotate(angle, rotationCenter);
 				}
 			}
 			GeoElement.updateCascade(pts, new TreeSet<>(), false);
 		}
-		rotationLastAngle = newAngle;
 	}
 
 	protected final void moveLabel() {
@@ -7638,7 +7648,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (bounds != null) {
 				if (rotateBoundingBox == null) {
 					rotateBoundingBox = new RotateBoundingBox(this, measurementController);
-					rotateBoundingBox.setView(view);
 				}
 
 				if (rotateBoundingBox.rotate(bounds, event.getX(), event.getY())) {
