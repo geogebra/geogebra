@@ -131,7 +131,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		Element elem = g2p.getElement();
 		if (elem != null) {
 			elem.setAttribute("role", "figure");
-			elem.setAttribute("aria-label", "3D View");
 		}
 	}
 

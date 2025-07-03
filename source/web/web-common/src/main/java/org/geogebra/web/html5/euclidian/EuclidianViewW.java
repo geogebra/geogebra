@@ -165,7 +165,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo,
 				settings);
-		initAriaDefaults();
 		attachFocusinHandler();
 	}
 
@@ -198,13 +197,6 @@ public class EuclidianViewW extends EuclidianView implements
 		// at mouse events which call setActiveToolbarId #plotpanelevno
 		// initBaseComponents(EVPanel, euclidiancontroller, -1);
 		initBaseComponents(evPanel, euclidiancontroller, viewNo, settings);
-		initAriaDefaults();
-	}
-
-	private void initAriaDefaults() {
-		Element elem = g2p.getElement();
-		elem.setAttribute("role", "application");
-		elem.setAttribute("aria-label", "Graphics View " + evNo);
 	}
 
 	@Override

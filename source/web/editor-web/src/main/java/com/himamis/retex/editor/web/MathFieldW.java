@@ -374,7 +374,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private void setKeyListener(final Widget html2,
 			final KeyListener keyListener) {
-		html2.getElement().setAttribute("role", "application");
 		html2.addDomHandler(event -> {
 			// don't kill Ctrl+V or write V
 			if (controlDown(event)

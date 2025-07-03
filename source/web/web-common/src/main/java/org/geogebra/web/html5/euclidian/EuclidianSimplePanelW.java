@@ -36,7 +36,6 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		super();
 		loadComponent();
 		app = application;
-		getElement().setAttribute("role", "application");
 	}
 
 	private void loadComponent() {

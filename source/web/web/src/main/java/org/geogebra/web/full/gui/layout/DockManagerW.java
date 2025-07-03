@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
@@ -166,28 +167,28 @@ public class DockManagerW extends DockManager {
 				if (rootPaneParent != null) {
 					if (rootPaneParent instanceof VerticalPanel) {
 						rootPane.removeFromParent();
-						rootPane = splitPanes[0];
+						setRootPane(splitPanes[0]);
 						((VerticalPanel) rootPaneParent).add(rootPane);
 					} else if (rootPaneParent instanceof DockLayoutPanel) {
 						rootPane.removeFromParent();
-						rootPane = splitPanes[0];
+						setRootPane(splitPanes[0]);
 						((DockLayoutPanel) rootPaneParent).add(rootPane);
 					} else {
-						rootPane = splitPanes[0];
+						setRootPane(splitPanes[0]);
 					}
 				} else {
-					rootPane = splitPanes[0];
+					setRootPane(splitPanes[0]);
 				}
 				if (rootPane != null) {
 					rootPane.setStyleName(styles);
 				}
 			} else {
-				rootPane = splitPanes[0];
+				setRootPane(splitPanes[0]);
 			}
 
 			// loop through every but the first split pane
 			for (int i = 1; i < spData.length; ++i) {
-				DockSplitPaneW currentParent = rootPane;
+				DockSplitPaneW currentParent = Objects.requireNonNull(rootPane);
 
 				int[] selectors = spData[i].getChildSelectors();
 
@@ -594,7 +595,7 @@ public class DockManagerW extends DockManager {
 			DockSplitPaneW targetParent = target.getParentSplitPane();
 
 			if (targetParent == rootPane) {
-				rootPane = newSplitPane;
+				setRootPane(newSplitPane);
 			} else {
 				((DockSplitPaneW) targetParent.getParent())
 						.replaceComponent(targetParent, newSplitPane);
@@ -613,14 +614,14 @@ public class DockManagerW extends DockManager {
 				if (opposite instanceof DockPanel) {
 					if (((DockPanelW) opposite).getParentSplitPane()
 							.getOpposite(opposite) == null) {
-						rootPane = newSplitPane;
+						setRootPane(newSplitPane);
 					} else {
 						((DockPanelW) opposite).getParentSplitPane()
 								.replaceComponent(opposite, newSplitPane);
 					}
 				} else {
 					if (opposite == rootPane) {
-						rootPane = newSplitPane;
+						setRootPane(newSplitPane);
 					} else {
 						((DockSplitPaneW) opposite.getParent())
 								.replaceComponent(opposite, newSplitPane);
@@ -882,7 +883,7 @@ public class DockManagerW extends DockManager {
 			opposite = rootPane;
 			oppositeDim[0] = opposite.getOffsetWidth();
 			oppositeDim[1] = opposite.getOffsetHeight();
-			rootPane = newSplitPane;
+			setRootPane(newSplitPane);
 
 			// in root pane, the opposite may be null
 			if (lastPos == 0 || lastPos == 3) {
@@ -909,7 +910,7 @@ public class DockManagerW extends DockManager {
 			oppositeDim[1] = opposite.getOffsetHeight();
 			if (opposite.getParent() == rootPane && rootPane != null
 					&& rootPane.getOpposite(opposite) == null) {
-				rootPane = newSplitPane;
+				setRootPane(newSplitPane);
 			} else {
 				currentPane.replaceComponent(opposite, newSplitPane);
 			}
@@ -1082,7 +1083,7 @@ public class DockManagerW extends DockManager {
 		}
 		if (parent == rootPane) {
 			if (opposite instanceof DockSplitPaneW) {
-				rootPane = (DockSplitPaneW) opposite;
+				setRootPane((DockSplitPaneW) opposite);
 			} else {
 				parent.replaceComponent(panel, null);
 			}
@@ -1758,6 +1759,16 @@ public class DockManagerW extends DockManager {
 	 * Sets root pane to null.
 	 */
 	public void resetRootPane() {
-		rootPane = null;
+		setRootPane(null);
+	}
+
+	private void setRootPane(@CheckForNull DockSplitPaneW rootPane) {
+		if (this.rootPane != null) {
+			this.rootPane.getElement().removeAttribute("role");
+		}
+		this.rootPane = rootPane;
+		if (this.rootPane != null) {
+			this.rootPane.getElement().setAttribute("role", "application");
+		}
 	}
 }

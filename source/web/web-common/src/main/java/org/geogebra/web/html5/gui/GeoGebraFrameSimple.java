@@ -31,6 +31,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 			CASFactory factory) {
 		super(null, articleElement, parameters);
 		this.casFactory = factory;
+		getElement().setAttribute("role", "application");
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Evaluator Web implementation.
@@ -23,9 +24,9 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
  */
 public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler {
 
-	private AppW app;
-	private MathFieldEditor mathFieldEditor;
-	private EvaluatorAPI evaluatorAPI;
+	private final AppW app;
+	private final MathFieldEditor mathFieldEditor;
+	private final EvaluatorAPI evaluatorAPI;
 
 	/**
 	 * Constructor
@@ -36,9 +37,11 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	public EvaluatorEditor(AppW app) {
 		this.app = app;
 		mathFieldEditor = new MathFieldEditor(app, this);
-		mathFieldEditor.getMathField().setUseSimpleScripts(false);
+		MathFieldW mathField = mathFieldEditor.getMathField();
+		mathField.setUseSimpleScripts(false);
+		mathField.asWidget().getElement().setAttribute("role", "application");
 		mathFieldEditor.setTextMode(app.getAppletParameters().getParamTextMode());
-		mathFieldEditor.getMathField().setMaxHeight(app.getAppletParameters().getMaxHeight());
+		mathField.setMaxHeight(app.getAppletParameters().getMaxHeight());
 		mathFieldEditor.addStyleName("evaluatorEditor");
 		mathFieldEditor.addBlurHandler(this);
 		mathFieldEditor.setFontSize(app.getAppletParameters().getParamFontSize(18));
@@ -46,12 +49,12 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 		String bgColor = app.getAppletParameters().getDataParamEditorBackgroundColor();
 		String fgColor = app.getAppletParameters().getDataParamEditorForegroundColor();
 
-		mathFieldEditor.getMathField().setBackgroundColor(bgColor);
-		mathFieldEditor.getMathField().setForegroundColor(fgColor);
+		mathField.setBackgroundColor(bgColor);
+		mathField.setForegroundColor(fgColor);
 
 		app.getFrameElement().getStyle().setBackgroundColor(bgColor);
 
-		MathFieldInternal mathFieldInternal = mathFieldEditor.getMathField().getInternal();
+		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		evaluatorAPI = new EvaluatorAPI(app.getKernel(), mathFieldInternal);
 	}
 
