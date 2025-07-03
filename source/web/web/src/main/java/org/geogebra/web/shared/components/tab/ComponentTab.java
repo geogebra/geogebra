@@ -3,69 +3,145 @@ package org.geogebra.web.shared.components.tab;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.keyboard.web.KeyboardResources;
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
-import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.ScrollPanel;
 
 public class ComponentTab extends FlowPanel implements RequiresResize {
-	private Localization loc;
-	private SimplePanel indicator;
+	private final Localization loc;
+	private ScrollPanel scrollPanel;
 	private FlowPanel panelContainer;
 	private StandardButton selectedBtn;
-	private ArrayList<StandardButton> tabBtns = new ArrayList<>();
+	private StandardButton left;
+	private StandardButton right;
+	private final ArrayList<StandardButton> tabButton = new ArrayList<>();
 	private int selectedTabIdx = 0;
 
 	/**
-	 * tab component constructor
-	 * @param tabData - data of tab including title and panel widget
-	 * @param loc - localization
+	 * Creates a tab component without scroll indicator buttons.
+	 * @param loc {@link Localization}
+	 * @param tabData {@link TabData} including title and panel widget
 	 */
-	public ComponentTab(ArrayList<TabData> tabData, Localization loc) {
-		this.loc = loc;
-		addStyleName("componentTab");
-		buildGUI(tabData);
+	public ComponentTab(Localization loc, TabData... tabData) {
+		this(loc, false, tabData);
 	}
 
-	private void buildGUI(ArrayList<TabData> tabData) {
-		indicator = new SimplePanel();
-		indicator.addStyleName("indicator");
-		add(indicator);
+	/**
+	 * Creates a tab component with optional scroll indicator buttons.
+	 * @param loc {@link Localization}
+	 * @param addScrollButton whether scroll indicator buttons should be added or not
+	 * @param tabData {@link TabData} including title and panel widget
+	 */
+	public ComponentTab(Localization loc, boolean addScrollButton, TabData... tabData) {
+		this.loc = loc;
+		addStyleName("componentTab");
+		buildTab(addScrollButton, tabData);
+	}
 
-		FlowPanel header = new FlowPanel();
-		header.addStyleName("header");
-		add(header);
+	private void buildTab(boolean addScrollButton, TabData... tabData) {
+		buildScrollPanel();
+		FlowPanel wrapPanel = new FlowPanel();
+		wrapPanel.addStyleName("wrapPanel");
 
-		panelContainer = new FlowPanel();
-		panelContainer.addStyleName("panelContainer");
-		add(panelContainer);
+		FlowPanel tabList = initTabList();
 
-		for (int i = 0; i < tabData.size(); i++) {
-			StandardButton tabBtn = getTabBtn(i, tabData.get(i).getTabTitle());
-			tabBtns.add(tabBtn);
-			header.add(tabBtn);
-			panelContainer.add(tabData.get(i).getTabPanel());
+		if (addScrollButton) {
+			buildHeaderWithScrollIndicator(wrapPanel, tabList);
+		} else {
+			wrapPanel.add(tabList);
 		}
+
+		scrollPanel.add(wrapPanel);
+		add(scrollPanel);
+
+		addPanelContainer();
+		fillTabList(tabList, tabData);
+	}
+
+	private void buildScrollPanel() {
+		scrollPanel = new ScrollPanel();
+		scrollPanel.addScrollHandler(event -> {
+			left.setVisible(scrollPanel.getHorizontalScrollPosition() != 0);
+			right.setVisible(scrollPanel.getHorizontalScrollPosition()
+					!= scrollPanel.getMaximumHorizontalScrollPosition());
+		});
+		scrollPanel.addStyleName("scrollPanel customScrollbar");
+	}
+
+	private void buildHeaderWithScrollIndicator(FlowPanel wrapPanel, FlowPanel tabList) {
+		left = buildScrollButton(KeyboardResources.INSTANCE
+				.keyboard_arrowLeft_black(), "left");
+		left.addFastClickHandler(source ->
+				scrollPanel.setHorizontalScrollPosition(getLeftScroll75Percent()));
+		left.setVisible(false);
+
+		right = buildScrollButton(KeyboardResources.INSTANCE
+				.keyboard_arrowRight_black(), "right");
+		right.addFastClickHandler(source ->
+				scrollPanel.setHorizontalScrollPosition(getRightScroll75Percent()));
+
+		wrapPanel.add(left);
+		wrapPanel.add(tabList);
+		wrapPanel.add(right);
+	}
+
+	private StandardButton buildScrollButton(SVGResource icon, String styleName) {
+		StandardButton scrollButton = new StandardButton(24, icon, "");
+		scrollButton.addStyleName(styleName);
+		return scrollButton;
+	}
+
+	private FlowPanel initTabList() {
+		FlowPanel tabList = new FlowPanel();
+		AriaHelper.setRole(tabList, "tablist");
+		tabList.addStyleName("tabList");
+		return tabList;
 	}
 
 	private StandardButton getTabBtn(int i, String title) {
 		StandardButton tabBtn = new StandardButton(loc.getMenu(title));
 		tabBtn.addStyleName("tabBtn");
 		tabBtn.addStyleName("ripple");
-		int tabIdx = i;
-		tabBtn.addFastClickHandler(source -> switchToTab(tabIdx));
+		AriaHelper.setRole(tabBtn, "tab");
+		AriaHelper.setAriaSelected(tabBtn, false);
+		tabBtn.addFastClickHandler(source -> switchToTab(i));
 		return tabBtn;
 	}
 
-	private double calculateLeft(int index) {
-		double left = 0;
-		for (int i = 0; i < index; i++) {
-			left += tabBtns.get(i).getOffsetWidth();
+	private void addPanelContainer() {
+		panelContainer = new FlowPanel();
+		panelContainer.addStyleName("panelContainer");
+		add(panelContainer);
+	}
+
+	private void fillTabList(FlowPanel tabList, TabData... tabData) {
+		int i = 0;
+		for (TabData tab : tabData) {
+			StandardButton tabBtn = getTabBtn(i, tab.getTabTitle());
+			tabButton.add(tabBtn);
+			tabList.add(tabBtn);
+			panelContainer.add(tab.getTabPanel());
+			i++;
 		}
-		return left;
+	}
+
+	private int getLeftScroll75Percent() {
+		int scroll75 = (int) (scrollPanel.getOffsetWidth() * 0.75);
+		return Math.max(scrollPanel.getMinimumHorizontalScrollPosition(),
+				scrollPanel.getHorizontalScrollPosition() - scroll75);
+	}
+
+	private int getRightScroll75Percent() {
+		int scroll75 = (int) (scrollPanel.getOffsetWidth() * 0.75);
+		return Math.min(scrollPanel.getMaximumHorizontalScrollPosition(),
+				scrollPanel.getHorizontalScrollPosition() + scroll75);
 	}
 
 	/**
@@ -74,23 +150,22 @@ public class ComponentTab extends FlowPanel implements RequiresResize {
 	 */
 	public void switchToTab(int tabIdx) {
 		if (selectedBtn != null) {
-			selectedBtn.removeStyleName("selected");
+			updateSelection(selectedBtn, false);
 		}
-		tabBtns.get(tabIdx).addStyleName("selected");
-		selectedBtn = tabBtns.get(tabIdx);
-		selectedTabIdx = tabIdx;
 
-		Style indicatorStyle = indicator.getElement().getStyle();
-		indicatorStyle.setLeft(calculateLeft(tabIdx), Unit.PX);
-		indicatorStyle.setWidth(selectedBtn.getOffsetWidth(), Unit.PX);
+		selectedBtn = tabButton.get(tabIdx);
+		selectedBtn.getElement().scrollIntoView();
+		updateSelection(selectedBtn, true);
+		selectedTabIdx = tabIdx;
 
 		panelContainer.addStyleName("transition");
 		Scheduler.get().scheduleDeferred(() -> panelContainer.getElement().getStyle()
 				.setRight(tabIdx * getOffsetWidth(), Unit.PX));
 	}
 
-	public FlowPanel getPanelContainer() {
-		return panelContainer;
+	private void updateSelection(StandardButton button, boolean selected) {
+		Dom.toggleClass(button, "selected", selected);
+		AriaHelper.setAriaSelected(button, selected);
 	}
 
 	@Override

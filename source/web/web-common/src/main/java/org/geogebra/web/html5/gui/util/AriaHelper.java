@@ -151,4 +151,12 @@ public class AriaHelper {
 	public static void setAriaExpanded(UIObject uiObject, boolean expanded) {
 		uiObject.getElement().setAttribute("aria-expanded", String.valueOf(expanded));
 	}
+
+	/**
+	 * @param uiObject - element
+	 * @param selected - true or false
+	 */
+	public static void setAriaSelected(UIObject uiObject, boolean selected) {
+		uiObject.getElement().setAttribute("aria-selected", String.valueOf(selected));
+	}
 }

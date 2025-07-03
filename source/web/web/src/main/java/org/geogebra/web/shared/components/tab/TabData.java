@@ -1,5 +1,6 @@
 package org.geogebra.web.shared.components.tab;
 
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.gwtproject.user.client.ui.Widget;
 
 public class TabData {
@@ -22,6 +23,7 @@ public class TabData {
 
 	private void setTabPanel(Widget tabPanel) {
 		this.tabPanel = tabPanel;
+		AriaHelper.setRole(tabPanel, "tabpanel");
 	}
 
 	public String getTabTitle() {

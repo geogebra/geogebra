@@ -1,8 +1,5 @@
 package org.geogebra.web.full.gui.dialog.image;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -55,8 +52,7 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		loadCameraPanel();
 		TabData cameraTab = new TabData("Camera", cameraPanel);
 
-		tab = new ComponentTab(new ArrayList<>(Arrays.asList(uploadTab, cameraTab)),
-				app.getLocalization());
+		tab = new ComponentTab(app.getLocalization(), uploadTab, cameraTab);
 		addDialogContent(tab);
 		webcamInputPanel.startVideo();
 	}
