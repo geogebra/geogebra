@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 /**
  * Class which contains references to all settings of the application.
@@ -144,6 +145,9 @@ public class Settings {
 		tableSettings = new TableSettings();
 		styleSettings = new StyleSettings();
 		penToolsSettings = new PenToolsSettings();
+		if (app.isWhiteboardActive()) {
+			penToolsSettings.setLastSelectedPenColor(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
+		}
 
 		for (Resettable setting : resettableSettings) {
 			setting.resetDefaults();

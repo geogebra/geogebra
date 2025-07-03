@@ -1809,6 +1809,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		} else {
 			getEventDispatcher().dispatchEvent(EventType.LOAD_PAGE, null);
 		}
+		resetPen();
 		restoreCurrentUndoHistory();
 	}
 

@@ -178,22 +178,18 @@ public class ColorChooserPanel extends FlowPanel {
 	}
 
 	/**
-	 * update color palette selection
+	 * Update color palette selection (UI only, does not update the model).
 	 * @param selectedColor - last selected color
 	 */
 	public void updateColorSelection(GColor selectedColor) {
 		FlowPanel buttonToSelect = getColorButton(selectedColor);
 		if (buttonToSelect != null) {
-			updateColor(buttonToSelect, selectedColor);
+			updateActiveColorButton(buttonToSelect, selectedColor);
 		} else {
 			if (activeButton != null) {
 				activeButton.removeStyleName("selected");
 			}
-			runCallback(selectedColor);
+			activeColor = selectedColor;
 		}
-	}
-
-	public GColor getActiveColor() {
-		return activeColor;
 	}
 }

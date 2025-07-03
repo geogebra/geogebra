@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.util;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -266,8 +268,9 @@ public class PopupMenuButtonW extends StandardButton
 	/**
 	 * @return {@link ImageOrText}
 	 */
-	public ImageOrText getButtonIcon() {
-		return data[getSelectedIndex()];
+	public @CheckForNull ImageOrText getButtonIcon() {
+		int selectedIndex = getSelectedIndex();
+		return selectedIndex < 0 ? null : data[selectedIndex];
 	}
 
 	/**

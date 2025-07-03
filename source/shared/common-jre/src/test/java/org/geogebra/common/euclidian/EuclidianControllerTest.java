@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -808,7 +809,21 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void penTool() {
-		setMode(EuclidianConstants.MODE_PEN); // TODO 62
+		setMode(EuclidianConstants.MODE_PEN);
+		dragStart(0, 0);
+		dragEnd(50, 50);
+		checkContent("stroke1");
+		assertEquals(GColor.BLACK, lookup("stroke1").getObjectColor());
+	}
+
+	@Test
+	public void penToolNotes() {
+		getApp().setNotesConfig();
+		getApp().getSettings().resetSettings(getApp());
+		setMode(EuclidianConstants.MODE_PEN);
+		dragStart(0, 0);
+		dragEnd(50, 50);
+		assertEquals(GColor.BLACK, lookup("stroke1").getObjectColor());
 	}
 
 	@Test

@@ -11227,11 +11227,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Make sure we start new penstroke.
+	 * Make sure we start new penstroke and use the right color and style.
 	 */
 	public void resetPen() {
 		if (pen != null) {
 			pen.resetPenOffsets();
+			pen.updateMode();
 		}
 	}
 
