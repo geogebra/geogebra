@@ -1050,14 +1050,12 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	protected void drawHighlightRectangle(GGraphics2D g2) {
-		drawHighlightRectangle(g2,
-				(int) labelRectangle.getX(), (int) labelRectangle.getY(),
-				(int) labelRectangle.getWidth(), (int) labelRectangle.getHeight(),
-				HIGHLIGHT_DIAMETER);
+		drawHighlightRectangle(g2, labelRectangle.getX(), labelRectangle.getY(),
+				labelRectangle.getWidth(), labelRectangle.getHeight(), HIGHLIGHT_DIAMETER);
 	}
 
 	/**
-	 * Draws the highlight rectangle around a focused object
+	 * Draws the highlight rectangle around a focused object.
 	 * @param g2 Graphics
 	 * @param x Left
 	 * @param y Top
@@ -1065,22 +1063,22 @@ public abstract class Drawable extends DrawableND {
 	 * @param height Height
 	 * @param arcSize Diameter
 	 */
-	public static void drawHighlightRectangle(GGraphics2D g2, int x, int y,
-			int width, int height, int arcSize) {
-		// First layer - 4px purple
-		int highlightWidth = (int) UI_ELEMENT_HIGHLIGHT_WIDTH * 2;
+	public static void drawHighlightRectangle(GGraphics2D g2, double x, double y,
+			double width, double height, double arcSize) {
+		// Outer border - 3px purple - -3.5 to -0.5
+		double highlightWidth = UI_ELEMENT_HIGHLIGHT_WIDTH * 1.5;
+		double offset = UI_ELEMENT_HIGHLIGHT_WIDTH;
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(highlightWidth));
 		g2.setColor(GeoGebraColorConstants.PURPLE_700);
-		g2.drawRoundRect(x - highlightWidth / 2, y - highlightWidth / 2,
-				width + highlightWidth, height + highlightWidth,
-				arcSize, arcSize);
-		// Second layer - 2px white (inside)
-		highlightWidth = (int) UI_ELEMENT_HIGHLIGHT_WIDTH;
+		g2.drawRoundRect(x - offset, y - offset,
+				width + offset * 2, height + offset * 2, arcSize, arcSize);
+		// Inner border - 2px white - -1.5 to -0.5 - Overlaps with outer border from -1.5 to -0.5
+		highlightWidth = UI_ELEMENT_HIGHLIGHT_WIDTH;
+		offset = offset / 4;
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(highlightWidth));
 		g2.setColor(GColor.WHITE);
-		g2.drawRoundRect(x - highlightWidth / 2, y - highlightWidth / 2,
-				width + highlightWidth, height + highlightWidth,
-				arcSize, arcSize);
+		g2.drawRoundRect(x - offset, y - offset,
+				width + offset * 2, height + offset * 2, arcSize, arcSize);
 	}
 
 	protected void drawAndUpdateTraceIfNeeded(boolean showTrace) {

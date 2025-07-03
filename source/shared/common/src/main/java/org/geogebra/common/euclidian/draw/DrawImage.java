@@ -323,16 +323,16 @@ public class DrawImage extends Drawable {
 
 					// no highlight if we have bounding box for mow
 					if (!app.isWhiteboardActive()) {
-						// First layer - 4px purple
+						// First layer - 3px purple
 						g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
-								Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH * 2));
+								Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH * 1.5));
 						g2.setPaint(GeoGebraColorConstants.PURPLE_700);
-						drawHighlightRectangle(g2, 0);
+						drawHighlightRectangle(g2, -1);
 						// Second layer - 2px white (inside)
 						g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
 								Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
 						g2.setPaint(GColor.WHITE);
-						drawHighlightRectangle(g2, -2);
+						drawHighlightRectangle(g2, -2.5);
 					}
 
 				}
