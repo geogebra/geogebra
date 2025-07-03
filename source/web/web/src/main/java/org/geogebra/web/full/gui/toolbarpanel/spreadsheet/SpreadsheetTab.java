@@ -34,8 +34,7 @@ public class SpreadsheetTab extends ToolbarTab {
 		FlowPanel wrappingPanel = new FlowPanel();
 		wrappingPanel.addStyleName("spreadsheetTabPanel");
 
-		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)
-			&& toolbarPanel.spreadsheetStyleBarAllowed()) {
+		if (isStyleBarAllowed()) {
 			wrappingPanel.addStyleName("withStyleBar");
 		}
 
@@ -47,6 +46,11 @@ public class SpreadsheetTab extends ToolbarTab {
 		tabPanel = wrappingPanel;
 	}
 
+	private boolean isStyleBarAllowed() {
+		return PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)
+				&& toolbarPanel.spreadsheetStyleBarAllowed();
+	}
+
 	@Override
 	public void setLabels() {
 		// fill
@@ -55,7 +59,8 @@ public class SpreadsheetTab extends ToolbarTab {
 	@Override
 	public void onResize() {
 		if (tabPanel != null) {
-			Dom.toggleClass(tabPanel, "withStyleBar", !toolbarPanel.isHeadingVisible());
+			Dom.toggleClass(tabPanel, "withStyleBar",
+					!toolbarPanel.isHeadingVisible() && isStyleBarAllowed());
 		}
 		if (spreadsheetPanel != null) {
 			spreadsheetPanel.onResize();

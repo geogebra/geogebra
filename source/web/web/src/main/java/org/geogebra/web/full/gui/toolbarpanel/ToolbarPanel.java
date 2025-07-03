@@ -380,6 +380,7 @@ public class ToolbarPanel extends FlowPanel
 		createUndoRedoButtons();
 		createCloseButton();
 		heading.setStyleName("toolPanelHeading");
+		Dom.toggleClass(heading, "portrait", "landscape", app.isPortrait());
 		if (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC) {
 			add(heading);
 		}
