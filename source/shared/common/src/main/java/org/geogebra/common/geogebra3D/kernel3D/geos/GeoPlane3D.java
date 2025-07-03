@@ -79,6 +79,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	private Coords tmpCoords1;
 	private Coords tmpCoords2;
+	private Coords canceledEquation = new Coords(4);
 	private boolean trace;
 
 	/** string repre of coordinates */
@@ -463,7 +464,8 @@ public class GeoPlane3D extends GeoElement3D
 		if (getEquationForm() == Form.USER && getDefinition() != null) {
 			return getDefinition().toValueString(tpl);
 		}
-		return buildValueString(tpl, kernel, getCoordSys().getEquationVector(),
+		canceledEquation.set(getCoordSys().getEquationVector());
+		return buildValueString(tpl, kernel, canceledEquation,
 				!isLabelSet()).toString();
 	}
 

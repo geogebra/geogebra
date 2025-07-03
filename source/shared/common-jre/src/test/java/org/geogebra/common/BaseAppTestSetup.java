@@ -108,4 +108,8 @@ public class BaseAppTestSetup {
 		app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(
 				geoElement, newExpression, evalInfo, false, null, errorAccumulator);
 	}
+
+	public void setApp(AppCommon app) {
+		this.app = app;
+	}
 }
