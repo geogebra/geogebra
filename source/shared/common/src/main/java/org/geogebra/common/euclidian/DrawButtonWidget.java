@@ -128,34 +128,33 @@ public class DrawButtonWidget {
 		if (styleSettings.getButtonShadows()) {
 			shadowSize = (int) (getHeight() * 0.1);
 			g2.setPaint(paint.slightlyDarker());
-			g2.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
+			g2.fillRoundRect(x, y, getWidth() + widthCorrection - 1,
 					getHeight() - 1, arcSize, arcSize);
 		}
 
-		g2.setPaint(paint);
-		g2.setStroke(EuclidianStatic.getDefaultStroke());
-		g2.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
-				getHeight() - 1 - shadowSize, arcSize, arcSize);
-
 		if (isSelected() && !pressed) {
 			// Highlight Rectangle for focused Button
-			Drawable.drawHighlightRectangle(g2, x + 1, y + 1,
-					getWidth() + (int) widthCorrection - 2, getHeight() - 2, arcSize);
-		} else {
-			// (Custom) Button Border if Button is not focused
-			if (styleSettings.getButtonBorderColor() != null) {
-				g2.setColor(styleSettings.getButtonBorderColor());
-			} else {
-				if (bg.getContrast(view.getBackgroundCommon()) >= 3.0) {
-					g2.setColor(bg);
-				} else {
-					g2.setColor(view.getBackgroundCommon().getLuminance() > 0.5
-							? GColor.getBorderColorFrom(bg) : GColor.getBrightBorderColorFrom(bg));
-				}
-			}
-			g2.drawRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
-					getHeight() - 1 - shadowSize, arcSize, arcSize);
+			Drawable.drawHighlightRectangle(g2, x - 1, y - 1,
+					getWidth() + widthCorrection + 1, getHeight() + 1, arcSize);
 		}
+		g2.setPaint(paint);
+		g2.setStroke(EuclidianStatic.getDefaultStroke());
+		g2.fillRoundRect(x, y, getWidth() + widthCorrection - 1,
+				getHeight() - 1 - shadowSize, arcSize, arcSize);
+
+		// Basic border (the same with and without focus)
+		if (styleSettings.getButtonBorderColor() != null) {
+			g2.setColor(styleSettings.getButtonBorderColor());
+		} else {
+			if (bg.getContrast(view.getBackgroundCommon()) >= 3.0) {
+				g2.setColor(bg);
+			} else {
+				g2.setColor(view.getBackgroundCommon().getLuminance() > 0.5
+						? GColor.getBorderColorFrom(bg) : GColor.getBrightBorderColorFrom(bg));
+			}
+		}
+		g2.drawRoundRect(x * 1.0, y, getWidth() + widthCorrection - 1,
+				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
 		// prepare to draw text
 		g2.setColor(geoButton.getObjectColor());
