@@ -458,6 +458,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return editor;
 	}
 
+	/**
+	 * @param enableAutoComplete whether to enable autocomplete
+	 */
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		editor.setEnableAutoComplete(enableAutoComplete);
 	}
@@ -469,10 +472,16 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		editor.setEqualsRequired(isEqualsRequired);
 	}
 
+	/**
+	 * Update localized labels.
+	 */
 	public void setLabels() {
 		editor.setLabels();
 	}
 
+	/**
+	 * @return preferred column width
+	 */
 	public int preferredColumnWidth() {
 		return preferredColumnWidth;
 	}

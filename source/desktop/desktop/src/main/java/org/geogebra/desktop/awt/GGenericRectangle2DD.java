@@ -59,8 +59,12 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 		return impl.intersects(minX, minY, lengthX, lengthY);
 	}
 
-	public boolean intersects(GRectangle viewRect) {
-		return impl.intersects(GRectangleD.getAWTRectangle(viewRect));
+	/**
+	 * @param rectangle rectangle
+	 * @return whether this intersects given rectangle
+	 */
+	public boolean intersects(GRectangle rectangle) {
+		return impl.intersects(GRectangleD.getAWTRectangle(rectangle));
 	}
 
 	/**
@@ -105,6 +109,10 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
+	/**
+	 * @param rectangle rectangle
+	 * @return whether this contains given rectangle
+	 */
 	public boolean contains(GRectangle rectangle) {
 		return impl.contains(GRectangleD.getAWTRectangle(rectangle));
 	}

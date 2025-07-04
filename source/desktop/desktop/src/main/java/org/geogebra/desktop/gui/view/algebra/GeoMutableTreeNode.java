@@ -28,6 +28,9 @@ public class GeoMutableTreeNode extends DefaultMutableTreeNode {
 		return algebraDescription;
 	}
 
+	/**
+	 * Reset the description.
+	 */
 	public void reset() {
 		algebraDescription = null;
 	}

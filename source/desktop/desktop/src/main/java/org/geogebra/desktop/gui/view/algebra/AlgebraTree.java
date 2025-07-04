@@ -392,10 +392,11 @@ public class AlgebraTree extends JTree {
 		}
 	}
 
-	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// TODO
-	}
-
+	/**
+	 * Update visual style of an element.
+	 * @param geo element
+	 * @param prop changed property
+	 */
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
@@ -452,6 +453,9 @@ public class AlgebraTree extends JTree {
 
 	}
 
+	/**
+	 * @return whether this view shows auxiliary objects
+	 */
 	public boolean showAuxiliaryObjects() {
 		return true;
 	}

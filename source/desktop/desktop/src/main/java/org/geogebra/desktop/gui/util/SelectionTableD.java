@@ -49,7 +49,6 @@ public class SelectionTableD extends JTable {
 
 	private boolean showSelection = true;
 
-
 	private final Object[] data;
 	private final int numRows;
 	private final int numColumns;
@@ -73,7 +72,6 @@ public class SelectionTableD extends JTable {
 	public int getColumnWidth() {
 		return columnWidth;
 	}
-
 
 	/**
 	 * @param useColorSwatchBorder to use border for swatch icons

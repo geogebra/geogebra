@@ -148,6 +148,10 @@ public class GeoGebraPreferencesD {
 		return singleton;
 	}
 
+	/**
+	 * Store the last version that was shown in notification.
+	 * @param newestVersion last version
+	 */
 	public static void setLastVersionNotification(long newestVersion) {
 		getPref().savePreference(VERSION_LAST_NOTIFICATION_SHOWN, String.valueOf(newestVersion));
 	}
@@ -165,6 +169,12 @@ public class GeoGebraPreferencesD {
 		return 0;
 	}
 
+	/**
+	 * Read a preference value.
+	 * @param key key
+	 * @param defaultValue fallback value
+	 * @return preference value or fallback
+	 */
 	public String loadPreference(String key, String defaultValue) {
 		return ggbPrefs.get(key, defaultValue);
 	}

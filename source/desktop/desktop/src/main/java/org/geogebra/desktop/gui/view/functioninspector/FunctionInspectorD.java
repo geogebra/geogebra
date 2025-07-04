@@ -508,10 +508,16 @@ public class FunctionInspectorD extends FunctionInspector
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
 	}
 
+	/**
+	 * Show the inspector.
+	 */
 	public void show() {
 		wrappedDialog.setVisible(true);
 	}
 
+	/**
+	 * Hide the inspector.
+	 */
 	public void hide() {
 		wrappedDialog.setVisible(false);
 	}

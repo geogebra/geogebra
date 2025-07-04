@@ -4,7 +4,13 @@ import com.jogamp.opengl.glu.GLU;
 
 public interface JoglAndGluProvider {
 
-	public RendererJogl getJogl();
+	/**
+	 * @return JOGL
+	 */
+	RendererJogl getJogl();
 
-	public GLU getGLU();
+	/**
+	 * @return GLU
+	 */
+	GLU getGLU();
 }

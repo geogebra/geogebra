@@ -57,7 +57,7 @@ public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
 		JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(
 				((GuiManager3D) app.getGuiManager()).getShowAxes3DAction());
 		// cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
-		((App3D) app).setShowAxesSelected3D(cbShowAxes);
+		cbShowAxes.setSelected(((App3D) app).getEuclidianView3D().axesAreAllVisible());
 		cbShowAxes.setBackground(getWrappedPopup().getBackground());
 		getWrappedPopup().add(cbShowAxes);
 

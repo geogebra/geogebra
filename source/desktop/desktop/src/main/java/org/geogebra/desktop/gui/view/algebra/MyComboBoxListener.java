@@ -35,5 +35,9 @@ public abstract class MyComboBoxListener extends MouseAdapter
 		doActionPerformed(e.getSource());
 	}
 
+	/**
+	 * Handle an event.
+	 * @param source event source
+	 */
 	public abstract void doActionPerformed(Object source);
 }

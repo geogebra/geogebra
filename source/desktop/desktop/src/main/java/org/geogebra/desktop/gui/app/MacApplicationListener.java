@@ -16,6 +16,7 @@ import java.io.File;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.main.AppD;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -67,7 +68,7 @@ public class MacApplicationListener implements QuitHandler, AboutHandler, OpenFi
 	@Override
 	public void handleAbout(AboutEvent e) {
 		AppD app = getGGBInstance().getApplication();
-		((GuiManagerD) app.getGuiManager()).showAboutDialog();
+		GeoGebraMenuBar.showAboutDialog(app);
 	}
 
 	@Override
@@ -106,7 +107,6 @@ public class MacApplicationListener implements QuitHandler, AboutHandler, OpenFi
 		Log.debug("handlePrintFile event, filename: " + event.getFiles());
 
 		openFirstFile(event);
-		((GuiManagerD) getGGBInstance().getApplication().getGuiManager())
-				.showPrintPreview();
+		GeoGebraMenuBar.showPrintPreview(getGGBInstance().getApplication());
 	}
 }

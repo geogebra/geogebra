@@ -100,7 +100,7 @@ public class GuiManager3D extends GuiManagerD {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle axes
-				((App3D) getApp()).toggleAxis3D();
+				((App3D) getApp()).getEuclidianView3D().toggleAxis();
 				// getApp().getEuclidianView().repaint();
 				getApp().storeUndoInfo();
 				getApp().updateMenubar();
@@ -116,7 +116,7 @@ public class GuiManager3D extends GuiManagerD {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle grid
-				((App3D) getApp()).toggleGrid3D();
+				((App3D) getApp()).getEuclidianView3D().toggleGrid();
 				// getApp().getEuclidianView().repaint();
 				getApp().storeUndoInfo();
 				getApp().updateMenubar();
@@ -132,7 +132,7 @@ public class GuiManager3D extends GuiManagerD {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// toggle plane
-				((App3D) getApp()).togglePlane();
+				((App3D) getApp()).getEuclidianView3D().getSettings().togglePlane();
 				getApp().storeUndoInfo();
 				getApp().updateMenubar();
 			}

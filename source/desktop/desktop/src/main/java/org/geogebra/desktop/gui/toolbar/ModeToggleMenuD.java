@@ -184,6 +184,9 @@ public class ModeToggleMenuD extends JPanel {
 		size = 0;
 	}
 
+	/**
+	 * Add a separator.
+	 */
 	public void addSeparator() {
 		popMenu.addSeparator();
 	}
@@ -278,10 +281,6 @@ public class ModeToggleMenuD extends JPanel {
 
 	public boolean isPopupShowing() {
 		return popMenu.isShowing();
-	}
-
-	public void setMode(int mode) {
-		app.setMode(mode);
 	}
 
 }

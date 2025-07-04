@@ -90,6 +90,9 @@ public class InspectorTable extends JTable {
 		}
 	}
 
+	/**
+	 * Set column widths.
+	 */
 	public void setColumnWidths() {
 		setColumnWidths(this);
 	}
@@ -137,6 +140,10 @@ public class InspectorTable extends JTable {
 		return maxPrefWidth + table.getIntercellSpacing().width;
 	}
 
+	/**
+	 * Set editor for given column.
+	 * @param colIndex column index
+	 */
 	public void setMyCellEditor(int colIndex) {
 		getColumnModel().getColumn(colIndex).setCellEditor(new NumericInputCellEditor());
 	}

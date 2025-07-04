@@ -91,6 +91,10 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
+	/**
+	 * @param rectangle rectangle
+	 * @return whether the rectangle is inside this path
+	 */
 	public boolean contains(GRectangle rectangle) {
 		return impl.contains(GRectangleD.getAWTRectangle(rectangle));
 	}

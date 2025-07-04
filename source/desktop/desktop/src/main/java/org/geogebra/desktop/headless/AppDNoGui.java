@@ -78,6 +78,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		setCASFactory(new LoggingCASFactoryD());
 	}
 
+	@Override
 	public void addExternalImage(String name, MyImageJre img) {
 		// TODO Auto-generated method stub
 	}
@@ -198,10 +199,12 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		return new CommandDispatcher3DJre(cmdKernel);
 	}
 
+	@Override
 	public boolean is3D() {
 		return true;
 	}
 
+	@Override
 	public ScriptManager newScriptManager() {
 		return new ScriptManagerD(this);
 	}

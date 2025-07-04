@@ -255,10 +255,17 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		return true;
 	}
 
+	/**
+	 * Add popup menu item
+	 * @param component item to add
+	 */
 	public void addPopupMenuItem(JComponent component) {
 		myPopup.add(component);
 	}
 
+	/**
+	 * Remove all items.
+	 */
 	public void removeAllMenuItems() {
 		myPopup.removeAll();
 	}
@@ -524,7 +531,11 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		setIcon(icon);
 	}
 
-	public void setIndex(int mode) {
-		myTable.setSelectedIndex(mode);
+	/**
+	 * Set selected index.
+	 * @param selectedIndex selected index
+	 */
+	public void setIndex(int selectedIndex) {
+		myTable.setSelectedIndex(selectedIndex);
 	}
 }

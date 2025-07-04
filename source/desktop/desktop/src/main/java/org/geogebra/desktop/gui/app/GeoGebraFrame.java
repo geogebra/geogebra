@@ -381,6 +381,10 @@ public class GeoGebraFrame extends JFrame
 		}
 	}
 
+	/**
+	 * @param args command line arguments
+	 * @return new window
+	 */
 	public static synchronized GeoGebraFrame createNewWindow(
 			CommandLineArguments args) {
 		return createNewWindow(args, new GeoGebraFrame());
@@ -397,6 +401,12 @@ public class GeoGebraFrame extends JFrame
 		return new AppD(args, frame, true);
 	}
 
+	/**
+	 * Create a frame for macro editing.
+	 * @param args command line arguments
+	 * @param macro macro
+	 * @return frame of the same type as this
+	 */
 	public synchronized GeoGebraFrame createNewWindow(CommandLineArguments args,
 			Macro macro) {
 		return createNewWindow(args, copy());

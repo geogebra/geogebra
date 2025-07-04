@@ -68,9 +68,4 @@ public class MyCellEditorList extends DefaultCellEditor
 		return editGeo;
 	}
 
-	public boolean isEditing() {
-		return false;
-	}
-
-
 }

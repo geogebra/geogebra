@@ -140,6 +140,19 @@ public class OptionsAdvancedD implements OptionPanelD,
 	}
 
 	/**
+	 * @param dmd actual delay in seconds
+	 * @return closest available delay
+	 */
+	public static int getClosestTimeout(int dmd) {
+		for (int i = 0; i < (TOOLTIP_TIMEOUTS.length - 1); i++) {
+			if (Integer.parseInt(TOOLTIP_TIMEOUTS[i]) >= dmd) {
+				return Integer.parseInt(TOOLTIP_TIMEOUTS[i]);
+			}
+		}
+		return Integer.parseInt(TOOLTIP_TIMEOUTS[TOOLTIP_TIMEOUTS.length - 2]);
+	}
+
+	/**
 	 * Initialize the user interface.
 	 * 
 	 * <p>Remark: updateGUI() will be called directly after this method
@@ -279,9 +292,9 @@ public class OptionsAdvancedD implements OptionPanelD,
 		tooltipTimeoutLabel = new JLabel();
 
 		// get tooltipTimeouts from MyXMLHandler
-		tooltipTimeouts = new String[OptionsAdvancedD.tooltipTimeoutsLength()];
-		for (int i = 0; i < OptionsAdvancedD.tooltipTimeoutsLength() - 1; i++) {
-			tooltipTimeouts[i] = OptionsAdvancedD.tooltipTimeouts(i);
+		tooltipTimeouts = new String[TOOLTIP_TIMEOUTS.length];
+		for (int i = 0; i < TOOLTIP_TIMEOUTS.length - 1; i++) {
+			tooltipTimeouts[i] = TOOLTIP_TIMEOUTS[i];
 		}
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
@@ -987,13 +1000,5 @@ public class OptionsAdvancedD implements OptionPanelD,
 	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
 	final private static String[] TOOLTIP_TIMEOUTS = new String[] { "1", "3",
 			"5", "10", "20", "30", "60", "0" };
-
-	public static String tooltipTimeouts(int i) {
-		return TOOLTIP_TIMEOUTS[i];
-	}
-
-	public static int tooltipTimeoutsLength() {
-		return TOOLTIP_TIMEOUTS.length;
-	}
 
 }

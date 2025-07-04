@@ -137,6 +137,13 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		}
 	}
 
+	/**
+	 * Displays the popup menu at the position x,y in the coordinate
+	 * space of the component invoker.
+	 * @param component invoker
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	public void show(Component component, int x, int y) {
 		rowHeaderPopupMenu.show(component, x, y);
 	}

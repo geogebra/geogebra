@@ -372,6 +372,10 @@ public class InputDialogD extends InputDialog
 		return inputPanel.getText();
 	}
 
+	/**
+	 * Set text for editing.
+	 * @param text initial text
+	 */
 	public void setText(String text) {
 		inputPanel.setText(text);
 	}

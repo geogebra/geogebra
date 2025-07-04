@@ -211,22 +211,6 @@ public class App3D extends AppD {
 		}
 	}
 
-	public void toggleAxis3D() {
-		getEuclidianView3D().toggleAxis();
-	}
-
-	public void togglePlane() {
-		getEuclidianView3D().getSettings().togglePlane();
-	}
-
-	public void toggleGrid3D() {
-		getEuclidianView3D().toggleGrid();
-	}
-
-	public void setShowAxesSelected3D(JCheckBoxMenuItem cb) {
-		cb.setSelected(getEuclidianView3D().axesAreAllVisible());
-	}
-
 	/**
 	 * set the show plane combo box selected if the plane is visible
 	 * 

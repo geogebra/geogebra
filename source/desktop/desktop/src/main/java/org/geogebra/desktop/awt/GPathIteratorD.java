@@ -27,10 +27,6 @@ public class GPathIteratorD implements GPathIterator {
 		impl.next();
 	}
 
-	public int currentSegment(float[] coords) {
-		return impl.currentSegment(coords);
-	}
-
 	@Override
 	public int currentSegment(double[] coords) {
 		return impl.currentSegment(coords);

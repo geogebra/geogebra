@@ -74,7 +74,7 @@ class ToolToggleButton extends JToggleButton
 
 		// don't select mode if popup triangle clicked
 		if (!popupTriangleClicked || !menu.isPopupShowing()) {
-			menu.setMode(Integer.parseInt(e.getActionCommand()));
+			app.setMode(Integer.parseInt(e.getActionCommand()));
 		}
 	}
 

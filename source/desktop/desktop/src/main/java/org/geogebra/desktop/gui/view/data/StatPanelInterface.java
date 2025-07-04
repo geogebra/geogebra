@@ -2,12 +2,19 @@ package org.geogebra.desktop.gui.view.data;
 
 import java.awt.Font;
 
-public interface StatPanelInterface {
+import org.geogebra.common.gui.SetLabels;
 
-	public void updateFonts(Font font);
+public interface StatPanelInterface extends SetLabels {
 
-	public void setLabels();
+	/**
+	 * Update fonts.
+	 * @param font app font
+	 */
+	void updateFonts(Font font);
 
-	public void updatePanel();
+	/**
+	 * Update the panel.
+	 */
+	void updatePanel();
 
 }

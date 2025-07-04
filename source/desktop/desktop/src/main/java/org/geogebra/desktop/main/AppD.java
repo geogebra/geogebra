@@ -818,8 +818,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	}
 
-	public static void exit(int i) {
-		System.exit(i);
+	/**
+	 * Exit the process.
+	 * @param code exit code
+	 */
+	public static void exit(int code) {
+		System.exit(code);
 	}
 
 	private static boolean versionCheckAllowed = true;
@@ -1076,6 +1080,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return fileList.size();
 	}
 
+	/**
+	 * Create a new window.
+	 */
 	public void createNewWindow() {
 		GeoGebraFrame.createNewWindow(cmdArgs.getGlobalArguments());
 	}
@@ -1523,10 +1530,18 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		imageManager.setMaxIconSizeAsPt(iconSize);
 	}
 
+	/**
+	 * @param res image resource ID
+	 * @return image icon
+	 */
 	public ImageIcon getImageIcon(ImageResourceD res) {
 		return imageManager.getImageIcon(res, null);
 	}
 
+	/**
+	 * @param res image resource ID
+	 * @return scaled icon
+	 */
 	public ImageIcon getScaledIcon(ImageResourceD res) {
 		return getScaledIcon(res, null);
 	}
@@ -1666,6 +1681,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return imageManager.getImageIcon(GuiResourcesD.EMPTY);
 	}
 
+	/**
+	 * @param filename image resource ID
+	 * @return image
+	 */
 	public Image getInternalImage(ImageResourceD filename) {
 		return imageManager.getInternalImage(filename).getImage();
 	}
@@ -2017,14 +2036,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return -1;
 		}
 		dmd /= 1000;
-		for (int i = 0; i < (OptionsAdvancedD.tooltipTimeoutsLength()
-				- 1); i++) {
-			if (Integer.parseInt(OptionsAdvancedD.tooltipTimeouts(i)) >= dmd) {
-				return Integer.parseInt(OptionsAdvancedD.tooltipTimeouts(i));
-			}
-		}
-		return Integer.parseInt(OptionsAdvancedD
-				.tooltipTimeouts(OptionsAdvancedD.tooltipTimeoutsLength() - 2));
+		return OptionsAdvancedD.getClosestTimeout(dmd);
 	}
 
 	@Override
@@ -2239,7 +2251,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 
 			if (dockBar == null) {
-				dockBar = newDockBar(this);
+				dockBar = new DockBar(this);
 				dockBar.setEastOrientation(isDockBarEast);
 			}
 
@@ -2693,6 +2705,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return ((GFontD) fontManager.getSmallFont()).getAwtFont();
 	}
 
+	/**
+	 * @param serif serif
+	 * @param style font style
+	 * @param size font size
+	 * @return font
+	 */
 	final public GFont getFont(boolean serif, int style, int size) {
 		return fontManager.getFont(serif, style, size);
 	}
@@ -2816,7 +2834,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		GuiManagerD.exitAll();
 	}
 
-	// returns true for YES or NO and false for CANCEL
+	/**
+	 * Save the current file.
+	 * @return true for YES or NO and false for CANCEL
+	 */
 	public boolean saveCurrentFile() {
 		return getGuiManager().saveCurrentFile();
 	}
@@ -3435,6 +3456,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return shiftDown;
 	}
 
+	/**
+	 * @param e event
+	 * @return whether control (Mac: CMD) is pressed
+	 */
 	public static boolean isControlDown(InputEvent e) {
 		return isControlDown(e.isMetaDown(), e.isControlDown());
 	}
@@ -3453,6 +3478,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				|| (!MAC_OS && isControlDown);
 	}
 
+	/**
+	 * @param e event
+	 * @return whether middle click was used
+	 */
 	public static boolean isMiddleClick(MouseEventND e) {
 		return e.isMiddleClick();
 	}
@@ -3903,6 +3932,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				size)).getAwtFont();
 	}
 
+	/**
+	 * @param string test string
+	 * @return compatible font
+	 */
 	public Font getFontCanDisplayAwt(String string) {
 		return GFontD.getAwtFont(getFontCanDisplay(string));
 	}
@@ -4417,6 +4450,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return getScaledInternalImage(name);
 	}
 
+	/**
+	 * Notify 3D view to create a thumbnail.
+	 */
 	public void needThumbnailFor3D() {
 		// nothing to do here
 	}
@@ -4565,32 +4601,28 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return menuBarPanel;
 	}
 
-	public static GuiManagerD newGuiManager(AppD appD) {
+	private static GuiManagerD newGuiManager(AppD appD) {
 		return new GuiManagerD(appD);
 	}
 
-	public static void loadFile(AppD app, File currentFile) {
+	private static void loadFile(AppD app, File currentFile) {
 		app.getGuiManager().loadFile(currentFile, false);
 	}
 
-	public static void setActiveView(AppD app, int view) {
+	private static void setActiveView(AppD app, int view) {
 		getGuiManager(app).getLayout().getDockManager().setFocusedPanel(view);
 	}
 
-	public static boolean inExternalWindow(AppD app, Component eventPane) {
+	private static boolean inExternalWindow(AppD app, Component eventPane) {
 		return getGuiManager(app).getLayout().inExternalWindow(eventPane);
 	}
 
-	public static Component getRootComponent(AppD app) {
+	private static Component getRootComponent(AppD app) {
 		return getGuiManager(app).getLayout().getRootComponent();
 	}
 
-	public static void newLayout(AppD app) {
+	private static void newLayout(AppD app) {
 		app.guiManager.setLayout(new LayoutD(app));
-	}
-
-	public static DockBarInterface newDockBar(AppD app) {
-		return new DockBar(app);
 	}
 
 	@Override

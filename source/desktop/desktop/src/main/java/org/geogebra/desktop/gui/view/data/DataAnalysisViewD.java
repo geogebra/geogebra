@@ -338,6 +338,9 @@ public class DataAnalysisViewD extends JPanel
 		return model.getDataSource();
 	}
 
+	/**
+	 * @return data grouping type
+	 */
 	public GroupType groupType() {
 		return daCtrl.getDataSource().getGroupType();
 	}
@@ -666,10 +669,6 @@ public class DataAnalysisViewD extends JPanel
 		return daCtrl.getDataTitles();
 	}
 
-	public void updateSelection() {
-		// updateDialog(true);
-	}
-
 	// =================================================
 	// Printing
 	// =================================================
@@ -811,6 +810,10 @@ public class DataAnalysisViewD extends JPanel
 
 	}
 
+	/**
+	 * @param value number
+	 * @return formatted number
+	 */
 	public String format(double value) {
 		return model.format(value);
 	}

@@ -261,8 +261,8 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	}
 
 	@Override
-	public void setEastOrientation(boolean isEastOrientation) {
-		this.isEastOrientation = isEastOrientation;
+	public void setEastOrientation(boolean eastOrientation) {
+		this.isEastOrientation = eastOrientation;
 		setSidebarTriangle(popup != null && popup.isVisible());
 	}
 

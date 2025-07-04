@@ -87,10 +87,6 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 		this.desc = desc;
 	}
 
-	public String getElementDesc(String desc) {
-		return this.desc;
-	}
-
 	@Override
 	protected void appendElementTitleAndDescription(StringBuilder sb) {
 

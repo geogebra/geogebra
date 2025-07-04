@@ -19,6 +19,11 @@ public class AppId {
 	// "The caller is responsible for freeing this string with CoTaskMemFree
 	// when
 	// it is no longer needed"
+
+	/**
+	 * <a href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-getcurrentprocessexplicitappusermodelid">docs</a>
+	 * @return user model ID
+	 */
 	public static String getCurrentProcessExplicitAppUserModelID() {
 		final PointerByReference r = new PointerByReference();
 
@@ -31,6 +36,10 @@ public class AppId {
 		return "N/A";
 	}
 
+	/**
+	 * <a href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-setCurrentProcessExplicitAppUserModelID">docs</a>
+	 * @param appID user model ID
+	 */
 	public static void setCurrentProcessExplicitAppUserModelID(
 			final String appID) {
 		if (SetCurrentProcessExplicitAppUserModelID(new WString(appID))
@@ -41,9 +50,11 @@ public class AppId {
 		}
 	}
 
+	@SuppressWarnings("CheckStyle.MethodName")
 	private static native NativeLong GetCurrentProcessExplicitAppUserModelID(
 			PointerByReference appID);
 
+	@SuppressWarnings("CheckStyle.MethodName")
 	private static native NativeLong SetCurrentProcessExplicitAppUserModelID(
 			WString appID);
 

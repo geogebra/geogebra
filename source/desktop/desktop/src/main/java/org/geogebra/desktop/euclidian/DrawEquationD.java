@@ -36,6 +36,9 @@ public class DrawEquationD extends DrawEquation {
 	private final JFrame frame;
 	boolean drawEquationJLaTeXMathFirstCall = true;
 
+	/**
+	 * @param frame parent frame
+	 */
 	public DrawEquationD(JFrame frame) {
 		super();
 		this.frame = frame;

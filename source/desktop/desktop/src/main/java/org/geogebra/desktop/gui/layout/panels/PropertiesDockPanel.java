@@ -143,6 +143,9 @@ public class PropertiesDockPanel extends DockPanelD
 		}
 	}
 
+	/**
+	 * Close the dialog.
+	 */
 	public void closeDialog() {
 		view.closeDialog();
 	}
@@ -153,7 +156,7 @@ public class PropertiesDockPanel extends DockPanelD
 	}
 
 	/**
-	 * update menubar (and dockbar) on visibility changes
+	 * update menu bar (and dock bar) on visibility changes
 	 */
 	@Override
 	public void setVisible(boolean isVisible) {

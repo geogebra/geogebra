@@ -107,6 +107,9 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	}
 
+	/**
+	 * Update the header.
+	 */
 	public void updateRowHeader() {
 		listModel.changed();
 	}

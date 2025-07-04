@@ -161,6 +161,9 @@ public class MyTextFieldD extends JTextField
 	// BorderButton
 	// ====================================================
 
+	/**
+	 * Set default border.
+	 */
 	public void setDefaultBorder() {
 		super.setBorder(BorderFactory.createCompoundBorder(defaultBorder, borderBtn));
 	}
@@ -294,6 +297,9 @@ public class MyTextFieldD extends JTextField
 		this.showSymbolTableIcon = showSymbolTableIcon;
 	}
 
+	/**
+	 * @param openUpwards whether open symbol (triangle) should point upward
+	 */
 	public void setOpenSymbolTableUpwards(boolean openUpwards) {
 		getTablePopup().setOpenUpwards(openUpwards);
 	}
@@ -329,6 +335,9 @@ public class MyTextFieldD extends JTextField
 		}
 	}
 
+	/**
+	 * Update orientation.
+	 */
 	public void setOrientation() {
 		app.setComponentOrientation(this);
 	}

@@ -229,6 +229,10 @@ public class ImageManagerD extends ImageManager {
 		return img;
 	}
 
+	/**
+	 * @param name resource identifier
+	 * @return image for given resource
+	 */
 	public Image getImageResource(ImageResourceD name) {
 		return getImageResource(name.getFilename());
 	}
@@ -422,6 +426,10 @@ public class ImageManagerD extends ImageManager {
 		return "/org/geogebra/common/icons_toolbar/p64/";
 	}
 
+	/**
+	 * Set maximum image size
+	 * @param points size in points
+	 */
 	public void setMaxIconSizeAsPt(int points) {
 		setMaxIconSize(Math.max(32, points * 2));
 	}

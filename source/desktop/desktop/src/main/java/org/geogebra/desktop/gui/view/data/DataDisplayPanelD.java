@@ -558,10 +558,16 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		//
 	}
 
+	/**
+	 * Detach the view.
+	 */
 	public void detachView() {
 		// plotPanel.detachView();
 	}
 
+	/**
+	 * Attach the view.
+	 */
 	public void attachView() {
 		plotPanel.attachView();
 	}
@@ -803,9 +809,11 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	@Override
 	public void resize() {
 		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * Update the plot.
+	 */
 	public void update() {
 		model.updatePlot(true);
 	}

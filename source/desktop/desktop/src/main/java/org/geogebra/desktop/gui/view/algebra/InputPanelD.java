@@ -181,10 +181,16 @@ public class InputPanelD extends JPanel
 		return textComponent.getSelectedText();
 	}
 
+	/**
+	 * Select all text.
+	 */
 	public void selectText() {
 		textComponent.selectAll();
 	}
 
+	/**
+	 * @param text new text content
+	 */
 	public void setText(String text) {
 		textComponent.setText(text);
 	}

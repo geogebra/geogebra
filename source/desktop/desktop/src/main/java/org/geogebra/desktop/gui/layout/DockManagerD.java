@@ -1442,10 +1442,6 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		app.updateMenubar();
 	}
 
-	public void addShowDockPanelListener(ShowDockPanelListener l) {
-		showDockPanelListener.add(l);
-	}
-
 	@Override
 	public int getNumberOfOpenViews() {
 		int num = 0;

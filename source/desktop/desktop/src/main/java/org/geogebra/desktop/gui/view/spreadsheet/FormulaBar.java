@@ -275,6 +275,9 @@ public class FormulaBar extends JToolBar
 		btnCancelFormula.setToolTipText(loc.getMenu("Cancel"));
 	}
 
+	/**
+	 * @return whether the input has focus
+	 */
 	public boolean editorHasFocus() {
 		return fldFormula.hasFocus();
 	}

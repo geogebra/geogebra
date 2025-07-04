@@ -768,7 +768,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	// Spreadsheet Settings
 	// ================================================
 
-	public void setEnableAutoComplete(boolean enableAutoComplete) {
+	private void setEnableAutoComplete(boolean enableAutoComplete) {
 		table.setEnableAutoComplete(enableAutoComplete);
 	}
 
@@ -851,10 +851,9 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		return settings().isColumnSelect();
 	}
 
-	public void setAllowSpecialEditor(boolean allowSpecialEditor) {
-		spreadsheetWrapper.repaint();
-	}
-
+	/**
+	 * @return whether special editor is allowed
+	 */
 	public boolean allowSpecialEditor() {
 		return settings().allowSpecialEditor();
 	}
@@ -934,7 +933,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		setShowHScrollBar(settings().showHScrollBar());
 		setShowGrid(settings().showGrid());
 		setShowFormulaBar(settings().showFormulaBar());
-		setAllowSpecialEditor(settings().allowSpecialEditor());
 		setEqualsRequired(settings().equalsRequired());
 		setEnableAutoComplete(settings().isEnableAutoComplete());
 
@@ -945,6 +943,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler()
 				.processXMLString(settings().cellFormat());
+		spreadsheetWrapper.repaint();
 		table.repaintAll();
 		// preferredSize
 		spreadsheetWrapper.setPreferredSize(

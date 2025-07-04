@@ -1453,14 +1453,6 @@ public class DockManagerW extends DockManager {
 	}
 
 	/**
-	 * @param l
-	 *            listener
-	 */
-	public void addShowDockPanelListener(ShowDockPanelListener l) {
-		showDockPanelListener.add(l);
-	}
-
-	/**
 	 * @param drag
 	 *            whether to enable dragging
 	 */

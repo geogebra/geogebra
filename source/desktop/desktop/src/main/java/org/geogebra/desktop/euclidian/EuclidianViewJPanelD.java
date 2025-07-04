@@ -82,8 +82,4 @@ public class EuclidianViewJPanelD extends JPanel
 		g2.setImpl((Graphics2D) g);
 		view.paint(g2);
 	}
-
-	public void processMouseEventImpl(MouseEvent e) {
-		processMouseEvent(e);
-	}
 }

@@ -16,12 +16,15 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
 
 public class HelpDialog {
-	private AppD app;
+	private final AppD app;
 
 	public HelpDialog(AppD app) {
 		this.app = app;
 	}
 
+	/**
+	 * Open tool help for active mode.
+	 */
 	public void openToolHelp() {
 		openToolHelp(app.getMode());
 	}

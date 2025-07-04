@@ -28,6 +28,9 @@ public class KeyEventD extends org.geogebra.common.euclidian.event.KeyEvent {
 		return new KeyEventD(e);
 	}
 
+	/**
+	 * Return event back to pool.
+	 */
 	public void release() {
 		KeyEventD.pool.add(this);
 	}

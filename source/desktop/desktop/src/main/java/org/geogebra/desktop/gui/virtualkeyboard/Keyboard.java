@@ -428,6 +428,10 @@ public class Keyboard {
 		robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 
+	/**
+	 * Type several keys.
+	 * @param keyCodes key codes
+	 */
 	public void doType(int... keyCodes) {
 		doType(keyCodes, 0, keyCodes.length);
 	}

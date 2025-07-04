@@ -347,15 +347,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	/**
-	 * @see EuclidianViewJPanelD#processMouseEventImpl(MouseEvent)
-	 * @param e
-	 *            mouse event
-	 */
-	protected void processMouseEvent(MouseEvent e) {
-		evjpanel.processMouseEventImpl(e);
-	}
-
-	/**
 	 * Initializes this panel
 	 * 
 	 * @param repaint

@@ -209,10 +209,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		return scrollPane;
 	}
 
-	public int getConstructionIndex(int row) {
-		return data.getConstructionIndex(row);
-	}
-
 	public AppD getApplication() {
 		return (AppD) app;
 	}
@@ -255,6 +251,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		data.updateAll();
 	}
 
+	/**
+	 * Update the view.
+	 */
 	public void update() {
 		data.updateAll();
 	}
@@ -907,7 +906,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return changed;
 		}
 
-		public GeoElement getGeoElement(int row) {
+		protected GeoElement getGeoElement(int row) {
 			return rowList.get(row).getGeo();
 		}
 
@@ -946,10 +945,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				return rowList.get(nRow).getCaption();
 			}
 			return "";
-		}
-
-		public void repaint() {
-			table.repaint();
 		}
 
 		@Override
@@ -1042,7 +1037,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		@Override
 		public void reset() {
-			repaint();
+			table.repaint();
 		}
 
 		/**

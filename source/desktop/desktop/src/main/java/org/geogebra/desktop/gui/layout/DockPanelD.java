@@ -1670,6 +1670,10 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		// used in Web only
 	}
 
+	/**
+	 * Add a tool to toolbar.
+	 * @param mode tool ID
+	 */
 	public void addToToolbar(int mode) {
 		this.toolbarString = ToolBar.addMode(toolbarString, mode);
 	}
@@ -1726,6 +1730,9 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		// not needed in desktop
 	}
 
+	/**
+	 * @return whether this is view from plane
+	 */
 	public boolean hasPlane() {
 		return false;
 	}

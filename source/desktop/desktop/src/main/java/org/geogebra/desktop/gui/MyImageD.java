@@ -230,6 +230,12 @@ public class MyImageD implements MyImageJre {
 		return new MyImageD(svgImage.tint(color));
 	}
 
+	/**
+	 * Paint this onto graphics.
+	 * @param impl graphics
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	public void render(Graphics2D impl, int x, int y) {
 		if (isSVG()) {
 			renderSvg(impl, x, y);
@@ -244,6 +250,22 @@ public class MyImageD implements MyImageJre {
 		g.translate(-x, -y);
 	}
 
+	/**
+	 * Paint this onto graphics.
+	 * @param impl graphics
+	 * @param sx
+	 *            source min x
+	 * @param sy
+	 *            source min y
+	 * @param sw
+	 *            source width
+	 * @param sh
+	 *            source height
+	 * @param dx
+	 *            dest rect min x
+	 * @param dy
+	 *            dest rect min y
+	 */
 	public void render(Graphics2D impl, int sx, int sy, int sw, int sh, int dx, int dy, int dw,
 			int dh) {
 		if (isSVG()) {

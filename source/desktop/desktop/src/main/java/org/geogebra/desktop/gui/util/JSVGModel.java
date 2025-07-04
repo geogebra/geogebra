@@ -46,12 +46,11 @@ public class JSVGModel implements SVGModel {
 		this.doc = doc;
 	}
 
+	/**
+	 * Notify about next attempt to load.
+	 */
 	public void nextTry() {
 		tries++;
-	}
-
-	public boolean isMaxTriesReached() {
-		return tries > MAX_TRIES;
 	}
 
 	public void setDoc(SVGDocument doc) {
@@ -68,6 +67,9 @@ public class JSVGModel implements SVGModel {
 		return height;
 	}
 
+	/**
+	 * Build the model.
+	 */
 	public void build() {
 		UserAgent userAgent = new UserAgentAdapter() {
 			@Override
@@ -105,6 +107,9 @@ public class JSVGModel implements SVGModel {
 		}
 	}
 
+	/**
+	 * Fix common markup problems in SVG content.
+	 */
 	public void tidyContent() {
 		if (!tidy) {
 			content = ImageManager.fixSVG(content);

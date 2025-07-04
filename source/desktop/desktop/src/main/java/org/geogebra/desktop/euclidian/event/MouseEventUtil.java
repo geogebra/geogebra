@@ -12,7 +12,6 @@ public class MouseEventUtil {
 			? new MacOSMouseEventPrototype()
 			: new DefaultMouseEventPrototype();
 
-
 	/**
 	 *
 	 * @param event to check.
@@ -32,10 +31,10 @@ public class MouseEventUtil {
 	}
 
 	/**
-	 *
 	 * @param event to check.
-	 * @return if meta key is down.
-	 */public static boolean isMetaDown(MouseEvent event) {
+	 * @return if the meta key is down.
+	 */
+	public static boolean isMetaDown(MouseEvent event) {
 		return prototype.isMetaDown(event);
 	}
 

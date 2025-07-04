@@ -10,8 +10,15 @@ import java.awt.image.BufferedImage;
 
 public interface FrameCollector {
 
-	public void addFrame(BufferedImage img);
+	/**
+	 * Add a frame.
+	 * @param img frame content
+	 */
+	void addFrame(BufferedImage img);
 
-	public void finish();
+	/**
+	 * Finish the export.
+	 */
+	void finish();
 
 }

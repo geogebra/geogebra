@@ -97,6 +97,9 @@ public class GeoGebraTubeExportD {
 			}
 		}
 
+		/**
+		 * @return whether an error occurred.
+		 */
 		public boolean hasError() {
 			return !"ok".equals(status);
 		}

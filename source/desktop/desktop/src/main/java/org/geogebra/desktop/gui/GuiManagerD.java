@@ -935,23 +935,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return menuBar;
 	}
 
-	@Override
-	public void updateMenuBarLayout() {
-		Component comp = getApp().getMainComponent();
-		if (comp instanceof JFrame) {
-			((JFrame) comp).setJMenuBar(getApp().showMenuBar() ? menuBar : null);
-			comp.validate();
-		}
-	}
-
-	public void showAboutDialog() {
-		GeoGebraMenuBar.showAboutDialog(getApp());
-	}
-
-	public void showPrintPreview() {
-		GeoGebraMenuBar.showPrintPreview(getApp());
-	}
-
 	/**
 	 * Displays the Graphics View menu at the position p in the coordinate space
 	 * of euclidianView
@@ -1435,10 +1418,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
-	/**
-	 * Opens file chooser and returns a data file for the spreadsheet G.Sturr
-	 * 2010-2-5
-	 */
 	@Override
 	public File getDataFile() {
 
@@ -1760,7 +1739,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return file;
 	}
 
-	public static File addExtension(File file, FileExtensions fileExtension) {
+	private static File addExtension(File file, FileExtensions fileExtension) {
 		return addExtension(file, fileExtension.toString());
 	}
 
@@ -2049,6 +2028,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
+	/**
+	 * @param files files to open
+	 * @param allowOpeningInThisInstance whether to allow opening in active app
+	 */
 	public synchronized void doOpenFiles(File[] files,
 			boolean allowOpeningInThisInstance) {
 		doOpenFiles(files, allowOpeningInThisInstance, FileExtensions.GEOGEBRA);
@@ -2395,6 +2378,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
+	/**
+	 * Open URL in system browser.
+	 * @param url URL to open
+	 */
 	public void showURLinBrowser(URL url) {
 		BrowserLauncher.openURL(url.toExternalForm());
 	}
@@ -2563,6 +2550,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	VirtualKeyboardD virtualKeyboard = null;
 
+	/**
+	 * Show or hide virtual keyboard.
+	 * @param show whether to show
+	 */
 	public void toggleKeyboard(boolean show) {
 		getVirtualKeyboard().setVisible(show);
 	}
@@ -2630,12 +2621,15 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
+	/**
+	 * @return whether the help panel was initialized
+	 */
 	public boolean hasInputHelpPanel() {
 		return inputHelpPanel != null;
 	}
 
 	/**
-	 * Rebuild command help panel
+	 * Rebuild the command help panel.
 	 * @param forCAS whether to include CAS commands
 	 */
 	public void reInitHelpPanel(boolean forCAS) {
@@ -2670,8 +2664,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void setFocusedPanel(int viewId, boolean updatePropertiesView) {
-		setFocusedPanel(getLayout().getDockManager().getPanel(viewId),
+	public void setFocusedPanel(int viewID, boolean updatePropertiesView) {
+		setFocusedPanel(getLayout().getDockManager().getPanel(viewID),
 				updatePropertiesView);
 
 	}
@@ -2866,6 +2860,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// 3D stuff
 	}
 
+	/**
+	 * Show the properties view and activate the slider tab.
+	 */
 	public void showPropertiesViewSliderTab() {
 		propertiesView.showSliderTab();
 	}
@@ -2894,6 +2891,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		d.setVisible(true);
 	}
 
+	/**
+	 * Clear the input bar.
+	 */
 	public void clearInputbar() {
 		((AlgebraInputD) getAlgebraInput()).clear();
 	}

@@ -143,6 +143,10 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		}
 	}
 
+	/**
+	 * @param index child index (0 or 1)
+	 * @return child component for given index
+	 */
 	public Component getChild(int index) {
 		return index == 1 ? getRightComponent() : getLeftComponent();
 	}

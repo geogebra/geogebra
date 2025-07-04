@@ -243,6 +243,11 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	@Override
+	public void updatePreviewFromInputBar(GeoElement[] geos) {
+		// TODO
+	}
+
+	@Override
 	public void updateFonts() {
 		super.updateFonts();
 		Font font = app.getPlainFont();

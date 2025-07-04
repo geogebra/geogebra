@@ -12,8 +12,11 @@ public interface MouseEventND {
 	 * 
 	 * @return component where the event occurred
 	 */
-	public java.awt.Component getComponent();
+	java.awt.Component getComponent();
 
-	public boolean isMiddleClick();
+	/**
+	 * @return whether middle click was used.
+	 */
+	boolean isMiddleClick();
 
 }

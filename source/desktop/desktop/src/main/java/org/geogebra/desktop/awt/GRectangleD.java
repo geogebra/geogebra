@@ -94,10 +94,6 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 		return ((GRectangleD) rect).impl;
 	}
 
-	public boolean contains(GRectangle labelRectangle) {
-		return impl.contains(getAWTRectangle(labelRectangle));
-	}
-
 	@Override
 	public void add(GRectangle bb) {
 		impl.add(((GRectangleD) bb).impl);
@@ -144,15 +140,6 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 
-	public boolean intersects(GRectangle viewRect) {
-		return impl.intersects(GRectangleD.getAWTRectangle(viewRect));
-	}
-
-	/*
-	 * public boolean contains(PathPoint prevP) { return
-	 * impl.contains(Point2D.getAwtPoint2D(prevP)); }
-	 */
-
 	@Override
 	public boolean intersects(int x, int y, int w, int h) {
 		return impl.intersects(x, y, w, h);
@@ -171,10 +158,6 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 	@Override
 	public GRectangle2D getBounds2D() {
 		return new GGenericRectangle2DD(impl.getBounds2D());
-	}
-
-	public boolean contains(GRectangleD rectangle) {
-		return impl.contains(GRectangleD.getAWTRectangle(rectangle));
 	}
 
 	@Override
@@ -214,6 +197,10 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 		impl.setSize(width, height);
 	}
 
+	/**
+	 * @param rectangle common rectangle
+	 * @return AWT rectangle
+	 */
 	public static Rectangle2D getAWTRectangle2D(GRectangle2D rectangle) {
 		return ((GRectangle2DD) rectangle).getImpl();
 	}
