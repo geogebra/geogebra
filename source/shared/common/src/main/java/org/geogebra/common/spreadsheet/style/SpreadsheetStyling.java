@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.spreadsheet.core.Direction;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.MulticastEvent;
 
@@ -211,6 +212,23 @@ public final class SpreadsheetStyling {
 		if (changed) {
 			stylingChanged.notifyListeners(ranges);
 		}
+	}
+
+	/**
+	 * Shift a portion of format properties in the given direction.
+	 * The set of rows or columns to be shifted is a block that begins at a
+	 * specified start index and includes all larger indices.
+	 *
+	 * @param startIndex
+	 *            Index of the first row or column to shift.
+	 * @param shiftAmount
+	 *            Number of indices to increment each row or column
+	 * @param direction
+	 *            the shift direction
+	 */
+	public void shiftFormat(int startIndex, int shiftAmount,
+			Direction direction) {
+		cellFormat.shiftFormats(startIndex, shiftAmount, direction);
 	}
 
 	public GColor getHeaderBackgroundColor() {

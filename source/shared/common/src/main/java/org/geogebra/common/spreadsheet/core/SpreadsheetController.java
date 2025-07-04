@@ -137,6 +137,9 @@ public final class SpreadsheetController {
 		}
 		layout.setNumberOfRows(tabularData.numberOfRows());
 		layout.resizeRemainingRowsDescending(below ? row - 1 : row, tabularData.numberOfRows());
+		if (spreadsheetStyling != null) {
+			spreadsheetStyling.shiftFormat(row, 1, Direction.Down);
+		}
 		onLayoutChange();
 	}
 
@@ -160,6 +163,9 @@ public final class SpreadsheetController {
 		layout.setNumberOfColumns(tabularData.numberOfColumns());
 		layout.resizeRemainingColumnsDescending(right ? column - 1 : column,
 				tabularData.numberOfColumns());
+		if (spreadsheetStyling != null) {
+			spreadsheetStyling.shiftFormat(column, 1, Direction.Right);
+		}
 		onLayoutChange();
 	}
 
@@ -185,13 +191,16 @@ public final class SpreadsheetController {
 	}
 
 	/**
-	 * <b>Important note - only delete rows in a descending order (bottom to top)</b><br/>
+	 * <b>Important note - only delete rows in descending order (bottom to top)</b><br/>
 	 * Deletes a row at given index and resizes the remaining rows in ascending order
 	 * @param row Row index
 	 */
 	private void deleteRowAndResizeRemainingRows(int row) {
 		tabularData.deleteRowAt(row);
 		layout.resizeRemainingRowsAscending(row, tabularData.numberOfRows());
+		if (spreadsheetStyling != null) {
+			spreadsheetStyling.shiftFormat(row + 1, 1, Direction.Up);
+		}
 	}
 
 	private void deleteRowsForMultiCellSelection() {
@@ -218,13 +227,16 @@ public final class SpreadsheetController {
 	}
 
 	/**
-	 * <b>Important note - only delete columns in a descending order (right to left)</b><br/>
+	 * <b>Important note - only delete columns in descending order (right to left)</b><br/>
 	 * Deletes a column at given index and resizes the remaining columns in ascending order
 	 * @param column Column index
 	 */
 	private void deleteColumnAndResizeRemainingColumns(int column) {
 		tabularData.deleteColumnAt(column);
 		layout.resizeRemainingColumnsAscending(column, tabularData.numberOfColumns());
+		if (spreadsheetStyling != null) {
+			spreadsheetStyling.shiftFormat(column + 1, 1, Direction.Left);
+		}
 	}
 
 	private void deleteColumnsForMulticellSelection() {

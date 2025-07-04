@@ -174,19 +174,6 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	/**
-	 * Shifts the formats a set of rows or columns over a given number indices.
-	 * The set of rows or columns to be shifted is a block that begins at a
-	 * specified start index and includes all larger indices.
-	 * 
-	 * @param startIndex
-	 *            Index of the first row or column to shift.
-	 * @param shiftAmount
-	 *            Number of indices to increment each row or column
-	 * @param direction
-	 *            Direction to shift rows or columns (Up or Down = shift rows,
-	 *            Left or Right = columns)
-	 */
 	@Override
 	public void shiftFormats(int startIndex, int shiftAmount,
 			Direction direction) {

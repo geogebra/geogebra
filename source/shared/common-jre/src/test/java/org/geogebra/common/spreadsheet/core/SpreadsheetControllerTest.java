@@ -7,13 +7,13 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
@@ -306,8 +307,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         runContextItemAt(1, 1, DELETE_COLUMN);
         controller.getLayout().setWidthForColumns(150, 1, 1);
         runContextItemAt(1, 1, ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT);
-        assertEquals("The inserted column should apply the width of the previously selected one!",
-                150, controller.getLayout().getWidth(2), 0);
+        assertEquals(150, controller.getLayout().getWidth(2), 0,
+                "The inserted column should apply the width of the previously selected one!");
     }
 
     @Test
@@ -315,8 +316,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         runContextItemAt(1, 1, DELETE_ROW);
         controller.getLayout().setHeightForRows(80, 2, 2);
         runContextItemAt(2, 2, INSERT_ROW_BELOW);
-        assertEquals("The inserted row should apply the width of the previously selected one!",
-                80, controller.getLayout().getHeight(3), 0);
+        assertEquals(80, controller.getLayout().getHeight(3), 0,
+                "The inserted row should apply the width of the previously selected one!");
     }
 
     @Test
@@ -324,8 +325,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         controller.getLayout().setWidthForColumns(150, 2, 2);
         controller.getLayout().setWidthForColumns(200, 3, 3);
         runContextItemAt(2, 2, DELETE_COLUMN);
-        assertEquals("After deleting the 3rd column, it should change its width!",
-                200, controller.getLayout().getWidth(2), 0);
+        assertEquals(200, controller.getLayout().getWidth(2), 0,
+                "After deleting the 3rd column, it should change its width!");
     }
 
     @Test
@@ -333,10 +334,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         runContextItemAt(2, 2, DELETE_COLUMN);
         selectCells(0, 1, 0, 1);
         runContextItemAt(0, 1, INSERT_COLUMN_RIGHT);
-        assertTrue("The current selection should move when a column is inserted!",
-                controller.getLastSelection().contains(0, 2));
-        assertTrue("There should be no more than 1 cell selected!",
-                controller.isOnlyCellSelected(0, 2));
+        assertTrue(controller.getLastSelection().contains(0, 2),
+                "The current selection should move when a column is inserted!");
+        assertTrue(controller.isOnlyCellSelected(0, 2),
+                "There should be no more than 1 cell selected!");
     }
 
     @Test
@@ -344,10 +345,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         runContextItemAt(1, 1, DELETE_COLUMN);
         selectCells(1, 2, 1, 2);
         runContextItemAt(1, 2, INSERT_COLUMN_LEFT);
-        assertTrue("The current selection should stay when a column is inserted to the left!",
-                controller.getLastSelection().contains(1, 2));
-        assertTrue("There should be no more than 1 cell selected!",
-                controller.isOnlyCellSelected(1, 2));
+        assertTrue(controller.getLastSelection().contains(1, 2),
+                "The current selection should stay when a column is inserted to the left!");
+        assertTrue(controller.isOnlyCellSelected(1, 2),
+                "There should be no more than 1 cell selected!");
     }
 
     @Test
@@ -355,10 +356,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         runContextItemAt(2, 2, DELETE_ROW);
         selectCells(1, 1, 1, 1);
         runContextItemAt(1, 1, INSERT_ROW_BELOW);
-        assertTrue("The current selection should move when a row is inserted below!",
-                controller.getLastSelection().contains(2, 1));
-        assertTrue("There should be no more than 1 cell selected!",
-                controller.isOnlyCellSelected(2, 1));
+        assertTrue(controller.getLastSelection().contains(2, 1),
+				"The current selection should move when a row is inserted below!");
+        assertTrue(controller.isOnlyCellSelected(2, 1),
+				"There should be no more than 1 cell selected!");
     }
 
     @Test
@@ -366,10 +367,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         runContextItemAt(2, 2, DELETE_ROW);
         selectCells(2, 2, 2, 2);
         runContextItemAt(2, 2, INSERT_ROW_ABOVE);
-        assertTrue("The current selection should stay when a row is inserted above!",
-                controller.getLastSelection().contains(2, 2));
-        assertTrue("There should be no more than 1 cell selected!",
-                controller.isOnlyCellSelected(2, 2));
+        assertTrue(controller.getLastSelection().contains(2, 2),
+				"The current selection should stay when a row is inserted above!");
+        assertTrue(controller.isOnlyCellSelected(2, 2),
+				"There should be no more than 1 cell selected!");
     }
 
     @Test
@@ -377,8 +378,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         controller.getLayout().setHeightForRows(80, 1, 1);
         controller.getLayout().setHeightForRows(120, 2, 2);
         runContextItemAt(1, 1, DELETE_ROW);
-        assertEquals("After deleting the 2nd row, it should change its height!",
-                120, controller.getLayout().getHeight(1), 0);
+        assertEquals(120, controller.getLayout().getHeight(1), 0,
+                "After deleting the 2nd row, it should change its height!");
     }
 
     @Test
@@ -1026,6 +1027,26 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
                 new SpreadsheetCellReference(0, 0),
                 new SpreadsheetCellReference(9, 0));
         assertEquals(range, controller.getCurrentEditorCellReference());
+    }
+
+    @Test
+    public void testStyleShiftRow() {
+        spreadsheetStyling.setBackgroundColor(GColor.GREEN, List.of(new TabularRange(2, 3)));
+        controller.deleteRowAt(1);
+        assertEquals(GColor.GREEN, spreadsheetStyling.getBackgroundColor(1, 3, null));
+        assertNull(spreadsheetStyling.getBackgroundColor(2, 3, null));
+        controller.insertRowAt(1, true);
+        assertEquals(GColor.GREEN, spreadsheetStyling.getBackgroundColor(2, 3, null));
+    }
+
+    @Test
+    public void testStyleShiftColumn() {
+        spreadsheetStyling.setBackgroundColor(GColor.GREEN, List.of(new TabularRange(2, 3)));
+        controller.deleteColumnAt(1);
+        assertEquals(GColor.GREEN, spreadsheetStyling.getBackgroundColor(2, 2, null));
+        assertNull(spreadsheetStyling.getBackgroundColor(2, 3, null));
+        controller.insertColumnAt(1, true);
+        assertEquals(GColor.GREEN, spreadsheetStyling.getBackgroundColor(2, 3, null));
     }
 
     // Helpers
