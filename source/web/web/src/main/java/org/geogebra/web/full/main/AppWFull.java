@@ -385,6 +385,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public ExamType getForcedExamType() {
 		String paramExamMode = appletParameters.getParamFeatureSet();
+		if (paramExamMode == null) {
+			return null;
+		}
 		if (paramExamMode.equals(appletParameters.getDataParamAppName())
 			|| paramExamMode.equals(CHOOSE)) {
 			return ExamType.GENERIC;
