@@ -100,18 +100,21 @@ class DrawOptions implements MoveSelector {
 		return false;
 	}
 
-	public void setHoverIndex(int idx) {
+	public void setHighlightIndex(int idx) {
 		if (model.itemCount() <= idx) {
 			items.update(model);
 		}
 
 		if (idx >= 0 && idx < items.size()) {
-			selector.setHovered(items.get(idx));
-			selector.setKeyboardFocus(true);
-			model.setSelected(idx);
+			selector.setHighlighted(items.get(idx));
+			range.setSelected(idx);
 			drawDropDownList.update();
 			view.repaintView();
 		}
+	}
+
+	public void setKeyboardFocus(boolean keyboardFocus) {
+		selector.setKeyboardFocus(keyboardFocus);
 	}
 
 	public int getItemCount() {
@@ -146,8 +149,8 @@ class DrawOptions implements MoveSelector {
 	}
 
 	private void chooseItem(int index) {
-		model.setSelected(index);
-		selectCurrentItem();
+		range.setSelected(index);
+		geoList.setSelectedIndexUpdate(index);
 		setDragging(false);
 		setVisible(false);
 	}
@@ -217,7 +220,7 @@ class DrawOptions implements MoveSelector {
 		}
 		OptionItem item = items.at(x, y);
 
-		selector.setHovered(item);
+		selector.setHighlighted(item);
 		selector.setKeyboardFocus(false);
 		view.repaintView();
 	}
@@ -232,7 +235,7 @@ class DrawOptions implements MoveSelector {
 		}
 		if (this.visible != visible) {
 			app.dispatchEvent(getOpenClosedEvent(visible));
-			selector.clearHovered();
+			selector.clearHighlighted();
 		}
 		this.visible = visible;
 
@@ -240,7 +243,7 @@ class DrawOptions implements MoveSelector {
 			view.setOpenedComboBox(drawDropDownList);
 			updateVisibleRange();
 			range.selectStart();
-			updateHovering();
+			updateHighlighting();
 		} else {
 			clickStarted = false;
 		}
@@ -249,8 +252,9 @@ class DrawOptions implements MoveSelector {
 		drawDropDownList.updateOpenedComboBox();
 	}
 
-	private void updateHovering() {
-		selector.setHovered(model.isScrollBoundsValid() ? items.get(model.getSelected()) : null);
+	private void updateHighlighting() {
+		selector.setHighlighted(model.isScrollBoundsValid()
+				? items.get(range.getSelected()) : null);
 		selector.setKeyboardFocus(true);
 	}
 
@@ -264,15 +268,15 @@ class DrawOptions implements MoveSelector {
 
 	void onResize(int w, int h) {
 		if (model.resizeView(w, h)) {
-			selector.clearHovered();
+			selector.clearHighlighted();
 		}
 	}
 
 	void toggle() {
 		if (visible) {
-			int hoveredIndex = selector.hoveredIndex();
-			if (hoveredIndex > -1) {
-				chooseItem(hoveredIndex);
+			int highlightedIndex = selector.getHighlightedIndex();
+			if (highlightedIndex > -1 && selector.hasKeyboardFocus()) {
+				chooseItem(highlightedIndex);
 			} else {
 				setVisible(false);
 			}
@@ -290,10 +294,6 @@ class DrawOptions implements MoveSelector {
 	@Override
 	public void moveSelectorHorizontal(boolean moveLeft) {
 		selector.moveSelectorHorizontal(moveLeft);
-	}
-
-	void selectCurrentItem() {
-		geoList.setSelectedIndexUpdate(range.getSelected());
 	}
 
 	int getMaxItemWidth() {

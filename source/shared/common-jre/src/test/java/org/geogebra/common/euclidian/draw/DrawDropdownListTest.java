@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import org.geogebra.common.BaseUnitTest;
@@ -17,13 +18,7 @@ public class DrawDropdownListTest extends BaseUnitTest {
 
 	@Test
 	public void dropdownShouldSelectFirstItem() {
-		GeoList dropdown = add("{1,2,3}");
-		dropdown.setDrawAsComboBox(true);
-		dropdown.setEuclidianVisible(true);
-		dropdown.updateRepaint();
-		DrawableND drawableFor = getDrawable(dropdown);
-		assertNotNull(drawableFor);
-		DrawDropDownList dropDownList = (DrawDropDownList) drawableFor;
+		DrawDropDownList dropDownList = setupList("{1,2,3}");
 		assertEquals(0, dropDownList.getOptionCount());
 		dropDownList.toggleOptions();
 		dropDownList.draw(graphics2D);
@@ -32,16 +27,40 @@ public class DrawDropdownListTest extends BaseUnitTest {
 
 	@Test
 	public void emptyStringShouldBeValidElement() {
-		GeoList dropdown = add("{\"a\", \"\", \"c\"}");
+		DrawDropDownList dropDownList = setupList("{\"a\", \"\", \"c\"}");
+		assertEquals(0, dropDownList.getOptionCount());
+		dropDownList.toggleOptions();
+		dropDownList.draw(graphics2D);
+		assertEquals(3, dropDownList.getOptionCount());
+	}
+
+	@Test
+	public void spaceShouldCloseDropdown() {
+		DrawDropDownList dl = setupList("{1,2,3}");
+		dl.toggleOptions();
+		dl.setHoverIndex(1);
+		getApp().handleSpaceKey();
+		assertFalse("Options should be hidden", dl.isOptionsVisible());
+		assertEquals(0, ((GeoList) dl.getGeoElement()).getSelectedIndex());
+	}
+
+	@Test
+	public void spaceShouldSelectItem() {
+		DrawDropDownList dl = setupList("{1,2,3}");
+		dl.toggleOptions();
+		dl.setKeyboardSelectionIndex(1);
+		getApp().handleSpaceKey();
+		assertFalse("Options should be hidden", dl.isOptionsVisible());
+		assertEquals(1, ((GeoList) dl.getGeoElement()).getSelectedIndex());
+	}
+
+	private DrawDropDownList setupList(String definition) {
+		GeoList dropdown = add(definition);
 		dropdown.setDrawAsComboBox(true);
 		dropdown.setEuclidianVisible(true);
 		dropdown.updateRepaint();
 		DrawableND drawableFor = getDrawable(dropdown);
 		assertNotNull(drawableFor);
-		DrawDropDownList dropDownList = (DrawDropDownList) drawableFor;
-		assertEquals(0, dropDownList.getOptionCount());
-		dropDownList.toggleOptions();
-		dropDownList.draw(graphics2D);
-		assertEquals(3, dropDownList.getOptionCount());
+		return (DrawDropDownList) drawableFor;
 	}
 }

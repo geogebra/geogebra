@@ -87,7 +87,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 	private void setHoverIndex(int i) {
 		DrawableND drawable = app.getActiveEuclidianView().getDrawableFor(list);
 		if (drawable instanceof DrawDropDownList) {
-			((DrawDropDownList) drawable).setHoverIndex(i);
+			((DrawDropDownList) drawable).setKeyboardSelectionIndex(i);
 		}
 	}
 

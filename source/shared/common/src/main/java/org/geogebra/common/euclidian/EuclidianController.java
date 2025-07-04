@@ -6362,10 +6362,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.repaintView();
 			return;
 		}
-
-		for (GeoElement hit : view.getHits().getTopHits()) {
-			if (overComboBox(event, hit)) {
-				return;
+		if (!(event instanceof EmulatedEvent)) {
+			for (GeoElement hit : view.getHits().getTopHits()) {
+				if (overComboBox(event, hit)) {
+					return;
+				}
 			}
 		}
 
@@ -6548,72 +6549,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 		GPoint lastLoc = mouseLoc;
-		this.wrapMouseMoved(new AbstractEvent() {
-			@Override
-			public GPoint getPoint() {
-				return lastLoc;
-			}
-
-			@Override
-			public boolean isAltDown() {
-				return false;
-			}
-
-			@Override
-			public boolean isShiftDown() {
-				return shiftDown;
-			}
-
-			@Override
-			public void release() {
-				// not needed
-			}
-
-			@Override
-			public int getX() {
-				return lastLoc.x;
-			}
-
-			@Override
-			public int getY() {
-				return lastLoc.y;
-			}
-
-			@Override
-			public boolean isRightClick() {
-				return false;
-			}
-
-			@Override
-			public boolean isControlDown() {
-				return false;
-			}
-
-			@Override
-			public int getClickCount() {
-				return 0;
-			}
-
-			@Override
-			public boolean isMetaDown() {
-				return false;
-			}
-
-			@Override
-			public boolean isMiddleClick() {
-				return false;
-			}
-
-			@Override
-			public boolean isPopupTrigger() {
-				return false;
-			}
-
-			@Override
-			public PointerEventType getType() {
-				return PointerEventType.MOUSE;
-			}
-		});
+		this.wrapMouseMoved(new EmulatedEvent(lastLoc, shiftDown));
 	}
 
 	protected boolean isDragging() {
@@ -12628,5 +12564,80 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	public MyImage getRotationImage() {
 		return null;
+	}
+
+	private static class EmulatedEvent extends AbstractEvent {
+		private final GPoint lastLoc;
+		private final boolean shiftDown;
+
+		public EmulatedEvent(GPoint lastLoc, boolean shiftDown) {
+			this.lastLoc = lastLoc;
+			this.shiftDown = shiftDown;
+		}
+
+		@Override
+		public GPoint getPoint() {
+			return lastLoc;
+		}
+
+		@Override
+		public boolean isAltDown() {
+			return false;
+		}
+
+		@Override
+		public boolean isShiftDown() {
+			return shiftDown;
+		}
+
+		@Override
+		public void release() {
+			// not needed
+		}
+
+		@Override
+		public int getX() {
+			return lastLoc.x;
+		}
+
+		@Override
+		public int getY() {
+			return lastLoc.y;
+		}
+
+		@Override
+		public boolean isRightClick() {
+			return false;
+		}
+
+		@Override
+		public boolean isControlDown() {
+			return false;
+		}
+
+		@Override
+		public int getClickCount() {
+			return 0;
+		}
+
+		@Override
+		public boolean isMetaDown() {
+			return false;
+		}
+
+		@Override
+		public boolean isMiddleClick() {
+			return false;
+		}
+
+		@Override
+		public boolean isPopupTrigger() {
+			return false;
+		}
+
+		@Override
+		public PointerEventType getType() {
+			return PointerEventType.MOUSE;
+		}
 	}
 }

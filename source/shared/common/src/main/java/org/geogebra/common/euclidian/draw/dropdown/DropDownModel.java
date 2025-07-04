@@ -171,14 +171,6 @@ class DropDownModel {
 		return geoList.getObjectColor();
 	}
 
-	void setSelected(int idx) {
-		range.setSelected(idx);
-	}
-
-	int getSelected() {
-		return range.getSelected();
-	}
-
 	int itemCount() {
 		return items.size();
 	}

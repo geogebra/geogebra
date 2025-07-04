@@ -12,7 +12,7 @@ import org.geogebra.common.plugin.EventType;
 class ItemSelector implements MoveSelector {
 	private final GeoList geoList;
 	private final VisibleItemRange range;
-	private OptionItem hovered;
+	private OptionItem highlighted;
 	private boolean hasKeyboardFocus = false;
 	private OptionItem dragged = null;
 	private int dragOffset;
@@ -25,7 +25,7 @@ class ItemSelector implements MoveSelector {
 	ItemSelector(DropDownModel model, DrawOptions listener) {
 		this.model = model;
 		this.listener = listener;
-		hovered = null;
+		highlighted = null;
 		geoList = model.getGeoList();
 		app = geoList.getApp();
 		range = model.getRange();
@@ -39,8 +39,8 @@ class ItemSelector implements MoveSelector {
 		return dragDirection ? -dragOffset : dragOffset;
 	}
 
-	boolean isHovered(OptionItem item) {
-		return item.isEqual(hovered);
+	boolean isHighlighted(OptionItem item) {
+		return item.isEqual(highlighted);
 	}
 
 	boolean hasKeyboardFocus() {
@@ -58,8 +58,8 @@ class ItemSelector implements MoveSelector {
 
 	private void moveSelectorBy(int diff, boolean forward) {
 		boolean update = false;
-		boolean hasHovered = hovered != null;
-		int idx = hasHovered ? hovered.getIndex() : 0;
+		boolean hasHighlighted = highlighted != null;
+		int idx = hasHighlighted ? highlighted.getIndex() : 0;
 		if (forward) {
 			if (idx < listener.getItemCount() - diff) {
 				idx += diff;
@@ -79,7 +79,8 @@ class ItemSelector implements MoveSelector {
 		}
 
 		if (update) {
-			listener.setHoverIndex(idx);
+			listener.setHighlightIndex(idx);
+			listener.setKeyboardFocus(true);
 		}
 
 		ScreenReader.readDropDownSelectorMoved(app,
@@ -97,12 +98,12 @@ class ItemSelector implements MoveSelector {
 		moveSelectorBy(model.getRowCount(), left);
 	}
 
-	void setHovered(OptionItem item) {
-		if (item == null || item.isEqual(hovered)) {
+	void setHighlighted(OptionItem item) {
+		if (item == null || item.isEqual(highlighted)) {
 			return;
 		}
 		app.dispatchEvent(getFocusEvent(item));
-		hovered = item;
+		highlighted = item;
 	}
 
 	private Event getFocusEvent(OptionItem item) {
@@ -113,8 +114,8 @@ class ItemSelector implements MoveSelector {
 		return evt;
 	}
 
-	void clearHovered() {
-		hovered = null;
+	void clearHighlighted() {
+		highlighted = null;
 	}
 
 	void clearDragged() {
@@ -145,7 +146,7 @@ class ItemSelector implements MoveSelector {
 		return dragDirection;
 	}
 
-	int hoveredIndex() {
-		return hovered != null ? hovered.getIndex() : -1;
+	int getHighlightedIndex() {
+		return highlighted != null ? highlighted.getIndex() : -1;
 	}
 }

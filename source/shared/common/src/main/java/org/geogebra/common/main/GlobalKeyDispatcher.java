@@ -1778,7 +1778,7 @@ public abstract class GlobalKeyDispatcher {
 			if (geo.isGeoList()) {
 				DrawDropDownList dropdown = DrawDropDownList.asDrawable(app, geo);
 				if (dropdown != null) {
-					dropdown.selectCurrentItem();
+					dropdown.handleEnter();
 					ScreenReader.readDropDownItemSelected(geo);
 					return true;
 				}

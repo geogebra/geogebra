@@ -44,7 +44,7 @@ class DrawItems {
 			for (int row = startRow; row < visibleRows; row++) {
 				if (idx >= 0 && idx < items.size()) {
 					draw(g2, col, row, items.get(idx));
-					if (selector.isHovered(items.get(idx)) && selector.hasKeyboardFocus()) {
+					if (selector.isHighlighted(items.get(idx)) && selector.hasKeyboardFocus()) {
 						focusedItem = items.get(idx);
 					}
 				}
@@ -70,21 +70,21 @@ class DrawItems {
 		}
 
 		if (!(item.hasNoBounds() || scroller.isActive() && noExtraItem(item))) {
-			drawItem(g2, item, selector.isHovered(item));
+			drawItem(g2, item, selector.isHighlighted(item));
 		}
 	}
 
-	private void drawItem(GGraphics2D g2, OptionItem item, boolean hover) {
+	private void drawItem(GGraphics2D g2, OptionItem item, boolean highlight) {
 		scroller.clip(g2, item, selector.getDragOffset());
 
-		GColor bgColor = hover ? (selector.hasKeyboardFocus() ? PURPLE_100 : NEUTRAL_200)
+		GColor bgColor = highlight ? (selector.hasKeyboardFocus() ? PURPLE_100 : NEUTRAL_200)
 				: model.getBackgroundColor();
 		g2.setColor(bgColor);
 		drawItem(g2, item);
 
 		calculateItemRectangle(item);
 
-		g2.setPaint(hover ? NEUTRAL_900 : model.getItemColor());
+		g2.setPaint(highlight ? NEUTRAL_900 : model.getItemColor());
 
 		if (item.isLatex()) {
 			drawItemAsLatex(g2, item);

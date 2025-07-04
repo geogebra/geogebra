@@ -403,6 +403,7 @@ public final class DrawDropDownList extends CanvasDrawable
 				view.requestFocus();
 			}
 			setOptionsVisible(!visible);
+			drawOptions.setKeyboardFocus(false);
 		}
 	}
 
@@ -438,13 +439,10 @@ public final class DrawDropDownList extends CanvasDrawable
 	/**
 	 * Sync selected index to GeoList
 	 */
-	public void selectCurrentItem() {
-		if (!isOptionsVisible()) {
-			return;
+	public void handleEnter() {
+		if (isOptionsVisible()) {
+			drawOptions.toggle();
 		}
-
-		drawOptions.selectCurrentItem();
-		closeOptions();
 	}
 
 	/**
@@ -557,7 +555,16 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @param idx index of the hovered item
 	 */
 	public void setHoverIndex(int idx) {
-		drawOptions.setHoverIndex(idx);
+		drawOptions.setHighlightIndex(idx);
+		drawOptions.setKeyboardFocus(false);
+	}
+
+	/**
+	 * @param idx index of the selected item
+	 */
+	public void setKeyboardSelectionIndex(int idx) {
+		drawOptions.setHighlightIndex(idx);
+		drawOptions.setKeyboardFocus(true);
 	}
 
 	public int getOptionCount() {
