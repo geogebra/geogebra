@@ -334,12 +334,12 @@ tasks.register('collectFaIcons') {
 }
 
 test {
-    ignoreFailures = true
+    ignoreFailures = System.getenv("CI") != null
     maxHeapSize = "1024m"
 }
 
 cpd {
-    ignoreFailures = true
+    ignoreFailures = System.getenv("CI") != null
     minimumTokenCount = 100
 }
 

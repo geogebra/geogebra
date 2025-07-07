@@ -85,10 +85,6 @@ tasks.register<Bump>("buildNumberBump") {
     buildOnly = true;
 }
 
-tasks.test {
-    ignoreFailures = true
-}
-
 tasks.spotbugsMain {
     maxHeapSize = "1g"
 }

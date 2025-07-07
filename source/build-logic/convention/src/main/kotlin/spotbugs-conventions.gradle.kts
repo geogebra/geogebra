@@ -6,7 +6,7 @@ plugins {
 }
 
 spotbugs {
-    ignoreFailures = true
+    ignoreFailures = System.getenv("CI") != null
     excludeFilter = resources.text.fromUri(Resources::class.java.getResource("/spotbugs.xml")!!.toURI()).asFile()
     jvmArgs = listOf("-Dfindbugs.sf.comment=true")
 }

@@ -94,7 +94,7 @@ run {
 
 tasks {
     test {
-        ignoreFailures = true
+        ignoreFailures = System.getenv("CI") != null
         outputs.upToDateWhen { false }
     }
 

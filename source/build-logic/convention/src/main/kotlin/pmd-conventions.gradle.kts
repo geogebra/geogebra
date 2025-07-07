@@ -5,7 +5,7 @@ plugins {
 }
 
 pmd {
-    isIgnoreFailures = true
+    isIgnoreFailures = System.getenv("CI") != null
     ruleSets = emptyList()
     ruleSetConfig = resources.text.fromString(Resources.getString("pmd.xml"))
 }
