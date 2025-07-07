@@ -1,10 +1,10 @@
 package org.geogebra.common.main.settings;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -27,14 +27,10 @@ public class AlgebraSettings extends AbstractSettings {
 
 	private List<Integer> collapsedNodes = null;
 
-	private int style = AlgebraStyle.VALUE;
+	private AlgebraStyle style = AlgebraStyle.VALUE;
 
 	private boolean equationChangeByDragRestricted;
 
-	private static final List<Integer> styleModes = Arrays.asList(
-			AlgebraStyle.DEFINITION_AND_VALUE,
-			AlgebraStyle.VALUE, AlgebraStyle.DEFINITION,
-			AlgebraStyle.DESCRIPTION);
 	private boolean angleConversionRestricted;
 
 	/**
@@ -200,51 +196,28 @@ public class AlgebraSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param app
-	 *            application
-	 * @return available description modes
+	 * @param app Application
+	 * @return The currently available, localized description modes.
 	 */
-	public static String[] getDescriptionModes(App app) {
+	public static List<String> getDescriptionModes(App app) {
 		Localization loc = app.getLocalization();
-		return !app.isDesktop()
-				? new String[] { loc.getMenu("DefinitionAndValue"),
-						loc.getMenu("Value"), loc.getMenu("Definition"),
-						loc.getMenu("Description"), }
-				: new String[] { loc.getMenu("Value"),
-						loc.getMenu("Description"), loc.getMenu("Definition") };
+		return AlgebraStyle.getAvailableValues(app)
+				.stream()
+				.map(style -> loc.getMenu(style.getTranslationKey()))
+				.collect(Collectors.toList());
 	}
 
-	/**
-	 * Gives the algebra style mode of an index used in list-box.
-	 * 
-	 * @param idx
-	 *            index in list-box
-	 * @return The style mode of that index.
-	 */
-	public static int getStyleModeAt(int idx) {
-		if (idx < 0 || idx > styleModes.size()) {
-			return -1;
-		}
-		return styleModes.get(idx);
-	}
-
-	/**
-	 * Gives the index of an algebra style mode within a listbox;
-	 * 
-	 * @param mode
-	 *            The algebra style mode.
-	 * @return The index of the mode.
-	 */
-	public static int indexOfStyleMode(int mode) {
-		return styleModes.indexOf(mode);
-	}
-
-	public int getStyle() {
+	public AlgebraStyle getStyle() {
 		return style;
 	}
 
-	public void setStyle(int style) {
+	/**
+	 * Updates the {@link AlgebraStyle} and informs listeners that the settings have changed
+	 * @param style {@link AlgebraStyle}
+	 */
+	public void setStyle(AlgebraStyle style) {
 		this.style = style;
+		settingChanged();
 	}
 
 	/**

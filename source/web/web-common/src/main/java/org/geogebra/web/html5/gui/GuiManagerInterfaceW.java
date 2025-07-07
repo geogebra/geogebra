@@ -73,6 +73,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	SetLabels getInputHelpPanel();
 
 	/**
+	 * @return Whether the input help panel is initialized.
+	 */
+	boolean hasInputHelpPanel();
+
+	/**
 	 * Set the algebra input
 	 * @param ai algebra input
 	 */

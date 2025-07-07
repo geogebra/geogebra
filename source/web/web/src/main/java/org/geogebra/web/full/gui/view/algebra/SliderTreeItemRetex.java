@@ -27,7 +27,7 @@ import org.gwtproject.core.client.Scheduler;
  * @author laszlo
  *
  */
-public class SliderTreeItemRetex extends RadioTreeItem {
+public class SliderTreeItemRetex extends LaTeXTreeItem {
 
 	private static final int SLIDER_EXT = 15;
 
@@ -50,7 +50,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	 *            the existing GeoElement to display/edit
 	 */
 	public SliderTreeItemRetex(final GeoElement geo0) {
-		super(geo0.getKernel());
+		super(geo0.getKernel(), (AlgebraViewW) geo0.getApp().getAlgebraView());
 		geo = geo0;
 		num = (GeoNumeric) geo;
 
@@ -161,8 +161,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 		}
 		setNeedsUpdate(false);
 		if (typeChanged()) {
-			getAV().remove(geo);
-			getAV().add(geo, -1, false);
+			updateTreeItemAfterTypeChanged();
 			return;
 		}
 		marblePanel.update();

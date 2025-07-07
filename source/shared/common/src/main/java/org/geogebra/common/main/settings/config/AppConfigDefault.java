@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
@@ -208,7 +209,7 @@ public class AppConfigDefault extends AbstractAppConfig {
 	}
 
 	@Override
-	public int getDefaultAlgebraStyle() {
+	public @Nonnull AlgebraStyle getDefaultAlgebraStyle() {
 		return AlgebraStyle.DEFINITION_AND_VALUE;
 	}
 

@@ -89,6 +89,7 @@ import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
@@ -2132,7 +2133,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	protected void updatePreviewFromInputBar() {
-		if (app.getConfig().hasPreviewPoints() && !restrictGraphSelectionForFunctions) {
+		if (app.getConfig().hasPreviewPoints() && !restrictGraphSelectionForFunctions
+				&& app.getAlgebraStyle() != AlgebraStyle.LINEAR_NOTATION) {
 			GeoElement geo0 = (previewFromInputBarGeos == null
 					|| previewFromInputBarGeos.length == 0) ? null
 					: previewFromInputBarGeos[0];

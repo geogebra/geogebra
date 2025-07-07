@@ -77,6 +77,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -1741,18 +1742,34 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleAlgebraStyle(LinkedHashMap<String, String> attrs) {
 		try {
-			kernel.setAlgebraStyle(Integer.parseInt(attrs.get("val")));
+			int algebraStyleNumericValue = Integer.parseInt(attrs.get("val"));
+			setAlgebraStyleSafely(algebraStyleNumericValue, false);
 			if (attrs.containsKey("spreadsheet")) {
-				kernel.setAlgebraStyleSpreadsheet(
-						Integer.parseInt(attrs.get("spreadsheet")));
+				setAlgebraStyleSafely(Integer.parseInt(attrs.get("spreadsheet")), true);
 			} else {
 				// old files only have val, use that for spreadsheet too
-				kernel.setAlgebraStyleSpreadsheet(
-						Integer.parseInt(attrs.get("val")));
+				setAlgebraStyleSafely(algebraStyleNumericValue, true);
 			}
 			return true;
 		} catch (RuntimeException e) {
 			return false;
+		}
+	}
+
+	/**
+	 * Sets the Algebra Style only if the value is not {@link AlgebraStyle#UNDEFINED}.
+	 * @param algebraStyleNumericValue The numeric value of the Algebra style.
+	 * @param forSpreadsheet Whether the Algebra Style should be set for the spreadsheet.
+	 */
+	private void setAlgebraStyleSafely(int algebraStyleNumericValue, boolean forSpreadsheet) {
+		AlgebraStyle algebraStyle = AlgebraStyle.fromNumericValue(algebraStyleNumericValue);
+		if (algebraStyle == AlgebraStyle.UNDEFINED) {
+			return;
+		}
+		if (forSpreadsheet) {
+			kernel.setAlgebraStyleSpreadsheet(algebraStyle);
+		} else {
+			app.getSettings().getAlgebra().setStyle(algebraStyle);
 		}
 	}
 

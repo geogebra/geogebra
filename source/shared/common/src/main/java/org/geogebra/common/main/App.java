@@ -109,6 +109,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
@@ -1878,6 +1879,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			initSettings();
 		}
 		return settings;
+	}
+
+	/**
+	 * @return The {@link AlgebraStyle} currently set.
+	 */
+	final public @Nonnull AlgebraStyle getAlgebraStyle() {
+		return getSettings().getAlgebra().getStyle();
 	}
 
 	public final String getUniqueId() {

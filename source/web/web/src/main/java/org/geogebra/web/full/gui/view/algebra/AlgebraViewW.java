@@ -32,6 +32,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventType;
@@ -674,6 +675,29 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		settingsChanged = true;
 		resetItems(false);
+		inputPanelLatex = null;
+		prepareInputPanel();
+		if (inputPanelTreeItem != null) {
+			removeItem(inputPanelTreeItem);
+			if (inputPanelLatex != null) {
+				inputPanelTreeItem = new TreeItem(inputPanelLatex.getWidget());
+			}
+			styleInputPanel();
+			addItem(inputPanelTreeItem);
+		}
+	}
+
+	private void styleInputPanel() {
+		if (inputPanelLatex instanceof LinearNotationTreeItem) {
+			inputPanelTreeItem.addStyleName("avItem");
+		} else {
+			inputPanelTreeItem.addStyleName("avInputItem");
+		}
+		if (inputPanelLatex != null) {
+			inputPanelLatex.getWidget().getElement().getParentElement()
+					.addClassName("newRadioButtonTreeItemParent");
+			inputPanelLatex.addDummyLabel();
+		}
 	}
 
 	/**
@@ -1421,7 +1445,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			this.styleBar.setLabels();
 		}
 
-		if (inputPanelLatex != null && inputPanelLatex.hasHelpPopup()) {
+		if (inputPanelLatex != null && app.getGuiManager().hasInputHelpPanel()) {
 			app.getGuiManager().getInputHelpPanel().setLabels();
 		}
 		AriaHelper.setLabel(this, app.getLocalization().getMenu("Algebra"));
@@ -1476,9 +1500,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		RadioTreeItem inputPanel = prepareInputPanel();
 		hideAlgebraInput();
 		this.inputPanelTreeItem = new TreeItem(inputPanel.getWidget());
-		inputPanelTreeItem.addStyleName("avInputItem");
-		inputPanel.getWidget().getElement().getParentElement()
-				.addClassName("newRadioButtonTreeItemParent");
+		styleInputPanel();
 
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
@@ -1494,7 +1516,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	private @Nonnull RadioTreeItem prepareInputPanel() {
 		if (inputPanelLatex == null) {
-			inputPanelLatex = new RadioTreeItem(kernel).initInput();
+			if (getApp().getAlgebraStyle() == AlgebraStyle.LINEAR_NOTATION) {
+				inputPanelLatex = new LinearNotationTreeItem(kernel, this).initInput();
+			} else {
+				inputPanelLatex = new LaTeXTreeItem(kernel, this).initInput();
+			}
 		} else {
 			inputPanelLatex.removeFromParent();
 		}
@@ -1547,9 +1573,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		inputPanelTreeItem = super.addItem(inputPanel.getWidget());
 		inputPanel.setIndexLast();
-		inputPanelTreeItem.addStyleName("avInputItem");
-		inputPanel.getWidget().getElement().getParentElement()
-				.addClassName("newRadioButtonTreeItemParent");
+		styleInputPanel();
 
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {

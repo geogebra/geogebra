@@ -88,7 +88,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return;
 		}
 		item.setShowInputHelpPanel(false);
-		if (item.geo == null) {
+		if (item.geo == null && isEditing()) {
 			if (StringUtil.empty(item.getText())) {
 				return;
 			}
@@ -124,7 +124,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onKeyTyped(String key) {
-		if (app.getSelectionManager().getSelectedGeos().size() > 0) {
+		if (!app.getSelectionManager().getSelectedGeos().isEmpty()) {
 			// to clear preview points
 			app.getSelectionManager().clearSelectedGeos();
 		}
@@ -257,16 +257,15 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public boolean onTab(boolean shiftDown) {
 		onEnter(false);
 		if (item.isInputTreeItem()) {
-			item.addDummyLabel();
 			item.setItemWidth(item.getAV().getFullWidth());
 		}
-		app.hideKeyboard();
+		boolean handled;
 		if (shiftDown) {
-			return app.getAccessibilityManager()
-					.focusPrevious();
+			handled = app.getAccessibilityManager().focusPrevious();
 		} else {
-			return app.getAccessibilityManager()
-					.focusNext();
+			handled = app.getAccessibilityManager().focusNext();
 		}
+		app.hideKeyboard();
+		return handled;
 	}
 }

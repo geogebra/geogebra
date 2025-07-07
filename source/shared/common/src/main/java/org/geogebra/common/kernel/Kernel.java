@@ -126,33 +126,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** string for -+ */
 	final public static String STRING_MINUS_PLUS = "\u2213 ";
 
-	// algebra style
-	/**
-	 * @deprecated AlgebraStyle.Value should be used instead.
-	 * Algebra view style: value */
-	@Deprecated
-	final public static int ALGEBRA_STYLE_VALUE = 0;
-
-	/**
-	 * @deprecated AlgebraStyle.Description should be used instead.
-	 * Algebra view style: description */
-	@Deprecated
-	final public static int ALGEBRA_STYLE_DESCRIPTION = 1;
-
-	/**
-	 * @deprecated AlgebraStyle.Definition should be used instead.
-	 * Algebra view style: definition */
-	@Deprecated
-	final public static int ALGEBRA_STYLE_DEFINITION = 2;
-
-	/**
-	 * @deprecated AlgebraStyle.DefinitionAndValue should be used instead.
-	 * Algebra view style: definition and value */
-	@Deprecated
-	final public static int ALGEBRA_STYLE_DEFINITION_AND_VALUE = 3;
 	// critical for exam mode
 	// must use getter
-	private int algebraStyleSpreadsheet = AlgebraStyle.VALUE;
+	private AlgebraStyle algebraStyleSpreadsheet = AlgebraStyle.VALUE;
 
 	private MacroManager macroManager;
 
@@ -2743,25 +2719,20 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * @deprecated AlgebraSettings.setStyle should be used instead.
-	 *
-	 * G.Sturr 2009-10-18
-	 * 
-	 * @param style
-	 *            Algebra style, see ALGEBRA_STYLE_*
+	 * @param style {@link AlgebraStyle}
 	 */
 	@Deprecated
-	final public void setAlgebraStyle(int style) {
+	final public void setAlgebraStyle(AlgebraStyle style) {
 		getApplication().getSettings().getAlgebra().setStyle(style);
 	}
 
 	/**
 	 * Change description style for spreadsheet.
 	 * 
-	 * @param style
-	 *            description style
+	 * @param style {@link AlgebraStyle}
 	 */
-	final public void setAlgebraStyleSpreadsheet(int style) {
-		if (style == AlgebraStyle.DEFINITION_AND_VALUE) {
+	final public void setAlgebraStyleSpreadsheet(AlgebraStyle style) {
+		if (style == AlgebraStyle.DEFINITION_AND_VALUE || style == AlgebraStyle.LINEAR_NOTATION) {
 			algebraStyleSpreadsheet = AlgebraStyle.VALUE;
 		} else {
 			algebraStyleSpreadsheet = style;
@@ -2775,13 +2746,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	@Deprecated
 	final public int getAlgebraStyle() {
-		return getApplication().getSettings().getAlgebra().getStyle();
+		return getApplication().getAlgebraStyle().getNumericValue();
 	}
 
 	/**
 	 * @return algebra style for spreadsheet
 	 */
-	final public int getAlgebraStyleSpreadsheet() {
+	final public AlgebraStyle getAlgebraStyleSpreadsheet() {
 		return algebraStyleSpreadsheet;
 	}
 
@@ -4413,9 +4384,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		// algebra style
 		sb.append("\t<algebraStyle val=\"");
-		sb.append(getAlgebraStyle());
+		sb.append(getApplication().getAlgebraStyle().getNumericValue());
 		sb.append("\" spreadsheet=\"");
-		sb.append(getAlgebraStyleSpreadsheet());
+		sb.append(getAlgebraStyleSpreadsheet().getNumericValue());
 		sb.append("\"/>\n");
 
 		// coord style

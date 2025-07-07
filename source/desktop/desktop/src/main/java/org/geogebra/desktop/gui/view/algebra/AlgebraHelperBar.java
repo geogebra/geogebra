@@ -3,6 +3,7 @@ package org.geogebra.desktop.gui.view.algebra;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -34,6 +36,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * Instance of the application.
 	 */
 	protected AppD app;
+	private final LocalizationD loc;
+	private final List<AlgebraStyle> algebraStyles;
 
 	/**
 	 * Button to show/hide auxiliary objects in the algebra view.
@@ -51,8 +55,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	private JPopupMenu treeModeMenu;
 	private JPopupMenu descriptionMenu;
 
-	private LocalizationD loc;
-
 	/**
 	 * Button to toggle LaTeX rendering
 	 */
@@ -68,6 +70,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		this.algebraView = algebraView;
 		this.app = app;
 		this.loc = app.getLocalization();
+		this.algebraStyles = AlgebraStyle.getAvailableValues(app);
 		setFloatable(false);
 
 		addButtons();
@@ -191,7 +194,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	}
 
 	void buildDescriptionMenu() {
-
 		if (descriptionMenu == null) {
 			descriptionMenu = new JPopupMenu();
 		}
@@ -202,27 +204,22 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		title.setIcon(app.getEmptyIcon());
 		title.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		add(title);
-
 		descriptionMenu.add(title);
 
-		String[] modes = new String[] { loc.getMenu("Value"),
-				loc.getMenu("Description"), loc.getMenu("Definition") };
-		for (int i = 0; i < modes.length; i++) {
+		algebraStyles.forEach(style -> {
 			JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 			mi.setFont(app.getPlainFont());
 			mi.setBackground(Color.white);
-			mi.setText(modes[i]);
-			final int current = i;
+			mi.setText(style.getTranslationKey());
 			mi.addActionListener(e -> {
-				app.getKernel().setAlgebraStyle(current);
+				app.getSettings().getAlgebra().setStyle(style);
 				app.getKernel().updateConstruction(false);
 				buildDescriptionMenu();
 			});
 			mi.setSelected(algebraView.getTreeMode() == SortMode.DEPENDENCY);
 			descriptionMenu.add(mi);
-		}
+		});
 
 		app.setComponentOrientation(treeModeMenu);
-
 	}
 }

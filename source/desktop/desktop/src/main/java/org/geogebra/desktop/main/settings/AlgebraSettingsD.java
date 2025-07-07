@@ -9,8 +9,11 @@ import org.geogebra.common.main.settings.AlgebraStyle;
 public class AlgebraSettingsD extends AlgebraSettings {
 
 	@Override
-	public int getStyle() {
-		int style = super.getStyle();
-		return style == AlgebraStyle.DEFINITION_AND_VALUE ? AlgebraStyle.VALUE : style;
+	public AlgebraStyle getStyle() {
+		AlgebraStyle style = super.getStyle();
+		if (style == AlgebraStyle.DEFINITION_AND_VALUE || style == AlgebraStyle.LINEAR_NOTATION) {
+			return AlgebraStyle.VALUE;
+		}
+		return style;
 	}
 }

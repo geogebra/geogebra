@@ -48,7 +48,6 @@ import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.PropertiesDockPanel;
-import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -347,9 +346,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
-				spreadsheetPanel = new OptionsSpreadsheetD((AppD) app,
-						(SpreadsheetViewD) app.getGuiManager()
-								.getSpreadsheetView());
+				spreadsheetPanel = new OptionsSpreadsheetD((AppD) app);
 			}
 			return spreadsheetPanel;
 

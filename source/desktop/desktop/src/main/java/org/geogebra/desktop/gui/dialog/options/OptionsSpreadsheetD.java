@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -32,8 +33,8 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
-import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -44,7 +45,9 @@ import org.geogebra.desktop.main.LocalizationD;
 public class OptionsSpreadsheetD
 		implements OptionPanelD, ActionListener, FocusListener, SetLabels {
 
-	private AppD app;
+	private final AppD app;
+	private final LocalizationD loc;
+	private final List<AlgebraStyle> algebraStyles;
 
 	private JCheckBox cbShowFormulaBar;
 	private JCheckBox cbShowGrid;
@@ -57,17 +60,18 @@ public class OptionsSpreadsheetD
 	private JCheckBox cbPrependCommands;
 	private JCheckBox cbEnableAutoComplete;
 	private JLabel descriptionLabel;
-	private JComboBox description;
+	private JComboBox<String> description;
 	private JPanel wrappedPanel;
 	private JCheckBox cbShowNavigation;
-	private LocalizationD loc;
 
 	/**
 	 * Creates a new dialog for the properties of the spreadsheet view.
+	 * @param app Application
 	 */
-	public OptionsSpreadsheetD(AppD app, SpreadsheetViewD view) {
+	public OptionsSpreadsheetD(AppD app) {
 		this.app = app;
 		this.loc = app.getLocalization();
+		this.algebraStyles = AlgebraStyle.getAvailableValues(app);
 
 		this.wrappedPanel = new JPanel();
 		// build GUI
@@ -138,7 +142,7 @@ public class OptionsSpreadsheetD
 		optionsPanel.add(cbShowHScrollbar);
 
 		JPanel descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		description = new JComboBox();
+		description = new JComboBox<>();
 		descriptionLabel = new JLabel();
 		descriptionLabel.setLabelFor(description);
 		descriptionPanel.add(descriptionLabel);
@@ -209,16 +213,12 @@ public class OptionsSpreadsheetD
 	}
 
 	private void updateDescription() {
-		String[] modes = new String[] { loc.getMenu("Value"),
-				loc.getMenu("Definition"), loc.getMenu("Command") };
 		description.removeAllItems();
-
-		for (int i = 0; i < modes.length; i++) {
-			description.addItem(loc.getMenu(modes[i]));
+		algebraStyles.forEach(style -> description.addItem(loc.getMenu(style.getTranslationKey())));
+		int index = algebraStyles.indexOf(app.getKernel().getAlgebraStyleSpreadsheet());
+		if (index != -1) {
+			description.setSelectedIndex(index);
 		}
-
-		int descMode = app.getKernel().getAlgebraStyleSpreadsheet();
-		description.setSelectedIndex(descMode);
 	}
 
 	private void updateCheckBox(JCheckBox cb, boolean value) {
@@ -280,8 +280,8 @@ public class OptionsSpreadsheetD
 		else if (source == cbShowNavigation) {
 			app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET);
 		} else if (source == description) {
-			app.getKernel()
-					.setAlgebraStyleSpreadsheet(description.getSelectedIndex());
+			app.getKernel().setAlgebraStyleSpreadsheet(
+					AlgebraStyle.fromNumericValue(description.getSelectedIndex()));
 			app.getKernel().updateConstruction(false);
 		}
 

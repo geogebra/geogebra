@@ -848,9 +848,7 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	/**
-	 * @return whether input help panel is initialized
-	 */
+	@Override
 	public boolean hasInputHelpPanel() {
 		return inputHelpPanel != null;
 	}

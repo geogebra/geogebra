@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoText;
  * ReTeX based implementation of AV Text
  *
  */
-public class TextTreeItem extends RadioTreeItem {
+public class TextTreeItem extends LaTeXTreeItem {
 
 	/**
 	 * @param geo0
@@ -20,6 +20,10 @@ public class TextTreeItem extends RadioTreeItem {
 	@Override
 	protected void doUpdate() {
 		setNeedsUpdate(false);
+		if (typeChanged()) {
+			updateTreeItemAfterTypeChanged();
+			return;
+		}
 		if (hasMarblePanel()) {
 			marblePanel.update();
 		}

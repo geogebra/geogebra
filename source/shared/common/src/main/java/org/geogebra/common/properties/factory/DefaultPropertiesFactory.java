@@ -75,11 +75,10 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	 */
 	protected PropertiesArray createAlgebraProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
-		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("Algebra");
 		return new PropertiesArray(name,
 				registerProperties(propertiesRegistry,
-						new AlgebraDescriptionProperty(kernel, localization),
+						new AlgebraDescriptionProperty(app, localization),
 						new ShowAuxiliaryProperty(app, localization)));
 	}
 

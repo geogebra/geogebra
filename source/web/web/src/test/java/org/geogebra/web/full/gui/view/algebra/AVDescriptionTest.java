@@ -22,7 +22,7 @@ public class AVDescriptionTest {
 				.mockApplet(new AppletParameters("geometry"));
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("f:sqrt(x/2)", false);
-		RadioTreeItem rte = new RadioTreeItem(app.getKernel().lookupLabel("f"));
+		RadioTreeItem rte = new LaTeXTreeItem(app.getKernel().lookupLabel("f"));
 		rte.doUpdate();
 		assertTrue(rte.latex);
 	}

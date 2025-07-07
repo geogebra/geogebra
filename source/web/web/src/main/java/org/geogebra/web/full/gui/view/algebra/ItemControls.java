@@ -224,8 +224,8 @@ public class ItemControls extends FlowPanel
 		if (geo instanceof GeoNumeric) {
 			return radioTreeItem.getItemFactory().matchSlider(geo);
 		}
-		return geo.getKernel()
-				.getAlgebraStyle() == AlgebraStyle.DEFINITION_AND_VALUE
+		return geo.getApp().getSettings().getAlgebra()
+				.getStyle() == AlgebraStyle.DEFINITION_AND_VALUE
 				&& !(geo instanceof GeoTurtle);
 	}
 

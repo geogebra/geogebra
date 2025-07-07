@@ -2130,7 +2130,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public String toStringDescription(StringTemplate tpl) {
-		boolean isAvDescrip = AlgebraStyle.DESCRIPTION == getKernel().getAlgebraStyle();
+		boolean isAvDescrip = AlgebraStyle.DESCRIPTION == getApp().getSettings()
+				.getAlgebra().getStyle();
 		if (isAvDescrip) {
 			return getKernel().getLocalization().getMenu("Point") + " " + label;
 		}

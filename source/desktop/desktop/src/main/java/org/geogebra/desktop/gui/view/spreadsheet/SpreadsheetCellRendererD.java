@@ -199,11 +199,11 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 
 				switch (kernel.getAlgebraStyleSpreadsheet()) {
 				default:
-				case AlgebraStyle.VALUE:
+				case VALUE:
 					text = geo.toValueString(template);
 					break;
 
-				case AlgebraStyle.DESCRIPTION:
+				case DESCRIPTION:
 					IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
 					IndexHTMLBuilder
 							.convertIndicesToHTML(
@@ -213,7 +213,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 					text = builder.toString();
 					break;
 
-				case AlgebraStyle.DEFINITION:
+				case DEFINITION:
 					builder = new IndexHTMLBuilder(true);
 					IndexHTMLBuilder.convertIndicesToHTML(
 							geo.getDefinition(template),
@@ -295,8 +295,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		} else {
 
 			boolean isSerif = false;
-			if (geo.isDefined()
-					&& kernel.getAlgebraStyle() == AlgebraStyle.VALUE) {
+			if (geo.isDefined() && app.getAlgebraStyle() == AlgebraStyle.VALUE) {
 
 				latexStr = geo.getFormulaString(StringTemplate.latexTemplate,
 						true);

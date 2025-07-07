@@ -6872,9 +6872,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return true if when AV has description mode, we want to show description instead of definition
 	 */
 	final public boolean mayShowDescriptionInsteadOfDefinition() {
-		if (!isAllowedToShowValue()
-				&& getKernel()
-						.getAlgebraStyle() == AlgebraStyle.VALUE) {
+		if (!isAllowedToShowValue() && getApp().getAlgebraStyle() == AlgebraStyle.VALUE) {
 			return false;
 		}
 		if (algoParent == null) {

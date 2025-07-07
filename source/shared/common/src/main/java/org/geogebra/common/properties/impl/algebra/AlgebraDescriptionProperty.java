@@ -1,10 +1,11 @@
 package org.geogebra.common.properties.impl.algebra;
 
-import static java.util.Map.entry;
-
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -17,37 +18,37 @@ import com.google.j2objc.annotations.Weak;
 public class AlgebraDescriptionProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
     @Weak
-    private Kernel kernel;
+    private final Kernel kernel;
     private boolean isSpreadsheet;
 
     /**
      * Constructs an algebra description property.
-     *
-     * @param kernel       kernel
+     * @param app App
      * @param localization localization
      */
-    public AlgebraDescriptionProperty(Kernel kernel, Localization localization) {
+    public AlgebraDescriptionProperty(App app, Localization localization) {
         super(localization, "AlgebraDescriptions");
-        this.kernel = kernel;
-        setNamedValues(List.of(
-                entry(AlgebraStyle.DEFINITION_AND_VALUE, "DefinitionAndValue"),
-                entry(AlgebraStyle.VALUE, "Value"),
-                entry(AlgebraStyle.DEFINITION, "Definition"),
-                entry(AlgebraStyle.DESCRIPTION, "Description")
-        ));
+        this.kernel = app.getKernel();
+        List<Map.Entry<Integer, String>> algebraStyles = AlgebraStyle.getAvailableValues(app)
+                .stream()
+                .map(style -> Map.entry(style.getNumericValue(), style.getTranslationKey()))
+                .collect(Collectors.toList());
+        setNamedValues(algebraStyles);
     }
 
     @Override
     public Integer getValue() {
-        return isSpreadsheet ? kernel.getAlgebraStyleSpreadsheet() : kernel.getAlgebraStyle();
+        return isSpreadsheet ? kernel.getAlgebraStyleSpreadsheet().getNumericValue()
+                : kernel.getApplication().getAlgebraStyle().getNumericValue();
     }
 
     @Override
     protected void doSetValue(Integer value) {
         if (isSpreadsheet) {
-            kernel.setAlgebraStyleSpreadsheet(value);
+            kernel.setAlgebraStyleSpreadsheet(AlgebraStyle.fromNumericValue(value));
         } else {
-            kernel.setAlgebraStyle(value);
+            kernel.getApplication().getSettings().getAlgebra().setStyle(
+                    AlgebraStyle.fromNumericValue(value));
         }
         kernel.updateConstruction();
     }

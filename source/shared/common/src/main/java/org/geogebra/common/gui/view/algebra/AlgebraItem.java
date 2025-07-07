@@ -2,7 +2,6 @@ package org.geogebra.common.gui.view.algebra;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
@@ -247,20 +246,22 @@ public class AlgebraItem {
 	 */
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
-		int avStyle = geo1.getKernel().getAlgebraStyle();
+		AlgebraStyle algebraStyle = geo1.getApp().getAlgebraStyle();
 		boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
-		if (geo1.isIndependent() && geo1.isGeoPoint()
-				&& avStyle == AlgebraStyle.DESCRIPTION) {
+
+		if (geo1.isIndependent() && geo1.isGeoPoint() && algebraStyle == AlgebraStyle.DESCRIPTION) {
 			builder.clear();
 			builder.indicesToHTML(((GeoPointND) geo1).toStringDescription(stringTemplate));
 			return true;
 		}
+
 		if (geo1.isIndependent() && geo1.getDefinition() == null) {
 			geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			return true;
 		}
-		switch (avStyle) {
-		case AlgebraStyle.VALUE:
+
+		switch (algebraStyle) {
+		case VALUE:
 			if (geo1.isAllowedToShowValue()) {
 				if (showLabel) {
 					geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
@@ -272,7 +273,7 @@ public class AlgebraItem {
 			}
 			return true;
 
-		case AlgebraStyle.DESCRIPTION:
+		case DESCRIPTION:
 			if (needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
@@ -286,11 +287,11 @@ public class AlgebraItem {
 			}
 			return true;
 
-		case AlgebraStyle.DEFINITION:
+		case DEFINITION:
 			buildDefinitionString(geo1, builder, stringTemplate);
 			return true;
 		default:
-		case AlgebraStyle.DEFINITION_AND_VALUE:
+		case DEFINITION_AND_VALUE:
 			if (needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 				return true;
@@ -341,7 +342,7 @@ public class AlgebraItem {
 	 * @param stringTemplateForPlainText
 	 *            string template for building simple plain text item
 	 */
-	private static void buildText(GeoElement geoElement, int style,
+	private static void buildText(GeoElement geoElement, AlgebraStyle style,
 			IndexHTMLBuilder sb, StringTemplate stringTemplateForPlainText) {
 
 		if (style == AlgebraStyle.DESCRIPTION
@@ -390,12 +391,13 @@ public class AlgebraItem {
 	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-	public static DescriptionMode getDescriptionModeForGeo(GeoElement geoElement, int style) {
+	public static DescriptionMode getDescriptionModeForGeo(GeoElement geoElement,
+			AlgebraStyle style) {
 		switch (style) {
-			case AlgebraStyle.DEFINITION_AND_VALUE:
+			case DEFINITION_AND_VALUE:
 				return geoElement.getDescriptionMode();
 
-			case AlgebraStyle.DESCRIPTION:
+			case DESCRIPTION:
 				if (geoElement.getPackedIndex() == 0) {
 					return DescriptionMode.DEFINITION_VALUE;
 				}
@@ -409,20 +411,21 @@ public class AlgebraItem {
 						|| geoElement.evaluatesToNumber(false)
 						? DescriptionMode.DEFINITION_VALUE
 						: DescriptionMode.DEFINITION;
-			case AlgebraStyle.DEFINITION:
+			case DEFINITION:
 				return DescriptionMode.DEFINITION;
-			case AlgebraStyle.VALUE:
+			case VALUE:
 			default:
 				return DescriptionMode.VALUE;
 		}
 	}
 
-	private static boolean shouldShowOutputRow(GeoElement geoElement, int algebraStyle) {
+	private static boolean shouldShowOutputRow(GeoElement geoElement, AlgebraStyle algebraStyle) {
 		switch (algebraStyle) {
-		case AlgebraStyle.DESCRIPTION:
+		case DESCRIPTION:
 			return getDescriptionModeForGeo(geoElement, algebraStyle) != DescriptionMode.DEFINITION;
-		case AlgebraStyle.VALUE:
-		case AlgebraStyle.DEFINITION_AND_VALUE:
+		case VALUE:
+		case DEFINITION_AND_VALUE:
+		case LINEAR_NOTATION:
 			return geoElement.isAllowedToShowValue();
 		default:
 			return false;
@@ -473,7 +476,7 @@ public class AlgebraItem {
 	 * @return description string for element to show in AV row; null if element
 	 *         prefers showing definition
 	 */
-	public static String getDescriptionString(GeoElement element, int style,
+	public static String getDescriptionString(GeoElement element, AlgebraStyle style,
 			StringTemplate stringTemplate) {
 
 		if (element.mayShowDescriptionInsteadOfDefinition()) {
@@ -499,15 +502,15 @@ public class AlgebraItem {
 	 */
 	public static String getLatexString(GeoElement geo1, Integer limit,
 			boolean output) {
-		Kernel kernel = geo1.getKernel();
+		AlgebraStyle algebraStyle = geo1.getApp().getAlgebraStyle();
 		if (output && !geo1.isLaTeXDrawableGeo()) {
 			return null;
 		}
+
 		if (geo1.getParentAlgorithm() instanceof AlgoFractionText) {
 			return geo1.getAlgebraDescription(StringTemplate.latexTemplate);
-		} else if (kernel.getAlgebraStyle() != AlgebraStyle.VALUE
-				&& kernel
-						.getAlgebraStyle() != AlgebraStyle.DEFINITION_AND_VALUE) {
+		} else if (algebraStyle != AlgebraStyle.VALUE
+				&& algebraStyle != AlgebraStyle.DEFINITION_AND_VALUE) {
 			if (geo1.isIndependent()) {
 				return getLatexStringValue(geo1, limit);
 			} else if (Algos.isUsedFor(Algos.Expression, geo1)) {
@@ -546,7 +549,7 @@ public class AlgebraItem {
 	private static String getPreviewFormula(GeoElement element,
 			StringTemplate stringTemplate) {
 		Settings settings = element.getApp().getSettings();
-		int algebraStyle = settings.getAlgebra().getStyle();
+		AlgebraStyle algebraStyle = settings.getAlgebra().getStyle();
 
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
 			return element.getAlgebraDescription(stringTemplate);

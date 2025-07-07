@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -12,6 +13,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -34,7 +36,8 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 
 	private GeoElement selectedEntry;
 	/** localization */
-	Localization loc;
+	private final Localization loc;
+	private final List<AlgebraStyle> algebraStyles;
 
 	/**
 	 * @param app
@@ -44,6 +47,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 		super(app, App.VIEW_ALGEBRA);
 		app.getSettings().getAlgebra().addListener(this);
 		this.loc = app.getLocalization();
+		this.algebraStyles = AlgebraStyle.getAvailableValues(app);
 		update(null);
 
 		createColorBtn();
@@ -135,18 +139,13 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					MaterialDesignResources.INSTANCE.description(), 24);
 			descriptionButton.setFixedIcon(icon);
 
-			descriptionButton.addFastClickHandler(event -> {
-				int selectedMode = app.getKernel().getAlgebraStyle();
-
-				descriptionButton.setSelectedIndex(
-							AlgebraSettings.indexOfStyleMode(selectedMode));
-			});
+			descriptionButton.addFastClickHandler(event ->
+					descriptionButton.setSelectedIndex(
+							algebraStyles.indexOf(app.getAlgebraStyle())));
 
 			descriptionButton.addPopupHandler(index -> {
 				// called if a object of the popup is clicked
-				app.getKernel().setAlgebraStyle(
-							AlgebraSettings.getStyleModeAt(index));
-
+				app.getSettings().getAlgebra().setStyle(algebraStyles.get(index));
 				if (app.getGuiManager().hasPropertiesView()) {
 					app.getGuiManager().getPropertiesView().repaintView();
 				}
@@ -172,7 +171,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
     }
 
 	private ImageOrText[] getDescriptionModes() {
-		return ImageOrText.convert(AlgebraSettings.getDescriptionModes(app));
+		return ImageOrText.convert(AlgebraSettings.getDescriptionModes(app).toArray(new String[0]));
 	}
 
 	private void setToolTips() {

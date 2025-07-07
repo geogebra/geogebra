@@ -94,7 +94,7 @@ public class OptionsAlgebraW
 
 		private void buildDescriptionUI() {
 			NamedEnumeratedProperty<?> descriptionProperty = new AlgebraDescriptionProperty(
-					app.getKernel(), app.getLocalization());
+					app, app.getLocalization());
 			description = new CompDropDown(app, descriptionProperty);
 		}
 

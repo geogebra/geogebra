@@ -27,7 +27,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 	private final AppW app;
 	private HeaderView headerView;
 	private boolean isOpen;
-	private Localization localization;
+	private final Localization localization;
 	private ScrollPanel settingsScrollPanel;
 
 	/**

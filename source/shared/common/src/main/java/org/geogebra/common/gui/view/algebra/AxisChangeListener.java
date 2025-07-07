@@ -43,7 +43,7 @@ public class AxisChangeListener implements SettingListener {
 			boolean anyAxisVisible = isAnyAxisVisible(euclidianSettings);
 			if (anyAxisVisible != isAnyAxisVisible) {
 				isAnyAxisVisible = anyAxisVisible;
-				kernel.setAlgebraStyle(anyAxisVisible
+				kernel.getApplication().getSettings().getAlgebra().setStyle(anyAxisVisible
 						? AlgebraStyle.DEFINITION_AND_VALUE
 						: AlgebraStyle.DESCRIPTION);
 				view.repaintView();

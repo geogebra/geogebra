@@ -112,7 +112,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		try {
 			geoElement.setCanBeRemovedAsInput(false);
 			getSpecPoints(geoElement, newPoints);
-			if (newPoints.size() > 0) {
+			if (!newPoints.isEmpty()) {
 				specPoints = new ArrayList<>(newPoints);
 			}
 		} finally {
@@ -135,11 +135,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		List<GeoElement> selectedGeos = kernel.getApplication()
 				.getSelectionManager().getSelectedGeos();
 		return geo == null && selectedGeos != null
-				&& selectedGeos.size() > 0 ? selectedGeos.get(0) : geo;
+				&& !selectedGeos.isEmpty() ? selectedGeos.get(0) : geo;
 	}
 
-	private void getSpecPoints(GeoElementND geo,
-							   ArrayList<GeoElement> retList) {
+	private void getSpecPoints(GeoElementND geo, ArrayList<GeoElement> retList) {
 		if (!shouldShowSpecialPoints(geo)) {
 			return;
 		}

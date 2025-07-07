@@ -1473,8 +1473,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	@Override
 	final public String toStringDescription(StringTemplate tpl) {
-		boolean isAvDescrip = AlgebraStyle.DESCRIPTION == getKernel()
-				.getAlgebraStyle();
+		boolean isAvDescrip = AlgebraStyle.DESCRIPTION == getApp().getSettings()
+				.getAlgebra().getStyle();
 		if (isAvDescrip) {
 			sbToString.setLength(0);
 			sbToString.append(

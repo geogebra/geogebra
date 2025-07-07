@@ -20,7 +20,7 @@ public class ContextMenuAVPlusTest {
                     .setAttribute("showToolBar", "true");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
-        RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());
+        RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
 
         ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
         contextMenuAVPlus.setLabels();
@@ -34,7 +34,7 @@ public class ContextMenuAVPlusTest {
                         .setAttribute("showToolBar", "false");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
-        RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());
+        RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
 
         ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
         contextMenuAVPlus.setLabels();
@@ -48,7 +48,7 @@ public class ContextMenuAVPlusTest {
                         .setAttribute("customToolBar", "1 2");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
-        RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());
+        RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
 
         ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
         contextMenuAVPlus.setLabels();

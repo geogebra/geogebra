@@ -161,7 +161,7 @@ public class AlgebraCanvasExporter {
 			return;
 		}
 
-		if (AlgebraItem.getDescriptionModeForGeo(geo, app.getSettings().getAlgebra().getStyle())
+		if (AlgebraItem.getDescriptionModeForGeo(geo, app.getAlgebraStyle())
 				== DescriptionMode.DEFINITION_VALUE) {
 			drawDefinitionAndValue(geo, item, x, y);
 			return;

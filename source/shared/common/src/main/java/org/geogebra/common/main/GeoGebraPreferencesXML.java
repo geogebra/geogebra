@@ -114,7 +114,7 @@ public class GeoGebraPreferencesXML {
 				+ "<algebraStyle val=\""
 
 				// dynamic bit!
-				+ app.getConfig().getDefaultAlgebraStyle()
+				+ app.getConfig().getDefaultAlgebraStyle().getNumericValue()
 
 				+ "\"/>"
 

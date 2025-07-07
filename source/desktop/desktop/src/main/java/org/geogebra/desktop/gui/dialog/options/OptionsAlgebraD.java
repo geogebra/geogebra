@@ -15,6 +15,7 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -30,8 +31,9 @@ public class OptionsAlgebraD
 	/**
 	 * Application object.
 	 */
-	private AppD app;
-	private LocalizationD loc;
+	private final AppD app;
+	private final LocalizationD loc;
+	private final List<AlgebraStyle> algebraStyles;
 
 	private JPanel wrappedPanel;
 	private JCheckBox auxiliary;
@@ -52,6 +54,7 @@ public class OptionsAlgebraD
 
 		this.app = app;
 		this.loc = app.getLocalization();
+		this.algebraStyles = AlgebraStyle.getAvailableValues(app);
 
 		initGUI();
 		updateGUI();
@@ -82,7 +85,8 @@ public class OptionsAlgebraD
 			return;
 		}
 		if (description.getSelectedIndex() >= 0) {
-			app.getKernel().setAlgebraStyle(description.getSelectedIndex());
+			app.getSettings().getAlgebra().setStyle(
+					algebraStyles.get(description.getSelectedIndex()));
 			app.getKernel().updateConstruction(false);
 		}
 	}
@@ -169,17 +173,11 @@ public class OptionsAlgebraD
 
 	private void updateDescription() {
 		ignoreActions = true;
-		String[] modes = new String[] { loc.getMenu("Value"),
-				loc.getMenu("Description"), loc.getMenu("Definition") };
 		description.removeAllItems();
-
-		for (int i = 0; i < modes.length; i++) {
-			description.addItem(loc.getMenu(modes[i]));
-		}
-
-		int descMode = app.getKernel().getAlgebraStyle();
-		if (descMode < modes.length) {
-			description.setSelectedIndex(descMode);
+		algebraStyles.forEach(style -> description.addItem(loc.getMenu(style.getTranslationKey())));
+		int index = algebraStyles.indexOf(app.getAlgebraStyle());
+		if (index != -1) {
+			description.setSelectedIndex(index);
 		}
 		ignoreActions = false;
 	}

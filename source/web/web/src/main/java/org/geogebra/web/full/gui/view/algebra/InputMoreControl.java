@@ -28,7 +28,7 @@ public class InputMoreControl implements InputItemControl {
 
 	@Override
 	public void hideInputMoreButton() {
-		if (item.isInputTreeItem()) {
+		if (item.isInputTreeItem() && item.controls != null) {
 			item.controls.setMoreButtonVisible(false);
 		}
 	}

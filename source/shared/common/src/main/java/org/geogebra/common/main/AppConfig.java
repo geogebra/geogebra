@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -167,7 +168,7 @@ public interface AppConfig extends ExamRestrictable, Serializable {
 	/**
 	 * @return algebra style
 	 */
-	int getDefaultAlgebraStyle();
+	@Nonnull AlgebraStyle getDefaultAlgebraStyle();
 
 	/**
 	 * @return search tag for Open Material screen

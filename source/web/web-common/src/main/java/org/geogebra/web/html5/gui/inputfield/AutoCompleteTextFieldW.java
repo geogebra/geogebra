@@ -93,6 +93,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private int curWordStart;
 
 	private boolean autoComplete;
+	private boolean autoCompleteParentheses = true;
 	private int historyIndex;
 	private final ArrayList<String> history;
 
@@ -436,6 +437,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// only for desktop
 	}
 
+	public void setAutoCloseParentheses(boolean autoClose) {
+		autoCompleteParentheses = autoClose;
+	}
+
 	/**
 	 * Sets whether the component is currently performing autocomplete lookups
 	 * as keystrokes are performed.
@@ -597,7 +602,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * @return previous input from input textfield's history
 	 */
 	private String getPreviousInput() {
-		if (history.size() == 0) {
+		if (history.isEmpty()) {
 			return null;
 		}
 		if (historyIndex > 0) {
@@ -710,7 +715,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			text = getText();
 		}
 		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')'
-				|| ch == ']')) {
+				|| ch == ']') || !autoCompleteParentheses) {
 			return;
 		}
 		textFieldController.clearSelection();

@@ -106,7 +106,7 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 			}
 
 			// if enabled, render with LaTeX
-			int algebraStyle = app.getSettings().getAlgebra().getStyle();
+			AlgebraStyle algebraStyle = app.getAlgebraStyle();
 			if (view.isRenderLaTeX() && algebraStyle == AlgebraStyle.VALUE
 					&& geo.isDefined()
 					&& geo.isLaTeXDrawableGeo()) {

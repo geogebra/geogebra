@@ -1,13 +1,17 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.ListBox;
 
 public class AlgebraStyleListBox extends ListBox {
-	private AppW app;
-	private boolean spreadsheet;
+
+	private final AppW app;
+	private final boolean spreadsheet;
+	private final List<AlgebraStyle> algebraStyles;
 
 	/**
 	 * Creates a ListBox for choosing algebra style.
@@ -18,18 +22,16 @@ public class AlgebraStyleListBox extends ListBox {
 	public AlgebraStyleListBox(AppW appW, boolean spreadsheet0) {
 		this.app = appW;
 		this.spreadsheet = spreadsheet0;
+		this.algebraStyles = AlgebraStyle.getAvailableValues(app);
 		addChangeHandler(event -> {
-			int idx = getSelectedIndex();
+			int index = getSelectedIndex();
 			Kernel kernel = app.getKernel();
 
 			if (spreadsheet) {
-				kernel.setAlgebraStyleSpreadsheet(
-						AlgebraSettings.getStyleModeAt(idx));
+				kernel.setAlgebraStyleSpreadsheet(algebraStyles.get(index));
 			} else {
-				kernel.setAlgebraStyle(
-						AlgebraSettings.getStyleModeAt(idx));
+				app.getSettings().getAlgebra().setStyle(algebraStyles.get(index));
 			}
-
 			kernel.updateConstruction(false);
 		});
 
@@ -39,15 +41,8 @@ public class AlgebraStyleListBox extends ListBox {
 	 * Updates listBox selection and texts (at language change)
 	 */
 	public void update() {
-		String[] modes = AlgebraSettings.getDescriptionModes(app);
 		clear();
-
-		for (int i = 0; i < modes.length; i++) {
-			addItem(app.getLocalization().getMenu(modes[i]));
-		}
-
-		int descMode = app.getKernel().getAlgebraStyle();
-		setSelectedIndex(AlgebraSettings.indexOfStyleMode(descMode));
-
+		algebraStyles.forEach(style -> addItem(style.getTranslationKey()));
+		setSelectedIndex(algebraStyles.indexOf(app.getAlgebraStyle()));
 	}
 }

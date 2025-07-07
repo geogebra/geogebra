@@ -35,6 +35,8 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -903,7 +905,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			break;
 
-		// Ctrl + D: toggles algebra style: value, definition, command
+		// Ctrl + D: toggles algebra style: value, definition, description, linear notation
 		case D:
 		case BACK_QUOTE:
 			if (!isShiftDown) {
@@ -991,16 +993,16 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	/**
-	 * Change algebra style value -&gt; definition -&gt; description ...
-	 * 
-	 * @param app
-	 *            application
+	 * Changes the current Algebra Style
+	 * @param app Application
 	 */
 	public static void toggleAlgebraStyle(App app) {
 		Kernel kernel = app.getKernel();
-		kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
-		kernel.setAlgebraStyleSpreadsheet(
-				(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
+		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
+		AlgebraStyle nextStyle = algebraSettings.getStyle().getNextAvailableStyle(app);
+
+		algebraSettings.setStyle(nextStyle);
+		kernel.setAlgebraStyleSpreadsheet(nextStyle);
 
 		kernel.updateConstruction(false);
 		app.setUnsaved();
