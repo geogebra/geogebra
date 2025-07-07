@@ -89,7 +89,8 @@ final class EditorCompositionHandler
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		if (composingBackspace(event)) {
-			editor.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE));
+			editor.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE,
+					KeyEvent.KeyboardType.EXTERNAL));
 			backspace = true;
 		}
 	}

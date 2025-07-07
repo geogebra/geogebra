@@ -298,11 +298,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		case GWTKeycodes.KEY_ESCAPE:
 		case GWTKeycodes.KEY_BACKSPACE:
 			getActiveTreeItem().getMathField().getKeyListener().onKeyPressed(
-					new KeyEvent(keyCode, 0, (char) event.getCharCode()));
+					new KeyEvent(keyCode, 0, (char) event.getCharCode(),
+							KeyEvent.KeyboardType.EXTERNAL));
 			break;
 		default:
 			getActiveTreeItem().getMathField().getKeyListener().onKeyTyped(
-					new KeyEvent(keyCode, 0, (char) event.getCharCode()));
+					new KeyEvent(keyCode, 0, (char) event.getCharCode(),
+							KeyEvent.KeyboardType.EXTERNAL));
 			break;
 		}
 	}
@@ -321,7 +323,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (Browser.isAndroid()) {
 				getActiveTreeItem().getMathField().getKeyListener()
 						.onKeyPressed(new KeyEvent(keyCode, 0,
-								(char) event.getCharCode()));
+								(char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
 			}
 			break;
 		case GWTKeycodes.KEY_LEFT:
@@ -330,7 +332,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		case GWTKeycodes.KEY_DOWN:
 			getActiveTreeItem().getMathField().getKeyListener()
 					.onKeyPressed(new KeyEvent(keyCode, 0,
-							(char) event.getCharCode()));
+							(char) event.getCharCode(), KeyEvent.KeyboardType.EXTERNAL));
 			event.stopPropagation();
 			break;
 		default:

@@ -53,7 +53,7 @@ public class EditorStateAPITest {
 
 	private static void moveLeft(MathFieldCommon mathField) {
 		mathField.getInternal()
-				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, KeyEvent.KeyboardType.EXTERNAL));
 	}
 
 	@Test

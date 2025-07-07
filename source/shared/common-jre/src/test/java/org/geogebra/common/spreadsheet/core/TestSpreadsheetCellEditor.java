@@ -16,14 +16,16 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	private final SpreadsheetCellDataSerializer cellDataSerializer =
 			new DefaultSpreadsheetCellDataSerializer();
 
-	private final TabularData tabularData;
+	private final TabularData<?> tabularData;
+	private boolean showing;
 
-	TestSpreadsheetCellEditor(TabularData tabularData) {
+	TestSpreadsheetCellEditor(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
 	}
 
 	@Override
 	public void show(@Nonnull Rectangle editorBounds, @Nonnull Rectangle viewport, int textAlignment) {
+		showing = true;
 	}
 
 	@Override
@@ -33,6 +35,7 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
 	@Override
 	public void hide() {
+		showing = false;
 	}
 
 	@Override
@@ -48,5 +51,12 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	@Override
 	public @Nonnull SpreadsheetCellDataSerializer getCellDataSerializer() {
 		return cellDataSerializer;
+	}
+
+	/**
+	 * @return whether this is visible; keeps track of {@link #show} and {@link #hide} calls.
+	 */
+	public boolean isShowing() {
+		return showing;
 	}
 }

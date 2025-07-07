@@ -1078,6 +1078,22 @@ public final class SpreadsheetController {
 	}
 
 	/**
+	 * Saves current editor content, moves to the next cell in given direction.
+	 *
+	 * @param keyCode arrow key, e.g. {@code JavaKeyCodes.VK_UP}
+	 */
+	void onArrow(int keyCode) {
+		if (keyCode == JavaKeyCodes.VK_UP && editor != null && editor.row == 0) {
+			return;
+		}
+		if (keyCode == JavaKeyCodes.VK_LEFT && editor != null && editor.column == 0) {
+			return;
+		}
+		saveContentAndHideCellEditor();
+		handleKeyPressed(keyCode, "", Modifiers.NONE);
+	}
+
+	/**
 	 * Hides the cell editor if active, moves input focus down by one cell, and adjusts the
 	 * viewport if necessary.
 	 */
@@ -1308,7 +1324,8 @@ public final class SpreadsheetController {
 		updateSelectionAndScroll(destRow, destCol);
 		if (showEditor) {
 			showCellEditor(destRow, destCol, true);
-			editor.cellEditor.getMathField().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+			editor.cellEditor.getMathField().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT,
+					KeyEvent.KeyboardType.INTERNAL));
 		}
 	}
 

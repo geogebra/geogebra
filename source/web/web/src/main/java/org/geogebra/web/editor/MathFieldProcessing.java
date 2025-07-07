@@ -30,14 +30,17 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void onEnter() {
-		mf.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_ENTER));
-		mf.getKeyListener().onKeyReleased(new KeyEvent(JavaKeyCodes.VK_ENTER));
+		mf.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_ENTER,
+				KeyEvent.KeyboardType.INTERNAL));
+		mf.getKeyListener().onKeyReleased(new KeyEvent(JavaKeyCodes.VK_ENTER,
+				KeyEvent.KeyboardType.INTERNAL));
 	}
 
 	@Override
 	public void onBackSpace() {
 		mf.getKeyListener()
-				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE));
+				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE,
+						KeyEvent.KeyboardType.INTERNAL));
 	}
 
 	@Override
@@ -58,7 +61,8 @@ public class MathFieldProcessing implements KeyboardListener {
 			break;
 		}
 
-		mf.getKeyListener().onKeyPressed(new KeyEvent(arrowType));
+		KeyEvent keyEvent = new KeyEvent(arrowType, 0, KeyEvent.KeyboardType.INTERNAL);
+		mf.getKeyListener().onKeyPressed(keyEvent);
 		mf.readPosition();
 	}
 

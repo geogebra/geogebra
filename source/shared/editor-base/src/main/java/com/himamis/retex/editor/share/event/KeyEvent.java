@@ -30,28 +30,20 @@ public class KeyEvent {
 
 	/**
 	 * The Shift key extended modifier constant.
-	 * 
-	 * @since 1.4
 	 */
 	public static final int SHIFT_MASK = 1;
 
 	/**
 	 * The Control key extended modifier constant.
-	 * 
-	 * @since 1.4
 	 */
 	public static final int CTRL_MASK = 2;
 	/**
 	 * The Alt key extended modifier constant.
-	 * 
-	 * @since 1.4
 	 */
 	public static final int ALT_MASK = 1 << 3;
 
 	/**
 	 * The Meta key extended modifier constant.
-	 * 
-	 * @since 1.4
 	 */
 	public static final int META_DOWN_MASK = 1 << 8;
 
@@ -61,18 +53,28 @@ public class KeyEvent {
 	public static final int ACTION_MULTIPLE = 2;
 	public static final int ACTION_UNKNOWN = -1;
 
-	private int keyCode;
-	private int keyModifiers;
-	private char unicodeKeyChar;
+	private final int keyCode;
+	private final int keyModifiers;
+	private final char unicodeKeyChar;
+	private final KeyboardType sourceKeyboard;
 
-	private int action;
+	private final int action;
 
-	public KeyEvent(int keyCode) {
-		this(keyCode, 0);
+	public enum KeyboardType {
+		/** External keyboard */
+		EXTERNAL,
+		/** GeoGebra's math keyboard */
+		INTERNAL,
+		/** Keyboard type cannot be determined */
+		UNKNOWN
 	}
 
-	public KeyEvent(int keyCode, int keyModifiers) {
-		this(keyCode, keyModifiers, '\0');
+	public KeyEvent(int keyCode, KeyboardType keyboardType) {
+		this(keyCode, 0, keyboardType);
+	}
+
+	public KeyEvent(int keyCode, int keyModifiers, KeyboardType keyboardType) {
+		this(keyCode, keyModifiers, '\0', keyboardType);
 	}
 
 	/**
@@ -81,12 +83,16 @@ public class KeyEvent {
 	 * @param keyModifiers
 	 *            modifiers (ALT_MASK | SHIFT_MASK)
 	 * @param unicodeKeyChar
-	 *            unicode key
+	 *            Unicode key
+	 * @param sourceKeyboard source keyboard type
 	 */
-	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar) {
+	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar,
+			KeyboardType sourceKeyboard) {
 		this.keyCode = keyCode;
 		this.keyModifiers = keyModifiers;
 		this.unicodeKeyChar = unicodeKeyChar;
+		this.sourceKeyboard = sourceKeyboard;
+		this.action = ACTION_DOWN;
 	}
 
 	/**
@@ -95,13 +101,16 @@ public class KeyEvent {
 	 * @param keyModifiers
 	 *            modifiers (ALT_MASK | SHIFT_MASK)
 	 * @param unicodeKeyChar
-	 *            unicode key
-	 * @param action
-	 *            for Android, one of the ACTION_* constants
+	 *            Unicode key
+	 * @param sourceKeyboard source keyboard type
+	 * @param action for Android only, one of the ACTION_* constants
 	 */
 	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar,
-			int action) {
-		this(keyCode, keyModifiers, unicodeKeyChar);
+			KeyboardType sourceKeyboard, int action) {
+		this.keyCode = keyCode;
+		this.keyModifiers = keyModifiers;
+		this.unicodeKeyChar = unicodeKeyChar;
+		this.sourceKeyboard = sourceKeyboard;
 		this.action = action;
 	}
 
@@ -118,11 +127,19 @@ public class KeyEvent {
 	}
 
 	/**
+	 * @return keyboard type
+	 */
+	public KeyboardType getSourceKeyboard() {
+		return sourceKeyboard;
+	}
+
+	/**
 	 * Android only
 	 * 
-	 * @return UP / DOWN / MULTIPLE / ?
+	 * @return ACTION_UP / ACTION_DOWN / ACTION_MULTIPLE / ACTION_UNKNOWN
 	 */
 	public int getAction() {
 		return action;
 	}
+
 }

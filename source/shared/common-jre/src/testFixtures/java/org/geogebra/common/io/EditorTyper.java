@@ -43,7 +43,8 @@ public class EditorTyper {
 	 * @param key keyCode to type
 	 */
 	public void typeKey(int key) {
-		mathField.getInternal().onKeyPressed(new KeyEvent(key, modifiers, '\0'));
+		mathField.getInternal().onKeyPressed(new KeyEvent(key, modifiers, '\0',
+				KeyEvent.KeyboardType.EXTERNAL));
 	}
 
 	public void setModifiers(int modifiers) {
@@ -58,7 +59,8 @@ public class EditorTyper {
 	 */
 	public void repeatKey(int key, int count) {
 		for (int i = 0; i < count; i++) {
-			mathField.getInternal().onKeyPressed(new KeyEvent(key, modifiers, '\0'));
+			mathField.getInternal().onKeyPressed(new KeyEvent(key, modifiers, '\0',
+					KeyEvent.KeyboardType.EXTERNAL));
 		}
 	}
 }

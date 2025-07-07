@@ -12,6 +12,7 @@ import org.gwtproject.dom.client.NodeList;
 import org.gwtproject.user.client.DOM;
 
 import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 import elemental2.dom.Event;
@@ -129,7 +130,7 @@ public class TableEditor implements UnhandledArrowListener {
 	}
 
 	@Override
-	public void onArrow(int keyCode) {
+	public void onArrow(int keyCode, KeyEvent.KeyboardType keyboardType) {
 		switch (keyCode) {
 		case JavaKeyCodes.VK_LEFT:
 			controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);

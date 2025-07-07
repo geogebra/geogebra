@@ -386,7 +386,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				if (event.getUnicodeCharCode() > 31) {
 					keyListener.onKeyTyped(
 							new KeyEvent(event.getNativeEvent().getKeyCode(), getModifiers(event),
-									getChar(event.getNativeEvent())));
+									getChar(event.getNativeEvent()),
+									KeyEvent.KeyboardType.EXTERNAL));
 				}
 				event.stopPropagation();
 				if (!controlDown(event)) {
@@ -412,7 +413,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				return;
 			}
 			keyListener.onKeyReleased(new KeyEvent(code,
-					getModifiers(event), getChar(event.getNativeEvent())));
+					getModifiers(event), getChar(event.getNativeEvent()),
+					KeyEvent.KeyboardType.EXTERNAL));
 			updateAltForKeyUp(event);
 
 			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
@@ -436,7 +438,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			}
 
 			boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
-					getModifiers(event), getChar(event.getNativeEvent())));
+					getModifiers(event), getChar(event.getNativeEvent()),
+					KeyEvent.KeyboardType.EXTERNAL));
 			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 			if (code == JavaKeyCodes.VK_LEFT
 					|| code == JavaKeyCodes.VK_RIGHT) {
@@ -462,7 +465,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private void redirectToKeyTyped(KeyListener keyListener, char typedChar, KeyUpEvent event) {
 		keyListener.onKeyTyped(new KeyEvent(0, 0,
-				event.isShiftKeyDown() ? typedChar : Character.toLowerCase(typedChar)));
+				event.isShiftKeyDown() ? typedChar : Character.toLowerCase(typedChar),
+				KeyEvent.KeyboardType.EXTERNAL));
 		onFocusTimer(); // refocus to remove the half-written letter
 		updateAltForKeyUp(event);
 		event.preventDefault();

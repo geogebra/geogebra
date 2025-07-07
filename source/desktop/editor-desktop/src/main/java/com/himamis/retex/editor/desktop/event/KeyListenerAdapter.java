@@ -57,7 +57,8 @@ public class KeyListenerAdapter implements java.awt.event.KeyListener {
 		int keyCode = event.getKeyCode();
 		int keyModifiers = event.getModifiers();
 		char charCode = event.getKeyChar();
-		return new com.himamis.retex.editor.share.event.KeyEvent(keyCode, keyModifiers, charCode);
+		return new com.himamis.retex.editor.share.event.KeyEvent(keyCode, keyModifiers, charCode,
+				com.himamis.retex.editor.share.event.KeyEvent.KeyboardType.EXTERNAL);
 	}
 
 }

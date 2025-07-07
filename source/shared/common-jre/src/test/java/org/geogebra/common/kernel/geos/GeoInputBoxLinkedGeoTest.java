@@ -83,7 +83,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		editor.selectEntryAt(50, 0);
 		assertTrue("matrix entry should be selected",
 				mf.getInternal().getEditorState().hasSelection());
-		mf.getInternal().onKeyTyped(new KeyEvent(0, 0, '('));
+		mf.getInternal().onKeyTyped(new KeyEvent(0, 0, '(',
+				KeyEvent.KeyboardType.EXTERNAL));
 		assertEquals("{{1,(2)},{3,4}}", mf.getInternal().getText());
 	}
 

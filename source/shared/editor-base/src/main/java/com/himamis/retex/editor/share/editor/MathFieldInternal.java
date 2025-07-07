@@ -344,7 +344,8 @@ public class MathFieldInternal
 			}
 		}
 		if (arrow && !handled && unhandledArrowListener != null) {
-			unhandledArrowListener.onArrow(keyEvent.getKeyCode());
+			unhandledArrowListener.onArrow(keyEvent.getKeyCode(),
+					keyEvent.getSourceKeyboard());
 			return true;
 		}
 

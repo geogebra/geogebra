@@ -52,8 +52,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     private SpreadsheetController controller;
     private TabularData<String> tabularData;
+    private TestSpreadsheetCellEditor cellEditor;
     private SpreadsheetStyling spreadsheetStyling;
-    private SpreadsheetCellEditor cellEditor;
     private TableLayout layout;
     private ClipboardInterface clipboard;
     private Rectangle viewport;
@@ -491,6 +491,38 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertTrue(controller.isEditorActive());
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_ESCAPE); // discard input
         assertEquals("123", tabularData.contentAt(0, 0));
+    }
+
+    @Test
+    public void testArrowMovesEditor() {
+        tabularData.setContent(0, 0, "123");
+        simulateCellMouseClick(0, 0, 2);
+        assertTrue(controller.isEditorActive());
+        cellEditor.getMathField().parse("456");
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_DOWN);
+        assertFalse(cellEditor.isShowing());
+        controller.handleKeyPressed(JavaKeyCodes.VK_7, "7", Modifiers.NONE); // re-enter edit mode
+        assertTrue(cellEditor.isShowing());
+        controller.saveContentAndHideCellEditor();
+        assertEquals("456", tabularData.contentAt(0, 0));
+        assertEquals("7", tabularData.contentAt(1, 0));
+    }
+
+    @Test
+    public void testArrowInFractionDoesNotMoveEditor() {
+        tabularData.setContent(0, 0, "123");
+        simulateCellMouseClick(0, 0, 2);
+        assertTrue(controller.isEditorActive());
+        cellEditor.getMathField().parse("2/3");
+        // move into numerator
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_UP);
+        // move into denominator
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_DOWN);
+        assertTrue(cellEditor.isShowing());
+        controller.saveContentAndHideCellEditor();
+        assertEquals("((2)/(3))", tabularData.contentAt(0, 0));
+        assertNull(tabularData.contentAt(1, 0));
     }
 
     @Test
@@ -1108,7 +1140,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
      */
     private void simulateKeyPressInCellEditor(int keyCode) {
         MathFieldInternal mathField = cellEditor.getMathField();
-        KeyEvent keyEvent = new KeyEvent(keyCode, 0, (char) keyCode);
+        KeyEvent keyEvent = new KeyEvent(keyCode, 0, (char) keyCode,
+                KeyEvent.KeyboardType.EXTERNAL);
         mathField.onKeyPressed(keyEvent);
         if ((keyCode >= JavaKeyCodes.VK_A && keyCode <= JavaKeyCodes.VK_Z)
             || (keyCode >= JavaKeyCodes.VK_0 && keyCode <= JavaKeyCodes.VK_9)

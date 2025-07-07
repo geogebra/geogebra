@@ -1,8 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import static com.himamis.retex.editor.share.util.JavaKeyCodes.VK_DOWN;
-import static com.himamis.retex.editor.share.util.JavaKeyCodes.VK_UP;
-
 import javax.annotation.Nonnull;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -83,12 +80,9 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 	}
 
 	@Override
-	public void onArrow(int keyCode) {
-		if (keyCode == VK_UP) {
-			mathField.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_HOME));
-		}
-		if (keyCode == VK_DOWN) {
-			mathField.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_END));
+	public void onArrow(int keyCode, KeyEvent.KeyboardType type) {
+		if (type != KeyEvent.KeyboardType.INTERNAL) {
+			spreadsheetController.onArrow(keyCode);
 		}
 	}
 

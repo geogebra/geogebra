@@ -198,7 +198,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		if (geoInputBox.getLinkedGeo().isGeoAngle() && key != null && isSimpleNumber(mf)
 				&& key.matches("[0-9]")) {
 			mf.insertString(Unicode.DEGREE_STRING);
-			mf.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+			mf.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, KeyEvent.KeyboardType.INTERNAL));
 		}
 	}
 
