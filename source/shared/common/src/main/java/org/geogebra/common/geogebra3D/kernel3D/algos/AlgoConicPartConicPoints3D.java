@@ -65,12 +65,12 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 		startPoint.getInhomCoordsInD3()
 				.projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
-		conic.pointChanged(p2d, paramP);
+		conic.pointChangedUnlimited(p2d, paramP);
 
 		endPoint.getInhomCoordsInD3()
 				.projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
-		conic.pointChanged(p2d, paramQ);
+		conic.pointChangedUnlimited(p2d, paramQ);
 
 	}
 

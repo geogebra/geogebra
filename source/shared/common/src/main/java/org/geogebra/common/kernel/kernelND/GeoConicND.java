@@ -372,37 +372,50 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * Edited by: Kai Chung Tam Date: 4/6/2011 Fixed case CONIC_ELLIPSE,
-	 * CONIC_HYPERBOLA and CONIC_PARABOLA
-	 * 
-	 * @param P
+	 * Find the closest parameter value for given coordinates, update both <code>pt</code>
+	 * and <code>parameter</code> accordingly.
+	 * Consider potential limited path restrictions for normalizing the parameter.
+	 * @param pt
 	 *            a point
-	 * @param pp
+	 * @param parameter
 	 *            path parameter of the point
 	 * @param checkSection
 	 *            check the section (if exists)
 	 */
-	public void pointChanged(Coords P, PathParameter pp, boolean checkSection) {
+	public void pointChanged(Coords pt, PathParameter parameter, boolean checkSection) {
+		pointChangedUnlimited(pt, parameter);
+	}
+
+	/**
+	 * Find the closest parameter value for given coordinates, update both <code>pt</code>
+	 * and <code>parameter</code> accordingly.
+	 * Do not consider any limited path restrictions for normalizing the parameter.
+	 * @param pt
+	 *            a point
+	 * @param parameter
+	 *            path parameter of the point
+	 */
+	public void pointChangedUnlimited(Coords pt, PathParameter parameter) {
 		double px, py, ha, hb, hc_2;
 		double abspx, abspy; // for parabola and hyperbola
 		double tolerance = Kernel.STANDARD_PRECISION; // required precision
 														// (robustness not
 														// proven)
 
-		pp.setPathType(type);
+		parameter.setPathType(type);
 
 		switch (type) {
 		default:
 		case CONIC_EMPTY:
-			P.setX(Double.NaN);
-			P.setY(Double.NaN);
-			P.setZ(Double.NaN);
+			pt.setX(Double.NaN);
+			pt.setY(Double.NaN);
+			pt.setZ(Double.NaN);
 			break;
 
 		case CONIC_SINGLE_POINT:
-			P.setX(singlePoint.x);
-			P.setY(singlePoint.y);
-			P.setZ(singlePoint.z);
+			pt.setX(singlePoint.x);
+			pt.setY(singlePoint.y);
+			pt.setZ(singlePoint.z);
 			break;
 
 		case CONIC_INTERSECTING_LINES:
@@ -415,53 +428,53 @@ public abstract class GeoConicND extends GeoQuadricND
 			 */
 
 			// choose closest line
-			boolean firstLine = lines[0].distanceHom(P) <= lines[1]
-					.distanceHom(P);
+			boolean firstLine = lines[0].distanceHom(pt) <= lines[1]
+					.distanceHom(pt);
 			GeoLine line = firstLine ? lines[0] : lines[1];
 
 			// compute line path parameter
-			line.doPointChanged(P, pp);
+			line.doPointChanged(pt, parameter);
 
 			// convert line parameter to (-1,1)
-			pp.setT(PathNormalizer.inverseInfFunction(pp.getT()));
+			parameter.setT(PathNormalizer.inverseInfFunction(parameter.getT()));
 			if (!firstLine) {
-				pp.setT(pp.getT() + 2); // convert from (-1,1) to (1,3)
+				parameter.setT(parameter.getT() + 2); // convert from (-1,1) to (1,3)
 			}
 			break;
 
 		case CONIC_LINE:
 		case CONIC_DOUBLE_LINE:
 			getLines();
-			lines[0].doPointChanged(P, pp);
+			lines[0].doPointChanged(pt, parameter);
 			break;
 
 		case CONIC_CIRCLE:
 			// transform to eigenvector coord-system
-			coordsRWtoEV(P);
+			coordsRWtoEV(pt);
 			// calc parameter
-			px = P.getX() / P.getZ();
-			py = P.getY() / P.getZ();
+			px = pt.getX() / pt.getZ();
+			py = pt.getY() / pt.getZ();
 
 			// relation between the internal parameter t and the angle theta:
 			// t = atan(a/b tan(theta)) where tan(theta) = py / px
 			// avoid cos(atan(x)) for the vertices
-			pp.setT(Math.atan2(halfAxes[0] * py, halfAxes[1] * px));
+			parameter.setT(Math.atan2(halfAxes[0] * py, halfAxes[1] * px));
 
 			// calc Point on conic using this parameter
-			P.setX(halfAxes[0] * Math.cos(pp.getT()));
-			P.setY(halfAxes[1] * Math.sin(pp.getT()));
+			pt.setX(halfAxes[0] * Math.cos(parameter.getT()));
+			pt.setY(halfAxes[1] * Math.sin(parameter.getT()));
 
-			P.setZ(1.0);
+			pt.setZ(1.0);
 			// transform back to real world coord system
-			coordsEVtoRW(P);
+			coordsEVtoRW(pt);
 			break;
 		case CONIC_ELLIPSE:
 			// transform to eigenvector coord-system
-			coordsRWtoEV(P);
+			coordsRWtoEV(pt);
 
 			// calc parameter
-			px = P.getX() / P.getZ();
-			py = P.getY() / P.getZ();
+			px = pt.getX() / pt.getZ();
+			py = pt.getY() / pt.getZ();
 			abspx = Math.abs(px);
 			abspy = Math.abs(py);
 			ha = halfAxes[0];
@@ -474,30 +487,30 @@ public abstract class GeoConicND extends GeoQuadricND
 				// pp.setT(Math.asin(Math.max(-1,-hb*abspy/hc_2)));
 				if (abspy < Kernel.STANDARD_PRECISION) {
 					if (hb < ha) {
-						pp.setT(Math.PI / 2);
+						parameter.setT(Math.PI / 2);
 					} else {
-						pp.setT(0);
+						parameter.setT(0);
 					}
 				} else {
 					if (hb < ha) {
-						pp.setT(Math.PI / 2);
+						parameter.setT(Math.PI / 2);
 					} else {
 						if (abspy * hb < hc_2) {
-							pp.setT(Math.asin(hb * abspy / hc_2));
+							parameter.setT(Math.asin(hb * abspy / hc_2));
 						} else {
-							pp.setT(Math.PI / 2);
+							parameter.setT(Math.PI / 2);
 						}
 					}
 				}
 			} else if (abspy < Kernel.STANDARD_PRECISION) {
 				// pp.setT(Math.acos(Math.min(1,ha*abspx/hc_2)));
 				if (ha < hb) {
-					pp.setT(0);
+					parameter.setT(0);
 				} else {
 					if (abspx * ha < hc_2) {
-						pp.setT(Math.acos(ha * abspx / hc_2));
+						parameter.setT(Math.acos(ha * abspx / hc_2));
 					} else {
-						pp.setT(0);
+						parameter.setT(0);
 					}
 				}
 			} else {
@@ -506,29 +519,29 @@ public abstract class GeoConicND extends GeoQuadricND
 				double[] roots = getPerpendicularParams(abspx, abspy);
 
 				if (roots[0] > 0) {
-					pp.setT(Math.asin(roots[0]));
+					parameter.setT(Math.asin(roots[0]));
 				} else if (roots[1] > 0) {
-					pp.setT(Math.asin(roots[1]));
+					parameter.setT(Math.asin(roots[1]));
 				} else if (roots[2] > 0) {
-					pp.setT(Math.asin(roots[2]));
+					parameter.setT(Math.asin(roots[2]));
 				} else {
-					pp.setT(Math.asin(roots[3]));
+					parameter.setT(Math.asin(roots[3]));
 				}
 			}
 
 			// transform the parameter if (px,py) is not in the first quadrant.
 			if (px < 0) {
-				pp.setT(Math.PI - pp.getT());
+				parameter.setT(Math.PI - parameter.getT());
 			}
 			if (py < 0) {
-				pp.setT(-pp.getT());
+				parameter.setT(-parameter.getT());
 			}
 
-			P.setX(ha * Math.cos(pp.getT()));
-			P.setY(hb * Math.sin(pp.getT()));
-			P.setZ(1.0);
+			pt.setX(ha * Math.cos(parameter.getT()));
+			pt.setY(hb * Math.sin(parameter.getT()));
+			pt.setZ(1.0);
 			// transform back to real world coord system
-			coordsEVtoRW(P);
+			coordsEVtoRW(pt);
 			break;
 		case CONIC_HYPERBOLA:
 			/*
@@ -540,11 +553,11 @@ public abstract class GeoConicND extends GeoQuadricND
 			 */
 
 			// transform to eigenvector coord-system
-			coordsRWtoEV(P);
+			coordsRWtoEV(pt);
 
 			// calc parameter
-			px = P.getX() / P.getZ();
-			py = P.getY() / P.getZ();
+			px = pt.getX() / pt.getZ();
+			py = pt.getY() / pt.getZ();
 			abspx = Math.abs(px);
 			abspy = Math.abs(py);
 			ha = halfAxes[0];
@@ -577,31 +590,31 @@ public abstract class GeoConicND extends GeoQuadricND
 				s = -s;
 			}
 			// compute t in (-1,1) from s in (-inf, inf)
-			pp.setT(PathNormalizer.inverseInfFunction(s));
-			P.setX(ha * Math.cosh(s));
-			P.setY(hb * Math.sinh(s));
-			P.setZ(1.0);
+			parameter.setT(PathNormalizer.inverseInfFunction(s));
+			pt.setX(ha * Math.cosh(s));
+			pt.setY(hb * Math.sinh(s));
+			pt.setZ(1.0);
 
 			if (px < 0) { // left branch
-				pp.setT(pp.getT() + 2); // convert (-1,1) to (1,3)
-				P.setX(-P.getX());
+				parameter.setT(parameter.getT() + 2); // convert (-1,1) to (1,3)
+				pt.setX(-pt.getX());
 			}
 
 			// transform back to real world coord system
-			coordsEVtoRW(P);
+			coordsEVtoRW(pt);
 			break;
 
 		case CONIC_PARABOLA:
 			// transform to eigenvector coord-system
-			coordsRWtoEV(P);
+			coordsRWtoEV(pt);
 
 			// calculate parameters. consider only the upper-half plane.
-			px = P.getX() / P.getZ();
-			py = P.getY() / P.getZ();
+			px = pt.getX() / pt.getZ();
+			py = pt.getY() / pt.getZ();
 			abspy = Math.abs(py);
 
 			if (abspy < tolerance) { // Point is on x-axis
-				pp.setT(Math.sqrt(Math.max(0, 2 * (px - p) / p)));
+				parameter.setT(Math.sqrt(Math.max(0, 2 * (px - p) / p)));
 			} else { // binary search
 
 				double[] eqn = { abspy, -p + px, 0, -p / 2 };
@@ -609,23 +622,23 @@ public abstract class GeoConicND extends GeoQuadricND
 				EquationSolver.solveCubicS(eqn, roots,
 						Kernel.STANDARD_PRECISION);
 				if (roots[0] > 0) {
-					pp.setT(roots[0]);
+					parameter.setT(roots[0]);
 				} else if (roots[1] > 0) {
-					pp.setT(roots[1]);
+					parameter.setT(roots[1]);
 				} else {
-					pp.setT(roots[2]);
+					parameter.setT(roots[2]);
 				}
 
 				if (py < 0) {
-					pp.setT(-pp.getT());
+					parameter.setT(-parameter.getT());
 				}
 			}
 
-			P.setX(p * pp.getT() * pp.getT() / 2.0);
-			P.setY(p * pp.getT());
-			P.setZ(1.0);
+			pt.setX(p * parameter.getT() * parameter.getT() / 2.0);
+			pt.setY(p * parameter.getT());
+			pt.setZ(1.0);
 			// transform back to real world coord system
-			coordsEVtoRW(P);
+			coordsEVtoRW(pt);
 			break;
 		}
 	}

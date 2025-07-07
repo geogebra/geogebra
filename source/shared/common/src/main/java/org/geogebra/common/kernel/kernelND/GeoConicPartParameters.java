@@ -236,7 +236,7 @@ public class GeoConicPartParameters {
 	 */
 	public void setEllipseParameter(Coords P, PathParameter pp) {
 		// let GeoConic do the work
-		((GeoConicPartND) conic).superPointChanged(P, pp);
+		conic.pointChangedUnlimited(P, pp);
 
 		// now transform parameter t from [paramStart, paramEnd] to [0, 1]
 		if (pp.t < 0) {

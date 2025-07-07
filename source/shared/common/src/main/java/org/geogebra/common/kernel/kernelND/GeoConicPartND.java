@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.matrix.Coords;
 
@@ -24,7 +23,7 @@ public interface GeoConicPartND {
 	 * @param positiveOrientation
 	 *            true for positive orientation
 	 */
-	public void setParameters(double start, double end,
+	void setParameters(double start, double end,
 			boolean positiveOrientation);
 
 	/**
@@ -32,69 +31,59 @@ public interface GeoConicPartND {
 	 * 
 	 * @return CONIC_PART_ARC or CONIC_PART_SECTOR
 	 */
-	public int getConicPartType();
+	int getConicPartType();
 
 	/**
 	 * @return start parameter
 	 */
-	public double getParameterStart();
+	double getParameterStart();
 
 	/**
 	 * @return end parameter
 	 */
-	public double getParameterEnd();
+	double getParameterEnd();
 
 	/**
 	 * @return parameter extent
 	 */
-	public double getParameterExtent();
+	double getParameterExtent();
 
 	/**
 	 * @return orientation
 	 */
-	public boolean positiveOrientation();
-
-	/**
-	 * super method
-	 * 
-	 * @param P
-	 *            point
-	 * @param pp
-	 *            path parameter
-	 */
-	public void superPointChanged(Coords P, PathParameter pp);
+	boolean positiveOrientation();
 
 	/**
 	 * 
 	 * @return arc/sector parameters
 	 */
-	public GeoConicPartParameters getParameters();
+	GeoConicPartParameters getParameters();
 
 	/**
 	 * segment end point for degenerate case
 	 * 
 	 * @return coords of segment end point
 	 */
-	public Coords getSegmentEnd3D();
+	Coords getSegmentEnd3D();
 
 	/**
 	 * Returns arc length
 	 * 
 	 * @return arc length
 	 */
-	public double getArcLength();
+	double getArcLength();
 
 	/**
 	 * Returns the area
 	 * 
 	 * @return area
 	 */
-	public double getArea();
+	double getArea();
 
 	/**
 	 * set parameters in case of single point
 	 */
-	public void setParametersToSinglePoint();
+	void setParametersToSinglePoint();
 
 	/**
 	 * 
@@ -102,11 +91,11 @@ public interface GeoConicPartND {
 	 *            index of line
 	 * @return the origin of lines in case of parallel lines
 	 */
-	public Coords getOrigin3D(int i);
+	Coords getOrigin3D(int i);
 
 	/**
 	 * @param type
 	 *            hit type
 	 */
-	public void setLastHitType(HitType type);
+	void setLastHitType(HitType type);
 }

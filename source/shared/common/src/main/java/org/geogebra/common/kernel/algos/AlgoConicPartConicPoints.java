@@ -56,10 +56,10 @@ public class AlgoConicPartConicPoints extends AlgoConicPartConicPointsND {
 	protected void computeParameters() {
 		// the temp points P and Q should lie on the conic
 		P.setCoords((GeoPoint) startPoint);
-		conic.pointChanged(P);
+		conic.pointChangedUnlimited(P.getCoordsInD2(conic.getCoordSys()), P.getPathParameter());
 
 		Q.setCoords((GeoPoint) endPoint);
-		conic.pointChanged(Q);
+		conic.pointChangedUnlimited(Q.getCoordsInD2(conic.getCoordSys()), Q.getPathParameter());
 	}
 
 	@Override

@@ -391,44 +391,31 @@ public class GeoConicPart extends GeoConic
 		return false;
 	}
 
-	/**
-	 * super method
-	 * 
-	 * @param P
-	 *            point
-	 * @param pp
-	 *            path parameter
-	 */
 	@Override
-	public void superPointChanged(Coords P, PathParameter pp) {
-		super.pointChanged(P, pp, true);
-	}
+	public void pointChanged(Coords pt, PathParameter parameter, boolean checkSection) {
 
-	@Override
-	public void pointChanged(Coords P, PathParameter pp, boolean checkSection) {
-
-		pp.setPathType(type);
+		parameter.setPathType(type);
 
 		switch (type) {
 		case CONIC_CIRCLE:
 		case CONIC_ELLIPSE:
-			parameters.setEllipseParameter(P, pp);
-			parameters.clipEllipseParameter(P, pp);
+			parameters.setEllipseParameter(pt, parameter);
+			parameters.clipEllipseParameter(pt, parameter);
 			break;
 
 		// degenerate case: two rays or one segment
 		case CONIC_PARALLEL_LINES:
 			if (parameters.posOrientation) {
 				// segment
-				lines[0].doPointChanged(P, pp);
+				lines[0].doPointChanged(pt, parameter);
 
 				// make sure we don't get outside [0,1]
-				if (pp.t < 0) {
-					pp.t = 0;
-					pathChanged(P, pp);
-				} else if (pp.t > 1) {
-					pp.t = 1;
-					pathChanged(P, pp);
+				if (parameter.t < 0) {
+					parameter.t = 0;
+					pathChanged(pt, parameter);
+				} else if (parameter.t > 1) {
+					parameter.t = 1;
+					pathChanged(pt, parameter);
 				}
 			} else {
 				// two rays
@@ -436,14 +423,14 @@ public class GeoConicPart extends GeoConic
 				/*
 				 * P.x = -lines[0].y; P.y = lines[0].x; P.z = 0.0;
 				 */
-				P.setX(-lines[0].y);
-				P.setY(lines[0].x);
-				P.setZ(0);
+				pt.setX(-lines[0].y);
+				pt.setY(lines[0].x);
+				pt.setZ(0);
 			}
 			break;
 
 		default:
-			pp.t = Double.NaN;
+			parameter.t = Double.NaN;
 		}
 	}
 

@@ -845,19 +845,6 @@ public class GeoConicPart3D extends GeoConic3D
 		return ret;
 	}
 
-	/**
-	 * super method
-	 * 
-	 * @param P
-	 *            moved point
-	 * @param pp
-	 *            path parameter
-	 */
-	@Override
-	public void superPointChanged(Coords P, PathParameter pp) {
-		super.pointChanged(P, pp, true);
-	}
-
 	@Override
 	public Coords getOrigin3D(int i) {
 		return getCoordSys().getPoint(lines[i].startPoint.inhomX,

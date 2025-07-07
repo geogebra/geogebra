@@ -489,40 +489,37 @@ public class GeoConicSection extends GeoConic3D
 	}
 
 	@Override
-	public void pointChanged(Coords P, PathParameter pp, boolean checkSection) {
-
+	public void pointChanged(Coords pt, PathParameter pp, boolean checkSection) {
+		// calc point on conic and check it
+		super.pointChanged(pt, pp, checkSection);
 		if (checkSection) {
-			double xOld = P.getX() / P.getZ();
-			double yOld = P.getY() / P.getZ();
+			double xOld = pt.getX() / pt.getZ();
+			double yOld = pt.getY() / pt.getZ();
 			double distance = Double.POSITIVE_INFINITY;
-
-			// calc point on conic and check it
-			super.pointChanged(P, pp, checkSection);
-
 			if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
 				if (edgeExists[0]) {
 					if (pp.t > 1) { // wrong branch: force correct branch apex
 						pp.t = 0;
-						P.setX(getHalfAxis(0));
-						P.setY(0);
-						P.setZ(1.0);
-						coordsEVtoRW(P);
+						pt.setX(getHalfAxis(0));
+						pt.setY(0);
+						pt.setZ(1.0);
+						coordsEVtoRW(pt);
 					}
 				} else {
 					if (pp.t < 1) { // wrong branch: force correct branch apex
 						pp.t = 2;
-						P.setX(-getHalfAxis(0));
-						P.setY(0);
-						P.setZ(1.0);
-						coordsEVtoRW(P);
+						pt.setX(-getHalfAxis(0));
+						pt.setY(0);
+						pt.setZ(1.0);
+						coordsEVtoRW(pt);
 					}
 				}
 			}
 
-			P.setInhomCoords();
-			if (isInsideEdges(P.getX(), P.getY())) {
-				double dx = P.getX() - xOld;
-				double dy = P.getY() - yOld;
+			pt.setInhomCoords();
+			if (isInsideEdges(pt.getX(), pt.getY())) {
+				double dx = pt.getX() - xOld;
+				double dy = pt.getY() - yOld;
 				distance = dx * dx + dy * dy;
 			}
 
@@ -541,9 +538,9 @@ public class GeoConicSection extends GeoConic3D
 					double d = dx * dx + dy * dy;
 					if (d < distance) {
 						distance = d;
-						P.setX(x);
-						P.setY(y);
-						P.setZ(1);
+						pt.setX(x);
+						pt.setY(y);
+						pt.setZ(1);
 						switch (type) {
 						default:
 							pp.t = Double.NaN;
@@ -572,11 +569,7 @@ public class GeoConicSection extends GeoConic3D
 					}
 				}
 			}
-		} else {
-			// calc point on conic and check it
-			super.pointChanged(P, pp, checkSection);
 		}
-
 	}
 
 	private static double getParameterOnSegment(double x, double y,
