@@ -121,6 +121,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testEditorDescription() {
+		getApp().getEuclidianView1().setViewTextField(new TextFieldCommonJre());
+		setupInput("a", "42");
+		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle(),
+				LatexRendererSettings.create());
+		assertEquals("42", editor.getDescription());
+	}
+
+	@Test
 	public void enteringNewValueShouldKeepVectorType() {
 		setupAndCheckInput("v", "(1, 3)");
 		t("Rename(v,\"V\")");

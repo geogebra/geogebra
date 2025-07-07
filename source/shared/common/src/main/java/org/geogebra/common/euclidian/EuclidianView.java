@@ -6169,13 +6169,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
 			getScreenReader().cancelReadDelayed();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
-			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
+			String value = "";
 			if (inputBox.isSymbolicMode()) {
 				drawInputBox.attachMathField(caretPos);
+				value = getSymbolicEditor().getDescription();
+				value = value.isEmpty() ? "[blank]" : value;
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
 				drawInputBox.setWidgetVisible(true);
+				value = inputBox.getText();
 			}
+			ScreenReader.debug(inputBox.getAuralText() + " [editable] " + value);
 		}
 	}
 

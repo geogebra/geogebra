@@ -12,6 +12,7 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.main.App;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 
 public class SymbolicEditorCommon extends SymbolicEditor {
 	private final MathFieldCommon mf;
@@ -79,6 +80,12 @@ public class SymbolicEditorCommon extends SymbolicEditor {
 	@Override
 	public void repaintBox(GGraphics2D g2) {
 
+	}
+
+	@Override
+	public String getDescription() {
+		return ScreenReaderSerializer.fullDescription(
+				mf.getInternal().getEditorState().getRootComponent(), null);
 	}
 
 	public void setKeyListener(Consumer<String> keyListener) {

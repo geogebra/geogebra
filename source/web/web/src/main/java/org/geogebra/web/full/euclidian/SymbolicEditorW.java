@@ -104,6 +104,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		super.resetChanges();
 
 		editor.setLabel(getGeoInputBox().getAuralText());
+		editor.updateAriaValue();
 		if (getGeoInputBox().hasError()) {
 			editor.setErrorText(AccessibleInputBox.getErrorText(app.getLocalization()));
 		} else {
@@ -166,6 +167,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	public void onEnter() {
 		super.onEnter();
 		editor.updateAriaLabel();
+		editor.updateAriaValue();
 	}
 
 	@Override
@@ -205,5 +207,10 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	@Override
 	public void selectEntryAt(int x, int y) {
 		editor.selectEntryAt(x - EDITOR_PADDING, y - EDITOR_PADDING);
+	}
+
+	@Override
+	public String getDescription() {
+		return editor.getMathField().getDescription();
 	}
 }

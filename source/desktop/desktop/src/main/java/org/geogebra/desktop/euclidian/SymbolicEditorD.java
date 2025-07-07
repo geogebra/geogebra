@@ -25,6 +25,7 @@ import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.renderer.share.TeXFont;
 
 public class SymbolicEditorD extends SymbolicEditor {
@@ -165,5 +166,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	protected void selectEntryAt(int x, int y) {
 		mathField.getInternal().selectEntryAt(x, y);
+	}
+
+	@Override
+	public String getDescription() {
+		return ScreenReaderSerializer.fullDescription(
+				mathField.getInternal().getEditorState().getRootComponent(), null);
 	}
 }

@@ -290,4 +290,8 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		app.dispatchEvent(event);
 	}
 
+	/**
+	 * @return formula description
+	 */
+	public abstract String getDescription();
 }

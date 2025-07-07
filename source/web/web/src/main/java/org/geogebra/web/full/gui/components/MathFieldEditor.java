@@ -310,6 +310,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	public void attach(HasWidgets.ForIsWidget parent) {
 		if (!main.isAttached()) {
 			parent.add(main);
+		} else {
+			mathField.rebuild();
 		}
 	}
 
@@ -329,11 +331,18 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 * Update screen reader description
 	 */
 	public void updateAriaLabel() {
-		String fullDescription = label + " " + mathField.getDescription();
+		String fullDescription = label;
 		if (errorText != null) {
 			fullDescription += " " + errorText;
 		}
 		mathField.setAriaLabel(fullDescription.trim());
+	}
+
+	/**
+	 * Update the value for screen reader.
+	 */
+	public void updateAriaValue() {
+		mathField.setAriaValue(mathField.getDescription());
 	}
 
 	/**

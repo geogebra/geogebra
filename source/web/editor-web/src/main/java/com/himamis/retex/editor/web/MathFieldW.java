@@ -45,6 +45,7 @@ import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -138,6 +139,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private double maxHeight = -1;
 	private ClickAdapterW adapter;
 	private boolean powerHappened;
+	private HandlerRegistration blurRegistration;
 
 	/**
 	 * @param converter
@@ -266,17 +268,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			return inputTextArea.getElement();
 		}
 		return null;
-	}
-
-	/**
-	 * @return aria label
-	 */
-	public String getAriaLabel() {
-		Element target = getElementForAriaLabel();
-		if (target != null) {
-			return target.getAttribute("aria-label");
-		}
-		return "";
 	}
 
 	private static void initTimer() {
@@ -926,7 +917,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			});
 
 			if (html != null) {
-				html.addBlurHandler(this);
+				blurRegistration = html.addBlurHandler(this);
 			}
 			inputTextArea.addBlurHandler(this);
 			clip.setWidget(inputTextArea);
@@ -1016,11 +1007,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			clipDiv.getStyle().setPosition(Position.RELATIVE);
 			clipDiv.getStyle().setTop(-100, Unit.PCT);
 			clipDiv.setClassName("textAreaClip");
-			hiddenTextArea.getStyle().setWidth(1, Unit.PX);
 			hiddenTextArea.getStyle().setPadding(0, Unit.PX);
 			hiddenTextArea.getStyle().setProperty("border", "0");
 			hiddenTextArea.getStyle().setProperty("minHeight", "0");
-			//prevent messed up scrolling in FF/IE
+			//prevent messed up scrolling in FF/IE; width must be bigger for NVDA to work
 			hiddenTextArea.getStyle().setHeight(1, Unit.PX);
 			RootPanel.getBodyElement().appendChild(hiddenTextArea);
 			if (NavigatorUtil.isMobile()) {
@@ -1299,5 +1289,24 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public void setMaxHeight(double maxHeight) {
 		this.maxHeight = maxHeight;
+	}
+
+	/**
+	 * Remove from DOM and add back.
+	 */
+	public void rebuild() {
+		if (clip != null) {
+			clip.removeFromParent();
+		}
+		clip = null;
+		if (blurRegistration != null) {
+			blurRegistration.removeHandler();
+		}
+		getHiddenTextArea();
+		setKeyListener(inputTextArea, keyListener);
+	}
+
+	public void setAriaValue(String description) {
+		Js.<HTMLTextAreaElement>uncheckedCast(getHiddenTextArea()).value = description;
 	}
 }
