@@ -21,7 +21,6 @@ import elemental2.dom.CanvasRenderingContext2D;
  */
 public class AlgebraTab extends ToolbarTab {
 
-	private static final int SCROLLBAR_WIDTH = 8; // 8px in FF, 4px in Chrome => take 8px
 	final private App app;
 	private final ToolbarPanel toolbarPanel;
 	private FlowPanel wrapper;
@@ -113,7 +112,7 @@ public class AlgebraTab extends ToolbarTab {
 			return;
 		}
 		aview.setUserWidth(tabWidth);
-		aview.resize(tabWidth - SCROLLBAR_WIDTH);
+		aview.resize(tabWidth);
 		logo.onResize(aview, getTabHeight());
 		scrollToActiveItem();
 	}
