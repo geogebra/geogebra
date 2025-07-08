@@ -105,7 +105,7 @@ public final class GCDFromExpanded implements SimplifyNode {
 			if (multiplier != 0 && Math.abs(entry.getValue()) >= Math.abs(multiplier * gcd1)) {
 				ExpressionNode gcdSqrt = newGCDSqrt(entry.getKey(), multiplier);
 				sum = addOrLet(sum, Math.abs(entry.getValue()) == Math.abs(gcd1)
-						? newSqrt.multiplyR(Math.signum(multiplier))
+						? newSqrt.multiplyR(Math.signum((double) multiplier))
 						: gcdSqrt);
 			}
 			if (entry.getValue() != multiplier * gcd1) {

@@ -48,7 +48,7 @@ final class SpreadsheetReferenceParsing {
 	 * @param toReference A cell or range reference string. May be {@code null}.
 	 * @return A {@code SpreadsheetReference} representing the given cell or range of cells
 	 * (if toReference is non-null and a valid cell reference). Returns {@code null} if
-	 * {@code fromReference} or @{code toReference} are invalid strings.
+	 * {@code fromReference} or {@code toReference} are invalid strings.
 	 */
 	private static @CheckForNull SpreadsheetReference parseCellReferences(
 			@Nonnull String fromReference, @CheckForNull String toReference) {
