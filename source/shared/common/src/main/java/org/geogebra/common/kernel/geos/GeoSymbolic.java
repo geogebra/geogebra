@@ -116,8 +116,11 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public ExpressionValueType getValueType() {
-		if (value != null) {
+		if (value != null && ExpressionNode.isDefined(value)) {
 			return value.getValueType();
+		}
+		if (getDefinition() != null) {
+			return getDefinition().getValueType();
 		}
 		return ValueType.UNKNOWN;
 	}
@@ -717,7 +720,7 @@ public class GeoSymbolic extends GeoElement
 
 	private boolean useOutputAsMainTwin() {
 		return (constant != null && constant.getTotalNumberOfConsts() > 0)
-				|| (getDefinition() != null && isCasForwardingCommand(getDefinition().unwrap()));
+				|| (getDefinition() != null && isFullyComputedByCAS(getDefinition().unwrap()));
 	}
 
 	/**
@@ -725,7 +728,10 @@ public class GeoSymbolic extends GeoElement
 	 * @return whether running the input through AlgebraProcessor brings no value compared to
 	 * just processing output of the CAS computation
 	 */
-	private boolean isCasForwardingCommand(ExpressionValue unwrappedDefinition) {
+	private boolean isFullyComputedByCAS(ExpressionValue unwrappedDefinition) {
+		if (unwrappedDefinition instanceof Equation) {
+			return true;
+		}
 		Commands cmd = unwrappedDefinition instanceof Command
 				? Commands.stringToCommand(((Command) unwrappedDefinition).getName()) : null;
 		if (cmd == null) {

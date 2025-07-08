@@ -40,7 +40,7 @@ public class DelayedCasLoadingTest {
 	public void init() {
 		active = false;
 		casInitialized = false;
-		app = AppCommonFactory.create();
+		app = AppCommonFactory.create3D();
 		CASFactory factory = new CASFactory() {
 			@Override
 			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
@@ -121,6 +121,21 @@ public class DelayedCasLoadingTest {
 		assertThat(sym, hasValue("false"));
 		app.setXML(app.getXML(), true);
 		assertThat(app.getKernel().lookupLabel("p"), hasValue("false"));
+	}
+
+	@Test
+	public void symbolicShouldNotChangeCoordToMultiplication() {
+		app.setConfig(new AppConfigCas());
+		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		add("A=(1,2,3)");
+		add("m1={{x-x(A),y-y(A),z-z(A)},{1,2,3},{0,-1,1}}");
+		GeoSymbolic det = (GeoSymbolic) add("eq:Determinant(m1)=0");
+		active = true;
+		app.getKernel().refreshCASCommands();
+		assertThat(det.getTwinGeo(), hasValue("5x - y - z = 0"));
+		assertThat(app.getKernel().lookupLabel("m1"),
+				hasValue("{{x - 1, y - 2, z - 3}, {1, 2, 3}, {0, -1, 1}}"));
+		assertThat(app.getKernel().lookupLabel("eq"), hasValue("5x - y - z = 0"));
 	}
 
 	@Test

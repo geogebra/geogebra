@@ -3765,7 +3765,15 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether this expression is something else than '?'
 	 */
 	public boolean isDefined() {
-		ExpressionValue def = unwrap();
+		return isDefined(this);
+	}
+
+	/**
+	 * @param value expression value
+	 * @return whether it's not undefined per definition
+	 */
+	public static boolean isDefined(ExpressionValue value) {
+		ExpressionValue def = value.unwrap();
 		return !(def instanceof MyDouble && def.isConstant()
 				&& Double.isNaN(def.evaluateDouble()));
 	}

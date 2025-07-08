@@ -525,8 +525,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	private void checkDefined() {
 		isDefined = fun != null;
 
-		if (fun != null && "?"
-				.equals(fun.toValueString(StringTemplate.defaultTemplate))) {
+		if (fun != null && !fun.getExpression().isDefined()) {
 			isDefined = false;
 		}
 
