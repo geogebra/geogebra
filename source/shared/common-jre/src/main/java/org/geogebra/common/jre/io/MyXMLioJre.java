@@ -720,11 +720,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	}
 
 	/**
-	 *
+	 * XML stream from a string.
 	 */
-	protected static class XMLStreamStringJre implements XMLStreamJre {
+	public static class XMLStreamStringJre implements XMLStreamJre {
 
-		private String str;
+		private final String str;
 		private StringReader rs;
 
 		/**

@@ -5,6 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,22 +15,40 @@ import java.nio.file.Paths;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.io.MyXMLioCommon;
 import org.geogebra.common.jre.io.MyXMLioJre;
+import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.AppCommon3D;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.test.LocalizationCommonUTF;
+import org.geogebra.test.annotation.Issue;
+import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class MyXMLioTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
-		return AppCommonFactory.create3D();
+		return new AppCommon3D(new LocalizationCommonUTF(3), new AwtFactoryCommon(),
+				new AppConfigDefault()) {
+			@Override
+			public void showErrorDialog(String message) {
+				fail(message);
+			}
+		};
 	}
 
 	@Test
@@ -66,5 +86,19 @@ public class MyXMLioTest extends BaseUnitTest {
 		// verify 3d defaults
 		GeoElement cube = add("Cube(A,B)");
 		assertThat(cube.getObjectColor(), equalTo(GColor.newColor(216, 27, 96)));
+	}
+
+	@Test
+	@Issue("APPS-6753")
+	public void testErrorHandler() throws IOException, XMLParseException {
+		MyXMLioJre xmlIO = new MyXMLioCommon(getKernel(), getConstruction());
+		ErrorAccumulator errorHandler = new ErrorAccumulator();
+		xmlIO.setErrorHandler(errorHandler);
+		xmlIO.doParseXML(new MyXMLioJre.XMLStreamStringJre(
+				"<geogebra format=\"5.2\"><construction>"
+						+ "<expression exp=\"*\"/></construction></geogebra>"),
+				true, false, false , false, false);
+		assertEquals("Opening file failed \n" + Unicode.CENTER_DOT
+				+ " error in <expression>: label=null, exp= *", errorHandler.getErrors().trim());
 	}
 }

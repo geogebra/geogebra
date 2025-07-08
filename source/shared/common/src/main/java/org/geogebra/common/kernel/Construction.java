@@ -60,6 +60,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
@@ -2873,6 +2874,7 @@ public class Construction {
 			EvalInfo info) throws XMLParseException {
 		// try to process the new construction
 		try {
+			getXMLio().setErrorHandler(ErrorHelper.silent());
 			processXML(consXML.toString(), false, info);
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
@@ -2880,6 +2882,8 @@ public class Construction {
 		} catch (Exception | MyError e) {
 			restoreAfterRedefine(oldXML, info);
 			throw e;
+		} finally {
+			getXMLio().setErrorHandler(getApplication().getDefaultErrorHandler());
 		}
 		if (kernel.getConstruction().getXMLio().hasErrors()) {
 			restoreAfterRedefine(oldXML, info);

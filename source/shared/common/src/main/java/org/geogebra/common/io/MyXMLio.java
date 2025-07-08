@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -510,6 +511,14 @@ public abstract class MyXMLio {
 			Log.debug(e);
 		}
 
+	}
+
+	/**
+	 * Set handler for showing errors during XML parsing.
+	 * @param errorHandler error handler
+	 */
+	public void setErrorHandler(ErrorHandler errorHandler) {
+		getGGBHandler().setErrorHandler(errorHandler);
 	}
 
 	/**

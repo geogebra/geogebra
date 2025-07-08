@@ -77,6 +77,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
@@ -224,6 +225,7 @@ public class MyXMLHandler implements DocHandler {
 	private String xValuesCaption;
 	private ArrayList<String> entries;
 	private String subAppCode;
+	private ErrorHandler errorHandler;
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -242,6 +244,7 @@ public class MyXMLHandler implements DocHandler {
 		mode = MODE_INVALID;
 		constMode = MODE_CONSTRUCTION;
 		geoHandler = new ConsElementXMLHandler(this, app);
+		errorHandler = app.getDefaultErrorHandler();
 	}
 
 	private void reset(boolean start) {
@@ -301,14 +304,14 @@ public class MyXMLHandler implements DocHandler {
 
 	@Override
 	final public void endDocument() throws XMLParseException {
-		if (errors.size() > 0) {
+		if (!errors.isEmpty()) {
 			StringBuilder sb = new StringBuilder();
 			for (String error : errors) {
 				sb.append(Unicode.CENTER_DOT).append(' ').append(error)
 						.append('\n');
 			}
-			app.showError(
-					new MyError(loc, Errors.LoadFileFailed, sb.toString()));
+			MyError error = new MyError(loc, Errors.LoadFileFailed, sb.toString());
+			ErrorHelper.handleError(error, null, loc, errorHandler);
 		}
 		if (mode == MODE_INVALID) {
 			throw new XMLParseException(
@@ -317,7 +320,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * @return whether errors were produced by parsing last file
+	 * @return whether errors were produced by parsing the last file
 	 */
 	public boolean hasErrors() {
 		return !errors.isEmpty();
@@ -3672,5 +3675,9 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	public void setNeedsConstructionDefaults(boolean needsConstructionDefaults) {
 		geoHandler.setNeedsConstructionDefaults(needsConstructionDefaults);
+	}
+
+	public void setErrorHandler(ErrorHandler errorHandler) {
+		this.errorHandler = errorHandler;
 	}
 }
