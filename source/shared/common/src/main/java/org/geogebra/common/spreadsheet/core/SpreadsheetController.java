@@ -263,7 +263,7 @@ public final class SpreadsheetController {
 	//     -> SpreadsheetController.tabularDataDimensionsDidChange()
 	void tabularDataDimensionsDidChange(SpreadsheetDimensions dimensions) {
 		layout.dimensionsDidChange(dimensions);
-        selectionController.trimSelectionToSize(layout.numberOfRows(), layout.numberOfColumns());
+		selectionController.trimSelectionToSize(layout.numberOfRows(), layout.numberOfColumns());
 		notifyViewportAdjusterAboutSizeChange();
 	}
 
@@ -285,6 +285,8 @@ public final class SpreadsheetController {
 		// sync TableLayout -> SpreadsheetSettings
 		cellSizesChanged.notifyListeners(
 				new CellSizes(layout.getCustomColumnWidths(), layout.getCustomRowHeights()));
+		selectionController.trimSelectionToSize(tabularData.numberOfRows(),
+				tabularData.numberOfColumns());
 		storeUndoInfo();
 		notifyViewportAdjusterAboutSizeChange();
 		adjustViewportIfNeeded();

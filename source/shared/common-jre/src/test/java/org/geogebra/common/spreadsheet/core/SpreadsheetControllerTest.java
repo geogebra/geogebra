@@ -279,21 +279,21 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
     @Test
     public void testMovingLeftSelectsOnlySingleCell() {
-        controller.select(TabularRange.range(1, 1, 2, 1), false, false);
+        controller.select(new TabularRange(1, 2, 1, 1), false, false);
         fakeLeftArrowPress();
         assertTrue(controller.getLastSelection().contains(1, 1));
     }
 
     @Test
     public void testMovingDownSelectsOnlySingleCell() {
-        controller.select(TabularRange.range(2, 3, 2, 3), false, false);
+        controller.select(new TabularRange(2, 2, 3, 3), false, false);
         fakeDownArrowPress();
         assertTrue(controller.getLastSelection().contains(3, 2));
     }
 
     @Test
     public void testMovingRightAndDownSelectsMultipleCells() {
-        controller.select(TabularRange.range(1, 3, 1, 3), false, false);
+        controller.select(new TabularRange(1, 1, 3, 3), false, false);
         controller.handleKeyPressed(JavaKeyCodes.VK_RIGHT, "",
                 new Modifiers(false, false, true, false));
         controller.handleKeyPressed(JavaKeyCodes.VK_DOWN, "",
@@ -389,8 +389,26 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
                 layout.getColumnHeaderHeight() + 10,
                 new Modifiers(false, false, false, true));
         assertEquals(1, controller.getSelections().count());
-		assertEquals(controller.getSelections().findFirst().get().getRange(),
-                new TabularRange(0, 0, 1, 1));
+        assertEquals(new TabularRange(0, 0, 1, 1),
+                controller.getSelections().findFirst().get().getRange());
+    }
+
+    @Test
+    public void deleteColumnsForRectangularSelection() {
+        selectCells(-1, 1, -1, 60);
+        runContextItemAt(1, 1, DELETE_COLUMN);
+        // the first column is not selected, 60 columns were deleted, the remaining 39 are selected
+        assertEquals(List.of(new TabularRange(-1, 1, -1, 39)),
+                controller.getSelections().map(Selection::getRange).collect(Collectors.toList()));
+    }
+
+    @Test
+    public void deleteRowsForRectangularSelection() {
+        selectCells(1, -1, 60, -1);
+        runContextItemAt(1, 1, DELETE_ROW);
+        // the first row is not selected, 60 rows were deleted, the remaining 39 are selected
+        assertEquals(List.of(new TabularRange(1, -1, 39, -1)),
+                controller.getSelections().map(Selection::getRange).collect(Collectors.toList()));
     }
 
     private void runContextItemAt(int row, int column, Identifier id) {
@@ -413,8 +431,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
                 layout.getColumnHeaderHeight() + 10,
                 new Modifiers(false, false, false, true));
         assertEquals(1, controller.getSelections().count());
-        assertEquals(controller.getSelections().findFirst().get().getRange(),
-                new TabularRange(0, 0, 0, 0));
+        assertEquals(new TabularRange(0, 0, 0, 0),
+                controller.getSelections().findFirst().get().getRange());
     }
 
     // Cell editing
@@ -1252,4 +1270,5 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
         chartCommand = strBuilder.toString();
     }
+
 }
