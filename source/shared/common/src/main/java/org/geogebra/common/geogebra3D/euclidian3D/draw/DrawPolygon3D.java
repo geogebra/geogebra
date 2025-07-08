@@ -12,7 +12,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Export3DType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -640,7 +640,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 						geo.getAlphaValue());
 			} else {
 				if (!geo.wasInitLabelsCalled()) {
-					exportToPrinter3D.exportCurve(getGeometryIndex(), Type.CURVE,
+					exportToPrinter3D.exportCurve(getGeometryIndex(), Export3DType.CURVE,
 							geo.getGeoClassType().toString(), geo);
 				}
 			}

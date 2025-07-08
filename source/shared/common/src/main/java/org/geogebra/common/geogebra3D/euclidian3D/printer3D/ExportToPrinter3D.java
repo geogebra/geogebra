@@ -31,7 +31,7 @@ public class ExportToPrinter3D {
 	/**
 	 * 3D export type
 	 */
-	public enum Type {
+	public enum Export3DType {
 		/** curve */
 		CURVE,
 		/** closed curve */
@@ -210,7 +210,7 @@ public class ExportToPrinter3D {
 	 * @param type
 	 *            export object type
 	 */
-	public void exportCurve(Drawable3D d, Type type) {
+	public void exportCurve(Drawable3D d, Export3DType type) {
 		if (!format.exportsPointsAndLines()) {
 			return;
 		}
@@ -229,7 +229,7 @@ public class ExportToPrinter3D {
 	 * @param geo
 	 *            construction element
 	 */
-	public void exportCurve(int geometryIndex, Type type, String geoType,
+	public void exportCurve(int geometryIndex, Export3DType type, String geoType,
 			GeoElement geo) {
 
 		if (!format.exportsPointsAndLines()) {
@@ -282,7 +282,7 @@ public class ExportToPrinter3D {
 				}
 				bi.rewind();
 
-				if (type == Type.CURVE && format.needsClosedObjectsForCurves()) {
+				if (type == Export3DType.CURVE && format.needsClosedObjectsForCurves()) {
 					// face for start
 					for (int i = 1; i < 7; i++) {
 						getFace(notFirst, 0, 0, i, i + 1, NORMAL_NOT_SET);
@@ -336,7 +336,7 @@ public class ExportToPrinter3D {
 							format.needsClosedObjectsForSurfaces(), false);
 				} else if (format.exportsPointsAndLines()) {
 					if (geo.getLineThickness() > 0) {
-						exportCurve(d.getGeometryIndex(), Type.CURVE,
+						exportCurve(d.getGeometryIndex(), Export3DType.CURVE,
 								geo.getLabelSimple(), geo);
 					}
 				}

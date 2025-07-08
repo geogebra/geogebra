@@ -8,7 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Export3DType;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -106,7 +106,7 @@ public class DrawCurve3D extends Drawable3DCurves implements HasZPick {
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible() && getGeoElement().getLineThickness() > 0) {
-			exportToPrinter3D.exportCurve(this, Type.CURVE);
+			exportToPrinter3D.exportCurve(this, Export3DType.CURVE);
 		}
 	}
 

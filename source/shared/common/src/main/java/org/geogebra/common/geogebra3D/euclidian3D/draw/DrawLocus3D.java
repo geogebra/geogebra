@@ -115,7 +115,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible() && getGeoElement().getLineThickness() > 0) {
-			exportToPrinter3D.exportCurve(this, ExportToPrinter3D.Type.CURVE);
+			exportToPrinter3D.exportCurve(this, ExportToPrinter3D.Export3DType.CURVE);
 		}
 	}
 

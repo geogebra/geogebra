@@ -186,7 +186,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible() && getLineThickness() > 0) {
-			exportToPrinter3D.exportCurve(this, ExportToPrinter3D.Type.CURVE);
+			exportToPrinter3D.exportCurve(this, ExportToPrinter3D.Export3DType.CURVE);
 		}
 	}
 

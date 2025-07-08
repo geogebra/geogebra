@@ -13,7 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoIterationList.Type;
+import org.geogebra.common.kernel.algos.AlgoIterationList.IterationType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -46,7 +46,7 @@ public class AlgoIteration extends AlgoElement {
 	private GeoList[] over;
 	private boolean isEmpty;
 	private AlgoElement expressionParentAlgo;
-	AlgoIterationList.Type type;
+	IterationType type;
 	boolean updateRunning = false;
 
 	/**
@@ -71,7 +71,7 @@ public class AlgoIteration extends AlgoElement {
 		nGeo = n.toGeoElement();
 
 		result = new GeoNumeric(cons);
-		type = Type.SIMPLE;
+		type = IterationType.SIMPLE;
 		setInputOutput();
 		compute();
 		result.setLabel(label);
@@ -99,7 +99,7 @@ public class AlgoIteration extends AlgoElement {
 		nGeo = n.toGeoElement();
 
 		result = new GeoNumeric(cons);
-		type = Type.DOUBLE;
+		type = IterationType.DOUBLE;
 		setInputOutput();
 		compute();
 		result.setLabel(label);
@@ -125,7 +125,7 @@ public class AlgoIteration extends AlgoElement {
 		this.over = over;
 		this.n = n;
 		this.nGeo = n.toGeoElement();
-		type = Type.DEFAULT;
+		type = IterationType.DEFAULT;
 
 		varCount = vars.length;
 
@@ -144,14 +144,14 @@ public class AlgoIteration extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		if (type == Type.SIMPLE) {
+		if (type == IterationType.SIMPLE) {
 			input = new GeoElement[3];
 			input[0] = f;
 			input[1] = startValueGeo;
 			input[2] = nGeo;
 
 			// done by AlgoElement
-		} else if (type == Type.DOUBLE) {
+		} else if (type == IterationType.DOUBLE) {
 			input = new GeoElement[3];
 			input[0] = fNVar;
 			input[1] = startValueGeo;
@@ -225,11 +225,11 @@ public class AlgoIteration extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (type == Type.SIMPLE) {
+		if (type == IterationType.SIMPLE) {
 			computeSimple();
 			return;
 		}
-		if (type == Type.DOUBLE) {
+		if (type == IterationType.DOUBLE) {
 			computeDouble();
 			return;
 		}
@@ -269,7 +269,7 @@ public class AlgoIteration extends AlgoElement {
 
 	@Override
 	public GeoElementND[] getInputForUpdateSetPropagation() {
-		if (type != Type.DEFAULT) {
+		if (type != IterationType.DEFAULT) {
 			return super.getInputForUpdateSetPropagation();
 		}
 		GeoElement[] realInput = new GeoElement[3];

@@ -123,11 +123,6 @@ import java.util.Vector;
  */
 public class QuickHull3D {
 
-	// /**
-	// * Logger to log to.
-	// */
-	// private static Logger LOG = LoggerFactory.getLogger(QuickHull3D.class);
-
 	/**
 	 * Specifies that (on output) vertex indices for a face should be listed in
 	 * clockwise order.
@@ -862,72 +857,6 @@ public class QuickHull3D {
 		}
 		return allFaces;
 	}
-
-	/**
-	 * Prints the vertices and faces of this hull to the stream ps.
-	 * <p>
-	 * This is done using the Alias Wavefront .obj file format, with the
-	 * vertices printed first (each preceding by the letter <code>v</code>),
-	 * followed by the vertex indices for each face (each preceded by the letter
-	 * <code>f</code>).
-	 * <p>
-	 * The face indices are numbered with respect to the hull vertices (as
-	 * opposed to the input points), with a lowest index of 1, and are arranged
-	 * counter-clockwise. More control over the index format can be obtained
-	 * using {@link #print(PrintStream,int) print(ps,indexFlags)}.
-	 * 
-	 * @param ps
-	 *            stream used for printing
-	 * @see QuickHull3D#print(PrintStream,int)
-	 * @see QuickHull3D#getVertices()
-	 * @see QuickHull3D#getFaces()
-	 */
-	// public void print(PrintStream ps) {
-	// print(ps, 0);
-	// }
-
-	/**
-	 * Prints the vertices and faces of this hull to the stream ps.
-	 * <p>
-	 * This is done using the Alias Wavefront .obj file format, with the
-	 * vertices printed first (each preceding by the letter <code>v</code>),
-	 * followed by the vertex indices for each face (each preceded by the letter
-	 * <code>f</code>).
-	 * <p>
-	 * By default, the face indices are numbered with respect to the hull
-	 * vertices (as opposed to the input points), with a lowest index of 1, and
-	 * are arranged counter-clockwise. However, this can be changed by setting
-	 * {@link #POINT_RELATIVE POINT_RELATIVE}, {@link #INDEXED_FROM_ONE
-	 * INDEXED_FROM_ZERO}, or {@link #CLOCKWISE CLOCKWISE} in the indexFlags
-	 * parameter.
-	 * 
-	 * @param ps
-	 *            stream used for printing
-	 * @param indexFlags
-	 *            specifies index characteristics (0 results in the default).
-	 * @see QuickHull3D#getVertices()
-	 * @see QuickHull3D#getFaces()
-	 */
-	// public void print(PrintStream ps, int indexFlags) {
-	// if ((indexFlags & INDEXED_FROM_ZERO) == 0) {
-	// indexFlags |= INDEXED_FROM_ONE;
-	// }
-	// for (int i = 0; i < numVertices; i++) {
-	// Point3d pnt = pointBuffer[vertexPointIndices[i]].pnt;
-	// ps.println("v " + pnt.x + " " + pnt.y + " " + pnt.z);
-	// }
-	// for (Iterator fi = faces.iterator(); fi.hasNext();) {
-	// Face face = (Face) fi.next();
-	// int[] indices = new int[face.numVertices()];
-	// getFaceIndices(indices, face, indexFlags);
-	//
-	// ps.print("f");
-	// for (int k = 0; k < indices.length; k++) {
-	// ps.print(" " + indices[k]);
-	// }
-	// ps.println("");
-	// }
-	// }
 
 	private void getFaceIndices(int[] indices, Face face, int flags) {
 		boolean ccw = (flags & CLOCKWISE) == 0;

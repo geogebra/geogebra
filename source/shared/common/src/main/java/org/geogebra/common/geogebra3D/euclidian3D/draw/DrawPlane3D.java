@@ -8,7 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Export3DType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -700,7 +700,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				exportToPrinter3D.exportSurface(this, true, false);
 			} else {
 				if (isGridVisible()) {
-					exportToPrinter3D.exportCurve(this, Type.CURVE);
+					exportToPrinter3D.exportCurve(this, Export3DType.CURVE);
 				}
 			}
 		}

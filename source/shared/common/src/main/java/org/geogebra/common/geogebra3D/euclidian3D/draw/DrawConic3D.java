@@ -9,7 +9,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Export3DType;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.FromMeta;
@@ -109,11 +109,11 @@ public class DrawConic3D extends Drawable3DCurves
 				exportToPrinter3D.exportSurface(this, true, true);
 			} else {
 				if (getGeoElement().getLineThickness() > 0) {
-					Type exportType;
+					Export3DType exportType;
 					switch (conic.getType()) {
 					case GeoConicNDConstants.CONIC_CIRCLE:
 					case GeoConicNDConstants.CONIC_ELLIPSE:
-						exportType = Type.CURVE_CLOSED;
+						exportType = Export3DType.CURVE_CLOSED;
 						break;
 					case GeoConicNDConstants.CONIC_HYPERBOLA:
 					case GeoConicNDConstants.CONIC_PARABOLA:
@@ -121,7 +121,7 @@ public class DrawConic3D extends Drawable3DCurves
 					case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 					case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 					default:
-						exportType = Type.CURVE;
+						exportType = Export3DType.CURVE;
 						break;
 					}
 					exportToPrinter3D.exportCurve(this, exportType);

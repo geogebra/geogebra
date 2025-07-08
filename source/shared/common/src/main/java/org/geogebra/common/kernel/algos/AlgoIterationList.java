@@ -55,7 +55,7 @@ public class AlgoIterationList extends AlgoElement {
 	private boolean isEmpty;
 	private AlgoElement expressionParentAlgo;
 
-	enum Type {
+	enum IterationType {
 		/** u(n+1)=f(u(n)) */
 		SIMPLE,
 		/** u(n+1)=f(u(n),n) */
@@ -64,7 +64,7 @@ public class AlgoIterationList extends AlgoElement {
 		DEFAULT
 	}
 
-	private Type type = Type.DEFAULT;
+	private IterationType type = IterationType.DEFAULT;
 
 	// we need to check that some Object[] reference didn't cause infinite
 	// update cycle
@@ -91,7 +91,7 @@ public class AlgoIterationList extends AlgoElement {
 		startValueGeo = startValue.toGeoElement();
 		this.n = n;
 		nGeo = n.toGeoElement();
-		type = Type.SIMPLE;
+		type = IterationType.SIMPLE;
 
 		list = new GeoList(cons);
 
@@ -120,7 +120,7 @@ public class AlgoIterationList extends AlgoElement {
 		this.startValueGeo = this.startValues = startValues;
 		this.n = n;
 		nGeo = n.toGeoElement();
-		type = Type.DOUBLE;
+		type = IterationType.DOUBLE;
 
 		list = new GeoList(cons);
 
@@ -151,7 +151,7 @@ public class AlgoIterationList extends AlgoElement {
 		this.over = over;
 		this.n = n;
 		this.nGeo = n.toGeoElement();
-		type = Type.DEFAULT;
+		type = IterationType.DEFAULT;
 
 		varCount = vars.length;
 

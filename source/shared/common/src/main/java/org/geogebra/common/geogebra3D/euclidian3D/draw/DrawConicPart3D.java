@@ -4,7 +4,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Export3DType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -118,7 +118,7 @@ public class DrawConicPart3D extends DrawConic3D {
 			if (exportSurface) {
 				exportToPrinter3D.exportSurface(this, true, true);
 			} else if (getGeoElement().getLineThickness() > 0) {
-				exportToPrinter3D.exportCurve(this, Type.CURVE);
+				exportToPrinter3D.exportCurve(this, Export3DType.CURVE);
 			}
 		}
 	}
