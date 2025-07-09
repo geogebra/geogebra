@@ -3654,4 +3654,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean isUsingFontAwesome() {
 		return getAppletParameters().getParamFontAwesome(isMebis());
 	}
+
+	/**
+	 * Returns whether the {@link PageListControllerInterface} is available on the whiteboard.
+	 *
+	 * @return true if the page list controller is available; false otherwise
+	 */
+	public boolean hasPageController() {
+		return isWhiteboardActive() && pageController != null;
+	}
 }
