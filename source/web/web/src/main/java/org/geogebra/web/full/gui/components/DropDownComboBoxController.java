@@ -10,48 +10,41 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.AbstractGroupedEnumeratedProperty;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Widget;
 
 public class DropDownComboBoxController implements SetLabels {
-	private Widget parent;
+	private final Widget parent;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
-	private List<String> items;
-	private List<Runnable> changeHandlers = new ArrayList<>();
+	private final List<String> items;
+	private final List<Runnable> changeHandlers = new ArrayList<>();
 	private NamedEnumeratedProperty<?> property;
 
 	/**
 	 * popup controller for dropdown and combobox
 	 * @param app - apps
 	 * @param parent - dropdown or combobox
-	 * @param anchor - anchor
 	 * @param items - list of items in popup
 	 * @param onClose - handler to run on close
 	 */
-	public DropDownComboBoxController(final AppW app, Widget parent, Widget anchor,
+	public DropDownComboBoxController(final AppW app, Widget parent,
 			List<String> items, Runnable onClose) {
 		this.parent = parent;
 		this.items = items;
 
-		init(app, anchor, onClose);
+		init(app, onClose);
 	}
 
-	public DropDownComboBoxController(final AppW app, Widget parent,
-			List<String> items, Runnable onClose) {
-		this(app, parent, null, items, onClose);
-	}
-
-	private void init(AppW app, Widget anchor, Runnable onClose) {
-		createPopup(app, parent, anchor, onClose);
+	private void init(AppW app, Runnable onClose) {
+		createPopup(app, parent, onClose);
 		setElements(items);
 		setSelectedOption(-1);
 	}
 
-	private void createPopup(final AppW app, Widget parent, Widget anchor,
-			Runnable onClose) {
-		Widget posRelTo = anchor != null ? anchor : parent;
-		dropDown = new ComponentDropDownPopup(app, 32, posRelTo, onClose);
+	private void createPopup(final AppW app, Widget parent, Runnable onClose) {
+		dropDown = new ComponentDropDownPopup(app, 32, parent, onClose);
 		dropDown.addAutoHidePartner(parent.getElement());
 	}
 
@@ -65,6 +58,8 @@ public class DropDownComboBoxController implements SetLabels {
 		} else {
 			showAsDropDown(isFullWidth);
 		}
+		Dom.toggleClass(parent, "active", isOpened());
+
 	}
 
 	private void highlightSelectedElement(int index, boolean highlight) {
@@ -120,7 +115,7 @@ public class DropDownComboBoxController implements SetLabels {
 
 	private List<Integer> getGroupDividerIndices() {
 		if (property instanceof AbstractGroupedEnumeratedProperty) {
-			List<Integer> listOfDividers = IntStream.of(((AbstractGroupedEnumeratedProperty)
+			List<Integer> listOfDividers = IntStream.of(((AbstractGroupedEnumeratedProperty <?>)
 					property).getGroupDividerIndices()).boxed().collect(Collectors.toList());
 			return listOfDividers;
 		}
@@ -167,10 +162,10 @@ public class DropDownComboBoxController implements SetLabels {
 	}
 
 	/**
-	 * show popup and position as combobox
+	 * show popup and position as combo-box
 	 */
 	public void showAsComboBox() {
-		dropDown.positionAsComboBox();
+		dropDown.positionAtBottomAnchor();
 	}
 
 	/**
@@ -178,7 +173,7 @@ public class DropDownComboBoxController implements SetLabels {
 	 * @param isFullWidth - is dropdown should have full width
 	 */
 	public void showAsDropDown(boolean isFullWidth) {
-		dropDown.positionAsDropDown();
+		dropDown.positionAtBottomAnchor();
 		if (isFullWidth) {
 			dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
 		}

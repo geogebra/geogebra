@@ -16,17 +16,17 @@ public class ComponentDropDownPopup {
 	private static final int OFFSET_X = 0;
 	public static final int POPUP_PADDING = 8;
 	public static final int MARGIN_FROM_SCREEN = 32;
-	private GPopupMenuW menu;
+	private final GPopupMenuW menu;
 	private int selectedIndex;
-	private Widget anchor;
-	private int itemHeight;
-	private AppW app;
+	private final Widget anchor;
+	private final int itemHeight;
+	private final AppW app;
 
 	/**
-	 * Popup constructor for dropdown and combobox
-	 * @param app        {@link AppW}
+	 * Popup constructor for dropdown and combo-box
+	 * @param app {@link AppW}
 	 * @param itemHeight Height of an item in list
-	 * @param anchor     to align the selected item.
+	 * @param anchor to align the selected item.
 	 */
 	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor, Runnable onClose) {
 		this.app = app;
@@ -93,8 +93,7 @@ public class ComponentDropDownPopup {
 		if (appBottom <= popupTopWithMargin + 3 * itemHeight + MARGIN_FROM_SCREEN) {
 			// not enough space for showing 3 items on bottom
 			int spaceOnScreen = (int) app.getHeight() - 2 * MARGIN_FROM_SCREEN - 2 * POPUP_PADDING;
-			int popupHeightAdjust = getPopupHeight() < spaceOnScreen
-					? getPopupHeight() : spaceOnScreen;
+			int popupHeightAdjust = Math.min(getPopupHeight(), spaceOnScreen);
 			int popupTopAdjust = getPopupHeight() < spaceOnScreen
 					? appBottom - getPopupHeight() - MARGIN_FROM_SCREEN : MARGIN_FROM_SCREEN;
 			// if less space than popup height, show popup on top with app height
@@ -120,10 +119,10 @@ public class ComponentDropDownPopup {
 	}
 
 	/**
-	 * Opens ComboBox at the bottom of the anchor if there is enough space,
+	 * Opens drop-down or combo-box at the bottom of the anchor if there is enough space,
 	 * on top of the anchor otherwise.
 	 */
-	public void positionAsComboBox() {
+	public void positionAtBottomAnchor() {
 		int anchorBottom = (int) (anchor.getElement().getAbsoluteBottom() - app.getAbsTop());
 		int spaceBottom = (int) (app.getHeight() - anchorBottom);
 		int spaceTop = (int) (anchor.getElement().getAbsoluteTop() - app.getAbsTop()

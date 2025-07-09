@@ -20,15 +20,16 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	private Label label;
 	private final String labelKey;
 	private Label selectedOption;
+	private SimplePanel arrowIcon;
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
 
 	/**
 	 * Material drop-down component
-	 * @param app - see {@link AppW}
-	 * @param label - label of drop-down
-	 * @param items - popup elements
+	 * @param app see {@link AppW}
+	 * @param label of drop-down
+	 * @param items popup elements
 	 */
 	private CompDropDown(AppW app, String label, List<String> items) {
 		this.app = app;
@@ -42,10 +43,10 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * @param app - - see {@link AppW}
-	 * @param label - label of drop-down
-	 * @param items - popup elements
-	 * @param defaultIdx - default index
+	 * @param app see {@link AppW}
+	 * @param label label of drop-down
+	 * @param items popup elements
+	 * @param defaultIdx selected index by default
 	 */
 	public CompDropDown(AppW app, String label, List<String> items, int defaultIdx) {
 		this(app, label, items);
@@ -54,9 +55,9 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * @param app - - see {@link AppW}
-	 * @param label - label of drop-down
-	 * @param property - property
+	 * @param app see {@link AppW}
+	 * @param label label of drop-down
+	 * @param property property
 	 */
 	public CompDropDown(AppW app, String label, NamedEnumeratedProperty<?> property) {
 		this(app, label, Arrays.asList(property.getValueNames()));
@@ -68,15 +69,19 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * @param app - see {@link AppW}
-	 * @param property - property
+	 * @param app see {@link AppW}
+	 * @param property property
 	 */
 	public CompDropDown(AppW app, NamedEnumeratedProperty<?> property) {
 		this(app, null, property);
 	}
 
 	private void initController(List<String> items) {
-		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
+		controller = new DropDownComboBoxController(app, this, items, () -> {
+			removeStyleName("active");
+			arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
+					.arrow_drop_down().getSVG());
+		});
 		controller.addChangeHandler(this::updateSelectionText);
 		updateSelectionText();
 	}
@@ -89,15 +94,13 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 			label = BaseWidgetFactory.INSTANCE.newSecondaryText(
 					app.getLocalization().getMenu(labelStr), "label");
 			optionHolder.add(label);
-		} else {
-			optionHolder.addStyleName("noLabel");
 		}
 
 		selectedOption = BaseWidgetFactory.INSTANCE.newPrimaryText("", "selectedOption");
 		optionHolder.add(selectedOption);
 		add(optionHolder);
 
-		SimplePanel arrowIcon = new SimplePanel();
+		arrowIcon = new SimplePanel();
 		arrowIcon.addStyleName("arrow");
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
 				.arrow_drop_down().getSVG());
@@ -111,9 +114,17 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
 					controller.toggleAsDropDown(fullWidth);
+					updateIcon();
 				}
 			}
 		});
+	}
+
+	private void updateIcon() {
+		String svg = controller.isOpened() ? MaterialDesignResources.INSTANCE
+				.arrow_drop_up().getSVG() : MaterialDesignResources.INSTANCE
+				.arrow_drop_down().getSVG();
+		arrowIcon.getElement().setInnerHTML(svg);
 	}
 
 	public int getSelectedIndex() {
@@ -122,7 +133,7 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 
 	/**
 	 * Disable drop-down component
-	 * @param disabled - true, if drop-down should be disabled
+	 * @param disabled true, if drop-down should be disabled
 	 */
 	public void setDisabled(boolean disabled) {
 		isDisabled = disabled;
@@ -165,10 +176,6 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 		fullWidth = isFullWidth;
 	}
 
-	public boolean isFullWidth() {
-		return fullWidth;
-	}
-
 	/**
 	 * @param dropdownIndex selected index
 	 */
@@ -185,7 +192,7 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * @param property - update property
+	 * @param property update property
 	 */
 	public void setProperty(NamedEnumeratedProperty<?> property) {
 		controller.setProperty(property);

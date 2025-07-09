@@ -983,48 +983,53 @@
 	.dropDown {
 		min-width: 64px;
 		height: 48px;
+		padding: 1px;
 		cursor: pointer;
 		display: inline-flex;
 		box-sizing: border-box;
-		border-bottom: 1px solid neutral(500);
+		border: 1px solid neutral(300);
+		border-radius: 8px;
 
 		.optionLabelHolder {
+			position: relative;
+
 			.label {
-				font-size: 75%;
-				height: 12px;
-				line-height: 12px;
+				position: absolute;
+				font-size: 12px;
+				height: 16px;
+				line-height: 16px;
+				background: white;
+				font-color: neutral(700);
+				padding: 0 4px;
+				top: -10px;
+				left: 12px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 
 			.selectedOption {
-				height: 20px;
-				margin: 8px 8px 0 0;
-			}
-
-			&.noLabel {
-				.selectedOption {
-					margin-top: 20px;
-				}
+				font-size: 16px;
+				height: 24px;
+				line-height: 24px;
+				min-width: 144px;
+				margin: 11px 10px 11px 16px;
 			}
 		}
 
 		.arrow {
-			width: 20px;
-			height: 20px;
-			margin: 18px 0 10px auto;
-			opacity: 0.54;
+			padding: 6px;
+			margin: 5px 6px 5px auto;
 
 			svg {
-				width: 20px;
-				height: 20px;
+				width: 24px;
+				height: 24px;
+				fill: neutral(700);
 			}
 		}
 
 		&:hover {
-			border-bottom: 2px solid neutral(900);
-
-			.arrow {
-				opacity: 0.87;
-			}
+			border-color: neutral(700);
 
 			.optionLabelHolder {
 				.label {
@@ -1033,36 +1038,37 @@
 			}
 		}
 
-		&.active {
-			border-bottom: 2px solid colors.$mow_dark;
+		&.keyboardFocus, &.active {
+			border: 2px solid var(--ggb-primary-color);
+			padding: 0;
 
 			.optionLabelHolder {
 				.label {
-					color: colors.$mow_dark;
+					color: var(--ggb-primary-color);
 				}
 			}
 
-			.arrow {
-				opacity: 0.87;
+			.arrow svg{
+				fill: var(--ggb-primary-color);
 			}
 		}
 
 		&.disabled {
 			cursor: default;
-			border-bottom: 1px solid colors.$black-36;
+			border-color: neutral(300);
 
 			.optionLabelHolder {
 				.label {
-					color: colors.$black-36;
+					color: neutral(500);
 				}
 
 				.selectedOption {
-					color: colors.$black-36;
+					color: neutral(500);
 				}
 			}
 
-			.arrow {
-				opacity: 0.36;
+			.arrow svg {
+				fill: neutral(500);
 			}
 		}
 	}
