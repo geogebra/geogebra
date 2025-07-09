@@ -52,6 +52,8 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		char unicode = mathCharacter.getUnicode();
 		if (unicode == ',' && !isCommaNeeded(mathCharacter)) {
 			stringBuilder.append(comma);
+		} else if (shouldAppendDerivative(mathCharacter)) {
+			appendDerivative(mathCharacter, stringBuilder);
 		} else {
 			stringBuilder.append(mathCharacter.getUnicodeString());
 		}
@@ -76,6 +78,35 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			parent = parent.getParent();
 		}
 		return false;
+	}
+
+	/**
+	 * When using the special keyboard, entering the keys used for the minutes or seconds should
+	 * enable usage of the first or second derivative when appropriate.
+	 * @param mathCharacter MathCharacter
+	 * @return Whether the symbol used for first (') or second ('') derivative should be appended
+	 * instead of the unicode symbol for the minutes or seconds.
+	 */
+	private boolean shouldAppendDerivative(MathCharacter mathCharacter) {
+		MathSequence parent = mathCharacter.getParent();
+		int indexOfPreviousCharacter = parent.indexOf(mathCharacter) - 1;
+		if (!"\u2032\u2033".contains(mathCharacter.getUnicodeString())
+				|| indexOfPreviousCharacter < 0
+				|| !(parent.getArgument(indexOfPreviousCharacter) instanceof MathCharacter)) {
+			return false;
+		}
+		MathCharacter previous = (MathCharacter) parent.getArgument(indexOfPreviousCharacter);
+		return previous.isLetter() || "\u2032\u2033'".contains(previous.getUnicodeString());
+	}
+
+	/**
+	 * Appends the characters used for the first (') or second ('') derivative.
+	 * @param mathCharacter MathCharacter
+	 * @param stringBuilder Output StringBuilder
+	 */
+	private void appendDerivative(MathCharacter mathCharacter, StringBuilder stringBuilder) {
+		char unicode = mathCharacter.getUnicode();
+		stringBuilder.append(unicode == '\u2032' ? "'" : "''");
 	}
 
 	@Override

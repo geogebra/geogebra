@@ -1029,4 +1029,17 @@ public class EditorTypingTest {
 				.checkLaTeX("\\begin{pmatrix} \\jlminput{5} & \\jlminput{-3} & \\jlminput{0} "
 						+ "\\\\ \\jlminput{1} & \\jlminput{99} & \\jlminput{1} \\end{pmatrix}");
 	}
+
+	@Test
+	@Issue("APPS-6722")
+	public void minutesAndSecondsShouldBeTreatedAsDerivative() {
+		checker.add("f(x)=x^4");
+		checker.type("f\u2032").checkGGBMath("f'");
+		checker.type("f\u2033").checkGGBMath("f''");
+		checker.type("f\u2032\u2032").checkGGBMath("f''");
+		checker.type("f\u2033\u2033").checkGGBMath("f''''");
+		checker.type("f\u2033\u2032").checkGGBMath("f'''");
+		checker.type("f''").left(1).insert("\u2032").checkGGBMath("f'''");
+		checker.type("f'").left(1).insert("\u2033").checkGGBMath("f'''");
+	}
 }
