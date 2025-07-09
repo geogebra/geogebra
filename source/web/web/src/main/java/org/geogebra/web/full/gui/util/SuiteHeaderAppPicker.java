@@ -50,7 +50,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	}
 
 	private void createAppPickerButton(AppW app) {
-		setIconAndLabel(((AppWFull) appW).getLastUsedSubApp());
+		setIconAndLabel(((AppWFull) appW).getInitialSubApp());
 		setStyleName("suiteAppPickerButton");
 		suitePopup = new AppSwitcherPopup((AppWFull) app, this);
 		suitePopup.addCloseHandler(close -> setExpanded(false));

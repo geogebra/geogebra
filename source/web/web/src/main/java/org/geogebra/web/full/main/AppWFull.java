@@ -449,7 +449,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			break;
 		case SUITE_APPCODE:
 			String disableCAS = NavigatorUtil.getUrlParameter("disableCAS");
-			activity = new SuiteActivity(getLastUsedSubApp(), "".equals(disableCAS)
+			activity = new SuiteActivity(getInitialSubApp(), "".equals(disableCAS)
 					|| "true".equals(disableCAS));
 			break;
 		default:
@@ -459,18 +459,32 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
-	 * @return Last used SubApp, only if it is saved in local storage and the app was not started
-	 * with a file, Graphing SubApp otherwise.
-	 * <p>
-	 * If the app was started with a file, the activity should be updated from
-	 * {@link #updateAppCodeSuite(SuiteSubApp, Perspective)} anyways</p>
+	 * Decides what should be the initial sub-app, taking into consideration
+	 * <ul>
+	 * <li> whether we're in restricted mode - pick the default app in that case</li>
+	 * <li> the subApp parameter for embedding in Notes</li>
+	 * <li> whether we're in full-sized app and can switch between apps</li>
+	 * <li> whether a file was opened (in that case wait for the correct sub-app from XML,
+	 *   handled in {@link #updateAppCodeSuite(SuiteSubApp, Perspective)})</li>
+	 * <li> the last used sub-app from local storage</li>
+	 * </ul>
+	 * @return initial sub-app code
 	 */
-	public SuiteSubApp getLastUsedSubApp() {
-		if (isLockedExam() || isStartedWithFile()) {
+	public SuiteSubApp getInitialSubApp() {
+		if (!StringUtil.empty(getAppletParameters().getParamFeatureSet())) {
+			ExamType type = ExamType.byName(getAppletParameters().getParamFeatureSet());
+			if (type != null) {
+				return ExamRestrictions.forExamType(type).getDefaultSubApp();
+			}
+		}
+		if (!StringUtil.empty(getAppletParameters().getParamSubApp())) {
+			return SuiteSubApp.forCode(getAppletParameters().getParamSubApp());
+		}
+		if (isStartedWithFile() || !getAppletParameters().getDataParamApp()) {
 			return SuiteSubApp.GRAPHING;
 		}
 		String lastUsedSubApp = BrowserStorage.LOCAL.getItem(BrowserStorage.LAST_USED_SUB_APP);
-		return lastUsedSubApp != null && !lastUsedSubApp.isEmpty()
+		return !StringUtil.empty(lastUsedSubApp)
 				? SuiteSubApp.forCode(lastUsedSubApp) : SuiteSubApp.GRAPHING;
 	}
 

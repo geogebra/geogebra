@@ -843,4 +843,11 @@ public class AppletParameters {
 	public String getParamExternalControls() {
 		return getStringDataParam("externalControls", "");
 	}
+
+	/**
+	 * @return initial sub-app code for Suite
+	 */
+	public String getParamSubApp() {
+		return getStringDataParam("subApp", "");
+	}
 }
