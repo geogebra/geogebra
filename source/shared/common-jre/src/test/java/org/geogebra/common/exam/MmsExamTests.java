@@ -726,6 +726,11 @@ public class MmsExamTests extends BaseExamTestSetup {
 		assertEquals(0, getKernel().getConstructionStep());
 	}
 
+	@Test
+	public void testSpreadsheetDisabled() {
+		assertFalse(getApp().isSpreadsheetEnabled());
+	}
+
 	private TableValuesView setupTableValues() throws InvalidValuesException {
 		TableValuesView tableValuesView = new TableValuesView(getKernel());
 		tableValuesView.setValues(0, 5, 1);

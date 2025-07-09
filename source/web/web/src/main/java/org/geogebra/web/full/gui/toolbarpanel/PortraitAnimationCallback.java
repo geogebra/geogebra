@@ -38,7 +38,7 @@ public class PortraitAnimationCallback extends NavRailAnimationCallback {
 	@Override
 	protected void onEnd() {
 		app.getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
-		EuclidianView ev = navRail.app.getActiveEuclidianView();
+		EuclidianView ev = app.getActiveEuclidianView();
 		if (ev.getViewID() == App.VIEW_EUCLIDIAN3D) {
 			return;
 		}

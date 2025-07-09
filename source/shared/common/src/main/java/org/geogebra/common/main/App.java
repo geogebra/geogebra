@@ -438,6 +438,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private SpecialPointsManager specialPointsManager;
 
 	private boolean areCommands3DEnabled = true;
+	private boolean spreadsheetRestricted;
 	protected AccessibilityManagerInterface accessibilityManager;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
@@ -4089,6 +4090,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return new SyntaxAdapterImpl(kernel);
 	}
 
+	public boolean isSpreadsheetEnabled() {
+		return getConfig().hasSpreadsheetView() && !spreadsheetRestricted;
+	}
+
 	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */
@@ -5116,6 +5121,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (featureRestrictions.contains(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS)) {
 			getEditorFeatures().setMixedNumbersEnabled(false);
 		}
+		spreadsheetRestricted = featureRestrictions.contains(ExamFeatureRestriction.SPREADSHEET);
 	}
 
 	@Override
@@ -5135,6 +5141,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 		if (featureRestrictions.contains(ExamFeatureRestriction.DISABLE_MIXED_NUMBERS)) {
 			getEditorFeatures().setMixedNumbersEnabled(true);
+		}
+		if (featureRestrictions.contains(ExamFeatureRestriction.SPREADSHEET)) {
+			spreadsheetRestricted = false;
 		}
 		resetCommandDict();
 	}

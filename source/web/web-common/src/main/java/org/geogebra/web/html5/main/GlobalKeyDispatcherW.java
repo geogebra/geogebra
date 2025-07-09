@@ -192,7 +192,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	@Override
 	protected void toggleSpreadsheetView() {
-		if (!app.getConfig().hasSpreadsheetView()) {
+		if (!app.isSpreadsheetEnabled()) {
 			return;
 		}
 

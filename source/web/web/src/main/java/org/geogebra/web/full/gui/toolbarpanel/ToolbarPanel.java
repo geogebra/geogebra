@@ -358,7 +358,7 @@ public class ToolbarPanel extends FlowPanel
 		} else {
 			tabTable = null;
 		}
-		if (app.getConfig().hasSpreadsheetView()) {
+		if (app.isSpreadsheetEnabled()) {
 			spreadsheetTab = new SpreadsheetTab(this);
 			addTab(spreadsheetTab, false);
 		} else {
@@ -1007,7 +1007,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param fade decides if tab should fade during animation.
 	 */
 	public void openSpreadsheetView(boolean fade) {
-		if (!app.getConfig().hasSpreadsheetView()) {
+		if (!app.isSpreadsheetEnabled()) {
 			return;
 		}
 		setMoveMode();

@@ -5,7 +5,8 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.exam.ExamController;
-import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -16,11 +17,11 @@ import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.core.client.Scheduler;
@@ -33,7 +34,7 @@ import jsinterop.base.Js;
 /**
  * Navigation rail or bottom bar
  */
-class NavigationRail extends FlowPanel {
+class NavigationRail extends FlowPanel implements ExamListener {
 	private MenuToggleButton btnMenu;
 	private @CheckForNull StandardButton btnAlgebra;
 	private @CheckForNull StandardButton btnTools;
@@ -44,11 +45,7 @@ class NavigationRail extends FlowPanel {
 	private FlowPanel center;
 	private boolean animating = false;
 	private boolean lastOrientation;
-
-	/**
-	 * application
-	 */
-	AppW app;
+	private final AppWFull app;
 	/**
 	 * Parent tool panel
 	 */
@@ -76,6 +73,7 @@ class NavigationRail extends FlowPanel {
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
 		updateIcons(!examController.isIdle());
+		app.getExamEventBus().add(this);
 	}
 
 	private void createCenter() {
@@ -105,8 +103,7 @@ class NavigationRail extends FlowPanel {
 			createTableViewButton();
 			center.add(btnTableView);
 		}
-		if (app.getConfig().hasSpreadsheetView() && !GlobalScope.examController
-				.isFeatureRestricted(ExamFeatureRestriction.SPREADSHEET)) {
+		if (app.isSpreadsheetEnabled()) {
 			createSpreadsheetButton();
 			center.add(btnSpreadsheet);
 		}
@@ -592,5 +589,11 @@ class NavigationRail extends FlowPanel {
 		} else {
 			ExamUtil.makeRed(getElement(), false);
 		}
+	}
+
+	@Override
+	public void examStateChanged(ExamState newState) {
+		contents.clear();
+		createCenter();
 	}
 }
