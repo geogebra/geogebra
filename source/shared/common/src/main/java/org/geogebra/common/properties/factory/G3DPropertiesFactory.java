@@ -56,7 +56,7 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 		propertyList.add(
 				new AxesColoredProperty(localization, (EuclidianSettings3D) euclidianSettings));
 
-		return new PropertiesArray(localization.getMenu("DrawingPad"),
+		return new PropertiesArray("DrawingPad", localization,
 				registerProperties(propertiesRegistry, propertyList));
 	}
 }

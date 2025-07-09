@@ -143,6 +143,16 @@ public class PropertiesIconAdapter {
 			return res.point_left();
 		case ICON_POINT_STYLE_TRIANGLE_EAST:
 			return res.point_right();
+		case ICON_CARTESIAN:
+			return res.grid_black();
+		case ICON_CARTESIAN_MINOR:
+			return res.minor_gridlines();
+		case ICON_POLAR:
+			return res.grid_polar();
+		case ICON_ISOMETRIC:
+			return res.grid_isometric();
+		case ICON_DOTS:
+			return res.pattern_dots();
 		}
 		return res.stylebar_empty();
 	}

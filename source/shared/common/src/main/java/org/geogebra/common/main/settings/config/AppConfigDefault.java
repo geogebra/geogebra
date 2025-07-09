@@ -30,7 +30,7 @@ import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
-import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
+import org.geogebra.common.properties.factory.ClassicPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
@@ -295,7 +295,7 @@ public class AppConfigDefault extends AbstractAppConfig {
 
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
-		return new DefaultPropertiesFactory();
+		return new ClassicPropertiesFactory();
 	}
 
 	@Override

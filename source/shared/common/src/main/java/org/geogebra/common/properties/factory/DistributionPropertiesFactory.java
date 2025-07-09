@@ -60,7 +60,7 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 		properties.add(new ProbabilityResultProperty(app.getKernel().getAlgebraProcessor(),
 						(PropertyResultPanel) probabilityCalculatorView.getResultPanel()));
 
-		PropertiesArray array = new PropertiesArray(localization.getMenu("Distribution"),
+		PropertiesArray array = new PropertiesArray("Distribution", localization,
 				registerProperties(propertiesRegistry, properties));
 		return Arrays.asList(array);
 	}

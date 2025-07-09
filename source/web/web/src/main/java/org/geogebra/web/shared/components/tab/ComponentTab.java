@@ -62,6 +62,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize {
 		add(scrollPanel);
 
 		addPanelContainer();
+		panelContainer.setWidth((tabData.length * 100) + "%");
 		fillTabList(tabList, tabData);
 	}
 
@@ -123,10 +124,12 @@ public class ComponentTab extends FlowPanel implements RequiresResize {
 
 	private void fillTabList(FlowPanel tabList, TabData... tabData) {
 		int i = 0;
+		double width = 100.0 / tabData.length;
 		for (TabData tab : tabData) {
 			StandardButton tabBtn = getTabBtn(i, tab.getTabTitle());
 			tabButton.add(tabBtn);
 			tabList.add(tabBtn);
+			tab.getTabPanel().getElement().getStyle().setWidth(width, Unit.PCT);
 			panelContainer.add(tab.getTabPanel());
 			i++;
 		}
@@ -160,7 +163,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize {
 
 		panelContainer.addStyleName("transition");
 		Scheduler.get().scheduleDeferred(() -> panelContainer.getElement().getStyle()
-				.setRight(tabIdx * getOffsetWidth(), Unit.PX));
+				.setRight(tabIdx * 100, Unit.PCT));
 	}
 
 	private void updateSelection(StandardButton button, boolean selected) {

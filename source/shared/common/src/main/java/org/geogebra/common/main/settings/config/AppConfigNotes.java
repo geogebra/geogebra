@@ -3,6 +3,8 @@ package org.geogebra.common.main.settings.config;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for Mebis Notes and GGB Notes
@@ -72,5 +74,10 @@ public class AppConfigNotes extends AppConfigDefault {
 	@Override
 	public boolean shouldKeepRatioEuclidian() {
 		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new DefaultPropertiesFactory();
 	}
 }

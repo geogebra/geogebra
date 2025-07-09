@@ -21,9 +21,8 @@ public class CasPropertiesFactory extends DefaultPropertiesFactory {
 			Localization localization,
 			PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
-		String name = localization.getMenu("General");
 		Settings settings = app.getSettings();
-		return new PropertiesArray(name,
+		return new PropertiesArray("General", localization,
 				registerProperties(propertiesRegistry,
 						new RoundingIndexProperty(app, localization),
 						new LabelingProperty(localization, settings.getLabelSettings()),

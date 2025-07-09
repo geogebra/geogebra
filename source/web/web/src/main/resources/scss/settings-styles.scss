@@ -647,4 +647,25 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			margin: 12px 30px 0 0;
 		}
 	}
+
+	.sideSheetTab {
+		width: 100%;
+
+		.checkboxPanel, .dropDown {
+			display: flex;
+			margin: 8px;
+		}
+	}
+
+	.propertyGroupHeader {
+		display: flex;
+		padding-left: 16px;
+		align-items: center;
+
+		.gwt-Label {
+			flex-grow: 1;
+		}
+	}
+
+
 }

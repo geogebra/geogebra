@@ -710,20 +710,20 @@ public final class GeoElementPropertiesFactory {
 	private PropertiesArray createPropertiesArray(Localization localization,
 			List<GeoElement> geoElements, List<Property> properties) {
 		if (properties.isEmpty()) {
-			return new PropertiesArray("");
+			return new PropertiesArray(null, localization);
 		}
 
 		String name;
 		if (geoElements.size() > 1) {
-			name = localization.getMenu("Selection");
+			name = "Selection";
 		} else if (geoElements.size() == 1) {
 			GeoElement element = geoElements.get(0);
-			name = element.translatedTypeString();
+			name = element.getTypeString();
 		} else {
-			name = "";
+			name = null;
 		}
 
-		return new PropertiesArray(name, properties.toArray(new Property[0]));
+		return new PropertiesArray(name, localization, properties.toArray(new Property[0]));
 	}
 
 	/**

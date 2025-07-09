@@ -25,8 +25,7 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 	private PropertiesArray createGeneralProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
-		String name = localization.getMenu("General");
-		return new PropertiesArray(name,
+		return new PropertiesArray("General", localization,
 				registerProperties(propertiesRegistry,
 						new AngleUnitProperty(kernel, localization),
 						new RoundingIndexProperty(app, localization),

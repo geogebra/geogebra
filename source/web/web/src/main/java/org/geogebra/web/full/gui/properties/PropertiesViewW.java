@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.properties;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
@@ -12,6 +13,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.PreviewFeature;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
 import org.geogebra.web.full.gui.dialog.options.OptionPanelW;
@@ -28,6 +31,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.geogebra.web.shared.components.tab.ComponentTab;
+import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
@@ -89,6 +94,18 @@ public class PropertiesViewW extends PropertiesView
 		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
 			SideSheetData data = new SideSheetData("Settings");
 			ComponentSideSheet sideSheet = new ComponentSideSheet((AppW) app, data, this::close);
+			List<PropertiesArray> propLists = app.getConfig().createPropertiesFactory()
+					.createProperties(app, app.getLocalization(),
+					GlobalScope.propertiesRegistry);
+			PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(app.getLocalization(),
+					(AppW) app);
+			ArrayList<TabData> tabs = new ArrayList<>();
+			for (PropertiesArray props: propLists) {
+				FlowPanel propertiesPanel = adapter.buildPanel(props);
+				tabs.add(new TabData(props.getName(), propertiesPanel));
+			}
+			sideSheet.addToContent(new ComponentTab(app.getLocalization(),
+					tabs.toArray(new TabData[0])));
 			wrappedPanel.add(sideSheet);
 		} else {
 			wrappedPanel.add(contentsPanel);
