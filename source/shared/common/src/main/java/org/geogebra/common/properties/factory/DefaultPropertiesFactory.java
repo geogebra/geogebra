@@ -46,10 +46,10 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 			PropertiesRegistry propertiesRegistry) {
 		return Arrays.asList(
 				createGeneralProperties(app, localization, propertiesRegistry),
+				createAlgebraProperties(app, localization, propertiesRegistry),
 				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
 						? createStructuredGraphicsProperties(app, localization, propertiesRegistry)
-						: createGraphicsProperties(app, localization, propertiesRegistry),
-				createAlgebraProperties(app, localization, propertiesRegistry));
+						: createGraphicsProperties(app, localization, propertiesRegistry));
 	}
 
 	/**
@@ -131,7 +131,46 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		);
 	}
 
-	private Property axisExpandableProperty(int axis, String label, App app,
+	protected PropertiesArray createStructuredGraphics2Properties(App app,
+			Localization localization, PropertiesRegistry propertiesRegistry) {
+		EuclidianView activeView = app.getActiveEuclidianView();
+		EuclidianSettings euclidianSettings = activeView.getSettings();
+		return new PropertiesArray("DrawingPad2", localization,
+				registerProperties(propertiesRegistry,
+						new PropertyCollectionWithLead(localization, "Grid",
+								new GridVisibilityProperty(localization, euclidianSettings),
+								new GridStyleProperty(localization, euclidianSettings)),
+						new PropertyCollectionWithLead(localization, "Axes",
+								new AxesVisibilityProperty(localization, euclidianSettings)
+						),
+						new DimensionPropertiesCollection(localization),
+						axisExpandableProperty(0, "xAxis", app, localization),
+						axisExpandableProperty(1, "yAxis", app, localization),
+						new AdvancedPropertiesCollection(localization, euclidianSettings))
+		);
+	}
+
+	protected PropertiesArray createStructuredGraphics3DProperties(App app,
+			Localization localization, PropertiesRegistry propertiesRegistry) {
+		EuclidianView activeView = app.getActiveEuclidianView();
+		EuclidianSettings euclidianSettings = activeView.getSettings();
+		return new PropertiesArray("GraphicsView3D", localization,
+				registerProperties(propertiesRegistry,
+						new PropertyCollectionWithLead(localization, "Grid",
+								new GridVisibilityProperty(localization, euclidianSettings),
+								new GridStyleProperty(localization, euclidianSettings)),
+						new PropertyCollectionWithLead(localization, "Axes",
+								new AxesVisibilityProperty(localization, euclidianSettings)
+						),
+						new DimensionPropertiesCollection(localization),
+						axisExpandableProperty(0, "xAxis", app, localization),
+						axisExpandableProperty(1, "yAxis", app, localization),
+						axisExpandableProperty(2, "zAxis", app, localization),
+						new AdvancedPropertiesCollection(localization, euclidianSettings))
+		);
+	}
+
+	protected Property axisExpandableProperty(int axis, String label, App app,
 			Localization localization) {
 		EuclidianView activeView = app.getActiveEuclidianView();
 

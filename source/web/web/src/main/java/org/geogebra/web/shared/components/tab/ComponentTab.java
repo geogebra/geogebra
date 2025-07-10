@@ -1,7 +1,10 @@
 package org.geogebra.web.shared.components.tab;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -14,13 +17,14 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
-public class ComponentTab extends FlowPanel implements RequiresResize {
+public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels {
 	private final Localization loc;
 	private ScrollPanel scrollPanel;
 	private FlowPanel panelContainer;
 	private StandardButton selectedBtn;
 	private StandardButton left;
 	private StandardButton right;
+	private final List<TabData> tabData;
 	private final ArrayList<StandardButton> tabButton = new ArrayList<>();
 	private int selectedTabIdx = 0;
 
@@ -41,8 +45,10 @@ public class ComponentTab extends FlowPanel implements RequiresResize {
 	 */
 	public ComponentTab(Localization loc, boolean addScrollButton, TabData... tabData) {
 		this.loc = loc;
+		this.tabData = Arrays.asList(tabData);
 		addStyleName("componentTab");
 		buildTab(addScrollButton, tabData);
+		switchToTab(0);
 	}
 
 	private void buildTab(boolean addScrollButton, TabData... tabData) {
@@ -69,9 +75,13 @@ public class ComponentTab extends FlowPanel implements RequiresResize {
 	private void buildScrollPanel() {
 		scrollPanel = new ScrollPanel();
 		scrollPanel.addScrollHandler(event -> {
-			left.setVisible(scrollPanel.getHorizontalScrollPosition() != 0);
-			right.setVisible(scrollPanel.getHorizontalScrollPosition()
-					!= scrollPanel.getMaximumHorizontalScrollPosition());
+			if (left != null) {
+				left.setVisible(scrollPanel.getHorizontalScrollPosition() != 0);
+			}
+			if (right != null) {
+				right.setVisible(scrollPanel.getHorizontalScrollPosition()
+						!= scrollPanel.getMaximumHorizontalScrollPosition());
+			}
 		});
 		scrollPanel.addStyleName("scrollPanel customScrollbar");
 	}
@@ -176,5 +186,12 @@ public class ComponentTab extends FlowPanel implements RequiresResize {
 		panelContainer.removeStyleName("transition");
 		panelContainer.getElement().getStyle().setRight(selectedTabIdx * getOffsetWidth(),
 				Unit.PX);
+	}
+
+	@Override
+	public void setLabels() {
+		for (int i = 0; i < tabData.size(); i++) {
+			tabButton.get(i).setLabel(loc.getMenu(tabData.get(i).getTabTitle()));
+		}
 	}
 }

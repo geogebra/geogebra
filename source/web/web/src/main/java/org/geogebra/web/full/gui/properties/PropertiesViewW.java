@@ -64,6 +64,9 @@ public class PropertiesViewW extends PropertiesView
 	private OptionType optionType;
 	private boolean floatingAttached = false;
 
+	private ComponentSideSheet sideSheet;
+	private ComponentTab settingsTab;
+
 	/**
 	 * 
 	 * @param app
@@ -93,20 +96,8 @@ public class PropertiesViewW extends PropertiesView
 		contentsPanel.addStyleName("contentsPanel");
 		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
 			SideSheetData data = new SideSheetData("Settings");
-			ComponentSideSheet sideSheet = new ComponentSideSheet((AppW) app, data, this::close);
-			List<PropertiesArray> propLists = app.getConfig().createPropertiesFactory()
-					.createProperties(app, app.getLocalization(),
-					GlobalScope.propertiesRegistry);
-			PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(app.getLocalization(),
-					(AppW) app);
-			ArrayList<TabData> tabs = new ArrayList<>();
-			for (PropertiesArray props: propLists) {
-				FlowPanel propertiesPanel = adapter.buildPanel(props);
-				tabs.add(new TabData(props.getName(), propertiesPanel));
-			}
-			sideSheet.addToContent(new ComponentTab(app.getLocalization(),
-					tabs.toArray(new TabData[0])));
-			wrappedPanel.add(sideSheet);
+			sideSheet = new ComponentSideSheet((AppW) app, data, this::close);
+			rebuildSettingsSideSheet();
 		} else {
 			wrappedPanel.add(contentsPanel);
 			wrappedPanel.add(getStyleBar().getWrappedPanel());
@@ -414,6 +405,10 @@ public class PropertiesViewW extends PropertiesView
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
+
+		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
+			rebuildSettingsSideSheet();
+		}
 	}
 
 	@Override
@@ -502,12 +497,21 @@ public class PropertiesViewW extends PropertiesView
 		if (algebraPanel != null) {
 			algebraPanel.setLabels();
 		}
+		if (sideSheet != null) {
+			sideSheet.setLabels();
+		}
+		if (settingsTab != null) {
+			settingsTab.setLabels();
+		}
     }
 
 	@Override
 	public void updateStyleBar() {
 		if (styleBar != null) {
 			styleBar.updateGUI();
+		}
+		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
+			rebuildSettingsSideSheet();
 		}
 	}
 
@@ -585,5 +589,24 @@ public class PropertiesViewW extends PropertiesView
 		if (newState == ExamState.IDLE || newState == ExamState.ACTIVE) {
 			setObjectPanel(new OptionsObjectW((AppW) app, false, this::updatePropertiesView));
 		}
+	}
+
+	private void rebuildSettingsSideSheet() {
+		wrappedPanel.clear();
+		sideSheet.clearContent();
+
+		List<PropertiesArray> propLists = app.getConfig().createPropertiesFactory()
+				.createProperties(app, app.getLocalization(), GlobalScope.propertiesRegistry);
+		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(app.getLocalization(),
+				(AppW) app);
+		ArrayList<TabData> tabs = new ArrayList<>();
+		for (PropertiesArray props: propLists) {
+			FlowPanel propertiesPanel = adapter.buildPanel(props);
+			tabs.add(new TabData(props.getName(), propertiesPanel));
+		}
+
+		settingsTab = new ComponentTab(app.getLocalization(), tabs.toArray(new TabData[0]));
+		sideSheet.addToContent(settingsTab);
+		wrappedPanel.add(sideSheet);
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.common.properties.factory;
 
 import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,12 +24,24 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
-		return Arrays.asList(
+		return removeNulls(Arrays.asList(
 				createGeneralProperties(app, localization, propertiesRegistry),
-				createStructuredGraphicsProperties(app, localization, propertiesRegistry),
 				createAlgebraProperties(app, localization, propertiesRegistry),
+				createStructuredGraphicsProperties(app, localization, propertiesRegistry),
+				createStructuredGraphics2Properties(app, localization, propertiesRegistry),
+				createStructuredGraphics3DProperties(app, localization, propertiesRegistry),
 				createSpreadsheetProperties(localization, app),
-				createCASProperties(localization, app));
+				createCASProperties(localization, app)));
+	}
+
+	@Override
+	protected PropertiesArray createStructuredGraphicsProperties(App app, Localization localization,
+			PropertiesRegistry propertiesRegistry) {
+		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
+			return null;
+		}
+
+		return super.createStructuredGraphicsProperties(app, localization, propertiesRegistry);
 	}
 
 	@Override
@@ -41,7 +54,31 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 						new ShowAuxiliaryProperty(app, localization)));
 	}
 
+	@Override
+	protected PropertiesArray createStructuredGraphics2Properties(App app,
+			Localization localization, PropertiesRegistry propertiesRegistry) {
+		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
+			return null;
+		}
+
+		return super.createStructuredGraphics2Properties(app, localization, propertiesRegistry);
+	}
+
+	@Override
+	protected PropertiesArray createStructuredGraphics3DProperties(App app,
+			Localization localization, PropertiesRegistry propertiesRegistry) {
+		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D)) {
+			return null;
+
+		}
+		return super.createStructuredGraphics3DProperties(app, localization, propertiesRegistry);
+	}
+
 	private PropertiesArray createSpreadsheetProperties(Localization localization, App app) {
+		if (!app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
+			return null;
+		}
+
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		List<Property> props = List.of(
 				new SimpleBooleanProperty(localization, "ShowInputField",
@@ -75,6 +112,10 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 	}
 
 	private PropertiesArray createCASProperties(Localization localization, App app) {
+		if (!app.getGuiManager().showView(App.VIEW_CAS)) {
+			return null;
+		}
+
 		CASSettings settings = app.getSettings().getCasSettings();
 		List<Property> props = List.of(
 				new SimpleBooleanProperty(localization, "CASShowRationalExponentsAsRoots",
@@ -83,4 +124,14 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 		return new PropertiesArray("CAS", localization, props);
 	}
 
+	private List<PropertiesArray> removeNulls(List<PropertiesArray> list) {
+		List<PropertiesArray> nonNullList = new ArrayList<>();
+		for (PropertiesArray elem : list) {
+			if (elem != null) {
+				nonNullList.add(elem);
+			}
+		}
+
+		return nonNullList;
+	}
 }

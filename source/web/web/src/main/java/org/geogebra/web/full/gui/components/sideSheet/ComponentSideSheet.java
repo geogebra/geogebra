@@ -120,6 +120,13 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		contentPanel.add(widget);
 	}
 
+	/**
+	 * Clears the content panel
+	 */
+	public void clearContent() {
+		contentPanel.clear();
+	}
+
 	private boolean hasButtonPanel() {
 		return data.hasPositiveBtn() && data.hasNegativeBtn();
 	}
