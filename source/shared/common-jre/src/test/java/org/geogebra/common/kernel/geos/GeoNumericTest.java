@@ -234,4 +234,11 @@ public class GeoNumericTest extends BaseUnitTest {
 		GeoNumeric a = addAvInput("?");
 		assertThat(a.toValueString(engineeringNotationTemplate), is("?"));
 	}
+
+	@Test
+	public void shouldNotLoadValueFromXML() {
+		getApp().getGgbApi().evalXML("<expression exp=\"2+2\" label=\"a\"/>"
+				+ "<element label=\"a\" type=\"numeric\"><value val=\"5\"/></element>");
+		assertThat(lookup("a"), hasValue("4"));
+	}
 }

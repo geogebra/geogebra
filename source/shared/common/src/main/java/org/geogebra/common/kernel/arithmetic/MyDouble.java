@@ -624,13 +624,7 @@ public class MyDouble extends ValidExpression
 	 * @return round(this)
 	 */
 	final public MyDouble round(int angleUnit) {
-		// angle in degrees
-		if (angleDim == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
-			set(Kernel.PI_180 * MyDouble.doRound(val * Kernel.CONST_180_PI));
-		} else {
-			// number or angle in radians
-			set(MyDouble.doRound(val));
-		}
+		doRound(0, angleUnit);
 		return this;
 	}
 
@@ -647,38 +641,17 @@ public class MyDouble extends ValidExpression
 		if (!DoubleUtil.isInteger(digits)) {
 			set(Double.NaN);
 		}
-
-		if (!Kernel.angleUnitUsesDegrees(angleUnit)) {
-			set(Precision.round(val, (int) digits));
-			return this;
-		}
-
-		double pow = Math.pow(10, digits);
-		set(val * pow);
-		round(angleUnit);
-		set(val / pow);
+		doRound((int) digits, angleUnit);
 		return this;
 	}
 
-	/**
-	 * Java quirk/bug Round(NaN) = 0
-	 */
-	final private static double doRound(double x) {
-		// if (!(Double.isInfinite(x) || Double.isNaN(x)))
-
-		// make sure round(-1/8,2) is consistent with Options -> Rounding -> 2dp
-		if (x < 0) {
-			return -Math.floor(-x + 0.5d);
+	private void doRound(int digits, int angleUnit) {
+		if (angleDim == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
+			set(Kernel.PI_180 * Precision.round(val * Kernel.CONST_180_PI, digits));
+		} else {
+			// number or angle in radians
+			set(Precision.round(val, digits));
 		}
-
-		// changed from Math.round(x) as it uses (long) so fails for large
-		// numbers
-		// also means the check for Infinity / NaN not needed
-		return Math.floor(x + 0.5d);
-
-		// else
-		// return x;
-
 	}
 
 	/**

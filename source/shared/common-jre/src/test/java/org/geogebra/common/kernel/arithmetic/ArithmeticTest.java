@@ -169,8 +169,19 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("round(6.740340335894E9, 8.0)", "6.740340335894E9");
 		t("round(6.740340335894E8, 7.0)", "6.740340335894E8");
 		t("round(6.740340335894E7, 8.0)", "6.740340335894E7");
-
+		t("round(2.425,2)", "2.43");
+		t("round(-2.425,2)", "-2.43");
 		getKernel().setAngleUnit(angleUnit);
+	}
+
+	@Test
+	public void testRoundingDegree() {
+		t("round(2.425,2)", "2.43");
+		t("round(-2.425,2)", "-2.43");
+		t("round(2.425deg,2)", "2.43*" + Unicode.DEGREE_STRING);
+		t("round(-2.425deg,2)", "-2.43*" + Unicode.DEGREE_STRING);
+		t("round(2.5deg)", "3*" + Unicode.DEGREE_STRING);
+		t("round(-2.5deg)", "-3*" + Unicode.DEGREE_STRING);
 	}
 
 	@Test
@@ -333,10 +344,10 @@ public class ArithmeticTest extends BaseUnitTest {
 		getApp().getSettings().getCasSettings().setEnabled(true);
 		GeoImplicit eq1 = add("eq1:abs(x-3) = -2");
 		eq1.setToImplicit();
-		assertEquals(eq1.toValueString(StringTemplate.testTemplate), "abs(x - 3) = -2");
+		assertEquals("abs(x - 3) = -2", eq1.toValueString(StringTemplate.testTemplate));
 		GeoImplicit eq2 = add("eq2:abs(x-3) = 2");
 		eq2.setToImplicit();
-		assertEquals(eq2.toValueString(StringTemplate.testTemplate), "x^2 - 6x = -5");
+		assertEquals("x^2 - 6x = -5", eq2.toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -599,11 +610,7 @@ public class ArithmeticTest extends BaseUnitTest {
 	@Test
 	public void sufficientPrecisionForRepeatedMultiplication() {
 		t("a=1000/999", "1.001", StringTemplate.editTemplate);
-		StringBuilder power = new StringBuilder("a");
-		for (int i = 0; i < 999; i++) {
-			power.append("*a");
-		}
-		t(power.toString(), "2.71964221644285", StringTemplate.maxDecimals);
+		t("a" + "*a".repeat(999), "2.71964221644285", StringTemplate.maxDecimals);
 	}
 
 	@Test

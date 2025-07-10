@@ -371,6 +371,9 @@ public class ConsElementXMLHandler {
 			Log.debug("wrong element type for <value>: " + geo.getClass());
 			return false;
 		}
+		if (!needsValuesFromXML(geo)) {
+			return true;
+		}
 
 		try {
 			String strVal = attrs.get("val");
