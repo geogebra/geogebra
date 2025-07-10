@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import java.util.HashSet;
+import java.util.Locale;
 
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -147,7 +148,7 @@ public class MacroConstruction extends Construction {
 			// starts with letter & ends with digit
 			if (Character.isLetter(label1.charAt(0))
 					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) {
-				String upperCaseLabel = label1.toUpperCase();
+				String upperCaseLabel = label1.toUpperCase(Locale.ROOT);
 				geo = geoTableVarLookup(upperCaseLabel);
 				if (geo != null) {
 					return geo;

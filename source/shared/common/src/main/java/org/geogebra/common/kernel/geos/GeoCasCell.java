@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -3301,7 +3302,7 @@ public class GeoCasCell extends GeoElement
 			isCasVector = unwrapped.evaluatesToVectorNotPoint();
 		}
 		if (isCasVector) {
-			return PLOT_VAR.toLowerCase();
+			return PLOT_VAR.toLowerCase(Locale.ROOT);
 		}
 		if (unwrapped instanceof ExpressionNode) {
 			String label = ((ExpressionNode) unwrapped).getLabel();

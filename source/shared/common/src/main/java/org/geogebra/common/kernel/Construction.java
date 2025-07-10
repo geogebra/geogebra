@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -2158,7 +2159,7 @@ public class Construction {
 			// starts with letter & ends with digit
 			if (Character.isLetter(label1.charAt(0))
 					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) {
-				String upperCaseLabel = label1.toUpperCase();
+				String upperCaseLabel = label1.toUpperCase(Locale.ROOT);
 				geo = geoTableVarLookup(upperCaseLabel);
 				if (geo != null) {
 					return checkConstructionStep(geo);

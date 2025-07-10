@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -84,7 +85,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 */
 	@Override
 	public boolean removeEntry(String s) {
-		String lowerCase = s.toLowerCase();
+		String lowerCase = s.toLowerCase(Locale.ROOT);
 		remove(lowerCase);
 		return treeSet.remove(lowerCase);
 	}
@@ -110,7 +111,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 			return null;
 		}
 
-		String currLowerCase = curr.toLowerCase();
+		String currLowerCase = curr.toLowerCase(Locale.ROOT);
 		try {
 			SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
 			if (tailSet != null) {

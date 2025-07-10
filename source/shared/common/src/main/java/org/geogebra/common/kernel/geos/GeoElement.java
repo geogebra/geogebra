@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -3816,7 +3817,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sbLongDescHTML.append(' ');
 			// For Hungarian, the standard is to lowercase the type.
 			// I don't know if this is OK for Basque as well. -- Zoltan
-			sbLongDescHTML.append(typeString.toLowerCase());
+			sbLongDescHTML.append(typeString.toLowerCase(Locale.ROOT));
 		}
 
 		// add dependency information
@@ -4291,7 +4292,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sbNameDescription.append(' ');
 			// For Hungarian, the standard is to lowercase the type.
 			// I don't know if this is OK for Basque as well. -- Zoltan
-			sbNameDescription.append(typeString.toLowerCase());
+			sbNameDescription.append(typeString.toLowerCase(Locale.ROOT));
 		} else {
 			// standard order: "point A"
 			sbNameDescription.append(typeString);
@@ -4376,7 +4377,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sbNameDescriptionHTML.append(' ');
 			// For Hungarian, the standard is to lowercase the type.
 			// I don't know if this is OK for Basque as well. -- Zoltan
-			sbNameDescriptionHTML.append(typeString.toLowerCase());
+			sbNameDescriptionHTML.append(typeString.toLowerCase(Locale.ROOT));
 		}
 
 		if (addHTMLtag) {

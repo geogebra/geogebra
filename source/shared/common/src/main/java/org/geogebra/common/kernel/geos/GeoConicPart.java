@@ -886,10 +886,10 @@ public class GeoConicPart extends GeoConic
 
 	}
 
-	@Override
 	/**
 	 * Does not compute parameters, sets them to default to make conic defined
 	 */
+	@Override
 	public void fromLine(GeoLine line) {
 		super.fromLine(line);
 		parameters.value = 0;

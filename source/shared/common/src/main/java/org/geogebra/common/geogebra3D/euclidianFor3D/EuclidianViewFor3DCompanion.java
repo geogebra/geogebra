@@ -37,11 +37,6 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	}
 
 	@Override
-	/**
-	 * Creates drawable for geo, also covers the 3D cases that can be flattened.
-	 * 
-	 * Coverage of all classes tested in DrawablesTest
-	 */
 	public DrawableND newDrawable(GeoElementND geo) {
 		// first try super method
 		DrawableND d = super.newDrawable(geo);

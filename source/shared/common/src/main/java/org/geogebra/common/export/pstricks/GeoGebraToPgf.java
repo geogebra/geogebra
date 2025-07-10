@@ -3,6 +3,7 @@ package org.geogebra.common.export.pstricks;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
@@ -1349,7 +1350,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				if (!isLatexFunction(
 						f.toValueString(StringTemplate.noLocalDefault))
 						|| f.toValueString(StringTemplate.noLocalDefault)
-								.toLowerCase().contains('\u212f' + "^")) {
+								.toLowerCase(Locale.ROOT).contains('\u212f' + "^")) {
 					drawNoLatexFunction(geo, sb, xrangemax, xrangemin, integral,
 							geo1);
 				} else {
@@ -1362,7 +1363,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 						|| isTrigInv(
 								f.toValueString(StringTemplate.noLocalDefault))
 						|| f.toValueString(StringTemplate.noLocalDefault)
-								.toLowerCase().contains('\u212f' + "^")) {
+								.toLowerCase(Locale.ROOT).contains('\u212f' + "^")) {
 					drawNoLatexFunction(geo, sb, xrangemax, xrangemin, integral,
 							geo1);
 				} else {
@@ -1412,9 +1413,10 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	private static boolean isTrigInv(String s) {
-		return s.toLowerCase().contains("atan(")
-				|| s.toLowerCase().contains("acos(")
-				|| s.toLowerCase().contains("asin(");
+		String lowerCase = s.toLowerCase(Locale.ROOT);
+		return lowerCase.contains("atan(")
+				|| lowerCase.contains("acos(")
+				|| lowerCase.contains("asin(");
 
 	}
 

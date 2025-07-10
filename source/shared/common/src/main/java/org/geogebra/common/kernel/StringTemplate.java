@@ -362,7 +362,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static final StringTemplate inputBoxTemplate = new StringTemplate(
 			"inputBoxTemplate");
 
-	/**
+	/*
 	 * For simplicity make this static now and see in the future whether we will
 	 * need more engines in one app
 	 */

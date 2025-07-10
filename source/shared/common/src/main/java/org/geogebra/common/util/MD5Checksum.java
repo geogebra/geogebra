@@ -15,6 +15,8 @@ package org.geogebra.common.util;
  * limitations under the License.
  */
 
+import java.util.Locale;
+
 /**
  * MD5 sum calculator implementation in GWT
  *
@@ -124,7 +126,7 @@ public class MD5Checksum {
 
 		String temp = StringUtil.convertToHex(a) + StringUtil.convertToHex(b)
 				+ StringUtil.convertToHex(c) + StringUtil.convertToHex(d);
-		return temp.toLowerCase();
+		return temp.toLowerCase(Locale.ROOT);
 	}
 
 	/**

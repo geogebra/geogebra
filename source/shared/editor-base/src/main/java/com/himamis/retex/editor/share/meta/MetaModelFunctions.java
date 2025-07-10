@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.meta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 class MetaModelFunctions {
 
@@ -22,7 +23,7 @@ class MetaModelFunctions {
 
 	private static MetaFunction createFunction(Tag name,
 			MetaParameter[] parameters) {
-		return createFunction(name, name.toString().toLowerCase(), parameters);
+		return createFunction(name, name.toString().toLowerCase(Locale.ROOT), parameters);
 	}
 
 	private static MetaParameter createParameterUp(int up) {

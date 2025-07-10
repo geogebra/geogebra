@@ -1,6 +1,7 @@
 package org.geogebra.common.export.pstricks;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -1492,7 +1493,7 @@ public abstract class GeoGebraExport {
 	 * @return whether it contains functions not plottable in LaTeX
 	 */
 	protected boolean isLatexFunction(String s) {
-		String lowerExp = s.toLowerCase();
+		String lowerExp = s.toLowerCase(Locale.ROOT);
 		return !lowerExp.contains("erf(")
 				&& !lowerExp.contains("gamma(")
 				&& !lowerExp.contains("gammaRegularized(")

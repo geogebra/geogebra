@@ -1,5 +1,6 @@
 package org.geogebra.common.main.localization;
 
+import java.util.Locale;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -101,7 +102,7 @@ public class CommandErrorMessageBuilder implements ExamRestrictable {
 			// reverse order: "... command"
 			builder.append(commandNameLocalized);
 			builder.append(' ');
-			builder.append(commandLocalized.toLowerCase());
+			builder.append(commandLocalized.toLowerCase(Locale.ROOT));
 		}
 	}
 

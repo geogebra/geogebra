@@ -1534,20 +1534,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return "red" changed to "Red"
 	 */
 	public static String capitalize(String color) {
-		// use localized version of toUpperCase(), not toUpperCase(Locale.US)
-		return (color.charAt(0) + "").toUpperCase()
+		return (color.charAt(0) + "").toUpperCase(Locale.ROOT)
 				+ color.substring(1, color.length());
-	}
-
-	/**
-	 * @param capitalCase
-	 *            string starting with uppercase
-	 * @return string starting with lowercase
-	 */
-	public static String uncapitalize(String capitalCase) {
-		// use localized version of toUpperCase(), not toUpperCase(Locale.US)
-		return (capitalCase.charAt(0) + "").toLowerCase()
-				+ capitalCase.substring(1, capitalCase.length());
 	}
 
 	/**

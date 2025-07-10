@@ -23,6 +23,7 @@ package org.geogebra.common.kernel;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -821,7 +822,7 @@ public class RelationNumerical {
 	 */
 	final public String equalityString(GeoElement a, GeoElement b,
 			GeoElement c, boolean equal) {
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + " "
 				+ and + " " + getColoredLabel(c);
 
@@ -845,7 +846,7 @@ public class RelationNumerical {
 	 */
 	final public String congruentSegmentString(GeoElement a, GeoElement b,
 			GeoElement c) {
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + " "
 				+ and + " " + getColoredLabel(c);
 		return loc.getPlain("TheFollowingAreCongruentA", pars);
@@ -869,7 +870,7 @@ public class RelationNumerical {
 	 */
 	final public String equalityString(GeoElement a, GeoElement b, GeoElement c,
 			GeoElement d, boolean equal) {
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + ", "
 				+ getColoredLabel(c) + " " + and + " " + getColoredLabel(d);
 
@@ -939,7 +940,7 @@ public class RelationNumerical {
 	 */
 	final public String collinearityString(GeoElement A, GeoElement B,
 			GeoElement C) {
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String pars = getColoredLabel(A) + ", " + getColoredLabel(B) + " "
 				+ and + " " + getColoredLabel(C);
 		return loc.getPlain("TheFollowingAreCollinearA", pars);
@@ -961,7 +962,7 @@ public class RelationNumerical {
 	 */
 	final public String collinearityString(GeoElement A, GeoElement B,
 			GeoElement C, GeoElement D) {
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String pars = getColoredLabel(A) + ", " + getColoredLabel(B) + ", "
 				+ getColoredLabel(C) + " " + and + " " + getColoredLabel(D);
 		return loc.getPlain("TheFollowingAreCollinearA", pars);
@@ -981,7 +982,7 @@ public class RelationNumerical {
 	 */
 	final public String concurrentString(GeoElement a, GeoElement b,
 			GeoElement c) {
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + " "
 				+ and + " " + getColoredLabel(c);
 		return loc.getPlain("TheFollowingAreConcurrentA", pars);
@@ -1003,7 +1004,7 @@ public class RelationNumerical {
 	 */
 	final public String concyclicityString(GeoElement A, GeoElement B,
 			GeoElement C, GeoElement D) {
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String pars = getColoredLabel(A) + ", " + getColoredLabel(B) + ", "
 				+ getColoredLabel(C) + " " + and + " " + getColoredLabel(D);
 		return loc.getPlain("TheFollowingAreConcyclicA", pars);
@@ -1087,7 +1088,7 @@ public class RelationNumerical {
 	 */
 	final public String parallelString(GeoLine a, GeoLine b, GeoLine c,
 			Localization loc) {
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + " "
 				+ and + " " + getColoredLabel(c);
 		return loc.getPlain("TheFollowingAreParallelA", pars);

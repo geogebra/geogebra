@@ -4907,8 +4907,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return null;
 		}
 
-		/** curves */
-
+		/* curves */
 		double xMinCurve = Double.MAX_VALUE;
 		double xMaxCurve = -Double.MAX_VALUE;
 		double yMinCurve = Double.MAX_VALUE;
@@ -4952,8 +4951,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 
-		/** objects */
-
+		/* objects */
 		double xMinObj = Double.MAX_VALUE;
 		double xMaxObj = -Double.MAX_VALUE;
 		double yMinObj = Double.MAX_VALUE;
@@ -4967,7 +4965,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			yMaxObj = toRealWorldCoordY(rect.getMinY());
 		}
 
-		/**
+		/*
 		 * initialize the rectangle around all visible objects do this before
 		 * handling functions, because functions need the calculated x-values
 		 */
@@ -4992,8 +4990,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			y1RW = Math.max(y1RW, yMaxObj);
 		}
 
-		/** functions */
-
+		/* functions */
 		double yMinFunc = Double.MAX_VALUE;
 		double yMaxFunc = -Double.MAX_VALUE;
 		boolean ok = false;

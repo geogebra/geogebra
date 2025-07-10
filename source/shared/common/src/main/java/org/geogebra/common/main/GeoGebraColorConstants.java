@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GColor;
@@ -313,7 +314,7 @@ public class GeoGebraColorConstants {
 		}
 		if (ret == null) {
 			// will need only English characters
-			ret = htmlColorMap().get(colorName.toUpperCase());
+			ret = htmlColorMap().get(colorName.toUpperCase(Locale.ROOT));
 		}
 		return ret;
 	}

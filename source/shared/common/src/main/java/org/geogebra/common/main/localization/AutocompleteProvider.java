@@ -3,6 +3,7 @@ package org.geogebra.common.main.localization;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -193,7 +194,7 @@ public class AutocompleteProvider {
 						ManualPage.OPERATORS, null));
 
 		List<MatchedString> commandResults = getCommandDictionary()
-				.getCompletions(curWord.toLowerCase());
+				.getCompletions(curWord.toLowerCase(Locale.ROOT));
 		if (commandResults != null) {
 			Stream<Completion> commandCompletions = commandResults.stream()
 					.map(command -> new Completion(command,

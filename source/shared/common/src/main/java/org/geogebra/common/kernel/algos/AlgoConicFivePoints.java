@@ -233,7 +233,7 @@ public class AlgoConicFivePoints extends AlgoElement
 		}
 		linComb(A, B, e1, e2, C);
 
-		/***
+		/*
 		 * critical case: five points lie on an unstable conic now only for
 		 * parabola. Need more tests for: one line; two lines; one point; two
 		 * points

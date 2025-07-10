@@ -1,5 +1,6 @@
 package org.geogebra.keyboard.base.model.impl;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.keyboard.base.Action;
@@ -74,7 +75,7 @@ public class CapsLockModifier implements KeyModifier {
 			}
 		}
 
-		return name.toUpperCase();
+		return name.toUpperCase(Locale.ROOT);
 	}
 
 	@Override

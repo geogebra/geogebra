@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.Locale;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
@@ -100,7 +102,7 @@ final class SpreadsheetReferenceParsing {
 	 * @return The column index (0-based), or -1 if {@code columnName} is not a valid column name.
 	 */
 	private static int columnIndexFromName(@Nonnull String columnName) {
-		String name = columnName.trim().toUpperCase();
+		String name = columnName.trim().toUpperCase(Locale.ROOT);
 		if (name.length() >= 7) {
 			return -1; // 26^7 = 8.031.810.176, this would already overflow a 32bit int
 		}

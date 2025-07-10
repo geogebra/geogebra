@@ -168,9 +168,6 @@ public class CmdIntersect extends CommandProcessor {
 			return ret;
 		}
 
-		/**
-		 * @author thilina
-		 */
 		// PolyLine - PolyLine
 		else if ((ok[0] = (arg[0] instanceof GeoPolyLine))
 				&& (ok[1] = (arg[1] instanceof GeoPolyLine))) {
@@ -195,9 +192,6 @@ public class CmdIntersect extends CommandProcessor {
 		// Line - Polygon(as region)
 		// ---- see CmdIntersectionPaths
 
-		/**
-		 * @author thilina
-		 */
 		// PolyLine - Polygon(as boundary)
 		else if ((ok[0] = arg[0].isGeoPolyLine())
 				&& (ok[1] = arg[1].isGeoPolygon())) {
@@ -211,9 +205,6 @@ public class CmdIntersect extends CommandProcessor {
 			return ret;
 		}
 
-		/**
-		 * @author thilina
-		 */
 		// Polygon(as boundary) - Polygon(as boundary)
 		else if ((ok[0] = arg[0].isGeoPolygon())
 				&& (ok[1] = arg[1].isGeoPolygon())) {

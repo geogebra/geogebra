@@ -5,6 +5,7 @@
 package org.geogebra.common.io;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
 
 import org.geogebra.common.util.debug.Log;
@@ -1382,7 +1383,7 @@ public class MathMLParser {
 			return false;
 		}
 
-		char[] ca = vu.toLowerCase().toCharArray();
+		char[] ca = vu.toLowerCase(Locale.ROOT).toCharArray();
 
 		for (int i = 0; i < 4; i++) {
 			if (!Character.isDigit(ca[i]) && (ca[i] < 'a' || ca[i] > 'f')) {

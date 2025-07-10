@@ -1443,6 +1443,4 @@ public class Complex {
 		return nf.format(z[0]) + "+" + nf.format(z[1]) + "i";
 	}
 
-	/** for test purposes ... */
-
 }

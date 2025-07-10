@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.TreeSet;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -21,9 +22,9 @@ public class ArticleTest {
 		TreeSet<String> documented = new TreeSet<>();
 		for (Method mtd : mtds) {
 			if (mtd.getName().contains("Data")) {
-				documented.add(StringUtil.uncapitalize(
+				documented.add(uncapitalize(
 						mtd.getName().replace("getDataParam", "")));
-				System.out.println("\"" + StringUtil.uncapitalize(
+				System.out.println("\"" + uncapitalize(
 								mtd.getName().replace("getDataParam", ""))
 						+ "\":\"boolean\",");
 			}
@@ -66,5 +67,10 @@ public class ArticleTest {
 		} catch (Exception e) {
 			Log.debug(e);
 		}
+	}
+
+	private static String uncapitalize(String capitalCase) {
+		return (capitalCase.charAt(0) + "").toLowerCase(Locale.ROOT)
+				+ capitalCase.substring(1, capitalCase.length());
 	}
 }

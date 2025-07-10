@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
@@ -446,7 +447,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			// use lower case of point label as segment label
 			String lowerCaseLabel = p
 					.getLabel(StringTemplate.get(StringType.GEOGEBRA))
-					.toLowerCase();
+					.toLowerCase(Locale.ROOT);
 
 			// for sides A, B, C use labels a, b, c
 			// or a_1 etc if necessary

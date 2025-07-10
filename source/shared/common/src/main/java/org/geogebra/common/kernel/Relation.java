@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
@@ -161,7 +162,7 @@ public class Relation {
 		app.setWaitCursor();
 
 		Localization loc = ra.getConstruction().getApplication().getLocalization();
-		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
 		String trueOnParts = loc.getMenuDefault("TrueOnPartsFalseOnParts",
 				"(true on parts, false on parts)");
 		String generallyFalse = loc.getMenuDefault("FalseInGeneral", "(false in general)");

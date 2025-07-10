@@ -44,7 +44,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		super(cons);
 		this.nocas = !info.isUsingCAS();
 		this.f = f;
-		/** g is created in compute */
+		/* g is created in compute */
 		compute();
 		setInputOutput();
 		g.setLabel(label);
@@ -65,7 +65,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		super(cons);
 		this.f = f;
 		this.pt = pt;
-		/** g is created in compute */
+		/* g is created in compute */
 		compute();
 		setInputOutput();
 		g.setLabel(label);

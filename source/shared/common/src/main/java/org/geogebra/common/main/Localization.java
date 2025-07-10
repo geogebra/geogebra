@@ -91,7 +91,7 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * For Basque and Hungarian you have to say "A point" instead of "point A"
 	 * 
-	 * @return whether current alnguage needs revverse order of type and name
+	 * @return whether current language needs reverse order of type and name
 	 */
 	final public boolean isReverseNameDescriptionLanguage() {
 		// for Basque and Hungarian
@@ -302,7 +302,7 @@ public abstract class Localization extends LocalizationI {
 		while ((rettextlen < length) && (pos > 0)) {
 			thisChar = text.substring(pos - 1, pos);
 			if (!ignoredChars.contains(thisChar)) {
-				rettext.insert(0, thisChar.toLowerCase());
+				rettext.insert(0, thisChar.toLowerCase(Locale.ROOT));
 				rettextlen++;
 			}
 			pos--;

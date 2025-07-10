@@ -11,6 +11,7 @@ package org.geogebra.common.export.pstricks;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -3763,13 +3764,14 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected boolean isLatexFunction(String s) {
 		// used if there are other non-latex
-		return !s.toLowerCase().contains("csc(")
-				&& !s.toLowerCase().contains("csch(")
-				&& !s.toLowerCase().contains("sec(")
-				&& !s.toLowerCase().contains("cot(")
-				&& !s.toLowerCase().contains("coth(")
-				&& !s.toLowerCase().contains("sech(")
-				&& !s.toLowerCase().contains("if");
+		String lowerCase = s.toLowerCase(Locale.ROOT);
+		return !lowerCase.contains("csc(")
+				&& !lowerCase.contains("csch(")
+				&& !lowerCase.contains("sec(")
+				&& !lowerCase.contains("cot(")
+				&& !lowerCase.contains("coth(")
+				&& !lowerCase.contains("sech(")
+				&& !lowerCase.contains("if");
 	}
 
 	@Override
