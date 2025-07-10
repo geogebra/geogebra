@@ -13,10 +13,8 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -519,22 +517,6 @@ class NavigationRail extends FlowPanel implements ExamListener {
 			toolbarPanel.updateUndoRedoPosition();
 			resize();
 		});
-	}
-
-	/**
-	 * Exam info button.
-	 */
-	public void initInfoBtnAction() {
-		final IconButton examInfoBtn = GlobalHeader.INSTANCE
-				.getExamInfoBtn();
-		if (examInfoBtn == null) {
-			return;
-		}
-		examInfoBtn.addFastClickHandler(source -> showExamDialog(examInfoBtn));
-	}
-
-	private void showExamDialog(IconButton examInfoBtn) {
-		new ExamLogAndExitDialog(app, true, examInfoBtn).show();
 	}
 
 	public void updateIcons(boolean exam) {

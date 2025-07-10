@@ -68,6 +68,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
+import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -124,6 +125,7 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
@@ -2132,14 +2134,9 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	/**
-	 * init on click for exam info button
-	 */
 	@Override
-	public void initInfoBtnAction() {
-		if (getUnbundledToolbar() != null) {
-			getUnbundledToolbar().initInfoBtnAction();
-		}
+	public void showExamInfoDialog(StandardButton examInfoBtn) {
+		new ExamLogAndExitDialog(getApp(), true, examInfoBtn).show();
 	}
 
 	/**

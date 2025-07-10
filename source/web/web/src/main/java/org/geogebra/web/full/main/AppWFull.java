@@ -2424,7 +2424,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				if (supportsExamUI()) {
 					new ExamUtil(this).addVisibilityAndBlurHandlers();
 					GlobalHeader.INSTANCE.addExamTimer(this);
-					guiManager.initInfoBtnAction();
 				}
 			}
 		}

@@ -277,13 +277,6 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	}
 
 	/**
-	 * @return exam info button
-	 */
-	public IconButton getExamInfoBtn() {
-		return examInfoBtn;
-	}
-
-	/**
 	 * Initialize the settings, undo and redo buttons if they are on the header
 	 */
 	public void initButtonsIfOnHeader() {
@@ -408,6 +401,8 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		examId.add(timerImg);
 		examId.add(timer);
 		examId.add(examInfoBtn);
+		examInfoBtn.addFastClickHandler(source ->
+				app.getGuiManager().showExamInfoDialog(examInfoBtn));
 		// run timer
 		onResize();
 	}

@@ -1166,13 +1166,6 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 *
-	 */
-	public void initInfoBtnAction() {
-		navRail.initInfoBtnAction();
-	}
-
-	/**
 	 * remove exam style
 	 */
 	public void resetHeaderStyle() {

@@ -20,6 +20,7 @@ import org.geogebra.common.util.ManualPage;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -253,7 +254,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	/**
 	 * @param fallback fallback value
-	 * @return whether root panel is split vertically
+	 * @return whether the root panel is split vertically
 	 */
 	boolean isVerticalSplit(boolean fallback);
 
@@ -263,9 +264,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void updateUnbundledToolbarStyle();
 
 	/**
-	 * init on click for exam info button
+	 * Show exam info dialog.
+	 * @param examInfoBtn button to show dialog relative to
 	 */
-	void initInfoBtnAction();
+	void showExamInfoDialog(StandardButton examInfoBtn);
 
 	/**
 	 * Show table view with new column
