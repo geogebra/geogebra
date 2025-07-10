@@ -102,7 +102,7 @@ public class UndoCommand {
 	}
 
 	private void withCurrentSlide(final UndoManager undoManager, Runnable runnable) {
-		if (action == ActionType.ADD || action == ActionType.UPDATE) {
+		if (action.isGeoElementAction()) {
 			undoManager.runAfterSlideLoaded(slideID, runnable);
 		} else {
 			runnable.run();

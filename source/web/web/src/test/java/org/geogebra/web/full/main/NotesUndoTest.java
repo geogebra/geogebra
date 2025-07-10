@@ -5,7 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
 import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -395,6 +397,33 @@ public class NotesUndoTest {
 		objectsPerSlideShouldBe(0);
 	}
 
+	@Test
+	public void undoDelete() {
+		app.getAppletFrame().initPageControlPanel(app);
+		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		selectPage(0);
+		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
+		processor.processAlgebraCommand("f:x", false);
+		app.getUndoManager().storeUndoableAction(ActionType.ADD,
+				new String[]{"<expression label=\"f\" exp=\"x\"/>"}, ActionType.REMOVE, "f");
+		selectPage(1);
+		processor.processAlgebraCommand("g:-x", false);
+		app.getUndoManager().storeUndoableAction(ActionType.ADD,
+				new String[]{"<expression label=\"g\" exp=\"-x\"/>"}, ActionType.REMOVE, "g");
+		selectPage(0);
+		app.getKernel().lookupLabel("f").remove();
+		app.getUndoManager().storeUndoableAction(ActionType.REMOVE,
+				new String[]{"f"}, ActionType.ADD, "<expression label=\"f\" exp=\"x\"/>");
+		selectPage(1);
+		objectsPerSlideShouldBe(0, 1);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 1);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(1, 0);
+		app.getGgbApi().undo();
+		objectsPerSlideShouldBe(0, 0);
+	}
+
 	private static void addObject(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				true);
@@ -418,7 +447,8 @@ public class NotesUndoTest {
 			count++;
 			start = xml.indexOf("<element", start) + 1;
 		}
-		assertEquals(slide + ":" + expectedCount, slide + ":" + count);
+		assertEquals("Wrong number of objects for slide " + slide,
+				expectedCount, count);
 	}
 
 	private static void shouldHaveSlides(int expected) {

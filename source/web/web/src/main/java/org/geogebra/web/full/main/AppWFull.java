@@ -1815,6 +1815,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		kernel.notifyScreenChanged();
 		if (isWhiteboardActive()) {
+			storeUndoInfoIfSetCoordSystemOccurred();
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
 		getScriptManager().ggbOnInit(); // should be only called after coord system is ready
