@@ -653,6 +653,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 		.checkboxPanel, .dropDown {
 			display: flex;
+		}
+		.checkboxPanel {
+			padding: 8px 16px 8px 0;
+		}
+		.dropDown {
 			margin: 8px;
 		}
 	}
