@@ -268,6 +268,15 @@ public class GeoNumeric extends GeoElement
 		}
 	}
 
+	/**
+	 * Make this drawable and visible, without any slider-related side effects.
+	 */
+	public final void setDrawableNoSlider() {
+		isDrawable = true;
+		intervalMax = null;
+		super.setEuclidianVisible(true);
+	}
+
 	@Override
 	public void setEuclidianVisible(boolean visible) {
 		if (visible == isSetEuclidianVisible() || kernel.isMacroKernel()) {

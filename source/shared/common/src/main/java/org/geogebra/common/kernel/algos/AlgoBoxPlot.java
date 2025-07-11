@@ -99,7 +99,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		// sum.setLabelVisible(false);
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 		sum.setLabel(label);
 	}
 
@@ -186,7 +186,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		// sum.setLabelVisible(false);
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		// sum.setLabelVisible(false);
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 	}
 
 	private AlgoBoxPlot(Construction cons, double[] list1, GeoNumberValue a,

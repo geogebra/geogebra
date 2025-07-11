@@ -140,7 +140,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 		sum.setLabel(label);
 	}
 
@@ -376,7 +376,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 	}
 
 	/******************************************************
@@ -419,7 +419,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 		sum.setLabel(label);
 		if (yval == null) {
 			yval = new double[0];

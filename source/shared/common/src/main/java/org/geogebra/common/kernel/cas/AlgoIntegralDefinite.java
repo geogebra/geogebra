@@ -187,7 +187,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		setInputOutput(); // for AlgoElement
 		compute();
-		n.setDrawable(true);
+		n.setDrawableNoSlider();
 	}
 
 	/**

@@ -212,7 +212,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 		sum.setLabel(label);
 	}
 
@@ -246,7 +246,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 	}
 
 	/**
@@ -288,7 +288,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 		sum.setLabel(label);
 
 	}
@@ -373,7 +373,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		setInputOutput(); // for AlgoElement
 		compute();
 
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 	}
 
 	/**
@@ -478,7 +478,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		if (isCumulative != null && isCumulative.getBoolean()) {
 			yval[yval.length - 1] = 0.0;
 		}
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 	}
 
 	/**
@@ -540,7 +540,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		sum.setDrawable(true);
+		sum.setDrawableNoSlider();
 		sum.setLabel(label);
 
 		if (yval == null) {

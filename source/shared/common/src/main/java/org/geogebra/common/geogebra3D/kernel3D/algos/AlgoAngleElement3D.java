@@ -48,7 +48,7 @@ public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 	@Override
 	final protected GeoAngle newGeoAngle(Construction cons1) {
 		GeoAngle ret = new GeoAngle3D(cons1);
-		ret.setDrawable(true);
+		ret.setDrawableNoSlider();
 		return ret;
 	}
 

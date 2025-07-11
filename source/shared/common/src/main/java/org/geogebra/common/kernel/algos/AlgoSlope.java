@@ -54,7 +54,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 
 		compute();
 
-		slope.setDrawable(true);
+		slope.setDrawableNoSlider();
 	}
 
 	/**

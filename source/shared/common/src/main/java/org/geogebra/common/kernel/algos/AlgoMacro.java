@@ -293,7 +293,7 @@ public class AlgoMacro extends AlgoElement
 			out.setLayer(layer);
 			AlgoElement drawAlgo = macroOutput[i].getParentAlgorithm();
 			if (drawAlgo instanceof DrawInformationAlgo) {
-				((GeoNumeric) out).setDrawable(true);
+				((GeoNumeric) out).setDrawableNoSlider();
 				out.setDrawAlgorithm(((DrawInformationAlgo) drawAlgo).copy());
 			}
 

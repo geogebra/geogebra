@@ -45,6 +45,8 @@ public class GeoAngleTest extends BaseAppTestSetup {
 	@ValueSource(strings = {"Angle((1,0),(0,0),(0,-1))", "Angle((0,-1))"})
 	public void testValueString(String command) {
 		getApp().setGeometryConfig();
+		getKernel().getConstruction().getConstructionDefaults()
+				.createDefaultGeoElements();
 		GeoAngle reflex = evaluateGeoElement(command);
 		reflex.setAngleStyle(GeoAngle.AngleStyle.NOTREFLEX);
 		assertEquals("90" + Unicode.DEGREE_STRING,

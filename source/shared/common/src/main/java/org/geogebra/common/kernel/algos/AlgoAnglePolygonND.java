@@ -137,7 +137,7 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 			GeoAngle angle = (GeoAngle) outputAngles.getElement(i);
 			angle.set(algoAngle.getAngle());
 			if (!angle.isDrawable) {
-				angle.setDrawable(true);
+				angle.setDrawableNoSlider();
 			}
 			angle.setDrawAlgorithm(algoAngle.copy());
 			cons.removeFromConstructionList(algoAngle);

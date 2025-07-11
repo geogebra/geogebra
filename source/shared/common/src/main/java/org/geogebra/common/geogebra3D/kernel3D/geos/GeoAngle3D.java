@@ -18,7 +18,6 @@ final public class GeoAngle3D extends GeoAngle {
 	 */
 	public GeoAngle3D(Construction c) {
 		super(c);
-		setIntervalMax(null);
 		hasOrientation = false;
 	}
 
@@ -63,7 +62,7 @@ final public class GeoAngle3D extends GeoAngle {
 		GeoAngle3D ret = new GeoAngle3D(cons);
 		// set the angle interval
 		ret.setHasOrientation(true);
-		ret.setDrawable(true);
+		ret.setDrawableNoSlider();
 		ret.setAngleStyle(((GeoAngle) cons.getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE))
 						.getAngleStyle());

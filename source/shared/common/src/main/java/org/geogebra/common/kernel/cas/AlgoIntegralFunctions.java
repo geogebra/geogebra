@@ -105,7 +105,7 @@ public class AlgoIntegralFunctions extends AlgoElement
 
 		setInputOutput(); // for AlgoElement
 		compute();
-		n.setDrawable(true);
+		n.setDrawableNoSlider();
 		n.setLabel(label);
 	}
 
