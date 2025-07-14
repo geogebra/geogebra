@@ -6,7 +6,9 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconResources;
 import org.geogebra.web.full.gui.menubar.action.ShowLicenseAction;
+import org.geogebra.web.full.gui.menubar.action.ShowPrivacyPolicyAction;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
@@ -16,7 +18,7 @@ import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.user.client.ui.Label;
 
 /**
- * Help menu
+ * The help menu for Classic.
  */
 public class HelpMenuW extends Submenu implements BooleanRenderable {
 
@@ -25,6 +27,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 	private AriaMenuItem manual;
 	private AriaMenuItem about;
 	private AriaMenuItem bug;
+	private AriaMenuItem privacy;
 
 	/**
 	 * @param app
@@ -35,11 +38,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		addExpandableStyleWithColor(false);
 		Localization loc = app.getLocalization();
 
-		if (app.isWhiteboardActive()) {
-			buildMenuNotes(app, loc);
-		} else {
-			buildMenuBase(app, loc);
-		}
+		buildMenuBase(app, loc);
 
 		if (!app.getNetworkOperation().isOnline()) {
 			render(false);
@@ -53,14 +52,8 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		addForumItem(app, loc);
 		addReportBugItem(app, loc);
 		addAboutItem();
+		addPrivacyItem();
 		addVersionNumber(app);
-	}
-
-	private void buildMenuNotes(final AppW app, Localization loc) {
-		addTutorialItem(app, loc);
-		addForumItem(app, loc);
-		addReportBugItem(app, loc);
-		addAboutItem();
 	}
 
 	private void addTutorialItem(final AppW app, Localization loc) {
@@ -126,6 +119,11 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.info_black()));
 	}
 
+	private void addPrivacyItem() {
+		privacy = addItem("PrivacyPolicy", new ShowPrivacyPolicyAction(),
+				new ImageIconSpec(DefaultMenuIconResources.INSTANCE.privacyPolicy()));
+	}
+
 	private void addVersionNumber(AppW appW) {
 		String versionNr = GeoGebraConstants.getVersionString6();
 		String versionStr = appW.getLocalization().getPlainDefault("VersionA",
@@ -141,6 +139,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		tutorials.setEnabled(online);
 		bug.setEnabled(online);
 		forum.setEnabled(online);
+		privacy.setEnabled(online);
 	}
 
 	@Override
