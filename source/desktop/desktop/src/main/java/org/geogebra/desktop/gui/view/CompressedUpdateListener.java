@@ -31,7 +31,7 @@ public class CompressedUpdateListener implements ActionListener {
 	 * @param view
 	 *            the compressedView attached this ActionListener is attached to
 	 * @param lock
-	 *            the lock to avoid loosing changed GeoElements
+	 *            the lock to avoid losing changed GeoElements
 	 *            (view.update(geo) =&gt; set.add(geo) lock)
 	 */
 	public CompressedUpdateListener(CompressedView view, Timer timer,
