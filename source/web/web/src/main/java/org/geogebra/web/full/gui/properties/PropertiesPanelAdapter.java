@@ -97,8 +97,10 @@ public class PropertiesPanelAdapter {
 
 		}
 		if (property instanceof NamedEnumeratedProperty) {
-			return new CompDropDown(app, property.getName(),
+			CompDropDown dropDown = new CompDropDown(app, property.getName(),
 					(NamedEnumeratedProperty<?>) property);
+			dropDown.setFullWidth(true);
+			return dropDown;
 		}
 		if (property instanceof ColorProperty) {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,

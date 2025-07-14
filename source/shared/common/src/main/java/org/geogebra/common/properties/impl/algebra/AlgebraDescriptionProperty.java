@@ -27,7 +27,7 @@ public class AlgebraDescriptionProperty extends AbstractNamedEnumeratedProperty<
      * @param localization localization
      */
     public AlgebraDescriptionProperty(App app, Localization localization) {
-        super(localization, "AlgebraDescriptions");
+        super(localization, "Display");
         this.kernel = app.getKernel();
         List<Map.Entry<Integer, String>> algebraStyles = AlgebraStyle.getAvailableValues(app)
                 .stream()

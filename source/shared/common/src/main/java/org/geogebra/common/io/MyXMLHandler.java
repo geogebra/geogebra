@@ -33,6 +33,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
@@ -3580,7 +3581,8 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleAlgebraViewMode(LinkedHashMap<String, String> attrs) {
 		try {
-			int val = Integer.parseInt(attrs.get("val"));
+			int val = !app.isUnbundled() ? Integer.parseInt(attrs.get("val"))
+					: AlgebraView.SortMode.ORDER.toInt();
 			app.getSettings().getAlgebra().setTreeMode(val);
 			app.getSettings().getAlgebra().setModeChanged(true);
 
