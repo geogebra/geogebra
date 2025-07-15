@@ -798,7 +798,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 		a = halfAxes[0];
 		b = halfAxes[1];
-
 		updateHyperbolaX0();
 
 		// init step width
@@ -881,19 +880,41 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	/**
-	 * updates hyperbola x maximum value
+	 * Updates hyperbola x maximum value x0.
+	 * It is the smallest x such that all points on screen have x-coordinate
+	 * (in conic's eigenvector space) either between -x and -a or a and x.
 	 */
 	protected void updateHyperbolaX0() {
-		// draw hyperbola wing from x=a to x=x0
-		// the drawn hyperbola must be larger than the screen
-		// get max distance from midpoint to screen edge
-		x0 = Math.max(
-				Math.max(Math.abs(midpoint.getX() - view.getXmin()),
-						Math.abs(midpoint.getX() - view.getXmax())),
-				Math.max(Math.abs(midpoint.getY() - view.getYmin()),
-						Math.abs(midpoint.getY() - view.getYmax())));
-		// ensure that rotated hyperbola is fully on screen:
-		x0 *= 1.5;
+		GAffineTransform inverse;
+		x0 = Double.NEGATIVE_INFINITY;
+		try {
+			inverse = conic.getAffineTransform().createInverse();
+		} catch (Exception ex) {
+			return;
+		}
+		double xMin = Double.POSITIVE_INFINITY;
+		double xMax = Double.NEGATIVE_INFINITY;
+		if (transformPoint == null) {
+			transformPoint = new GPoint2D();
+		}
+		for (int i = 0; i < 4; i++) {
+			setTransformedPointFromCorner(i);
+			inverse.transform(transformPoint, transformPoint);
+			xMax = Math.max(xMax, transformPoint.x);
+			xMin = Math.min(xMin, transformPoint.x);
+		}
+		if (-a >= xMin) {
+			x0 = Math.max(Math.abs(xMin), x0);
+		}
+		if (a < xMax) {
+			x0 = Math.max(Math.abs(xMax), x0);
+		}
+	}
+
+	private void setTransformedPointFromCorner(int i) {
+		double x = (i & 2) == 0 ? view.getXmin() : view.getXmax();
+		double y = (i & 1) == 0 ? view.getYmin() : view.getYmax();
+		transformPoint.setLocation(x, y);
 	}
 
 	/**
@@ -1414,7 +1435,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 						// org.geogebra.ggbjdk.java.awt.geom.IllegalPathStateException:
 						// org.geogebra.ggbjdk.java.awt.geom.Path2D$Double.needRoom
 						// (Path2D.java:263)
-						strokedShape = objStroke.createStrokedShape(fillShape, 100);
+						strokedShape = decoStroke.createStrokedShape(fillShape, 100);
 					} catch (Exception e) {
 						Log.error("problem creating circle/parabola shape: "
 								+ e.getMessage());
@@ -1488,8 +1509,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 		if (strokedShape == null) {
 			try {
 				// AND-547, initial buffer size
-				strokedShape = objStroke.createStrokedShape(hypLeft, 300);
-				strokedShape2 = objStroke.createStrokedShape(hypRight, 300);
+				strokedShape = decoStroke.createStrokedShape(hypLeft, 300);
+				strokedShape2 = decoStroke.createStrokedShape(hypRight, 300);
 			} catch (Exception e) {
 				Log.error(
 						"problem creating hyperbola shape: " + e.getMessage());
@@ -1521,7 +1542,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			try {
-				strokedShape = objStroke.createStrokedShape(fillShape, 148);
+				strokedShape = decoStroke.createStrokedShape(fillShape, 148);
 			} catch (Exception e) {
 				Log.error("problem creating ellipse shape: " + e.getMessage());
 				return false;
