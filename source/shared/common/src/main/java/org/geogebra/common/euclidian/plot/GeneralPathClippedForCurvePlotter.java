@@ -22,6 +22,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	private static final double EPSILON = 0.0001;
 
 	public static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
+	private static final double OFFSCREEN_PX = 10;
 
 	private boolean lineDrawn;
 	private final Coords tmpCoords = new Coords(4);
@@ -136,14 +137,14 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		double y = pt.getY();
 
 		if ((x < 0 && x0 > w) || (x > w && x0 < 0)) {
-			drawTo(x, -10, true);
-			drawTo(x0, -10, true);
+			drawTo(x, -OFFSCREEN_PX, true);
+			drawTo(x0, -OFFSCREEN_PX, true);
 			return;
 		}
 
 		if ((y < 0 && y0 > h) || (y > h && y0 < 0)) {
-			drawTo(-10, y, true);
-			drawTo(-10, y0, true);
+			drawTo(-OFFSCREEN_PX, y, true);
+			drawTo(-OFFSCREEN_PX, y0, true);
 			return;
 		}
 
@@ -175,31 +176,31 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		} else if (moveToAllowed == Gap.RESET_XMIN) {
 			double d = getCurrentPoint().getY();
 			if (!DoubleUtil.isEqual(d, y0)) {
-				drawTo(-10, d, true);
-				drawTo(-10, y0, true);
+				drawTo(-OFFSCREEN_PX, d, true);
+				drawTo(-OFFSCREEN_PX, y0, true);
 			}
 			drawTo(x0, y0, true);
 
 		} else if (moveToAllowed == Gap.RESET_XMAX) {
 			double d = getCurrentPoint().getY();
 			if (!DoubleUtil.isEqual(d, y0)) {
-				drawTo(view.getWidth() + 10, d, true);
-				drawTo(view.getWidth() + 10, y0, true);
+				drawTo(view.getWidth() + OFFSCREEN_PX, d, true);
+				drawTo(view.getWidth() + OFFSCREEN_PX, y0, true);
 			}
 			drawTo(x0, y0, true);
 
 		} else if (moveToAllowed == Gap.RESET_YMIN) {
 			double d = getCurrentPoint().getX();
 			if (!DoubleUtil.isEqual(d, x0)) {
-				drawTo(d, -10, true);
-				drawTo(x0, -10, true);
+				drawTo(d, -OFFSCREEN_PX, true);
+				drawTo(x0, -OFFSCREEN_PX, true);
 			}
 			drawTo(x0, y0, true);
 		} else if (moveToAllowed == Gap.RESET_YMAX) {
 			double d = getCurrentPoint().getX();
 			if (!DoubleUtil.isEqual(d, x0)) {
-				drawTo(getCurrentPoint().getX(), view.getHeight() + 10, true);
-				drawTo(x0, view.getHeight() + 10, true);
+				drawTo(getCurrentPoint().getX(), view.getHeight() + OFFSCREEN_PX, true);
+				drawTo(x0, view.getHeight() + OFFSCREEN_PX, true);
 			}
 			drawTo(x0, y0, true);
 		}
