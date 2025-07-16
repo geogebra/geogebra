@@ -43,7 +43,7 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 			showExamDialog(app, (examType) -> startExam(app, examType));
 		} else {
 			if (ExamStartDialog.mayChooseType(app)) {
-				showExamDialog(app, examType -> showSEBDialog(app, examType));
+				createExamDialog(app, examType -> showSEBDialog(app, examType)).show();
 			} else {
 				ExamType forcedExamType = app.getForcedExamType();
 				showSEBDialog(app, forcedExamType == null ? ExamType.GENERIC : forcedExamType);
@@ -69,19 +69,24 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 		app.fileNew();
 		app.clearSubAppCons();
 		app.getLAF().toggleFullscreen(true);
-		String cancel = app.isLockedExam() ? null : "Cancel";
-		DialogData data = new DialogData("exam_menu_enter", cancel,
-				"exam_start_button");
-		ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
+		ExamStartDialog examStartDialog = createExamDialog(app, callback);
 		examStartDialog.setOnNegativeAction(() -> {
 			examController.cancelExam();
 			app.getLAF().toggleFullscreen(false);
 		});
-		examStartDialog.setOnPositiveAction(() ->
-				callback.accept(examStartDialog.getSelectedRegion()));
 		examController.prepareExam();
 		app.deleteAutosavedFile();
 		examStartDialog.show();
+	}
+
+	private ExamStartDialog createExamDialog(AppWFull app, Consumer<ExamType> callback) {
+		String cancel = app.isLockedExam() ? null : "Cancel";
+		DialogData data = new DialogData("exam_menu_enter", cancel,
+				"exam_start_button");
+		ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
+		examStartDialog.setOnPositiveAction(() ->
+				callback.accept(examStartDialog.getSelectedRegion()));
+		return examStartDialog;
 	}
 
 	private void startExam(AppWFull app, ExamType region) {
