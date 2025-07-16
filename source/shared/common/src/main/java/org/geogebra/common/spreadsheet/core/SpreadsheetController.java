@@ -106,8 +106,11 @@ public final class SpreadsheetController {
 	/**
 	 * @param viewportAdjusterDelegate The viewport adjuster delegate.
 	 */
-	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate viewportAdjusterDelegate) {
-		this.viewportAdjuster = new ViewportAdjuster(getLayout(), viewportAdjusterDelegate);
+	public void setViewportAdjustmentHandler(
+			@CheckForNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
+		this.viewportAdjuster = viewportAdjusterDelegate != null
+				? new ViewportAdjuster(getLayout(), viewportAdjusterDelegate)
+				: null;
 	}
 
 	/**

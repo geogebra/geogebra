@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
@@ -26,8 +28,8 @@ final class ViewportAdjuster {
 	 * @param layout TableLayout
 	 * @param viewportAdjusterDelegate ViewportAdjustmentHandler
 	 */
-	ViewportAdjuster(TableLayout layout,
-			ViewportAdjusterDelegate viewportAdjusterDelegate) {
+	ViewportAdjuster(@Nonnull TableLayout layout,
+			@Nonnull ViewportAdjusterDelegate viewportAdjusterDelegate) {
 		this.layout = layout;
 		this.viewportAdjusterDelegate = viewportAdjusterDelegate;
 	}
