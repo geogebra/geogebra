@@ -648,6 +648,25 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 	}
 
+	.PropertiesViewW .sideSheet {
+		.contentPanel {
+			height: 100%;
+
+			.componentTab {
+				height: 100%;
+
+				.panelContainer {
+					height: 100%;
+
+					.sideSheetTab {
+						height: calc(100% - 120px); //title (64px) + tab bar (56px)
+						overflow: auto;
+					}
+				}
+			}
+		}
+	}
+
 	.sideSheetTab {
 		width: 100%;
 

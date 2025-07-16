@@ -81,18 +81,16 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		List<Property> props = List.of(
-				new SimpleBooleanProperty(localization, "ShowInputField",
-						settings::showFormulaBar, settings::setShowFormulaBar),
-				new SimpleBooleanProperty(localization, "ShowRowHeader",
+				new SimpleBooleanProperty(localization, "ShowGridlines",
 						settings::showGrid, settings::setShowGrid),
-				new SimpleBooleanProperty(localization, "ShowRowHeader",
-						settings::showRowHeader, settings::setShowRowHeader),
 				new SimpleBooleanProperty(localization, "ShowColumnHeader",
 						settings::showColumnHeader, settings::setShowColumnHeader),
-				new SimpleBooleanProperty(localization, "ShowHorizontalScrollbars",
-						settings::showHScrollBar, settings::setShowHScrollBar),
+				new SimpleBooleanProperty(localization, "ShowRowHeader",
+						settings::showRowHeader, settings::setShowRowHeader),
 				new SimpleBooleanProperty(localization, "ShowVerticalScrollbars",
 						settings::showVScrollBar, settings::setShowVScrollBar),
+				new SimpleBooleanProperty(localization, "ShowHorizontalScrollbars",
+						settings::showHScrollBar, settings::setShowHScrollBar),
 				new SimpleBooleanProperty(localization, "UseButtonsAndCheckboxes",
 						settings::allowSpecialEditor, settings::setAllowSpecialEditor),
 				new SimpleBooleanProperty(localization, "AllowTooltips",
@@ -101,7 +99,8 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 						settings::equalsRequired, settings::setEqualsRequired),
 				new SimpleBooleanProperty(localization, "UseAutoComplete",
 						settings::isEnableAutoComplete, settings::setEnableAutoComplete),
-				createNavBarProperty(app, App.VIEW_SPREADSHEET));
+				createNavBarProperty(app, App.VIEW_SPREADSHEET),
+				createSpreadsheetAlgebraDescriptionProperty(app));
 		return new PropertiesArray("Spreadsheet", localization, props);
 	}
 
@@ -109,6 +108,14 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 		return new SimpleBooleanProperty(app.getLocalization(), "NavigationBar",
 				() -> app.showConsProtNavigation(viewID),
 				flag -> app.setShowConstructionProtocolNavigation(flag, viewID));
+	}
+
+	private Property createSpreadsheetAlgebraDescriptionProperty(App app) {
+		AlgebraDescriptionProperty property = new AlgebraDescriptionProperty(app,
+				app.getLocalization());
+		property.usesSpreadsheet(true);
+
+		return property;
 	}
 
 	private PropertiesArray createCASProperties(Localization localization, App app) {
