@@ -2044,41 +2044,22 @@ public class GeoList extends GeoElement
 		}
 
 		final StringBuilder sb = new StringBuilder();
-		if (casPrinttype.isGiac()) {
-			sb.append("matrix(");
-			for (int i = 0; i < size(); i++) {
-				final GeoList geo = (GeoList) get(i);
-				sb.append('[');
-				for (int j = 0; j < geo.size(); j++) {
-					sb.append(geo.get(j).getCASString(tpl, symbolic));
-					if (j != (geo.size() - 1)) {
-						sb.append(',');
-					}
-				}
-				sb.append(']');
-				if (i != (size() - 1)) {
+		sb.append("matrix(");
+		for (int i = 0; i < size(); i++) {
+			final GeoList geo = (GeoList) get(i);
+			sb.append('[');
+			for (int j = 0; j < geo.size(); j++) {
+				sb.append(geo.get(j).getCASString(tpl, symbolic));
+				if (j != (geo.size() - 1)) {
 					sb.append(',');
 				}
 			}
-			sb.append(')');
-		} else {
-			sb.append("mat(");
-			for (int i = 0; i < size(); i++) {
-				final GeoList geo = (GeoList) get(i);
-				sb.append("(");
-				for (int j = 0; j < geo.size(); j++) {
-					sb.append(geo.get(j).getCASString(tpl, symbolic));
-					if (j != (geo.size() - 1)) {
-						sb.append(',');
-					}
-				}
-				sb.append(')');
-				if (i != (size() - 1)) {
-					sb.append(',');
-				}
+			sb.append(']');
+			if (i != (size() - 1)) {
+				sb.append(',');
 			}
-			sb.append(')');
 		}
+		sb.append(')');
 		return sb.toString();
 	}
 

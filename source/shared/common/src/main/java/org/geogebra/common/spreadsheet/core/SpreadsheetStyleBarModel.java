@@ -111,8 +111,6 @@ public final class SpreadsheetStyleBarModel {
 
 	/** Needed only for {@link SpreadsheetController#getVisibleSelections()}. */
 	private final SpreadsheetController spreadsheetController;
-	/** Get the current selection, and listen to selection changes. */
-	private final SpreadsheetSelectionController selectionController;
 	/** Spreadsheet (cell) styling API and backing store. */
 	private final SpreadsheetStyling styling;
 	/** The current state. */
@@ -123,7 +121,6 @@ public final class SpreadsheetStyleBarModel {
 			@Nonnull SpreadsheetSelectionController selectionController,
 			@Nonnull SpreadsheetStyling styling) {
 		this.spreadsheetController = spreadsheetController;
-		this.selectionController = selectionController;
 		this.styling = styling;
 		styling.stylingChanged.addListener(this::stylingChanged);
 		state = State.DISABLED;

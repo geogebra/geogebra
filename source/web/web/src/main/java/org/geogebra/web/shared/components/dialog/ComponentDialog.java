@@ -45,7 +45,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		setGlassEnabled(hasScrim);
 		this.setStyleName("dialogComponent");
 		buildDialog();
-		app.addWindowResizeListener(this::onResize);
+		app.addWindowResizeListener(this);
 	}
 
 	private void  buildDialog() {

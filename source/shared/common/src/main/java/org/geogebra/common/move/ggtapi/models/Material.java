@@ -24,7 +24,7 @@ public class Material implements Serializable {
 		GOOGLE("Google Drive"),
 		LOCAL("Local");
 
-		private String name;
+		private final String name;
 
 		Provider(String name) {
 			this.name = name;

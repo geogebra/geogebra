@@ -1300,10 +1300,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		default:
 			// check for 0
 			if (valueForm) {
-				if (ExpressionNode.isEqualString(left, 0, !valueForm)) {
+				if (ExpressionNode.isEqualString(left, 0, false)) {
 					append(sb, rightStr, right, operation);
 					break;
-				} else if (ExpressionNode.isEqualString(right, 0, !valueForm)) {
+				} else if (ExpressionNode.isEqualString(right, 0, false)) {
 					append(sb, leftStr, left, operation);
 					break;
 				}

@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
@@ -205,7 +204,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	@Override
-	protected int getGLType(Type type) {
+	protected int getGLType(Manager.Type type) {
 		switch (type) {
 		case TRIANGLE_STRIP:
 			return WebGLRenderingContext.TRIANGLE_STRIP;

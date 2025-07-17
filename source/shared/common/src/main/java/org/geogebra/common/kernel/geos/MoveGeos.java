@@ -46,16 +46,22 @@ public class MoveGeos {
 		}
 
 		// make sure list is not moved twice
+		List<GeoElement> toRemove = new ArrayList<>();
 		for (GeoElement geo : geosToMove) {
 			if (geo.isGeoList()) {
 				for (int i = 0; i < ((GeoList) geo).size(); i++) {
-					geosToMove.remove(((GeoList) geo).get(i));
+					toRemove.add(((GeoList) geo).get(i));
 				}
 			}
 		}
+		List<? extends GeoElement> deduplicated = geosToMove;
+		if (!toRemove.isEmpty()) {
+			deduplicated = new ArrayList<>(geosToMove);
+			deduplicated.removeAll(toRemove);
+		}
 
 		final ArrayList<GeoElement> geos = new ArrayList<>();
-		for (GeoElement geo: geosToMove) {
+		for (GeoElement geo: deduplicated) {
 			if (!geo.isLocked()) { // Non fixed elements only
 				if (!geo.isGeoList() || shouldAddListAsWhole((GeoList) geo, view)) {
 					addWithSiblingsAndChildNodes(geo, geos, view);

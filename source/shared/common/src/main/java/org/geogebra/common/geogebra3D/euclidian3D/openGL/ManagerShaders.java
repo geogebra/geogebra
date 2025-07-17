@@ -340,7 +340,7 @@ public class ManagerShaders extends Manager {
 	public void rectangleGeometry(double x, double y, double z, double width,
 			double height) {
 
-		startGeometry(Manager.Type.TRIANGLE_STRIP);
+		startGeometry(Type.TRIANGLE_STRIP);
 		texture(0, 0);
 		vertexInt(x, y, z);
 		texture(1, 0);

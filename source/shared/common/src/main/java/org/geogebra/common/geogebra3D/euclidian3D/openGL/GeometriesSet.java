@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
@@ -76,7 +75,7 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	 * @param type
 	 *            type of primitives
 	 */
-	public void startGeometry(Type type) {
+	public void startGeometry(Manager.Type type) {
 		if (currentGeometryIndex < size()) {
 			currentGeometry = get(currentGeometryIndex);
 			currentGeometry.setType(type);
@@ -94,7 +93,7 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	 *            geometry type
 	 * @return new geometry for the given type
 	 */
-	protected Geometry newGeometry(Type type) {
+	protected Geometry newGeometry(Manager.Type type) {
 		return new Geometry(this.manager, type);
 	}
 

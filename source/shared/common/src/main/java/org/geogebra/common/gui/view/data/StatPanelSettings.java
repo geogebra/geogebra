@@ -48,7 +48,7 @@ public class StatPanelSettings extends PlotSettings {
 	 */
 	public enum CoordMode {
 		STANDTOSTAND(0), LOGTOSTAND(1), STANDTOLOG(2), LOGTOLOG(3);
-		private int mode;
+		private final int mode;
 
 		private CoordMode(int mode) {
 			this.mode = mode;

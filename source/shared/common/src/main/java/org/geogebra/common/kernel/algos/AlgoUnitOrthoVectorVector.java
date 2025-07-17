@@ -51,6 +51,7 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
 				try {
 					n.setStartPoint(possStartPoint);
 				} catch (CircularDefinitionException e) {
+					// vector just created, no cycle possible
 				}
 			}
 		}

@@ -142,6 +142,7 @@ public class Parser implements ParserInterface {
 	/**
 	 * Parses a String and returns a ValidExpression Object
 	 */
+	@Override
 	public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {
 		myReInit(stripEqualSign(parseString));
 		ValidExpression ret = buildValidExpression();
@@ -150,6 +151,7 @@ public class Parser implements ParserInterface {
 		return ret instanceof Command ? ret.wrap() : ret;
 	}
 
+	@Override
 	public ValidExpression parseGeoGebraExpressionLowPrecision(String parseString) throws ParseException {
 		myReInit(stripEqualSign(parseString));
 		highPrecisionParsing = false;
@@ -158,6 +160,7 @@ public class Parser implements ParserInterface {
 		return ret;
 	}
 
+	@Override
 	public ValidExpression parseInputBoxExpression(String parseString) throws ParseException {
     	myReInit(stripEqualSign(parseString), true);
     	functionParser.setInputBoxParsing(true);
@@ -195,6 +198,7 @@ public class Parser implements ParserInterface {
     /**
      * Parses a String and returns a Function Object
      */
+	@Override
     public Function parseFunction(String parseString)
     throws ParseException {
         myReInit( parseString );
@@ -206,8 +210,8 @@ public class Parser implements ParserInterface {
     /**
      * Parses a String and returns a Function Object
      */
-    public FunctionNVar parseFunctionNVar(String parseString)
-    throws ParseException {
+	@Override
+    public FunctionNVar parseFunctionNVar(String parseString) throws ParseException {
         myReInit( parseString );
         FunctionNVar ret = functionNVar();
         processUndecided();
@@ -217,8 +221,7 @@ public class Parser implements ParserInterface {
     /**
      * Parses a String and returns an ExpressionNode Object
      */
-    public ExpressionNode parseCmdExpression(String parseString)
-    throws ParseException {
+    public ExpressionNode parseCmdExpression(String parseString) throws ParseException {
         myReInit(parseString );
         nestedCommands = 1;
         ExpressionNode ret = expressionOrEquation().wrap();
@@ -230,8 +233,8 @@ public class Parser implements ParserInterface {
      * Parses a String and returns an ExpressionNode Object
      * Checking for free vars should be done outside.
      */
-    public ExpressionNode parseExpression(String parseString)
-    throws ParseException {
+    @Override
+    public ExpressionNode parseExpression(String parseString) throws ParseException {
         myReInit( parseString);
         ExpressionNode ret = expressionnode();
         processUndecided();
@@ -241,8 +244,8 @@ public class Parser implements ParserInterface {
     /**
      * Parses a String if it is a label
      */
-    public String parseLabel(String parseString)
-    throws ParseException {
+    @Override
+    public String parseLabel(String parseString) throws ParseException {
         myReInit(parseString );
         return label().image;
     }
@@ -777,9 +780,9 @@ ExpressionNode functionExpressionnode():
 FunctionNVar casFunction(GeoSymbolicI cell):
 {
     ExpressionNode rhs,cond = null;
-    Token funName = null;
-    Token varName = null;
-    Token assign = null;
+    Token funName;
+    Token varName;
+    Token assign;
     ArrayList<String> localVars;
 }
 {

@@ -289,7 +289,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	/**
 	 * @return action on enter
 	 */
-	public ComboBox.EnterAction getEnterAction() {
+	public EnterAction getEnterAction() {
 		return enterAction;
 	}
 
@@ -297,7 +297,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	 * @param enterAction
 	 *            action on enter
 	 */
-	public void setEnterAction(ComboBox.EnterAction enterAction) {
+	public void setEnterAction(EnterAction enterAction) {
 		this.enterAction = enterAction;
 	}
 

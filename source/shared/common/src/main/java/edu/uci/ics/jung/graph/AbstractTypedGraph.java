@@ -55,7 +55,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	}
 
 	/**
-	 * Returns the edge set for this graph if {@code edgeType} matches the edge
+	 * Returns the edge set for this graph if {@code edge_type} matches the edge
 	 * type for this graph, and an empty set otherwise.
 	 */
 	@Override

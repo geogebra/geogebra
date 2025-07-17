@@ -10,6 +10,19 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class CoordsDouble3 extends Coords3 {
 
+	/** undefined vector */
+	public static final Coords3 UNDEFINED = new CoordsDouble3(0f, 0f, 0f) {
+		@Override
+		public boolean isNotFinalUndefined() {
+			return false;
+		}
+
+		@Override
+		public boolean isFinalUndefined() {
+			return true;
+		}
+	};
+
 	public double x;
 	public double y;
 	public double z;

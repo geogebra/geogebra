@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
@@ -461,7 +460,7 @@ public class OpenFileViewMebis extends HeaderFileView
 				+ "/materials/export/download";
 		request.setResponseType("blob");
 		model.refreshToken(request, () -> request.sendRequest("GET",
-				endpoint, null, downloadFilesCallback(), Log::error));
+				endpoint, null, this::downloadFiles, Log::error));
 	}
 
 	private void stopStatusRequestEnableDownload() {
@@ -504,10 +503,8 @@ public class OpenFileViewMebis extends HeaderFileView
 		getExportStatus.scheduleRepeating(5000);
 	}
 
-	private Consumer<XMLHttpRequest> downloadFilesCallback() {
-		return xmlHttpRequest -> {
-			String url = URL.createObjectURL(Js.<Blob>uncheckedCast(xmlHttpRequest.response));
-			Browser.downloadURL(url, "download.zip");
-		};
+	private void downloadFiles(XMLHttpRequest xmlHttpRequest) {
+		String url = URL.createObjectURL(Js.<Blob>uncheckedCast(xmlHttpRequest.response));
+		Browser.downloadURL(url, "download.zip");
 	}
 }

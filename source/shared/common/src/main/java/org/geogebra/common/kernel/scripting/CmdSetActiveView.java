@@ -31,7 +31,7 @@ public class CmdSetActiveView extends CmdScripting {
 			throw argNumErr(c);
 		}
 		GeoElement[] arg = resArgs(c);
-		if (!app.isUsingFullGui() && n == 1
+		if (!app.isUsingFullGui()
 				&& (arg[0] instanceof ViewCreator || arg[0].isGeoNumeric() || arg[0].isGeoText())) {
 			return new GeoElement[0];
 		}

@@ -9,7 +9,6 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -176,7 +175,7 @@ public class SaveControllerW implements SaveController {
 			app.getToolTipManager().showBottomMessage(loc
 					.getMenu("phone_loading_materials_offline"), app);
 			showLocalSaveDialog(() -> {});
-		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
+		} else if (app.getFileManager().getFileProvider() == Material.Provider.GOOGLE) {
 			uploadToDrive();
 		} else if (app.getLoginOperation().isLoggedIn()) {
 			saveOnline(visibility);

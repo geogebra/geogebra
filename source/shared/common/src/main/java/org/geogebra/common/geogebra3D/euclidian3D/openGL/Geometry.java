@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.util.debug.Log;
@@ -16,7 +15,7 @@ import org.geogebra.common.util.debug.Log;
 public class Geometry implements GeometryForExport {
 
 	private final ManagerShaders manager;
-	private Type type;
+	private Manager.Type type;
 	private GLBuffer v;
 	private GLBuffer n;
 	private GLBuffer t;
@@ -34,7 +33,7 @@ public class Geometry implements GeometryForExport {
 	 * @param type
 	 *            of primitives
 	 */
-	public Geometry(ManagerShaders manager, Type type) {
+	public Geometry(ManagerShaders manager, Manager.Type type) {
 		this.manager = manager;
 		this.type = type;
 		setBuffers();
@@ -56,7 +55,7 @@ public class Geometry implements GeometryForExport {
 	 * @param type
 	 *            geometry type
 	 */
-	public void setType(Type type) {
+	public void setType(Manager.Type type) {
 		this.type = type;
 		this.v.setEmpty();
 		this.n.setEmpty();
@@ -121,7 +120,7 @@ public class Geometry implements GeometryForExport {
 	 * @return type of primitives
 	 */
 	@Override
-	public Type getType() {
+	public Manager.Type getType() {
 		return type;
 	}
 

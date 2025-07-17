@@ -322,7 +322,7 @@ public class IntervalNodeEvaluator {
 			return undefined();
 		}
 
-		return new Interval(result1.getHigh(), result2.getLow()).invert();
+		return new Interval(/* low= */ result1.getHigh(), /* high = */ result2.getLow()).invert();
 	}
 
 	private boolean isNegativeOrEmpty(Interval interval) {

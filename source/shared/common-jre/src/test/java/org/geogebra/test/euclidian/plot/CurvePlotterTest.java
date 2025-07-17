@@ -125,6 +125,7 @@ public class CurvePlotterTest extends BaseUnitTest {
 			super(CurvePlotterTest.this.getApp().getActiveEuclidianView());
 		}
 
+		@Override
 		protected void addPoint(double x, double y, SegmentType segmentType) {
 			super.addPoint(x, y, segmentType);
 			if (segmentType == SegmentType.LINE_TO && Math.abs(y - lastY) > 100) {

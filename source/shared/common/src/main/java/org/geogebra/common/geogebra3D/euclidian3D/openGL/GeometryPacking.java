@@ -2,8 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-
 /**
  * geometry handler for buffer packing
  *
@@ -25,7 +23,7 @@ public class GeometryPacking extends Geometry {
 	 *            geometry index
 	 */
 	public GeometryPacking(ManagerShaders manager,
-			GeometriesSetPacking geometrySet, Type type,
+			GeometriesSetPacking geometrySet, Manager.Type type,
 			int geometryIndex) {
 		super(manager, type);
 		this.geometrySet = geometrySet;
@@ -38,14 +36,14 @@ public class GeometryPacking extends Geometry {
 	}
 
 	@Override
-	public void setType(Type type) {
+	public void setType(Manager.Type type) {
 		// not needed: all geometries are triangles
 	}
 
 	@Override
-	public Type getType() {
+	public Manager.Type getType() {
 		// all geometries are triangles
-		return Type.TRIANGLES;
+		return Manager.Type.TRIANGLES;
 	}
 
 	@Override

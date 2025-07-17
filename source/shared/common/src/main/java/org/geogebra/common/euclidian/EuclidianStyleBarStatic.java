@@ -51,7 +51,7 @@ public class EuclidianStyleBarStatic {
 	 *            view
 	 * @return new geoo if redefinition was needed
 	 */
-	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos,
+	public static GeoElement applyFixPosition(List<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
 		App app = geos.get(0).getKernel().getApplication();
@@ -156,7 +156,7 @@ public class EuclidianStyleBarStatic {
 	 *            view
 	 * @return first geo or null if not fixable
 	 */
-	public static GeoElement applyFixObject(ArrayList<GeoElement> geos,
+	public static GeoElement applyFixObject(List<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
 
@@ -296,16 +296,14 @@ public class EuclidianStyleBarStatic {
 	 * @param app
 	 *            application
 	 */
-	public static void applyTableTextFormat(ArrayList<GeoElement> geos,
+	public static void applyTableTextFormat(List<GeoElement> geos,
 			String justify, boolean hSelected, boolean vSelected, int index,
 			App app) {
 
-		AlgoElement algo = null;
+		AlgoElement algo;
 		GeoElement[] input;
 		GeoElement geo;
-		String arg = null;
-
-		arg = justify;
+		String arg = justify;
 		// if (this.btnTableTextLinesH.isSelected())
 		if (hSelected) {
 			arg += "_";
@@ -363,7 +361,7 @@ public class EuclidianStyleBarStatic {
 	 *            index
 	 * @return success
 	 */
-	public static boolean applyCaptionStyle(ArrayList<GeoElement> geos,
+	public static boolean applyCaptionStyle(List<GeoElement> geos,
 			int mode, int index) {
 
 		boolean needUndo = false;
@@ -421,7 +419,7 @@ public class EuclidianStyleBarStatic {
 	 *            point size
 	 * @return success
 	 */
-	public static boolean applyPointStyle(ArrayList<GeoElement> geos,
+	public static boolean applyPointStyle(List<GeoElement> geos,
 			int pointStyleSelIndex, int pointSize) {
 		int pointStyle = EuclidianView.getPointStyle(pointStyleSelIndex);
 		boolean needUndo = false;
@@ -516,7 +514,7 @@ public class EuclidianStyleBarStatic {
 	 *            bits to add to font style
 	 * @return success
 	 */
-	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int mask,
+	public static boolean applyFontStyle(List<GeoElement> geos, int mask,
 			boolean add) {
 		boolean needUndo = false;
 
@@ -557,7 +555,7 @@ public class EuclidianStyleBarStatic {
 	 *            text size index
 	 * @return success
 	 */
-	public static boolean applyTextSize(ArrayList<GeoElement> geos,
+	public static boolean applyTextSize(List<GeoElement> geos,
 			int textSizeIndex) {
 		boolean needUndo = false;
 		// transform indices to the range -4, // .. , 4
@@ -899,7 +897,7 @@ public class EuclidianStyleBarStatic {
 	 *            angle interval index
 	 * @return success
 	 */
-	public static boolean applyAngleInterval(ArrayList<GeoElement> geos,
+	public static boolean applyAngleInterval(List<GeoElement> geos,
 			int index) {
 
 		boolean needUndo = false;

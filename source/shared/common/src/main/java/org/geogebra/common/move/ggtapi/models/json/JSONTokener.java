@@ -50,7 +50,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <li>Array elements separated by {@code ;}.
  * <li>Unnecessary array separators. These are interpreted as if null was the
  * omitted value.
- * <li>Key-value pairs separated by {@code =} or {@code =&gt;}.
+ * <li>Key-value pairs separated by {@code =} or {@code =>}.
  * <li>Key-value pairs separated by {@code ;}.
  * </ul>
  *

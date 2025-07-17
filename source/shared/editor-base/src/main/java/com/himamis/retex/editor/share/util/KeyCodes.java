@@ -213,8 +213,8 @@ public enum KeyCodes {
 
 	UNKNOWN(JavaKeyCodes.VK_UNDEFINED, GWTKeycodes.KEY_UNDEFINED);
 
-	private int javaKey;
-	private int GWTKey;
+	private final int javaKey;
+	private final int GWTKey;
 
 	KeyCodes(int javaKey, int GWTKey) {
 		this.javaKey = javaKey;

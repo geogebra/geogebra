@@ -56,7 +56,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 	}
 
 	protected void setPopupHandlerWithUndoAction(PopupMenuButtonW popupBtn,
-			Function<ArrayList<GeoElement>, Boolean> action) {
+			ElementPropertySetter action) {
 		popupBtn.addPopupHandler(w -> processSelectionWithUndoAction(action));
 		// no undo in slider handler
 		UndoableSliderHandler ush = new UndoableSliderHandler(action, this);
@@ -85,7 +85,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 		openPropertiesForColor(background);
 	}
 
-	private boolean processPointStyle(ArrayList<GeoElement> targetGeos) {
+	private boolean processPointStyle(List<GeoElement> targetGeos) {
 		if (btnPointStyle.getSelectedValue() != null) {
 			int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
 			int pointSize = btnPointStyle.getSliderValue();
@@ -95,7 +95,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 		return false;
 	}
 
-	private boolean processLineStyle(ArrayList<GeoElement> targetGeos) {
+	private boolean processLineStyle(List<GeoElement> targetGeos) {
 		if (btnLineStyle.getSelectedValue() != null) {
 			int selectedIndex = btnLineStyle.getSelectedIndex();
 			int lineSize = btnLineStyle.getSliderValue();
@@ -106,7 +106,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 		return false;
 	}
 
-	private boolean processColor(ArrayList<GeoElement> targetGeos) {
+	private boolean processColor(List<GeoElement> targetGeos) {
 		GColor color = btnColor.getSelectedColor();
 		if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
 			openColorChooser(false);
@@ -146,7 +146,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 	 * Process selected geos and create undoable action if necessary
 	 * @param action action to be executed on geos
 	 */
-	public void processSelectionWithUndoAction(Function<ArrayList<GeoElement>, Boolean> action) {
+	public void processSelectionWithUndoAction(ElementPropertySetter action) {
 		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos(),
 				app.getUndoManager());
 		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
@@ -157,7 +157,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 
 	protected abstract ArrayList<GeoElement> getTargetGeos();
 
-	protected boolean applyColor(ArrayList<GeoElement> targetGeos, GColor color,
+	protected boolean applyColor(List<GeoElement> targetGeos, GColor color,
 			double alpha) {
 		return EuclidianStyleBarStatic.applyColor(color,
 				alpha, app, targetGeos);

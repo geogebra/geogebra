@@ -4,17 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class OrderedExpressionNodeTest extends BaseSimplifyTestSetup {
-	private SimplifyUtils utils;
-
-	@BeforeEach
-	void setUp() {
-		utils = new SimplifyUtils(getKernel());
-	}
 
 	@ParameterizedTest
 	@CsvSource({

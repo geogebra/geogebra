@@ -2420,7 +2420,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				code.append(b);
 			}
 			code.append("});\n");
-		} else if (b == 0) {
+		} else {
 			if (a < 0) {
 				sup = ymax;
 			} else {
@@ -2646,32 +2646,18 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 		Info info = new Info(geo);
 
-		boolean coma = false;
-
 		// removed: default is different in GeoGebra vs Tikz
-		// if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS)
-		// {
-		// coma needed
-		coma = true;
 		// bracket needed
 		sb.append("line width=");
 		sb.append(format(linethickness / 2.0 * 0.8));
 		sb.append("pt");
 
 		if (linestyle != EuclidianStyleConstants.DEFAULT_LINE_TYPE) {
-			if (coma) {
-				sb.append(",");
-			} else {
-				coma = true;
-			}
+			sb.append(",");
 			linestyleCode(linestyle, sb);
 		}
 		if (!info.getLinecolor().equals(GColor.BLACK)) {
-			if (coma) {
-				sb.append(",");
-			} else {
-				coma = true;
-			}
+			sb.append(",");
 			if (transparency && geo.isFillable()
 					&& info.getFillType() == FillType.IMAGE) {
 				sb.append("pattern ");
@@ -2684,11 +2670,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			default:
 			case STANDARD:
 				if (info.getAlpha() > 0.0f) {
-					if (coma) {
-						sb.append(",");
-					} else {
-						coma = true;
-					}
+					sb.append(",");
 					sb.append("fill=");
 					colorCode(info.getLinecolor(), sb);
 					sb.append(",fill opacity=");
@@ -2703,11 +2685,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			case BRICK:
 			case HATCH:
 				addWarningHatch();
-				if (coma) {
-					sb.append(",");
-				} else {
-					coma = true;
-				}
+				sb.append(",");
 				sb.append("fill=");
 				colorCode(info.getLinecolor(), sb);
 				sb.append(",pattern=");

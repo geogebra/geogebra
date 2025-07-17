@@ -113,7 +113,6 @@ public class AlgoFunctionMinMax extends AlgoElement {
 	public final void compute() {
 		double l = left.getDouble();
 		double r = right.getDouble();
-		double min = 0.0d;
 
 		if (!f.toGeoElement().isDefined() || !left.isDefined()
 				|| !right.isDefined()
@@ -125,7 +124,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 		// Brent's algorithm
 		extrFinder = kernel.getExtremumFinder();
 
-		min = isMin ? extrFinder.findMinimum(l, r, f, 5.0E-8)
+		double min = isMin ? extrFinder.findMinimum(l, r, f, 5.0E-8)
 				: extrFinder.findMaximum(l, r, f, 5.0E-8);
 
 		E.setCoords(min, f.value(min), 1.0);

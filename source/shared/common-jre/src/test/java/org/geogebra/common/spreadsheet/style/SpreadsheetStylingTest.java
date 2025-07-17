@@ -18,6 +18,7 @@ public class SpreadsheetStylingTest extends BaseUnitTest {
 	private SpreadsheetStyling styling;
 
 	@Before
+	@Override
 	public void setup() {
 		styling = new SpreadsheetStyling();
 	}

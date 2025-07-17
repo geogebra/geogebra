@@ -280,7 +280,6 @@ public class AlgoSpline extends AlgoElement {
 	}
 
 	private double[] getSystemSolution(double[][] matrix) {
-		boolean nok = false;
 		length = matrix.length;
 		double[] solution = new double[length];
 		double[] temp = new double[matrix[0].length];
@@ -321,7 +320,7 @@ public class AlgoSpline extends AlgoElement {
 			}
 		}
 		j = 0;
-		nok = true;
+		boolean nok = true;
 		for (; j < length && nok; j++) {
 			if (matrix[length - 1][j] != 0) {
 				nok = false;

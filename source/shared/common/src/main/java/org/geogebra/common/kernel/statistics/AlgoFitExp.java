@@ -76,14 +76,13 @@ public class AlgoFitExp extends AlgoElement implements FitAlgo {
 	@Override
 	public final void compute() {
 		int size = geolist.size();
-		boolean regok = true;
 		double a, b;
 		if (!geolist.isDefined() || (size < 2)) { // 24.04.08:2
 			geofunction.setUndefined();
 			return;
 		}
 
-		regok = regMath.doExp(geolist);
+		boolean regok = regMath.doExp(geolist);
 		if (regok) {
 			a = regMath.getP1();
 			b = regMath.getP2();

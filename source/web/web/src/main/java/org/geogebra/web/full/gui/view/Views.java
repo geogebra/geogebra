@@ -53,9 +53,9 @@ public class Views {
 				"ConstructionProtocol", SvgPerspectiveResources.INSTANCE
 						.menu_icon_construction_protocol_transparent());
 
-		private int id;
-		private String key;
-		private ResourcePrototype resourceType;
+		private final int id;
+		private final String key;
+		private final ResourcePrototype resourceType;
 
 		ViewType(int viewID, String key, ResourcePrototype resourceType) {
 			this.id = viewID;

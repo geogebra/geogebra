@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 
 /**
  * Buffer that packs several geometries
@@ -245,7 +244,7 @@ class BufferPack extends BufferPackAbstract {
 			r.getRendererImpl().disableTextureBuffer();
 		}
 		r.getRendererImpl().loadIndicesBuffer(indicesBuffer, indicesLength);
-		r.getRendererImpl().draw(Type.TRIANGLES, indicesLength);
+		r.getRendererImpl().draw(Manager.Type.TRIANGLES, indicesLength);
 	}
 
 	/* (non-Javadoc)

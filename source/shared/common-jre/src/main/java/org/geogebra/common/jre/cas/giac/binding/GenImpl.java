@@ -7,24 +7,24 @@ import javagiac.gen;
 
 class GenImpl implements Gen {
 
-    private gen gen;
+    private final gen wrappedGen;
 
     GenImpl(String string, Context context) {
-        gen = new gen(string, Util.convert(context));
+        wrappedGen = new gen(string, Util.convert(context));
     }
 
     private GenImpl(gen g) {
-        gen = g;
+        wrappedGen = g;
     }
 
     @Override
     public Gen eval(int level, Context context) {
-		gen g = gen.eval(level, Util.convert(context));
+		gen g = wrappedGen.eval(level, Util.convert(context));
 		return new GenImpl(g);
     }
 
     @Override
     public String print(Context context) {
-        return gen.print(Util.convert(context));
+        return wrappedGen.print(Util.convert(context));
     }
 }

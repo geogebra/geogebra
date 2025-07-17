@@ -1976,41 +1976,16 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 		Info info = new Info(geo);
 
-		boolean coma = false;
-		boolean bracket = false;
-
-		// if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS)
-		// {
-		// coma needed
-		coma = true;
-		// bracket needed
-		bracket = true;
 		sb.append("[linewidth=");
 		sb.append(format(linethickness / 2.0 * 0.8));
 		sb.append("pt");
 
 		if (linestyle != EuclidianStyleConstants.DEFAULT_LINE_TYPE) {
-			if (coma) {
-				sb.append(",");
-			} else {
-				coma = true;
-			}
-			if (!bracket) {
-				sb.append("[");
-			}
-			bracket = true;
+			sb.append(",");
 			linestyleCode(linestyle, sb);
 		}
 		if (!info.getLinecolor().equals(GColor.BLACK)) {
-			if (coma) {
-				sb.append(",");
-			} else {
-				coma = true;
-			}
-			if (!bracket) {
-				sb.append("[");
-			}
-			bracket = true;
+			sb.append(",");
 			sb.append("linecolor=");
 			colorCode(info.getLinecolor(), sb);
 		}
@@ -2019,15 +1994,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			default:
 			case STANDARD:
 				if (info.getAlpha() > 0.0f) {
-					if (coma) {
-						sb.append(",");
-					} else {
-						coma = true;
-					}
-					if (!bracket) {
-						sb.append("[");
-					}
-					bracket = true;
+					sb.append(",");
 					sb.append("fillcolor=");
 					colorCode(info.getLinecolor(), sb);
 					sb.append(",fillstyle=solid,opacity=");
@@ -2042,34 +2009,23 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			case BRICK:
 			case WEAVING:
 			case DOTTED:
-				bracket = appendHatch(sb, info, ",fillstyle=dots*,hatchangle=",
-						bracket, coma);
+				appendHatch(sb, info, ",fillstyle=dots*,hatchangle=");
 				break;
 			case CROSSHATCHED:
-				bracket = appendHatch(sb, info,
-						",fillstyle=crosshatch,hatchangle=", bracket, coma);
+				appendHatch(sb, info,
+						",fillstyle=crosshatch,hatchangle=");
 				break;
 			case HATCH:
-				bracket = appendHatch(sb, info, ",fillstyle=hlines,hatchangle=",
-						bracket, coma);
+				appendHatch(sb, info, ",fillstyle=hlines,hatchangle=");
 				break;
 			}
 		}
-		if (bracket) {
-			sb.append("]");
-		}
+		sb.append("]");
 		return new String(sb);
 	}
 
-	private boolean appendHatch(StringBuilder sb, Info info, String style,
-			boolean bracket, boolean coma) {
-		if (coma) {
-			sb.append(",");
-		}
-
-		if (!bracket) {
-			sb.append("[");
-		}
+	private void appendHatch(StringBuilder sb, Info info, String style) {
+		sb.append(",");
 
 		sb.append("hatchcolor=");
 		colorCode(info.getLinecolor(), sb);
@@ -2081,7 +2037,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double y0 = euclidianView.toRealWorldCoordY(0);
 		double y = euclidianView.toRealWorldCoordY(info.getY());
 		sb.append(format(Math.abs(y - y0)));
-		return true;
 	}
 
 	// Append the linestyle to PSTricks code

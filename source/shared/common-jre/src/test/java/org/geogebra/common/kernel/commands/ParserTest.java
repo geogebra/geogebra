@@ -10,7 +10,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Locale;
@@ -207,8 +206,7 @@ public class ParserTest {
 			app.getKernel().getConstruction().registerFunctionVariable(null);
 			reparse1 = v1.toString(tpl);
 		} catch (ParseException | MyParseError e) {
-			Log.debug(e);
-			fail(e.getMessage() + " for " + string);
+			throw new AssertionError(e.getMessage() + " for " + string, e);
 		}
 		return reparse1;
 	}
@@ -245,13 +243,9 @@ public class ParserTest {
 			parseExpression("(1|1|1)");
 			parseExpression("(a||b)");
 		} catch (ParseException e) {
-			assertNull(e);
+			throw new AssertionError(e);
 		}
-		try {
-			parseExpression("|1|2|3|");
-		} catch (ParseException e) {
-			assertNotNull(e);
-		}
+		assertThrows(ParseException.class, () -> parseExpression("|1|2|3|"));
 	}
 
 	@Test
@@ -451,7 +445,7 @@ public class ParserTest {
 			assertEquals(label, ex.getLabel());
 			assertEquals(value, ex.toString(StringTemplate.editTemplate));
 		} catch (ParseException e) {
-			fail(e.getMessage());
+			throw new AssertionError(e);
 		}
 	}
 
@@ -459,7 +453,7 @@ public class ParserTest {
 		try {
 			assertEquals(s, parser.parseLabel(s));
 		} catch (ParseException e) {
-			fail("Unexpected parser exception " + e);
+			throw new AssertionError("Unexpected parser exception", e);
 		}
 	}
 
@@ -510,7 +504,7 @@ public class ParserTest {
 			assertEquals(left.getOperation(), ve.getOperation());
 
 		} catch (ParseException e) {
-			fail(str);
+			throw new AssertionError(str, e);
 		}
 	}
 
@@ -532,7 +526,7 @@ public class ParserTest {
 			parseExpression("f‘");
 			parseExpression("f’");
 		} catch (ParseException e) {
-			assertNull(e);
+			throw new AssertionError("Unexpected parse exception", e);
 		}
 	}
 

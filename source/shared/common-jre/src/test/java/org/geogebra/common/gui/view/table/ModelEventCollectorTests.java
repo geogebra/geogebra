@@ -17,6 +17,7 @@ public class ModelEventCollectorTests extends BaseUnitTest {
     private GeoEvaluatable geoEvaluatable;
 
     @Before
+    @Override
     public void setup() {
         modelEventCollector = new ModelEventCollector();
         simpleTableValuesModel = mock(SimpleTableValuesModel.class);

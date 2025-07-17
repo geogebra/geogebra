@@ -1541,7 +1541,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					&& isFunctionOrEquationFromUser()
 					&& !this.isDefaultGeo();
 		} else if (isFixable()) {
-			fixed = flag;
+			fixed = true;
 		}
 	}
 

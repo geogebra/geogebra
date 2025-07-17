@@ -762,7 +762,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		if (o instanceof PPolynomial) {
 			return this.compareTo((PPolynomial) o) == 0;
 		}
-		return super.equals(o);
+		return false;
 	}
 
 	@Override
@@ -1030,9 +1030,8 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			HashMap<PVariable, BigInteger> substitutions, Kernel kernel,
 			boolean transcext, Set<PVariable> freeVariables) {
 		
-		HashSet<PVariable> substVars = null;
 		String polysAsCommaSeparatedString = getPolysAsCommaSeparatedString(polys);
-		substVars = new HashSet<>(substitutions.keySet());
+		HashSet<PVariable> substVars = new HashSet<>(substitutions.keySet());
 
 		String freeVars = getVarsAsCommaSeparatedString(polys, substVars, true,
 				freeVariables);

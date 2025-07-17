@@ -112,7 +112,9 @@ public class AutocompleteProvider {
 	private void addSyntaxes(String localizedCommandName, ArrayList<String> syntaxes) {
 		String syntaxString = getSyntaxString(localizedCommandName);
 		for (String syntax : syntaxString.split("\\n")) {
-			syntaxes.add(syntax);
+			if (!syntax.isEmpty()) {
+				syntaxes.add(syntax);
+			}
 		}
 	}
 

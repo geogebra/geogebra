@@ -30,7 +30,7 @@ import elemental2.dom.KeyboardEvent;
  */
 public class ExamClassicStartDialog extends ComponentDialog {
 	private static boolean examStyle;
-	protected AppW app;
+	protected AppW appW;
 	private static final ExamController examController = GlobalScope.examController;
 
 	/**
@@ -39,7 +39,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	 */
 	public ExamClassicStartDialog(AppW app, DialogData data) {
 		super(app, data, false, true);
-		this.app = app;
+		this.appW = app;
 		examController.prepareExam();
 		addStyleName("classicExamStartDialog");
 		buildGUI();
@@ -49,8 +49,8 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 	private void buildGUI() {
 		ensureExamStyle();
-		Localization loc = app.getLocalization();
-		final GuiManagerInterfaceW guiManager = app.getGuiManager();
+		Localization loc = appW.getLocalization();
+		final GuiManagerInterfaceW guiManager = appW.getGuiManager();
 
 		// start dialog content with checkboxes
 		FlowPanel startPanel = new FlowPanel();
@@ -58,23 +58,23 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		description.addStyleName("description");
 		startPanel.add(description);
 
-		if (!app.getSettings().getCasSettings().isEnabledSet()) {
-			ComponentCheckbox cas = new ComponentCheckbox(app.getLocalization(), true,
+		if (!appW.getSettings().getCasSettings().isEnabledSet()) {
+			ComponentCheckbox cas = new ComponentCheckbox(appW.getLocalization(), true,
 					"Perspective.CAS", selected -> {
-				app.getSettings().getCasSettings().setEnabled(selected);
+				appW.getSettings().getCasSettings().setEnabled(selected);
 				guiManager.updateToolbarActions();
 			});
-			app.getSettings().getCasSettings().setEnabled(true);
+			appW.getSettings().getCasSettings().setEnabled(true);
 			startPanel.add(cas);
 		}
 
-		if (!app.getSettings().getEuclidian(-1).isEnabledSet()) {
-			final ComponentCheckbox allow3D = new ComponentCheckbox(app.getLocalization(), true,
+		if (!appW.getSettings().getEuclidian(-1).isEnabledSet()) {
+			final ComponentCheckbox allow3D = new ComponentCheckbox(appW.getLocalization(), true,
 					"Perspective.3DGraphics", selected -> {
-				app.getSettings().getEuclidian(-1).setEnabled(selected);
+				appW.getSettings().getEuclidian(-1).setEnabled(selected);
 				guiManager.updateToolbarActions();
 			});
-			app.getSettings().getEuclidian(-1).setEnabled(true);
+			appW.getSettings().getEuclidian(-1).setEnabled(true);
 			startPanel.add(allow3D);
 		}
 		guiManager.updateToolbarActions();
@@ -87,12 +87,12 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	 */
 	private void cancelExam() {
 		examController.cancelExam();
-		app.getLAF().toggleFullscreen(false);
-		app.fireViewsChangedEvent();
-		GuiManagerInterfaceW guiManager = app.getGuiManager();
+		appW.getLAF().toggleFullscreen(false);
+		appW.fireViewsChangedEvent();
+		GuiManagerInterfaceW guiManager = appW.getGuiManager();
 		guiManager.updateToolbarActions();
 		guiManager.setGeneralToolBarDefinition(
-				ToolBar.getAllToolsNoMacros(true, false, app));
+				ToolBar.getAllToolsNoMacros(true, false, appW));
 		guiManager.updateToolbar();
 		guiManager.resetMenu();
 	}
@@ -167,7 +167,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 	@Override
 	protected void onEscape() {
-		if (!app.isLockedExam()) {
+		if (!appW.isLockedExam()) {
 			examController.cancelExam();
 			hide();
 		}

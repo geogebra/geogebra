@@ -38,14 +38,13 @@ public class CmdTriangleCurve extends CommandProcessor {
 
 		switch (n) {
 		case 4:
-			GeoNumeric ta = null, tb = null, tc = null;
 			arg = new GeoElement[4];
 			for (int i = 0; i < 3; i++) {
 				arg[i] = resArgSilent(c, i, new EvalInfo(false));
 			}
-			ta = new GeoNumeric(cons);
-			tb = new GeoNumeric(cons);
-			tc = new GeoNumeric(cons);
+			GeoNumeric ta = new GeoNumeric(cons);
+			GeoNumeric tb = new GeoNumeric(cons);
+			GeoNumeric tc = new GeoNumeric(cons);
 			cons.addLocalVariable("A", ta);
 			cons.addLocalVariable("B", tb);
 			cons.addLocalVariable("C", tc);

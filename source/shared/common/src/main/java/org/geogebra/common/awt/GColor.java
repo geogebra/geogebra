@@ -17,7 +17,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public final class GColor implements GPaint {
 
 	// MUST be first in class
-	private static HashMap<Integer, GColor> map = new HashMap<>();
+	private static final HashMap<Integer, GColor> map = new HashMap<>();
 
 	/** WHITE */
 	public static final GColor WHITE = newColor(255, 255, 255);

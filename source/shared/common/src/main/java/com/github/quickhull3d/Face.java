@@ -403,9 +403,9 @@ class Face {
 	 * return the squared area of the triangle defined by the half edge hedge0
 	 * and the point at the head of hedge1.
 	 * 
-	 * @param hedge0
-	 * @param hedge1
-	 * @return
+	 * @param hedge0 first half-edge
+	 * @param hedge1 second half-edge
+	 * @return area squared
 	 */
 	public double areaSquared(HalfEdge hedge0, HalfEdge hedge1) {
 		Point3d p0 = hedge0.tail().pnt;

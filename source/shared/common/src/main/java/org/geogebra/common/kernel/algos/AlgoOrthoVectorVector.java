@@ -44,12 +44,13 @@ public class AlgoOrthoVectorVector extends AlgoElement {
 		n = new GeoVector(cons);
 		if (v instanceof GeoVector) {
 			GeoPointND possStartPoint = ((GeoVector) v).getStartPoint();
-		if (possStartPoint != null && possStartPoint.isLabelSet()) {
-			try {
-				n.setStartPoint(possStartPoint);
-			} catch (CircularDefinitionException e) {
+			if (possStartPoint != null && possStartPoint.isLabelSet()) {
+				try {
+					n.setStartPoint(possStartPoint);
+				} catch (CircularDefinitionException e) {
+					// vector just created, no cycle possible
+				}
 			}
-		}
 		}
 		setInputOutput(); // for AlgoElement
 

@@ -184,7 +184,6 @@ public class ExtremumFinder implements ExtremumFinderI {
 		// 1.1102e-16 is machine precision
 
 		double eps = 1.2e-16;
-		double tol1 = eps + 1.0;
 		eps = Math.sqrt(eps);
 
 		double v = a + c * (b - a);
@@ -204,7 +203,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 		double tol3 = tol / 3.0;
 
 		double xm = .5 * (a + b);
-		tol1 = eps * Math.abs(x) + tol3;
+		double tol1 = eps * Math.abs(x) + tol3;
 		double t2 = 2.0 * tol1;
 
 		// main loop

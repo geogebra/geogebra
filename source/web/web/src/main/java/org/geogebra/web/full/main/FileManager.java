@@ -6,7 +6,6 @@ import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.UserPublic;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -26,7 +25,7 @@ import elemental2.dom.DomGlobal;
 public abstract class FileManager extends MaterialsManager {
 	/** application */
 	protected AppW app;
-	private Provider provider = Provider.TUBE;
+	private Material.Provider provider = Material.Provider.TUBE;
 	private FileSystemFileHandle fileHandle;
 
 	/**
@@ -135,12 +134,12 @@ public abstract class FileManager extends MaterialsManager {
 	}
 
 	@Override
-	public void setFileProvider(Provider provider) {
+	public void setFileProvider(Material.Provider provider) {
 		this.provider = provider;
 	}
 
 	@Override
-	public Provider getFileProvider() {
+	public Material.Provider getFileProvider() {
 		return this.provider;
 	}
 
@@ -235,7 +234,7 @@ public abstract class FileManager extends MaterialsManager {
 
 	private void setFileHandle(FileSystemFileHandle handle) {
 		this.fileHandle = handle;
-		this.provider = Provider.LOCAL;
+		this.provider = Material.Provider.LOCAL;
 		handle.getFile().then(file -> {
 			app.getKernel().getConstruction().setTitle(
 					StringUtil.removeFolderName(StringUtil.removeFileExtension(file.name)));

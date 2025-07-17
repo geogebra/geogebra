@@ -4,7 +4,9 @@ import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIg
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
 
@@ -24,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -182,12 +185,11 @@ public abstract class CasTestJsonCommon {
 
 			f.setInput(input);
 			f.computeOutput();
-
-			if (f.getInputVE() == null) {
-				assertEquals("Input should be parsed", "GEOGEBRAERROR",
-						expectedResult[0]);
+			if ("GEOGEBRAERROR".equals(expectedResult[0])) {
+				assertNull(f.getInputVE());
 				return;
 			}
+			assertNotNull("Input should be parsed:" + input, f.getInputVE());
 			boolean includesNumericCommand = f.includesNumericCommand();
 			if (f.getValue() == null) {
 				result = f.getOutput(StringTemplate.testTemplate);
@@ -202,7 +204,7 @@ public abstract class CasTestJsonCommon {
 								? StringTemplate.testNumeric
 								: StringTemplate.testTemplateJSON);
 			}
-		} catch (Throwable t) {
+		} catch (Exception | MyError t) {
 			String sts = stacktrace(t);
 
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;

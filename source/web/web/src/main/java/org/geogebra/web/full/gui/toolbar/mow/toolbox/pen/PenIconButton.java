@@ -6,7 +6,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -42,7 +41,7 @@ public class PenIconButton extends IconButton {
 	private void showPopup() {
 		appW.setMode(getMode());
 		if (penPopup == null) {
-			penPopup = new PenCategoryPopup(appW, modes, getUpdateButtonCallback());
+			penPopup = new PenCategoryPopup(appW, modes, this::updateButton);
 			penPopup.setAutoHideEnabled(false);
 			penPopup.addCloseHandler((e) -> AriaHelper.setAriaExpanded(this, false));
 		}
@@ -54,15 +53,13 @@ public class PenIconButton extends IconButton {
 		}
 	}
 
-	private Consumer<Integer> getUpdateButtonCallback() {
-		return mode -> {
-			IconSpec icon = getIconFromMode(mode, appW.getToolboxIconResource());
-			updateImgAndTxt(icon, mode, appW);
-			setActive(true);
-			if (penPopup != null) {
-				penPopup.update();
-			}
-		};
+	private void updateButton(int mode) {
+		IconSpec icon = getIconFromMode(mode, appW.getToolboxIconResource());
+		updateImgAndTxt(icon, mode, appW);
+		setActive(true);
+		if (penPopup != null) {
+			penPopup.update();
+		}
 	}
 
 	@Override

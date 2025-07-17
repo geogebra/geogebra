@@ -225,7 +225,7 @@ class EditorChecker {
 			formula = parser.parse(input);
 			mathField.getInternal().setFormula(formula);
 		} catch (Exception e) {
-			fail("Problem parsing: " + input);
+			throw new AssertionError("Problem parsing: " + input, e);
 		}
 		return this;
 	}
@@ -269,7 +269,7 @@ class EditorChecker {
 			mathField.getInternal().getFormula().getRootComponent().setProtected();
 			mathField.getInternal().setLockedCaretPath();
 		} catch (Exception e) {
-			fail("Problem parsing: " + input);
+			throw new AssertionError("Problem parsing: " + input, e);
 		}
 		return this;
 	}

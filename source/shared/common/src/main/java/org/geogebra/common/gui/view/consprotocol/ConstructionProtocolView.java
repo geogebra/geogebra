@@ -1411,13 +1411,13 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		BREAKPOINT("Breakpoint");
 
-		private String translationKey;
+		private final String translationKey;
 
 		Columns(String key) {
 			this.translationKey = key;
 		}
 
-		protected String getTranslation(Localization loc) {
+		private String getTranslation(Localization loc) {
 			return loc.getMenu(translationKey);
 		}
 

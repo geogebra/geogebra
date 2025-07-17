@@ -152,7 +152,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 				if (DoubleUtil.isZero(quadric.getHalfAxis(0))
 						&& (Double.isNaN(quadric.getHalfAxis(1))
 								|| DoubleUtil.isZero(quadric.getHalfAxis(1)))) {
-					section.setSinglePoint(getOrigin(o1, o2));
+					section.setSinglePointAtCoords(getOrigin(o1, o2));
 					return;
 				}
 			}

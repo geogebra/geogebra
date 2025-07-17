@@ -9,8 +9,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.gwtproject.event.dom.client.ClickEvent;
-import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RequiresResize;
@@ -28,19 +26,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	private LocalizationW loc;
 	private StatTableW dataTable;
 	private ScrollPanel scrollPane;
-
-	private class DataClickHandler implements ClickHandler {
-		private int index;
-
-		public DataClickHandler(int index) {
-			this.index = index;
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			onDataClick(index);
-		}
-	}
 
 	/*************************************************
 	 * Construct a DataPanel

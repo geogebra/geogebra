@@ -169,12 +169,12 @@ public class PTerm implements Comparable<PTerm> {
 		if (o instanceof PTerm) {
 			return this.compareTo((PTerm) o) == 0;
 		}
-		return super.equals(o);
+		return false;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("");
+		StringBuilder sb = new StringBuilder();
 		Iterator<Entry<PVariable, Integer>> it = variables.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<PVariable, Integer> entry = it.next();

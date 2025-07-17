@@ -9,7 +9,7 @@ public enum Sandbox {
 	POPUPS("allow-popups"),
 	FORMS("allow-forms");
 
-	private String privilege;
+	private final String privilege;
 
 	Sandbox(String privilege) {
 		this.privilege = privilege;

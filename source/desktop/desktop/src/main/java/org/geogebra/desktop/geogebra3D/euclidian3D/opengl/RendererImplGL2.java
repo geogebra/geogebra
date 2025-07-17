@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
@@ -617,7 +616,7 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void draw(Type type, int length) {
+	public void draw(Manager.Type type, int length) {
 		// TODO Auto-generated method stub
 
 	}

@@ -13,9 +13,9 @@ public enum PathRegionHandling {
 	ON("true"),
 	/** try to be consistent with old behavior (3.2) */
 	AUTO("auto");
-	private String xml;
+	private final String xml;
 
-	private PathRegionHandling(String xml) {
+	PathRegionHandling(String xml) {
 		this.xml = xml;
 	}
 

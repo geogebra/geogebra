@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 
@@ -421,7 +420,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 	}
 
-	abstract protected int getGLType(Type type);
+	abstract protected int getGLType(Manager.Type type);
 
 	protected final void setModelViewIdentity() {
 		projectionMatrix.getForGL(tmpFloat16);

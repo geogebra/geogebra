@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 
 /**
  * Material manager.
@@ -42,12 +41,12 @@ public interface MaterialsManagerI {
 	 * Set file provider.
 	 * @param provider file provider
 	 */
-	void setFileProvider(Provider provider);
+	void setFileProvider(Material.Provider provider);
 
 	/**
 	 * @return file provider
 	 */
-	Provider getFileProvider();
+	Material.Provider getFileProvider();
 
 	/**
 	 * Maybe store auto-save file in local storage.

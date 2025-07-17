@@ -328,7 +328,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 
 	/** Doing LM iteration */
 	public final void sinus_Reg() {
-		double lambda = 0.0d; // LM-damping coefficient
+		double lambda; // LM-damping coefficient
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
 		double residual, old_residual = beta2(xd, yd, a, b, c, d);
 
@@ -561,7 +561,6 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// that is done in findParameters() which is better for testing only
 	// mathematical functionality.)
 	private final void getPoints() {
-		double[] xlist = null, ylist = null;
 		double[] xy = new double[2];
 		GeoElement geoelement;
 		// GeoList newlist;
@@ -578,8 +577,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		}
 
 		int i = 0;
-		xlist = new double[size];
-		ylist = new double[size];
+		double[] xlist = new double[size];
+		double[] ylist = new double[size];
 		for (GeoPoint gp: sortedSet) {
 			gp.getInhomCoords(xy);
 			xlist[i] = xy[0];

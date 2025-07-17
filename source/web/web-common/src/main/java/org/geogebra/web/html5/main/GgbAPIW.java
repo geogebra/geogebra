@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
@@ -607,7 +608,8 @@ public class GgbAPIW extends GgbAPI {
 			ArchiveEntry fileContentObject = entry.getValue();
 			JsArray<Object> archiveEntry = new JsArray<>();
 			int ind = fileName.lastIndexOf('.');
-			String extension = ind > -1 ? fileName.substring(ind + 1).toLowerCase() : "";
+			String extension = ind > -1 ? fileName.substring(ind + 1)
+					.toLowerCase(Locale.ROOT) : "";
 			if (fileContentObject.string != null) {
 				String fileContent = fileContentObject.string;
 				if (imgExtensions.contains(extension)) {

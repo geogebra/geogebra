@@ -14,7 +14,7 @@ public class FormatFactoryW extends FormatFactory {
 			implements ScientificFormatAdapter {
 		private int d;
 
-		protected FastFormatAdapter(int d) {
+		private FastFormatAdapter(int d) {
 			this.d = d;
 		}
 

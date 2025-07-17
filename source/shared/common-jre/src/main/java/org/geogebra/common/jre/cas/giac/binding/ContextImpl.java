@@ -6,9 +6,9 @@ import javagiac.context;
 
 class ContextImpl implements Context {
 
-    context context;
+    context wrappedContext;
 
     ContextImpl() {
-        context = new context();
+        wrappedContext = new context();
     }
 }

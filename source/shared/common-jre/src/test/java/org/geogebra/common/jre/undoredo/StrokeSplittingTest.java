@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -28,7 +27,6 @@ import org.junit.Test;
 
 public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 
-	EuclidianController ec;
 	EuclidianStyleBarSelection selection;
 	PropertyWrapper propertyWrapper;
 	GeoElementPropertiesFactory propFactory = new GeoElementPropertiesFactory();

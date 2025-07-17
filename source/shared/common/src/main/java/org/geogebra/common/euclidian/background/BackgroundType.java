@@ -70,7 +70,7 @@ public enum BackgroundType {
 					BackgroundType.POLAR,
 					BackgroundType.DOTS));
 
-	private int value;
+	private final int value;
 
 	BackgroundType(int value) {
 		this.value = value;

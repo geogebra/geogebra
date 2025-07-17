@@ -6,6 +6,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.CheckForNull;
@@ -299,7 +300,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
         if (button != null) {
 			button.addCustomTool(url, name, callback);
         } else {
-			Log.debug("Category " + category.toLowerCase()
+			Log.debug("Category " + category.toLowerCase(Locale.ROOT)
 					+ " is not allowed to have a custom tool");
 		}
 	}

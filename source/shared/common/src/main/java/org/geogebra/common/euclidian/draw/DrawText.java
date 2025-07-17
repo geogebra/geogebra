@@ -193,7 +193,7 @@ public final class DrawText extends Drawable {
 	 * Updates label rectangle assuming xLabel and yLabel have been set before
 	 * @param captionWidth caption width
 	 */
-	protected void updateLabelRectangleForCaption(int captionWidth) {
+	void updateLabelRectangleForCaption(int captionWidth) {
 		labelRectangle.setLocation(xLabel,
 				isLaTeX ? yLabel : (int) (yLabel - labelRectangle.getHeight()
 						+ 2 * DEFAULT_MARGIN));

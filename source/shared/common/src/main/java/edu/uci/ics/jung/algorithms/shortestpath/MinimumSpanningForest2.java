@@ -37,9 +37,9 @@ public class MinimumSpanningForest2<V, E> {
 	 * of the Graph, then a leftover vertex is selected as a root, and another
 	 * tree is created
 	 * 
-	 * @param graph
-	 * @param factory
-	 * @param weights
+	 * @param graph graph
+	 * @param factory forest factory
+	 * @param weights edge weights
 	 */
 	public MinimumSpanningForest2(Graph<V, E> graph,
 			Supplier<Forest<V, E>> factory,

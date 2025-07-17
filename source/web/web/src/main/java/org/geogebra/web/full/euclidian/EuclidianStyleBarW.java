@@ -30,6 +30,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
+import org.geogebra.web.full.gui.util.ElementPropertySetter;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -197,7 +198,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 	}
 
-	protected boolean hasVisibleGeos(ArrayList<GeoElement> geoList) {
+	protected boolean hasVisibleGeos(List<GeoElement> geoList) {
 		for (GeoElement geo : geoList) {
 			if (isVisibleInThisView(geo) && geo.isEuclidianVisible()
 					&& !geo.isAxis()) {
@@ -578,13 +579,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnSegmentStartStyle.setKeepVisible(false);
 	}
 
-	private boolean handleSegmentStart(ArrayList<GeoElement> targetGeos) {
+	private boolean handleSegmentStart(List<GeoElement> targetGeos) {
 		SegmentStyle segmentStyle
 				= SegmentStyle.values()[btnSegmentStartStyle.getSelectedIndex()];
 		return applySegmentStartStyle(targetGeos, segmentStyle, true);
 	}
 
-	private boolean handleSegmentEnd(ArrayList<GeoElement> targetGeos) {
+	private boolean handleSegmentEnd(List<GeoElement> targetGeos) {
 		SegmentStyle segmentStyle
 				= SegmentStyle.values()[btnSegmentEndStyle.getSelectedIndex()];
 		return applySegmentStartStyle(targetGeos, segmentStyle, false);
@@ -644,7 +645,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnLabelStyle.setKeepVisible(false);
 	}
 
-	private boolean handleLabelStyle(ArrayList<GeoElement> targetGeos) {
+	private boolean handleLabelStyle(List<GeoElement> targetGeos) {
 		return EuclidianStyleBarStatic.applyCaptionStyle(targetGeos,
 				mode, btnLabelStyle.getSelectedIndex());
 	}
@@ -683,7 +684,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnAngleInterval.setKeepVisible(false);
 	}
 
-	private boolean handleAngleInterval(ArrayList<GeoElement> targetGeos) {
+	private boolean handleAngleInterval(List<GeoElement> targetGeos) {
 		return EuclidianStyleBarStatic.applyAngleInterval(targetGeos,
 				btnAngleInterval.getSelectedIndex());
 	}
@@ -731,7 +732,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setPopupHandlerWithUndoAction(btnBgColor, this::handleBackgroundColor);
 	}
 
-	private boolean handleBackgroundColor(ArrayList<GeoElement> targetGeos) {
+	private boolean handleBackgroundColor(List<GeoElement> targetGeos) {
 		if (btnBgColor.getSelectedIndex() >= 0) {
 			GColor color = btnBgColor.getSelectedColor();
 			if (color == null) {
@@ -781,7 +782,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setPopupHandlerWithUndoAction(btnTextColor, this::handleTextColor);
 	}
 
-	private boolean handleTextColor(ArrayList<GeoElement> targetGeos) {
+	private boolean handleTextColor(List<GeoElement> targetGeos) {
 		if (btnTextColor.getSelectedIndex() >= 0) {
 			GColor color = btnTextColor.getSelectedColor();
 			if (color == null) {
@@ -808,7 +809,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addFastClickHandlerWithUndoAction(btnBold, this::handleBold);
 	}
 
-	private boolean handleBold(ArrayList<GeoElement> targetGeos) {
+	private boolean handleBold(List<GeoElement> targetGeos) {
 		return applyFontStyle(targetGeos, GFont.BOLD, btnBold.isSelected());
 	}
 
@@ -818,7 +819,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected void addFastClickHandlerWithUndoAction(ToggleButton btn,
-			Function<ArrayList<GeoElement>, Boolean> action) {
+			ElementPropertySetter action) {
 		btn.addFastClickHandler(ignore -> processSelectionWithUndoAction(action));
 	}
 
@@ -849,7 +850,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addFastClickHandlerWithUndoAction(btnFixPosition, this::handleFixPosition);
 	}
 
-	private boolean handleFixPosition(ArrayList<GeoElement> targetGeos) {
+	private boolean handleFixPosition(List<GeoElement> targetGeos) {
 		return EuclidianStyleBarStatic.applyFixPosition(targetGeos,
 				btnFixPosition.isSelected(), ev) != null;
 	}
@@ -876,7 +877,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addFastClickHandlerWithUndoAction(btnFixObject, this::handleFixObject);
 	}
 
-	private boolean handleFixObject(ArrayList<GeoElement> targetGeos) {
+	private boolean handleFixObject(List<GeoElement> targetGeos) {
 		boolean needUndo = EuclidianStyleBarStatic.applyFixObject(targetGeos,
 				btnFixObject.isSelected(), ev) != null;
 		btnFixObject.update(targetGeos);
@@ -895,7 +896,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addFastClickHandlerWithUndoAction(btnItalic, this::handleItalic);
 	}
 
-	private boolean handleItalic(ArrayList<GeoElement> targetGeos) {
+	private boolean handleItalic(List<GeoElement> targetGeos) {
 		return applyFontStyle(targetGeos, GFont.ITALIC, btnItalic.isSelected());
 	}
 
@@ -930,7 +931,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnTextSize.getMyPopup().addStyleName("textSizePopupPanel");
 	}
 
-	private boolean handleTextSize(ArrayList<GeoElement> targetGeos) {
+	private boolean handleTextSize(List<GeoElement> targetGeos) {
 		return applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
 	}
 
@@ -1022,12 +1023,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return changed;
 	}
 
-	private boolean applyTextSize(ArrayList<GeoElement> targetGeos,
+	private boolean applyTextSize(List<GeoElement> targetGeos,
 			int selectedIndex) {
 		return EuclidianStyleBarStatic.applyTextSize(targetGeos, selectedIndex);
 	}
 
-	private boolean applyFontStyle(ArrayList<GeoElement> targetGeos, int mask,
+	private boolean applyFontStyle(List<GeoElement> targetGeos, int mask,
 			boolean add) {
 		return EuclidianStyleBarStatic.applyFontStyle(targetGeos, mask,
 				add);

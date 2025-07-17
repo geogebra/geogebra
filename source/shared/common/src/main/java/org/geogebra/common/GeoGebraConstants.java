@@ -79,7 +79,7 @@ public interface GeoGebraConstants {
 
 		POWERPOINT("p");
 
-		private String name;
+		private final String name;
 
 		Platform(String name) {
 			this.name = name;

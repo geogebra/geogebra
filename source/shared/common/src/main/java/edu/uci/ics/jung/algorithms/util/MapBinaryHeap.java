@@ -148,7 +148,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	 * Informs the heap that this object's internal key value has been updated,
 	 * and that its place in the heap may need to be shifted (up or down).
 	 * 
-	 * @param o
+	 * @param o updated object
 	 */
 	public void update(T o) {
 		// Since we don't know whether the key value increased or
@@ -224,7 +224,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	 * Returns the index of the left child of the element at index
 	 * <code>i</code> of the heap.
 	 * 
-	 * @param i
+	 * @param i index
 	 * @return the index of the left child of the element at index
 	 *         <code>i</code> of the heap
 	 */
@@ -236,7 +236,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	 * Returns the index of the right child of the element at index
 	 * <code>i</code> of the heap.
 	 * 
-	 * @param i
+	 * @param i index
 	 * @return the index of the right child of the element at index
 	 *         <code>i</code> of the heap
 	 */
@@ -248,7 +248,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	 * Returns the index of the parent of the element at index <code>i</code> of
 	 * the heap.
 	 * 
-	 * @param i
+	 * @param i index
 	 * @return the index of the parent of the element at index i of the heap
 	 */
 	private static int parent(int i) {
@@ -259,8 +259,8 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	 * Swaps the positions of the elements at indices <code>i</code> and
 	 * <code>j</code> of the heap.
 	 * 
-	 * @param i
-	 * @param j
+	 * @param i first index
+	 * @param j second index
 	 */
 	private void swap(int i, int j) {
 		T iElt = heap.elementAt(i);

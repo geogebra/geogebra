@@ -43,7 +43,7 @@ public class WeightedChoice<T> {
 	 * Equivalent to {@code this(item_weights, new Random(), DEFAULT_THRESHOLD)}
 	 * .
 	 * 
-	 * @param item_weights
+	 * @param item_weights item weights
 	 */
 	public WeightedChoice(Map<T, ? extends Number> item_weights) {
 		this(item_weights, new Random(), DEFAULT_THRESHOLD);

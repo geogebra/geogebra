@@ -135,14 +135,10 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Decoration type for angles: counterclockwise arrow
-	 * 
-	 * @author Michael Borcherds, 2007-10-22
 	 */
 	int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6;
 	/**
-	 * Decoration type for angles: clockwise arrow
-	 * 
-	 * @author Michael Borcherds, 2007-10-22
+	 * Decoration type for angles: clockwise
 	 */
 	int DECORATION_ANGLE_ARROW_CLOCKWISE = 7;
 

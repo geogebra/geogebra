@@ -82,9 +82,8 @@ public class NDGDetector {
 		 * By using the lookup table, we don't have to do heavy computations
 		 * twice.
 		 */
-		NDGCondition ndgc = null;
 		String keyString = p.substitute(substitutions).toString();
-		ndgc = lookupTable.get(keyString);
+		NDGCondition ndgc;
 		if (lookupTable.containsKey(keyString)) {
 			ndgc = lookupTable.get(keyString);
 			if (ndgc != null

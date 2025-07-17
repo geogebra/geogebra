@@ -1,6 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
-import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D.Type;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D.CurveType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -91,7 +91,7 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 							.plus(d / c));
 
 			curve.getTransformedCoordSys().setZequal(a, b, c, d);
-			curve.setType(Type.DEFAULT);
+			curve.setType(CurveType.DEFAULT);
 		} else {
 			VariableReplacer vr = kernel.getVariableReplacer();
 			exp = surface.getFunctionExpression().getCopy(kernel);
@@ -103,7 +103,7 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 				vr.addVars("y", substY);
 
 				curve.getTransformedCoordSys().setYequal(a, b, d);
-				curve.setType(Type.PLANE_XY);
+				curve.setType(CurveType.PLANE_XY);
 			} else {
 				double v = -norm.getW() / norm.getX();
 				ExpressionNode substY = new ExpressionNode(kernel, v);
@@ -113,7 +113,7 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 
 				// set transformed coord sys to x=value
 				curve.getTransformedCoordSys().setXequal(v);
-				curve.setType(Type.PLANE_X);
+				curve.setType(CurveType.PLANE_X);
 			}
 			exp = exp.traverse(vr).wrap()
 					.subtract(new FunctionVariable(kernel, "y"));

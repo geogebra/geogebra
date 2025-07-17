@@ -77,10 +77,7 @@ public class PlotterBrushElements extends PlotterBrush {
 	}
 
 	/**
-	 * say we'll start a curve
-	 * 
-	 * @param size
-	 *            vertices size of the curves
+	 * Start a curve.
 	 */
 	private void startCurve() {
 		manager.startGeometry(Manager.Type.TRIANGLES);
@@ -89,8 +86,7 @@ public class PlotterBrushElements extends PlotterBrush {
 	}
 
 	/**
-	 * end the curve
-	 * 
+	 * End the curve.
 	 */
 	private void endCurve() {
 

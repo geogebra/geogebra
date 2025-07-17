@@ -29,7 +29,7 @@ public enum AutoColor {
 			GeoGebraColorConstants.PURPLE_600,
 			GeoGebraColorConstants.GGB_ORANGE });
 
-	private GColor[] sequence;
+	private final GColor[] sequence;
 	private int index;
 
 	private AutoColor(GColor[] sequence) {

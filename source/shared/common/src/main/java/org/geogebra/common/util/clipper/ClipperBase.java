@@ -495,9 +495,7 @@ public abstract class ClipperBase implements Clipper {
 					Horz = Horz.next;
 				}
 				if (Horz.next.getTop().getX() == result.prev.getTop().getX()) {
-					if (!LeftBoundIsForward) {
-						result = Horz.next;
-					}
+					result = Horz.next;
 				} else if (Horz.next.getTop().getX() > result.prev.getTop()
 						.getX()) {
 					result = Horz.next;

@@ -147,7 +147,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * remove the passed node, and all nodes that are descendants of the passed
 	 * node.
 	 * 
-	 * @param vertex
+	 * @param vertex vertex
 	 * @return <code>true</code> iff the tree was modified
 	 * @see edu.uci.ics.jung.graph.Graph#removeVertex(java.lang.Object)
 	 */

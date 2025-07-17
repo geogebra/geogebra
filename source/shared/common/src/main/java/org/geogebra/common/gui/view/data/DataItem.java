@@ -355,7 +355,7 @@ public class DataItem {
 		if (!enableHeader || sourceType == SourceType.LIST) {
 			return getSourceString(app);
 
-		} else if (enableHeader && sourceType == SourceType.SPREADSHEET) {
+		} else if (sourceType == SourceType.SPREADSHEET) {
 
 			StringTemplate tpl = StringTemplate.defaultTemplate;
 			TabularRange range = getRangeList().get(0);

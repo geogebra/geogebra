@@ -181,7 +181,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			if (emptyTile) {
 				borderColor = EMPTY_TILE_COLOR;
-			} else if (col == currentCol && row == currentRow && !emptyTile) {
+			} else if (col == currentCol && row == currentRow) {
 				ctx.setLineWidth(BORDER_WIDTH);
 				borderColor = FOCUS_COLOR;
 			} else if (col == getSelectedCol() && row == getSelectedRow()) {

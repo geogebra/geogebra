@@ -615,7 +615,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	 * 
 	 * Also store the intersection type.
 	 * 
-	 * @returns type of intersection
+	 * @return type of intersection
 	 */
 	private int intersect(GeoConic conic, GeoPoint[] sol) {
 		boolean ok = false;

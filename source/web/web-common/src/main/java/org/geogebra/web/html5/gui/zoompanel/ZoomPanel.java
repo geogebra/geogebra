@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.gui.zoompanel;
 
-import java.util.function.Consumer;
-
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -126,7 +124,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 		fullscreenBtn.addFastClickHandler(source -> {
 			getZoomController().onFullscreenPressed(getPanelElement(),
-					getFullscreenBtnSelectCB());
+					this::setFullScreenButtonSelected);
 			setFullScreenAuralText();
 		});
 		fullscreenBtn.setSelected(Browser.isFullscreen());
@@ -154,7 +152,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		// we may have multiple zoom panels; if this one doesn't have FS button,
 		// it shouldn't handle FS
 		if (fullscreenBtn != null) {
-			getZoomController().onExitFullscreen(getElement(), getFullscreenBtnSelectCB());
+			getZoomController().onExitFullscreen(getElement(), this::setFullScreenButtonSelected);
 		}
 	}
 
@@ -300,15 +298,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * @param isFullscreen whether fullscreen should be active
 	 */
 	public void setFullScreen(boolean isFullscreen) {
-		getZoomController().setFullScreenActive(isFullscreen, getFullscreenBtnSelectCB());
+		getZoomController().setFullScreenActive(isFullscreen, this::setFullScreenButtonSelected);
 	}
 
-	private Consumer<Boolean> getFullscreenBtnSelectCB() {
-		return fullScreenActive -> {
-			if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
-				fullscreenBtn.setSelected(fullScreenActive);
-			}
-		};
+	private void setFullScreenButtonSelected(boolean fullScreenActive) {
+		if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
+			fullscreenBtn.setSelected(fullScreenActive);
+		}
 	}
 
 	/**

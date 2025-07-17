@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -656,12 +657,19 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 					.filter(s -> s.startsWith("UPDATE")).collect(Collectors.toSet()));
 		}
 
+		@Override
 		public String toString() {
 			return x + "," + y + ":" + events;
 		}
 
+		@Override
 		public boolean equals(Object other) {
 			return other instanceof DragResult && toString().equals(other.toString());
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(x, y, events);
 		}
 	}
 }

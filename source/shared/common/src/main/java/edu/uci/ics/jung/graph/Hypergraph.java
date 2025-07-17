@@ -225,8 +225,8 @@ public interface Hypergraph<V, E> {
 	 * graph, and this graph does not accept parallel edges
 	 * </ul>
 	 * 
-	 * @param edge
-	 * @param vertices
+	 * @param edge edge
+	 * @param vertices vertices
 	 * @return <code>true</code> if the add is successful, and
 	 *         <code>false</code> otherwise
 	 * @throws IllegalArgumentException
@@ -251,8 +251,8 @@ public interface Hypergraph<V, E> {
 	 * <li><code>edge_type</code> is not legal for this graph
 	 * </ul>
 	 * 
-	 * @param edge
-	 * @param vertices
+	 * @param edge edge
+	 * @param vertices vertices
 	 * @return <code>true</code> if the add is successful, and
 	 *         <code>false</code> otherwise
 	 * @throws IllegalArgumentException
@@ -316,8 +316,8 @@ public interface Hypergraph<V, E> {
 	 * <code>getIncidentEdges(vertex).contains(edge)</code> and to
 	 * <code>getIncidentVertices(edge).contains(vertex)</code>.
 	 * 
-	 * @param vertex
-	 * @param edge
+	 * @param vertex vertex
+	 * @param edge edge
 	 * @return <code>true</code> if <code>vertex</code> and <code>edge</code>
 	 *         are incident to each other
 	 */
@@ -379,7 +379,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns the edge type of <code>edge</code> in this graph.
 	 * 
-	 * @param edge
+	 * @param edge edge
 	 * @return the <code>EdgeType</code> of <code>edge</code>, or
 	 *         <code>null</code> if <code>edge</code> has no defined type
 	 */
@@ -463,7 +463,7 @@ public interface Hypergraph<V, E> {
 	 * is an outgoing edge. <code>directed_edge</code> is guaranteed to be a
 	 * directed edge if its <code>EdgeType</code> is <code>DIRECTED</code>.
 	 * 
-	 * @param directed_edge
+	 * @param directed_edge directed edge
 	 * @return the source of <code>directed_edge</code> if it is a directed edge
 	 *         in this graph, or <code>null</code> otherwise
 	 */
@@ -477,7 +477,7 @@ public interface Hypergraph<V, E> {
 	 * <code>directed_edge</code> is guaranteed to be a directed edge if its
 	 * <code>EdgeType</code> is <code>DIRECTED</code>.
 	 * 
-	 * @param directed_edge
+	 * @param directed_edge directed edge
 	 * @return the destination of <code>directed_edge</code> if it is a directed
 	 *         edge in this graph, or <code>null</code> otherwise
 	 */

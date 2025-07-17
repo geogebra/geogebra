@@ -314,7 +314,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	final public static int RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS = 1;
 	final public static int RATIO_UNIT_INCHES = 2;
 	final public static float FROM_INCH_TO_CM = 2.54f;
-	final public static float FROM_CM_TO_INCH = 0.393700787f;
 	private boolean arRatioIsShown = true;
 	private String arRatioUnit = "cm";
 	private int arRatioMetricSystem;
@@ -576,8 +575,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 
 		// create the drawable
-		Drawable3D d = null;
-		d = createDrawable(geo);
+		Drawable3D d = createDrawable(geo);
 		if (d != null) {
 			drawable3DLists.add(d);
 		}

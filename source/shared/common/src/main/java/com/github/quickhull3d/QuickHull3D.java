@@ -321,7 +321,7 @@ public class QuickHull3D {
 			Face face = Face.create(pointBuffer, faceIndices[i]);
 			HalfEdge he = face.he0;
 			do {
-				HalfEdge heOpp = findHalfEdge(he.head(), he.tail());
+				HalfEdge heOpp = findHalfEdge(/* tail= */ he.head(), /* head= */ he.tail());
 				if (heOpp != null) {
 					he.setOpposite(heOpp);
 				}

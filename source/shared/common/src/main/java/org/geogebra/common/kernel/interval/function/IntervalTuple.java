@@ -90,7 +90,7 @@ public class IntervalTuple {
 			IntervalTuple other = (IntervalTuple) obj;
 			return x.equals(other.x) && y.equals(other.y);
 		}
-		return super.equals(obj);
+		return false;
 	}
 
 	@Override

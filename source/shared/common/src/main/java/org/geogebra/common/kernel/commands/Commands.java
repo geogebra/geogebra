@@ -1241,7 +1241,7 @@ public enum Commands implements CommandsConstants,
 			Commands.SD, Commands.SampleSD, Commands.MAD
 	};
 
-	private int table;
+	private final int table;
 
 	Commands(int table) {
 		this.table = table;

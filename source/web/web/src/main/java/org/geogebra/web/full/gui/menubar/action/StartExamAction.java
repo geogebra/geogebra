@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar.action;
 
 import static elemental2.dom.DomGlobal.location;
 
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import org.geogebra.common.exam.ExamController;
@@ -55,7 +56,7 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 		DialogData data = new DialogData("exam_menu_entry", "Cancel", "ExamSEBDialog.LaunchSEB");
 		ExamSEBDialog sebDialog = new ExamSEBDialog(app, data);
 		String examMode = examType == ExamType.GENERIC ? app.getConfig().getAppCode()
-				: examType.name().toLowerCase();
+				: examType.name().toLowerCase(Locale.ROOT);
 		sebDialog.setOnPositiveAction(() -> location.replace(app.getAppletParameters()
 				.getParamExamLaunchURL().replace("$mode", examMode)));
 		sebDialog.show();

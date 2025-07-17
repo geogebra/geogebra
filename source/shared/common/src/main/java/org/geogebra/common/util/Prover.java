@@ -251,7 +251,8 @@ public abstract class Prover {
 				return false;
 			}
 
-			return this.hashCode() == obj.hashCode();
+			return condition.equals(((NDGCondition) obj).condition)
+					&& Arrays.equals(geos, ((NDGCondition) obj).geos);
 		}
 
 		private static GeoLine line(GeoPoint P1, GeoPoint P2,

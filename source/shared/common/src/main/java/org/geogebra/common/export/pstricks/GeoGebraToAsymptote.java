@@ -2923,29 +2923,16 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 
 		Info info = new Info(geo);
 
-		boolean noPlus = true;
-		// if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS)
-		// {
-		// first parameter
-		noPlus = false;
 		sb.append("linewidth(");
 		sb.append(format(linethickness / 2.0 * 0.8));
 		sb.append(")");
 
 		if (linestyle != EuclidianStyleConstants.DEFAULT_LINE_TYPE) {
-			if (!noPlus) {
-				packSpace(sb, "+");
-			} else {
-				noPlus = false;
-			}
+			packSpace(sb, "+");
 			linestyleCode(linestyle, sb);
 		}
 		if (!info.getLinecolor().equals(GColor.BLACK)) {
-			if (!noPlus) {
-				packSpace(sb, "+");
-			} else {
-				noPlus = false;
-			}
+			packSpace(sb, "+");
 			colorCode(info.getLinecolor(), sb);
 		}
 		if (transparency && geo.isFillable() && info.getAlpha() > 0.0f) {
@@ -2955,9 +2942,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			 * sb.append(",fillstyle=solid,opacity=");
 			 * sb.append(geo.getAlphaValue());
 			 */
-		}
-		if (noPlus) {
-			return null;
 		}
 		return sb.toString();
 	}
@@ -3785,12 +3769,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				&& FillType.STANDARD == curves[0].getFillType()) {
 			return false;
 		}
-		String liopco = lineOptionCode(curves[0], true);
-		if (liopco == null) {
-			liopco = "";
-		} else {
-			liopco = "," + liopco;
-		}
+		String lineOptionCode = lineOptionCode(curves[0], true);
 		for (int i = 0; i < curves.length; i++) {
 			drawSingleCurveCartesian(curves[i], false);
 		}
@@ -3821,7 +3800,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				fill.append("(").append(x).append(",").append(y).append(") -- ");
 			}
 		}
-		fill.append("cycle").append(liopco).append(");");
+		fill.append("cycle,").append(lineOptionCode).append(");");
 		code.append(fill);
 		return true;
 	}

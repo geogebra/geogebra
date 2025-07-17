@@ -27,7 +27,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	/**
 	 * Curve type based on plane defining the intersection
 	 */
-	public enum Type {
+	public enum CurveType {
 		/** general plane */
 		DEFAULT,
 		/** plane f(x,y)=0 */
@@ -44,7 +44,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	private Coords tmpCoords3d = new Coords(4);
 	private double translateZ = 0;
 	private Coords planeEquation = new Coords(4);
-	private Type type = Type.DEFAULT;
+	private CurveType type = CurveType.DEFAULT;
 
 	/**
 	 * @param c
@@ -79,7 +79,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	 * @param type
 	 *            type
 	 */
-	public void setType(Type type) {
+	public void setType(CurveType type) {
 		this.type = type;
 	}
 

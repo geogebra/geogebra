@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.geogebra.common.kernel.Kernel;
@@ -191,7 +192,7 @@ public class CmdGetTime extends CommandProcessor {
 				yearday += month_days[j];
 			}
 			yearday += date - 1;
-			Date temp = new Date(cal.getYear(), 0, 1);
+			Date temp = new Date(cal.getYear(), Calendar.JANUARY, 1);
 			int d1 = temp.getDay() + 1;
 			yearday -= (9 - d1) % 7;
 			if (yearday < 0) {

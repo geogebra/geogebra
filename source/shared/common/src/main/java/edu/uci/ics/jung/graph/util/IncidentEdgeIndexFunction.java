@@ -100,7 +100,7 @@ public class IncidentEdgeIndexFunction<V, E>
 	 * invoked when an edge parallel to <code>e</code> has been added or
 	 * removed.
 	 * 
-	 * @param e
+	 * @param e edge
 	 */
 	@Override
 	public void reset(Graph<V, E> graph, E e) {

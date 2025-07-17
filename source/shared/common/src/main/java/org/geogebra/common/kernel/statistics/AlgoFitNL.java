@@ -106,8 +106,6 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
 	@Override
 	public final void compute() {
-		GeoElement geo1 = null;
-		GeoElement geo2 = null;
 		this.datasize = pointlist.size(); // Points in dataset
 
 		if (!pointlist.isDefined() || !inputfunction.isDefined()
@@ -119,8 +117,8 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		}
 		// We are in business...
 		// Best to also check:
-		geo1 = pointlist.get(0);
-		geo2 = inputfunction;
+		GeoElement geo1 = pointlist.get(0);
+		GeoElement geo2 = inputfunction;
 		if (!geo2.isGeoFunction() || !geo1.isGeoPoint()) {
 			outputfunction.setUndefined();
 			return;

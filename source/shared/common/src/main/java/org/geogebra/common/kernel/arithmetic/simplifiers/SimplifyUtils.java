@@ -171,7 +171,7 @@ public final class SimplifyUtils {
 		}
 		if (v == -1 && node1.getOperation() == Operation.MINUS) {
 			return new ExpressionNode(node1.getKernel(),
-					node1.getRight(), Operation.MINUS, node1.getLeft());
+					/* left= */ node1.getRight(), Operation.MINUS, /* right= */ node1.getLeft());
 		}
 		if (isIntegerValue(node1) && isInteger(v)) {
 			return newDouble(node1.evaluateDouble() * v).wrap();

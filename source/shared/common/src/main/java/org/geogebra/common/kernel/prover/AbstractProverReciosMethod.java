@@ -313,8 +313,8 @@ public abstract class AbstractProverReciosMethod {
 			for (int j = 1; j <= i; j++) {
 				caseno++;
 				values.put(variables[0],
-						BigInteger.valueOf((deg + 2 - i) * (deg + 2 - j)));
-				values.put(variables[1], BigInteger.valueOf(i * j));
+						BigInteger.valueOf((long) (deg + 2 - i) * (deg + 2 - j)));
+				values.put(variables[1], BigInteger.valueOf((long) i * j));
 
 				if (as != null) {
 					// use Botana's method

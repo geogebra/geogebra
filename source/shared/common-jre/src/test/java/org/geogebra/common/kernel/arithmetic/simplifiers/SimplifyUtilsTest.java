@@ -21,13 +21,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class SimplifyUtilsTest extends BaseSimplifyTestSetup {
 
-	private SimplifyUtils utils;
-
-	@BeforeEach
-	public void setUp() {
-		utils = new SimplifyUtils(getKernel());
-	}
-
 	@Override
 	protected Class<? extends SimplifyNode> getSimplifierClass() {
 		return null;

@@ -17,7 +17,7 @@ public enum MimeType {
 	private final String type;
 	private final String extension;
 	private final String dotExtension;
-	private String descriptionKey;
+	private final String descriptionKey;
 
 	MimeType(String type, String extension, String descriptionKey) {
 		this.type = type;

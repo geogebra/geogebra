@@ -62,7 +62,7 @@ public final class MulticastEvent<T> {
 	}
 
 	/**
-	 * Notify all listeners, forwarding the {@code arguments}.
+	 * Notify all listeners, forwarding the {@code argument}.
 	 * @param argument event argument (payload)
 	 */
 	public void notifyListeners(@CheckForNull T argument) {

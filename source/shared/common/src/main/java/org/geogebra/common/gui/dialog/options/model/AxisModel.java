@@ -25,11 +25,10 @@ public class AxisModel {
 	private App app;
 
 	/******************************************************
-	 * @param app
-	 * @param view
-	 * @param axis
+	 * @param app application
+	 * @param view graphics view
+	 * @param axis axis index
 	 */
-
 	public AxisModel(App app, EuclidianView view, int axis,
 			IAxisModelListener listener) {
 		this.listener = listener;

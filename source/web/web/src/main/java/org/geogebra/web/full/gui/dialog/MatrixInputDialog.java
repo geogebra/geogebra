@@ -13,10 +13,10 @@ import elemental2.dom.EventListener;
 
 public class MatrixInputDialog extends ComponentDialog {
 
-	private final AppW app;
+	private final AppW appW;
 	private ComponentInputField rows;
 	private ComponentInputField columns;
-	private Consumer<String> processInput;
+	private final Consumer<String> processInput;
 
 	/**
 	 * Constructor
@@ -25,7 +25,7 @@ public class MatrixInputDialog extends ComponentDialog {
 	 */
 	public MatrixInputDialog(AppW app, Consumer<String> processInput) {
 		super(app, new DialogData("Matrix", "Cancel", "OK"), false, true);
-		this.app = app;
+		this.appW = app;
 		this.processInput = processInput;
 		buildGUI();
 
@@ -38,13 +38,13 @@ public class MatrixInputDialog extends ComponentDialog {
 	}
 
 	private void buildGUI() {
-		rows = addInputRow(app.getLocalization().getMenu("NumberOfRows"));
-		columns = addInputRow(app.getLocalization().getMenu("NumberOfColumns"));
+		rows = addInputRow(appW.getLocalization().getMenu("NumberOfRows"));
+		columns = addInputRow(appW.getLocalization().getMenu("NumberOfColumns"));
 	}
 
 	private ComponentInputField addInputRow(String label) {
 		ComponentInputField inputField = new ComponentInputField(
-				app, null, label, "", "2", 28, null, true);
+				appW, null, label, "", "2", 28, null, true);
 		addDialogContent(inputField);
 		inputField.getTextField().addTextComponentInputListener(onContentChanged(inputField));
 		return inputField;
@@ -56,13 +56,13 @@ public class MatrixInputDialog extends ComponentDialog {
 		if (isInputAllowed(rows) && isInputAllowed(columns)) {
 			processInput.accept("$matrix:" + Integer.parseInt(rows.getText())
 					+ ":" + Integer.parseInt(columns.getText()));
-			app.storeUndoInfo();
+			appW.storeUndoInfo();
 		}
 	}
 
 	@Override
 	public void show() {
-		app.hideKeyboard();
+		appW.hideKeyboard();
 		super.show();
 		rows.focusDeferred();
 	}
@@ -84,7 +84,7 @@ public class MatrixInputDialog extends ComponentDialog {
 			setPosBtnDisabled(inputField.getText().isBlank() || !isInputAllowed(inputField));
 			if (!isInputAllowed(inputField) && !inputField.getText().isBlank()) {
 				setErrorState(inputField, true);
-				inputField.setError(app.getLocalization().getError(
+				inputField.setError(appW.getLocalization().getError(
 						NumberValidator.NUMBER_NEGATIVE_ERROR_MESSAGE_KEY));
 			} else {
 				setErrorState(inputField, false);

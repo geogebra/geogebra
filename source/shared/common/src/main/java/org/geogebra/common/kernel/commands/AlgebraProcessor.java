@@ -3000,7 +3000,7 @@ public class AlgebraProcessor {
 	}
 
 	private void checkNoTheta(Equation equ) {
-		if (equ.getRHS().containsFreeFunctionVariable(Unicode.theta_STRING)
+		if (equ.getLHS().containsFreeFunctionVariable(Unicode.theta_STRING)
 				|| equ.getRHS()
 						.containsFreeFunctionVariable(Unicode.theta_STRING)) {
 			throw new MyError(loc, Errors.InvalidEquation);

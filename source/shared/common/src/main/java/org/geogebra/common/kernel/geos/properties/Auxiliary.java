@@ -31,8 +31,8 @@ public enum Auxiliary {
 		}
 	};
 	
-	private boolean isOn;
-	private boolean needsSaveToXML;
+	private final boolean isOn;
+	private final boolean needsSaveToXML;
 
 	private Auxiliary(boolean isOn, boolean needsSaveToXML) {
 		this.isOn = isOn;

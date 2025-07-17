@@ -263,14 +263,14 @@ public class AppletParameters {
 	 */
 	public InputPosition getAlgebraPosition(InputPosition def) {
 		String pos = getStringDataParam("algebraInputPosition", "")
-				.toLowerCase().trim();
+				.toLowerCase(Locale.ROOT).trim();
 		if ("top".equals(pos)) {
 			return InputPosition.top;
 		}
 		if ("bottom".equals(pos)) {
 			return InputPosition.bottom;
 		}
-		if (pos.length() > 0) {
+		if (!pos.isEmpty()) {
 			return InputPosition.algebraView;
 		}
 		return def;

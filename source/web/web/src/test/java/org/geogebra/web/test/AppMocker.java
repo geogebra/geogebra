@@ -1,5 +1,11 @@
 package org.geogebra.web.test;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.function.Function;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.util.debug.Log;
@@ -12,6 +18,7 @@ import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
@@ -23,6 +30,8 @@ import org.gwtproject.user.client.ui.impl.PopupImpl;
 
 import com.google.gwtmockito.GwtMockito;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
+
+import jsinterop.base.JsPropertyMap;
 
 public class AppMocker {
 
@@ -125,6 +134,20 @@ public class AppMocker {
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
 		setAppDefaults(app);
 		return app;
+	}
+
+	/**
+	 * Mock localization.
+	 * @param translation maps key (ignoring category) to value
+	 */
+	public static void mockLocalization(Function<String, String> translation) {
+		GeoGebraGlobal.__GGB__keysVar = mock(JsPropertyMap.class);
+		JsPropertyMap<JsPropertyMap<String>> bundle = mock(JsPropertyMap.class);
+		when(GeoGebraGlobal.__GGB__keysVar.get(any())).thenReturn(bundle);
+		JsPropertyMap<String> category = mock(JsPropertyMap.class);
+		when(bundle.get(any())).thenReturn(category);
+		when(category.get(any())).thenAnswer(args ->
+				translation.apply(args.getArgumentAt(0, String.class)));
 	}
 
 	private static void useCommonFakeProviders() {

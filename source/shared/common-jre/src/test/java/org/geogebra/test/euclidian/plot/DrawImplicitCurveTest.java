@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,9 +60,9 @@ public class DrawImplicitCurveTest extends BaseUnitTest {
 	}
 
 	private static void saveLog(PathPlotterMock plotterMock) {
-		try (PrintWriter out = new PrintWriter(REFERENCE_FILE)) {
+		try (PrintWriter out = new PrintWriter(REFERENCE_FILE, StandardCharsets.UTF_8)) {
 			out.println(plotterMock.result());
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}

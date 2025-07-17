@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -111,13 +112,14 @@ public class AccessibilityViewTest {
 	private void assertDescription(int i, String string) {
 		assertTrue(mockPanel.getWidgetCount() > i);
 		assertThat(
-				mockPanel.getWidget(i).getElement().getAttribute("aria-label").toLowerCase(),
+				mockPanel.getWidget(i).getElement().getAttribute("aria-label")
+						.toLowerCase(Locale.ROOT),
 				CoreMatchers.containsString(string));
 	}
 
 	private void assertText(int i, String string) {
 		assertTrue(mockPanel.getWidgetCount() > i);
-		assertThat(mockPanel.getWidget(i).getElement().getInnerText().toLowerCase(),
+		assertThat(mockPanel.getWidget(i).getElement().getInnerText().toLowerCase(Locale.ROOT),
 				CoreMatchers.containsString(string));
 	}
 

@@ -648,7 +648,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public boolean executeAction(ActionType action, String[] args) {
+	public boolean executeAction(ActionType action, String... args) {
 		if (action == ActionType.UNDO || action == ActionType.REDO) {
 			embeddedAction(action, args[0]);
 			return true;

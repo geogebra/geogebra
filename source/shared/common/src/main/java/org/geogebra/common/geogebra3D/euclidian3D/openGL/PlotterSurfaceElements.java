@@ -705,9 +705,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	private void startGeometry() {
 		manager.startGeometry(Manager.Type.TRIANGLES);
-		// manager.getRenderer().setLineWidth(1);
-		// manager.startGeometry(Manager.Type.LINE_STRIP);
-
 	}
 
 	private void setLatitudeMinMaxForEllipsoid(Coords center, double radius,

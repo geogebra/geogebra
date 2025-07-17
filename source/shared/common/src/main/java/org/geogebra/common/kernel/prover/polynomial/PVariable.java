@@ -100,7 +100,7 @@ public class PVariable implements Comparable<PVariable> {
 		if (o instanceof PVariable) {
 			return id == ((PVariable) o).getId();
 		}
-		return super.equals(o);
+		return false;
 	}
 
 	/**

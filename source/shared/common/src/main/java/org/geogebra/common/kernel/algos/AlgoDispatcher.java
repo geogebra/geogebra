@@ -842,17 +842,17 @@ public class AlgoDispatcher {
 	 * 
 	 * @param label
 	 *            label
-	 * @param A
+	 * @param leg1
 	 *            leg
-	 * @param B
+	 * @param vertex
 	 *            vertex
-	 * @param C
+	 * @param leg2
 	 *            leg
 	 * @return angle
 	 */
-	final public GeoAngle angle(String label, GeoPoint A, GeoPoint B,
-			GeoPoint C) {
-		AlgoAnglePoints algo = new AlgoAnglePoints(cons, A, B, C);
+	final public GeoAngle angle(String label, GeoPoint leg1, GeoPoint vertex,
+			GeoPoint leg2) {
+		AlgoAnglePoints algo = new AlgoAnglePoints(cons, leg1, vertex, leg2);
 		GeoAngle angle = algo.getAngle();
 		angle.setLabel(label);
 		return angle;

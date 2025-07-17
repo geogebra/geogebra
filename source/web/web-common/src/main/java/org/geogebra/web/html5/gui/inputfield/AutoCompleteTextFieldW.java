@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.geogebra.common.awt.GBasicStroke;
@@ -290,14 +291,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 			}
 
-			private boolean isShortcutToPrevent(Event event) {
-				boolean isCtrlShift = event.getCtrlKey() && event.getShiftKey();
-				int keyCode = event.getKeyCode();
-				return isCtrlShift
-						&& (keyCode == KeyCodes.KEY_B
-							|| keyCode == KeyCodes.KEY_M);
-			}
-
 			private boolean isSelected(int eventType) {
 				return eventType == Event.ONMOUSEDOWN
 						|| eventType == Event.ONMOUSEMOVE
@@ -388,7 +381,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setInputMode(InputMode mode) {
 		Element element = textField.getElement();
-		element.setAttribute("inputmode", mode.name().toLowerCase());
+		element.setAttribute("inputmode", mode.name().toLowerCase(Locale.ROOT));
 	}
 
 	/**
@@ -999,7 +992,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					pos--;
 				}
 				String word = TextFieldUtil.getWordAtPos(getText(), pos);
-				String lowerCurWord = word == null ? "" : word.toLowerCase();
+				String lowerCurWord = word == null ? "" : word.toLowerCase(Locale.ROOT);
 				String closest = inputSuggestions.getDictionary().lookup(lowerCurWord);
 
 				if (closest != null) {

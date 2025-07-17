@@ -62,7 +62,7 @@ public class LanguageSubtagRegistryParserTests {
 		try {
 			records = parse(HEADER + TWO_ENTRIES);
 		} catch (Exception e) {
-			fail("It should not throw exception");
+			throw new AssertionError("It should not throw exception", e);
 		}
 		assertThat(records, hasSize(2));
 		assertThat(records.get(0).fields, hasSize(4));

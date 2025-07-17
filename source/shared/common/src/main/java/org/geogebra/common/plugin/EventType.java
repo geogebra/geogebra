@@ -230,7 +230,7 @@ public enum EventType {
 	/** Spotlight hidden */
 	HIDE_SPOTLIGHT("hideSpotlight");
 
-	private String eventName;
+	private final String eventName;
 
 	EventType(String name) {
 		this.eventName = name;

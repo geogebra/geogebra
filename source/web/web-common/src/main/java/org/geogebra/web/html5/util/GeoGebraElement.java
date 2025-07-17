@@ -24,22 +24,23 @@ import jsinterop.base.Js;
 
 public final class GeoGebraElement {
 
-	private Element el;
+	private final Element el;
 
 	/**
 	 * @param element
-	 *            Assert, that the given {@link Element} is compatible with this
-	 *            class and automatically typecast it.
-	 * @return cast element
+	 *            DOM element where GeoGebra app should be rendered
+	 * @return wrapped element
 	 */
 	public static GeoGebraElement as(Element element) {
-		GeoGebraElement ge = new GeoGebraElement();
-		ge.el = element;
+		return new GeoGebraElement(element);
+	}
+
+	private GeoGebraElement(Element element) {
+		this.el = element;
 		// tabindex -1 prevents slider reading on Android
 		if (element != null && !Browser.isAndroid()) {
 			element.setTabIndex(-1);
 		}
-		return ge;
 	}
 
 	/**
@@ -84,13 +85,6 @@ public final class GeoGebraElement {
 		}
 		Date creationDate = new Date();
 		el.setId(GeoGebraConstants.GGM_CLASS_NAME + i + creationDate.getTime());
-	}
-
-	/**
-	 * Create new article element
-	 */
-	protected GeoGebraElement() {
-		// needed for GWT
 	}
 
 	/**
@@ -183,7 +177,6 @@ public final class GeoGebraElement {
 	/**
 	 * @return get CSS scale of parent element
 	 */
-
 	public double getParentScaleX() {
 		return envScale(el.getParentElement(), "x", false);
 	}
@@ -191,9 +184,8 @@ public final class GeoGebraElement {
 	/**
 	 * Read scale value and cache it
 	 *
-	 * @return the CSS scale attached to the article element
+	 * @return the CSS scale attached to the element
 	 */
-
 	public double getScaleX() {
 		// no instance fields in subclasses of Element, so no way to assign it
 		// to
@@ -207,9 +199,8 @@ public final class GeoGebraElement {
 	/**
 	 * Read cached scale value or compute it, do not cache it
 	 *
-	 * @return the CSS scale attached to the article element
+	 * @return the CSS scale attached to the element
 	 */
-
 	public double readScaleX() {
 		if ("".equals(el.getAttribute("data-scalex"))) {
 			return envScale("x");
@@ -218,10 +209,8 @@ public final class GeoGebraElement {
 	}
 
 	/**
-	 * @return the CSS scale attached to the article element
-	 *
+	 * @return the CSS scale attached to the element
 	 */
-
 	public double getScaleY() {
 		// no instance fields in subclasses of Element, so no way to assign it to
 		// a simple field
@@ -234,7 +223,6 @@ public final class GeoGebraElement {
 	/**
 	 * Remove cached scale values
 	 */
-
 	public void resetScale() {
 		el.setAttribute("data-scalex", "" + envScale("x"));
 		el.setAttribute("data-scaley", "" + envScale("y"));

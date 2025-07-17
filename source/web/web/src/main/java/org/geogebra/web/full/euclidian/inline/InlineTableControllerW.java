@@ -77,7 +77,7 @@ public class InlineTableControllerW implements InlineTableController {
 					if (cell.has("content")) {
 						InlineTextControllerW
 								.checkFonts(cell.getJSONArray("content"),
-										getWebFontsUrl(), getCallback());
+										getWebFontsUrl(), this::onFontLoaded);
 					}
 				}
 			}
@@ -194,7 +194,7 @@ public class InlineTableControllerW implements InlineTableController {
 		saveContent();
 		table.updateRepaint();
 		if ("font".equals(key)) {
-			FontLoader.loadFont(String.valueOf(val), getWebFontsUrl(), getCallback());
+			FontLoader.loadFont(String.valueOf(val), getWebFontsUrl(), this::onFontLoaded);
 		}
 	}
 
@@ -478,13 +478,11 @@ public class InlineTableControllerW implements InlineTableController {
 		return true;
 	}
 
-	private Runnable getCallback() {
-		return () -> {
-			tableImpl.stopEditing();
-			tableImpl.reload();
-			tableImpl.repaint();
-			table.getKernel().notifyRepaint();
-		};
+	private void onFontLoaded() {
+		tableImpl.stopEditing();
+		tableImpl.reload();
+		tableImpl.repaint();
+		table.getKernel().notifyRepaint();
 	}
 
 	@Override

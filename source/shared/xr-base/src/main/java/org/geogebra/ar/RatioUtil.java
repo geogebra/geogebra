@@ -61,9 +61,9 @@ class RatioUtil {
         return ratio;
     }
 
-    private static float getUnitConversion(EuclidianView3D view3D) {
+    private static double getUnitConversion(EuclidianView3D view3D) {
         if (view3D.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
-            return EuclidianView3D.FROM_CM_TO_INCH;
+            return 1 / EuclidianView3D.FROM_INCH_TO_CM;
         } else {
             return 1;
         }

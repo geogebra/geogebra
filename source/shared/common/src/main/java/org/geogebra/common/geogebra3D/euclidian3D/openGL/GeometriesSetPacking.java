@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
@@ -61,7 +60,7 @@ class GeometriesSetPacking extends GeometriesSet {
 	}
 
 	@Override
-	protected Geometry newGeometry(Type type) {
+	protected Geometry newGeometry(Manager.Type type) {
 		return new GeometryPacking(manager, this, type,
 				currentGeometryIndex);
 	}

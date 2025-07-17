@@ -17,7 +17,11 @@ public class MML2LaTeX implements EntryPoint {
 			false);
 
 	@JsFunction
-	private interface Converter {
+	public interface Converter {
+		/**
+		 * @param input MathML string
+		 * @return LaTeX string
+		 */
 		String convert(String input);
 	}
 

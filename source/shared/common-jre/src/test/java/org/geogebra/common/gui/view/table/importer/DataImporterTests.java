@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
@@ -481,7 +482,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		if (inputStream == null) {
 			return null;
 		}
-		return new InputStreamReader(inputStream);
+		return new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 	}
 
 	private void inputData(String[] xValues, String[] yValues) {

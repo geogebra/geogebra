@@ -152,8 +152,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 					&& (Double.isNaN(quadric.getHalfAxis(1))
 							|| DoubleUtil.isZero(quadric.getHalfAxis(1)))) {
 				// cylinder or cone equal to a segment
-				sections[0].setSinglePoint(o1);
-				sections[1].setSinglePoint(o2);
+				sections[0].setSinglePointAtCoords(o1);
+				sections[1].setSinglePointAtCoords(o2);
 				return;
 			}
 		}

@@ -264,7 +264,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	private void logisticReg() {
 
-		double lambda = 0.0d; // LM-damping coefficient
+		double lambda; // LM-damping coefficient
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
 		double residual, old_residual = beta2(xd, yd, a, b, c);
 		// double diff = -1.0d; //negative to start it off
@@ -480,7 +480,6 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 		// problem bothering the gui: GeoList
 		// newlist=k.Sort("tmp_{FitLogistic}",geolist);
-		double[] xlist = null, ylist = null;
 		double[] xy = new double[2];
 		GeoPoint geoelement;
 		// This is code duplication of AlgoSort, but for the time being:
@@ -498,8 +497,8 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		int i = 0;
 		allplus = true;
 		allneg = true; // Need sign info in findParameters()
-		xlist = new double[size];
-		ylist = new double[size];
+		double[] xlist = new double[size];
+		double[] ylist = new double[size];
 		while (iter.hasNext()) {
 			geoelement = iter.next();
 			geoelement.getInhomCoords(xy);

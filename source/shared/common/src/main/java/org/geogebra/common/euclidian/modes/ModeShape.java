@@ -551,10 +551,10 @@ public class ModeShape {
 		double centerX = (startX + endX) / 2;
 		double centerY = (startY + endY) / 2;
 		// minor and major axis
-		double a = Math.hypot(centerX - centerX,
+		double a = Math.hypot(0.0,
 				centerY - endY);
 		double b = Math.hypot(centerX - endX,
-				centerY - centerY);
+				0.0);
 
 		// construct equation (x-center_x)^2 / b^2 + (y-center_y)^2 / a^2 = 1
 

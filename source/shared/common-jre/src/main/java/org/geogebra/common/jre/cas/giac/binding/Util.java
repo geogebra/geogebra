@@ -10,6 +10,6 @@ final class Util {
     }
 
     static context convert(Context context) {
-        return ((ContextImpl) context).context;
+        return ((ContextImpl) context).wrappedContext;
     }
 }

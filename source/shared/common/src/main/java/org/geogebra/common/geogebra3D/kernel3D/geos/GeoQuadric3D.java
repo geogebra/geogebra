@@ -2133,7 +2133,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_HYPERBOLIC_PARABOLOID:
 			r0 = getHalfAxis(0);
 			r1 = getHalfAxis(1);
-			r2 = getHalfAxis(2);
 			n = new Coords(4);
 
 			n.setMul(getEigenvec3D(0), 2 * r0 * u);

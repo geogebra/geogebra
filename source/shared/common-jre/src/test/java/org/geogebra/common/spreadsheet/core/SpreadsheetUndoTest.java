@@ -3,8 +3,10 @@ package org.geogebra.common.spreadsheet.core;
 import static org.geogebra.common.spreadsheet.core.SpreadsheetTestHelpers.simulateCellMouseClick;
 import static org.geogebra.common.spreadsheet.core.SpreadsheetTestHelpers.simulateColumnResize;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -22,6 +24,7 @@ public class SpreadsheetUndoTest extends BaseUnitTest {
 	private UndoManager undoManager;
 
 	@Before
+	@Override
 	public void setup() {
 		super.setup();
 		AppCommon app = getApp();
@@ -55,19 +58,20 @@ public class SpreadsheetUndoTest extends BaseUnitTest {
 		undoManager.undo();
 		String xmlAfterUndo = construction.getCurrentUndoXML(false).toString();
 		assertEquals(xmlBeforeStyling, xmlAfterUndo);
-		spreadsheet.getStyling().getFontTraits(0, 0).isEmpty();
+		assertTrue(spreadsheet.getStyling().getFontTraits(0, 0).isEmpty());
 		assertNull(spreadsheet.getStyling().getCellFormatXml());
 
 		// redo the styling change
 		undoManager.redo();
 		String xmlAfterRedo = construction.getCurrentUndoXML(false).toString();
 		assertEquals(xmlAfterStyling, xmlAfterRedo);
-		spreadsheet.getStyling().getFontTraits(0, 0)
-				.contains(SpreadsheetStyling.FontTrait.ITALIC);
+		assertFalse(spreadsheet.getStyling().getFontTraits(0, 0)
+				.contains(SpreadsheetStyling.FontTrait.ITALIC));
 		assertEquals("0,1,f,2", spreadsheet.getStyling().getCellFormatXml());
 
 		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
-		styleBarModel.getState().fontTraits.contains(SpreadsheetStyling.FontTrait.ITALIC);
+		assertTrue(styleBarModel.getState().fontTraits
+				.contains(SpreadsheetStyling.FontTrait.ITALIC));
 	}
 
 	@Test

@@ -8,9 +8,9 @@ package org.geogebra.common.util.debug;
 public class GeoGebraProfiler {
 
 	private static volatile int repaints;
-	private static volatile int repaintTime;
+	private static volatile long repaintTime;
 	private static volatile int drags;
-	private static volatile int dragTime;
+	private static volatile long dragTime;
 
 	private static volatile int algebra;
 	private static volatile int event;

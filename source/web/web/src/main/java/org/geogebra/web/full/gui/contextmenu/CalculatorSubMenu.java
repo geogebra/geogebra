@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.contextmenu;
 import static org.geogebra.common.GeoGebraConstants.BAYERN_GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 
+import java.util.Locale;
 import java.util.Set;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -45,7 +46,7 @@ public class CalculatorSubMenu extends AriaMenuBar {
 		restrictions = examType == null ? Set.of()
 				: ExamRestrictions.forExamType(examType).getDisabledSubApps();
 		appOrExamModeName = examType == null
-				? GeoGebraConstants.SUITE_APPCODE : examType.name().toLowerCase();
+				? GeoGebraConstants.SUITE_APPCODE : examType.name().toLowerCase(Locale.ROOT);
 		if (embedManager != null) {
 			if (!app.isMebis() || examType != ExamType.BAYERN_GR) {
 				addItem(SuiteSubApp.GRAPHING);

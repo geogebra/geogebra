@@ -9,6 +9,7 @@ import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.CheckForNull;
 
@@ -996,7 +997,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			im.width = width;
 			im.height = height;
 		}
-		return new MyImageW(im, fileName.toLowerCase().endsWith(".svg"));
+		return new MyImageW(im, fileName.toLowerCase(Locale.ROOT).endsWith(".svg"));
 	}
 
 	@Override
@@ -1324,7 +1325,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean doOpenFile(File fileToHandle) {
 		String ggbRegEx = ".*\\.(ggb|ggt|ggs|csv|off|pdf)$";
-		String fileName = fileToHandle.name.toLowerCase();
+		String fileName = fileToHandle.name.toLowerCase(Locale.ROOT);
 		if (!fileName.matches(ggbRegEx)) {
 			return false;
 		}

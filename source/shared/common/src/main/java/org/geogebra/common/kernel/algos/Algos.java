@@ -10,7 +10,7 @@ public enum Algos implements GetCommand {
 	Expression,
 	/** For elements created by macro */
 	AlgoMacro;
-	private String command;
+	private final String command;
 
 	private Algos() {
 		this.command = "Expression";

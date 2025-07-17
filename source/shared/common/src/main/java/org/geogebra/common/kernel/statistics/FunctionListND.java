@@ -56,14 +56,12 @@ public interface FunctionListND {
 		public final CasEvaluableFunction makeFunction(
 				CasEvaluableFunction template, GeoList functionlist,
 				RealMatrix P) {
-			double p;
-			GeoFunctionable gf = null;
 			GeoFunction product = new GeoFunction(template.getConstruction());
 
 			// First product:
-			p = P.getEntry(0, 0); // parameter
+			double p = P.getEntry(0, 0); // parameter
 			// Checks done in makeMatrixes...
-			gf = array[0];
+			GeoFunctionable gf = array[0];
 			GeoFunction fitfunction2 = GeoFunction.mult((GeoFunction) template,
 					p, gf); // p1*f(x)
 			for (int i = 1; i < array.length; i++) {
@@ -119,15 +117,13 @@ public interface FunctionListND {
 		@Override
 		public CasEvaluableFunction makeFunction(CasEvaluableFunction template,
 				GeoList functionlist, RealMatrix P) {
-			double p;
-			Evaluate2Var gf = null;
 			GeoFunctionNVar product = new GeoFunctionNVar(
 					template.getConstruction());
 
 			// First product:
-			p = P.getEntry(0, 0); // parameter
+			double p = P.getEntry(0, 0); // parameter
 			// Checks done in makeMatrixes...
-			gf = array[0];
+			Evaluate2Var gf = array[0];
 			GeoFunctionNVar fTemplate = (GeoFunctionNVar) template;
 			mult(fTemplate, p, gf, Operation.MULTIPLY); // p1*f(x)
 

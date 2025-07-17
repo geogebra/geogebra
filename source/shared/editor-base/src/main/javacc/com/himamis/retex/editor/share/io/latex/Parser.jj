@@ -247,8 +247,8 @@ void mathAtomOrPower(MathContainer currentField) : {
 
 void superscript(MathContainer currentField) :
 {
-	Token t = null;
-	MathSequence mathSequence = null;
+	Token t;
+	MathSequence mathSequence;
 }
 {
 	(t = <POWERN>) {
@@ -329,7 +329,7 @@ void recurringDecimal(MathContainer currentField) :
 
 void subscript(MathContainer currentField) :
 {
-	MathSequence subscript = null;
+	MathSequence subscript;
 }
 {
 	<SUBSCRIPT> {
@@ -445,9 +445,8 @@ void log(MathContainer currentField) : { }
 
 void arrayParentheses(MathContainer currentField) :
 {
-	MathContainer mathArrayOrFunction = null;
-	MathSequence mathSequence = null;
-	Token open = null;
+	MathSequence mathSequence;
+	Token open;
 }
 {
 	(open = <PARENTHESES_OPEN> | open = <SQUARE_BRACKETS_OPEN>)
@@ -457,7 +456,6 @@ void arrayParentheses(MathContainer currentField) :
 		inputController.newBraces(editorState, open.image.charAt(0));
 
 		mathSequence = editorState.getCurrentField();
-		mathArrayOrFunction = mathSequence.getParent();
 	}
 	mathContainerWithCommas(mathSequence)
 
@@ -465,9 +463,9 @@ void arrayParentheses(MathContainer currentField) :
 }
 
 void arrayFloorCeil(MathContainer currentField) : {
-	MathArray mathArray = null;
-	MathSequence mathSequence = null;
-	Token open = null;
+	MathArray mathArray;
+	MathSequence mathSequence;
+	Token open;
 }
 {
 	(open = <LFLOOR > | open = <LCEIL>) {
@@ -498,8 +496,8 @@ void absVerticalBar(MathContainer currentField) : { }
 
 void arrayCurly(MathContainer currentField) :
 {
-	MathArray mathArray = null;
-	MathSequence mathSequence = null;
+	MathArray mathArray;
+	MathSequence mathSequence;
 }
 {
 	<CURLY_BRACKETS_OPEN>
@@ -530,9 +528,9 @@ void arrayCurly(MathContainer currentField) :
 
 void quotes(MathContainer currentField) :
 {
-	MathArray mathArray = null;
-	MathSequence mathSequence = null;
-	Token t = null;
+	MathArray mathArray;
+	MathSequence mathSequence;
+	Token t;
 }
 {
 	<QUOTE_START> {
@@ -548,7 +546,7 @@ void quotes(MathContainer currentField) :
 
 void mathCharacter(MathContainer currentField) :
 {
-	Token t = null;
+	Token t;
 }
 {
 	(t = <ELSE> | t = <OPERATOR> | t = <SPACE>) {
@@ -558,7 +556,7 @@ void mathCharacter(MathContainer currentField) :
 
 void mathCharacterOrComma(MathContainer currentField) :
 {
-	Token t = null;
+	Token t;
 }
 {
 	(t = <ELSE> | t = <OPERATOR> | t = <SPACE> | t = <COMMA>) {
@@ -568,7 +566,7 @@ void mathCharacterOrComma(MathContainer currentField) :
 
 void mathAtomCharacter(MathContainer currentField) :
 {
-	Token t = null;
+	Token t;
 }
 {
 	(t = <ELSE>) {

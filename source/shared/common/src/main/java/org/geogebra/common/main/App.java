@@ -3413,12 +3413,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 
 		if (getGuiManager() != null) {
-			for (int id : showConsProtNavigation.keySet()) {
-				showConsProtNavigation.put(id, false);
+			showConsProtNavigation.replaceAll((id, ignore) -> {
 				getGuiManager().setShowConstructionProtocolNavigation(false,
 						id);
 				setShowConstProtNavigationNeedsUpdate(id, false);
-			}
+				return false;
+			});
 		} else {
 			for (int id : showConsProtNavigation.keySet()) {
 				setShowConstProtNavigationNeedsUpdate(id, true);
@@ -3459,12 +3459,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 
 			if (getGuiManager() != null) {
-				for (int id : showConsProtNavigation.keySet()) {
-					showConsProtNavigation.put(id, true);
+				showConsProtNavigation.replaceAll((id, any) -> {
 					getGuiManager().setShowConstructionProtocolNavigation(true,
 							id);
 					setShowConstProtNavigationNeedsUpdate(id, false);
-				}
+					return true;
+				});
 			} else {
 				for (int id : showConsProtNavigation.keySet()) {
 					setShowConstProtNavigationNeedsUpdate(id, true);

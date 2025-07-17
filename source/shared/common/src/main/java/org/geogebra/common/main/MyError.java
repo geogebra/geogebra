@@ -376,8 +376,8 @@ public class MyError extends Error {
 
 		};
 
-		String key;
-		String defaultTranslation;
+		final String key;
+		final String defaultTranslation;
 
 		Errors(String key0, String default0) {
 			key = key0;

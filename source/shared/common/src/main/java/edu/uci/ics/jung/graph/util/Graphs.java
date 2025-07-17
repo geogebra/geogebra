@@ -620,7 +620,7 @@ public class Graphs {
 		/**
 		 * Creates a new instance based on the provided {@code delegate}.
 		 * 
-		 * @param delegate
+		 * @param delegate delegate
 		 */
 		public SynchronizedTree(Tree<V, E> delegate) {
 			super(delegate);
@@ -649,7 +649,7 @@ public class Graphs {
 		/**
 		 * Creates a new instance based on the provided {@code delegate}.
 		 * 
-		 * @param delegate
+		 * @param delegate delegate
 		 */
 		public SynchronizedForest(Forest<V, E> delegate) {
 			super(delegate);

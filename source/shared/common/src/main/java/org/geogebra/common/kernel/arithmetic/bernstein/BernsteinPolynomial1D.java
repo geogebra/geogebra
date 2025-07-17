@@ -137,11 +137,11 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 
 	private void getSlices(double[] pcoeffs, double[] potherCoeffs,
 			double[] mcoeffs, double[] motherCoeffs, int degreeX) {
-		double prevPCoeff = 0, prevPOtherCoeff = 0, prevMOtherCoeff = 0;
+		double prevMOtherCoeff = 0;
 		bernsteinCoeffs[0] = pcoeffs[0];
 		tempSliceNegative[0] = (mcoeffs[0] + motherCoeffs[0]) * 0.5 + prevMOtherCoeff;
-		prevPCoeff = pcoeffs[0];
-		prevPOtherCoeff = potherCoeffs[0];
+		double prevPCoeff = pcoeffs[0];
+		double prevPOtherCoeff = potherCoeffs[0];
 		prevMOtherCoeff = motherCoeffs[0];
 
 		for (int i = 1; i < degreeX - 1; i++) {

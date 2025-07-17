@@ -32,7 +32,6 @@ import org.gwtproject.user.client.ui.InlineHTML;
 import org.gwtproject.user.client.ui.MultiWordSuggestOracle;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.SuggestOracle;
-import org.gwtproject.user.client.ui.SuggestOracle.Callback;
 import org.gwtproject.user.client.ui.SuggestOracle.Request;
 import org.gwtproject.user.client.ui.SuggestOracle.Response;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
@@ -106,7 +105,7 @@ public class GSuggestBox extends Composite
 	private String currentText;
 	private final SuggestionDisplay display;
 	private final ValueBoxBase<String> box;
-	private final Callback callback = new Callback() {
+	private final SuggestOracle.Callback callback = new SuggestOracle.Callback() {
 		@Override
 		public void onSuggestionsReady(Request request, Response response) {
 			// If disabled while request was in-flight, drop it

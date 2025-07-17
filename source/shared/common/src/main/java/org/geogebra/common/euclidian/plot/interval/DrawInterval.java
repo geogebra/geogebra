@@ -58,12 +58,12 @@ public class DrawInterval {
 		lineTo(x.getHigh(), y.getLow());
 	}
 
-	private void moveTo(double low, double high) {
-		gp.moveTo(clamp(low), clamp(high));
+	private void moveTo(double x, double y) {
+		gp.moveTo(clamp(x), clamp(y));
 	}
 
-	void lineTo(double low, double high) {
-		gp.lineTo(clamp(low), clamp(high));
+	void lineTo(double x, double y) {
+		gp.lineTo(clamp(x), clamp(y));
 	}
 
 	private double clamp(double value) {

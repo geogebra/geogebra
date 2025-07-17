@@ -43,7 +43,7 @@ public class StatisticGroupsBuilderTest extends BaseUnitTest {
 		try {
 			view.getStatistics1Var(1);
 		} catch (Exception e) {
-			fail("Should not throw an exception");
+			throw new AssertionError("Should not throw an exception", e);
 		}
 	}
 

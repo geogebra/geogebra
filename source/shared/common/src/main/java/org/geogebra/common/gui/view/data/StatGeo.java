@@ -471,8 +471,7 @@ public class StatGeo {
 	public GeoElementND createBarChartText(GeoList dataList,
 			StatPanelSettings settings) throws StatException {
 
-		GeoElementND geo = null;
-		AlgoBarChart algoBarChart = null;
+		AlgoBarChart algoBarChart;
 
 		if (settings.isAutomaticBarWidth()) {
 			settings.setBarWidth(0.5);
@@ -490,7 +489,7 @@ public class StatGeo {
 					"unexpected groupType: " + settings.groupType());
 		}
 		removeFromConstructionList(algoBarChart);
-		geo = algoBarChart.getOutput(0);
+		GeoElement geo = algoBarChart.getOutput(0);
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.BARCHART_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);

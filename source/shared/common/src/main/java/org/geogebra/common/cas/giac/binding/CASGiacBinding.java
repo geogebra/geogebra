@@ -1,7 +1,7 @@
 package org.geogebra.common.cas.giac.binding;
 
 /**
- * Cross-platform interfac for Giac binding
+ * Cross-platform interface for Giac binding
  */
 public interface CASGiacBinding {
 

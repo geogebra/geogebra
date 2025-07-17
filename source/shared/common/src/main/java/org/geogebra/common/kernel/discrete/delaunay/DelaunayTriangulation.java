@@ -909,8 +909,8 @@ public class DelaunayTriangulation {
 			return h1;
 		}
 
-		h1 = new TriangleDt(t.c, t.a, p);
-		h2 = new TriangleDt(t.b, t.c, p);
+		h1 = new TriangleDt(/* A= */ t.c, /* B= */ t.a, /* C= */ p);
+		h2 = new TriangleDt(/* A= */ t.b, /* B= */ t.c, /* C= */ p);
 		t.c = p;
 		t.circumcircle();
 		h1.abnext = t.canext;
@@ -1194,7 +1194,6 @@ public class DelaunayTriangulation {
 			boolean saveTriangles) {
 		Set<PointDt> pointsSet = new HashSet<>();
 		Vector<PointDt> pointsVec = new Vector<>();
-		Vector<TriangleDt> triangles = null;
 		// Getting one of the neigh
 		TriangleDt triangle = find(point);
 
@@ -1206,7 +1205,7 @@ public class DelaunayTriangulation {
 			return null;
 		}
 
-		triangles = findTriangleNeighborhood(triangle, point);
+		Vector<TriangleDt> triangles = findTriangleNeighborhood(triangle, point);
 		if (triangles == null) {
 			Log.error("Error: can't delete a point on the perimeter");
 			return null;

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
@@ -201,7 +202,7 @@ public class Tools extends FlowPanel implements SetLabels {
 
 	private boolean allowTooltips() {
 		// allow tooltips for iPad
-		boolean isIpad = DomGlobal.navigator.userAgent.toLowerCase()
+		boolean isIpad = DomGlobal.navigator.userAgent.toLowerCase(Locale.ROOT)
 				.contains("ipad");
 		return (!NavigatorUtil.isMobile() || isIpad) && app.showToolBarHelp();
 	}

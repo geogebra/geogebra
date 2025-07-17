@@ -442,7 +442,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			return;
 		}
 
-		int index = 0;
+		int index;
 		Iterator<ArrayList<GeoPointND>> spi = segmentsPoints.iterator();
 		Iterator<GeoPointND> i = selectedPoints.iterator();
 		GeoPointND point = null; // current point of the selected points

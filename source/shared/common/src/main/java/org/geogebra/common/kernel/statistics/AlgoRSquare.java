@@ -87,10 +87,10 @@ public class AlgoRSquare extends AlgoElement {
 		// Calculate errorsum and ssy:
 		double sumyy = 0.0d;
 		double sumy = 0.0d;
-		double syy = 0.0d;
+		double syy;
 		double errorsum = 0.0d;
-		GeoElement geo = null;
-		GeoPoint point = null;
+		GeoElement geo;
+		GeoPoint point;
 		double x, y, v;
 
 		for (int i = 0; i < size; i++) {

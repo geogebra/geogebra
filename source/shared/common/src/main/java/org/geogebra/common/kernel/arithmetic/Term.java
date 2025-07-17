@@ -30,7 +30,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * A term is a pair of coefficient and variables in a Polynomial, e.g. {4, "x"},
  * {a, "xy"}
  */
-public class Term implements Comparable<Object> {
+public class Term implements Comparable<Term> {
 
 	/** coefficient */
 	ExpressionValue coefficient; // has to evaluate() to NumberValue
@@ -425,13 +425,10 @@ public class Term implements Comparable<Object> {
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		if (o instanceof Term) {
+	public int compareTo(Term o) {
+
 			return ((Term) o).getVars()
 					.compareTo(getVars());
-		}
-
-		return Integer.MAX_VALUE;
 
 	}
 

@@ -57,6 +57,7 @@ public class AlgoTranslateVector extends AlgoElement {
 		try {
 			w.setStartPoint(A);
 		} catch (CircularDefinitionException e) {
+			// vector just created, no cycle possible
 		}
 
 		setInputOutput();

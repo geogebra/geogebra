@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -59,7 +60,7 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 		view.addAndShow(lines[1]);
 		shouldHaveUndoPointsAndColumns(3, 3);
 		getKernel().undo();
-		assertEquals(2, 2);
+		shouldHaveUndoPointsAndColumns(2, 2);
 		getKernel().redo();
 		shouldHaveUndoPointsAndColumns(3, 3);
 	}
@@ -140,8 +141,8 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 		getKernel().undo();
 		try {
 			processor.processInput("2", (GeoList) view.getEvaluatable(1), 2);
-		} catch (Throwable e) {
-			fail("Should not throw exception");
+		} catch (Throwable t) {
+			throw new AssertionError(t);
 		}
 	}
 

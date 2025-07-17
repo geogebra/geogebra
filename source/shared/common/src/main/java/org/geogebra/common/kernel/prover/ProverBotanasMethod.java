@@ -245,7 +245,7 @@ public class ProverBotanasMethod {
 	 * @param prover the input prover
 	 * @param coords number of fixed coordinates
 	 * @return a HashMap, containing the substitutions
-	 * @throws NoSymbolicParametersException
+	 * @throws NoSymbolicParametersException if it's not possible to get suitable polynomials
 	 */
 	private static HashMap<PVariable, BigInteger> fixValues(Prover prover,
 			int coords) throws NoSymbolicParametersException {

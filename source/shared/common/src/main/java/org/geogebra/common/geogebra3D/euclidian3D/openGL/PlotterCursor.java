@@ -162,7 +162,7 @@ public class PlotterCursor {
 		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, -size_start_move, 0, 1),
 				new Coords(0, -size_move, 0, 1));
-		index[Type.ALREADY_XY.getId()] = brush.end();
+		index[PlotterCursor.Type.ALREADY_XY.getId()] = brush.end();
 
 		// z
 		brush.start(-1);
@@ -173,7 +173,7 @@ public class PlotterCursor {
 		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, 0, -size_start_move, 1),
 				new Coords(0, 0, -size_move, 1));
-		index[Type.ALREADY_Z.getId()] = brush.end();
+		index[PlotterCursor.Type.ALREADY_Z.getId()] = brush.end();
 
 		// xyz
 		brush.start(-1);
@@ -196,12 +196,12 @@ public class PlotterCursor {
 		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, 0, -size_start_move, 1),
 				new Coords(0, 0, -size_move, 1));
-		index[Type.ALREADY_XYZ.getId()] = brush.end();
+		index[PlotterCursor.Type.ALREADY_XYZ.getId()] = brush.end();
 
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
 
 		// cube
-		index[Type.CUBE.getId()] = manager.startNewList(-1, true);
+		index[PlotterCursor.Type.CUBE.getId()] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		color(0.5f, 0.5f, 0.5f);
 		// up
@@ -242,7 +242,7 @@ public class PlotterCursor {
 		manager.endList();
 
 		// sphere
-		index[Type.SPHERE.getId()] = manager.startNewList(-1, true);
+		index[PlotterCursor.Type.SPHERE.getId()] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		cursorSphere(1f, TARGET_DOT_ALPHA);
 		manager.endGeometry();
@@ -253,7 +253,7 @@ public class PlotterCursor {
 		brush.setColor(GColor.WHITE, TARGET_CIRCLE_ALPHA);
 		brush.setThickness(TARGET_CIRCLE_THICKNESS);
 		brush.circle(Coords.O, Coords.VX, Coords.VY, TARGET_CIRCLE_RADIUS, 64);
-		index[Type.TARGET_CIRCLE.getId()] = brush.end();
+		index[PlotterCursor.Type.TARGET_CIRCLE.getId()] = brush.end();
 
 		// rotation
 		brush.start(-1);
@@ -262,7 +262,7 @@ public class PlotterCursor {
 		brush.arcExtendedWithArrows(new Coords(0, 0, 0, 1),
 				new Coords(1, 0, 0, 0), new Coords(0, 1, 0, 0), size_move / 2,
 				-Math.PI * 0.6, Math.PI * 1.2, 64);
-		index[Type.ROTATION.getId()] = brush.end();
+		index[PlotterCursor.Type.ROTATION.getId()] = brush.end();
 
 		manager.setScalerView();
 	}

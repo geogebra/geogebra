@@ -168,6 +168,6 @@ public class ListModelEvent {
 	 * It's in use because older versions of GWT don't support enums.
 	 */
 	protected static class EventType {
-		/** See class docs */
+		/* See class docs */
 	}
 }

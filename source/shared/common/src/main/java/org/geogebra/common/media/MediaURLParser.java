@@ -181,7 +181,6 @@ public class MediaURLParser {
 		}
 		String substring = getQuery(url);
 		Map<String, String> params = extractParams(substring);
-		String id = null;
 		String doc = params.get(MEBIS_PARAM_DOC);
 		boolean docValid = MEBIS_DOC_EMBEDDED_OBJECT.equals(doc)
 				|| MEBIS_DOC_PROVIDE_VIDEO.equals(doc) || MEBIS_DOC_RECORD.equals(doc);
@@ -196,7 +195,7 @@ public class MediaURLParser {
 			return new MebisURL(null, MebisError.TYPE);
 		}
 
-		id = getMebisIdFromParams(params, doc);
+		String id = getMebisIdFromParams(params, doc);
 
 		if (id == null) {
 			return new MebisURL(null, MebisError.ID);

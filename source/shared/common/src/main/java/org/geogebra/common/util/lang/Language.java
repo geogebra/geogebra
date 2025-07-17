@@ -395,7 +395,6 @@ public enum Language {
 			Unicode.CURRENCY_SHEKEL, true, "yi",
 			"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9",
 			Script.HEBREW, '.', '0', null, null);
-	private static char DOLLAR = '$';
 	/** ISO 639 alpha-2 or alpha-3 language code */
 	final public String language;
 	/** ISO 15924 alpha-4 script */
@@ -433,7 +432,7 @@ public enum Language {
 	 * @param ordinalIndicator Ordinal Indicator, suffix used for ordinal numbers
 	 */
 	Language(int rightAngleStyle, char currency, boolean fullyTranslated,
-			@Deprecated String language, String name, Script script,
+			String language, String name, Script script,
 			char decimalSeparator, char unicodeZero, String region,
 			boolean suppressScript, String ordinalIndicator) {
 		this.rightAngleStyle = rightAngleStyle;
@@ -458,7 +457,7 @@ public enum Language {
 	}
 
 	Language(int rightAngleStyle, char currency, boolean fullyTranslated,
-			@Deprecated String locale, String name, Script script, String ordinalIndicator) {
+			String locale, String name, Script script, String ordinalIndicator) {
 		this(rightAngleStyle, currency, fullyTranslated, locale, name, script,
 				'.', '0', null, true, ordinalIndicator);
 	}

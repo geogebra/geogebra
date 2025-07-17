@@ -962,7 +962,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
 
 		if (!evaluatedPoint.isDefined()) {
-			return Coords3.UNDEFINED;
+			return CoordsDouble3.UNDEFINED;
 		}
 
 		updateBounds(evaluatedPoint);
@@ -972,7 +972,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			return evaluatedPoint.copyVector();
 		}
 
-		return Coords3.UNDEFINED;
+		return CoordsDouble3.UNDEFINED;
 	}
 
 	protected Coords3 evaluatePoint(double u, double v, Coords3 p) {
@@ -982,7 +982,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
 
 			if (!evaluatedPoint.isDefined()) {
-				return Coords3.UNDEFINED;
+				return CoordsDouble3.UNDEFINED;
 			}
 
 			updateBounds(evaluatedPoint);
@@ -992,14 +992,14 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 				return evaluatedPoint.copyVector();
 			}
 
-			return Coords3.UNDEFINED;
+			return CoordsDouble3.UNDEFINED;
 		}
 
 		// p is not final value
 		surfaceGeo.evaluatePoint(u, v, p);
 
 		if (!p.isDefined()) {
-			return Coords3.UNDEFINED;
+			return CoordsDouble3.UNDEFINED;
 		}
 
 		updateBounds(p);
@@ -1009,7 +1009,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			return p;
 		}
 
-		return Coords3.UNDEFINED;
+		return CoordsDouble3.UNDEFINED;
 	}
 
 	protected Coords3 evaluateNormal(Coords3 p, double u, double v,
@@ -1021,7 +1021,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			defined = surfaceGeo.evaluateNormal(p, u, v, evaluatedNormal);
 
 			if (!defined) {
-				return Coords3.UNDEFINED;
+				return CoordsDouble3.UNDEFINED;
 			}
 
 			scaleAndNormalizeNormalXYZ(evaluatedNormal);
@@ -1032,7 +1032,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		defined = surfaceGeo.evaluateNormal(p, u, v, normal);
 
 		if (!defined) {
-			return Coords3.UNDEFINED;
+			return CoordsDouble3.UNDEFINED;
 		}
 
 		scaleAndNormalizeNormalXYZ(normal);
@@ -1064,7 +1064,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			this.v = v;
 			p = evaluatePoint(u, v, p);
 			if (p.isFinalUndefined()) {
-				normal = Coords3.UNDEFINED;
+				normal = CoordsDouble3.UNDEFINED;
 			} else {
 				normal = evaluateNormal(p, u, v, normal);
 			}
@@ -2422,7 +2422,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 *         POSITIVE_INFINITY if distance is more than maxRWDistance
 	 */
 	protected double getDistance(Corner c1, Corner c2, Corner c3, Corner c4) {
-		double ret = 0;
+		double ret;
 		double d;
 
 		d = getDistance(c1, c2);
@@ -2473,7 +2473,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 */
 	protected double getDistanceNoLoop(Corner c1, Corner c2, Corner c3,
 			Corner c4) {
-		double ret = 0;
+		double ret;
 		double d;
 
 		d = getDistance(c1, c2);
@@ -2513,7 +2513,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 *         if distance is more than maxRWDistance
 	 */
 	protected double getDistance(Corner c1, Corner c2, Corner c3) {
-		double ret = 0;
+		double ret;
 		double d;
 
 		d = getDistance(c1, c2);

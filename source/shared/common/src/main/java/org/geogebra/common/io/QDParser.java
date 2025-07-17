@@ -93,11 +93,10 @@ public class QDParser {
 		// Stack stack = new Stack();
 		stack.clear();
 
-		int depth = 0;
 		int mode = PRE;
-		int c = 0;
+		int c;
 		int quotec = '"';
-		depth = 0;
+		int depth = 0;
 		// StringBuilder sb = new StringBuilder();
 		// StringBuilder etag = new StringBuilder();
 		sb.setLength(0);

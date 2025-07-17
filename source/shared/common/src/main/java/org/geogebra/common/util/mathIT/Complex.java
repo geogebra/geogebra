@@ -169,20 +169,6 @@ public class Complex {
 
 	/**
 	 * Returns the absolute value, or complex modulus, |<i>z</i>| of <i>z</i>
-	 * &#8712; <span style="font-size:large;">\u2102</span> of the complex
-	 * number <i>z</i>. For <i>z</i> = <i>x</i> + i<i>y</i> it is defined as |
-	 * <i>z</i>| = &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
-	 * 
-	 * @param z
-	 *            a complex number
-	 * @return |<i>z</i>|
-	 */
-	public static double abs(Complex z) {
-		return abs(new double[] { z.z[0], z.z[1] });
-	}
-
-	/**
-	 * Returns the absolute value, or complex modulus, |<i>z</i>| of <i>z</i>
 	 * &#8712; <span style="font-size:large;">\u2102</span> of this complex
 	 * number <i>z</i>. For <i>z</i> = <i>x</i> + i<i>y</i> it is defined as |
 	 * <i>z</i>| = &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
@@ -239,24 +225,10 @@ public class Complex {
 	 * @param z
 	 *            a complex number
 	 * @return the argument of <i>z</i>
-	 * @see #arg(Complex)
+	 * @see #arg()
 	 */
 	public static double arg(double[] z) {
 		return atan2(z[1], z[0]);
-	}
-
-	/**
-	 * Returns the argument of the complex number <i>z</i>. If <i>z</i> =
-	 * <i>x</i> + i<i>y</i>, we have arg(<i>z</i>) = arctan(<i>y</i>/<i>x</i>).
-	 * 
-	 * @param z
-	 *            a complex number
-	 * @return the argument of <i>z</i>
-	 * @see #arg()
-	 * @see #arg(double[])
-	 */
-	public static double arg(Complex z) {
-		return atan2(z.z[1], z.z[0]);
 	}
 
 	/**
@@ -264,11 +236,10 @@ public class Complex {
 	 * <i>x</i> + i<i>y</i>, we have arg(<i>z</i>) = arctan(<i>y</i>/<i>x</i>).
 	 * 
 	 * @return the argument of <code>this</code>
-	 * @see #arg(Complex)
 	 * @see #arg(double[])
 	 */
 	public double arg() {
-		return arg(this);
+		return atan2(z[1], z[0]);
 	}
 
 	/**
@@ -688,8 +659,8 @@ public class Complex {
 	 * @param z
 	 *            the argument
 	 * @return ln <i>z</i> where <i>z</i> is this complex number
-	 * @see #abs(Complex)
-	 * @see #arg(Complex)
+	 * @see #abs()
+	 * @see #arg()
 	 * @see #exp(Complex)
 	 * @see #ln(double[])
 	 */
@@ -1035,25 +1006,6 @@ public class Complex {
 	}
 
 	/**
-	 * Returns the product of this complex number and the complex number
-	 * <i>z</i>. For <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and
-	 * <i>y</i> = <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
-	 * <p style="text-align:center">
-	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> - <i>x</i>
-	 * <sub>1</sub><i>y</i><sub>1</sub> + i (<i>x</i><sub>1</sub><i>y</i>
-	 * <sub>0</sub> + <i>x</i><sub>0</sub><i>y</i><sub>1</sub>)
-	 * </p>
-	 * 
-	 * @param other
-	 *            a complex number
-	 * @return the product <code>this</code>\u2219<i>z</i>
-	 */
-	public Complex multiply(Complex other) {
-		return new Complex(multiply(new double[] { this.z[0], this.z[1] },
-				new double[] { other.z[0], other.z[1] }));
-	}
-
-	/**
 	 * Returns the sum of this number and the complex number <i>z</i>. For
 	 * <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and <i>y</i> =
 	 * <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
@@ -1300,18 +1252,6 @@ public class Complex {
 	}
 
 	/**
-	 * Returns the sine of a complex number <i>z</i>.
-	 * 
-	 * @param z
-	 *            a complex number
-	 * @return sin <i>z</i>
-	 */
-	public static Complex sin(Complex z) {
-		return new Complex(Math.sin(z.z[0]) * cosh(z.z[1]),
-				Math.cos(z.z[0]) * sinh(z.z[1]));
-	}
-
-	/**
 	 * Returns the sine of this complex number.
 	 * 
 	 * @return sin <i>z</i>
@@ -1360,17 +1300,6 @@ public class Complex {
 	}
 
 	/**
-	 * Returns the square root of a complex number <i>z</i>.
-	 * 
-	 * @param z
-	 *            a complex number
-	 * @return the square root of <i>z</i>
-	 */
-	public static Complex sqrt(Complex z) {
-		return new Complex(sqrt(new double[] { z.z[0], z.z[1] }));
-	}
-
-	/**
 	 * subtracts two complex numbers <i>x</i> and <i>y</i>. We have subtract(
 	 * <i>x</i>, <i>y</i>) = <i>x</i> - <i>y</i> = Re (<i>x</i> - <i>y</i>) + Im
 	 * (<i>x</i> - <i>y</i>).
@@ -1412,19 +1341,6 @@ public class Complex {
 	@Override
 	public String toString() {
 		return toString(new double[] { z[0], z[1] });
-	}
-
-	/**
-	 * Returns a string representation of the complex number <i>z</i> in a
-	 * "readable" standard format.
-	 * 
-	 * @param z
-	 *            the complex number to be formatted
-	 * @return a string representing <i>z</i>
-	 * @see #toString(double[])
-	 */
-	public static String toString(Complex z) {
-		return toString(new double[] { z.z[0], z.z[1] });
 	}
 
 	/**

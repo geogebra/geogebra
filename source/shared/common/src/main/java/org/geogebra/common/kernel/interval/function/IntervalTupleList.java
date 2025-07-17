@@ -76,7 +76,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 			IntervalTupleList other = (IntervalTupleList) obj;
 			return list.equals(other.list);
 		}
-		return super.equals(obj);
+		return false;
 	}
 
 	@Override

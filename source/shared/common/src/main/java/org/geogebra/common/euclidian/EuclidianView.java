@@ -5481,13 +5481,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	final public void mouseMovedOverList(ArrayList<GeoElement> geoList) {
-		Hits geos = null;
 		tempArrayList.clear();
 		tempArrayList.addAll(geoList);
-		geos = tempArrayList;
 
 		boolean repaintNeeded = getEuclidianController().refreshHighlighting(
-				geos, false, false);
+				tempArrayList, false, false);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}

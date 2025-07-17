@@ -252,7 +252,7 @@ public class GeoConic3D extends GeoConicND
 	 * @param coords
 	 *            point
 	 */
-	public void setSinglePoint(Coords coords) {
+	public void setSinglePointAtCoords(Coords coords) {
 
 		coordSys.setSimpleCoordSysWithOrigin(coords);
 

@@ -67,9 +67,4 @@ public class AlgoPolyhedronPointsTest extends BaseUnitTest {
 		add("SetValue(n,4)");
 		assertThat(lookup("b"), hasValue("30"));
 	}
-
-	private String load(String filename) throws IOException {
-		Path filePath = Paths.get("src/test/resources", filename);
-		return Files.readString(filePath);
-	}
 }

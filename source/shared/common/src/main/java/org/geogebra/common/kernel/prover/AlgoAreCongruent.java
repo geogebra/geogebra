@@ -251,10 +251,8 @@ public class AlgoAreCongruent extends AlgoElement
 			// Same as in AreEqual.
 			botanaPolynomials = new PPolynomial[2][1];
 
-			PVariable[] v1 = new PVariable[2];
-			PVariable[] v2 = new PVariable[2];
-			v1 = ((GeoPoint) inputElement1).getBotanaVars(inputElement1); // A=(x1,y1)
-			v2 = ((GeoPoint) inputElement2).getBotanaVars(inputElement2); // B=(x2,y2)
+			PVariable[] v1 = ((GeoPoint) inputElement1).getBotanaVars(inputElement1); // A=(x1,y1)
+			PVariable[] v2 = ((GeoPoint) inputElement2).getBotanaVars(inputElement2); // B=(x2,y2)
 
 			// We want to prove: 1) x1-x2==0, 2) y1-y2==0
 			botanaPolynomials[0][0] = new PPolynomial(v1[0])
@@ -270,10 +268,8 @@ public class AlgoAreCongruent extends AlgoElement
 			// We check whether their length are equal.
 			botanaPolynomials = new PPolynomial[1][1];
 
-			PVariable[] v1 = new PVariable[4];
-			PVariable[] v2 = new PVariable[4];
-			v1 = ((GeoSegment) inputElement1).getBotanaVars(inputElement1); // AB
-			v2 = ((GeoSegment) inputElement2).getBotanaVars(inputElement2); // CD
+			PVariable[] v1 = ((GeoSegment) inputElement1).getBotanaVars(inputElement1); // AB
+			PVariable[] v2 = ((GeoSegment) inputElement2).getBotanaVars(inputElement2); // CD
 
 			// We want to prove: d(AB)=d(CD) =>
 			// (a1-b1)^2+(a2-b2)^2=(c1-d1)^2+(c2-d2)^2
@@ -299,10 +295,8 @@ public class AlgoAreCongruent extends AlgoElement
 			// Same as in AreEqual.
 			botanaPolynomials = new PPolynomial[2][1];
 
-			PVariable[] v1 = new PVariable[4];
-			PVariable[] v2 = new PVariable[4];
-			v1 = ((GeoLine) inputElement1).getBotanaVars(inputElement1); // AB
-			v2 = ((GeoLine) inputElement2).getBotanaVars(inputElement2); // CD
+			PVariable[] v1 = ((GeoLine) inputElement1).getBotanaVars(inputElement1); // AB
+			PVariable[] v2 = ((GeoLine) inputElement2).getBotanaVars(inputElement2); // CD
 
 			// We want to prove: 1) A,B,C collinear, 2) A,B,D collinear
 			botanaPolynomials[0][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],
@@ -318,12 +312,10 @@ public class AlgoAreCongruent extends AlgoElement
 					&& ((GeoConic) inputElement2).isCircle()) {
 				botanaPolynomials = new PPolynomial[1][1];
 
-				PVariable[] v1 = new PVariable[4];
-				PVariable[] v2 = new PVariable[4];
 				// circle with center A and point B
-				v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
+				PVariable[] v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
 				// circle with center C and point D
-				v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
+				PVariable[] v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
 
 				// We want to prove: |AB|^2 = |CD|^2
 				botanaPolynomials[0][0] = PPolynomial
@@ -337,10 +329,8 @@ public class AlgoAreCongruent extends AlgoElement
 					&& ((GeoConic) inputElement2).isParabola()) {
 				botanaPolynomials = new PPolynomial[1][5];
 
-				PVariable[] v1 = new PVariable[10];
-				PVariable[] v2 = new PVariable[10];
-				v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
-				v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
+				PVariable[] v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
+				PVariable[] v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
 
 				// auxiliary points
 				PVariable[] auxVars = new PVariable[4];

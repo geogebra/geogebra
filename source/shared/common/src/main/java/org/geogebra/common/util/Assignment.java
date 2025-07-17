@@ -208,14 +208,14 @@ public abstract class Assignment {
 	 *         <pre>
 	 * {@code
 	 *  <assignment toolName="Tool2">
-	 *    <result name="CORRECT" hint="Great, that&apos;s correct!" />
+	 *    <result name="CORRECT" hint="Great, that's correct!" />
 	 *    <result name="WRONG" hint="Try again!" />
 	 *    <result name="NOT_ENOUGH_INPUTS" hint="You should at least have
-	 *            &#123;inputs&#125; in your construction!" />
+	 *            {inputs} in your construction!" />
 	 *    <result name="WRONG_INPUT_TYPES" hint="We were not able to find
-	 *            &#123;inputs&#125;, although it seems you have drawn a triangle!" />
+	 *            {inputs}, although it seems you have drawn a triangle!" />
 	 *    <result name="WRONG_OUTPUT_TYPE" hint=
-	 *        "We couldn&apos;t find a triangle in the construction!" />
+	 *        "We couldn't find a triangle in the construction!" />
 	 *    <result name="WRONG_AFTER_RANDOMIZE" hint="Should never happen
 	 *        in this construction! Contact your teacher!" fraction="0.5" />
 	 *    <result name="UNKNOWN" hint=

@@ -2,7 +2,7 @@ package org.geogebra.common.main.syntax.suggestionfilter;
 
 import org.geogebra.common.kernel.commands.Commands;
 
-public final class GraphingSyntaxFilter extends LineSelectorSyntaxFilter {
+public class GraphingSyntaxFilter extends LineSelectorSyntaxFilter {
 
 	/***/
 	public GraphingSyntaxFilter() {

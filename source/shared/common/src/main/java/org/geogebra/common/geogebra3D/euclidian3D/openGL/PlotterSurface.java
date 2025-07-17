@@ -810,15 +810,13 @@ public class PlotterSurface {
 		double zMin = o.getZ() - frustumRadius;
 		double zMax = o.getZ() + frustumRadius;
 
-		int latitudeMaxTop = 0;
-		latitudeMaxTop = latitude;
+		int latitudeMaxTop = latitude;
 		if (DoubleUtil.isGreater(z + radius, zMax)) {
 			double angle = Math.asin((zMax - z) / radius);
 			latitudeMaxTop = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}
 
-		int latitudeMaxBottom = 0;
-		latitudeMaxBottom = latitude;
+		int latitudeMaxBottom = latitude;
 		if (DoubleUtil.isGreater(zMin, z - radius)) {
 			double angle = Math.asin((z - zMin) / radius);
 			latitudeMaxBottom = (int) (latitude * 2 * angle / Math.PI) + 2;

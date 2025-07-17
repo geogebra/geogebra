@@ -103,9 +103,9 @@ public class ArcClipper {
 		arcCroppedToView.resetWithThickness(geo.getLineThickness());
 	}
 
-	private void drawCorners(GPoint2D endPoint, GPoint2D startPoint) {
-		int lastEdge = getEdge(startPoint);
-		int nextEdge = getEdge(endPoint);
+	private void drawCorners(GPoint2D startPoint, GPoint2D endPoint) {
+		int lastEdge = getEdge(endPoint);
+		int nextEdge = getEdge(startPoint);
 		if (nextEdge > lastEdge) {
 			lastEdge += 4;
 		}

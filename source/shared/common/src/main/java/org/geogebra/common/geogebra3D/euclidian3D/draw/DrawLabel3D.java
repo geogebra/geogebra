@@ -416,9 +416,9 @@ public class DrawLabel3D {
 		vScreen.setMul(view.getToScreenMatrix(), origin);
 
 		origin.get3ForGL(labelOrigin);
-		labelOrigin[0] *= view.getXscale();
-		labelOrigin[1] *= view.getYscale();
-		labelOrigin[2] *= view.getZscale();
+		labelOrigin[0] = (float) (labelOrigin[0] * view.getXscale());
+		labelOrigin[1] = (float) (labelOrigin[1] * view.getYscale());
+		labelOrigin[2] = (float) (labelOrigin[2] * view.getZscale());
 
 		if (!view.isXREnabled() || !anchor) {
 			drawX = (int) (vScreen.getX() + xOffset);
@@ -689,12 +689,12 @@ public class DrawLabel3D {
 	 *            scale
 	 */
 	public void scaleRenderingDimensions(float scale) {
-		width2 *= scale;
-		height2 *= scale;
-		pickingX *= scale;
-		pickingY *= scale;
-		pickingW *= scale;
-		pickingH *= scale;
+		width2 = (int) (width2 * scale);
+		height2 = (int) (height2 * scale);
+		pickingX = (int) (pickingX * scale);
+		pickingY = (int) (pickingY * scale);
+		pickingW = (int) (pickingW * scale);
+		pickingH = (int) (pickingH * scale);
 	}
 
 	/**

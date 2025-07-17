@@ -16,7 +16,7 @@ public enum MediaFormat {
 
 	/** Video from Mebis site */
 	VIDEO_MEBIS("mebis");
-	private String name;
+	private final String name;
 
 	MediaFormat(String name) {
 		this.name = name;

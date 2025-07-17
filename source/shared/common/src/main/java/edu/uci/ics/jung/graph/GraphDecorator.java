@@ -20,7 +20,7 @@ public class GraphDecorator<V, E> implements Graph<V, E>, Serializable {
 	/**
 	 * Creates a new instance based on the provided {@code delegate}.
 	 * 
-	 * @param delegate
+	 * @param delegate delegate
 	 */
 	public GraphDecorator(Graph<V, E> delegate) {
 		this.delegate = delegate;

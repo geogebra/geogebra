@@ -146,8 +146,8 @@ public class DiscreteDistribution {
 	 * all entries are nonzero; effectively, a value of <code>alpha</code> is
 	 * added to each entry in the original array prior to normalization.
 	 * 
-	 * @param counts
-	 * @param alpha
+	 * @param counts counts
+	 * @param alpha value to add before normalization
 	 */
 	public static void normalize(double[] counts, double alpha) {
 		double total_count = 0;

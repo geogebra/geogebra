@@ -27,6 +27,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	private TableValuesModel tableValuesModel;
 
 	@Before
+	@Override
 	public void setup() {
 		super.setup();
 		tableValuesView = new TableValuesView(getKernel());

@@ -35,7 +35,7 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public class DefaultParallelEdgeIndexFunction<V, E>
 		implements EdgeIndexFunction<V, E> {
-	protected Map<Context<Graph<V, E>, E>, Integer> edge_index = new HashMap<Context<Graph<V, E>, E>, Integer>();
+	protected Map<Context<Graph<V, E>, E>, Integer> edge_index = new HashMap<>();
 
 	private DefaultParallelEdgeIndexFunction() {
 	}
@@ -133,7 +133,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	 * invoked when an edge parallel to <code>e</code> has been added or
 	 * removed.
 	 * 
-	 * @param e
+	 * @param e edge
 	 */
 	@Override
 	public void reset(Graph<V, E> graph, E e) {

@@ -1235,20 +1235,20 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	/**
-	 * @param A
+	 * @param point1
 	 *            first point
-	 * @param B
+	 * @param point2
 	 *            second point
-	 * @param C
+	 * @param point3
 	 *            third point
-	 * @return whether the three points A, B and C are collinear.
+	 * @return whether the three points A, point2 and point3 are collinear.
 	 */
-	public static boolean collinearND(GeoPointND A, GeoPointND B,
-			GeoPointND C) {
-		// A, B, C are collinear iff (A-B)x(A-C) == (0,0,0)
+	public static boolean collinearND(GeoPointND point1, GeoPointND point2,
+			GeoPointND point3) {
+		// points are collinear iff (point1-point2)x(point1-point3) == (0,0,0)
 
-		Coords diffB = A.getInhomCoordsInD3().sub(B.getInhomCoordsInD3());
-		Coords diffC = A.getInhomCoordsInD3().sub(C.getInhomCoordsInD3());
+		Coords diffB = point1.getInhomCoordsInD3().sub(point2.getInhomCoordsInD3());
+		Coords diffC = point1.getInhomCoordsInD3().sub(point3.getInhomCoordsInD3());
 		return !diffB.isLinearIndependent(diffC);
 
 	}
@@ -1268,23 +1268,24 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	/**
-	 * Returns the affine ratio for three collinear points A, B and C. The ratio
-	 * is lambda with C = A + lambda * AB, i.e. lambda = AC/AB. Note: the
+	 * Returns the affine ratio for three collinear points start, pt1 and pt2. The ratio
+	 * is lambda with pt2 = start + lambda * (pt1 - start),
+	 * i.e. lambda = Distance(pt2,start)/Distance(pt1,start). Note: the
 	 * collinearity is not checked in this method.
 	 *
-	 * @param A
+	 * @param start
 	 *            A
-	 * @param B
+	 * @param pt1
 	 *            B
-	 * @param C
-	 *            C
-	 * @return lambda = AC/AB.
+	 * @param pt2
+	 *            pt2
+	 * @return lambda = Distance(pt2,start)/Distance(pt1,start).
 	 */
-	public static final double affineRatio(GeoPointND A, GeoPointND B,
-			GeoPointND C) {
-		Coords cA = A.getInhomCoordsInD3();
-		Coords cB = B.getInhomCoordsInD3();
-		Coords cC = C.getInhomCoordsInD3();
+	public static double affineRatio(GeoPointND start, GeoPointND pt1,
+			GeoPointND pt2) {
+		Coords cA = start.getInhomCoordsInD3();
+		Coords cB = pt1.getInhomCoordsInD3();
+		Coords cC = pt2.getInhomCoordsInD3();
 
 		double ABx = cB.getX() - cA.getX();
 		double ABy = cB.getY() - cA.getY();

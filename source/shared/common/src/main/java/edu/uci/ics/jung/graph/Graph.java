@@ -187,7 +187,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * is an outgoing edge. <code>directed_edge</code> is guaranteed to be a
 	 * directed edge if its <code>EdgeType</code> is <code>DIRECTED</code>.
 	 * 
-	 * @param directed_edge
+	 * @param directed_edge directed edge
 	 * @return the source of <code>directed_edge</code> if it is a directed edge
 	 *         in this graph, or <code>null</code> otherwise
 	 */
@@ -202,7 +202,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * <code>directed_edge</code> is guaranteed to be a directed edge if its
 	 * <code>EdgeType</code> is <code>DIRECTED</code>.
 	 * 
-	 * @param directed_edge
+	 * @param directed_edge directed edge
 	 * @return the destination of <code>directed_edge</code> if it is a directed
 	 *         edge in this graph, or <code>null</code> otherwise
 	 */

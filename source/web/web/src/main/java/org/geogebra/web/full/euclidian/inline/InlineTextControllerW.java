@@ -67,7 +67,7 @@ public class InlineTextControllerW implements InlineTextController {
 			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
 		}
 		this.contentDefaultSize = getCurrentFontSize();
-		checkFonts(getFormat(geo.getContent()), getWebFontsUrl(), getCallback());
+		checkFonts(getFormat(geo.getContent()), getWebFontsUrl(), this::onFontLoaded);
 	}
 
 	/**
@@ -149,11 +149,9 @@ public class InlineTextControllerW implements InlineTextController {
 		}
 	}
 
-	private Runnable getCallback() {
-		return () -> {
-			editor.reload();
-			geo.getKernel().notifyRepaint();
-		};
+	private void onFontLoaded() {
+		editor.reload();
+		geo.getKernel().notifyRepaint();
 	}
 
 	@Override
@@ -305,7 +303,7 @@ public class InlineTextControllerW implements InlineTextController {
 		saveContent();
 		geo.updateRepaint();
 		if ("font".equals(key)) {
-			FontLoader.loadFont(String.valueOf(val), getWebFontsUrl(), getCallback());
+			FontLoader.loadFont(String.valueOf(val), getWebFontsUrl(), this::onFontLoaded);
 		}
 	}
 

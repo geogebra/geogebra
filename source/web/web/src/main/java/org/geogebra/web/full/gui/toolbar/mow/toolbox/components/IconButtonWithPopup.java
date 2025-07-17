@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
@@ -41,7 +40,7 @@ public class IconButtonWithPopup extends IconButton {
 
 	private void initPopup(List<Integer> tools) {
 		if (categoryPopup == null) {
-			categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
+			categoryPopup = new CategoryPopup(appW, tools, this::updateButton);
 			categoryPopup.setAutoHideEnabled(false);
 
 			categoryPopup.addCloseHandler((event) -> AriaHelper.setAriaExpanded(this, false));
@@ -66,8 +65,8 @@ public class IconButtonWithPopup extends IconButton {
 		appW.setMode(categoryPopup.getLastSelectedMode());
 	}
 
-	private Consumer<Integer> getUpdateButtonCallback() {
-		return mode -> GGWToolBar.getImageResource(mode, appW, image -> {
+	private void updateButton(int mode) {
+		GGWToolBar.getImageResource(mode, appW, image -> {
 			updateImgAndTxt(new ImageIconSpec((SVGResource) image), mode, appW);
 			setActive(true);
 		});

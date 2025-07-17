@@ -353,8 +353,8 @@ public class SymbolicParameters {
 
 		// D will be the rotation of A around C by 90 degrees
 		// d2=c2+(c1-a1), d1=c1-(c2-a2) => d2-c2-c1+a1, d1-c1+c2-a2
-		botanaPolynomials[2] = ((d2.subtract(c2)).subtract(c1)).add(a1);
-		botanaPolynomials[3] = ((d1.subtract(c1)).add(c2)).subtract(a2);
+		botanaPolynomials[2] = d2.subtract(c2).subtract(c1).add(a1);
+		botanaPolynomials[3] = d1.subtract(c1).add(c2).subtract(a2);
 
 		return botanaPolynomials;
 
