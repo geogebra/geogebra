@@ -31,6 +31,7 @@ import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.toolbarpanel.UndoRedoPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -983,5 +984,16 @@ public class GeoGebraFrameFull
 
 	public boolean isSciSettingsOpen() {
 		return panelTransitioner.getCurrentPanel() instanceof ScientificSettingsView;
+	}
+
+	/**
+	 * Remove previously added undo-redo panel from frame children list
+	 */
+	public void removeUndoRedoPanel() {
+		for (int i = 0; i < getWidgetCount(); i++) {
+			if (getWidget(i) instanceof UndoRedoPanel) {
+				getWidget(i).removeFromParent();
+			}
+		}
 	}
 }

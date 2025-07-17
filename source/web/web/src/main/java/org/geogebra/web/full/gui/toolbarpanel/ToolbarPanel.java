@@ -223,6 +223,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void addUndoRedoButtons() {
+		getFrame().removeUndoRedoPanel();
 		getFrame().add(getUndoRedoPanel());
 	}
 
