@@ -1,6 +1,7 @@
 @use 'colors';
 @use 'z-index';
 @use "menu-styles";
+@use 'colorMap' as *;
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
@@ -678,17 +679,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			width: calc(100% - 32px);
 			margin: 16px 16px 8px 16px;
 		}
-	}
 
-	.propertyGroupHeader {
-		display: flex;
-		padding-left: 16px;
-		align-items: center;
-
-		.gwt-Label {
-			flex-grow: 1;
+		.expandableList.extended + .expandableList.extended {
+			border-top: none;
 		}
 	}
-
-
 }

@@ -99,7 +99,10 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	}
 
 	private void addClickAndKeyHandler() {
-		Dom.addEventListener(this.getElement(), "click", event -> runAction());
+		Dom.addEventListener(this.getElement(), "click", event -> {
+			runAction();
+			event.stopPropagation();
+		});
 
 		Dom.addEventListener(this.getElement(), "keydown", event -> {
 			KeyboardEvent e = (KeyboardEvent) event;

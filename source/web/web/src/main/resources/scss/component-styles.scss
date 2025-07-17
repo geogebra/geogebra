@@ -1439,4 +1439,66 @@
 			}
 		}
 	}
+
+	.expandableList {
+		width: 100%;
+		height: 48px;
+
+		.header {
+			display: flex;
+			height: 48px;
+			width: 100%;
+
+			&:hover {
+				background-color: neutral(200);
+				cursor: pointer;
+			}
+
+			.arrow {
+				width: 24px;
+				height: 24px;
+				padding: 12px;
+				transition: transform 200ms ease-in-out;
+
+				svg {
+					fill: neutral(900);
+				}
+			}
+
+			.title {
+				height: 16px;
+				padding: 16px 0;
+				font-size: 16px;
+				font-weight: 500;
+				line-height: 16px;
+			}
+
+			.checkboxPanel {
+				margin-left: auto;
+				margin-right: 12px;
+				align-items: center;
+			}
+		}
+
+		.containerPanel {
+			visibility: hidden;
+			height: 0;
+		}
+
+		&.extended {
+			height: fit-content;
+			box-sizing: border-box;
+			border-top: 1px solid neutral(300);
+			border-bottom: 1px solid neutral(300);
+
+			.arrow {
+				transform: rotate(90deg);
+			}
+
+			.containerPanel {
+				visibility: visible;
+				height: 100%;
+			}
+		}
+	}
 }

@@ -14,12 +14,12 @@ import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -62,23 +62,14 @@ public class PropertiesPanelAdapter {
 					checked -> ((BooleanProperty) property).setValue(checked));
 		}
 		if (property instanceof PropertyCollection) {
-			FlowPanel wrapper = new FlowPanel();
-			FlowPanel collapsible = new FlowPanel();
-			collapsible.getElement().getStyle().setMarginLeft(3, Unit.EM);
-			FlowPanel header = new FlowPanel();
-			header.setStyleName("propertyGroupHeader");
-			header.add(new Label(property.getName()));
-			if (property instanceof PropertyCollectionWithLead) {
-				BooleanProperty check = ((PropertyCollectionWithLead) property).leadProperty;
-				header.add(new ComponentCheckbox(loc, check.getValue(),
-						check::setValue));
-			}
-			wrapper.add(header);
-			wrapper.add(collapsible);
+			BooleanProperty leadProperty = property instanceof PropertyCollectionWithLead
+					? ((PropertyCollectionWithLead) property).leadProperty : null;
+			ComponentExpandableList expandableList = new ComponentExpandableList(app,
+					leadProperty, property.getName());
 			for (Property prop: ((PropertyCollection<?>) property).getProperties()) {
-				collapsible.add(getWidget(prop));
+				expandableList.addToContent(getWidget(prop));
 			}
-			return wrapper;
+			return expandableList;
 		}
 		if (property instanceof IconsEnumeratedProperty) {
 			FlowPanel iconPanel = new FlowPanel();
