@@ -11,18 +11,10 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 public interface GeoCoordSys extends GeoDirectionND {
 
 	/**
-	 * set the coordinate system
-	 * 
-	 * @param cs
-	 *            the coordinate system
-	 */
-	// public void setCoordSys(CoordSys cs);
-
-	/**
 	 * return the coordinate system
 	 * 
 	 * @return the coordinate system
 	 */
-	public CoordSys getCoordSys();
+	CoordSys getCoordSys();
 
 }

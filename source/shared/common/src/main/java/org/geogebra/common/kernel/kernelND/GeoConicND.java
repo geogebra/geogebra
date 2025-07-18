@@ -1861,19 +1861,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		P.y = P.y + P.z * b.getY();
 	}
 
-	/**
-	 * Transforms coords of point P from real world space to Eigenvector space.
-	 * Note: P.setCoords() is not called here!
-	 */
-	/*
-	 * private void coordsRWtoEV(GeoPoint P) { TODO delete if not needed //
-	 * translate by -b P.x = P.x - P.z * b.getX(); P.y = P.y - P.z * b.getY();
-	 * 
-	 * // rotate by -alpha double px = P.x; P.x = px * eigenvec[0].getX() + P.y
-	 * * eigenvec[0].getY(); P.y = px * eigenvec[1].getX() + P.y *
-	 * eigenvec[1].getY(); }
-	 */
-
 	/** @return copy of flat matrix */
 	final public double[] getMatrix() {
 		double[] ret = { matrix[0], matrix[1], matrix[2], matrix[3], matrix[4],
@@ -2165,9 +2152,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	/*************************************
+	/*
 	 * MOVEMENTS
-	 *************************************/
+	 */
 
 	/**
 	 * translate conic by vector v
@@ -2319,7 +2306,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * rotate this conic by angle phi around (0,0) [ cos -sin 0 ] [ sin cos 0 ]
 	 * [ 0 0 1 ]
 	 */
-	final private void rotate(double phi) {
+	private void rotate(double phi) {
 		// set rotated matrix
 		rotateMatrix(matrix, phi);
 
@@ -2439,7 +2426,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	private final void updateDegenerates() {
+	private void updateDegenerates() {
 		// update lines of degenerate conic
 		switch (type) {
 		default:
@@ -2466,9 +2453,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	/*************************************
+	/*
 	 * CONIC CLASSIFICATION
-	 *************************************/
+	 */
 
 	/**
 	 * Sets both eigenvectors to e0, e1 on file load. (note: needed for

@@ -255,16 +255,6 @@ public class Term implements Comparable<Term> {
 	}
 
 	/**
-	 * multiply this term with another term return a new Term
-	 * 
-	 * Term mult(Term t) { StringBuilder sb = new StringBuilder();
-	 * 
-	 * // concatenate and sort (variables + t.variables) sb =
-	 * sb.append(variables); sb = sb.append(t.variables); sort(sb); Term ret =
-	 * new Term( coefficient, sb ); ret.multiply(t.coefficient); return ret; }
-	 */
-
-	/**
 	 * multiply this term with a number
 	 * 
 	 * @param number

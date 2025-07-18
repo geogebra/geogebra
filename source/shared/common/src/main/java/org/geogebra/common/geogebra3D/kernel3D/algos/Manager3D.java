@@ -303,13 +303,6 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getPoint();
 	}
 
-	/** Segment3D label linking points v1 and v2 */
-	/*
-	 * final public GeoSegment3D segment3D(String label, Ggb3DVector v1,
-	 * Ggb3DVector v2){ GeoSegment3D s = new GeoSegment3D(cons,v1,v2);
-	 * s.setLabel(label); return s; }
-	 */
-
 	/** Segment3D label linking points P1 and P2 */
 	@Override
 	final public GeoSegment3D segment3D(String label, GeoPointND P1,
@@ -1100,9 +1093,9 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getSurface();
 	}
 
-	/********************************************************************
+	/*
 	 * POINT ALGOS (Intersection, ClosestPoint)
-	 ********************************************************************/
+	 */
 
 	/**
 	 * intersect line and conic

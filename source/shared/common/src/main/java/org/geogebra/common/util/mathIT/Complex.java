@@ -72,8 +72,6 @@ public class Complex {
 	private static final Complex ZERO = new Complex(0., 0.);
 	/** Constant 1 &#8712; <span style="font-size:large;">\u2102</span>. */
 	private static final Complex ONE = new Complex(1., 0.);
-	/** Constant i &#8712; <span style="font-size:large;">\u2102</span>. */
-	// private static final Complex I = new Complex(.0, 1.);
 	/**
 	 * Constant 0 &#8712; <span style="font-size:large;">\u2102</span> in the
 	 * array representation.

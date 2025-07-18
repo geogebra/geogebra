@@ -5,7 +5,7 @@ package com.himamis.retex.editor.share.util;
  */
 public interface GWTKeycodes {
 
-	/**
+	/*
 	 * Contains the native key codes previously defined in
 	 * {@link org.gwtproject.user.client.ui.KeyboardListener}. When converting
 	 * keyboard listener instances, developers can use the following static
@@ -424,10 +424,7 @@ public interface GWTKeycodes {
 	public static final int KEY_RIGHT_SQUARE_BRACKET = 221;
 	public static final int KEY_HASH = 222;
 	public static final int KEY_BACK_QUOTE = 223;
-	/**
-	 * Key code for left windows key. See KEY_WIN_KEY_LEFT_META
-	 */
-	// public static final int KEY_WIN_KEY = 224;
+
 	/**
 	 * Key code for {@link GWTKeycodes#KEY_WIN_KEY_LEFT_META} that Firefox fires
 	 * for the meta key.

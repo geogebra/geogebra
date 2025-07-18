@@ -173,7 +173,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected boolean fixed = false;
 	/** label, value, caption, label+value */
 	public int labelMode = LABEL_DEFAULT;
-	/** cartesian, polar or complex */
 
 	/** default (foreground) color */
 	protected GColor objColor = GColor.BLACK;

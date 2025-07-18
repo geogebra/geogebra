@@ -305,10 +305,6 @@ public class AlgoDispatcher {
 		return p;
 	}
 
-	/********************
-	 * ALGORITHMIC PART *
-	 ********************/
-
 	/**
 	 * Line named label through Points P and Q
 	 * 
@@ -1000,9 +996,9 @@ public class AlgoDispatcher {
 		return midpoint;
 	}
 
-	/*********************************************
-	 * CONIC PART
-	 *********************************************/
+	/*
+	 * CONICS
+	 */
 
 	/**
 	 * circle with midpoint M and radius r
@@ -3007,9 +3003,9 @@ public class AlgoDispatcher {
 		return tangents;
 	}
 
-	/********************************************************************
+	/*
 	 * TRANSFORMATIONS
-	 ********************************************************************/
+	 */
 
 	/**
 	 * translate geoTrans by vector v

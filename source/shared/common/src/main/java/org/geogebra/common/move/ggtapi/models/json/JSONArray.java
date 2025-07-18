@@ -114,17 +114,6 @@ public class JSONArray {
 	}
 
 	/**
-	 * Creates a new {@code JSONArray} with values from the given primitive
-	 * array.
-	 *
-	 * public JSONArray(Object array) throws JSONException { if
-	 * (!array.getClass().isArray()) { throw new JSONException(
-	 * "Not a primitive array: " + array.getClass()); } final int length =
-	 * Array.getLength(array); values = new ArrayList<Object>(length); for (int
-	 * i = 0; i < length; ++i) { put(JSONObject.wrap(Array.get(array, i))); } }
-	 */
-
-	/**
 	 * Returns the number of values in this array.
 	 * 
 	 * @return length

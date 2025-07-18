@@ -5,6 +5,6 @@ plugins {
 }
 
 checkstyle {
-    toolVersion = "10.21.3"
+    toolVersion = "10.26.1"
     config = resources.text.fromString(Resources.getString("checkstyle/checkstyle.xml"))
 }

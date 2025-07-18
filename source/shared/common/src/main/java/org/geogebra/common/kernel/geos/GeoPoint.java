@@ -1769,8 +1769,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		return ret;
 	}
 
-	/** POLAR or CARTESIAN */
-
 	/**
 	 * returns all class-specific xml tags for saveXML GeoGebra File Format
 	 */

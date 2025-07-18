@@ -231,15 +231,6 @@ public abstract class ConstructionElement
 	public abstract String getDefinitionDescription(StringTemplate tpl);
 
 	/**
-	 * Returns command that defines this construction element (e.g. "Line[A, B]"
-	 * ). Note: may return ""
-	 */
-
-	/**
-	 * Returns name of class. This is needed to allow code obfuscation.
-	 */
-
-	/**
 	 * Returns the mode ID of a related tool.
 	 * 
 	 * @return mode ID, returns -1 if there is no related tool.

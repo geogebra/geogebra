@@ -17,8 +17,6 @@ import org.geogebra.common.main.MyError;
  *
  */
 public abstract class CmdScripting extends CommandProcessor {
-	/** array of arguments */
-	// protected GeoElement[] arg;
 
 	/**
 	 * Create new command processor
@@ -28,7 +26,6 @@ public abstract class CmdScripting extends CommandProcessor {
 	 */
 	public CmdScripting(Kernel kernel) {
 		super(kernel);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -741,9 +741,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return false;
 	}
 
-	/***********************************************************
+	/*
 	 * MOVEMENTS
-	 ***********************************************************/
+	 */
 
 	/**
 	 * translate by vector v
@@ -850,8 +850,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		y = -y;
 		z = -z;
 	}
-
-	/***********************************************************/
 
 	/**
 	 * Switch to parametric mode and set parameter name

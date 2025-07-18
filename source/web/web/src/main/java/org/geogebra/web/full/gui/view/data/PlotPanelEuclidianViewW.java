@@ -49,8 +49,6 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW
 
 		setViewId(kernel);
 	}
-	
-	/*********** End Constructor **********************/
 
 	/**
 	 * Overrides EuclidianView setMode method so that no action is taken on a

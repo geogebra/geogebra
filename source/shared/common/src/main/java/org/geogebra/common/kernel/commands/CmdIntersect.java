@@ -753,10 +753,7 @@ public class CmdIntersect extends CommandProcessor {
 	/**
 	 * get only one intersection point of two polynomials a, b with given index
 	 */
-	/**
-	 * get only one intersection point of two polynomials a, b with given index
-	 */
-	final private GeoPoint intersectPolynomialsSingle(Command c,
+	private GeoPoint intersectPolynomialsSingle(Command c,
 			GeoElement[] arg, GeoFunctionable a, GeoFunctionable b,
 			GeoNumberValue index) {
 

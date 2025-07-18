@@ -65,22 +65,6 @@ public class ToolBarW extends FlowPanel
 	}
 
 	/**
-	 * Creates toolbar for a specific dock panel. Call buildGui() to actually
-	 * create the GUI of this toolbar.
-	 * 
-	 * @param app
-	 *            application
-	 * @param dockPanel
-	 *            dock panel
-	 */
-	/*
-	 * public ToolBarW(AppW app, DockPanel dockPanel) { this(); this.app = app;
-	 * this.dockPanel = dockPanel;
-	 * 
-	 * //setFloatable(false); //setBackground(getBackground()); }
-	 */
-
-	/**
 	 * Initialization of the ToolBar object
 	 * 
 	 * @param app1

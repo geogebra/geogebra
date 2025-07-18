@@ -50,20 +50,6 @@ public interface SymbolicParametersAlgo {
 			throws NoSymbolicParametersException;
 
 	/**
-	 * Returns which methods might be able to verify the statement
-	 * 
-	 * @return a vector of booleans of size four. The items indicate whether:
-	 *         <ol start="0" type="1">
-	 *         <li>Recios method might be possible</li>
-	 *         <li>Botanas method might be possible</li>
-	 *         <li>OpenGeoProver might be possible</li>
-	 *         <li>PureSymbolic method might be possible</li>
-	 *         </ol>
-	 * 
-	 */
-	// public boolean[] possiblyWorkingMethods();
-
-	/**
 	 * Calculates the homogeneous coordinates of the object when substituting
 	 * the variables by its values.
 	 * 

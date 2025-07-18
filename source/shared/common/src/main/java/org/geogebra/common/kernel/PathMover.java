@@ -48,12 +48,6 @@ public interface PathMover {
 	public void init(GeoPointND p, int min_steps);
 
 	/**
-	 * Inits the path mover using a path parameter on the path and sets the
-	 * orientation to positive.
-	 */
-	// public void init(double param);
-
-	/**
 	 * Sets point p to the current position on the path
 	 * 
 	 * @param p

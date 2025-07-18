@@ -477,18 +477,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	/**
-	 * update the coord system and 2D points
-	 */
-	/*
-	 * public void updateCoordSysAndPoints2D(){
-	 * 
-	 * getCoordSys().getParentAlgorithm().update();
-	 * 
-	 * for(int i=0; i<points2D.length; i++)
-	 * points2D[i].getParentAlgorithm().update(); }
-	 */
-
-	/**
 	 * return the 2D coordinate system
 	 * 
 	 * @return the 2D coordinate system

@@ -40,8 +40,6 @@ public class GeoTurtle extends GeoPoint {
 	private GeoPointND startPoint = new GeoPoint(cons, 0d, 0d, 1d);
 	/** current position */
 	protected double[] position = { 0d, 0d, 1d };
-	/** current position as point */
-	// protected GeoPointND currentPoint = new GeoPoint(cons, 0d, 0d, 1d);
 	/** pen color */
 	protected GColor penColor = GColor.BLACK;
 	/** pen thickness */

@@ -120,12 +120,8 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * objects that are picked are drawn with a thickness * PICKED_DILATATION
 	 */
 	protected static final float PICKED_DILATATION = 1.3f;
-	/** default radius for drawing 3D points */
-	// protected static final float POINT3D_RADIUS = 1.2f;
-	/** points on a path are a little bit more bigger than others */
+	/** points on a path are a little bit bigger than others */
 	protected static final float POINT_ON_PATH_DILATATION = 1.01f;
-	/** default thickness of 3D lines, segments, ... */
-	// protected static final float LINE3D_THICKNESS = 0.5f;
 	/** default thickness of lines of a 3D grid ... */
 	protected static final float GRID3D_THICKNESS = 0.005f;
 

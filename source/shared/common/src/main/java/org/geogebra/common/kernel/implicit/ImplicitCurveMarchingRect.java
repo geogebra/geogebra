@@ -6,9 +6,7 @@ import java.util.Objects;
 import org.geogebra.common.kernel.matrix.Coords;
 
 class ImplicitCurveMarchingRect implements MarchingRect {
-	/**
-	 * 
-	 */
+
 	/**
 	 * {top, right, bottom, left}
 	 */

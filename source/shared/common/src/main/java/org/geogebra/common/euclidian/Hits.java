@@ -598,15 +598,6 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	/**
-	 * returns array of GeoElements of type geoclass whose visual representation
-	 * is at streen coords (x,y). order: points, vectors, lines, conics
-	 */
-	/*
-	 * final public ArrayList getHits(Point p, Class geoclass, ArrayList result)
-	 * { return getHits(getHits(p), geoclass, false, result); }
-	 */
-
-	/**
 	 * @param geoclass
 	 *            test for type that
 	 * @param result
@@ -718,33 +709,6 @@ public class Hits extends ArrayList<GeoElement> {
 
 		return null;
 	}
-
-	/**
-	 * Stores all GeoElements of type GeoPoint, GeoVector, GeoNumeric to result
-	 * list.
-	 * 
-	 */
-	/*
-	 * final protected ArrayList getRecordableHits(ArrayList hits, ArrayList
-	 * result) { if (hits == null) return null;
-	 * 
-	 * result.clear(); for (int i = 0; i < hits.size(); ++i) { GeoElement hit =
-	 * (GeoElement)hits.get(i); boolean success = (hit.isGeoPoint() ||
-	 * hit.isGeoVector() || hit.isGeoNumeric()); if (success)
-	 * result.add(hits.get(i)); } return result.size() == 0 ? null : result; }
-	 */
-
-	/**
-	 * returns array of GeoElements whose visual representation is on top of
-	 * screen coords of Point p. If there are points at location p only the
-	 * points are returned. Otherwise all GeoElements are returned.
-	 * 
-	 * @see EuclidianController: mousePressed(), mouseMoved()
-	 */
-	/*
-	 * final public ArrayList getTopHits(Point p) { return
-	 * getTopHits(getHits(p)); }
-	 */
 
 	/**
 	 * if there are GeoPoints in hits, all these points are returned. Otherwise
