@@ -12,6 +12,7 @@ import org.geogebra.common.main.undo.DefaultUndoManager;
 import org.geogebra.common.main.undo.StringAppState;
 import org.geogebra.common.main.undo.UndoCommand;
 import org.geogebra.common.main.undo.UndoHistory;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
@@ -113,5 +114,14 @@ public class UndoManagerW extends DefaultUndoManager {
 		super.undoHistoryFrom(undoHistory);
 		app.getEventDispatcher().enableListeners();
 		app.getActiveEuclidianView().invalidateDrawableList();
+	}
+
+	@Override
+	public void executeAction(ActionType action, String... args) {
+		super.executeAction(action, args);
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		if (pageController != null) {
+			pageController.updatePreviewImage();
+		}
 	}
 }

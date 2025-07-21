@@ -546,10 +546,6 @@ public class EuclidianViewW extends EuclidianView implements
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
 		}
-
-		if (appW.hasPageController()) {
-			appW.getPageController().updatePreviewImage();
-		}
 	}
 
 	/**
