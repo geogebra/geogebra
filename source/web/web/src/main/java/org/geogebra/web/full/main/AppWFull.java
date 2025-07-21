@@ -181,6 +181,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.FragmentPrefetcher;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
@@ -1829,6 +1830,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		resetPen();
 		restoreCurrentUndoHistory();
+		if (DomGlobal.window.matchMedia("(display-mode: standalone)").matches) {
+			FragmentPrefetcher.fetchAllIfNotCached();
+		}
 	}
 
 	/**

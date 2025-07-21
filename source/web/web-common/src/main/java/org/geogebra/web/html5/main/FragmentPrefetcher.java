@@ -10,11 +10,18 @@ import org.geogebra.web.html5.util.HttpRequestW;
 
 import com.google.gwt.core.client.GWT;
 
+import elemental2.core.Global;
+import elemental2.core.JsArray;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.ServiceWorkerContainer;
+import jsinterop.base.JsPropertyMap;
+
 /**
  * Creates HTTP requests to fetch a fragment before it's needed. Prefetched
  * content can be consumed by OfflineLoadingStrategy
  */
 public final class FragmentPrefetcher implements AjaxCallback {
+	private static final int LAST_FRAGMENT = 14;
 	private static Map<Integer, FragmentPrefetcher> idToPrefetcher = new HashMap<>();
 
 	private AsyncOperation<String> fetchCallback;
@@ -33,6 +40,23 @@ public final class FragmentPrefetcher implements AjaxCallback {
 	 */
 	public static FragmentPrefetcher forSplitPoint(int splitPoint) {
 		return idToPrefetcher.get(splitPoint);
+	}
+
+	/**
+	 * Notify service worker to fetch all fragments unless they are already cached.
+	 */
+	public static void fetchAllIfNotCached() {
+		JsPropertyMap<Object> message = JsPropertyMap.of();
+		JsArray<String> files = JsArray.of();
+		for (int i = 1; i <= LAST_FRAGMENT; i++) {
+			files.push(getURL(i));
+		}
+		message.set("cache", files);
+		ServiceWorkerContainer serviceWorker = DomGlobal.navigator.serviceWorker;
+		serviceWorker.getReady().then(registration -> {
+			registration.getActive().postMessage(Global.JSON.stringify(message));
+			return null;
+		});
 	}
 
 	/**
@@ -65,10 +89,14 @@ public final class FragmentPrefetcher implements AjaxCallback {
 	}
 
 	private void fetch() {
-		final String url = GWT.getModuleBaseURL() + "deferredjs/"
+		final String url = getURL(splitPoint);
+		new HttpRequestW().sendRequestPost("GET", url, null, this);
+	}
+
+	private static String getURL(int splitPoint) {
+		return GWT.getModuleBaseURL() + "deferredjs/"
 				+ GWT.getPermutationStrongName() + "/" + splitPoint
 				+ ".cache.js";
-		new HttpRequestW().sendRequestPost("GET", url, null, this);
 	}
 
 	@Override

@@ -17,6 +17,7 @@
 
     <set-configuration-property name="devModeRedirectEnabled" value="false"/>
     <set-configuration-property name="es6export" value="mathApps:div"/>
+    <set-configuration-property name="installScriptJs" value="org/geogebra/web/resources/js/installScriptDirect.js" />
 
     <!-- Compile only one permutation -->
     <collapse-all-properties/>
