@@ -34,9 +34,7 @@ public enum PreviewFeature {
 	/**
 	 * APPS-6759
 	 */
-	SETTINGS_VIEW,
-	/** APPS-6627 */
-	LINEAR_NOTATION;
+	SETTINGS_VIEW;
 
 	/**
 	 * Global flag to activate feature previews.

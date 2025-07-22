@@ -30,13 +30,15 @@ public interface ExpressionNodeConstants {
 		/** GGB-2454 for screen reader expanding "+" to "plus" etc. */
 		SCREEN_READER_ASCII,
 		/** screen reader keeping math symbols as is */
-		SCREEN_READER_UNICODE;
+		SCREEN_READER_UNICODE,
+		/** Linear Notation */
+		LINEAR_NOTATION;
 
 		/**
-		 * @return whether this is giac type
+		 * @return Whether this is the giac type.
 		 */
 		public boolean isGiac() {
-			return this.equals(StringType.GIAC);
+			return this == GIAC;
 		}
 	}
 

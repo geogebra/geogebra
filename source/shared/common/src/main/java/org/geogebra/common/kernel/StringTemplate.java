@@ -570,6 +570,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * Template used for the {@link org.geogebra.common.main.settings.AlgebraStyle#LINEAR_NOTATION}
+	 */
+	public static final StringTemplate linearNotation = new StringTemplate("linearNotation");
+
+	static {
+		linearNotation.setType(StringType.LINEAR_NOTATION);
+	}
+
+	/**
 	 * Creates default string template
 	 *
 	 * @param name
@@ -645,6 +654,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		switch (t) {
 		case GIAC:
+		case LINEAR_NOTATION:
 			printFormPI = "pi";
 			printFormImaginary = "i";
 			break;
@@ -1868,6 +1878,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case GEOGEBRA_XML:
 					case GIAC:
 					case SCREEN_READER_ASCII:
+					case LINEAR_NOTATION:
 						showMultiplicationSign = true;
 						break;
 
@@ -1966,6 +1977,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case GEOGEBRA_XML:
 					case GIAC:
 					case SCREEN_READER_ASCII:
+					case LINEAR_NOTATION:
 						sb.append(multiplicationSign(loc));
 						break;
 
@@ -2870,18 +2882,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 			if ((isSinglePowerArg(right, valueForm) && !isFraction(right))
 					|| ((ExpressionNode
 					.opID(right) > Operation.POWER.ordinal())
-					&& (ExpressionNode.opID(right) != Operation.EXP
-							.ordinal()))) {
-				// not +, -, *, /, ^, e^x
-				try {
-					// display integer powers as unicode superscript
-					int i = Integer.parseInt(rightStr);
-					StringUtil.numberToIndex(i, sb);
-				} catch (RuntimeException e) {
+					&& (ExpressionNode.opID(right) != Operation.EXP.ordinal()))) {
+				if (stringType == StringType.LINEAR_NOTATION) {
 					sb.append('^');
 					sb.append(rightStr);
+				} else {
+					// not +, -, *, /, ^, e^x
+					try {
+						// display integer powers as unicode superscript
+						int i = Integer.parseInt(rightStr);
+						StringUtil.numberToIndex(i, sb);
+					} catch (RuntimeException e) {
+						sb.append('^');
+						sb.append(rightStr);
+					}
 				}
-
 			} else {
 				sb.append('^');
 				appendWithBrackets(sb, rightStr);

@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.PreviewFeature;
 
 /**
  * This enum defines the algebra style options.
@@ -90,8 +89,7 @@ public enum AlgebraStyle {
 		case DEFINITION_AND_VALUE:
 			return !app.isDesktop();
 		case LINEAR_NOTATION:
-			return app.isHTML5Applet()
-					&& PreviewFeature.isAvailable(PreviewFeature.LINEAR_NOTATION);
+			return app.isHTML5Applet();
 		default: return true;
 		}
 	}
