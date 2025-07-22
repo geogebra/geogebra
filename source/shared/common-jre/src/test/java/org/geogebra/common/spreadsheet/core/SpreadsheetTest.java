@@ -15,11 +15,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
@@ -199,6 +205,27 @@ public class SpreadsheetTest extends BaseUnitTest {
 		Mockito.verify(delegate, Mockito.times(2)).notifyRepaintNeeded();
 		slider.update();
 		Mockito.verify(delegate, Mockito.times(3)).notifyRepaintNeeded();
+	}
+
+	@Test
+	public void spreadsheetShouldReflectColorChanges() {
+		tabularData = new KernelTabularDataAdapter(getApp());
+		spreadsheet = new Spreadsheet(tabularData,
+				new GeoElementCellRendererFactory(graphics -> null),
+				undoProvider);
+		getKernel().attach((KernelTabularDataAdapter) tabularData);
+		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));
+		add("A1 = 1");
+		spreadsheet.draw(new GGraphicsCommon());
+		add("SetBackgroundColor(A1,red)");
+		ArrayList<GColor> usedColors = new ArrayList<>();
+		GGraphics2D g2 = new GGraphicsCommon() {
+			public void setColor(GColor c) {
+				usedColors.add(c);
+			}
+		};
+		spreadsheet.draw(g2);
+		assertTrue("Should contain red:" + usedColors, usedColors.contains(GColor.RED));
 	}
 
 	@Test

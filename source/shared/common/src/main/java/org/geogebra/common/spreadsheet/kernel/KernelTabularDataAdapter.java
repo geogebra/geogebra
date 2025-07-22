@@ -91,7 +91,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		// TODO
+		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
+		if (pt.column != -1) {
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
+		}
 	}
 
 	@Override

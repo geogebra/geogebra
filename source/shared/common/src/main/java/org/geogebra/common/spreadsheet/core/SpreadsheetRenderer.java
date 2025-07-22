@@ -75,14 +75,13 @@ final class SpreadsheetRenderer {
 			boolean hasError) {
 		Rectangle cellBounds = layout.getBounds(row, column);
 		GColor backgroundColor = styling.getBackgroundColor(row, column, null);
-		if (backgroundColor != null) {
-			drawCellBackground(graphics, backgroundColor, cellBounds);
-		}
-		if (styling.showBorder(row, column)) {
-			drawCellBorder(graphics, cellBounds);
-		}
-
 		if (content == null) {
+			if (backgroundColor != null) {
+				drawCellBackground(graphics, backgroundColor, cellBounds);
+			}
+			if (styling.showBorder(row, column)) {
+				drawCellBorder(graphics, cellBounds);
+			}
 			return;
 		}
 
@@ -92,6 +91,9 @@ final class SpreadsheetRenderer {
 		if (renderable != null) {
 			if (renderable.getBackground() != null) {
 				drawCellBackground(graphics, renderable.getBackground(), cellBounds);
+			}
+			if (styling.showBorder(row, column)) {
+				drawCellBorder(graphics, cellBounds);
 			}
 			if (!hasError) {
 				graphics.setColor(styling.getTextColor(row, column, styling.getDefaultTextColor()));
