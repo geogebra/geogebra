@@ -105,7 +105,7 @@ public class AlgoMacro extends AlgoElement
 		compute();
 
 		// check if macro construction has euclidianAlgos
-		if (macro.getMacroConstruction().hasEuclidianViewCE()) {
+		if (macro.getMacroConstruction().getEuclidianViewCECount() > 0) {
 			cons.registerEuclidianViewCE(this);
 		}
 

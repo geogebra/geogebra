@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.algos;
 import static org.geogebra.test.OrderingComparison.greaterThan;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.spy;
@@ -101,6 +102,18 @@ public class AlgoSequenceTest extends BaseUnitTest {
 		assertThat(seq, hasValue("{{{{0, 2}, {3, 3}}, {{4, 6}, {7, 7}}, {{8, 10}, {11, 11}}},"
 				+ " {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9, 10}, {11, 12}}}, {{{2, 2}, {3, 5}},"
 				+ " {{6, 6}, {7, 9}}, {{10, 10}, {11, 13}}}}"));
+	}
+
+	@Test
+	@Issue("APPS-6558")
+	public void shouldCleanEuclidianCEList() {
+		add("to=5");
+		add("Sequence(x^4+y^4=a,a,1,to)");
+		// the input curve + the 5 curves with substituted value of a
+		assertEquals(6, getConstruction().getEuclidianViewCECount());
+		add("SetValue(to,1)");
+		add("SetValue(to,5)");
+		assertEquals(6, getConstruction().getEuclidianViewCECount());
 	}
 
 	private GGraphicsCommon createGraphicsWithDrawable(String def) {

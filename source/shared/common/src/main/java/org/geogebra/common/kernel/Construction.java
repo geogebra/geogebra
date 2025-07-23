@@ -1080,13 +1080,11 @@ public class Construction {
 	}
 
 	/**
-	 * Returns true iff there are any euclidian view construction elements in
-	 * this construction
-	 * @return true iff there are any euclidian view construction elements in
-	 * this construction
+	 * Gets number of construction elements that are affected by zoom/pan of euclidian views.
+	 * @return number of euclidian view-sensitive construction elements
 	 */
-	public boolean hasEuclidianViewCE() {
-		return euclidianViewCE.size() > 0;
+	public int getEuclidianViewCECount() {
+		return euclidianViewCE.size();
 	}
 
 	/**
