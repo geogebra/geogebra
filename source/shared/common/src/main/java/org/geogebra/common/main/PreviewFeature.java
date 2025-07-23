@@ -29,8 +29,6 @@ public enum PreviewFeature {
 	IB_EXAM,
 	/** APPS-6016 */
 	SPREADSHEET_STYLEBAR,
-	/** MOW-1672 */
-	ZOOM_TO_FIT,
 	/**
 	 * APPS-6759
 	 */

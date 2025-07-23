@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbarpanel.UndoRedoProvider;
@@ -112,10 +111,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	}
 
 	private void addZoomToFitButton() {
-		if (PreviewFeature.isAvailable(PreviewFeature.ZOOM_TO_FIT)) {
-			addSmallPressButton(TopBarIcon.ZOOM_TO_FIT, "ShowAllObjects", controller::onZoomToFit,
-					AccessibilityGroup.ZOOM_NOTES_TO_FIT);
-		}
+		addSmallPressButton(TopBarIcon.ZOOM_TO_FIT, "ShowAllObjects", controller::onZoomToFit,
+				AccessibilityGroup.ZOOM_NOTES_TO_FIT);
 	}
 
 	private void addDragButton() {
