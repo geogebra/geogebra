@@ -185,13 +185,6 @@ public class BaseUnitTest {
 		return getFirstElement(geoElements);
 	}
 
-	protected void editGeoElement(GeoElement geoElement, String newDefinition) {
-		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForRedefinition(
-				getKernel(), geoElement, true);
-		getAlgebraProcessor().changeGeoElementNoExceptionHandling(
-				geoElement, newDefinition, evalInfo, false, null, errorHandler);
-	}
-
 	protected void t(String input, String... expected) {
 		AlgebraTestHelper.checkSyntaxSingle(input, expected,
 				getApp().getKernel().getAlgebraProcessor(),

@@ -5,7 +5,6 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.algos.TangentAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -142,15 +141,7 @@ public class AlgebraItem {
 	 * @return whether element is part of packed output; exclude header
 	 */
 	public static boolean isCompactItem(GeoElement element) {
-		if (element == null) {
-			return false;
-		}
-		if (isTangentOutputWithStyleDescription(element,
-				element.getApp().getSettings().getAlgebra())) {
-			return false;
-		}
-		return element.getPackedIndex() > 0;
-
+		return element != null && element.getPackedIndex() > 0;
 	}
 
 	/**
@@ -441,20 +432,11 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowBothRows(@Nonnull GeoElement element,
 			@Nonnull AlgebraSettings algebraSettings) {
-		if (isTangentOutputWithStyleDescription(element, algebraSettings)) {
-			return false;
-		}
 		boolean hasDifferentOutputFormats = !AlgebraOutputFormat.getPossibleFormats(element,
 				algebraSettings.isEngineeringNotationEnabled(),
 				algebraSettings.getAlgebraOutputFormatFilters()).isEmpty();
 		boolean hasOutputRow = hasDifferentOutputFormats || hasDefinitionAndValueMode(element);
 		return hasOutputRow && shouldShowOutputRow(element, algebraSettings.getStyle());
-	}
-
-	private static boolean isTangentOutputWithStyleDescription(
-			@Nonnull GeoElement geoElement, @Nonnull AlgebraSettings algebraSettings) {
-		return geoElement.getParentAlgorithm() instanceof TangentAlgo
-				&& algebraSettings.getStyle() == AlgebraStyle.DESCRIPTION;
 	}
 
 	/**
@@ -553,9 +535,6 @@ public class AlgebraItem {
 
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
 			return element.getAlgebraDescription(stringTemplate);
-		} else if (isTangentOutputWithStyleDescription(element, settings.getAlgebra())) {
-			return element.getLabelSimple() + " = "
-					+ getDescriptionString(element, algebraStyle, stringTemplate);
 		} else if (element.isPenStroke()) {
 			return element.getLabelSimple();
 		} else if ((AlgebraStyle.DESCRIPTION == algebraStyle || AlgebraStyle.VALUE == algebraStyle)
