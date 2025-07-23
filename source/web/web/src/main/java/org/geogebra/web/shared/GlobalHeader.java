@@ -12,6 +12,7 @@ import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.AccessibilityGroup;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -290,7 +291,8 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		if (settingsButton == null) {
 			settingsButton = getActionButton("settingsButton", "Settings");
 			if (settingsButton != null) {
-				settingsButton.setAction(() -> app.getGuiManager().showSciSettingsView());
+				settingsButton.setAction(() -> app.getDialogManager().showPropertiesDialog(
+						OptionType.GLOBAL, null));
 			}
 		}
 	}

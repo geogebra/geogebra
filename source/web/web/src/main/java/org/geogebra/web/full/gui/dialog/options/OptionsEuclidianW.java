@@ -16,9 +16,9 @@ import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.LineStylePopup;
@@ -94,8 +94,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 	protected class GridTab extends EuclidianTab implements EuclidianOptionsModel.IGridTab {
 		ComponentCheckbox cbShowGrid;
 		private FormLabel lbPointCapturing;
-		private CompDropDown pointCapturingStyle;
-		CompDropDown lbGridType;
+		private ComponentDropDown pointCapturingStyle;
+		ComponentDropDown lbGridType;
 		GridDropdown lbRulerType = null;
 		ComponentCheckbox cbGridManualTick;
 		ComponentComboBox ncbGridTickX;
@@ -151,7 +151,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 
 			NamedEnumeratedProperty<?> pointCaptProperty = new PointCapturingProperty(app,
 					app.getLocalization());
-			pointCapturingStyle = new CompDropDown(app, pointCaptProperty);
+			pointCapturingStyle = new ComponentDropDown(app, pointCaptProperty);
 			pointCapturingStyle.addChangeHandler(() -> {
 				app.setUnsaved();
 				app.storeUndoInfo();
@@ -196,7 +196,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			}
 			NamedEnumeratedProperty<?> gridTypeProperty = new GridStyleProperty(
 					app.getLocalization(), view.getSettings());
-			lbGridType = new CompDropDown(app, gridTypeProperty);
+			lbGridType = new ComponentDropDown(app, gridTypeProperty);
 			lblGridType = new FormLabel("").setFor(lbGridType);
 			mainPanel.add(lblGridType);
 			lblGridType.setStyleName("panelTitle");

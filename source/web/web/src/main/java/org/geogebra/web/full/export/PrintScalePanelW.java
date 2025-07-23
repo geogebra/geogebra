@@ -7,7 +7,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -24,7 +24,7 @@ public class PrintScalePanelW extends FlowPanel {
 	private TextBox tfScale2;
 	private TextBox tfScaleFixed;
 	private EuclidianView ev;
-	private CompDropDown exportModeDropDown;
+	private ComponentDropDown exportModeDropDown;
 	private FlowPanel cmModePanel;
 	private FlowPanel fixedSizeModePanel;
 
@@ -64,7 +64,7 @@ public class PrintScalePanelW extends FlowPanel {
 		tfScale2 = getNumberField(updateCm);
 		tfScaleFixed = getNumberField(updateFixedSize);
 
-		exportModeDropDown = new CompDropDown(app, null,
+		exportModeDropDown = new ComponentDropDown(app, null,
 				Arrays.asList(loc.getMenu("ScaleInCentimeter"), loc.getMenu("FixedSize")),
 				0);
 		exportModeDropDown.setFullWidth(true);

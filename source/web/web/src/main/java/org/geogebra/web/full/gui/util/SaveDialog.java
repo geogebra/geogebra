@@ -8,8 +8,8 @@ import java.util.Set;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.browser.BrowseResources;
-import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.resources.client.ImageResource;
@@ -20,7 +20,7 @@ public class SaveDialog extends SaveFileDialog {
 	private ComponentCheckbox templateCheckbox;
 	private Image providerImage;
 	private Set<Material.Provider> availableProviders;
-	private CompDropDown locationDropDown;
+	private ComponentDropDown locationDropDown;
 	private FlowPanel locationHolder;
 
 	/**
@@ -65,7 +65,7 @@ public class SaveDialog extends SaveFileDialog {
 		for (Material.Provider provider : availableProviders) {
 			providers.add(provider.getName());
 		}
-		locationDropDown = new CompDropDown((AppW) app,
+		locationDropDown = new ComponentDropDown((AppW) app,
 				app.getLocalization().getMenu("Location"), providers, 0);
 		locationDropDown.setFullWidth(true);
 		locationDropDown.addChangeHandler(() -> {

@@ -11,7 +11,7 @@ import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
-import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -45,13 +45,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	protected class GlobalTab extends FlowPanel implements SetLabels, PropertyValueObserver {
 		private FlowPanel optionsPanel;
 		private FormLabel lblRounding;
-		private CompDropDown roundingDropDown;
+		private ComponentDropDown roundingDropDown;
 		private FormLabel lblLabeling;
-		private CompDropDown labelingDropDown;
+		private ComponentDropDown labelingDropDown;
 		private FormLabel lblFontSize;
-		private CompDropDown fontSizeDropDown;
+		private ComponentDropDown fontSizeDropDown;
 		private FormLabel lblLanguage;
-		private CompDropDown languageDropDown;
+		private ComponentDropDown languageDropDown;
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
 		private FlowPanel saveRestoreRow;
@@ -84,7 +84,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addRoundingItem() {
 			NamedEnumeratedProperty<?> roundingProp =
 					new RoundingIndexProperty(app, app.getLocalization());
-			roundingDropDown = new CompDropDown(app, roundingProp);
+			roundingDropDown = new ComponentDropDown(app, roundingProp);
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
 							.setFor(roundingDropDown);
@@ -104,7 +104,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 						LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff,
 						LabelVisibility.PointsOnly);
 			}
-			labelingDropDown = new CompDropDown(app, property);
+			labelingDropDown = new ComponentDropDown(app, property);
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
 							.setFor(labelingDropDown);
@@ -118,7 +118,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization(),
 					app.getSettings().getFontSettings(),
 					app.getFontSettingsUpdater());
-			fontSizeDropDown = new CompDropDown(app, fontSizeProperty);
+			fontSizeDropDown = new ComponentDropDown(app, fontSizeProperty);
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")
 							.setFor(fontSizeDropDown);
@@ -132,7 +132,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization());
 			languageProperty.addValueObserver(this);
 			//GlobalScope.propertiesRegistry.register(languageProperty);
-			languageDropDown = new CompDropDown(app, languageProperty);
+			languageDropDown = new ComponentDropDown(app, languageProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
 							.setFor(languageDropDown);

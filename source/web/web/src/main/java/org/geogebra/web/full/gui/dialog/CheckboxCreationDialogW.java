@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -45,7 +45,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 	private ComponentInputField tfCaption;
 	private final List<GeoElement> availableObjects = new ArrayList<>();
 	private final List<String> availableObjectNames = new ArrayList<>();
-	private CompDropDown gbObjects;
+	private ComponentDropDown gbObjects;
 	private GeoAttachedListBox gbList;
 
 	private final GPoint location;
@@ -143,7 +143,8 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 			}
 		}
 		availableObjectNames.add("");
-		gbObjects = new CompDropDown((AppW) app, "Tool.SelectObjects", availableObjectNames, -1);
+		gbObjects = new ComponentDropDown((AppW) app, "Tool.SelectObjects",
+				availableObjectNames, -1);
 		rebuildNames();
 	
 		// fill list with all selected geos

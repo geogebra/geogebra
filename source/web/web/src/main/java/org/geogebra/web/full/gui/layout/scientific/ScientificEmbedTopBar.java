@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.layout.scientific;
 
+import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbarpanel.UndoRedoProvider;
@@ -44,8 +45,8 @@ public class ScientificEmbedTopBar extends FlowPanel {
 	}
 
 	private void addSettingsButton() {
-		IconButton settingsButton = new IconButton(appW, () ->
-				appW.getGuiManager().showSciSettingsView(), new ImageIconSpec(
+		IconButton settingsButton = new IconButton(appW, () -> appW.getDialogManager()
+				.showPropertiesDialog(OptionType.GLOBAL, null), new ImageIconSpec(
 				MaterialDesignResources.INSTANCE.gear()), "Settings");
 		settingsButton.addStyleName("settingsBtnScientific");
 		add(settingsButton);

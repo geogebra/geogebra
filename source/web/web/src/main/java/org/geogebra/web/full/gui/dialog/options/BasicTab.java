@@ -13,8 +13,8 @@ import org.geogebra.common.properties.impl.graphics.RightAngleProperty;
 import org.geogebra.common.properties.impl.graphics.TooltipProperty;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -65,8 +65,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
 	private ComponentCheckbox cbAxisLabelItalic;
 	protected FlowPanel miscPanel;
 	private EuclidianOptionsModel model;
-	CompDropDown rightAngleStyleListBox;
-	CompDropDown lbTooltips;
+	ComponentDropDown rightAngleStyleListBox;
+	ComponentDropDown lbTooltips;
 
 	/**
 	 * @param optionsEuclidianW
@@ -439,7 +439,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
 		// show tooltips
 		TooltipProperty tooltipProperty = new TooltipProperty(optionsEuclidianW.loc,
 				model.getSettings(), optionsEuclidianW.view);
-		lbTooltips = new CompDropDown(optionsEuclidianW.app, tooltipProperty);
+		lbTooltips = new ComponentDropDown(optionsEuclidianW.app, tooltipProperty);
 		tooltips = new FormLabel(
 				optionsEuclidianW.loc.getMenu("Tooltips") + ":")
 						.setFor(lbTooltips);
@@ -447,7 +447,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
 
 		RightAngleProperty angleProperty = new RightAngleProperty(optionsEuclidianW.loc,
 				optionsEuclidianW.app);
-		rightAngleStyleListBox = new CompDropDown(optionsEuclidianW.app, angleProperty);
+		rightAngleStyleListBox = new ComponentDropDown(optionsEuclidianW.app, angleProperty);
 		rightAngleStyleLabel = new FormLabel(
 				optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":")
 						.setFor(rightAngleStyleListBox);

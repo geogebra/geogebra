@@ -58,14 +58,6 @@
         }
     }
 
-    .scientificSettingsView {
-        background-color: neutral(100);
-    }
-
-    .scientificSettingsViewSmall {
-        background-color: white;
-    }
-
     %sheetOfPaper {
         background-color: neutral(100);
          &>div {
@@ -99,27 +91,6 @@
             margin-bottom: 0;
             border-bottom-right-radius: 0px;
             border-bottom-left-radius: 0px;
-        }
-    }
-
-    .settingsPanelScientificNoHeader {
-        @extend %sheetOfPaper;
-        &>div {
-            padding-left: 16px;
-            padding-right: 128px;
-            padding-top: 8px;
-            padding-bottom: 8px;
-        }
-    }
-
-    .settingsPanelScientificSmallScreen {
-        @extend .settingsPanelScientificNoHeader;
-        &>div {
-            width: 100%;
-            max-width: 100%;
-            margin-top: 0px;
-            margin-bottom: 0px;
-            box-shadow: none;
         }
     }
 

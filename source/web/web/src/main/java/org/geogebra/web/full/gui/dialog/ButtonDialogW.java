@@ -8,7 +8,7 @@ import org.geogebra.common.gui.dialog.ButtonDialogModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -87,7 +87,7 @@ public class ButtonDialogW extends ComponentDialog
 			List<String> optionNames = options.stream()
 					.map(geo -> geo == null ? "" : geo.toString(StringTemplate.defaultTemplate))
 					.collect(Collectors.toList());
-			CompDropDown linkedDropDown = new CompDropDown((AppW) app, "LinkedObject",
+			ComponentDropDown linkedDropDown = new ComponentDropDown((AppW) app, "LinkedObject",
 					optionNames, 0);
 			linkedDropDown.addChangeHandler(() -> updateModel(linkedDropDown, options));
 			linkedDropDown.setDisabled(options.size() < 2);
@@ -105,7 +105,7 @@ public class ButtonDialogW extends ComponentDialog
 	 * @param cbAdd
 	 *            list of geos
 	 */
-	protected void updateModel(CompDropDown cbAdd, ArrayList<GeoElement> options) {
+	protected void updateModel(ComponentDropDown cbAdd, ArrayList<GeoElement> options) {
 		model.setLinkedGeo(options.get(cbAdd.getSelectedIndex()));
 	}
 

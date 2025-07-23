@@ -143,9 +143,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	boolean isOpenFileViewLoaded();
 
-	@MissingDoc
-	void showSciSettingsView();
-
 	/**
 	 * Show or hide the toolbar.
 	 * @param show whether to show

@@ -75,7 +75,6 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.LayoutW;
-import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.panels.CASDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ConstructionProtocolDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.DataAnalysisViewDockPanelW;
@@ -87,7 +86,6 @@ import org.geogebra.web.full.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.PropertiesDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.action.SaveExamAction;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -183,7 +181,6 @@ public class GuiManagerW extends GuiManager
 
 	private GGWMenuBar mainMenuBar;
 
-	private AnimatingPanel sciSettingsView;
 	private TemplateChooserController templateController;
 
 	private Runnable runAfterLogin;
@@ -564,17 +561,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean hasCasView() {
 		return casView != null;
-	}
-
-	@Override
-	public void showSciSettingsView() {
-		if (sciSettingsView == null) {
-			sciSettingsView = new ScientificSettingsView(getApp());
-			getApp().getLocalization().registerLocalizedUI(sciSettingsView);
-		}
-		frame.forceHeaderHidden(true);
-		getApp().setCloseBrowserCallback(() -> frame.forceHeaderHidden(false));
-		frame.showPanel(sciSettingsView);
 	}
 
 	@Override

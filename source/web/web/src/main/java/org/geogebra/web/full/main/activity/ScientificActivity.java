@@ -90,11 +90,6 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public void showSettingsView(AppW app) {
-		app.getGuiManager().showSciSettingsView();
-	}
-
-	@Override
 	public SVGResource getIcon() {
 		return MaterialDesignResources.INSTANCE.scientific();
 	}

@@ -74,8 +74,8 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
 import org.geogebra.web.full.gui.properties.OptionPanel;
@@ -132,7 +132,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private class LabelPanel extends OptionPanel implements IShowLabelListener {
 		final ComponentCheckbox showLabelCB;
 		private final FlowPanel mainWidget;
-		final CompDropDown labelMode;
+		final ComponentDropDown labelMode;
 		ShowLabelModel model;
 
 		public LabelPanel() {
@@ -150,7 +150,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			LabelStyleProperty labelStyleProp = new LabelStyleProperty(this);
 
-			labelMode = new CompDropDown(app, "", labelStyleProp);
+			labelMode = new ComponentDropDown(app, "", labelStyleProp);
 			mainWidget.add(labelMode);
 		}
 

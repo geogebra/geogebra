@@ -10,8 +10,8 @@ import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
-import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -34,14 +34,14 @@ public class OptionsAlgebraW
 		private FlowPanel optionsPanel;
 		private Label lblShow;
 		private ComponentCheckbox showAuxiliaryObjects;
-		private CompDropDown sortMode;
-		private CompDropDown description;
+		private ComponentDropDown sortMode;
+		private ComponentDropDown description;
 		private FormLabel lblCoordStyle;
-		private CompDropDown coordStyle;
+		private ComponentDropDown coordStyle;
 		private FormLabel lblSortMode;
 		private FormLabel lblDescriptionMode;
 
-		private @CheckForNull CompDropDown angleUnit;
+		private @CheckForNull ComponentDropDown angleUnit;
 		private @CheckForNull FormLabel lblAngleUnit;
 		private @CheckForNull FlowPanel angleUnitRow;
 
@@ -85,7 +85,7 @@ public class OptionsAlgebraW
 		private void buildSortByUI() {
 			NamedEnumeratedProperty<?> sortProperty = new SortByProperty(app.getSettings()
 					.getAlgebra(), app.getLocalization());
-			sortMode = new CompDropDown(app, sortProperty);
+			sortMode = new ComponentDropDown(app, sortProperty);
 			lblSortMode = new FormLabel().setFor(sortMode);
 			lblSortMode.addStyleName("panelTitle");
 			lblDescriptionMode = new FormLabel().setFor(sortMode);
@@ -95,13 +95,13 @@ public class OptionsAlgebraW
 		private void buildDescriptionUI() {
 			NamedEnumeratedProperty<?> descriptionProperty = new AlgebraDescriptionProperty(
 					app, app.getLocalization());
-			description = new CompDropDown(app, descriptionProperty);
+			description = new ComponentDropDown(app, descriptionProperty);
 		}
 
 		private void buildCoordStyleUI() {
 			NamedEnumeratedProperty<?> coordProperty = new CoordinatesProperty(app.getKernel(),
 					app.getLocalization());
-			coordStyle = new CompDropDown(app, coordProperty);
+			coordStyle = new ComponentDropDown(app, coordProperty);
 			lblCoordStyle = new FormLabel(
 					getApp().getLocalization().getMenu("Coordinates") + ":")
 					.setFor(coordStyle);
@@ -112,7 +112,7 @@ public class OptionsAlgebraW
 			if (app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow == null) {
 				NamedEnumeratedProperty<?> angleProperty = new AngleUnitProperty(app.getKernel(),
 						app.getLocalization());
-				angleUnit = new CompDropDown(app, angleProperty);
+				angleUnit = new ComponentDropDown(app, angleProperty);
 				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
 				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
 				lblAngleUnit.addStyleName("dropDownLabel");

@@ -7,9 +7,9 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -32,7 +32,7 @@ public class AxisPanel extends FlowPanel
 	protected ComponentCheckbox cbAllowSelection;
 
 	protected ComponentComboBox ncbTickDist;
-	protected CompDropDown lbTickStyle;
+	protected ComponentDropDown lbTickStyle;
 	private final ComponentComboBox comboAxisLabel;
 	private final ComponentComboBox comboUnitLabel;
 	protected AutoCompleteTextFieldW tfCross;
@@ -83,7 +83,7 @@ public class AxisPanel extends FlowPanel
 				model::applyAllowSelection);
 
 		// ticks
-		lbTickStyle = new CompDropDown(app, "", model.getTickOptions(),
+		lbTickStyle = new ComponentDropDown(app, "", model.getTickOptions(),
 				model.getTickStyleIndex(axis));
 		axisTicks = new FormLabel(loc.getMenu("AxisTicks") + ":")
 				.setFor(lbTickStyle);

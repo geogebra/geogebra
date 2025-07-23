@@ -16,8 +16,8 @@ import org.geogebra.common.properties.impl.collections.ActionablePropertyCollect
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
-import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
@@ -110,7 +110,7 @@ public class PropertiesPanelAdapter {
 
 		}
 		if (property instanceof NamedEnumeratedProperty) {
-			CompDropDown dropDown = new CompDropDown(app, property.getName(),
+			ComponentDropDown dropDown = new ComponentDropDown(app, property.getName(),
 					(NamedEnumeratedProperty<?>) property);
 			dropDown.setFullWidth(true);
 			return dropDown;

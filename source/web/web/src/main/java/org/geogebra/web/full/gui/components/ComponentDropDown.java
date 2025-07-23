@@ -1,182 +1,200 @@
 package org.geogebra.web.full.gui.components;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
+import org.gwtproject.user.client.ui.SimplePanel;
 
-/**
- * Dropdown material design component
- *
- * @author kriszta
- */
-
-public class ComponentDropDown extends FlowPanel {
-
-	private static final int ITEM_HEIGHT = 32;
-	private Label titleLabel;
-	private Label selectedOptionLabel;
-	private List<AriaMenuItem> dropDownElementsList;
-	private DropDownSelectionCallback selectionCallback;
-	private ComponentDropDownPopup dropDown;
+public class ComponentDropDown extends FlowPanel implements SetLabels {
+	private final AppW app;
+	private Label label;
+	private final String labelKey;
+	private Label selectedOption;
+	private SimplePanel arrowIcon;
+	private boolean isDisabled = false;
+	private DropDownComboBoxController controller;
+	private boolean fullWidth = false;
 
 	/**
-	 *
-	 * @param app
-	 *            AppW
+	 * Material drop-down component
+	 * @param app see {@link AppW}
+	 * @param label of drop-down
+	 * @param items popup elements
 	 */
-	public ComponentDropDown(AppW app) {
-		buildGui(app);
+	private ComponentDropDown(AppW app, String label, List<String> items) {
+		this.app = app;
+		labelKey = label;
+		addStyleName("dropDown");
+
+		buildGUI(label);
+		addClickHandler();
+
+		initController(items);
 	}
 
-	private void buildGui(AppW app) {
-		setStyleName("dropDownSelectorContainer");
-
-		FlowPanel contentPanel = new FlowPanel();
-		contentPanel.setStyleName("dropDownSelector");
-
-		createTitleLabel();
-		createSelectedOptionLabel();
-		createDropDownMenu(app);
-
-		contentPanel.add(titleLabel);
-		contentPanel.add(selectedOptionLabel);
-
-		add(contentPanel);
+	/**
+	 * @param app see {@link AppW}
+	 * @param label label of drop-down
+	 * @param items popup elements
+	 * @param defaultIdx selected index by default
+	 */
+	public ComponentDropDown(AppW app, String label, List<String> items, int defaultIdx) {
+		this(app, label, items);
+		controller.setSelectedOption(defaultIdx);
+		updateSelectionText();
 	}
 
-	private void createTitleLabel() {
-		titleLabel = new Label();
-		titleLabel.setStyleName("titleLabel");
+	/**
+	 * @param app see {@link AppW}
+	 * @param label label of drop-down
+	 * @param property property
+	 */
+	public ComponentDropDown(AppW app, String label, NamedEnumeratedProperty<?> property) {
+		this(app, label, Arrays.asList(property.getValueNames()));
+		controller.setProperty(property);
+		if (property.getIndex() > -1) {
+			controller.setSelectedOption(property.getIndex());
+		}
+		updateSelectionText();
 	}
 
-	private void createSelectedOptionLabel() {
-		selectedOptionLabel = new Label();
-		selectedOptionLabel.setStyleName("selectedOptionLabel");
+	/**
+	 * @param app see {@link AppW}
+	 * @param property property
+	 */
+	public ComponentDropDown(AppW app, NamedEnumeratedProperty<?> property) {
+		this(app, null, property);
 	}
 
-	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, ITEM_HEIGHT, selectedOptionLabel, null);
-		dropDown.addAutoHidePartner(getElement());
+	private void initController(List<String> items) {
+		controller = new DropDownComboBoxController(app, this, items, () -> {
+			removeStyleName("active");
+			arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
+					.arrow_drop_down().getSVG());
+		});
+		controller.addChangeHandler(this::updateSelectionText);
+		updateSelectionText();
+	}
+
+	private void buildGUI(String labelStr) {
+		FlowPanel optionHolder = new FlowPanel();
+		optionHolder.addStyleName("optionLabelHolder");
+
+		if (labelStr != null && !labelStr.isEmpty()) {
+			label = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					app.getLocalization().getMenu(labelStr), "label");
+			optionHolder.add(label);
+		}
+
+		selectedOption = BaseWidgetFactory.INSTANCE.newPrimaryText("", "selectedOption");
+		optionHolder.add(selectedOption);
+		add(optionHolder);
+
+		arrowIcon = new SimplePanel();
+		arrowIcon.addStyleName("arrow");
+		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
+				.arrow_drop_down().getSVG());
+		add(arrowIcon);
+	}
+
+	private void addClickHandler() {
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				toggleExpanded();
+				if (!isDisabled) {
+					controller.toggleAsDropDown(fullWidth);
+					updateIcon();
+				}
 			}
 		});
 	}
 
+	private void updateIcon() {
+		String svg = controller.isOpened() ? MaterialDesignResources.INSTANCE
+				.arrow_drop_up().getSVG() : MaterialDesignResources.INSTANCE
+				.arrow_drop_down().getSVG();
+		arrowIcon.getElement().setInnerHTML(svg);
+	}
+
+	public int getSelectedIndex() {
+		return controller.getSelectedIndex();
+	}
+
 	/**
-	 * Expand/collapse the dropdown.
+	 * Disable drop-down component
+	 * @param disabled true, if drop-down should be disabled
 	 */
-	protected void toggleExpanded() {
-		if (dropDown.isOpened()) {
-			dropDown.close();
-		} else {
-			dropDown.positionAsDropDown();
+	public void setDisabled(boolean disabled) {
+		isDisabled = disabled;
+		Dom.toggleClass(this, "disabled", disabled);
+	}
+
+	@Override
+	public void setLabels() {
+		if (label != null) {
+			label.setText(app.getLocalization().getMenu(labelKey));
 		}
-	}
-
-	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
-		for (AriaMenuItem menuItem : menuItems) {
-			dropDown.addItem(menuItem);
-		}
+		controller.setLabels();
+		updateSelectionText();
 	}
 
 	/**
-	 * set the title of the dropdown in the preview view
-	 *
-	 * @param title
-	 *            the localized title which is displayed above the selected
-	 *            option
+	 * This should be called automatically when an item is selected (by user or programmatically)
 	 */
-	public void setTitleText(String title) {
-		titleLabel.setText(title);
+	private void updateSelectionText() {
+		selectedOption.setText(controller.getSelectedText());
 	}
 
 	/**
-	 * set the selected option in the preview view
-	 *
-	 * @param selected
-	 *            index of the selected item from the dropdown list
+	 * Add a change handler.
+	 * @param changeHandler change handler
 	 */
-	public void setSelected(int selected) {
-		highlightSelectedElement(dropDown.getSelectedIndex(), selected);
-		dropDown.setSelectedIndex(selected);
-		selectedOptionLabel.setText(
-				dropDownElementsList.get(selected).getElement().getInnerText());
-	}
-
-	private void highlightSelectedElement(int previousSelectedIndex,
-			int currentSelectedIndex) {
-		dropDownElementsList.get(previousSelectedIndex)
-				.removeStyleName("selectedDropDownElement");
-		dropDownElementsList.get(currentSelectedIndex)
-				.addStyleName("selectedDropDownElement");
+	public void addChangeHandler(Runnable changeHandler) {
+		controller.addChangeHandler(changeHandler);
 	}
 
 	/**
-	 * Set the elements of the dropdown list
-	 *
-	 * @param dropDownList
-	 *            List of strings which will be shown in the dropdown list
+	 * reset dropdown to the model (property) value
 	 */
-	public void setElements(final List<String> dropDownList) {
-		dropDownElementsList = new ArrayList<>();
+	public void resetFromModel() {
+		controller.resetFromModel();
+		updateSelectionText();
+	}
 
-		for (int i = 0; i < dropDownList.size(); ++i) {
-			final int currentIndex = i;
-			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), null,
-					() -> {
-						setSelected(currentIndex);
-						fireSelected(currentIndex);
-					});
-
-			item.setStyleName("dropDownElement");
-			dropDownElementsList.add(item);
-		}
-		setupDropDownMenu(dropDownElementsList);
+	public void setFullWidth(boolean isFullWidth) {
+		fullWidth = isFullWidth;
 	}
 
 	/**
-	 * Notify callback
-	 *
-	 * @param currentIndex
-	 *            selected index
+	 * @param dropdownIndex selected index
 	 */
-	void fireSelected(int currentIndex) {
-		if (selectionCallback != null) {
-			selectionCallback.onSelectionChanged(currentIndex);
-		}
+	public void setSelectedIndex(int dropdownIndex) {
+		controller.setSelectedOption(dropdownIndex);
+		updateSelectionText();
 	}
 
 	/**
-	 * set itemSelected callback
-	 *
-	 * @param callback
-	 *            which will be called after an item was selected from the
-	 *            dropdown
-	 *
+	 * @return text of selected item
 	 */
-	public void setDropDownSelectionCallback(
-			DropDownSelectionCallback callback) {
-		selectionCallback = callback;
+	public String getSelectedText() {
+		return controller.getSelectedText();
 	}
 
 	/**
-	 * Selection callback
+	 * @param property update property
 	 */
-	public interface DropDownSelectionCallback {
-		/**
-		 * @param index
-		 *            selected index
-		 */
-		void onSelectionChanged(int index);
+	public void setProperty(NamedEnumeratedProperty<?> property) {
+		controller.setProperty(property);
 	}
 }

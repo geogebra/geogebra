@@ -12,7 +12,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.Widget;
 public class DistributionPanel extends FlowPanel implements InsertHandler, ExamListener {
 	private ProbabilityCalculatorViewW view;
 	private Localization loc;
-	private CompDropDown distributionDropDown;
+	private ComponentDropDown distributionDropDown;
 	private ToggleButton cumulativeWidget;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
@@ -184,7 +184,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 		distTypeProperty = new DistributionTypeProperty(loc, view);
 		GlobalScope.propertiesRegistry.register(distTypeProperty, getApp());
 		String comboLbl = getApp().getConfig().hasDistributionView() ? "Distribution" : null;
-		distributionDropDown = new CompDropDown(getApp(), comboLbl, distTypeProperty);
+		distributionDropDown = new ComponentDropDown(getApp(), comboLbl, distTypeProperty);
 		if (getApp().getConfig().hasDistributionView()) {
 			distributionDropDown.setFullWidth(true);
 		}

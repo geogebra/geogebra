@@ -512,9 +512,7 @@ public class DialogManagerW extends DialogManager
 		}
 
 		// show the view
-		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
-			((GuiManagerW) app.getGuiManager()).showSciSettingsView();
-		} else if (app.isUnbundledOrWhiteboard()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) pv).open();
 		} else {
 			app.getGuiManager().setShowView(true,
@@ -525,8 +523,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	protected boolean isPropertiesViewShowing() {
 		return super.isPropertiesViewShowing()
-				|| isFloatingPropertiesViewShowing()
-				|| ((AppWFull) app).getAppletFrame().isSciSettingsOpen();
+				|| isFloatingPropertiesViewShowing();
 	}
 
 	private boolean isFloatingPropertiesViewShowing() {
@@ -536,10 +533,7 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	protected void hidePropertiesView() {
-		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
-			((AppWFull) app).getAppletFrame().hidePanel(null);
-			((AppWFull) app).onBrowserClose();
-		} else if (app.isUnbundledOrWhiteboard()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			PropertiesView pv = ((GuiManagerW) app.getGuiManager())
 					.getPropertiesView(OptionType.OBJECTS);
 			((PropertiesViewW) pv).close();

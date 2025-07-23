@@ -323,32 +323,6 @@
 		}
 	}
 
-
-	/* DROPDOWN COMPONENT */
-	.dropDownSelectorContainer {
-		max-width: 200px;
-   }
-
-	.dropDownSelector {
-		position: relative;
-		height: 64px;
-
-		.titleLabel {
-			font-size: 100%;
-			width: 100%;
-			height: 24px;
-			padding-top: 10px;
-			white-space: nowrap;
-		}
-
-		.selectedOptionLabel {
-			font-size: 87.5%;
-			height: 20px;
-			padding-bottom: 10px;
-			color: colors.$black-60;
-		}
-	}
-
 	.dropDownPopup {
 		overflow-y: auto;
 		opacity: 0;
@@ -1189,6 +1163,7 @@
 		padding: 12px;
 		border-radius: 50%;
 		transition: background-color 150ms ease 0ms;
+		cursor: pointer;
 
 		&.small {
 			padding: 6px;

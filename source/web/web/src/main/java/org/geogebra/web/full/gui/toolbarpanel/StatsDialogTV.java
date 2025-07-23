@@ -7,7 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecification;
-import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -83,7 +83,7 @@ public class StatsDialogTV extends ComponentDialog {
 		List<String> items = new ArrayList<>();
 		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
 
-		CompDropDown regressionChooser = new CompDropDown((AppW) app,
+		ComponentDropDown regressionChooser = new ComponentDropDown((AppW) app,
 				app.getLocalization().getMenu("RegressionModel"), items, 0);
 		regressionChooser.setFullWidth(true);
 		regressionChooser.addChangeHandler(() -> {

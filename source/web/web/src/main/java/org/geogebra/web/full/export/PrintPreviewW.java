@@ -6,7 +6,7 @@ import java.util.List;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.components.CompDropDown;
+import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -27,7 +27,7 @@ import elemental2.dom.HTMLCollection;
  * Print dialog
  */
 public class PrintPreviewW extends ComponentDialog {
-	private CompDropDown viewDropDown;
+	private ComponentDropDown viewDropDown;
 	private FlowPanel printPanel;
 	private SimplePanel scalePanelHolder;
 	private final Localization loc;
@@ -56,7 +56,7 @@ public class PrintPreviewW extends ComponentDialog {
 		RootPanel.get().add(printPanel);
 
 		initKeysAndIndices();
-		viewDropDown = new CompDropDown((AppW) app, null, keys, getFocusedPanelIdx());
+		viewDropDown = new ComponentDropDown((AppW) app, null, keys, getFocusedPanelIdx());
 		viewDropDown.setFullWidth(true);
 		viewDropDown.addChangeHandler(() -> {
 			scalePanelHolder.clear();
