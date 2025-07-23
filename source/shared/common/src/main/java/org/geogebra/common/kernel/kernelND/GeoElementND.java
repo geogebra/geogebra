@@ -1706,4 +1706,17 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * @return whether this element is an inequality (in one or more variables)
 	 */
 	boolean isInequality();
+
+	/**
+	 * Returns a string used to render a LaTeX form of the geo's algebra
+	 * description.
+	 *
+	 * @param substituteNumbers
+	 *            true to replace variable names by values
+	 * @param tpl
+	 *            string template
+	 * @return string used to render a LaTeX form of the geo's algebra
+	 *         description.
+	 */
+	String getLaTeXAlgebraDescription(boolean substituteNumbers, StringTemplate tpl);
 }

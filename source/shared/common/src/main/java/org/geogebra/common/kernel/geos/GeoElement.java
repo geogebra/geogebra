@@ -723,7 +723,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (getLabelDelimiter() == Unicode.ZERO_WIDTH_SPACE) {
 			return "";
 		}
-		return getLabelDelimiter() == '=' ? tpl.getEqualsWithSpace() : getLabelDelimiter() + " ";
+		return getLabelDelimiter() == '=' ? tpl.getEqualsWithSpace() : tpl.getColonAssignment();
 	}
 
 	@Override
@@ -4148,17 +4148,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return ret;
 	}
 
-	/**
-	 * Returns a string used to render a LaTeX form of the geo's algebra
-	 * description.
-	 * 
-	 * @param substituteNumbers
-	 *            true to replace variable names by values
-	 * @param tpl
-	 *            string template
-	 * @return string used to render a LaTeX form of the geo's algebra
-	 *         description.
-	 */
+	@Override
 	public final @CheckForNull String getLaTeXAlgebraDescription(
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
@@ -4195,7 +4185,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		// handle undefined
 		if (algebraDesc.contains(":") && !geo.isGeoText()) {
 			if (includeLHS) {
-				sb.append(getAssignmentLHS(tpl)).append(": \\,");
+				sb.append(getAssignmentLHS(tpl)).append(tpl.getColonAssignment());
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}

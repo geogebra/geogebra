@@ -9,6 +9,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.annotation.Issue;
@@ -61,7 +62,16 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 				+ "</element>");
 		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
 				((GeoQuadric3D) lookup("b")).getEquationForm());
-		assertThat(add("FormulaText(b,true,true)"), hasValue("b: \\,x² - z²\\, = \\,0"));
+		assertThat(add("FormulaText(b,true,true)"),
+				hasValue("b\\mathpunct{:}\\,x² - z²\\, = \\,0"));
+	}
+
+	@Test
+	public void assignmentInLaTeXShouldHaveOnlyOneSpace() {
+		assertEquals("f\\mathpunct{:}\\,y\\, = \\,x^{2} + z",
+				add("y=x^2+z").toString(StringTemplate.latexTemplate));
+		assertEquals("g\\mathpunct{:}\\,y\\, = \\,x^{2} + z",
+				add("y=x^2+z").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
 	}
 
 	private Matcher<GeoElement> hasType(String type) {

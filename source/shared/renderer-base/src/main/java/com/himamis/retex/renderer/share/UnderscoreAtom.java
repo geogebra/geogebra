@@ -65,6 +65,7 @@ public class UnderscoreAtom extends Atom implements HasCharacter {
 				.getDefaultRuleThickness(env.getStyle());
 		final HorizontalBox hb = new HorizontalBox(s.createBox(env));
 		hb.add(new VerticalBox(new HorizontalRule(drt, w.getValue(env), 0.)));
+		hb.setAtom(this);
 		return hb;
 	}
 

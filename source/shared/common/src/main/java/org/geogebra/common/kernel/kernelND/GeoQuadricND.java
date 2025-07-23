@@ -482,7 +482,7 @@ public abstract class GeoQuadricND extends GeoElement
 		StringBuilder sbToString = new StringBuilder();
 		sbToString.setLength(0);
 		sbToString.append(label);
-		sbToString.append(": ");
+		sbToString.append(tpl.getColonAssignment());
 		sbToString.append(buildValueString(tpl).toString());
 		return sbToString.toString();
 	}

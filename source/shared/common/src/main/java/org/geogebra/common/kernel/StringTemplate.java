@@ -3842,4 +3842,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		copy.usePointTemplate = false;
 		return copy;
 	}
+
+	public String getColonAssignment() {
+		return isLatex() ? "\\mathpunct{:}\\," : ": ";
+	}
 }

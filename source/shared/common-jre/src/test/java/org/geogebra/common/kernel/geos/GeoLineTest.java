@@ -5,9 +5,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
@@ -83,5 +85,13 @@ public class GeoLineTest extends BaseUnitTest {
 		assertThat(add("D_1:Point(d,1)"), hasValue("?"));
 		assertThat(add("Angle(D_0)/deg"), hasValue(unicode("240")));
 		assertThat(add("Angle(D_1)/deg"), hasValue(unicode("60")));
+	}
+
+	@Test
+	public void assignmentInLaTeXShouldHaveOnlyOneSpace() {
+		assertEquals("f\\mathpunct{:}\\,y\\, = \\,x",
+				add("y=x").toString(StringTemplate.latexTemplate));
+		assertEquals("g\\mathpunct{:}\\,y\\, = \\,x",
+				add("y=x").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
 	}
 }

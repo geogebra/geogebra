@@ -880,7 +880,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/** output depends on mode: PARAMETRIC or EQUATION */
 	@Override
 	public String toString(StringTemplate tpl) {
-		return label + ": " + toValueString(tpl);
+		return label + tpl.getColonAssignment() + toValueString(tpl);
 	}
 
 	private StringBuilder getSbToString() {

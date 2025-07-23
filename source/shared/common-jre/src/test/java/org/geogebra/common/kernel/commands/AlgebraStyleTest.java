@@ -337,17 +337,17 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		t("a = 7");
 		t("f: y = x^3");
 		t("g: y = x^3 + a");
-		assertEquals(TestStringUtil.unicode("f: \\,y = x^3"),
+		assertEquals("f\\mathpunct{:}\\,y = x^{3}",
 				getGeo("f").getLaTeXAlgebraDescription(false,
-						StringTemplate.defaultTemplate));
-		assertEquals(TestStringUtil.unicode("f: \\,y = x^3"),
+						StringTemplate.latexTemplate));
+		assertEquals("f\\mathpunct{:}\\,y = x^{3}",
 				getGeo("f").getLaTeXAlgebraDescription(true,
-						StringTemplate.defaultTemplate));
+						StringTemplate.latexTemplate));
 		assertEquals(TestStringUtil.unicode("f: y = x^3"),
 				getGeo("f").getDefinitionForInputBar());
-		assertEquals(TestStringUtil.unicode("g: \\,y = x^3 + a"),
+		assertEquals("g\\mathpunct{:}\\,y = x^{3} + a",
 				getGeo("g").getLaTeXAlgebraDescription(false,
-						StringTemplate.defaultTemplate));
+						StringTemplate.latexTemplate));
 		// TODO missing y =
 		assertEquals(TestStringUtil.unicode("g: x^3 + a"),
 				getGeo("g").getDefinitionForInputBar());
@@ -359,10 +359,10 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		t("ff: z = y + x^3");
 		t("gg: z = y +x^3 + a");
 		t("hh(x,y) = y +x^3 + a");
-		assertEquals("ff: \\,z = y + x^{3}",
+		assertEquals("ff\\mathpunct{:}\\,z = y + x^{3}",
 				getGeo("ff").getLaTeXAlgebraDescription(false,
 						StringTemplate.latexTemplate));
-		assertEquals("gg: \\,z = y + x^{3} + a",
+		assertEquals("gg\\mathpunct{:}\\,z = y + x^{3} + a",
 				getGeo("gg").getLaTeXAlgebraDescription(false,
 						StringTemplate.latexTemplate));
 		assertEquals("hh\\left(x, y \\right)\\, = \\,y + x^{3} + a",

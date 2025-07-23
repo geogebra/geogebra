@@ -120,8 +120,10 @@ public class AlgebraItemTest extends BaseUnitTest {
                 AlgebraItem.getLatexString(conic, LATEX_MAX_EDIT_LENGTH, false);
         String latexStringQuadric =
                 AlgebraItem.getLatexString(quadric, LATEX_MAX_EDIT_LENGTH, false);
-        assertThat(latexStringConic, equalTo("eq1: \\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,1"));
-        assertThat(latexStringQuadric, equalTo("eq2: \\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,z"));
+        assertThat(latexStringConic,
+                equalTo("eq1\\mathpunct{:}\\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,1"));
+        assertThat(latexStringQuadric,
+                equalTo("eq2\\mathpunct{:}\\,\\frac{x^{2}}{\\sqrt{2}}\\, = \\,z"));
     }
 
     @Test

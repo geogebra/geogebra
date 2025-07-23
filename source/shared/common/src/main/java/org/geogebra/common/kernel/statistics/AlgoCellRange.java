@@ -316,6 +316,9 @@ public class AlgoCellRange extends AlgoElement {
 			sb.append("\")");
 			return sb.toString();
 		}
+		if (tpl.isLatex()) {
+			return startCell + "\\mathpunct{:}" + endCell;
+		}
 		return toStringOutput;
 	}
 

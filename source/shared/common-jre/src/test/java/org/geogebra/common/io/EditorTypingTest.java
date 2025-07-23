@@ -1042,4 +1042,9 @@ public class EditorTypingTest {
 		checker.type("f''").left(1).insert("\u2032").checkGGBMath("f'''");
 		checker.type("f'").left(1).insert("\u2033").checkGGBMath("f'''");
 	}
+
+	@Test
+	public void colonInLaTeXShouldNotAddSpace() {
+		checker.type(":").checkLaTeX("\\mathpunct{:}");
+	}
 }

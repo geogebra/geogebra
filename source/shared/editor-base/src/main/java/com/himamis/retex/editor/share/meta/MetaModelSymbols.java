@@ -49,7 +49,7 @@ class MetaModelSymbols {
 		// removed GGB-2539
 		// collection.addComponent(createOperator("'"));
 		// collection.addComponent(createOperator("!"));
-		collection.addComponent(createOperator(":"));
+		collection.addComponent(createOperator(":", "\\mathpunct{:}", ':'));
 		collection.addComponent(createOperator("="));
 		// APPS-557
 		collection.addComponent(createOperator(Unicode.COLON_EQUALS + ""));

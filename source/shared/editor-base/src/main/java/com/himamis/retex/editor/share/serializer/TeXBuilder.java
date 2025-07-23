@@ -43,6 +43,7 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.TextStyle;
 import com.himamis.retex.renderer.share.TextStyleAtom;
+import com.himamis.retex.renderer.share.TypedAtom;
 import com.himamis.retex.renderer.share.UnderOverArrowAtom;
 import com.himamis.retex.renderer.share.UnderscoreAtom;
 import com.himamis.retex.renderer.share.Unit;
@@ -292,6 +293,10 @@ public class TeXBuilder {
 					parser.getAtomFromUnicode('\u2032', false)));
 		case Unicode.DEGREE_CHAR:
 			return asScript(parser.getAtomFromUnicode('\u2218', false));
+
+		case ':':
+			return new ResizeAtom(new TypedAtom(TeXConstants.TYPE_PUNCTUATION,
+					parser.getAtomFromUnicode(unicode, true)), null, null);
 		}
 
 		String replacement = replacements.get(unicode);
