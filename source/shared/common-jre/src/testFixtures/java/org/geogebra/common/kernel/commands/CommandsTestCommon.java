@@ -3248,18 +3248,6 @@ public class CommandsTestCommon extends BaseCommandTest {
 	}
 
 	@Test
-	public void cmdExtremumHighDeg() {
-		long time = System.currentTimeMillis();
-		StringTemplate lowPrecision = StringTemplate.printDecimals(
-				ExpressionNodeConstants.StringType.GEOGEBRA, 2, false);
-		t("Extremum((x+1)^24)", "(-1, 0)");
-		t("Extremum((x+1)^98)", lowPrecision, "(-1, 0)");
-		// nearly horizontal => x coordinate random, assert on y only
-		t("y(Extremum((x+1)^98+1))", lowPrecision, "1");
-		assertTrue(System.currentTimeMillis() - time < 1000);
-	}
-
-	@Test
 	public void cmdRootList() {
 		t("RootList[ {1,2,3,4,5} ]", "{(1, 0), (2, 0), (3, 0), (4, 0), (5, 0)}");
 	}

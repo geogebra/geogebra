@@ -233,14 +233,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		for (int i = 0; i <= samples; i++) { // debug("iteration: "+i);
 
 			y[i] = rrfunc.value(l + i * deltax);
-			if (i > 0) { // grad only from 1 to n-1
-				if (y[i] >= y[i - 1]) { // grad positive or zero
-					grad[i - 1] = true;
-				} else { // grad negative
-					grad[i - 1] = false;
-				} // if gradient >=0 or <0
-					// debug("grad "+(i-1)+": "+grad[i-1]);
-			} // if gradients can be calculated
+			if (i > 0) {
+				grad[i - 1] = y[i] >= y[i - 1];
+			}
 
 			if (i > 1) {
 				double xval = 0.0;
@@ -281,6 +276,14 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		double vx = rrf.value(x);
 		double vxRight = rrf.value(x + dx);
 		double vxLeft = rrf.value(x - dx);
+		if (vxLeft == vx && vxRight == vx) {
+			double vxRightFurther = rrf.value(x + 1E6 * dx);
+			double vxLeftFurther = rrf.value(x - 1E6 * dx);
+			if (vxRightFurther == vx && vxLeftFurther == vx) {
+				return false;
+			}
+		}
+
 		if (vxRight >= vx && vxLeft >= vx) {
 			return true;
 		}
