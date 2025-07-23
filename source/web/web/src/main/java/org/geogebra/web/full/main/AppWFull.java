@@ -77,6 +77,7 @@ import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -2247,7 +2248,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				this.activity = new SuiteActivity(subApp,
 						!getSettings().getCasSettings().isEnabled());
 				getKernel().removeFiltersFromConfig();
-				setConfig(activity.getConfig());
+				updateConfigKeepEuclidianSettings();
 				getKernel().setFiltersFromConfig();
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
@@ -2257,6 +2258,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 			getDialogManager().hideCalcChooser();
 		}
+	}
+
+	private void updateConfigKeepEuclidianSettings() {
+		EuclidianSettings evSettings = getActiveEuclidianView().getSettings();
+		boolean grid = evSettings.getShowGrid();
+		int dimension = evSettings.getDimension();
+		boolean[] axes = new boolean[dimension];
+		for (int i = 0; i < dimension; i++) {
+			axes[i] = evSettings.getShowAxis(i);
+		}
+		setConfig(activity.getConfig());
+		for (int i = 0; i < dimension; i++) {
+			evSettings.setShowAxis(i, axes[1]);
+		}
+		evSettings.showGrid(grid);
 	}
 
 	private void removeUndoRedoPanel() {
