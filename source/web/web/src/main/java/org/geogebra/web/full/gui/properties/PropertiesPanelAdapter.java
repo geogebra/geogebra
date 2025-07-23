@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.properties;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.ActionableProperty;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.Property;
@@ -11,6 +12,9 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
+import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
+import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -19,6 +23,7 @@ import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -61,12 +66,29 @@ public class PropertiesPanelAdapter {
 					property.getName(),
 					checked -> ((BooleanProperty) property).setValue(checked));
 		}
+		if (property instanceof ActionablePropertyCollection<?>) {
+			FlowPanel buttonPanel = new FlowPanel();
+			buttonPanel.addStyleName("actionableButtonPanel");
+			for (ActionableProperty actionableProperty : ((ActionablePropertyCollection<?>)
+					property).getProperties()) {
+				StandardButton button = new StandardButton(app.getLocalization().getMenu(
+						actionableProperty.getName()));
+				if (actionableProperty instanceof SaveSettingsAction) {
+					button.addStyleName("dialogContainedButton");
+				} else if (actionableProperty instanceof RestoreSettingsAction) {
+					button.addStyleName("materialOutlinedButton");
+				}
+				button.addFastClickHandler(source -> actionableProperty.performAction());
+				buttonPanel.add(button);
+			}
+			return buttonPanel;
+		}
 		if (property instanceof PropertyCollection) {
 			BooleanProperty leadProperty = property instanceof PropertyCollectionWithLead
 					? ((PropertyCollectionWithLead) property).leadProperty : null;
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
 					leadProperty, property.getName());
-			for (Property prop: ((PropertyCollection<?>) property).getProperties()) {
+			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
 				expandableList.addToContent(getWidget(prop));
 			}
 			return expandableList;

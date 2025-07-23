@@ -679,7 +679,13 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			width: calc(100% - 32px);
 			margin: 16px 16px 8px 16px;
 		}
+		.actionableButtonPanel {
+			margin: 8px 16px;
 
+			.button {
+				margin: 10px 0 10px 10px;
+			}
+		}
 		.expandableList.extended + .expandableList.extended {
 			border-top: none;
 		}

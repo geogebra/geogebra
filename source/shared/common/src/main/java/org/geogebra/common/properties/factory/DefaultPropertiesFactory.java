@@ -12,17 +12,20 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.properties.ActionableProperty;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollectionWithLead;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
+import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
-import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
+import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.common.properties.impl.graphics.AdvancedPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
@@ -64,16 +67,26 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		Kernel kernel = app.getKernel();
 		Settings settings = app.getSettings();
 		return new PropertiesArray("General", localization,
-				registerProperties(propertiesRegistry,
+				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
+				? registerProperties(propertiesRegistry,
+						new LanguageProperty(app, localization),
 						new RoundingIndexProperty(app, localization),
-						new AngleUnitProperty(kernel, localization),
-						new LabelingProperty(localization, settings.getLabelSettings()),
 						new CoordinatesProperty(kernel, localization),
+						new AngleUnitProperty(kernel, localization),
 						new FontSizeProperty(
 								localization,
 								settings.getFontSettings(),
 								app.getFontSettingsUpdater()),
-						new LanguageProperty(app, localization)));
+						createSaveRestoreSettingsProperties(app, localization))
+				: registerProperties(propertiesRegistry,
+						new LanguageProperty(app, localization),
+						new RoundingIndexProperty(app, localization),
+						new CoordinatesProperty(kernel, localization),
+						new AngleUnitProperty(kernel, localization),
+						new FontSizeProperty(
+								localization,
+								settings.getFontSettings(),
+								app.getFontSettingsUpdater())));
 	}
 
 	/**
@@ -168,6 +181,13 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						axisExpandableProperty(2, "zAxis", app, localization),
 						new AdvancedPropertiesCollection(localization, euclidianSettings))
 		);
+	}
+
+	protected ActionablePropertyCollection<ActionableProperty> createSaveRestoreSettingsProperties(
+			App app, Localization localization) {
+		return new ActionablePropertyCollection<ActionableProperty>(localization, List.of(
+				new SaveSettingsAction(app, localization),
+				new RestoreSettingsAction(app, localization)));
 	}
 
 	protected Property axisExpandableProperty(int axis, String label, App app,

@@ -2778,4 +2778,46 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		autosavedMaterial = null;
 		getFileManager().deleteAutoSavedFile();
 	}
+
+	@Override
+	public void saveSettings() {
+		GeoGebraPreferencesW.saveXMLPreferences(this);
+	}
+
+	@Override
+	public void restoreSettings() {
+		GeoGebraPreferencesW.clearPreferences(this);
+
+		// reset defaults for GUI, views etc
+		// this has to be called before load XML preferences,
+		// in order to avoid overwrite
+		getSettings().resetSettings(this);
+
+		// for geoelement defaults, this will do nothing, so it is
+		// OK here
+		GeoGebraPreferencesW.resetPreferences(this);
+
+		// reset default line thickness etc
+		getKernel().getConstruction().getConstructionDefaults()
+				.resetDefaults();
+
+		// reset defaults for geoelements; this will create brand
+		// new objects
+		// so the options defaults dialog should be reset later
+		getKernel().getConstruction().getConstructionDefaults()
+				.createDefaultGeoElements();
+
+		// reset the stylebar defaultGeo
+		if (getEuclidianView1().hasStyleBar()) {
+			getEuclidianView1().getStyleBar().restoreDefaultGeo();
+		}
+		if (hasEuclidianView2EitherShowingOrNot(1)
+				&& getEuclidianView2(1).hasStyleBar()) {
+			getEuclidianView2(1).getStyleBar().restoreDefaultGeo();
+		}
+		// TODO needed to eg. update rounding, possibly too heavy
+		getKernel().updateConstruction(false);
+
+		guiManager.updatePropertiesView();
+	}
 }

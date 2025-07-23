@@ -153,7 +153,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization().getMenu("RestoreSettings"));
 			restoreSettingsBtn.setStyleName("settingsBtn");
 			restoreSettingsBtn.addFastClickHandler(source -> {
-				resetDefault();
+				app.restoreSettings();
 				fontSizeDropDown.resetFromModel();
 				labelingDropDown.resetFromModel();
 				roundingDropDown.resetFromModel();
@@ -183,43 +183,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			lblLanguage.setVisible(examController.isIdle());
 			languageDropDown.setVisible(examController.isIdle());
 			saveRestoreRow.setVisible(examController.isIdle());
-		}
-
-		/**
-		 * Reset defaults
-		 */
-		protected void resetDefault() {
-			GeoGebraPreferencesW.clearPreferences(app);
-
-			// reset defaults for GUI, views etc
-			// this has to be called before load XML preferences,
-			// in order to avoid overwrite
-			app.getSettings().resetSettings(app);
-
-			// for geoelement defaults, this will do nothing, so it is
-			// OK here
-			GeoGebraPreferencesW.resetPreferences(app);
-
-			// reset default line thickness etc
-			app.getKernel().getConstruction().getConstructionDefaults()
-					.resetDefaults();
-
-			// reset defaults for geoelements; this will create brand
-			// new objects
-			// so the options defaults dialog should be reset later
-			app.getKernel().getConstruction().getConstructionDefaults()
-					.createDefaultGeoElements();
-
-			// reset the stylebar defaultGeo
-			if (app.getEuclidianView1().hasStyleBar()) {
-				app.getEuclidianView1().getStyleBar().restoreDefaultGeo();
-			}
-			if (app.hasEuclidianView2EitherShowingOrNot(1)
-					&& app.getEuclidianView2(1).hasStyleBar()) {
-				app.getEuclidianView2(1).getStyleBar().restoreDefaultGeo();
-			}
-			// TODO needed to eg. update rounding, possibly too heavy
-			app.getKernel().updateConstruction(false);
 		}
 
 		/**

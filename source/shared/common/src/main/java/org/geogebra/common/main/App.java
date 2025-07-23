@@ -5164,4 +5164,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return guiManager.getLayout().getDockManager().getFocusedViewId() == VIEW_ALGEBRA;
 	}
 
+	/**
+	 * Save settings.
+	 */
+	public void saveSettings() {
+		// Overridden for web
+	}
+
+	/**
+	 * Restore default settings.
+	 */
+	public void restoreSettings() {
+		// Overridden for web
+	}
+
 }
