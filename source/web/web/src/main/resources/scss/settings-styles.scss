@@ -651,7 +651,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 	.PropertiesViewW .sideSheet {
 		.contentPanel {
-			height: 100%;
+			height: calc(100% - 64px); //64px height of sideSheet titlePanel
 
 			.componentTab {
 				height: 100%;
@@ -660,7 +660,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					height: 100%;
 
 					.sideSheetTab {
-						height: calc(100% - 120px); //title (64px) + tab bar (56px)
+						height: calc(100% - 56px); //56px height of tab bar
 						overflow: auto;
 					}
 				}
