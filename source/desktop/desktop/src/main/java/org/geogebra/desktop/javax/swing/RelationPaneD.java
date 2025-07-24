@@ -40,10 +40,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	/**
 	 * The Relation window.
 	 */
-	JFrame frame;
-	private String[] columnNames;
-	private Object[][] data;
-	private DefaultTableModel model;
+	private JFrame frame;
 	/**
 	 * The contents of the Relation window.
 	 */
@@ -67,12 +64,10 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	private final static int ROWMARGIN = 1;
 
 	private final static int ORIG_MOREWIDTH = 140;
-	private int MOREWIDTH;
 
 	private final static int ORIG_OKHEIGHT = 30;
 	private int OKHEIGHT;
 	private final static int ORIG_OKWIDTH = 140;
-	private int OKWIDTH;
 
 	@Override
 	public void showDialog(String title, final RelationRow[] relations,
@@ -82,18 +77,20 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		ROWHEIGHT = ((double) ORIG_ROWHEIGHT) * app.getFontSize() / 12;
 		INFOWIDTH = (ORIG_INFOWIDTH * app.getFontSize() / 12);
-		MOREWIDTH = (ORIG_MOREWIDTH * app.getFontSize() / 12);
+		int moreWidth = ORIG_MOREWIDTH * app.getFontSize() / 12;
 		OKHEIGHT = (ORIG_OKHEIGHT * app.getFontSize() / 12);
-		OKWIDTH = (ORIG_OKWIDTH * app.getFontSize() / 12);
 
 		final int rels = relations.length;
 
-		for (int i = 0; i < rels; ++i) {
-			if (relations[i].getCallback() != null) {
+		for (RelationRow relation : relations) {
+			if (relation.getCallback() != null) {
 				areCallbacks = true;
-				morewidth = MOREWIDTH;
+				morewidth = moreWidth;
+				break;
 			}
 		}
+		String[] columnNames;
+		Object[][] data;
 		if (areCallbacks) {
 			columnNames = new String[] { "String", "" };
 			data = new Object[rels][2];
@@ -117,7 +114,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			}
 		}
 
-		model = new DefaultTableModel(data, columnNames) {
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -158,8 +155,9 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		// Adding OK button:
 		JPanel buttonrow = new JPanel(new FlowLayout());
 		JButton ok = new JButton(app.getLocalization().getMenu("OK"));
+		int okWidth = ORIG_OKWIDTH * app.getFontSize() / 12;
 		buttonrow.add(ok);
-		ok.setSize(OKWIDTH, OKHEIGHT);
+		ok.setSize(okWidth, OKHEIGHT);
 		panel.add(buttonrow, BorderLayout.SOUTH);
 		ok.addActionListener(this);
 
@@ -175,7 +173,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(INFOWIDTH);
 		if (areCallbacks) {
-			table.getColumnModel().getColumn(1).setPreferredWidth(MOREWIDTH);
+			table.getColumnModel().getColumn(1).setPreferredWidth(moreWidth);
 		}
 
 		frame.addComponentListener(new ComponentListener() {
@@ -229,6 +227,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		frame.setAlwaysOnTop(true);
 	}
 
 	private static int countLines(String html) {
