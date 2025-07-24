@@ -141,8 +141,8 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		btnSpreadsheet.addFastClickHandler(source -> onSpreadsheetPressed());
 	}
 
-	private StandardButton createTabButton(String label, SVGResource icon) {
-		StandardButton btn = new StandardButton(icon, label, 24);
+	private StandardButton createTabButton(String key, SVGResource icon) {
+		StandardButton btn = new StandardButton(icon, app.getLocalization().getMenu(key), 24);
 		btn.addStyleName("tabButton");
 		AriaHelper.hide(btn);
 		return btn;
