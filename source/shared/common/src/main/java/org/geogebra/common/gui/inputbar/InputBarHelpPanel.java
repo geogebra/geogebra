@@ -107,7 +107,7 @@ public class InputBarHelpPanel {
 		// math functions
 		String[] translatedFunctions = TableSymbols
 				.getTranslatedFunctions(mApp);
-		mMathFuncDict = mApp.newLowerCaseDictionary();
+		mMathFuncDict = new LowerCaseDictionary();
 		for (String function : translatedFunctions) {
 			// remove start space char
 			int index = function.indexOf(' ');

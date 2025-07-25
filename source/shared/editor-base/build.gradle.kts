@@ -22,7 +22,11 @@ dependencies {
     javacc(libs.javacc)
     api(project(":renderer-base"))
     implementation(libs.j2objc.annotations)
-    testImplementation(libs.junit)
+    testImplementation(platform(libs.junit5.bom))
+    testImplementation(libs.junit5.jupiter)
+    // Add launcher explicitly to avoid legacy loading
+    // https://docs.gradle.org/8.12/userguide/upgrading_version_8.html#manually_declaring_dependencies
+    testRuntimeOnly(libs.junit5.launcher)
 }
 
 tasks.compileJavacc {

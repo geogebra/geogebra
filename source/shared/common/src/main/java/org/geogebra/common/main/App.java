@@ -142,7 +142,6 @@ import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5Checksum;
-import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.ToStringConverter;
@@ -617,16 +616,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * We need this method so that we can override it using more powerful
-	 * normalizer
-	 *
-	 * @return new lowercase dictionary
-	 */
-	public LowerCaseDictionary newLowerCaseDictionary() {
-		return new LowerCaseDictionary(new NormalizerMinimal());
-	}
-
-	/**
 	 * Call this after localization is available.
 	 */
 	protected void initLocalization() {
@@ -660,7 +649,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 		getLocalization().setCommandChanged(false);
 
-		commandDictCAS = newLowerCaseDictionary();
+		commandDictCAS = new LowerCaseDictionary();
 		subCommandDict[CommandsConstants.TABLE_CAS].clear();
 
 		// get all commands from the commandDict and write them to the
@@ -777,8 +766,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// so change English -> French -> English doesn't work in the input bar
 		// see AutoCompleteTextfield.lookup()
 		// if (commandDict == null)
-		commandDict = newLowerCaseDictionary();
-		englishCommandDict = newLowerCaseDictionary();
+		commandDict = new LowerCaseDictionary();
+		englishCommandDict = new LowerCaseDictionary();
 		// else commandDict.clear();
 
 		// =====================================
@@ -826,7 +815,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
 		for (int i = 0; i < subCommandDict.length; i++) {
-			subCommandDict[i] = newLowerCaseDictionary();
+			subCommandDict[i] = new LowerCaseDictionary();
 		}
 	}
 

@@ -17,7 +17,6 @@ import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
-import org.geogebra.common.util.NormalizerMinimal;
 
 /**
  * Facade for the App class.
@@ -293,9 +292,6 @@ public interface AppInterface {
 
 	@MissingDoc
 	public abstract Factory getFactory();
-
-	@MissingDoc
-	public abstract NormalizerMinimal getNormalizer();
 
 	@MissingDoc
 	public abstract void reset();

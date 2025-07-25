@@ -1,10 +1,9 @@
 package com.himamis.retex.editor.share.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -102,6 +101,6 @@ public class ArgumentHelperTest {
 		sequence.addArgument(new MathSequence());
 
 		// Empty string expected, since the last argument is not a MathCharacter
-		assertTrue(ArgumentHelper.readCharacters(editorState, sequence.size()).isEmpty());
+		assertEquals("", ArgumentHelper.readCharacters(editorState, sequence.size()));
 	}
 }

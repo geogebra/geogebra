@@ -1,5 +1,6 @@
 package org.geogebra.common.util;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1880,6 +1881,17 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Remove accents from a string.
+	 * @param string input
+	 * @return simplified input
+	 */
+	public static String removeAccents(String string) {
+		String ret = StringUtil.toLowerCaseUS(string);
+		return Normalizer.normalize(ret, Normalizer.Form.NFD)
+				.replaceAll("[\u0300-\u036F]", "");
 	}
 
 	private static void addTypoVariants(List<String> variants, String base, String index) {

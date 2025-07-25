@@ -1,5 +1,6 @@
 package com.himamis.retex.editor.share.model;
 
+import java.text.Normalizer;
 import java.util.HashMap;
 
 /**
@@ -118,7 +119,7 @@ public class Korean {
 	}
 
 	/**
-	 * same as Normalizer.normalize(s, Normalizer.Form.NFD) but GWT compatible
+	 * Short-hand for Normalizer.normalize(s, Normalizer.Form.NFKD)
 	 * 
 	 * convert eg \uB458 to \u1103\u116e\u11af
 	 * 
@@ -129,32 +130,7 @@ public class Korean {
 	 * @return flattened string
 	 */
 	public static String flattenKorean(String s) {
-
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
-		}
-
-		boolean lastWasVowel = false;
-
-		for (int i = 0; i < s.length(); i++) {
-			char c = convertFromCompatibilityJamo(s.charAt(i), !lastWasVowel);
-			if (isKoreanMultiChar(c)) {
-				appendKoreanMultiChar(sb, c);
-			} else {
-				// if a "lead char" follows a vowel, turn into a "tail char"
-				if (lastWasVowel && isKoreanLeadChar(c, false)) {
-					sb.append(getKoreanLeadToTail().get(c)
-							.charValue());
-				} else {
-					sb.append(c);
-				}
-			}
-			lastWasVowel = isKoreanVowelChar(sb.charAt(sb.length() - 1), false);
-		}
-
-		return sb.toString();
+		return Normalizer.normalize(s, Normalizer.Form.NFKD);
 	}
 
 	/**
@@ -172,10 +148,6 @@ public class Korean {
 		}
 
 		return false;
-	}
-
-	private static boolean isKoreanMultiChar(char c) {
-		return c >= 0xac00 && c <= 0xd7af;
 	}
 
 	private static boolean isKoreanLeadChar(char c0, boolean convertJamo) {
@@ -206,9 +178,8 @@ public class Korean {
 	}
 
 	/**
-	 * 
-	 * Does the same as Normalizer.normalize(s, Normalizer.Form.NFKC) but GWT
-	 * compatible
+	 * Similar to Normalizer.normalize(s, Normalizer.Form.NFKC),
+	 * but performs some extra transformations related to Jamo characters.
 	 * 
 	 * convert eg \u1103\u116e\u11af to \uB458
 	 * 
@@ -218,13 +189,12 @@ public class Korean {
 	 *            string to convert
 	 * @return converted string
 	 */
-	public static StringBuilder unflattenKorean(String str) {
-
+	public static String unflattenKorean(String str) {
 		StringBuilder ret = new StringBuilder();
 
 		char lead = 0;
 		char vowel = 0;
-		char tail = 0;
+		final char tail = 0;
 
 		for (int i = 0; i < str.length(); i++) {
 
@@ -236,9 +206,7 @@ public class Korean {
 				korean = true;
 				if (lead != 0) {
 					appendKoreanChar(ret, lead, vowel, tail);
-					lead = 0;
 					vowel = 0;
-					tail = 0;
 				}
 				lead = c;
 			}
@@ -248,11 +216,9 @@ public class Korean {
 			}
 			if (isKoreanTailChar(c, false)) {
 				korean = true;
-				tail = c;
-				appendKoreanChar(ret, lead, vowel, tail);
+				appendKoreanChar(ret, lead, vowel, c);
 				lead = 0;
 				vowel = 0;
-				tail = 0;
 			}
 
 			if (!korean) {
@@ -265,8 +231,6 @@ public class Korean {
 					appendKoreanChar(ret, lead, vowel, tail);
 					lead = 0;
 					vowel = 0;
-					tail = 0;
-
 				}
 				ret.append(c);
 			}
@@ -276,22 +240,19 @@ public class Korean {
 		if (lead != 0) {
 			appendKoreanChar(ret, lead, vowel, tail);
 		}
-
-		return ret;
+		return ret.toString();
 	}
 
 	private static void appendKoreanChar(StringBuilder ret, char lead,
 			char vowel, char tail) {
-
-		int lead0 = lead - 0x1100 + 1;
-		int vowel0 = vowel - 0x1161 + 1;
-		int tail0 = tail == 0 ? 0 : tail - 0x11a8 + 1;
-
-		// http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
-		char unicode = (char) (tail0 + (vowel0 - 1) * 28 + (lead0 - 1) * 588
-				+ 44032);
-
-		ret.append(unicode);
+		StringBuilder kchar = new StringBuilder().append(lead);
+		if (vowel > 0) {
+			kchar.append(vowel);
+		}
+		if (tail > 0) {
+			kchar.append(tail);
+		}
+		ret.append(Normalizer.normalize(kchar, Normalizer.Form.NFKC));
 	}
 
 	/**
@@ -749,22 +710,6 @@ public class Korean {
 		return convertToCompatibilityJamo(ch);
 	}
 
-	/*
-	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
-	 * http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
-	 */
-	private static void appendKoreanMultiChar(StringBuilder sBuilder, char c) {
-		char tail = (char) (0x11a7 + (c - 44032) % 28);
-		char vowel = (char) (0x1161
-				+ ((c - 44032 - (tail - 0x11a7)) % 588) / 28);
-		char lead = (char) (0x1100 + (c - 44032) / 588);
-		sBuilder.append(lead);
-		sBuilder.append(vowel);
-		if (!isKoreanLeadPlusVowelChar(c)) {
-			sBuilder.append(tail);
-		}
-	}
-
 	private static String unmergeDoubleCharacterToLeadTail(char c) {
 
 		switch (c) {
@@ -1080,11 +1025,9 @@ public class Korean {
 		if (Korean.isKoreanLeadPlusVowelChar(lastChar)
 				&& Korean.isKoreanTailChar(newChar, true)) {
 
-			String strToFlatten = Korean.flattenKorean(lastChar + "") + ""
-					+ newChar;
+			String strToFlatten = Korean.flattenKorean(lastChar + "") + newChar;
 
-			String replaceChar = Korean.unflattenKorean(strToFlatten)
-					.toString();
+			String replaceChar = Korean.unflattenKorean(strToFlatten);
 
 			char c = replaceChar.charAt(0);
 
@@ -1099,8 +1042,7 @@ public class Korean {
 
 		if (Korean.isKoreanLeadChar(lastChar, true)
 				&& Korean.isKoreanVowelChar(newChar, true)) {
-			String replaceChar = Korean.unflattenKorean(lastChar + "" + newChar)
-					.toString();
+			String replaceChar = Korean.unflattenKorean(lastChar + "" + newChar);
 			char c = replaceChar.charAt(0);
 
 			ret[0] = c;

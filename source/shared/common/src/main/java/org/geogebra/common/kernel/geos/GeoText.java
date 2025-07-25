@@ -47,7 +47,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -1123,13 +1122,9 @@ public class GeoText extends GeoElement
 			comparator = new Comparator<GeoText>() {
 				@Override
 				public int compare(GeoText itemA, GeoText itemB) {
-
-					NormalizerMinimal normalizer = itemA.getKernel()
-							.getApplication().getNormalizer();
-
 					// remove accents etc
-					String strA = normalizer.transform(itemA.getTextStringSafe());
-					String strB = normalizer.transform(itemB.getTextStringSafe());
+					String strA = StringUtil.removeAccents(itemA.getTextStringSafe());
+					String strB = StringUtil.removeAccents(itemB.getTextStringSafe());
 
 					// do comparison without accents etc
 					int comp = strA.compareTo(strB);

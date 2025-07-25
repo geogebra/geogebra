@@ -12,17 +12,15 @@ public class LowerCaseDictionaryTest {
 
 	@Before
 	public void setup() {
-		dict = new LowerCaseDictionary(new NormalizerMinimal());
+		dict = new LowerCaseDictionary();
 	}
 
 	@Test
 	public void testCompletions() {
-		dict.addEntry("b\u00C6c");
-		assertThat(completionOf("ae"), equalTo("b[\u00C6]c"));
-		assertThat(completionOf("bae"), equalTo("[b\u00C6]c"));
-		assertThat(completionOf("ba"), equalTo("[b\u00C6]c"));
-		assertThat(completionOf("aec"), equalTo("b[\u00C6c]"));
-		assertThat(completionOf("baec"), equalTo("[b\u00C6c]"));
+		dict.addEntry("b\u00e4cd");
+		assertThat(completionOf("ac"), equalTo("b[\u00e4c]d"));
+		assertThat(completionOf("bac"), equalTo("[b\u00e4c]d"));
+		assertThat(completionOf("ba"), equalTo("[b\u00e4]cd"));
 	}
 
 	private String completionOf(String content) {

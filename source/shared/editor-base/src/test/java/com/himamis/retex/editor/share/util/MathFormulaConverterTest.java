@@ -1,9 +1,9 @@
 package com.himamis.retex.editor.share.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MathFormulaConverterTest {
 	public static final String END_PMATRIX = " \\end{pmatrix}";
@@ -15,7 +15,7 @@ public class MathFormulaConverterTest {
 	private final static String PLACEHOLDER = "{" + PLACEHOLDER1 + "}";
 	private final MathFormulaConverter converter = new MathFormulaConverter();
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		converter.getTexSerializer().useSimpleMatrixPlaceholders(true);
 	}

@@ -61,7 +61,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
-import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -579,11 +578,6 @@ public class AppCommon extends App {
     @Override
     public Factory getFactory() {
         return null;
-    }
-
-    @Override
-    public NormalizerMinimal getNormalizer() {
-		return new NormalizerMinimal();
     }
 
     @Override

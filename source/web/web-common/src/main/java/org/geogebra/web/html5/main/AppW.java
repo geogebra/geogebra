@@ -85,7 +85,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5Checksum;
-import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
@@ -201,7 +200,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private DrawEquationW drawEquation;
 
-	private NormalizerMinimal normalizerMinimal;
 	protected GgbAPIW ggbapi;
 	private final LocalizationW loc;
 	private ImageManagerW imageManager;
@@ -518,15 +516,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			ggbapi = new GgbAPIW(this);
 		}
 		return ggbapi;
-	}
-
-	@Override
-	public final NormalizerMinimal getNormalizer() {
-		if (normalizerMinimal == null) {
-			normalizerMinimal = new NormalizerMinimal();
-		}
-
-		return normalizerMinimal;
 	}
 
 	/**

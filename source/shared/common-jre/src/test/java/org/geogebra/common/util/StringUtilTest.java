@@ -148,6 +148,12 @@ public class StringUtilTest {
 		assertEquals("", StringUtil.removeFolderName(""));
 	}
 
+	@Test
+	public void testRemoveAccents() {
+		assertEquals("nuoascr",
+				StringUtil.removeAccents("\u00F1\u00FC\u00F6\u00E4\u0161\u010D\u0159"));
+	}
+
 	private static void compatibleNewlines(String in, String out) {
 		assertEquals(out, StringUtil.newlinesToHTML(in));
 		assertEquals(StringUtil.toJavaString(in),

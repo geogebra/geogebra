@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import com.himamis.retex.editor.share.model.Korean;
@@ -15,25 +16,20 @@ import com.himamis.retex.editor.share.model.Korean;
 /**
  * A default implementation of the autocomplete dictionary. This implementation
  * is based upon the TreeSet collection class to provide quick lookups and
- * default sorting. All lookups are case insensitive!
+ * default sorting. All lookups are case-insensitive!
  */
 public class LowerCaseDictionary extends HashMap<String, String>
 		implements AutoCompleteDictionary {
 
 	private static final long serialVersionUID = 1L;
 
-	private TreeSet<String> treeSet = new TreeSet<>();
-
-	private transient NormalizerMinimal normalizer;
+	private final TreeSet<String> treeSet;
 
 	/**
 	 * constructor
-	 *
-	 * @param normalizer
-	 *            normalizer used for dict entries
 	 */
-	public LowerCaseDictionary(NormalizerMinimal normalizer) {
-		this.normalizer = normalizer;
+	public LowerCaseDictionary() {
+		treeSet = new TreeSet<>();
 	}
 
 	/**
@@ -42,12 +38,11 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 * @param dict the dictionary to copy from.
 	 */
 	public LowerCaseDictionary(LowerCaseDictionary dict) {
-		this.normalizer = dict.normalizer;
 		this.treeSet = new TreeSet<>(dict.treeSet);
 		putAll(dict);
 	}
 
-	private static final String greatestCommonPrefix(String possiblyNull,
+	private static @CheckForNull String greatestCommonPrefix(String possiblyNull,
 			String notNull) {
 		if (possiblyNull == null) {
 			return null;
@@ -69,7 +64,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 */
 	@Override
 	public void addEntry(final String s) {
-		String lowerCase = normalizer.transform(s);
+		String lowerCase = StringUtil.removeAccents(s);
 		put(lowerCase, s);
 
 		treeSet.add(lowerCase);
@@ -98,7 +93,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	/**
 	 * Perform a lookup. This routine returns the closest matching string that
 	 * completely starts with the given string, or null if none is found. Note:
-	 * the lookup is NOT case sensitive.
+	 * the lookup is NOT case-sensitive.
 	 *
 	 * @param curr
 	 *            The string to use as the base for the lookup.
@@ -107,21 +102,17 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 */
 	@Override
 	public String lookup(final String curr) {
-		if (curr == null || "".equals(curr)) {
+		if (StringUtil.empty(curr)) {
 			return null;
 		}
 
 		String currLowerCase = curr.toLowerCase(Locale.ROOT);
 		try {
 			SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
-			if (tailSet != null) {
-				String firstObj = tailSet.first();
-				if (firstObj != null) {
-					String first = firstObj;
-					if (first.startsWith(currLowerCase)) {
-						String ret = get(first);
-						return ret;
-					}
+			String firstObj = tailSet.first();
+			if (firstObj != null) {
+				if (firstObj.startsWith(currLowerCase)) {
+					return get(firstObj);
 				}
 			}
 		} catch (Exception e) {
@@ -141,11 +132,11 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 */
 	@Override
 	public List<MatchedString> getCompletions(final String curr) {
-		if (curr == null || "".equals(curr)) {
+		if (StringUtil.empty(curr)) {
 			return null;
 		}
 
-		String currLowerCase = normalizer.transform(curr);
+		String currLowerCase = StringUtil.removeAccents(curr);
 		try {
 			ArrayList<MatchedString> completions = new ArrayList<>();
 			int initialMatches = 0;
@@ -177,7 +168,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		int originalLength = 0;
 		int normalizedPrefix = 0;
 		while (normalizedPrefix < normalizedLength) {
-			normalizedPrefix +=  normalizer.transform(
+			normalizedPrefix +=  StringUtil.removeAccents(
 					String.valueOf(original.charAt(originalLength))).length();
 			originalLength++;
 		}
@@ -185,7 +176,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	}
 
 	/**
-	 * Calculate greatest prefix common to curr. Then return list of all
+	 * Calculate the greatest prefix common to curr. Then return list of all
 	 * elements matching this prefix. Return null if none exists
 	 *
 	 * @param curr
@@ -196,13 +187,13 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 */
 	public String setMatchingGreatestPrefix(final String curr,
 			ArrayList<String> completions) {
-		if (curr == null || "".equals(curr)) {
+		if (StringUtil.empty(curr)) {
 			return "";
 		}
 
 		String prefixLowerCase = getGreatestCommonPrefix(
-				normalizer.transform(curr));
-		if (prefixLowerCase == null || "".equals(prefixLowerCase)) {
+				StringUtil.removeAccents(curr));
+		if (StringUtil.empty(prefixLowerCase)) {
 			return ""; // no common prefix
 		}
 
@@ -220,7 +211,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		}
 	}
 
-	private String getGreatestCommonPrefix(final String curr) {
+	private @CheckForNull String getGreatestCommonPrefix(final String curr) {
 
 		String prefixBefore = greatestCommonPrefix(treeSet.floor(curr), curr);
 		String prefixAfter = greatestCommonPrefix(treeSet.ceiling(curr), curr);
@@ -242,7 +233,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 
 	@Override
 	public List<MatchedString> getCompletionsKorean(final String curr) {
-		if (curr == null || "".equals(curr)) {
+		if (StringUtil.empty(curr)) {
 			return null;
 		}
 
@@ -250,7 +241,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		String koreanCurr = Korean.flattenKorean(curr);
 		for (String str : treeSet) {
 			if (Korean.flattenKorean(str).startsWith(koreanCurr)) {
-				completions.add(new MatchedString(Korean.unflattenKorean(str).toString(),
+				completions.add(new MatchedString(Korean.unflattenKorean(str),
 						0, curr.length()));
 			}
 		}
@@ -268,9 +259,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 * @return all commands in the dictionary
 	 */
 	public ArrayList<String> getAllCommands() {
-
 		ArrayList<String> ret = new ArrayList<>();
-
 		for (String key : treeSet) {
 			ret.add(get(key));
 		}

@@ -62,7 +62,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
@@ -159,9 +158,7 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.ManualPage;
-import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
@@ -221,7 +218,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.ImageResourceD;
 import org.geogebra.desktop.util.LoggerD;
-import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
 import org.geogebra.desktop.util.UtilD;
 
@@ -4024,11 +4020,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		ggbtube.uploadWorksheet();
 	}
 
-	@Override
-	public LowerCaseDictionary newLowerCaseDictionary() {
-		return new LowerCaseDictionary(Normalizer.getInstance());
-	}
-
 	public CommandLineArguments getCommandLineArgs() {
 		return cmdArgs;
 	}
@@ -4105,11 +4096,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		return sb;
-	}
-
-	@Override
-	public NormalizerMinimal getNormalizer() {
-		return Normalizer.getInstance();
 	}
 
 	@Override

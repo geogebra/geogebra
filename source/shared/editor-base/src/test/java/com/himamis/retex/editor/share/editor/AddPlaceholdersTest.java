@@ -1,9 +1,9 @@
 package com.himamis.retex.editor.share.editor;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
@@ -45,7 +45,7 @@ public class AddPlaceholdersTest {
 		placeholders.process(formula.getRootComponent());
 		assertEquals("((1)/(".repeat(depth) + "1" + "))".repeat(depth),
 				GeoGebraSerializer.serialize(formula.getRootComponent(), (EditorFeatures) null));
-		assertTrue("Traversing too slow", System.currentTimeMillis() - start < 1000);
+		assertTrue(System.currentTimeMillis() - start < 1000, "Traversing too slow");
 	}
 
 	private MathFormula getFormula(String text) {
