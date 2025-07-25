@@ -90,11 +90,12 @@ public class CmdIf extends CommandProcessor {
 			String[] varName = kernel.getConstruction()
 					.getRegisteredFunctionVariables();
 			FunctionVariable[] fv = new FunctionVariable[varName.length];
-
-			int r = kernel.getAlgebraProcessor()
-					.replaceVariables(c.getArgument(0), varName, fv);
-			if (r > 0) {
-				return specialFunction(c, varName, fv, info);
+			for (int i = 0; i < n; i += 1) {
+				int r = kernel.getAlgebraProcessor()
+						.replaceVariables(c.getArgument(i), varName, fv);
+				if (r > 0) {
+					return specialFunction(c, varName, fv, info);
+				}
 			}
 		}
 		arg = resArgs(c, info);
@@ -160,7 +161,7 @@ public class CmdIf extends CommandProcessor {
 			return vars;
 		} else if (fn instanceof GeoFunctionNVar) {
 			functions.add((GeoFunctionNVar) fn);
-			return 2;
+			return Math.max(vars, 2);
 		} else {
 			throw argErr(c, fn);
 		}
@@ -260,23 +261,23 @@ public class CmdIf extends CommandProcessor {
 
 		if (functions.size() == 1) {
 			expr = new ExpressionNode(kernel,
-					wrap(conditions.get(0), fv, mayUseIndependent),
+					wrap(conditions.get(0), fv),
 					Operation.IF,
-					wrap(functions.get(0), fv, mayUseIndependent));
+					wrap(functions.get(0), fv));
 		} else if (functions.size() == 2 && conditions.size() == 1) {
 			expr = new ExpressionNode(kernel,
 					new MyNumberPair(kernel,
-							wrap(conditions.get(0), fv, mayUseIndependent),
-							wrap(functions.get(0), fv, mayUseIndependent)),
+							wrap(conditions.get(0), fv),
+							wrap(functions.get(0), fv)),
 					Operation.IF_ELSE,
-					wrap(functions.get(1), fv, mayUseIndependent));
+					wrap(functions.get(1), fv));
 		} else {
 			MyList cond = new MyList(kernel), funs = new MyList(kernel);
 			for (FunctionalNVar f : conditions) {
-				cond.addListElement(wrap(f, fv, mayUseIndependent));
+				cond.addListElement(wrap(f, fv));
 			}
 			for (FunctionalNVar f : functions) {
-				funs.addListElement(wrap(f, fv, mayUseIndependent));
+				funs.addListElement(wrap(f, fv));
 			}
 			expr = new ExpressionNode(kernel, cond, Operation.IF_LIST, funs);
 		}
@@ -310,9 +311,8 @@ public class CmdIf extends CommandProcessor {
 		return algo.getFunction();
 	}
 
-	private ExpressionNode wrap(FunctionalNVar boolFun, FunctionVariable[] fv,
-			boolean mayUseIndependent) {
-		if (!mayUseIndependent) {
+	private ExpressionNode wrap(FunctionalNVar boolFun, FunctionVariable[] fv) {
+		if (Inspecting.isDynamicGeoElement(boolFun)) {
 			if (fv.length == 1) {
 				return new ExpressionNode(kernel, boolFun, Operation.FUNCTION,
 						fv[0]);
