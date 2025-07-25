@@ -5279,6 +5279,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_STADIUM:
 		case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
 		case EuclidianConstants.MODE_SHAPE_CURVE:
+		case EuclidianConstants.MODE_SHAPE_FREEFORM:
+		case EuclidianConstants.MODE_MASK:
 			setViewCursor(CROSSHAIR, shiftDown);
 			break;
 
@@ -6370,7 +6372,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+		boolean shiftOrSpace = event.isShiftDown() || GlobalKeyDispatcher.isSpaceDown();
+		if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM && !shiftOrSpace) {
+			setViewCursor(CROSSHAIR, false);
 			getShapeMode().handleMouseMoveForShapeMode(event);
 			return;
 		}
@@ -6411,7 +6415,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 		}
-		boolean shiftOrSpace = event.isShiftDown() || GlobalKeyDispatcher.isSpaceDown();
 
 		if (hits.isEmpty()) {
 			view.setToolTipText(null);
