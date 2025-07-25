@@ -28,13 +28,13 @@ public class CmdSetAxesRatio extends CmdScripting {
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean ok0;
+		boolean[] ok = new boolean[n];
 		switch (n) {
 
 		case 2:
 			GeoElement[] arg = resArgs(c);
 
-			if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric()) {
+			if ((ok[0] = arg[0].isGeoNumeric()) && (ok[1] = arg[1].isGeoNumeric())) {
 
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
@@ -50,12 +50,11 @@ public class CmdSetAxesRatio extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(c, ok0 ? arg[1] : arg[0]);
+			throw argErr(c, getBadArg(ok, arg));
 		case 3:
 			arg = resArgs(c);
-			boolean ok1 = false;
-			if ((ok0 = arg[0].isGeoNumeric()) && (ok1 = arg[1].isGeoNumeric())
-					&& arg[2].isGeoNumeric()) {
+			if ((ok[0] = arg[0].isGeoNumeric()) && (ok[1] = arg[1].isGeoNumeric())
+					&& (ok[2] = arg[2].isGeoNumeric())) {
 				
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
@@ -73,7 +72,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(c, ok0 ? (ok1 ? arg[2] : arg[1]) : arg[0]);
+			throw argErr(c, getBadArg(ok, arg));
 		default:
 			throw argNumErr(c);
 		}
