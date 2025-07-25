@@ -284,6 +284,7 @@ public abstract class GlobalKeyDispatcher {
 			switch (app.getActiveEuclidianView().getGridType()) {
 			case EuclidianView.GRID_CARTESIAN:
 			case EuclidianView.GRID_CARTESIAN_WITH_SUBGRID:
+			case EuclidianView.GRID_DOTS:
 				diff[0] = MyMath.signedNextMultiple(diff[0], xGrid);
 				diff[1] = MyMath.signedNextMultiple(diff[1], yGrid);
 				break;
