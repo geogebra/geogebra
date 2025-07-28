@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -80,6 +81,10 @@ public class BaseAppTestSetup {
 
 	protected final @Nonnull Kernel getKernel() {
 		return getApp().getKernel();
+	}
+
+	protected final @Nonnull Construction getConstruction() {
+		return getApp().getKernel().getConstruction();
 	}
 
 	protected final @Nonnull AlgebraProcessor getAlgebraProcessor() {

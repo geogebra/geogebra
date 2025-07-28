@@ -1,6 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -25,7 +25,7 @@ final class SpreadsheetTestHelpers {
 
 	static void simulateCellMouseClick(SpreadsheetController controller, int row, int column,
 			int nrClicks) {
-		GPoint center = getCellCenter(controller, row, column);
+		Point center = getCellCenter(controller, row, column);
 		for (int click = 0; click < nrClicks; click++) {
 			controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
 			controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
@@ -42,11 +42,22 @@ final class SpreadsheetTestHelpers {
 		controller.handlePointerUp(cellResizeDragX + delta, cellResizeDragY, Modifiers.NONE);
 	}
 
-	private static GPoint getCellCenter(SpreadsheetController controller, int row, int column) {
+	static Point getCellCenter(SpreadsheetController controller, int row, int column) {
 		TableLayout layout = controller.getLayout();
+		if (row == -1 && column >= 0) {
+			// entire column, return center of column header
+			Rectangle cellBounds = layout.getBounds(0, column);
+			return new Point(layout.getRowHeaderWidth() + cellBounds.getMidX(),
+					layout.getColumnHeaderHeight() / 2);
+		}
+		if (column == -1 && row >= 0) {
+			// entire row, return center of row header
+			Rectangle cellBounds = layout.getBounds(row, 0);
+			return new Point(layout.getRowHeaderWidth() / 2,
+					layout.getColumnHeaderHeight() + cellBounds.getMidY());
+		}
 		Rectangle cellBounds = layout.getBounds(row, column)
 				.translatedBy(layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
-		return new GPoint((int) (cellBounds.getMinX() + cellBounds.getWidth() / 2),
-				(int) (cellBounds.getMinY() + cellBounds.getWidth() / 2));
+		return new Point(cellBounds.getMidX(), cellBounds.getMidY());
 	}
 }

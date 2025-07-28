@@ -170,7 +170,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 */
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
 		sb.append("<spreadsheetView>\n");
-		app.getSettings().getSpreadsheet().getSizeXML(sb);
+		app.getSettings().getSpreadsheet().getDimensionsXML(sb);
 		app.getSettings().getSpreadsheet().getWidthsAndHeightsXML(sb);
 		sb.append("</spreadsheetView>\n");
 	}

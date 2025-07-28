@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -27,13 +26,9 @@ import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
-import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
-import org.geogebra.common.spreadsheet.rendering.StringRenderer;
-import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
-import org.geogebra.common.util.shape.Size;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,22 +53,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		layout = spreadsheet.getController().getLayout();
 		resetViewport();
-		spreadsheet.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
-			@Override
-			public void setScrollPosition(double x, double y) {
-				// no UI to update
-			}
-
-			@Override
-			public double getScrollBarWidth() {
-				return 5;
-			}
-
-			@Override
-			public void updateScrollableContentSize(Size size) {
-				// no UI to update
-			}
-		});
+		spreadsheet.setViewportAdjustmentHandler(new DummyViewportAdjuster());
 		delegate = mockSpreadsheetDelegate();
 		spreadsheet.setSpreadsheetDelegate(delegate);
 	}
@@ -300,15 +280,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 	}
 
 	// Helpers
-
-	public static class TestCellRenderableFactory implements CellRenderableFactory {
-		@Override
-		public SelfRenderable getRenderable(Object data, SpreadsheetStyling styling,
-				int row, int column) {
-			return data == null ? null : new SelfRenderable(new StringRenderer(),
-					GFont.PLAIN, CellFormat.ALIGN_LEFT, data);
-		}
-	}
 
 	private SpreadsheetDelegate mockSpreadsheetDelegate() {
 		return Mockito.mock(SpreadsheetDelegate.class);

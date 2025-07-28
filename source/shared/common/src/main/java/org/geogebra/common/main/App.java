@@ -1841,12 +1841,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
+		// save spreadsheet settings
+		getSettings().getSpreadsheet().getXML(sb, asPreference);
 		if (getGuiManager() != null) {
 			getGuiManager().getViewsXML(sb, asPreference);
 		}
-
-		// save spreadsheet settings
-		getSettings().getSpreadsheet().getXML(sb, asPreference);
 	}
 
 	private void getScriptingXML(StringBuilder sb, boolean asPreference) {

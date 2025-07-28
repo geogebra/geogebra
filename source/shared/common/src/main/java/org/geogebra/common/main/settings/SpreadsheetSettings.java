@@ -52,8 +52,10 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	private GDimension preferredSize;
 	private int hScrollBarValue;
 	private int vScrollBarValue;
-	private int rows = 100;
-	private int columns = 26;
+	private static final int DEFAULT_NR_ROWS = 100;
+	private static final int DEFAULT_NR_COLUMNS = 26;
+	private int rows = DEFAULT_NR_ROWS;
+	private int columns = DEFAULT_NR_COLUMNS;
 
 	public static class Defaults {
 		public static final boolean SHOW_FORMULA_BAR = false;
@@ -97,6 +99,8 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		getRowHeights().clear();
 		getColumnWidths().clear();
 		setCellFormatXml(null);
+		rows = DEFAULT_NR_ROWS;
+		columns = DEFAULT_NR_COLUMNS;
 		selectedCell = new GPoint(0, 0);
 		// inform listeners about potential change in values, e.g., if cellFormatXml was non-null
 		// before, and isn't present in the XML, no change notification would be fired
@@ -640,6 +644,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		}
 
 		if (!asPreference) {
+			getDimensionsXML(sb);
 			getWidthsAndHeightsXML(sb);
 
 			// initial selection
@@ -677,7 +682,6 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		getLayoutXML(sb);
 
 		// cell formats
-
 		if (!asPreference && hasCellFormat()) {
 			sb.append("\t<spreadsheetCellFormat formatMap=\"");
 			sb.append(cellFormat);
@@ -786,9 +790,11 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 * Print size XML tag to a builder
 	 * @param sb output string builder
 	 */
-	public void getSizeXML(StringBuilder sb) {
-		sb.append("\t<dimensions rows=\"").append(rows)
-				.append("\" columns=\"").append(columns).append("\"/>\n");
+	public void getDimensionsXML(StringBuilder sb) {
+		if (rows != DEFAULT_NR_ROWS || columns != DEFAULT_NR_COLUMNS) {
+			sb.append("\t<dimensions rows=\"").append(rows)
+					.append("\" columns=\"").append(columns).append("\"/>\n");
+		}
 	}
 
 	/**

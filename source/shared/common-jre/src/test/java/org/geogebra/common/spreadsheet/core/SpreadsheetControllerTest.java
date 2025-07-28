@@ -1123,30 +1123,11 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     private void simulateCellMouseClick(int row, int column, int nrClicks) {
-        Point center = getCenter(row, column);
-        for (int click = 0; click < nrClicks; click++) {
-            controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
-            controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
-        }
+        SpreadsheetTestHelpers.simulateCellMouseClick(controller, row, column, nrClicks);
     }
 
     private Point getCenter(int row, int column) {
-        TableLayout layout = controller.getLayout();
-        if (row == -1 && column >= 0) {
-            // entire column, return center of column header
-            Rectangle cellBounds = layout.getBounds(0, column);
-            return new Point(layout.getRowHeaderWidth() + cellBounds.getMidX(),
-                    layout.getColumnHeaderHeight() / 2);
-        }
-        if (column == -1 && row >= 0) {
-            // entire row, return center of row header
-            Rectangle cellBounds = layout.getBounds(row, 0);
-            return new Point(layout.getRowHeaderWidth() / 2,
-                    layout.getColumnHeaderHeight() + cellBounds.getMidY());
-        }
-        Rectangle cellBounds = layout.getBounds(row, column)
-                .translatedBy(layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
-        return new Point(cellBounds.getMidX(), cellBounds.getMidY());
+        return SpreadsheetTestHelpers.getCellCenter(controller, row, column);
     }
 
     /**
