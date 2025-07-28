@@ -118,10 +118,10 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
     public void cmdDistance() {
         t("Distance[(0,0),(1,1)]", "sqrt(2)");
         t("Distance[(0,0,0),(1,1,1)]", "sqrt(3)");
-        t("Distance[y=x, (0,1)]", "0.7071067811865476");
-        t("Distance[y=x, y=x+2]", "1.414213562373095");
+        t("Distance[y=x, (0,1)]", "sqrt(2) / 2");
         t("Distance[(0,0),x^2+1]", "1");
-        t("Distance[(0,0,0), x+y+x=2]", "0.894427190999916");
+        t("Distance[(0,0,0), x+y+z=2]", "2 * sqrt(3) / 3");
+        t("Distance[(0,0,0), 2x+y=2]", "?");
         t("Distance[(0,0),1]", "?");
     }
 }

@@ -28,7 +28,7 @@ public class Cas3DCommandsTest extends BaseSymbolicTest {
 	public void testDistancePointAndLine3D() {
 		GeoSymbolic point3D = add("A := (6, 7, -3)");
 		GeoSymbolic line3D = add("g(t):=(2,1,4) + t*(3,0,-2)");
-		add("Distance(A, g)");
+		add("a:=Distance(A, g)");
 		GeoElement res = add("Extremum(a)");
 		assertThat(res, hasValue("{(2, 7)}"));
 		ArrayList<ExpressionNode> args = new ArrayList<>(Arrays.asList(

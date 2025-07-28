@@ -395,6 +395,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			updateArgsAndSbForIntegral(args, sbCASCommand);
 		} else if (args.size() == 2 && "Intersect".equals(name)) {
 			updateArgsAndSbForIntersect(args, sbCASCommand);
+		} else if (args.size() == 2 && "Distance".equals(name)) {
+			updateArgsAndSbForDistance(args, sbCASCommand);
 		}
 
 		// case solve with list of equations
@@ -911,6 +913,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 		sbCASCommand.setLength(0);
 		sbCASCommand.append("Intersect.2");
+	}
+
+	private static void updateArgsAndSbForDistance(
+			ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
+		if (args.size() == 2 && args.get(0).unwrap() instanceof Equation) {
+			ExpressionNode swap = args.get(0);
+			args.set(0, args.get(1));
+			args.set(1, swap);
+		}
+		sbCASCommand.append(args.size());
 	}
 
 	private static void updateArgsAndSbForIntegral(

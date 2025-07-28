@@ -746,6 +746,7 @@ public class GeoSymbolic extends GeoElement
 		case TrigExpand:
 		case Min:
 		case Max:
+		case Distance:
 			return true;
 		default: return false;
 		}

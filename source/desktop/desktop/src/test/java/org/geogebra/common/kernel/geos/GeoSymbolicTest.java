@@ -1927,6 +1927,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void distanceShouldBeUndefined() {
+		add("f:x=y");
+		add("f:x=y+1");
+		t("Distance(f,g)", "?");
+		t("Distance(x+y=1, x+y=2)", "?");
+	}
+
+	@Test
 	public void testThrowsCircularDefinitionException() {
 		GeoElement element = add("c(0,0)");
 		redefineSymbolic(element, "C=(0,0)", TestErrorHandler.INSTANCE);
