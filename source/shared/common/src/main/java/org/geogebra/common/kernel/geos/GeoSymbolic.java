@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -548,7 +549,7 @@ public class GeoSymbolic extends GeoElement
 		} else if (getDefinition().containsFreeFunctionVariable(null)) {
 			return collectVariables();
 		} else {
-			return Collections.emptyList();
+			return variablesFromOutput();
 		}
 	}
 
@@ -557,20 +558,31 @@ public class GeoSymbolic extends GeoElement
 				.getCollector();
 		getDefinition().traverse(functionVarCollector);
 		List<FunctionVariable> vars = Arrays.asList(functionVarCollector.buildVariables(kernel));
-		if (vars.size() > 0) {
-			return vars;
+		if (vars.isEmpty()) {
+			return variablesFromOutput();
 		} else {
-			try {
-				getNodeFromOutput().traverse(functionVarCollector);
-				return Arrays.asList(functionVarCollector.buildVariables(kernel));
-			} catch (ParseException e) {
-				return vars;
+			return vars;
+		}
+	}
+
+	private List<FunctionVariable> variablesFromOutput() {
+		FunctionVarCollector functionVarCollector = FunctionVarCollector
+				.getCollector();
+		try {
+			ExpressionNode nodeFromOutput = getNodeFromOutput();
+			if (nodeFromOutput.any(ex -> ex instanceof Equation)) {
+				return List.of();
 			}
+			nodeFromOutput.traverse(functionVarCollector);
+			return Arrays.asList(functionVarCollector.buildVariables(kernel));
+		} catch (ParseException e) {
+			return List.of();
 		}
 	}
 
 	private static boolean shouldShowFunctionVariablesInOutputFor(Command command) {
-		return !Commands.Solutions.getCommand().equals(command.getName()); // APPS-1821, APPS-2190
+		return Stream.of(Commands.Solutions, Commands.SolveODE).map(Commands::getCommand)
+				.noneMatch(command.getName()::equals); // APPS-1821, APPS-2190
 	}
 
 	private boolean valueIsListOrPoint() {

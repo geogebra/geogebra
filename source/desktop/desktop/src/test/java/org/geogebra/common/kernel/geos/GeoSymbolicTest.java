@@ -676,6 +676,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	@Issue("APPS-6738")
+	public void testFunctionVariableLabelSolveODE() {
+		GeoSymbolic geo = createGeoWithHiddenLabel("SolveODE(y)");
+		showLabel(geo);
+		assertThat(geo.getAlgebraDescriptionDefault(), startsWith("f(x)"));
+
+		geo = createGeoWithHiddenLabel("SolveODE(y+x)");
+		showLabel(geo);
+		assertThat(geo.getAlgebraDescriptionDefault(), startsWith("g(x)"));
+	}
+
+	@Test
 	public void testShouldComputeNumericValue() {
 		GeoSymbolic geo = add("f(x)=x");
 		assertThat(SymbolicUtil.shouldComputeNumericValue(geo.getValue()), is(false));
