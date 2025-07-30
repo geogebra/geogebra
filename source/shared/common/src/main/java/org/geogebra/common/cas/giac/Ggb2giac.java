@@ -1695,9 +1695,15 @@ public class Ggb2giac {
 
 		p("Point.1",
 				"when(length(%0)==3,point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%0),ycoord(%0)))");
-		p("Point.2",
-				"when(length(%0)==3,{point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%1),ycoord(%1),zcoord(%1))},{point(xcoord(%0),ycoord(%0)),point(xcoord(%1),ycoord(%1))})");
-
+		p("Point.2","[[ggbpointin0:=%0], [ggbpointin1:=%1],"
+						+ "when((ggbpointin0[0])[0]=='pnt'&&(ggbpointin1[0])[0]!='pnt',"
+				+ "when(length(ggbpointin0)==3&&length(ggbpointin1)==3,"
+				+ "point(xcoord(ggbpointin0) + xcoord(ggbpointin1),"
+				+ " ycoord(ggbpointin0) + ycoord(ggbpointin1),"
+				+ " zcoord(ggbpointin0) + zcoord(ggbpointin1)),"
+				+ "point(xcoord(ggbpointin0) + xcoord(ggbpointin1),"
+				+ " ycoord(ggbpointin0) + ycoord(ggbpointin1))),"
+				+  "?)][2]");
 		// TODO: needs to get back from Giac into GeoGebra as a parametric eqn
 		// p("Curve.5","equation(plotparam([%0,%1],%2,%3,%4))");
 		// p("Polygon.N","polygon(%)");

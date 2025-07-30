@@ -119,7 +119,7 @@ public final class CommandFilterFactory {
 				Commands.CircumcircleSector, Commands.Cubic, Commands.Direction,
 				Commands.Envelope, Commands.IntersectPath,
 				Commands.Locus, Commands.LocusEquation, Commands.Midpoint,
-				Commands.Point, Commands.Polygon,
+				Commands.Polygon,
 				Commands.PolyLine, Commands.Prove, Commands.ProveDetails, Commands.Ray,
 				Commands.RigidPolygon, Commands.Sector, Commands.Segment,
 				Commands.Slope, Commands.TriangleCurve, Commands.Vertex,

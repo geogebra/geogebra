@@ -124,4 +124,14 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
         t("Distance[(0,0,0), 2x+y=2]", "?");
         t("Distance[(0,0),1]", "?");
     }
+
+    @Test
+    public void cmdPoint() {
+        t("Point[(3, 2), Vector[(11, 15)]]", "(14, 17)");
+        t("Point[(3, 2, 4), Vector[(11, 15, -2)]]", "(14, 17, 2)");
+        t("Point[(3, 2), (11, 15)]", "?");
+        t("Point[(3, 2, 4), (11, 15, -2)]", "?");
+        t("Point[(3, 2), (11, 15, -2)]", "?");
+        t("Point[(3, 2, 4), (11, 15)]", "?");
+    }
 }
