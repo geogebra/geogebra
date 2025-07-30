@@ -614,6 +614,7 @@ public class ToolbarPanel extends FlowPanel
 
 	/**
 	 * Closes the toolbar.
+	 * @param time animation time in ms, 0 for no animation
 	 */
 	public void close(boolean snap, int time) {
 		if (!isOpen) {
@@ -666,7 +667,7 @@ public class ToolbarPanel extends FlowPanel
 
 	private void updateSizes(Runnable callback, int time) {
 		if (app.isPortrait()) {
-			updateHeight();
+			updateHeight(time);
 		} else {
 			updateWidth(callback, time);
 		}
@@ -751,8 +752,9 @@ public class ToolbarPanel extends FlowPanel
 
 	/**
 	 * updates panel height according to its state in portrait mode.
+	 * @param time animation time in ms, 0 for no animation
 	 */
-	public void updateHeight() {
+	public void updateHeight(int time) {
 		if (!app.isPortrait()) {
 			return;
 		}
@@ -766,7 +768,7 @@ public class ToolbarPanel extends FlowPanel
 				updateHeightForClosing(dockParent, evPanel);
 			}
 
-			dockParent.animate(OPEN_ANIM_TIME,
+			dockParent.animate(time,
 					new PortraitAnimationCallback(navRail, app, dockParent));
 		}
 	}

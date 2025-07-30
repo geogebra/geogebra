@@ -451,7 +451,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public int getComponentInteriorHeight() {
 		if (dockPanel != null) {
-			int h = (int) dockPanel.getCenterHeight();
+			int h = dockPanel.getElement().getClientHeight();
 			if (h == 0 && this.getParentSplitPane() != null) {
 				return this.getParentSplitPane().getPreferredHeight(this);
 			}
@@ -465,7 +465,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public int getComponentInteriorWidth() {
 		if (dockPanel != null) {
-			int w = (int) dockPanel.getCenterWidth();
+			int w = dockPanel.getElement().getClientWidth();
 			if (w == 0 && this.getParentSplitPane() != null) {
 				return this.getParentSplitPane().getPreferredWidth(this);
 			}
@@ -518,6 +518,14 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
+	 * @return whether this is expanded; true for most panels,
+	 *         false for the toolbar panel when collapsed
+	 */
+	public boolean isExpanded() {
+		return true;
+	}
+
+	/**
 	 * extends DockLayoutPanel to expose getCenterHeight() and getCenterWidth()
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
 	 * extend DockPanelW itself
@@ -534,16 +542,6 @@ public abstract class DockPanelW extends ResizeComposite
 					getElement().getParentElement().addClassName("dockPanelParent");
 				}
 			});
-		}
-
-		@Override
-		public double getCenterHeight() {
-			return super.getCenterHeight();
-		}
-
-		@Override
-		public double getCenterWidth() {
-			return super.getCenterWidth();
 		}
 
 		@Override
@@ -1094,7 +1092,7 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	protected boolean isBottomRight() {
-		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout().getDockManager();
+		DockManagerW dm = app.getGuiManager().getLayout().getDockManager();
 		return dm.getRoot() == null || dm.getRoot().isBottomRight(this);
 	}
 

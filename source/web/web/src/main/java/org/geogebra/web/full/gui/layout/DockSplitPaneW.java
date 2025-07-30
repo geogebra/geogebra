@@ -47,6 +47,15 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	private int preferredHeight;
 
 	/**
+	 * Extracts size from layout data.
+	 * @param data object passed to {@code setLayoutData} of ca child widget.
+	 * @return width or height in pixels.
+	 */
+	public static double getSize(Object data) {
+		return data instanceof LayoutData ? ((LayoutData) data).size : 0;
+	}
+
+	/**
 	 * For calling the onResize method in a deferred way
 	 */
 	public void deferredOnResize() {

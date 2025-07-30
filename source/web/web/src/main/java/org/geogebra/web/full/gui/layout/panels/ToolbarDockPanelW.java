@@ -4,6 +4,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -228,5 +229,10 @@ public class ToolbarDockPanelW extends DockPanelW
 		} else if (counter != null) {
 			counter.decrement();
 		}
+	}
+
+	@Override
+	public boolean isExpanded() {
+		return toolbar != null && toolbar.isOpen() && DockSplitPaneW.getSize(getLayoutData()) > 0;
 	}
 }

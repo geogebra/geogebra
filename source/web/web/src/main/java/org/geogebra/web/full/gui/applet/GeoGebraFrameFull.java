@@ -542,7 +542,8 @@ public class GeoGebraFrameFull
 	public boolean appNeedsKeyboard() {
 		if (app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView
-				&& app.showView(App.VIEW_ALGEBRA)) {
+				&& app.showView(App.VIEW_ALGEBRA)
+				&& (!app.isUnbundled() || getGuiManager().getUnbundledToolbar().isOpen())) {
 			return true;
 		}
 

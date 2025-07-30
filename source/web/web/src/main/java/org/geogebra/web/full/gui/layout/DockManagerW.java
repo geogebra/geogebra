@@ -1480,11 +1480,11 @@ public class DockManagerW extends DockManager {
 		List<Integer> keyboardViews = app.getKeyboardManager()
 				.getKeyboardViews();
 		if (focusedPanel != null && keyboardViews.contains(focusedPanel.getViewId())) {
-			return focusedPanel;
+			return focusedPanel.isExpanded() ? focusedPanel : null;
 		}
 		for (int panelId : keyboardViews) {
 			DockPanelW panel = getPanel(panelId);
-			if (panel.isVisible()) {
+			if (panel.isVisible() && panel.isExpanded()) {
 				return panel;
 			}
 		}
