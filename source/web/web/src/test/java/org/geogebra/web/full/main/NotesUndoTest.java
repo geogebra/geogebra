@@ -63,7 +63,7 @@ public class NotesUndoTest {
 		shouldHaveUndoPoints(2);
 
 		app.getAppletFrame().initPageControlPanel(app);
-		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		app.getAppletFrame().getPageControlPanel().loadNewPage();
 		shouldHaveUndoPoints(3);
 		addObject("x");
 		objectsPerSlideShouldBe(2, 1);
@@ -263,7 +263,7 @@ public class NotesUndoTest {
 		addObject("x");
 
 		app.getAppletFrame().initPageControlPanel(app);
-		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		app.getAppletFrame().getPageControlPanel().loadNewPage();
 		addObject("-x");
 
 		shouldHaveUndoPoints(3);
@@ -316,13 +316,13 @@ public class NotesUndoTest {
 		addObject("x");
 
 		app.getAppletFrame().initPageControlPanel(app);
-		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		app.getAppletFrame().getPageControlPanel().loadNewPage();
 		addObject("2x");
 
-		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		app.getAppletFrame().getPageControlPanel().loadNewPage();
 		addObject("3x");
 
-		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		app.getAppletFrame().getPageControlPanel().loadNewPage();
 		addObject("4x");
 
 		shouldHaveUndoPoints(7);
@@ -371,8 +371,8 @@ public class NotesUndoTest {
 	@Test
 	public void singleObjectPerSlide() {
 		app.getAppletFrame().initPageControlPanel(app);
-		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
-		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		app.getAppletFrame().getPageControlPanel().loadNewPage();
+		app.getAppletFrame().getPageControlPanel().loadNewPage();
 		selectPage(0);
 		addObject("x");
 		selectPage(1);
@@ -400,7 +400,7 @@ public class NotesUndoTest {
 	@Test
 	public void undoDelete() {
 		app.getAppletFrame().initPageControlPanel(app);
-		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
+		app.getAppletFrame().getPageControlPanel().loadNewPage();
 		selectPage(0);
 		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
 		processor.processAlgebraCommand("f:x", false);

@@ -110,9 +110,7 @@ public class MenuItemController {
 	public Scheduler.ScheduledCommand addNewPage(int atIndex) {
 		return () -> {
 			contextMenu.hide();
-			String id = PageListController.nextID();
-			appW.dispatchEvent(new Event(EventType.ADD_PAGE, null, id));
-			frame.getPageControlPanel().loadNewPage(atIndex, id);
+			frame.getPageControlPanel().loadNewPage(atIndex);
 		};
 	}
 

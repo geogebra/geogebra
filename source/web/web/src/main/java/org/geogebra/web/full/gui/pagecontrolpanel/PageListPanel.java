@@ -94,41 +94,31 @@ public class PageListPanel
 		// make sure clicking + does not select slides
 		ClickStartHandler.initDefaults(plusButton, false, true);
 		plusButton.addFastClickHandler(source -> {
-			String id = PageListController.nextID();
-			app.dispatchEvent(new Event(EventType.ADD_PAGE, null, id));
-			loadNewPage(false, id);
+			loadNewPage();
 		});
 		add(plusButton);
 		showPlusButton(false);
 	}
 
 	/**
-	 * Create and load a new page
-	 * 
-	 * @param selected
-	 *            whether to select it
-	 */
-	public void loadNewPage(boolean selected, String id) {
-		int index = addNewPreviewCard(selected, id);
-		pageController.loadNewPageStoreUndo(index);
-	}
-
-	/**
-	 * Create and load a new page at specified index
+	 * Create and load a new page at specified index.
 	 * @param atIndex define where to insert new page
-	 * @param id generated ID for next slide
 	 */
-	public void loadNewPage(int atIndex, String id) {
+	public void loadNewPage(int atIndex) {
+		String id = PageListController.nextID();
+		app.dispatchEvent(new Event(EventType.ADD_PAGE, null, id));
 		int index = addNewPreviewCardAt(atIndex, id);
 		pageController.loadNewPageStoreUndo(index);
 	}
 
 	/**
-	 * Create and load new page
-	 * @param selected whether to select it
+	 * Create and load a new page.
 	 */
-	public void loadNewPage(boolean selected) {
-		loadNewPage(selected, PageListController.nextID());
+	public void loadNewPage() {
+		String id = PageListController.nextID();
+		app.dispatchEvent(new Event(EventType.ADD_PAGE, null, id));
+		int index = addNewPreviewCard(false, id);
+		pageController.loadNewPageStoreUndo(index);
 	}
 
 	/**
@@ -188,25 +178,28 @@ public class PageListPanel
 	 * creates a new preview card
 	 * 
 	 * @param selected
-	 *            true if added card should be selected, false otherwise
+	 *            true if added card should be linked to selected page, false otherwise
 	 * 
 	 * @return index of new slide
 	 */
 	protected int addNewPreviewCard(boolean selected, String id) {
 		int index = pageController.getSlideCount();
-		pageController.addNewPreviewCard(selected, index, new GgbFile(id));
+		PagePreviewCard card = pageController.addNewPreviewCard(index, new GgbFile(id));
+		if (selected) {
+			pageController.setCardSelected(card);
+		}
 		addPreviewCard(pageController.getCard(index));
 		return index;
 	}
 
 	/**
-	 * Create new preview card
+	 * Create a new preview card
 	 * @param index at which new page will be inserted
 	 * @param id generated ID for next slide
 	 * @return index of new slide
 	 */
 	protected int addNewPreviewCardAt(int index, String id) {
-		PagePreviewCard newCard = pageController.addNewPreviewCard(true, index, new GgbFile(id));
+		PagePreviewCard newCard = pageController.addNewPreviewCard(index, new GgbFile(id));
 		addPreviewCard(newCard);
 		pageController.updatePreviewImage();
 		update();

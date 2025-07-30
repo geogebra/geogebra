@@ -328,22 +328,6 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	/**
-	 * adds a new slide to the list
-	 * 
-	 * @param index
-	 *            insertion position
-	 * @param ggbFile
-	 *            file content
-	 * @return index of the added slide
-	 */
-	private PagePreviewCard addSlide(int index, GgbFile ggbFile) {
-		PagePreviewCard previewCard = new PagePreviewCard(app, index, ggbFile);
-		slides.add(index, previewCard);
-		resetCardPositions();
-		return previewCard;
-	}
-
-	/**
 	 * removes the slide with given index from the list
 	 * 
 	 * @param index
@@ -616,7 +600,7 @@ public class PageListController implements PageListControllerInterface,
 		JsPropertyMap<?> args = appState == null ? JsPropertyMap.of() : Js.asPropertyMap(appState);
 		switch (eventType) {
 		case "addPage":
-			PagePreviewCard card = addNewPreviewCard(false, getSlideCount(),
+			PagePreviewCard card = addNewPreviewCard(getSlideCount(),
 					new GgbFile(pageId));
 			card.clearBackground();
 			break;
@@ -648,8 +632,8 @@ public class PageListController implements PageListControllerInterface,
 			GgbFile file = new GgbFile(pageId);
 			file.put("geogebra.xml", (String) args.get("xml"));
 			int to = args.getAsAny("to").asInt();
-			card = addNewPreviewCard(false, to, file);
-			card.clearBackground();
+			PagePreviewCard pastedCard = addNewPreviewCard(to, file);
+			pastedCard.clearBackground();
 			break;
 
 		case "clearPage":
@@ -698,7 +682,7 @@ public class PageListController implements PageListControllerInterface,
 		}
 		PagePreviewCard target = findById(pageId).orElse(null);
 		if (target == null) {
-			target = addSlide(slides.size(), new GgbFile(pageId));
+			target = addNewPreviewCard(slides.size(), new GgbFile(pageId));
 		}
 		target.getFile().put("geogebra.xml", content.xml);
 		target.getFile().put("geogebra_thumbnail.png", content.thumbnail);
@@ -806,20 +790,17 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	/**
-	 * @param selected
-	 *            whether to select
 	 * @param index
 	 *            position to insert
 	 * @param file
 	 *            GeoGebra file (single slide)
 	 * @return the card
 	 */
-	public PagePreviewCard addNewPreviewCard(boolean selected, int index, GgbFile file) {
-		final PagePreviewCard card = addSlide(index, file);
-		if (selected) {
-			setCardSelected(card);
-		}
-		return card;
+	public PagePreviewCard addNewPreviewCard(int index, GgbFile file) {
+		PagePreviewCard previewCard = new PagePreviewCard(app, index, file);
+		slides.add(index, previewCard);
+		resetCardPositions();
+		return previewCard;
 	}
 
 	@Override
@@ -877,7 +858,7 @@ public class PageListController implements PageListControllerInterface,
 		}
 
 		if (idx >= 0) {
-			addNewPreviewCard(false, idx, file);
+			addNewPreviewCard(idx, file);
 		} else {
 			slides.get(0).setFile(file);
 		}
