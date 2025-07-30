@@ -25,6 +25,7 @@ public class SpreadsheetStyleBar extends FlowPanel {
 	private SpreadsheetStyleBarColorPopup fontColorPopup;
 	private HorizontalAlignmentPopup horizontalAlignmentPopup;
 	private SimplePanel divider;
+	private SpreadsheetStyleBarModel.State currentState;
 
 	/**
 	 * Spreadsheet style bar
@@ -101,6 +102,7 @@ public class SpreadsheetStyleBar extends FlowPanel {
 	}
 
 	private void updateButtonState(SpreadsheetStyleBarModel.State newState) {
+		currentState = newState;
 		if (backgroundColorButton != null && backgroundColorPopup != null) {
 			backgroundColorPopup.updateState(newState.backgroundColor);
 		}
@@ -139,6 +141,9 @@ public class SpreadsheetStyleBar extends FlowPanel {
 		if (backgroundColorPopup == null) {
 			backgroundColorPopup = new SpreadsheetStyleBarColorPopup(appW, backgroundColorButton,
 					styleBarModel::setBackgroundColor);
+			if (currentState != null) {
+				backgroundColorPopup.updateState(currentState.backgroundColor);
+			}
 		}
 	}
 
@@ -153,6 +158,9 @@ public class SpreadsheetStyleBar extends FlowPanel {
 		if (fontColorPopup == null) {
 			fontColorPopup = new SpreadsheetStyleBarColorPopup(appW, fontColorButton,
 					styleBarModel::setTextColor);
+			if (currentState != null) {
+				fontColorPopup.updateState(currentState.textColor);
+			}
 		}
 	}
 

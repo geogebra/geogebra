@@ -1,6 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -25,7 +27,7 @@ public class SpreadsheetStyleBarModelTests {
 				SpreadsheetStyling.TextAlignment.LEFT,
 				null,
 				null);
-		assertTrue(state1.equals(state2));
+		assertEquals(state1, state2);
 	}
 
 	@Test
@@ -42,7 +44,7 @@ public class SpreadsheetStyleBarModelTests {
 				SpreadsheetStyling.TextAlignment.LEFT,
 				null,
 				null);
-		assertFalse(state1.equals(state2));
+		assertNotEquals(state1, state2);
 	}
 
 	@Test
@@ -59,6 +61,6 @@ public class SpreadsheetStyleBarModelTests {
 				SpreadsheetStyling.TextAlignment.LEFT,
 				GColor.RED,
 				null);
-		assertFalse(state1.equals(state2));
+		assertNotEquals(state1, state2);
 	}
 }

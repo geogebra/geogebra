@@ -192,6 +192,13 @@ public final class SpreadsheetStyling {
 	// Cell & header colors
 
 	/**
+	 * @return default background color
+	 */
+	public GColor getDefaultBackgroundColor() {
+		return GColor.WHITE;
+	}
+
+	/**
 	 * @param row cell row
 	 * @param column cell column
 	 * @param fallback color to use if no background set

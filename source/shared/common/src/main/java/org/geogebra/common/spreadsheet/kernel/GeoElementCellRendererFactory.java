@@ -20,6 +20,7 @@ import org.geogebra.common.util.shape.Rectangle;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public final class GeoElementCellRendererFactory implements CellRenderableFactory {
 
@@ -48,10 +49,13 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		if (((GeoElement) data).isLaTeXDrawableGeo()) {
 			TeXFormula tf = new TeXFormula(geoElement
 					.toValueString(StringTemplate.latexTemplate));
+			GColor fgColor = styling.getTextColor(row, column, styling.getDefaultTextColor());
 			return new SelfRenderable(laTeXRenderer,
 					fontStyle, align,
 					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-							StringRenderer.FONT_SIZE, TeXFont.SANSSERIF),
+							StringRenderer.FONT_SIZE, TeXFont.SANSSERIF,
+							FactoryProvider.getInstance().getGraphicsFactory()
+									.createColor(fgColor.getARGB())),
 					background);
 		}
 		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {

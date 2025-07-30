@@ -76,9 +76,7 @@ final class SpreadsheetRenderer {
 		Rectangle cellBounds = layout.getBounds(row, column);
 		GColor backgroundColor = styling.getBackgroundColor(row, column, null);
 		if (content == null) {
-			if (backgroundColor != null) {
-				drawCellBackground(graphics, backgroundColor, cellBounds);
-			}
+			drawCellBackgroundIfNeeded(graphics, backgroundColor, cellBounds);
 			if (styling.showBorder(row, column)) {
 				drawCellBorder(graphics, cellBounds);
 			}
@@ -89,9 +87,7 @@ final class SpreadsheetRenderer {
 				new SpreadsheetCoords(row, column),
 				ignore -> converter.getRenderable(content, styling, row, column));
 		if (renderable != null) {
-			if (renderable.getBackground() != null) {
-				drawCellBackground(graphics, renderable.getBackground(), cellBounds);
-			}
+			drawCellBackgroundIfNeeded(graphics, renderable.getBackground(), cellBounds);
 			if (styling.showBorder(row, column)) {
 				drawCellBorder(graphics, cellBounds);
 			}
@@ -108,9 +104,12 @@ final class SpreadsheetRenderer {
 				frame.getWidth(), frame.getHeight());
 	}
 
-	private void drawCellBackground(GGraphics2D graphics, GColor color, Rectangle frame) {
-		graphics.setColor(color);
-		fillRect(graphics, frame.getMinX(), frame.getMinY(), frame.getWidth(), frame.getHeight());
+	private void drawCellBackgroundIfNeeded(GGraphics2D graphics, GColor color, Rectangle frame) {
+		if (color != null && !GColor.WHITE.equals(color)) {
+			graphics.setColor(color);
+			fillRect(graphics, frame.getMinX(), frame.getMinY(), frame.getWidth(),
+					frame.getHeight());
+		}
 	}
 
 	/**

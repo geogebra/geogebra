@@ -22,6 +22,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
@@ -230,6 +231,14 @@ public class SpreadsheetTest extends BaseUnitTest {
 	public void testStyleBarWithSingleCellSelected() {
 		spreadsheet.selectCell(0, 0, false, false);
 		assertTrue(spreadsheet.getStyleBarModel().getState().isEnabled);
+	}
+
+	@Test
+	public void testStyleBarDefaults() {
+		spreadsheet.selectCell(0, 0, false, false);
+		assertEquals(GeoGebraColorConstants.NEUTRAL_900,
+				spreadsheet.getStyleBarModel().getState().textColor);
+		assertEquals(GColor.WHITE, spreadsheet.getStyleBarModel().getState().backgroundColor);
 	}
 
 	@Test

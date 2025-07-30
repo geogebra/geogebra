@@ -216,10 +216,11 @@ public final class SpreadsheetStyleBarModel {
 		SpreadsheetStyling.TextAlignment textAlignment = styling.getTextAlignment(row, column);
 		if (textAlignment == null) {
 			Object content = spreadsheetController.contentAt(row, column);
-			textAlignment = styling.getDefaultTextAlignment(content);
+			textAlignment = SpreadsheetStyling.getDefaultTextAlignment(content);
 		}
-		GColor backgroundColor = styling.getBackgroundColor(row, column, null);
-		GColor textColor = styling.getTextColor(row, column, null);
+		GColor backgroundColor = styling.getBackgroundColor(row, column,
+				styling.getDefaultBackgroundColor());
+		GColor textColor = styling.getTextColor(row, column, styling.getDefaultTextColor());
 		return new State(true, fontTraits, textAlignment, backgroundColor, textColor);
 	}
 
