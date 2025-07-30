@@ -51,10 +51,4 @@ public interface KeyListener {
 	 * @return whether it was handled by this listener
 	 */
 	boolean onKeyTyped(KeyEvent keyEvent);
-
-	/**
-	 * TODO remove
-	 * @return whether it was handled by this listener
-	 */
-	boolean onKeyTyped(KeyEvent keyEvent, boolean fireUpdate);
 }

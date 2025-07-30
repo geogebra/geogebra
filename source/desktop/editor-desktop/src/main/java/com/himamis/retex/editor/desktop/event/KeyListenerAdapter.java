@@ -23,6 +23,7 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  */
+
 package com.himamis.retex.editor.desktop.event;
 
 import java.awt.event.KeyEvent;
@@ -39,7 +40,9 @@ public class KeyListenerAdapter implements java.awt.event.KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		keyListener.onKeyTyped(wrapEvent(e));
+		if (!e.isAltDown() && !e.isControlDown()) {
+			keyListener.onKeyTyped(wrapEvent(e));
+		}
 	}
 
 	@Override

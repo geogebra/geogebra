@@ -383,20 +383,12 @@ public class MathFieldInternal
 
 	@Override
 	public boolean onKeyTyped(KeyEvent keyEvent) {
-		return onKeyTyped(keyEvent, true);
-	}
-
-	@Override
-	public boolean onKeyTyped(KeyEvent keyEvent, boolean fire) {
-		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0;
 		boolean enter = keyEvent.getUnicodeKeyChar() == (char) 13
 				|| keyEvent.getUnicodeKeyChar() == (char) 10;
-
-		boolean handled = alt || enter
-				|| ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0)
+		boolean handled = enter
 				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar(),
 						editorState);
-		if (handled && fire) {
+		if (handled) {
 			notifyAndUpdate(String.valueOf(keyEvent.getUnicodeKeyChar()));
 		}
 		return handled;
