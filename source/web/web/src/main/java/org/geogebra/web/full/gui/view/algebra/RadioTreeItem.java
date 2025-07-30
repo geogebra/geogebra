@@ -14,6 +14,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.Set;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -1048,7 +1049,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		}
 
 		if (errorMessage != null) {
-			if (app.isUnbundled() && app.getCurrentActivity().useValidInput()) {
+			if (app.isUnbundled()
+					&& app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
 				return false;
 			}
 			app.getToolTipManager().showBottomMessage(errorMessage, app, ToolTip.Role.ALERT);
@@ -1898,6 +1900,8 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			definitionValuePanel.add(outputPanel);
 			content.add(definitionValuePanel);
 		}
+		app.getKernel().getInputPreviewHelper().clear();
+		updatePreview();
 	}
 
 	/**
