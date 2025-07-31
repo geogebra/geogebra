@@ -46,7 +46,8 @@ public class VariableReplacerAlgorithm {
 	private ExpressionValue tokenize(String expressionString) {
 		ParserFunctions parserFunctions = kernel.getApplication()
 			.getParserFunctions(multipleUnassignedAllowed);
-		InputTokenizer tokenizer = new InputTokenizer(kernel, parserFunctions, expressionString);
+		InputTokenizer tokenizer = new InputTokenizer(kernel, parserFunctions, expressionString,
+				multipleUnassignedAllowed);
 		String next = expressionString;
 		if (tokenizer.hasToken()) {
 			next = tokenizer.next();

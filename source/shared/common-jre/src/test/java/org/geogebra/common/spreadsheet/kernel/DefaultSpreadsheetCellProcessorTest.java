@@ -139,8 +139,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		processor.process("=1+@", "A1");
 		GeoElement a1 = lookup("A1");
 		assertEquals(GeoClass.NUMERIC, a1.getGeoClassType());
-		assertEquals("=1+@",
-				serializer.getStringForEditor(lookup("A1")));
+		assertSerializedAs("=1+@", "A1");
 	}
 
 	@Test
@@ -283,5 +282,18 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		assertTrue(getKernel().getConstruction().getUndoManager().undoPossible());
 		getKernel().undo();
 		assertThat(lookup("A2"), hasValue("42"));
+	}
+
+	@Test
+	@Issue("APPS-6761")
+	public void invalidCellReferenceShouldNotLeadToMultiplication() {
+		processor.process("=2", "A1");
+		// Valid cell reference
+		processor.process("=A1111111111", "B1");
+		assertSerializedAs("=A1111111111", "B1");
+		// Invalid cell reference should not become A1 * 1111111111
+		processor.process("=A11111111111", "C1");
+		assertSerializedAs("=A11111111111", "C1");
+		assertThat(lookup("C1"), not(isDefined()));
 	}
 }

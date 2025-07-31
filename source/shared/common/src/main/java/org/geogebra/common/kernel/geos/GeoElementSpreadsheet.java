@@ -300,7 +300,12 @@ public class GeoElementSpreadsheet {
 		MatchResult cellNameMatcher = spreadsheetPattern.exec(label);
 		if (cellNameMatcher != null) {
 			String col = cellNameMatcher.getGroup(MATCH_COLUMN);
-			int row = Integer.parseInt(cellNameMatcher.getGroup(MATCH_ROW));
+			int row;
+			try {
+				row = Integer.parseInt(cellNameMatcher.getGroup(MATCH_ROW));
+			} catch (NumberFormatException ex) {
+				return null;
+			}
 
 			// try to get neighbouring cell for object type look above
 			GeoElement neighbourCell = cons.geoTableVarLookup(col + (row - 1));

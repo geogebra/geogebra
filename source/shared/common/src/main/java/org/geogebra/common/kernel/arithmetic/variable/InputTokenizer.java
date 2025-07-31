@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.plugin.Operation;
@@ -25,16 +26,19 @@ public class InputTokenizer {
 
 	private final List<String> varStrings;
 	private String input;
+	private final boolean multipleUnassignedAllowed;
 
 	/**
-	 *
 	 * @param kernel the kernel.
 	 * @param input to split to tokens
+	 * @param multipleUnassignedAllowed whether to allow splitting spreadsheet references
 	 */
-	public InputTokenizer(Kernel kernel, ParserFunctions parserFunctions, String input) {
+	public InputTokenizer(Kernel kernel, ParserFunctions parserFunctions, String input,
+			boolean multipleUnassignedAllowed) {
 		this.kernel = kernel;
 		this.parserFunctions = parserFunctions;
 		this.input = input;
+		this.multipleUnassignedAllowed = multipleUnassignedAllowed;
 		varStrings = getVarStrings();
 	}
 
@@ -119,14 +123,20 @@ public class InputTokenizer {
 	}
 
 	private String getGeoLabelOrVariable(int minLength) {
-		for (int i = minLength; i <= input.length();
-				i = getTokenWithIndexLength(i + 1)) {
+		for (int i = minLength; i <= input.length(); i = getTokenWithIndexLength(i + 1)) {
 			String label = input.substring(0, i);
 			if (varStrings.contains(label)) {
 				return label;
 			}
-			GeoElement geo = kernel.lookupLabel(label);
-			if (geo != null) {
+			boolean digitAfter = input.length() > i && StringUtil.isDigit(input.charAt(i));
+			if (!digitAfter || !GeoElementSpreadsheet.spreadsheetPattern.test(label)) {
+				GeoElement geo = kernel.lookupLabel(label);
+				if (geo != null) {
+					return label;
+				}
+			}
+			if (!multipleUnassignedAllowed && !digitAfter
+					&& GeoElementSpreadsheet.spreadsheetPattern.test(label)) {
 				return label;
 			}
 		}

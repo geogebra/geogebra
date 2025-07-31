@@ -115,6 +115,32 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 	}
 
 	@Test
+	public void spreadsheetCellsInInputBox() {
+		withGeos("A3", "B");
+		shouldBeSplitTo("A3", "A3");
+		shouldBeSplitTo("A333", "A", "333");
+		shouldBeSplitTo("A3B", "A3", "B");
+		shouldBeSplitTo("A333B", "A", "333", "B");
+		shouldBeSplitTo("piA3", "pi", "A3");
+		shouldBeSplitTo("piA333", "pi", "A", "333");
+		shouldBeSplitTo("piA3B", "pi", "A3", "B");
+		shouldBeSplitTo("piA333B", "pi", "A", "333", "B");
+	}
+
+	@Test
+	public void spreadsheetCellsInAV() {
+		withGeos("A3", "B");
+		shouldBeSplitForAV("A3", "A3");
+		shouldBeSplitForAV("A333", "A333");
+		shouldBeSplitForAV("A3B", "A3", "B");
+		shouldBeSplitForAV("A333B", "A333", "B");
+		shouldBeSplitForAV("piA3", "pi", "A3");
+		shouldBeSplitForAV("piA333", "pi", "A333");
+		shouldBeSplitForAV("piA3B", "pi", "A3", "B");
+		shouldBeSplitForAV("piA333B", "pi", "A333", "B");
+	}
+
+	@Test
 	public void testAmbiguousTokenization() {
 		withGeos("a", "a1");
 		shouldBeSplitTo("a1b", "a", "1", "b");
@@ -122,7 +148,13 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 
 	private void shouldBeSplitTo(String input, String... tokens) {
 		InputTokenizer tokenizer = new InputTokenizer(getKernel(),
-				getApp().getParserFunctions(), input);
+				getApp().getParserFunctions(), input, true);
+		assertEquals(Arrays.asList(tokens), getTokens(tokenizer));
+	}
+
+	private void shouldBeSplitForAV(String input, String... tokens) {
+		InputTokenizer tokenizer = new InputTokenizer(getKernel(),
+				getApp().getParserFunctions(), input, false);
 		assertEquals(Arrays.asList(tokens), getTokens(tokenizer));
 	}
 
