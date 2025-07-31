@@ -30,7 +30,7 @@ public class CmdPercentile extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		boolean[] ok = new boolean[n];
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 

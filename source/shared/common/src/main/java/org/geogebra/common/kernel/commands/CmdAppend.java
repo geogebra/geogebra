@@ -26,7 +26,7 @@ public class CmdAppend extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 2:

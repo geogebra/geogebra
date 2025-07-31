@@ -37,7 +37,7 @@ public class CmdClosestPoint extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D()) {
 				return process2D(c, arg);
 			}

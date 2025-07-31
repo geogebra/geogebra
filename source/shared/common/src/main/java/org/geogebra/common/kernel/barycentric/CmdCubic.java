@@ -35,7 +35,7 @@ public class CmdCubic extends CommandProcessor {
 
 		switch (n) {
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if ((ok[0] = arg[0] instanceof GeoPoint)
 					&& (ok[1] = arg[1] instanceof GeoPoint)

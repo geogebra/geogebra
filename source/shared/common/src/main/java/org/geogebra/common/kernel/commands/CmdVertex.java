@@ -45,7 +45,7 @@ public class CmdVertex extends CommandProcessor {
 		switch (n) {
 		// Vertex[ <GeoConic> ]
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoConic()) {
 
 				AlgoVertexConic algo = newAlgoVertexConic(cons, c.getLabels(),
@@ -78,7 +78,7 @@ public class CmdVertex extends CommandProcessor {
 
 			// Corner[ <Image>, <number> ]
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0] instanceof GeoPoly))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 

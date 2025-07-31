@@ -21,7 +21,7 @@ public class CmdReplaceAll extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 		boolean[] ok = new boolean[n];
 
 		if (n == 3) {

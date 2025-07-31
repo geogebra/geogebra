@@ -37,7 +37,7 @@ public class CmdLocusEquation extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 		GeoPoint locusPoint, movingPoint;
 		GeoElement implicitLocus;
 

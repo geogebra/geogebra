@@ -35,7 +35,7 @@ public class CmdInverseRealDistribution2Params extends CommandProcessor {
 
 		switch (n) {
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {

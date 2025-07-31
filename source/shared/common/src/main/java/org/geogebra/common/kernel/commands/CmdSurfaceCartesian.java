@@ -48,7 +48,7 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 		}
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0] instanceof GeoFunction
 					|| arg[0] instanceof GeoCurveCartesian
 					|| arg[0] instanceof GeoPoly
@@ -64,7 +64,7 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 			}
 			throw argErr(c, getBadArg(ok, arg));
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0] instanceof ParametricCurve))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
@@ -91,7 +91,7 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 		case 7:
 			// create local variables and resolve arguments
 			// Surface[(1;a;b),a,0,pi,b,0,pi]
-			arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 });
+			arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 }, info);
 			if ((ok[0] = arg[0] instanceof VectorNDValue)
 
 					&& (ok[1] = arg[1] instanceof GeoNumeric)
@@ -123,7 +123,7 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 			throw argErr(c, getBadArg(ok, arg));
 		case 9:
 			// create local variables and resolve arguments
-			arg = resArgsLocalNumVar(c, new int[] { 3, 6 }, new int[] { 4, 7 });
+			arg = resArgsLocalNumVar(c, new int[] { 3, 6 }, new int[] { 4, 7 }, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)

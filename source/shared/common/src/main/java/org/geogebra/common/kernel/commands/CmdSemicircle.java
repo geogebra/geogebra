@@ -30,7 +30,7 @@ public class CmdSemicircle extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { semicircle(c.getLabel(),
@@ -40,7 +40,7 @@ public class CmdSemicircle extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			GeoElement[] ret = process3(c, arg, ok);
 

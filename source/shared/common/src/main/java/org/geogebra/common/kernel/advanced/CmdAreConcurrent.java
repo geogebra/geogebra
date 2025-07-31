@@ -42,7 +42,7 @@ public class CmdAreConcurrent extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		if (n == 3) {
 			if (!(arg[0] instanceof GeoLine)) {
 				throw argErr(c, arg[0]);

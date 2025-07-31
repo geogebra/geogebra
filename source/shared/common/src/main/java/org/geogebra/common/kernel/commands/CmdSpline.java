@@ -35,19 +35,19 @@ public class CmdSpline extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		switch (n) {
 		case 0:
 			throw argNumErr(c);
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
 				GeoElement[] ret = { spline(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			}
 			throw argErr(c, arg[0]);
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
 				int degree = (int) c.getArgument(1).evaluateDouble();
 				if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size()
@@ -63,7 +63,7 @@ public class CmdSpline extends CommandProcessor {
 			}
 			throw argErr(c, arg[0]);
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (!arg[2].isGeoFunctionNVar()) {
 				throw argErr(c, arg[2]);
 			}

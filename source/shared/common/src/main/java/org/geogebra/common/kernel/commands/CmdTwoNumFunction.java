@@ -31,7 +31,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 		switch (n) {
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = { doCommand(c.getLabel(),
@@ -42,7 +42,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 3: // return list of results
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)
 					&& (arg[2] instanceof GeoNumberValue)) {

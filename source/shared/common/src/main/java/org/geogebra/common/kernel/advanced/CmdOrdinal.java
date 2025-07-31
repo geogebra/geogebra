@@ -29,7 +29,7 @@ public class CmdOrdinal extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoNumeric()) {
 				AlgoOrdinal algo = new AlgoOrdinal(cons, c.getLabel(),
 						(GeoNumeric) arg[0]);

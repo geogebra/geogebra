@@ -78,7 +78,7 @@ public class CmdKeepIf extends CommandProcessor {
 			throw argErr(c, arg);
 
 		case 2:
-			args = resArgs(c);
+			args = resArgs(c, info);
 
 			if ((ok[0] = args[0] instanceof GeoFunction)
 					&& (ok[1] = args[1].isGeoList())) {

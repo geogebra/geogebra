@@ -34,7 +34,7 @@ public class CmdPolar extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			AlgoDispatcher algoDispatcher = kernel.getAlgoDispatcher();
 			// polar line to point relative to conic
 			if ((ok[0] = (arg[0].isGeoPoint()))

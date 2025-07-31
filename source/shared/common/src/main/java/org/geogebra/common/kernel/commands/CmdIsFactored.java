@@ -22,7 +22,7 @@ public class CmdIsFactored extends CommandProcessor {
 	@Override
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 
 		if (n == 1) {
 			if (arg[0] instanceof GeoFunctionable) {

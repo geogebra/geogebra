@@ -31,7 +31,7 @@ public class CmdPolyhedronConvex extends CommandProcessor {
 
 		GeoElement[] arg;
 
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		for (int i = 0; i < n; i++) {
 			if (!arg[i].isGeoPoint()) {

@@ -35,7 +35,7 @@ public class CmdCircle extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			return process2(c, arg, ok);
 
 		case 3:
@@ -45,7 +45,7 @@ public class CmdCircle extends CommandProcessor {
 			if (c.getArgument(2).unwrap() instanceof Equation) {
 				((Equation) c.getArgument(2).unwrap()).setForcePlane();
 			}
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			return process3(c, arg, ok);
 
 		default:

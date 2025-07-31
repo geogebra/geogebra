@@ -32,7 +32,7 @@ public class CmdLogNormal extends CommandProcessor {
 		GeoElement[] arg;
 
 		GeoBoolean cumulative = null; // default for n=3 (false)
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 4:

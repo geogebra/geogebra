@@ -45,7 +45,7 @@ public class CmdFillCells extends CommandProcessor {
 		switch (n) {
 		case 2:
 			app.setScrollToShow(false);
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 
 				GeoList cellRange = (GeoList) arg[0];

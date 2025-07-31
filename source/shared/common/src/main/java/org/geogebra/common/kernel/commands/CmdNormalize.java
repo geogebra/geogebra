@@ -30,12 +30,12 @@ public class CmdNormalize extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		switch (n) {
 		case 0:
 			throw argNumErr(c);
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 
 				GeoElement[] ret = {

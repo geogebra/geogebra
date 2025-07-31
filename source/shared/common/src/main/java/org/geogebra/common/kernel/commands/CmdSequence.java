@@ -45,7 +45,7 @@ public class CmdSequence extends CommandProcessor {
 		if (n > 3) {
 			arg = resArgsLocalNumVar(c, 1, 2, n - 1);
 		} else {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 		}
 		switch (n) {
 		case 1:

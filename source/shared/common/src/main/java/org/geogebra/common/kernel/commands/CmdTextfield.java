@@ -34,7 +34,7 @@ public class CmdTextfield extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isLabelSet()) {
 				return new GeoElement[] {
 						getAlgoDispatcher().textfield(c.getLabel(), arg[0]) };

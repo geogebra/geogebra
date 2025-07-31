@@ -36,7 +36,7 @@ public class CmdPoint3D extends CmdPoint {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			GeoElement geo0 = arg[0];
 
 			if (geo0.isGeoElement3D() || (geo0.isGeoList()

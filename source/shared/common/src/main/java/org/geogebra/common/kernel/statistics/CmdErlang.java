@@ -32,7 +32,7 @@ public class CmdErlang extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		GeoBoolean cumulative = null; // default for n=3
 		switch (n) {

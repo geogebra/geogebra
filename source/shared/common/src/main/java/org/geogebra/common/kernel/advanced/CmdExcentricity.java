@@ -30,7 +30,7 @@ public class CmdExcentricity extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {

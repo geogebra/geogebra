@@ -37,7 +37,7 @@ public class CmdButton extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoText()) {
 				String caption = ((GeoText) arg[0]).getTextString();
 				GeoButton gb = new GeoButton(cons);

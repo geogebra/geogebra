@@ -29,7 +29,7 @@ public class CmdSelectedIndex extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// list
 			if (arg[0].isGeoList()) {
 				AlgoSelectedIndex algo = new AlgoSelectedIndex(cons,

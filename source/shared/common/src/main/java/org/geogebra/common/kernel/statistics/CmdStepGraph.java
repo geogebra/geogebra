@@ -38,7 +38,7 @@ public class CmdStepGraph extends CommandProcessor {
 		case 1:
 
 			// StepGraph[ <list of points> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0]);
@@ -50,7 +50,7 @@ public class CmdStepGraph extends CommandProcessor {
 		case 2:
 
 			// StepGraph[ <x List>, <y list> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
 
@@ -74,7 +74,7 @@ public class CmdStepGraph extends CommandProcessor {
 		case 3:
 
 			// StepGraph[ <x List>, <y list>, <join> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
 
@@ -99,7 +99,7 @@ public class CmdStepGraph extends CommandProcessor {
 		case 4:
 
 			// StepGraph[ <x List>, <y list>, <join>, <point style> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {

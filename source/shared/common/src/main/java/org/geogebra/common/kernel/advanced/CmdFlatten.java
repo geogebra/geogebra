@@ -32,7 +32,7 @@ public class CmdFlatten extends CommandProcessor {
 		}
 
 		GeoElement arg;
-		arg = resArgs(c)[0];
+		arg = resArgs(c, info)[0];
 
 		if (arg.isGeoList()) {
 

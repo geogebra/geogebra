@@ -34,7 +34,7 @@ public class CmdCASCommand1Arg extends CommandProcessor implements UsesCAS {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 1:

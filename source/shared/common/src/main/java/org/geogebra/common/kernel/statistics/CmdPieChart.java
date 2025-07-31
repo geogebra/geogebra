@@ -19,7 +19,7 @@ public class CmdPieChart extends CommandProcessor {
 		if (c.getArgumentNumber() > 3 || c.getArgumentNumber() < 1) {
 			throw argNumErr(c);
 		}
-		GeoElement[] args = resArgs(c);
+		GeoElement[] args = resArgs(c, info);
 		GeoNumberValue radius = null;
 		GeoPoint center = null;
 		if (args.length > 2) {

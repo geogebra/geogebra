@@ -2584,4 +2584,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic power = add("(2*Identity(3)-A)^2");
 		assertThat(power, hasValue("{{4, -4, -6}, {0, 1, 0}, {-2, 2, 4}}"));
 	}
+
+	@Test
+	@Issue("APPS-6790")
+	public void spreadsheetLabelsShouldNotAutocreate() {
+		t("l1:=Solve(T1^2=4,T1)", "{T1 = -2, T1 = 2}");
+		assertArrayEquals(new String[]{"l1"}, app.getGgbApi().getAllObjectNames());
+	}
 }

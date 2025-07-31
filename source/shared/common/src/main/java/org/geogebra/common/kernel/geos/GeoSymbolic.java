@@ -836,7 +836,8 @@ public class GeoSymbolic extends GeoElement
 		if (algebraProcessor.hasVectorLabel(this)) {
 			expressionNode.setForceVector();
 		}
-		EvalInfo twinInfo = new EvalInfo(false, true).withAssignments(false);
+		EvalInfo twinInfo = new EvalInfo(false, true)
+				.withAssignments(false).withAutocreate(false);
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode, twinInfo);
 		GeoElement result = processResult(elements);
 		AlgoElement parentAlgo = elements[0].getParentAlgorithm();

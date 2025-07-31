@@ -38,9 +38,9 @@ public class CmdOrthogonalLine extends CommandProcessor {
 		switch (n) {
 
 		case 3:
-			return process3(c);
+			return process3(c, info);
 		case 2:
-			return process2(c, resArgs(c));
+			return process2(c, resArgs(c, info));
 
 		default:
 			throw argNumErr(c);
@@ -88,7 +88,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 	 *            command
 	 * @return process for 3 arguments
 	 */
-	protected GeoElement[] process3(Command c) {
+	protected GeoElement[] process3(Command c, EvalInfo info) {
 		ExpressionValue arg2 = c.getArgument(2).unwrap();
 
 		// check if arg2 = xOyPlane
@@ -97,7 +97,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 			throw argNumErr(c);
 		}
 		c.setArgument(2, new GeoDummyVariable(cons, name).wrap());
-		return process2(c, resArgs(c));
+		return process2(c, resArgs(c, info));
 	}
 
 	private boolean planeOrSpace(String name) {

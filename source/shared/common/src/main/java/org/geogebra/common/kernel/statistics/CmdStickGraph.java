@@ -37,7 +37,7 @@ public class CmdStickGraph extends CommandProcessor {
 		case 1:
 
 			// StickGraph[ <list of points> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 
 				AlgoStickGraph algo = new AlgoStickGraph(cons, c.getLabel(),
@@ -50,7 +50,7 @@ public class CmdStickGraph extends CommandProcessor {
 		case 2:
 
 			// StickGraph[ <x List>, <y list> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
 
@@ -74,7 +74,7 @@ public class CmdStickGraph extends CommandProcessor {
 		case 3:
 
 			// StickGraph[ <x List>, <y list>, <isHorizontal> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
 

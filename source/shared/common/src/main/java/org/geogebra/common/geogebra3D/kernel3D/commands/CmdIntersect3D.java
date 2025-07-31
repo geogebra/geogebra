@@ -59,7 +59,7 @@ public class CmdIntersect3D extends CmdIntersect {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {
 
@@ -261,7 +261,7 @@ public class CmdIntersect3D extends CmdIntersect {
 			return super.process(c, info);
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((arg[0].isGeoElement3D()) || (arg[1].isGeoElement3D())
 					|| (arg[2].isGeoElement3D())) {
 

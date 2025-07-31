@@ -44,7 +44,7 @@ public class CmdAreEqual extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		if (n == 2) {
 
 			AlgoAreEqual algo = new AlgoAreEqual(cons, c.getLabel(), arg[0],

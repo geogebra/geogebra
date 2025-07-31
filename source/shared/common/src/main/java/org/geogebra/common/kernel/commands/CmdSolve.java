@@ -30,7 +30,7 @@ public class CmdSolve extends CommandProcessor {
 
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) {
-		GeoElement[] args = this.resArgs(c);
+		GeoElement[] args = this.resArgs(c, info);
 		switch (args.length) {
 		case 1:
 			return solve(args[0], null, c, info);

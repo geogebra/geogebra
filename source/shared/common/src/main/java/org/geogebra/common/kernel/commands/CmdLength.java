@@ -58,7 +58,7 @@ public class CmdLength extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoVector()) {
 				GeoElement[] ret = {
 						length(c.getLabel(), (GeoVectorND) arg[0]) };
@@ -105,7 +105,7 @@ public class CmdLength extends CommandProcessor {
 
 			// Victor Franco 18-04-2007
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {

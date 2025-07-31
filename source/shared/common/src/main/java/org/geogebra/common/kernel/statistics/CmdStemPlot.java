@@ -32,7 +32,7 @@ public class CmdStemPlot extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 

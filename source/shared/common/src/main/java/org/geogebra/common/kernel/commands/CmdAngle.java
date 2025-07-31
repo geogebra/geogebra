@@ -50,7 +50,7 @@ public class CmdAngle extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
-		return process(c, n, ok);
+		return process(c, n, ok, info);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class CmdAngle extends CommandProcessor {
 	 * @throws MyError
 	 *             argument / length error
 	 */
-	protected GeoElement[] process(Command c, int n, boolean[] ok)
+	protected GeoElement[] process(Command c, int n, boolean[] ok, EvalInfo info)
 			throws MyError {
 
 		GeoElement[] arg;
@@ -73,7 +73,7 @@ public class CmdAngle extends CommandProcessor {
 		switch (n) {
 		// Angle[ constant number ]
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// wrap angle as angle (needed to avoid ambiguities between numbers
 			// and angles in XML)
@@ -119,7 +119,7 @@ public class CmdAngle extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			GeoElement[] ret = process2(c, arg, ok);
 
@@ -134,7 +134,7 @@ public class CmdAngle extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			ret = process3(c, arg, ok);
 

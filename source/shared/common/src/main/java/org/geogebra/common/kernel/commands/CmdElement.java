@@ -38,7 +38,7 @@ public class CmdElement extends CommandProcessor {
 		case 1:
 			throw argNumErr(c);
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// list
 			if ((ok[0] = arg[0].isGeoList() || arg[0] instanceof GeoList)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
@@ -61,7 +61,7 @@ public class CmdElement extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		default:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// list
 			GeoNumberValue[] nvs = new GeoNumberValue[n - 1];
 			if (!arg[0].isGeoList()) {

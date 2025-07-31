@@ -31,7 +31,7 @@ public class CmdHeight extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if (arg[0] instanceof HasHeight) {
 				return new GeoElement[] { kernel.getManager3D()

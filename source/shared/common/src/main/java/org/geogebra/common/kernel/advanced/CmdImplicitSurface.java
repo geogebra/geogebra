@@ -32,7 +32,7 @@ public class CmdImplicitSurface extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 		if (n == 1) {
 			if (arg[0] instanceof GeoFunctionNVar) {
 				ExpressionNode lhs = ((GeoFunctionNVar) arg[0])

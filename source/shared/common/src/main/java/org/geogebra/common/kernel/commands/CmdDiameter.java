@@ -33,7 +33,7 @@ public class CmdDiameter extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// diameter line conjugate to vector relative to conic
 			if ((ok[0] = (arg[0].isGeoVector()))

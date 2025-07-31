@@ -32,7 +32,7 @@ public class CmdTriangular extends CommandProcessor {
 		GeoElement[] arg;
 
 		GeoBoolean cumulative = null; // default for n=3
-		arg = resArgs(c2);
+		arg = resArgs(c2, info);
 
 		switch (n) {
 		case 5:

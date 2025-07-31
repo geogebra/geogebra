@@ -36,7 +36,7 @@ public class CmdStretch extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if (arg[1] instanceof GeoVector) {
 
@@ -51,7 +51,7 @@ public class CmdStretch extends CommandProcessor {
 			}
 			throw argErr(c, arg[1]);
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if ((arg[1] instanceof GeoLine) && arg[2].isGeoNumeric()) {
 

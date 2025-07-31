@@ -27,7 +27,7 @@ public class CmdCell extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean ok = false;
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 2:

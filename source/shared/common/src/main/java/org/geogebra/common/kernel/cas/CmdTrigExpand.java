@@ -32,7 +32,7 @@ public class CmdTrigExpand extends CommandProcessor implements UsesCAS {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 1:

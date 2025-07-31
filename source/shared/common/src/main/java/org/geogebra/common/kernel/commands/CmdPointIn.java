@@ -34,7 +34,7 @@ public class CmdPointIn extends CommandProcessor {
 		GeoElement[] arg;
 
 		if (n == 1) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isRegion()) {
 				return pointIn(c.getLabel(), (Region) arg[0]);
 			}

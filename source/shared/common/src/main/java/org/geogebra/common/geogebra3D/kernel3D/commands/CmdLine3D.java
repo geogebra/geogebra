@@ -30,7 +30,7 @@ public class CmdLine3D extends CmdLine {
 		GeoElement[] arg;
 
 		if (n == 2) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {
 
 				GeoElement geo0 = arg[0];

@@ -44,7 +44,7 @@ public class CmdIteration extends CommandProcessor {
 		case 2:
 			throw argNumErr(c);
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isGeoFunction())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {

@@ -39,7 +39,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 1:
@@ -134,7 +134,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 			}
 
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// arg[0] = class list, arg[2] = data list, arg[2] = useDensity,
 			// arg[3]= density scale factor
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))

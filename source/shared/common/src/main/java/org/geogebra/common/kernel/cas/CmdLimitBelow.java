@@ -29,7 +29,7 @@ public class CmdLimitBelow extends CommandProcessor implements UsesCAS {
 		int n = c.getArgumentNumber();
 		boolean ok;
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 2:

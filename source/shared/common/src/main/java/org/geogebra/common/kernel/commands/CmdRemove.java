@@ -33,7 +33,7 @@ public class CmdRemove extends CommandProcessor {
 		switch (n) {
 		case 2:
 
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 
 				AlgoRemove algo = new AlgoRemove(cons, c.getLabel(),

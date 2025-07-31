@@ -32,7 +32,7 @@ public class CmdTurningPoint extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isRealValuedFunction()) {
 
 				GeoFunctionable f = (GeoFunctionable) arg[0];

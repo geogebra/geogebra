@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.CmdOrthogonalLine;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -102,7 +103,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	}
 
 	@Override
-	public GeoElement[] process3(Command c) throws MyError {
+	public GeoElement[] process3(Command c, EvalInfo info) throws MyError {
 
 		ExpressionValue arg0 = c.getArgument(0).unwrap();
 		ExpressionValue arg1 = c.getArgument(1).unwrap();
@@ -117,13 +118,13 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 					new GeoDummyVariable(cons,
 							arg2.toString(StringTemplate.defaultTemplate))
 									.wrap());
-			return process2(c, resArgs(c));
+			return process2(c, resArgs(c, info));
 		}
 
 		boolean[] ok = new boolean[3];
 		GeoElement[] arg;
 
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		if ((ok[0] = (arg[0].isGeoPoint()))
 				&& (ok[1] = (arg[1] instanceof GeoDirectionND))
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND)

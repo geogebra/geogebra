@@ -44,7 +44,7 @@ public class CmdMinMax extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 
 				AlgoElement algo = new AlgoListMinMax(cons, (GeoList) arg[0], isMin);
@@ -62,7 +62,7 @@ public class CmdMinMax extends CommandProcessor {
 			}
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
@@ -88,7 +88,7 @@ public class CmdMinMax extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 3: // Min[f,a,b]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isGeoFunction())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {

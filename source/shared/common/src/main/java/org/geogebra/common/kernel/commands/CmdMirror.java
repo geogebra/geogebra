@@ -45,7 +45,7 @@ public class CmdMirror extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			GeoElement[] ret = process2(label, arg, ok);
 

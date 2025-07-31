@@ -31,7 +31,7 @@ public class CmdAxes extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// asymptotes to conic/quadric
 			if (arg[0] instanceof GeoQuadricND) {

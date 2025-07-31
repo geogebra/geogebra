@@ -27,7 +27,7 @@ public class CmdUnitOrthogonalVector3D extends CmdUnitOrthogonalVector {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoCoordSys2D) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 						.unitOrthogonalVector3D(c.getLabel(),

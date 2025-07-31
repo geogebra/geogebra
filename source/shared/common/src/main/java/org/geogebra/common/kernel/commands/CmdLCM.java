@@ -34,7 +34,7 @@ public class CmdLCM extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 
 				AlgoListLCM algo = new AlgoListLCM(cons, c.getLabel(),
@@ -46,7 +46,7 @@ public class CmdLCM extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 

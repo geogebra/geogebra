@@ -33,7 +33,7 @@ public class CmdOrthogonalVector extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoLine()) {
 
 				AlgoOrthoVectorLine algo = new AlgoOrthoVectorLine(cons,

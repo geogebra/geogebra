@@ -30,7 +30,7 @@ public class CmdConic extends CommandProcessor {
 	@Override
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoList()) {

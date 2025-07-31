@@ -40,7 +40,7 @@ public class CmdDilate extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// dilate point, line or conic
 			if ((ok[0] = (arg[0] instanceof Dilateable || arg[0].isGeoPolygon()
@@ -55,7 +55,7 @@ public class CmdDilate extends CommandProcessor {
 			throw argErr(c, arg[1]);
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// dilate point, line or conic
 			if ((ok[0] = (arg[0] instanceof Dilateable || arg[0].isGeoList()))

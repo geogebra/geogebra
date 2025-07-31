@@ -30,7 +30,7 @@ public class CmdDifference extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int argumentNo = c.getArgumentNumber();
 		boolean[] ok = { false, false, false };
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 
 		switch (argumentNo) {
 		case 2:

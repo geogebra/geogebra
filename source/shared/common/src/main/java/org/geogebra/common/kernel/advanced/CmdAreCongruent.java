@@ -44,7 +44,7 @@ public class CmdAreCongruent extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		if (n == 2) {
 
 			AlgoAreCongruent algo = new AlgoAreCongruent(cons, c.getLabel(),

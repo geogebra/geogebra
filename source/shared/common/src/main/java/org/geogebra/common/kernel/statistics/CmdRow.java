@@ -29,7 +29,7 @@ public class CmdRow extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
 				AlgoRow algo = new AlgoRow(cons, c.getLabel(), arg[0]);
 

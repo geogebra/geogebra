@@ -33,7 +33,7 @@ public class CmdSlider extends CommandProcessor {
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		if (n < 2 || n > 9) {
 			throw argNumErr(c);
 		}

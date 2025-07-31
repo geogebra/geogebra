@@ -166,7 +166,7 @@ public class Variable extends ValidExpression {
 		boolean allowAutoCreateGeoElement = (mode == SymbolicMode.NONE)
 				&& !multipleUnassignedAllowed;
 		return resolveAsExpressionValue(mode, multipleUnassignedAllowed,
-				allowMultiLetterVariables, allowAutoCreateGeoElement);
+				allowMultiLetterVariables, allowAutoCreateGeoElement, false);
 	}
 
 	/**
@@ -182,12 +182,12 @@ public class Variable extends ValidExpression {
 				&& (info.getSymbolicMode() == SymbolicMode.NONE);
 		return resolveAsExpressionValue(info.getSymbolicMode(),
 				info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed(),
-				autoCreateObjects);
+				autoCreateObjects, info.isForSpreadsheet());
 	}
 
 	private ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
 		boolean multipleUnassignedAllowed, boolean allowMultiLetterVariables,
-		boolean autoCreateObjects) {
+		boolean autoCreateObjects, boolean forSpreadsheet) {
 		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
 
 		GeoElement geo = resolve(autoCreateObjects, false, mode, allowMultiLetterVariables);
@@ -210,7 +210,7 @@ public class Variable extends ValidExpression {
 				return replacement;
 			}
 			if (mode == SymbolicMode.SYMBOLIC_AV) {
-				return resolveUnknownForCAS();
+				return resolveUnknownForCAS(forSpreadsheet);
 			}
 			return resolve(autoCreateObjects, true, mode, allowMultiLetterVariables);
 		}
@@ -240,8 +240,8 @@ public class Variable extends ValidExpression {
 		return geo;
 	}
 
-	private ExpressionValue resolveUnknownForCAS() {
-		if (GeoElementSpreadsheet.isSpreadsheetLabel(name)) {
+	private ExpressionValue resolveUnknownForCAS(boolean spreadsheet) {
+		if (spreadsheet && GeoElementSpreadsheet.isSpreadsheetLabel(name)) {
 			return kernel.getConstruction()
 					.createSpreadsheetGeoElement(null, name);
 		}

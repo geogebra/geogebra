@@ -34,7 +34,7 @@ public class CmdPoisson extends CommandProcessor {
 		switch (n) {
 
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoNumberValue) {
 				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons,
 						c.getLabel(), (GeoNumberValue) arg[0]);
@@ -45,7 +45,7 @@ public class CmdPoisson extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1].isGeoBoolean())) {
 
@@ -71,7 +71,7 @@ public class CmdPoisson extends CommandProcessor {
 			}
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {

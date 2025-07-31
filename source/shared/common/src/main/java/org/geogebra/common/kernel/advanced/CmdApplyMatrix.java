@@ -36,7 +36,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if (arg[0].isGeoList()) {
 

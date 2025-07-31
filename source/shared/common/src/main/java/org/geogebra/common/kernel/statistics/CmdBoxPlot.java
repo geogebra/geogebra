@@ -34,7 +34,7 @@ public class CmdBoxPlot extends CommandProcessor {
 
 		switch (n) {
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoList()))) {
@@ -49,7 +49,7 @@ public class CmdBoxPlot extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoList()))
@@ -66,7 +66,7 @@ public class CmdBoxPlot extends CommandProcessor {
 
 		case 5: // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of
 				// Frequencies>, <Boolean Outliers> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoList()))
@@ -84,7 +84,7 @@ public class CmdBoxPlot extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 7:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))

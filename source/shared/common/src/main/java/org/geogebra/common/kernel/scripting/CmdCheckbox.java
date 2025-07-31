@@ -39,7 +39,7 @@ public class CmdCheckbox extends CommandProcessor {
 		GeoList geosToHide = null;
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoText()) {
 				caption = ((GeoText) arg[0]).getTextString();
 			} else {
@@ -52,7 +52,7 @@ public class CmdCheckbox extends CommandProcessor {
 			}
 			break;
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoText()) {
 				caption = ((GeoText) arg[0]).getTextString();
 			} else if (arg[0].isGeoList()) {

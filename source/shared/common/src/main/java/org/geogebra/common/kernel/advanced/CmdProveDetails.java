@@ -29,7 +29,7 @@ public class CmdProveDetails extends CommandProcessor {
 
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 2:

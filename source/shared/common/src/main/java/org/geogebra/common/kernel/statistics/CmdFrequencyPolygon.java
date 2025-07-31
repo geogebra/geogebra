@@ -34,7 +34,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
 
@@ -49,7 +49,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			}
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
 				GeoElement[] ret = {
@@ -65,7 +65,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			}
 
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
@@ -98,7 +98,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			}
 
 		case 5:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoBoolean()))
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))

@@ -34,7 +34,7 @@ public class CmdShear extends CommandProcessor {
 
 		switch (n) {
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if ((arg[1] instanceof GeoVec3D) && arg[2].isGeoNumeric()) {
 

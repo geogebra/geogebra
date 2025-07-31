@@ -35,7 +35,7 @@ public class CmdSample extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = { sample(c.getLabel(), (GeoList) arg[0],
@@ -46,7 +46,7 @@ public class CmdSample extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {

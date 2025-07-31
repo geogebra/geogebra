@@ -28,7 +28,7 @@ public class CmdInsert extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		boolean[] ok = new boolean[2];
 		switch (n) {
 		case 3:

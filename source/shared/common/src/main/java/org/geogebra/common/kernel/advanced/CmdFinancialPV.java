@@ -32,7 +32,7 @@ public class CmdFinancialPV extends CommandProcessor {
 
 		switch (n) {
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
@@ -56,7 +56,7 @@ public class CmdFinancialPV extends CommandProcessor {
 			}
 
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
@@ -83,7 +83,7 @@ public class CmdFinancialPV extends CommandProcessor {
 			}
 
 		case 5:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())

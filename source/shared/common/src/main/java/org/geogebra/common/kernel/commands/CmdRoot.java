@@ -41,7 +41,7 @@ public class CmdRoot extends CommandProcessor {
 		switch (n) {
 		// roots of polynomial
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isRealValuedFunction()) {
 				GeoFunctionable gf = (GeoFunctionable) arg[0];
 				return root(c, gf);
@@ -50,7 +50,7 @@ public class CmdRoot extends CommandProcessor {
 
 			// root with start value
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isRealValuedFunction())
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 
@@ -70,7 +70,7 @@ public class CmdRoot extends CommandProcessor {
 
 			// root in interval
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {

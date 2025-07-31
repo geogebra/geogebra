@@ -40,7 +40,7 @@ public class MacroProcessor extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		// resolve command arguments
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 		Macro macro = c.getMacro();
 
 		TestGeo[] macroInputTypes = macro.getInputTypes();

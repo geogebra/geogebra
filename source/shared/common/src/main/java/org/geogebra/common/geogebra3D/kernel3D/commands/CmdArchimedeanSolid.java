@@ -41,7 +41,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			ok[0] = arg[0].isGeoPolygon();
 			if (ok[0]) {
 				GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
@@ -51,7 +51,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 			}
 			throw argErr(c, arg[0]);
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isGeoPoint())
 					&& (ok[1] = arg[1].isGeoPoint())) {
 				GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
@@ -74,7 +74,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 			}
 			break;
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isGeoPoint())
 					&& (ok[1] = arg[1].isGeoPoint())) {
 

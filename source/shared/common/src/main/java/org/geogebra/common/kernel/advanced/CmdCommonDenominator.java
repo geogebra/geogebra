@@ -34,7 +34,7 @@ public class CmdCommonDenominator extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0] instanceof NumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				AlgoCommonDenominator algo = new AlgoCommonDenominator(cons,

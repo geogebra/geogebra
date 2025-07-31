@@ -38,7 +38,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 		switch (n) {
 		case 6:
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if (arg[1] instanceof GeoNumberValue) {
 				GeoPointND corner1, corner3, screenCorner1, screenCorner3;

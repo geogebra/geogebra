@@ -144,7 +144,7 @@ public abstract class CommandProcessor {
 			// resolve arguments to get GeoElements
 			ExpressionNode[] arg = c.getArguments();
 			// name of replace variable of "x"/"y"
-			EvalInfo argInfo = info.withLabels(false);
+			EvalInfo argInfo = info.withLabels(false).withSymbolicMode(SymbolicMode.NONE);
 			newXYZ = replaceXYArguments(arg);
 			result = new GeoElement[arg.length];
 
@@ -595,7 +595,7 @@ public abstract class CommandProcessor {
 	 * @return array of arguments
 	 */
 	protected final GeoElement[] resArgsLocalNumVar(Command c, int[] varPos,
-			int[] initPos) {
+			int[] initPos, EvalInfo info) {
 
 		String[] localVarName = new String[varPos.length];
 
@@ -635,7 +635,7 @@ public abstract class CommandProcessor {
 		// created
 		GeoElement[] arg;
 		try {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 		} finally {
 			// remove local variable name from kernel again
 			for (int i = 0; i < varPos.length; i++) {

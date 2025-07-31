@@ -29,7 +29,7 @@ public class CmdUnicodeToLetter extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoNumberValue) {
 				AlgoUnicodeToLetter algo = new AlgoUnicodeToLetter(cons,
 						c.getLabel(), (GeoNumberValue) arg[0]);

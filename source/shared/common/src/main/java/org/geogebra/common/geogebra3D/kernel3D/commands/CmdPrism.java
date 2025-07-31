@@ -29,7 +29,7 @@ public class CmdPrism extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		if (n == 2) {
 			if ((ok[0] = (arg[0].isGeoPolygon()))

@@ -224,7 +224,7 @@ public class SymbolicProcessor {
 	 */
 	protected GeoSymbolic evalSymbolicNoLabel(ExpressionValue ve, EvalInfo info) {
 		ve.resolveVariables(
-				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
+				info.withLabels(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 
 		// Maybe throw exception to terminate processing
 		ve.toString(StringTemplate.latexTemplateCAS);

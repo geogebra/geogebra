@@ -54,7 +54,7 @@ public class CmdSum extends CommandProcessor {
 				return res;
 			}
 		}
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		// set all to either true or false
 
 		GeoList list = null;

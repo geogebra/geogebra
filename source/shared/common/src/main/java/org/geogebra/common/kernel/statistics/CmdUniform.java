@@ -32,7 +32,7 @@ public class CmdUniform extends CommandProcessor {
 		GeoElement[] arg;
 
 		GeoBoolean cumulative = null; // default for n=3
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 4:

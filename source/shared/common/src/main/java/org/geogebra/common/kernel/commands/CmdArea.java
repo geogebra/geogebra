@@ -33,7 +33,7 @@ public class CmdArea extends CommandProcessor {
 		GeoElement[] arg;
 
 		if (n == 1) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// area of conic
 			if (arg[0].isGeoConic()) {
@@ -56,7 +56,7 @@ public class CmdArea extends CommandProcessor {
 
 		// area of points
 		else if (n > 2) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			GeoPointND[] points = new GeoPointND[n];
 			boolean is3D = false;
 			// check arguments

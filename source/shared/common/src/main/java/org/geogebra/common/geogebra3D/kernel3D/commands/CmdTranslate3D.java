@@ -40,7 +40,7 @@ public class CmdTranslate3D extends CmdTranslate {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// check if there is a 3D geo
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {

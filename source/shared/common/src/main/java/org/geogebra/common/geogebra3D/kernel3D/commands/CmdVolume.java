@@ -30,7 +30,7 @@ public class CmdVolume extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if (arg[0] instanceof HasVolume) {
 				return new GeoElement[] { kernel.getManager3D()

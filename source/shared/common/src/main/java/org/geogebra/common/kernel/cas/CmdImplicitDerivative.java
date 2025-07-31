@@ -25,7 +25,7 @@ public class CmdImplicitDerivative extends CommandProcessor implements UsesCAS {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
-		GeoElement[] args = resArgs(c);
+		GeoElement[] args = resArgs(c, info);
 		if (args.length != 1) {
 			throw argNumErr(c);
 		}

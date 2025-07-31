@@ -36,7 +36,7 @@ public class CmdPoint extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// need to check isGeoList first as {1,2} can be a Path but we want
 			// Point[{1,2}] to create a point
 			if (arg[0].isGeoList() && ((GeoList) arg[0])
@@ -65,7 +65,7 @@ public class CmdPoint extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isPath()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				GeoElement[] ret = { point(c.getLabel(), (Path) arg[0],

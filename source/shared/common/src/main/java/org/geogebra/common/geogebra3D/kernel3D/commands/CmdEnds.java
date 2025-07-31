@@ -32,7 +32,7 @@ public class CmdEnds extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoQuadric3DLimited) {
 
 				AlgoQuadricEnds algo = new AlgoQuadricEnds(cons, c.getLabels(),

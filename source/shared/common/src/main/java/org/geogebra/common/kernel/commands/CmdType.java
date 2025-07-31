@@ -28,7 +28,7 @@ public class CmdType extends CommandProcessor {
 		GeoElement[] arg;
 
 		if (n == 1) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// asymptotes to conic
 			if (arg[0] instanceof GeoQuadricND) {

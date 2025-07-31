@@ -36,7 +36,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 
 		switch (n) {
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
@@ -54,7 +54,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 			}
 
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			GeoElement[] ret = process4(c, arg, ok);
 

@@ -29,7 +29,7 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoCoordSys2D) {
 				GeoElement[] ret = {
 						(GeoElement) kernel.getManager3D().orthogonalVector3D(
@@ -39,7 +39,7 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 			break;
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoLineND
 					&& arg[1] instanceof GeoDirectionND) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()

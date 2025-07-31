@@ -33,7 +33,7 @@ public class CmdSegment extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// segment between two points
 			if ((ok[0] = (arg[0].isGeoPoint()))
@@ -56,7 +56,7 @@ public class CmdSegment extends CommandProcessor {
 			}
 
 		case 3: // special case for Segment[A,B,poly1] -> do nothing!
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))

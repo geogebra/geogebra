@@ -11,6 +11,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdAngle;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -36,11 +37,11 @@ public class CmdAngle3D extends CmdAngle {
 	}
 
 	@Override
-	protected GeoElement[] process(Command c, int n, boolean[] ok)
+	protected GeoElement[] process(Command c, int n, boolean[] ok, EvalInfo info)
 			throws MyError {
 
 		if (n == 4) {
-			GeoElement[] arg = resArgs(c);
+			GeoElement[] arg = resArgs(c, info);
 
 			// angle between three points
 			if ((ok[0] = (arg[0].isGeoPoint()))
@@ -66,7 +67,7 @@ public class CmdAngle3D extends CmdAngle {
 			throw argErr(c, getBadArg(ok, arg));
 		}
 
-		return super.process(c, n, ok);
+		return super.process(c, n, ok, info);
 
 	}
 

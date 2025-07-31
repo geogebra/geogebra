@@ -32,7 +32,7 @@ public class CmdParseToNumber extends CommandProcessor {
 		if (!info.isScripting() && n == 2) {
 			return new GeoElement[0];
 		}
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 		boolean ok;
 		switch (n) {
 		case 1:

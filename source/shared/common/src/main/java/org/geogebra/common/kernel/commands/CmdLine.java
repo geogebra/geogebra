@@ -33,7 +33,7 @@ public class CmdLine extends CommandProcessor {
 		GeoElement[] arg;
 
 		if (n == 2) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// line through two points
 			if ((ok[0] = (arg[0].isGeoPoint()))

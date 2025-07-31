@@ -31,7 +31,7 @@ public class CmdAngularBisector extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 
 		switch (n) {
 		case 2:

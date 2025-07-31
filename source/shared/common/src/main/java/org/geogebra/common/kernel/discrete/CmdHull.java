@@ -28,7 +28,7 @@ public class CmdHull extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[2];
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		switch (n) {
 		case 2:

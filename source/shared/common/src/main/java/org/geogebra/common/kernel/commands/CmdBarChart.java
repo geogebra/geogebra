@@ -33,7 +33,7 @@ public class CmdBarChart extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))) {
 
@@ -54,7 +54,7 @@ public class CmdBarChart extends CommandProcessor {
 				throw argErr(c, getBadArg(ok, arg));
 			}
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoList()))) {

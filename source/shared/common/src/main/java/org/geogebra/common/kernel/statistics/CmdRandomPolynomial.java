@@ -25,7 +25,7 @@ public class CmdRandomPolynomial extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
-		GeoElement[] args = resArgs(c);
+		GeoElement[] args = resArgs(c, info);
 		if (args.length != 3) {
 			throw argNumErr(c);
 		}

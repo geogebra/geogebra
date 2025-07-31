@@ -31,7 +31,7 @@ public class CmdIntersection extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList() && arg[1].isGeoList()) {
 
 				AlgoIntersection algo = new AlgoIntersection(cons, c.getLabel(),

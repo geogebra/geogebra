@@ -28,7 +28,7 @@ public class CmdBottom extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoQuadric3DLimited) {
 				GeoElement[] ret = { kernel.getManager3D().quadricBottom(
 						c.getLabel(), (GeoQuadric3DLimited) arg[0]) };

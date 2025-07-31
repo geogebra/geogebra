@@ -35,7 +35,7 @@ public class CmdCylinder extends CommandProcessor {
 		switch (n) {
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if ((ok[0] = (arg[0] instanceof GeoConicND))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
@@ -55,7 +55,7 @@ public class CmdCylinder extends CommandProcessor {
 			throw argErr(arg[1], c);
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoVector()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {

@@ -25,7 +25,7 @@ public class CmdBezierCurve extends CommandProcessor {
 		if (n != 4) {
 			throw argNumErr(c);
 		}
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 
 		for (GeoElement geo: arg) {
 			if (!geo.isGeoPoint()) {

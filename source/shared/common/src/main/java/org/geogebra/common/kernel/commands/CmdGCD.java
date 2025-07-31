@@ -33,7 +33,7 @@ public class CmdGCD extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 
 				AlgoListGCD algo = new AlgoListGCD(cons, c.getLabel(),
@@ -45,7 +45,7 @@ public class CmdGCD extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 

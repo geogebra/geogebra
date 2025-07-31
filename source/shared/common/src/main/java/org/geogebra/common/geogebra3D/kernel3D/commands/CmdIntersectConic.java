@@ -33,7 +33,7 @@ public class CmdIntersectConic extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// between 2 quadrics
 			if ((ok[0] = (arg[0] instanceof GeoQuadric3D

@@ -28,7 +28,7 @@ public class CmdUnicodeToText extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 				AlgoUnicodeToText algo = new AlgoUnicodeToText(cons,
 						c.getLabel(), (GeoList) arg[0]);

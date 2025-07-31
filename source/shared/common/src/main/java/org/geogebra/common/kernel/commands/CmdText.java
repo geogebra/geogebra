@@ -38,7 +38,7 @@ public class CmdText extends CommandProcessor {
 			return ret;
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[1].isGeoBoolean()) {
 				algo = new AlgoText(cons, c.getLabel(), arg[0],
 						(GeoBoolean) arg[1]);
@@ -56,7 +56,7 @@ public class CmdText extends CommandProcessor {
 			}
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
 				algo = new AlgoText(cons, c.getLabel(), arg[0],
@@ -68,7 +68,7 @@ public class CmdText extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoBoolean())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
@@ -83,7 +83,7 @@ public class CmdText extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 5:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoBoolean())
 					&& (ok[3] = arg[3].isGeoBoolean())
@@ -99,7 +99,7 @@ public class CmdText extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 6:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoBoolean())
 					&& (ok[3] = arg[3].isGeoBoolean())

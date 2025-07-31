@@ -25,7 +25,7 @@ public class CmdLineGraph extends CommandProcessor {
 		if (c.getArgumentNumber() != 2) {
 			throw argNumErr(c);
 		}
-		GeoElement[] args = resArgs(c);
+		GeoElement[] args = resArgs(c, info);
 		GeoList xValues = (GeoList) validate(args[0], args[0].isGeoList(), c);
 		GeoList yValues = (GeoList) validate(args[1], args[1].isGeoList(), c);
 		AlgoLineGraph algo = new AlgoLineGraph(cons, xValues, yValues);

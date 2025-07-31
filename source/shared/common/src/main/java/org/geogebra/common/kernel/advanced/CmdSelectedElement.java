@@ -30,7 +30,7 @@ public class CmdSelectedElement extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// list
 			if (arg[0].isGeoList()) {
 				AlgoSelectedElement algo = new AlgoSelectedElement(cons,

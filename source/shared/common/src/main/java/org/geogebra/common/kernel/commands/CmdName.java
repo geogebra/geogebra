@@ -28,7 +28,7 @@ public class CmdName extends CommandProcessor {
 		switch (n) {
 		case 1:
 			// Name[ <GeoElement> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			AlgoName algo = new AlgoName(cons, c.getLabel(), arg[0]);
 

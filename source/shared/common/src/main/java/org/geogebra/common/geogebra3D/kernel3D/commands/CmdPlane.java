@@ -38,7 +38,7 @@ public class CmdPlane extends CommandProcessor {
 			if (c.getArgument(0).unwrap() instanceof Equation) {
 				((Equation) c.getArgument(0).unwrap()).setForcePlane();
 			}
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoCoordSys2D) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 						.plane3D(c.getLabel(), (GeoCoordSys2D) arg[0]) };
@@ -47,7 +47,7 @@ public class CmdPlane extends CommandProcessor {
 
 			throw argErr(c, arg[0]);
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoLineND))) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
@@ -74,7 +74,7 @@ public class CmdPlane extends CommandProcessor {
 			}
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {

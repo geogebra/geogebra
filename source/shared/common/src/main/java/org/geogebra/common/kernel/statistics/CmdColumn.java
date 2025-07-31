@@ -29,7 +29,7 @@ public class CmdColumn extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
 
 				AlgoColumn algo = new AlgoColumn(cons, c.getLabel(), arg[0]);

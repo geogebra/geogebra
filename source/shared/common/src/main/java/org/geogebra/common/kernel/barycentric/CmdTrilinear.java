@@ -34,7 +34,7 @@ public class CmdTrilinear extends CommandProcessor {
 
 		switch (n) {
 		case 6:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoPoint())
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)

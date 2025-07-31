@@ -30,7 +30,7 @@ public class CmdVector extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoPoint()) {
 				GeoElement[] ret = { (GeoElement) getAlgoDispatcher()
 						.vector(c.getLabel(), (GeoPointND) arg[0]) };
@@ -63,7 +63,7 @@ public class CmdVector extends CommandProcessor {
 			}
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { vector(c.getLabel(), (GeoPointND) arg[0],

@@ -31,7 +31,7 @@ public class CmdBernoulli extends CommandProcessor {
 		GeoElement[] arg;
 
 		if (n == 2) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1].isGeoBoolean())) {
 

@@ -39,12 +39,12 @@ public class CmdRotate3D extends CmdRotate {
 		switch (n) {
 		case 2:
 			// ROTATE AS IN 2D
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			return super.process2(c, arg, ok);
 
 		case 3:
 
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// ROTATION AROUND LINE
 			if ((ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -61,7 +61,7 @@ public class CmdRotate3D extends CmdRotate {
 
 		case 4:
 			// ROTATION AROUND POINT AND DIRECTION
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// rotate point
 			if ((ok[1] = (arg[1] instanceof GeoNumberValue))

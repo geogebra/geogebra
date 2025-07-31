@@ -28,12 +28,12 @@ public class CmdSort extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		switch (n) {
 		case 0:
 			throw argNumErr(c);
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { sort(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
@@ -41,7 +41,7 @@ public class CmdSort extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
 
 				AlgoSort algo = new AlgoSort(cons, c.getLabel(),

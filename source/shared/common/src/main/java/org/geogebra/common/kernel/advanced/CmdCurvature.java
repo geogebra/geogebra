@@ -38,7 +38,7 @@ public class CmdCurvature extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 
@@ -81,7 +81,7 @@ public class CmdCurvature extends CommandProcessor {
 			throw argErr(c, arg[1]);
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2] instanceof GeoSurfaceCartesianND))) {

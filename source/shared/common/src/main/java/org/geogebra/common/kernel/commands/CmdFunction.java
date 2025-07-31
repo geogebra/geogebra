@@ -43,7 +43,7 @@ public class CmdFunction extends CommandProcessor {
 		case 0:
 			return CmdDataFunction.emptyFunction(kernel, c.getLabel());
 		case 1:
-			GeoElement[] arg = resArgs(c);
+			GeoElement[] arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 
 				AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons,
@@ -63,16 +63,16 @@ public class CmdFunction extends CommandProcessor {
 			// file might be saved with old Function[sin(x),1,2]
 			return process1VarFunction(c, null, info);
 		case 7:
-			return process2VarFunction(c);
+			return process2VarFunction(c, info);
 		case 5:
-			return process2VarFunctionXY(c);
+			return process2VarFunctionXY(c, info);
 		default:
 			throw argNumErr(c);
 		}
 	}
 
-	private GeoElement[] process2VarFunctionXY(Command c) {
-		GeoElement[] arg = resArgs(c);
+	private GeoElement[] process2VarFunctionXY(Command c, EvalInfo info) {
+		GeoElement[] arg = resArgs(c, info);
 		boolean[] ok = new boolean[c.getArgumentNumber()];
 		if ((ok[0] = (arg[0] instanceof GeoFunctionNVar)) // function
 				&& (ok[1] = arg[1] instanceof GeoNumberValue) // x from
@@ -112,7 +112,7 @@ public class CmdFunction extends CommandProcessor {
 			}
 			// new code: convert Function[sin(x),1,2] to If[1<=x<=2, sin(x)]
 
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
@@ -206,7 +206,7 @@ public class CmdFunction extends CommandProcessor {
 						(GeoNumberValue) low, (GeoNumberValue) high) };
 			}
 		}
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		if ((ok[0] = (arg[0].isRealValuedFunction()))
 				&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
@@ -234,9 +234,9 @@ public class CmdFunction extends CommandProcessor {
 		return new ExpressionNode(kernel, left, Operation.AND_INTERVAL, right);
 	}
 
-	private GeoElement[] process2VarFunction(Command c) {
+	private GeoElement[] process2VarFunction(Command c, EvalInfo info) {
 		// create local variable at position 3 and resolve arguments
-		GeoElement[] arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 });
+		GeoElement[] arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 }, info);
 		boolean[] ok = new boolean[c.getArgumentNumber()];
 		if ((ok[0] = (arg[0] instanceof GeoNumberValue
 				|| arg[0] instanceof GeoFunctionNVar)) // function

@@ -18,7 +18,7 @@ public class CmdTableToChart extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command command, EvalInfo info) {
 		if (command.getArgumentNumber() == 4) {
-			GeoElement[] args = resArgs(command);
+			GeoElement[] args = resArgs(command, info);
 
 			boolean[] ok = new boolean[4];
 			if ((ok[0] = args[0] instanceof GeoInlineTable)

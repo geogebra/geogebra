@@ -40,7 +40,7 @@ public class CmdCircleArcSector extends CommandProcessor {
 
 		switch (n) {
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
@@ -52,7 +52,7 @@ public class CmdCircleArcSector extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			GeoElement[] ret = process4(c, arg, ok);
 

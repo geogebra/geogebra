@@ -29,7 +29,7 @@ public class CmdOrthogonalPlane extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoPoint()) {
 				if (arg[1] instanceof GeoLineND) {
 					return new GeoElement[] { (GeoElement) kernel

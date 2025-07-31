@@ -31,7 +31,7 @@ public class CmdRandomPointIn extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 
 		if (n == 1) {
 			if (arg[0].isGeoPolygon()) {
@@ -65,7 +65,7 @@ public class CmdRandomPointIn extends CommandProcessor {
 			return ret;
 
 		} else if (n > 2) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			GeoPointND[] points = new GeoPointND[n];
 
 			// check arguments

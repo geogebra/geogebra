@@ -36,13 +36,13 @@ public class CmdPolyLine extends CommandProcessor {
 		case 0:
 			throw argNumErr(c);
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
 			throw argErr(c, arg[0]);
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoList()) {
 
 				if (!arg[1].isGeoBoolean()) {
@@ -58,17 +58,17 @@ public class CmdPolyLine extends CommandProcessor {
 					throw argErr(c, arg[1]);
 				}
 
-				return genericPolyline(arg[1], arg, c);
+				return genericPolyline(arg[1], arg, c, info);
 			}
 			throw argErr(c, arg[0]);
 		default:
 			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
-			return genericPolyline(lastArg, null, c);
+			return genericPolyline(lastArg, null, c, info);
 		}
 	}
 
 	private GeoElement[] genericPolyline(GeoElement lastArg, GeoElement[] arg0,
-			Command c) {
+			Command c, EvalInfo info) {
 		boolean penStroke = false;
 		int size = c.getArgumentNumber();
 		if (lastArg.isGeoBoolean()) {
@@ -88,7 +88,7 @@ public class CmdPolyLine extends CommandProcessor {
 			algo.getOutput(0).setLabel(c.getLabel());
 			return algo.getOutput();
 		}
-		GeoElement[] arg = arg0 == null ? resArgs(c) : arg0;
+		GeoElement[] arg = arg0 == null ? resArgs(c, info) : arg0;
 		// polygon for given points
 		GeoPointND[] points = new GeoPointND[size];
 		// check arguments

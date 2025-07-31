@@ -33,7 +33,7 @@ public class CmdPerimeter extends CommandProcessor {
 		switch (n) {
 		case 1:
 			// Perimeter[ <GeoPolygon> ]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0].isGeoPolygon()) {
 
 				GeoElement[] ret = { getAlgoDispatcher().perimeter(c.getLabel(),

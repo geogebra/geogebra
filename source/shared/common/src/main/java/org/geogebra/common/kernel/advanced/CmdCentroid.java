@@ -31,7 +31,7 @@ public class CmdCentroid extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			ok[0] = arg[0].isGeoPolygon();
 			if (ok[0]) {
 

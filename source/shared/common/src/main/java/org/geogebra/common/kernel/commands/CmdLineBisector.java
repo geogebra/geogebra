@@ -34,7 +34,7 @@ public class CmdLineBisector extends CommandProcessor {
 
 		switch (n) {
 		case 1: // segment
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// line through point orthogonal to segment
 			if (arg[0].isGeoSegment()) {
 				GeoElement[] ret = {
@@ -46,12 +46,12 @@ public class CmdLineBisector extends CommandProcessor {
 			throw argErr(c, arg[0]);
 
 		case 2: // two points
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			return process2(c, arg, ok);
 
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			GeoElement[] ret = process3(c, arg, ok);
 

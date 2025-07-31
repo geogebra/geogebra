@@ -42,12 +42,12 @@ public class CmdRotate extends CommandProcessor {
 		switch (n) {
 		case 2:
 			// ROTATE AROUND CENTER (0,0)
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			return process2(c, arg, ok);
 
 		case 3:
 			// ROTATION AROUND POINT
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			return process3(c, arg, ok);
 
 		default:

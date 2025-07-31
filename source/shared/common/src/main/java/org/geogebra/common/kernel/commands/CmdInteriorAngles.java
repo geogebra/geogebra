@@ -25,7 +25,7 @@ public class CmdInteriorAngles extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		if (n == 1) {
-			GeoElement[] arg = resArgs(c);
+			GeoElement[] arg = resArgs(c, info);
 			if (arg[0].isGeoPolygon()) {
 				return process(c.getLabels(), (GeoPolygon) arg[0]);
 			}

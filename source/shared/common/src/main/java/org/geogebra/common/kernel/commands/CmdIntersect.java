@@ -76,18 +76,18 @@ public class CmdIntersect extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// Line - Line
 			return intersect2(arg, c);
 
 		case 3: // only one of the intersection points: the third argument
 			// states which one
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// Line - Conic
 			return intersect3(arg, c);
 
 		case 4:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// Function - Function in interval [a,b]
 			// Polynomial - Polynomial with index of point
 			if ((ok[0] = (arg[0].isRealValuedFunction()))

@@ -31,7 +31,7 @@ public class CmdDistance3D extends CmdDistance {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {
 

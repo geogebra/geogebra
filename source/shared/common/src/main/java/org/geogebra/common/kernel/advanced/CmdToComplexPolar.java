@@ -36,7 +36,7 @@ public class CmdToComplexPolar extends CommandProcessor {
 		if (c.getArgumentNumber() != 1) {
 			throw argNumErr(c);
 		}
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 		AlgoToComplexPolar algo = null;
 		if (arg[0] instanceof GeoPoint) {
 			algo = new AlgoToComplexPolar(cons, (GeoPoint) arg[0], coordStyle);

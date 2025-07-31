@@ -41,7 +41,7 @@ public class CmdResidualPlot extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg = resArgs(c);
+		GeoElement[] arg = resArgs(c, info);
 		switch (n) {
 		case 2:
 			if ((arg[0].isGeoList()) && (arg[1].isRealValuedFunction())) {

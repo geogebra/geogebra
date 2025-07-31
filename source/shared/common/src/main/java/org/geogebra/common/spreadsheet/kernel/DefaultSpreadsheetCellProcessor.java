@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -144,8 +145,10 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 
 	private void processInput(String command, ErrorHandler handler, AsyncOperation<GeoElementND[]>
 			callback) {
+		EvalInfo info = algebraProcessor.getEvalInfo(false,
+				false).withSpreadsheet();
 		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, false,
-				handler, false, callback);
+				handler, info, callback);
 	}
 
 	private static boolean isCommand(String input) {

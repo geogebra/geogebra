@@ -42,7 +42,7 @@ public class CmdTranslate extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// translate object
 

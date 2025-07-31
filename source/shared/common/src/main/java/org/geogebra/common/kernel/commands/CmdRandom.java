@@ -47,7 +47,7 @@ public class CmdRandom extends CommandProcessor {
 			algoDepNumber.getOutput(0).setLabel(c.getLabel());
 			return algoDepNumber.getOutput();
 		case 3:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[2] instanceof BooleanValue) {
 
 				if (((BooleanValue) arg[2]).getBoolean()) {
@@ -76,7 +76,7 @@ public class CmdRandom extends CommandProcessor {
 			// fall through if arg[2] == false
 
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if ((arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)) {
 

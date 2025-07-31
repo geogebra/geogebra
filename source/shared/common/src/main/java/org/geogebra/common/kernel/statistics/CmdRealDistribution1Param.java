@@ -35,7 +35,7 @@ public class CmdRealDistribution1Param extends CommandProcessor {
 
 		GeoElement[] arg;
 
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 
 		GeoBoolean cumulative = null; // default for n=2
 		switch (n) {

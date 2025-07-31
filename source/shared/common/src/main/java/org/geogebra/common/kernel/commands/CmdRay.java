@@ -33,7 +33,7 @@ public class CmdRay extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 
 			// line through two points
 			if ((ok[0] = (arg[0].isGeoPoint()))

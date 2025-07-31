@@ -44,7 +44,7 @@ public final class CmdDerivative extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof CasEvaluableFunction) {
 				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
 				if (label == null) {
@@ -60,7 +60,7 @@ public final class CmdDerivative extends CommandProcessor {
 																// reset this
 																// later #2356
 			try {
-				arg = resArgs(c);
+				arg = resArgs(c, info);
 				// Derivative[ f(x), 2]
 				if ((arg[0].isGeoFunction() || arg[0].isGeoCurveCartesian())
 						&& arg[1] instanceof GeoNumberValue) {
@@ -129,7 +129,7 @@ public final class CmdDerivative extends CommandProcessor {
 			}
 
 			// Derivative[ f(x, y), x]
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof CasEvaluableFunction
 					&& arg[1].isGeoFunction()) {
 				GeoNumeric var = new GeoNumeric(cons);
@@ -161,7 +161,7 @@ public final class CmdDerivative extends CommandProcessor {
 				Log.debug(t);
 			}
 
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			// Derivative[ f(x, y), x, 2]
 			if (arg[0] instanceof GeoFunctionNVar && arg[1].isGeoFunction()
 					&& arg[2] instanceof GeoNumberValue) {

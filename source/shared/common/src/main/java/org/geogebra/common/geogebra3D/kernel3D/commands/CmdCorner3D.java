@@ -30,7 +30,7 @@ public class CmdCorner3D extends CmdVertex3D {
 		GeoElement[] arg;
 
 		if (n == 1) {
-			arg = resArgs(c);
+			arg = resArgs(c, info);
 			if (arg[0] instanceof GeoConicSection) {
 
 				return kernel.getManager3D().corner(c.getLabels(),
