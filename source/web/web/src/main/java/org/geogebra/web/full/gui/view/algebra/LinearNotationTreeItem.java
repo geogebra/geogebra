@@ -36,10 +36,14 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 		textField = new AutoCompleteTextFieldW(app);
 		textField.setAutoComplete(false);
 		textField.setAutoCloseParentheses(false);
-		setText(getTextForEditing(false, StringTemplate.linearNotation));
+		updateInputText();
 		textField.getTextField().addKeyDownHandler(this);
 		textField.addFocusHandler(ignore -> getAV().startEditItem(geo));
 		textField.addBlurHandler(controller);
+	}
+
+	private void updateInputText() {
+		setText(getTextForEditing(false, StringTemplate.linearNotation));
 	}
 
 	private void ensureTextField() {
@@ -56,7 +60,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 			updateTreeItemAfterTypeChanged();
 			return;
 		}
-
+		updateInputText();
 		if (hasMarblePanel()) {
 			marblePanel.update();
 		}
@@ -185,6 +189,13 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	@Override
 	public void setText(String text) {
 		textField.setText(text);
+	}
+
+	@Override
+	public void insertMath(String string) {
+		if (textField != null) {
+			textField.insertString(string);
+		}
 	}
 
 	@Override
