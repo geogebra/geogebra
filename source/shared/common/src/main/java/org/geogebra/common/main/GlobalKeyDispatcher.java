@@ -1006,6 +1006,11 @@ public abstract class GlobalKeyDispatcher {
 		kernel.setAlgebraStyleSpreadsheet(nextStyle);
 
 		kernel.updateConstruction(false);
+		EuclidianView view = app.getActiveEuclidianView();
+		if (view != null) {
+			view.getScreenReader()
+					.readDelayed(app.getLocalization().getMenu(nextStyle.getTranslationKey()));
+		}
 		app.setUnsaved();
 	}
 
