@@ -2487,7 +2487,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
+		DrawableND drawable = drawableMap.get(geo);
+		if (drawable instanceof Drawable) {
+			((Drawable) drawable).updateStrokes(geo);
+		}
 	}
 
 	@Override

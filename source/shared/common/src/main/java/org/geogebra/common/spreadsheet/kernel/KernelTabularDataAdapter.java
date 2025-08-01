@@ -98,11 +98,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// not needed
-	}
-
-	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// not needed
 	}

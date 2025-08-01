@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
@@ -838,11 +837,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		@Override
 		public void updateVisualStyle(GeoElement geo, GProperty prop) {
 			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void updateHighlight(GeoElementND geo) {
-			// nothing to do here
 		}
 
 		@Override

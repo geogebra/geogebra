@@ -69,7 +69,9 @@ public interface View {
 	 * @param geo
 	 *            updated geo
 	 */
-	public void updateHighlight(GeoElementND geo);
+	default void updateHighlight(GeoElementND geo) {
+		// most views do not need this
+	}
 
 	/**
 	 * Notify this view about updated auxiliary geo

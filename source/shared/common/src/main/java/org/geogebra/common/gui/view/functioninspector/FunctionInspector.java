@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.debug.Log;
@@ -350,11 +349,6 @@ public abstract class FunctionInspector
 
 	public void setKernel(Kernel kernel) {
 		this.kernel = kernel;
-	}
-
-	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
 	}
 
 }

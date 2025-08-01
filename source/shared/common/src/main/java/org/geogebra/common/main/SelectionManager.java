@@ -1397,7 +1397,7 @@ public class SelectionManager {
 		if (geo.getApp().showToolBar() && (geo instanceof GeoImage || geo instanceof GeoText)) {
 			return geo.doHighlighting();
 		} else {
-			return keyboardSelection && selectedGeos.contains(geo);
+			return keyboardSelection && geo.isSelected();
 		}
 	}
 }

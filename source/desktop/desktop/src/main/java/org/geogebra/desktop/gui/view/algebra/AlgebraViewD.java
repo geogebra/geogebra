@@ -1078,8 +1078,4 @@ public class AlgebraViewD extends AlgebraTree
 		return isEditing();
 	}
 
-	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
-	}
 } // AlgebraView

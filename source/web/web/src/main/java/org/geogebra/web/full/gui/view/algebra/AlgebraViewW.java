@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
@@ -1724,11 +1723,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (styleBar != null && geo.isLabelSet()) {
 			styleBar.update(geo);
 		}
-	}
-
-	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
 	}
 
 	@Override

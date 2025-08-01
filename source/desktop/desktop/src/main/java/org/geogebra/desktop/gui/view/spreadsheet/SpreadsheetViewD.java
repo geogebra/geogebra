@@ -1078,9 +1078,4 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		// only for web
 
 	}
-
-	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
-	}
 }

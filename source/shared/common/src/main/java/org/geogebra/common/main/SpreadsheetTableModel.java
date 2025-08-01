@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
@@ -291,11 +290,6 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			}
 		}
 		updateWithoutTrace(geo);
-	}
-
-	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
 	}
 
 	@Override

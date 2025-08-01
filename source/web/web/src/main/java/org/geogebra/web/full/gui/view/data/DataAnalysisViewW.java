@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
@@ -401,11 +400,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	@Override
 	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
-	}
-
-	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
 	}
 
 	@Override

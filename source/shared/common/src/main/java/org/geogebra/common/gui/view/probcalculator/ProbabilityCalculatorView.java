@@ -1771,11 +1771,6 @@ public abstract class ProbabilityCalculatorView
 		update(geo);
 	}
 
-	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
-	}
-
 	/**
 	 * Attach to kernel
 	 */

@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -205,11 +204,6 @@ public class AccessibilityView implements View {
 		if (prop == GProperty.VISIBLE || prop == GProperty.COMBINED) {
 			update(geo);
 		}
-	}
-
-	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// not needed
 	}
 
 	@Override

@@ -64,6 +64,7 @@ public abstract class Drawable extends DrawableND {
 	protected static final int HIGHLIGHT_OFFSET = 4;
 	private static final int HIGHLIGHT_DIAMETER = 8;
 	public static final int LATEX_Y_LABEL_OFFSET = 10;
+	private static final int KEYBOARD_HIGHLIGHT_EXTRA_WIDTH = 3;
 
 	private boolean forceNoFill;
 
@@ -621,8 +622,12 @@ public abstract class Drawable extends DrawableND {
 		strokedShape = null;
 		strokedShape2 = null;
 
-		if (lineThickness != fromGeo.getLineThickness()) {
-			lineThickness = Math.max(minThickness, fromGeo.getLineThickness());
+		int geoLineThickness = fromGeo.getLineThickness();
+		if (view.getApplication().getSelectionManager().isKeyboardFocused(geo)) {
+			geoLineThickness += KEYBOARD_HIGHLIGHT_EXTRA_WIDTH;
+		}
+		if (lineThickness != geoLineThickness) {
+			lineThickness = Math.max(minThickness, geoLineThickness);
 			if (!forcedLineType) {
 				lineType = fromGeo.getLineType();
 			}

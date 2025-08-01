@@ -317,11 +317,6 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	@Override
-	public void updateHighlight(GeoElementND geo) {
-		// ignore
-	}
-
-	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// ignore
 	}
