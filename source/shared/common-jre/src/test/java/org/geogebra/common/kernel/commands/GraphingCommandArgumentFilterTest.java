@@ -1,91 +1,98 @@
 package org.geogebra.common.kernel.commands;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.geogebra.common.BaseUnitTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class GraphingCommandArgumentFilterTest extends BaseUnitTest {
+public class GraphingCommandArgumentFilterTest extends BaseAppTestSetup {
 
-	@Before
+	@BeforeEach
 	public void setUp() {
-		getApp().setGraphingConfig();
+		setApp(AppCommonFactory.create(new AppConfigGraphing()));
 	}
 
 	@Test
 	public void testParallelLineWithPointAndLineIsFiltered() {
-		addAvInput("A = (1,1)");
-		addAvInput("B = (2,2)");
-		addAvInput("C = (3,2)");
-		addAvInput("f:Line(B,C)");
-		assertThat(addAvInput("g:Line(A,f)"), is(nullValue()));
+		evaluateGeoElement("A = (1,1)");
+		evaluateGeoElement("B = (2,2)");
+		evaluateGeoElement("C = (3,2)");
+		evaluateGeoElement("f:Line(B,C)");
+		assertNull(evaluate("g:Line(A,f)"));
 	}
 
 	@Test
 	public void testParallelLineWithPointAndFunctionIsFiltered() {
-		addAvInput("A = (1,2)");
-		addAvInput("f(x) = x");
-		assertThat(addAvInput("g:Line(A,f)"), is(nullValue()));
+		evaluateGeoElement("A = (1,2)");
+		evaluateGeoElement("f(x) = x");
+		assertNull(evaluate("g:Line(A,f)"));
 	}
 
 	@Test
 	public void testLineWithTwoPointsAllowed() {
-		addAvInput("A = (1,2)");
-		addAvInput("B = (3,4)");
-		assertThat(addAvInput("g: Line(A, B)"), is(notNullValue()));
+		evaluateGeoElement("A = (1,2)");
+		evaluateGeoElement("B = (3,4)");
+		assertNotNull(evaluateGeoElement("g: Line(A, B)"));
 	}
 
 	@Test
 	public void testLengthOfListAllowed() {
-		addAvInput("L = {(0,0), (1,1), (2,2)}");
-		assertThat(addAvInput("Length(L)"), is(notNullValue()));
+		evaluateGeoElement("L = {(0,0), (1,1), (2,2)}");
+		assertNotNull(evaluateGeoElement("Length(L)"));
 	}
 
 	@Test
 	public void testLengthOfTextAllowed() {
-		addAvInput("text = Text(\"1234\")");
-		assertThat(addAvInput("Length(text)"), is(notNullValue()));
+		evaluateGeoElement("text = Text(\"1234\")");
+		assertNotNull(evaluateGeoElement("Length(text)"));
 	}
 
 	@Test
 	public void testLengthOfVectorIsFiltered() {
-		addAvInput("vector = (1,2)");
-		assertThat(addAvInput("Length(vector)"), is(nullValue()));
+		evaluateGeoElement("vector = (1,2)");
+		assertNull(evaluate("Length(vector)"));
 	}
 
 	@Test
 	public void testLengthFunctionStartXValueEndXValueIsFiltered() {
-		assertThat(addAvInput("a = Length(2 x, 0, 1)"), is(nullValue()));
+		assertNull(evaluate("a = Length(2 x, 0, 1)"));
 	}
 
 	@Test
 	public void testLengthFunctionStartPointEndPointIsFiltered() {
-		assertThat(addAvInput("a = Length(2 x, (0,0), (1,1))"), is(nullValue()));
+		assertNull(evaluate("a = Length(2 x, (0,0), (1,1))"));
 	}
 
 	@Test
 	public void testLengthCurveStartTValueEndTValueIsFiltered() {
-		addAvInput("curve = Curve(2 cos(t), 2 sin(t), t, 0, 2π)");
-		assertThat(addAvInput("Length(curve, 1, 7)"), is(nullValue()));
+		evaluateGeoElement("curve = Curve(2 cos(t), 2 sin(t), t, 0, 2π)");
+		assertNull(evaluate("Length(curve, 1, 7)"));
 	}
 
 	@Test
 	public void testLengthCurveStartPointEndPointIsFiltered() {
-		addAvInput("curve = Curve(2 cos(t), 2 sin(t), t, 0, 2π)");
-		assertThat(addAvInput("Length(curve, (2,0), (0,-2))"), is(nullValue()));
+		evaluateGeoElement("curve = Curve(2 cos(t), 2 sin(t), t, 0, 2π)");
+		assertNull(evaluate("Length(curve, (2,0), (0,-2))"));
 	}
 
 	@Test
 	public void testPolylineWithPointsFiltered() {
-		assertThat(addAvInput("Polyline((1, 3), (4, 3))"), is(nullValue()));
+		assertNull(evaluate("Polyline((1, 3), (4, 3))"));
 	}
 
 	@Test
 	public void testPenStrokeWithPointsShouldBeAllowed() {
-		assertThat(addAvInput("PenStroke((1, 3), (4, 3))"), is(notNullValue()));
+		assertNotNull(evaluateGeoElement("PenStroke((1, 3), (4, 3))"));
+	}
+
+	@Test
+	public void testFunction() {
+		assertNull(evaluate("Function(x,1,2)"));
+		assertNull(evaluate("Function(x+y,x,1,2,y,1,2)"));
+		assertNotNull(evaluateGeoElement("Function({1,2,3,4})"));
 	}
 }

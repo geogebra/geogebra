@@ -9,5 +9,6 @@ public class GraphingSyntaxFilter extends LineSelectorSyntaxFilter {
 		addSelector(Commands.Line, 0, 2);
 		addSelector(Commands.Length, 0);
 		addSelector(Commands.Invert, 0);
+		addSelector(Commands.Function, 0);
 	}
 }

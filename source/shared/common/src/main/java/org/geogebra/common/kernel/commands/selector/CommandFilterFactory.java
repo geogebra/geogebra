@@ -57,8 +57,7 @@ public final class CommandFilterFactory {
 				Commands.Vertex, Commands.Polynomial, Commands.PolyLine,
 				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
 				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
-				Commands.Division, Commands.IsVertexForm, Commands.CSolve, Commands.CSolutions,
-				Commands.Function);
+				Commands.Division, Commands.IsVertexForm, Commands.CSolve, Commands.CSolutions);
 		addBooleanCommands(nameFilter);
 		return nameFilter;
 	}

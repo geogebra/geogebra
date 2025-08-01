@@ -214,7 +214,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.Syntax;
-import org.geogebra.common.main.syntax.suggestionfilter.LineSelector;
+import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
@@ -392,17 +392,13 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 		}
 	}
 
-	private static class RealschuleSyntaxFilter implements SyntaxFilter {
-		@Override
-		public String getFilteredSyntax(String internalCommandName, String syntax) {
-			if (Length.name().equals(internalCommandName)) {
-				// Allow only Length(<Object>)
-				return LineSelector.select(syntax, 0);
-			} else if (Line.name().equals(internalCommandName)) {
-				// Allow only Line(<Point>, <Point>) and Line(<Point>, <Direction Vector>)
-				return LineSelector.select(syntax, 0, 2);
-			}
-			return syntax;
+	private static class RealschuleSyntaxFilter extends LineSelectorSyntaxFilter {
+
+		private RealschuleSyntaxFilter() {
+			// Allow only Length(<Object>)
+			addSelector(Length, 0);
+			// Allow only Line(<Point>, <Point>) and Line(<Point>, <Direction Vector>)
+			addSelector(Line, 0, 2);
 		}
 	}
 

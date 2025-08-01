@@ -87,7 +87,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.Syntax;
-import org.geogebra.common.main.syntax.suggestionfilter.LineSelector;
+import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 
@@ -151,19 +151,15 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		return Set.of(new WtrCommandArgumentFilter());
 	}
 
-	private static final class WtrSyntaxFilter implements SyntaxFilter {
-		@Override
-		public String getFilteredSyntax(String internalCommandName, String syntax) {
-			if (BinomialDist.name().equals(internalCommandName)) {
-				// BinomialDist(<Number of Trials>, <Probability of Success>, <Variable Value>,
-				// <Boolean Cumulative>)
-				return LineSelector.select(syntax, 2);
-			} else if (Normal.name().equals(internalCommandName)) {
-				// Normal( <Mean>, <Standard Deviation>, <Variable Value> )
-				// Normal( <Mean>, <Standard Deviation>, <Variable Value u> , <Variable Value v>)
-				return LineSelector.select(syntax, 0, 2);
-			}
-			return syntax;
+	private static final class WtrSyntaxFilter extends LineSelectorSyntaxFilter {
+
+		private WtrSyntaxFilter() {
+			// BinomialDist(<Number of Trials>, <Probability of Success>, <Variable Value>,
+			// <Boolean Cumulative>)
+			addSelector(BinomialDist, 2);
+			// Normal( <Mean>, <Standard Deviation>, <Variable Value> )
+			// Normal( <Mean>, <Standard Deviation>, <Variable Value u> , <Variable Value v>)
+			addSelector(Normal, 0, 2);
 		}
 	}
 
