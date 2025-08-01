@@ -122,7 +122,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			flex-wrap: wrap;
 
 			.dropDown {
-				height: 40px;
 				.optionLabelHolder.noLabel .selectedOption {
 					margin-top: 8px;
 				}
@@ -675,7 +674,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			display: flex;
 			padding: 8px 16px 8px 0;
 		}
-		.dropDown {
+		.dropDown, .comboBox {
 			width: calc(100% - 32px);
 			margin: 16px 16px 8px 16px;
 		}

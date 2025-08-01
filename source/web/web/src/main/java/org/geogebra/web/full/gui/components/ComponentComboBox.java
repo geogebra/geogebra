@@ -3,22 +3,20 @@ package org.geogebra.web.full.gui.components;
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.Shades;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.IsWidget;
+import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -26,23 +24,21 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget {
 	private final AppW appW;
 	private AutoCompleteTextFieldW inputTextField;
-	private FormLabel labelText;
+	private Label label;
 	private final String labelTextKey;
-	private SimplePanel arrowIcon;
-	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 
 	/**
-	 * Constructor
-	 * @param app - see {@link AppW}
-	 * @param label - label of combo box
-	 * @param items - popup items
+	 * Creates a combo box using a list of String.
+	 * @param app see {@link AppW}
+	 * @param label label of combo box
+	 * @param items popup items
 	 */
 	public ComponentComboBox(AppW app, String label, List<String> items) {
 		appW = app;
 		labelTextKey = label;
 
-		addStyleName("combobox");
+		addStyleName("comboBox");
 		buildGUI();
 		addHandlers();
 
@@ -50,10 +46,10 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 	}
 
 	/**
-	 * Constructor
-	 * @param app - see {@link AppW}
-	 * @param label - label of combobox
-	 * @param property - popup items
+	 * Creates a combo box using a {@link NamedEnumeratedProperty}.
+	 * @param app see {@link AppW}
+	 * @param label label of combo box
+	 * @param property popup items
 	 */
 	public ComponentComboBox(AppW app, String label, NamedEnumeratedProperty<?> property) {
 		this(app, label, Arrays.asList(property.getValueNames()));
@@ -66,8 +62,14 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 	}
 
 	private void buildGUI() {
-		FlowPanel contentPanel = new FlowPanel();
-		contentPanel.setStyleName("inputPanel");
+		FlowPanel optionHolder = new FlowPanel();
+		optionHolder.addStyleName("optionLabelHolder");
+
+		if (labelTextKey != null && !labelTextKey.isEmpty()) {
+			label = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					appW.getLocalization().getMenu(labelTextKey), "label");
+			optionHolder.add(label);
+		}
 
 		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null);
 		inputTextField.setAutoComplete(false);
@@ -81,22 +83,14 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 		});
 		inputTextField.addBlurHandler(event -> controller.onInputChange());
 
-		if (labelTextKey != null) {
-			labelText = new FormLabel().setFor(inputTextField);
-			labelText.setStyleName("inputLabel");
-			labelText.addStyleName(Shades.NEUTRAL_700.getFgColName());
-			labelText.setText(appW.getLocalization().getMenu(labelTextKey));
-			add(labelText);
-		}
+		optionHolder.add(inputTextField);
+		add(optionHolder);
 
-		arrowIcon = new SimplePanel();
+		SimplePanel arrowIcon = new SimplePanel();
 		arrowIcon.addStyleName("arrow");
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
 				.arrow_drop_down().getSVG());
-
-		contentPanel.add(inputTextField);
-		contentPanel.add(arrowIcon);
-		add(contentPanel);
+		add(arrowIcon);
 	}
 
 	private void addHandlers() {
@@ -106,22 +100,42 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 		addFieldKeyAndPointerHandler();
 	}
 
-	private void addClickHandler() {
-		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
+	// Status helpers
 
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				if (!isDisabled && !isInputFocused()) {
-					toggleExpanded();
-				}
-			}
-		});
+	/**
+	 * Disable drop-down component.
+	 * @param disabled true, if drop-down should be disabled
+	 */
+	public void setDisabled(boolean disabled) {
+		inputTextField.setEnabled(!disabled);
+		Dom.toggleClass(this, "disabled", disabled);
+	}
+
+	private boolean isDisabled() {
+		return getElement().getClassName().contains("disabled");
 	}
 
 	private boolean isInputFocused() {
 		return inputTextField.getElement().isOrHasChild(Dom.getActiveElement());
 	}
 
+	// Combo box and input field related handlers
+
+	private void addClickHandler() {
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (!isDisabled() && !isInputFocused()) {
+					toggleExpanded();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Add focus/blur handlers.
+	 */
 	private void addFocusBlurHandlers() {
 		inputTextField.getTextBox()
 				.addFocusHandler(event -> addStyleName("focusState"));
@@ -130,7 +144,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 	}
 
 	/**
-	 * Add mouse over/ out handlers
+	 * Add mouse over/ out handlers.
 	 */
 	private void addHoverHandlers() {
 		inputTextField.getTextBox()
@@ -147,10 +161,18 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 		});
 	}
 
+	/**
+	 * Add a change handler.
+	 * @param handler change handler
+	 */
+	public void addChangeHandler(Runnable handler) {
+		controller.addChangeHandler(handler);
+	}
+
+	// Open/close related methods
+
 	private void onClose() {
 		removeStyleName("active");
-		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE.arrow_drop_down()
-				.withFill(GColor.BLACK.toString()).getSVG());
 		resetTextField();
 	}
 
@@ -165,14 +187,12 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 		}
 		boolean isOpen = controller.isOpened();
 		Dom.toggleClass(this, "active", isOpen);
-		GColor arrowCol = isOpen
-				? GeoGebraColorConstants.GEOGEBRA_ACCENT : GColor.BLACK;
-		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE.arrow_drop_down()
-				.withFill(arrowCol.toString()).getSVG());
 	}
 
+	// Helpers
+
 	/**
-	 * update selection text
+	 * Update selection text
 	 */
 	public void updateSelectionText(String text) {
 		inputTextField.setText(text);
@@ -182,33 +202,6 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 		if (inputTextField.getText().isEmpty()) {
 			inputTextField.setText(getSelectedText());
 		}
-	}
-
-	/**
-	 * Disable drop-down component
-	 * @param disabled - true, if drop-down should be disabled
-	 */
-	public void setDisabled(boolean disabled) {
-		isDisabled = disabled;
-		inputTextField.setEnabled(!disabled);
-		Dom.toggleClass(this, "disabled", disabled);
-	}
-
-	@Override
-	public void setLabels() {
-		if (labelText != null) {
-			labelText.setText(appW.getLocalization().getMenu(labelTextKey));
-		}
-		controller.setLabels();
-		updateSelectionText(getSelectedText());
-	}
-
-	/**
-	 * Add a change handler.
-	 * @param handler change handler
-	 */
-	public void addChangeHandler(Runnable handler) {
-		controller.addChangeHandler(handler);
 	}
 
 	public int getSelectedIndex() {
@@ -224,10 +217,19 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 
 	/**
 	 * set text field value
-	 * @param value - value
+	 * @param value value
 	 */
 	public void setValue(String value) {
 		controller.setSelectedOption(-1);
 		inputTextField.setValue(value);
+	}
+
+	@Override
+	public void setLabels() {
+		if (label != null) {
+			label.setText(appW.getLocalization().getMenu(labelTextKey));
+		}
+		controller.setLabels();
+		updateSelectionText(getSelectedText());
 	}
 }

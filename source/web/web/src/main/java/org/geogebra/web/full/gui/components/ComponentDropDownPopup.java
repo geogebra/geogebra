@@ -221,7 +221,10 @@ public class ComponentDropDownPopup {
 	 */
 	private void showAtPoint(int x, int  y) {
 		menu.showAtPoint(x, y);
-		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
+		Scheduler.get().scheduleDeferred(() -> {
+			menu.getPopupPanel().addStyleName("show");
+			menu.getPopupMenu().focus();
+		});
 	}
 
 	private int getItemHeight() {

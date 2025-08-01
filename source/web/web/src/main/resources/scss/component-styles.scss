@@ -954,7 +954,7 @@
 		}
 	}
 
-	.dropDown {
+	.dropDown, .comboBox {
 		min-width: 64px;
 		height: 48px;
 		padding: 1px;
@@ -966,6 +966,7 @@
 
 		.optionLabelHolder {
 			position: relative;
+			margin-right: auto;
 
 			.label {
 				position: absolute;
@@ -992,7 +993,8 @@
 
 		.arrow {
 			padding: 6px;
-			margin: 5px 6px 5px auto;
+			margin: 5px 6px 5px 10px;
+			transition: transform 200ms ease-in-out;
 
 			svg {
 				width: 24px;
@@ -1021,8 +1023,11 @@
 				}
 			}
 
-			.arrow svg{
-				fill: var(--ggb-primary-color);
+			.arrow {
+				transform: rotate(-180deg);
+				svg {
+					fill: var(--ggb-primary-color);
+				}
 			}
 		}
 
@@ -1046,112 +1051,29 @@
 		}
 	}
 
-	.combobox {
-		width: fit-content;
-		min-width: 64px;
-		height: 50px;
-
-		.inputLabel {
-			font-size: 75%;
-			height: 12px;
-			line-height: 100%;
-			display: block;
-		}
-
-		.inputPanel {
-			display: flex;
-			box-sizing: border-box;
-			border-bottom: 1px solid colors.$black-42;
-
+	.comboBox {
+		.optionLabelHolder {
 			.AutoCompleteTextFieldW {
-				margin: 8px 8px 8px 0;
 				border: none;
+				margin: 11px 10px 11px 16px;
 
 				input[type="text"] {
-					height: 20px;
-					line-height: 20px;
-					margin: 0;
-					padding: 0;
-				}
-
-				.TextField {
 					border: none;
 					box-shadow: none;
-				}
-
-				.TextField::selection {
-					background: colors.$mow_selection_color;
+					height: 24px;
+					padding: 0;
 				}
 			}
 		}
 
-		.arrow {
-			cursor: pointer;
-			width: 24px;
-			height: 24px;
-			margin: 6px 0;
-			opacity: 0.54;
-			transition: transform 200ms ease-in-out;
-		}
+		&.disabled {
+			.AutoCompleteTextFieldW input[type="text"] {
+				color: neutral(500);
+				background-color: white;
 
-		&:not(.disabled):hover {
-			.inputLabel {
-				color: neutral(900);
-			}
-
-			.inputPanel {
-				border-bottom: 2px solid neutral(900);
-
-				.AutoCompleteTextFieldW {
-					margin-bottom: 7px;
-				}
-			}
-
-			.arrow {
-				opacity: 0.87;
-			}
-		}
-
-		&.active, &.active:hover {
-			.inputLabel {
-				color: colors.$mow_dark;
-			}
-
-			.inputPanel {
-				border-bottom: 2px solid colors.$mow_dark;
-
-				.AutoCompleteTextFieldW {
-					margin-bottom: 7px;
-				}
-			}
-
-			.arrow {
-				opacity: 0.87;
-				transform: rotate(-180deg);
-			}
-		}
-
-		&.disabled, &.disabled:hover {
-			cursor: default;
-
-			.inputLabel {
-				color: colors.$black-36;
-			}
-
-			.inputPanel {
-				border-bottom: 1px solid colors.$black-36;
-
-				input[type="text"] {
-					cursor: default;
-					color: colors.$black-36;
-					background-color: colors.$white;
-					border: none;
-				}
-			}
-
-			.arrow {
-				cursor: default;
-				opacity: 0.36;
+				&:hover {
+                	border: none;
+                }
 			}
 		}
 	}

@@ -17,6 +17,7 @@ import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
@@ -108,6 +109,11 @@ public class PropertiesPanelAdapter {
 			}
 			return iconPanel;
 
+		}
+		if (property instanceof NamedEnumeratedProperty) {
+			ComponentComboBox comboBox = new ComponentComboBox(app, property.getName(),
+					(NamedEnumeratedProperty<?>) property);
+			return comboBox;
 		}
 		if (property instanceof NamedEnumeratedProperty) {
 			ComponentDropDown dropDown = new ComponentDropDown(app, property.getName(),

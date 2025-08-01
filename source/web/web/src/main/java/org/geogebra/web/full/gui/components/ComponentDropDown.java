@@ -20,13 +20,12 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	private Label label;
 	private final String labelKey;
 	private Label selectedOption;
-	private SimplePanel arrowIcon;
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
 
 	/**
-	 * Material drop-down component
+	 * Material drop-down component.
 	 * @param app see {@link AppW}
 	 * @param label of drop-down
 	 * @param items popup elements
@@ -77,11 +76,8 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	}
 
 	private void initController(List<String> items) {
-		controller = new DropDownComboBoxController(app, this, items, () -> {
-			removeStyleName("active");
-			arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
-					.arrow_drop_down().getSVG());
-		});
+		controller = new DropDownComboBoxController(app, this,
+				items, () -> removeStyleName("active"));
 		controller.addChangeHandler(this::updateSelectionText);
 		updateSelectionText();
 	}
@@ -100,12 +96,14 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		optionHolder.add(selectedOption);
 		add(optionHolder);
 
-		arrowIcon = new SimplePanel();
+		SimplePanel arrowIcon = new SimplePanel();
 		arrowIcon.addStyleName("arrow");
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
 				.arrow_drop_down().getSVG());
 		add(arrowIcon);
 	}
+
+	// Drop-down handlers
 
 	private void addClickHandler() {
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -114,46 +112,9 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
 					controller.toggleAsDropDown(fullWidth);
-					updateIcon();
 				}
 			}
 		});
-	}
-
-	private void updateIcon() {
-		String svg = controller.isOpened() ? MaterialDesignResources.INSTANCE
-				.arrow_drop_up().getSVG() : MaterialDesignResources.INSTANCE
-				.arrow_drop_down().getSVG();
-		arrowIcon.getElement().setInnerHTML(svg);
-	}
-
-	public int getSelectedIndex() {
-		return controller.getSelectedIndex();
-	}
-
-	/**
-	 * Disable drop-down component
-	 * @param disabled true, if drop-down should be disabled
-	 */
-	public void setDisabled(boolean disabled) {
-		isDisabled = disabled;
-		Dom.toggleClass(this, "disabled", disabled);
-	}
-
-	@Override
-	public void setLabels() {
-		if (label != null) {
-			label.setText(app.getLocalization().getMenu(labelKey));
-		}
-		controller.setLabels();
-		updateSelectionText();
-	}
-
-	/**
-	 * This should be called automatically when an item is selected (by user or programmatically)
-	 */
-	private void updateSelectionText() {
-		selectedOption.setText(controller.getSelectedText());
 	}
 
 	/**
@@ -164,16 +125,21 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		controller.addChangeHandler(changeHandler);
 	}
 
+	// Status helpers
+
 	/**
-	 * reset dropdown to the model (property) value
+	 * Disable drop-down component.
+	 * @param disabled true, if drop-down should be disabled
 	 */
-	public void resetFromModel() {
-		controller.resetFromModel();
-		updateSelectionText();
+	public void setDisabled(boolean disabled) {
+		isDisabled = disabled;
+		Dom.toggleClass(this, "disabled", disabled);
 	}
 
-	public void setFullWidth(boolean isFullWidth) {
-		fullWidth = isFullWidth;
+	// Helpers
+
+	public int getSelectedIndex() {
+		return controller.getSelectedIndex();
 	}
 
 	/**
@@ -192,9 +158,37 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	}
 
 	/**
+	 * This should be called automatically when an item is selected (by user or programmatically).
+	 */
+	private void updateSelectionText() {
+		selectedOption.setText(controller.getSelectedText());
+	}
+
+	/**
+	 * Reset dropdown to the model (property) value.
+	 */
+	public void resetFromModel() {
+		controller.resetFromModel();
+		updateSelectionText();
+	}
+
+	public void setFullWidth(boolean isFullWidth) {
+		fullWidth = isFullWidth;
+	}
+
+	/**
 	 * @param property update property
 	 */
 	public void setProperty(NamedEnumeratedProperty<?> property) {
 		controller.setProperty(property);
+	}
+
+	@Override
+	public void setLabels() {
+		if (label != null) {
+			label.setText(app.getLocalization().getMenu(labelKey));
+		}
+		controller.setLabels();
+		updateSelectionText();
 	}
 }
