@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -724,19 +723,6 @@ public class ArithmeticTest extends BaseUnitTest {
 	public void vectorNotation() {
 		t("$vector(1,2)", "(1, 2)");
 		t("$vector(1,2,3)", "(1, 2, 3)");
-	}
-
-	@Test
-	@Issue("APPS-2492")
-	public void ifShouldBeFunctionNotCommand() {
-		add("r=RandomBetween(1,12)");
-		GeoFunctionNVar function = add("simo(x,a,b,c,k)=6*If(0<r<4,a,3<r<7,b,6<r<10,c,9<r<13,k)");
-		assertEquals("x, a, b, c, k", function.getVarString(StringTemplate.testTemplate));
-		GeoNumeric val = add("simo(1,2,3,4,5)");
-		add("SetValue(r, 1)");
-		assertEquals(12, val.getValue(), 0);
-		add("SetValue(r, 4)");
-		assertEquals(18, val.getValue(), 0);
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {
