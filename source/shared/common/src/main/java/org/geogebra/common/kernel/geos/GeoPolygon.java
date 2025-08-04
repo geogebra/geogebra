@@ -1006,7 +1006,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				GeoPoint firstPoint = this.getPoint(0);
 				boolean fPointFound = false;
 				int iFirstPoint = 0;
-				while ((!fPointFound) && (iFirstPoint < gLength)) {
+				while (!fPointFound && (iFirstPoint < gLength)) {
 					if (firstPoint.isEqual(g.getPoint(iFirstPoint))) {
 						fPointFound = true;
 					} else {

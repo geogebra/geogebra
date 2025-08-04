@@ -2039,7 +2039,7 @@ public class GeoList extends GeoElement
 		// isMatrix() is rather expensive, and we only need it
 		// if we're using Maxima, so test for that first
 		final StringType casPrinttype = tpl.getStringType();
-		if ((!casPrinttype.isGiac()) || !isMatrix()) {
+		if (!casPrinttype.isGiac() || !isMatrix()) {
 			return super.getCASString(tpl, symbolic);
 		}
 

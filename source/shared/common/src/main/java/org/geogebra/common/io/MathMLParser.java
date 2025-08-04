@@ -1162,7 +1162,7 @@ public class MathMLParser {
 						}
 					}
 				} while ((subBlocks > 0)
-						|| (!(tagBuf.toString().equals(blockStartTag))));
+						|| !tagBuf.toString().equals(blockStartTag));
 			}
 		}
 	}
@@ -1216,7 +1216,7 @@ public class MathMLParser {
 						subBlocks++;
 					}
 				}
-			} while ((subBlocks > 0) || (!(tagBuf.toString().equals(endTag))));
+			} while ((subBlocks > 0) || !tagBuf.toString().equals(endTag));
 
 			return pos2 - endTag.length();
 		}

@@ -444,7 +444,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	static final public boolean updateCoordSys(CoordSys coordSys,
 			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords, double precision) {
 		coordSys.resetCoordSys();
-		for (int i = 0; (!coordSys.isMadeCoordSys())
+		for (int i = 0; !coordSys.isMadeCoordSys()
 				&& (i < points.length); i++) {
 
 			// check if the vertex is defined and finite
@@ -947,7 +947,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 				Coords firstPoint = this.getPoint3D(0);
 				boolean fPointFound = false;
 				int iFirstPoint = 0;
-				while ((!fPointFound) && (iFirstPoint < gLength)) {
+				while (!fPointFound && (iFirstPoint < gLength)) {
 					if (firstPoint.equalsForKernel(g.getPoint3D(iFirstPoint))) {
 						fPointFound = true;
 					} else {

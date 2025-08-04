@@ -1527,7 +1527,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			return;
 		}
 
-		if (styleBarCanHide() && (!getAlgebraDockPanel().isStyleBarVisible())) {
+		if (styleBarCanHide() && !getAlgebraDockPanel().isStyleBarVisible()) {
 			stylebarShown = getAlgebraDockPanel().isStyleBarPanelShown();
 			getAlgebraDockPanel().showStyleBarPanel(false);
 			if (controls != null) {

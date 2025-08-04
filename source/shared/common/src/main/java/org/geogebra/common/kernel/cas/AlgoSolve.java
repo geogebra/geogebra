@@ -134,7 +134,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			}
 			convertOutputToSameType(raw);
 			if (equations.isGeoList() && raw.size() > 1
-					&& (!raw.get(0).isGeoList())) {
+					&& !raw.get(0).isGeoList()) {
 				solutions.clear();
 				solutions.add(raw);
 			} else {

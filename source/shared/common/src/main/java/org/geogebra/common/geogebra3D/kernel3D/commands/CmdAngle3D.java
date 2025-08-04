@@ -120,8 +120,8 @@ public class CmdAngle3D extends CmdAngle {
 	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) {
 
 		// angle between lines, oriented
-		if ((ok[0] = (arg[0].isGeoLine())) && (ok[1] = (arg[1].isGeoLine()))
-				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoLine()) && (ok[1] = arg[1].isGeoLine())
+				&& (ok[2] = arg[2] instanceof GeoDirectionND)) {
 
 			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D()
 					&& arg[2] == kernel.getXOYPlane()) { // ignore xOy plane

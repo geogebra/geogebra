@@ -154,8 +154,8 @@ public class InternalClipboard {
 			// also doing this here, which is not about the name of the method,
 			// but making sure textfields (which require algos) are shown
 			if ((geo.getParentAlgorithm() instanceof AlgoInputBox)
-					&& (!ret.contains(geo.getParentAlgorithm()))
-					&& (!conels.contains(geo.getParentAlgorithm()))) {
+					&& !ret.contains(geo.getParentAlgorithm())
+					&& !conels.contains(geo.getParentAlgorithm())) {
 				// other algos will be added to this anyway,
 				// so we can handle this issue in this method
 				ret.add(geo.getParentAlgorithm());

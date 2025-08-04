@@ -192,7 +192,7 @@ public class GeoAssignment extends Assignment {
 				ret += UtilFactory.getPrototype().getMillisecondTime() - d;
 				GeoElement[] macroOutput = algoMacro.getOutput();
 				for (int i = 0; i < possibleOutputPermutation.length
-						&& (!partRes.contains(Result.WRONG)); i++) {
+						&& !partRes.contains(Result.WRONG); i++) {
 					checkEqualityOfGeos(input, macroOutput[i],
 							possibleOutputPermutation, i, partRes);
 				}

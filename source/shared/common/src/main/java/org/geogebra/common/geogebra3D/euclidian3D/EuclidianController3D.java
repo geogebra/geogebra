@@ -3381,7 +3381,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 				case EuclidianConstants.MODE_PYRAMID:
 				case EuclidianConstants.MODE_PRISM:
-					return (selPolygons() == 1) || (!polygonForPyramidBasis);
+					return selPolygons() == 1 || !polygonForPyramidBasis;
 
 				case EuclidianConstants.MODE_TETRAHEDRON:
 				case EuclidianConstants.MODE_CUBE:

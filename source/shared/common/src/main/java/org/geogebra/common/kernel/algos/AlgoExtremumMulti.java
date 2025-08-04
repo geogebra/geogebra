@@ -241,14 +241,14 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 				double xval = 0.0;
 				double curleft = l + (i - 2) * deltax;
 				double curright = curleft + 2 * deltax;
-				if ((grad[i - 2]) && (!grad[i - 1])) { // max
+				if (grad[i - 2] && !grad[i - 1]) { // max
 					// if( ((y[i-1]-y[i-2])/deltax)<MAX_GRADIENT) {
 					xval = extrfinder.findMaximum(curleft, curright, rrfunc,
 							3.0E-8);
 					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
 						xlist.add(DoubleUtil.checkMax(xval, rrfunc));
 					} // If not too large gradient
-				} else if ((!grad[i - 2]) && (grad[i - 1])) { // min
+				} else if (!grad[i - 2] && grad[i - 1]) { // min
 					// if( ((y[i-2]-y[i-1])/deltax) < MAX_GRADIENT ) {
 					xval = extrfinder.findMinimum(curleft, curright, rrfunc,
 							3.0E-8);

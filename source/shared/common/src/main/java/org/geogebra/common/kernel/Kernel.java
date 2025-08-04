@@ -993,7 +993,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	final public boolean usePathAndRegionParameters(GeoPointND point) {
 		return usePathAndRegionParameters == PathRegionHandling.ON
-				|| (!point.isDefined());
+				|| !point.isDefined();
 	}
 
 	/**

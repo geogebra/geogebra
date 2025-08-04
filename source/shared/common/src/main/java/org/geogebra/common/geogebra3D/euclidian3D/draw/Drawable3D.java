@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -1034,11 +1033,11 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		// PICK ORDERS
 		if (getView3D().getEuclidianController()
 				.checkTransparencyForSortingDrawables()) {
-			if ((!this.isTransparent()) && (d.isTransparent())) {
+			if (!this.isTransparent() && d.isTransparent()) {
 				if (checkPickOrder && this.getPickOrder() < d.getPickOrder()) {
 					return -1;
 				}
-			} else if ((this.isTransparent()) && (!d.isTransparent())) {
+			} else if (this.isTransparent() && !d.isTransparent()) {
 				if (checkPickOrder && this.getPickOrder() > d.getPickOrder()) {
 					return 1;
 				}
@@ -1116,12 +1115,12 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			// if both are points
 			if (geo1.isGeoPoint() && geo2.isGeoPoint()) {
 				// check if one is on a path and the other not
-				if ((((GeoPointND) geo1).isPointOnPath())
-						&& (!((GeoPointND) geo2).isPointOnPath())) {
+				if (geo1.isPointOnPath()
+						&& !geo2.isPointOnPath()) {
 					return -1;
 				}
-				if ((!((GeoPointND) geo1).isPointOnPath())
-						&& (((GeoPointND) geo2).isPointOnPath())) {
+				if (!geo1.isPointOnPath()
+						&& geo2.isPointOnPath()) {
 					return 1;
 				}
 				// check if one is the child of the other

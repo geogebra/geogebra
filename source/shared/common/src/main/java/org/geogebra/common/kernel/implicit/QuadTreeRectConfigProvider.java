@@ -43,7 +43,7 @@ public class QuadTreeRectConfigProvider extends MarchingConfigProvider {
 	@Override
 	protected int configure(MarchingRect r) {
 		int config = super.configure(r);
-		return config >= 8 ? (~config) & 0xf : config;
+		return config >= 8 ? ~config & 0xf : config;
 	}
 
 	@Override

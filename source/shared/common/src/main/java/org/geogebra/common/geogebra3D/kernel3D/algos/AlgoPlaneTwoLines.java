@@ -62,7 +62,7 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 
 		CoordSys coordsys = cs.getCoordSys();
 
-		if ((!a.isDefined()) || (!b.isDefined())) {
+		if (!a.isDefined() || !b.isDefined()) {
 			coordsys.setUndefined();
 			return;
 		}

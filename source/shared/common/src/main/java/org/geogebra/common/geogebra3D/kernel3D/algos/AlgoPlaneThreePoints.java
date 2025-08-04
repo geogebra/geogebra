@@ -79,7 +79,7 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 
 		CoordSys coordsys = cs.getCoordSys();
 
-		if ((!A.isDefined()) || (!B.isDefined()) || (!C.isDefined())) {
+		if (!A.isDefined() || !B.isDefined() || !C.isDefined()) {
 			coordsys.setUndefined();
 			return;
 		}

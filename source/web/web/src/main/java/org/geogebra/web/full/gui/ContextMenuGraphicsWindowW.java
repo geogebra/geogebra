@@ -385,7 +385,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 			perc = (int) (getZoomFactor(i) * 100.0);
 			// build text like "125%" or "75%"
 			sb.setLength(0);
-			if ((perc <= 100) && (!separatorAdded)) {
+			if ((perc <= 100) && !separatorAdded) {
 				menu.addSeparator();
 				separatorAdded = true;
 			}

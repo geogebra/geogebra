@@ -3392,7 +3392,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Hide all navigation bars or set the flags if UI not loaded.
 	 */
 	public void setHideConstructionProtocolNavigation() {
-		if (!showConsProtNavigation() && (!getShowCPNavNeedsUpdate())) {
+		if (!showConsProtNavigation() && !getShowCPNavNeedsUpdate()) {
 			return;
 		}
 
@@ -3473,7 +3473,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			showConsProtNavigation = new HashMap<>();
 		} else {
 			if ((flag == showConsProtNavigation(id))
-					&& (!getShowCPNavNeedsUpdate(id))) {
+					&& !getShowCPNavNeedsUpdate(id)) {
 				return;
 			}
 		}

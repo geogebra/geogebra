@@ -8604,7 +8604,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (app.isRightClick(event)) {
 			// if there's no hit, or if first hit is not moveable, do 3D view
 			// rotation
-			if ((!temporaryMode) || (view.getHits().size() == 0)
+			if (!temporaryMode || view.getHits().isEmpty()
 					|| !view.getHits().get(0).isMoveable(view)
 					|| (!view.getHits().get(0).isGeoPoint()
 							&& view.getHits().get(0).hasDrawable3D())) {

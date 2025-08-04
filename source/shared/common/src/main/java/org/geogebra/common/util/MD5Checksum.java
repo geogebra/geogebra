@@ -208,11 +208,11 @@ public class MD5Checksum {
 	}
 
 	private static int rf(int x, int y, int z) {
-		return (x & y) | ((~x) & z);
+		return (x & y) | (~x & z);
 	}
 
 	private static int rg(int x, int y, int z) {
-		return (x & z) | (y & (~z));
+		return (x & z) | (y & ~z);
 	}
 
 	private static int rh(int x, int y, int z) {
@@ -220,7 +220,7 @@ public class MD5Checksum {
 	}
 
 	private static int ri(int x, int y, int z) {
-		return y ^ (x | (~z));
+		return y ^ (x | ~z);
 	}
 
 	private static int ff(int a, int b, int c, int d, int x, int s, int ac) {

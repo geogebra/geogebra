@@ -903,7 +903,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 
 			/* Rectanglesum needs extra treatment */
-			if ((type == SumType.RECTANGLESUM) && (!d.isDefined())) { // extra
+			if (type == SumType.RECTANGLESUM && !d.isDefined()) { // extra
 																			// parameter
 				sum.setUndefined();
 			} // if d parameter for rectanglesum

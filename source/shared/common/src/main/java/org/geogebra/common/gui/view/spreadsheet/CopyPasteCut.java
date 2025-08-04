@@ -309,7 +309,7 @@ public abstract class CopyPasteCut {
 																		// outside
 																		// selection
 																		// rectangle
-							&& (!inSource)) { // check we're not pasting over
+							&& !inSource) { // check we're not pasting over
 												// what we're copying
 
 						if (values1[relX][relY] != null) {

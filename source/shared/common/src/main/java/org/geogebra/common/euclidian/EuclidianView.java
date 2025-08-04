@@ -3719,7 +3719,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// draw background image (with axes and/or grid)
 		if (bgImage == null) {
 			if (firstPaint) {
-				if ((getWidth() > 1) && (getHeight() > 1) && (!reIniting)) {
+				if ((getWidth() > 1) && (getHeight() > 1) && !reIniting) {
 					// only set firstPaint to false if the bgImage was generated
 					companion.updateSizeKeepDrawables();
 					paintBackground(g2);
@@ -5655,7 +5655,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (bold) {
 			return axesLineStyle | EuclidianStyleConstants.AXES_BOLD;
 		}
-		return axesLineStyle & (~EuclidianStyleConstants.AXES_BOLD);
+		return axesLineStyle & ~EuclidianStyleConstants.AXES_BOLD;
 	}
 
 	/**
