@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
@@ -286,6 +287,20 @@ public class SpreadsheetTest extends BaseUnitTest {
 		simulateDownArrowPress(spreadsheet.getController());
 		styleBarModel.setTextAlignment(SpreadsheetStyling.TextAlignment.LEFT);
 		verify(undoProvider, times(3)).storeUndoInfo();
+	}
+
+	@Test
+	@Issue("APPSS-6803")
+	public void deleteShouldUpdateStyleForXML() {
+		SpreadsheetSettings settings = new SpreadsheetSettings();
+		SpreadsheetStyleBarModel styleBarModel = spreadsheet.getStyleBarModel();
+		spreadsheet.cellFormatXmlChanged.addListener(settings::setCellFormatXml);
+		simulateCellMouseClick(spreadsheet.getController(), 3, 0, 1);
+		styleBarModel.setItalic(true);
+		assertEquals("0,3,f,2", settings.getCellFormatXml());
+		simulateCellMouseClick(spreadsheet.getController(), 1, 0, 1);
+		spreadsheet.getController().deleteRowAt(1);
+		assertEquals("0,2,f,2", settings.getCellFormatXml());
 	}
 
 	// Helpers

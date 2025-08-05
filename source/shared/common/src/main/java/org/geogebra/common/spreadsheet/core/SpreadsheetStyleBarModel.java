@@ -123,6 +123,7 @@ public final class SpreadsheetStyleBarModel {
 		this.spreadsheetController = spreadsheetController;
 		this.styling = styling;
 		styling.stylingChanged.addListener(this::stylingChanged);
+		styling.stylingXmlChanged.addListener(unused -> updateStateAndNotifyChanged());
 		state = State.DISABLED;
 		stateChanged = new MulticastEvent<>();
 		selectionController.selectionsChanged.addListener(this::selectionsChanged);

@@ -60,6 +60,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 		styling = new SpreadsheetStyling();
 		styling.stylingChanged.addListener(this::stylingChanged);
+		styling.stylingXmlChanged.addListener(cellFormatXmlChanged::notifyListeners);
 
 		controller = new SpreadsheetController(tabularData, styling);
 		controller.setUndoProvider(undoProvider);

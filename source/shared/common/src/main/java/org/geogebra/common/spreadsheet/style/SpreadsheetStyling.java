@@ -36,6 +36,10 @@ public final class SpreadsheetStyling {
 	 * The event payload is the list of affected ranges.
 	 */
 	public final MulticastEvent<List<TabularRange>> stylingChanged = new MulticastEvent<>();
+	/**
+	 * XML change notification triggered when dimensions change, but styles do not.
+	 */
+	public final MulticastEvent<String> stylingXmlChanged = new MulticastEvent<>();
 
 	private final CellFormat cellFormat = new CellFormat(null);
 	private boolean showGrid = true;
@@ -236,6 +240,7 @@ public final class SpreadsheetStyling {
 	public void shiftFormat(int startIndex, int shiftAmount,
 			Direction direction) {
 		cellFormat.shiftFormats(startIndex, shiftAmount, direction);
+		stylingXmlChanged.notifyListeners(cellFormat.encodeFormats());
 	}
 
 	public GColor getHeaderBackgroundColor() {
