@@ -32,7 +32,7 @@ public class InputDialogTableView extends ComponentDialog
 	private ComponentInputField step;
 	private GeoElement geo;
 	private Label errorLabel;
-	private TableValuesDialogValidator validator;
+	private final TableValuesDialogValidator validator;
 
 	/**
 	 * Create new dialog. NOT modal to make sure onscreen keyboard still works.
@@ -82,7 +82,7 @@ public class InputDialogTableView extends ComponentDialog
 
 	private ComponentInputField addTextField(String labelText, FlowPanel root) {
 		final ComponentInputField field = new ComponentInputField((AppW) app,
-				null, labelText, null, "", 20);
+				null, labelText, null, "");
 		root.add(field);
 		return field;
 	}

@@ -2,7 +2,7 @@
 @use 'z-index';
 @use 'header';
 @use 'colorMap' as *;
-
+$keyboard_button_transition: opacity .3s ease;
 .GeoGebraFrame {
 
 	.floatingActionButton.keyboardFocus:focus-visible {
@@ -233,93 +233,6 @@
 			.thumb {
 				left: 0px;
 			}
-		}
-	}
-
-	/* INPUT TEXT FIELD COMPONENT */
-	.inputTextField {
-		width: 100%;
-		margin-top: 8px;
-		margin-bottom: 8px;
-		display: inline-block;
-		min-height: 68px;
-
-		.inputLabel {
-			font-size: 75%;
-			height: 12px;
-			line-height: 100%;
-			display: block;
-		}
-
-		&.error {
-			.inputLabel {
-				color: colors.$error;
-			}
-
-			.AutoCompleteTextFieldW {
-				border-bottom-color: colors.$error;
-			}
-		}
-
-		.textField {
-			margin-top: 8px;
-		}
-
-		.AutoCompleteTextFieldW {
-			margin-bottom: 7px; // 8 - border
-			border-radius: 0px;
-			border: none;
-			border-bottom: 1px solid neutral(500);
-
-			input[type="text"] {
-				border: none !important;
-				box-shadow: none !important;
-				height: 28px; // 20px text container + 8px bottom padding
-				margin: 0px;
-				padding: 0px 0px 8px 0px;
-			}
-		}
-
-		.errorLabel {
-			color: colors.$error;
-			font-size: 75%;
-			height: 12px;
-			line-height: 100%;
-		}
-
-		&.focusState {
-			.AutoCompleteTextFieldW {
-				margin-bottom: 6px; // 8 - border
-				border-bottom-width: 2px;
-			}
-		}
-
-		&.focusState:not(.error), &.focusState:not(.error):hover {
-
-			.inputLabel {
-				color: purple(600);
-			}
-			.AutoCompleteTextFieldW {
-				border-bottom-color: purple(600);
-			}
-		}
-
-		&.hoverState:not(.error) {
-
-			.inputLabel {
-				color: neutral(900);
-			}
-
-			.AutoCompleteTextFieldW {
-				border-bottom: 2px solid neutral(900);
-			}
-		}
-	}
-
-	// in case the last input field shouldn't have any bottom margin
-	.noBottomMarg {
-		.inputTextField {
-			margin-bottom: 0px;
 		}
 	}
 
@@ -954,7 +867,7 @@
 		}
 	}
 
-	.dropDown, .comboBox {
+	.dropDown, .comboBox, .inputTextField {
 		min-width: 64px;
 		height: 48px;
 		padding: 1px;
@@ -1003,7 +916,7 @@
 			}
 		}
 
-		&:hover {
+		&:hover:not(.error), &.hoverState:not(.error) {
 			border-color: neutral(700);
 
 			.optionLabelHolder {
@@ -1013,7 +926,7 @@
 			}
 		}
 
-		&.keyboardFocus, &.active {
+		&.keyboardFocus:not(.error), &.active:not(.error) {
 			border: 2px solid var(--ggb-primary-color);
 			padding: 0;
 
@@ -1062,6 +975,7 @@
 					box-shadow: none;
 					height: 24px;
 					padding: 0;
+					margin: 0;
 				}
 			}
 		}
@@ -1075,6 +989,99 @@
                 	border: none;
                 }
 			}
+		}
+	}
+
+/* INPUT TEXT FIELD COMPONENT */
+	.inputTextField {
+		width: 100%;
+		margin: 8px 0 20px 0;
+		display: inline-block;
+
+		.optionLabelHolder {
+			display: inline-flex;
+			width: 100%;
+		}
+
+		.textField {
+			width: 100%;
+		}
+
+		.AutoCompleteTextFieldW {
+			width: calc(100% - 58px);
+			margin: 11px 0 11px 16px;
+
+			.fieldContainer {
+				width: 100%;
+			}
+
+			input[type=text] {
+				margin: 0;
+				padding: 0;
+				height: 24px;
+				width: 100%;
+				color: neutral(900);
+			}
+
+			button {
+        			visibility: hidden;
+        			position: absolute;
+        			opacity: 1;
+        			margin: 0 10px;
+        			img {
+        				opacity: 0.54;
+        				transition: $keyboard_button_transition;
+        				&:hover, &:active {
+        					opacity: 1;
+        				}
+        			}
+			}
+
+			&.kbdInput button {
+				visibility: visible;
+			}
+		}
+
+		&.disabled {
+			input[type=text] {
+				background-color: white;
+				color: neutral(500);
+			}
+		}
+
+		&.error {
+			border-color: colors.$error;
+
+			.label {
+				color: colors.$error;
+			}
+			input[type=text] {
+				color: colors.$error;
+			}
+		}
+
+		&.error.active {
+			border: 2px solid colors.$error;
+			padding: 0;
+
+			input[type=text] {
+				color: neutral(900);
+			}
+		}
+
+		.errorLabel {
+			color: colors.$error;
+			font-size: 12px;
+			height: 16px;
+			line-height: 100%;
+			margin: 4px 16px 0 16px;
+		}
+	}
+
+	// in case the last input field shouldn't have any bottom margin
+	.noBottomMarg {
+		.inputTextField {
+			margin-bottom: 0px;
 		}
 	}
 

@@ -57,10 +57,8 @@ public class Export3dDialog extends ComponentDialog
 		private double parsedValue;
 
 		public ParsableComponentInputField(AppW app, String placeholder,
-				String labelTxt, String errorTxt, String defaultValue,
-				int width, String suffixTxt) {
-			super(app, placeholder, labelTxt, errorTxt, defaultValue, width,
-					suffixTxt, false);
+				String labelTxt, String errorTxt, String defaultValue, String suffixTxt) {
+			super(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, false);
 			numberValidator = new NumberValidator(
 					app.getKernel().getAlgebraProcessor());
 			localization = app.getLocalization();
@@ -334,7 +332,7 @@ public class Export3dDialog extends ComponentDialog
 	private ParsableComponentInputField addTextField(String labelText,
 			String suffixText, FlowPanel root) {
 		final ParsableComponentInputField field = new ParsableComponentInputField(
-				(AppW) app, null, labelText, null, "", 0, suffixText);
+				(AppW) app, null, labelText, null, "", suffixText);
 		root.add(field);
 		return field;
 	}

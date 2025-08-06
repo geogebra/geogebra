@@ -1,13 +1,14 @@
 package org.geogebra.web.full.gui.components;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.Input;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.Shades;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -23,104 +24,77 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	private final String placeholderTextKey;
 	private final String suffixTextKey;
 	private FlowPanel contentPanel;
-	private FormLabel labelText;
+	private Label labelText;
 	private InputPanelW inputTextField;
 	private Label errorLabel;
 	private Label suffixLabel;
 
 	/**
-	 * @param app
-	 *            see {@link AppW}
-	 * @param placeholder
-	 *            placeholder text (can be null)
-	 * @param labelTxt
-	 *            label of input field
-	 * @param errorTxt
-	 *            error label of input field
-	 * @param defaultValue
-	 *            default text of input text field
-	 * @param width
-	 *            of input text field
-	 * @param suffixTxt
-	 *            suffix at end of text field
+	 * @param app see {@link AppW}
+	 * @param placeholder placeholder text (can be null)
+	 * @param labelTxt label of input field
+	 * @param errorTxt error label of input field
+	 * @param defaultValue default text of input text field
+	 * @param suffixTxt suffix at end of text field
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, int width,
-			String suffixTxt) {
-		this(app, placeholder, labelTxt, errorTxt, defaultValue, width, suffixTxt, true);
+			String errorTxt, String defaultValue, String suffixTxt) {
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, true);
 	}
 
 	/**
-	 * @param app
-	 *            see {@link AppW}
-	 * @param placeholder
-	 *            placeholder text (can be null)
-	 * @param labelTxt
-	 *            label of input field
-	 * @param errorTxt
-	 *            error label of input field
-	 * @param defaultValue
-	 *            default text of input text field
-	 * @param width
-	 *            of input text field
-	 * @param suffixTxt
-	 *            suffix at end of text field
-	 * @param hasKeyboardBtn
-	 *            whether to show keyboard button or not (disabled in Export3dDialog)
+	 * @param app see {@link AppW}
+	 * @param placeholder placeholder text (can be null)
+	 * @param labelTxt label of input field
+	 * @param errorTxt error label of input field
+	 * @param defaultValue default text of input text field
+	 * @param suffixTxt suffix at end of text field
+	 * @param hasKeyboardBtn whether to show keyboard button or not
+	 * (disabled in {@link org.geogebra.web.full.gui.dialog.Export3dDialog})
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, int width,
-			String suffixTxt, boolean hasKeyboardBtn) {
+			String errorTxt, String defaultValue, String suffixTxt, boolean hasKeyboardBtn) {
 		this.loc = app.getLocalization();
 		this.labelTextKey = labelTxt;
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(width, app, hasKeyboardBtn);
+		buildGui(app, hasKeyboardBtn);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
+		addClickHandler();
 		addFocusBlurHandlers();
 		addHoverHandlers();
 	}
 
 	/**
-	 * @param app
-	 *            see {@link AppW}
-	 * @param placeholder
-	 *            placeholder text (can be null)
-	 * @param labelTxt
-	 *            label of input field
-	 * @param errorTxt
-	 *            error label of input field
-	 * @param defaultValue
-	 *            default text of input text field
-	 * @param width
-	 *            of input text field
+	 * @param app see {@link AppW}
+	 * @param placeholder placeholder text (can be null)
+	 * @param labelTxt label of input field
+	 * @param errorTxt error label of input field
+	 * @param defaultValue default text of input text field
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, int width) {
-		this(app, placeholder, labelTxt, errorTxt, defaultValue,
-				width, null);
+			String errorTxt, String defaultValue) {
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, null);
 	}
 
-	/**
-	 * @return panel containing the whole component
-	 */
-	public FlowPanel getContentPanel() {
-		return contentPanel;
-	}
+	// BUILD UI
 
-	private void buildGui(int width, AppW app, boolean hasKeyboardBtn) {
+	private void buildGui(AppW app, boolean hasKeyboardBtn) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
+		FlowPanel optionHolder = new FlowPanel();
+		optionHolder.addStyleName("optionLabelHolder");
 		// input text field
-		inputTextField = new InputPanelW("", app, width, hasKeyboardBtn);
+		inputTextField = new InputPanelW("", app, -1, hasKeyboardBtn);
 		inputTextField.addStyleName("textField");
 		// label of text field
-		labelText = new FormLabel().setFor(inputTextField.getTextComponent());
-		labelText.setStyleName("inputLabel");
-		labelText.addStyleName(Shades.NEUTRAL_700.getFgColName());
+		if (labelTextKey != null && !labelTextKey.isBlank()) {
+			labelText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					app.getLocalization().getMenu(labelTextKey), "label");
+		}
 		// placeholder if there is any
 		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
 			inputTextField.getTextComponent().getTextBox().getElement()
@@ -130,8 +104,11 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		// suffix if there is any
 		addSuffix();
 		// build component
-		contentPanel.add(labelText);
-		contentPanel.add(inputTextField);
+		if (labelText != null) {
+			optionHolder.add(labelText);
+		}
+		optionHolder.add(inputTextField);
+		contentPanel.add(optionHolder);
 		// add error label if there is any
 		addErrorLabel(contentPanel);
 		add(contentPanel);
@@ -164,6 +141,21 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		}
 	}
 
+	// HANDLERS
+
+	private void addClickHandler() {
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (!isDisabled()) {
+					setFocusState();
+					focusDeferred();
+				}
+			}
+		});
+	}
+
 	private void addFocusBlurHandlers() {
 		inputTextField.getTextComponent().getTextBox()
 				.addFocusHandler(event -> setFocusState());
@@ -182,31 +174,45 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	}
 
 	/**
-	 * sets the style of InputPanel to focus state
+	 * Sets the style of InputPanel to focus state
 	 */
 	protected void setFocusState() {
-		contentPanel.addStyleName("focusState");
+		contentPanel.addStyleName("active");
+	}
+
+	/**
+	 * Focus input text field
+	 */
+	public void focusDeferred() {
+		Scheduler.get().scheduleDeferred(
+				() -> getTextField().getTextComponent().setFocus(true));
 	}
 
 	/**
 	 * Resets input style on blur
 	 */
 	public void resetInputField() {
-		contentPanel.removeStyleName("focusState");
+		contentPanel.removeStyleName("active");
+	}
+
+	// INPUT ERROR HANDLING
+
+	@Override
+	public String getText() {
+		return inputTextField.getText();
 	}
 
 	@Override
-	public void setLabels() {
-		labelText.setText(loc.getMenu(labelTextKey));
-		if (errorLabel != null) {
-			errorLabel.setText(loc.getMenu(errorTextKey));
-		}
-		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
-			inputTextField.getTextComponent().getTextBox().getElement()
-					.setAttribute("placeholder",
-							loc.getMenu(placeholderTextKey));
-		}
+	public void showError(String errorMessage) {
+		setError(errorMessage);
 	}
+
+	@Override
+	public void setErrorResolved() {
+		setError(null);
+	}
+
+	// HELPERS
 
 	/**
 	 * @return text field
@@ -234,21 +240,6 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		Dom.toggleClass(this.contentPanel, "error", !StringUtil.empty(message));
 	}
 
-	@Override
-	public String getText() {
-		return inputTextField.getText();
-	}
-
-	@Override
-	public void showError(String errorMessage) {
-		setError(errorMessage);
-	}
-
-	@Override
-	public void setErrorResolved() {
-		setError(null);
-	}
-
 	/**
 	 * @return whether an error is shown
 	 */
@@ -257,10 +248,40 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	}
 
 	/**
-	 * focus input text field
+	 * Disables text field
+	 * @param disabled whether to disable text field or not
 	 */
-	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(
-				() -> this.getTextField().getTextComponent().setFocus(true));
+	public void setDisabled(boolean disabled) {
+		Dom.toggleClass(getContentPanel(), "disabled", disabled);
+		inputTextField.setEnabled(!disabled);
+	}
+
+	/**
+	 * @return whether the text field is disabled
+	 */
+	public boolean isDisabled() {
+		return getContentPanel().getStyleName().contains("disabled");
+	}
+
+	/**
+	 * @return panel containing the whole component
+	 */
+	public FlowPanel getContentPanel() {
+		return contentPanel;
+	}
+
+	@Override
+	public void setLabels() {
+		if (labelText != null) {
+			labelText.setText(loc.getMenu(labelTextKey));
+		}
+		if (errorLabel != null) {
+			errorLabel.setText(loc.getMenu(errorTextKey));
+		}
+		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
+			inputTextField.getTextComponent().getTextBox().getElement()
+					.setAttribute("placeholder",
+							loc.getMenu(placeholderTextKey));
+		}
 	}
 }

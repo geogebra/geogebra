@@ -44,7 +44,7 @@ public class MatrixInputDialog extends ComponentDialog {
 
 	private ComponentInputField addInputRow(String label) {
 		ComponentInputField inputField = new ComponentInputField(
-				appW, null, label, "", "2", 28, null, true);
+				appW, null, label, "", "2", null, true);
 		addDialogContent(inputField);
 		inputField.getTextField().addTextComponentInputListener(onContentChanged(inputField));
 		return inputField;

@@ -126,7 +126,7 @@ public class PropertiesPanelAdapter {
 		}
 		if (property instanceof StringProperty) {
 			ComponentInputField inputField = new ComponentInputField(app, "",
-					property.getName(), "", ((StringProperty) property).getValue(), -1);
+					property.getName(), "", ((StringProperty) property).getValue());
 			inputField.getTextField().getTextComponent().addBlurHandler(
 					evt -> ((StringProperty) property).setValue(inputField.getText()));
 			return inputField;

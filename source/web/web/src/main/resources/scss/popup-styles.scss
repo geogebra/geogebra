@@ -227,9 +227,13 @@
 			min-width: 184px;
 
 			.inputTextField {
-				padding: 0 8px;
+				margin: 0 8px;
 				width: calc(100% - 16px);
-				min-height: 58px;
+
+				input[type=text] {
+					border: none;
+					box-shadow: none;
+				}
 			}
 
 			.checkMarkMenuItem {

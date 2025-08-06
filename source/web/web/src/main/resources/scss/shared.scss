@@ -1,7 +1,6 @@
 @use 'colors';
 @use 'z-index';
 @use 'colorMap' as *;
-$keyboard_button_transition: opacity .3s ease;
 %matButton {
 	margin: 8px !important;
 	padding: 0 16px;
@@ -136,46 +135,11 @@ $keyboard_button_transition: opacity .3s ease;
 		height: 100%;
 	}
 
-	.AutoCompleteTextFieldW {
-		input {
-			width: 100%;
-		}
-
-		button {
-			visibility: hidden;
-			position: absolute;
-			float: right;
-			right: 0px;
-			opacity: 1;
-			margin-left: 8px;
-			img {
-				opacity: 0.54;
-				transition: $keyboard_button_transition;
-				&:hover, &:active {
-					opacity: 1;
-				}
-			}
-		}
-	}
-
 	.AutoCompleteTextFieldW.kbdInput {
-		// !optional is a suggestion from SASS preprocessor avoid error would thrown here.
-
-		@extend .matOpenKeyboardBtn !optional;
-		input[type=text].gwt-SuggestBox {
-			// as width is often overridden from code,
-			// !important is necessary here.
-			width: calc(100% - 32px) !important;
-			border: 0px;
-		}
-
 		.cursorOverlay {
 			width: calc(100% - 32px) !important;
 		}
 
-		button {
-			visibility: visible;
-		}
 	}
 
 	.AutoCompleteTextFieldW.noKeyboard {
