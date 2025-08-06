@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.StringTemplate;
@@ -164,7 +165,7 @@ public class AlgebraItem {
 	 *            element
 	 * @return output text (LaTex or plain)
 	 */
-	public static String getOutputTextForGeoElement(GeoElement element) {
+	public static @CheckForNull String getOutputTextForGeoElement(GeoElement element) {
 		String outputText;
 		if (element.isLaTeXDrawableGeo()) {
 			outputText = element.getLaTeXDescriptionRHS(true,
