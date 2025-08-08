@@ -11,6 +11,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.properties.ActionableProperty;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -27,6 +28,7 @@ import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.common.properties.impl.graphics.AdvancedPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.AxisLabelProperty;
@@ -36,8 +38,10 @@ import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GraphicsActionsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
+import org.geogebra.common.properties.impl.graphics.VerticalYAxis;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -173,8 +177,12 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new GridVisibilityProperty(localization, euclidianSettings),
 								new GridStyleProperty(localization, euclidianSettings)),
 						new PropertyCollectionWithLead(localization, "Axes",
-								new AxesVisibilityProperty(localization, euclidianSettings)
-						),
+								new AxesVisibilityProperty(localization, euclidianSettings),
+								new VerticalYAxis(localization,
+										(EuclidianSettings3D) euclidianSettings),
+								new AxesColoredProperty(localization,
+										(EuclidianSettings3D) euclidianSettings),
+								new LabelStylePropertyCollection(localization, euclidianSettings)),
 						new DimensionPropertiesCollection(localization),
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),

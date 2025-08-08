@@ -147,10 +147,10 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
-	 * Small press icon buttons, with identical aria label and data-title.
+	 * Small press icon buttons, with identical aria-label and data-title.
 	 * @param appW {@link AppW}
 	 * @param icon {@link IconSpec} image
-	 * @param ariaLabel aria-label (also used as data title)
+	 * @param ariaLabel aria-label (also used as data-title)
 	 * @param clickHandler click handler
 	 */
 	public IconButton(AppW appW, Runnable clickHandler, IconSpec icon,

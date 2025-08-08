@@ -688,5 +688,16 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.expandableList.extended + .expandableList.extended {
 			border-top: none;
 		}
+		.labelStyle {
+			padding: 8px 16px 16px 16px;
+
+			.gwt-Label {
+				height: 32px;
+				line-height: 32px;
+			}
+			.iconButton {
+				margin-right: 8px;
+			}
+		}
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.properties;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionableProperty;
+import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.Property;
@@ -15,6 +16,7 @@ import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
+import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -22,6 +24,7 @@ import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -61,6 +64,16 @@ public class PropertiesPanelAdapter {
 	}
 
 	private Widget getWidget(Property property) {
+		if (property instanceof IconAssociatedProperty) {
+			IconButton button = new IconButton(app, null, new ImageIconSpec(PropertiesIconAdapter
+					.getIcon(((IconAssociatedProperty) property).getIcon())), property.getName());
+			button.setActive(((BooleanProperty) property).getValue());
+			button.addFastClickHandler(source -> {
+				button.setActive(!button.isActive());
+				((BooleanProperty) property).setValue(!((BooleanProperty) property).getValue());
+			});
+			return button;
+		}
 		if (property instanceof BooleanProperty) {
 			return new ComponentCheckbox(loc, ((BooleanProperty) property).getValue(),
 					property.getName(),
@@ -82,6 +95,17 @@ public class PropertiesPanelAdapter {
 				buttonPanel.add(button);
 			}
 			return buttonPanel;
+		}
+		if (property instanceof LabelStylePropertyCollection) {
+			FlowPanel labelStylePanel = new FlowPanel();
+			labelStylePanel.addStyleName("labelStyle");
+			labelStylePanel.add(BaseWidgetFactory.INSTANCE.newPrimaryText(
+					app.getLocalization().getMenu(property.getName())));
+			for (IconAssociatedProperty prop : ((LabelStylePropertyCollection) property)
+					.getProperties()) {
+				labelStylePanel.add(getWidget(prop));
+			}
+			return labelStylePanel;
 		}
 		if (property instanceof PropertyCollection) {
 			BooleanProperty leadProperty = property instanceof PropertyCollectionWithLead

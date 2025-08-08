@@ -853,7 +853,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void setYAxisVertical(boolean flag) {
 		getSettings().setYAxisVertical(flag);
-
 	}
 
 	public boolean getUseLight() {

@@ -153,6 +153,12 @@ public class PropertiesIconAdapter {
 			return res.grid_isometric();
 		case ICON_DOTS:
 			return res.pattern_dots();
+		case ICON_AXES_BOLD:
+			return res.text_bold_black();
+		case ICON_AXES_ITALIC:
+			return res.text_italic_black();
+		case ICON_AXES_SERIF:
+			return res.text_serif_black();
 		}
 		return res.stylebar_empty();
 	}
