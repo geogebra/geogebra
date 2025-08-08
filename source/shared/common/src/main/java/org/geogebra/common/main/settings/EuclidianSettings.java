@@ -676,7 +676,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @param axis
 	 *            axis
 	 * @param cross
-	 *            cross cordinate
+	 *            cross coordinate
 	 */
 	public void setAxisCross(int axis, double cross) {
 		if (axisCross[axis] != cross) {

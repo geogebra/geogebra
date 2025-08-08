@@ -96,7 +96,7 @@ public class MyNumberPair extends MyVecNode {
 
 	/**
 	 * @param y
-	 *            y cordinate
+	 *            y coordinate
 	 */
 	public void setY(ExpressionValue y) {
 		this.y = y;

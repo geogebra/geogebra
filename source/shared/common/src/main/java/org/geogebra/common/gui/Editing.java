@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.View;
  */
 public interface Editing extends View {
 	/**
-	 * Cencel editing an item.
+	 * Cancel editing an item.
 	 */
 	public void cancelEditItem();
 
