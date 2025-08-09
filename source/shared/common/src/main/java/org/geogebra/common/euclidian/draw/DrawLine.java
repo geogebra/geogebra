@@ -477,7 +477,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 		default:
 		case LINE:
 		case PERPENDICULAR_BISECTOR:
-			isVisible = (points.size() == 1);
+			isVisible = points.size() == 1;
 			if (isVisible) {
 				startPoint = points.get(0);
 			}
@@ -487,7 +487,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 			isVisible = lines.size() == 1 || functions.size() == 1;
 			break;
 		case ANGLE_BISECTOR:
-			isVisible = (points.size() == 2);
+			isVisible = points.size() == 2;
 			if (isVisible) {
 				startPoint = points.get(0);
 				previewPoint2 = points.get(1);

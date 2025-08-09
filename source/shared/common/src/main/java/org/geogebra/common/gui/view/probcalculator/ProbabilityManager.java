@@ -554,7 +554,7 @@ public class ProbabilityManager {
 			xMin = median - 6 * scale;
 			xMax = median + 6 * scale;
 			yMin = 0;
-			yMax = (1 / (Math.PI * scale)); // Cauchy amplitude =
+			yMax = 1 / (Math.PI * scale); // Cauchy amplitude =
 													// 1/(pi*scale)
 
 			break;

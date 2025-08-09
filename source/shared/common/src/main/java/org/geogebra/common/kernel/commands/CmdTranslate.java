@@ -55,8 +55,8 @@ public class CmdTranslate extends CommandProcessor {
 				ret[0] = (GeoElement) algo.getTranslatedVector();
 
 				return ret;
-			} else if ((ok[0] = (arg[0] instanceof Translateable
-					|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
+			} else if ((ok[0] = arg[0] instanceof Translateable
+					|| arg[0] instanceof GeoPolygon || arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoVec3D)) {
 
 				// 2D Vectors, Points

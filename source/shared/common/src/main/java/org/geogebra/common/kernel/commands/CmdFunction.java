@@ -238,8 +238,8 @@ public class CmdFunction extends CommandProcessor {
 		// create local variable at position 3 and resolve arguments
 		GeoElement[] arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 }, info);
 		boolean[] ok = new boolean[c.getArgumentNumber()];
-		if ((ok[0] = (arg[0] instanceof GeoNumberValue
-				|| arg[0] instanceof GeoFunctionNVar)) // function
+		if ((ok[0] = arg[0] instanceof GeoNumberValue
+				|| arg[0] instanceof GeoFunctionNVar) // function
 				&& (ok[1] = arg[1].isGeoNumeric()) // first var
 				&& (ok[2] = arg[2] instanceof GeoNumberValue) // from
 				&& (ok[3] = arg[3] instanceof GeoNumberValue) // to

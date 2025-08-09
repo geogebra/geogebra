@@ -235,7 +235,7 @@ public class DrawPointPlot extends Drawable {
 		pointSize = pointList.getPointSize();
 
 		// get y coord for the stacked dot
-		y = (view.getYZero() - pointSize); // first dot on axis
+		y = view.getYZero() - pointSize; // first dot on axis
 		y = y - 2 * (dotCount - 1) * pointSize * scaleFactor; // higher dot
 		y = view.toRealWorldCoordY(y);
 

@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocus;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
@@ -61,12 +60,9 @@ public class CmdLocusEquation extends CommandProcessor {
 				locusPoint = (GeoPoint) arg[0];
 				movingPoint = (GeoPoint) arg[1];
 			} else {
-				AlgoElement ae;
 				if ((ok[0] = arg[0] instanceof BooleanValue)
 						// second parameter should be a (semi-)free point
-						&& (ok[1] = (arg[1].isGeoPoint()
-								&& ((ae = arg[1].getParentAlgorithm()) == null
-										|| ae instanceof AlgoPointOnPath)))) {
+						&& (ok[1] = isMoveablePoint(arg[1]))) {
 					implicitLocus = arg[0];
 					movingPoint = (GeoPoint) arg[1];
 					return new GeoElement[] { locusEquation(c.getLabel(),
@@ -84,6 +80,12 @@ public class CmdLocusEquation extends CommandProcessor {
 		return new GeoElement[] {
 				locusEquation(c.getLabel(), locusPoint, movingPoint)
 						.toGeoElement() };
+	}
+
+	private boolean isMoveablePoint(GeoElement geo) {
+		return geo.isGeoPoint()
+				&& (geo.getParentAlgorithm() == null
+				|| geo.getParentAlgorithm() instanceof AlgoPointOnPath);
 	}
 
 	/**

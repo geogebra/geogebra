@@ -49,10 +49,10 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof GeoFunction
+			if ((ok[0] = arg[0] instanceof GeoFunction
 					|| arg[0] instanceof GeoCurveCartesian
 					|| arg[0] instanceof GeoPoly
-					|| arg[0] instanceof GeoConicND))
+					|| arg[0] instanceof GeoConicND)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
 

@@ -53,8 +53,8 @@ public class CmdIterationList extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			if ((ok[0] = (arg[0].isGeoFunctionNVar()
-					&& ((GeoFunctionNVar) arg[0]).isFun2Var()))
+			if ((ok[0] = arg[0].isGeoFunctionNVar()
+					&& ((GeoFunctionNVar) arg[0]).isFun2Var())
 					&& (ok[1] = arg[1] instanceof GeoList)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 				AlgoIterationList algo = new AlgoIterationList(cons,

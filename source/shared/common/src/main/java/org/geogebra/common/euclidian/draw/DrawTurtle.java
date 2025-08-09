@@ -383,16 +383,16 @@ public class DrawTurtle extends Drawable {
 		gPath.reset();
 
 		// back legs
-		x = (1.3 * r * Math.cos(Math.PI / 6));
-		y = (1.3 * r * Math.sin(Math.PI / 6));
+		x = 1.3 * r * Math.cos(Math.PI / 6);
+		y = 1.3 * r * Math.sin(Math.PI / 6);
 		gPath.moveTo(0, 0);
 		gPath.lineTo(-x, y);
 		gPath.moveTo(0, 0);
 		gPath.lineTo(-x, -y);
 
 		// front legs
-		x = (1.2 * r * Math.cos(Math.PI / 4));
-		y = (1.2 * r * Math.sin(Math.PI / 4));
+		x = 1.2 * r * Math.cos(Math.PI / 4);
+		y = 1.2 * r * Math.sin(Math.PI / 4);
 		gPath.moveTo(0, 0);
 		gPath.lineTo(x, y);
 		gPath.moveTo(0, 0);

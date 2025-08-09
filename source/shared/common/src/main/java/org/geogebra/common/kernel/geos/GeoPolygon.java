@@ -1042,7 +1042,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 						j = j % gLength;
 						boolean pointOK = true;
 						while (pointOK && (i < gLength)) {
-							pointOK = (this.getPoint(i).isEqual(g.getPoint(j)));
+							pointOK = this.getPoint(i).isEqual(g.getPoint(j));
 							if (pointOK) {
 								j = j + step;
 								if (j < 0) {

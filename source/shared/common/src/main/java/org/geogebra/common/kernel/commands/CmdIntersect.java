@@ -298,10 +298,8 @@ public class CmdIntersect extends CommandProcessor {
 					(GeoFunctionable) arg[1],
 					(GeoPolygon) arg[0]);
 
-		} else if ((ok[0] = (arg[0].isRealValuedFunction()
-				|| arg[0] instanceof GeoFunction))
-				&& (ok[1] = (arg[1].isRealValuedFunction()
-						|| arg[1] instanceof GeoFunction))) {
+		} else if ((ok[0] = isFunction(arg[0]))
+				&& (ok[1] = isFunction(arg[1]))) {
 			// check after GeoLine as GeoLine is now GeoFunctionable
 			return getAlgoDispatcher().intersectPolynomials(c.getLabels(),
 					(GeoFunctionable) arg[0], (GeoFunctionable) arg[1]);

@@ -30,7 +30,7 @@ public class BernsteinPolynomial1DTest extends BaseUnitTest {
 	private void newBernsteinPolynomialPolynomialFrom(String definition) {
 		GeoElement geo = add(definition);
 		if (geo.isGeoImplicitCurve()) {
-			curve = ((GeoImplicitCurve) geo);
+			curve = (GeoImplicitCurve) geo;
 		}
 		bernstein1D = converter.bernsteinPolynomial1DFrom(geo, new BoundsRectangle(0, 1, 0, 1));
 	}

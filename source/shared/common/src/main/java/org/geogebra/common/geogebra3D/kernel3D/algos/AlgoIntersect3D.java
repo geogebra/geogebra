@@ -61,8 +61,8 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 				toScreenCoords = mat.mul(P[i].getCoords().getCoordsLast1())
 						.getInhomCoords();
 			}
-			x = (toScreenCoords.getX() - xRW);
-			y = (toScreenCoords.getY() - yRW);
+			x = toScreenCoords.getX() - xRW;
+			y = toScreenCoords.getY() - yRW;
 			// comment: the z dimension is the "height", which will not be used
 			// here.
 			lengthSqr = x * x + y * y;
@@ -111,9 +111,9 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 		for (int i = 0; i < P.length; i++) {
 			Coords PInhom = P[i].getInhomCoordsInD3();
 
-			x = (PInhom.getX() - refInhom.getX());
-			y = (PInhom.getY() - refInhom.getY());
-			z = (PInhom.getZ() - refInhom.getZ());
+			x = PInhom.getX() - refInhom.getX();
+			y = PInhom.getY() - refInhom.getY();
+			z = PInhom.getZ() - refInhom.getZ();
 			lengthSqr = x * x + y * y + z * z;
 			// if two distances are equal, smaller index gets priority
 			if (DoubleUtil.isGreater(mindist, lengthSqr)) {

@@ -232,7 +232,7 @@ public class PolyFunction
 			pd[j] = 0.0;
 		}
 		for (i = degree - 1; i >= 0; i--) {
-			nnd = (order < (degree - i) ? order : degree - i);
+			nnd = Math.min(order, degree - i);
 			for (j = nnd; j >= 1; j--) {
 				pd[j] = pd[j] * x + pd[j - 1];
 			}

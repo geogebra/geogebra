@@ -178,7 +178,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 						homogenPolys.add(pk);
 					}
 					double ev = PolynomialUtils.eval(pk, roots[i]);
-					rk = (((deg - k) & 1) == 0 ? ev : -ev);
+					rk = ((deg - k) & 1) == 0 ? ev : -ev;
 					if (r == k) {
 						break;
 					}
@@ -202,7 +202,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 									divisor);
 							l++;
 							ev = PolynomialUtils.eval(pk, roots[i]);
-							rk = (((deg - k + l) & 1) == 0 ? ev : -ev); // division
+							rk = ((deg - k + l) & 1) == 0 ? ev : -ev; // division
 																		// reduces
 																		// degree
 																		// by

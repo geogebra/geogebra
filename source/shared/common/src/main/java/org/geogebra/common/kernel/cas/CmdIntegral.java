@@ -94,8 +94,8 @@ public final class CmdIntegral extends CommandProcessor implements UsesCAS {
 			if ((ok[0] = arg[0].isRealValuedFunction())
 					&& (ok[1] = arg[1].isRealValuedFunction())
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = (arg[3] instanceof GeoNumberValue
-							&& !(arg[3] instanceof BooleanValue)))
+					&& (ok[3] = arg[3] instanceof GeoNumberValue
+							&& !(arg[3] instanceof BooleanValue))
 					&& !isNIntegral()) {
 
 				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons,

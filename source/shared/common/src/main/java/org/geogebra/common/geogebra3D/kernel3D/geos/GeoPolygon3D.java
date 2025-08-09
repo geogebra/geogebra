@@ -984,8 +984,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 						j = j % gLength;
 						boolean pointOK = true;
 						while (pointOK && (i < gLength)) {
-							pointOK = (this.getPoint3D(i)
-									.equalsForKernel(g.getPoint3D(j)));
+							pointOK = this.getPoint3D(i)
+									.equalsForKernel(g.getPoint3D(j));
 							j = j + step;
 							if (j < 0) {
 								j = gLength - 1;

@@ -71,7 +71,7 @@ public class DrawSlope extends Drawable {
 	}
 
 	private void init() {
-		algo = ((AlgoSlope) slope.getDrawAlgorithm());
+		algo = (AlgoSlope) slope.getDrawAlgorithm();
 
 	}
 

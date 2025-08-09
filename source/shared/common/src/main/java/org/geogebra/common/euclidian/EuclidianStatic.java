@@ -245,7 +245,7 @@ public class EuclidianStatic {
 		int height = 0;
 
 		// use latex by default just if there is just a single element
-		isLaTeX = (elements.length == 1);
+		isLaTeX = elements.length == 1;
 
 		int xOffset = 0;
 		int yOffset = 0;

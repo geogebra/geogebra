@@ -45,7 +45,7 @@ public class CmdParseToFunction extends CommandProcessor {
 			if (arg[0].isGeoText() && arg[1].isGeoList()) {
 				return getParseAlgoResult((GeoText) arg[0], c, (GeoList) arg[1]);
 			}
-			if ((ok = (arg[0].isGeoFunction() || arg[0].isGeoFunctionNVar()))
+			if ((ok = arg[0].isGeoFunction() || arg[0].isGeoFunctionNVar())
 					&& arg[1].isGeoText()) {
 				if (!info.isScripting()) {
 					return new GeoElement[0];

@@ -27,7 +27,7 @@ public class BernsteinPolynomial2DTest extends BaseUnitTest {
 	private void newBernsteinPolynomialPolynomialFrom(String definition) {
 		GeoElement geo = add(definition);
 		if (geo.isGeoImplicitCurve()) {
-			curve = ((GeoImplicitCurve) geo);
+			curve = (GeoImplicitCurve) geo;
 		}
 		bernstein = converter.bernsteinPolynomial2DFrom(geo,
 				new BoundsRectangle(0, 1, 0, 1));

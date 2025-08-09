@@ -167,8 +167,8 @@ public class ClipLine {
 
 		if (mask1 == INSIDE) {
 			// point 1 is internal
-			p1x = (x1 + xhack);
-			p1y = (y1 + yhack);
+			p1x = x1 + xhack;
+			p1y = y1 + yhack;
 			if (mask == 0) {
 				// both masks are the same, so the second point is inside, too
 				ret2[0].setLocation(p1x, p1y);

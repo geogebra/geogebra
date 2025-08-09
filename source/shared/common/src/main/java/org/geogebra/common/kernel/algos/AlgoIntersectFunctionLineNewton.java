@@ -82,7 +82,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		if (line.getParentAlgorithm() instanceof TangentAlgo) {
 			TangentAlgo algo = (TangentAlgo) line.getParentAlgorithm();
 			tangentPoint = algo.getTangentPoint(f.toGeoElement(), line);
-			isDefinedAsTangent = (tangentPoint != null);
+			isDefinedAsTangent = tangentPoint != null;
 		}
 		if (!isDefinedAsTangent) {
 			diffFunction = new Function(kernel);

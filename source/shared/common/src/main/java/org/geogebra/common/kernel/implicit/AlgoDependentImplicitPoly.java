@@ -169,8 +169,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		if (!first) {
 			boolean recomputeCoeff = false;
 			if (equation != geoElement.getDefinition().unwrap()) {
-				evalDef = ((EquationValue) geoElement.getDefinition()
-						.evaluate(StringTemplate.defaultTemplate));
+				evalDef = (EquationValue) geoElement.getDefinition()
+						.evaluate(StringTemplate.defaultTemplate);
 				equation = evalDef
 								.getEquation();
 				equation.setFunctionDependent(true);

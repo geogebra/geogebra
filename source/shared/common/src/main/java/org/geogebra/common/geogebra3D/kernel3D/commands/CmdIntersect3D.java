@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
+import static org.geogebra.common.geogebra3D.kernel3D.commands.CmdIntersectConic.isQuadric;
+
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
@@ -227,10 +229,8 @@ public class CmdIntersect3D extends CmdIntersect {
 				}
 
 				// between 2 quadrics
-				if ((ok[0] = (arg[0] instanceof GeoQuadric3D
-						|| arg[0] instanceof GeoQuadric3DLimited))
-						&& (ok[1] = (arg[1] instanceof GeoQuadric3D
-								|| arg[1] instanceof GeoQuadric3DLimited))) {
+				if ((ok[0] = isQuadric(arg[0]))
+						&& (ok[1] = isQuadric(arg[1]))) {
 					GeoElement[] ret = kernel.getManager3D().intersectAsCircle(
 							c.getLabels(), (GeoQuadricND) arg[0],
 							(GeoQuadricND) arg[1]);

@@ -2649,7 +2649,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean hitPoint = false;
 
 		if (selLines() == 0) {
-			hitPoint = (addSelectedPoint(hits, 3, false, selPreview) != 0);
+			hitPoint = addSelectedPoint(hits, 3, false, selPreview) != 0;
 		}
 		if (!hitPoint && selPoints() == 0) {
 			addSelectedLine(hits, 2, false, selPreview);
@@ -6173,7 +6173,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (hits.isEmpty()) {
 				changedKernel = createNewPoint(hits, false, false, true);
 			} else {
-				changedKernel = (pointCreated != null);
+				changedKernel = pointCreated != null;
 			}
 			break;
 

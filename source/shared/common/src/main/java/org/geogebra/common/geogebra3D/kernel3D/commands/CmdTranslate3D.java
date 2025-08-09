@@ -51,8 +51,8 @@ public class CmdTranslate3D extends CmdTranslate {
 					ret[0] = (GeoElement) algo.getTranslatedVector();
 					return ret;
 				}
-				ok[0] = (arg[0] instanceof Translateable
-						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList());
+				ok[0] = arg[0] instanceof Translateable
+						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList();
 				// translate object
 				if (ok[0] && (ok[1] = arg[1].isGeoVector())) {
 					ret = kernel.getManager3D().translate3D(label, arg[0],

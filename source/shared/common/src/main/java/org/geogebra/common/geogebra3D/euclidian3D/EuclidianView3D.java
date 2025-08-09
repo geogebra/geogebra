@@ -3207,7 +3207,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		boolean flag = true;
 
 		for (int i = 0; i < 3; i++) {
-			flag = (flag && axis[i].isEuclidianVisible());
+			flag = flag && axis[i].isEuclidianVisible();
 		}
 
 		return flag;
