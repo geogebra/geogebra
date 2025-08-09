@@ -156,10 +156,10 @@ public class DockGlassPaneW extends AbsolutePanel
 		}
 
 		dockPanelsBounds = new Rectangle[bounds.size()];
-		dockPanelsBounds = (bounds.toArray(dockPanelsBounds));
+		dockPanelsBounds = bounds.toArray(dockPanelsBounds);
 
 		dockPanels = new DockPanelW[dockPanelsList.size()];
-		dockPanels = (dockPanelsList.toArray(dockPanels));
+		dockPanels = dockPanelsList.toArray(dockPanels);
 	}
 
 	/**

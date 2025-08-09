@@ -44,10 +44,10 @@ public class CmdAngle3D extends CmdAngle {
 			GeoElement[] arg = resArgs(c, info);
 
 			// angle between three points
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))
-					&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())
+					&& (ok[3] = arg[3] instanceof GeoDirectionND)) {
 
 				if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D()
 						&& !arg[2].isGeoElement3D()
@@ -75,28 +75,28 @@ public class CmdAngle3D extends CmdAngle {
 	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) {
 
 		// angle between line and plane
-		if ((ok[0] = (arg[0].isGeoLine())) && (ok[1] = (arg[1].isGeoPlane()))) {
+		if ((ok[0] = arg[0].isGeoLine()) && (ok[1] = arg[1].isGeoPlane())) {
 			GeoElement[] ret = { kernel.getManager3D().angle3D(c.getLabel(),
 					(GeoLineND) arg[0], (GeoPlane3D) arg[1]) };
 			return ret;
 		}
-		if ((ok[1] = (arg[1].isGeoLine())) && (ok[0] = (arg[0].isGeoPlane()))) {
+		if ((ok[1] = arg[1].isGeoLine()) && (ok[0] = arg[0].isGeoPlane())) {
 			GeoElement[] ret = { kernel.getManager3D().angle3D(c.getLabel(),
 					(GeoLineND) arg[1], (GeoPlane3D) arg[0]) };
 			return ret;
 		}
 
 		// angle between planes
-		if ((ok[0] = (arg[0].isGeoPlane()))
-				&& (ok[1] = (arg[1].isGeoPlane()))) {
+		if ((ok[0] = arg[0].isGeoPlane())
+				&& (ok[1] = arg[1].isGeoPlane())) {
 			GeoElement[] ret = { kernel.getManager3D().angle3D(c.getLabel(),
 					(GeoPlane3D) arg[0], (GeoPlane3D) arg[1]) };
 			return ret;
 		}
 
 		// angle of polygon, oriented
-		if ((ok[0] = (arg[0].isGeoPolygon()))
-				&& (ok[1] = (arg[1] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoPolygon())
+				&& (ok[1] = arg[1] instanceof GeoDirectionND)) {
 
 			if (!arg[0].isGeoElement3D() && arg[1] == kernel.getXOYPlane()) { // ignore
 																				// xOy
@@ -137,8 +137,8 @@ public class CmdAngle3D extends CmdAngle {
 		}
 
 		// angle between vectors, oriented
-		if ((ok[0] = (arg[0].isGeoVector())) && (ok[1] = (arg[1].isGeoVector()))
-				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoVector()) && (ok[1] = arg[1].isGeoVector())
+				&& (ok[2] = arg[2] instanceof GeoDirectionND)) {
 
 			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D()
 					&& arg[2] == kernel.getXOYPlane()) { // ignore xOy plane

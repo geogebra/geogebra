@@ -33,8 +33,8 @@ public class CmdMinimize extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isNumberValue()))
-					&& (ok[1] = (arg[1].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isNumberValue())
+					&& (ok[1] = arg[1].isGeoNumeric())) {
 
 				AlgoMinimize algo = new AlgoMinimize(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumeric) arg[1]);
@@ -43,8 +43,8 @@ public class CmdMinimize extends CommandProcessor {
 
 				return ret;
 			}
-			if ((ok[0] = (arg[0].isNumberValue()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isNumberValue())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 
 				AlgoMinimize algo = new AlgoMinimize(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoPointND) arg[1]);

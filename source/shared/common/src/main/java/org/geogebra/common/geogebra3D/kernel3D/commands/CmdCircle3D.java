@@ -27,8 +27,8 @@ public class CmdCircle3D extends CmdCircle {
 	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
 
-		if ((ok[0] = (arg[0] instanceof GeoLineND))
-				&& (ok[1] = (arg[1].isGeoPoint()))) {
+		if ((ok[0] = arg[0] instanceof GeoLineND)
+				&& (ok[1] = arg[1].isGeoPoint())) {
 			GeoElement[] ret = { kernel.getManager3D().circle3D(c.getLabel(),
 					(GeoLineND) arg[0], (GeoPointND) arg[1]) };
 			return ret;
@@ -75,8 +75,8 @@ public class CmdCircle3D extends CmdCircle {
 	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
 
-		if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[2] = arg[2] instanceof GeoDirectionND)) {
 
 			if (arg[1] instanceof GeoNumberValue) {
 				GeoElement[] ret = { kernel.getManager3D().circle3D(

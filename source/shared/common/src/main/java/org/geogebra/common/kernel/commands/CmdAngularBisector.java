@@ -37,8 +37,8 @@ public class CmdAngularBisector extends CommandProcessor {
 		case 2:
 
 			// angular bisector of 2 lines
-			if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoLine()))) {
+			if ((ok[0] = arg[0].isGeoLine())
+					&& (ok[1] = arg[1].isGeoLine())) {
 				return angularBisector(c.getLabels(), (GeoLineND) arg[0],
 						(GeoLineND) arg[1]);
 			}
@@ -50,9 +50,9 @@ public class CmdAngularBisector extends CommandProcessor {
 		case 3:
 
 			// angular bisector of three points
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())) {
 				GeoElement[] ret = {
 						angularBisector(c.getLabel(), (GeoPointND) arg[0],
 								(GeoPointND) arg[1], (GeoPointND) arg[2]) };

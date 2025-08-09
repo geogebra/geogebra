@@ -109,13 +109,13 @@ public class CmdIntersect3D extends CmdIntersect {
 					return kernel.getManager3D().intersectionPoint(
 							c.getLabels(), (GeoPlane3D) arg[1],
 							(GeoPolygon) arg[0]);
-				} else if ((ok[0] = (arg[0].isGeoLine()))
-						&& (ok[1] = (arg[1] instanceof GeoQuadric3D))) {
+				} else if ((ok[0] = arg[0].isGeoLine())
+						&& (ok[1] = arg[1] instanceof GeoQuadric3D)) {
 					return (GeoElement[]) kernel.getManager3D()
 							.intersectLineQuadric(c.getLabels(),
 									(GeoLineND) arg[0], (GeoQuadric3D) arg[1]);
-				} else if ((ok[0] = (arg[0] instanceof GeoQuadric3D))
-						&& (ok[1] = (arg[1].isGeoLine()))) {
+				} else if ((ok[0] = arg[0] instanceof GeoQuadric3D)
+						&& (ok[1] = arg[1].isGeoLine())) {
 					return (GeoElement[]) kernel.getManager3D()
 							.intersectLineQuadric(c.getLabels(),
 									(GeoLineND) arg[1], (GeoQuadric3D) arg[0]);
@@ -238,13 +238,13 @@ public class CmdIntersect3D extends CmdIntersect {
 				}
 
 				// Plane - Polyhedron
-				if ((ok[0] = (arg[0].isGeoPlane()))
-						&& (ok[1] = (arg[1].isGeoPolyhedron()))) {
+				if ((ok[0] = arg[0].isGeoPlane())
+						&& (ok[1] = arg[1].isGeoPolyhedron())) {
 					return kernel.getManager3D().intersectRegion(c.getLabels(),
 							(GeoPlane3D) arg[0], (GeoPolyhedron) arg[1],
 							c.getOutputSizes());
-				} else if ((ok[1] = (arg[1].isGeoPlane()))
-						&& (ok[0] = (arg[0].isGeoPolyhedron()))) {
+				} else if ((ok[1] = arg[1].isGeoPlane())
+						&& (ok[0] = arg[0].isGeoPolyhedron())) {
 					return kernel.getManager3D().intersectRegion(c.getLabels(),
 							(GeoPlane3D) arg[1], (GeoPolyhedron) arg[0],
 							c.getOutputSizes());

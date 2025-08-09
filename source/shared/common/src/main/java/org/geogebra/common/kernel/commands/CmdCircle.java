@@ -69,13 +69,13 @@ public class CmdCircle extends CommandProcessor {
 	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
 
-		if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 			GeoElement[] ret = { circle(c.getLabel(), (GeoPointND) arg[0],
 					(GeoNumberValue) arg[1]) };
 			return ret;
-		} else if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1].isGeoPoint()))) {
+		} else if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoPoint())) {
 			GeoElement[] ret = { circle(c.getLabel(), (GeoPointND) arg[0],
 					(GeoPointND) arg[1]) };
 			return ret;
@@ -132,8 +132,8 @@ public class CmdCircle extends CommandProcessor {
 	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
 
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
-				&& (ok[2] = (arg[2].isGeoPoint()))) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+				&& (ok[2] = arg[2].isGeoPoint())) {
 			GeoElement[] ret = { circle(c.getLabel(), (GeoPointND) arg[0],
 					(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 			return ret;

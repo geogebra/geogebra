@@ -74,7 +74,7 @@ public class CmdFunction extends CommandProcessor {
 	private GeoElement[] process2VarFunctionXY(Command c, EvalInfo info) {
 		GeoElement[] arg = resArgs(c, info);
 		boolean[] ok = new boolean[c.getArgumentNumber()];
-		if ((ok[0] = (arg[0] instanceof GeoFunctionNVar)) // function
+		if ((ok[0] = arg[0] instanceof GeoFunctionNVar) // function
 				&& (ok[1] = arg[1] instanceof GeoNumberValue) // x from
 				&& (ok[2] = arg[2] instanceof GeoNumberValue) // x to
 				&& (ok[3] = arg[3] instanceof GeoNumberValue) // y from
@@ -113,9 +113,9 @@ public class CmdFunction extends CommandProcessor {
 			// new code: convert Function[sin(x),1,2] to If[1<=x<=2, sin(x)]
 
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				String label = c.getLabel();
 
@@ -207,9 +207,9 @@ public class CmdFunction extends CommandProcessor {
 			}
 		}
 		arg = resArgs(c, info);
-		if ((ok[0] = (arg[0].isRealValuedFunction()))
-				&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+		if ((ok[0] = arg[0].isRealValuedFunction())
+				&& (ok[1] = arg[1] instanceof GeoNumberValue)
+				&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 			GeoElement[] ret = { function(c.getLabel(),
 					(GeoFunctionable) arg[0],
 					(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };

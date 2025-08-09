@@ -255,7 +255,7 @@ public class ClipShape {
 		 *            at t = 1, x2 is the output of this function
 		 */
 		public void define(double x1, double x2) {
-			slope = (x2 - x1);
+			slope = x2 - x1;
 			intercept = x1;
 		}
 

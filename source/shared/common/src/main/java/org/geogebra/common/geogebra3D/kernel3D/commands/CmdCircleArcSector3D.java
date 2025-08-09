@@ -48,9 +48,9 @@ public class CmdCircleArcSector3D extends CmdCircleArcSector {
 			throws MyError {
 
 		// arc center-two points, oriented
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
-				&& (ok[2] = (arg[2].isGeoPoint()))
-				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+				&& (ok[2] = arg[2].isGeoPoint())
+				&& (ok[3] = arg[3] instanceof GeoDirectionND)) {
 
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 					.circleArcSector3D(c.getLabel(), (GeoPointND) arg[0],

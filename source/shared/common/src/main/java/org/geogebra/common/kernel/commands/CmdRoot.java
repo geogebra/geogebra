@@ -52,7 +52,7 @@ public class CmdRoot extends CommandProcessor {
 		case 2:
 			arg = resArgs(c, info);
 			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoRootNewton algo = new AlgoRootNewton(cons, c.getLabel(),
 						(GeoFunctionable) arg[0],
@@ -71,9 +71,9 @@ public class CmdRoot extends CommandProcessor {
 			// root in interval
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoRootInterval algo = new AlgoRootInterval(cons, c.getLabel(),
 						(GeoFunctionable) arg[0],

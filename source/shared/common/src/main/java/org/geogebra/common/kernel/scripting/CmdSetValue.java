@@ -55,7 +55,7 @@ public class CmdSetValue extends CmdScripting {
 			setValue2(arg[0], arg[1]);
 			return arg;
 		case 3:
-			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent()))
+			if ((ok = arg[0].isGeoList() && arg[0].isIndependent())
 					&& arg[1].isNumberValue()) {
 
 				boolean success = setValue3(kernel, (GeoList) arg[0],

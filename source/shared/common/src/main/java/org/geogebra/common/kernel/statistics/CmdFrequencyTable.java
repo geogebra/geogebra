@@ -137,9 +137,9 @@ public class CmdFrequencyTable extends CommandProcessor {
 			arg = resArgs(c, info);
 			// arg[0] = class list, arg[2] = data list, arg[2] = useDensity,
 			// arg[3]= density scale factor
-			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoBoolean()))
-					&& (ok[3] = (arg[3].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoBoolean())
+					&& (ok[3] = arg[3].isGeoNumeric())) {
 				GeoElement[] ret = { frequencyTable(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2],
 						(GeoNumeric) arg[3]) };
@@ -148,10 +148,10 @@ public class CmdFrequencyTable extends CommandProcessor {
 
 			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list,
 			// arg[3] = useDensity
-			else if ((ok[0] = (arg[0].isGeoBoolean()))
-					&& (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoList()))
-					&& (ok[3] = (arg[3].isGeoBoolean()))) {
+			else if ((ok[0] = arg[0].isGeoBoolean())
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoBoolean())) {
 				GeoElement[] ret = { frequencyTable(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
 						(GeoBoolean) arg[3]) };

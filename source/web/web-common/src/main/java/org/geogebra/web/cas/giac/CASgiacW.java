@@ -108,8 +108,8 @@ public class CASgiacW extends CASgiac {
 			 * It's just possible that we will load commands that aren't needed
 			 * in rare circumstances
 			 */
-			if (function.functionName == null || (foundInInput = (exp
-				.indexOf(function.functionName) > -1))) {
+			if (function.functionName == null || (foundInInput =
+					exp.contains(function.functionName))) {
 				evaluateRaw(function.definitionString, externalCAS);
 				/* Some commands may require additional commands to load. */
 				if (foundInInput) {

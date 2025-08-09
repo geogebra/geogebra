@@ -48,20 +48,20 @@ public class CmdPlane extends CommandProcessor {
 			throw argErr(c, arg[0]);
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1] instanceof GeoLineND))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1] instanceof GeoLineND)) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 						.plane3D(c.getLabel(), (GeoPointND) arg[0],
 								(GeoLineND) arg[1]) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1] instanceof GeoCoordSys2D))) {
+			} else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1] instanceof GeoCoordSys2D)) {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 						.plane3D(c.getLabel(), (GeoPointND) arg[0],
 								(GeoCoordSys2D) arg[1]) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoLine()))) {
+			} else if ((ok[0] = arg[0].isGeoLine())
+					&& (ok[1] = arg[1].isGeoLine())) {
 				GeoElement[] ret = { kernel.getManager3D().plane3D(
 						c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]) };
 				return ret;
@@ -75,9 +75,9 @@ public class CmdPlane extends CommandProcessor {
 
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())) {
 				GeoElement[] ret = { kernel.getManager3D().plane3D(
 						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoPointND) arg[2]) };
@@ -87,9 +87,9 @@ public class CmdPlane extends CommandProcessor {
 			// implement Plane[(1,2,3),Vector[(3,-3,1)],Vector[(2,2,-1)]] as
 			// shortcut/macro for
 			// PerpendicularPlane[(1,2,3),Vector[(3,-3,1)]\u2297Vector[(2,2,-1)]]
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoVector()))
-					&& (ok[2] = (arg[2].isGeoVector()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoVector())
+					&& (ok[2] = arg[2].isGeoVector())) {
 				ExpressionNode cross = new ExpressionNode(kernel, arg[1],
 						Operation.VECTORPRODUCT, arg[2]);
 

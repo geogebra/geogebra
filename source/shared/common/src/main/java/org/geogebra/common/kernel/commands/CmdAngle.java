@@ -180,7 +180,7 @@ public class CmdAngle extends CommandProcessor {
 		}
 
 		// angle between lines
-		if ((ok[0] = (arg[0].isGeoLine())) && (ok[1] = (arg[1].isGeoLine()))) {
+		if ((ok[0] = arg[0].isGeoLine()) && (ok[1] = arg[1].isGeoLine())) {
 			return angle(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]);
 		}
 
@@ -201,15 +201,15 @@ public class CmdAngle extends CommandProcessor {
 	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) {
 
 		// angle between three points
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
-				&& (ok[2] = (arg[2].isGeoPoint()))) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+				&& (ok[2] = arg[2].isGeoPoint())) {
 			return angle(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 					(GeoPointND) arg[2]);
 		}
 
 		// fixed angle
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
-				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+				&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 			return angle(c.getLabels(), (GeoPointND) arg[0],
 					(GeoPointND) arg[1], (GeoNumberValue) arg[2]);
 		}

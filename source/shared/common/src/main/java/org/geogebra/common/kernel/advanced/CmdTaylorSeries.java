@@ -33,9 +33,9 @@ public class CmdTaylorSeries extends CommandProcessor {
 		switch (n) {
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoTaylorSeries algo = new AlgoTaylorSeries(cons, c.getLabel(),
 						(GeoFunctionable) arg[0],

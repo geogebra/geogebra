@@ -79,8 +79,8 @@ public class CmdLineBisector extends CommandProcessor {
 			throws MyError {
 
 		// line through point orthogonal to vector
-		if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1].isGeoPoint()))) {
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoPoint())) {
 			GeoElement[] ret = { lineBisector(c.getLabel(), (GeoPointND) arg[0],
 					(GeoPointND) arg[1]) };
 			return ret;

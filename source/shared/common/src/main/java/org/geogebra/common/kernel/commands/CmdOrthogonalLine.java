@@ -57,21 +57,21 @@ public class CmdOrthogonalLine extends CommandProcessor {
 	protected GeoElement[] process2(Command c, GeoElement[] arg) {
 		boolean[] ok = new boolean[2];
 		// line through point orthogonal to vector
-		if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1].isGeoVector()))) {
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoVector())) {
 			GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
 					c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1]) };
 			return ret;
 		}
 
 		// line through point orthogonal to another line
-		else if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1] instanceof Lineable2D))) {
+		else if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1] instanceof Lineable2D)) {
 			GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
 					c.getLabel(), (GeoPoint) arg[0], (Lineable2D) arg[1]) };
 			return ret;
-		} else if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1].isGeoConic()))) {
+		} else if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoConic())) {
 
 			AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic(cons,
 					c.getLabel(), (GeoPoint) arg[0], (GeoConic) arg[1]);

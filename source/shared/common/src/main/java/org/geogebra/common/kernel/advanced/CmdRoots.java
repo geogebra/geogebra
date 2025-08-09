@@ -44,9 +44,9 @@ public class CmdRoots extends CommandProcessor {
 
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
 						(GeoFunctionable) arg[0],

@@ -36,8 +36,8 @@ public class CmdCone extends CommandProcessor {
 		case 2:
 			arg = resArgs(c, info);
 
-			if ((ok[0] = (arg[0] instanceof GeoConicND))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0] instanceof GeoConicND)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				return kernel.getManager3D().coneLimited(c.getLabels(),
 						(GeoConicND) arg[0], (GeoNumberValue) arg[1]);
 			}
@@ -50,21 +50,21 @@ public class CmdCone extends CommandProcessor {
 
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoVector()))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoVector())
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 				GeoElement[] ret = { kernel.getManager3D().cone(c.getLabel(),
 						(GeoPointND) arg[0], (GeoVectorND) arg[1],
 						(GeoNumberValue) arg[2]) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			} else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 				return conePointPointRadius(c, (GeoPointND) arg[0],
 						(GeoPointND) arg[1], (GeoNumberValue) arg[2]);
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1] instanceof GeoLineND))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			} else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1] instanceof GeoLineND)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 				GeoElement[] ret = { kernel.getManager3D().cone(c.getLabel(),
 						(GeoPointND) arg[0], (GeoLineND) arg[1],
 						(GeoNumberValue) arg[2]) };

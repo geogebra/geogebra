@@ -39,8 +39,8 @@ public class CmdDistance extends CommandProcessor {
 			arg = resArgs(c, info);
 
 			// distance between two points
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 				GeoElement[] ret = { getAlgoDispatcher().distance(c.getLabel(),
 						(GeoPointND) arg[0], (GeoPointND) arg[1]) };
 				return ret;
@@ -61,8 +61,8 @@ public class CmdDistance extends CommandProcessor {
 			}
 
 			// distance between line and line
-			else if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoLine()))) {
+			else if ((ok[0] = arg[0].isGeoLine())
+					&& (ok[1] = arg[1].isGeoLine())) {
 				GeoElement[] ret = { getAlgoDispatcher().distance(c.getLabel(),
 						(GeoLine) arg[0], (GeoLine) arg[1]) };
 				return ret;

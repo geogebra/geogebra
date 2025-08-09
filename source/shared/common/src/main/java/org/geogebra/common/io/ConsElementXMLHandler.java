@@ -1537,14 +1537,14 @@ public class ConsElementXMLHandler {
 			t.numRows = Integer.parseInt(attrs.get("numRows"));
 			t.headerOffset = Integer.parseInt(attrs.get("headerOffset"));
 
-			t.doColumnReset = (MyXMLHandler
-					.parseBoolean(attrs.get("doColumnReset")));
-			t.doRowLimit = (MyXMLHandler.parseBoolean(attrs.get("doRowLimit")));
-			t.showLabel = (MyXMLHandler.parseBoolean(attrs.get("showLabel")));
-			t.showTraceList = (MyXMLHandler
-					.parseBoolean(attrs.get("showTraceList")));
-			t.doTraceGeoCopy = (MyXMLHandler
-					.parseBoolean(attrs.get("doTraceGeoCopy")));
+			t.doColumnReset = MyXMLHandler
+					.parseBoolean(attrs.get("doColumnReset"));
+			t.doRowLimit = MyXMLHandler.parseBoolean(attrs.get("doRowLimit"));
+			t.showLabel = MyXMLHandler.parseBoolean(attrs.get("showLabel"));
+			t.showTraceList = MyXMLHandler
+					.parseBoolean(attrs.get("showTraceList"));
+			t.doTraceGeoCopy = MyXMLHandler
+					.parseBoolean(attrs.get("doTraceGeoCopy"));
 
 			String stringPause = attrs.get("pause");
 			if (stringPause == null) {

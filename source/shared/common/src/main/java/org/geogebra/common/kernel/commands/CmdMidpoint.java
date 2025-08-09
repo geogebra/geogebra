@@ -41,8 +41,8 @@ public class CmdMidpoint extends CommandProcessor {
 
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 				return twoPoints(c.getLabel(), (GeoPointND) arg[0],
 						(GeoPointND) arg[1]);
 			}

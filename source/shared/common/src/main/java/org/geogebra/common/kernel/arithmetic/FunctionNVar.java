@@ -672,10 +672,10 @@ public class FunctionNVar extends ValidExpression
 
 			// parse result
 			if (getVarNumber() == 1) {
-				resultFun = (kernel.getParser().parseFunction(sb.toString()));
+				resultFun = kernel.getParser().parseFunction(sb.toString());
 			} else {
-				resultFun = (kernel.getParser()
-						.parseFunctionNVar(sb.toString()));
+				resultFun = kernel.getParser()
+						.parseFunctionNVar(sb.toString());
 				resultFun = ensureVarsAreNotNull(resultFun);
 			}
 			resultFun.initFunction();

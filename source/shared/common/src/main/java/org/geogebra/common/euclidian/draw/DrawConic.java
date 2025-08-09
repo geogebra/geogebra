@@ -1404,9 +1404,9 @@ public class DrawConic extends SetDrawable implements Previewable {
 					+ (conic.isInRegion(realX - x3, realY + y3) ? 1 : 0)
 					+ (conic.isInRegion(realX + x3, realY + y3) ? 1 : 0);
 			if (conic.isInverseFill() && !conic.isSpotlight()) {
-				isOnFilling = (insideNeighbors < 5);
+				isOnFilling = insideNeighbors < 5;
 			} else {
-				isOnFilling = (insideNeighbors > 0);
+				isOnFilling = insideNeighbors > 0;
 			}
 		}
 		// set a flag to say if point is on the boundary

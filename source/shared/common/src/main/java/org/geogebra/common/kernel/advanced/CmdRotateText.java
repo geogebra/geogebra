@@ -33,7 +33,7 @@ public class CmdRotateText extends CommandProcessor {
 		switch (n) {
 		case 3:
 		case 2:
-			if ((ok[0] = (arg[0].isGeoText()))
+			if ((ok[0] = arg[0].isGeoText())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				AlgoRotateText algo = new AlgoRotateText(cons,
 						(GeoText) arg[0], (GeoNumberValue) arg[1]);

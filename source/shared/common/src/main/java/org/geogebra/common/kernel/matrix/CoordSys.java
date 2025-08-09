@@ -586,7 +586,7 @@ public class CoordSys {
 			if (DoubleUtil.isZero(coeff)) {
 				zeros++;
 			} else {
-				negative = (coeff < 0);
+				negative = coeff < 0;
 			}
 		}
 

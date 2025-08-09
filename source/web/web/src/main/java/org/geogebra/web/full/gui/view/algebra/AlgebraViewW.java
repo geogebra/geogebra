@@ -1310,7 +1310,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		while (right > left) {
 			int middle = (left + right) / 2;
 			node = getItem(parent, middle);
-			geo2 = ((GeoElement) node.getUserObject());
+			geo2 = (GeoElement) node.getUserObject();
 
 			if (!compare(newGeo, geo2, mode)) {
 				right = middle;

@@ -42,22 +42,22 @@ public class CmdCurvatureVector extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isRealValuedFunction())) {
 
 				AlgoCurvatureVector algo = new AlgoCurvatureVector(cons,
 						(GeoPoint) arg[0], (GeoFunction) arg[1]);
 				return withLabel(algo.getVector(), c);
-			} else if ((ok[0] = (arg[0] instanceof GeoPointND))
-					&& (ok[1] = (arg[1] instanceof GeoCurveCartesian3D))) {
+			} else if ((ok[0] = arg[0] instanceof GeoPointND)
+					&& (ok[1] = arg[1] instanceof GeoCurveCartesian3D)) {
 
 				AlgoCurvatureVectorCurve3D algo = new AlgoCurvatureVectorCurve3D(
 						cons, c.getLabel(), (GeoPointND) arg[0],
 						(GeoCurveCartesian3D) arg[1]);
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
-			} else if ((ok[0] = (arg[0] instanceof GeoPoint3D))
-					&& (ok[1] = (arg[1] instanceof GeoConic3D))) {
+			} else if ((ok[0] = arg[0] instanceof GeoPoint3D)
+					&& (ok[1] = arg[1] instanceof GeoConic3D)) {
 
 				AlgoCurvatureVectorCurve3D algo = new AlgoCurvatureVectorCurve3D(
 						cons, (GeoPoint3D) arg[0],
@@ -65,15 +65,15 @@ public class CmdCurvatureVector extends CommandProcessor {
 				algo.getVector().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
-			} else if ((ok[0] = (arg[0] instanceof GeoPoint))
-					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
+			} else if ((ok[0] = arg[0] instanceof GeoPoint)
+					&& (ok[1] = arg[1].isGeoCurveCartesian())) {
 
 				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(
 						cons, (GeoPoint) arg[0],
 						(GeoCurveCartesian) arg[1]);
 				return withLabel(algo.getVector(), c);
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
+			} else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoConic())) {
 				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(
 						cons, (GeoPoint) arg[0],
 						(GeoConic) arg[1]);

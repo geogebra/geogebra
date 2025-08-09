@@ -34,16 +34,16 @@ public class CmdBarChart extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoNumeric())) {
 
 				AlgoBarChart algo = new AlgoBarChart(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoList()))) {
+			} else if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoList())) {
 
 				AlgoBarChart algo = new AlgoBarChart(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
@@ -55,9 +55,9 @@ public class CmdBarChart extends CommandProcessor {
 			}
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2].isGeoList()))) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2].isGeoList())) {
 
 				AlgoBarChart algo = new AlgoBarChart(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
@@ -65,9 +65,9 @@ public class CmdBarChart extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			} else if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoBarChart algo = new AlgoBarChart(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
@@ -76,9 +76,9 @@ public class CmdBarChart extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoNumeric()))
-					&& (ok[2] = (arg[2].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoNumeric())
+					&& (ok[2] = arg[2].isGeoNumeric())) {
 
 				AlgoBarChart algo = new AlgoBarChart(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1],
@@ -93,7 +93,7 @@ public class CmdBarChart extends CommandProcessor {
 		case 6:
 			// create local variable at position 3 and resolve arguments
 			arg = resArgsLocalNumVar(c, 3, 4, 5);
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoElement())
 					&& (ok[3] = arg[3].isGeoNumeric())
@@ -110,8 +110,8 @@ public class CmdBarChart extends CommandProcessor {
 		case 7:
 			// create local variable at position 3 and resolve arguments
 			arg = resArgsLocalNumVar(c, 3, 4, 6);
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& ((ok[2] = arg[2].isGeoElement()))
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)

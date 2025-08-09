@@ -102,8 +102,8 @@ public class CmdRotate extends CommandProcessor {
 	final protected GeoElement[] process3(Command c, GeoElement[] arg,
 			boolean[] ok) {
 
-		if ((ok[0] = true) && (ok[1] = (arg[1] instanceof GeoNumberValue))
-				&& (ok[2] = (arg[2].isGeoPoint()))) {
+		if ((ok[0] = true) && (ok[1] = arg[1] instanceof GeoNumberValue)
+				&& (ok[2] = arg[2].isGeoPoint())) {
 			if (arg[0] instanceof GeoText) {
 				c.setName("RotateText");
 				return kernel.getAlgebraProcessor().processCommand(c,

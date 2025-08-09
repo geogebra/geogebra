@@ -35,8 +35,8 @@ public class CmdEnvelope extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			if ((ok[0] = (arg[0].isPath()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isPath())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 				linear = arg[0];
 				movingPoint = (GeoPoint) arg[1];
 			} else {

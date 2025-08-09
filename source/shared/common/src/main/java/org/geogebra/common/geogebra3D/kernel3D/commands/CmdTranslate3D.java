@@ -54,11 +54,11 @@ public class CmdTranslate3D extends CmdTranslate {
 				ok[0] = (arg[0] instanceof Translateable
 						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList());
 				// translate object
-				if (ok[0] && (ok[1] = (arg[1].isGeoVector()))) {
+				if (ok[0] && (ok[1] = arg[1].isGeoVector())) {
 					ret = kernel.getManager3D().translate3D(label, arg[0],
 							(GeoVectorND) arg[1]);
 					return ret;
-				} else if (ok[0] && (ok[1] = (arg[1] instanceof GeoPointND))) {
+				} else if (ok[0] && (ok[1] = arg[1] instanceof GeoPointND)) {
 
 					// wrap (1,2,3) as Vector[(1,2,3)]
 					AlgoVectorPoint3D algoVP = new AlgoVectorPoint3D(cons,

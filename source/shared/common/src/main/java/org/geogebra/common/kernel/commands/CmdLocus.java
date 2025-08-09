@@ -47,8 +47,8 @@ public class CmdLocus extends CommandProcessor {
 			}
 
 			// second argument has to be point on path
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 
 				GeoPointND p1 = (GeoPointND) arg[0];
 				GeoPointND p2 = (GeoPointND) arg[1];
@@ -60,7 +60,7 @@ public class CmdLocus extends CommandProcessor {
 				}
 				GeoElement[] ret = { locus(c.getLabel(), p2, p1) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
+			} else if ((ok[0] = arg[0].isGeoPoint())
 					&& (ok[1] = arg[1].isGeoNumeric()
 							&& AlgoDispatcher.locusCheck((GeoPointND) arg[0],
 									(GeoNumeric) arg[1]))) {

@@ -339,8 +339,8 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
 				expected[rowIndex][colIndex] = 1.0 * rowSum[rowIndex]
 						* colSum[colIndex] / totalSum;
-				chiCont[rowIndex][colIndex] = (freqValues[rowIndex][colIndex]
-						- expected[rowIndex][colIndex]);
+				chiCont[rowIndex][colIndex] = freqValues[rowIndex][colIndex]
+						- expected[rowIndex][colIndex];
 				chiCont[rowIndex][colIndex] = chiCont[rowIndex][colIndex]
 						* chiCont[rowIndex][colIndex]
 						/ expected[rowIndex][colIndex];

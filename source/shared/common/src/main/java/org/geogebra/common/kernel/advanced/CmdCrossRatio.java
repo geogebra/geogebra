@@ -33,10 +33,10 @@ public class CmdCrossRatio extends CommandProcessor {
 		switch (n) {
 		case 4:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))
-					&& (ok[3] = (arg[3].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())
+					&& (ok[3] = arg[3].isGeoPoint())) {
 
 				AlgoCrossRatio cross = new AlgoCrossRatio(cons, c.getLabel(),
 						(GeoPointND) arg[0], (GeoPointND) arg[1],

@@ -512,8 +512,8 @@ public class ExpressionNode extends ValidExpression
 		boolean evalToVector = false;
 
 		if (left.isExpressionNode()) {
-			evalToVector = (((ExpressionNode) left)
-					.shouldEvaluateToGeoVector());
+			evalToVector = ((ExpressionNode) left)
+					.shouldEvaluateToGeoVector();
 		} else if (left.isGeoElement()) {
 			GeoElement geo = (GeoElement) left;
 			evalToVector = geo.isGeoVector() || geo.isNumberValue();

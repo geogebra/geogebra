@@ -276,8 +276,8 @@ public class OneVarInferencePanelW extends FlowPanel
 	}
 
 	private void updateGUI() {
-		isTest = (model.selectedPlot == StatisticsModel.INFER_ZTEST
-				|| model.selectedPlot == StatisticsModel.INFER_TTEST);
+		isTest = model.selectedPlot == StatisticsModel.INFER_ZTEST
+				|| model.selectedPlot == StatisticsModel.INFER_TTEST;
 
 		isZProcedure = model.selectedPlot == StatisticsModel.INFER_ZTEST
 				|| model.selectedPlot == StatisticsModel.INFER_ZINT;

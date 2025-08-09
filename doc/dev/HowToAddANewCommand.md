@@ -91,7 +91,7 @@ class CmdMidpoint extends CommandProcessor {
             case 1 :
               // Midpoint[ <GeoConic> ]
                 arg = resArgs(c, info);
-                if (ok[0] = (arg[0].isGeoConic())) {
+                if (ok[0] = arg[0].isGeoConic()) {
                     GeoElement[] ret =
                         { kernel.Center(c.getLabel(), (GeoConic) arg[0])};
                     return ret;
@@ -105,8 +105,8 @@ class CmdMidpoint extends CommandProcessor {
             case 2 :
             // Midpoint[ <GeoPoint>, <GeoPoint> ]
                 arg = resArgs(c, info);
-                if ((ok[0] = (arg[0].isGeoPoint()))
-                    && (ok[1] = (arg[1].isGeoPoint()))) {
+                if ((ok[0] = arg[0].isGeoPoint())
+                    && (ok[1] = arg[1].isGeoPoint())) {
                     GeoElement[] ret =
                         {
                              kernel.Midpoint(

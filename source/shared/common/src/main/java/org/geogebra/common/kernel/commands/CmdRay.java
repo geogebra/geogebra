@@ -36,16 +36,16 @@ public class CmdRay extends CommandProcessor {
 			arg = resArgs(c, info);
 
 			// line through two points
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 				GeoElement[] ret = { ray(c.getLabel(), (GeoPointND) arg[0],
 						(GeoPointND) arg[1]) };
 				return ret;
 			}
 
 			// line through point with direction vector
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoVector()))) {
+			else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoVector())) {
 				GeoElement[] ret = { ray(c.getLabel(), (GeoPointND) arg[0],
 						(GeoVectorND) arg[1]) };
 				return ret;

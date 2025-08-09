@@ -45,7 +45,7 @@ public class CmdDilate extends CommandProcessor {
 			// dilate point, line or conic
 			if ((ok[0] = (arg[0] instanceof Dilateable || arg[0].isGeoPolygon()
 					|| arg[0].isGeoList()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoNumberValue phi = (GeoNumberValue) arg[1];
 				return dilate(label, arg[0], phi);
 			}
@@ -59,8 +59,8 @@ public class CmdDilate extends CommandProcessor {
 
 			// dilate point, line or conic
 			if ((ok[0] = (arg[0] instanceof Dilateable || arg[0].isGeoList()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2].isGeoPoint())) {
 				GeoNumberValue phi = (GeoNumberValue) arg[1];
 				return dilate(label, arg[0], phi, arg[2]);
 			}

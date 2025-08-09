@@ -27,9 +27,9 @@ public class CmdAngularBisector3D extends CmdAngularBisector {
 			throws MyError {
 
 		// angular bisector of three points
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
-				&& (ok[2] = (arg[2].isGeoPoint()))
-				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+				&& (ok[2] = arg[2].isGeoPoint())
+				&& (ok[3] = arg[3] instanceof GeoDirectionND)) {
 			GeoElement[] ret = { kernel.getManager3D().angularBisector3D(
 					c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 					(GeoPointND) arg[2], (GeoDirectionND) arg[3]) };

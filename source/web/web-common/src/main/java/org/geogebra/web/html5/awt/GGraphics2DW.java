@@ -304,7 +304,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setComposite(GComposite comp) {
-		context.globalAlpha = (((GAlphaCompositeW) comp).getAlpha());
+		context.globalAlpha = ((GAlphaCompositeW) comp).getAlpha();
 	}
 
 	/**

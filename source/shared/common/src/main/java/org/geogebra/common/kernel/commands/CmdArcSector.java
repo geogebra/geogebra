@@ -44,18 +44,18 @@ public class CmdArcSector extends CommandProcessor {
 		switch (n) {
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoConic()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0].isGeoConic())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				GeoElement[] ret = { arcSector(c.getLabel(),
 						(GeoConicND) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2]) };
 
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoConic()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
+			} else if ((ok[0] = arg[0].isGeoConic())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())) {
 
 				GeoElement[] ret = {
 						arcSector(c.getLabel(), (GeoConicND) arg[0],

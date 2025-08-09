@@ -66,13 +66,13 @@ public class CmdPoint extends CommandProcessor {
 
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isPath()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0].isPath())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = { point(c.getLabel(), (Path) arg[0],
 						(GeoNumberValue) arg[1]) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoVector()))) {
+			} else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoVector())) {
 
 				GeoElement[] ret = { (GeoElement) point(c.getLabel(),
 						(GeoPointND) arg[0], (GeoVectorND) arg[1]) };

@@ -49,8 +49,8 @@ public class CmdIsTangent extends CommandProcessor {
 		arg = resArgs(c, info);
 		if (n == 2) {
 
-			if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
+			if ((ok[0] = arg[0].isGeoLine())
+					&& (ok[1] = arg[1].isGeoConic())) {
 
 				AlgoIsTangent algo = new AlgoIsTangent(cons, c.getLabel(),
 						(GeoLine) arg[0], (GeoConic) arg[1]);

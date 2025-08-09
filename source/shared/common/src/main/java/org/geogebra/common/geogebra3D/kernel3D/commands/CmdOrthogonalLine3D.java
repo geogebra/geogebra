@@ -37,13 +37,13 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	public GeoElement[] process2(Command c, GeoElement[] arg) throws MyError {
 		boolean[] ok = new boolean[2];
 		if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[1] = (arg[1] instanceof GeoCoordSys2D))) {
+				&& (ok[1] = arg[1] instanceof GeoCoordSys2D)) {
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 					.orthogonalLine3D(c.getLabel(), (GeoPointND) arg[0],
 							(GeoCoordSys2D) arg[1]) };
 			return ret;
 		} else if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[1] = (arg[1] instanceof GeoLineND))) {
+				&& (ok[1] = arg[1] instanceof GeoLineND)) {
 
 			// check if there is an active view with orientation
 			GeoDirectionND orientation = CommandProcessor3D
@@ -91,8 +91,8 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 					c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1]) };
 			return ret;
 
-		} else if ((ok[0] = (arg[0] instanceof GeoLineND))
-				&& (ok[1] = (arg[1] instanceof GeoLineND))) {
+		} else if ((ok[0] = arg[0] instanceof GeoLineND)
+				&& (ok[1] = arg[1] instanceof GeoLineND)) {
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 					.orthogonalLine3D(c.getLabel(), (GeoLineND) arg[0],
 							(GeoLineND) arg[1]) };
@@ -125,8 +125,8 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 		GeoElement[] arg;
 
 		arg = resArgs(c, info);
-		if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1] instanceof GeoDirectionND))
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1] instanceof GeoDirectionND)
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND)
 						// "space" not allowed as 2nd arg
 						&& !(arg[1] instanceof GeoSpace)

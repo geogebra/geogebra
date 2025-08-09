@@ -51,8 +51,8 @@ public class CmdStepGraph extends CommandProcessor {
 
 			// StepGraph[ <x List>, <y list> ]
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoList()))) {
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoList())) {
 
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
@@ -60,8 +60,8 @@ public class CmdStepGraph extends CommandProcessor {
 				return ret;
 			}
 			// StepGraph[ <list of points>, <join> ]
-			else if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoBoolean()))) {
+			else if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoBoolean())) {
 
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoBoolean) arg[1]);
@@ -75,8 +75,8 @@ public class CmdStepGraph extends CommandProcessor {
 
 			// StepGraph[ <x List>, <y list>, <join> ]
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoBoolean()))) {
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoBoolean())) {
 
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
@@ -85,9 +85,9 @@ public class CmdStepGraph extends CommandProcessor {
 				return ret;
 
 				// StepGraph[ <list of points>, <join>, <point style> ]
-			} else if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoBoolean()))
-					&& (ok[2] = (arg[2].isGeoNumeric()))) {
+			} else if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoBoolean())
+					&& (ok[2] = arg[2].isGeoNumeric())) {
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoBoolean) arg[1],
 						(GeoNumeric) arg[2]);
@@ -100,9 +100,9 @@ public class CmdStepGraph extends CommandProcessor {
 
 			// StepGraph[ <x List>, <y list>, <join>, <point style> ]
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoBoolean()))
-					&& (ok[3] = (arg[3].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoBoolean())
+					&& (ok[3] = arg[3].isGeoNumeric())) {
 
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2],

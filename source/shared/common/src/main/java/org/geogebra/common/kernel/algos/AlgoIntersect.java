@@ -55,8 +55,8 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 		double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
 		int minIndex = 0;
 		for (int i = 0; i < P.length; i++) {
-			x = (P[i].inhomX - xRW);
-			y = (P[i].inhomY - yRW);
+			x = P[i].inhomX - xRW;
+			y = P[i].inhomY - yRW;
 			lengthSqr = x * x + y * y;
 			if (lengthSqr < mindist) {
 				mindist = lengthSqr;
@@ -79,8 +79,8 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 		double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
 		int minIndex = 0;
 		for (int i = 0; i < P.length; i++) {
-			x = (P[i].inhomX - refPoint.getInhomX());
-			y = (P[i].inhomY - refPoint.getInhomY());
+			x = P[i].inhomX - refPoint.getInhomX();
+			y = P[i].inhomY - refPoint.getInhomY();
 			lengthSqr = x * x + y * y;
 			// if two distances are equal, smaller index gets priority
 			if (DoubleUtil.isGreater(mindist, lengthSqr)) {

@@ -171,8 +171,8 @@ public class MD5Checksum {
 		while (lByteCount < lMessageLength) {
 			lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 			lBytePosition = (lByteCount % 4) * 8;
-			lWordArray[lWordCount] = (lWordArray[lWordCount]
-					| (string.charAt(lByteCount) << lBytePosition));
+			lWordArray[lWordCount] = lWordArray[lWordCount]
+					| (string.charAt(lByteCount) << lBytePosition);
 			lByteCount++;
 		}
 		lWordCount = (lByteCount - (lByteCount % 4)) / 4;

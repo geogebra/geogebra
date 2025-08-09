@@ -48,8 +48,8 @@ public class CmdHistogram extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoList()))) {
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoList())) {
 
 				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1], right);
@@ -64,8 +64,8 @@ public class CmdHistogram extends CommandProcessor {
 
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoBoolean()))) {
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoBoolean())) {
 				GeoElement[] ret = { histogram(c.getLabel(), (GeoList) arg[0],
 						(GeoList) arg[1], (GeoBoolean) arg[2], null, right) };
 				return ret;
@@ -79,19 +79,19 @@ public class CmdHistogram extends CommandProcessor {
 
 		case 4:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoBoolean()))
-					&& (ok[3] = (arg[3].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoBoolean())
+					&& (ok[3] = arg[3].isGeoNumeric())) {
 				GeoElement[] ret = { histogram(c.getLabel(), (GeoList) arg[0],
 						(GeoList) arg[1], (GeoBoolean) arg[2],
 						(GeoNumeric) arg[3], right) };
 				return ret;
 			}
 
-			else if ((ok[0] = (arg[0].isGeoBoolean()))
-					&& (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoList()))
-					&& (ok[3] = (arg[3].isGeoBoolean()))) {
+			else if ((ok[0] = arg[0].isGeoBoolean())
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoBoolean())) {
 
 				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
@@ -113,20 +113,20 @@ public class CmdHistogram extends CommandProcessor {
 
 		case 5:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoBoolean()))
-					&& (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoList()))
-					&& (ok[3] = (arg[3].isGeoBoolean()))
-					&& (ok[4] = (arg[4].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isGeoBoolean())
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoBoolean())
+					&& (ok[4] = arg[4].isGeoNumeric())) {
 				GeoElement[] ret = { histogram(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
 						(GeoBoolean) arg[3], (GeoNumeric) arg[4], right) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoBoolean()))
-					&& (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoList()))
-					&& (ok[3] = (arg[3].isGeoList()))
-					&& (ok[4] = (arg[4].isGeoBoolean()))) {
+			} else if ((ok[0] = arg[0].isGeoBoolean())
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoList())
+					&& (ok[4] = arg[4].isGeoBoolean())) {
 
 				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
@@ -149,21 +149,21 @@ public class CmdHistogram extends CommandProcessor {
 
 		case 6:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoBoolean()))
-					&& (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoList()))
-					&& (ok[3] = (arg[3].isGeoBoolean()))
-					&& (ok[4] = (arg[4].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isGeoBoolean())
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoBoolean())
+					&& (ok[4] = arg[4].isGeoNumeric())) {
 				GeoElement[] ret = { histogram(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
 						(GeoBoolean) arg[3], (GeoNumeric) arg[4], right) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoBoolean()))
-					&& (ok[1] = (arg[1].isGeoList()))
-					&& (ok[2] = (arg[2].isGeoList()))
-					&& (ok[3] = (arg[3].isGeoList()))
-					&& (ok[4] = (arg[4].isGeoBoolean()))
-					&& (ok[4] = (arg[5].isGeoNumeric()))) {
+			} else if ((ok[0] = arg[0].isGeoBoolean())
+					&& (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoList())
+					&& (ok[4] = arg[4].isGeoBoolean())
+					&& (ok[4] = arg[5].isGeoNumeric())) {
 
 				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],

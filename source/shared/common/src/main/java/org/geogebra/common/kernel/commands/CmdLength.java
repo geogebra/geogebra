@@ -106,9 +106,9 @@ public class CmdLength extends CommandProcessor {
 			// Victor Franco 18-04-2007
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1].isGeoNumeric()))
-					&& (ok[2] = (arg[2].isGeoNumeric()))) {
+			if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1].isGeoNumeric())
+					&& (ok[2] = arg[2].isGeoNumeric())) {
 
 				AlgoLengthFunction algo = new AlgoLengthFunction(cons,
 						c.getLabel(), (GeoFunction) arg[0], (GeoNumeric) arg[1],
@@ -118,9 +118,9 @@ public class CmdLength extends CommandProcessor {
 				return ret;
 			}
 
-			else if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
+			else if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())) {
 
 				AlgoLengthFunction2Points algo = new AlgoLengthFunction2Points(
 						cons, c.getLabel(), (GeoFunction) arg[0],
@@ -130,9 +130,9 @@ public class CmdLength extends CommandProcessor {
 				return ret;
 			}
 
-			else if ((ok[0] = (arg[0].isGeoCurveCartesian()))
-					&& (ok[1] = (arg[1].isGeoNumeric()))
-					&& (ok[2] = (arg[2].isGeoNumeric()))) {
+			else if ((ok[0] = arg[0].isGeoCurveCartesian())
+					&& (ok[1] = arg[1].isGeoNumeric())
+					&& (ok[2] = arg[2].isGeoNumeric())) {
 
 				AlgoLengthCurve algo = new AlgoLengthCurve(cons, c.getLabel(),
 						(GeoCurveCartesianND) arg[0], (GeoNumeric) arg[1],
@@ -143,9 +143,9 @@ public class CmdLength extends CommandProcessor {
 
 			}
 
-			else if ((ok[0] = (arg[0].isGeoCurveCartesian()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
+			else if ((ok[0] = arg[0].isGeoCurveCartesian())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())) {
 
 				AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points(cons,
 						c.getLabel(), (GeoCurveCartesianND) arg[0],

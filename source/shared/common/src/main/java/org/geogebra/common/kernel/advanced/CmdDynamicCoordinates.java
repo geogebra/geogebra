@@ -34,7 +34,7 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 		switch (n) {
 		case 3:
 			boolean[] ok = new boolean[2];
-			if ((ok[0] = (arg[0] instanceof GeoPoint && arg[0].isMoveable()))
+			if ((ok[0] = arg[0] instanceof GeoPoint && arg[0].isMoveable())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (arg[2] instanceof GeoNumberValue)) {
 
@@ -54,7 +54,7 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 
 		case 4:
 			ok = new boolean[3];
-			if ((ok[0] = (arg[0] instanceof GeoPointND && arg[0].isMoveable()))
+			if ((ok[0] = arg[0] instanceof GeoPointND && arg[0].isMoveable())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (arg[3] instanceof GeoNumberValue)) {

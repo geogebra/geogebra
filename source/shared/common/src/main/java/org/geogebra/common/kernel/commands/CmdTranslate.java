@@ -46,8 +46,8 @@ public class CmdTranslate extends CommandProcessor {
 
 			// translate object
 
-			if ((ok[0] = (arg[0].isGeoVector()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoVector())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 
 				AlgoTranslateVector algo = getAlgoTranslateVector(label, arg[0],
 						arg[1]);
@@ -57,7 +57,7 @@ public class CmdTranslate extends CommandProcessor {
 				return ret;
 			} else if ((ok[0] = (arg[0] instanceof Translateable
 					|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
-					&& (ok[1] = (arg[1] instanceof GeoVec3D))) {
+					&& (ok[1] = arg[1] instanceof GeoVec3D)) {
 
 				// 2D Vectors, Points
 				GeoVec3D v = (GeoVec3D) arg[1];

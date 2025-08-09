@@ -32,8 +32,8 @@ public class CmdToBase extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoToBase toBase = new AlgoToBase(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);

@@ -45,20 +45,20 @@ public class CmdTangent extends CommandProcessor {
 			arg = resArgs(c, info);
 
 			// tangents through point
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoConic())) {
 				return tangent(c.getLabels(), (GeoPointND) arg[0],
 						(GeoConicND) arg[1]);
-			} else if ((ok[0] = (arg[0].isGeoConic()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			} else if ((ok[0] = arg[0].isGeoConic())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 				return tangent(c.getLabels(), (GeoPointND) arg[1],
 						(GeoConicND) arg[0]);
-			} else if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
+			} else if ((ok[0] = arg[0].isGeoLine())
+					&& (ok[1] = arg[1].isGeoConic())) {
 				return tangent(c.getLabels(), (GeoLineND) arg[0],
 						(GeoConicND) arg[1]);
-			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
+			} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1].isRealValuedFunction())) {
 
 				AlgoTangentFunctionNumber algo = new AlgoTangentFunctionNumber(
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
@@ -72,22 +72,22 @@ public class CmdTangent extends CommandProcessor {
 			}
 
 			// tangents of function at x = x(Point P)
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
+			else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isRealValuedFunction())) {
 				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[0],
 						(GeoFunctionable) arg[1]) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			} else if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[1],
 						(GeoFunctionable) arg[0]) };
 				return ret;
 			}
 			// Victor Franco 11-02-2007: for curve's
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
+			else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoCurveCartesian())) {
 
 				GeoElement[] ret = { tangentToCurve(c.getLabel(),
 						(GeoPointND) arg[0], (GeoCurveCartesianND) arg[1]) };
@@ -98,25 +98,25 @@ public class CmdTangent extends CommandProcessor {
 
 			// For Spline
 
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoImplicitCurve()))) {
+			else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoImplicitCurve())) {
 				GeoElement[] ret = getAlgoDispatcher().tangent(c.getLabels(),
 						(GeoPointND) arg[0], (GeoImplicit) arg[1]);
 				return ret;
-			} else if ((ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[0] = (arg[0].isGeoImplicitCurve()))) {
+			} else if ((ok[1] = arg[1].isGeoPoint())
+					&& (ok[0] = arg[0].isGeoImplicitCurve())) {
 				GeoElement[] ret = getAlgoDispatcher().tangent(c.getLabels(),
 						(GeoPointND) arg[1], (GeoImplicit) arg[0]);
 				return ret;
 
-			} else if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoImplicitCurve()))) {
+			} else if ((ok[0] = arg[0].isGeoLine())
+					&& (ok[1] = arg[1].isGeoImplicitCurve())) {
 				GeoElement[] ret = getAlgoDispatcher().tangent(c.getLabels(),
 						(GeoLineND) arg[0], (GeoImplicit) arg[1]);
 				return ret;
 
-			} else if ((ok[0] = (arg[0].isGeoConic()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
+			} else if ((ok[0] = arg[0].isGeoConic())
+					&& (ok[1] = arg[1].isGeoConic())) {
 				return tangent(c.getLabels(), (GeoConicND) arg[0],
 						(GeoConicND) arg[1]);
 			}

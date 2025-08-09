@@ -37,15 +37,15 @@ public class CmdPolar extends CommandProcessor {
 			arg = resArgs(c, info);
 			AlgoDispatcher algoDispatcher = kernel.getAlgoDispatcher();
 			// polar line to point relative to conic
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoConic())) {
 				GeoElement[] ret = { algoDispatcher.polarLine(c.getLabel(),
 						(GeoPointND) arg[0], (GeoConicND) arg[1]) };
 				return ret;
 			}
 			// pole of a line relative to conic
-			if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
+			if ((ok[0] = arg[0].isGeoLine())
+					&& (ok[1] = arg[1].isGeoConic())) {
 				GeoElement[] ret = { algoDispatcher.polarPoint(c.getLabel(),
 						(GeoLineND) arg[0], (GeoConicND) arg[1]) };
 				return ret;

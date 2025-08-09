@@ -38,8 +38,8 @@ public class CmdFillColumn extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoNumeric()))
-					&& (ok[1] = (arg[1].isGeoList()))) {
+			if ((ok[0] = arg[0].isGeoNumeric())
+					&& (ok[1] = arg[1].isGeoList())) {
 
 				int col = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 

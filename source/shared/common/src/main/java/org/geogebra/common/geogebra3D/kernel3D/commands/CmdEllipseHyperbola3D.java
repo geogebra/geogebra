@@ -45,9 +45,9 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
 
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
-				&& (ok[2] = (arg[2].isGeoPoint()))
-				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+				&& (ok[2] = arg[2].isGeoPoint())
+				&& (ok[3] = arg[3] instanceof GeoDirectionND)) {
 
 			GeoElement[] ret = { kernel.getManager3D().ellipseHyperbola3D(
 					c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
@@ -55,9 +55,9 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 			return ret;
 		}
 
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
-				&& (ok[2] = (arg[2] instanceof GeoNumberValue))
-				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+				&& (ok[2] = arg[2] instanceof GeoNumberValue)
+				&& (ok[3] = arg[3] instanceof GeoDirectionND)) {
 
 			GeoElement[] ret = { ellipseHyperbola(c.getLabel(),
 					(GeoPointND) arg[0], (GeoPointND) arg[1],

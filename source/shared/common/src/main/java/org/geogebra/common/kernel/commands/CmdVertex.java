@@ -79,8 +79,8 @@ public class CmdVertex extends CommandProcessor {
 			// Corner[ <Image>, <number> ]
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof GeoPoly))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0] instanceof GeoPoly)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoVertexPolygon algo = newAlgoVertexPolygon(cons,
 						c.getLabel(), (GeoPoly) arg[0],
@@ -88,8 +88,8 @@ public class CmdVertex extends CommandProcessor {
 
 				GeoElement[] ret = { (GeoElement) algo.getOneVertex() };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoImage()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			} else if ((ok[0] = arg[0].isGeoImage())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoImageCorner algo = new AlgoImageCorner(cons, c.getLabel(),
 						(GeoImage) arg[0], (GeoNumberValue) arg[1]);
@@ -98,16 +98,16 @@ public class CmdVertex extends CommandProcessor {
 				return ret;
 			}
 			// Corner[ <Text>, <number> ]
-			else if ((ok[0] = (arg[0] instanceof HasCorners))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			else if ((ok[0] = arg[0] instanceof HasCorners)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoTextCorner algo = new AlgoTextCorner(cons, c.getLabel(),
 						(HasCorners) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getCorner() };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoSegment()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			} else if ((ok[0] = arg[0].isGeoSegment())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				GeoSegmentND segment = (GeoSegmentND) arg[0];
 
@@ -126,8 +126,8 @@ public class CmdVertex extends CommandProcessor {
 				}
 
 				throw argErr(c, arg[0]);
-			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = {
 						(GeoElement) cornerOfDrawingPad(c.getLabel(),
 								(GeoNumberValue) arg[1],

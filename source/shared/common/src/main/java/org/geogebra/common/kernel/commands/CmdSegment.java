@@ -36,16 +36,16 @@ public class CmdSegment extends CommandProcessor {
 			arg = resArgs(c, info);
 
 			// segment between two points
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 				GeoElement[] ret = { segment(c.getLabel(), (GeoPointND) arg[0],
 						(GeoPointND) arg[1]) };
 				return ret;
 			}
 
 			// segment from point with given length
-			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				return getAlgoDispatcher().segment(c.getLabels(),
 						(GeoPointND) arg[0], (GeoNumberValue) arg[1]);
 			} else {
@@ -58,9 +58,9 @@ public class CmdSegment extends CommandProcessor {
 		case 3: // special case for Segment[A,B,poly1] -> do nothing!
 			arg = resArgs(c, info);
 
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPolygon()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPolygon())) {
 				GeoElement[] ret = {};
 				return ret;
 			}

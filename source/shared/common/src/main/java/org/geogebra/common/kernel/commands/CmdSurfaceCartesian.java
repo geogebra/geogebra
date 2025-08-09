@@ -65,7 +65,7 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 			throw argErr(c, getBadArg(ok, arg));
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof ParametricCurve))
+			if ((ok[0] = arg[0] instanceof ParametricCurve)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
 				GeoElement[] ret = new GeoElement[1];
@@ -76,7 +76,7 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
-			if ((ok[0] = (arg[0] instanceof Parametrizable))
+			if ((ok[0] = arg[0] instanceof Parametrizable)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
 				GeoElement[] ret = new GeoElement[1];

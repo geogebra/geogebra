@@ -46,9 +46,9 @@ public class CmdExtremum extends CommandProcessor {
 			throw argErr(c, arg[0]);
 		case 3: // Extremum[f,start-x,end-x]
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
+			if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 
 			) {
 

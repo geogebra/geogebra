@@ -681,7 +681,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			String text = "";
 			if (geo != null) {
 				text = getLatexString(LATEX_MAX_EDIT_LENGTH, true);
-				latexAfterEdit = (text != null);
+				latexAfterEdit = text != null;
 			} else {
 				latexAfterEdit = true;
 			}

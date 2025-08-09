@@ -39,16 +39,16 @@ public class CmdCurvature extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isRealValuedFunction())) {
 
 				AlgoCurvature algo = new AlgoCurvature(cons, c.getLabel(),
 						(GeoPointND) arg[0], (GeoFunction) arg[1]);
 				GeoElement[] ret = { algo.getResult() };
 
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1] instanceof GeoCurveCartesianND))) {
+			} else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1] instanceof GeoCurveCartesianND)) {
 
 				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons,
 						c.getLabel(), (GeoPointND) arg[0],
@@ -56,8 +56,8 @@ public class CmdCurvature extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1] instanceof GeoFunctionNVar))) {
+			} else if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1] instanceof GeoFunctionNVar)) {
 
 				// Gaussian Curvature
 				AlgoCurvatureSurface algo = new AlgoCurvatureSurface(cons,
@@ -67,8 +67,8 @@ public class CmdCurvature extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoConic()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoConic())) {
 				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons,
 						c.getLabel(), (GeoPointND) arg[0], (GeoConicND) arg[1]);
 				GeoElement[] ret = { algo.getResult() };
@@ -82,9 +82,9 @@ public class CmdCurvature extends CommandProcessor {
 
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isNumberValue()))
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2] instanceof GeoSurfaceCartesianND))) {
+			if ((ok[0] = arg[0].isNumberValue())
+					&& (ok[1] = arg[1].isNumberValue())
+					&& (ok[2] = arg[2] instanceof GeoSurfaceCartesianND)) {
 
 				// Gaussian Curvature
 				AlgoCurvatureSurfaceParametric algo = new AlgoCurvatureSurfaceParametric(

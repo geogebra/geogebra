@@ -35,8 +35,8 @@ public class CmdPolyhedronNet extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPolyhedron()))
-					&& (ok[1] = (arg[1].isNumberValue()))) {
+			if ((ok[0] = arg[0].isGeoPolyhedron())
+					&& (ok[1] = arg[1].isNumberValue())) {
 				return kernel.getManager3D().polyhedronNet(c.getLabels(),
 						(GeoPolyhedron) arg[0], (NumberValue) arg[1], null,
 						null);
@@ -69,9 +69,9 @@ public class CmdPolyhedronNet extends CommandProcessor {
 
 			arg = resArgs(c, info);
 
-			if ((ok[0] = (arg[0].isGeoPolyhedron()))
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2].isGeoPolygon()))) {
+			if ((ok[0] = arg[0].isGeoPolyhedron())
+					&& (ok[1] = arg[1].isNumberValue())
+					&& (ok[2] = arg[2].isGeoPolygon())) {
 				GeoSegmentND[] segments = new GeoSegmentND[n - 3];
 				for (int i = 3; i < n; i++) {
 					if (arg[i].isGeoSegment()) {

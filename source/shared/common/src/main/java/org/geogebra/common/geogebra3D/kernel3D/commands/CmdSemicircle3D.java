@@ -46,8 +46,8 @@ public class CmdSemicircle3D extends CmdSemicircle {
 			throws MyError {
 
 		// semicircle joining two points, oriented
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
-				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+				&& (ok[2] = arg[2] instanceof GeoDirectionND)) {
 
 			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 					.semicircle3D(c.getLabel(), (GeoPointND) arg[0],

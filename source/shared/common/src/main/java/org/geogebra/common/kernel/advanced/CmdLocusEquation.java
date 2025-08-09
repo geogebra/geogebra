@@ -56,13 +56,13 @@ public class CmdLocusEquation extends CommandProcessor {
 			break;
 
 		case 2:
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 				locusPoint = (GeoPoint) arg[0];
 				movingPoint = (GeoPoint) arg[1];
 			} else {
 				AlgoElement ae;
-				if ((ok[0] = (arg[0] instanceof BooleanValue))
+				if ((ok[0] = arg[0] instanceof BooleanValue)
 						// second parameter should be a (semi-)free point
 						&& (ok[1] = (arg[1].isGeoPoint()
 								&& ((ae = arg[1].getParentAlgorithm()) == null

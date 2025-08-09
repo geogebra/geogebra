@@ -44,7 +44,7 @@ public class CmdVerticalText extends CommandProcessor {
 
 		case 2:
 
-			if ((ok[0] = (arg[0].isGeoText()))
+			if ((ok[0] = arg[0].isGeoText())
 					&& (ok[1] = arg[1].isGeoPoint())) {
 				AlgoVerticalText algo = new AlgoVerticalText(cons, c.getLabel(),
 						(GeoText) arg[0], (GeoPointND) arg[1]);

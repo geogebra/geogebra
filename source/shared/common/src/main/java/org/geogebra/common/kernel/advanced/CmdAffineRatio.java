@@ -33,9 +33,9 @@ public class CmdAffineRatio extends CommandProcessor {
 		switch (n) {
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())) {
 
 				AlgoAffineRatio affine = new AlgoAffineRatio(cons,
 						(GeoPointND) arg[0], (GeoPointND) arg[1],

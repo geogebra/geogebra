@@ -32,10 +32,10 @@ public class CmdTrapezoidalSum extends CommandProcessor {
 		switch (n) {
 		case 4:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isRealValuedFunction()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
-					&& (ok[3] = (arg[3] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)
+					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
 
 				AlgoSumTrapezoidal algo = new AlgoSumTrapezoidal(cons,
 						c.getLabel(),

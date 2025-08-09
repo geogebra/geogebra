@@ -32,8 +32,8 @@ public class CmdRelation extends CmdScripting {
 		case 2:
 			ok = new boolean[2];
 			// show relation string in a message dialog
-			if ((ok[0] = (arg[0].isGeoElement()))
-					&& (ok[1] = (arg[1].isGeoElement()))) {
+			if ((ok[0] = arg[0].isGeoElement())
+					&& (ok[1] = arg[1].isGeoElement())) {
 				app.showRelation(arg[0], arg[1], null, null);
 				return arg;
 			}
@@ -49,8 +49,8 @@ public class CmdRelation extends CmdScripting {
 
 				ok = new boolean[size];
 				if (ge.length == 2) {
-					if ((ok[0] = (ge[0].isGeoElement()))
-							&& (ok[1] = (ge[1].isGeoElement()))) {
+					if ((ok[0] = ge[0].isGeoElement())
+							&& (ok[1] = ge[1].isGeoElement())) {
 						app.showRelation(ge[0], ge[1], null, null);
 						return ge;
 					}
@@ -58,9 +58,9 @@ public class CmdRelation extends CmdScripting {
 					throw argErr(c, getBadArg(ok, ge));
 				}
 				if (ge.length == 3) {
-					if ((ok[0] = (ge[0].isGeoElement()))
-							&& (ok[1] = (ge[1].isGeoElement()))
-							&& (ok[2] = (ge[2].isGeoElement()))) {
+					if ((ok[0] = ge[0].isGeoElement())
+							&& (ok[1] = ge[1].isGeoElement())
+							&& (ok[2] = ge[2].isGeoElement())) {
 						app.showRelation(ge[0], ge[1], ge[2], null);
 						return ge;
 					}
@@ -68,10 +68,10 @@ public class CmdRelation extends CmdScripting {
 					throw argErr(c, getBadArg(ok, ge));
 				}
 				if (ge.length == 4) {
-					if ((ok[0] = (ge[0].isGeoElement()))
-							&& (ok[1] = (ge[1].isGeoElement()))
-							&& (ok[2] = (ge[2].isGeoElement()))
-							&& (ok[3] = (ge[3].isGeoElement()))) {
+					if ((ok[0] = ge[0].isGeoElement())
+							&& (ok[1] = ge[1].isGeoElement())
+							&& (ok[2] = ge[2].isGeoElement())
+							&& (ok[3] = ge[3].isGeoElement())) {
 						app.showRelation(ge[0], ge[1], ge[2], ge[3]);
 						return ge;
 					}

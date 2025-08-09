@@ -35,9 +35,9 @@ public class CmdBoxPlot extends CommandProcessor {
 		switch (n) {
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2].isGeoList()))) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2].isGeoList())) {
 
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
@@ -50,10 +50,10 @@ public class CmdBoxPlot extends CommandProcessor {
 
 		case 4:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2].isGeoList()))
-					&& (ok[3] = (arg[3].isGeoBoolean()))) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoBoolean())) {
 
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
@@ -67,11 +67,11 @@ public class CmdBoxPlot extends CommandProcessor {
 		case 5: // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of
 				// Frequencies>, <Boolean Outliers> ]
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2].isGeoList()))
-					&& (ok[3] = (arg[3].isGeoList()))
-					&& (ok[4] = (arg[4].isGeoBoolean()))) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2].isGeoList())
+					&& (ok[3] = arg[3].isGeoList())
+					&& (ok[4] = arg[4].isGeoBoolean())) {
 
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
@@ -86,12 +86,12 @@ public class CmdBoxPlot extends CommandProcessor {
 		case 7:
 			arg = resArgs(c, info);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
-					&& (ok[3] = (arg[3] instanceof GeoNumberValue))
-					&& (ok[4] = (arg[4] instanceof GeoNumberValue))
-					&& (ok[5] = (arg[5] instanceof GeoNumberValue))
-					&& (ok[6] = (arg[6] instanceof GeoNumberValue))) {
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)
+					&& (ok[3] = arg[3] instanceof GeoNumberValue)
+					&& (ok[4] = arg[4] instanceof GeoNumberValue)
+					&& (ok[5] = arg[5] instanceof GeoNumberValue)
+					&& (ok[6] = arg[6] instanceof GeoNumberValue)) {
 
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],

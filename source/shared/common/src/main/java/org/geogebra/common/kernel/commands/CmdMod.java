@@ -33,16 +33,16 @@ public class CmdMod extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoMod algo = new AlgoMod(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoFunction()))
-					&& (ok[1] = (arg[1].isGeoFunction()))) {
+			} else if ((ok[0] = arg[0].isGeoFunction())
+					&& (ok[1] = arg[1].isGeoFunction())) {
 
 				AlgoPolynomialMod algo = new AlgoPolynomialMod(cons,
 						c.getLabel(), (GeoFunction) arg[0],

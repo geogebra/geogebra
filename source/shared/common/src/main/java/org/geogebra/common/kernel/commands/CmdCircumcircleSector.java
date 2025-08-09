@@ -30,9 +30,9 @@ public class CmdCircumcircleSector extends CommandProcessor {
 		switch (n) {
 		case 3:
 			arg = resArgs(c, info);
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())) {
 				GeoElement[] ret = {
 						getSector(c.getLabel(), arg[0], arg[1], arg[2]) };
 				return ret;
