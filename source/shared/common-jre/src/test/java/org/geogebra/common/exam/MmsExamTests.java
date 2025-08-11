@@ -434,6 +434,16 @@ public class MmsExamTests extends BaseExamTestSetup {
 		assertNotNull(evaluate(expression));
 	}
 
+	@Test
+	@MockedCasValues({
+			"Evaluate({{1, 2}, {3, 4}}) 	-> {{1,2},{3,4}}",
+			"Evaluate({{1, 2}, {3, 4}} + 5) -> {poly1[1,7],poly1[3,9]}",
+	})
+	public void testAllowedMatrixVariableOperation() {
+		evaluate("m1 = {{1, 2}, {3, 4}}");
+		assertNotNull(evaluate("m1 + 5"));
+	}
+
 	@SuppressWarnings("checkstyle:LineLengthCheck")
 	@ParameterizedTest
 	@CsvSource(delimiter = ';', value = {

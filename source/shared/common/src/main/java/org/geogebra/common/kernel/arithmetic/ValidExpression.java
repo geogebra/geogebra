@@ -564,7 +564,7 @@ public abstract class ValidExpression
 
 	@Override
 	public int getListDepth() {
-		return 0;
+		return getValueType().getListDepth();
 	}
 
 	@Override
