@@ -16,6 +16,7 @@ import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
+import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -106,6 +107,9 @@ public class PropertiesPanelAdapter {
 				labelStylePanel.add(getWidget(prop));
 			}
 			return labelStylePanel;
+		}
+		if (property instanceof GridDistancePropertyCollection) {
+			return new GridDistancePanel(app, (GridDistancePropertyCollection) property);
 		}
 		if (property instanceof PropertyCollection) {
 			BooleanProperty leadProperty = property instanceof PropertyCollectionWithLead

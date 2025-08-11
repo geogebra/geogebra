@@ -36,6 +36,7 @@ import org.geogebra.common.properties.impl.graphics.AxisVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GraphicsActionsPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
@@ -175,7 +176,8 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 				registerProperties(propertiesRegistry,
 						new PropertyCollectionWithLead(localization, "Grid",
 								new GridVisibilityProperty(localization, euclidianSettings),
-								new GridStyleProperty(localization, euclidianSettings)),
+								new GridDistancePropertyCollection(app, localization,
+										euclidianSettings)),
 						new PropertyCollectionWithLead(localization, "Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings),
 								new VerticalYAxis(localization,
