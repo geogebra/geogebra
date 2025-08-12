@@ -24,6 +24,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	private Label checkboxLbl;
 	private final String checkboxTxt;
 	private final Consumer<Boolean> callback;
+	private boolean stopPropagation = false;
 
 	/**
 	 * @param loc {@link Localization}
@@ -65,6 +66,19 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		this(loc, selected, checkboxText, null);
 	}
 
+	/**
+	 * @param loc {@link Localization}
+	 * @param selected whether the checkbox should be selected by default
+	 * @param checkboxText label of checkbox
+	 * @param callback click handler
+	 * @param stopPropagation whether it should stop propagation on click
+	 */
+	public ComponentCheckbox(Localization loc, boolean selected, String checkboxText,
+			Consumer<Boolean> callback, boolean stopPropagation) {
+		this(loc, selected, checkboxText, callback);
+		this.stopPropagation = stopPropagation;
+	}
+
 	private void buildComponent() {
 		checkbox = new FlowPanel();
 		checkbox.addStyleName("checkbox");
@@ -101,7 +115,9 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	private void addClickAndKeyHandler() {
 		Dom.addEventListener(this.getElement(), "click", event -> {
 			runAction();
-			event.stopPropagation();
+			if (stopPropagation) {
+				event.stopPropagation();
+			}
 		});
 
 		Dom.addEventListener(this.getElement(), "keydown", event -> {

@@ -93,7 +93,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 					booleanProperty.setValue(selected);
 					expanded = selected;
 					updateUISelectedState();
-				});
+				}, true);
 		header.add(checkbox);
 	}
 
