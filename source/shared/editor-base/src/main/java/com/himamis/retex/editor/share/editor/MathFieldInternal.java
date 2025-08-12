@@ -365,12 +365,19 @@ public class MathFieldInternal
 				return false;
 			}
 
+			boolean isShiftDown = (keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0;
 			String str = AltKeys.getAltSymbols(keyCode,
-					(keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0,
+					isShiftDown,
 					true);
 			// handle alt+f for correct phi unicode
 			if (keyCode == 70 && (keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) <= 0) {
 				str = mathField.getMetaModel().getPhiUnicode();
+			}
+
+			// handle alt+shift+4 = $ in hungarian Mac keyboard
+			char unicodeKeyChar = keyEvent.getUnicodeKeyChar();
+			if (keyCode == JavaKeyCodes.VK_4 && isShiftDown && unicodeKeyChar == '$') {
+				str = String.valueOf(unicodeKeyChar);
 			}
 
 			for (int i = 0; str != null && i < str.length(); i++) {

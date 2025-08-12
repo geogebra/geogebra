@@ -403,8 +403,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				redirectToKeyTyped(keyListener, '^', event);
 				return;
 			}
+
 			keyListener.onKeyReleased(new KeyEvent(code,
-					getModifiers(event), getChar(event.getNativeEvent()),
+					getModifiers(event),
+					getChar(event.getNativeEvent()),
 					KeyEvent.KeyboardType.EXTERNAL));
 			updateAltForKeyUp(event);
 
@@ -597,7 +599,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (MathFieldW.checkCode(nativeEvent, "NumpadComma")) {
 			return '.';
 		}
+
+		if (MathFieldW.checkKey(nativeEvent, "$")) {
+			return '$';
+		}
 		return (char) nativeEvent.getCharCode();
+	}
+
+	private static boolean checkKey(NativeEvent evt, String check) {
+		return check.equals(Js.<KeyboardEvent>uncheckedCast(evt).key);
+
 	}
 
 	@Override
