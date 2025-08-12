@@ -65,12 +65,15 @@ public abstract class GlobalKeyDispatcher {
 	private boolean hasUnsavedGeoChanges;
 	private static boolean spaceDown;
 
+	private final InitialViewState initialViewState;
+
 	/**
 	 * @param app2 app
 	 */
 	public GlobalKeyDispatcher(App app2) {
 		this.app = app2;
 		this.selection = app.getSelectionManager();
+		initialViewState = app.getInitialViewState();
 	}
 
 	/**
@@ -546,28 +549,11 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-1 from working (| on some
 			// keyboards)
-			if (isShiftDown && app.getGuiManager() != null) {
+			if (isShiftDown && initialViewState.hasGraphicsView1()) {
 				if (app.isUnbundled()) {
-					int viewID = App.VIEW_EUCLIDIAN;
-					if ((Perspective.GRAPHER_3D + "").equals(
-							app.getConfig().getForcedPerspective())) {
-						viewID = App.VIEW_EUCLIDIAN3D;
-					}
-					boolean showsEuclidianView = app.getGuiManager().showView(viewID);
-					if (showsEuclidianView) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(viewID),
-								viewID);
-						app.getAlgebraView().setFocus(true);
-					} else {
-						app.getGuiManager().closeFullscreenView();
-						app.getActiveEuclidianView().requestFocusInWindow();
-					}
-
-				} else if (!app.isUnbundledOrWhiteboard()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN),
-							App.VIEW_EUCLIDIAN);
+					toggleUnbundledGraphicsView1();
+				} else {
+					toggleView(App.VIEW_EUCLIDIAN);
 					consumed = true;
 				}
 			} else { // make sure not triggered on
@@ -584,22 +570,16 @@ public abstract class GlobalKeyDispatcher {
 			// event.isShiftDown() doesn't work if NumLock on
 			// however .isAltDown() stops AltGr-2 from working (superscript
 			// 2 on some keyboards)
-			if (!app.isUnbundledOrWhiteboard()) {
-				if (isShiftDown && app.getGuiManager() != null) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2),
-							App.VIEW_EUCLIDIAN2);
-					consumed = true;
-
-				} else { // make sure not triggered on
+			if (isShiftDown && initialViewState.hasGraphicsView2()) {
+				toggleView(App.VIEW_EUCLIDIAN2);
+			} else { // make sure not triggered on
 					// AltGr
 					// Ctrl-2: large font size and thicker lines for projectors
 					// etc
 					int fontSize = Math.min(32, app.getFontSize() + 4);
 					changeFontsAndGeoElements(app, fontSize, false, true);
-					consumed = true;
-				}
 			}
+			consumed = true;
 			break;
 
 		case NUMPAD3:
@@ -628,8 +608,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case A:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && !app.isWhiteboardActive()
-						&& app.getGuiManager() != null) {
+				if (initialViewState.hasAlgebra()) {
 					toggleAlgebraView();
 					consumed = true;
 				}
@@ -641,11 +620,8 @@ public abstract class GlobalKeyDispatcher {
 
 		case K:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null
-						&& app.supportsView(App.VIEW_CAS) && !app.isUnbundledOrWhiteboard()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_CAS),
-							App.VIEW_CAS);
+				if (initialViewState.hasCas()) {
+					toggleView(App.VIEW_CAS);
 					consumed = true;
 				}
 			}
@@ -653,12 +629,8 @@ public abstract class GlobalKeyDispatcher {
 
 		case L:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null
-						&& !app.isUnbundledOrWhiteboard()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager()
-									.showView(App.VIEW_CONSTRUCTION_PROTOCOL),
-							App.VIEW_CONSTRUCTION_PROTOCOL);
+				if (initialViewState.hasConstructionProtocol()) {
+					toggleView(App.VIEW_CONSTRUCTION_PROTOCOL);
 					consumed = true;
 				}
 			}
@@ -672,14 +644,8 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		case P:
 			if (isShiftDown) {
-				// toggle Probability View
-				if (app.isUsingFullGui() && app.getGuiManager() != null
-						&& (!app.isUnbundledOrWhiteboard()
-							|| app.getConfig().hasDistributionView())) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager()
-									.showView(App.VIEW_PROBABILITY_CALCULATOR),
-							App.VIEW_PROBABILITY_CALCULATOR);
+				if (initialViewState.hasProbability()) {
+					toggleView(App.VIEW_PROBABILITY_CALCULATOR);
 				}
 			} else {
 				showPrintPreview(app);
@@ -773,7 +739,7 @@ public abstract class GlobalKeyDispatcher {
 
 		// Ctrl + E: open object properties (needed here for spreadsheet)
 		case E:
-			if (app.isUsingFullGui() && app.getGuiManager() != null) {
+			if (initialViewState.hasProperties()) {
 				app.getDialogManager().togglePropertiesView();
 			}
 			consumed = true;
@@ -815,7 +781,7 @@ public abstract class GlobalKeyDispatcher {
 				if (!app.isUnbundledOrWhiteboard()) {
 					app.getGuiManager().showGraphicExport();
 					consumed = true;
-				} else if (app.isUnbundled()) {
+				} else if (initialViewState.hasTableOfValues()) {
 					toggleTableView();
 					consumed = true;
 				}
@@ -839,10 +805,12 @@ public abstract class GlobalKeyDispatcher {
 		// ctrl-shift-s (toggle spreadsheet)
 		case S:
 			if (isShiftDown) {
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				if (initialViewState.hasSpreadsheet()) {
 					if (!app.isUnbundledOrWhiteboard()) {
+						boolean spVisible
+								= !app.getGuiManager().showView(App.VIEW_SPREADSHEET);
 						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(App.VIEW_SPREADSHEET),
+								spVisible,
 								App.VIEW_SPREADSHEET);
 					} else {
 						toggleSpreadsheetView();
@@ -964,13 +932,33 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
+	private void toggleUnbundledGraphicsView1() {
+		int viewID = App.VIEW_EUCLIDIAN;
+		if ((Perspective.GRAPHER_3D + "").equals(
+				app.getConfig().getForcedPerspective())) {
+			viewID = App.VIEW_EUCLIDIAN3D;
+		}
+		boolean showsEuclidianView = app.getGuiManager().showView(viewID);
+		if (showsEuclidianView) {
+			app.getGuiManager().setShowView(
+					!app.getGuiManager().showView(viewID),
+					viewID);
+			app.getAlgebraView().setFocus(true);
+		} else {
+			app.getGuiManager().closeFullscreenView();
+			app.getActiveEuclidianView().requestFocusInWindow();
+		}
+	}
+
 	private void toggleAlgebraView() {
 		// if there is no EV we cannot really close the side panel
 		if (app.getConfig().hasEuclidianView()) {
-			app.getGuiManager().setShowView(
-					!app.getGuiManager().showView(App.VIEW_ALGEBRA),
-					App.VIEW_ALGEBRA);
+			toggleView(App.VIEW_ALGEBRA);
 		}
+	}
+
+	protected void toggleView(int viewId) {
+		app.getGuiManager().setShowView(!app.getGuiManager().showView(viewId), viewId);
 	}
 
 	protected void toggleTableView() {

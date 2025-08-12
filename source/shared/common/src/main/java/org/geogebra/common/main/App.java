@@ -451,6 +451,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected SyntaxFilter primarySyntaxFilter;
 	private final RegressionSpecificationBuilder regressionSpecificationBuilder
 			= new RegressionSpecificationBuilder();
+	private InitialViewState initialViewState;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -4083,6 +4084,29 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Returns the application's {@link InitialViewState}, creating it if necessary.
+	 *
+	 * <p>
+	 * In the default implementation, all views are always available.
+	 * This suits all platforms that with no view‐restriction policies.
+	 * </p>
+	 *
+	 * <p>
+	 * Platforms that need to enforce initial‐view restrictions (web)
+	 * should override this method to return a specialized
+	 * {@link InitialViewState} implementation.
+	 * </p>
+	 *
+	 * @return the cached {@link InitialViewState}, creating it if necessary
+	 */
+	public @Nonnull InitialViewState getInitialViewState() {
+		if (initialViewState == null) {
+			initialViewState = new DefaultInitialViewState();
+		}
+		return initialViewState;
+	}
+
+	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */
 	public enum InputPosition {
@@ -5165,5 +5189,4 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void restoreSettings() {
 		// Overridden for web
 	}
-
 }

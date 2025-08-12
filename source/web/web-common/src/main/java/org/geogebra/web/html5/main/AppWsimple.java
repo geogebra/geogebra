@@ -159,6 +159,11 @@ public class AppWsimple extends AppW {
 	}
 
 	@Override
+	protected void storeInitialViewState() {
+		// nothing to store here
+	}
+
+	@Override
 	public ErrorHandler getDefaultErrorHandler() {
 		return new ErrorHandler() {
 			@Override

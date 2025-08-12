@@ -1037,7 +1037,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		reapplyRestrictions();
 		setSaved();
+		storeInitialViewState();
 	}
+
+	protected abstract void storeInitialViewState();
 
 	protected void reapplyRestrictions() {
 		// only with full UI

@@ -70,6 +70,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.keyboard.LocalizedTemplateKeyProvider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.main.ClassicInitialViewState;
+import org.geogebra.common.main.InitialViewState;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
@@ -281,6 +283,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private boolean attachedToExam;
 	private final GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private final ContextMenuFactory contextMenuFactory;
+	private InitialViewState initialViewState;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -1717,7 +1720,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void afterLoadFileAppOrNot(boolean asSlide) {
 		super.afterLoadFileAppOrNot(asSlide);
-
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
@@ -1823,6 +1825,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getScriptManager().ggbOnInit(); // should be only called after coord system is ready
 		checkScaleContainer();
 		onOpenFile();
+		storeInitialViewState();
 		if (!asSlide) {
 			// should run after coord system changed
 			initUndoInfoSilent();
@@ -1834,6 +1837,24 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (DomGlobal.window.matchMedia("(display-mode: standalone)").matches) {
 			FragmentPrefetcher.fetchAllIfNotCached();
 		}
+
+		}
+
+	@Override
+	protected void storeInitialViewState() {
+		getInitialViewState().store();
+	}
+
+	@Override
+	public InitialViewState getInitialViewState() {
+		if (initialViewState == null) {
+			boolean allowStyleBar = appletParameters.getDataParamAllowStyleBar();
+			initialViewState = isUnbundled()
+					? new UnbundledInitialViewState(this, isShowToolbar(), allowStyleBar)
+					: new ClassicInitialViewState(this, isShowToolbar(), allowStyleBar);
+
+		}
+		return initialViewState;
 	}
 
 	/**

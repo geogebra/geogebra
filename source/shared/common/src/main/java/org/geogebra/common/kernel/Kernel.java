@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
@@ -5378,5 +5380,23 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public @CheckForNull Rationalization getRationalization() {
 		return rationalization;
+	}
+
+	/**
+	 * Returns the IDs of the views that may be toggled (shown or hidden)
+	 * by the user after the application has started, when initial‐view
+	 * restrictions are in effect.
+	 *
+	 * @return an unmodifiable {@link List} of view IDs which the user may toggle
+	 * @see org.geogebra.common.main.ClassicInitialViewState
+	 */
+	public @Nonnull List<Integer> getToggleableViewIds() {
+		if (views == null) {
+			return List.of();
+		}
+
+		return views.stream().map(View::getViewID)
+				.filter(viewID -> viewID != App.VIEW_EVENT_DISPATCHER)
+				.collect(Collectors.toUnmodifiableList());
 	}
 }
