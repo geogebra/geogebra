@@ -233,6 +233,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public boolean isExpanded() {
-		return toolbar != null && toolbar.isOpen() && DockSplitPaneW.getSize(getLayoutData()) > 0;
+		return toolbar != null && toolbar.isOpen()
+				&& (isAlone() || DockSplitPaneW.getSize(getLayoutData()) > 0);
 	}
 }

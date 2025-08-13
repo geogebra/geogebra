@@ -13,7 +13,6 @@ describe('Keyboard button visibility test', () => {
     it("Keyboard button shouldn't be shown when an input lost the focus",
     () => {
         cy.writeInAVInput("f(x)=x");
-        console.log(selectors)
         cy.keyboardShouldPresent();
         selectors.euclidianView.get()
                     .mouseEvent('down', 100, 100)
