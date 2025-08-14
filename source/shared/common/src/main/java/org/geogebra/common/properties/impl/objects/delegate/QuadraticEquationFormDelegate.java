@@ -8,8 +8,15 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class QuadraticEquationFormDelegate extends AbstractGeoElementDelegate {
 
+	/**
+	 * Construct a quadratic equation form element delegate.
+	 * @param element element representable as a quadratic equation form
+	 * @throws NotApplicablePropertyException when the element is not representable
+	 * as a quadratic equation form
+	 */
 	public QuadraticEquationFormDelegate(GeoElement element) throws NotApplicablePropertyException {
 		super(element);
+		checkIsApplicable(element);
 	}
 
 	@Override

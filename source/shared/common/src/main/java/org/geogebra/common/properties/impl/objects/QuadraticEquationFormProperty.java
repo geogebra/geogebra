@@ -5,9 +5,12 @@ import static java.util.Map.entry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
@@ -26,34 +29,38 @@ public class QuadraticEquationFormProperty extends AbstractNamedEnumeratedProper
 		super(localization, NAME_KEY);
 		delegate = new QuadraticEquationFormDelegate(element);
 
-		QuadraticEquationRepresentable quadratic = (QuadraticEquationRepresentable) element;
+		QuadraticEquationRepresentable firstQuadratic =
+				findFirstQuadraticEquationRepresentable(element);
+		if (firstQuadratic == null) {
+			setNamedValues(List.of());
+			return;
+		}
 
 		List<Map.Entry<Integer, String>> values = new ArrayList<>();
-		if (quadratic.isSpecificFormPossible()) {
+		if (allMatch(element, QuadraticEquationRepresentable::isSpecificFormPossible)) {
 			values.add(entry(QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
-					quadratic.getSpecificEquationLabelKey()));
+					firstQuadratic.getSpecificEquationLabelKey()));
 		}
-		if (quadratic.isExplicitFormPossible()) {
+		if (allMatch(element, QuadraticEquationRepresentable::isExplicitFormPossible)) {
 			values.add(entry(QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
 					"ExplicitConicEquation"));
 		}
 		if (element.getDefinition() != null) {
-			values.add(entry(QuadraticEquationRepresentable.Form.USER.rawValue,
-					"InputForm"));
+			values.add(entry(QuadraticEquationRepresentable.Form.USER.rawValue, "InputForm"));
 		}
 		//if (quadratic.isImplicitFormPossible()) { // TODO always possible?
-			values.add(entry(QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
-					quadratic.getImplicitEquationLabelKey()));
+		values.add(entry(QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
+				firstQuadratic.getImplicitEquationLabelKey()));
 		//}
-		if (quadratic.isVertexFormPossible()) {
+		if (allMatch(element, QuadraticEquationRepresentable::isVertexFormPossible)) {
 			values.add(entry(QuadraticEquationRepresentable.Form.VERTEX.rawValue,
 					"ParabolaVertexForm"));
 		}
-		if (quadratic.isConicFormPossible()) {
+		if (allMatch(element, QuadraticEquationRepresentable::isConicFormPossible)) {
 			values.add(entry(QuadraticEquationRepresentable.Form.CONICFORM.rawValue,
 					"ParabolaConicForm"));
 		}
-		if (quadratic.isParametricFormPossible()) {
+		if (allMatch(element, QuadraticEquationRepresentable::isParametricFormPossible)) {
 			values.add(entry(QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 					"ParametricForm"));
 		}
@@ -64,28 +71,68 @@ public class QuadraticEquationFormProperty extends AbstractNamedEnumeratedProper
 	protected void doSetValue(Integer value) {
 		QuadraticEquationRepresentable.Form equationForm =
 				QuadraticEquationRepresentable.Form.valueOf(value);
+		if (equationForm == null) {
+			return;
+		}
 		GeoElement element = delegate.getElement();
-		if (equationForm != null && element instanceof QuadraticEquationRepresentable) {
-			((QuadraticEquationRepresentable) element).setEquationForm(equationForm);
-			element.updateRepaint();
+		setEquationForm(element, equationForm);
+	}
+
+	private void setEquationForm(
+			GeoElement geoElement, QuadraticEquationRepresentable.Form equationForm) {
+		if (geoElement instanceof QuadraticEquationRepresentable) {
+			((QuadraticEquationRepresentable) geoElement).setEquationForm(equationForm);
+			geoElement.updateRepaint();
+		} else if (geoElement instanceof GeoList) {
+			GeoList geoList = (GeoList) geoElement;
+			geoList.elements().forEach(element -> setEquationForm(element, equationForm));
 		}
 	}
 
 	@Override
 	public Integer getValue() {
 		GeoElement element = delegate.getElement();
-		if (element instanceof QuadraticEquationRepresentable) {
-			QuadraticEquationRepresentable.Form equationForm =
-					((QuadraticEquationRepresentable) element).getEquationForm();
-			if (equationForm != null) {
-				return equationForm.rawValue;
-			}
+		QuadraticEquationRepresentable firstQuadraticEquationRepresentable =
+				findFirstQuadraticEquationRepresentable(element);
+		if (firstQuadraticEquationRepresentable == null) {
+			return -1;
 		}
-		return -1;
+		QuadraticEquationRepresentable.Form firstQuadraticEquationRepresentableForm =
+				firstQuadraticEquationRepresentable.getEquationForm();
+		if (firstQuadraticEquationRepresentableForm == null) {
+			return -1;
+		}
+		return firstQuadraticEquationRepresentableForm.rawValue;
 	}
 
 	@Override
 	public boolean isEnabled() {
 		return delegate.isEnabled();
+	}
+
+	private boolean allMatch(
+			GeoElement geoElement, Predicate<QuadraticEquationRepresentable> predicate) {
+		if (geoElement instanceof QuadraticEquationRepresentable) {
+			QuadraticEquationRepresentable quadratic = (QuadraticEquationRepresentable) geoElement;
+			return predicate.test(quadratic);
+		} else if (geoElement instanceof GeoList) {
+			GeoList geoList = (GeoList) geoElement;
+			return geoList.elements().allMatch(element -> allMatch(element, predicate));
+		}
+		return false;
+	}
+
+	private static QuadraticEquationRepresentable findFirstQuadraticEquationRepresentable(
+			GeoElement geoElement) {
+		if (geoElement instanceof QuadraticEquationRepresentable) {
+			return (QuadraticEquationRepresentable) geoElement;
+		} else if (geoElement instanceof GeoList) {
+			GeoList geoList = (GeoList) geoElement;
+			return geoList.elements()
+					.map(QuadraticEquationFormProperty::findFirstQuadraticEquationRepresentable)
+					.filter(Objects::nonNull)
+					.findFirst().orElse(null);
+		}
+		return null;
 	}
 }

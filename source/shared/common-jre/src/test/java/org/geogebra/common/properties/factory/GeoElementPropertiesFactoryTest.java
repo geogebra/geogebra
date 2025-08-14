@@ -1,82 +1,82 @@
 package org.geogebra.common.properties.factory;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class GeoElementPropertiesFactoryTest extends BaseUnitTest {
+public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
+
+	@BeforeEach
+	public void setupApp() {
+		setupApp(SuiteSubApp.GRAPHING);
+	}
 
 	@Test
 	public void testPoint() {
-		GeoPoint zeroPoint = addAvInput("(0,0)");
-		GeoPoint onePoint = addAvInput("(1,1)");
-		List<GeoElement> points = new ArrayList<>();
-		points.add(zeroPoint);
-		points.add(onePoint);
+		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
+		GeoPoint onePoint = evaluateGeoElement("(1,1)");
 		PropertiesArray propertiesArray = new GeoElementPropertiesFactory()
 				.createGeoElementProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), points);
+						getApp().getLocalization(), List.of(zeroPoint, onePoint));
 		Property[] pointProperties = propertiesArray.getProperties();
 
-		assertThat(pointProperties[0].getName(), equalTo("Name"));
-		assertThat(pointProperties[1].getName(), equalTo("Show"));
-		assertThat(pointProperties[2].getName(), equalTo("Set color"));
-		assertThat(pointProperties[3].getName(), equalTo("Point Style"));
-		assertThat(pointProperties[4].getName(), equalTo("Size"));
-		assertThat(pointProperties[5].getName(), equalTo("Set caption style"));
-		assertThat(pointProperties[6].getName(), equalTo("Show trace"));
-		assertThat(pointProperties[7].getName(), equalTo("Fixed"));
-		assertThat(pointProperties[8].getName(), equalTo("Show in Algebra View"));
+		assertAll(
+				() -> assertEquals("Name", pointProperties[0].getName()),
+				() -> assertEquals("Show", pointProperties[1].getName()),
+				() -> assertEquals("Set color", pointProperties[2].getName()),
+				() -> assertEquals("Point Style", pointProperties[3].getName()),
+				() -> assertEquals("Size", pointProperties[4].getName()),
+				() -> assertEquals("Set caption style", pointProperties[5].getName()),
+				() -> assertEquals("Show trace", pointProperties[6].getName()),
+				() -> assertEquals("Fixed", pointProperties[7].getName()),
+				() -> assertEquals("Show in Algebra View", pointProperties[8].getName())
+		);
 	}
 
 	@Test
 	public void testEquationFormProperty() {
 		GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
-		GeoLine line = addAvInput("Line((-1,-1),(1,2))");
+		GeoLine line = evaluateGeoElement("Line((-1,-1),(1,2))");
 		PropertiesArray lineProperties = propertiesFactory.createGeoElementProperties(
-				getAlgebraProcessor(), getLocalization(), List.of(line));
+				getAlgebraProcessor(), getApp().getLocalization(), List.of(line));
 		assertTrue(containsLinearEquationFormProperty(lineProperties));
 		assertFalse(containsQuadraticEquationFormProperty(lineProperties));
 
-		GeoConic circle = addAvInput("xx+yy=1");
+		GeoConic circle = evaluateGeoElement("xx+yy=1");
 		PropertiesArray circleProperties = propertiesFactory.createGeoElementProperties(
-				getAlgebraProcessor(), getLocalization(), List.of(circle));
+				getAlgebraProcessor(), getApp().getLocalization(), List.of(circle));
 		assertFalse(containsLinearEquationFormProperty(circleProperties));
 		assertTrue(containsQuadraticEquationFormProperty(circleProperties));
 	}
 
 	private boolean containsLinearEquationFormProperty(PropertiesArray array) {
 		return Arrays.stream(array.getProperties())
-				.filter(property ->
-						property instanceof NamedEnumeratedPropertyCollection<?, ?>
-								&& ((NamedEnumeratedPropertyCollection<?, ?>) property)
-								.getFirstProperty() instanceof LinearEquationFormProperty)
-				.findAny().isPresent();
+				.anyMatch(property -> property instanceof NamedEnumeratedPropertyCollection<?, ?>
+						&& ((NamedEnumeratedPropertyCollection<?, ?>) property)
+						.getFirstProperty() instanceof LinearEquationFormProperty);
 	}
 
 	private boolean containsQuadraticEquationFormProperty(PropertiesArray array) {
 		return Arrays.stream(array.getProperties())
-				.filter(property ->
-						property instanceof NamedEnumeratedPropertyCollection<?, ?>
-								&& ((NamedEnumeratedPropertyCollection<?, ?>) property)
-								.getFirstProperty() instanceof QuadraticEquationFormProperty)
-				.findAny().isPresent();
+				.anyMatch(property -> property instanceof NamedEnumeratedPropertyCollection<?, ?>
+						&& ((NamedEnumeratedPropertyCollection<?, ?>) property)
+						.getFirstProperty() instanceof QuadraticEquationFormProperty);
 	}
 }
