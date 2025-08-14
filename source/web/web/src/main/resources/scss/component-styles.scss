@@ -1261,6 +1261,7 @@ $keyboard_button_transition: opacity .3s ease;
 	.divider.vertical {
 		height: 20px;
 		width: 1px;
+		min-width: 1px;
 		margin: 8px;
 	}
 

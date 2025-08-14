@@ -98,11 +98,7 @@ public final class ContextMenuBuilder {
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, fromCol)),
                 new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, fromCol)),
                 new Divider(),
-                new SubMenuItem(CALCULATE, List.of(
-                        new ActionableItem(SUM, () -> spreadsheetController.calculate(
-                                SpreadsheetCommand.SUM)),
-                        new ActionableItem(MEAN, () -> spreadsheetController.calculate(
-                                SpreadsheetCommand.MEAN)))),
+                new SubMenuItem(CALCULATE, getCalculateItems()),
                 getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_ROW_ABOVE,
@@ -122,11 +118,23 @@ public final class ContextMenuBuilder {
     }
 
     private ContextMenuItem getChartMenuItem() {
-        return new SubMenuItem(CREATE_CHART, List.of(
+        return new SubMenuItem(CREATE_CHART, getChartItems());
+    }
+
+    List<ContextMenuItem> getChartItems() {
+        return List.of(
                 new ActionableItem(LINE_CHART, () -> spreadsheetController.createChart(LINE_CHART)),
                 new ActionableItem(BAR_CHART, () -> spreadsheetController.createChart(BAR_CHART)),
                 new ActionableItem(HISTOGRAM, () -> spreadsheetController.createChart(HISTOGRAM)),
-                new ActionableItem(PIE_CHART, () -> spreadsheetController.createChart(PIE_CHART))));
+                new ActionableItem(PIE_CHART, () -> spreadsheetController.createChart(PIE_CHART)));
+    }
+
+    List<ContextMenuItem> getCalculateItems() {
+        return List.of(
+                new ActionableItem(SUM, () -> spreadsheetController.calculate(
+                        SpreadsheetCommand.SUM)),
+                new ActionableItem(MEAN, () -> spreadsheetController.calculate(
+                        SpreadsheetCommand.MEAN)));
     }
 
     private List<ContextMenuItem> rowItems(int fromRow, int toRow) {
@@ -136,11 +144,7 @@ public final class ContextMenuBuilder {
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, -1)),
                 new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, -1)),
                 new Divider(),
-                new SubMenuItem(CALCULATE, List.of(
-                        new ActionableItem(SUM, () -> spreadsheetController.calculate(
-                                SpreadsheetCommand.SUM)),
-                        new ActionableItem(MEAN, () -> spreadsheetController.calculate(
-                                SpreadsheetCommand.MEAN)))),
+                new SubMenuItem(CALCULATE, getCalculateItems()),
                 getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_ROW_ABOVE,
@@ -160,11 +164,7 @@ public final class ContextMenuBuilder {
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(-1, fromCol)),
                 new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(-1, fromCol)),
                 new Divider(),
-                new SubMenuItem(CALCULATE, List.of(
-                        new ActionableItem(SUM, () -> spreadsheetController.calculate(
-                                SpreadsheetCommand.SUM)),
-                        new ActionableItem(MEAN, () -> spreadsheetController.calculate(
-                                SpreadsheetCommand.MEAN)))),
+                new SubMenuItem(CALCULATE, getCalculateItems()),
                 getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_COLUMN_LEFT,
@@ -184,4 +184,5 @@ public final class ContextMenuBuilder {
     private boolean isAllRows(int fromRow, int toRow) {
         return fromRow == 0 && toRow == spreadsheetController.getLayout().numberOfRows() - 1;
     }
+
 }

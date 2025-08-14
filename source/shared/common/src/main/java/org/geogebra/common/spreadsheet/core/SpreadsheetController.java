@@ -1476,6 +1476,21 @@ public final class SpreadsheetController {
 		controlsDelegate.showAutoCompleteSuggestions(searchPrefix, editorBounds);
 	}
 
+	/**
+	 * @param identifier category identifier
+	 * @return all items for given category
+	 */
+	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
+		switch (identifier) {
+		case CREATE_CHART:
+			return contextMenuBuilder.getChartItems();
+		case CALCULATE:
+			return contextMenuBuilder.getCalculateItems();
+		default:
+			return List.of();
+		}
+	}
+
 	private final class Editor {
 		private final @Nonnull SpreadsheetCellEditor cellEditor;
 		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;

@@ -331,4 +331,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	public SpreadsheetStyleBarModel getStyleBarModel() {
 		return spreadsheet.getStyleBarModel();
 	}
+
+	public Spreadsheet getSpreadsheet() {
+		return spreadsheet;
+	}
 }

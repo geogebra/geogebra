@@ -1418,6 +1418,7 @@ public class ToolbarPanel extends FlowPanel
 		if (spreadsheetStyleBar == null && spreadsheetTab != null
 			&& spreadsheetTab.getSpreadsheetPanel() != null) {
 			spreadsheetStyleBar = new SpreadsheetStyleBar(app,
+					spreadsheetTab.getSpreadsheetPanel().getSpreadsheet(),
 					spreadsheetTab.getSpreadsheetPanel().getStyleBarModel());
 		}
 	}

@@ -95,6 +95,20 @@
 			}
 		}
 
+		&.contextSubMenu, &.compactMenu {
+			.listMenuItem {
+				.menuImg {
+					position: relative;
+					vertical-align: bottom;
+					margin-left: 0;
+					padding-left: 0;
+				}
+
+				padding: 0 16px;
+				min-width: 96px;
+			}
+		}
+
 		&.contextSubMenu {
 			padding: 8px 0 8px 0;
 			min-width: 112px;
@@ -109,12 +123,7 @@
 			max-height: calc(100vh - 48px);
 
 			.listMenuItem {
-				.menuImg {
-					position: relative;
-					vertical-align: bottom;
-					margin-left: 0;
-					padding-left: 0;
-				}
+
 				&.ariaItemWithButton {
 					padding: 0 6px;
 				}
@@ -146,9 +155,7 @@
 						cursor: pointer;
 					}
 				}
-
 				min-width: 64px;
-				padding: 0 16px;
 			}
 
 			.menuSeparator {

@@ -11,9 +11,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
-import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
-import org.geogebra.common.spreadsheet.core.ContextMenuItem.Divider;
-import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
@@ -22,7 +19,6 @@ import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.view.algebra.ToastController;
@@ -30,12 +26,8 @@ import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.util.ClipboardW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
-import org.geogebra.web.html5.gui.menu.AriaMenuBar;
-import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler;
-import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 
@@ -171,75 +163,10 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		contextMenu.clearItems();
 		parent.cancelFocus();
 		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting", "stats");
-		addItems(contextMenu.getPopupMenu(), items);
+		new SpreadsheetMenuBuilder(loc, this::hideContextMenu)
+				.addItems(contextMenu.getPopupMenu(), items);
 		positionContextMenu((int) Math.round(location.x), (int) Math.round(location.y));
 		contextMenu.getPopupMenu().focus();
-	}
-
-	private void addItems(AriaMenuBar popupMenu, List<ContextMenuItem> items) {
-		for (ContextMenuItem item : items) {
-			if (item instanceof Divider) {
-				popupMenu.addSeparator();
-			} else if (item instanceof SubMenuItem) {
-				popupMenu.addItem(createSubMenuItem((SubMenuItem) item));
-			} else if (item instanceof ActionableItem) {
-				popupMenu.addItem(createActionableItem((ActionableItem) item));
-			}
-		}
-	}
-
-	private AriaMenuItem createActionableItem(ActionableItem actionableItem) {
-		String text = loc.getMenu(actionableItem.getLocalizationKey());
-		SVGResource image = getActionIcon(actionableItem.getIdentifier());
-		ScheduledCommand scheduledCommand = () -> performAndHideMenu(actionableItem);
-		return new AriaMenuItem(text, image, scheduledCommand);
-	}
-
-	private AriaMenuItem createSubMenuItem(SubMenuItem subMenuItem) {
-		String text = loc.getMenu(subMenuItem.getLocalizationKey());
-		SVGResource image = getActionIcon(subMenuItem.getIdentifier());
-		AriaMenuBar ariaMenuBar = new AriaMenuBar();
-		addItems(ariaMenuBar, subMenuItem.getItems());
-		return new AriaMenuItem(text, image, ariaMenuBar);
-	}
-
-	private void performAndHideMenu(ActionableItem item) {
-		item.performAction();
-		hideContextMenu();
-	}
-
-	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {
-		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
-		switch (action) {
-		case CUT:
-			return res.cut_black();
-		case COPY:
-			return res.copy_black();
-		case PASTE:
-			return res.paste_black();
-		case DELETE:
-			return res.delete_black();
-		case CALCULATE:
-			return res.calculate();
-		case CREATE_CHART:
-			return res.insert_chart();
-		case LINE_CHART:
-			return res.table_line_chart();
-		case BAR_CHART:
-			return res.table_bar_chart();
-		case HISTOGRAM:
-			return res.table_histogram();
-		case PIE_CHART:
-			return res.table_pie_chart();
-		case INSERT_ROW_ABOVE:
-		case INSERT_ROW_BELOW:
-		case DELETE_ROW:
-		case INSERT_COLUMN_LEFT:
-		case INSERT_COLUMN_RIGHT:
-		case DELETE_COLUMN:
-		default:
-			return null;
-		}
 	}
 
 	private void positionContextMenu(int x, int y) {

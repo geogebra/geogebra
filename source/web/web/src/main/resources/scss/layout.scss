@@ -43,6 +43,10 @@
 		transform: translateX(-50%);
 	}
 
+	button.suppressTooltip:hover:after {
+		display: none;
+	}
+
 	.matDragger {
 		.splitPaneDragger {
 			background-color: colors.$white;

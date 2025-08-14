@@ -1,9 +1,13 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet.stylebar;
 
+import org.geogebra.common.spreadsheet.core.ContextMenuItem;
+import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStyleBarModel;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.SpreadsheetMenuBuilder;
+import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
@@ -14,13 +18,17 @@ import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
 public class SpreadsheetStyleBar extends FlowPanel {
+	private final static int STYLE_BAR_HEIGHT = 36;
 	private final AppW appW;
 	private final SpreadsheetStyleBarModel styleBarModel;
+	private final Spreadsheet spreadsheet;
 	private IconButton backgroundColorButton;
 	private IconButton fontColorButton;
 	private IconButton boldButton;
 	private IconButton italicButton;
 	private IconButton horizontalAlignmentButton;
+	private IconButton chartButton;
+	private IconButton calculateButton;
 	private SpreadsheetStyleBarColorPopup backgroundColorPopup;
 	private SpreadsheetStyleBarColorPopup fontColorPopup;
 	private HorizontalAlignmentPopup horizontalAlignmentPopup;
@@ -32,8 +40,10 @@ public class SpreadsheetStyleBar extends FlowPanel {
 	 * @param appW application
 	 * @param styleBarModel model {@link SpreadsheetStyleBarModel}
 	 */
-	public SpreadsheetStyleBar(AppW appW, SpreadsheetStyleBarModel styleBarModel) {
+	public SpreadsheetStyleBar(AppW appW, Spreadsheet spreadsheet,
+			SpreadsheetStyleBarModel styleBarModel) {
 		this.appW = appW;
+		this.spreadsheet = spreadsheet;
 		this.styleBarModel = styleBarModel;
 		styleBarModel.stateChanged.addListener(this::updateState);
 		addDivider();
@@ -76,6 +86,15 @@ public class SpreadsheetStyleBar extends FlowPanel {
 			toggleAlignmentPopup();
 			horizontalAlignmentButton.setActive(!horizontalAlignmentButton.isActive());
 		});
+
+		add(BaseWidgetFactory.INSTANCE.newDivider(true));
+
+		calculateButton = buildIconButton(res.calculate(), "Calculate");
+		calculateButton.addFastClickHandler(source -> showMenu(calculateButton,
+				ContextMenuItem.Identifier.CALCULATE));
+		chartButton = buildIconButton(res.insert_chart(), "ContextMenu.CreateChart");
+		chartButton.addFastClickHandler(source -> showMenu(chartButton,
+				ContextMenuItem.Identifier.CREATE_CHART));
 	}
 
 	private IconButton buildIconButton(SVGResource svgResource, String ariaLabel) {
@@ -167,6 +186,24 @@ public class SpreadsheetStyleBar extends FlowPanel {
 	private void toggleFontColorPopup() {
 		initFontColorPopup();
 		togglePopupVisibility(fontColorPopup, fontColorButton);
+	}
+
+	// Spreadsheet calculate and chart
+
+	private void showMenu(IconButton anchor, ContextMenuItem.Identifier identifier) {
+		markActive(anchor, true);
+		appW.getAsyncManager().prefetch(null, "scripting", "stats");
+		GPopupMenuW popup = new GPopupMenuW(appW);
+		popup.getPopupPanel().addStyleName("compactMenu");
+		new SpreadsheetMenuBuilder(appW.getLocalization(), popup::hide).addItems(
+				popup.getPopupMenu(), spreadsheet.getController().getMenuItems(identifier));
+		popup.show(anchor, 0, STYLE_BAR_HEIGHT);
+		popup.getPopupPanel().addCloseHandler(evt -> markActive(anchor, false));
+	}
+
+	private void markActive(IconButton anchor, boolean active) {
+		anchor.setActive(active);
+		anchor.setStyleName("suppressTooltip", active);
 	}
 
 	private void togglePopupVisibility(GPopupPanel popup, IconButton anchor) {
