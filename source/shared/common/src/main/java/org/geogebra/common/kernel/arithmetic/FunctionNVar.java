@@ -447,11 +447,25 @@ public class FunctionNVar extends ValidExpression
 			expression = new ExpressionNode(kernel, ev, Operation.FUNCTION_NVAR, args);
 		} else if (ev instanceof FunctionalNVar) {
 			expression = ((FunctionalNVar) ev).getFunctionExpression();
-			fVars = ((FunctionalNVar) ev).getFunctionVariables();
+			FunctionVariable[] newVars = ((FunctionalNVar) ev).getFunctionVariables();
+			if (newVars.length == fVars.length) {
+				Arrays.sort(newVars, Comparator.comparingInt(
+						fv -> indexOfVar(fv.getSetVarString())));
+			}
+			fVars = newVars;
 		} else {
 			return ev instanceof MyList && ((MyList) ev).isMatrix();
 		}
 		return true;
+	}
+
+	private int indexOfVar(String string) {
+		for (int i = 0; i < fVars.length; i++) {
+			if (fVars[i].getSetVarString().equals(string)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**
