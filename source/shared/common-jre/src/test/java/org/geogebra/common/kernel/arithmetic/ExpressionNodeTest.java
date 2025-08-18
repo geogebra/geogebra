@@ -60,5 +60,4 @@ public class ExpressionNodeTest extends BaseUnitTest {
 				matrix, Operation.ELEMENT_OF, indices);
 		assertEquals(ValueType.UNKNOWN, elementOf.getValueType());
 	}
-
 }

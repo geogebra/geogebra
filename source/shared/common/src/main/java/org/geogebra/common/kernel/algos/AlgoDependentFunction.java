@@ -15,6 +15,8 @@ package org.geogebra.common.kernel.algos;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -412,7 +414,7 @@ public class AlgoDependentFunction extends AlgoElement
 	}
 
 	// needed for eg f(x,y) = a(A) a(x, y)
-	private static ExpressionValue get(MyList list, int i) {
+	private static @Nonnull ExpressionValue get(MyList list, int i) {
 
 		Kernel kernel0 = list.getKernel();
 
@@ -427,13 +429,15 @@ public class AlgoDependentFunction extends AlgoElement
 				return new MyDouble(kernel0, point.getInhomZ());
 			} else {
 				Log.error("problem in AlgoDependentFunction");
-				return null;
+				// provide fallback value to prevent crashes
+				return new MyDouble(kernel0, Double.NaN);
 			}
 		}
 
 		if (i >= list.size()) {
 			Log.error("problem in AlgoDependentFunction");
-			return null;
+			// provide fallback value for missing arguments to prevent crashes
+			return new MyDouble(kernel0, Double.NaN);
 		}
 
 		return list.get(i).unwrap();
