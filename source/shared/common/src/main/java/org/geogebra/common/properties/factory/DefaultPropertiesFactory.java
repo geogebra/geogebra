@@ -171,7 +171,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	protected PropertiesArray createStructuredGraphics3DProperties(App app,
 			Localization localization, PropertiesRegistry propertiesRegistry) {
 		EuclidianView activeView = app.getActiveEuclidianView();
-		EuclidianSettings euclidianSettings = activeView.getSettings();
+		EuclidianSettings euclidianSettings = app.getSettings().getEuclidian(-1);
 		return new PropertiesArray("GraphicsView3D", localization,
 				registerProperties(propertiesRegistry,
 						new PropertyCollectionWithLead(localization, "Grid",
