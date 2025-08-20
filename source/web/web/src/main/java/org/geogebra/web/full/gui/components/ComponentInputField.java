@@ -90,6 +90,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		// input text field
 		inputTextField = new InputPanelW("", app, -1, hasKeyboardBtn);
 		inputTextField.addStyleName("textField");
+		inputTextField.getTextComponent().prepareShowSymbolButton(false);
 		// label of text field
 		if (labelTextKey != null && !labelTextKey.isBlank()) {
 			labelText = BaseWidgetFactory.INSTANCE.newSecondaryText(
