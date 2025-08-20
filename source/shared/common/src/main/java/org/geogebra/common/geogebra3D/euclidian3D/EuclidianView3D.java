@@ -282,8 +282,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double[] projectionPerspectiveEyeDistance = {
 			PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT,
 			PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT };
-	private boolean isGlassesGrayScaled = true;
-	private boolean isGlassesShutDownGreen = false;
 	private double[] eyeX = { -100, 100 };
 	private double[] eyeY = { 0, 0 };
 	private double projectionObliqueAngle = 30;
@@ -4052,7 +4050,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	public boolean isGlassesGrayScaled() {
-		return isGlassesGrayScaled;
+		return getSettings().isGlassesGrayScaled();
 	}
 
 	/**
@@ -4060,11 +4058,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            whether to use grayscale for glasses
 	 */
 	public void setGlassesGrayScaled(boolean flag) {
-		if (isGlassesGrayScaled == flag) {
-			return;
-		}
-
-		isGlassesGrayScaled = flag;
+		getSettings().setGlassesGrayScaled(flag);
 		resetAllDrawables();
 	}
 
@@ -4086,7 +4080,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	public boolean isGlassesShutDownGreen() {
-		return isGlassesShutDownGreen;
+		return getSettings().isGlassesShutDownGreen();
 	}
 
 	/**
@@ -4094,11 +4088,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            shutdown green flag
 	 */
 	public void setGlassesShutDownGreen(boolean flag) {
-		if (isGlassesShutDownGreen == flag) {
-			return;
-		}
-
-		isGlassesShutDownGreen = flag;
+		getSettings().setGlassesShutDownGreen(flag);
 		renderer.setWaitForUpdateClearColor();
 	}
 

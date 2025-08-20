@@ -74,7 +74,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 
 	private void addArrowTo(FlowPanel header) {
 		SimplePanel arrow = new SimplePanel();
-		arrow.addStyleName("arrow");
+		arrow.addStyleName("headerArrow");
 		arrow.getElement().setInnerHTML(KeyboardResources.INSTANCE.keyboard_arrowRight_black()
 				.getSVG());
 		header.add(arrow);

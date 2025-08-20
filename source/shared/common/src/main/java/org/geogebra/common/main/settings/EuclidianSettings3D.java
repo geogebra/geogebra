@@ -40,6 +40,8 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public static final int EYE_SEP_DEFAULT = 200;
 
 	private int eyeSep = EYE_SEP_DEFAULT;
+	private boolean isGlassesGrayScaled = true;
+	private boolean isGlassesShutDownGreen = false;
 
 	public static final double PROJECTION_OBLIQUE_ANGLE_DEFAULT = 30;
 	public static final double PROJECTION_OBLIQUE_FACTOR_DEFAULT = 0.5;
@@ -481,6 +483,34 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	public int getEyeSep() {
 		return eyeSep;
+	}
+
+	/**
+	 * @param isGlassesGrayScaled gray scale
+	 */
+	public void setGlassesGrayScaled(boolean isGlassesGrayScaled) {
+		if (this.isGlassesGrayScaled == isGlassesGrayScaled) {
+			return;
+		}
+		this.isGlassesGrayScaled = isGlassesGrayScaled;
+	}
+
+	public boolean isGlassesGrayScaled() {
+		return isGlassesGrayScaled;
+	}
+
+	/**
+	 * @param isGlassesShutDownGreen omit green
+	 */
+	public void setGlassesShutDownGreen(boolean isGlassesShutDownGreen) {
+		if (this.isGlassesShutDownGreen == isGlassesShutDownGreen) {
+			return;
+		}
+		this.isGlassesShutDownGreen = isGlassesShutDownGreen;
+	}
+
+	public boolean isGlassesShutDownGreen() {
+		return isGlassesShutDownGreen;
 	}
 
 	/**

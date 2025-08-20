@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.dialog.options.OptionsGlobalW;
 import org.geogebra.web.full.gui.dialog.options.OptionsLayoutW;
 import org.geogebra.web.full.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.full.gui.dialog.options.OptionsSpreadsheetW;
+import org.geogebra.web.full.gui.properties.ui.PropertiesPanelAdapter;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;

@@ -42,6 +42,7 @@ import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
+import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.VerticalYAxis;
 
 /**
@@ -184,10 +185,12 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesColoredProperty(localization,
 										(EuclidianSettings3D) euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)),
-						new DimensionPropertiesCollection(localization),
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),
 						axisExpandableProperty(2, "zAxis", app, localization),
+						new DimensionPropertiesCollection(localization),
+						new ProjectionPropertyCollection(app, localization,
+								(EuclidianSettings3D) euclidianSettings),
 						new AdvancedPropertiesCollection(localization, euclidianSettings))
 		);
 	}

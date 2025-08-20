@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.properties;
+package org.geogebra.web.full.gui.properties.ui.panel;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;

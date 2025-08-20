@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.properties;
+package org.geogebra.web.full.gui.properties.ui;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionableProperty;
@@ -18,11 +18,14 @@ import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.full.gui.properties.ui.panel.GridDistancePanel;
+import org.geogebra.web.full.gui.properties.ui.panel.OptionalPropertyWidgetCollection;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -111,6 +114,17 @@ public class PropertiesPanelAdapter {
 		if (property instanceof GridDistancePropertyCollection) {
 			return new GridDistancePanel(app, (GridDistancePropertyCollection) property);
 		}
+		if (property instanceof ProjectionPropertyCollection) {
+			ComponentExpandableList expandableList = new ComponentExpandableList(app,
+					null, property.getName());
+			OptionalPropertyWidgetCollection collection = new OptionalPropertyWidgetCollection(app);
+			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
+				Widget widget = getWidget(prop);
+				expandableList.addToContent(widget);
+				collection.addOptionalWidget(widget, prop);
+			}
+			return expandableList;
+		}
 		if (property instanceof PropertyCollection) {
 			BooleanProperty leadProperty = property instanceof PropertyCollectionWithLead
 					? ((PropertyCollectionWithLead) property).leadProperty : null;
@@ -120,6 +134,12 @@ public class PropertiesPanelAdapter {
 				expandableList.addToContent(getWidget(prop));
 			}
 			return expandableList;
+		}
+		if (property instanceof NamedEnumeratedProperty) {
+			ComponentDropDown dropDown = new ComponentDropDown(app, property.getName(),
+					(NamedEnumeratedProperty<?>) property);
+			dropDown.setFullWidth(true);
+			return dropDown;
 		}
 		if (property instanceof IconsEnumeratedProperty) {
 			FlowPanel iconPanel = new FlowPanel();
@@ -137,12 +157,6 @@ public class PropertiesPanelAdapter {
 			return iconPanel;
 
 		}
-		if (property instanceof NamedEnumeratedProperty) {
-			ComponentDropDown dropDown = new ComponentDropDown(app, property.getName(),
-					(NamedEnumeratedProperty<?>) property);
-			dropDown.setFullWidth(true);
-			return dropDown;
-		}
 		if (property instanceof ColorProperty) {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,
 					((ColorProperty) property).getValues(),
@@ -155,8 +169,22 @@ public class PropertiesPanelAdapter {
 		if (property instanceof StringProperty) {
 			ComponentInputField inputField = new ComponentInputField(app, "",
 					property.getName(), "", ((StringProperty) property).getValue());
+
+			Runnable submit = () -> {
+				String text = inputField.getText();
+				String error = ((StringProperty) property).validateValue(text);
+				if (error == null) {
+					((StringProperty) property).setValue(text);
+				}
+				inputField.setError(error);
+			};
 			inputField.getTextField().getTextComponent().addBlurHandler(
-					evt -> ((StringProperty) property).setValue(inputField.getText()));
+					evt -> submit.run());
+			inputField.getTextField().getTextComponent().addKeyHandler(e -> {
+				if (e.isEnterKey()) {
+					submit.run();
+				}
+			});
 			return inputField;
 		}
 		return new Label(property + "");
