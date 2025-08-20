@@ -203,7 +203,6 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"BarChart({10, 11, 12}, {5, 8, 12}) -> 25",
 			"Round(25, 13) 						-> 25.0",
 	})
-
 	public void testRestrictedChartOutput() {
 		String definition = "BarChart({10, 11, 12}, {5, 8, 12})";
 		GeoElement barchart = evaluateGeoElement(definition);
@@ -215,6 +214,38 @@ public class MmsExamTests extends BaseExamTestSetup {
 				converter.toOutputValueString(barchart, StringTemplate.defaultTemplate));
 		assertEquals("a = " + definition,
 				converter.toLabelAndDescription(barchart, StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@MockedCasValues({
+			"Evaluate(2x) 			-> 2*x",
+			"Evaluate(2 (x + 6)) 	-> 2*x+12",
+	})
+	public void testRestrictedFunctionOutput() {
+		evaluateGeoElement("f(x) = 2x");
+		assertFalse(new MmsAlgebraOutputFilter(null)
+				.isAllowed(evaluateGeoElement("g(x) = f(x + 6)")));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"Integral(x^2)",
+			"IntegralSymbolic(x^2)",
+			"Derivative(x^2)",
+			"LeftSide(x + 2 = 3x + 1)",
+			"RightSide(x + 3 = 3x + 1)",
+			"Expand((2x - 1)^2 + 2x + 3)",
+	})
+	@MockedCasValues({
+			"Integral(x²) 				-> 1/3*x^3+arbconst(1+33)",
+			"IntegralSymbolic(x²) 		-> 1/3*x^3+arbconst(2+66)",
+			"Derivative(x²) 			-> 2*x",
+			"LeftSide(x + 2 = 3x + 1) 	-> x+2",
+			"RightSide(x + 3 = 3x + 1) 	-> 3*x+1",
+			"Expand((2x - 1)² + 2x + 3) -> 4*x^2-2*x+4",
+	})
+	public void testUnrestrictedFunctionOutputs(String expression) {
+		assertTrue(new MmsAlgebraOutputFilter(null).isAllowed(evaluateGeoElement(expression)));
 	}
 
 	@ParameterizedTest
