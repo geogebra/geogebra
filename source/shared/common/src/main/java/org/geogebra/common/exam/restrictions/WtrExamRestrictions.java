@@ -50,6 +50,7 @@ import static org.geogebra.common.plugin.Operation.ROUND;
 import static org.geogebra.common.plugin.Operation.ROUND2;
 import static org.geogebra.common.plugin.Operation.SEC;
 import static org.geogebra.common.plugin.Operation.SECH;
+import static org.geogebra.common.plugin.Operation.SEQUENCE;
 import static org.geogebra.common.plugin.Operation.SGN;
 import static org.geogebra.common.plugin.Operation.SIN;
 import static org.geogebra.common.plugin.Operation.SINH;
@@ -117,7 +118,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		return Set.of(ExpressionRestriction.toFilter(
 				new RestrictComplexExpressions(),
 				new RestrictBooleanExpressions(),
-				new AllowBooleanCommandArguments(),
+				new AllowBooleanAndListCommandArguments(),
 				new RestrictLists()),
 				new RadianGradianFilter());
 	}
@@ -126,7 +127,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		return Set.of(ExpressionRestriction.toFilter(
 				new RestrictComplexExpressions(),
 				new RestrictBooleanExpressions(),
-				new AllowBooleanCommandArguments(),
+				new AllowBooleanAndListCommandArguments(),
 				new RestrictLists()));
 	}
 
@@ -139,7 +140,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 				PLUS, MINUS, MULTIPLY, DIVIDE, POWER, FACTORIAL, ABS, SGN, FLOOR, CEIL, ROUND,
 				ROUND2, SQRT, CBRT, NROOT, EXP, LOG, LOG2, LOG10, LOGB, COS, SIN, TAN, SEC, CSC,
 				COT, ARCCOS, ARCCOSD, ARCSIN, ARCSIND, ARCTAN, ARCTAND, COSH, SINH, TANH, SECH,
-				CSCH, COTH, ACOSH, ASINH, ATANH, NCR);
+				CSCH, COTH, ACOSH, ASINH, ATANH, NCR, SEQUENCE);
 		return allowedOperations::contains;
 	}
 
@@ -156,7 +157,7 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		private WtrSyntaxFilter() {
 			// BinomialDist(<Number of Trials>, <Probability of Success>, <Variable Value>,
 			// <Boolean Cumulative>)
-			addSelector(BinomialDist, 2);
+			addSelector(BinomialDist, 1, 2);
 			// Normal( <Mean>, <Standard Deviation>, <Variable Value> )
 			// Normal( <Mean>, <Standard Deviation>, <Variable Value u> , <Variable Value v>)
 			addSelector(Normal, 0, 2);
@@ -167,7 +168,9 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
 				BinomialDist, Set.of(
 						Syntax.of(BinomialDist,
-								isNumber(), isNumber(), isNumber(), GeoElement::isGeoBoolean)),
+								isNumber(), isNumber(), isNumber(), GeoElement::isGeoBoolean),
+						Syntax.of(BinomialDist,
+								isNumber(), isNumber(), GeoElement::isGeoList)),
 				Normal, Set.of(
 						Syntax.of(Normal, isNumber(), isNumber(), isNumber()),
 						Syntax.of(Normal, isNumber(), isNumber(), isNumber(), isNumber())));
@@ -197,7 +200,8 @@ public class WtrExamRestrictions extends ExamRestrictions {
 		}
 	}
 
-	private static final class AllowBooleanCommandArguments implements ExpressionRestriction {
+	private static final class AllowBooleanAndListCommandArguments
+			implements ExpressionRestriction {
 		@Override
 		public @Nonnull Set<ExpressionValue> getAllowedSubExpressions(@Nonnull ExpressionValue expression) {
 			return streamOf(expression)
@@ -210,7 +214,9 @@ public class WtrExamRestrictions extends ExamRestrictions {
 							// (unwrap expression value)
 							.map(ExpressionNode::unwrap)
 							// and allow booleans
-							.filter(argument -> argument instanceof BooleanValue))
+							.filter(argument -> argument instanceof BooleanValue
+										|| argument instanceof MyList
+										|| argument.isOperation(SEQUENCE)))
 					.collect(Collectors.toSet());
 		}
 	}

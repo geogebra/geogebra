@@ -34,8 +34,7 @@ public class WtrExamTests extends BaseExamTestSetup {
 			"Normal(2, 0.5, 1, true); 					Illegal argument: true",
 			"BinomialDist(5, 0.2, 1, false && true); 	Sorry, something went wrong",
 			"BinomialDist(5, 0.2); 						Illegal number of arguments",
-			"BinomialDist(5, 0.2, true); 				Illegal number of arguments",
-			"BinomialDist(5, 0.2, {1, 2, 3, 4, 5}); 	Sorry, something went wrong",
+			"BinomialDist(5, 0.2, true); 				Illegal argument: true",
 			"Solve(x^2 = 0); 							Unknown command : Solve",
 			"Solutions(x^2 = 0); 						Unknown command : Solutions",
 			"CSolve(x^2 = 0); 							Unknown command : CSolve",
@@ -53,6 +52,8 @@ public class WtrExamTests extends BaseExamTestSetup {
 	@ValueSource(strings = {
 			"nCr(4, 2)",
 			"BinomialDist(5, 0.2, 1, false)",
+			"BinomialDist(5, 0.2, {1, 2, 3, 4, 5})",
+			"BinomialDist(5, 0.2, 1..5)",
 			"Normal(2, 0.5, 1)",
 			"Normal(2, 0.5, 1, 2)",
 	})
@@ -133,5 +134,14 @@ public class WtrExamTests extends BaseExamTestSetup {
 		GeoElementND angle = evaluate("asind(.5)")[0];
 		assertEquals("30" + Unicode.DEGREE_STRING,
 				angle.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void checkSyntax() {
+		assertEquals("BinomialDist( <Number of Trials>, <Probability of Success>, "
+						+ "<List of Values> )\n"
+						+ "BinomialDist( <Number of Trials>, <Probability of Success>, "
+						+ "<Variable Value>, <Boolean Cumulative> )",
+				getApp().getLocalization().getCommandSyntax("BinomialDist"));
 	}
 }
