@@ -401,6 +401,7 @@ public class GeoGebraFrameFull
 		KeyboardManager keyboardManager = getApp().getKeyboardManager();
 		if (keyboardManager.isKeyboardOutsideFrame()) {
 			keyboardHeight = 0;
+			app.getEuclidianViewpanel().deferredOnResize();
 		} else {
 			keyboardHeight = keyboardManager
 					.estimateKeyboardHeight();

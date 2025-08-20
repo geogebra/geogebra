@@ -179,7 +179,10 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	@Override
 	public boolean onTab(boolean shiftDown) {
 		applyAndHide();
-		return ((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
+		boolean handled = ((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher())
+				.handleTab(shiftDown);
+		editor.setKeyboardVisibility(editor.isVisible());
+		return handled;
 	}
 
 	@Override
