@@ -12272,9 +12272,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            coord system animation listener
 	 */
 	public void addZoomerAnimationListener(CoordSystemAnimationListener listener, GeoElement geo) {
-		if (!geo.isLabelSet()) {
-			return;
-		}
 		synchronized (zoomerAnimationListeners) {
 			zoomerAnimationListeners.put(geo, listener);
 		}

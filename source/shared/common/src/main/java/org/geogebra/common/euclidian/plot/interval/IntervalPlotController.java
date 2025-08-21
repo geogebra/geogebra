@@ -36,7 +36,6 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	 */
 	public void attachEuclidianView(EuclidianView view) {
 		euclidianController = view.getEuclidianController();
-		euclidianController.addZoomerAnimationListener(this, function);
 		euclidianSettings = view.getSettings();
 		if (euclidianSettings != null) {
 			euclidianSettings.addListener(this);

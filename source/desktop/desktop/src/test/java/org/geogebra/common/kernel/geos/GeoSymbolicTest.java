@@ -24,9 +24,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Set;
 
+import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GGraphicsCommon;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.cas.giac.CASgiac;
+import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.Suggestion;
@@ -2134,6 +2141,22 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("g(x) = 2 * 5");
 		app.setXML(app.getXML(), true);
 		assertEquals(2, app.getActiveEuclidianView().getAllDrawableList().size());
+	}
+
+	@Test
+	public void testPlotUpdatesOnZoom() {
+		GeoSymbolic f = add("f(x) = 3");
+		app.getActiveEuclidianView().zoom(300, 300, .5, 5, false);
+		Drawable df = (Drawable) app.getActiveEuclidianView().getDrawableFor(f);
+		ArrayList<GShape> shapes = new ArrayList<>();
+		df.draw(new GGraphicsCommon() {
+			@Override
+			public void draw(GShape shape) {
+				shapes.add(shape);
+			}
+		});
+		GeneralPathClippedForCurvePlotter path = (GeneralPathClippedForCurvePlotter) shapes.get(0);
+		assertEquals(800, path.getBounds().getWidth(), 1);
 	}
 
 	@Test

@@ -49,10 +49,16 @@ public class IntervalPlotter {
 
 	/**
 	 * Enables plotter
+	 * @param function plotted function
+	 * @param view view
+	 * @param forList whether function is a part of a list
 	 */
-	public void enableFor(GeoFunction function, EuclidianView view) {
+	public void enableFor(GeoFunction function, EuclidianView view, boolean forList) {
 		build(function);
 		this.controller.attachEuclidianView(view);
+		if (!forList) {
+			view.getEuclidianController().addZoomerAnimationListener(controller, function);
+		}
 		enable();
 	}
 
