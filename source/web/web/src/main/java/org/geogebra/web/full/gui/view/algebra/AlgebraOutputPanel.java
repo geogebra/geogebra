@@ -2,6 +2,9 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
@@ -28,8 +31,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Output part of AV item
  */
 public class AlgebraOutputPanel extends FlowPanel {
-	private final FlowPanel valuePanel;
-	private Canvas valCanvas;
+	private final @Nonnull FlowPanel valuePanel;
+	private @CheckForNull Canvas valCanvas;
+	private @CheckForNull Label valueLabel;
 
 	/**
 	 * Create new output panel
@@ -169,11 +173,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 				|| AlgebraItem.evaluatesToFraction(geo1)
 				|| AlgebraItem.isRationalizableFraction(geo1)
 				|| AlgebraItem.isGeoSurd(geo1))) {
-			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
-					fontSize);
-			valCanvas.addStyleName("canvasVal");
-			valuePanel.clear();
-			valuePanel.add(valCanvas);
+			showLaTeXValue(text, geo1, fontSize);
 		} else {
 			HTML html = new HTML();
 			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(html,
@@ -189,31 +189,37 @@ public class AlgebraOutputPanel extends FlowPanel {
 		return true;
 	}
 
-	/*
-	private String getSymbolicPrefix(Kernel kernel) {
-		return kernel.getLocalization().rightToLeftReadingOrder
-				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
-				: Unicode.CAS_OUTPUT_PREFIX + "";
-	}
-	*/
-
 	/**
 	 * @param text
-	 *            preview text
-	 * @param previewGeo
-	 *            preview geo
+	 *            LaTeX value string
+	 * @param geo
+	 *            construction element
 	 * @param fontSize
 	 *            size in pixels
 	 */
-	public void showLaTeXPreview(String text, GeoElementND previewGeo,
+	public void showLaTeXValue(String text, GeoElementND geo,
 			int fontSize) {
 		// LaTeX
-		valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text, valCanvas,
+		Canvas canvas = DrawEquationW.paintOnCanvas(geo, text, valCanvas,
 				fontSize);
-		valCanvas.addStyleName("canvasVal");
+		canvas.addStyleName("canvasVal");
 		valuePanel.clear();
-		valuePanel.add(valCanvas);
+		valuePanel.add(canvas);
+		valCanvas = canvas;
+	}
 
+	/**
+	 * Show plain text preview.
+	 * @param text text in linear notation
+	 */
+	public void showPlainTextPreview(String text) {
+		valuePanel.clear();
+		if (valueLabel == null) {
+			valueLabel = new Label(text);
+		} else {
+			valueLabel.setText(text);
+		}
+		valuePanel.add(valueLabel);
 	}
 
 	/**

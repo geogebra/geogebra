@@ -539,9 +539,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			definitionValuePanel.add(outputPanel);
 			outputPanel.reset();
 
-			String text = previewGeo
-					.getAlgebraDescriptionForPreviewOutput();
-			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
+			showPreview(previewGeo);
 			outputPanel.addEqualSignPrefix();
 			outputPanel.addValuePanel();
 
@@ -554,6 +552,12 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 			}
 		}
 		clearUndefinedVariables();
+	}
+
+	protected void showPreview(GeoElement previewGeo) {
+		String text = previewGeo
+				.getAlgebraDescriptionForPreviewOutput();
+		outputPanel.showLaTeXValue(text, previewGeo, getFontSize());
 	}
 
 	protected boolean updateOutputValuePanel() {

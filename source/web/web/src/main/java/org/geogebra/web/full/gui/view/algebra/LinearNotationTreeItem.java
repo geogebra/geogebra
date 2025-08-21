@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -40,6 +41,12 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 		textField.getTextField().addKeyDownHandler(this);
 		textField.addFocusHandler(ignore -> getAV().startEditItem(geo));
 		textField.addBlurHandler(controller);
+		setDefaultAriaLabel();
+	}
+
+	private void setDefaultAriaLabel() {
+		AriaHelper.setLabel(textField.getTextField(),
+				app.getLocalization().getMenu(geo != null ? "Definition" : "EnterExpression"));
 	}
 
 	private void updateInputText() {
@@ -189,6 +196,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	@Override
 	public void setText(String text) {
 		textField.setText(text);
+		setDefaultAriaLabel();
 	}
 
 	@Override
@@ -238,6 +246,13 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	protected void updatePreview() {
 		kernel.getInputPreviewHelper().updatePreviewFromInputBar(
 				textField.getText(), AlgebraInputW.getWarningHandler(this, app));
+	}
+
+	@Override
+	protected void showPreview(GeoElement previewGeo) {
+		String text = previewGeo.toValueString(StringTemplate.linearNotation);
+		outputPanel.showPlainTextPreview(text);
+		AriaHelper.setLabel(textField.getTextField(), text);
 	}
 
 	@Override
