@@ -11,6 +11,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ContextMenuItemFactory;
 import org.geogebra.web.full.gui.dialog.AppDescription;
@@ -28,6 +29,7 @@ import org.gwtproject.user.client.ui.Label;
 import elemental2.dom.DomGlobal;
 
 public class CalculatorSubMenu extends AriaMenuBar {
+
 	private final AppW app;
 	private final ContextMenuItemFactory factory;
 	private final EmbedManager embedManager;
@@ -55,7 +57,7 @@ public class CalculatorSubMenu extends AriaMenuBar {
 			addItem(SuiteSubApp.GEOMETRY);
 			addItem(SuiteSubApp.CAS);
 			addItem(SuiteSubApp.PROBABILITY);
-			if (app.isMebis() && !isElectron()) {
+			if (app.isMebis() && !isElectron() && examType != ExamType.BAYERN_GR) {
 				addItemWithButton(AppDescription.get(SuiteSubApp.SCIENTIFIC).getNameKey(),
 						"/taschenrechner", () -> embedManager
 								.addCalcWithPreselectedApp(appOrExamModeName, SCIENTIFIC_APPCODE));
@@ -74,21 +76,22 @@ public class CalculatorSubMenu extends AriaMenuBar {
 		}
 	}
 
-	private void addItemWithButton(String itemText, String url,
-			Scheduler.ScheduledCommand cmd) {
+	private void addItemWithButton(String itemText, String url, Scheduler.ScheduledCommand cmd) {
 		FlowPanel itemHolder = new FlowPanel();
 		itemHolder.addStyleName("itemWithButton");
 
 		Label text = BaseWidgetFactory.INSTANCE.newPrimaryText(
-				app.getLocalization().getMenu(itemText),
-				"text");
+				app.getLocalization().getMenu(itemText), "text");
 		text.addClickHandler(event -> cmd.execute());
-		Image newTabImage = new NoDragImage(MaterialDesignResources
-				.INSTANCE.open_in_new_tab().getSafeUri().asString());
-		newTabImage.addClickHandler(event -> Browser.openWindow(url));
-
 		itemHolder.add(text);
-		itemHolder.add(newTabImage);
+
+		if (!GlobalScope.examController.isExamActive()) {
+			Image newTabImage = new NoDragImage(MaterialDesignResources
+					.INSTANCE.open_in_new_tab().getSafeUri().asString());
+			newTabImage.addClickHandler(event -> Browser.openWindow(url));
+			itemHolder.add(newTabImage);
+		}
+
 		AriaMenuItem ariaMenuItem = new AriaMenuItem(itemHolder, () -> {});
 		ariaMenuItem.addStyleName("ariaItemWithButton");
 		addItem(ariaMenuItem);
