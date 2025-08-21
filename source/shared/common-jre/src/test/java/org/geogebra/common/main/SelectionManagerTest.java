@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -117,6 +118,29 @@ public class SelectionManagerTest extends BaseUnitTest {
 		// user defined tabbing order
 		assertEquals(Arrays.asList(elements[0], elements[2], elements[4]),
 				selectionManager.getEVFilteredTabbingSet());
+	}
+
+	@Test
+	@Issue("APPS-6797")
+	public void selectAllShouldNotBePossibleWithSelectionDisallowed() {
+		add("A=(1,2)").setSelectionAllowed(false);
+		GeoElement point = add("B=(3,4)");
+		add("f(x)=x+3").setSelectionAllowed(false);
+		selectionManager.selectAll(-1);
+		assertEquals("There should be only one element selected!",
+				1, selectionManager.selectedGeosSize());
+		assertTrue("Only point B has its selection allowed!",
+				selectionManager.containsSelectedGeo(point));
+	}
+
+	@Test
+	@Issue("APPS-6797")
+	public void selectingSingleElementShouldNotBePossibleWithSelectionDisallowed() {
+		GeoElement line = add("f=Line((1,1),(3,3))");
+		line.setSelectionAllowed(false);
+		selectionManager.addSelectedGeo(line);
+		assertFalse("The created line should not be selectable!",
+				selectionManager.containsSelectedGeo(line));
 	}
 
 	private ArrayList<GeoElement> geosForGroup() {
