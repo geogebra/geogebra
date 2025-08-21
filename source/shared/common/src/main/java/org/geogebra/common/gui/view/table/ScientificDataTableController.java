@@ -18,9 +18,9 @@ import org.geogebra.common.kernel.geos.LabelManager;
  */
 public final class ScientificDataTableController {
 
-	private Kernel kernel;
-	private DefineFunctionHandler fHandler;
-	private DefineFunctionHandler gHandler;
+	private final Kernel kernel;
+	private final DefineFunctionHandler fHandler;
+	private final DefineFunctionHandler gHandler;
 
 	/**
 	 * Creates a new instance.
@@ -44,6 +44,7 @@ public final class ScientificDataTableController {
 	 * @param table Functions f and g will be added as columns to this TableValues view.
 	 */
 	public void setup(TableValues table) {
+		boolean isSaved = kernel.getApplication().isSaved();
 		GeoFunction f = createFunction(kernel.getConstruction(), "f");
 		GeoFunction g = createFunction(kernel.getConstruction(), "g");
 
@@ -59,6 +60,9 @@ public final class ScientificDataTableController {
 			resetUndoInfo();
 		}
 		table.getTableValuesModel().setAllowsAddingColumns(false);
+		if (isSaved) {
+			kernel.getApplication().setSaved();
+		}
 	}
 
 	private GeoFunction createFunction(Construction construction, String unprefixedLabel) {

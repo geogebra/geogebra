@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
@@ -409,7 +408,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	// gets reset on file load
 	private int[] versionArray = App.getSubValues(GeoGebraConstants.VERSION_STRING);
-	private final List<SavedStateListener> savedListeners = new ArrayList<>();
 	private Macro editMacro;
 	private String editMacroPreviousName = "";
 	private boolean scriptingDisabled = false;
@@ -1519,17 +1517,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setSaved() {
 		isSaved = true;
-		for (SavedStateListener sl : savedListeners) {
-			sl.stateChanged(true);
-		}
-	}
-
-	/**
-	 * Register saved state listener.
-	 * @param listener listener
-	 */
-	public void registerSavedStateListener(SavedStateListener listener) {
-		savedListeners.add(listener);
 	}
 
 	/**
@@ -1537,9 +1524,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setUnsaved() {
 		isSaved = false;
-		for (SavedStateListener sl : savedListeners) {
-			sl.stateChanged(false);
-		}
 	}
 
 	/**

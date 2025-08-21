@@ -45,6 +45,7 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 		assertNull(controller.getDefinitionOfG());
 		assertFalse(controller.isGDefined());
 		assertEquals(0, getUndoHistorySize());
+		assertTrue(getApp().isSaved());
 	}
 
 	@Test

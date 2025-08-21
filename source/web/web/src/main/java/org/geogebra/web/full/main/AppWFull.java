@@ -1829,6 +1829,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!asSlide) {
 			// should run after coord system changed
 			initUndoInfoSilent();
+			setSaved();
 		} else {
 			getEventDispatcher().dispatchEvent(EventType.LOAD_PAGE, null);
 		}
@@ -1838,7 +1839,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			FragmentPrefetcher.fetchAllIfNotCached();
 		}
 
-		}
+	}
 
 	@Override
 	protected void storeInitialViewState() {
@@ -2609,6 +2610,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		frame.fitSizeToScreen();
 
 		kernel.initUndoInfo();
+		setSaved();
 		kernel.setFiltersFromConfig();
 		resetCommandDict();
 		if (suiteAppPickerButton != null) {
