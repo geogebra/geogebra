@@ -13,7 +13,7 @@ public class ObliqueAngleProperty extends AbstractValuedProperty<String>
 	private EuclidianView3D euclidianView;
 
 	/**
-	 * Creates a distance from sceen porperty used for
+	 * Creates a distance from sceen property used for
 	 * {@link ProjectionsProperty} PROJECTION_OBLIQUE
 	 * @param localization localitzation
 	 * @param euclidianView euclidian view
