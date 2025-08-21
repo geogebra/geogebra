@@ -508,8 +508,8 @@ abstract public class Input3D {
 		onScreenY = getPanelY() + getPanelHeight() / 2;
 
 		// check if pointer is on screen
-		int x1 = onScreenX + (int) (inputPositionOnScreen[0]);
-		int y1 = onScreenY - (int) (inputPositionOnScreen[1]);
+		int x1 = onScreenX + (int) inputPositionOnScreen[0];
+		int y1 = onScreenY - (int) inputPositionOnScreen[1];
 		if (x1 >= 0 && x1 <= getScreenHalfWidth() * 2 && y1 >= 0
 				&& y1 <= getScreenHalfHeight() * 2) {
 			onScreenX = x1;

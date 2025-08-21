@@ -252,7 +252,7 @@ public abstract class CopyPaste {
 							if (!geos.contains(pspoints2[k])
 									&& predecessorsCovered(pspoints2[k],
 											ancestors)) {
-								geos.add((GeoElement) (pspoints2[k]));
+								geos.add((GeoElement) pspoints2[k]);
 							}
 						}
 					}
@@ -286,7 +286,7 @@ public abstract class CopyPaste {
 							if (!geos.contains(pspoints2[k])
 									&& predecessorsCovered(pspoints2[k],
 											ancestors)) {
-								geos.add((GeoElement) (pspoints2[k]));
+								geos.add((GeoElement) pspoints2[k]);
 							}
 						}
 					}

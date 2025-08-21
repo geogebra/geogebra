@@ -244,8 +244,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 			labelDesc = geo.getLabelDescription();
 
-			xLabel = (int) (coords[0]) + 6;
-			yLabel = (int) (coords[1]) - 6;
+			xLabel = (int) coords[0] + 6;
+			yLabel = (int) coords[1] - 6;
 			addLabelOffset();
 		}
 	}
