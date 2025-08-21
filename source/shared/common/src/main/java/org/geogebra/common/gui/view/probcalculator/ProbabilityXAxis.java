@@ -9,8 +9,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 
@@ -18,27 +16,25 @@ import org.geogebra.common.plugin.Operation;
  * The x axis of the probability calculator with low and high points.
  */
 public class ProbabilityXAxis {
-	private final Construction cons;
+	private final Construction construction;
 	private final Kernel kernel;
 	private GeoPoint lowPoint;
 	private GeoPoint highPoint;
 
 	/**
-	 *
-	 * @param app The application;
+	 * @param kernel the Kernel
 	 */
-	public ProbabilityXAxis(App app) {
-		kernel = app.getKernel();
-		cons = kernel.getConstruction();
-		Localization loc = app.getLocalization();
-		GeoAxis path = (GeoAxis) kernel.lookupLabel(loc.getMenu("xAxis"));
-		this.lowPoint = createAxisPoint(path);
-		this.highPoint = createAxisPoint(path);
+	public ProbabilityXAxis(Kernel kernel) {
+		this.kernel = kernel;
+		this.construction = kernel.getConstruction();
+		GeoAxis xAxis = construction.getXAxis();
+		this.lowPoint = createAxisPoint(xAxis);
+		this.highPoint = createAxisPoint(xAxis);
 	}
 
-	private GeoPoint createAxisPoint(GeoAxis path) {
-		AlgoPointOnPath algo = new AlgoPointOnPath(cons, path, 0d, 0d);
-		cons.removeFromConstructionList(algo);
+	private GeoPoint createAxisPoint(GeoAxis axis) {
+		AlgoPointOnPath algo = new AlgoPointOnPath(construction, axis, 0, 0);
+		construction.removeFromConstructionList(algo);
 
 		GeoPoint p = (GeoPoint) algo.getOutput(0);
 		p.setObjColor(ProbabilityCalculatorView.COLOR_POINT);

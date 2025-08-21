@@ -202,7 +202,7 @@ public abstract class ProbabilityCalculatorView
 		probManager = new ProbabilityManager(app, this);
 		plotSettings = new PlotSettings();
 		plotGeoList = new ArrayList<>();
-		xAxis = new ProbabilityXAxis(app);
+		xAxis = new ProbabilityXAxis(kernel);
 		discreteDistributionFactory = new DiscreteDistributionFactory(cons);
 		updateRoundingFlags();
 	}
