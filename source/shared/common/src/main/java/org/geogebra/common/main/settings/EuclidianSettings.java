@@ -1157,6 +1157,13 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
+	 * @return whether axes are bold or not
+	 */
+	public boolean areAxesBold() {
+		return (axesLineStyle & EuclidianStyleConstants.AXES_BOLD) != 0;
+	}
+
+	/**
 	 * @param i
 	 *            axis index
 	 * @param sbxml

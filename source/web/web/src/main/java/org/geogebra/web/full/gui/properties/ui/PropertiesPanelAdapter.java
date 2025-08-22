@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.properties.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionableProperty;
 import org.geogebra.common.properties.IconAssociatedProperty;
@@ -142,26 +145,37 @@ public class PropertiesPanelAdapter {
 			return dropDown;
 		}
 		if (property instanceof IconsEnumeratedProperty) {
+			FlowPanel iconPanelHolder = new FlowPanel();
+			iconPanelHolder.addStyleName("iconButtonPanel");
+			iconPanelHolder.add(new Label(app.getLocalization().getMenu(property.getName())));
 			FlowPanel iconPanel = new FlowPanel();
+			iconPanel.addStyleName("iconPanel");
 			PropertyResource[] icons = ((IconsEnumeratedProperty<?>) property).getValueIcons();
 			int idx = 0;
+			List<IconButton> iconButtonList = new ArrayList<>();
 			for (PropertyResource icon: icons) {
 				IconButton btn = new IconButton(app, "",
 						new ImageIconSpec(PropertiesIconAdapter.getIcon(icon)));
 				iconPanel.add(btn);
+				iconButtonList.add(btn);
 				final int index = idx;
 				btn.addClickHandler(app.getGlobalHandlers(),
-						(w) -> ((IconsEnumeratedProperty<?>) property).setIndex(index));
+						(w) -> {
+					((IconsEnumeratedProperty<?>) property).setIndex(index);
+					iconButtonList.forEach(iconButton -> iconButton.setActive(false));
+					btn.setActive(true);
+				});
 				idx++;
 			}
-			return iconPanel;
-
+			iconPanelHolder.add(iconPanel);
+			return iconPanelHolder;
 		}
 		if (property instanceof ColorProperty) {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,
 					((ColorProperty) property).getValues(),
 					color -> ((ColorProperty) property).setValue(color));
 			FlowPanel wrapper = new FlowPanel();
+			wrapper.addStyleName("colorPanel");
 			wrapper.add(new Label(property.getName()));
 			wrapper.add(colorPanel);
 			return wrapper;

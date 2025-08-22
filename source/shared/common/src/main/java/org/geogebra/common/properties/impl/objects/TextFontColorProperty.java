@@ -1,15 +1,12 @@
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.ColorValues;
 import org.geogebra.common.main.color.GeoColorValues;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -29,8 +26,7 @@ public class TextFontColorProperty extends ElementColorProperty
 			GeoElement element) throws NotApplicablePropertyException {
 		super(localization, new TextColorPropertyDelegate(element));
 		this.element = element;
-		setValues(Arrays.stream(GeoColorValues.values()).map(ColorValues::getColor)
-				.collect(Collectors.toList()));
+		setValues(GeoColorValues.values());
 	}
 
 	@Override

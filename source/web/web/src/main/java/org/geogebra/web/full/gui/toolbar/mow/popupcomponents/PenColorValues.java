@@ -1,30 +1,31 @@
 package org.geogebra.web.full.gui.toolbar.mow.popupcomponents;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.main.color.ColorValues;
 
-public enum PenColorValues implements ColorValues {
+public final class PenColorValues  {
 
-	BLACK(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK),
-	MEBIS_PURPLE(GColor.newColorRGB(0x975FA8)),
-	GGB_PURPLE(GColor.DEFAULT_PURPLE),
-	BLUE(GColor.newColorRGB(0x1565C0)),
-	GREEN(GColor.newColorRGB(0x388C83)),
-	WHITE(GColor.WHITE),
-	YELLOW(GColor.newColorRGB(0xFFCC02)),
-	ORANGE(GColor.newColorRGB(0xE07415)),
-	RED(GColor.newColorRGB(0xD32F2F)),
-	CUSTOM_COLOR(null);
-
-	private final GColor color;
-
-	PenColorValues(GColor color) {
-		this.color = color;
+	/**
+	 * @return colors for pen tool
+	 */
+	public static List<GColor> values() {
+		return Arrays.asList(
+				GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK,
+				GColor.newColorRGB(0x975FA8),
+				GColor.DEFAULT_PURPLE,
+				GColor.newColorRGB(0x1565C0),
+				GColor.newColorRGB(0x388C83),
+				GColor.WHITE,
+				GColor.newColorRGB(0xFFCC02),
+				GColor.newColorRGB(0xE07415),
+				GColor.newColorRGB(0xD32F2F),
+				null);
 	}
 
-	@Override
-	public GColor getColor() {
-		return color;
+	private PenColorValues() {
+		// utility class
 	}
 }

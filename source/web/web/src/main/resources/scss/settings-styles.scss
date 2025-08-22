@@ -670,6 +670,21 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	.sideSheetTab {
 		width: 100%;
 
+		.expandableList .containerPanel {
+			display: grid;
+			gap: 16px;
+			margin: 0 16px;
+			.gwt-Label {
+				height: 32px;
+				line-height: 32px;
+			}
+			.checkboxPanel {
+				padding: 0;
+				&.withLabel .checkbox {
+					margin-left: 0px;
+				}
+			}
+		}
 		.checkboxPanel {
 			display: flex;
 			padding: 8px 16px 8px 0;
@@ -688,13 +703,29 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.expandableList.extended + .expandableList.extended {
 			border-top: none;
 		}
-		.labelStyle {
-			padding: 8px 16px 16px 16px;
-
-			.gwt-Label {
-				height: 32px;
-				line-height: 32px;
+		.expandableList:not(.extended) .colorPalette .colorButton.selected .checkmark,
+		 .expandableList:not(.extended) .colorPalette .colorButton .plus{
+			visibility: hidden;
+		}
+		.iconButtonPanel .iconPanel {
+			display: flex;
+			gap: 8px;
+		}
+		.colorPanel {
+			.colorPalette {
+			 	width: 368px;
+			 	height: 36px;
+			 	.colorButton {
+					display: inline;
+				}
+				.checkmark, .plus {
+					position: relative;
+					top: -36px;
+				}
 			}
+		}
+		.labelStyle {
+			margin-bottom: 16px;
 			.iconButton {
 				margin-right: 8px;
 			}
@@ -705,7 +736,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 			.xyDistPanel {
 				display: flex;
-				margin: 0 16px;
 				gap: 16px;
 				.inputTextField {
 					margin-bottom: 16px;

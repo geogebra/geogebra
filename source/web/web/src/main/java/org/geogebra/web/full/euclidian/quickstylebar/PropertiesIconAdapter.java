@@ -19,6 +19,7 @@ import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontSizeProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
+import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.resources.SVGResource;
@@ -159,6 +160,16 @@ public class PropertiesIconAdapter {
 			return res.text_italic_black();
 		case ICON_AXES_SERIF:
 			return res.text_serif_black();
+		case ICON_AXES_LINE_TYPE_FULL:
+			return GuiResources.INSTANCE.deco_axes_none();
+		case ICON_AXES_LINE_TYPE_ARROW:
+			return GuiResources.INSTANCE.deco_axes_arrow();
+		case ICON_AXES_LINE_TYPE_ARROW_FILLED:
+			return GuiResources.INSTANCE.deco_axes_arrow_filled();
+		case ICON_AXES_LINE_TYPE_TWO_ARROWS:
+			return GuiResources.INSTANCE.deco_axes_arrows();
+		case ICON_AXES_LINE_TYPE_TWO_ARROWS_FILLED:
+			return GuiResources.INSTANCE.deco_axes_arrows_filled();
 		}
 		return res.stylebar_empty();
 	}

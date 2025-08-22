@@ -6,40 +6,37 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.GeoColorValues;
+import org.geogebra.common.main.color.NeutralColorValues;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 
-/**
- * Property for background color of a graphics view.
- */
-public class BackgroundColorProperty extends AbstractEnumeratedProperty<GColor>
-		implements ColorProperty  {
-
+public class AxesColorProperty extends AbstractEnumeratedProperty<GColor>
+		implements ColorProperty {
 	private final EuclidianSettings settings;
 
 	/**
+	 * Creates a color property for axes
 	 * @param loc localization
 	 * @param settings view settings
 	 */
-	public BackgroundColorProperty(Localization loc, EuclidianSettings settings) {
-		super(loc, "Background");
+	public AxesColorProperty(Localization loc, EuclidianSettings settings) {
+		super(loc, "Color");
 		this.settings = settings;
 	}
 
 	@Override
 	protected void doSetValue(GColor value) {
-		settings.setBackground(value);
+		settings.setAxesColor(value);
 	}
 
 	@Override
 	public GColor getValue() {
-		return settings.getBackground();
+		return settings.getAxesColor();
 	}
 
 	@Override
 	public @Nonnull List<GColor> getValues() {
-		return GeoColorValues.values();
+		return NeutralColorValues.values();
 	}
 }

@@ -20,9 +20,9 @@ public class LabelStylePropertyCollection
 		super(localization, "LabelStyle");
 
 		ArrayList<IconAssociatedProperty> properties = new ArrayList<>();
-		properties.add(new AxesBoldProperty(localization, euclidianSettings));
-		properties.add(new AxesItalicProperty(localization, euclidianSettings));
-		properties.add(new AxesSerifProperty(localization, euclidianSettings));
+		properties.add(new AxesLabelBoldProperty(localization, euclidianSettings));
+		properties.add(new AxesLabelItalicProperty(localization, euclidianSettings));
+		properties.add(new AxesLabelSerifProperty(localization, euclidianSettings));
 		setProperties(properties.toArray(new IconAssociatedProperty[0]));
 	}
 }

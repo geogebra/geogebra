@@ -9,7 +9,7 @@ import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
-public class AxesSerifProperty extends AbstractValuedProperty<Boolean>
+public class AxesLabelSerifProperty extends AbstractValuedProperty<Boolean>
 		implements BooleanProperty, IconAssociatedProperty {
 	private EuclidianSettings euclidianSettings;
 
@@ -18,7 +18,7 @@ public class AxesSerifProperty extends AbstractValuedProperty<Boolean>
 	 * @param localization localization
 	 * @param euclidianSettings EV settings
 	 */
-	public AxesSerifProperty(Localization localization, EuclidianSettings euclidianSettings) {
+	public AxesLabelSerifProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "Serif");
 		this.euclidianSettings = euclidianSettings;
 	}

@@ -4,12 +4,11 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ERASER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_HIGHLIGHTER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
@@ -40,8 +39,7 @@ public class PenCategoryPopup extends CategoryPopup implements SettingListener {
 	}
 
 	private void buildGui() {
-		List<GColor> penColors = Arrays.stream(PenColorValues.values()).map(
-				PenColorValues::getColor).collect(Collectors.toList());
+		List<GColor> penColors = PenColorValues.values();
 
 		colorChooser = new ColorChooserPanel((AppW) getApplication(), penColors, (color) -> {
 			int mode = getLastSelectedMode();
@@ -58,7 +56,7 @@ public class PenCategoryPopup extends CategoryPopup implements SettingListener {
 		sliderComponent = new ComponentSlider((AppW) app);
 		addContent(sliderComponent);
 
-		colorChooser.updateColorSelection(PenColorValues.BLACK.getColor());
+		colorChooser.updateColorSelection(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
 	}
 
 	/**

@@ -28,7 +28,10 @@ import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.common.properties.impl.graphics.AdvancedPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.AxesBoldProperty;
+import org.geogebra.common.properties.impl.graphics.AxesColorProperty;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
+import org.geogebra.common.properties.impl.graphics.AxesLineStyleProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.AxisLabelProperty;
@@ -141,7 +144,11 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new GridVisibilityProperty(localization, euclidianSettings),
 								new GridStyleProperty(localization, euclidianSettings)),
 						new PropertyCollectionWithLead(localization, "Axes",
-								new AxesVisibilityProperty(localization, euclidianSettings)
+								new AxesVisibilityProperty(localization, euclidianSettings),
+								new AxesColorProperty(localization, euclidianSettings),
+								new AxesLineStyleProperty(localization, euclidianSettings),
+								new AxesBoldProperty(localization, euclidianSettings),
+								new LabelStylePropertyCollection(localization, euclidianSettings)
 						),
 						new DimensionPropertiesCollection(localization),
 						axisExpandableProperty(0, "xAxis", app, localization),
@@ -160,7 +167,11 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new GridVisibilityProperty(localization, euclidianSettings),
 								new GridStyleProperty(localization, euclidianSettings)),
 						new PropertyCollectionWithLead(localization, "Axes",
-								new AxesVisibilityProperty(localization, euclidianSettings)
+								new AxesVisibilityProperty(localization, euclidianSettings),
+								new AxesColorProperty(localization, euclidianSettings),
+								new AxesLineStyleProperty(localization, euclidianSettings),
+								new AxesBoldProperty(localization, euclidianSettings),
+								new LabelStylePropertyCollection(localization, euclidianSettings)
 						),
 						new DimensionPropertiesCollection(localization),
 						axisExpandableProperty(0, "xAxis", app, localization),

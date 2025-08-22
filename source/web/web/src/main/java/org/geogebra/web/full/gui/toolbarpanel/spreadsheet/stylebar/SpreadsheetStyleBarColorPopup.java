@@ -1,11 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet.stylebar;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.main.color.ColorValues;
 import org.geogebra.common.main.color.GeoColorValues;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -34,8 +31,8 @@ public class SpreadsheetStyleBarColorPopup extends GPopupPanel
 	}
 
 	private void buildGui(Consumer<GColor> colorHandler) {
-		colorChooserPanel = new ColorChooserPanel((AppW) getApplication(), Arrays.stream(
-				GeoColorValues.values()).map(ColorValues::getColor).collect(Collectors.toList()),
+		colorChooserPanel = new ColorChooserPanel((AppW) getApplication(),
+				GeoColorValues.values(),
 				color -> {
 					colorHandler.accept(color);
 					hide();
