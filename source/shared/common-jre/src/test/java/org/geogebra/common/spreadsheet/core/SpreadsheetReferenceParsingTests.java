@@ -1,7 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.junit.jupiter.api.BeforeAll;

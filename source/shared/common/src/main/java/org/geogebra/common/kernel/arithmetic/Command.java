@@ -284,6 +284,13 @@ public class Command extends ValidExpression
 				return sbToString.toString();
 			}
 		default:
+			if (tpl.isForEditorParser()) {
+				// convert CellRange(A1,A3) to "A1:A3" when serializing for editor
+				if ("CellRange".equals(name) && args.size() == 2) {
+					return args.get(0).toString(tpl) + ":" + args.get(1).toString(tpl);
+				}
+			}
+
 			if (sbToString == null) {
 				sbToString = new StringBuilder();
 			}
