@@ -39,8 +39,7 @@ import org.geogebra.common.util.DoubleUtil;
  * 3) use parabolic interpolation and Brent's Method in One Dimension for
  * interval x[i-1] to x[i+1] (Numerical Recipes in C++, pp.406)
  */
-public abstract class AlgoFunctionAreaSums extends AlgoElement
-		implements DrawInformationAlgo {
+public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawInformationAlgo {
 
 	// largest possible number of rectangles
 	private static final int MAX_RECTANGLES = 10000;
@@ -975,6 +974,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 			// for (int i=0; i < N+1 ; i++) cumSum += yval[i];
 			sum.setValue(totalArea * STEP);
+			if (!isDefined) {
+				sum.setUndefined();
+			}
 			break;
 
 		case BARCHART_BERNOULLI:

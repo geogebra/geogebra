@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoTableText;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -2263,6 +2262,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdLeftSum() {
 		t("LeftSum[ sin(x), 4, 13, 42 ]", "-1.681216143937807");
+		t("IsDefined[ LeftSum[ If(x^(2)>9, 1+0 x), -5, 5, 1 ] ]", "false");
 	}
 
 	@Test
@@ -2357,6 +2357,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdLowerSum() {
 		t("LowerSum[ sin(x), 4, 13, 42 ]", "-2.1618997759936693");
+		t("IsDefined[ LowerSum[ If(x^(2)>9, 1+0 x), -5, 5, 1 ] ]", "false");
 	}
 
 	@Test
@@ -3116,6 +3117,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdRectangleSum() {
 		t("RectangleSum[ sin(x), 4, 13, 42, 0.05 ]", "-1.6703498237676007");
+		t("IsDefined[ RectangleSum[ If(x^(2)>9, 1+0 x), -5, 5, 1, 0.1 ] ]", "false");
 	}
 
 	@Test
@@ -4112,6 +4114,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdTrapezoidalSum() {
 		t("TrapezoidalSum[ sin(x), 4, 13, 42 ]", "-1.5551122654948175");
+		t("IsDefined[ TrapezoidalSum[ If(x^(2)>9, 1+0 x), -5, 5, 1 ] ]", "false");
 	}
 
 	@Test
@@ -4288,6 +4291,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdUpperSum() {
 		t("UpperSum[ sin(x), 4, 13, 42 ]", "-0.949458361978994");
+		t("IsDefined[ UpperSum[ If(x^(2)>9, 1+0 x), -5, 5, 1 ] ]", "false");
 	}
 
 	@Test
