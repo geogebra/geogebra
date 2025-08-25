@@ -745,10 +745,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.ratioPanel {
 			display: flex;
 			gap: 8px;
-			padding-left: 16px;
 
 			.inputTextField {
 				width: 155px;
+				margin: 8px 0 10px 0;
 			}
 			.gwt-Label {
 				margin: 16px 0 12px 0;
@@ -762,7 +762,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			display: flex;
 			gap: 0 16px;
 			flex-wrap: wrap;
-			margin: 4px 16px 10px 16px;
+			margin: 4px 0 10px 0;
 			width: calc(100% - 32px);
 			.minMaxItem {
 				width: 100%;
@@ -770,7 +770,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 			.inputTextField {
 				width: calc(50% - 8px);
-				margin-bottom: 10px;
+				margin: 8px 0 10px 0;
 			}
 		}
 		.dimensionPanel .containerPanel {
