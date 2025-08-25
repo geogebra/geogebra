@@ -166,12 +166,6 @@ public class PropertiesPanelAdapter {
 			}
 			return expandableList;
 		}
-		if (property instanceof NamedEnumeratedProperty) {
-			ComponentDropDown dropDown = new ComponentDropDown(app, property.getName(),
-					(NamedEnumeratedProperty<?>) property);
-			dropDown.setFullWidth(true);
-			return dropDown;
-		}
 		if (property instanceof IconsEnumeratedProperty) {
 			FlowPanel iconPanelHolder = new FlowPanel();
 			iconPanelHolder.addStyleName("iconButtonPanel");
@@ -197,6 +191,12 @@ public class PropertiesPanelAdapter {
 			}
 			iconPanelHolder.add(iconPanel);
 			return iconPanelHolder;
+		}
+		if (property instanceof NamedEnumeratedProperty) {
+			ComponentDropDown dropDown = new ComponentDropDown(app, property.getName(),
+					(NamedEnumeratedProperty<?>) property);
+			dropDown.setFullWidth(true);
+			return dropDown;
 		}
 		if (property instanceof ColorProperty) {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,

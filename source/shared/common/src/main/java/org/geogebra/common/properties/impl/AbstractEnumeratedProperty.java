@@ -55,7 +55,8 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	public void setIndex(int index) {
 		ensureValuesPresent();
 		if (index < 0 || index >= getValues().size()) {
-			throw new RuntimeException("Index must be between (0, values.length-1)");
+			throw new IndexOutOfBoundsException("Index " + index + " must be between 0 and "
+					+ (values.size() - 1) + ".");
 		}
 		setValue(getValues().get(index));
 	}
