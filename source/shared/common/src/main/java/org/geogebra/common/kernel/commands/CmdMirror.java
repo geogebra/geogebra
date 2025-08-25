@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -12,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.main.MyError;
 
@@ -83,7 +83,7 @@ public class CmdMirror extends CommandProcessor {
 
 		if (arg[1].isGeoConic()) { // mirror point in circle Michael
 			// Borcherds 2008-02-10
-			GeoConic conic1 = (GeoConic) arg[1];
+			GeoConicND conic1 = (GeoConicND) arg[1];
 
 			if (conic1.getType() == GeoConicNDConstants.CONIC_CIRCLE
 					&& arg[0].isGeoConic() || arg[0].isGeoPoint()

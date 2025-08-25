@@ -132,24 +132,20 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 * 
 	 * @version 2010-01-21
 	 * @author Michael Borcherds
-	 * @param mirror
-	 *            Circle used as mirror
+	 * @param conic Circle used as mirror
 	 */
 	@Override
-	final public void mirror(GeoConic mirror) {
+	final public void mirror(GeoConicND conic) {
 
-		if (mirror.getType() == CONIC_SINGLE_POINT) {
+		if (conic.getType() == CONIC_SINGLE_POINT) {
 			setUndefined();
 			return;
 		}
 
-		if (mirror.isCircle()
-				&& (type == CONIC_SINGLE_POINT || type == CONIC_CIRCLE)) { // Mirror
-																			// point
-																			// in
-																			// circle
-			double r1 = mirror.getHalfAxes()[0];
-			GeoVec2D midpoint1 = mirror.getTranslationVector();
+		// Mirror point in circle
+		if (conic.isCircle() && (type == CONIC_SINGLE_POINT || type == CONIC_CIRCLE)) {
+			double r1 = conic.getHalfAxes()[0];
+			Coords midpoint1 = conic.getMidpointND();
 			double x1 = midpoint1.getX();
 			double y1 = midpoint1.getY();
 
@@ -225,18 +221,14 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 			GeoPoint tmp = new GeoPoint(cons, null, centerX, centerY, 1.0);
 			setCircleMatrix(tmp, r3);
 			tmp.removeOrSetUndefinedIfHasFixedDescendent();
-		} else if (mirror.isCircle() && (this
-				.getType() == GeoConicNDConstants.CONIC_LINE
-				|| this.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES)) { // Mirror
-																					// point
-																					// in
-																					// circle
-
-			if (mirror.getType() == GeoConicNDConstants.CONIC_CIRCLE) { // Mirror
+		} else if (conic.isCircle() && (this.getType() == GeoConicNDConstants.CONIC_LINE
+				|| this.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES)) {
+				// Mirror point in circle
+			if (conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) { // Mirror
 				// point in
 				// circle
-				double r = mirror.getHalfAxes()[0];
-				GeoVec2D midPoint = mirror.getTranslationVector();
+				double r = conic.getHalfAxes()[0];
+				GeoVec2D midPoint = conic.getTranslationVector();
 				double mx = midPoint.getX();
 				double my = midPoint.getY();
 				double lx = (getLines()[0]).x;
@@ -272,9 +264,9 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 			} else {
 				setUndefined();
 			}
-		} else if (mirror.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
+		} else if (conic.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
 
-			GeoLine line = mirror.getLines()[0];
+			GeoLine line = conic.getLines()[0];
 			mirror(line);
 
 		} else {

@@ -16,8 +16,10 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.ChangeableParent;
+import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -36,7 +38,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 public interface GeoPointND extends PointProperties, Translateable,
 		SpreadsheetTraceable, MatrixTransformable, CoordStyle, VectorNDValue,
-		Mirrorable, Dilateable, Animatable {
+		Mirrorable, Dilateable, Animatable, ConicMirrorable {
 
 	/** cannot move */
 	public static int MOVE_MODE_NONE = 0; // for intersection points and fixed
@@ -508,4 +510,44 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 * @param step vertical increment
 	 */
 	void setVerticalIncrement(NumberValue step);
+
+	/**
+	 * Mirror at circle
+	 * @param conic mirror circle
+	 */
+	@Override
+	default void mirror(GeoConicND conic) {
+		if (canBeMirrored(conic)) {
+			if (conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
+				// Mirror point in circle
+				double r = conic.getHalfAxes()[0];
+				Coords midpoint = conic.getMidpointND();
+				double a = midpoint.getX();
+				double b = midpoint.getY();
+				if (Double.isInfinite(getCoords().getX()) || Double.isInfinite(getY2D())) {
+					setCoords(a, b, 1.0);
+				} else {
+					double scaleFactor = r * r / ((getInhomX() - a) * (getInhomX() - a)
+							+ (getInhomY() - b) * (getInhomY() - b));
+					setCoords(a + scaleFactor * (getInhomX() - a),
+							b + scaleFactor * (getInhomY() - b), 1.0);
+				}
+			} else if (conic.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
+				/* In the case the conic is a line we mirror about that line. */
+				GeoLine g = conic.getLines()[0];
+				/* g = Line[P1,P2] */
+				mirror(g);
+				/* g is not needed anymore, so we remove it. */
+				g.remove();
+			}
+		} else {
+			setUndefined();
+		}
+	}
+
+	/**
+	 * @param conic {@link GeoConicND}
+	 * @return Whether this point can be mirrored (both point and conic in xOy-plane)
+	 */
+	boolean canBeMirrored(GeoConicND conic);
 }

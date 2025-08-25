@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -49,8 +48,7 @@ import org.geogebra.common.util.MyMath;
  * @author Markus Hohenwarter
  */
 public class GeoCurveCartesian extends GeoCurveCartesianND
-		implements Transformable, Translateable, Mirrorable,
-		Dilateable, MatrixTransformable, ConicMirrorable {
+		implements Transformable, Mirrorable, Dilateable, MatrixTransformable {
 
 	// private Function funX, funY;
 	private boolean isClosedPath;
@@ -249,9 +247,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		return getFun(1);
 	}
 
-	/**
-	 * translate function by vector v
-	 */
 	@Override
 	final public void translate(Coords v) {
 		getFun(0).translateY(v.getX());
@@ -665,35 +660,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	@Override
 	public boolean isInverseFillable() {
 		return isFillable();
-	}
-
-	@Override
-	final public void mirror(GeoConic c) {
-		if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
-
-			// Mirror point in circle
-			double r = c.getHalfAxes()[0];
-			GeoVec2D midpoint = c.getTranslationVector();
-			double a = midpoint.getX();
-			double b = midpoint.getY();
-			this.translate(-a, -b);
-			ExpressionNode exprX = getFun(0).deepCopy(this.kernel)
-					.getExpression();
-			ExpressionNode exprY = getFun(1).deepCopy(this.kernel)
-					.getExpression();
-			MyDouble d2 = new MyDouble(this.kernel, 2);
-			ExpressionNode sf = new ExpressionNode(this.kernel,
-					new MyDouble(this.kernel, r * r), Operation.DIVIDE,
-					exprX.power(d2).plus(exprY.power(d2)));
-			ExpressionNode transX = exprX.multiply(sf);
-			ExpressionNode transY = exprY.multiply(sf);
-			getFun(0).setExpression(transX);
-			getFun(1).setExpression(transY);
-			this.translate(a, b);
-
-		} else {
-			setUndefined();
-		}
 	}
 
 	/*

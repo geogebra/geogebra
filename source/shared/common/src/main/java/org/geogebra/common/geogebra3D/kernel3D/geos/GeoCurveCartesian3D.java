@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Transformable;
-import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -38,8 +37,7 @@ import org.geogebra.common.plugin.Operation;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		RotatableND, Translateable,
-		MirrorableAtPlane, Transformable, Dilateable {
+		RotatableND, MirrorableAtPlane, Transformable, Dilateable {
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private boolean trace;
 	
@@ -501,7 +499,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	@Override
 	public void translate(Coords v) {
-
 		// current expressions
 		for (int i = 0; i < 3; i++) {
 			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();

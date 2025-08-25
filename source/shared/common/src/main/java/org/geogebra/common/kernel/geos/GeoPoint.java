@@ -59,7 +59,6 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -90,8 +89,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  * @author Markus
  */
-public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint,
-		ConicMirrorable, GeoPointND,
+public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint, GeoPointND,
 		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasCoordinates {
 	private static volatile Comparator<GeoPoint> comparatorX;
 
@@ -1385,37 +1383,9 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		setCoords(2.0 * qx - x, 2.0 * qy - y, z);
 	}
 
-	/*
-	 * Michael Borcherds 2008-02-10 Invert point in circle
-	 */
 	@Override
-	final public void mirror(GeoConic c) {
-		if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
-			// Mirror point in circle
-			double r = c.getHalfAxes()[0];
-			GeoVec2D midpoint = c.getTranslationVector();
-			double a = midpoint.getX();
-			double b = midpoint.getY();
-			if (Double.isInfinite(x) || Double.isInfinite(y2D)) {
-				setCoords(a, b, 1.0);
-			} else {
-				double sf = r * r / ((inhomX - a) * (inhomX - a)
-						+ (inhomY - b) * (inhomY - b));
-				setCoords(a + sf * (inhomX - a), b + sf * (inhomY - b), 1.0);
-			}
-		} else if (/*
-					 * c.getType() == GeoConic.CONIC_LINE ||
-					 */ c.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
-			/* In the case the conic is a line we mirror about that line. */
-			GeoLine g = c.getLines()[0];
-			/* g = Line[P1,P2] */
-			mirror(g);
-			/* g is not needed anymore, so we remove it. */
-			g.remove();
-
-		} else {
-			setUndefined();
-		}
+	public boolean canBeMirrored(GeoConicND conic) {
+		return conic.isWhollyIn2DView(app.getEuclidianView1());
 	}
 
 	/**

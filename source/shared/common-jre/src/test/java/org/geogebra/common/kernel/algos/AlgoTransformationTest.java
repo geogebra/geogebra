@@ -92,8 +92,8 @@ public class AlgoTransformationTest extends BaseUnitTest {
 		assertEquals(Math.PI, arc.getParameterEnd(), 0.01);
 		// when using point names we expand the definition, but should get equal result
 		GeoConicPart arc2 = add("Reflect(Ray(B,A),x^2+y^2=1)");
-		assertEquals(arc2.getDefinition(StringTemplate.defaultTemplate),
-				"CircumcircularArc(B', A', Reflect((∞, ∞), x² + y² = 1))");
+		assertEquals("CircumcircularArc(B', A', Reflect((∞, ∞), x² + y² = 1))",
+				arc2.getDefinition(StringTemplate.defaultTemplate));
 		assertTrue(getDirection(arc));
 		assertEquals(0, arc2.getParameterStart(), 0.01);
 		assertEquals(Math.PI, arc2.getParameterEnd(), 0.01);

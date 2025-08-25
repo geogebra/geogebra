@@ -87,8 +87,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
-		MatrixTransformable, RotatableND,
-		Transformable, MirrorableAtPlane {
+		MatrixTransformable, RotatableND, Transformable, MirrorableAtPlane {
 
 	private boolean isInfinite;
 	private boolean isDefined;
@@ -2265,4 +2264,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		this.verticalIncrement = step;
 	}
 
+	@Override
+	public boolean canBeMirrored(GeoConicND conic) {
+		return isWhollyIn2DView(app.getEuclidianView1())
+				&& conic.isWhollyIn2DView(app.getEuclidianView1());
+	}
 }

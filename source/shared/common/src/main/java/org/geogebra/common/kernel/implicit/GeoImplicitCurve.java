@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.arithmetic.traversing.ConstantSimplifier;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.Dilateable;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -47,6 +46,7 @@ import org.geogebra.common.kernel.geos.Rotatable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1123,11 +1123,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	/* mirror about a circle */
 	@Override
-	public void mirror(GeoConic c) {
+	public void mirror(GeoConicND conic) {
 		if (getCoeff() != null) {
-			double cx = c.getMidpoint().getX();
-			double cy = c.getMidpoint().getY();
-			double cr = c.getCircleRadius();
+			double cx = conic.getMidpoint().getX();
+			double cy = conic.getMidpoint().getY();
+			double cr = conic.getCircleRadius();
 
 			plugInRatPoly(
 					new double[][] {
@@ -1144,9 +1144,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 							{ -2 * cx, 0, 0 }, { 1, 0, 0 } });
 		} else {
 			MyDouble r2 = new MyDouble(kernel,
-					c.getHalfAxis(0) * c.getHalfAxis(0));
-			expression.getFunction().translate(-c.getMidpoint2D().getX(),
-					-c.getMidpoint2D().getY());
+					conic.getHalfAxis(0) * conic.getHalfAxis(0));
+			expression.getFunction().translate(-conic.getMidpoint2D().getX(),
+					-conic.getMidpoint2D().getY());
 			FunctionVariable x = expression.getFunctionVariables()[0];
 			FunctionVariable y = expression.getFunctionVariables()[1];
 			ExpressionNode expr = expression.getFunctionExpression()
@@ -1162,12 +1162,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			FunctionNVar f2 = new FunctionNVar(expr,
 					new FunctionVariable[] { x2, y2 });
 			expression.set(f2);
-			expression.translate(c.getMidpoint2D());
+			expression.translate(conic.getMidpoint2D());
 
 			// do the same computations for the factors also
 			for (int factor = 0; factor < factorLength(); ++factor) {
 				getFactor(factor).getFunction().translate(
-						-c.getMidpoint2D().getX(), -c.getMidpoint2D().getY());
+						-conic.getMidpoint2D().getX(), -conic.getMidpoint2D().getY());
 				x = getFactor(factor).getFunctionVariables()[0];
 				y = getFactor(factor).getFunctionVariables()[1];
 				expr = getFactor(factor).getFunctionExpression()
@@ -1182,7 +1182,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				expr.replace(y, newY);
 				f2 = new FunctionNVar(expr, new FunctionVariable[] { x2, y2 });
 				getFactor(factor).set(f2);
-				getFactor(factor).translate(c.getMidpoint2D());
+				getFactor(factor).translate(conic.getMidpoint2D());
 			}
 
 			setDefinition(

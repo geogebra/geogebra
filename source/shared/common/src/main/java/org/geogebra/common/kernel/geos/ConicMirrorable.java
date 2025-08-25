@@ -1,16 +1,17 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.kernelND.GeoConicND;
+
 /**
- * Represents geos that can be mirrored atline or point
+ * Represents geos that can be mirrored at a line or point
  * 
  */
 public interface ConicMirrorable {
+
 	/**
 	 * Mirror at circle
-	 * 
-	 * @param c
-	 *            mirror circle
+	 * @param conic mirror circle
 	 */
-	public void mirror(GeoConic c);
+	public void mirror(GeoConicND conic);
 
 }

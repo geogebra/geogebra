@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
@@ -40,8 +41,10 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -63,7 +66,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	protected Mirrorable out;
 	private GeoLineND mirrorLine;
 	protected GeoPointND mirrorPoint;
-	private GeoConic mirrorConic;
+	private GeoConicND mirrorConic;
 	protected GeoElement mirror;
 
 	private GeoPoint transformedPoint;
@@ -117,7 +120,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * @param c
 	 *            mirror conic
 	 */
-	AlgoMirror(Construction cons, String label, GeoElement in, GeoConic c) {
+	AlgoMirror(Construction cons, String label, GeoElement in, GeoConicND c) {
 
 		this(cons, in, c);
 		outGeo.setLabel(label);
@@ -133,7 +136,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * @param c
 	 *            mirror conic
 	 */
-	public AlgoMirror(Construction cons, GeoElement in, GeoConic c) {
+	public AlgoMirror(Construction cons, GeoElement in, GeoConicND c) {
 
 		this(cons);
 		mirrorConic = c;
@@ -299,12 +302,12 @@ public class AlgoMirror extends AlgoTransformation implements
 			} else {
 				out.mirror(getMirrorCoords());
 			}
+		} else if (out instanceof ConicMirrorable
+				&& mirrorConic.isWhollyIn2DView(mirrorConic.getApp().getEuclidianView1())) {
+			((ConicMirrorable) out).mirror(mirrorConic);
 		} else {
-			if (out instanceof ConicMirrorable) {
-				((ConicMirrorable) out).mirror(mirrorConic);
-			}
+			out.setUndefined();
 		}
-
 	}
 
 	/**
@@ -327,7 +330,7 @@ public class AlgoMirror extends AlgoTransformation implements
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else if (inGeo instanceof GeoPoly && mirror == mirrorConic) {
-			((GeoPoly) inGeo).toGeoCurveCartesian((GeoCurveCartesian) outGeo);
+			((GeoPoly) inGeo).toGeoCurveCartesian((GeoCurveCartesianND) outGeo);
 		} else {
 			super.setOutGeo();
 		}
@@ -358,12 +361,14 @@ public class AlgoMirror extends AlgoTransformation implements
 		if (!(outGeo instanceof GeoList) && (outGeo instanceof Mirrorable)) {
 			out = (Mirrorable) outGeo;
 		}
-
 	}
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
 		if ((geo instanceof GeoPoly) && mirror == mirrorConic) {
+			if (geo.isGeoElement3D()) {
+				return new GeoCurveCartesian3D(cons);
+			}
 			return new GeoCurveCartesian(cons);
 		}
 		if ((geo instanceof GeoFunction) && mirror != mirrorPoint) {

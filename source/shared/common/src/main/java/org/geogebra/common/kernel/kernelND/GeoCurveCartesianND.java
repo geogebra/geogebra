@@ -19,9 +19,11 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.traversing.ConstantSimplifier;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ParametricCurve;
+import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.plugin.Operation;
@@ -35,7 +37,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public abstract class GeoCurveCartesianND extends GeoElement
-		implements ParametricCurve, CasEvaluableFunction {
+		implements ParametricCurve, CasEvaluableFunction, ConicMirrorable, Translateable {
 
 	/**
 	 * samples to find interval with closest parameter position to given point
@@ -859,5 +861,41 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 */
 	public boolean isSpline() {
 		return getParentAlgorithm() instanceof AlgoSpline;
+	}
+
+	@Override
+	final public void mirror(GeoConicND conic) {
+		if (conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
+			// Mirror point in circle
+			Coords midpoint = conic.getMidpointND();
+			double x = midpoint.getX();
+			double y = midpoint.getY();
+			double z = midpoint.getZ();
+
+			this.translate(new Coords(-x, -y, -z));
+			applyCircleInversion(conic.getHalfAxes()[0]);
+			this.translate(new Coords(x, y, z));
+		} else {
+			setUndefined();
+		}
+	}
+
+	private void applyCircleInversion(double radius) {
+		ExpressionNode scaleFactor = new ExpressionNode(kernel,
+				new MyDouble(kernel, radius * radius), Operation.DIVIDE, getSquaredNorm());
+		for (int i = 0; i < 2; i++) {
+			ExpressionNode expression = getFun(i).deepCopy(kernel).getExpression();
+			getFun(i).setExpression(expression.multiply(scaleFactor));
+		}
+	}
+
+	private ExpressionNode getSquaredNorm() {
+		MyDouble d2 = new MyDouble(this.kernel, 2);
+		ExpressionNode squaredNorm = new ExpressionNode(kernel, 0);
+		for (int i = 0; i < fun.length; i++) {
+			ExpressionNode expression = getFun(i).deepCopy(kernel).getExpression();
+			squaredNorm = squaredNorm.plus(expression.power(d2));
+		}
+		return squaredNorm;
 	}
 }

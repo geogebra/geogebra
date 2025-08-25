@@ -2843,8 +2843,7 @@ public class AlgoDispatcher {
 	 *            conic
 	 * @return intersect algo
 	 */
-	public AlgoIntersectImplicitPolynomials getIntersectionAlgorithm(GeoImplicit p1,
-			GeoConic c1) {
+	public AlgoIntersectImplicitPolynomials getIntersectionAlgorithm(GeoImplicit p1, GeoConic c1) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p1, c1);
 		if (existingAlgo != null) {
 			return (AlgoIntersectImplicitPolynomials) existingAlgo;
@@ -2865,8 +2864,7 @@ public class AlgoDispatcher {
 	 *            second arg of Intersect
 	 * @return cached intersection geo
 	 */
-	public AlgoElement findExistingIntersectionAlgorithm(GeoElementND a,
-			GeoElementND b) {
+	public AlgoElement findExistingIntersectionAlgorithm(GeoElementND a, GeoElementND b) {
 		if (!isIntersectCacheEnabled) {
 			return null;
 		}
@@ -2895,8 +2893,7 @@ public class AlgoDispatcher {
 	 *            conic
 	 * @return tangents
 	 */
-	final public GeoElement[] tangent(String[] labels, GeoPointND P,
-			GeoConicND c) {
+	final public GeoElement[] tangent(String[] labels, GeoPointND P, GeoConicND c) {
 		if (disabledAlgos.contains(DisabledAlgorithms.TangentPointConic)) {
 			return null;
 		}
@@ -2916,8 +2913,7 @@ public class AlgoDispatcher {
 	 *            conic
 	 * @return common tangents
 	 */
-	final public GeoElement[] commonTangents(String[] labels, GeoConicND c1,
-			GeoConicND c2) {
+	final public GeoElement[] commonTangents(String[] labels, GeoConicND c1, GeoConicND c2) {
 		if (disabledAlgos.contains(DisabledAlgorithms.TangentConicConic)) {
 			return null;
 		}
@@ -2936,8 +2932,7 @@ public class AlgoDispatcher {
 	 *            conic
 	 * @return tangents
 	 */
-	final public GeoElement[] tangent(String[] labels, GeoLineND g,
-			GeoConicND c) {
+	final public GeoElement[] tangent(String[] labels, GeoLineND g, GeoConicND c) {
 		if (disabledAlgos.contains(DisabledAlgorithms.TangentLineConic)) {
 			return null;
 		}
@@ -2956,8 +2951,7 @@ public class AlgoDispatcher {
 	 *            function
 	 * @return tangent
 	 */
-	final public GeoLine tangent(String label, GeoPointND P,
-			GeoFunctionable f) {
+	final public GeoLine tangent(String label, GeoPointND P, GeoFunctionable f) {
 		return KernelCAS.tangent(cons, label, P, f);
 	}
 
@@ -2972,8 +2966,7 @@ public class AlgoDispatcher {
 	 *            implicit curve
 	 * @return tangents
 	 */
-	final public GeoLine[] tangent(String[] labels, GeoPointND R,
-			GeoImplicit p) {
+	final public GeoLine[] tangent(String[] labels, GeoPointND R, GeoImplicit p) {
 		if (disabledAlgos.contains(DisabledAlgorithms.TangentPointImplicitCurve)) {
 			return null;
 		}
@@ -2996,8 +2989,7 @@ public class AlgoDispatcher {
 	 * @return tangents
 	 **/
 	final public GeoLine[] tangent(String[] labels, GeoLineND g, GeoImplicit p) {
-		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons,
-				labels, p, g);
+		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons, labels, p, g);
 		algo.setLabels(labels);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;
@@ -3018,8 +3010,7 @@ public class AlgoDispatcher {
 	 *            vector
 	 * @return translated object
 	 */
-	final public GeoElement[] translate(String label, GeoElementND geoTrans,
-			GeoVec3D v) {
+	final public GeoElement[] translate(String label, GeoElementND geoTrans, GeoVec3D v) {
 		Transform t = new TransformTranslate(cons, v);
 		return t.transform(geoTrans, label);
 	}
@@ -3033,8 +3024,7 @@ public class AlgoDispatcher {
 	 *            vector
 	 * @return translated object
 	 */
-	public GeoElement[] translateND(String label, GeoElementND geoTrans,
-			GeoVectorND v) {
+	public GeoElement[] translateND(String label, GeoElementND geoTrans, GeoVectorND v) {
 		return translate(label, geoTrans, (GeoVec3D) v);
 	}
 
@@ -3049,8 +3039,7 @@ public class AlgoDispatcher {
 	 *            center
 	 * @return mirrored object
 	 */
-	final public GeoElement[] mirror(String label, GeoElement geoMir,
-			GeoPoint Q) {
+	final public GeoElement[] mirror(String label, GeoElement geoMir, GeoPoint Q) {
 		Transform t = new TransformMirror(cons, Q);
 		return t.transform(geoMir, label);
 	}
@@ -3067,8 +3056,7 @@ public class AlgoDispatcher {
 	 *            circle (result undefined for other conics)
 	 * @return mirrored object
 	 */
-	final public GeoElement[] mirror(String label, GeoElement Q,
-			GeoConic conic) {
+	final public GeoElement[] mirror(String label, GeoElement Q, GeoConicND conic) {
 		Transform t = new TransformMirror(cons, conic);
 		return t.transform(Q, label);
 	}
@@ -3084,8 +3072,7 @@ public class AlgoDispatcher {
 	 *            line
 	 * @return mirrored object
 	 */
-	final public GeoElement[] mirror(String label, GeoElement geoMir,
-			GeoLine g) {
+	final public GeoElement[] mirror(String label, GeoElement geoMir, GeoLine g) {
 		Transform t = new TransformMirror(cons, g);
 		return t.transform(geoMir, label);
 	}

@@ -2,10 +2,10 @@ package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.algos.AlgoMirror;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -47,7 +47,7 @@ public class TransformMirror extends Transform {
 	 * @param mirrorCircle
 	 *            mirror circle
 	 */
-	public TransformMirror(Construction cons, GeoConic mirrorCircle) {
+	public TransformMirror(Construction cons, GeoConicND mirrorCircle) {
 		mirror = mirrorCircle;
 		this.cons = cons;
 	}
@@ -71,7 +71,7 @@ public class TransformMirror extends Transform {
 		} else if (mirror.isGeoPoint()) {
 			algo = new AlgoMirror(cons, geo, (GeoPointND) mirror);
 		} else {
-			algo = new AlgoMirror(cons, geo, (GeoConic) mirror);
+			algo = new AlgoMirror(cons, geo, (GeoConicND) mirror);
 		}
 		return algo;
 	}

@@ -2476,6 +2476,31 @@ public class CommandsTestCommon extends BaseCommandTest {
 						+ " + (-0.25 * abs(t - 2)) + (-0.75 * abs(t - 3)) + (t * (-0.5)) + 2)))");
 		t("Reflect[ Polygon[(1,1),(2,1/2),4], x+y=17 ]", "1.25");
 		t("Reflect[ Polygon[(1,1),(2,1/2),4], (1,1) ]", "1.25");
+		// 3D object and 3D mirror - same plane
+		t("Reflect[ Polygon[(2.5,6,0), (3.5,7,0), (1,-1,0)], (3.54, 5.37, 0) + (3*cos(t), 3*sin(t), 0) ]",
+				"((9 / ((2.5 + (0.5 * abs(t)) + (-1.75 * abs(t - 1)) + (2 * abs(t - 2)) "
+						+ "+ (t * 0.75) - 2.25 - 3.54)^(2) + (6 + (0.5 * abs(t)) "
+						+ "+ (-4.5 * abs(t - 1)) + (7.5 * abs(t - 2)) + (t * 3.5) "
+						+ "- 10.5 - 5.37)^(2) + ((t * 0))^(2)) * (2.5 + (0.5 * abs(t)) "
+						+ "+ (-1.75 * abs(t - 1)) + (2 * abs(t - 2)) + (t * 0.75) - 2.25 - 3.54)) "
+						+ "+ 3.54, (9 / ((2.5 + (0.5 * abs(t)) + (-1.75 * abs(t - 1)) "
+						+ "+ (2 * abs(t - 2)) + (t * 0.75) - 2.25 - 3.54)^(2) "
+						+ "+ (6 + (0.5 * abs(t)) + (-4.5 * abs(t - 1)) + (7.5 * abs(t - 2)) "
+						+ "+ (t * 3.5) - 10.5 - 5.37)^(2) + ((t * 0))^(2)) * (6 + (0.5 * abs(t)) "
+						+ "+ (-4.5 * abs(t - 1)) + (7.5 * abs(t - 2)) + (t * 3.5) - 10.5 - 5.37)) "
+						+ "+ 5.37, (t * 0))");
+		// 3D object and 3D mirror - different planes
+		t("IsDefined[Reflect[(1,0,1) + (cos(t), 2*sin(t), 0), (0,0,0) + (2*cos(t), 2*sin(t), 0)]]",
+				"false");
+		// 3D object and 2D mirror - same plane
+		t("Reflect[(6,0,0), (0,0) + (3*cos(t), 3*sin(t))]", "(1.5, 0, 0)");
+		// 3D object and 2D mirror - different planes
+		t("IsDefined[Reflect[(0,0,1), (0,0) + (2*cos(t), 2*sin(t))]]", "false");
+		// 2D object and 3D mirror - different planes
+		t("IsDefined[Reflect[ImplicitCurve[x^2 + y^2 - 1], (0,0,1) + (2*cos(t), 2*sin(t), 0)]]",
+				"false");
+		// 2D object and 3D mirror - same plane
+		tRound("Reflect[(3,0), (1,1,0) + (2*cos(t), 2*sin(t), 0)]", "(2.6, 0.2)");
 	}
 
 	@Test
