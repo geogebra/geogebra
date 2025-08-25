@@ -150,7 +150,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesBoldProperty(localization, euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)
 						),
-						new DimensionPropertiesCollection(localization),
+						new DimensionPropertiesCollection(app, localization, euclidianSettings),
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),
 						new AdvancedPropertiesCollection(localization, euclidianSettings))
@@ -173,7 +173,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesBoldProperty(localization, euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)
 						),
-						new DimensionPropertiesCollection(localization),
+						new DimensionPropertiesCollection(app, localization, euclidianSettings),
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),
 						new AdvancedPropertiesCollection(localization, euclidianSettings))
@@ -196,10 +196,10 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesColoredProperty(localization,
 										(EuclidianSettings3D) euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)),
+						new DimensionPropertiesCollection(app, localization, euclidianSettings),
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),
 						axisExpandableProperty(2, "zAxis", app, localization),
-						new DimensionPropertiesCollection(localization),
 						new ProjectionPropertyCollection(app, localization,
 								(EuclidianSettings3D) euclidianSettings),
 						new AdvancedPropertiesCollection(localization, euclidianSettings))

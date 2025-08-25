@@ -87,7 +87,7 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 						new PropertyCollectionWithLead(localization, "Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings)
 						),
-						new DimensionPropertiesCollection(localization),
+						new DimensionPropertiesCollection(app, localization, euclidianSettings),
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),
 						axisExpandableProperty(2, "zAxis", app, localization),

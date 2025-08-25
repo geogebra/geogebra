@@ -19,9 +19,12 @@ import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
+import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.DimensionRatioProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -35,6 +38,7 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -71,6 +75,9 @@ public class PropertiesPanelAdapter {
 	}
 
 	private Widget getWidget(Property property) {
+		if (property instanceof DimensionRatioProperty) {
+			return buildRatioPanel((DimensionRatioProperty) property);
+		}
 		if (property instanceof IconAssociatedProperty) {
 			IconButton button = new IconButton(app, null, new ImageIconSpec(PropertiesIconAdapter
 					.getIcon(((IconAssociatedProperty) property).getIcon())), property.getName());
@@ -117,6 +124,7 @@ public class PropertiesPanelAdapter {
 		if (property instanceof GridDistancePropertyCollection) {
 			return new GridDistancePanel(app, (GridDistancePropertyCollection) property);
 		}
+
 		if (property instanceof ProjectionPropertyCollection) {
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
 					null, property.getName());
@@ -126,6 +134,26 @@ public class PropertiesPanelAdapter {
 				expandableList.addToContent(widget);
 				collection.addOptionalWidget(widget, prop);
 			}
+		}
+		if (property instanceof DimensionPropertiesCollection) {
+			ComponentExpandableList expandableList = new ComponentExpandableList(app,
+					null, property.getName());
+			expandableList.addStyleName("dimensionPanel");
+
+			FlowPanel minMaxPanel = new FlowPanel();
+			minMaxPanel.addStyleName("minMaxPanel");
+			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
+				if (prop instanceof DimensionRatioProperty) {
+					expandableList.addToContent(getWidget(prop));
+					expandableList.addToContent(new Label(app.getLocalization()
+							.getMenu("Dimension")));
+				} else {
+					Widget minMaxItem = getWidget(prop);
+					minMaxItem.addStyleName("minMaxItem");
+					minMaxPanel.add(minMaxItem);
+				}
+			}
+			expandableList.addToContent(minMaxPanel);
 			return expandableList;
 		}
 		if (property instanceof PropertyCollection) {
@@ -202,5 +230,58 @@ public class PropertiesPanelAdapter {
 			return inputField;
 		}
 		return new Label(property + "");
+	}
+
+	private FlowPanel buildRatioPanel(DimensionRatioProperty property) {
+		ComponentInputField xRatio = new ComponentInputField(app, "",
+				"xAxis", "", property.getXRatio());
+		xRatio.getTextField().getTextComponent().addBlurHandler(
+				evt -> property.setXRatio(xRatio.getText()));
+		xRatio.getTextField().getTextComponent().addKeyHandler(e -> {
+			if (e.isEnterKey()) {
+				property.setXRatio(xRatio.getText());
+			}
+		});
+		xRatio.setDisabled(!property.isRatioEnabled());
+
+		ComponentInputField yRatio = new ComponentInputField(app, "",
+				"yAxis", "", property.getYRatio());
+		yRatio.getTextField().getTextComponent().addBlurHandler(
+				evt -> property.setYRatio(yRatio.getText()));
+		yRatio.getTextField().getTextComponent().addKeyHandler(e -> {
+			if (e.isEnterKey()) {
+				property.setYRatio(yRatio.getText());
+			}
+		});
+		yRatio.setDisabled(!property.isRatioEnabled());
+
+		SVGResource icon = property.isRatioLocked()
+				? MaterialDesignResources.INSTANCE.lock_black()
+				: MaterialDesignResources.INSTANCE.lock_open_black();
+		String ariaLabel = property.isRatioLocked() ? "UnlockRatio" : "LockRatio";
+		IconButton lockRatio = new IconButton(app, ariaLabel, new ImageIconSpec(icon));
+		lockRatio.addFastClickHandler(source -> {
+			property.setRatioLocked(!property.isRatioLocked());
+			boolean locked = property.isRatioLocked();
+			lockRatio.setIcon(locked
+					? MaterialDesignResources.INSTANCE.lock_black()
+					: MaterialDesignResources.INSTANCE.lock_open_black());
+			lockRatio.setTitle(app.getLocalization().getMenu(property.isRatioLocked()
+					? "UnlockRatio" : "LockRatio"));
+			xRatio.setDisabled(locked);
+			yRatio.setDisabled(locked);
+		});
+
+		FlowPanel panel = new FlowPanel();
+		panel.add(new Label(property.getName()));
+		FlowPanel ratioPanel = new FlowPanel();
+		ratioPanel.addStyleName("ratioPanel");
+		ratioPanel.add(xRatio);
+		ratioPanel.add(new Label(":"));
+		ratioPanel.add(yRatio);
+		ratioPanel.add(lockRatio);
+
+		panel.add(ratioPanel);
+		return panel;
 	}
 }

@@ -944,7 +944,7 @@ $keyboard_button_transition: opacity .3s ease;
 			}
 		}
 
-		&.disabled, &.disabled:hover  {
+		&.disabled, &.disabled:hover {
 			cursor: default;
 			border-color: neutral(300);
 
