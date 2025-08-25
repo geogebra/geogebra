@@ -3,9 +3,8 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.shared.DialogUtil;
@@ -13,7 +12,6 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.user.client.ui.FlowPanel;
 
 import com.himamis.retex.editor.web.MathFieldW;
 
@@ -22,15 +20,13 @@ import elemental2.dom.DomGlobal;
 
 public abstract class SaveFileDialog extends ComponentDialog implements
 		SaveController.SaveListener, SaveDialogI {
-	private FlowPanel contentPanel;
-	private FlowPanel inputPanel;
-	private InputPanelW titleField;
+	protected ComponentInputField titleField;
 
 	/**
 	 * Base dialog constructor
-	 * @param app - see {@link AppW}
-	 * @param dialogData - contains trans keys for title and buttons
-	 * @param autoHide - true if dialog should be hidden on background click
+	 * @param app see {@link AppW}
+	 * @param dialogData contains trans keys for title and buttons
+	 * @param autoHide true if dialog should be hidden on background click
 	 */
 	public SaveFileDialog(AppW app,
 			DialogData dialogData, boolean autoHide) {
@@ -47,36 +43,15 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 	 * build dialog content
 	 */
 	public void buildContent() {
-		contentPanel = new FlowPanel();
-		inputPanel = new FlowPanel();
+		titleField = new ComponentInputField((AppW) app, "Untitled",
+				app.getLocalization().getMenu("Title"), "", "");
 
-		inputPanel.setStyleName("mowInputPanelContent");
-		inputPanel.addStyleName("emptyState");
-
-		titleField = new InputPanelW("", app, 25, false);
-		FormLabel titleLbl = new FormLabel().setFor(titleField.getTextComponent());
-		titleLbl.setText(app.getLocalization().getMenu("Title"));
-		titleLbl.addStyleName("inputLabel");
-		titleField.getTextComponent().getTextBox().getElement().setAttribute(
-				"placeholder", app.getLocalization().getMenu("Untitled"));
-		titleField.addStyleName("inputText");
-
-		inputPanel.add(titleLbl);
-		inputPanel.add(titleField);
-
-		contentPanel.add(inputPanel);
-		addDialogContent(contentPanel);
-	}
-
-	public FlowPanel getContentPanel() {
-		return contentPanel;
+		addDialogContent(titleField);
 	}
 
 	private void initActions() {
 		// set focus to input field!
-		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
-		addFocusBlurHandlers();
-		addHoverHandlers();
+		titleField.focusDeferred();
 		setOnNegativeAction(app.getSaveController()::cancel);
 		Runnable afterSave = () -> app.getSaveController().runAfterSaveCallback(true);
 		setOnPositiveAction(() -> {
@@ -89,7 +64,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 			} else {
 				if (!app.getLoginOperation().isLoggedIn()) {
 					hide();
-					((AppWFull) app).getActivity().markSaveProcess(getInputField().getText(),
+					((AppWFull) app).getActivity().markSaveProcess(titleField.getText(),
 							getSaveVisibility());
 					((AppW) app).getGuiManager().listenToLogin(this::onSave);
 					app.getLoginOperation().showLoginDialog();
@@ -98,7 +73,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 				}
 			}
 		});
-		titleField.getTextComponent().addKeyUpHandler(event -> {
+		titleField.getTextField().getTextComponent().addKeyUpHandler(event -> {
 			NativeEvent nativeEvent = event.getNativeEvent();
 			// we started handling Ctrl+S in graphics view but then focus moved to this dialog
 			// make sure the keyup event doesn't clear selection
@@ -107,7 +82,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 				setTitle();
 			}
 		});
-		titleField.addTextComponentInputListener(
+		titleField.getTextField().addTextComponentInputListener(
 				ignore -> setPosBtnDisabled(titleField.getText().isEmpty()));
 		GlobalHandlerRegistry globalHandlers = ((AppW) app).getGlobalHandlers();
 		globalHandlers.addEventListener(DomGlobal.window, "unload",
@@ -116,13 +91,12 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 
 	private void onSave() {
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
-		app.getSaveController().saveAs(getInputField().getText(),
+		app.getSaveController().saveAs(titleField.getText(),
 				getSaveVisibility(), this);
 	}
 
 	/**
 	 * Sets material type to be saved.
-	 *
 	 * @param saveType for the dialog.
 	 */
 	@Override
@@ -151,64 +125,17 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 
 	private boolean sameMaterial(Material material) {
 		return app.getLoginOperation().owns(material)
-				&& material.getTitle().equals(getInputField().getText());
-	}
-
-	/**
-	 * Add mouse over/ out handlers
-	 */
-	private void addHoverHandlers() {
-		titleField.getTextComponent().getTextBox()
-				.addMouseOverHandler(event -> getInputPanel().addStyleName("hoverState"));
-		titleField.getTextComponent().getTextBox()
-				.addMouseOutHandler(event -> getInputPanel().removeStyleName("hoverState"));
-	}
-
-	private void addFocusBlurHandlers() {
-		titleField.getTextComponent().getTextBox()
-				.addFocusHandler(event -> setFocusState());
-		titleField.getTextComponent().getTextBox()
-				.addBlurHandler(event -> resetInputField());
-	}
-
-	/**
-	 * sets the style of InputPanel to focus state
-	 */
-	protected void setFocusState() {
-		getInputPanel().setStyleName("mowInputPanelContent");
-		getInputPanel().addStyleName("focusState");
-	}
-
-	/**
-	 * Resets input style on blur
-	 */
-	protected void resetInputField() {
-		getInputPanel().removeStyleName("focusState");
-		getInputPanel().addStyleName("emptyState");
-	}
-
-	/**
-	 * @return panel holding input with label and error label
-	 */
-	public FlowPanel getInputPanel() {
-		return inputPanel;
-	}
-
-	/**
-	 * @return input text field
-	 */
-	public InputPanelW getInputField() {
-		return titleField;
+				&& material.getTitle().equals(titleField.getText());
 	}
 
 	/**
 	 * Sets initial title for the material to save.
 	 */
 	public void setTitle() {
-		app.getSaveController().updateSaveTitle(getInputField()
-						.getTextComponent(), getDefaultTitle());
-		inputPanel.setVisible(shouldInputPanelBeVisible());
-		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());
+		app.getSaveController().updateSaveTitle(titleField.getTextField().getTextComponent(),
+				getDefaultTitle());
+		titleField.setVisible(shouldInputPanelBeVisible());
+		Scheduler.get().scheduleDeferred(() -> titleField.getTextField().setFocusAndSelectAll());
 	}
 
 	private String getDefaultTitle() {

@@ -14,16 +14,12 @@ import org.gwtproject.user.client.ui.FlowPanel;
  */
 
 public abstract class MediaDialog extends ComponentDialog {
-
 	protected MediaInputPanel mediaInputPanel;
 
 	/**
-	 * @param app
-	 *            app
-	 * @param dialogTitle
-	 *            title of dialog
+	 * @param app application
+	 * @param dialogTitle title of dialog
 	 */
-
 	public MediaDialog(AppW app, String dialogTitle) {
 		super(app, new DialogData(dialogTitle, "Cancel", "Insert"),
 				false, true);
@@ -56,8 +52,7 @@ public abstract class MediaDialog extends ComponentDialog {
 	}
 
 	/**
-	 * @param url
-	 *            url that may or may not include a protocol
+	 * @param url may or may not include a protocol
 	 * @return URL including protocol
 	 */
 	public static String addProtocol(String url) {

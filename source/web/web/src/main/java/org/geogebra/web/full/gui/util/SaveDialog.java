@@ -25,8 +25,8 @@ public class SaveDialog extends SaveFileDialog {
 
 	/**
 	 * base dialog constructor
-	 * @param app - see {@link AppW}
-	 * @param dialogData - contains trans keys for title and buttons
+	 * @param app see {@link AppW}
+	 * @param dialogData contains trans keys for title and buttons
 	 * @param addTemplateCheckBox whether template checkbox should be visible
 	 */
 	public SaveDialog(AppW app, DialogData dialogData, boolean addTemplateCheckBox) {
@@ -46,15 +46,14 @@ public class SaveDialog extends SaveFileDialog {
 				setSaveType(Material.MaterialType.ggs);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 			}
-			app.getSaveController().saveAs(getInputField().getText(),
-					getSaveVisibility(), this);
+			app.getSaveController().saveAs(titleField.getText(), getSaveVisibility(), this);
 		});
 	}
 
 	private void buildTemplateCheckbox(boolean visible) {
 		templateCheckbox = new ComponentCheckbox(app.getLocalization(), false,
 				"saveTemplate");
-		getContentPanel().add(templateCheckbox);
+		addDialogContent(templateCheckbox);
 		templateCheckbox.setVisible(visible);
 	}
 
@@ -85,7 +84,7 @@ public class SaveDialog extends SaveFileDialog {
 		locationHolder.add(providerImageHolder);
 		locationHolder.add(locationDropDown);
 
-		getContentPanel().add(locationHolder);
+		addDialogContent(locationHolder);
 	}
 
 	private void fillAvailableProviders() {

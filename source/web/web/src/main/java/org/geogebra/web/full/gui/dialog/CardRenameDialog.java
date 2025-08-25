@@ -2,8 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.util.FormLabel;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -14,14 +13,12 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * Material rename dialog
  */
 public abstract class CardRenameDialog extends ComponentDialog {
-	private InputPanelW inputField;
+	private ComponentInputField inputField;
 	private boolean inputChanged;
 
 	/**
-	 * @param app
-	 *            app
-	 * @param data
-	 *            dialog translation keys
+	 * @param app application
+	 * @param data dialog translation keys
 	 */
 	public CardRenameDialog(AppW app, DialogData data) {
 		super(app, data, false, true);
@@ -41,7 +38,6 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	}
 
 	/**
-	 *
 	 * @return the trimmed text of the input field.
 	 */
 	protected String getInputText() {
@@ -50,10 +46,8 @@ public abstract class CardRenameDialog extends ComponentDialog {
 
 	private void buildContent() {
 		FlowPanel contentPanel = new FlowPanel();
-		inputField = new InputPanelW("", app, false);
-		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
-		inputLabel.addStyleName("inputLabel");
-		contentPanel.add(inputLabel);
+		inputField = new ComponentInputField((AppW) app, "",
+				app.getLocalization().getMenu("Rename"), "", "");
 		contentPanel.add(inputField);
 		initInputFieldActions();
 		setPosBtnDisabled(true);
@@ -61,50 +55,13 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	}
 
 	protected void setText(String text) {
-		inputField.getTextComponent().setText(text);
-	}
-
-	/**
-	 * @return input text field of dialog
-	 */
-	public InputPanelW getInputField() {
-		return inputField;
+		inputField.setInputText(text);
 	}
 
 	private void initInputFieldActions() {
-		// on input change
-		inputField.getTextComponent().addKeyUpHandler(
-				event -> validate());
-		// set focus to input field!
-		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
-		addHoverHandlers();
-		addFocusHandlers();
-	}
-
-	/**
-	 * Add focus / blur handlers
-	 */
-	private void addFocusHandlers() {
-		inputField.getTextComponent().getTextBox()
-				.addFocusHandler(event -> {
-					getInputField().setStyleName("mowInputPanelContent");
-					getInputField().addStyleName("focusState");
-				});
-		inputField.getTextComponent().getTextBox()
-				.addBlurHandler(event -> {
-					getInputField().removeStyleName("focusState");
-					getInputField().addStyleName("emptyState");
-				});
-	}
-
-	/**
-	 * Add mouse over/ out handlers
-	 */
-	private void addHoverHandlers() {
-		inputField.getTextComponent().getTextBox()
-				.addMouseOverHandler(event -> getInputField().addStyleName("hoverState"));
-		inputField.getTextComponent().getTextBox()
-				.addMouseOutHandler(event -> getInputField().removeStyleName("hoverState"));
+		inputField.addInputHandler(this::validate);
+		Scheduler.get().scheduleDeferred(() -> inputField.getTextField()
+				.getTextComponent().setFocus(true));
 	}
 
 	/**
@@ -126,6 +83,6 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	@Override
 	public void show() {
 		super.show();
-		Scheduler.get().scheduleDeferred(() -> getInputField().setFocusAndSelectAll());
+		Scheduler.get().scheduleDeferred(() -> inputField.getTextField().setFocusAndSelectAll());
 	}
 }

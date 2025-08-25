@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.Input;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -172,6 +173,14 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 				.addMouseOverHandler(event -> getContentPanel().addStyleName("hoverState"));
 		inputTextField.getTextComponent().getTextBox()
 				.addMouseOutHandler(event -> getContentPanel().removeStyleName("hoverState"));
+	}
+
+	/**
+	 * @param inputHandler input event handler
+	 */
+	public void addInputHandler(ProcessInput inputHandler) {
+		Dom.addEventListener(inputTextField.getTextComponent().getTextBox().getElement(),
+				"input", event -> inputHandler.onInput());
 	}
 
 	/**

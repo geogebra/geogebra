@@ -1,24 +1,19 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.FocusWidget;
 import org.gwtproject.user.client.ui.Label;
 
 public class MediaInputPanel extends FlowPanel implements ProcessInput {
-
-	private AppW app;
-	private ComponentDialog parentDialog;
-	private boolean required;
-
-	protected InputPanelW inputField;
-	private Label errorLabel;
+	private final AppW app;
+	private final ComponentDialog parentDialog;
+	private final boolean required;
+	protected ComponentInputField inputField;
 	private Label infoLabel;
 
 	/**
@@ -37,33 +32,17 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 		this.parentDialog = parentDialog;
 		this.required = required;
 
-		setStyleName("mowInputPanelContent");
-		addStyleName("emptyState");
-
-		inputField = new InputPanelW("", app,  false);
-
-		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
-		inputLabel.setText(app.getLocalization().getMenu(labelTransKey));
-		inputLabel.addStyleName("inputLabel");
-		inputField.addStyleName("inputText");
-
-		errorLabel = new Label();
-		errorLabel.addStyleName("msgLabel errorLabel");
-
-		add(inputLabel);
+		inputField = new ComponentInputField(app, "", app.getLocalization().getMenu(labelTransKey),
+				"", "");
+		inputField.addInputHandler(this);
 		add(inputField);
-		add(errorLabel);
-
-		addHoverHandlers();
-		addFocusBlurHandlers();
-		addInputHandler();
 	}
 
 	/**
 	 * Set focus the text field of the input panel
 	 */
 	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(() -> inputField.setFocusAndSelectAll());
+		Scheduler.get().scheduleDeferred(() -> inputField.focusDeferred());
 	}
 
 	/**
@@ -71,7 +50,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param placeholder localized placeholder string
 	 */
 	public void addPlaceholder(String placeholder) {
-		inputField.getTextComponent().getTextBox().getElement()
+		inputField.getTextField().getTextComponent().getTextBox().getElement()
 				.setAttribute("placeholder", placeholder);
 	}
 
@@ -81,7 +60,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 *         input text
 	 */
 	public void setText(String text) {
-		inputField.getTextComponent().setText(text);
+		inputField.setInputText(text);
 		resetError();
 	}
 
@@ -105,10 +84,8 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param msg error message to show
 	 */
 	public void showError(String msg) {
-		setStyleName("mowInputPanelContent");
-		addStyleName("errorState");
-		errorLabel.setText(app.getLocalization().getMenu("Error") + ": "
-				+ app.getLocalization().getError(msg));
+		inputField.setError(app.getLocalization().getMenu("Error") + ": "
+						+ app.getLocalization().getError(msg));
 		parentDialog.setPosBtnDisabled(true);
 	}
 
@@ -125,9 +102,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Remove error state from input panel
 	 */
 	public void resetError() {
-		setStyleName("mowInputPanelContent");
-		addStyleName("emptyState");
-		removeStyleName("errorState");
+		inputField.setErrorResolved();
 		if (required) {
 			parentDialog.setPosBtnDisabled(isInputEmpty());
 		}
@@ -140,48 +115,5 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	@Override
 	public void onInput() {
 		resetError();
-		addStyleName("focusState");
-		removeStyleName("emptyState");
-	}
-
-	/**
-	 * Add handler for input event
-	 */
-	private void addInputHandler() {
-		// do NOT handle Enter, it's handled on dialog level
-		inputField.addTextComponentInputListener(event -> onInput());
-	}
-
-	/**
-	 * Add mouse over/ out handlers
-	 */
-	private void addHoverHandlers() {
-		getTextBox().addMouseOverHandler(event -> addStyleName("hoverState"));
-		getTextBox().addMouseOutHandler(event -> removeStyleName("hoverState"));
-	}
-
-	private void addFocusBlurHandlers() {
-		getTextBox().addFocusHandler(event -> setFocusState());
-		getTextBox().addBlurHandler(event -> resetInputField());
-	}
-
-	private FocusWidget getTextBox() {
-		return inputField.getTextComponent().getTextBox();
-	}
-
-	/**
-	 * sets the style of InputPanel to focus state
-	 */
-	private void setFocusState() {
-		setStyleName("mowInputPanelContent");
-		addStyleName("focusState");
-	}
-
-	/**
-	 * Resets input style on blur
-	 */
-	private void resetInputField() {
-		removeStyleName("focusState");
-		addStyleName("emptyState");
 	}
 }

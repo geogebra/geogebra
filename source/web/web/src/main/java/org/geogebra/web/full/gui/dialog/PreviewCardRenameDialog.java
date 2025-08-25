@@ -7,20 +7,15 @@ import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 public class PreviewCardRenameDialog extends CardRenameDialog {
-
 	private final PageListControllerInterface pageController;
 	private final PagePreviewCard card;
 
 	/**
-	 * Constructor
-	 *
 	 * @param app app
 	 * @param data dialog transkeys
 	 * @param card to rename.
 	 */
-	public PreviewCardRenameDialog(AppW app,
-			DialogData data,
-			PagePreviewCard card) {
+	public PreviewCardRenameDialog(AppW app, DialogData data, PagePreviewCard card) {
 		super(app, data);
 		pageController = app.getPageController();
 		this.card = card;

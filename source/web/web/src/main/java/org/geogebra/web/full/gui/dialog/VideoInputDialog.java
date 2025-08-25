@@ -15,7 +15,6 @@ public class VideoInputDialog extends MediaDialog {
 	 * @param app
 	 *            see {@link AppW}
 	 */
-
 	public VideoInputDialog(AppW app) {
 		super(app, "Video");
 	}
@@ -24,7 +23,7 @@ public class VideoInputDialog extends MediaDialog {
 	public void onPositiveAction() {
 		if (app.getGuiManager() != null) {
 			String url = getUrlWithProtocol();
-			mediaInputPanel.inputField.getTextComponent().setText(url);
+			mediaInputPanel.inputField.setInputText(url);
 			VideoURL videoURL = MediaURLParser.checkVideo(url);
 			if (videoURL.isValid()) {
 				addVideo(videoURL);

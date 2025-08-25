@@ -8,11 +8,10 @@ import org.geogebra.web.html5.main.AppW;
 /** embed dialog
  */
 public class EmbedInputDialog extends MediaDialog {
-	private EmbedFactory embedFactory;
+	private final EmbedFactory embedFactory;
 
-	/**
-	 * @param app
-	 *            see {@link AppW}
+	/** Creates dialog for embed input
+	 * @param app see {@link AppW}
 	 */
 	EmbedInputDialog(AppW app) {
 		super(app, "Web");
