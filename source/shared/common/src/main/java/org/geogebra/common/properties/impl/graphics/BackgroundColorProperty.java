@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.GeoColorValues;
+import org.geogebra.common.main.color.BackgroundColorValues;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
@@ -16,7 +16,6 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
  */
 public class BackgroundColorProperty extends AbstractEnumeratedProperty<GColor>
 		implements ColorProperty  {
-
 	private final EuclidianSettings settings;
 
 	/**
@@ -24,7 +23,7 @@ public class BackgroundColorProperty extends AbstractEnumeratedProperty<GColor>
 	 * @param settings view settings
 	 */
 	public BackgroundColorProperty(Localization loc, EuclidianSettings settings) {
-		super(loc, "Background");
+		super(loc, "BackgroundColor");
 		this.settings = settings;
 	}
 
@@ -40,6 +39,6 @@ public class BackgroundColorProperty extends AbstractEnumeratedProperty<GColor>
 
 	@Override
 	public @Nonnull List<GColor> getValues() {
-		return GeoColorValues.values();
+		return BackgroundColorValues.values();
 	}
 }

@@ -202,6 +202,7 @@ public class PropertiesPanelAdapter {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,
 					((ColorProperty) property).getValues(),
 					color -> ((ColorProperty) property).setValue(color));
+			colorPanel.updateColorSelection(((ColorProperty) property).getValue());
 			FlowPanel wrapper = new FlowPanel();
 			wrapper.addStyleName("colorPanel");
 			wrapper.add(new Label(property.getName()));
