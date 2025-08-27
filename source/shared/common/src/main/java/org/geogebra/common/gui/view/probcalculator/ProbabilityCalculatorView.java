@@ -1945,16 +1945,6 @@ public abstract class ProbabilityCalculatorView
 
 	protected abstract StatisticsCalculator getStatCalculator();
 
-	@Override
-	public void startBatchUpdate() {
-		// no batch needed
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// no batch needed
-	}
-
 	/**
 	 * @return information about mean and standard deviation
 	 */

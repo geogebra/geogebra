@@ -126,12 +126,16 @@ public interface View {
 	/**
 	 * Notification for update batch
 	 */
-	public void startBatchUpdate();
+	public default void startBatchUpdate() {
+		// only needed if performance can be optimized
+	}
 
 	/**
 	 * Notification for end of update batch
 	 */
-	public void endBatchUpdate();
+	public default void endBatchUpdate() {
+		// only needed if performance can be optimized
+	}
 
 	/**
 	 * @param geos

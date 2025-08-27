@@ -322,18 +322,6 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		return App.VIEW_TABLE_MODEL;
 	}
 
-	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * @param table
 	 *            table

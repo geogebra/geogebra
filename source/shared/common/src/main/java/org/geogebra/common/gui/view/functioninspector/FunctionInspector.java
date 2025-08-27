@@ -321,16 +321,6 @@ public abstract class FunctionInspector
 		return App.VIEW_FUNCTION_INSPECTOR;
 	}
 
-	@Override
-	public void startBatchUpdate() {
-		//
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		//
-	}
-
 	public void setApp(App app) {
 		this.app = app;
 	}

@@ -318,16 +318,6 @@ public abstract class PropertiesView implements View {
 		return isAvailable;
 	}
 
-	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-	}
-
 	/**
 	 * acts when mouse has been released in euclidian controller
 	 * 

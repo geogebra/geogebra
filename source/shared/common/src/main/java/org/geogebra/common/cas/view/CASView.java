@@ -530,18 +530,6 @@ public abstract class CASView implements Editing, SetLabels {
 		return value.isOutputEmpty() && !value.isUseAsText();
 	}
 
-	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * @param i
 	 *            cell index

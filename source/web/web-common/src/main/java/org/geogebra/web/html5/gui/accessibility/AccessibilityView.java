@@ -249,16 +249,6 @@ public class AccessibilityView implements View {
 	}
 
 	@Override
-	public void startBatchUpdate() {
-		// not needed
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// not needed
-	}
-
-	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// not needed
 	}

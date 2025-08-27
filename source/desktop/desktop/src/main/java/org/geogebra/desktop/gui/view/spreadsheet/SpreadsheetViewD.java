@@ -1051,18 +1051,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 				{ spreadsheet.getRowHeader(), table } };
 	}
 
-	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public JComponent getViewContainer() {
 		return spreadsheetWrapper;
 	}

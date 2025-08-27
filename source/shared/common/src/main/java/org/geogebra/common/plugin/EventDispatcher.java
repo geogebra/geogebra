@@ -261,18 +261,6 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void renameUpdatesComplete() {
 		dispatchEvent(EventType.RENAME_COMPLETE, null);
 	}

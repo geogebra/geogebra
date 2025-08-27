@@ -1029,18 +1029,6 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only for web

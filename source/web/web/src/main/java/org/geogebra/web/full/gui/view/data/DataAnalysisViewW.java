@@ -479,16 +479,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public boolean suggestRepaint() {
 		return false;
 	}

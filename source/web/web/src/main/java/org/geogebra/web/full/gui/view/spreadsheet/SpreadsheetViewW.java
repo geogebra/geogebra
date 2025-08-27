@@ -772,18 +772,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return spreadsheetWrapper.asWidget();
 	}
 
-	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * Resize the table.
 	 * 

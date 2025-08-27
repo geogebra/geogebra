@@ -1460,16 +1460,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		getSelectionCtrl().setLastSelectedGeo(geo);
 	}
 
-	@Override
-	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-	}
-
 	/**
 	 * @return the RadioButtonTreeItem containing the input-box
 	 */

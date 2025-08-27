@@ -139,16 +139,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public void startBatchUpdate() {
-		// TODO
-	}
-
-	@Override
-	public void endBatchUpdate() {
-		// TODO
-	}
-
-	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// not needed
 	}
