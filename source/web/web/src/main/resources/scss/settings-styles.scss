@@ -684,6 +684,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					margin-left: 0px;
 				}
 			}
+			.dropDown, .comboBox, .inputTextField {
+				width: 100%;
+				margin: 8px 0 0 0;
+			}
 		}
 		.checkboxPanel {
 			display: flex;
@@ -758,12 +762,12 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				margin: 14px 0;
 			}
 		}
-		.minMaxPanel {
+		.expandableList .containerPanel .minMaxPanel {
 			display: flex;
 			gap: 0 16px;
 			flex-wrap: wrap;
 			margin: 4px 0 10px 0;
-			width: calc(100% - 32px);
+			width: calc(100% - 6px);
 			.minMaxItem {
 				width: 100%;
 				display: contents;

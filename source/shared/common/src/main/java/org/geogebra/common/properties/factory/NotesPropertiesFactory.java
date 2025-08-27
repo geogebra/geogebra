@@ -19,9 +19,8 @@ import org.geogebra.common.properties.impl.graphics.AxesColorProperty;
 import org.geogebra.common.properties.impl.graphics.AxesLineStyleProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundPropertyCollection;
-import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
-import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.RulingPropertiesCollection;
 
 public class NotesPropertiesFactory extends DefaultPropertiesFactory {
 
@@ -59,9 +58,7 @@ public class NotesPropertiesFactory extends DefaultPropertiesFactory {
 		return new PropertiesArray("DrawingPad", localization,
 				registerProperties(propertiesRegistry,
 						new BackgroundPropertyCollection(localization, euclidianSettings),
-						new PropertyCollectionWithLead(localization, "Grid",
-								new GridVisibilityProperty(localization, euclidianSettings),
-								new GridStyleProperty(localization, euclidianSettings)),
+						new RulingPropertiesCollection(localization, euclidianSettings, activeView),
 						new PropertyCollectionWithLead(localization, "Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings),
 								new AxesColorProperty(localization, euclidianSettings),

@@ -123,8 +123,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 						loc.getMenu("Ruling"),
 				() -> {
 					DialogData data = new DialogData("Ruling", "Cancel", "Save");
-					GridDialog gridDialog = new GridDialog((AppW) app, data,
-							app.getActiveEuclidianView());
+					GridDialog gridDialog = new GridDialog((AppW) app, data);
 					gridDialog.show();
 				});
 

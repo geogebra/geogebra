@@ -19,7 +19,9 @@ public class OptionalPropertyWidgetCollection {
 	 * @param app application
 	 */
 	public OptionalPropertyWidgetCollection(AppW app) {
-		EuclidianSettings evSettings = app.getSettings().getEuclidian(3);
+		EuclidianSettings evSettings3d = app.getSettings().getEuclidian(3);
+		EuclidianSettings evSettings = app.getSettings().getEuclidian(1);
+		evSettings3d.addListener(s -> updateVisibility());
 		evSettings.addListener(s -> updateVisibility());
 	}
 

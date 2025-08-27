@@ -24,6 +24,8 @@ import org.geogebra.common.properties.impl.graphics.DimensionRatioProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.RulingPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.RulingStyleProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -50,6 +52,7 @@ public class PropertiesPanelAdapter {
 
 	private final Localization loc;
 	private final AppW app;
+	private final SettingsChangedListenerWidgetCollection settingsListenerWidgetCollection;
 
 	/**
 	 * @param loc localization
@@ -58,6 +61,7 @@ public class PropertiesPanelAdapter {
 	public PropertiesPanelAdapter(Localization loc, AppW app) {
 		this.loc = loc;
 		this.app = app;
+		settingsListenerWidgetCollection = new SettingsChangedListenerWidgetCollection(app);
 	}
 
 	/**
@@ -72,6 +76,13 @@ public class PropertiesPanelAdapter {
 		}
 		panel.addStyleName("sideSheetTab");
 		return panel;
+	}
+
+	private void mayRegisterSettingsListenerWidget(NamedEnumeratedProperty<?> property,
+			ComponentDropDown dropDown) {
+		if (property instanceof RulingStyleProperty) {
+			settingsListenerWidgetCollection.registerWidget(property, dropDown);
+		}
 	}
 
 	private Widget getWidget(Property property) {
@@ -124,8 +135,8 @@ public class PropertiesPanelAdapter {
 		if (property instanceof GridDistancePropertyCollection) {
 			return new GridDistancePanel(app, (GridDistancePropertyCollection) property);
 		}
-
-		if (property instanceof ProjectionPropertyCollection) {
+		if (property instanceof ProjectionPropertyCollection
+			|| property instanceof RulingPropertiesCollection) {
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
 					null, property.getName());
 			OptionalPropertyWidgetCollection collection = new OptionalPropertyWidgetCollection(app);
@@ -134,6 +145,7 @@ public class PropertiesPanelAdapter {
 				expandableList.addToContent(widget);
 				collection.addOptionalWidget(widget, prop);
 			}
+			return expandableList;
 		}
 		if (property instanceof DimensionPropertiesCollection) {
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
@@ -166,6 +178,13 @@ public class PropertiesPanelAdapter {
 			}
 			return expandableList;
 		}
+		if (property instanceof NamedEnumeratedProperty) {
+			ComponentDropDown dropDown = new ComponentDropDown(app, property.getName(),
+					(NamedEnumeratedProperty<?>) property);
+			dropDown.setFullWidth(true);
+			mayRegisterSettingsListenerWidget((NamedEnumeratedProperty<?>) property, dropDown);
+			return dropDown;
+		}
 		if (property instanceof IconsEnumeratedProperty) {
 			FlowPanel iconPanelHolder = new FlowPanel();
 			iconPanelHolder.addStyleName("iconButtonPanel");
@@ -174,10 +193,12 @@ public class PropertiesPanelAdapter {
 			iconPanel.addStyleName("iconPanel");
 			PropertyResource[] icons = ((IconsEnumeratedProperty<?>) property).getValueIcons();
 			int idx = 0;
+			int selectedIdx = ((IconsEnumeratedProperty<?>) property).getIndex();
 			List<IconButton> iconButtonList = new ArrayList<>();
 			for (PropertyResource icon: icons) {
 				IconButton btn = new IconButton(app, "",
 						new ImageIconSpec(PropertiesIconAdapter.getIcon(icon)));
+				btn.setActive(selectedIdx == idx);
 				iconPanel.add(btn);
 				iconButtonList.add(btn);
 				final int index = idx;
@@ -191,12 +212,6 @@ public class PropertiesPanelAdapter {
 			}
 			iconPanelHolder.add(iconPanel);
 			return iconPanelHolder;
-		}
-		if (property instanceof NamedEnumeratedProperty) {
-			ComponentDropDown dropDown = new ComponentDropDown(app, property.getName(),
-					(NamedEnumeratedProperty<?>) property);
-			dropDown.setFullWidth(true);
-			return dropDown;
 		}
 		if (property instanceof ColorProperty) {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,

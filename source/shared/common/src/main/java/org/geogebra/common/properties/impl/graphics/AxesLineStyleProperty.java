@@ -7,9 +7,9 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 
-public class AxesLineStyleProperty extends AbstractNamedEnumeratedProperty<Integer>
+public class AxesLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 	private EuclidianSettings euclidianSettings;
 	private PropertyResource[] icons = new PropertyResource[]{

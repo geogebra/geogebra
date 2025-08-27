@@ -1,29 +1,28 @@
 package org.geogebra.web.full.gui.components.dropdown.grid;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
-import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.properties.impl.graphics.RulingStyleProperty;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 public class GridDialog extends ComponentDialog {
-	private final EuclidianView view;
 	private BackgroundType selectedRuling;
+	private final RulingStyleProperty rulingStyleProperty;
 
 	/**
 	 * base dialog constructor
-	 * @param app - see {@link AppW}
-	 * @param dialogData - contains trans keys for title and buttons
-	 * @param view - euclidian view
+	 * @param app see {@link AppW}
+	 * @param dialogData contains trans keys for title and buttons
 	 */
-	public GridDialog(AppW app, DialogData dialogData, EuclidianView view) {
+	public GridDialog(AppW app, DialogData dialogData) {
 		super(app, dialogData, true, true);
 		addStyleName("rulingDialog");
 		setOnPositiveAction(this::applyRuling);
 
-		this.view = view;
-		selectedRuling = view.getSettings().getBackgroundType();
+		rulingStyleProperty = new RulingStyleProperty(app.getLocalization(),
+				app.getActiveEuclidianView().getSettings(), app.getActiveEuclidianView());
+		selectedRuling = rulingStyleProperty.getValue();
 		buildGui();
 	}
 
@@ -34,11 +33,8 @@ public class GridDialog extends ComponentDialog {
 	}
 
 	private void applyRuling() {
-		EuclidianSettings settings = view.getSettings();
-		if (settings.getBackgroundType() != selectedRuling) {
-			settings.setBackgroundType(selectedRuling);
-
-			view.updateBackground();
+		if (rulingStyleProperty.getValue() != selectedRuling) {
+			rulingStyleProperty.setValue(selectedRuling);
 			app.storeUndoInfo();
 		}
 	}
