@@ -170,7 +170,7 @@ public class FileManagerW extends FileManager {
 			}
 		};
 
-		getApp().getGgbApi().getBase64(true, base64saver);
+		getApp().getGgbApi().getBase64(false, base64saver);
 	}
 
 	/**

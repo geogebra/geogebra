@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui;
 import java.util.List;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialParameters;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.MyError.Errors;
@@ -31,9 +32,7 @@ import jsinterop.base.JsPropertyMap;
 
 /**
  * Class to handle material saving.
- * 
  * @author laszlo
- *
  */
 public class SaveControllerW implements SaveController {
 
@@ -49,9 +48,7 @@ public class SaveControllerW implements SaveController {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param app
-	 *            The application.
+	 * @param app The application.
 	 */
 	public SaveControllerW(AppW app) {
 		this.app = app;
@@ -133,14 +130,10 @@ public class SaveControllerW implements SaveController {
 	}
 
 	/**
-	 * @param runnable
-	 *         callback gets true if save happened
-	 * @param needed
-	 *         whether to show the dialog
-	 * @param doYouWantSaveChanges
-	 *         true if doYouWantToSaveYourChanges should be shown
-	 * @param addTempCheckBox
-	 *         true if checkbox should be visible
+	 * @param runnable callback gets true if save happened
+	 * @param needed whether to show the dialog
+	 * @param doYouWantSaveChanges true if doYouWantToSaveYourChanges should be shown
+	 * @param addTempCheckBox true if checkbox should be visible
 	 */
 	public void showDialogIfNeeded(final AsyncOperation<Boolean> runnable, boolean needed,
 			boolean doYouWantSaveChanges, boolean addTempCheckBox) {
@@ -239,7 +232,7 @@ public class SaveControllerW implements SaveController {
 
 		app.getToolTipManager().showBottomMessage(loc.getMenu("Saving"), app);
 
-		app.getGgbApi().getBase64(true, handler);
+		app.getGgbApi().getBase64(false, handler);
 		if (listener != null) {
 			listener.hide();
 		}
@@ -252,7 +245,6 @@ public class SaveControllerW implements SaveController {
 
 	/**
 	 * GoogleDrive upload
-	 * 
 	 */
 	void doUploadToDrive() {
 		String saveName = fileName;
@@ -266,14 +258,12 @@ public class SaveControllerW implements SaveController {
 		}
 		StringConsumer callback = ((GoogleDriveOperationW) app.getGoogleDriveOperation())
 				.getPutFileCallback(saveName, "GeoGebra", saveType == MaterialType.ggb);
-		app.getGgbApi().getBase64(true, callback);
+		app.getGgbApi().getBase64(false, callback);
 	}
 
 	/**
-	 * @param base64
-	 *            material base64
-	 * @param visibility
-	 *            "P" - private / "O" - public / "S" - shared
+	 * @param base64 material base64
+	 * @param visibility "P" - private / "O" - public / "S" - shared
 	 */
 	void handleSync(final String base64, final String visibility, boolean isMultiuser) {
 		app.getLoginOperation().getResourcesAPI().getItem(app.getTubeId() + "",
@@ -310,6 +300,7 @@ public class SaveControllerW implements SaveController {
 
 					@Override
 					public void onError(final Throwable exception) {
+						Log.debug(exception);
 						getAppW().showError(Errors.SaveFileFailed);
 					}
 				});
@@ -317,21 +308,16 @@ public class SaveControllerW implements SaveController {
 
 	/**
 	 * Does the upload of the actual opened file to GeoGebraTube
-	 * 
-	 * @param tubeID
-	 *            id in materials platform
-	 * @param visibility
-	 *            visibility string
-	 * @param base64
-	 *            material base64
-	 * 
-	 * @param materialCallback
-	 *            {@link MaterialCallback}
+	 * @param tubeID id in materials platform
+	 * @param visibility visibility string
+	 * @param base64 material base64
+	 * @param materialCallback {@link MaterialCallback}
 	 */
 	private void doUploadToGgt(String tubeID, String visibility, String base64,
 			MaterialCallbackI materialCallback, boolean isMultiuser) {
+		MaterialParameters parameters = new MaterialParameters(app);
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
-				fileName, base64, materialCallback, this.saveType, isMultiuser);
+				fileName, base64, materialCallback, this.saveType, isMultiuser, parameters);
 	}
 
 	@Override
@@ -340,10 +326,9 @@ public class SaveControllerW implements SaveController {
 	}
 
 	/**
-	 * @param app
-	 *            used to get current sync stamp
+	 * @param app used to get current sync stamp
 	 * @return current time in seconds since epoch OR app sync stamp + 1 if
-	 *         bigger (to avoid problems with system clock)
+	 * bigger (to avoid problems with system clock)
 	 */
 	public static long getCurrentTimestamp(AppW app) {
 		return Math.max(System.currentTimeMillis() / 1000, app.getSyncStamp() + 1);
@@ -365,10 +350,8 @@ public class SaveControllerW implements SaveController {
 	}
 
 	/**
-	 * @param base64
-	 *            material base64
-	 * @param forked
-	 *            whether this is a fork
+	 * @param base64 material base64
+	 * @param forked whether this is a fork
 	 * @return save callback
 	 */
 	MaterialCallbackI newMaterialCB(final String base64, final boolean forked) {

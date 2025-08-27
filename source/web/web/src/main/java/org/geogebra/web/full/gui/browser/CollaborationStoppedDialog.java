@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.browser;
 import java.util.List;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialParameters;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
@@ -46,6 +47,7 @@ public class CollaborationStoppedDialog extends ComponentDialog {
 		app.getLoginOperation().getGeoGebraTubeAPI()
 				.uploadMaterial(null,
 						MaterialVisibility.Private.getToken(),
-						copyTitle, base64, cb, mat.getType(), false);
+						copyTitle, base64, cb, mat.getType(), false,
+						new MaterialParameters(app));
 	}
 }

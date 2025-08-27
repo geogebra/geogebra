@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialParameters;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -102,7 +103,7 @@ public class ShareDialogMow extends ComponentDialog
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
 				material.getSharingKeySafe(), visibility,
 				material.getTitle(), null, callback,
-				material.getType(), isMultiuser);
+				material.getType(), isMultiuser, new MaterialParameters(app));
 		Material activeMaterial = app.getActiveMaterial();
 		boolean currentlyEditing = activeMaterial != null
 				&& material.getSharingKeySafe().equals(activeMaterial.getSharingKeySafe());

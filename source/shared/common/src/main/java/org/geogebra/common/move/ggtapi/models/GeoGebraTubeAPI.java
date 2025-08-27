@@ -2,13 +2,13 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.main.MaterialParameters;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.ggtapi.requests.UploadRequest;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
@@ -220,13 +220,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		});
 	}
 
-	@Override
-	public void uploadLocalMaterial(final Material mat,
-			final MaterialCallbackI cb) {
-		performRequest(
-				UploadRequest.getRequestElement(mat).toJSONString(client), cb);
-	}
-
 	/**
 	 * @param requestString
 	 *            json string representing the request
@@ -263,42 +256,10 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	@Override
 	public void uploadMaterial(String tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
-			MaterialType type, boolean isMultiuser) {
-		if (type == MaterialType.ggsTemplate) {
+			MaterialType type, boolean isMultiuser, MaterialParameters parameters) {
 			getMaterialRestAPI().uploadMaterial(tubeID, visibility, filename, base64, cb, type,
-					isMultiuser);
-		} else {
-			uploadMaterial(tubeID, visibility, filename, base64, cb, type, null);
+					isMultiuser, parameters);
 		}
-	}
-
-	/**
-	 * Uploads the actual opened application to ggt
-	 *
-	 * @param tubeID
-	 *            tube id
-	 * @param visibility
-	 *            visibility string
-	 *
-	 * @param filename
-	 *            String
-	 * @param base64
-	 *            base64 string
-	 * @param cb
-	 *            MaterialCallback
-	 * @param type
-	 *            material type
-	 * @param parent
-	 *            parent ID
-	 */
-	public void uploadMaterial(String tubeID, String visibility,
-			final String filename, String base64, final MaterialCallbackI cb,
-			MaterialType type, Material parent) {
-		performRequest(UploadRequest
-				.getRequestElement(tubeID, visibility, filename, base64, type,
-						parent)
-				.toJSONString(client), cb);
-	}
 
 	@Override
 	public boolean isCheckDone() {

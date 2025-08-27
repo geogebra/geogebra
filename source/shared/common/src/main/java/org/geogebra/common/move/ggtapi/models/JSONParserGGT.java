@@ -256,7 +256,7 @@ public class JSONParserGGT {
 
 	private static int getInt(JSONObject obj, String name, int def) {
 		String value = obj.optString(name);
-		if (value == null || "".equals(value)) {
+		if (StringUtil.empty(value) || "null".equals(value)) {
 			return def;
 		}
 		return Integer.parseInt(value);

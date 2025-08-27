@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -17,6 +16,7 @@ public class HTML5Export {
 	 */
 	public static String getFullString(App app) {
 		StringBuilder sb = new StringBuilder();
+		MaterialParameters materialParameters = new MaterialParameters(app, app.getGuiManager());
 		sb.append("<!DOCTYPE html>\n");
 		sb.append("<html>\n");
 		sb.append("<head>\n");
@@ -38,31 +38,12 @@ public class HTML5Export {
 
 		sb.append("var parameters = {\n");
 		sb.append("\"id\": \"ggbApplet\",\n");
-		sb.append("\"width\":").append((int) app.getWidth()).append(",\n");
-		sb.append("\"height\":").append((int) app.getHeight()).append(",\n");
-		sb.append("\"showMenuBar\":").append(app.showMenuBar).append(",\n");
-		sb.append("\"showAlgebraInput\":").append(app.showAlgebraInput).append(",\n");
 
-		sb.append("\"showToolBar\":").append(app.showToolBar).append(",\n");
-		GuiManagerInterface gui = app.getGuiManager();
-		if (app.showToolBar) {
-			if (gui != null) {
-				sb.append("\"customToolBar\":\"");
-				sb.append(gui.getToolbarDefinition());
-				sb.append("\",\n");
-			}
-			sb.append("\"showToolBarHelp\":").append(app.showToolBarHelp).append(",\n");
-
-		}
-		sb.append("\"showResetIcon\":false,\n");
-		sb.append("\"enableLabelDrags\":false,\n");
-		sb.append("\"enableShiftDragZoom\":true,\n");
-		sb.append("\"enableRightClick\":false,\n");
+		sb.append(materialParameters.settingsToHtml());
+		sb.append(",\n");
 		sb.append("\"errorDialogsActive\":false,\n");
 		sb.append("\"useBrowserForJS\":false,\n");
-		sb.append("\"allowStyleBar\":false,\n");
 		sb.append("\"preventFocus\":false,\n");
-		sb.append("\"showZoomButtons\":true,\n");
 		sb.append("\"capturingThreshold\":3,\n");
 
 		sb.append("// add code here to run when the applet starts\n");
@@ -70,7 +51,6 @@ public class HTML5Export {
 		sb.append(" /* api.evalCommand('Segment((1,2),(3,4))');*/ },\n");
 
 		sb.append("\"showFullscreenButton\":true,\n");
-		sb.append("\"scale\":1,\n");
 		sb.append("\"disableAutoScale\":false,\n");
 		sb.append("\"allowUpscale\":false,\n");
 		sb.append("\"clickToLoad\":false,\n");
@@ -101,35 +81,9 @@ public class HTML5Export {
 		sb.append(" CP=Construction Protocol, PC=Probability Calculator");
 		sb.append(" DA=Data Analysis, FI=Function Inspector, macro=Macros\n");
 
-		sb.append("var views = {");
-		sb.append("'is3D': ");
-		Construction construction = app.getKernel().getConstruction();
-		boolean useWeb3D = construction.requires3D();
-		sb.append(useWeb3D ? "1" : "0");
-		if (gui != null) {
-			sb.append(",'AV': ");
-			sb.append(gui.hasAlgebraView() && gui.getAlgebraView().isShowing()
-					? "1" : "0");
-			sb.append(",'SV': ");
-			sb.append(gui.hasSpreadsheetView()
-					&& gui.getSpreadsheetView().isShowing() ? "1" : "0");
-			sb.append(",'CV': ");
-			sb.append(gui.hasCasView() ? "1" : "0");
-			sb.append(",'EV2': ");
-			sb.append(app.hasEuclidianView2(1) ? "1" : "0");
-			sb.append(",'CP': ");
-			sb.append(gui.isUsingConstructionProtocol() ? "1" : "0");
-			sb.append(",'PC': ");
-			sb.append(gui.hasProbabilityCalculator() ? "1" : "0");
-			sb.append(",'DA': ");
-			sb.append(gui.hasDataAnalysisView() ? "1" : "0");
-			sb.append(",'FI': ");
-			sb.append(
-					app.getDialogManager().hasFunctionInspector() ? "1" : "0");
-		}
-		// TODO
-		sb.append(",'macro': 0");
-		sb.append("};\n");
+		sb.append("var views = ");
+		sb.append(materialParameters.viewsToDictionary());
+		sb.append(";\n");
 
 		sb.append("var applet = new GGBApplet(parameters, '5.0', views);\n");
 

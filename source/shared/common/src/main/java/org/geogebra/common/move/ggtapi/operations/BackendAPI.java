@@ -1,8 +1,8 @@
 package org.geogebra.common.move.ggtapi.operations;
 
+import org.geogebra.common.main.MaterialParameters;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 
@@ -77,18 +77,7 @@ public interface BackendAPI {
 	void logout(String token);
 
 	/**
-	 * Uploads a local saved file (web - localStorage; touch - device) to ggt
-	 *
-	 * @param mat
-	 *            {@link Material}
-	 * @param cb
-	 *            {@link MaterialCallbackI}
-	 */
-	void uploadLocalMaterial(Material mat, MaterialCallbackI cb);
-
-	/**
 	 * Uploads the actual opened application to ggt
-	 *
 	 * @param tubeID - tube id
 	 * @param visibility - visibility string
 	 * @param filename - String
@@ -96,9 +85,11 @@ public interface BackendAPI {
 	 * @param cb - MaterialCallback
 	 * @param type - material type
 	 * @param isMultiuser - should set to multiuser shared
+	 * @param parameters - application view flags and gui settings.
 	 */
 	void uploadMaterial(String tubeID, String visibility, String filename, String base64,
-			MaterialCallbackI cb, MaterialType type, boolean isMultiuser);
+			MaterialCallbackI cb, MaterialType type, boolean isMultiuser,
+			MaterialParameters parameters);
 
 	/**
 	 * @param student

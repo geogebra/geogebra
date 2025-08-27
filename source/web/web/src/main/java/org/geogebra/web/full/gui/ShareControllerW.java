@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.main.MaterialParameters;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
@@ -244,7 +245,7 @@ public class ShareControllerW implements ShareController {
 
 	@Override
 	public void getBase64() {
-		app.getGgbApi().getBase64(true, getShareStringHandler());
+		app.getGgbApi().getBase64(false, getShareStringHandler());
 	}
 
 	@Override
@@ -319,10 +320,11 @@ public class ShareControllerW implements ShareController {
 						}
 					}
 				};
-				otherApp.getGgbApi().getBase64(true, base64 -> {
+				otherApp.getGgbApi().getBase64(false, base64 -> {
 					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
 							mat.getSharingKeySafe(), mat.getVisibility(), mat.getTitle(),
-							base64, cb, mat.getType(), false);
+							base64, cb, mat.getType(), false,
+							new MaterialParameters(app));
 					mp.terminate();
 				});
 			}

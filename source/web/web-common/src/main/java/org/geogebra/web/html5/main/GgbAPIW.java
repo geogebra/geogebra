@@ -497,9 +497,7 @@ public class GgbAPIW extends GgbAPI {
 		return StringUtil.removePngMarker(getThumbnailDataURL());
 	}
 
-	/**
-	 * @return data URL of the thumbnail
-	 */
+	@Override
 	public String getThumbnailDataURL() {
 		View viewForThumbnail = getViewForThumbnail();
 		if (viewForThumbnail instanceof HasThumbnailURL) {
