@@ -204,6 +204,7 @@ public class ComponentDropDownPopup {
 	 */
 	public void close() {
 		menu.getPopupPanel().removeStyleName("show");
+		menu.getPopupMenu().unselect();
 		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().hide());
 	}
 

@@ -64,8 +64,8 @@ public class DropDownComboBoxController implements SetLabels {
 
 	private void highlightSelectedElement(int index, boolean highlight) {
 		if (index >= 0 && index < dropDownElementsList.size()) {
-			dropDownElementsList.get(index)
-					.setStyleName("selectedDropDownElement", highlight);
+			Dom.toggleClass(dropDownElementsList.get(index), "selectedDropDownElement",
+					highlight);
 		}
 	}
 
@@ -203,10 +203,26 @@ public class DropDownComboBoxController implements SetLabels {
 	/**
 	 * on text input from user
 	 */
-	public void onInputChange() {
-		setSelectedOption(-1);
+	public void onInputChange(String input) {
+		setSelectedOption(possibleSelectedIndex(input));
 		for (Runnable handler: changeHandlers) {
 			handler.run();
 		}
+	}
+
+	/**
+	 * @param input text field input
+	 * @return index of input in {@link DropDownComboBoxController#items}, if contains it,
+	 * -1 otherwise
+	 */
+	public int possibleSelectedIndex(String input) {
+		if (items != null && input != null) {
+			for (int i = 0; i < items.size(); i++) {
+				if (items.get(i).equals(input)) {
+					return i;
+				}
+			}
+		}
+		return -1;
 	}
 }

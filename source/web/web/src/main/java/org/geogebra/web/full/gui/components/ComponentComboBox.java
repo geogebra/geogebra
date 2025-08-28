@@ -78,10 +78,10 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 		inputTextField.addStyleName("textField");
 		inputTextField.addKeyUpHandler((event) -> {
 			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-				controller.onInputChange();
+				controller.onInputChange(inputTextField.getText());
 			}
 		});
-		inputTextField.addBlurHandler(event -> controller.onInputChange());
+		inputTextField.addBlurHandler(event -> controller.onInputChange(inputTextField.getText()));
 
 		optionHolder.add(inputTextField);
 		add(optionHolder);
@@ -182,6 +182,8 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 			resetTextField();
 			controller.closePopup();
 		} else {
+			controller.setSelectedOption(controller.possibleSelectedIndex(
+					inputTextField.getText()));
 			controller.showAsComboBox();
 			Scheduler.get().scheduleDeferred(() -> inputTextField.selectAll());
 		}
@@ -220,7 +222,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 	 * @param value value
 	 */
 	public void setValue(String value) {
-		controller.setSelectedOption(-1);
+		controller.setSelectedOption(controller.possibleSelectedIndex(value));
 		inputTextField.setValue(value);
 	}
 
