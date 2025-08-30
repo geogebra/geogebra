@@ -1,6 +1,5 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -38,7 +37,7 @@ public class CmdPolyhedronNet extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoPolyhedron())
 					&& (ok[1] = arg[1].isNumberValue())) {
 				return kernel.getManager3D().polyhedronNet(c.getLabels(),
-						(GeoPolyhedron) arg[0], (NumberValue) arg[1], null,
+						arg[0], (NumberValue) arg[1], null,
 						null);
 			}
 
@@ -82,7 +81,7 @@ public class CmdPolyhedronNet extends CommandProcessor {
 
 				}
 				return kernel.getManager3D().polyhedronNet(c.getLabels(),
-						(GeoPolyhedron) arg[0], (NumberValue) arg[1],
+						arg[0], (NumberValue) arg[1],
 						(GeoPolygon) arg[2], segments);
 			}
 

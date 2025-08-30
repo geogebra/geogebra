@@ -1183,7 +1183,7 @@ public class ConstructionDefaults implements SettingListener {
 			}
 
 			if (GeoClass.LIST.equals(geo.getGeoClassType())) {
-				((GeoList) geo).setLineThickness(this.lineThickness);
+				geo.setLineThickness(this.lineThickness);
 			}
 		}
 	}

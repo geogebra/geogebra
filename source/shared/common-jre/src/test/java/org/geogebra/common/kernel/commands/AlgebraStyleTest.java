@@ -403,7 +403,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 				.getDefinition(StringTemplate.editTemplate));
 		t("list2 = Flatten[{x=y}]");
 		assertEquals("list2 = Flatten({x = y})",
-				((GeoList) getGeo("list2")).getDefinitionForInputBar());
+				getGeo("list2").getDefinitionForInputBar());
 
 	}
 

@@ -6,7 +6,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableUtil;
-import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -119,7 +118,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		this.shadedColumns = shadedColumns;
 		editor = new TableEditor(this, app);
 		controller = new TableValuesKeyboardNavigationController(
-				(TableValues) app.getGuiManager().getTableValuesView(),
+				app.getGuiManager().getTableValuesView(),
 				new TableValuesKeyboardNavigationControllerDelegate() {
 					@Override
 					public void focusCell(int row, int column) {

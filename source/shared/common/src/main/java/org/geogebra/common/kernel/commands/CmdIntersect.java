@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitPolynomials;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
@@ -347,12 +346,12 @@ public class CmdIntersect extends CommandProcessor {
 				&& (ok[1] = arg[1].isGeoImplicitSurface())) {
 			return getAlgoDispatcher().intersectImplicitSurfaceLine(
 					c.getLabels(), (GeoImplicitSurface) arg[1],
-					(GeoLineND) arg[0]);
+					arg[0]);
 		} else if ((ok[0] = arg[0].isGeoImplicitSurface())
 				&& (ok[1] = arg[1].isGeoLine())) {
 			return getAlgoDispatcher().intersectImplicitSurfaceLine(
 					c.getLabels(), (GeoImplicitSurface) arg[0],
-					(GeoLineND) arg[1]);
+					arg[1]);
 		}
 		// intersect path and point
 		else if ((ok[0] = arg[0] instanceof Path)

@@ -109,7 +109,7 @@ public class EuclidianControllerForPlaneCompanion
 	@Override
 	protected void processModeLock(Path path) {
 		GeoPointND p = createNewPoint(true, path, false);
-		((GeoElement) p).update();
+		p.update();
 		Coords coords = ec.getView().getCoordsForView(p.getInhomCoordsInD3());
 		ec.setRwCoords(coords);
 	}

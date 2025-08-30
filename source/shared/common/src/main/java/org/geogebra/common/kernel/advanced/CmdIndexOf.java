@@ -5,9 +5,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -56,7 +54,7 @@ public class CmdIndexOf extends CommandProcessor {
 					&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(),
-						(GeoText) arg[0], (GeoText) arg[1],
+						arg[0], arg[1],
 						(GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
@@ -65,7 +63,7 @@ public class CmdIndexOf extends CommandProcessor {
 					&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0],
-						(GeoList) arg[1], (GeoNumberValue) arg[2]);
+						arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

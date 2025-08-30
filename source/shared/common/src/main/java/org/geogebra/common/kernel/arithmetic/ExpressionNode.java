@@ -647,13 +647,13 @@ public class ExpressionNode extends ValidExpression
 			replacements += ((Command) left).replaceVariables(varName, fVar);
 		}
 		if (left instanceof GeoDummyVariable) {
-			if (varName.equals(((GeoDummyVariable) left)
+			if (varName.equals(left
 					.toString(StringTemplate.defaultTemplate))) {
 				left = fVar;
 				replacements++;
 			}
 		} else if (left instanceof FunctionVariable) {
-			if (varName.equals(((FunctionVariable) left)
+			if (varName.equals(left
 					.toString(StringTemplate.defaultTemplate))) {
 				left = fVar;
 				replacements++;
@@ -675,13 +675,13 @@ public class ExpressionNode extends ValidExpression
 					replacements++;
 				}
 			} else if (right instanceof GeoDummyVariable) {
-				if (varName.equals(((GeoDummyVariable) right)
+				if (varName.equals(right
 						.toString(StringTemplate.defaultTemplate))) {
 					right = fVar;
 					replacements++;
 				}
 			} else if (right instanceof FunctionVariable) {
-				if (varName.equals(((FunctionVariable) right)
+				if (varName.equals(right
 						.toString(StringTemplate.defaultTemplate))) {
 					right = fVar;
 					replacements++;

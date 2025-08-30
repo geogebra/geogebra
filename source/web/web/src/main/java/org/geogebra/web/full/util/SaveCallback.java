@@ -4,7 +4,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
 import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.main.AppW;
@@ -90,7 +89,7 @@ public class SaveCallback {
 				|| mat.getType().equals(MaterialType.ggs)) {
 			app.setActiveMaterial(mat);
 			onSaved(app, state, false);
-			if (((GuiManagerW) app.getGuiManager()).isOpenFileViewLoaded()) {
+			if (app.getGuiManager().isOpenFileViewLoaded()) {
 				if (!isLocal) {
 					mat.setSyncStamp(mat.getModified());
 				}

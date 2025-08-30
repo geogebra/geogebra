@@ -500,7 +500,7 @@ public class DataSource {
 		// create a list of GeoLists from the selected elements
 		ArrayList<GeoList> list = new ArrayList<>();
 		for (GeoElement geo : selection.getSelectedGeos()) {
-			if (geo.isGeoList() && !((GeoList) geo).isMatrix()) {
+			if (geo.isGeoList() && !geo.isMatrix()) {
 				list.add((GeoList) geo);
 			}
 		}

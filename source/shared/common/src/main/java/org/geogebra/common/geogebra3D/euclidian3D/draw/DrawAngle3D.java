@@ -326,7 +326,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChangedByZoom() // update only if zoom occurred
-				|| ((GeoAngle) getGeoElement())
+				|| getGeoElement()
 						.getParentAlgorithm() instanceof AlgoAnglePlanes) {
 			updateForItSelf();
 			setLabelWaitForUpdate();

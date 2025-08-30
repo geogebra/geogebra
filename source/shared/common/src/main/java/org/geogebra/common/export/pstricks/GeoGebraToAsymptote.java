@@ -3831,18 +3831,15 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE
 					|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
-				((GeoElement) conic)
-						.setObjColor(((GeoElement) geo).getObjectColor());
+				conic.setObjColor(((GeoElement) geo).getObjectColor());
 				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
-				((GeoElement) conic)
-						.setAlphaValue(((GeoElement) geo).getAlphaValue());
+				conic.setAlphaValue(((GeoElement) geo).getAlphaValue());
 				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
-				((GeoElement) conic).setHatchingAngle(
+				conic.setHatchingAngle(
 						(int) ((GeoElement) geo).getHatchingAngle());
-				((GeoElement) conic).setHatchingDistance(
+				conic.setHatchingDistance(
 						((GeoElement) geo).getHatchingDistance());
-				((GeoElement) conic)
-						.setFillType(((GeoElement) geo).getFillType());
+				conic.setFillType(((GeoElement) geo).getFillType());
 				fillInequality = true;
 				drawGeoConic(conic);
 				fillInequality = false;

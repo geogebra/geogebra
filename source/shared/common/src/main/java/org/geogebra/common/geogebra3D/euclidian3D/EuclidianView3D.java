@@ -2457,7 +2457,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				// use path drawing directions for the arrow
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
-				cursorNormal.set3(((GeoElement) getCursor3D().getPath()).getMainDirection());
+				cursorNormal.set3(getCursor3D().getPath().getMainDirection());
                 flipCursorNormal();
 				scaleXYZ(cursorNormal);
 				cursorNormal.normalize();
@@ -2543,7 +2543,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				break;
 			case PREVIEW_POINT_ALREADY:
 				if (getCursor3D().isPointOnPath()) {
-					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
+					cursorNormal.set3(getCursor3D().getPath()
 							.getMainDirection());
 					scaleXYZ(cursorNormal);
 					cursorNormal.normalize();

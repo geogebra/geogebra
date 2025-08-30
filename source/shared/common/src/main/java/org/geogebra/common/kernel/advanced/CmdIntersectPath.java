@@ -71,7 +71,7 @@ public class CmdIntersectPath extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoPlane())
 					&& (ok[1] = arg[1].isGeoPolygon())) {
 				return kernel.getManager3D().intersectPath(c.getLabels(),
-						(GeoPlaneND) arg[0], (GeoPolygon) arg[1]);
+						(GeoPlaneND) arg[0], arg[1]);
 			} else if ((ok[1] = arg[1].isGeoPlane())
 					&& (ok[0] = arg[0].isGeoPolygon())) {
 				return kernel.getManager3D().intersectPath(c.getLabels(),

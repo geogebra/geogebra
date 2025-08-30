@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
@@ -46,7 +45,7 @@ public class CmdUniform extends CommandProcessor {
 		case 3:
 			if ((ok = arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction() && ((GeoFunction) arg[2])
+				if (arg[2].isGeoFunction() && arg[2]
 						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoUniformDF algo = new AlgoUniformDF(cons, c.getLabel(),

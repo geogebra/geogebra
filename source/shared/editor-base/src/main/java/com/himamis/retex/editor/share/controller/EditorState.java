@@ -231,7 +231,7 @@ public class EditorState {
 	}
 
 	private boolean isMatrix(MathContainer container) {
-		return container instanceof MathArray && ((MathArray) container).hasTag(Tag.MATRIX);
+		return container instanceof MathArray && container.hasTag(Tag.MATRIX);
 	}
 
 	private void terminateSelectionAtComma(MathContainer commonParent, int from, int to) {

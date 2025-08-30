@@ -213,7 +213,7 @@ public class CmdSetValue extends CmdScripting {
 			if (from.isGeoNumeric()
 					&& Double.isNaN(from.evaluateDouble())) {
 				// eg SetValue[a,?] for line
-				if (target.isGeoList() && ((GeoList) target).isMatrix()) {
+				if (target.isGeoList() && target.isMatrix()) {
 					undefine(target);
 				} else {
 					target.setUndefined();

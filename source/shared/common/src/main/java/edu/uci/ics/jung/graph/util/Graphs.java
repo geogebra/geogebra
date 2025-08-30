@@ -594,22 +594,22 @@ public class Graphs {
 
 		@Override
 		public synchronized V getDest(E directed_edge) {
-			return ((DirectedGraph<V, E>) delegate).getDest(directed_edge);
+			return delegate.getDest(directed_edge);
 		}
 
 		@Override
 		public synchronized V getSource(E directed_edge) {
-			return ((DirectedGraph<V, E>) delegate).getSource(directed_edge);
+			return delegate.getSource(directed_edge);
 		}
 
 		@Override
 		public synchronized boolean isDest(V vertex, E edge) {
-			return ((DirectedGraph<V, E>) delegate).isDest(vertex, edge);
+			return delegate.isDest(vertex, edge);
 		}
 
 		@Override
 		public synchronized boolean isSource(V vertex, E edge) {
-			return ((DirectedGraph<V, E>) delegate).isSource(vertex, edge);
+			return delegate.isSource(vertex, edge);
 		}
 	}
 
@@ -1080,22 +1080,22 @@ public class Graphs {
 
 		@Override
 		public V getDest(E directed_edge) {
-			return ((DirectedGraph<V, E>) delegate).getDest(directed_edge);
+			return delegate.getDest(directed_edge);
 		}
 
 		@Override
 		public V getSource(E directed_edge) {
-			return ((DirectedGraph<V, E>) delegate).getSource(directed_edge);
+			return delegate.getSource(directed_edge);
 		}
 
 		@Override
 		public boolean isDest(V vertex, E edge) {
-			return ((DirectedGraph<V, E>) delegate).isDest(vertex, edge);
+			return delegate.isDest(vertex, edge);
 		}
 
 		@Override
 		public boolean isSource(V vertex, E edge) {
-			return ((DirectedGraph<V, E>) delegate).isSource(vertex, edge);
+			return delegate.isSource(vertex, edge);
 		}
 	}
 

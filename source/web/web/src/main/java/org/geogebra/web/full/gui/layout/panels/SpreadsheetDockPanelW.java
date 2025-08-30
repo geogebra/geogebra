@@ -42,7 +42,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
 			wrapview.addStyleName("SpreadsheetWrapView");
-			sview = (SpreadsheetViewW) app.getGuiManager().getSpreadsheetView();
+			sview = app.getGuiManager().getSpreadsheetView();
 			wrapview.add(sview.getFocusPanel());
 		}
 		return wrapview;

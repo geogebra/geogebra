@@ -40,7 +40,7 @@ public class DrawInputBoxTest extends BaseUnitTest {
 	@Test
 	public void testDefaultHeightForFocusedInput() {
 		add("a=1");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
+		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
 
 		EuclidianView ev = getApp().getActiveEuclidianView();

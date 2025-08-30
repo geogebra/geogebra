@@ -133,7 +133,7 @@ public class BaseCASIntegrationTest {
 				: f.getOutput(StringTemplate.testTemplate);
 		if (f.getValue() != null
 				&& f.getValue().unwrap() instanceof GeoElement) {
-			result = ((GeoElement) f.getValue().unwrap())
+			result = f.getValue().unwrap()
 					.toValueString(StringTemplate.testTemplate);
 		}
 

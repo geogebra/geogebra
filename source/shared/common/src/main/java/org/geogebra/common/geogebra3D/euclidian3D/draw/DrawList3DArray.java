@@ -35,7 +35,7 @@ public class DrawList3DArray extends DrawListArray {
 	protected void update(DrawableND d) {
 
 		if (d instanceof Drawable3D) {
-			((Drawable3D) d).setWaitForUpdate();
+			d.setWaitForUpdate();
 		}
 		d.update();
 

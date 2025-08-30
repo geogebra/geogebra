@@ -112,7 +112,7 @@ public class Dummy {
 	}
 
 	public boolean isCharInMathMode() {
-		return el instanceof CharAtom && ((CharAtom) el).isMathMode();
+		return el instanceof CharAtom && el.isMathMode();
 	}
 
 	/**

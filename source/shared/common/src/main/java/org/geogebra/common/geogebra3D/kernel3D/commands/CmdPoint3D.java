@@ -59,7 +59,7 @@ public class CmdPoint3D extends CmdPoint {
 				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 						.point3DIn(c.getLabel(), (Region) arg[0], false) };
 				return ret;
-			} else if (arg[0].isGeoList() && ((GeoList) arg[0])
+			} else if (arg[0].isGeoList() && arg[0]
 					.getGeoElementForPropertiesDialog().isGeoNumeric()) {
 				if ((((GeoList) arg[0]).get(0).isGeoNumeric()
 						&& ((GeoList) arg[0]).size() == 3)
@@ -85,7 +85,7 @@ public class CmdPoint3D extends CmdPoint {
 	@Override
 	protected GeoElement point(String label, Path path, GeoNumberValue value) {
 
-		if (path.isGeoElement3D() || (((GeoElement) path).isGeoList()
+		if (path.isGeoElement3D() || (path.isGeoList()
 				&& ((GeoList) path).containsGeoElement3D())) {
 			return (GeoElement) kernel.getManager3D().point3D(label, path,
 					value);

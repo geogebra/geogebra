@@ -107,7 +107,7 @@ public class AlgoUnique extends AlgoElement {
 		f.clear();
 		for (int i = 0; i < dataList.size(); i++) {
 			if (dataList.getElementType().equals(GeoClass.TEXT)) {
-				f.addValue(((GeoText) dataList.get(i))
+				f.addValue(dataList.get(i)
 						.toValueString(StringTemplate.defaultTemplate));
 			}
 			if (dataList.getElementType().equals(GeoClass.NUMERIC)) {

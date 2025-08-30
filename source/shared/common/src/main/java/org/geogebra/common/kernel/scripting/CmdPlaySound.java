@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.debug.Log;
@@ -94,7 +93,7 @@ public class CmdPlaySound extends CmdScripting {
 				// PlaySound[ <Note Sequence>, <Instrument> ]
 				// only works in desktop
 				sm.playSequenceFromString(
-						((GeoText) arg[0])
+						arg[0]
 								.toValueString(StringTemplate.defaultTemplate),
 						(int) ((GeoNumeric) arg[1]).getDouble());
 				return arg;

@@ -69,7 +69,7 @@ public class FitTests extends BaseUnitTest {
     public void testFitLine() {
         getApp().setGraphingConfig();
         GeoLine fitLine =
-                (GeoLine) addAvInput("FitLine({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
+				addAvInput("FitLine({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
         String outputString = fitLine.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("y = 0.4x + 2"));
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitLine.getDescriptionMode());
@@ -78,7 +78,7 @@ public class FitTests extends BaseUnitTest {
 
     @Test
     public void testFitLineY() {
-        GeoLine fitLineY = (GeoLine) addAvInput("FitLine((0,0),(1,1),(2,2))");
+        GeoLine fitLineY = addAvInput("FitLine((0,0),(1,1),(2,2))");
         String outputString = fitLineY.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("y = x"));
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitLineY.getDescriptionMode());
@@ -103,7 +103,7 @@ public class FitTests extends BaseUnitTest {
     public void testFitLineX() {
         getApp().setGraphingConfig();
         GeoLine fitLineX =
-                (GeoLine) addAvInput("FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
+				addAvInput("FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
         String outputString = fitLineX.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("y = 0.5666666666667x + 1.6666666666667"));
         assertEquals(DescriptionMode.DEFINITION_VALUE, fitLineX.getDescriptionMode());

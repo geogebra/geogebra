@@ -788,7 +788,7 @@ public class GeoFunctionNVar extends GeoElement
 	public void pointChangedForRegion(GeoPointND P) {
 
 		if (isBooleanFunction()) {
-			if (!((GeoElement) P).isDefined()) {
+			if (!P.isDefined()) {
 				return;
 			}
 			RegionParameters rp = P.getRegionParameters();

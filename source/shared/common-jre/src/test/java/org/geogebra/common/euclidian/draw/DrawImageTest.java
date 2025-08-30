@@ -53,8 +53,8 @@ public class DrawImageTest extends BaseEuclidianControllerTest {
 	public void translateShouldTransformCorners() {
 		add("ZoomIn(0,0,800,600)");
 		GeoImage img = createImage();
-		GeoPoint pt = (GeoPoint) add("(100,100)");
-		GeoPoint pt2 = (GeoPoint) add("(200,100)");
+		GeoPoint pt = add("(100,100)");
+		GeoPoint pt2 = add("(200,100)");
 		img.setCorner(pt, 0);
 		img.setCorner(pt2, 1);
 		img.setLabel("pic1");

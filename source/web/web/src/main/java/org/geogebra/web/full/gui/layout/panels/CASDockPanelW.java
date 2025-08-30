@@ -4,7 +4,6 @@ import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.cas.view.CASViewW;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -49,7 +48,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected Widget loadStyleBar() {
-		return ((CASViewW) ((GuiManagerW) app.getGuiManager()).getCasView())
+		return ((CASViewW) app.getGuiManager().getCasView())
 				.getCASStyleBar();
 	}
 
@@ -60,7 +59,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		return ((CASViewW) ((GuiManagerW) app.getGuiManager()).getCasView())
+		return ((CASViewW) app.getGuiManager().getCasView())
 				.getEditor();
 	}
 

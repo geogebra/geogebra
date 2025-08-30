@@ -194,9 +194,9 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 			return;
 		}
 		super.remove();
-		((GeoElement) A).removeAlgorithm(algoCAS);
+		A.removeAlgorithm(algoCAS);
 		f.removeAlgorithm(algoCAS);
-		((GeoElement) A).removeAlgorithm(algoCAS2);
+		A.removeAlgorithm(algoCAS2);
 		f.removeAlgorithm(algoCAS2);
 	}
 

@@ -101,7 +101,7 @@ public abstract class CASView implements Editing, SetLabels {
 					.getOutput(StringTemplate.numericDefault);
 		}
 		if (outVE.unwrap() instanceof GeoElement) {
-			return ((GeoElement) outVE.unwrap())
+			return outVE.unwrap()
 					.toOutputValueString(StringTemplate.numericDefault);
 		}
 		return outVE.toString(StringTemplate.numericDefault);

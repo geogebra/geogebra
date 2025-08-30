@@ -154,7 +154,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		if (g != null) {
 			return new AlgoSlope(g.copy());
 		}
-		return new AlgoSlope((GeoFunction) f.copy());
+		return new AlgoSlope(f.copy());
 	}
 
 }

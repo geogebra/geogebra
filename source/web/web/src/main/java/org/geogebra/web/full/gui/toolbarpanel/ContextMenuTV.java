@@ -273,7 +273,7 @@ public class ContextMenuTV {
 	}
 
 	private void importData() {
-		((AppWFull) app).getCsvHandler().execute();
+		app.getCsvHandler().execute();
 	}
 
 	/**

@@ -140,7 +140,7 @@ public abstract class Transform {
 		// get label for polygon
 		String polyLabel = null;
 		if (label == null) {
-			if (((GeoElement) oldPoly).isLabelSet()) {
+			if (oldPoly.isLabelSet()) {
 				polyLabel = transformedGeoLabel(oldPoly);
 			}
 		} else {
@@ -205,7 +205,7 @@ public abstract class Transform {
 			String pointLabel = transformedGeoLabel(points[i]);
 			newPoints[i] = (GeoPointND) transform(points[i],
 					pointLabel)[0];
-			((GeoElement) newPoints[i])
+			newPoints[i]
 					.setVisualStyleForTransformations((GeoElement) points[i]);
 		}
 		return newPoints;

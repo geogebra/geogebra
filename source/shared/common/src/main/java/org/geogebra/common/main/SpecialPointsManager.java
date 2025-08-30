@@ -176,7 +176,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private void doGetSpecialPoints(GeoElementND geo, boolean xAxis,
 									boolean yAxis, ArrayList<GeoElement> retList) {
 		if (geo instanceof GeoFunction && !Algos.isUsedFor(Commands.LineGraph, geo)
-			&& !((GeoFunction) geo).isInequality()) {
+				&& !geo.isInequality()) {
 			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
 		} else if (geo instanceof EquationValue) {
 			getEquationSpecialPoints(geo, xAxis, yAxis, retList);

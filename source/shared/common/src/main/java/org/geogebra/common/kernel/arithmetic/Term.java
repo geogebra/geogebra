@@ -417,7 +417,7 @@ public class Term implements Comparable<Term> {
 	@Override
 	public int compareTo(Term o) {
 
-			return ((Term) o).getVars()
+			return o.getVars()
 					.compareTo(getVars());
 
 	}

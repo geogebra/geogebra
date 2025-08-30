@@ -432,11 +432,10 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 		if (plane instanceof GeoPlaneND) {
 			return view.getApplication().getLocalization().getPlain("PlaneA",
-					((GeoElement) plane)
-							.getLabel(StringTemplate.defaultTemplate));
+					plane.getLabel(StringTemplate.defaultTemplate));
 		}
 		return view.getApplication().getLocalization().getPlain("PlaneFromA",
-				((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
+				plane.getLabel(StringTemplate.defaultTemplate));
 	}
 
 	@Override
@@ -508,7 +507,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 		sbxml.append("\t<viewId ");
 		sbxml.append("plane=\"");
-		sbxml.append(((GeoElement) plane).getLabelSimple());
+		sbxml.append(plane.getLabelSimple());
 		sbxml.append("\"");
 		sbxml.append("/>\n");
 

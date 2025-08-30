@@ -70,7 +70,7 @@ public class CmdProduct extends CommandProcessor {
 			}
 			// Product[<List of Numbers>, <Frequency>]
 			else if (arg[1].isGeoList()) {
-				if (((GeoList) arg[0])
+				if (arg[0]
 						.getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
 
 					AlgoProduct algo = new AlgoProduct(cons, list,

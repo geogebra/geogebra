@@ -584,7 +584,7 @@ public class ParametricProcessor {
 		eq.setLabel(label);
 		GeoElement[] ret = ap.processConic(eq, buildParamEq(exp, label), info);
 		((GeoConicND) ret[0]).setToParametricForm(param);
-		((GeoConicND) ret[0]).update();
+		ret[0].update();
 		return ret;
 	}
 

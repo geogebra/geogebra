@@ -101,7 +101,7 @@ public class PlotterBrushElements extends PlotterBrush {
 			draw(end, SINUS[i], COSINUS[i], 1);
 		}
 
-		((ManagerShaders) manager).endGeometry(sectionSize, TypeElement.CURVE);
+		manager.endGeometry(sectionSize, TypeElement.CURVE);
 
 		sectionSize = SECTION_SIZE_NOT_STARTED;
 	}

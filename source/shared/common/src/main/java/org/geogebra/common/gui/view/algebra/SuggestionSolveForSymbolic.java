@@ -51,7 +51,7 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 
 	private void labelIfNeeded(GeoElementND geo) {
 		if (!geo.isAlgebraLabelVisible()) {
-			labelController.showLabel((GeoElement) geo);
+			labelController.showLabel(geo);
 		}
 	}
 

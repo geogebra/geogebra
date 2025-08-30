@@ -3505,7 +3505,7 @@ public class AlgebraProcessor {
 			ret = kernel.getAlgoDispatcher().list(geoElements,
 					isIndependent);
 			if (info.isSymbolic()) {
-				((HasSymbolicMode) ret).initSymbolicMode();
+				ret.initSymbolicMode();
 			}
 			if (!evalList.isDefined() || (isIndependent && ret.isUndefinedMatrix())) {
 				ret.setUndefined();

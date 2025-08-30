@@ -10,7 +10,6 @@ import static org.mockito.Mockito.verify;
 import java.util.concurrent.CountDownLatch;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
@@ -49,7 +48,7 @@ public class ToolbarPanelTest {
 		toolbarPanel.setEventDispatcher(eventDispatcher);
 
 		toolbarPanel.dispatchEvent(null);
-		verify(eventDispatcher, times(1)).dispatchEvent((Event) any());
+		verify(eventDispatcher, times(1)).dispatchEvent(any());
 	}
 
 	@Test

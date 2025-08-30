@@ -1715,8 +1715,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 				((ExpressionNode) nv).replaceVariables(name, varmap.get(name));
 			}
 		} else if (nv instanceof FunctionVariable) {
-			String nvName = ((FunctionVariable) nv)
-					.toString(StringTemplate.defaultTemplate);
+			String nvName = nv.toString(StringTemplate.defaultTemplate);
 			nv = varmap.get(nvName);
 			if (nv == null) {
 				nv = ev;

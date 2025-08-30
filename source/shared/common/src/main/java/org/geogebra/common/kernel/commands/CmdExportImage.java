@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -86,7 +85,7 @@ public class CmdExportImage extends CmdScripting {
 				throw argErr(c, key);
 			}
 
-			switch (StringUtil.toLowerCaseUS(((TextProperties) key)
+			switch (StringUtil.toLowerCaseUS(key
 					.toValueString(StringTemplate.maxDecimals))) {
 
 			case "type":
@@ -166,7 +165,7 @@ public class CmdExportImage extends CmdScripting {
 				break;
 			case "slider":
 				if (value instanceof GeoNumeric) {
-					sliderName = ((GeoNumeric) value).getLabelSimple();
+					sliderName = value.getLabelSimple();
 				} else {
 					sliderName = value
 							.toValueString(StringTemplate.defaultTemplate);

@@ -62,7 +62,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		if (app != null) {
 			// force loading the algebra view,
 			// as loadComponent should only load when needed
-			setAlgebraView((AlgebraViewW) app.getAlgebraView());
+			setAlgebraView(app.getAlgebraView());
 			if (app.showAlgebraInput()) {
 				aview.setInputPanel();
 			}
@@ -156,7 +156,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		if (app.getInputPosition() != InputPosition.algebraView) {
 			return null;
 		}
-		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
+		return app.getAlgebraView().getActiveTreeItem();
 	}
 
 	@Override

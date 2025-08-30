@@ -426,7 +426,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	public void moveWithArrowKeyShouldNotChangeTextWithDependentAbsolutePosition() {
 		add("posX = 100");
 		add("posY = 100");
-		GeoText text = (GeoText) add("Text(\"Try me\")");
+		GeoText text = add("Text(\"Try me\")");
 		text.setAbsoluteScreenLocActive(true);
 
 		AbsoluteScreenPositionModel modelForX = new AbsoluteScreenPositionModel.ForX(getApp());
@@ -498,7 +498,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	public void moveImage() {
 		GeoImage image = createImage();
 		image.setLabel("img");
-		((AbsoluteScreenLocateable) image).setAbsoluteScreenLocActive(true);
+		image.setAbsoluteScreenLocActive(true);
 		add("SetFixed(img,true)");
 		assertCannotDrag(image);
 		add("SetFixed(img,false)");
@@ -511,7 +511,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		GeoImage image = createImage();
 		image.setLabel("img");
 		add("Reflect(img,xAxis)");
-		((AbsoluteScreenLocateable) image).setAbsoluteScreenLocActive(true);
+		image.setAbsoluteScreenLocActive(true);
 		DragResult dr = getDragResult(image, false);
 		assertEquals("UPDATE img,UPDATE img',UPDATE_STYLE img", dr.events);
 	}
@@ -588,7 +588,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void moveSegmentShouldSnapOnDrag() {
-		GeoSegment segment = (GeoSegment) add("Segment((0, 0), (1, 0))");
+		GeoSegment segment = add("Segment((0, 0), (1, 0))");
 		snapToGrid();
 		dragStart(25, 0);
 		dragEnd(230, 0);

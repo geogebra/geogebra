@@ -255,7 +255,7 @@ public class SpreadsheetModeProcessor {
 			((GeoNumeric) targetCell).setValue(
 					kernel.getAlgebraProcessor().evaluateToDouble(expr));
 		} else {
-			((GeoNumeric) targetCell).setUndefined();
+			targetCell.setUndefined();
 		}
 	}
 }

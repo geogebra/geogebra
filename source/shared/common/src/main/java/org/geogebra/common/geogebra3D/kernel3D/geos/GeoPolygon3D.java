@@ -729,7 +729,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++) {
-			((GeoPoint3D) super.getPointND(i)).rotate(r);
+			super.getPointND(i).rotate(r);
 		}
 
 		for (GeoSegmentND seg : getSegments()) {
@@ -745,7 +745,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++) {
-			((GeoPoint3D) super.getPointND(i)).rotate(r, S);
+			super.getPointND(i).rotate(r, S);
 		}
 
 		for (GeoSegmentND seg : getSegments()) {
@@ -811,7 +811,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++) {
-			((GeoPoint3D) super.getPointND(i)).mirror(Q);
+			super.getPointND(i).mirror(Q);
 		}
 
 		for (GeoSegmentND seg : getSegments()) {
@@ -833,7 +833,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++) {
-			((GeoPoint3D) super.getPointND(i)).mirror(line);
+			super.getPointND(i).mirror(line);
 		}
 
 		for (GeoSegmentND seg : getSegments()) {
@@ -884,7 +884,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		// we need to update points and segments also
 		for (int i = 0; i < getPointsLength(); i++) {
-			((GeoPoint3D) super.getPointND(i)).dilate(rval, S);
+			super.getPointND(i).dilate(rval, S);
 		}
 
 		for (GeoSegmentND seg : getSegments()) {

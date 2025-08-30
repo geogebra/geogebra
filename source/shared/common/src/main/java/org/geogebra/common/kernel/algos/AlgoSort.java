@@ -101,7 +101,7 @@ public class AlgoSort extends AlgoElement {
 	 *            to be sorted
 	 */
 	public AlgoSort(Construction cons, GeoList inputList) {
-		this(cons, inputList, (GeoList) null);
+		this(cons, inputList, null);
 	}
 
 	@Override

@@ -186,12 +186,11 @@ public class CASTableW extends Grid implements CASTable {
 			GeoCasCell casCell = this.getGeoCasCell(n);
 			boolean asText = casCell != null && casCell.isUseAsText();
 			editing = (CASTableCellW) w;
-			((CASEditorW) getEditor()).resetInput();
-			((CASEditorW) getEditor())
+			getEditor().resetInput();
+			getEditor()
 					.setAutocomplete(editing.getCASCell() == null
 							|| !editing.getCASCell().isUseAsText());
-			editing.startEditing((CASEditorW) getEditor(),
-					newText, asText);
+			editing.startEditing(getEditor(), newText, asText);
 		}
 	}
 
@@ -509,7 +508,7 @@ public class CASTableW extends Grid implements CASTable {
 	 */
 	public void adjustCaret(HumanInputEvent<?> event) {
 		if (editor != null) {
-			((CASEditorW) editor).adjustCaret(event);
+			editor.adjustCaret(event);
 		}
 	}
 }

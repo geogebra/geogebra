@@ -28,7 +28,7 @@ public class CmdSetImage extends CmdScripting {
 		case 2:
 			if (arg[0].isFillable()) {
 				if (arg[1] instanceof GeoImage) {
-					String fileName = ((GeoImage) arg[1]).getImageFileName();
+					String fileName = arg[1].getImageFileName();
 					if (fileName != null && !fileName.isEmpty()) {
 						arg[0].setFillType(FillType.IMAGE);
 						arg[0].setFillImage(fileName);

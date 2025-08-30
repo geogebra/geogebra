@@ -29,7 +29,7 @@ public abstract class TextPropertyModel extends OptionsModel {
 
 					.evaluateToNumeric(text, ErrorHelper.silent()), text);
 		} else if(!getText().isEmpty()) {
-			applyChanges((GeoNumberValue) null, text);
+			applyChanges(null, text);
 		}
 	}
 

@@ -299,7 +299,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 				if (expNode.getLeft() instanceof GeoDummyVariable) {
 					polyNode.getLeft()
 							.setPoly(new PPolynomial(
-									getVarOfGeoDummy(((GeoDummyVariable) expNode.getLeft())
+									getVarOfGeoDummy(expNode.getLeft()
 											.toString(StringTemplate.defaultTemplate))));
 				}
 				if (expNode.getLeft() instanceof MySpecialDouble) {
@@ -331,7 +331,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 					try {
 						polyNode.getRight()
 								.setPoly(new PPolynomial(
-										getVarOfGeoDummy(((GeoDummyVariable) expNode.getRight())
+										getVarOfGeoDummy(expNode.getRight()
 												.toString(StringTemplate.defaultTemplate))));
 					} catch (Exception e) {
 						throw new NoSymbolicParametersException();

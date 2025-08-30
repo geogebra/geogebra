@@ -207,7 +207,7 @@ public class AlgoSemicircle extends AlgoElement
 			PVariable[] circle1vars;
 			PVariable[] centerVars = new PVariable[2];
 
-			circle1vars = ((SymbolicParametersBotanaAlgo) A).getBotanaVars(A);
+			circle1vars = A.getBotanaVars(A);
 			centerVars[0] = new PVariable(kernel);
 			centerVars[1] = new PVariable(kernel);
 

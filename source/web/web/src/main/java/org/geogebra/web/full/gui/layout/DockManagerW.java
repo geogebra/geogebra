@@ -537,7 +537,7 @@ public class DockManagerW extends DockManager {
 		}
 
 		if (app.getAppletParameters().getDataParamShowMenuBar(false)) {
-			DockGlassPaneW glassPane = ((AppWFull) app).getGlassPane();
+			DockGlassPaneW glassPane = app.getGlassPane();
 			if (glassPane.getGeoGebraElement() == null) {
 				glassPane.setGeoGebraElement(app.getGeoGebraElement());
 			}

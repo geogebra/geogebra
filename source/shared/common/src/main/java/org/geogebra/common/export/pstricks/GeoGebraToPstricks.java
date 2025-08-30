@@ -2447,17 +2447,14 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			GeoConicND conic = ineq.getConicBorder();
 			if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE
 					|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
-				((GeoElement) conic)
-						.setObjColor(((GeoElement) geo).getObjectColor());
-				((GeoElement) conic)
-						.setAlphaValue(((GeoElement) geo).getAlphaValue());
+				conic.setObjColor(((GeoElement) geo).getObjectColor());
+				conic.setAlphaValue(((GeoElement) geo).getAlphaValue());
 				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
-				((GeoElement) conic).setHatchingAngle(
+				conic.setHatchingAngle(
 						(int) ((GeoElement) geo).getHatchingAngle());
-				((GeoElement) conic).setHatchingDistance(
+				conic.setHatchingDistance(
 						((GeoElement) geo).getHatchingDistance());
-				((GeoElement) conic)
-						.setFillType(((GeoElement) geo).getFillType());
+				conic.setFillType(((GeoElement) geo).getFillType());
 				drawGeoConic(conic);
 				break;
 			}

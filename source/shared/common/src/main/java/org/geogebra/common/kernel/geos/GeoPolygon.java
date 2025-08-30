@@ -2052,7 +2052,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			double a11, double a12, double a20, double a21, double a22) {
 
 		for (int i = 0; i < getPointsLength(); i++) {
-			((MatrixTransformable) getPointND(i)).matrixTransform(a00, a01, a02,
+			getPointND(i).matrixTransform(a00, a01, a02,
 					a10, a11, a12, a20, a21, a22);
 		}
 

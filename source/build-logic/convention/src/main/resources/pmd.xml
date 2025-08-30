@@ -72,7 +72,6 @@
         <exclude name="LinguisticNaming"/>
         <exclude name="UseUnderscoresInNumericLiterals"/>
         <exclude name="UseShortArrayInitializer"/>
-        <exclude name="UnnecessaryCast"/>
         <exclude name="EmptyControlStatement"/> <!-- handled by checkstyle -->
     </rule>
     <rule ref="category/java/design.xml">

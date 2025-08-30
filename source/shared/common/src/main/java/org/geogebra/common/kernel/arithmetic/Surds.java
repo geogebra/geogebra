@@ -33,7 +33,7 @@ public class Surds {
 	}
 
 	private ExpressionNode getSimplifiedSurd(Kernel kernel, int value) {
-		List<Integer> factors = primeFactors((int) value);
+		List<Integer> factors = primeFactors(value);
 		int outerValue = 1;
 		int innerValue = 1;
 

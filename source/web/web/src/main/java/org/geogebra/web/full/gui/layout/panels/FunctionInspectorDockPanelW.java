@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.main.AppWFull;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -34,7 +33,7 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		return ((DialogManagerW) app.getDialogManager()).getFunctionInspector().getWrappedPanel();
+		return app.getDialogManager().getFunctionInspector().getWrappedPanel();
 	}
 
 	@Override

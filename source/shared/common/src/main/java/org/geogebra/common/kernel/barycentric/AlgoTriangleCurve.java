@@ -102,7 +102,7 @@ public class AlgoTriangleCurve extends AlgoElement
 		dd = new AlgoDependentImplicitPoly(cons, eq, eq.wrap(), false);
 
 		cons.removeFromConstructionList(dd);
-		poly = ((AlgoElement) dd).getOutput()[0];
+		poly = dd.getOutput()[0];
 
 		setInputOutput();
 		compute();
@@ -160,7 +160,7 @@ public class AlgoTriangleCurve extends AlgoElement
 			ycoef[2].setValue((x2 - x1) / det);
 			xcoef[2].setValue((y1 - y2) / det);
 			constant[2].setValue(((x2 - x1) * y2 + (y1 - y2) * x2) / det);
-			((AlgoElement) dd).update();
+			dd.update();
 			poly.update();
 		}
 

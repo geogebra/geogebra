@@ -566,7 +566,7 @@ public class EuclidianStyleBarStatic {
 			if (geo instanceof TextProperties && ((TextProperties) geo)
 					.getFontSizeMultiplier() != fontSize) {
 				((TextProperties) geo).setFontSizeMultiplier(fontSize);
-				((TextProperties) geo).updateVisualStyleRepaint(GProperty.FONT);
+				geo.updateVisualStyleRepaint(GProperty.FONT);
 				needUndo = true;
 			}
 		}

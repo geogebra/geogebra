@@ -13,7 +13,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
@@ -208,7 +207,7 @@ public class LayoutW extends Layout {
 					getDefaultPerspectives(Perspective.GEOMETRY - 1)
 							.getDockPanelData());
 		}
-		perspective.setToolbarDefinition(((GuiManagerW) app.getGuiManager())
+		perspective.setToolbarDefinition(app.getGuiManager()
 				.getGeneralToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
 		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());

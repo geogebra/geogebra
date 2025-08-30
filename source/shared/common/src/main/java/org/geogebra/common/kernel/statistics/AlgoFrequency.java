@@ -274,7 +274,7 @@ public class AlgoFrequency extends AlgoElement {
 		Frequency f = new FrequencyGgb();
 		for (int i = 0; i < dataList.size(); i++) {
 			if (dataList.getElementType().equals(GeoClass.TEXT)) {
-				f.addValue(((GeoText) dataList.get(i))
+				f.addValue(dataList.get(i)
 						.toValueString(StringTemplate.defaultTemplate));
 			}
 			if (dataList.getElementType().equals(GeoClass.NUMERIC)) {
@@ -459,9 +459,9 @@ public class AlgoFrequency extends AlgoElement {
 		// compute the frequencies
 		for (int index = 0; index < classList.size(); index++) {
 			// get ordered pair of strings
-			String s1 = ((GeoText) classList.get(index))
+			String s1 = classList.get(index)
 					.toValueString(StringTemplate.defaultTemplate);
-			String s2 = ((GeoText) dataList.get(index))
+			String s2 = dataList.get(index)
 					.toValueString(StringTemplate.defaultTemplate);
 			// increment frequency element
 			freqTable[rowList.indexOf(s1)][colList.indexOf(s2)]++;

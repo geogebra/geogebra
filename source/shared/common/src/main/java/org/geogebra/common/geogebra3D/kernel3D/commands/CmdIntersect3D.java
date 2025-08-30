@@ -5,7 +5,6 @@ import static org.geogebra.common.geogebra3D.kernel3D.commands.CmdIntersectConic
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Kernel;
@@ -105,12 +104,12 @@ public class CmdIntersect3D extends CmdIntersect {
 						&& (arg[1] instanceof GeoPolygon)) {
 					return kernel.getManager3D().intersectionPoint(
 							c.getLabels(), (GeoPlane3D) arg[0],
-							(GeoPolygon) arg[1]);
+							arg[1]);
 				} else if ((arg[0] instanceof GeoPolygon)
 						&& (arg[1] instanceof GeoPlane3D)) {
 					return kernel.getManager3D().intersectionPoint(
 							c.getLabels(), (GeoPlane3D) arg[1],
-							(GeoPolygon) arg[0]);
+							arg[0]);
 				} else if ((ok[0] = arg[0].isGeoLine())
 						&& (ok[1] = arg[1] instanceof GeoQuadric3D)) {
 					return (GeoElement[]) kernel.getManager3D()
@@ -241,12 +240,12 @@ public class CmdIntersect3D extends CmdIntersect {
 				if ((ok[0] = arg[0].isGeoPlane())
 						&& (ok[1] = arg[1].isGeoPolyhedron())) {
 					return kernel.getManager3D().intersectRegion(c.getLabels(),
-							(GeoPlane3D) arg[0], (GeoPolyhedron) arg[1],
+							(GeoPlane3D) arg[0], arg[1],
 							c.getOutputSizes());
 				} else if ((ok[1] = arg[1].isGeoPlane())
 						&& (ok[0] = arg[0].isGeoPolyhedron())) {
 					return kernel.getManager3D().intersectRegion(c.getLabels(),
-							(GeoPlane3D) arg[1], (GeoPolyhedron) arg[0],
+							(GeoPlane3D) arg[1], arg[0],
 							c.getOutputSizes());
 				}
 

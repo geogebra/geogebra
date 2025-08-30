@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -139,12 +138,12 @@ public class AlgoClasses extends AlgoElement {
 			}
 
 		} else {
-			minGeoString = ((GeoText) dataList.get(0))
+			minGeoString = dataList.get(0)
 					.toValueString(StringTemplate.defaultTemplate);
-			maxGeoString = ((GeoText) dataList.get(0))
+			maxGeoString = dataList.get(0)
 					.toValueString(StringTemplate.defaultTemplate);
 			for (int i = 1; i < dataList.size(); i++) {
-				String geoString = ((GeoText) dataList.get(i))
+				String geoString = dataList.get(i)
 						.toValueString(StringTemplate.defaultTemplate);
 				if (geoString.compareTo(minGeoString) < 0) {
 					minGeoString = geoString;

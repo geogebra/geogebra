@@ -988,7 +988,7 @@ public class GeoCasCell extends GeoElement
 						.getLeft() instanceof GeoDummyVariable)) {
 					return null;
 				}
-				return ((GeoElement) cmd.getArgument(1).getLeft())
+				return cmd.getArgument(1).getLeft()
 						.toString(StringTemplate.defaultTemplate);
 			}
 
@@ -2435,7 +2435,7 @@ public class GeoCasCell extends GeoElement
 			if (cmd.getArgumentNumber() == 2) {
 				ExpressionNode arg1 = cmd.getArgument(0);
 				if (arg1.getLeft() instanceof MyList
-						&& ((MyList) arg1.getLeft()).getListDepth() == 1
+						&& arg1.getLeft().getListDepth() == 1
 						&& ((MyList) arg1.getLeft())
 								.get(0) instanceof Equation) {
 					expandEquation(cmd, (Equation) ((MyList) arg1.getLeft())

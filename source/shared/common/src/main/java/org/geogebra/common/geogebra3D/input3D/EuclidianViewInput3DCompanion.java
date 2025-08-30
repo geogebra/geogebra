@@ -874,7 +874,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 
 		if (mouse instanceof GPointWithZ) {
-			pickPoint.setZ(((GPointWithZ) mouse).getZ());
+			pickPoint.setZ(mouse.getZ());
 		}
 	}
 

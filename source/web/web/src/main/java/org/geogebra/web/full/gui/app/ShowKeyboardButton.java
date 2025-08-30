@@ -16,7 +16,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
-import org.gwtproject.user.client.ui.ComplexPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
@@ -44,7 +43,7 @@ public class ShowKeyboardButton extends SimplePanel {
 		this.add(showKeyboard);
 		TestHarness.setAttr(this, "showKeyboardButton");
 
-		((ComplexPanel) listener).add(this);
+		listener.add(this);
 
 		ClickStartHandler.init(this, new ClickStartHandler(
 				true, true) {

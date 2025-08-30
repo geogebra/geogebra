@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
@@ -270,7 +269,7 @@ public class Hits extends ArrayList<GeoElement> {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isGeoConic()) {
-				if (((GeoConicND) geo).getLastHitType() == HitType.ON_FILLING) {
+				if (geo.getLastHitType() == HitType.ON_FILLING) {
 					it.remove();
 				}
 			}

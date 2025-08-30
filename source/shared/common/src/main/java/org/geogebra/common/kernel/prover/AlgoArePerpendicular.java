@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
-import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -181,9 +180,9 @@ public class AlgoArePerpendicular extends AlgoElement
 			return botanaPolynomials;
 		}
 		if (inputLine1 != null && inputLine2 != null) {
-			PVariable[] v1 = ((SymbolicParametersBotanaAlgo) inputLine1)
+			PVariable[] v1 = inputLine1
 					.getBotanaVars(inputLine1); // (a1,a2,b1,b2)
-			PVariable[] v2 = ((SymbolicParametersBotanaAlgo) inputLine2)
+			PVariable[] v2 = inputLine2
 					.getBotanaVars(inputLine2); // (c1,c2,d1,d2)
 
 			botanaPolynomials = new PPolynomial[1][1];

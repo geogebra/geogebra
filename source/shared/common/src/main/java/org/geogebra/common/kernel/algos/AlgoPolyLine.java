@@ -47,7 +47,7 @@ public class AlgoPolyLine extends AlgoElement {
 	 *            list of vertices
 	 */
 	public AlgoPolyLine(Construction cons, GeoList geoList) {
-		this(cons, (GeoPointND[]) null, geoList);
+		this(cons, null, geoList);
 	}
 
 	/**

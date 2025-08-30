@@ -153,8 +153,7 @@ public abstract class CopyPaste {
 							geos.add((GeoElement) points[j]);
 						}
 					}
-					GeoElement[] ogeos = ((AlgoPolygon) parentAlgorithm)
-							.getOutput();
+					GeoElement[] ogeos = parentAlgorithm.getOutput();
 					for (int j = 0; j < ogeos.length; j++) {
 						if (!geos.contains(ogeos[j])
 								&& ogeos[j].isGeoSegment()) {

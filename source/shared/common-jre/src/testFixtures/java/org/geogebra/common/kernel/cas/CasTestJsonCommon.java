@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -782,7 +781,7 @@ public abstract class CasTestJsonCommon {
 		// increase to 5000 for deterministic but slow test
 		for (int i = 0; i < 50; i++) {
 			runCases(testcases.get("NSolveFlaky"));
-			((CASgiac) app.getKernel().getGeoGebraCAS().getCurrentCAS()).clearCache();
+			app.getKernel().getGeoGebraCAS().getCurrentCAS().clearCache();
 		}
 		testcases.remove("NSolveFlaky");
 	}

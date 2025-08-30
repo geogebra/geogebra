@@ -13,7 +13,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.TextProperties;
 
 /**
  * class for drawing texts
@@ -36,12 +35,12 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					measuringGraphics, geo, measuringGraphics, cpt.font(), GColor.BLACK,
 					GColor.WHITE, cpt.text(), 0, 0,
-					((TextProperties) geo).isSerifFont(), getCallBack(),
+					geo.isSerifFont(), getCallBack(),
 					bounds);
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
 					cpt.text(), measuringGraphics, bounds, cpt.font(),
-					((TextProperties) geo).isSerifFont(), 0, 0, DrawText.DEFAULT_MARGIN);
+					geo.isSerifFont(), 0, 0, DrawText.DEFAULT_MARGIN);
 		}
 		return bounds;
 	}
@@ -54,12 +53,12 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					measuringGraphics, geo, g2d, cpt.font(), GColor.BLACK, GColor.WHITE,
-					cpt.text(), 0, 0, ((TextProperties) geo).isSerifFont(),
+					cpt.text(), 0, 0, geo.isSerifFont(),
 					getCallBack(), null);
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
 					cpt.text(), g2d, AwtFactory.getPrototype().newRectangle(),
-					g2d.getFont(), ((TextProperties) geo).isSerifFont(), 0, 0,
+					g2d.getFont(), geo.isSerifFont(), 0, 0,
 					DrawText.DEFAULT_MARGIN);
 		}
 

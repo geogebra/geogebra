@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
@@ -372,7 +371,7 @@ public class DrawButtonWidget {
 
 		// Reduces the font for attempts
 		int i = GeoText.getFontSizeIndex(
-				((TextProperties) geoButton).getFontSizeMultiplier());
+				geoButton.getFontSizeMultiplier());
 		while (i > 0
 				&& (textHeight + imgGap + (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
 				|| textWidth + (MARGIN_LEFT + MARGIN_RIGHT) > getWidth())) {

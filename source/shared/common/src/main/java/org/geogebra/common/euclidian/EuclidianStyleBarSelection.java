@@ -149,11 +149,12 @@ public class EuclidianStyleBarSelection {
 			if (justCreated.isGeoPoint()) {
 				// get default type regarding what type of point has been
 				// created
-				if (((GeoPointND) justCreated).isPointOnPath()) {
+				GeoPointND createdPoint = (GeoPointND) justCreated;
+				if (createdPoint.isPointOnPath()) {
 					type = ConstructionDefaults.DEFAULT_POINT_ON_PATH;
-				} else if (((GeoPointND) justCreated).hasRegion()) {
+				} else if (createdPoint.hasRegion()) {
 					type = ConstructionDefaults.DEFAULT_POINT_IN_REGION;
-				} else if (!((GeoPointND) justCreated).isIndependent()) {
+				} else if (!createdPoint.isIndependent()) {
 					type = ConstructionDefaults.DEFAULT_POINT_DEPENDENT;
 				} else {
 					type = ConstructionDefaults.DEFAULT_POINT_FREE;

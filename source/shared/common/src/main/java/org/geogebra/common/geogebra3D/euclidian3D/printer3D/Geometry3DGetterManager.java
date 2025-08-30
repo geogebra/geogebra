@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GeometriesSet;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Geometry;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Geometry3DGetter;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
@@ -61,9 +60,8 @@ public class Geometry3DGetterManager {
 			double green = color.getGreen() / 255.0;
 			double blue = color.getBlue() / 255.0;
 			if (currentGeometriesSet != null) {
-				for (Geometry g : currentGeometriesSet) {
+				for (Geometry geometry : currentGeometriesSet) {
 					getter.startGeometry(type);
-					GeometryForExport geometry = (GeometryForExport) g;
 					geometry.initForExport();
 
 					// vertices

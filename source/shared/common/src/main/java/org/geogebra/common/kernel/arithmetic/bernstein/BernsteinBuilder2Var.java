@@ -56,7 +56,7 @@ public class BernsteinBuilder2Var {
 		for (int i = 0; i <= degreeX; i++) {
 			for (int j = 0; j <= i; j++) {
 				BernsteinPolynomial1D b_ij =
-						(BernsteinPolynomial1D) bernsteinCoefficient(i, j, degreeX, min, max,
+						bernsteinCoefficient(i, j, degreeX, min, max,
 								partialBernsteinCoeffs.last);
 				partialBernsteinCoeffs.set(j, b_ij);
 			}

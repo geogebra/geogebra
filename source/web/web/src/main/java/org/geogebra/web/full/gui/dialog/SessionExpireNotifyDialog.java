@@ -23,7 +23,7 @@ public class SessionExpireNotifyDialog extends ComponentDialog
 		super(app, data, false, true);
 		addStyleName("sessionExpireNotifyDialog");
 		buildContent();
-		setOnPositiveAction(() -> ((DialogManagerW) app.getDialogManager()).showSaveDialog());
+		setOnPositiveAction(() -> app.getDialogManager().showSaveDialog());
 	}
 
 	private void buildContent() {

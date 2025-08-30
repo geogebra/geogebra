@@ -3,13 +3,11 @@ package org.geogebra.common.kernel.arithmetic.bernstein;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.arithmetic.BoundsRectangle;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class BernsteinPolynomial2DTest extends BaseUnitTest {
@@ -143,7 +141,7 @@ public class BernsteinPolynomial2DTest extends BaseUnitTest {
 	@Test
 	public void testSimplifiedEvaluation() {
 		newBernsteinPolynomialPolynomialFrom("x^6 + 2x^2y^3 + 5y^4 = 0");
-		BernsteinPolynomial2D b2var = (BernsteinPolynomial2D) bernstein;
+		BernsteinPolynomial2D b2var = bernstein;
 		double expected00 = b2var.evaluate(0, 0);
 		double expected10 = b2var.evaluate(1, 0);
 		double expected11 = b2var.evaluate(1, 1);

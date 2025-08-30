@@ -1169,7 +1169,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
-			((GeoElement) segment).setColorFunction(col);
+			segment.setColorFunction(col);
 			segment.updateVisualStyle(GProperty.COLOR);
 		}
 
@@ -1201,7 +1201,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
-			((GeoElement) segment).setLineType(type);
+			segment.setLineType(type);
 			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
@@ -1231,7 +1231,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
-			((GeoElement) segment).setLayer(layer2);
+			segment.setLayer(layer2);
 			segment.updateVisualStyle(GProperty.LAYER);
 		}
 	}
@@ -1260,7 +1260,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
-			((GeoElement) segment).setLineTypeHidden(type);
+			segment.setLineTypeHidden(type);
 			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
 
@@ -1973,11 +1973,11 @@ public class GeoPolyhedron extends GeoElement3D
 		// find the segment where the point lies
 		int index = (int) pp.getT();
 		GeoSegmentND seg;
+		GeoSegmentND[] segmentArray = segmentsLinked.values().toArray(new GeoSegmentND[0]);
 		if (index < segmentsLinked.size()) {
-			seg = (GeoSegmentND) segmentsLinked.values().toArray()[index];
+			seg = segmentArray[index];
 		} else {
-			seg = (GeoSegmentND) segments.values().toArray()[index
-					- segmentsLinked.size()];
+			seg = segmentArray[index - segmentsLinked.size()];
 		}
 
 		// sets the path parameter for the segment, calc the new position of the
@@ -2120,7 +2120,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
-			((GeoElement) segment).setShowObjectCondition(cond);
+			segment.setShowObjectCondition(cond);
 		}
 	}
 
@@ -2145,7 +2145,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		for (GeoSegmentND segment : getSegmentsLinked()) {
-			((GeoElement) segment).updateVisualStyle(prop);
+			segment.updateVisualStyle(prop);
 		}
 
 	}

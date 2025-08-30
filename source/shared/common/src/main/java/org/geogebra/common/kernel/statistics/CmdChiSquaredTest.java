@@ -33,7 +33,7 @@ public class CmdChiSquaredTest extends CommandProcessor {
 		switch (n) {
 
 		case 1:
-			if (arg[0].isGeoList() && ((GeoList) arg[0]).isMatrix()) {
+			if (arg[0].isGeoList() && arg[0].isMatrix()) {
 				AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons,
 						(GeoList) arg[0], null, null);
 				algo.getResult().setLabel(c.getLabel());

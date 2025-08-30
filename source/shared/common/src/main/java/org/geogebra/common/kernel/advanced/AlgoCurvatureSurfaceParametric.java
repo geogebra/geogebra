@@ -241,33 +241,33 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 			return;
 		}
 		super.remove();
-		((GeoElement) param1).removeAlgorithm(algoCASeu);
-		((GeoElement) param2).removeAlgorithm(algoCASeu);
+		param1.removeAlgorithm(algoCASeu);
+		param2.removeAlgorithm(algoCASeu);
 		surface.removeAlgorithm(algoCASeu);
-		((GeoElement) param1).removeAlgorithm(algoCASev);
-		((GeoElement) param2).removeAlgorithm(algoCASev);
+		param1.removeAlgorithm(algoCASev);
+		param2.removeAlgorithm(algoCASev);
 		surface.removeAlgorithm(algoCASev);
-		((GeoElement) param1).removeAlgorithm(algoCASfu);
-		((GeoElement) param2).removeAlgorithm(algoCASfu);
+		param1.removeAlgorithm(algoCASfu);
+		param2.removeAlgorithm(algoCASfu);
 		surface.removeAlgorithm(algoCASfu);
-		((GeoElement) param1).removeAlgorithm(algoCASfv);
-		((GeoElement) param2).removeAlgorithm(algoCASfv);
+		param1.removeAlgorithm(algoCASfv);
+		param2.removeAlgorithm(algoCASfv);
 		surface.removeAlgorithm(algoCASfv);
-		((GeoElement) param1).removeAlgorithm(algoCASgu);
-		((GeoElement) param2).removeAlgorithm(algoCASgu);
+		param1.removeAlgorithm(algoCASgu);
+		param2.removeAlgorithm(algoCASgu);
 		surface.removeAlgorithm(algoCASgu);
-		((GeoElement) param1).removeAlgorithm(algoCASgv);
-		((GeoElement) param2).removeAlgorithm(algoCASgv);
+		param1.removeAlgorithm(algoCASgv);
+		param2.removeAlgorithm(algoCASgv);
 		surface.removeAlgorithm(algoCASgv);
 
-		((GeoElement) param1).removeAlgorithm(algoCASevv);
-		((GeoElement) param2).removeAlgorithm(algoCASevv);
+		param1.removeAlgorithm(algoCASevv);
+		param2.removeAlgorithm(algoCASevv);
 		surface.removeAlgorithm(algoCASevv);
-		((GeoElement) param1).removeAlgorithm(algoCASfuv);
-		((GeoElement) param2).removeAlgorithm(algoCASfuv);
+		param1.removeAlgorithm(algoCASfuv);
+		param2.removeAlgorithm(algoCASfuv);
 		surface.removeAlgorithm(algoCASfuv);
-		((GeoElement) param1).removeAlgorithm(algoCASguu);
-		((GeoElement) param2).removeAlgorithm(algoCASguu);
+		param1.removeAlgorithm(algoCASguu);
+		param2.removeAlgorithm(algoCASguu);
 		surface.removeAlgorithm(algoCASguu);
 	}
 

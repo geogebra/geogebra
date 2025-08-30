@@ -190,7 +190,7 @@ public class CASTableControllerW extends CASTableCellController implements
 
 	private void onPointerDown() {
 		setActiveToolbar();
-		((GuiManagerW) app.getGuiManager()).removePopup();
+		app.getGuiManager().removePopup();
 		boolean oldFocus = ((CASTableCellEditor) view.getEditor()).hasFocus();
 		app.closePopups();
 		if (oldFocus) {

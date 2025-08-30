@@ -163,9 +163,9 @@ public class AlgoIsOnPath extends AlgoElement
 				|| ((GeoConic) inputPath).isHyperbola()) {
 
 			if (botanaVars == null
-					&& ((GeoElement) inputPoint).getParentAlgorithm() != null) {
+					&& inputPoint.getParentAlgorithm() != null) {
 				botanaVars = new PVariable[4];
-				botanaVars = ((SymbolicParametersBotanaAlgo) ((GeoElement) inputPoint)
+				botanaVars = ((SymbolicParametersBotanaAlgo) inputPoint
 						.getParentAlgorithm()).getBotanaVars(inputPoint);
 			}
 			// botana variables of input point
@@ -177,7 +177,7 @@ public class AlgoIsOnPath extends AlgoElement
 
 			PPolynomial e_1 = new PPolynomial();
 			PPolynomial e_2 = new PPolynomial();
-			AlgoElement algoParent = ((GeoElement) inputPoint)
+			AlgoElement algoParent = inputPoint
 					.getParentAlgorithm();
 			// case input point is point on ellipse/hyperbola
 			if (algoParent instanceof AlgoPointOnPath
