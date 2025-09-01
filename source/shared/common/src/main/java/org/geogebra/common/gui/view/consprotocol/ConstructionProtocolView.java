@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.consprotocol;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -517,6 +518,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		protected int columnsCount = columns.length;
 		private boolean notifyUpdateCalled;
 		private SetLabels gui;
+		private boolean updateOnAdd;
+		private List<Integer> batchAddPositions = new ArrayList<>();
 
 		/**
 		 * @param gui
@@ -536,12 +539,22 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		@Override
 		public void startBatchUpdate() {
-			// TODO Auto-generated method stub
+			updateOnAdd = false;
 		}
 
 		@Override
 		public void endBatchUpdate() {
-			// TODO Auto-generated method stub
+			updateOnAdd = true;
+			if (!batchAddPositions.isEmpty()) {
+				updateRowNumbers(batchAddPositions.stream().min(Integer::compareTo).orElse(0));
+				updateIndices();
+				for (Integer pos : batchAddPositions) {
+					fireTableRowsInserted(pos, pos);
+				}
+				batchAddPositions.clear();
+				updateAll();
+			}
+			updateNavBarsAndRepaint();
 
 		}
 
@@ -748,11 +761,15 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 				// insert new row
 				geoMap.put(geo, row); // insert (geo, row) pair in map
-				updateRowNumbers(pos);
-				updateIndices();
-				fireTableRowsInserted(pos, pos);
-				updateAll();
-				updateNavBarsAndRepaint();
+				if (updateOnAdd) {
+					updateRowNumbers(pos);
+					updateIndices();
+					fireTableRowsInserted(pos, pos);
+					updateAll();
+					updateNavBarsAndRepaint();
+				} else {
+					batchAddPositions.add(pos);
+				}
 			}
 		}
 

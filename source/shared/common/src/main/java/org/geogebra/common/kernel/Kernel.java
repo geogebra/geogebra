@@ -3741,6 +3741,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			return;
 		}
 
+		view.startBatchUpdate();
 		for (GeoElement geo : cons.getGeoSetWithCasCellsConstructionOrder()) {
 			// stop when not visible for current construction step
 			if (!geo.isAvailableAtConstructionStep(consStep)) {
@@ -3748,6 +3749,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 			view.add(geo);
 		}
+		view.endBatchUpdate();
 
 		if (getUpdateAgain()) {
 			setUpdateAgain(false, null);
