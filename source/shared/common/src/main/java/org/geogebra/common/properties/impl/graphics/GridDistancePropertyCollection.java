@@ -3,7 +3,7 @@ package org.geogebra.common.properties.impl.graphics;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -24,16 +24,14 @@ public class GridDistancePropertyCollection extends AbstractPropertyCollection<P
 	public GridDistancePropertyCollection(App app, Localization localization, EuclidianSettings
 			euclidianSettings) {
 		super(localization, "Distance");
-
-		Kernel kernel = app.getKernel();
 		EuclidianView euclidianView = app.getActiveEuclidianView();
 
 		ArrayList<Property> properties = new ArrayList<>();
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		properties.add(new GridFixedDistanceProperty(localization, euclidianSettings));
-		properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
-				kernel, "x", 0));
-		properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
-				kernel, "y", 1));
+		properties.add(new GridDistanceProperty(ap, localization, euclidianView, "x", 0));
+		properties.add(new GridDistanceProperty(ap, localization, euclidianView, "y", 1));
+		properties.add(new GridAngleProperty(ap, localization, euclidianView));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

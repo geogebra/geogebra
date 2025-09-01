@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -33,7 +34,7 @@ public abstract class AbstractNumericProperty extends AbstractValuedProperty<Str
 	public String getValue() {
 		NumberValue numberValue = getNumberValue();
 		if (numberValue != null) {
-			return util.getFormatted(numberValue.getDouble());
+			return numberValue.getLabel(StringTemplate.editTemplate);
 		}
 		return "";
 	}

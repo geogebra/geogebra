@@ -12,28 +12,45 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 
-public class GridColorProperty extends AbstractEnumeratedProperty<GColor>
+public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
 		implements ColorProperty {
 	private final EuclidianSettings euclidianSettings;
+	private final boolean isRuling;
 
 	/**
 	 * Creates a color property for grid lines
 	 * @param loc localization
 	 * @param euclidianSettings view settings
 	 */
-	public GridColorProperty(Localization loc, EuclidianSettings euclidianSettings) {
+	public RulingGridColorProperty(Localization loc, EuclidianSettings euclidianSettings) {
+		this(loc, euclidianSettings, false);
+	}
+
+	/**
+	 * Creates a color property for ruling in notes
+	 * @param loc localization
+	 * @param euclidianSettings view settings
+	 * @param isRuling ruling for notes
+	 */
+	public RulingGridColorProperty(Localization loc, EuclidianSettings euclidianSettings,
+			boolean isRuling) {
 		super(loc, "Color");
 		this.euclidianSettings = euclidianSettings;
+		this.isRuling = isRuling;
 	}
 
 	@Override
 	protected void doSetValue(GColor value) {
-		euclidianSettings.setBgRulerColor(value);
+		if (isRuling) {
+			euclidianSettings.setBgRulerColor(value);
+		} else {
+			euclidianSettings.setGridColor(value);
+		}
 	}
 
 	@Override
 	public GColor getValue() {
-		return euclidianSettings.getBgRulerColor();
+		return isRuling ? euclidianSettings.getBgRulerColor() : euclidianSettings.getGridColor();
 	}
 
 	@Override

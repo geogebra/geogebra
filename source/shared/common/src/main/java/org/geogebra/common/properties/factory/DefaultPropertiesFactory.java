@@ -40,12 +40,16 @@ import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollectio
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GraphicsActionsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.GridStyleIconProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.RulingGridBoldProperty;
+import org.geogebra.common.properties.impl.graphics.RulingGridColorProperty;
+import org.geogebra.common.properties.impl.graphics.RulingGridLineStyleProperty;
 import org.geogebra.common.properties.impl.graphics.VerticalYAxis;
 
 /**
@@ -142,7 +146,12 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 				registerProperties(propertiesRegistry,
 						new PropertyCollectionWithLead(localization, "Grid",
 								new GridVisibilityProperty(localization, euclidianSettings),
-								new GridStyleProperty(localization, euclidianSettings)),
+								new GridStyleIconProperty(localization, euclidianSettings),
+								new RulingGridColorProperty(localization, euclidianSettings),
+								new RulingGridLineStyleProperty(localization, euclidianSettings),
+								new RulingGridBoldProperty(localization, euclidianSettings),
+								new GridDistancePropertyCollection(app, localization,
+										euclidianSettings)),
 						new PropertyCollectionWithLead(localization, "Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings),
 								new AxesColorProperty(localization, euclidianSettings),
@@ -165,7 +174,12 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 				registerProperties(propertiesRegistry,
 						new PropertyCollectionWithLead(localization, "Grid",
 								new GridVisibilityProperty(localization, euclidianSettings),
-								new GridStyleProperty(localization, euclidianSettings)),
+								new GridStyleIconProperty(localization, euclidianSettings),
+								new RulingGridColorProperty(localization, euclidianSettings),
+								new RulingGridLineStyleProperty(localization, euclidianSettings),
+								new RulingGridBoldProperty(localization, euclidianSettings),
+								new GridDistancePropertyCollection(app, localization,
+										euclidianSettings)),
 						new PropertyCollectionWithLead(localization, "Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings),
 								new AxesColorProperty(localization, euclidianSettings),

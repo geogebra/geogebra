@@ -1,11 +1,11 @@
 package org.geogebra.web.full.gui.components;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -48,11 +48,10 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 	/**
 	 * Creates a combo box using a {@link NamedEnumeratedProperty}.
 	 * @param app see {@link AppW}
-	 * @param label label of combo box
 	 * @param property popup items
 	 */
-	public ComponentComboBox(AppW app, String label, NamedEnumeratedProperty<?> property) {
-		this(app, label, Arrays.asList(property.getValueNames()));
+	public ComponentComboBox(AppW app, NumericPropertyWithSuggestions property) {
+		this(app, property.getName(), property.getSuggestions());
 	}
 
 	private void initController(List<String> items) {
@@ -224,6 +223,13 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 	public void setValue(String value) {
 		controller.setSelectedOption(controller.possibleSelectedIndex(value));
 		inputTextField.setValue(value);
+	}
+
+	/**
+	 * @param newLabel nem label of combo box
+	 */
+	public void setLabel(String newLabel) {
+		label.setText(appW.getLocalization().getMenu(newLabel));
 	}
 
 	@Override

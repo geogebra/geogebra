@@ -21,9 +21,9 @@ public class RulingPropertiesCollection extends AbstractPropertyCollection<Prope
 		super(localization, "Ruling");
 		ArrayList<Property> properties = new ArrayList<>();
 		properties.add(new RulingStyleProperty(localization, settings, euclidianView));
-		properties.add(new GridColorProperty(localization, settings));
-		properties.add(new RulingLineStyleProperty(localization, settings));
-		properties.add(new RulingBoldProperty(localization, settings));
+		properties.add(new RulingGridColorProperty(localization, settings, true));
+		properties.add(new RulingGridLineStyleProperty(localization, settings, true));
+		properties.add(new RulingGridBoldProperty(localization, settings, true));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

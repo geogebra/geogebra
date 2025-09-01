@@ -10,9 +10,10 @@ import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 
-public class RulingLineStyleProperty extends AbstractEnumeratedProperty<Integer>
+public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 	private final EuclidianSettings euclidianSettings;
+	private final boolean isRuling;
 
 	private static final PropertyResource[] icons = {
 			PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED,
@@ -21,13 +22,26 @@ public class RulingLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 	};
 
 	/**
-	 * Creates a line style property for ruling
+	 * Creates a line style property for grid lines
 	 * @param localization localization
 	 * @param euclidianSettings euclidian settings
 	 */
-	public RulingLineStyleProperty(Localization localization, EuclidianSettings euclidianSettings) {
+	public RulingGridLineStyleProperty(Localization localization,
+			EuclidianSettings euclidianSettings) {
+		this(localization, euclidianSettings, false);
+	}
+
+	/**
+	 * Creates a line style property for ruling in notes
+	 * @param localization localization
+	 * @param euclidianSettings euclidian settings
+	 * @param isRuling ruling for notes
+	 */
+	public RulingGridLineStyleProperty(Localization localization,
+			EuclidianSettings euclidianSettings, boolean isRuling) {
 		super(localization, "LineStyle");
 		this.euclidianSettings = euclidianSettings;
+		this.isRuling = isRuling;
 		setValues(List.of(
 				EuclidianStyleConstants.LINE_TYPE_FULL,
 				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
@@ -44,12 +58,17 @@ public class RulingLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 
 	@Override
 	protected void doSetValue(Integer value) {
-		euclidianSettings.setRulerLineStyle(value);
+		if (isRuling) {
+			euclidianSettings.setRulerLineStyle(value);
+		} else {
+			euclidianSettings.setGridLineStyle(value);
+		}
 	}
 
 	@Override
 	public Integer getValue() {
-		return euclidianSettings.getRulerLineStyle();
+		return isRuling ? euclidianSettings.getRulerLineStyle()
+				: euclidianSettings.getGridLineStyle();
 	}
 
 	@Override
