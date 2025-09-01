@@ -35,13 +35,13 @@ public enum PreviewFeature {
 	SETTINGS_VIEW;
 
 	/**
-	 * Global flag to activate feature previews.
+	 * Global flag to activate preview features.
 	 *
 	 * @apiNote Set the {@code true} at run time (early in the app startup code) to enable
-	 * feature previews in test builds.
+	 * preview features in test builds.
 	 */
 	@SuppressFBWarnings("MS_PKGPROTECT")
-	public static boolean enableFeaturePreviews = false;
+	public static boolean enablePreviewFeatures = false;
 
 	/**
 	 * Whether a preview feature is enabled (the default), or not. The latter case can be used
@@ -62,16 +62,16 @@ public enum PreviewFeature {
 	 * Enables preview features. May be called at startup.
 	 */
 	public static void setPreviewFeaturesEnabled(boolean enabled) {
-		enableFeaturePreviews = enabled;
+		enablePreviewFeatures = enabled;
 	}
 
 	/**
 	 * Checks whether a preview feature is available.
 	 * @param previewFeature A preview feature.
 	 * @return {@code true} iff the preview feature's {@code isEnabled} flag is {@code true} and
-	 * {@link #enableFeaturePreviews} is {@code true} as well; {@code false} otherwise.
+	 * {@link #enablePreviewFeatures} is {@code true} as well; {@code false} otherwise.
 	 */
 	public static boolean isAvailable(PreviewFeature previewFeature) {
-		return enableFeaturePreviews && previewFeature.isEnabled;
+		return enablePreviewFeatures && previewFeature.isEnabled;
 	}
 }

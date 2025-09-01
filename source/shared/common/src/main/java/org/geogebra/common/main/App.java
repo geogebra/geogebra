@@ -2967,7 +2967,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getVersionString() {
 		if (platform != null) {
-			return platform.getVersionString(PreviewFeature.enableFeaturePreviews,
+			return platform.getVersionString(PreviewFeature.enablePreviewFeatures,
 					getConfig().getAppCode());
 		}
 

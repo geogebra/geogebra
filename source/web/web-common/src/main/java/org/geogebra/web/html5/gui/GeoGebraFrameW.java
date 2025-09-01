@@ -108,7 +108,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// flag should only be considered for the first instance
 		if (instances.size() == 1) {
 			PreviewFeature.setPreviewFeaturesEnabled(prereleaseParameter);
-		} else if (PreviewFeature.enableFeaturePreviews != prereleaseParameter) {
+		} else if (PreviewFeature.enablePreviewFeatures != prereleaseParameter) {
 			Log.warn("Availability of preview features can only be set once.");
 		}
 	}

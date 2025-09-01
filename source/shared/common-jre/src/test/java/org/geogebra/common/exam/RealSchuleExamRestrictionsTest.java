@@ -174,14 +174,14 @@ public class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 
 	@Test
 	public void testEnabledEngineeringNotation() {
-		PreviewFeature.enableFeaturePreviews = true;
+		PreviewFeature.enablePreviewFeatures = true;
 		examController.startExam(ExamType.BAYERN_GR, null);
 		boolean enableEngineeringNotation = getAlgebraSettings().isEngineeringNotationEnabled();
 		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters = getAlgebraSettings()
 				.getAlgebraOutputFormatFilters();
 		assertTrue(AlgebraOutputFormat.getPossibleFormats(evaluateGeoElement("1.234"),
 				enableEngineeringNotation, algebraOutputFormatFilters).contains(ENGINEERING));
-		PreviewFeature.enableFeaturePreviews = false;
+		PreviewFeature.enablePreviewFeatures = false;
 	}
 
 	@Issue("APPS-6634")
