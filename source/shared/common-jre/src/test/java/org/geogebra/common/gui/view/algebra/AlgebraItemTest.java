@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -180,6 +182,70 @@ public class AlgebraItemTest extends BaseUnitTest {
         InputHelper.updateProperties(new GeoElement[]{geo}, getApp().getActiveEuclidianView(),
                 getKernel().getConstructionStep());
         assertThat(Collections.singletonList("ADD a"), is(eventAccumulator.getEvents()));
+    }
+
+    @Test
+    public void testTangents() {
+        getApp().setGeometryConfig();
+        addAvInput("c: Circle((0, 0), 5)");
+        addAvInput("A = (6, 6)");
+        GeoElement[] tangents = getElements("Tangent(A, c)");
+        assertFalse(AlgebraItem.shouldShowBothRows(tangents[0], getSettings().getAlgebra()));
+        assertFalse(AlgebraItem.shouldShowBothRows(tangents[1], getSettings().getAlgebra()));
+        assertEquals("\\text{f = Tangent to c through A}",
+                AlgebraItem.getPreviewLatexForGeoElement(tangents[0]));
+        assertEquals("\\text{g = Tangent to c through A}",
+                AlgebraItem.getPreviewLatexForGeoElement(tangents[1]));
+        assertFalse(AlgebraItem.isCompactItem(tangents[0]));
+        assertFalse(AlgebraItem.isCompactItem(tangents[1]));
+        IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
+        AlgebraItem.buildPlainTextItemSimple(tangents[0], builder);
+        assertEquals("f = Tangent to c through A", builder.toString());
+        AlgebraItem.buildPlainTextItemSimple(tangents[1], builder);
+        assertEquals("g = Tangent to c through A", builder.toString());
+    }
+
+    @Test
+    public void testEditingTangents() {
+        getApp().setGeometryConfig();
+        addAvInput("c: Circle((0, 0), 5)");
+        addAvInput("A = (6, 6)");
+        addAvInput("B = (-6, 6)");
+        addAvInput("Tangent(A, c)");
+
+        editGeoElement(lookup("f"), "Tangent(B, c)");
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("f"), getSettings().getAlgebra()));
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("f_{2}"), getSettings().getAlgebra()));
+        assertEquals("\\text{f = Tangent to c through B}",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("f")));
+        assertEquals("\\text{f$_2$ = Tangent to c through B}",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("f_{2}")));
+        assertFalse(AlgebraItem.isCompactItem(lookup("f")));
+        assertFalse(AlgebraItem.isCompactItem(lookup("f_{2}")));
+    }
+
+    @Test
+    public void testTangentsWhileSwitchingToDescriptionMode() {
+        getApp().setUnrestrictedGraphingConfig();
+        addAvInput("c: Circle((0, 0), 5)");
+        addAvInput("A = (6, 6)");
+        addAvInput("Tangent(A, c)");
+
+        assertTrue(AlgebraItem.shouldShowBothRows(lookup("f"), getSettings().getAlgebra()));
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("g"), getSettings().getAlgebra()));
+        assertEquals("Tangent\\left(A, c \\right)",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("f")));
+        assertEquals("Tangent\\left(A, c \\right)",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("g")));
+
+        getSettings().getAlgebra().setStyle(AlgebraStyle.DESCRIPTION);
+
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("f"), getSettings().getAlgebra()));
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("g"), getSettings().getAlgebra()));
+        assertEquals("\\text{f = Tangent to c through A}",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("f")));
+        assertEquals("\\text{g = Tangent to c through A}",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("g")));
     }
 
     @Test

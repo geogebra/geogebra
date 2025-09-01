@@ -20,6 +20,7 @@ import java.util.Set;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.CvteExamRestrictions;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
@@ -350,5 +352,32 @@ public final class CvteExamTests extends BaseExamTestSetup {
         GeoElement geoElement = evaluateGeoElement("sin(x)");
         Objects.requireNonNull(SuggestionIntersectExtremum.get(geoElement)).execute(geoElement);
         assertEquals(2, getKernel().getConstructionStep());
+    }
+
+    @Test
+    public void testTangentOutputsInAlgebraView() {
+        evaluateGeoElement("A = (6, 6)");
+        evaluateGeoElement("c: Circle((0, 0), 5)");
+        evaluateGeoElement("Tangent(A, c)");
+
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("f"), getAlgebraSettings()));
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("g"), getAlgebraSettings()));
+        assertEquals("f:Tangent\\left(A, c \\right)",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("f")));
+        assertEquals("g:Tangent\\left(A, c \\right)",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("g")));
+
+        getAlgebraSettings().setStyle(AlgebraStyle.DESCRIPTION);
+
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("f"), getAlgebraSettings()));
+        assertFalse(AlgebraItem.shouldShowBothRows(lookup("g"), getAlgebraSettings()));
+        assertEquals("\\text{f = Tangent to c through A}",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("f")));
+        assertEquals("\\text{g = Tangent to c through A}",
+                AlgebraItem.getPreviewLatexForGeoElement(lookup("g")));
+    }
+
+    private GeoElement lookup(String label) {
+        return getKernel().lookupLabel(label);
     }
 }
