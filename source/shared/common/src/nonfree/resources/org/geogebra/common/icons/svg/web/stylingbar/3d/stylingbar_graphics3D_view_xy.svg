@@ -1,14 +1,1 @@
-<svg id="stylingbar_graphics3D_view_xy" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #b3b3b3;
-      }
-    </style>
-  </defs>
-  <title>stylingbar_graphics3D_view_xy</title>
-  <g>
-    <polygon class="cls-1" points="61.02 167.66 165.02 62.62 450.98 62.62 346.77 166.83 61.02 167.66"/>
-    <path d="M458.17,53H159L53.09,159H53V459H353L458.91,353H459V53ZM167.31,73H424.9L339,159H81.38ZM333,439H73V179H333Zm20-8.26V173.22l0,0L439,87.18V344.61Z"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M22 2v15l-5 5H2V7l5-5h15ZM4 9v11h11V9H4Zm13-.59v10.76l3-3V5.41l-3 3Z"/></svg>
