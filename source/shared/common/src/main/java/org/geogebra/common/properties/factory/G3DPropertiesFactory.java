@@ -16,7 +16,7 @@ import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollectionWithLead;
 import org.geogebra.common.properties.impl.graphics.ARRatioPropertyCollection;
-import org.geogebra.common.properties.impl.graphics.AdvancedPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.AdvancedApps3DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundProperty;
@@ -92,9 +92,8 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),
 						axisExpandableProperty(2, "zAxis", app, localization),
-						new AdvancedPropertiesCollection(localization, euclidianSettings))
+						new AdvancedApps3DPropertiesCollection(app, localization,
+								euclidianSettings))
 		);
-
 	}
-
 }

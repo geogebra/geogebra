@@ -26,6 +26,18 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/ic_arrow_drop_down_black_24px.svg")
 	SVGResource arrow_drop_down();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/rightAngleDot.svg")
+	SVGResource right_angle_style_dot();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/rightAngleOff.svg")
+	SVGResource right_angle_style_off();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/rightAngleRectangle.svg")
+	SVGResource right_angle_style_rectangle();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/rightAngleStroke.svg")
+	SVGResource right_angle_style_stroke();
+
 	// dynamic stylebar
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_color_reset-24px.svg")
 	SVGResource no_color();

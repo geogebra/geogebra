@@ -35,7 +35,7 @@ public class LabelingProperty extends AbstractNamedEnumeratedProperty<LabelVisib
 	 */
 	public LabelingProperty(Localization localization, LabelSettings labelSettings,
 			LabelVisibility... values) {
-		super(localization, "Labeling");
+		super(localization, "ObjectLabels");
 		this.labelSettings = labelSettings;
 		setNamedValues(Arrays.stream(values)
 				.map(labelVisibility -> entry(labelVisibility, labelVisibility.getTransKey()))

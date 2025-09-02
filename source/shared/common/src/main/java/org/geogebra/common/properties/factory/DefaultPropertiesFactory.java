@@ -27,7 +27,10 @@ import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
-import org.geogebra.common.properties.impl.graphics.AdvancedPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.AdvancedApps2DPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.AdvancedApps3DPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.AdvancedClassic2DPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.AdvancedClassic3DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.AxesBoldProperty;
 import org.geogebra.common.properties.impl.graphics.AxesColorProperty;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
@@ -162,13 +165,17 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						new DimensionPropertiesCollection(app, localization, euclidianSettings),
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),
-						new AdvancedPropertiesCollection(localization, euclidianSettings))
+						app.isUnbundled()
+								? new AdvancedApps2DPropertiesCollection(app, localization,
+								euclidianSettings)
+								: new AdvancedClassic2DPropertiesCollection(app, localization,
+								euclidianSettings, activeView))
 		);
 	}
 
 	protected PropertiesArray createStructuredGraphics2Properties(App app,
 			Localization localization, PropertiesRegistry propertiesRegistry) {
-		EuclidianView activeView = app.getActiveEuclidianView();
+		EuclidianView activeView = app.getEuclidianView2(1);
 		EuclidianSettings euclidianSettings = activeView.getSettings();
 		return new PropertiesArray("DrawingPad2", localization,
 				registerProperties(propertiesRegistry,
@@ -190,7 +197,11 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						new DimensionPropertiesCollection(app, localization, euclidianSettings),
 						axisExpandableProperty(0, "xAxis", app, localization),
 						axisExpandableProperty(1, "yAxis", app, localization),
-						new AdvancedPropertiesCollection(localization, euclidianSettings))
+						app.isUnbundled()
+								? new AdvancedApps2DPropertiesCollection(app, localization,
+								euclidianSettings)
+								: new AdvancedClassic2DPropertiesCollection(app, localization,
+								euclidianSettings, activeView))
 		);
 	}
 
@@ -216,7 +227,11 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						axisExpandableProperty(2, "zAxis", app, localization),
 						new ProjectionPropertyCollection(app, localization,
 								(EuclidianSettings3D) euclidianSettings),
-						new AdvancedPropertiesCollection(localization, euclidianSettings))
+						app.isUnbundled()
+								? new AdvancedApps3DPropertiesCollection(app, localization,
+								euclidianSettings)
+								: new AdvancedClassic3DPropertiesCollection(app, localization,
+								euclidianSettings))
 		);
 	}
 

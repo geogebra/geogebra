@@ -23,6 +23,7 @@ import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollectio
 import org.geogebra.common.properties.impl.graphics.DimensionRatioProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.RulingPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.RulingStyleProperty;
@@ -33,7 +34,9 @@ import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.properties.ui.panel.GridDistancePanel;
-import org.geogebra.web.full.gui.properties.ui.panel.OptionalPropertyWidgetCollection;
+import org.geogebra.web.full.gui.properties.ui.settingsListener.SelectionSettingsListener;
+import org.geogebra.web.full.gui.properties.ui.settingsListener.StateSettingsListener;
+import org.geogebra.web.full.gui.properties.ui.settingsListener.VisibilitySettingsListener;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -49,10 +52,9 @@ import org.gwtproject.user.client.ui.Widget;
  * Maps properties to UI components for the properties view.
  */
 public class PropertiesPanelAdapter {
-
 	private final Localization loc;
 	private final AppW app;
-	private final SettingsChangedListenerWidgetCollection settingsListenerWidgetCollection;
+	private final SelectionSettingsListener selectionListenerWidgetCollection;
 
 	/**
 	 * @param loc localization
@@ -61,7 +63,7 @@ public class PropertiesPanelAdapter {
 	public PropertiesPanelAdapter(Localization loc, AppW app) {
 		this.loc = loc;
 		this.app = app;
-		settingsListenerWidgetCollection = new SettingsChangedListenerWidgetCollection(app);
+		selectionListenerWidgetCollection = new SelectionSettingsListener(app);
 	}
 
 	/**
@@ -81,7 +83,7 @@ public class PropertiesPanelAdapter {
 	private void mayRegisterSettingsListenerWidget(NamedEnumeratedProperty<?> property,
 			ComponentDropDown dropDown) {
 		if (property instanceof RulingStyleProperty) {
-			settingsListenerWidgetCollection.registerWidget(property, dropDown);
+			selectionListenerWidgetCollection.registerWidget(dropDown, property);
 		}
 	}
 
@@ -135,15 +137,27 @@ public class PropertiesPanelAdapter {
 		if (property instanceof GridDistancePropertyCollection) {
 			return new GridDistancePanel(app, (GridDistancePropertyCollection) property);
 		}
+		if (property instanceof NavigationBarPropertiesCollection) {
+			FlowPanel panel = new FlowPanel();
+			panel.addStyleName("navigationBar");
+			StateSettingsListener stateSettingsListener = new StateSettingsListener(app, 1, 2);
+			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
+				Widget widget = getWidget(prop);
+				panel.add(widget);
+				stateSettingsListener.registerWidget(widget, prop);
+			}
+			return panel;
+		}
 		if (property instanceof ProjectionPropertyCollection
 			|| property instanceof RulingPropertiesCollection) {
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
 					null, property.getName());
-			OptionalPropertyWidgetCollection collection = new OptionalPropertyWidgetCollection(app);
+			VisibilitySettingsListener collection = new VisibilitySettingsListener(app, 1, 3);
 			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
 				Widget widget = getWidget(prop);
 				expandableList.addToContent(widget);
-				collection.addOptionalWidget(widget, prop);
+				collection.registerWidget(widget, prop);
+				widget.setVisible(prop.isEnabled());
 			}
 			return expandableList;
 		}

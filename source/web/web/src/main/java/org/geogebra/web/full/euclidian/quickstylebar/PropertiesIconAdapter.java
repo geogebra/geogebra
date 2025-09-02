@@ -170,6 +170,14 @@ public class PropertiesIconAdapter {
 			return GuiResources.INSTANCE.deco_axes_arrows();
 		case ICON_AXES_LINE_TYPE_TWO_ARROWS_FILLED:
 			return GuiResources.INSTANCE.deco_axes_arrows_filled();
+		case ICON_RIGHT_ANGLE_STYLE_NONE:
+			return res.right_angle_style_off();
+		case ICON_RIGHT_ANGLE_STYLE_SQUARE:
+			return res.right_angle_style_rectangle();
+		case ICON_RIGHT_ANGLE_STYLE_DOT:
+			return res.right_angle_style_dot();
+		case ICON_RIGHT_ANGLE_STYLE_L:
+			return res.right_angle_style_stroke();
 		}
 		return res.stylebar_empty();
 	}

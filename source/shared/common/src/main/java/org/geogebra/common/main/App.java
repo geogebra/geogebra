@@ -3453,7 +3453,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            true to show navigation bar
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag, int id) {
-
 		if (showConsProtNavigation == null) {
 			showConsProtNavigation = new HashMap<>();
 		} else {
