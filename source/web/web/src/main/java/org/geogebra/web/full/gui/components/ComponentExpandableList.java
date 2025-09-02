@@ -34,7 +34,6 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 		this.appW = appW;
 		if (booleanProperty != null) {
 			this.booleanProperty = booleanProperty;
-			expanded = booleanProperty.getValue();
 		}
 		this.titleTransKey = titleTransKey;
 
@@ -87,7 +86,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	}
 
 	private void addCheckBoxTo(FlowPanel header) {
-		checkbox = new ComponentCheckbox(appW.getLocalization(), expanded, "",
+		checkbox = new ComponentCheckbox(appW.getLocalization(), booleanProperty.getValue(), "",
 				value -> {
 					boolean selected = !booleanProperty.getValue();
 					booleanProperty.setValue(selected);
