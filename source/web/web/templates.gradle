@@ -100,7 +100,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
     def startscreenStyle = "startscreen " + app.id + (offline ? " offline" : "")
     def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
-            "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
+            "content=\"app-id=${app.appStoreId}\">" : ""
     def splashContent = template("${app.id}-splash.html")
     def splashStyle = "<style>" + file("war/css/app-header.css").text + "</style>"
     if (!inlineCss && vendor != "Mebis") {

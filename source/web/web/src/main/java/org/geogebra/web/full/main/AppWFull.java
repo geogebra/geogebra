@@ -1835,9 +1835,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		resetPen();
 		restoreCurrentUndoHistory();
-		if (DomGlobal.window.matchMedia("(display-mode: standalone)").matches) {
-			FragmentPrefetcher.fetchAllIfNotCached();
-		}
+		FragmentPrefetcher.fetchAllIfStandalone();
 
 	}
 

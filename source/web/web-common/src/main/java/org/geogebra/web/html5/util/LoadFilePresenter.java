@@ -13,6 +13,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.FragmentPrefetcher;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
 
 import jsinterop.base.JsPropertyMap;
@@ -277,6 +278,7 @@ public class LoadFilePresenter {
 
 		app.updateRounding();
 		preloadParser(app);
+		FragmentPrefetcher.fetchAllIfStandalone();
 	}
 
 	/**

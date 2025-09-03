@@ -43,9 +43,25 @@ public final class FragmentPrefetcher implements AjaxCallback {
 	}
 
 	/**
-	 * Notify service worker to fetch all fragments unless they are already cached.
+	 * In standalone mode notify service worker to fetch all fragments,
+	 * unless they are already cached.
 	 */
-	public static void fetchAllIfNotCached() {
+	public static void fetchAllIfStandalone() {
+		if (DomGlobal.window.matchMedia("(display-mode: standalone)").matches) {
+			fetchAllIfNotCached();
+		}
+	}
+
+	/**
+	 * @param callback
+	 *            callback
+	 */
+	public void runAfterPrefetch(AsyncOperation<String> callback) {
+		fetchCallback = callback;
+		resolveCallbacks();
+	}
+
+	private static void fetchAllIfNotCached() {
 		JsPropertyMap<Object> message = JsPropertyMap.of();
 		JsArray<String> files = JsArray.of();
 		for (int i = 1; i <= LAST_FRAGMENT; i++) {
@@ -57,15 +73,6 @@ public final class FragmentPrefetcher implements AjaxCallback {
 			registration.getActive().postMessage(Global.JSON.stringify(message));
 			return null;
 		});
-	}
-
-	/**
-	 * @param callback
-	 *            callback
-	 */
-	public void runAfterPrefetch(AsyncOperation<String> callback) {
-		fetchCallback = callback;
-		resolveCallbacks();
 	}
 
 	private void resolveCallbacks() {

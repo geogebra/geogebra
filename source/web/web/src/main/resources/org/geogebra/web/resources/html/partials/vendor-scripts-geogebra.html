@@ -31,4 +31,12 @@ function isEmbed() {
 			|| location.pathname.match(/\/lti\//)
 			|| window.parent != window;
 }
+if (location.protocol && location.protocol.startsWith("http")) {
+	window.addEventListener("load", () => {
+		navigator.serviceWorker.register("./sworker.js");
+	});
+	navigator.serviceWorker.ready.then((registration) => {
+		registration.active.postMessage(JSON.stringify({"cache": [location.href]}));
+	});
+}
 </script>
