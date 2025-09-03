@@ -14,7 +14,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class GeoFunctionTest extends BaseUnitTest {
@@ -87,5 +89,15 @@ public class GeoFunctionTest extends BaseUnitTest {
 		t("f(-5)", "NaN");
 		assertEquals("d", f.getFunctionExpression().getUnconditionalVars(new HashSet<>())
 				.stream().map(GeoElement::getLabelSimple).collect(Collectors.joining()));
+	}
+
+	@Test
+	@Issue("APPS-6871")
+	public void testSqrt() {
+		add("f(x)=sqrt(x)");
+		GeoElement sum = add("g:f+f");
+		getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.LINEAR_NOTATION);
+		assertEquals("g(x) = sqrt(x) + sqrt(x)", sum.getAlgebraDescriptionDefault());
+		assertEquals("sqrt(x) + sqrt(x)", sum.getAlgebraDescriptionRHS());
 	}
 }

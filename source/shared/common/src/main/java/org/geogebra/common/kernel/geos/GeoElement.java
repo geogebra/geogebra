@@ -3986,7 +3986,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!isDefined()) {
 			algDesc = "?";
 		} else {
-			algDesc = toValueString(StringTemplate.algebraTemplate);
+			algDesc = toValueString(kernel.getAlgebraTemplate());
 		}
 		return algDesc;
 	}
@@ -4053,7 +4053,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public String getAlgebraDescriptionDefault() {
 		if (strAlgebraDescriptionNeedsUpdate) {
-			strAlgebraDescription = getAlgebraDescriptionPublic(StringTemplate.algebraTemplate);
+			strAlgebraDescription = getAlgebraDescriptionPublic(kernel.getAlgebraTemplate());
 			strAlgebraDescriptionNeedsUpdate = false;
 		}
 		return strAlgebraDescription;

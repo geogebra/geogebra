@@ -89,6 +89,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Event;
@@ -263,8 +264,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/** maximum axes can zoom to */
 	private final static double AXES_PRECISION = 1E-14;
-
-	// private String stringTemplate.getPi(); // for pi
 
 	// before May 23, 2005 the function acos(), asin() and atan()
 	// had an angle as result. Now the result is a number.
@@ -1516,6 +1515,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			return internationalizeDigits(num, tpl);
 		}
 		return formatPiERaw(x, numF, tpl);
+	}
+
+	/**
+	 * @return The currently used (Algebra) StringTemplate, which may be
+	 * {@link StringTemplate#algebraTemplate} or {@link StringTemplate#linearNotation}.
+	 */
+	public StringTemplate getAlgebraTemplate() {
+		AlgebraSettings algebra = getApplication().getSettings().getAlgebra();
+		return algebra.getStyle() == AlgebraStyle.LINEAR_NOTATION
+				? StringTemplate.linearNotation : StringTemplate.algebraTemplate;
 	}
 
 	/**

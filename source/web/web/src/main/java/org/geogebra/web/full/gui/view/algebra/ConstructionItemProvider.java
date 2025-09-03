@@ -7,7 +7,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.ToStringConverter;
@@ -41,7 +40,7 @@ public final class ConstructionItemProvider implements HasLastItem {
 
 	private String convertToString(GeoElement element) {
 		if (element != null) {
-			return converter.toOutputValueString(element, StringTemplate.algebraTemplate);
+			return converter.toOutputValueString(element, cons.getKernel().getAlgebraTemplate());
 		}
 		return "";
 	}

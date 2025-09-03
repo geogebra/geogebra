@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra.contextmenu.action;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.contextmenu.MenuAction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -10,7 +9,7 @@ import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 
 public class DuplicateOutputAction implements MenuAction<GeoElement> {
 
-	private AlgebraViewW algebraView;
+	private final AlgebraViewW algebraView;
 
 	public DuplicateOutputAction(AlgebraViewW algebraView) {
 		this.algebraView = algebraView;
@@ -21,7 +20,8 @@ public class DuplicateOutputAction implements MenuAction<GeoElement> {
 		ToStringConverter converter = algebraView.getApp()
 				.getGeoElementValueConverter();
 		RadioTreeItem input = algebraView.getInputTreeItem();
-		String geoString = converter.toOutputValueString(item, StringTemplate.algebraTemplate);
+		String geoString = converter.toOutputValueString(item,
+				algebraView.getApp().getKernel().getAlgebraTemplate());
 
 		RadioTreeItem currentNode = algebraView.getNode(item);
 		if (currentNode != null) {
