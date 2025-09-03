@@ -13,8 +13,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.Base64;
+import org.geogebra.common.main.MaterialParameters;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
@@ -40,7 +42,7 @@ import org.junit.Test;
 
 public class MaterialRestAPITest {
 
-	private static final String BASE_URL = "http://tafel.dlb-dev01.alp-dlg.net/api";
+	private static final String BASE_URL = "http://api-beta.geogebra.org/";
 
 	@Test
 	public void testAuth() {
@@ -97,7 +99,8 @@ public class MaterialRestAPITest {
 		api.uploadMaterial("", "S", "This should fail",
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
-				t, MaterialType.ggs, false);
+				t, MaterialType.ggs, false,
+				new MaterialParameters(AppCommonFactory.create()));
 		t.await(5);
 		t.verifyError(".*401.*");
 	}
@@ -137,7 +140,8 @@ public class MaterialRestAPITest {
 		api.uploadMaterial("", "S", title,
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
-				testCallback, MaterialType.ggs, false);
+				testCallback, MaterialType.ggs, false,
+				new MaterialParameters(AppCommonFactory.create()));
 		testCallback.await(5);
 		testCallback.verify(title);
 	}
@@ -357,7 +361,8 @@ public class MaterialRestAPITest {
 								UtilD.loadFileIntoByteArray(
 										"src/test/resources/slides.ggs"),
 								false),
-						reuploadCallback, MaterialType.ggs, false);
+						reuploadCallback, MaterialType.ggs, false,
+						new MaterialParameters(AppCommonFactory.create()));
 				return true;
 			}
 		};

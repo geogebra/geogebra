@@ -5,7 +5,7 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Opens file in Mebis Tafel.
+ * Opens file in Mebis Board.
  */
 public class OpenFileActionMebis extends DefaultMenuAction<AppWFull> {
 

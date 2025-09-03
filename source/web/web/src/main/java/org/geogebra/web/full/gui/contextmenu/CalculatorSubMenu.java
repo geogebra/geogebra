@@ -15,6 +15,7 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ContextMenuItemFactory;
 import org.geogebra.web.full.gui.dialog.AppDescription;
+import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
@@ -26,10 +27,9 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 
-import elemental2.dom.DomGlobal;
-
 public class CalculatorSubMenu extends AriaMenuBar {
 
+	private static final String BOARD_URL = "https://board.bycs.de";
 	private final AppW app;
 	private final ContextMenuItemFactory factory;
 	private final EmbedManager embedManager;
@@ -57,18 +57,18 @@ public class CalculatorSubMenu extends AriaMenuBar {
 			addItem(SuiteSubApp.GEOMETRY);
 			addItem(SuiteSubApp.CAS);
 			addItem(SuiteSubApp.PROBABILITY);
-			if (app.isMebis() && !isElectron() && examType != ExamType.BAYERN_GR) {
+			if (app.isMebis() && examType != ExamType.BAYERN_GR) {
 				addItemWithButton(AppDescription.get(SuiteSubApp.SCIENTIFIC).getNameKey(),
-						"/taschenrechner", () -> embedManager
+						BOARD_URL + "/taschenrechner", () -> embedManager
 								.addCalcWithPreselectedApp(appOrExamModeName, SCIENTIFIC_APPCODE));
 			} else {
 				addItem(SuiteSubApp.SCIENTIFIC);
 			}
 
-			if (app.isMebis() && !isElectron()) {
+			if (app.isMebis()) {
 				if (examType == null || examType == ExamType.BAYERN_GR) {
 					addItemWithButton("Grafikrechner (Bayern)",
-							"/grafikrechnerbayern",
+							BOARD_URL + "/grafikrechnerbayern",
 							() -> embedManager.addCalcWithPreselectedApp(BAYERN_GRAPHING_APPCODE,
 									GeoGebraConstants.GRAPHING_APPCODE));
 				}
@@ -76,7 +76,8 @@ public class CalculatorSubMenu extends AriaMenuBar {
 		}
 	}
 
-	private void addItemWithButton(String itemText, String url, Scheduler.ScheduledCommand cmd) {
+	private void addItemWithButton(String itemText, String url,
+			Scheduler.ScheduledCommand cmd) {
 		FlowPanel itemHolder = new FlowPanel();
 		itemHolder.addStyleName("itemWithButton");
 
@@ -85,7 +86,8 @@ public class CalculatorSubMenu extends AriaMenuBar {
 		text.addClickHandler(event -> cmd.execute());
 		itemHolder.add(text);
 
-		if (!GlobalScope.examController.isExamActive()) {
+		if (!GlobalScope.examController.isExamActive()
+				&& !(app.getLAF() instanceof BundleLookAndFeel)) {
 			Image newTabImage = new NoDragImage(MaterialDesignResources
 					.INSTANCE.open_in_new_tab().getSafeUri().asString());
 			newTabImage.addClickHandler(event -> Browser.openWindow(url));
@@ -106,9 +108,5 @@ public class CalculatorSubMenu extends AriaMenuBar {
 				app.getLocalization().getMenu(description.getNameKey()),
 				() -> embedManager.addCalcWithPreselectedApp(appOrExamModeName,
 						subApp.appCode)));
-	}
-
-	private boolean isElectron() {
-		return DomGlobal.location.host == null || DomGlobal.location.host.isBlank();
 	}
 }

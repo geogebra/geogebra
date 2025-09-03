@@ -31,7 +31,7 @@ public class MebisSettings implements VendorSettings {
 
 	@Override
 	public String getAppTitle(AppConfig config) {
-		return "Tafel";
+		return "Board";
 	}
 
 	@Override

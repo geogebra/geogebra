@@ -16,16 +16,6 @@
         document.head.appendChild(app);
     }
 
-    function loadFontAwesome() {
-        if (document.URL) {
-            var baseLink = document.URL;
-            const splitLink = baseLink.split("frame");
-
-            addCssLinkToHead(splitLink[0] + "public/assets/css/fontawesome.min.css");
-            addCssLinkToHead(splitLink[0] + "public/assets/css/light.min.css");
-        }
-    }
-
     function addCssLinkToHead(link) {
          var cssLink = document.createElement("link");
          cssLink.rel = "stylesheet";
@@ -35,11 +25,11 @@
 
     function loadUnsavedWork(ggw) {
         var storage = window.sessionStorage;
-        var unsavedWork = storage.getItem('tafelUnsaved');
+        var unsavedWork = storage.getItem('boardUnsaved');
 
         if (unsavedWork) {
             loadBase64(ggw, unsavedWork);
-            storage.removeItem('tafelUnsaved')
+            storage.removeItem('boardUnsaved')
             loadedFromStorage = true;
         }
         return unsavedWork;

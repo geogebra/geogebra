@@ -6,7 +6,7 @@ import org.geogebra.web.full.gui.menubar.action.OpenOfflineFileAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Builds MenuActionHandler instances for Mebis Tafel.
+ * Builds MenuActionHandler instances for Mebis Board.
  */
 public class MebisMenuActionHandlerFactory implements MenuActionHandlerFactory {
 

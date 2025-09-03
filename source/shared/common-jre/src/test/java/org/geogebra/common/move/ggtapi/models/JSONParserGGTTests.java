@@ -93,7 +93,7 @@ public class JSONParserGGTTests {
 		assertTrue(material.has3d());
 	}
 
-	// Sample response: GET http://tafel.dlb-dev01.alp-dlg.net/api/users/18/materials?format=page&type=all&limit=50&offset=0&embed=creator&order=-modified
+	// Sample response: GET from mow-back
 	// For more info, see https://git.geogebra.org/doc/general/-/wikis/MOW
 	@Test
 	public void testToMaterial_MowAPI() throws Exception {

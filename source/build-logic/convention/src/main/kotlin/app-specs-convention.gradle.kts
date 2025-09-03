@@ -124,10 +124,10 @@ project.extensions.create(
         ),
         Spec(
             id = "notes-mebis",
-            title = "Tafel",
-            transKey = "Tafel",
-            exe = "MebisTafel",
-            pkg = "Mebis_Tafel",
+            title = "Board",
+            transKey = "Board",
+            exe = "MebisBoard",
+            pkg = "Mebis_Board",
             icon = "notes.ico",
             vendor = "Mebis"
         )

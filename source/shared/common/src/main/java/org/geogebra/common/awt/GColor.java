@@ -78,7 +78,7 @@ public final class GColor implements GPaint {
 	/** MOW SUBGRID */
 	public static final GColor MOW_SUBGRID = newColor(229, 229, 229);
 
-	// Selection color for inline text and table in Tafel
+	// Selection color for inline text and table in Board
 	public static final GColor MOW_SELECTION_COLOR = newColor(151, 95, 168, 51);
 
 	public static final GColor TABLE_HEADING_COLOR = newColor(110, 101, 179, 122);
