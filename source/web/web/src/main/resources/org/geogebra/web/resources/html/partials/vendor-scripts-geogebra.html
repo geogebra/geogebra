@@ -31,7 +31,7 @@ function isEmbed() {
 			|| location.pathname.match(/\/lti\//)
 			|| window.parent != window;
 }
-if (location.protocol && location.protocol.startsWith("http")) {
+if (location.protocol === "https:") {
 	window.addEventListener("load", () => {
 		navigator.serviceWorker.register("./sworker.js");
 	});
