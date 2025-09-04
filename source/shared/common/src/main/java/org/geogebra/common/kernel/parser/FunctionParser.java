@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
@@ -810,7 +811,11 @@ public class FunctionParser {
 		case SINH:
 		case COSH:
 		case TANH:
-			return new ExpressionNode(kernel, en, Operation.inverse(type), null);
+			Operation inverse = Operation.inverse(type);
+			if (kernel.getAngleUnitUsesDegrees()) {
+				inverse = ArcTrigReplacer.getDegreeInverseTrigOp(inverse);
+			}
+			return new ExpressionNode(kernel, en, inverse, null);
 
 		// asec(x) = acos(1/x)
 		case SEC:

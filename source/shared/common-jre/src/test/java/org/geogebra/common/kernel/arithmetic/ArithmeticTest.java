@@ -440,6 +440,12 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-6846")
+	public void inverseTrig() {
+		t("sin^-1(.5)", "30*" + Unicode.DEGREE_STRING);
+	}
+
+	@Test
 	public void powerWithNegativeFractionAsExponent() {
 		t("(-8)^(-(1/3))", "-0.5");
 		t("-8^(-1/3)", "-0.5");

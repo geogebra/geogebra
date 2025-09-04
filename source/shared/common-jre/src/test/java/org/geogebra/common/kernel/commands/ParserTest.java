@@ -406,10 +406,19 @@ public class ParserTest {
 
 	@Test
 	public void testTrigPowerPriorities() {
+		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		shouldReparseAs("sin^(-1)(x)^2", unicode("(sin^-1(x))^2"));
 		shouldReparseAs("sin^(-1)((x)^2)", unicode("sin^-1(x^2)"));
 		shouldReparseAs("sin^(-1)x^2", unicode("sin^-1(x^2)"));
 		shouldReparseAs("(sin^(-1)(x))^2", unicode("(sin^-1(x))^2"));
+	}
+
+	@Test
+	public void testTrigPowerPrioritiesDegrees() {
+		shouldReparseAs("sin^(-1)(x)^2", unicode("(asind(x))^2"));
+		shouldReparseAs("sin^(-1)((x)^2)", unicode("asind(x^2)"));
+		shouldReparseAs("sin^(-1)x^2", unicode("asind(x^2)"));
+		shouldReparseAs("(sin^(-1)(x))^2", unicode("(asind(x))^2"));
 	}
 
 	@Test
