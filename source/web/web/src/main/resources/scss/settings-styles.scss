@@ -715,17 +715,15 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			display: flex;
 			gap: 8px;
 		}
-		.colorPanel {
-			.colorPalette {
-			 	width: 368px;
-			 	height: 36px;
-			 	.colorButton {
-					display: inline;
-				}
-				.checkmark, .plus {
-					position: relative;
-					top: -36px;
-				}
+		.colorPalette.colorPanel {
+			width: 368px;
+			height: 68px;
+			.colorButton {
+				display: inline;
+			}
+			.checkmark, .plus {
+				position: relative;
+				top: -36px;
 			}
 		}
 		.labelStyle {

@@ -67,6 +67,7 @@ public class PropertiesViewW extends PropertiesView
 
 	private ComponentSideSheet sideSheet;
 	private ComponentTab settingsTab;
+	private PropertiesPanelAdapter adapter;
 
 	/**
 	 * 
@@ -504,6 +505,9 @@ public class PropertiesViewW extends PropertiesView
 		if (settingsTab != null) {
 			settingsTab.setLabels();
 		}
+		if (adapter != null) {
+			adapter.setLabels();
+		}
     }
 
 	@Override
@@ -598,7 +602,7 @@ public class PropertiesViewW extends PropertiesView
 
 		List<PropertiesArray> propLists = app.getConfig().createPropertiesFactory()
 				.createProperties(app, app.getLocalization(), GlobalScope.propertiesRegistry);
-		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(app.getLocalization(),
+		adapter = new PropertiesPanelAdapter(app.getLocalization(),
 				(AppW) app);
 		ArrayList<TabData> tabs = new ArrayList<>();
 		for (PropertiesArray props: propLists) {

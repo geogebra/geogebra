@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -17,14 +18,17 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class ColorChooserPanel extends FlowPanel {
+public class ColorChooserPanel extends FlowPanel implements SetLabels {
 	private final Consumer<GColor> callback;
 	private GColor activeColor;
 	private FlowPanel activeButton;
 	private final AppW appW;
 	private Map<GColor, FlowPanel> colorButtons;
+	private Label label;
+	private final String labelKey;
 
 	/**
 	 * constructor
@@ -33,14 +37,30 @@ public class ColorChooserPanel extends FlowPanel {
 	 * @param callback - callback for setting the color for object
 	 */
 	public ColorChooserPanel(AppW appW, List<GColor> colorValues, Consumer<GColor> callback) {
-		super();
+		this(appW, colorValues, callback, "");
+	}
+
+	/**
+	 * constructor
+	 * @param appW application
+	 * @param colorValues color values
+	 * @param callback callback for setting the color for object
+	 * @param labelKey optional label trans key for color palette
+	 */
+	public ColorChooserPanel(AppW appW, List<GColor> colorValues, Consumer<GColor> callback,
+			String labelKey) {
 		addStyleName("colorPalette");
 		this.callback = callback;
 		this.appW = appW;
-		buildGUI(colorValues);
+		this.labelKey = labelKey;
+		buildGUI(colorValues, labelKey);
 	}
 
-	private void buildGUI(List<GColor> colorValues) {
+	private void buildGUI(List<GColor> colorValues, String labelKey) {
+		if (labelKey != null && !labelKey.isBlank()) {
+			label = new Label(appW.getLocalization().getMenu(labelKey));
+			add(label);
+		}
 		colorButtons = new HashMap<>();
 		colorValues.forEach(this::addColorButton);
 	}
@@ -190,6 +210,13 @@ public class ColorChooserPanel extends FlowPanel {
 				activeButton.removeStyleName("selected");
 			}
 			activeColor = selectedColor;
+		}
+	}
+
+	@Override
+	public void setLabels() {
+		if (label != null) {
+			label.setText(appW.getLocalization().getMenu(labelKey));
 		}
 	}
 }

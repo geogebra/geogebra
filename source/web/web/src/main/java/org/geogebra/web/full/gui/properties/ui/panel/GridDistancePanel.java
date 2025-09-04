@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.properties.ui.panel;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 import org.geogebra.common.properties.Property;
@@ -10,13 +11,14 @@ import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class GridDistancePanel extends FlowPanel {
+public class GridDistancePanel extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final Localization localization;
 	private GridFixedDistanceProperty gridDistProperty;
 	private NumericPropertyWithSuggestions xGridDistProperty;
 	private NumericPropertyWithSuggestions yGridDistProperty;
 	private NumericPropertyWithSuggestions gridAngleProperty;
+	private ComponentCheckbox distCheckBox;
 	private ComponentComboBox xDistComboBox;
 	private ComponentComboBox yDistComboBox;
 	private ComponentComboBox angleComboBox;
@@ -54,7 +56,7 @@ public class GridDistancePanel extends FlowPanel {
 	}
 
 	private void buildGUI() {
-		ComponentCheckbox distCheckBox = new ComponentCheckbox(localization,
+		distCheckBox = new ComponentCheckbox(localization,
 				gridDistProperty.getValue(), gridDistProperty.getName(),
 				value -> {
 					gridDistProperty.setValue(value);
@@ -98,5 +100,13 @@ public class GridDistancePanel extends FlowPanel {
 		xDistComboBox.setLabel(isPolar ? "r" : "x");
 		yDistComboBox.setVisible(!isPolar);
 		angleComboBox.setVisible(isPolar);
+	}
+
+	@Override
+	public void setLabels() {
+		distCheckBox.setLabels();
+		xDistComboBox.setLabels();
+		yDistComboBox.setLabels();
+		angleComboBox.setLabels();
 	}
 }
