@@ -73,7 +73,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 		getQuadric().setType(getInputQuadric().getType());
 		getComputer().setQuadric(getQuadric(), getInputQuadric().getOrigin(),
 				getInputQuadric().getDirection(), eigen, r1, r2);
-		((GeoQuadric3DPart) getQuadric()).setLimits(
+		getQuadric().setLimits(
 				getInputQuadric().getBottomParameter(),
 				getInputQuadric().getTopParameter());
 

@@ -909,7 +909,7 @@ public class Manager3D implements Manager3DInterface {
 
 		if (p instanceof GeoPolygon) {
 			AlgoIntersectPathPlanePolygon3D algo = new AlgoIntersectPathPlanePolygon3D(
-					cons, labels, (GeoPlane3D) plane, (GeoPolygon) p);
+					cons, labels, (GeoPlane3D) plane, p);
 			return algo.getOutput();
 		}
 

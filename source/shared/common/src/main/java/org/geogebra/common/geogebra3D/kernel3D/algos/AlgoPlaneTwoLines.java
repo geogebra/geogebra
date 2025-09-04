@@ -54,7 +54,7 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 
 		compute();
 
-		((GeoElement) cs).setLabel(label);
+		cs.setLabel(label);
 	}
 
 	@Override

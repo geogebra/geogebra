@@ -17,7 +17,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLocus3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoLocusSliderND;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -167,7 +166,7 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 
 	private void insertPoint(double x, double y, double z, boolean lineTo) {
 		pointCount++;
-		((GeoLocus3D) locus).insertPoint(x, y, z, lineTo);
+		locus.insertPoint(x, y, z, lineTo);
 		lastX = x;
 		lastY = y;
 		lastZ = z;
@@ -190,7 +189,7 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 
 	@Override
 	protected boolean areEqual(GeoPointND p1, GeoPointND p2) {
-		return ((GeoElement) p1).isEqual(p2);
+		return p1.isEqual(p2);
 	}
 
 	@Override

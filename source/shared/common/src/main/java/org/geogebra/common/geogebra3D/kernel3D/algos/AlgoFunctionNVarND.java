@@ -121,10 +121,10 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		// function = new GeoFunctionNVar(cons,
 		// inputFunction.getFunction());//(GeoFunctionNVar)
 		// inputFunction.copy();
-		function = (GeoFunctionNVar) inputFunction.copy();
+		function = inputFunction.copy();
 
 		// end of construction
-		setInputOutput((GeoNumberValue[]) null, (GeoNumeric[]) null);
+		setInputOutput((GeoNumberValue[]) null, null);
 
 		compute();
 		function.setLabel(label);

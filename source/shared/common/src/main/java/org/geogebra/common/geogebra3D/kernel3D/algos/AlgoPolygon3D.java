@@ -87,7 +87,7 @@ public class AlgoPolygon3D extends AlgoPolygon {
 		poly = new GeoPolygon3D(cons, points, cs2D, createSegments);
 		if (polyhedron != null) {
 			((GeoPolygon3D) poly).setIsPartOfClosedSurface(true);
-			((GeoPolygon3D) poly).addMeta(polyhedron);
+			poly.addMeta(polyhedron);
 		}
 	}
 

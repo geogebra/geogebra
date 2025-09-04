@@ -43,7 +43,7 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 			GeoNumberValue angle, GeoPointND center,
 			GeoDirectionND orientation) {
 		this(cons, in, angle, center, orientation);
-		((GeoElement) out).setLabel(label);
+		out.setLabel(label);
 	}
 
 	/**
@@ -132,8 +132,8 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 			s = "ARotatedByAngleBAboutCThroughD";
 		}
 		return getLoc().getPlain(s, inGeo.getLabel(tpl),
-				((GeoElement) angle).getLabel(tpl),
-				((GeoElement) orientation).getLabel(tpl), center.getLabel(tpl));
+				angle.getLabel(tpl),
+				orientation.getLabel(tpl), center.getLabel(tpl));
 
 	}
 

@@ -164,7 +164,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlain("SemicircleThroughAandB",
-				((GeoElement) A).getLabel(tpl), ((GeoElement) B).getLabel(tpl));
+				A.getLabel(tpl), B.getLabel(tpl));
 	}
 
 }

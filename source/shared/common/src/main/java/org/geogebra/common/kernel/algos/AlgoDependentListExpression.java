@@ -333,7 +333,7 @@ public class AlgoDependentListExpression extends AlgoElement
 
 				// the cached element is a point: set value
 				if (cachedGeo.isGeoText()) {
-					((GeoText) cachedGeo).set(text);
+					cachedGeo.set(text);
 					geo = cachedGeo;
 				}
 			}
@@ -401,7 +401,7 @@ public class AlgoDependentListExpression extends AlgoElement
 
 			// the cached element is a point: set value
 			if (cachedGeo.isGeoFunction()) {
-				((GeoFunction) cachedGeo).set(fun);
+				cachedGeo.set(fun);
 				geo = cachedGeo;
 			}
 		}

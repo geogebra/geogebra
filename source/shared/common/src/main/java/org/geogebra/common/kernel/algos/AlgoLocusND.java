@@ -254,14 +254,14 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// Note: we have to undo this at the end of this method !!!
 		boolean isLabeledP = movingPoint.isLabelSet();
 		if (!isLabeledP) {
-			((GeoElement) movingPoint).setLabelSimple(
-					((GeoElement) movingPoint).getDefaultLabel());
+			movingPoint.setLabelSimple(
+					movingPoint.getDefaultLabel());
 			((GeoElement) movingPoint).setLabelSet(true);
 		}
 		boolean isLabeledQ = locusPoint.isLabelSet();
 		if (!isLabeledQ) {
-			((GeoElement) locusPoint).setLabelSimple(
-					((GeoElement) locusPoint).getDefaultLabel());
+			locusPoint.setLabelSimple(
+					locusPoint.getDefaultLabel());
 			((GeoElement) locusPoint).setLabelSet(true);
 		}
 
@@ -373,8 +373,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 			// get the copies of P and Q from the macro kernel
 			copyP = (GeoPointND) macroKernel
-					.lookupLabel(((GeoElement) movingPoint).getLabelSimple());
-			((GeoElement) copyP).setFixed(false);
+					.lookupLabel(movingPoint.getLabelSimple());
+			copyP.setFixed(false);
 			copyP.setPath(movingPoint.getPath());
 
 			// alternative way to add the incidence of the path to Pcopy
@@ -384,7 +384,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			// implemented
 
 			copyQ = (GeoPointND) macroKernel
-					.lookupLabel(((GeoElement) locusPoint).getLabelSimple());
+					.lookupLabel(locusPoint.getLabelSimple());
 			macroCons = macroKernel.getConstruction();
 
 			/*
@@ -595,7 +595,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			}
 			// make sure that Pcopy is back at startPos now
 			// look at Qcopy at startPos
-			((GeoElement) copyP).set(startPPos);
+			copyP.set(startPPos);
 			pcopyUpdateCascade();
 			if (differentFromLast(copyQ)) {
 				insertPoint(copyQ, distanceSmall(copyQ, true));
@@ -689,8 +689,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// check found defined
 		if (!foundDefined && copyQ.isDefined() && !copyQ.isInfinite()) {
 			pathMover.init(copyP, minStepsInstance);
-			((GeoElement) startPPos).set(copyP);
-			((GeoElement) startQPos).set(copyQ);
+			startPPos.set(copyP);
+			startQPos.set(copyQ);
 			foundDefined = true;
 
 			// insert first point

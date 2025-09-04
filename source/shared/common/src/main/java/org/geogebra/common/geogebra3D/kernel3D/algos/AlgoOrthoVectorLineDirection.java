@@ -84,8 +84,8 @@ public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
 	@Override
 	public void compute() {
 
-		if (!((GeoElement) line).isDefined()
-				|| !((GeoElement) direction).isDefined()) {
+		if (!line.isDefined()
+				|| !direction.isDefined()) {
 			vector.setUndefined();
 			return;
 		}

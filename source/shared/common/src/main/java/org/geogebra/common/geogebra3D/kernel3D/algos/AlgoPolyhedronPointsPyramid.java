@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import java.util.Collection;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
@@ -242,7 +241,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
 		if (!preCompute()) {
 			if (height != null) {
-				((GeoPoint3D) getTopPoint()).setUndefined();
+				getTopPoint().setUndefined();
 			}
 			return;
 		}

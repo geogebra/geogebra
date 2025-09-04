@@ -59,7 +59,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	public AlgoClosestPoint getNewAlgoClosestPoint(Construction cons2,
 			Path path, GeoPointND point) {
 
-		if (((GeoElement) path).isGeoElement3D() || point.isGeoElement3D()) {
+		if (path.isGeoElement3D() || point.isGeoElement3D()) {
 			return new AlgoClosestPoint3D(cons2, path, point);
 		}
 

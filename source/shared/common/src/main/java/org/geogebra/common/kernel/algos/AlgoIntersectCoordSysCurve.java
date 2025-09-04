@@ -70,7 +70,7 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 		if (roots != null && roots.length > 0) {
 			for (index = 0; index < outputSize; index++) {
 				double paramVal = roots[index];
-				GeoPointND point = (GeoPointND) getOutputPoints()
+				GeoPointND point = getOutputPoints()
 						.getElement(index);
 
 				if (paramVal < curve.getMinParameter()

@@ -42,7 +42,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 	AlgoRotate3DLine(Construction cons, String label, GeoElement in,
 			GeoNumberValue angle, GeoLineND line) {
 		this(cons, in, angle, line);
-		((GeoElement) out).setLabel(label);
+		out.setLabel(label);
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 		 * orientation).getLabel(tpl));
 		 */
 		return getLoc().getPlain("ARotatedByAngleBAboutC", inGeo.getLabel(tpl),
-				((GeoElement) angle).getLabel(tpl), line.getLabel(tpl));
+				angle.getLabel(tpl), line.getLabel(tpl));
 
 	}
 

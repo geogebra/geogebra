@@ -83,7 +83,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
 	@Override
 	public void compute() {
-		if (!((GeoElement) plane).isDefined()) {
+		if (!plane.isDefined()) {
 			vector.setUndefined();
 			return;
 		}
@@ -113,7 +113,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlain("VectorPerpendicularToA",
-				((GeoElement) plane).getLabel(tpl));
+				plane.getLabel(tpl));
 
 	}
 

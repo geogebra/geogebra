@@ -141,8 +141,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 			Coords coords = segStart.crossProduct(segEnd).crossProduct(gCoords);
 
 			if (DoubleUtil.isZero(coords.getLast())) {
-				if (((GeoLine) line).isOnPath(segStart, Kernel.STANDARD_PRECISION)
-						&& ((GeoLine) line).isOnPath(segEnd,
+				if (line.isOnPath(segStart, Kernel.STANDARD_PRECISION)
+						&& line.isOnPath(segEnd,
 								Kernel.STANDARD_PRECISION)) {
 					paramToCoords.put(((GeoLine) line).getPossibleParameter(segStart),
 							segStart);
@@ -190,8 +190,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlainDefault("IntersectionOfAandB",
 				"Intersection of %0 and %1",
-				((GeoElement) g).getLabel(tpl),
-				((GeoElement) pi).getLabel(tpl));
+				g.getLabel(tpl),
+				pi.getLabel(tpl));
 	}
 
 }

@@ -55,7 +55,7 @@ public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
 
 	@Override
 	protected Coords getNormal() {
-		return ((GeoElement) segment).getMainDirection();
+		return segment.getMainDirection();
 	}
 
 	@Override

@@ -180,7 +180,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	@Override
 	public final String toString(StringTemplate tpl) {
 		return getLoc().getPlain("IntersectionPointOfAB", q.getLabel(tpl),
-				((GeoElement) g).getLabel(tpl));
+				g.getLabel(tpl));
 	}
 
 	@Override

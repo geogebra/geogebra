@@ -23,7 +23,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoAngleLinesND;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
@@ -95,8 +94,8 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND {
 
 		if (!vn.isDefined() || vn.isZero()) { // parallel lines
 			// check if lines are opposite rays
-			if (!((GeoElement) getg()).isGeoRay()
-					|| !((GeoElement) geth()).isGeoRay()
+			if (!getg().isGeoRay()
+					|| !geth().isGeoRay()
 					|| DoubleUtil.isGreaterEqual(v1.dotproduct(v2), 0)) {
 				getAngle().setValue(0);
 				return;

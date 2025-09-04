@@ -140,7 +140,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 						}
 						segment.setEuclidianVisible(segmentsVisible);
 						segment.setLabelVisible(showNewSegmentsLabels);
-						segment.setViewFlags(((GeoElement) A).getViewSet());
+						segment.setViewFlags(A.getViewSet());
 						segment.setVisibleInView3D((GeoElement) A);
 						segment.setVisibleInViewForPlane((GeoElement) A);
 						return segment;
@@ -163,14 +163,12 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 								|| B.isEuclidianVisible());
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setLabelVisible(showNewPointsLabels);
-						newPoint.setViewFlags(((GeoElement) A).getViewSet());
+						newPoint.setViewFlags(A.getViewSet());
 						newPoint.setVisibleInView3D((GeoElement) A);
 						newPoint.setVisibleInViewForPlane((GeoElement) A);
-						GeoBoolean conditionToShow = ((GeoElement) A)
-								.getShowObjectCondition();
+						GeoBoolean conditionToShow = A.getShowObjectCondition();
 						if (conditionToShow == null) {
-							conditionToShow = ((GeoElement) B)
-									.getShowObjectCondition();
+							conditionToShow = B.getShowObjectCondition();
 						}
 						if (conditionToShow != null) {
 							try {

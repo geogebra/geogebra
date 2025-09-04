@@ -1701,7 +1701,7 @@ public class AlgoDispatcher {
 	 */
 	final public static boolean locusCheck(GeoPointND P, GeoPointND Q) {
 		return P.getPath() != null && Q.getPath() == null
-				&& ((GeoElement) P).isParentOf(Q);
+				&& P.isParentOf(Q);
 	}
 
 	/**
@@ -3097,8 +3097,8 @@ public class AlgoDispatcher {
 			// checkZooming();
 
 			boolean setDefaultColor = false;
-			if (((GeoElement) point).getColorFunction() == null) {
-				setDefaultColor = ((GeoElement) point).getObjectColor()
+			if (point.getColorFunction() == null) {
+				setDefaultColor = point.getObjectColor()
 						.equals(cons.getConstructionDefaults()
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_POINT_FREE)
@@ -3192,9 +3192,9 @@ public class AlgoDispatcher {
 			cons.setSuppressLabelCreation(true);
 
 			boolean setDefaultColor = false;
-			if (((GeoElement) p).getColorFunction() == null) {
+			if (p.getColorFunction() == null) {
 				if (p.isPointOnPath()) {
-					setDefaultColor = ((GeoElement) p).getObjectColor()
+					setDefaultColor = p.getObjectColor()
 							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_ON_PATH)
@@ -3253,15 +3253,15 @@ public class AlgoDispatcher {
 			cons.setSuppressLabelCreation(true);
 
 			boolean setDefaultColor = false;
-			if (((GeoElement) point).getColorFunction() == null) {
+			if (point.getColorFunction() == null) {
 				if (wasOnPath) {
-					setDefaultColor = ((GeoElement) point).getObjectColor()
+					setDefaultColor = point.getObjectColor()
 							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_ON_PATH)
 									.getObjectColor());
 				} else if (wasOnRegion) {
-					setDefaultColor = ((GeoElement) point).getObjectColor()
+					setDefaultColor = point.getObjectColor()
 							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_IN_REGION)

@@ -46,7 +46,7 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 
 		CoordSys coordsys = cs.getCoordSys();
 
-		if (!((GeoElement) csInput).isDefined()) {
+		if (!csInput.isDefined()) {
 			coordsys.setUndefined();
 			return;
 		}
@@ -78,7 +78,7 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlain("PlaneContainingA",
-				((GeoElement) csInput).getLabel(tpl));
+				csInput.getLabel(tpl));
 
 	}
 

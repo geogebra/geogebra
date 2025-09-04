@@ -194,8 +194,8 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 			}
 		}
 
-		if ((((GeoElement) P).isDefined() || P.isInfinite())
-				&& (((GeoElement) Q).isDefined() || Q.isInfinite())) {
+		if ((P.isDefined() || P.isInfinite())
+				&& (Q.isDefined() || Q.isInfinite())) {
 			cs.setCoord(P, Q);
 		} else {
 			cs.setUndefined();
@@ -284,20 +284,20 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 
 		switch (geoClassType) {
 		case SEGMENT3D:
-			sb.append(getLoc().getPlain("SegmentAB", ((GeoElement) P).getLabel(tpl),
-					((GeoElement) Q).getLabel(tpl)));
+			sb.append(getLoc().getPlain("SegmentAB", P.getLabel(tpl),
+					Q.getLabel(tpl)));
 
 			break;
 		default:
 		case LINE3D:
 			sb.append(getLoc().getPlain("LineAB",
-					((GeoElement) P).getLabel(tpl),
-					((GeoElement) Q).getLabel(tpl)));
+					P.getLabel(tpl),
+					Q.getLabel(tpl)));
 			break;
 		case RAY3D:
 			sb.append(getLoc().getPlain("RayThroughAB",
-					((GeoElement) P).getLabel(tpl),
-					((GeoElement) Q).getLabel(tpl)));
+					P.getLabel(tpl),
+					Q.getLabel(tpl)));
 			break;
 		}
 

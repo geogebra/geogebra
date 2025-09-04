@@ -76,7 +76,7 @@ public class AlgoLengthVector3D extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LengthOfA", ((GeoElement) v).getLabel(tpl));
+		return getLoc().getPlain("LengthOfA", v.getLabel(tpl));
 	}
 
 }

@@ -85,7 +85,7 @@ public class AlgoLengthPoint3D extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LengthOfA", ((GeoElement) p).getLabel(tpl));
+		return getLoc().getPlain("LengthOfA", p.getLabel(tpl));
 	}
 
 }

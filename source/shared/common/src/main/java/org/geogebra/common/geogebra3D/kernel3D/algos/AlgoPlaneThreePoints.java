@@ -42,7 +42,7 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 			GeoPointND B, GeoPointND C) {
 		this(c, A, B, C);
 
-		((GeoElement) cs).setLabel(label);
+		cs.setLabel(label);
 
 	}
 

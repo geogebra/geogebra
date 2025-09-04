@@ -111,13 +111,13 @@ public class AlgoCircleThreePoints extends AlgoElement
 
 	private void setIncidence() {
 		if (A instanceof GeoPoint) {
-			((GeoPoint) A).addIncidence(circle, false);
+			A.addIncidence(circle, false);
 		}
 		if (B instanceof GeoPoint) {
-			((GeoPoint) B).addIncidence(circle, false);
+			B.addIncidence(circle, false);
 		}
 		if (C instanceof GeoPoint) {
-			((GeoPoint) C).addIncidence(circle, false);
+			C.addIncidence(circle, false);
 		}
 
 	}
