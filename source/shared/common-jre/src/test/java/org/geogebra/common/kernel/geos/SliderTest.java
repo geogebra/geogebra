@@ -6,11 +6,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.contextmenu.impl.RemoveSlider;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
@@ -89,7 +92,10 @@ public class SliderTest extends BaseUnitTest {
 		app.storeUndoInfo();
 		slider.setEuclidianVisible(true);
 		app.storeUndoInfo();
+		View mockView = mock(View.class);
+		getKernel().attach(mockView);
 		new RemoveSlider(getAlgebraProcessor()).execute(slider);
+		verify(mockView).repaintView();
 		app.storeUndoInfo();
 		assertThat(slider.isSetEuclidianVisible(), is(false));
 
