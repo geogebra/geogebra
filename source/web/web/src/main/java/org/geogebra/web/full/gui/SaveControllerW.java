@@ -486,7 +486,7 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public boolean updateSaveTitle(TextObject title, String fallback) {
+	public void updateSaveTitle(TextObject title, String fallback) {
 		String consTitle = app.getKernel().getConstruction().getTitle();
 		if (!StringUtil.empty(consTitle)) {
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
@@ -497,13 +497,11 @@ public class SaveControllerW implements SaveController {
 					.owns(activeMaterial)) {
 				consTitle = MaterialRestAPI.getCopyTitle(loc, consTitle);
 				title.setText(consTitle);
-				return true;
+				return;
 			}
 			title.setText(consTitle);
 		} else {
 			title.setText(fallback);
-			return true;
 		}
-		return false;
 	}
 }

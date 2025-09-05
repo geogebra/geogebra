@@ -67,7 +67,7 @@ public class Material implements Serializable {
 		}
 	}
 
-	public static final int MAX_TITLE_LENGTH = 255;
+	public static final int MAX_TITLE_LENGTH = 191;
 
 	private String title;
 

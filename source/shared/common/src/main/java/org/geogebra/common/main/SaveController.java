@@ -118,7 +118,6 @@ public interface SaveController {
 	 *            title component
 	 * @param fallback
 	 *            fallback if title is empty
-	 * @return whether selection is needed
 	 */
-	boolean updateSaveTitle(TextObject title, String fallback);
+	void updateSaveTitle(TextObject title, String fallback);
 }

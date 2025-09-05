@@ -74,8 +74,8 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	}
 
 	protected boolean isTextLengthInvalid() {
-		return StringUtil.emptyTrim(inputField.getText())
-				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH;
+		String text = getInputText();
+		return StringUtil.empty(text) || text.length() > Material.MAX_TITLE_LENGTH;
 	}
 
 	protected abstract String getCardTitle();

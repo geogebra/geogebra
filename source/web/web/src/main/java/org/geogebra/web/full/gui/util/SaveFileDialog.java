@@ -64,7 +64,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 			} else {
 				if (!app.getLoginOperation().isLoggedIn()) {
 					hide();
-					((AppWFull) app).getActivity().markSaveProcess(titleField.getText(),
+					((AppWFull) app).getActivity().markSaveProcess(getTitleText(),
 							getSaveVisibility());
 					((AppW) app).getGuiManager().listenToLogin(this::onSave);
 					app.getLoginOperation().showLoginDialog();
@@ -83,15 +83,23 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 			}
 		});
 		titleField.getTextField().addTextComponentInputListener(
-				ignore -> setPosBtnDisabled(titleField.getText().isEmpty()));
+				ignore -> setPosBtnDisabled(isInvalidLength(getTitleText())));
 		GlobalHandlerRegistry globalHandlers = ((AppW) app).getGlobalHandlers();
 		globalHandlers.addEventListener(DomGlobal.window, "unload",
 				event -> app.getSaveController().cancel());
 	}
 
+	private String getTitleText() {
+		return titleField.getText().trim();
+	}
+
+	private boolean isInvalidLength(String title) {
+		return title.isEmpty() || title.length() > Material.MAX_TITLE_LENGTH;
+	}
+
 	private void onSave() {
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
-		app.getSaveController().saveAs(titleField.getText(),
+		app.getSaveController().saveAs(getTitleText(),
 				getSaveVisibility(), this);
 	}
 
@@ -125,7 +133,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 
 	private boolean sameMaterial(Material material) {
 		return app.getLoginOperation().owns(material)
-				&& material.getTitle().equals(titleField.getText());
+				&& material.getTitle().equals(getTitleText());
 	}
 
 	/**
