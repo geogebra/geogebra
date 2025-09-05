@@ -14,7 +14,7 @@ public class LineStylePropertyTest extends BaseUnitTest {
 	public void testConstructorSucceeds() {
 		GeoElement line = addAvInput("Line((1,1),(2,2))");
 		try {
-			new LineStyleProperty(getLocalization(), line);
+			new LineStyleProperty(getLocalization(), line, false);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
@@ -24,6 +24,6 @@ public class LineStylePropertyTest extends BaseUnitTest {
 	public void testConstructorThrowsError() {
 		GeoElement point = addAvInput("(1,1)");
 		assertThrows(NotApplicablePropertyException.class,
-				() -> new LineStyleProperty(getLocalization(), point));
+				() -> new LineStyleProperty(getLocalization(), point, false));
 	}
 }

@@ -57,35 +57,20 @@ final public class GeoSegment extends GeoLine
 	private SegmentStyle startStyle = SegmentStyle.DEFAULT;
 	private SegmentStyle endStyle = SegmentStyle.DEFAULT;
 
-	/** no decoration */
-	public static final int SEGMENT_DECORATION_NONE = 0;
-	/** one tick */
-	public static final int SEGMENT_DECORATION_ONE_TICK = 1;
-	/** two ticks */
-	public static final int SEGMENT_DECORATION_TWO_TICKS = 2;
-	/** three ticks */
-	public static final int SEGMENT_DECORATION_THREE_TICKS = 3;
-	/** one arrow */
-	public static final int SEGMENT_DECORATION_ONE_ARROW = 4;
-	/** two arrows */
-	public static final int SEGMENT_DECORATION_TWO_ARROWS = 5;
-	/** three arrows */
-	public static final int SEGMENT_DECORATION_THREE_ARROWS = 6;
-
 	/**
 	 * Returns array of all decoration types
 	 * 
-	 * @see #SEGMENT_DECORATION_ONE_TICK etc.
+	 * @see GeoElementND#SEGMENT_DECORATION_ONE_TICK etc.
 	 * @return array of all decoration types
 	 */
 	public static Integer[] getDecoTypes() {
-		Integer[] ret = { Integer.valueOf(SEGMENT_DECORATION_NONE),
-				Integer.valueOf(SEGMENT_DECORATION_ONE_TICK),
-				Integer.valueOf(SEGMENT_DECORATION_TWO_TICKS),
-				Integer.valueOf(SEGMENT_DECORATION_THREE_TICKS),
-				Integer.valueOf(SEGMENT_DECORATION_ONE_ARROW),
-				Integer.valueOf(SEGMENT_DECORATION_TWO_ARROWS),
-				Integer.valueOf(SEGMENT_DECORATION_THREE_ARROWS) };
+		Integer[] ret = { Integer.valueOf(GeoElementND.DECORATION_NONE),
+				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_ONE_TICK),
+				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_TWO_TICKS),
+				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_THREE_TICKS),
+				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_ONE_ARROW),
+				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_TWO_ARROWS),
+				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_THREE_ARROWS) };
 		return ret;
 	}
 

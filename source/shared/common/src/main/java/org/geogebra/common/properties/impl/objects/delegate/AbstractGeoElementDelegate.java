@@ -31,11 +31,6 @@ public abstract class AbstractGeoElementDelegate implements GeoElementDelegate {
 		}
 	}
 
-	@Override
-	public boolean isEnabled() {
-		return element.isEuclidianVisible();
-	}
-
 	protected abstract boolean checkIsApplicable(GeoElement element);
 
 	protected boolean isApplicableToGeoList(GeoList list) {
@@ -44,10 +39,10 @@ public abstract class AbstractGeoElementDelegate implements GeoElementDelegate {
 				return false;
 			}
 		}
-		return true;
+		return list.elements().allMatch(this::checkIsApplicable);
 	}
 
-	protected boolean isTextOrInput(GeoElement element) {
+	protected static boolean isTextOrInput(GeoElement element) {
 		return element instanceof GeoText || element instanceof GeoInputBox;
 	}
 }

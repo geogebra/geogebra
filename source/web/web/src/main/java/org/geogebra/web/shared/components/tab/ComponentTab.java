@@ -194,4 +194,8 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 			tabButton.get(i).setLabel(loc.getMenu(tabData.get(i).getTabTitle()));
 		}
 	}
+
+	public int getSelectedTabIdx() {
+		return selectedTabIdx;
+	}
 }

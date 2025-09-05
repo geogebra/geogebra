@@ -35,9 +35,8 @@ public class SegmentStartProperty extends AbstractEnumeratedProperty<SegmentStyl
 	private final GeoElementDelegate delegate;
 
 	/**
-	 * Constructs an AbstractEnumeratedProperty.
 	 * @param localization the localization used
-	 * @param element the name of the property
+	 * @param element the element
 	 */
 	public SegmentStartProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {

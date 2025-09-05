@@ -14,6 +14,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
 import org.geogebra.web.full.gui.components.sideSheet.SideSheetData;
@@ -68,6 +69,7 @@ public class PropertiesViewW extends PropertiesView
 	private ComponentSideSheet sideSheet;
 	private ComponentTab settingsTab;
 	private PropertiesPanelAdapter adapter;
+	private boolean objectPropertiesVisible;
 
 	/**
 	 * 
@@ -599,19 +601,41 @@ public class PropertiesViewW extends PropertiesView
 	private void rebuildSettingsSideSheet() {
 		wrappedPanel.clear();
 		sideSheet.clearContent();
-
-		List<PropertiesArray> propLists = app.getConfig().createPropertiesFactory()
-				.createProperties(app, app.getLocalization(), GlobalScope.propertiesRegistry);
+		List<PropertiesArray> propLists;
+		boolean showObjectProperties = optionType == OptionType.OBJECTS;
+		if (showObjectProperties) {
+			GeoElementPropertiesFactory propertiesFactory =
+					((AppWFull) app).getGeoElementPropertiesFactory();
+			ArrayList<GeoElement> selectedGeos = app.getSelectionManager().getSelectedGeos();
+			propLists = propertiesFactory.createStructuredProperties(
+					app.getKernel().getAlgebraProcessor(),
+					app.getLocalization(),
+					selectedGeos
+			);
+			sideSheet.setTitleTransKey(
+					selectedGeos.size() == 1 ? selectedGeos.get(0).getTypeString() : "Selection");
+		} else {
+			sideSheet.setTitleTransKey("Settings");
+			propLists = app.getConfig().createPropertiesFactory()
+					.createProperties(app, app.getLocalization(), GlobalScope.propertiesRegistry);
+		}
 		adapter = new PropertiesPanelAdapter(app.getLocalization(),
 				(AppW) app);
 		ArrayList<TabData> tabs = new ArrayList<>();
-		for (PropertiesArray props: propLists) {
-			FlowPanel propertiesPanel = adapter.buildPanel(props);
+		for (PropertiesArray props : propLists) {
+			FlowPanel propertiesPanel = adapter.buildPanel(props, showObjectProperties);
 			tabs.add(new TabData(props.getName(), propertiesPanel));
 		}
-
+		int oldTab = -1;
+		if (settingsTab != null && objectPropertiesVisible == showObjectProperties) {
+			oldTab = settingsTab.getSelectedTabIdx();
+		}
 		settingsTab = new ComponentTab(app.getLocalization(), tabs.toArray(new TabData[0]));
+		if (oldTab != -1) {
+			settingsTab.switchToTab(oldTab);
+		}
 		sideSheet.addToContent(settingsTab);
+		this.objectPropertiesVisible = showObjectProperties;
 		wrappedPanel.add(sideSheet);
 	}
 }

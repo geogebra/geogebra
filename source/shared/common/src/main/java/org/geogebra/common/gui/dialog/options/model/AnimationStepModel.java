@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.util.DoubleUtil;
 
 public class AnimationStepModel extends TextPropertyModel {
@@ -78,10 +79,7 @@ public class AnimationStepModel extends TextPropertyModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return !(!geo.isPointerChangeable() || geo.isGeoText() || geo.isGeoImage()
-				|| geo.isGeoList() || geo.isGeoBoolean() || geo.isGeoButton()
-				|| (!isPartOfSlider() && geo.isGeoNumeric()
-						&& geo.isIndependent()));
+		return AnimationStepProperty.isValid(geo, partOfSlider);
 	}
 
 	@Override
@@ -106,10 +104,6 @@ public class AnimationStepModel extends TextPropertyModel {
 	@Override
 	public String getTitle() {
 		return "AnimationStep";
-	}
-
-	public boolean isPartOfSlider() {
-		return partOfSlider;
 	}
 
 	public void setPartOfSlider(boolean partOfSlider) {

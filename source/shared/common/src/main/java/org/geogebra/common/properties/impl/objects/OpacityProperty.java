@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.OpacityPropertyDelegate;
 
@@ -14,7 +14,7 @@ import org.geogebra.common.properties.impl.objects.delegate.OpacityPropertyDeleg
  */
 public class OpacityProperty extends AbstractRangeProperty<Integer> {
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/**
 	 * Line opacity
@@ -30,7 +30,7 @@ public class OpacityProperty extends AbstractRangeProperty<Integer> {
 	 * @param localization - localization
 	 * @param delegate - delegate
 	 */
-	public OpacityProperty(Localization localization, GeoElementDelegate delegate) {
+	public OpacityProperty(Localization localization, AbstractGeoElementDelegate delegate) {
 		super(localization, "Opacity", 0, 100, 5);
 		this.delegate = delegate;
 	}
@@ -52,6 +52,6 @@ public class OpacityProperty extends AbstractRangeProperty<Integer> {
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

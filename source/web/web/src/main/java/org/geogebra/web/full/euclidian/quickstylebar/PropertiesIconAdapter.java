@@ -178,6 +178,47 @@ public class PropertiesIconAdapter {
 			return res.right_angle_style_dot();
 		case ICON_RIGHT_ANGLE_STYLE_L:
 			return res.right_angle_style_stroke();
+		case ICON_SEGMENT_DECO_1STROKE:
+			return GuiResources.INSTANCE.deco_segment_1stroke();
+		case ICON_SEGMENT_DECO_2STROKES:
+			return GuiResources.INSTANCE.deco_segment_2strokes();
+		case ICON_SEGMENT_DECO_3STROKES:
+			return GuiResources.INSTANCE.deco_segment_3strokes();
+		case ICON_SEGMENT_DECO_1ARROW:
+			return GuiResources.INSTANCE.deco_segment_1arrow();
+		case ICON_SEGMENT_DECO_2ARROWS:
+			return GuiResources.INSTANCE.deco_segment_2arrows();
+		case ICON_SEGMENT_DECO_3ARROWS:
+			return GuiResources.INSTANCE.deco_segment_3arrows();
+		case ICON_SEGMENT_DECO_NONE:
+			return GuiResources.INSTANCE.deco_segment_none();
+		case ICON_ANGLE_DECO_TWO_ARCS:
+			return GuiResources.INSTANCE.deco_angle_2lines();
+		case ICON_ANGLE_DECO_THREE_ARCS:
+			return GuiResources.INSTANCE.deco_angle_3lines();
+		case ICON_ANGLE_DECO_ONE_TICK:
+			return GuiResources.INSTANCE.deco_angle_1stroke();
+		case ICON_ANGLE_DECO_TWO_TICKS:
+			return GuiResources.INSTANCE.deco_angle_2strokes();
+		case ICON_ANGLE_DECO_THREE_TICKS:
+			return GuiResources.INSTANCE.deco_angle_3strokes();
+		case ICON_ANGLE_DECO_ARROW_ANTICLOCKWISE:
+			return GuiResources.INSTANCE.deco_angle_arrow_up();
+		case ICON_ANGLE_DECO_ARROW_CLOCKWISE:
+			return GuiResources.INSTANCE.deco_angle_arrow_down();
+		case ICON_ANGLE_DECO_NONE:
+			return GuiResources.INSTANCE.deco_angle_1line();
+		case ICON_VECTOR_DECO_ARROW:
+			return MaterialDesignResources.INSTANCE.stylingbar_end_arrow_filled();
+		case ICON_VECTOR_DECO_DEFAULT:
+			return MaterialDesignResources.INSTANCE.stylingbar_end_arrow();
+		case ICON_FILLING_IMAGE:
+			return res.export_image_black(); // TODO
+		case ICON_FILLING_BRICK:
+		case ICON_FILLING_SYMBOL:
+		case ICON_FILLING_WEAVING:
+		case ICON_FILLING_CHESSBOARD:
+			return res.pattern_hatching();
 		}
 		return res.stylebar_empty();
 	}

@@ -44,8 +44,8 @@ public class RoundingIndexProperty extends AbstractNamedEnumeratedProperty<Integ
 		figuresIndex = valueNames.indexOf(Localization.ROUNDING_MENU_SEPARATOR);
 		valueNames.remove(figuresIndex);
 
-		setNamedValues(IntStream.range(0, valueNames.size()).boxed()
-				.map(index -> entry(index, valueNames.get(index)))
+		setNamedValues(IntStream.range(0, valueNames.size())
+				.mapToObj(index -> entry(index, valueNames.get(index)))
 				.collect(Collectors.toList()));
 	}
 

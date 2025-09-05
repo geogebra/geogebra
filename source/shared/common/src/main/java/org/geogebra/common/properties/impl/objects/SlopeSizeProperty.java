@@ -36,6 +36,6 @@ public class SlopeSizeProperty extends AbstractRangeProperty<Integer> {
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

@@ -10,7 +10,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.PointStylePropertyDelegate;
 
@@ -26,7 +26,7 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<Integer>
 			PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
 	};
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/***/
 	public PointStyleProperty(Localization localization, GeoElement element)
@@ -68,6 +68,6 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<Integer>
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

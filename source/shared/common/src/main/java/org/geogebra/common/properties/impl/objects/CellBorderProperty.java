@@ -27,7 +27,7 @@ public class CellBorderProperty extends AbstractEnumeratedProperty<BorderType>
 	/**
 	 * Constructs an AbstractEnumeratedProperty.
 	 * @param localization the localization used
-	 * @param element the name of the property
+	 * @param element the construction element
 	 */
 	public CellBorderProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {

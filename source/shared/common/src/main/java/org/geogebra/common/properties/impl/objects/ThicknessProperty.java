@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.ThicknessPropertyDelegate;
 
@@ -15,7 +15,7 @@ import org.geogebra.common.properties.impl.objects.delegate.ThicknessPropertyDel
  */
 public class ThicknessProperty extends AbstractRangeProperty<Integer> {
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/**
 	 * Constructor
@@ -35,7 +35,8 @@ public class ThicknessProperty extends AbstractRangeProperty<Integer> {
 	 * @param max - maximum of range
 	 * @param delegate - delegate
 	 */
-	public ThicknessProperty(Localization localization, int max, GeoElementDelegate delegate) {
+	public ThicknessProperty(Localization localization, int max,
+			AbstractGeoElementDelegate delegate) {
 		super(localization, "Thickness", null, max, 1);
 		this.delegate = delegate;
 	}
@@ -71,6 +72,6 @@ public class ThicknessProperty extends AbstractRangeProperty<Integer> {
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

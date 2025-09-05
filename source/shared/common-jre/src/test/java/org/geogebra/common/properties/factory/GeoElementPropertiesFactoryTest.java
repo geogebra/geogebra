@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -47,6 +48,19 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 				() -> assertEquals("Fixed", pointProperties[7].getName()),
 				() -> assertEquals("Show in Algebra View", pointProperties[8].getName())
 		);
+	}
+
+	@Test
+	public void testPointStructured() {
+		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
+		GeoPoint onePoint = evaluateGeoElement("(1,1)");
+		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
+				.createStructuredProperties(getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(), List.of(zeroPoint, onePoint));
+		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
+				.map(Property::getName).collect(Collectors.toList());
+		assertEquals(List.of("Name", "Caption", "Show", "Show trace", "Set caption style", "Fixed",
+				"Show in Algebra View"), basicProperties);
 	}
 
 	@Test

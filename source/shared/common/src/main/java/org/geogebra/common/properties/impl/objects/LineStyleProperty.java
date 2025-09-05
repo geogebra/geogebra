@@ -9,7 +9,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.LineStylePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
@@ -25,13 +25,19 @@ public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT
 	};
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
+	private final boolean hidden;
 
 	/***/
-	public LineStyleProperty(Localization localization, GeoElement element)
+	public LineStyleProperty(Localization localization, GeoElement element, boolean hidden)
 			throws NotApplicablePropertyException {
 		super(localization, "LineStyle");
 		delegate = new LineStylePropertyDelegate(element);
+		this.hidden = hidden;
+		if (hidden && !element.getKernel().getApplication()
+				.isEuclidianView3Dinited()) {
+			throw new NotApplicablePropertyException(element);
+		}
 		setValues(List.of(
 				EuclidianStyleConstants.LINE_TYPE_FULL,
 				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
@@ -49,17 +55,22 @@ public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 	@Override
 	protected void doSetValue(Integer value) {
 		GeoElement element = delegate.getElement();
-		element.setLineType(value);
+		if (hidden) {
+			element.setLineTypeHidden(value);
+		} else {
+			element.setLineType(value);
+		}
 		element.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	@Override
 	public Integer getValue() {
-		return delegate.getElement().getLineType();
+		return hidden ? delegate.getElement().getLineTypeHidden()
+				: delegate.getElement().getLineType();
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

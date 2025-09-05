@@ -69,7 +69,8 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 
 	private void ensureValuesPresent() {
 		if (values == null) {
-			throw new RuntimeException("Set values must be called in the constructor.");
+			throw new RuntimeException("Set values must be called in the constructor for "
+					+ getName());
 		}
 	}
 }

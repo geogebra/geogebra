@@ -13,6 +13,7 @@ import org.gwtproject.user.client.ui.Widget;
 public class ComponentSideSheet extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final SideSheetData data;
+	private String titleTransKey;
 	private Label titleLabel;
 	private FlowPanel contentPanel;
 	private StandardButton positiveButton;
@@ -31,6 +32,7 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		this.appW = appW;
 		this.data = data;
 		this.onClose = onClose;
+		this.titleTransKey = data.getTitleTransKey();
 		addStyleName("sideSheet");
 		buildSideSheet(addBackButton);
 	}
@@ -63,7 +65,7 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 			titlePanel.add(backButton);
 		}
 
-		titleLabel = new Label(appW.getLocalization().getMenu(data.getTitleTransKey()));
+		titleLabel = new Label(appW.getLocalization().getMenu(titleTransKey));
 		titleLabel.addStyleName("title");
 		titlePanel.add(titleLabel);
 
@@ -159,9 +161,17 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		}
 	}
 
+	/**
+	 * @param titleTransKey title translation key
+	 */
+	public void setTitleTransKey(String titleTransKey) {
+		this.titleTransKey = titleTransKey;
+		setLabels();
+	}
+
 	@Override
 	public void setLabels() {
-		titleLabel.setText(appW.getLocalization().getMenu(data.getTitleTransKey()));
+		titleLabel.setText(appW.getLocalization().getMenu(titleTransKey));
 		if (positiveButton != null) {
 			positiveButton.setText(appW.getLocalization().getMenu(data.getPositiveBtnTransKey()));
 		}

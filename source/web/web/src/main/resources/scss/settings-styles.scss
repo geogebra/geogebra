@@ -669,7 +669,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 	.sideSheetTab {
 		width: 100%;
-
+		&.flatProperties {
+			padding: 16px;
+		}
 		.expandableList .containerPanel {
 			display: grid;
 			gap: 16px;
@@ -713,6 +715,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 		.iconButtonPanel .iconPanel {
 			display: flex;
+			flex-wrap: wrap;
 			gap: 8px;
 		}
 		.colorPalette.colorPanel {

@@ -61,22 +61,24 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		/**
 		 * (old allowReflexAngle=true)
 		 */
-		ANTICLOCKWISE(0),
+		ANTICLOCKWISE(0, "0", "360"),
 		/**
 		 * Force angle not to be reflex ie [0,180] (old allowReflexAngle=true)
 		 */
-		NOTREFLEX(1),
+		NOTREFLEX(1, "0", "180"),
 		/**
 		 * Force angle to be reflex ie [180,360]
 		 */
-		ISREFLEX(2),
+		ISREFLEX(2, "180", "360"),
 		/**
 		 * allow angles to be in the range (-infinity, infinity)
 		 * only for Angles which aren't drawable
 		 */
-		UNBOUNDED(3);
+		UNBOUNDED(3, "-" + Unicode.INFINITY, String.valueOf(Unicode.INFINITY));
 
 		private final int xmlVal;
+		private final String min;
+		private final String max;
 
 		/**
 		 * @return number for this style in XML
@@ -85,8 +87,10 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			return xmlVal;
 		}
 
-		AngleStyle(int xmlVal) {
+		AngleStyle(int xmlVal, String min, String max) {
 			this.xmlVal = xmlVal;
+			this.min = min;
+			this.max = max;
 		}
 
 		/**
@@ -102,6 +106,14 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			}
 
 			return AngleStyle.ANTICLOCKWISE;
+		}
+
+		public String getMin() {
+			return min;
+		}
+
+		public String getMax() {
+			return max;
 		}
 	}
 

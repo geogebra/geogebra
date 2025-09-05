@@ -14,6 +14,4 @@ public interface GeoElementDelegate {
 	@MissingDoc
 	void checkIsApplicable() throws NotApplicablePropertyException;
 
-	@MissingDoc
-	boolean isEnabled();
 }

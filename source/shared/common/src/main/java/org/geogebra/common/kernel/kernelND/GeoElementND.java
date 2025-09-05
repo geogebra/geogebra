@@ -81,6 +81,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	int LABEL_DEFAULT_CAPTION = 8;
 	/** caption + value */
 	int LABEL_CAPTION_VALUE = 9;
+	int LABEL_HIDDEN = -1;
 
 	/** tooltip mode: iff AV showing */
 	int TOOLTIP_ALGEBRAVIEW_SHOWING = 0;

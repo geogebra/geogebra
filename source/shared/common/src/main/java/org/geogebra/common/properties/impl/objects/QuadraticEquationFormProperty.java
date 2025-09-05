@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.QuadraticEquationFormDelegate;
 
@@ -21,7 +21,7 @@ public class QuadraticEquationFormProperty extends AbstractNamedEnumeratedProper
 
 	public static final String NAME_KEY = "QuadraticEquationForm"; // TODO add to ggbTranslate
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/***/
 	public QuadraticEquationFormProperty(Localization localization, GeoElement element)
@@ -107,7 +107,7 @@ public class QuadraticEquationFormProperty extends AbstractNamedEnumeratedProper
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 
 	private boolean allMatch(

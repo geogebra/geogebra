@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.IsFixedObjectDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
@@ -14,7 +14,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 public class IsFixedObjectProperty extends AbstractValuedProperty<Boolean>
 		implements BooleanProperty {
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/***/
 	public IsFixedObjectProperty(Localization localization, GeoElement element)
@@ -36,6 +36,6 @@ public class IsFixedObjectProperty extends AbstractValuedProperty<Boolean>
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -23,27 +25,55 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.collections.BooleanPropertyCollection;
 import org.geogebra.common.properties.impl.collections.ColorPropertyCollection;
+import org.geogebra.common.properties.impl.collections.FilePropertyCollection;
 import org.geogebra.common.properties.impl.collections.FlagListPropertyCollection;
 import org.geogebra.common.properties.impl.collections.IconsEnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
 import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
+import org.geogebra.common.properties.impl.objects.AngleArcSizeProperty;
+import org.geogebra.common.properties.impl.objects.AngleDecorationProperty;
+import org.geogebra.common.properties.impl.objects.AngleRangeProperty;
+import org.geogebra.common.properties.impl.objects.AnimatingProperty;
+import org.geogebra.common.properties.impl.objects.AnimationSpeedProperty;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
+import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
 import org.geogebra.common.properties.impl.objects.BoldProperty;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
 import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
+import org.geogebra.common.properties.impl.objects.ButtonFixedSizeProperty;
+import org.geogebra.common.properties.impl.objects.ButtonHeightProperty;
+import org.geogebra.common.properties.impl.objects.ButtonWidthProperty;
+import org.geogebra.common.properties.impl.objects.CaptionProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
+import org.geogebra.common.properties.impl.objects.CoordinatesModeProperty;
+import org.geogebra.common.properties.impl.objects.DefinitionProperty;
+import org.geogebra.common.properties.impl.objects.DrawArrowsProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
+import org.geogebra.common.properties.impl.objects.EmphasizeRightAngleProperty;
+import org.geogebra.common.properties.impl.objects.FillImageProperty;
+import org.geogebra.common.properties.impl.objects.FillSymbolProperty;
 import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
+import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
+import org.geogebra.common.properties.impl.objects.HatchingAngleProperty;
+import org.geogebra.common.properties.impl.objects.HatchingDistanceProperty;
 import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
+import org.geogebra.common.properties.impl.objects.ImageInterpolationProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
+import org.geogebra.common.properties.impl.objects.InequalityOnAxisProperty;
+import org.geogebra.common.properties.impl.objects.InputBoxAlignmentProperty;
+import org.geogebra.common.properties.impl.objects.InputBoxSizeProperty;
+import org.geogebra.common.properties.impl.objects.InverseFillProperty;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.ItalicProperty;
 import org.geogebra.common.properties.impl.objects.LabelStyleProperty;
+import org.geogebra.common.properties.impl.objects.LevelOfDetailProperty;
+import org.geogebra.common.properties.impl.objects.LineOpacityProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
+import org.geogebra.common.properties.impl.objects.ListAsComboBoxProperty;
 import org.geogebra.common.properties.impl.objects.MaxProperty;
 import org.geogebra.common.properties.impl.objects.MinProperty;
 import org.geogebra.common.properties.impl.objects.NameCaptionProperty;
@@ -53,22 +83,28 @@ import org.geogebra.common.properties.impl.objects.NotesOpacityColorProperty;
 import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
 import org.geogebra.common.properties.impl.objects.ObjectColorProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
+import org.geogebra.common.properties.impl.objects.OutlyingIntersectionsProperty;
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleExtendedProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
+import org.geogebra.common.properties.impl.objects.SegmentDecorationProperty;
 import org.geogebra.common.properties.impl.objects.SegmentEndProperty;
 import org.geogebra.common.properties.impl.objects.SegmentStartProperty;
 import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
+import org.geogebra.common.properties.impl.objects.SymbolicValueProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontSizeProperty;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
+import org.geogebra.common.properties.impl.objects.TrimmedIntersectionsProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
+import org.geogebra.common.properties.impl.objects.VectorHeadProperty;
 import org.geogebra.common.properties.impl.objects.VerticalAlignmentProperty;
+import org.geogebra.common.properties.impl.objects.VerticalStepProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -132,18 +168,14 @@ public final class GeoElementPropertiesFactory {
 	public PropertiesArray createGeoElementProperties(
 			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
 		return createPropertiesArray(localization, elements, Stream.<Property>of(
-				createPropertyCollection(elements,
-						element -> new NameProperty(localization, element),
-						StringPropertyCollection::new),
+				createNameProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new MinProperty(processor, localization, element),
 						StringPropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new MaxProperty(processor, localization, element),
 						StringPropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new AnimationStepProperty(processor, localization, element),
-						StringPropertyCollection::new),
+				createAnimationStepProperty(processor, localization, elements, true),
 				createShowObjectProperty(localization, elements),
 				createColorProperty(localization, elements),
 				createPointStyleProperty(localization, elements),
@@ -151,26 +183,277 @@ public final class GeoElementPropertiesFactory {
 				createOpacityProperty(localization, elements),
 				createLineStyleProperty(localization, elements),
 				createThicknessProperty(localization, elements),
-				createPropertyCollection(elements,
-						element -> new SlopeSizeProperty(localization, element),
-						RangePropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new LinearEquationFormProperty(localization, element),
-						NamedEnumeratedPropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new QuadraticEquationFormProperty(localization, element),
-						NamedEnumeratedPropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new CaptionStyleProperty(localization, element),
-						NamedEnumeratedPropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new ShowTraceProperty(localization, element),
-						BooleanPropertyCollection::new),
+				createSlopeSizeProperty(localization, elements),
+				createLinearEquationProperty(localization, elements),
+				createQuadraticEquationProperty(localization, elements),
+				createCaptionStyleProperty(localization, elements),
+				createShowTraceProperty(localization, elements),
 				createFixObjectProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new ShowInAVProperty(localization, element),
 						BooleanPropertyCollection::new)
 		).filter(Objects::nonNull).collect(Collectors.toList()));
+	}
+
+	private Property createCaptionStyleProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new CaptionStyleProperty(localization, element),
+				NamedEnumeratedPropertyCollection::new);
+	}
+
+	private Property createShowTraceProperty(Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new ShowTraceProperty(localization, element),
+				BooleanPropertyCollection::new);
+	}
+
+	private Property createAnimationStepProperty(AlgebraProcessor processor,
+			Localization localization, List<GeoElement> elements, boolean forSliders) {
+		return createPropertyCollection(elements,
+				element -> new AnimationStepProperty(processor, localization, element, forSliders),
+				StringPropertyCollection::new);
+	}
+
+	private Property createQuadraticEquationProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new QuadraticEquationFormProperty(localization, element),
+				NamedEnumeratedPropertyCollection::new);
+	}
+
+	private Property createLinearEquationProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new LinearEquationFormProperty(localization, element),
+				NamedEnumeratedPropertyCollection::new);
+	}
+
+	private Property createSlopeSizeProperty(Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new SlopeSizeProperty(localization, element),
+				RangePropertyCollection::new);
+	}
+
+	/**
+	 * Properties for the tabbed properties view.
+	 * @param processor algebra processor
+	 * @param localization localization
+	 * @param elements selected elements
+	 * @return properties organized in tabs
+	 */
+	public List<PropertiesArray> createStructuredProperties(
+			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
+		return List.of(createBasicProperties(localization, elements),
+				createTextProperties(localization, elements),
+				createSliderProperties(processor, localization, elements),
+				createColorProperties(localization, elements),
+				createStyleProperties(processor, localization, elements),
+				createPositionProperties(localization, elements),
+				createAdvancedProperties(localization, elements),
+				createAlgebraProperties(processor, localization, elements),
+				createScriptProperties(localization, elements));
+	}
+
+	private @Nonnull PropertiesArray createBasicProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createPropsArray("Basic", localization, Stream.of(
+				createNameProperty(localization, elements),
+				elements.size() == 1 ? new DefinitionProperty(localization, elements.get(0)) : null,
+				/*
+		definition, caption, */
+				createPropertyCollection(elements,
+						element -> new CaptionProperty(localization, element),
+						StringPropertyCollection::new),
+				createShowObjectProperty(localization, elements),
+				createShowTraceProperty(localization, elements),
+				createCaptionStyleProperty(localization, elements),
+				createFixObjectProperty(localization, elements),
+				createPropertyCollection(elements,
+						element -> new ShowInAVProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new AnimatingProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new BackgroundImageProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new AngleRangeProperty(localization, element),
+						NamedEnumeratedPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new EmphasizeRightAngleProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new ListAsComboBoxProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new TrimmedIntersectionsProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new OutlyingIntersectionsProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new FixCheckboxProperty(localization, element),
+						BooleanPropertyCollection::new)
+		));
+	}
+
+	private @Nonnull PropertiesArray createTextProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createPropsArray("Text", localization, Stream.of(
+				createTextFontSizeProperty(localization, elements, null)
+				/* TextOptionsModel */
+		));
+	}
+
+	private @Nonnull PropertiesArray createSliderProperties(
+			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
+		return createPropsArray("Slider", localization, Stream.of(
+				/* SliderModel */
+				createPropertyCollection(elements,
+						element -> new MinProperty(processor, localization, element),
+						StringPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new MaxProperty(processor, localization, element),
+						StringPropertyCollection::new),
+				createAnimationStepProperty(processor, localization, elements, true)
+		));
+	}
+
+	private @Nonnull PropertiesArray createColorProperties(
+			Localization localization, List<GeoElement> elements) {
+		return createPropsArray("Color", localization, Stream.of(
+				createColorProperty(localization, elements),
+				createTextBackgroundColorProperty(localization, elements),
+				createOpacityProperty(localization, elements)
+		));
+	}
+
+	private @Nonnull PropertiesArray createStyleProperties(
+			AlgebraProcessor processor,
+			Localization localization, List<GeoElement> elements) {
+		return createPropsArray("Style", localization, Stream.of(
+				createPointSizeProperty(localization, elements),
+				createPointStyleProperty(localization, elements),
+				createThicknessProperty(localization, elements),
+				createLineOpacityProperty(localization, elements),
+				createLineStyleProperty(localization, elements, false),
+				createLineStyleProperty(localization, elements, true),
+				createPropertyCollection(elements,
+						element -> new DrawArrowsProperty(localization, element),
+						BooleanPropertyCollection::new),
+				// arcsize
+				createSlopeSizeProperty(localization, elements),
+				createPropertyCollection(elements,
+						element -> new AngleArcSizeProperty(localization, element),
+						RangePropertyCollection::new),
+
+				createFillingStyleProperty(localization, elements, true),
+				createPropertyCollection(elements,
+						element -> new HatchingAngleProperty(localization, element),
+						RangePropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new HatchingDistanceProperty(localization, element),
+						RangePropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new FillSymbolProperty(localization, element),
+						StringPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new FillImageProperty(localization, element),
+						FilePropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new InverseFillProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new InequalityOnAxisProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new InputBoxSizeProperty(processor, localization, element),
+						StringPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new InputBoxAlignmentProperty(localization, element),
+						NamedEnumeratedPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new ButtonWidthProperty(processor, localization, element),
+						StringPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new ButtonHeightProperty(processor, localization, element),
+						StringPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new ButtonFixedSizeProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new LevelOfDetailProperty(localization, element),
+						NamedEnumeratedPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new ImageInterpolationProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new AngleDecorationProperty(localization, element),
+						IconsEnumeratedPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new SegmentDecorationProperty(localization, element),
+						IconsEnumeratedPropertyCollection::new),
+						createSegmentStartProperty(localization, elements),
+						createSegmentEndProperty(localization, elements),
+				createPropertyCollection(elements,
+						element -> new VectorHeadProperty(localization, element),
+						IconsEnumeratedPropertyCollection::new)
+		));
+	}
+
+	private @Nonnull PropertiesArray createPositionProperties(
+			Localization localization, List<GeoElement> ignoredElements) {
+		return createPropsArray("Position", localization, Stream.of(/*
+		.addModel(new AbsoluteScreenLocationModel(app))
+				.addModel(new StartPointModel(app))
+				.addModel(new CornerPointsModel(app))
+				.addModel(new AbsoluteScreenPositionModel.ForX(app))
+				.addModel(new AbsoluteScreenPositionModel.ForY(app))
+				.addModel(new CenterImageModel(app))
+				*/
+		));
+	}
+
+	private @Nonnull PropertiesArray createAdvancedProperties(
+			 Localization localization, List<GeoElement> ignoredElements) {
+		return createPropsArray("Advanced", localization, Stream.of(
+		// show condition
+		// color function
+		// layer
+		// selection allowed
+		// show in views
+		));
+	}
+
+	private @Nonnull PropertiesArray createAlgebraProperties(AlgebraProcessor processor,
+			Localization localization, List<GeoElement> elements) {
+		return createPropsArray("Algebra", localization, Stream.of(
+				createPropertyCollection(elements,
+						el -> new CoordinatesModeProperty(localization, el),
+						NamedEnumeratedPropertyCollection::new),
+				createLinearEquationProperty(localization, elements),
+
+				createQuadraticEquationProperty(localization, elements),
+				createPropertyCollection(elements,
+						el -> new SymbolicValueProperty(localization, el),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						el -> new AnimationSpeedProperty(processor, localization, el),
+						StringPropertyCollection::new),
+				createAnimationStepProperty(processor, localization, elements, false),
+				createPropertyCollection(elements,
+						el -> new VerticalStepProperty(processor, localization, el),
+						StringPropertyCollection::new)
+		));
+	}
+
+	private @Nonnull PropertiesArray createScriptProperties(
+			Localization localization, List<GeoElement> ignoredElements) {
+		return createPropsArray("Scripting", localization, Stream.of(
+				/* ScriptEditorModel*/
+		));
 	}
 
 	/**
@@ -494,8 +777,13 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedProperty<?> createLineStyleProperty(
 			Localization localization, List<GeoElement> elements) {
+		return createLineStyleProperty(localization, elements, false);
+	}
+
+	private IconsEnumeratedProperty<?> createLineStyleProperty(
+			Localization localization, List<GeoElement> elements, boolean hidden) {
 		return createPropertyCollection(elements,
-				element -> new LineStyleProperty(localization, element),
+				element -> new LineStyleProperty(localization, element, hidden),
 				IconsEnumeratedPropertyCollection::new);
 	}
 
@@ -507,8 +795,13 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedPropertyCollection<?, ?> createFillingStyleProperty(
 			Localization localization, List<GeoElement> elements) {
+		return createFillingStyleProperty(localization, elements, false);
+	}
+
+	private IconsEnumeratedPropertyCollection<?, ?> createFillingStyleProperty(
+			Localization localization, List<GeoElement> elements, boolean b) {
 		return createPropertyCollection(elements,
-				element -> new FillingStyleProperty(localization, element),
+				element -> new FillingStyleProperty(localization, element, b),
 				IconsEnumeratedPropertyCollection::new);
 	}
 
@@ -629,6 +922,13 @@ public final class GeoElementPropertiesFactory {
 				RangePropertyCollection::new);
 	}
 
+	private RangeProperty<Integer> createLineOpacityProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new LineOpacityProperty(localization, element),
+				RangePropertyCollection::new);
+	}
+
 	/**
 	 * Returns a RangePropertyCollection controlling the opacity or null if not applicable.
 	 * @param localization localization
@@ -705,6 +1005,12 @@ public final class GeoElementPropertiesFactory {
 		return createPropertyCollection(elements,
 				element -> new ThicknessProperty(localization, element),
 				RangePropertyCollection::new);
+	}
+
+	private PropertiesArray createPropsArray(String name, Localization localization,
+			Stream<Property> properties) {
+		return new PropertiesArray(name, localization, properties.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 	}
 
 	private PropertiesArray createPropertiesArray(Localization localization,

@@ -10,7 +10,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.PointStylePropertyDelegate;
 
@@ -34,7 +34,7 @@ public class PointStyleExtendedProperty extends AbstractEnumeratedProperty<Integ
 			PropertyResource.ICON_POINT_STYLE_TRIANGLE_EAST
 	};
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/***/
 	public PointStyleExtendedProperty(Localization localization, GeoElement element)
@@ -82,6 +82,6 @@ public class PointStyleExtendedProperty extends AbstractEnumeratedProperty<Integ
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

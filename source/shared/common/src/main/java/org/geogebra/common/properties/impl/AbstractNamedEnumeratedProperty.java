@@ -49,7 +49,8 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 
 	private void ensureValueNamesPresent() {
 		if (valueNameTranslationIds == null) {
-			throw new RuntimeException("Set values must be called in the constructor.");
+			throw new RuntimeException("Set values must be called in the constructor for "
+					+ getName());
 		}
 	}
 

@@ -9,8 +9,8 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.ElementColorPropertyDelegate;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -20,7 +20,7 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 		implements ColorProperty {
 
 	private final GeoElement element;
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/**
 	 * @throws NotApplicablePropertyException when one of the elements has no color
@@ -38,7 +38,7 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 	 * @param localization - localization
 	 * @param delegate - delegate
 	 */
-	public ElementColorProperty(Localization localization, GeoElementDelegate delegate) {
+	public ElementColorProperty(Localization localization, AbstractGeoElementDelegate delegate) {
 		super(localization, "stylebar.Color");
 		this.delegate = delegate;
 		this.element = delegate.getElement();
@@ -50,7 +50,7 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 	 * @param delegate - delegate
 	 * @param name - name
 	 */
-	public ElementColorProperty(Localization localization, GeoElementDelegate delegate,
+	public ElementColorProperty(Localization localization, AbstractGeoElementDelegate delegate,
 			String name) {
 		super(localization, name);
 		this.delegate = delegate;
@@ -70,7 +70,7 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 
 	@Override
 	public boolean isEnabled() {
-		return element.isEuclidianVisible() && delegate.isEnabled();
+		return element.isEuclidianVisible() && delegate.getElement().isEuclidianVisible();
 	}
 
 	/**

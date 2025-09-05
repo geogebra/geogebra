@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.PointSizePropertyDelegate;
 
@@ -16,7 +16,7 @@ import org.geogebra.common.properties.impl.objects.delegate.PointSizePropertyDel
  */
 public class PointSizeProperty extends AbstractRangeProperty<Integer> {
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/***/
 	public PointSizeProperty(Localization localization, GeoElement element)
@@ -54,6 +54,6 @@ public class PointSizeProperty extends AbstractRangeProperty<Integer> {
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

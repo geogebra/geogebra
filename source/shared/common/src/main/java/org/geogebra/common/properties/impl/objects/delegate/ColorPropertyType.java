@@ -22,7 +22,7 @@ public enum ColorPropertyType {
 				|| element instanceof GeoPieChart || element.isGeoImage()) {
 			return DEFAULT;
 		}
-		if ((element instanceof TextStyle && !element.isGeoInputBox())
+		if (element instanceof TextStyle
 				|| element instanceof GeoFormula) {
 			return TEXT;
 		}

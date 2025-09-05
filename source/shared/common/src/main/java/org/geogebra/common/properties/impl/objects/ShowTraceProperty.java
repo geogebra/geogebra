@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.ShowTracePropertyDelegate;
 
@@ -14,7 +14,7 @@ import org.geogebra.common.properties.impl.objects.delegate.ShowTracePropertyDel
  */
 public class ShowTraceProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/***/
 	public ShowTraceProperty(Localization localization, GeoElement element)
@@ -38,6 +38,6 @@ public class ShowTraceProperty extends AbstractValuedProperty<Boolean> implement
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

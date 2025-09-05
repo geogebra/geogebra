@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.CaptionStyleDelegate;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -25,7 +25,7 @@ public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Intege
 			GeoElementND.LABEL_VALUE,
 			GeoElementND.LABEL_CAPTION);
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/***/
 	public CaptionStyleProperty(Localization localization, GeoElement geoElement)
@@ -33,11 +33,12 @@ public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Intege
 		super(localization, "stylebar.Caption");
 		delegate = new CaptionStyleDelegate(geoElement);
 		setNamedValues(List.of(
-				entry(GeoElementND.LABEL_DEFAULT, "Hidden"),
+				entry(GeoElementND.LABEL_HIDDEN, "Hidden"),
 				entry(GeoElementND.LABEL_NAME, "Name"),
 				entry(GeoElementND.LABEL_NAME_VALUE, "NameAndValue"),
 				entry(GeoElementND.LABEL_VALUE, "Value"),
-				entry(GeoElementND.LABEL_CAPTION, "Caption")
+				entry(GeoElementND.LABEL_CAPTION, "Caption"),
+				entry(GeoElementND.LABEL_DEFAULT, "CaptionAndValue")
 		));
 	}
 
@@ -45,7 +46,7 @@ public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Intege
 	public Integer getValue() {
 		GeoElement element = delegate.getElement();
 		if (!element.isLabelVisible()) {
-			return labelModes.get(0);
+			return GeoElementND.LABEL_HIDDEN;
 		}
 		int labelMode = element.getLabelMode();
 		int index = labelModes.indexOf(labelMode);
@@ -55,13 +56,15 @@ public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Intege
 	@Override
 	protected void doSetValue(Integer value) {
 		GeoElement element = delegate.getElement();
-		element.setLabelMode(value);
-		element.setLabelVisible(value != GeoElementND.LABEL_DEFAULT);
+		if (value != GeoElementND.LABEL_HIDDEN) {
+			element.setLabelMode(value);
+		}
+		element.setLabelVisible(value != GeoElementND.LABEL_HIDDEN);
 		element.updateRepaint();
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }

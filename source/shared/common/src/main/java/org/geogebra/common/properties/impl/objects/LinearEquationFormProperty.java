@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.LinearEquationFormDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
@@ -22,7 +22,7 @@ public class LinearEquationFormProperty extends AbstractNamedEnumeratedProperty<
 
 	public static final String NAME_KEY = "LinearEquationForm"; // TODO add to ggbTranslate
 
-	private final GeoElementDelegate delegate;
+	private final AbstractGeoElementDelegate delegate;
 
 	/***/
 	public LinearEquationFormProperty(Localization localization, GeoElement element)
@@ -70,6 +70,6 @@ public class LinearEquationFormProperty extends AbstractNamedEnumeratedProperty<
 
 	@Override
 	public boolean isEnabled() {
-		return delegate.isEnabled();
+		return delegate.getElement().isEuclidianVisible();
 	}
 }
