@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -22,9 +22,8 @@ public class GridDistancePropertyCollection extends AbstractPropertyCollection<P
 	 * @param euclidianSettings EV settings
 	 */
 	public GridDistancePropertyCollection(App app, Localization localization, EuclidianSettings
-			euclidianSettings) {
+			euclidianSettings, EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "Distance");
-		EuclidianView euclidianView = app.getActiveEuclidianView();
 
 		ArrayList<Property> properties = new ArrayList<>();
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();

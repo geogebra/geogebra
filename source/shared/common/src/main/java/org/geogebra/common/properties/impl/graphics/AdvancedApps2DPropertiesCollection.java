@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -19,13 +20,13 @@ public class AdvancedApps2DPropertiesCollection extends AbstractPropertyCollecti
 	 * @param settings euclidian settings
 	 */
 	public AdvancedApps2DPropertiesCollection(App app, Localization localization,
-			EuclidianSettings settings) {
+			EuclidianSettings settings, EuclidianView view) {
 		super(localization, "Advanced");
 
 		ArrayList<Property> properties = new ArrayList<>();
 		properties.add(new BackgroundColorProperty(localization, settings));
 		properties.add(new RightAngleStyleProperty(localization, app));
-		properties.add(new PointCapturingProperty(app, localization));
+		properties.add(new PointCapturingProperty(localization, view));
 		properties.add(app.isUnbundledOrWhiteboard()
 				? new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings())
 				: new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings(),

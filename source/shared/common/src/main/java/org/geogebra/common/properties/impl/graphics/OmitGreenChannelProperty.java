@@ -1,14 +1,13 @@
 package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class OmitGreenChannelProperty extends AbstractValuedProperty<Boolean>
 	implements BooleanProperty {
-	private EuclidianView3D euclidianView;
+	private EuclidianView3DInterface euclidianView;
 
 	/**
 	 * Creates a  property for toggling green channel in
@@ -17,7 +16,7 @@ public class OmitGreenChannelProperty extends AbstractValuedProperty<Boolean>
 	 * @param euclidianView euclidian view
 	 */
 	public OmitGreenChannelProperty(Localization localization,
-			EuclidianView3D euclidianView) {
+			EuclidianView3DInterface euclidianView) {
 		super(localization, "OmitGreen");
 		this.euclidianView = euclidianView;
 	}

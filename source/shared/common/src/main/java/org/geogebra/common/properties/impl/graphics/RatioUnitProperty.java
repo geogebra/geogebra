@@ -4,20 +4,21 @@ import static java.util.Map.entry;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
 public class RatioUnitProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
-	private EuclidianView3D view3D;
+	private EuclidianView3DInterface view3D;
 
 	/**
 	 * Constructs an ratio unit property.
 	 * @param view3D EuclidianView3D
 	 * @param localization localization
 	 */
-	RatioUnitProperty(Localization localization, EuclidianView3D view3D) {
+	RatioUnitProperty(Localization localization, EuclidianView3DInterface view3D) {
 		super(localization, "Settings.Unit");
 		this.view3D = view3D;
 		setNamedValues(List.of(

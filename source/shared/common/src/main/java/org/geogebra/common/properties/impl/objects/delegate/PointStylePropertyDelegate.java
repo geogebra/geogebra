@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.objects.delegate;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -19,7 +19,7 @@ public class PointStylePropertyDelegate extends AbstractGeoElementDelegate {
 		if (element instanceof GeoList) {
 			return isApplicableToGeoList((GeoList) element);
 		}
-		EuclidianView euclidianView = element.getApp().getActiveEuclidianView();
-		return PointStyleModel.match(element) && euclidianView.canShowPointStyle();
+		GeoGebraConstants.Version version = element.getApp().getConfig().getVersion();
+		return PointStyleModel.match(element) && version != GeoGebraConstants.Version.GRAPHING_3D;
 	}
 }

@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
@@ -8,14 +8,14 @@ import org.geogebra.common.properties.impl.AbstractActionableProperty;
 
 public class RestartARAction extends AbstractActionableProperty implements ActionableIconProperty {
 
-	final EuclidianView3D euclidianView;
+	final EuclidianView3DInterface euclidianView;
 
 	/**
 	 * Creates a RestartARAction property.
 	 * @param localization localization
 	 * @param euclidianView euclidean view
 	 */
-	public RestartARAction(Localization localization, EuclidianView3D euclidianView) {
+	public RestartARAction(Localization localization, EuclidianView3DInterface euclidianView) {
 		super(localization, "ar.restart");
 		this.euclidianView = euclidianView;
 	}

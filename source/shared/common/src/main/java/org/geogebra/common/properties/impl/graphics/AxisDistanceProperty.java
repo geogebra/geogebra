@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -14,7 +14,7 @@ import org.geogebra.common.properties.impl.AbstractNumericProperty;
 public class AxisDistanceProperty extends AbstractNumericProperty {
 
 	private final EuclidianSettings euclidianSettings;
-	private final EuclidianView euclidianView;
+	private final EuclidianViewInterfaceCommon euclidianView;
 	private final int axis;
 
 	/**
@@ -27,7 +27,8 @@ public class AxisDistanceProperty extends AbstractNumericProperty {
 	 * @param axis the axis for the numbering distance will be set
 	 */
 	public AxisDistanceProperty(Localization localization, EuclidianSettings
-			euclidianSettings, EuclidianView euclidianView, Kernel kernel, String label, int axis) {
+			euclidianSettings, EuclidianViewInterfaceCommon euclidianView,
+			Kernel kernel, String label, int axis) {
 		super(kernel.getAlgebraProcessor(), localization, label);
 		this.euclidianSettings = euclidianSettings;
 		this.euclidianView = euclidianView;

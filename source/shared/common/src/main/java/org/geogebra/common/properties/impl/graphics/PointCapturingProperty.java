@@ -4,7 +4,7 @@ import static java.util.Map.entry;
 
 import java.util.List;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -14,16 +14,17 @@ import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
  */
 public class PointCapturingProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
-	private App app;
+	private final EuclidianViewInterfaceCommon view;
 
 	/**
 	 * Constructs a point capturing property.
-	 * @param app app
+	 * @param view Euclidian view
 	 * @param localization localization
 	 */
-	public PointCapturingProperty(App app, Localization localization) {
+	public PointCapturingProperty(Localization localization,
+			EuclidianViewInterfaceCommon view) {
 		super(localization, "PointCapturing");
-		this.app = app;
+		this.view = view;
 		setNamedValues(List.of(
 				entry(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC, "Labeling.automatic"),
 				entry(EuclidianStyleConstants.POINT_CAPTURING_ON, "SnapToGrid"),
@@ -34,11 +35,11 @@ public class PointCapturingProperty extends AbstractNamedEnumeratedProperty<Inte
 
 	@Override
 	public Integer getValue() {
-		return app.getActiveEuclidianView().getPointCapturingMode();
+		return view.getPointCapturingMode();
 	}
 
 	@Override
 	protected void doSetValue(Integer value) {
-		app.getActiveEuclidianView().setPointCapturing(value);
+		view.setPointCapturing(value);
 	}
 }

@@ -3,6 +3,7 @@ package org.geogebra.common.properties.impl.graphics;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -17,7 +18,7 @@ import org.geogebra.common.util.DoubleUtil;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class GridAngleProperty extends NumericPropertyWithSuggestions {
-	private final EuclidianView euclidianView;
+	private final EuclidianViewInterfaceCommon euclidianView;
 
 	/**
 	 * Constructs a grid distance property.
@@ -26,7 +27,7 @@ public class GridAngleProperty extends NumericPropertyWithSuggestions {
 	 * @param euclidianView euclidian view
 	 */
 	public GridAngleProperty(AlgebraProcessor processor, Localization localization,
-			EuclidianView euclidianView) {
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(processor, localization, String.valueOf(Unicode.theta));
 		this.euclidianView = euclidianView;
 	}

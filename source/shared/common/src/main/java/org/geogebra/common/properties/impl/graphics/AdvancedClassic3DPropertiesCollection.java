@@ -25,7 +25,8 @@ public class AdvancedClassic3DPropertiesCollection extends AbstractPropertyColle
 
 		properties.add(new BackgroundColorProperty(localization, settings));
 		properties.add(new RightAngleStyleProperty(localization, app));
-		properties.add(new PointCapturingProperty(app, localization));
+		properties.add(new PointCapturingProperty(localization,
+				app.getEuclidianView3D()));
 		properties.add(app.isUnbundledOrWhiteboard()
 				? new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings())
 				: new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings(),

@@ -3,22 +3,22 @@ package org.geogebra.common.properties.impl.graphics;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class ObliqueFactorProperty extends AbstractValuedProperty<String>
 	implements StringProperty {
-	private EuclidianView3D euclidianView;
+	private EuclidianView3DInterface euclidianView;
 
 	/**
-	 * Creates a distance from sceen property used for
+	 * Creates a distance from screen property used for
 	 * {@link ProjectionsProperty} PROJECTION_OBLIQUE
 	 * @param localization localization
 	 * @param euclidianView euclidian view
 	 */
-	public ObliqueFactorProperty(Localization localization, EuclidianView3D euclidianView) {
+	public ObliqueFactorProperty(Localization localization,
+			EuclidianView3DInterface euclidianView) {
 		super(localization, "Dilate.Factor");
 		this.euclidianView = euclidianView;
 	}

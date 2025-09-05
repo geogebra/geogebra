@@ -4,7 +4,7 @@ import static java.util.Map.entry;
 
 import java.util.List;
 
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -36,7 +36,7 @@ public class BackgroundProperty extends AbstractNamedEnumeratedProperty<Renderer
 
 	@Override
 	protected void doSetValue(Renderer.BackgroundStyle value) {
-		EuclidianView3D euclidianView3D = (EuclidianView3D) app.getActiveEuclidianView();
+		EuclidianView3DInterface euclidianView3D = app.getEuclidianView3D();
 		if (euclidianView3D.isXREnabled()) {
 			euclidianView3D.getRenderer().setBackgroundStyle(value);
 		}

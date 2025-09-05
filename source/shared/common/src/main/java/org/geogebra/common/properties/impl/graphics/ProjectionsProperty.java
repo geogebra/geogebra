@@ -8,7 +8,7 @@ import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTIO
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
@@ -21,7 +21,7 @@ import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 public class ProjectionsProperty extends AbstractNamedEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 
-	private EuclidianView view;
+	private EuclidianView3DInterface view;
 	private EuclidianSettings3D euclidianSettings;
 
 	private PropertyResource[] icons = new PropertyResource[]{
@@ -38,7 +38,7 @@ public class ProjectionsProperty extends AbstractNamedEnumeratedProperty<Integer
 	 * @param euclidianSettings euclidian settings.
 	 */
 	public ProjectionsProperty(Localization localization,
-			EuclidianView view, EuclidianSettings3D euclidianSettings) {
+			EuclidianView3DInterface view, EuclidianSettings3D euclidianSettings) {
 		super(localization, "Projection");
 		this.view = view;
 		this.euclidianSettings = euclidianSettings;

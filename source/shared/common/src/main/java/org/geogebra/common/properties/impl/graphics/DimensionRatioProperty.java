@@ -1,11 +1,11 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractProperty;
 
 public class DimensionRatioProperty extends AbstractProperty {
-	private EuclidianView euclidianView;
+	private final EuclidianViewInterfaceCommon euclidianView;
 	private double xRatio = 1;
 	private double yRatio = 1;
 
@@ -14,7 +14,8 @@ public class DimensionRatioProperty extends AbstractProperty {
 	 * @param localization localization
 	 * @param euclidianView euclidian view
 	 */
-	public DimensionRatioProperty(Localization localization, EuclidianView euclidianView) {
+	public DimensionRatioProperty(Localization localization,
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "Ratio");
 		this.euclidianView = euclidianView;
 	}

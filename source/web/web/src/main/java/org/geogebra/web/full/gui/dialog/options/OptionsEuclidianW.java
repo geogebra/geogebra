@@ -149,8 +149,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 				return;
 			}
 
-			NamedEnumeratedProperty<?> pointCaptProperty = new PointCapturingProperty(app,
-					app.getLocalization());
+			NamedEnumeratedProperty<?> pointCaptProperty = new PointCapturingProperty(
+					app.getLocalization(), view);
 			pointCapturingStyle = new ComponentDropDown(app, pointCaptProperty);
 			pointCapturingStyle.addChangeHandler(() -> {
 				app.setUnsaved();

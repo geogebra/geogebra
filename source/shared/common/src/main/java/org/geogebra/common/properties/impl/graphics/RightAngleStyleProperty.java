@@ -41,7 +41,7 @@ public class RightAngleStyleProperty extends AbstractEnumeratedProperty<Integer>
 
 	@Override
 	public Integer getValue() {
-		return app.getActiveEuclidianView().getRightAngleStyle();
+		return app.rightAngleStyle;
 	}
 
 	@Override

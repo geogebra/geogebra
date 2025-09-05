@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -18,11 +19,11 @@ public class DimensionPropertiesCollection extends AbstractPropertyCollection<Pr
 	 * @param localization localization
 	 */
 	public DimensionPropertiesCollection(App app, Localization localization,
-			EuclidianSettings settings) {
+			EuclidianSettings settings, EuclidianViewInterfaceCommon view) {
 		super(localization, "Dimension");
 
 		ArrayList<Property> properties = new ArrayList<>();
-		properties.add(new DimensionRatioProperty(localization, app.getActiveEuclidianView()));
+		properties.add(new DimensionRatioProperty(localization, view));
 		properties.add(new DimensionMinMaxProperty(app, localization, "xMin", settings,
 				EuclidianOptionsModel.MinMaxType.minX));
 		properties.add(new DimensionMinMaxProperty(app, localization, "xMax", settings,

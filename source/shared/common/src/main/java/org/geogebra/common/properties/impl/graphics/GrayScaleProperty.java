@@ -1,14 +1,13 @@
 package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class GrayScaleProperty extends AbstractValuedProperty<Boolean>
 		implements BooleanProperty {
-	private EuclidianView3D euclidianView;
+	private EuclidianView3DInterface euclidianView;
 
 	/**
 	 * Creates a gray scale property used for
@@ -16,7 +15,7 @@ public class GrayScaleProperty extends AbstractValuedProperty<Boolean>
 	 * @param localization localization
 	 * @param euclidianView euclidian view
 	 */
-	public GrayScaleProperty(Localization localization, EuclidianView3D euclidianView) {
+	public GrayScaleProperty(Localization localization, EuclidianView3DInterface euclidianView) {
 		super(localization, "GrayScale");
 		this.euclidianView = euclidianView;
 	}

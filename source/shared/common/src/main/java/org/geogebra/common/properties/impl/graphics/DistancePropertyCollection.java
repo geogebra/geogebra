@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -22,22 +22,21 @@ public class DistancePropertyCollection extends AbstractPropertyCollection<Prope
 	 * @param euclidianSettings EV settings
 	 */
 	public DistancePropertyCollection(App app, Localization localization, EuclidianSettings
-			euclidianSettings) {
+			euclidianSettings, EuclidianViewInterfaceCommon view) {
 		super(localization, "Distance");
 
 		Kernel kernel = app.getKernel();
-		EuclidianView euclidianView = app.getActiveEuclidianView();
 		ArrayList<Property> properties = new ArrayList<>();
 
 		properties.add(new AxesNumberingDistanceProperty(localization, euclidianSettings,
-				euclidianView, kernel));
-		properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
+				view, kernel));
+		properties.add(new AxisDistanceProperty(localization, euclidianSettings, view,
 				kernel, "xAxis", 0));
-		properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
+		properties.add(new AxisDistanceProperty(localization, euclidianSettings, view,
 				kernel, "yAxis", 1));
 		if (euclidianSettings.getDimension() > 2) {
 			properties.add(
-					new AxisDistanceProperty(localization, euclidianSettings, euclidianView, kernel,
+					new AxisDistanceProperty(localization, euclidianSettings, view, kernel,
 							"zAxis", 2));
 		}
 

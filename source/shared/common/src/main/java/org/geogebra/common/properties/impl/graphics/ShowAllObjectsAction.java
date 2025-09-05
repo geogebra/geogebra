@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
@@ -11,7 +11,7 @@ public class ShowAllObjectsAction extends AbstractActionableProperty
 		implements ActionableIconProperty {
 
 	private final AppConfig appConfig;
-	private final EuclidianView euclidianView;
+	private final EuclidianViewInterfaceCommon euclidianView;
 
 	/**
 	 * Creates a ShowAllObjectsAction property.
@@ -20,7 +20,7 @@ public class ShowAllObjectsAction extends AbstractActionableProperty
 	 * @param euclidianView euclidean view
 	 */
 	public ShowAllObjectsAction(Localization localization, AppConfig appConfig,
-			EuclidianView euclidianView) {
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "ShowAllObjects");
 		this.appConfig = appConfig;
 		this.euclidianView = euclidianView;

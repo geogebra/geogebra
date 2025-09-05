@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -47,13 +47,13 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 		EuclidianSettings euclidianSettings = app.getActiveEuclidianView().getSettings();
 		List<Property> propertyList = new ArrayList<>();
 
+		EuclidianView3DInterface view3D = app.getEuclidianView3D();
 		if (app.getActiveEuclidianView().isXREnabled()) {
-			EuclidianView3D view3D = (EuclidianView3D) app.getActiveEuclidianView();
 			propertyList.add(new EuclideanViewXRActionsPropertyCollection(localization, view3D));
 			propertyList.add(new ARRatioPropertyCollection(app, localization));
 			propertyList.add(new BackgroundProperty(app, localization));
 		} else {
-			propertyList.add(new GraphicsActionsPropertyCollection(app, localization));
+			propertyList.add(new GraphicsActionsPropertyCollection(app, localization, view3D));
 		}
 		propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
 		propertyList.add(
@@ -62,10 +62,11 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 		propertyList.add(
 				new ProjectionsProperty(
 						localization,
-						app.getActiveEuclidianView(),
+						view3D,
 						(EuclidianSettings3D) euclidianSettings));
-		propertyList.add(new PointCapturingProperty(app, localization));
-		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
+		propertyList.add(new PointCapturingProperty(localization, view3D));
+		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings,
+				view3D));
 		propertyList.add(new LabelsPropertyCollection(localization, euclidianSettings));
 		propertyList.add(
 				new AxesColoredProperty(localization, (EuclidianSettings3D) euclidianSettings));
@@ -84,14 +85,15 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 						new PropertyCollectionWithLead(localization, "Grid",
 								new GridVisibilityProperty(localization, euclidianSettings),
 								new GridDistancePropertyCollection(app, localization,
-										euclidianSettings)),
+										euclidianSettings, activeView)),
 						new PropertyCollectionWithLead(localization, "Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings)
 						),
-						new DimensionPropertiesCollection(app, localization, euclidianSettings),
-						axisExpandableProperty(0, "xAxis", app, localization),
-						axisExpandableProperty(1, "yAxis", app, localization),
-						axisExpandableProperty(2, "zAxis", app, localization),
+						new DimensionPropertiesCollection(app, localization,
+								euclidianSettings, activeView),
+						axisExpandableProperty(0, "xAxis", app, localization, activeView),
+						axisExpandableProperty(1, "yAxis", app, localization, activeView),
+						axisExpandableProperty(2, "zAxis", app, localization, activeView),
 						new AdvancedApps3DPropertiesCollection(app, localization,
 								euclidianSettings))
 		);

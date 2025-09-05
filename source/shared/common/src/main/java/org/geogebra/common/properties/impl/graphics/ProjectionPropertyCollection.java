@@ -2,8 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -22,18 +21,16 @@ public class ProjectionPropertyCollection extends AbstractPropertyCollection<Pro
 			euclidianSettings) {
 		super(localization, "Projection");
 
-		EuclidianView euclidianView = app.getActiveEuclidianView();
+		EuclidianView3DInterface euclidianView = app.getEuclidianView3D();
 		ArrayList<Property> properties = new ArrayList<>();
 
-		properties.add(new ProjectionsProperty(localization, app.getActiveEuclidianView(),
-				euclidianSettings));
+		properties.add(new ProjectionsProperty(localization, euclidianView, euclidianSettings));
 		properties.add(new DistanceFromScreenProperty(localization, euclidianSettings));
 		properties.add(new DistanceBetweenEyesProperty(localization, euclidianSettings));
-		properties.add(new GrayScaleProperty(localization, (EuclidianView3D) euclidianView));
-		properties.add(new OmitGreenChannelProperty(localization,
-				(EuclidianView3D) euclidianView));
-		properties.add(new ObliqueAngleProperty(localization, (EuclidianView3D) euclidianView));
-		properties.add(new ObliqueFactorProperty(localization, (EuclidianView3D) euclidianView));
+		properties.add(new GrayScaleProperty(localization, euclidianView));
+		properties.add(new OmitGreenChannelProperty(localization, euclidianView));
+		properties.add(new ObliqueAngleProperty(localization, euclidianView));
+		properties.add(new ObliqueFactorProperty(localization, euclidianView));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

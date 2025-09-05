@@ -554,7 +554,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 						val = 0;
 						tfObliqueFactor.setText("" + val);
 					}
-					view.setProjectionObliqueFactor(val);
+					view.getSettings().setProjectionObliqueFactor(val);
 				}
 			} catch (NumberFormatException e) {
 				tfObliqueFactor.setText("" + view

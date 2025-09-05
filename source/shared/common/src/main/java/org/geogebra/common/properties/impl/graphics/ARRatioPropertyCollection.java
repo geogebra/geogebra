@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
@@ -16,7 +16,7 @@ public class ARRatioPropertyCollection extends AbstractPropertyCollection<Proper
 	public ARRatioPropertyCollection(App app, Localization localization) {
 		super(localization, "Settings.ArRatio");
 
-		EuclidianView3D view3D = (EuclidianView3D) app.getActiveEuclidianView();
+		EuclidianView3DInterface view3D = app.getEuclidianView3D();
 		Property arRatio = new ARRatioProperty(localization, view3D);
 		Property ratioUnit = new RatioUnitProperty(localization, view3D);
 		setProperties(new Property[]{arRatio, ratioUnit});

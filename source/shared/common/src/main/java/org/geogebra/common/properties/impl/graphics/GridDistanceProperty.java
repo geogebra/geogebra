@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -13,7 +13,7 @@ import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class GridDistanceProperty extends NumericPropertyWithSuggestions {
-	private final EuclidianView euclidianView;
+	private final EuclidianViewInterfaceCommon euclidianView;
 	private final int axis;
 
 	/**
@@ -25,7 +25,7 @@ public class GridDistanceProperty extends NumericPropertyWithSuggestions {
 	 * @param axis the axis for the numbering distance will be set
 	 */
 	public GridDistanceProperty(AlgebraProcessor processor, Localization localization,
-			EuclidianView euclidianView, String label, int axis) {
+			EuclidianViewInterfaceCommon euclidianView, String label, int axis) {
 		super(processor, localization, label);
 		this.euclidianView = euclidianView;
 		this.axis = axis;

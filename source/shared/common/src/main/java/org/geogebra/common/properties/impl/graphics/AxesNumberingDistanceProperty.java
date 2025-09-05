@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -17,18 +17,18 @@ public class AxesNumberingDistanceProperty extends AbstractValuedProperty<Boolea
 		implements BooleanProperty {
 
 	@Weak
-	private EuclidianSettings euclidianSettings;
+	private final EuclidianSettings euclidianSettings;
 	@Weak
-	private Kernel kernel;
+	private final Kernel kernel;
 	@Weak
-	private EuclidianView euclidianView;
+	private final EuclidianViewInterfaceCommon euclidianView;
 
 	/**
 	 * Constructs an Axes numbering distance property.
 	 * @param localization localization for the title
 	 */
 	AxesNumberingDistanceProperty(Localization localization, EuclidianSettings
-			euclidianSettings, EuclidianView euclidianView, Kernel kernel) {
+			euclidianSettings, EuclidianViewInterfaceCommon euclidianView, Kernel kernel) {
 		super(localization, "Automatic");
 		this.euclidianSettings = euclidianSettings;
 		this.kernel = kernel;

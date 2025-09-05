@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
  * 
@@ -305,4 +306,67 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	double getZscale();
 
+	/**
+	 * @return whether XR display is active
+	 */
+	boolean isXREnabled();
+
+	/**
+	 * @return ARRatio is shown
+	 */
+	boolean isARRatioShown();
+
+	/**
+	 * set ARRatio is shown
+	 */
+	void setARRatioIsShown(boolean value);
+
+	/**
+	 * set AR Ratio Metric System
+	 */
+	void setARRatioMetricSystem(int value);
+
+	/**
+	 * @return AR Ratio Metric System
+	 */
+	int getARRatioMetricSystem();
+
+	/**
+	 * @param value
+	 *            whether to use grayscale for glasses
+	 */
+	void setGlassesGrayScaled(boolean value);
+
+	/**
+	 * @return projection, e.g. {@link EuclidianView3DInterface#PROJECTION_GLASSES}
+	 */
+	int getProjection();
+
+	/**
+	 * @return whether to use greyscale
+	 */
+	boolean isGlassesGrayScaled();
+
+	@Override
+	EuclidianSettings3D getSettings();
+
+	/**
+	 * @return oblique projection factor
+	 */
+	double getProjectionObliqueFactor();
+
+	/**
+	 * @param value whether to remove green channel
+	 */
+	void setGlassesShutDownGreen(boolean value);
+
+	/**
+	 * @return whether to remove green channel
+	 */
+	boolean isGlassesShutDownGreen();
+
+	/**
+	 * @return oblique projection angle
+	 */
+	double getProjectionObliqueAngle();
 }

@@ -3946,6 +3946,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+	@Override
 	public int getProjection() {
 		return projection;
 	}
@@ -4049,14 +4050,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		setCursor(EuclidianCursor.TRANSPARENT);
 	}
 
+	@Override
 	public boolean isGlassesGrayScaled() {
 		return getSettings().isGlassesGrayScaled();
 	}
 
-	/**
-	 * @param flag
-	 *            whether to use grayscale for glasses
-	 */
+	@Override
 	public void setGlassesGrayScaled(boolean flag) {
 		getSettings().setGlassesGrayScaled(flag);
 		resetAllDrawables();
@@ -4079,14 +4078,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		return false;
 	}
 
+	@Override
 	public boolean isGlassesShutDownGreen() {
 		return getSettings().isGlassesShutDownGreen();
 	}
 
-	/**
-	 * @param flag
-	 *            shutdown green flag
-	 */
+	@Override
 	public void setGlassesShutDownGreen(boolean flag) {
 		getSettings().setGlassesShutDownGreen(flag);
 		renderer.setWaitForUpdateClearColor();
@@ -4152,33 +4149,14 @@ public abstract class EuclidianView3D extends EuclidianView
 		setDefault2DCursor();
 	}
 
-	/**
-	 * @return oblique projection angle
-	 */
+	@Override
 	public double getProjectionObliqueAngle() {
 		return projectionObliqueAngle;
 	}
 
-	/**
-	 * @param angle
-	 *            oblique projection angle
-	 */
-	public void setProjectionObliqueAngle(double angle) {
-		projectionObliqueAngle = angle;
-		renderer.updateProjectionObliqueValues();
-	}
-
+	@Override
 	public double getProjectionObliqueFactor() {
 		return projectionObliqueFactor;
-	}
-
-	/**
-	 * @param factor
-	 *            oblique projection factor
-	 */
-	public void setProjectionObliqueFactor(double factor) {
-		projectionObliqueFactor = factor;
-		renderer.updateProjectionObliqueValues();
 	}
 
 	@Override
@@ -5333,9 +5311,7 @@ public abstract class EuclidianView3D extends EuclidianView
         return value;
     }
 
-	/**
-	 * set ARRatio is shown
-	 */
+	@Override
 	public void setARRatioIsShown(boolean arRatioIsShown) {
 		this.arRatioIsShown = arRatioIsShown;
 		XRManagerInterface arManager = renderer.getXRManager();
@@ -5344,9 +5320,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
-	/**
-	 * @return ARRatio is shown
-	 */
+	@Override
 	public boolean isARRatioShown() {
 		return arRatioIsShown;
 	}
@@ -5365,9 +5339,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		return arRatioUnit;
 	}
 
-	/**
-	 * set AR Ratio Metric System
-	 */
+	@Override
 	public void setARRatioMetricSystem(int arRatioMetricSystem) {
 		this.arRatioMetricSystem = arRatioMetricSystem;
 		XRManagerInterface arManager = renderer.getXRManager();
@@ -5376,9 +5348,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
-	/**
-	 * @return AR Ratio Metric System
-	 */
+	@Override
 	public int getARRatioMetricSystem() {
 		return arRatioMetricSystem;
 	}

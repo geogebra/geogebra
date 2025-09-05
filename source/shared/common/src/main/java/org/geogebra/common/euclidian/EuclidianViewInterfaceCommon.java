@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -1070,4 +1071,14 @@ public interface EuclidianViewInterfaceCommon
 	 * @return height for export
 	 */
 	int getExportHeight();
+
+	/**
+	 * @return kernel
+	 */
+	Kernel getKernel();
+
+	/**
+	 * @return axis distance definitions
+	 */
+	GeoNumberValue[] getAxesDistanceObjects();
 }

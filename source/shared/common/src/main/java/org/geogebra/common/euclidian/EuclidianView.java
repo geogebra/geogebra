@@ -778,7 +778,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		getCompanion().setMode(mode, m);
 	}
 
-	/** @return kernel */
+	@Override
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -1445,7 +1445,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// real world values
 		setXYMinMaxForSetCoordSystem();
 		setRealWorldBounds();
-        onCoordSystemChangedFromSetCoordSystem();
+		onCoordSystemChangedFromSetCoordSystem();
 
 		if (repaint) {
 			invalidateBackground();
@@ -3138,6 +3138,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return axesNumberingDistances;
 	}
 
+	@Override
 	public GeoNumberValue[] getAxesDistanceObjects() {
 		return axesDistanceObjects;
 	}

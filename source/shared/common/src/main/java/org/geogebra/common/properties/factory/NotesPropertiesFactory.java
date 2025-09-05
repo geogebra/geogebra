@@ -66,8 +66,8 @@ public class NotesPropertiesFactory extends DefaultPropertiesFactory {
 								new AxesBoldProperty(localization, euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)
 						),
-						axisExpandableProperty(0, "xAxis", app, localization),
-						axisExpandableProperty(1, "yAxis", app, localization))
+						axisExpandableProperty(0, "xAxis", app, localization, activeView),
+						axisExpandableProperty(1, "yAxis", app, localization, activeView))
 		);
 	}
 }
