@@ -84,8 +84,8 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 		SVGResource icon = property.isRatioLocked()
 				? MaterialDesignResources.INSTANCE.lock_black()
 				: MaterialDesignResources.INSTANCE.lock_open_black();
-		lockRatio = new IconButton(appW, getLockedUnlockedKey(property),
-				new ImageIconSpec(icon));
+		lockRatio = new IconButton(appW, null, new ImageIconSpec(icon),
+				getLockedUnlockedKey(property));
 		lockRatio.addFastClickHandler(source -> {
 			property.setRatioLocked(!property.isRatioLocked());
 			boolean locked = property.isRatioLocked();
@@ -99,7 +99,7 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 
 		FlowPanel panel = new FlowPanel();
 		ratioLabelKey = property.getRawName();
-		panel.add(ratioLabel = new Label(appW.getLocalization().getMenu(property.getRawName())));
+		panel.add(ratioLabel = new Label(appW.getLocalization().getMenu(ratioLabelKey)));
 		FlowPanel ratioPanel = new FlowPanel();
 		ratioPanel.addStyleName("ratioPanel");
 		ratioPanel.add(xRatio);
