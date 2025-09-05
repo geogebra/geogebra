@@ -137,7 +137,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleTypeTreeMode.setToolTipText(loc.getPlainTooltip("SortObjectsBy"));
 		buildTreeModeMenu();
 		buildDescriptionMenu();
-
 	}
 
 	/**
@@ -210,7 +209,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 			mi.setFont(app.getPlainFont());
 			mi.setBackground(Color.white);
-			mi.setText(style.getTranslationKey());
+			mi.setText(loc.getMenu(style.getTranslationKey()));
 			mi.addActionListener(e -> {
 				app.getSettings().getAlgebra().setStyle(style);
 				app.getKernel().updateConstruction(false);
