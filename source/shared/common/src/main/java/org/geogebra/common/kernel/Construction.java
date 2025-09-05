@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -3292,7 +3291,7 @@ public class Construction {
 	 * @param check filter
 	 * @return previous element in construction order that fits the filter
 	 */
-	public GeoElementND getPrevious(GeoElementND ce1, Inspecting check) {
+	public GeoElementND getPrevious(GeoElementND ce1, Predicate<GeoElementND> check) {
 		ConstructionElement ce = getConstructionElement(ce1);
 
 		int idx = ceList.indexOf(ce);
@@ -3300,7 +3299,7 @@ public class Construction {
 			idx = ceList.size();
 		}
 		for (int i = idx - 1; i >= 0; i--) {
-			if (check.check(ceList.get(i).getGeoElements()[0])) {
+			if (check.test(ceList.get(i).getGeoElements()[0])) {
 				return ceList.get(i).getGeoElements()[0];
 			}
 		}
@@ -3312,7 +3311,7 @@ public class Construction {
 	 * @param check filter
 	 * @return next element in construction order that fits the filter
 	 */
-	public GeoElementND getNext(GeoElementND ce1, Inspecting check) {
+	public GeoElementND getNext(GeoElementND ce1, Predicate<GeoElementND> check) {
 		ConstructionElement ce = getConstructionElement(ce1);
 
 		int idx = ceList.indexOf(ce);
@@ -3320,7 +3319,7 @@ public class Construction {
 			return null;
 		}
 		for (int i = idx + 1; i < ceList.size(); i++) {
-			if (check.check(ceList.get(i).getGeoElements()[0])) {
+			if (check.test(ceList.get(i).getGeoElements()[0])) {
 				return ceList.get(i).getGeoElements()[0];
 			}
 		}

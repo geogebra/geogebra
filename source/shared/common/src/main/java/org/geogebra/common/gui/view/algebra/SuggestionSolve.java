@@ -3,8 +3,6 @@ package org.geogebra.common.gui.view.algebra;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -67,17 +65,11 @@ public class SuggestionSolve extends Suggestion {
 	private static Suggestion getMulti(GeoElement geo, final String[] vars) {
 
 		GeoElementND prev = geo.getConstruction().getPrevious(geo,
-				new Inspecting() {
-
-					@Override
-					public boolean check(ExpressionValue var) {
-						return Equation.isAlgebraEquation((GeoElement) var)
-								&& subset(((EquationValue) var)
-										.getEquationVariables(), vars)
-								&& !checkDependentAlgo((GeoElement) var,
-										SINGLE_SOLVE, null);
-					}
-				});
+				var -> Equation.isAlgebraEquation(var)
+						&& subset(((EquationValue) var)
+						.getEquationVariables(), vars)
+						&& !checkDependentAlgo(var,
+						SINGLE_SOLVE, null));
 
 		if (prev != null) {
 			return new SuggestionSolve(prev.getLabelSimple());
