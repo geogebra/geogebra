@@ -136,7 +136,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		int i = 0;
 		double width = 100.0 / tabData.length;
 		for (TabData tab : tabData) {
-			StandardButton tabBtn = getTabBtn(i, tab.getTabTitle());
+			StandardButton tabBtn = getTabBtn(i, loc.getMenu(tab.getTabTitle()));
 			tabButton.add(tabBtn);
 			tabList.add(tabBtn);
 			tab.getTabPanel().getElement().getStyle().setWidth(width, Unit.PCT);

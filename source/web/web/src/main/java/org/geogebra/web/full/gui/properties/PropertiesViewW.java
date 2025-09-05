@@ -624,7 +624,7 @@ public class PropertiesViewW extends PropertiesView
 		ArrayList<TabData> tabs = new ArrayList<>();
 		for (PropertiesArray props : propLists) {
 			FlowPanel propertiesPanel = adapter.buildPanel(props, showObjectProperties);
-			tabs.add(new TabData(props.getName(), propertiesPanel));
+			tabs.add(new TabData(props.getRawName(), propertiesPanel));
 		}
 		int oldTab = -1;
 		if (settingsTab != null && objectPropertiesVisible == showObjectProperties) {

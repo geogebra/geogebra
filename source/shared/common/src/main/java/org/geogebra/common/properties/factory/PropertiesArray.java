@@ -50,6 +50,10 @@ public class PropertiesArray {
 		return localization.getMenu(rawName);
 	}
 
+	public @Nonnull String getRawName() {
+		return rawName;
+	}
+
 	public Property[] getProperties() {
 		return properties;
 	}
