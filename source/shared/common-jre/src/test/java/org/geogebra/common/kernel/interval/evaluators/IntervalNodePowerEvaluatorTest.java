@@ -7,6 +7,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
@@ -15,6 +16,7 @@ import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
@@ -220,5 +222,23 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 		Interval x = interval(0.5, 0.515625);
 		Interval sin0 = evaluator.sin(zero());
 		assertEquals(zero(), evaluator.pow(sin0, x));
+	}
+
+	@Test
+	@Issue("APPS-6809")
+	public void exponentCloseToZero() {
+		Interval base = interval(2);
+		Interval exponent1 = interval(1E-9);
+		Interval exponent2 = interval(10E-9);
+		assertNotEquals(evaluator.pow(base, exponent1), evaluator.pow(base, exponent2));
+	}
+
+	@Test
+	@Issue("APPS-6809")
+	public void exponentCloseToInteger() {
+		Interval base = interval(2);
+		Interval exponent1 = interval(2.000000001);
+		Interval exponent2 = interval(2.000000009);
+		assertNotEquals(evaluator.pow(base, exponent1), evaluator.pow(base, exponent2));
 	}
 }

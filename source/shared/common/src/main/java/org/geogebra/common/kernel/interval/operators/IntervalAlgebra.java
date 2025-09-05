@@ -86,7 +86,7 @@ public class IntervalAlgebra {
 			return new Interval(divide);
 		}
 
-		if (!DoubleUtil.isInteger(power)) {
+		if (!DoubleUtil.isInteger(power) || !isCloseToInteger(power)) {
 			if (interval.isOne()) {
 				return interval;
 			}
@@ -94,6 +94,10 @@ public class IntervalAlgebra {
 		}
 
 		return powOfInteger(interval, Math.round(power));
+	}
+
+	private boolean isCloseToInteger(double power) {
+		return DoubleUtil.isEqual(power, Math.round(power), IntervalConstants.PRECISION * 2);
 	}
 
 	private Interval powerOfDouble(Interval interval, double power) {

@@ -41,7 +41,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 	}
 
 	private void shouldBeSupported(String command) {
-		assertTrue(command + " has not supported",
+		assertTrue(command + " is not supported, but it should be.",
 				IntervalFunctionSupport.isSupported(add(command)));
 	}
 
@@ -57,7 +57,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 	}
 
 	private void shouldBeNotSupported(String command) {
-		assertFalse(command + " has supported, but it should not",
+		assertFalse(command + " is supported, but it should not be.",
 				IntervalFunctionSupport.isSupported(add(command)));
 	}
 

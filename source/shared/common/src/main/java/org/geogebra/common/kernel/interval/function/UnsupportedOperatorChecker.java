@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Checker to determine ia an operation is supported by the interval arithmetic.
+ * Checker to determine if an operation is supported by the interval arithmetic.
  */
 public class UnsupportedOperatorChecker implements Inspecting {
 
