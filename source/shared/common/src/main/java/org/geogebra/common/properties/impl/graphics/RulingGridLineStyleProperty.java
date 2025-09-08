@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -16,9 +17,9 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 	private final boolean isRuling;
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED,
-			PropertyResource.ICON_LINE_TYPE_DASHED_LONG, PropertyResource.ICON_LINE_TYPE_DOTTED,
-			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT
+			PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_LONG,
+			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT, PropertyResource.ICON_LINE_TYPE_DOTTED,
+			PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED
 	};
 
 	/**
@@ -44,10 +45,10 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 		this.isRuling = isRuling;
 		setValues(List.of(
 				EuclidianStyleConstants.LINE_TYPE_FULL,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
 				EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
+				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
 				EuclidianStyleConstants.LINE_TYPE_DOTTED,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
+				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED
 		));
 	}
 
@@ -73,8 +74,12 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 
 	@Override
 	public boolean isEnabled() {
-		BackgroundType backgroundType = euclidianSettings.getBackgroundType();
-		return backgroundType == BackgroundType.RULER || backgroundType
-				== BackgroundType.SQUARE_SMALL || backgroundType == BackgroundType.SQUARE_BIG;
+		if (isRuling) {
+			BackgroundType backgroundType = euclidianSettings.getBackgroundType();
+			return backgroundType == BackgroundType.RULER || backgroundType
+					== BackgroundType.SQUARE_SMALL || backgroundType == BackgroundType.SQUARE_BIG;
+		} else {
+			return euclidianSettings.getGridType() != EuclidianView.GRID_DOTS;
+		}
 	}
 }

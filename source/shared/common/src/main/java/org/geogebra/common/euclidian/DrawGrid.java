@@ -287,6 +287,7 @@ public class DrawGrid {
 		double endX = view.getWidth();
 		double endY = view.getHeight() + 2 * tickStepY;
 
-		DrawBackground.drawDots(g2, startX, endX, startY, endY, tickStepX, tickStepY);
+		DrawBackground.drawDots(g2, startX, endX, startY, endY, tickStepX, tickStepY,
+				view.getSettings());
 	}
 }

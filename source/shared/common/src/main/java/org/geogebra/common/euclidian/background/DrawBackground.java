@@ -7,7 +7,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
@@ -26,10 +25,9 @@ public class DrawBackground {
 	private static final double RULING_BASE_WIDTH = 10.5;
 	private static final double DOT_SIZE = 2;
 	private static final int MIN_DOT_DISTANCE = 5;
-	private EuclidianView view;
-	private EuclidianSettings settings;
+	private final EuclidianView view;
+	private final EuclidianSettings settings;
 	private double gap;
-	private GBasicStroke rulerStroke;
 	private double yScale;
 	private double width;
 
@@ -52,7 +50,7 @@ public class DrawBackground {
 	 *            graphics
 	 */
 	public void draw(GGraphics2D g2) {
-		rulerStroke = EuclidianStatic.getStroke(settings.isRulerBold() ? 2f : 1f,
+		GBasicStroke rulerStroke = EuclidianStatic.getStroke(settings.isRulerBold() ? 2f : 1f,
 				settings.getRulerLineStyle());
 		g2.setStroke(rulerStroke);
 		updateRulerGap();
@@ -187,10 +185,10 @@ public class DrawBackground {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawVerticalLines(GGraphics2D g2, boolean subgrid, boolean infinite) {
+	private void drawVerticalLines(GGraphics2D g2, boolean subgrid) {
 		double start = view.getYZero() % gap;
-		double startX = infinite ? (view.getXZero() % gap) - gap : getStartX();
-		double endX = infinite ? view.getWidth() : getEndX();
+		double startX = (view.getXZero() % gap) - gap;
+		double endX = view.getWidth();
 
 		doDrawVerticalLines(g2, subgrid, startX, endX, start - gap,
 				view.getHeight() + 2 * gap);
@@ -232,12 +230,12 @@ public class DrawBackground {
 
 	private void drawSquaredBackground(GGraphics2D g2) {
 		drawHorizontalLines(g2, false, true);
-		drawVerticalLines(g2, false, true);
+		drawVerticalLines(g2, false);
 	}
 
 	private void drawSquaredSubgrid(GGraphics2D g2) {
 		drawHorizontalLines(g2, true, true);
-		drawVerticalLines(g2, true, true);
+		drawVerticalLines(g2, true);
 	}
 
 	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,
@@ -250,7 +248,8 @@ public class DrawBackground {
 		double startX = (view.getXZero() % gap) - gap;
 		double endX = view.getWidth();
 
-		drawDots(g2, startX, endX, start - gap, view.getHeight() + 2 * gap, gap, gap);
+		drawDots(g2, startX, endX, start - gap, view.getHeight() + 2 * gap,
+				gap, gap, settings);
 	}
 
 	/**
@@ -262,14 +261,16 @@ public class DrawBackground {
 	 * @param yEnd - vertical end point of view
 	 * @param dotDistanceX - horizontal distance between dots
 	 * @param dotDistanceY - vertical distance between dots
+	 * @param settings - determines color
 	 */
 	public static void drawDots(GGraphics2D g2, double xStart, double xEnd,
-			double yStart, double yEnd, double dotDistanceX, double dotDistanceY) {
+			double yStart, double yEnd, double dotDistanceX, double dotDistanceY,
+			EuclidianSettings settings) {
 		if (dotDistanceX < MIN_DOT_DISTANCE || dotDistanceY < MIN_DOT_DISTANCE) {
 			return;
 		}
 
-		g2.setColor(GeoGebraColorConstants.NEUTRAL_600);
+		g2.setColor(settings.getGridColor());
 
 		double y = yStart;
 		while (y <= yEnd) {

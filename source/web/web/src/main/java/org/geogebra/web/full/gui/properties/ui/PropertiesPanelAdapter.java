@@ -27,6 +27,7 @@ import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollecti
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.RulingGridLineStyleProperty;
 import org.geogebra.common.properties.impl.graphics.RulingPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.RulingStyleProperty;
 import org.geogebra.common.properties.impl.objects.DefinitionProperty;
@@ -168,7 +169,7 @@ public class PropertiesPanelAdapter implements SetLabels {
 			return panel;
 		}
 		if (property instanceof ProjectionPropertyCollection
-			|| property instanceof RulingPropertiesCollection) {
+				|| property instanceof RulingPropertiesCollection) {
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
 					null, property.getName());
 			VisibilitySettingsListener collection = new VisibilitySettingsListener(app, 1, 3);
@@ -210,6 +211,12 @@ public class PropertiesPanelAdapter implements SetLabels {
 			IconButtonPanel iconButtonPanel = new IconButtonPanel(app,
 					(IconsEnumeratedProperty<?>) property);
 			widgets.add(iconButtonPanel);
+			if (property instanceof RulingGridLineStyleProperty) {
+				VisibilitySettingsListener collection = new VisibilitySettingsListener(
+						app, 1, 2, 3);
+				collection.registerWidget(iconButtonPanel, property);
+			}
+			iconButtonPanel.setVisible(property.isEnabled());
 			return iconButtonPanel;
 		}
 		if (property instanceof ColorProperty) {
