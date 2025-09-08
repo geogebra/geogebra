@@ -82,6 +82,9 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 
 	@Override
 	public Canvas getCanvas() {
+		if (eview1 == null) {
+			loadComponent();
+		}
 		return eview1;
 	}
 
