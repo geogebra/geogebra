@@ -50,7 +50,7 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 			if (prop instanceof DimensionRatioProperty) {
 				addToContent(buildRatioPanel((DimensionRatioProperty) prop));
 				addToContent(dimensionLabel = new Label(appW.getLocalization()
-						.getMenu("Dimension")));
+						.getMenu("Dimensions")));
 			} else {
 				Widget minMaxItem = propertiesPanelAdapter.getWidget(prop);
 				minMaxItem.addStyleName("minMaxItem");
@@ -118,7 +118,7 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		dimensionLabel.setText(appW.getLocalization().getMenu("Dimension"));
+		dimensionLabel.setText(appW.getLocalization().getMenu("Dimensions"));
 		xRatio.setLabels();
 		yRatio.setLabels();
 		lockRatio.setLabels();

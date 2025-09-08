@@ -20,22 +20,22 @@ public class DimensionPropertiesCollection extends AbstractPropertyCollection<Pr
 	 */
 	public DimensionPropertiesCollection(App app, Localization localization,
 			EuclidianSettings settings, EuclidianViewInterfaceCommon view) {
-		super(localization, "Dimension");
+		super(localization, "Dimensions");
 
 		ArrayList<Property> properties = new ArrayList<>();
 		properties.add(new DimensionRatioProperty(localization, view));
-		properties.add(new DimensionMinMaxProperty(app, localization, "xMin", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "xmin", settings,
 				EuclidianOptionsModel.MinMaxType.minX));
-		properties.add(new DimensionMinMaxProperty(app, localization, "xMax", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "xmax", settings,
 				EuclidianOptionsModel.MinMaxType.maxX));
-		properties.add(new DimensionMinMaxProperty(app, localization, "yMin", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "ymin", settings,
 				EuclidianOptionsModel.MinMaxType.minY));
-		properties.add(new DimensionMinMaxProperty(app, localization, "yMax", settings,
+		properties.add(new DimensionMinMaxProperty(app, localization, "ymax", settings,
 				EuclidianOptionsModel.MinMaxType.maxY));
 		if (settings.getDimension() > 2) {
-			properties.add(new DimensionMinMaxProperty(app, localization, "zMin", settings,
+			properties.add(new DimensionMinMaxProperty(app, localization, "zmin", settings,
 					EuclidianOptionsModel.MinMaxType.minZ));
-			properties.add(new DimensionMinMaxProperty(app, localization, "zMax", settings,
+			properties.add(new DimensionMinMaxProperty(app, localization, "zmax", settings,
 					EuclidianOptionsModel.MinMaxType.maxZ));
 		}
 		setProperties(properties.toArray(new Property[0]));

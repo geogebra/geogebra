@@ -36,7 +36,7 @@ public class DefaultPropertiesFactoryTest {
 						"ActionablePropertyCollection"), getNames(props.get(0)));
 		assertEquals(List.of("Display", "Auxiliary Objects"),
 				getNames(props.get(1)));
-		assertEquals(List.of("Grid", "Axes", "Dimension", "xAxis", "yAxis", "Advanced"),
+		assertEquals(List.of("Grid", "Axes", "Dimensions", "xAxis", "yAxis", "Advanced"),
 				getNames(props.get(2)));
 	}
 
