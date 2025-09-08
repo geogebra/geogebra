@@ -2288,11 +2288,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		for (int i = 0; i < dimension; i++) {
 			axes[i] = evSettings.getShowAxis(i);
 		}
+		int gridType = evSettings.getGridType();
 		setConfig(activity.getConfig());
 		for (int i = 0; i < dimension; i++) {
 			evSettings.setShowAxis(i, axes[1]);
 		}
 		evSettings.showGrid(grid);
+		evSettings.setGridType(gridType);
 	}
 
 	private void removeUndoRedoPanel() {
