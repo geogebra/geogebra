@@ -514,12 +514,12 @@ $keyboard_button_transition: opacity .3s ease;
 			position: relative;
 			display: flex;
 			flex-direction: row;
-			width: 452px;
+			width: 100%;
 		}
 
 		.left, .right {
 			position: fixed;
-			margin: 22px 14px;
+			margin: 10px 14px;
 			height: 24px;
 			z-index: 10;
 			opacity: .54;

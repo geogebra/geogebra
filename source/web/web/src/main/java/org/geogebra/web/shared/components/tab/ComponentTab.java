@@ -21,6 +21,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 	private final Localization loc;
 	private ScrollPanel scrollPanel;
 	private FlowPanel panelContainer;
+	private FlowPanel tabList;
 	private StandardButton selectedBtn;
 	private StandardButton left;
 	private StandardButton right;
@@ -29,45 +30,30 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 	private int selectedTabIdx = 0;
 
 	/**
-	 * Creates a tab component without scroll indicator buttons.
+	 * Creates a tab component with optional scroll indicator buttons.
 	 * @param loc {@link Localization}
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
 	public ComponentTab(Localization loc, TabData... tabData) {
-		this(loc, false, tabData);
-	}
-
-	/**
-	 * Creates a tab component with optional scroll indicator buttons.
-	 * @param loc {@link Localization}
-	 * @param addScrollButton whether scroll indicator buttons should be added or not
-	 * @param tabData {@link TabData} including title and panel widget
-	 */
-	public ComponentTab(Localization loc, boolean addScrollButton, TabData... tabData) {
 		this.loc = loc;
 		this.tabData = Arrays.asList(tabData);
 		addStyleName("componentTab");
-		buildTab(addScrollButton, tabData);
+		buildTab(tabData);
 		switchToTab(0);
 	}
 
-	private void buildTab(boolean addScrollButton, TabData... tabData) {
+	private void buildTab(TabData... tabData) {
 		buildScrollPanel();
 		FlowPanel wrapPanel = new FlowPanel();
 		wrapPanel.addStyleName("wrapPanel");
 
-		FlowPanel tabList = initTabList();
-
-		if (addScrollButton) {
-			buildHeaderWithScrollIndicator(wrapPanel, tabList);
-		} else {
-			wrapPanel.add(tabList);
-		}
+		initTabList();
+		buildHeaderWithScrollIndicator(wrapPanel, tabList);
 
 		scrollPanel.add(wrapPanel);
 		add(scrollPanel);
 
-		addPanelContainer();
+		initPanelContainer();
 		panelContainer.setWidth((tabData.length * 100) + "%");
 		fillTabList(tabList, tabData);
 	}
@@ -97,6 +83,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 				.keyboard_arrowRight_black(), "right");
 		right.addFastClickHandler(source ->
 				scrollPanel.setHorizontalScrollPosition(getRightScroll75Percent()));
+		right.setVisible(false);
 
 		wrapPanel.add(left);
 		wrapPanel.add(tabList);
@@ -109,11 +96,10 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		return scrollButton;
 	}
 
-	private FlowPanel initTabList() {
-		FlowPanel tabList = new FlowPanel();
+	private void initTabList() {
+		tabList = new FlowPanel();
 		AriaHelper.setRole(tabList, "tablist");
 		tabList.addStyleName("tabList");
-		return tabList;
 	}
 
 	private StandardButton getTabBtn(int i, String title) {
@@ -126,7 +112,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		return tabBtn;
 	}
 
-	private void addPanelContainer() {
+	private void initPanelContainer() {
 		panelContainer = new FlowPanel();
 		panelContainer.addStyleName("panelContainer");
 		add(panelContainer);
@@ -179,6 +165,31 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 	private void updateSelection(StandardButton button, boolean selected) {
 		Dom.toggleClass(button, "selected", selected);
 		AriaHelper.setAriaSelected(button, selected);
+	}
+
+	/**
+	 * Updates the visibility of the scroll indicators
+	 */
+	public void updateScrollIndicators() {
+		int panelWidth = getOffsetWidth();
+		int tabListWidth = tabList.getOffsetWidth();
+		if (panelWidth < tabListWidth) {
+			left.setVisible(!isScrolledToTheLeft());
+			right.setVisible(!isScrolledToTheRight());
+		} else {
+			left.setVisible(false);
+			right.setVisible(false);
+		}
+	}
+
+	private boolean isScrolledToTheLeft() {
+		return scrollPanel.getHorizontalScrollPosition()
+				== scrollPanel.getMinimumHorizontalScrollPosition();
+	}
+
+	private boolean isScrolledToTheRight() {
+		return scrollPanel.getHorizontalScrollPosition()
+				== scrollPanel.getMaximumHorizontalScrollPosition();
 	}
 
 	@Override

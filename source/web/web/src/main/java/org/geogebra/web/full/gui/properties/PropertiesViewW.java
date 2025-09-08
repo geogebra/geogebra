@@ -471,6 +471,9 @@ public class PropertiesViewW extends PropertiesView
 				&& getWrappedPanel() != null) {
 			contentsPanel.setWidth("460px");
 		}
+		if (settingsTab != null) {
+			settingsTab.updateScrollIndicators();
+		}
 	}
 
 	@Override
