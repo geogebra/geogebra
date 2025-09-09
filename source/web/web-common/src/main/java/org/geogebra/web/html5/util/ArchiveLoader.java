@@ -157,7 +157,6 @@ public class ArchiveLoader {
 			request.responseType = "arraybuffer";
 
 			XMLHttpRequest.OnerrorFn onError = (e) -> {
-				Log.error(request.statusText + ":" + request.statusText);
 				app.afterLoadFileAppOrNot(false);
 				handleError(JsPropertyMap.of("status", request.status, "statusText",
 								request.statusText),

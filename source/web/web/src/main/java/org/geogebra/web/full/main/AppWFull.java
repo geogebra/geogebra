@@ -1762,7 +1762,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (appletParameters.getDataParamShowAlgebraInput(false)
 					&& !isUnbundledOrWhiteboard()) {
 				Perspective p2 = getTmpPerspective(p);
-				if (!algebraVisible(p2)
+				if (p2 != null && !algebraVisible(p2)
 						&& getInputPosition() == InputPosition.algebraView) {
 					setInputPosition(InputPosition.bottom, false);
 					p2.setInputPosition(InputPosition.bottom);
@@ -1863,7 +1863,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void setPerspectiveForUnbundled(Perspective perspective) {
 		Perspective fromXml = getTmpPerspective(perspective);
-
+		if (fromXml == null) {
+			return; // invalid or missing file
+		}
 		Perspective forcedPerspective = PerspectiveDecoder
 				.getDefaultPerspective(getConfig().getForcedPerspective(),
 						getGuiManager().getLayout());

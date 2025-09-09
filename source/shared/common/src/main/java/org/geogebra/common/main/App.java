@@ -4716,7 +4716,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            value in case temp perspective is not defined
 	 * @return perspective called "tmp" or given fallback
 	 */
-	public Perspective getTmpPerspective(Perspective fallback) {
+	public @CheckForNull Perspective getTmpPerspective(Perspective fallback) {
 		return tmpPerspective == null ? fallback : tmpPerspective;
 	}
 
