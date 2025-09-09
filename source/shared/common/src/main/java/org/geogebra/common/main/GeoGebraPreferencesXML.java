@@ -1,5 +1,7 @@
 package org.geogebra.common.main;
 
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_500;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
@@ -75,7 +77,7 @@ public class GeoGebraPreferencesXML {
 				+ +EuclidianView.GRID_CARTESIAN_WITH_SUBGRID + "\"/>"
 				+ "<bgColor r=\"255\" g=\"255\" b=\"255\"/>"
 				+ getAxesColorTag()
-				+ "<gridColor r=\"192\" g=\"192\" b=\"192\"/>"
+				+ getGridColorTag()
 				+ "<lineStyle axes=\"1\" grid=\"0\"/>"
 				+ "<axis id=\"0\" show=\"" + showAxes
 				+ "\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\""
@@ -131,6 +133,15 @@ public class GeoGebraPreferencesXML {
 	private static String getAxesColorTag() {
 		GColor color = GColor.DEFAULT_AXES_COLOR;
 		return  "<axesColor "
+				+ "r=\"" + color.getRed() + "\" "
+				+ "g=\"" + color.getGreen() + "\" "
+				+ "b=\"" + color.getBlue() + "\" "
+				+ "/> ";
+	}
+
+	private static String getGridColorTag() {
+		GColor color = NEUTRAL_500;
+		return "<gridColor "
 				+ "r=\"" + color.getRed() + "\" "
 				+ "g=\"" + color.getGreen() + "\" "
 				+ "b=\"" + color.getBlue() + "\" "

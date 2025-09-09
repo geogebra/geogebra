@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_500;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -5566,7 +5568,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(GColor.DEFAULT_AXES_COLOR);
-		setGridColor(GColor.LIGHT_GRAY);
+		setGridColor(NEUTRAL_500);
 		setBackground(GColor.WHITE);
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;

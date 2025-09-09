@@ -110,7 +110,7 @@ public final class GColor implements GPaint {
 	public static final GColor MIND_MAP_CONNECTION = newColorRGB(0xDEDEDE);
 
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = newColorRGB(0x975FA8);
-	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
+	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x1C1C1F);
 
 	public static final GColor DEFAULT_PURPLE = newColorRGB(0X6557D2);
 

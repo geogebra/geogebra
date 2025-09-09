@@ -3,8 +3,8 @@
 	<coordSystem xZero="0.0" yZero="0.0" scale="50.0" yscale="50.0"/>
 	<evSettings axes="false" grid="false" gridIsBold="false" pointCapturing="3" rightAngleStyle="1" checkboxSize="26" gridType="3"/>
 	<bgColor r="255" g="255" b="255"/>
-	<axesColor r="37" g="37" b="37"/>
-	<gridColor r="192" g="192" b="192"/>
+	<axesColor r="28" g="28" b="31"/>
+	<gridColor r="180" g="179" b="186"/>
 	<rulerType val="0" bold="false"/>
 	<penSize val="30"/>
 	<penColor r="204" g="0" b="153"/>

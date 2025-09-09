@@ -1,5 +1,7 @@
 package org.geogebra.common.main.settings;
 
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_500;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -41,12 +43,12 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * Color of the axes.
 	 */
-	private GColor axesColor;
+	private GColor axesColor = GColor.DEFAULT_AXES_COLOR;
 
 	/**
 	 * Color of the grid lines.
 	 */
-	private GColor gridColor;
+	private GColor gridColor = NEUTRAL_500;
 
 	/**
 	 * Line style of axes.
@@ -194,7 +196,7 @@ public class EuclidianSettings extends AbstractSettings {
 		gridLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		axesLineStyle = EuclidianStyleConstants.AXES_LINE_TYPE_ARROW;
 		axesColor = GColor.DEFAULT_AXES_COLOR;
-		gridColor = GColor.LIGHT_GRAY;
+		gridColor = NEUTRAL_500;
 		backgroundColor = GColor.WHITE;
 		backgroundType = BackgroundType.NONE;
 		setBgRulerColorNoFire(GColor.MOW_RULER);
