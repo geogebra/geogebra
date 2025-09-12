@@ -43,6 +43,7 @@ var __giac = [
 { cat:"Evaluate", cmd:"Evaluate[sqrt(1+x)sqrt(1-x)-sqrt(1-x^2)]", result:"0", notes:"#2952" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt(1+x)sqrt(1-x)-sqrt(1-x^2)]", result:"0", notes:"#2952" },
 { cat:"Evaluate", cmd:"Evaluate[floor(((-1725033 * pi) + 5419351) / ((16885417 * pi) - 53047102))]", result:"0"},
+{ cat:"Evaluate", cmd:"(nroot(512,3)-3^2)/sqrt(2)", result: "-1/sqrt(2)"},
 { cat:"Limit", cmd:"Limit[n^(1/n)/n,n,\u221E]", result:"0" },
 { cat:"Limit", cmd:"Limit[abs(ln(x+1)-x),x,0]", result:"0" },
 { cat:"Integral.1", cmd:"Integral[cos(x)*ln(1+cos(x))]", result:"ln(cos(x)+1)sin(x)+2((-tan(1/2x))/(tan\u00B2(1/2x)+1)+1/2x)+c_0|OR|sin(x) ln(cos(x) + 1) + 2 ((-tan(1 / 2 x)) / (tan\u00B2(1 / 2 x) + 1) + 1 / 2 x) + c_0|OR|2 ((-tan(1 / 2 x)) / (tan\u00B2(1 / 2 x) + 1) + 1 / 2 x) + ln(cos(x) + 1) sin(x) + c_0" },
