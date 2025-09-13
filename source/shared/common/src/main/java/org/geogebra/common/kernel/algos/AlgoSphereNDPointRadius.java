@@ -105,7 +105,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			AlgoElement ae = geo.getParentAlgorithm();
-			if (ae instanceof AlgoSphereNDPointRadius && !ae.equals(this.sphereND)) {
+			if (ae instanceof AlgoSphereNDPointRadius && !ae.equals(this)) {
 				AlgoSphereNDPointRadius sphereND2 = (AlgoSphereNDPointRadius) ae;
 				GeoNumberValue r2 = sphereND2.r;
 				if (r2 != null) {
