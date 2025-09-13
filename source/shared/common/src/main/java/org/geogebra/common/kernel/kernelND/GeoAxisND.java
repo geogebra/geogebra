@@ -18,9 +18,6 @@ public interface GeoAxisND extends GeoLineND {
 	/** zAxis3D id (for XML) */
 	public static final int Z_AXIS_3D = Z_AXIS;
 
-	/////////////////////////////////////////
-	// METHODS FOR AXIS
-	/////////////////////////////////////////
 	/** @return axis unit */
 	public String getUnitLabel();
 
@@ -42,9 +39,5 @@ public interface GeoAxisND extends GeoLineND {
 	 *            iff axis is drawn colored in 3D view
 	 */
 	public void setColoredFor3D(boolean colored);
-
-	/////////////////////////////////////////
-	// METHODS FOR GEOELEMENT
-	/////////////////////////////////////////
 
 }

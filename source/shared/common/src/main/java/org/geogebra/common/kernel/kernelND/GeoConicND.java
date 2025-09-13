@@ -303,9 +303,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		setSphereND(M.getInhomCoordsInD2(), r);
 	}
 
-	//////////////////////////////////////
-	// PATH INTERFACE
-	//////////////////////////////////////
+	// -- PATH INTERFACE
 
 	@Override
 	public boolean isPath() {
@@ -1116,9 +1114,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return true;
 	}
 
-	////////////////////////////////////
-	// MATRIX AND EQUATION
-	////////////////////////////////////
+	// -- MATRIX AND EQUATION
 
 	/**
 	 * sets the matrix values from the symmetric matrix m
@@ -1134,9 +1130,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		classifyConic();
 	}
 
-	////////////////////////////////////
-	// FROM GEOCONIC
-	////////////////////////////////////
+	// -- FROM GEOCONIC
 
 	/**
 	 * Returns a list of points that this conic passes through. May return null.
@@ -3880,10 +3874,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	//////////////////////////
-	// AREA
-	//////////////////////////
-
 	// for 3D
 	/**
 	 * set if this is end of a quadric
@@ -3915,9 +3905,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		super.doRemove();
 	}
 
-	//////////////////////////////////////////////
-	// HIT STUFF
-	//////////////////////////////////////////////
+	// -- HIT STUFF
 
 	/**
 	 * @param type
@@ -3952,9 +3940,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return getCoordSys().getPoint(labelPosition, labelPosition3D);
 	}
 
-	// //////////////////////////////////////
-	// REGION3D INTERFACE
-	// //////////////////////////////////////
+	// -- REGION3D INTERFACE
 
 	@Override
 	public Coords[] getNormalProjection(Coords coords) {

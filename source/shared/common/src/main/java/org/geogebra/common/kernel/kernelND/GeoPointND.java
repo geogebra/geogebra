@@ -270,9 +270,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public Region getRegion();
 
-	/////////////////////////////////////////
-	// MOVING THE POINT (3D)
-	/////////////////////////////////////////
+	// -- MOVING THE POINT (3D)
 
 	/**
 	 * sets the move mode (along xOy or along Oz)

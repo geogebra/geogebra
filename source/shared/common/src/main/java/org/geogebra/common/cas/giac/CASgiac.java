@@ -180,7 +180,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		GGB_IS_LESS_THAN("ggb_is_less_than", "ggb_is_less_than(a):=when(a=='<'||a=='<=',true,false)"),
 
-		/**
+		/*
 		 * now implemented natively in Giac. This is just for reference /
 		 * testing
 		 */
@@ -245,9 +245,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		COEFFICIENT_QUADRIC("ggbcoeffquadric", "ggbcoeffquadric(coeffsarg):={coeffs(coeffsarg,[x,y,z],[2,0,0]),coeffs(coeffsarg,[x,y,z],[0,2,0]),coeffs(coeffsarg,[x,y,z],[0,0,2]),coeffs(coeffsarg,[x,y,z],[0,0,0]),coeffs(coeffsarg,[x,y,z],[1,1,0]),coeffs(coeffsarg,[x,y,z],[1,0,1]),coeffs(coeffsarg,[x,y,z],[0,1,1]),coeffs(coeffsarg,[x,y,z],[1,0,0]),coeffs(coeffsarg,[x,y,z],[0,1,0]),coeffs(coeffsarg,[x,y,z],[0,0,1])}"),
 
-		/**
-		 * subtype 27 is ggbvect[]
-		 * 
+		/*
 		 * abs() in Giac now works for vectors so this isn't needed
 		 * 
 		 */
@@ -366,7 +364,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * over the extension. We assume that the poly is irreducible over Q.
 		 */
 		ABSFACT("absfact", "absfact(p):=begin local algnum; algnum:=afactorAlgNum(p); /*print(algnum,type(algnum));*/ if (type(algnum)==DOM_LIST || type(algnum)==DOM_SYMBOLIC) return factor(p,rootof(algnum)); else return p; end"),
-		/**
+		/*
 		 * Examples: absfact(y^4 +2*y^2*x+14*y^2-7*x^2 +6*x+47) should return
 		 * -7*(x+(-2*sqrt(2)-1)/7*y^2+(-13*sqrt(2)-3)/7)*(x+(2*sqrt(2)-1)/7*y^2+(13*sqrt(2)-3)/7).
 		 * absfact(16x^4+16y^4-16x^2*y^2-72x^2-72y^2+81) should return

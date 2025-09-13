@@ -2238,9 +2238,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return d;
 	}
 
-	///////////////////////////////////
-	// REVERSE ORIENTATION FOR DRAWING
-	///////////////////////////////////
+	// --- REVERSE ORIENTATION FOR DRAWING
 
 	/**
 	 * set that normal should be reversed for 3D drawing

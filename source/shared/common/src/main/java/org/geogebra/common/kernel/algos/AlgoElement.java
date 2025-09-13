@@ -987,6 +987,16 @@ public abstract class AlgoElement extends ConstructionElement
 		return 1;
 	}
 
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		return super.equals(other);
+	}
+
 	/**
 	 * Returns construction index in current construction. For an algorithm that
 	 * is not in the construction list, the largest construction index of its

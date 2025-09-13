@@ -365,7 +365,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 			return super.getOutputForCmdXML(i);
 		}
 
-		//// else: not permuted
+		// else: not permuted
 		if (!P[0].isDefined() && P[1].isDefined()) {
 			// P[1] is defined and not P[0], so permute
 			return P[1 - i];

@@ -1451,7 +1451,7 @@ public class Ggb2giac {
 		// <complexi>)}
 		// SolveQuartic[x^4+x^3+x+1] = {(-1),(-1),(((-<complexi>) *
 		// sqrt(3))+1)
-		/// 2,((<complexi> * sqrt(3))+1)/2}
+		// 2,((<complexi> * sqrt(3))+1)/2}
 		// SolveQuartic[x^(4)-(4 * x^(3))+(6 * x^(2))-(4 * x)+1] = {1}
 		// 3 repeated roots,S=0,SolveQuartic[x^4-5x^3+9x^2-7x+2] =
 		// {2,1}

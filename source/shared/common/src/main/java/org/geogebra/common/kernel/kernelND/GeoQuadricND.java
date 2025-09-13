@@ -177,8 +177,6 @@ public abstract class GeoQuadricND extends GeoElement
 		reuseDefinition(geo);
 	}
 
-	////////////////////////////////
-	// EIGENVECTORS
 	/**
 	 * 
 	 * @param i
@@ -189,9 +187,7 @@ public abstract class GeoQuadricND extends GeoElement
 		return eigenvecND[i];
 	}
 
-	/////////////////////////////////
-	// MATRIX REPRESENTATION
-	/////////////////////////////////
+	// -- MATRIX REPRESENTATION
 
 	/**
 	 * @param vals
@@ -256,9 +252,7 @@ public abstract class GeoQuadricND extends GeoElement
 		matrix[9] = m.get(3, 4);
 	}
 
-	/////////////////////////////////
-	// SPECIAL CASES SETTERS
-	/////////////////////////////////
+	// -- SPECIAL CASES SETTERS
 
 	/**
 	 * set the center and radius (as segment) of the N-sphere
@@ -468,9 +462,7 @@ public abstract class GeoQuadricND extends GeoElement
 		this.type = type;
 	}
 
-	////////////////////////////////////// :
-	// STRING
-	////////////////////////////////////// :
+	// -- STRING
 
 	/**
 	 * returns equation of conic. in implicit mode: a x\u00b2 + b xy + c y\u00b2
@@ -573,9 +565,7 @@ public abstract class GeoQuadricND extends GeoElement
 		 */
 	}
 
-	// ////////////////////////////////////////////////////
-	// PARENT NUMBER (HEIGHT OF A PRISM, ...)
-	// ////////////////////////////////////////////////////
+	// -- PARENT NUMBER (HEIGHT OF A PRISM, ...)
 
 	/**
 	 * sets the changeable parent
@@ -609,9 +599,8 @@ public abstract class GeoQuadricND extends GeoElement
 		return dimension;
 	}
 
-	//////////////////
-	// TRACE
-	//////////////////
+	// -- TRACE
+
 	@Override
 	public boolean isTraceable() {
 		return true;

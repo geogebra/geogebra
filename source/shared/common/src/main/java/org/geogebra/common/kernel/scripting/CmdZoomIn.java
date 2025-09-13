@@ -100,7 +100,7 @@ public class CmdZoomIn extends CmdScripting {
 			}
 
 			EuclidianSettings3D evs3D =
-					(EuclidianSettings3D) app.getEuclidianView3D().getSettings();
+					app.getEuclidianView3D().getSettings();
 			if (evs3D != null) {
 				evs3D.setUpdateScaleOrigin(false);
 				for (int i = 0; i < n; i++) {

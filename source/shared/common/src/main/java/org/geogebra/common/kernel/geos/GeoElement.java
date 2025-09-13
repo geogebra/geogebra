@@ -6496,9 +6496,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
-	//////////////////////////////
-	// specific input protection
-	/////////////////////////////
+	// -- specific input protection
 
 	@Override
 	public void setCanBeRemovedAsInput(boolean flag) {

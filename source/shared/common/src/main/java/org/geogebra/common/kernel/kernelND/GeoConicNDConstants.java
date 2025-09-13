@@ -26,8 +26,7 @@ public interface GeoConicNDConstants extends GeoQuadricNDConstants {
 	/** line type */
 	public static final int CONIC_LINE = QUADRIC_LINE;
 
-	////////////////////////
-	// FOR GEO CONIC PART
+	// -- FOR GEO CONIC PART
 
 	/** conic arc */
 	public static final int CONIC_PART_ARC = 1;

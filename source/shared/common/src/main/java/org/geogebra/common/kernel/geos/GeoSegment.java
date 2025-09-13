@@ -512,10 +512,6 @@ final public class GeoSegment extends GeoLine
 		return true;
 	}
 
-	//////////////////////////////////////
-	// 3D stuff
-	//////////////////////////////////////
-
 	@Override
 	public boolean hasDrawable3D() {
 		return true;
