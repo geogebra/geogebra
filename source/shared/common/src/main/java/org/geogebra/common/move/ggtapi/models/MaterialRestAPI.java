@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MaterialParameters;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -211,6 +210,11 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void logout(String token) {
 		// open platform dependent popup
+	}
+
+	@Override
+	public void uploadLocalMaterial(Material mat, MaterialCallbackI cb) {
+		// offline materials not supported
 	}
 
 	/**
@@ -465,38 +469,27 @@ public class MaterialRestAPI implements BackendAPI {
 
 	@Override
 	public void uploadMaterial(String tubeID, String visibility, String text, String base64,
-			MaterialCallbackI materialCallback, MaterialType type, boolean isMultiuser,
-			MaterialParameters parameters) {
+			MaterialCallbackI materialCallback, MaterialType type, boolean isMultiuser) {
 		JSONObject request = new JSONObject();
 		try {
-			request.put("visibility", visibility);
+			request.put("visibility", visibility); // per docs "S" is the only
+			// supported visibility
 			request.put("title", text);
 			request.put("file", base64);
-			request.put("settings", parameters.settingsToJSON());
-			request.put("views", parameters.viewsToJSON());
-			String thumbnail = parameters.getThumbnail();
-			if (!thumbnail.isEmpty()) {
-				request.put("thumbnail", StringUtil.removePngMarker(thumbnail));
-			}
 			if (StringUtil.emptyOrZero(tubeID)) {
-				request.put("type", type);
-			}
-
-			if (service.hasMultiuser()) {
+				request.put("type", type.toString());
+			} else if (service.hasMultiuser()) {
 				request.put("multiuser", isMultiuser);
 			}
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}
-
-		if (StringUtil.emptyOrZero(tubeID)) {
-			performRequest(HttpMethod.POST, "/materials",
-					request.toString(), materialCallback);
+		if (!StringUtil.emptyOrZero(tubeID)) {
+			performRequest(HttpMethod.PATCH, "/materials/" + tubeID, request.toString(),
+					materialCallback);
 		} else {
-			performRequest(HttpMethod.PATCH, "/materials/" + tubeID,
-					request.toString(), materialCallback);
+			performRequest(HttpMethod.POST, "/materials", request.toString(), materialCallback);
 		}
-
 	}
 
 	private void requestCsrfTokenCookie(int userId, AjaxCallback callback) {

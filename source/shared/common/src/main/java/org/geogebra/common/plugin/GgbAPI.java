@@ -7,8 +7,6 @@ import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -2555,12 +2553,5 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		axisOptions.setProperty("label", es.getAxesLabels()[axisNo]);
 		axisOptions.setProperty("unitLabel", es.getAxesUnitLabels()[axisNo]);
 		return axisOptions;
-	}
-
-	/**
-	 * @return thumbnail or empty string
-	 */
-	public @Nonnull String getThumbnailDataURL() {
-		return "";
 	}
 }
