@@ -57,14 +57,15 @@
 .GeoGebraHeader .appName {
 	font-size: 24px;
     font-weight: normal;
-    margin: 21px 24px 19px 0px;
+    margin: 17px 24px 15px 0px;
     width: fit-content;
-    height: 24px;
-    line-height: 24px;
+    height: 32px;
+    line-height: 32px;
     font-family: sans-serif;
     letter-spacing: 0.43px;
     color: rgba(0,0,0,.6);
     white-space: nowrap;
+    display: flex;
 }
 
 .compact.GeoGebraHeader .appName,
@@ -115,7 +116,7 @@
 }
 
 .GeoGebraFrame .dialogContainedButton.assignBtn:focus {
-    background-color: #5145A8;
+    background-color: purple(700);
 }
 
 .GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
@@ -262,6 +263,19 @@ img.profileImage {
 	margin-top: 0;
 	margin-bottom: 10px;
 }
+
+.prerelease .appName:after {
+	border-radius: 4px;
+	content: "BETA";
+	background: neutral(200);
+	color: neutral(700);
+	font-size: 14px;
+	padding: 8px;
+	line-height: 16px;
+	margin-left: 8px;
+	font-weight: 700;
+}
+
 .GeoGebraHeader a{
     text-decoration: none;
     margin-left: 8px;
