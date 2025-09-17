@@ -9,7 +9,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
-import org.geogebra.common.properties.impl.objects.delegate.NamePropertyDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NameCaptionPropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -23,7 +23,7 @@ public class NameCaptionProperty extends AbstractValuedProperty<String> implemen
 	public NameCaptionProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Name");
-		delegate = new NamePropertyDelegate(element);
+		delegate = new NameCaptionPropertyDelegate(element);
 	}
 
 	@Override

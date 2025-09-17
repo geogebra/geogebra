@@ -8,20 +8,24 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NameCaptionPropertyDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.scientific.LabelController;
 
 public class LabelStyleProperty extends FlagListProperty {
 	private final Kernel kernel;
-	private final GeoElement element;
+	private final GeoElementDelegate delegate;
 
 	/**
 	 * Constructs an angle unit property.
 	 * @param localization localization
 	 */
-	public LabelStyleProperty(Localization localization, Kernel kernel, GeoElement element) {
+	public LabelStyleProperty(Localization localization, Kernel kernel, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, "");
 		this.kernel = kernel;
-		this.element = element;
+		delegate = new NameCaptionPropertyDelegate(element);
 	}
 
 	@Override
@@ -45,6 +49,7 @@ public class LabelStyleProperty extends FlagListProperty {
 			mode = GeoElementND.LABEL_VALUE;
 		}
 		boolean visible = name || value;
+		GeoElement element = delegate.getElement();
 		element.setLabelMode(mode);
 		element.setLabelVisible(visible);
 		if (visible && !element.isAlgebraLabelVisible()) {
@@ -56,6 +61,7 @@ public class LabelStyleProperty extends FlagListProperty {
 
 	@Override
 	public List<Boolean> getValue() {
+		GeoElement element = delegate.getElement();
 		if (!element.isLabelVisible() || !element.isAlgebraLabelVisible()) {
 			return List.of(false, false);
 		}
@@ -71,6 +77,7 @@ public class LabelStyleProperty extends FlagListProperty {
 	}
 
 	private boolean isForceCaption() {
+		GeoElement element = delegate.getElement();
 		return !element
 				.getLabel(StringTemplate.defaultTemplate)
 				.equals(element.getCaption(StringTemplate.defaultTemplate));

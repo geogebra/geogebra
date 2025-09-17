@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl.objects;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,27 +9,38 @@ import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.undo.UndoActionObserver;
 import org.geogebra.common.main.undo.UndoActionType;
-import org.geogebra.common.main.undo.UpdateStyleActionStore;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.scientific.LabelController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LabelStylePropertyTest {
-
+	AppCommon app;
 	GeoElementND element;
 	LabelStyleProperty property;
 
 	@BeforeEach
-	public void setup() {
-		AppCommon app = AppCommonFactory.create3D();
+	public void setup() throws NotApplicablePropertyException {
+		app = AppCommonFactory.create3D();
 		element = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("(1,2)", false)[0];
 		property = new LabelStyleProperty(app.getLocalization(),
 				app.getKernel(), element.toGeoElement());
+	}
+
+	@Test
+	public void notApplicableForText() {
+		GeoElement text = (GeoElement) app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommand("\"text\"", false)[0];
+		text.setEuclidianVisible(true);
+		assertThrows(NotApplicablePropertyException.class,
+				() -> new LabelStyleProperty(app.getLocalization(), app.getKernel(),
+						text));
 	}
 
 	@Test

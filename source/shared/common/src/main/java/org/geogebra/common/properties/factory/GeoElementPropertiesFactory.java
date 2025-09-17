@@ -886,13 +886,17 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public static FlagListPropertyCollection<LabelStyleProperty> createLabelStyleProperty(
 			Localization localization, List<GeoElement> elements) {
-		List<LabelStyleProperty> labelStyleProperties = new ArrayList<>();
-		for (GeoElement element : elements) {
-			labelStyleProperties.add(new LabelStyleProperty(localization, element.getKernel(),
-					element));
+		try {
+			List<LabelStyleProperty> labelStyleProperties = new ArrayList<>();
+			for (GeoElement element : elements) {
+				labelStyleProperties.add(new LabelStyleProperty(localization, element.getKernel(),
+						element));
+			}
+			return new FlagListPropertyCollection<>(labelStyleProperties.toArray(
+					new LabelStyleProperty[0]));
+		} catch (NotApplicablePropertyException e) {
+			return null;
 		}
-		return new FlagListPropertyCollection<>(labelStyleProperties.toArray(
-				new LabelStyleProperty[0]));
 	}
 
 	/**
