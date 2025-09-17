@@ -3207,7 +3207,8 @@ class ColorFunctionPanel extends JPanel
 
 		setLayout(new BorderLayout());
 
-		JPanel colorsPanel = new JPanel(new SpringLayout());
+		SpringLayout layout = new SpringLayout();
+		JPanel colorsPanel = new JPanel(layout);
 		colorsPanel.add(nameLabelR);
 		colorsPanel.add(inputPanelR);
 		colorsPanel.add(nameLabelG);
@@ -3217,13 +3218,14 @@ class ColorFunctionPanel extends JPanel
 		colorsPanel.add(nameLabelA);
 		colorsPanel.add(inputPanelA);
 
-		SpringUtilities.makeCompactGrid(colorsPanel, 4, 2, // rows, cols
+		SpringUtilities.makeCompactGrid(colorsPanel, layout, 4, 2, // rows, cols
 				6, 6, // initX, initY
 				6, 6); // xPad, yPad
 
 		add(colorsPanel, BorderLayout.CENTER);
 
-		JPanel buttonsPanel = new JPanel(new SpringLayout());
+		SpringLayout buttonsLayout = new SpringLayout();
+		JPanel buttonsPanel = new JPanel(buttonsLayout);
 
 		JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		leftPanel.add(cbColorSpace);
@@ -3232,7 +3234,7 @@ class ColorFunctionPanel extends JPanel
 		buttonsPanel.add(leftPanel);
 		buttonsPanel.add(rightPanel);
 
-		SpringUtilities.makeCompactGrid(buttonsPanel, 1, 2, // rows, cols
+		SpringUtilities.makeCompactGrid(buttonsPanel, buttonsLayout, 1, 2, // rows, cols
 				6, 6, // initX, initY
 				6, 6); // xPad, yPad
 

@@ -36,7 +36,6 @@ import org.gwtproject.user.client.ui.SuggestOracle.Request;
 import org.gwtproject.user.client.ui.SuggestOracle.Response;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
 import org.gwtproject.user.client.ui.TextBox;
-import org.gwtproject.user.client.ui.TextBoxBase;
 import org.gwtproject.user.client.ui.UIObject;
 import org.gwtproject.user.client.ui.ValueBoxBase;
 import org.gwtproject.user.client.ui.Widget;
@@ -751,20 +750,6 @@ public class GSuggestBox extends Composite
 	@Override
 	public String getText() {
 		return box.getText();
-	}
-
-	/**
-	 * Get the text box associated with this suggest box.
-	 *
-	 * @return this suggest box's text box
-	 * @throws ClassCastException
-	 *             if this suggest box's value box is not an instance of
-	 *             TextBoxBase
-	 * @deprecated in favour of getValueBox
-	 */
-	@Deprecated
-	public TextBoxBase getTextBox() {
-		return (TextBoxBase) box;
 	}
 
 	@Override

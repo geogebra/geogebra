@@ -165,8 +165,9 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 
 	private void setLayout() {
 		// Lay out the panel
-		setLayout(new SpringLayout());
-		SpringUtilities.makeCompactGrid(this, rows, 2, // rows, cols
+		SpringLayout layout = new SpringLayout();
+		setLayout(layout);
+		SpringUtilities.makeCompactGrid(this, layout, rows, 2, // rows, cols
 				5, 5, // initX, initY
 				5, 5); // xPad, yPad
 	}

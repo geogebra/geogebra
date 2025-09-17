@@ -14,6 +14,7 @@ import org.geogebra.desktop.main.AppD;
 public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, IComboListener {
 	private final EnableDynamicCaptionPanel enableDynamicCaption;
 	private final ComboPanel captions;
+	private final SpringLayout springLayout;
 
 	/**
 	 * @param app app
@@ -21,6 +22,7 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 	 * @param tabs properties view
 	 */
 	public DynamicCaptionPanelD(AppD app, AutoCompleteTextFieldD textField, UpdateTabs tabs) {
+		super();
 		captions = new ComboPanel(app, "");
 		enableDynamicCaption = new EnableDynamicCaptionPanel(app, textField,
 				captions, tabs, new EnableDynamicCaptionModel(null, app));
@@ -29,7 +31,7 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 		dynamicCaptionModel.setListener(this);
 		add(enableDynamicCaption);
 		add(captions);
-		setLayout(new SpringLayout());
+		setLayout(this.springLayout = new SpringLayout());
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 
 	private void updateLayout() {
 		int rows = enableDynamicCaption.isSelected() ? 2 : 1;
-		SpringUtilities.makeCompactGrid(this, rows, 1,
+		SpringUtilities.makeCompactGrid(this, springLayout, rows, 1,
 				0, 0, 5, 5);
 		validate();
 	}
