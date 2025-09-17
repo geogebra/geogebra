@@ -1,7 +1,5 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import java.util.List;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
@@ -15,12 +13,8 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 		implements IconsEnumeratedProperty<Integer> {
 	private final EuclidianSettings euclidianSettings;
 	private final boolean isRuling;
-
-	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_LONG,
-			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT, PropertyResource.ICON_LINE_TYPE_DOTTED,
-			PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED
-	};
+	private static final PropertyResource[] icons =
+			EuclidianStyleConstants.lineStyleIcons.toArray(new PropertyResource[0]);
 
 	/**
 	 * Creates a line style property for grid lines
@@ -43,13 +37,7 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 		super(localization, "LineStyle");
 		this.euclidianSettings = euclidianSettings;
 		this.isRuling = isRuling;
-		setValues(List.of(
-				EuclidianStyleConstants.LINE_TYPE_FULL,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
-				EuclidianStyleConstants.LINE_TYPE_DOTTED,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED
-		));
+		setValues(EuclidianStyleConstants.lineStyleList);
 	}
 
 	@Override

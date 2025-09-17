@@ -1,5 +1,9 @@
 package org.geogebra.common.plugin;
 
+import java.util.List;
+
+import org.geogebra.common.properties.PropertyResource;
+
 public class EuclidianStyleConstants {
 	public static final int LINE_TYPE_POINTWISE = -1;
 
@@ -20,6 +24,19 @@ public class EuclidianStyleConstants {
 	public static final int RIGHT_ANGLE_STYLE_DOT = 2;
 
 	public static final int RIGHT_ANGLE_STYLE_L = 3; // Belgian style
+
+	public static final List<PropertyResource> lineStyleIcons = List.of(
+			PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_LONG,
+			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT, PropertyResource.ICON_LINE_TYPE_DOTTED,
+			PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED);
+
+	public static final List<Integer> lineStyleList = List.of(
+			EuclidianStyleConstants.LINE_TYPE_FULL,
+			EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
+			EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
+			EuclidianStyleConstants.LINE_TYPE_DOTTED,
+			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED
+	);
 
 	/**
 	 * size for draggable points ie free points and point on path/region

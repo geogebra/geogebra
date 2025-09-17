@@ -1,7 +1,5 @@
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.List;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -18,13 +16,8 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
-
-	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED,
-			PropertyResource.ICON_LINE_TYPE_DASHED_LONG, PropertyResource.ICON_LINE_TYPE_DOTTED,
-			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT
-	};
-
+	private static final PropertyResource[] icons =
+			EuclidianStyleConstants.lineStyleIcons.toArray(new PropertyResource[0]);
 	private final AbstractGeoElementDelegate delegate;
 	private final boolean hidden;
 
@@ -38,13 +31,7 @@ public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 				.isEuclidianView3Dinited()) {
 			throw new NotApplicablePropertyException(element);
 		}
-		setValues(List.of(
-				EuclidianStyleConstants.LINE_TYPE_FULL,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
-				EuclidianStyleConstants.LINE_TYPE_DOTTED,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
-		));
+		setValues(EuclidianStyleConstants.lineStyleList);
 	}
 
 	@Override
