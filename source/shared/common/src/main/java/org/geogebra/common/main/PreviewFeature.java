@@ -27,8 +27,6 @@ public enum PreviewFeature {
 	MMS_EXAM,
 	/** APPS-5641 */
 	IB_EXAM,
-	/** APPS-6016 */
-	SPREADSHEET_STYLEBAR,
 	/**
 	 * APPS-6759
 	 */

@@ -19,7 +19,6 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventDispatcher;
@@ -1427,8 +1426,7 @@ public class ToolbarPanel extends FlowPanel
 		if (!spreadsheetStyleBarAllowed()) {
 			return;
 		}
-		if (PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)
-				&& spreadsheetStyleBar != null) {
+		if (spreadsheetStyleBar != null) {
 			Dom.toggleClass(spreadsheetStyleBar, "portrait", "landscape", app.isPortrait());
 			boolean headingVisible = heading.isVisible();
 			if (headingVisible) {

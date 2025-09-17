@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.io.layout.DockPanelData;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -47,8 +46,7 @@ public class SpreadsheetTab extends ToolbarTab {
 	}
 
 	private boolean isStyleBarAllowed() {
-		return PreviewFeature.isAvailable(PreviewFeature.SPREADSHEET_STYLEBAR)
-				&& toolbarPanel.spreadsheetStyleBarAllowed();
+		return toolbarPanel.spreadsheetStyleBarAllowed();
 	}
 
 	@Override
