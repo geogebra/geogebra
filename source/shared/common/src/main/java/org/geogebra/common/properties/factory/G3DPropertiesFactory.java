@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -38,7 +39,10 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 			PropertiesRegistry propertiesRegistry) {
 		return Arrays.asList(createGeneralProperties(app, localization, propertiesRegistry),
 				createAlgebraProperties(app, localization, propertiesRegistry),
-				createStructuredGraphics3DProperties(app, localization, propertiesRegistry));
+				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
+						? createStructuredGraphics3DProperties(
+								app, localization, propertiesRegistry)
+						: createGraphicsProperties(app, localization, propertiesRegistry));
 	}
 
 	@Override
