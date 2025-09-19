@@ -297,8 +297,7 @@ public class SelectionManager {
 	 *            whether selection update is needed
 	 */
 	public final void addSelectedGeo(GeoElementND geoND, boolean repaint, boolean updateSelection) {
-		if (geoND == null || selectedGeos.contains(geoND)
-				|| !geoND.toGeoElement().isSelectionAllowed(null)) {
+		if (geoND == null || selectedGeos.contains(geoND)) {
 			return;
 		}
 		GeoElement geo = geoND.toGeoElement();
@@ -383,10 +382,9 @@ public class SelectionManager {
 	 */
 	final public void selectAll(int layer) {
 		clearSelectedGeos(false);
-		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if ((layer == -1) || (geo.getLayer() == layer)) {
+		for (GeoElement geo : kernel.getConstruction().getGeoSetLabelOrder()) {
+			if ((layer == -1 || geo.getLayer() == layer)
+					&& geo.isSelectionAllowed(null)) {
 				addSelectedGeo(geo, false, false);
 			}
 		}

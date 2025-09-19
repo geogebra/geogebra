@@ -134,12 +134,12 @@ public class SelectionManagerTest extends BaseUnitTest {
 	}
 
 	@Test
-	@Issue("APPS-6797")
-	public void selectingSingleElementShouldNotBePossibleWithSelectionDisallowed() {
+	@Issue("APPS-6920")
+	public void selectingSingleElementShouldBePossibleWithSelectionDisallowed() {
 		GeoElement line = add("f=Line((1,1),(3,3))");
 		line.setSelectionAllowed(false);
 		selectionManager.addSelectedGeo(line);
-		assertFalse("The created line should not be selectable!",
+		assertTrue("The created line should be selectable, only selection by click disabled.",
 				selectionManager.containsSelectedGeo(line));
 	}
 
