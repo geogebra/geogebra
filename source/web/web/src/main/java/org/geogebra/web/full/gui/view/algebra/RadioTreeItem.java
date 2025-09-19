@@ -1969,7 +1969,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	 */
 	protected void updateTreeItemAfterTypeChanged() {
 		av.remove(geo);
-		av.add(geo, -1, false);
+		av.add(geo, false);
 	}
 
 	protected void setEnabled(boolean b) {

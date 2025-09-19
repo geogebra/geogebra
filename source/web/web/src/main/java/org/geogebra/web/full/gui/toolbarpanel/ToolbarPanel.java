@@ -898,6 +898,7 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		switchTab(TabIds.ALGEBRA, fade);
+		app.getAlgebraView().repaintView();
 		setMoveMode();
 		dispatchEvent(EventType.ALGEBRA_PANEL_SELECTED);
 	}
