@@ -15,6 +15,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.PropertyCollectionWithLead;
 import org.geogebra.common.properties.RangeProperty;
+import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
@@ -22,6 +23,7 @@ import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.collections.FilePropertyCollection;
+import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
@@ -200,6 +202,9 @@ public class PropertiesPanelAdapter implements SetLabels {
 			return expandableList;
 		}
 		if (property instanceof NamedEnumeratedProperty) {
+			if (property instanceof LanguageProperty) {
+				((LanguageProperty) property).addValueObserver(this::onLanguageChanged);
+			}
 			ComponentDropDown dropDown = new ComponentDropDown(app, property.getRawName(),
 					(NamedEnumeratedProperty<?>) property);
 			dropDown.setFullWidth(true);
@@ -277,6 +282,15 @@ public class PropertiesPanelAdapter implements SetLabels {
 			if (w instanceof SetLabels) {
 				((SetLabels) w).setLabels();
 			}
+		}
+	}
+
+	private void onLanguageChanged(ValuedProperty<String> property) {
+		if (property instanceof LanguageProperty) {
+			if (app.getLoginOperation() != null) {
+				app.getLoginOperation().setUserLanguage(property.getValue());
+			}
+			app.getLAF().storeLanguage(property.getValue());
 		}
 	}
 
