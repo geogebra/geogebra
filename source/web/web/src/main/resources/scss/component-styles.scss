@@ -519,10 +519,9 @@ $keyboard_button_transition: opacity .3s ease;
 
 		.left, .right {
 			position: fixed;
-			margin: 10px 14px;
+			padding: 10px;
 			height: 24px;
 			z-index: 10;
-			opacity: .54;
 
 			.imgHolder {
 				height: 24px;
@@ -538,17 +537,16 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		.right {
-			position: sticky;
-			right: 10px;
+			right: 0;
 			background: linear-gradient(90deg, rgba(255, 255, 255, 0.00) 0%, #FFF 35.58%);
 		}
 
 		.tabList {
 			height: 44px;
-			padding: 0 8px 12px 8px;
+			padding: 0 0 12px 0;
 			display: inline-flex;
 			gap: 8px;
-			margin-right: -38px;
+			margin: 0 8px;
 
 			.tabBtn {
 				min-width: 64px;
