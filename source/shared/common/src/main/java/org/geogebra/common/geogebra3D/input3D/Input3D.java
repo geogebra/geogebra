@@ -34,8 +34,8 @@ abstract public class Input3D {
 		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES
 	}
 
-	private Coords mouse3DScenePosition;
-	private Coords mouse3DDirection;
+	private final Coords mouse3DScenePosition;
+	private final Coords mouse3DDirection;
 	protected Coords[] glassesPosition;
 
 	protected double screenHalfWidth;
@@ -47,31 +47,31 @@ abstract public class Input3D {
 
 	protected EuclidianView3D view3D;
 
-	private double[] inputPositionOnScreen;
+	private final double[] inputPositionOnScreen;
 
 	protected int onScreenX;
 	protected int onScreenY;
-	private Coords mouse3DPosition;
+	private final Coords mouse3DPosition;
 
 	private boolean wasRightReleased;
 	private boolean wasLeftReleased;
 	private boolean wasThirdButtonReleased;
-	private Coords tmpCoords = new Coords(3);
-	private Coords tmpCoords2 = new Coords(3);
-	private Coords tmpCoords3 = new Coords(3);
+	private final Coords tmpCoords = new Coords(3);
+	private final Coords tmpCoords2 = new Coords(3);
+	private final Coords tmpCoords3 = new Coords(3);
 
-	private Coords startMouse3DPosition;
+	private final Coords startMouse3DPosition;
 
 	private Coords vx;
 	private Coords vz;
 
-	private Coords rightDragElevation = new Coords(3);
+	private final Coords rightDragElevation = new Coords(3);
 
-	private Quaternion mouse3DOrientation;
-	private Quaternion startMouse3DOrientation;
-	private Coords rotV;
+	private final Quaternion mouse3DOrientation;
+	private final Quaternion startMouse3DOrientation;
+	private final Coords rotV;
 	private CoordMatrix startOrientationMatrix;
-	private CoordMatrix4x4 toSceneRotMatrix;
+	private final CoordMatrix4x4 toSceneRotMatrix;
 
 	private Quaternion currentRot;
 
@@ -681,34 +681,18 @@ abstract public class Input3D {
 
 		// rotate view vZ
 		Coords vZrot = rotMatrix.getVz();
-		// Log.debug("\n"+vZrot);
-		Coords vZ1 = (vZrot.sub(vx.mul(vZrot.dotproduct(vx)))).normalize(); // project
-																			// the
-																			// rotation
-																			// to
-																			// keep
-																			// vector
-																			// plane
-																			// orthogonal
-																			// to
-																			// the
-																			// screen
+		// project the rotation to keep the vector plane orthogonal to the screen
+		Coords vZ1 = vZrot.sub(vx.mul(vZrot.dotproduct(vx))).normalize();
 		Coords vZp = Coords.VZ.crossProduct(vZ1); // to get angle (vZ,vZ1)
 
 		// rotate screen vx
 		Coords vxRot = rotMatrix.mul(vx);
-		Coords vx1 = (vxRot.sub(vZ1.mul(vxRot.dotproduct(vZ1)))).normalize(); // project
-																				// in
-																				// plane
-																				// orthogonal
-																				// to
-																				// vZ1
+		// project in plane orthogonal to vZ1
+		Coords vx1 = vxRot.sub(vZ1.mul(vxRot.dotproduct(vZ1))).normalize();
 		Coords vxp = vx.crossProduct(vx1); // to get angle (vx,vx1)
 
 		// rotation around x (screen)
 		double rotX = Math.asin(vxp.norm()) * 180 / Math.PI;
-		// Log.debug("rotX="+rotX+", vx1.dotproduct(vx) =
-		// "+vx1.dotproduct(vx)+", vxp.dotproduct(vZ1) = "+vxp.dotproduct(vZ1));
 		if (vx1.dotproduct(vx) < 0) { // check if rotX should be > 90degrees
 			rotX = 180 - rotX;
 		}
@@ -718,8 +702,6 @@ abstract public class Input3D {
 
 		// rotation around z (scene)
 		double rotZ = Math.asin(vZp.norm()) * 180 / Math.PI;
-		// Log.debug("rotZ="+rotZ+", vZp.dotproduct(vx) =
-		// "+vZp.dotproduct(vx)+", Coords.VZ.dotproduct(vZ1) = "+vZ1.getZ());
 		if (vZ1.getZ() < 0) { // check if rotZ should be > 90degrees
 			rotZ = 180 - rotZ;
 		}
@@ -727,38 +709,9 @@ abstract public class Input3D {
 			rotZ = -rotZ;
 		}
 
-		// Log.debug("rotZ="+rotZ);
-
 		// set the view
 		view3D.setCoordSystemFromMouse3DMove(startMouse3DPosition,
 				mouse3DPosition, rotX, rotZ);
-
-		/*
-		 * // USE FOR CHECK 3D MOUSE ORIENTATION // use file
-		 * leonar3do-rotation2.ggb GeoVector3D geovx = (GeoVector3D)
-		 * getKernel().lookupLabel("vx");
-		 * geovx.setCoords(toSceneRotMatrix.mul(Coords.VX).normalize());
-		 * geovx.updateCascade(); GeoVector3D vy = (GeoVector3D)
-		 * getKernel().lookupLabel("vy");
-		 * vy.setCoords(toSceneRotMatrix.mul(Coords.VY).normalize());
-		 * vy.updateCascade(); GeoVector3D vz = (GeoVector3D)
-		 * getKernel().lookupLabel("vz");
-		 * vz.setCoords(toSceneRotMatrix.mul(Coords.VZ).normalize());
-		 * vz.updateCascade();
-		 * 
-		 * 
-		 * GeoAngle a = (GeoAngle) getKernel().lookupLabel("angle"); GeoVector3D
-		 * v = (GeoVector3D) getKernel().lookupLabel("v");
-		 * a.setValue(2*Math.acos(rot.getScalar()));
-		 * v.setCoords(rot.getVector()); a.updateCascade(); v.updateCascade();
-		 * 
-		 * GeoText text = (GeoText) getKernel().lookupLabel("text");
-		 * text.setTextString ("az = "+rotZ+"degrees\n"+"ax = "
-		 * +rotX+"degrees\n"+ "vxp.dotproduct(vZ1)="
-		 * +vxp.dotproduct(vZ1)+"\nvx1.dotproduct(vx)="+vx1.dotproduct(vx) +
-		 * "\nvZp.dotproduct(vx) = "+vZp.dotproduct(vx) ); text.update();
-		 * getKernel().notifyRepaint();
-		 */
 	}
 
 	private void storeOrientation() {
