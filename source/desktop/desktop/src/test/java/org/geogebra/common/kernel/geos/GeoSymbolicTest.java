@@ -27,13 +27,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.Suggestion;
@@ -2613,5 +2611,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void spreadsheetLabelsShouldNotAutocreate() {
 		t("l1:=Solve(T1^2=4,T1)", "{T1 = -2, T1 = 2}");
 		assertArrayEquals(new String[]{"l1"}, app.getGgbApi().getAllObjectNames());
+	}
+
+	@Test
+	public void shouldReplaceVarName() {
+		t("g(y)=2*x", "2 * x");
+		assertEquals("x", ((GeoSymbolic) lookup("g"))
+				.getVarString(StringTemplate.testTemplate));
+		t("q(x)=2*y", "2 * y");
+		assertEquals("y", ((GeoSymbolic) lookup("q"))
+				.getVarString(StringTemplate.testTemplate));
 	}
 }

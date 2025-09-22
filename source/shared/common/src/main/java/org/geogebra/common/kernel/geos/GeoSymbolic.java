@@ -538,7 +538,18 @@ public class GeoSymbolic extends GeoElement
 		}
 		ExpressionValue def = getDefinition().unwrap();
 		if (def instanceof FunctionNVar) {
-			return Arrays.asList(((FunctionNVar) def).getFunctionVariables());
+			FunctionNVar functionNVar = (FunctionNVar) def;
+			List<FunctionVariable> vars = Arrays.asList(functionNVar.getFunctionVariables());
+			if (vars.size() == 1) {
+				List<FunctionVariable> outVars = variablesFromOutput();
+				if (outVars.size() == 1 && !outVars.get(0).getSetVarString().equals(
+						vars.get(0).getSetVarString())) {
+					functionNVar.setExpression(functionNVar.getExpression(),
+							outVars.toArray(new FunctionVariable[0]));
+					return outVars;
+				}
+			}
+			return vars;
 		} else if (getDefinition().getLocalVariables().size() > 0) {
 			List<String> localVariables = getDefinition().getLocalVariables();
 			return localVariables.stream().map((var) -> new FunctionVariable(kernel, var))
