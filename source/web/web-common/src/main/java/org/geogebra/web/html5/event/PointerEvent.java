@@ -15,6 +15,8 @@ import org.gwtproject.event.dom.client.TouchEvent;
 import org.gwtproject.event.dom.client.TouchMoveEvent;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 
+import jsinterop.base.Js;
+
 /**
  * Base implementation of AbstractEvent.
  * 
@@ -154,10 +156,21 @@ public class PointerEvent extends AbstractEvent {
 		destination.clickCount = "dblclick".equals(source.getNativeEvent()
 				.getType()) ? 2 : 1;
 		destination.meta = source.isMetaKeyDown();
-		destination.middle = source.getNativeButton() == NativeEvent.BUTTON_MIDDLE;
-		destination.right = source.getNativeButton() == NativeEvent.BUTTON_RIGHT;
+		elemental2.dom.MouseEvent nativeEvt = Js.uncheckedCast(source.getNativeEvent());
+		destination.setButton(nativeEvt.button);
 		destination.shift = source.isShiftKeyDown();
 		destination.relativeElement = source.getRelativeElement();
+	}
+
+	/**
+	 * Update right and middle flag based on native event's button property.
+	 * @apiNote not compatible with GWT's {@link NativeEvent#getButton()}, uses
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button#value">standard DOM values</a>
+	 * @param nativeButton button property of browser's event
+	 */
+	public void setButton(int nativeButton) {
+		right = nativeButton == 2;
+		middle = nativeButton == 1;
 	}
 
 	/**

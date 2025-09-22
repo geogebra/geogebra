@@ -76,18 +76,10 @@ public class PointerEventHandler {
 	}
 
 	private static void adjust(PointerEvent event, NativePointerEvent nativeEvent) {
-		if (nativeEvent.getAltKey()) {
-			event.setAlt(true);
-		}
-		if (nativeEvent.getShiftKey()) {
-			event.setShift(true);
-		}
-		if (nativeEvent.getCtrlKey()) {
-			event.setControl(true);
-		}
-		if (nativeEvent.getButton() == 2) {
-			event.setIsRightClick(true);
-		}
+		event.setAlt(nativeEvent.getAltKey());
+		event.setShift(nativeEvent.getShiftKey());
+		event.setControl(nativeEvent.getCtrlKey());
+		event.setButton(nativeEvent.getButton());
 	}
 
 	private void singleUp(PointerEvent e) {
