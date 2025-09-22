@@ -64,17 +64,32 @@ public final class FunctionVarCollector implements Traversing {
 	}
 
 	/**
+	 * If all variables are registered, just map their names to FunctionVariable objects.
+	 * If some variables are not registered, sort collected variables in their registration order
+	 * (unregistered variables go last, alphabetically).
 	 * @param kernel
 	 *            kernel
 	 * @return variables with collected names
 	 */
 	public FunctionVariable[] buildVariables(Kernel kernel) {
-		FunctionVariable[] fvArray = new FunctionVariable[variableNames.size()];
+		boolean allRegistered = true;
+		for (String variableName : variableNames) {
+			if (!kernel.getConstruction().isRegisteredFunctionVariable(variableName)) {
+				allRegistered = false;
+			}
+		}
+		String[] registeredFV = kernel.getConstruction().getRegisteredFunctionVariables();
+
+		int size = allRegistered ? registeredFV.length : variableNames.size();
+		FunctionVariable[] fvArray = new FunctionVariable[size];
 		int i = 0;
-		for (String known: kernel.getConstruction().getRegisteredFunctionVariables()) {
-			if (variableNames.contains(known)) {
+		for (String known: registeredFV) {
+			if (allRegistered || variableNames.contains(known)) {
 				fvArray[i++] = new FunctionVariable(kernel, known);
 			}
+		}
+		if (allRegistered) {
+			return fvArray;
 		}
 		for (String variableName : variableNames) {
 			if (!kernel.getConstruction().isRegisteredFunctionVariable(variableName)) {
