@@ -18,6 +18,7 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 	private FlowPanel contentPanel;
 	private StandardButton positiveButton;
 	private StandardButton negativeButton;
+	private IconButton closeButton;
 	private final Runnable onClose;
 
 	/**
@@ -69,9 +70,10 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		titleLabel.addStyleName("title");
 		titlePanel.add(titleLabel);
 
-		IconButton closeButton = new IconButton(appW, this::onClose,
+		closeButton = new IconButton(appW, this::onClose,
 				new ImageIconSpec(GuiResourcesSimple.INSTANCE.close()), "Close");
 		closeButton.addStyleName("closeBtn");
+		closeButton.getElement().setAttribute("tooltip-position", "right");
 		titlePanel.add(closeButton);
 
 		add(titlePanel);
@@ -178,5 +180,6 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		if (negativeButton != null) {
 			negativeButton.setText(appW.getLocalization().getMenu(data.getNegativeBtnTransKey()));
 		}
+		closeButton.setLabels();
 	}
 }
