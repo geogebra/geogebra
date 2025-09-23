@@ -2948,6 +2948,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			cons.getArbitraryConsTable().clear();
 		}
 		cons.clearConstruction();
+		app.getSettings().getSpreadsheet().setCellFormat(null);
 		app.getSettings().getProbCalcSettings().reset();
 		notifyClearView();
 		notifyRepaint();

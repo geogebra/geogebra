@@ -8,7 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collections;
+
 import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.io.FactoryProviderCommon;
@@ -195,5 +198,17 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		// undo column deletion
 		getConstruction().getUndoManager().undo();
 		assertEquals(26, spreadsheet.getController().getLayout().numberOfColumns());
+	}
+
+	@Issue("APPS-6925")
+	@Test
+	public void testClearAllClearsStyles() {
+		spreadsheet.getStyling().setBackgroundColor(GColor.BLUE,
+				Collections.singletonList(new TabularRange(0, 0)));
+		getApp().clearConstruction();
+		GColor background = spreadsheet
+				.getStyling()
+				.getBackgroundColor(0, 0, null);
+		assertNotEquals(GColor.BLUE, background);
 	}
 }
