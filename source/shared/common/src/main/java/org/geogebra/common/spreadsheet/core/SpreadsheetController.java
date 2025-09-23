@@ -1307,17 +1307,17 @@ public final class SpreadsheetController {
 					getLayout().numberOfColumns() - 2, range.getMaxRow(),
 					getLayout().numberOfColumns() - 1, false);
 		} else if (range.isPartialColumn()) {
-			processCalculate(command, range.getFromRow(), range.getFromColumn(),
-					range.getToRow(), range.getToColumn(), range.getToRow() + 1,
-					range.getFromColumn(), false);
+			processCalculate(command, range.getMinRow(), range.getMinColumn(),
+					range.getMaxRow(), range.getMaxColumn(), range.getMaxRow() + 1,
+					range.getMaxColumn(), false);
 		} else if (range.isPartialRow()) {
-			processCalculate(command, range.getFromRow(), range.getFromColumn(),
-					range.getToRow(), range.getToColumn(), range.getFromRow(),
-					range.getToColumn() + 1, false);
+			processCalculate(command, range.getMinRow(), range.getMinColumn(),
+					range.getMaxRow(), range.getMaxColumn(), range.getMaxRow(),
+					range.getMaxColumn() + 1, false);
 		} else {
 			// multiple part of columns and rows
-			processCalculate(command, range.getFromRow(), range.getMinColumn(),
-					range.getToRow(), range.getMaxColumn(), range.getMaxRow() + 1,
+			processCalculate(command, range.getMinRow(), range.getMinColumn(),
+					range.getMaxRow(), range.getMaxColumn(), range.getMaxRow() + 1,
 					range.getMaxColumn(), false);
 		}
 	}

@@ -561,25 +561,27 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertNull(tabularData.contentAt(1, 3));
     }
 
-    @Test
-    public void testCalculatePartOfColumn() {
+    @ParameterizedTest
+    @CsvSource(value = {"0,2", "2,0"})
+    public void testCalculatePartOfColumn(int from, int to) {
         tabularData.setContent(0, 0, "1");
         tabularData.setContent(1, 0, "2");
         tabularData.setContent(2, 0, "3");
-        selectCells(0, 0, 2, 0);
+        selectCells(from, 0, to, 0);
         controller.calculate(SpreadsheetCommand.MEAN);
 
         assertEquals("=mean(A1:A3)", tabularData.contentAt(3, 0));
     }
 
-    @Test
-    public void testCalculateMoreColumns() {
+    @ParameterizedTest
+    @CsvSource(value = {"0,2", "2,0"})
+    public void testCalculateMoreColumns(int from, int to) {
         tabularData.setContent(0, 0, "1");
         tabularData.setContent(1, 0, "2");
         tabularData.setContent(2, 0, "3");
         tabularData.setContent(1, 1, "4");
         tabularData.setContent(2, 2, "5");
-        selectCells(0, 0, 2, 2);
+        selectCells(from, from, to, to);
         controller.calculate(SpreadsheetCommand.SUM);
 
         assertNull(tabularData.contentAt(3, 0));
@@ -598,12 +600,13 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertEquals("=Sum(A1:A99)", tabularData.contentAt(tabularData.numberOfRows() - 1, 0));
     }
 
-    @Test
-    public void testCalculatePartOfRow() {
+    @ParameterizedTest
+    @CsvSource(value = {"0,2", "2,0"})
+    public void testCalculatePartOfRow(int from, int to) {
         tabularData.setContent(0, 0, "1");
         tabularData.setContent(0, 1, "2");
         tabularData.setContent(0, 2, "3");
-        selectCells(0, 0, 0, 2);
+        selectCells(0, from, 0, to);
         controller.calculate(SpreadsheetCommand.MEAN);
 
         assertEquals("=mean(A1:C1)", tabularData.contentAt(0, 3));
