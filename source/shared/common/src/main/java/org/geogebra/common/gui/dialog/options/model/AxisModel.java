@@ -96,7 +96,7 @@ public class AxisModel {
 	}
 
 	public List<String> getUnitLabelOptions() {
-		return Arrays.asList(null,
+		return Arrays.asList("",
 			Unicode.DEGREE_STRING, // degrees
 			Unicode.PI_STRING, // pi
 			"mm",
