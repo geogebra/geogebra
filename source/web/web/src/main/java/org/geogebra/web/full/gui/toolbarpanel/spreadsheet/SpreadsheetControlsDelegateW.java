@@ -164,7 +164,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		parent.cancelFocus();
 		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting", "stats");
 		new SpreadsheetMenuBuilder(loc, this::hideContextMenu)
-				.addItems(contextMenu.getPopupMenu(), items);
+				.addItems(contextMenu, items);
 		positionContextMenu((int) Math.round(location.x), (int) Math.round(location.y));
 		contextMenu.getPopupMenu().focus();
 	}

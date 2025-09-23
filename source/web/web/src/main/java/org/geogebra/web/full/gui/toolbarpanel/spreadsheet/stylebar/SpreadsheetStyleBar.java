@@ -196,7 +196,7 @@ public class SpreadsheetStyleBar extends FlowPanel {
 		GPopupMenuW popup = new GPopupMenuW(appW);
 		popup.getPopupPanel().addStyleName("compactMenu");
 		new SpreadsheetMenuBuilder(appW.getLocalization(), popup::hide).addItems(
-				popup.getPopupMenu(), spreadsheet.getController().getMenuItems(identifier));
+				popup, spreadsheet.getController().getMenuItems(identifier));
 		popup.show(anchor, 0, STYLE_BAR_HEIGHT);
 		popup.getPopupPanel().addCloseHandler(evt -> markActive(anchor, false));
 	}

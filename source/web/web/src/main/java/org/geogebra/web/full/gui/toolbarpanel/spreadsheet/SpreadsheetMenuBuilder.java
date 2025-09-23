@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.resources.SVGResource;
@@ -32,7 +33,7 @@ public class SpreadsheetMenuBuilder {
 	 * @param popupMenu menu widget
 	 * @param items menu items
 	 */
-	public void addItems(AriaMenuBar popupMenu, List<ContextMenuItem> items) {
+	public void addItems(GPopupMenuW popupMenu, List<ContextMenuItem> items) {
 		for (ContextMenuItem item : items) {
 			if (item instanceof ContextMenuItem.Divider) {
 				popupMenu.addSeparator();
@@ -55,7 +56,9 @@ public class SpreadsheetMenuBuilder {
 		String text = loc.getMenu(subMenuItem.getLocalizationKey());
 		SVGResource image = getActionIcon(subMenuItem.getIdentifier());
 		AriaMenuBar ariaMenuBar = new AriaMenuBar();
-		addItems(ariaMenuBar, subMenuItem.getItems());
+		for (ContextMenuItem item : subMenuItem.getItems()) {
+			ariaMenuBar.addItem(createActionableItem((ContextMenuItem.ActionableItem) item));
+		}
 		return new AriaMenuItem(text, image, ariaMenuBar);
 	}
 
