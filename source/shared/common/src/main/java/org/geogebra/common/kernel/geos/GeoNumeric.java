@@ -2189,6 +2189,10 @@ public class GeoNumeric extends GeoElement
 		intervalMin = null;
 		intervalMax = null;
 		setEuclidianVisible(false);
+		if (DoubleUtil.isInteger(getValue() * 1000)) {
+			setDefinition(new ExpressionNode(kernel, new MySpecialDouble(kernel, getValue(),
+					toValueString(StringTemplate.editTemplate))));
+		}
 		notifyUpdate();
 	}
 

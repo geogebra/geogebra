@@ -13,6 +13,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.contextmenu.impl.RemoveSlider;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.App;
@@ -134,6 +135,17 @@ public class SliderTest extends BaseUnitTest {
 		assertThrows(AssertionError.class, () -> add("f(x)=f(x)+1", info));
 		assertThrows(AssertionError.class, () -> add("g(x)=g(x)+a", info));
 		assertEquals(0, getConstruction().getGeoSetConstructionOrder().size());
+	}
+
+	@Test
+	public void shouldResetDefinition() {
+		GeoNumeric numeric = add("a = 1");
+		numeric.createSlider();
+		numeric.setSymbolicMode(true, true);
+		numeric.setEuclidianVisible(true);
+		numeric.setValue(0.5);
+		new RemoveSlider(getAlgebraProcessor()).execute(numeric);
+		assertEquals("a = 1 / 2", numeric.toString(StringTemplate.defaultTemplate));
 	}
 
 	private GeoAngle autocreateAngle() {
