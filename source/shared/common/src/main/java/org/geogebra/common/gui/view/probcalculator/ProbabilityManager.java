@@ -531,7 +531,7 @@ public class ProbabilityManager {
 		case F:
 			v = params[0].getDouble();
 			v2 = params[1].getDouble();
-			mode = ((v - 2) * v2) / (v * (v2 + 2));
+			mode = (v - 2) * v2 / (v * (v2 + 2));
 
 			xMin = 0;
 
@@ -663,7 +663,7 @@ public class ProbabilityManager {
 			mode = 0;
 			if (params[0].getDouble() > 1) {
 				mode = Math.floor((1 - params[1].getDouble()) * (params[0].getDouble() - 1)
-						/ (params[1].getDouble()));
+						/ params[1].getDouble());
 			}
 
 			xMin = probCalc.getDiscreteXMin();

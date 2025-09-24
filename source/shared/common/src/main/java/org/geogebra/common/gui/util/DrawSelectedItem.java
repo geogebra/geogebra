@@ -85,7 +85,7 @@ public class DrawSelectedItem {
 		int tW = w / 4;
 		int tH = w / 6;
 
-		int middleY = top + (size / 2 - (int) Math.round(tH * 1.5));
+		int middleY = top + size / 2 - (int) Math.round(tH * 1.5);
 
 		int x1 = middleX - tW;
 		int y1 = middleY + tH;

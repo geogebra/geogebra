@@ -127,7 +127,7 @@ public class PlotPanelEuclidianViewCommon {
 			// by forcing a fixed pixel height below the x-axis
 			double pixelOffset = plotPanelEuclidianViewD.getPixelOffset();
 			double pixelHeight = plotPanelEuclidianViewD.getHeight();
-			getPlotSettings().yMin = (-pixelOffset * getPlotSettings().yMax)
+			getPlotSettings().yMin = -pixelOffset * getPlotSettings().yMax
 					/ (pixelHeight + pixelOffset);
 		}
 

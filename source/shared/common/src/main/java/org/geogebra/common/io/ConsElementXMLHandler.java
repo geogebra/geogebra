@@ -329,7 +329,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleCheckbox(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoBoolean())) {
+		if (!geo.isGeoBoolean()) {
 			Log.error("wrong element type for <checkbox>: " + geo.getClass());
 			return false;
 		}
@@ -731,7 +731,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleInBackground(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
+		if (!geo.isGeoImage()) {
 			Log.error(
 					"wrong element type for <inBackground>: " + geo.getClass());
 			return false;
@@ -747,7 +747,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleCentered(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
+		if (!geo.isGeoImage()) {
 			Log.error("wrong element type for <centered>: " + geo.getClass());
 			return false;
 		}
@@ -762,7 +762,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleInterpolate(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
+		if (!geo.isGeoImage()) {
 			Log.error(
 					"wrong element type for <interpolate>: " + geo.getClass());
 			return false;
@@ -907,7 +907,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleComboBox(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoList())) {
+		if (!geo.isGeoList()) {
 			Log.error("wrong element type for <comboBox>: " + geo.getClass());
 			return false;
 		}
@@ -923,7 +923,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleCropBox(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
+		if (!geo.isGeoImage()) {
 			Log.error("wrong element type for <cropBox>: " + geo.getClass());
 			return false;
 		}
@@ -1122,7 +1122,7 @@ public class ConsElementXMLHandler {
 
 	private boolean handleSlopeTriangleSize(
 			LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoNumeric())) {
+		if (!geo.isGeoNumeric()) {
 			Log.error("wrong element type for <slopeTriangleSize>: "
 					+ geo.getClass());
 			return false;
@@ -1447,7 +1447,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleSlider(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoNumeric())) {
+		if (!geo.isGeoNumeric()) {
 			Log.error("wrong element type for <slider>: " + geo.getClass());
 			return false;
 		}
@@ -1754,7 +1754,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImplicitCurve())) {
+		if (!geo.isGeoImplicitCurve()) {
 			Log.warn(
 					"wrong element type for <coefficients>: " + geo.getClass());
 			return false;

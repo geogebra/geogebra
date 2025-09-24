@@ -346,8 +346,8 @@ public class StatisticsCalculatorProcessor {
 			double V1 = SD1 * SD1 / N1;
 			double V2 = SD2 * SD2 / N2;
 			sc.se = Math.sqrt(V1 + V2);
-			sc.df = ((V1 + V2) * (V1 + V2))
-					/ ((V1 * V1) / (N1 - 1) + (V2 * V2) / (N2 - 1));
+			sc.df = (V1 + V2) * (V1 + V2)
+					/ (V1 * V1 / (N1 - 1) + V2 * V2 / (N2 - 1));
 
 		}
 	}

@@ -60,8 +60,7 @@ public class LodModel extends MultipleOptionsModel {
 	@Override
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return (!isDefaults && (geo.hasLevelOfDetail()));
-
+		return !isDefaults && geo.hasLevelOfDetail();
 	}
 
 	@Override

@@ -574,7 +574,7 @@ public class DataItem {
 				for (int i = 0; i < geoList.size(); i++) {
 
 					if (geoList.get(i) == null
-							|| !(geoList.get(i).isDefined())) {
+							|| !geoList.get(i).isDefined()) {
 						continue;
 					}
 					if (isValidDataType(geoList.get(i))) {
@@ -603,7 +603,7 @@ public class DataItem {
 							skipFirstCell = false;
 							continue;
 						}
-						if (list.get(i) == null || !(list.get(i).isDefined())) {
+						if (list.get(i) == null || !list.get(i).isDefined()) {
 							continue;
 						}
 						if (isValidDataType(list.get(i))) {

@@ -797,13 +797,13 @@ public class EquationSolver implements EquationSolverInterface {
 			 * the resolvent cubic
 			 */
 			aa = a * a;
-			pp = b - (3.0 / 8.0) * aa;
-			qq = c - (1.0 / 2.0) * a * (b - (1.0 / 4.0) * aa);
-			rr = d - (1.0 / 4.0)
-					* (a * c - (1.0 / 4.0) * aa * (b - (3.0 / 16.0) * aa));
-			rc = (1.0 / 2.0) * pp;
-			sc = (1.0 / 4.0) * ((1.0 / 4.0) * pp * pp - rr);
-			tc = -((1.0 / 8.0) * qq * (1.0 / 8.0) * qq);
+			pp = b - 3.0 / 8.0 * aa;
+			qq = c - 1.0 / 2.0 * a * (b - 1.0 / 4.0 * aa);
+			rr = d - 1.0 / 4.0
+					* (a * c - 1.0 / 4.0 * aa * (b - 3.0 / 16.0 * aa));
+			rc = 1.0 / 2.0 * pp;
+			sc = 1.0 / 4.0 * (1.0 / 4.0 * pp * pp - rr);
+			tc = -(1.0 / 8.0 * qq * 1.0 / 8.0 * qq);
 
 			/*
 			 * This code solves the resolvent cubic in a convenient fashion for
