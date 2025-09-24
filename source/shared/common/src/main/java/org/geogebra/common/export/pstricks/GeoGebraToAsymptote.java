@@ -2372,9 +2372,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 					// is of the form "A" or "$A$"
 					&& (((name.length() == 1)
 							&& Character.isUpperCase(name.charAt(0)))
-							|| (((name.length() == 3) && name.charAt(0) == '$'
+							|| ((name.length() == 3) && name.charAt(0) == '$'
 									&& name.charAt(2) == '$' && Character
-											.isUpperCase(name.charAt(1)))));
+											.isUpperCase(name.charAt(1))));
 			isPointLabel = isPointLabel || geo.isGeoPoint();
 			// replaced with pointfontpen:
 			// if(compactcse5) {

@@ -112,7 +112,7 @@ public class CmdBarChart extends CommandProcessor {
 			arg = resArgsLocalNumVar(c, 3, 4, 6);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& ((ok[2] = arg[2].isGeoElement()))
+					&& (ok[2] = arg[2].isGeoElement())
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)
 					&& (ok[5] = arg[5] instanceof GeoNumberValue)

@@ -74,9 +74,9 @@ public class Combinations<T> implements Iterator<Set<T>> {
 	private boolean nextNum() {
 		int target = r - 1;
 		num[target]++;
-		if (num[target] > ((n - (r - target)) + 1)) {
+		if (num[target] > n - (r - target) + 1) {
 			// Carry the One
-			while (num[target] > ((n - (r - target)))) {
+			while (num[target] > n - (r - target)) {
 				target--;
 				if (target < 0) {
 					break;

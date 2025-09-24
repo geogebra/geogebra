@@ -3508,8 +3508,8 @@ public abstract class EuclidianView3D extends EuclidianView
 			double zmin2 = getSettings().getZminObject().getDouble();
 			double zmax2 = getSettings().getZmaxObject().getDouble();
 
-			if (((xmax2 - xmin2) > Kernel.MAX_PRECISION) && ((ymax2 - ymin2) > Kernel.MAX_PRECISION)
-					&& ((zmax2 - zmin2 > Kernel.MAX_PRECISION))) {
+			if ((xmax2 - xmin2 > Kernel.MAX_PRECISION) && (ymax2 - ymin2 > Kernel.MAX_PRECISION)
+					&& (zmax2 - zmin2 > Kernel.MAX_PRECISION)) {
 				minmax2[0][0] = xmin2;
 				minmax2[0][1] = xmax2;
 				minmax2[1][0] = ymin2;

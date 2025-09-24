@@ -2515,7 +2515,7 @@ public class ExpressionNode extends ValidExpression
 							return wrap(left).abs().ln().divide(coeff);
 						}
 						return wrap(left).power(index + 1)
-								.divide(coeff * ((index + 1)));
+								.divide(coeff * (index + 1));
 					}
 
 					coeff = getLinearCoefficientDiv(fv, left);
@@ -2526,7 +2526,7 @@ public class ExpressionNode extends ValidExpression
 							return wrap(left).abs().ln().multiply(coeff);
 						}
 						return wrap(left).power(index + 1)
-								.multiply(coeff / ((index + 1)));
+								.multiply(coeff / (index + 1));
 					}
 				}
 

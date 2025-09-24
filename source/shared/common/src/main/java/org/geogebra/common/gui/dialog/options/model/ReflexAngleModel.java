@@ -98,7 +98,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 
-		return (!((geo.isIndependent() && !isDefaults))
+		return (!(geo.isIndependent() && !isDefaults)
 				&& (geo instanceof AngleProperties) && !geo.isGeoList())
 				|| isAngleList(geo);
 

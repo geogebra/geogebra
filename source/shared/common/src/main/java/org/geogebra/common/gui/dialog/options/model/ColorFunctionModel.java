@@ -161,10 +161,10 @@ public class ColorFunctionModel extends OptionsModel {
 		// set condition
 		// try {
 		if (list != null) { //
-			if (((list.get(0) instanceof NumberValue)) && // bugfix, enter "x"
+			if ((list.get(0) instanceof NumberValue) && // bugfix, enter "x"
 															// for a color
-					((list.get(1) instanceof NumberValue)) && //
-					((list.get(2) instanceof NumberValue)) && //
+					(list.get(1) instanceof NumberValue) && //
+					(list.get(2) instanceof NumberValue) && //
 					((list.size() == 3 || list.get(3) instanceof NumberValue))) {
 				for (int i = 0; i < getGeosLength(); i++) {
 
