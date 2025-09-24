@@ -12,7 +12,7 @@ public class StickToEdgeProperty extends AbstractValuedProperty<Boolean>
 	private EuclidianSettings euclidianSettings;
 	private EuclidianViewInterfaceCommon euclidianView;
 
-	/** Creates a property enable/disable stick to edge porperty of axis.
+	/** Creates a property enable/disable stick to edge property of axis.
 	 * @param localization localization
 	 * @param axis axis index
 	 * @param euclidianSettings euclidian settings

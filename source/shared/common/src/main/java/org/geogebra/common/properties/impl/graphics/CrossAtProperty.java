@@ -18,7 +18,7 @@ public class CrossAtProperty extends AbstractValuedProperty<String>
 	private final int axis;
 
 	/**
-	 * Constructs an axis cross point porperty.
+	 * Constructs an axis cross point property.
 	 * @param localization localization for the title
 	 * @param euclidianSettings euclidian settings
 	 * @param euclidianView the active euclidian view
