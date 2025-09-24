@@ -11,6 +11,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.PropertyCollectionWithLead;
@@ -24,6 +25,9 @@ import org.geogebra.common.properties.impl.collections.AbstractPropertyCollectio
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.collections.FilePropertyCollection;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
@@ -33,9 +37,11 @@ import org.geogebra.common.properties.impl.graphics.RulingGridLineStyleProperty;
 import org.geogebra.common.properties.impl.graphics.RulingPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.RulingStyleProperty;
 import org.geogebra.common.properties.impl.objects.DefinitionProperty;
+import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
@@ -67,6 +73,7 @@ public class PropertiesPanelAdapter implements SetLabels {
 	private final AppW app;
 	private final List<Widget> widgets = new ArrayList<>();
 	private final SelectionSettingsListener selectionListenerWidgetCollection;
+	private final StateSettingsListener stateSettingsListener;
 
 	/**
 	 * @param loc localization
@@ -76,6 +83,7 @@ public class PropertiesPanelAdapter implements SetLabels {
 		this.loc = loc;
 		this.app = app;
 		selectionListenerWidgetCollection = new SelectionSettingsListener(app);
+		stateSettingsListener = new StateSettingsListener(app, 1, 2);
 	}
 
 	/**
@@ -94,6 +102,10 @@ public class PropertiesPanelAdapter implements SetLabels {
 			panel.addStyleName("flatProperties");
 		}
 		return panel;
+	}
+
+	private void registerStateSettingsListenerWidget(Property property, Widget widget) {
+		stateSettingsListener.registerWidget(widget, property);
 	}
 
 	private void mayRegisterSettingsListenerWidget(NamedEnumeratedProperty<?> property,
@@ -159,10 +171,21 @@ public class PropertiesPanelAdapter implements SetLabels {
 			widgets.add(gridDistancePanel);
 			return gridDistancePanel;
 		}
+		if (property instanceof AxisDistancePropertyCollection
+			|| property instanceof AxisUnitPropertyCollection
+			|| property instanceof AxisCrossPropertyCollection) {
+			FlowPanel axisCheckBoxComboBoxPanel = new FlowPanel();
+			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
+				Widget widget = getWidget(prop);
+				widgets.add(widget);
+				axisCheckBoxComboBoxPanel.add(widget);
+				registerStateSettingsListenerWidget(prop, widget);
+			}
+			return axisCheckBoxComboBoxPanel;
+		}
 		if (property instanceof NavigationBarPropertiesCollection) {
 			FlowPanel panel = new FlowPanel();
 			panel.addStyleName("navigationBar");
-			StateSettingsListener stateSettingsListener = new StateSettingsListener(app, 1, 2);
 			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
 				Widget widget = getWidget(prop);
 				panel.add(widget);
@@ -211,6 +234,19 @@ public class PropertiesPanelAdapter implements SetLabels {
 			mayRegisterSettingsListenerWidget((NamedEnumeratedProperty<?>) property, dropDown);
 			widgets.add(dropDown);
 			return dropDown;
+		}
+		if (property instanceof StringPropertyWithSuggestions) {
+			ComponentComboBox comboBox = new ComponentComboBox(app,
+					(StringPropertyWithSuggestions) property);
+			widgets.add(comboBox);
+			return comboBox;
+		}
+		if (property instanceof NumericPropertyWithSuggestions) {
+			ComponentComboBox comboBox = new ComponentComboBox(app,
+					(NumericPropertyWithSuggestions) property);
+			comboBox.setDisabled(!property.isEnabled());
+			widgets.add(comboBox);
+			return comboBox;
 		}
 		if (property instanceof IconsEnumeratedProperty) {
 			IconButtonPanel iconButtonPanel = new IconButtonPanel(app,

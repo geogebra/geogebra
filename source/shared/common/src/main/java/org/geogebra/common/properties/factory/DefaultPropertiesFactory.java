@@ -37,8 +37,13 @@ import org.geogebra.common.properties.impl.graphics.AxesColorProperty;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesLineStyleProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
-import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
+import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisLabelProperty;
+import org.geogebra.common.properties.impl.graphics.AxisPositiveDirectionProperty;
+import org.geogebra.common.properties.impl.graphics.AxisSelectionAllowedProperty;
+import org.geogebra.common.properties.impl.graphics.AxisTickProperty;
+import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
@@ -250,13 +255,17 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 
 	protected Property axisExpandableProperty(int axis, String label, App app,
 			Localization localization, EuclidianViewInterfaceCommon view) {
-
 		EuclidianSettings euclidianSettings = view.getSettings();
 		return new PropertyCollectionWithLead(localization, label,
 				new AxisVisibilityProperty(localization, euclidianSettings, axis, label),
-				new AxisDistanceProperty(localization, euclidianSettings,
-						view, app.getKernel(), "Distance", axis),
-				new AxisLabelProperty(localization, euclidianSettings, "Label", axis)
+				new AxisLabelProperty(localization, euclidianSettings, "Label", axis),
+				new AxisTickProperty(localization, euclidianSettings, axis, view),
+				new AxisDistancePropertyCollection(app, localization, euclidianSettings, axis,
+						view),
+				new AxisUnitPropertyCollection(localization, euclidianSettings, axis, view),
+				new AxisCrossPropertyCollection(localization, euclidianSettings, axis, view),
+				new AxisPositiveDirectionProperty(localization, euclidianSettings, axis, view),
+				new AxisSelectionAllowedProperty(localization, euclidianSettings, axis, view)
 		);
 	}
 }

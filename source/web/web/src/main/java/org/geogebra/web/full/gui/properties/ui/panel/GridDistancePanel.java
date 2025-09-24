@@ -82,12 +82,7 @@ public class GridDistancePanel extends FlowPanel implements SetLabels {
 
 	private ComponentComboBox buildComboBox(
 			NumericPropertyWithSuggestions gridDistanceProperty, boolean disabled) {
-		String defaultValue = gridDistanceProperty.getValue();
 		ComponentComboBox comboBox = new ComponentComboBox(appW, gridDistanceProperty);
-		comboBox.setValue(defaultValue);
-		comboBox.addChangeHandler(() -> {
-			gridDistanceProperty.setValue(comboBox.getSelectedText().trim());
-		});
 		if (disabled) {
 			comboBox.setDisabled(true);
 		}

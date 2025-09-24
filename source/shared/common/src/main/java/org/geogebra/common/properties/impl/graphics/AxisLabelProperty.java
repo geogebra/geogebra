@@ -1,16 +1,24 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_X;
+import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Y;
+import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Z;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.StringProperty;
-import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
 /**
  * This property controls the label on an axis.
  */
-public class AxisLabelProperty extends AbstractValuedProperty<String> implements StringProperty {
+public class AxisLabelProperty extends StringPropertyWithSuggestions implements StringProperty {
 
 	private EuclidianSettings euclidianSettings;
 	private int axis;
@@ -27,6 +35,28 @@ public class AxisLabelProperty extends AbstractValuedProperty<String> implements
 		super(localization, label);
 		this.euclidianSettings = euclidianSettings;
 		this.axis = axis;
+	}
+
+	@Override
+	public List<String> getSuggestions() {
+		ArrayList<String> labels = new ArrayList<>();
+		labels.add("");
+		String defaultLabel;
+		switch (axis) {
+		case AXIS_X:
+			defaultLabel = "x";
+			break;
+		case AXIS_Y:
+		default:
+			defaultLabel = "y";
+			break;
+		case AXIS_Z:
+			defaultLabel = "z";
+			break;
+		}
+		labels.add(defaultLabel);
+		GeoElement.addAddAllGreekLowerCaseNoPi(labels);
+		return labels;
 	}
 
 	@Override

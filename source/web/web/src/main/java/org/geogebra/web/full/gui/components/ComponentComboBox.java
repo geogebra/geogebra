@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.NumericPropertyWithSuggestions;
+import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -46,12 +46,25 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 	}
 
 	/**
-	 * Creates a combo box using a {@link NamedEnumeratedProperty}.
+	 * Creates a combo box using a {@link NumericPropertyWithSuggestions}.
 	 * @param app see {@link AppW}
 	 * @param property popup items
 	 */
 	public ComponentComboBox(AppW app, NumericPropertyWithSuggestions property) {
 		this(app, property.getName(), property.getSuggestions());
+		setValue(property.getValue());
+		addChangeHandler(() -> property.setValue(getSelectedText().trim()));
+	}
+
+	/**
+	 * Creates a combo box using a {@link StringPropertyWithSuggestions}.
+	 * @param app see {@link AppW}
+	 * @param property popup items
+	 */
+	public ComponentComboBox(AppW app, StringPropertyWithSuggestions property) {
+		this(app, property.getName(), property.getSuggestions());
+		setValue(property.getValue());
+		addChangeHandler(() -> property.setValue(getSelectedText().trim()));
 	}
 
 	private void initController(List<String> items) {

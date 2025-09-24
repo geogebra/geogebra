@@ -215,7 +215,6 @@ public class EuclidianSettings extends AbstractSettings {
 		Arrays.fill(axesTickStyles, EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR);
 		// for axes labeling with numbers
 		Arrays.fill(automaticAxesNumberingDistances, true);
-		Arrays.fill(automaticAxesNumberingDistances, true);
 		Arrays.fill(axisCross, 0);
 		Arrays.fill(positiveAxes, false);
 		Arrays.fill(selectionAllowed, true);

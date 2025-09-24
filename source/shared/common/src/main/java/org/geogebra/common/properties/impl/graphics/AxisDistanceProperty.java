@@ -1,18 +1,21 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.impl.AbstractNumericProperty;
+import org.geogebra.common.properties.NumericPropertyWithSuggestions;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * This property controls the distance of an axis numbering
  */
-public class AxisDistanceProperty extends AbstractNumericProperty {
-
+public class AxisDistanceProperty extends NumericPropertyWithSuggestions {
 	private final EuclidianSettings euclidianSettings;
 	private final EuclidianViewInterfaceCommon euclidianView;
 	private final int axis;
@@ -51,12 +54,11 @@ public class AxisDistanceProperty extends AbstractNumericProperty {
 
 	@Override
 	public boolean isEnabled() {
-		boolean[] axesAutomaticDistances = euclidianSettings.getAutomaticAxesNumberingDistances();
-		for (int i = 0; i < euclidianSettings.getDimension(); i++) {
-			if (!axesAutomaticDistances[i]) {
-				return true;
-			}
-		}
-		return false;
+		return !euclidianSettings.getAutomaticAxesNumberingDistances()[axis];
+	}
+
+	@Override
+	public List<String> getSuggestions() {
+		return List.of("1", Unicode.PI_STRING, Unicode.PI_HALF_STRING);
 	}
 }

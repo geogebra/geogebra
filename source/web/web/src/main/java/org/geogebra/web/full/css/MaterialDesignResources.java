@@ -38,6 +38,15 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/rightAngleStroke.svg")
 	SVGResource right_angle_style_stroke();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/axis_tick_major.svg")
+	SVGResource axis_tick_major();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/axis_tick_major_minor.svg")
+	SVGResource axis_tick_major_minor();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/axis_tick_off.svg")
+	SVGResource axis_tick_off();
+
 	// dynamic stylebar
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_color_reset-24px.svg")
 	SVGResource no_color();

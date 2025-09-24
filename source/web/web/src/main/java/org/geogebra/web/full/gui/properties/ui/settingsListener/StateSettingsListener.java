@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.geogebra.common.properties.Property;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentComboBox;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -22,6 +24,12 @@ public class StateSettingsListener extends SettingsListenerPropertyWidgetCollect
 		for (Map.Entry<Property, Widget> entry: propertyWidgetCollection.entrySet()) {
 			if (entry.getValue() instanceof ComponentCheckbox) {
 				((ComponentCheckbox) entry.getValue()).setDisabled(!entry.getKey().isEnabled());
+			}
+			if (entry.getValue() instanceof ComponentComboBox) {
+				((ComponentComboBox) entry.getValue()).setDisabled(!entry.getKey().isEnabled());
+			}
+			if (entry.getValue() instanceof ComponentInputField) {
+				((ComponentInputField) entry.getValue()).setDisabled(!entry.getKey().isEnabled());
 			}
 		}
 	}
