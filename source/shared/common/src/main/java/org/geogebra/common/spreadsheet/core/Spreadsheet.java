@@ -441,6 +441,17 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		notifyRepaintNeeded();
 	}
 
+	// -- Context Menu --
+
+	/**
+	 * Returns the context menu items
+	 * @param identifier identifier
+	 * @return list of context menu items
+	 */
+	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
+		return controller.getMenuItems(identifier);
+	}
+
 	// Test support API (DO NOT USE except for tests!)
 
 	public SpreadsheetController getController() {
