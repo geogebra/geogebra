@@ -293,7 +293,8 @@ public class AlgoListElement extends AlgoElement {
 	private void setElement(GeoElement geo) {
 		if (canTypeSet(geo)) {
 			element.set(geo);
-			elementLabel = geo.getLabel(StringTemplate.realTemplate);
+			elementLabel = geo.isLabelSet()
+					? geo.getLabel(StringTemplate.realTemplate) : null;
 			if (hasDrawInformationAlgo(geo)) {
 				element.setDrawAlgorithm(
 						((DrawInformationAlgo) geo.getDrawAlgorithm()).copy());

@@ -99,13 +99,14 @@ public class AlgoName extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		String returnLabel;
+		String returnLabel = null;
 		if (geo.getParentAlgorithm() instanceof AlgoListElement) {
 			AlgoListElement algo = (AlgoListElement) geo.getParentAlgorithm();
 
 			returnLabel = algo.getLabel();
 
-		} else {
+		}
+		if (returnLabel == null) {
 			returnLabel = geo.getLabel(StringTemplate.realTemplate);
 		}
 
