@@ -1186,7 +1186,7 @@ public class Coords implements AnimatableValue<Coords> {
 	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
 			double[] globalCoords, double[] inPlaneCoords) {
 
-		if (DoubleUtil.isEqual((vx.crossProduct(vy)).dotproduct(vz), 0,
+		if (DoubleUtil.isEqual(vx.crossProduct(vy).dotproduct(vz), 0,
 				Kernel.STANDARD_PRECISION)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite

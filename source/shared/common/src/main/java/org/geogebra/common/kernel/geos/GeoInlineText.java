@@ -147,7 +147,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 			boolean bold = hasTextFormat.getFormat("bold", false);
 			boolean italic = hasTextFormat.getFormat("italic", false);
 			boolean underline = hasTextFormat.getFormat("underline", false);
-			return ((bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0)) | (underline
+			return (bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0) | (underline
 					? GFont.UNDERLINE : 0);
 		} catch (RuntimeException e) {
 			Log.warn("No format for " + hasTextFormat + e);

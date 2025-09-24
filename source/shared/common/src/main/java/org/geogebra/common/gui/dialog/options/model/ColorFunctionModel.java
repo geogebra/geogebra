@@ -165,7 +165,7 @@ public class ColorFunctionModel extends OptionsModel {
 															// for a color
 					(list.get(1) instanceof NumberValue) && //
 					(list.get(2) instanceof NumberValue) && //
-					((list.size() == 3 || list.get(3) instanceof NumberValue))) {
+					(list.size() == 3 || list.get(3) instanceof NumberValue)) {
 				for (int i = 0; i < getGeosLength(); i++) {
 
 					GeoElement geo = getGeoAt(i);

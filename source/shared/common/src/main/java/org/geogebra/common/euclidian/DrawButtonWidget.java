@@ -57,10 +57,8 @@ public class DrawButtonWidget {
 	private double widthCorrection;
 	private boolean latex;
 
-	private final static int MARGIN_TOP = 6;
-	private final static int MARGIN_BOTTOM = 5;
-	private final static int MARGIN_LEFT = 10;
-	private final static int MARGIN_RIGHT = 10;
+	private final static int MARGIN_VERTICAL = 6 + 5;
+	private final static int MARGIN_HORIZONTAL = 10 + 10;
 
 	private final static int DEFAULT_TEXT_HEIGHT = 24;
 
@@ -230,22 +228,19 @@ public class DrawButtonWidget {
 			}
 		}
 		// With fixed size the font are resized if is too big
-		if (mayResize && (geoButton.isFixedSize() && ((int) textHeight + imgGap
-				+ (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
-				|| (int) textWidth
-				+ (MARGIN_LEFT + MARGIN_RIGHT) > getWidth()))) {
+		if (mayResize && geoButton.isFixedSize()
+				&& ((int) textHeight + imgGap + MARGIN_VERTICAL > getHeight()
+				|| (int) textWidth + MARGIN_HORIZONTAL > getWidth())) {
 			resize(g, imgGap, latex);
 			return;
 		}
-		int currentWidth = Math.max((int) (textWidth
-						+ (MARGIN_LEFT + MARGIN_RIGHT)),
+		int currentWidth = Math.max((int) (textWidth + MARGIN_HORIZONTAL),
 				minSize);
-		currentWidth = Math.max(currentWidth,
-				imgWidth + (MARGIN_LEFT + MARGIN_RIGHT));
+		currentWidth = Math.max(currentWidth, imgWidth + MARGIN_HORIZONTAL);
 
 		int currentHeight = (int) textHeight == DEFAULT_TEXT_HEIGHT && imgHeight == 0
 				? DEFAULT_BUTTON_HEIGHT : Math.max((int) (textHeight + imgHeight + imgGap
-				+ (MARGIN_TOP + MARGIN_BOTTOM)), minSize);
+				+ MARGIN_VERTICAL), minSize);
 
 		// Initial offset for subimage if button has fixed size
 		startX = 0;
@@ -373,8 +368,8 @@ public class DrawButtonWidget {
 		int i = GeoText.getFontSizeIndex(
 				geoButton.getFontSizeMultiplier());
 		while (i > 0
-				&& (textHeight + imgGap + (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
-				|| textWidth + (MARGIN_LEFT + MARGIN_RIGHT) > getWidth())) {
+				&& (textHeight + imgGap + MARGIN_VERTICAL > getHeight()
+				|| textWidth + MARGIN_HORIZONTAL > getWidth())) {
 			i--;
 			font = font.deriveFont(font.getStyle(),
 					(int) (GeoText.getRelativeFontSize(i) * 12));

@@ -405,13 +405,13 @@ public class CASInputHandler {
 
 		ExpressionValue expandValidExp = null;
 		// case input is a cell
-		if (evalText.charAt(0) == (GeoCasCell.ROW_REFERENCE_DYNAMIC)) {
+		if (evalText.charAt(0) == GeoCasCell.ROW_REFERENCE_DYNAMIC) {
 			int row = Integer.parseInt(evalText.substring(1, 2));
 			GeoCasCell geoCasCell = consoleTable.getGeoCasCell(row - 1);
 			expandValidExp = geoCasCell.getInputVE();
 		} else {
 			try {
-				expandValidExp = (kernel.getGeoGebraCAS()).getCASparser()
+				expandValidExp = kernel.getGeoGebraCAS().getCASparser()
 						.parseGeoGebraCASInput(evalText, null)
 						.traverse(FunctionExpander.newFunctionExpander());
 			} catch (Exception e) {

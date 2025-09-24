@@ -561,9 +561,10 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	@Override
 	public boolean isDrawable() {
-		return isDrawable || (getDrawAlgorithm() != getParentAlgorithm())
-				|| (isIndependent() && isLabelSet()
-						|| getParentAlgorithm() instanceof AlgoAngle);
+		return isDrawable
+				|| getDrawAlgorithm() != getParentAlgorithm()
+				|| isIndependent() && isLabelSet()
+				|| getParentAlgorithm() instanceof AlgoAngle;
 	}
 
 	@Override

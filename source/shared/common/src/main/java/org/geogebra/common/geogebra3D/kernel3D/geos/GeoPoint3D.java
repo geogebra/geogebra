@@ -343,7 +343,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				// TODO cast in GgbVector
 				if (v.get(4) < 0) {
 					for (int i = 1; i <= 4; i++) {
-						v.set(i, (v.get(i)) * (-1.0));
+						v.set(i, v.get(i) * -1.0);
 					}
 				}
 

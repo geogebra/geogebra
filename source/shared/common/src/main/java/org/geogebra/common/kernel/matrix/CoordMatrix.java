@@ -877,7 +877,7 @@ public class CoordMatrix {
 		} else {
 			double signe = 1.0;
 			for (int j = 1; j <= getColumns(); j++) {
-				ret += get(1, j) * signe * (subMatrix(1, j).det());
+				ret += get(1, j) * signe * subMatrix(1, j).det();
 				signe = -signe;
 			}
 		}

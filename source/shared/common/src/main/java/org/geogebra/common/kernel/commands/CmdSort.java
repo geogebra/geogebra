@@ -42,7 +42,7 @@ public class CmdSort extends CommandProcessor {
 
 		case 2:
 			arg = resArgs(c, info);
-			if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
+			if (arg[0].isGeoList() && arg[1].isGeoList()) {
 
 				AlgoSort algo = new AlgoSort(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);

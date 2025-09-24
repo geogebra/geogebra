@@ -694,7 +694,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			int activeViewId = getActiveToolbarId();
 
 			if (macro.isShowInToolBar()
-					&& !(initial.contains(String.valueOf(macroMode)))
+					&& !initial.contains(String.valueOf(macroMode))
 					&& (macroViewId == activeViewId)) {
 				customToolBar.append(" ");
 				customToolBar.append(macroMode);

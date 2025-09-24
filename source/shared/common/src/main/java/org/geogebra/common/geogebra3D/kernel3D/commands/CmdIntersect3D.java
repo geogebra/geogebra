@@ -261,8 +261,8 @@ public class CmdIntersect3D extends CmdIntersect {
 
 		case 3:
 			arg = resArgs(c, info);
-			if ((arg[0].isGeoElement3D()) || (arg[1].isGeoElement3D())
-					|| (arg[2].isGeoElement3D())) {
+			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()
+					|| arg[2].isGeoElement3D()) {
 
 				// Line - Conic
 				if ((arg[0].isGeoLine()) && arg[1].isGeoConic()
@@ -272,21 +272,21 @@ public class CmdIntersect3D extends CmdIntersect {
 									(GeoLineND) arg[0], (GeoConicND) arg[1],
 									(GeoNumberValue) arg[2]) };
 					return ret;
-				} else if ((arg[1].isGeoLine()) && arg[0].isGeoConic()
+				} else if (arg[1].isGeoLine() && arg[0].isGeoConic()
 						&& arg[2] instanceof GeoNumberValue) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 							.intersectLineConicSingle(c.getLabel(),
 									(GeoLineND) arg[1], (GeoConicND) arg[0],
 									(GeoNumberValue) arg[2]) };
 					return ret;
-				} else if ((arg[0].isGeoLine()) && arg[1].isGeoConic()
+				} else if (arg[0].isGeoLine() && arg[1].isGeoConic()
 						&& arg[2].isGeoPoint()) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 							.intersectLineConicSingle(c.getLabel(),
 									(GeoLineND) arg[0], (GeoConicND) arg[1],
 									(GeoPointND) arg[2]) };
 					return ret;
-				} else if ((arg[1].isGeoLine()) && arg[0].isGeoConic()
+				} else if (arg[1].isGeoLine() && arg[0].isGeoConic()
 						&& arg[2].isGeoPoint()) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 							.intersectLineConicSingle(c.getLabel(),
@@ -295,7 +295,7 @@ public class CmdIntersect3D extends CmdIntersect {
 					return ret;
 				}
 				// Conic - Conic
-				else if ((arg[0].isGeoConic())
+				else if (arg[0].isGeoConic()
 						&& (arg[1].isGeoConic()
 								|| arg[1] instanceof GeoQuadric3D)
 						&& arg[2] instanceof GeoNumberValue) {
@@ -304,7 +304,7 @@ public class CmdIntersect3D extends CmdIntersect {
 									(GeoConicND) arg[0], (GeoQuadricND) arg[1],
 									(GeoNumberValue) arg[2]) };
 					return ret;
-				} else if ((arg[0].isGeoConic()) && arg[1].isGeoConic()
+				} else if (arg[0].isGeoConic() && arg[1].isGeoConic()
 						&& arg[2].isGeoPoint()) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 							.intersectConicsSingle(c.getLabel(),
@@ -313,14 +313,14 @@ public class CmdIntersect3D extends CmdIntersect {
 					return ret;
 				}
 				// Line - Quadric
-				else if ((arg[0].isGeoLine()) && arg[1] instanceof GeoQuadric3D
+				else if (arg[0].isGeoLine() && arg[1] instanceof GeoQuadric3D
 						&& arg[2] instanceof GeoNumberValue) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 							.intersectLineQuadricSingle(c.getLabel(),
 									(GeoLineND) arg[0], (GeoQuadric3D) arg[1],
 									(GeoNumberValue) arg[2]) };
 					return ret;
-				} else if ((arg[1].isGeoLine())
+				} else if (arg[1].isGeoLine()
 						&& arg[0] instanceof GeoQuadric3D
 						&& arg[2] instanceof GeoNumberValue) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
@@ -328,7 +328,7 @@ public class CmdIntersect3D extends CmdIntersect {
 									(GeoLineND) arg[1], (GeoQuadric3D) arg[0],
 									(GeoNumberValue) arg[2]) };
 					return ret;
-				} else if ((arg[0].isGeoLine())
+				} else if (arg[0].isGeoLine()
 						&& arg[1] instanceof GeoQuadric3D
 						&& arg[2].isGeoPoint()) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
@@ -336,7 +336,7 @@ public class CmdIntersect3D extends CmdIntersect {
 									(GeoLineND) arg[0], (GeoQuadric3D) arg[1],
 									(GeoPointND) arg[2]) };
 					return ret;
-				} else if ((arg[1].isGeoLine())
+				} else if (arg[1].isGeoLine()
 						&& arg[0] instanceof GeoQuadric3D
 						&& arg[2].isGeoPoint()) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()

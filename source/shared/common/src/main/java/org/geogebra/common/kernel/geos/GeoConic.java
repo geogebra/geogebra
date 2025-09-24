@@ -231,9 +231,9 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 				GeoVec2D midPoint = conic.getTranslationVector();
 				double mx = midPoint.getX();
 				double my = midPoint.getY();
-				double lx = (getLines()[0]).x;
-				double ly = (getLines()[0]).y;
-				double lz = (getLines()[0]).z;
+				double lx = getLines()[0].x;
+				double ly = getLines()[0].y;
+				double lz = getLines()[0].z;
 				double perpY, perpX;
 
 				if (lx == 0) {

@@ -591,8 +591,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	private int getRows() {
-		return linkedGeo instanceof GeoList  ? ((GeoList) linkedGeo).size()
-				: (linkedGeo instanceof GeoVectorND ? ((GeoVectorND) linkedGeo).getDimension() : 1);
+		return linkedGeo instanceof GeoList ? ((GeoList) linkedGeo).size()
+				: linkedGeo instanceof GeoVectorND ? ((GeoVectorND) linkedGeo).getDimension()
+				: 1;
 	}
 
 	/**

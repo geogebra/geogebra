@@ -361,7 +361,7 @@ public class CASparser implements CASParserInterface {
 					char digit;
 					while (j < len
 							&& StringUtil.isDigit(digit = str.charAt(j))) {
-						code = 10 * code + (digit - 48);
+						code = 10 * code + digit - '0';
 						j++;
 					}
 

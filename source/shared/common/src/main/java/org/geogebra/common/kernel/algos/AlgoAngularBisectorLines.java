@@ -350,10 +350,10 @@ public class AlgoAngularBisectorLines extends AlgoElement
 			 * automatically in this class.
 			 */
 			PVariable[] vC, varsLg, varsLh;
-			vC = (this.B).getBotanaVars(this.B);
+			vC = this.B.getBotanaVars(this.B);
 			varsLg = lg.getBotanaVars(lg);
 			varsLh = lh.getBotanaVars(lh);
-			PPolynomial[] polysC = (this.B).getBotanaPolynomials(this.B);
+			PPolynomial[] polysC = this.B.getBotanaPolynomials(this.B);
 			PVariable[] vA = new PVariable[2];
 			PVariable[] vB = new PVariable[2];
 			int polysNeeded = 6;

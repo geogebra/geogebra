@@ -622,7 +622,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 								.getLeft() instanceof MyList
 								&& args.size() > 2) {
 							sbCASCommand.append(toString(
-									((MyList) (args.get(pos).getLeft()))
+									((MyList) args.get(pos).getLeft())
 											.get(0),
 									symbolic, tplToUse));
 						} else if ("Integral".equals(name)) {
@@ -1269,7 +1269,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
 			Kernel kernel) {
 		try {
-			ValidExpression expression = (kernel.getGeoGebraCAS()).getCASparser()
+			ValidExpression expression = getCASparser()
 					.parseGeoGebraCASInputAndResolveDummyVars(inValue, kernel,
 							geoCasCell);
 			expression.traverse(Traversing.GgbVectRemover.getInstance());

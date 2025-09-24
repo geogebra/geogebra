@@ -61,7 +61,7 @@ public class CmdArea extends CommandProcessor {
 			boolean is3D = false;
 			// check arguments
 			for (int i = 0; i < n; i++) {
-				if (!(arg[i].isGeoPoint())) {
+				if (!arg[i].isGeoPoint()) {
 					throw argErr(c, arg[i]);
 				}
 				points[i] = (GeoPointND) arg[i];

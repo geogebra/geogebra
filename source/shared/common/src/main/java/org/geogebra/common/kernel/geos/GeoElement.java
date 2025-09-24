@@ -382,7 +382,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 		// if ev isn't Graphics or Graphics 2, then also add 1st 2D
 		// euclidian view
-		if (!(ev.isDefault2D())) {
+		if (!ev.isDefault2D()) {
 			viewFlags.add(App.VIEW_EUCLIDIAN);
 		}
 	}
@@ -3017,7 +3017,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	final public void addAlgorithm(final AlgoElement algorithm) {
-		if (!(getAlgorithmList().contains(algorithm))) {
+		if (!getAlgorithmList().contains(algorithm)) {
 			algorithmList.add(algorithm);
 		}
 		addToUpdateSets(algorithm);
@@ -3273,7 +3273,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			geo.update();
 
 			if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
-					&& (geo.hasAlgoUpdateSet())) {
+					&& geo.hasAlgoUpdateSet()) {
 				// add all dependent algos of geo to the overall algorithm
 				// set
 				geo.getAlgoUpdateSet().addAllToCollection(tempSet1);
@@ -3311,7 +3311,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			geo.updateLocation();
 
 			if ((geo.isIndependent() || geo.isGeoText())
-					&& (geo.hasAlgoUpdateSet())) {
+					&& geo.hasAlgoUpdateSet()) {
 				// add all dependent algos of geo to the overall algorithm
 				// set
 				geo.getAlgoUpdateSet().addAllToCollection(tempSet1);
@@ -5495,7 +5495,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (tpl.hasType(StringType.LATEX)) {
 			if ((Unicode.INFINITY + "").equals(ret)) {
 				ret = "\\infty";
-			} else if ((Unicode.MINUS_INFINITY_STRING).equals(ret)) {
+			} else if (Unicode.MINUS_INFINITY_STRING.equals(ret)) {
 				ret = "-\\infty";
 			}
 		}
