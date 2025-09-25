@@ -9,17 +9,16 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
  * This property controls the visibility of the axes.
  */
 public class AxesVisibilityProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty {
+		implements BooleanProperty, SettingsDependentProperty {
 
-	private EuclidianSettings euclidianSettings;
+	private final EuclidianSettings euclidianSettings;
 
 	/**
 	 * Constructs an AxesVisibility property.
 	 * @param localization localization for the name
 	 * @param euclidianSettings euclidian settings
 	 */
-	public AxesVisibilityProperty(Localization localization,
-			EuclidianSettings euclidianSettings) {
+	public AxesVisibilityProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "ShowAxes");
 		this.euclidianSettings = euclidianSettings;
 	}
@@ -38,5 +37,10 @@ public class AxesVisibilityProperty extends AbstractValuedProperty<Boolean>
 	@Override
 	public void doSetValue(Boolean value) {
 		euclidianSettings.setShowAxes(value);
+	}
+
+	@Override
+	public EuclidianSettings getSettings() {
+		return euclidianSettings;
 	}
 }

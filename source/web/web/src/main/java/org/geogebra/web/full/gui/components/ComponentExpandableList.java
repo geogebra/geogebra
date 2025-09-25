@@ -3,7 +3,9 @@ package org.geogebra.web.full.gui.components;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.properties.aliases.BooleanProperty;
+import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -51,6 +53,11 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 		addTitleTo(header);
 		if (booleanProperty != null) {
 			addCheckBoxTo(header);
+		}
+
+		if (booleanProperty instanceof SettingsDependentProperty) {
+			((SettingsDependentProperty) booleanProperty).getSettings()
+					.addListener(this::updateCheckbox);
 		}
 
 		contentPanel = new FlowPanel();
@@ -107,6 +114,21 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	 */
 	public void addToContent(Widget widget) {
 		contentPanel.add(widget);
+	}
+
+	/**
+	 * Check if settings update affects this property and update UI if needed.
+	 */
+	@SuppressWarnings("unused")
+	private void updateCheckbox(AbstractSettings settings) {
+		boolean selected = booleanProperty.getValue();
+		if (checkbox.isSelected() != selected) {
+			if (!selected) {
+				expanded = false;
+			}
+			checkbox.setSelected(selected);
+			updateUISelectedState();
+		}
 	}
 
 	@Override
