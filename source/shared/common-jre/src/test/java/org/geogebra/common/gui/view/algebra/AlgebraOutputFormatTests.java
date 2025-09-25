@@ -12,9 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.util.List;
 import java.util.Set;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
 import org.junit.jupiter.api.Test;
@@ -487,5 +490,22 @@ public class AlgebraOutputFormatTests extends BaseAppTestSetup {
         assertEquals(APPROXIMATION, AlgebraOutputFormat.getActiveFormat(geoElement));
         assertNull(AlgebraOutputFormat.getNextFormat(
                 geoElement, false, Set.of(fractionFormatFilter)));
+    }
+
+    @ParameterizedTest
+    @MockedCasValues({
+            "Solve(x x = 2) -> {x=-sqrt(2), x = sqrt(2)}",
+            "NSolve(x x = 2) -> {x=-1.4, x = 1.4}",
+            "Solutions(x x = 2) -> {-sqrt(2), sqrt(2)}",
+            "NSolutions(x x = 2) -> {-1.4, 1.4}"
+    })
+    @ValueSource(strings = {"Solve(x x = 2)", "Solutions(x x = 2)"})
+    public void solveInGraphing(String input) {
+        setApp(AppCommonFactory.create(new AppConfigUnrestrictedGraphing()));
+        mockedCasGiac.applyTo(getApp());
+        GeoList list = evaluateGeoElement(input);
+        assertEquals(APPROXIMATION, AlgebraOutputFormat.getNextFormat(list, false, Set.of()));
+        AlgebraOutputFormat.switchToNextFormat(list, false, Set.of());
+        assertEquals(EXACT, AlgebraOutputFormat.getNextFormat(list, false, Set.of()));
     }
 }

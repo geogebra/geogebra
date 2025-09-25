@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Fractions;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
@@ -74,7 +75,7 @@ public enum AlgebraOutputFormat {
         AlgebraOutputFormat activeFormat = getActiveFormat(geoElement);
         List<AlgebraOutputFormat> possibleFormats =
                 getPossibleFormats(geoElement, enableEngineeringFormat, algebraOutputFormatFilters);
-        // If there are no possible formats, then switching should not be available.
+		// If there are no possible formats, then switching should not be available.
         if (possibleFormats.isEmpty()) {
             return null;
         }
@@ -140,7 +141,7 @@ public enum AlgebraOutputFormat {
         }
 
         if (hasDifferentSymbolicAndNumericFormat(geoElement)) {
-            return SymbolicUtil.isSymbolicMode(geoElement)
+            return isCASOutputTypeSymbolic(geoElement)
                     ? (hasFractionalFormat(geoElement) ? FRACTION : EXACT)
                     : APPROXIMATION;
         }
@@ -190,9 +191,17 @@ public enum AlgebraOutputFormat {
     }
 
     private static boolean isCASOutputTypeSymbolic(GeoElement geoElement) {
-        return !(geoElement instanceof HasSymbolicMode)
-                || ((HasSymbolicMode) geoElement).isSymbolicMode()
-                || (geoElement.getParentAlgorithm() instanceof AlgoSolve
-                && geoElement.getParentAlgorithm().getClassName() != Commands.NSolve);
+        return geoElement.getParentAlgorithm() instanceof AlgoSolve
+					? isSymbolicSolve(geoElement.getParentAlgorithm().getClassName())
+					: isSymbolicGeneral(geoElement);
     }
+
+	private static boolean isSymbolicGeneral(GeoElement geoElement) {
+		return !(geoElement instanceof HasSymbolicMode)
+				|| ((HasSymbolicMode) geoElement).isSymbolicMode();
+	}
+
+	private static boolean isSymbolicSolve(GetCommand className) {
+		return className != Commands.NSolve && className != Commands.NSolutions;
+	}
 }

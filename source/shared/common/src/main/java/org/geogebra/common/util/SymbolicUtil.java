@@ -220,14 +220,6 @@ public class SymbolicUtil {
 	}
 
 	/**
-	 * @param geo Element
-	 * @return Whether the element is symbolic
-	 */
-	public static boolean isSymbolicMode(GeoElement geo) {
-		return geo instanceof HasSymbolicMode && ((HasSymbolicMode) geo).isSymbolicMode();
-	}
-
-	/**
 	 * Changes the engineering notation mode flag of a geo
 	 * @param geo Element
 	 * @return Whether the engineering notation mode flag is set to true after the toggle

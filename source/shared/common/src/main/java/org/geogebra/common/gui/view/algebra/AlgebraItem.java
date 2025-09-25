@@ -101,6 +101,8 @@ public class AlgebraItem {
 				if (!allRHSareIntegers((GeoList) geo.get(i))) {
 					return false;
 				}
+			} else if (geo.get(i) instanceof GeoNumeric) {
+				return DoubleUtil.isInteger(geo.get(i).evaluateDouble());
 			} else {
 				return false;
 			}
