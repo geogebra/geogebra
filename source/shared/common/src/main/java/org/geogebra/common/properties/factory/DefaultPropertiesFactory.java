@@ -4,6 +4,10 @@ import static org.geogebra.common.properties.factory.PropertiesRegistration.regi
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -171,8 +175,8 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						),
 						new DimensionPropertiesCollection(app, localization, euclidianSettings,
 								view1),
-						axisExpandableProperty(0, "xAxis", app, localization, view1),
-						axisExpandableProperty(1, "yAxis", app, localization, view1),
+						axisExpandableProperty2D(0, "xAxis", app, localization, view1),
+						axisExpandableProperty2D(1, "yAxis", app, localization, view1),
 						app.isUnbundled()
 								? new AdvancedApps2DPropertiesCollection(app, localization,
 								euclidianSettings, view1)
@@ -204,8 +208,8 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						),
 						new DimensionPropertiesCollection(app, localization,
 								euclidianSettings, activeView),
-						axisExpandableProperty(0, "xAxis", app, localization, activeView),
-						axisExpandableProperty(1, "yAxis", app, localization, activeView),
+						axisExpandableProperty2D(0, "xAxis", app, localization, activeView),
+						axisExpandableProperty2D(1, "yAxis", app, localization, activeView),
 						app.isUnbundled()
 								? new AdvancedApps2DPropertiesCollection(app, localization,
 								euclidianSettings, activeView)
@@ -233,9 +237,9 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new LabelStylePropertyCollection(localization, euclidianSettings)),
 						new DimensionPropertiesCollection(app, localization,
 								euclidianSettings, view),
-						axisExpandableProperty(0, "xAxis", app, localization, view),
-						axisExpandableProperty(1, "yAxis", app, localization, view),
-						axisExpandableProperty(2, "zAxis", app, localization, view),
+						axisExpandableProperty3D(0, "xAxis", app, localization, view),
+						axisExpandableProperty3D(1, "yAxis", app, localization, view),
+						axisExpandableProperty3D(2, "zAxis", app, localization, view),
 						new ProjectionPropertyCollection(app, localization,
 								(EuclidianSettings3D) euclidianSettings),
 						app.isUnbundled()
@@ -253,19 +257,33 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 				new RestoreSettingsAction(app, localization)));
 	}
 
-	protected Property axisExpandableProperty(int axis, String label, App app,
+	protected Property axisExpandableProperty2D(int axis, String label, App app,
 			Localization localization, EuclidianViewInterfaceCommon view) {
+		return axisExpandableProperty(axis, label, app, localization, view,
+				new AxisCrossPropertyCollection(localization, view.getSettings(), axis, view));
+	}
+
+	protected Property axisExpandableProperty3D(int axis, String label, App app,
+			Localization localization, EuclidianViewInterfaceCommon view) {
+		return axisExpandableProperty(axis, label, app, localization, view, null);
+	}
+
+	private Property axisExpandableProperty(int axis, String label, App app,
+			Localization localization, EuclidianViewInterfaceCommon view,
+			@CheckForNull Property crossProperty) {
 		EuclidianSettings euclidianSettings = view.getSettings();
-		return new PropertyCollectionWithLead(localization, label,
-				new AxisVisibilityProperty(localization, euclidianSettings, axis, label),
+		Property[] properties = Stream.of(
 				new AxisLabelProperty(localization, euclidianSettings, "Label", axis),
 				new AxisTickProperty(localization, euclidianSettings, axis, view),
 				new AxisDistancePropertyCollection(app, localization, euclidianSettings, axis,
 						view),
 				new AxisUnitPropertyCollection(localization, euclidianSettings, axis, view),
-				new AxisCrossPropertyCollection(localization, euclidianSettings, axis, view),
+				crossProperty,
 				new AxisPositiveDirectionProperty(localization, euclidianSettings, axis, view),
 				new AxisSelectionAllowedProperty(localization, euclidianSettings, axis, view)
-		);
+		).filter(Objects::nonNull).toArray(Property[]::new);
+		return new PropertyCollectionWithLead(localization, label,
+				new AxisVisibilityProperty(localization, euclidianSettings, axis, label),
+				properties);
 	}
 }

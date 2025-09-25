@@ -95,9 +95,9 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 						),
 						new DimensionPropertiesCollection(app, localization,
 								euclidianSettings, activeView),
-						axisExpandableProperty(0, "xAxis", app, localization, activeView),
-						axisExpandableProperty(1, "yAxis", app, localization, activeView),
-						axisExpandableProperty(2, "zAxis", app, localization, activeView),
+						axisExpandableProperty3D(0, "xAxis", app, localization, activeView),
+						axisExpandableProperty3D(1, "yAxis", app, localization, activeView),
+						axisExpandableProperty3D(2, "zAxis", app, localization, activeView),
 						new AdvancedApps3DPropertiesCollection(app, localization,
 								euclidianSettings))
 		);
