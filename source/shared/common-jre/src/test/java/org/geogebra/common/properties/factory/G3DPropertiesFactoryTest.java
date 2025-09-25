@@ -21,7 +21,7 @@ public class G3DPropertiesFactoryTest {
 		List<PropertiesArray> props = new G3DPropertiesFactory().createProperties(
 				app, app.getLocalization(), null);
 		assertEquals(3, props.size());
-		assertEquals(List.of("Grid", "Axes", "Dimensions", "xAxis", "yAxis", "zAxis", "Projection",
+		assertEquals(List.of("Grid", "Axes", "xAxis", "yAxis", "zAxis", "Projection",
 						"Advanced"),
 				getNames(props.get(2)));
 		PreviewFeature.enablePreviewFeatures = false;

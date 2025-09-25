@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.properties.ui.panel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
+import org.geogebra.common.properties.impl.graphics.Dimension2DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.DimensionRatioProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
@@ -31,7 +32,7 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 	 * @param appW application
 	 * @param propertiesPanelAdapter {@link PropertiesPanelAdapter}
 	 * @param property
-	 * {@link org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection}
+	 * {@link Dimension2DPropertiesCollection}
 	 */
 	public DimensionPanel(AppW appW, PropertiesPanelAdapter propertiesPanelAdapter,
 			PropertyCollection<?> property) {

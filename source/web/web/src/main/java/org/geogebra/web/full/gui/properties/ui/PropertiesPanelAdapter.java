@@ -28,7 +28,9 @@ import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
-import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.ClippingPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.Dimension2DPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.Dimension3DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesCollection;
@@ -47,6 +49,7 @@ import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
+import org.geogebra.web.full.gui.properties.ui.panel.Dimension3DPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.GridDistancePanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
@@ -83,7 +86,7 @@ public class PropertiesPanelAdapter implements SetLabels {
 		this.loc = loc;
 		this.app = app;
 		selectionListenerWidgetCollection = new SelectionSettingsListener(app);
-		stateSettingsListener = new StateSettingsListener(app, 1, 2);
+		stateSettingsListener = new StateSettingsListener(app, 1, 2, 3);
 	}
 
 	/**
@@ -193,6 +196,17 @@ public class PropertiesPanelAdapter implements SetLabels {
 			}
 			return panel;
 		}
+		if (property instanceof ClippingPropertyCollection) {
+			FlowPanel panel = new FlowPanel();
+			Label title = new Label(loc.getMenu(property.getName()));
+			panel.add(title);
+			widgets.add(title);
+			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
+				Widget widget = getWidget(prop);
+				panel.add(widget);
+			}
+			return panel;
+		}
 		if (property instanceof ProjectionPropertyCollection
 				|| property instanceof RulingPropertiesCollection) {
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
@@ -207,7 +221,13 @@ public class PropertiesPanelAdapter implements SetLabels {
 			widgets.add(expandableList);
 			return expandableList;
 		}
-		if (property instanceof DimensionPropertiesCollection) {
+		if (property instanceof Dimension3DPropertiesCollection) {
+			Dimension3DPanel dimension3DPanel = new Dimension3DPanel(app, this,
+					(Dimension3DPropertiesCollection) property);
+			widgets.add(dimension3DPanel);
+			return dimension3DPanel;
+		}
+		if (property instanceof Dimension2DPropertiesCollection) {
 			ComponentExpandableList expandableList = new DimensionPanel(app, this,
 					(PropertyCollection<?>) property);
 			widgets.add(expandableList);

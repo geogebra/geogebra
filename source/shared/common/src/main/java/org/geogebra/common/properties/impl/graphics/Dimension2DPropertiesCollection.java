@@ -13,12 +13,12 @@ import org.geogebra.common.properties.impl.collections.AbstractPropertyCollectio
 /**
  * Collection of dimension properties of a graphics view.
  */
-public class DimensionPropertiesCollection extends AbstractPropertyCollection<Property> {
+public class Dimension2DPropertiesCollection extends AbstractPropertyCollection<Property> {
 
 	/**
 	 * @param localization localization
 	 */
-	public DimensionPropertiesCollection(App app, Localization localization,
+	public Dimension2DPropertiesCollection(App app, Localization localization,
 			EuclidianSettings settings, EuclidianViewInterfaceCommon view) {
 		super(localization, "Dimensions");
 
@@ -32,12 +32,6 @@ public class DimensionPropertiesCollection extends AbstractPropertyCollection<Pr
 				EuclidianOptionsModel.MinMaxType.minY));
 		properties.add(new DimensionMinMaxProperty(app, localization, "ymax", settings,
 				EuclidianOptionsModel.MinMaxType.maxY));
-		if (settings.getDimension() > 2) {
-			properties.add(new DimensionMinMaxProperty(app, localization, "zmin", settings,
-					EuclidianOptionsModel.MinMaxType.minZ));
-			properties.add(new DimensionMinMaxProperty(app, localization, "zmax", settings,
-					EuclidianOptionsModel.MinMaxType.maxZ));
-		}
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
@@ -21,7 +22,6 @@ import org.geogebra.common.properties.impl.graphics.AdvancedApps3DPropertiesColl
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundProperty;
-import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.EuclideanViewXRActionsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GraphicsActionsPropertyCollection;
@@ -93,13 +93,11 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 						new PropertyCollectionWithLead(localization, "Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings)
 						),
-						new DimensionPropertiesCollection(app, localization,
-								euclidianSettings, activeView),
 						axisExpandableProperty3D(0, "xAxis", app, localization, activeView),
 						axisExpandableProperty3D(1, "yAxis", app, localization, activeView),
 						axisExpandableProperty3D(2, "zAxis", app, localization, activeView),
 						new AdvancedApps3DPropertiesCollection(app, localization,
-								euclidianSettings))
+								euclidianSettings, (EuclidianView3D) activeView))
 		);
 	}
 }

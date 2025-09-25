@@ -184,6 +184,12 @@ public class PropertiesIconAdapter {
 			return res.axis_tick_major_minor();
 		case ICON_AXIS_TICK_OFF:
 			return res.axis_tick_off();
+		case ICON_VIEW_DIRECTION_XY:
+			return res.viewXY();
+		case ICON_VIEW_DIRECTION_XZ:
+			return res.viewXZ();
+		case ICON_VIEW_DIRECTION_YZ:
+			return res.viewYZ();
 		case ICON_SEGMENT_DECO_1STROKE:
 			return GuiResources.INSTANCE.deco_segment_1stroke();
 		case ICON_SEGMENT_DECO_2STROKES:

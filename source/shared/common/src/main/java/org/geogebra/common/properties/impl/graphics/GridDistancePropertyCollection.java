@@ -20,6 +20,7 @@ public class GridDistancePropertyCollection extends AbstractPropertyCollection<P
 	 * @param app application
 	 * @param localization localization for the title
 	 * @param euclidianSettings EV settings
+	 * @param euclidianView euclidian view
 	 */
 	public GridDistancePropertyCollection(App app, Localization localization, EuclidianSettings
 			euclidianSettings, EuclidianViewInterfaceCommon euclidianView) {

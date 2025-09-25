@@ -11,6 +11,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -49,7 +50,7 @@ import org.geogebra.common.properties.impl.graphics.AxisSelectionAllowedProperty
 import org.geogebra.common.properties.impl.graphics.AxisTickProperty;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisVisibilityProperty;
-import org.geogebra.common.properties.impl.graphics.DimensionPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.Dimension2DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GraphicsActionsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
@@ -173,7 +174,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesBoldProperty(localization, euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)
 						),
-						new DimensionPropertiesCollection(app, localization, euclidianSettings,
+						new Dimension2DPropertiesCollection(app, localization, euclidianSettings,
 								view1),
 						axisExpandableProperty2D(0, "xAxis", app, localization, view1),
 						axisExpandableProperty2D(1, "yAxis", app, localization, view1),
@@ -206,7 +207,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesBoldProperty(localization, euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)
 						),
-						new DimensionPropertiesCollection(app, localization,
+						new Dimension2DPropertiesCollection(app, localization,
 								euclidianSettings, activeView),
 						axisExpandableProperty2D(0, "xAxis", app, localization, activeView),
 						axisExpandableProperty2D(1, "yAxis", app, localization, activeView),
@@ -235,8 +236,6 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesColoredProperty(localization,
 										(EuclidianSettings3D) euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)),
-						new DimensionPropertiesCollection(app, localization,
-								euclidianSettings, view),
 						axisExpandableProperty3D(0, "xAxis", app, localization, view),
 						axisExpandableProperty3D(1, "yAxis", app, localization, view),
 						axisExpandableProperty3D(2, "zAxis", app, localization, view),
@@ -244,9 +243,9 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								(EuclidianSettings3D) euclidianSettings),
 						app.isUnbundled()
 								? new AdvancedApps3DPropertiesCollection(app, localization,
-								euclidianSettings)
+								euclidianSettings, (EuclidianView3D) view)
 								: new AdvancedClassic3DPropertiesCollection(app, localization,
-								euclidianSettings))
+								euclidianSettings, (EuclidianView3D) view))
 		);
 	}
 

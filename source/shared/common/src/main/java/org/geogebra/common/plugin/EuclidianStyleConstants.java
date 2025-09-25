@@ -193,6 +193,10 @@ public class EuclidianStyleConstants {
 
 	public static final int NO_AXES = -1;
 
+	public final static int VIEW_DIRECTION_XY = 0;
+	public final static int VIEW_DIRECTION_XZ = 1;
+	public final static int VIEW_DIRECTION_YZ = 2;
+
 	/**
 	 * Get line style for given index.
 	 * @param i index
