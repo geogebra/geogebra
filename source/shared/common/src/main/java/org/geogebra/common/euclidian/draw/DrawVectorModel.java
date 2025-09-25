@@ -74,8 +74,8 @@ public class DrawVectorModel {
 
 	void scalePositionVector(double factor) {
 		double length = length();
-		this.coordsV[0] = (this.coordsV[0] * factor) / length;
-		this.coordsV[1] = (this.coordsV[1] * factor) / length;
+		this.coordsV[0] = this.coordsV[0] * factor / length;
+		this.coordsV[1] = this.coordsV[1] * factor / length;
 
 	}
 

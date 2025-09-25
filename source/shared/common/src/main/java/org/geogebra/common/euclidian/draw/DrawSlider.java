@@ -290,8 +290,8 @@ public class DrawSlider extends Drawable {
 		}
 		int r2 = hitThreshold * App.DEFAULT_THRESHOLD_FACTOR_FOR_BLOB_IN_SLIDER
 				+ Math.max(diameter, GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
-		return (x < coords[0] - r2 || x > coords[0] + r2)
-				|| (y < coords[1] - r2 || y > coords[1] + r2);
+		return x < coords[0] - r2 || x > coords[0] + r2
+				|| y < coords[1] - r2 || y > coords[1] + r2;
 	}
 
 	/**

@@ -85,10 +85,10 @@ public class DrawAxis {
 
 		boolean drawLeftArrow = ((view.axesLineType
 				& EuclidianStyleConstants.AXES_LEFT_ARROW) != 0)
-				&& !(view.positiveAxes[0]);
+				&& !view.positiveAxes[0];
 		boolean drawBottomArrow = ((view.axesLineType
 				& EuclidianStyleConstants.AXES_LEFT_ARROW) != 0)
-				&& !(view.positiveAxes[1]);
+				&& !view.positiveAxes[1];
 
 		// AXES_TICK_STYLE_MAJOR_MINOR = 0;
 		// AXES_TICK_STYLE_MAJOR = 1;
@@ -398,9 +398,9 @@ public class DrawAxis {
 		long labelno = Math.round(rw / view.axesNumberingDistances[1]);
 		// by default we start with minor tick to the left of first major
 		// tick, exception is for positive only
-		double axesStep = view.getYscale() * (view.axesNumberingDistances[1]); // pixelstep
+		double axesStep = view.getYscale() * view.axesNumberingDistances[1]; // pixelstep
 		if (view.getPositiveAxes()[1]
-				&& (DoubleUtil.isGreaterEqual(view.axisCross[0], view.getYmin()))) {
+				&& DoubleUtil.isGreaterEqual(view.axisCross[0], view.getYmin())) {
 			// start labels at the y-axis instead of screen border
 			// be careful: view.axisCross[1] = x value for which the y-axis
 			// crosses,
@@ -475,7 +475,7 @@ public class DrawAxis {
 
 						double width = layout.getAdvance();
 
-						int x = (int) ((xCrossPix + xoffset) - width);
+						int x = (int) (xCrossPix + xoffset - width);
 
 						// flag for handling label at axis cross point
 						boolean zero = strNum.equals(crossAtStr);
@@ -526,7 +526,7 @@ public class DrawAxis {
 			}
 
 			// small tick
-			double smallTickPix = (pix + tickStep) - smallTickOffset;
+			double smallTickPix = pix + tickStep - smallTickOffset;
 			if (drawMinorTicks[1]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
@@ -584,7 +584,7 @@ public class DrawAxis {
 		double leftLimit = (view.yLabelMaxWidthNeg > 0 ? view.yLabelMaxWidthNeg
 				: view.yLabelMaxWidthPos) + 10;
 		if (xCrossPix < leftLimit) {
-			return (int) ((leftLimit + xoffset) - width);
+			return (int) (leftLimit + xoffset - width);
 		} else if (xCrossPix > view.getWidth()) {
 			return (int) (view.getWidth() - width + xoffset);
 		}
@@ -622,7 +622,7 @@ public class DrawAxis {
 				x = (int) (xCrossPix - (EuclidianView.estimateTextWidth(zeroStr,
 						view.getFontAxes()) / 2));
 			} else {
-				x = (int) ((xCrossPix + xoffset) - width); // left
+				x = (int) (xCrossPix + xoffset - width); // left
 			}
 		}
 
@@ -728,7 +728,7 @@ public class DrawAxis {
 				/ (Math.log10(view.getYmax()) - Math.log10(view.getYmin()));
 		double pix = (Math.log10(view.getYmax()) - Math.log10(pow)) * axisStep;
 		if (view.getPositiveAxes()[1]
-				&& (DoubleUtil.isGreaterEqual(rw, view.getYmin()))) {
+				&& DoubleUtil.isGreaterEqual(rw, view.getYmin())) {
 			// start labels at the y-axis instead of screen border
 			// be careful: view.axisCross[1] = x value for which the y-axis
 			// crosses,
@@ -797,7 +797,7 @@ public class DrawAxis {
 
 						double width = layout.getAdvance();
 
-						int x = (int) ((xCrossPix + xoffset) - width);
+						int x = (int) (xCrossPix + xoffset - width);
 						int y;
 
 						// flag for handling label at axis cross point
@@ -836,7 +836,7 @@ public class DrawAxis {
 			}
 
 			// small tick
-			smallTickPix = (pix + tickStep) - smallTickOffset;
+			smallTickPix = pix + tickStep - smallTickOffset;
 			if (drawMinorTicks[1]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
@@ -882,7 +882,7 @@ public class DrawAxis {
 		double smallTickOffset = 0;
 		double axesStep = view.getXscale() * view.axesNumberingDistances[0]; // pixelstep
 		if (view.getPositiveAxes()[0]
-				&& (DoubleUtil.isGreaterEqual(view.axisCross[1], view.getXmin()))) {
+				&& DoubleUtil.isGreaterEqual(view.axisCross[1], view.getXmin())) {
 			// start labels at the y-axis instead of screen border
 			// be careful: view.axisCross[1] = x value for which the y-axis
 			// crosses,
@@ -947,17 +947,15 @@ public class DrawAxis {
 						if (zero && view.showAxes[1] && !view.positiveAxes[1]) {
 							x = (int) (pix + 6);
 						} else {
-							x = (int) ((pix + 1)
-									- (EuclidianView.estimateTextWidth(
-											sb.toString(), view.getFontAxes())
-											/ 2));
+							double textWidth = EuclidianView.estimateTextWidth(
+									sb.toString(), view.getFontAxes());
+							x = (int) (pix + 1 - (textWidth / 2));
 						}
 
 						if (labelno == -unitsPerLabelX) {
-							beforeZeroX = (int) ((pix + 1)
-									+ (EuclidianView.estimateTextWidth(
-											sb.toString(), view.getFontAxes())
-											/ 2));
+							double textWidth = EuclidianView.estimateTextWidth(
+									sb.toString(), view.getFontAxes());
+							beforeZeroX = (int) (pix + 1 + (textWidth / 2));
 						}
 
 						if (yCrossPix >= view.getHeight()
@@ -996,7 +994,7 @@ public class DrawAxis {
 			}
 
 			// small tick
-			smallTickPix = (pix - tickStep) + smallTickOffset;
+			smallTickPix = pix - tickStep + smallTickOffset;
 			if (drawMinorTicks[0]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(smallTickPix, ySmall1, smallTickPix,
@@ -1005,7 +1003,7 @@ public class DrawAxis {
 			labelno++;
 		}
 		// last small tick
-		smallTickPix = (pix - tickStep) + smallTickOffset;
+		smallTickPix = pix - tickStep + smallTickOffset;
 		if (drawMinorTicks[0]) {
 			g2.drawStraightLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
 		}
@@ -1069,8 +1067,9 @@ public class DrawAxis {
 					if (zero && view.showAxes[1] && !view.positiveAxes[1]) {
 						x = (int) (pix + 6);
 					} else {
-						x = (int) ((pix + 1) - (EuclidianView.estimateTextWidth(
-								sb.toString(), view.getFontAxes()) / 2));
+						double textWidth = EuclidianView.estimateTextWidth(
+								sb.toString(), view.getFontAxes());
+						x = (int) (pix + 1 - (textWidth / 2));
 					}
 
 					drawString(g2, sb.toString(), x, y);
@@ -1094,7 +1093,7 @@ public class DrawAxis {
 			}
 
 			// small tick
-			smallTickPix = (pix - 0) + smallTickOffset;
+			smallTickPix = pix + smallTickOffset;
 			if (drawMinorTicks[0]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(smallTickPix, ySmall1, smallTickPix,
@@ -1104,7 +1103,7 @@ public class DrawAxis {
 			pix += axisStep;
 		}
 		// last small tick
-		smallTickPix = (pix - 0) + smallTickOffset;
+		smallTickPix = pix + smallTickOffset;
 		if (drawMinorTicks[0]) {
 			g2.drawStraightLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
 		}
