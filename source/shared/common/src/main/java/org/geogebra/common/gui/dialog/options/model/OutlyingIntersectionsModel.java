@@ -16,7 +16,7 @@ public class OutlyingIntersectionsModel extends BooleanOptionModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getObjectAt(index) instanceof LimitedPath);
+		return getObjectAt(index) instanceof LimitedPath;
 	}
 
 	@Override

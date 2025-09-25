@@ -459,7 +459,7 @@ public class AlgoKimberlingWeights {
 			return -((2 * a - b - c)
 					* (b3 - 2 * b2 * c - 2 * b * c2 + c3 + a * R));
 		case 122:
-			return p(b - c, 2) * p(b + c, 2) * (T * T)
+			return p(b - c, 2) * p(b + c, 2) * T * T
 					* (-3 * a4 + Q + 2 * a2 * R);
 		case 123:
 			return -((a - b - c) * p(b - c, 2) * T
@@ -485,7 +485,7 @@ public class AlgoKimberlingWeights {
 									- 2 * b2 * c6 + 6 * c8)
 							- 4 * a2 * (b10 - b8 * c2 - b2 * c8 + c10)));
 		case 130:
-			return a2 * p(b - c, 2) * p(b + c, 2) * (T * T) * (-Q + a2 * R)
+			return a2 * p(b - c, 2) * p(b + c, 2) * T * T * (-Q + a2 * R)
 					* (a8 - b2 * c2 * Q - 2 * a6 * R
 							+ a4 * (b4 + 3 * b2 * c2 + c4));
 		case 131:
@@ -934,7 +934,7 @@ public class AlgoKimberlingWeights {
 					* (a6 + p(b2 - c2, 3) - a4 * (b2 + 3 * c2)
 							+ a2 * (-b4 + 2 * b2 * c2 + 3 * c4));
 		case 255:
-			return a3 * (T * T);
+			return a3 * T * T;
 		case 256:
 			return a * (b2 + a * c) * (a * b + c2);
 		case 257:
@@ -1135,7 +1135,7 @@ public class AlgoKimberlingWeights {
 		case 325:
 			return b4 + c4 - a2 * R;
 		case 326:
-			return a * (T * T);
+			return a * T * T;
 		case 327:
 			return b2 * c2 * (c2 * (b2 - c2) + a2 * (2 * b2 + c2))
 					* (b4 - b2 * c2 - a2 * (b2 + 2 * c2));
@@ -1290,7 +1290,7 @@ public class AlgoKimberlingWeights {
 		case 393:
 			return p(a4 - Q, 2);
 		case 394:
-			return a2 * (T * T);
+			return a2 * T * T;
 		case 395:
 			return (a - b - c) * (a + b - c) * (a - b + c) * (a + b + c)
 					+ u(3) * a2 * S;
@@ -1336,7 +1336,7 @@ public class AlgoKimberlingWeights {
 		case 407:
 			return (b + c) * (-V) * U * (-2 * a2 + p(b - c, 2) - a * (b + c));
 		case 408:
-			return a3 * (b + c) * (T * T)
+			return a3 * (b + c) * T * T
 					* (a4 * (b + c) - a2 * p(b - c, 2) * (b + c)
 							- 2 * b * p(b - c, 2) * c * (b + c) - a * Q
 							+ a3 * R);
@@ -1408,7 +1408,7 @@ public class AlgoKimberlingWeights {
 		case 417:
 			return a4 * p(a2 - b2 - c2, 3) * (-2 * a2 * Q + a4 * R + Q * R);
 		case 418:
-			return a4 * (T * T) * (-Q + a2 * R);
+			return a4 * T * T * (-Q + a2 * R);
 		case 419:
 			return (a2 - b * c) * (a2 + b * c) * U * V;
 		case 420:
@@ -1755,7 +1755,7 @@ public class AlgoKimberlingWeights {
 		case 519:
 			return 2 * a - b - c;
 		case 520:
-			return a2 * (b2 - c2) * (T * T);
+			return a2 * (b2 - c2) * T * T;
 		case 521:
 			return a * (a - b - c) * (b - c) * T;
 		case 522:
@@ -1893,7 +1893,7 @@ public class AlgoKimberlingWeights {
 		case 576:
 			return a2 * (a4 - 3 * a2 * R + 2 * (b4 - b2 * c2 + c4));
 		case 577:
-			return a4 * (T * T);
+			return a4 * T * T;
 		case 578:
 			return a2 * (a8 - 2 * b2 * c2 * Q - 3 * a6 * R - a2 * Q * R
 					+ a4 * (3 * b4 + 4 * b2 * c2 + 3 * c4));
@@ -2144,11 +2144,11 @@ public class AlgoKimberlingWeights {
 		case 679:
 			return a * p(a + b - 2 * c, 2) * p(a - 2 * b + c, 2);
 		case 680:
-			return a3 * (b - c) * (T * T)
+			return a3 * (b - c) * T * T
 					* (a4 * (b2 + b * c + c2) + Q * (b2 + b * c + c2)
 							- 2 * a2 * (b4 + b3 * c + b * c3 + c4));
 		case 681:
-			return 1 / (a * (b - c) * (T * T)
+			return 1 / (a * (b - c) * T * T
 					* (a4 * (b2 + b * c + c2) + Q * (b2 + b * c + c2)
 							- 2 * a2 * (b4 + b3 * c + b * c3 + c4)));
 		case 682:
@@ -2536,7 +2536,7 @@ public class AlgoKimberlingWeights {
 					* (a4 * b + a3 * b2 + a2 * b3 + a * b4 - c5)
 					* (-b5 + a * c * (a3 + a2 * c + a * c2 + c3));
 		case 820:
-			return a3 * (T * T) * (-2 * a2 * Q + a4 * R + Q * R);
+			return a3 * T * T * (-2 * a2 * Q + a4 * R + Q * R);
 		case 821:
 			return b * c * p(a4 - Q, 2)
 					* (a6 - a4 * (2 * b2 + c2) + p(-(b2 * c) + c3, 2)
@@ -2544,7 +2544,7 @@ public class AlgoKimberlingWeights {
 					* (a6 - a4 * (b2 + 2 * c2) + p(b3 - b * c2, 2)
 							+ a2 * (-b4 + 4 * b2 * c2 + c4));
 		case 822:
-			return a3 * (b2 - c2) * (T * T);
+			return a3 * (b2 - c2) * T * T;
 		case 823:
 			return (a - b) * b * (a + b) * (a - c) * c * (a + c) * p(a4 - Q, 2);
 		case 824:
@@ -2556,7 +2556,7 @@ public class AlgoKimberlingWeights {
 		case 827:
 			return a2 * (a4 - b4) * (a4 - c4);
 		case 828:
-			return a3 * (b + c) * (T * T)
+			return a3 * (b + c) * T * T
 					* (a4 * (b2 - b * c + c2) + Q * (b2 - b * c + c2)
 							- 2 * a2 * p(b - c, 2) * (b2 + b * c + c2));
 		case 829:
@@ -2583,7 +2583,7 @@ public class AlgoKimberlingWeights {
 			return (a - b) * (a - c) * (a2 + a * (b + c) + b * (b + c))
 					* (a2 + a * (b + c) + c * (b + c));
 		case 836:
-			return a2 * (b + c) * (T * T) * (a4 - 2 * a2 * p(b - c, 2) + Q);
+			return a2 * (b + c) * T * T * (a4 - 2 * a2 * p(b - c, 2) + Q);
 		case 837:
 			return (a + b) * (a + c) * p(a4 - Q, 2)
 					* (a4 + 4 * a * b2 * c + Q - 2 * a2 * R)
@@ -4009,7 +4009,7 @@ public class AlgoKimberlingWeights {
 			return a * (a * b2 + b2 * c + a2 * (b + c))
 					* (a * c2 + b * c2 + a2 * (b + c));
 		case 1259:
-			return a2 * (a - b - c) * (T * T);
+			return a2 * (a - b - c) * T * T;
 		case 1260:
 			return a2 * p(-a + b + c, 2) * T;
 		case 1261:
@@ -4025,7 +4025,7 @@ public class AlgoKimberlingWeights {
 					* (a6 + p(b2 - c2, 3) - a4 * (b2 + 3 * c2)
 							+ a2 * (-b4 + b2 * c2 + 3 * c4));
 		case 1264:
-			return -((a - b - c) * (T * T));
+			return -((a - b - c) * T * T);
 		case 1265:
 			return -(p(-a + b + c, 2) * T);
 		case 1266:
@@ -4448,14 +4448,14 @@ public class AlgoKimberlingWeights {
 			return -(a4 * p(b - c, 2) * (a + b - c) * (a - b + c) * p(b + c, 2)
 					* p(-a2 + b2 + c2, 4));
 		case 1364:
-			return -(a2 * (a - b - c) * p(b - c, 2) * (T * T));
+			return -(a2 * (a - b - c) * p(b - c, 2) * T * T);
 		case 1365:
 			return p(b - c, 2) * (-a + b - c) * (a + b - c) * p(b + c, 2);
 		case 1366:
 			return (a + b - c) * (a - b + c) * p(-2 * a2 + b2 + c2, 2);
 		case 1367:
 			return p(b - c, 2) * (-a + b - c) * (a + b - c) * p(b + c, 2)
-					* (T * T);
+					* T * T;
 		case 1368:
 			return -(T * (Q + a2 * R));
 		case 1369:
@@ -5509,7 +5509,7 @@ public class AlgoKimberlingWeights {
 		case 1635:
 			return a * (2 * a - b - c) * (b - c);
 		case 1636:
-			return a2 * (b2 - c2) * (T * T) * (2 * a4 - Q - a2 * R);
+			return a2 * (b2 - c2) * T * T * (2 * a4 - Q - a2 * R);
 		case 1637:
 			return -((b2 - c2) * (-2 * a4 + Q + a2 * R));
 		case 1638:
@@ -5542,7 +5542,7 @@ public class AlgoKimberlingWeights {
 		case 1649:
 			return (b2 - c2) * p(-2 * a2 + b2 + c2, 2);
 		case 1650:
-			return p(b - c, 2) * p(b + c, 2) * (T * T) * (-2 * a4 + Q + a2 * R);
+			return p(b - c, 2) * p(b + c, 2) * T * T * (-2 * a4 + Q + a2 * R);
 		case 1651:
 			return (2 * a4 - Q - a2 * R) * (2 * a8 - 2 * a6 * R + 4 * a2 * Q * R
 					+ a4 * (-3 * b4 + 8 * b2 * c2 - 3 * c4)
@@ -6143,7 +6143,7 @@ public class AlgoKimberlingWeights {
 					* (a2 + b * (b - c) - a * (2 * b + c))
 					* (a2 + c * (-b + c) - a * (b + 2 * c));
 		case 1804:
-			return a2 * (a + b - c) * (a - b + c) * (T * T);
+			return a2 * (a + b - c) * (a - b + c) * T * T;
 		case 1805:
 			return a2 * (a + b) * (a - b - c) * (a + b - c) * (a + c)
 					* (a - b + c) * (b + c) * T
@@ -8024,7 +8024,7 @@ public class AlgoKimberlingWeights {
 			return a3 * (b5 - b4 * c - 4 * a * b2 * c2 - b * c4 + c5
 					+ a4 * (b + c) - 2 * a2 * (b3 + c3));
 		case 2289:
-			return a3 * (a - b - c) * (T * T);
+			return a3 * (a - b - c) * T * T;
 		case 2290:
 			return a3 * (a2 - b2 - b * c - c2) * (a2 - b2 + b * c - c2)
 					* (-Q + a2 * R);
@@ -8512,7 +8512,7 @@ public class AlgoKimberlingWeights {
 			return (a - b) * (a + b - 3 * c) * (a - c) * (2 * a - b - c)
 					* (a - 3 * b + c);
 		case 2416:
-			return -((b2 - c2) * (T * T)
+			return -((b2 - c2) * T * T
 					* (-a8 + a6 * (3 * b2 - 2 * c2) + c2 * p(b2 - c2, 3)
 							- 3 * a4 * (b4 + b2 * c2 - 2 * c4)
 							+ a2 * (b6 + 4 * b4 * c2 - 3 * b2 * c4 - 2 * c6))
@@ -8574,7 +8574,7 @@ public class AlgoKimberlingWeights {
 			return a2 * (a - b) * (a + b - 3 * c) * (a - c) * (2 * a - b - c)
 					* (a - 3 * b + c);
 		case 2430:
-			return a2 * (b2 - c2) * (T * T)
+			return a2 * (b2 - c2) * T * T
 					* (a8 + c2 * p(-b2 + c2, 3) + a6 * (-3 * b2 + 2 * c2)
 							+ 3 * a4 * (b4 + b2 * c2 - 2 * c4)
 							- a2 * (b6 + 4 * b4 * c2 - 3 * b2 * c4 - 2 * c6))
@@ -9620,7 +9620,7 @@ public class AlgoKimberlingWeights {
 		case 2631:
 			return a * (b2 - c2) * T * (2 * a4 - Q - a2 * R);
 		case 2632:
-			return -(a * p(b - c, 2) * p(b + c, 2) * (T * T));
+			return -(a * p(b - c, 2) * p(b + c, 2) * T * T);
 		case 2633:
 			return -(a * (a - b) * (a + b) * (a - c) * (a + c) * U * V
 					* (a8 - a6 * R + 3 * a2 * Q * R
@@ -9671,7 +9671,7 @@ public class AlgoKimberlingWeights {
 							- 2 * b * p(b - c, 2) * c * (b + c) + a * Q
 							- a3 * R);
 		case 2638:
-			return a3 * p(b - c, 2) * p(-a + b + c, 2) * (T * T);
+			return a3 * p(b - c, 2) * p(-a + b + c, 2) * T * T;
 		case 2639:
 			return (a - b) * (a - c) * (a + b - c) * (a - b + c) * U * V
 					* (-(b2 * p(b - c, 4) * c2 * p(b + c, 2))

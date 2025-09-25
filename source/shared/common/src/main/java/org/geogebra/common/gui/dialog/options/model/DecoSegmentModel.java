@@ -37,7 +37,7 @@ public class DecoSegmentModel extends IconOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getObjectAt(index) instanceof SegmentProperties);
+		return getObjectAt(index) instanceof SegmentProperties;
 	}
 
 	@Override

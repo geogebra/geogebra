@@ -12,8 +12,8 @@ public class TrimmedIntersectionLinesModel extends BooleanOptionModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getGeoAt(index)
-				.getParentAlgorithm() instanceof AlgoIntersectAbstract);
+		return getGeoAt(index)
+				.getParentAlgorithm() instanceof AlgoIntersectAbstract;
 	}
 
 	@Override

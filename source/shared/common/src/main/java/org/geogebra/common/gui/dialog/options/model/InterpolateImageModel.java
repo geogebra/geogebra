@@ -32,7 +32,7 @@ public class InterpolateImageModel extends BooleanOptionModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		return (getObjectAt(index) instanceof GeoImage);
+		return getObjectAt(index) instanceof GeoImage;
 	}
 
 }

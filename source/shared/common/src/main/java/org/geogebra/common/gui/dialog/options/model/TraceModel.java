@@ -15,7 +15,7 @@ public class TraceModel extends BooleanOptionModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getGeoAt(index) instanceof Traceable);
+		return getGeoAt(index) instanceof Traceable;
 	}
 
 	@Override

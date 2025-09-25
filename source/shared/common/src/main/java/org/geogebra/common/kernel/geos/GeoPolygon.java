@@ -1738,7 +1738,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public boolean isPartOfClosedSurface() {
 		return false;
-		// return (getMetasLength() > 0);
 	}
 
 	/**

@@ -36,7 +36,7 @@ public class DecoAngleModel extends IconOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getObjectAt(index) instanceof AngleProperties);
+		return getObjectAt(index) instanceof AngleProperties;
 	}
 
 	@Override

@@ -53,7 +53,7 @@ public class TextFieldSizeModel extends TextPropertyModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getGeoAt(index) instanceof GeoInputBox);
+		return getGeoAt(index) instanceof GeoInputBox;
 	}
 
 }

@@ -94,7 +94,7 @@ public class ObjectNameModel extends OptionsModel {
 
 	@Override
 	public boolean checkGeos() {
-		return (getGeosLength() == 1);
+		return getGeosLength() == 1;
 	}
 
 	public void applyNameChange(final String name, ErrorHandler handler) {

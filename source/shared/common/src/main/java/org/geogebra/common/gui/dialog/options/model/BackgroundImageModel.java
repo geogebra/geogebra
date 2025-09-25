@@ -16,7 +16,7 @@ public class BackgroundImageModel extends BooleanOptionModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		return (getObjectAt(index) instanceof GeoImage);
+		return getObjectAt(index) instanceof GeoImage;
 	}
 
 	@Override
