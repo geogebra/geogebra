@@ -42,6 +42,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 import com.google.gwt.core.client.Scheduler;
 
+import elemental2.dom.Event;
+
 /**
  * Quick style bar containing IconButtons with dynamic position
  */
@@ -341,9 +343,12 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 					}
 					updateStyleBar();
 				});
-
+		// stop propagation of start/end events for pointer types so that they're not killed in EV
 		EventUtil.stopPointer(getElement());
 		ClickStartHandler.initDefaults(asWidget(), false, true);
+		// with Apple Pen specifically, this needs to be done for touchmove as well
+		getApp().getGlobalHandlers().addEventListener(getElement(),
+				"touchmove", Event::stopPropagation);
 	}
 
 	@Override

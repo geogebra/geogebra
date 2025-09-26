@@ -586,8 +586,6 @@
 	&, .GeoGebraPopup, .gwt-PopupPanel, .gwt-SuggestBoxPopup, .ToolTip {
 		font: 100%/120% geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
 		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
 		user-select: none;
 	}
 
@@ -608,8 +606,6 @@
 	canvas {
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
 		user-select: none;
 	}
 
@@ -835,10 +831,8 @@
 		cursor: pointer;
 		-moz-user-focus: ignore;
 		-moz-user-input: disabled;
-		-moz-user-select: none;
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
-		-ms-user-select: none;
 		user-select: none;
 		will-change: transform;
 		overflow: visible;
@@ -1899,8 +1893,6 @@
 		border-collapse: collapse;
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
 		user-select: none
 	}
 
