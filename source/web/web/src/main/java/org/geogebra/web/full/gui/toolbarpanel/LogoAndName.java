@@ -4,6 +4,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
@@ -26,6 +27,7 @@ public class LogoAndName implements IsWidget, SetLabels {
 		name = new Label();
 		NoDragImage icon = new NoDragImage(((AppWFull) app).getActivity().getIcon(),
 				24);
+		AriaHelper.setAlt(icon, "");
 		panel = LayoutUtilW.panelRow(icon, name);
 		panel.addStyleName("avNameLogo");
 		setLabels();
