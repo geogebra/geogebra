@@ -282,10 +282,10 @@ public class AlgoAreCongruent extends AlgoElement
 			PPolynomial c2 = new PPolynomial(v2[1]);
 			PPolynomial d1 = new PPolynomial(v2[2]);
 			PPolynomial d2 = new PPolynomial(v2[3]);
-			botanaPolynomials[0][0] = ((PPolynomial.sqr(a1.subtract(b1))
-					.add(PPolynomial.sqr(a2.subtract(b2))))
-							.subtract(PPolynomial.sqr(c1.subtract(d1))))
-									.subtract(PPolynomial.sqr(c2.subtract(d2)));
+			botanaPolynomials[0][0] = PPolynomial.sqr(a1.subtract(b1))
+					.add(PPolynomial.sqr(a2.subtract(b2)))
+					.subtract(PPolynomial.sqr(c1.subtract(d1)))
+					.subtract(PPolynomial.sqr(c2.subtract(d2)));
 
 			return botanaPolynomials;
 		}

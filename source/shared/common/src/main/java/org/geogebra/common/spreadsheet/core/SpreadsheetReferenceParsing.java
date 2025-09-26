@@ -112,7 +112,7 @@ final class SpreadsheetReferenceParsing {
 			if (ch < 'A' || ch > 'Z') {
 				return -1;
 			}
-			int value = (ch - 'A') + 1;
+			int value = ch - 'A' + 1;
 			column = column * 26 + value;
 		}
 		if (column > Spreadsheet.MAX_COLUMNS) {

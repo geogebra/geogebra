@@ -351,7 +351,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 				// brace below corresponds to statement 170
 			} else {
 
-				if ((fu <= fw) || (MyDouble.exactEqual(w, x))) {
+				if ((fu <= fw) || MyDouble.exactEqual(w, x)) {
 
 					v = w;
 					fv = fw;

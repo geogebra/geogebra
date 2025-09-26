@@ -56,7 +56,7 @@ public class LambertW {
 			/* printf("FOO: %20.16g  %20.16g\n", w, t); */
 
 			if (w > 0) {
-				t = (t / p) / e; /* Newton iteration */
+				t = t / p / e; /* Newton iteration */
 			} else {
 				t /= e * p - 0.5 * (p + 1.0) * t / p; /* Halley iteration */
 			}

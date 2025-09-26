@@ -50,7 +50,7 @@ public class CmdNSolveODE extends CommandProcessor {
 			}
 		}
 		for (int i = 0; i < dim2; i++) {
-			if (!(((GeoList) arg[2]).get(i)).isGeoNumeric()) {
+			if (!((GeoList) arg[2]).get(i).isGeoNumeric()) {
 				throw argErr(c, arg[2]);
 			}
 		}

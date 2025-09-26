@@ -129,16 +129,16 @@ public class GeoVideo extends GeoMedia {
 		String url = getSrc();
 
 		int startIdx = url.contains(TIME_PARAM_A) ? url.indexOf(TIME_PARAM_A)
-				: (url.contains(TIME_PARAM_Q) ? url.indexOf(TIME_PARAM_Q)
-				: url.indexOf(TIME_PARAM_S));
+				: url.contains(TIME_PARAM_Q) ? url.indexOf(TIME_PARAM_Q)
+				: url.indexOf(TIME_PARAM_S);
 		if (startIdx != -1) {
 			String t = url.contains(TIME_PARAM_S)
 					? url.substring(startIdx + TIME_PARAM_S.length())
 					: url.substring(startIdx + TIME_PARAM_A.length());
 
 			int endIdx = t.contains("&") ? t.indexOf("&")
-					: (t.contains("?") ? t.indexOf("?")
-					: t.indexOf("\""));
+					: t.contains("?") ? t.indexOf("?")
+					: t.indexOf("\"");
 
 			String time = endIdx == -1 ? t : t.substring(0, endIdx);
 

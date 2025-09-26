@@ -194,12 +194,12 @@ public class AlgoLineBisector extends AlgoElement
 
 			polynomials = new PPolynomial[3];
 			// 2 az bz (-az bx + ax bz)
-			polynomials[0] = (new PPolynomial(2)).multiply(coords1[2])
+			polynomials[0] = new PPolynomial(2).multiply(coords1[2])
 					.multiply(coords2[2])
 					.multiply(coords1[0].multiply(coords2[2])
 							.subtract(coords2[0].multiply(coords1[2])));
 			// 2 az bz (-az by + ay bz)
-			polynomials[1] = (new PPolynomial(2)).multiply(coords1[2])
+			polynomials[1] = new PPolynomial(2).multiply(coords1[2])
 					.multiply(coords2[2])
 					.multiply(coords1[1].multiply(coords2[2])
 							.subtract(coords2[1].multiply(coords1[2])));

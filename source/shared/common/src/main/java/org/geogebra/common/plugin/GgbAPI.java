@@ -1780,8 +1780,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	private static boolean isVisibleInView(GeoElement geo, int view) {
-		return geo.isVisibleInView(view == -1 ? App.VIEW_EUCLIDIAN3D
-				: (view == 1 ? App.VIEW_EUCLIDIAN : App.VIEW_EUCLIDIAN2));
+		int viewId = view == -1 ? App.VIEW_EUCLIDIAN3D
+				: view == 1 ? App.VIEW_EUCLIDIAN
+				: App.VIEW_EUCLIDIAN2;
+		return geo.isVisibleInView(viewId);
 	}
 
 	@Override

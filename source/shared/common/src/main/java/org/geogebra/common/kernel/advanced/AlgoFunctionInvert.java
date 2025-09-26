@@ -290,7 +290,7 @@ public class AlgoFunctionInvert extends AlgoElement implements UsesCAS {
 
 			case LOGB:
 				if ((fvLeft = left.contains(oldFV))
-						&& (right.contains(oldFV))) {
+						&& right.contains(oldFV)) {
 					return null;
 				}
 				if (fvLeft) {
@@ -390,7 +390,7 @@ public class AlgoFunctionInvert extends AlgoElement implements UsesCAS {
 			case INVISIBLE_PLUS:
 			case MULTIPLY:
 				if ((fvLeft = left.contains(oldFV))
-						&& (right.contains(oldFV))) {
+						&& right.contains(oldFV)) {
 					return null;
 				}
 
@@ -408,7 +408,7 @@ public class AlgoFunctionInvert extends AlgoElement implements UsesCAS {
 			case MINUS:
 			case DIVIDE:
 				if ((fvLeft = left.contains(oldFV))
-						&& (right.contains(oldFV))) {
+						&& right.contains(oldFV)) {
 					return null;
 				}
 				if (!fvLeft) {

@@ -400,8 +400,8 @@ public class Perspective {
 		sb.append(getShowInputPanelCommands());
 		sb.append("\" top=\"");
 		sb.append(getInputPosition() == InputPosition.top ? "true"
-				: (getInputPosition() == InputPosition.bottom ? "false"
-						: "algebra"));
+				: getInputPosition() == InputPosition.bottom ? "false"
+						: "algebra");
 		sb.append("\" />\n");
 
 		getDockbarXML(sb);

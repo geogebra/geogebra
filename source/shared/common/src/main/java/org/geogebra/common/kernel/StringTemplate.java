@@ -1953,9 +1953,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				boolean rtlMinus;
 				// show parentheses around these cases
-				if (((rtlMinus = rightStr
+				if ((rtlMinus = rightStr
 						.startsWith(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN))
-						|| (!rightStr.isEmpty() && (rightStr.charAt(0) == '-')))  // 2 (-5) or -(-5)
+						|| (!rightStr.isEmpty() && (rightStr.charAt(0) == '-'))  // 2 (-5) or -(-5)
 						|| (!nounary && !right.isLeaf() // -(x*a) or -(x/a)
 								&& (opIDright <= Operation.DIVIDE.ordinal()))) {
 					if (rtlMinus) {
@@ -2176,7 +2176,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String multiplicationSpace() {
 		// wide space for multiplication space in LaTeX
-		return (stringType.equals(StringType.LATEX)) ? " " + LATEX_THICK_SPACE + " " : " ";
+		return stringType.equals(StringType.LATEX) ? " " + LATEX_THICK_SPACE + " " : " ";
 	}
 
 	/**
@@ -3234,7 +3234,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// eg 2.22 -> (222/100) or 02.22 -> (222/100)
 			return "("
-					+ (originalString.replace(".", "")).replaceFirst("^0+(?!$)",
+					+ originalString.replace(".", "").replaceFirst("^0+(?!$)",
 							"")
 					+ "/1" + StringUtil.repeat('0',
 							originalString.length() - dotIndex - 1)

@@ -1040,10 +1040,9 @@ public class Construction {
 	 */
 	public boolean notifyEuclidianViewCE(EVProperty type) {
 		boolean didUpdate = false;
-		ArrayList<EuclidianViewCE> toUpdate = type == EVProperty.SIZE
-				? this.corner5Algos
-				: (type == EVProperty.ROTATION ? this.corner11Algos
-				: this.euclidianViewCE);
+		ArrayList<EuclidianViewCE> toUpdate = type == EVProperty.SIZE ? this.corner5Algos
+				: type == EVProperty.ROTATION ? this.corner11Algos
+				: this.euclidianViewCE;
 		if (toUpdate == null || toUpdate.size() == 0) {
 			return false;
 		}

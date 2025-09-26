@@ -148,10 +148,10 @@ abstract public class ImageManager {
 	 */
 	private static void centerOnScreen(GeoImage geoImage, App app) {
 		EuclidianView ev = app.getActiveEuclidianView();
-		double screenWidth = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1)
+		double screenWidth = ev.toRealWorldCoordX((double) ev.getWidth() + 1)
 				- ev.toRealWorldCoordX(0.0);
 		double screenHeight = ev.toRealWorldCoordY(
-				(double) (ev.getHeight()) + 1) - ev.toRealWorldCoordY(0.0);
+				(double) ev.getHeight() + 1) - ev.toRealWorldCoordY(0.0);
 
 		GeoPoint point1 = geoImage.getStartPoint(0);
 		GeoPoint point2 = geoImage.getStartPoint(1);

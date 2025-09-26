@@ -83,7 +83,7 @@ public class AlgoListLCM extends AlgoElement {
 			return;
 		}
 
-		double nd = ((GeoNumeric) (geoList.get(0))).getDouble();
+		double nd = ((GeoNumeric) geoList.get(0)).getDouble();
 		if (!DoubleUtil.isInteger(nd)) {
 			num.setUndefined();
 			return;
@@ -92,7 +92,7 @@ public class AlgoListLCM extends AlgoElement {
 		BigInteger lcm = BigInteger.valueOf((long) DoubleUtil.checkInteger(nd));
 
 		for (int i = 1; i < geoList.size(); i++) {
-			nd = ((GeoNumeric) (geoList.get(i))).getDouble();
+			nd = ((GeoNumeric) geoList.get(i)).getDouble();
 
 			if (!DoubleUtil.isInteger(nd)) {
 				num.setUndefined();

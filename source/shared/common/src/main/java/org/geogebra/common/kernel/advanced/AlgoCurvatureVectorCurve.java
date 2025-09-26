@@ -146,8 +146,8 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 				t4 = t2 * t2;
 				evals = f1eval[0] * f2eval[1] - f2eval[0] * f1eval[1];
 
-				v.x = (evals / t4) * (-f1eval[1]);
-				v.y = (evals / t4) * f1eval[0];
+				v.x = evals / t4 * (-f1eval[1]);
+				v.y = evals / t4 * f1eval[0];
 			}
 			v.z = 0.0;
 		} catch (Exception e) {

@@ -43,7 +43,7 @@ public class CmdTrigExpand extends CommandProcessor implements UsesCAS {
 				return new GeoElement[] { algo.getResult() };
 			}
 		case 2:
-			if ((arg[0].isCasEvaluableObject())
+			if (arg[0].isCasEvaluableObject()
 					&& (arg[1] instanceof GeoFunction)) {
 				AlgoTrigExpand algo = new AlgoTrigExpand(
 						kernel.getConstruction(), c.getLabel(),

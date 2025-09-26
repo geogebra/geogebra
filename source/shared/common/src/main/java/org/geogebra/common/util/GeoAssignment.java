@@ -246,7 +246,7 @@ public class GeoAssignment extends Assignment {
 					macroOutput, possibleOutput[i]).boolVal()
 							? Result.CORRECT : Result.WRONG);
 		} else if ("AreCongruent".equals(checkOp)) {
-			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
+			partRes.add(macroOutput.isCongruent(possibleOutput[i]).boolVal()
 					? Result.CORRECT : Result.WRONG);
 		}
 		callsToEqual++;
@@ -297,7 +297,7 @@ public class GeoAssignment extends Assignment {
 					macroOutput, possibleOutput[i]).boolVal()
 							? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
 		} else if ("AreCongruent".equals(checkOp)) {
-			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
+			partRes.add(macroOutput.isCongruent(possibleOutput[i]).boolVal()
 					? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
 		}
 		callsToEqual++;

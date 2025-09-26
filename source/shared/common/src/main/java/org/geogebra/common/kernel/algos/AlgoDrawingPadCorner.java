@@ -169,10 +169,10 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 			ev = app.getEuclidianView2(1);
 		}
 
-		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
-		double ymin = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
+		double xmax = ev.toRealWorldCoordX((double) ev.getWidth() + 1);
+		double ymin = ev.toRealWorldCoordY((double) ev.getHeight() + 1);
 		double zeroX = ev.toRealWorldCoordX(-1);
-		double zeroY = ev.toRealWorldCoordY(0 - 1);
+		double zeroY = ev.toRealWorldCoordY(- 1);
 
 		switch ((int) number.getDouble()) {
 		case 1:

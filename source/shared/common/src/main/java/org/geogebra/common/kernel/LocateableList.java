@@ -47,7 +47,7 @@ public class LocateableList extends ArrayList<Locateable> {
 		// part of the updateSet of this point
 		AlgoElement parentAlgo = l.toGeoElement().getParentAlgorithm();
 		if (parentAlgo == null
-				|| !(((GeoElement) point).algoUpdateSetContains(parentAlgo))) {
+				|| !((GeoElement) point).algoUpdateSetContains(parentAlgo)) {
 			// add the locatable
 			add(l);
 		}

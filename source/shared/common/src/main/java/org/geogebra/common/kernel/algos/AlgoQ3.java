@@ -124,7 +124,7 @@ public class AlgoQ3 extends AlgoElement {
 
 			switch (size % 4) {
 			case 0:
-				Q3.setValue((sortList[(3 * size) / 4 - 1]
+				Q3.setValue((sortList[3 * size / 4 - 1]
 						+ sortList[(3 * size + 4) / 4 - 1]) / 2);
 				break;
 			case 1:

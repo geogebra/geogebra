@@ -197,7 +197,7 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 		for (int i = 0; i < coords.length; i++) {
 			AlgoElement algo = null;
 			if (coords[i].toGeoElement() != null) {
-				algo = (coords[i].toGeoElement()).getParentAlgorithm();
+				algo = coords[i].toGeoElement().getParentAlgorithm();
 			}
 			if (algo != null) {
 				for (GeoElement geo : algo.getInput()) {

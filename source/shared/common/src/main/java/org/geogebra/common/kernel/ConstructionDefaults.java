@@ -349,7 +349,7 @@ public class ConstructionDefaults implements SettingListener {
 	}
 
 	private int getDependentPointSize() {
-		return (cons.getApplication().isUnbundledGraphing())
+		return cons.getApplication().isUnbundledGraphing()
 						? EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT_GRAPHING
 						: EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
 	}

@@ -134,7 +134,7 @@ public abstract class GlobalKeyDispatcher {
 		// show RENAME dialog when a letter is typed
 		// or edit Textfield for any keypress
 
-		if ((Character.isLetter(ch)) || geo instanceof GeoInputBox) {
+		if (Character.isLetter(ch) || geo instanceof GeoInputBox) {
 
 			// open rename dialog
 			if (geo != null && geo.isRenameable()) {

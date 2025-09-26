@@ -83,7 +83,7 @@ public class AlgoListGCD extends AlgoElement {
 			return;
 		}
 
-		double value = ((GeoNumeric) (geoList.get(0))).getDouble();
+		double value = ((GeoNumeric) geoList.get(0)).getDouble();
 		// check if first value is quite integer
 		if (!DoubleUtil.isInteger(value)) {
 			num.setUndefined();
@@ -93,7 +93,7 @@ public class AlgoListGCD extends AlgoElement {
 		BigInteger gcd = BigInteger.valueOf((long) DoubleUtil.checkInteger(value));
 
 		for (int i = 1; i < geoList.size(); i++) {
-			value = ((GeoNumeric) (geoList.get(i))).getDouble();
+			value = ((GeoNumeric) geoList.get(i)).getDouble();
 			// check if value is quite integer
 			if (!DoubleUtil.isInteger(value)) {
 				num.setUndefined();
