@@ -87,6 +87,7 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 				: MaterialDesignResources.INSTANCE.lock_open_black();
 		lockRatio = new IconButton(appW, null, new ImageIconSpec(icon),
 				getLockedUnlockedKey(property));
+		lockRatio.getElement().setAttribute("tooltip-position", "right");
 		lockRatio.addFastClickHandler(source -> {
 			property.setRatioLocked(!property.isRatioLocked());
 			boolean locked = property.isRatioLocked();
