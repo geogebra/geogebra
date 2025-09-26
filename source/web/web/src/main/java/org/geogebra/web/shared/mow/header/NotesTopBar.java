@@ -159,7 +159,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	}
 
 	private void addSettingsButton() {
-		if (controller.getApp().allowStylebar()) {
+		if (controller.getApp().letShowPropertiesDialog()) {
 			IconButton settingsBtn = addSmallPressButton(TopBarIcon.SETTINGS, "Settings",
 					null, null);
 			FocusableWidget focusableSettingsBtn = controller.getRegisteredFocusable(

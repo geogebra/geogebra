@@ -25,7 +25,7 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 	 */
 	public GraphicsControlsPanel(AppW app, DockPanelW parent) {
 		this.app = app;
-		if (app.allowStylebar() && !app.isWhiteboardActive()
+		if (app.letShowPropertiesDialog() && !app.isWhiteboardActive()
 				&& parent.getViewId() != App.VIEW_PROBABILITY_CALCULATOR) {
 			addSettingsIcon(parent);
 		}

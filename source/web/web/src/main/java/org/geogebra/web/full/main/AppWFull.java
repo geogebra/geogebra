@@ -654,9 +654,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final boolean letShowPropertiesDialog() {
-		return rightClickEnabled
-				|| getAppletParameters().getDataParamShowMenuBar(false)
-				|| getAppletParameters().getDataParamApp();
+		return (getAppletParameters().getDataParamShowMenuBar(false)
+					|| allowStylebar() || rightClickEnabled)
+						&& getAppletParameters().getParamAllowSettingsView();
 	}
 
 	@Override

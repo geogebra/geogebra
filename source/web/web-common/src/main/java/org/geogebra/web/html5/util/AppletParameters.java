@@ -402,6 +402,13 @@ public class AppletParameters {
 	}
 
 	/**
+	 * @return whether the settings view is allowed to be shown
+	 */
+	public boolean getParamAllowSettingsView() {
+		return getBoolDataParam("allowSettingsView", true);
+	}
+
+	/**
 	 * @return whether to use app mode (forces fit to screen and most UIs
 	 *         visible)
 	 */
