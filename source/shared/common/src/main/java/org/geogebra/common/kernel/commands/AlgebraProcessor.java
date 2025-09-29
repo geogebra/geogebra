@@ -2249,9 +2249,8 @@ public class AlgebraProcessor {
 					}
 
 					// STANDARD CASE: REDEFINED
-					else if (!(info.isPreventingTypeChange())
-							|| compatibleTypes(replaceable,
-							ret[0])) {
+					else if (!info.isPreventingTypeChange()
+							|| compatibleTypes(replaceable, ret[0])) {
 						GeoElement newGeo = ret[0];
 						geoElementSetups.forEach(setup -> setup.applyTo(newGeo));
 						GeoCasCell cell = replaceable.getCorrespondingCasCell();
@@ -3593,7 +3592,7 @@ public class AlgebraProcessor {
 			ret.setDefinition(n);
 
 		} else {
-			ret = (new AlgoDependentBoolean(cons, n, true)).getGeoBoolean();
+			ret = new AlgoDependentBoolean(cons, n, true).getGeoBoolean();
 		}
 		ret.setLabel(label);
 		return array(ret);

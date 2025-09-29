@@ -655,7 +655,7 @@ public class GeoImage extends GeoElement implements
 		corners[0] = null;
 		screenX = x;
 		screenY = y;
-		if (!hasScreenLocation() && (x != 0 && y != 0)) {
+		if (!hasScreenLocation() && x != 0 && y != 0) {
 			setScreenLocation(x, y);
 		}
 	}
@@ -1311,7 +1311,7 @@ public class GeoImage extends GeoElement implements
 			return getStartPoint().distance(getStartPoints()[2]) * kernel.getApplication()
 					.getActiveEuclidianView().getXscale();
 		}
-		return (pixelHeight * getWidthUncropped()) / pixelWidth;
+		return pixelHeight * getWidthUncropped() / pixelWidth;
 	}
 
 	@Override

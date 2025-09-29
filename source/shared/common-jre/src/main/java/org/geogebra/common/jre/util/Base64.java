@@ -118,7 +118,7 @@ public class Base64 {
 			return new char[0];
 		}
 
-		int eLen = (sLen / 3) * 3; // Length of even 24-bits.
+		int eLen = sLen / 3 * 3; // Length of even 24-bits.
 		int cCnt = ((sLen - 1) / 3 + 1) << 2; // Returned character count
 		int dLen = cCnt + (lineSep ? (cCnt - 1) / 76 << 1 : 0); // Length of
 																// returned
@@ -283,7 +283,7 @@ public class Base64 {
 
 		// Decode all but the last 0 - 2 bytes.
 		int d = 0;
-		for (int cc = 0, eLen = (len / 3) * 3; d < eLen;) {
+		for (int cc = 0, eLen = len / 3 * 3; d < eLen;) {
 			// Assemble three bytes into an int from four "valid" characters.
 			int i = IA[sArr[sIx++]] << 18 | IA[sArr[sIx++]] << 12
 					| IA[sArr[sIx++]] << 6 | IA[sArr[sIx++]];
@@ -339,7 +339,7 @@ public class Base64 {
 			return new byte[0];
 		}
 
-		int eLen = (sLen / 3) * 3; // Length of even 24-bits.
+		int eLen = sLen / 3 * 3; // Length of even 24-bits.
 		int cCnt = ((sLen - 1) / 3 + 1) << 2; // Returned character count
 		int dLen = cCnt + (lineSep ? (cCnt - 1) / 76 << 1 : 0); // Length of
 																// returned
@@ -503,7 +503,7 @@ public class Base64 {
 
 		// Decode all but the last 0 - 2 bytes.
 		int d = 0;
-		for (int cc = 0, eLen = (len / 3) * 3; d < eLen;) {
+		for (int cc = 0, eLen = len / 3 * 3; d < eLen;) {
 			// Assemble three bytes into an int from four "valid" characters.
 			int i = IA[sArr[sIx++]] << 18 | IA[sArr[sIx++]] << 12
 					| IA[sArr[sIx++]] << 6 | IA[sArr[sIx++]];
@@ -686,7 +686,7 @@ public class Base64 {
 
 		// Decode all but the last 0 - 2 bytes.
 		int d = 0;
-		for (int cc = 0, eLen = (len / 3) * 3; d < eLen;) {
+		for (int cc = 0, eLen = len / 3 * 3; d < eLen;) {
 			// Assemble three bytes into an int from four "valid" characters.
 			int i = IA[s.charAt(sIx++)] << 18 | IA[s.charAt(sIx++)] << 12
 					| IA[s.charAt(sIx++)] << 6 | IA[s.charAt(sIx++)];

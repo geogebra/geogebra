@@ -710,7 +710,7 @@ public class DelaunayTriangulation {
 				/ (halfplane.p1().x() - halfplane.p2().x());
 
 		// delta of line perpendicular to current half plane edge
-		double perp_delta = (1.0 / halfplane_delta) * (-1.0);
+		double perp_delta = -1.0 / halfplane_delta;
 
 		// determine orientation: find if the third point of the triangle
 		// lies above or below the half plane

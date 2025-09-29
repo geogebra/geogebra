@@ -65,7 +65,7 @@ public class CursorController {
 			MathComponent component, EditorState editorState, boolean skipPlaceholders) {
 
 		MathContainer mathContainer = getMathContainer(component);
-		if (mathContainer != null && (mathContainer.hasChildren())) {
+		if (mathContainer != null && mathContainer.hasChildren()) {
 			firstField(editorState, mathContainer);
 		} else {
 			editorState.incCurrentOffset();

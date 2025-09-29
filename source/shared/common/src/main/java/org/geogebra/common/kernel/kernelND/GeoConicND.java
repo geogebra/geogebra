@@ -4075,7 +4075,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d2_ = F1.distance(P) + F2.distance(P);
 
 				return ExtendedBoolean.newExtendedBoolean(
-						(DoubleUtil.isEqual(d1, d1_)) && (DoubleUtil.isEqual(d2, d2_)));
+						DoubleUtil.isEqual(d1, d1_) && DoubleUtil.isEqual(d2, d2_));
 			}
 			// TODO: Handle the other case(s).
 		}
@@ -4104,7 +4104,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d2_ = Math.abs(F1.distance(P) - F2.distance(P));
 
 				return ExtendedBoolean.newExtendedBoolean(
-						(DoubleUtil.isEqual(d1, d1_)) && (DoubleUtil.isEqual(d2, d2_)));
+						DoubleUtil.isEqual(d1, d1_) && DoubleUtil.isEqual(d2, d2_));
 				// TODO: Consider unifying this case with the ellipse case.
 			}
 			// TODO: Handle the other case(s).

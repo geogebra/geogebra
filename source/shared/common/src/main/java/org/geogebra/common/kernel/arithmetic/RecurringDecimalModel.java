@@ -120,7 +120,7 @@ public class RecurringDecimalModel {
 	 */
 	public int denominator() {
 		int nines = recurring.length == 0 ? 1 : (int) (Math.pow(10, recurring.length) - 1);
-		int tens = nonRecurring.length == 0 ? 1 : (int) (Math.pow(10, nonRecurring.length));
+		int tens = nonRecurring.length == 0 ? 1 : (int) Math.pow(10, nonRecurring.length);
 		return nines * tens;
 	}
 

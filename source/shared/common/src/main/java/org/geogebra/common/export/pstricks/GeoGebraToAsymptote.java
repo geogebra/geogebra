@@ -1057,7 +1057,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 					packSpace(code, "+");
 				}
 				code.append("fontsize(");
-				code.append(fontsize + (size - getApp().getFontSize()));
+				code.append(fontsize + size - getApp().getFontSize());
 				code.append(")");
 			} else if (compactcse5) { // use default font pen for cse5
 				if (!comma) {
@@ -1106,7 +1106,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 					packSpace(code, "+");
 				}
 				code.append("fontsize(");
-				code.append(fontsize + (size - getApp().getFontSize()));
+				code.append(fontsize + size - getApp().getFontSize());
 				code.append(")");
 			} else if (compactcse5) { // use default font pen for cse5
 				if (!comma) {
@@ -1776,7 +1776,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void drawSpecialPoint(GeoPointND geo) {
 		// radius = dotsize (pt) * (2.54 cm)/(72 pt per inch) * XUnit / cm
 		double dotsize = geo.getPointSize();
-		double radius = dotsize * (2.54 / 72) * (frame.getXUnit());
+		double radius = dotsize * (2.54 / 72) * frame.getXUnit();
 		int dotstyle = geo.getPointStyle();
 		if (dotstyle == -1) { // default
 			dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;

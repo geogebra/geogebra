@@ -867,12 +867,12 @@ public abstract class EuclidianView3D extends EuclidianView
         } else {
             if (getYAxisVertical()) { // y axis taken for up-down direction
 				CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
-						(this.b) * EuclidianController3D.ANGLE_TO_DEGREES,
+						this.b * EuclidianController3D.ANGLE_TO_DEGREES,
 						tmpMatrix1);
 				CoordMatrix.setRotation3DMatrix(CoordMatrix.Y_AXIS,
 						(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES,
 						tmpMatrix2);
-            } else { // z axis taken for up-down direction
+			} else { // z axis taken for up-down direction
 				CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
 						(this.b - 90) * EuclidianController3D.ANGLE_TO_DEGREES,
 						tmpMatrix1);

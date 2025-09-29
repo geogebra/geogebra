@@ -49,13 +49,13 @@ public class CmdFrequency extends CommandProcessor {
 		case 2:
 
 			// arg[0] = is cumulative, arg[1] = data list,
-			if ((arg[0].isGeoBoolean()) && (arg[1].isGeoList())) {
+			if (arg[0].isGeoBoolean() && arg[1].isGeoList()) {
 				return frequency((GeoBoolean) arg[0],
 						(GeoList) arg[1]);
 			}
 
 			// arg[0] = class list, arg[1] = data list
-			else if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
+			else if (arg[0].isGeoList() && arg[1].isGeoList()) {
 				if (arg[1].isGeoList()) {
 					return frequency((GeoList) arg[0],
 							(GeoList) arg[1]);

@@ -61,7 +61,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 
 				if (exportScale == 0 || Double.isNaN(exportScale)) {
 					// calculate so that we get 1:1 scale
-					exportScale = (ev.getPrintingScale() * DPI) / 2.54
+					exportScale = ev.getPrintingScale() * DPI / 2.54
 							/ ev.getXscale();
 
 				}

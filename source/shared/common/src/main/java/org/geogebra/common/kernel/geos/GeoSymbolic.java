@@ -169,7 +169,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if ((symbolicMode || tpl.getStringType().isGiac()) || !hasNumericValue()
+		if (symbolicMode || tpl.getStringType().isGiac() || !hasNumericValue()
 				|| isParametricTwin()) {
 			if (value != null) {
 				return value.toValueString(tpl);
@@ -293,7 +293,7 @@ public class GeoSymbolic extends GeoElement
 			Equation eq = (Equation) ((ExpressionNode) casInputArg).getLeft();
 			boolean lIsDummy = eq.getLHS().getLeft() instanceof GeoDummyVariable;
 			boolean rIsMatrix = eq.getRHS().getLeft() instanceof MyList
-					&& ((MyList) (eq.getRHS().getLeft())).isMatrix();
+					&& ((MyList) eq.getRHS().getLeft()).isMatrix();
 			if (lIsDummy && rIsMatrix) {
 				ret = eq.getRHS().getLeft();
 			}

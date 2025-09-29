@@ -93,7 +93,7 @@ public class SymbolicUtil {
 
 		// In case of a symbolic expression check its value
 		if (v instanceof GeoSymbolic) {
-			return (((GeoSymbolic) v).getValue()).any(SymbolicUtil::isUndefinedOrEmpty);
+			return ((GeoSymbolic) v).getValue().any(SymbolicUtil::isUndefinedOrEmpty);
 		}
 
 		return false;
@@ -171,7 +171,7 @@ public class SymbolicUtil {
 	}
 
 	private static void unwrapFromNumeric(GeoSymbolic symbolic) {
-		symbolic.setDefinition(((Command) (symbolic.getDefinition().getLeft())).getArgument(0));
+		symbolic.setDefinition(((Command) symbolic.getDefinition().getLeft()).getArgument(0));
 		symbolic.computeOutput();
 	}
 

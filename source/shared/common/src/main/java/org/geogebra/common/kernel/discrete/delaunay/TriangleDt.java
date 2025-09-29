@@ -260,8 +260,8 @@ public class TriangleDt {
 				&& a31 == PointDt.LEFT)
 				|| (a12 == PointDt.RIGHT && a23 == PointDt.RIGHT
 						&& a31 == PointDt.RIGHT)
-				|| (a12 == PointDt.ONSEGMENT || a23 == PointDt.ONSEGMENT
-						|| a31 == PointDt.ONSEGMENT)) {
+				|| a12 == PointDt.ONSEGMENT || a23 == PointDt.ONSEGMENT
+						|| a31 == PointDt.ONSEGMENT) {
 			ans = true;
 		}
 

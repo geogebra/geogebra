@@ -1520,7 +1520,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		fx = fx.replaceAll("\\*180/pi", "");
 		fy = fy.replaceAll("\\*180/pi", "");
 		String variable = geo.getVarString(getStringTemplate());
-		boolean warning = !("t".equals(variable));
+		boolean warning = !"t".equals(variable);
 		if (warning) {
 			code.append(
 					"% WARNING: You have to use the special variable t in parametric plot");

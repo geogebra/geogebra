@@ -131,8 +131,8 @@ public class TeXSerializer extends SerializerAdapter {
 				|| (sequence.size() == 1 && letterLength(sequence, 0) > 1) // {\pi}
 				|| (sequence.size() == 0 && sequence != mCurrentField) // {\triangleright}
 				|| (sequence.size() == 1 && sequence == mCurrentField)) // {a|}
-				&& (stringBuilder.length() > 0 && stringBuilder
-						.charAt(stringBuilder.length() - 1) != '{');
+				&& stringBuilder.length() > 0 && stringBuilder
+						.charAt(stringBuilder.length() - 1) != '{';
 		if (sequence == currentSelStart) {
 			stringBuilder.append(selection_start);
 		}

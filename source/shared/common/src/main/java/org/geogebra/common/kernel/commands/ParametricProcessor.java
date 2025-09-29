@@ -128,7 +128,7 @@ public class ParametricProcessor {
 						new FunctionVariable[] { fv },
 						getParametricLabel(ve), info);
 				if (ret != null
-						&& (num.isEmpty() || (info.isAutocreateSliders())
+						&& (num.isEmpty() || info.isAutocreateSliders()
 								&& info.isLabelOutput())) {
 					cons.setSuppressLabelCreation(oldMacroMode);
 					ap.processReplace(replaceable, ret, null, info);
@@ -310,7 +310,7 @@ public class ParametricProcessor {
 					new ExpressionNode(kernel, 1.0), locVar);
 
 			// line
-			if ((degX >= 0 && degY >= 0) && (degX < 2 && degY < 2)) {
+			if (degX >= 0 && degY >= 0 && degX < 2 && degY < 2) {
 				FunctionVariable px = new FunctionVariable(kernel, "x");
 				FunctionVariable py = new FunctionVariable(kernel, "y");
 				Equation eq = new Equation(kernel,

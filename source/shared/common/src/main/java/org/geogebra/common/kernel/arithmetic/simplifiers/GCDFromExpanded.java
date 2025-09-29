@@ -48,7 +48,7 @@ public final class GCDFromExpanded implements SimplifyNode {
 		ExpressionNode rest = null;
 		for (ExpressionValue value : flatten) {
 			if (isIntegerValue(value)) {
-				sumOfInts += (int) (value.evaluateDouble());
+				sumOfInts += (int) value.evaluateDouble();
 			} else {
 				if (ExpressionValueUtils.isSqrtNode(value)) {
 					rest = addOrLet(rest, value.wrap());

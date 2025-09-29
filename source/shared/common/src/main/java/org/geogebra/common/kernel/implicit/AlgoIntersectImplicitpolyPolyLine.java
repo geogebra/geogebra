@@ -300,7 +300,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		this.hasLabels = false;
 
 		numOfOutputPoints = 0;
-		polyPointCount = (getPoly().getPoints()).length;
+		polyPointCount = getPoly().getPoints().length;
 		segCountOfPoly = isPolyclosed() ? polyPointCount : polyPointCount - 1;
 
 		tempSegEndPoints = new GeoPoint[2];

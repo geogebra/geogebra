@@ -335,9 +335,9 @@ public class NDGDetector {
 				points[i] = xvarGeo.get(coords[i]);
 				i++;
 			}
-			PPolynomial xeq = (new PPolynomial(coords[0])
-					.subtract(new PPolynomial(coords[1])))
-							.substitute(substitutions);
+			PPolynomial xeq = new PPolynomial(coords[0])
+					.subtract(new PPolynomial(coords[1]))
+					.substitute(substitutions);
 			if (PPolynomial.areAssociates1(p, xeq)) {
 				Log.debug(p + " means x-equality for " + pair);
 				ndgc = new NDGCondition();
@@ -367,9 +367,9 @@ public class NDGDetector {
 				points[i] = yvarGeo.get(coords[i]);
 				i++;
 			}
-			PPolynomial yeq = (new PPolynomial(coords[0])
-					.subtract(new PPolynomial(coords[1])))
-							.substitute(substitutions);
+			PPolynomial yeq = new PPolynomial(coords[0])
+					.subtract(new PPolynomial(coords[1]))
+					.substitute(substitutions);
 			if (PPolynomial.areAssociates1(p, yeq)) {
 				Log.debug(p + " means y-equality for " + pair);
 				ndgc = new NDGCondition();

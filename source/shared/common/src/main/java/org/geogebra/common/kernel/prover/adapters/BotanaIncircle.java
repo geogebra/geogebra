@@ -16,9 +16,9 @@ public class BotanaIncircle extends ProverAdapter {
 		}
 
 		if (input[0] != null && input[1] != null && input[2] != null) {
-			GeoPoint A1 = ((GeoPoint) input[0].toGeoElement());
-			GeoPoint B1 = ((GeoPoint) input[1].toGeoElement());
-			GeoPoint C1 = ((GeoPoint) input[2].toGeoElement());
+			GeoPoint A1 = (GeoPoint) input[0].toGeoElement();
+			GeoPoint B1 = (GeoPoint) input[1].toGeoElement();
+			GeoPoint C1 = (GeoPoint) input[2].toGeoElement();
 			PVariable[] vA = A1.getBotanaVars(A1);
 			PVariable[] vB = B1.getBotanaVars(B1);
 			PVariable[] vC = C1.getBotanaVars(C1);

@@ -785,7 +785,7 @@ public class InputController {
 			ArrayList<MathComponent> removed) {
 		for (int j = removed.size() - 1; j >= 0; j--) {
 			MathComponent o = removed.get(j);
-			int idx = parentIndex + (removed.size() - j);
+			int idx = parentIndex + removed.size() - j;
 			parent.addArgument(idx, o);
 		}
 

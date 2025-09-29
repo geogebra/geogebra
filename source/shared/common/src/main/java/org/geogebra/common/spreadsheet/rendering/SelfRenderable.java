@@ -61,7 +61,7 @@ public final class SelfRenderable {
 		if (alignment == CellFormat.ALIGN_CENTER) {
 			offset = (cellBorder.getWidth() - width) / 2;
 		} else if (alignment == CellFormat.ALIGN_RIGHT) {
-			offset = (cellBorder.getWidth() - width) - HORIZONTAL_PADDING;
+			offset = cellBorder.getWidth() - width - HORIZONTAL_PADDING;
 		}
 		renderer.draw(renderable, fontStyle, offset, graphics, cellBorder);
 	}

@@ -200,7 +200,7 @@ public final class ImplicitIntersectionFinder {
 
 			// check whether root is within view bound
 			add = (evals[0] >= params[0]) && (evals[0] <= params[2])
-					&& (evals[1] >= params[1] && evals[1] <= params[3]);
+					&& (evals[1] >= params[1]) && (evals[1] <= params[3]);
 
 			// check if we have already calculated the same root
 			if (add) {
@@ -357,7 +357,7 @@ public final class ImplicitIntersectionFinder {
 
 			// check whether root is within view bound
 			add = (evals[0] >= params[0]) && (evals[0] <= params[2])
-					&& (evals[1] >= params[1] && evals[1] <= params[3]);
+					&& (evals[1] >= params[1]) && (evals[1] <= params[3]);
 
 			if (add) {
 				insert(new double[] { evals[0], evals[1] }, vals);
