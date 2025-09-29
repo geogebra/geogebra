@@ -421,9 +421,9 @@ public class GeoGebraFrameFull
 	private void scrollToInputField() {
 		if (app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView) {
-			AlgebraPanelInterface dp = (AlgebraPanelInterface) (app
+			AlgebraPanelInterface dp = (AlgebraPanelInterface) app
 					.getGuiManager()
-					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
+					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
 
 			dp.scrollToActiveItem();
 		}
@@ -434,8 +434,8 @@ public class GeoGebraFrameFull
 			return;
 		}
 
-		EuclidianDockPanelW dp = (EuclidianDockPanelW) (getGuiManager()
-				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
+		EuclidianDockPanelW dp = (EuclidianDockPanelW) getGuiManager()
+				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		if (show) {
 			dp.showZoomPanel();
 		} else {

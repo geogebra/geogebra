@@ -135,20 +135,20 @@ public class OneVarInferencePanelW extends FlowPanel
 		lblTailType = new Label();
 		lblTailType.setStyleName("panelTitle");
 
-		fldNullHyp = (new InputPanelW(app, -1, false)).getTextComponent();
+		fldNullHyp = new InputPanelW(app, -1, false).getTextComponent();
 		fldNullHyp.setWidthInEm(fieldWidth);
 		fldNullHyp.setText("" + 0);
 		fldNullHyp.addKeyHandler(new ParamKeyHandler(fldNullHyp));
 		fldNullHyp.addBlurHandler(new ParamBlurHandler(fldNullHyp));
 		lblConfLevel = new Label();
 		lblConfLevel.setStyleName("panelTitle");
-		fldConfLevel = (new InputPanelW(app, -1, false)).getTextComponent();
+		fldConfLevel = new InputPanelW(app, -1, false).getTextComponent();
 		fldConfLevel.setWidthInEm(fieldWidth);
 		fldConfLevel.addKeyHandler(new ParamKeyHandler(fldConfLevel));
 		fldConfLevel.addBlurHandler(new ParamBlurHandler(fldConfLevel));
 
 		lblSigma = new Label();
-		fldSigma = (new InputPanelW(app, -1, false)).getTextComponent();
+		fldSigma = new InputPanelW(app, -1, false).getTextComponent();
 		fldSigma.setWidthInEm(fieldWidth);
 		fldSigma.addKeyHandler(new ParamKeyHandler(fldSigma));
 		fldSigma.addBlurHandler(new ParamBlurHandler(fldSigma));
@@ -395,8 +395,7 @@ public class OneVarInferencePanelW extends FlowPanel
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		doTextFieldActionPerformed(
-				(AutoCompleteTextFieldW) (event.getSource()));
+		doTextFieldActionPerformed((AutoCompleteTextFieldW) event.getSource());
 
 	}
 

@@ -141,7 +141,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * open color chooser dialog to select graphics background
 	 */
 	protected void openColorChooser() {
-		((DialogManagerW) (app.getDialogManager())).showColorChooserDialog(
+		((DialogManagerW) app.getDialogManager()).showColorChooserDialog(
 				app.getSettings().getEuclidian(1).getBackground(),
 				new ColorChangeHandler() {
 
@@ -260,7 +260,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		SVGResource img = MaterialDesignResources.INSTANCE.axes_black();
 
 		boolean checked = app.getActiveEuclidianView().getShowXaxis()
-				&& (app.getActiveEuclidianView().getShowYaxis());
+				&& app.getActiveEuclidianView().getShowYaxis();
 
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
 				img, loc.getMenu("ShowAxes"),

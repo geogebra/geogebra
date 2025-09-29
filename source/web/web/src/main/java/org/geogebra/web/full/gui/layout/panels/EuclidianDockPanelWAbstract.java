@@ -73,8 +73,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 * Adds navigation bar
 	 */
 	public final void addNavigationBar() {
-		consProtNav = (ConstructionProtocolNavigationW) (app.getGuiManager()
-				.getConstructionProtocolNavigation(id));
+		consProtNav = (ConstructionProtocolNavigationW) app.getGuiManager()
+				.getConstructionProtocolNavigation(id);
 		consProtNav.getImpl().addStyleName("consProtNav");
 		if (getEuclidianPanel() == null) {
 			loadComponent();

@@ -1188,9 +1188,9 @@ public class EuclidianViewW extends EuclidianView implements
 		prevImg.getElement().setAttribute("src", urlText);
 		prevImg.addStyleName("prevImg");
 		prevImg.setWidth(
-				(getExportWidth() / getXscale()) * scale + "cm");
+				getExportWidth() / getXscale() * scale + "cm");
 		prevImg.setHeight(
-				(getExportHeight() / getYscale()) * scale + "cm");
+				getExportHeight() / getYscale() * scale + "cm");
 		pPanel.clear();
 		Scheduler.get().scheduleDeferred(() -> {
 			pPanel.add(prevImg);

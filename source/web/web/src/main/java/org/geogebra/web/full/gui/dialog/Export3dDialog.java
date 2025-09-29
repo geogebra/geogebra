@@ -244,8 +244,8 @@ public class Export3dDialog extends ComponentDialog
 	}
 
 	private double calcScale() {
-		return (SCALE_CM.inputField.getParsedValue()
-				/ SCALE_UNIT.inputField.getParsedValue())
+		return SCALE_CM.inputField.getParsedValue()
+				/ SCALE_UNIT.inputField.getParsedValue()
 				/ MM_TO_CM;
 	}
 

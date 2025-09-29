@@ -447,7 +447,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 					savedSize = 1;
 				}
 				setDividerLocationRecursive(
-						(size * savedDividerLocation) / savedSize, size,
+					size * savedDividerLocation / savedSize, size,
 						orientation1);
 			} else {
 				setDividerLocationRecursive(size

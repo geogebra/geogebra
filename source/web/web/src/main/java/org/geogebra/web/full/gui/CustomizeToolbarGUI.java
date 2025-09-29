@@ -122,7 +122,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 				for (int j = 0; j < childCount; j++) {
 					TreeItem ti = branch.getChild(j);
-					DraggableTool tool = (DraggableTool) (ti.getUserObject());
+					DraggableTool tool = (DraggableTool) ti.getUserObject();
 					int mode = tool.getMode() == null ? -1 : tool.getMode();
 					if (mode < 0) {
 						sb.append(", "); // separator
@@ -641,8 +641,8 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					}
 					for (int i = 0; i < draggingTool.treeItem
 							.getChildCount(); i++) {
-						DraggableTool tool = (DraggableTool) (draggingTool.treeItem
-								.getChild(i).getUserObject());
+						DraggableTool tool = (DraggableTool) draggingTool.treeItem
+								.getChild(i).getUserObject();
 						Log.debug("Dropping branch");
 						usedToolToAll(tool.getMode());
 					}
@@ -921,7 +921,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		// elements of usedTools
 		for (int i = 0; i < toolTree.getItemCount(); i++) {
 			final TreeItem branch = toolTree.getItem(i);
-			((DraggableTool) (branch.getUserObject()))
+			((DraggableTool) branch.getUserObject())
 					.setWidth((w - DRAGGABLE_TOOLS_PADDING) + "px");
 			for (int j = 0; j < branch.getChildCount(); j++) {
 				((DraggableTool) branch.getChild(j).getUserObject())

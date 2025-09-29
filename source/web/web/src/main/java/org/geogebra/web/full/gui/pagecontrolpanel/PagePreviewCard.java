@@ -86,7 +86,7 @@ public class PagePreviewCard extends FlowPanel
 
 		FlowPanel cardPanel = new FlowPanel();
 		cardPanel.addStyleName("mowPreviewCard");
-		if (!(NavigatorUtil.isMobile())) {
+		if (!NavigatorUtil.isMobile()) {
 			cardPanel.addStyleName("desktop");
 		}
 

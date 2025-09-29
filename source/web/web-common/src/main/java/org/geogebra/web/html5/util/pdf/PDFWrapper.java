@@ -72,7 +72,7 @@ public class PDFWrapper {
 		FileReader reader = new FileReader();
 		reader.onprogress = event -> {
 			if (event.lengthComputable) {
-				double percent = (event.loaded / event.total) * 100;
+				double percent = event.loaded / event.total * 100;
 				setProgressBarPercent(percent);
 			}
 			return null;

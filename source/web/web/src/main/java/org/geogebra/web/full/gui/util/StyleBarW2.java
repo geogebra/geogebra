@@ -235,7 +235,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 
 						if (EuclidianView.isPenMode(mode)) {
 							setSliderValue(
-									(int) Math.round((alpha * 100) / 255));
+									(int) Math.round(alpha * 100 / 255));
 						} else {
 							setSliderValue((int) Math.round(alpha * 100));
 						}

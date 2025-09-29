@@ -221,7 +221,7 @@ public class GuiManagerW extends GuiManager
 		updateMenubarSelection();
 
 		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).updateUndoRedoMOW();
+			getApp().getAppletFrame().updateUndoRedoMOW();
 			return;
 		}
 
@@ -1278,7 +1278,7 @@ public class GuiManagerW extends GuiManager
 			toolbarPanel.getToolBar().buildGui();
 			toolbarPanel.setLabels();
 		}
-		SetLabels notesLayout = (((AppWFull) app).getAppletFrame())
+		SetLabels notesLayout = ((AppWFull) app).getAppletFrame()
 				.getNotesLayout();
 		if (notesLayout != null) {
 			notesLayout.setLabels();
@@ -1315,7 +1315,7 @@ public class GuiManagerW extends GuiManager
 
 	private NotesLayout getNotesLayout() {
 		AppWFull appWFull = (AppWFull) app;
-		return (appWFull.getAppletFrame()).getNotesLayoutSafe(appWFull);
+		return appWFull.getAppletFrame().getNotesLayoutSafe(appWFull);
 	}
 
 	@Override

@@ -257,8 +257,8 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	private void updateGUI() {
 		lbPolyOrder.setVisible(daModel.getRegressionMode().equals(
 				Regression.POLY));
-		predictionPanel.setVisible(!(daModel.getRegressionMode()
-				.equals(Regression.NONE)));
+		predictionPanel.setVisible(!daModel.getRegressionMode()
+				.equals(Regression.NONE));
 	}
 
 	private void onRegressionChange() {

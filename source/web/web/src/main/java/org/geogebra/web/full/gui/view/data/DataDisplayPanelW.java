@@ -191,8 +191,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		lblTitleX = new Label();
 		lblTitleY = new Label();
 
-		fldTitleX = (new InputPanelW(app, -1, false)).getTextComponent();
-		fldTitleY = (new InputPanelW(app, -1, false)).getTextComponent();
+		fldTitleX = new InputPanelW(app, -1, false).getTextComponent();
+		fldTitleY = new InputPanelW(app, -1, false).getTextComponent();
 
 		fldTitleX.setEditable(false);
 		fldTitleY.setEditable(false);
@@ -285,7 +285,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createNumClassesPanel() {
 
 		int numClasses = getModel().getSettings().getNumClasses();
-		fldNumClasses = (new InputPanelW(app, -1, false)).getTextComponent();
+		fldNumClasses = new InputPanelW(app, -1, false).getTextComponent();
 		fldNumClasses.setEditable(false);
 		fldNumClasses.setWidthInEm(2);
 		fldNumClasses.setVisible(false);

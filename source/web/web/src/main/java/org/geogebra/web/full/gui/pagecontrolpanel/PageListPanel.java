@@ -52,8 +52,8 @@ public class PageListPanel
 	public PageListPanel(AppWFull app) {
 		this.app = app;
 		this.frame = app.getAppletFrame();
-		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
-				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
+		this.dockPanel = (EuclidianDockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
 		app.getUndoManager().addUndoInfoStoredListener(this);

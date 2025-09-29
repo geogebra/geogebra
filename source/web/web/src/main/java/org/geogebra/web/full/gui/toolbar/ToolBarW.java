@@ -398,10 +398,10 @@ public class ToolBarW extends FlowPanel
 		if (isMouseDown) {
 			if (this.isVisible()) {
 				((ScrollPanel) this.getParent())
-						.setHorizontalScrollPosition(toolbarPosition + (mousePosition - positionX));
+						.setHorizontalScrollPosition(toolbarPosition + mousePosition - positionX);
 			} else {
 				((ScrollPanel) submenuPanel.getParent())
-						.setHorizontalScrollPosition(toolbarPosition + (mousePosition - positionX));
+						.setHorizontalScrollPosition(toolbarPosition + mousePosition - positionX);
 			}
 		}
 	}

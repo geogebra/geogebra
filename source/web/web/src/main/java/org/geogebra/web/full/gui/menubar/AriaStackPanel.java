@@ -135,7 +135,7 @@ public class AriaStackPanel extends ComplexPanel
 
 		Element button = Dom.createDefaultButton();
 
-		if (!(Browser.isIPad())) {
+		if (!Browser.isIPad()) {
 			li.setAttribute("role", "menuitem");
 		}
 

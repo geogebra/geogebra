@@ -64,7 +64,7 @@ public class TemplatePreviewCard extends FlowPanel
 
     private void buildGUI(AppWFull app, boolean hasMoreButton) {
         addStyleName("mowPreviewCard");
-        if (!(NavigatorUtil.isMobile())) {
+        if (!NavigatorUtil.isMobile()) {
             addStyleName("desktop");
         }
         // panel containing the preview image of material

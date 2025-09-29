@@ -1675,7 +1675,7 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 		}
 		setEditorFocus(focus);
 
-		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
+		int kH = (int) app.getAppletFrame().getKeyboardHeight();
 		int h = getToolbarDockPanel().getOffsetHeight();
 		if (h < kH) {
 			app.adjustViews(true, false);

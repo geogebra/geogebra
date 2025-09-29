@@ -405,7 +405,7 @@ public class ImageManagerW extends ImageManager {
 					.changeFileExtension(fileName, FileExtensions.PNG);
 		}
 		if ((url == null || url.startsWith("http"))
-				&& data.data == null && (img != null && img.getImage() != null)) {
+				&& data.data == null && img != null && img.getImage() != null) {
 			dataURL = new ArchiveEntry(fullPath, convertImgToPng(img));
 		} else if (url != null && ext == FileExtensions.SVG) {
 			dataURL = new ArchiveEntry(fullPath, convertSvgDataUrl(url));

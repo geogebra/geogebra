@@ -155,7 +155,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler, HasDataTest {
 	 *            whether animation is on
 	 */
 	void setAnimating(boolean value) {
-		if (!(getGeo().isAnimatable())) {
+		if (!getGeo().isAnimatable()) {
 			return;
 		}
 		getGeo().setAnimating(value);

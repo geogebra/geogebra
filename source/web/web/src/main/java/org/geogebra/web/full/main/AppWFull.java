@@ -1970,8 +1970,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void setCustomToolBar() {
 		String customToolbar = appletParameters.getDataParamCustomToolBar();
-		if ((customToolbar != null) && (customToolbar.length() > 0)
-				&& (appletParameters.getDataParamShowToolBar(false))
+		if (!StringUtil.empty(customToolbar)
+				&& appletParameters.getDataParamShowToolBar(false)
 				&& (getGuiManager() != null)) {
 			getGuiManager().setGeneralToolBarDefinition(customToolbar);
 		}

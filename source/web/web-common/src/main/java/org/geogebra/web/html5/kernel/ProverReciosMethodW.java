@@ -57,8 +57,8 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 				}
 
 				for (int j = changedIndex; j >= 0; j--) {
-					result = result.multiply((BigInteger.valueOf(n)
-							.multiply(BigInteger.valueOf(indices[j])))
+					result = result.multiply(BigInteger.valueOf(n)
+							.multiply(BigInteger.valueOf(indices[j]))
 							.subtract(BigInteger.valueOf(i)));
 					cache[i][j] = result;
 				}

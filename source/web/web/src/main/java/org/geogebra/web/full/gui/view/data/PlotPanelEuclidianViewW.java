@@ -82,8 +82,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW
 
 	@Override
 	public double getPixelOffset() {
-		return (30 * getApplication().getFontSize()
-				) / 12.0;
+		return 30 * getApplication().getFontSize() / 12.0;
 	}
 
 	@Override

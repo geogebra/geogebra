@@ -570,8 +570,8 @@ public class ModeToggleMenuW extends ListItem
 				if (previousSiblingElement != null) {
 					previousSiblingElement.focus();
 				} else {
-					UnorderedList parentUL = (UnorderedList) ((ListItem) (event
-							.getSource())).getParent();
+					UnorderedList parentUL = (UnorderedList) ((ListItem) event
+							.getSource()).getParent();
 					parentUL.getWidget(parentUL.getWidgetCount() - 1)
 							.getElement().focus();
 				}
