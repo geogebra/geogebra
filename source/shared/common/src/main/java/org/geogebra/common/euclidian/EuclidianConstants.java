@@ -956,9 +956,9 @@ public final class EuclidianConstants {
 	 */
 	static public boolean keepSelectionWhenSet(int mode) {
 		return isMoveOrSelectionMode(mode)
-				|| (mode == MODE_SHOW_HIDE_OBJECT
+				|| mode == MODE_SHOW_HIDE_OBJECT
 				|| mode == MODE_SHOW_HIDE_LABEL
-				|| mode == MODE_DELETE);
+				|| mode == MODE_DELETE;
 	}
 
 	/**

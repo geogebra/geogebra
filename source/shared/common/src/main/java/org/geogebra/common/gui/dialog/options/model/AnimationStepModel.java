@@ -43,7 +43,7 @@ public class AnimationStepModel extends TextPropertyModel {
 					temp.getAnimationStep())) {
 				equalStep = false;
 			}
-			if (!(temp.isGeoAngle())) {
+			if (!temp.isGeoAngle()) {
 				onlyAngles = false;
 			}
 		}

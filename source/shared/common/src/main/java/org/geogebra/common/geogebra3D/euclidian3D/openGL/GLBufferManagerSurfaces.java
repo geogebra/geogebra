@@ -10,7 +10,7 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 	// complex materials need not more than 100
 	static final private int ELEMENTS_SIZE_START = 128;
 	// use 1.5 empirical factor observed from materials
-	static final private int INDICES_SIZE_START = (ELEMENTS_SIZE_START * 3) / 2;
+	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3 / 2;
 
 	private ManagerShaders manager;
 

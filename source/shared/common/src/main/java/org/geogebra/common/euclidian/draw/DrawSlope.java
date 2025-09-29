@@ -195,7 +195,7 @@ public class DrawSlope extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return gp != null && (gp.intersects(rect));
+		return gp != null && gp.intersects(rect);
 	}
 
 	@Override

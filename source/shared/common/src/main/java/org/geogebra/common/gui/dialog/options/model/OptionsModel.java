@@ -47,7 +47,7 @@ public abstract class OptionsModel {
 	}
 
 	public boolean hasGeos() {
-		return (geos != null && geos.length > 0);
+		return geos != null && geos.length > 0;
 	}
 
 	protected abstract boolean isValidAt(int index);
@@ -73,7 +73,7 @@ public abstract class OptionsModel {
 	public static boolean isAngleList(GeoElement geo) {
 		if (geo.isGeoList()) {
 			GeoClass elemType = ((GeoList) geo).getElementType();
-			return (elemType == GeoClass.ANGLE || elemType == GeoClass.ANGLE3D);
+			return elemType == GeoClass.ANGLE || elemType == GeoClass.ANGLE3D;
 		}
 
 		return false;

@@ -58,8 +58,7 @@ public class ShowLabelModel extends OptionsModel {
 	}
 
 	private static boolean isDropDownList(GeoElement geo) {
-		return (geo.isGeoList() && ((GeoList) geo).drawAsComboBox());
-
+		return geo.isGeoList() && ((GeoList) geo).drawAsComboBox();
 	}
 
 	public void applyShowChanges(boolean value) {

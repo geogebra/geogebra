@@ -43,7 +43,7 @@ public class SurfaceParameter {
 				this.wireframeUnique = true;
 				double uWireFrame = Math.ceil(this.borderMin / this.step)
 						* this.step;
-				this.wireFrameStep = (int) ((n * (this.borderMax - uWireFrame))
+				this.wireFrameStep = (int) (n * (this.borderMax - uWireFrame)
 						/ this.delta);
 
 				this.step = this.delta / n;

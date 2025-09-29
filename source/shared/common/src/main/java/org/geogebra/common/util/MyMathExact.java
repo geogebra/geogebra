@@ -39,9 +39,7 @@ public class MyMathExact {
 		 *            value
 		 */
 		public FixedScaleDecimal(int significance, double val) {
-			// super(val);
-			// super.setScale(significance, roundingMode);
-			impl = (new BigDecimal(val)).setScale(significance, roundingMode);
+			impl = new BigDecimal(val).setScale(significance, roundingMode);
 			fixedScale = significance;
 		}
 

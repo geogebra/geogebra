@@ -306,7 +306,7 @@ public class EuclidianOptionsModel {
 			view.setXminObject(view.getXminObject());
 
 			basicTab.enableAxesRatio(
-					(view.isZoomable() && !view.isLockedAxesRatio()));
+					view.isZoomable() && !view.isLockedAxesRatio());
 
 			view.updateBounds(true, true);
 		}

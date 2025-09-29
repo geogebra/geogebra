@@ -267,7 +267,7 @@ public abstract class Prover {
 				if (ge instanceof GeoLine) {
 					GeoPoint Q1 = ((GeoLine) ge).getStartPoint();
 					GeoPoint Q2 = ((GeoLine) ge).getEndPoint();
-					if ((Q1 != null && Q2 != null)
+					if (Q1 != null && Q2 != null
 							&& ((Q1.equals(P1) && Q2.equals(P2))
 									|| (Q1.equals(P2) && Q2.equals(P1)))) {
 						return (GeoLine) ge;

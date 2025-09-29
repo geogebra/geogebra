@@ -144,7 +144,7 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	public int getOpacityPercentage() {
-		return Math.round((getGeoAt(0).getLineOpacity() / 255.0f) * 100);
+		return Math.round(getGeoAt(0).getLineOpacity() / 255.0f * 100);
 	}
 
 	public void applyThickness(int value) {
@@ -174,7 +174,7 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	public void applyOpacityPercentage(int percentage) {
-		int value = Math.round(((percentage / 100.0f) * 255));
+		int value = Math.round(percentage / 100.0f * 255);
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineOpacity(value);

@@ -631,18 +631,18 @@ public class PlotterCursor {
 			float y2 = 0f;
 			float z1 = z3;
 
-			rcjp = (float) (Math.cos((j + 1) * d));
+			rcjp = (float) Math.cos((j + 1) * d);
 			float x3 = rcjp;
 			float y3 = 0f;
-			z3 = (float) (Math.sin((j + 1) * d));
+			z3 = (float) Math.sin((j + 1) * d);
 
 			for (int i = 0; i < 4 * latitude; i++) {
 
 				float x1 = x2;
 				float y1 = y2;
 
-				float ci = (float) (Math.cos((i + 1) * d));
-				float si = (float) (Math.sin((i + 1) * d));
+				float ci = (float) Math.cos((i + 1) * d);
+				float si = (float) Math.sin((i + 1) * d);
 
 				x2 = ci * rcj;
 				y2 = si * rcj;

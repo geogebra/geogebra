@@ -221,7 +221,7 @@ public abstract class TextPreviewer {
 			// NB FormulaText[a] is displayed as-is
 			// FormulaText[a]+"" needs to have LaTeX box manually checked
 			if (exp.evaluate(tpl).isGeoElement()
-					&& ((GeoText) (exp.evaluate(tpl))).isLaTeXTextCommand()) {
+					&& ((GeoText) exp.evaluate(tpl)).isLaTeXTextCommand()) {
 				isLaTeX = true;
 			}
 

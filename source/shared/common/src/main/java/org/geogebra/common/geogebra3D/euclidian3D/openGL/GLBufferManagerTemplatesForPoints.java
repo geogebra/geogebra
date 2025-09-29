@@ -37,7 +37,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * @return template index for this size
 	 */
 	static public int getIndexForPointSize(float pointSize) {
-		return pointSize < 2.5f ? 0 : (pointSize > 5.5f ? 2 : 1);
+		return pointSize < 2.5f ? 0 : pointSize > 5.5f ? 2 : 1;
 	}
 
 	/**

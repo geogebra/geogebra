@@ -265,7 +265,7 @@ public class CmdIntersect3D extends CmdIntersect {
 					|| arg[2].isGeoElement3D()) {
 
 				// Line - Conic
-				if ((arg[0].isGeoLine()) && arg[1].isGeoConic()
+				if (arg[0].isGeoLine() && arg[1].isGeoConic()
 						&& arg[2] instanceof GeoNumberValue) {
 					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 							.intersectLineConicSingle(c.getLabel(),

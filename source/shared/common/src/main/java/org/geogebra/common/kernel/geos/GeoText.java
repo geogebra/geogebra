@@ -792,7 +792,7 @@ public class GeoText extends GeoElement
 			startPoint.getLocateableList().unregisterLocateable(this);
 			startPoint = null;
 		}
-		if (!hasScreenLocation() && (x != 0 && y != 0)) {
+		if (!hasScreenLocation() && x != 0 && y != 0) {
 			setScreenLocation(x, y);
 		}
 	}

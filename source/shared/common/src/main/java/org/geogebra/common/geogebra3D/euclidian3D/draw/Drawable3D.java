@@ -952,11 +952,8 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * @return if picking occurred
 	 */
 	private boolean drawLabel(Renderer renderer, boolean forPicking) {
-
-		if (forPicking) {
-			if (!(getGeoElement().isPickable())) {
-				return false;
-			}
+		if (forPicking && !getGeoElement().isPickable()) {
+			return false;
 		}
 
 		if (!isLabelVisible()) {
@@ -964,9 +961,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		}
 
 		label.draw(renderer, forPicking);
-
 		return true;
-
 	}
 
 	/**

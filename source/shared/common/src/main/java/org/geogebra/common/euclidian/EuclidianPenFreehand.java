@@ -894,8 +894,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			r2 = recos[
 					recognizer_queue_length - nsides + (i + 1) % nsides];
 			calc_edge_isect(r1, r2, pt);
-			r1.reversed = (Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1)) < (Math
-					.hypot(pt[0] - r1.x2, pt[1] - r1.y2));
+			r1.reversed = Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1) < Math
+					.hypot(pt[0] - r1.x2, pt[1] - r1.y2);
 		}
 		double dist;
 		for (i = 0; i < nsides; ++i) {
@@ -992,8 +992,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 		// look for a linear piece that's big enough
 		for (k = 0; k < nsides; ++k) {
-			i1 = start + (k * (end - start)) / nsides;
-			i2 = start + ((k + 1) * (end - start)) / nsides;
+			i1 = start + k * (end - start) / nsides;
+			i2 = start + (k + 1) * (end - start) / nsides;
 
 			calc_inertia(i1, i2, s);
 			if (i_det(s) < LINE_MAX_DET) {

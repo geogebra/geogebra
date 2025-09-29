@@ -18,8 +18,8 @@ public class SlopeTriangleSizeModel extends SliderOptionsModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return (geo instanceof GeoNumeric
-				&& geo.getParentAlgorithm() instanceof AlgoSlope);
+		return geo instanceof GeoNumeric
+				&& geo.getParentAlgorithm() instanceof AlgoSlope;
 	}
 
 	@Override
