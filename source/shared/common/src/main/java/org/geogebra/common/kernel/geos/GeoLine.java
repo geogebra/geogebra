@@ -841,7 +841,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		double y0 = x * sin - y * cos;
 		double xqx = x * qx;
 		double yqy = y * qy;
-		z += (xqx + yqy) + (yqy - xqx) * cos - (x * qy + y * qx) * sin;
+		z += xqx + yqy + (yqy - xqx) * cos - (x * qy + y * qx) * sin;
 		x = x0;
 		y = y0;
 

@@ -222,7 +222,7 @@ public interface Traversing {
 							// fix for
 							// Sequence(k deg, k, 0, 360, 30)
 							// Sequence(cos( Element( l1, k )), k, 1, 5 )
-							&& (!(arg instanceof Command) && arg.isConstant())
+							&& !(arg instanceof Command) && arg.isConstant()
 
 							&& !DoubleUtil.isInteger(
 									180 * arg.evaluateDouble() / Math.PI)) {

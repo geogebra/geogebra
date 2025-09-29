@@ -168,7 +168,7 @@ public class DrawPointPlot extends Drawable {
 
 		boolean doVisualStyleUpdate = (oldPointSize != pointSize)
 				|| (oldPointStyle != pointStyle)
-				|| !(oldColor.equals(pointColor));
+				|| !oldColor.equals(pointColor);
 
 		oldPointSize = pointSize;
 		oldPointStyle = pointStyle;

@@ -45,7 +45,7 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 
 		case 2:
 			arg = resArgs(c, info);
-			if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
+			if (arg[0].isGeoList() && arg[1].isGeoList()) {
 				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0],
 						(GeoList) arg[1]) };
 				return ret;

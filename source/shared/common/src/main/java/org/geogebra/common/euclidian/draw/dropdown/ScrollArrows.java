@@ -27,11 +27,11 @@ class ScrollArrows {
 				dimension.getHeight() / 2);
 		down = AwtFactory.getPrototype()
 				.newRectangle(dimension.getWidth(), dimension.getHeight() / 2);
-		up.setBounds(left, top, (int) (up.getWidth()), (int) (up.getHeight()));
+		up.setBounds(left, top, (int) up.getWidth(), (int) up.getHeight());
 		down.setBounds(left, top + height
-						- (int) (down.getHeight()),
-				(int) (down.getWidth()),
-				(int) (down.getHeight()));
+						- (int) down.getHeight(),
+				(int) down.getWidth(),
+				(int) down.getHeight());
 	}
 
 	void draw(GGraphics2D g2, GPaint backgroundColor) {
@@ -68,7 +68,7 @@ class ScrollArrows {
 		int tW = w / 6;
 		int tH = w / 6;
 
-		int middleY = top + (height / 2 - (int) Math.round(tH * 1.5));
+		int middleY = top + height / 2 - (int) Math.round(tH * 1.5);
 
 		int x1 = middleX - tW;
 		int y1 = middleY + 2 * tW;
@@ -86,7 +86,7 @@ class ScrollArrows {
 		int tW = w / 6;
 		int tH = w / 6;
 
-		int middleY = top + (height / 2 - (int) Math.round(tH * 1.5));
+		int middleY = top + height / 2 - (int) Math.round(tH * 1.5);
 
 		int x1 = middleX - tW;
 		int y1 = middleY + tH;

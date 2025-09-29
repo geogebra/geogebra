@@ -168,8 +168,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 	@Override
 	public GArea getShape() {
 		GArea area = super.getShape() != null ? super.getShape()
-				: (fillShape == null ? AwtFactory.getPrototype().newArea()
-						: AwtFactory.getPrototype().newArea(fillShape));
+				: fillShape == null ? AwtFactory.getPrototype().newArea()
+				: AwtFactory.getPrototype().newArea(fillShape);
 		if (conic.isInverseFill()) {
 			GArea complement = AwtFactory.getPrototype()
 					.newArea(view.getBoundingPath());

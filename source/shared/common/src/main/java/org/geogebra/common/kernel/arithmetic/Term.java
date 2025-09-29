@@ -485,7 +485,7 @@ public class Term implements Comparable<Term> {
 	private String variableString(StringTemplate tpl) {
 		String str = getVars();
 
-		if ((tpl.hasCASType()) && variables.length() >= 1) {
+		if (tpl.hasCASType() && variables.length() >= 1) {
 
 			StringBuilder sb = new StringBuilder("(");
 

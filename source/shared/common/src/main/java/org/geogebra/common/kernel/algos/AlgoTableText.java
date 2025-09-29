@@ -632,10 +632,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 			String stylePre = "";
 			String stylePost = "";
 			// make sure latex isn't wrapped in \text{}
-			if (((geo1 instanceof TextProperties
-					&& !((TextProperties) geo1).isLaTeXTextCommand())
-					&& (!(geo1 instanceof GeoText)
-							|| !((GeoText) geo1).isLaTeX()))
+			if (geo1 instanceof TextProperties
+					&& !((TextProperties) geo1).isLaTeXTextCommand()
+					&& (!(geo1 instanceof GeoText) || !((GeoText) geo1).isLaTeX())
 
 					// check for "raw" LaTeX
 					// eg TableText[{"\frac{2}{3}","2","3"},{"4","5","6"}]

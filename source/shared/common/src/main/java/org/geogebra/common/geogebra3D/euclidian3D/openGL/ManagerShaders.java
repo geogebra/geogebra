@@ -719,8 +719,8 @@ public class ManagerShaders extends Manager {
 	@Override
 	public void setPackSurface(Drawable3D d, boolean clipped) {
 		currentBufferManager = clipped ? bufferManagerSurfacesClipped
-				: (d.addedFromClosedSurface() ? bufferManagerSurfacesClosed
-						: bufferManagerSurfaces);
+				: d.addedFromClosedSurface() ? bufferManagerSurfacesClosed
+				: bufferManagerSurfaces;
 		this.currentColor = d.getSurfaceColor();
 		this.currentLayer = d.getLayer();
 	}

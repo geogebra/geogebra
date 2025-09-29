@@ -199,7 +199,7 @@ public class CmdSum extends CommandProcessor {
 			if (!(geo instanceof GeoNumberValue)) {
 				allNumbers = false;
 			}
-			if (!(geo.isGeoList())) {
+			if (!geo.isGeoList()) {
 				allList = false;
 			}
 			if (!(geo instanceof GeoNumberValue) && !geo.isGeoVector()

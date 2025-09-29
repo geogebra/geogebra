@@ -227,7 +227,7 @@ public class DrawImage extends Drawable {
 			// improve rendering for sheared and scaled images (translations
 			// don't need this)
 			// turns false if the image doesn't want interpolation
-			needsInterpolationRenderingHint = (geoImage.isInterpolate())
+			needsInterpolationRenderingHint = geoImage.isInterpolate()
 					&& (!isTranslation(at) || view.getPixelRatio() != 1);
 		}
 

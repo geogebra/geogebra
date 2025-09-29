@@ -46,8 +46,8 @@ final class BernsteinPlotterVisualDebug implements VisualDebug {
 	private void drawCell(GGraphics2D g2, BernsteinPlotCell cell) {
 		GColor color = getCellColor(cell);
 
-		int x = (int) (bounds.toScreenCoordXd(cell.boundingBox.x1()));
-		int y = (int) (bounds.toScreenCoordYd(cell.boundingBox.y1()));
+		int x = (int) bounds.toScreenCoordXd(cell.boundingBox.x1());
+		int y = (int) bounds.toScreenCoordYd(cell.boundingBox.y1());
 		int width = (int) (bounds.toScreenCoordXd(cell.boundingBox.x2()) - x);
 		int height = (int) (bounds.toScreenCoordYd(cell.boundingBox.y2()) - y);
 		g2.setColor(color);

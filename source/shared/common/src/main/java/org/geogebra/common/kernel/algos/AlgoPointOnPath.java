@@ -319,10 +319,10 @@ public class AlgoPointOnPath extends AlgoElement
 					.getPolynomials();
 			polynomials[0] = line[2].multiply(new PPolynomial(variable));
 			polynomials[1] = line[2].multiply(
-					(new PPolynomial(1)).subtract(new PPolynomial(variable)));
+					new PPolynomial(1).subtract(new PPolynomial(variable)));
 			polynomials[2] = line[0]
-					.multiply((new PPolynomial(variable)).negate())
-					.add(line[1].multiply((new PPolynomial(variable))
+					.multiply(new PPolynomial(variable).negate())
+					.add(line[1].multiply(new PPolynomial(variable)
 							.subtract(new PPolynomial(1))));
 			return polynomials;
 

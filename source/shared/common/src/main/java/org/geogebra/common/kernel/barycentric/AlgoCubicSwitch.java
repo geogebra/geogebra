@@ -2230,7 +2230,7 @@ public class AlgoCubicSwitch {
 
 		switch (n) {
 		case 400:
-			return a(0, -b2 + c2 - (S), 0);
+			return a(0, -b2 + c2 - S, 0);
 		case -400:
 			return a(0, -b2 + c2 + S, 0);
 		case 401:

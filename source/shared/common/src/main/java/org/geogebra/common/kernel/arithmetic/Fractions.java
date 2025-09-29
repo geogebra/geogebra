@@ -273,10 +273,10 @@ public class Fractions {
 	}
 
 	private static ExpressionValue multiplyCheck(ExpressionValue denR, ExpressionValue denL) {
-		return denL == null ? denR : (denR == null ? denL : denL.wrap().multiply(denR));
+		return denL == null ? denR : denR == null ? denL : denL.wrap().multiply(denR);
 	}
 
 	private static ExpressionValue powerCheck(ExpressionValue base, ExpressionValue exp) {
-		return exp == null ? base : (base == null ? null : base.wrap().power(exp));
+		return exp == null ? base : base == null ? null : base.wrap().power(exp);
 	}
 }

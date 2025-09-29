@@ -499,7 +499,7 @@ public class CmdIntersect extends CommandProcessor {
 		// ImplicitPoly - Functionable
 		// TODO decide polynomial before CAS loaded
 		else if ((ok[0] = arg[0].isGeoImplicitCurve())
-				&& (ok[1] = (arg[1].isRealValuedFunction())
+				&& ((ok[1] = arg[1].isRealValuedFunction())
 						&& (ok[2] = arg[2] instanceof GeoNumberValue)
 						// this line uses CAS so check last
 						&& (ok[1] = ((GeoFunctionable) arg[1])

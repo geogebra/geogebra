@@ -2377,10 +2377,9 @@ public class MyXMLHandler implements DocHandler {
 					.setShowInputPanel(!attrs.get("show").equals("false"));
 			tmp_perspective.setShowInputPanelCommands(
 					!attrs.get("cmd").equals("false"));
-			InputPosition ip = attrs.get("top").equals("true")
-					? InputPosition.top
-					: ("false".equals(attrs.get("top")) ? InputPosition.bottom
-							: InputPosition.algebraView);
+			InputPosition ip = "true".equals(attrs.get("top")) ? InputPosition.top
+					: "false".equals(attrs.get("top")) ? InputPosition.bottom
+					: InputPosition.algebraView;
 			tmp_perspective.setInputPosition(ip);
 
 			return true;

@@ -256,7 +256,7 @@ public class StatGeo {
 
 			// generate class borders from data using given number of classes
 			settings.setClassWidth(
-					(xMaxData - xMinData) / (settings.getNumClasses()));
+					(xMaxData - xMinData) / settings.getNumClasses());
 
 			al = new AlgoClasses(cons, valueList, null, null,
 					new GeoNumeric(cons, settings.getNumClasses()));
@@ -365,7 +365,7 @@ public class StatGeo {
 						1.0);
 			}
 			midpoint = 1.5 * leftBorder[yValue.length - 1]
-					- .5 * (leftBorder[yValue.length - 2]);
+					- .5 * leftBorder[yValue.length - 2];
 			points[yValue.length] = new GeoPoint(cons, null, midpoint, 0.0,
 					1.0);
 		}
@@ -727,7 +727,7 @@ public class StatGeo {
 		for (int i = 0; i < length; i++) {
 			AlgoBoxPlot bp = new AlgoBoxPlot(cons, new GeoNumeric(cons, i + 1),
 					new GeoNumeric(cons, 1d / 3d),
-					(GeoList) dataList.get((length - 1) - i),
+					(GeoList) dataList.get(length - 1 - i),
 					new GeoBoolean(cons, settings.isShowOutliers()));
 			cons.removeFromAlgorithmList(bp);
 			ret[i] = bp.getOutput(0);

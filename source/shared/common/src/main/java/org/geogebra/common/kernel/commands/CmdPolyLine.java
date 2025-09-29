@@ -94,7 +94,7 @@ public class CmdPolyLine extends CommandProcessor {
 		// check arguments
 		boolean is3D = false;
 		for (int i = 0; i < size; i++) {
-			if (!(arg[i].isGeoPoint())) {
+			if (!arg[i].isGeoPoint()) {
 				throw argErr(c, arg[i]);
 			}
 			points[i] = (GeoPointND) arg[i];
