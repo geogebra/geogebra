@@ -2,11 +2,11 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

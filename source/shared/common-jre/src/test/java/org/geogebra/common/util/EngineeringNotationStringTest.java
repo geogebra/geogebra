@@ -18,8 +18,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.function.Function;
 
-import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

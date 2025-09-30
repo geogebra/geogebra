@@ -3,9 +3,7 @@ package org.geogebra.common.kernel.commands;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.geogebra.common.AppCommonFactory;
-import org.geogebra.common.BaseAppTestSetup;
-import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +11,7 @@ public class GraphingCommandArgumentFilterTest extends BaseAppTestSetup {
 
 	@BeforeEach
 	public void setUp() {
-		setApp(AppCommonFactory.create(new AppConfigGraphing()));
+		setupGraphingApp();
 	}
 
 	@Test

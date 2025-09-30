@@ -18,7 +18,9 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
+import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
@@ -43,15 +45,23 @@ public class BaseAppTestSetup {
 	// Initial app setup
 
 	protected void setupApp(SuiteSubApp subApp) {
-		app = AppCommonFactory.create(createConfig(subApp));
+		if (subApp == SuiteSubApp.G3D) {
+			app = AppCommonFactory.create3D(createConfig(subApp));
+		} else {
+			app = AppCommonFactory.create(createConfig(subApp));
+		}
 		if (subApp == SuiteSubApp.CAS) {
 			mockedCasGiac.applyTo(app);
 		}
 		app.getSettingsUpdater().resetSettingsOnAppStart();
 	}
 
-	protected void setupApp(AppConfig appConfig) {
-		app = AppCommonFactory.create(appConfig);
+	protected void setupNotesApp() {
+		app = AppCommonFactory.create(new AppConfigNotes());
+	}
+
+	protected void setupGraphingApp() {
+		app = AppCommonFactory.create(new AppConfigGraphing());
 	}
 
 	private static AppConfig createConfig(SuiteSubApp subApp) {

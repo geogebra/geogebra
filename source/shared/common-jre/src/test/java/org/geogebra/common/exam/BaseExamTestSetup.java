@@ -1,12 +1,12 @@
 package org.geogebra.common.exam;
 
-import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
+import org.geogebra.test.BaseAppTestSetup;
 
 public abstract class BaseExamTestSetup extends BaseAppTestSetup {
     protected final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();

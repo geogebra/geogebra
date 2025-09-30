@@ -7,10 +7,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.EventAccumulator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

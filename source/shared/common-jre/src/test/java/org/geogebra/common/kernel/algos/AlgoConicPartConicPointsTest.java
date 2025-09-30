@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.algos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.geogebra.common.AppCommonFactory;
-import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ public class AlgoConicPartConicPointsTest extends BaseAppTestSetup {
 
 	@BeforeEach
 	public void setup() {
-		setApp(AppCommonFactory.create3D());
+		setupApp(SuiteSubApp.G3D);
 	}
 
 	@Test

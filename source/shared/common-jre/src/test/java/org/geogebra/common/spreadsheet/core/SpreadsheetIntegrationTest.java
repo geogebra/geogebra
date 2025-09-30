@@ -10,25 +10,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
-import org.geogebra.common.BaseAppTestSetup;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
-import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
-import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Rectangle;
-import org.geogebra.test.LocalizationCommonUTF;
+import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -56,7 +53,9 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@BeforeEach
 	public void setup() {
-		setApp(createAppCommonWithGuiManager());
+		setupApp(SuiteSubApp.GRAPHING);
+		getApp().setGuiManager(Mockito.mock(GuiManager.class));
+		getApp().enableUseFullGui();
 
 		getApp().setUndoActive(true);
 		UndoProvider undoProvider = getApp().getUndoManager();
@@ -74,21 +73,6 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		spreadsheet.setViewport(new Rectangle(0, 100, 0, 120));
 	}
 
-	private AppCommon createAppCommonWithGuiManager() {
-		return new AppCommon(new LocalizationCommonUTF(2), new AwtFactoryCommon(),
-				new AppConfigDefault()) {
-			@Override
-			public boolean isUsingFullGui() {
-				return true;
-			}
-
-			@Override
-			public GuiManagerInterface getGuiManager() {
-				return Mockito.mock(GuiManagerInterface.class);
-			}
-		};
-	}
-
 	@Test
 	@Issue("APPS-6566")
 	public void testInitialSize() {
@@ -104,8 +88,9 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 	@Test
 	public void testDefaultTextAlignment() {
-		tabularData.setContent(0, 0, new GeoText(getConstruction(), "GeoText"));
-		tabularData.setContent(1, 0, new GeoNumeric(getConstruction(), 123));
+		Construction construction = getKernel().getConstruction();
+		tabularData.setContent(0, 0, new GeoText(construction, "GeoText"));
+		tabularData.setContent(1, 0, new GeoNumeric(construction, 123));
 		spreadsheet.getController().select(new TabularRange(0, 0), false, false);
 		assertEquals(SpreadsheetStyling.TextAlignment.LEFT,
 				spreadsheet.getStyleBarModel().getState().textAlignment);
@@ -196,7 +181,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		spreadsheet.getController().deleteColumnAt(0);
 		assertEquals(24, spreadsheet.getController().getLayout().numberOfColumns());
 		// undo column deletion
-		getConstruction().getUndoManager().undo();
+		getKernel().undo();
 		assertEquals(26, spreadsheet.getController().getLayout().numberOfColumns());
 	}
 

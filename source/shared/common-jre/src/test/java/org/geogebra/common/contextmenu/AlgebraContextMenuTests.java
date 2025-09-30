@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.view.algebra.contextmenu.impl.CreateSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
+import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

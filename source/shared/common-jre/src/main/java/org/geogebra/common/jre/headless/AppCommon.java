@@ -249,11 +249,6 @@ public class AppCommon extends App {
     }
 
     @Override
-    public boolean isUsingFullGui() {
-        return false;
-    }
-
-    @Override
     public boolean showView(int view) {
 		Perspective p = getTmpPerspective();
 		if (p != null) {

@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian;
 import static junit.framework.TestCase.assertEquals;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ public class EuclidianViewForNotesTest extends BaseAppTestSetup {
 
 	@BeforeEach
 	public void setup() {
-		setupApp(new AppConfigNotes());
+		setupNotesApp();
 	}
 
 	@Test

@@ -2,7 +2,6 @@ package org.geogebra.common.exam.restrictions.realschule;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.geogebra.common.BaseAppTestSetup;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -12,6 +11,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.util.ToStringConverter;
+import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
