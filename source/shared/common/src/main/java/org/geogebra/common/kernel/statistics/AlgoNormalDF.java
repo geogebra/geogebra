@@ -109,7 +109,7 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			ExpressionNode sqrt2 = (new ExpressionNode(kernel, 2)).sqrt();
+			ExpressionNode sqrt2 = new ExpressionNode(kernel, 2).sqrt();
 			div = sqrt2.multiply(div.abs());
 
 			en = en.subtract(mean).divide(div).erf().plus(1).divide(2);
@@ -123,7 +123,7 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 			ExpressionNode div2 = new ExpressionNode(kernel, sd);
 			div2 = div2.square().multiply(2);
 
-			ExpressionNode sqrt2pi = (new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING))
+			ExpressionNode sqrt2pi = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING)
 					.wrap().multiplyR(2).sqrt();
 
 			div = sqrt2pi.multiply(div.abs());

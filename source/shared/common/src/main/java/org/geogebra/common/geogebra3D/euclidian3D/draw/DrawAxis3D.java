@@ -325,9 +325,9 @@ public class DrawAxis3D extends DrawLine3D {
 				numbersYOffset = -numbersYOffset;
 			}
 
-			getGeoElement().setLabelOffset(((-vx - ((int) numbersXOffset)) * 3) / 2, // -vx,
+			getGeoElement().setLabelOffset((-vx - (int) numbersXOffset) * 3 / 2, // -vx,
 					// -2*xOffset,
-					((-vy - ((int) numbersYOffset)) * 3) / 2// -vy//-2*yOffset
+					(-vy - (int) numbersYOffset) * 3 / 2// -vy//-2*yOffset
 			);
 		}
 

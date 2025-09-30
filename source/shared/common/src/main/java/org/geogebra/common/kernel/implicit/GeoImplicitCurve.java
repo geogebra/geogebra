@@ -1834,7 +1834,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			if (i == solutionColumn - 1) {
 				solution[i] = 1;
 			} else {
-				solution[i] = (DoubleUtil.isZero(partialSolution[j])) ? 0
+				solution[i] = DoubleUtil.isZero(partialSolution[j]) ? 0
 						: partialSolution[j];
 				j++;
 			}
@@ -2047,8 +2047,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				sb.append('{');
 				sb.append(exp);
 				sb.append('}');
-			} else if ((tpl.getStringType().equals(StringType.GEOGEBRA_XML))
-					|| (tpl.hasCASType())) {
+			} else if (tpl.getStringType().equals(StringType.GEOGEBRA_XML)
+					|| tpl.hasCASType()) {
 				sb.append('^');
 				sb.append(exp);
 			} else {

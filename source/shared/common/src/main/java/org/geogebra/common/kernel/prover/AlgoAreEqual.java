@@ -326,9 +326,9 @@ public class AlgoAreEqual extends AlgoElement
 		// area of polygon is the sum of areas of triangles in polygon
 		if (inputElement1 instanceof GeoNumeric
 				&& inputElement2 instanceof GeoNumeric
-				&& (inputElement1.getParentAlgorithm())
+				&& inputElement1.getParentAlgorithm()
 				.getRelatedModeID() == EuclidianConstants.MODE_AREA
-				&& (inputElement2.getParentAlgorithm())
+				&& inputElement2.getParentAlgorithm()
 				.getRelatedModeID() == EuclidianConstants.MODE_AREA) {
 
 			// get botanaVars of points of first polygon
@@ -355,7 +355,7 @@ public class AlgoAreEqual extends AlgoElement
 			}
 
 			botanaPolynomials = new PPolynomial[1][1];
-			botanaPolynomials[0][0] = (PPolynomial.sqr(det1sum))
+			botanaPolynomials[0][0] = PPolynomial.sqr(det1sum)
 					.subtract(PPolynomial.sqr(det2sum));
 
 			return botanaPolynomials;
@@ -364,9 +364,9 @@ public class AlgoAreEqual extends AlgoElement
 		// distance between 2 point without segment
 		if (inputElement1 instanceof GeoNumeric
 				&& inputElement2 instanceof GeoNumeric
-				&& (inputElement1.getParentAlgorithm())
+				&& inputElement1.getParentAlgorithm()
 						.getRelatedModeID() == EuclidianConstants.MODE_DISTANCE
-				&& (inputElement2.getParentAlgorithm())
+				&& inputElement2.getParentAlgorithm()
 						.getRelatedModeID() == EuclidianConstants.MODE_DISTANCE) {
 			// We check whether their length are equal.
 			botanaPolynomials = new PPolynomial[1][1];
@@ -388,9 +388,9 @@ public class AlgoAreEqual extends AlgoElement
 			PPolynomial c2 = new PPolynomial(v2[1]);
 			PPolynomial d1 = new PPolynomial(v2[2]);
 			PPolynomial d2 = new PPolynomial(v2[3]);
-			botanaPolynomials[0][0] = ((PPolynomial.sqr(a1.subtract(b1))
-					.add(PPolynomial.sqr(a2.subtract(b2))))
-							.subtract(PPolynomial.sqr(c1.subtract(d1))))
+			botanaPolynomials[0][0] = PPolynomial.sqr(a1.subtract(b1))
+					.add(PPolynomial.sqr(a2.subtract(b2)))
+							.subtract(PPolynomial.sqr(c1.subtract(d1)))
 									.subtract(PPolynomial.sqr(c2.subtract(d2)));
 
 			return botanaPolynomials;
@@ -424,8 +424,8 @@ public class AlgoAreEqual extends AlgoElement
 			GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 
 			ValidExpression resultVE;
-			if ((inputElement1 instanceof GeoNumeric
-					&& inputElement2 instanceof GeoNumeric)) {
+			if (inputElement1 instanceof GeoNumeric
+					&& inputElement2 instanceof GeoNumeric) {
 				// Create n1-n2=var as a ValidExpression
 				resultVE = cas.getCASparser()
 						.parseGeoGebraCASInputAndResolveDummyVars(

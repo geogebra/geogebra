@@ -840,8 +840,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawIn
 				// subsampling needed in case there are two eg minimums and we
 				// get the wrong one with extrFinder.findMinimum()
 				// subsample visible bit only
-				if (doSubSamples && ((STEP > 0 ? left : right) < visibleMax
-						&& (STEP > 0 ? right : left) > visibleMin)) {
+				if (doSubSamples && (STEP > 0 ? left : right) < visibleMax
+						&& (STEP > 0 ? right : left) > visibleMin) {
 					double y, minSample = left;
 					for (double x = left; x < right; x += subStep) {
 						y = fmin.value(x);

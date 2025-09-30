@@ -1066,15 +1066,15 @@ public class PlotterSurface {
 	}
 
 	protected static void cosSin(int vi, int latitude, double[] ret) {
-		double v = ((double) vi / latitude) * Math.PI / 2;
+		double v = (double) vi / latitude * Math.PI / 2;
 		ret[0] = Math.cos(v);
 		ret[1] = Math.sin(v);
 	}
 
-	protected static final void sphericalCoords(int ui, int longitude,
+	protected static void sphericalCoords(int ui, int longitude,
 			double longitudeStart, double[] cosSinV, Coords n) {
 
-		double u = ((double) ui / longitude) * 2 * Math.PI + longitudeStart;
+		double u = (double) ui / longitude * 2 * Math.PI + longitudeStart;
 
 		n.setX(Math.cos(u) * cosSinV[0]);
 		n.setY(Math.sin(u) * cosSinV[0]);
@@ -1553,7 +1553,7 @@ public class PlotterSurface {
 		v = (float) Math.sinh(tMax);
 		manager.triangleFanApex(
 				center.add(
-						(m1.add(v1.mul(a * u).add(v2.mul(b * v)))).mul(0.5)));
+						m1.add(v1.mul(a * u).add(v2.mul(b * v))).mul(0.5)));
 
 		// first point
 		manager.triangleFanVertex(center.add(m1));
@@ -1613,7 +1613,7 @@ public class PlotterSurface {
 		u = (float) (p * t * t / 2);
 		v = (float) (p * t);
 		manager.triangleFanApex(
-				center.add((m1.add(v1.mul(u).add(v2.mul(v)))).mul(0.5)));
+				center.add(m1.add(v1.mul(u).add(v2.mul(v))).mul(0.5)));
 
 		// first point
 		manager.triangleFanVertex(center.add(m1));

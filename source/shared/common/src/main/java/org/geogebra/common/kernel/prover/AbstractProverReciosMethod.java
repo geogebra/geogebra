@@ -55,11 +55,11 @@ public abstract class AbstractProverReciosMethod {
 		Prover p;
 
 		if (statement instanceof SymbolicParametersAlgo) {
-			s = (((SymbolicParametersAlgo) statement).getSymbolicParameters());
+			s = ((SymbolicParametersAlgo) statement).getSymbolicParameters();
 		} else if (statement
 				.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
-			s = (((SymbolicParametersAlgo) statement.getParentAlgorithm())
-					.getSymbolicParameters());
+			s = ((SymbolicParametersAlgo) statement.getParentAlgorithm())
+					.getSymbolicParameters();
 		} else {
 			return ProofResult.UNKNOWN;
 		}
@@ -306,7 +306,7 @@ public abstract class AbstractProverReciosMethod {
 			variables[i] = it.next();
 		}
 
-		int nrOfTests = ((deg + 2) * (deg + 1)) / 2;
+		int nrOfTests = (deg + 2) * (deg + 1) / 2;
 		Log.debug("nr of tests: " + nrOfTests);
 		int caseno = 0;
 		for (int i = 1; i < /* = */deg + 2; i++) {

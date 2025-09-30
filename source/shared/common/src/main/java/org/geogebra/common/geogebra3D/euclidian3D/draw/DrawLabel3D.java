@@ -467,11 +467,11 @@ public class DrawLabel3D {
 	 *            tick sizes
 	 */
 	private void updateDrawPositionAxes(int tickSize) {
-		drawX = (int) (vScreen.getX());
-		drawY = (int) (vScreen.getY());
-		drawZ = (int) (vScreen.getZ());
+		drawX = (int) vScreen.getX();
+		drawY = (int) vScreen.getY();
+		drawZ = (int) vScreen.getZ();
 
-		double radius = (MyMath.length(pickingW, pickingH) / 2) / getFontScale();
+		double radius = MyMath.length(pickingW, pickingH) / 2 / getFontScale();
 		drawX += radius * xOffset;
 		drawY += radius * yOffset;
 		drawZ += radius * zOffset;

@@ -338,7 +338,7 @@ public class ExpressionNode extends ValidExpression
 		// might
 		// result in evaluation, FunctionNVar important because of
 		// FunctionExpander
-		else if ((ev.any(Inspecting::isCommand))
+		else if (ev.any(Inspecting::isCommand)
 				|| ev.isConstant() || ev instanceof FunctionNVar
 				|| ev instanceof Equation || ev instanceof MyVecNode
 				|| ev instanceof MyVec3DNode) {
@@ -1680,7 +1680,7 @@ public class ExpressionNode extends ValidExpression
 	@Override
 	public boolean isTopLevelCommand(String checkName) {
 		return isLeaf() && (left instanceof ValidExpression)
-				&& (((ValidExpression) left).isTopLevelCommand(checkName));
+				&& ((ValidExpression) left).isTopLevelCommand(checkName);
 	}
 
 	@Override

@@ -380,7 +380,7 @@ public class GeoNumeric extends GeoElement
 			x = insets.getLeft() + 30;
 			y = insets.getTop() + 50 + 40 * count;
 			// make sure slider is visible on screen
-			y = (y / 400) * 10 + y % 400;
+			y = y / 400 * 10 + y % 400;
 		} else {
 			x = -5;
 			y = 10 - count;
@@ -1930,8 +1930,8 @@ public class GeoNumeric extends GeoElement
 		boolean symbolicMode =
 				(definition == null)
 						|| (!definition.isSimpleFraction() && definition.isFractionNoPi())
-						|| (definition.isSimplifiableSurd())
-						|| (definition.isRationalizableFraction());
+						|| definition.isSimplifiableSurd()
+						|| definition.isRationalizableFraction();
 		setSymbolicMode(symbolicMode, false);
 	}
 

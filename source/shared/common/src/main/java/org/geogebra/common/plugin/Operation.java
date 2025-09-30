@@ -579,8 +579,8 @@ public enum Operation {
 				}
 				int n = list.size() - 3;
 				if (n >= 1) {
-					double min = (list.get(0)).evaluateDouble();
-					double max = (list.get(1)).evaluateDouble();
+					double min = list.get(0).evaluateDouble();
+					double max = list.get(1).evaluateDouble();
 
 					if ((min > max) || (x > max) || (x < min)) {
 						return new MyDouble(ev.getKernel(), Double.NaN);
@@ -591,18 +591,18 @@ public enum Operation {
 					int index = (int) Math.floor((x - min) / step);
 
 					if (index > (n - 1)) {
-						ret = (list.get(n + 2)).evaluateDouble();
+						ret = list.get(n + 2).evaluateDouble();
 					} else {
 
-						double y1 = (list.get(index + 2))
+						double y1 = list.get(index + 2)
 								.evaluateDouble();
-						double y2 = (list.get(index + 3))
+						double y2 = list.get(index + 3)
 								.evaluateDouble();
 						double x1 = min + (index * step);
 
 						// linear interpolation between (x1,y1) and
 						// (x2,y2+step) to give (x,ret)
-						ret = y1 + (((x - x1) * (y2 - y1)) / step);
+						ret = y1 + ((x - x1) * (y2 - y1) / step);
 					}
 				}
 

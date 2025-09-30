@@ -430,8 +430,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 				+ "\ncorner list size : " + cornerListIndex
 				+ "\nstill room left : " + stillRoomLeft);
 
-		splitsStartedNotFinished = (currentSplitIndex
-				- currentSplitStoppedIndex) + nextSplitIndex > 0;
+		splitsStartedNotFinished = currentSplitIndex
+				- currentSplitStoppedIndex + nextSplitIndex > 0;
 
 		// time = System.currentTimeMillis();
 
@@ -827,7 +827,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		// all intermediate rows
 		for (int j = 0; j < vN - 1; j++) {
 			bottomRight = addRowAboveToMesh(bottomRight,
-					vParam.max - (vParam.delta * j) / vN, uParam.borderMin,
+					vParam.max - vParam.delta * j / vN, uParam.borderMin,
 					uParam.borderMax, uParam.max, uN);
 			if (wireframeNeeded()) {
 				if (wireFrameSetV == vParam.wireFrameStep) { // set wireframe
@@ -871,7 +871,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		Corner right = newCorner(uBorderMax, v);
 		below.a = right;
 		for (int i = 0; i < uN - 1; i++) {
-			right = addLeftToMesh(right, uMax - (uParam.delta * i) / uN, v);
+			right = addLeftToMesh(right, uMax - uParam.delta * i / uN, v);
 			below = below.l;
 			below.a = right;
 		}
@@ -921,7 +921,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			currentSplit[currentSplitStoppedIndex].split(false);
 			currentSplitStoppedIndex++;
 
-			if (drawListIndex + (currentSplitIndex - currentSplitStoppedIndex)
+			if (drawListIndex + currentSplitIndex - currentSplitStoppedIndex
 					+ nextSplitIndex >= maxDraw) { // no room left for new draw
 				return false;
 			}

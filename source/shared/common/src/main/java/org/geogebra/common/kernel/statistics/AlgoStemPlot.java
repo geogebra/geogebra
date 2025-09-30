@@ -141,7 +141,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		double Q3;
 		switch (size % 4) {
 		case 0:
-			Q3 = (data[(3 * size) / 4 - 1] + data[(3 * size + 4) / 4 - 1]) / 2;
+			Q3 = (data[3 * size / 4 - 1] + data[(3 * size + 4) / 4 - 1]) / 2;
 			break;
 		case 1:
 			Q3 = (data[(3 * size + 1) / 4 - 1] + data[(3 * size + 5) / 4 - 1])
@@ -354,8 +354,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 			// add the stem and handle the case of -0
 			stem = currentLine.get(0);
-			if (stem == 0 && (r < stemLines.size() - 2
-					&& stemLines.get(r + 1).get(0) == 0)) {
+			if (stem == 0 && r < stemLines.size() - 2
+					&& stemLines.get(r + 1).get(0) == 0) {
 				body.append("-");
 				body.append(stem);
 			} else {

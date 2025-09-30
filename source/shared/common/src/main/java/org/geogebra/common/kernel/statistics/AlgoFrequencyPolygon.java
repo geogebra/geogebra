@@ -209,7 +209,7 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 						1.0);
 			}
 			midpoint = 1.5 * leftBorder[yValue.length - 1]
-					- .5 * (leftBorder[yValue.length - 2]);
+					- .5 * leftBorder[yValue.length - 2];
 			points[yValue.length] = new GeoPoint(cons, midpoint, 0.0,
 					1.0);
 		}

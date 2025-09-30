@@ -97,7 +97,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (!(inputList.isDefined())
+		if (!inputList.isDefined()
 				|| !inputList.getElementType().equals(GeoClass.NUMERIC)
 				|| inputList.size() < 4) {
 			g.setUndefined();

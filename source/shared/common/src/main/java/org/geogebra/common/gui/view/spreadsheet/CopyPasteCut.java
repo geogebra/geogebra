@@ -298,9 +298,9 @@ public abstract class CopyPasteCut {
 					int relY = y - y1;
 
 					// check if we're pasting back into what we're copying from
-					boolean inSource = x + (x3 - x1) <= x2
-							&& x + (x3 - x1) >= x1 && y + (y3 - y1) <= y2
-							&& y + (y3 - y1) >= y1;
+					boolean inSource = x + x3 - x1 <= x2
+							&& x + x3 - x1 >= x1 && y + y3 - y1 <= y2
+							&& y + y3 - y1 >= y1;
 
 					if (relX + column1 <= maxColumn && relY + row1 <= maxRow// ) {
 																		// //

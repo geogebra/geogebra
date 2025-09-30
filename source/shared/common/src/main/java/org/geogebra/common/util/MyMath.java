@@ -555,8 +555,8 @@ public final class MyMath {
 		// need a long-winded conversion in case n>10^18
 		String nnn = Double.toString(n);
 		String rrr = Double.toString(r);
-		nn = (new BigDecimal(nnn)).toBigInteger();
-		rr = (new BigDecimal(rrr)).toBigInteger();
+		nn = new BigDecimal(nnn).toBigInteger();
+		rr = new BigDecimal(rrr).toBigInteger();
 
 		while (dd.compareTo(rr) <= 0) {
 			ncr = ncr.multiply(nn);
@@ -574,7 +574,7 @@ public final class MyMath {
 		// eg Binom2(38,19) is wrong
 
 		return Math.floor(0.5 + Math.exp(MyMath2.logGamma(n + 1d)
-				- MyMath2.logGamma(r + 1) - MyMath2.logGamma((n - r) + 1)));
+				- MyMath2.logGamma(r + 1) - MyMath2.logGamma(n - r + 1)));
 	}
 
 	/**

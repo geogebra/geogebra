@@ -887,10 +887,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		boolean validSize = (getHeight() > 0) && (getWidth() > 0);
 		if (isLockedAxesRatio() && validSize) {
 			double ratio = gridType == GRID_POLAR ? 1 : lockedAxesRatio;
-			double newWidth = ratio * ((ymax2 - ymin2) * getWidth())
-					/ (getHeight() + 0.0);
-			double newHeight = 1 / ratio * ((xmax2 - xmin2) * getHeight())
-					/ (getWidth() + 0.0);
+			double newWidth = ratio * (ymax2 - ymin2) * getWidth()
+					/ getHeight();
+			double newHeight = 1 / ratio * (xmax2 - xmin2) * getHeight()
+					/ getWidth();
 
 			if ((xmax2 - xmin2) < newWidth) {
 				double c = (xmin2 + xmax2) / 2;
@@ -4086,23 +4086,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				g2.draw(tempLine);
 			}
 
-			pix = startX2 + ((j * tickStepX) / 2.0);
+			pix = startX2 + (j * tickStepX / 2.0);
 		}
 		// extra lines needed because it's diagonal
-		int extra = (int) ((((getHeight() * getXscale()) / getYscale()) * Math
-				.sqrt(3.0)) / tickStepX) + 3;
+		int extra = (int) (getHeight() * getXscale() / getYscale() * Math
+				.sqrt(3.0) / tickStepX) + 3;
 
 		// negative gradient
 		pix = startX + (-(extra + 1) * tickStepX);
 		for (int j = -extra; pix <= getWidth(); j += 1) {
 			double endx = pix
-					+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale())
+					+ ((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()
 							/ getYscale());
 			if (clipX || clipY) {
 				DrawSegment.drawClipped(
 						new double[] { pix, startY - tickStepY },
 						new double[] { endx,
-								(startY - tickStepY) + getHeight()
+								startY - tickStepY + getHeight()
 										+ tickStepY },
 						tempLine, xAxisStart, getWidth(), 0, yAxisEnd,
 						getTmpClipPoints());
@@ -4116,17 +4116,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// positive gradient
 		pix = startX;
-		for (int j = 0; pix <= (getWidth()
-				+ ((((getHeight() * getXscale()) / getYscale()) + tickStepY)
-						* Math.sqrt(3.0))); j += 1) {
+		for (int j = 0; pix <= getWidth()
+				+ ((getHeight() * getXscale() / getYscale()) + tickStepY)
+						* Math.sqrt(3.0); j += 1) {
 			double endx = pix
-					- (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale())
+					- ((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()
 							/ getYscale());
 			if (clipX || clipY) {
 				DrawSegment.drawClipped(
 						new double[] { pix, startY - tickStepY },
 						new double[] { endx,
-								(startY - tickStepY) + getHeight()
+								startY - tickStepY + getHeight()
 										+ tickStepY },
 						tempLine, xAxisStart, getWidth(), 0, yAxisEnd,
 						getTmpClipPoints());

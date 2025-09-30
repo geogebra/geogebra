@@ -398,9 +398,9 @@ public class TwoVarInferenceModel {
 		if (dataPooled) {
 			return size1 + size2 - 2;
 		}
-		return (((v1 / size1) + (v2 / size2)) * ((v1 / size1) + (v2 / size2)))
-				/ ((v1 * v1) / (size1 * size1 * (size1 - 1d))
-						+ (v2 * v2) / (size2 * size2 * (size2 - 1d)));
+		return (v1 / size1 + v2 / size2) * (v1 / size1 + v2 / size2)
+				/ (v1 * v1 / (size1 * size1 * (size1 - 1d))
+						+ v2 * v2 / (size2 * size2 * (size2 - 1d)));
 	}
 
 	/**

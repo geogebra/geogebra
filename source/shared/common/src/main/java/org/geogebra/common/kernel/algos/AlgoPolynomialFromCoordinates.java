@@ -336,7 +336,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			phi = new BigDecimal((double) n);
 			for (k = n - 1; k > 0; k--) {
 				BigDecimal kk = new BigDecimal((double) k);
-				phi = (kk.multiply(s[k])).add(x[j].multiply(phi));
+				phi = kk.multiply(s[k]).add(x[j].multiply(phi));
 			}
 
 			// must specify a scale, otherwise 1/2 gives 1 not 0.5

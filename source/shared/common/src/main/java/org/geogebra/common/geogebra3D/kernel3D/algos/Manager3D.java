@@ -373,7 +373,7 @@ public class Manager3D implements Manager3DInterface {
 
 		// when using Locus (via macro) or xOy plane as direction, check if it's
 		// only 2D objects, then return 2D line
-		if ((!(cons.is3D()) || direction == cons.getXOYPlane())
+		if ((!cons.is3D() || direction == cons.getXOYPlane())
 				&& (point instanceof GeoPoint) && (line instanceof GeoLine)) {
 			AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine(cons,
 					label, (GeoPoint) point, (GeoLine) line);
@@ -1835,7 +1835,7 @@ public class Manager3D implements Manager3DInterface {
 			// order important
 			// 2(3,4,5) is a Vector (when re-loaded from XML)
 			// (3,4,5)2 is a Point
-			expr = (expr.subtract(exprSqrt5)).multiply(exprPoint);
+			expr = expr.subtract(exprSqrt5).multiply(exprPoint);
 
 			ExpressionNode expr2 = new ExpressionNode(kernel,
 					new MyDouble(kernel, 3), Operation.NO_OPERATION, null);
@@ -1845,7 +1845,7 @@ public class Manager3D implements Manager3DInterface {
 			// order important
 			// 2(3,4,5) is a Vector (when re-loaded from XML)
 			// (3,4,5)2 is a Point
-			expr2 = (expr2.plus(exprSqrt5)).multiply(exprPoint);
+			expr2 = expr2.plus(exprSqrt5).multiply(exprPoint);
 
 			expr = expr.plus(expr2).divide(4);
 
@@ -2350,7 +2350,7 @@ public class Manager3D implements Manager3DInterface {
 			return null;
 		}
 
-		return (new AlgoLocus3D(cons, label, Q, P)).getLocus();
+		return new AlgoLocus3D(cons, label, Q, P).getLocus();
 	}
 
 	@Override

@@ -85,7 +85,7 @@ public final class RationalizableFraction {
 		if (sqrtsInDenominator == 0) {
 			return false;
 		}
-		if ((sqrtsInNumerator > 1 || sqrtsInDenominator > 1)
+		if (sqrtsInNumerator > 1 || sqrtsInDenominator > 1
 				|| (sqrtsInNumerator + sqrtsInDenominator == 0)) {
 			return false;
 		}

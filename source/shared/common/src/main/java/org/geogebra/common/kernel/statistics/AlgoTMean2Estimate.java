@@ -196,9 +196,9 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		if (pooled) {
 			return n1 + n2 - 2;
 		}
-		return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
-				/ ((v1 * v1) / (n1 * n1 * (n1 - 1d))
-						+ (v2 * v2) / (n2 * n2 * (n2 - 1d)));
+		return (v1 / n1 + v2 / n2) * (v1 / n1 + v2 / n2)
+				/ (v1 * v1 / (n1 * n1 * (n1 - 1d))
+						+ v2 * v2 / (n2 * n2 * (n2 - 1d)));
 	}
 
 	/**

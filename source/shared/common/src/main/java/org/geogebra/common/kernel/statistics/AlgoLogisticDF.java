@@ -102,7 +102,7 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 	public void compute() {
 		FunctionVariable fv = new FunctionVariable(kernel);
 		ExpressionNode en = new ExpressionNode(kernel, fv);
-		ExpressionNode absS = (new ExpressionNode(kernel, scale)).abs();
+		ExpressionNode absS = new ExpressionNode(kernel, scale).abs();
 
 		en = en.subtract(mean).divide(absS).reverseSign().exp();
 

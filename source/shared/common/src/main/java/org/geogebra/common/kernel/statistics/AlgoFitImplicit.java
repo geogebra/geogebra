@@ -93,7 +93,7 @@ public class AlgoFitImplicit extends AlgoElement {
 
 		datasize = pointlist.size(); // rows in M and Y
 
-		if (!pointlist.isDefined() || datasize < (order * (order + 3)) / 2) {
+		if (!pointlist.isDefined() || datasize < order * (order + 3) / 2) {
 			fitfunction.setUndefined();
 			return;
 		}
@@ -103,7 +103,7 @@ public class AlgoFitImplicit extends AlgoElement {
 			return;
 		}
 		// no additional degrees of freedom => use algo for ImplicitPoly[points]
-		if (datasize == (order * (order + 3)) / 2) {
+		if (datasize == order * (order + 3) / 2) {
 			fitfunction.throughPoints(pointlist);
 			return;
 		}

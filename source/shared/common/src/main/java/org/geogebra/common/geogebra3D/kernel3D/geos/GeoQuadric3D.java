@@ -2990,7 +2990,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		CoordMatrix tm = CoordMatrix.identity(4);
 		tm.subToOrigin(v);
 		// set new symmetric matrix
-		setMatrix((tm.transposeCopy()).mul(sm).mul(tm));
+		setMatrix(tm.transposeCopy().mul(sm).mul(tm));
 
 		// eigen matrix
 		eigenMatrix.setOrigin(m);
@@ -3072,7 +3072,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// symmetric matrix
 		CoordMatrix tmInv = tm.inverse();
-		setMatrix((tmInv.transposeCopy()).mul(getSymmetricMatrix()).mul(tmInv));
+		setMatrix(tmInv.transposeCopy().mul(getSymmetricMatrix()).mul(tmInv));
 
 	}
 

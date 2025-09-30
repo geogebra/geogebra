@@ -80,10 +80,10 @@ public class IntersectConicsAdapter {
 				if (!otherGeo.equals(geo)) {
 					botanaPolynomialsThis = new PPolynomial[3 + excludePoint];
 					botanaVarsOther = entry.getValue();
-					botanaPolynomialsThis[2 + excludePoint] = (PPolynomial
+					botanaPolynomialsThis[2 + excludePoint] = PPolynomial
 							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0],
 									botanaVarsOther[1])
-							.multiply(new PPolynomial(new PVariable(kernel))))
+							.multiply(new PPolynomial(new PVariable(kernel)))
 									.subtract(new PPolynomial(1));
 					found = true;
 				}
@@ -111,12 +111,12 @@ public class IntersectConicsAdapter {
 			 * symbolic intersection must differ from that point. See above.
 			 */
 			if (excludePoint > 0) {
-				botanaVarsOther = ((GeoPoint) (algo.getPreexistPoint(0)))
-						.getBotanaVars((algo.getPreexistPoint(0)));
-				botanaPolynomialsThis[botanaPolynomialsThis.length - 1] = (PPolynomial
+				botanaVarsOther = ((GeoPoint) algo.getPreexistPoint(0))
+						.getBotanaVars(algo.getPreexistPoint(0));
+				botanaPolynomialsThis[botanaPolynomialsThis.length - 1] = PPolynomial
 						.sqrDistance(botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0],
 								botanaVarsOther[1])
-						.multiply(new PPolynomial(new PVariable(kernel))))
+						.multiply(new PPolynomial(new PVariable(kernel)))
 								.subtract(new PPolynomial(1));
 			}
 

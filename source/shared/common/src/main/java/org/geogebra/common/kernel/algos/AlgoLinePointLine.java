@@ -247,8 +247,8 @@ public class AlgoLinePointLine extends AlgoElement
 
 			botanaPolynomials = new PPolynomial[2];
 			// d1=c1+(b1-a1), d2=c2+(b2-a2) => d1-c1-b1+a1, d2-c2-b2+a2
-			botanaPolynomials[0] = ((d1.subtract(c1)).subtract(b1)).add(a1);
-			botanaPolynomials[1] = ((d2.subtract(c2)).subtract(b2)).add(a2);
+			botanaPolynomials[0] = d1.subtract(c1).subtract(b1).add(a1);
+			botanaPolynomials[1] = d2.subtract(c2).subtract(b2).add(a2);
 
 			return botanaPolynomials;
 		}

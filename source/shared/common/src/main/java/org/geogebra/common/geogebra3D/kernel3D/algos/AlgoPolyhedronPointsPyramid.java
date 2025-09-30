@@ -226,7 +226,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 					.add(bottomPoints[i].getInhomCoordsInD3());
 		}
 
-		bottomCenter = bottomCenter1.mul((double) 1 / (bottomPoints.length));
+		bottomCenter = bottomCenter1.mul((double) 1 / bottomPoints.length);
 
 		if (height != null) {
 			Coords v = bottom.getMainDirection().normalized()

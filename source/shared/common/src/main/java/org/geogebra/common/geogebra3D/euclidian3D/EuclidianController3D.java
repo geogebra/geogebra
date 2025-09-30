@@ -1086,8 +1086,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 																	// direction
 					MyDouble a = new MyDouble(kernel);
 					a.set(-1);
-					GeoVector3D orientation = (GeoVector3D) (new AlgoUnitVector3D(
-							kernel.getConstruction(), direction, true))
+					GeoVector3D orientation = (GeoVector3D) new AlgoUnitVector3D(
+							kernel.getConstruction(), direction, true)
 									.getVector();
 					ExpressionNode en = new ExpressionNode(kernel, a,
 							Operation.MULTIPLY, orientation);
@@ -2254,8 +2254,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					createPointAnywhere = (selPoints() == 0
 							&& (!(region instanceof GeoCoordSys2D)
 									|| region.isGeoPlane()))
-							|| (!(region instanceof GeoCoordSys2D)
-									|| region == kernel.getXOYPlane());
+							|| !(region instanceof GeoCoordSys2D)
+									|| region == kernel.getXOYPlane();
 				}
 			}
 			createNewPoint(hits, true, createPointAnywhere, true, true, false);

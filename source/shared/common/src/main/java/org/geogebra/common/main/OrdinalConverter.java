@@ -85,7 +85,7 @@ public class OrdinalConverter {
 	 * @return Corresponding ordinal number for the English language
 	 */
 	private static String getOrdinalNumberForEnglish(int number) {
-		int tensDigit = (number / 10) % 10;
+		int tensDigit = number / 10 % 10;
 
 		if (tensDigit == 1) {
 			return number + "th";

@@ -131,7 +131,7 @@ public class AlgoZMeanTest extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (!(StringUtil.isInequality(tail.getTextString()))) {
+		if (!StringUtil.isInequality(tail.getTextString())) {
 			result.setUndefined();
 			return;
 		}

@@ -117,8 +117,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			int degZ = ap.getPolyCoeffs(cz, coefZ,
 					new ExpressionNode(kernel, 1), loc);
 
-			if ((degX >= 0 && degY >= 0 && degZ >= 0)
-					&& (degX < 2 && degY < 2 && degZ < 2)) {
+			if (degX >= 0 && degY >= 0 && degZ >= 0
+					&& degX < 2 && degY < 2 && degZ < 2) {
 				GeoLine3D line;
 				if (coefX[0].isConstant() && coefY[0].isConstant()
 						&& coefZ[0].isConstant() && coefX[1].isConstant()
@@ -147,8 +147,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				return new GeoElement[] { line };
 
 			}
-			if ((degX >= 0 && degY >= 0 && degZ >= 0)
-					&& (degX < 3 && degY < 3 && degZ < 3)) {
+			if (degX >= 0 && degY >= 0 && degZ >= 0
+					&& degX < 3 && degY < 3 && degZ < 3) {
 
 				boolean constant = true;
 				for (int i = 0; i < coefX.length; i++) {

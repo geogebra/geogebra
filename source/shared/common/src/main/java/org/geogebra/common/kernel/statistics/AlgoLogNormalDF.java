@@ -110,7 +110,7 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			ExpressionNode sqrt2 = (new ExpressionNode(kernel, 2.0)).sqrt();
+			ExpressionNode sqrt2 = new ExpressionNode(kernel, 2.0).sqrt();
 			ExpressionNode div = sdEn.abs().multiply(sqrt2);
 
 			en = en.divide(div).erf().multiply(0.5).plus(0.5);
@@ -123,8 +123,8 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 		} else {
 
-			ExpressionNode sqrt2pi = (new ExpressionNode(kernel, 2.0)
-					.multiply(Math.PI)).sqrt();
+			ExpressionNode sqrt2pi = new ExpressionNode(kernel, 2.0)
+					.multiply(Math.PI).sqrt();
 
 			ExpressionNode prod = fvEn.multiply(sqrt2pi).multiply(sdEn.abs());
 

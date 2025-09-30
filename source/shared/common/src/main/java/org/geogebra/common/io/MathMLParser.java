@@ -968,10 +968,10 @@ public class MathMLParser {
 							substIndex++;
 
 							// jump to the block to parse
-							skipBlocks((1 - prevBlockNumber) - 1);
+							skipBlocks(-prevBlockNumber);
 
 							// parse subblocks
-							while ((strBuf.substring(pos, blockEnd + 1))
+							while (strBuf.substring(pos, blockEnd + 1)
 									.indexOf('<') != -1) {
 								nextTag = getNextTag();
 								parseBlock(nextTag, result, true);
@@ -996,7 +996,7 @@ public class MathMLParser {
 							substIndex++;
 
 							// jump to the block to parse
-							skipBlocks((blockNumber - prevBlockNumber) - 1);
+							skipBlocks(blockNumber - prevBlockNumber - 1);
 
 							// parse subblock
 							nextTag = getNextTag();
@@ -1018,7 +1018,7 @@ public class MathMLParser {
 					}
 				} else {
 					// parse subblocks of nextTag
-					while ((strBuf.substring(pos, blockEnd + 1))
+					while (strBuf.substring(pos, blockEnd + 1)
 							.indexOf('<') != -1) {
 						nextTag = getNextTag();
 						parseBlock(nextTag, result, true);

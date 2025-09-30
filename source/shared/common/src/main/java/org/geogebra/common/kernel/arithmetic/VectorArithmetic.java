@@ -180,8 +180,8 @@ public class VectorArithmetic {
 		if (exp.getLeft() instanceof MyVecNode && ((MyVecNode) exp.getLeft())
 				.getToStringMode() == Kernel.COORD_CARTESIAN) {
 			return i == 0 ? ((MyVecNode) exp.getLeft()).getX().wrap()
-					: (i == 1 ? ((MyVecNode) exp.getLeft()).getY().wrap()
-							: new ExpressionNode(kernel, 0));
+					: i == 1 ? ((MyVecNode) exp.getLeft()).getY().wrap()
+					: new ExpressionNode(kernel, 0);
 		}
 		if (exp.getLeft() instanceof MyVecNode && ((MyVecNode) exp.getLeft())
 				.getToStringMode() == Kernel.COORD_POLAR) {
@@ -198,8 +198,8 @@ public class VectorArithmetic {
 						|| ((MyVec3DNode) exp.getLeft())
 								.getToStringMode() == Kernel.COORD_CARTESIAN_3D)) {
 			return i == 0 ? ((MyVec3DNode) exp.getLeft()).getX().wrap()
-					: (i == 1 ? ((MyVec3DNode) exp.getLeft()).getY().wrap()
-							: ((MyVec3DNode) exp.getLeft()).getZ().wrap());
+					: i == 1 ? ((MyVec3DNode) exp.getLeft()).getY().wrap()
+					: ((MyVec3DNode) exp.getLeft()).getZ().wrap();
 		}
 		return null;
 	}

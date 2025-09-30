@@ -872,8 +872,7 @@ public class RelativeCopy {
 	 */
 	public static GeoElement[][] getValues(App app, int column1, int row1,
 			int column2, int row2) {
-		GeoElement[][] values = new GeoElement[(column2 - column1)
-				+ 1][(row2 - row1) + 1];
+		GeoElement[][] values = new GeoElement[column2 - column1 + 1][row2 - row1 + 1];
 		for (int r = row1; r <= row2; ++r) {
 			for (int c = column1; c <= column2; ++c) {
 				values[c - column1][r - row1] = getValue(app, c, r);
