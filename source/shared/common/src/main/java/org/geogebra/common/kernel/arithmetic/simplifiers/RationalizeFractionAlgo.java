@@ -66,7 +66,7 @@ public final class RationalizeFractionAlgo {
 			return factorizeOrHandleProduct();
 		}
 
-		return utils.newDiv(multiplyTagNominatorWithSqrt(), radicandOf(denominator));
+		return utils.newDiv(multiplyNumeratorWithSqrt(), radicandOf(denominator));
 	}
 
 	/**
@@ -170,15 +170,18 @@ public final class RationalizeFractionAlgo {
 	 * a single (not tag or multiplied) sqrt(d): (a + sqrt(b) / sqrt(d)
 	 * @return the multiplied numerator: (a * sqrt(d) + (sqrt(d) sqrt(b))
 	 */
-	private ExpressionNode multiplyTagNominatorWithSqrt() {
+	private ExpressionNode multiplyNumeratorWithSqrt() {
 		ExpressionValue squared = radicandOf(denominator);
-		ExpressionNode numeratorLeft =
-				utils.reduceProduct(simplifiedMultiply(squared, numerator.getLeftTree())).wrap();
-		ExpressionNode numeratorRight =
-				simplifiedMultiply(squared, numerator.getRightTree());
-		ExpressionNode newNumerator =
-				utils.newNode(numeratorLeft, numerator.getOperation(),
-						numeratorRight);
-		return newNumerator;
+		if (numerator.isOperation(Operation.PLUS) || numerator.isOperation(Operation.MINUS)) {
+			ExpressionNode numeratorLeft =
+					utils.reduceProduct(simplifiedMultiply(squared, numerator.getLeftTree()))
+							.wrap();
+			ExpressionNode numeratorRight =
+					simplifiedMultiply(squared, numerator.getRightTree());
+			return utils.newNode(numeratorLeft, numerator.getOperation(),
+							numeratorRight);
+		}
+		return utils.reduceProduct(simplifiedMultiply(squared, numerator))
+				.wrap();
 	}
 }
