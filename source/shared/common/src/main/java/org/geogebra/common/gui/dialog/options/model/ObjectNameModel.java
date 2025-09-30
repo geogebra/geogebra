@@ -150,26 +150,21 @@ public class ObjectNameModel extends OptionsModel {
 		return labelController;
 	}
 
-	public void applyDefinitionChange(final String definition,
-			ErrorHandler handler) {
+	public void applyDefinitionChange(final String definition, ErrorHandler handler) {
 		if (!definition.equals(getDefText(currentGeo))) {
 			defInputHandler.processInput(definition, handler,
 					ok -> {
 						if (ok) {
 							// if succeeded, switch current geo
 							currentGeo = defInputHandler.getGeoElement();
-							app.getSelectionManager()
-									.clearSelectedGeos(false, false);
-							app.getSelectionManager()
-									.addSelectedGeo(currentGeo);
+							app.getSelectionManager().clearSelectedGeos(false, false);
+							app.getSelectionManager().addSelectedGeo(currentGeo);
 						} else {
 							setRedefinitionFailed(true);
 						}
 						storeUndoInfo();
 					});
-
 		}
-
 	}
 
 	public static String getDefText(GeoElementND geo) {
@@ -204,13 +199,10 @@ public class ObjectNameModel extends OptionsModel {
 				defInputHandler.processInput(text, handler,
 						ok -> {
 							if (ok) {
-								setCurrentGeo(
-										defInputHandler.getGeoElement());
+								setCurrentGeo(defInputHandler.getGeoElement());
 								storeUndoInfo();
 							}
-
 						});
-
 			}
 		} else {
 			String strDefinition = redefinitionText;
@@ -228,7 +220,6 @@ public class ObjectNameModel extends OptionsModel {
 				defInputHandler.setGeoElement(currentGeo);
 			}
 		}
-
 	}
 
 	public GeoElementND getCurrentGeo() {

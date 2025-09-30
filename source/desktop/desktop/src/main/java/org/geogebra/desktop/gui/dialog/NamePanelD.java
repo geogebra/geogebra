@@ -58,6 +58,8 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	private final AppD app;
 	private final Localization loc;
 
+	private int rows;
+
 	/**
 	 * @param app
 	 *            application
@@ -161,8 +163,6 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 		app.setComponentOrientation(this);
 	}
 
-	private int rows;
-
 	private void setLayout() {
 		// Lay out the panel
 		SpringLayout layout = new SpringLayout();
@@ -221,11 +221,10 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	private String redefinitionForFocusLost = "";
 
 	/**
-	 * @param geo
-	 *            element
+	 * Updates the definition of an element and clears the error label if visible.
+	 * @param geo Element whose definition should be updated.
 	 */
 	public void updateDefinition(GeoElementND geo) {
-
 		// do nothing if called by doActionPerformed
 		if (model.isBusy()) {
 			return;
@@ -235,7 +234,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 		model.getDefInputHandler().setGeoElement(geo);
 		String text = ObjectNameModel.getDefText(geo);
 		if (app.isMacOS()) {
-			if (app.isMacOS() && text.length() > 300) {
+			if (text.length() > 300) {
 				text = text.substring(0, 300);
 				tfDefinition.setEditable(false);
 			} else {
@@ -243,10 +242,11 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 			}
 		}
 
+		if (errorLabel.isVisible()) {
+			resetError();
+		}
 		tfDefinition.setText(text);
 		tfDefinition.addActionListener(this);
-
-		// App.printStacktrace(""+geo);
 	}
 
 	/**
@@ -254,7 +254,6 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	 *            element
 	 */
 	public void updateName(GeoElement geo) {
-
 		// do nothing if called by doActionPerformed
 		if (model.isBusy()) {
 			return;
@@ -264,8 +263,6 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 		model.getNameInputHandler().setGeoElement(geo);
 		tfName.setText(geo.getLabel(StringTemplate.editTemplate));
 		tfName.addActionListener(this);
-
-		// App.printStacktrace(""+geo);
 	}
 
 	/**
@@ -281,20 +278,17 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	}
 
 	private synchronized void doActionPerformed(Object source) {
-
 		model.setBusy(true);
 
 		if (source == tfName) {
 			// rename
-			model.applyNameChange(tfName.getText(),
-					app.getDefaultErrorHandler());
+			model.applyNameChange(tfName.getText(), app.getDefaultErrorHandler());
 
 		} else if (source == tfDefinition) {
 			if (errorLabel.isVisible()) {
 				resetError();
 			}
-			model.applyDefinitionChange(tfDefinition.getText(),
-					this);
+			model.applyDefinitionChange(tfDefinition.getText(), this);
 			tfDefinition.requestFocusInWindow();
 
 		} else if (source == tfCaption) {
@@ -309,13 +303,11 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 								.getOptionPanel(OptionType.OBJECTS);
 
 				if (op instanceof OptionsObjectD) {
-					PropertiesPanelD propPanel = ((OptionsObjectD) op)
-							.getPropPanel();
+					PropertiesPanelD propPanel = ((OptionsObjectD) op).getPropPanel();
 					if (propPanel != null) {
 						propPanel.getLabelPanel().update(true, true, 0);
 					}
 				}
-
 			}
 		}
 
@@ -330,7 +322,6 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 
 	@Override
 	public void focusLost(FocusEvent e) {
-
 		if (model.isBusy()) {
 			return;
 		}
@@ -338,20 +329,16 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 		Object source = e.getSource();
 
 		if (source == tfDefinition) {
-			// currentGeo may has changed if focus is lost by clicking another
-			// geo
-
+			// currentGeo may have changed if focus is lost by clicking another geo
 			if (!tfDefinition.isEditable()) {
 				return;
 			}
 
 			if (model.getCurrentGeo() == currentGeoForFocusLost) {
-				model.applyDefinitionChange(tfDefinition.getText(),
-						this);
+				model.applyDefinitionChange(tfDefinition.getText(), this);
 			} else {
 				model.redefineCurrentGeo(currentGeoForFocusLost,
-						tfDefinition.getText(), redefinitionForFocusLost,
-						this);
+						tfDefinition.getText(), redefinitionForFocusLost, this);
 			}
 
 			SwingUtilities.invokeLater(doActionStopped);
@@ -416,8 +403,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 		tfName.removeActionListener(this);
 		tfName.setText(text);
 
-		// if a focus lost is called in between, we keep the current definition
-		// text
+		// if a focus lost is called in between, we keep the current definition text
 		redefinitionForFocusLost = tfDefinition.getText();
 		tfName.addActionListener(this);
 
