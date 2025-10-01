@@ -278,7 +278,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			for (int iP = 0; iP < polygonList.length; iP++) {
 				// if this polygon has been found but is not yet connected to a son
 				if ((netMap.get(iP).size() == 1)
-						&& (polygonInfo.get(iP).rank) < maxRank) {
+						&& polygonInfo.get(iP).rank < maxRank) {
 					for (int iSeg : polygonChildSegsList.get(iP)) {
 						// only if this segment is not cut by the user
 						if (!segmentInfoList.get(iSeg).userCut) {
@@ -361,7 +361,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				outputPointsNet
 						.getElement(polygonInfo.get(iPoly).pointIndex.get(i))
 						.setCoords(points[(i + polygonInfo.get(iPoly).segShift)
-								% (points.length)]);
+								% points.length]);
 			}
 		}
 
@@ -399,8 +399,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			cCoord.projectPlane(face.getCoordSys().getMatrixOrthonormal(),
 					projCoord);
 			double dist = projCoord.distance(cCoord);
-			Coords o = (outputPointsNet
-					.getElement(polygonInfo.get(iFace).pointIndex.get(1)))
+			Coords o = outputPointsNet
+					.getElement(polygonInfo.get(iFace).pointIndex.get(1))
 							.getInhomCoordsInD3();
 			Coords o1 = segmentList.get(polygonInfo.get(iFace).linkSegNumber)
 					.getStartPoint().getInhomCoordsInD3();

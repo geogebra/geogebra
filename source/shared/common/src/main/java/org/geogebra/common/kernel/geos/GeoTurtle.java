@@ -139,7 +139,7 @@ public class GeoTurtle extends GeoPoint {
 	 * @return current turn angle in degrees [0,360)
 	 */
 	public double getTurnAngle() {
-		return (turnAngle * 180 / Math.PI) % 360;
+		return turnAngle * 180 / Math.PI % 360;
 	}
 
 	/**

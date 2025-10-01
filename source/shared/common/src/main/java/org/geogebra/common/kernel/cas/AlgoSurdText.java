@@ -622,7 +622,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					// eg SurdText[0.235]
 					en = new ExpressionNode(kernel, a);
 				} else {
-					en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
+					en = new ExpressionNode(kernel, b2).sqrt().multiplyR(b1);
 
 					if (positive) {
 						en = en.plusR(a);
@@ -773,14 +773,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				// eg SurdText[0.235]
 				en = new ExpressionNode(kernel, a);
 			} else {
-				en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
+				en = new ExpressionNode(kernel, b2).sqrt().multiplyR(b1);
 
 				// eg SurdText((-7 * 3^(1 / 2)) / 2)
 				if (DoubleUtil.isZero(a)) {
 					if (!positive) {
 						// make sure minus sign is before fraction
 						if (DoubleUtil.isEqual(c, 1)) {
-							en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(-b1);
+							en = new ExpressionNode(kernel, b2).sqrt().multiplyR(-b1);
 						} else {
 							en = en.divide(c).multiplyR(-1);
 						}
@@ -952,7 +952,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		double gamma = 1.5;
-		double deltaSq = 3.0 / 4 - (1.0 / gamma) / gamma;
+		double deltaSq = 3.0 / 4 - 1.0 / gamma / gamma;
 
 		// initialize A, B = I_n
 		int[][] A = new int[n][n];

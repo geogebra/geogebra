@@ -235,7 +235,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 						result.setUndefined();
 						return;
 					}
-					val = (val + (geo2.evaluateDouble())) / 2;
+					val = (val + geo2.evaluateDouble()) / 2;
 				}
 
 				frequency = geoFreq.evaluateDouble();
@@ -287,7 +287,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 					// compute midpoint value if needed
 					if (useMidpoint) {
 						geo2 = geoList.get(i + 1);
-						val = (val + (geo2.evaluateDouble())) / 2;
+						val = (val + geo2.evaluateDouble()) / 2;
 					}
 
 					frequency = geoFreq.evaluateDouble();
@@ -325,7 +325,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 			result.setValue(var);
 			break;
 		case STATS_SXX:
-			var = sumSquares - (sumVal * sumVal) / n;
+			var = sumSquares - sumVal * sumVal / n;
 			result.setValue(var);
 			break;
 		case STATS_SIGMAX:

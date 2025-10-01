@@ -265,7 +265,7 @@ public class EuclidianStatic {
 				DrawEquation de = app.getDrawEquation();
 				// draw the equation and save the x offset
 				xOffset += de.drawEquation(app, geo, g2, xLabel + xOffset,
-						(yLabel + height) + yOffset, elements[i], font,
+						yLabel + height + yOffset, elements[i], font,
 						serif, fgColor, bgColor, true,
 						false, callback).getWidth();
 

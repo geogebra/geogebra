@@ -203,8 +203,8 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		Transform.setVisualStyleForTransformations((GeoElement) secondPoint,
 				(GeoElement) p2);
 
-		GeoNumeric r = (new AlgoRadius(this.cons,
-				getQuadric().getBottom())).getRadius();
+		GeoNumeric r = new AlgoRadius(this.cons,
+				getQuadric().getBottom()).getRadius();
 		r.setLabel(null);
 		r.setAuxiliaryObject(true);
 

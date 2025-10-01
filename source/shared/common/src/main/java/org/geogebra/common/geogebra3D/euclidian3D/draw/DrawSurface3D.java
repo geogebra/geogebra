@@ -800,7 +800,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		Corner right = bottomRight;
 		int uN = uParam.n;
 		for (int i = 0; i < uN - 1; i++) {
-			right = addLeftToMesh(right, uParam.max - (uParam.delta * i) / uN,
+			right = addLeftToMesh(right, uParam.max - uParam.delta * i / uN,
 					vParam.borderMax);
 			if (wireframeNeeded()) {
 				if (wireFrameSetU == uParam.wireFrameStep) { // set wireframe

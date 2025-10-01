@@ -460,7 +460,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		setIntersectionLine();
 
 		// check if polygon is included in the plane
-		if (d1.isZero() && !(DoubleUtil.isZero(o1.getW()))) {
+		if (d1.isZero() && !DoubleUtil.isZero(o1.getW())) {
 			// then include all edges of the polygon
 
 			GeoPointND[] points = p.getPointsND();

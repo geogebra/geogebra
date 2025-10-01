@@ -1536,7 +1536,7 @@ public class GeoCasCell extends GeoElement
 				parsed = parseGeoGebraCASInputAndResolveDummyVars(
 						output);
 			}
-			if (("NSolve".equals(evalCmd))
+			if ("NSolve".equals(evalCmd)
 					|| (inputVE != null && inputVE.getTopLevelCommand() != null
 							&& inputVE.getTopLevelCommand().getName()
 									.equals("NSolve"))) {
@@ -2099,7 +2099,7 @@ public class GeoCasCell extends GeoElement
 						&& !wasFunction) {
 					return null;
 				}
-				if (!allowFunction && (ggbEval[0].isParametric() && !wasCurve)) {
+				if (!allowFunction && ggbEval[0].isParametric() && !wasCurve) {
 					return null;
 				}
 
@@ -2335,14 +2335,13 @@ public class GeoCasCell extends GeoElement
 
 				// switch back the variable exchanges in result to command
 				// SolveODE
-				ArrayList<String> varSwaps = ((GeoGebraCAS) (kernel
-						.getGeoGebraCAS())).getVarSwaps();
+				ArrayList<String> varSwaps = ((GeoGebraCAS) kernel.getGeoGebraCAS()).getVarSwaps();
 				if (!varSwaps.isEmpty()) {
 					for (String currStr : varSwaps) {
 						String[] swap = currStr.split("->");
 						result = result.replaceAll(swap[1], swap[0]);
 					}
-					((GeoGebraCAS) (kernel.getGeoGebraCAS())).getVarSwaps()
+					((GeoGebraCAS) kernel.getGeoGebraCAS()).getVarSwaps()
 							.clear();
 				}
 				// if KeepInput was used, return the input, except for the
@@ -3351,7 +3350,7 @@ public class GeoCasCell extends GeoElement
 						if (nextComma == -1) {
 							nextComma = tooltip.length() - 1;
 						}
-						if (currLine + (nextComma - i) > TOOLTIP_SCREEN_WIDTH) {
+						if (currLine + nextComma - i > TOOLTIP_SCREEN_WIDTH) {
 							sb.append(",\n");
 							currLine = 0;
 							i++;
@@ -3431,10 +3430,10 @@ public class GeoCasCell extends GeoElement
 	 */
 	public void adjustPointList(boolean onlySolutions) {
 		if (evalVE.isTopLevelCommand()
-				&& (getPlotVar().equals(assignmentVar))) {
+				&& getPlotVar().equals(assignmentVar)) {
 			String cmd = evalVE.getTopLevelCommand().getName();
-			if (!inequalityInEvalVE() && (("Solutions".equals(cmd)
-					|| "CSolutions".equals(cmd) || "NSolutions".equals(cmd))
+			if (!inequalityInEvalVE() && ("Solutions".equals(cmd)
+					|| "CSolutions".equals(cmd) || "NSolutions".equals(cmd)
 					|| (!onlySolutions && ("Solve".equals(cmd)
 							|| "CSolve".equals(cmd) || "NSolve".equals(cmd)
 							|| "Root".equals(cmd)

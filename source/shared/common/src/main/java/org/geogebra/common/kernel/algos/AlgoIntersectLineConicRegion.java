@@ -417,7 +417,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			break;
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 			if (numberOfLineParts == 1) {
-				if (DoubleUtil.isGreater(-g.z / ((g.x) * (g.x) + (g.y) * (g.y)), 0)) {
+				if (DoubleUtil.isGreater(-g.z / (g.x * g.x + g.y * g.y), 0)) {
 					currentPartIsInRegion = true;
 				}
 			}

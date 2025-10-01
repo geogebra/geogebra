@@ -95,9 +95,8 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	}
 
 	private void initElements() {
-
 		numOfOutputPoints = 0;
-		polyPointCount = (getPoly().getPoints()).length;
+		polyPointCount = getPoly().getPoints().length;
 		segCountOfPoly = isPolyClosed() ? polyPointCount : polyPointCount - 1;
 
 		tempSegEndPoints = new GeoPoint[2];

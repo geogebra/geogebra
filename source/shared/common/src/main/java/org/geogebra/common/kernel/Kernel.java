@@ -1193,7 +1193,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		// MULTIPLES OF PI/2
 		// i.e. x = a * pi/2
-		double a = (2 * x) / Math.PI;
+		double a = 2 * x / Math.PI;
 		int aint = (int) Math.round(a);
 		if (sbFormat == null) {
 			sbFormat = new StringBuilder();
@@ -1873,7 +1873,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			String[] vars, StringTemplate tpl) {
 		double a = -1 * numbers[0] / numbers[4];
 		double h = numbers[3] / numbers[0] / 2;
-		double k = (numbers[3] * numbers[3]) / (4 * numbers[4] * numbers[0])
+		double k = numbers[3] * numbers[3] / (4 * numbers[4] * numbers[0])
 				- (numbers[5] / numbers[4]);
 
 		StringBuilder sbBuildVertexformEquation = new StringBuilder(80);
@@ -4726,7 +4726,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (getXmin() == getXmax()) {
 			return 10;
 		}
-		return (((2 * getXmax()) - getXmin()) + getYmax()) - getYmin();
+		return (2 * getXmax()) - getXmin() + getYmax() - getYmin();
 	}
 
 	/**
@@ -4737,7 +4737,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (getXmin() == getXmax()) {
 			return -10;
 		}
-		return (((2 * getXmin()) - getXmax()) + getYmin()) - getYmax();
+		return (2 * getXmin()) - getXmax() + getYmin() - getYmax();
 	}
 
 	/**

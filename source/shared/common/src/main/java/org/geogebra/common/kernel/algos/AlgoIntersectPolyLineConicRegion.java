@@ -518,7 +518,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	protected void initElements() {
 
 		numOfOutputSegments = 0;
-		polyPointCount = (getPoly().getPoints()).length;
+		polyPointCount = getPoly().getPoints().length;
 		segCountOfPoly = isPolyClosed() ? polyPointCount : polyPointCount - 1;
 
 		outputSegments = createOutputSegments();

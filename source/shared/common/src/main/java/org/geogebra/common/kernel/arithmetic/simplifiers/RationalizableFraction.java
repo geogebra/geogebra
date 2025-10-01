@@ -122,7 +122,7 @@ public final class RationalizableFraction {
 			return new ExpressionNode(root.getLeftTree());
 		}
 		if (denominatorValue == -1) {
-			return (new ExpressionNode(root.getLeftTree())).multiplyR(-1);
+			return new ExpressionNode(root.getLeftTree()).multiplyR(-1);
 		}
 		return root;
 	}

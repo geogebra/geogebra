@@ -435,8 +435,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 
 		private double computeV(int vi, int latitudeLength) {
-			return min + ((double) (latitudeLength - vi - 1)
-					/ (latitudeLength - 2)) * (max - min);
+			return min + (double) (latitudeLength - vi - 1)
+					/ (latitudeLength - 2) * (max - min);
 		}
 
 		@Override
@@ -562,7 +562,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 
 		private double computeV(int vi, int latitudeLength) {
-			return min + ((double) (latitudeLength - vi) / (latitudeLength - 2))
+			return min + (double) (latitudeLength - vi) / (latitudeLength - 2)
 					* (max - min);
 		}
 
@@ -651,7 +651,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 
 		private double computeV(int vi, int latitudeLength) {
-			return min + ((double) (latitudeLength - vi) / (latitudeLength - 2))
+			return min + (double) (latitudeLength - vi) / (latitudeLength - 2)
 					* (max - min);
 		}
 
@@ -1530,7 +1530,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 
 		for (int vi = 1; vi <= latitude; vi++) {
-			double v = min + ((max - min) * vi) / latitude;
+			double v = min + (max - min) * vi / latitude;
 			double z = v * v;
 			double zFading = 0;
 			if (fading) {
@@ -1809,7 +1809,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		}
 
 		for (int vi = 1; vi <= latitude; vi++) {
-			double v = min + ((max - min) * vi) / latitude;
+			double v = min + (max - min) * vi / latitude;
 			double c = Math.cosh(v);
 			double s = Math.sinh(v);
 			double sFading = 0;

@@ -118,9 +118,9 @@ public class SymbolicParameters {
 	public static BigInteger[] crossProduct(final BigInteger[] a,
 			final BigInteger[] b) {
 		BigInteger[] result = new BigInteger[3];
-		result[0] = (a[1].multiply(b[2])).subtract(a[2].multiply(b[1]));
-		result[1] = (a[2].multiply(b[0])).subtract(a[0].multiply(b[2]));
-		result[2] = (a[0].multiply(b[1])).subtract(a[1].multiply(b[0]));
+		result[0] = a[1].multiply(b[2]).subtract(a[2].multiply(b[1]));
+		result[1] = a[2].multiply(b[0]).subtract(a[0].multiply(b[2]));
+		result[2] = a[0].multiply(b[1]).subtract(a[1].multiply(b[0]));
 		return SymbolicParameters.reduce(result);
 	}
 
@@ -306,11 +306,11 @@ public class SymbolicParameters {
 		PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars(Q);
 		PPolynomial[] botanaPolynomials = new PPolynomial[2];
 		// 2*m1-a1-b1, 2*m2-a2-b2
-		botanaPolynomials[0] = (new PPolynomial(2))
+		botanaPolynomials[0] = new PPolynomial(2)
 				.multiply(new PPolynomial(botanaVars[0]))
 				.subtract(new PPolynomial(fv1[0]))
 				.subtract(new PPolynomial(fv2[0]));
-		botanaPolynomials[1] = (new PPolynomial(2))
+		botanaPolynomials[1] = new PPolynomial(2)
 				.multiply(new PPolynomial(botanaVars[1]))
 				.subtract(new PPolynomial(fv1[1]))
 				.subtract(new PPolynomial(fv2[1]));
@@ -346,9 +346,9 @@ public class SymbolicParameters {
 
 		// C will be the midpoint of AB
 		// 2*c1-a1-b1, 2*c2-a2-b2
-		botanaPolynomials[0] = (new PPolynomial(2)).multiply(c1)
+		botanaPolynomials[0] = new PPolynomial(2).multiply(c1)
 				.subtract(new PPolynomial(Ax)).subtract(new PPolynomial(Bx));
-		botanaPolynomials[1] = (new PPolynomial(2)).multiply(c2)
+		botanaPolynomials[1] = new PPolynomial(2).multiply(c2)
 				.subtract(new PPolynomial(Ay)).subtract(new PPolynomial(By));
 
 		// D will be the rotation of A around C by 90 degrees

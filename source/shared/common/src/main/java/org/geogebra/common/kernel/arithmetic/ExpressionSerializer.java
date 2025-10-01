@@ -376,9 +376,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				if (((leftStr.charAt(0) != '-')
+				if ((leftStr.charAt(0) != '-')
 						&& tpl.isSinglePowerArg(left, valueForm)
-						&& !StringTemplate.isFraction(left))
+						&& !StringTemplate.isFraction(left)
 						&& !(left instanceof GeoSymbolicI && stringType == StringType.GIAC)
 						|| (ExpressionNode.opID(left) > Operation.POWER.ordinal()
 								&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) {

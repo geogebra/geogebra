@@ -634,7 +634,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			return casParser.toGeoGebraString(casInput, tpl);
 		}
 
-		if (keepInput && (cell != null && cell.isSubstitute())) {
+		if (keepInput && cell != null && cell.isSubstitute()) {
 			// assume keepinput was not treated in CAS
 			ExpressionValue substList = casInput.getTopLevelCommand()
 					.getArgument(1).unwrap();
@@ -898,7 +898,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		// check if keep input command was successful
 		// e.g. for KeepInput[Substitute[...]]
 		// otherwise return input
-		if (cell.isKeepInputUsed() && ("?".equals(result))) {
+		if (cell.isKeepInputUsed() && "?".equals(result)) {
 			// return original input
 			c.handleCASoutput(exp.toString(StringTemplate.maxPrecision),
 					input.hashCode());

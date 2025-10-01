@@ -256,10 +256,10 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 				if (!otherGeo.equals(geo)) {
 					botanaPolynomialsThis = new PPolynomial[5];
 					botanaVarsOther = entry.getValue();
-					botanaPolynomialsThis[4] = (PPolynomial
+					botanaPolynomialsThis[4] = PPolynomial
 							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
 									botanaVarsOther[0], botanaVarsOther[1])
-							.multiply(new PPolynomial(new PVariable(kernel))))
+							.multiply(new PPolynomial(new PVariable(kernel)))
 									.subtract(new PPolynomial(1));
 					found = true;
 				}
@@ -397,10 +397,10 @@ public class AlgoTangentPoint extends AlgoTangentPointND
                     botanaVarsThis[0], botanaVarsThis[1], vparabola[4], vparabola[5],
                     vparabola[6], vparabola[7]);
 			// T=P is not allowed
-			botanaPolynomialsThis[4] = (PPolynomial
+			botanaPolynomialsThis[4] = PPolynomial
 					.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
 							botanaVarsThis[2], botanaVarsThis[3])
-					.multiply(new PPolynomial(new PVariable(kernel))))
+					.multiply(new PPolynomial(new PVariable(kernel)))
 					.subtract(new PPolynomial(1));
 
 			botanaPolynomials.put(geo, botanaPolynomialsThis);

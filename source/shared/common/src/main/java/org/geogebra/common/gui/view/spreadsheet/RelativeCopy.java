@@ -1005,8 +1005,7 @@ public class RelativeCopy {
 			if (text.startsWith("\"")) {
 				text = text.substring(1, text.length() - 2);
 			}
-			text = "\"" + (text.replace("\"", "\"+UnicodeToLetter[34]+\""))
-					+ "\"";
+			text = "\"" + text.replace("\"", "\"+UnicodeToLetter[34]+\"") + "\"";
 			newValues = kernel.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(text, false);
 			newValues[0].setLabel(name);
