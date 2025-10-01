@@ -80,7 +80,7 @@ abstract public class Suggestion {
 	 *
 	 * @param geo the geo element to perform the suggestion on
 	 */
-	public final void execute(GeoElementND geo) {
+	public void execute(GeoElementND geo) {
 		runCommands(geo);
 		geo.getKernel().storeUndoInfo();
 	}

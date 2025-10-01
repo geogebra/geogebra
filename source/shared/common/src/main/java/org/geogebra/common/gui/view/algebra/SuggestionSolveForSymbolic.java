@@ -36,11 +36,14 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	@Override
-	protected void runCommands(GeoElementND geo) {
+	public void execute(GeoElementND geo) {
 		labelGeosIfNeeded();
 		String command = getCommandText();
-		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-				command, false, new LabelHiderCallback());
+		geo.getApp().getAsyncManager().scheduleCallback(() -> {
+			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
+					command, false, new LabelHiderCallback());
+			geo.getKernel().storeUndoInfo();
+		});
 	}
 
 	private void labelGeosIfNeeded() {
