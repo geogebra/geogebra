@@ -1367,7 +1367,7 @@ public class GeoCasCell extends GeoElement
 					&& ("x".equals(varLabel) || "y".equals(varLabel)))) {
 				// definitions
 																		// of
-																		// funktions
+																		// functions
 																		// like
 																		// f:
 																		// x+y =

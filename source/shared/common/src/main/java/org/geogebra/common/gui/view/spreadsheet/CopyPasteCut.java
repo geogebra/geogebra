@@ -552,15 +552,15 @@ public abstract class CopyPasteCut {
 	}
 
 	private String removeTrailingZeros(String valueString) {
-		int indx = valueString
+		int index = valueString
 				.indexOf(app.getKernel().getLocalization().getDecimalPoint());
-		if (indx > -1) {
+		if (index > -1) {
 			int end = valueString.length() - 1;
 			// only in this case, we should remove trailing zeroes!
 			while (valueString.charAt(end) == '0') {
 				end--;
 			}
-			if (end == indx) {
+			if (end == index) {
 				end--;
 			}
 			return valueString.substring(0, end + 1);

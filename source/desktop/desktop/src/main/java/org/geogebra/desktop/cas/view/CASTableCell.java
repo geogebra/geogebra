@@ -54,7 +54,7 @@ public abstract class CASTableCell extends JPanel {
 		// JScrollPane
 		// viewport when in editing mode but also can grow to the size of its
 		// text content when not in editing mode. This way the horizontal
-		// scollbars
+		// scrollbars
 		// can be used to view long non-editing fields but the current editor
 		// field can
 		// be shown clipped and scrollable with arrow keys.

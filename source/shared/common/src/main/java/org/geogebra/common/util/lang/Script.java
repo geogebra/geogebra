@@ -18,7 +18,7 @@ public enum Script {
 
 	CYRILLIC("Cyrl", "\u0439"),
 
-	DEVANGARI("Deva", "\u0947"),
+	DEVANAGARI("Deva", "\u0947"),
 
 	ETHIOPIAN("Ethi", "\u134b\u12ed\u120d"),
 

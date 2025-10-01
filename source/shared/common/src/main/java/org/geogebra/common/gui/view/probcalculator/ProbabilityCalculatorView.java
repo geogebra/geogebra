@@ -386,7 +386,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * @return the reult panel
+	 * @return the result panel
 	 */
 	public abstract ResultPanel getResultPanel();
 

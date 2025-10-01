@@ -14,7 +14,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
 public class TwoVarInferenceModel {
-	private int selectedInference = StatisticsModel.INFER_TINT_2MEANS;
+	private int selectedInference = StatisticsModel.INFER_T_INT_2MEANS;
 
 	// test type (tail)
 	private static final String tail_left = "<";
@@ -110,17 +110,17 @@ public class TwoVarInferenceModel {
 	 * @return whether a paired test is selected
 	 */
 	public boolean isPairedData() {
-		return selectedInference == StatisticsModel.INFER_TINT_PAIRED
-				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED;
+		return selectedInference == StatisticsModel.INFER_T_INT_PAIRED
+				|| selectedInference == StatisticsModel.INFER_T_TEST_PAIRED;
 	}
 
 	/**
 	 * @return localized hypothesis name
 	 */
 	public String getNullHypName() {
-		if (selectedInference == StatisticsModel.INFER_TTEST_2MEANS) {
+		if (selectedInference == StatisticsModel.INFER_T_TEST_2MEANS) {
 			return loc.getMenu("DifferenceOfMeans.short");
-		} else if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
+		} else if (selectedInference == StatisticsModel.INFER_T_TEST_PAIRED) {
 			return loc.getMenu("MeanDifference");
 		} else {
 			return "";
@@ -131,8 +131,8 @@ public class TwoVarInferenceModel {
 	 * @return whether a t-test is selected
 	 */
 	public boolean isTest() {
-		return selectedInference == StatisticsModel.INFER_TTEST_2MEANS
-				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED;
+		return selectedInference == StatisticsModel.INFER_T_TEST_2MEANS
+				|| selectedInference == StatisticsModel.INFER_T_TEST_PAIRED;
 	}
 
 	/**
@@ -146,10 +146,10 @@ public class TwoVarInferenceModel {
 		default:
 			// do nothing
 			break;
-		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TTEST_PAIRED:
+		case StatisticsModel.INFER_T_TEST_2MEANS:
+		case StatisticsModel.INFER_T_TEST_PAIRED:
 
-			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
+			if (selectedInference == StatisticsModel.INFER_T_TEST_PAIRED) {
 				list.add(loc.getMenu("MeanDifference"));
 			} else {
 				list.add(loc.getMenu("fncInspector.Difference"));
@@ -161,10 +161,10 @@ public class TwoVarInferenceModel {
 			list.add(loc.getMenu("DegreesOfFreedom.short"));
 			break;
 
-		case StatisticsModel.INFER_TINT_2MEANS:
-		case StatisticsModel.INFER_TINT_PAIRED:
+		case StatisticsModel.INFER_T_INT_2MEANS:
+		case StatisticsModel.INFER_T_INT_PAIRED:
 
-			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED) {
+			if (selectedInference == StatisticsModel.INFER_T_INT_PAIRED) {
 				list.add(loc.getMenu("MeanDifference"));
 			} else {
 				list.add(loc.getMenu("fncInspector.Difference"));
@@ -198,10 +198,10 @@ public class TwoVarInferenceModel {
 		default:
 			// do nothing
 			break;
-		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TTEST_PAIRED:
+		case StatisticsModel.INFER_T_TEST_2MEANS:
+		case StatisticsModel.INFER_T_TEST_PAIRED:
 
-			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
+			if (selectedInference == StatisticsModel.INFER_T_TEST_PAIRED) {
 				listener.setFormattedValueAt(meanDifference, 0, 0);
 			} else {
 				listener.setFormattedValueAt(diffMeans, 0, 0);
@@ -213,10 +213,10 @@ public class TwoVarInferenceModel {
 			listener.setFormattedValueAt(df, 0, 4);
 			break;
 
-		case StatisticsModel.INFER_TINT_2MEANS:
-		case StatisticsModel.INFER_TINT_PAIRED:
+		case StatisticsModel.INFER_T_INT_2MEANS:
+		case StatisticsModel.INFER_T_INT_PAIRED:
 
-			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED) {
+			if (selectedInference == StatisticsModel.INFER_T_INT_PAIRED) {
 				listener.setFormattedValueAt(meanDifference, 0, 0);
 			} else {
 				listener.setFormattedValueAt(diffMeans, 0, 0);
@@ -275,8 +275,8 @@ public class TwoVarInferenceModel {
 			default:
 				// do nothing
 				break;
-			case StatisticsModel.INFER_TTEST_2MEANS:
-			case StatisticsModel.INFER_TINT_2MEANS:
+			case StatisticsModel.INFER_T_TEST_2MEANS:
+			case StatisticsModel.INFER_T_INT_2MEANS:
 
 				// get statistics
 				mean1 = StatUtils.mean(sample1);
@@ -316,8 +316,8 @@ public class TwoVarInferenceModel {
 
 				break;
 
-			case StatisticsModel.INFER_TTEST_PAIRED:
-			case StatisticsModel.INFER_TINT_PAIRED:
+			case StatisticsModel.INFER_T_TEST_PAIRED:
+			case StatisticsModel.INFER_T_INT_PAIRED:
 
 				// get statistics
 				n1 = sample1.length;

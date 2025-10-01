@@ -194,7 +194,7 @@ public enum Language {
 	Hindi(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_INDIAN_RUPEE, true, "hi",
 			"Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940",
-			Script.DEVANGARI, ""),
+			Script.DEVANAGARI, ""),
 
 	Hungarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO, true, "hu",
@@ -260,7 +260,7 @@ public enum Language {
 
 	Marathi(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '\u092e',
 			false, "mr", "Marathi / \u092E\u0930\u093E\u0920\u0940",
-			Script.DEVANGARI, ""),
+			Script.DEVANAGARI, ""),
 
 	Mongolian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_TUGHRIK, true, "mn",
@@ -276,7 +276,7 @@ public enum Language {
 	Nepalese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_RUPEE, true, "ne",
 			"Nepalese / \u0928\u0947\u092A\u093E\u0932\u0940",
-			Script.DEVANGARI, ""),
+			Script.DEVANAGARI, ""),
 
 	Norwegian_Bokmal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '$',
 			true, "nb", "Norwegian / Bokm\u00e5l",

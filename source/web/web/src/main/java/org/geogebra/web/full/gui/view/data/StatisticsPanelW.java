@@ -92,20 +92,20 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		switch (model.getSelectedMode()) {
 
-		case StatisticsModel.INFER_TTEST:
-		case StatisticsModel.INFER_ZTEST:
-		case StatisticsModel.INFER_ZINT:
-		case StatisticsModel.INFER_TINT:
+		case StatisticsModel.INFER_T_TEST:
+		case StatisticsModel.INFER_Z_TEST:
+		case StatisticsModel.INFER_Z_INT:
+		case StatisticsModel.INFER_T_INT:
 			inferencePanel.add(getOneVarInferencePanel());
 			break;
 
-		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TINT_2MEANS:
+		case StatisticsModel.INFER_T_TEST_2MEANS:
+		case StatisticsModel.INFER_T_INT_2MEANS:
 			inferencePanel.add(getTwoVarInferencePanel(true));
 			break;
 
-		case StatisticsModel.INFER_TTEST_PAIRED:
-		case StatisticsModel.INFER_TINT_PAIRED:
+		case StatisticsModel.INFER_T_TEST_PAIRED:
+		case StatisticsModel.INFER_T_INT_PAIRED:
 			inferencePanel.add(getTwoVarInferencePanel(false));
 			break;
 
@@ -259,20 +259,20 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	public double estimateHeight(int rows) {
 		switch (model.getSelectedMode()) {
 
-		case StatisticsModel.INFER_TTEST:
-		case StatisticsModel.INFER_ZTEST:
-		case StatisticsModel.INFER_ZINT:
-		case StatisticsModel.INFER_TINT:
+		case StatisticsModel.INFER_T_TEST:
+		case StatisticsModel.INFER_Z_TEST:
+		case StatisticsModel.INFER_Z_INT:
+		case StatisticsModel.INFER_T_INT:
 			// inferencePanel.add(getOneVarInferencePanel());
 			return 150;
 
-		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TINT_2MEANS:
+		case StatisticsModel.INFER_T_TEST_2MEANS:
+		case StatisticsModel.INFER_T_INT_2MEANS:
 			// /inferencePanel.add(getTwoVarInferencePanel(true));
 			return 320;
 
-		case StatisticsModel.INFER_TTEST_PAIRED:
-		case StatisticsModel.INFER_TINT_PAIRED:
+		case StatisticsModel.INFER_T_TEST_PAIRED:
+		case StatisticsModel.INFER_T_INT_PAIRED:
 			// inferencePanel.add(getTwoVarInferencePanel(false));
 			return 320;
 

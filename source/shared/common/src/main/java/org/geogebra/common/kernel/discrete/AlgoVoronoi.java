@@ -73,7 +73,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 		}
 
 		PointDt[] points = new PointDt[pointTree.size()];
-		int indx = 0;
+		int pointIndex = 0;
 
 		Iterator<GPoint2D> it3 = pointTree.iterator();
 
@@ -94,7 +94,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 			xcoords.add(x);
 			ycoords.add(y);
 
-			points[indx++] = new PointDt(x, y);
+			points[pointIndex++] = new PointDt(x, y);
 
 		}
 

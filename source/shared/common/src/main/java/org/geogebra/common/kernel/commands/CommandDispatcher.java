@@ -990,7 +990,7 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * A way to process a command to an expression value rather than GeoELement
+	 * A way to process a command to an expression value rather than GeoElement
 	 *
 	 * @param c
 	 *            command

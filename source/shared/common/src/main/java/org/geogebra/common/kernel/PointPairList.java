@@ -38,8 +38,8 @@ public class PointPairList {
 	 * 
 	 * @param indexD
 	 *            index of point in D
-	 * @param isPalive
-	 *            tru if point in P is alive
+	 * @param isPAlive
+	 *            true if point in P is alive
 	 * @param indexQ
 	 *            index of point in Q
 	 * @param isQonPath
@@ -47,9 +47,9 @@ public class PointPairList {
 	 * @param distance
 	 *            distance between point in D and point in Q
 	 */
-	public final void insertPointPair(int indexD, boolean isPalive, int indexQ,
+	public final void insertPointPair(int indexD, boolean isPAlive, int indexQ,
 			boolean isQonPath, double distance) {
-		PointPair newPair = new PointPair(indexD, isPalive, indexQ, isQonPath,
+		PointPair newPair = new PointPair(indexD, isPAlive, indexQ, isQonPath,
 				distance);
 
 		// insert as head
@@ -70,7 +70,7 @@ public class PointPairList {
 
 		// check strictness
 		// TODO: check relevance of isQonPath
-		// if (currentPair.isPalive && newPair.isPalive &&
+		// if (currentPair.isPAlive && newPair.isPAlive &&
 		// !reallySmallerThan(currentPair,newPair))
 		// isStrict = false;
 
@@ -81,8 +81,8 @@ public class PointPairList {
 	}
 
 	/**
-	 * Checks a < b. Ascending ordering by isPalive and isQonPath and distance,
-	 * where isPalive == true comes before isPalive == false and isQonPath ==
+	 * Checks a < b. Ascending ordering by isPAlive and isQonPath and distance,
+	 * where isPAlive == true comes before isPAlive == false and isQonPath ==
 	 * true comes before isQonPath == false.
 	 */
 	private static boolean smallerThan(PointPair a, PointPair b) {

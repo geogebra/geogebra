@@ -19,7 +19,7 @@ public class AutocompletionPopupPositioner {
 	/**
 	 * Calculates the frame of the popup.
 	 * @param inputBounds the frame of the input view
-	 * @param popupSize the preferred size of the pupup to be displayed
+	 * @param popupSize the preferred size of the popup to be displayed
 	 * @param frame the frame in which we display the popup
 	 * @param verticalPosition the vertical position of the popup
 	 * @return the frame of the popup

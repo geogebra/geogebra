@@ -135,7 +135,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 	/**
 	 * Handles key event by disassembling it into primitive types and handling
-	 * it using the mothod from common
+	 * it using the method from common
 	 * 
 	 * @param event
 	 *            event

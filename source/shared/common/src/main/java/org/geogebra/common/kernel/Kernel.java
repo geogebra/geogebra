@@ -332,7 +332,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private ArrayList<AlgoElement> renameListenerAlgos;
 	private boolean spreadsheetBatchRunning;
 	private ElementCollector previewElementsCollector;
-	private final GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
+	private final GeoElementSpreadsheet geoElementSpreadsheet = new GeoElementSpreadsheet();
 	private final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
 	private boolean userStopsLoading = false;
 	private AnimationManager animationManager;
@@ -4685,7 +4685,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return spreadsheet coord handler
 	 */
 	public GeoElementSpreadsheet getGeoElementSpreadsheet() {
-		return ges;
+		return geoElementSpreadsheet;
 	}
 
 	/**

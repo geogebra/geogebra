@@ -250,8 +250,8 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 						outputPointsBottom.getElement(i - 1),
 						outputPointsBottom.getElement(i));
 				// update top segments
-				GeoSegmentND segmenTop = outputSegmentsTop.getElement(i - 2);
-				segmenTop.modifyInputPoints(outputPointsTop.getElement(i - 3),
+				GeoSegmentND segmentTop = outputSegmentsTop.getElement(i - 2);
+				segmentTop.modifyInputPoints(outputPointsTop.getElement(i - 3),
 						outputPointsTop.getElement(i - 2));
 			}
 

@@ -543,7 +543,7 @@ public interface Manager3DInterface {
 	// INTERSECTION (POINTS)
 
 	/**
-	 * @param label outpu label
+	 * @param label output label
 	 * @param cs1 line
 	 * @param cs2 planar object
 	 * @param swapInputs whether to swap inputs when printing command string

@@ -312,9 +312,9 @@ public abstract class GeoGebraExport {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < nb.length; i++) {
 			int quot = nb[i] / 16;
-			int reste = nb[i] % 16;
+			int rest = nb[i] % 16;
 			sb.append(encodedHexDigits.charAt(quot));
-			sb.append(encodedHexDigits.charAt(reste));
+			sb.append(encodedHexDigits.charAt(rest));
 		}
 		return new String(sb);
 	}

@@ -145,7 +145,7 @@ public class AlgoOrdinalRank extends AlgoElement {
 	}
 
 	/**
-	 * @return comarator
+	 * @return comparator
 	 */
 	public static Comparator<OrderedPair> getComparator() {
 		if (comparator == null) {

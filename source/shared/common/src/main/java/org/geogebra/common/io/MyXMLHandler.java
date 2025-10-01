@@ -440,9 +440,9 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			String ggbVersion = attrs.get("version");
-			String appCode = nomalizeApp(attrs.get("app"));
+			String appCode = normalizeApp(attrs.get("app"));
 			this.app.setFileVersion(ggbVersion, appCode);
-			this.subAppCode = nomalizeApp(attrs.get("subApp"));
+			this.subAppCode = normalizeApp(attrs.get("subApp"));
 			if (subAppCode == null) {
 				subAppCode = appCode;
 			}
@@ -453,7 +453,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static String nomalizeApp(String string) {
+	private static String normalizeApp(String string) {
 		if (string != null && string
 				.matches(
 						"graphing|geometry|classic|3d|3D|scientific|suite|cas|notes|probability")) {

@@ -20,15 +20,15 @@ public class StatisticsModel {
 	// inference mode constants
 	public static final int SUMMARY_STATISTICS = 0;
 	// one var
-	public static final int INFER_ZTEST = 1;
-	public static final int INFER_ZINT = 2;
-	public static final int INFER_TTEST = 3;
-	public static final int INFER_TINT = 4;
+	public static final int INFER_Z_TEST = 1;
+	public static final int INFER_Z_INT = 2;
+	public static final int INFER_T_TEST = 3;
+	public static final int INFER_T_INT = 4;
 	// two var
-	public static final int INFER_TTEST_2MEANS = 20;
-	public static final int INFER_TTEST_PAIRED = 21;
-	public static final int INFER_TINT_2MEANS = 22;
-	public static final int INFER_TINT_PAIRED = 23;
+	public static final int INFER_T_TEST_2MEANS = 20;
+	public static final int INFER_T_TEST_PAIRED = 21;
+	public static final int INFER_T_INT_2MEANS = 22;
+	public static final int INFER_T_INT_PAIRED = 23;
 	// multi var
 	public static final int INFER_ANOVA = 40;
 
@@ -105,11 +105,11 @@ public class StatisticsModel {
 		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
-			listener.addInferenceMode(labelMap.get(INFER_ZTEST));
-			listener.addInferenceMode(labelMap.get(INFER_TTEST));
+			listener.addInferenceMode(labelMap.get(INFER_Z_TEST));
+			listener.addInferenceMode(labelMap.get(INFER_T_TEST));
 			listener.addInferenceMode(listener.getSeparator());
-			listener.addInferenceMode(labelMap.get(INFER_ZINT));
-			listener.addInferenceMode(labelMap.get(INFER_TINT));
+			listener.addInferenceMode(labelMap.get(INFER_Z_INT));
+			listener.addInferenceMode(labelMap.get(INFER_T_INT));
 			break;
 
 		case DataAnalysisModel.MODE_REGRESSION:
@@ -119,11 +119,11 @@ public class StatisticsModel {
 		case DataAnalysisModel.MODE_MULTIVAR:
 			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
 			listener.addInferenceMode(labelMap.get(INFER_ANOVA));
-			listener.addInferenceMode(labelMap.get(INFER_TTEST_2MEANS));
-			listener.addInferenceMode(labelMap.get(INFER_TTEST_PAIRED));
+			listener.addInferenceMode(labelMap.get(INFER_T_TEST_2MEANS));
+			listener.addInferenceMode(labelMap.get(INFER_T_TEST_PAIRED));
 			listener.addInferenceMode(listener.getSeparator());
-			listener.addInferenceMode(labelMap.get(INFER_TINT_2MEANS));
-			listener.addInferenceMode(labelMap.get(INFER_TINT_PAIRED));
+			listener.addInferenceMode(labelMap.get(INFER_T_INT_2MEANS));
+			listener.addInferenceMode(labelMap.get(INFER_T_INT_PAIRED));
 			break;
 		}
 
@@ -142,19 +142,19 @@ public class StatisticsModel {
 		}
 
 		labelMap.clear();
-		labelMap.put(INFER_TTEST, loc.getMenu("TMeanTest"));
-		labelMap.put(INFER_TINT, loc.getMenu("TMeanInterval"));
-		labelMap.put(INFER_ZTEST, loc.getMenu("ZMeanTest"));
-		labelMap.put(INFER_ZINT, loc.getMenu("ZMeanInterval"));
+		labelMap.put(INFER_T_TEST, loc.getMenu("TMeanTest"));
+		labelMap.put(INFER_T_INT, loc.getMenu("TMeanInterval"));
+		labelMap.put(INFER_Z_TEST, loc.getMenu("ZMeanTest"));
+		labelMap.put(INFER_Z_INT, loc.getMenu("ZMeanInterval"));
 
 		labelMap.put(INFER_ANOVA, loc.getMenu("ANOVA"));
 		labelMap.put(SUMMARY_STATISTICS, loc.getMenu("Statistics"));
 
-		labelMap.put(INFER_TTEST_2MEANS, loc.getMenu("TTestDifferenceOfMeans"));
-		labelMap.put(INFER_TTEST_PAIRED, loc.getMenu("TTestPairedDifferences"));
-		labelMap.put(INFER_TINT_2MEANS,
+		labelMap.put(INFER_T_TEST_2MEANS, loc.getMenu("TTestDifferenceOfMeans"));
+		labelMap.put(INFER_T_TEST_PAIRED, loc.getMenu("TTestPairedDifferences"));
+		labelMap.put(INFER_T_INT_2MEANS,
 				loc.getMenu("TEstimateDifferenceOfMeans"));
-		labelMap.put(INFER_TINT_PAIRED,
+		labelMap.put(INFER_T_INT_PAIRED,
 				loc.getMenu("TEstimatePairedDifferences"));
 
 		// REVERSE LABEL MAP
@@ -173,17 +173,17 @@ public class StatisticsModel {
 		switch (getSelectedMode()) {
 
 		default:
-		case INFER_ZTEST:
-		case INFER_TTEST:
-		case INFER_ZINT:
-		case INFER_TINT:
+		case INFER_Z_TEST:
+		case INFER_T_TEST:
+		case INFER_Z_INT:
+		case INFER_T_INT:
 			listener.updateOneVarInference(selectedMode);
 			break;
 
-		case INFER_TTEST_2MEANS:
-		case INFER_TTEST_PAIRED:
-		case INFER_TINT_2MEANS:
-		case INFER_TINT_PAIRED:
+		case INFER_T_TEST_2MEANS:
+		case INFER_T_TEST_PAIRED:
+		case INFER_T_INT_2MEANS:
+		case INFER_T_INT_PAIRED:
 			listener.updateTwoVarInference(selectedMode);
 			break;
 

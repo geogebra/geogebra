@@ -239,7 +239,7 @@ public class OneVarInferencePanelD extends JPanel
 		default:
 			// do nothing
 			break;
-		case StatisticsModel.INFER_ZTEST:
+		case StatisticsModel.INFER_Z_TEST:
 			model1.setValueAt(statDialog.format(model.getP()), 0, 0);
 			model1.setValueAt(statDialog.format(model.getTestStat()), 1, 0);
 			model1.setValueAt("", 2, 0);
@@ -247,7 +247,7 @@ public class OneVarInferencePanelD extends JPanel
 			model1.setValueAt(statDialog.format(model.getMean()), 4, 0);
 			break;
 
-		case StatisticsModel.INFER_TTEST:
+		case StatisticsModel.INFER_T_TEST:
 			model1.setValueAt(statDialog.format(model.getP()), 0, 0);
 			model1.setValueAt(statDialog.format(model.getTestStat()), 1, 0);
 			model1.setValueAt(statDialog.format(model.getDf()), 2, 0);
@@ -257,7 +257,7 @@ public class OneVarInferencePanelD extends JPanel
 			model1.setValueAt(statDialog.format(model.getMean()), 6, 0);
 			break;
 
-		case StatisticsModel.INFER_ZINT:
+		case StatisticsModel.INFER_Z_INT:
 			model1.setValueAt(cInt, 0, 0);
 			model1.setValueAt(statDialog.format(model.getLower()), 1, 0);
 			model1.setValueAt(statDialog.format(model.getUpper()), 2, 0);
@@ -267,7 +267,7 @@ public class OneVarInferencePanelD extends JPanel
 			model1.setValueAt(statDialog.format(model.getMean()), 6, 0);
 			break;
 
-		case StatisticsModel.INFER_TINT:
+		case StatisticsModel.INFER_T_INT:
 			model1.setValueAt(cInt, 0, 0);
 			model1.setValueAt(statDialog.format(model.getLower()), 1, 0);
 			model1.setValueAt(statDialog.format(model.getUpper()), 2, 0);
@@ -317,11 +317,11 @@ public class OneVarInferencePanelD extends JPanel
 
 	private void updateGUI() {
 
-		isTest = (model.selectedPlot == StatisticsModel.INFER_ZTEST
-				|| model.selectedPlot == StatisticsModel.INFER_TTEST);
+		isTest = (model.selectedPlot == StatisticsModel.INFER_Z_TEST
+				|| model.selectedPlot == StatisticsModel.INFER_T_TEST);
 
-		isZProcedure = model.selectedPlot == StatisticsModel.INFER_ZTEST
-				|| model.selectedPlot == StatisticsModel.INFER_ZINT;
+		isZProcedure = model.selectedPlot == StatisticsModel.INFER_Z_TEST
+				|| model.selectedPlot == StatisticsModel.INFER_Z_INT;
 
 		updateNumberField(fldNullHyp, model.hypMean);
 		updateNumberField(fldConfLevel, model.confLevel);

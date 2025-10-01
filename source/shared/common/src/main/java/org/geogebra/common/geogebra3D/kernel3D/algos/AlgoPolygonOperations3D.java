@@ -135,7 +135,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 	/**
 	 * @param outputSizes
-	 *            size of polygon, point, segmen output
+	 *            size of polygon, point, segment output
 	 */
 	protected void initialize(int[] outputSizes) {
 		setInputOutput();

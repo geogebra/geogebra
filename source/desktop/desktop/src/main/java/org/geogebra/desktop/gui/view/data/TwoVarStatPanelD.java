@@ -57,7 +57,7 @@ public class TwoVarStatPanelD extends StatTable
 		setStatTable(model.getRowCount(), model.getRowNames(),
 				model.getColumnCount(), model.getColumnNames());
 
-		// create an array of data titles for the table celll comboboxes
+		// create an array of data titles for the table cell comboboxes
 		// the array includes and extra element to store the combo box label
 		String[] titles = statDialog.getDataTitles();
 		String[] titlesPlusLabel = new String[titles.length + 1];

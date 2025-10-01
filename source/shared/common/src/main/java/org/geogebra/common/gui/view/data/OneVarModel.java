@@ -33,7 +33,7 @@ public class OneVarModel {
 	public static final String tail_right = ">";
 	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
 	public String tail = tail_two;
-	public int selectedPlot = StatisticsModel.INFER_TINT;
+	public int selectedPlot = StatisticsModel.INFER_T_INT;
 
 	/**
 	 * Update model
@@ -51,8 +51,8 @@ public class OneVarModel {
 			default:
 				// do nothing
 				break;
-			case StatisticsModel.INFER_ZTEST:
-			case StatisticsModel.INFER_ZINT:
+			case StatisticsModel.INFER_Z_TEST:
+			case StatisticsModel.INFER_Z_INT:
 				normalDist = new NormalDistribution(0, 1);
 				se = sigma / Math.sqrt(N);
 				testStat = (mean - hypMean) / se;
@@ -66,8 +66,8 @@ public class OneVarModel {
 				lower = mean - me;
 				break;
 
-			case StatisticsModel.INFER_TTEST:
-			case StatisticsModel.INFER_TINT:
+			case StatisticsModel.INFER_T_TEST:
+			case StatisticsModel.INFER_T_INT:
 				if (tTestImpl == null) {
 					tTestImpl = new TTest();
 				}
@@ -140,7 +140,7 @@ public class OneVarModel {
 		default:
 			// do nothing
 			break;
-		case StatisticsModel.INFER_ZTEST:
+		case StatisticsModel.INFER_Z_TEST:
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("ZStatistic"));
 			nameList.add(loc.getMenu(""));
@@ -149,7 +149,7 @@ public class OneVarModel {
 
 			break;
 
-		case StatisticsModel.INFER_TTEST:
+		case StatisticsModel.INFER_T_TEST:
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("TStatistic"));
 			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
@@ -159,7 +159,7 @@ public class OneVarModel {
 			nameList.add(loc.getMenu("Mean"));
 			break;
 
-		case StatisticsModel.INFER_ZINT:
+		case StatisticsModel.INFER_Z_INT:
 			nameList.add(loc.getMenu("Interval"));
 			nameList.add(loc.getMenu("LowerLimit"));
 			nameList.add(loc.getMenu("UpperLimit"));
@@ -169,7 +169,7 @@ public class OneVarModel {
 			nameList.add(loc.getMenu("Mean"));
 			break;
 
-		case StatisticsModel.INFER_TINT:
+		case StatisticsModel.INFER_T_INT:
 			nameList.add(loc.getMenu("Interval"));
 			nameList.add(loc.getMenu("LowerLimit"));
 			nameList.add(loc.getMenu("UpperLimit"));

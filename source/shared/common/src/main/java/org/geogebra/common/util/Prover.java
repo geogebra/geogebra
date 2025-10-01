@@ -257,19 +257,17 @@ public abstract class Prover {
 
 		private static GeoLine line(GeoPoint P1, GeoPoint P2,
 				Construction cons) {
-			TreeSet<GeoElement> ges = cons.getGeoSetConstructionOrder();
-			Iterator<GeoElement> it = ges.iterator();
+			TreeSet<GeoElement> geos = cons.getGeoSetConstructionOrder();
 			// TODO: Maybe there is a better way here to lookup the appropriate
 			// line
 			// if it already exists (by using kernel).
-			while (it.hasNext()) {
-				GeoElement ge = it.next();
+			for (GeoElement ge : geos) {
 				if (ge instanceof GeoLine) {
 					GeoPoint Q1 = ((GeoLine) ge).getStartPoint();
 					GeoPoint Q2 = ((GeoLine) ge).getEndPoint();
 					if (Q1 != null && Q2 != null
 							&& ((Q1.equals(P1) && Q2.equals(P2))
-									|| (Q1.equals(P2) && Q2.equals(P1)))) {
+							|| (Q1.equals(P2) && Q2.equals(P1)))) {
 						return (GeoLine) ge;
 					}
 				}

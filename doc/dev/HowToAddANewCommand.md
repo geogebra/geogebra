@@ -147,4 +147,4 @@ You need to check out GeoGebraTest project first if you didn't do so before. In 
 		t("Midpoint[ Segment((1,1),(3,3)) ]", "(2,2)");
 	}
 ```
-The method name must be `cmdCommandName`, where `CommandName` comes from `geogebra.common.kernel.commands.Commands`. There is a test that checks coorespondence between test methods, translation keys and values in the Commands enum.
+The method name must be `cmdCommandName`, where `CommandName` comes from `geogebra.common.kernel.commands.Commands`. There is a test that checks correspondence between test methods, translation keys and values in the Commands enum.

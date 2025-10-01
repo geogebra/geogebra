@@ -2376,7 +2376,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	/**
-	 * @return tru for functuins of z
+	 * @return true for functions of z
 	 */
 	public boolean isFunctionOfZ() {
 		return getVarString(StringTemplate.defaultTemplate).equals("z");

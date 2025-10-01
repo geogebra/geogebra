@@ -502,7 +502,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Test
-    public void testEscapeAfterTypinRestoresOriginalContent() {
+    public void testEscapeAfterTypingRestoresOriginalContent() {
         tabularData.setContent(0, 0, "123");
         simulateCellMouseClick(0, 0, 1);
         controller.handleKeyPressed(JavaKeyCodes.VK_EQUALS, "=", Modifiers.NONE);

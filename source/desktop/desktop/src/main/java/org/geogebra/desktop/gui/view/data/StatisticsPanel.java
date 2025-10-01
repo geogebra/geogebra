@@ -111,21 +111,21 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		inferencePanel.removeAll();
 		switch (model.getSelectedMode()) {
 
-		case StatisticsModel.INFER_ZTEST:
-		case StatisticsModel.INFER_TTEST:
-		case StatisticsModel.INFER_ZINT:
-		case StatisticsModel.INFER_TINT:
+		case StatisticsModel.INFER_Z_TEST:
+		case StatisticsModel.INFER_T_TEST:
+		case StatisticsModel.INFER_Z_INT:
+		case StatisticsModel.INFER_T_INT:
 			inferencePanel.add(getOneVarInferencePanel(), BorderLayout.NORTH);
 			break;
 
-		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TINT_2MEANS:
+		case StatisticsModel.INFER_T_TEST_2MEANS:
+		case StatisticsModel.INFER_T_INT_2MEANS:
 			inferencePanel.add(getTwoVarInferencePanel(true),
 					BorderLayout.NORTH);
 			break;
 
-		case StatisticsModel.INFER_TTEST_PAIRED:
-		case StatisticsModel.INFER_TINT_PAIRED:
+		case StatisticsModel.INFER_T_TEST_PAIRED:
+		case StatisticsModel.INFER_T_INT_PAIRED:
 			inferencePanel.add(getTwoVarInferencePanel(false),
 					BorderLayout.NORTH);
 			break;

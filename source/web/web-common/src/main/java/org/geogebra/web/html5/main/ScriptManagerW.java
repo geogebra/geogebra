@@ -82,7 +82,7 @@ public class ScriptManagerW extends ScriptManager {
 
 	/**
 	 * Call external ggbOnInit
-	 * @param arg argumen
+	 * @param arg argument
 	 * @param self exported API object
 	 */
 	public static void ggbOnInitExternal(String arg, Object self) {

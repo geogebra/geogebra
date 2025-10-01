@@ -91,10 +91,10 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 				new MyDouble(kernel, v.getY())));
 		z = z.plus(new ExpressionNode(kernel, t, Operation.MULTIPLY,
 				new MyDouble(kernel, v.getZ())));
-		intersectParameteric(x, y, z);
+		intersectParametric(x, y, z);
 	}
 
-	private void intersectParameteric(ExpressionNode x, ExpressionNode y,
+	private void intersectParametric(ExpressionNode x, ExpressionNode y,
 			ExpressionNode z) {
 		FunctionNVar func = surface.getExpression();
 		FunctionVariable[] vars = func.getFunctionVariables();
