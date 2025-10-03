@@ -82,11 +82,8 @@ public class LabelManager {
 			// parseLabel for "A B" returns "A", check equality
 			return label.trim()
 					.equals(kernel.getAlgebraProcessor().parseLabel(label));
-		} catch (Exception e) {
-			// eg ParseException
-			return false;
-		} catch (Error e) {
-			// eg TokenMgrError, BracketsError
+		} catch (Exception | Error e) {
+			// covers ParserException, TokenMgrException, BracketsError
 			return false;
 		}
 	}

@@ -67,7 +67,6 @@
         <exclude name="UnnecessaryLocalBeforeReturn"/>
         <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
         <exclude name="UselessParentheses"/>
-        <exclude name="IdenticalCatchBranches"/>
         <exclude name="PrematureDeclaration"/>
         <exclude name="LinguisticNaming"/>
         <exclude name="UseUnderscoresInNumericLiterals"/>
@@ -165,7 +164,6 @@
         <exclude name="UseIndexOfChar"/>
         <exclude name="ConsecutiveAppendsShouldReuse"/>
         <exclude name="SimplifyStartsWith"/>
-        <exclude name="UseArraysAsList"/>
         <exclude name="UseStringBufferForStringAppends"/>
         <exclude name="AvoidFileStream"/>
     </rule>

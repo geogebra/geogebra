@@ -1707,11 +1707,7 @@ public class GeoCasCell extends GeoElement
 								new EvalInfo(false));
 				kernel.getConstruction().setSuppressLabelCreation(old);
 				newTwinGeo = line[0];
-			} catch (MyError e) {
-				// TODO Auto-generated catch block
-				Log.debug(e);
-			} catch (CircularDefinitionException e) {
-				// TODO Auto-generated catch block
+			} catch (MyError | CircularDefinitionException e) {
 				Log.debug(e);
 			}
 		} else {

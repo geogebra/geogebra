@@ -3325,10 +3325,7 @@ public class MyXMLHandler implements DocHandler {
 					en = parser.parseCmdExpression(arg);
 				}
 				cmd.addArgument(en);
-			} catch (Exception e) {
-				logError(e);
-				errors.add("unknown command input: " + arg);
-			} catch (Error e) {
+			} catch (Exception | Error e) {
 				logError(e);
 				errors.add("unknown command input: " + arg);
 			}
@@ -3441,9 +3438,7 @@ public class MyXMLHandler implements DocHandler {
 			cmd.setOutputSizes(sizes);
 
 			return true;
-		} catch (MyError e) {
-			errors.add("wrong command size for " + cmd);
-		} catch (RuntimeException e) {
+		} catch (MyError | RuntimeException e) {
 			errors.add("wrong command size for " + cmd);
 		}
 		return false;

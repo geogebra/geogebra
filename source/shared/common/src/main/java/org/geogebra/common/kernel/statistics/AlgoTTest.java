@@ -241,17 +241,11 @@ public class AlgoTTest extends AlgoElement {
 				result.addNumber(p, null);
 				result.addNumber(testStat, null);
 
-			} catch (IllegalArgumentException e) {
-				Log.debug(e);
-				result.setUndefined();
-				return;
-
 			} catch (RuntimeException e) {
-				// catches ArithmeticException, IllegalStateException and
+				// catches IllegalArgumentException, ArithmeticException, IllegalStateException and
 				// ArithmeticException
 				Log.debug(e);
 				result.setUndefined();
-				return;
 			}
 
 		}
