@@ -3638,7 +3638,7 @@ public class MyXMLHandler implements DocHandler {
 	 * 
 	 * @param str
 	 *            input string
-	 * @return false for "fale", true otherwise
+	 * @return false for "false", true otherwise
 	 */
 	protected static boolean parseBooleanRev(String str) {
 		return !"false".equals(str);

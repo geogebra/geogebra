@@ -34,48 +34,4 @@ public abstract class VectorGraphicsIO extends AbstractVectorGraphics {
 	@Override
 	public abstract void printComment(String comment);
 
-	/**
-	 * copies the full file referenced by filenam onto the os (PrintWriter). The
-	 * file location is relative to the current class
-	 * 
-	 * @param object
-	 *            from which to refer to resource file
-	 * @param fileName
-	 *            name of file to be copied
-	 * @param os
-	 *            output to copy the file to
-	 */
-	public static void copyResourceTo(Object object, String fileName,
-			PrintStream os) {
-		copyResourceTo(object, fileName,
-				new PrintWriter(new OutputStreamWriter(os)));
-	}
-
-	public static void copyResourceTo(Object object, String fileName,
-			PrintWriter os) {
-		InputStream is = null;
-		BufferedReader br = null;
-		try {
-			is = object.getClass().getResourceAsStream(fileName);
-			br = new BufferedReader(new InputStreamReader(is));
-			String s;
-			while ((s = br.readLine()) != null) {
-				os.println(s);
-			}
-			os.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null) {
-					br.close();
-				}
-				if (is != null) {
-					is.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 }

@@ -220,9 +220,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		}
 
 		ckEqualVariances.removeActionListener(this);
-		// ckEqualVariances.setVisible(
-		// selectedPlot == StatisticsModel.INFER_TINT_2MEANS
-		// || selectedPlot == StatisticsModel.INFER_TTEST_2MEANS);
 		ckEqualVariances.setSelected(model.isPooled());
 		ckEqualVariances.addActionListener(this);
 
