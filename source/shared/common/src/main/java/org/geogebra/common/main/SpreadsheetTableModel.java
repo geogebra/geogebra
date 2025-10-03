@@ -34,7 +34,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	 * maintains a list of all AlgoCellRanges in the construction and handles
 	 * updates to the cell range lists as cells are added or removed
 	 */
-	private AlgoCellRangeManager cellRangeManager;
+	private final AlgoCellRangeManager cellRangeManager;
 	private CellFormatInterface formatHandler;
 
 	/***************************************************
@@ -335,5 +335,23 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		}
 		return formatHandler;
 
+	}
+
+	/**
+	 * Shift columns from a starting index.
+	 * @param column index of first shifted column
+	 * @param by increment (+1 add 1 column, -1 delete one column)
+	 */
+	public void shiftColumnsFrom(int column, int by) {
+		cellRangeManager.shiftColumnsFrom(column, by);
+	}
+
+	/**
+	 * Shift rows from a starting index.
+	 * @param row index of first shifted row
+	 * @param by increment (+1 add 1 row, -1 delete one row)
+	 */
+	public void shiftRowsFrom(int row, int by) {
+		cellRangeManager.shiftRowsFrom(row, by);
 	}
 }

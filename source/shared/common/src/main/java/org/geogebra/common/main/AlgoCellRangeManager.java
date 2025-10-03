@@ -1,11 +1,16 @@
 package org.geogebra.common.main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.AlgoCellRange;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
  * Maintains a list of all instances of AlgoCellRange in a construction and
@@ -16,7 +21,8 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
  * 
  */
 public class AlgoCellRangeManager {
-	private HashMap<String, AlgoCellRange> algos;
+
+	private @CheckForNull HashMap<String, AlgoCellRange> algos;
 
 	/**
 	 * Removes an AlgoCellRange algorithm from the internal algorithm list.
@@ -119,13 +125,76 @@ public class AlgoCellRangeManager {
 				cons.addToConstructionList(algo, false);
 			}
 		}
-
 		return algo;
-
 	}
 
 	private static String getKey(String start, String end) {
 		return start + ":" + end;
 	}
 
+	/**
+	 * Shift columns from a starting index.
+	 * @param column index of first shifted column
+	 * @param by increment (+1 adds 1 column, -1 deletes one column)
+	 */
+	public void shiftColumnsFrom(int column, int by) {
+		if (algos == null) {
+			return;
+		}
+		List<GeoElement> toUpdate = new ArrayList<>();
+		for (AlgoCellRange range: algos.values()) {
+			TabularRange tabularRange = range.getRange();
+			int minColumn = tabularRange.getMinColumn();
+			int maxColumn = tabularRange.getMaxColumn();
+			boolean changed = false;
+			if (minColumn >= column) {
+				minColumn += by;
+				changed = true;
+			}
+			if (maxColumn >= column) {
+				maxColumn += by;
+				changed = true;
+			}
+			if (changed) {
+				tabularRange = new TabularRange(tabularRange.getMinRow(),
+						minColumn, tabularRange.getMaxRow(), maxColumn);
+				range.setRange(tabularRange);
+				toUpdate.add(range.getList());
+			}
+		}
+		GeoElement.updateCascade(toUpdate);
+	}
+
+	/**
+	 * Shift rows from a starting index.
+	 * @param row index of first shifted row
+	 * @param by increment (+1 adds 1 row, -1 deletes one row)
+	 */
+	public void shiftRowsFrom(int row, int by) {
+		if (algos == null) {
+			return;
+		}
+		List<GeoElement> toUpdate = new ArrayList<>();
+		for (AlgoCellRange range: algos.values()) {
+			TabularRange tabularRange = range.getRange();
+			int minRow = tabularRange.getMinRow();
+			int maxRow = tabularRange.getMaxRow();
+			boolean changed = false;
+			if (minRow >= row) {
+				minRow += by;
+				changed = true;
+			}
+			if (maxRow >= row) {
+				maxRow += by;
+				changed = true;
+			}
+			if (changed) {
+				tabularRange = new TabularRange(minRow, tabularRange.getMinColumn(),
+						maxRow, tabularRange.getMaxColumn());
+				range.setRange(tabularRange);
+				toUpdate.add(range.getList());
+			}
+		}
+		GeoElement.updateCascade(toUpdate);
+	}
 }

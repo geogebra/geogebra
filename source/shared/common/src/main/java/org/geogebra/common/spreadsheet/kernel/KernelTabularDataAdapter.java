@@ -223,24 +223,28 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	public void insertRowAt(int row) {
 		app.getSettings().getSpreadsheet().setRowsNoFire(numberOfRows() + 1);
 		processor.insertRowAt(row);
+		app.getSpreadsheetTableModel().shiftRowsFrom(row, 1);
 	}
 
 	@Override
 	public void deleteRowAt(int row) {
 		app.getSettings().getSpreadsheet().setRowsNoFire(numberOfRows() - 1);
 		processor.deleteRowAt(row);
+		app.getSpreadsheetTableModel().shiftRowsFrom(row, -1);
 	}
 
 	@Override
 	public void insertColumnAt(int column) {
 		app.getSettings().getSpreadsheet().setColumnsNoFire(numberOfColumns() + 1);
 		processor.insertColumnAt(column);
+		app.getSpreadsheetTableModel().shiftColumnsFrom(column, 1);
 	}
 
 	@Override
 	public void deleteColumnAt(int column) {
 		app.getSettings().getSpreadsheet().setColumnsNoFire(numberOfColumns() - 1);
 		processor.deleteColumnAt(column);
+		app.getSpreadsheetTableModel().shiftColumnsFrom(column, -1);
 	}
 
 	@Override

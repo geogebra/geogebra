@@ -99,10 +99,6 @@ public class AlgoCellRange extends AlgoElement {
 		cons.getApplication().getSpreadsheetTableModel().getCellRangeManager()
 				.unregisterCellRangeListenerAlgo(this);
 
-		clearGeoList();
-	}
-
-	private void clearGeoList() {
 		geoList.clear();
 	}
 
@@ -189,16 +185,7 @@ public class AlgoCellRange extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 
-		startCoords = GeoElementSpreadsheet
-				.getSpreadsheetCoordsForLabel(startCell);
-		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endCell);
-		toStringOutput = startCell + ":" + endCell;
-
-		tabularRange = new TabularRange(startCoords.row, startCoords.column,
-				endCoords.row, endCoords.column);
-
-		// build list with cells in range
-		listItems = initCellRangeList(startCoords, endCoords);
+		initFields();
 
 		// create dependent geoList for cells in range
 		geoList = new GeoListForCellRange(cons, this);
@@ -219,6 +206,19 @@ public class AlgoCellRange extends AlgoElement {
 		// input = new GeoElement[2];
 		// input[0] = startCell;
 		// input[1] = endCell;
+	}
+
+	private void initFields() {
+		startCoords = GeoElementSpreadsheet
+				.getSpreadsheetCoordsForLabel(startCell);
+		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endCell);
+		toStringOutput = startCell + ":" + endCell;
+
+		tabularRange = new TabularRange(startCoords.row, startCoords.column,
+				endCoords.row, endCoords.column);
+
+		// build list with cells in range
+		listItems = initCellRangeList(startCoords, endCoords);
 	}
 
 	/**
@@ -355,4 +355,16 @@ public class AlgoCellRange extends AlgoElement {
 		return endCell;
 	}
 
+	/**
+	 * Change the range covered by this algo.
+	 * @param tabularRange new range
+	 */
+	public void setRange(TabularRange tabularRange) {
+		this.startCell = GeoElementSpreadsheet.getSpreadsheetCellName(tabularRange.getMinColumn(),
+				tabularRange.getMinRow());
+		this.endCell = GeoElementSpreadsheet.getSpreadsheetCellName(tabularRange.getMaxColumn(),
+				tabularRange.getMaxRow());
+		initFields();
+		updateList();
+	}
 }

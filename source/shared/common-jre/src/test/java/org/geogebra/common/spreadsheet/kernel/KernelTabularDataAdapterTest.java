@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,5 +46,29 @@ public class KernelTabularDataAdapterTest extends BaseUnitTest {
 		assertTrue(a1.isEuclidianVisible());
 		tabularData.update(a1.toGeoElement());
 		assertTrue(a1.isEuclidianVisible());
+	}
+
+	@Test
+	public void columnOperationsShouldUpdateRange() {
+		add("A1=1");
+		add("A2=2");
+		add("A3=3");
+		GeoNumeric sum = add("A4=Sum(A1:A3)");
+		tabularData.insertColumnAt(0);
+		assertEquals("B4 = Sum(B1:B3)", sum.getDefinitionForInputBar());
+		tabularData.deleteColumnAt(0);
+		assertEquals("A4 = Sum(A1:A3)", sum.getDefinitionForInputBar());
+	}
+
+	@Test
+	public void rowOperationsShouldUpdateRange() {
+		add("A1=1");
+		add("A2=2");
+		add("A3=3");
+		GeoNumeric sum = add("A4=Sum(A1:A3)");
+		tabularData.insertRowAt(1);
+		assertEquals("A5 = Sum(A1:A4)", sum.getDefinitionForInputBar());
+		tabularData.deleteRowAt(1);
+		assertEquals("A4 = Sum(A1:A3)", sum.getDefinitionForInputBar());
 	}
 }
