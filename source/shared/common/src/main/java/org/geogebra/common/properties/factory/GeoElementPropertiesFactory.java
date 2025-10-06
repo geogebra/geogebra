@@ -17,6 +17,7 @@ import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
@@ -29,6 +30,7 @@ import org.geogebra.common.properties.impl.collections.FilePropertyCollection;
 import org.geogebra.common.properties.impl.collections.FlagListPropertyCollection;
 import org.geogebra.common.properties.impl.collections.IconsEnumeratedPropertyCollection;
 import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.collections.ObjectEventPropertyCollection;
 import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
 import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AngleArcSizeProperty;
@@ -52,6 +54,7 @@ import org.geogebra.common.properties.impl.objects.CoordinatesModeProperty;
 import org.geogebra.common.properties.impl.objects.DefinitionProperty;
 import org.geogebra.common.properties.impl.objects.DrawArrowsProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
+import org.geogebra.common.properties.impl.objects.ElementObjectEventProperty;
 import org.geogebra.common.properties.impl.objects.EmphasizeRightAngleProperty;
 import org.geogebra.common.properties.impl.objects.FillImageProperty;
 import org.geogebra.common.properties.impl.objects.FillSymbolProperty;
@@ -81,7 +84,9 @@ import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
 import org.geogebra.common.properties.impl.objects.NotesOpacityColorProperty;
 import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
+import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
 import org.geogebra.common.properties.impl.objects.ObjectColorProperty;
+import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
 import org.geogebra.common.properties.impl.objects.OutlyingIntersectionsProperty;
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
@@ -450,10 +455,31 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	private @Nonnull PropertiesArray createScriptProperties(
-			Localization localization, List<GeoElement> ignoredElements) {
+			Localization localization, List<GeoElement> elements) {
 		return createPropsArray("Scripting", localization, Stream.of(
-				/* ScriptEditorModel*/
-		));
+				createObjectEventsProperty(localization, elements)
+			)
+		);
+	}
+
+	/**
+	 * Creates script related properties for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
+	public ObjectAllEventsProperty createObjectEventsProperty(
+			Localization localization, List<GeoElement> elements) {
+		ArrayList<ObjectEventProperty> props = new ArrayList<>();
+		for (EventType type: ElementObjectEventProperty.eventNames.keySet()) {
+				ObjectEventProperty op = createPropertyCollection(elements,
+				element -> new ElementObjectEventProperty(localization, element, type),
+				geos -> new ObjectEventPropertyCollection(localization, geos));
+				if (op != null) {
+					props.add(op);
+				}
+		}
+		return new ObjectAllEventsProperty(localization, props);
 	}
 
 	/**

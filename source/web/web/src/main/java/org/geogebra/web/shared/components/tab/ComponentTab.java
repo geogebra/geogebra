@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -28,6 +29,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 	private final List<TabData> tabData;
 	private final ArrayList<StandardButton> tabButton = new ArrayList<>();
 	private int selectedTabIdx = 0;
+	private final MulticastEvent<Integer> tabChanged = new MulticastEvent<>();
 
 	/**
 	 * Creates a tab component with optional scroll indicator buttons.
@@ -39,7 +41,9 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		this.tabData = Arrays.asList(tabData);
 		addStyleName("componentTab");
 		buildTab(tabData);
-		switchToTab(0);
+		if (tabData.length > 0) {
+			switchToTab(0);
+		}
 	}
 
 	private void buildTab(TabData... tabData) {
@@ -158,8 +162,11 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		selectedTabIdx = tabIdx;
 
 		panelContainer.addStyleName("transition");
-		Scheduler.get().scheduleDeferred(() -> panelContainer.getElement().getStyle()
-				.setRight(tabIdx * 100, Unit.PCT));
+		Scheduler.get().scheduleDeferred(() -> {
+			panelContainer.getElement().getStyle()
+					.setRight(tabIdx * 100, Unit.PCT);
+			tabChanged.notifyListeners(tabIdx);
+		});
 	}
 
 	private void updateSelection(StandardButton button, boolean selected) {
@@ -208,5 +215,17 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 
 	public int getSelectedTabIdx() {
 		return selectedTabIdx;
+	}
+
+	/**
+	 * Registers a listener to be notified whenever the active tab changes.
+	 * <p>
+	 * The listener is invoked after a tab switch occurs and receives the
+	 * zero-based index of the newly selected tab.
+	 *
+	 * @param listener the callback to notify on tab change; must not be {@code null}
+	 */
+	public void addTabChangedListener(MulticastEvent.Listener<Integer> listener) {
+		tabChanged.addListener(listener);
 	}
 }

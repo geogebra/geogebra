@@ -39,6 +39,7 @@ import org.geogebra.common.properties.impl.graphics.RulingGridLineStyleProperty;
 import org.geogebra.common.properties.impl.graphics.RulingPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.RulingStyleProperty;
 import org.geogebra.common.properties.impl.objects.DefinitionProperty;
+import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
@@ -57,6 +58,7 @@ import org.geogebra.web.full.gui.properties.ui.panel.LabelStylePanel;
 import org.geogebra.web.full.gui.properties.ui.settingsListener.SelectionSettingsListener;
 import org.geogebra.web.full.gui.properties.ui.settingsListener.StateSettingsListener;
 import org.geogebra.web.full.gui.properties.ui.settingsListener.VisibilitySettingsListener;
+import org.geogebra.web.full.gui.properties.ui.tabs.ScriptTabFactory;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.util.SliderPanel;
@@ -64,6 +66,7 @@ import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
+import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -227,12 +230,22 @@ public class PropertiesPanelAdapter implements SetLabels {
 			widgets.add(dimension3DPanel);
 			return dimension3DPanel;
 		}
+
+		if (property instanceof ObjectAllEventsProperty) {
+			ScriptTabFactory tabBuilder = new ScriptTabFactory(app,
+					(ObjectAllEventsProperty) property);
+			ComponentTab scriptTab = tabBuilder.create();
+			widgets.add(scriptTab);
+			return scriptTab;
+		}
+
 		if (property instanceof Dimension2DPropertiesCollection) {
 			ComponentExpandableList expandableList = new DimensionPanel(app, this,
 					(PropertyCollection<?>) property);
 			widgets.add(expandableList);
 			return expandableList;
 		}
+
 		if (property instanceof PropertyCollection) {
 			BooleanProperty leadProperty = property instanceof PropertyCollectionWithLead
 					? ((PropertyCollectionWithLead) property).leadProperty : null;

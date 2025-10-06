@@ -865,7 +865,7 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 	}
 
-	.dropDown, .comboBox, .inputTextField {
+	.dropDown, .comboBox, .inputTextField, .textEdit {
 		min-width: 64px;
 		height: 48px;
 		padding: 1px;
@@ -1405,6 +1405,21 @@ $keyboard_button_transition: opacity .3s ease;
 				visibility: visible;
 				height: 100%;
 			}
+		}
+	}
+
+	.textEdit {
+		height: 340px;
+
+		.optionLabelHolder {
+			width: 100%;
+		}
+
+		.textArea {
+			width: 100%;
+			height: 100%;
+			resize: none;
+			border: 0px !important;
 		}
 	}
 }

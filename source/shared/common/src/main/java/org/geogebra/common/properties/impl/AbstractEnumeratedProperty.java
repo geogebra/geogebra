@@ -36,9 +36,12 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 
 	@Override
 	public @Nonnull List<V> getValues() {
-		return values.stream().filter(value ->
-				valueFilters.stream().allMatch(filter ->
-						filter.isValueAllowed(value))).collect(Collectors.toList());
+		return values.stream().filter(this::filterValues).collect(Collectors.toList());
+	}
+
+	protected boolean filterValues(V value) {
+		return valueFilters.stream().allMatch(filter ->
+				filter.isValueAllowed(value));
 	}
 
 	@Override
