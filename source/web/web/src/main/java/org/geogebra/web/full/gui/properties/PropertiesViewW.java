@@ -619,8 +619,8 @@ public class PropertiesViewW extends PropertiesView
 					selectedGeos.size() == 1 ? selectedGeos.get(0).getTypeString() : "Selection");
 		} else {
 			sideSheet.setTitleTransKey("Settings");
-			propLists = app.getConfig().createPropertiesFactory()
-					.createProperties(app, app.getLocalization(), GlobalScope.propertiesRegistry);
+			propLists = app.getConfig().createPropertiesFactory().createProperties(
+					app, app.getLocalization(), GlobalScope.propertiesRegistry);
 		}
 		adapter = new PropertiesPanelAdapter(app.getLocalization(),
 				(AppW) app);

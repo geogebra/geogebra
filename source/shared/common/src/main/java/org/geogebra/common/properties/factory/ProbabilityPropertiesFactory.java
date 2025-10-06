@@ -2,7 +2,6 @@ package org.geogebra.common.properties.factory;
 
 import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.main.App;
@@ -12,12 +11,13 @@ import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
+import org.geogebra.common.util.NonNullList;
 
 public class ProbabilityPropertiesFactory extends DefaultPropertiesFactory {
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
-		return Arrays.asList(createGeneralProperties(app, localization, propertiesRegistry));
+		return List.of(createGeneralProperties(app, localization, propertiesRegistry));
 	}
 
 	@Override
@@ -25,13 +25,14 @@ public class ProbabilityPropertiesFactory extends DefaultPropertiesFactory {
 			PropertiesRegistry propertiesRegistry) {
 		return new PropertiesArray("General", localization,
 				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-				? registerProperties(propertiesRegistry,
+				? registerProperties(propertiesRegistry, NonNullList.of(
 						new LanguageProperty(app, localization),
 						new RoundingIndexProperty(app, localization),
-						createSaveRestoreSettingsProperties(app, localization))
-				: registerProperties(propertiesRegistry,
+						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
+								app, localization)))
+				: registerProperties(propertiesRegistry, List.of(
 						new LanguageProperty(app, localization),
 						new FontSizeProperty(localization, app.getSettings().getFontSettings(),
-								app.getFontSettingsUpdater())));
+								app.getFontSettingsUpdater()))));
 	}
 }

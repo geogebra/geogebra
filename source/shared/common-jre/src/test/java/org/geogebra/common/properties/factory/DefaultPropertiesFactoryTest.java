@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
@@ -27,8 +28,9 @@ public class DefaultPropertiesFactoryTest {
 	}
 
 	@Test
-	public void testPropertiesGraphing() {
+	public void testPropertiesGraphingWeb() {
 		AppCommon graphingApp = AppCommonFactory.create(new AppConfigGraphing());
+		graphingApp.setPlatform(GeoGebraConstants.Platform.WEB);
 		List<PropertiesArray> props = new DefaultPropertiesFactory().createProperties(
 				graphingApp, graphingApp.getLocalization(), null);
 		assertEquals(3, props.size());

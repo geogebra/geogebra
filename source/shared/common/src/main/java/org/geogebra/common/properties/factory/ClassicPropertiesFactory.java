@@ -2,8 +2,6 @@ package org.geogebra.common.properties.factory;
 
 import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.main.App;
@@ -15,6 +13,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
+import org.geogebra.common.util.NonNullList;
 
 /**
  * Factory for properties of the Classic app.
@@ -24,14 +23,14 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
-		return removeNulls(Arrays.asList(
+		return NonNullList.of(
 				createGeneralProperties(app, localization, propertiesRegistry),
 				createAlgebraProperties(app, localization, propertiesRegistry),
 				createStructuredGraphicsProperties(app, localization, propertiesRegistry),
 				createStructuredGraphics2Properties(app, localization, propertiesRegistry),
 				createStructuredGraphics3DProperties(app, localization, propertiesRegistry),
 				createSpreadsheetProperties(localization, app),
-				createCASProperties(localization, app)));
+				createCASProperties(localization, app));
 	}
 
 	@Override
@@ -129,16 +128,5 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 						settings::getShowExpAsRoots, settings::setShowExpAsRoots),
 				createNavBarProperty(app, App.VIEW_CAS));
 		return new PropertiesArray("CAS", localization, props);
-	}
-
-	private List<PropertiesArray> removeNulls(List<PropertiesArray> list) {
-		List<PropertiesArray> nonNullList = new ArrayList<>();
-		for (PropertiesArray elem : list) {
-			if (elem != null) {
-				nonNullList.add(elem);
-			}
-		}
-
-		return nonNullList;
 	}
 }

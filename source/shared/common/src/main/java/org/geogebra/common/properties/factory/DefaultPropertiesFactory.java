@@ -4,8 +4,6 @@ import static org.geogebra.common.properties.factory.PropertiesRegistration.regi
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
@@ -65,6 +63,7 @@ import org.geogebra.common.properties.impl.graphics.RulingGridBoldProperty;
 import org.geogebra.common.properties.impl.graphics.RulingGridColorProperty;
 import org.geogebra.common.properties.impl.graphics.RulingGridLineStyleProperty;
 import org.geogebra.common.properties.impl.graphics.VerticalYAxis;
+import org.geogebra.common.util.NonNullList;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -95,25 +94,22 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		Settings settings = app.getSettings();
 		return new PropertiesArray("General", localization,
 				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-				? registerProperties(propertiesRegistry,
+				? registerProperties(propertiesRegistry, NonNullList.of(
 						new LanguageProperty(app, localization),
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
 						new AngleUnitProperty(kernel, localization),
-						new FontSizeProperty(
-								localization,
-								settings.getFontSettings(),
+						new FontSizeProperty(localization, settings.getFontSettings(),
 								app.getFontSettingsUpdater()),
-						createSaveRestoreSettingsProperties(app, localization))
-				: registerProperties(propertiesRegistry,
+						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
+								app, localization)))
+				: registerProperties(propertiesRegistry, List.of(
 						new LanguageProperty(app, localization),
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
 						new AngleUnitProperty(kernel, localization),
-						new FontSizeProperty(
-								localization,
-								settings.getFontSettings(),
-								app.getFontSettingsUpdater())));
+						new FontSizeProperty(localization, settings.getFontSettings(),
+								app.getFontSettingsUpdater()))));
 	}
 
 	/**
@@ -158,7 +154,9 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		EuclidianView view1 = app.getEuclidianView1();
 		EuclidianSettings euclidianSettings = view1.getSettings();
 		return new PropertiesArray("DrawingPad", localization,
-				registerProperties(propertiesRegistry,
+				registerProperties(propertiesRegistry, NonNullList.of(
+						app.getPlatform().isMobile() ? new GraphicsActionsPropertyCollection(
+								app, localization, view1) : null,
 						new PropertyCollectionWithLead(localization, "Grid",
 								new GridVisibilityProperty(localization, euclidianSettings),
 								new GridStyleIconProperty(localization, euclidianSettings),
@@ -172,8 +170,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								new AxesColorProperty(localization, euclidianSettings),
 								new AxesLineStyleProperty(localization, euclidianSettings),
 								new AxesBoldProperty(localization, euclidianSettings),
-								new LabelStylePropertyCollection(localization, euclidianSettings)
-						),
+								new LabelStylePropertyCollection(localization, euclidianSettings)),
 						new Dimension2DPropertiesCollection(app, localization, euclidianSettings,
 								view1),
 						axisExpandableProperty2D(0, "xAxis", app, localization, view1),
@@ -182,8 +179,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								? new AdvancedApps2DPropertiesCollection(app, localization,
 								euclidianSettings, view1)
 								: new AdvancedClassic2DPropertiesCollection(app, localization,
-								euclidianSettings, view1))
-		);
+								euclidianSettings, view1))));
 	}
 
 	protected PropertiesArray createStructuredGraphics2Properties(App app,
@@ -215,8 +211,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								? new AdvancedApps2DPropertiesCollection(app, localization,
 								euclidianSettings, activeView)
 								: new AdvancedClassic2DPropertiesCollection(app, localization,
-								euclidianSettings, activeView))
-		);
+								euclidianSettings, activeView)));
 	}
 
 	protected PropertiesArray createStructuredGraphics3DProperties(App app,
@@ -245,8 +240,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 								? new AdvancedApps3DPropertiesCollection(app, localization,
 								euclidianSettings, (EuclidianView3D) view)
 								: new AdvancedClassic3DPropertiesCollection(app, localization,
-								euclidianSettings, (EuclidianView3D) view))
-		);
+								euclidianSettings, (EuclidianView3D) view)));
 	}
 
 	protected ActionablePropertyCollection<ActionableProperty> createSaveRestoreSettingsProperties(
@@ -271,7 +265,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 			Localization localization, EuclidianViewInterfaceCommon view,
 			@CheckForNull Property crossProperty) {
 		EuclidianSettings euclidianSettings = view.getSettings();
-		Property[] properties = Stream.of(
+		Property[] properties = NonNullList.of(
 				new AxisLabelProperty(localization, euclidianSettings, "Label", axis),
 				new AxisTickProperty(localization, euclidianSettings, axis, view),
 				new AxisDistancePropertyCollection(app, localization, euclidianSettings, axis,
@@ -280,7 +274,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 				crossProperty,
 				new AxisPositiveDirectionProperty(localization, euclidianSettings, axis, view),
 				new AxisSelectionAllowedProperty(localization, euclidianSettings, axis, view)
-		).filter(Objects::nonNull).toArray(Property[]::new);
+		).toArray(new Property[0]);
 		return new PropertyCollectionWithLead(localization, label,
 				new AxisVisibilityProperty(localization, euclidianSettings, axis, label),
 				properties);

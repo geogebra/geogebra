@@ -21,6 +21,7 @@ import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.RulingPropertiesCollection;
+import org.geogebra.common.util.NonNullList;
 
 public class NotesPropertiesFactory extends DefaultPropertiesFactory {
 
@@ -39,15 +40,16 @@ public class NotesPropertiesFactory extends DefaultPropertiesFactory {
 			PropertiesRegistry propertiesRegistry) {
 			return new PropertiesArray("General", localization,
 					PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
-					? registerProperties(propertiesRegistry,
+					? registerProperties(propertiesRegistry, NonNullList.of(
 							new LanguageProperty(app, localization),
 							new FontSizeProperty(localization, app.getSettings().getFontSettings(),
 									app.getFontSettingsUpdater()),
-							createSaveRestoreSettingsProperties(app, localization))
-					: registerProperties(propertiesRegistry,
+							app.getPlatform().isMobile() ? null
+									: createSaveRestoreSettingsProperties(app, localization)))
+					: registerProperties(propertiesRegistry, List.of(
 							new LanguageProperty(app, localization),
 							new FontSizeProperty(localization, app.getSettings().getFontSettings(),
-									app.getFontSettingsUpdater())));
+									app.getFontSettingsUpdater()))));
 	}
 
 	@Override

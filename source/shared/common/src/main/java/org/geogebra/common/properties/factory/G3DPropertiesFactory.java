@@ -3,7 +3,6 @@ package org.geogebra.common.properties.factory;
 import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -37,7 +36,8 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
-		return Arrays.asList(createGeneralProperties(app, localization, propertiesRegistry),
+		return List.of(
+				createGeneralProperties(app, localization, propertiesRegistry),
 				createAlgebraProperties(app, localization, propertiesRegistry),
 				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
 						? createStructuredGraphics3DProperties(
