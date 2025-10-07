@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 
@@ -68,13 +69,17 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 				String start = getCellName(((Command) val).getArgument(0));
 				String end = getCellName(((Command) val).getArgument(1));
 				kernel.getApplication().getSpreadsheetTableModel().getCellRangeManager()
-						.getAlgoCellRange(cons, null, start, end).addToItemsAlgoUpdateSets(this);
+						.getAlgoCellRange(cons, null, start, end).getList()
+						.addToUpdateSetOnly(this);
 			}
 		}
 	}
 
 	private String getCellName(ExpressionValue v) {
 		ExpressionValue unwarapped = v.unwrap();
+		if (unwarapped instanceof GeoDummyVariable) {
+			return ((GeoDummyVariable) unwarapped).getVarName();
+		}
 		return unwarapped instanceof GeoElement ? ((GeoElement) unwarapped).getLabelSimple() : "";
 	}
 

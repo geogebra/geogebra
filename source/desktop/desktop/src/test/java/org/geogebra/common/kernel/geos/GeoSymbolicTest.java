@@ -2548,6 +2548,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testCellRangeIncomplete() {
+		add("A1=1");
+		GeoElement range = add("A1:A2");
+		add("A2=2");
+		assertThat(range, hasValue("{1, 2}"));
+	}
+
+	@Test
 	public void testPieChart() {
 		add("A1=1");
 		add("A2=2");
