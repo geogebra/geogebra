@@ -2,6 +2,8 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -47,5 +49,10 @@ public class RightAngleStyleProperty extends AbstractEnumeratedProperty<Integer>
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return icons;
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 }

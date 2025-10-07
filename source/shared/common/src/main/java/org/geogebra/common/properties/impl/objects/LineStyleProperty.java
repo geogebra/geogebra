@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -37,6 +39,11 @@ public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return icons;
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 
 	@Override

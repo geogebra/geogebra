@@ -3,6 +3,8 @@ package org.geogebra.common.properties.impl.objects;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -49,6 +51,11 @@ public class FillingStyleProperty extends AbstractEnumeratedProperty<FillType>
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return getValues().stream().map(icons::get).toArray(PropertyResource[]::new);
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 
 	@Override

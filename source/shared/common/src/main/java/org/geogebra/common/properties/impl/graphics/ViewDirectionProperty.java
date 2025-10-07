@@ -2,6 +2,8 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -14,6 +16,9 @@ public class ViewDirectionProperty extends AbstractEnumeratedProperty<Integer>
 	private static final PropertyResource[] icons = {
 			PropertyResource.ICON_VIEW_DIRECTION_XY, PropertyResource.ICON_VIEW_DIRECTION_XZ,
 			PropertyResource.ICON_VIEW_DIRECTION_YZ
+	};
+	private static final String[] rawLabels = {
+		"stylebar.ViewXY", "stylebar.ViewXZ", "stylebar.ViewYZ"
 	};
 	private final EuclidianView3D euclidianView;
 	private int viewDirection = -1;
@@ -59,5 +64,10 @@ public class ViewDirectionProperty extends AbstractEnumeratedProperty<Integer>
 	@Override
 	public Integer getValue() {
 		return viewDirection;
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return rawLabels;
 	}
 }

@@ -8,6 +8,8 @@ import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTIO
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -66,6 +68,11 @@ public class ProjectionsProperty extends AbstractNamedEnumeratedProperty<Integer
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return icons;
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 
 	@Override

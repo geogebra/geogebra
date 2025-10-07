@@ -2,6 +2,8 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -42,6 +44,11 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return icons;
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 
 	@Override

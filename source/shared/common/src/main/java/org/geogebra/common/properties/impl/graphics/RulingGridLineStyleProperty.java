@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
@@ -43,6 +45,11 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return icons;
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -21,6 +23,9 @@ public class GridStyleIconProperty extends AbstractEnumeratedProperty<Integer>
 			PropertyResource.ICON_CARTESIAN_MINOR, PropertyResource.ICON_CARTESIAN,
 			PropertyResource.ICON_POLAR, PropertyResource.ICON_ISOMETRIC,
 			PropertyResource.ICON_DOTS};
+	private static final String[] rawLabels = {
+			"Grid.MajorAndMinor", "Grid.Major", "Polar", "Isometric", "Dots"
+	};
 
 	/**
 	 * Controls a grid style property.
@@ -53,5 +58,10 @@ public class GridStyleIconProperty extends AbstractEnumeratedProperty<Integer>
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return icons;
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return rawLabels;
 	}
 }

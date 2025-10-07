@@ -2,6 +2,8 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -55,5 +57,10 @@ public class AngleDecorationProperty extends AbstractEnumeratedProperty<Integer>
 	@Override
 	public Integer getValue() {
 		return values.indexOf(element.getDecorationType());
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 }

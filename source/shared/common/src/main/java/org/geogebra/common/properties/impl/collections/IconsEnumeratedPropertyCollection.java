@@ -2,6 +2,8 @@ package org.geogebra.common.properties.impl.collections;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 
@@ -21,5 +23,10 @@ public class IconsEnumeratedPropertyCollection<T extends IconsEnumeratedProperty
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return getFirstProperty().getValueIcons();
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 }

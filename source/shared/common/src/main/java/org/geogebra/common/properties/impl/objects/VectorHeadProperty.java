@@ -2,6 +2,8 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasHeadStyle;
@@ -37,6 +39,11 @@ public class VectorHeadProperty extends AbstractEnumeratedProperty<VectorHeadSty
 				PropertyResource.ICON_VECTOR_DECO_DEFAULT,
 				PropertyResource.ICON_VECTOR_DECO_ARROW
 		};
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 
 	@Override

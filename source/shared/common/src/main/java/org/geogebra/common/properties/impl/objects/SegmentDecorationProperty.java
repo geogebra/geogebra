@@ -2,6 +2,8 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -45,6 +47,11 @@ public class SegmentDecorationProperty extends AbstractEnumeratedProperty<Intege
 				PropertyResource.ICON_SEGMENT_DECO_2ARROWS,
 				PropertyResource.ICON_SEGMENT_DECO_3ARROWS
 		};
+	}
+
+	@Override
+	public @CheckForNull String[] getLabels() {
+		return null;
 	}
 
 	@Override

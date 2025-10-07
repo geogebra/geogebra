@@ -17,6 +17,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private Label label;
 	private final String labelKey;
+	private List<IconButton> iconButtonList;
 
 	/**
 	 * Created an icon button panel
@@ -37,12 +38,14 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 		FlowPanel iconPanel = new FlowPanel();
 		iconPanel.addStyleName("iconPanel");
 		PropertyResource[] icons = property.getValueIcons();
+		String[] labels = property.getLabels();
 		int idx = 0;
 		int selectedIdx = property.getIndex();
-		List<IconButton> iconButtonList = new ArrayList<>();
+		iconButtonList = new ArrayList<>();
 		for (PropertyResource icon: icons) {
-			IconButton btn = new IconButton(appW, "",
-					new ImageIconSpec(PropertiesIconAdapter.getIcon(icon)));
+			String label = labels != null && labels[idx] != null ? labels[idx] : "";
+			IconButton btn = new IconButton(appW, null,
+					new ImageIconSpec(PropertiesIconAdapter.getIcon(icon)), label);
 			btn.setActive(selectedIdx == idx);
 			iconPanel.add(btn);
 			iconButtonList.add(btn);
@@ -62,5 +65,6 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 	@Override
 	public void setLabels() {
 		label.setText(appW.getLocalization().getMenu(labelKey));
+		iconButtonList.forEach(IconButton::setLabels);
 	}
 }

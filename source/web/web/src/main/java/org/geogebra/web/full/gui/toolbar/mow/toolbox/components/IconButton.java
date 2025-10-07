@@ -156,7 +156,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	public IconButton(AppW appW, Runnable clickHandler, IconSpec icon,
 			String ariaLabel) {
 		this(appW, icon, ariaLabel);
-		if (ariaLabel != null) {
+		if (ariaLabel != null && !ariaLabel.isBlank()) {
 			dataTitleTransKey = ariaLabel;
 			AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitleTransKey));
 		}
