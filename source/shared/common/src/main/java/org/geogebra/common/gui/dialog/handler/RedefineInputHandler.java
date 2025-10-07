@@ -65,10 +65,10 @@ public class RedefineInputHandler implements InputHandler {
 		}
 		try {
 			String inputValue = rawInput;
-			if (geo instanceof FunctionalNVar) {
+			if (geo instanceof FunctionalNVar && geo.getLabelSimple() != null) {
 				// string like f(x,y)=x^2
 				// or f(\theta) = \theta
-				inputValue = geo.getLabel(StringTemplate.defaultTemplate) + "("
+				inputValue = geo.getLabelSimple() + "("
 						+ ((FunctionalNVar) geo)
 								.getVarString(StringTemplate.defaultTemplate)
 						+ ")=" + inputValue;

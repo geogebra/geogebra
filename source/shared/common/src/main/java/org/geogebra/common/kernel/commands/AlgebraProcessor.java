@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -632,11 +633,12 @@ public class AlgebraProcessor {
 			ValidExpression newValue, EvalInfo info,
 			final boolean storeUndoInfo,
 			final AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
-		String oldLabel, newLabel;
+		@CheckForNull String oldLabel;
+		@CheckForNull String newLabel;
 
 		app.getCompanion().storeViewCreators();
 
-		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
+		oldLabel = geo.getLabelSimple();
 		updateLabelIfSymbolic(newValue, info);
 		newLabel = newValue.getLabel();
 		if (!app.getConfig().hasAutomaticLabels()) {
@@ -743,7 +745,7 @@ public class AlgebraProcessor {
 	}
 
 	private static boolean sameLabel(String newLabel, String oldLabel) {
-		if (newLabel.equals(oldLabel)) {
+		if (Objects.equals(newLabel, oldLabel)) {
 			return true;
 		}
 		if (oldLabel == null) {

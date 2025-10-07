@@ -62,8 +62,7 @@ public class CmdKeepIf extends CommandProcessor {
 			} finally {
 				for (GeoElement localVar : vars) {
 					if (localVar != null) {
-						cons.removeLocalVariable(localVar
-								.getLabel(StringTemplate.defaultTemplate));
+						cons.removeLocalVariable(localVar.getLabelSimple());
 					}
 				}
 				cons.setSuppressLabelCreation(oldval);

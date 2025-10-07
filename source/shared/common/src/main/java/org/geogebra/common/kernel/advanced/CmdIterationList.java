@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIterationList;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -78,8 +77,7 @@ public class CmdIterationList extends CommandProcessor {
 			} finally {
 				for (GeoElement localVar : vars) {
 					if (localVar != null) {
-						cons.removeLocalVariable(localVar
-								.getLabel(StringTemplate.defaultTemplate));
+						cons.removeLocalVariable(localVar.getLabelSimple());
 					}
 				}
 				cons.setSuppressLabelCreation(oldval);

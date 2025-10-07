@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,11 +35,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSetup;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.annotation.Issue;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -176,6 +179,19 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 		getAlgebraProcessor().changeGeoElementNoExceptionHandling(pt, "A(1,3)",
 				new EvalInfo(true), false, null,
 				TestErrorHandler.INSTANCE);
+		assertThat(lookup("A"), hasValue("(1, 3)"));
+	}
+
+	@Test
+	@Issue("APPS-6927")
+	public void testChangeUnlabeledElement() {
+		GeoElement geo = new GeoPoint(getConstruction());
+		// under normal circumstances label is set before replacing,
+		// but if a bug causes the object to be unlabeled we should handle it gracefully
+		getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo, "(1,3)",
+				new EvalInfo(true), false, null,
+				TestErrorHandler.INSTANCE);
+		assertArrayEquals(new String[]{"A"}, getApp().getGgbApi().getAllObjectNames());
 		assertThat(lookup("A"), hasValue("(1, 3)"));
 	}
 

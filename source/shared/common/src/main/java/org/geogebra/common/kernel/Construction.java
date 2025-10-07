@@ -15,6 +15,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -1552,7 +1553,7 @@ public class Construction {
 		String oldSelection = null;
 		if (moveMode) {
 			oldSelection = selection.getSelectedGeos().get(0)
-					.getLabel(StringTemplate.defaultTemplate);
+					.getLabelSimple();
 		}
 		// get current construction XML
 		isGettingXMLForReplace = true;
@@ -1571,7 +1572,7 @@ public class Construction {
 			throw new MyError(getApplication().getLocalization(),
 					Errors.ReplaceFailed);
 		}
-		if (moveMode) {
+		if (moveMode && oldSelection != null) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			selection.addSelectedGeo(selGeo, false, true);
 			app.getActiveEuclidianView().getEuclidianController()
@@ -2232,7 +2233,7 @@ public class Construction {
 	 * (used by CAS dummy, or by merged construction)
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
-	public boolean isFreeLabel(String label, boolean includeCASVariables,
+	public boolean isFreeLabel(@CheckForNull String label, boolean includeCASVariables,
 			boolean checkProtectedLabels) {
 		if (label == null) {
 			return false;
