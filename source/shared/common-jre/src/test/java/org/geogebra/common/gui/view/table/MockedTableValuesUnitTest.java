@@ -32,5 +32,4 @@ public class MockedTableValuesUnitTest extends BaseUnitTest {
 	protected void mockColumnCount(int column) {
 		when(model.getColumnCount()).thenReturn(column);
 	}
-
 }

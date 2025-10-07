@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.stringContainsInOrder;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -48,14 +49,13 @@ public class TableValuesViewTest extends BaseUnitTest {
 	@Mock
 	private TableValuesListener listener;
 
-	private TableValuesPointsImpl tablePoints;
-
 	/**
-	 * Clear construction & initialize table view
+	 * Clear construction and initialize table view.
 	 */
 	@Before
 	public void setupTest() {
 		view = new TableValuesView(getKernel());
+		TableValuesPointsImpl.create(getKernel(), getConstruction(), view);
 		getKernel().attach(view);
 		model = view.getTableValuesModel();
 		view.clearView();
@@ -582,7 +582,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	@Test
 	public void testTableValuesPointsVisibility() {
-		TableValuesPoints points = setupPointListener();
+		TableValuesPoints points = view.getPoints();
 
 		GeoLine[] lines = createLines(2);
 
@@ -605,20 +605,15 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertFalse(points.arePointsVisible(1));
 	}
 
-	protected TableValuesPoints setupPointListener() {
-		tablePoints = TableValuesPointsImpl.create(getConstruction(), view, model);
-		return tablePoints;
-	}
-
 	@Test
 	public void reloadShouldPreservePointOrder() {
 		GeoLine[] lines = createLines(3);
 		setValuesSafe(-5, 5, 2);
-		setupPointListener();
+		TableValuesPoints tablePoints = view.getPoints();
 		showColumn(lines[1]); // column 1
 		showColumn(lines[0]); // column 2
 		showColumn(lines[2]); // column 3
-		lines[1].setPointsVisible(false);
+		tablePoints.setPointsVisible(1, false);
 		reload();
 		assertFalse(tablePoints.arePointsVisible(1));
 		assertTrue(tablePoints.arePointsVisible(2));
@@ -635,15 +630,15 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction f = factory.createFunction("f(x)=x");
 		GeoLine g = factory.createGeoLine();
 		g.setLabel("g");
-		factory.create("a=1");
-		setupPointListener();
+		add("a=1");
+		TableValuesPoints tablePoints = view.getPoints();
 		showColumn(f);
 		g.setPointsVisible(false);
 		showColumn(g);
 		assertTrue(tablePoints.arePointsVisible(1));
-		factory.create("f(x)=x+a");
+		add("f(x)=x+a");
 		assertTrue(tablePoints.arePointsVisible(1));
-		factory.create("g:x+a+y=0");
+		add("g:x+a+y=0");
 		assertTrue(tablePoints.arePointsVisible(1));
 		assertFalse(tablePoints.arePointsVisible(2));
 		assertFalse(tablePoints.arePointsVisible(3));

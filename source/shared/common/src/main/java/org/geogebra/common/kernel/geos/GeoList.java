@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
@@ -147,6 +148,7 @@ public class GeoList extends GeoElement
 	private boolean pointsVisible = true;
 	private GeoPointND startPoint;
 	private boolean needsUpdateBoundingBox;
+	private boolean tableOrigin;
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -3548,5 +3550,18 @@ public class GeoList extends GeoElement
 	 */
 	public void replaceAll(UnaryOperator<GeoElement> operator) {
 		elements.replaceAll(operator);
+	}
+
+	@Override
+	public boolean isProtected(EventType type) {
+		return tableOrigin || super.isProtected(type);
+	}
+
+	public void setTableOrigin(boolean tableOrigin) {
+		this.tableOrigin = tableOrigin;
+	}
+
+	public boolean isTablePointList() {
+		return tableOrigin;
 	}
 }

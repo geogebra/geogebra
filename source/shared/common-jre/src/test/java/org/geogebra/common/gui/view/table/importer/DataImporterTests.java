@@ -46,8 +46,8 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		tableValuesView = new TableValuesView(kernel);
 		kernel.attach(tableValuesView);
 		TableValuesModel model = tableValuesView.getTableValuesModel();
-		tableValuesPoints = TableValuesPointsImpl.create(kernel.getConstruction(),
-				tableValuesView, model);
+		tableValuesPoints = TableValuesPointsImpl.create(kernel, kernel.getConstruction(),
+				tableValuesView);
 		kernel.notifyAddAll(tableValuesView);
 		activateUndo();
 
@@ -472,7 +472,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		Reader reader = loadSample("integers-empty-comma-header.csv");
 		dataImporter.importCSV(reader, '.');
 		assertFalse(tableValuesPoints.arePointsVisible(1));
-		assertEquals(3, tableValuesPoints.getPointsSize());
+		assertEquals(0, tableValuesPoints.getPointsSize());
 	}
 
 	// Helper methods

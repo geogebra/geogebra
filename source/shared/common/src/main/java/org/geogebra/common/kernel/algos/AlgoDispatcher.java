@@ -232,7 +232,6 @@ public class AlgoDispatcher {
 	 */
 	final public GeoPoint point(String label, Path path, double x, double y,
 			boolean addToConstruction, boolean complexCoord, boolean coords2D) {
-
 		AlgoPointOnPath algo;
 
 		algo = new AlgoPointOnPath(cons, path, x, y, 0, addToConstruction);
@@ -243,7 +242,12 @@ public class AlgoDispatcher {
 		} else if (!coords2D) {
 			p.setCartesian3D();
 		}
-
+		if (path instanceof GeoList && ((GeoList) path).isTablePointList()) {
+			GeoNumeric index = new GeoNumeric(cons);
+			index.setValue(Math.round(p.getPathParameter().getT()) + 1);
+			AlgoListElement algo2 = new AlgoListElement(cons, (GeoList) path, index);
+			p = (GeoPoint) algo2.getOutput(0);
+		}
 		if (addToConstruction) {
 			p.setLabel(label);
 		}

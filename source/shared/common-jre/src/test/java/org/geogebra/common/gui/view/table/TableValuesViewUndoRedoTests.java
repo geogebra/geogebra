@@ -114,7 +114,8 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 
 	@Test
 	public void testUndoShowPoints() {
-		TableValuesPoints points = TableValuesPointsImpl.create(getConstruction(), view, model);
+		TableValuesPoints points = TableValuesPointsImpl.create(getKernel(),
+				getConstruction(), view);
 		GeoLine[] lines = getElementFactory().createLines(2);
 		getApp().storeUndoInfo();
 		shouldHaveUndoPointsAndColumns(1, 1);
@@ -158,7 +159,7 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 
 	@Test
 	public void testUndoRegression() {
-		TableValuesPointsImpl.create(getConstruction(), view, model);
+		TableValuesPointsImpl.create(getKernel(), getConstruction(), view);
 		processor.processInput("1", null, 0);
 		GeoList list = (GeoList) view.getEvaluatable(1);
 		processor.processInput("1", list, 1);

@@ -36,10 +36,14 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			// And do not add empty element to an already empty list
 			return;
 		}
-		tableValues.set(element, ensureList(list), rowIndex);
+		GeoList column = ensureList(list);
+		tableValues.set(element, column, rowIndex);
 		if (list != null) {
 			tableValues.updateValuesNoBatch(list);
+		} else if (tableValues.getPoints() != null) {
+			tableValues.getPoints().setPointsVisible(column.getTableColumn(), true);
 		}
+		cons.getKernel().notifyRepaint();
 	}
 
 	private GeoList ensureList(GeoList list) {

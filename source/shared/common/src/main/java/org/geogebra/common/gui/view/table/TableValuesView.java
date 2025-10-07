@@ -1,7 +1,10 @@
 package org.geogebra.common.gui.view.table;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.view.table.dialog.RegressionBuilder;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
@@ -13,6 +16,7 @@ import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuil
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentListExpression;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -38,7 +42,7 @@ import com.google.j2objc.annotations.Weak;
 /**
  * The TableValuesView implementation.
  */
-public class TableValuesView implements TableValues, SettingListener {
+public final class TableValuesView implements TableValues, SettingListener {
 
 	private static final int MAX_ROWS = 200;
 
@@ -57,6 +61,8 @@ public class TableValuesView implements TableValues, SettingListener {
 	private boolean algebraLabelVisibleCheck = true;
 	private final StatisticGroupsBuilder statisticGroupsBuilder;
 	private final RegressionSpecificationBuilder regressionSpecificationBuilder;
+	private TableValuesPoints points;
+	private @CheckForNull List<GeoEvaluatable> batchAdditions;
 
 	/**
 	 * Create a new Table Value View.
@@ -86,6 +92,9 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
 		doShowColumn(evaluatable);
+		if (points != null && evaluatable.isPointsVisible()) {
+			points.setPointsVisible(model.getColumnCount() - 1, true);
+		}
 		storeUndoInfo();
 	}
 
@@ -112,6 +121,9 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void hideColumn(GeoEvaluatable evaluatable) {
+		if (points != null) {
+			points.setPointsVisible(evaluatable.getTableColumn(), false);
+		}
 		evaluatable.setTableColumn(-1);
 		model.removeEvaluatable(evaluatable, true);
 		if (evaluatable.isGeoList()) {
@@ -258,6 +270,13 @@ public class TableValuesView implements TableValues, SettingListener {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
 			if (evaluatable.getTableColumn() >= 0) {
 				doShowColumn(evaluatable);
+				if (batchAdditions != null && evaluatable.isPointsVisible()) {
+					batchAdditions.add(evaluatable);
+				}
+			}
+			if (evaluatable.getParentAlgorithm() instanceof AlgoDependentListExpression) {
+				points.notifyPointsAdded(
+						(AlgoDependentListExpression) evaluatable.getParentAlgorithm());
 			}
 		}
 	}
@@ -266,12 +285,16 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void remove(GeoElement geo) {
 		elements.remove(geo);
 		removeFromModel(geo);
+		if (points != null) {
+			points.removeList(geo);
+		}
 	}
 
 	private void removeFromModel(GeoElement geo) {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
-			if (model.getEvaluatableIndex(evaluatable) > -1) {
+			int evaluatableIndex = model.getEvaluatableIndex(evaluatable);
+			if (evaluatableIndex > -1) {
 				model.removeEvaluatable(evaluatable, false);
 			}
 		}
@@ -308,6 +331,9 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void clearView() {
 		model.clearModel();
 		settings.setValueList(null);
+		if (points != null) {
+			points.clear();
+		}
 		setSettingsValues(0, 0, 0);
 	}
 
@@ -353,11 +379,20 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void startBatchUpdate() {
+		batchAdditions = new ArrayList<>();
 		model.startBatchUpdate();
 	}
 
 	@Override
 	public void endBatchUpdate() {
+		// If we just read a bunch of functions/lists from XML,
+		// make sure they have a point column. Should be a no-op for new files.
+		if (batchAdditions != null && points != null) {
+			for (GeoEvaluatable evaluatable: batchAdditions) {
+				points.createPointsIfNeeded(evaluatable);
+			}
+		}
+		batchAdditions = null;
 		model.endBatchUpdate(false);
 	}
 
@@ -445,6 +480,9 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void clearValues() {
 		clearValuesInternal();
 		storeUndoInfo();
+		if (points != null) {
+			points.clear();
+		}
 	}
 
 	private void clearValuesInternal() {
@@ -456,7 +494,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		model.endBatchUpdate(false);
 	}
 
-	protected void updateValuesNoBatch(GeoList list) {
+	void updateValuesNoBatch(GeoList list) {
 		if (list.hasAlgoUpdateSet()) {
 			kernel.getConstruction().updateAllAlgosInSet(list.getAlgoUpdateSet());
 		}
@@ -477,6 +515,11 @@ public class TableValuesView implements TableValues, SettingListener {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void setTableValuePoints(TableValuesPoints points) {
+		this.points = points;
 	}
 
 	/**
@@ -520,5 +563,9 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void commitImport() {
 		elements.clear();
 		model.commitImport();
+	}
+
+	public TableValuesPoints getPoints() {
+		return points;
 	}
 }

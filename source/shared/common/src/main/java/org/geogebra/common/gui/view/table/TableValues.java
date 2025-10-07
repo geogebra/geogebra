@@ -148,4 +148,9 @@ public interface TableValues extends View, StatisticsView {
 	 * @return Whether all columns other than x are undefined.
 	 */
 	boolean hasNoDefinedFunctions();
+
+	/**
+	 * @param points table value points
+	 */
+	void setTableValuePoints(TableValuesPoints points);
 }
