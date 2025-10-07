@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.zoompanel;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.MayHaveFocus;
@@ -13,7 +15,7 @@ public class FocusableWidget implements MayHaveFocus {
 
 	private final Widget[] btns;
 	private final AccessibilityGroup accessibilityGroup;
-	private final AccessibilityGroup.ViewControlId subgroup;
+	private final @CheckForNull AccessibilityGroup.ViewControlId subgroup;
 
 	/**
 	 * @param btns button
@@ -21,7 +23,7 @@ public class FocusableWidget implements MayHaveFocus {
 	 * @param subgroup subgroup
 	 */
 	public FocusableWidget(AccessibilityGroup accessibilityGroup,
-						   AccessibilityGroup.ViewControlId subgroup, Widget... btns) {
+			@CheckForNull AccessibilityGroup.ViewControlId subgroup, Widget... btns) {
 		this.btns = btns;
 		this.accessibilityGroup = accessibilityGroup;
 		this.subgroup = subgroup;
@@ -143,7 +145,7 @@ public class FocusableWidget implements MayHaveFocus {
 	}
 
 	@Override
-	public AccessibilityGroup.ViewControlId getViewControlId() {
+	public @CheckForNull AccessibilityGroup.ViewControlId getViewControlId() {
 		return subgroup;
 	}
 

@@ -4,16 +4,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
+
+import elemental2.dom.KeyboardEvent;
 
 public class ComponentDropDown extends FlowPanel implements SetLabels {
 	private final AppW app;
@@ -23,6 +28,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
+	private FocusableWidget focusableWidget;
 
 	/**
 	 * Material drop-down component.
@@ -34,11 +40,22 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		this.app = app;
 		labelKey = label;
 		addStyleName("dropDown");
+		setAccessibilityProperties();
 
 		buildGUI(label);
 		addClickHandler();
 
 		initController(items);
+
+		Dom.addEventListener(this.getElement(), "keydown", event -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
+				if (!isDisabled) {
+					app.getAccessibilityManager().setAnchor(focusableWidget);
+					controller.toggleAsDropDown(fullWidth);
+				}
+			}
+		});
 	}
 
 	/**
@@ -77,7 +94,10 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(app, this,
-				items, () -> removeStyleName("active"));
+				items, labelKey, () -> {
+			removeStyleName("active");
+			AriaHelper.setAriaExpanded(this, false);
+		});
 		controller.addChangeHandler(this::updateSelectionText);
 		updateSelectionText();
 	}
@@ -100,6 +120,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		arrowIcon.addStyleName("arrow");
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
 				.arrow_drop_down().getSVG());
+		AriaHelper.setAriaHidden(arrowIcon);
 		add(arrowIcon);
 	}
 
@@ -111,6 +132,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
+					app.getAccessibilityManager().setAnchor(focusableWidget);
 					controller.toggleAsDropDown(fullWidth);
 				}
 			}
@@ -162,6 +184,8 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	 */
 	private void updateSelectionText() {
 		selectedOption.setText(controller.getSelectedText());
+		AriaHelper.setLabel(this, app.getLocalization().getMenu(labelKey) + " "
+			+ controller.getSelectedText());
 	}
 
 	/**
@@ -190,5 +214,17 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		}
 		controller.setLabels();
 		updateSelectionText();
+	}
+
+	private void setAccessibilityProperties() {
+		AriaHelper.setRole(this, "button");
+		AriaHelper.setTabIndex(this, 0);
+		AriaHelper.setAriaHaspopup(this, "listbox");
+		AriaHelper.setAriaExpanded(this, false);
+		if ("Language".equals(labelKey)) {
+			focusableWidget = new FocusableWidget(AccessibilityGroup.DROPDOWN,
+					null, this);
+			focusableWidget.attachTo(app);
+		}
 	}
 }

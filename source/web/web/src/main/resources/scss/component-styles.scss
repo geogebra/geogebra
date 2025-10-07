@@ -248,6 +248,14 @@ $keyboard_button_transition: opacity .3s ease;
 			padding-right: 24px;
 			height: 32px;
 			line-height: 32px;
+
+			&.keyboardFocus:focus-visible {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				background: var(--ggb-light-color);
+				outline-offset: -2px;
+			}
 		}
 
 		.dropDownElement:hover {
@@ -924,7 +932,7 @@ $keyboard_button_transition: opacity .3s ease;
 			}
 		}
 
-		&.keyboardFocus:not(.error), &.active:not(.error) {
+		&.keyboardFocus:focus-visible:not(.error), &.active:not(.error) {
 			border: 2px solid var(--ggb-primary-color);
 			padding: 0;
 
@@ -935,10 +943,15 @@ $keyboard_button_transition: opacity .3s ease;
 			}
 
 			.arrow {
-				transform: rotate(-180deg);
 				svg {
 					fill: var(--ggb-primary-color);
 				}
+			}
+		}
+
+		&.active:not(.error) {
+			.arrow {
+				transform: rotate(-180deg);
 			}
 		}
 

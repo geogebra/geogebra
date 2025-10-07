@@ -68,7 +68,8 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 	}
 
 	private void initController(List<String> items) {
-		controller = new DropDownComboBoxController(appW, this, items, this::onClose);
+		controller = new DropDownComboBoxController(appW, this, items, labelTextKey,
+				this::onClose);
 		controller.addChangeHandler(() -> updateSelectionText(getSelectedText()));
 		updateSelectionText(getSelectedText());
 	}

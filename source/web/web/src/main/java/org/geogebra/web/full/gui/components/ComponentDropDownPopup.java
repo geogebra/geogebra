@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.components;
 
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
@@ -26,9 +27,11 @@ public class ComponentDropDownPopup {
 	 * Popup constructor for dropdown and combo-box
 	 * @param app {@link AppW}
 	 * @param itemHeight Height of an item in list
+	 * @param labelKey label
 	 * @param anchor to align the selected item.
 	 */
-	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor, Runnable onClose) {
+	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor, String labelKey,
+			Runnable onClose) {
 		this.app = app;
 		this.itemHeight = itemHeight;
 		this.anchor = anchor;
@@ -40,6 +43,7 @@ public class ComponentDropDownPopup {
 				onClose.run();
 			}
 		});
+		setAccessibilityProperties(labelKey);
 	}
 
 	/**
@@ -79,43 +83,6 @@ public class ComponentDropDownPopup {
 	 */
 	public void setSelectedIndex(int index) {
 		this.selectedIndex = index;
-	}
-
-	/**
-	 * Opens DropDown at the top of the widget positioning selected item at the
-	 * center.
-	 */
-	public void positionAsDropDown() {
-		int popupTop = (int) (getAnchorTop() - getSelectedItemTop() - app.getAbsTop());
-		int popupTopWithMargin = Math.max(popupTop, MARGIN_FROM_SCREEN);
-		int appBottom = (int) (app.getAbsTop() + app.getHeight());
-
-		if (appBottom <= popupTopWithMargin + 3 * itemHeight + MARGIN_FROM_SCREEN) {
-			// not enough space for showing 3 items on bottom
-			int spaceOnScreen = (int) app.getHeight() - 2 * MARGIN_FROM_SCREEN - 2 * POPUP_PADDING;
-			int popupHeightAdjust = Math.min(getPopupHeight(), spaceOnScreen);
-			int popupTopAdjust = getPopupHeight() < spaceOnScreen
-					? appBottom - getPopupHeight() - MARGIN_FROM_SCREEN : MARGIN_FROM_SCREEN;
-			// if less space than popup height, show popup on top with app height
-			// otherwise popup with full height aligned to the bottom
-			menu.showAtPoint(getLeft(), popupTopAdjust);
-			setHeightInPx(popupHeightAdjust);
-		} else {
-			menu.showAtPoint(getLeft(), popupTopWithMargin);
-			if (appBottom < popupTopWithMargin + getPopupHeight()) {
-				// popup bottom overflow, use available space and make scrollable
-				setHeightInPx((int) (appBottom - popupTopWithMargin - MARGIN_FROM_SCREEN
-										- 2 * POPUP_PADDING - app.getAbsTop()));
-				if (popupTop < MARGIN_FROM_SCREEN) {
-					// selected item not on screen, scroll popup
-					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
-					setScrollTop(getSelectedItemTop() - diffAnchorPopupTop);
-				}
-			} else {
-				getStyle().setProperty("height", "");
-			}
-		}
-		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
 	}
 
 	/**
@@ -166,11 +133,6 @@ public class ComponentDropDownPopup {
 
 	private int getLeft() {
 		return (int) (anchor.getAbsoluteLeft() + OFFSET_X - app.getAbsLeft());
-	}
-
-	private int getAnchorTop() {
-		// (32 - 20)/2 = 6 handle height difference between label and menu item
-		return anchor.getAbsoluteTop() - POPUP_PADDING - 6;
 	}
 
 	private void setHeightInPx(int height) {
@@ -234,5 +196,11 @@ public class ComponentDropDownPopup {
 
 	private void setScrollTop(int scrollTop) {
 		menu.getPopupPanel().getElement().setScrollTop(scrollTop);
+	}
+
+	private void setAccessibilityProperties(String labelKey) {
+		AriaHelper.setRole(menu.getPopupPanel(), "listbox");
+		AriaHelper.setLabel(menu.getPopupPanel(), app.getLocalization().getMenu(labelKey));
+		menu.getPopupPanel().setMayMoveFocus(true);
 	}
 }

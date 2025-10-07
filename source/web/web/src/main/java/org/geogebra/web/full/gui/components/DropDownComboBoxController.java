@@ -10,6 +10,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.AbstractGroupedEnumeratedProperty;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.Widget;
@@ -23,34 +24,35 @@ public class DropDownComboBoxController implements SetLabels {
 	private NamedEnumeratedProperty<?> property;
 
 	/**
-	 * popup controller for dropdown and combobox
-	 * @param app - apps
-	 * @param parent - dropdown or combobox
-	 * @param items - list of items in popup
-	 * @param onClose - handler to run on close
+	 * popup controller for dropdown and combo box
+	 * @param app apps
+	 * @param parent dropdown or combo box
+	 * @param items list of items in popup
+	 * @param labelKey label of drop down or combo box
+	 * @param onClose handler to run on close
 	 */
 	public DropDownComboBoxController(final AppW app, Widget parent,
-			List<String> items, Runnable onClose) {
+			List<String> items, String labelKey, Runnable onClose) {
 		this.parent = parent;
 		this.items = items;
 
-		init(app, onClose);
+		init(app, labelKey, onClose);
 	}
 
-	private void init(AppW app, Runnable onClose) {
-		createPopup(app, parent, onClose);
+	private void init(AppW app, String labelKey, Runnable onClose) {
+		createPopup(app, labelKey, parent, onClose);
 		setElements(items);
 		setSelectedOption(-1);
 	}
 
-	private void createPopup(final AppW app, Widget parent, Runnable onClose) {
-		dropDown = new ComponentDropDownPopup(app, 32, parent, onClose);
+	private void createPopup(final AppW app, String labelKey, Widget parent, Runnable onClose) {
+		dropDown = new ComponentDropDownPopup(app, 32, parent, labelKey, onClose);
 		dropDown.addAutoHidePartner(parent.getElement());
 	}
 
 	/**
 	 * open/close dropdown
-	 * @param isFullWidth - whether dropdown should have full width
+	 * @param isFullWidth whether dropdown should have full width
 	 */
 	public void toggleAsDropDown(boolean isFullWidth) {
 		if (isOpened()) {
@@ -58,6 +60,7 @@ public class DropDownComboBoxController implements SetLabels {
 		} else {
 			showAsDropDown(isFullWidth);
 		}
+		AriaHelper.setAriaExpanded(parent, isOpened());
 		Dom.toggleClass(parent, "active", isOpened());
 
 	}
@@ -66,6 +69,7 @@ public class DropDownComboBoxController implements SetLabels {
 		if (index >= 0 && index < dropDownElementsList.size()) {
 			Dom.toggleClass(dropDownElementsList.get(index), "selectedDropDownElement",
 					highlight);
+			AriaHelper.setAriaSelected(dropDownElementsList.get(index), highlight);
 		}
 	}
 
@@ -89,8 +93,9 @@ public class DropDownComboBoxController implements SetLabels {
 					handler.run();
 				}
 			});
+			AriaHelper.setRole(item, "option");
 
-			item.setStyleName("dropDownElement");
+			item.setStyleName("dropDownElement keyboardFocus");
 			dropDownElementsList.add(item);
 		}
 		setupDropDownMenu(dropDownElementsList);
@@ -148,6 +153,7 @@ public class DropDownComboBoxController implements SetLabels {
 	 */
 	public void closePopup() {
 		dropDown.close();
+		AriaHelper.setAriaExpanded(parent, false);
 	}
 
 	/**

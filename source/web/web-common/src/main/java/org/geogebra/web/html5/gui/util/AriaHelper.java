@@ -167,4 +167,19 @@ public class AriaHelper {
 	public static void setAlt(UIObject uiObject, String alt) {
 		uiObject.getElement().setAttribute("alt", alt);
 	}
+
+	/**
+	 * @param uiObject element
+	 * @param value aria-haspopup value
+	 */
+	public static void setAriaHaspopup(UIObject uiObject, String value) {
+		uiObject.getElement().setAttribute("aria-haspopup", value);
+	}
+
+	/**
+	 * @param uiObject element
+	 */
+	public static void setAriaHidden(UIObject uiObject) {
+		uiObject.getElement().setAttribute("aria-hidden", "true");
+	}
 }

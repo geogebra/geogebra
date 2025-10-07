@@ -1,5 +1,7 @@
 package org.geogebra.common.gui;
 
+import javax.annotation.CheckForNull;
+
 /**
  * Focusable component.
  */
@@ -36,5 +38,5 @@ public interface MayHaveFocus {
 	/**
 	 * @return view control ID
 	 */
-	AccessibilityGroup.ViewControlId getViewControlId();
+	@CheckForNull AccessibilityGroup.ViewControlId getViewControlId();
 }
