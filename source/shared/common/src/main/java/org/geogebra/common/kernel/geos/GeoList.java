@@ -1575,7 +1575,7 @@ public class GeoList extends GeoElement
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
 		if (isMatrix() && !elements.isEmpty()
-				&& elements.get(0).isFreeOrExpression()) {
+				&& (!symbolic || elements.get(0).isFreeOrExpression())) {
 			return toMatrixString(symbolic, tpl);
 		} else if (isEngineeringNotationMode()) {
 			return toValueString(tpl);
@@ -2088,10 +2088,12 @@ public class GeoList extends GeoElement
 		// check for matrix
 		if (getElementType().equals(GeoClass.LIST)) {
 			GeoClass geoClass = ((GeoList) get(0)).getElementType();
-			return geoClass.equals(GeoClass.NUMERIC)
+			boolean ret = geoClass.equals(GeoClass.NUMERIC)
 					|| geoClass.equals(GeoClass.FUNCTION)
 					|| (!geoClass.equals(GeoClass.LIST)
 							&& get(0).isLaTeXDrawableGeo());
+			Log.warn("ret:" + ret);
+			return ret;
 		}
 
 		// don't check getGeoElementForPropertiesDialog

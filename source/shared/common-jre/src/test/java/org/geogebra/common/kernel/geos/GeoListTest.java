@@ -113,6 +113,15 @@ public class GeoListTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-6955")
+	public void nestedCommandListValue() {
+		GeoList list = add("Sequence(Sequence(x=k,k,1,3),m,1,2)");
+		assertEquals("m1\\, = \\,\\left(\\begin{array}{rrr}x\\, = \\,1&x\\, = \\,2&x\\,"
+						+ " = \\,3\\\\x\\, = \\,1&x\\, = \\,2&x\\, = \\,3\\\\ \\end{array}\\right)",
+				list.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate));
+	}
+
+	@Test
 	public void reloadSymbolicFlag() {
 		GeoList list = addAvInput("l={1/2-1/3}");
 		assertTrue("List of fractions initially symbolic", list.isSymbolicMode());
