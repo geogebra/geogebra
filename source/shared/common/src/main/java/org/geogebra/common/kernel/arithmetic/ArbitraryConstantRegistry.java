@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
@@ -104,14 +105,14 @@ public class ArbitraryConstantRegistry {
 	 * map take that one, otherwise pick the next one from consts2 (or
 	 * create one if there are not enough)
 	 */
-	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
-			Map<Integer, GeoNumeric> map, String prefix, double index,
-			double initialValue, double increment) {
+	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2, Map<Integer, GeoNumeric> map,
+			String prefix, double index, double initialValue, double increment) {
 		int indexInt = (int) Math.round(index);
-		GeoNumeric found = map.get(indexInt);
+		GeoNumeric found = lookupConstant(map, indexInt);
 		if (found != null) {
 			return found;
 		}
+
 		if (position >= consts2.size() || consts2.get(position) == null) {
 			return createConstant(consts2, map, prefix, indexInt, initialValue, increment);
 		}
@@ -128,6 +129,21 @@ public class ArbitraryConstantRegistry {
 		}
 		position++;
 		return ret;
+	}
+
+	private GeoNumeric lookupConstant(Map<Integer, GeoNumeric> map, int index) {
+		GeoNumeric found = map.get(index);
+		if (found != null) {
+			return found;
+		}
+		List<GeoNumeric> unclaimed = ce.getConstruction().getUnclaimedArbitraryConstants();
+		if (!unclaimed.isEmpty()) {
+			found = unclaimed.remove(0);
+			found = wrapInAlgo(found);
+			map.put(index, found);
+			return found;
+		}
+		return null;
 	}
 
 	private GeoNumeric createConstant(ArrayList<GeoNumeric> consts2,

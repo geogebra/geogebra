@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -175,6 +176,26 @@ public class DelayedCasLoadingTest {
 		app.getKernel().refreshCASCommands();
 		assertEquals("2x",
 				simplified.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	@Issue("APPS-6872")
+	public void savedArbitraryConstantShouldBeStoredWithinConstruction() {
+		app.setConfig(new AppConfigCas());
+		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		app.setXML("<geogebra><construction>"
+				+ "<expression label=\"f\" exp=\"SolveODE(y&apos; + (2 * y) = 4)\"/>\n"
+				+ "<element type=\"symbolic\" label=\"f\">\n\t<show object=\"true\""
+				+ "label=\"true\"/>\n\t<labelMode val=\"0\"/>\n\t<variables val=\"y\"/>\n"
+				+ "</element>\n<element type=\"numeric\" label=\"c_{1}\">\n\t<value val=\"1\"/>\n"
+				+ "\t<slider min=\"-5\" max=\"5\" absoluteScreenLocation=\"true\" width=\"200\""
+				+ " fixed=\"false\" horizontal=\"true\" showAlgebra=\"true\""
+				+ "arbitraryConstant=\"true\"/>\n\t<show object=\"false\" label=\"true\"/>\n"
+				+ "\t<labelMode val=\"1\"/>\n</element></construction></geogebra>", true);
+		assertEquals(1, app.getKernel().getConstruction().getUnclaimedArbitraryConstants().size());
+		active = true;
+		app.getKernel().refreshCASCommands();
+		assertArrayEquals(new String[]{"f", "c_{1}"}, app.getGgbApi().getAllObjectNames());
 	}
 
 	private GeoElementND add(String s) {

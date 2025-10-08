@@ -78,11 +78,13 @@ import com.himamis.retex.editor.share.input.Character;
 public class Construction {
 	private ConstructionCompanion companion;
 	/** maps arbconst indices to related numbers */
-	private Map<Integer, GeoNumeric> constsM = new TreeMap<>();
+	private final Map<Integer, GeoNumeric> arbitraryConstantsMap = new TreeMap<>();
+	/** List of arbitrary constants that were loaded from a file but were not claimed yet */
+	private List<GeoNumeric> unclaimedArbitraryConstants = new ArrayList<>();
 	/** maps arbint indices to related numbers */
-	private Map<Integer, GeoNumeric> intsM = new TreeMap<>();
+	private final Map<Integer, GeoNumeric> arbitraryIntegersMap = new TreeMap<>();
 	/** maps arbcomplex indices to related numbers */
-	private Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<>();
+	private final Map<Integer, GeoNumeric> arbitraryComplexNumbersMap = new TreeMap<>();
 
 	/**
 	 * used to keep track if file is 3D or just 2D
@@ -323,15 +325,19 @@ public class Construction {
 	}
 
 	public Map<Integer, GeoNumeric> getArbitraryConstants() {
-		return constsM;
+		return arbitraryConstantsMap;
+	}
+
+	public List<GeoNumeric> getUnclaimedArbitraryConstants() {
+		return unclaimedArbitraryConstants;
 	}
 
 	public Map<Integer, GeoNumeric> getArbitraryInts() {
-		return intsM;
+		return arbitraryIntegersMap;
 	}
 
 	public Map<Integer, GeoNumeric> getArbitraryComplexNumbers() {
-		return complexNumbersM;
+		return arbitraryComplexNumbersMap;
 	}
 
 	/**
@@ -2640,9 +2646,10 @@ public class Construction {
 		geoTable.clear();
 		geoCasCellTable = null;
 		localVariableTable = null;
-		constsM.clear();
-		complexNumbersM.clear();
-		intsM.clear();
+		arbitraryConstantsMap.clear();
+		unclaimedArbitraryConstants.clear();
+		arbitraryComplexNumbersMap.clear();
+		arbitraryIntegersMap.clear();
 		// add axes labels both in English and current language
 		geoTable.put("xAxis", xAxis);
 		geoTable.put("yAxis", yAxis);
@@ -2800,9 +2807,10 @@ public class Construction {
 	 * After this the construction list will be empty.
 	 */
 	public void clearConstruction() {
-		constsM.clear();
-		complexNumbersM.clear();
-		intsM.clear();
+		arbitraryConstantsMap.clear();
+		unclaimedArbitraryConstants.clear();
+		arbitraryComplexNumbersMap.clear();
+		arbitraryIntegersMap.clear();
 		ceList.clear();
 		algoList.clear();
 

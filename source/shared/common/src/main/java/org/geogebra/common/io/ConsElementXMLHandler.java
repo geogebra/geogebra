@@ -1482,14 +1482,15 @@ public class ConsElementXMLHandler {
 				num.setSliderLocation(x, y, true);
 			}
 
-			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")),
-					true);
+			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")), true);
 			num.setSliderFixed(MyXMLHandler.parseBoolean(attrs.get("fixed")));
-			num.setAVSliderOrCheckboxVisible(
-					MyXMLHandler.parseBoolean(attrs.get("showAlgebra")));
+			num.setAVSliderOrCheckboxVisible(MyXMLHandler.parseBoolean(attrs.get("showAlgebra")));
 
-			num.setSliderHorizontal(
-					MyXMLHandler.parseBoolean(attrs.get("horizontal")));
+			if (MyXMLHandler.parseBoolean(attrs.get("arbitraryConstant"))) {
+				app.getKernel().getConstruction().getUnclaimedArbitraryConstants().add(num);
+			}
+
+			num.setSliderHorizontal(MyXMLHandler.parseBoolean(attrs.get("horizontal")));
 
 			return true;
 		} catch (RuntimeException e) {

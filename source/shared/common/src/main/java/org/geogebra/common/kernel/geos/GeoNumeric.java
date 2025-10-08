@@ -924,6 +924,11 @@ public class GeoNumeric extends GeoElement
 		sb.append(sliderHorizontal);
 		sb.append("\" showAlgebra=\"");
 		sb.append(isAVSliderOrCheckboxVisible());
+
+		if (cons.getArbitraryConstants().values().contains(this)) {
+			sb.append("\" arbitraryConstant=\"true\"");
+		}
+
 		sb.append("\"/>\n");
 		if (sliderBlobSize != DEFAULT_SLIDER_BLOB_SIZE) {
 			sb.append("\t<pointSize val=\"");
