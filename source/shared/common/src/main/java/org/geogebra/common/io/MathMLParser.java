@@ -987,9 +987,8 @@ public class MathMLParser {
 							try {
 								blockNumber = Integer.parseInt(blockNumberStr);
 							} catch (NumberFormatException nfe) {
-								throw new XMLParseException(
-										"Parsing error at character " + pos
-												+ ": Unparsable block number in substitution.");
+								throw new XMLParseException("Parsing error at character " + pos
+										+ ": Unparsable block number in substitution.", nfe);
 							}
 
 							// skip PH_BLOCK_END
@@ -1302,9 +1301,9 @@ public class MathMLParser {
 						entity.append(sb.charAt(sbIndex));
 						sbIndex++;
 					}
-				} catch (StringIndexOutOfBoundsException sioobe) {
+				} catch (StringIndexOutOfBoundsException exception) {
 					throw new XMLParseException("Parsing error at character " + pos
-							+ ": MathML code is not HTML wrapped.");
+							+ ": MathML code is not HTML wrapped.", exception);
 				}
 
 				entity.append(';');

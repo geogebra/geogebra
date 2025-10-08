@@ -965,7 +965,7 @@ public class JSONObject {
 					"");
 			return stringer.toString();
 		} catch (JSONException e) {
-			throw new AssertionError();
+			throw new AssertionError(e);
 		}
 	}
 

@@ -20,7 +20,6 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * SetColor
@@ -103,8 +102,7 @@ public class CmdSetColor extends CmdScripting {
 				target.updateVisualStyleRepaint(GProperty.COLOR);
 				return target.asArray();
 			} catch (Exception e) {
-				Log.debug(e);
-				throw argErr(c, target);
+				throw argErr(c.getName(), target, e);
 			}
 
 		case 4:

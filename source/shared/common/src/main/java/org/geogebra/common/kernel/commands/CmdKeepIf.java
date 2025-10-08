@@ -49,8 +49,8 @@ public class CmdKeepIf extends CommandProcessor {
 							new MyStringBuffer(kernel, arg1Str));
 				}
 			} catch (ParseException e) {
-				throw argErr(c,
-						new MyStringBuffer(kernel, arg1Str));
+				throw argErr(c.getName(),
+						new MyStringBuffer(kernel, arg1Str), e);
 			}
 
 			GeoElement[] vars = new GeoElement[1];

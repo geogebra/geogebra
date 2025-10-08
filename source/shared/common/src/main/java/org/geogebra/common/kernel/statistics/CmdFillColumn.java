@@ -62,7 +62,7 @@ public class CmdFillColumn extends CommandProcessor {
 								.setSpreadsheetCell(app, row, col, cellGeo);
 					} catch (Exception e) {
 						Log.debug(e);
-						throw argErr(c, arg[1]);
+						throw argErr(c.getName(), arg[1], e);
 					}
 				}
 

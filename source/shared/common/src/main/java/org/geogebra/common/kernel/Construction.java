@@ -2035,7 +2035,7 @@ public class Construction {
 			rowRef = Integer.parseInt(label.substring(1));
 		} catch (NumberFormatException e) {
 			Log.error("Malformed CAS row reference: " + label);
-			CASException ex = new CASException("CAS.InvalidReferenceError");
+			CASException ex = new CASException("CAS.InvalidReferenceError", e);
 			ex.setKey("CAS.InvalidReferenceError");
 			throw ex;
 		}

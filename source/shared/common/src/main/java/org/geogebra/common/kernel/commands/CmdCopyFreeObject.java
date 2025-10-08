@@ -114,7 +114,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 				geoElement.remove();
 			}
 			Log.debug(e);
-			throw argErr(geoElement, c);
+			throw argErr(c.getName(), geoElement, e);
 		}
 
 	}

@@ -702,6 +702,11 @@ public abstract class CommandProcessor {
 		return MyError.forCommand(loc, message, cmd, null, Errors.IllegalArgument);
 	}
 
+	protected final MyError argErr(String cmd, ExpressionValue arg, Throwable cause) {
+		String message = commandErrorMessageBuilder.buildArgumentError(cmd, arg);
+		return MyError.forCommand(loc, message, cmd, cause, Errors.IllegalArgument);
+	}
+
 	/**
 	 * Creates wrong parameter count error
 	 * 

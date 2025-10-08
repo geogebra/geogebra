@@ -219,7 +219,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 						variables);
 			} catch (ParseException e) {
 				Log.debug("Cannot parse: " + parsable);
-				throw new NoSymbolicParametersException();
+				throw new NoSymbolicParametersException(e);
 			}
 			Iterator<Set<PPolynomial>> polySet = parsed.iterator();
 			PPolynomial botanaMinpoly = new PPolynomial();
@@ -271,7 +271,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 
 		} catch (Throwable e) {
 			Log.debug("Problem with computing minimal poly of cos(2pi/n)");
-			throw new NoSymbolicParametersException();
+			throw new NoSymbolicParametersException(e);
 		}
 	}
 

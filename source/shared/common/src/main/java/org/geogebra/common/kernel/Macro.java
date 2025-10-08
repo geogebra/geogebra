@@ -507,10 +507,10 @@ public class Macro {
 			String msg = e.getLocalizedMessage();
 			Log.debug(msg);
 			Log.debug(e);
-			throw new MacroException(msg);
+			throw new MacroException(msg, e);
 		} catch (XMLParseException | RuntimeException e) {
 			Log.debug(e);
-			throw new MacroException(e.getMessage());
+			throw new MacroException(e.getMessage(), e);
 		}
 
 		return mk.getConstruction();

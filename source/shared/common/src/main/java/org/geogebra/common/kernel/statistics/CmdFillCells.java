@@ -109,9 +109,8 @@ public class CmdFillCells extends CommandProcessor {
 									.setSpreadsheetCell(app, row, minCol + 1,
 											new GeoNumeric(cons, p.y));
 						} catch (Exception e) {
-							Log.debug(e);
 							app.setScrollToShow(true);
-							throw argErr(c, arg[1]);
+							throw argErr(c.getName(), arg[1], e);
 						}
 
 					}
@@ -143,8 +142,7 @@ public class CmdFillCells extends CommandProcessor {
 								// .setSpreadsheetCell(app, row, col, geo);
 							} catch (Exception e) {
 								app.setScrollToShow(true);
-								Log.debug(e);
-								throw argErr(c, arg[1]);
+								throw argErr(c.getName(), arg[1], e);
 							}
 						}
 					}
@@ -177,8 +175,7 @@ public class CmdFillCells extends CommandProcessor {
 
 							} catch (Exception e) {
 								app.setScrollToShow(true);
-								Log.debug(e);
-								throw argErr(c, arg[1]);
+								throw argErr(c.getName(), arg[1], e);
 							}
 						}
 					}
@@ -202,8 +199,7 @@ public class CmdFillCells extends CommandProcessor {
 
 							} catch (Exception e) {
 								app.setScrollToShow(true);
-								Log.debug(e);
-								throw argErr(c, arg[1]);
+								throw argErr(c.getName(), arg[1], e);
 							}
 						}
 					}
@@ -261,7 +257,7 @@ public class CmdFillCells extends CommandProcessor {
 						}
 					} catch (Exception e) {
 						app.setScrollToShow(true);
-						throw argErr(c, list);
+						throw argErr(c.getName(), list, e);
 					}
 
 				} else {
@@ -278,9 +274,8 @@ public class CmdFillCells extends CommandProcessor {
 									.setSpreadsheetCell(app, row, column + i,
 											list.get(i).copy());
 						} catch (Exception e) {
-							Log.debug(e);
 							app.setScrollToShow(true);
-							throw argErr(c, arg[1]);
+							throw argErr(c.getName(), arg[1], e);
 						}
 					}
 				}

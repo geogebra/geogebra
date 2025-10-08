@@ -39,7 +39,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 					geo.setShowObjectCondition((GeoBoolean) arg2[1]);
 				} catch (CircularDefinitionException e) {
 					Log.debug(e);
-					throw argErr(c, arg2[1]);
+					throw argErr(c.getName(), arg2[1], e);
 				}
 				geo.updateRepaint();
 

@@ -27,6 +27,10 @@ public class CASException extends RuntimeException {
 		super(message);
 	}
 
+	public CASException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
 	/**
 	 * Creates new CAS exception
 	 * 
@@ -34,7 +38,7 @@ public class CASException extends RuntimeException {
 	 *            Throwable that caused this exception
 	 */
 	public CASException(Throwable cause) {
-		super(cause.getMessage());
+		super(cause.getMessage(), cause);
 	}
 
 	/**

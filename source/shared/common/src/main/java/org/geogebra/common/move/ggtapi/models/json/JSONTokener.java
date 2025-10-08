@@ -240,7 +240,7 @@ public class JSONTokener {
 			try {
 				return (char) Integer.parseInt(hex, 16);
 			} catch (NumberFormatException nfe) {
-				throw syntaxError("Invalid escape sequence: " + hex);
+				throw syntaxError("Invalid escape sequence: " + hex, nfe);
 			}
 		case 't':
 			return '\t';
@@ -428,6 +428,10 @@ public class JSONTokener {
 	 */
 	public JSONException syntaxError(String message) {
 		return new JSONException(message + this);
+	}
+
+	private JSONException syntaxError(String message, Throwable cause) {
+		return new JSONException(message + this, cause);
 	}
 
 	/**

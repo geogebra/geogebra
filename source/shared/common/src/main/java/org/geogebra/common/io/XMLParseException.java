@@ -8,6 +8,10 @@ public class XMLParseException extends Exception {
 		super(message);
 	}
 
+	public XMLParseException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
 	public XMLParseException(IOException ex) {
 		super(ex);
 	}

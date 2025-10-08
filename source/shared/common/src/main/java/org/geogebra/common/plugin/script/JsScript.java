@@ -44,7 +44,7 @@ public class JsScript extends Script {
 					+ ":\n"
 					+ app.getLocalization().getMenuDefault("ErrorInJavaScript",
 							"Error in JavaScript")
-					+ "\n" + e.getLocalizedMessage());
+					+ "\n" + e.getLocalizedMessage(), e);
 		}
 	}
 

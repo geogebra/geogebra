@@ -12,8 +12,8 @@ public class ScriptError extends Exception {
 	 * @param message
 	 *            message
 	 */
-	public ScriptError(String message) {
-		super();
+	public ScriptError(String message, Throwable cause) {
+		super(cause);
 		this.message = message;
 	}
 

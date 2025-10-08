@@ -334,7 +334,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 										getVarOfGeoDummy(expNode.getRight()
 												.toString(StringTemplate.defaultTemplate))));
 					} catch (Exception e) {
-						throw new NoSymbolicParametersException();
+						throw new NoSymbolicParametersException(e);
 					}
 				}
 				if (expNode.getRight() instanceof MySpecialDouble) {

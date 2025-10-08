@@ -48,4 +48,8 @@ public class JSONException extends Exception {
 	public JSONException(String s) {
 		super(s);
 	}
+
+	public JSONException(String s, Throwable cause) {
+		super(s, cause);
+	}
 }

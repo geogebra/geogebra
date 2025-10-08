@@ -21,4 +21,8 @@ public class NoSymbolicParametersException extends Exception {
 		super("No symbolic parameters available");
 	}
 
+	public NoSymbolicParametersException(Throwable cause) {
+		super("No symbolic parameters available", cause);
+	}
+
 }

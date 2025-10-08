@@ -621,7 +621,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 								getBotanaVar(expNode.getRight().toString(
 										StringTemplate.defaultTemplate))));
 					} catch (Exception e) {
-						throw new NoSymbolicParametersException();
+						throw new NoSymbolicParametersException(e);
 					}
 				}
 				if (expNode.getRight() instanceof MySpecialDouble) {
