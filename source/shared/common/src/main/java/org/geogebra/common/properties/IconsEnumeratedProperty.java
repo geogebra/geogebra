@@ -18,7 +18,7 @@ public interface IconsEnumeratedProperty<V> extends EnumeratedProperty<V> {
     /**
      * Returns an array of labels with same length as
      * {@link IconsEnumeratedProperty#getValueIcons()}, used as aria-title and data-title.
-     * It is defined only in specific cases, null otherwiese.
+     * It is defined only in specific cases, null otherwise.
      * @return an array of labels
      */
     @CheckForNull String[] getLabels();
