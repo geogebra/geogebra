@@ -717,4 +717,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	public boolean dependsOnInputStyle(GProperty prop) {
 		return prop == GProperty.COLOR || prop == GProperty.COMBINED;
 	}
+
+	@Override
+	public boolean isTransposed() {
+		return alignment == Alignment.VERTICAL;
+	}
 }

@@ -30,20 +30,6 @@ public interface SerializationAdapter {
 	String convertToReadable(String s);
 
 	/**
-	 * Serialize matrix in brackets to string
-	 * @param left left bracket
-	 * @param base matrix content
-	 * @param right right bracket
-	 * @return serialization
-	 */
-	default String transformMatrix(String left, String base, String right) {
-		if ("|".equals(left) && "|".equals(right)) {
-			return "Determinant(" + base + ")";
-		}
-		return base;
-	}
-
-	/**
 	 * Screen reader may need to handle symbols wrapped in ResizeAtom differently
 	 * @param baseString serialized content of the wrapper atom
 	 * @return baseString with optional prefix/suffix
@@ -51,4 +37,6 @@ public interface SerializationAdapter {
 	default String transformWrapper(String baseString) {
 		return baseString;
 	}
+
+	TableAdapter getTableAdapter();
 }

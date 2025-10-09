@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoSequence;
 import org.geogebra.common.kernel.algos.AlgoTakeString;
 import org.geogebra.common.kernel.algos.AlgoTextCorner;
+import org.geogebra.common.kernel.algos.TableAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -1562,6 +1563,8 @@ public class GeoText extends GeoElement
 		// TeXAtomSerializer makes formula human-readable.
 		TeXFormula tf = getTeXFormula();
 		SerializationAdapter adapter = ScreenReader.getSerializationAdapter(app);
+		adapter.getTableAdapter().setShouldTransposeMatrices(algoParent instanceof TableAlgo
+				&& ((TableAlgo) algoParent).isTransposed());
 		return new TeXAtomSerializer(adapter).serialize(tf.root);
 	}
 

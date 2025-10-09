@@ -92,16 +92,18 @@ public class TeXAtomSerializer {
 		if (root instanceof FencedAtom) {
 			FencedAtom ch = (FencedAtom) root;
 			Atom bracketsContent = ch.getTrueBase();
-			String base = serialize(bracketsContent);
 			if (isBinomial(bracketsContent)) {
-				return base;
+				return serialize(bracketsContent);
 			}
 			String left = serialize(ch.getLeft());
 			String right = serialize(ch.getRight());
 			if (bracketsContent instanceof ArrayAtom) {
-				return adapter.transformMatrix(left, base, right);
+				adapter.getTableAdapter().setMatrixType(left, right);
+				String base = serialize(bracketsContent);
+				adapter.getTableAdapter().setMatrixType("", "");
+				return base;
 			}
-			return adapter.transformBrackets(left, base, right);
+			return adapter.transformBrackets(left, serialize(bracketsContent), right);
 		}
 		if (root instanceof SpaceAtom) {
 			return " ";
@@ -241,23 +243,42 @@ public class TeXAtomSerializer {
 		int cols = matrix.getCols();
 
 		StringBuilder sb = new StringBuilder();
-		sb.append('{');
-		for (int row = 0; row < rows; row++) {
-			sb.append('{');
+		TableAdapter tableAdapter = adapter.getTableAdapter();
+		sb.append(tableAdapter.matrixStart(rows, cols));
+		if (tableAdapter.shouldTransposeMatrices()) {
 			for (int col = 0; col < cols; col++) {
-				sb.append(serialize(matrix.get(row, col)));
+				sb.append(tableAdapter.matrixRowStart(col));
+				for (int row = 0; row < rows; row++) {
+					sb.append(serialize(matrix.get(row, col)));
+
+					if (row < rows - 1) {
+						sb.append(tableAdapter.getSeparator());
+					}
+				}
+				sb.append(tableAdapter.matrixRowOrColumnEnd());
 
 				if (col < cols - 1) {
-					sb.append(",");
+					sb.append(tableAdapter.getSeparator());
 				}
 			}
-			sb.append("}");
+		} else {
+			for (int row = 0; row < rows; row++) {
+				sb.append(tableAdapter.matrixRowStart(row));
+				for (int col = 0; col < cols; col++) {
+					sb.append(serialize(matrix.get(row, col)));
 
-			if (row < rows - 1) {
-				sb.append(",");
+					if (col < cols - 1) {
+						sb.append(tableAdapter.getSeparator());
+					}
+				}
+				sb.append(tableAdapter.matrixRowOrColumnEnd());
+
+				if (row < rows - 1) {
+					sb.append(tableAdapter.getSeparator());
+				}
 			}
 		}
-		sb.append('}');
+		sb.append(tableAdapter.matrixEnd());
 
 		return sb.toString();
 	}

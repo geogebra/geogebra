@@ -1,14 +1,17 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.io.ScreenReaderTableAdapter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
+import com.himamis.retex.renderer.share.serialize.TableAdapter;
 
 public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	private final Localization loc;
 	private final SymbolReader symbols;
+	private TableAdapter tableAdapter = new ScreenReaderTableAdapter();
 
 	/**
 	 *
@@ -120,5 +123,10 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		}
 
 		return sb.toString();
+	}
+
+	@Override
+	public TableAdapter getTableAdapter() {
+		return this.tableAdapter;
 	}
 }

@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.io.ScreenReaderTableAdapter;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -15,6 +16,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.renderer.share.serialize.DefaultSerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
+import com.himamis.retex.renderer.share.serialize.TableAdapter;
 
 /**
  * Utility class for reading GeoElement descriptions
@@ -317,6 +319,8 @@ public class ScreenReader {
 
 	private static class UtfScreenReaderSerializationAdapter extends DefaultSerializationAdapter {
 
+		private final TableAdapter tableAdapter = new ScreenReaderTableAdapter();
+
 		@Override
 		public String transformBrackets(String left, String base, String right) {
 			return left + " " + base + right;
@@ -325,6 +329,11 @@ public class ScreenReader {
 		@Override
 		public String transformWrapper(String baseString) {
 			return ",".equals(baseString) ? ", " : baseString;
+		}
+
+		@Override
+		public TableAdapter getTableAdapter() {
+			return tableAdapter;
 		}
 	}
 

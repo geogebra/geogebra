@@ -167,12 +167,18 @@ public class AuralTextTest {
 		aural("LaTeX(\"a\\Vert b\")", "a\u2016b", "edit");
 		aural("LaTeX(\"\\bgcolor{red}{\\text{not red text}}\")", "not red text",
 				"edit");
-		aural("TableText({{1,2,3},{3,4,5}})", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
+		aural("TableText({{1,2,3},{3,4,5}})", "table with 2 rows and 3 columns "
+						+ "The 1st row is 1 2 3 The 2nd row is 3 4 5 end of table",
 				"edit");
-		aural("TableText({{1,2,3},{3,4,5}},\"()\")", "\\{\\{1,2,3\\},\\{3,4,5\\}\\}",
+		aural("TableText({{1,2,3},{3,4,5}},\"()\")", "matrix with 2 rows and 3 columns "
+						+ "The 1st row is 1 2 3 The 2nd row is 3 4 5 end of matrix",
 				"edit");
 		aural("TableText({{1,2,3},{3,4,5}},\"||\")",
-				"Determinant\\(\\{\\{1,2,3\\},\\{3,4,5\\}\\}\\)", "edit");
+				"determinant with 2 rows and 3 columns The 1st row is 1 2 3 "
+						+ "The 2nd row is 3 4 5 end of determinant", "edit");
+		aural("TableText({{1,2,3},{3,4,5}},\"v\")", "table with 2 columns and 3 rows "
+						+ "The 1st column is 1 2 3 The 2nd column is 3 4 5 end of table",
+				"edit");
 		aural("FractionText(1.5)", "start fraction 3 over 2 end fraction", "edit");
 		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");

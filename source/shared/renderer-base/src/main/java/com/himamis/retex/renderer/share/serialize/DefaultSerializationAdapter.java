@@ -74,4 +74,9 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 	public String convertToReadable(String s) {
 		return s;
 	}
+
+	@Override
+	public TableAdapter getTableAdapter() {
+		return new TableAdapter();
+	}
 }
