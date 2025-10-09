@@ -216,6 +216,8 @@ public interface GeoGebraConstants {
 	String PRIVACY_POLICY_URL = "https://www.geogebra.org/privacy";
 	/** license URL */
 	public static final String GGB_LICENSE_URL = "https://www.geogebra.org/license";
+	public static final String BYCS_LICENCE_URL
+			= "https://www.bycs.de/rechtliche-dokumente/board/impressum/index.html";
 
 	/**
 	 * URL of the webpage to call if a file should be uploaded. If you want to

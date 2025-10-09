@@ -11,23 +11,9 @@ import elemental2.dom.DomGlobal;
  */
 public class ShowLicenseAction extends DefaultMenuAction<AppWFull> {
 
-	/**
-	 * Settings for version/about window
-	 */
-	protected static final String ABOUT_WINDOW_PARAMS = "width=720,height=600,"
-			+ "scrollbars=yes,toolbar=no,location=no,directories=no,"
-			+ "menubar=no,status=no,copyhistory=no";
-
 	@Override
 	public void execute(AppWFull app) {
-		if (app.isMebis()) {
-			app.getFileManager()
-					.open(app.getVendorSettings().getLicenseURL() + "&version="
-							+ app.getVersionString() + "&date="
-							+ GeoGebraConstants.BUILD_DATE, ABOUT_WINDOW_PARAMS);
-		} else {
-			DomGlobal.window.open(GeoGebraConstants.GGB_LICENSE_URL,
-					"_blank", "");
-		}
+		DomGlobal.window.open(app.isMebis() ? GeoGebraConstants.BYCS_LICENCE_URL
+				: GeoGebraConstants.GGB_LICENSE_URL, "_blank", "");
 	}
 }
