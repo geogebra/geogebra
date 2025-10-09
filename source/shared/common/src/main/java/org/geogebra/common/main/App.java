@@ -4607,9 +4607,20 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Set the app config and reinitialize the app.
+	 * Set the app config and reinitialize the app, including the settings.
 	 */
 	public void setConfig(AppConfig config) {
+		setConfigNoSettingsReset(config);
+		if (kernel != null) {
+			initSettingsUpdater().resetSettingsOnAppStart();
+		}
+	}
+
+	/**
+	 * Set the app config and reinitialize the filters, do not change any settings that might
+	 * be saved in .ggb files.
+	 */
+	public void setConfigNoSettingsReset(AppConfig config) {
 		if (primarySyntaxFilter != null && getLocalization() != null) {
 			getLocalization().getCommandSyntax().removeSyntaxFilter(primarySyntaxFilter);
 		}
@@ -4618,7 +4629,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (kernel != null) {
 			kernel.setEquationBehaviour(config.getEquationBehaviour());
 			kernel.getAlgebraProcessor().setEnableStructures(config.isEnableStructures());
-			initSettingsUpdater().resetSettingsOnAppStart();
 		}
 		primarySyntaxFilter = config.newCommandSyntaxFilter();
 		if (primarySyntaxFilter != null && getLocalization() != null) {
