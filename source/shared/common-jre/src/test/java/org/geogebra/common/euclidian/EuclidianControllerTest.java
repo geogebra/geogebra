@@ -1031,7 +1031,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		assertEquals(1.4, b.getLocation().getX(), Kernel.MAX_PRECISION);
 		assertEquals(-1.6, b.getLocation().getY(), Kernel.MAX_PRECISION);
 
-		assertEquals(100, a.getWidth(), Kernel.MAX_PRECISION);
+		assertEquals(250, a.getWidth(), Kernel.MAX_PRECISION);
 		assertEquals(36, a.getHeight(), Kernel.MAX_PRECISION);
 
 		assertEquals(36, b.getWidth(), Kernel.MAX_PRECISION);

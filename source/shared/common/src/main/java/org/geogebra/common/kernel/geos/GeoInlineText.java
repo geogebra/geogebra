@@ -21,7 +21,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormatter,
 		HasVerticalAlignment {
 
-	public static final int DEFAULT_WIDTH = 100;
+	public static final int DEFAULT_WIDTH = 250;
 	public static final int DEFAULT_HEIGHT = 36;
 	public static final int MIN_WIDTH = 36;
 	public static final int MIN_HEIGHT = 30;
