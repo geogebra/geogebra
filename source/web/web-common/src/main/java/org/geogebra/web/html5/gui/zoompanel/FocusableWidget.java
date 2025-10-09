@@ -92,6 +92,10 @@ public class FocusableWidget implements MayHaveFocus {
 	private boolean moveFocus(int offset) {
 		int index = findFocus() + offset;
 		if (index >= 0 && index < btns.length) {
+			if (btns[index].getElement().getTabIndex() == -1) {
+				return false;
+			}
+
 			focus(btns[index]);
 			return true;
 		}

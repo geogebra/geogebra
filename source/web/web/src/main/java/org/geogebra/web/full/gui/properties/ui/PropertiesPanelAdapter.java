@@ -61,6 +61,7 @@ import org.geogebra.web.full.gui.properties.ui.settingsListener.VisibilitySettin
 import org.geogebra.web.full.gui.properties.ui.tabs.ScriptTabFactory;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -70,6 +71,9 @@ import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.KeyboardEvent;
+import jsinterop.base.Js;
 
 /**
  * Maps properties to UI components for the properties view.
@@ -107,6 +111,12 @@ public class PropertiesPanelAdapter implements SetLabels {
 		if (!(props.getProperties()[0] instanceof AbstractPropertyCollection) && allowFlat) {
 			panel.addStyleName("flatProperties");
 		}
+		Dom.addEventListener(panel.getElement(), "keydown", event -> {
+			KeyboardEvent kbd = Js.uncheckedCast(event);
+			if ("Space".equals(kbd.code)) {
+				event.preventDefault(); // prevent scroll of panel on SPACE
+			}
+		});
 		return panel;
 	}
 

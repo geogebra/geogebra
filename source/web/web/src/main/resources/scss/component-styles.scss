@@ -37,7 +37,7 @@ $keyboard_button_transition: opacity .3s ease;
 			margin-left: 7px;
 		}
 
-		&.keyboardFocus .checkbox {
+		&.keyboardFocus:focus-visible .checkbox {
 			outline-color: var(--ggb-dark-color);
 			outline-width: 2px;
 			outline-style: solid;
@@ -1372,6 +1372,14 @@ $keyboard_button_transition: opacity .3s ease;
 				cursor: pointer;
 			}
 
+			&.keyboardFocus:focus-visible {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				background: var(--ggb-light-color);
+				outline-offset: -2px;
+            }
+
 			.headerArrow {
 				width: 24px;
 				height: 24px;
@@ -1402,6 +1410,14 @@ $keyboard_button_transition: opacity .3s ease;
 		.containerPanel {
 			visibility: hidden;
 			height: 0;
+
+			&.keyboardFocus:focus-visible {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				background: var(--ggb-light-color);
+				outline-offset: -2px;
+            }
 		}
 
 		&.extended {

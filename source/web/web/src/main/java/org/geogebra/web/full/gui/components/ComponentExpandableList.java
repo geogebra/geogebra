@@ -16,6 +16,8 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
+import elemental2.dom.KeyboardEvent;
+
 public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final String titleTransKey;
@@ -40,14 +42,15 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 		this.titleTransKey = titleTransKey;
 
 		addStyleName("expandableList");
-		AriaHelper.setRole(this, "checkbox");
 		buildExpandableList();
 		updateUISelectedState();
+		setAccessibilityProperties();
 	}
 
 	private void buildExpandableList() {
 		FlowPanel header = new FlowPanel();
 		header.addStyleName("header");
+		AriaHelper.setTabIndex(header, 0);
 
 		addArrowTo(header);
 		addTitleTo(header);
@@ -65,17 +68,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 
 		add(header);
 		add(contentPanel);
-
-		Dom.addEventListener(header.getElement(), "click", (e) -> {
-			expanded = !expanded;
-			if (expanded) {
-				if (booleanProperty != null) {
-					checkbox.setSelected(true);
-					booleanProperty.setValue(expanded);
-				}
-			}
-			updateUISelectedState();
-		});
+		addListeners(header);
 	}
 
 	private void addArrowTo(FlowPanel header) {
@@ -83,6 +76,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 		arrow.addStyleName("headerArrow");
 		arrow.getElement().setInnerHTML(KeyboardResources.INSTANCE.keyboard_arrowRight_black()
 				.getSVG());
+		AriaHelper.setAriaHidden(arrow);
 		header.add(arrow);
 	}
 
@@ -100,12 +94,38 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 					expanded = selected;
 					updateUISelectedState();
 				}, true);
+		AriaHelper.setLabel(this, appW.getLocalization().getMenu(titleTransKey));
 		header.add(checkbox);
+	}
+
+	private void addListeners(FlowPanel header) {
+		Dom.addEventListener(header.getElement(), "click", (e) -> toggleComponent());
+
+		Dom.addEventListener(header.getElement(), "keydown", event -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
+				if (Dom.getActiveElement() == header.getElement()) {
+					toggleComponent();
+				}
+			}
+		});
+	}
+
+	private void toggleComponent() {
+		expanded = !expanded;
+		if (expanded) {
+			if (booleanProperty != null) {
+				checkbox.setSelected(true);
+				booleanProperty.setValue(expanded);
+			}
+		}
+		updateUISelectedState();
 	}
 
 	private void updateUISelectedState() {
 		Dom.toggleClass(this, "extended", expanded);
-		AriaHelper.setAriaSelected(this, expanded);
+		AriaHelper.setAriaExpanded(this, expanded);
+		AriaHelper.setTabIndex(contentPanel, expanded ? 0 : -1);
 	}
 
 	/**
@@ -133,6 +153,14 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		title.setText(appW.getLocalization().getMenu(titleTransKey));
+		String translatedTitle = appW.getLocalization().getMenu(titleTransKey);
+		title.setText(translatedTitle);
+		AriaHelper.setLabel(this, translatedTitle);
+	}
+
+	private void setAccessibilityProperties() {
+		AriaHelper.setRole(this, "button");
+		AriaHelper.setTabIndex(this, 0);
+		AriaHelper.setAriaExpanded(this, false);
 	}
 }
