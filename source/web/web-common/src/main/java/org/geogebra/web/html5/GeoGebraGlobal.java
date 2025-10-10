@@ -2,9 +2,11 @@ package org.geogebra.web.html5;
 
 import org.geogebra.common.util.InjectJsInterop;
 import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.gwtutil.JsRunnable;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import elemental2.core.Function;
+import elemental2.core.JsArray;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -20,6 +22,8 @@ public class GeoGebraGlobal {
 	public static GiacNative __ggb__giac;
 	public static @InjectJsInterop Function evalGeoGebraCASExternal;
 	public static JsPropertyMap<JsPropertyMap<JsPropertyMap<String>>> __GGB__keysVar;
+	public static JsConsumer<Void> runCallbacks;
+	public static @InjectJsInterop JsArray<JsRunnable> ggbCallbacks;
 
 	@JsProperty(name = "ggbExportFile")
 	public static native Function getGgbExportFile();

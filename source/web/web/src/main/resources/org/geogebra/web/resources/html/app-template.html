@@ -10,10 +10,6 @@
 	<!--INMOBITAG-->
 <script type="text/javascript">
 
-// for IE9
-if (!window.console) window.console = {};
-if (!window.console.log) window.console.log = function () { };
-
 var latestVersion="5.0.580.0";
 var module = "web3d";
 var defaultParams = {"vendor":"<!--VENDOR-->", "preloadModules":""};
@@ -24,6 +20,8 @@ var analyticsVersion = 'V'+latestVersion;
 var appOnline=true;
 var translation = {};
 var codebase = "<!--CODEBASE-->";
+var ggbCallbacks = [];
+var runCallbacks = () => {ggbCallbacks.forEach(cb => cb()); ggbCallbacks.splice(0);};
 </script>
 <!--PLATFORM SPECIFIC CODE-->
 <script>

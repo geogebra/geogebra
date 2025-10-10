@@ -48,6 +48,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 /**
  * Singleton representing external header bar of unbundled apps.
@@ -72,6 +73,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	private ActionButton settingsButton;
 	private boolean assignButtonInitialized;
 	private @CheckForNull FlowPanel examTypeHolder;
+	private String examHash;
 	private final ExamController examController = GlobalScope.examController;
 
 	private final ArrayList<FocusableWidget> focusableWidgets = new ArrayList<>();
@@ -81,6 +83,10 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	 */
 	private GlobalHeader() {
 		GlobalScope.examController.addListener(this);
+	}
+
+	public static String getExamHash() {
+		return INSTANCE.examHash;
 	}
 
 	/**
@@ -391,10 +397,14 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 
 		ExamType examType = examController.getExamType();
 		if (SafeExamBrowser.get() != null && SafeExamBrowser.get().security != null) {
-			SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
-			String hash = security.configKey.substring(0, 8);
-			security.updateKeys((ignore) ->
-					addExamType("Safe Exam Browser (" + hash + ")"));
+			if (Js.isTruthy(GeoGebraGlobal.ggbCallbacks)) {
+				SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
+				GeoGebraGlobal.ggbCallbacks.push(() ->  {
+					examHash = security.configKey.substring(0, 8);
+					addExamType("Safe Exam Browser (" + examHash + ")");
+				});
+				security.updateKeys(GeoGebraGlobal.runCallbacks);
+			}
 		} else if (examType != ExamType.GENERIC && examType != null) {
 			addExamType(examType.getDisplayName(
 					app.getLocalization(), app.getConfig()));

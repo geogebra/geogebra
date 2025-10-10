@@ -4,6 +4,7 @@ import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamSummary;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -12,6 +13,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.dom.style.shared.WhiteSpace;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -138,6 +140,9 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 			addBlock("exam_start_time", examSummary.getStartTimeLabelText());
 			if (!isLogDialog) {
 				addBlock("exam_end_time", examSummary.getEndTimeLabelText());
+			}
+			if (!StringUtil.empty(GlobalHeader.getExamHash())) {
+				addBlock("Hash", GlobalHeader.getExamHash());
 			}
 			if (examController.isCheating()) {
 				activityPanel = buildActivityPanel(examSummary);
