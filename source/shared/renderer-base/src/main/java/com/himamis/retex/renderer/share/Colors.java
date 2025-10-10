@@ -63,15 +63,12 @@ public class Colors {
 
 	public static final Color RED = GRAPHICS_FACTORY.createColor(255, 0, 0);
 	public static final Color BLACK = GRAPHICS_FACTORY.createColor(0, 0, 0);
-	public static final Color WHITE = GRAPHICS_FACTORY.createColor(255, 255,
-			255);
+	public static final Color WHITE = GRAPHICS_FACTORY.createColor(255, 255, 255);
 	public static final Color BLUE = GRAPHICS_FACTORY.createColor(0, 0, 255);
 	public static final Color GREEN = GRAPHICS_FACTORY.createColor(0, 255, 0);
 	public static final Color CYAN = GRAPHICS_FACTORY.createColor(0, 255, 255);
-	public static final Color MAGENTA = GRAPHICS_FACTORY.createColor(255, 0,
-			255);
-	public static final Color YELLOW = GRAPHICS_FACTORY.createColor(255, 255,
-			0);
+	public static final Color MAGENTA = GRAPHICS_FACTORY.createColor(255, 0, 255);
+	public static final Color YELLOW = GRAPHICS_FACTORY.createColor(255, 255, 0);
 
 	public static final Color SELECTION = GRAPHICS_FACTORY.createColor(204, 204, 255);
 
@@ -149,6 +146,12 @@ public class Colors {
 			put("brown", g.createColor(102, 19, 0));
 			put("tan", g.createColor(219, 148, 112));
 			put("gray", g.createColor(128, 128, 128));
+			put("darkgray", g.createColor(68, 68, 68));
+			put("lightgray", g.createColor(192, 192, 192));
+			put("lime", g.createColor(191, 255, 0));
+			put("olive", g.createColor(128, 128, 0));
+			put("pink", g.createColor(255, 192, 203));
+			put("teal", g.createColor(0, 128, 128));
 		}
 	};
 
