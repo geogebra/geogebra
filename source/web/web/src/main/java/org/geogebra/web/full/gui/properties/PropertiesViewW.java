@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.properties;
 
+import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,14 +97,15 @@ public class PropertiesViewW extends PropertiesView
 
 	private void initGUI() {
 		wrappedPanel.addStyleName("PropertiesViewW");
-
+		wrappedPanel.clear();
 		contentsPanel = new FlowPanel();
 		contentsPanel.addStyleName("contentsPanel");
-		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
+		if (needsSideSheet()) {
 			SideSheetData data = new SideSheetData("Settings");
 			sideSheet = new ComponentSideSheet((AppW) app, data, this::close);
 			rebuildSettingsSideSheet();
 		} else {
+			sideSheet = null;
 			wrappedPanel.add(contentsPanel);
 			wrappedPanel.add(getStyleBar().getWrappedPanel());
 
@@ -393,6 +396,10 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	private void updatePropertiesGUI() {
+		if ((sideSheet != null) ^ needsSideSheet()) {
+			initGUI();
+		}
+
 		OptionsObjectW panel = getObjectPanel();
 		if (panel != null) {
 			panel.updateGUI();
@@ -520,9 +527,15 @@ public class PropertiesViewW extends PropertiesView
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
-		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
+		if (needsSideSheet()) {
 			rebuildSettingsSideSheet();
 		}
+	}
+
+	private boolean needsSideSheet() {
+		return PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
+				|| SCIENTIFIC_APPCODE.equals(app.getConfig().getSubAppCode())
+				|| SCIENTIFIC_APPCODE.equals(app.getConfig().getAppCode());
 	}
 
 	/**
@@ -634,7 +647,7 @@ public class PropertiesViewW extends PropertiesView
 			oldTab = settingsTab.getSelectedTabIdx();
 		}
 		settingsTab = new ComponentTab(app.getLocalization(), tabs.toArray(new TabData[0]));
-		if (oldTab != -1) {
+		if (oldTab != -1 && oldTab < tabs.size()) {
 			settingsTab.switchToTab(oldTab);
 		}
 		sideSheet.addToContent(settingsTab);
