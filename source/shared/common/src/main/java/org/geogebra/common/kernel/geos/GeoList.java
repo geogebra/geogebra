@@ -1936,7 +1936,10 @@ public class GeoList extends GeoElement
 	}
 
 	private int getIndexFromParameter(double t) {
-		return t < 0 ? 0 : Math.min((int) Math.floor(t), size() - 1);
+		// for points the parameter must be an int, but rounding errors can make it 0.9999
+		double rounded = (elementType == GeoClass.POINT || elementType == GeoClass.POINT3D)
+				? Math.round(t) : Math.floor(t);
+		return t < 0 ? 0 : Math.min((int) rounded, size() - 1);
 	}
 
 	@Override

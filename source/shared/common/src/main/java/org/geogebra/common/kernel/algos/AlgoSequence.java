@@ -121,6 +121,9 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 
 	@Override
 	public boolean canSetRandomValue() {
+		if (expressionParentAlgo instanceof AlgoSequence) {
+			return ((AlgoSequence) expressionParentAlgo).canSetRandomValue();
+		}
 		return expressionParentAlgo instanceof SetRandomValue;
 	}
 
