@@ -14,6 +14,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.gwtproject.animation.client.AnimationScheduler;
 import org.gwtproject.dom.style.shared.WhiteSpace;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -140,6 +141,8 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 			addBlock("exam_start_time", examSummary.getStartTimeLabelText());
 			if (!isLogDialog) {
 				addBlock("exam_end_time", examSummary.getEndTimeLabelText());
+			} else {
+				addAnimatedDurationBlock();
 			}
 			if (!StringUtil.empty(GlobalHeader.getExamHash())) {
 				addBlock("Hash", GlobalHeader.getExamHash());
@@ -173,6 +176,24 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 		block.add(caption);
 		block.add(text);
 		return block;
+	}
+
+	private void addAnimatedDurationBlock() {
+		Label duration = new Label(app.getLocalization().getMenu("Duration"));
+		Label timer = BaseWidgetFactory.INSTANCE.newPrimaryText(examController
+				.getDurationFormatted(app.getLocalization()), "textStyle");
+		contentPanel.add(buildBlock(duration, timer));
+
+		AnimationScheduler.get().requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
+			@Override
+			public void execute(double timestamp) {
+				if (!examController.isIdle() && isShowing()) {
+					timer.setText(examController
+							.getDurationFormatted(app.getLocalization()));
+					AnimationScheduler.get().requestAnimationFrame(this);
+				}
+			}
+		});
 	}
 
 	@Override
