@@ -6617,34 +6617,33 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleDoubleClick(boolean control, PointerEventType type) {
-		if (!app.showMenuBar() || control || penMode(this.mode)
-				|| isModeCreatingObjectsByDrag()) {
-			return;
-		}
 		BoundingBox<?> box = view.getBoundingBox();
 		if (box != null) {
 			box.handleDoubleClick(mouseLoc, app.getCapturingThreshold(type));
 		}
+		if (!app.showMenuBar() || control || penMode(this.mode)
+				|| isModeCreatingObjectsByDrag()
+				|| app.isWhiteboardActive()) {
+			return;
+		}
 		// double-click on object selects MODE_MOVE and opens redefine dialog
-		if (!app.isWhiteboardActive()) {
-			selection.clearSelectedGeos(true, false);
-			app.updateSelection(false);
-			setViewHits(type);
-			Hits hits = view.getHits().getTopHits();
-			switchModeForRemovePolygons(hits);
-			if (!hits.isEmpty()) {
-				app.setMode(EuclidianConstants.MODE_MOVE);
-				GeoElement geo0 = hits.get(0);
-				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
-					// double-click slider -> Object Properties
-					getDialogManager().showPropertiesDialog(hits);
-				} else if (!geo0.isProtected(EventType.UPDATE)
-						&& !(geo0.isGeoBoolean() && geo0.isIndependent()) && geo0.isRedefineable()
-						&& !geo0.isGeoButton()
-						&& !view.isPlotPanel()
-						&& !(geo0.isGeoList() && ((GeoList) geo0).drawAsComboBox())) {
-					getDialogManager().showRedefineDialog(hits.get(0), true);
-				}
+		selection.clearSelectedGeos(true, false);
+		app.updateSelection(false);
+		setViewHits(type);
+		Hits hits = view.getHits().getTopHits();
+		switchModeForRemovePolygons(hits);
+		if (!hits.isEmpty()) {
+			app.setMode(EuclidianConstants.MODE_MOVE);
+			GeoElement geo0 = hits.get(0);
+			if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
+				// double-click slider -> Object Properties
+				getDialogManager().showPropertiesDialog(hits);
+			} else if (!geo0.isProtected(EventType.UPDATE)
+					&& !(geo0.isGeoBoolean() && geo0.isIndependent()) && geo0.isRedefineable()
+					&& !geo0.isGeoButton()
+					&& !view.isPlotPanel()
+					&& !(geo0.isGeoList() && ((GeoList) geo0).drawAsComboBox())) {
+				getDialogManager().showRedefineDialog(hits.get(0), true);
 			}
 		}
 	}
