@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.AppConfig;
@@ -16,11 +15,6 @@ import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
  * Ggb specific settings
  */
 public class GgbSettings implements VendorSettings {
-
-	@Override
-	public String getLicenseURL() {
-		return GeoGebraConstants.GGB_LICENSE_URL;
-	}
 
 	@Override
 	public String getAppTitle(AppConfig config) {

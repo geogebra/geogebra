@@ -14,10 +14,7 @@ public class ShowLicenseAction extends DefaultMenuAction<AppWFull> {
 	@Override
 	public void execute(AppWFull app) {
 		if (app.isByCS()) {
-			app.getFileManager()
-					.open(app.getVendorSettings().getLicenseURL() + "&version="
-							+ app.getVersionString() + "&date="
-							+ GeoGebraConstants.BUILD_DATE, ABOUT_WINDOW_PARAMS);
+			DomGlobal.window.open(GeoGebraConstants.BYCS_LICENCE_URL, "_blank", "");
 		} else {
 			DomGlobal.window.open(GeoGebraConstants.GGB_LICENSE_URL,
 					"_blank", "");

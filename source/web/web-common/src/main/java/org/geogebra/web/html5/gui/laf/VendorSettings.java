@@ -13,13 +13,6 @@ import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 public interface VendorSettings {
 
 	/**
-	 * License URL should contain ? so that params can be appended.
-	 *
-	 * @return base URL of the license
-	 */
-	String getLicenseURL();
-
-	/**
 	 * Allows overriding the app title
 	 *
 	 * @param config

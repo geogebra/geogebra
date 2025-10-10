@@ -12,22 +12,10 @@ import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
-import elemental2.dom.DomGlobal;
-
 /**
  * ByCS specific settings
  */
 public class ByCSSettings implements VendorSettings {
-
-	private static final String MEBIS_LICENSE_PATH = "/static/license.html?";
-
-	@Override
-	public String getLicenseURL() {
-		if (!DomGlobal.location.protocol.startsWith("http")) {
-			return "https://tafel.mebis.bayern.de" + MEBIS_LICENSE_PATH;
-		}
-		return MEBIS_LICENSE_PATH;
-	}
 
 	@Override
 	public String getAppTitle(AppConfig config) {
