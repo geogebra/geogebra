@@ -351,6 +351,7 @@ public abstract class CommandDispatcher {
 			case SetConditionToShowObject:
 			case SetFilling:
 			case SetLevelOfDetail:
+			case SetLineOpacity:
 			case SetLineThickness:
 			case SetLineStyle:
 			case SetPointStyle:

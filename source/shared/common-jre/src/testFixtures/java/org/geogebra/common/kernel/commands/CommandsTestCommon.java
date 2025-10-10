@@ -3507,6 +3507,11 @@ public class CommandsTestCommon extends BaseCommandTest {
 	}
 
 	@Test
+	public void cmdSetLineOpacity() {
+		t("SetLineOpacity[ -2x+5y=10, 0.5 ]");
+	}
+
+	@Test
 	public void cmdSetLineThickness() {
 		t("SetLineThickness[ x+y=17, 42 ]");
 	}

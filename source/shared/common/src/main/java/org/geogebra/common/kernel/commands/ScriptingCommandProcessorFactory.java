@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.scripting.CmdSetImage;
 import org.geogebra.common.kernel.scripting.CmdSetLabelMode;
 import org.geogebra.common.kernel.scripting.CmdSetLayer;
 import org.geogebra.common.kernel.scripting.CmdSetLevelOfDetail;
+import org.geogebra.common.kernel.scripting.CmdSetLineOpacity;
 import org.geogebra.common.kernel.scripting.CmdSetLineStyle;
 import org.geogebra.common.kernel.scripting.CmdSetLineThickness;
 import org.geogebra.common.kernel.scripting.CmdSetPointSize;
@@ -93,6 +94,8 @@ public class ScriptingCommandProcessorFactory implements CommandProcessorFactory
 			return new CmdSetFilling(kernel);
 		case SetLevelOfDetail:
 			return new CmdSetLevelOfDetail(kernel);
+		case SetLineOpacity:
+			return new CmdSetLineOpacity(kernel);
 		case SetLineThickness:
 			return new CmdSetLineThickness(kernel);
 		case SetLineStyle:
