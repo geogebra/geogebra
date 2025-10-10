@@ -3786,10 +3786,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	protected void drawZoomRectangle(GGraphics2D g2) {
-		g2.setColor(getApplication().isMebis() ? selRectFillMebis : selRectFill);
+		g2.setColor(getApplication().isByCS() ? selRectFillMebis : selRectFill);
 		g2.setStroke(boldAxesStroke);
 		g2.fill(selectionRectangle);
-		g2.setColor(getApplication().isMebis() ? selRectBorderMebis : selRectBorder);
+		g2.setColor(getApplication().isByCS() ? selRectBorderMebis : selRectBorder);
 		g2.draw(selectionRectangle);
 	}
 

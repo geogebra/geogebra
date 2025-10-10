@@ -32,7 +32,7 @@ public class ClearAllActionTest {
 	public void fileNew() {
 		app = AppMocker
 				.mockApplet(new AppletParameters("notes")
-						.setAttribute("vendor", "mebis"));
+						.setAttribute("vendor", "bycs"));
 		ClearAllAction action = new ClearAllAction(true);
 		addObject("x");
 		app.getSettings().getEuclidian(1).setBackground(GColor.PURPLE);

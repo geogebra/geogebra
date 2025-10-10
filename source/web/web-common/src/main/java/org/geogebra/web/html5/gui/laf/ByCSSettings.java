@@ -15,9 +15,9 @@ import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 import elemental2.dom.DomGlobal;
 
 /**
- * Mebis specific settings
+ * ByCS specific settings
  */
-public class MebisSettings implements VendorSettings {
+public class ByCSSettings implements VendorSettings {
 
 	private static final String MEBIS_LICENSE_PATH = "/static/license.html?";
 

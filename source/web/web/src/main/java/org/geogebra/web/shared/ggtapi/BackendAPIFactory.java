@@ -3,7 +3,6 @@ package org.geogebra.web.shared.ggtapi;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
-import org.geogebra.common.move.ggtapi.models.MowService;
 import org.geogebra.common.move.ggtapi.models.Service;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.web.html5.main.AppW;
@@ -55,7 +54,7 @@ public class BackendAPIFactory {
 		if (api != null) {
 			return;
 		}
-		api = app.isMebis() ? newMaterialRestAPI() : newTubeAPI();
+		api = app.isByCS() ? newMaterialRestAPI() : newTubeAPI();
 	}
 
 	/**
@@ -65,8 +64,7 @@ public class BackendAPIFactory {
 	public MaterialRestAPI newMaterialRestAPI() {
 		String backendURL = articleElement.getParamBackendURL().isEmpty()
 				? MaterialRestAPI.marvlUrl : articleElement.getParamBackendURL();
-		Service service = app.isMebis()
-				? new MowService() : new MarvlService();
+		Service service = new MarvlService();
 
 		return new MaterialRestAPI(backendURL, service);
 	}

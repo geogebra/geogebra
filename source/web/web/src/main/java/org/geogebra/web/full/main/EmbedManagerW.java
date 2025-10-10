@@ -639,7 +639,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	private boolean isJsEnabled() {
-		return !app.isMebis()
+		return !app.isByCS()
 				|| app.getLoginOperation().isTeacherLoggedIn();
 	}
 

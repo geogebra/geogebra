@@ -13,7 +13,14 @@ public class ShowLicenseAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
 	public void execute(AppWFull app) {
-		DomGlobal.window.open(app.isMebis() ? GeoGebraConstants.BYCS_LICENCE_URL
-				: GeoGebraConstants.GGB_LICENSE_URL, "_blank", "");
+		if (app.isByCS()) {
+			app.getFileManager()
+					.open(app.getVendorSettings().getLicenseURL() + "&version="
+							+ app.getVersionString() + "&date="
+							+ GeoGebraConstants.BUILD_DATE, ABOUT_WINDOW_PARAMS);
+		} else {
+			DomGlobal.window.open(GeoGebraConstants.GGB_LICENSE_URL,
+					"_blank", "");
+		}
 	}
 }

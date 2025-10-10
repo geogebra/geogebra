@@ -1777,7 +1777,7 @@ public class GuiManagerW extends GuiManager
 			BrowserDevice.FileOpenButton fileOpenButton =
 					new BrowserDevice.FileOpenButton("containedButton", app);
 			BrowseViewI openFileView;
-			if (app.isMebis()) {
+			if (app.isByCS()) {
 				openFileView = new OpenFileViewMebis(app, fileOpenButton);
 			} else {
 				openFileView = new OpenFileView(app, fileOpenButton);
@@ -1859,7 +1859,7 @@ public class GuiManagerW extends GuiManager
 		String extension = ((AppW) app).getFileExtension();
 		String currentDate = DateTimeFormat.format(new JsDate())
 				+ extension;
-		String filename = getApp().isMebis() ? currentDate : getApp().getExportTitle() + extension;
+		String filename = getApp().isByCS() ? currentDate : getApp().getExportTitle() + extension;
 		exportGgb(filename, extension);
 	}
 

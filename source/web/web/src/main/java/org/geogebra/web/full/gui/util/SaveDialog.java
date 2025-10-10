@@ -34,7 +34,7 @@ public class SaveDialog extends SaveFileDialog {
 		buildTemplateCheckbox(addTemplateCheckBox);
 		buildLocationDropDown();
 
-		if (!app.isMebis() && app.getGoogleDriveOperation() != null) {
+		if (!app.isByCS() && app.getGoogleDriveOperation() != null) {
 			app.getGoogleDriveOperation().initGoogleDriveApi();
 		}
 

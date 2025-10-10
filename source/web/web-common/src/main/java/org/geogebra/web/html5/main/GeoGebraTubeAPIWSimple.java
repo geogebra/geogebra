@@ -4,7 +4,6 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
-import org.geogebra.common.move.ggtapi.models.MowService;
 import org.geogebra.common.move.ggtapi.models.Service;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
@@ -60,8 +59,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		if (materialRestAPI == null) {
 			String backendURL = articleElement.getParamBackendURL().isEmpty()
 					? MaterialRestAPI.marvlUrl : articleElement.getParamBackendURL();
-			Service service = "mebis".equals(articleElement.getParamVendor())
-					? new MowService() : new MarvlService();
+			Service service = new MarvlService();
 
 			materialRestAPI = new MaterialRestAPI(backendURL, service);
 		}

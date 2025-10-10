@@ -120,9 +120,9 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
+import org.geogebra.web.html5.gui.laf.ByCSSettings;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
-import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -3342,8 +3342,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public VendorSettings getVendorSettings() {
 		if (vendorSettings == null) {
-			if (isMebis()) {
-				vendorSettings = new MebisSettings();
+			if (isByCS()) {
+				vendorSettings = new ByCSSettings();
 			} else {
 				vendorSettings = new GgbSettings();
 			}
@@ -3352,8 +3352,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public boolean isMebis() {
-		return "mebis".equalsIgnoreCase(appletParameters.getParamVendor());
+	public boolean isByCS() {
+		return "mebis".equalsIgnoreCase(appletParameters.getParamVendor())
+				|| "bycs".equalsIgnoreCase(appletParameters.getParamVendor());
 	}
 
 	@Override
@@ -3645,7 +3646,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	public boolean isUsingFontAwesome() {
-		return getAppletParameters().getParamFontAwesome(isMebis());
+		return getAppletParameters().getParamFontAwesome(isByCS());
 	}
 
 	/**

@@ -152,7 +152,7 @@ public class ShareControllerW implements ShareController {
 
 	private boolean ensureMaterialSharingVisibility() {
 		Material activeMaterial = app.getActiveMaterial();
-		if (app.isMebis() || activeMaterial == null) {
+		if (app.isByCS() || activeMaterial == null) {
 			// mebis can share private materials with group
 			return false;
 		}
@@ -183,7 +183,7 @@ public class ShareControllerW implements ShareController {
 			if (activeMaterial != null && activeMaterial.getSharingKey() != null) {
 				sharingKey = activeMaterial.getSharingKey();
 			}
-			if (getAppW().isMebis()) {
+			if (getAppW().isByCS()) {
 				DialogData data = new DialogData("Share", "Cancel", "Save");
 				ShareDialogMow shareDialogMow = new ShareDialogMow(getAppW(), data,
 						getAppW().getCurrentURL(sharingKey, true),

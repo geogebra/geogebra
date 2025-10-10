@@ -274,7 +274,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public boolean hasSmallWindowOrCompactHeader() {
 		boolean isClassicOrMebis = app != null
-				&& ("classic".equals(app.getConfig().getAppCode()) || app.isMebis());
+				&& ("classic".equals(app.getConfig().getAppCode()) || app.isByCS());
 		if (isClassicOrMebis) {
 			return hasSmallWindow();
 		}

@@ -294,7 +294,7 @@ public class TransformableRectangle {
 			}
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
-			boundingBox.setSecondaryColor(view.getApplication().isMebis()
+			boundingBox.setSecondaryColor(view.getApplication().isByCS()
 				? GColor.MOW_MIND_MAP_PLUS_ACTIVE
 				: GColor.MIND_MAP_PLUS_ACTIVE
 			);

@@ -5250,7 +5250,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					mindMap.setSize(GeoMindMapNode.DEFAULT_WIDTH, GeoMindMapNode.ROOT_HEIGHT);
 					mindMap.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
-					if (app.isMebis()) {
+					if (app.isByCS()) {
 						mindMap.setBackgroundColor(GColor.MOW_MIND_MAP_PARENT_BG_COLOR);
 						mindMap.setBorderColor(GColor.MOW_MIND_MAP_PARENT_BORDER_COLOR);
 					} else {

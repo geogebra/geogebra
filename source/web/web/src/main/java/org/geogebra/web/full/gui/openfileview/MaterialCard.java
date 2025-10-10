@@ -154,7 +154,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 				visibilityTxt = app.getLocalization().getMenu("Private");
 				break;
 			case "S":
-				if (app.isMebis()) {
+				if (app.isByCS()) {
 					visibilityImg = new NoDragImage(res.mow_card_shared(), 24);
 				} else {
 					visibilityImg = new NoDragImage(res.resource_card_shared(), 24);

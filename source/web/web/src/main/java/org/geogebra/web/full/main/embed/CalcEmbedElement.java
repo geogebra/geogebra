@@ -103,10 +103,10 @@ public class CalcEmbedElement extends EmbedElement {
 
 	/**
 	 * set the default style for charts in notes
-	 * @param isMebis whether mebis is running
+	 * @param isByCS whether mebis is running
 	 * @param chartType type of chart (linegraph, barchart, piechart)
 	 */
-	public void initChart(boolean isMebis, AlgoTableToChart.ChartType chartType) {
+	public void initChart(boolean isByCS, AlgoTableToChart.ChartType chartType) {
 		EuclidianView ev = frame.getApp().getActiveEuclidianView();
 		GeoElement chart = frame.getApp().getKernel().lookupLabel("chart");
 
@@ -118,7 +118,7 @@ public class CalcEmbedElement extends EmbedElement {
 		case LineGraph:
 			setGrid(EuclidianView.GRID_CARTESIAN);
 			ev.getSettings().setShowAxes(true);
-			if (isMebis) {
+			if (isByCS) {
 				chart.setObjColor(GColor.newColorRGB(0x00A8D5));
 			} else {
 				chart.setObjColor(GColor.newColorRGB(0x6557D2));
@@ -127,7 +127,7 @@ public class CalcEmbedElement extends EmbedElement {
 			break;
 		case BarChart:
 			ev.getSettings().setShowAxes(true);
-			if (isMebis) {
+			if (isByCS) {
 				chart.setObjColor(GColor.newColorRGB(0x00A8D5));
 			} else {
 				chart.setObjColor(GColor.newColorRGB(0x6557D2));

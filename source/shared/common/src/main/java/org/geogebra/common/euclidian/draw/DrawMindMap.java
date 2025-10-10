@@ -198,9 +198,9 @@ public class DrawMindMap extends DrawInlineText {
 		child.setSize(GeoMindMapNode.DEFAULT_WIDTH, GeoMindMapNode.CHILD_HEIGHT);
 		child.setParent(node, newAlignment);
 		child.setVerticalAlignment(VerticalAlignment.MIDDLE);
-		child.setBackgroundColor(child.getKernel().getApplication().isMebis()
+		child.setBackgroundColor(child.getKernel().getApplication().isByCS()
 				? GColor.MOW_MIND_MAP_CHILD_BG_COLOR : GColor.MIND_MAP_CHILD_BG_COLOR);
-		child.setBorderColor(child.getKernel().getApplication().isMebis()
+		child.setBorderColor(child.getKernel().getApplication().isByCS()
 				? GColor.MOW_MIND_MAP_CHILD_BORDER_COLOR : GColor.MIND_MAP_CHILD_BORDER_COLOR);
 		child.setLabel(null);
 		return child;

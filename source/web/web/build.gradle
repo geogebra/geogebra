@@ -129,7 +129,7 @@ def createHtml = { inlineCss ->
         def replaceHtml = app.id == "classic" ? classicHtml : appHtml
         file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true, inlineCss), app.title, "")
         file("war/${app.id}.html").text = english(replaceHtml(app, true, false, inlineCss), app.title, "en")
-        if (app.vendor == "Mebis") {
+        if (app.vendor == "ByCS") {
             file("war/${app.id}-template.html").text = replaceHtml(app, false).replace("<!--CODEBASE-->", "/")
         }
     }

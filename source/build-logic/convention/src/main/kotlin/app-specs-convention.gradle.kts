@@ -123,13 +123,13 @@ project.extensions.create(
             firebaseAppId = "1:895270214636:web:aece5066924cacb084fec9"
         ),
         Spec(
-            id = "notes-mebis",
+            id = "notes-bycs",
             title = "Board",
             transKey = "Board",
-            exe = "MebisBoard",
-            pkg = "Mebis_Board",
+            exe = "ByCS-Board",
+            pkg = "ByCS_Board",
             icon = "notes.ico",
-            vendor = "Mebis"
+            vendor = "ByCS"
         )
     )
 )

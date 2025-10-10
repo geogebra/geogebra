@@ -121,7 +121,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 	protected MaterialVisibility getSaveVisibility() {
 		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial == null) {
-			return app.isMebis() ? MaterialVisibility.Private : MaterialVisibility.Shared;
+			return app.isByCS() ? MaterialVisibility.Private : MaterialVisibility.Shared;
 		}
 
 		MaterialVisibility visibility = MaterialVisibility.value(activeMaterial.getVisibility());
@@ -148,7 +148,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 
 	private String getDefaultTitle() {
 		// for Mebis users suggest the current date as title
-		return app.isMebis() ? DateTimeFormat.format(new JsDate())
+		return app.isByCS() ? DateTimeFormat.format(new JsDate())
 				: app.getLocalization().getMenu("Untitled");
 	}
 

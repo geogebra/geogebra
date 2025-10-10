@@ -152,7 +152,7 @@ public class GeoGebraColorConstants {
 	/** Accent color for GeoGebra */
 	public static final GColor GEOGEBRA_ACCENT = GColor.newColor(101, 87, 210);
 
-	/** Accent color for mebis */
+	/** Accent color for ByCS */
 	public static final GColor MEBIS_ACCENT = rgb(0x975FA8);
 
 	/** MASK color */

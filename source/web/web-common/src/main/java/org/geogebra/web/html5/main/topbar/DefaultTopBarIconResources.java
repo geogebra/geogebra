@@ -54,6 +54,6 @@ public interface DefaultTopBarIconResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_view_module_24px.svg")
 	SVGResource page_overview();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/page_overview_mebis.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/page_overview_bycs.svg")
 	SVGResource page_overview_mebis();
 }

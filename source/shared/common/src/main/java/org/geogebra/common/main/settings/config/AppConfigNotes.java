@@ -7,7 +7,7 @@ import org.geogebra.common.properties.factory.NotesPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
- * Config for Mebis Notes and GGB Notes
+ * Config for ByCS Board and GGB Notes
  *
  */
 public class AppConfigNotes extends AppConfigDefault {

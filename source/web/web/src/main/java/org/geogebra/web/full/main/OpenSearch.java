@@ -75,7 +75,7 @@ public class OpenSearch {
 	}
 
 	private boolean isOnMebisWithoutLogin() {
-		return app.isMebis()
+		return app.isByCS()
 				&& !app.getLoginOperation().isLoggedIn();
 	}
 

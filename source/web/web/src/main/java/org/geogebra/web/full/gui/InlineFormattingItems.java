@@ -216,7 +216,7 @@ public class InlineFormattingItems {
 				GeoEmbed embed = (GeoEmbed) app.getKernel().lookupLabel(label.asT());
 
 				((EmbedManagerW) app.getEmbedManager()).doIfCalcEmbed(embed, calcEmbedElement -> {
-					calcEmbedElement.initChart(app.isMebis(), chartType);
+					calcEmbedElement.initChart(app.isByCS(), chartType);
 				});
 
 				app.getUndoManager().storeUndoInfo();
@@ -248,7 +248,7 @@ public class InlineFormattingItems {
 			return;
 		}
 
-		GColor color = app.isMebis() ? GColor.MOW_TABLE_HEADING_COLOR : GColor.TABLE_HEADING_COLOR;
+		GColor color = app.isByCS() ? GColor.MOW_TABLE_HEADING_COLOR : GColor.TABLE_HEADING_COLOR;
 
 		AriaMenuBar headingSubmenu = new AriaMenuBar();
 

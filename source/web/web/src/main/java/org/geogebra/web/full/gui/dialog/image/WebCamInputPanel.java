@@ -122,12 +122,12 @@ public class WebCamInputPanel extends FlowPanel {
 	}
 
 	private String getPermissionDeniedTitleKey() {
-		return isElectronMac && !app.isMebis() ? "permission.camera.denied"
+		return isElectronMac && !app.isByCS() ? "permission.camera.denied"
 				: "Webcam.Denied.Caption";
 	}
 
 	private String getPermissionDeniedMessageKey() {
-		return isElectronMac && !app.isMebis() ? "permission.request"
+		return isElectronMac && !app.isByCS() ? "permission.request"
 				: "Webcam.Denied.Message";
 	}
 

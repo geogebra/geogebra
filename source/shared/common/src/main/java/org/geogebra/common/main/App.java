@@ -3724,11 +3724,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Is running mebis app.
+	 * Check for ByCS environment.
 	 *
-	 * @return true if mebis is running.
+	 * @return true if the Notes app is running as ByCS-Board.
 	 */
-	public boolean isMebis() {
+	public boolean isByCS() {
 		return false;
 	}
 

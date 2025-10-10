@@ -446,7 +446,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			activity = new ScientificActivity();
 			break;
 		case NOTES_APPCODE:
-			activity = isMebis() ? new MebisNotesActivity() : new NotesActivity();
+			activity = isByCS() ? new MebisNotesActivity() : new NotesActivity();
 			break;
 		case EVALUATOR_APPCODE:
 			activity = new EvaluatorActivity();

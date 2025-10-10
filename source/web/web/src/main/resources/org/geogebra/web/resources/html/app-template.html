@@ -2,10 +2,10 @@
 <html lang="<!--LANG-->">
 <head>
 	<meta charset="utf-8" />
-	<title><!--APP NAME--> - <!--VENDOR--></title>
+	<title><!--TITLE--></title>
 	<link rel="shortcut icon" href="<!--ICON-->" type="image/x-icon">
 	<link rel="icon" href="<!--ICON-->" type="image/x-icon">
-	<meta property="og:title" content="<!--APP NAME--> - <!--VENDOR-->" />
+	<meta property="og:title" content="<!--TITLE-->" />
 	<!--APPSTORE BANNER-->
 	<!--INMOBITAG-->
 <script type="text/javascript">
@@ -42,7 +42,9 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function changeMetaTitle(titleBase){
-		var title = titleBase.match(/<!--VENDOR-->/) ? titleBase : titleBase + " - <!--VENDOR-->";
+		var title = titleBase.includes(defaultParams.vendor) ? titleBase
+					: defaultParams.vendor == "ByCS" ? "ByCS-Board"
+					: `${titleBase} - ${defaultParams.vendor}`;
 		var tag = document.querySelector("meta[property='og:title']");
 		if (tag && tag.setAttribute) {
 			tag.setAttribute("content", title);

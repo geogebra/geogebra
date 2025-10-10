@@ -50,14 +50,14 @@ public class CalculatorSubMenu extends AriaMenuBar {
 		appOrExamModeName = examType == null
 				? GeoGebraConstants.SUITE_APPCODE : examType.name().toLowerCase(Locale.ROOT);
 		if (embedManager != null) {
-			if (!app.isMebis() || examType != ExamType.BAYERN_GR) {
+			if (!app.isByCS() || examType != ExamType.BAYERN_GR) {
 				addItem(SuiteSubApp.GRAPHING);
 			}
 			addItem(SuiteSubApp.G3D);
 			addItem(SuiteSubApp.GEOMETRY);
 			addItem(SuiteSubApp.CAS);
 			addItem(SuiteSubApp.PROBABILITY);
-			if (app.isMebis() && examType != ExamType.BAYERN_GR) {
+			if (app.isByCS() && examType != ExamType.BAYERN_GR) {
 				addItemWithButton(AppDescription.get(SuiteSubApp.SCIENTIFIC).getNameKey(),
 						BOARD_URL + "/taschenrechner", () -> embedManager
 								.addCalcWithPreselectedApp(appOrExamModeName, SCIENTIFIC_APPCODE));
@@ -65,7 +65,7 @@ public class CalculatorSubMenu extends AriaMenuBar {
 				addItem(SuiteSubApp.SCIENTIFIC);
 			}
 
-			if (app.isMebis()) {
+			if (app.isByCS()) {
 				if (examType == null || examType == ExamType.BAYERN_GR) {
 					addItemWithButton("Grafikrechner (Bayern)",
 							BOARD_URL + "/grafikrechnerbayern",

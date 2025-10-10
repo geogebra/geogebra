@@ -154,7 +154,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 
 	private DrawerMenuFactory createDefaultMenuFactory(AppW app,
 			GeoGebraConstants.Version version) {
-		if (app.isMebis()) {
+		if (app.isByCS()) {
 			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation(),
 					app.enableFileFeatures());
 		} else {
@@ -189,7 +189,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 			defaultActionHandlerFactory = new ScientificMenuActionHandlerFactory(app);
 		} else if (app.isSuite()) {
 			defaultActionHandlerFactory = new SuiteMenuActionHandlerFactory(app);
-		} else if (app.isMebis()) {
+		} else if (app.isByCS()) {
 			defaultActionHandlerFactory = new MebisMenuActionHandlerFactory(app);
 		} else {
 			defaultActionHandlerFactory = new DefaultMenuActionHandlerFactory(app);
@@ -210,7 +210,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	private boolean hasLoginButton(AppW app) {
 		return (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
 				|| app.isSuite())
-				&& !app.isMebis()
+				&& !app.isByCS()
 				&& app.enableOnlineFileFeatures();
 	}
 

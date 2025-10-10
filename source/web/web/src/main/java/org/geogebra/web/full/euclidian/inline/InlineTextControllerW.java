@@ -63,7 +63,7 @@ public class InlineTextControllerW implements InlineTextController {
 		this.geo = geo;
 		this.parent = parent;
 		CarotaUtil.ensureInitialized(view.getFontSize());
-		if (view.getApplication().isMebis()) {
+		if (view.getApplication().isByCS()) {
 			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
 		}
 		this.contentDefaultSize = getCurrentFontSize();

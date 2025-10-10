@@ -107,7 +107,7 @@ public class AuthenticationModelW extends AuthenticationModel  {
 
 	@Override
 	public void refreshToken(HttpRequest request, Runnable afterRefresh) {
-		if (app.isMebis()) {
+		if (app.isByCS()) {
 			MebisGlobal.refreshToken(token -> {
 				if (Js.isTruthy(token)) {
 					request.setAuth(token);

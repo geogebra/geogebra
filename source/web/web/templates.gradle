@@ -45,10 +45,10 @@ def partials = { code, appPartials ->
 
 def replaceVendor = { htmlContent, vendor ->
     htmlContent = htmlContent.replace("<!--VENDOR-->", vendor)
-    if (vendor == "Mebis") {
-        return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-mebis.html"))
+    if (vendor == "ByCS") {
+        return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-bycs.html")).replace("<!--TITLE-->", "ByCS-Board")
     }
-    return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-geogebra.html"))
+    return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-geogebra.html")).replace("<!--TITLE-->", "<!--APP NAME--> - GeoGebra")
 }
 
 def getCss = { ->
@@ -93,7 +93,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def vendor = app.vendor ?: "GeoGebra"
     def appID = app.id.split("-")[0]
     def appTransKey = app.transKey
-    def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
+    def header = vendor == "ByCS" ? "" : template("app-header-beta.html")
             .replace("<!--LOGO-LINK-->", offline ? "#" : "https://www.geogebra.org")
     header = partials(header, app.partials)
     def inlinedCss = inlineCss ? getCss() : ""
@@ -103,7 +103,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
             "content=\"app-id=${app.appStoreId}\">" : ""
     def splashContent = template("${app.id}-splash.html")
     def splashStyle = "<style>" + file("war/css/app-header.css").text + "</style>"
-    if (!inlineCss && vendor != "Mebis") {
+    if (!inlineCss && vendor != "ByCS") {
        splashStyle = "<link rel=stylesheet href=\"css/app-header.css\"/>"
     }
     def firebaseAppId = app.firebaseAppId ?: ""
@@ -113,7 +113,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--SPLASH STYLE-->", splashStyle)
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
-            .replace("<!--ICON-->", vendor == "Mebis" ? "/public/assets/board.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--ICON-->", vendor == "ByCS" ? "/public/assets/board.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)

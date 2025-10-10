@@ -141,7 +141,7 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public void passiveLogin() {
 		model.setLoginStarted();
-		if (!app.isMebis()) {
+		if (!app.isByCS()) {
 			String cookie = Cookies.getCookie("SSID");
 			if (cookie != null) {
 				doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
