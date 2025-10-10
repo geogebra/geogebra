@@ -2161,6 +2161,15 @@ public class CommandsTestCommon extends BaseCommandTest {
 	}
 
 	@Test
+	public void cmdIsFactoredUndefined() {
+		t("IsFactored[ ? ]", "?");
+		t("f(x) = ?", "?");
+		t("IsFactored[ f ]", "?");
+		t("IsFactored[ x^2 + f ]", "?");
+		t("IsFactored[ Element({x^(3)-3 x},2) ]", "?");
+	}
+
+	@Test
 	public void cmdIsInteger() {
 		t("IsInteger[ 42 ]", "true");
 	}

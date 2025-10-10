@@ -64,6 +64,10 @@ public class AlgoIsFactored extends AlgoElement {
 
 	@Override
 	public final void compute() {
+		if (!inputGeo.isDefined()) {
+			outputBoolean.setUndefinedProverOnly();
+			return;
+		}
 		if (inputGeo instanceof GeoNumeric) {
 			outputBoolean.setValue(true);
 			return;
