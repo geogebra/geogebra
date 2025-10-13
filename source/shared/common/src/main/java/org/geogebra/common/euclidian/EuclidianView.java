@@ -35,6 +35,7 @@ import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
+import org.geogebra.common.euclidian.draw.DrawLocus;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -292,7 +293,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected double printingScale;
 
 	// Map (geo, drawable) for GeoElements and Drawables
-	private final HashMap<GeoElement, DrawableND> drawableMap = new HashMap<>(
+	private final HashMap<GeoElementND, DrawableND> drawableMap = new HashMap<>(
 			500);
 
 	private final ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
@@ -2494,11 +2495,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (drawable instanceof Drawable) {
 			((Drawable) drawable).updateStrokes(geo);
 		}
+		if (drawable instanceof DrawLocus) {
+			drawable.update();
+		}
 	}
 
 	@Override
 	public boolean hasVisibleObjects() {
-		for (GeoElement geo : drawableMap.keySet()) {
+		for (GeoElementND geo : drawableMap.keySet()) {
 			if (geo.isEuclidianVisible()) {
 				return true;
 			}
