@@ -1436,14 +1436,13 @@ public class AlgebraProcessor {
 	/**
 	 * Converts a String into a double.
 	 * @param string The String to be converted to double.
-	 * @return the double value of the String after the conversion
-	 * @throws NumberFormatException this exception is thrown if the String cannot be converted.
+	 * @return the double value of the String after the conversion or NaN if invalid
 	 */
-	public double convertToDouble(String string) throws NumberFormatException {
+	public double convertToDouble(String string) {
 		try {
 			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
 		} catch (MyError | RuntimeException | ParseException e) {
-			throw new NumberFormatException(e.getMessage());
+			return Double.NaN;
 		}
 	}
 
@@ -2221,7 +2220,7 @@ public class AlgebraProcessor {
 						throw new MyError(loc, Errors.ReplaceFailed);
 					}
 				} catch (Exception e) {
-					throw new MyError(loc, Errors.IllegalAssignment,
+					throw new MyError(loc, e, Errors.IllegalAssignment,
 							replaceable.getLongDescription(), "     =     ",
 							ret[0].getLongDescription());
 				}
@@ -2292,7 +2291,7 @@ public class AlgebraProcessor {
 					} else {
 						Log.debug("Replacing unlabeled element");
 					}
-					throw new MyError(loc, Errors.ReplaceFailed);
+					throw new MyError(loc, e, Errors.ReplaceFailed);
 				}
 			}
 		}

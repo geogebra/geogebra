@@ -931,7 +931,7 @@ public class MyDouble extends ValidExpression
 			return StringUtil.parseDouble(latinCharacters);
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(loc, Errors.InvalidInput, str);
+			throw new MyError(loc, e, Errors.InvalidInput, str);
 		}
 	}
 

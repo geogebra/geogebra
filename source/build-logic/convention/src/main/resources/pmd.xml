@@ -17,7 +17,6 @@
     <exclude-pattern>.*/com/himamis/retex/editor/share/io/latex.*</exclude-pattern>
     <!-- We'll use the entire 'strings' ruleset -->
     <rule ref="category/java/bestpractices.xml">
-        <exclude name="PreserveStackTrace"/>
         <exclude name="AccessorMethodGeneration"/>
         <exclude name="UseCollectionIsEmpty"/>
         <exclude name="ConstantsInInterface"/>

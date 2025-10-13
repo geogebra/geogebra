@@ -111,7 +111,7 @@ public class RecurringDecimal extends MyDouble {
 		try {
 			return RecurringDecimalModel.parse(preperiod, recurring);
 		} catch (NumberFormatException e) {
-			throw new MyError(loc, MyError.Errors.InvalidInput, preperiodUtf + recurringUtf);
+			throw new MyError(loc, e, MyError.Errors.InvalidInput, preperiodUtf + recurringUtf);
 		}
 	}
 

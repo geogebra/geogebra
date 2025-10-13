@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -97,8 +98,7 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	}
 
 	private void shouldFail(String string) {
-		assertThrows(NumberFormatException.class,
-				() -> processor.convertToDouble(string));
+		assertTrue(Double.isNaN(processor.convertToDouble(string)));
 	}
 
 	@Test

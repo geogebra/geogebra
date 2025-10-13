@@ -130,6 +130,21 @@ public class MyError extends Error {
 	 * @param loc0
 	 *            localization
 	 * @param message0
+	 *            primary message
+	 * @param strs0
+	 *            parts of the error (space separated)
+	 */
+	public MyError(Localization loc0, Throwable cause, Errors message0, String... strs0) {
+		super(message0.key, cause);
+		this.loc = loc0;
+		this.message = message0;
+		this.strs = strs0;
+	}
+
+	/**
+	 * @param loc0
+	 *            localization
+	 * @param message0
 	 *            message
 	 * @param lt
 	 *            left expression
