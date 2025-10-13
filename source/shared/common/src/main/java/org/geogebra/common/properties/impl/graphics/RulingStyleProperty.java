@@ -7,13 +7,15 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
 /**
  * This property controls the style of the grid.
  */
-public class RulingStyleProperty extends AbstractNamedEnumeratedProperty<BackgroundType> {
+public class RulingStyleProperty extends AbstractNamedEnumeratedProperty<BackgroundType>
+		implements SettingsDependentProperty {
 	private EuclidianSettings euclidianSettings;
 	private EuclidianView euclidianView;
 
@@ -53,5 +55,10 @@ public class RulingStyleProperty extends AbstractNamedEnumeratedProperty<Backgro
 	protected void doSetValue(BackgroundType value) {
 		euclidianSettings.setBackgroundType(value);
 		euclidianView.updateBackground();
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianSettings;
 	}
 }

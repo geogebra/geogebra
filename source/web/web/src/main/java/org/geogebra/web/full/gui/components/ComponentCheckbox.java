@@ -17,7 +17,7 @@ import elemental2.dom.KeyboardEvent;
 /**
  * material design checkbox component
  */
-public class ComponentCheckbox extends FlowPanel implements SetLabels {
+public class ComponentCheckbox extends FlowPanel implements SetLabels, HasDisabledState {
 	private final Localization loc;
 	private boolean isSelected;
 	private FlowPanel checkbox;
@@ -159,10 +159,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		AriaHelper.setChecked(this, selected);
 	}
 
-	/**
-	 * Set disabled state of checkbox
-	 * @param disabled whether checkbox should be disabled or enabled
-	 */
+	@Override
 	public void setDisabled(boolean disabled) {
 		Dom.toggleClass(this, "disabled", disabled);
 	}

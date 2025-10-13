@@ -8,12 +8,13 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.color.NeutralColorValues;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 
 public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
-		implements ColorProperty {
+		implements ColorProperty, SettingsDependentProperty {
 	private final EuclidianSettings euclidianSettings;
 	private final boolean isRuling;
 
@@ -54,7 +55,7 @@ public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isAvailable() {
 		BackgroundType backgroundType = euclidianSettings.getBackgroundType();
 		return backgroundType == BackgroundType.RULER || backgroundType
 				== BackgroundType.SQUARE_SMALL || backgroundType == BackgroundType.SQUARE_BIG;
@@ -63,5 +64,10 @@ public class RulingGridColorProperty extends AbstractEnumeratedProperty<GColor>
 	@Override
 	public @Nonnull List<GColor> getValues() {
 		return NeutralColorValues.values();
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianSettings;
 	}
 }

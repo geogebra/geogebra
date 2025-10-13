@@ -4,6 +4,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
@@ -12,7 +13,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
  * This property controls the cross point of axis
  */
 public class CrossAtProperty extends AbstractValuedProperty<String>
-		implements StringProperty {
+		implements StringProperty, SettingsDependentProperty {
 	private final EuclidianSettings euclidianSettings;
 	private final EuclidianViewInterfaceCommon euclidianView;
 	private final int axis;
@@ -59,5 +60,10 @@ public class CrossAtProperty extends AbstractValuedProperty<String>
 	@Override
 	public @CheckForNull String validateValue(String value) {
 		return null;
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianSettings;
 	}
 }

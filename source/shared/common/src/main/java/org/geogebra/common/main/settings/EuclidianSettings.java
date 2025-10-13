@@ -32,6 +32,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class EuclidianSettings extends AbstractSettings {
 
+	public static final double UNSET_LOCK_RATIO = -1;
 	private static final String[] DEFAULT_AXIS_LABELS = { "x", "y", "z" };
 	public static final int[] DELETE_SIZES = { 20, 40, 80 };
 
@@ -1126,8 +1127,9 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
+	 * Set locked axes ratio or pass {@link EuclidianSettings#UNSET_LOCK_RATIO} to unlock it.
 	 * @param ratio
-	 *            x:y ratio; ratio &lt; 0 means unlocked
+	 *            x:y ratio; numbers &lt;=0 treated as unlocked
 	 */
 	public void setLockedAxesRatio(double ratio) {
 		if (DoubleUtil.isEqual(lockedAxesRatio, ratio)) {
@@ -1138,7 +1140,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @return axes ratio if locked; number &lt; 1 otherwise
+	 * @return axes ratio if locked; number &lt; 0 otherwise
 	 */
 	public double getLockedAxesRatio() {
 		return lockedAxesRatio;

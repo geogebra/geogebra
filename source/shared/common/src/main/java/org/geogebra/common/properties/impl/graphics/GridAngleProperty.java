@@ -12,12 +12,14 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 import org.geogebra.common.util.DoubleUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class GridAngleProperty extends NumericPropertyWithSuggestions {
+public class GridAngleProperty extends NumericPropertyWithSuggestions implements
+		SettingsDependentProperty {
 	private final EuclidianViewInterfaceCommon euclidianView;
 
 	/**
@@ -86,7 +88,17 @@ public class GridAngleProperty extends NumericPropertyWithSuggestions {
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isAvailable() {
 		return euclidianView.getSettings().getGridType() == EuclidianView.GRID_POLAR;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return !euclidianView.getSettings().getAutomaticGridDistance();
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianView.getSettings();
 	}
 }

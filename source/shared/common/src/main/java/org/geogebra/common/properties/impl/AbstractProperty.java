@@ -39,6 +39,11 @@ public abstract class AbstractProperty implements Property {
 		return true;
 	}
 
+	@Override
+	public boolean isAvailable() {
+		return true;
+	}
+
 	/**
 	 * Returns the localization of the class.
 	 * @return localization used

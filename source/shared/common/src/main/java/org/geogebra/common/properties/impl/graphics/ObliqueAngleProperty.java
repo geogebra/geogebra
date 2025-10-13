@@ -4,11 +4,12 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class ObliqueAngleProperty extends AbstractValuedProperty<String>
-	implements StringProperty {
+	implements StringProperty, SettingsDependentProperty {
 	private EuclidianView3DInterface euclidianView;
 
 	/**
@@ -47,7 +48,12 @@ public class ObliqueAngleProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isAvailable() {
 		return euclidianView.getProjection() == EuclidianView3DInterface.PROJECTION_OBLIQUE;
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianView.getSettings();
 	}
 }

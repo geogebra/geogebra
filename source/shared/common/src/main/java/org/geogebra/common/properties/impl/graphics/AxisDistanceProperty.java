@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 
@@ -15,7 +16,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * This property controls the distance of an axis numbering
  */
-public class AxisDistanceProperty extends NumericPropertyWithSuggestions {
+public class AxisDistanceProperty extends NumericPropertyWithSuggestions
+		implements SettingsDependentProperty {
 	private final EuclidianSettings euclidianSettings;
 	private final EuclidianViewInterfaceCommon euclidianView;
 	private final int axis;
@@ -60,5 +62,10 @@ public class AxisDistanceProperty extends NumericPropertyWithSuggestions {
 	@Override
 	public List<String> getSuggestions() {
 		return List.of("1", Unicode.PI_STRING, Unicode.PI_HALF_STRING);
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianSettings;
 	}
 }

@@ -4,13 +4,14 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class DistanceBetweenEyesProperty extends AbstractValuedProperty<String>
-	implements StringProperty {
-	private EuclidianSettings3D euclidianSettings;
+		implements StringProperty, SettingsDependentProperty {
+	private final EuclidianSettings3D euclidianSettings;
 
 	/**
 	 * Constructs a distance between eyes property used for
@@ -48,7 +49,12 @@ public class DistanceBetweenEyesProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isAvailable() {
 		return euclidianSettings.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES;
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianSettings;
 	}
 }

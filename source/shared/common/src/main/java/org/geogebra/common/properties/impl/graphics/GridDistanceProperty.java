@@ -2,17 +2,20 @@ package org.geogebra.common.properties.impl.graphics;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class GridDistanceProperty extends NumericPropertyWithSuggestions {
+public class GridDistanceProperty extends NumericPropertyWithSuggestions
+		implements SettingsDependentProperty {
 	private final EuclidianViewInterfaceCommon euclidianView;
 	private final int axis;
 
@@ -50,5 +53,21 @@ public class GridDistanceProperty extends NumericPropertyWithSuggestions {
 	@Override
 	protected NumberValue getNumberValue() {
 		return new MyDouble(euclidianView.getKernel(), euclidianView.getGridDistances()[axis]);
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianView.getSettings();
+	}
+
+	@Override
+	public boolean isAvailable() {
+		boolean polar = euclidianView.getSettings().getGridType() == EuclidianView.GRID_POLAR;
+		return "r".equals(getRawName()) == polar;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return !euclidianView.getSettings().getAutomaticGridDistance();
 	}
 }

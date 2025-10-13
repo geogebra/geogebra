@@ -40,7 +40,7 @@ public class AdvancedClassic3DPropertiesCollection extends AbstractPropertyColle
 		properties.add(new UseLightingBooleanProperty(localization, euclidianView.getSettings(),
 				euclidianView));
 		properties.add(new NavigationBarPropertiesCollection(localization, app,
-				euclidianView.getViewID()));
+				euclidianView.getViewID(), settings));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

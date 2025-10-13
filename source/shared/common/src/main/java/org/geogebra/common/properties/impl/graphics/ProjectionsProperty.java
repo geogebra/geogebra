@@ -23,10 +23,10 @@ import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 public class ProjectionsProperty extends AbstractNamedEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 
-	private EuclidianView3DInterface view;
-	private EuclidianSettings3D euclidianSettings;
+	private final EuclidianView3DInterface view;
+	private final EuclidianSettings3D euclidianSettings;
 
-	private PropertyResource[] icons = new PropertyResource[]{
+	private static final PropertyResource[] icons = new PropertyResource[]{
 			PropertyResource.ICON_PROJECTION_PARALLEL,
 			PropertyResource.ICON_PROJECTION_PERSPECTIVE,
 			PropertyResource.ICON_PROJECTION_GLASSES,

@@ -18,7 +18,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * input field material design component
  */
-public class ComponentInputField extends FlowPanel implements SetLabels, Input {
+public class ComponentInputField extends FlowPanel implements SetLabels, Input, HasDisabledState {
 	private final Localization loc;
 	private String errorTextKey;
 	private final String labelTextKey;
@@ -257,10 +257,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		return !StringUtil.empty(errorTextKey);
 	}
 
-	/**
-	 * Disables text field
-	 * @param disabled whether to disable text field or not
-	 */
+	@Override
 	public void setDisabled(boolean disabled) {
 		Dom.toggleClass(getContentPanel(), "disabled", disabled);
 		inputTextField.setEnabled(!disabled);

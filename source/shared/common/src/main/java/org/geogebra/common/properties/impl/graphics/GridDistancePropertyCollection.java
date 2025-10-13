@@ -31,6 +31,7 @@ public class GridDistancePropertyCollection extends AbstractPropertyCollection<P
 		properties.add(new GridFixedDistanceProperty(localization, euclidianSettings));
 		properties.add(new GridDistanceProperty(ap, localization, euclidianView, "x", 0));
 		properties.add(new GridDistanceProperty(ap, localization, euclidianView, "y", 1));
+		properties.add(new GridDistanceProperty(ap, localization, euclidianView, "r", 0));
 		properties.add(new GridAngleProperty(ap, localization, euclidianView));
 		setProperties(properties.toArray(new Property[0]));
 	}

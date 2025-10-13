@@ -1,12 +1,8 @@
 package org.geogebra.web.full.gui.properties.ui.panel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.impl.graphics.Dimension3DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.DimensionMinMaxProperty;
-import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.properties.ui.PropertiesPanelAdapter;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -17,7 +13,6 @@ public class Dimension3DPanel extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private Label label;
 	private String labelTransKey;
-	private final List<ComponentInputField> inputFieldList = new ArrayList<>();
 
 	/**
 	 * Dimension panel holding min and max values for x/y/z
@@ -41,7 +36,6 @@ public class Dimension3DPanel extends FlowPanel implements SetLabels {
 		minMaxPanel.addStyleName("minMaxPanel");
 		for (DimensionMinMaxProperty property : propertiesCollection.getProperties()) {
 			Widget widget = propertiesPanelAdapter.getWidget(property);
-			inputFieldList.add((ComponentInputField) widget);
 			widget.addStyleName("minMaxItem");
 			minMaxPanel.add(widget);
 		}
@@ -51,6 +45,5 @@ public class Dimension3DPanel extends FlowPanel implements SetLabels {
 	@Override
 	public void setLabels() {
 		label.setText(appW.getLocalization().getMenu(labelTransKey));
-		inputFieldList.forEach(SetLabels::setLabels);
 	}
 }

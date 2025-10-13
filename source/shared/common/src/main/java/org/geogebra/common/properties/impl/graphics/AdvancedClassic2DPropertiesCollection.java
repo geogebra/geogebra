@@ -36,7 +36,7 @@ public class AdvancedClassic2DPropertiesCollection extends AbstractPropertyColle
 		properties.add(new TooltipProperty(localization, settings, euclidianView));
 		properties.add(new ShowMouseCoordinatesProperty(localization, settings));
 		properties.add(new NavigationBarPropertiesCollection(localization, app,
-				euclidianView.getViewID()));
+				euclidianView.getViewID(), settings));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

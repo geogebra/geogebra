@@ -23,10 +23,18 @@ public interface Property extends PropertySupplier {
     /**
      * Returns whether the property is enabled. In some cases
      * properties can depend on other settings, so they may be disabled.
+     * This generally corresponds to read-only state in the UI.
      *
      * @return true iff the property is enabled
      */
     boolean isEnabled();
+
+    /**
+     * Some properties need to be shown or hidden in the UI dynamically,
+     * depending on other properties.
+     * @return whether the property is available
+     */
+    boolean isAvailable();
 
     /**
      * @return whether the property is read-only

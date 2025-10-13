@@ -5,6 +5,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
@@ -12,7 +13,7 @@ import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 
 public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Integer>
-		implements IconsEnumeratedProperty<Integer> {
+		implements IconsEnumeratedProperty<Integer>, SettingsDependentProperty {
 	private final EuclidianSettings euclidianSettings;
 	private final boolean isRuling;
 	private static final PropertyResource[] icons =
@@ -68,7 +69,7 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isAvailable() {
 		if (isRuling) {
 			BackgroundType backgroundType = euclidianSettings.getBackgroundType();
 			return backgroundType == BackgroundType.RULER || backgroundType
@@ -76,5 +77,10 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 		} else {
 			return euclidianSettings.getGridType() != EuclidianView.GRID_DOTS;
 		}
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianSettings;
 	}
 }

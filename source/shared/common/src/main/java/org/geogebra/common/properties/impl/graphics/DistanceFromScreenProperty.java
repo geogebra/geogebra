@@ -4,12 +4,13 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class DistanceFromScreenProperty extends AbstractValuedProperty<String>
-		implements StringProperty {
+		implements StringProperty, SettingsDependentProperty {
 	private EuclidianSettings3D euclidianSettings;
 
 	/**
@@ -47,7 +48,12 @@ public class DistanceFromScreenProperty extends AbstractValuedProperty<String>
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isAvailable() {
 		return euclidianSettings.getProjection() == EuclidianView3DInterface.PROJECTION_PERSPECTIVE;
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianSettings;
 	}
 }

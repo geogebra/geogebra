@@ -18,12 +18,12 @@ public class RulingGridLineStylePropertyTest extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testEnabled() {
+	public void testAvailable() {
 		EuclidianSettings euclidianSettings = getApp().getSettings().getEuclidian(1);
 		RulingGridLineStyleProperty prop = new RulingGridLineStyleProperty(
 				getApp().getLocalization(), euclidianSettings, false);
-		assertTrue(prop.isEnabled(), "Should be enabled by default");
+		assertTrue(prop.isAvailable(), "Should be available by default");
 		euclidianSettings.setGridType(EuclidianView.GRID_DOTS);
-		assertFalse(prop.isEnabled(), "Should be disabled for dots");
+		assertFalse(prop.isAvailable(), "Should be available for dots");
 	}
 }

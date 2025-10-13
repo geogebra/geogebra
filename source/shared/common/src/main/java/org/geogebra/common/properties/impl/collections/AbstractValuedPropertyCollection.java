@@ -112,4 +112,9 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 	public void setFrozen(boolean frozen) {
 		// ignore
 	}
+
+	@Override
+	public boolean isAvailable() {
+		return getFirstProperty().isAvailable();
+	}
 }

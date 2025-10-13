@@ -1,17 +1,20 @@
 package org.geogebra.web.full.gui.properties.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
-import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.PropertyCollectionWithLead;
@@ -34,20 +37,19 @@ import org.geogebra.common.properties.impl.graphics.Dimension3DPropertiesCollect
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesCollection;
-import org.geogebra.common.properties.impl.graphics.ProjectionPropertyCollection;
-import org.geogebra.common.properties.impl.graphics.RulingGridLineStyleProperty;
-import org.geogebra.common.properties.impl.graphics.RulingPropertiesCollection;
-import org.geogebra.common.properties.impl.graphics.RulingStyleProperty;
+import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.impl.objects.DefinitionProperty;
 import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.full.gui.components.HasDisabledState;
 import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.Dimension3DPanel;
@@ -55,9 +57,6 @@ import org.geogebra.web.full.gui.properties.ui.panel.DimensionPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.GridDistancePanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.LabelStylePanel;
-import org.geogebra.web.full.gui.properties.ui.settingsListener.SelectionSettingsListener;
-import org.geogebra.web.full.gui.properties.ui.settingsListener.StateSettingsListener;
-import org.geogebra.web.full.gui.properties.ui.settingsListener.VisibilitySettingsListener;
 import org.geogebra.web.full.gui.properties.ui.tabs.ScriptTabFactory;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -78,12 +77,12 @@ import jsinterop.base.Js;
 /**
  * Maps properties to UI components for the properties view.
  */
-public class PropertiesPanelAdapter implements SetLabels {
+public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 	private final Localization loc;
 	private final AppW app;
 	private final List<Widget> widgets = new ArrayList<>();
-	private final SelectionSettingsListener selectionListenerWidgetCollection;
-	private final StateSettingsListener stateSettingsListener;
+	private final Map<AbstractSettings, MulticastEvent<AbstractSettings>>
+			stateSettingsListener = new HashMap<>();
 
 	/**
 	 * @param loc localization
@@ -92,8 +91,6 @@ public class PropertiesPanelAdapter implements SetLabels {
 	public PropertiesPanelAdapter(Localization loc, AppW app) {
 		this.loc = loc;
 		this.app = app;
-		selectionListenerWidgetCollection = new SelectionSettingsListener(app);
-		stateSettingsListener = new StateSettingsListener(app, 1, 2, 3);
 	}
 
 	/**
@@ -120,14 +117,11 @@ public class PropertiesPanelAdapter implements SetLabels {
 		return panel;
 	}
 
-	private void registerStateSettingsListenerWidget(Property property, Widget widget) {
-		stateSettingsListener.registerWidget(widget, property);
-	}
-
-	private void mayRegisterSettingsListenerWidget(NamedEnumeratedProperty<?> property,
+	private void synchronizeSelectedIndex(NamedEnumeratedProperty<?> property,
 			ComponentDropDown dropDown) {
-		if (property instanceof RulingStyleProperty) {
-			selectionListenerWidgetCollection.registerWidget(dropDown, property);
+		if (property instanceof SettingsDependentProperty) {
+			registerListener((SettingsDependentProperty) property,
+					s -> dropDown.setSelectedIndex(property.getIndex()));
 		}
 	}
 
@@ -137,6 +131,24 @@ public class PropertiesPanelAdapter implements SetLabels {
 	 * @return {@link Widget}
 	 */
 	public Widget getWidget(Property property) {
+		Widget ret = createWidget(property);
+		widgets.add(ret);
+		if (property instanceof SettingsDependentProperty) {
+			updateEnabledState(ret, property);
+			registerListener((SettingsDependentProperty) property,
+					s -> updateEnabledState(ret, property));
+		}
+		return ret;
+	}
+
+	private void updateEnabledState(Widget ret, Property prop) {
+		if (ret instanceof HasDisabledState) {
+			((HasDisabledState) ret).setDisabled(!prop.isEnabled());
+		}
+		ret.setVisible(prop.isAvailable());
+	}
+
+	private Widget createWidget(Property property) {
 		if (property instanceof IconAssociatedProperty) {
 			IconButton button = new IconButton(app, null, new ImageIconSpec(PropertiesIconAdapter
 					.getIcon(((IconAssociatedProperty) property).getIcon())),
@@ -146,46 +158,37 @@ public class PropertiesPanelAdapter implements SetLabels {
 				button.setActive(!button.isActive());
 				((BooleanProperty) property).setValue(!((BooleanProperty) property).getValue());
 			});
-			widgets.add(button);
 			return button;
 		}
 		if (property instanceof BooleanProperty) {
-			ComponentCheckbox checkbox =  new ComponentCheckbox(loc, ((BooleanProperty) property)
+			return new ComponentCheckbox(loc, ((BooleanProperty) property)
 					.getValue(), property.getRawName(),
 					checked -> ((BooleanProperty) property).setValue(checked));
-			widgets.add(checkbox);
-			return checkbox;
 		}
 		if (property instanceof RangeProperty) {
 			FlowPanel wrapper = new FlowPanel();
 			RangeProperty<Integer> rp = (RangeProperty<Integer>) property;
 			SliderPanel sliderPanel = new SliderPanel(rp.getMin(), rp.getMax());
 			sliderPanel.setTickSpacing(rp.getStep());
-			sliderPanel.addValueChangeHandler(change -> {
-				rp.setValue(change.getValue());
-			});
+			sliderPanel.addValueChangeHandler(change ->
+				rp.setValue(change.getValue())
+			);
 			sliderPanel.setValue(rp.getValue());
 			wrapper.add(new Label(property.getName()));
 			wrapper.add(sliderPanel);
 			return wrapper;
 		}
 		if (property instanceof ActionablePropertyCollection<?>) {
-			ActionableButtonPanel buttonPanel = new ActionableButtonPanel(
+			return new ActionableButtonPanel(
 					(ActionablePropertyCollection<?>) property);
-			widgets.add(buttonPanel);
-			return buttonPanel;
 		}
 		if (property instanceof LabelStylePropertyCollection) {
-			FlowPanel labelStylePanel = new LabelStylePanel(
+			return new LabelStylePanel(
 					(LabelStylePropertyCollection) property, this);
-			widgets.add(labelStylePanel);
-			return labelStylePanel;
 		}
 		if (property instanceof GridDistancePropertyCollection) {
-			GridDistancePanel gridDistancePanel = new GridDistancePanel(app,
-					(GridDistancePropertyCollection) property);
-			widgets.add(gridDistancePanel);
-			return gridDistancePanel;
+			return new GridDistancePanel(
+					(GridDistancePropertyCollection) property, this);
 		}
 		if (property instanceof AxisDistancePropertyCollection
 			|| property instanceof AxisUnitPropertyCollection
@@ -193,52 +196,26 @@ public class PropertiesPanelAdapter implements SetLabels {
 			FlowPanel axisCheckBoxComboBoxPanel = new FlowPanel();
 			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
 				Widget widget = getWidget(prop);
-				widgets.add(widget);
 				axisCheckBoxComboBoxPanel.add(widget);
-				registerStateSettingsListenerWidget(prop, widget);
 			}
 			return axisCheckBoxComboBoxPanel;
 		}
 		if (property instanceof NavigationBarPropertiesCollection) {
-			FlowPanel panel = new FlowPanel();
+			FlowPanel panel = createCollectionPanel((PropertyCollection<?>) property);
 			panel.addStyleName("navigationBar");
-			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
-				Widget widget = getWidget(prop);
-				panel.add(widget);
-				stateSettingsListener.registerWidget(widget, prop);
-			}
+
 			return panel;
 		}
 		if (property instanceof ClippingPropertyCollection) {
-			FlowPanel panel = new FlowPanel();
+			FlowPanel panel = createCollectionPanel((PropertyCollection<?>) property);
 			Label title = new Label(loc.getMenu(property.getName()));
-			panel.add(title);
+			panel.insert(title, 0);
 			widgets.add(title);
-			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
-				Widget widget = getWidget(prop);
-				panel.add(widget);
-			}
 			return panel;
 		}
-		if (property instanceof ProjectionPropertyCollection
-				|| property instanceof RulingPropertiesCollection) {
-			ComponentExpandableList expandableList = new ComponentExpandableList(app,
-					null, property.getName());
-			VisibilitySettingsListener collection = new VisibilitySettingsListener(app, 1, 3);
-			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
-				Widget widget = getWidget(prop);
-				expandableList.addToContent(widget);
-				collection.registerWidget(widget, prop);
-				widget.setVisible(prop.isEnabled());
-			}
-			widgets.add(expandableList);
-			return expandableList;
-		}
 		if (property instanceof Dimension3DPropertiesCollection) {
-			Dimension3DPanel dimension3DPanel = new Dimension3DPanel(app, this,
+			return new Dimension3DPanel(app, this,
 					(Dimension3DPropertiesCollection) property);
-			widgets.add(dimension3DPanel);
-			return dimension3DPanel;
 		}
 
 		if (property instanceof ObjectAllEventsProperty) {
@@ -250,10 +227,8 @@ public class PropertiesPanelAdapter implements SetLabels {
 		}
 
 		if (property instanceof Dimension2DPropertiesCollection) {
-			ComponentExpandableList expandableList = new DimensionPanel(app, this,
+			return new DimensionPanel(app, this,
 					(PropertyCollection<?>) property);
-			widgets.add(expandableList);
-			return expandableList;
 		}
 
 		if (property instanceof PropertyCollection) {
@@ -264,7 +239,6 @@ public class PropertiesPanelAdapter implements SetLabels {
 			for (Property prop : ((PropertyCollection<?>) property).getProperties()) {
 				expandableList.addToContent(getWidget(prop));
 			}
-			widgets.add(expandableList);
 			return expandableList;
 		}
 		if (property instanceof NamedEnumeratedProperty) {
@@ -274,34 +248,23 @@ public class PropertiesPanelAdapter implements SetLabels {
 			ComponentDropDown dropDown = new ComponentDropDown(app, property.getRawName(),
 					(NamedEnumeratedProperty<?>) property);
 			dropDown.setFullWidth(true);
-			mayRegisterSettingsListenerWidget((NamedEnumeratedProperty<?>) property, dropDown);
-			widgets.add(dropDown);
+			synchronizeSelectedIndex((NamedEnumeratedProperty<?>) property, dropDown);
 			return dropDown;
 		}
 		if (property instanceof StringPropertyWithSuggestions) {
-			ComponentComboBox comboBox = new ComponentComboBox(app,
-					(StringPropertyWithSuggestions) property);
-			widgets.add(comboBox);
-			return comboBox;
-		}
-		if (property instanceof NumericPropertyWithSuggestions) {
-			ComponentComboBox comboBox = new ComponentComboBox(app,
-					(NumericPropertyWithSuggestions) property);
+			StringPropertyWithSuggestions numProperty = (StringPropertyWithSuggestions) property;
+			ComponentComboBox comboBox = new ComponentComboBox(app, numProperty);
 			comboBox.setDisabled(!property.isEnabled());
-			widgets.add(comboBox);
+			if (property instanceof SettingsDependentProperty) {
+				registerListener((SettingsDependentProperty) property, s ->
+					comboBox.setValue(numProperty.getValue())
+				);
+			}
 			return comboBox;
 		}
 		if (property instanceof IconsEnumeratedProperty) {
-			IconButtonPanel iconButtonPanel = new IconButtonPanel(app,
+			return new IconButtonPanel(app,
 					(IconsEnumeratedProperty<?>) property);
-			widgets.add(iconButtonPanel);
-			if (property instanceof RulingGridLineStyleProperty) {
-				VisibilitySettingsListener collection = new VisibilitySettingsListener(
-						app, 1, 2, 3);
-				collection.registerWidget(iconButtonPanel, property);
-			}
-			iconButtonPanel.setVisible(property.isEnabled());
-			return iconButtonPanel;
 		}
 		if (property instanceof ColorProperty) {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,
@@ -309,7 +272,6 @@ public class PropertiesPanelAdapter implements SetLabels {
 					color -> ((ColorProperty) property).setValue(color), property.getRawName());
 			colorPanel.updateColorSelection(((ColorProperty) property).getValue());
 			colorPanel.addStyleName("colorPanel");
-			widgets.add(colorPanel);
 			return colorPanel;
 		}
 		if (property instanceof FilePropertyCollection) {
@@ -349,10 +311,26 @@ public class PropertiesPanelAdapter implements SetLabels {
 					submit.run();
 				}
 			});
-			widgets.add(inputField);
 			return inputField;
 		}
-		return new Label(property + "");
+		return new Label(property.toString());
+	}
+
+	private FlowPanel createCollectionPanel(PropertyCollection<?> property) {
+		FlowPanel panel = new FlowPanel();
+		for (Property prop : property.getProperties()) {
+			Widget widget = getWidget(prop);
+			panel.add(widget);
+		}
+		return panel;
+	}
+
+	private void registerListener(SettingsDependentProperty prop,
+			MulticastEvent.Listener<AbstractSettings> listener) {
+		stateSettingsListener.computeIfAbsent(prop.getSettings(), settings -> {
+			settings.addListener(this);
+			return new MulticastEvent<>();
+		}).addListener(listener);
 	}
 
 	@Override
@@ -371,6 +349,12 @@ public class PropertiesPanelAdapter implements SetLabels {
 			}
 			app.getLAF().storeLanguage(property.getValue());
 		}
+	}
+
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		stateSettingsListener.getOrDefault(settings, new MulticastEvent<>())
+				.notifyListeners(settings);
 	}
 
 	private static class InputFieldErrorHandler implements ErrorHandler {

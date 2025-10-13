@@ -8,6 +8,7 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.graphics.RightAngleProperty;
 import org.geogebra.common.properties.impl.graphics.TooltipProperty;
@@ -191,7 +192,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
 				model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
 						/ parseDouble(tfAxesRatioY.getText()), this);
 			} else {
-				model.applyLockRatio(-1, this);
+				model.applyLockRatio(EuclidianSettings.UNSET_LOCK_RATIO, this);
 			}
 		});
 	}

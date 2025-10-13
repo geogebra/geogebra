@@ -15,13 +15,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
-public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget {
+public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabledState {
 	private final AppW appW;
 	private AutoCompleteTextFieldW inputTextField;
 	private Label label;
@@ -115,10 +114,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, IsWidget 
 
 	// Status helpers
 
-	/**
-	 * Disable drop-down component.
-	 * @param disabled true, if drop-down should be disabled
-	 */
+	@Override
 	public void setDisabled(boolean disabled) {
 		inputTextField.setEnabled(!disabled);
 		Dom.toggleClass(this, "disabled", disabled);

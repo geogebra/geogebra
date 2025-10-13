@@ -75,6 +75,11 @@ public class ProbabilityResultProperty implements Property {
 	}
 
 	@Override
+	public boolean isAvailable() {
+		return true;
+	}
+
+	@Override
 	public boolean isFrozen() {
 		return frozen;
 	}

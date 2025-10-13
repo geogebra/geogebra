@@ -52,6 +52,7 @@ import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.util.StringUtil;
@@ -873,7 +874,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 				model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
 						/ parseDouble(tfAxesRatioY.getText()), this);
 			} else {
-				model.applyLockRatio(-1, this);
+				model.applyLockRatio(EuclidianSettings.UNSET_LOCK_RATIO, this);
 			}
 
 		} else if (source == tfMinX || source == tfMaxX || source == tfMaxY

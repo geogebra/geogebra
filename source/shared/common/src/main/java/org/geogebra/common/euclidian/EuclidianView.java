@@ -500,7 +500,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * axes ratio if locked; -1 otherwise
 	 */
-	protected double lockedAxesRatio = -1;
+	protected double lockedAxesRatio = EuclidianSettings.UNSET_LOCK_RATIO;
 	private boolean updateBackgroundOnNextRepaint;
 
 	private List<GeoElement> specPoints;
@@ -844,14 +844,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Set unit axes ratio to 1
+	 * Set axes ratio. To unlock the ratio pass {@link EuclidianSettings#UNSET_LOCK_RATIO} as
+	 * argument.
 	 * 
-	 * @param flag
-	 *            true to set to 1, false to allow user
+	 * @param ratio
+	 *            the x:y ratio, numbers &lt;= 0 treated as unlocked
 	 */
-	public void setLockedAxesRatio(double flag) {
-		lockedAxesRatio = flag;
-		if (flag > 0) {
+	public void setLockedAxesRatio(double ratio) {
+		lockedAxesRatio = ratio;
+		if (ratio > 0) {
 			updateBounds(true, true);
 		}
 	}

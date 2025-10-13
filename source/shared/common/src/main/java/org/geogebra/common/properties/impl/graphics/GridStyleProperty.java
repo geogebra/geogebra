@@ -19,9 +19,10 @@ import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 public class GridStyleProperty extends AbstractNamedEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 
-	private EuclidianSettings euclidianSettings;
+	private final EuclidianSettings euclidianSettings;
 
-	private PropertyResource[] icons = new PropertyResource[]{PropertyResource.ICON_CARTESIAN,
+	private static final PropertyResource[] icons = new PropertyResource[]{
+			PropertyResource.ICON_CARTESIAN,
 			PropertyResource.ICON_CARTESIAN_MINOR, PropertyResource.ICON_POLAR,
 			PropertyResource.ICON_ISOMETRIC, PropertyResource.ICON_DOTS};
 

@@ -11,14 +11,16 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.aliases.StringProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
 /**
  * This property controls the label on an axis.
  */
-public class AxisLabelProperty extends StringPropertyWithSuggestions implements StringProperty {
+public class AxisLabelProperty extends AbstractValuedProperty<String>
+		implements StringPropertyWithSuggestions {
 
 	private EuclidianSettings euclidianSettings;
 	private int axis;
@@ -80,6 +82,9 @@ public class AxisLabelProperty extends StringPropertyWithSuggestions implements 
 
 	@Override
 	public boolean isEnabled() {
+		if (PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
+			return true;
+		}
 		String[] labels = euclidianSettings.getAxesLabels();
 		boolean enabled = false;
 		for (int i = 0; i < euclidianSettings.getDimension(); i++) {

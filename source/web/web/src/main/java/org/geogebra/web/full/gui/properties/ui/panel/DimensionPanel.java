@@ -21,8 +21,6 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 	private final AppW appW;
 	private final PropertiesPanelAdapter propertiesPanelAdapter;
 	private Label dimensionLabel;
-	private ComponentInputField xRatio;
-	private ComponentInputField yRatio;
 	private IconButton lockRatio;
 	private Label ratioLabel;
 	private String ratioLabelKey;
@@ -62,42 +60,11 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 	}
 
 	private FlowPanel buildRatioPanel(DimensionRatioProperty property) {
-		xRatio = new ComponentInputField(appW, "", "xAxis", "", property.getXRatio());
-		xRatio.getTextField().getTextComponent().addBlurHandler(
-				evt -> property.setXRatio(xRatio.getText()));
-		xRatio.getTextField().getTextComponent().addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				property.setXRatio(xRatio.getText());
-			}
-		});
-		xRatio.setDisabled(!property.isRatioEnabled());
-
-		yRatio = new ComponentInputField(appW, "", "yAxis", "", property.getYRatio());
-		yRatio.getTextField().getTextComponent().addBlurHandler(
-				evt -> property.setYRatio(yRatio.getText()));
-		yRatio.getTextField().getTextComponent().addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				property.setYRatio(yRatio.getText());
-			}
-		});
-		yRatio.setDisabled(!property.isRatioEnabled());
-
-		SVGResource icon = property.isRatioLocked()
-				? MaterialDesignResources.INSTANCE.lock_black()
-				: MaterialDesignResources.INSTANCE.lock_open_black();
-		lockRatio = new IconButton(appW, null, new ImageIconSpec(icon),
-				getLockedUnlockedKey(property));
-		lockRatio.getElement().setAttribute("tooltip-position", "right");
-		lockRatio.addFastClickHandler(source -> {
-			property.setRatioLocked(!property.isRatioLocked());
-			boolean locked = property.isRatioLocked();
-			lockRatio.setIcon(locked
-					? MaterialDesignResources.INSTANCE.lock_black()
-					: MaterialDesignResources.INSTANCE.lock_open_black());
-			lockRatio.setTitle(appW.getLocalization().getMenu(getLockedUnlockedKey(property)));
-			xRatio.setDisabled(locked);
-			yRatio.setDisabled(locked);
-		});
+		ComponentInputField xRatio = (ComponentInputField) propertiesPanelAdapter.getWidget(
+				property.getXRatioProperty());
+		ComponentInputField yRatio = (ComponentInputField) propertiesPanelAdapter.getWidget(
+				property.getYRatioProperty());
+		lockRatio = createLockRatio(property);
 
 		FlowPanel panel = new FlowPanel();
 		ratioLabelKey = property.getRawName();
@@ -113,6 +80,24 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 		return panel;
 	}
 
+	private IconButton createLockRatio(DimensionRatioProperty property) {
+		SVGResource icon = property.isRatioLocked()
+				? MaterialDesignResources.INSTANCE.lock_black()
+				: MaterialDesignResources.INSTANCE.lock_open_black();
+		IconButton lockRatio = new IconButton(appW, null, new ImageIconSpec(icon),
+				getLockedUnlockedKey(property));
+		lockRatio.addFastClickHandler(source -> {
+			property.setRatioLocked(!property.isRatioLocked());
+			boolean locked = property.isRatioLocked();
+			lockRatio.setIcon(locked
+					? MaterialDesignResources.INSTANCE.lock_black()
+					: MaterialDesignResources.INSTANCE.lock_open_black());
+			lockRatio.setTitle(appW.getLocalization().getMenu(getLockedUnlockedKey(property)));
+		});
+		lockRatio.getElement().setAttribute("tooltip-position", "right");
+		return lockRatio;
+	}
+
 	private String getLockedUnlockedKey(DimensionRatioProperty property) {
 		return property.isRatioLocked() ? "UnlockRatio" : "LockRatio";
 	}
@@ -121,8 +106,6 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 	public void setLabels() {
 		super.setLabels();
 		dimensionLabel.setText(appW.getLocalization().getMenu("Dimensions"));
-		xRatio.setLabels();
-		yRatio.setLabels();
 		lockRatio.setLabels();
 		ratioLabel.setText(appW.getLocalization().getMenu(ratioLabelKey));
 	}

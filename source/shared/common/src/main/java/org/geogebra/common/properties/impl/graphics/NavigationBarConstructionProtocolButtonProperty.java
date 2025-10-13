@@ -3,13 +3,16 @@ package org.geogebra.common.properties.impl.graphics;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class NavigationBarConstructionProtocolButtonProperty extends AbstractValuedProperty<Boolean>
-	implements BooleanProperty {
+	implements BooleanProperty, SettingsDependentProperty {
 	private final App app;
 	private final int viewID;
+	private final EuclidianSettings evSettings;
 
 	/**
 	 * Creates a property enabling/disabling the construction protocol button in the navigation bar
@@ -18,10 +21,11 @@ public class NavigationBarConstructionProtocolButtonProperty extends AbstractVal
 	 * @param viewID euclidian view ID
 	 */
 	public NavigationBarConstructionProtocolButtonProperty(Localization localization, App app,
-			int viewID) {
+			int viewID, EuclidianSettings settings) {
 		super(localization, "ConstructionProtocolButton");
 		this.app = app;
 		this.viewID = viewID;
+		this.evSettings = settings;
 	}
 
 	@Override
@@ -42,5 +46,10 @@ public class NavigationBarConstructionProtocolButtonProperty extends AbstractVal
 	@Override
 	public boolean isEnabled() {
 		return app.showConsProtNavigation(viewID);
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return evSettings;
 	}
 }

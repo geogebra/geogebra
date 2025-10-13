@@ -7,7 +7,9 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -15,7 +17,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * This property controls the unit of axis
  */
-public class AxisUnitProperty extends StringPropertyWithSuggestions {
+public class AxisUnitProperty extends AbstractValuedProperty<String>
+		implements StringPropertyWithSuggestions, SettingsDependentProperty {
 	private final EuclidianSettings euclidianSettings;
 	private final EuclidianViewInterfaceCommon euclidianView;
 	private final int axis;
@@ -65,5 +68,10 @@ public class AxisUnitProperty extends StringPropertyWithSuggestions {
 				"m",
 				"km",
 				Unicode.CURRENCY_DOLLAR + "");
+	}
+
+	@Override
+	public AbstractSettings getSettings() {
+		return euclidianSettings;
 	}
 }
