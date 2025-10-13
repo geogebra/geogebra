@@ -2382,14 +2382,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (isIniting()) {
 			return;
 		}
-
+		EuclidianView ev = getActiveEuclidianView();
 		if (isUsingFullGui()) {
 			if (getGuiManager() != null && showMenuBar) {
 				getGuiManager().updateMenubarSelection();
 			}
 
 			// if showMenuBar is false, we can still update the style bars
-			EuclidianView ev = getActiveEuclidianView();
 			if (ev != null
 					&& (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())
 					|| ev.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW)) {
@@ -2404,6 +2403,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			if (updatePropertiesView && propertiesView != null && showMenuBar) {
 				propertiesView.updateSelection();
 			}
+		}
+		if (ev != null && getSelectionManager().getSelectedGeos().isEmpty()) {
+			ev.setBoundingBox(null);
 		}
 		ScreenReader.updateSelection(this);
 
