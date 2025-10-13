@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.contextmenu;
 
 import static org.geogebra.common.GeoGebraConstants.BAYERN_GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.WTR_APPCODE;
 
 import java.util.Locale;
 import java.util.Set;
@@ -60,7 +61,7 @@ public class CalculatorSubMenu extends AriaMenuBar {
 			if (app.isByCS() && examType != ExamType.BAYERN_GR) {
 				addItemWithButton(AppDescription.get(SuiteSubApp.SCIENTIFIC).getNameKey(),
 						BOARD_URL + "/taschenrechner", () -> embedManager
-								.addCalcWithPreselectedApp(appOrExamModeName, SCIENTIFIC_APPCODE));
+								.addCalcWithPreselectedApp(WTR_APPCODE, SCIENTIFIC_APPCODE));
 			} else {
 				addItem(SuiteSubApp.SCIENTIFIC);
 			}

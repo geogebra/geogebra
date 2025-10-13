@@ -145,6 +145,7 @@ public interface GeoGebraConstants {
 	String NOTES_APPCODE = "notes";
 	String PROBABILITY_APPCODE = "probability";
 	String BAYERN_GRAPHING_APPCODE = "bayern_gr";
+	String WTR_APPCODE = "wtr";
 
 	String SUITE_SHORT_NAME = "CalculatorSuite.short";
 
