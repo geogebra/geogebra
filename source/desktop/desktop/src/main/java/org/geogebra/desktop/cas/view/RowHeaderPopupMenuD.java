@@ -24,10 +24,11 @@ import org.geogebra.desktop.main.AppD;
 public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		implements ActionListener {
 
-	private JList rowHeader;
-	private CASTableD table;
+	private final AppD app;
+	private final JList rowHeader;
+	private final CASTableD table;
 	private JMenuItem cbUseAsText;
-	private JPopupMenu rowHeaderPopupMenu;
+	private final JPopupMenu rowHeaderPopupMenu;
 
 	/**
 	 * Creates new popup menu
@@ -36,9 +37,11 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 	 *            row headers
 	 * @param table
 	 *            CAS table
+	 * @param app application
 	 */
-	public RowHeaderPopupMenuD(JList rowHeader, CASTableD table) {
+	public RowHeaderPopupMenuD(JList rowHeader, CASTableD table, AppD app) {
 		super(table.getApplication());
+		this.app = app;
 		rowHeaderPopupMenu = new JPopupMenu();
 		this.rowHeader = rowHeader;
 		this.table = table;
@@ -51,7 +54,7 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 	protected void initMenu() {
 		// insert above
 		JMenuItem item5 = new JMenuItem(loc.getMenu("InsertAbove"));
-		Icon emptyIcon = ((AppD) app).getEmptyIcon();
+		Icon emptyIcon = app.getEmptyIcon();
 		item5.setIcon(emptyIcon);
 		item5.setActionCommand("insertAbove");
 		item5.addActionListener(this);

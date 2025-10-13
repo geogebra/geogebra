@@ -7,8 +7,6 @@ import org.geogebra.common.main.Localization;
  * Row popup menu for CAS
  */
 public class RowHeaderPopupMenu {
-	/** application */
-	protected final App app;
 	/** localization */
 	protected final Localization loc;
 
@@ -17,7 +15,6 @@ public class RowHeaderPopupMenu {
 	 *            application
 	 */
 	protected RowHeaderPopupMenu(App app) {
-		this.app = app;
 		this.loc = app.getLocalization();
 	}
 

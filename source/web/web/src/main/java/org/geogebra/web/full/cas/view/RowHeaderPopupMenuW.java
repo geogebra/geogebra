@@ -17,19 +17,21 @@ import org.geogebra.web.html5.util.CopyPasteW;
 public class RowHeaderPopupMenuW extends
         org.geogebra.common.cas.view.RowHeaderPopupMenu implements AttachedToDOM {
 
-	private CASTableW table;
-	private GPopupMenuW rowHeaderPopupMenu;
+	private final CASTableW table;
+	private final GPopupMenuW rowHeaderPopupMenu;
+	private final AppW app;
 
 	/**
 	 * @param casTableW
 	 *            table
-	 * @param appl
+	 * @param app
 	 *            application
 	 */
 	public RowHeaderPopupMenuW(
-	        CASTableW casTableW, AppW appl) {
-		super(appl);
-		rowHeaderPopupMenu = new GPopupMenuW(appl);
+	        CASTableW casTableW, AppW app) {
+		super(app);
+		this.app = app;
+		rowHeaderPopupMenu = new GPopupMenuW(app);
 		table = casTableW;
 		initMenu();
 	}

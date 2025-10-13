@@ -5,6 +5,7 @@ import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
 
 import elemental2.core.Function;
@@ -71,7 +72,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	@Override
 	public boolean paste(int column1, int row1, int column2, int row2) {
-		CopyPasteW.pasteNative(app, (content) -> {
+		CopyPasteW.pasteNative((AppW) app, (content) -> {
 			getTable().editCellAt(sourceColumn1, sourceRow1);
 			paste(column1, row1, column2, row2, content);
 		});

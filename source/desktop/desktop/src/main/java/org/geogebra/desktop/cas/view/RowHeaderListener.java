@@ -117,7 +117,7 @@ public class RowHeaderListener extends MouseAdapter
 			}
 			if (rowHeader.getSelectedIndices().length > 0) {
 				RowHeaderPopupMenuD popupMenu = new RowHeaderPopupMenuD(
-						rowHeader, table);
+						rowHeader, table, app);
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}

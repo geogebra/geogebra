@@ -215,7 +215,7 @@ public class CopyPasteW extends CopyPaste {
 
 	@Override
 	public void paste(App app, AsyncOperation<String> plainTextFallback) {
-		pasteNative(app, text -> {
+		pasteNative((AppW) app, text -> {
 			if (text.startsWith(pastePrefix)) {
 				pasteEncoded(app, text);
 			} else {
@@ -228,7 +228,7 @@ public class CopyPasteW extends CopyPaste {
 	 * @param app application
 	 * @param callback consumer for the pasted string
 	 */
-	public static void pasteNative(App app, Consumer<String> callback) {
+	public static void pasteNative(AppW app, Consumer<String> callback) {
 		pasteNative(callback, image -> pasteImage(app, image));
 	}
 
@@ -315,8 +315,10 @@ public class CopyPasteW extends CopyPaste {
 		pasteGeoGebraXML(app, Global.unescape(escapedContent));
 	}
 
-	private static void pasteImage(App app, String encodedImage) {
-		((AppW) app).urlDropHappened(encodedImage, null, null, null);
+	private static void pasteImage(AppW app, String encodedImage) {
+		if (app.getGuiManager() != null && app.getGuiManager().toolbarHasImageMode()) {
+			app.urlDropHappened(encodedImage, null, null, null);
+		}
 	}
 
 	/**
