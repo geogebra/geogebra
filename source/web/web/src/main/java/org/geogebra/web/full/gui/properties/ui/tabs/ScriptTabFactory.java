@@ -183,7 +183,7 @@ public class ScriptTabFactory {
 		this.app = app;
 		loc = app.getLocalization();
 		this.property = property;
-		jsEnabled = app.getScriptManager().isJsEnabled();
+		jsEnabled = app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT);
 		localizedScriptTypeNames = getLocalizedScriptTypeNames();
 	}
 
