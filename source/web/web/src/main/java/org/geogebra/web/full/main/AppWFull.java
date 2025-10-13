@@ -1846,7 +1846,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public InitialViewState getInitialViewState() {
 		if (initialViewState == null) {
-			boolean allowStyleBar = appletParameters.getDataParamAllowStyleBar();
+			boolean allowStyleBar = appletParameters.getDataParamAllowStyleBar()
+					|| appletParameters.getDataParamShowMenuBar(false);
 			initialViewState = isUnbundled()
 					? new UnbundledInitialViewState(this, isShowToolbar(), allowStyleBar)
 					: new ClassicInitialViewState(this, isShowToolbar(), allowStyleBar);
