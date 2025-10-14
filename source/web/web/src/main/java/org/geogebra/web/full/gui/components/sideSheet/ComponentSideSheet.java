@@ -1,10 +1,13 @@
 package org.geogebra.web.full.gui.components.sideSheet;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -36,6 +39,7 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		this.titleTransKey = data.getTitleTransKey();
 		addStyleName("sideSheet");
 		buildSideSheet(addBackButton);
+		setAccessibilityProperties();
 	}
 
 	/**
@@ -74,6 +78,15 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 				new ImageIconSpec(GuiResourcesSimple.INSTANCE.close()), "Close");
 		closeButton.addStyleName("closeBtn");
 		closeButton.getElement().setAttribute("tooltip-position", "right");
+		closeButton.setTabIndex(0);
+		new FocusableWidget(AccessibilityGroup.SETTINGS_CLOSE_BUTTON,
+				AccessibilityGroup.ViewControlId.SETTINGS_VIEW, closeButton) {
+			@Override
+			public void focus(Widget widget) {
+				closeButton.addStyleName("keyboardFocus");
+				closeButton.getElement().focus();
+			}
+		}.attachTo(appW);
 		titlePanel.add(closeButton);
 
 		add(titlePanel);
@@ -135,8 +148,12 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		return data.hasPositiveBtn() && data.hasNegativeBtn();
 	}
 
-	private void onClose() {
+	/**
+	 * side sheet close handler
+	 */
+	public void onClose() {
 		onClose.run();
+		appW.getAccessibilityManager().focusAnchor();
 	}
 
 	private void onBack() {
@@ -171,9 +188,22 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		setLabels();
 	}
 
+	private void setAccessibilityProperties() {
+		AriaHelper.setRole(this, "complementary");
+		AriaHelper.setLabel(this, appW.getLocalization().getMenu(titleTransKey));
+	}
+
+	/**
+	 * focus the close button
+	 */
+	public void focus() {
+		closeButton.getElement().focus();
+	}
+
 	@Override
 	public void setLabels() {
 		titleLabel.setText(appW.getLocalization().getMenu(titleTransKey));
+		AriaHelper.setLabel(this, appW.getLocalization().getMenu(titleTransKey));
 		if (positiveButton != null) {
 			positiveButton.setText(appW.getLocalization().getMenu(data.getPositiveBtnTransKey()));
 		}

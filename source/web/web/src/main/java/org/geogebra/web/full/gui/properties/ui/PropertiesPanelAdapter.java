@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -64,6 +65,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.shared.components.tab.ComponentTab;
@@ -114,6 +116,16 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 				event.preventDefault(); // prevent scroll of panel on SPACE
 			}
 		});
+
+		new FocusableWidget(AccessibilityGroup.SETTINGS_ITEM,
+				AccessibilityGroup.ViewControlId.SETTINGS_VIEW,
+				widgets.toArray(widgets.toArray(new Widget[0]))) {
+			@Override
+			public void focus(Widget widget) {
+				widget.addStyleName("keyboardFocus");
+				widget.getElement().focus();
+			}
+		}.attachTo(app);
 		return panel;
 	}
 

@@ -31,6 +31,7 @@ import org.geogebra.web.full.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.full.gui.dialog.options.OptionsSpreadsheetW;
 import org.geogebra.web.full.gui.properties.ui.PropertiesPanelAdapter;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.PersistablePanel;
@@ -40,6 +41,9 @@ import org.geogebra.web.shared.components.tab.TabData;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.KeyboardEvent;
+import jsinterop.base.Js;
 
 /**
  * @author gabor
@@ -551,6 +555,7 @@ public class PropertiesViewW extends PropertiesView
 		((AppWFull) app).centerAndResizeViews();
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
+		sideSheet.focus();
 	}
 
 	/**
@@ -653,5 +658,12 @@ public class PropertiesViewW extends PropertiesView
 		sideSheet.addToContent(settingsTab);
 		this.objectPropertiesVisible = showObjectProperties;
 		wrappedPanel.add(sideSheet);
+
+		Dom.addEventListener(wrappedPanel.getElement(), "keydown", event -> {
+			KeyboardEvent kbd = Js.uncheckedCast(event);
+			if ("Escape".equals(kbd.code)) {
+				sideSheet.onClose();
+			}
+		});
 	}
 }

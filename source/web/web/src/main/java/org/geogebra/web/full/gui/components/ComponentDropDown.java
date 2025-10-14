@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -12,7 +11,6 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -28,7 +26,6 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
-	private FocusableWidget focusableWidget;
 
 	/**
 	 * Material drop-down component.
@@ -51,7 +48,6 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("Enter".equals(e.code) || "Space".equals(e.code)) {
 				if (!isDisabled) {
-					app.getAccessibilityManager().setAnchor(focusableWidget);
 					controller.toggleAsDropDown(fullWidth);
 				}
 			}
@@ -132,7 +128,6 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
-					app.getAccessibilityManager().setAnchor(focusableWidget);
 					controller.toggleAsDropDown(fullWidth);
 				}
 			}
@@ -221,10 +216,5 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		AriaHelper.setTabIndex(this, 0);
 		AriaHelper.setAriaHaspopup(this, "listbox");
 		AriaHelper.setAriaExpanded(this, false);
-		if ("Language".equals(labelKey)) {
-			focusableWidget = new FocusableWidget(AccessibilityGroup.DROPDOWN,
-					null, this);
-			focusableWidget.attachTo(app);
-		}
 	}
 }
