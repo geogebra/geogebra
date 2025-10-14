@@ -55,7 +55,7 @@ class FunctionReferences {
 		return reservedFunctions.contains(s);
 	}
 
-	void getCompletions(String prefix, Set<String> completions,
+	void getCompletions(String prefix, Set<String> completions, Set<Operation> ops,
 			@CheckForNull OperationFilter operationFilter) {
 		for (OperationSyntax operationSyntax : syntaxes) {
 			if (operationFilter != null && !operationFilter.isAllowed(operationSyntax.operation)) {
@@ -63,6 +63,7 @@ class FunctionReferences {
 			}
 			if (operationSyntax.syntax.startsWith(prefix)) {
 				completions.add(operationSyntax.syntax);
+				ops.add(operationSyntax.operation);
 			}
 		}
 	}

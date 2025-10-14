@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.parser.function;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -113,9 +114,13 @@ class ParserFunctionsImpl implements ParserFunctions {
 
 	@Override
 	public ArrayList<String> getCompletions(String prefix, OperationFilter operationFilter) {
-		TreeSet<String> completions = new TreeSet<String>();
-		references.getCompletions(prefix, completions, operationFilter);
-		localizedReferences.getCompletions(prefix, completions, operationFilter);
+		TreeSet<String> completions = new TreeSet<>();
+		EnumSet<Operation> ops = EnumSet.noneOf(Operation.class);
+		localizedReferences.getCompletions(prefix, completions, ops, operationFilter);
+		OperationFilter internalFilter = op ->
+				(operationFilter == null || operationFilter.isAllowed(op)) && !ops.contains(op);
+		references.getCompletions(prefix, completions, EnumSet.noneOf(Operation.class),
+				internalFilter);
 		return new ArrayList<>(completions);
 	}
 

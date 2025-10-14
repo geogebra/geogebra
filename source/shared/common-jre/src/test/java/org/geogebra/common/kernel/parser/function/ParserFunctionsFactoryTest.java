@@ -10,6 +10,7 @@ import java.util.Locale;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.test.LocalizationCommonUTF;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class ParserFunctionsFactoryTest {
@@ -45,6 +46,7 @@ public class ParserFunctionsFactoryTest {
 	}
 
 	@Test
+	@Issue("APPS-2635")
 	public void suggestionsShouldShowLocalAndDefault() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
@@ -59,8 +61,17 @@ public class ParserFunctionsFactoryTest {
 		assertEquals(1, suggestions.size());
 		setLanguage(functions, new Locale("nn"));
 		suggestions = functions.getCompletions("nro");
-		assertEquals(suggestions, Arrays.asList("nroot( <x>, <n> )",
-				"nrot( <x>, <n> )"));
+		assertEquals(List.of("nrot( <x>, <n> )"), suggestions);
+	}
+
+	@Test
+	@Issue("APPS-6979")
+	public void suggestionsShouldNotShowLocalAndDefault() {
+		ParserFunctions functions = ParserFunctionsFactory
+				.createParserFunctionsFactory().createParserFunctions();
+		setLanguage(functions, new Locale("de"));
+		List<String> suggestions = functions.getCompletions("asin");
+		assertEquals(Arrays.asList("asin( <x> )", "asing( <x> )", "asinh( <x> )"), suggestions);
 	}
 
 	@Test
@@ -68,10 +79,10 @@ public class ParserFunctionsFactoryTest {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
 		setLanguage(functions, new Locale("es"));
-		assertEquals(functions.get("sen", 1), Operation.SIN);
-		assertEquals(functions.get("arcsen", 1), Operation.ARCSIN);
-		assertEquals(functions.get("senh", 1), Operation.SINH);
-		assertEquals(functions.get("arcsenh", 1), Operation.ASINH);
+		assertEquals(Operation.SIN, functions.get("sen", 1));
+		assertEquals(Operation.ARCSIN, functions.get("arcsen", 1));
+		assertEquals(Operation.SINH, functions.get("senh", 1));
+		assertEquals(Operation.ASINH, functions.get("arcsenh", 1));
 	}
 
 	private void setLanguage(ParserFunctions functions, Locale es) {
