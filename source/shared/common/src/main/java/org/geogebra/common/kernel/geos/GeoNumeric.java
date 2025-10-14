@@ -2180,6 +2180,8 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void createSlider() {
 		isDrawable = true;
+		symbolicMode = false;
+		resetDefinition();
 		setAVSliderOrCheckboxVisible(true);
 		initAlgebraSlider();
 		notifyUpdate();
@@ -2190,6 +2192,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void removeSlider() {
 		isDrawable = false;
+		symbolicMode = true;
 		setAVSliderOrCheckboxVisible(false);
 		intervalMin = null;
 		intervalMax = null;

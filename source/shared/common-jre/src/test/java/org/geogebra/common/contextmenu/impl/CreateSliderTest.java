@@ -2,9 +2,11 @@ package org.geogebra.common.contextmenu.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.contextmenu.impl.CreateSlider;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.scientific.LabelController;
 import org.junit.Before;
@@ -38,5 +40,13 @@ public class CreateSliderTest extends BaseUnitTest {
 		assertThat(number.getIntervalMin(), equalTo(-5.0));
 		assertThat(number.getIntervalMax(), equalTo(5.0));
 		assertThat(number.isAVSliderOrCheckboxVisible(), equalTo(true));
+	}
+
+	@Test
+	public void shouldShowAsDecimal() {
+		GeoNumeric number = add(".5");
+		number.setSymbolicMode(true, true);
+		createSlider.execute(number);
+		assertEquals("a = 0.5", number.toString(StringTemplate.testTemplate));
 	}
 }
