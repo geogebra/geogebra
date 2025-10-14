@@ -125,7 +125,6 @@
         <exclude name="AvoidCatchingThrowable"/>
         <exclude name="ImplicitSwitchFallThrough"/>
         <exclude name="ConstructorCallsOverridableMethod"/>
-        <exclude name="UseLocaleWithCaseConversions"/>
         <exclude name="DataflowAnomalyAnalysis"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
         <exclude name="NullAssignment"/>
