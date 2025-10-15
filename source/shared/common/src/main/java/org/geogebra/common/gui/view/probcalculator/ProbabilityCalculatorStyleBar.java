@@ -8,12 +8,12 @@ import org.geogebra.common.main.App;
  * 
  * @author gabor
  */
-public abstract class ProbabilityCalculatorStyleBar {
+public class ProbabilityCalculatorStyleBar {
 
-	private App app;
+	private final App app;
 
 	/** probability calculator */
-	private ProbabilityCalculatorView probCalc;
+	private final ProbabilityCalculatorView probCalc;
 	private RoundingOptions roundingOptions;
 
 	/**

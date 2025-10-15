@@ -28,11 +28,11 @@ import org.geogebra.common.kernel.discrete.geom.Point2D;
  *
  * @author cyberpython
  */
-public abstract class Intersection {
+public class Intersection {
 
 	private Point2D p0;
 
-	public Intersection(Point2D p0) {
+	protected Intersection(Point2D p0) {
 		this.p0 = p0;
 	}
 

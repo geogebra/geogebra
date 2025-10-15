@@ -25,7 +25,6 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.properties.PropertiesStyleBar;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -381,7 +380,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	/**
 	 * @return the style bar for this view.
 	 */
-	public PropertiesStyleBar getStyleBar() {
+	public PropertiesStyleBarD getStyleBar() {
 		if (styleBar == null) {
 			styleBar = newPropertiesStyleBar();
 		}

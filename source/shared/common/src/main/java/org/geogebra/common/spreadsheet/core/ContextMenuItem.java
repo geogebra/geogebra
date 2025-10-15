@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 /**
  * Context menu items (for spreadsheet).
  */
-public abstract class ContextMenuItem {
+public class ContextMenuItem {
 	/**
 	 * Possible context menu items.
 	 */
@@ -45,7 +45,7 @@ public abstract class ContextMenuItem {
 	 * Creates a context menu item.
 	 * @param identifier identifier to specify the context menu item and its displayed text
 	 */
-	public ContextMenuItem(@Nonnull Identifier identifier) {
+	protected ContextMenuItem(@Nonnull Identifier identifier) {
 		this.identifier = identifier;
 	}
 

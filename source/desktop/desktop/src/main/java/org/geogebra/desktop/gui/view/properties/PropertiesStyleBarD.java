@@ -33,7 +33,7 @@ import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 
 public class PropertiesStyleBarD extends PropertiesStyleBar {
-
+	protected static final String downTriangle = "  \u25BE  ";
 	private static final int MARGIN_Y = 5;
 	PropertiesView propertiesView;
 	protected AppD app;

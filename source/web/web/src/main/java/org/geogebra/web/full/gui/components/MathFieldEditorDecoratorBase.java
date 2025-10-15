@@ -7,7 +7,7 @@ import org.gwtproject.dom.style.shared.Unit;
 
 import com.himamis.retex.editor.web.MathFieldW;
 
-public abstract class MathFieldEditorDecoratorBase {
+public class MathFieldEditorDecoratorBase {
 	protected static final int PADDING_LEFT = 2;
 	private final MathFieldW mathField;
 	private final Style style;
@@ -16,7 +16,7 @@ public abstract class MathFieldEditorDecoratorBase {
 	 *
 	 * @param editor the mathfield editor to be decorated.
 	 */
-	public MathFieldEditorDecoratorBase(MathFieldEditor editor) {
+	protected MathFieldEditorDecoratorBase(MathFieldEditor editor) {
 		this.mathField = editor.getMathField();
 		this.style = editor.getStyle();
 	}

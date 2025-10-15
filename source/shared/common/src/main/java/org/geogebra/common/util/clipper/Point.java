@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import org.geogebra.common.util.DoubleUtil;
 
-public abstract class Point<T extends Number & Comparable<T>> {
+public class Point<T extends Number & Comparable<T>> {
 	private final static NumberComparator NUMBER_COMPARATOR = new NumberComparator();
 
 	protected T x;

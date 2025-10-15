@@ -10,7 +10,7 @@ import org.geogebra.common.move.views.BaseView;
  * @param <T>
  *            Type of handlers this operation notifies
  */
-public abstract class BaseOperation<T> {
+public class BaseOperation<T> {
 
 	/**
 	 * The Common view component to operate on (if exists)
@@ -22,6 +22,10 @@ public abstract class BaseOperation<T> {
 	 */
 	public BaseView<T> getView() {
 		return view;
+	}
+
+	protected BaseOperation() {
+		// must be subclassed
 	}
 
 	protected void dispatchEvent(GenericEvent<T> event) {

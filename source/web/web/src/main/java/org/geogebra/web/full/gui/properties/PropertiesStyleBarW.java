@@ -23,8 +23,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * Creates PropertiesStyleBar for Web
  *
  */
-public class PropertiesStyleBarW extends
-        org.geogebra.common.gui.view.properties.PropertiesStyleBar {
+public class PropertiesStyleBarW {
 
 	private static final OptionType[] OPTION_TYPE_IMPL = {
 		// Implemented types of the web
