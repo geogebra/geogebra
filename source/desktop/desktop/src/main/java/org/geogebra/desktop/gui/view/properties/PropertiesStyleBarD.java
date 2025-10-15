@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -24,7 +22,6 @@ import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 
-import org.geogebra.common.gui.view.properties.PropertiesStyleBar;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -32,7 +29,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 
-public class PropertiesStyleBarD extends PropertiesStyleBar {
+public class PropertiesStyleBarD {
 	protected static final String downTriangle = "  \u25BE  ";
 	private static final int MARGIN_Y = 5;
 	PropertiesView propertiesView;
