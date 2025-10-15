@@ -89,6 +89,7 @@ public class PageListController implements PageListControllerInterface,
 	private final UndoManager undoManager;
 	private boolean selectedCardChangedAfterLoad;
 	private int exportedPages;
+	private boolean loading;
 
 	/**
 	 * @param app
@@ -164,9 +165,11 @@ public class PageListController implements PageListControllerInterface,
 				// load last status of file
 				saveMaterialProperties();
 				app.resetPerspectiveParam();
+				loading = true;
 				// in case page was added through API, thumbnail may be outdated
 				app.registerOpenFileListener(() -> {
 					DomGlobal.requestAnimationFrame(ignore -> slides.get(i).updatePreviewImage());
+					loading = false;
 					return true;
 				});
 				app.loadGgbFile(slides.get(i).getFile(), true);
@@ -174,6 +177,7 @@ public class PageListController implements PageListControllerInterface,
 				// to clear ruler and protractor selection
 				app.setMode(app.getMode());
 			} catch (Exception e) {
+				loading = false;
 				Log.debug(e);
 			}
 		}
@@ -511,7 +515,7 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	@Override
 	public void updatePreviewImage() {
-		if (selectedCard != null) {
+		if (selectedCard != null && !loading) {
 			selectedCard.updatePreviewImage();
 		}
 	}
@@ -805,7 +809,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public String getSlideID() {
-		return selectedCard.getFile().getID() + "";
+		return selectedCard.getFile().getID();
 	}
 
 	@Override
