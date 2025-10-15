@@ -242,7 +242,7 @@ public class AlgoDispatcher {
 		} else if (!coords2D) {
 			p.setCartesian3D();
 		}
-		if (path instanceof GeoList && ((GeoList) path).isTablePointList()) {
+		if (path instanceof GeoList && ((GeoList) path).isTableValuesOrPointList()) {
 			GeoNumeric index = new GeoNumeric(cons);
 			index.setValue(Math.round(p.getPathParameter().getT()) + 1);
 			AlgoListElement algo2 = new AlgoListElement(cons, (GeoList) path, index);

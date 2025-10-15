@@ -3089,8 +3089,9 @@ public class MyXMLHandler implements DocHandler {
 
 	private void processXValuesList() {
 		GeoElement geoElement = kernel.lookupLabel(xValuesLabel);
-		if (geoElement != null) {
+		if (geoElement instanceof GeoList) {
 			TableSettings tableSettings = app.getSettings().getTable();
+			((GeoList) geoElement).setTableOrigin(true);
 			tableSettings.setValueList((GeoList) geoElement);
 			tableSettings.setValueListCaption(xValuesCaption);
 		}

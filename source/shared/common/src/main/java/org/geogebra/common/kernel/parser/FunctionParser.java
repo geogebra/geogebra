@@ -255,8 +255,8 @@ public class FunctionParser {
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR, myList);
 		} if (geo instanceof GeoSymbolic) {
 			Operation operation = getOperationFor((GeoSymbolic) geo);
-			return new ExpressionNode(kernel, geoExp, operation,
-					operation == Operation.MULTIPLY ? myList.get(0) : myList);
+			boolean extract = operation == Operation.MULTIPLY || operation == Operation.FUNCTION;
+			return new ExpressionNode(kernel, geoExp, operation, extract ? myList.get(0) : myList);
 		} else if (geo instanceof Evaluatable && !geo.isGeoList()) {// function
 			if (geo instanceof ParametricCurve) {
 				registerFunctionVars((ParametricCurve) geo);
@@ -328,7 +328,11 @@ public class FunctionParser {
 	}
 
 	private static Operation getOperationFor(GeoSymbolic symbolic) {
-		if (symbolic.getFunctionVariables().length > 0) {
+		int variableCount = symbolic.getFunctionVariables().length;
+		if (variableCount == 1) {
+			return Operation.FUNCTION;
+		}
+		if (variableCount > 0) {
 			return Operation.FUNCTION_NVAR;
 		}
 		return symbolic.getTwinGeo() instanceof GeoList	? Operation.ELEMENT_OF : Operation.MULTIPLY;

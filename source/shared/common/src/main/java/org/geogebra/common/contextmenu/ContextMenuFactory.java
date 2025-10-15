@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
 
 /**
@@ -118,11 +119,12 @@ public final class ContextMenuFactory {
 		boolean showStatisticsSuggestion = statisticsSuggestion != null;
 		boolean showDuplicateOutput = AlgebraItem.shouldShowBothRows(geoElement, algebraSettings);
 		boolean showSpecialPointsSuggestion = specialPointsSuggestion != null;
-		boolean showCreateTableValues = geoElement.hasTableOfValues();
+		boolean showCreateTableValues = hasTableOfValues(geoElement);
 		boolean isAlgebraLabelVisible = geoElement.isAlgebraLabelVisible();
 		boolean showCreateSlider = createSlider.isAvailable(geoElement);
 		boolean showRemoveSlider = removeSlider.isAvailable(geoElement);
 		boolean showSolveSuggestion = solveSuggestion != null;
+		boolean showDelete = !geoElement.isProtected(EventType.REMOVE);
 		// not the same as showRemoveSlider: arbitrary constants from integral
 		// are sliders but do NOT allow removing sliders
 		boolean isSlider = geoElement.isGeoNumeric()
@@ -130,6 +132,7 @@ public final class ContextMenuFactory {
 
 		switch (appCode) {
 		case GeoGebraConstants.CAS_APPCODE:
+			boolean showAddRemoveLabel = !isSlider && isNotTableColumn(geoElement);
 			return filter(makeCasAlgebraContextMenu(
 					showStatisticsSuggestion,
 					showDuplicateOutput,
@@ -139,7 +142,8 @@ public final class ContextMenuFactory {
 					showCreateSlider,
 					showRemoveSlider,
 					showSolveSuggestion,
-					isSlider));
+					showAddRemoveLabel,
+					showDelete));
 		case GeoGebraConstants.SCIENTIFIC_APPCODE:
 			return filter(makeScientificAlgebraContextMenu(
 					isAlgebraLabelVisible,
@@ -151,7 +155,8 @@ public final class ContextMenuFactory {
 					showSpecialPointsSuggestion,
 					showSolveSuggestion,
 					showCreateSlider,
-					showRemoveSlider));
+					showRemoveSlider,
+					showDelete));
 		case GeoGebraConstants.GRAPHING_APPCODE:
 			return filter(makeTableValuesAlgebraContextMenu(
 					showStatisticsSuggestion,
@@ -159,15 +164,29 @@ public final class ContextMenuFactory {
 					showSpecialPointsSuggestion,
 					showCreateTableValues,
 					showCreateSlider,
-					showRemoveSlider));
+					showRemoveSlider,
+					showDelete));
 		default:
 			return filter(makeDefaultAlgebraContextMenu(
 					showSpecialPointsSuggestion,
 					showStatisticsSuggestion,
 					showDuplicateOutput,
 					showCreateSlider,
-					showRemoveSlider));
+					showRemoveSlider,
+					showDelete));
 		}
+	}
+
+	private boolean hasTableOfValues(GeoElement geoElement) {
+		return geoElement.hasTableOfValues() && isNotTableColumn(geoElement);
+	}
+
+	private boolean isNotTableColumn(GeoElement geoElement) {
+		boolean valueOrPointColumn = geoElement instanceof GeoList
+				&& ((GeoList) geoElement).isTableValuesOrPointList();
+		boolean standardColumn = geoElement instanceof GeoEvaluatable
+				&& ((GeoEvaluatable) geoElement).getTableColumn() >= 0;
+		return !valueOrPointColumn && !standardColumn;
 	}
 
 	/**
@@ -295,7 +314,8 @@ public final class ContextMenuFactory {
 			boolean showCreateSlider,
 			boolean showRemoveSlider,
 			boolean showSolveSuggestion,
-			boolean isSlider) {
+			boolean showAddRemoveLabel,
+			boolean showDelete) {
 		List<AlgebraContextMenuItem> items = new ArrayList<>();
 		if (showSolveSuggestion) {
 			items.add(Solve);
@@ -303,7 +323,7 @@ public final class ContextMenuFactory {
 		if (showCreateTableValues) {
 			items.add(CreateTableValues);
 		}
-		if (!isSlider) {
+		if (showAddRemoveLabel) {
 			items.add(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
 		}
 		if (showSpecialPointsSuggestion) {
@@ -322,7 +342,9 @@ public final class ContextMenuFactory {
 		if (showDuplicateOutput) {
 			items.add(DuplicateOutput);
 		}
-		items.add(Delete);
+		if (showDelete) {
+			items.add(Delete);
+		}
 		items.add(Settings);
 		return items;
 	}
@@ -347,7 +369,8 @@ public final class ContextMenuFactory {
 			boolean showSpecialPointsSuggestion,
 			boolean showSolveSuggestion,
 			boolean showCreateSlider,
-			boolean showRemoveSlider
+			boolean showRemoveSlider,
+			boolean showDelete
 	) {
 		List<AlgebraContextMenuItem> items = new ArrayList<>();
 		if (showSolveSuggestion) {
@@ -369,7 +392,9 @@ public final class ContextMenuFactory {
 		if (showDuplicateOutput) {
 			items.add(DuplicateOutput);
 		}
-		items.add(Delete);
+		if (showDelete) {
+			items.add(Delete);
+		}
 		items.add(Settings);
 		return items;
 	}
@@ -380,7 +405,8 @@ public final class ContextMenuFactory {
 			boolean showSpecialPointsSuggestion,
 			boolean showCreateTableValues,
 			boolean showCreateSlider,
-			boolean showRemoveSlider
+			boolean showRemoveSlider,
+			boolean showDelete
 	) {
 		List<AlgebraContextMenuItem> items = new ArrayList<>();
 		if (showCreateTableValues) {
@@ -402,7 +428,9 @@ public final class ContextMenuFactory {
 		if (showDuplicateOutput) {
 			items.add(DuplicateOutput);
 		}
-		items.add(Delete);
+		if (showDelete) {
+			items.add(Delete);
+		}
 		items.add(Settings);
 		return items;
 	}
@@ -412,7 +440,8 @@ public final class ContextMenuFactory {
 			boolean showStatisticsSuggestion,
 			boolean showDuplicateOutput,
 			boolean showCreateSlider,
-			boolean showRemoveSlider
+			boolean showRemoveSlider,
+			boolean showDelete
 	) {
 		List<AlgebraContextMenuItem> items = new ArrayList<>();
 		if (showSpecialPointsSuggestion) {
@@ -431,7 +460,9 @@ public final class ContextMenuFactory {
 		if (showDuplicateOutput) {
 			items.add(DuplicateOutput);
 		}
-		items.add(Delete);
+		if (showDelete) {
+			items.add(Delete);
+		}
 		items.add(Settings);
 		return items;
 	}

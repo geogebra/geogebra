@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.util.DoubleUtil;
@@ -40,8 +41,9 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	private boolean allowsAddingColumns = true;
 	private final TableSettings settings;
 
-	private ModelEventCollector collector;
+	private final ModelEventCollector collector;
 	private boolean isImportingData;
+	private boolean ignoreColumnChange;
 	private Runnable onDataImported;
 
 	/**
@@ -181,8 +183,9 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private TableValuesColumn createColumn(GeoEvaluatable evaluatable) {
-		if (evaluatable.isGeoList()) {
-			GeoList list = (GeoList) evaluatable;
+		GeoElementND unwrapped = evaluatable.unwrapSymbolic();
+		if (unwrapped != null && unwrapped.isGeoList()) {
+			GeoList list = (GeoList) unwrapped;
 			return new TableValuesListColumn(list);
 		}
 		return new TableValuesFunctionColumn(evaluatable, getValueList());
@@ -224,7 +227,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 */
 	void updateEvaluatable(GeoEvaluatable evaluatable) {
 		int index = getEvaluatableIndex(evaluatable);
-		if (index > -1) {
+		if (index > -1 && !ignoreColumnChange) {
 			collector.startCollection(this);
 			collector.notifyColumnChanged(this, evaluatable, index);
 			collector.endCollection(this);
@@ -319,6 +322,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	public GeoList setupXValues(GeoList xValues) {
 		xValues.setAuxiliaryObject(true);
 		xValues.setCanBeRemovedAsInput(false);
+		xValues.setTableOrigin(true);
 		return xValues;
 	}
 
@@ -431,6 +435,9 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		} else if (getEvaluatableIndex(column) > -1 && column.listContains(element)) {
 			element.notifyUpdate();
 		}
+		ignoreColumnChange = true;
+		column.update();
+		ignoreColumnChange = false;
 		collector.endCollection(this);
 	}
 

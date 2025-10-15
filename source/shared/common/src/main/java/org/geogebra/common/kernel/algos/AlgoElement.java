@@ -1422,22 +1422,25 @@ public abstract class AlgoElement extends ConstructionElement
 
 		// make sure that a vector remains a vector and a point remains a point
 		if (getOutputLength() > 0) {
-			if (getOutput(0).isGeoPoint()) {
+			GeoElement output1 = getOutput(0);
+			if (output1.isGeoPoint()) {
 				sb.append(" type=\"point\"");
-			} else if (getOutput(0).isGeoVector()) {
+			} else if (output1.isGeoVector()) {
 				sb.append(" type=\"vector\"");
-			} else if (getOutput(0).isGeoLine()) {
+			} else if (output1.isGeoLine()) {
 				sb.append(" type=\"line\"");
-			} else if (getOutput(0).isGeoPlane()) {
+			} else if (output1.isGeoPlane()) {
 				sb.append(" type=\"plane\"");
-			} else if (getOutput(0).isGeoConic()) {
+			} else if (output1.isGeoConic()) {
 				sb.append(" type=\"conic\"");
-			} else if (getOutput(0).isGeoQuadric()) {
+			} else if (output1.isGeoQuadric()) {
 				sb.append(" type=\"quadric\"");
-			} else if (getOutput(0).isGeoImplicitCurve()) {
+			} else if (output1.isGeoImplicitCurve()) {
 				sb.append(" type=\"implicitpoly\"");
-			} else if (getOutput(0).isGeoSurfaceCartesian()) {
+			} else if (output1.isGeoSurfaceCartesian()) {
 				sb.append(" type=\"surfacecartesian\"");
+			} else if (output1.isGeoList()) {
+				sb.append(" type=\"list\"");
 			}
 		}
 

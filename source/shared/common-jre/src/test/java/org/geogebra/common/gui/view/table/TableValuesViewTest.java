@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -30,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -340,6 +342,15 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyRowsRemoved(model, 0, 0);
 		verify(listener, never()).notifyColumnChanged(model, y, 1);
 		verify(listener).notifyColumnRemoved(model, y, 1);
+	}
+
+	@Test
+	@Issue("APPS-6949")
+	public void shouldUpdateValueString() {
+		processor.processInput("1", view.getValues(), 0);
+		assertEquals("x_{1} = {1}", view.getValues().getAlgebraDescriptionDefault());
+		processor.processInput("2", view.getValues(), 1);
+		assertEquals("x_{1} = {1, 2}", view.getValues().getAlgebraDescriptionDefault());
 	}
 
 	@Test

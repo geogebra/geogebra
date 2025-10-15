@@ -187,9 +187,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return null;
 	}
 
-	private ExpressionValue handleSpecial(ExpressionValue lt,
+	private ExpressionValue handleSpecial(ExpressionValue ltWrapped,
 			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
 			Operation operation, StringTemplate tpl) {
+		ExpressionValue lt = ltWrapped instanceof GeoElement
+				? ((GeoElement) ltWrapped).unwrapSymbolic() : ltWrapped;
 		if (lt instanceof ListValue) {
 			if ((operation == Operation.MULTIPLY)
 					&& rt instanceof VectorNDValue) {

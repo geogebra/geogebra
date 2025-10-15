@@ -1,10 +1,9 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
 public class EvalInfoFactory {
@@ -37,15 +36,11 @@ public class EvalInfoFactory {
 	public static EvalInfo getEvalInfoForRedefinition(Kernel kernel, GeoElement geo,
 			boolean redefine) {
 		return new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(), redefine)
-				.withSymbolicMode(isSlider(geo) ? SymbolicMode.NONE : kernel.getSymbolicMode())
+				.withSymbolicMode(AlgebraProcessor.getRedefinitionMode(geo, kernel))
 				.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
 				.withSliders(true)
 				.withSymbolic(true)
 				.withAnalytics(true);
-	}
-
-	private static boolean isSlider(GeoElement geo) {
-		return geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider();
 	}
 
 	/**

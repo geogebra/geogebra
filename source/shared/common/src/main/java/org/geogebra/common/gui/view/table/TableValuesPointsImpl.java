@@ -130,7 +130,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 		ExpressionNode xValues = view.getValues().wrap();
 		ExpressionValue yValues;
-		if (evaluatable instanceof GeoList) {
+		if (evaluatable.unwrapSymbolic() instanceof GeoList) {
 			// Construct (xColumn, listColumn) dependent list
 			result = buildPointList(xValues, evaluatable);
 		} else {

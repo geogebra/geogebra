@@ -3559,14 +3559,17 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean isProtected(EventType type) {
-		return tableOrigin || super.isProtected(type);
+		return tableOrigin && type == EventType.REMOVE || super.isProtected(type);
 	}
 
 	public void setTableOrigin(boolean tableOrigin) {
 		this.tableOrigin = tableOrigin;
 	}
 
-	public boolean isTablePointList() {
+	/**
+	 * @return true if this is either a list of points from TV or the list of values in TV
+	 */
+	public boolean isTableValuesOrPointList() {
 		return tableOrigin;
 	}
 }

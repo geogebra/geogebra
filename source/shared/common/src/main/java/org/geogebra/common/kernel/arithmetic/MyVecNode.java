@@ -343,6 +343,9 @@ public class MyVecNode extends ValidExpression
 			MyList result = new MyList(kernel);
 			ExpressionValue xEval = x.evaluate(tpl);
 			ExpressionValue yEval = y.evaluate(tpl);
+			if (yEval instanceof GeoElement) {
+				yEval = ((GeoElement) yEval).unwrapSymbolic();
+			}
 			int size = 0;
 			int maxSize = Integer.MAX_VALUE;
 			if (xEval instanceof ListValue) {

@@ -460,40 +460,22 @@ public class AlgebraProcessor {
 	public void changeGeoElement(GeoElementND geo, String newValue,
 			boolean redefineIndependent, boolean storeUndoInfo,
 			ErrorHandler handler, AsyncOperation<GeoElementND> callback) {
-			changeGeoElement(geo, newValue, redefineIndependent, storeUndoInfo,
-					true, handler, callback);
+		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
+				.withSymbolicMode(getRedefinitionMode(geo, kernel))
+				.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
+				.withSymbolic(true)
+				.withSliders(true);
+		changeGeoElementNoExceptionHandling(geo, newValue,
+				info, storeUndoInfo, callback, handler);
 	}
 
 	/**
-	 * for AlgebraView changes in the tree selection and redefine dialog
-	 *
-	 * @param geo
-	 *            old geo
-	 * @param newValue
-	 *            new value
-	 * @param redefineIndependent
-	 *            true to allow redefinition of free objects
-	 * @param storeUndoInfo
-	 *            true to make undo step
-	 * @param withSliders
-	 *            true to autocreate sliders
-	 * @param handler
-	 *            error handler
-	 *
-	 * @param callback
-	 *            receives changed geo
+	 * @param geo element
+	 * @return whether the element needs non-symbolic mode for redefinition
 	 */
-	public void changeGeoElement(final GeoElementND geo, String newValue,
-			boolean redefineIndependent, boolean storeUndoInfo,
-			boolean withSliders, ErrorHandler handler,
-			AsyncOperation<GeoElementND> callback) {
-		EvalInfo info =
-				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
-						.withSymbolicMode(app.getKernel().getSymbolicMode())
-						.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
-						.withSymbolic(true);
-		changeGeoElementNoExceptionHandling(geo, newValue,
-				info.withSliders(withSliders), storeUndoInfo, callback, handler);
+	public static SymbolicMode getRedefinitionMode(GeoElementND geo, Kernel kernel) {
+		return geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider() || geo.isGeoList()
+				? SymbolicMode.NONE : kernel.getSymbolicMode();
 	}
 
 	/**
