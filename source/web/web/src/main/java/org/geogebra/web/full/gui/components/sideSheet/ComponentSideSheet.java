@@ -38,6 +38,9 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 		this.onClose = onClose;
 		this.titleTransKey = data.getTitleTransKey();
 		addStyleName("sideSheet");
+		if (appW.isUnbundledOrWhiteboard()) {
+			addStyleName("floating");
+		}
 		buildSideSheet(addBackButton);
 		setAccessibilityProperties();
 	}
