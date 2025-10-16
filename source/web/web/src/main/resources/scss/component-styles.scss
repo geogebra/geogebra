@@ -526,7 +526,7 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		.left, .right {
-			position: fixed;
+			position: sticky;
 			padding: 10px;
 			height: 24px;
 			z-index: 10;
@@ -541,6 +541,7 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		.left {
+			left: 0;
 			background: linear-gradient(270deg, rgba(255, 255, 255, 0.00) 0%, #FFF 35.58%);
 		}
 
