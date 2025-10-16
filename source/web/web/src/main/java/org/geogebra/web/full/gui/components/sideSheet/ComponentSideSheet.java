@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
@@ -200,7 +201,7 @@ public class ComponentSideSheet extends FlowPanel implements SetLabels {
 	 * focus the close button
 	 */
 	public void focus() {
-		closeButton.getElement().focus();
+		FocusUtil.focusNoScroll(closeButton.getElement());
 	}
 
 	@Override
