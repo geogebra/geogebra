@@ -13,6 +13,7 @@ public class ComponentTextArea extends FlowPanel implements SetLabels {
 	private final String title;
 	private final Localization loc;
 	private final TextArea textArea;
+	private Label label;
 
 	/**
 	 * Creates a text area component with an optional title/label and localization support.
@@ -30,7 +31,7 @@ public class ComponentTextArea extends FlowPanel implements SetLabels {
 		FlowPanel optionHolder = new FlowPanel();
 		optionHolder.addStyleName("optionLabelHolder");
 		if (title != null && !title.isEmpty()) {
-			Label label = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu(title),
+			label = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu(title),
 					"label");
 			optionHolder.add(label);
 		}
@@ -38,11 +39,14 @@ public class ComponentTextArea extends FlowPanel implements SetLabels {
 		optionHolder.add(textArea);
 		add(optionHolder);
 		setStyleName("textEdit");
+
+		textArea.addClickHandler(event -> addStyleName("active"));
+		addBlurHandler(event -> removeStyleName("active"));
 	}
 
 	@Override
 	public void setLabels() {
-		// unimplemented
+		label.setText(loc.getMenu(title));
 	}
 
 	/**

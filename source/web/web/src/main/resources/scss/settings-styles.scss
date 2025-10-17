@@ -671,6 +671,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		width: 100%;
 		&.flatProperties {
 			padding: 16px;
+
+			.componentTab .scrollPanel {
+				border-bottom: none;
+			}
 		}
 		.expandableList .containerPanel {
 			display: grid;
@@ -698,6 +702,15 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.dropDown, .comboBox, .inputTextField, .textEdit {
 			width: calc(100% - 32px);
 			margin: 16px 16px 8px 16px;
+		}
+		.componentTab {
+			.tabList {
+				margin: 0;
+			}
+			.dropDown, .textEdit {
+				width: 100%;
+				margin: 8px 0 16px 0;
+			}
 		}
 		.actionableButtonPanel {
 			margin: 8px 16px;
