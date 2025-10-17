@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -11,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.properties.NumericPropertyWithSuggestions;
+import org.geogebra.common.util.DoubleUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -53,6 +55,18 @@ public class GridDistanceProperty extends NumericPropertyWithSuggestions
 	@Override
 	protected NumberValue getNumberValue() {
 		return new MyDouble(euclidianView.getKernel(), euclidianView.getGridDistances()[axis]);
+	}
+
+	@Override
+	public String getValue() {
+		double distance = euclidianView.getGridDistances()[axis];
+		if (DoubleUtil.isEqual(distance, Math.PI)) {
+			return Unicode.PI_STRING;
+		}  else if (DoubleUtil.isEqual(distance, Kernel.PI_HALF)) {
+			return Unicode.PI_HALF_STRING;
+		} else {
+			return super.getValue();
+		}
 	}
 
 	@Override

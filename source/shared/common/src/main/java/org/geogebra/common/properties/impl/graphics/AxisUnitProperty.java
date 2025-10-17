@@ -40,7 +40,7 @@ public class AxisUnitProperty extends AbstractValuedProperty<String>
 
 	@Override
 	public @CheckForNull String validateValue(String value) {
-		return "";
+		return null;
 	}
 
 	@Override
