@@ -466,15 +466,27 @@ public class Inequality {
 	}
 
 	/**
-	 * @param ineq other inequality
-	 * @return whether these inequalities represent the same set of points in R^2
+	 * @param ineq Other inequality
+	 * @return Whether these inequalities represent the same set of points in R^2.
 	 */
 	public ExtendedBoolean isEqual(Inequality ineq) {
+		ExtendedBoolean isEqualBorder = isEqualBorder(ineq);
+		if (isEqualBorder.boolVal()) {
+			return ExtendedBoolean.newExtendedBoolean(isUnbounded()
+					|| isStrict() == ineq.isStrict());
+		}
+		return isEqualBorder;
+	}
+
+	/**
+	 * @param ineq Other inequality
+	 * @return Whether these inequalities share the same border.
+	 */
+	public ExtendedBoolean isEqualBorder(Inequality ineq) {
 		if (border == null || ineq.border == null || !compatibleTypes(type, ineq.type)) {
 			return ExtendedBoolean.UNKNOWN;
 		}
-		if (isAboveBorder == ineq.isAboveBorder && (isUnbounded() || isStrict()
-				== ineq.isStrict())) {
+		if (isAboveBorder == ineq.isAboveBorder) {
 			return border.isEqualExtended(ineq.border);
 		}
 		return ExtendedBoolean.FALSE;
