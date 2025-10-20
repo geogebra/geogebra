@@ -2630,4 +2630,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertEquals("y", ((GeoSymbolic) lookup("q"))
 				.getVarString(StringTemplate.testTemplate));
 	}
+
+	@Test
+	public void curvesShouldBeDisabled() {
+		GeoSymbolic curve1 = add("(sin(t),cos(t)),0<t<pi");
+		assertNull("Should not be plotted", curve1.getTwinGeo());
+	}
 }

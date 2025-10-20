@@ -245,6 +245,9 @@ public class ParametricProcessor {
 			}
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);
 			if (exp.getOperation().isIf()) {
+				if (kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
+					return null;
+				}
 				ExpressionNode exp1 = exp.getRightTree();
 				ExpressionNode cx = VectorArithmetic.computeCoord(exp1, 0);
 				ExpressionNode cy = VectorArithmetic.computeCoord(exp1, 1);
