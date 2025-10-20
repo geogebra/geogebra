@@ -349,8 +349,7 @@ public class RowAtom extends Atom implements Row {
 				}
 			}
 
-			if (markAdded || (at instanceof CharAtom
-					&& Character.isDigit(((CharAtom) at).getCharacter()))) {
+			if (markAdded) {
 				hBox.peek().addBreakPosition(hBox.peek().children.size());
 			}
 
