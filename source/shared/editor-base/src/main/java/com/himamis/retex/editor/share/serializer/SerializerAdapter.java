@@ -82,9 +82,7 @@ public abstract class SerializerAdapter implements Serializer {
 							int currentOffset) {
 		this.mCurrentField = currentField;
 		this.mCurrentOffset = currentOffset;
-		StringBuilder stringBuilder = new StringBuilder();
-		serialize(container, stringBuilder);
-		return stringBuilder.toString();
+		return serialize(container, new StringBuilder()).toString();
 	}
 
 	/**
@@ -92,8 +90,9 @@ public abstract class SerializerAdapter implements Serializer {
 	 *            part of formula
 	 * @param stringBuilder
 	 *            output string builder
+	 * @return stringBuilder for convenience
 	 */
-	public void serialize(MathComponent container, StringBuilder stringBuilder) {
+	public StringBuilder serialize(MathComponent container, StringBuilder stringBuilder) {
 		if (container instanceof MathCharPlaceholder) {
 			serialize((MathCharPlaceholder) container, stringBuilder);
 
@@ -112,6 +111,7 @@ public abstract class SerializerAdapter implements Serializer {
 		} else if (container instanceof MathFunction) {
 			serialize((MathFunction) container, stringBuilder);
 		}
+		return stringBuilder;
 	}
 
 	abstract void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder);

@@ -78,9 +78,8 @@ class EditorChecker {
 
 	public void checkGGBMath(String output, @CheckForNull EditorFeatures editorFeatures) {
 		MathSequence rootComponent = getRootComponent();
-		StringBuilder sb = new StringBuilder();
-		new GeoGebraSerializer(editorFeatures).serialize(rootComponent, sb);
-		String exp = sb.toString();
+		String exp = new GeoGebraSerializer(editorFeatures)
+				.serialize(rootComponent, new StringBuilder()).toString();
 		try {
 			ValidExpression en = parse(exp);
 			assertEquals(output, en.toString(StringTemplate.defaultTemplate));
@@ -361,5 +360,10 @@ class EditorChecker {
 
 	public void add(String input) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(input, false);
+	}
+
+	void checkCopy(String expected) {
+		mathField.getInternal().getEditorState().selectAll();
+		assertEquals(expected, mathField.getInternal().copy());
 	}
 }

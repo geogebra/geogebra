@@ -783,11 +783,13 @@ public class MathFieldInternal
 	 */
 	public String copy() {
 		if (editorState.getSelectionStart() != null) {
+			GeoGebraSerializer serializer = new GeoGebraSerializer(getEditorFeatures());
+			serializer.setUseTemplates(false);
 			MathContainer parent = editorState.getSelectionStart().getParent();
 			if (parent == null) {
 				// all the formula is selected
-				return GeoGebraSerializer.serialize(editorState.getRootComponent(),
-						getEditorFeatures());
+				return serializer.serialize(editorState.getRootComponent(), new StringBuilder())
+						.toString();
 			}
 
 			int start = parent.indexOf(editorState.getSelectionStart());
@@ -795,7 +797,6 @@ public class MathFieldInternal
 
 			if (end >= 0 && start >= 0) {
 				StringBuilder sb = new StringBuilder();
-				GeoGebraSerializer serializer = new GeoGebraSerializer(getEditorFeatures());
 				for (int i = start; i <= end; i++) {
 					serializer.serialize(parent.getArgument(i), sb);
 				}

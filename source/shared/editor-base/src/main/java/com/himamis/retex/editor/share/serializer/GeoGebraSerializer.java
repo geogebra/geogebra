@@ -29,6 +29,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	private String rightBracket = "]";
 	private String comma = ",";
 	private boolean showPlaceholderAsQuestionmark;
+	private boolean useTemplates = true;
 
 	public GeoGebraSerializer(@CheckForNull EditorFeatures editorFeatures) {
 		this.editorFeatures = editorFeatures;
@@ -41,9 +42,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 	 * @return string
 	 */
 	public static String serialize(MathComponent c, @CheckForNull EditorFeatures editorFeatures) {
-		StringBuilder sb = new StringBuilder();
-		new GeoGebraSerializer(editorFeatures).serialize(c, sb);
-		return sb.toString();
+		return new GeoGebraSerializer(editorFeatures).serialize(c, new StringBuilder()).toString();
 	}
 
 	@Override
@@ -174,6 +173,14 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			serializeArgs(mathFunction, stringBuilder, 1);
 			break;
+		case VECTOR:
+		case POINT:
+		case POINT_AT:
+			if (!useTemplates) {
+				serializeArgs(mathFunction, stringBuilder, 0);
+				break;
+			}
+			//$FALL-THROUGH$
 		case DEF_INT:
 		case SUM_EQ:
 		case PROD_EQ:
@@ -181,9 +188,6 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		case VEC:
 		case ATOMIC_POST:
 		case ATOMIC_PRE:
-		case VECTOR:
-		case POINT:
-		case POINT_AT:
 			stringBuilder.append(mathFunction.getName().getFunction());
 			serializeArgs(mathFunction, stringBuilder, 0);
 			break;
@@ -389,5 +393,9 @@ public class GeoGebraSerializer extends SerializerAdapter {
 
 	public void setShowPlaceholderAsQuestionmark(boolean showPlaceholderAsQuestionmark) {
 		this.showPlaceholderAsQuestionmark = showPlaceholderAsQuestionmark;
+	}
+
+	public void setUseTemplates(boolean b) {
+		this.useTemplates = b;
 	}
 }

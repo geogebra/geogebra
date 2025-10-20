@@ -1,7 +1,5 @@
 package org.geogebra.common.io;
 
-import static org.junit.Assert.assertEquals;
-
 import java.text.Normalizer;
 import java.util.Set;
 
@@ -1030,6 +1028,20 @@ public class EditorTypingTest {
 				.right(1).type("1").right(1).type("99").right(1).type("1")
 				.checkLaTeX("\\begin{pmatrix} \\jlminput{5} & \\jlminput{-3} & \\jlminput{0} "
 						+ "\\\\ \\jlminput{1} & \\jlminput{99} & \\jlminput{1} \\end{pmatrix}");
+	}
+
+	@Test
+	@Issue("APPS-7000")
+	public void pointToClipboard() {
+		checker.pressSingleKey("$point:2").type("1").right(1).type("2")
+				.checkCopy("(1,2)");
+	}
+
+	@Test
+	@Issue("APPS-7000")
+	public void vectorToClipboard() {
+		checker.pressSingleKey("$vector:2").type("1").right(1).type("3")
+				.checkCopy("(1,3)");
 	}
 
 	@Test
