@@ -808,6 +808,21 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Test
+    public void testBarChartFromTwoDistinctColumns() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        tabularData.setContent(0, 4, "4");
+        tabularData.setContent(1, 4, "5");
+        tabularData.setContent(2, 4, "6");
+        selectCells(0, 0, 2, 0);
+        addCellsToSelection(0, 4, 2, 4);
+        controller.createChart(Identifier.BAR_CHART);
+        assertEquals("BarChart(A1:A3,E1:E3)", chartCommand);
+        assertEquals("", chartError);
+    }
+
+    @Test
     public void testBarChartNotEnoughDataError() {
         tabularData.setContent(0, 0, "1");
         selectCells(0, 0, 0, 0);
@@ -843,6 +858,22 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Test
+    public void testHistogramFromTwoDistinctColumns() {
+        tabularData.setContent(0, 1, "1");
+        tabularData.setContent(1, 1, "2");
+        tabularData.setContent(2, 1, "3");
+        tabularData.setContent(3, 1, "4");
+        tabularData.setContent(0, 5, "4");
+        tabularData.setContent(1, 5, "5");
+        tabularData.setContent(2, 5, "6");
+        selectCells(0, 1, 3, 1);
+        addCellsToSelection(0, 5, 3, 5);
+        controller.createChart(Identifier.HISTOGRAM);
+        assertEquals("Histogram(B1:B4,F1:F4)", chartCommand);
+        assertEquals("", chartError);
+    }
+
+    @Test
     public void testHistogramNotEnoughDataError() {
         tabularData.setContent(0, 0, "1");
         selectCells(0, 0, 0, 0);
@@ -873,6 +904,21 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         selectCells(0, 0, 2, 1);
         controller.createChart(Identifier.LINE_CHART);
         assertEquals("LineGraph(A1:A3,B1:B3)", chartCommand);
+        assertEquals("", chartError);
+    }
+
+    @Test
+    public void testLineGraphFromTwoDistinctColumns() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        tabularData.setContent(0, 3, "4");
+        tabularData.setContent(1, 3, "5");
+        tabularData.setContent(2, 3, "6");
+        selectCells(0, 0, 2, 0);
+        addCellsToSelection(0, 3, 2, 3);
+        controller.createChart(Identifier.LINE_CHART);
+        assertEquals("LineGraph(A1:A3,D1:D3)", chartCommand);
         assertEquals("", chartError);
     }
 
@@ -1157,6 +1203,10 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         controller.select(new TabularRange(fromRow, fromColumn, toRow, toColumn), false, false);
     }
 
+    private void addCellsToSelection(int fromRow, int fromColumn, int toRow, int toColumn) {
+        controller.select(new TabularRange(fromRow, fromColumn, toRow, toColumn), false, true);
+    }
+
     private int getSelectedRow() {
         if (controller.getLastSelection() != null) {
             TabularRange range = controller.getLastSelection().getRange();
@@ -1236,13 +1286,13 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
     }
 
     @Override
-    public void createBarChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
-        chartCommand = ChartBuilder.getBarChartCommand(data, range);
+    public void createBarChart(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+        chartCommand = ChartBuilder.getBarChartCommand(data, ranges);
     }
 
     @Override
-    public void createHistogram(@Nonnull TabularData<?> data, @Nonnull TabularRange range) {
-        chartCommand = ChartBuilder.getHistogramCommand(data, range);
+    public void createHistogram(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+        chartCommand = ChartBuilder.getHistogramCommand(data, ranges);
     }
 
     @Override
@@ -1253,6 +1303,11 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         }
 
         chartCommand = strBuilder.toString();
+    }
+
+    @Override
+    public void createLineGraph(TabularData<?> data, List<TabularRange> ranges) {
+        chartCommand = ChartBuilder.getLineGraphCommand(data, ranges);
     }
 
 }

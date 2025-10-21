@@ -1374,13 +1374,19 @@ public final class SpreadsheetController {
 			break;
 		case BAR_CHART:
 		case HISTOGRAM:
-			createChartWithTwoParameter(range, chartType);
+			List<TabularRange> ranges = getLastRanges();
+			createChartWithTwoParameters(ranges, chartType);
 			break;
 		case LINE_CHART:
-			createLineChart(range);
+			createLineChart(getLastRanges());
 			break;
 		default:
 		}
+	}
+
+	private List<TabularRange> getLastRanges() {
+		return selectionController.getSelections().map(Selection::getRange)
+				.collect(Collectors.toList());
 	}
 
 	private void createPieChart(TabularRange range) {
@@ -1397,38 +1403,43 @@ public final class SpreadsheetController {
 		}
 	}
 
-	private void createChartWithTwoParameter(TabularRange range,
+	private void createChartWithTwoParameters(List<TabularRange> ranges,
 			ContextMenuItem.Identifier chartType) {
 		if (constructionDelegate == null || controlsDelegate == null) {
 			return;
 		}
 
-		if (range.getWidth() == 2) {
+		ChartError chartError = ChartError.validateForTwoColumns(ranges);
+
+		if (chartError == ChartError.NONE) {
 			switch (chartType) {
 			case BAR_CHART:
-				constructionDelegate.createBarChart(tabularData, range);
+				constructionDelegate.createBarChart(tabularData, ranges);
 				break;
 			case HISTOGRAM:
-				constructionDelegate.createHistogram(tabularData, range);
+				constructionDelegate.createHistogram(tabularData, ranges);
 				break;
 			default:
 			}
 		} else {
-			controlsDelegate.showSnackbar(range.isSingleCell() ? "StatsDialog.NoData"
-					: "ChartError.TwoColumns");
+			controlsDelegate.showSnackbar(chartError.getErrorKey());
 		}
 	}
 
-	private void createLineChart(TabularRange range) {
+	private void createLineChart(List<TabularRange> ranges) {
 		if (constructionDelegate == null || controlsDelegate == null) {
 			return;
 		}
 
-		if (range.getWidth() >= 2) {
-			constructionDelegate.createLineGraph(tabularData, range);
+		ChartError chartError = ChartError.validateForMoreColumns(ranges);
+		if (chartError == ChartError.NONE) {
+			if (ranges.size() == 1) {
+				constructionDelegate.createLineGraph(tabularData, ranges.get(0));
+			} else {
+				constructionDelegate.createLineGraph(tabularData, ranges);
+			}
 		} else {
-			controlsDelegate.showSnackbar(range.isSingleCell() ? "StatsDialog.NoData"
-					: "ChartError.TwoColumns");
+			controlsDelegate.showSnackbar(chartError.getErrorKey());
 		}
 	}
 
