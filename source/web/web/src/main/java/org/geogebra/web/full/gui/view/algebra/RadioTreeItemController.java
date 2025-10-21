@@ -19,7 +19,6 @@ import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
@@ -553,17 +552,10 @@ public class RadioTreeItemController implements ClickHandler,
 			return;
 		}
 
-		GeoElement geo = item.geo;
-		SelectionManager selection = app.getSelectionManager();
-		if (geo != null) {
-			if (!selection.containsSelectedGeo(geo)) {
-				selection.clearSelectedGeos(false);
-				selection.addSelectedGeo(geo, true, true);
-			}
+		if (item.geo != null) {
 			// else: keep (multi)selection, already includes clicked object
 			double scale = app.getGeoGebraElement().getScaleX();
-			app.getGuiManager().showPopupMenu(
-					selection.getSelectedGeos(), item.asWidget(), (int) (evt.getX() / scale),
+			new ContextMenuAVItemMore(item).show(item.asWidget(), (int) (evt.getX() / scale),
 					(int) (evt.getY() / scale));
 		}
 	}
