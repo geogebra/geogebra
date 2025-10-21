@@ -146,7 +146,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 				fontColorProperty);
 
 		Property fontSizeProperty = geoElementPropertiesFactory.createTextFontSizeProperty(
-				getApp().getLocalization(), activeGeoList, ev);
+				getApp().getLocalization(), activeGeoList);
 		addPropertyPopupButton(activeGeoList, "gwt-PopupPanel contextSubMenu", true,
 				UndoActionType.STYLE_OR_CONTENT, fontSizeProperty);
 

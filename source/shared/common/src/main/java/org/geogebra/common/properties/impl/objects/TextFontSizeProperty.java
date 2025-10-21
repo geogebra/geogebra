@@ -12,7 +12,6 @@ import static org.geogebra.common.kernel.geos.properties.TextFontSize.VERY_SMALL
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -30,19 +29,16 @@ public class TextFontSizeProperty extends AbstractNamedEnumeratedProperty<TextFo
 	private final List<TextFontSize> fontSizes = Arrays.asList(
 			EXTRA_SMALL, VERY_SMALL, SMALL, MEDIUM, LARGE, VERY_LARGE, EXTRA_LARGE);
 	private final GeoElementDelegate delegate;
-	private final EuclidianView ev;
 
 	/**
 	 * Text font size property
 	 * @param localization localization
 	 * @param element geo element
-	 * @param ev euclidian view
 	 */
-	public TextFontSizeProperty(Localization localization, GeoElement element, EuclidianView ev)
+	public TextFontSizeProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "FontSize");
 		delegate = new FontStyleDelegate(element);
-		this.ev = ev;
 		setValues(fontSizes);
 		setNamedValues(List.of(
 				entry(EXTRA_SMALL, EXTRA_SMALL.getName()),
@@ -63,10 +59,15 @@ public class TextFontSizeProperty extends AbstractNamedEnumeratedProperty<TextFo
 				.getFontSizeMultiplier() != size) {
 			((TextProperties) element).setFontSizeMultiplier(size);
 		} else if (element instanceof HasTextFormatter) {
-			size = size * ev.getFontSize();
+			size = size * getBaseFontSize();
 			((HasTextFormatter) element).format("size", size);
 		}
 		element.updateVisualStyleRepaint(GProperty.FONT);
+	}
+
+	private double getBaseFontSize() {
+		// dependency on getApp will be removed when inline text size is switched to absolute
+		return delegate.getElement().getApp().getFontSize();
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class TextFontSizeProperty extends AbstractNamedEnumeratedProperty<TextFo
 		if (element instanceof HasTextFormatter) {
 			Double fontSize = ((HasTextFormatter) element).getFormat("size",
 					(double) 0);
-			return fontSizes.get(GeoText.getFontSizeIndex(fontSize / ev.getFontSize()));
+			return fontSizes.get(GeoText.getFontSizeIndex(fontSize / getBaseFontSize()));
 		}
 
 		return fontSizes.get(GeoText.getFontSizeIndex(

@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -307,7 +306,7 @@ public final class GeoElementPropertiesFactory {
 	private @Nonnull PropertiesArray createTextProperties(
 			Localization localization, List<GeoElement> elements) {
 		return createPropsArray("Text", localization, Stream.of(
-				createTextFontSizeProperty(localization, elements, null)
+				createTextFontSizeProperty(localization, elements)
 				/* TextOptionsModel */
 		));
 	}
@@ -879,13 +878,12 @@ public final class GeoElementPropertiesFactory {
 	 * Returns property controlling the text font size or null if not applicable.
 	 * @param localization localization
 	 * @param elements elements
-	 * @param ev euclidian view
 	 * @return property or null
 	 */
 	public NamedEnumeratedPropertyCollection<?, ?> createTextFontSizeProperty(
-			Localization localization, List<GeoElement> elements, EuclidianView ev) {
+			Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
-				element -> new TextFontSizeProperty(localization, element, ev),
+				element -> new TextFontSizeProperty(localization, element),
 				NamedEnumeratedPropertyCollection::new);
 	}
 
