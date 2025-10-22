@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
@@ -21,6 +22,7 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateOutput
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.Widget;
@@ -97,11 +99,20 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addAction(final AlgebraContextMenuItem menuItem) {
-		AriaMenuItem mi = new AriaMenuItem(menuItem.getLocalizedTitle(loc),
+		AriaMenuItem itemWidget = new AriaMenuItem(menuItem.getLocalizedTitle(loc),
 				null, () -> select(menuItem));
-		TestHarness.setAttr(mi, "menu" + menuItem.getTranslationKey());
-		mi.addStyleName("no-image");
-		wrappedPopup.addItem(mi);
+		TestHarness.setAttr(itemWidget, "menu" + menuItem.getTranslationKey());
+		itemWidget.addStyleName("no-image");
+		// Clearing is a special case, it must happen *before* focus shifts to the menu.
+		if (menuItem == AlgebraContextMenuItem.Delete && geo == null) {
+			ClickStartHandler.init(itemWidget, new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					item.onClear();
+				}
+			});
+		}
+		wrappedPopup.addItem(itemWidget);
 	}
 
 	/**
