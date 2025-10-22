@@ -1,6 +1,5 @@
 package com.himamis.retex.editor.web;
 
-import org.geogebra.gwtutil.NativePointerEvent;
 import org.gwtproject.event.dom.client.DoubleClickEvent;
 import org.gwtproject.event.dom.client.DoubleClickHandler;
 import org.gwtproject.user.client.ui.Widget;
@@ -8,8 +7,8 @@ import org.gwtproject.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.renderer.share.SelectionBox;
 
-import elemental2.core.Function;
 import elemental2.dom.HTMLElement;
+import elemental2.dom.PointerEvent;
 import jsinterop.base.Js;
 
 /**
@@ -33,14 +32,14 @@ public class ClickAdapterW
 		this.field = field;
 	}
 
-	private void onPointerDown(NativePointerEvent event) {
+	private void onPointerDown(PointerEvent event) {
 		if (!field.isEnabled()) {
 			return;
 		}
 
 		event.preventDefault();
-		SelectionBox.touchSelection = "touch".equals(event.getPointerType());
-		handler.onPointerDown(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
+		SelectionBox.touchSelection = "touch".equals(event.pointerType);
+		handler.onPointerDown(toFormulaPx(event.offsetX), toFormulaPx(event.offsetY));
 		this.pointerIsDown = true;
 	}
 
@@ -51,17 +50,17 @@ public class ClickAdapterW
 		return (int) (eventPx / scale);
 	}
 
-	private void onPointerUp(NativePointerEvent event) {
+	private void onPointerUp(PointerEvent event) {
 		if (!field.isEnabled()) {
 			return;
 		}
 		this.pointerIsDown = false;
-		handler.onPointerUp(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
+		handler.onPointerUp(toFormulaPx(event.offsetX), toFormulaPx(event.offsetY));
 	}
 
-	private void onPointerMove(NativePointerEvent event) {
+	private void onPointerMove(PointerEvent event) {
 		if (this.pointerIsDown) {
-			handler.onPointerMove(toFormulaPx(event.getOffsetX()), toFormulaPx(event.getOffsetY()));
+			handler.onPointerMove(toFormulaPx(event.offsetX), toFormulaPx(event.offsetY));
 		}
 	}
 
@@ -81,12 +80,9 @@ public class ClickAdapterW
 		element.addEventListener("pointerdown",
 				(event) -> {
 					onPointerDown(Js.uncheckedCast(event));
-					Function capture = Js.uncheckedCast(Js.asPropertyMap(event.target)
-							.get("setPointerCapture"));
-					if (Js.isTruthy(capture)) {
-						NativePointerEvent ptr = Js.uncheckedCast(event);
-						capture.call(event.target, ptr.getPointerId());
-					}
+					PointerEvent ptr = Js.uncheckedCast(event);
+					HTMLElement target = Js.uncheckedCast(event.target);
+					target.setPointerCapture(ptr.pointerId);
 				});
 		element.addEventListener("pointerup",
 				(event) -> onPointerUp(Js.uncheckedCast(event)));

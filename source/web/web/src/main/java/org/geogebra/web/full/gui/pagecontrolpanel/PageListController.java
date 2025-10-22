@@ -64,7 +64,6 @@ import com.google.gwt.core.client.Scheduler;
 
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Any;
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -599,9 +598,9 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	@Override
-	public void handlePageAction(String eventType, String pageId, Object appState) {
+	public void handlePageAction(String eventType, String pageId, JsPropertyMap<?> appState) {
 		refreshSlide(selectedCard);
-		JsPropertyMap<?> args = appState == null ? JsPropertyMap.of() : Js.asPropertyMap(appState);
+		JsPropertyMap<?> args = appState == null ? JsPropertyMap.of() : appState;
 		switch (eventType) {
 		case "addPage":
 			PagePreviewCard card = addNewPreviewCard(getSlideCount(),

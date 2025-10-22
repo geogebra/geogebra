@@ -14,6 +14,7 @@ package com.himamis.retex.editor.web;
 
 import org.gwtproject.event.dom.client.DomEvent;
 
+import elemental2.dom.CompositionEvent;
 import jsinterop.base.Js;
 
 /**

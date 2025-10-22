@@ -1,14 +1,17 @@
 package org.geogebra.web.full.cas.view;
 
+import static elemental2.dom.DomGlobal.navigator;
+
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
+
+import jsinterop.base.Js;
 
 /**
  * The one popup menu used in web CAS
@@ -78,7 +81,7 @@ public class RowHeaderPopupMenuW extends
 				() -> actionPerformed(CellAction.TEXT));
 		rowHeaderPopupMenu.addItem(miUseAsText);
 
-		if (CopyPasteCutW.checkClipboardSupported()) {
+		if (Js.isTruthy(navigator.clipboard)) {
 
 			AriaMenuItem copyItem = new AriaMenuItem(loc.getMenu("Copy"), null,
 					() -> actionPerformed(CellAction.COPY));

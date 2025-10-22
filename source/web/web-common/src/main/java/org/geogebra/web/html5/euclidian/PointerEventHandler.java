@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.util.CopyPasteW;
@@ -43,10 +42,10 @@ public class PointerEventHandler {
 		public double y;
 		public double id;
 
-		public PointerState(NativePointerEvent e) {
-			id = e.getPointerId();
-			x = e.getOffsetX() / off.getZoomLevel();
-			y = e.getOffsetY() / off.getZoomLevel();
+		public PointerState(elemental2.dom.PointerEvent e) {
+			id = e.pointerId;
+			x = e.offsetX / off.getZoomLevel();
+			y = e.offsetY / off.getZoomLevel();
 		}
 	}
 
@@ -75,11 +74,11 @@ public class PointerEventHandler {
 		tc.onPointerEventStart(e);
 	}
 
-	private static void adjust(PointerEvent event, NativePointerEvent nativeEvent) {
-		event.setAlt(nativeEvent.getAltKey());
-		event.setShift(nativeEvent.getShiftKey());
-		event.setControl(nativeEvent.getCtrlKey());
-		event.setButton(nativeEvent.getButton());
+	private static void adjust(PointerEvent event, elemental2.dom.PointerEvent nativeEvent) {
+		event.setAlt(nativeEvent.altKey);
+		event.setShift(nativeEvent.shiftKey);
+		event.setControl(nativeEvent.ctrlKey);
+		event.setButton(nativeEvent.button);
 	}
 
 	private void singleUp(PointerEvent e) {
@@ -114,24 +113,24 @@ public class PointerEventHandler {
 		third = null;
 	}
 
-	private void onPointerMove(NativePointerEvent e, Element element) {
+	private void onPointerMove(elemental2.dom.PointerEvent e, Element element) {
 		if (isPenStrokeInterrupted(e)) {
 			onPointerDown(e, element);
 		}
 		if (first != null && second != null) {
-			if (second.id == e.getPointerId()) {
-				second.x = e.getOffsetX() / off.getZoomLevel();
-				second.y = e.getOffsetY() / off.getZoomLevel();
+			if (second.id == e.pointerId) {
+				second.x = e.offsetX / off.getZoomLevel();
+				second.y = e.offsetY / off.getZoomLevel();
 				twoPointersMove(first, second);
-			} else if (first.id == e.getPointerId()) {
-				first.x = e.getOffsetX() / off.getZoomLevel();
-				first.y = e.getOffsetY() / off.getZoomLevel();
+			} else if (first.id == e.pointerId) {
+				first.x = e.offsetX / off.getZoomLevel();
+				first.y = e.offsetY / off.getZoomLevel();
 			}
 		} else if (match(first, e) || match(second, e)
-				|| "mouse".equals(e.getPointerType())) {
+				|| "mouse".equals(e.pointerType)) {
 			this.tc.onPointerEventMove(convertEvent(e));
 		}
-		if (!"INPUT".equals(e.getTarget().tagName)) {
+		if (!"INPUT".equals(Js.<elemental2.dom.Element>uncheckedCast(e.target).tagName)) {
 			e.preventDefault();
 		}
 		checkMoveLongTouch();
@@ -142,16 +141,16 @@ public class PointerEventHandler {
 	 * In case we lost all pointers and we're getting pen movement,
 	 * we assume that the last "pointerout" event was a glitch (happens on iPad).
 	 */
-	private boolean isPenStrokeInterrupted(NativePointerEvent event) {
+	private boolean isPenStrokeInterrupted(elemental2.dom.PointerEvent event) {
 		return first == null && second == null && third == null
-				&& lastOutId == event.getPointerId() && "pen".equals(event.getPointerType());
+				&& lastOutId == event.pointerId && "pen".equals(event.pointerType);
 	}
 
-	private boolean match(PointerState pointerState, NativePointerEvent event) {
-		return pointerState != null && pointerState.id == event.getPointerId();
+	private boolean match(PointerState pointerState, elemental2.dom.PointerEvent event) {
+		return pointerState != null && pointerState.id == event.pointerId;
 	}
 
-	private void onPointerDown(NativePointerEvent e, Element element) {
+	private void onPointerDown(elemental2.dom.PointerEvent e, Element element) {
 		if (first != null && second != null && third != null) {
 			reset();
 			return;
@@ -168,28 +167,28 @@ public class PointerEventHandler {
 			first = new PointerState(e);
 		}
 		// prevent touch but not mouse: make sure focus is moved
-		if (!"mouse".equals(e.getPointerType())) {
+		if (!"mouse".equals(e.pointerType)) {
 			e.preventDefault();
 		}
-		setPointerType(e.getPointerType(), true);
+		setPointerType(e.pointerType, true);
 		if (first != null && second != null) {
 			twoPointersDown(first, second);
 		} else {
 			singleDown(convertEvent(e));
-			if ("touch".equals(e.getPointerType()) && first != null) {
+			if ("touch".equals(e.pointerType) && first != null) {
 				startLongTouch(first);
 			}
 		}
 	}
 
-	private PointerEvent convertEvent(NativePointerEvent e) {
-		PointerEvent ex = new PointerEvent(e.getOffsetX() / off.getZoomLevel(),
-				e.getOffsetY() / off.getZoomLevel(), types(e.getPointerType()), off);
+	private PointerEvent convertEvent(elemental2.dom.PointerEvent e) {
+		PointerEvent ex = new PointerEvent(e.offsetX / off.getZoomLevel(),
+				e.offsetY / off.getZoomLevel(), types(e.pointerType), off);
 		adjust(ex, e);
 		return ex;
 	}
 
-	private void onPointerUp(NativePointerEvent event, Element element) {
+	private void onPointerUp(elemental2.dom.PointerEvent event, Element element) {
 		if (pointerCapture != element) {
 			return;
 		}
@@ -201,17 +200,17 @@ public class PointerEventHandler {
 			return;
 		}
 		singleUp(convertEvent(event));
-		setPointerType(event.getPointerType(), false);
+		setPointerType(event.pointerType, false);
 		CopyPasteW.stopCollectingCopyCalls();
 	}
 
-	private void onPointerOut(NativePointerEvent event) {
-		lastOutId = event.getPointerId();
+	private void onPointerOut(elemental2.dom.PointerEvent event) {
+		lastOutId = event.pointerId;
 		resetPointer(event);
-		setPointerType(event.getPointerType(), false);
+		setPointerType(event.pointerType, false);
 	}
 
-	private void resetPointer(NativePointerEvent event) {
+	private void resetPointer(elemental2.dom.PointerEvent event) {
 		if (match(first, event)) {
 			first = null;
 		} else if (match(second, event)) {

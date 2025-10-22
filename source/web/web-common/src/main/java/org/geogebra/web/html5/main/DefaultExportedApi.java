@@ -1007,7 +1007,7 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().unregisterClickListener(JSFunctionName);
 	}
 
-	public void handlePageAction(Object eventType, Object pageIdx, Object appState) {
+	public void handlePageAction(Object eventType, Object pageIdx, JsPropertyMap<?> appState) {
 		getGgbAPI().handlePageAction(eventType + "", pageIdx + "", appState);
 	}
 

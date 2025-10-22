@@ -6,7 +6,6 @@ import com.himamis.retex.editor.share.util.KeyCodes;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URLSearchParams;
-import jsinterop.base.Js;
 
 public class NavigatorUtil {
 
@@ -56,8 +55,7 @@ public class NavigatorUtil {
 	}
 
 	private static int getMaxPointTouch() {
-		Object touchPoints =  Js.asPropertyMap(DomGlobal.navigator).get("maxTouchPoints");
-		return touchPoints == null ? 0 : Js.asInt(touchPoints);
+		return DomGlobal.navigator.maxTouchPoints;
 	}
 
 	/**

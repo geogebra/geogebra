@@ -3,6 +3,8 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.web.html5.util.StringConsumer;
 
+import jsinterop.base.JsPropertyMap;
+
 /**
  * Controller for multipage files
  */
@@ -125,7 +127,7 @@ public interface PageListControllerInterface extends ActionExecutor {
 	 * @param pageIdx page index
 	 * @param appState plain JS object
 	 */
-	void handlePageAction(String eventType, String pageIdx, Object appState);
+	void handlePageAction(String eventType, String pageIdx, JsPropertyMap<?> appState);
 
 	/**
 	 * @param pageId page ID

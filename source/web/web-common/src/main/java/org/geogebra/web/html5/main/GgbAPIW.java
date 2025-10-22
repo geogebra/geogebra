@@ -1261,8 +1261,13 @@ public class GgbAPIW extends GgbAPI {
 		app.getSaveController().setRunAfterSave(null);
 	}
 
-	@Override
-	public void handlePageAction(String eventType, String pageIdx, Object appState) {
+	/**
+	 * add/delete/copy/paste slide actions
+	 * @param eventType - event type (add, delete, etc.)
+	 * @param pageIdx - page index
+	 * @param appState - appState
+	 */
+	public void handlePageAction(String eventType, String pageIdx, JsPropertyMap<?> appState) {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
 		if (pageController != null) {
 			pageController.handlePageAction(eventType, pageIdx, appState);

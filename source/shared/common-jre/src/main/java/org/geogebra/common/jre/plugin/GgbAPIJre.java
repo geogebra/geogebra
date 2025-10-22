@@ -110,11 +110,6 @@ public abstract class GgbAPIJre extends GgbAPI {
 	}
 
 	@Override
-	public void handlePageAction(String eventType, String pageIdx, Object appStat) {
-		// stub
-	}
-
-	@Override
 	public void selectPage(String pageIdx) {
 		// stub
 	}

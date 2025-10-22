@@ -8,10 +8,6 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
 
-import elemental2.core.Function;
-import elemental2.dom.DomGlobal;
-import jsinterop.base.Js;
-
 public class CopyPasteCutW extends CopyPasteCut {
 
 	public CopyPasteCutW(App app) {
@@ -25,15 +21,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 	}
 
 	/**
-	 * @return whether copy to clipboard is supported
-	 */
-	public static boolean checkClipboardSupported() {
-		Function commandCheck = Js.uncheckedCast(Js.asPropertyMap(DomGlobal.document)
-				.get("queryCommandSupported")) ;
-		return Js.isTruthy(commandCheck.call(DomGlobal.document, "copy"));
-	}
-
-	/**
 	 * @param column1
 	 *            left column
 	 * @param row1
@@ -43,7 +30,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 	 * @param row2
 	 *            bottom row
 	 * @param skipGeoCopy
-	 *            wehether to skip updating geo buffer
+	 *            whether to skip updating geo buffer
 	 * @param nat
 	 *            called from native event?
 	 */

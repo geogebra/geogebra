@@ -2,12 +2,12 @@ package org.geogebra.web.html5.util;
 
 import java.util.function.Predicate;
 
-import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.DomEvent;
 
+import elemental2.dom.PointerEvent;
 import jsinterop.base.Js;
 
 /**
@@ -100,8 +100,8 @@ public final class EventUtil {
 	public static void stopPointerEvents(Element element, Predicate<Integer> check) {
 		for (String evtName : new String[]{"pointerup", "pointerdown"}) {
 			Dom.addEventListener(element, evtName, e -> {
-				NativePointerEvent ptrEvent = Js.uncheckedCast(e);
-				if (check.test(ptrEvent.getButton())) {
+				PointerEvent ptrEvent = Js.uncheckedCast(e);
+				if (check.test(ptrEvent.button)) {
 					e.stopPropagation();
 				}
 			});

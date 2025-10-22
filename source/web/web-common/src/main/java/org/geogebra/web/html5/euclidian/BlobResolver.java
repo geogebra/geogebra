@@ -26,7 +26,7 @@ public class BlobResolver {
 	public void resolve(Consumer<String> callback) {
 		JsString jss = new JsString(serializedSvg);
 
-		JsIteratorIterable<RegExpResult> result = jss.matchAll("\"(blob:[^\"]*)\"");
+		JsIteratorIterable<RegExpResult, ?, ?> result = jss.matchAll("\"(blob:[^\"]*)\"");
 		JsIIterableResult<RegExpResult> next;
 		do {
 			next = result.next();

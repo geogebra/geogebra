@@ -21,7 +21,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
-import org.geogebra.gwtutil.DOMMatrix;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.export.Canvas2Pdf;
 import org.geogebra.web.html5.export.Canvas2Svg;
@@ -34,11 +33,11 @@ import org.gwtproject.dom.client.Element;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
-import elemental2.core.Function;
 import elemental2.core.JsArray;
 import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.DOMMatrix;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
@@ -416,8 +415,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	private void scalePattern(CanvasPattern ptr, double scale) {
 		if (scale != 1) {
-			Function setTransform = Js.uncheckedCast(Js.asPropertyMap(ptr).get("setTransform"));
-			setTransform.call(ptr, new DOMMatrix(new double[]{scale, 0, 0, scale, 0, 0}));
+			ptr.setTransform(new DOMMatrix(new double[]{scale, 0, 0, scale, 0, 0}));
 		}
 	}
 

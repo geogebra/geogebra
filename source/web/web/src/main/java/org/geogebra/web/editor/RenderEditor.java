@@ -1,7 +1,6 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.gwtutil.JsConsumer;
-import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.bridge.RenderGgbElement.RenderGgbElementFunction;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -19,6 +18,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
 import elemental2.dom.Node;
+import elemental2.dom.PointerEvent;
 import jsinterop.base.Js;
 
 public final class RenderEditor implements RenderGgbElementFunction {
@@ -85,10 +85,10 @@ public final class RenderEditor implements RenderGgbElementFunction {
 	}
 
 	private void adjustCaret(Event evt, MathFieldW mathField) {
-		NativePointerEvent ptr = Js.uncheckedCast(evt);
+		PointerEvent ptr = Js.uncheckedCast(evt);
 		Node target = Js.uncheckedCast(evt.target);
 		if (!"CANVAS".equals(target.nodeName)) {
-			mathField.adjustCaret((int) ptr.getOffsetX(), (int) ptr.getOffsetY(), 1);
+			mathField.adjustCaret((int) ptr.offsetX, (int) ptr.offsetY, 1);
 		}
 	}
 

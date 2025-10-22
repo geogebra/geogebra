@@ -32,7 +32,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
@@ -78,6 +77,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.dom.EventListener;
+import elemental2.dom.PointerEvent;
 import jsinterop.base.Js;
 
 public class AutoCompleteTextFieldW extends FlowPanel
@@ -330,7 +330,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
 			if (textField.isEnabled()) {
 				requestFocus();
-				if (Js.<NativePointerEvent>uncheckedCast(event).getButton() <= 0) {
+				if (Js.<PointerEvent>uncheckedCast(event).button <= 0) {
 					event.stopPropagation();
 				}
 			}

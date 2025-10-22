@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util;
 
+import static elemental2.dom.DomGlobal.navigator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +29,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.Clipboard;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 
@@ -36,6 +37,7 @@ import elemental2.core.JsArray;
 import elemental2.dom.Blob;
 import elemental2.dom.BlobPropertyBag;
 import elemental2.dom.ClipboardEvent;
+import elemental2.dom.ClipboardItem;
 import elemental2.dom.DataTransfer;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;
@@ -155,20 +157,21 @@ public class CopyPasteW extends CopyPaste {
 			bag.setType("text/plain");
 			Blob blob = new Blob(new JsArray<>(
 					Blob.ConstructorBlobPartsArrayUnionType.of(toWrite)), bag);
-			Clipboard.ClipboardItem data = new Clipboard.ClipboardItem(JsPropertyMap.of(
-				"text/plain", blob));
+			ClipboardItem.ConstructorItemsJsPropertyMapTypeParameterUnionType wrapBlob =
+					ClipboardItem.ConstructorItemsJsPropertyMapTypeParameterUnionType.of(blob);
+			ClipboardItem data = new ClipboardItem(JsPropertyMap.of("text/plain", wrapBlob));
 
-			Clipboard.write(JsArray.of(data)).then(ignore -> {
+			navigator.clipboard.write(JsArray.of(data)).then(ignore -> {
 				Log.debug("successfully wrote gegeobra data to clipboard");
 				return null;
 			}, (ignore) -> {
 				Log.debug("writing geogebra data to clipboard failed");
 				return null;
 			});
-		} else if (navigatorSupports("clipboard.writeText")) {
+		} else if (clipboardSupports("writeText")) {
 			// Supported in Firefox
 
-			Clipboard.writeText(toWrite).then((ignore) -> {
+			navigator.clipboard.writeText(toWrite).then((ignore) -> {
 				Log.debug("successfully wrote text to clipboard");
 				return null;
 			}, (ignore) -> {
@@ -197,7 +200,7 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	private static boolean copyToExternalSupported() {
-		return navigatorSupports("clipboard.write");
+		return clipboardSupports("write");
 	}
 
 	@Override
@@ -237,9 +240,9 @@ public class CopyPasteW extends CopyPaste {
 	 * @param imageCallback consumer for base64-encoded image
 	 */
 	public static void pasteNative(Consumer<String> callback, Consumer<String> imageCallback) {
-		if (navigatorSupports("clipboard.read")) {
+		if (clipboardSupports("read")) {
 			// supported in Chrome
-			Clipboard
+			navigator.clipboard
 				.read()
 				.then((data) -> {
 						for (int i = 0; i < data.length; i++) {
@@ -272,9 +275,9 @@ public class CopyPasteW extends CopyPaste {
 						handleStorageFallback(callback);
 						return null;
 					});
-		} else if (navigatorSupports("clipboard.readText")) {
+		} else if (clipboardSupports("readText")) {
 			// not sure if any browser enters this at the time of writing
-			Clipboard.readText().then(
+			navigator.clipboard.readText().then(
 				(text) -> {
 					callback.accept(text);
 					return null;
@@ -494,7 +497,7 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	private static void onPermission(AsyncOperation<Boolean> callback) {
-		Clipboard.read().then((data) -> {
+		navigator.clipboard.read().then((data) -> {
 			if (data.length == 0 || data.getAt(0).types.length == 0) {
 				callback.callback(false);
 				return null;
@@ -520,11 +523,11 @@ public class CopyPasteW extends CopyPaste {
 	 * or the internal clipboard (if not)
 	 */
 	public static void checkClipboard(AsyncOperation<Boolean> callback) {
-		if (navigatorSupports("clipboard.read")) {
-			if (navigatorSupports("permissions")) {
+		if (clipboardSupports("read")) {
+			if (Js.isTruthy(navigator.permissions)) {
 				PermissionDescriptor descriptor = PermissionDescriptor.create();
 				descriptor.setName("clipboard-read");
-				DomGlobal.navigator.permissions.query(descriptor).then((result) -> {
+				navigator.permissions.query(descriptor).then((result) -> {
 					if (result != null && "granted".equals(result.state)) {
 						onPermission(callback);
 					} else {
@@ -550,7 +553,8 @@ public class CopyPasteW extends CopyPaste {
 		return !StringUtil.empty(BrowserStorage.LOCAL.getItem(pastePrefix));
 	}
 
-	static boolean navigatorSupports(String s) {
-		return Js.isTruthy(Js.asPropertyMap(DomGlobal.navigator).nestedGet(s));
+	static boolean clipboardSupports(String s) {
+		return Js.isTruthy(navigator.clipboard)
+				&& Js.isTruthy(Js.asPropertyMap(navigator.clipboard).get(s));
 	}
 }

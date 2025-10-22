@@ -363,8 +363,7 @@ public class Browser {
 			return true;
 		};
 		DomGlobal.setTimeout((ignore) -> {
-			Function click = Js.uncheckedCast(Js.asPropertyMap(a).get("click"));
-			click.call(a);
+			a.click();
 		}, 10);
 	}
 

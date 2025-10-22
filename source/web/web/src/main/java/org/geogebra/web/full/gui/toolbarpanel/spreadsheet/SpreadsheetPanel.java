@@ -12,7 +12,6 @@ import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
-import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -33,9 +32,11 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
 
-import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.KeyboardEvent;
+import elemental2.dom.PointerEvent;
 import jsinterop.base.Js;
 
 public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
@@ -96,7 +97,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
-			NativePointerEvent ptr = Js.uncheckedCast(event);
+			PointerEvent ptr = Js.uncheckedCast(event);
 			Modifiers modifiers = getModifiers(ptr);
 			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
 					modifiers);
@@ -108,7 +109,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointerup", event -> {
-			NativePointerEvent ptr = Js.uncheckedCast(event);
+			PointerEvent ptr = Js.uncheckedCast(event);
 			spreadsheet.handlePointerUp(getEventX(ptr), getEventY(ptr),
 					getModifiers(ptr));
 			if (!spreadsheet.isEditorActive()) {
@@ -118,7 +119,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointermove", event -> {
-			NativePointerEvent ptr = Js.uncheckedCast(event);
+			PointerEvent ptr = Js.uncheckedCast(event);
 			double offsetX = getEventX(ptr);
 			double offsetY = getEventY(ptr);
 			Modifiers modifiers = getModifiers(ptr);
@@ -170,16 +171,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private void setPointerCapture(Event event) {
-		Function capture = Js.uncheckedCast(Js.asPropertyMap(event.target)
-				.get("setPointerCapture"));
-		if (Js.isTruthy(capture)) {
-			NativePointerEvent ptr = Js.uncheckedCast(event);
-			capture.call(event.target, ptr.getPointerId());
-		}
+		HTMLElement target = Js.uncheckedCast(event.target);
+		PointerEvent ptr = Js.uncheckedCast(event);
+		target.setPointerCapture(ptr.pointerId);
 	}
 
 	private String getKey(NativeEvent nativeEvent) {
-		String key = Js.asPropertyMap(nativeEvent).getAsAny("key").asString();
+		String key = Js.<KeyboardEvent>uncheckedCast(nativeEvent).key;
 		return key.length() > 1  ? "" : key;
 	}
 
@@ -210,13 +208,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 				evt.isShiftKeyDown(), false);
 	}
 
-	private double getEventX(NativePointerEvent ptr) {
-		return Math.min(ptr.getOffsetX() - scrollOverlay.getElement()
+	private double getEventX(PointerEvent ptr) {
+		return Math.min(ptr.offsetX - scrollOverlay.getElement()
 				.getScrollLeft(), scrollOverlay.getOffsetWidth());
 	}
 
-	private double getEventY(NativePointerEvent ptr) {
-		return Math.min(ptr.getOffsetY() - scrollOverlay.getElement()
+	private double getEventY(PointerEvent ptr) {
+		return Math.min(ptr.offsetY - scrollOverlay.getElement()
 				.getScrollTop(), scrollOverlay.getOffsetHeight());
 	}
 
@@ -226,11 +224,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		setStyleName("cursor_default", cursor == MouseCursor.DRAG_DOT);
 	}
 
-	private Modifiers getModifiers(NativePointerEvent ptr) {
-		return new Modifiers(ptr.getAltKey(),
-				NavigatorUtil.isMacOS() ? ptr.getMetaKey() : ptr.getCtrlKey(),
-				ptr.getShiftKey(),
-				ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey()));
+	private Modifiers getModifiers(PointerEvent ptr) {
+		return new Modifiers(ptr.altKey,
+				NavigatorUtil.isMacOS() ? ptr.metaKey : ptr.ctrlKey,
+				ptr.shiftKey,
+				ptr.button == 2 || (NavigatorUtil.isMacOS() && ptr.ctrlKey));
 	}
 
 	private void updateTotalSize() {
