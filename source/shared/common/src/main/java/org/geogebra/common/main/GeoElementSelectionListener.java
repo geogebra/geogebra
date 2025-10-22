@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Listens to changes of selection
  */
+@FunctionalInterface
 public interface GeoElementSelectionListener {
 
 	/**
@@ -25,6 +26,6 @@ public interface GeoElementSelectionListener {
 	 * @param addToSelection
 	 *            true to add to selection
 	 */
-	public void geoElementSelected(GeoElement geo, boolean addToSelection);
+	void geoElementSelected(GeoElement geo, boolean addToSelection);
 
 }

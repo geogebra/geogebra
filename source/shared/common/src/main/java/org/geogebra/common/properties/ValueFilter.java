@@ -7,6 +7,7 @@ import org.geogebra.common.exam.restrictions.PropertyRestriction;
  * <p>
  * See {@link PropertyRestriction} for a use case.
  */
+@FunctionalInterface
 public interface ValueFilter {
     /**
      * Evaluates whether the specified value is allowed by this filter.

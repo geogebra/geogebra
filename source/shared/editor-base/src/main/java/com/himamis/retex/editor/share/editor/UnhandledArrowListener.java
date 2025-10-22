@@ -5,6 +5,7 @@ import com.himamis.retex.editor.share.event.KeyEvent;
 /**
  * Listener for arrow keys that were not handled by editor.
  */
+@FunctionalInterface
 public interface UnhandledArrowListener {
 	/**
 	 * Runs when arrow key is pressed and not handled by the editor.

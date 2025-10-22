@@ -4149,6 +4149,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * Runs for every view.
 	 */
+	@FunctionalInterface
 	public interface ViewCallback {
 		/**
 		 * @param viewID view ID

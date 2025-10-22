@@ -3,6 +3,7 @@ package org.geogebra.common.exam;
 /**
  * Listener interface for changes in the {@link ExamController}.
  */
+@FunctionalInterface
 public interface ExamListener {
 
 	/**

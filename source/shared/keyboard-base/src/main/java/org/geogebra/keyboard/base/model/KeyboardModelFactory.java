@@ -5,6 +5,7 @@ import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 /**
  * This class can create a {@link KeyboardModel}.
  */
+@FunctionalInterface
 public interface KeyboardModelFactory {
 
 	/**

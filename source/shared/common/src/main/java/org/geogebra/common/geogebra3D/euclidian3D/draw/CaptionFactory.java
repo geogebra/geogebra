@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Caption factory.
  */
+@FunctionalInterface
 public interface CaptionFactory {
 	/**
 	 * @param geo construction element

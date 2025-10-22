@@ -8,6 +8,7 @@ import org.geogebra.keyboard.base.Keyboard;
  * Controllers implementing this should refresh the view from the model {@link Keyboard#getModel()}.
  * Internal use only.
  */
+@FunctionalInterface
 public interface KeyboardObserver {
 
     /**

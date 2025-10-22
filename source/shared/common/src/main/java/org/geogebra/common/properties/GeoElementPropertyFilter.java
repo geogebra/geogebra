@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Filter that determines whether a given {@link Property}
  * is allowed for a specific {@link GeoElement}.
  */
+@FunctionalInterface
 public interface GeoElementPropertyFilter {
     /**
      * Determines if the specified {@link Property} is allowed for the given {@link GeoElement}.

@@ -5,6 +5,7 @@ import com.himamis.retex.editor.share.model.MathComponent;
 /**
  * Visitor for the tree of {@link MathComponent}s
  */
+@FunctionalInterface
 public interface Traversing {
 
     /**

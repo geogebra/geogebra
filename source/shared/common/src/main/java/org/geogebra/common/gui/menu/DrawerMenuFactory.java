@@ -3,6 +3,7 @@ package org.geogebra.common.gui.menu;
 /**
  * Factory class that creates drawer menus.
  */
+@FunctionalInterface
 public interface DrawerMenuFactory {
 
 	/**

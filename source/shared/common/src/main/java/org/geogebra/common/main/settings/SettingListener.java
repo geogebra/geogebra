@@ -9,6 +9,7 @@ package org.geogebra.common.main.settings;
  * 
  * @author Florian Sonner
  */
+@FunctionalInterface
 public interface SettingListener {
 	/**
 	 * Notification that settings were changed.
@@ -16,5 +17,5 @@ public interface SettingListener {
 	 * @param settings
 	 *            Setting container.
 	 */
-	public void settingsChanged(AbstractSettings settings);
+	void settingsChanged(AbstractSettings settings);
 }

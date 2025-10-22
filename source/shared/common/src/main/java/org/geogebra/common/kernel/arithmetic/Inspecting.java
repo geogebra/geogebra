@@ -9,6 +9,7 @@ import org.geogebra.common.plugin.Operation;
  * Allows checking whether at least one part of a structured expression value has a
  * certain property.
  */
+@FunctionalInterface
 public interface Inspecting {
 	/**
 	 * Do the local check

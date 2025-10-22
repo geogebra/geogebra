@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+@FunctionalInterface
 public interface UndoProvider {
 
 	/**

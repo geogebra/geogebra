@@ -49,6 +49,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  * @author Zbynek Konecny
  */
+@FunctionalInterface
 public interface Traversing {
 	/**
 	 * Processes a value locally (no recursion)

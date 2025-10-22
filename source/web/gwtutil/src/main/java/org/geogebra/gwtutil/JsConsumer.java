@@ -7,6 +7,7 @@ import jsinterop.annotations.JsFunction;
  * @param <T> argument type
  */
 @JsFunction
+@FunctionalInterface
 public interface JsConsumer<T> {
 	/**
 	 * Call the function.

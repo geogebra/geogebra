@@ -3,6 +3,7 @@ package org.geogebra.common.properties;
 /**
  * A listener for value sets emitted by a {@link ValuedProperty}.
  */
+@FunctionalInterface
 public interface PropertyValueObserver<V> {
 
     /**
