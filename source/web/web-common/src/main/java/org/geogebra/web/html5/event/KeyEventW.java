@@ -3,6 +3,7 @@ package org.geogebra.web.html5.event;
 import java.util.LinkedList;
 
 import org.geogebra.common.util.debug.Log;
+import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
 
 public final class KeyEventW
@@ -40,10 +41,17 @@ public final class KeyEventW
 
 	@Override
 	public boolean isEnterKey() {
-		return event.getNativeEvent().getKeyCode() == 13
-				|| event.getNativeEvent().getKeyCode() == 10
-				|| (event.getNativeEvent().getKeyCode() == 0 && event
-						.getNativeEvent().getCharCode() == 13);
+		return isEnterKey(event.getNativeEvent());
+	}
+
+	/**
+	 * @param nativeEvent native event
+	 * @return whether native event corresponds to Enter keyboard key
+	 */
+	public static boolean isEnterKey(NativeEvent nativeEvent) {
+		return nativeEvent.getKeyCode() == 13
+				|| nativeEvent.getKeyCode() == 10
+				|| (nativeEvent.getKeyCode() == 0 && nativeEvent.getCharCode() == 13);
 	}
 
 	@Override

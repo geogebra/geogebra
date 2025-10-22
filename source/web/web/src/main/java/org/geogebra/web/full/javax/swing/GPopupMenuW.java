@@ -54,6 +54,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 	private boolean horizontal;
 	protected AriaMenuItem openItem = null;
+	private Element focusAnchor;
 
 	/**
 	 * @param app
@@ -520,7 +521,11 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		} else {
 			popupPanel.hide();
 		}
-		returnFocus(anchor);
+		if (focusAnchor != null) {
+			focusAnchor.focus();
+		} else {
+			returnFocus(anchor);
+		}
 	}
 
 	/**
@@ -614,6 +619,10 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	public void showAndFocus(Element c, int x, int y) {
 		show(c, x, y);
 		Scheduler.get().scheduleDeferred(popupMenu::focus);
+	}
+
+	public void setAnchor(Element inputElement) {
+		this.focusAnchor = inputElement;
 	}
 
 	private class PopupMenuBar extends GMenuBar {

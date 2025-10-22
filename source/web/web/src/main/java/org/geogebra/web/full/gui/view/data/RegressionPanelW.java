@@ -138,13 +138,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		lblEvaluate = new Label();
 		fldInputX = new AutoCompleteTextFieldW(6, app);
 		
-		fldInputX.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				doTextFieldActionPerformed(fldInputX);
-			}
-		});
-		
-		fldInputX.addBlurHandler(event -> doTextFieldActionPerformed(fldInputX));
+		fldInputX.addEnterPressHandler(() -> doTextFieldActionPerformed(fldInputX));
 		fldInputX.enableGGBKeyboard();
 
 		Label lblOutputY = new Label();

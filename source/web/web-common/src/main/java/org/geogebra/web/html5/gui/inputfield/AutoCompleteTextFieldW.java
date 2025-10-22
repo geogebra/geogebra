@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.inputfield;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -39,6 +38,7 @@ import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.html5.event.KeyEventW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
@@ -95,12 +95,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	private boolean autoComplete;
 	private boolean autoCompleteParentheses = true;
-	private int historyIndex;
-	private final ArrayList<String> history;
 
 	private final boolean handleEscapeKey;
 
-	private HistoryPopupW historyPopup;
+	private UpDownArrowHandler upDownArrowHandler;
 	protected ScrollableSuggestBox textField;
 
 	private DrawInputBox drawTextField = null;
@@ -239,8 +237,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.handleEscapeKey = handleEscapeKey;
 		curWord = new StringBuilder();
 
-		historyIndex = 0;
-		history = new ArrayList<>(50);
 		inputSuggestions = new AutocompleteProviderClassic(app);
 
 		addStyleName("AutoCompleteTextFieldW");
@@ -409,20 +405,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return drawTextField;
 	}
 
-	public ArrayList<String> getHistory() {
-		return history;
-	}
-
 	/**
-	 * Add a history popup list and an embedded popup button. See
-	 * AlgebraInputBar
+	 * Add a handler for up/down arrows not handled by autocomplete.
 	 */
-	public void addHistoryPopup(boolean isDownPopup) {
-		if (historyPopup == null) {
-			historyPopup = new HistoryPopupW(this, app.getAppletFrame());
-		}
-
-		historyPopup.setDownPopup(isDownPopup);
+	public void setUpDownArrowHandler(UpDownArrowHandler upDownArrowHandler) {
+		this.upDownArrowHandler = upDownArrowHandler;
 	}
 
 	@Override
@@ -589,33 +576,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public boolean getAutoComplete() {
 		return autoComplete && loc.isAutoCompletePossible();
-	}
-
-	/**
-	 * @return previous input from input textfield's history
-	 */
-	private String getPreviousInput() {
-		if (history.isEmpty()) {
-			return null;
-		}
-		if (historyIndex > 0) {
-			--historyIndex;
-		}
-		return history.get(historyIndex);
-	}
-
-	/**
-	 * @return next input from input textfield's history
-	 */
-	private String getNextInput() {
-		if (historyIndex < history.size()) {
-			++historyIndex;
-		}
-		if (historyIndex == history.size()) {
-			return null;
-		}
-
-		return history.get(historyIndex);
 	}
 
 	private boolean moveToNextArgument(boolean find, boolean updateUI) {
@@ -807,6 +767,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (handleEscapeKey && keyCode == KeyCodes.KEY_ESCAPE) {
 			e.stopPropagation();
 		}
+		if ((keyCode == GWTKeycodes.KEY_DOWN || keyCode == GWTKeycodes.KEY_UP)
+				&& upDownArrowHandler != null) {
+			if (keyCode == GWTKeycodes.KEY_UP) {
+				handleUpArrow();
+			} else {
+				handleDownArrow();
+			}
+			e.stopPropagation();
+			e.preventDefault();
+		}
 		textFieldController.handleKeyboardEvent(e);
 	}
 
@@ -850,12 +820,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			break;
 
 		case GWTKeycodes.KEY_UP:
-			handleUpArrow();
-			e.stopPropagation();
-			break;
-
 		case GWTKeycodes.KEY_DOWN:
-			handleDownArrow();
 			e.stopPropagation(); // prevent GlobalKeyDispatcherW to move the
 									// euclidian view
 			break;
@@ -951,16 +916,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	void handleDownArrow() {
-		if (!handleEscapeKey) {
-			return;
-		}
-		if (historyPopup != null && historyPopup.isDownPopup()) {
-			historyPopup.showPopup();
-		} else {
-			// Fix for Ticket #463
-			if (getNextInput() != null) {
-				setText(getNextInput());
-			}
+		if (!isSuggesting() && upDownArrowHandler != null) {
+			upDownArrowHandler.handleDownArrow();
 		}
 	}
 
@@ -1008,36 +965,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	void handleUpArrow() {
-		if (!isSuggesting()) {
-			if (!handleEscapeKey) {
-				return;
-			}
-			if (historyPopup == null) {
-				String text = getPreviousInput();
-				if (text != null) {
-					setText(text);
-				}
-			} else if (!historyPopup.isDownPopup()) {
-				historyPopup.showPopup();
-			}
+		if (!isSuggesting() && upDownArrowHandler != null) {
+			upDownArrowHandler.handleUpArrow();
 		}
-
-	}
-
-	/**
-	 * Add input to hinput history.
-	 *
-	 * @param str
-	 *            input
-	 */
-	public void addToHistory(String str) {
-		// exit if the new string is the same as the last entered string
-		if (!history.isEmpty() && str.equals(history.get(history.size() - 1))) {
-			return;
-		}
-
-		history.add(str);
-		historyIndex = history.size();
 	}
 
 	@Override
@@ -1247,6 +1177,19 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void addKeyHandler(KeyHandler handler) {
 		textField.getValueBox().addKeyPressHandler(new KeyListenerW(handler));
+	}
+
+	/**
+	 * Add handler for Enter press and blur events.
+	 * @param enterHandler event handler
+	 */
+	public void addEnterPressHandler(Runnable enterHandler) {
+		textField.getValueBox().addKeyPressHandler(evt -> {
+			if (KeyEventW.isEnterKey(evt.getNativeEvent())) {
+				enterHandler.run();
+			}
+		});
+		getTextBox().addBlurHandler(evt -> enterHandler.run());
 	}
 
 	/**

@@ -147,13 +147,7 @@ public class AxisPanel extends FlowPanel
 		tfCross.setAutoComplete(false);
 		tfCross.removeSymbolTable();
 
-		tfCross.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				model.applyCrossing(tfCross.getText());
-			}
-		});
-
-		tfCross.addBlurHandler(event -> model.applyCrossing(tfCross.getText()));
+		tfCross.addEnterPressHandler(() -> model.applyCrossing(tfCross.getText()));
 
 		crossAt = new FormLabel(loc.getMenu("CrossAt") + ":").setFor(tfCross);
 		cbDrawAtBorder = new ComponentCheckbox(loc, false, "StickToEdge",

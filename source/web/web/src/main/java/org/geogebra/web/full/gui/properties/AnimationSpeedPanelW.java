@@ -50,14 +50,9 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 		mainPanel.add(repeatPanel);
 		setWidget(mainPanel);
 
-		tfAnimSpeed.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				doActionPerformed();
-			}
-		});
+		tfAnimSpeed.addEnterPressHandler(this::doActionPerformed);
 
 		tfAnimSpeed.enableGGBKeyboard();
-		tfAnimSpeed.addBlurHandler(event -> doActionPerformed());
 	}
 
 	private void doActionPerformed() {

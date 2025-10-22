@@ -16,6 +16,7 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
@@ -50,6 +51,7 @@ public class AlgebraInputW extends FlowPanel
 	/** help popup */
 	protected InputBarHelpPopup helpPopup;
 	private boolean focused = false;
+	private HistoryPopupW popup;
 
 	/**
 	 * @param app1 - Application
@@ -76,8 +78,10 @@ public class AlgebraInputW extends FlowPanel
 		inputField.getTextBox().addKeyUpHandler(this);
 		inputField.getTextBox().addFocusHandler(this);
 		inputField.getTextBox().addBlurHandler(this);
-
-		inputField.addHistoryPopup(app.getInputPosition() == InputPosition.top);
+		this.popup = new HistoryPopupW(app, app.getAppletFrame());
+		popup.setDownPopup(app.getInputPosition() == InputPosition.top);
+		popup.setTextField(inputField);
+		inputField.setUpDownArrowHandler(popup);
 		if (Browser.isTabletBrowser()) {
 			inputField.enableGGBKeyboard();
 		}
@@ -252,9 +256,9 @@ public class AlgebraInputW extends FlowPanel
 
 				app.setScrollToShow(false);
 
-				inputField.addToHistory(input);
+				popup.addToHistory(input);
 				if (!getTextField().getText().equals(input)) {
-					inputField.addToHistory(getTextField().getText());
+					popup.addToHistory(getTextField().getText());
 				}
 				inputField.setText(null);
 

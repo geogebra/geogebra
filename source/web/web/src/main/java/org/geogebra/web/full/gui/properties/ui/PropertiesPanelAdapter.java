@@ -316,13 +316,7 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 					inputField.setError(error);
 				}
 			};
-			inputField.getTextField().getTextComponent().addBlurHandler(
-					evt -> submit.run());
-			inputField.getTextField().getTextComponent().addKeyHandler(e -> {
-				if (e.isEnterKey()) {
-					submit.run();
-				}
-			});
+			inputField.getTextField().getTextComponent().addEnterPressHandler(submit);
 			return inputField;
 		}
 		return new Label(property.toString());

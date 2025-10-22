@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.event.dom.client.ChangeHandler;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -18,23 +19,25 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  * Popup for history of inputs
  */
 public class HistoryPopupW extends GPopupPanel implements ClickHandler,
-        KeyUpHandler, ChangeHandler {
+        KeyUpHandler, ChangeHandler, UpDownArrowHandler {
 
-	private final AutoCompleteTextFieldW textField;
+	private AutoCompleteTextFieldW textField;
 	private boolean downPopup;
 	private final ListBox historyList;
 	private String originalTextEditorContent;
+	private int historyIndex;
+	private final ArrayList<String> history;
 
 	/**
-	 * @param autoCompleteTextField
-	 *            input field
+	 * @param app
+	 *            app
 	 * @param root
 	 *            root for the popup
 	 */
-	public HistoryPopupW(AutoCompleteTextFieldW autoCompleteTextField, Panel root) {
-		super(root, autoCompleteTextField.getApplication());
-		this.textField = autoCompleteTextField;
-
+	public HistoryPopupW(AppW app, Panel root) {
+		super(root, app);
+		historyIndex = 0;
+		history = new ArrayList<>(50);
 		historyList = new ListBox();
 		historyList.addChangeHandler(this);
 		historyList.addKeyUpHandler(this);
@@ -58,7 +61,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	 * Show history popup
 	 */
 	public void showPopup() {
-		ArrayList<String> list = textField.getHistory();
+		ArrayList<String> list = history;
 		if (list.isEmpty()) {
 			return;
 		}
@@ -114,8 +117,16 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 			hide();
 			textField.setFocus(true);
 			break;
+		case GWTKeycodes.KEY_UP:
+			handleUpArrow();
+			historyList.setSelectedIndex(historyIndex);
+			break;
+		case GWTKeycodes.KEY_DOWN:
+			handleDownArrow();
+			historyList.setSelectedIndex(historyIndex);
+			break;
 		}
-
+		event.stopPropagation();
 	}
 
 	@Override
@@ -123,4 +134,76 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 		hide();
 	}
 
+	public void setTextField(AutoCompleteTextFieldW textField) {
+		this.textField = textField;
+	}
+
+	/**
+	 * Add input to hinput history.
+	 *
+	 * @param str
+	 *            input
+	 */
+	public void addToHistory(String str) {
+		// exit if the new string is the same as the last entered string
+		if (!history.isEmpty() && str.equals(history.get(history.size() - 1))) {
+			return;
+		}
+
+		history.add(str);
+		historyIndex = history.size();
+	}
+
+	@Override
+	public void handleUpArrow() {
+		if (!isShowing() && !isDownPopup()) {
+			showPopup();
+		} else {
+			// Fix for Ticket #463
+			String previousInput = getPreviousInput();
+			if (previousInput != null) {
+				textField.setText(previousInput);
+			}
+		}
+	}
+
+	@Override
+	public void handleDownArrow() {
+		if (!isShowing() && isDownPopup()) {
+			showPopup();
+		} else {
+			// Fix for Ticket #463
+			String nextInput = getNextInput();
+			if (nextInput != null) {
+				textField.setText(nextInput);
+			}
+		}
+	}
+
+	/**
+	 * @return previous input from input textfield's history
+	 */
+	private String getPreviousInput() {
+		if (history.isEmpty()) {
+			return null;
+		}
+		if (historyIndex > 0) {
+			--historyIndex;
+		}
+		return history.get(historyIndex);
+	}
+
+	/**
+	 * @return next input from input textfield's history
+	 */
+	private String getNextInput() {
+		if (historyIndex < history.size()) {
+			++historyIndex;
+		}
+		if (historyIndex == history.size()) {
+			return null;
+		}
+
+		return history.get(historyIndex);
+	}
 }

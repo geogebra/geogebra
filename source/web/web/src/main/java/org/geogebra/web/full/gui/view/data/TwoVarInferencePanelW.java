@@ -96,24 +96,14 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 		fldNullHyp = new AutoCompleteTextFieldW(4, app);
 		fldNullHyp.setText("" + 0);
-		fldNullHyp.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				doTextFieldActionPerformed(fldNullHyp);
-			}
-		});
 
-		fldNullHyp.addBlurHandler(event -> doTextFieldActionPerformed(fldNullHyp));
+		fldNullHyp.addEnterPressHandler(() -> doTextFieldActionPerformed(fldNullHyp));
 
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(4, app);
 		fldConfLevel.setWidthInEm(4);
-		fldConfLevel.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				doTextFieldActionPerformed(fldConfLevel);
-			}
-		});
 
-		fldConfLevel.addBlurHandler(event -> doTextFieldActionPerformed(fldConfLevel));
+		fldConfLevel.addEnterPressHandler(() -> doTextFieldActionPerformed(fldConfLevel));
 
 		lblResultHeader = new Label();
 

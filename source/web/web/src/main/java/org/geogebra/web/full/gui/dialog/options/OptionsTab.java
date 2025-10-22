@@ -6,7 +6,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
@@ -86,7 +85,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -979,12 +977,7 @@ public class OptionsTab extends FlowPanel {
 			inputPanel = new InputPanelW(null, app, false);
 			textField = inputPanel.getTextComponent();
 			textField.setAutoComplete(false);
-			textField.addBlurHandler(event -> model.applyChanges(textField.getText()));
-			textField.addKeyHandler(e -> {
-				if (e.isEnterKey()) {
-					model.applyChanges(textField.getText());
-				}
-			});
+			textField.addEnterPressHandler(() -> model.applyChanges(textField.getText()));
 			if (inline) {
 				mainPanel.add(LayoutUtilW.panelRow(label, inputPanel));
 			} else {
@@ -1050,25 +1043,13 @@ public class OptionsTab extends FlowPanel {
 			tfButtonHeight = ipButtonHeight.getTextComponent();
 			tfButtonHeight.setAutoComplete(false);
 
-			BlurHandler focusListener = event -> getModel().setSizesFromString(
+			Runnable onChange = () -> getModel().setSizesFromString(
 					getTfButtonWidth().getText(),
 					getTfButtonHeight().getText(),
 					getCbUseFixedSize().isSelected());
 
-			tfButtonWidth.addBlurHandler(focusListener);
-			tfButtonHeight.addBlurHandler(focusListener);
-
-			KeyHandler keyHandler = e -> {
-				if (e.isEnterKey()) {
-					getModel().setSizesFromString(
-							getTfButtonWidth().getText(),
-							getTfButtonHeight().getText(),
-							getCbUseFixedSize().isSelected());
-				}
-			};
-
-			tfButtonWidth.addKeyHandler(keyHandler);
-			tfButtonHeight.addKeyHandler(keyHandler);
+			tfButtonWidth.addEnterPressHandler(onChange);
+			tfButtonHeight.addEnterPressHandler(onChange);
 
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.setStyleName("textPropertiesTab");

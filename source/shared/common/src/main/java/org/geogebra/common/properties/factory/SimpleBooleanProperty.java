@@ -10,7 +10,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 /**
  *
  */
-class SimpleBooleanProperty extends AbstractValuedProperty<Boolean>
+public class SimpleBooleanProperty extends AbstractValuedProperty<Boolean>
 		implements BooleanProperty {
 
 	private final Supplier<Boolean> getter;

@@ -44,13 +44,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		final AutoCompleteTextFieldW tf = getSelectedValue();
 		tf.addStyleName("AutoCompleteTextFieldW");
 		tf.enableGGBKeyboard();
-		tf.addBlurHandler(event -> onValueChange(tf.getText()));
-
-		tf.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				onValueChange(tf.getText());
-			}
-		});
+		tf.addEnterPressHandler(() -> onValueChange(tf.getText()));
 
 		tf.addInsertHandler(this::onValueChange);
 	}

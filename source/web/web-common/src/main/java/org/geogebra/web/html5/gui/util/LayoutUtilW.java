@@ -24,21 +24,6 @@ public class LayoutUtilW {
 	}
 
 	/**
-	 * @param widgets
-	 *            widgets
-	 * @return widgets merged in a column
-	 */
-	public static FlowPanel panelRowVertical(IsWidget... widgets) {
-		FlowPanel p = new FlowPanel();
-		for (IsWidget widget : widgets) {
-			p.add(widget);
-		}
-		p.setStyleName("panelRow rows");
-
-		return p;
-	}
-
-	/**
 	 * Add widgets ito one row and add indentation CSS.
 	 * 
 	 * @param widgets

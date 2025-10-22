@@ -95,6 +95,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 			AriaHelper.setAriaExpanded(this, false);
 		});
 		controller.addChangeHandler(this::updateSelectionText);
+		controller.setFocusAnchor(getElement());
 		updateSelectionText();
 	}
 
@@ -111,13 +112,18 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		selectedOption = BaseWidgetFactory.INSTANCE.newPrimaryText("", "selectedOption");
 		optionHolder.add(selectedOption);
 		add(optionHolder);
+		add(createArrowIcon());
+	}
 
+	static SimplePanel createArrowIcon() {
 		SimplePanel arrowIcon = new SimplePanel();
 		arrowIcon.addStyleName("arrow");
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
 				.arrow_drop_down().getSVG());
 		AriaHelper.setAriaHidden(arrowIcon);
-		add(arrowIcon);
+		arrowIcon.getElement().getFirstChildElement()
+				.setAttribute("focusable", "false");
+		return arrowIcon;
 	}
 
 	// Drop-down handlers

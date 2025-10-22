@@ -119,38 +119,21 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 
 		tfMin = new AutoCompleteTextFieldW(-1, app);
 		tfMin.prepareShowSymbolButton(false);
-		tfMin.addKeyHandler(event -> {
-			if (event.isEnterKey()) {
-				applyMin();
-			}
-		});
 		tfMin.enableGGBKeyboard();
 		
-		tfMin.addBlurHandler(event -> applyMin());
+		tfMin.addEnterPressHandler(this::applyMin);
 
 		tfMax = new AutoCompleteTextFieldW(-1, app);
 		tfMax.prepareShowSymbolButton(false);
-		tfMax.addKeyHandler(event -> {
-			if (event.isEnterKey()) {
-				applyMax();
-			}
-		});
-
 		tfMax.enableGGBKeyboard();
 
-		tfMax.addBlurHandler(event -> applyMax());
+		tfMax.addEnterPressHandler(this::applyMax);
 
 		tfWidth = new AutoCompleteTextFieldW(8, app);
 		tfWidth.removeSymbolTable();
-		tfWidth.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				applyWidth();
-			}
-		});
-		
 		tfWidth.enableGGBKeyboard();
 		
-		tfWidth.addBlurHandler(event -> applyWidth());
+		tfWidth.addEnterPressHandler(() -> applyWidth());
 
 		createBlobSizeTextField(app);
 		createBlobColorChooserBtn(app);
@@ -265,13 +248,8 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 	private void createLineThicknessTextField(AppW app) {
 		tfLineThickness = new AutoCompleteTextFieldW(8, app);
 		tfLineThickness.removeSymbolTable();
-		tfLineThickness.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				applyLineThickness();
-			}
-		});
 		tfLineThickness.enableGGBKeyboard();
-		tfLineThickness.addBlurHandler(event -> applyLineThickness());
+		tfLineThickness.addEnterPressHandler(this::applyLineThickness);
 	}
 
 	private void createBlobColorChooserBtn(final AppW app) {
@@ -397,13 +375,8 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 	private void createBlobSizeTextField(AppW app) {
 		tfBlobSize = new AutoCompleteTextFieldW(8, app);
 		tfBlobSize.removeSymbolTable();
-		tfBlobSize.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				applyBlobSize();
-			}
-		});
 		tfBlobSize.enableGGBKeyboard();
-		tfBlobSize.addBlurHandler(event -> applyBlobSize());
+		tfBlobSize.addEnterPressHandler(this::applyBlobSize);
 	}
 
 	@Override

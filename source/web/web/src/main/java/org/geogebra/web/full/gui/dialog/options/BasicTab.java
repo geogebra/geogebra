@@ -85,15 +85,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
 
 	private void addMinMaxHandler(final AutoCompleteTextFieldW tf,
 			final MinMaxType type) {
-
-		tf.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				model.applyMinMax(tf.getText(), type, this);
-				optionsEuclidianW.updateView();
-			}
-		});
-
-		tf.addBlurHandler(event -> {
+		tf.addEnterPressHandler(() -> {
 			model.applyMinMax(tf.getText(), type, this);
 			optionsEuclidianW.updateView();
 		});
@@ -115,13 +107,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
 	}
 
 	private void addAxesRatioHandler(final AutoCompleteTextFieldW tf) {
-		tf.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				applyAxesRatio();
-			}
-		});
-
-		tf.addBlurHandler(event -> applyAxesRatio());
+		tf.addEnterPressHandler(this::applyAxesRatio);
 	}
 
 	private void addDimensionPanel() {

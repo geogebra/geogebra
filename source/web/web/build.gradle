@@ -174,7 +174,7 @@ tasks.register('copyHandlebars') {
 tasks.register('prepareS3Upload') {
     dependsOn('compileGwt', 'copyHtml')
     doLast {
-        ["web3d", "webSimple", "editor"].each { module ->
+        ["web3d", "webSimple", "editor", "showcase"].each { module ->
             def dir = file("build/gwt/out/$module")
             if (dir.exists()) {
                 fileTree(dir).each { f ->

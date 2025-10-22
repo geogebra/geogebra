@@ -86,6 +86,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input, 
 	private void buildGui(AppW app, boolean hasKeyboardBtn) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
+		contentPanel.addStyleName("validation");
 		FlowPanel optionHolder = new FlowPanel();
 		optionHolder.addStyleName("optionLabelHolder");
 		// input text field

@@ -97,12 +97,7 @@ class NamePanel extends OptionPanel
 		InputPanelW inputPanelCap = new InputPanelW(null, app, false);
 		tfCaption = inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
-		tfCaption.addBlurHandler(event -> doCaptionChanged());
-		tfCaption.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				doCaptionChanged();
-			}
-		});
+		tfCaption.addEnterPressHandler(this::doCaptionChanged);
 
 		mainWidget = new FlowPanel();
 

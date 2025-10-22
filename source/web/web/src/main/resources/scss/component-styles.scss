@@ -243,19 +243,19 @@ $keyboard_button_transition: opacity .3s ease;
 		will-change: transform, opacity;
 		transition: opacity .03s linear,transform .12s cubic-bezier(0,0,.2,1);
 
+		&.forceKeyboardFocus .selectedDropDownElement, &.keyboardFocus .dropDownElement:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			background: var(--ggb-light-color);
+			outline-offset: -2px;
+		}
+
 		.dropDownElement {
 			padding-left: 24px;
 			padding-right: 24px;
 			height: 32px;
 			line-height: 32px;
-
-			&.keyboardFocus:focus-visible {
-				outline-color: var(--ggb-dark-color);
-				outline-width: 2px;
-				outline-style: solid;
-				background: var(--ggb-light-color);
-				outline-offset: -2px;
-			}
 		}
 
 		.dropDownElement:hover {
@@ -436,27 +436,6 @@ $keyboard_button_transition: opacity .3s ease;
 			outline-width: 2px;
 			outline-style: solid;
 			outline-offset: 3px;
-		}
-	}
-
-   .orDividerComponent {
-		display: flex;
-
-		.divider {
-			height: 1px;
-			background-color: colors.$black-87;
-			opacity: 0.12;
-			margin: 7px 0px 6px 0px;
-			flex-grow: 1;
-		}
-
-		.orLbl {
-			height: 14px;
-			line-height: 14px;
-			font-size: 75%;
-			margin: 0px 24px;
-			flex-basis: auto;
-			text-transform: uppercase;
 		}
 	}
 
@@ -1005,12 +984,33 @@ $keyboard_button_transition: opacity .3s ease;
 				background-color: white;
 
 				&:hover {
-                	border: none;
-                }
+					border: none;
+				}
 			}
 		}
 	}
 
+	.validation {
+		&.error {
+			border-color: colors.$error;
+
+			.label {
+				color: colors.$error;
+			}
+			input[type=text] {
+				color: colors.$error;
+			}
+		}
+
+		&.error.active {
+			border: 2px solid colors.$error;
+			padding: 0;
+
+			input[type=text] {
+				color: neutral(900);
+			}
+		}
+	}
 /* INPUT TEXT FIELD COMPONENT */
 	.inputTextField {
 		width: 100%;
@@ -1045,17 +1045,17 @@ $keyboard_button_transition: opacity .3s ease;
 			}
 
 			button {
-        			visibility: hidden;
-        			position: absolute;
-        			opacity: 1;
-        			margin: 0 10px;
-        			img {
-        				opacity: 0.54;
-        				transition: $keyboard_button_transition;
-        				&:hover, &:active {
-        					opacity: 1;
-        				}
-        			}
+					visibility: hidden;
+					position: absolute;
+					opacity: 1;
+					margin: 0 10px;
+					img {
+						opacity: 0.54;
+						transition: $keyboard_button_transition;
+						&:hover, &:active {
+							opacity: 1;
+						}
+					}
 			}
 
 			&.kbdInput button {
@@ -1067,26 +1067,6 @@ $keyboard_button_transition: opacity .3s ease;
 			input[type=text] {
 				background-color: white;
 				color: neutral(500);
-			}
-		}
-
-		&.error {
-			border-color: colors.$error;
-
-			.label {
-				color: colors.$error;
-			}
-			input[type=text] {
-				color: colors.$error;
-			}
-		}
-
-		&.error.active {
-			border: 2px solid colors.$error;
-			padding: 0;
-
-			input[type=text] {
-				color: neutral(900);
 			}
 		}
 
@@ -1389,7 +1369,7 @@ $keyboard_button_transition: opacity .3s ease;
 				outline-style: solid;
 				background: var(--ggb-light-color);
 				outline-offset: -2px;
-            }
+			}
 
 			.headerArrow {
 				width: 24px;
@@ -1428,7 +1408,7 @@ $keyboard_button_transition: opacity .3s ease;
 				outline-style: solid;
 				background: var(--ggb-light-color);
 				outline-offset: -2px;
-            }
+			}
 		}
 
 		&.extended {
@@ -1457,8 +1437,8 @@ $keyboard_button_transition: opacity .3s ease;
 
 		.gwt-TextArea.textArea {
 			padding: 12px 16px;
-            box-shadow: none;
-            border-radius: 8px;
+			box-shadow: none;
+			border-radius: 8px;
 			width: 100%;
 			height: 100%;
 			border: none;

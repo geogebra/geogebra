@@ -9,19 +9,24 @@ import java.util.stream.IntStream;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.AbstractGroupedEnumeratedProperty;
+import org.geogebra.common.util.MulticastEvent;
+import org.geogebra.web.html5.gui.inputfield.UpDownArrowHandler;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.dom.client.Element;
+import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Widget;
 
-public class DropDownComboBoxController implements SetLabels {
+public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler {
 	private final Widget parent;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
 	private final List<String> items;
 	private final List<Runnable> changeHandlers = new ArrayList<>();
 	private NamedEnumeratedProperty<?> property;
+	private MulticastEvent<String> onHighlighted = new MulticastEvent<>();
 
 	/**
 	 * popup controller for dropdown and combo box
@@ -94,8 +99,8 @@ public class DropDownComboBoxController implements SetLabels {
 				}
 			});
 			AriaHelper.setRole(item, "option");
-
-			item.setStyleName("dropDownElement keyboardFocus");
+			item.getElement().setId(DOM.createUniqueId());
+			item.setStyleName("dropDownElement");
 			dropDownElementsList.add(item);
 		}
 		setupDropDownMenu(dropDownElementsList);
@@ -105,6 +110,7 @@ public class DropDownComboBoxController implements SetLabels {
 		highlightSelectedElement(dropDown.getSelectedIndex(), false);
 		highlightSelectedElement(idx, true);
 		dropDown.setSelectedIndex(idx);
+		onHighlighted.notifyListeners(idx < 0 ? null : dropDown.getSelectedId(idx));
 	}
 
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
@@ -120,9 +126,9 @@ public class DropDownComboBoxController implements SetLabels {
 
 	private List<Integer> getGroupDividerIndices() {
 		if (property instanceof AbstractGroupedEnumeratedProperty) {
-			List<Integer> listOfDividers = IntStream.of(((AbstractGroupedEnumeratedProperty <?>)
-					property).getGroupDividerIndices()).boxed().collect(Collectors.toList());
-			return listOfDividers;
+			int[] groupDividerIndices = ((AbstractGroupedEnumeratedProperty<?>)
+					property).getGroupDividerIndices();
+			return IntStream.of(groupDividerIndices).boxed().collect(Collectors.toList());
 		}
 		return null;
 	}
@@ -179,6 +185,7 @@ public class DropDownComboBoxController implements SetLabels {
 	 * @param isFullWidth - is dropdown should have full width
 	 */
 	public void showAsDropDown(boolean isFullWidth) {
+		dropDown.setAutoFocus(true);
 		dropDown.positionAtBottomAnchor();
 		if (isFullWidth) {
 			dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
@@ -230,5 +237,46 @@ public class DropDownComboBoxController implements SetLabels {
 			}
 		}
 		return -1;
+	}
+
+	/**
+	 * @param popupID popup DOM ID
+	 */
+	public void setPopupID(String popupID) {
+		dropDown.setPopupID(popupID);
+	}
+
+	@Override
+	public void handleUpArrow() {
+		moveSelection(getSelectedIndex() == -1 ? 0 : -1);
+	}
+
+	private void moveSelection(int increment) {
+		if (!isOpened()) {
+			showAsComboBox();
+		}
+		dropDown.forceKeyboardFocus(true);
+		int size = dropDownElementsList.size();
+		setSelectedOption((dropDown.getSelectedIndex() + size + increment) % size);
+	}
+
+	@Override
+	public void handleDownArrow() {
+		moveSelection(1);
+	}
+
+	/**
+	 * @param inputElement element to which this should return focus on close
+	 */
+	public void setFocusAnchor(Element inputElement) {
+		dropDown.setFocusAnchor(inputElement);
+	}
+
+	/**
+	 * Add listener for changed highlighting.
+	 * @param listener listener
+	 */
+	public void addHighlightingListener(MulticastEvent.Listener<String> listener) {
+		onHighlighted.addListener(listener);
 	}
 }

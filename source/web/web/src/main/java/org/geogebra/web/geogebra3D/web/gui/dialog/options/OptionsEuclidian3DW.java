@@ -344,13 +344,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			perspTitle.setStyleName("panelTitle");
 			tfPersp = getTextField();
 			tfPerspLabel = new FormLabel().setFor(tfPersp);
-			tfPersp.addKeyHandler(e -> {
-				if (e.isEnterKey()) {
-					processPerspText();
-				}
-			});
-
-			tfPersp.addBlurHandler(event -> processPerspText());
+			tfPersp.addEnterPressHandler(this::processPerspText);
 			FlowPanel tfPerspPanel = new FlowPanel();
 			tfPerspPanel.setStyleName("panelRowCell");
 			tfPerspPanel.add(tfPerspLabel);
@@ -370,12 +364,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			tfGlassesEyeSep = getTextField();
 			tfGlassesLabel = new FormLabel().setFor(tfGlassesEyeSep);
-			tfGlassesEyeSep.addKeyHandler(e -> {
-				if (e.isEnterKey()) {
-					processGlassesEyeSepText();
-				}
-			});
-			tfGlassesEyeSep.addBlurHandler(event -> processGlassesEyeSepText());
+			tfGlassesEyeSep.addEnterPressHandler(this::processGlassesEyeSepText);
 			cbGlassesGray = new ComponentCheckbox(loc, false, "GrayScale",
 					selected -> {
 						get3dview().setGlassesGrayScaled(selected);
@@ -407,23 +396,11 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			tfObliqueAngle = getTextField();
 			tfObliqueAngleLabel = new FormLabel().setFor(tfObliqueAngle);
-			tfObliqueAngle.addKeyHandler(e -> {
-				if (e.isEnterKey()) {
-					processObliqueAngleText();
-				}
-			});
-
-			tfObliqueAngle.addBlurHandler(event -> processObliqueAngleText());
+			tfObliqueAngle.addEnterPressHandler(this::processObliqueAngleText);
 
 			tfObliqueFactor = getTextField();
 			tfObliqueFactorLabel = new FormLabel().setFor(tfObliqueFactor);
-			tfObliqueFactor.addKeyHandler(e -> {
-				if (e.isEnterKey()) {
-					processObliqueFactorText();
-				}
-			});
-
-			tfObliqueFactor.addBlurHandler(event -> processObliqueFactorText());
+			tfObliqueFactor.addEnterPressHandler(this::processObliqueFactorText);
 			FlowPanel tfObliquePanel = new FlowPanel();
 			tfObliquePanel.setStyleName("panelRowCell");
 			tfObliquePanel.add(tfObliqueAngleLabel);

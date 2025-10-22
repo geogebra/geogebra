@@ -386,12 +386,7 @@ public class OptionsPanelW extends FlowPanel
 
 	private void initHandlers(AutoCompleteTextFieldW input) {
 		input.enableGGBKeyboard();
-		input.addKeyHandler(evt -> {
-			if (evt.isEnterKey()) {
-				actionPerformed(input);
-			}
-		});
-		input.addBlurHandler(evt -> actionPerformed(input));
+		input.addEnterPressHandler(() -> actionPerformed(input));
 	}
 
 	private void createBoxPlotPanel() {

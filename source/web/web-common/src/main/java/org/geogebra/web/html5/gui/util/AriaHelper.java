@@ -75,6 +75,14 @@ public class AriaHelper {
 	}
 
 	/**
+	 * @param uiObject UI element
+	 * @param autocomplete autocomplete
+	 */
+	public static void setAutocomplete(UIObject uiObject, String autocomplete) {
+		uiObject.getElement().setAttribute("aria-autocomplete", autocomplete);
+	}
+
+	/**
 	 * @param uiObject element
 	 * @param checked true or false
 	 */
@@ -181,5 +189,39 @@ public class AriaHelper {
 	 */
 	public static void setAriaHidden(UIObject uiObject) {
 		uiObject.getElement().setAttribute("aria-hidden", "true");
+	}
+
+	/**
+	 * @param uiObject UI element
+	 * @param controlsID ID of related controls
+	 */
+	public static void setControls(UIObject uiObject, String controlsID) {
+		uiObject.getElement().setAttribute("aria-controls", controlsID);
+	}
+
+	/**
+	 * @param uiObject UI element
+	 * @param id id of active descendant, null to reset
+	 */
+	public static void setActiveDescendant(UIObject uiObject, String id) {
+		if (id == null) {
+			uiObject.getElement().removeAttribute("aria-activedescendant");
+		} else {
+			uiObject.getElement().setAttribute("aria-activedescendant", id);
+		}
+	}
+
+	/**
+	 * @param uiObject UI element
+	 * @param message error message (null to reset)
+	 */
+	public static void setErrorMessage(UIObject uiObject, String message) {
+		if (message == null) {
+			uiObject.getElement().removeAttribute("aria-errormessage");
+		} else {
+			uiObject.getElement().setAttribute("aria-errormessage", message);
+		}
+		uiObject.getElement().setAttribute("aria-invalid", String.valueOf(message != null));
+
 	}
 }

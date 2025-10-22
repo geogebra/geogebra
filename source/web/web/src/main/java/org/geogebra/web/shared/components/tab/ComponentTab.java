@@ -162,10 +162,10 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		selectedTabIdx = tabIdx;
 
 		panelContainer.addStyleName("transition");
+		tabChanged.notifyListeners(tabIdx);
 		Scheduler.get().scheduleDeferred(() -> {
 			panelContainer.getElement().getStyle()
 					.setRight(tabIdx * 100, Unit.PCT);
-			tabChanged.notifyListeners(tabIdx);
 		});
 	}
 

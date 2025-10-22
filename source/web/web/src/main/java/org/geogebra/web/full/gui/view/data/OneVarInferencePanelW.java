@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.DataAnalysisController;
 import org.geogebra.common.gui.view.data.OneVarModel;
 import org.geogebra.common.gui.view.data.StatisticsModel;
@@ -62,39 +60,9 @@ public class OneVarInferencePanelW extends FlowPanel
 	private boolean isTest = true;
 	private boolean isZProcedure;
 
-	private LocalizationW loc;
+	private final LocalizationW loc;
 	private boolean enablePooled;
 	private final OneVarModel model;
-
-	private class ParamKeyHandler implements KeyHandler {
-		private Object source;
-
-		public ParamKeyHandler(Object source) {
-			this.source = source;
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			if (e.isEnterKey()) {
-				actionPerformed(source);
-			}
-		}
-	}
-
-	private class ParamBlurHandler implements BlurHandler {
-		private Object source;
-
-		public ParamBlurHandler(Object source) {
-			this.source = source;
-		}
-
-		@Override
-		public void onBlur(BlurEvent event) {
-			actionPerformed(source);
-
-		}
-
-	}
 
 	/***************************************
 	 * Construct a OneVarInference panel
@@ -138,20 +106,17 @@ public class OneVarInferencePanelW extends FlowPanel
 		fldNullHyp = new InputPanelW(app, -1, false).getTextComponent();
 		fldNullHyp.setWidthInEm(fieldWidth);
 		fldNullHyp.setText("" + 0);
-		fldNullHyp.addKeyHandler(new ParamKeyHandler(fldNullHyp));
-		fldNullHyp.addBlurHandler(new ParamBlurHandler(fldNullHyp));
+		fldNullHyp.addEnterPressHandler(() -> actionPerformed(fldNullHyp));
 		lblConfLevel = new Label();
 		lblConfLevel.setStyleName("panelTitle");
 		fldConfLevel = new InputPanelW(app, -1, false).getTextComponent();
 		fldConfLevel.setWidthInEm(fieldWidth);
-		fldConfLevel.addKeyHandler(new ParamKeyHandler(fldConfLevel));
-		fldConfLevel.addBlurHandler(new ParamBlurHandler(fldConfLevel));
+		fldConfLevel.addEnterPressHandler(() -> actionPerformed(fldConfLevel));
 
 		lblSigma = new Label();
 		fldSigma = new InputPanelW(app, -1, false).getTextComponent();
 		fldSigma.setWidthInEm(fieldWidth);
-		fldSigma.addKeyHandler(new ParamKeyHandler(fldSigma));
-		fldSigma.addBlurHandler(new ParamBlurHandler(fldSigma));
+		fldSigma.addEnterPressHandler(() -> actionPerformed(fldSigma));
 
 		lblResultHeader = new Label();
 		lblResultHeader.setStyleName("panelTitle");

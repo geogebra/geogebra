@@ -75,7 +75,7 @@ public class ComponentInputDialog extends ComponentDialog
 
 	protected void processInputHandler(String inputText,
 			AsyncOperation<Boolean> callback) {
-		getInputHandler().processInput(inputText, this, callback);
+		inputHandler.processInput(inputText, this, callback);
 	}
 
 	public String getInputText() {
@@ -136,7 +136,7 @@ public class ComponentInputDialog extends ComponentDialog
 	 * otherwise hide dialog
 	 */
 	public void processInput() {
-		getInputHandler().processInput(getInputText(), this,
+		inputHandler.processInput(getInputText(), this,
 				ok -> {
 					if (ok) {
 						toolAction();

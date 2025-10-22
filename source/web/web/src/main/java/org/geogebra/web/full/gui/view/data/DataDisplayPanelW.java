@@ -346,22 +346,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 		manualClassesPanel = new FlowPanel();
 		manualClassesPanel.add(LayoutUtilW.panelRow(lblStart, fldStart,
 				lblWidth, fldWidth));
-		fldStart.addBlurHandler(event -> actionPerformed(fldStart));
+		fldStart.addEnterPressHandler(() -> actionPerformed(fldStart));
 
-		fldStart.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				actionPerformed(fldStart);
-			}
-		});
-
-		fldWidth.addBlurHandler(event -> actionPerformed(fldWidth));
-
-		fldWidth.addKeyHandler(e -> {
-			if (e.isEnterKey()) {
-				actionPerformed(fldWidth);
-			}
-		});
-
+		fldWidth.addEnterPressHandler(() -> actionPerformed(fldWidth));
 	}
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
