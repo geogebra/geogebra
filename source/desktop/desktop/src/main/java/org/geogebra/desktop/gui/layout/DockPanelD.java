@@ -836,7 +836,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 		titlePanel.setVisible(app.getSettings().getLayout().showTitleBar()
 				&& !(isAlone && !isMaximized())
-				&& (!isOpenInFrame()));
+				&& !isOpenInFrame());
 
 		// update stylebar visibility
 		setShowStyleBar(isStyleBarVisible());

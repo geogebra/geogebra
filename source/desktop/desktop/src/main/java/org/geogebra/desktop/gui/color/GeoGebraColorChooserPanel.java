@@ -338,7 +338,6 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	}
 
 	/**********************************************************
-	 * 
 	 * Base class for all swatch panels.
 	 * 
 	 **********************************************************/
@@ -427,7 +426,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 					g2d.setColor(getColorForCell(column, row));
 					int x;
-					if ((!this.getComponentOrientation().isLeftToRight())
+					if (!this.getComponentOrientation().isLeftToRight()
 							&& (this instanceof RecentSwatchPanel)) {
 						x = (numSwatches.width - column - 1)
 								* (swatchSize.width + gap.width) + insets.left;
@@ -501,7 +500,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 		public Color getColorForLocation(int x, int y) {
 			int column;
-			if ((!this.getComponentOrientation().isLeftToRight())
+			if (!this.getComponentOrientation().isLeftToRight()
 					&& (this instanceof RecentSwatchPanel)) {
 				column = numSwatches.width - x / (swatchSize.width + gap.width)
 						- 1;
@@ -521,7 +520,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			}
 
 			int column;
-			if ((!this.getComponentOrientation().isLeftToRight())
+			if (!this.getComponentOrientation().isLeftToRight()
 					&& (this instanceof RecentSwatchPanel)) {
 				column = numSwatches.width - x / (swatchSize.width + gap.width)
 						- 1;

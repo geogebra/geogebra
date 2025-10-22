@@ -1130,9 +1130,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		return r;
 	}
 
-	/***************
-	 * HTML export *
-	 ***************/
+	/* -- HTML EXPORT -- */
 
 	/**
 	 * @param app

@@ -80,7 +80,7 @@ public class CASDropTargetListener implements DropTargetListener {
 		int row = table.rowAtPoint(dropEvent.getLocation());
 		try {
 
-			/**
+			/*
 			 * handle a drop from an other cas cell, use this for substitution
 			 */
 			if (t.isDataFlavorSupported(CASTransferHandler.casTableFlavor)) {
@@ -131,7 +131,7 @@ public class CASDropTargetListener implements DropTargetListener {
 				return;
 			}
 
-			/**
+			/*
 			 * handle drops from algebra view
 			 * 
 			 * creates a new row in the CASTable and fills it up only with the

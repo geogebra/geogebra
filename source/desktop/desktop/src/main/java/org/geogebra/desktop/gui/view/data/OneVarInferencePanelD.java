@@ -316,9 +316,8 @@ public class OneVarInferencePanelD extends JPanel
 	}
 
 	private void updateGUI() {
-
-		isTest = (model.selectedPlot == StatisticsModel.INFER_Z_TEST
-				|| model.selectedPlot == StatisticsModel.INFER_T_TEST);
+		isTest = model.selectedPlot == StatisticsModel.INFER_Z_TEST
+				|| model.selectedPlot == StatisticsModel.INFER_T_TEST;
 
 		isZProcedure = model.selectedPlot == StatisticsModel.INFER_Z_TEST
 				|| model.selectedPlot == StatisticsModel.INFER_Z_INT;

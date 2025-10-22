@@ -144,11 +144,18 @@ public final class MatchingBlockScanner {
 	private int start;
 	private int end;
 
+	/**
+	 * @param doc document
+	 */
 	public MatchingBlockScanner(Document doc) {
 		this.doc = doc;
 		this.elem = doc.getDefaultRootElement();
 	}
 
+	/**
+	 * @param pos position
+	 * @return matching positions
+	 */
 	public MatchingPositions getMatchingBlock(int pos, boolean lr) {
 		int p1, s = 1;
 		try {
@@ -230,10 +237,8 @@ public final class MatchingBlockScanner {
 	 * 
 	 * @param in
 	 *            the java.io.Inputstream to read input from.
-	 * @throws UnsupportedEncodingException
 	 */
-	public MatchingBlockScanner(java.io.InputStream in)
-			throws UnsupportedEncodingException {
+	public MatchingBlockScanner(java.io.InputStream in) {
 		this(new java.io.InputStreamReader(in, StandardCharsets.UTF_8));
 	}
 
@@ -345,6 +350,7 @@ public final class MatchingBlockScanner {
 
 	/**
 	 * Returns the current lexical state.
+	 * @return current state
 	 */
 	public final int yystate() {
 		return zzLexicalState;
@@ -362,6 +368,7 @@ public final class MatchingBlockScanner {
 
 	/**
 	 * Returns the text matched by the current regular expression.
+	 * @return matched text
 	 */
 	public final String yytext() {
 		return new String(zzBuffer, zzStartRead, zzMarkedPos - zzStartRead);
@@ -384,6 +391,7 @@ public final class MatchingBlockScanner {
 
 	/**
 	 * Returns the length of the matched text region.
+	 * @return length
 	 */
 	public final int yylength() {
 		return zzMarkedPos - zzStartRead;

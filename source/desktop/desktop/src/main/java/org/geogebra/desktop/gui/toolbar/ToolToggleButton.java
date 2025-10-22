@@ -172,7 +172,7 @@ class ToolToggleButton extends JToggleButton
 	}
 
 	private boolean popupTriangleClicked(int x, int y) {
-		popupTriangleClicked = (menu.size > 1 && y > iconHeight - 4);
+		popupTriangleClicked = menu.size > 1 && y > iconHeight - 4;
 		return popupTriangleClicked;
 	}
 

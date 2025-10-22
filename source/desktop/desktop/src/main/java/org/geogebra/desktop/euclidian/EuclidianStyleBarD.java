@@ -649,9 +649,9 @@ public class EuclidianStyleBarD extends JToolBar
 				// btnPointStyle.getMyTable().setVisible(true);
 				for (int i = 0; i < geos.size(); i++) {
 					geo = geos.get(i);
-					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
-							&& (!(geo.isGeoList() && ((GeoList) geo)
-									.showPointProperties()))) {
+					if (!geo.getGeoElementForPropertiesDialog().isGeoPoint()
+							&& !(geo.isGeoList() && ((GeoList) geo)
+									.showPointProperties())) {
 						geosOK = false;
 						break;
 					}

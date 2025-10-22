@@ -35,7 +35,7 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 	private JLabel timeoutLabel;
 
 	/** */
-	private JComboBox cbTimeout;
+	private JComboBox<Integer> cbTimeout;
 
 	/** show rational exponents as roots */
 	private JCheckBox cbShowRoots;
@@ -124,7 +124,7 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 		if (e.getSource() == cbShowNavigation) {
 			app.toggleShowConstructionProtocolNavigation(App.VIEW_CAS);
 		}
-		/** show rational exponents as roots */
+		/* show rational exponents as roots */
 		if (e.getSource() == cbShowRoots) {
 			casSettings.setShowExpAsRoots(cbShowRoots.isSelected());
 		}

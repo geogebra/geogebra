@@ -297,52 +297,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	// ///////////// Graphics2D methods ///////////////////////
 
 	/**
-	 * Draws a 3D rectangle outline. If it is raised, light appears to come from
-	 * the top left.
-	 */
-	// @Override
-	// public void draw3DRect(int x, int y, int width, int height, boolean
-	// raised) {
-	// Color originalColor = getColor();
-	// Stroke originalStroke = getStroke();
-	// setStroke(new BasicStroke(1.0f));
-	// if (raised) {
-	// setColor(originalColor.brighter());
-	// } else {
-	// setColor(originalColor.darker());
-	// }
-	// drawLine(x, y, x + width, y);
-	// drawLine(x, y, x, y + height);
-	// if (raised) {
-	// setColor(originalColor.darker());
-	// } else {
-	// setColor(originalColor.brighter());
-	// }
-	// drawLine(x + width, y + height, x, y + height);
-	// drawLine(x + width, y + height, x + width, y);
-	// setColor(originalColor);
-	// setStroke(originalStroke);
-	// }
-
-	/**
-	 * Fills a 3D rectangle. If raised, it has bright fill and light appears to
-	 * come from the top left.
-	 */
-	// @Override
-	// public void fill3DRect(int x, int y, int width, int height, boolean
-	// raised) {
-	// Color originalColor = getColor();
-	// if (raised) {
-	// setColor(originalColor.brighter());
-	// } else {
-	// setColor(originalColor.darker());
-	// }
-	// draw(new Rectangle(x, y, width, height), "fill");
-	// setColor(originalColor);
-	// draw3DRect(x, y, width, height, raised);
-	// }
-
-	/**
 	 * Draws a Shape on the EPS document.
 	 */
 	@Override
@@ -373,36 +327,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Draws a RenderedImage on the EPS document.
-	 */
-	// @Override
-	// public void drawRenderedImage(GRenderedImage img, GAffineTransform xform)
-	// {
-	// Hashtable<String, Object> properties = new Hashtable<String, Object>();
-	// String[] names = img.getPropertyNames();
-	// for (int i = 0; i < names.length; i++) {
-	// properties.put(names[i], img.getProperty(names[i]));
-	// }
-	// GColorModel cm = img.getColorModel();
-	// GWritableRaster wr = img.copyData(null);
-	// GBufferedImage img1 = new BufferedImage(cm, wr,
-	// cm.isAlphaPremultiplied(), properties);
-	// GAffineTransform at = GAffineTransform.getTranslateInstance(
-	// img.getMinX(), img.getMinY());
-	// at.preConcatenate(xform);
-	// drawImage(img1, at, null);
-	// }
-
-	/**
-	 * Draws a RenderableImage by invoking its createDefaultRendering method.
-	 */
-	// @Override
-	// public void drawRenderableImage(GRenderableImage img, GAffineTransform
-	// xform) {
-	// drawRenderedImage(img.createDefaultRendering(), xform);
-	// }
-
-	/**
 	 * Draws a string at (x,y)
 	 */
 	@Override
@@ -430,50 +354,12 @@ abstract public class EpsGraphics implements GGraphics2D {
 	public abstract void drawString(String s, double x, double y, GFont font);
 
 	/**
-	 * Draws a GlyphVector at (x,y)
-	 */
-	// @Override
-	// public void drawGlyphVector(GGlyphVector g, float x, float y) {
-	// GShape shape = g.getOutline(x, y);
-	// draw(shape, "fill");
-	// }
-
-	/**
 	 * Fills a Shape on the EPS document.
 	 */
 	@Override
 	public void fill(GShape s) {
 		draw(s, "fill", false);
 	}
-
-	/**
-	 * Checks whether or not the specified Shape intersects the specified
-	 * Rectangle, which is in device space.
-	 */
-	// @Override
-	// public boolean hit(GRectangle rect, GShape s, boolean onStroke) {
-	// return s.intersects(rect);
-	// }
-
-	/**
-	 * Returns the device configuration associated with this EpsGraphics2D
-	 * object.
-	 */
-	// @Override
-	// public GraphicsConfiguration getDeviceConfiguration() {
-	// GraphicsConfiguration gc = null;
-	// GraphicsEnvironment ge = GraphicsEnvironment
-	// .getLocalGraphicsEnvironment();
-	// GraphicsDevice[] gds = ge.getScreenDevices();
-	// for (int i = 0; i < gds.length; i++) {
-	// GraphicsDevice gd = gds[i];
-	// GraphicsConfiguration[] gcs = gd.getConfigurations();
-	// if (gcs.length > 0) {
-	// return gcs[0];
-	// }
-	// }
-	// return gc;
-	// }
 
 	/**
 	 * Sets the Composite to be used by this EpsGraphics2D. EpsGraphics2D does
@@ -537,15 +423,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Translates the origin of the EpsGraphics2D context to the point (x,y) in
-	 * the current coordinate system.
-	 */
-	// @Override
-	// public void translate(int x, int y) {
-	// translate((double) x, (double) y);
-	// }
-
-	/**
 	 * Concatenates the current EpsGraphics2D Transformation with a translation
 	 * transform.
 	 */
@@ -583,15 +460,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	public void scale(double sx, double sy) {
 		transform(AwtFactory.getScaleInstance(sx, sy));
 	}
-
-	/**
-	 * Concatenates the current EpsGraphics2D Transform with a shearing
-	 * transform.
-	 */
-	// @Override
-	// public void shear(double shx, double shy) {
-	// transform(AffineTransform.getShearInstance(shx, shy));
-	// }
 
 	/**
 	 * Composes an AffineTransform object with the Transform in this
@@ -686,18 +554,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	// ///////////// Graphics methods ///////////////////////
 
 	/**
-	 * Returns an EpsGraphics2D object based on this Graphics object, but with a
-	 * new translation and clip area.
-	 */
-	// @Override
-	// public Graphics create(int x, int y, int width, int height) {
-	// Graphics g = create();
-	// g.translate(x, y);
-	// g.clipRect(0, 0, width, height);
-	// return g;
-	// }
-
-	/**
 	 * Returns the current Color. This will be a default value (black) until it
 	 * is changed using the setColor method.
 	 */
@@ -776,24 +632,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Sets the paint mode of this EpsGraphics2D object to overwrite the
-	 * destination EpsDocument with the current color.
-	 */
-	// @Override
-	// public void setPaintMode() {
-	// // Do nothing - paint mode is the only method supported anyway.
-	// }
-
-	/**
-	 * <b><i><font color="red">Not implemented</font></i></b> - performs no
-	 * action.
-	 */
-	// @Override
-	// public void setXORMode(GColor c1) {
-	// methodNotSupported();
-	// }
-
-	/**
 	 * Returns the Font currently being used.
 	 */
 	@Override
@@ -815,45 +653,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 		// + " scalefont setfont");
 		// }
 	}
-
-	/**
-	 * Gets the font metrics of the current font.
-	 */
-	// @Override
-	// public FontMetrics getFontMetrics() {
-	// return getFontMetrics(getFont());
-	// }
-
-	/**
-	 * Gets the font metrics for the specified font.
-	 */
-	// @Override
-	// public FontMetrics getFontMetrics(GFont f) {
-	// BufferedImage image = new BufferedImage(1, 1,
-	// BufferedImage.TYPE_INT_RGB);
-	// Graphics g = image.getGraphics();
-	// return g.getFontMetrics(f);
-	// }
-
-	/**
-	 * Returns the bounding rectangle of the current clipping area.
-	 */
-	// @Override
-	// public GRectangle getClipBounds() {
-	// if (_clip == null) {
-	// return null;
-	// }
-	// Rectangle rect = getClip().getBounds();
-	// return rect;
-	// }
-
-	/**
-	 * Intersects the current clip with the specified rectangle.
-	 */
-	// @Override
-	// public void clipRect(int x, int y, int width, int height) {
-	// clip(AwtFactory.getPrototype().newRectangle(x, y, width, height));
-	// }
 
 	/**
 	 * Sets the current clip to the rectangle specified by the given
@@ -918,16 +717,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	public void setClip(GShape clip, boolean saveContext) {
 		setClip(clip);
 	}
-
-	/**
-	 * <b><i><font color="red">Not implemented</font></i></b> - performs no
-	 * action.
-	 */
-	// @Override
-	// public void copyArea(int x, int y, int width, int height, int dx, int dy)
-	// {
-	// methodNotSupported();
-	// }
 
 	/**
 	 * Draws a straight line from (x1,y1) to (x2,y2).
@@ -1057,113 +846,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Draws an oval.
-	 */
-	// @Override
-	// public void drawOval(int x, int y, int width, int height) {
-	// Shape shape = new Ellipse2D.Double(x, y, width, height);
-	// draw(shape);
-	// }
-
-	/**
-	 * Fills an oval.
-	 */
-	// @Override
-	// public void fillOval(int x, int y, int width, int height) {
-	// Shape shape = new Ellipse2D.Double(x, y, width, height);
-	// draw(shape, "fill");
-	// }
-
-	/**
-	 * Draws an arc.
-	 */
-	// @Override
-	// public void drawArc(int x, int y, int width, int height, int startAngle,
-	// int arcAngle) {
-	// Shape shape = new Arc2D.Double(x, y, width, height, startAngle,
-	// arcAngle, Arc2D.OPEN);
-	// draw(shape);
-	// }
-
-	/**
-	 * Fills an arc.
-	 */
-	// @Override
-	// public void fillArc(int x, int y, int width, int height, int startAngle,
-	// int arcAngle) {
-	// Shape shape = new Arc2D.Double(x, y, width, height, startAngle,
-	// arcAngle, Arc2D.PIE);
-	// draw(shape, "fill");
-	// }
-
-	/**
-	 * Draws a polyline.
-	 */
-	// @Override
-	// public void drawPolyline(int[] xPoints, int[] yPoints, int nPoints) {
-	// if (nPoints > 0) {
-	// GeneralPath path = new GeneralPath();
-	// path.moveTo(xPoints[0], yPoints[0]);
-	// for (int i = 1; i < nPoints; i++) {
-	// path.lineTo(xPoints[i], yPoints[i]);
-	// }
-	// draw(path);
-	// }
-	// }
-
-	/**
-	 * Draws a polygon made with the specified points.
-	 */
-	// @Override
-	// public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints) {
-	// Shape shape = new Polygon(xPoints, yPoints, nPoints);
-	// draw(shape);
-	// }
-
-	/**
-	 * Draws a polygon.
-	 */
-	// public void drawPolygon(GPolygon p) {
-	// draw(p);
-	// }
-
-	/**
-	 * Fills a polygon made with the specified points.
-	 */
-	// @Override
-	// public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints) {
-	// Shape shape = new Polygon(xPoints, yPoints, nPoints);
-	// draw(shape, "fill");
-	// }
-
-	/**
-	 * Fills a polygon.
-	 */
-	// public void fillPolygon(GPolygon p) {
-	// draw(p, "fill", false);
-	// }
-
-	/**
-	 * Draws the specified characters, starting from (x,y)
-	 */
-	// @Override
-	// public void drawChars(char[] data, int offset, int length, int x, int y)
-	// {
-	// String string = new String(data, offset, length);
-	// drawString(string, x, y);
-	// }
-
-	/**
-	 * Draws the specified bytes, starting from (x,y)
-	 */
-	// @Override
-	// public void drawBytes(byte[] data, int offset, int length, int x, int y)
-	// {
-	// String string = new String(data, offset, length);
-	// drawString(string, x, y);
-	// }
-
-	/**
 	 * Draws an image.
 	 */
 	public void drawImage(GBufferedImage img, int x, int y, int width,
@@ -1217,33 +899,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 		return _document.getStream().toString();
 	}
-
-	/**
-	 * Returns true if the specified rectangular area might intersect the
-	 * current clipping area.
-	 */
-	// @Override
-	// public boolean hitClip(int x, int y, int width, int height) {
-	// if (_clip == null) {
-	// return true;
-	// }
-	// Rectangle rect = new Rectangle(x, y, width, height);
-	// return hit(rect, _clip, true);
-	// }
-
-	/**
-	 * Returns the bounding rectangle of the current clipping area.
-	 */
-	// @Override
-	// public GRectangle getClipBounds(GRectangle r) {
-	// if (_clip == null) {
-	// return r;
-	// }
-	// GRectangle rect = getClipBounds();
-	// r.setLocation((int) rect.getX(), (int) rect.getY());
-	// r.setSize((int) rect.getWidth(), (int) rect.getHeight());
-	// return r;
-	// }
 
 	/**
 	 * @return new graphic object

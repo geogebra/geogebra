@@ -174,8 +174,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		return insertDynamicInput(text, mode, pos0, inputDialog);
 	}
 
-	private DynamicTextField insertDynamicInput(String text, DynamicTextElement.DynamicTextType mode,
-			int pos0, TextInputDialogD inputDialog) {
+	private DynamicTextField insertDynamicInput(String text,
+			DynamicTextElement.DynamicTextType mode, int pos0, TextInputDialogD inputDialog) {
 		int pos = pos0;
 		if (pos == -1) {
 			pos = getDocument().getLength(); // insert at end

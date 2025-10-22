@@ -56,11 +56,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	private JPopupMenu descriptionMenu;
 
 	/**
-	 * Button to toggle LaTeX rendering
-	 */
-	// private JButton toggleLaTeX;
-
-	/**
 	 * Helper bar.
 	 * 
 	 * @param algebraView algebra view

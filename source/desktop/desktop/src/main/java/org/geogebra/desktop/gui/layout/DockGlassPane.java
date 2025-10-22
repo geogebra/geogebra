@@ -96,10 +96,10 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 		}
 
 		dockPanelsBounds = new Rectangle[bounds.size()];
-		dockPanelsBounds = (bounds.toArray(dockPanelsBounds));
+		dockPanelsBounds = bounds.toArray(dockPanelsBounds);
 
 		dockPanels = new DockPanelD[dockPanelsList.size()];
-		dockPanels = (dockPanelsList.toArray(dockPanels));
+		dockPanels = dockPanelsList.toArray(dockPanels);
 
 		previewRect = new Rectangle();
 	}

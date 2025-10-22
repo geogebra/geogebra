@@ -305,19 +305,6 @@ public class OptionsAdvancedD implements OptionPanelD,
 	}
 
 	/**
-	 * Initialize the perspectives panel.
-	 * 
-	 * private void initPerspectivesPanel() { perspectivesPanel = new JPanel(new
-	 * FlowLayout(FlowLayout.LEFT));
-	 * 
-	 * cbIgnoreDocumentLayout = new JCheckBox();
-	 * cbIgnoreDocumentLayout.addActionListener(this);
-	 * perspectivesPanel.add(LayoutUtil.flowPanel(cbIgnoreDocumentLayout));
-	 * 
-	 * }
-	 */
-
-	/**
 	 * Initialize the angle unit panel
 	 */
 	private void initAngleUnitPanel() {

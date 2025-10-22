@@ -1726,7 +1726,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 							JOptionPane.WARNING_MESSAGE, null, options,
 							options[1]);
 
-					done = (n == 0);
+					done = n == 0;
 				} else {
 					done = true;
 				}
@@ -1788,7 +1788,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// check first for ggb/ggt file
 			if ((processedUrlString.endsWith(".ggb")
 					|| processedUrlString.endsWith(".ggt"))
-					&& (!processedUrlString.contains("?"))) {
+					&& !processedUrlString.contains("?")) {
 				// This isn't a ggb file,
 				// however ends with ".ggb":
 				// script.php?file=_circles5.ggb

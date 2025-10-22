@@ -173,19 +173,6 @@ public class GuiManager3D extends GuiManagerD {
 	/**
 	 * Displays the zoom menu at the position p in the coordinate space of
 	 * euclidianView
-	 */
-	/*
-	 * public void showDrawingPadPopup(Component invoker, Point p) { // clear
-	 * highlighting and selections in views app.getEuclidianView().resetMode();
-	 * 
-	 * // menu for drawing pane context menu ContextMenuGraphicsWindow3D
-	 * popupMenu = new ContextMenuGraphicsWindow3D( app, p.x, p.y);
-	 * popupMenu.show(invoker, p.x, p.y); }
-	 */
-
-	/**
-	 * Displays the zoom menu at the position p in the coordinate space of
-	 * euclidianView
 	 * 
 	 * @param view
 	 *            view

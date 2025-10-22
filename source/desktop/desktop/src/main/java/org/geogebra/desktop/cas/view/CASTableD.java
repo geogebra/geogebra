@@ -111,7 +111,7 @@ public class CASTableD extends JTable implements CASTable {
 		getColumnModel().getColumn(COL_CAS_CELLS).setCellRenderer(renderer);
 		setTableHeader(null);
 
-		/**
+		/*
 		 * Remove all mouse listeners to make sure they don't start editing
 		 * cells when a row is clicked. This is need to be able to have full
 		 * control over whether editing should be started or the output of a

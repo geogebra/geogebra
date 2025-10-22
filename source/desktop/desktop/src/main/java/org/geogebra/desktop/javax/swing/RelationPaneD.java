@@ -76,9 +76,9 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		frame = new JFrame(title);
 
 		ROWHEIGHT = ((double) ORIG_ROWHEIGHT) * app.getFontSize() / 12;
-		INFOWIDTH = (ORIG_INFOWIDTH * app.getFontSize() / 12);
+		INFOWIDTH = ORIG_INFOWIDTH * app.getFontSize() / 12;
 		int moreWidth = ORIG_MOREWIDTH * app.getFontSize() / 12;
-		OKHEIGHT = (ORIG_OKHEIGHT * app.getFontSize() / 12);
+		OKHEIGHT = ORIG_OKHEIGHT * app.getFontSize() / 12;
 
 		final int rels = relations.length;
 

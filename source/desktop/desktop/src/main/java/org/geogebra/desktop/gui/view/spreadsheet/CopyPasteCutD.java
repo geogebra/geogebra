@@ -56,8 +56,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 		}
 	}
 
-	@Override
 	/** Paste data from the clipboard */
+	@Override
 	public boolean paste(int column1, int row1, int column2, int row2) {
 
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();

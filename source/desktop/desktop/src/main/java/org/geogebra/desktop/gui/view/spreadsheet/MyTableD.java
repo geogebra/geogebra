@@ -322,10 +322,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	/**
-	 * End table constructor
-	 ******************************************************************/
-
-	/**
 	 * Simple getter method
 	 * 
 	 * @return CopyPasteCut
