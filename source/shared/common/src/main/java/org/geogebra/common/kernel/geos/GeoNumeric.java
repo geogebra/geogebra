@@ -926,7 +926,7 @@ public class GeoNumeric extends GeoElement
 		sb.append(isAVSliderOrCheckboxVisible());
 
 		if (cons.getArbitraryConstants().values().contains(this)) {
-			sb.append("\" arbitraryConstant=\"true\"");
+			sb.append("\" arbitraryConstant=\"true");
 		}
 
 		sb.append("\"/>\n");
