@@ -1044,6 +1044,12 @@ $keyboard_button_transition: opacity .3s ease;
 				box-shadow: none;
 			}
 
+			.withCursorOverlay {
+				input[type=text] {
+					color: transparent;
+				}
+			}
+
 			button {
 					visibility: hidden;
 					position: absolute;
