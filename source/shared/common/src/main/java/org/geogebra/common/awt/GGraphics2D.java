@@ -2,7 +2,6 @@ package org.geogebra.common.awt;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.awt.font.GTextLayout;
 
 /**
@@ -436,10 +435,14 @@ public interface GGraphics2D {
 	void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
-	@MissingDoc
+	/**
+	 * Turn on antialiasing.
+	 */
 	void setAntialiasing();
 
-	@MissingDoc
+	/**
+	 * Turn on transparent channel.
+	 */
 	void setTransparent();
 
 	/**
@@ -455,7 +458,9 @@ public interface GGraphics2D {
 	 */
 	void resetInterpolationHint(Object oldInterpolationHint);
 
-	@MissingDoc
+	/**
+	 * Synchronize color set on this object to the underlying component.
+	 */
 	void updateCanvasColor();
 
 	/**

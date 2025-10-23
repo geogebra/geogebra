@@ -48,7 +48,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	/**
 	 * Stroke dashes array
 	 */
-	double dash[];
+	double[] dash;
 
 	/**
 	 * The temporary pre-calculated values

@@ -1,6 +1,5 @@
 package org.geogebra.common.main;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.move.ggtapi.models.Material;
 
 /**
@@ -114,7 +113,9 @@ public interface MaterialsManagerI {
 	void showExportAsPictureDialog(String url, String filename,
 			String extension, String titleKey, App app);
 
-	@MissingDoc
+	/**
+	 * Refresh autosave timestamp.
+	 */
 	void refreshAutosaveTimestamp();
 
 	/**

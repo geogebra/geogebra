@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.spreadsheet;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
@@ -33,7 +32,9 @@ public interface MyTableInterface extends HasTableSelection {
 	 */
 	public SelectionType getSelectionType();
 
-	@MissingDoc
+	/**
+	 * Called when selection changed.
+	 */
 	public void selectionChanged();
 
 	/**

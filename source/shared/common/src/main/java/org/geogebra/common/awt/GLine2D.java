@@ -1,7 +1,5 @@
 package org.geogebra.common.awt;
 
-import org.geogebra.common.annotation.MissingDoc;
-
 /**
  * 2D line.
  */
@@ -15,21 +13,33 @@ public interface GLine2D extends GShape {
 	 */
 	void setLine(double x1, double y1, double x2, double y2);
 
-	@MissingDoc
+	/**
+	 * @return the start point
+	 */
 	GPoint2D getP1();
 
-	@MissingDoc
+	/**
+	 * @return the end point
+	 */
 	GPoint2D getP2();
 
-	@MissingDoc
+	/**
+	 * @return x-coordinate of the start point
+	 */
 	double getX1();
 
-	@MissingDoc
+	/**
+	 * @return y-coordinate of the start point
+	 */
 	double getY1();
 
-	@MissingDoc
+	/**
+	 * @return x-coordinate of the end point
+	 */
 	double getX2();
 
-	@MissingDoc
+	/**
+	 * @return y-coordinate of the end point
+	 */
 	double getY2();
 }

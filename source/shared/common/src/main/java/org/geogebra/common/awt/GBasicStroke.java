@@ -1,7 +1,5 @@
 package org.geogebra.common.awt;
 
-import org.geogebra.common.annotation.MissingDoc;
-
 /**
  * Stroke style.
  */
@@ -21,19 +19,29 @@ public interface GBasicStroke {
 	 */
 	GShape createStrokedShape(GShape shape, int capacity);
 
-	@MissingDoc
+	/**
+	 * @return end cap type
+	 */
 	int getEndCap();
 
-	@MissingDoc
+	/**
+	 * @return mitre limit
+	 */
 	double getMiterLimit();
 
-	@MissingDoc
+	/**
+	 * @return line join type
+	 */
 	int getLineJoin();
 
-	@MissingDoc
+	/**
+	 * @return line width in pixels
+	 */
 	double getLineWidth();
 
-	@MissingDoc
+	/**
+	 * @return dashed line pattern
+	 */
 	double[] getDashArray();
 
 }

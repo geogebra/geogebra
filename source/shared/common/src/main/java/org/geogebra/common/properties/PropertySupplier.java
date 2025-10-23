@@ -1,14 +1,17 @@
 package org.geogebra.common.properties;
 
-import org.geogebra.common.annotation.MissingDoc;
-
 /**
  * Supplier of properties.
  */
 public interface PropertySupplier {
-	@MissingDoc
+	/**
+	 * Update the internal state, may change the wrapped property.
+	 * @return the current property
+	 */
 	Property updateAndGet();
 
-	@MissingDoc
+	/**
+	 * @return the current property
+	 */
 	Property get();
 }
