@@ -64,7 +64,6 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 		for (Integer mode : tools) {
 			IconButton button = createButton(mode);
 			if (defaultTool.equals(mode)) {
-				app.setMode(mode);
 				updateButtonSelection(button);
 			}
 			toolsPanel.add(button);
