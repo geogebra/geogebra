@@ -436,6 +436,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 */
 	public void selectEntryAt(int x, int y) {
 		mathField.getInternal().selectEntryAt(x, y);
+		scrollCursorVisibleHorizontally();
 	}
 
 	/**

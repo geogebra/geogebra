@@ -135,10 +135,11 @@ public class MathFieldInternal
 	 * @return new horizontal scroll value
 	 */
 	public static int getHorizontalScroll(int scrollLeft, int parentWidth, int cursorX) {
-		if (parentWidth + scrollLeft - PADDING_LEFT_SCROLL < cursorX) {
-			return cursorX - parentWidth + PADDING_LEFT_SCROLL;
-		} else if (cursorX < scrollLeft + PADDING_LEFT_SCROLL) {
-			return Math.max(cursorX - PADDING_LEFT_SCROLL, 0);
+		int padding = Math.min(PADDING_LEFT_SCROLL, parentWidth / 3);
+		if (parentWidth + scrollLeft - padding < cursorX) {
+			return Math.max(cursorX - parentWidth + padding, 0);
+		} else if (cursorX < scrollLeft + padding) {
+			return Math.max(cursorX - padding, 0);
 		}
 		return scrollLeft;
 	}

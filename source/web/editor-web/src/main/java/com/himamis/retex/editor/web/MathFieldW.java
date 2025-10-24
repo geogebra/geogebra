@@ -32,6 +32,7 @@ import java.util.function.Predicate;
 
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.gwtproject.canvas.client.Canvas;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.style.shared.Position;
@@ -1251,8 +1252,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            panel to be scrolled
 	 */
 	public void scrollParentHorizontally(Widget parentPanel) {
-		MathFieldScroller.scrollHorizontallyToCursor(parentPanel,
-				rightMargin, lastIcon.getCursorX());
+		Scheduler.get().scheduleDeferred(() ->
+				MathFieldScroller.scrollHorizontallyToCursor(parentPanel,
+						rightMargin, lastIcon.getCursorX()));
 	}
 
 	/**
@@ -1264,7 +1266,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            minimal distance from cursor to left/right border
 	 */
 	public void scrollParentVertically(FlowPanel parentPanel, int margin) {
-		MathFieldScroller.scrollVerticallyToCursor(parentPanel, margin, lastIcon.getCursorY());
+		Scheduler.get().scheduleDeferred(() ->
+				MathFieldScroller.scrollVerticallyToCursor(parentPanel,
+						margin, lastIcon.getCursorY()));
 	}
 
 	public ColorW getBackgroundColor() {
