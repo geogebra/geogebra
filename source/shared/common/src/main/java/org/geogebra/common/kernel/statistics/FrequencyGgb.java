@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.statistics;
 
+import java.util.Comparator;
+
 import org.apache.commons.math3.stat.Frequency;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -14,6 +16,18 @@ import org.geogebra.common.util.DoubleUtil;
 public class FrequencyGgb extends Frequency {
 
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Creates a frequency object with rounding comparator.
+	 */
+	public FrequencyGgb() {
+		super((Comparator<Double>) (o1, o2) -> {
+			if (DoubleUtil.isEqual(o1, o2)) {
+				return 0;
+			}
+			return o2 > o1 ? -1 : 1;
+		});
+	}
 
 	@Override
 	public void addValue(Comparable<?> v) {

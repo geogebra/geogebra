@@ -18,7 +18,6 @@ import org.apache.commons.math3.stat.Frequency;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -36,6 +35,7 @@ public class AlgoUnique extends AlgoElement {
 	private GeoList uniqueList; // output
 
 	private Frequency f;
+	private GeoClass lastElementType;
 
 	/**
 	 * @param cons
@@ -92,8 +92,9 @@ public class AlgoUnique extends AlgoElement {
 		uniqueList.setDefined(true);
 		uniqueList.clear();
 
-		if (!(dataList.getElementType().equals(GeoClass.TEXT)
-				|| dataList.getElementType().equals(GeoClass.NUMERIC))) {
+		GeoClass elementType = dataList.getElementType();
+		if (!(elementType.equals(GeoClass.TEXT)
+				|| elementType.equals(GeoClass.NUMERIC))) {
 			for (int i = 0; i < dataList.size(); i++) {
 				AlgoUnion.addToOutputList(uniqueList, dataList.get(i));
 			}
@@ -101,23 +102,24 @@ public class AlgoUnique extends AlgoElement {
 		}
 
 		// Load the data into f, an instance of Frequency class
-		if (f == null) {
-			f = new FrequencyGgb();
+		if (f == null || elementType != lastElementType) {
+			f = elementType == GeoClass.TEXT ? new Frequency() : new FrequencyGgb();
+			lastElementType = elementType;
 		}
 		f.clear();
 		for (int i = 0; i < dataList.size(); i++) {
-			if (dataList.getElementType().equals(GeoClass.TEXT)) {
+			if (elementType.equals(GeoClass.TEXT)) {
 				f.addValue(dataList.get(i)
 						.toValueString(StringTemplate.defaultTemplate));
 			}
-			if (dataList.getElementType().equals(GeoClass.NUMERIC)) {
-				f.addValue(new MyDouble(kernel,
-						((GeoNumeric) dataList.get(i)).getDouble()));
+			if (elementType.equals(GeoClass.NUMERIC)) {
+				f.addValue(
+						((GeoNumeric) dataList.get(i)).getDouble());
 			}
 		}
 
 		// Get the unique value list
-		if (dataList.getElementType().equals(GeoClass.TEXT)) {
+		if (elementType.equals(GeoClass.TEXT)) {
 			// handle string data
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			while (itr.hasNext()) {
@@ -130,8 +132,8 @@ public class AlgoUnique extends AlgoElement {
 			// handle numeric data
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			while (itr.hasNext()) {
-				MyDouble n = (MyDouble) itr.next();
-				uniqueList.addNumber(n.getDouble(), this);
+				Double n = (Double) itr.next();
+				uniqueList.addNumber(n, this);
 			}
 		}
 	}

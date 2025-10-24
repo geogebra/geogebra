@@ -229,8 +229,9 @@ public class AlgoFrequency extends AlgoElement {
 			return;
 		}
 
-		if (!(dataList.getElementType().equals(GeoClass.TEXT)
-				|| dataList.getElementType().equals(GeoClass.NUMERIC))) {
+		GeoClass elementType = dataList.getElementType();
+		if (!(elementType.equals(GeoClass.TEXT)
+				|| elementType.equals(GeoClass.NUMERIC))) {
 			frequency.setUndefined();
 			return;
 		}
@@ -271,13 +272,13 @@ public class AlgoFrequency extends AlgoElement {
 		// Load the data into f, an instance of Frequency class
 		// =======================================================
 
-		Frequency f = new FrequencyGgb();
+		Frequency f = elementType == GeoClass.NUMERIC ? new FrequencyGgb() : new Frequency();
 		for (int i = 0; i < dataList.size(); i++) {
-			if (dataList.getElementType().equals(GeoClass.TEXT)) {
+			if (elementType.equals(GeoClass.TEXT)) {
 				f.addValue(dataList.get(i)
 						.toValueString(StringTemplate.defaultTemplate));
 			}
-			if (dataList.getElementType().equals(GeoClass.NUMERIC)) {
+			if (elementType.equals(GeoClass.NUMERIC)) {
 				f.addValue(((GeoNumeric) dataList.get(i)).getDouble());
 			}
 		}
@@ -287,7 +288,7 @@ public class AlgoFrequency extends AlgoElement {
 		// =======================================================
 
 		// handle string data
-		if (dataList.getElementType().equals(GeoClass.TEXT)) {
+		if (elementType.equals(GeoClass.TEXT)) {
 
 			Iterator<Comparable<?>> itr = f.valuesIterator();
 			String strMax = (String) itr.next();

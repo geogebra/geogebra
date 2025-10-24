@@ -106,19 +106,6 @@ public class FunctionVariable extends MyDouble {
 		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 
-	/**
-	 * checks if set to same value, not if it's the same FunctionVariable object
-	 */
-	@Override
-	public boolean equals(Object o) {
-		return super.equals(o);
-	}
-
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
-
 	@Override
 	public boolean isDigits() {
 		return false;

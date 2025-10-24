@@ -47,7 +47,7 @@ import com.google.j2objc.annotations.Weak;
  */
 
 public class MyDouble extends ValidExpression
-		implements NumberValue, Comparable<MyDouble> {
+		implements NumberValue {
 	/**
 	 * Euler-Mascheroni constant
 	 */
@@ -1069,34 +1069,6 @@ public class MyDouble extends ValidExpression
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
-	}
-
-	/*
-	 * needed for AlgoUnique (non-Javadoc) so that Kernel.isZero() is used
-	 */
-	@Override
-	public int compareTo(MyDouble d) {
-		if (DoubleUtil.isEqual(val, d.getDouble())) {
-			return 0;
-		}
-		return val - d.getDouble() < 0 ? -1 : 1;
-	}
-
-	@Override
-	public boolean equals(Object d) {
-		if (d == null) {
-			return false;
-		}
-
-		if (d instanceof MyDouble) {
-			return DoubleUtil.isEqual(((MyDouble) d).getDouble(), val);
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return DoubleUtil.hashCode(val);
 	}
 
 	@Override

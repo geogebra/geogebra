@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import java.util.Objects;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -76,20 +74,6 @@ public class RecurringDecimal extends MyDouble {
 		return ret;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof RecurringDecimal) {
-			return super.equals(o)
-					&& ((RecurringDecimal) o).model.equals(this.model);
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(super.hashCode(), model);
-	}
-
 	/**
 	 * Parses RecurringDecimal from string.
 	 *
@@ -128,4 +112,7 @@ public class RecurringDecimal extends MyDouble {
 		return true;
 	}
 
+	Object getModel() {
+		return model;
+	}
 }

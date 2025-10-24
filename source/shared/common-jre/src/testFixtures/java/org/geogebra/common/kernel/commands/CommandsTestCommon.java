@@ -4324,7 +4324,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdUnique() {
-		t("Unique[ {1,2,3,4,5}]", "{1, 2, 3, 4, 5}");
+		t("Unique[ {1,2,3,3,4,5}]", "{1, 2, 3, 4, 5}");
+		t("Unique[{\"a\",\"a\",\"b\"}]", "{\"a\", \"b\"}");
+		t("Unique[ {1/3, 1/3+1E-16}] * 3", "{1}");
 	}
 
 	@Test

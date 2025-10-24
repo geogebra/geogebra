@@ -248,14 +248,4 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		vDMS.set(val, Kernel.MAX_PRECISION, true);
 	}
 
-	@Override
-	public boolean equals(Object d) {
-		return super.equals(d);
-	}
-
-	@Override
-	public int hashCode() {
-		return DoubleUtil.hashCode(getDouble());
-	}
-
 }

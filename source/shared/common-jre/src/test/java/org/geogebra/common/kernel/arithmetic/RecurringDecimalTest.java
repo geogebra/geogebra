@@ -7,6 +7,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 public class RecurringDecimalTest extends BaseUnitTest {
@@ -104,6 +105,12 @@ public class RecurringDecimalTest extends BaseUnitTest {
 		textShouldBe("FormulaText(a,true)", decimalString);
 		textShouldBe("Text(a,false)", recurringString);
 		textShouldBe("FormulaText(a,false)", "1.2\\overline{34}");
+	}
+
+	@Test
+	public void testAsRecurringDecimal() {
+		assertThat(this.<GeoNumeric>add("1.02\u03053\u0305").asRecurringDecimal().getModel(),
+				CoreMatchers.is(RecurringDecimal.parse(getKernel(), "1.0", "23").getModel()));
 	}
 
 	private void textShouldBe(String command, String value) {

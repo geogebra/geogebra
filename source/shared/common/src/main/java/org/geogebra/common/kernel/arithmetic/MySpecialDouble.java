@@ -230,16 +230,6 @@ public class MySpecialDouble extends MyDouble {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		return super.equals(o);
-	}
-
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
-
-	@Override
 	public boolean isDigits() {
 		return StringUtil.isDigit(strToString.charAt(0));
 	}

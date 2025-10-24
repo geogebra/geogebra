@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.StringUtil;
 
-public class RecurringDecimalModel {
+class RecurringDecimalModel {
 	protected int integerPart;
 	protected DecimalPart nonRecurring;
 	protected DecimalPart recurring;
@@ -16,7 +16,7 @@ public class RecurringDecimalModel {
 	 * @param nonRecurringPart of the recurring decimal number.
 	 * @param recurringPart of the recurring decimal number.
 	 */
-	public RecurringDecimalModel(int integerPart, DecimalPart nonRecurringPart,
+	RecurringDecimalModel(int integerPart, DecimalPart nonRecurringPart,
 			DecimalPart recurringPart) {
 		this.integerPart = integerPart;
 		this.nonRecurring = nonRecurringPart;
@@ -61,9 +61,8 @@ public class RecurringDecimalModel {
 		}
 
 		RecurringDecimalModel that = (RecurringDecimalModel) o;
-		return integerPart == that.integerPart && (
-				(nonRecurring == null && that.nonRecurring == null)
-						|| (nonRecurring != null && nonRecurring.equals(that.nonRecurring)))
+		return integerPart == that.integerPart
+				&& Objects.equals(nonRecurring, that.nonRecurring)
 				&& recurring.equals(that.recurring);
 	}
 

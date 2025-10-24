@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -11,7 +12,6 @@ import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.util.StringUtil;
@@ -144,7 +144,7 @@ public class GeoNumericTest extends BaseUnitTest {
 	@Test
 	public void testAsRecurringDecimal() {
 		assertThat(this.<GeoNumeric>add("1.02\u03053\u0305").asRecurringDecimal(),
-				is(RecurringDecimal.parse(getKernel(), "1.0", "23")));
+				notNullValue());
 		assertThat(this.<GeoNumeric>add("1.234").asRecurringDecimal(), nullValue());
 		assertThat(this.<GeoNumeric>add("12 / 34").asRecurringDecimal(), nullValue());
 	}
