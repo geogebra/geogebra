@@ -38,7 +38,7 @@ public class ClickAdapterW
 		}
 
 		event.preventDefault();
-		SelectionBox.touchSelection = "touch".equals(event.pointerType);
+		SelectionBox.setTouchSelection("touch".equals(event.pointerType));
 		handler.onPointerDown(toFormulaPx(event.offsetX), toFormulaPx(event.offsetY));
 		this.pointerIsDown = true;
 	}

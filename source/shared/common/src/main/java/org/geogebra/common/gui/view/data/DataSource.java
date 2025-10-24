@@ -446,9 +446,6 @@ public class DataSource {
 				// otherwise add all selected GeoLists
 				setDataListFromGeoList(mode);
 			}
-
-			return;
-
 		} catch (Exception e) {
 			Log.debug(e);
 		}

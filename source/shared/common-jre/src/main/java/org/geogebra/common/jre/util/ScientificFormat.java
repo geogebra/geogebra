@@ -172,9 +172,9 @@ public class ScientificFormat extends Format
 		// We need to fix up the result
 
 		int sign = preliminaryResult.charAt(0) == '-' ? 1 : 0;
-		StringBuffer result = new StringBuffer(
-				preliminaryResult.substring(sign, sign + 1)
-						+ preliminaryResult.substring(sign + 2, ePos));
+		StringBuffer result = new StringBuffer(preliminaryResult.length())
+				.append(preliminaryResult.charAt(sign))
+				.append(preliminaryResult, sign + 2, ePos);
 
 		if (exponent >= sigDig) {
 			for (int i = sigDig; i < exponent; i++) {

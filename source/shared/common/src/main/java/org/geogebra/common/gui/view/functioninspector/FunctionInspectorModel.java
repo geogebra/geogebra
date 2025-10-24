@@ -749,14 +749,11 @@ public class FunctionInspectorModel {
 			testPoint.getCoords(coords);
 			this.start = coords[0];
 			listener.changeTableSelection();
-			return;
 		}
 
 		else if (!isPoints && (lowPoint.equals(geo) || highPoint.equals(geo))) {
 			listener.updateHighAndLow(lowPoint.x > highPoint.x,
 					lowPoint.equals(geo));
-
-			return;
 		}
 	}
 

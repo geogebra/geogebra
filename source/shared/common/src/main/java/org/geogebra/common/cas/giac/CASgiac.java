@@ -565,7 +565,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	protected void addResultToCache(String input, String result) {
 		boolean inputContainsExcludedString =
-				EXCLUDE_FROM_CACHE.stream().anyMatch(str -> input.contains(str));
+				EXCLUDE_FROM_CACHE.stream().anyMatch(input::contains);
 		if (!inputContainsExcludedString) {
 			casGiacCache.put(input, result);
 		}

@@ -269,7 +269,8 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 		);
 
 		if (!StringUtil.empty(getFolderId())) {
-			metaData.set("parents", new JsArray<Object>(JsPropertyMap.of("id", getFolderId())));
+			JsArray<Object> folder = new JsArray<>(JsPropertyMap.of("id", getFolderId()));
+			metaData.set("parents", folder);
 		}
 
 		metaData.set("thumbnail", JsPropertyMap.of(

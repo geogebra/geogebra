@@ -196,7 +196,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		ResourcePrototype img2 = MaterialDesignResources.INSTANCE.home_black();
 		AriaMenuItem miStandardView =
 				MainMenu.getMenuBarItem(img2, loc.getMenu("StandardView"),
-				() -> app.setStandardView()
+						app::setStandardView
 		);
 
 		if (!app.getActiveEuclidianView().isZoomable()) {

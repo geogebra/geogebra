@@ -149,15 +149,10 @@ public class AlgoOrdinalRank extends AlgoElement {
 	 */
 	public static Comparator<OrderedPair> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<OrderedPair>() {
-				@Override
-				public int compare(OrderedPair a, OrderedPair b) {
-					OrderedPair itemA = a;
-					OrderedPair itemB = b;
+			comparator = (a, b) -> {
 
-					double compX = itemA.x - itemB.x;
-					return compX < 0 ? -1 : +1;
-				}
+				double compX = a.x - b.x;
+				return compX < 0 ? -1 : +1;
 			};
 
 		}

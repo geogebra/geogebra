@@ -102,8 +102,7 @@ public class AlgoFitExp extends AlgoElement implements FitAlgo {
 			geofunction.setDefined(true);
 		} else {
 			geofunction.setUndefined();
-			return;
-		} // if error in regression
+		}
 	}
 
 	@Override

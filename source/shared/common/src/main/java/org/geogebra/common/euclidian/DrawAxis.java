@@ -977,8 +977,7 @@ public class DrawAxis {
 
 						// store position of number, so grid line can avoid
 						// it
-						view.axesLabelsPositionsX.add(Integer
-								.valueOf((int) (pix + Kernel.MIN_PRECISION)));
+						view.axesLabelsPositionsX.add((int) (pix + Kernel.MIN_PRECISION));
 					}
 				}
 				// big tick
@@ -1076,8 +1075,7 @@ public class DrawAxis {
 
 					// store position of number, so grid line can avoid
 					// it
-					view.axesLabelsPositionsX.add(Integer
-							.valueOf((int) (pix + Kernel.MIN_PRECISION)));
+					view.axesLabelsPositionsX.add((int) (pix + Kernel.MIN_PRECISION));
 				}
 
 				// big tick

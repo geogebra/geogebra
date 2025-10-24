@@ -163,8 +163,7 @@ public class InputController {
 				&& currentField.getParentIndex() == 0
 				&& editorState.getCurrentOffset() == 0) {
 			MathContainer function = currentField.getParent();
-			if (function.getParent() != null
-					&& function.getParent() instanceof MathSequence) {
+			if (function.getParent() instanceof MathSequence) {
 				editorState
 						.setCurrentField((MathSequence) function.getParent());
 				editorState.setCurrentOffset(function.getParentIndex());

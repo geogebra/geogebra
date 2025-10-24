@@ -98,7 +98,7 @@ public class App3DCompanionW extends App3DCompanion {
 			EuclidianViewForPlaneW view = p.getView();
 			GeoElement geo = app.getKernel().lookupLabel(
 					view.getCompanion().getPlane().getLabelSimple());
-			if (geo != null && (geo instanceof ViewCreator)) {
+			if (geo instanceof ViewCreator) {
 				ViewCreator plane = (ViewCreator) geo;
 				view.getCompanion().setPlane(plane);
 				plane.setEuclidianViewForPlane(view.getCompanion());

@@ -607,21 +607,15 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		final double eps = precision;
 
-		Comparator<Double> ret = new Comparator<Double>() {
-
-			@Override
-			public int compare(Double d1, Double d2) {
-				if (Math.abs(d1 - d2) < eps) {
-					return 0;
-				} else if (d1 < d2) {
-					return -1;
-				} else {
-					return 1;
-				}
+		return (d1, d2) -> {
+			if (Math.abs(d1 - d2) < eps) {
+				return 0;
+			} else if (d1 < d2) {
+				return -1;
+			} else {
+				return 1;
 			}
 		};
-
-		return ret;
 	}
 
 	/**
@@ -2128,8 +2122,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (!explicit) {
 			sbBuildExplicitLineEquation.append(' ');
 			if (useSignificantFigures) {
-				sbBuildExplicitLineEquation
-						.append("+ " + format(0.0, tpl) + vars[0]);
+				sbBuildExplicitLineEquation.append("+ ").append(format(0.0, tpl)).append(vars[0]);
 			}
 			d = numbers[2] / q;
 			dabs = Math.abs(d);
@@ -3378,8 +3371,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	private void addViews(Integer id, double[] viewBounds) {
 		View view = getApplication().getView(id);
-		if ((view != null) && (view instanceof EuclidianViewInterfaceSlim)) {
-
+		if (view instanceof EuclidianViewInterfaceSlim) {
 			EuclidianViewInterfaceSlim ev = (EuclidianViewInterfaceSlim) view;
 			viewBounds[0] = Math.min(viewBounds[0], ev.getXmin());
 			viewBounds[1] = Math.max(viewBounds[1], ev.getXmax());

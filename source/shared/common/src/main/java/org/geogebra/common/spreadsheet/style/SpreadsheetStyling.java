@@ -15,7 +15,6 @@ import org.geogebra.common.spreadsheet.core.Direction;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.MulticastEvent;
 
-@SuppressWarnings("PMD.FieldDeclarationsShouldBeAtStartOfClass")
 public final class SpreadsheetStyling {
 
 	/** Fallback alignment when {@link CellFormat} has no information regarding alignment. */

@@ -1089,7 +1089,7 @@ public class CellFormat implements CellFormatInterface {
 		if (value == null) {
 			return false;
 		}
-		return ((int) value & (1 << position)) != 0;
+		return (value & (1 << position)) != 0;
 	}
 
 	/**

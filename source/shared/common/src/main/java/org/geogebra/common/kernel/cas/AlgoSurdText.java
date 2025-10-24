@@ -1875,26 +1875,15 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				computeConstant(number);
 				return;
 			case RATIONAL_COMBINATION:
-				// TODO
-				return;
 			case POWER_PRODUCT:
+			case FUNCTION_OF_RATIONAL_NUMBER:
+			case FUNCTION_OF_LINEAR_COMBINATION:
+			case FUNCTION_OF_POWER_PRODUCT:
+			case FUNCTION_OF_QUADRATIC_RADICAL:
 				// TODO
 				return;
 			case QUADRATIC_RADICAL:
 				computeQuadratic(number);
-				return;
-			case FUNCTION_OF_RATIONAL_NUMBER:
-				// TODO
-				return;
-			case FUNCTION_OF_LINEAR_COMBINATION:
-				// TODO
-				return;
-			case FUNCTION_OF_POWER_PRODUCT:
-				// TODO
-				return;
-			case FUNCTION_OF_QUADRATIC_RADICAL:
-				// TODO
-				return;
 			}
 		}
 

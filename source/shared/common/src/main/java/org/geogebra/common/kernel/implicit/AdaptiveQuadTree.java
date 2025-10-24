@@ -25,7 +25,7 @@ class AdaptiveQuadTree extends QuadTree {
 		fastDrawThreshold = threshold;
 	}
 
-	private static class Timer {
+	private static final class Timer {
 		private long now;
 		private long elapse;
 

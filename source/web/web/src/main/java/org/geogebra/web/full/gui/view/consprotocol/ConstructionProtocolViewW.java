@@ -437,18 +437,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 */
 	private static Column<RowData, Integer> getColumnId() {
 		Cell<Integer> idCell = new IntegerCell();
-		Column<RowData, Integer> idColumn = new Column<RowData, Integer>(
-				idCell) {
+		return new Column<>(idCell) {
 			@Override
 			public Integer getValue(RowData object) {
 				return object.getIndex();
 			}
 		};
-
-		return idColumn;
 	}
 
-	private static class Base64ImageCell extends AbstractCell<String> {
+	private static final class Base64ImageCell extends AbstractCell<String> {
 
 		@Override
 		public void render(Context context, String value, SafeHtmlBuilder sb) {
@@ -462,7 +459,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * Add a column to show the toolbar icon.
 	 */
 	private static Column<RowData, String> getColumnToolbarIcon() {
-		return new Column<RowData, String>(new Base64ImageCell()) {
+		return new Column<>(new Base64ImageCell()) {
 
 			@Override
 			public String getValue(RowData object) {
@@ -478,7 +475,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * Add a text column to show the name.
 	 */
 	private static Column<RowData, SafeHtml> getColumnName() {
-		return new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
+		return new Column<>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -492,7 +489,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * Add a text column to show the description.
 	 */
 	private static Column<RowData, SafeHtml> getColumnDescription() {
-		return new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
+		return new Column<>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -506,7 +503,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * Add a text column to show the value.
 	 */
 	private static Column<RowData, SafeHtml> getColumnValue() {
-		return new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
+		return new Column<>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -520,7 +517,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * Add a text column to show the command.
 	 */
 	private static Column<RowData, SafeHtml> getColumnDefinition() {
-		return new Column<RowData, SafeHtml>(new SafeHtmlCell()) {
+		return new Column<>(new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -532,7 +529,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	private Column<RowData, String> getColumnCaptionSimple() {
 
-		Column<RowData, String> col = new Column<RowData, String>(
+		Column<RowData, String> col = new Column<>(
 				new TextInputCell()) {
 
 			@Override
@@ -556,7 +553,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * Add a text column to show the breakpoints.
 	 */
 	private Column<RowData, Boolean> getColumnBreakpoint() {
-		Column<RowData, Boolean> col = new Column<RowData, Boolean>(
+		Column<RowData, Boolean> col = new Column<>(
 				new CheckboxCell()) {
 
 			@Override

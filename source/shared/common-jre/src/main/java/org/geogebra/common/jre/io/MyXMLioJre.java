@@ -648,7 +648,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 				writeImage(img, "png", os);
 			} catch (Exception ex) {
 				Log.debug(ex.getMessage());
-				return;
 			}
 		}
 	}

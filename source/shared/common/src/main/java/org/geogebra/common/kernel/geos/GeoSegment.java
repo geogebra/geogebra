@@ -60,18 +60,19 @@ final public class GeoSegment extends GeoLine
 	/**
 	 * Returns array of all decoration types
 	 * 
-	 * @see GeoElementND#SEGMENT_DECORATION_ONE_TICK etc.
+	 * @see GeoElementND#DECORATION_SEGMENT_ONE_TICK etc.
 	 * @return array of all decoration types
 	 */
 	public static Integer[] getDecoTypes() {
-		Integer[] ret = { Integer.valueOf(GeoElementND.DECORATION_NONE),
-				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_ONE_TICK),
-				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_TWO_TICKS),
-				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_THREE_TICKS),
-				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_ONE_ARROW),
-				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_TWO_ARROWS),
-				Integer.valueOf(GeoElementND.DECORATION_SEGMENT_THREE_ARROWS) };
-		return ret;
+		return new Integer[] {
+				GeoElementND.DECORATION_NONE,
+				GeoElementND.DECORATION_SEGMENT_ONE_TICK,
+				GeoElementND.DECORATION_SEGMENT_TWO_TICKS,
+				GeoElementND.DECORATION_SEGMENT_THREE_TICKS,
+				GeoElementND.DECORATION_SEGMENT_ONE_ARROW,
+				GeoElementND.DECORATION_SEGMENT_TWO_ARROWS,
+				GeoElementND.DECORATION_SEGMENT_THREE_ARROWS
+		};
 	}
 
 	@Override

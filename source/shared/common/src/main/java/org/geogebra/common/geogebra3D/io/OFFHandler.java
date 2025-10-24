@@ -291,8 +291,9 @@ public class OFFHandler {
 		String[] nonempty = new String[parseLine.length];
 		int j = 0;
 		for (int i = 0; i < parseLine.length; i++) {
-			if (parseLine[i].trim().length() > 0) {
-				nonempty[j++] = parseLine[i].trim();
+			String current = parseLine[i].trim();
+			if (!current.isEmpty()) {
+				nonempty[j++] = current;
 			}
 		}
 		return nonempty;
@@ -322,7 +323,6 @@ public class OFFHandler {
 
 		if (getFaces().size() < faceCount) {
 			addFaceLine(line);
-			return;
 		}
 
 	}

@@ -33,7 +33,7 @@ public class DrawableList extends ArrayList<Drawable> {
 	 * @param comparator defines sorting of this list
 	 */
 	public DrawableList(final GeoPriorityComparator comparator) {
-		this.comparator = new Comparator<Drawable>() {
+		this.comparator = new Comparator<>() {
 			@Override
 			public int compare(Drawable a, Drawable b) {
 				return comparator.compare(a.geo, b.geo, false);

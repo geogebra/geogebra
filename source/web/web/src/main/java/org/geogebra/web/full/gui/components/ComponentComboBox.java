@@ -21,7 +21,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabledState {
 	private final AppW appW;
-	private AutoCompleteTextFieldW inputTextField;
+	private final AutoCompleteTextFieldW inputTextField;
 	private Label label;
 	private final String labelTextKey;
 	private DropDownComboBoxController controller;
@@ -39,6 +39,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabl
 		controlsID = DOM.createUniqueId();
 		addStyleName("comboBox");
 		addStyleName("validation");
+		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null);
 		buildGUI();
 		addHandlers();
 
@@ -85,7 +86,6 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabl
 			optionHolder.add(label);
 		}
 
-		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null);
 		inputTextField.setAutoComplete(false);
 		inputTextField.prepareShowSymbolButton(false);
 		inputTextField.enableGGBKeyboard();

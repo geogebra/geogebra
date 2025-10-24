@@ -130,8 +130,9 @@ public class ScientificFormat implements ScientificFormatAdapter {
 
 		int sign = preliminaryResult.charAt(0) == '-' ? 1 : 0;
 		// remove the dot
-		StringBuilder result = new StringBuilder(preliminaryResult.charAt(
-				sign) + preliminaryResult.substring(sign + 2, ePos));
+		StringBuilder result = new StringBuilder(preliminaryResult.length())
+				.append(preliminaryResult.charAt(sign))
+				.append(preliminaryResult, sign + 2, ePos);
 
 		if (exponent >= sigDigit) {
 			for (int i = sigDigit; i < exponent; i++) {

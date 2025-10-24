@@ -137,7 +137,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			// do this even if left/right click, even if clipboard is not
 			// supported!
 			Widget wid = table.getWidget(point.y, point.x);
-			if ((wid != null) && (wid instanceof RowHeaderWidget)) {
+			if (wid instanceof RowHeaderWidget) {
 				// quick implementation would call the handler
 				if (((RowHeaderWidget) wid).getHandler() != null) {
 					((RowHeaderWidget) wid).getHandler().onMouseUp(event);

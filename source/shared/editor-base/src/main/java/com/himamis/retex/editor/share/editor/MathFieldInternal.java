@@ -417,7 +417,7 @@ public class MathFieldInternal
 	@Override
 	public void onPointerDown(int x, int y) {
 		if (selectionMode) {
-			if (SelectionBox.touchSelection) {
+			if (SelectionBox.isTouchSelection()) {
 				if (length(SelectionBox.startX - x,
 						SelectionBox.startY - y) < 10) {
 					editorState.cursorToSelectionEnd();

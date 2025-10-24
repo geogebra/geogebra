@@ -134,7 +134,7 @@ public class ErrorHelper {
 		return new SilentErrorHandler();
 	}
 
-	private static class SilentErrorHandler implements ErrorHandler, ErrorLogger {
+	private static final class SilentErrorHandler implements ErrorLogger {
 
 		@Override
 		public void showError(String msg) {

@@ -317,7 +317,8 @@ public class ScreenReader {
 				: new UtfScreenReaderSerializationAdapter();
 	}
 
-	private static class UtfScreenReaderSerializationAdapter extends DefaultSerializationAdapter {
+	private static final class UtfScreenReaderSerializationAdapter
+			extends DefaultSerializationAdapter {
 
 		private final TableAdapter tableAdapter = new ScreenReaderTableAdapter();
 

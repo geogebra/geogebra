@@ -25,7 +25,7 @@ public class StickyProbabilityTable extends StickyTable<List<String>> {
 	}
 
 	private void addColumn(final int col) {
-		getTable().addColumn(new Column<List<String>, SafeHtml>(new SafeHtmlCell()) {
+		getTable().addColumn(new Column<>(new SafeHtmlCell()) {
 			@Override
 			public SafeHtml getValue(List<String> row) {
 				return new TableCell(row.get(col), false).getHTML();

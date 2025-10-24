@@ -69,7 +69,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 	private static final int VERTICAL_PADDING = 20;
 	protected AppWFull app;
-	RadioTreeItem item;
+	final RadioTreeItem item;
 	private LongTouchManager longTouchManager;
 	protected AVSelectionController selectionCtrl;
 	protected boolean editing = false;
@@ -475,7 +475,7 @@ public class RadioTreeItemController implements ClickHandler,
 		if (!isEditing()) {
 			setEditHeight(item.getEditHeight());
 			getAV().startEditItem(geo);
-			Scheduler.get().scheduleDeferred(() -> item.adjustStyleBar());
+			Scheduler.get().scheduleDeferred(item::adjustStyleBar);
 			showKeyboard();
 		}
 	}

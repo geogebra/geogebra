@@ -100,7 +100,7 @@ public class ToolManagerDialogModel {
 		boolean foundUsedMacro = false;
 		StringBuilder macroNames = new StringBuilder();
 		Kernel kernel = app.getKernel();
-		app.getSelectionManager().setSelectedGeos(new ArrayList<GeoElement>());
+		app.getSelectionManager().setSelectedGeos(new ArrayList<>());
 		deletedMacros.clear();
 		for (int i = 0; i < sel.size(); i++) {
 			Macro macro = sel.get(i);

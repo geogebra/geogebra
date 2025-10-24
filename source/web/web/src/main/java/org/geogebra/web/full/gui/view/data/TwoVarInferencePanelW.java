@@ -39,7 +39,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private FlowPanel mainPanel;
 	private FlowPanel samplePanel;
 	private TwoVarStatPanelW twoStatPanel;
-	private TwoVarInferenceModel model;
+	private final TwoVarInferenceModel model;
 	private boolean enablePooled;
 	private ComponentCheckbox ckPooled;
 	private Localization loc;
@@ -83,7 +83,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		lblTitle2 = new Label();
 
 		ckPooled = new ComponentCheckbox(loc, false, "Pooled",
-				(selected) -> model.setPooled(selected));
+				model::setPooled);
 		ckPooled.addStyleName("ckPooled");
 
 		lbAltHyp = new ListBox();

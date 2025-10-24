@@ -174,7 +174,6 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			geofunction.setDefined(true);
 		} else {
 			geofunction.setUndefined();
-			return;
 		} // if error in regression
 	}
 
@@ -253,13 +252,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		b = k; // next routine uses c,a,b...
 		a = a(x1, y1, x2, y2, k);
 		c = c(x1, y1, x2, y2, k);
-		// debug("\nfindParameters()finished with:\n"+a+" b= "+b+" c= "+c);
-		// debug("Sum sq. errors: "+beta2(xd,yd,a,b,c)+"\n-------------");
 		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)) {
 			error = true;
 			Log.debug("findParameters(): a,b or c undefined");
-			return;
-		} // 20.11:if one is undefined, everything is undefined
+		}
 	}
 
 	private void logisticReg() {
@@ -374,20 +370,13 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 					lambda = lambda * multfaktor; // not going well :-(
 					multfaktor *= 2; // LM drives hard...
 				} // if going the right way
-
-			} // if(error)-else
-				// debug(""+da+"\t"+db+"\t"+dc+"\n"+a+"\t"+b+"\t"+c);
-		} // while(|da|+|db|+|dc|>epsilonreg)
-
-		// 20.11: not wanted:
-		// errorMsg("AlgoFitLogistic: Sum Errors Squared= "+beta2(xd,yd,a,b,c));
-		// //Info
+			}
+		}
 
 		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)) {
 			error = true;
 			Log.debug("findParameters(): a,b or c undefined");
-			return;
-		} // 20.11:if one is undefined, everything is undefined
+		}
 
 	}
 

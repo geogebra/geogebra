@@ -621,7 +621,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 	}
 
-	private static class HitGeo {
+	private static final class HitGeo {
 
 		private GeoElement geo;
 

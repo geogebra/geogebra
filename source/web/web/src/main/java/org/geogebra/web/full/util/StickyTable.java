@@ -262,7 +262,7 @@ public abstract class StickyTable<T> extends FlowPanel {
 				&& row >= 0 && row < cellTable.getRowCount() - 1;
 	}
 
-	private class CellTableWithBody extends CellTable<T> {
+	private final class CellTableWithBody extends CellTable<T> {
 
 		@Override
 		public TableSectionElement getTableBodyElement() {

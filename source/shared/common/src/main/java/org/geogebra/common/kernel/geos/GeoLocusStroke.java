@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -564,12 +563,7 @@ public class GeoLocusStroke extends GeoLocus
 		}
 
 		final MyPoint p = getPoints().get(index);
-		Collections.sort(interPointList, new Comparator<MyPoint>() {
-			@Override
-			public int compare(MyPoint p1, MyPoint p2) {
-				return Double.compare(p.distanceSq(p1), p.distanceSq(p2));
-			}
-		});
+		interPointList.sort(Comparator.comparingDouble(p::distanceSq));
 		return interPointList;
 	}
 

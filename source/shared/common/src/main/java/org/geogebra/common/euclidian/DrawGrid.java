@@ -208,7 +208,7 @@ public class DrawGrid {
 		// or if it's too close (eg sticky axes)
 		if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
 			if (view.axesLabelsPositionsX.contains(
-					Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
+					(int) (pix + Kernel.MIN_PRECISION))) {
 				// hits axis label, draw in 2 sections
 				drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
 			} else {
@@ -242,7 +242,7 @@ public class DrawGrid {
 
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
 				if (view.axesLabelsPositionsX.contains(
-						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
+						(int) (pix + Kernel.MIN_PRECISION))) {
 
 					// hits axis label, draw in 2 sections
 					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);

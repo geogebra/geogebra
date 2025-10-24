@@ -99,7 +99,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void ansPressed() {
-		/// not needed
+		// not needed
 	}
 
 	@Override

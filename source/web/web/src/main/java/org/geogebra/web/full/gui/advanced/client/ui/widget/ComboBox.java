@@ -610,7 +610,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	public void setValue(String value, boolean fireEvents) {
 		getSelectedValue().setText(value);
 		if (fireEvents) {
-			fireEvent(new ValueChangeEvent<String>(value) {
+			fireEvent(new ValueChangeEvent<>(value) {
 				// nothing to implement
 			});
 		}

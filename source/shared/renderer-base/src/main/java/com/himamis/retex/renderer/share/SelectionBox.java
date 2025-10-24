@@ -10,7 +10,7 @@ public class SelectionBox extends Box {
 	public static double startX, startY;
 	public static double endX, endY;
 	private Box content;
-	public static boolean touchSelection = true;
+	private static boolean touchSelection = true;
 
 	public SelectionBox(Box content) {
 		this.content = content;
@@ -19,6 +19,14 @@ public class SelectionBox extends Box {
 		this.width = content.width;
 		this.height = content.height;
 		this.depth = content.depth;
+	}
+
+	public static boolean isTouchSelection() {
+		return touchSelection;
+	}
+
+	public static void setTouchSelection(boolean touchSelection) {
+		SelectionBox.touchSelection = touchSelection;
 	}
 
 	@Override
@@ -43,7 +51,7 @@ public class SelectionBox extends Box {
 		SelectionBox.endY = transform.getScaleY() * (y + content.depth)
 				+ transform.getShearY() * (x + content.width)
 				+ transform.getTranslateY();
-		if (touchSelection) {
+		if (isTouchSelection()) {
 			g2.saveTransformation();
 
 			g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);

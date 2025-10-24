@@ -624,7 +624,7 @@ public class AlgoMacro extends AlgoElement
 		for (int i = 0; i < getOutputLength(); i++) {
 			outputList.add(getOutput(i));
 		}
-		GeoElement.updateCascade(outputList, new TreeSet<AlgoElement>(), true);
+		GeoElement.updateCascade(outputList, new TreeSet<>(), true);
 		kernel.notifyRepaint();
 
 	}

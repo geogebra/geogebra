@@ -18,6 +18,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -132,9 +133,7 @@ public abstract class ValidExpression
 		if (str == null) {
 			return;
 		}
-		for (int i = 0; i < str.length; i++) {
-			labels.add(str[i]);
-		}
+		labels.addAll(Arrays.asList(str));
 	}
 
 	public List<String> getLocalVariables() {

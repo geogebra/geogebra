@@ -314,7 +314,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	public void cancelCallbacks() {
-		charDrawingRequests.forEach(f -> f.cancel());
+		charDrawingRequests.forEach(FontLoadCallback::cancel);
 	}
 
 	private static class FontDrawContext {

@@ -83,19 +83,16 @@ public class AlgoIntersectPathLinePolygon3D
 
 	@Override
 	protected OutputHandler<GeoElement> createOutputSegments() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoSegment3D newElement() {
-				GeoSegment3D a = new GeoSegment3D(cons);
-				GeoPoint3D aS = new GeoPoint3D(cons);
-				aS.setCoords(0, 0, 0, 1);
-				GeoPoint3D aE = new GeoPoint3D(cons);
-				aE.setCoords(0, 0, 0, 1);
-				a.setPoints(aS, aE);
-				a.setParentAlgorithm(AlgoIntersectPathLinePolygon3D.this);
-				setSegmentVisualProperties(a);
-				return a;
-			}
+		return new OutputHandler<>(() -> {
+			GeoSegment3D a = new GeoSegment3D(cons);
+			GeoPoint3D aS = new GeoPoint3D(cons);
+			aS.setCoords(0, 0, 0, 1);
+			GeoPoint3D aE = new GeoPoint3D(cons);
+			aE.setCoords(0, 0, 0, 1);
+			a.setPoints(aS, aE);
+			a.setParentAlgorithm(this);
+			setSegmentVisualProperties(a);
+			return a;
 		});
 	}
 

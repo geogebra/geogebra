@@ -53,7 +53,7 @@ final class SpreadsheetRenderer {
 			{ 0x6557d2, 0xe0bf00, 0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70 };
 	private final static List<GColor> REFERENCE_COLORS =
 			Arrays.stream(REFERENCE_COLOR_RGB_VALUES)
-					.mapToObj(rgb -> GColor.newColorRGB(rgb))
+					.mapToObj(GColor::newColorRGB)
 					.collect(Collectors.toList());
 	private final static int[] REFERENCE_STROKE_INDICES = { 0, 1, 2 };
 	private final static List<GBasicStroke> referenceStrokes =

@@ -13,7 +13,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	private final AppW app;
 	private final ComponentDialog parentDialog;
 	private final boolean required;
-	protected ComponentInputField inputField;
+	protected final ComponentInputField inputField;
 	private Label infoLabel;
 
 	/**
@@ -42,7 +42,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Set focus the text field of the input panel
 	 */
 	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(() -> inputField.focusDeferred());
+		Scheduler.get().scheduleDeferred(inputField::focusDeferred);
 	}
 
 	/**

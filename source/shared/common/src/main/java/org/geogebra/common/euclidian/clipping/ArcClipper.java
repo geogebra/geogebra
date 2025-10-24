@@ -237,7 +237,7 @@ public class ArcClipper {
 		}
 	}
 
-	private static class IntersectionPoint implements HasCoordinates {
+	private static final class IntersectionPoint implements HasCoordinates {
 		private double x;
 		private double y;
 

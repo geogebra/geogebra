@@ -175,7 +175,7 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 		if (property instanceof BooleanProperty) {
 			return new ComponentCheckbox(loc, ((BooleanProperty) property)
 					.getValue(), property.getRawName(),
-					checked -> ((BooleanProperty) property).setValue(checked));
+					((BooleanProperty) property)::setValue);
 		}
 		if (property instanceof RangeProperty) {
 			FlowPanel wrapper = new FlowPanel();
@@ -281,7 +281,7 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 		if (property instanceof ColorProperty) {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,
 					((ColorProperty) property).getValues(),
-					color -> ((ColorProperty) property).setValue(color), property.getRawName());
+					((ColorProperty) property)::setValue, property.getRawName());
 			colorPanel.updateColorSelection(((ColorProperty) property).getValue());
 			colorPanel.addStyleName("colorPanel");
 			return colorPanel;

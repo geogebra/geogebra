@@ -45,15 +45,12 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	public AlgoSimpleRootsPolynomial(Construction c) {
 		super(c);
 		eqnSolver = cons.getKernel().getEquationSolver();
-		points = new OutputHandler<>(new ElementFactory<GeoPoint>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(cons);
-				// p.setCoords(0, 0, 1);
-				p.setUndefined();
-				p.setParentAlgorithm(AlgoSimpleRootsPolynomial.this);
-				return p;
-			}
+		points = new OutputHandler<>(() -> {
+			GeoPoint p = new GeoPoint(cons);
+			// p.setCoords(0, 0, 1);
+			p.setUndefined();
+			p.setParentAlgorithm(this);
+			return p;
 		});
 	}
 

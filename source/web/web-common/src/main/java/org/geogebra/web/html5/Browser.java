@@ -130,7 +130,7 @@ public class Browser {
 		if (webglSupported == null) {
 			webglSupported = supportsWebGLNative();
 		}
-		return webglSupported.booleanValue();
+		return webglSupported;
 	}
 
 	/**

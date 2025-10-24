@@ -169,27 +169,24 @@ public class AlgoVoronoi extends AlgoDiscrete {
 	 */
 	public static Comparator<GPoint2D> getPointComparator() {
 		if (pointComparator == null) {
-			pointComparator = new Comparator<GPoint2D>() {
-				@Override
-				public int compare(GPoint2D p1, GPoint2D p2) {
+			pointComparator = (p1, p2) -> {
 
-					// double p1A = itemA.getX();
-					// double p1B = itemA.getY();
-					// double p2A = itemB.getX();
-					// double p2B = itemB.getY();
+				// double p1A = itemA.getX();
+				// double p1B = itemA.getY();
+				// double p2A = itemB.getX();
+				// double p2B = itemB.getY();
 
-					// return 0 if endpoints the same
-					// so no duplicates in the TreeMap
-					if (DoubleUtil.isEqual(p1.getX(), p2.getX())
-							&& DoubleUtil.isEqual(p1.getY(), p2.getY())) {
-						return 0;
-					}
-
-					// need to return something sensible, otherwise tree doesn't
-					// work
-					return p1.getX() > p2.getX() ? -1 : 1;
-
+				// return 0 if endpoints the same
+				// so no duplicates in the TreeMap
+				if (DoubleUtil.isEqual(p1.getX(), p2.getX())
+						&& DoubleUtil.isEqual(p1.getY(), p2.getY())) {
+					return 0;
 				}
+
+				// need to return something sensible, otherwise tree doesn't
+				// work
+				return p1.getX() > p2.getX() ? -1 : 1;
+
 			};
 
 		}

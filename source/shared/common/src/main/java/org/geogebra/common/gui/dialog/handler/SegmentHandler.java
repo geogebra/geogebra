@@ -35,16 +35,12 @@ public class SegmentHandler {
 			final NumberInputHandler inputHandler, ErrorHandler eh,
 			final AsyncOperation<Boolean> callback) {
 		// avoid labeling of num
-		inputHandler.processInput(text, eh, new AsyncOperation<Boolean>() {
-
-			@Override
-			public void callback(Boolean ok) {
-				if (ok) {
-					DialogManager.doSegmentFixed(kernel, point,
-							inputHandler.getNum());
-				}
-				callback.callback(ok);
+		inputHandler.processInput(text, eh, ok -> {
+			if (ok) {
+				DialogManager.doSegmentFixed(kernel, point,
+						inputHandler.getNum());
 			}
+			callback.callback(ok);
 		});
 
 	}

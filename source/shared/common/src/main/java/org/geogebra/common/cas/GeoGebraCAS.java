@@ -181,18 +181,19 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	final public String evaluateGeoGebraCAS(String exp,
 			ArbitraryConstantRegistry arbconst, StringTemplate tpl, Kernel kernel)
 			throws CASException {
+		String ret = null;
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp, null);
-			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, null, kernel);
-			if (ret == null) {
-				throw new CASException(new Exception(
-						Errors.CASGeneralErrorMessage.getError(app.getLocalization())));
-			}
-			return ret;
+			ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, null, kernel);
 		} catch (Throwable t) {
 			Log.debug(t);
 			throw new CASException(t);
 		}
+		if (ret == null) {
+			throw new CASException(new Exception(
+					Errors.CASGeneralErrorMessage.getError(app.getLocalization())));
+		}
+		return ret;
 	}
 
 	@Override

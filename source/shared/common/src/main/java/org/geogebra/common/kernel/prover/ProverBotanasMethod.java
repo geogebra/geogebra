@@ -904,7 +904,7 @@ public class ProverBotanasMethod {
 								}
 							}
 							boolean useThisPoly = true;
-							if (algo != null && algo instanceof AlgoPointOnPath
+							if (algo instanceof AlgoPointOnPath
 									&& geoProver
 									.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
 								/*

@@ -29,9 +29,9 @@ public class GeoGebraProfiler {
 		if (drags > 0) {
 			Log.debug("Profile Dragging: \nNumber of handled drag events: " + drags + "\n"
 					+ "Average duration of one drag event: "
-					+ ((float) dragTime / (float) drags) + " ms \n" + "Number of repaints: "
+					+ (dragTime / (float) drags) + " ms \n" + "Number of repaints: "
 					+ repaints + "\n" + "Average duration of one repaint: "
-					+ ((float) repaintTime / repaints) + " ms");
+					+ (repaintTime / (float) repaints) + " ms");
 		}
 	}
 

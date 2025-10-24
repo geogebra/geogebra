@@ -159,8 +159,6 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			ker.setSilentMode(oldSilentMode);
 
 			setPoints(valPairs);
-			return;
-
 		}
 
 	}

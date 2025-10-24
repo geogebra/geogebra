@@ -91,7 +91,7 @@ public class LocalizationCommon extends LocalizationJre {
 		return RB_SYMBOL;
 	}
 
-	private static class EmptyResourceBundle extends ResourceBundle {
+	private static final class EmptyResourceBundle extends ResourceBundle {
 		@Override
 		protected Object handleGetObject(String key) {
 			throw new MissingResourceException("Not found", getClass().getName(), key);

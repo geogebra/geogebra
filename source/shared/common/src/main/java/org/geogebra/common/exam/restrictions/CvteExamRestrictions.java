@@ -455,7 +455,6 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				|| geoElement instanceof EquationValue;
 	}
 
-	@SuppressWarnings("PMD.SimplifyBooleanReturns")
 	private static boolean isExplicitEquation(GeoElement geoElement) {
 		Equation equation = unwrapEquation(geoElement);
 		if (equation == null) {

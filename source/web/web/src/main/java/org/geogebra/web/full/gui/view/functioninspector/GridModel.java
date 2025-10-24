@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.functioninspector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.util.debug.Log;
@@ -192,9 +193,7 @@ public class GridModel {
 	 */
 	public void setHeaders(String[] names) {
 		headers.clear();
-		for (String title: names) {
-			headers.add(title);
-		}
+		headers.addAll(Arrays.asList(names));
 		listener.setHeaders(names);
 	}
 

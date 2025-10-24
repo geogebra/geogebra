@@ -32,7 +32,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 public class EuclidianStyleBarStatic {
@@ -240,14 +239,10 @@ public class EuclidianStyleBarStatic {
 		try {
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo, cmdtext,
 					true, true, app.getDefaultErrorHandler(),
-					new AsyncOperation<GeoElementND>() {
-
-						@Override
-						public void callback(GeoElementND newGeo1) {
-							if (newGeo1 != null) {
-								app.doAfterRedefine(newGeo1);
-								newGeo1.updateRepaint();
-							}
+					newGeo1 -> {
+						if (newGeo1 != null) {
+							app.doAfterRedefine(newGeo1);
+							newGeo1.updateRepaint();
 						}
 					});
 

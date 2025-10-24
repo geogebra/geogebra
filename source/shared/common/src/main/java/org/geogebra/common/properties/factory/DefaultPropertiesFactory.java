@@ -245,7 +245,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 
 	protected ActionablePropertyCollection<ActionableProperty> createSaveRestoreSettingsProperties(
 			App app, Localization localization) {
-		return new ActionablePropertyCollection<ActionableProperty>(localization, List.of(
+		return new ActionablePropertyCollection<>(localization, List.of(
 				new SaveSettingsAction(app, localization),
 				new RestoreSettingsAction(app, localization)));
 	}

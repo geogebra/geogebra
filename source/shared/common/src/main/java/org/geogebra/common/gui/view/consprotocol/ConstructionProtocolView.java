@@ -737,8 +737,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 				int index = geo.getConstructionIndex();
 				// use index of geo instead of corresponding geoCasCell
 				// needed for GGB-810
-				if (geo.getParentAlgorithm() != null && geo
-						.getParentAlgorithm() instanceof AlgoDependentCasCell) {
+				if (geo.getParentAlgorithm() instanceof AlgoDependentCasCell) {
 					int geoIndex = geo.getAlgoDepCasCellGeoConstIndex();
 					if (index < geoIndex) {
 						index = geoIndex;
@@ -1351,7 +1350,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			sb.append("<tr>\n");
 
 			sb.append("<td>");
-			sb.append("" + (row + 1));
+			sb.append(row + 1);
 			sb.append("</td>\n");
 
 			for (int col = 0 ; col < cols ; col++) {

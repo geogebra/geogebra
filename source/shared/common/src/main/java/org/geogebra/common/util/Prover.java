@@ -561,17 +561,13 @@ public abstract class Prover {
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
 			ProverBotanasMethod pbm = new ProverBotanasMethod();
 			result = override(pbm.prove(this));
-			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {
 			result = override(getReciosProver().prove(this));
-			return;
 		} else if (currentEngine == ProverEngine.PURE_SYMBOLIC_PROVER) {
 			result = override(ProverPureSymbolicMethod.prove(this));
-			return;
 		} else if (currentEngine == ProverEngine.OPENGEOPROVER_WU
 				|| currentEngine == ProverEngine.OPENGEOPROVER_AREA) {
 			result = override(openGeoProver(currentEngine));
-			return;
 		}
 
 	}

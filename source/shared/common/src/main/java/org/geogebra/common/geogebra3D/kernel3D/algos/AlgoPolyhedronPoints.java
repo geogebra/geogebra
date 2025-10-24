@@ -42,18 +42,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
 
-		public OutputPolygonsHandler() {
-			super(new ElementFactory<GeoPolygon3D>() {
-				@Override
-				public GeoPolygon3D newElement() {
-					GeoPolygon3D p = new GeoPolygon3D(cons);
-					// p.setParentAlgorithm(AlgoPolyhedron.this);
-					if (heightChangeableParent != null) {
-						p.setChangeableParent(heightChangeableParent);
-					}
-					return p;
-				}
-			});
+		public OutputPolygonsHandler(ElementFactory<GeoPolygon3D> factory) {
+			super(factory);
 		}
 
 		@Override
@@ -68,23 +58,20 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	@Override
 	protected OutputHandler<GeoPolygon3D> createOutputPolygonsHandler() {
-		return new OutputPolygonsHandler();
+		return new OutputPolygonsHandler(() -> {
+			GeoPolygon3D p = new GeoPolygon3D(cons);
+			// p.setParentAlgorithm(AlgoPolyhedron.this);
+			if (heightChangeableParent != null) {
+				p.setChangeableParent(heightChangeableParent);
+			}
+			return p;
+		});
 	}
 
 	private class OutputSegmentsHandler extends OutputHandler<GeoSegment3D> {
 
-		public OutputSegmentsHandler() {
-			super(new ElementFactory<GeoSegment3D>() {
-				@Override
-				public GeoSegment3D newElement() {
-					GeoSegment3D s = new GeoSegment3D(cons);
-					if (heightChangeableParent != null) {
-						s.setChangeableParentIfNull(
-								heightChangeableParent);
-					}
-					return s;
-				}
-			});
+		public OutputSegmentsHandler(ElementFactory<GeoSegment3D> factory) {
+			super(factory);
 		}
 
 		@Override
@@ -99,7 +86,14 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	@Override
 	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler() {
-		return new OutputSegmentsHandler();
+		return new OutputSegmentsHandler(() -> {
+			GeoSegment3D s = new GeoSegment3D(cons);
+			if (heightChangeableParent != null) {
+				s.setChangeableParentIfNull(
+						heightChangeableParent);
+			}
+			return s;
+		});
 	}
 
 	private class OutputPointsHandler extends OutputHandler<GeoPoint3D> {

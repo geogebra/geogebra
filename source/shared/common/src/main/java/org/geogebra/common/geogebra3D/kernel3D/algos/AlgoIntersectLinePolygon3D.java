@@ -77,30 +77,24 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	}
 
 	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint3D newElement() {
-				GeoPoint3D p1 = new GeoPoint3D(cons);
-				p1.setCoords(0, 0, 0, 1);
-				p1.setParentAlgorithm(AlgoIntersectLinePolygon3D.this);
-				return p1;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint3D p1 = new GeoPoint3D(cons);
+			p1.setCoords(0, 0, 0, 1);
+			p1.setParentAlgorithm(this);
+			return p1;
 		});
 	}
 
 	protected OutputHandler<GeoElement> createOutputSegments() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoSegment3D newElement() {
+		return new OutputHandler<>(() -> {
 
-				GeoPoint3D aS = new GeoPoint3D(cons);
-				aS.setCoords(0, 0, 0, 1);
-				GeoPoint3D aE = new GeoPoint3D(cons);
-				aE.setCoords(0, 0, 0, 1);
-				GeoSegment3D a = new GeoSegment3D(cons, aS, aE);
-				a.setParentAlgorithm(AlgoIntersectLinePolygon3D.this);
-				return a;
-			}
+			GeoPoint3D aS = new GeoPoint3D(cons);
+			aS.setCoords(0, 0, 0, 1);
+			GeoPoint3D aE = new GeoPoint3D(cons);
+			aE.setCoords(0, 0, 0, 1);
+			GeoSegment3D a = new GeoSegment3D(cons, aS, aE);
+			a.setParentAlgorithm(this);
+			return a;
 		});
 	}
 

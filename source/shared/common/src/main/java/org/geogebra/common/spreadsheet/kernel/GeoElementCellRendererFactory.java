@@ -72,7 +72,7 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 				: geoElement.toValueString(StringTemplate.defaultTemplate);
 	}
 
-	private static class CheckboxCellRenderer implements CellRenderer {
+	private static final class CheckboxCellRenderer implements CellRenderer {
 		@Override
 		public void draw(Object data, int fontStyle, double offsetX,
 				GGraphics2D g2d, Rectangle cellBorder) {

@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * ArrayList that can be reused
@@ -81,9 +82,7 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 				set(length + i, values[i]);
 			}
 		} else {
-			for (T v : values) {
-				add(v);
-			}
+			this.addAll(Arrays.asList(values));
 			size += k;
 		}
 		length += k;

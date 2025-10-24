@@ -258,8 +258,8 @@ public class EuclidianStatic {
 			if (isLaTeX) {
 				// calculate the y offset of this element by: (lineHeight -
 				// elementHeight) / 2
-				yOffset = (((lineHeights.get(currentLine))).intValue()
-						- ((elementHeights.get(currentElement))).intValue())
+				yOffset = (lineHeights.get(currentLine)
+						- elementHeights.get(currentElement))
 						/ 2;
 
 				DrawEquation de = app.getDrawEquation();
@@ -275,8 +275,8 @@ public class EuclidianStatic {
 
 				for (int j = 0; j < lines.length; ++j) {
 					// calculate the y offset like done with the element
-					yOffset = (((lineHeights.get(currentLine))).intValue()
-							- ((elementHeights.get(currentElement))).intValue())
+					yOffset = (lineHeights.get(currentLine)
+							- elementHeights.get(currentElement))
 							/ 2;
 
 					// draw the string
@@ -287,7 +287,7 @@ public class EuclidianStatic {
 
 					// add the height of this line if more lines follow
 					if (j + 1 < lines.length) {
-						height += ((lineHeights.get(currentLine))).intValue();
+						height += lineHeights.get(currentLine);
 
 						if (xOffset > width) {
 							width = xOffset;
@@ -307,7 +307,7 @@ public class EuclidianStatic {
 			// last element, increase total height and check if this is the most
 			// wide element
 			if (i + 1 == elements.length) {
-				height += ((lineHeights.get(currentLine))).intValue();
+				height += lineHeights.get(currentLine);
 
 				if (xOffset > width) {
 					width = xOffset;

@@ -5267,7 +5267,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_EQUATION:
 			view.setCursor(TEXT);
 			changedKernel = createInlineObject(selectionPreview,
-					(cons, location) -> new GeoFormula(cons, location));
+					GeoFormula::new);
 			break;
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 		case EuclidianConstants.MODE_SHAPE_CIRCLE:
@@ -5351,13 +5351,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// another callback object in macro, which we got
 			// in parameter.
 			final boolean selPreview = selectionPreview;
-			AsyncOperation<Boolean> callback2 = new AsyncOperation<Boolean>() {
-				@Override
-				public void callback(Boolean arg) {
-					memorizeJustCreatedGeosAfterProcessMode(null, selPreview);
-					if (callback != null) {
-						callback.callback(arg);
-					}
+			AsyncOperation<Boolean> callback2 = (arg) -> {
+				memorizeJustCreatedGeosAfterProcessMode(null, selPreview);
+				if (callback != null) {
+					callback.callback(arg);
 				}
 			};
 
@@ -5498,16 +5495,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public final boolean processMode(Hits processHits, boolean isControlDown, boolean isShiftDown) {
 		final Hits hits2 = processHits;
-		AsyncOperation<Boolean> callback = new AsyncOperation<Boolean>() {
-
-			@Override
-			public void callback(Boolean changedKernel) {
-				if (changedKernel.equals(true)) {
-					storeUndoInfo();
-				}
-				endOfWrapMouseReleased(hits2, false, isShiftDown, false, null);
-				// type = null is not a problem since alt = false
+		AsyncOperation<Boolean> callback = changedKernel -> {
+			if (changedKernel.equals(true)) {
+				storeUndoInfo();
 			}
+			endOfWrapMouseReleased(hits2, false, isShiftDown, false, null);
+			// type = null is not a problem since alt = false
 		};
 		return processMode(processHits, isControlDown, isShiftDown, callback);
 	}
@@ -5535,13 +5528,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (callback == null) {
 			callback2 = null;
 		} else {
-			callback2 = new AsyncOperation<Boolean>() {
-
-				@Override
-				public void callback(Boolean ret) {
-					callback.callback(ret);
-					updatePreview();
-				}
+			callback2 = ret -> {
+				callback.callback(ret);
+				updatePreview();
 			};
 		}
 
@@ -7499,7 +7488,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// the zoom rectangle should have the same aspect ratio as the view
 		if (keepScreenRatio) {
-			double ratio = (double) view.getViewWidth()
+			double ratio = view.getViewWidth()
 					/ (double) view.getViewHeight();
 			double newRatio = dy == 0 ? ratio : Math.abs(dx / (double) dy);
 			if (newRatio < Math.abs(ratio * ZOOM_RECTANGLE_SNAP_RATIO)
@@ -10392,15 +10381,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// also needed for right-drag
 		else {
 			final Hits hits2 = hits;
-			AsyncOperation<Boolean> callback = new AsyncOperation<Boolean>() {
-
-				@Override
-				public void callback(Boolean arg) {
-					if (arg.equals(true)) {
-						storeUndoInfo();
-					}
-					endOfWrapMouseReleased(hits2, event);
+			AsyncOperation<Boolean> callback = (arg) -> {
+				if (arg.equals(true)) {
+					storeUndoInfo();
 				}
+				endOfWrapMouseReleased(hits2, event);
 			};
 
 			processMode(hits, control, event.isShiftDown(), callback);

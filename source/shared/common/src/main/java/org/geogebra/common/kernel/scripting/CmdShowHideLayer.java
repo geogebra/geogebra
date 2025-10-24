@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -55,7 +54,7 @@ public class CmdShowHideLayer extends CmdScripting {
 						set.add(geo);
 					}
 				}
-				GeoElement.updateCascade(set, new TreeSet<AlgoElement>(), true);
+				GeoElement.updateCascade(set, new TreeSet<>(), true);
 				kernel.notifyRepaint();
 				return arg;
 			}

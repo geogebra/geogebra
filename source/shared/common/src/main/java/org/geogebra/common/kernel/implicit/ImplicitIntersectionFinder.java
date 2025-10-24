@@ -98,7 +98,6 @@ public final class ImplicitIntersectionFinder {
 			f[5] = fun2.getDerivativeNoCAS(y2, 1);
 			derivative = true;
 			intersections(f, params, guess, outputs, vals);
-			return;
 		} catch (Exception ex) {
 			Log.debug(ex);
 			if (derivative) {

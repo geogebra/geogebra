@@ -1120,30 +1120,27 @@ public class GeoText extends GeoElement
 	 */
 	public static Comparator<GeoText> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<GeoText>() {
-				@Override
-				public int compare(GeoText itemA, GeoText itemB) {
-					// remove accents etc
-					String strA = StringUtil.removeAccents(itemA.getTextStringSafe());
-					String strB = StringUtil.removeAccents(itemB.getTextStringSafe());
 
-					// do comparison without accents etc
-					int comp = strA.compareTo(strB);
+			comparator = (itemA, itemB) -> {
+				String strA = StringUtil.removeAccents(itemA.getTextStringSafe());
+				String strB = StringUtil.removeAccents(itemB.getTextStringSafe());
 
-					if (comp == 0) {
-						// try compare with accents
-						comp = itemA.getTextStringSafe()
-								.compareTo(itemB.getTextStringSafe());
-					}
+				// do comparison without accents etc
+				int comp = strA.compareTo(strB);
 
-					if (comp == 0) {
-						// if we return 0 for equal strings, the TreeSet deletes
-						// the equal one
-						return itemA.getConstructionIndex() > itemB
-								.getConstructionIndex() ? -1 : 1;
-					}
-					return comp;
+				if (comp == 0) {
+					// try compare with accents
+					comp = itemA.getTextStringSafe()
+							.compareTo(itemB.getTextStringSafe());
 				}
+
+				if (comp == 0) {
+					// if we return 0 for equal strings, the TreeSet deletes
+					// the equal one
+					return itemA.getConstructionIndex() > itemB
+							.getConstructionIndex() ? -1 : 1;
+				}
+				return comp;
 			};
 		}
 
@@ -1235,7 +1232,7 @@ public class GeoText extends GeoElement
 			return false;
 		case NOT_TESTED:
 			AlgoElement algo = getParentAlgorithm();
-			if (algo != null && (algo instanceof AlgoDependentText)) {
+			if (algo instanceof AlgoDependentText) {
 				((AlgoDependentText) algo).setSpreadsheetTraceableText();
 				if (spreadsheetTraceableLeftTree != null) {
 					spreadsheetTraceableCase = SpreadsheetTraceCase.TRUE;

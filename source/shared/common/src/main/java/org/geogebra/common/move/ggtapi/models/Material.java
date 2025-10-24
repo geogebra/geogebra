@@ -497,7 +497,7 @@ public class Material implements Serializable {
 	private static void putBoolean(JSONObject ret, String key, boolean val) {
 		if (val) {
 			try {
-				ret.put(key, Boolean.valueOf(val));
+				ret.put(key, val);
 			} catch (JSONException e) {
 				Log.debug(e);
 			}

@@ -398,7 +398,7 @@ public class Macro {
 
 		// STANDARD case
 		// add algorithm
-		Long algoID = Long.valueOf(algo.getID());
+		Long algoID = algo.getID();
 		if (!usedAlgoIds.contains(algoID)) {
 			consElementSet.add(algo);
 		}

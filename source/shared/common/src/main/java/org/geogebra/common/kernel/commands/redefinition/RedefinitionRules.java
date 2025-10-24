@@ -7,7 +7,7 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class RedefinitionRules {
 
-	private static class SameClassRule implements RedefinitionRule {
+	private static final class SameClassRule implements RedefinitionRule {
 
 		@Override
 		public boolean allowed(GeoClass fromType, GeoClass toType) {
@@ -15,7 +15,7 @@ public class RedefinitionRules {
 		}
 	}
 
-	private static class OneWayRule implements RedefinitionRule {
+	private static final class OneWayRule implements RedefinitionRule {
 
 		private GeoClass fromType;
 		private GeoClass toType;

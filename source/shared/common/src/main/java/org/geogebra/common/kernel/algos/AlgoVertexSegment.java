@@ -111,7 +111,6 @@ public class AlgoVertexSegment extends AlgoElement {
 			M.set(Q);
 		} else {
 			M.setUndefined();
-			return;
 		}
 	}
 

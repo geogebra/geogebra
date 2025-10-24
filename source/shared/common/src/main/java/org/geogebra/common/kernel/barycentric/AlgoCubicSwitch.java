@@ -31,11 +31,11 @@ public class AlgoCubicSwitch {
 			}
 			double[] coeffR = getCoeff(n, sides[q], sides[p], sides[r]);
 			char A = "ABC".charAt(p), B = "ABC".charAt(q);
-			equation.append("+(" + coeff[0] + ")*" + A + "^3");
-			equation.append("+(" + coeff[1] + ")*" + A + "^2*" + B);
-			equation.append("+(" + coeffR[2] + ")*" + B + "^2*" + A);
+			equation.append("+(").append(coeff[0]).append(")*").append(A).append("^3");
+			equation.append("+(").append(coeff[1]).append(")*").append(A).append("^2*").append(B);
+			equation.append("+(").append(coeffR[2]).append(")*").append(B).append("^2*").append(A);
 			if (p == 0) {
-				equation.append("+(" + coeff[3] + ")*A*B*C");
+				equation.append("+(").append(coeff[3]).append(")*A*B*C");
 			}
 		}
 		return equation.toString();

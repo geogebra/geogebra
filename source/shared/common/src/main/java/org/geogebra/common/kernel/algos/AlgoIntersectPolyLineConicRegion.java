@@ -565,19 +565,16 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 * @return output handler
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
-		return new OutputHandler<>(new ElementFactory<GeoSegment>() {
-			@Override
-			public GeoSegment newElement() {
-				GeoSegment a = new GeoSegment(cons);
-				GeoPoint aS = new GeoPoint(cons);
-				aS.setCoords(0, 0, 1);
-				GeoPoint aE = new GeoPoint(cons);
-				aE.setCoords(0, 0, 1);
-				a.setPoints(aS, aE);
-				a.setParentAlgorithm(AlgoIntersectPolyLineConicRegion.this);
-				setSegmentVisualProperties(a);
-				return a;
-			}
+		return new OutputHandler<>(() -> {
+			GeoSegment a = new GeoSegment(cons);
+			GeoPoint aS = new GeoPoint(cons);
+			aS.setCoords(0, 0, 1);
+			GeoPoint aE = new GeoPoint(cons);
+			aE.setCoords(0, 0, 1);
+			a.setPoints(aS, aE);
+			a.setParentAlgorithm(this);
+			setSegmentVisualProperties(a);
+			return a;
 		});
 	}
 

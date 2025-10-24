@@ -15,7 +15,7 @@ public class StrokeHelper {
 	 * @return xmls
 	 */
 	public List<String> getStrokesXML(List<GeoElement> strokes) {
-		return strokes.stream().map(stroke -> getXML(stroke)).collect(Collectors.toList());
+		return strokes.stream().map(this::getXML).collect(Collectors.toList());
 	}
 
 	/**

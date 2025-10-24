@@ -93,7 +93,6 @@ public class PointNDFold implements FoldComputer {
 			z += val;
 		} else {
 			result.setUndefined();
-			return;
 		}
 
 	}

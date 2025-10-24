@@ -185,7 +185,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (canvas != null) {
 			this.ctx = JLMContextHelper.as(canvas.getContext2d());
 		}
-		SelectionBox.touchSelection = false;
+		SelectionBox.setTouchSelection(false);
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.addMathFieldListener(listener);
 		mathFieldInternal.setType(TeXFont.SANSSERIF);
@@ -1073,7 +1073,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param extScale external scaling factor
 	 */
 	public void adjustCaret(int absX, int absY, double extScale) {
-		if (SelectionBox.touchSelection) {
+		if (SelectionBox.isTouchSelection()) {
 			return;
 		}
 		int x = toCanvasPixels(absX - asWidget().getAbsoluteLeft(), extScale);

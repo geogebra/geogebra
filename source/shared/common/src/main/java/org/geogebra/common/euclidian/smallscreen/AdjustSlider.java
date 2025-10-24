@@ -40,7 +40,7 @@ public class AdjustSlider extends AdjustWidget {
 
 		width = number.getSliderWidth();
 		origWidth = number.getOrigSliderWidth() == null ? 0
-				: number.getOrigSliderWidth().doubleValue();
+				: number.getOrigSliderWidth();
 
 		horizontal = number.isSliderHorizontal();
 

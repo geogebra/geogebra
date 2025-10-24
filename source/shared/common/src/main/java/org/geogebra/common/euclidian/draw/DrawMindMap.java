@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -308,7 +309,7 @@ public class DrawMindMap extends DrawInlineText {
 		List<DrawMindMap> intersectableChildren = node.getChildren().stream()
 				.filter(node -> node.getAlignment() != newAlignment)
 				.map(node -> (DrawMindMap) view.getDrawableFor(node))
-				.filter(e -> e != null)
+				.filter(Objects::nonNull)
 				.sorted(intersectionComparator)
 				.collect(Collectors.toList());
 

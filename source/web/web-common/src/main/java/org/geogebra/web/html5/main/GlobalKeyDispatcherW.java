@@ -117,7 +117,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		rightAltDown = false;
 	}
 
-	private class GlobalShortcutHandler implements EventListener {
+	private final class GlobalShortcutHandler implements EventListener {
 
 		@Override
 		public void onBrowserEvent(Event event) {

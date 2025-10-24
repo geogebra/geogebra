@@ -387,7 +387,7 @@ public class ArbitraryConstantRegistry {
 	/**
 	 * Replaces arbconst(), arbint(), arbcomplex() by auxiliary numerics
 	 */
-	public static class ArbconstReplacer implements Traversing {
+	public static final class ArbconstReplacer implements Traversing {
 		private ArbitraryConstantRegistry arbconst;
 		private static final ArbconstReplacer replacer = new ArbconstReplacer();
 

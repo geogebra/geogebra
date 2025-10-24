@@ -4077,67 +4077,62 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
 				inputText, false, eh, true,
-				new AsyncOperation<GeoElementND[]>() {
+				result -> {
+					String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
-					@Override
-					public void callback(GeoElementND[] result) {
-						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
+					cons.setSuppressLabelCreation(oldVal);
 
-						cons.setSuppressLabelCreation(oldVal);
+					boolean success = result != null && result.length > 0
+							&& result[0] instanceof GeoNumberValue;
 
-						boolean success = result != null && result.length > 0
-								&& result[0] instanceof GeoNumberValue;
+					if (success) {
+						GeoNumberValue num = (GeoNumberValue) result[0];
 
-						if (success) {
-							GeoNumberValue num = (GeoNumberValue) result[0];
+						// keep angle entered if it ends with 'degrees'
+						if (rawInput.endsWith(Unicode.DEGREE_STRING)) {
+							defaultRotateAngle = rawInput;
+						}
 
-							// keep angle entered if it ends with 'degrees'
-							if (rawInput.endsWith(Unicode.DEGREE_STRING)) {
-								defaultRotateAngle = rawInput;
-							}
-
-							if (polys.length == 1) {
-								GeoElement[] geos = ec.rotateAroundLine(
-										polys[0], num, lines[0]);
-								if (geos != null) {
-									app.storeUndoInfoAndStateForModeStarting();
-									ec.memorizeJustCreatedGeos(geos);
-								}
-								if (callback != null) {
-									callback.callback(defaultRotateAngle);
-								}
-								return;
-							}
-
-							ArrayList<GeoElement> ret = new ArrayList<>();
-							for (GeoElement selGeo : selGeos) {
-								if (selGeo != lines[0]) {
-									if (selGeo instanceof Transformable) {
-										ret.addAll(Arrays.asList(
-												ec.rotateAroundLine(selGeo,
-														num, lines[0])));
-									} else if (selGeo.isGeoPolygon()) {
-										ret.addAll(Arrays.asList(
-												ec.rotateAroundLine(selGeo,
-														num, lines[0])));
-									}
-								}
-							}
-							if (!ret.isEmpty()) {
+						if (polys.length == 1) {
+							GeoElement[] geos = ec.rotateAroundLine(
+									polys[0], num, lines[0]);
+							if (geos != null) {
 								app.storeUndoInfoAndStateForModeStarting();
-								ec.memorizeJustCreatedGeos(ret);
+								ec.memorizeJustCreatedGeos(geos);
 							}
-						} else {
-							if (result != null && result.length > 0) {
-								eh.showError(Errors.NumberExpected.getError(app.getLocalization()));
+							if (callback != null) {
+								callback.callback(defaultRotateAngle);
+							}
+							return;
+						}
+
+						ArrayList<GeoElement> ret = new ArrayList<>();
+						for (GeoElement selGeo : selGeos) {
+							if (selGeo != lines[0]) {
+								if (selGeo instanceof Transformable) {
+									ret.addAll(Arrays.asList(
+											ec.rotateAroundLine(selGeo,
+													num, lines[0])));
+								} else if (selGeo.isGeoPolygon()) {
+									ret.addAll(Arrays.asList(
+											ec.rotateAroundLine(selGeo,
+													num, lines[0])));
+								}
 							}
 						}
-						if (callback != null) {
-							callback.callback(
-									success ? defaultRotateAngle : null);
+						if (!ret.isEmpty()) {
+							app.storeUndoInfoAndStateForModeStarting();
+							ec.memorizeJustCreatedGeos(ret);
+						}
+					} else {
+						if (result != null && result.length > 0) {
+							eh.showError(Errors.NumberExpected.getError(app.getLocalization()));
 						}
 					}
-
+					if (callback != null) {
+						callback.callback(
+								success ? defaultRotateAngle : null);
+					}
 				});
 	}
 

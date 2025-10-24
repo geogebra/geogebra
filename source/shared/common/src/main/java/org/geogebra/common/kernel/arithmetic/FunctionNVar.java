@@ -384,6 +384,7 @@ public class FunctionNVar extends ValidExpression
 				ev = expression.evaluate(StringTemplate.defaultTemplate);
 			} catch (Throwable th) {
 				// throw original error when desperate mode failed
+				err.addSuppressed(th);
 				throw err;
 			}
 		}

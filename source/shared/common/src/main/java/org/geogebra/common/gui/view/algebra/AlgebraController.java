@@ -64,7 +64,7 @@ public class AlgebraController {
 	}
 
 	public String getDragText() {
-		return getDragText(new ArrayList<String>());
+		return getDragText(new ArrayList<>());
 	}
 
 	/**
@@ -193,14 +193,11 @@ public class AlgebraController {
 		GeoElementND[] geos;
 		try {
 
-			final AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
-				@Override
-				public void callback(GeoElementND[] newGeos) {
-					if (cb != null) {
-						cb.callback(newGeos);
-					}
-					kernel.checkGeoTexts(newGeos);
+			final AsyncOperation<GeoElementND[]> callback = newGeos -> {
+				if (cb != null) {
+					cb.callback(newGeos);
 				}
+				kernel.checkGeoTexts(newGeos);
 			};
 
 			EvalInfo processingInfo = info;

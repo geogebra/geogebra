@@ -79,7 +79,7 @@ class DragController {
 		void resetCardPositions();
 	}
 
-	private class AutoScrollTimer extends Timer {
+	private final class AutoScrollTimer extends Timer {
 
 		private static final int SCROLL_TIME = 5;
 		private int scroll;

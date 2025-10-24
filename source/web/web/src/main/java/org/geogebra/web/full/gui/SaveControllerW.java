@@ -247,7 +247,7 @@ public class SaveControllerW implements SaveController {
 
 	private void uploadToDrive() {
 		app.getToolTipManager().showBottomMessage(loc.getMenu("Saving"), app);
-		app.getGoogleDriveOperation().afterLogin(() -> doUploadToDrive());
+		app.getGoogleDriveOperation().afterLogin(this::doUploadToDrive);
 	}
 
 	/**

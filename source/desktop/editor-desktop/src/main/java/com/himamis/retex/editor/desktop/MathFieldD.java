@@ -77,7 +77,7 @@ public class MathFieldD extends JLabel implements MathField {
 	 * @param repaint cursor blink listener
 	 */
 	public MathFieldD(SyntaxAdapter syntaxAdapter, Runnable repaint) {
-		SelectionBox.touchSelection = false;
+		SelectionBox.setTouchSelection(false);
 		setBackground(Color.white);
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		mathFieldInternal = new MathFieldInternal(this);

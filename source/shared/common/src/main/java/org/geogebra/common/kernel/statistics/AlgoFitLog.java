@@ -96,7 +96,6 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 			geofunction.setDefined(true);
 		} else {
 			geofunction.setUndefined();
-			return;
 		}
 	}
 

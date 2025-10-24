@@ -56,7 +56,7 @@ public class ListModelEvent {
 	 *            is an event type.
 	 */
 	public ListModelEvent(ListDataModel source, EventType type) {
-		this(source, new HashMap<String, Integer>(), type);
+		this(source, new HashMap<>(), type);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class ListModelEvent {
 	 */
 	public ListModelEvent(ListDataModel source, String itemId, int itemIndex,
 			EventType type) {
-		this(source, new HashMap<String, Integer>(), type);
+		this(source, new HashMap<>(), type);
 		this.itemIndexes.put(itemId, itemIndex);
 	}
 
@@ -167,7 +167,7 @@ public class ListModelEvent {
 	 * <p>
 	 * It's in use because older versions of GWT don't support enums.
 	 */
-	protected static class EventType {
+	public static class EventType {
 		/* See class docs */
 	}
 }

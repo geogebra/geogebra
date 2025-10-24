@@ -104,7 +104,6 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 			geofunction.setDefined(true);
 		} else {
 			geofunction.setUndefined();
-			return;
 		}
 	}
 

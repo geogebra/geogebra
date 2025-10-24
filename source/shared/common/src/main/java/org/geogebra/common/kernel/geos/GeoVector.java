@@ -976,8 +976,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	@Override
 	public int[] getDegrees(AbstractProverReciosMethod a)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getDegrees(a);
 		}
 		throw new NoSymbolicParametersException();

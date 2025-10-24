@@ -221,7 +221,7 @@ public class AutocompleteProvider {
 		return isCas() ? app.getCommandDictionaryCAS() : app.getCommandDictionary();
 	}
 
-	public static class Completion {
+	public static final class Completion {
 		public final MatchedString match;
 		public final List<String> syntaxes;
 		public final @CheckForNull String helpPage;

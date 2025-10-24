@@ -27,10 +27,10 @@ import jsinterop.base.JsPropertyMap;
  * @author stefan
  */
 public class LoginOperationW extends LogInOperation {
-	private AppW app;
+	private final AppW app;
 	private BackendAPIFactory apiFactory;
 
-	private class LanguageLoginCallback implements EventRenderable {
+	private final class LanguageLoginCallback implements EventRenderable {
 		@Override
 		public void renderEvent(BaseEvent event) {
 			if (isLoggedIn() && "".equals(app.getAppletParameters().getDataParamLanguage())) {

@@ -389,7 +389,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			codeFilledObject.append(",0) -- (");
 			codeFilledObject.append(format(x[0] + width / 2));
 			codeFilledObject.append(",");
-			codeFilledObject.append(format(y[0]) + ")");
+			codeFilledObject.append(format(y[0])).append(")");
 			endTransparentFill(g, codeFilledObject);
 			for (int i = 0; i < length - 1; i++) {
 				startTransparentFill(codeFilledObject);

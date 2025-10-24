@@ -230,7 +230,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * object color of shape (black by default)
 	 */
-	private final GColor shapeObjCol = GColor.BLACK;
+	private final static GColor shapeObjCol = GColor.BLACK;
 	/**
 	 * stroke of shape
 	 */
@@ -5270,12 +5270,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		tempArrayList.clear();
 		tempArrayList.add(geo);
 
-		AsyncOperation<Boolean> callback = new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean arg) {
-				if (arg.equals(true)) {
-					euclidianController.storeUndoInfo();
-				}
+		AsyncOperation<Boolean> callback = arg -> {
+			if (arg.equals(true)) {
+				euclidianController.storeUndoInfo();
 			}
 		};
 		boolean changedKernel = euclidianController.processMode(tempArrayList,

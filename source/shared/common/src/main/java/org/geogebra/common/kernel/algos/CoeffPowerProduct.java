@@ -17,7 +17,8 @@ public final class CoeffPowerProduct {
 	private static final Comparator<CoeffPowerProduct> comparator;
 
 	static {
-		Comparator<CoeffPowerProduct> byTotalDegree = Comparator.comparing(p -> -p.totalDegree);
+		Comparator<CoeffPowerProduct> byTotalDegree = Comparator.comparing(
+				p -> -p.getTotalDegree());
 		comparator = byTotalDegree.thenComparing(p -> -p.primaryDegree);
 	}
 
@@ -61,5 +62,10 @@ public final class CoeffPowerProduct {
 	 */
 	public double getCoeffValue() {
 		return coeffValue;
+	}
+
+	// TODO make private
+	public int getTotalDegree() {
+		return totalDegree;
 	}
 }

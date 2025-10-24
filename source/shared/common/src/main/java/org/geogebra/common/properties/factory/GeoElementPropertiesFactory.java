@@ -1063,9 +1063,9 @@ public final class GeoElementPropertiesFactory {
 	/**
 	 * A factory interface for creating instances of
 	 * properties associated with a {@link GeoElement}.
-	 * @param <PropertyType> the type of property that this factory produces
+	 * @param <P> the type of property that this factory produces
 	 */
-	private interface PropertyFactory<PropertyType extends Property> {
+	private interface PropertyFactory<P extends Property> {
 		/**
 		 * Creates a property instance for the specified {@link GeoElement}.
 		 * If the property is not applicable to the provided {@link GeoElement}, a
@@ -1077,27 +1077,27 @@ public final class GeoElementPropertiesFactory {
 		 * @throws IllegalArgumentException if the property can't be created from
 		 * to the given {@link GeoElement}
 		 */
-		PropertyType create(GeoElement geoElement) throws NotApplicablePropertyException;
+		P create(GeoElement geoElement) throws NotApplicablePropertyException;
 	}
 
 	/**
 	 * Collector interface for aggregating multiple properties
 	 * of a specific type into a single collection.
 	 *
-	 * @param <PropertyType> the type of individual properties that will be collected
-	 * @param <PropertyCollection> the type of the resulting collection of properties
+	 * @param <P> the type of individual properties that will be collected
+	 * @param <C> the type of the resulting collection of properties
 	 */
 	private interface PropertyCollector<
-			PropertyType extends Property,
-			PropertyCollection extends Property> {
+			P extends Property,
+			C extends Property> {
 		/**
-		 * Collects a list of individual properties into a single {@link PropertyCollection}.
+		 * Collects a list of individual properties into a single {@link C}.
 		 *
 		 * @param properties the list of individual properties to collect
 		 * @return a collection of properties that represents the aggregated result
 		 * @throws IllegalArgumentException if the input list of properties is invalid
 		 */
-		PropertyCollection collect(List<PropertyType> properties) throws IllegalArgumentException;
+		C collect(List<P> properties) throws IllegalArgumentException;
 	}
 
 	/**
@@ -1106,28 +1106,25 @@ public final class GeoElementPropertiesFactory {
 	 * {@link PropertyCollector}. The method filters properties using the provided property filters
 	 * before collecting them.
 	 *
-	 * @param <Prop> the type of individual properties to be created
-	 * @param <PropCollection> the type of the property collection to be created
+	 * @param <P> the type of individual properties to be created
+	 * @param <C> the type of the property collection to be created
 	 * @param geoElements the list of {@link GeoElement}s for which properties are to be created
 	 * @param propertyFactory the factory used to create
 	 * individual properties for each {@link GeoElement}
 	 * @param propertyCollector the collector used to
 	 * aggregate the individual properties into a collection
-	 * @return a collection of properties of type {@link PropCollection}, or {@code null}
+	 * @return a collection of properties of type {@link C}, or {@code null}
 	 * if a property cannot be created for one of the {@link GeoElement}s.
 	 */
-	private <
-			Prop extends Property,
-			PropCollection extends Property
-	> PropCollection createPropertyCollection(
+	private <P extends Property, C extends Property> C createPropertyCollection(
 			List<GeoElement> geoElements,
-			PropertyFactory<Prop> propertyFactory,
-			PropertyCollector<Prop, PropCollection> propertyCollector
+			PropertyFactory<P> propertyFactory,
+			PropertyCollector<P, C> propertyCollector
 	) {
 		try {
-			ArrayList<Prop> properties = new ArrayList<>();
+			ArrayList<P> properties = new ArrayList<>();
 			for (GeoElement geoElement : geoElements) {
-				Prop property = propertyFactory.create(geoElement);
+				P property = propertyFactory.create(geoElement);
 				if (property != null && isAllowedByFilters(property, geoElement)) {
 					properties.add(property);
 					// apply restrictions

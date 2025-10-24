@@ -18,7 +18,6 @@ final class Mms {
             Commands.IntegralSymbolic, Commands.Derivative,
             Commands.Expand, Commands.LeftSide, Commands.RightSide);
 
-    @SuppressWarnings("PMD.SimplifyBooleanReturns")
     static boolean isOutputAllowed(@CheckForNull GeoElementND element) {
         if (element == null) {
             return false;

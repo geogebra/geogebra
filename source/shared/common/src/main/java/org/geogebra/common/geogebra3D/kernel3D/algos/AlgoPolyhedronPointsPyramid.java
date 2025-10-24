@@ -243,7 +243,6 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 			if (height != null) {
 				getTopPoint().setUndefined();
 			}
-			return;
 		}
 
 	}

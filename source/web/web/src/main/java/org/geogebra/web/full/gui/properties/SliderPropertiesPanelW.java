@@ -133,7 +133,7 @@ public class SliderPropertiesPanelW extends OptionPanel implements ISliderOption
 		tfWidth.removeSymbolTable();
 		tfWidth.enableGGBKeyboard();
 		
-		tfWidth.addEnterPressHandler(() -> applyWidth());
+		tfWidth.addEnterPressHandler(this::applyWidth);
 
 		createBlobSizeTextField(app);
 		createBlobColorChooserBtn(app);

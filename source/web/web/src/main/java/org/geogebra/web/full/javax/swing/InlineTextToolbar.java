@@ -160,7 +160,7 @@ public class InlineTextToolbar implements FastClickHandler {
 	}
 
 	private void formatScript(String type, Boolean value) {
-		ArrayList<GeoInline> geosToStore = new ArrayList();
+		ArrayList<GeoInline> geosToStore = new ArrayList<>();
 		for (HasTextFormat formatter : formatters) {
 			geosToStore.add(formatter.getInline());
 		}

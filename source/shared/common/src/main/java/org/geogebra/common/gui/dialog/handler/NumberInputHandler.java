@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -64,26 +63,22 @@ public class NumberInputHandler implements InputHandler {
 			cons.setSuppressLabelCreation(true);
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
 					inputString, false, handler, evalInfo,
-					new AsyncOperation<GeoElementND[]>() {
-
-						@Override
-						public void callback(GeoElementND[] result) {
-							// allow labels again
-							cons.setSuppressLabelCreation(oldVal);
-							boolean success = result != null
-									&& result[0] instanceof GeoNumberValue;
-							if (success) {
-								setNum((GeoNumberValue) result[0]);
-								if (callback != null) {
-									callback.callback(num);
-								}
-							} else {
-								handler.showError(
-										Errors.NumberExpected.getError(app.getLocalization()));
+					result -> {
+						// allow labels again
+						cons.setSuppressLabelCreation(oldVal);
+						boolean success = result != null
+								&& result[0] instanceof GeoNumberValue;
+						if (success) {
+							setNum((GeoNumberValue) result[0]);
+							if (callback != null) {
+								callback.callback(num);
 							}
-							if (callback0 != null) {
-								callback0.callback(success);
-							}
+						} else {
+							handler.showError(
+									Errors.NumberExpected.getError(app.getLocalization()));
+						}
+						if (callback0 != null) {
+							callback0.callback(success);
 						}
 					});
 		} catch (Throwable e) {

@@ -23,7 +23,6 @@ import jsinterop.base.Js;
 
 public final class RenderEditor implements RenderGgbElementFunction {
 	private final EditorKeyboard editorKeyboard;
-	private EditorApi editorApi;
 
 	public RenderEditor(EditorKeyboard editorKeyboard) {
 		this.editorKeyboard = editorKeyboard;
@@ -36,8 +35,9 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		EditorListener listener = new EditorListener();
 		MathFieldW mathField = initMathField(attributes, listener);
 		DomGlobal.window.addEventListener("resize", evt -> onResize(mathField));
-		editorApi = new EditorApi(mathField, editorKeyboard.getTabbedKeyboard(), listener);
-		editorKeyboard.setListener(() -> editorApi.closeKeyboard());
+		EditorApi editorApi = new EditorApi(mathField, editorKeyboard.getTabbedKeyboard(),
+				listener);
+		editorKeyboard.setListener(editorApi::closeKeyboard);
 		if (callback != null) {
 			callback.accept(editorApi);
 		}

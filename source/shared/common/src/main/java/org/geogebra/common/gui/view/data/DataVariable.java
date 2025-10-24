@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
@@ -290,9 +291,8 @@ public class DataVariable {
 	 *            data items
 	 */
 	public void setValueItems(DataItem... valueItem) {
-		values = new ArrayList<>();
+		values = new ArrayList<>(Arrays.asList(valueItem));
 		for (DataItem item : valueItem) {
-			values.add(item);
 			item.setDescription(loc.getMenu("Data"));
 		}
 	}

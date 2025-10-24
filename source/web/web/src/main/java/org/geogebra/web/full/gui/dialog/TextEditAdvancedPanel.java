@@ -148,7 +148,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		GColor[] geoColors = (GColor[]) data[1];
 
 		final SymbolTableW symTable = newSymbolTable(geoLabels, false, 2,
-				s -> insertGeo(s), geoColors);
+				this::insertGeo, geoColors);
 		symTable.getColumnFormatter().setStyleName(0, "geoSelectFirst");
 		geoPanel.add(symTable);
 	}

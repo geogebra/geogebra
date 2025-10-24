@@ -110,7 +110,7 @@ class StatementFeatures {
 	 * @param categories
 	 *            ccategories
 	 */
-	static void generateStatistics(String description, List<Object> nodes,
+	static void generateStatistics(String description, List<?> nodes,
 			String[] categories) {
 		/*
 		 * collecting algos, generating population and computing basic
@@ -120,7 +120,7 @@ class StatementFeatures {
 
 		double mean, variation_coefficient, minimum, maximum, entropy;
 		HashMap<Object, Integer> frequencies = new HashMap<>();
-		Iterator<Object> it = nodes.iterator();
+		Iterator<?> it = nodes.iterator();
 
 		int number_of_nodes = 0;
 		maximum = 1;
@@ -273,7 +273,8 @@ class StatementFeatures {
 		Iterator<GeoElement> it = geos.iterator();
 
 		List<Object> geo_nodes, nodes_in_deg, nodes_out_deg, nodes_deg,
-				types, objs;
+				types;
+		List<GeoElement> objs;
 		geo_nodes = new ArrayList<>();
 		nodes_in_deg = new ArrayList<>();
 		nodes_out_deg = new ArrayList<>();
@@ -345,9 +346,7 @@ class StatementFeatures {
 					edges += inputs.length;
 				}
 				in = inputs.length;
-				for (GeoElement ref : inputs) {
-					objs.add(ref);
-				}
+				objs.addAll(Arrays.asList(inputs));
 			} else {
 				free++;
 			}

@@ -110,7 +110,6 @@ public class AlgoLimit extends AlgoElement
 		} catch (Throwable e) {
 			Log.debug(e);
 			outNum.setUndefined();
-			return;
 		}
 
 	}

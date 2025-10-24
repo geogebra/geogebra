@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -544,17 +545,13 @@ public class DataDisplayModel {
 				if (doCreate) {
 					GeoElement[] boxPlots = statGeo
 							.createMultipleBoxPlot(dataListSelected, settings);
-					for (int i = 0; i < boxPlots.length; i++) {
-						plotGeoList.add(boxPlots[i]);
-					}
+					plotGeoList.addAll(Arrays.asList(boxPlots));
 				}
 
 				statGeo.getMultipleBoxPlotSettings(dataListSelected, settings);
 				listener.updatePlotPanelSettings();
 				boxPlotTitles = statGeo.createBoxPlotTitles(daModel, settings);
-				for (int i = 0; i < boxPlotTitles.length; i++) {
-					plotGeoList.add(boxPlotTitles[i]);
-				}
+				plotGeoList.addAll(Arrays.asList(boxPlotTitles));
 
 				listener.showPlotPanel();
 				break;

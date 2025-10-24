@@ -119,7 +119,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		al = new ArrayList<>(dim);
 
 		for (int i = 0; i < dim; i++) {
-			al.add(new ArrayList<MyPoint>());
+			al.add(new ArrayList<>());
 		}
 
 		FirstOrderIntegrator integrator = new DormandPrince54Integrator(0.001,

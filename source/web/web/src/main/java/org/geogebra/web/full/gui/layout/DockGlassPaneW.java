@@ -136,23 +136,20 @@ public class DockGlassPaneW extends AbsolutePanel
 		dockPanels = dockManager.getPanels();
 		ArrayList<DockPanelW> dockPanelsList = new ArrayList<>();
 		ArrayList<Rectangle> bounds = new ArrayList<>();
-		Rectangle tmpRect;
 
-		for (int i = 0; i < dockPanels.length; ++i) {
+		for (DockPanelW dockPanel : dockPanels) {
 			// we don't need to care about invisible or views in a different
 			// window for the drag'n'drop
-			if (!dockPanels[i].isVisible()) {
-				continue;
+			if (dockPanel.isVisible()) {
+				// tmpRect = dockPanels[i].getBounds();
+				Rectangle tmpRect = new Rectangle(dockPanel.getAbsoluteLeft(),
+						dockPanel.getAbsoluteTop(),
+						dockPanel.getOffsetWidth(),
+						dockPanel.getOffsetHeight());
+
+				dockPanelsList.add(dockPanel);
+				bounds.add(tmpRect);
 			}
-
-			// tmpRect = dockPanels[i].getBounds();
-			tmpRect = new Rectangle(dockPanels[i].getAbsoluteLeft(),
-					dockPanels[i].getAbsoluteTop(),
-					dockPanels[i].getOffsetWidth(),
-					dockPanels[i].getOffsetHeight());
-
-			dockPanelsList.add(dockPanels[i]);
-			bounds.add(tmpRect);
 		}
 
 		dockPanelsBounds = new Rectangle[bounds.size()];

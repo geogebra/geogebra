@@ -177,7 +177,7 @@ public class CalcEmbedElement extends EmbedElement {
 		frame.getApp().getKernel().notifyRepaint();
 	}
 
-	private static class UndoRedoGlue implements UndoInfoStoredListener {
+	private final static class UndoRedoGlue implements UndoInfoStoredListener {
 
 		private final int embedId;
 		private final UndoManager embeddedUndoManager;
@@ -196,7 +196,7 @@ public class CalcEmbedElement extends EmbedElement {
 			embedManager.createUndoAction(embedId);
 		}
 
-		protected void executeAction(ActionType action) {
+		private void executeAction(ActionType action) {
 			if (ActionType.UNDO.equals(action)) {
 				undo();
 			} else if (ActionType.REDO.equals(action)) {

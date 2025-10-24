@@ -195,17 +195,17 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		int leaf = Math.abs(n % 10);
 		int currentStem = stem;
 
-		lines.add(new ArrayList<Integer>());
+		lines.add(new ArrayList<>());
 		lines.get(lines.size() - 1).add(currentStem);
 
 		// for negative values we need two 0 stems
 		if (currentStem == 0 && n < 0) {
-			lines.add(new ArrayList<Integer>());
+			lines.add(new ArrayList<>());
 			lines.get(lines.size() - 1).add(currentStem);
-			lines.get(lines.size() - 2).add(Integer.valueOf(leaf));
+			lines.get(lines.size() - 2).add(leaf);
 
 		} else {
-			lines.get(lines.size() - 1).add(Integer.valueOf(leaf));
+			lines.get(lines.size() - 1).add(leaf);
 		}
 
 		// ===========================================
@@ -220,19 +220,19 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			// if our stem is not the current one, add stems until we reach it
 			while (currentStem < stem) {
 				currentStem++;
-				lines.add(new ArrayList<Integer>());
+				lines.add(new ArrayList<>());
 				lines.get(lines.size() - 1).add(currentStem);
 				if (currentStem == 0 && n < 0) {
-					lines.add(new ArrayList<Integer>());
+					lines.add(new ArrayList<>());
 					lines.get(lines.size() - 1).add(currentStem);
 				}
 			}
 
 			// now add our leaf to the stem
 			if (stem == 0 && n < 0) {
-				lines.get(lines.size() - 2).add(Integer.valueOf(leaf));
+				lines.get(lines.size() - 2).add(leaf);
 			} else {
-				lines.get(lines.size() - 1).add(Integer.valueOf(leaf));
+				lines.get(lines.size() - 1).add(leaf);
 			}
 		}
 

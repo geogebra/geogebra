@@ -133,10 +133,6 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		}
 	}
 
-	////////////////////////////////////
-	// ANDROID TABLETS
-	////////////////////////////////////
-
 	/**
 	 * In electron this is done by kiosk mode, but on Chromebook it still
 	 * matters.

@@ -154,21 +154,6 @@ public class DependentNumberAdapter extends ProverAdapter {
 		if (node.getRight() != null && node.getRight().isExpressionNode()) {
 			traverseExpression((ExpressionNode) node.getRight(), kernel);
 		}
-
-		if (node.getLeft() != null && node.getLeft().isExpressionNode() && node.getRight() != null
-				&& node.getRight().isExpressionNode()) {
-			return;
-		}
-		// case number with segment, eg. 2*a^2
-		if (node.getLeft() instanceof MyDouble && node.getRight().isExpressionNode()
-				&& (node.getOperation() == Operation.DIVIDE
-						|| node.getOperation() == Operation.MULTIPLY)) {
-			return;
-		}
-		// case segment with number, eg. a^2*1,5
-		if (node.getRight() instanceof MyDouble && node.getLeft().isExpressionNode()) {
-			return;
-		}
 	}
 
 	private void processNode(ExpressionValue ev, Kernel kernel) {
@@ -481,7 +466,6 @@ public class DependentNumberAdapter extends ProverAdapter {
 			if (v != null) {
 				PTerm t = new PTerm(v);
 				polyNode.setPoly(new PPolynomial(coeff, t));
-				return;
 			}
 		}
 	}

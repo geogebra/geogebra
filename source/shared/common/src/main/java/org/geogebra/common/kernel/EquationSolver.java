@@ -494,8 +494,8 @@ public class EquationSolver implements EquationSolverInterface {
 					return t;
 				}
 			} else {
-				return delta > 0 ? (target + java.lang.Double.MIN_VALUE)
-						: (target - java.lang.Double.MIN_VALUE);
+				return delta > 0 ? (target + Double.MIN_VALUE)
+						: (target - Double.MIN_VALUE);
 			}
 			double newt = t + delta;
 			if (MyDouble.exactEqual(t, newt)) {
@@ -1006,26 +1006,23 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 	public static Comparator<Complex> getComparatorReal() {
 		if (comparatorReal == null) {
-			comparatorReal = new Comparator<Complex>() {
-				@Override
-				public int compare(Complex itemA, Complex itemB) {
+			comparatorReal = (itemA, itemB) -> {
 
-					double compReal = itemA.getReal() - itemB.getReal();
+				double compReal = itemA.getReal() - itemB.getReal();
 
-					if (DoubleUtil.isZero(compReal)) {
-						double compImaginary = itemA.getImaginary()
-								- itemB.getImaginary();
+				if (DoubleUtil.isZero(compReal)) {
+					double compImaginary = itemA.getImaginary()
+							- itemB.getImaginary();
 
-						// if real parts equal, sort on imaginary
-						if (!DoubleUtil.isZero(compImaginary)) {
-							return compImaginary < 0 ? -1 : +1;
-						}
-
-						// return 0 -> remove duplicates!
-						return 0;
+					// if real parts equal, sort on imaginary
+					if (!DoubleUtil.isZero(compImaginary)) {
+						return compImaginary < 0 ? -1 : +1;
 					}
-					return compReal < 0 ? -1 : +1;
+
+					// return 0 -> remove duplicates!
+					return 0;
 				}
+				return compReal < 0 ? -1 : +1;
 			};
 
 		}

@@ -112,7 +112,7 @@ public class ModeMacro {
 				index--;
 			}
 
-			AsyncOperation<GeoNumberValue> callback3 = new AsyncOperation<GeoNumberValue>() {
+			AsyncOperation<GeoNumberValue> callback3 = new AsyncOperation<>() {
 
 				@Override
 				public void callback(GeoNumberValue num) {

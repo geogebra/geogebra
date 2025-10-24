@@ -81,6 +81,32 @@ public class AlgoIntersectRegionPlanePolyhedron
 	protected TreeSet<CoordsWithParent> newCoords3D;
 
 	/**
+	 * comparator using Kernel precision (compare x, then y, then z, then ...)
+	 */
+	public static final Comparator<Coords> COORDS_COMPARATOR = (o1, o) -> {
+		// 1) check vectors lengths
+		if (o1.val.length < o.val.length) {
+			return -1;
+		}
+		if (o1.val.length > o.val.length) {
+			return 1;
+		}
+
+		// 2) check if one value is lower
+		for (int i = 0; i < o1.val.length; i++) {
+			if (DoubleUtil.isGreater(o.val[i], o1.val[i])) {
+				return -1;
+			}
+			if (DoubleUtil.isGreater(o1.val[i], o.val[i])) {
+				return 1;
+			}
+		}
+
+		// 3) vectors are equal
+		return 0;
+	};
+
+	/**
 	 * class extending Coords with reference to parent geo
 	 *
 	 */
@@ -853,8 +879,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		}
 	}
 
-	private void updateLabels(
-			@SuppressWarnings("rawtypes") OutputHandler outputHandler) {
+	private void updateLabels(OutputHandler<?> outputHandler) {
 		if (this.hasLabels) {
 			outputHandler.updateLabels();
 		}
@@ -1017,100 +1042,89 @@ public class AlgoIntersectRegionPlanePolyhedron
 	private final void createOutput() {
 
 		outputPolygons = new OutputHandler<>(
-				new ElementFactory<GeoPolygon3D>() {
-					@Override
-					public GeoPolygon3D newElement() {
-						GeoPolygon3D p1 = new GeoPolygon3D(cons, true);
-						p1.setParentAlgorithm(
-								AlgoIntersectRegionPlanePolyhedron.this);
-						if (outputPolygons.size() > 0) {
-							p1.setAllVisualProperties(
-									outputPolygons.getElement(0), false);
-						}
-						p1.setViewFlags(getFirstInput().getViewSet());
-						p1.setVisibleInView3D(getFirstInput());
-						p1.setVisibleInViewForPlane(getFirstInput());
-						p1.setNotFixedPointsLength(true);
-						p1.setOrthoNormalRegionCS();
-						if (hasLabels) {
-							p1.setInitLabelsCalled(true);
-						}
-						return p1;
+				() -> {
+					GeoPolygon3D p1 = new GeoPolygon3D(cons, true);
+					p1.setParentAlgorithm(this);
+					if (outputPolygons.size() > 0) {
+						p1.setAllVisualProperties(
+								outputPolygons.getElement(0), false);
 					}
+					p1.setViewFlags(getFirstInput().getViewSet());
+					p1.setVisibleInView3D(getFirstInput());
+					p1.setVisibleInViewForPlane(getFirstInput());
+					p1.setNotFixedPointsLength(true);
+					p1.setOrthoNormalRegionCS();
+					if (hasLabels) {
+						p1.setInitLabelsCalled(true);
+					}
+					return p1;
 				});
 
 		outputPolygons.adjustOutputSize(1, false);
 
 		outputPoints = new OutputHandler<>(
-				new ElementFactory<GeoPoint3D>() {
-					@Override
-					public GeoPoint3D newElement() {
-						GeoPoint3D newPoint = new GeoPoint3D(cons);
-						newPoint.setCoords(0, 0, 0, 1);
-						newPoint.setParentAlgorithm(
-								AlgoIntersectRegionPlanePolyhedron.this);
-						newPoint.setAuxiliaryObject(true);
-						newPoint.setViewFlags(getFirstInput().getViewSet());
-						newPoint.setVisibleInView3D(getFirstInput());
-						newPoint.setVisibleInViewForPlane(getFirstInput());
+				() -> {
+					GeoPoint3D newPoint = new GeoPoint3D(cons);
+					newPoint.setCoords(0, 0, 0, 1);
+					newPoint.setParentAlgorithm(this);
+					newPoint.setAuxiliaryObject(true);
+					newPoint.setViewFlags(getFirstInput().getViewSet());
+					newPoint.setVisibleInView3D(getFirstInput());
+					newPoint.setVisibleInViewForPlane(getFirstInput());
 
-						int size = outputPoints.size();
-						if (size > 0) { // check if at least one element is
-										// visible
-							boolean visible = false;
-							boolean labelVisible = false;
-							for (int i = 0; i < size && !visible
-									&& !labelVisible; i++) {
-								visible = visible || outputPoints.getElement(i)
-										.isEuclidianVisible();
-								labelVisible = labelVisible || outputPoints
-										.getElement(i).getLabelVisible();
-							}
-							newPoint.setEuclidianVisible(visible);
-							if (!visible) { // if not visible, we don't want
-											// setParentAlgorithm() to change it
-								newPoint.dontSetEuclidianVisibleBySetParentAlgorithm();
-							}
-							newPoint.setLabelVisible(labelVisible);
+					int size = outputPoints.size();
+					if (size > 0) { // check if at least one element is
+									// visible
+						boolean visible = false;
+						boolean labelVisible = false;
+						for (int i = 0; i < size && !visible
+								&& !labelVisible; i++) {
+							visible = visible || outputPoints.getElement(i)
+									.isEuclidianVisible();
+							labelVisible = labelVisible || outputPoints
+									.getElement(i).getLabelVisible();
 						}
-
-						if (outputPolygons.size() > 0) {
-							GeoPolygon polygon = outputPolygons.getElement(0);
-							if (polygon.getShowObjectCondition() != null) {
-								try {
-									newPoint.setShowObjectCondition(
-											polygon.getShowObjectCondition());
-								} catch (Exception e) {
-									// circular definition
-								}
-							}
+						newPoint.setEuclidianVisible(visible);
+						if (!visible) { // if not visible, we don't want
+										// setParentAlgorithm() to change it
+							newPoint.dontSetEuclidianVisibleBySetParentAlgorithm();
 						}
-
-						return newPoint;
+						newPoint.setLabelVisible(labelVisible);
 					}
+
+					if (outputPolygons.size() > 0) {
+						GeoPolygon polygon = outputPolygons.getElement(0);
+						if (polygon.getShowObjectCondition() != null) {
+							try {
+								newPoint.setShowObjectCondition(
+										polygon.getShowObjectCondition());
+							} catch (Exception e) {
+								// circular definition
+							}
+						}
+					}
+
+					return newPoint;
 				});
 
 		outputPoints.adjustOutputSize(1, false);
 
 		outputSegmentsPolyhedron = // createOutputSegments();
 				new OutputHandler<>(
-						new ElementFactory<GeoSegment3D>() {
-							@Override
-							public GeoSegment3D newElement() {
-								GeoSegment3D segment = (GeoSegment3D) outputPolygons
-										.getElement(0).createSegment(cons,
-												outputPoints.getElement(0),
-												outputPoints.getElement(0),
-												true);
-								segment.setAuxiliaryObject(true);
-								// segment.setLabelVisible(showNewSegmentsLabels);
-								segment.setViewFlags(
-										getFirstInput().getViewSet());
-								segment.setVisibleInView3D(getFirstInput());
-								segment.setVisibleInViewForPlane(
-										getFirstInput());
-								return segment;
-							}
+						() -> {
+							GeoSegment3D segment = (GeoSegment3D) outputPolygons
+									.getElement(0).createSegment(cons,
+											outputPoints.getElement(0),
+											outputPoints.getElement(0),
+											true);
+							segment.setAuxiliaryObject(true);
+							// segment.setLabelVisible(showNewSegmentsLabels);
+							segment.setViewFlags(
+									getFirstInput().getViewSet());
+							segment.setVisibleInView3D(getFirstInput());
+							segment.setVisibleInViewForPlane(
+									getFirstInput());
+							return segment;
 						});
 
 	}
@@ -1152,34 +1166,4 @@ public class AlgoIntersectRegionPlanePolyhedron
 				getFirstInput().getLabel(tpl), getSecondInput().getLabel(tpl));
 	}
 
-	/**
-	 * comparator using Kernel precision (compare x, then y, then z, then ...)
-	 */
-	public static final Comparator<Coords> COORDS_COMPARATOR = new Comparator<Coords>() {
-
-		@Override
-		public int compare(Coords o1, Coords o) {
-			// 1) check vectors lengths
-			if (o1.val.length < o.val.length) {
-				return -1;
-			}
-			if (o1.val.length > o.val.length) {
-				return 1;
-			}
-
-			// 2) check if one value is lower
-			for (int i = 0; i < o1.val.length; i++) {
-				if (DoubleUtil.isGreater(o.val[i], o1.val[i])) {
-					return -1;
-				}
-				if (DoubleUtil.isGreater(o1.val[i], o.val[i])) {
-					return 1;
-				}
-			}
-
-			// 3) vectors are equal
-			return 0;
-		}
-
-	};
 }

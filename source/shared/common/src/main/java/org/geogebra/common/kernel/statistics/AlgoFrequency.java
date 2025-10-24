@@ -325,10 +325,10 @@ public class AlgoFrequency extends AlgoElement {
 			while (itr.hasNext()) {
 				Double n = (Double) itr.next();
 				if (n > numMax) {
-					numMax = n.doubleValue();
+					numMax = n;
 				}
 				if (n < numMin) {
-					numMin = n.doubleValue();
+					numMin = n;
 				}
 				value.add(new GeoNumeric(cons, n));
 

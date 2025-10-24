@@ -55,6 +55,52 @@ public class PolygonTriangulation {
 	private Coords[] completeVertices = new Coords[0];
 	private Coords[] corners = null;
 
+	final private Comparator<Point> simplePolygonPointComparator = (p1, p2) -> {
+
+		if (p1 == p2) {
+			return 0;
+		}
+
+		if (p1.id == p2.id) {
+			/*
+			 * error("same ids"); debug(p1.debugSegments());
+			 * debug(p2.debugSegments());
+			 */
+
+			// copy segments
+			if (p1.toRight != null) {
+				if (p2.toRight == null) {
+					p2.toRight = new CrossPlatformTreeSet<>();
+				}
+				for (Segment seg : p1.toRight) {
+					seg.leftPoint = p2;
+					p2.toRight.add(seg);
+				}
+			}
+
+			if (p1.toLeft != null) {
+				if (p2.toLeft == null) {
+					p2.toLeft = new CrossPlatformTreeSet<>();
+				}
+				for (Segment seg : p1.toLeft) {
+					seg.rightPoint = p2;
+					p2.toLeft.add(seg);
+				}
+			}
+
+			// add diagonal need
+			if (p1.needsDiagonal) {
+				p2.needsDiagonal = true;
+			}
+
+			nextNewPointForNonSelfIntersectingPolygon = p2;
+
+			return 0;
+		}
+
+		return p1.compareToOnly(p2);
+	};
+
 	private static class CrossPlatformTreeSet<E> extends TreeSet<E> {
 
 		/**
@@ -160,57 +206,6 @@ public class PolygonTriangulation {
 			Log.error(s);
 		}
 	}
-
-	final private Comparator<Point> simplePolygonPointComparator = new Comparator<Point>() {
-
-		@Override
-		public int compare(Point p1, Point p2) {
-
-			if (p1 == p2) {
-				return 0;
-			}
-
-			if (p1.id == p2.id) {
-				/*
-				 * error("same ids"); debug(p1.debugSegments());
-				 * debug(p2.debugSegments());
-				 */
-
-				// copy segments
-				if (p1.toRight != null) {
-					if (p2.toRight == null) {
-						p2.toRight = new CrossPlatformTreeSet<>();
-					}
-					for (Segment seg : p1.toRight) {
-						seg.leftPoint = p2;
-						p2.toRight.add(seg);
-					}
-				}
-
-				if (p1.toLeft != null) {
-					if (p2.toLeft == null) {
-						p2.toLeft = new CrossPlatformTreeSet<>();
-					}
-					for (Segment seg : p1.toLeft) {
-						seg.rightPoint = p2;
-						p2.toLeft.add(seg);
-					}
-				}
-
-				// add diagonal need
-				if (p1.needsDiagonal) {
-					p2.needsDiagonal = true;
-				}
-
-				nextNewPointForNonSelfIntersectingPolygon = p2;
-
-				return 0;
-			}
-
-			return p1.compareToOnly(p2);
-		}
-
-	};
 
 	private class Point implements Comparable<Point> {
 		public double x;

@@ -117,7 +117,6 @@ public class AlgoKeepIf3 extends AlgoElement {
 			// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3),1}]
 			Log.debug(e);
 			outputList.setUndefined();
-			return;
 		}
 
 	}

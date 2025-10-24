@@ -179,8 +179,9 @@ public class RelativeCopy {
 					+ "destMinRow = " + destMinRow + "\r\n"
 					+ "destMaxCol = " + destMaxCol + "\r\n"
 					+ "destMaxRow = " + destMaxRow + "\r\n";
-			throw new RuntimeException(
+			Log.debug(
 					"Error from RelativeCopy.doCopy:\r\n" + msg);
+			return false;
 		} catch (XMLParseException | CircularDefinitionException | ParseException
 				| RuntimeException ex) {
 			Log.debug(ex);
@@ -939,7 +940,8 @@ public class RelativeCopy {
 			// check if input is same as name: circular definition
 			if (text.equals(name)) {
 				// circular definition
-				throw new CircularDefinitionException();
+				kernel.getApplication().showError(Errors.CircularDefinition);
+				return null;
 			}
 
 			// evaluate input text without an error dialog in case of unquoted
@@ -984,7 +986,8 @@ public class RelativeCopy {
 					newValues[0].remove();
 
 					// circular definition
-					throw new CircularDefinitionException();
+					kernel.getApplication().showError(Errors.CircularDefinition);
+					return null;
 				}
 			}
 
@@ -996,10 +999,6 @@ public class RelativeCopy {
 													// E1,
 			// F1, etc for multiple
 			// objects
-		} catch (CircularDefinitionException ce) {
-			// circular definition
-			kernel.getApplication().showError(Errors.CircularDefinition);
-			return null;
 		} catch (Exception e) {
 			// create text if something went wrong
 			if (text.startsWith("\"")) {
@@ -1039,25 +1038,21 @@ public class RelativeCopy {
 				.withSymbolicMode(kernel.getSymbolicMode());
 		kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(
 				oldValue, text, info, false,
-				new AsyncOperation<GeoElementND>() {
-
-					@Override
-					public void callback(GeoElementND newValue) {
-						Log.debug("REDEFINED" + newValue);
-						// newValue.setConstructionDefaults();
-						newValue.setAllVisualProperties(oldValue.toGeoElement(),
-								true);
-						if (oldValue.isAuxiliaryObject()) {
-							newValue.setAuxiliaryObject(true);
-						}
-						if (newValue.getGeoClassType() == oldValue
-								.getGeoClassType()) {
-							// newValue.setVisualStyle(oldValue);
-						} else {
-							kernel.getApplication().refreshViews();
-						}
-						callback.callback(newValue);
+				newValue -> {
+					Log.debug("REDEFINED" + newValue);
+					// newValue.setConstructionDefaults();
+					newValue.setAllVisualProperties(oldValue.toGeoElement(),
+							true);
+					if (oldValue.isAuxiliaryObject()) {
+						newValue.setAuxiliaryObject(true);
 					}
+					if (newValue.getGeoClassType() == oldValue
+							.getGeoClassType()) {
+						// newValue.setVisualStyle(oldValue);
+					} else {
+						kernel.getApplication().refreshViews();
+					}
+					callback.callback(newValue);
 				}, getErrorHandler(kernel, oldValue, name, text0, callback));
 
 	}

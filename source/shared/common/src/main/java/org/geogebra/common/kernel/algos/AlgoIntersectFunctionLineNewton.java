@@ -158,7 +158,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		}
 		double y = line.value(x);
 		//check for vertical lines
-		if (Double.valueOf(y).isNaN()) {
+		if (Double.isNaN(y)) {
 			y = f.value(x);
 		}
 		rootPoint.setCoords(x, y, 1.0);

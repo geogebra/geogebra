@@ -722,7 +722,7 @@ public class AppCommon extends App {
 		return layout;
 	}
 
-	private static class LayoutHeadless extends Layout {
+	private static final class LayoutHeadless extends Layout {
 
 		@Override
 		public Perspective createPerspective() {

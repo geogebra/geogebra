@@ -1922,27 +1922,24 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 */
 	public static Comparator<GeoPoint> getComparatorX() {
 		if (comparatorX == null) {
-			comparatorX = new Comparator<GeoPoint>() {
-				@Override
-				public int compare(GeoPoint itemA, GeoPoint itemB) {
+			comparatorX = (itemA, itemB) -> {
 
-					double compX = itemA.inhomX - itemB.inhomX;
+				double compX = itemA.inhomX - itemB.inhomX;
 
-					if (DoubleUtil.isZero(compX)) {
-						double compY = itemA.inhomY - itemB.inhomY;
+				if (DoubleUtil.isZero(compX)) {
+					double compY = itemA.inhomY - itemB.inhomY;
 
-						// if x-coords equal, sort on y-coords
-						if (!DoubleUtil.isZero(compY)) {
-							return compY < 0 ? -1 : +1;
-						}
-
-						// don't return 0 for equal objects, otherwise the
-						// TreeSet deletes duplicates
-						return itemA.getConstructionIndex() > itemB
-								.getConstructionIndex() ? -1 : 1;
+					// if x-coords equal, sort on y-coords
+					if (!DoubleUtil.isZero(compY)) {
+						return compY < 0 ? -1 : +1;
 					}
-					return compX < 0 ? -1 : +1;
+
+					// don't return 0 for equal objects, otherwise the
+					// TreeSet deletes duplicates
+					return itemA.getConstructionIndex() > itemB
+							.getConstructionIndex() ? -1 : 1;
 				}
+				return compX < 0 ? -1 : +1;
 			};
 
 		}

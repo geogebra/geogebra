@@ -219,52 +219,42 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	private final void createOutput() {
 
 		outputPolygons = new OutputHandler<>(
-				new ElementFactory<GeoPolygon3D>() {
-					@Override
-					public GeoPolygon3D newElement() {
-						GeoPolygon3D p = new GeoPolygon3D(cons, true);
-						p.setParentAlgorithm(AlgoPolygonOperations3D.this);
-						if (outputPolygons.size() > 0) {
-							p.setAllVisualProperties(
-									outputPolygons.getElement(0), false);
-						}
-						p.setViewFlags(inPoly0.getViewSet());
-						p.setNotFixedPointsLength(true);
-						return p;
+				() -> {
+					GeoPolygon3D p = new GeoPolygon3D(cons, true);
+					p.setParentAlgorithm(this);
+					if (outputPolygons.size() > 0) {
+						p.setAllVisualProperties(
+								outputPolygons.getElement(0), false);
 					}
+					p.setViewFlags(inPoly0.getViewSet());
+					p.setNotFixedPointsLength(true);
+					return p;
 				});
 
 		outputPolygons.adjustOutputSize(1, false);
 
 		outputPoints = new OutputHandler<>(
-				new ElementFactory<GeoPoint3D>() {
-					@Override
-					public GeoPoint3D newElement() {
-						GeoPoint3D newPoint = new GeoPoint3D(cons);
-						newPoint.setCoords(0, 0, 1);
-						newPoint.setParentAlgorithm(
-								AlgoPolygonOperations3D.this);
-						newPoint.setAuxiliaryObject(true);
-						newPoint.setViewFlags(inPoly0.getViewSet());
+				() -> {
+					GeoPoint3D newPoint = new GeoPoint3D(cons);
+					newPoint.setCoords(0, 0, 1);
+					newPoint.setParentAlgorithm(this);
+					newPoint.setAuxiliaryObject(true);
+					newPoint.setViewFlags(inPoly0.getViewSet());
 
-						return newPoint;
-					}
+					return newPoint;
 				});
 
 		outputPoints.adjustOutputSize(1, false);
 
 		outputSegments = new OutputHandler<>(
-				new ElementFactory<GeoSegment3D>() {
-					@Override
-					public GeoSegment3D newElement() {
-						GeoSegment3D segment = (GeoSegment3D) outputPolygons
-								.getElement(0)
-								.createSegment(cons, outputPoints.getElement(0),
-										outputPoints.getElement(0), true);
-						segment.setAuxiliaryObject(true);
-						segment.setViewFlags(inPoly0.getViewSet());
-						return segment;
-					}
+				() -> {
+					GeoSegment3D segment = (GeoSegment3D) outputPolygons
+							.getElement(0)
+							.createSegment(cons, outputPoints.getElement(0),
+									outputPoints.getElement(0), true);
+					segment.setAuxiliaryObject(true);
+					segment.setViewFlags(inPoly0.getViewSet());
+					return segment;
 				});
 
 	}

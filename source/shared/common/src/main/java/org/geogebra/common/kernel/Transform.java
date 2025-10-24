@@ -85,7 +85,7 @@ public abstract class Transform {
 
 		// for geo with parent algorithm that handles the transformation
 		AlgoElement algo = geo.getParentAlgorithm();
-		if ((algo != null) && (algo instanceof AlgoTransformable)) {
+		if (algo instanceof AlgoTransformable) {
 			return ((AlgoTransformable) algo).getTransformedOutput(this);
 		}
 

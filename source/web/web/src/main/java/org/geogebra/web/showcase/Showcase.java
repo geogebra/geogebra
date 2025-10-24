@@ -181,7 +181,7 @@ public class Showcase implements EntryPoint {
 		}
 	}
 
-	private static class SampleSuggestionProperty extends AbstractValuedProperty<String>
+	private static final class SampleSuggestionProperty extends AbstractValuedProperty<String>
 			implements StringPropertyWithSuggestions {
 
 		String value;

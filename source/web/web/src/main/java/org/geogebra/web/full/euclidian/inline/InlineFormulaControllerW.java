@@ -171,7 +171,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		return mathFieldEditor.getMathField().getText();
 	}
 
-	private class FormulaMathFieldListener implements MathFieldListener {
+	private final class FormulaMathFieldListener implements MathFieldListener {
 
 		@Override
 		public void onEnter() {

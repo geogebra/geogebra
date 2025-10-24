@@ -471,9 +471,9 @@ public final class ContextMenuFactory {
 		return List.of(Delete);
 	}
 
-	private <Item extends ContextMenuItem> List<Item> filter(List<Item> items) {
+	private <I extends ContextMenuItem> List<I> filter(List<I> items) {
 		// Keep only those items that are allowed by all of the filters
-		List<Item> filteredItems = items.stream().filter(
+		List<I> filteredItems = items.stream().filter(
 				item -> filters.stream().allMatch(
 						filter -> filter.isAllowed(item))).collect(Collectors.toList());
 

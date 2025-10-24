@@ -51,15 +51,6 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		this.ip = ip;
 		solver = getKernel().getEquationSolver();
 
-		// lines=new OutputHandler<GeoLine>(new elementFactory<GeoLine>() {
-		// public GeoLine newElement() {
-		// GeoLine g=new GeoLine(cons);
-		// g.setCoords(0, 0, 1);
-		// g.setParentAlgorithm(AlgoAsymptoteImplicitPoly.this);
-		// return g;
-		// }
-		// }, null);
-
 		g = new GeoList(cons);
 
 		setInputOutput(); // for AlgoElement

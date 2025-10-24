@@ -391,7 +391,7 @@ public class GeoPolyhedron extends GeoElement3D
 		currentFace.setDirection();
 
 		// add to index
-		polygonsIndex.put(currentFace, Integer.valueOf(polygonsIndexMax));
+		polygonsIndex.put(currentFace, polygonsIndexMax);
 		polygonsDescriptions.add(currentFace);
 		polygonsIndexMax++;
 
@@ -640,7 +640,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 */
 	protected void storeSegment(GeoSegment3D segment,
 			ConstructionElementCycle key) {
-		Long index = Long.valueOf(segmentsIndexMax);
+		Long index = segmentsIndexMax;
 		segmentsIndex.put(key, index);
 		segments.put(index, segment);
 		segmentsIndexMax++;

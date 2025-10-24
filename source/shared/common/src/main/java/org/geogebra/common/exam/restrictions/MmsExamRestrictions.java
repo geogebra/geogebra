@@ -311,7 +311,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class NormalCommandAlgebraOutputFormatFilter
 			implements AlgebraOutputFormatFilter {
-		@SuppressWarnings("PMD.SimplifyBooleanReturns")
+
 		@Override
 		public boolean isAllowed(GeoElement geoElement, AlgebraOutputFormat outputFormat) {
 			if (isNormalCommand(geoElement) && outputFormat != APPROXIMATION) {
@@ -365,7 +365,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 */
 	private static final class PolarCoordinateCartesianFormatFilter
 			implements AlgebraOutputFormatFilter {
-		@SuppressWarnings("PMD.SimplifyBooleanReturns")
+
 		@Override
 		public boolean isAllowed(GeoElement geoElement, AlgebraOutputFormat outputFormat) {
 			GeoElementND unwrappedElement = geoElement.unwrapSymbolic();
@@ -480,7 +480,6 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			return isLine(geoElement) ? HIDE : IGNORE;
 		}
 
-		@SuppressWarnings("PMD.SimplifyBooleanReturns")
 		private boolean isLine(GeoElementND geoElement) {
 			if (geoElement instanceof GeoSymbolic) {
 				return isLine(((GeoSymbolic) geoElement).getTwinGeo());
@@ -584,7 +583,6 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		private static final Set<Operation> operations =
 				Set.of(PLUS, MINUS, MULTIPLY, DIVIDE, POWER);
 
-		@SuppressWarnings("PMD.SimplifyBooleanReturns")
 		@Override
 		protected boolean isExpressionNodeAllowed(@Nonnull ExpressionNode expressionNode) {
 			if (operations.stream().noneMatch(expressionNode::isOperation)) {
@@ -616,7 +614,6 @@ public class MmsExamRestrictions extends ExamRestrictions {
 		}
 	}
 
-	@SuppressWarnings("PMD.SimplifyBooleanReturns")
 	private static boolean isExplicitEquation(GeoElement geoElement) {
 		Equation equation = unwrapEquation(geoElement);
 		if (equation == null) {
@@ -671,7 +668,6 @@ public class MmsExamRestrictions extends ExamRestrictions {
 			return true;
 		}
 
-		@SuppressWarnings("PMD.SimplifyBooleanReturns")
 		private static boolean isParametricCurve(@CheckForNull GeoElementND geoElement) {
 			if (geoElement == null) {
 				return false;

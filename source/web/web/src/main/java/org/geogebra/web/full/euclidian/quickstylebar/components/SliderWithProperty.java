@@ -86,8 +86,8 @@ public class SliderWithProperty extends FlowPanel {
 	}
 
 	private void buildSlider() {
-		sliderPanel = new SliderPanelW(property.getMin().doubleValue(),
-				property.getMax().doubleValue(), appW.getKernel(), false);
+		sliderPanel = new SliderPanelW(property.getMin(),
+				property.getMax(), appW.getKernel(), false);
 		sliderPanel.getSlider().addStyleName("slider");
 		setInitialValue();
 		sliderPanel.getSlider().addValueChangeHandler(event -> {

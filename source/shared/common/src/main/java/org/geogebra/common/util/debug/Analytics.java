@@ -59,7 +59,7 @@ public abstract class Analytics {
 	/**
 	 * Analytics events.
 	 */
-	public static class Event {
+	public static final class Event {
 		public static final String COMMAND_ERROR = "command_error";
 		public static final String COMMAND_VALIDATED = "command_validated";
 		public static final String COMMAND_HELP_ICON = "command_help_icon";
@@ -78,7 +78,7 @@ public abstract class Analytics {
 	/**
 	 * Parameters to the analytics events.
 	 */
-	public static class Param {
+	public static final class Param {
 		public static final String COMMAND = "command";
 		public static final String AV_INPUT = "av_input";
 		public static final String ERROR_TYPE = "error_type";

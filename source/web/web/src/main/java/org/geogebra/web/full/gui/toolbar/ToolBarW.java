@@ -201,7 +201,7 @@ public class ToolBarW extends FlowPanel
 			ToolbarItem ob = toolbarVec.get(i);
 			Vector<Integer> menu = ob.getMenu();
 
-			if (app.isModeValid(menu.get(0).intValue())) {
+			if (app.isModeValid(menu.get(0))) {
 				ModeToggleMenuW mtm = createModeToggleMenu(app, menu, i);
 				mtm.setButtonTabIndex(-1);
 				modeToggleMenus.add(mtm);
@@ -368,10 +368,6 @@ public class ToolBarW extends FlowPanel
 			closeAllSubmenu();
 			buildGui();
 
-		} else {
-			if (Math.min(max, this.getToolbarVec().size()) == this.getGroupCount()) {
-				return;
-			}
 		}
 	}
 

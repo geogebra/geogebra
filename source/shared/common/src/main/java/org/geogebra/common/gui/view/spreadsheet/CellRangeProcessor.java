@@ -69,7 +69,7 @@ public class CellRangeProcessor {
 		loc = app.getLocalization();
 		tableModel = app.getSpreadsheetTableModel();
 		cons = app.getKernel().getConstruction();
-		adapter = new HasTabularValues<GeoElement>() {
+		adapter = new HasTabularValues<>() {
 			@Override
 			public GeoElement contentAt(int row, int column) {
 				return RelativeCopy.getValue(app, column, row);

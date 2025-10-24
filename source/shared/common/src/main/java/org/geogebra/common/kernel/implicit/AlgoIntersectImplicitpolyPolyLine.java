@@ -334,14 +334,11 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 * @return handler for output points
 	 */
 	protected OutputHandler<GeoPoint> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoPoint>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(cons);
-				p.setCoords(0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectImplicitpolyPolyLine.this);
-				return p;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint p = new GeoPoint(cons);
+			p.setCoords(0, 0, 1);
+			p.setParentAlgorithm(this);
+			return p;
 		});
 	}
 

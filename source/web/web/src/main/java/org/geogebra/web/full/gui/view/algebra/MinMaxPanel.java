@@ -110,7 +110,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		tfMax.addKeyHandler(this);
 		tfStep.addKeyHandler(this);
 
-		tfStep.addFocusHandler(event -> stepFocused(event));
+		tfStep.addFocusHandler(this::stepFocused);
 
 		addMouseDownHandler(this);
 		addMouseUpHandler(this);

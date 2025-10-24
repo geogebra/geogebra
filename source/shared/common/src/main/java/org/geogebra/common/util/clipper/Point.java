@@ -50,7 +50,7 @@ public class Point<T extends Number & Comparable<T>> {
 		}
 	}
 
-	private static class NumberComparator<T extends Number & Comparable<T>>
+	private static final class NumberComparator<T extends Number & Comparable<T>>
 			implements Comparator<T> {
 
 		@Override
@@ -106,7 +106,7 @@ public class Point<T extends Number & Comparable<T>> {
 			DoublePoint pt2, DoublePoint pt3) {
 		if (pt1.equals(pt3) || pt1.equals(pt2) || pt3.equals(pt2)) {
 			return false;
-		} else if (pt1.x.doubleValue() != pt3.x.doubleValue()) {
+		} else if (pt1.getX() != pt3.getX()) {
 			return pt2.x > pt1.x == pt2.x < pt3.x;
 		} else {
 			return pt2.y > pt1.y == pt2.y < pt3.y;

@@ -151,19 +151,16 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	}
 
 	protected OutputHandler<GeoElement> createOutputSegments() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoSegment newElement() {
-				GeoSegment a = new GeoSegment(cons);
-				GeoPoint aS = new GeoPoint(cons);
-				aS.setCoords(0, 0, 1);
-				GeoPoint aE = new GeoPoint(cons);
-				aE.setCoords(0, 0, 1);
-				a.setPoints(aS, aE);
-				a.setParentAlgorithm(AlgoIntersectPathLinePolygon.this);
-				setSegmentVisualProperties(a);
-				return a;
-			}
+		return new OutputHandler<>(() -> {
+			GeoSegment a = new GeoSegment(cons);
+			GeoPoint aS = new GeoPoint(cons);
+			aS.setCoords(0, 0, 1);
+			GeoPoint aE = new GeoPoint(cons);
+			aE.setCoords(0, 0, 1);
+			a.setPoints(aS, aE);
+			a.setParentAlgorithm(this);
+			setSegmentVisualProperties(a);
+			return a;
 		});
 	}
 

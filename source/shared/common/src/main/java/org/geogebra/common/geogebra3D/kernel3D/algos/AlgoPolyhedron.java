@@ -45,14 +45,11 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		cons.addToAlgorithmList(this);
 
 		outputPolyhedron = new OutputHandler<>(
-				new ElementFactory<GeoPolyhedron>() {
-					@Override
-					public GeoPolyhedron newElement() {
-						GeoPolyhedron p = new GeoPolyhedron(cons,
-								getPolyhedronType());
-						p.setParentAlgorithm(AlgoPolyhedron.this);
-						return p;
-					}
+				() -> {
+					GeoPolyhedron p = new GeoPolyhedron(cons,
+							getPolyhedronType());
+					p.setParentAlgorithm(this);
+					return p;
 				});
 
 		outputPolyhedron.adjustOutputSize(1);
@@ -101,13 +98,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 */
 	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler() {
 		return new OutputHandler<>(
-				new ElementFactory<GeoSegment3D>() {
-					@Override
-					public GeoSegment3D newElement() {
-						GeoSegment3D s = new GeoSegment3D(cons);
-						s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						return s;
-					}
+				() -> {
+					GeoSegment3D s = new GeoSegment3D(cons);
+					s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+					return s;
 				});
 	}
 
@@ -121,13 +115,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 */
 	protected OutputHandler<GeoPolygon3D> createOutputPolygonsHandler() {
 		return new OutputHandler<>(
-				new ElementFactory<GeoPolygon3D>() {
-					@Override
-					public GeoPolygon3D newElement() {
-						GeoPolygon3D p = new GeoPolygon3D(cons);
-						p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						return p;
-					}
+				() -> {
+					GeoPolygon3D p = new GeoPolygon3D(cons);
+					p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+					return p;
 				});
 	}
 

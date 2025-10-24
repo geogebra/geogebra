@@ -87,7 +87,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 			}
 
 			MinimumSpanningForest2<TreeNode, TreeLink> prim = new MinimumSpanningForest2<>(
-					g, new DelegateForest<TreeNode, TreeLink>(),
+					g, new DelegateForest<>(),
 					DelegateTree.<TreeNode, TreeLink> getFactory(), wtTransformer);
 
 			Forest<TreeNode, TreeLink> tree = prim.getForest();

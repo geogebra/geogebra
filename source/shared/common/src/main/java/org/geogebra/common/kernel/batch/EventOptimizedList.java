@@ -72,6 +72,6 @@ class EventOptimizedList {
 	}
 
 	EventOptimizedList copy() {
-		return new EventOptimizedList(new LinkedList<Event>(events));
+		return new EventOptimizedList(new LinkedList<>(events));
 	}
 }

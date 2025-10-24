@@ -26,6 +26,6 @@ public class AlgoRandomList extends AlgoRandomUniformList {
 
 	@Override
 	public double getRandomNumber(double a, double b) {
-		return Double.valueOf(cons.getApplication().getRandomIntegerBetween(a, b));
+		return cons.getApplication().getRandomIntegerBetween(a, b);
 	}
 }

@@ -460,7 +460,7 @@ public class GeoCasCell extends GeoElement
 	 *            font
 	 */
 	public void setFont(GFont ft) {
-		setFontSizeMultiplier((double) ft.getSize()
+		setFontSizeMultiplier(ft.getSize()
 				/ (double) kernel.getApplication().getFontSize());
 		setFontStyle(ft.getStyle());
 	}
@@ -1715,12 +1715,7 @@ public class GeoCasCell extends GeoElement
 			if (isFunctionProducingCommand()) {
 				((ExpressionNode) outputVE).setForceFunction();
 				TreeSet<String> varSet = new TreeSet<>(
-						new Comparator<String>() {
-							@Override
-							public int compare(String o1, String o2) {
-								return o2.compareTo(o1);
-							}
-						});
+						Comparator.reverseOrder());
 				evalVE.traverse(
 						Traversing.DummyVariableCollector.getCollector(varSet));
 				Iterator<String> it = varSet.iterator();
@@ -2150,6 +2145,7 @@ public class GeoCasCell extends GeoElement
 	 * @param doTwinGeoUpdate
 	 *            whether twin geo should be updated or not
 	 */
+	@SuppressWarnings("PMD.ExceptionAsFlowControl")
 	private void computeOutput(final boolean doTwinGeoUpdate,
 			final boolean allowFunction) {
 		// check for circular definition before we do anything

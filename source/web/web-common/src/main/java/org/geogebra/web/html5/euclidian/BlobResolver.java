@@ -9,6 +9,7 @@ import elemental2.core.JsString;
 import elemental2.core.RegExpResult;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.FileReader;
+import elemental2.dom.Response;
 import jsinterop.base.Js;
 
 public class BlobResolver {
@@ -53,9 +54,7 @@ public class BlobResolver {
 				callback.accept(serializedSvg);
 			}
 		});
-		DomGlobal.fetch(blobUrl).then((res) -> {
-			return res.blob();
-		}).then(blob -> {
+		DomGlobal.fetch(blobUrl).then(Response::blob).then(blob -> {
 			fr.readAsDataURL(blob);
 			return null;
 		});

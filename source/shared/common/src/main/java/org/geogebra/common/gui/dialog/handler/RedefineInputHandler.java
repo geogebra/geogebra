@@ -76,26 +76,22 @@ public class RedefineInputHandler implements InputHandler {
 			final String input = inputValue;
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo,
 					inputValue, true, true, handler,
-					new AsyncOperation<GeoElementND>() {
+					newGeo -> {
+						app.getKernel().clearJustCreatedGeosInViews();
 
-						@Override
-						public void callback(GeoElementND newGeo) {
-							app.getKernel().clearJustCreatedGeosInViews();
+						if (newGeo != null) {
+							app.doAfterRedefine(newGeo);
 
-							if (newGeo != null) {
-								app.doAfterRedefine(newGeo);
+							// update after redefine
+							// http://code.google.com/p/geogebra/issues/detail?id=147
+							setGeoElement(newGeo);
+							oldString = input;
+							// -----------------------------------------------------------
+						}
 
-								// update after redefine
-								// http://code.google.com/p/geogebra/issues/detail?id=147
-								setGeoElement(newGeo);
-								oldString = input;
-								// -----------------------------------------------------------
-							}
-
-							// needed for Apply button
-							if (callback != null) {
-								callback.callback(newGeo != null);
-							}
+						// needed for Apply button
+						if (callback != null) {
+							callback.callback(newGeo != null);
 						}
 					});
 

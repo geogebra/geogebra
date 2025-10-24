@@ -108,13 +108,10 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		}
 
 		outputNet = new OutputHandler<>(
-				new ElementFactory<GeoPolyhedronNet>() {
-					@Override
-					public GeoPolyhedronNet newElement() {
-						GeoPolyhedronNet p1 = new GeoPolyhedronNet(cons);
-						p1.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
-						return p1;
-					}
+				() -> {
+					GeoPolyhedronNet p1 = new GeoPolyhedronNet(cons);
+					p1.setParentAlgorithm(this);
+					return p1;
 				});
 
 		outputNet.adjustOutputSize(1);
@@ -448,17 +445,14 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoPoint3D> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoPoint3D>() {
-			@Override
-			public GeoPoint3D newElement() {
-				GeoPoint3D p1 = new GeoPoint3D(cons);
-				p1.setCoords(0, 0, 0, 1);
-				p1.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
-				getNet().addPointCreated(p1);
-				p1.setLabelVisible(false);
-				p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-				return p1;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint3D p1 = new GeoPoint3D(cons);
+			p1.setCoords(0, 0, 0, 1);
+			p1.setParentAlgorithm(this);
+			getNet().addPointCreated(p1);
+			p1.setLabelVisible(false);
+			p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+			return p1;
 		});
 	}
 
@@ -643,25 +637,19 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	private OutputHandler<GeoSegment3D> createOutputSegments() {
 		return new OutputHandler<>(
-				new ElementFactory<GeoSegment3D>() {
-					@Override
-					public GeoSegment3D newElement() {
-						GeoSegment3D s = new GeoSegment3D(cons);
-						s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						return s;
-					}
+				() -> {
+					GeoSegment3D s = new GeoSegment3D(cons);
+					s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+					return s;
 				});
 	}
 
 	private OutputHandler<GeoPolygon3D> createOutputPolygons() {
 		return new OutputHandler<>(
-				new ElementFactory<GeoPolygon3D>() {
-					@Override
-					public GeoPolygon3D newElement() {
-						GeoPolygon3D p1 = new GeoPolygon3D(cons);
-						p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						return p1;
-					}
+				() -> {
+					GeoPolygon3D p1 = new GeoPolygon3D(cons);
+					p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+					return p1;
 				});
 	}
 

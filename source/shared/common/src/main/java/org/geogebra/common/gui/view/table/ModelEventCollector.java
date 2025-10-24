@@ -144,7 +144,7 @@ public class ModelEventCollector implements TableValuesListener {
 		event = new ModelEvent();
 	}
 
-	private static class ModelEvent {
+	private static final class ModelEvent {
 		private final List<ColumnEvent> columnsRemoved = new ArrayList<>();
 		private final List<ColumnEvent> columnsChanged = new ArrayList<>();
 		private final List<ColumnEvent> columnsAdded = new ArrayList<>();

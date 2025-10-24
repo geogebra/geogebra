@@ -272,7 +272,7 @@ public abstract class AlgoElement extends ConstructionElement
 			this.fac = fac;
 			outputList = new ArrayList<>();
 			if (getOutputHandler() == null) {
-				setOutputHandler(new ArrayList<OutputHandler<?>>());
+				setOutputHandler(new ArrayList<>());
 			}
 			getOutputHandler().add(this);
 		}

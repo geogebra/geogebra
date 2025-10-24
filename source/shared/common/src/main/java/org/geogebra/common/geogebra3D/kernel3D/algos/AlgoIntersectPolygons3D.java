@@ -76,14 +76,11 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint3D newElement() {
-				GeoPoint3D p = new GeoPoint3D(cons);
-				p.setCoords(0, 0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectPolygons3D.this);
-				return p;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint3D p = new GeoPoint3D(cons);
+			p.setCoords(0, 0, 0, 1);
+			p.setParentAlgorithm(this);
+			return p;
 		});
 	}
 

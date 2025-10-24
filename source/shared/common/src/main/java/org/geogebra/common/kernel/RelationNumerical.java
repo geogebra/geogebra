@@ -167,12 +167,7 @@ public class RelationNumerical {
 	 */
 	public static SortedSet<Report> sortAlphabetically(Set<Report> reports) {
 
-		Comparator<Report> myComparator = new Comparator<Report>() {
-			@Override
-			public int compare(Report r1, Report r2) {
-				return r1.stringResult.compareTo(r2.stringResult);
-			}
-		};
+		Comparator<Report> myComparator = Comparator.comparing(r -> r.stringResult);
 
 		TreeSet<Report> sortedReports = new TreeSet<>(myComparator);
 		sortedReports.addAll(reports);

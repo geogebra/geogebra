@@ -76,7 +76,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	ContextMenuGeoElementW(AppW app, ContextMenuItemFactory factory) {
 		super(app);
 		this.factory = factory;
-		this.app = app;
 		this.loc = app.getLocalization();
 		wrappedPopup = factory.newPopupMenu(app);
 	}
@@ -280,7 +279,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			SVGResource img = MaterialDesignResources.INSTANCE.gear();
 
 			// open properties dialog
-			addHtmlAction(() -> openPropertiesDialogCmd(), img,
+			addHtmlAction(this::openPropertiesDialogCmd, img,
 					loc.getMenu("Settings"));
 		}
 	}
@@ -422,7 +421,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		SVGResource img = MaterialDesignResources.INSTANCE.rename_black();
 
-		addHtmlAction(() -> renameCmd(),
+		addHtmlAction(this::renameCmd,
 				img, loc.getMenu("Rename"));
 
 		if (getGeos().size() == 1 && getGeo() instanceof TextValue
@@ -431,7 +430,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 			SVGResource img2 = MaterialDesignResources.INSTANCE.edit_black();
 
-			addHtmlAction(() -> editCmd(),
+			addHtmlAction(this::editCmd,
 					img2, loc.getMenu("Edit"));
 		}
 	}
@@ -591,7 +590,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			if (inputElement.isValidInputForm()) {
 				Command action;
 				if (inputElement.isInputForm()) {
-					action = () -> implicitConicEquationCmd();
+					action = this::implicitConicEquationCmd;
 					addAction(action, loc.getMenu("ExpandedForm"));
 				} else {
 					action = () -> inputFormCmd(geo);
@@ -603,7 +602,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			Command action = () -> inputFormCmd(geo);
 			addAction(action, loc.getMenu("InputForm"));
 		} else if (geo instanceof GeoPlaneND && geo.getDefinition() != null) {
-			Command action = () -> implicitConicEquationCmd();
+			Command action = this::implicitConicEquationCmd;
 			addAction(action, loc.getMenu("ExpandedForm"));
 		}
 	}
@@ -637,7 +636,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		if (form != QuadraticEquationRepresentable.Form.IMPLICIT) {
 			sb.append(ConicEqnModel.getImplicitEquation(conic, loc, true));
-			action = () -> implicitConicEquationCmd();
+			action = this::implicitConicEquationCmd;
 			addAction(action, sb.toString());
 		}
 
@@ -649,7 +648,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				sb.append(loc.getMenu("Equation"));
 				sb.append(' ');
 				sb.append(conicEqn);
-				action = () -> equationConicEqnCmd();
+				action = this::equationConicEqnCmd;
 				addAction(action, sb.toString());
 			}
 		}
@@ -659,7 +658,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
 			sb.append(loc.getMenu("ExplicitConicEquation"));
-			action = () -> equationExplicitConicEquationCmd();
+			action = this::equationExplicitConicEquationCmd;
 			addAction(action, sb.toString());
 		}
 
@@ -668,7 +667,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
 			sb.append(loc.getMenu("ParabolaVertexForm"));
-			action = () -> equationVertexEquationCmd();
+			action = this::equationVertexEquationCmd;
 			addAction(action, sb.toString());
 		}
 
@@ -677,7 +676,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
 			sb.append(loc.getMenu("ParabolaConicForm"));
-			action = () -> equationConicformEquationCmd();
+			action = this::equationConicformEquationCmd;
 			addAction(action, sb.toString());
 		}
 	}
@@ -704,7 +703,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
 			sb.append(loc.getMenu("ImplicitLineEquation"));
-			action = () -> equationImplicitEquationCmd();
+			action = this::equationImplicitEquationCmd;
 			addAction(action, sb.toString());
 		}
 
@@ -713,12 +712,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
 			sb.append(loc.getMenu("ExplicitLineEquation"));
-			action = () -> equationExplicitEquationCmd();
+			action = this::equationExplicitEquationCmd;
 			addAction(action, sb.toString());
 		}
 
 		if (form != LinearEquationRepresentable.Form.PARAMETRIC) {
-			action = () -> parametricFormCmd();
+			action = this::parametricFormCmd;
 			addAction(action, loc.getMenu("ParametricForm"));
 		}
 
@@ -727,7 +726,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
 			sb.append(loc.getMenu("GeneralLineEquation"));
-			action = () -> equationGeneralLineEquationCmd();
+			action = this::equationGeneralLineEquationCmd;
 			addAction(action, sb.toString());
 		}
 	}

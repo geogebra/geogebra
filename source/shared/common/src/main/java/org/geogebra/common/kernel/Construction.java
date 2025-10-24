@@ -3172,7 +3172,7 @@ public class Construction {
 		this.kernel.getApplication().setBlockUpdateScripts(true);
 		// TODO we do not need the whole construction update here
 		if (latexGeos != null) {
-			GeoElement.updateCascade(latexGeos, new TreeSet<AlgoElement>(),
+			GeoElement.updateCascade(latexGeos, new TreeSet<>(),
 					true);
 		}
 		this.latexGeos = null;

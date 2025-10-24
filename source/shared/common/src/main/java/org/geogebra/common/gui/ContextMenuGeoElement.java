@@ -32,7 +32,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpreadsheetTraceManager;
 import org.geogebra.common.main.undo.UpdateStyleActionStore;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 
 import com.google.j2objc.annotations.Weak;
@@ -56,7 +55,7 @@ public class ContextMenuGeoElement {
 	private String geoLabel;
 	/** application */
 	@Weak
-	public App app;
+	public final App app;
 	/** whether to restrict selection to a single geo */
 	protected boolean justOneGeo = false;
 
@@ -732,12 +731,7 @@ public class ContextMenuGeoElement {
 	public void pasteCmd() {
 		final HasTextFormat controller = getSelectedTextController();
 		if (controller != null) {
-			app.getCopyPaste().paste(app, new AsyncOperation<String>() {
-				@Override
-				public void callback(String obj) {
-					controller.setSelectionText(obj);
-				}
-			});
+			app.getCopyPaste().paste(app, controller::setSelectionText);
 			return;
 		}
 		app.getCopyPaste().pasteFromXML(app);

@@ -329,7 +329,6 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 			}
 			isPlanar = true;
 			direction3 = null;
-			return;
 		}
 	}
 

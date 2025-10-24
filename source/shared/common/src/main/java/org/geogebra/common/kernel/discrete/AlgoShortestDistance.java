@@ -31,6 +31,9 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 	private GeoLocusND<? extends MyPoint> locus;
 	private GeoBoolean weighted;
 	private int edgeCount = 0;
+	// weighted Shortest Path
+	// use length of segments to weight
+	private Function<TreeLink, Double> wtTransformer = link -> link.weight;
 
 	/**
 	 * @param cons
@@ -81,15 +84,6 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 	public Commands getClassName() {
 		return Commands.ShortestDistance;
 	}
-
-	// weighted Shortest Path
-	// use length of segments to weight
-	private Function<TreeLink, Double> wtTransformer = new Function<TreeLink, Double>() {
-		@Override
-		public Double apply(TreeLink link) {
-			return link.weight;
-		}
-	};
 
 	@Override
 	public final void compute() {

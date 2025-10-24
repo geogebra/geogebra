@@ -392,7 +392,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 		}
 	}
 
-	private static class RealschuleSyntaxFilter extends LineSelectorSyntaxFilter {
+	private static final class RealschuleSyntaxFilter extends LineSelectorSyntaxFilter {
 
 		private RealschuleSyntaxFilter() {
 			// Allow only Length(<Object>)

@@ -326,7 +326,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private double ordering = Double.NaN;
 
-	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
+	private static Comparator<AlgoElement> algoComparator = AlgoElement::compareTo;
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -5742,6 +5742,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @param setVisible
 	 *            true make this geo visible in given view
 	 */
+	@SuppressWarnings("PMD.UnnecessaryBoxing")
 	public void setVisibility(final int viewId, final boolean setVisible) {
 		if (this.viewFlags == null) {
 			this.viewFlags = new ArrayList<>();

@@ -543,7 +543,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			});
 
 			grid.setWidget(row, column, lb);
-			return;
 		}
 	}
 

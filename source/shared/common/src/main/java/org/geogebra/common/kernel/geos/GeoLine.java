@@ -1502,8 +1502,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public SymbolicParameters getSymbolicParameters() {
-		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return new SymbolicParameters((SymbolicParametersAlgo) algoParent);
 		}
 		return null;

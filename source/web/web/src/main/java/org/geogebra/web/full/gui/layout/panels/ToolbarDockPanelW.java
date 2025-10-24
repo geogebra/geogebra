@@ -66,7 +66,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public void deferredOnResize() {
-		Scheduler.get().scheduleDeferred(() -> toolbar.resize());
+		Scheduler.get().scheduleDeferred(toolbar::resize);
 	}
 
 	@Override

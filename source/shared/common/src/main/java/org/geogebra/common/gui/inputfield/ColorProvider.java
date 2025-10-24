@@ -152,7 +152,7 @@ public class ColorProvider {
 		} else {
 			labels = kernel.getConstruction().getAllGeoLabels();
 		}
-		locals = new HashSet();
+		locals = new HashSet<>();
 		definedObjectsIntervals.clear();
 		undefinedObjectsIntervals.clear();
 		ignoreIntervals.clear();
@@ -299,7 +299,7 @@ public class ColorProvider {
 
 			String label = res.getGroup(1);
 			String openingBracket = res.getGroup(8);
-			List groups = new ArrayList(2);
+			List<String> groups = new ArrayList<>(2);
 			groups.add(label);
 			CommandOrFunctionMatchResult ret;
 			int step = 0;

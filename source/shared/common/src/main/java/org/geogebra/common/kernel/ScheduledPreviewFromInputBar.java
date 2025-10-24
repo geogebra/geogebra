@@ -100,10 +100,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 			if (kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV
 					&& ve.any(Inspecting::isVectorDivision)) {
-				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalDivision);
-			}
-
-			if (ve != null) {
+				MyError err = new MyError(kernel.getLocalization(), MyError.Errors.IllegalDivision);
+				ErrorHelper.handleError(err, null, kernel.getLocalization(),
+						validation);
+			} else if (ve != null) {
 				validInput = input;
 			}
 		} catch (MyError t) {

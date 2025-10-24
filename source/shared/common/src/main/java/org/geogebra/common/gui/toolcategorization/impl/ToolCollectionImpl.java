@@ -20,7 +20,7 @@ class ToolCollectionImpl implements ToolCollection {
 	private Map<ToolsetLevel, ToolsCollection> levels = new HashMap<>();
     private ToolsetLevel level;
 
-    private static class ToolsCollection {
+    private static final class ToolsCollection {
         private List<ToolCategory> categories = new ArrayList<>();
         private List<List<Integer>> tools = new ArrayList<>();
     }

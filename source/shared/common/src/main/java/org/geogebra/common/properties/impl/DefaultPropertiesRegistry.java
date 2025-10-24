@@ -17,7 +17,7 @@ import org.geogebra.common.properties.Property;
 public class DefaultPropertiesRegistry implements PropertiesRegistry {
 
 	private Object context;
-	private final Map<Key, Property> properties = new HashMap();
+	private final Map<Key, Property> properties = new HashMap<>();
 	private final List<PropertiesRegistryListener> listeners = new ArrayList<>();
 
 	/**

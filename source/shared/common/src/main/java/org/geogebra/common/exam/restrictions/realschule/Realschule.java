@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.statistics.FitAlgo;
  */
 public class Realschule {
 
-	@SuppressWarnings("PMD.SimplifyBooleanReturns")
 	static boolean isCalculatedEquationAllowed(@CheckForNull GeoElementND element) {
 		if (element == null) {
 			return false;

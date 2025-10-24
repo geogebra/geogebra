@@ -19,17 +19,16 @@ import jsinterop.base.Js;
 
 public class CsvImportHandler {
 	protected AppW appW;
-	private FileUpload csvChooser;
 	private DataImportSnackbar progressSnackbar;
-	private Command csvHandler = () -> {
-		csvChooser = getCSVChooser();
+	private final Command csvHandler = () -> {
+		FileUpload csvChooser = getCSVChooser();
 		if (getTable().isEmpty()) {
 			csvChooser.click();
 		} else {
 			DialogData data = new DialogData(null, "Cancel", "Overwrite");
 			OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(
 					appW, data);
-			overwriteDataDialog.setOnPositiveAction(() -> csvChooser.click());
+			overwriteDataDialog.setOnPositiveAction(csvChooser::click);
 			overwriteDataDialog.show();
 		}
 	};
@@ -49,8 +48,8 @@ public class CsvImportHandler {
 			progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name);
 			getTable().getTableValuesModel().removeAllColumns();
 			getTable().clearView();
-			getTable().getTableValuesModel().setOnDataImportedRunnable(()
-					-> progressSnackbar.hide());
+			getTable().getTableValuesModel().setOnDataImportedRunnable(
+					progressSnackbar::hide);
 			openCSV(fileToHandle);
 		});
 

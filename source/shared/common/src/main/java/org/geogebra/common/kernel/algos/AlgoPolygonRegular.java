@@ -201,6 +201,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 
 		// general case (GGB-2137)
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+		String parsable = null;
 		try {
 			String minpoly = cas.getCurrentCAS()
 					.evaluateRaw("cos2piOverNMinpoly(" + sides + ")");
@@ -209,18 +210,13 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			PVariable y = new PVariable(kernel);
 			minpoly = minpoly.replace("x", x.getName());
 			// Ugly way of converting the CAS computation result into PPolynomial:
-			String parsable = "[1]: [1]: _[1]=1 _[2]=" + minpoly + " [2]: 1,1";
+			parsable = "[1]: [1]: _[1]=1 _[2]=" + minpoly + " [2]: 1,1";
 			HashSet<PVariable> v = new HashSet<>();
 			v.add(x);
 			TreeSet<PVariable> variables = new TreeSet<>(v);
 			Set<Set<PPolynomial>> parsed;
-			try {
-				parsed = PolynomialParser.parseFactoredPolynomialSet(parsable,
-						variables);
-			} catch (ParseException e) {
-				Log.debug("Cannot parse: " + parsable);
-				throw new NoSymbolicParametersException(e);
-			}
+			parsed = PolynomialParser.parseFactoredPolynomialSet(parsable,
+					variables);
 			Iterator<Set<PPolynomial>> polySet = parsed.iterator();
 			PPolynomial botanaMinpoly = new PPolynomial();
 			while (polySet.hasNext()) {
@@ -269,6 +265,9 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			}
 			return botanaPolynomials;
 
+		} catch (ParseException e) {
+			Log.debug("Cannot parse: " + parsable);
+			throw new NoSymbolicParametersException(e);
 		} catch (Throwable e) {
 			Log.debug("Problem with computing minimal poly of cos(2pi/n)");
 			throw new NoSymbolicParametersException(e);

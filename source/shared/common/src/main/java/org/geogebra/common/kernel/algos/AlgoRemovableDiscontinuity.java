@@ -181,7 +181,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		}
 	}
 
-	static private class ValueCollector implements Traversing {
+	private static final class ValueCollector implements Traversing {
 
 		private final List<NumberValue> values = new ArrayList<>();
 

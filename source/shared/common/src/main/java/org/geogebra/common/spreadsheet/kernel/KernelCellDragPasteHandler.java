@@ -238,9 +238,7 @@ final class KernelCellDragPasteHandler implements CellDragPasteHandler {
 	}
 
 	private void setDestinationRangeToNonEmptySpreadsheetCells(TabularRange destinationRange) {
-		destinationRange.forEach((row, column) -> {
-			tabularData.markNonEmpty(row, column);
-		});
+		destinationRange.forEach(tabularData::markNonEmpty);
 	}
 
 	private boolean shouldCopySingleRowOnly() {

@@ -85,10 +85,10 @@ public class ModeToggleMenuW extends ListItem
 		tbutton.addStyleName("toolbar_button");
 		NoDragImage toolbarImg = new NoDragImage(AppResources.INSTANCE.empty(),
 				32);
-		GGWToolBar.getImageResource(menu.get(0).intValue(), app, toolbarImg);
+		GGWToolBar.getImageResource(menu.get(0), app, toolbarImg);
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
-		tbutton.getElement().setAttribute("mode", menu.get(0).intValue() + "");
+		tbutton.getElement().setAttribute("mode", menu.get(0) + "");
 		tbutton.getElement().setAttribute("isMobile", "false");
 		addDomHandlers(tbutton);
 		this.add(tbutton);
@@ -102,7 +102,7 @@ public class ModeToggleMenuW extends ListItem
 		add(submenu);
 
 		for (int k = 0; k < menu.size(); k++) {
-			final int addMode = menu.get(k).intValue();
+			final int addMode = menu.get(k);
 			if (addMode < 0) { // TODO
 				// // separator within menu:
 				// tm.addSeparator();
@@ -609,7 +609,7 @@ public class ModeToggleMenuW extends ListItem
 			this.buildGui();
 		}
 		for (int k = 0; k < menu2.size(); k++) {
-			final int addMode = menu2.get(k).intValue();
+			final int addMode = menu2.get(k);
 			if (addMode < 0) { // TODO
 				// // separator within menu:
 				// tm.addSeparator();

@@ -17,7 +17,7 @@ public final class OptionsCAS {
 	 */
 	public static Integer getTimeoutOption(long integer) {
 		for (int i = 0; i < cbTimeoutOptions.length; i++) {
-			if (cbTimeoutOptions[i].intValue() == integer) {
+			if (cbTimeoutOptions[i] == integer) {
 				return cbTimeoutOptions[i];
 			}
 		}

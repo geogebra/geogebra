@@ -141,8 +141,7 @@ public class Bounds {
 		}
 		// If[x==1,2,If[x==3,4,5]]
 		if (b.upper != null && b.lower != null && (b.condition != null)
-				&& DoubleUtil.isEqual(b.upper.doubleValue(),
-						b.lower.doubleValue())) {
+				&& DoubleUtil.isEqual(b.upper, b.lower)) {
 			fv.set(b.upper);
 			ExpressionValue v = b.condition
 					.evaluate(StringTemplate.defaultTemplate);
@@ -388,7 +387,11 @@ public class Bounds {
 			}
 		}
 
-		return lower == null ? Double.valueOf(Double.NEGATIVE_INFINITY) : lower;
+		if (lower == null) {
+			return Double.NEGATIVE_INFINITY;
+		} else {
+			return lower;
+		}
 	}
 
 	/**
@@ -420,7 +423,11 @@ public class Bounds {
 				}
 			}
 		}
-		return upper == null ? Double.valueOf(Double.POSITIVE_INFINITY) : upper;
+		if (upper == null) {
+			return Double.POSITIVE_INFINITY;
+		} else {
+			return upper;
+		}
 	}
 
 	@Override

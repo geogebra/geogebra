@@ -104,7 +104,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 		submenu = createToolbarSubmenu(app, order);
 
 		for (int k = 0; k < menu.size(); k++) {
-			final int addMode = menu.get(k).intValue();
+			final int addMode = menu.get(k);
 			if (addMode < 0) { // TODO
 				// // separator within menu:
 				// tm.addSeparator();

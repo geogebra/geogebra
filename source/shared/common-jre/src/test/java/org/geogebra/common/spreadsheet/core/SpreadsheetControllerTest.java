@@ -1040,8 +1040,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         List<SpreadsheetReference> expectedRanges =
                 List.of(expectedReferences.split(","))
                 .stream()
-                .map(reference ->
-                        SpreadsheetReferenceParsing.parseReference(reference))
+                .map(SpreadsheetReferenceParsing::parseReference)
                 .collect(Collectors.toList());
         List<SpreadsheetReference> actualRanges = controller.getEditorCellReferences();
         assertEquals(expectedRanges, actualRanges);

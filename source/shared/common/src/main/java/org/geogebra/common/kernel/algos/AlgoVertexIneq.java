@@ -575,14 +575,11 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint pt = new GeoPoint(cons);
-				pt.setCoords(0, 0, 1);
-				pt.setParentAlgorithm(AlgoVertexIneq.this);
-				return pt;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint pt = new GeoPoint(cons);
+			pt.setCoords(0, 0, 1);
+			pt.setParentAlgorithm(this);
+			return pt;
 		});
 	}
 

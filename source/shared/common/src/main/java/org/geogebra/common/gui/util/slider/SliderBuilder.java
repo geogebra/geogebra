@@ -93,47 +93,38 @@ public class SliderBuilder {
 	}
 
 	private AsyncOperation<Boolean> getMaxProcessingCallback() {
-		return new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean ok) {
-				if (!ok) {
-					return;
-				}
-				processedData.setMin(inputHandler.getNum());
-				inputHandler.processInput(
-						input.getMax(),
-						errorHandler,
-						getStepProcessingCallback());
+		return ok -> {
+			if (!ok) {
+				return;
 			}
+			processedData.setMin(inputHandler.getNum());
+			inputHandler.processInput(
+					input.getMax(),
+					errorHandler,
+					getStepProcessingCallback());
 		};
 	}
 
 	private AsyncOperation<Boolean> getStepProcessingCallback() {
-		return new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean ok) {
-				if (!ok) {
-					return;
-				}
-				processedData.setMax(inputHandler.getNum());
-				inputHandler.processInput(
-						input.getStep(),
-						errorHandler,
-						getSliderSetupCallback());
+		return ok -> {
+			if (!ok) {
+				return;
 			}
+			processedData.setMax(inputHandler.getNum());
+			inputHandler.processInput(
+					input.getStep(),
+					errorHandler,
+					getSliderSetupCallback());
 		};
 	}
 
 	private AsyncOperation<Boolean> getSliderSetupCallback() {
-		return new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean ok) {
-				if (!ok) {
-					return;
-				}
-				processedData.setStep(inputHandler.getNum());
-				setupSlider(createSlider());
+		return ok -> {
+			if (!ok) {
+				return;
 			}
+			processedData.setStep(inputHandler.getNum());
+			setupSlider(createSlider());
 		};
 	}
 

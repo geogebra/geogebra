@@ -554,7 +554,7 @@ public class DataAnalysisModel {
 		if (!isIniting() && ctrl.isInDataSource(geo)) {
 
 			// use a runnable to allow spreadsheet table model to update
-			app.invokeLater(() -> ctrl.updateDataAnalysisView());
+			app.invokeLater(ctrl::updateDataAnalysisView);
 		}
 	}
 

@@ -185,9 +185,9 @@ public class ConstructionDefaults implements SettingListener {
 
 	// lines
 	/** default color for lines */
-	private final GColor colLine = GColor.BLACK;
+	private static final GColor colLine = GColor.BLACK;
 	/** default color for lines in Geometry app */
-	private final GColor colLineGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
+	private static final GColor colLineGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
 	
 	/** default color for inequalities */
 	private static final GColor colInequality = GColor.BLUE;

@@ -3124,12 +3124,9 @@ public class AlgoDispatcher {
 			}
 
 			return newPoint;
-		} catch (Exception e1) {
+		} catch (Exception | Error e1) {
+			// for Error e.g. try to attach dependent point of regular polygon
 			Log.error(e1.getMessage());
-			return null;
-		} catch (Error e2) {
-			// eg try to attach dependent point of regular polygon
-			Log.error(e2.getMessage());
 			return null;
 		}
 	}

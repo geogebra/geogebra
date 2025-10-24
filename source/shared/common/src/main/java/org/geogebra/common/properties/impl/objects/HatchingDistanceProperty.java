@@ -31,6 +31,6 @@ public class HatchingDistanceProperty extends AbstractRangeProperty<Integer>
 
 	@Override
 	public Integer getValue() {
-		return (int) element.getHatchingDistance();
+		return element.getHatchingDistance();
 	}
 }

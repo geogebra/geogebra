@@ -281,7 +281,7 @@ public class ShareDialogMow extends ComponentDialog
 			changedGroups.put(groupID, shared);
 		}
 
-		if (shared.booleanValue()) {
+		if (shared) {
 			sharedWithGroupCounter++;
 		} else {
 			sharedWithGroupCounter--;
@@ -386,7 +386,7 @@ public class ShareDialogMow extends ComponentDialog
 
 	protected void getGroupsSharedWith() {
 		final AsyncOperation<List<GroupIdentifier>> partial =
-				new AsyncOperation<List<GroupIdentifier>>() {
+				new AsyncOperation<>() {
 					private int counter = 2;
 					private List<GroupIdentifier> all = new ArrayList<>();
 
