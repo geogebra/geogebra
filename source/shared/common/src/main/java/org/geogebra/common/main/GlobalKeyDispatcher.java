@@ -117,58 +117,62 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	/**
-	 * Open rename dialog when first letter is typed
-	 * @param ch letter typed
-	 * @return whether we show the dialog
+	 * Handles when a char pressed on the selected or last created GeoElement.
+	 *
+	 * @param ch the character pressed.
+	 *
+	 *  @return true if the char is handled; false otherwise.
 	 */
-	protected boolean renameStarted(char ch) {
-		GeoElement geo;
-		if (selection.selectedGeosSize() == 1) {
-			// selected geo
-			geo = selection.getSelectedGeos().get(0);
-		} else {
-			// last created geo
-			geo = app.getLastCreatedGeoElement();
+	protected boolean keyPressedOnGeo(char ch) {
+		GeoElement geo = selection.selectedGeosSize() == 1
+				? selection.getSelectedGeos().get(0)
+				: app.getLastCreatedGeoElement();
+		return geo != null && keyPressedOnGeo(geo, ch);
+	}
+
+	/**
+	 * Handles when a char pressed on a GeoElement.
+	 *
+	 * @param geo that is the target of the key press.
+	 * @param ch the character pressed.
+	 *
+	 * @return true if the char is handled; false otherwise.
+	 */
+	protected boolean keyPressedOnGeo(GeoElement geo, char ch) {
+		EuclidianView view = app.getActiveEuclidianView();
+		if (view == null) {
+			return false;
 		}
 
-		// show RENAME dialog when a letter is typed
-		// or edit Textfield for any keypress
-
-		if (Character.isLetter(ch) || geo instanceof GeoInputBox) {
-
-			// open rename dialog
-			if (geo != null && geo.isRenameable()) {
-
-				if (geo instanceof GeoInputBox) {
-					DrawInputBox dt = (DrawInputBox) app
-							.getActiveEuclidianView().getDrawableFor(geo);
-					if (dt != null) {
-						dt.setFocus(ch + "");
-					}
-				} else {
-					if (app.getDialogManager() != null) {
-						app.getDialogManager().showRenameDialog(geo, true,
-								Character.toString(ch), false);
-					}
-				}
-				return true;
+		if (geo instanceof GeoInputBox) {
+			DrawInputBox drawInputBox = (DrawInputBox) view.getDrawableFor(geo);
+			if (drawInputBox != null) {
+				drawInputBox.setFocus(Character.toString(ch));
 			}
+			return true;
 		}
-		if (ch == '/') {
+
+		switch (ch) {
+		case '/':
 			toggleSelectionVisibility();
-		}
+			return true;
 
-		if (app.getGuiManager() != null) {
-			if (ch == '\n' || ch == '\r') {
-				startEdit(geo);
-			} else if (ch == '.') {
-				openSettingsInAV(geo);
-			}
+		case '\n':
+		case '\r':
+			startEdit(geo);
+			return true;
+
+		case '.':
+			openSettingsInAV(geo);
+			return true;
+		default:
+			// No action for other keys
+			break;
 		}
 
 		// don't instantiate: could steal focus
-		if (app.getActiveEuclidianView().hasDynamicStyleBar()) {
-			app.getActiveEuclidianView().getDynamicStyleBar().setVisible(false);
+		if (view.hasDynamicStyleBar()) {
+			view.getDynamicStyleBar().setVisible(false);
 		}
 		return false;
 	}
@@ -190,8 +194,6 @@ public abstract class GlobalKeyDispatcher {
 	protected void openSettingsInAV(GeoElement geo) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().openMenuInAVFor(geo);
-			Log.debug(
-					"[lac] open settings for " + geo.getDefinitionForEditor());
 		}
 	}
 

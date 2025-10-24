@@ -125,11 +125,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		if (event.getSource() instanceof JTable) {
 			return false;
 		}
-		char ch = event.getKeyChar();
-		if (!event.isMetaDown() && !event.isAltDown()
-				&& !event.isControlDown()) {
-			return renameStarted(ch);
-		}
+
+		keyPressedOnGeo(event.getKeyChar());
 		return false;
 	}
 

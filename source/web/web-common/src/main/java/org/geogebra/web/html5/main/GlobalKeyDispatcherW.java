@@ -234,9 +234,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			event.preventDefault();
 			event.stopPropagation();
 		}
-		// this needs to be done in onKeyPress -- keyUp is not case sensitive
+
 		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.isWhiteboardActive()) {
-			this.renameStarted(event.getCharCode());
+			keyPressedOnGeo(event.getCharCode());
 		}
 	}
 
