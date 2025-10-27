@@ -1,5 +1,6 @@
 package org.geogebra.common.properties;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -8,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.SuiteSubApp;
@@ -18,6 +20,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
+import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.test.BaseAppTestSetup;
@@ -152,6 +155,56 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		gridVisibilityCheckbox.setSelected(true);
 		assertTrue(gridVisibilityCheckbox.isSelected());
 		assertEquals(2, visibilityUpdatedCount.get());
+	}
+
+	@Test
+	public void testComboBoxRowVisibilityListenersForEachPropertyViewInTheTree() {
+		setupApp(SuiteSubApp.GRAPHING);
+
+		GridDistanceProperty leadingComboBoxProperty = new GridDistanceProperty(
+				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "x", 0);
+		GridDistanceProperty trailingComboBoxProperty = new GridDistanceProperty(
+				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "y", 0);
+		PropertyView.ComboBoxRow comboBoxRow = new PropertyView.ComboBoxRow(
+				leadingComboBoxProperty, trailingComboBoxProperty);
+
+		AtomicBoolean leadingComboBoxVisibilityListenerCalled = new AtomicBoolean(false);
+		comboBoxRow.getLeadingComboBox().setVisibilityUpdateDelegate(() ->
+				leadingComboBoxVisibilityListenerCalled.set(true));
+
+		AtomicBoolean trailingComboBoxVisibilityListenerCalled = new AtomicBoolean(false);
+		comboBoxRow.getTrailingComboBox().setVisibilityUpdateDelegate(() ->
+				trailingComboBoxVisibilityListenerCalled.set(true));
+
+		AtomicBoolean comboBoxRowVisibilityListenerCalled = new AtomicBoolean(false);
+		comboBoxRow.setVisibilityUpdateDelegate(() ->
+				comboBoxRowVisibilityListenerCalled.set(true));
+
+		getEuclidianSettings().setGridType(EuclidianView.GRID_POLAR);
+
+		assertAll(() -> assertTrue(comboBoxRowVisibilityListenerCalled.get()),
+				() -> assertTrue(leadingComboBoxVisibilityListenerCalled.get()),
+				() -> assertTrue(trailingComboBoxVisibilityListenerCalled.get()));
+	}
+
+	@Test
+	public void testSingleComboBoxRowVisibilityListener() {
+		setupApp(SuiteSubApp.GRAPHING);
+
+		GridDistanceProperty leadingComboBoxProperty = new GridDistanceProperty(
+				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "x", 0);
+		GridDistanceProperty trailingComboBoxProperty = new GridDistanceProperty(
+				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "y", 0);
+		PropertyView.ComboBoxRow comboBoxRow = new PropertyView.ComboBoxRow(
+				leadingComboBoxProperty, trailingComboBoxProperty);
+
+		AtomicBoolean comboBoxRowVisibilityListenerCalled = new AtomicBoolean(false);
+		comboBoxRow.setVisibilityUpdateDelegate(() ->
+				comboBoxRowVisibilityListenerCalled.set(true));
+
+		getEuclidianSettings().setGridType(EuclidianView.GRID_POLAR);
+
+		assertTrue(comboBoxRowVisibilityListenerCalled.get());
 	}
 
 	private Localization getLocalization() {

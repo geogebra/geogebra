@@ -25,6 +25,8 @@ import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Represents a widget/view in the settings view.
  * <p>
@@ -34,8 +36,8 @@ import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
  * </p>
  */
 public abstract class PropertyView {
-	protected @CheckForNull ConfigurationUpdateDelegate configurationUpdateDelegate;
-	protected @CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate;
+	protected @Weak @CheckForNull ConfigurationUpdateDelegate configurationUpdateDelegate;
+	protected @Weak @CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate;
 
 	/**
 	 * Delegate interface for receiving notifications about configuration updates.
@@ -74,7 +76,7 @@ public abstract class PropertyView {
 	 * Assigns the delegate to receive visibility update notifications.
 	 * @param visibilityUpdateDelegate the delegate or {@code null} to remove it
 	 */
-	public final void setVisibilityUpdateDelegate(
+	public void setVisibilityUpdateDelegate(
 			@CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate) {
 		this.visibilityUpdateDelegate = visibilityUpdateDelegate;
 	}
@@ -213,16 +215,28 @@ public abstract class PropertyView {
 	/**
 	 * Representation of a combo box with a label, a dropdown for suggestions, an input field for
 	 * custom values, displaying the current value and an optional error message.
+	 * @apiNote The class implements {@link VisibilityUpdateDelegate} to correctly set up visibility
+	 * notifications internally, ensuring that {@link PropertyView#setVisibilityUpdateDelegate}
+	 * works with the optional visibility delegate in the parent.
+	 * This setup properly notifies the parent whenever its child's visibility is updated.
 	 */
-	public static final class ComboBox extends PropertyBackedView<StringPropertyWithSuggestions> {
+	public static final class ComboBox extends PropertyBackedView<StringPropertyWithSuggestions>
+			implements VisibilityUpdateDelegate {
 		private String value;
 		private String errorMessage;
+		private @Weak @CheckForNull VisibilityUpdateDelegate comboBoxVisibilityUpdateDelegate;
+		private @Weak @CheckForNull VisibilityUpdateDelegate parentVisibilityUpdateDelegate;
 
-		ComboBox(StringPropertyWithSuggestions stringPropertyWithSuggestions) {
+		ComboBox(StringPropertyWithSuggestions stringPropertyWithSuggestions,
+				@CheckForNull VisibilityUpdateDelegate parentVisibilityUpdateDelegate) {
 			super(stringPropertyWithSuggestions);
 			this.value = stringPropertyWithSuggestions.getValue() != null
 					? stringPropertyWithSuggestions.getValue() : "";
 			this.errorMessage = null;
+			this.parentVisibilityUpdateDelegate = parentVisibilityUpdateDelegate;
+			if (parentVisibilityUpdateDelegate != null) {
+				super.setVisibilityUpdateDelegate(this);
+			}
 		}
 
 		/**
@@ -273,20 +287,43 @@ public abstract class PropertyView {
 		public @CheckForNull String getErrorMessage() {
 			return errorMessage;
 		}
+
+		@Override
+		public void setVisibilityUpdateDelegate(
+				@CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate) {
+			// Set the delegate to notify visibility change specifically for this combo box
+			this.comboBoxVisibilityUpdateDelegate = visibilityUpdateDelegate;
+			// Set the delegate to notify visibility change for this combo box and its parent
+			super.setVisibilityUpdateDelegate(this);
+		}
+
+		@Override
+		public void visibilityUpdated() {
+			// Notify objects listening to this view specifically
+			if (comboBoxVisibilityUpdateDelegate != null) {
+				comboBoxVisibilityUpdateDelegate.visibilityUpdated();
+			}
+			// Notify objects listening to the parent
+			if (parentVisibilityUpdateDelegate != null) {
+				parentVisibilityUpdateDelegate.visibilityUpdated();
+			}
+		}
 	}
 
 	/**
 	 * Representation of two combo boxes placed side by side, each taking up half the space.
+	 * @implNote The class implements {@link VisibilityUpdateDelegate} to correctly set up visibility
+	 * notifications internally, ensuring that {@link PropertyView#setVisibilityUpdateDelegate}
+	 * works independently from the same delegate set to its children.
 	 */
-	public static final class ComboBoxRow extends PropertyView {
+	public static final class ComboBoxRow extends PropertyView implements VisibilityUpdateDelegate {
 		private final ComboBox leadingComboBox;
 		private final ComboBox trailingComboBox;
 
-		ComboBoxRow(ComboBox leadingComboBox, ComboBox trailingComboBox) {
-			this.leadingComboBox = leadingComboBox;
-			this.trailingComboBox = trailingComboBox;
-			leadingComboBox.setVisibilityUpdateDelegate(this::onVisibilityUpdated);
-			trailingComboBox.setVisibilityUpdateDelegate(this::onVisibilityUpdated);
+		ComboBoxRow(StringPropertyWithSuggestions leadingComboBoxProperty,
+				StringPropertyWithSuggestions trailingComboBoxProperty) {
+			this.leadingComboBox = new ComboBox(leadingComboBoxProperty, this);
+			this.trailingComboBox = new ComboBox(trailingComboBoxProperty, this);
 		}
 
 		/**
@@ -308,7 +345,8 @@ public abstract class PropertyView {
 			return leadingComboBox.isVisible() && trailingComboBox.isVisible();
 		}
 
-		private void onVisibilityUpdated() {
+		@Override
+		public void visibilityUpdated() {
 			if (visibilityUpdateDelegate != null) {
 				visibilityUpdateDelegate.visibilityUpdated();
 			}
@@ -647,7 +685,7 @@ public abstract class PropertyView {
 		} else if (property instanceof NamedEnumeratedProperty) {
 			return new Dropdown((NamedEnumeratedProperty<?>) property);
 		} else if (property instanceof StringPropertyWithSuggestions) {
-			return new ComboBox((StringPropertyWithSuggestions) property);
+			return new ComboBox((StringPropertyWithSuggestions) property, null);
 		} else if (property instanceof StringProperty) {
 			return new TextField((StringProperty) property);
 		} else if (property instanceof IconsEnumeratedProperty) {
@@ -692,12 +730,8 @@ public abstract class PropertyView {
 					(GridAngleProperty) gridDistancePropertyCollection.getProperties()[4];
 			return new RelatedPropertyViewCollection(null, List.of(
 					new Checkbox(gridFixedDistanceProperty),
-					new ComboBoxRow(
-							new ComboBox(gridDistancePropertyX),
-							new ComboBox(gridDistancePropertyY)),
-					new ComboBoxRow(
-							new ComboBox(gridDistancePropertyR),
-							new ComboBox(gridAngleProperty))), 0);
+					new ComboBoxRow(gridDistancePropertyX, gridDistancePropertyY),
+					new ComboBoxRow(gridDistancePropertyR, gridAngleProperty)), 0);
 		} else if (property instanceof PropertyCollection) {
 			return new ExpandableList((PropertyCollection<?>) property);
 		} else {
