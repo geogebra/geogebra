@@ -17,8 +17,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
-import org.geogebra.desktop.export.epsgraphics.EpsGraphicsWrapper;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.ScaledIcon;
 
@@ -79,17 +77,7 @@ public class DrawEquationD extends DrawEquation {
 			final GFont font, final boolean serif, final GColor fgColor,
 			final GColor bgColor, final boolean useCache, boolean updateAgain,
 			Runnable callback) {
-
-		// EpsGraphicsD eps = null;
-		//
-		// new Graphics2DD(eps);
-
-		Graphics2DInterface g;
-		if (g2 instanceof EpsGraphicsD) {
-			g = new EpsGraphicsWrapper((EpsGraphicsD) g2);
-		} else {
-			g = new Graphics2DD(GGraphics2DD.getAwtGraphics(g2));
-		}
+		Graphics2DInterface g = new Graphics2DD(GGraphics2DD.getAwtGraphics(g2));
 		GDimension d = drawEquation(app, geo, g, x, y, text, font, serif,
 				ColorD.get(GColorD.getAwtColor(fgColor)),
 				ColorD.get(GColorD.getAwtColor(bgColor)), useCache, null, null);

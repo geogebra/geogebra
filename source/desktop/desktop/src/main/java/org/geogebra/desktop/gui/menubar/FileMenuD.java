@@ -321,7 +321,7 @@ class FileMenuD extends BaseMenu {
 
 		exportGraphicAction = new AbstractAction(
 				loc.getMenu("DrawingPadAsPicture") + " (" + FileExtensions.PNG
-						+ ", " + FileExtensions.EPS + ") ...",
+						+ ", " + FileExtensions.SVG + ") ...",
 				app.getMenuIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 			private static final long serialVersionUID = 1L;
 

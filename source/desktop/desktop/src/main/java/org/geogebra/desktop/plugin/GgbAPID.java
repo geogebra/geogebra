@@ -363,7 +363,7 @@ public class GgbAPID extends GgbAPIJre {
 		File file = new File(filename);
 
 		EuclidianView view = app.getActiveEuclidianView();
-		GraphicExportDialog.exportPDF(app, view, file, true,
+		GraphicExportDialog.exportPDF(view, file, true,
 				view.getExportWidth(),
 				view.getExportHeight(), exportScale);
 

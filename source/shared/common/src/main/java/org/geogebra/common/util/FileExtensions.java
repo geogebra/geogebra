@@ -23,8 +23,6 @@ public enum FileExtensions {
 
 	TIF("tif", false, true),
 
-	EPS("eps", false, false),
-
 	PDF("pdf", false, false),
 
 	EMF("emf", false, false),
@@ -96,7 +94,7 @@ public enum FileExtensions {
 	}
 
 	/**
-	 * @return is image that can be plotted in EV (ie not EPS, PDF)
+	 * @return is image that can be plotted in EV (ie not PDF)
 	 */
 	final public boolean isImage() {
 		return isImage;
