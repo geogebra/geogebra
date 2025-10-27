@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -824,5 +826,21 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void shouldEscapeText() {
 		setupInput("txt", "\"--^\\\"");
 		assertEquals(inputBox.getText(), "\\text{-{}-{}\\^{} \\backslash{}}");
+	}
+
+	@Issue("APPS-7006")
+	@Test
+	public void shouldPreserveVisibilityFlags() {
+		GeoNumeric i = add("i=1");
+		i.createSlider();
+		add("f(x, y)=3xy");
+		List<Integer> viewFlags = List.of(AppCommon.VIEW_EUCLIDIAN2,
+				AppCommon.VIEW_ALGEBRA);
+		inputBox = add("ib=InputBox(f)");
+		add("eq1: f - i = 0");
+		GeoElement eq1 = lookup("eq1");
+		eq1.setViewFlags(viewFlags);
+		updateInput("2^x");
+		assertEquals(viewFlags, lookup("eq1").getViewSet());
 	}
 }

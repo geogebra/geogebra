@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.implicit;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -145,10 +146,12 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 *            replacement element
 	 */
 	protected void replaceGeoElement(GeoElementND newElem) {
-		String label = geoElement.getLabelSimple();
 		newElem.setVisualStyle(geoElement.toGeoElement());
 		newElem.setLayer(geoElement.getLayer());
+		List<Integer> flags = geoElement.getViewSet();
 		geoElement.doRemove();
+		newElem.setViewFlags(flags);
+		String label = geoElement.getLabelSimple();
 		newElem.setDefinition(geoElement.getDefinition());
 		geoElement = newElem;
 		setInputOutput();
