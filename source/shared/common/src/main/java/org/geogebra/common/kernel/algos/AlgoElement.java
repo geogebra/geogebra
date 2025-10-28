@@ -62,8 +62,6 @@ import com.google.j2objc.annotations.AutoreleasePool;
  */
 public abstract class AlgoElement extends ConstructionElement
 		implements EuclidianViewCE, HasArguments {
-	private static boolean tempSetLock = false;
-	private static TreeSet<AlgoElement> tempSet;
 	/** input elements */
 	public GeoElement[] input;
 	private ArrayList<GeoElementND> freeInputPoints;
@@ -671,16 +669,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		// update all geos
-		tempSetLock = true;
-		GeoElement.updateCascade(geos, getTempSet(), true);
-		tempSetLock = false;
-	}
-
-	private static TreeSet<AlgoElement> getTempSet() {
-		if (tempSet == null || tempSetLock) {
-			tempSet = new TreeSet<>();
-		}
-		return tempSet;
+		GeoElement.updateCascade(geos, new TreeSet<>(), true);
 	}
 
 	// public part
