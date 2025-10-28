@@ -1,32 +1,29 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.pen;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ERASER;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_HIGHLIGHTER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.ToolIconButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 
-public class PenIconButton extends IconButton {
+public class PenIconButton extends ToolIconButton {
 	private final AppW appW;
 	private PenCategoryPopup penPopup;
-	private static final List<Integer> modes = Arrays.asList(MODE_PEN, MODE_HIGHLIGHTER,
-			MODE_ERASER);
+	private final List<Integer> modes;
 
 	/**
 	 * Constructor
 	 * @param appW - application
 	 * @param deselectButtons - deselect other button callback
 	 */
-	public PenIconButton(AppW appW, Runnable deselectButtons) {
+	public PenIconButton(AppW appW, List<Integer> modes, Runnable deselectButtons) {
 		super(MODE_PEN, appW);
 		this.appW = appW;
+		this.modes = modes;
 
 		AriaHelper.setAriaHasPopup(this);
 		addFastClickHandler((event) -> {

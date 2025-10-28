@@ -2,11 +2,11 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.ToolIconButton;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 
-public class RulerIconButton extends IconButton {
+public class RulerIconButton extends ToolIconButton {
 	private final EuclidianController ec;
 	private RulerPopup rulerPopup;
 	private final AppW appW;

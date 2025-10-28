@@ -12,7 +12,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 public class CategoryPopup extends GPopupPanel implements SetLabels {
 	private final Consumer<Integer> updateParentCallback;
-	private IconButton lastSelectedButton;
+	private ToolIconButton lastSelectedButton;
 	private FlowPanel contentPanel;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final Integer defaultTool;
@@ -62,7 +62,7 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 		toolsPanel.addStyleName("toolsHolder");
 
 		for (Integer mode : tools) {
-			IconButton button = createButton(mode);
+			ToolIconButton button = createButton(mode);
 			if (defaultTool.equals(mode)) {
 				updateButtonSelection(button);
 			}
@@ -73,8 +73,8 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 		add(contentPanel);
 	}
 
-	private IconButton createButton(Integer mode) {
-		IconButton button = new IconButton(mode, (AppW) app);
+	private ToolIconButton createButton(Integer mode) {
+		ToolIconButton button = new ToolIconButton(mode, (AppW) app);
 		button.addFastClickHandler(source -> {
 			updateButtonSelection(button);
 			app.setMode(mode);
@@ -87,7 +87,7 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 		return button;
 	}
 
-	private void updateButtonSelection(IconButton newSelectedButton) {
+	private void updateButtonSelection(ToolIconButton newSelectedButton) {
 		if (lastSelectedButton != null) {
 			lastSelectedButton.deactivate();
 		}

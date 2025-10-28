@@ -1,18 +1,16 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.text;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EQUATION;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
+import java.util.List;
 
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.ToolIconButton;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
-import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 
-public class TextIconButton extends IconButton {
+public class TextIconButton extends ToolIconButton {
 	private final AppW appW;
+	private final List<Integer> tools;
 	private TextCategoryPopup textCategoryPopup;
 
 	/**
@@ -21,10 +19,10 @@ public class TextIconButton extends IconButton {
 	 * @param deselectButtons - deselect buttons callback
 	 */
 	public TextIconButton(AppW appW, Runnable deselectButtons,
-			ToolboxIconResource toolboxIconResource) {
-		super(appW, toolboxIconResource.getImageResource(ToolboxIcon.TEXTS), "Text.Tool",
-				"Text.Tool", "", null);
+			List<Integer> tools) {
+		super(tools.get(0), appW);
 		this.appW = appW;
+		this.tools = tools;
 
 		AriaHelper.setAriaHasPopup(this);
 		addFastClickHandler((event) -> {
@@ -40,7 +38,7 @@ public class TextIconButton extends IconButton {
 
 	private void initPopupAndShow() {
 		if (textCategoryPopup == null) {
-			textCategoryPopup = new TextCategoryPopup(appW, this);
+			textCategoryPopup = new TextCategoryPopup(appW, this, tools);
 			textCategoryPopup.getPopupPanel().setAutoHideEnabled(false);
 		}
 
@@ -61,12 +59,12 @@ public class TextIconButton extends IconButton {
 	@Override
 	public int getMode() {
 		return textCategoryPopup != null ? textCategoryPopup.getLastSelectedMode()
-				: MODE_MEDIA_TEXT;
+				: tools.get(0);
 	}
 
 	@Override
 	public boolean containsMode(int mode) {
-		return mode == MODE_MEDIA_TEXT || mode == MODE_EQUATION;
+		return tools.contains(mode);
 	}
 
 	@Override

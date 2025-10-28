@@ -3,9 +3,11 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_AUDIO;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CALCULATOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CAMERA;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EQUATION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EXTENSION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_GRASPABLE_MATH;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIND_MAP;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
@@ -51,6 +53,10 @@ public class ToolModeIconSpecAdapter {
 			return ToolboxIcon.PROTRACTOR;
 		case MODE_TRIANGLE_PROTRACTOR:
 			return ToolboxIcon.TRIANGLE;
+		case MODE_EQUATION:
+			return ToolboxIcon.EQUATION;
+		case MODE_MEDIA_TEXT:
+			return ToolboxIcon.TEXT;
 		}
 		return null;
 	}

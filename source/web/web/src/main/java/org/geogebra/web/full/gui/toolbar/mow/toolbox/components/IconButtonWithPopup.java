@@ -10,7 +10,7 @@ import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-public class IconButtonWithPopup extends IconButton {
+public class IconButtonWithPopup extends ToolIconButton {
 	private final AppW appW;
 	private final List<Integer> tools;
 	private CategoryPopup categoryPopup;

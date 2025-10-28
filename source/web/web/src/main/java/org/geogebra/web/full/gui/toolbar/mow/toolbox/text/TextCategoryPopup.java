@@ -1,49 +1,54 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.text;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EQUATION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
+
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolModeIconSpecAdapter;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
-import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 
 public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 	private final IconButton textButton;
 	private int lastSelectedMode = -1;
+	private final List<Integer> tools;
 
 	/**
 	 * Constructor
 	 * @param app - application
 	 * @param textButton - text icon button
 	 */
-	public TextCategoryPopup(AppW app, IconButton textButton) {
+	public TextCategoryPopup(AppW app, IconButton textButton, List<Integer> tools) {
 		super(app);
 		this.textButton = textButton;
-		buildGui();
+		this.tools = tools;
+		buildGui(tools);
 	}
 
-	private void buildGui() {
-		ToolboxIconResource res = getApp().getToolboxIconResource();
-		addItem(MODE_MEDIA_TEXT, res.getImageResource(ToolboxIcon.TEXT));
-		addItem(MODE_EQUATION, res.getImageResource(ToolboxIcon.EQUATION));
+	private void buildGui(List<Integer> tools) {
+		for (int mode: tools) {
+			addItem(mode);
+		}
 
 		popupMenu.selectItem(0);
 	}
 
-	private void addItem(int mode, IconSpec icon) {
+	private void addItem(int mode) {
 		String text = getApp().getToolName(mode);
+		ToolboxIcon toolboxIcon = ToolModeIconSpecAdapter.getToolboxIcon(mode);
+		IconSpec iconSpec = getApp().getToolboxIconResource().getImageResource(toolboxIcon);
 
-		AriaMenuItem item = MainMenu.getMenuBarItem(icon, text, () -> {});
+		AriaMenuItem item = MainMenu.getMenuBarItem(iconSpec, text, () -> {});
 		item.setScheduledCommand(() -> {
 			updateMode(mode);
-			updateButton(icon, mode);
+			updateButton(iconSpec, mode);
 			updateSelection(item);
 			hide();
 		});
@@ -70,7 +75,7 @@ public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 	@Override
 	public void setLabels() {
 		clearItems();
-		buildGui();
+		buildGui(tools);
 	}
 
 	public int getLastSelectedMode() {
