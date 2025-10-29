@@ -89,7 +89,7 @@ public abstract class PropertyView {
 		return true;
 	}
 
-	private abstract static class PropertyBackedView<T extends Property> extends PropertyView {
+	public abstract static class PropertyBackedView<T extends Property> extends PropertyView {
 		protected final @Nonnull T property;
 		private boolean previousAvailability;
 
@@ -109,6 +109,13 @@ public abstract class PropertyView {
 						.forEach(p -> ((BooleanProperty) p)
 								.addValueObserver(valuedProperty -> onValueUpdated()));
 			}
+		}
+
+		/**
+		 * @return the backing property's name (e.g., for diagnostics).
+		 */
+		public final String getPropertyName() {
+			return property.getName();
 		}
 
 		/**
@@ -218,7 +225,8 @@ public abstract class PropertyView {
 	 * @apiNote The class implements {@link VisibilityUpdateDelegate} to correctly set up visibility
 	 * notifications internally, ensuring that {@link PropertyView#setVisibilityUpdateDelegate}
 	 * works with the optional visibility delegate in the parent.
-	 * This setup properly notifies the parent whenever its child's visibility is updated.
+	 * This setup properly notifies the parent (e.g. a ComboBoxRow) whenever its child's
+	 * visibility is updated.
 	 */
 	public static final class ComboBox extends PropertyBackedView<StringPropertyWithSuggestions>
 			implements VisibilityUpdateDelegate {
