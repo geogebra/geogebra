@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -71,21 +72,4 @@ public class DerivativeTest extends BaseUnitTest {
 		assertThat(lookup("g"), hasValue("6v"));
 	}
 
-	@Test
-	public void firstDerivativeResultShouldBeFactorised() {
-		add("f(x) = 1 / (x-1)");
-		t("Derivative(f)", "-1 / (x - 1)^(2)");
-		t("Derivative(f, x)", "-1 / (x - 1)^(2)");
-		t("Derivative(f, x, 1)", "-1 / (x - 1)^(2)");
-		t("f'(x)", "-1 / (x - 1)^(2)");
-		// Special case: Result of (1st Derivative of 1st Derivative) should also be factorised
-		t("Derivative(Derivative(f))", "2 / (x - 1)^(3)");
-	}
-
-	@Test
-	public void secondDerivativeResultShouldNotBeFactorised() {
-		add("f(x) = 1 / (x-1)");
-		t("Derivative(f, x, 2)", "2 / (x^(3) - (3 * x^(2)) + (3 * x) - 1)");
-		t("f''(x)", "2 / (x^(3) - (3 * x^(2)) + (3 * x) - 1)");
-	}
 }

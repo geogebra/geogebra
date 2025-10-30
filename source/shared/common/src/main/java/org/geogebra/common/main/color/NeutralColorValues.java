@@ -13,6 +13,8 @@ public final class NeutralColorValues {
 
 	/**
 	 * @return neutral colors
+	 * @apiNote The returned list may contain {@code null} values. These {@code null} values
+	 * are "markers" that indicate indices where a plus button should be shown in the UI.
 	 */
 	public static List<GColor> values() {
 		return Arrays.asList(

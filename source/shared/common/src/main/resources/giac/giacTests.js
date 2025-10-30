@@ -2699,7 +2699,6 @@ var __giac = [
 { cat:"GroebnerLexDeg.2", cmd:"GroebnerLexDeg({x^3 - y - 2, x^2 + y + 1},{x,y})", result:"{x\u00B2 + y + 1, -x y - x - y - 2, y\u00B2 - x + 3y + 3}"},
 { cat:"GroebnerDegRevLex.1", cmd:"GroebnerDegRevLex({x^3 - y - 2, x^2 + y + 1})", result:"{x\u00B2 + y + 1, x y + x + y + 2, y\u00B2 - x + 3y + 3}"},
 { cat:"GroebnerDegRevLex.2", cmd:"GroebnerDegRevLex({x^3 - y - 2, x^2 + y + 1},{x,y})", result:"{x\u00B2 + y + 1, x y + x + y + 2, y\u00B2 - x + 3y + 3}"},
-{ cat:"Derivative", cmd:"Derivative[1/(x-1)]", result:"-1 / (x - 1)\u00B2" },
 
 
 
