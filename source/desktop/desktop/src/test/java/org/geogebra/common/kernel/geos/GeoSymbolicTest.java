@@ -269,8 +269,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 						+ "^(-1354033 / 500000) + 5)",
 				"276 * " + EULER_STRING + "^(-1354033 / 500000) / "
 						+ "(150 * " + EULER_STRING + "^(-1354033 / 500000) + "
-						+ "1125 * (" + EULER_STRING + "^(-1354033 / 500000))^(2)"
-						+ " + 5)");
+						+ "1125 * (" + EULER_STRING + "^(-1354033 / 500000))^(2) 5)",
+				"276 / 5 * " + EULER_STRING + "^(-1354033 / 500000) / (15 * "
+						+ EULER_STRING + "^(-1354033 / 500000) + 1)^(2)");
 	}
 
 	@Test
