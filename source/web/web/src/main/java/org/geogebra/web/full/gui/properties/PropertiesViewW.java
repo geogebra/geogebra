@@ -5,6 +5,8 @@ import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
@@ -72,7 +74,7 @@ public class PropertiesViewW extends PropertiesView
 	private OptionType optionType;
 	private boolean floatingAttached = false;
 
-	private ComponentSideSheet sideSheet;
+	private @CheckForNull ComponentSideSheet sideSheet;
 	private ComponentTab settingsTab;
 	private PropertiesPanelAdapter adapter;
 	private boolean objectPropertiesVisible;
@@ -555,7 +557,9 @@ public class PropertiesViewW extends PropertiesView
 		((AppWFull) app).centerAndResizeViews();
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
-		sideSheet.focus();
+		if (sideSheet != null) {
+			sideSheet.focus();
+		}
 	}
 
 	/**
@@ -620,6 +624,9 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	private void rebuildSettingsSideSheet() {
+		if (sideSheet == null) {
+			return;
+		}
 		wrappedPanel.clear();
 		sideSheet.clearContent();
 		List<PropertiesArray> propLists;
