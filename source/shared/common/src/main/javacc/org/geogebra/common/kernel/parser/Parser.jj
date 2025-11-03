@@ -1674,12 +1674,12 @@ ExpressionValue myDouble():
 |
     (c = <DEGREE_WORD> | c = <DEGREE_SYMBOL>)
     {  // constant for degree to radians
-        GeoElement geo = null;
+        GeoElement userDefinedDeg = null;
         if (c.image.length() == 3) {
-            geo = kernel.lookupLabel(c.image);
+            userDefinedDeg = kernel.lookupLabel(c.image);
         }
-        if (geo != null) {
-            ret = geo;
+        if (userDefinedDeg != null) {
+            ret = userDefinedDeg;
         } else {
             ret = newSpecialDegree();
         }
@@ -1687,9 +1687,9 @@ ExpressionValue myDouble():
 |
     <RAD>
     {  // constant for radians to radians
-        GeoElement geo = kernel.lookupLabel("rad");
-        if (geo != null)    {
-            ret = geo;
+        GeoElement userDefinedRad = kernel.lookupLabel("rad");
+        if (userDefinedRad != null)    {
+            ret = userDefinedRad;
         } else {
             d = new MySpecialDouble(kernel, 1.0d, "rad");
             d.setAngle();

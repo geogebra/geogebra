@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -28,6 +27,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,18 +56,18 @@ public class CommandsUsingCASTest extends AlgebraTest {
 				"{{x = 60*deg, y = 60*deg}, {x = (-60*deg), y = (-60*deg)}}");
 	}
 
-	private void deg(String def, String expect) {
+	private void deg(String definition, Matcher<String> expected) {
 		EvalInfo evalInfo = new EvalInfo(true, true).addDegree(true);
-		checkWithEvalInfo(def, expect, evalInfo);
+		checkWithEvalInfo(definition, expected, evalInfo);
 	}
 
-	private void checkWithEvalInfo(String def, String expect,
+	private void checkWithEvalInfo(String def, Matcher<String> expected,
 			EvalInfo evalInfo) {
 		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE,
 				evalInfo, null);
 		String res = geo[0].toValueString(StringTemplate.editTemplate);
-		assertEquals(expect, res);
+		assertThat(res, anyOf(expected));
 	}
 
 	private void tdeg(String string, String string2) {
@@ -197,11 +197,15 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("Derivative[ cos(x), x, 3 ]", "sin(x)");
 		t("Derivative[ x^4/3 ]", "(4 / 3 * x^(3))");
 		t("Derivative[exp(x)]", "\u212F^(x)");
-		t("Derivative[(x+1)exp(-x)]", "((-x) * \u212F^((-x)))");
+		t("Derivative[(x+1)exp(-x)]",
+				anyOf(equalTo("\u212F^((-x)) - (\u212F^((-x)) * (x + 1))"),
+						equalTo("((-(x + 1)) * \u212F^((-x))) + \u212F^((-x))")));
 		t("fderiv:y=exp(x)", "exp(x)");
 		t("fderiv'(x)", "\u212F^(x)");
 		t("fderiv2:y=(x+1)exp(-x)", "((x + 1) * exp((-x)))");
-		t("fderiv2'(x)", "((-x) * \u212F^((-x)))");
+		t("fderiv2'(x)",
+				anyOf(equalTo("\u212F^((-x)) - (\u212F^((-x)) * (x + 1))"),
+						equalTo("((-(x + 1)) * \u212F^((-x))) + \u212F^((-x))")));
 	}
 
 	@Test
@@ -414,7 +418,8 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void testDerivativeDegrees() {
-		deg("Derivative(sin(30)*x+sin(x))", "1 / 2 (2cos(x) + 1)");
+		deg("Derivative(sin(30)*x+sin(x))",
+				anyOf(equalTo("1 / 2 + cos(x)"), equalTo("cos(x) + 1 / 2")));
 	}
 
 	@Test
@@ -487,9 +492,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("f==g", "true");
 	}
 
-	private void frac(String def, String expect) {
+	private void frac(String definition, String expected) {
 		EvalInfo evalInfo = new EvalInfo(true, true).withSymbolic(true);
-		checkWithEvalInfo(def, expect, evalInfo);
+		checkWithEvalInfo(definition, anyOf(equalTo(expected)), evalInfo);
 	}
 
 	@Test

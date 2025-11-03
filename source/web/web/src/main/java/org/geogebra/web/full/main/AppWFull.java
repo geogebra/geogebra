@@ -1771,6 +1771,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (!isUnbundled()) {
 				setPerspectives(p);
 			}
+			ensureSupportedModeActive();
 		} else {
 			updateContentPane();
 		}

@@ -47,7 +47,7 @@ public class GParser extends Parser {
 	}
 
 	@Override
-	public ParseException generateParseException() {
+	public ParseException generateParseException(String ignored) {
 		GParseException ex = new GParseException(getKernel().getLocalization()
 				.getInvalidInputError());
 		if (jj_nt != null && jj_nt.image != null) {
