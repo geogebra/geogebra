@@ -76,6 +76,11 @@ public enum Language {
 			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576",
 			Script.ARMENIAN, ',', ""),
 
+	Assamese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, Unicode.CURRENCY_INDIAN_RUPEE,
+			false, "as",
+			"Assamese / \u0985\u09B8\u09AE\u09C0\u09AF\u09BC\u09BE",
+			Script.BENGALI, ""),
+
 	Azerbaijani(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, '$',
 			false, "az", "Azerbaijani", Script.LATIN, ',', ""),
 
@@ -84,7 +89,7 @@ public enum Language {
 			"Basque / Euskara", Script.LATIN, ',', '0', null, "."),
 
 	Bengali(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
-			Unicode.CURRENCY_EURO, false, "bn",
+			Unicode.CURRENCY_INDIAN_RUPEE, false, "bn",
 			"Bengali / \u09AC\u09BE\u0982\u09B2\u09BE", Script.BENGALI, ""),
 
 	Bosnian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
