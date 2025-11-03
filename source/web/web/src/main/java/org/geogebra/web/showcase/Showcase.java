@@ -22,6 +22,7 @@ import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.components.ComponentProgressBar;
+import org.geogebra.web.full.gui.components.ComponentTextArea;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.view.algebra.ToastController;
@@ -96,6 +97,7 @@ public class Showcase implements EntryPoint {
 		showSnackBar.addFastClickHandler((widget) -> app.getToolTipManager()
 				.showBottomMessage("Success.", app));
 		StandardButton showToast = getToastButton(app);
+		ComponentTextArea textArea = new ComponentTextArea(app.getLocalization(), "Input");
 		TabData[] data = {
 				new TabData("Checkbox", wrap(checkbox)),
 				new TabData("Combo Box", wrap(componentComboBox)),
@@ -105,14 +107,14 @@ public class Showcase implements EntryPoint {
 				new TabData("Info/Error Panel", wrap(errorPanel)),
 				new TabData("Input Field", wrap(inputField)),
 				new TabData("Progress Bar", wrap(progressBar)),
-				new TabData("Text Area", wrap()),
+				new TabData("Text Area", wrap(textArea)),
 				new TabData("Radio Button", wrap(radioButtonPanel)),
 				new TabData("Snack Bar", wrap(showSnackBar)),
 				new TabData("Switch", wrap(componentSwitch)),
 				new TabData("Toast", wrap(showToast)),
 		};
 		String hash = DomGlobal.location.hash;
-		ComponentTab tab = new ComponentTab(app.getLocalization(), data);
+		ComponentTab tab = new ComponentTab(app, "Showcase", data);
 		tab.addTabChangedListener(selected -> {
 			for (int i = 0; i < data.length; i++) {
 				final boolean show = selected != null && i == selected;
