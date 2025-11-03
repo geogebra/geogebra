@@ -773,8 +773,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 		if (!invert) {
 			return gpcArea;
 		}
-		GArea complement = AwtFactory.getPrototype()
-				.newArea(view.getBoundingPath());
+		GArea complement = view.getBoundsArea();
 		complement.subtract(gpcArea);
 		return complement;
 	}

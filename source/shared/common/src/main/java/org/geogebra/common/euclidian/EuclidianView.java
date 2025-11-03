@@ -13,6 +13,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
@@ -4381,10 +4382,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.isRounded = isRounded;
 	}
 
-	/**
-	 * @return path along border of this view
-	 */
-	public GeneralPathClipped getBoundingPath() {
+	private GeneralPathClipped getBoundingPath() {
 		GeneralPathClipped gs = new GeneralPathClipped(this);
 		gs.resetWithThickness(1);
 		gs.moveTo(getMinXScreen(), getMinYScreen());
@@ -4394,6 +4392,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		gs.lineTo(getMinXScreen(), getMinYScreen());
 		gs.closePath();
 		return gs;
+	}
+
+	/**
+	 * @return path along border of this view
+	 */
+	public GArea getBoundsArea() {
+		return AwtFactory.getPrototype().newArea(getBoundingPath());
 	}
 
 	/**

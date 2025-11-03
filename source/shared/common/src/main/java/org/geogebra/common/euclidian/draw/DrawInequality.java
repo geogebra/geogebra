@@ -10,7 +10,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -175,7 +174,7 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			GArea b = AwtFactory.getPrototype().newArea(view.getBoundingPath());
+			GArea b = view.getBoundsArea();
 			b.subtract(getShape());
 			setShape(b);
 		}
@@ -224,14 +223,14 @@ public class DrawInequality extends Drawable {
 			setShape(left.getShape());
 			getShape().add(right.getShape());
 		} else if (operation.equals(Operation.EQUAL_BOOLEAN)) {
-			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
+			setShape(view.getBoundsArea());
 			left.getShape().exclusiveOr(right.getShape());
 			getShape().subtract(left.getShape());
 		} else if (operation.equals(Operation.NOT_EQUAL) || operation.equals(Operation.XOR)) {
 			setShape(left.getShape());
 			getShape().exclusiveOr(right.getShape());
 		} else if (operation.equals(Operation.NOT)) {
-			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
+			setShape(view.getBoundsArea());
 			getShape().subtract(left.getShape());
 		}
 	}

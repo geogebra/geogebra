@@ -171,8 +171,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 				: fillShape == null ? AwtFactory.getPrototype().newArea()
 				: AwtFactory.getPrototype().newArea(fillShape);
 		if (conic.isInverseFill()) {
-			GArea complement = AwtFactory.getPrototype()
-					.newArea(view.getBoundingPath());
+			GArea complement = view.getBoundsArea();
 			complement.subtract(area);
 			return complement;
 		}
@@ -530,8 +529,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 				}
 
 				if (negativeColored()) {
-					GArea complement = AwtFactory.getPrototype()
-							.newArea(view.getBoundingPath());
+					GArea complement = view.getBoundsArea();
 					complement.subtract((GArea) fillShape);
 					fillShape = complement;
 
@@ -1268,8 +1266,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		if (conic.isInverseFill()) {
 			GArea a1 = AwtFactory.getPrototype().newArea(hypLeft);
 			GArea a2 = AwtFactory.getPrototype().newArea(hypRight);
-			GArea complement = AwtFactory.getPrototype()
-					.newArea(view.getBoundingPath());
+			GArea complement = view.getBoundsArea();
 			complement.subtract(a1);
 			complement.subtract(a2);
 			fill(g2, complement);

@@ -128,7 +128,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private void createInverseShape() {
-		setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
+		setShape(view.getBoundsArea());
 		getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		fillShape = true;
 	}

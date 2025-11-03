@@ -253,7 +253,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		// shape for filling
 
 		if (geo.isInverseFill()) {
-			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
+			setShape(view.getBoundsArea());
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 		drawAndUpdateTraceIfNeeded(curve.getTrace());

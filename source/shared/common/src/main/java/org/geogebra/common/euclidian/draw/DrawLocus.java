@@ -114,7 +114,7 @@ public class DrawLocus extends Drawable {
 		drawAndUpdateTraceIfNeeded(geo.isTraceable()
 				&& (geo instanceof Traceable) && ((Traceable) geo).getTrace());
 		if (geo.isInverseFill()) {
-			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
+			setShape(view.getBoundsArea());
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 	}
