@@ -62,7 +62,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected ContextMenuGraphicsWindow3DW getGraphicsWindowContextMenu() {
-		return new ContextMenuGraphicsWindow3DW(app, 0, 0);
+		return new ContextMenuGraphicsWindow3DW(app);
 	}
 
 	@Override

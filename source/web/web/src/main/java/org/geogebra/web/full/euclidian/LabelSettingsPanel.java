@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.impl.collections.FlagListPropertyCollection;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.javax.swing.GCheckMarkLabel;
 import org.geogebra.web.full.javax.swing.GCheckMarkPanel;
 import org.gwtproject.user.client.Command;
@@ -30,8 +29,7 @@ public class LabelSettingsPanel extends FlowPanel implements SetLabels {
 	private void createDialog() {
 		Command nameValueCmd = this::applyCheckboxes;
 		for (String label: labelStyleProperty.getFlagNames()) {
-			checkmarks.add(new GCheckMarkLabel(label, MaterialDesignResources.INSTANCE
-					.check_black(), true, nameValueCmd));
+			checkmarks.add(new GCheckMarkLabel(label, true, nameValueCmd));
 		}
 		checkmarks.forEach(this::add);
 		updateUI();

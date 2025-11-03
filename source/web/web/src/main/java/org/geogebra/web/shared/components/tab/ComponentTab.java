@@ -169,6 +169,18 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 		});
 	}
 
+	/**
+	 * Find tab with given title and switch to it
+	 * @param tabTransKey title of searched tab
+	 */
+	public void switchToTab(String tabTransKey) {
+		for (int i = 0; i < tabData.size(); i++) {
+			if (tabData.get(i).getTabTitle().equals(tabTransKey)) {
+				switchToTab(i);
+			}
+		}
+	}
+
 	private void updateSelection(StandardButton button, boolean selected) {
 		Dom.toggleClass(button, "selected", selected);
 		AriaHelper.setAriaSelected(button, selected);

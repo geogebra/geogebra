@@ -154,6 +154,14 @@ public class PropertiesIconAdapter {
 			return res.grid_isometric();
 		case ICON_DOTS:
 			return res.pattern_dots();
+		case ICON_PROJECTION_PARALLEL:
+			return res.projection_orthographic();
+		case ICON_PROJECTION_PERSPECTIVE:
+			return res.projection_perspective();
+		case ICON_PROJECTION_GLASSES:
+			return res.projection_glasses();
+		case ICON_PROJECTION_OBLIQUE:
+			return res.projection_oblique();
 		case ICON_AXES_BOLD:
 			return res.text_bold_black();
 		case ICON_AXES_ITALIC:

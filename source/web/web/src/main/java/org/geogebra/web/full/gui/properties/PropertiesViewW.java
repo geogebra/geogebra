@@ -376,6 +376,9 @@ public class PropertiesViewW extends PropertiesView
 		if (styleBar != null) {
 			styleBar.selectButton(type);
 		}
+		if (sideSheet != null && settingsTab != null) {
+			settingsTab.switchToTab(type.getName());
+		}
 	}
 
 	/**

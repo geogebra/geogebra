@@ -456,12 +456,11 @@ public class GuiManagerW extends GuiManager
 	private void showDrawingPadPopup(final Element invoker, final GPoint p) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
-		getDrawingPadpopupMenu(p.x, p.y).showScaled(invoker, p.x, p.y);
+		getDrawingPadPopupMenu().showScaled(invoker, p.x, p.y);
 	}
 
-	private ContextMenuGeoElementW getDrawingPadpopupMenu(final int x,
-			final int y) {
-		currentPopup = new ContextMenuGraphicsWindowW(getApp(), x, y, true);
+	private ContextMenuGeoElementW getDrawingPadPopupMenu() {
+		currentPopup = new ContextMenuGraphicsWindowW(getApp(), true);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 

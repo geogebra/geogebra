@@ -17,7 +17,7 @@ public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 	}
 
 	@Override
-	protected AriaMenuItem newMenuItem() {
+	protected AriaMenuItem newMenuItem(boolean hasIcon) {
 		menuCheck = new AriaMenuCheckMock(panel.getText());
 		return menuCheck;
 	}

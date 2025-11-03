@@ -196,6 +196,12 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_check_white_24px.svg")
 	SVGResource check_white();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/check_box_checked.svg")
+	SVGResource checkbox_checked();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/check_box_unchecked.svg")
+	SVGResource checkbox_unchecked();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/check_border.svg")
 	SVGResource check_border();
 

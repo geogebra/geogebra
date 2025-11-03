@@ -272,6 +272,14 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	}
 
 	/**
+	 * Adds widget to the popup panel
+	 * @param widget ui element
+	 */
+	public void addWidget(Widget widget) {
+		popupPanel.add(widget);
+	}
+
+	/**
 	 * @param item
 	 *            to add
 	 * @param autoHide

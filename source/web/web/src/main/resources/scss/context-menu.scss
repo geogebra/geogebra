@@ -35,7 +35,7 @@
 			}
 
 			.checkMarkMenuItem, .collapseMenuItem {
-				padding-right: 24px;
+				padding-right: 36px;
 			}
 
 			img {
@@ -64,6 +64,13 @@
 				right: 8px;
 				margin: 0;
 			}
+
+			.checkImg {
+				opacity: 1;
+				padding: 0;
+				margin: 4px 4px 4px 16px;
+			}
+
 		}
 
 		$collapse-trans: all 0.2s ease;
@@ -179,40 +186,45 @@
 		opacity: 0.38;
 	}
 
-	.radioButton.RadioButtonMenuItem {
-		display: flex;
-		.radioBg {
-			width: 32px;
-			height: 32px;
-			background-color: transparent;
+	.listMenuItem.settingsItem {
+		padding: 0;
+		background-color: white;
+		cursor: default;
 
-			.outerCircle {
-				width: 14px;
-				height: 14px;
-				margin: 7px;
-			}
+		.materialOutlinedButton {
+			border: none;
+			text-transform: none;
+			display: block;
+			margin: auto;
+		}
+	}
 
-			.innerCircle {
-				width: 8px;
-				height: 8px;
-				bottom: 20px;
-				left: 12px;
+	.listMenuItem.iconButtonPanel {
+		height: 36px;
+		padding: 0 16px;
+		display: table;
+		margin: auto;
+		background-color: white;
+		cursor: default;
+
+		&.projection {
+			margin: 0;
+
+			.gwt-Label {
+				height: 32px;
+				line-height: 32px;
+				cursor: default;
 			}
 		}
 
-		.gwt-Label {
-			line-height: 32px;
-		}
+		.iconPanel {
+			display: inline-flex;
+			gap: 8px;
 
-		&:hover {
-			.radioBg {
-				background-color: transparent;
-			}
-		}
-
-		&.selected:hover {
-			.radioBg {
-				background-color: transparent;
+			img {
+				margin: 0;
+				padding: 0;
+				position: relative;
 			}
 		}
 	}

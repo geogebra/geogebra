@@ -18,22 +18,39 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 	private Label label;
 	private final String labelKey;
 	private List<IconButton> iconButtonList;
+	private Runnable callback;
 
 	/**
 	 * Created an icon button panel
 	 * @param appW application
 	 * @param property {@link IconsEnumeratedProperty}
+	 * @param addTitle whether title should be added or not
 	 */
-	public IconButtonPanel(AppW appW, IconsEnumeratedProperty<?> property) {
+	public IconButtonPanel(AppW appW, IconsEnumeratedProperty<?> property, boolean addTitle) {
 		this.appW = appW;
 		labelKey = property.getRawName();
-		buildGUI(property);
+		buildGUI(property, addTitle);
 	}
 
-	private void buildGUI(IconsEnumeratedProperty<?> property) {
+	/**
+	 * Created an icon button panel
+	 * @param appW application
+	 * @param property {@link IconsEnumeratedProperty}
+	 * @param addTitle whether title should be added or not
+	 * @param callback callback
+	 */
+	public IconButtonPanel(AppW appW, IconsEnumeratedProperty<?> property, boolean addTitle,
+			Runnable callback) {
+		this(appW, property, addTitle);
+		this.callback = callback;
+	}
+
+	private void buildGUI(IconsEnumeratedProperty<?> property, boolean addTitle) {
 		addStyleName("iconButtonPanel");
-		label = new Label(property.getName());
-		add(label);
+		if (addTitle) {
+			label = new Label(property.getName());
+			add(label);
+		}
 
 		FlowPanel iconPanel = new FlowPanel();
 		iconPanel.addStyleName("iconPanel");
@@ -55,6 +72,9 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 						property.setIndex(index);
 						iconButtonList.forEach(iconButton -> iconButton.setActive(false));
 						btn.setActive(true);
+						if (callback != null) {
+							callback.run();
+						}
 					});
 			idx++;
 		}
@@ -62,9 +82,19 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 		add(iconPanel);
 	}
 
+	/**
+	 * Enabled/disable buttons
+	 * @param disabled whether buttons should be enabled or disabled
+	 */
+	public void setDisabled(boolean disabled) {
+		iconButtonList.forEach(button -> button.setDisabled(disabled));
+	}
+
 	@Override
 	public void setLabels() {
-		label.setText(appW.getLocalization().getMenu(labelKey));
+		if (label != null) {
+			label.setText(appW.getLocalization().getMenu(labelKey));
+		}
 		iconButtonList.forEach(IconButton::setLabels);
 	}
 }

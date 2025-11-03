@@ -275,8 +275,7 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 			return comboBox;
 		}
 		if (property instanceof IconsEnumeratedProperty) {
-			return new IconButtonPanel(app,
-					(IconsEnumeratedProperty<?>) property);
+			return new IconButtonPanel(app, (IconsEnumeratedProperty<?>) property, true);
 		}
 		if (property instanceof ColorProperty) {
 			ColorChooserPanel colorPanel =  new ColorChooserPanel(app,
