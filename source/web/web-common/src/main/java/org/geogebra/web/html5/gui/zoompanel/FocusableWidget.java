@@ -39,7 +39,7 @@ public class FocusableWidget implements MayHaveFocus {
 
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
-		Widget btn = btns[0];
+		Widget btn = getFirstFocusableWidget();
 		if (Dom.isAttachedAndVisible(btn)
 				&& notAriaHidderOrAriaDisabled(btn)
 				&& isButtonNotHidden(btn)
@@ -72,6 +72,15 @@ public class FocusableWidget implements MayHaveFocus {
 			return !btn.getParent().getElement().getStyle().getVisibility().equals("hidden")
 					&& !btn.getParent().getElement().getStyle().getDisplay().equals("none");
 		}
+	}
+
+	private Widget getFirstFocusableWidget() {
+		for (Widget w : btns) {
+			if (w.getElement().getTabIndex() > -1) {
+				return w;
+			}
+		}
+		return btns[0];
 	}
 
 	protected void focus(Widget btn) {

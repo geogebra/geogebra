@@ -232,7 +232,7 @@ public class ScriptTabFactory {
 			bindings.add(binding);
 		}
 
-		ComponentTab tabs = new ComponentTab(loc, tabData.toArray(new TabData[0]));
+		ComponentTab tabs = new ComponentTab(app, "Scripting", tabData.toArray(new TabData[0]));
 		tabs.addTabChangedListener(evt -> bindings.get(tabs.getSelectedTabIdx())
 				.activate());
 		if (!tabData.isEmpty()) {

@@ -565,7 +565,7 @@ $keyboard_button_transition: opacity .3s ease;
 					background-image: radial-gradient(circle, neutral(500) 10%, transparent 10.01%);
 				}
 
-				&.keyboardFocus {
+				&.keyboardFocus:focus-visible {
 					outline-color: var(--ggb-dark-color);
 					outline-width: 2px;
 					outline-style: solid;

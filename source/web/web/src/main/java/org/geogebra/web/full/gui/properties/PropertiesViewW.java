@@ -661,7 +661,8 @@ public class PropertiesViewW extends PropertiesView
 		if (settingsTab != null && objectPropertiesVisible == showObjectProperties) {
 			oldTab = settingsTab.getSelectedTabIdx();
 		}
-		settingsTab = new ComponentTab(app.getLocalization(), tabs.toArray(new TabData[0]));
+		settingsTab = new ComponentTab((AppW) app, "Settings",
+				tabs.toArray(new TabData[0]));
 		if (oldTab != -1 && oldTab < tabs.size()) {
 			settingsTab.switchToTab(oldTab);
 		}

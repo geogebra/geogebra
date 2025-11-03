@@ -52,7 +52,7 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		loadCameraPanel();
 		TabData cameraTab = new TabData("Camera", cameraPanel);
 
-		tab = new ComponentTab(app.getLocalization(), uploadTab, cameraTab);
+		tab = new ComponentTab((AppW) app, "Image", uploadTab, cameraTab);
 		addDialogContent(tab);
 		webcamInputPanel.startVideo();
 	}
