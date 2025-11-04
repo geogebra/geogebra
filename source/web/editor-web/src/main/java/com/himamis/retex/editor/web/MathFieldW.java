@@ -177,6 +177,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		html = canvas;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
+		mathFieldInternal.getKeyListener().setMacKeysEnabled(NavigatorUtil.isMacOS());
 		mathFieldInternal.setSyntaxAdapter(converter);
 		mathFieldInternal.getInputController().setEditorFeatures(features);
 		getHiddenTextArea();

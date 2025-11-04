@@ -3,6 +3,7 @@ package org.geogebra.common.io;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -365,5 +366,17 @@ class EditorChecker {
 	void checkCopy(String expected) {
 		mathField.getInternal().getEditorState().selectAll();
 		assertEquals(expected, mathField.getInternal().copy());
+	}
+
+	void checkSelection(String from, String to) {
+		EditorState editorState = mathField.getInternal().getEditorState();
+		assertEquals(from, editorState.getSelectionStart().toString());
+		assertEquals(to, editorState.getSelectionEnd().toString());
+		fromParser("");
+	}
+
+	public void checkSelectionEmpty() {
+		assertNull(mathField.getInternal().getEditorState().getSelectionStart());
+		fromParser("");
 	}
 }

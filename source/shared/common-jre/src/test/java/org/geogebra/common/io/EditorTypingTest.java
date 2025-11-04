@@ -1061,4 +1061,21 @@ public class EditorTypingTest {
 	public void colonInLaTeXShouldNotAddSpace() {
 		checker.type(":").checkLaTeX("\\mathpunct{:}");
 	}
+
+	@Test
+	public void extendSelection() {
+		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+				.typeKey(JavaKeyCodes.VK_END)
+				.checkSelection("4", "6");
+	}
+
+	@Test
+	public void extendSelectionAtEnd() {
+		checker.type("123456").left(6).setModifiers(KeyEvent.SHIFT_MASK)
+				.typeKey(JavaKeyCodes.VK_HOME)
+				.checkSelectionEmpty();
+		checker.type("123456").setModifiers(KeyEvent.SHIFT_MASK)
+				.typeKey(JavaKeyCodes.VK_END)
+				.checkSelectionEmpty();
+	}
 }

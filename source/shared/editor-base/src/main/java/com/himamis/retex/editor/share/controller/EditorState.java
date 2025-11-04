@@ -267,7 +267,12 @@ public class EditorState {
 	 * Select from cursor position to end of current sub-formula
 	 */
 	public void selectToStart() {
-		extendSelection(getCursorField(false));
+		if (currentField == rootComponent && currentOffset == 0) {
+			return;
+		}
+		if (selectionAnchor == null) {
+			extendSelection(getCursorField(false));
+		}
 		extendSelection(getCurrentField().getArgument(0));
 	}
 
@@ -275,7 +280,12 @@ public class EditorState {
 	 * Select from cursor position to start of current sub-formula
 	 */
 	public void selectToEnd() {
-		extendSelection(getCursorField(true));
+		if (currentField == rootComponent && currentOffset == rootComponent.size()) {
+			return;
+		}
+		if (selectionAnchor == null) {
+			extendSelection(getCursorField(true));
+		}
 		extendSelection(getCurrentField().getArgument(getCurrentField().size() - 1));
 	}
 

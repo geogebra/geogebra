@@ -11,6 +11,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 public class KeyListenerImpl {
 
 	private final InputController inputController;
+	private boolean macKeysEnabled;
 
 	/**
 	 * @param inputController
@@ -80,22 +81,18 @@ public class KeyListenerImpl {
 			inputController.getMathField().blur();
 			return true;
 		case JavaKeyCodes.VK_HOME:
-			if (shiftPressed) {
-				editorState.selectToStart();
-			} else {
-				CursorController.firstField(editorState);
-			}
-			return true;
+			return handleHomeKey(editorState, shiftPressed);
 		case JavaKeyCodes.VK_END:
-			if (shiftPressed) {
-				editorState.selectToEnd();
-			} else {
-				CursorController.lastField(editorState);
-			}
-			return true;
+			return handleEndKey(editorState, shiftPressed);
 		case JavaKeyCodes.VK_LEFT:
+			if (ctrlPressed && macKeysEnabled) {
+				return handleHomeKey(editorState, shiftPressed);
+			}
 			return handleLeftRight(editorState, true, shiftPressed);
 		case JavaKeyCodes.VK_RIGHT:
+			if (ctrlPressed && macKeysEnabled) {
+				return handleEndKey(editorState, shiftPressed);
+			}
 			return handleLeftRight(editorState, false, shiftPressed);
 		case JavaKeyCodes.VK_UP:
 			return CursorController.upField(editorState);
@@ -120,6 +117,24 @@ public class KeyListenerImpl {
 			// InputController.deleteSelection(editorState);
 			return false;
 		}
+	}
+
+	private boolean handleEndKey(EditorState editorState, boolean shiftPressed) {
+		if (shiftPressed) {
+			editorState.selectToEnd();
+		} else {
+			CursorController.lastField(editorState);
+		}
+		return true;
+	}
+
+	private boolean handleHomeKey(EditorState editorState, boolean shiftPressed) {
+		if (shiftPressed) {
+			editorState.selectToStart();
+		} else {
+			CursorController.firstField(editorState);
+		}
+		return true;
 	}
 
 	private boolean handleLeftRight(EditorState editorState,
@@ -155,5 +170,15 @@ public class KeyListenerImpl {
 	 */
 	public boolean onKeyTyped(char ch, EditorState editorState) {
 		return inputController.handleChar(editorState, ch);
+	}
+
+	/**
+	 * By default, Cmd+[keys] on Mac is handled the same as Ctrl+[keys] on Windows/Linux.
+	 * This method may turn on additional handling of keyboards that use Cmd and their Ctrl-based
+	 * counterpart is not needed. Pass `true` when Mac platform is detected.
+	 * @param macKeysEnabled whether Mac-specific keyboard shortcuts should be enabled
+	 */
+	public void setMacKeysEnabled(boolean macKeysEnabled) {
+		this.macKeysEnabled = macKeysEnabled;
 	}
 }
