@@ -10,16 +10,16 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.io.latex.ParseException;
+import org.geogebra.editor.share.io.latex.Parser;
+import org.geogebra.editor.share.serializer.GeoGebraSerializer;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.tree.Formula;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -35,9 +35,9 @@ public class EditorParserTest {
 		}
 	}
 
-	private static MathFormula parseForEditor(String input) {
+	private static Formula parseForEditor(String input) {
 		try {
-			Parser parser = new Parser(new MetaModel());
+			Parser parser = new Parser(new TemplateCatalog());
 			return parser.parse(input);
 		} catch (ParseException e) {
 			throw new IllegalStateException(e);
@@ -45,7 +45,7 @@ public class EditorParserTest {
 	}
 
 	private static void assertParsesAs(String input, String serialized) {
-		MathFormula formula = parseForEditor(input);
+		Formula formula = parseForEditor(input);
 		GeoGebraSerializer serializer = new GeoGebraSerializer(null);
 		String result = serializer.serialize(formula);
 		assertEquals(serialized, result);
@@ -133,9 +133,9 @@ public class EditorParserTest {
 			if (isSpecialOperation(op)) {
 				continue;
 			}
-			MathFormula editable = parseForEditor(node.toString(StringTemplate.editorTemplate));
+			Formula editable = parseForEditor(node.toString(StringTemplate.editorTemplate));
 			TeXFormula formula = new TeXFormula(
-					TeXSerializer.serialize(editable.getRootComponent()));
+					TeXSerializer.serialize(editable.getRootNode()));
 			assertNotNull(formula.root);
 		}
 	}

@@ -1,11 +1,10 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.share.util.JavaKeyCodes;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.keyboard.web.KeyboardListener;
-
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Virtual keyboard bindings for ReTeX

@@ -18,7 +18,6 @@
 package org.geogebra.desktop.gui.editor;
 
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 import javax.swing.text.Document;

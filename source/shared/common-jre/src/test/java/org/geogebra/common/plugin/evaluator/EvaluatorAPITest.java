@@ -8,11 +8,11 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.io.EditorTyper;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.serializer.TeXSerializer;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
@@ -25,7 +25,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 
 	@Before
 	public void setupTest() {
-		MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
+		MathFieldCommon mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		api = new EvaluatorAPI(getKernel(), mathField.getInternal());
 		typer = new EditorTyper(mathField);
 		if (FactoryProvider.getInstance() == null) {

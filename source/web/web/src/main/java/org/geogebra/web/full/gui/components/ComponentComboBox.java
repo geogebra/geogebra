@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -16,8 +17,6 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabledState {
 	private final AppW appW;

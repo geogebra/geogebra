@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.inputfield;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -17,7 +18,6 @@ import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 import com.google.gwt.core.client.Scheduler;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;

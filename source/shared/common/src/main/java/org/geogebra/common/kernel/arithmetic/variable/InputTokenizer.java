@@ -11,8 +11,7 @@ import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Tokenizer for algebra input string

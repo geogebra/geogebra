@@ -2,7 +2,7 @@ package org.geogebra.common.main;
 
 import java.util.Locale;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public abstract class LocalizationI {
 

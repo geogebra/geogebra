@@ -11,14 +11,12 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.hamcrest.CoreMatchers;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.io.latex.ParseException;
+import org.geogebra.editor.share.io.latex.Parser;
+import org.geogebra.editor.share.tree.Formula;
+import org.geogebra.editor.share.tree.SequenceNode;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
 
 public class SerializeLaTeX {
 
@@ -26,13 +24,13 @@ public class SerializeLaTeX {
 	public void testJavaSerializationShouldKeepAllData() {
 		try {
 			ByteArrayOutputStream targetStream = new ByteArrayOutputStream();
-			MathFormula mf = new Parser(new MetaModel()).parse("()");
+			Formula mf = new Parser(new TemplateCatalog()).parse("()");
 			ObjectOutputStream oos = new ObjectOutputStream(targetStream);
-			oos.writeObject(mf.getRootComponent());
+			oos.writeObject(mf.getRootNode());
 			InputStream sourceStream = new ByteArrayInputStream(targetStream.toByteArray());
 			ObjectInputStream inputStream = new ObjectInputStream(sourceStream);
 			Object back = inputStream.readObject();
-			assertThat(back, instanceOf(MathSequence.class));
+			assertThat(back, instanceOf(SequenceNode.class));
 		} catch (ParseException | IOException | ClassNotFoundException e) {
 			fail("Can't parse: " + e);
 		}

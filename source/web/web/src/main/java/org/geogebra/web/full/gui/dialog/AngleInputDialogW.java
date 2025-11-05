@@ -17,6 +17,7 @@ import java.util.Arrays;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
@@ -24,8 +25,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class AngleInputDialogW extends ComponentInputDialog {
 

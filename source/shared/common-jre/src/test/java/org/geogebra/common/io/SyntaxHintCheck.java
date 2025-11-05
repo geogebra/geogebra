@@ -3,15 +3,15 @@ package org.geogebra.common.io;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.share.syntax.SyntaxController;
+import org.geogebra.editor.share.syntax.SyntaxHint;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.syntax.SyntaxController;
-import com.himamis.retex.editor.share.syntax.SyntaxHint;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class SyntaxHintCheck {
@@ -32,7 +32,7 @@ public class SyntaxHintCheck {
 	@Before
 	public void setUp() {
 		controller = new SyntaxController();
-		mathField = new MathFieldCommon(new MetaModel(), null);
+		mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		mathField.getInternal().registerMathFieldInternalListener(controller);
 	}
 

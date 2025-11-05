@@ -17,11 +17,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.parser.ParserInfo;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.Greek;
+import org.geogebra.editor.share.util.Unicode;
 
-import com.himamis.retex.editor.share.util.Greek;
-import com.himamis.retex.editor.share.util.Unicode;
-
-public class StringUtil extends com.himamis.retex.editor.share.input.Character {
+public class StringUtil extends org.geogebra.editor.share.input.Character {
 
 	final static public String mp3Marker = "data:audio/mp3;base64,";
 	final static public String pngMarker = "data:image/png;base64,";

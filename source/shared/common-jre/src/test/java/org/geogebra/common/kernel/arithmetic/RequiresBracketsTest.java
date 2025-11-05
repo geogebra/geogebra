@@ -5,12 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.junit.Test;
 
 public class RequiresBracketsTest extends BaseUnitTest {

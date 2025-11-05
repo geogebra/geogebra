@@ -5,6 +5,9 @@ import java.util.HashMap;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.event.MathFieldListener;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.editor.MathFieldExporter;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.main.AppW;
@@ -12,10 +15,6 @@ import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Evaluator Web implementation.

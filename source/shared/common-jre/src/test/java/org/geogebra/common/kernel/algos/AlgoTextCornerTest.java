@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.algos;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoList;

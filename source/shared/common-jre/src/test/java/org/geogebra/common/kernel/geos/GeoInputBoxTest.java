@@ -28,13 +28,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.JavaScriptAPI;
 import org.geogebra.common.util.TextObject;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoInputBoxTest extends BaseUnitTest {
 

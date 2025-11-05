@@ -364,7 +364,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	// Key events
 
 	/**
-	 * @param keyCode keyboard code, see {@link com.himamis.retex.editor.share.util.JavaKeyCodes}
+	 * @param keyCode keyboard code, see {@link org.geogebra.editor.share.util.JavaKeyCodes}
 	 * @param key key typed if printable, empty otherwise (Alt, Ctrl, F1, Backspace)
 	 * @param modifiers alt/shift/ctrl modifiers
 	 */

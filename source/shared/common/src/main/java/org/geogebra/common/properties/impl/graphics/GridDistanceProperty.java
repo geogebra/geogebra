@@ -13,8 +13,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.properties.NumericPropertyWithSuggestions;
 import org.geogebra.common.util.DoubleUtil;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public class GridDistanceProperty extends NumericPropertyWithSuggestions
 		implements SettingsDependentProperty {

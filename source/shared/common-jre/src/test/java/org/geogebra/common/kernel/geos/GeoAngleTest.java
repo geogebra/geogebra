@@ -5,14 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoAngleTest extends BaseAppTestSetup {
 

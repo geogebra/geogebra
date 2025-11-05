@@ -4,6 +4,7 @@ import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
@@ -20,8 +21,6 @@ import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Web implementation of FileMenu

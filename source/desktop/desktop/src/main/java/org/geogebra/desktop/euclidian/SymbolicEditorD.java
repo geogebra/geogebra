@@ -22,10 +22,10 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
+import org.geogebra.editor.desktop.MathFieldD;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
 
-import com.himamis.retex.editor.desktop.MathFieldD;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.renderer.share.TeXFont;
 
 public class SymbolicEditorD extends SymbolicEditor {
@@ -171,6 +171,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 	@Override
 	public String getDescription() {
 		return ScreenReaderSerializer.fullDescription(
-				mathField.getInternal().getEditorState().getRootComponent(), null);
+				mathField.getInternal().getEditorState().getRootNode(), null);
 	}
 }

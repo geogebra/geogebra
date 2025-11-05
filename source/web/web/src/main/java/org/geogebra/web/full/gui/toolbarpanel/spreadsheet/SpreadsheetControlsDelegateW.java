@@ -19,6 +19,10 @@ import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.share.syntax.SyntaxController;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.view.algebra.ToastController;
@@ -30,11 +34,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
-
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.syntax.SyntaxController;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate, AutoCompleteW {
 

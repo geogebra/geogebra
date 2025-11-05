@@ -45,8 +45,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.

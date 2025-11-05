@@ -2,9 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.regression.RegressionSpecificationBuilder;

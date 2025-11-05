@@ -1,13 +1,12 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.gwtproject.user.client.ui.FocusPanel;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.VerticalPanel;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 	

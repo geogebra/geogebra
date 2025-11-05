@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -27,8 +28,6 @@ import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FocusWidget;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Node;

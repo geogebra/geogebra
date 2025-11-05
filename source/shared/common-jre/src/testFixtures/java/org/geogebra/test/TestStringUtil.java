@@ -1,6 +1,6 @@
 package org.geogebra.test;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public class TestStringUtil {
 	/**

@@ -31,8 +31,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Compares two objects, first numerically, then symbolically (when the

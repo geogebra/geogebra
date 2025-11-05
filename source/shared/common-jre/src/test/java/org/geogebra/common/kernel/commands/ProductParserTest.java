@@ -3,9 +3,8 @@ package org.geogebra.common.kernel.commands;
 import static org.geogebra.test.TestStringUtil.unicode;
 
 import org.geogebra.common.kernel.arithmetic.variable.TokenizerBaseTest;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class ProductParserTest extends TokenizerBaseTest {
 

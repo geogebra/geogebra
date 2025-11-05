@@ -6,12 +6,11 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 

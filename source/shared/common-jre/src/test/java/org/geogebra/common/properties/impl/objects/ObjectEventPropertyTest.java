@@ -6,7 +6,6 @@ import static org.geogebra.common.plugin.EventType.EDITOR_KEY_TYPED;
 import static org.geogebra.common.plugin.EventType.UPDATE;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;

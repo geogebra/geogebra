@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.junit.Test;
 

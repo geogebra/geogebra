@@ -68,8 +68,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Cell pair of input and output strings used in the CAS view. This needs to be

@@ -7,6 +7,11 @@ import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.event.MathFieldListener;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.util.Unicode;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
@@ -29,12 +34,6 @@ import org.gwtproject.event.dom.client.HumanInputEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * ReTeX editor for CAS

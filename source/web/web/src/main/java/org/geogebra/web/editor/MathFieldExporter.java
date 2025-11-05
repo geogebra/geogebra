@@ -1,9 +1,9 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.html5.export.Canvas2Svg;
 import org.geogebra.web.html5.export.ExportLoader;
 
-import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 

@@ -6,8 +6,6 @@ import java.awt.Container;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
 
-import org.geogebra.common.util.debug.Log;
-
 /**
  * A 1.4 file that provides utility methods for creating form- or grid-style
  * layouts with SpringLayout. These utilities are used by several programs, such

@@ -66,8 +66,7 @@ import org.geogebra.desktop.main.FontManagerD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * @author Markus Hohenwarter

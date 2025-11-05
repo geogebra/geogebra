@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.properties.SliderPropertiesPanelW;
@@ -33,8 +34,6 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.VerticalPanel;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Web dialog for slider creation

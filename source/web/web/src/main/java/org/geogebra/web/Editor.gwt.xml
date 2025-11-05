@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='editor'>
     <inherits name='org.geogebra.keyboard.KeyboardWeb'/>
-    <inherits name="com.himamis.retex.editor.JLMEditorDev" />
+    <inherits name="org.geogebra.editor.JLMEditorDev" />
 
     <!-- Specify the paths for translatable code                    -->
     <source path='editor'/>
@@ -21,7 +21,7 @@
     <inherits name='org.geogebra.Common'/>
     <inherits name='org.geogebra.CommonKeyboard'/>
     <inherits name='org.geogebra.GgbJdk'/>
-    <inherits name="com.himamis.retex.editor.JLMEditorDev" />
+    <inherits name="org.geogebra.editor.JLMEditorDev" />
 
     <!-- Specify the paths for translatable code                    -->
     <!-- resources is both in source and resource because of SVGResource classes -->

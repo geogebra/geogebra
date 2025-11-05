@@ -11,7 +11,7 @@ import java.util.TreeSet;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import com.himamis.retex.editor.share.model.Korean;
+import org.geogebra.editor.share.tree.Korean;
 
 /**
  * A default implementation of the autocomplete dictionary. This implementation

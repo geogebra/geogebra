@@ -36,6 +36,8 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
@@ -71,9 +73,6 @@ import org.gwtproject.user.client.ui.InlineLabel;
 import org.gwtproject.user.client.ui.ProvidesResize;
 import org.gwtproject.user.client.ui.Tree;
 import org.gwtproject.user.client.ui.TreeItem;
-
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;

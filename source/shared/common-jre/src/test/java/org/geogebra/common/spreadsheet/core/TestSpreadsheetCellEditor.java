@@ -5,13 +5,12 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
 import org.geogebra.common.util.shape.Rectangle;
-
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.meta.MetaModel;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.editor.MathFieldInternal;
 
 final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
-	private final MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
+	private final MathFieldCommon mathField = new MathFieldCommon(new TemplateCatalog(), null);
 
 	private final SpreadsheetCellDataSerializer cellDataSerializer =
 			new DefaultSpreadsheetCellDataSerializer();

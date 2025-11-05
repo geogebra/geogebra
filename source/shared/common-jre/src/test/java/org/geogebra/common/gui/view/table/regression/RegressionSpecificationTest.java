@@ -13,13 +13,12 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class RegressionSpecificationTest extends BaseAppTestSetup {
 	private TableValuesView view;

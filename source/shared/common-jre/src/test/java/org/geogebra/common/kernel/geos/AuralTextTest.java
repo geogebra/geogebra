@@ -14,11 +14,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.script.GgbScript;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class AuralTextTest {
 

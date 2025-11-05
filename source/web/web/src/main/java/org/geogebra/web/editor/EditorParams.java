@@ -1,8 +1,7 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.html5.bridge.AttributeProvider;
-
-import com.himamis.retex.editor.web.MathFieldW;
 
 public class EditorParams {
 	private final AttributeProvider element;

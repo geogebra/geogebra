@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.layout;
 
 import java.awt.Component;
 import java.util.Arrays;
-import java.util.Comparator;
 
 import javax.swing.JComponent;
 import javax.swing.JSplitPane;

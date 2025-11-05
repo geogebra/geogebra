@@ -21,13 +21,12 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class StringTemplateTest {
 	private AppCommon3D app;

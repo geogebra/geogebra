@@ -22,7 +22,6 @@ import javax.swing.JRadioButton;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.main.AppD;
 
 /**

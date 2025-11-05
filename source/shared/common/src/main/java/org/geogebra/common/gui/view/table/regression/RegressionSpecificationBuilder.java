@@ -11,8 +11,7 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.kernel.statistics.Regression;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public class RegressionSpecificationBuilder implements ExamRestrictable {
 

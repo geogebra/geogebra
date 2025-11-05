@@ -8,17 +8,17 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.util.SyntaxAdapterImpl;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.tree.Korean;
+import org.geogebra.editor.share.util.JavaKeyCodes;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.Korean;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
-import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorTypingTest {
@@ -135,13 +135,13 @@ public class EditorTypingTest {
 	@Test
 	public void testFloor() {
 		checker.insert("2 floor(x)")
-				.checkRaw("MathSequence[2,  , FnFLOOR[MathSequence[x]]]");
+				.checkRaw("SequenceNode[2,  , FnFLOOR[SequenceNode[x]]]");
 	}
 
 	@Test
 	public void testCeil() {
 		checker.insert("2 ceil(x)")
-				.checkRaw("MathSequence[2,  , FnCEIL[MathSequence[x]]]");
+				.checkRaw("SequenceNode[2,  , FnCEIL[SequenceNode[x]]]");
 	}
 
 	@Test
@@ -421,15 +421,15 @@ public class EditorTypingTest {
 	@Test
 	public void testInverseTrigEditor() {
 		checker.type("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2").checkRaw(
-				"MathSequence[FnFRAC[MathSequence[FnAPPLY[MathSequence[c, o, s, "
-						+ "FnSUPERSCRIPT[MathSequence[-, 1]]], MathSequence[1]]], "
-						+ "MathSequence[2]]]");
+				"SequenceNode[FnFRAC[SequenceNode[FnAPPLY[SequenceNode[c, o, s, "
+						+ "FnSUPERSCRIPT[SequenceNode[-, 1]]], SequenceNode[1]]], "
+						+ "SequenceNode[2]]]");
 	}
 
 	@Test
 	public void testLogBase() {
 		checker.type("log_2").right(1).type("(4)").checkRaw(
-				"MathSequence[FnLOG[MathSequence[2], MathSequence[4]]]");
+				"SequenceNode[FnLOG[SequenceNode[2], SequenceNode[4]]]");
 	}
 
 	@Test
@@ -508,9 +508,9 @@ public class EditorTypingTest {
 	public void characterAfterFunctionShouldAddBrackets() {
 		AppCommon app = AppCommonFactory.create();
 
-		MetaModel model = new MetaModel();
-		model.setForceBracketAfterFunction(true);
-		EditorChecker inputBoxChecker = new EditorChecker(app, model);
+		TemplateCatalog catalog = new TemplateCatalog();
+		catalog.setForceBracketAfterFunction(true);
+		EditorChecker inputBoxChecker = new EditorChecker(app, catalog);
 		inputBoxChecker.setFormatConverter(new SyntaxAdapterImpl(app.getKernel()));
 
 		inputBoxChecker.type("sin9x").checkAsciiMath("sin(9x)");
@@ -538,32 +538,32 @@ public class EditorTypingTest {
 
 	@Test
 	public void typingPiShouldProduceUnicodeInInputBox() {
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		TemplateCatalog catalog = new TemplateCatalog();
+		catalog.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
 		inputBoxChecker.type("sin(pix)").checkAsciiMath("sin(" + Unicode.PI_STRING + "x)");
 	}
 
 	@Test
 	public void typingEpsilonShouldProduceUnicodeInInputBox() {
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		TemplateCatalog catalog = new TemplateCatalog();
+		catalog.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
 		inputBoxChecker.type("1+epsilon").checkAsciiMath("1+" + Unicode.epsilon);
 	}
 
 	@Test
 	public void typingEpsilonShouldNotProduceUnicodeByDefault() {
-		MetaModel model = new MetaModel();
-		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		TemplateCatalog catalog = new TemplateCatalog();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
 		inputBoxChecker.type("1+epsilon").checkAsciiMath("1+epsilon");
 	}
 
 	@Test
 	public void typingOperatorsShouldProduceUnicode() {
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		TemplateCatalog catalog = new TemplateCatalog();
+		catalog.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
 		inputBoxChecker.type("x<=y").checkAsciiMath("x" + Unicode.LESS_EQUAL + "y");
 		inputBoxChecker.type("x&&y").checkAsciiMath("x" + Unicode.AND + "y");
 	}
@@ -581,7 +581,7 @@ public class EditorTypingTest {
 	@Test
 	public void shouldRecognizeSqrtAsSuffixWithConst() {
 		// for constant no multiplication space added => we have to check the raw string
-		checker.type("8sqrt(x").checkRaw("MathSequence[8, FnSQRT[MathSequence[x]]]");
+		checker.type("8sqrt(x").checkRaw("SequenceNode[8, FnSQRT[SequenceNode[x]]]");
 	}
 
 	@Test
@@ -602,17 +602,17 @@ public class EditorTypingTest {
 
 	@Test
 	public void testTypingPiWithComplex() {
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		TemplateCatalog catalog = new TemplateCatalog();
+		catalog.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
 		inputBoxChecker.type("3pi + 4i").checkAsciiMath("3" + Unicode.PI_STRING + " + 4i");
 	}
 
 	@Test
 	public void testTypingPiiWithComplex() {
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		TemplateCatalog catalog = new TemplateCatalog();
+		catalog.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
 		inputBoxChecker.type("3pii").checkAsciiMath("3" + Unicode.PI_STRING + "i");
 	}
 

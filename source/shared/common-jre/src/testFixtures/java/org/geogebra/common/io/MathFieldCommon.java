@@ -3,31 +3,31 @@ package org.geogebra.common.io;
 import java.util.ArrayList;
 
 import org.geogebra.common.util.SyntaxAdapterImpl;
+import org.geogebra.editor.share.controller.CursorController;
+import org.geogebra.editor.share.editor.MathField;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.editor.SyntaxAdapter;
+import org.geogebra.editor.share.event.ClickListener;
+import org.geogebra.editor.share.event.FocusListener;
+import org.geogebra.editor.share.event.KeyListener;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.tree.Formula;
 
-import com.himamis.retex.editor.share.controller.CursorController;
-import com.himamis.retex.editor.share.editor.MathField;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.editor.SyntaxAdapter;
-import com.himamis.retex.editor.share.event.ClickListener;
-import com.himamis.retex.editor.share.event.FocusListener;
-import com.himamis.retex.editor.share.event.KeyListener;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 
 public class MathFieldCommon implements MathField {
 
-	private final MetaModel model;
-	private MathFieldInternal internal;
+	private final TemplateCatalog catalog;
+	private final MathFieldInternal internal;
 
 	/**
 	 * @param adapter syntax adapter
 	 */
-	public MathFieldCommon(MetaModel model, SyntaxAdapter adapter) {
-		this.model = model;
+	public MathFieldCommon(TemplateCatalog catalog, SyntaxAdapter adapter) {
+		this.catalog = catalog;
 		internal = new MathFieldInternal(this);
 		internal.setSyntaxAdapter(adapter);
-		internal.setFormula(MathFormula.newFormula(model));
+		internal.setFormula(new Formula(catalog));
 	}
 
 	@Override
@@ -88,8 +88,8 @@ public class MathFieldCommon implements MathField {
 	}
 
 	@Override
-	public MetaModel getMetaModel() {
-		return model;
+	public TemplateCatalog getCatalog() {
+		return catalog;
 	}
 
 	@Override

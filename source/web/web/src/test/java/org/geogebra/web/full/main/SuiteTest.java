@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.web.full.euclidian.quickstylebar.QuickStyleBar;

@@ -31,9 +31,8 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.OOMLConverter;
 import org.geogebra.desktop.util.UtilD;
-
-import com.himamis.retex.editor.desktop.MathFieldD;
-import com.himamis.retex.editor.share.util.KeyCodes;
+import org.geogebra.editor.desktop.MathFieldD;
+import org.geogebra.editor.share.util.KeyCodes;
 
 /**
  * Handles global keys like ESC, DELETE, and function keys.

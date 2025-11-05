@@ -19,14 +19,13 @@ import java.util.stream.Collectors;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParserFunctionsTest {
 

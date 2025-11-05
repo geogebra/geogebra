@@ -32,8 +32,8 @@ import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageResourceD;
+import org.geogebra.editor.share.util.Unicode;
 
-import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;

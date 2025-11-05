@@ -1,5 +1,7 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.editor.share.editor.EditorFeatures;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.bridge.RenderGgbElement.RenderGgbElementFunction;
@@ -11,9 +13,6 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
-
-import com.himamis.retex.editor.share.editor.EditorFeatures;
-import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;

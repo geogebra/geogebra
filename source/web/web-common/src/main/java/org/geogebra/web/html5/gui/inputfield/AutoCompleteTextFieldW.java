@@ -32,6 +32,9 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.ManualPage;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.util.AltKeys;
+import org.geogebra.editor.share.util.GWTKeycodes;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
@@ -71,10 +74,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.FocusWidget;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.SuggestOracle.Suggestion;
-
-import com.himamis.retex.editor.share.util.AltKeys;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
-import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.dom.EventListener;
 import elemental2.dom.PointerEvent;

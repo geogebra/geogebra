@@ -2,10 +2,9 @@ package org.geogebra.web.full.gui.components;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.web.MathFieldW;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
-
-import com.himamis.retex.editor.web.MathFieldW;
 
 public class MathFieldEditorDecoratorBase {
 	protected static final int PADDING_LEFT = 2;

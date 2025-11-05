@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
-import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
-import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.geogebra.common.BaseUnitTest.hasProperty;
 import static org.geogebra.common.BaseUnitTest.hasValue;
+import static org.geogebra.editor.share.util.Unicode.EULER_STRING;
+import static org.geogebra.editor.share.util.Unicode.pi;
 import static org.hamcrest.CoreMatchers.either;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -52,6 +52,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.SymbolicUtil;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
@@ -63,8 +64,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoSymbolicTest extends BaseSymbolicTest {
 

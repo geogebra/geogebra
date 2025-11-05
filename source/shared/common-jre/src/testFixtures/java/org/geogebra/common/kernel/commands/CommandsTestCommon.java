@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
-import static com.himamis.retex.editor.share.util.Unicode.DEGREE_STRING;
 import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.geogebra.common.BaseUnitTest.isDefined;
+import static org.geogebra.editor.share.util.Unicode.DEGREE_STRING;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,14 +36,13 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class CommandsTestCommon extends BaseCommandTest {
 

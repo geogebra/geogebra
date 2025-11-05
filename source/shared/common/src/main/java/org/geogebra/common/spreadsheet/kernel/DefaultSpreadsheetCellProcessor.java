@@ -1,7 +1,7 @@
 package org.geogebra.common.spreadsheet.kernel;
 
-import static com.himamis.retex.editor.share.util.Unicode.ASSIGN_STRING;
 import static org.geogebra.common.util.StringUtil.isNumber;
+import static org.geogebra.editor.share.util.Unicode.ASSIGN_STRING;
 
 import java.util.Arrays;
 

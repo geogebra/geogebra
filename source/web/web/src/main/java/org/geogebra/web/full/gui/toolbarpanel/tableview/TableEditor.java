@@ -2,6 +2,9 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationController;
+import org.geogebra.editor.share.editor.UnhandledArrowListener;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -10,10 +13,6 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Node;
 import org.gwtproject.dom.client.NodeList;
 import org.gwtproject.user.client.DOM;
-
-import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 import elemental2.dom.Event;
 import elemental2.dom.MouseEvent;

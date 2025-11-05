@@ -2,7 +2,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME;
-import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;

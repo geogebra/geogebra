@@ -25,9 +25,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Updates linked element for an input box from user input

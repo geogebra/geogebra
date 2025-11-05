@@ -6,9 +6,8 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.DrawAxis;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class DrawAxisTest extends BaseUnitTest {
 	@Test

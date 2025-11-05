@@ -12,8 +12,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.desktop.awt.GFontD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Manages fonts for different languages. Use setLanguage() and setFontSize() to

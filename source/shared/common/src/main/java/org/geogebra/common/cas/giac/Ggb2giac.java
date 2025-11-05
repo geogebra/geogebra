@@ -4,8 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.PreviewFeature;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /***
  * # Command translation table from GeoGebra to giac # e.g. Factor[2(x+3)] is

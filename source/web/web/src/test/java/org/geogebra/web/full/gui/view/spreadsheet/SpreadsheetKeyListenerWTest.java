@@ -6,6 +6,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -17,7 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.gwtmockito.WithClassesToStub;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 @RunWith(GgbMockitoTestRunner.class)
 @WithClassesToStub(AdvancedFocusPanel.class)

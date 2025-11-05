@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -24,8 +25,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Output part of AV item

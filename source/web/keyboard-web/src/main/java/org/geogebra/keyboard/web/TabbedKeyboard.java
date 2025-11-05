@@ -13,6 +13,7 @@ import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.LocalizationI;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Keyboard;
@@ -31,8 +32,6 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * tabbed keyboard

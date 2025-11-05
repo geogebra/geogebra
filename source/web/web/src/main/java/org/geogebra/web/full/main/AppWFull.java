@@ -101,6 +101,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
@@ -205,8 +206,6 @@ import org.gwtproject.user.client.ui.HorizontalPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;

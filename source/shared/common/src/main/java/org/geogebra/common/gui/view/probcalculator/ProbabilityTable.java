@@ -7,9 +7,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.editor.share.util.Unicode;
 
 import com.google.j2objc.annotations.AutoreleasePool;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * @author gabor

@@ -2,9 +2,8 @@ package org.geogebra.common.io;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class MathMLTest {
 	private static final String[] mathmlTest = {

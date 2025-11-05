@@ -7,11 +7,10 @@ import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.editor.share.util.Unicode;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class RemoveSliderTest extends BaseSymbolicTest {
 

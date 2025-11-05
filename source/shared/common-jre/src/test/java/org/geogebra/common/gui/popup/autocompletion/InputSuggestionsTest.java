@@ -12,12 +12,12 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.controller.EditorState;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.controller.EditorState;
-import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class InputSuggestionsTest extends BaseUnitTest {
@@ -36,7 +36,7 @@ public class InputSuggestionsTest extends BaseUnitTest {
 
 	@Before
 	public void setupMathField() {
-		mathField = new MathFieldCommon(new MetaModel(), null);
+		mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		editorState = mathField.getInternal().getEditorState();
 	}
 
@@ -59,7 +59,7 @@ public class InputSuggestionsTest extends BaseUnitTest {
 	}
 
 	private void shouldPreventSuggestions(String text, GeoElement geo) {
-		assertTrue(isSuggestionsPrevented(text, geo)); ;
+		assertTrue(isSuggestionsPrevented(text, geo));
 	}
 
 	private boolean isSuggestionsPrevented(String text, GeoElement geo) {

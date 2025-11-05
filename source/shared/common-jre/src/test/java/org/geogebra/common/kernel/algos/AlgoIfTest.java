@@ -10,9 +10,8 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgoIfTest extends BaseUnitTest {
 

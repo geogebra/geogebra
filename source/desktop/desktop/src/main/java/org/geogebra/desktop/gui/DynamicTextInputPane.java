@@ -27,22 +27,11 @@ import javax.swing.text.StyleConstants;
 
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoDependentText;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
-import org.geogebra.common.kernel.arithmetic.TextValue;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Extended JTextPane for editing GeoText strings. Uses embedded text fields

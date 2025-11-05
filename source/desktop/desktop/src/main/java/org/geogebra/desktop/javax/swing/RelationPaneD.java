@@ -26,8 +26,7 @@ import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Desktop implementation of the Relation Tool information window.

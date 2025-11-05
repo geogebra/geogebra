@@ -48,8 +48,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public class InputDialogD extends InputDialog
 		implements ActionListener, WindowFocusListener, VirtualKeyboardListener,

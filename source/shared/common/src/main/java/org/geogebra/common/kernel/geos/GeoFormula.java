@@ -6,18 +6,17 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.io.latex.ParseException;
+import org.geogebra.editor.share.io.latex.Parser;
+import org.geogebra.editor.share.serializer.TeXSerializer;
 
 public class GeoFormula extends GeoInline {
 
 	public static final int DEFAULT_WIDTH = 250;
 	public static final int DEFAULT_HEIGHT = 48;
 
-	private static final Parser parser = new Parser(new MetaModel());
+	private static final Parser parser = new Parser(new TemplateCatalog());
 	private static final TeXSerializer texSerializer = new TeXSerializer();
 
 	static {

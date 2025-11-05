@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.event.MathFieldListener;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -17,8 +18,6 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.AbsolutePanel;
 import org.gwtproject.user.client.ui.Panel;
-
-import com.himamis.retex.editor.share.event.MathFieldListener;
 
 public class InlineFormulaControllerW implements InlineFormulaController {
 

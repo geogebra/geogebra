@@ -12,8 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 class InputBoxCallback implements AsyncOperation<GeoElementND> {
 

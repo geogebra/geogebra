@@ -1,6 +1,8 @@
 package org.geogebra.common.contextmenu;
 
-import static org.geogebra.common.contextmenu.InputContextMenuItem.*;
+import static org.geogebra.common.contextmenu.InputContextMenuItem.Expression;
+import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
+import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;

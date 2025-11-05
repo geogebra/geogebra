@@ -6,8 +6,7 @@ import java.awt.event.KeyListener;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /*
  * Michael Borcherds

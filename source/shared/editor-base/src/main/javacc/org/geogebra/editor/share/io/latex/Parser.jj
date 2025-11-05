@@ -1,0 +1,587 @@
+/*
+GeoGebra - Dynamic Mathematics for Schools
+Copyright (c) GeoGebra GmbH, Altenbergerstr 69, 4040 Linz, Austria
+https://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation.
+*/
+
+options {
+   STATIC = false;
+   JAVA_TEMPLATE_TYPE = "modern";
+}
+
+PARSER_BEGIN(Parser)
+package org.geogebra.editor.share.io.latex;
+
+import org.geogebra.editor.share.tree.*;
+import org.geogebra.editor.share.catalog.*;
+import org.geogebra.editor.share.controller.*;
+import org.geogebra.editor.share.editor.FractionBracketRemover;
+import org.geogebra.editor.share.util.Unicode;
+
+public class Parser {
+
+	private TemplateCatalog catalog;
+	private EditorState editorState;
+	private InputController inputController;
+
+	private int absoluteValueDepth;
+	private int absoluteValueCount;
+
+	public Parser(TemplateCatalog catalog) {
+		this(new StringProvider(""));
+		this.catalog = catalog;
+		this.editorState = new EditorState(catalog);
+		this.inputController = new InputController(catalog);
+	}
+
+	/**
+	 * Needed to prevent memory leaks in Web
+	 * @return the static exception instance
+	 */
+	public static Throwable getLookaheadSuccess() {
+	   return jj_ls;
+	}
+
+	private static Node convertSuperscriptToNormal(TemplateCatalog catalog, char sup) {
+		if (sup >= '\u2070' && sup <= '\u2079' && sup != '\u2071' && sup != '\u2072' && sup != '\u2073') {
+			return createCharacter(java.lang.Character.toString((char) (sup - '\u2070' + '0')), catalog);
+		} else if (sup == '\u00b9') {
+			return createCharacter("1", catalog);
+		} else if (sup == '\u00b2') {
+			return createCharacter("2", catalog);
+		} else if (sup == '\u00b3') {
+			return createCharacter("3", catalog);
+		} else if (sup == '\u207a') {
+			return createOperator("+", catalog);
+		} else if (sup == '\u207b') {
+			return createOperator("-", catalog);
+		} else {
+			throw new UnsupportedOperationException("Not a supported superscript");
+		}
+	}
+
+	private static Node createCharacter(String character, TemplateCatalog catalog) {
+		return new CharacterNode(catalog.getCharacter(character));
+	}
+
+	private static Node createOperator(String operator, TemplateCatalog catalog) {
+		return new CharacterNode(catalog.getOperator(operator));
+	}
+
+	private static CharacterTemplate createCharacterTemplate(String character, TemplateCatalog catalog) {
+		CharacterTemplate characterComponent;
+		if (catalog.isOperator(character)) {
+			characterComponent = catalog.getOperator(character);
+		} else if (catalog.isSymbol(character)) {
+			characterComponent = catalog.getSymbol(character);
+		} else {
+			characterComponent = catalog.getCharacter(character);
+		}
+		return characterComponent;
+	}
+
+	private int countVerticalBars(String text) {
+		int count = 0;
+		for (int i = 0; i < text.length(); i++) {
+			if (text.charAt(i) == '|') {
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	private boolean shouldStartAbsoluteValue() {
+		return absoluteValueDepth == 0 || (token.kind == OPERATOR || token.kind == VERTICAL_BAR
+				|| token.kind == PARENTHESES_OPEN) && absoluteValueDepth < absoluteValueCount;
+	}
+
+	public Formula parse(String text) throws ParseException {
+		absoluteValueCount = countVerticalBars(text);
+		if (absoluteValueCount % 2 != 0) {
+			text += "|";
+			absoluteValueCount++;
+		}
+
+		ReInit(new StringProvider(text));
+		Formula formula = new Formula(catalog);
+		SequenceNode sequence = formula.getRootNode();
+		editorState.setRootNode(sequence);
+		mathContainerWithCommas(sequence);
+		formula.getRootNode().traverse(new FractionBracketRemover());
+		return formula;
+	}
+}
+PARSER_END(Parser)
+
+<DEFAULT> SKIP : {
+	 "\r"
+   | "\t"
+   | "\n"
+}
+
+<DEFAULT> TOKEN : {
+	  < POWER : "^" >
+	| < SUPERSCRIPT_MINUS: "\u207b" >
+	| < POWERN: (<SUPERSCRIPT_MINUS>)? ( <INDEXDIGIT> )+ >
+	| < #INDEXDIGIT:                                     // unicode digits
+	   [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3","\u207a"] >
+	| < SUBSCRIPT : "_" >
+	| < FRACTION : "/" >
+	| < PARENTHESES_OPEN : "(" >
+	| < PARENTHESES_CLOSE : ")" >
+	| < SQUARE_BRACKETS_OPEN : "[" >
+	| < SQUARE_BRACKETS_CLOSE : "]" >
+	| < CURLY_BRACKETS_OPEN : "{" >
+	| < CURLY_BRACKETS_CLOSE : "}" >
+	| < OVERLINE : "\u0305" >
+	| < LCEIL : "\u2308" >
+	| < RCEIL : "\u2309" >
+	| < LFLOOR : "\u230a" >
+	| < RFLOOR : "\u230b" >
+	| < QUOTE_START : "\""> : IN_QUOTE
+	| < SQRT : "sqrt(" | "\u221A(" >
+	| < CBRT : "cbrt(" >
+	| < NROOT : "nroot(" >
+	| < LOG : "log(" >
+	| < ABS : "abs(" >
+	| < DEF_INT : "$defint" >
+	| < PROD_EQ : "$prodeq" >
+	| < SUM_EQ : "$sumeq" >
+	| < LIM_EQ : "$limeq(" >
+	| < POINT : "$point" >
+	| < POINT_AT : "$pointAt" >
+	| < VECTOR : "$vector" >
+	| < VEC : "$vec(" >
+	| < ATOMIC_POST : "$atomicpost" >
+	| < ATOMIC_PRE : "$atomicpre" >
+	| < COMMA : "," >
+	| < SPACE : " " >
+	| < VERTICAL_BAR : "|" >
+	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
+					"\u2227", "\u2228", "\u2192", "\u225f", "\u2208", "\u2286",
+					"\u2282", "\u2297", "\u22c5", "\u2219", "\u00D7"] >
+	| < ELSE : ~[] >
+}
+
+<IN_QUOTE> TOKEN : {
+	  < QUOTE_END : "\""> : DEFAULT
+	| <CHAR : ~[]>
+}
+
+void internalNode(InternalNode node) : {}
+{
+	(
+		atomicWrapper(node)
+	|
+		mathCharacter(node)
+	)*
+}
+
+void atomicWrapper(InternalNode node) : {}
+{
+
+	power(node)
+	|
+	superscript(node)
+	|
+	subscript(node)
+	|
+	fraction(node)
+	|
+	recurringDecimal(node)
+	|
+	nroot(node)
+	|
+	log(node)
+	|
+	defintSumProduct(node)
+	|
+	atomicPrePost(node)
+	|
+	absVecLimeq(node)
+	|
+	LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
+	absVerticalBar(node)
+	|
+	arrayParentheses(node)
+	|
+	arrayFloorCeil(node)
+	|
+	arrayCurly(node)
+	|
+	quotes(node)
+
+}
+
+void mathContainerWithCommas(InternalNode node) : {}
+{
+	(
+		atomicWrapper(node)
+	|
+		mathCharacterOrComma(node)
+	)*
+}
+
+/**
+* Adds an atomic expression to the current field. Atomic expression does not have operator on top level,
+* i.e. must be wrapped in brackets (1+1) or be a simple number 12 or special function eg. -sqrt(5)
+* @param node parent field
+*/
+void mathAtomOrPower(InternalNode node) : {
+	Token t = null;
+}
+{
+
+	(<SPACE>)*
+
+	(t= <OPERATOR>)? {
+		if (t != null) {
+			node.addChild(new CharacterNode(createCharacterTemplate(t.image, catalog)));
+		}
+	}
+	(
+		atomicWrapper(node)
+	|
+		(
+		  (mathAtomCharacter(node))+
+		  (power(node) | superscript(node) | subscript(node))?
+		  (arrayParentheses(node))?
+		)
+	) (power(node) | superscript(node) | subscript(node))?
+}
+
+void superscript(InternalNode node) :
+{
+	Token t;
+	SequenceNode sequence;
+}
+{
+	(t = <POWERN>) {
+	FunctionNode power = new FunctionNode(catalog.getGeneral(Tag.SUPERSCRIPT));
+	sequence = new SequenceNode();
+	power.setChild(0, sequence);
+	node.addChild(power);
+	for (int i = 0; i < t.image.length(); i++) {
+		Node mathCharacter = convertSuperscriptToNormal(catalog, t.image.charAt(i));
+		sequence.addChild(mathCharacter);
+	}
+}
+}
+
+void power(InternalNode node) : { }
+{
+	<POWER> {
+		FunctionNode power = new FunctionNode(catalog.getGeneral(Tag.SUPERSCRIPT));
+		SequenceNode mathSequence = new SequenceNode();
+		mathAtomOrPower(mathSequence);
+		mathSequence.removeBrackets();
+		power.setChild(0, mathSequence);
+		node.addChild(power);
+	}
+}
+
+void fraction(InternalNode node) :
+{
+	FunctionNode fraction;
+}
+{
+	<FRACTION> {
+	fraction = new FunctionNode(catalog.getGeneral(Tag.FRAC));
+   	//handle numerator
+   	SequenceNode passArgs = new SequenceNode();
+   	editorState.setCurrentNode((SequenceNode) node);
+   	editorState.setCurrentOffset(node.size());
+   	fraction.setChild(0, passArgs);
+   	ArgumentHelper.passArgument(editorState, fraction);
+   	//handle denominator
+   	SequenceNode mathSequence = new SequenceNode();
+   	mathAtomOrPower(mathSequence);
+   	mathSequence.removeBrackets();
+   	fraction.setChild(1, mathSequence);
+	if (node.getChild(node.size() - 1) != null
+			&& node.getChild(node.size() - 1).toString().equals(Unicode.INVISIBLE_PLUS + "")) {
+		node.removeChild(node.size() -1);
+		editorState.setCurrentOffset(node.size());
+		fraction.setPreventingNestedFractions(true);
+	}
+   	node.addChild(fraction);
+}
+}
+
+void recurringDecimal(InternalNode node) :
+{
+	FunctionNode recurringDecimal;
+}
+{
+	<OVERLINE> {
+		SequenceNode passArg = new SequenceNode();
+		editorState.setCurrentNode((SequenceNode) node);
+		editorState.setCurrentOffset(node.size());
+		if (node.size() > 1
+				&& node.getChild(node.size() - 2).hasTag(Tag.RECURRING_DECIMAL)) {
+			// There is already a recurring decimal - just append the 2nd, 3rd, ... repeating digit
+			recurringDecimal = (FunctionNode) node.getChild(node.size() - 2);
+			ArgumentHelper.passSingleCharacter(editorState, recurringDecimal.getChild(0));
+		} else {
+			// Create a new FunctionNode
+			recurringDecimal = new FunctionNode(catalog.getGeneral(Tag.RECURRING_DECIMAL));
+			recurringDecimal.setChild(0, passArg);
+			ArgumentHelper.passSingleCharacter(editorState, recurringDecimal.getChild(0));
+			node.addChild(recurringDecimal);
+		}
+	}
+}
+
+void subscript(InternalNode node) :
+{
+	SequenceNode subscript;
+}
+{
+	<SUBSCRIPT> {
+		FunctionNode subscriptFunction = new FunctionNode(catalog.getGeneral(Tag.SUBSCRIPT));
+		subscript = new SequenceNode();
+	}
+	((<CURLY_BRACKETS_OPEN> mathContainerWithCommas(subscript) <CURLY_BRACKETS_CLOSE>)
+	|
+	mathCharacter(subscript)) {
+		subscriptFunction.setChild(0, subscript);
+		node.addChild(subscriptFunction);
+	}
+}
+
+void nroot(InternalNode node) : {}
+{
+	<NROOT> {
+		FunctionNode nroot = new FunctionNode(catalog.getGeneral(Tag.NROOT));
+		SequenceNode param1 = new SequenceNode();
+		internalNode(param1);
+	} <COMMA> {
+		SequenceNode param2 = new SequenceNode();
+		internalNode(param2);
+		nroot.setChild(1, param1);
+		nroot.setChild(0, param2);
+		node.addChild(nroot);
+	} <PARENTHESES_CLOSE>
+}
+
+void defintSumProduct(InternalNode node) : {
+	Token symbol;
+}
+{
+
+	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ> | symbol = <POINT>
+	| symbol = <POINT_AT> | symbol = <VECTOR> ) <PARENTHESES_OPEN> {
+		FunctionNode defint = new FunctionNode(catalog.getGeneral(Tag.lookup(symbol.image)));
+		SequenceNode param0 = new SequenceNode();
+		internalNode(param0);
+	} <COMMA> {
+		SequenceNode param1 = new SequenceNode();
+		internalNode(param1);
+		defint.setChild(0, param0);
+		defint.setChild(1, param1);
+
+	} (<COMMA> {
+		SequenceNode param2 = new SequenceNode();
+		internalNode(param2);
+		defint.addChild(param2);
+	})? <PARENTHESES_CLOSE> {
+		node.addChild(defint);
+
+	}
+}
+
+void atomicPrePost(InternalNode node) : {
+	Token symbol;
+}
+{
+	(symbol = <ATOMIC_POST> | symbol = <ATOMIC_PRE>) <PARENTHESES_OPEN> {
+		FunctionNode atomic = new FunctionNode(catalog.getGeneral(Tag.lookup(symbol.image)));
+		SequenceNode param0 = new SequenceNode();
+		internalNode(param0);
+	} <COMMA> {
+		SequenceNode param1 = new SequenceNode();
+		internalNode(param1);
+	} <COMMA> {
+		SequenceNode param2 = new SequenceNode();
+		internalNode(param2);
+		atomic.setChild(0, param0);
+		atomic.setChild(1, param1);
+		atomic.setChild(2, param2);
+		node.addChild(atomic);
+	} <PARENTHESES_CLOSE>
+}
+
+void absVecLimeq(InternalNode node) : {
+	Token symbol;
+}
+{
+	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ> | symbol = <SQRT> | symbol = <CBRT>) {
+		// cut off the parentheses from the end
+		String image = symbol.image.substring(0, symbol.image.length() - 1);
+		if (image.equals("\u221A")) {
+			image = "sqrt";
+		}
+		FunctionNode vec = new FunctionNode(catalog.getGeneral(Tag.lookup(image)));
+		SequenceNode param1 = new SequenceNode();
+		mathContainerWithCommas(param1);
+		vec.setChild(0, param1);
+		node.addChild(vec);
+	} <PARENTHESES_CLOSE>
+}
+
+void log(InternalNode node) : { }
+{
+	<LOG> {
+		FunctionNode nroot = new FunctionNode(catalog.getGeneral(Tag.LOG));
+		SequenceNode param1 = new SequenceNode();
+		SequenceNode param2 = new SequenceNode();
+		internalNode(param1);
+		nroot.setChild(0, param2); // base empty
+		nroot.setChild(1, param1);
+	} (<COMMA> {
+		internalNode(param2);
+		nroot.setChild(0, param1);
+		nroot.setChild(1, param2);
+	})? <PARENTHESES_CLOSE>
+	{
+	  node.addChild(nroot);
+	}
+}
+
+void arrayParentheses(InternalNode node) :
+{
+	SequenceNode mathSequence;
+	Token open;
+}
+{
+	(open = <PARENTHESES_OPEN> | open = <SQUARE_BRACKETS_OPEN>)
+	{
+		editorState.setCurrentNode((SequenceNode) node);
+		editorState.setCurrentOffset(node.size());
+		inputController.newBraces(editorState, open.image.charAt(0));
+
+		mathSequence = editorState.getCurrentNode();
+	}
+	mathContainerWithCommas(mathSequence)
+
+	(<PARENTHESES_CLOSE> | <SQUARE_BRACKETS_CLOSE>)
+}
+
+void arrayFloorCeil(InternalNode node) : {
+	ArrayNode arrayNode;
+	SequenceNode mathSequence;
+	Token open;
+}
+{
+	(open = <LFLOOR > | open = <LCEIL>) {
+	Tag arrayType = LCEIL == open.kind ? Tag.CEIL : Tag.FLOOR;
+	arrayNode = new ArrayNode(catalog.getArray(arrayType), 0);
+	node.addChild(arrayNode);
+	mathSequence = new SequenceNode();
+	internalNode(mathSequence);
+	arrayNode.addChild(mathSequence);
+} (<RFLOOR > | <RCEIL>)
+}
+
+void absVerticalBar(InternalNode node) : { }
+{
+	<VERTICAL_BAR> {
+		absoluteValueDepth++;
+		absoluteValueCount--;
+		FunctionNode abs = new FunctionNode(catalog.getGeneral(Tag.ABS));
+		SequenceNode param1 = new SequenceNode();
+		internalNode(param1);
+		abs.setChild(0, param1);
+		node.addChild(abs);
+	} <VERTICAL_BAR> {
+		absoluteValueDepth--;
+		absoluteValueCount--;
+	}
+}
+
+void arrayCurly(InternalNode node) :
+{
+	ArrayNode arrayNode;
+	SequenceNode mathSequence;
+}
+{
+	<CURLY_BRACKETS_OPEN>
+	{
+		mathSequence = new SequenceNode();
+
+		arrayNode = new ArrayNode(catalog.getArray(Tag.CURLY), 0);
+		node.addChild(arrayNode);
+	}
+	internalNode(mathSequence)
+	{
+		arrayNode.addChild(mathSequence);
+		mathSequence = new SequenceNode();
+	}
+	(LOOKAHEAD(2147483647)  <COMMA> internalNode(mathSequence)
+		{
+			arrayNode.addChild(mathSequence);
+			mathSequence = new SequenceNode();
+
+		}
+	)*
+
+	<CURLY_BRACKETS_CLOSE>
+	{
+		arrayNode.checkMatrix(catalog);
+	}
+}
+
+void quotes(InternalNode node) :
+{
+	ArrayNode arrayNode;
+	SequenceNode mathSequence;
+	Token t;
+}
+{
+	<QUOTE_START> {
+		mathSequence = new SequenceNode();
+		arrayNode = new ArrayNode(catalog.getArray(Tag.APOSTROPHES), 0);
+		arrayNode.addChild(mathSequence);
+		node.addChild(arrayNode);
+	} ((t = <CHAR>) {
+	CharacterNode characterNode = new CharacterNode(catalog.getCharacter(t.image));
+	mathSequence.addChild(characterNode);
+})* <QUOTE_END>
+}
+
+void mathCharacter(InternalNode node) :
+{
+	Token t;
+}
+{
+	(t = <ELSE> | t = <OPERATOR> | t = <SPACE>) {
+		node.append(createCharacterTemplate(t.image, catalog));
+	}
+}
+
+void mathCharacterOrComma(InternalNode node) :
+{
+	Token t;
+}
+{
+	(t = <ELSE> | t = <OPERATOR> | t = <SPACE> | t = <COMMA>) {
+		node.append(createCharacterTemplate(t.image, catalog));
+	}
+}
+
+void mathAtomCharacter(InternalNode node) :
+{
+	Token t;
+}
+{
+	(t = <ELSE>) {
+		node.append(createCharacterTemplate(t.image, catalog));
+	}
+}

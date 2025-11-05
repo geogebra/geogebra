@@ -43,8 +43,7 @@ import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.util.GuiResourcesD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * 

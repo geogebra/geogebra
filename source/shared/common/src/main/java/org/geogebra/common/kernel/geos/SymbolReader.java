@@ -5,8 +5,7 @@ import java.util.Map;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Class that converts symbols to readable text for screen readers.

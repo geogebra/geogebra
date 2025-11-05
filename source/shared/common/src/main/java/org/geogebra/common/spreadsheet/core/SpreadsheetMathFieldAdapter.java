@@ -2,12 +2,12 @@ package org.geogebra.common.spreadsheet.core;
 
 import javax.annotation.Nonnull;
 
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.editor.MathFieldInternalListener;
-import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.editor.MathFieldInternalListener;
+import org.geogebra.editor.share.editor.UnhandledArrowListener;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.event.MathFieldListener;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 
 /**
  * Adapts between a MathFieldInternal, spreadsheet input processing, and the SpreadsheetController.

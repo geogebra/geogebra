@@ -82,8 +82,7 @@ import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.HttpRequestD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.UtilD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * GeoGebra's main window.

@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import java.util.ArrayList;
 
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ChangeEvent;
@@ -12,8 +13,6 @@ import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.user.client.ui.ListBox;
 import org.gwtproject.user.client.ui.Panel;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Popup for history of inputs

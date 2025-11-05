@@ -67,9 +67,9 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.input.Character;
 
 import com.google.j2objc.annotations.Weak;
-import com.himamis.retex.editor.share.input.Character;
 
 /**
  * Manages construction elements

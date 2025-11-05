@@ -1,16 +1,16 @@
 package org.geogebra.common.util;
 
-import static com.himamis.retex.editor.share.util.Unicode.CENTER_DOT;
-import static com.himamis.retex.editor.share.util.Unicode.SUPERSCRIPT_0;
-import static com.himamis.retex.editor.share.util.Unicode.SUPERSCRIPT_1;
-import static com.himamis.retex.editor.share.util.Unicode.SUPERSCRIPT_2;
-import static com.himamis.retex.editor.share.util.Unicode.SUPERSCRIPT_3;
-import static com.himamis.retex.editor.share.util.Unicode.SUPERSCRIPT_6;
-import static com.himamis.retex.editor.share.util.Unicode.SUPERSCRIPT_9;
-import static com.himamis.retex.editor.share.util.Unicode.SUPERSCRIPT_MINUS;
 import static org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType.GEOGEBRA;
 import static org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType.LATEX;
 import static org.geogebra.common.util.EngineeringNotationString.format;
+import static org.geogebra.editor.share.util.Unicode.CENTER_DOT;
+import static org.geogebra.editor.share.util.Unicode.SUPERSCRIPT_0;
+import static org.geogebra.editor.share.util.Unicode.SUPERSCRIPT_1;
+import static org.geogebra.editor.share.util.Unicode.SUPERSCRIPT_2;
+import static org.geogebra.editor.share.util.Unicode.SUPERSCRIPT_3;
+import static org.geogebra.editor.share.util.Unicode.SUPERSCRIPT_6;
+import static org.geogebra.editor.share.util.Unicode.SUPERSCRIPT_9;
+import static org.geogebra.editor.share.util.Unicode.SUPERSCRIPT_MINUS;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

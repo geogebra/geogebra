@@ -4,8 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
-
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.editor.MathFieldInternal;
 
 /**
  * An abstraction for spreadsheet cell editing.

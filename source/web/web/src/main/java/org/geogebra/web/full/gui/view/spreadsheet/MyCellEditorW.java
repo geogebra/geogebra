@@ -8,6 +8,8 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.AltKeys;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -17,9 +19,6 @@ import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.user.client.ui.SimplePanel;
-
-import com.himamis.retex.editor.share.util.AltKeys;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Default cell editor for the spreadsheet, extends

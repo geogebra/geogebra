@@ -1,11 +1,10 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.editor.share.event.MathFieldListener;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.gwtutil.ExceptionUnwrapper;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.Function;
 import elemental2.core.JsArray;

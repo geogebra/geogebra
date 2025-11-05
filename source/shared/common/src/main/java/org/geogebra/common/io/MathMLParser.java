@@ -9,9 +9,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Greek;
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Greek;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Apache 2.0 Licence

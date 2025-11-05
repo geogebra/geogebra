@@ -3,8 +3,7 @@ package org.geogebra.common.util;
 import java.util.function.Function;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Class that creates an engineering notation based on a numeric input.

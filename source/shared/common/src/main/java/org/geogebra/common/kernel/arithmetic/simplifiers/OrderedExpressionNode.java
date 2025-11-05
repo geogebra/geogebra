@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAddSubNode;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAtomic;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isDivNode;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;

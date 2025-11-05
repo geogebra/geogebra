@@ -146,9 +146,8 @@ import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
-
-import com.himamis.retex.editor.share.editor.EditorFeatures;
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.editor.EditorFeatures;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Represents an application window, gives access to views and system stuff

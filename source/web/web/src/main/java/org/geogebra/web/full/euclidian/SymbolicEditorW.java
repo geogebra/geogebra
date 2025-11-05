@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -23,7 +24,6 @@ import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.ChangeEvent;
 import org.gwtproject.event.dom.client.ChangeHandler;
 
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.renderer.share.TeXFont;
 
 /**

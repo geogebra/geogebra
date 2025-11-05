@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.equalTo;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.junit.Test;
 

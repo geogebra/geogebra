@@ -52,8 +52,7 @@ import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.main.MyResourceBundle;
 import org.geogebra.desktop.util.GuiResourcesD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * @author Michael Borcherds (based loosely on

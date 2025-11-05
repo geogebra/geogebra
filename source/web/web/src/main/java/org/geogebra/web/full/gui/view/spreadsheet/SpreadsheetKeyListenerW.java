@@ -8,6 +8,8 @@ import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.editor.share.util.AltKeys;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.CopyPasteW;
@@ -19,9 +21,6 @@ import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.event.dom.client.KeyPressHandler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
-
-import com.himamis.retex.editor.share.util.AltKeys;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Key event handler for spreadsheet

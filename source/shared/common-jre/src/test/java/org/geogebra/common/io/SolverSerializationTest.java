@@ -2,15 +2,15 @@ package org.geogebra.common.io;
 
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.io.latex.ParseException;
+import org.geogebra.editor.share.io.latex.Parser;
+import org.geogebra.editor.share.serializer.SolverSerializer;
+import org.geogebra.editor.share.tree.Formula;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.SolverSerializer;
-import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class SolverSerializationTest {
@@ -25,9 +25,9 @@ public class SolverSerializationTest {
 		}
 	}
 
-	private static MathFormula parseForEditor(String input) {
+	private static Formula parseForEditor(String input) {
 		try {
-			Parser parser = new Parser(new MetaModel());
+			Parser parser = new Parser(new TemplateCatalog());
 			return parser.parse(input);
 		} catch (ParseException e) {
 			throw new IllegalStateException(e);
@@ -35,7 +35,7 @@ public class SolverSerializationTest {
 	}
 
 	private static void parsesToSolverInput(String input, String serialized) {
-		MathFormula formula = parseForEditor(input);
+		Formula formula = parseForEditor(input);
 		SolverSerializer serializer = new SolverSerializer();
 		String result = serializer.serialize(formula);
 		assertEquals(serialized, result);

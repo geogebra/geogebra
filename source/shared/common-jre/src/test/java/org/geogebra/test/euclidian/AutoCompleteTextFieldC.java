@@ -14,8 +14,7 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
-
-import com.himamis.retex.editor.share.util.KeyCodes;
+import org.geogebra.editor.share.util.KeyCodes;
 
 /**
  * Mock of a textfield, provides consistent getter/setter for content and

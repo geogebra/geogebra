@@ -13,13 +13,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
-import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 
@@ -80,13 +80,13 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		add("A=(1,1)");
 		GeoInputBox input = add("ib=InputBox(A)");
-		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		final MathFieldCommon mf = new MathFieldCommon(new TemplateCatalog(), null);
 		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
 		editor.attach(input, new Rectangle(),
 				LatexRendererSettings.create());
 		SerializationAdapter adapter = ScreenReader.getSerializationAdapter(getApp());
 		assertThat(ScreenReaderSerializer.fullDescription(editor.getMathFieldInternal().getFormula()
-				.getRootComponent(), adapter), equalTo("( 1, 1)"));
+				.getRootNode(), adapter), equalTo("( 1, 1)"));
 
 	}
 

@@ -19,13 +19,12 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.annotation.Issue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
 public class EuclidianControllerTest extends BaseEuclidianControllerTest {

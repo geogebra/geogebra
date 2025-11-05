@@ -1,7 +1,12 @@
 
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAddSubNode;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAtomicSurdAdditionNode;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isIntegerValue;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isMinusOne;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isSqrtNode;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.radicandOf;
 
 import javax.annotation.Nonnull;
 

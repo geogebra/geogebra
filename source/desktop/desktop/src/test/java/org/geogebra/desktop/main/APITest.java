@@ -5,10 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class APITest {
 	private AppDNoGui app;

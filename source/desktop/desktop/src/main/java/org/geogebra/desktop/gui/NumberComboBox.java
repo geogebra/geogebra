@@ -21,8 +21,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.desktop.main.AppD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public class NumberComboBox extends JComboBox<String> {
 

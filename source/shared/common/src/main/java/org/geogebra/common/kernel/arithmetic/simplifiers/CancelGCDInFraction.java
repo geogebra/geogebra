@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.getLeftMultiplier;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isDivNode;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isIntegerValue;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isMultiplyNode;
 import static org.geogebra.common.util.DoubleUtil.isInteger;
 
 import org.geogebra.common.kernel.Kernel;

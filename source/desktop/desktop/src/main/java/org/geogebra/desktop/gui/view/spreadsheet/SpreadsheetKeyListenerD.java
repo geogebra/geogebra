@@ -11,8 +11,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.main.AppD;
-
-import com.himamis.retex.editor.share.util.AltKeys;
+import org.geogebra.editor.share.util.AltKeys;
 
 public class SpreadsheetKeyListenerD implements KeyListener {
 

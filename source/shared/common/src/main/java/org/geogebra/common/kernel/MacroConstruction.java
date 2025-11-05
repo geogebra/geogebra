@@ -19,8 +19,7 @@ import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.input.Character;
+import org.geogebra.editor.share.input.Character;
 
 /**
  * Construction for macros.

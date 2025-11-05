@@ -4,13 +4,12 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-
-import com.himamis.retex.editor.share.serializer.TeXEscaper;
-import com.himamis.retex.editor.share.util.MathFormulaConverter;
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.serializer.TeXEscaper;
+import org.geogebra.editor.share.util.FormulaConverter;
+import org.geogebra.editor.share.util.Unicode;
 
 class InputBoxRenderer {
-	private final MathFormulaConverter formulaConverter;
+	private final FormulaConverter formulaConverter;
 	private final GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private StringTemplate stringTemplateForLaTeX;
@@ -19,7 +18,7 @@ class InputBoxRenderer {
 		this.inputBox = inputBox;
 		this.linkedGeo = inputBox.getLinkedGeo();
 		this.stringTemplateForLaTeX = inputBox.tpl.derivePrecisionPreservingLaTeXTemplate();
-		formulaConverter = new MathFormulaConverter();
+		formulaConverter = new FormulaConverter();
 	}
 
 	String getText() {

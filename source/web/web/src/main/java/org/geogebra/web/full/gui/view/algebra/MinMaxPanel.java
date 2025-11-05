@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.util.DataTest;
@@ -20,8 +21,6 @@ import org.gwtproject.event.dom.client.MouseEvent;
 import org.gwtproject.event.dom.client.MouseUpEvent;
 import org.gwtproject.event.dom.client.MouseUpHandler;
 import org.gwtproject.user.client.ui.Label;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Min/max setting for slider

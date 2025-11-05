@@ -12,31 +12,24 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.io.MyXMLioCommon;
 import org.geogebra.common.jre.io.MyXMLioJre;
-import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.AppCommon3D;
-import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class MyXMLioTest extends BaseUnitTest {
 

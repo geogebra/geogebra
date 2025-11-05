@@ -2,9 +2,9 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.io.EditorStateDescription;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.html5.main.MathEditorAPI;
 
-import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
 
 /**

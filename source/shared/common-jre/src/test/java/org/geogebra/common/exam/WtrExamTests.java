@@ -12,13 +12,12 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.ToStringConverter;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class WtrExamTests extends BaseExamTestSetup {
 	@BeforeEach

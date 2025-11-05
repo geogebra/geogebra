@@ -2,11 +2,11 @@ package org.geogebra.common.io;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class SelectAllTest {

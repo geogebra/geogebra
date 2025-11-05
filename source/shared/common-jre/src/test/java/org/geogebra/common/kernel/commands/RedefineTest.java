@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
@@ -43,8 +44,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class RedefineTest extends BaseUnitTest {
 

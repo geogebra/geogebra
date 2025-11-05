@@ -16,6 +16,7 @@ import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -35,8 +36,6 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW {
 

@@ -1,9 +1,8 @@
 package org.geogebra.common.gui.popup.autocompletion;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-
-import com.himamis.retex.editor.share.controller.EditorState;
-import com.himamis.retex.editor.share.editor.MathField;
+import org.geogebra.editor.share.controller.EditorState;
+import org.geogebra.editor.share.editor.MathField;
 
 /**
  * Class to decide if a text typed into a MathField should have suggestions.

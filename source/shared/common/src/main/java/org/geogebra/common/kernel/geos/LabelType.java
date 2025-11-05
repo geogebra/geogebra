@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
-import com.himamis.retex.editor.share.util.Greek;
+import org.geogebra.editor.share.util.Greek;
 
 /**
  * Labels for geoelements per type

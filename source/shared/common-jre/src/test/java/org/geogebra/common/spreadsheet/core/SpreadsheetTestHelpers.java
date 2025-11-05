@@ -2,8 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
-
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 
 final class SpreadsheetTestHelpers {
 

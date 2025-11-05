@@ -5,9 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoInputBoxForProductTest extends BaseUnitTest {
 

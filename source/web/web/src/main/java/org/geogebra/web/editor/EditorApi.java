@@ -1,11 +1,11 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.editor.share.serializer.SolverSerializer;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 
-import com.himamis.retex.editor.share.serializer.SolverSerializer;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 

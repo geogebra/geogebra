@@ -36,15 +36,14 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.Greek;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-
-import com.himamis.retex.editor.share.util.Greek;
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GgbApiTest {
 	private AppCommon app;

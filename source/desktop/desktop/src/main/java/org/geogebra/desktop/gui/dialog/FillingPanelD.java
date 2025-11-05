@@ -47,8 +47,7 @@ import org.geogebra.desktop.gui.util.SliderUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * panel to select the filling of a polygon or conic section

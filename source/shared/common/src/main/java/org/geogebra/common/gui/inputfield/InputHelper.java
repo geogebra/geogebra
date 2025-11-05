@@ -11,8 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
-
-import com.himamis.retex.editor.share.model.Korean;
+import org.geogebra.editor.share.tree.Korean;
 
 /**
  * Helper methods used by plain text and latex editors

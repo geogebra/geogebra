@@ -16,8 +16,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public class InputDialogAngleFixedD extends AngleInputDialogD
 		implements KeyListener {

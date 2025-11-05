@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.table;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.gui.view.table.dimensions.LaTeXTextSizeMeasurer;
 import org.geogebra.common.io.FactoryProviderCommon;

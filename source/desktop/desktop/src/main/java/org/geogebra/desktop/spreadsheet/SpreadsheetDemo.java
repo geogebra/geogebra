@@ -57,9 +57,9 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.CursorMap;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.spreadsheet.AwtReTeXGraphicsBridgeD;
+import org.geogebra.editor.desktop.MathFieldD;
+import org.geogebra.editor.share.editor.MathFieldInternal;
 
-import com.himamis.retex.editor.desktop.MathFieldD;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 
 public class SpreadsheetDemo {

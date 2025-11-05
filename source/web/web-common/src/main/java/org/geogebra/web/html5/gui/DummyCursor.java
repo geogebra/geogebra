@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui;
 
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.CursorOverlayController;
 import org.geogebra.web.html5.main.AppW;
@@ -10,8 +11,6 @@ import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.user.client.ui.TextArea;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * handle dummy cursor on android

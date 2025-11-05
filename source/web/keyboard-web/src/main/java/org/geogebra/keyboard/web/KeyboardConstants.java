@@ -1,8 +1,7 @@
 package org.geogebra.keyboard.web;
 
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.keyboard.base.model.impl.factory.Characters;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Contains Strings which are used for the {@link BaseKeyboardButton buttons} of

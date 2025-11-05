@@ -86,8 +86,7 @@ import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public class ConstructionProtocolViewD extends ConstructionProtocolView
 		implements Printable, SettingListener, SetLabels {

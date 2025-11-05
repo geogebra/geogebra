@@ -9,10 +9,9 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgoAngleLines3DTest extends BaseUnitTest {
 

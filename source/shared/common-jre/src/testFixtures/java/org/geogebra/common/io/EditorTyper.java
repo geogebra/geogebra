@@ -1,7 +1,7 @@
 package org.geogebra.common.io;
 
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
 
 /**
  * Helps with typing input into an editor.

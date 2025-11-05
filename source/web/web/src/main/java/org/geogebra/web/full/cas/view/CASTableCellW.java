@@ -7,6 +7,11 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.io.latex.ParseException;
+import org.geogebra.editor.share.io.latex.Parser;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.tree.Formula;
 import org.geogebra.web.full.cas.view.InputPanel.InputPanelCanvas;
 import org.geogebra.web.full.cas.view.InputPanel.InputPanelLabel;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
@@ -17,12 +22,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.VerticalPanel;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
  * Graphical representation of CAS cells in Web
@@ -106,7 +105,7 @@ public class CASTableCellW extends VerticalPanel {
 		String ret = casCell.getLaTeXInput();
 		if (ret == null) {
 			try {
-				MathFormula mf = new Parser(new MetaModel())
+				Formula mf = new Parser(new TemplateCatalog())
 						.parse(casCell.getLocalizedInput());
 				return new TeXSerializer().serialize(mf);
 			} catch (ParseException e) {

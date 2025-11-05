@@ -5,8 +5,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.parser.ParserInfo;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Does several replacements to simplify parsing

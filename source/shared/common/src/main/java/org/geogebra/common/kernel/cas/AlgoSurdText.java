@@ -32,8 +32,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMathExact.FixedScaleDecimal;
 import org.geogebra.common.util.MyMathExact.FixedScaleDecimalMatrix;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * @author Tam

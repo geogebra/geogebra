@@ -39,10 +39,9 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class RelativeCopy {
 

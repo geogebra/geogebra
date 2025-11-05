@@ -1,7 +1,7 @@
 package org.geogebra.common.util.lang;
 
-import static com.himamis.retex.editor.share.util.Unicode.ITALIAN_ORDINAL_INDICATOR;
-import static com.himamis.retex.editor.share.util.Unicode.SPANISH_ORDINAL_INDICATOR;
+import static org.geogebra.editor.share.util.Unicode.ITALIAN_ORDINAL_INDICATOR;
+import static org.geogebra.editor.share.util.Unicode.SPANISH_ORDINAL_INDICATOR;
 
 import java.util.Locale;
 
@@ -10,8 +10,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.main.OrdinalConverter;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Collection of which languages are official in which countries (only includes

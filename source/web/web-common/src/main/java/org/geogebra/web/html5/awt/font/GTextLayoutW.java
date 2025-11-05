@@ -4,11 +4,10 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GTextLayoutW implements GTextLayout {
 

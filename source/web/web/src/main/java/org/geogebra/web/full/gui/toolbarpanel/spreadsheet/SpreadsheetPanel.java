@@ -12,6 +12,7 @@ import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -29,8 +30,6 @@ import org.gwtproject.event.dom.client.KeyEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
-
-import com.himamis.retex.editor.share.meta.MetaModel;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
@@ -67,7 +66,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		this.app = app;
 		addStyleName("spreadsheetPanel");
 
-		mathField = new MathTextFieldW(app, new MetaModel());
+		mathField = new MathTextFieldW(app, new TemplateCatalog());
 		SpreadsheetControlsDelegateW controlsDelegate = initControlsDelegate();
 
 		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(app);

@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -17,8 +18,6 @@ import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Animation panel for points and sliders

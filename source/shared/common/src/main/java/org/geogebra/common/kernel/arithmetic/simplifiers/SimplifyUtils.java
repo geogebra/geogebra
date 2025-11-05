@@ -1,6 +1,13 @@
 package org.geogebra.common.kernel.arithmetic.simplifiers;
 
-import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.*;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.getLeftMultiplier;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAtomic;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isIntegerValue;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isMinusOne;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isMultiplyNode;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isNegativeSqrt;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isOne;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isSqrtNode;
 import static org.geogebra.common.util.DoubleUtil.isInteger;
 import static org.geogebra.common.util.DoubleUtil.isOutOfSafeRoundRange;
 

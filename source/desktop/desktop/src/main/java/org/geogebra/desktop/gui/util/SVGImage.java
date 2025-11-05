@@ -6,7 +6,6 @@ import java.awt.geom.AffineTransform;
 import java.util.Objects;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GGraphics2D;
 
 /**
  * Class to load and paint SVGs.

@@ -11,10 +11,9 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.AlgoAreEqual;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgoAreEqualTest {
 

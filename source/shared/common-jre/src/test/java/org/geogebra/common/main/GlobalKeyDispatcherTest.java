@@ -23,12 +23,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.script.GgbScript;
+import org.geogebra.editor.share.util.KeyCodes;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.KeyCodes;
 
 public class GlobalKeyDispatcherTest extends BaseUnitTest {
 

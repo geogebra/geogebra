@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -14,8 +15,6 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.event.shared.HandlerRegistration;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.core.Function;
 import elemental2.core.Global;

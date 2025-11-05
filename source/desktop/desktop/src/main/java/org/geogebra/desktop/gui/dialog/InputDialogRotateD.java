@@ -14,8 +14,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public abstract class InputDialogRotateD extends AngleInputDialogD
 		implements KeyListener {

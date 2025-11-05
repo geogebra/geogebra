@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
@@ -12,8 +13,6 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.NativeEvent;
-
-import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;

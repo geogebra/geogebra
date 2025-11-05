@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.Objects;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 class DecimalPart {
 	Integer value;

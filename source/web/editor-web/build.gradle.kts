@@ -12,8 +12,8 @@ plugins {
 
 gwt {
     // only compilable module
-    modules("com.himamis.retex.editor.JLMEditorExportedLibrary")
-    devModules("com.himamis.retex.editor.JLMEditorGWTDev")
+    modules("org.geogebra.editor.JLMEditorExportedLibrary")
+    devModules("org.geogebra.editor.JLMEditorGWTDev")
     logLevel = LogLevel.DEBUG
 }
 
@@ -23,7 +23,7 @@ gwtDistribution {
 
 dependencies {
     api(project(":renderer-web"))
-    api("com.himamis.retex:editor-base")
+    api("org.geogebra:editor-base")
     api(project(":gwtutil"))
     api(libs.gwt.dev)
     api(libs.gwt.user)

@@ -4,14 +4,14 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.html5.util.DataTest;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 
 public class LaTeXTreeItem extends RadioTreeItem {
@@ -126,7 +126,7 @@ public class LaTeXTreeItem extends RadioTreeItem {
 	@Override
 	protected String getEditorLatex() {
 		return mf == null ? null
-				: TeXSerializer.serialize(mf.getFormula().getRootComponent());
+				: TeXSerializer.serialize(mf.getFormula().getRootNode());
 	}
 
 	@Override

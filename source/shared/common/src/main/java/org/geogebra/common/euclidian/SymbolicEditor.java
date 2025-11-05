@@ -19,16 +19,15 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
-
-import com.himamis.retex.editor.share.editor.EditorFeatures;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.editor.EditorFeatures;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.event.MathFieldListener;
+import org.geogebra.editor.share.serializer.GeoGebraSerializer;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.tree.Formula;
+import org.geogebra.editor.share.util.JavaKeyCodes;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * MathField-capable editor for input boxes on EuclidianView.
@@ -57,7 +56,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	protected void applyChanges() {
-		MathFormula formula = getMathFieldInternal().getFormula();
+		Formula formula = getMathFieldInternal().getFormula();
 		String editedText = null;
 		if (getMathFieldInternal().getInputController().getPlainTextMode()) {
 			asciiSerializer.setComma(",");
@@ -231,9 +230,9 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	protected void setProtection() {
 		if (getGeoInputBox().isListEditor()) {
-			getMathFieldInternal().getFormula().getRootComponent().setKeepCommas();
+			getMathFieldInternal().getFormula().getRootNode().setKeepCommas();
 		} else if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
-			getMathFieldInternal().getFormula().getRootComponent().setProtected();
+			getMathFieldInternal().getFormula().getRootNode().setProtected();
 			getMathFieldInternal().setLockedCaretPath();
 		}
 	}
@@ -243,7 +242,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 * @return input as flat string
 	 */
 	public String getEditorState() {
-		MathFormula formula = getMathFieldInternal().getFormula();
+		Formula formula = getMathFieldInternal().getFormula();
 		String editedText = null;
 		String[] entries = asciiSerializer.serializeMatrixEntries(formula);
 		if (entries.length == 0) {
@@ -256,7 +255,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 * @return current content in GGB syntax, using ? for empty matrix entries
 	 */
 	public EditorContent getEditorStateWithQuestionMarks() {
-		MathFormula formula = getMathFieldInternal().getFormula();
+		Formula formula = getMathFieldInternal().getFormula();
 		GeoGebraSerializer geoGebraSerializer = new GeoGebraSerializer(editorFeatures);
 		geoGebraSerializer.setShowPlaceholderAsQuestionmark(true);
 		String content;
@@ -276,7 +275,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 */
 	public String getLatexInput(String input) {
 		getMathFieldInternal().parse(input);
-		MathFormula formula = getMathFieldInternal().getFormula();
+		Formula formula = getMathFieldInternal().getFormula();
 		return texSerializer.serialize(formula);
 	}
 

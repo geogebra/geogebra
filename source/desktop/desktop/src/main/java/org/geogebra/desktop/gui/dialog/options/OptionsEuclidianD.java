@@ -68,8 +68,7 @@ import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigation
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Panel with options for the euclidian view. TODO: optimization: updateGUI()

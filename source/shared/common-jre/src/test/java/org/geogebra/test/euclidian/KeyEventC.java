@@ -1,8 +1,7 @@
 package org.geogebra.test.euclidian;
 
 import org.geogebra.common.euclidian.event.KeyEvent;
-
-import com.himamis.retex.editor.share.util.KeyCodes;
+import org.geogebra.editor.share.util.KeyCodes;
 
 final class KeyEventC extends KeyEvent {
 	private KeyCodes keyCode;

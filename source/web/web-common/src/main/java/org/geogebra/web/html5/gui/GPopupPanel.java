@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -47,8 +48,6 @@ import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.UIObject;
 import org.gwtproject.user.client.ui.Widget;
 import org.gwtproject.user.client.ui.impl.PopupImpl;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;

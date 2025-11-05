@@ -5,7 +5,6 @@ import static org.hamcrest.core.Is.is;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
-import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverterTest;
 import org.geogebra.common.gui.view.algebra.filter.FunctionAndEquationFilter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;

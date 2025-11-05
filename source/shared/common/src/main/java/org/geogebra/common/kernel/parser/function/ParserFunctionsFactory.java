@@ -1,8 +1,7 @@
 package org.geogebra.common.kernel.parser.function;
 
 import org.geogebra.common.plugin.Operation;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Creates ParserFunctions.

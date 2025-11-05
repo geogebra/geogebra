@@ -6,6 +6,7 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.geogebra.editor.share.input.FunctionVariableAdapter;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
@@ -14,8 +15,6 @@ import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 import org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil;
 import org.geogebra.keyboard.web.factory.model.inputbox.util.Cursive;
 import org.geogebra.keyboard.web.factory.model.inputbox.util.MathKeyUtil;
-
-import com.himamis.retex.editor.share.input.FunctionVariableAdapter;
 
 public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 	private final List<String> vars;

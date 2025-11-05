@@ -2,6 +2,8 @@ package org.geogebra.web.test;
 
 import java.util.Collection;
 
+import org.geogebra.editor.web.ClickAdapterW;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.regexp.client.NativeRegExp;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
@@ -55,8 +57,6 @@ import org.junit.runners.model.InitializationError;
 
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
-import com.himamis.retex.editor.web.ClickAdapterW;
-import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;

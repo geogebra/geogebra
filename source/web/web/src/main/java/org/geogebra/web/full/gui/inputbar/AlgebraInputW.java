@@ -10,6 +10,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.editor.share.util.GWTKeycodes;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -29,9 +31,6 @@ import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * InputBar for GeoGebraWeb

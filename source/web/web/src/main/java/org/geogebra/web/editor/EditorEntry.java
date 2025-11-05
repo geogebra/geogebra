@@ -1,12 +1,12 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.editor.web.JlmEditorLib;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmApi;

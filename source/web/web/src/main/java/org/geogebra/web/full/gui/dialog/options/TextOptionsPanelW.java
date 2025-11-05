@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
@@ -31,8 +32,6 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ListBox;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		ITextEditPanel, GeoElementSelectionListener {

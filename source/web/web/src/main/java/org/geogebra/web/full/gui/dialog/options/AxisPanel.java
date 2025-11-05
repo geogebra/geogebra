@@ -7,6 +7,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -16,8 +17,6 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class AxisPanel extends FlowPanel
 		implements SetLabels, IAxisModelListener {

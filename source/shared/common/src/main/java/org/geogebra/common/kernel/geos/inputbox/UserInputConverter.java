@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.geos.inputbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Converts incomplete user input to a string that Algebra Processor can handle without error,

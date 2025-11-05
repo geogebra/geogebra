@@ -2,8 +2,6 @@ package org.geogebra.test.euclidian.plot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.PathPlotter;

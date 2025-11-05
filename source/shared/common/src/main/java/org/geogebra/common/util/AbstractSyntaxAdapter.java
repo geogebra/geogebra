@@ -1,8 +1,8 @@
 package org.geogebra.common.util;
 
 import org.geogebra.common.io.MathMLParser;
+import org.geogebra.editor.share.editor.SyntaxAdapter;
 
-import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 

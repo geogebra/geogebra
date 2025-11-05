@@ -4,6 +4,7 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -12,8 +13,6 @@ import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHandler {
 

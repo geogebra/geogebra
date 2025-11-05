@@ -5,11 +5,10 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.editor.share.syntax.SyntaxHint;
+import org.geogebra.editor.share.syntax.SyntaxTooltipUpdater;
 import org.geogebra.web.full.gui.components.ComponentToast;
 import org.geogebra.web.html5.main.AppW;
-
-import com.himamis.retex.editor.share.syntax.SyntaxHint;
-import com.himamis.retex.editor.share.syntax.SyntaxTooltipUpdater;
 
 public class ToastController implements SyntaxTooltipUpdater {
 

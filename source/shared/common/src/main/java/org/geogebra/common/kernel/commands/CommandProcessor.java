@@ -46,9 +46,9 @@ import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.Unicode;
 
 import com.google.j2objc.annotations.Weak;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Resolves arguments of the command, checks their validity and creates

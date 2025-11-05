@@ -21,12 +21,11 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
-
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.model.MathCharacter;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.share.tree.CharacterNode;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 
 /**
  * A container for tabular data, with support for selecting and editing the data.
@@ -615,7 +614,7 @@ public final class SpreadsheetController {
 			return null;
 		}
 		ArrayList<String> characterSequences = new ArrayList<>();
-		Predicate<MathCharacter> include = w -> w.isCharacter() || ":".equals(w.getUnicodeString());
+		Predicate<CharacterNode> include = w -> w.isCharacter() || ":".equals(w.getUnicodeString());
 		mathField.collectCharacterSequences(include, characterSequences);
 		ArrayList<SpreadsheetReference> cellRanges = new ArrayList<>();
 		for (String characterSequence : characterSequences) {
@@ -1588,7 +1587,7 @@ public final class SpreadsheetController {
 		}
 
 		void updateReference(String reference) {
-			Predicate<MathCharacter> predicate =
+			Predicate<CharacterNode> predicate =
 					w -> w.isCharacter() || ":".equals(w.getUnicodeString());
 			String[] parts = reference.split(":");
 			String startCell = parts[0].trim();
@@ -1607,7 +1606,7 @@ public final class SpreadsheetController {
 		}
 
 		private @CheckForNull String getCurrentCellRangeCandidate() {
-			Predicate<MathCharacter> predicate =
+			Predicate<CharacterNode> predicate =
 					w -> w.isCharacter() || ":".equals(w.getUnicodeString());
 			String candidate = cellEditor.getMathField()
 					.getCharactersAroundCursorMatching(predicate);

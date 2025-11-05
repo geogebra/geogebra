@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian.measurement;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class MeasurementToolTransformerTest extends BaseUnitTest {

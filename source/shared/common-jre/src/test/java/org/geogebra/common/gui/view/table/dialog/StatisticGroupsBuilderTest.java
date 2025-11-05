@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.table.dialog;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;

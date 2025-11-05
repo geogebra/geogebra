@@ -1,6 +1,15 @@
 package org.geogebra.common.contextmenu;
 
-import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.ClearColumn;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Edit;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.HidePoints;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.ImportData;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.RemoveColumn;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Separator;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.ShowPoints;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;

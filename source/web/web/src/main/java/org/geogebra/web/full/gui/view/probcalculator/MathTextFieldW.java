@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.event.MathFieldListener;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.JsRunnable;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.gwtproject.dom.style.shared.Unit;
-
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.meta.MetaModel;
 
 public class MathTextFieldW extends MathFieldEditor implements MathFieldListener, ErrorHandler {
 	private final ArrayList<JsRunnable> inputHandlers = new ArrayList<>();
@@ -23,17 +22,17 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 	 * @param app The application.
 	 */
 	public MathTextFieldW(App app) {
-		this(app, getDefaultModel());
+		this(app, getDefaultCatalog());
 	}
 
 	/**
 	 * Constructor
 	 * @param app The application.
-	 * @param model editor model
+	 * @param catalog editor model
 	 */
-	public MathTextFieldW(App app, MetaModel model) {
+	public MathTextFieldW(App app, TemplateCatalog catalog) {
 		super(app);
-		createMathField(this, model);
+		createMathField(this, catalog);
 		addBlurHandler(event -> {
 			this.asWidget().getParent().removeStyleName("focusState");
 			scrollCursorVisibleHorizontally();

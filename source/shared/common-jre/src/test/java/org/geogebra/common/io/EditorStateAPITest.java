@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.controller.CursorController;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.controller.CursorController;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorStateAPITest {
@@ -40,7 +40,7 @@ public class EditorStateAPITest {
 
 	@Test
 	public void getPathShouldFollowExpressionStructure() {
-		MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
+		MathFieldCommon mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		mathField.insertString("x+x*(x+1)");
 
 		for (int i = 0; i < expectedPaths.length; i++) {
@@ -58,7 +58,7 @@ public class EditorStateAPITest {
 
 	@Test
 	public void setPathGetPathShouldBeCompatible() {
-		MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
+		MathFieldCommon mathField = new MathFieldCommon(new TemplateCatalog(), null);
 		mathField.insertString("x+x*(x+1)");
 
 		for (int i = 0; i < expectedPaths.length; i++) {

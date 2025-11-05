@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.bridge.AttributeProvider;
@@ -36,8 +37,6 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
-
-import com.himamis.retex.editor.web.MathFieldW;
 
 import jsinterop.base.Js;
 

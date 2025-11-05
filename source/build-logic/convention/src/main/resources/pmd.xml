@@ -13,7 +13,7 @@
     <exclude-pattern>.*/org/freehep/.*</exclude-pattern>
     <exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>
     <exclude-pattern>.*/org/geogebra/common/kernel/prover/polynomial/.*</exclude-pattern>
-    <exclude-pattern>.*/com/himamis/retex/editor/share/io/latex.*</exclude-pattern>
+    <exclude-pattern>.*/org/geogebra/editor/share/io/latex.*</exclude-pattern>
     <!-- We'll use the entire 'strings' ruleset -->
     <rule ref="category/java/bestpractices.xml">
         <exclude name="AccessorMethodGeneration"/>

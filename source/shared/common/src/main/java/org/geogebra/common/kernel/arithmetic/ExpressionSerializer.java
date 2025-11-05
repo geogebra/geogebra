@@ -17,8 +17,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Expression -&gt; string converter

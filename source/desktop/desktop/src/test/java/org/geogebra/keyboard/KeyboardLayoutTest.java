@@ -16,7 +16,6 @@ import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
-import org.geogebra.keyboard.base.impl.TemplateKeyProvider;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;

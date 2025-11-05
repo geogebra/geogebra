@@ -13,14 +13,14 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.serializer.GeoGebraSerializer;
+import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
+import org.geogebra.editor.share.serializer.Serializer;
+import org.geogebra.editor.share.serializer.SolverSerializer;
+import org.geogebra.editor.share.serializer.TeXSerializer;
+import org.geogebra.editor.share.tree.Formula;
 
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
-import com.himamis.retex.editor.share.serializer.Serializer;
-import com.himamis.retex.editor.share.serializer.SolverSerializer;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 
 /**
@@ -73,7 +73,7 @@ public class EvaluatorAPI {
 	 * @return JSON string that contains values from the editor
 	 */
 	public HashMap<String, Object> getEvaluatorValue() {
-		MathFormula formula = getMathFormula();
+		Formula formula = getMathFormula();
 
 		String flatString = getFlatString(formula);
 		String latexString = getLatexString(formula);
@@ -94,22 +94,22 @@ public class EvaluatorAPI {
 
 	private String getAltTextString() {
 		return ScreenReaderSerializer.fullDescription(
-				getMathFormula().getRootComponent(), serializationAdapter);
+				getMathFormula().getRootNode(), serializationAdapter);
 	}
 
-	private MathFormula getMathFormula() {
+	private Formula getMathFormula() {
 		return mathFieldInternal.getFormula();
 	}
 
-	private String getFlatString(MathFormula formula) {
+	private String getFlatString(Formula formula) {
 		return flatSerializer.serialize(formula);
 	}
 
-	private String getLatexString(MathFormula formula) {
+	private String getLatexString(Formula formula) {
 		return latexSerializer.serialize(formula);
 	}
 
-	private String getSolverString(MathFormula formula) {
+	private String getSolverString(Formula formula) {
 		return solverSerializer.serialize(formula);
 	}
 

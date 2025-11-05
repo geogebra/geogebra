@@ -8,22 +8,22 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.controller.CursorController;
+import org.geogebra.editor.share.controller.ExpressionReader;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.io.latex.ParseException;
+import org.geogebra.editor.share.io.latex.Parser;
+import org.geogebra.editor.share.serializer.GeoGebraSerializer;
+import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
+import org.geogebra.editor.share.tree.ArrayNode;
+import org.geogebra.editor.share.tree.Formula;
+import org.geogebra.editor.share.tree.Node;
+import org.geogebra.editor.share.tree.SequenceNode;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.controller.CursorController;
-import com.himamis.retex.editor.share.controller.ExpressionReader;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathArray;
-import com.himamis.retex.editor.share.model.MathComponent;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
-import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorScreenReaderTest {
@@ -40,7 +40,7 @@ public class EditorScreenReaderTest {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 		app = AppCommonFactory.create3D();
-		MetaModel m = new MetaModel();
+		TemplateCatalog m = new TemplateCatalog();
 		parser = new Parser(m);
 	}
 
@@ -237,12 +237,12 @@ public class EditorScreenReaderTest {
 
 	@Test
 	public void shouldNotRemoveCommasForPoints() throws ParseException {
-		Parser p = new Parser(new MetaModel());
-		MathFormula mf = p.parse("(1,2)");
-		MathSequence argument = ((MathArray) mf.getRootComponent()
-				.getArgument(0)).getArgument(0);
+		Parser p = new Parser(new TemplateCatalog());
+		Formula mf = p.parse("(1,2)");
+		SequenceNode argument = ((ArrayNode) mf.getRootNode()
+				.getChild(0)).getChild(0);
 		StringBuilder desc = new StringBuilder();
-		for (MathComponent comp: argument) {
+		for (Node comp: argument) {
 			desc.append(ScreenReaderSerializer.fullDescription(comp, null));
 		}
 		assertEquals("1,2", desc.toString());
@@ -252,10 +252,10 @@ public class EditorScreenReaderTest {
 	}
 
 	private static void checkReader(String input, String... output) {
-		MathFormula mf = LaTeXSerializationTest.checkLaTeXRender(parser, input);
+		Formula mf = LaTeXSerializationTest.checkLaTeXRender(parser, input);
 
 		SyntaxAdapterImpl adapter = new SyntaxAdapterImpl(app.getKernel());
-		final MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), adapter);
+		final MathFieldCommon mathField = new MathFieldCommon(new TemplateCatalog(), adapter);
 		MathFieldInternal mfi = mathField.getInternal();
 		mfi.setFormula(Objects.requireNonNull(mf));
 		CursorController.firstField(mfi.getEditorState());

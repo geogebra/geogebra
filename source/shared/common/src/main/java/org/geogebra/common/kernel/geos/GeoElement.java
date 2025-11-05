@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import static com.himamis.retex.editor.share.input.Character.isLetter;
 import static org.geogebra.common.kernel.ConstructionDefaults.DEFAULT_LINE;
+import static org.geogebra.editor.share.input.Character.isLetter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -117,10 +117,10 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.editor.share.util.Greek;
+import org.geogebra.editor.share.util.Unicode;
 
 import com.google.j2objc.annotations.Weak;
-import com.himamis.retex.editor.share.util.Greek;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * 

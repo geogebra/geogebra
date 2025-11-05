@@ -4,13 +4,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.annotation.Issue;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class FractionTest extends SymbolicArithmeticTest {
 

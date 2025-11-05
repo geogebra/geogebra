@@ -2,7 +2,7 @@ package org.geogebra.common.export;
 
 import java.util.HashMap;
 
-import com.himamis.retex.editor.share.util.Greek;
+import org.geogebra.editor.share.util.Greek;
 
 public class UnicodeTeX {
 

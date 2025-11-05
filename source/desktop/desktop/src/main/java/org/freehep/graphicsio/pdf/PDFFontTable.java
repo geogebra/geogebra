@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Properties;
 
 import org.freehep.graphics2d.font.CharTable;

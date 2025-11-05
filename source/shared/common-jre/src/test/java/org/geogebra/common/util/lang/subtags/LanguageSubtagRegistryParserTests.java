@@ -3,7 +3,6 @@ package org.geogebra.common.util.lang.subtags;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.StringReader;

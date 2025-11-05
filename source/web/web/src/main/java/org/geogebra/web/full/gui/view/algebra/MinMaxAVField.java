@@ -1,13 +1,12 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.App;
+import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.event.dom.client.KeyUpEvent;
-
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Input field for MinMaxPanel

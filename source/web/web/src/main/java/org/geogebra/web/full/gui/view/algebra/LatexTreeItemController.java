@@ -7,15 +7,14 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.event.MathFieldListener;
+import org.geogebra.editor.share.input.KeyboardInputAdapter;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.BlurEvent;
 import org.gwtproject.event.dom.client.BlurHandler;
-
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * @author Laszlo

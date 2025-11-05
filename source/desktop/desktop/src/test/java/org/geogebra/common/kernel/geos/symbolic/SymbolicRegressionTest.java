@@ -16,13 +16,12 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class SymbolicRegressionTest extends BaseUnitTest {
 

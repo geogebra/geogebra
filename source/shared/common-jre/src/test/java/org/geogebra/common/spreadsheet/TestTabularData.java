@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
-import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;

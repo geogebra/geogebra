@@ -20,12 +20,12 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.SymbolicEditorCommon;
 import org.geogebra.common.plugin.script.GgbScript;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class GgbScriptTest extends BaseUnitTest {
@@ -35,7 +35,7 @@ public class GgbScriptTest extends BaseUnitTest {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		add("v=(?,?)");
 		GeoInputBox ib = add("ib=InputBox(v)");
-		MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		MathFieldCommon mf = new MathFieldCommon(new TemplateCatalog(), null);
 		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
 		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setSymbolicEditor(editor);
 		editor.attach(ib, new Rectangle(0, 0),

@@ -29,8 +29,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 public class DialogManagerMinimal extends DialogManager {
 

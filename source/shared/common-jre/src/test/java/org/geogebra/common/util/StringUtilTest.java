@@ -5,9 +5,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assume.assumeTrue;
 
 import org.geogebra.common.media.GeoGebraURLParser;
+import org.geogebra.editor.share.util.Unicode;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
 public class StringUtilTest {
@@ -21,7 +20,7 @@ public class StringUtilTest {
 		for (int cc = 0; cc < 65536; ++cc) {
 			char c = (char) cc;
 			if (Character.isLetter(
-					c) != com.himamis.retex.editor.share.input.Character
+					c) != org.geogebra.editor.share.input.Character
 							.isLetter(c)) {
 				if (Character.isLetter(c)) {
 					falseNeg += c;

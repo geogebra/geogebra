@@ -2,8 +2,7 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.Localization;
-
-import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Statistics to compute from one or two sets of data.

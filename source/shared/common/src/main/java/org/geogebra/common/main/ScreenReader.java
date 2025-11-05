@@ -10,10 +10,10 @@ import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.ScreenReaderSerializationAdapter;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.controller.ExpressionReader;
+import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
+import org.geogebra.editor.share.tree.Formula;
 
-import com.himamis.retex.editor.share.controller.ExpressionReader;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.renderer.share.serialize.DefaultSerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.TableAdapter;
@@ -349,9 +349,9 @@ public class ScreenReader {
 	 * @return the full aural representation of the expression with its preview if
 	 *         any.
 	 */
-	public static String getAriaExpression(App app, MathFormula exp, String ariaPreview) {
+	public static String getAriaExpression(App app, Formula exp, String ariaPreview) {
 		try {
-			String expr = ScreenReaderSerializer.fullDescription(exp.getRootComponent(),
+			String expr = ScreenReaderSerializer.fullDescription(exp.getRootNode(),
 					getSerializationAdapter(app));
 			if (ariaPreview != null) {
 				return expr + " = " + ariaPreview;

@@ -3,6 +3,7 @@ package org.geogebra.web.html5.util.sliderPanel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.web.html5.util.DataTest;
 import org.geogebra.web.html5.util.HasDataTest;
 import org.gwtproject.dom.client.Element;
@@ -10,8 +11,6 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Panel containing a slider.

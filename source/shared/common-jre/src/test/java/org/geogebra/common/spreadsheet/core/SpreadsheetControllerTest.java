@@ -33,6 +33,9 @@ import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,9 +45,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
@@ -1066,18 +1066,18 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
         // note: "<x>" denotes currentField.arguments[currentOffset]
 
-        // MathSequence[=, FnAPPLY[MathSequence[S, U, M], MathSequence[A, 1, :, A, 1, 0]]<>]
+        // SequenceNode[=, FnAPPLY[SequenceNode[S, U, M], SequenceNode[A, 1, :, A, 1, 0]]<>]
         assertNull(controller.getCurrentEditorCellReference());
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
-        // MathSequence[A, 1, :, A, 1, 0<>]
+        // SequenceNode[A, 1, :, A, 1, 0<>]
         SpreadsheetReference range = new SpreadsheetReference(
                 new SpreadsheetCellReference(0, 0),
                 new SpreadsheetCellReference(9, 0));
         assertEquals(range, controller.getCurrentEditorCellReference());
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
-        // MathSequence[A, 1, :, A, 1, <0>]
+        // SequenceNode[A, 1, :, A, 1, <0>]
         assertEquals(range, controller.getCurrentEditorCellReference());
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
@@ -1093,15 +1093,15 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         // note: "<x>" denotes currentField.arguments[currentOffset]
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_HOME);
-        // MathSequence[<=>, FnAPPLY[MathSequence[S, U, M], MathSequence[A, 1, :, A, 1, 0]]]
+        // SequenceNode[<=>, FnAPPLY[SequenceNode[S, U, M], SequenceNode[A, 1, :, A, 1, 0]]]
         assertNull(controller.getCurrentEditorCellReference());
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
-        // MathSequence[=, <FnAPPLY[MathSequence[S, U, M], MathSequence[A, 1, :, A, 1, 0]]>]
+        // SequenceNode[=, <FnAPPLY[SequenceNode[S, U, M], SequenceNode[A, 1, :, A, 1, 0]]>]
         assertNull(controller.getCurrentEditorCellReference());
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
-        // MathSequence[<S>, U, M]
+        // SequenceNode[<S>, U, M]
         assertNull(controller.getCurrentEditorCellReference());
     }
 
@@ -1113,14 +1113,14 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         // note: "<x>" denotes currentField.arguments[currentOffset]
 
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_HOME);
-        // MathSequence[<=>, FnAPPLY[MathSequence[S, U, M],
-        //   MathSequence[FnAPPLY[MathSequence[S, U, M], MathSequence[A, 1, :, A, 1, 0]], ,, B, 1]]]
+        // SequenceNode[<=>, FnAPPLY[SequenceNode[S, U, M],
+        //   SequenceNode[FnAPPLY[SequenceNode[S, U, M], SequenceNode[A, 1, :, A, 1, 0]], ,, B, 1]]]
         assertNull(controller.getCurrentEditorCellReference());
 
         for (int i = 0; i < 11; i++) {
             simulateKeyPressInCellEditor(JavaKeyCodes.VK_RIGHT);
         }
-        // MathSequence[<A>, 1, :, A, 1, 0]
+        // SequenceNode[<A>, 1, :, A, 1, 0]
         SpreadsheetReference range = new SpreadsheetReference(
                 new SpreadsheetCellReference(0, 0),
                 new SpreadsheetCellReference(9, 0));

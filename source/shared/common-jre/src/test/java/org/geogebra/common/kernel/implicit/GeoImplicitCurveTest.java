@@ -12,14 +12,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.OrderingComparison;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.mockito.ScopedMock;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoImplicitCurveTest extends BaseUnitTest {
 

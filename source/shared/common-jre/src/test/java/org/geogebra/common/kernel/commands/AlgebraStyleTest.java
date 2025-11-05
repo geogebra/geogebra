@@ -31,13 +31,12 @@ import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.config.equationforms.EquationBehaviourStandaloneGraphing;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgebraStyleTest extends BaseUnitTest {
 	static AppCommon app;

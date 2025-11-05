@@ -1,9 +1,8 @@
 package org.geogebra.common.io;
 
 import org.geogebra.common.main.App;
-
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import org.geogebra.editor.share.event.KeyEvent;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 
 class MatrixChecker extends EditorChecker {
 	private final String matrix;

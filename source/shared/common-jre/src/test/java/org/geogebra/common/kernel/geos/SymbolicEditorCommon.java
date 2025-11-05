@@ -10,9 +10,8 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.main.App;
-
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
+import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.serializer.ScreenReaderSerializer;
 
 public class SymbolicEditorCommon extends SymbolicEditor {
 	private final MathFieldCommon mf;
@@ -85,7 +84,7 @@ public class SymbolicEditorCommon extends SymbolicEditor {
 	@Override
 	public String getDescription() {
 		return ScreenReaderSerializer.fullDescription(
-				mf.getInternal().getEditorState().getRootComponent(), null);
+				mf.getInternal().getEditorState().getRootNode(), null);
 	}
 
 	public void setKeyListener(Consumer<String> keyListener) {

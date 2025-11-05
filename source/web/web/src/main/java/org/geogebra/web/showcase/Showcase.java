@@ -16,6 +16,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.editor.share.syntax.SyntaxHintImpl;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -46,7 +47,6 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.himamis.retex.editor.share.syntax.SyntaxHintImpl;
 
 import elemental2.dom.DomGlobal;
 

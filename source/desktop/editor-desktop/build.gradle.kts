@@ -5,9 +5,9 @@ plugins {
 
 dependencies {
     api(project(":renderer-desktop"))
-    api("com.himamis.retex:editor-base")
+    api("org.geogebra:editor-base")
 }
 
 application {
-    mainClass = "com.himamis.retex.editor.desktop.Test"
+    mainClass = "org.geogebra.editor.desktop.Test"
 }

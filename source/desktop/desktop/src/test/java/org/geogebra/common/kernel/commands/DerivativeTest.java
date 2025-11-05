@@ -8,10 +8,9 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Tests for derivatives.

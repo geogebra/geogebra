@@ -5,7 +5,6 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CA
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CREATE_CHART;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CUT;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_ROW;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DIVIDER;

@@ -2,7 +2,7 @@ package org.geogebra.gwtutil;
 
 import java.util.Locale;
 
-import com.himamis.retex.editor.share.util.KeyCodes;
+import org.geogebra.editor.share.util.KeyCodes;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URLSearchParams;

@@ -9,6 +9,10 @@ import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.share.editor.UnhandledArrowListener;
+import org.geogebra.editor.share.event.MathFieldListener;
+import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
@@ -26,11 +30,6 @@ import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.user.client.ui.HasWidgets;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.Widget;
-
-import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * MathField capable editor widget for the web.
@@ -69,16 +68,16 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this(app);
-		createMathField(listener, getDefaultModel());
+		createMathField(listener, getDefaultCatalog());
 		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
 		main.getElement().setAttribute("data-test", "mathFieldEditor");
 	}
 
-	protected static MetaModel getDefaultModel() {
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		model.setForceBracketAfterFunction(true);
-		return model;
+	protected static TemplateCatalog getDefaultCatalog() {
+		TemplateCatalog catalog = new TemplateCatalog();
+		catalog.enableSubstitutions();
+		catalog.setForceBracketAfterFunction(true);
+		return catalog;
 	}
 
 	/**
@@ -89,12 +88,12 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		this.frame = this.app.getAppletFrame();
 	}
 
-	protected void createMathField(MathFieldListener listener, MetaModel model) {
+	protected void createMathField(MathFieldListener listener, TemplateCatalog catalog) {
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 
 		mathField = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), main,
-				canvas, listener, model, app.getEditorFeatures());
+				canvas, listener, catalog, app.getEditorFeatures());
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setOnBlur(this);
 		updatePixelRatio();

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="jlatexmath">
+  <inherits name="org.geogebra.editor.JLMEditorDev" />
+  <entry-point class='org.geogebra.editor.web.EditorLibrary' />
+  <add-linker name="xsiframe" />
+  <set-property name="gwt.logging.enabled" value="FALSE"/>
+  <set-property name="gwt.uncaughtexceptionhandler.windowonerror" value="IGNORE"/>
+  <set-property name="user.agent" value="safari" />
+  <set-property-fallback name="user.agent" value="safari"/>
+  <set-configuration-property name="user.agent.runtimeWarning" value="false"/>
+</module>

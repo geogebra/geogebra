@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.geogebra.java.library)
     `maven-publish`
+    jacoco
     alias(libs.plugins.geogebra.pmd)
     alias(libs.plugins.geogebra.checkstyle)
     alias(libs.plugins.geogebra.spotbugs)
     alias(libs.plugins.geogebra.javacc)
 }
 
-group = "com.himamis.retex"
-version = "0.1"
+group = "org.geogebra"
+version = "1.0"
 
 publishing {
     publications {
@@ -40,4 +41,14 @@ tasks.compileJavacc {
 }
 tasks.compileJava {
     options.encoding = "UTF-8"
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    reports {
+        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+    }
 }
