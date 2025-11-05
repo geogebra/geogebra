@@ -281,8 +281,8 @@ $keyboard_button_transition: opacity .3s ease;
 	.dialogComponent {
 		z-index: z-index.$z-dialog;
 		background-color: white;
-		border-radius: 4px;
-		box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0,0,0,.12);
+		border-radius: 24px;
+		box-shadow: 0 6px 32px -2px rgba(133, 132, 138, 0.16), 0 4px 12px -1px rgba(133, 132, 138, 0.06);
 		max-width: 500px;
 		width: 90%;
 
@@ -291,14 +291,15 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 
 		.dialogMainPanel {
-			padding-top: 20px;
+			padding-top: 24px;
 			height: calc(100% - 20px);
 			overflow: hidden;
 
 			.dialogTitle {
-				min-height: 20px;
-				font-size: 125%;
-				margin-bottom: 20px;
+				font-size: 24px;
+				font-weight: 400;
+				line-height: 32px;
+				margin-bottom: 16px;
 				margin-left: 24px;
 			}
 
@@ -313,7 +314,8 @@ $keyboard_button_transition: opacity .3s ease;
 
 			.dialogBtnPanel {
 				display: inline-flex;
-				padding: 8px 8px 8px 24px;
+				gap: 8px;
+				padding: 24px 24px 24px 0;
 				position: relative;
 				float: right;
 			}
@@ -325,7 +327,7 @@ $keyboard_button_transition: opacity .3s ease;
 			}
 
 			.dialogSubTitle {
-				margin-bottom: 24px;
+				margin-bottom: 16px;
 				margin-left: 24px;
 				height: 14px;
 				font-size: 75%;
@@ -410,6 +412,7 @@ $keyboard_button_transition: opacity .3s ease;
 		@extend .materialTextButton;
 
 		color: neutral(700);
+		margin: 0;
 
 		&:hover {
 			color: neutral(700);
@@ -430,6 +433,7 @@ $keyboard_button_transition: opacity .3s ease;
 		@extend .materialContainedButton;
 
 		box-shadow: none;
+		margin: 0;
 
 		&:focus-visible {
 			outline-color: var(--ggb-dark-color);

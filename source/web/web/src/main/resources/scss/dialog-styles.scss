@@ -302,12 +302,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent {
 		z-index: z-index.$z-dialog-over-keyboard;
 		background-color: colors.$white;
-		border-radius: 2px;
+		border-radius: 24px;
 		padding-left: 24px;
 		padding-right: 8px;
 		padding-top: 24px;
-		box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
-		-webkit-box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 6px 32px -2px rgba(133, 132, 138, 0.16), 0 4px 12px -1px rgba(133, 132, 138, 0.06);
 
 		.SymbolToggleButton:hover, .SymbolToggleButton:focus {
 			color: colors.$teal-default;
