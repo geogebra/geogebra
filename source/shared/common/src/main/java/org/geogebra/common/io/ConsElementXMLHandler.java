@@ -579,7 +579,7 @@ public class ConsElementXMLHandler {
 				animationStepList.add(geo, strStep);
 			}
 			String strSpeed = attrs.get("speed");
-			if (strSpeed != null) {
+			if (strSpeed != null && !strSpeed.equals("1")) {
 				// store speed expression to be processed later
 				animationSpeedList.add(geo, strSpeed);
 			}

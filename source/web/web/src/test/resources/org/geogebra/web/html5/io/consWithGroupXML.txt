@@ -5,7 +5,7 @@
 	<layer val="0"/>
 	<ordering val="0.0"/>
 	<labelMode val="0"/>
-	<animation step="0.1" speed="1" type="1" playing="false"/>
+	<animation step="0.1" type="1" playing="false"/>
 	<pointSize val="5"/>
 	<pointStyle val="0"/>
 	<coords x="0.0" y="0.0" z="1.0"/>
@@ -16,7 +16,7 @@
 	<layer val="0"/>
 	<ordering val="1.0"/>
 	<labelMode val="0"/>
-	<animation step="0.1" speed="1" type="1" playing="false"/>
+	<animation step="0.1" type="1" playing="false"/>
 	<pointSize val="5"/>
 	<pointStyle val="0"/>
 	<coords x="3.0" y="0.0" z="1.0"/>
@@ -27,7 +27,7 @@
 	<layer val="0"/>
 	<ordering val="2.0"/>
 	<labelMode val="0"/>
-	<animation step="0.1" speed="1" type="1" playing="false"/>
+	<animation step="0.1" type="1" playing="false"/>
 	<pointSize val="5"/>
 	<pointStyle val="0"/>
 	<coords x="3.0" y="3.0" z="1.0"/>

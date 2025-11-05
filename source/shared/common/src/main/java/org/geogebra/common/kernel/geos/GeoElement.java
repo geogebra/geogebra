@@ -4665,11 +4665,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				StringUtil.encodeXML(sb, animStep);
 				sb.append("\"");
 			}
-			final String animSpeed = animationSpeedObj == null ? "1"
-					: getAnimationSpeedObject().getLabel(tpl);
-			sb.append(" speed=\"");
-			StringUtil.encodeXML(sb, animSpeed);
-			sb.append("\"");
+			if (animationSpeedObj != null) {
+				final String animationSpeed = getAnimationSpeedObject().getLabel(tpl);
+				if (!animationSpeed.equals("1")) {
+					sb.append(" speed=\"");
+					StringUtil.encodeXML(sb, animationSpeed);
+					sb.append("\"");
+				}
+			}
 			sb.append(" type=\"").append(animationType).append("\"");
 			sb.append(" playing=\"");
 			sb.append(isAnimating());
