@@ -165,4 +165,32 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		assertEquals(0, getConstruction().getGeoSetConstructionOrder().size());
 		verify(guiManager, never()).getSpreadsheetView();
 	}
+
+	@Test
+	@Issue("APPS-7045")
+	public void calculationShouldNotBeChangeableUsingArrowKeysOrPlusMinusKey() {
+		GeoNumeric calculation = add("10 + 2");
+		handleKey(KeyCodes.RIGHT, List.of(calculation));
+		handleKey(KeyCodes.UP, List.of(calculation));
+		handleKey(KeyCodes.PLUS, List.of(calculation));
+		assertEquals(12, calculation.getValue(), 0);
+		handleKey(KeyCodes.LEFT, List.of(calculation));
+		handleKey(KeyCodes.DOWN, List.of(calculation));
+		handleKey(KeyCodes.MINUS, List.of(calculation));
+		assertEquals(12, calculation.getValue(), 0);
+	}
+
+	@Test
+	@Issue("APPS-7045")
+	public void calculationShouldNotBeChangeableWithMultipleElementsSelected() {
+		GeoNumeric calculation = add("3 * 4");
+		GeoNumeric numeric = add("2");
+		GeoNumeric slider = add("Slider(-5,5,1)");
+		handleKey(KeyCodes.RIGHT, List.of(calculation, numeric, slider));
+		handleKey(KeyCodes.UP, List.of(calculation, numeric, slider));
+		handleKey(KeyCodes.PLUS, List.of(calculation, numeric, slider));
+		assertEquals(12, calculation.getValue(), 0);
+		assertEquals(3.5, numeric.getValue(), 0);
+		assertEquals(3, slider.getValue(), 0);
+	}
 }

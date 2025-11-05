@@ -1488,11 +1488,7 @@ public abstract class GlobalKeyDispatcher {
 		if (changeVal != 0) {
 
 			// exactly 2 or 3 sliders selected
-			boolean multipleSliders = geos.size() > 1
-					&& geos.get(0).isGeoNumeric()
-					&& geos.get(1).isGeoNumeric()
-					&& (geos.size() == 2 || (geos.size() == 3
-							&& geos.get(2).isGeoNumeric()));
+			boolean multipleSliders = hasMultipleSlidersSelected(geos);
 
 			for (int i = geos.size() - 1; i >= 0; i--) {
 				GeoElement geo = geos.get(i);
@@ -1516,6 +1512,26 @@ public abstract class GlobalKeyDispatcher {
 				&& app.getGuiManager().getSpreadsheetView().hasFocus();
 	}
 
+	/**
+	 * @param geos List of GeoElements
+	 * @return Whether there are exactly 2 or 3 sliders
+	 * (or GeoNumerics whose value can be changed using arrow / plus / minus / ... keys) selected.
+	 */
+	private boolean hasMultipleSlidersSelected(List<GeoElement> geos) {
+		return geos.size() > 1 && geos.size() < 4
+				&& geos.stream().allMatch(this::canChangeValueUsingKeys);
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @return Whether the value of this element can be changed using arrow keys or
+	 * the plus / minus / ... key.
+	 */
+	private boolean canChangeValueUsingKeys(GeoElement geo) {
+		return geo.isGeoNumeric()
+				&& (geo.isSimple() || ((GeoNumeric) geo).isAVSliderOrCheckboxVisible());
+	}
+
 	private void readMovedPoints(List<GeoElement> geos) {
 		for (GeoElement geo: geos) {
 			if (geo.isPointerChangeable() && geo.isPointOnPath()) {
@@ -1529,8 +1545,7 @@ public abstract class GlobalKeyDispatcher {
 		if (geo.isPointerChangeable()) {
 
 			// update number
-			if (geo.isGeoNumeric()
-					&& activeSlider) {
+			if (activeSlider && canChangeValueUsingKeys(geo)) {
 				changeSliderValue((GeoNumeric) geo, changeVal);
 				hasUnsavedGeoChanges = true;
 			}
