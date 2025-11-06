@@ -21,7 +21,7 @@ public class UnbundledInitialViewState implements InitialViewState {
 	 *
 	 * @param app             the full web application instance
 	 * @param toolbarVisible  {@code true} if the toolbar is visible at startup;
-	 *                        when {@code true}, no view‐restriction snapshot is taken
+	 *                        when {@code true}, no view restriction snapshot is taken
 	 * @param allowStyleBar   {@code true} if the Properties (style) view may be
 	 *                        toggled when the toolbar is hidden
 	 */

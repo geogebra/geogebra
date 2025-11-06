@@ -206,7 +206,7 @@ PPolynomial term(HashMap < String, PVariable > variables) :
   BigInteger number = BigInteger.ONE;
 }
 /*
-*x³*y² or x³*y² or 3
+*x^2*y^2 or x^3*y^3 or 3
 */
 {
   //LOOKAHEAD(2)

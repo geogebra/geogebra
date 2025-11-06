@@ -58,7 +58,7 @@ public class FunctionParser {
 	@Weak
 	private final App app;
 	private boolean inputBoxParsing = false;
-	private ArrayList<ExpressionNode> multiplyOrFunctionNodes;
+	private final ArrayList<ExpressionNode> multiplyOrFunctionNodes;
 
 	/**
 	 * @param kernel
@@ -241,9 +241,9 @@ public class FunctionParser {
 				false, !inputBoxParsing);
 		// number of arguments
 
-		if (parsedLabel.order > 0) { // derivative
-							// n-th derivative of geo
-			if (hasDerivative(geo)) {// function
+		if (parsedLabel.order > 0) {
+			// n-th derivative of geo function
+			if (hasDerivative(geo)) {
 				registerFunctionVars((VarString) geo);
 				return derivativeNode(kernel, geoExp, parsedLabel.order, geo.isGeoCurveCartesian(),
 						myList.get(0));
@@ -257,7 +257,7 @@ public class FunctionParser {
 			Operation operation = getOperationFor((GeoSymbolic) geo);
 			boolean extract = operation == Operation.MULTIPLY || operation == Operation.FUNCTION;
 			return new ExpressionNode(kernel, geoExp, operation, extract ? myList.get(0) : myList);
-		} else if (geo instanceof Evaluatable && !geo.isGeoList()) {// function
+		} else if (geo instanceof Evaluatable && !geo.isGeoList()) { // function
 			if (geo instanceof ParametricCurve) {
 				registerFunctionVars((ParametricCurve) geo);
 			}
@@ -384,7 +384,7 @@ public class FunctionParser {
 		try {
 			Commands.valueOf(funcName);
 			return true;
-		} catch(Exception notFound){
+		} catch (Exception notFound) {
 			// not a command
 		}
 		return false;
@@ -539,7 +539,7 @@ public class FunctionParser {
 			ParsedLabel parsedLabel = new ParsedLabel();
 			parsedLabel.parseDerivativeLabel(funLabel);
 			if (parsedLabel.order > 0) {
-				if (hasDerivative(parsedLabel.geo)) {// function
+				if (hasDerivative(parsedLabel.geo)) { // function
 					registerFunctionVars((VarString) parsedLabel.geo);
 					ExpressionNode lhs = derivativeNode(kernel, parsedLabel.geo, parsedLabel.order,
 							false, new FunctionVariable(kernel, localVars.get(0)));

@@ -25,6 +25,7 @@ public class Unicode {
 	final public static char GREATER_EQUAL = '\u2265';
 	final public static char INFINITY = '\u221e';
 	final public static String MINUS_INFINITY_STRING = "-\u221e";
+	final public static char SUPERSCRIPT_PLUS = '\u207a';
 	final public static char SUPERSCRIPT_MINUS = '\u207b';
 	final public static String SUPERSCRIPT_MINUS_ONE_STRING = "\u207b\u00b9";
 	final public static char SUPERSCRIPT_0 = '\u2070';
@@ -97,11 +98,11 @@ public class Unicode {
 	public static final char psi = '\u03C8';
 	public static final char omega = '\u03C9';
 
-	final public static String EULER_STRING = EULER_CHAR + "";
+	final public static String EULER_STRING = Character.toString(EULER_CHAR);
 	final public static String EULER_GAMMA_STRING = "\u212F_\u03B3";
-	public static final String ALPHA_BETA_GAMMA = alpha + "" + beta + ""
-			+ gamma;
+	public static final String ALPHA_BETA_GAMMA = Character.toString(alpha) + beta + gamma;
 	final public static String PI_STRING = Character.toString(pi);
+	final public static String GRADIAN = "\u1D4D";
 
 	// UPPER CASE Greek
 	public static final char Alpha = '\u0391';

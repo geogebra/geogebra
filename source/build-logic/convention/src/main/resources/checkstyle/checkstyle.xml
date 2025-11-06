@@ -23,7 +23,7 @@
     <!-- Checks for whitespace                               -->
     <!-- See http://checkstyle.sf.net/config_whitespace.html -->
     <module name="BeforeExecutionExclusionFileFilter">
-        <property name="fileNamePattern" value="kitfox|freehep|jfugue|mp3transform|BeautifyJS|Lexer|org.geogebra.common.(kernel.(barycentric|prover|parser)|util.clipper|cas.(giac|singular)|gui.(dialog.options))|org.mozilla|edu.uci.ics|com.google|com.github|org.geogebra.editor.share.io.latex|org.geogebra.web.html5.main.DefaultExportedApi|org.geogebra.web.full.main.activity.EvaluatorExportedApi" />
+        <property name="fileNamePattern" value="kitfox|freehep|jfugue|mp3transform|BeautifyJS|Lexer|org.geogebra.common.(kernel.(barycentric|prover)|util.clipper|cas.(giac|singular)|gui.(dialog.options))|org.mozilla|edu.uci.ics|com.google|com.github|org.geogebra.web.html5.main.DefaultExportedApi|org.geogebra.web.full.main.activity.EvaluatorExportedApi" />
     </module>
     <module name="RegexpMultiline">
         <property name="format" value="\n\s*\n\s*\n"/>
@@ -31,6 +31,7 @@
     </module>
     <module name="RegexpSingleline">
         <property name="format" value="[^\t]\t"/>
+        <property name="id" value="MixedTabs"/>
         <property name="message" value="Tabs only allowed as indentation"/>
     </module>
     <module name="RegexpSingleline">
@@ -51,7 +52,14 @@
             <property name="format" value="\S[\t ]+$"/>
             <property name="illegalPattern" value="true"/>
             <property name="ignoreComments" value="true"/>
+            <property name="id" value="TrailingSpace"/>
             <property name="message" value="Line may not end with whitespace"/>
+        </module>
+        <module name="Regexp">
+            <property name="format" value="[^\u0000-\u007f]"/>
+            <property name="id" value="UnicodeRange"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="message" value="Characters outside of ASCII range"/>
         </module>
         <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename"/>
@@ -170,7 +178,6 @@
             <property name="message" value="Type use annotation should not be on a separate line"/>
         </module>
 
-
         <!-- Only allow javax.annotation.CheckForNull and javax.annotation.Nonnull -->
         <!-- Anything else nullability related should be blocked -->
         <module name="IllegalImport">
@@ -180,4 +187,20 @@
         </module>
     </module>
     <module name="SuppressWarningsFilter" />
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="MethodName|RegexpMultiline|UnnecessaryParentheses|MissingJavadocMethod|AvoidStarImport|LineLength|OperatorWrap|EmptyBlock|ImportOrder|VariableDeclarationUsageDistance"/>
+        <property name="files" value="Parser.java|ParserTokenManager.java|SimpleCharStream.java|TokenMgrException.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="id" value="TrailingSpace"/>
+        <property name="files" value="Parser.java|ParserTokenManager.java|TokenMgrException.java|ParseException.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="id" value="MixedTabs"/>
+        <property name="files" value="Parser.java"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="id" value="UnicodeRange"/>
+        <property name="files" value=".*Tests?.java"/>
+    </module>
 </module>

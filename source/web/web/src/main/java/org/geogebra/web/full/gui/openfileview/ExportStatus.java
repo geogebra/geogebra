@@ -18,11 +18,11 @@ public enum ExportStatus {
 	private final static String MESSAGE_AVAILABLE = "Download bereit";
 	private final static String MESSAGE_ERROR = "Download fehlgeschlagen";
 	private final static String HELP_PENDING_IN_PROGRESS = "Der Download aller Tafelbilder"
-			+ " wird vorbereitet und startet in Kürze automatisch. Die Dauer variiert abhängig"
-			+ " von Gesamtdateigröße und Verbindungsgeschwindigkeit. Bitte verlassen Sie diese"
-			+ " Seite nicht, bis der Download im Browser abgeschlossen ist.";
+			+ " wird vorbereitet und startet in K\u00FCrze automatisch. Die Dauer variiert"
+			+ " abh\u00E4ngig von Gesamtdateigr\u00F6\u00DFe und Verbindungsgeschwindigkeit. Bitte"
+			+ " verlassen Sie diese Seite nicht, bis der Download im Browser abgeschlossen ist.";
 	private final static String HELP_AVAILABLE = "Die ZIP-Datei mit allen "
-			+ "Tafelbildern ist jetzt verfügbar. Klicken Sie auf die Schaltfläche, um den"
+			+ "Tafelbildern ist jetzt verf\u00FCgbar. Klicken Sie auf die Schaltfl\u00E4che, um den"
 			+ " Download zu starten.";
 	private final static String HELP_ERROR = "Beim Erstellen des Downloads"
 			+ " ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.";

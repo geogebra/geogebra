@@ -40,10 +40,16 @@ public class ParserFunctionsFactory {
 		return new ParserFunctionsFactory(false);
 	}
 
+	/**
+	 * @return parser functions for algebra input
+	 */
 	public ParserFunctions createParserFunctions() {
 		return createParserFunctions(false);
 	}
 
+	/**
+	 * @return parser functions input boxes
+	 */
 	public ParserFunctions createInputBoxParserFunctions() {
 		return createParserFunctions(true);
 	}

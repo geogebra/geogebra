@@ -194,7 +194,7 @@ public class GeoSymbolic extends GeoElement
 	 * <p>
 	 * Unlike {@link GeoSymbolic#getValue()}, this method takes into account the format
 	 * of the output (e.g., for an input of {@code Normal(2, 0.5, 1)}, the output in the default format
-	 * would be {@code (erf(-√2) + 1) / 2}, whereas after switching
+	 * would be {@code (erf(-sqrt(2)) + 1) / 2}, whereas after switching
 	 * to the approximated output format, it would be {@code 0.0227501319482}).
 	 * @return the output expression of {@code GeoSymbolic}
 	 */

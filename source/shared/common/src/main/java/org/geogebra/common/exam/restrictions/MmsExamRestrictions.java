@@ -300,7 +300,7 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 * <p>Example: {@code Normal(2, 0.5, 1)}</p>
 	 * <ul>
 	 *     <li>
-	 *         Restricted {@code (erf(-√2) + 1) / 2} output format
+	 *         Restricted {@code (erf(-sqrt(2)) + 1) / 2} output format
 	 *         ({@link AlgebraOutputFormat#EXACT})
 	 *     </li>
 	 *     <li>
@@ -336,10 +336,10 @@ public class MmsExamRestrictions extends ExamRestrictions {
 	 * <p>Examples: </p>
 	 * <ul>
 	 *     <li>
-	 *         {@code (3; π / 3)}
+	 *         {@code (3; pi / 3)}
 	 *         <ul>
 	 *             <li>
-	 *                 Restricted {@code (3 / 2, 3 * √3 / 2)} output format
+	 *                 Restricted {@code (3 / 2, 3 * sqrt(3) / 2)} output format
 	 *                 ({@link AlgebraOutputFormat#EXACT})
 	 *             </li>
 	 *             <li>

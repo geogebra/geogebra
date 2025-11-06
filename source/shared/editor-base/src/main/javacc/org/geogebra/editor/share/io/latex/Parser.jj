@@ -18,10 +18,10 @@ options {
 PARSER_BEGIN(Parser)
 package org.geogebra.editor.share.io.latex;
 
-import org.geogebra.editor.share.tree.*;
 import org.geogebra.editor.share.catalog.*;
 import org.geogebra.editor.share.controller.*;
 import org.geogebra.editor.share.editor.FractionBracketRemover;
+import org.geogebra.editor.share.tree.*;
 import org.geogebra.editor.share.util.Unicode;
 
 public class Parser {
@@ -49,20 +49,18 @@ public class Parser {
 	}
 
 	private static Node convertSuperscriptToNormal(TemplateCatalog catalog, char sup) {
-		if (sup >= '\u2070' && sup <= '\u2079' && sup != '\u2071' && sup != '\u2072' && sup != '\u2073') {
-			return createCharacter(java.lang.Character.toString((char) (sup - '\u2070' + '0')), catalog);
-		} else if (sup == '\u00b9') {
-			return createCharacter("1", catalog);
-		} else if (sup == '\u00b2') {
-			return createCharacter("2", catalog);
-		} else if (sup == '\u00b3') {
-			return createCharacter("3", catalog);
-		} else if (sup == '\u207a') {
+		CharacterTemplate template;
+		if (sup == Unicode.SUPERSCRIPT_PLUS) {
 			return createOperator("+", catalog);
-		} else if (sup == '\u207b') {
+		} else if (sup == Unicode.SUPERSCRIPT_MINUS) {
 			return createOperator("-", catalog);
 		} else {
-			throw new UnsupportedOperationException("Not a supported superscript");
+			int number = Unicode.superscriptToNumber(sup);
+			if (number < 0) {
+				throw new UnsupportedOperationException("Not a supported superscript");
+			} else {
+				return createCharacter(String.valueOf((char) (number + '0')), catalog);
+			}
 		}
 	}
 
@@ -207,7 +205,7 @@ void atomicWrapper(InternalNode node) : {}
 	|
 	absVecLimeq(node)
 	|
-	LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
+	LOOKAHEAD(<VERTICAL_BAR>, {shouldStartAbsoluteValue()})
 	absVerticalBar(node)
 	|
 	arrayParentheses(node)
@@ -307,7 +305,7 @@ void fraction(InternalNode node) :
    	fraction.setChild(1, mathSequence);
 	if (node.getChild(node.size() - 1) != null
 			&& node.getChild(node.size() - 1).toString().equals(Unicode.INVISIBLE_PLUS + "")) {
-		node.removeChild(node.size() -1);
+		node.removeChild(node.size() - 1);
 		editorState.setCurrentOffset(node.size());
 		fraction.setPreventingNestedFractions(true);
 	}
@@ -425,7 +423,7 @@ void absVecLimeq(InternalNode node) : {
 	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ> | symbol = <SQRT> | symbol = <CBRT>) {
 		// cut off the parentheses from the end
 		String image = symbol.image.substring(0, symbol.image.length() - 1);
-		if (image.equals("\u221A")) {
+		if (image.charAt(0) == Unicode.SQUARE_ROOT) {
 			image = "sqrt";
 		}
 		FunctionNode vec = new FunctionNode(catalog.getGeneral(Tag.lookup(image)));

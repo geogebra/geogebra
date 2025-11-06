@@ -5388,7 +5388,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns the IDs of the views that may be toggled (shown or hidden)
-	 * by the user after the application has started, when initial‐view
+	 * by the user after the application has started, when initial-view
 	 * restrictions are in effect.
 	 *
 	 * @return an unmodifiable {@link List} of view IDs which the user may toggle

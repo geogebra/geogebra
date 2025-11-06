@@ -61,7 +61,7 @@ public interface ParserFunctions {
 	 * @param prefix
 	 *            the prefix to match function syntaxes against
 	 * @param operationFilter
-	 * 			  an optional filter for operations that should be filtered out (suppressed)
+	 *            an optional filter for operations that should be filtered out (suppressed)
 	 * @return all the built-in functions starting with this prefix (with
 	 *         brackets at the end)
 	 */

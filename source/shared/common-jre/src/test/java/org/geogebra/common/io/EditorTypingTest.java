@@ -45,6 +45,8 @@ public class EditorTypingTest {
 	public void testEditorUnicode() {
 		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"),
 				"((x)/(sqrt(x^(2)+4)))");
+		checker.checkEditorInsert(TestStringUtil.unicode("x^-1"),
+				"x^(-1)");
 		checker.checkEditorInsert("x/(" + Unicode.EULER_STRING + "^x+1)",
 				"((x)/(" + Unicode.EULER_STRING + "^(x)+1))");
 

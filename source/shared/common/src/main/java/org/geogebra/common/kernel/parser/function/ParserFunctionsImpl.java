@@ -19,10 +19,10 @@ class ParserFunctionsImpl implements ParserFunctions {
 
 	private static class FunctionReference {
 
-		private String name;
-		private int size;
-		private String arguments;
-		private Operation operation;
+		private final String name;
+		private final int size;
+		private final String arguments;
+		private final Operation operation;
 
 		FunctionReference(String name, int size, String arguments, Operation operation) {
 			this.name = name;
@@ -78,7 +78,7 @@ class ParserFunctionsImpl implements ParserFunctions {
 	 * @param arg argument (for autocomplete)
 	 */
 	public void addTranslatable(String fn, String arg) {
-		addTranslatable(fn, 1, arg, get(fn ,1));
+		addTranslatable(fn, 1, arg, get(fn, 1));
 	}
 
 	@Override
@@ -87,7 +87,8 @@ class ParserFunctionsImpl implements ParserFunctions {
 
 		for (FunctionReference reference: translatables) {
 			String localized = loc.getFunction(reference.name, reference.size != 1);
-			localizedReferences.put(reference.size, localized, reference.operation, reference.arguments);
+			localizedReferences.put(reference.size, localized, reference.operation,
+					reference.arguments);
 		}
 	}
 
@@ -160,8 +161,8 @@ class ParserFunctionsImpl implements ParserFunctions {
 
 	@Override
 	public String toEditorAutocomplete(String text, Localization loc) {
-		if (text.equals(loc.getFunction("nroot") + NROOT_SUFFIX) ||
-				text.equals("nroot" + NROOT_SUFFIX)) {
+		if (text.equals(loc.getFunction("nroot") + NROOT_SUFFIX)
+				|| text.equals("nroot" + NROOT_SUFFIX)) {
 			return "nroot(";
 		}
 		return text;

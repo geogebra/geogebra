@@ -3142,7 +3142,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Converts e.g. 1234 to 1.234 * 10³, 1234567 to 1.234567 * 10^6
+	 * Converts e.g. 1234 to 1.234 * 10^3, 1234567 to 1.234567 * 10^6
 	 * @param value Value
 	 * @param formatBaseNumber Function used to format the base number
 	 * @return Formatted string in engineering notation using m*10^n, where n is restricted

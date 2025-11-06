@@ -79,7 +79,8 @@ public class ParserFunctionsTest {
 	@Test
 	public void testGetInternal() {
 		Localization loc = Mockito.mock(Localization.class);
-		Mockito.when(loc.getFunction(Mockito.anyString())).then(AdditionalAnswers.returnsFirstArg());
+		Mockito.when(loc.getFunction(Mockito.anyString()))
+				.then(AdditionalAnswers.returnsFirstArg());
 		assertEquals("sin", parserFunctions.getInternal(loc, "sin"));
 		assertEquals("cos", parserFunctions.getInternal(loc, "cos"));
 		assertNull(parserFunctions.getInternal(loc, "NO-SUCH-FUNCTION"));

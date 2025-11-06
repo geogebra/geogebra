@@ -4072,11 +4072,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * <p>
 	 * In the default implementation, all views are always available.
-	 * This suits all platforms that with no view‐restriction policies.
+	 * This suits all platforms that with no view-restriction policies.
 	 * </p>
 	 *
 	 * <p>
-	 * Platforms that need to enforce initial‐view restrictions (web)
+	 * Platforms that need to enforce initial-view restrictions (web)
 	 * should override this method to return a specialized
 	 * {@link InitialViewState} implementation.
 	 * </p>
