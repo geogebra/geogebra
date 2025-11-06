@@ -1774,6 +1774,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		xOyPlaneDrawable.setWaitForUpdate();
 		return changed;
 	}
+	
+	@Override
+	public void setGridDistances(double[] dist) {
+		super.setGridDistances(dist);
+		xOyPlaneDrawable.setWaitForUpdate();
+	}
 
 	@Override
 	public int getViewHeight() {
