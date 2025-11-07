@@ -43,7 +43,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.common.gui.view.algebra.filter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -320,8 +319,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private GeoText dynamicCaption;
 
-	private AlgebraOutputFilter algebraOutputFilter;
-
 	private Group parentGroup;
 
 	private double ordering = Double.NaN;
@@ -369,7 +366,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private void initWith(@Nonnull App app) {
 		appConfig = app.getConfig();
 		graphicsadapter = app.newGeoElementGraphicsAdapter();
-        algebraOutputFilter = app.getAlgebraOutputFilter();
 		EuclidianViewInterfaceSlim ev  = app.getActiveEuclidianView();
 		if (ev != null && app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN) {
 			initWith(ev);
@@ -6702,7 +6698,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (!algebraOutputFilter.isAllowed(this)) {
+		if (!app.getAlgebraOutputFilter().isAllowed(this)) {
 			return DescriptionMode.DEFINITION;
 		}
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
@@ -7100,7 +7096,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public boolean isAllowedToShowValue() {
-		return algebraOutputFilter.isAllowed(this);
+		return app.getAlgebraOutputFilter().isAllowed(this);
 	}
 
 	@Override
