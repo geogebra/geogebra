@@ -78,11 +78,27 @@ public class XmlTest {
 
 		// Reload
 		app.setXML(xml, true);
+		xml = app.getXML();
 
 		assertTrue(xml.contains("speed=\"2.5\""));
 		assertTrue(xml.contains("speed=\"0.5\""));
 		assertTrue(xml.contains("speed=\"3\""));
 		assertFalse(xml.contains("speed=\"1\""));
+	}
+
+	@Test
+	@Issue("APPS-1470")
+	public void elementShouldNotBeReloadedAsVectorIfLocalVariableExists() {
+		processAlgebraCommand("l1 = {(1, 2), (3, 4)}");
+		processAlgebraCommand("l2 = {(0, 2), (1, 0)}");
+		processAlgebraCommand("l3 = Zip(Vector(aa, bb), aa, l1, bb, l2)");
+		processAlgebraCommand("KeepIf(Length(vv) < 2,vv,l3)");
+
+		String xml = app.getXML();
+		assertFalse(xml.contains("Vector[vv]"));
+
+		app.setXML(xml, true);
+		assertFalse(app.getXML().contains("Vector[vv]"));
 	}
 
 	private GeoElementND processAlgebraCommand(String input) {

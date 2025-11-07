@@ -1216,11 +1216,10 @@ public abstract class AlgoElement extends ConstructionElement
 	/*
 	 * see #1377 g:X = (-5, 5) + t (4, -3)
 	 */
-	private void appendCheckVector(StringBuilder sb, GeoElementND geo,
-			StringTemplate tpl) {
+	private void appendCheckVector(StringBuilder sb, GeoElementND geo, StringTemplate tpl) {
 		String cmd = geo.getLabel(tpl);
 		if (geo.isGeoVector()) {
-			boolean needsWrapping = !geo.isLabelSet();
+			boolean needsWrapping = !geo.isLabelSet() && !geo.toGeoElement().isLocalVariable();
 			if (Algos.isUsedFor(Commands.Vector, geo)) {
 				needsWrapping = false;
 			}
@@ -1492,6 +1491,7 @@ public abstract class AlgoElement extends ConstructionElement
 				// ensure a vector stays a vector!
 				// eg g:X = (-5, 5) + t (4, -3)
 				if (inputGeo.isGeoVector() && !inputGeo.isLabelSet()
+						&& !inputGeo.toGeoElement().isLocalVariable()
 						&& !cmd.startsWith("Vector[")) {
 					// add Vector[ ] command around argument
 					// to make sure that this really becomes a vector again
