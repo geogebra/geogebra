@@ -79,19 +79,6 @@
 		display: block;
 	}
 
-	.Dialog-messagePanel img {
-		margin-right: 10px;
-	}
-
-
-	.DialogRbPanel {
-		margin-top: 10px;
-	}
-
-	.DialogRbPanel td {
-		padding-right: 20px;
-	}
-
 	@each $colorname, $color in $neutrals {
 		.neutral-#{$colorname} {
 		   background-color: $color;

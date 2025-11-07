@@ -39,7 +39,6 @@ import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.DockLayoutPanel;
 import org.gwtproject.user.client.ui.Panel;
-import org.gwtproject.user.client.ui.VerticalPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.BaseRenderingContext2D;
@@ -165,11 +164,7 @@ public class DockManagerW extends DockManager {
 				String styles = rootPane.getStyleName();
 				rootPane.clear();
 				if (rootPaneParent != null) {
-					if (rootPaneParent instanceof VerticalPanel) {
-						rootPane.removeFromParent();
-						setRootPane(splitPanes[0]);
-						((VerticalPanel) rootPaneParent).add(rootPane);
-					} else if (rootPaneParent instanceof DockLayoutPanel) {
+					if (rootPaneParent instanceof DockLayoutPanel) {
 						rootPane.removeFromParent();
 						setRootPane(splitPanes[0]);
 						((DockLayoutPanel) rootPaneParent).add(rootPane);

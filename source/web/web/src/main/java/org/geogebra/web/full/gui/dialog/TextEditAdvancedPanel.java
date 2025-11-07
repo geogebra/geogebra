@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
@@ -23,13 +22,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.style.shared.BorderStyle;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.MouseDownEvent;
+import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.HTMLTable;
 import org.gwtproject.user.client.ui.Image;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.TabLayoutPanel;
-import org.gwtproject.user.client.ui.VerticalPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
@@ -39,18 +38,17 @@ import org.gwtproject.user.client.ui.Widget;
  * 
  */
 public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
-
-	private AppW app;
+	private final AppW app;
 	/** Test edit panel */
 	protected ITextEditPanel editPanel;
 
-	private VerticalPanel geoPanel;
-	private VerticalPanel symbolPanel;
-	private VerticalPanel latexPanel;
+	private FlowPanel geoPanel;
+	private FlowPanel symbolPanel;
+	private FlowPanel latexPanel;
 	private TextPreviewPanelW previewer;
-	private Localization loc;
-	private Label previewLabel;
-	private Label latexLabel;
+	private final Localization loc;
+	private final Label previewLabel;
+	private final Label latexLabel;
 
 	/**
 	 * @param app
@@ -103,7 +101,6 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		addSelectionHandler(event -> {
 			if (event.getSelectedItem() == 1) {
 				updateGeoList();
-				// geoPanel.setFocus(true);
 			}
 		});
 	}
@@ -130,7 +127,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	// =====================================================
 
 	private void createGeoListBox() {
-		geoPanel = new VerticalPanel();
+		geoPanel = new FlowPanel();
 		geoPanel.setWidth("100%");
 		geoPanel.setHeight("100%");
 		geoPanel.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
@@ -165,7 +162,6 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	 * inserted into the editor content
 	 */
 	private Object[] getGeoObjectList(GeoText editGeo) {
-
 		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
 				.getGeoSetLabelOrder();
 		ArrayList<String> list = new ArrayList<>();
@@ -176,9 +172,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		colors.add(null);
 
 		// add all geos
-		Iterator<GeoElement> iter = ts.iterator();
-		while (iter.hasNext()) {
-			GeoElement g = iter.next();
+		for (GeoElement g : ts) {
 			if (g.isLabelSet() && !g.equals(editGeo)) {
 				list.add(g.getLabelSimple());
 				colors.add(g.getAlgebraColor());
@@ -200,10 +194,9 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	// =====================================================
 
 	private void createSymbolPanel() {
-
 		int defaultRowSize = 15;
 
-		symbolPanel = new VerticalPanel();
+		symbolPanel = new FlowPanel();
 		symbolPanel.setWidth("100%");
 		symbolPanel.setHeight("100%");
 
@@ -229,7 +222,6 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 
 	private void addTable(String[] tableSymbols, final boolean isLatex,
 			int rowSize, boolean addSeparator) {
-
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, isLatex,
 				rowSize, s -> editPanel.insertTextString(s, isLatex), null);
 
@@ -244,10 +236,9 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	// =====================================================
 
 	private void createLatexPanel() {
-
 		int defaultRowSize = 15;
 
-		latexPanel = new VerticalPanel();
+		latexPanel = new FlowPanel();
 		latexPanel.addStyleName("latexPanel");
 		latexPanel.setWidth("100%");
 		latexPanel.setHeight("100%");
@@ -263,22 +254,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 				defaultRowSize, true);
 		addLaTeXTable(TableSymbolsLaTeX.brackets,
 				/* "Brackets", */ defaultRowSize, true);
-		// addLaTeXTable(TableSymbolsLaTeX.matrices, "Matrices", defaultRowSize,
-		// true);
-		// addLaTeXTable(TableSymbolsLaTeX.mathfrak(), "FrakturLetters",
-		// defaultRowSize, true);
-		// addLaTeXTable(TableSymbolsLaTeX.mathcal(), "CalligraphicLetters",
-		// defaultRowSize, true);
-		// addLaTeXTable(TableSymbolsLaTeX.mathbb(), "BlackboardLetters",
-		// defaultRowSize, true);
-		// addLaTeXTable(TableSymbolsLaTeX.mathscr(), "CursiveLetters",
-		// defaultRowSize, true);
-
 	}
 
 	private void addLaTeXTable(String[] tableSymbols,
 			int rowSize, boolean addSeparator) {
-
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, true,
 				rowSize, s -> {
 					editPanel.insertTextString(s, true);
@@ -289,7 +268,6 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 			latexPanel.add(new HTML("<hr>"));
 		}
 
-		// latexPanel.add(new Label(header));
 		latexPanel.add(symTable);
 	}
 
@@ -316,5 +294,4 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		});
 		return symTable;
 	}
-
 }

@@ -32,8 +32,8 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-import org.gwtproject.user.client.ui.VerticalPanel;
 
 /**
  * Web dialog for slider creation
@@ -110,11 +110,11 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 
 	private void buildContent() {
 		Localization loc = app.getLocalization();
-		VerticalPanel mainWidget = new VerticalPanel();
-		VerticalPanel contentWidget = new VerticalPanel();
+		FlowPanel mainWidget = new FlowPanel();
+		FlowPanel contentWidget = new FlowPanel();
 		mainWidget.add(contentWidget);
 
-		VerticalPanel nameWidget = new VerticalPanel();
+		FlowPanel nameWidget = new FlowPanel();
 		contentWidget.add(nameWidget);
 
 		RadioButtonData<Integer> numberData = new RadioButtonData<>("Numeric", NUMERIC);

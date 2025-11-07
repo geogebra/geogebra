@@ -202,7 +202,7 @@ import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
@@ -251,7 +251,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private boolean isMenuInited = false;
 	// helper
 	// variable
-	private HorizontalPanel splitPanelWrapper = null;
+	private FlowPanel splitPanelWrapper = null;
 	private @CheckForNull MenuViewController menuViewController;
 
 	private EmbedManagerW embedManager;
@@ -1678,7 +1678,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (oldSplitLayoutPanel != null) {
 			if (!isFloatingMenu()
 					&& getAppletParameters().getDataParamShowMenuBar(false)) {
-				this.splitPanelWrapper = new HorizontalPanel();
+				splitPanelWrapper = new FlowPanel();
+				splitPanelWrapper.addStyleName("splitPanelWrapper");
 				// TODO
 				splitPanelWrapper.add(oldSplitLayoutPanel);
 				if (this.menuShowing) {
@@ -2080,8 +2081,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));
-			spWidth = oldSplitLayoutPanel.getOffsetWidth()
-					- GLookAndFeel.MENUBAR_WIDTH;
+			spWidth = (int) (getWidth() - GLookAndFeel.MENUBAR_WIDTH);
 			oldSplitLayoutPanel.setPixelSize(spWidth,
 					oldSplitLayoutPanel.getOffsetHeight());
 			updateMenuHeight();

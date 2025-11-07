@@ -20,7 +20,6 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-import org.gwtproject.user.client.ui.VerticalPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
@@ -29,11 +28,11 @@ import org.gwtproject.user.client.ui.Widget;
  * @author Zbynek Konecny
  *
  */
-public class CASTableCellW extends VerticalPanel {
-	private GeoCasCell casCell;
+public class CASTableCellW extends FlowPanel {
+	private final GeoCasCell casCell;
 	private final InputPanel inputPanel;
 	private final FlowPanel inputWrapper;
-	private FlowPanel outputPanel;
+	private final FlowPanel outputPanel;
 	private String textBeforeEdit;
 	private CASEditorW textField;
 	private String outputText;
@@ -93,7 +92,6 @@ public class CASTableCellW extends VerticalPanel {
 			}
 			commentLabel.getElement().getStyle()
 					.setFontSize(app.getFontSize(), Unit.PX);
-			// commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
 		outputPanel.add(canvas == null ? outputLabel : canvas);
@@ -231,13 +229,6 @@ public class CASTableCellW extends VerticalPanel {
 	 */
 	public Widget getOutputWidget() {
 		return outputPanel;
-	}
-
-	/**
-	 * @return input in CAS (plain text)
-	 */
-	public String getInputString() {
-		return inputPanel.getText();
 	}
 
 	/**

@@ -16,13 +16,13 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * @author G. Sturr
  * 
  */
-public abstract class StyleBarW extends HorizontalPanel implements
+public abstract class StyleBarW extends FlowPanel implements
         ViewsChangedListener, SetLabels {
 
 	private ContextMenuPopup viewButton;
@@ -50,6 +50,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		this.app = app;
 		this.viewID = viewID;
 		this.app.addViewsChangedListener(this);
+		addStyleName("styleBarW");
 	}
 
 	/**

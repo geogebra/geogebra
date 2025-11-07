@@ -4,14 +4,14 @@ import org.geogebra.common.main.App;
 import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
+import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.FocusPanel;
 import org.gwtproject.user.client.ui.Panel;
-import org.gwtproject.user.client.ui.VerticalPanel;
 
 public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 	
-	private FocusPanel container = null;
-	private VerticalPanel panel = null;
+	private final FocusPanel container;
+	private final FlowPanel panel;
 
 	/**
 	 * @param root
@@ -22,7 +22,7 @@ public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 	public ButtonPopupMenu(Panel root, App app) {
 		super(root, app);
 		container = new FocusPanel();
-		panel = new VerticalPanel();
+		panel = new FlowPanel();
 		container.add(panel);
 		container.addStyleName("ButtonPopupMenu");
 		container.addKeyUpHandler(event -> {
@@ -33,7 +33,7 @@ public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 		add(container);
 	}
 	
-	public VerticalPanel getPanel() {
+	public FlowPanel getPanel() {
 		return panel;
 	}
 
