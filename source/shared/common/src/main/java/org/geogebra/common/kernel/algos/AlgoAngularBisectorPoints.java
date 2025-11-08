@@ -197,7 +197,7 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 				wx = gx + hx;
 				wy = gy + hy;
 			} else { // ip <= 0.0, angle > 90 degrees
-						// BC - BA is a normalvector of the bisector
+						// BC - BA is a normal vector of the bisector
 				wx = hy - gy;
 				wy = gx - hx;
 

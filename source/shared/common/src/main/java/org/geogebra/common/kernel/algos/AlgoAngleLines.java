@@ -103,7 +103,7 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 	}
 
 	// calc angle between lines g and h
-	// use normalvectors (gx, gy), (hx, hy)
+	// use normal vectors (gx, gy), (hx, hy)
 	@Override
 	public void compute() {
 		// |v| * |w| * sin(alpha) = det(v, w)

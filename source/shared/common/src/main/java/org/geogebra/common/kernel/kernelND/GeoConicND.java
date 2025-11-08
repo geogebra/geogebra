@@ -271,7 +271,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			double[] coords = new double[3];
 			P.getCoords(coords);
 			setMidpoint(coords);
-			// M is normalvector of double line
+			// M is normal vector of double line
 			eigenvecX = -M.y;
 			eigenvecY = M.x;
 			findEigenvectors();
@@ -2129,7 +2129,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		matrix[2] = -16.0 * afo - sqsumdiff * sqsumdiff
 				+ 8.0 * asq * (sqsumb + sqsumc);
 
-		// set eigenvectors' directions (B -> C and normalvector)
+		// set eigenvectors' directions (B -> C and normal vector)
 		// this is needed, so that setEigenvectors() (called by classifyConic)
 		// will surely take the right direction
 		// normalizing is not needed at this point
@@ -2505,7 +2505,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				eigenvec[0].setCoords(eigenvecX, eigenvecY);
 			}
 
-			// second eigenvector (compared to normalvector (-eigenvecY,
+			// second eigenvector (compared to normal vector (-eigenvecY,
 			// eigenvecX)
 			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX()
 					* eigenvecY) {
@@ -2542,7 +2542,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		eigenvec[0].setCoords(eigenvecX, eigenvecY);
 
 		if (kernel.isContinuous()) {
-			// second eigenvector (compared to normalvector (-eigenvecY,
+			// second eigenvector (compared to normal vector (-eigenvecY,
 			// eigenvecX)
 			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX()
 					* eigenvecY) {
