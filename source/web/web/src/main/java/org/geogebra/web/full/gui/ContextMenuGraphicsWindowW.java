@@ -87,7 +87,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	protected void addSettingsButton(OptionType optionType) {
-		StandardButton settingsButton = new StandardButton("SettingsGeneral.OpenSettings");
+		StandardButton settingsButton = new StandardButton(loc.getMenu("General.OpenSettings"));
 		settingsButton.addFastClickHandler(source -> {
 			showOptionsDialog(optionType);
 			wrappedPopup.hide();
