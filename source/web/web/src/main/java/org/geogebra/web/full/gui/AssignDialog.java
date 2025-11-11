@@ -26,7 +26,7 @@ public class AssignDialog extends ComponentDialog {
 	 */
 	public AssignDialog(AppW app,
 			DialogData dialogData, ShareControllerW materialProvider) {
-		super(app, dialogData, true, false);
+		super(app, dialogData, true, true);
 		this.materialProvider = materialProvider;
 		addAssignButton("assignDialog.lesson", "assignDialog.lesson.description",
 				"https://www.geogebra.org/classroom/create?id=%0",

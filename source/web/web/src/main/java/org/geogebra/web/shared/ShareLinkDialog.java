@@ -32,7 +32,7 @@ public class ShareLinkDialog extends ComponentDialog {
 	 * @param anchor parent widget
 	 */
 	public ShareLinkDialog(AppW app, DialogData data, String shareURL, Widget anchor) {
-		super(app, data, true, false);
+		super(app, data, true, true);
 		this.app = app;
 		this.anchor = anchor;
 		addStyleName(app.getVendorSettings().getStyleName("shareLink"));

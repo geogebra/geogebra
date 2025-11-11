@@ -49,7 +49,7 @@ public class TextInputDialogW extends ComponentDialog implements TextInputDialog
 	 */
 	public TextInputDialogW(AppW app2, String title, GeoText editGeo,
             GeoPointND startPoint, boolean rw, boolean isTextMode) {
-		super(app2, new DialogData(title), false, false);
+		super(app2, new DialogData(title), false, true);
 		this.startPoint = startPoint;
 		this.rw = rw;
 		this.isTextMode = isTextMode;
