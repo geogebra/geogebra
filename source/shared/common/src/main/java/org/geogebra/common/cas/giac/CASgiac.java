@@ -5,7 +5,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -27,7 +26,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.DiffReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
@@ -77,11 +75,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	public final static String initStringWeb = "init geogebra";
 
 	/**
-	 * string to put Giac off GeoGebra mode
+	 * Custom helper functions.
 	 */
-	// public final static String closeString = "caseval(\"close geogebra\")";
-	// public final static String closeStringWeb = "close geogebra";
-
 	public enum CustomFunctions {
 		/**
 		 * 
@@ -132,9 +127,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		/**
 		 * returns "?" if expression has more than one variable otherwise
-		 * returns the variable
-		 * 
-		 * for checking that the second argument of eg Factor(x^2-y^2,x) is a
+		 * returns the variable for checking that the second argument of eg Factor(x^2-y^2,x) is a
 		 * variable
 		 */
 		GGB_IS_VARIABLE("ggb_is_variable", "ggb_is_variable(a):=when(length(lvar(a))==1,lvar(a)[0],?)"),
@@ -245,13 +238,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		COEFFICIENT_QUADRIC("ggbcoeffquadric", "ggbcoeffquadric(coeffsarg):={coeffs(coeffsarg,[x,y,z],[2,0,0]),coeffs(coeffsarg,[x,y,z],[0,2,0]),coeffs(coeffsarg,[x,y,z],[0,0,2]),coeffs(coeffsarg,[x,y,z],[0,0,0]),coeffs(coeffsarg,[x,y,z],[1,1,0]),coeffs(coeffsarg,[x,y,z],[1,0,1]),coeffs(coeffsarg,[x,y,z],[0,1,1]),coeffs(coeffsarg,[x,y,z],[1,0,0]),coeffs(coeffsarg,[x,y,z],[0,1,0]),coeffs(coeffsarg,[x,y,z],[0,0,1])}"),
 
-		/*
-		 * abs() in Giac now works for vectors so this isn't needed
-		 * 
-		 */
-		// ABS("ggbabs",
-		// "ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST &&
-		// subtype(x)==27),l2norm(x),abs(x))"),
 		/**
 		 * check list before equation to avoid out of bounds. flatten helps for
 		 * {} and {{{0}}}
@@ -473,7 +459,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	public long timeoutMillis = 5000;
 	final private static String EVALFA = "evalfa(";
-	private StringBuilder expSB = new StringBuilder(EVALFA);
+	private final StringBuilder expSB = new StringBuilder(EVALFA);
 	private final MaxSizeHashMap<String, String> casGiacCache
 			= new MaxSizeHashMap<>(Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 
@@ -506,7 +492,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg {3>ggbtmpvarx}
 	// works only for variables in form [A-Za-z]+ and if it's a simple number
 	private final static RegExp inequalitySimpleInList = RegExp.compile(
-			"(.*)([,{])(\\(*)?([-0-9.E]+)(\\)*)?>(=*)([A-Za-z]+)([,}\\)])(.*)");
+			"(.*)([,{])(\\(*)([-0-9.E]+)(\\)*)>(=*)([A-Za-z]+)([,}\\)])(.*)");
 
 	// old version, causes problems with eg Solve[exp(x)<2]
 	// private final static RegExp inequalitySimpleInList =
@@ -533,8 +519,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	@Override
 	final public String evaluateRaw(final String input) throws Throwable {
 
-		String exp = input;
-
 		Log.debug("input = " + input);
 
 		String cachedResult = getResultFromCache(input);
@@ -543,7 +527,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			return cachedResult;
 		}
 
-		String result = evaluate(exp, getTimeoutMilliseconds());
+		String result = evaluate(input, getTimeoutMilliseconds());
 
 		// FIXME: This check is too heuristic: in giac.js we can get results
 		// starting with \"
@@ -627,8 +611,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			 */
 		}
 
-		String result = plainResult;
-
 		if (keepInput && (cell == null || !cell.isSubstitute())) {
 			// assume keepinput was not treated in CAS
 			return casParser.toGeoGebraString(casInput, tpl);
@@ -654,10 +636,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		// standard case
-		if (result == null || result.isEmpty()) {
+		if (plainResult == null || plainResult.isEmpty()) {
 			return null;
 		}
-		return toGeoGebraString(result, arbconst, tpl, kernel);
+		return toGeoGebraString(plainResult, arbconst, tpl, kernel);
 
 	}
 
@@ -734,9 +716,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (nrOfVars > 0) {
 			// get array of potential results
 			String[] partsOfResult = plainResult.split("},");
-			for (int i = 0; i < partsOfResult.length; i++) {
+			for (String part : partsOfResult) {
 				// get array of solutions
-				String[] partsOfCurrSol = partsOfResult[i].split(",");
+				String[] partsOfCurrSol = part.split(",");
 				// append only asked solutions
 				for (int j = 0; j < nrOfVars; j++) {
 					if (j == nrOfVars - 1) {
@@ -798,34 +780,26 @@ public abstract class CASgiac implements CASGenericInterface {
 				arbconst, kernel);
 		// replace rational exponents by roots or vice versa
 
-		ve = ve.traverse(new Traversing() {
-
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof MyVecNDNode
-						&& ((MyVecNDNode) ev).isCASVector()) {
-					return new ExpressionNode(kernel,
-							new Variable(kernel, "ggbvect"), Operation.FUNCTION,
-							ev);
-				}
-				return ev;
+		ve = ve.traverse(ev -> {
+			if (ev instanceof MyVecNDNode
+					&& ((MyVecNDNode) ev).isCASVector()) {
+				return new ExpressionNode(kernel,
+						new Variable(kernel, "ggbvect"), Operation.FUNCTION,
+						ev);
 			}
+			return ev;
 		});
 
-		ve = ve.traverse(new Traversing() {
-
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof ExpressionNode) {
-					ExpressionNode node = (ExpressionNode) ev;
-					if (node.isLeaf() && tpl.isRad(node.unwrap())) {
-						node.setOperation(Operation.MULTIPLY);
-						node.setRight(node.getLeft());
-						node.setLeft(new MyDouble(kernel, 1));
-					}
+		ve = ve.traverse(ev -> {
+			if (ev instanceof ExpressionNode) {
+				ExpressionNode node = (ExpressionNode) ev;
+				if (node.isLeaf() && tpl.isRad(node.unwrap())) {
+					node.setOperation(Operation.MULTIPLY);
+					node.setRight(node.getLeft());
+					node.setLeft(new MyDouble(kernel, 1));
 				}
-				return ev;
 			}
+			return ev;
 		});
 
 		return casParser.toGeoGebraString(ve, tpl);
@@ -979,34 +953,17 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * in giac with CoCoA support on command line and runs forever in
 		 * giac.js.
 		 */
-		StringBuilder script = new StringBuilder();
-
-		/*
-		 * return script.append("[[aa:=eliminate(["). append(polys).
-		 * append("],["). append(elimVars). append(
-		 * "])],[bb:=size(aa)],[for ii from 0 to bb-1 do print(\"[\"+(ii+1)+\"]:\");print(\" [1]:\");"
-		 * ). append("print(\"  _[1]=1\");cc:=factors(aa[ii]);dd:=size(cc);").
-		 * append(
-		 * "for jj from 0 to dd-1 by 2 do print(\"  _[\"+(jj/2+2)+\"]=\"+(cc[jj])); od; print(\" [2]:\");"
-		 * ). append(
-		 * "print(\"  \"+cc[1]);for kk from 1 to dd-1 by 2 do print(\"   ,\"+cc[kk]);od;od],0][3]"
-		 * )
-		 * 
-		 * .toString();
-		 */
 
 		String eliminateCommand = "eliminate([" + polys
 				+ "],revlist(["
 				+ elimVars + "]))";
 
-		return script.append("[" + "[ff:=\"\"],[aa:=").append(eliminateCommand)
-				.append("],")
-				.append("[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: ")
-				.append(" _[1]=1\");ee:=aa[ii]/gcd(coeffs(aa[ii]));cc:=factors(ee);dd:=size(cc);")
-				.append("for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: ")
-				.append("\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\") begin ff:=[0] end],ff][5]")
-
-				.toString();
+		return  "[[ff:=\"\"],[aa:=" + eliminateCommand
+				+ "],"
+				+ "[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=(\"[\"+(ii+1)+\"]: [1]: "
+				+ " _[1]=1\");ee:=aa[ii]/gcd(coeffs(aa[ii]));cc:=factors(ee);dd:=size(cc);"
+				+ "for jj from 0 to dd-1 by 2 do ff+=(\"  _[\"+(jj/2+2)+\"]=\"+cc[jj]); od; ff+=(\" [2]: "
+				+ "\"+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(\",\"+cc[kk]);od;od],[if(ff==\"\") begin ff:=[0] end],ff][5]";
 
 		// We return text from the CAS here.
 	}
@@ -1169,10 +1126,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	static String substitutionsString(
 			HashMap<PVariable, BigInteger> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Entry<PVariable, BigInteger>> it = substitutions.entrySet()
-				.iterator();
-		while (it.hasNext()) {
-			Entry<PVariable, BigInteger> v = it.next();
+		for (Entry<PVariable, BigInteger> v : substitutions.entrySet()) {
 			ret.append(",");
 			ret.append(v.getKey().toString());
 			ret.append("=");
@@ -1302,10 +1256,10 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// swap 5 > x && x > 3 into 3<x<5
 		while ((matcher = inequality.exec(ret)) != null &&
-		// TODO: check not x<3 && x<4
+				// TODO: check not x<3 && x<4
 
-		// check variable the same
-		// ie not x>5 && y<4
+				// check variable the same
+				// ie not x>5 && y<4
 				matcher.getGroup(2).equals(matcher.getGroup(11))) {
 
 			ret = matcher.getGroup(1) + matcher.getGroup(4) + "<"
@@ -1319,32 +1273,8 @@ public abstract class CASgiac implements CASGenericInterface {
 
 			// matcher.getGroup(6) is either "" or "="
 
-			// Log.debug("1 "+matcher.getGroup(1));
-			// Log.debug("2 "+matcher.getGroup(2));
-			// Log.debug("3XX"+matcher.getGroup(3)+"XX");
-			// Log.debug(""+matcher.getGroup(3).equals("undefined"));
-			// Log.debug("4 "+matcher.getGroup(4));
-			// Log.debug("5XX"+matcher.getGroup(5)+"XX");
-			// Log.debug("6 "+matcher.getGroup(6));
-			// Log.debug("7 "+matcher.getGroup(7));
-			// Log.debug("8 "+matcher.getGroup(8));
-			// Log.debug("9 "+matcher.getGroup(9));
-
 			String g3 = matcher.getGroup(3);
 			String g5 = matcher.getGroup(5);
-
-			// GWT regex bug? eg Solve[(2exp(x)-4)/(exp(x)-1) > 1],
-			// Solve[(x^2-x-2)/(-x^3+7x^2-14x+8)<2]
-			// #4710 GWT 2.7 beta 1 & RC1 needs the +"" as well
-			if ((g3 + "").equals("undefined")) {
-				g3 = "";
-			}
-			if ((g5 + "").equals("undefined")) {
-				g5 = "";
-			}
-
-			// Log.debug("g3= "+g3);
-			// Log.debug("g5= "+g5);
 
 			// eg "(" + "-2" + ")"
 			String g345 = g3 + matcher.getGroup(4) + g5;
@@ -1372,7 +1302,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	protected String postProcess(String s) {
 
-		if (s.indexOf("GIAC_ERROR") > -1) {
+		if (s.contains("GIAC_ERROR")) {
 			// GIAC_ERROR: canonical_form(3*ggbtmpvarx^4+ggbtmpvarx^2) Error:
 			// Bad Argument Value
 			Log.debug("error from Giac: " + s);
@@ -1397,8 +1327,8 @@ public abstract class CASgiac implements CASGenericInterface {
 
 				if (bracketOpen >= 0) {
 					StringBuilder sb = new StringBuilder(ret);
-					sb = sb.replace(primeOpen + 1, primeOpen + 2, "");
-					sb = sb.replace(bracketOpen, bracketOpen + 1, "");
+					sb.replace(primeOpen + 1, primeOpen + 2, "");
+					sb.replace(bracketOpen, bracketOpen + 1, "");
 					ret = sb.toString();
 				}
 				// primeOpen = primeClose;
