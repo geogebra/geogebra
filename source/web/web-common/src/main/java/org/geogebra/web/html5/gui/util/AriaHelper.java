@@ -54,7 +54,7 @@ public class AriaHelper {
 	 * @param label localized string
 	 */
 	public static void setLabel(UIObject uiObject, String label) {
-		uiObject.getElement().setAttribute("aria-label", label);
+		setNullableAttribute(uiObject, "label", label);
 	}
 
 	/**
@@ -204,11 +204,7 @@ public class AriaHelper {
 	 * @param id id of active descendant, null to reset
 	 */
 	public static void setActiveDescendant(UIObject uiObject, String id) {
-		if (id == null) {
-			uiObject.getElement().removeAttribute("aria-activedescendant");
-		} else {
-			uiObject.getElement().setAttribute("aria-activedescendant", id);
-		}
+		setNullableAttribute(uiObject, "activedescendant", id);
 	}
 
 	/**
@@ -216,12 +212,15 @@ public class AriaHelper {
 	 * @param message error message (null to reset)
 	 */
 	public static void setErrorMessage(UIObject uiObject, String message) {
-		if (message == null) {
-			uiObject.getElement().removeAttribute("aria-errormessage");
-		} else {
-			uiObject.getElement().setAttribute("aria-errormessage", message);
-		}
+		setNullableAttribute(uiObject, "errormessage", message);
 		uiObject.getElement().setAttribute("aria-invalid", String.valueOf(message != null));
+	}
 
+	private static void setNullableAttribute(UIObject uiObject, String name, String value) {
+		if (value == null) {
+			uiObject.getElement().removeAttribute("aria-" + name);
+		} else {
+			uiObject.getElement().setAttribute("aria-" + name, value);
+		}
 	}
 }

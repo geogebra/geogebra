@@ -45,7 +45,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 
 	private void setDefaultAriaLabel() {
 		AriaHelper.setLabel(textField.getTextField(),
-				app.getLocalization().getMenu(geo != null ? "Definition" : "EnterExpression"));
+				geo != null ? null : app.getLocalization().getMenu("EnterExpression"));
 	}
 
 	private void updateInputText() {
