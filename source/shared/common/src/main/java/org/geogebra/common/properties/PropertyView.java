@@ -17,6 +17,10 @@ import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.ClippingPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.Dimension2DPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.Dimension3DPropertiesCollection;
+import org.geogebra.common.properties.impl.graphics.DimensionMinMaxProperty;
+import org.geogebra.common.properties.impl.graphics.DimensionRatioProperty;
 import org.geogebra.common.properties.impl.graphics.GridAngleProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
@@ -38,6 +42,8 @@ import com.google.j2objc.annotations.Weak;
 public abstract class PropertyView {
 	protected @Weak @CheckForNull ConfigurationUpdateDelegate configurationUpdateDelegate;
 	protected @Weak @CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate;
+	// Prevents overriding the visibility delegate when it relies solely on the parent's visibility.
+	protected boolean disableVisibilityUpdateDelegateSetter = false;
 
 	/**
 	 * Delegate interface for receiving notifications about configuration updates.
@@ -76,8 +82,11 @@ public abstract class PropertyView {
 	 * Assigns the delegate to receive visibility update notifications.
 	 * @param visibilityUpdateDelegate the delegate or {@code null} to remove it
 	 */
-	public void setVisibilityUpdateDelegate(
+	public final void setVisibilityUpdateDelegate(
 			@CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate) {
+		if (disableVisibilityUpdateDelegateSetter) {
+			return;
+		}
 		this.visibilityUpdateDelegate = visibilityUpdateDelegate;
 	}
 
@@ -222,29 +231,16 @@ public abstract class PropertyView {
 	/**
 	 * Representation of a combo box with a label, a dropdown for suggestions, an input field for
 	 * custom values, displaying the current value and an optional error message.
-	 * @apiNote The class implements {@link VisibilityUpdateDelegate} to correctly set up visibility
-	 * notifications internally, ensuring that {@link PropertyView#setVisibilityUpdateDelegate}
-	 * works with the optional visibility delegate in the parent.
-	 * This setup properly notifies the parent (e.g. a ComboBoxRow) whenever its child's
-	 * visibility is updated.
 	 */
-	public static final class ComboBox extends PropertyBackedView<StringPropertyWithSuggestions>
-			implements VisibilityUpdateDelegate {
+	public static final class ComboBox extends PropertyBackedView<StringPropertyWithSuggestions> {
 		private String value;
 		private String errorMessage;
-		private @Weak @CheckForNull VisibilityUpdateDelegate comboBoxVisibilityUpdateDelegate;
-		private @Weak @CheckForNull VisibilityUpdateDelegate parentVisibilityUpdateDelegate;
 
-		ComboBox(StringPropertyWithSuggestions stringPropertyWithSuggestions,
-				@CheckForNull VisibilityUpdateDelegate parentVisibilityUpdateDelegate) {
+		ComboBox(StringPropertyWithSuggestions stringPropertyWithSuggestions) {
 			super(stringPropertyWithSuggestions);
 			this.value = stringPropertyWithSuggestions.getValue() != null
 					? stringPropertyWithSuggestions.getValue() : "";
 			this.errorMessage = null;
-			this.parentVisibilityUpdateDelegate = parentVisibilityUpdateDelegate;
-			if (parentVisibilityUpdateDelegate != null) {
-				super.setVisibilityUpdateDelegate(this);
-			}
 		}
 
 		/**
@@ -295,62 +291,49 @@ public abstract class PropertyView {
 		public @CheckForNull String getErrorMessage() {
 			return errorMessage;
 		}
-
-		@Override
-		public void setVisibilityUpdateDelegate(
-				@CheckForNull VisibilityUpdateDelegate visibilityUpdateDelegate) {
-			// Set the delegate to notify visibility change specifically for this combo box
-			this.comboBoxVisibilityUpdateDelegate = visibilityUpdateDelegate;
-			// Set the delegate to notify visibility change for this combo box and its parent
-			super.setVisibilityUpdateDelegate(this);
-		}
-
-		@Override
-		public void visibilityUpdated() {
-			// Notify objects listening to this view specifically
-			if (comboBoxVisibilityUpdateDelegate != null) {
-				comboBoxVisibilityUpdateDelegate.visibilityUpdated();
-			}
-			// Notify objects listening to the parent
-			if (parentVisibilityUpdateDelegate != null) {
-				parentVisibilityUpdateDelegate.visibilityUpdated();
-			}
-		}
 	}
 
 	/**
-	 * Representation of two combo boxes placed side by side, each taking up half the space.
-	 * @implNote The class implements {@link VisibilityUpdateDelegate} to correctly set up visibility
-	 * notifications internally, ensuring that {@link PropertyView#setVisibilityUpdateDelegate}
-	 * works independently from the same delegate set to its children.
+	 * Representation of a horizontal view with two inner views,
+	 * each occupying half the total width.
+	 * @implNote The class implements {@link VisibilityUpdateDelegate} because it manages the
+	 * visibility of its child views, ensuring that either this class and all of its children are
+	 * visible or none are. Therefore, setting the visibility update delegate with
+	 * {@link PropertyView#setVisibilityUpdateDelegate} on its children will have no effect.
 	 */
-	public static final class ComboBoxRow extends PropertyView implements VisibilityUpdateDelegate {
-		private final ComboBox leadingComboBox;
-		private final ComboBox trailingComboBox;
+	public static final class HorizontalSplitView extends PropertyView
+			implements VisibilityUpdateDelegate {
+		private final PropertyView leadingPropertyView;
+		private final PropertyView trailingPropertyView;
 
-		ComboBoxRow(StringPropertyWithSuggestions leadingComboBoxProperty,
-				StringPropertyWithSuggestions trailingComboBoxProperty) {
-			this.leadingComboBox = new ComboBox(leadingComboBoxProperty, this);
-			this.trailingComboBox = new ComboBox(trailingComboBoxProperty, this);
+		HorizontalSplitView(PropertyView leadingPropertyView, PropertyView trailingPropertyView) {
+			this.leadingPropertyView = leadingPropertyView;
+			this.trailingPropertyView = trailingPropertyView;
+
+			leadingPropertyView.setVisibilityUpdateDelegate(this);
+			trailingPropertyView.setVisibilityUpdateDelegate(this);
+			// Prevent overriding visibility delegates, as they depend solely on this view.
+			leadingPropertyView.disableVisibilityUpdateDelegateSetter = true;
+			trailingPropertyView.disableVisibilityUpdateDelegateSetter = true;
 		}
 
 		/**
-		 * @return the first combo box
+		 * @return the first property view
 		 */
-		public @Nonnull ComboBox getLeadingComboBox() {
-			return leadingComboBox;
+		public @Nonnull PropertyView getLeadingPropertyView() {
+			return leadingPropertyView;
 		}
 
 		/**
-		 * @return the second combo box
+		 * @return the second property view
 		 */
-		public @Nonnull ComboBox getTrailingComboBox() {
-			return trailingComboBox;
+		public @Nonnull PropertyView getTrailingPropertyView() {
+			return trailingPropertyView;
 		}
 
 		@Override
 		public boolean isVisible() {
-			return leadingComboBox.isVisible() && trailingComboBox.isVisible();
+			return leadingPropertyView.isVisible() && trailingPropertyView.isVisible();
 		}
 
 		@Override
@@ -515,12 +498,9 @@ public abstract class PropertyView {
 			First, InBetween, Last, Alone,
 		}
 
-		ExpandableList(PropertyCollection<?> propertyCollection) {
+		ExpandableList(PropertyCollection<?> propertyCollection, List<PropertyView> propertyViews) {
 			this.propertyCollection = propertyCollection;
-			this.propertyViews = Arrays.stream(propertyCollection.getProperties())
-					.map(PropertyView::of)
-					.filter(Objects::nonNull)
-					.collect(Collectors.toList());
+			this.propertyViews = propertyViews;
 			this.checkbox = propertyCollection instanceof PropertyCollectionWithLead
 					? new Checkbox(((PropertyCollectionWithLead) propertyCollection).leadProperty)
 					: null;
@@ -681,6 +661,61 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * Representation of a property-specific view, displaying two text fields separated by a colon
+	 * in a row with a trailing lock icon that can be either open or closed, and a label above.
+	 */
+	public static final class DimensionRatioEditor extends PropertyBackedView<BooleanProperty> {
+		private final TextField leadingTextField;
+		private final TextField trailingTextField;
+		private final DimensionRatioProperty dimensionRatioProperty;
+
+		DimensionRatioEditor(DimensionRatioProperty dimensionRatioProperty) {
+			super((BooleanProperty) dimensionRatioProperty.getProperties()[2]);
+			this.dimensionRatioProperty = dimensionRatioProperty;
+			this.leadingTextField = new PropertyView.TextField(
+					(StringProperty) dimensionRatioProperty.getProperties()[0]);
+			this.trailingTextField = new PropertyView.TextField(
+					(StringProperty) dimensionRatioProperty.getProperties()[1]);
+		}
+
+		/**
+		 * @return {@code true} if the lock icon is closed, {@code false} otherwise
+		 */
+		public boolean isLocked() {
+			return property.getValue();
+		}
+
+		/**
+		 * Set the lock to either closed or open.
+		 * @param locked {@code true} to set the lock's state to closed, {@code false} to open
+		 */
+		public void setLocked(boolean locked) {
+			property.setValue(locked);
+		}
+
+		/**
+		 * @return the first text field
+		 */
+		public TextField getLeadingTextField() {
+			return leadingTextField;
+		}
+
+		/**
+		 * @return the second text field
+		 */
+		public TextField getTrailingTextField() {
+			return trailingTextField;
+		}
+
+		/**
+		 * @return the label above the text fields and the icon
+		 */
+		public @Nonnull String getLabel() {
+			return dimensionRatioProperty.getName();
+		}
+	}
+
+	/**
 	 * Factory method that returns the appropriate {@code PropertyView}
 	 * for the given {@link Property}.
 	 * @param property the property for which to create the view
@@ -693,7 +728,7 @@ public abstract class PropertyView {
 		} else if (property instanceof NamedEnumeratedProperty) {
 			return new Dropdown((NamedEnumeratedProperty<?>) property);
 		} else if (property instanceof StringPropertyWithSuggestions) {
-			return new ComboBox((StringPropertyWithSuggestions) property, null);
+			return new ComboBox((StringPropertyWithSuggestions) property);
 		} else if (property instanceof StringProperty) {
 			return new TextField((StringProperty) property);
 		} else if (property instanceof IconsEnumeratedProperty) {
@@ -701,22 +736,13 @@ public abstract class PropertyView {
 		} else if (property instanceof AxisDistancePropertyCollection
 				|| property instanceof AxisCrossPropertyCollection
 				|| property instanceof AxisUnitPropertyCollection) {
-			PropertyCollection<?> propertyCollection = (PropertyCollection<?>) property;
-			List<PropertyView> propertyViews = Arrays.stream(propertyCollection.getProperties())
-					.map(PropertyView::of)
-					.filter(Objects::nonNull)
-					.collect(Collectors.toList());
-			return new RelatedPropertyViewCollection(null, propertyViews, 0);
+			return new RelatedPropertyViewCollection(null,
+					propertyViewListOf((PropertyCollection<?>) property), 0);
 		} else if (property instanceof ClippingPropertyCollection) {
 			ClippingPropertyCollection clippingPropertyCollection =
 					(ClippingPropertyCollection) property;
-			List<PropertyView> propertyViews = Arrays
-					.stream(clippingPropertyCollection.getProperties())
-					.map(PropertyView::of)
-					.filter(Objects::nonNull)
-					.collect(Collectors.toList());
-			return new RelatedPropertyViewCollection(
-					clippingPropertyCollection.getName(), propertyViews, 4);
+			return new RelatedPropertyViewCollection(clippingPropertyCollection.getName(),
+					propertyViewListOf(clippingPropertyCollection), 4);
 		} else if (property instanceof LabelStylePropertyCollection) {
 			return new MultiSelectionIconRow((LabelStylePropertyCollection) property);
 		} else if (property instanceof ActionableIconPropertyCollection) {
@@ -738,12 +764,65 @@ public abstract class PropertyView {
 					(GridAngleProperty) gridDistancePropertyCollection.getProperties()[4];
 			return new RelatedPropertyViewCollection(null, List.of(
 					new Checkbox(gridFixedDistanceProperty),
-					new ComboBoxRow(gridDistancePropertyX, gridDistancePropertyY),
-					new ComboBoxRow(gridDistancePropertyR, gridAngleProperty)), 0);
+					new HorizontalSplitView(
+							new ComboBox(gridDistancePropertyX),
+							new ComboBox(gridDistancePropertyY)),
+					new HorizontalSplitView(
+							new ComboBox(gridDistancePropertyR),
+							new ComboBox(gridAngleProperty))), 0);
+		} else if (property instanceof Dimension2DPropertiesCollection) {
+			Dimension2DPropertiesCollection dimension2DPropertiesCollection =
+					(Dimension2DPropertiesCollection) property;
+			DimensionRatioProperty dimensionRatioProperty =
+					(DimensionRatioProperty) dimension2DPropertiesCollection.getProperties()[0];
+			DimensionMinMaxProperty dimensionPropertyMinX =
+					(DimensionMinMaxProperty) dimension2DPropertiesCollection.getProperties()[1];
+			DimensionMinMaxProperty dimensionPropertyMaxX =
+					(DimensionMinMaxProperty) dimension2DPropertiesCollection.getProperties()[2];
+			DimensionMinMaxProperty dimensionPropertyMinY =
+					(DimensionMinMaxProperty) dimension2DPropertiesCollection.getProperties()[3];
+			DimensionMinMaxProperty dimensionPropertyMaxY =
+					(DimensionMinMaxProperty) dimension2DPropertiesCollection.getProperties()[4];
+			return new ExpandableList(dimension2DPropertiesCollection, List.of(
+					new DimensionRatioEditor(dimensionRatioProperty),
+					new RelatedPropertyViewCollection(property.getName(), List.of(
+							new HorizontalSplitView(
+									new TextField(dimensionPropertyMinX),
+									new TextField(dimensionPropertyMaxX)),
+							new HorizontalSplitView(
+									new TextField(dimensionPropertyMinY),
+									new TextField(dimensionPropertyMaxY))), 10)));
+		} else if (property instanceof Dimension3DPropertiesCollection) {
+			Dimension3DPropertiesCollection propertyCollection =
+					(Dimension3DPropertiesCollection) property;
+			DimensionMinMaxProperty dimensionPropertyMinX = propertyCollection.getProperties()[0];
+			DimensionMinMaxProperty dimensionPropertyMaxX = propertyCollection.getProperties()[1];
+			DimensionMinMaxProperty dimensionPropertyMinY = propertyCollection.getProperties()[2];
+			DimensionMinMaxProperty dimensionPropertyMaxY = propertyCollection.getProperties()[3];
+			DimensionMinMaxProperty dimensionPropertyMinZ = propertyCollection.getProperties()[4];
+			DimensionMinMaxProperty dimensionPropertyMaxZ = propertyCollection.getProperties()[5];
+			return new RelatedPropertyViewCollection(property.getName(), List.of(
+					new HorizontalSplitView(
+							new TextField(dimensionPropertyMinX),
+							new TextField(dimensionPropertyMaxX)),
+					new HorizontalSplitView(
+							new TextField(dimensionPropertyMinY),
+							new TextField(dimensionPropertyMaxY)),
+					new HorizontalSplitView(
+							new TextField(dimensionPropertyMinZ),
+							new TextField(dimensionPropertyMaxZ))), 10);
 		} else if (property instanceof PropertyCollection) {
-			return new ExpandableList((PropertyCollection<?>) property);
+			PropertyCollection<?> propertyCollection = (PropertyCollection<?>) property;
+			return new ExpandableList(propertyCollection, propertyViewListOf(propertyCollection));
 		} else {
 			return null;
 		}
+	}
+
+	private static List<PropertyView> propertyViewListOf(PropertyCollection<?> propertyCollection) {
+		return Arrays.stream(propertyCollection.getProperties())
+				.map(PropertyView::of)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
 	}
 }

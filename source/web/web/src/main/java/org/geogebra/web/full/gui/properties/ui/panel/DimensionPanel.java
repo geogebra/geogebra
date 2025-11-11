@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.properties.ui.panel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
+import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.graphics.Dimension2DPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.DimensionRatioProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -61,10 +62,10 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 
 	private FlowPanel buildRatioPanel(DimensionRatioProperty property) {
 		ComponentInputField xRatio = (ComponentInputField) propertiesPanelAdapter.getWidget(
-				property.getXRatioProperty());
+				property.getProperties()[0]);
 		ComponentInputField yRatio = (ComponentInputField) propertiesPanelAdapter.getWidget(
-				property.getYRatioProperty());
-		lockRatio = createLockRatio(property);
+				property.getProperties()[1]);
+		lockRatio = createLockRatio((BooleanProperty) property.getProperties()[2]);
 
 		FlowPanel panel = new FlowPanel();
 		ratioLabelKey = property.getRawName();
@@ -80,16 +81,15 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 		return panel;
 	}
 
-	private IconButton createLockRatio(DimensionRatioProperty property) {
-		SVGResource icon = property.isRatioLocked()
+	private IconButton createLockRatio(BooleanProperty property) {
+		SVGResource icon = property.getValue()
 				? MaterialDesignResources.INSTANCE.lock_black()
 				: MaterialDesignResources.INSTANCE.lock_open_black();
 		IconButton lockRatio = new IconButton(appW, null, new ImageIconSpec(icon),
 				getLockedUnlockedKey(property));
 		lockRatio.addFastClickHandler(source -> {
-			property.setRatioLocked(!property.isRatioLocked());
-			boolean locked = property.isRatioLocked();
-			lockRatio.setIcon(locked
+			property.setValue(!property.getValue());
+			lockRatio.setIcon(property.getValue()
 					? MaterialDesignResources.INSTANCE.lock_black()
 					: MaterialDesignResources.INSTANCE.lock_open_black());
 			lockRatio.setTitle(appW.getLocalization().getMenu(getLockedUnlockedKey(property)));
@@ -98,8 +98,8 @@ public class DimensionPanel extends ComponentExpandableList implements SetLabels
 		return lockRatio;
 	}
 
-	private String getLockedUnlockedKey(DimensionRatioProperty property) {
-		return property.isRatioLocked() ? "UnlockRatio" : "LockRatio";
+	private String getLockedUnlockedKey(BooleanProperty property) {
+		return property.getValue() ? "UnlockRatio" : "LockRatio";
 	}
 
 	@Override

@@ -76,10 +76,12 @@ public class PropertyViewTests extends BaseAppTestSetup {
 				.RelatedPropertyViewCollection) PropertyView.of(gridDistancePropertyCollection);
 		PropertyView.Checkbox fixedDistanceCheckbox = (PropertyView.Checkbox)
 				relatedPropertyViewCollection.getPropertyViews().get(0);
-		PropertyView.ComboBoxRow gridDistanceComboBoxRow = (PropertyView.ComboBoxRow)
+		PropertyView.HorizontalSplitView horizontalSplitView = (PropertyView.HorizontalSplitView)
 				relatedPropertyViewCollection.getPropertyViews().get(1);
-		PropertyView.ComboBox xGridDistanceComboBox = gridDistanceComboBoxRow.getLeadingComboBox();
-		PropertyView.ComboBox yGridDistanceComboBox = gridDistanceComboBoxRow.getTrailingComboBox();
+		PropertyView.ComboBox xGridDistanceComboBox =
+				(PropertyView.ComboBox) horizontalSplitView.getLeadingPropertyView();
+		PropertyView.ComboBox yGridDistanceComboBox =
+				(PropertyView.ComboBox) horizontalSplitView.getTrailingPropertyView();
 
 		assertFalse(fixedDistanceCheckbox.isSelected());
 		assertFalse(xGridDistanceComboBox.isEnabled());
@@ -158,53 +160,52 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	}
 
 	@Test
-	public void testComboBoxRowVisibilityListenersForEachPropertyViewInTheTree() {
+	public void testHorizontalSplitViewIgnoredVisibilityListenersForChildViews() {
 		setupApp(SuiteSubApp.GRAPHING);
 
-		GridDistanceProperty leadingComboBoxProperty = new GridDistanceProperty(
-				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "x", 0);
-		GridDistanceProperty trailingComboBoxProperty = new GridDistanceProperty(
-				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "y", 0);
-		PropertyView.ComboBoxRow comboBoxRow = new PropertyView.ComboBoxRow(
-				leadingComboBoxProperty, trailingComboBoxProperty);
+		PropertyView.ComboBox leadingComboBox = new PropertyView.ComboBox(new GridDistanceProperty(
+				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "x", 0));
+		PropertyView.ComboBox trailingComboBox = new PropertyView.ComboBox(new GridDistanceProperty(
+				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "y", 0));
+		PropertyView.HorizontalSplitView horizontalSplitView = new PropertyView.HorizontalSplitView(
+				leadingComboBox, trailingComboBox);
 
-		AtomicBoolean leadingComboBoxVisibilityListenerCalled = new AtomicBoolean(false);
-		comboBoxRow.getLeadingComboBox().setVisibilityUpdateDelegate(() ->
-				leadingComboBoxVisibilityListenerCalled.set(true));
+		AtomicBoolean leadingPropertyViewVisibilityListenerCalled = new AtomicBoolean(false);
+		horizontalSplitView.getLeadingPropertyView().setVisibilityUpdateDelegate(() ->
+				leadingPropertyViewVisibilityListenerCalled.set(true));
 
-		AtomicBoolean trailingComboBoxVisibilityListenerCalled = new AtomicBoolean(false);
-		comboBoxRow.getTrailingComboBox().setVisibilityUpdateDelegate(() ->
-				trailingComboBoxVisibilityListenerCalled.set(true));
+		AtomicBoolean trailingPropertyViewVisibilityListenerCalled = new AtomicBoolean(false);
+		horizontalSplitView.getTrailingPropertyView().setVisibilityUpdateDelegate(() ->
+				trailingPropertyViewVisibilityListenerCalled.set(true));
 
-		AtomicBoolean comboBoxRowVisibilityListenerCalled = new AtomicBoolean(false);
-		comboBoxRow.setVisibilityUpdateDelegate(() ->
-				comboBoxRowVisibilityListenerCalled.set(true));
+		AtomicBoolean horizontalSplitViewVisibilityListenerCalled = new AtomicBoolean(false);
+		horizontalSplitView.setVisibilityUpdateDelegate(() ->
+				horizontalSplitViewVisibilityListenerCalled.set(true));
 
 		getEuclidianSettings().setGridType(EuclidianView.GRID_POLAR);
 
-		assertAll(() -> assertTrue(comboBoxRowVisibilityListenerCalled.get()),
-				() -> assertTrue(leadingComboBoxVisibilityListenerCalled.get()),
-				() -> assertTrue(trailingComboBoxVisibilityListenerCalled.get()));
+		assertAll(() -> assertTrue(horizontalSplitViewVisibilityListenerCalled.get()),
+				() -> assertFalse(leadingPropertyViewVisibilityListenerCalled.get()),
+				() -> assertFalse(trailingPropertyViewVisibilityListenerCalled.get()));
 	}
 
 	@Test
-	public void testSingleComboBoxRowVisibilityListener() {
+	public void testSingleHorizontalSplitViewVisibilityListener() {
 		setupApp(SuiteSubApp.GRAPHING);
 
-		GridDistanceProperty leadingComboBoxProperty = new GridDistanceProperty(
-				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "x", 0);
-		GridDistanceProperty trailingComboBoxProperty = new GridDistanceProperty(
-				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "y", 0);
-		PropertyView.ComboBoxRow comboBoxRow = new PropertyView.ComboBoxRow(
-				leadingComboBoxProperty, trailingComboBoxProperty);
+		PropertyView.HorizontalSplitView horizontalSplitView = new PropertyView.HorizontalSplitView(
+				new PropertyView.ComboBox(new GridDistanceProperty(
+						getAlgebraProcessor(), getLocalization(), getEuclidianView(), "x", 0)),
+				new PropertyView.ComboBox(new GridDistanceProperty(
+						getAlgebraProcessor(), getLocalization(), getEuclidianView(), "y", 0)));
 
-		AtomicBoolean comboBoxRowVisibilityListenerCalled = new AtomicBoolean(false);
-		comboBoxRow.setVisibilityUpdateDelegate(() ->
-				comboBoxRowVisibilityListenerCalled.set(true));
+		AtomicBoolean horizontalSplitViewVisibilityListenerCalled = new AtomicBoolean(false);
+		horizontalSplitView.setVisibilityUpdateDelegate(() ->
+				horizontalSplitViewVisibilityListenerCalled.set(true));
 
 		getEuclidianSettings().setGridType(EuclidianView.GRID_POLAR);
 
-		assertTrue(comboBoxRowVisibilityListenerCalled.get());
+		assertTrue(horizontalSplitViewVisibilityListenerCalled.get());
 	}
 
 	private Localization getLocalization() {
