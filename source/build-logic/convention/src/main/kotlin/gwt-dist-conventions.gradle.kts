@@ -20,7 +20,7 @@ val cleanDist by tasks.registering(Delete::class) {
 
 val dist by tasks.registering(Copy::class) {
     dependsOn(cleanDist)
-    from(tasks.compileGwt)
+    from(tasks.gwtCompile)
     into("dist")
     doLast {
         val name = extension.distributionName.get()

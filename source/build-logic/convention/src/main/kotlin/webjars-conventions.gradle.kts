@@ -6,7 +6,7 @@ plugins {
 val webjarsPath: Provider<RegularFile> = layout.buildDirectory.file("generated/sources/webjars/java/main/")
 
 dependencies {
-    gwt(files(webjarsPath))
+    gwtDev(files(webjarsPath))
 }
 
 tasks.register("extractJs") {

@@ -1,4 +1,4 @@
-import org.docstr.gradle.plugins.gwt.GwtDev
+import org.docstr.gwt.GwtDevModeTask
 
 plugins {
     alias(libs.plugins.geogebra.java.library)
@@ -8,9 +8,11 @@ plugins {
 }
 
 gwt {
-    maxHeapSize = "2000M"
-    modules("com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary")
-    devModules("com.himamis.retex.renderer.JLaTeXMathGWTDev")
+    war = file("war")
+    modules.add("com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary")
+    devMode {
+        modules.add("com.himamis.retex.renderer.JLaTeXMathGWTDev")
+    }
 }
 
 gwtDistribution {
@@ -32,18 +34,11 @@ dependencies {
 
     annotationProcessor(project(":gwt-generator"))
     annotationProcessor(libs.gwt.resources.processor)
+    compileOnly(libs.jakarta.servlet.api)
 }
 
 tasks.compileJava.get().options.sourcepath = files(tasks.processResources.get().destinationDir)
         .builtBy(tasks.processResources)
-
-tasks.register<GwtDev>("run") {
-    dependsOn(tasks.jar)
-    war = file("war")
-    cacheDir = file("build/gwt/devModeCache")
-    maxHeapSize = "4096m"
-    description = "Starts a codeserver, and a simple webserver for development"
-}
 
 tasks.register<Jar>("jarSources") {
     dependsOn(tasks.classes)

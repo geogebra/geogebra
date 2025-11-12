@@ -1,6 +1,4 @@
-import org.docstr.gradle.plugins.gwt.GwtDev
-import org.docstr.gradle.plugins.gwt.LogLevel
-
+import org.docstr.gwt.GwtDevModeTask
 plugins {
     alias(libs.plugins.geogebra.java.library)
     alias(libs.plugins.geogebra.pmd)
@@ -10,11 +8,14 @@ plugins {
     alias(libs.plugins.geogebra.gwt.dist)
 }
 
+
 gwt {
     // only compilable module
-    modules("org.geogebra.editor.JLMEditorExportedLibrary")
-    devModules("org.geogebra.editor.JLMEditorGWTDev")
-    logLevel = LogLevel.DEBUG
+    modules.add("org.geogebra.editor.JLMEditorExportedLibrary")
+    war = file("war")
+    devMode {
+        modules.add("org.geogebra.editor.JLMEditorGWTDev")
+    }
 }
 
 gwtDistribution {
@@ -32,13 +33,8 @@ dependencies {
 
     testImplementation(libs.gwt.user)
     testImplementation(libs.gwt.dom)
+    compileOnly(libs.jakarta.servlet.api)
 
-}
-
-tasks.register<GwtDev>("run") {
-    dependsOn(tasks.jar)
-    war = file("war")
-    description = "Starts a codeserver, and a simple webserver for development"
 }
 
 tasks.register<Jar>("jarSources") {
@@ -46,4 +42,3 @@ tasks.register<Jar>("jarSources") {
     archiveClassifier = "sources"
     from(sourceSets.main.get().allSource)
 }
-

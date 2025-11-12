@@ -1,4 +1,3 @@
-import org.docstr.gradle.plugins.gwt.LogLevel
 
 plugins {
     alias(libs.plugins.geogebra.java.library)
@@ -19,20 +18,21 @@ dependencies {
     api("org.geogebra:ggbjdk")
     api(project(":web-dev"))
     api(files(file("build/generated/sources/annotationProcessor/java/main/")))
+    api(files(file("build/generated/sources/webjars/java/main/")))
     api(libs.fflate)
+    api(libs.pdfJs)
     api(libs.giac.gwt)
     api(libs.gwt.dev)
     api(libs.quickJs)
 
     annotationProcessor(project(":gwt-generator"))
     annotationProcessor(libs.gwt.resources.processor)
+    compileOnly(libs.jakarta.servlet.api)
 }
 
 tasks.compileJava.get().options.sourcepath = files(tasks.processResources.get().destinationDir)
         .builtBy(tasks.processResources)
 
 gwt {
-    modules("org.geogebra.web.WebSimple")
-    devModules = modules
-    logLevel = LogLevel.TRACE
+    modules.add("org.geogebra.web.WebSimple")
 }
