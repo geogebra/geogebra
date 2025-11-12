@@ -375,6 +375,7 @@ public class GeoGebraFrameFull
 		if (animated) {
 			keyboard.afterShown(callback);
 		} else {
+			keyboard.finishAnimation();
 			callback.run();
 		}
 	}
@@ -578,7 +579,9 @@ public class GeoGebraFrameFull
 					}
 					setKeyboardShowing(true);
 					app.invokeLater(() -> {
+						// check keyboardShowing since this is async
 						if (getApp().isWhiteboardActive()
+								|| !isKeyboardShowing()
 								|| (app.getAppletParameters().preventFocus()
 								&& app.isUnbundled())) {
 							return;

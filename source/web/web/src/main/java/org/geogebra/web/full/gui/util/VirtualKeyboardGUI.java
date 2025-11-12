@@ -61,4 +61,9 @@ public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 	 * rebuild the keyboard layout
 	 */
 	void clearAndUpdate();
+
+	/**
+	 * Remove classes that trigger animation events.
+	 */
+	void finishAnimation();
 }

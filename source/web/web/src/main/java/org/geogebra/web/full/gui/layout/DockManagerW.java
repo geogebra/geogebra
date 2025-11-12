@@ -1697,7 +1697,7 @@ public class DockManagerW extends DockManager {
 	}
 
 	/**
-	 * Replace tabbed algebra panel with plain algebra pael or vice versa
+	 * Replace tabbed algebra panel with plain algebra panel or vice versa
 	 */
 	public void swapAlgebraPanel() {
 		DockPanelW old = this.getPanel(App.VIEW_ALGEBRA);
@@ -1710,7 +1710,7 @@ public class DockManagerW extends DockManager {
 	}
 
 	/**
-	 * Reset stylebar in all panels when changing classic to graphing or vice versa
+	 * Reset style bar in all panels when changing classic to graphing or vice versa
 	 */
 	public void reset() {
 		for (DockPanelW dock : this.dockPanels) {

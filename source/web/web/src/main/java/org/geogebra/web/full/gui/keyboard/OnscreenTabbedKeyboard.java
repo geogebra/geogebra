@@ -167,4 +167,10 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	public void addAutoHidePartner(GPopupPanel popup) {
 		popup.addAutoHidePartner(getElement());
 	}
+
+	@Override
+	public void finishAnimation() {
+		removeStyleName("animating");
+		removeStyleName("animatingOut");
+	}
 }

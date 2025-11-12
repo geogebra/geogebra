@@ -734,7 +734,9 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void updateWidthForClosing(ToolbarDockPanelW dockPanel, DockSplitPaneW dockParent) {
-		setLastOpenWidth(getOffsetWidth());
+		if (getOffsetWidth() > 0) {
+			setLastOpenWidth(getOffsetWidth());
+		}
 		dockParent.setWidgetMinSize(dockPanel, getNavigationRailWidth());
 		dockParent.setWidgetSize(dockPanel, getNavigationRailWidth());
 	}

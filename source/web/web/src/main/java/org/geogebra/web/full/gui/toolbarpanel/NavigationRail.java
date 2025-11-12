@@ -72,6 +72,9 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		setStyleName("header");
 		updateIcons(!examController.isIdle());
 		app.getExamEventBus().add(this);
+		if (!toolbarPanel.isOpen()) {
+			updateIcons(null, useExamStyle());
+		}
 	}
 
 	private void createCenter() {
