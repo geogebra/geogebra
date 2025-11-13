@@ -127,8 +127,12 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 				.collect(Collectors.toList());
 		return available
 				.filter(tool -> inCategory.contains(
-						EuclidianConstants.getModeIconName(tool).toLowerCase(Locale.ROOT)))
+						normalizeIconName(tool).toLowerCase(Locale.ROOT)))
 				.collect(Collectors.toList());
+	}
+
+	private String normalizeIconName(Integer tool) {
+		return EuclidianConstants.getModeIconName(tool).replaceAll("^(Shape|Type\\.)", "");
 	}
 
 	private void addDivider() {
