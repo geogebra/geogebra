@@ -11,7 +11,6 @@ import org.gwtproject.user.client.ui.impl.FocusImpl;
 public class ToggleButton extends FocusWidget {
 	static final FocusImpl focusImpl = FocusImpl.getFocusImplForPanel();
 	private boolean isSelected;
-	private boolean isEnabled;
 	private ResourcePrototype svgUp;
 	private ResourcePrototype svgDown;
 	private Label label;
@@ -110,16 +109,6 @@ public class ToggleButton extends FocusWidget {
 
 	public boolean isSelected() {
 		return isSelected;
-	}
-
-	@Override
-	public void setEnabled(boolean isEnabled) {
-		this.isEnabled = isEnabled;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return isEnabled;
 	}
 
 	/**

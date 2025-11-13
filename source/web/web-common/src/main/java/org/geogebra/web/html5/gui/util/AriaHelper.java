@@ -223,4 +223,18 @@ public class AriaHelper {
 			uiObject.getElement().setAttribute("aria-" + name, value);
 		}
 	}
+
+	/**
+	 * Toggle the button between enabled and disabled
+	 * Changes "disabled" property in DOM, so use :disabled in css
+	 * @param uiObject UI element
+	 * @param disabled whether to remove or add the "disabled" property
+	 */
+	public static void setDisabled(UIObject uiObject, boolean disabled) {
+		if (disabled) {
+			uiObject.getElement().setAttribute("disabled", "disabled");
+		} else {
+			uiObject.getElement().removeAttribute("disabled");
+		}
+	}
 }

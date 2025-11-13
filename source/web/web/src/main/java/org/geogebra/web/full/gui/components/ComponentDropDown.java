@@ -157,6 +157,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	public void setDisabled(boolean disabled) {
 		isDisabled = disabled;
 		Dom.toggleClass(this, "disabled", disabled);
+		AriaHelper.setAriaDisabled(this, disabled);
 	}
 
 	// Helpers

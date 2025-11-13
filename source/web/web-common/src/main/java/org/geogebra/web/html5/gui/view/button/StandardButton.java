@@ -288,16 +288,10 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
-	 * Toggle the button between enabled and disabled
-	 * Changes "disabled" property in DOM, so use :disabled in css
 	 * @param enabled whether to add or remove the "disabled" property
 	 */
 	public void setEnabled(boolean enabled) {
-		if (enabled) {
-			getElement().removeAttribute("disabled");
-		} else {
-			getElement().setAttribute("disabled", "true");
-		}
+		AriaHelper.setDisabled(this, !enabled);
 	}
 
 	/**
