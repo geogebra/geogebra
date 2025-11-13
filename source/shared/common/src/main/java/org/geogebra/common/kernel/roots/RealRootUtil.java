@@ -1,10 +1,4 @@
-/**
- *   Class RealRootUtil
- *   Contains util methods for finding a real root
- *  
- *   @author Markus Hohenwarter
- *   @date   25 Sept 2006
- *   
+/*
  *   GeoGebra - Dynamic Mathematics for Everyone
  *   http://www.geogebra.org
  *   This file is part of GeoGebra.

@@ -49,7 +49,6 @@ public class Parser {
 	}
 
 	private static Node convertSuperscriptToNormal(TemplateCatalog catalog, char sup) {
-		CharacterTemplate template;
 		if (sup == Unicode.SUPERSCRIPT_PLUS) {
 			return createOperator("+", catalog);
 		} else if (sup == Unicode.SUPERSCRIPT_MINUS) {

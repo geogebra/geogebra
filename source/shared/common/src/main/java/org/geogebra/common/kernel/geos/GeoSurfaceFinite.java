@@ -1,4 +1,3 @@
-
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.kernelND.Region3D;

@@ -1,4 +1,3 @@
-
 package org.geogebra.common.kernel.interval;
 
 import org.geogebra.common.kernel.interval.operators.RMath;
@@ -6,7 +5,7 @@ import org.geogebra.common.kernel.interval.operators.RMath;
 public class IntervalHelper {
 
 	/**
-	 * Create an interval containing a single value
+	 * Create an interval containing a single value.
 	 * @param singleton single value
 	 * @return interval
 	 */
