@@ -35,23 +35,21 @@ public class GeoAssignment extends Assignment {
 
 	private String checkOp;
 
-	private Inspecting geoInspector;
+	private final Inspecting geoInspector;
 
 	private Macro macro;
-
-	private GeoElement[] solutionObjects;
 
 	private int callsToEqual;
 	private int callsToCheckTypes;
 
-	private TestGeo[] inputTypes;
+	private final TestGeo[] inputTypes;
 	/**
 	 * The possible InputTypes for this Assignment
 	 */
 	HashSet<TestGeo> uniqueInputTypes;
-	private TreeSet<GeoElement> randomizeablePredecessors;
+	private final TreeSet<GeoElement> randomizeablePredecessors;
 
-	private Construction cons;
+	private final Construction cons;
 
 	/**
 	 * @param macro
@@ -214,9 +212,8 @@ public class GeoAssignment extends Assignment {
 				Log.debug("Objects used as inputs: " + toString(input));
 			} else if (partRes.contains(Result.CORRECT)) {
 				res = Result.CORRECT;
-				solutionObjects = possibleOutputPermutation;
 				Log.debug("Objects found to be the Solution: "
-						+ toString(solutionObjects));
+						+ toString(possibleOutputPermutation));
 				Log.debug("Objects used as inputs: " + toString(input));
 			}
 			input = inputPermutationUtil.next();
@@ -394,27 +391,6 @@ public class GeoAssignment extends Assignment {
 	 */
 	public Macro getTool() {
 		return macro;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geogebra.common.util.Assignment#getAssignmentXML()
-	 */
-	@Override
-	public String getAssignmentXML() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\t<assignment toolName=\"");
-		StringUtil.encodeXML(sb, macro.getToolName());
-		sb.append("\" commandName=\"");
-		StringUtil.encodeXML(sb, macro.getCommandName());
-		sb.append("\" checkOperation=\"");
-		StringUtil.encodeXML(sb, getCheckOperation());
-		sb.append("\">\n");
-
-		getAssignmentXML(sb);
-
-		return sb.toString();
 	}
 
 	/**
