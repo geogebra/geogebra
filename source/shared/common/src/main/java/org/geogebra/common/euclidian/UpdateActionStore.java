@@ -12,6 +12,11 @@ import org.geogebra.common.plugin.ActionType;
 
 import com.google.j2objc.annotations.Weak;
 
+/**
+ * Converts changes (updates) to currently selected elements into
+ * {@link org.geogebra.common.main.undo.UndoCommand UndoCommand}s (by snapshotting their definition)
+ * and stores the resulting undo commands in the {@link UndoManager}.
+ */
 public class UpdateActionStore {
 	private final List<UndoItem> undoItems = new ArrayList<>();
 

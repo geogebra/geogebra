@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +12,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.junit.Test;
 
 public class MySpecialDoubleTest extends BaseUnitTest {
+
+	@Test
+	public void testUnaryMinus() {
+		MySpecialDouble value = new MySpecialDouble(getKernel(), 0, "1E0");
+		ExpressionValue negatedValue = value.unaryMinus(getKernel());
+		assertFalse(negatedValue instanceof ExpressionNode);
+	}
 
 	@Test
 	public void toFractionForNumbers() {

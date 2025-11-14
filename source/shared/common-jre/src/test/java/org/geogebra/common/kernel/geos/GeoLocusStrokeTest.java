@@ -7,18 +7,25 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.euclidian.MoveMode;
+import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class GeoLocusStrokeTest extends BaseUnitTest {
@@ -140,6 +147,28 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 		undoRedoTester.undo();
 		GeoLocusStroke stroke = undoRedoTester.getAfterRedo("stroke");
 		assertThat(stroke, is(notNullValue()));
+	}
+
+	@Issue("APPS-5775")
+	@Test
+	public void testUndoDrag() {
+		GeoElement stroke = addAvInput("stroke = PenStroke((-3, 3), (4, 3), (2,5))");
+		activateUndo();
+		SelectionManager selectionManager = getApp().getSelectionManager();
+		selectionManager.addSelectedGeo(stroke);
+		UpdateActionStore updateActionStore = new UpdateActionStore(selectionManager,
+				getConstruction().getUndoManager());
+		updateActionStore.storeSelection(MoveMode.DEPENDENT);
+
+		MoveGeos.moveObjects(List.of(stroke), new Coords(1, 0), null, null,
+				getApp().getActiveEuclidianView());
+		updateActionStore.storeUndo();
+		assertThat(stroke.toValueString(StringTemplate.defaultTemplate),
+				startsWith("PenStroke[-2"));
+
+		getConstruction().getUndoManager().undo();
+		assertThat(stroke.toValueString(StringTemplate.defaultTemplate),
+				startsWith("PenStroke[-3"));
 	}
 
 	@Test

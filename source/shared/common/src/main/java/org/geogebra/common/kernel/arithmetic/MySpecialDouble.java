@@ -238,7 +238,7 @@ public class MySpecialDouble extends MyDouble {
 		if (setFromOutside) {
 			return super.unaryMinus(kernel);
 		}
-		if (!isLetterConstant && !scientificNotation) {
+		if (!isLetterConstant) {
 			return new MySpecialDouble(kernel, -getDouble(), flipSign(originalString));
 		}
 		return new ExpressionNode(kernel, new MinusOne(kernel),
