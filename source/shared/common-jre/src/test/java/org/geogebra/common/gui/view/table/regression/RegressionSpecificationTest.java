@@ -16,6 +16,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -119,24 +121,25 @@ public class RegressionSpecificationTest extends BaseAppTestSetup {
 				getRegressionFormula(8));
 	}
 
-	@ParameterizedTest
-	@CsvSource(value = {"0:20.8x - 27 * 1",
-			"1:11.8x",
-			"2:7.5x² - 16.7x + 10.5 * 1",
-			"3:5.81x² - 7.55x",
-			"4:4.26x² - 6.98 * 1",
-			"5:7.5x² - 16.7x + 10.5 * 1",
-			"6:3.44ℯ^(x * 0.76) - 6.76",
-			"7:0.35ℯ^(1.37x)",
-			"8:-65.23x⁻¹ + 58.97 * 1",
-			"9:21.07x⁻¹",
-			"10:-44.73x⁻² + 40.92 * 1",
-			"11:9.27x⁻²",
-			"12:18.71x^0.5"}, delimiter = ':')
-	public void testCustomRegressions(int index, String expected) {
+	@ParameterizedTest(name = "{arguments}")
+	@CsvSource(value = {"0:20.8x - 27 * 1:a = 20.8, b = -27, r = 0.95",
+			"1:11.8x:a = 11.8, r = 0.84",
+			"2:7.5x² - 16.7x + 10.5 * 1:a = 7.5, b = -16.7, c = 10.5, r = 1",
+			"3:5.81x² - 7.55x:a = 5.81, b = -7.55, r = 1",
+			"4:4.26x² - 6.98 * 1:a = 4.26, c = -6.98, r = 0.99",
+			"5:3.67x²:a = 3.67, r = 0.98",
+			"6:3.44ℯ^(x * 0.76) - 6.76:a = 3.44, b = -6.76, c = 0.76, r = 1",
+			"7:0.35ℯ^(1.37x):a = 0.35, b = 1.37, r = 0.9",
+			"8:-65.23x⁻¹ + 58.97 * 1:a = -65.23, b = 58.97, r = 0.78",
+			"9:21.07x⁻¹:a = 21.07, r = ?",
+			"10:-44.73x⁻² + 40.92 * 1:a = -44.73, b = 40.92, r = 0.69",
+			"11:9.27x⁻²:a = 9.27, r = ?",
+			"12:18.71x^0.5:a = 18.71, r = 0.65"}, delimiter = ':')
+	public void testCustomRegressions(int index, String expected, String expectedVals) {
 		getApp().getRegressionSpecBuilder().applyRestrictions(
 				Set.of(ExamFeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS), ExamType.MMS);
 		assertEquals(expected, getRegressionFormula(index));
+		assertEquals(expectedVals, getRegressionValues(index));
 	}
 
 	@Test

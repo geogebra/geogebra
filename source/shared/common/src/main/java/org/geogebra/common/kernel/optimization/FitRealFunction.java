@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.optimization;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -161,7 +161,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 
 		ExpressionNode node = f.getExpression();
 		ExpressionNode expressionWithConstants = node.deepCopy(kernel);
-		Set<GeoNumeric> parameters = new HashSet<>();
+		Set<GeoNumeric> parameters = new LinkedHashSet<>();
 		parameterValues.clear();
 		HashMap<GeoNumeric, MyDouble> paramToValue = new HashMap<>();
 		// traversing done in 2 steps here to maintain backward compatibility,

@@ -44,11 +44,11 @@ public class RegressionSpecificationBuilder implements ExamRestrictable {
 		specs.add(new CustomRegressionSpecification("a x^2 + b x + c", 2, 1, 0));
 		specs.add(new CustomRegressionSpecification("a x^2 + b x", 2, 1));
 		specs.add(new CustomRegressionSpecification("a x^2 + c", 2, 0));
-		specs.add(new CustomRegressionSpecification("a x^2", 2, 1, 0));
+		specs.add(new CustomRegressionSpecification("a x^2", 2));
 		specs.add(new CustomRegressionSpecification("a * exp(b x) + c",
-				CustomRegressionSpecification.Type.EXP_PLUS_CONSTANT));
+				"acb", CustomRegressionSpecification.Type.EXP_PLUS_CONSTANT));
 		specs.add(new CustomRegressionSpecification("a * exp(b x)",
-				CustomRegressionSpecification.Type.EXPONENTIAL));
+				"ab", CustomRegressionSpecification.Type.EXPONENTIAL));
 		specs.add(new CustomRegressionSpecification("a / x + b", -1, 0));
 		specs.add(new CustomRegressionSpecification("a / x", -1));
 		specs.add(new CustomRegressionSpecification("a / x^2 + b", -2, 0));

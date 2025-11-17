@@ -44,4 +44,12 @@ public interface RegressionSpecification {
 	 * @return whether coefficient of determination is allowed to be shown
 	 */
 	boolean hasCoefficientOfDetermination();
+
+	/**
+	 * @param i coefficient index within the formula
+	 * @return coefficient name
+	 */
+	default char getCoeffName(int i) {
+		return (char) ('a' + i);
+	}
 }
