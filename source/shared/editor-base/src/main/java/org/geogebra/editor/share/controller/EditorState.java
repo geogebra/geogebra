@@ -591,6 +591,11 @@ public class EditorState {
 				return "";
 			}
 			return er.localize(pattern.toString(), name);
+		} else if (parent instanceof ArrayNode && ((ArrayNode) parent).isMatrix()) {
+			int childIndex = parent.indexOf(currentNode);
+			int row = childIndex / ((ArrayNode) parent).getColumns() + 1;
+			int column = childIndex % ((ArrayNode) parent).getColumns() + 1;
+			return er.localize(pattern.toString(), "row " + row + " column " + column);
 		}
 
 		return describe(pattern, parent, er);

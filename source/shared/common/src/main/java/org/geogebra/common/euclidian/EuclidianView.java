@@ -6189,7 +6189,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				drawInputBox.setWidgetVisible(true);
 				value = inputBox.getText();
 			}
-			ScreenReader.debug(inputBox.getAuralText() + " [editable] " + value);
+			ScreenReader.debug(inputBox.getAuralText() + "edit multiline is " + value);
 		}
 	}
 

@@ -249,7 +249,7 @@ public class TeXAtomSerializer {
 			for (int col = 0; col < cols; col++) {
 				sb.append(tableAdapter.matrixRowStart(col));
 				for (int row = 0; row < rows; row++) {
-					sb.append(serialize(matrix.get(row, col)));
+					sb.append(serializeMatixElem(matrix.get(row, col)));
 
 					if (row < rows - 1) {
 						sb.append(tableAdapter.getSeparator());
@@ -265,7 +265,7 @@ public class TeXAtomSerializer {
 			for (int row = 0; row < rows; row++) {
 				sb.append(tableAdapter.matrixRowStart(row));
 				for (int col = 0; col < cols; col++) {
-					sb.append(serialize(matrix.get(row, col)));
+					sb.append(serializeMatixElem(matrix.get(row, col)));
 
 					if (col < cols - 1) {
 						sb.append(tableAdapter.getSeparator());
@@ -283,8 +283,12 @@ public class TeXAtomSerializer {
 		return sb.toString();
 	}
 
-	private String serializeSymbol(SymbolAtom symbol) {
+	private String serializeMatixElem(Atom elemColRow) {
+		return serialize(elemColRow).equals(" ")
+				? "blank" : serialize(elemColRow);
+	}
 
+	private String serializeSymbol(SymbolAtom symbol) {
 		return adapter.convertCharacter(symbol.getUnicode());
 	}
 

@@ -80,7 +80,7 @@ public class EditorScreenReaderTest {
 				"start of formula start fraction x cubed over end fraction",
 				"start of numerator before x", "after x before superscript",
 				"start of superscript before 3", "end of superscript after 3",
-				"end of numerator after x cubed", "empty denominator",
+				"end of numerator after x cubed", "denominator blank",
 				"end of formula start fraction x cubed over end fraction");
 	}
 
@@ -223,7 +223,7 @@ public class EditorScreenReaderTest {
 	public void testBracketsIncomplete() {
 		checkReader("3-()", "start of formula 3 minus empty parentheses",
 				"after 3 before minus", "after minus before parenthesis",
-				"empty parentheses",
+				"parentheses blank",
 				"end of formula 3 minus empty parentheses");
 	}
 
