@@ -1,6 +1,7 @@
 package org.geogebra.common.exam;
 
 import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.AddLabel;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.CreateTableValues;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Delete;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateInput;
@@ -157,7 +158,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 	@MockedCasValues({"Evaluate({1, 2, 3}) -> {1,2,3}"})
 	public void testRestrictedStatisticsContextMenuItems() {
 		assertEquals(
-				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
+				List.of(CreateTableValues, AddLabel, DuplicateInput, Delete, Settings),
 				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
 						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
 	}
@@ -212,7 +213,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 				converter.toValueString(barchart, StringTemplate.defaultTemplate));
 		assertEquals(definition,
 				converter.toOutputValueString(barchart, StringTemplate.defaultTemplate));
-		assertEquals("a = " + definition,
+		assertEquals(definition,
 				converter.toLabelAndDescription(barchart, StringTemplate.defaultTemplate));
 	}
 

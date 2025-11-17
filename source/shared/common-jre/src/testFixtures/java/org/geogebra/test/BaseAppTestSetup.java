@@ -7,6 +7,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.cas.MockedCasGiac;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -24,6 +25,7 @@ import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.test.commands.ErrorAccumulator;
 
 /**
@@ -39,6 +41,8 @@ import org.geogebra.test.commands.ErrorAccumulator;
  */
 public class BaseAppTestSetup {
 	private AppCommon app;
+	private AsyncOperation<GeoElementND[]> processCallback;
+	private AsyncOperation<GeoElementND> editCallback;
 	protected final ErrorAccumulator errorAccumulator = new ErrorAccumulator();
 	protected final MockedCasGiac mockedCasGiac = new MockedCasGiac();
 
@@ -52,6 +56,8 @@ public class BaseAppTestSetup {
 		}
 		if (subApp == SuiteSubApp.CAS) {
 			mockedCasGiac.applyTo(app);
+			processCallback = new LabelHiderCallback();
+			editCallback = geoElement -> processCallback.callback(new GeoElementND[]{ geoElement });
 		}
 		app.getSettingsUpdater().resetSettingsOnAppStart();
 	}
@@ -112,7 +118,7 @@ public class BaseAppTestSetup {
 	protected final GeoElementND[] evaluate(String expression) {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
 		return app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
-				expression, false, errorAccumulator, evalInfo, null);
+				expression, false, errorAccumulator, evalInfo, processCallback);
 	}
 
 	protected final <T extends GeoElementND> T evaluateGeoElement(String expression) {
@@ -123,6 +129,6 @@ public class BaseAppTestSetup {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForRedefinition(
 				app.getKernel(), geoElement, true);
 		app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(
-				geoElement, newExpression, evalInfo, false, null, errorAccumulator);
+				geoElement, newExpression, evalInfo, false, editCallback, errorAccumulator);
 	}
 }

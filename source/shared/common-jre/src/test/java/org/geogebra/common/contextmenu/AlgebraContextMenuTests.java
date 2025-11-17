@@ -259,6 +259,23 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 			"Evaluate(5) 	-> 5",
 			"Round(5, 13) 	-> 5.0",
 	})
+	public void testForSimpleInputInCasApp() {
+		setupApp(SuiteSubApp.CAS);
+		assertEquals(
+				List.of(AddLabel,
+						CreateSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
+				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("5"),
+						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
+	}
+
+	@Test
+	@MockedCasValues({
+			"Evaluate(5) 	-> 5",
+			"Round(5, 13) 	-> 5.0",
+	})
 	public void testForSimpleInputWithSliderInCasApp() {
 		setupApp(SuiteSubApp.CAS);
 		GeoElement number = evaluateGeoElement("slider=5");
@@ -277,28 +294,10 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 			"Evaluate(5) 	-> 5",
 			"Round(5, 13) 	-> 5.0",
 	})
-	public void testForSimpleInputWithoutLabelInCasApp() {
+	public void testForSimpleInputWithLabelInCasApp() {
 		setupApp(SuiteSubApp.CAS);
 		GeoElement geoElement = evaluateGeoElement("5");
-		new LabelController().hideLabel(geoElement);
-		assertEquals(
-				List.of(AddLabel,
-						CreateSlider,
-						DuplicateInput,
-						Delete,
-						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
-						geoElement, getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
-	}
-
-	@Test
-	@MockedCasValues({
-			"Evaluate(5) 	-> 5",
-			"Round(5, 13) 	-> 5.0",
-	})
-	public void testForSimpleInputWithoutSliderInCasApp() {
-		setupApp(SuiteSubApp.CAS);
-		GeoElement geoElement = evaluateGeoElement("5");
+		new LabelController().showLabel(geoElement);
 		assertEquals(
 				List.of(RemoveLabel,
 						CreateSlider,
@@ -315,7 +314,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.CAS);
 		assertEquals(
 				List.of(CreateTableValues,
-						RemoveLabel,
+						AddLabel,
 						Statistics,
 						DuplicateInput,
 						Delete,
@@ -330,7 +329,7 @@ public class AlgebraContextMenuTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.CAS);
 		assertEquals(
 				List.of(CreateTableValues,
-						RemoveLabel,
+						AddLabel,
 						SpecialPoints,
 						DuplicateInput,
 						Delete,
