@@ -1,4 +1,4 @@
-import org.docstr.gwt.GwtDevModeTask
+import org.docstr.gwt.AbstractBaseTask
 
 plugins {
     java
@@ -62,7 +62,7 @@ gwt {
 }
 
 afterEvaluate {
-    tasks.withType<GwtDevModeTask> {
+    tasks.withType<AbstractBaseTask> {
         val path = project.file("build/gwt/devModeCache")
         jvmArgs = listOf(
             "-Dgwt.persistentunitcachedir=${path.absolutePath}",

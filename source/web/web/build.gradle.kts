@@ -63,7 +63,7 @@ gwt {
         bindAddress = project.findProperty("gbind")?.toString() ?: "localhost"
         superDevMode = true
 
-        val devModule = project.findProperty("gmodule")?.toString() ?: "org.geogebra.web.SuperWeb"
+        val devModule = project.findProperty("gmodule")?.toString()?.replace(",.*$".toRegex(), "") ?: "org.geogebra.web.SuperWeb"
         modules = listOf(devModule)
         startServer = true
     }
@@ -173,10 +173,8 @@ tasks.register("prepareS3Upload") {
 }
 
 tasks.register<Copy>("deployIntoWar") {
-    dependsOn(cleanWar, copyHtml)
+    dependsOn(copyHtml, tasks.gwtCompile)
     description = "Copies/updates the GWT production compilation directory (web3d, ...) to the war directory."
-    from(tasks.gwtCompile)
-    into(warDirRel)
     into("web3d/sourcemaps/") {
         from("$warDirRel/WEB-INF/deploy/web3d/symbolMaps")
     }

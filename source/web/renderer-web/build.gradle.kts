@@ -1,5 +1,3 @@
-import org.docstr.gwt.GwtDevModeTask
-
 plugins {
     alias(libs.plugins.geogebra.java.library)
     alias(libs.plugins.geogebra.gwt)
