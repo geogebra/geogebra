@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.undo.UpdateContentActionStore;
 import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
@@ -37,12 +38,12 @@ public class FontSubMenu extends AriaMenuBar {
 
 	private void createItems() {
 		for (final FontFamily font : fonts) {
-			ScheduledCommand command = () -> {
-				setFontName(font.cssName());
-			};
-
-			AriaMenuItem item = new AriaMenuItem(font.displayName(), null, command);
-			addItem(item);
+			if (!font.equals(FontFamily.TEST)
+					|| PreviewFeature.isAvailable(PreviewFeature.TEST_FONT)) {
+				ScheduledCommand command = () -> setFontName(font.cssName());
+				AriaMenuItem item = new AriaMenuItem(font.displayName(), null, command);
+				addItem(item);
+			}
 		}
 	}
 

@@ -5,6 +5,7 @@ package org.geogebra.web.html5.gui.laf;
  */
 public enum FontFamily {
 
+	TEST("Test font", "Druckshrift-1110-3-Regular, sans-serif"),
 	ARIAL("Arial", "Arial, sans-serif"),
 	CALIBRI("Calibri", "Calibri, sans-serif"),
 	CENTURY_GOTHIC("Century Gothic", "Century Gothic, sans-serif"),

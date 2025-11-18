@@ -30,7 +30,11 @@ public enum PreviewFeature {
 	/**
 	 * APPS-6759
 	 */
-	SETTINGS_VIEW;
+	SETTINGS_VIEW,
+	/**
+	 * MOW-1762
+	 */
+	TEST_FONT;
 
 	/**
 	 * Global flag to activate preview features.
