@@ -58,7 +58,9 @@ gwt {
         }
 
     }
-    logLevel = "TRACE"
+    devMode {
+        logLevel = "TRACE"
+    }
 }
 
 afterEvaluate {
