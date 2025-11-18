@@ -313,6 +313,11 @@ fun createHtml(inlineCss: Boolean) {
         into(warDirRel)
     }
 
+    copy {
+        from(file("src/main/resources/org/geogebra/web/resources/war"))
+        into(warDirRel)
+    }
+
     appSpecs.specs.forEach { app ->
         val replaceHtml = if (app.id == "classic") ::classicHtml else ::appHtml
         file("war/${app.id}-offline.html").writeText(english(replaceHtml(app, false, true, inlineCss), app.title, ""))
