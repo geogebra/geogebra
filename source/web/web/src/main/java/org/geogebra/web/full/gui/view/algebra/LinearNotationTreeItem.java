@@ -33,7 +33,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	}
 
 	private void createTextField() {
-		textField = new AutoCompleteTextFieldW(app);
+		textField = new AutoCompleteTextFieldW(0, app, false, null);
 		textField.setAutoComplete(false);
 		textField.setAutoCloseParentheses(false);
 		updateInputText();
@@ -138,6 +138,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 		updatePreview();
 		adjustStyleBar();
 		setFocus(true);
+		getController().storeInitialInput();
 		return true;
 	}
 
@@ -196,6 +197,7 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 	public void setText(String text) {
 		textField.setText(text);
 		setDefaultAriaLabel();
+		updatePreview();
 	}
 
 	@Override
@@ -235,6 +237,10 @@ public class LinearNotationTreeItem extends RadioTreeItem implements KeyDownHand
 			return;
 		} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_TAB) {
 			getController().onTab(event.getNativeEvent().getShiftKey());
+			event.preventDefault();
+			return;
+		} else if (event.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
+			getController().onEscape();
 			event.preventDefault();
 			return;
 		}

@@ -26,6 +26,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	private AutoCompletePopup autocomplete;
 	private RetexKeyboardListener retexListener;
 	private final EvaluateInput evalInput;
+	private String lastInput = "";
 
 	/**
 	 * @param item
@@ -44,6 +45,15 @@ public class LatexTreeItemController extends RadioTreeItemController
 		} else {
 			super.startEdit(ctrl);
 		}
+		storeInitialInput();
+	}
+
+	/**
+	 * Stores the initial input that should be restored upon pressing Escape.
+	 * Make sure to call this method upon edit start.
+	 */
+	void storeInitialInput() {
+		lastInput = item.getText();
 	}
 
 	@Override
@@ -65,14 +75,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 				item.updateGUIfocus(true);
 			}
 		});
-	}
-
-	private void keepFocusInApp() {
-		if (item.geo != null) {
-			app.getAccessibilityManager().focusGeo(item.geo);
-		} else {
-			app.getActiveEuclidianView().requestFocus();
-		}
 	}
 
 	@Override
@@ -238,18 +240,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public boolean onEscape() {
 		if (autocomplete != null && autocomplete.isSuggesting()) {
 			autocomplete.hide();
-			return true;
+		} else {
+			item.setText(lastInput);
 		}
-		if (item.geo != null || StringUtil.empty(item.getText())) {
-			boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
-			onBlur(null);
-			keepFocusInApp();
-			if (isAlgebraViewFocused) {
-				setAlgebraViewAsFocusedPanel();
-			}
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	@Override
