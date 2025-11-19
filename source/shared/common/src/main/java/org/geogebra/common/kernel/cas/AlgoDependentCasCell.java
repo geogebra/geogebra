@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.cas;
 
 import java.util.TreeSet;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -156,8 +157,8 @@ public class AlgoDependentCasCell extends AlgoElement
 	 * Returns &lt;cellPair&lt; tag instead of &lt;expression&gt; XML
 	 */
 	@Override
-	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
-		sb.append(casCell.getXML());
+	protected void getExpXML(StringTemplate tpl, XMLStringBuilder sb) {
+		casCell.getXML(false, sb);
 	}
 
 	@Override

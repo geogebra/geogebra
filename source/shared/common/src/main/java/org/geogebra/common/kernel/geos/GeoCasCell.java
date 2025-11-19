@@ -16,6 +16,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.io.XMLParseException;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -2687,140 +2688,116 @@ public class GeoCasCell extends GeoElement
 	 * Appends &lt;cascell caslabel="m"&gt; XML tag to StringBuilder.
 	 */
 	@Override
-	protected void getElementOpenTagXML(StringBuilder sb) {
-		sb.append("<cascell");
+	protected void getElementOpenTagXML(XMLStringBuilder sb) {
+		sb.startOpeningTag("cascell", 0);
 		if (assignmentVar != null) {
-			sb.append(" caslabel=\"");
-			StringUtil.encodeXML(sb, assignmentVar);
-			sb.append("\" ");
+			sb.attr("caslabel", assignmentVar);
 		}
-		sb.append(">\n");
+		sb.endTag();
 	}
 
 	/**
 	 * Appends &lt;/cascell&gt; XML tag to StringBuilder.
 	 */
 	@Override
-	protected void getElementCloseTagXML(StringBuilder sb) {
-		sb.append("</cascell>\n");
+	protected void getElementCloseTagXML(XMLStringBuilder sb) {
+		sb.closeTag("cascell");
 	}
 
 	/**
 	 * Appends &lt;cellPair&gt; XML tag to StringBuilder.
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getXMLTags(XMLStringBuilder sb) {
 		// StringBuilder sb = new StringBuilder();
-		sb.append("\t<cellPair>\n");
+		sb.startOpeningTag("cellPair", 1).endTag();
 
 		// useAsText
 		if (useAsText) {
-			sb.append("\t\t<useAsText>\n");
+			sb.startOpeningTag("useAsText", 2).endTag();
 
 			getFontXML(sb);
 
-			sb.append("\t\t</useAsText>\n");
+			sb.closeTag("useAsText");
 		}
 
 		// inputCell
 		if (!isInputEmpty() || useAsText
 				|| (input != null && input.length() > 0)) {
-			sb.append("\t\t<inputCell>\n");
+			sb.startOpeningTag("inputCell", 2).endTag();
 			getInputExpressionXML(sb);
-			sb.append("\t\t</inputCell>\n");
+			sb.closeTag("inputCell");
 		}
 
 		// outputCell
 		if (!isOutputEmpty()) {
-			sb.append("\t\t<outputCell>\n");
+			sb.startOpeningTag("outputCell", 2).endTag();
 			getOutputExpressionXML(sb);
-			sb.append("\t\t</outputCell>\n");
+			sb.closeTag("outputCell");
 		}
 
-		sb.append("\t</cellPair>\n");
+		sb.closeTag("cellPair");
 
 		// return sb.toString();
 	}
 
-	private void getOutputExpressionXML(StringBuilder sb) {
-		sb.append("\t\t\t<expression value=\"");
-		StringUtil.encodeXML(sb, getOutput(StringTemplate.xmlTemplate));
-		sb.append("\"");
+	private void getOutputExpressionXML(XMLStringBuilder sb) {
+		sb.startTag("expression", 3)
+				.attr("value", getOutput(StringTemplate.xmlTemplate));
 		if (isError()) {
-			sb.append(" error=\"true\"");
+			sb.attr("error", true);
 		}
 		if (isNative()) {
-			sb.append(" native=\"true\"");
+			sb.attr("native", true);
 		}
 		if (!"".equals(evalCmd)) {
-			sb.append(" evalCommand=\"");
-			StringUtil.encodeXML(sb, evalCmd);
-			sb.append("\" ");
+			sb.attr("evalCommand", evalCmd);
 		}
 
 		if (!"".equals(evalComment)) {
-			sb.append(" evalComment=\"");
-			StringUtil.encodeXML(sb, evalComment);
-			sb.append("\" ");
+			sb.attr("evalComment", evalComment);
 		}
-
-		sb.append("/>\n");
-
+		sb.endTag();
 	}
 
-	private void getInputExpressionXML(StringBuilder sb) {
-		sb.append("\t\t\t<expression value=\"");
+	private void getInputExpressionXML(XMLStringBuilder sb) {
+		sb.startTag("expression", 3);
 		if (useAsText) {
-			StringUtil.encodeXML(sb, commentText.getTextString());
-			sb.append("\" ");
+			sb.attr("value", commentText.getTextString());
 		} else {
-			StringUtil.encodeXML(sb, input);
-			sb.append("\" ");
+			sb.attr("value", input);
 
 			if (evalVE != getInputVE()) {
 				if (!"".equals(prefix)) {
-					sb.append(" prefix=\"");
-					StringUtil.encodeXML(sb, prefix);
-					sb.append("\" ");
+					sb.attr("prefix", prefix);
 				}
 
-				sb.append(" eval=\"");
-				StringUtil.encodeXML(sb, getEvalText());
-				sb.append("\" ");
+				sb.attr("eval", getEvalText());
 
 				if (!"".equals(postfix)) {
-					sb.append(" postfix=\"");
-					StringUtil.encodeXML(sb, postfix);
-					sb.append("\" ");
+					sb.attr("postfix", postfix);
 				}
 
-				sb.append("evalCmd=\"");
-				StringUtil.encodeXML(sb, evalCmd);
-				sb.append("\"");
+				sb.attr("evalCmd", evalCmd);
 			}
 
 			if (pointList) {
-				sb.append(" pointList=\"true\"");
+				sb.attr("pointList", true);
 			}
 		}
-		sb.append("/>\n");
-
+		sb.endTag();
 	}
 
-	private void getFontXML(StringBuilder sb) {
-		sb.append("\t\t\t<FontStyle value=\"");
-		sb.append(getFontStyle());
-		sb.append("\" ");
-		sb.append("/>\n");
+	private void getFontXML(XMLStringBuilder sb) {
+		sb.startTag("FontStyle", 3);
+		sb.attr("value", getFontStyle()).endTag();
 
-		sb.append("\t\t\t<FontSizeM value=\"");
-		sb.append(getFontSizeMultiplier());
-		sb.append("\" ");
-		sb.append("/>\n");
+		sb.startTag("FontSizeM");
+		sb.attr("value", getFontSizeMultiplier()).endTag();
 
-		sb.append("\t\t\t<FontColor");
+		sb.startTag("FontColor", 3);
 		XMLBuilder.appendRGB(sb, getFontColor());
-		sb.append("/>\n");
+		sb.endTag();
 	}
 
 	@Override

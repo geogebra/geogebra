@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.TreeMap;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
@@ -64,7 +65,7 @@ public interface CasEvaluableFunction
 	 * @param sb
 	 *            XML builder
 	 */
-	public void printCASEvalMapXML(StringBuilder sb);
+	public void printCASEvalMapXML(XMLStringBuilder sb);
 
 	/**
 	 * Updates CAS cache from XML

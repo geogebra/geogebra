@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
@@ -447,7 +448,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 * returns all class-specific xml tags for getXML GeoGebra File Format
 	 */
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		getLineStyleXML(sb);
 		super.getStyleXML(sb);
 		appendStartEndStyle(sb);

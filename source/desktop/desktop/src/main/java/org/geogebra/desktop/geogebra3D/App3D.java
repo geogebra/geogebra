@@ -31,6 +31,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.gui.layout.DockManager;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.jre.openGL.GLFactoryJre;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
@@ -122,11 +123,10 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	public String getCompleteUserInterfaceXML(boolean asPreference) {
-		StringBuilder sb = new StringBuilder();
+	public void getCompleteUserInterfaceXML(boolean asPreference, XMLStringBuilder sb) {
 
 		// save super settings
-		sb.append(super.getCompleteUserInterfaceXML(asPreference));
+		super.getCompleteUserInterfaceXML(asPreference, sb);
 
 		// save euclidianView3D settings
 		if (isEuclidianView3Dinited()) {
@@ -136,8 +136,6 @@ public class App3D extends AppD {
 		// save euclidian views for plane settings
 		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb,
 				asPreference);
-
-		return sb.toString();
 	}
 
 	/**

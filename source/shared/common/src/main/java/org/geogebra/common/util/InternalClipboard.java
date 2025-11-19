@@ -14,6 +14,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -96,6 +97,7 @@ public class InternalClipboard {
 		copiedEmbeds.clear();
 
 		Construction cons = app.getKernel().getConstruction();
+		XMLStringBuilder xmlStringBuilder = new XMLStringBuilder(copiedXml);
 		for (int i = 0; i < cons.steps(); ++i) {
 			ConstructionElement ce = cons.getConstructionElement(i);
 			if (ce instanceof AlgoTableToChart) {
@@ -104,9 +106,9 @@ public class InternalClipboard {
 			if (geoslocal.contains(ce)) {
 				if (ce instanceof GeoMindMapNode
 						&& !geoslocal.contains(((GeoMindMapNode) ce).getParent())) {
-					((GeoMindMapNode) ce).getXMLNoParent(copiedXml);
+					((GeoMindMapNode) ce).getXMLNoParent(xmlStringBuilder);
 				} else {
-					ce.getXML(false, copiedXml);
+					ce.getXML(false, xmlStringBuilder);
 				}
 
 				if (ce instanceof GeoImage) {
@@ -124,7 +126,7 @@ public class InternalClipboard {
 		}
 
 		for (Group group : selectedGroups) {
-			group.getXML(copiedXml);
+			group.getXML(new XMLStringBuilder(copiedXml));
 		}
 
 		kernel.setSaveScriptsToXML(saveScriptsToXML);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.ChartStyle;
@@ -139,7 +140,7 @@ public class GeoPieChart extends GeoElement implements ChartStyleGeo {
 	}
 
 	@Override
-	protected void getStyleXML(final StringBuilder sb) {
+	protected void getStyleXML(final XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		getLineStyleXML(sb);
 		getExtraTagsXML(sb);

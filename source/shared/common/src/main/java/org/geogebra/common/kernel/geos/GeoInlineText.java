@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
@@ -206,7 +207,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
     }
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		XMLBuilder.appendBorderAndAlignment(sb, this, verticalAlignment);
 		if (getLineThickness() != 0) {

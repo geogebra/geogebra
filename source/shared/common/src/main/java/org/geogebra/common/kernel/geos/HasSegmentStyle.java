@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public interface HasSegmentStyle extends GeoElementND {
@@ -35,13 +36,8 @@ public interface HasSegmentStyle extends GeoElementND {
 	 * Append style information to XML
 	 * @param sb XML builder
 	 */
-	default void appendStartEndStyle(StringBuilder sb) {
-		sb.append("\t<startStyle val=\"");
-		sb.append(getStartStyle().toString());
-		sb.append("\"/>\n");
-
-		sb.append("\t<endStyle val=\"");
-		sb.append(getEndStyle().toString());
-		sb.append("\"/>\n");
+	default void appendStartEndStyle(XMLStringBuilder sb) {
+		sb.startTag("startStyle").attr("val", getStartStyle()).endTag();
+		sb.startTag("endStyle").attr("val", getEndStyle()).endTag();
 	}
 }

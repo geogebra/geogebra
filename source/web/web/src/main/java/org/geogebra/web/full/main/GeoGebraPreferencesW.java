@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraPreferences;
@@ -48,7 +49,7 @@ public final class GeoGebraPreferencesW {
 		String xml = app.getPreferencesXML();
 		BrowserStorage stockStore = BrowserStorage.LOCAL;
 		stockStore.setItem(getPrefKey(app), xml);
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		app.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultsXML(sb);
 		String objectPrefsXML = sb.toString();

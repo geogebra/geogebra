@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.XMLParseException;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -1245,38 +1246,35 @@ public class Construction {
 	 * @param sb StringBuilder to which the XML is appended
 	 * @param getListenersToo whether to include JS listener names
 	 */
-	public void getConstructionXML(StringBuilder sb, boolean getListenersToo) {
+	public void getConstructionXML(XMLStringBuilder sb, boolean getListenersToo) {
 
 		try {
 			// save construction elements
-			sb.append("<construction title=\"");
-			StringUtil.encodeXML(sb, getTitle());
-			sb.append("\" author=\"");
-			StringUtil.encodeXML(sb, getAuthor());
-			sb.append("\" date=\"");
-			StringUtil.encodeXML(sb, getDate());
-			sb.append("\">\n");
+			sb.startOpeningTag("construction", 0);
+			sb.attr("title", getTitle());
+			sb.attr("author", getAuthor());
+			sb.attr("date", getDate());
+			sb.endTag();
 
 			// worksheet text
 			if (worksheetTextDefined()) {
-				sb.append("\t<worksheetText above=\"");
-				StringUtil.encodeXML(sb, getWorksheetText(0));
-				sb.append("\" below=\"");
-				StringUtil.encodeXML(sb, getWorksheetText(1));
-				sb.append("\"/>\n");
+				sb.startTag("worksheetText");
+				sb.attr("above", getWorksheetText(0));
+				sb.attr("below", getWorksheetText(1));
+				sb.endTag();
 			}
 
 			getConstructionElementsXML(sb, getListenersToo);
 
 			getGroupsXML(sb);
 
-			sb.append("</construction>\n");
+			sb.closeTag("construction");
 		} catch (Exception e) {
 			Log.debug(e);
 		}
 	}
 
-	private void getGroupsXML(StringBuilder sb) {
+	private void getGroupsXML(XMLStringBuilder sb) {
 		for (Group gr : getGroups()) {
 			gr.getXML(sb);
 		}
@@ -1288,7 +1286,7 @@ public class Construction {
 	 * @param sb String builder
 	 * @param getListenersToo whether to include JS listener names
 	 */
-	public void getConstructionElementsXML(StringBuilder sb,
+	public void getConstructionElementsXML(XMLStringBuilder sb,
 			boolean getListenersToo) {
 
 		ConstructionElement ce;
@@ -1305,7 +1303,7 @@ public class Construction {
 	 * @param sb String builder
 	 * @param statement The statement to prove
 	 */
-	public void getConstructionElementsXML_OGP(StringBuilder sb,
+	public void getConstructionElementsXML_OGP(XMLStringBuilder sb,
 			GeoElement statement) {
 
 		ConstructionElement ce;
@@ -1573,7 +1571,7 @@ public class Construction {
 
 		// 4) build new construction
 		if (canReplace) {
-			buildConstructionWithGlobalListeners(consXML, oldXML, info);
+			buildConstructionWithGlobalListeners(new XMLStringBuilder(consXML), oldXML, info);
 		} else {
 			throw new MyError(getApplication().getLocalization(),
 					Errors.ReplaceFailed);
@@ -1599,7 +1597,7 @@ public class Construction {
 	}
 
 	private void buildConstructionWithGlobalListeners(
-			StringBuilder consXML, String oldXML,
+			XMLStringBuilder consXML, String oldXML,
 			EvalInfo info) throws XMLParseException {
 
 		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
@@ -1652,7 +1650,7 @@ public class Construction {
 		try {
 			// 4) build new construction for all changes at once
 			if (canReplace) {
-				buildConstructionWithGlobalListeners(consXML, oldXML, null);
+				buildConstructionWithGlobalListeners(new XMLStringBuilder(consXML), oldXML, null);
 			} else {
 				throw new MyError(getApplication().getLocalization(),
 						Errors.ReplaceFailed);
@@ -1681,7 +1679,7 @@ public class Construction {
 
 		// build new construction to make sure all ceIDs are correct after the
 		// redefine
-		buildConstruction(consXML, oldXML, new EvalInfo(true, true, false));
+		buildConstruction(new XMLStringBuilder(consXML), oldXML, new EvalInfo(true, true, false));
 		setUpdateConstructionRunning(false);
 	}
 
@@ -2876,7 +2874,7 @@ public class Construction {
 	/**
 	 * Tries to build the new construction from the given XML string.
 	 */
-	private void buildConstruction(StringBuilder consXML, String oldXML,
+	private void buildConstruction(XMLStringBuilder consXML, String oldXML,
 			EvalInfo info) throws XMLParseException {
 		// try to process the new construction
 		try {
@@ -2900,7 +2898,7 @@ public class Construction {
 
 	private void restoreAfterRedefine(String oldXML, EvalInfo info) throws XMLParseException {
 		if (oldXML != null) {
-			buildConstruction(new StringBuilder(oldXML), null, info);
+			buildConstruction(new XMLStringBuilder(new StringBuilder(oldXML)), null, info);
 		}
 	}
 

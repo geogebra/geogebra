@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -290,17 +291,11 @@ public class GeoConicPartParameters {
 	 * @param sb
 	 *            builder
 	 */
-	public void getLimitedPathXML(StringBuilder sb) {
-
-		// allowOutlyingIntersections
-		sb.append("\t<outlyingIntersections val=\"");
-		sb.append(allowOutlyingIntersections);
-		sb.append("\"/>\n");
-
-		// keepTypeOnGeometricTransform
-		sb.append("\t<keepTypeOnTransform val=\"");
-		sb.append(keepTypeOnGeometricTransform);
-		sb.append("\"/>\n");
+	public void getLimitedPathXML(XMLStringBuilder sb) {
+		sb.startTag("outlyingIntersections")
+				.attr("val", allowOutlyingIntersections).endTag();
+		sb.startTag("keepTypeOnTransform")
+				.attr("val", keepTypeOnGeometricTransform).endTag();
 	}
 
 	/**

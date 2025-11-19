@@ -8,6 +8,7 @@ import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -194,21 +195,17 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	public String getCompleteUserInterfaceXML(boolean asPreference) {
-		StringBuilder sb = new StringBuilder();
-
+	public void getCompleteUserInterfaceXML(boolean asPreference, XMLStringBuilder builder) {
 		// save super settings
-		sb.append(super.getCompleteUserInterfaceXML(asPreference));
+		super.getCompleteUserInterfaceXML(asPreference, builder);
 
 		// save euclidianView3D settings
 		if (isEuclidianView3Dinited()) {
-			euclidianView3D.getXML(sb, asPreference);
+			euclidianView3D.getXML(builder, asPreference);
 		}
 
 		// save euclidian views for plane settings
-		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb, asPreference);
-
-		return sb.toString();
+		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(builder, asPreference);
 	}
 
 	@Override

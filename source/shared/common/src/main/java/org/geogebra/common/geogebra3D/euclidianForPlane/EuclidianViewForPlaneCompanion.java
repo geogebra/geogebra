@@ -17,6 +17,7 @@ import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -297,7 +298,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	}
 
 	@Override
-	public void getXML(StringBuilder sbxml, boolean asPreference) {
+	public void getXML(XMLStringBuilder sbxml, boolean asPreference) {
 
 		if (!view.isShowing()) {
 			// we don't want to store view for plane that is not showing
@@ -308,11 +309,10 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		view.startXML(sbxml, asPreference);
 
 		// transform
-		sbxml.append("\t<transformForPlane mirror=\"");
-		sbxml.append(transformMirror == -1);
-		sbxml.append("\" rotate=\"");
-		sbxml.append(transformRotate);
-		sbxml.append("\"/>\n");
+		sbxml.startTag("transformForPlane")
+				.attr("mirror", transformMirror == -1)
+				.attr("rotate", transformRotate)
+				.endTag();
 
 		view.endXML(sbxml);
 	}
@@ -503,14 +503,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	}
 
 	@Override
-	public void getXMLid(StringBuilder sbxml) {
-
-		sbxml.append("\t<viewId ");
-		sbxml.append("plane=\"");
-		sbxml.append(plane.getLabelSimple());
-		sbxml.append("\"");
-		sbxml.append("/>\n");
-
+	public void getXMLid(XMLStringBuilder sbxml) {
+		sbxml.startTag("viewId").attr("plane", plane.getLabelSimple()).endTag();
 	}
 
 	@Override

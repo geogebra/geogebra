@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import org.freehep.xml.util.XMLWriter;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -92,13 +93,13 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 		if (title != null) {
 			sb.append("\n<title>");
-			StringUtil.encodeXML(sb, title);
+			sb.append(XMLWriter.normalizeText(title));
 			sb.append("</title>");
 		}
 
 		if (desc != null) {
 			sb.append("\n<desc>");
-			StringUtil.encodeXML(sb, desc);
+			sb.append(XMLWriter.normalizeText(desc));
 			sb.append("</desc>\n");
 		}
 

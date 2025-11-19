@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Class for representing playable audio data.
@@ -150,12 +150,10 @@ public class GeoAudio extends GeoMedia {
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		if (src != null) {
-			sb.append("\t<audio src=\"");
-			StringUtil.encodeXML(sb, src);
-			sb.append("\"/>\n");
+			sb.startTag("audio").attr("src", src).endTag();
 		}
 	}
 

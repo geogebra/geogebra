@@ -18,6 +18,7 @@ import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -83,7 +84,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	 * @param asPreference
 	 *            save as preference flag
 	 */
-	public void addCompleteUserInterfaceXMLForPlane(StringBuilder sb,
+	public void addCompleteUserInterfaceXMLForPlane(XMLStringBuilder sb,
 			boolean asPreference) {
 		if (euclidianViewForPlaneCompanionList != null) {
 			for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList) {
@@ -93,7 +94,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 
 	@Override
-	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
+	public void getEuclidianViewXML(XMLStringBuilder sb, boolean asPreference) {
 		super.getEuclidianViewXML(sb, asPreference);
 
 		if (app.isEuclidianView3Dinited()) {

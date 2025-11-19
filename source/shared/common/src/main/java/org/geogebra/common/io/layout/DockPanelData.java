@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
@@ -272,36 +273,27 @@ final public class DockPanelData {
 	 * Appends XML representation of the data stored in this class.
 	 * @param sb builder
 	 */
-	public void getXml(StringBuilder sb) {
-		sb.append("<view id=\"");
-		sb.append(getViewIdForXML());
+	public void getXml(XMLStringBuilder sb) {
+		sb.startTag("view").attr("id", getViewIdForXML());
 		if (getToolbarString() != null) {
-			sb.append("\" toolbar=\"");
-			sb.append(getToolbarString());
+			sb.attrRaw("toolbar", getToolbarString());
 		}
-		sb.append("\" visible=\"");
-		sb.append(isVisible());
-		sb.append("\" inframe=\"");
-		sb.append(isOpenInFrame());
-		sb.append("\" stylebar=\"");
-		sb.append(showStyleBar());
-		sb.append("\" location=\"");
-		sb.append(getEmbeddedDef());
-		sb.append("\" size=\"");
-		sb.append(getEmbeddedSize());
+		sb.attr("visible", isVisible());
+		sb.attr("inframe", isOpenInFrame());
+		sb.attr("stylebar", showStyleBar());
+		sb.attrRaw("location", getEmbeddedDef());
+		sb.attr("size", getEmbeddedSize());
 		if (viewId == App.VIEW_ALGEBRA) {
-			sb.append("\" tab=\"");
-			sb.append(tabId.name());
+			sb.attr("tab", tabId);
 		}
-		sb.append("\" window=\"");
-		appendBounds(sb);
+		StringBuilder boundsSb = new StringBuilder();
+		appendBounds(boundsSb);
+		sb.attrRaw("window", boundsSb);
 
 		if (plane != null) {
-			sb.append("\" plane=\"");
-			sb.append(getPlane());
+			sb.attr("plane", getPlane());
 		}
-		sb.append("\" />\n");
-
+		sb.endTag();
 	}
 
 	private void appendBounds(StringBuilder sb) {

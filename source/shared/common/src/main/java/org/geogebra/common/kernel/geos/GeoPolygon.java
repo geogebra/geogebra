@@ -20,6 +20,7 @@ import java.util.TreeSet;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -1680,15 +1681,15 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * returns all class-specific xml tags for getXML GeoGebra File Format
 	 */
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		getLineStyleXML(sb);
 		super.getStyleXML(sb);
 		getMaskXML(sb);
 	}
 
-	private void getMaskXML(final StringBuilder sb) {
+	private void getMaskXML(final XMLStringBuilder sb) {
 		if (isMask) {
-			sb.append("\t<isMask val=\"true\"/>\n");
+			sb.startTag("isMask").attr("val", true).endTag();
 		}
 	}
 

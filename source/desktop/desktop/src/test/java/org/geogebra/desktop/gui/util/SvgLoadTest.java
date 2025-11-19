@@ -107,7 +107,7 @@ public class SvgLoadTest extends BaseUnitTest {
 	public void imageReloadTest() {
 		createSvg("2.svg");
 		SVGImage image2 = JSVGImageBuilder.fromContent(image.getContent());
-		assertEquals(image, image2);
+		assertEquals(image.getContent(), image2.getContent());
 	}
 
 	@Test

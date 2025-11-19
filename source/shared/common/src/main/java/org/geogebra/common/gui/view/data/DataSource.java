@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -704,7 +705,7 @@ public class DataSource {
 	 * @param sb
 	 *            XML builder
 	 */
-	public void getXMLDescription(StringBuilder sb) {
+	public void getXMLDescription(XMLStringBuilder sb) {
 		for (DataVariable var : dataList) {
 			var.getXML(sb);
 		}

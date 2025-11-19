@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
@@ -365,7 +366,7 @@ public class GeoGebraPreferencesD {
 	public void saveXMLPreferences(AppD app) {
 
 		String userPrefsXML = app.getPreferencesXML();
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		app.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultsXML(sb);
 		String objectPrefsXML = sb.toString();

@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.algos.AlgoDependentPoint;
@@ -662,25 +663,25 @@ public class DataVariable {
 	 * @param sb
 	 *            XML builder
 	 */
-	public void getXML(StringBuilder sb) {
+	public void getXML(XMLStringBuilder sb) {
 		// save these fields to XML:
 		// groupType, enableHeader
-		sb.append("<variable>\n");
+		sb.startOpeningTag("variable", 0);
 		// save the DataItems to XML
 		for (DataItem item : values) {
 
-			sb.append("<item ranges=\"");
+			sb.startTag("item");
 			ArrayList<TabularRange> crList = item.getRangeList();
 			if (crList != null) {
-				appendTabularRanges(sb, crList);
+				sb.attr("ranges", appendTabularRanges(crList));
 			}
-			sb.append("\"/>\n");
+			sb.endTag();
 		}
 		if (frequency != null) {
 			// save the frequencies to XML
-			sb.append("<item frequencies=\"");
-			appendTabularRanges(sb, frequency.getRangeList());
-			sb.append("\"/>\n");
+			sb.startTag("item");
+			sb.attr("frequencies", appendTabularRanges(frequency.getRangeList()));
+			sb.endTag();
 		}
 		if (classes != null) {
 			// write item XML
@@ -688,11 +689,12 @@ public class DataVariable {
 		if (label != null) {
 			// write item XML
 		}
-		sb.append("</variable>\n");
+		sb.closeTag("variable");
 	}
 
-	private void appendTabularRanges(StringBuilder sb, ArrayList<TabularRange> crList) {
+	private String appendTabularRanges(ArrayList<TabularRange> crList) {
 		boolean first = true;
+		StringBuilder sb = new StringBuilder();
 		for (TabularRange cr : crList) {
 			if (cr != null) {
 				sb.append(first ? "" : ",");
@@ -700,6 +702,7 @@ public class DataVariable {
 				first = false;
 			}
 		}
+		return sb.toString();
 	}
 
 }

@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.data.PlotSettings;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -1892,52 +1893,42 @@ public abstract class ProbabilityCalculatorView
 	 * returns settings in XML format
 	 * @param sb XML builder
 	 */
-	public void getXML(StringBuilder sb) {
+	public void getXML(XMLStringBuilder sb) {
 
 		if (selectedDist == null) {
 			return;
 		}
 
-		sb.append("<probabilityCalculator>\n");
-		sb.append("\t<distribution");
+		sb.startOpeningTag("probabilityCalculator", 0).endTag();
+		sb.startTag("distribution");
 
-		sb.append(" type=\"");
-		sb.append(selectedDist.ordinal());
-		sb.append("\"");
+		sb.attr("type", selectedDist.ordinal());
+		sb.attr("isCumulative", isCumulative);
+		sb.attr("isOverlayActive", isShowNormalOverlay());
 
-		sb.append(" isCumulative=\"");
-		sb.append(isCumulative ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" isOverlayActive=\"");
-		sb.append(isShowNormalOverlay() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" parameters=\"");
+		int idx = 0;
+		StringBuilder params = new StringBuilder(parameters.length);
 		for (GeoNumberValue parameter : parameters) {
-			sb.append(parameter.getLabel(StringTemplate.xmlTemplate));
-			sb.append(",");
+			if (idx > 0) {
+				params.append(",");
+			}
+			params.append(parameter.getLabel(StringTemplate.xmlTemplate));
+			idx++;
 		}
-		sb.deleteCharAt(sb.lastIndexOf(","));
-		sb.append("\"/>\n");
+		sb.attr("parameters", params);
 
-		sb.append("\t<interval");
+		sb.startTag("interval");
 
-		sb.append(" mode=\"");
-		sb.append(this.probMode);
-		sb.append("\"");
+		sb.attr("mode", this.probMode);
 
-		sb.append(" low=\"");
-		sb.append(getLow());
-		sb.append("\"");
+		sb.attr("low", getLow());
 
-		sb.append(" high=\"");
-		sb.append(getHigh());
-		sb.append("\"/>\n");
+		sb.attr("high", getHigh());
+		sb.endTag();
 		if (getStatCalculator() != null) {
 			getStatCalculator().getXML(sb, !isDistributionTabOpen());
 		}
-		sb.append("</probabilityCalculator>\n");
+		sb.closeTag("probabilityCalculator");
 	}
 
 	protected abstract boolean isDistributionTabOpen();

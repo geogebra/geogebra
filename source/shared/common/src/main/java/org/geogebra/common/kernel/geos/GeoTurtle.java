@@ -15,13 +15,13 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * GeoElement for drawing turtle graphics.
@@ -924,15 +924,14 @@ public class GeoTurtle extends GeoPoint {
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 
 		// name of image file
 		if (getFillImage() != null) {
-			sb.append("\t<file name=\"");
-			StringUtil
-					.encodeXML(sb, this.getGraphicsAdapter().getImageFileName());
-			sb.append("\"/>\n");
+			sb.startTag("file")
+					.attr("name", this.getGraphicsAdapter().getImageFileName())
+					.endTag();
 		}
 	}
 

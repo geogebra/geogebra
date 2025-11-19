@@ -21,6 +21,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -260,23 +261,23 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		sb.append("\t<value val=\"");
-		sb.append(value);
-		sb.append("\"/>\n");
+	protected void getXMLTags(XMLStringBuilder sb) {
+		sb.startTag("value");
+		sb.attr("val", value);
+		sb.endTag();
 
 		getStyleXML(sb);
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		XMLBuilder.getXMLvisualTags(this, sb, isIndependent());
 		getXMLfixedTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		// checkbox fixed
 		if (checkboxFixed) {
-			sb.append("\t<checkbox fixed=\"true\"/>\n");
+			sb.startTag("checkbox").attr("fixed", true).endTag();
 		}
 		getScriptTags(sb);
 		getCaptionXML(sb);

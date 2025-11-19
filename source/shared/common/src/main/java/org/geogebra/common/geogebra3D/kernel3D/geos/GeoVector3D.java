@@ -1,8 +1,11 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import static org.geogebra.common.kernel.geos.XMLBuilder.coordStyle;
+
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -380,25 +383,25 @@ public class GeoVector3D extends GeoVec4D
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getStyleXML(StringBuilder sbXml) {
+	protected void getStyleXML(XMLStringBuilder sbXml) {
 		super.getStyleXML(sbXml);
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
-			sbXml.append("\t<coordStyle style=\"polar\"/>\n");
+			coordStyle(sbXml, "polar");
 			break;
 
 		case Kernel.COORD_COMPLEX:
-			sbXml.append("\t<coordStyle style=\"complex\"/>\n");
+			coordStyle(sbXml, "complex");
 			break;
 
 		case Kernel.COORD_CARTESIAN:
-			sbXml.append("\t<coordStyle style=\"cartesian\"/>\n");
+			coordStyle(sbXml, "cartesian");
 			break;
 
 		case Kernel.COORD_SPHERICAL:
-			sbXml.append("\t<coordStyle style=\"spherical\"/>\n");
+			coordStyle(sbXml, "spherical");
 			break;
 
 		default:

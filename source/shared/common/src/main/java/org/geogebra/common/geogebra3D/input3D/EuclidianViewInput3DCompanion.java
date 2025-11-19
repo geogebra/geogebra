@@ -19,6 +19,7 @@ import org.geogebra.common.geogebra3D.input3D.Input3D.OutOfField;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -454,7 +455,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
-	protected void getXMLForStereo(StringBuilder sb, int eyeDistance, int sep) {
+	protected void getXMLForStereo(XMLStringBuilder sb, int eyeDistance, int sep) {
 		if (input3D.shouldStoreStereoToXML()) {
 			super.getXMLForStereo(sb, eyeDistance, sep);
 		}

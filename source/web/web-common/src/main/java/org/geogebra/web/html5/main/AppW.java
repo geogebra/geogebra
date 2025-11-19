@@ -40,6 +40,7 @@ import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.XMLParseException;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.Construction;
@@ -2077,13 +2078,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
+	protected void getLayoutXML(XMLStringBuilder sb, boolean asPreference) {
 		if (getGuiManager() == null) {
 			initGuiManager();
 		}
-		if (getGuiManager() != null) {
-			getGuiManager().getLayout().getXml(sb, asPreference);
-		}
+		super.getLayoutXML(sb, asPreference);
 	}
 
 	// ============================================

@@ -30,6 +30,7 @@ import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesPointsImpl;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
@@ -93,7 +94,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public void getExtraViewsXML(StringBuilder sb) {
+	public void getExtraViewsXML(XMLStringBuilder sb) {
 		if (isUsingConstructionProtocol()) {
 			getConsProtocolXML(sb);
 		}
@@ -104,30 +105,19 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public final void getConsProtocolXML(StringBuilder sb) {
+	public final void getConsProtocolXML(XMLStringBuilder sb) {
 		if (this.isUsingConstructionProtocol()) {
 			getConstructionProtocolView().getXML(sb);
 		}
 		if (getApp().showConsProtNavigation()) {
-			sb.append("\t<consProtNavigationBar ");
-			sb.append("id=\"");
-			getApp().getConsProtNavigationIds(sb);
-			sb.append('\"');
-			sb.append(" playButton=\"");
-			sb.append(
-					getConstructionProtocolNavigation().isPlayButtonVisible());
-			sb.append('\"');
-			sb.append(" playDelay=\"");
-			sb.append(getConstructionProtocolNavigation().getPlayDelay());
-			sb.append('\"');
-			sb.append(" protButton=\"");
-			sb.append(getConstructionProtocolNavigation()
+			sb.startTag("consProtNavigationBar");
+			sb.attr("id", getApp().getConsProtNavigationIds());
+			sb.attr("playButton", getConstructionProtocolNavigation().isPlayButtonVisible());
+			sb.attr("playDelay", getConstructionProtocolNavigation().getPlayDelay());
+			sb.attr("protButton", getConstructionProtocolNavigation()
 					.isConsProtButtonVisible());
-			sb.append('\"');
-			sb.append(" consStep=\"");
-			sb.append(kernel.getConstructionStep());
-			sb.append('\"');
-			sb.append("/>\n");
+			sb.attr("consStep", kernel.getConstructionStep());
+			sb.endTag();
 		}
 
 	}
@@ -142,14 +132,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param sb
 	 *            XML builder
 	 */
-	public void getProbabilityCalculatorXML(StringBuilder sb) {
+	public void getProbabilityCalculatorXML(XMLStringBuilder sb) {
 		if (probCalculator != null) {
 			probCalculator.getXML(sb);
 		}
 	}
 
 	@Override
-	public void getViewsXML(StringBuilder sb, boolean asPreference) {
+	public void getViewsXML(XMLStringBuilder sb, boolean asPreference) {
 		// save ProbabilityCalculator settings
 		if (hasProbabilityCalculator()) {
 			getProbabilityCalculatorXML(sb);
@@ -167,11 +157,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param asPreference
 	 *            whether this is for preferences
 	 */
-	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
-		sb.append("<spreadsheetView>\n");
+	public void getSpreadsheetViewXML(XMLStringBuilder sb, boolean asPreference) {
+		sb.startOpeningTag("spreadsheetView", 0).endTag();
 		app.getSettings().getSpreadsheet().getDimensionsXML(sb);
 		app.getSettings().getSpreadsheet().getWidthsAndHeightsXML(sb);
-		sb.append("</spreadsheetView>\n");
+		sb.closeTag("spreadsheetView");
 	}
 
 	@Override
@@ -801,4 +791,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return null;
 	}
 
+	@Override
+	public void getAlgebraViewXML(XMLStringBuilder sb, boolean asPreference) {
+		// empty implementation for mobile
+	}
 }

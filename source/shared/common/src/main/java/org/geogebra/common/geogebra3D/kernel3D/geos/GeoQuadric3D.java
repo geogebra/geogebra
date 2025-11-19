@@ -9,6 +9,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
@@ -3318,28 +3319,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getXMLTags(XMLStringBuilder sb) {
 		getStyleXML(sb);
 
-		sb.append("\t<eigenvectors x0=\"");
-		sb.append(eigenvecND[0].getX());
-		sb.append("\" y0=\"");
-		sb.append(eigenvecND[0].getY());
-		sb.append("\" z0=\"");
-		sb.append(eigenvecND[0].getZ());
-		sb.append("\" x1=\"");
-		sb.append(eigenvecND[1].getX());
-		sb.append("\" y1=\"");
-		sb.append(eigenvecND[1].getY());
-		sb.append("\" z1=\"");
-		sb.append(eigenvecND[1].getZ());
-		sb.append("\" x2=\"");
-		sb.append(eigenvecND[2].getX());
-		sb.append("\" y2=\"");
-		sb.append(eigenvecND[2].getY());
-		sb.append("\" z2=\"");
-		sb.append(eigenvecND[2].getZ());
-		sb.append("\"/>\n");
+		sb.startTag("eigenvectors");
+		sb.attr("x0", eigenvecND[0].getX());
+		sb.attr("y0", eigenvecND[0].getY());
+		sb.attr("z0", eigenvecND[0].getZ());
+		sb.attr("x1", eigenvecND[1].getX());
+		sb.attr("y1", eigenvecND[1].getY());
+		sb.attr("z1", eigenvecND[1].getZ());
+		sb.attr("x2", eigenvecND[2].getX());
+		sb.attr("y2", eigenvecND[2].getY());
+		sb.attr("z2", eigenvecND[2].getZ());
+		sb.endTag();
 
 		// matrix must be saved after eigenvectors
 		// as only <matrix> will cause a call to classifyConic()
@@ -3348,7 +3341,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	@Override
-	public void getStyleXML(StringBuilder sb) {
+	public void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		getLineStyleXML(sb);
 		XMLBuilder.appendEquationTypeConic(sb, getEquationForm(), null);
@@ -3368,12 +3361,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * @param sb
 	 *            string builder
 	 */
-	protected void getMatrixXML(StringBuilder sb) {
-		sb.append("\t<matrix");
+	protected void getMatrixXML(XMLStringBuilder sb) {
+		sb.startTag("matrix");
 		for (int i = 0; i < 10; i++) {
-			sb.append(" A").append(i).append("=\"").append(matrix[i]).append("\"");
+			sb.attr("A" + i, matrix[i]);
 		}
-		sb.append("/>\n");
+		sb.endTag();
 	}
 
 	@Override
@@ -3393,7 +3386,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	@Override
-	protected void getXMLanimationTags(final StringBuilder sb) {
+	protected void getXMLanimationTags(final XMLStringBuilder sb) {
 		// no need for quadrics
 	}
 

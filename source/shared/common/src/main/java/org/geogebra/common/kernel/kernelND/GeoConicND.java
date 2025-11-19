@@ -18,6 +18,7 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
@@ -3359,30 +3360,28 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getXMLTags(XMLStringBuilder sb) {
 		getStyleXML(sb);
-		sb.append("\t<eigenvectors x0=\"");
-		sb.append(eigenvec[0].getX());
-		sb.append("\" y0=\"");
-		sb.append(eigenvec[0].getY());
-		sb.append("\" z0=\"1.0\" x1=\"");
-		sb.append(eigenvec[1].getX());
-		sb.append("\" y1=\"");
-		sb.append(eigenvec[1].getY());
-		sb.append("\" z1=\"1.0\"/>\n");
+		sb.startTag("eigenvectors");
+		sb.attr("x0", eigenvec[0].getX());
+		sb.attr("y0", eigenvec[0].getY());
+		sb.attr("z0", 1.0);
+		sb.attr("x1", eigenvec[1].getX());
+		sb.attr("y1", eigenvec[1].getY());
+		sb.attr("z1", 1.0).endTag();
 
 		// matrix must be saved after eigenvectors
 		// as only <matrix> will cause a call to classifyConic()
 		// see geogebra.io.MyXMLHandler: handleMatrix() and handleEigenvectors()
-		sb.append("\t<matrix");
+		sb.startTag("matrix");
 		for (int i = 0; i < 6; i++) {
-			sb.append(" A").append(i).append("=\"").append(matrix[i]).append("\"");
+			sb.attr("A" + i, matrix[i]);
 		}
-		sb.append("/>\n");
+		sb.endTag();
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		// line thickness and type
 		getLineStyleXML(sb);

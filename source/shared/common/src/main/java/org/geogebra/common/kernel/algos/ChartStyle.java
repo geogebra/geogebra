@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.properties.FillType;
 
 public class ChartStyle {
@@ -247,40 +248,38 @@ public class ChartStyle {
 	 * @param sb XML string builder
 	 * @param count number of bars
 	 */
-	public void barXml(StringBuilder sb, int count) {
-		sb.append("\t<tags>\n");
+	public void barXML(XMLStringBuilder sb, int count) {
+		sb.startOpeningTag("tags", 1).endTag();
 		for (int i = 1; i <= count; i++) {
 			if (getBarColor(i) != null) {
-				appendTag(sb, "barColor", i, GColor.getColorString(getBarColor(i)));
+				startTag(sb, "barColor", i)
+						.attr("value", GColor.getColorString(getBarColor(i))).endTag();
 			}
 
 			double barAlpha = getBarAlpha(i);
 			if (barAlpha != -1) {
-				appendTag(sb, "barAlpha", i, barAlpha);
+				startTag(sb, "barAlpha", i).attr("value", barAlpha).endTag();
 			}
 			if (getBarHatchDistance(i) != -1) {
-				appendTag(sb, "barHatchDistance", i, getBarHatchDistance(i));
+				startTag(sb, "barHatchDistance", i).attr("value", getBarHatchDistance(i)).endTag();
 			}
 			if (getBarHatchAngle(i) != -1) {
-				appendTag(sb, "barHatchAngle", i, getBarHatchAngle(i));
+				startTag(sb, "barHatchAngle", i).attr("value", getBarHatchAngle(i)).endTag();
 			}
 			if (getBarFillType(i) != FillType.STANDARD) {
-				appendTag(sb, "barFillType", i, getBarFillType(i).ordinal());
+				startTag(sb, "barFillType", i).attr("value", getBarFillType(i).ordinal()).endTag();
 			}
 			if (getBarImage(i) != null) {
-				appendTag(sb, "barImage", i, getBarImage(i));
+				startTag(sb, "barImage", i).attr("value", getBarImage(i)).endTag();
 			}
 			if (getBarSymbol(i) != null) {
-				appendTag(sb, "barSymbol", i, getBarSymbol(i));
+				startTag(sb, "barSymbol", i).attr("value", getBarSymbol(i)).endTag();
 			}
 		}
-		sb.append("\t</tags>\n");
+		sb.closeTag("tags");
 	}
 
-	private void appendTag(StringBuilder sb, String type, int i, Object val) {
-		sb.append("\t\t<tag key=\"").append(type);
-		sb.append("\" barNumber=\"").append(i);
-		sb.append("\" value=\"").append(val);
-		sb.append("\"/>\n");
+	private XMLStringBuilder startTag(XMLStringBuilder sb, String type, int i) {
+		return sb.startTag("tag", 2).attr("key", type).attr("barNumber", i);
 	}
 }

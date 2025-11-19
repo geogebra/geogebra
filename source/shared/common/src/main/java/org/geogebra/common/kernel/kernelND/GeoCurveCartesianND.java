@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.kernelND;
 import java.util.Arrays;
 import java.util.TreeMap;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DistanceFunction;
 import org.geogebra.common.kernel.Kernel;
@@ -198,7 +199,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		// line thickness and type
 		getLineStyleXML(sb);
@@ -377,7 +378,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	}
 
 	@Override
-	public void printCASEvalMapXML(StringBuilder sb) {
+	public void printCASEvalMapXML(XMLStringBuilder sb) {
 		// not supported for curves
 	}
 

@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -344,37 +345,27 @@ public class GeoConic3D extends GeoConicND
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getXMLTags(XMLStringBuilder sb) {
 		if (getCoordSys() != null && isIndependent()) {
 
 			Coords v0 = getCoordSys().getV(0);
 			Coords v1 = getCoordSys().getV(1);
 			Coords origin = getCoordSys().getOrigin();
-
-			sb.append("\t<coords ox=\"");
-			sb.append(origin.get(1));
-			sb.append("\" oy=\"");
-			sb.append(origin.get(2));
-			sb.append("\" oz=\"");
-			sb.append(origin.get(3));
-			sb.append("\" ow=\"");
-			sb.append(origin.get(4));
-			sb.append("\" vx=\"");
-			sb.append(v0.get(1));
-			sb.append("\" vy=\"");
-			sb.append(v0.get(2));
-			sb.append("\" vz=\"");
-			sb.append(v0.get(3));
-			sb.append("\" wx=\"");
-			sb.append(v1.get(1));
-			sb.append("\" wy=\"");
-			sb.append(v1.get(2));
-			sb.append("\" wz=\"");
-			sb.append(v1.get(3));
-			sb.append("\"/>\n");
+			sb.startTag("coords");
+			sb.attr("ox", origin.getX());
+			sb.attr("oy", origin.getY());
+			sb.attr("oz", origin.getZ());
+			sb.attr("ow", origin.getW());
+			sb.attr("vx", v0.getX());
+			sb.attr("vy", v0.getY());
+			sb.attr("vz", v0.getZ());
+			sb.attr("wx", v1.getX());
+			sb.attr("wy", v1.getY());
+			sb.attr("wz", v1.getZ());
+			sb.endTag();
 		}
 		// curve thickness and type printed by conicND
-		super.getXMLtags(sb);
+		super.getXMLTags(sb);
 
 	}
 

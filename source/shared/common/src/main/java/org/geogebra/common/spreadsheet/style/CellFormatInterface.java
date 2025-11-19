@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.style;
 import java.util.HashMap;
 
 import org.geogebra.common.gui.view.spreadsheet.HasTableSelection;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.spreadsheet.core.Direction;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 
@@ -29,7 +30,7 @@ public interface CellFormatInterface {
 	/**
 	 * Returns XML representation of the format maps
 	 */
-	void getXML(StringBuilder sb);
+	void getXML(XMLStringBuilder sb);
 
 	/**
 	 * Decodes XML string and puts format values into the format maps.

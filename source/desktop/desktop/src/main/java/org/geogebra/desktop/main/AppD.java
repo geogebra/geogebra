@@ -122,6 +122,7 @@ import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.XMLParseException;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
@@ -3220,11 +3221,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 
 	@Override
-	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
+	protected void getLayoutXML(XMLStringBuilder sb, boolean asPreference) {
 		if (guiManager == null) {
 			initGuiManager();
 		}
-		getGuiManager().getLayout().getXml(sb, asPreference);
+		super.getLayoutXML(sb, asPreference);
 	}
 
 	/**
@@ -4791,23 +4792,15 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 *            string builder
 	 */
 	@Override
-	public void getKeyboardXML(StringBuilder sb) {
-		sb.append("<keyboard width=\"");
-		sb.append(((KeyboardSettings) getSettings().getKeyboard())
-				.getKeyboardWidth());
-		sb.append("\" height=\"");
-		sb.append(((KeyboardSettings) getSettings().getKeyboard())
-				.getKeyboardHeight());
-		sb.append("\" opacity=\"");
-		sb.append(((KeyboardSettings) getSettings().getKeyboard())
-				.getKeyboardOpacity());
-		sb.append("\" language=\"");
-		sb.append(((KeyboardSettings) getSettings().getKeyboard())
-				.getKeyboardLocale());
-		sb.append("\" show=\"");
-		sb.append(((KeyboardSettings) getSettings().getKeyboard())
-				.isShowKeyboardOnStart());
-		sb.append("\"/>");
+	public void getKeyboardXML(XMLStringBuilder sb) {
+		KeyboardSettings keyboard = (KeyboardSettings) getSettings().getKeyboard();
+		sb.startTag("keyboard", 0)
+				.attr("width", keyboard.getKeyboardWidth())
+				.attr("height", keyboard.getKeyboardHeight())
+				.attr("opacity", keyboard.getKeyboardOpacity())
+				.attr("language", keyboard.getKeyboardLocale())
+				.attr("show", keyboard.isShowKeyboardOnStart())
+				.endTag();
 	}
 
 	@Override

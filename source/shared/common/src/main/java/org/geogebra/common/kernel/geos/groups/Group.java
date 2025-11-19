@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -85,16 +86,12 @@ public class Group {
      * xml representation of group for saving/loading
      * @param sb - xml string builder
      */
-    public void getXML(StringBuilder sb) {
-        sb.append("<group ");
+    public void getXML(XMLStringBuilder sb) {
+        sb.startTag("group", 0);
         for (int i = 0; i < getGroupedGeos().size(); i++) {
-            sb.append("l");
-            sb.append(i);
-            sb.append("=\"");
-            sb.append(getGroupedGeos().get(i).getLabelSimple());
-            sb.append("\" ");
+            sb.attr("l" + i, getGroupedGeos().get(i).getLabelSimple());
         }
-        sb.append("/>\n");
+        sb.endTag();
     }
 
     /**

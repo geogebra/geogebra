@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -166,7 +167,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	}
 
 	@Override
-	final protected void getCoordsXML(StringBuilder sb) {
+	final protected void getCoordsXML(XMLStringBuilder sb) {
 		// not needed here
 	}
 

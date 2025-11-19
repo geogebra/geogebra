@@ -2,6 +2,7 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 
 public class PenToolsSettings extends AbstractSettings {
@@ -103,30 +104,25 @@ public class PenToolsSettings extends AbstractSettings {
 	 * Print pen tool settings to XML
 	 * @param sbxml output string builder
 	 */
-	public void getXML(StringBuilder sbxml) {
+	public void getXML(XMLStringBuilder sbxml) {
 		// size of pen
-		sbxml.append("\t<penSize val=\"");
-		sbxml.append(getLastPenThickness());
-		sbxml.append("\"/>\n");
+		sbxml.startTag("penSize").attr("val", getLastPenThickness()).endTag();
 
 		// color of pen
-		sbxml.append("\t<penColor");
+		sbxml.startTag("penColor");
 		XMLBuilder.appendRGB(sbxml, getLastSelectedPenColor());
-		sbxml.append("/>\n");
+		sbxml.endTag();
 
 		// size of highlighter
-		sbxml.append("\t<highlighterSize val=\"");
-		sbxml.append(getLastHighlighterThickness());
-		sbxml.append("\"/>\n");
+		sbxml.startTag("highlighterSize")
+				.attr("val", getLastHighlighterThickness()).endTag();
 
 		// highlighter of pen
-		sbxml.append("\t<highlighterColor");
+		sbxml.startTag("highlighterColor");
 		XMLBuilder.appendRGB(sbxml, getLastSelectedHighlighterColor());
-		sbxml.append("/>\n");
+		sbxml.endTag();
 
 		// size of eraser
-		sbxml.append("\t<eraserSize val=\"");
-		sbxml.append(getDeleteToolSize());
-		sbxml.append("\"/>\n");
+		sbxml.startTag("eraserSize").attr("val", getDeleteToolSize()).endTag();
 	}
 }

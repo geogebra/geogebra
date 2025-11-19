@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
@@ -56,7 +57,6 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -1201,31 +1201,31 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder builder) {
-		super.getXMLtags(builder);
+	public void getXMLTags(XMLStringBuilder builder) {
+		super.getXMLTags(builder);
 		getFVarsXML(builder);
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder builder) {
+	protected void getStyleXML(XMLStringBuilder builder) {
 		super.getStyleXML(builder);
 		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
 		XMLBuilder.appendSymbolicMode(builder, this, true);
 	}
 
-	private void getFVarsXML(StringBuilder sb) {
+	private void getFVarsXML(XMLStringBuilder sb) {
 		if (fVars.isEmpty()) {
 			return;
 		}
 		String prefix = "";
-		sb.append("\t<variables val=\"");
+		StringBuilder vars = new StringBuilder();
 		for (FunctionVariable variable : fVars) {
-			sb.append(prefix);
-			StringUtil.encodeXML(sb, variable.getSetVarString());
+			vars.append(prefix);
+			vars.append(variable.getSetVarString());
 			prefix = ",";
 		}
-		sb.append("\"/>\n");
+		sb.startTag("variables").attr("val", vars).endTag();
 	}
 
 	@Override
@@ -1353,22 +1353,23 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	protected void getDefinitionXML(StringBuilder sb) {
+	protected String getDefinitionXML() {
+		StringBuilder sb = new StringBuilder();
 		ExpressionValue unwrapped = getDefinition().unwrap();
 		if (label != null && unwrapped instanceof Equation) {
-			StringBuilder builder = new StringBuilder();
-			super.getDefinitionXML(builder);
-			if (builder.toString().contains("=")) {
+			String definitionStr = getDefinition().toString(StringTemplate.xmlTemplate);
+			if (definitionStr.contains("=")) {
 				sb.append(label);
 				sb.append(": ");
 			}
 		} else if (label != null && unwrapped instanceof Function) {
 			sb.append(label);
 			sb.append("(");
-			sb.append(((Function) unwrapped).getFunctionVariable());
+			sb.append(((Function) unwrapped).getFunctionVariable().getSetVarString());
 			sb.append(") = ");
 		}
-		super.getDefinitionXML(sb);
+		sb.append(super.getDefinitionXML());
+		return sb.toString();
 	}
 
 	/**
@@ -1411,7 +1412,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	protected void appendObjectColorXML(StringBuilder sb) {
+	protected void appendObjectColorXML(XMLStringBuilder sb) {
 		if (isDefaultGeo() || isColorSet()) {
 			super.appendObjectColorXML(sb);
 		}

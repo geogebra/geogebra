@@ -25,6 +25,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -39,7 +40,6 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Image with given filename and corners
@@ -585,26 +585,24 @@ public class GeoImage extends GeoElement implements
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		// name of image file
-		sb.append("\t<file name=\"");
-		StringUtil.encodeXML(sb, this.getGraphicsAdapter().getImageFileName());
-		sb.append("\"/>\n");
+		sb.startTag("file")
+				.attr("name", this.getGraphicsAdapter().getImageFileName())
+				.endTag();
 
 		// name of image file
-		sb.append("\t<inBackground val=\"");
-		sb.append(inBackground);
-		sb.append("\"/>\n");
+		sb.startTag("inBackground").attr("val", inBackground).endTag();
 
 		// image has to be interpolated
 		if (!isInterpolate()) {
-			sb.append("\t<interpolate val=\"false\"/>\n");
+			sb.startTag("interpolate").attr("val", false).endTag();
 		}
 
-		// locateion of image
+		// location of image
 
 		if (isCentered()) {
-			sb.append("\t<centered val=\"true\"/>\n");
+			sb.startTag("centered").attr("val", true).endTag();
 		}
 
 		if (hasAbsoluteScreenLocation
@@ -625,26 +623,20 @@ public class GeoImage extends GeoElement implements
 		super.getStyleXML(sb);
 	}
 
-	private void getXMLabsScreenLoc(StringBuilder sb) {
-		sb.append("\t<absoluteScreenLocation x=\"");
-		sb.append(getAbsoluteScreenLocX());
-		sb.append("\" y=\"");
-		sb.append(getAbsoluteScreenLocY());
-		sb.append("\"/>");
+	private void getXMLabsScreenLoc(XMLStringBuilder sb) {
+		sb.startTag("absoluteScreenLocation")
+				.attr("x", getAbsoluteScreenLocX())
+				.attr("y", getAbsoluteScreenLocY()).endTag();
 	}
 
-	private void getCropBoxXML(StringBuilder sb) {
-		sb.append("\t<cropBox x=\"");
-		sb.append(cropBox.getX());
-		sb.append("\" y=\"");
-		sb.append(cropBox.getY());
-		sb.append("\" width=\"");
-		sb.append(cropBox.getWidth());
-		sb.append("\" height=\"");
-		sb.append(cropBox.getHeight());
-		sb.append("\" cropped=\"");
-		sb.append(isCropped());
-		sb.append("\"/>");
+	private void getCropBoxXML(XMLStringBuilder sb) {
+		sb.startTag("cropBox")
+				.attr("x", cropBox.getX())
+				.attr("y", cropBox.getY())
+				.attr("width", cropBox.getWidth())
+				.attr("height", cropBox.getHeight())
+				.attr("cropped", isCropped())
+				.endTag();
 	}
 
 	@Override

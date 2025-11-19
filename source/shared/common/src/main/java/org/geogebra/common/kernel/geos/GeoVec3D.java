@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -517,15 +518,9 @@ public abstract class GeoVec3D extends GeoElement
 	 * returns all class-specific xml tags for saveXML Geogebra File Format
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-		sb.append("\t<coords x=\"");
-		sb.append(x);
-		sb.append("\" y=\"");
-		sb.append(y);
-		sb.append("\" z=\"");
-		sb.append(z);
-		sb.append("\"/>\n");
+	protected void getXMLTags(XMLStringBuilder sb) {
+		super.getXMLTags(sb);
+		sb.startTag("coords").attr("x", x).attr("y", y).attr("z", z).endTag();
 	}
 
 	@Override

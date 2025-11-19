@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -416,7 +417,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	}
 
 	@Override
-	protected void getMatrixXML(StringBuilder sb) {
+	protected void getMatrixXML(XMLStringBuilder sb) {
 		// no matrix needed since it comes from an algo
 	}
 

@@ -12,6 +12,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.view.spreadsheet.HasTableSelection;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.spreadsheet.core.Direction;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
@@ -947,17 +948,15 @@ public class CellFormat implements CellFormatInterface {
 	// ========================================================
 
 	@Override
-	public void getXML(StringBuilder sb) {
+	public void getXML(XMLStringBuilder sb) {
 		String cellFormat = encodeFormats();
 		if (cellFormat == null) {
 			return;
 		}
 
-		sb.append("\t<spreadsheetCellFormat ");
-		sb.append(" formatMap=\"");
-		sb.append(cellFormat);
-		sb.append("\"");
-		sb.append("/>\n");
+		sb.startTag("spreadsheetCellFormat")
+				.attrRaw("formatMap", cellFormat)
+				.endTag();
 	}
 
 	/**

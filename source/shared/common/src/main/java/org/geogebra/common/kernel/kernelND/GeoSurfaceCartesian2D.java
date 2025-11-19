@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import java.util.TreeMap;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -62,7 +63,7 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 	}
 
 	@Override
-	public void printCASEvalMapXML(StringBuilder sb) {
+	public void printCASEvalMapXML(XMLStringBuilder sb) {
 		// TODO Auto-generated method stub
 	}
 

@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.util.debug.Log;
@@ -235,7 +236,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		set(GeoGebraPreferences.XML_USER_PREFERENCES, xml);
 
 		if (!app.is3D()) { // TODO: implement it in Application3D!
-			StringBuilder sb = new StringBuilder();
+			XMLStringBuilder sb = new XMLStringBuilder();
 			app.getKernel().getConstruction().getConstructionDefaults()
 					.getDefaultsXML(sb);
 			String objectPrefsXML = sb.toString();

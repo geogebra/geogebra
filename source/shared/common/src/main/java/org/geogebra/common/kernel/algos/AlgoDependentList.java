@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -183,7 +184,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	}
 
 	@Override
-	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
+	protected void getExpXML(StringTemplate tpl, XMLStringBuilder sb) {
 		if (!isDefinedAsEmpty()) {
 			super.getExpXML(tpl, sb);
 		}

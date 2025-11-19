@@ -24,6 +24,7 @@ import javax.annotation.CheckForNull;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -906,24 +907,22 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	public void getExpressionXML(StringBuilder sbxml) {
+	public void getExpressionXML(XMLStringBuilder sbxml) {
 		// an independent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sbxml.append("<expression label=\"");
-			sbxml.append(label);
-			sbxml.append("\" exp=\"");
-			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
-			sbxml.append("\" type=\"");
-			sbxml.append(getFunctionType());
-			sbxml.append("\"/>\n");
+			sbxml.startTag("expression", 0);
+			sbxml.attr("label", label);
+			sbxml.attr("exp", toString(StringTemplate.xmlTemplate));
+			sbxml.attr("type", getFunctionType());
+			sbxml.endTag();
 		}
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder sbxml) {
-		super.getXMLtags(sbxml);
+	public void getXMLTags(XMLStringBuilder sbxml) {
+		super.getXMLTags(sbxml);
 		printCASEvalMapXML(sbxml);
 	}
 
@@ -940,13 +939,13 @@ public class GeoFunction extends GeoElement implements Translateable,
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getStyleXML(StringBuilder sbxml) {
+	protected void getStyleXML(XMLStringBuilder sbxml) {
 		super.getStyleXML(sbxml);
 
 		// line thickness and type
 		getLineStyleXML(sbxml);
 		if (showOnAxis()) {
-			sbxml.append("<showOnAxis val=\"true\" />");
+			sbxml.startTag("showOnAxis").attr("val", true).endTag();
 		}
 	}
 
@@ -2696,7 +2695,7 @@ public class GeoFunction extends GeoElement implements Translateable,
 	}
 
 	@Override
-	public void printCASEvalMapXML(StringBuilder sbXML) {
+	public void printCASEvalMapXML(XMLStringBuilder sbXML) {
 		if (fun != null) {
 			fun.printCASevalMapXML(sbXML);
 		}

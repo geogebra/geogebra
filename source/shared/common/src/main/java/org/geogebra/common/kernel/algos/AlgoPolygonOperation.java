@@ -14,6 +14,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -181,20 +182,12 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	}
 
 	@Override
-	protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {
-
-		sb.append("\t<outputSizes val=\"");
-		sb.append(outputPolygons.size());
-		sb.append(",");
-		sb.append(outputPoints.size());
-		sb.append(",");
-		sb.append(outputSegments.size());
-		sb.append("\"");
-		sb.append("/>\n");
-
+	protected void getCmdOutputXML(XMLStringBuilder sb, StringTemplate tpl) {
+		String sizes = outputPolygons.size() + "," + outputPoints.size() + ","
+				+ outputSegments.size();
+		sb.startTag("outputSizes").attr("val", sizes).endTag();
 		// common method
 		super.getCmdOutputXML(sb, tpl);
-
 	}
 
 	/**

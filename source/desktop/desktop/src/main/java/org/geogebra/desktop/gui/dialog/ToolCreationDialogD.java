@@ -40,6 +40,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ListDataListener;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.NameDescriptionComparator;
@@ -277,7 +278,7 @@ public class ToolCreationDialogD extends Dialog
 					.equals(newTool.getMacroOutput()[i].getClass());
 		}
 		if (compatible) {
-			StringBuilder sb = new StringBuilder();
+			XMLStringBuilder sb = new XMLStringBuilder();
 			newTool.getXML(sb);
 			if (app.getEditMacro() != null) {
 				kernel.removeMacro(app.getEditMacro());

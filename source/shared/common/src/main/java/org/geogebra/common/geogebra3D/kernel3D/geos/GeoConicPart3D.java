@@ -16,6 +16,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathMover;
@@ -566,7 +567,7 @@ public class GeoConicPart3D extends GeoConic3D
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		parameters.getLimitedPathXML(sb);
 	}

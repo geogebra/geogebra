@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import java.util.TreeMap;
 
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -316,11 +317,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	// SPECIFIC XML
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		// level of detail
 		if (getLevelOfDetail() == LevelOfDetail.QUALITY) {
-			sb.append("\t<levelOfDetailQuality val=\"true\"/>\n");
+			sb.startTag("levelOfDetailQuality").attr("val", true).endTag();
 		}
 	}
 
@@ -659,7 +660,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	@Override
-	public void printCASEvalMapXML(StringBuilder sb) {
+	public void printCASEvalMapXML(XMLStringBuilder sb) {
 		// fun.printCASevalMapXML(sb);
 	}
 

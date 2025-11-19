@@ -133,25 +133,26 @@ public abstract class MyXMLio {
 		App consApp = c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
-		addXMLHeader(sb);
-		addGeoGebraHeader(sb, consApp);
+		XMLStringBuilder xb = new XMLStringBuilder(sb);
+		addXMLHeader(xb);
+		addGeoGebraHeader(xb, consApp);
 
 		// save euclidianView settings
-		consApp.getCompanion().getEuclidianViewXML(sb, false);
+		consApp.getCompanion().getEuclidianViewXML(xb, false);
 
 		// save kernel settings
-		c.getKernel().getKernelXML(sb, false);
-		consApp.getSettings().getTable().getXML(sb);
+		c.getKernel().getKernelXML(xb, false);
+		consApp.getSettings().getTable().getXML(xb);
 		// save construction
-		c.getConstructionXML(sb, getListenersToo);
+		c.getConstructionXML(xb, getListenersToo);
 
 		// save ProbabilityCalculator, Algebra view settings
 		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null) {
-			consApp.getGuiManager().getViewsXML(sb, false);
+			consApp.getGuiManager().getViewsXML(xb, false);
 		}
 
 		// save spreadsheet settings
-		consApp.getSettings().getSpreadsheet().getXML(sb, false);
+		consApp.getSettings().getSpreadsheet().getXML(xb, false);
 
 		sb.append("</geogebra>");
 		return sb;
@@ -201,7 +202,7 @@ public abstract class MyXMLio {
 		}
 	}
 
-	private static void addGeoGebraHeader(StringBuilder sb, App app) {
+	private static void addGeoGebraHeader(XMLStringBuilder sb, App app) {
 		addGeoGebraHeader(sb, false, app.getUniqueId(), app);
 	}
 
@@ -214,7 +215,7 @@ public abstract class MyXMLio {
 	 * @param uniqueId construction ID
 	 * @param app      app
 	 */
-	public static void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId,
+	public static void addGeoGebraHeader(XMLStringBuilder sb, boolean isMacro, String uniqueId,
 										 App app) {
 		AppConfig config = app.getConfig();
 		addGeoGebraHeader(
@@ -240,7 +241,7 @@ public abstract class MyXMLio {
 	 *            app platform
 	 */
 	public static void addGeoGebraHeader(
-			StringBuilder sb,
+			XMLStringBuilder sb,
 			boolean isMacro,
 			String uniqueId,
 			Platform platform,
@@ -251,37 +252,28 @@ public abstract class MyXMLio {
 		// (GeoGebraTube doesn't display 5.0 applets)
 		String format = GeoGebraConstants.XML_FILE_FORMAT;
 
-		sb.append("<geogebra format=\"");
-		sb.append(format);
-		sb.append("\" ");
-		sb.append("version=\"");
-		sb.append(GeoGebraConstants.VERSION_STRING);
-		sb.append("\" ");
-		sb.append("app=\"");
-		sb.append(appCode);
-		sb.append("\" ");
+		sb.startOpeningTag("geogebra", 0);
+		sb.attrRaw("format", format);
+		sb.attrRaw("version", GeoGebraConstants.VERSION_STRING);
+		sb.attrRaw("app", appCode);
 		if (subAppCode != null) {
-			sb.append("subApp=\"");
-			sb.append(subAppCode);
-			sb.append("\" ");
+			sb.attrRaw("subApp", subAppCode);
 		}
-		sb.append("platform=\"");
-		sb.append(platform.getName());
-		sb.append("\" ");
+		sb.attrRaw("platform", platform.getName());
 		if (uniqueId != null) {
-			sb.append("id=\"");
-			sb.append(uniqueId); // unique id to identify ggb file
-			sb.append("\" ");
+			sb.attr("id", uniqueId); // unique id to identify ggb file
 		}
-		sb.append(" xsi:noNamespaceSchemaLocation=\"https://www.geogebra.org/apps/xsd/");
+		StringBuilder schema = new StringBuilder("https://www.geogebra.org/apps/xsd/");
 		if (isMacro) {
-			sb.append(GeoGebraConstants.GGT_XSD_FILENAME); // eg ggt.xsd
+			schema.append(GeoGebraConstants.GGT_XSD_FILENAME); // eg ggt.xsd
 		}
 		else {
-			sb.append(GeoGebraConstants.GGB_XSD_FILENAME); // eg ggb.xsd
+			schema.append(GeoGebraConstants.GGB_XSD_FILENAME); // eg ggb.xsd
 		}
-		sb.append(
-				"\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
+		sb.attrRaw("xsi:noNamespaceSchemaLocation", schema);
+		sb.attrRaw("xmlns", "");
+		sb.attrRaw("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		sb.endTag();
 	}
 
 	/**
@@ -290,8 +282,8 @@ public abstract class MyXMLio {
 	 * @param sb
 	 *            builder
 	 */
-	public static void addXMLHeader(StringBuilder sb) {
-		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+	public static void addXMLHeader(XMLStringBuilder sb) {
+		sb.appendXMLHeader();
 	}
 
 	/**
@@ -300,17 +292,17 @@ public abstract class MyXMLio {
 	 *         Format.
 	 */
 	public String getFullXML() {
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, app);
 
 		// save gui settings
-		sb.append(app.getCompleteUserInterfaceXML(false));
+		app.getCompleteUserInterfaceXML(false, sb);
 
 		// save construction
 		cons.getConstructionXML(sb, false);
 
-		sb.append("</geogebra>");
+		sb.closeTag("geogebra");
 		return sb.toString();
 	}
 
@@ -323,13 +315,13 @@ public abstract class MyXMLio {
 	 * @return XML representation of given macros in the kernel.
 	 */
 	public String getFullMacroXML(List<Macro> macros) {
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, true, null, app);
 		// save construction
-		sb.append(kernel.getMacroXML(macros));
+		kernel.getMacroXML(macros, sb);
 
-		sb.append("</geogebra>");
+		sb.closeTag("geogebra");
 		return sb.toString();
 	}
 
@@ -339,7 +331,7 @@ public abstract class MyXMLio {
 	 * @return XML representation of all settings WITHOUT construction.
 	 */
 	public String getPreferencesXML() {
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, false, null, app);
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
@@ -347,9 +339,9 @@ public abstract class MyXMLio {
 		// + "\">\n");
 
 		// save gui settings
-		sb.append(app.getCompleteUserInterfaceXML(true));
+		app.getCompleteUserInterfaceXML(true, sb);
 
-		sb.append("</geogebra>");
+		sb.closeTag("geogebra");
 		return sb.toString();
 	}
 
@@ -436,7 +428,7 @@ public abstract class MyXMLio {
 			}
 		}
 
-		// handle construction step stored in XMLhandler
+		// handle the construction step stored in XML handler
 		// do this only if the construction protocol navigation is showing
 		if (!isGGTOrDefaults && oldVal && app.showConsProtNavigation()) {
 			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());

@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.StringUtil;
 
 /**
  *
@@ -230,19 +230,18 @@ public class GeoVideo extends GeoMedia {
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
-		sb.append("\t<video src=\"");
+		sb.startTag("video");
 		if (getFormat() == MediaFormat.VIDEO_YOUTUBE) {
-			StringUtil.encodeXML(sb, getEmbeddedUrl());
+			sb.attr("src", getEmbeddedUrl());
 		} else if (getSrc() != null) {
-			StringUtil.encodeXML(sb, getSrc());
+			sb.attr("src", getSrc());
 		}
 		if (getFormat() != null) {
-			sb.append("\" type=\"");
-			sb.append(getFormat());
+			sb.attrRaw("type", getFormat().toString());
 		}
-		sb.append("\"/>\n");
+		sb.endTag();
 	}
 
 	/**

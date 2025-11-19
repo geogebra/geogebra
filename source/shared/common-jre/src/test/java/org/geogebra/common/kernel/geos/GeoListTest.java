@@ -11,6 +11,7 @@ import java.util.Objects;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.annotation.Issue;
@@ -61,7 +62,7 @@ public class GeoListTest extends BaseUnitTest {
 		add("c=1");
 		allLists.set(add("{{c}}")); // equivalent to SetValue(allLists,{{c}})
 		add("SetValue(c,42)");
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		allLists.getExpressionXML(sb);
 		assertThat(sb.toString(), is("<expression label=\"allLists\" exp=\"{{1}}\"/>\n"));
 	}

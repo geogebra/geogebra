@@ -20,6 +20,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.kernel.geos.XMLBuilder.coordStyle;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ import java.util.HashSet;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -566,7 +569,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	 * returns class-specific style xml tags for saveXML
 	 */
 	@Override
-	protected void getStyleXML(StringBuilder xmlsb) {
+	protected void getStyleXML(XMLStringBuilder xmlsb) {
 		super.getStyleXML(xmlsb);
 		// line thickness and type
 		getLineStyleXML(xmlsb);
@@ -574,25 +577,24 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 		// polar or cartesian coords
 		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
-			xmlsb.append("\t<coordStyle style=\"polar\"/>\n");
+			coordStyle(xmlsb, "polar");
 			break;
 
 		case Kernel.COORD_COMPLEX:
-			xmlsb.append("\t<coordStyle style=\"complex\"/>\n");
+			coordStyle(xmlsb, "complex");
 			break;
 
 		case Kernel.COORD_CARTESIAN_3D:
-			xmlsb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
+			coordStyle(xmlsb, "cartesian3d");
 			break;
 
 		case Kernel.COORD_SPHERICAL:
-			xmlsb.append("\t<coordStyle style=\"spherical\"/>\n");
+			coordStyle(xmlsb, "spherical");
 			break;
 
 		default:
-			xmlsb.append("\t<coordStyle style=\"cartesian\"/>\n");
+			coordStyle(xmlsb, "cartesian");
 		}
-
 		if (getHeadStyle() != VectorHeadStyle.DEFAULT) {
 			getHeadStyleXML(xmlsb);
 		}
@@ -603,10 +605,8 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 		}
 	}
 
-	private void getHeadStyleXML(StringBuilder xmlsb) {
-		xmlsb.append("\t<headStyle val=\"");
-		xmlsb.append(getHeadStyle().ordinal());
-		xmlsb.append("\"/>");
+	private void getHeadStyleXML(XMLStringBuilder xmlsb) {
+		xmlsb.startTag("headStyle").attr("val", getHeadStyle().ordinal()).endTag();
 	}
 
 	@Override

@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
@@ -22,7 +23,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Creates a PolyLine from a given list of points or point array.
@@ -103,16 +103,14 @@ public class AlgoLocusStroke extends AlgoElement {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
-		sb.append("<expression");
+	protected void getExpXML(StringTemplate tpl, XMLStringBuilder sb) {
+		sb.startTag("expression");
 		if (/* output != null && */getOutputLength() == 1) {
 			if (getOutput(0).isLabelSet()) {
-				sb.append(" label=\"");
-				StringUtil.encodeXML(sb, getOutput(0).getLabel(tpl));
-				sb.append("\"");
+				sb.attr("label", getOutput(0).getLabel(tpl));
 			}
 		}
-		sb.append(" exp=\"PenStroke[]\" />");
+		sb.attrRaw("exp", "PenStroke[]").endTag();
 	}
 
 	@Override

@@ -58,6 +58,7 @@ import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ModeSetter;
@@ -484,12 +485,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	// =====================================================
 
 	@Override
-	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
+	public void getSpreadsheetViewXML(XMLStringBuilder sb, boolean asPreference) {
 		getApp().getSettings().getSpreadsheet().getXML(sb, asPreference);
 	}
 
 	@Override
-	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
+	public void getAlgebraViewXML(XMLStringBuilder sb, boolean asPreference) {
 		if (algebraView != null) {
 			algebraView.getXML(sb, asPreference);
 		}

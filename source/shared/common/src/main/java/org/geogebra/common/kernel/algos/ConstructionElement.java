@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.TreeSet;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.Kernel;
@@ -162,7 +163,7 @@ public abstract class ConstructionElement
 	 * @param sb
 	 *            string builder
 	 */
-	public abstract void getXML(boolean getListenersToo, StringBuilder sb);
+	public abstract void getXML(boolean getListenersToo, XMLStringBuilder sb);
 
 	/**
 	 * Returns XML representation of this object. OGP format.
@@ -170,7 +171,7 @@ public abstract class ConstructionElement
 	 * @param sb
 	 *            string builder
 	 */
-	public void getXML_OGP(StringBuilder sb) {
+	public void getXML_OGP(XMLStringBuilder sb) {
 		getXML(false, sb);
 	}
 

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -51,7 +52,7 @@ public class GroupSaveTest {
         cons.createGroup(geos);
 
         String fileContent = FileIO.load(pathString);
-        StringBuilder consXMLStrBuilder = new StringBuilder();
+        XMLStringBuilder consXMLStrBuilder = new XMLStringBuilder();
         app.getKernel().getConstruction().getConstructionXML(consXMLStrBuilder, false);
         assertEquals(fileContent, consXMLStrBuilder.toString().trim());
     }

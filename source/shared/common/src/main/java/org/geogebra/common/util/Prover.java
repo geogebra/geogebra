@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
@@ -624,7 +625,7 @@ public abstract class Prover {
 	// and GeoGebra.
 	protected static String simplifiedXML(Construction cons,
 			GeoElement statement) {
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		cons.getConstructionElementsXML_OGP(sb, statement);
 
 		// /* FIXME: EXTREMELY DIRTY HACK. This should be handled in OGP instead

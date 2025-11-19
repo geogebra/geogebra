@@ -20,6 +20,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.kernel.geos.XMLBuilder.coordStyle;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,6 +29,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.FixedPathRegionAlgo;
@@ -79,7 +82,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -1742,7 +1744,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * returns all class-specific xml tags for saveXML GeoGebra File Format
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getXMLTags(XMLStringBuilder sb) {
 		AlgoElement algo = getParentAlgorithm();
 		if (algo instanceof AlgoPointOnPath) {
 			// write parameter just for GeoCurveCartesian/GeoCurveCartesian3D
@@ -1750,35 +1752,33 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			// pos
 			if (((AlgoPointOnPath) algo)
 					.getPath() instanceof GeoCurveCartesianND) {
-				sb.append("\t<curveParam t=\"");
-				sb.append(getPathParameter().t);
-				sb.append("\"/>\n");
+				sb.startTag("curveParam").attr("t", getPathParameter().t).endTag();
 			}
 		}
 
 		// write x,y,z after <curveParam>
-		super.getXMLtags(sb);
+		super.getXMLTags(sb);
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		// polar or cartesian coords
 		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
-			sb.append("\t<coordStyle style=\"polar\"/>\n");
+			coordStyle(sb, "polar");
 			break;
 
 		case Kernel.COORD_COMPLEX:
-			sb.append("\t<coordStyle style=\"complex\"/>\n");
+			coordStyle(sb, "complex");
 			break;
 
 		case Kernel.COORD_CARTESIAN_3D:
-			sb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
+			coordStyle(sb, "cartesian3d");
 			break;
 
 		case Kernel.COORD_SPHERICAL:
-			sb.append("\t<coordStyle style=\"spherical\"/>\n");
+			coordStyle(sb, "spherical");
 			break;
 
 		default:
@@ -1792,26 +1792,20 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public void appendStartPointXML(StringBuilder sb, boolean absPosition) {
-		sb.append("\t<startPoint ");
+	public void appendStartPointXML(XMLStringBuilder sb, boolean absPosition) {
+		sb.startTag("startPoint");
 
 		if (isAbsoluteStartPoint()) {
-			sb.append("x=\"");
-			sb.append(x);
-			sb.append("\" y=\"");
-			sb.append(y);
-			sb.append("\" z=\"");
-			sb.append(z);
-			sb.append("\"");
+			sb.attr("x", x);
+			sb.attr("y", y);
+			sb.attr("z", z);
 		} else {
-			sb.append("exp=\"");
-			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
-			sb.append("\"");
+			sb.attr("exp", getLabel(StringTemplate.xmlTemplate));
 		}
 		if (absPosition) {
-			sb.append(" absolute=\"true\"");
+			sb.attr("absolute", true);
 		}
-		sb.append("/>\n");
+		sb.endTag();
 	}
 
 	@Override

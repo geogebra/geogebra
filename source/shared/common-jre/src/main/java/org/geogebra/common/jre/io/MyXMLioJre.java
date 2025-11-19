@@ -42,6 +42,7 @@ import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
 import org.geogebra.common.io.XMLParseException;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.jre.gui.MyImageJre;
@@ -361,10 +362,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 			zip.closeEntry();
 
 			// write XML file for defaults
-			StringBuilder sb2d = new StringBuilder();
-			StringBuilder sb3d = null;
+			XMLStringBuilder sb2d = new XMLStringBuilder();
+			XMLStringBuilder sb3d = null;
 			if (app.is3D()) {
-				sb3d = new StringBuilder();
+				sb3d = new XMLStringBuilder();
 			}
 			cons.getConstructionDefaults().getDefaultsXML(sb2d, sb3d);
 

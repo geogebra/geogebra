@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.gui.EdgeInsets;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -789,23 +790,22 @@ public class GeoNumeric extends GeoElement
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getXMLTags(XMLStringBuilder sb) {
 		getValueXML(sb, value);
 		getStyleXML(sb);
 	}
 
-	protected void getValueXML(StringBuilder sb, double rawVal) {
-		sb.append("\t<value val=\"");
-		sb.append(rawVal);
-		sb.append("\"");
+	protected void getValueXML(XMLStringBuilder sb, double rawVal) {
+		sb.startTag("value");
+		sb.attr("val", rawVal);
 		if (isRandom()) {
-			sb.append(" random=\"true\"");
+			sb.attr("random", true);
 		}
-		sb.append("/>\n");
+		sb.endTag();
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		XMLBuilder.appendSymbolicMode(sb, this, false);
 		// if number is drawable then we need to save visual options too
 		if (isDrawable || isSliderable()) {
@@ -818,9 +818,9 @@ public class GeoNumeric extends GeoElement
 
 			// for slope triangle
 			if (slopeTriangleSize > 1) {
-				sb.append("\t<slopeTriangleSize val=\"");
-				sb.append(slopeTriangleSize);
-				sb.append("\"/>\n");
+				sb.startTag("slopeTriangleSize");
+				sb.attr("val", slopeTriangleSize);
+				sb.endTag();
 			}
 		}
 		getBasicStyleXML(sb);
@@ -831,12 +831,12 @@ public class GeoNumeric extends GeoElement
 	 * Expose parent implementation to angles
 	 * @param sb string builder
 	 */
-	protected void getBasicStyleXML(StringBuilder sb) {
+	protected void getBasicStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 	}
 
 	@Override
-	protected void appendObjectColorXML(StringBuilder sb) {
+	protected void appendObjectColorXML(XMLStringBuilder sb) {
 		if (isDefaultGeo() || isColorSet()) {
 			super.appendObjectColorXML(sb);
 		}
@@ -888,52 +888,42 @@ public class GeoNumeric extends GeoElement
 	 * @param sb
 	 *            String builder to be written to
 	 */
-	protected void getXMLsliderTag(StringBuilder sb) {
+	protected void getXMLsliderTag(XMLStringBuilder sb) {
 		if (!isSliderable()) {
 			return;
 		}
 
 		StringTemplate tpl = StringTemplate.xmlTemplate;
-		sb.append("\t<slider");
+		sb.startTag("slider");
 		if (isIntervalMinActive() || intervalMin instanceof GeoNumeric) {
-			sb.append(" min=\"");
-			StringUtil.encodeXML(sb, getIntervalMinObject().getLabel(tpl));
-			sb.append("\"");
+			sb.attr("min", getIntervalMinObject().getLabel(tpl));
 		}
 		if (isIntervalMaxActive() || intervalMax instanceof GeoNumeric) {
-			sb.append(" max=\"");
-			StringUtil.encodeXML(sb, getIntervalMaxObject().getLabel(tpl));
-			sb.append("\"");
+			sb.attr("max", getIntervalMaxObject().getLabel(tpl));
 		}
 
 		if (hasAbsoluteScreenLocation) {
-			sb.append(" absoluteScreenLocation=\"true\"");
+			sb.attr("absoluteScreenLocation", true);
 		}
 
-		sb.append(" width=\"");
-		sb.append(sliderWidth);
+		sb.attr("width", sliderWidth);
 		if (startPoint != null) {
-			sb.append("\" x=\"");
-			sb.append(startPoint.getInhomX());
-			sb.append("\" y=\"");
-			sb.append(startPoint.getInhomY());
+			sb.attr("x", startPoint.getInhomX());
+			sb.attr("y", startPoint.getInhomY());
 		}
-		sb.append("\" fixed=\"");
-		sb.append(sliderFixed);
-		sb.append("\" horizontal=\"");
-		sb.append(sliderHorizontal);
-		sb.append("\" showAlgebra=\"");
-		sb.append(isAVSliderOrCheckboxVisible());
+		sb.attr("fixed", sliderFixed);
+		sb.attr("horizontal", sliderHorizontal);
+		sb.attr("showAlgebra", isAVSliderOrCheckboxVisible());
 
 		if (cons.getArbitraryConstants().values().contains(this)) {
-			sb.append("\" arbitraryConstant=\"true");
+			sb.attr("arbitraryConstant", true);
 		}
 
-		sb.append("\"/>\n");
+		sb.endTag();
 		if (sliderBlobSize != DEFAULT_SLIDER_BLOB_SIZE) {
-			sb.append("\t<pointSize val=\"");
-			sb.append(sliderBlobSize);
-			sb.append("\"/>\n");
+			sb.startTag("pointSize");
+			sb.attr("val", sliderBlobSize);
+			sb.endTag();
 		}
 		if (startPoint != null && !startPoint.isAbsoluteStartPoint()) {
 			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());

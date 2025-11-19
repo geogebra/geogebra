@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
@@ -869,12 +870,10 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
-	public void getStyleXML(StringBuilder sb) {
+	public void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		if (!StringUtil.empty(splitParentLabel)) {
-			sb.append("\t<parentLabel val=\"");
-			StringUtil.encodeXML(sb, splitParentLabel);
-			sb.append("\"/>\n");
+			sb.startTag("parentLabel").attr("val", splitParentLabel).endTag();
 		}
 	}
 
@@ -897,14 +896,13 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder builder) {
-		builder.append("<strokeCoords val=\"");
+	public void getXMLTags(XMLStringBuilder builder) {
 		if (xmlPoints == null) {
 			xmlPoints = new StringBuilder();
 			appendPoints(xmlPoints);
 		}
-		builder.append(xmlPoints).append("\" />\n");
-		super.getXMLtags(builder);
+		builder.startTag("strokeCoords").attrRaw("val", xmlPoints).endTag();
+		super.getXMLTags(builder);
 	}
 
 	/**

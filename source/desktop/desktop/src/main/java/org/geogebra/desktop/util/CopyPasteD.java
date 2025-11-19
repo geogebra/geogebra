@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -345,11 +346,12 @@ public class CopyPasteD extends CopyPaste {
 
 			// loop through Construction to keep the good order of
 			// ConstructionElements
+			XMLStringBuilder xmlBuilder = new XMLStringBuilder(copiedXML);
 			Construction cons = app.getKernel().getConstruction();
 			for (int i = 0; i < cons.steps(); ++i) {
 				ce = cons.getConstructionElement(i);
 				if (geoslocal.contains(ce)) {
-					ce.getXML(false, copiedXML);
+					ce.getXML(false, xmlBuilder);
 				}
 			}
 		} catch (Exception e) {
@@ -376,10 +378,11 @@ public class CopyPasteD extends CopyPaste {
 				// loop through Construction to keep the good order of
 				// ConstructionElements
 				Construction cons = app.getKernel().getConstruction();
+				XMLStringBuilder xmlBuilder = new XMLStringBuilder(copiedXMLforSameWindow);
 				for (int i = 0; i < cons.steps(); ++i) {
 					ce = cons.getConstructionElement(i);
 					if (geoslocalsw.contains(ce)) {
-						ce.getXML(false, copiedXMLforSameWindow);
+						ce.getXML(false, xmlBuilder);
 					}
 				}
 			} catch (Exception e) {

@@ -43,6 +43,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -948,7 +949,7 @@ public class AlgebraViewD extends AlgebraTree
 	/**
 	 * returns settings in XML format
 	 */
-	public void getXML(StringBuilder sb, boolean asPreference) {
+	public void getXML(XMLStringBuilder sb, boolean asPreference) {
 		// collapsed nodes
 		updateCollapsedNodesIndices();
 		getSettings().getXML(sb, showAuxiliaryObjects());

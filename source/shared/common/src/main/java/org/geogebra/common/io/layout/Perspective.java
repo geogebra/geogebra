@@ -1,5 +1,6 @@
 package org.geogebra.common.io.layout;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
@@ -383,9 +384,17 @@ public class Perspective {
 	 * @return The settings of this perspective as XML.
 	 */
 	public String getXml() {
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
+		getXml(sb);
+		return sb.toString();
+	}
 
-		sb.append("<perspective id=\"tmp\">\n");
+	/**
+	 * @param sb The builder for appending settings of this perspective as XML.
+	 */
+	public void getXml(XMLStringBuilder sb) {
+
+		sb.startOpeningTag("perspective", 0).attr("id", "tmp").endTag();
 
 		getPanesXML(sb);
 
@@ -394,75 +403,59 @@ public class Perspective {
 		getToolbarXML(sb);
 
 		// algebra input bar
-		sb.append("\t<input show=\"");
-		sb.append(getShowInputPanel());
-		sb.append("\" cmd=\"");
-		sb.append(getShowInputPanelCommands());
-		sb.append("\" top=\"");
-		sb.append(getInputPosition() == InputPosition.top ? "true"
+		sb.startTag("input");
+		sb.attr("show", getShowInputPanel());
+		sb.attr("cmd", getShowInputPanelCommands());
+		sb.attrRaw("top", getInputPosition() == InputPosition.top ? "true"
 				: getInputPosition() == InputPosition.bottom ? "false"
 						: "algebra");
-		sb.append("\" />\n");
+		sb.endTag();
 
 		getDockbarXML(sb);
 
-		sb.append("</perspective>\n");
-
-		return sb.toString();
+		sb.closeTag("perspective");
 	}
 
 	public boolean isUserDefined() {
 		return defaultID == 0;
 	}
 
-	private void getPanesXML(StringBuilder sb) {
-		sb.append("\t<panes>\n");
+	private void getPanesXML(XMLStringBuilder sb) {
+		sb.startOpeningTag("panes", 1).endTag();
 		for (int i = 0; i < splitPaneData.length; ++i) {
-			sb.append("\t\t");
-			sb.append(splitPaneData[i].getXml());
-			sb.append("\n");
+			splitPaneData[i].getXml(sb);
 		}
-		sb.append("\t</panes>\n");
-
+		sb.closeTag("panes");
 	}
 
-	private void getToolbarXML(StringBuilder sb) {
+	private void getToolbarXML(XMLStringBuilder sb) {
 		// main toolbar
-		sb.append("\t<toolbar show=\"");
-		sb.append(getShowToolBar());
+		sb.startTag("toolbar").attr("show", getShowToolBar());
 		if (getToolbarDefinition() != null) {
-			sb.append("\" items=\"");
-			sb.append(getToolbarDefinition());
+			sb.attrRaw("items", getToolbarDefinition());
 		}
-		sb.append("\" position=\"");
-		sb.append(getToolBarPosition());
-		sb.append("\" help=\"");
-		sb.append(getShowToolBarHelp());
-		sb.append("\" />\n");
-
+		sb.attr("position", getToolBarPosition());
+		sb.attr("help", getShowToolBarHelp());
+		sb.endTag();
 	}
 
-	private void getViewsXML(StringBuilder sb) {
-		sb.append("\t<views>\n");
+	private void getViewsXML(XMLStringBuilder sb) {
+		sb.startOpeningTag("views", 1).endTag();
 		for (int i = 0; i < getDockPanelData().length; ++i) {
 			DockPanelData data = getDockPanelData()[i];
 			if (data.storeXml()) {
-				sb.append("\t\t");
 				data.getXml(sb);
 			}
 		}
-		sb.append("\t</views>\n");
+		sb.closeTag("views");
 
 	}
 
-	private void getDockbarXML(StringBuilder sb) {
-		// dockbar
-		sb.append("\t<dockBar show=\"");
-		sb.append(getShowDockBar());
-		sb.append("\" east=\"");
-		sb.append(isDockBarEast());
-		sb.append("\" />\n");
-
+	private void getDockbarXML(XMLStringBuilder sb) {
+		sb.startTag("dockBar")
+				.attr("show", getShowDockBar())
+				.attr("east", isDockBarEast())
+				.endTag();
 	}
 
 	/**

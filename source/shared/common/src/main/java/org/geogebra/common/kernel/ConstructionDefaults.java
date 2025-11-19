@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -1227,15 +1228,15 @@ public class ConstructionDefaults implements SettingListener {
 	 * @param sb3d
 	 *            string for 3d geos
 	 */
-	public void getDefaultsXML(StringBuilder sb2d, StringBuilder sb3d) {
+	public void getDefaultsXML(XMLStringBuilder sb2d, XMLStringBuilder sb3d) {
 		MyXMLio.addXMLHeader(sb2d);
 		MyXMLio.addGeoGebraHeader(sb2d, true, null, cons.getApplication());
-		sb2d.append("<defaults>\n");
+		sb2d.startOpeningTag("defaults", 0).endTag();
 
 		if (sb3d != null) {
 			MyXMLio.addXMLHeader(sb3d);
 			MyXMLio.addGeoGebraHeader(sb3d, true, null, cons.getApplication());
-			sb3d.append("<defaults>\n");
+			sb3d.startOpeningTag("defaults", 0).endTag();
 		}
 
 		for (GeoElement geo : defaultGeoElements.values()) {
@@ -1247,10 +1248,12 @@ public class ConstructionDefaults implements SettingListener {
 				geo.getXML(false, sb2d);
 			}
 		}
-		sb2d.append("</defaults>\n</geogebra>");
+		sb2d.closeTag("defaults");
+		sb2d.closeTag("geogebra");
 
 		if (sb3d != null) {
-			sb3d.append("</defaults>\n</geogebra>");
+			sb3d.closeTag("defaults");
+			sb3d.closeTag("geogebra");
 		}
 
 	}
@@ -1261,15 +1264,16 @@ public class ConstructionDefaults implements SettingListener {
 	 * @param sb
 	 *            string for all geos
 	 */
-	public void getDefaultsXML(StringBuilder sb) {
+	public void getDefaultsXML(XMLStringBuilder sb) {
 		App app = cons.getApplication();
 		MyXMLio.addXMLHeader(sb);
 		MyXMLio.addGeoGebraHeader(sb, true, null, app);
-		sb.append("<defaults>\n");
+		sb.startOpeningTag("defaults", 0);
 		for (GeoElement geo : defaultGeoElements.values()) {
 			geo.getXML(false, sb);
 		}
-		sb.append("</defaults>\n</geogebra>");
+		sb.closeTag("defaults");
+		sb.closeTag("geogebra");
 	}
 
 	/**

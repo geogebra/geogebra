@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
@@ -198,14 +199,12 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 				EuclidianView3DInterface.ANGLE_ROT_XOY, false);
 	}
 
-	protected void getXMLForStereo(StringBuilder sb, int eyeDistance, int sep) {
+	protected void getXMLForStereo(XMLStringBuilder sb, int eyeDistance, int sep) {
 		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT) {
-			sb.append("\" distance=\"");
-			sb.append(eyeDistance);
+			sb.attr("distance", eyeDistance);
 		}
 		if (sep != EuclidianSettings3D.EYE_SEP_DEFAULT) {
-			sb.append("\" separation=\"");
-			sb.append(sep);
+			sb.attr("separation", sep);
 		}
 	}
 

@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -67,7 +68,7 @@ public class AppCompanion {
 	 * @param asPreference
 	 *            whether we need this for preference XML
 	 */
-	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
+	public void getEuclidianViewXML(XMLStringBuilder sb, boolean asPreference) {
 		EuclidianView mainView = app.getEuclidianView1();
 		if (mainView != null) { // in scientific calculator
 			mainView.getXML(sb, asPreference);

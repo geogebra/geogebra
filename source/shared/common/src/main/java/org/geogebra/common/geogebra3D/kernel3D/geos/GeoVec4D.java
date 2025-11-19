@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
@@ -120,12 +121,12 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 	 * returns all class-specific xml tags for saveXML Geogebra File Format
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-		sb.append("\t<coords x=\"").append(getX())
-				.append("\" y=\"").append(getY())
-				.append("\" z=\"").append(getZ())
-				.append("\" w=\"").append(getW()).append("\"/>\n");
+	protected void getXMLTags(XMLStringBuilder sb) {
+		super.getXMLTags(sb);
+		sb.startTag("coords").attr("x", getX())
+				.attr("y", getY())
+				.attr("z", getZ())
+				.attr("w", getW()).endTag();
 	}
 
 	/**

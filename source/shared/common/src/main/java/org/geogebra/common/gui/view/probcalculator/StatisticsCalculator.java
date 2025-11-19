@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -403,7 +404,7 @@ public abstract class StatisticsCalculator {
 	 * @param active
 	 *            whether the tab is active
 	 */
-	public void getXML(StringBuilder sb, boolean active) {
+	public void getXML(XMLStringBuilder sb, boolean active) {
 		if (sc != null) {
 			sc.setActive(active);
 			sc.getXML(sb);

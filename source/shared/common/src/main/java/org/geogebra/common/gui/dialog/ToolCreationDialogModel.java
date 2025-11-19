@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
@@ -262,7 +263,7 @@ public class ToolCreationDialogModel {
 		Kernel kernel = macro.getKernel();
 		App appToSave = kernel.getApplication();
 		if (compatible) {
-			StringBuilder sb = new StringBuilder();
+			XMLStringBuilder sb = new XMLStringBuilder();
 			newTool.getXML(sb);
 			if (app.getEditMacro() != null) {
 				kernel.removeMacro(app.getEditMacro());

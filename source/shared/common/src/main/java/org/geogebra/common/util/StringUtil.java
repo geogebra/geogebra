@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.parser.ParserInfo;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Greek;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -263,84 +262,6 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 			}
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * Converts the given unicode string to a string where special characters
-	 * are converted to <code>&amp;#encoding;</code> sequences . The resulting
-	 * string can be used in XML files.
-	 * 
-	 * @param str
-	 *            unicode string
-	 * @return XML string
-	 */
-	public static String encodeXML(String str) {
-		StringBuilder sb = new StringBuilder(str.length());
-		encodeXML(sb, str);
-		return sb.toString();
-	}
-
-	/**
-	 * Converts the given unicode string to a string where special characters
-	 * are converted to <code>&amp;#encoding;</code> sequences . The resulting
-	 * string can be used in XML files.
-	 * 
-	 * @param sb
-	 *            output builder
-	 * @param str
-	 *            raw string
-	 */
-	public static void encodeXML(StringBuilder sb, String str) {
-		if (str == null) {
-			return;
-		}
-
-		// convert every single character and append it to sb
-		int len = str.length();
-
-		// support for high Unicode characters
-		// https://stackoverflow.com/questions/24501020/how-can-i-convert-a-java-string-to-xml-entities-for-versions-of-unicode-beyond-3
-		for (int i = 0; i < len; i = str.offsetByCodePoints(i, 1)) {
-			int c = str.codePointAt(i);
-
-			if (c <= '\u001f' || c >= 0x10000) {
-				// #2399 all apart from U+0009, U+000A, U+000D are invalid in
-				// XML
-				// none should appear anyway, but encode to be safe
-
-				// eg &#x0A;
-				sb.append("&#x");
-				sb.append(Integer.toHexString(c));
-				sb.append(';');
-
-				if (c <= '\u001f' && c != '\n' && c != '\r') {
-					Log.warn("Control character being written to XML: " + c);
-				}
-
-			} else {
-
-				switch (c) {
-				case '>':
-					sb.append("&gt;");
-					break;
-				case '<':
-					sb.append("&lt;");
-					break;
-				case '"':
-					sb.append("&quot;");
-					break;
-				case '\'':
-					sb.append("&apos;");
-					break;
-				case '&':
-					sb.append("&amp;");
-					break;
-
-				default:
-					sb.append((char) c);
-				}
-			}
-		}
 	}
 
 	/**

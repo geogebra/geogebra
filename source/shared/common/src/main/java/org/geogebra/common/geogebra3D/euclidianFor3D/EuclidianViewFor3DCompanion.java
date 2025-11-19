@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -84,7 +85,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	}
 
 	@Override
-	public void getXMLid(StringBuilder sbxml) {
+	public void getXMLid(XMLStringBuilder sbxml) {
 		getXMLidNoCheck(sbxml);
 	}
 }

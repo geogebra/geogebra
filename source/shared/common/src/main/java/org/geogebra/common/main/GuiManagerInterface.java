@@ -28,6 +28,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -144,7 +145,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 * Append construction protocol XML to a builder.
 	 * @param sb XML string builder
 	 */
-	void getConsProtocolXML(StringBuilder sb);
+	void getConsProtocolXML(XMLStringBuilder sb);
 
 	/**
 	 * Show graphics view options context menu.
@@ -231,7 +232,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 * @param sb XML builder
 	 * @param asPreference if it's for the preference
 	 */
-	void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
+	void getAlgebraViewXML(XMLStringBuilder sb, boolean asPreference);
 
 	/**
 	 * Update undo/redo and menu for selection.
@@ -595,7 +596,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 * Get XML for construction protocol and data analysis.
 	 * @param sb XML builder
 	 */
-	void getExtraViewsXML(StringBuilder sb);
+	void getExtraViewsXML(XMLStringBuilder sb);
 
 	/**
 	 * @param type help page type
@@ -621,7 +622,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 * @param sb XML builder
 	 * @param asPreference whether this is for preference XML (as opposed to .ggb file)
 	 */
-	void getViewsXML(StringBuilder sb, boolean asPreference);
+	void getViewsXML(XMLStringBuilder sb, boolean asPreference);
 
 	/**
 	 * Make the right panel (toolbar) go from full screen to default width.

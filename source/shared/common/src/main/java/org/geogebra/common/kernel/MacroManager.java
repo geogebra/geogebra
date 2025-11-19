@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -155,26 +156,22 @@ public class MacroManager {
 	}
 
 	/**
-	 * Returns an XML representation of the specified macros in this kernel.
+	 * Appends an XML representation of the specified macros in this kernel to a XML string.
 	 * 
 	 * @param macros
 	 *            list of macros
-	 * @return XML representation as one string
+	 * @param builder XML string builder
 	 */
-	public static String getMacroXML(List<Macro> macros) {
+	public static void getMacroXML(List<Macro> macros, XMLStringBuilder builder) {
 		if (macros == null) {
-			return "";
+			return;
 		}
-
-		StringBuilder sb = new StringBuilder();
 		// save selected macros
-		for (int i = 0; i < macros.size(); i++) {
-			Macro macro = macros.get(i);
+		for (Macro macro : macros) {
 			if (macro != null) {
-				macro.getXML(sb);
+				macro.getXML(builder);
 			}
 		}
-		return sb.toString();
 	}
 
 }

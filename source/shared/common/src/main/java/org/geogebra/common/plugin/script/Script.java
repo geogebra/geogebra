@@ -109,7 +109,7 @@ public abstract class Script {
 	/**
 	 * @return the XML attribute name for serialization to file
 	 */
-	public Object getXMLName() {
+	public String getXMLName() {
 		return this.getType().getXMLName();
 	}
 

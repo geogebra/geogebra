@@ -37,6 +37,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraOutputFormat;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1972,7 +1973,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testFactorInvalid() {
 		app.setCasConfig();
 		AlgebraTestHelper.shouldFail("Factor()", "Illegal number of arguments", app);
-		StringBuilder consXML = new StringBuilder();
+		XMLStringBuilder consXML = new XMLStringBuilder();
 		app.getKernel().getConstruction().getConstructionElementsXML(consXML, false);
 		assertThat(consXML.toString(), is(""));
 	}

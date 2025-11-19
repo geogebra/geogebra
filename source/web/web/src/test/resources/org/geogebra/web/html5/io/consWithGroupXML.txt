@@ -46,5 +46,5 @@
 	<eqnStyle style="implicit"/>
 	<coords x="-3.0" y="0.0" z="9.0"/>
 </element>
-<group l0="A" l1="g" />
+<group l0="A" l1="g"/>
 </construction>

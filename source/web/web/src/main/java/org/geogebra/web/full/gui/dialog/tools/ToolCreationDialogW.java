@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
 import org.geogebra.common.gui.dialog.ToolInputOutputListener;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -355,7 +356,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 					appw.updateURL(url);
 				}
 			}
-			StringBuilder xml = new StringBuilder();
+			XMLStringBuilder xml = new XMLStringBuilder();
 			editMacro.getXML(xml);
 			JsPropertyMap<Object> message = JsPropertyMap.of();
 			message.set(AppW.EDITED_MACRO_NAME_KEY, editMacroName);

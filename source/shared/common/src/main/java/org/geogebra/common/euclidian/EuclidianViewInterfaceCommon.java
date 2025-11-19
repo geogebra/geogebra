@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -856,7 +857,7 @@ public interface EuclidianViewInterfaceCommon
 	 * @param asPreference
 	 *            as preference
 	 */
-	public void getXML(StringBuilder sb, boolean asPreference);
+	public void getXML(XMLStringBuilder sb, boolean asPreference);
 
 	/**
 	 * @param showAxesCornerCoords

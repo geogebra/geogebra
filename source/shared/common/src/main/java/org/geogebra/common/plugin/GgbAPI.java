@@ -22,6 +22,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -150,12 +151,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public synchronized void evalXML(String xmlString) {
 		getApplication().getActiveEuclidianView().saveInlines();
-		StringBuilder stringBuilder = new StringBuilder();
+		XMLStringBuilder stringBuilder = new XMLStringBuilder();
 		MyXMLio.addXMLHeader(stringBuilder);
 		MyXMLio.addGeoGebraHeader(stringBuilder, false, null, app);
-		stringBuilder.append("<construction>\n")
-				.append(xmlString)
-				.append("</construction>\n</geogebra>\n");
+		stringBuilder.startOpeningTag("construction", 0).endTag();
+		stringBuilder.append(new XMLStringBuilder(new StringBuilder(xmlString)))
+				.closeTag("construction");
+		stringBuilder.closeTag("geogebra");
 		getApplication().setXML(stringBuilder.toString(), false);
 		getApplication().getActiveEuclidianView().updateInlines();
 	}
@@ -1155,7 +1157,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 			return "";
 		}
-		StringBuilder layoutSB = new StringBuilder();
+		XMLStringBuilder layoutSB = new XMLStringBuilder();
 		app.getGuiManager().getLayout().getCurrentPerspectiveXML(layoutSB);
 		return layoutSB.toString();
 	}

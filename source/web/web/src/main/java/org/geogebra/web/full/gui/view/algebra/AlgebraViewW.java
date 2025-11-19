@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.GeoSelectionCallback;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -620,7 +621,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @param sb
 	 *            string builder
 	 */
-	public final void getXML(StringBuilder sb) {
+	public final void getXML(XMLStringBuilder sb) {
 		updateCollapsedNodesIndices();
 		getSettings().getXML(sb, showAuxiliaryObjects());
 	}

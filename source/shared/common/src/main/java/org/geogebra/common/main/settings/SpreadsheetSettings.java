@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 
 /**
@@ -604,94 +605,74 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 * @param asPreference
 	 *            whether this is for preference
 	 */
-	public void getXML(StringBuilder xmlBuilder, boolean asPreference) {
+	public void getXML(XMLStringBuilder xmlBuilder, boolean asPreference) {
 		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder xb = new XMLStringBuilder(sb);
 
 		if (!isDefaultPreferredSize()) {
 			GDimension size = preferredSize();
 			int width = size.getWidth();
 			int height = size.getHeight();
-			sb.append("\t<size ");
+			xb.startTag("size");
 			if (width != 0) {
-				sb.append(" width=\"");
-				sb.append(width);
-				sb.append("\"");
+				xb.attr("width", width);
 			}
 			if (height != 0) {
-				sb.append(" height=\"");
-				sb.append(height);
-				sb.append("\"");
+				xb.attr("height", height);
 			}
-			sb.append("/>\n");
+			xb.endTag();
 		}
 
 		int prefWidth = preferredColumnWidth();
 		int prefHeight = preferredRowHeight();
 
 		if (prefWidth != TABLE_CELL_WIDTH || prefHeight != TABLE_CELL_HEIGHT) {
-			sb.append("\t<prefCellSize ");
+			xb.startTag("prefCellSize");
 			if (prefWidth != TABLE_CELL_WIDTH) {
-				sb.append(" width=\"");
-				sb.append(prefWidth);
-				sb.append("\"");
+				xb.attr("width", prefWidth);
 			}
 			if (prefHeight != TABLE_CELL_HEIGHT) {
-				sb.append(" height=\"");
-				sb.append(prefHeight);
-				sb.append("\"");
+				xb.attr("height", prefHeight);
 			}
-			sb.append("/>\n");
+			xb.endTag();
 		}
 
 		if (!asPreference) {
-			getDimensionsXML(sb);
-			getWidthsAndHeightsXML(sb);
+			getDimensionsXML(xb);
+			getWidthsAndHeightsXML(xb);
 
 			// initial selection
 			if (!isSelectionDefaults()) {
-				sb.append("\t<selection ");
+				xb.startTag("selection");
 				if (hScrollBarValue != 0) {
-					sb.append(" hScroll=\"");
-					sb.append(hScrollBarValue);
-					sb.append("\"");
+					xb.attr("hScroll", hScrollBarValue);
 				}
 				if (vScrollBarValue != 0) {
-					sb.append(" vScroll=\"");
-					sb.append(vScrollBarValue);
-					sb.append("\"");
+					xb.attr("vScroll", vScrollBarValue);
 				}
 				if (selectedCell.getX() != 0) {
-					sb.append(" column=\"");
-					sb.append(selectedCell.getX());
-					// sb.append(table.getColumnModel().getSelectionModel()
-					// .getAnchorSelectionIndex());
-					sb.append("\"");
+					xb.attr("column", selectedCell.getX());
 				}
 				if (selectedCell.getY() != 0) {
-					sb.append(" row=\"");
-					sb.append(selectedCell.getY());
-					// sb.append(table.getSelectionModel().getAnchorSelectionIndex());
-					sb.append("\"");
-
+					xb.attr("row", selectedCell.getY());
 				}
-				sb.append("/>\n");
+				xb.endTag();
 			}
 		}
 
 		// layout
-		getLayoutXML(sb);
+		getLayoutXML(xb);
 
 		// cell formats
 		if (!asPreference && hasCellFormat()) {
-			sb.append("\t<spreadsheetCellFormat formatMap=\"");
-			sb.append(cellFormat);
-			sb.append("\"/>\n");
+			xb.startTag("spreadsheetCellFormat")
+					.attrRaw("formatMap", cellFormat).endTag();
 		}
 
 		if (sb.length() > 0) {
-			xmlBuilder.append("<spreadsheetView>\n");
-			xmlBuilder.append(sb);
-			xmlBuilder.append("</spreadsheetView>\n");
+			xmlBuilder.startOpeningTag("spreadsheetView", 0).endTag();
+			xmlBuilder.append(xb);
+			xmlBuilder.closeTag("spreadsheetView");
 		}
 	}
 
@@ -701,52 +682,52 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 * @param sb
 	 *            XML string builder
 	 */
-	public void getLayoutXML(StringBuilder sb) {
+	public void getLayoutXML(XMLStringBuilder sb) {
 		if (!isLayoutDefaults()) {
-			sb.append("\t<layout ");
+			sb.startTag("layout");
 
 			if (showFormulaBar) {
-				sb.append(" showFormulaBar=\"true\"");
+				sb.attr("showFormulaBar", true);
 			}
 
 			if (showGrid) {
-				sb.append(" showGrid=\"true\"");
+				sb.attr("showGrid", true);
 			}
 
 			if (showHScrollBar) {
-				sb.append(" showHScrollBar=\"true\"");
+				sb.attr("showHScrollBar", true);
 			}
 
 			if (showVScrollBar) {
-				sb.append(" showVScrollBar=\"true\"");
+				sb.attr("showVScrollBar", true);
 			}
 
 			if (showColumnHeader) {
-				sb.append(" showColumnHeader=\"true\"");
+				sb.attr("showColumnHeader", true);
 			}
 
 			if (showRowHeader) {
-				sb.append(" showRowHeader=\"true\"");
+				sb.attr("showRowHeader", true);
 			}
 
 			if (allowSpecialEditor) {
-				sb.append(" allowSpecialEditor=\"true\"");
+				sb.attr("allowSpecialEditor", true);
 			}
 
 			if (allowToolTips) {
-				sb.append(" allowToolTips=\"true\"");
+				sb.attr("allowToolTips", true);
 
 			}
 
 			if (equalsRequired) {
-				sb.append(" equalsRequired=\"true\"");
+				sb.attr("equalsRequired", true);
 			}
 
 			if (enableAutoComplete) {
-				sb.append(" autoComplete=\"true\"");
+				sb.attr("autoComplete", true);
 			}
 
-			sb.append("/>\n");
+			sb.endTag();
 		}
 
 	}
@@ -757,7 +738,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 * @param sb
 	 *            XML string builder
 	 */
-	public void getWidthsAndHeightsXML(StringBuilder sb) {
+	public void getWidthsAndHeightsXML(XMLStringBuilder sb) {
 		if (isRowColumnSizeDefaults()) {
 			return;
 		}
@@ -765,22 +746,22 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		// column widths
 		Map<Integer, Double> widthMap = getColumnWidths();
 		for (Entry<Integer, Double> entry : widthMap.entrySet()) {
-			Integer col = entry.getKey();
+			int col = entry.getKey();
 			double colWidth = entry.getValue();
 			if (colWidth != preferredColumnWidth()) {
-				sb.append("\t<spreadsheetColumn id=\"").append(col)
-						.append("\" width=\"").append(colWidth).append("\"/>\n");
+				sb.startTag("spreadsheetColumn").attr("id", col)
+						.attr("width", colWidth).endTag();
 			}
 		}
 
 		// row heights
 		Map<Integer, Double> heightMap = getRowHeights();
 		for (Entry<Integer, Double> entry : heightMap.entrySet()) {
-			Integer row = entry.getKey();
+			int row = entry.getKey();
 			double rowHeight = entry.getValue();
 			if (rowHeight != preferredRowHeight()) {
-				sb.append("\t<spreadsheetRow id=\"").append(row)
-						.append("\" height=\"").append(rowHeight).append("\"/>\n");
+				sb.startTag("spreadsheetRow").attr("id", row)
+						.attr("height", rowHeight).endTag();
 			}
 		}
 
@@ -790,10 +771,10 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 * Print size XML tag to a builder
 	 * @param sb output string builder
 	 */
-	public void getDimensionsXML(StringBuilder sb) {
+	public void getDimensionsXML(XMLStringBuilder sb) {
 		if (rows != DEFAULT_NR_ROWS || columns != DEFAULT_NR_COLUMNS) {
-			sb.append("\t<dimensions rows=\"").append(rows)
-					.append("\" columns=\"").append(columns).append("\"/>\n");
+			sb.startTag("dimensions").attr("rows", rows)
+					.attr("columns", columns).endTag();
 		}
 	}
 

@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -47,7 +48,7 @@ public final class GeoStadium extends GeoLocus implements MatrixTransformable, T
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder builder) {
+	public void getXMLTags(XMLStringBuilder builder) {
 		getStyleXML(builder);
 	}
 

@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -287,7 +288,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		GeoList data = (GeoList) view.getEvaluatable(1);
 		processor.processInput("1+1/2", data, 1);
 		processor.processInput("1++", data, 2);
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		data.getExpressionXML(sb);
 		assertThat(sb.toString(), equalTo("<expression label=\"y_{1}\" exp=\""
 				+ "{5 / 2,1 + 1 / 2,ParseToNumber[&quot;1++&quot;]}\" type=\"list\"/>\n"));

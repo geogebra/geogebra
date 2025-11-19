@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawBezierCurve;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.algos.AlgoBezierCurve;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -192,7 +193,7 @@ public class EuclidianViewCompanion {
 	 * @param sbxml
 	 *            xml
 	 */
-	public void getXMLid(StringBuilder sbxml) {
+	public void getXMLid(XMLStringBuilder sbxml) {
 		if (view.evNo >= 2) {
 			getXMLidNoCheck(sbxml);
 		}
@@ -204,12 +205,8 @@ public class EuclidianViewCompanion {
 	 * @param sbxml
 	 *            xml
 	 */
-	protected void getXMLidNoCheck(StringBuilder sbxml) {
-		sbxml.append("\t<viewNumber ");
-		sbxml.append("viewNo=\"");
-		sbxml.append(view.evNo);
-		sbxml.append("\"");
-		sbxml.append("/>\n");
+	protected void getXMLidNoCheck(XMLStringBuilder sbxml) {
+		sbxml.startTag("viewNumber").attr("viewNo", view.evNo).endTag();
 	}
 
 	/**
@@ -220,7 +217,7 @@ public class EuclidianViewCompanion {
 	 * @param asPreference
 	 *            true for preferences
 	 */
-	public void getXML(StringBuilder sbxml, boolean asPreference) {
+	public void getXML(XMLStringBuilder sbxml, boolean asPreference) {
 		view.startXML(sbxml, asPreference);
 		view.endXML(sbxml);
 	}

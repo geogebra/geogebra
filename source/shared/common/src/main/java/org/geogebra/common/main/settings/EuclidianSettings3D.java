@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -661,68 +662,47 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @see org.geogebra.common.io.MyXMLHandler
 	 * @see org.geogebra.common.geogebra3D.io.MyXMLHandler3D
 	 */
-	public void getXML(StringBuilder sb, boolean asPreference) {
-		sb.append("<euclidianView3D>\n");
+	public void getXML(XMLStringBuilder sb, boolean asPreference) {
+		sb.startOpeningTag("euclidianView3D", 0);
 
 		// coord system
-		sb.append("\t<coordSystem");
+		sb.startTag("coordSystem");
 
-		sb.append(" xZero=\"");
-		sb.append(getXZero());
-		sb.append("\"");
-		sb.append(" yZero=\"");
-		sb.append(getYZero());
-		sb.append("\"");
-		sb.append(" zZero=\"");
-		sb.append(getZZero());
-		sb.append("\"");
+		sb.attr("xZero", getXZero());
+		sb.attr("yZero", getYZero());
+		sb.attr("zZero", getZZero());
 
-		sb.append(" scale=\"");
-		sb.append(getXscale());
-		sb.append("\"");
+		sb.attr("scale", getXscale());
 
 		if (!hasSameScales()) {
-			sb.append(" yscale=\"");
-			sb.append(getYscale());
-			sb.append("\"");
+			sb.attr("yscale", getYscale());
 
-			sb.append(" zscale=\"");
-			sb.append(getZscale());
-			sb.append("\"");
+			sb.attr("zscale", getZscale());
 		}
 
-		sb.append(" xAngle=\"");
-		sb.append(b);
-		sb.append("\"");
-		sb.append(" zAngle=\"");
-		sb.append(a);
-		sb.append("\"");
+		sb.attr("xAngle", b);
+		sb.attr("zAngle", a);
 
-		sb.append("/>\n");
+		sb.endTag();
 
 		// ev settings
-		sb.append("\t<evSettings axes=\"");
-		sb.append(getShowAxis(0) || getShowAxis(1) || getShowAxis(2));
+		sb.startTag("evSettings");
+		sb.attr("axes", getShowAxis(0) || getShowAxis(1) || getShowAxis(2));
 
-		sb.append("\" grid=\"");
-		sb.append(getShowGrid());
-		sb.append("\" gridIsBold=\""); //
-		sb.append(gridIsBold); // Michael Borcherds 2008-04-11
-		sb.append("\" pointCapturing=\"");
+		sb.attr("grid", getShowGrid());
+		sb.attr("gridIsBold", gridIsBold);
+		sb.attr("pointCapturing",
 
 		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML
-		sb.append(
 				getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX
 						? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT
 						: getPointCapturingMode());
 
-		sb.append("\" rightAngleStyle=\"");
-		sb.append(app.rightAngleStyle);
+		sb.attr("rightAngleStyle", app.rightAngleStyle);
 
-		sb.append("\" gridType=\"");
-		sb.append(getGridType()); // cartesian/isometric/polar
+		sb.attr("gridType", getGridType()); // cartesian/isometric/polar
 
-		sb.append("\"/>\n");
+		sb.endTag();
 		// end ev settings
 
 		// axis settings
@@ -732,79 +712,68 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 
 		// xOy plane settings
-		sb.append("\t<plate show=\"");
-		sb.append(showPlate);
-		sb.append("\"/>\n");
+		sb.startTag("plate").attr("show", showPlate).endTag();
 		//
 		// sb.append("\t<grid show=\"");
 		// sb.append(getxOyPlane().isGridVisible());
 		// sb.append("\"/>\n");
 
 		// background color
-		sb.append("\t<bgColor");
+		sb.startTag("bgColor");
 		XMLBuilder.appendRGB(sb, backgroundColor);
-		sb.append("/>\n");
+		sb.endTag();
 
 		// y axis is up
 		if (getYAxisVertical()) {
-			sb.append("\t<yAxisVertical val=\"true\"/>\n");
+			sb.startTag("yAxisVertical").attr("val", true).endTag();
 		}
 
 		// use light
 		if (!getUseLight()) {
-			sb.append("\t<light val=\"false\"/>\n");
+			sb.startTag("light").attr("val", false).endTag();
 		}
 
 		// clipping cube
-		sb.append("\t<clipping use=\"");
-		sb.append(useClippingCube());
-		sb.append("\" show=\"");
-		sb.append(showClippingCube());
-		sb.append("\" size=\"");
-		sb.append(getClippingReduction());
-		sb.append("\"/>\n");
+		sb.startTag("clipping");
+		sb.attr("use", useClippingCube());
+		sb.attr("show", showClippingCube());
+		sb.attr("size", getClippingReduction());
+		sb.endTag();
 
 		// projection
-		sb.append("\t<projection type=\"");
-		sb.append(getProjection());
+		sb.startTag("projection");
+		sb.attr("type", getProjection());
 		getXMLForStereo(sb);
 		if (!DoubleUtil.isEqual(projectionObliqueAngle,
 				EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT)) {
-			sb.append("\" obliqueAngle=\"");
-			sb.append(projectionObliqueAngle);
+			sb.attr("obliqueAngle", projectionObliqueAngle);
 		}
 		if (!DoubleUtil.isEqual(projectionObliqueFactor,
 				EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT)) {
-			sb.append("\" obliqueFactor=\"");
-			sb.append(projectionObliqueFactor);
+			sb.attr("obliqueFactor", projectionObliqueFactor);
 		}
 
-		sb.append("\"/>\n");
+		sb.endTag();
 
 		// axes label style
 		int style = getAxisFontStyle();
 		if (style == GFont.BOLD || style == GFont.ITALIC
 				|| style == GFont.BOLD + GFont.ITALIC) {
-			sb.append("\t<labelStyle axes=\"");
-			sb.append(style);
-			sb.append("\"/>\n");
+			sb.startTag("labelStyle").attr("axes", style).endTag();
 		}
 
 		// end
-		sb.append("</euclidianView3D>\n");
-
+		sb.closeTag("euclidianView3D");
 	}
 
-	private void getXMLForStereo(StringBuilder sb) {
+	private void getXMLForStereo(XMLStringBuilder sb) {
 		int eyeDistance = projectionPerspectiveEyeDistance;
 		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT) {
-			sb.append("\" distance=\"");
-			sb.append(eyeDistance);
+			sb.attr("distance", eyeDistance);
 		}
 		int sep = getEyeSep();
 		if (sep != EuclidianSettings3D.EYE_SEP_DEFAULT) {
-			sb.append("\" separation=\"");
-			sb.append(sep);
+			sb.attr("separation", sep);
 		}
 	}
 

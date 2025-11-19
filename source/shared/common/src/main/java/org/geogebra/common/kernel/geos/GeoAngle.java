@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -497,7 +498,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getXMLTags(XMLStringBuilder sb) {
 		// from ggb44 need to save before value in case it's unbounded
 		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
 		getValueXML(sb, rawValue);
@@ -505,12 +506,12 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
 		getStyleXMLAfter(sb);
 	}
 
-	private void getStyleXMLAfter(StringBuilder sb) {
+	private void getStyleXMLAfter(XMLStringBuilder sb) {
 		// if angle is drawable then we need to save visual options too
 		if (isDrawable() || isSliderable()) {
 			// save slider info before show to have min and max set
@@ -519,9 +520,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			getLineStyleXML(sb);
 
 			// arc size
-			sb.append("\t<arcSize val=\"");
-			sb.append(arcSize);
-			sb.append("\"/>\n");
+			sb.startTag("arcSize").attr("val", arcSize).endTag();
 		}
 		getBasicStyleXML(sb);
 	}

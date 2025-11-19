@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1172,57 +1173,42 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @param sbxml
 	 *            xml builder
 	 */
-	public void addAxisXML(int i, StringBuilder sbxml) {
-		sbxml.append("\t<axis id=\"");
-		sbxml.append(i);
-		sbxml.append("\" show=\"");
-		sbxml.append(getShowAxis(i));
-		sbxml.append("\" label=\"");
-		if (axesLabels[i] != null) {
-			StringUtil.encodeXML(sbxml, axisLabelForXML(i));
-		}
-		sbxml.append("\" unitLabel=\"");
-		if (axesUnitLabels[i] != null) {
-			StringUtil.encodeXML(sbxml, axesUnitLabels[i]);
-		}
-		sbxml.append("\" tickStyle=\"");
-		sbxml.append(axesTickStyles[i]);
-		sbxml.append("\" showNumbers=\"");
-		sbxml.append(showAxesNumbers[i]);
+	public void addAxisXML(int i, XMLStringBuilder sbxml) {
+		sbxml.startTag("axis");
+		sbxml.attr("id", i);
+		sbxml.attr("show", getShowAxis(i));
+		sbxml.attr("label", axesLabels[i] != null ? axisLabelForXML(i) : "");
+		sbxml.attr("unitLabel", axesUnitLabels[i] != null ? axesUnitLabels[i] : "");
+		sbxml.attr("tickStyle", axesTickStyles[i]);
+		sbxml.attr("showNumbers", showAxesNumbers[i]);
 
 		// the tick distance should only be saved if
 		// it isn't calculated automatically
 		if (!automaticAxesNumberingDistances[i]
 				&& axisNumberingDistances[i] != null) {
-			sbxml.append("\" tickDistance=\"");
-			sbxml.append(axisNumberingDistances[i].getDouble());
-			sbxml.append("\" tickExpression=\"");
-			sbxml.append(axisNumberingDistances[i]
+			sbxml.attr("tickDistance", axisNumberingDistances[i].getDouble());
+			sbxml.attr("tickExpression", axisNumberingDistances[i]
 					.getLabel(StringTemplate.xmlTemplate));
 		}
 
 		// axis crossing values
 		if (drawBorderAxes[i]) {
-			sbxml.append("\" axisCrossEdge=\"");
-			sbxml.append(true);
+			sbxml.attr("axisCrossEdge", true);
 		} else if (!DoubleUtil.isZero(axisCross[i]) && !drawBorderAxes[i]) {
-			sbxml.append("\" axisCross=\"");
-			sbxml.append(axisCross[i]);
+			sbxml.attr("axisCross", axisCross[i]);
 		}
 
 		// positive direction only flags
 		if (positiveAxes[i]) {
-			sbxml.append("\" positiveAxis=\"");
-			sbxml.append(positiveAxes[i]);
+			sbxml.attr("positiveAxis", true);
 		}
 
 		// selection allowed flags
 		if (!selectionAllowed[i]) {
-			sbxml.append("\" selectionAllowed=\"");
-			sbxml.append(selectionAllowed[i]);
+			sbxml.attr("selectionAllowed", false);
 		}
 
-		sbxml.append("\"/>\n");
+		sbxml.endTag();
 	}
 
 	/**

@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -950,13 +951,13 @@ public class GeoList extends GeoElement
 		return sb;
 	}
 
-	private void appendElementsForXml(StringBuilder sb) {
+	private void appendElementLabels(StringBuilder sb) {
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
 			if (i != 0) {
 				sb.append(',');
 			}
-			StringUtil.encodeXML(sb, geo.getLabel(StringTemplate.xmlTemplate));
+			sb.append(geo.getLabel(StringTemplate.xmlTemplate));
 		}
 	}
 
@@ -974,35 +975,40 @@ public class GeoList extends GeoElement
 	 * save object in XML format
 	 */
 	@Override
-	public final void getExpressionXML(final StringBuilder sb) {
+	public final void getExpressionXML(final XMLStringBuilder builder) {
 		// an independent list needs to add
 		// its expression itself
 		// e.g. {1,2,3}
 		if ((isDefined() || isUndefinedMatrix()) && isIndependent() && (getDefaultGeoType() < 0)) {
-			sb.append("<expression label=\"");
-			StringUtil.encodeXML(sb, label);
-			sb.append("\" exp=\"");
+			builder.startTag("expression", 0).attr("label", label);
 			if (isUndefinedMatrix()) {
+				StringBuilder sb = new StringBuilder();
 				sb.append('{');
+				int idx = 0;
 				for (GeoElement geo: elements) {
+					if (idx > 0) {
+						sb.append(',');
+					}
 					sb.append(((GeoList) geo).buildValueString(StringTemplate.xmlTemplate));
-					sb.append(',');
+					idx++;
 				}
-				sb.setLength(sb.length() - 1); // remove extra comma
 				sb.append('}');
+				builder.attr("exp", sb);
 			} else if (getDefinition() != null) {
-				getDefinitionXML(sb);
+				builder.attr("exp", getDefinitionXML());
 			} else if (!isDefined) {
-				sb.append('?');
+				builder.attr("exp", "?");
 			} else {
+				StringBuilder sb = new StringBuilder();
 				sb.append('{');
-				appendElementsForXml(sb);
+				appendElementLabels(sb);
 				sb.append('}');
+				builder.attr("exp", sb);
 			}
 			if (getTableColumn() != -1) {
-				sb.append("\" type=\"list");
+				builder.attr("type", "list");
 			}
-			sb.append("\"/>\n");
+			builder.endTag();
 		}
 	}
 
@@ -1613,24 +1619,20 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 
 		getLineStyleXML(sb);
 		if (isElementTypeXMLNeeded()) {
-			sb.append("\t<listType val=\"");
-			sb.append(getTypeStringForXML());
-			sb.append("\"/>\n");
+			sb.startTag("listType").attrRaw("val", getTypeStringForXML()).endTag();
 		}
 
 		if (selectedIndex != 0) {
-			sb.append("\t<selectedIndex val=\"");
-			sb.append(selectedIndex);
-			sb.append("\"/>\n");
+			sb.startTag("selectedIndex").attr("val", selectedIndex).endTag();
 		}
 
 		if (drawAsComboBox) {
-			sb.append("\t<comboBox val=\"true\"/>\n");
+			sb.startTag("comboBox").attr("val", true).endTag();
 		}
 
 		// point style
@@ -1641,23 +1643,19 @@ public class GeoList extends GeoElement
 
 		// print decimals
 		if ((printDecimals >= 0) && !useSignificantFigures) {
-			sb.append("\t<decimals val=\"");
-			sb.append(printDecimals);
-			sb.append("\"/>\n");
+			sb.startTag("decimals").attr("val", printDecimals).endTag();
 		}
 
 		// print significant figures
 		if ((printFigures >= 0) && useSignificantFigures) {
-			sb.append("\t<significantfigures val=\"");
-			sb.append(printFigures);
-			sb.append("\"/>\n");
+			sb.startTag("significantfigures").attr("val", printFigures).endTag();
 		}
 
 		// AngleProperties
 		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
 
 		if (isSymbolicMode()) {
-			sb.append("\t<symbolic val=\"true\" />\n");
+			sb.startTag("symbolic").attr("val", true).endTag();
 		}
 		if (startPoint != null) {
 			startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());

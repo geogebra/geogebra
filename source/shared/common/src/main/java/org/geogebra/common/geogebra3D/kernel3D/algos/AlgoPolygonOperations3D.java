@@ -19,6 +19,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -196,20 +197,12 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	}
 
 	@Override
-	protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {
-
-		sb.append("\t<outputSizes val=\"");
-		sb.append(outputPolygons.size());
-		sb.append(",");
-		sb.append(outputPoints.size());
-		sb.append(",");
-		sb.append(outputSegments.size());
-		sb.append("\"");
-		sb.append("/>\n");
-
+	protected void getCmdOutputXML(XMLStringBuilder sb, StringTemplate tpl) {
+		String sizes = outputPolygons.size() + "," + outputPoints.size() + ","
+				+ outputSegments.size();
+		sb.startTag("outputSizes").attr("val", sizes).endTag();
 		// common method
 		super.getCmdOutputXML(sb, tpl);
-
 	}
 
 	/**

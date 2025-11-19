@@ -6,6 +6,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
@@ -576,28 +577,23 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getXMLTags(XMLStringBuilder sb) {
+		super.getXMLTags(sb);
 		Coords equation = getCoordSys().getEquationVector();
 		// equation
-		sb.append("\t<coords x=\"");
-		sb.append(equation.getX());
-		sb.append("\" y=\"");
-		sb.append(equation.getY());
-		sb.append("\" z=\"");
-		sb.append(equation.getZ());
-		sb.append("\" w=\"");
-		sb.append(equation.getW());
-		sb.append("\"/>\n");
+		sb.startTag("coords");
+		sb.attr("x", equation.getX());
+		sb.attr("y", equation.getY());
+		sb.attr("z", equation.getZ());
+		sb.attr("w", equation.getW());
+		sb.endTag();
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		// fading
-		sb.append("\t<fading val=\"");
-		sb.append(getFading());
-		sb.append("\"/>\n");
+		sb.startTag("fading").attr("val", getFading()).endTag();
 
 		// grid line style
 		getLineStyleXML(sb);
@@ -871,7 +867,7 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	protected void getXMLanimationTags(final StringBuilder sb) {
+	protected void getXMLanimationTags(final XMLStringBuilder sb) {
 		// no need for planes
 	}
 

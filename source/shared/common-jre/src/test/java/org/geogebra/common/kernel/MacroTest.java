@@ -10,6 +10,7 @@ import java.util.Arrays;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -114,7 +115,7 @@ public class MacroTest extends BaseUnitTest {
 		assertEquals(3, input[1].getLabelPosition().getX(), .001);
 		assertEquals(4, input[1].getLabelPosition().getY(), .001);
 		assertEquals("f", output[0].getLabel(StringTemplate.defaultTemplate));
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		editMacro.getXML(sb);
 		String xml1 = sb.toString();
 		assertThat(xml1, containsString("label=\"A\""));

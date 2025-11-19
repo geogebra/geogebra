@@ -29,6 +29,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1143,17 +1144,11 @@ public class AlgoIntersectRegionPlanePolyhedron
 	}
 
 	@Override
-	protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {
-
+	protected void getCmdOutputXML(XMLStringBuilder sb, StringTemplate tpl) {
 		// add output sizes (polygons, points, segments)
-		sb.append("\t<outputSizes val=\"");
-		sb.append(outputPolygons.size());
-		sb.append(",");
-		sb.append(outputPoints.size());
-		sb.append(",");
-		sb.append(outputSegmentsPolyhedron.size());
-		sb.append("\"");
-		sb.append("/>\n");
+		String sizes = outputPolygons.size() + "," + outputPoints.size() + ","
+				+ outputSegmentsPolyhedron.size();
+		sb.startTag("outputSizes").attr("val", sizes).endTag();
 
 		// common method
 		super.getCmdOutputXML(sb, tpl);

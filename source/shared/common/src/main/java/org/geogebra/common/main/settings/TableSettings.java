@@ -1,8 +1,8 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Settings for function table
@@ -114,27 +114,19 @@ public class TableSettings extends AbstractSettings {
 	 * @param sb
 	 *            XML builder
 	 */
-	public void getXML(StringBuilder sb) {
-		sb.append("<tableview");
+	public void getXML(XMLStringBuilder sb) {
+		sb.startTag("tableview", 0);
 		if (valueList != null && valueList.isLabelSet()) {
-			sb.append(" xValues=\"");
-			StringUtil.encodeXML(sb, valueList.getLabel(StringTemplate.xmlTemplate));
-			sb.append("\"");
+			sb.attr("xValues", valueList.getLabel(StringTemplate.xmlTemplate));
 			if (valueListCaption != null) {
-				sb.append(" xCaption=\"");
-				sb.append(valueListCaption);
-				sb.append("\"");
+				sb.attr("xCaption", valueListCaption);
 			}
 		} else {
-			sb.append(" min=\"");
-			sb.append(valuesMin);
-			sb.append("\" max=\"");
-			sb.append(valuesMax);
-			sb.append("\" step=\"");
-			sb.append(valuesStep);
-			sb.append("\"");
+			sb.attr("min", valuesMin);
+			sb.attr("max", valuesMax);
+			sb.attr("step", valuesStep);
 		}
-		sb.append("/>\n");
+		sb.endTag();
 	}
 
 	/**

@@ -14,6 +14,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Construction;
@@ -989,27 +990,20 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	 * @param sb
 	 *            XML builder
 	 */
-	public final void getXML(StringBuilder sb) {
+	public final void getXML(XMLStringBuilder sb) {
 		// COLUMNS
-		sb.append("\t<consProtColumns ");
+		sb.startTag("consProtColumns");
 		for (int i = 0; i < data.columns.length; i++) {
-			sb.append(" col");
-			sb.append(i);
-			sb.append("=\"");
-			sb.append(data.columns[i].isVisible());
-			sb.append("\"");
+			sb.attr("col" + i, data.columns[i].isVisible());
 		}
-		sb.append("/>\n");
+		sb.endTag();
 
 		// consProtocol
-		sb.append("\t<consProtocol ");
-		sb.append("useColors=\"");
-		sb.append(useColors);
-		sb.append("\" addIcons=\"");
-		sb.append(addIcons);
-		sb.append("\" showOnlyBreakpoints=\"");
-		sb.append(kernel.getConstruction().showOnlyBreakpoints());
-		sb.append("\"/>\n");
+		sb.startTag("consProtocol");
+		sb.attr("useColors", useColors);
+		sb.attr("addIcons", addIcons);
+		sb.attr("showOnlyBreakpoints", kernel.getConstruction().showOnlyBreakpoints());
+		sb.endTag();
 	}
 
 	/**

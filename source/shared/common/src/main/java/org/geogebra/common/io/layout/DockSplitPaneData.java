@@ -1,5 +1,7 @@
 package org.geogebra.common.io.layout;
 
+import org.geogebra.common.io.XMLStringBuilder;
+
 /**
  * A storage container for a split pane. Just used for saving &amp; loading a
  * perspective as not all information can be stored in the DockPanelInfo.
@@ -49,18 +51,14 @@ public class DockSplitPaneData {
 	}
 
 	/**
-	 * @return XML representation
+	 * @param sb builder XML representation
 	 */
-	public String getXml() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<pane location=\"");
-		sb.append(location);
-		sb.append("\" divider=\"");
-		sb.append(dividerLocation);
-		sb.append("\" orientation=\"");
-		sb.append(orientation);
-		sb.append("\" />");
-		return sb.toString();
+	public void getXml(XMLStringBuilder sb) {
+		sb.startTag("pane");
+		sb.attrRaw("location", location);
+		sb.attr("divider", dividerLocation);
+		sb.attr("orientation", orientation);
+		sb.endTag();
 	}
 
 	/**

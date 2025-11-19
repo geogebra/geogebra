@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -630,24 +631,22 @@ public class DataAnalysisModel {
 	 * @param sb
 	 *            XML builder
 	 */
-	public void getXML(StringBuilder sb) {
-		sb.append("<dataAnalysis mode=\"");
-		sb.append(getMode());
-		if (this.getListener().getDisplayModel(0).getSelectedPlot() != null) {
-			sb.append("\" plot1=\"");
-			sb.append(this.getListener().getDisplayModel(0).getSelectedPlot());
+	public void getXML(XMLStringBuilder sb) {
+		sb.startOpeningTag("dataAnalysis", 0).attr("mode", getMode());
+		if (getListener().getDisplayModel(0).getSelectedPlot() != null) {
+			sb.attr("plot1",
+					getListener().getDisplayModel(0).getSelectedPlot());
 		}
-		if (this.getListener().getDisplayModel(1).getSelectedPlot() != null) {
-			sb.append("\" plot2=\"");
-			sb.append(this.getListener().getDisplayModel(1).getSelectedPlot());
+		if (getListener().getDisplayModel(1).getSelectedPlot() != null) {
+			sb.attr("plot2",
+					getListener().getDisplayModel(1).getSelectedPlot());
 		}
 		if (getRegressionMode() != null) {
-			sb.append("\" regression=\"");
-			sb.append(getRegressionMode());
+			sb.attr("regression", getRegressionMode());
 		}
-		sb.append("\">\n");
+		sb.endTag();
 		getDataSource().getXMLDescription(sb);
-		sb.append("</dataAnalysis>");
+		sb.closeTag("dataAnalysis");
 	}
 
 	/**

@@ -31,6 +31,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
@@ -1408,7 +1409,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void getSpreadsheetViewXML(final StringBuilder sb,
+	public void getSpreadsheetViewXML(final XMLStringBuilder sb,
 			final boolean asPreference) {
 		if (spreadsheetView != null) {
 			spreadsheetView.getXML(sb, asPreference);
@@ -1432,7 +1433,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void getAlgebraViewXML(final StringBuilder sb,
+	public void getAlgebraViewXML(final XMLStringBuilder sb,
 			final boolean asPreference) {
 		if (algebraView != null) {
 			algebraView.getXML(sb);

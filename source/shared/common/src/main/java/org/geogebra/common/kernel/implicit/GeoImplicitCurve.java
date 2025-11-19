@@ -12,6 +12,7 @@ import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
@@ -57,7 +58,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.editor.share.util.Unicode;
 
@@ -850,14 +850,14 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	protected void getExpressionXML(StringBuilder sb) {
+	protected void getExpressionXML(XMLStringBuilder sb) {
 		if (isIndependent() && getDefaultGeoType() < 0 && isDefined()) {
-			sb.append("<expression label=\"");
-			sb.append(label);
-			sb.append("\" exp=\"");
-			StringUtil.encodeXML(sb, getXmlString());
+			sb.startTag("expression", 0);
+			sb.attr("label", label);
+			sb.attr("exp", getXmlString());
 			// expression
-			sb.append("\" type=\"implicitpoly\"/>\n");
+			sb.attr("type", "implicitpoly");
+			sb.endTag();
 		}
 	}
 
@@ -867,10 +867,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getXMLTags(XMLStringBuilder builder) {
+		super.getXMLTags(builder);
 		if (coeff != null) {
-			sb.append("\t<coefficients rep=\"array\" data=\"");
+			StringBuilder sb = new StringBuilder();
 			sb.append("[");
 			for (int i = 0; i < coeff.length; i++) {
 				if (i > 0) {
@@ -886,18 +886,19 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				sb.append("]");
 			}
 			sb.append("]");
-			sb.append("\" />\n");
+			builder.startTag("coefficients")
+					.attr("rep", "array")
+					.attr("data", sb)
+					.endTag();
 		}
 
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		getLineStyleXML(sb);
-		sb.append("\t<userinput show=\"");
-		sb.append(isInputForm());
-		sb.append("\"/>");
+		sb.startTag("userinput").attr("show", isInputForm()).endTag();
 	}
 
 	/**

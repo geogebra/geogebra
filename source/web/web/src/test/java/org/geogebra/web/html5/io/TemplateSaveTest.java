@@ -3,6 +3,7 @@ package org.geogebra.web.html5.io;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.main.AppWFull;
@@ -41,7 +42,7 @@ public class TemplateSaveTest {
 		settings.setDeleteToolSize(61);
 		String pathString = "src/test/resources/org/geogebra/web/html5/io/templateXML.txt";
 		String fileContent = FileIO.load(pathString);
-		StringBuilder sb = new StringBuilder();
+		XMLStringBuilder sb = new XMLStringBuilder();
 		app.getActiveEuclidianView().getXML(sb, false);
         assertEquals(fileContent, sb.toString().trim());
 	}

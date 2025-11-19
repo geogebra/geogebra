@@ -20,6 +20,7 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
@@ -181,7 +182,7 @@ public class AppCommon extends App {
     }
 
     @Override
-    protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
+    protected void getLayoutXML(XMLStringBuilder sb, boolean asPreference) {
 		// TODO
     }
 
@@ -781,7 +782,7 @@ public class AppCommon extends App {
 	}
 
 	@Override
-	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
+	protected void getViewsXML(XMLStringBuilder sb, boolean asPreference) {
 		getSettings().getSpreadsheet().getXML(sb, asPreference);
 		getSettings().getAlgebra().getXML(sb, asPreference);
 	}

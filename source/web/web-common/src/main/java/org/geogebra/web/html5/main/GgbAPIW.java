@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
@@ -441,10 +442,10 @@ public class GgbAPIW extends GgbAPI {
 				.adjustConstructionImages(getConstruction());
 		String constructionXml = getApplication().getXML();
 		String allMacrosXml = getApplication().getAllMacrosXMLorEmpty();
-		StringBuilder defaults2d = new StringBuilder();
-		StringBuilder defaults3d = null;
+		XMLStringBuilder defaults2d = new XMLStringBuilder();
+		XMLStringBuilder defaults3d = null;
 		if (app.is3D()) {
-			defaults3d = new StringBuilder();
+			defaults3d = new XMLStringBuilder();
 		}
 		getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultsXML(defaults2d, defaults3d);
@@ -455,12 +456,12 @@ public class GgbAPIW extends GgbAPI {
 			archiveContent.put(MyXMLio.XML_FILE_MACRO, allMacrosXml);
 		}
 
-		if (defaults2d.length() > 0) {
+		if (!defaults2d.isEmpty()) {
 			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_2D,
 					defaults2d.toString());
 		}
 
-		if (defaults3d != null && defaults3d.length() > 0) {
+		if (defaults3d != null && !defaults3d.isEmpty()) {
 			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_3D,
 					defaults3d.toString());
 		}

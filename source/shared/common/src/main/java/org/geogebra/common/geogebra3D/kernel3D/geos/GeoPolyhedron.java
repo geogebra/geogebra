@@ -13,6 +13,7 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPoints;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionElementCycle;
@@ -1605,7 +1606,7 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sbXml) {
+	protected void getStyleXML(XMLStringBuilder sbXml) {
 		getLineStyleXML(sbXml);
 		super.getStyleXML(sbXml);
 	}

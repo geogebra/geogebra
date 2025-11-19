@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
@@ -175,7 +176,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
-	protected void getStyleXML(StringBuilder sb) {
+	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 		XMLBuilder.appendBorderAndAlignment(sb, this, verticalAlignment);
 		XMLBuilder.appendParent(sb, parent, nodeAlignment);
@@ -188,7 +189,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	 * Build XML with parent label replaced
 	 * @param sb builder
 	 */
-	public void getXMLNoParent(StringBuilder sb) {
+	public void getXMLNoParent(XMLStringBuilder sb) {
 		if (parent == null) {
 			getXML(false, sb);
 			return;
