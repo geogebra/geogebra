@@ -492,10 +492,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 			MyImageJre image = (MyImageJre) geo.getFillImage();
 			if (fileName != null && image != null) {
 
+				String fullPath = (filePath + fileName).replaceFirst("^/", "");
 				if (image.isSVG()) {
 					// SVG
 					try {
-						zip.putNextEntry(new ZipEntry(filePath + fileName));
+						zip.putNextEntry(new ZipEntry(fullPath));
 						OutputStreamWriter osw = new OutputStreamWriter(zip,
 								StandardCharsets.UTF_8);
 						osw.write(image.getSVG());
@@ -508,7 +509,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 				} else {
 					// BITMAP
 					if (image.hasNonNullImplementation()) {
-						writeImageToZip(zip, filePath + fileName, image);
+						writeImageToZip(zip, fullPath, image);
 					}
 
 				}
