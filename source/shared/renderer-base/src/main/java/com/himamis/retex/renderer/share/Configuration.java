@@ -121,17 +121,14 @@ public final class Configuration {
 		add("rbrack", TeXConstants.TYPE_CLOSING, 41, fonts.cmr10, ')');
 		add("ast", TeXConstants.TYPE_BINARY_OPERATOR, 164, fonts.cmsy10, '*');
 		add("plus", TeXConstants.TYPE_BINARY_OPERATOR, 43, fonts.cmr10, '+');
-		add("comma", TeXConstants.TYPE_PUNCTUATION, 59, fonts.cmmi10_unchanged,
-				',');
-		add("minus", TeXConstants.TYPE_BINARY_OPERATOR, 161, fonts.cmsy10, '-',
-				"textminus");
-		add("slash", TeXConstants.TYPE_ORDINARY, 61, fonts.cmmi10_unchanged,
-				'/', "textfractionsolidus");
+		add("comma", TeXConstants.TYPE_PUNCTUATION, 21, fonts.cmsy10, ',');
+		add("minus", TeXConstants.TYPE_BINARY_OPERATOR, 161, fonts.cmsy10, '-', "textminus");
+		add("slash", TeXConstants.TYPE_ORDINARY, 23, fonts.cmsy10, '/', "textfractionsolidus");
 		add("colon", TeXConstants.TYPE_RELATION, 58, fonts.cmr10, ':');
 		add("semicolon", TeXConstants.TYPE_PUNCTUATION, 59, fonts.cmr10, ';');
-		add("lt", TeXConstants.TYPE_RELATION, 60, fonts.cmmi10_unchanged, '<');
+		add("lt", TeXConstants.TYPE_RELATION, 22, fonts.cmsy10, '<');
 		add("equals", TeXConstants.TYPE_RELATION, 61, fonts.cmr10, '=');
-		add("gt", TeXConstants.TYPE_RELATION, 62, fonts.cmmi10_unchanged, '>');
+		add("gt", TeXConstants.TYPE_RELATION, 24, fonts.cmsy10, '>');
 		add("question", TeXConstants.TYPE_ORDINARY, 63, fonts.cmr10, '?');
 		add("lsqbrack", TeXConstants.TYPE_OPENING, 91, fonts.cmr10, '[');
 		add("rsqbrack", TeXConstants.TYPE_CLOSING, 93, fonts.cmr10, ']');
@@ -186,12 +183,9 @@ public final class Configuration {
 		add("\u03AE", TeXConstants.TYPE_ORDINARY, 942, fonts.fcmrpg, '\u03AE');
 		add("\u03AF", TeXConstants.TYPE_ORDINARY, 943, fonts.fcmrpg, '\u03AF');
 		add("\u03B0", TeXConstants.TYPE_ORDINARY, 944, fonts.fcmrpg, '\u03B0');
-		add("alpha", TeXConstants.TYPE_ORDINARY, 174, fonts.cmmi10_unchanged,
-				'\u03B1', "\u03B1");
-		add("beta", TeXConstants.TYPE_ORDINARY, 175, fonts.cmmi10_unchanged,
-				'\u03B2', "\u03B2");
-		add("gamma", TeXConstants.TYPE_ORDINARY, 176, fonts.cmmi10_unchanged,
-				'\u03B3', "\u03B3");
+		add("alpha", TeXConstants.TYPE_ORDINARY, 25, fonts.cmsy10, '\u03B1', "\u03B1");
+		add("beta", TeXConstants.TYPE_ORDINARY, 26, fonts.cmsy10, '\u03B2', "\u03B2");
+		add("gamma", TeXConstants.TYPE_ORDINARY, 27, fonts.cmsy10, '\u03B3', "\u03B3");
 		add("delta", TeXConstants.TYPE_ORDINARY, 177, fonts.cmmi10_unchanged,
 				'\u03B4', "\u03B4");
 		add("varepsilon", TeXConstants.TYPE_ORDINARY, 34,
@@ -206,8 +200,7 @@ public final class Configuration {
 				'\u03B9', "\u03B9");
 		add("kappa", TeXConstants.TYPE_ORDINARY, 183, fonts.cmmi10_unchanged,
 				'\u03BA', "\u03BA");
-		add("lambda", TeXConstants.TYPE_ORDINARY, 184, fonts.cmmi10_unchanged,
-				'\u03BB', "\u03BB");
+		add("lambda", TeXConstants.TYPE_ORDINARY, 28, fonts.cmsy10, '\u03BB', "\u03BB");
 		add("mu", TeXConstants.TYPE_ORDINARY, 185, fonts.cmmi10_unchanged,
 				'\u03BC', "\u03BC");
 		add("nu", TeXConstants.TYPE_ORDINARY, 186, fonts.cmmi10_unchanged,
