@@ -1,11 +1,13 @@
 package org.geogebra.common.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assume.assumeTrue;
 
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.editor.share.util.Unicode;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
@@ -151,6 +153,12 @@ public class StringUtilTest {
 	public void testRemoveAccents() {
 		assertEquals("nuoascr",
 				StringUtil.removeAccents("\u00F1\u00FC\u00F6\u00E4\u0161\u010D\u0159"));
+	}
+
+	@Issue("APPS-5458")
+	@Test
+	public void testLabelVariants() {
+		assertNotNull(StringUtil.labelVariants("slider(f_{")); // assertNotCrashing(), really
 	}
 
 	private static void compatibleNewlines(String in, String out) {

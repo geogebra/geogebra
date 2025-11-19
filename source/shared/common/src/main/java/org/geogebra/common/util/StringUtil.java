@@ -1860,7 +1860,12 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 	public static List<String> labelVariants(String label) {
 		int startPos;
 		if ((startPos = label.indexOf("_{")) > 0) {
-			String index = label.substring(startPos + 2, label.length() - 1);
+			int fromIndex = startPos + 2;
+			int toIndex = label.length() - 1;
+			if (fromIndex > toIndex) {
+				return List.of();
+			}
+			String index = label.substring(fromIndex, toIndex);
 			String base = label.substring(0, startPos);
 
 			List<String> variants = new ArrayList<>();
