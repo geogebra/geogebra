@@ -273,7 +273,7 @@ public abstract class MyXMLio {
 			sb.append(uniqueId); // unique id to identify ggb file
 			sb.append("\" ");
 		}
-		sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/apps/xsd/");
+		sb.append(" xsi:noNamespaceSchemaLocation=\"https://www.geogebra.org/apps/xsd/");
 		if (isMacro) {
 			sb.append(GeoGebraConstants.GGT_XSD_FILENAME); // eg ggt.xsd
 		}
