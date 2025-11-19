@@ -36,7 +36,7 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 		probCalc.setLow(-5);
 		probCalc.setHigh(0);
 		probCalc.updateAll(false);
-		assertEquals(probCalc.getProbabilityText(probCalc.getProbability()), "0.5");
+		assertEquals("0.5", probCalc.getProbabilityText(probCalc.getProbability()));
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 		probCalc.setLow(5);
 		probCalc.setHigh(0);
 		probCalc.updateAll(false);
-		assertEquals(probCalc.getProbabilityText(probCalc.getProbability()), "?");
+		assertEquals("?", probCalc.getProbabilityText(probCalc.getProbability()));
 	}
 
 	@Test
