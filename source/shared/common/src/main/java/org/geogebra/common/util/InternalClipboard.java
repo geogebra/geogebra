@@ -59,35 +59,35 @@ public class InternalClipboard {
 		boolean scriptsBlocked = app.isBlockUpdateScripts();
 		app.setBlockUpdateScripts(true);
 
-		// create geoslocal and geostohide
-		ArrayList<ConstructionElement> geoslocal = new ArrayList<>();
+		// create geosLocal and geosToHide
+		ArrayList<ConstructionElement> geosLocal = new ArrayList<>();
 		HashSet<Group> selectedGroups = new HashSet<>(app
 				.getSelectionManager().getSelectedGroups());
 		for (GeoElement geo : geos) {
 			if (!(geo instanceof GeoEmbed && ((GeoEmbed) geo).isGraspableMath())) {
-				geoslocal.add(geo);
+				geosLocal.add(geo);
 			}
 		}
 
-		CopyPaste.addSubGeos(geoslocal, selectedGroups);
+		CopyPaste.addSubGeos(geosLocal, selectedGroups);
 
-		if (geoslocal.isEmpty()) {
+		if (geosLocal.isEmpty()) {
 			app.setBlockUpdateScripts(scriptsBlocked);
 			return;
 		}
 
-		ArrayList<ConstructionElement> geostohide = CopyPaste.addPredecessorGeos(geoslocal);
+		ArrayList<ConstructionElement> geosToHide = CopyPaste.addPredecessorGeos(geosLocal);
 
-		geostohide.addAll(addAlgosDependentFromInside(geoslocal, null));
+		geosToHide.addAll(addAlgosDependentFromInside(geosLocal, null));
 		// topological order to make sure client listener can process predecessor objects
 		// before child objects (e.g. for multiuser)
-		Collections.sort(geoslocal);
+		Collections.sort(geosLocal);
 		Kernel kernel = app.getKernel();
 		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {
 			embedManager.persist();
 		}
-		beforeSavingToXML(geoslocal, geostohide);
+		beforeSavingToXML(geosLocal, geosToHide);
 
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
 		kernel.setSaveScriptsToXML(false);
@@ -103,9 +103,9 @@ public class InternalClipboard {
 			if (ce instanceof AlgoTableToChart) {
 				ce = ((AlgoTableToChart) ce).getOutput(0);
 			}
-			if (geoslocal.contains(ce)) {
+			if (geosLocal.contains(ce)) {
 				if (ce instanceof GeoMindMapNode
-						&& !geoslocal.contains(((GeoMindMapNode) ce).getParent())) {
+						&& !geosLocal.contains(((GeoMindMapNode) ce).getParent())) {
 					((GeoMindMapNode) ce).getXMLNoParent(xmlStringBuilder);
 				} else {
 					ce.getXML(false, xmlStringBuilder);
@@ -131,33 +131,33 @@ public class InternalClipboard {
 
 		kernel.setSaveScriptsToXML(saveScriptsToXML);
 
-		afterSavingToXML(geoslocal, geostohide);
+		afterSavingToXML(geosLocal, geosToHide);
 		app.setBlockUpdateScripts(scriptsBlocked);
 	}
 
 	/**
 	 * copyToXML - Add the algos which belong to our selected geos Also
 	 * add the geos which might be side-effects of these algos
-	 * @param conels input and output
+	 * @param consElements input and output
 	 * @param copiedMacros output set for collecting macros or null if macro collecting not needed
 	 * @return the possible side-effect geos
 	 */
 	public static ArrayList<ConstructionElement> addAlgosDependentFromInside(
-			ArrayList<ConstructionElement> conels, Set<Macro> copiedMacros) {
+			ArrayList<ConstructionElement> consElements, Set<Macro> copiedMacros) {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<>();
 
-		for (int i = conels.size() - 1; i >= 0; i--) {
-			if (!(conels.get(i) instanceof GeoElement)) {
+		for (int i = consElements.size() - 1; i >= 0; i--) {
+			if (!(consElements.get(i) instanceof GeoElement)) {
 				continue;
 			}
-			GeoElement geo = (GeoElement) conels.get(i);
+			GeoElement geo = (GeoElement) consElements.get(i);
 
 			// also doing this here, which is not about the name of the method,
 			// but making sure textfields (which require algos) are shown
 			if ((geo.getParentAlgorithm() instanceof AlgoInputBox)
 					&& !ret.contains(geo.getParentAlgorithm())
-					&& !conels.contains(geo.getParentAlgorithm())) {
+					&& !consElements.contains(geo.getParentAlgorithm())) {
 				// other algos will be added to this anyway,
 				// so we can handle this issue in this method
 				ret.add(geo.getParentAlgorithm());
@@ -173,11 +173,11 @@ public class InternalClipboard {
 				}
 				List<ConstructionElement> ac = Arrays.asList(ale.getInput());
 
-				if (conels.containsAll(ac) && !conels.contains(ale)) {
-					conels.add(ale);
+				if (consElements.containsAll(ac) && !consElements.contains(ale)) {
+					consElements.add(ale);
 					for (GeoElement geoElement : ale.getOutput()) {
 						if (!ret.contains(geoElement)
-								&& !conels.contains(geoElement)) {
+								&& !consElements.contains(geoElement)) {
 							ret.add(geoElement);
 						}
 					}
@@ -185,27 +185,27 @@ public class InternalClipboard {
 			}
 		}
 
-		conels.addAll(ret);
+		consElements.addAll(ret);
 		return ret;
 	}
 
 	/**
-	 * copyToXML - Before saving the conels to xml, we have to rename its
+	 * copyToXML - Before saving the consElements to xml, we have to rename its
 	 * labels with labelPrefix and memorize those renamed labels and also hide
-	 * the GeoElements in geostohide, and keep in geostohide only those which
+	 * the GeoElements in geosToHide, and keep in geosToHide only those which
 	 * were actually hidden...
-	 * @param conels construction elements
+	 * @param consElements construction elements
 	 */
-	private static void beforeSavingToXML(ArrayList<ConstructionElement> conels,
-			ArrayList<ConstructionElement> geostohide) {
+	private static void beforeSavingToXML(ArrayList<ConstructionElement> consElements,
+			ArrayList<ConstructionElement> geosToHide) {
 
 		copiedXmlLabels.clear();
 
 		ConstructionElement geo;
 		String label;
 
-		for (ConstructionElement conel : conels) {
-			geo = conel;
+		for (ConstructionElement consElement : consElements) {
+			geo = consElement;
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null) {
@@ -215,28 +215,28 @@ public class InternalClipboard {
 			}
 		}
 
-		for (int j = geostohide.size() - 1; j >= 0; j--) {
-			geo = geostohide.get(j);
+		for (int j = geosToHide.size() - 1; j >= 0; j--) {
+			geo = geosToHide.get(j);
 			if (geo.isGeoElement() && ((GeoElement) geo).isEuclidianVisible()) {
 				((GeoElement) geo).setEuclidianVisible(false);
 			} else {
-				geostohide.remove(geo);
+				geosToHide.remove(geo);
 			}
 		}
 	}
 
 	/**
-	 * copyToXML - Step 6 After saving the conels to xml, we have to rename its
-	 * labels and also show the GeoElements in geostoshow
-	 * @param conels construction elements
+	 * copyToXML - Step 6 After saving the consElements to xml, we have to rename its
+	 * labels and also show the GeoElements in geosToShow
+	 * @param consElements construction elements
 	 */
-	private static void afterSavingToXML(ArrayList<ConstructionElement> conels,
-			ArrayList<ConstructionElement> geostoshow) {
+	private static void afterSavingToXML(ArrayList<ConstructionElement> consElements,
+			ArrayList<ConstructionElement> geosToShow) {
 
 		ConstructionElement geo;
 		String label;
-		for (ConstructionElement conel : conels) {
-			geo = conel;
+		for (ConstructionElement consElement : consElements) {
+			geo = consElement;
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null && label.length() >= CopyPaste.labelPrefix.length()) {
@@ -252,8 +252,8 @@ public class InternalClipboard {
 			}
 		}
 
-		for (int j = geostoshow.size() - 1; j >= 0; j--) {
-			geo = geostoshow.get(j);
+		for (int j = geosToShow.size() - 1; j >= 0; j--) {
+			geo = geosToShow.get(j);
 			if (geo.isGeoElement()) {
 				((GeoElement) geo).setEuclidianVisible(true);
 			}

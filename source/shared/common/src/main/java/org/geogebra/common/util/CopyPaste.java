@@ -12,7 +12,7 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedPointPoin
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCoordSys1D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedronNet;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimitedOrPart;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -290,7 +290,7 @@ public abstract class CopyPaste {
 						}
 					}
 				}
-			} else if (geo instanceof GeoQuadric3DLimited) {
+			} else if (geo instanceof GeoQuadric3DLimitedOrPart) {
 				if (parentAlgorithm instanceof AlgoQuadricLimitedPointPointRadiusCone
 						|| parentAlgorithm instanceof AlgoQuadricLimitedPointPointRadiusCylinder
 						|| parentAlgorithm instanceof AlgoQuadricLimitedConicHeightCone
