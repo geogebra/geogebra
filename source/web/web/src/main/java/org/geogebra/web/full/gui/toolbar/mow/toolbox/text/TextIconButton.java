@@ -7,6 +7,7 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.ToolIconButton;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 
 public class TextIconButton extends ToolIconButton {
 	private final AppW appW;
@@ -17,10 +18,11 @@ public class TextIconButton extends ToolIconButton {
 	 * Constructor
 	 * @param appW - application
 	 * @param deselectButtons - deselect buttons callback
+	 * @param tools list of tools
 	 */
-	public TextIconButton(AppW appW, Runnable deselectButtons,
-			List<Integer> tools) {
-		super(tools.get(0), appW);
+	public TextIconButton(AppW appW, Runnable deselectButtons, List<Integer> tools) {
+		super(tools.get(0), appW, appW.getToolboxIconResource()
+				.getImageResource(ToolboxIcon.TEXTS), () -> {});
 		this.appW = appW;
 		this.tools = tools;
 
