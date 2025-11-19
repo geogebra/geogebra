@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import static org.geogebra.common.kernel.arithmetic.Command.getIntegralLaTeX;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -35,11 +37,8 @@ import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
-import org.geogebra.common.kernel.arithmetic.HasArguments;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
@@ -61,7 +60,7 @@ import com.google.j2objc.annotations.AutoreleasePool;
  * @author Markus
  */
 public abstract class AlgoElement extends ConstructionElement
-		implements EuclidianViewCE, HasArguments {
+		implements EuclidianViewCE {
 	/** input elements */
 	public GeoElement[] input;
 	private ArrayList<GeoElementND> freeInputPoints;
@@ -1178,15 +1177,10 @@ public abstract class AlgoElement extends ConstructionElement
 		if (input == null) {
 			return null;
 		}
-		sbAE.setLength(0);
 		if (tpl.isLatex() && getClassName() == Commands.Integral) {
-			String var = "x";
-			if (getInput(0) instanceof VarString) {
-				var = ((VarString) getInput(0)).getVarString(tpl);
-			}
-			Command.appendIntegral(this, sbAE, var, tpl);
-			return sbAE.toString();
+			return getIntegralLaTeXDefinition(tpl);
 		}
+		sbAE.setLength(0);
 		if (tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(getLoc().getCommand(def));
 		} else {
@@ -1211,6 +1205,24 @@ public abstract class AlgoElement extends ConstructionElement
 
 		return sbAE.toString();
 
+	}
+
+	private String getIntegralLaTeXDefinition(StringTemplate tpl) {
+		String var = "x";
+		if (getInput(0) instanceof VarString) {
+			var = ((VarString) getInput(0)).getVarString(tpl);
+		}
+		switch (getInputLength()) {
+		case 1:
+			return getIntegralLaTeX(tpl, var, getInput(0), null, null, null);
+		case 2:
+			return getIntegralLaTeX(tpl, var, getInput(0), getInput(1), null, null);
+		case 3:
+		case 4:
+			return getIntegralLaTeX(tpl, var, getInput(0), null, getInput(1), getInput(2));
+		default:
+			return getIntegralLaTeX(tpl, var, null, null, null, null);
+		}
 	}
 
 	/*
@@ -1858,15 +1870,5 @@ public abstract class AlgoElement extends ConstructionElement
 				&& this.getClassName() instanceof Commands
 				&& this.getInputLength() == newParent.getInputLength();
 
-	}
-
-	@Override
-	public ExpressionValue getArgument(int i) {
-		return getInput(i);
-	}
-
-	@Override
-	public int getArgumentNumber() {
-		return getInputLength();
 	}
 }

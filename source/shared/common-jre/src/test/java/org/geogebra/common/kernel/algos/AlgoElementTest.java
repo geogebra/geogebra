@@ -37,6 +37,7 @@ public class AlgoElementTest extends BaseAppTestSetup {
 	@CsvSource(value = {"Integral(x,1,2);\\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
 			"Integral(x);\\int x\\,\\mathrm{d}x",
 			"Integral(f,1,2);\\int\\limits_{1}^{2}f\\,\\mathrm{d}n",
+			"Integral(x, 1, 2, false);\\int\\limits_{1}^{2}x\\,\\mathrm{d}x",
 			"Integral(f);\\int f\\,\\mathrm{d}n",
 			"Sequence(Integral(x^k),k,1,2);"
 					+ "Sequence\\left(\\int x^{k}\\,\\mathrm{d}x, k, 1, 2 \\right)"},

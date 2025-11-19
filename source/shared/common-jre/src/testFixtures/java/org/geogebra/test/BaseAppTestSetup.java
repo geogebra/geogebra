@@ -10,11 +10,13 @@ import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.config.AppConfigCas;
@@ -130,5 +132,13 @@ public class BaseAppTestSetup {
 				app.getKernel(), geoElement, true);
 		app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(
 				geoElement, newExpression, evalInfo, false, editCallback, errorAccumulator);
+	}
+
+	protected ValidExpression parseExpression(String expression) {
+		try {
+			return getKernel().getParser().parseGeoGebraExpression(expression);
+		} catch (ParseException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 }
