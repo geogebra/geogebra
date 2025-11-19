@@ -340,10 +340,10 @@ public class GeoLocusStroke extends GeoLocus
 		}
 
 		ArrayList<GeoElement> result = new ArrayList<>();
-		if (inside.size() != 0) {
+		if (!inside.isEmpty()) {
 			result.add(partialStroke(inside));
 		}
-		if (outside.size() != 0) {
+		if (!outside.isEmpty()) {
 			result.add(partialStroke(outside));
 		}
 
@@ -425,7 +425,7 @@ public class GeoLocusStroke extends GeoLocus
 				}
 			} else if (inside) {
 				// going from inside to outside
-				if (intersections.size() == 0) {
+				if (intersections.isEmpty()) {
 					outside.add(currentPoint);
 				} else {
 					ensureTrailingNaN(outside);
@@ -433,7 +433,7 @@ public class GeoLocusStroke extends GeoLocus
 				}
 			} else if (nextInside) {
 				// going from outside to inside
-				if (intersections.size() == 0) {
+				if (intersections.isEmpty()) {
 					outside.add(nextPoint);
 				} else {
 					outside.add(intersections.get(0));
@@ -463,13 +463,17 @@ public class GeoLocusStroke extends GeoLocus
 		int parts = 5;
 		int i = 1;
 		double rwLength = app.getActiveEuclidianView().getInvXscale() * MAX_SEGMENT_LENGTH;
-		densePoints.add(getPoints().get(0));
-		while (i < getPoints().size()) {
-			MyPoint pt0 = getPoints().get(i - 1);
-			MyPoint pt1 = getPoints().get(i);
+		ArrayList<MyPoint> points = getPoints();
+
+		if (!points.isEmpty()) {
+			densePoints.add(points.get(0));
+		}
+		while (i < points.size()) {
+			MyPoint pt0 = points.get(i - 1);
+			MyPoint pt1 = points.get(i);
 			if (pt1.getSegmentType() == SegmentType.CONTROL) {
-				MyPoint pt2 = getPoints().get(i + 1);
-				MyPoint pt3 = getPoints().get(i + 2);
+				MyPoint pt2 = points.get(i + 1);
+				MyPoint pt3 = points.get(i + 2);
 				if (pt3.distance(pt0) > rwLength) {
 					double[] xCoeff = bezierCoeffs(pt0.x, pt1.x, pt2.x, pt3.x);
 					double[] yCoeff = bezierCoeffs(pt0.y, pt1.y, pt2.y, pt3.y);
@@ -496,7 +500,7 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	private void ensureTrailingNaN(List<MyPoint> data) {
-		if (data.size() > 0 && data.get(data.size() - 1).isDefined()) {
+		if (!data.isEmpty() && data.get(data.size() - 1).isDefined()) {
 			data.add(new MyPoint(Double.NaN, Double.NaN));
 		}
 	}
