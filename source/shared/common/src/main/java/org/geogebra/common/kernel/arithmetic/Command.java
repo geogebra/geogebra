@@ -481,7 +481,7 @@ public class Command extends ValidExpression
 	 * @param startValue start limit
 	 * @param endValue end limit
 	 * @param variable integral variable
-	 * @return LaTeX represenation
+	 * @return LaTeX representation
 	 */
 	public static String getIntegralLaTeX(
 			StringTemplate template,
