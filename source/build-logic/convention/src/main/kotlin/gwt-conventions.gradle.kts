@@ -67,6 +67,7 @@ afterEvaluate {
     tasks.withType<AbstractBaseTask> {
         val path = project.file("build/gwt/devModeCache")
         jvmArgs = listOf(
+            "-Xss64m",
             "-Dgwt.persistentunitcachedir=${path.absolutePath}",
             "-Djava.io.tmpdir=${path.absolutePath}"
         )
