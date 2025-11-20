@@ -15,6 +15,7 @@ import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.geogebra.web.html5.main.topbar.DefaultTopBarIconResources;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.gwtproject.dom.client.Element;
@@ -32,6 +33,7 @@ import elemental2.dom.DomGlobal;
  */
 public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private StandardButton homeBtn;
+	private StandardButton zoomToFitBtn;
 	private StandardButton zoomInBtn;
 	private StandardButton zoomOutBtn;
 	/**
@@ -170,6 +172,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		homeBtn.addFastClickHandler(handlerHome);
 		add(homeBtn);
 		registerFocusable(homeBtn, AccessibilityGroup.ViewControlId.ZOOM_PANEL_HOME);
+
+		if (!app.isApplet()) {
+			addZoomToFitButton();
+		}
+
 		if (!NavigatorUtil.isMobile()) {
 			addZoomInButton();
 			registerFocusable(zoomInBtn, AccessibilityGroup.ViewControlId.ZOOM_PANEL_PLUS);
@@ -180,6 +187,17 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private void registerFocusable(Widget btn, AccessibilityGroup.ViewControlId group) {
 		new FocusableWidget(AccessibilityGroup.getViewGroup(getViewID()), group, btn).attachTo(app);
+	}
+
+	private void addZoomToFitButton() {
+		zoomToFitBtn = new StandardButton(
+				DefaultTopBarIconResources.INSTANCE.show_all_objects(),
+				null, 24);
+		zoomToFitBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerHome = source -> getZoomController().onZoomToFitPressed();
+		zoomToFitBtn.addFastClickHandler(handlerHome);
+		add(zoomToFitBtn);
+		registerFocusable(zoomToFitBtn, AccessibilityGroup.ViewControlId.ZOOM_PANEL_ZOOM_TO_FIT);
 	}
 
 	private void addZoomOutButton() {
@@ -222,6 +240,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	public void setLabels() {
 		setFullScreenAuralText();
 		setZoomAuralText(homeBtn, "StandardView", "Home button selected");
+		setZoomAuralText(zoomToFitBtn, "ShowAllObjects", "Zoom to fit button selected");
 		setZoomAuralText(zoomOutBtn, "ZoomOut.Tool",
 				"Zoom out button selected");
 		setZoomAuralText(zoomInBtn, "ZoomIn.Tool", "Zoom in button selected");

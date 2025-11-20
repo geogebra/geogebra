@@ -82,6 +82,14 @@ public class ZoomController {
 		app.getAccessibilityManager().focusFirstElement();
 	}
 
+	/**
+	 * Zoom to fit button handler.
+	 */
+	public void onZoomToFitPressed() {
+		app.closeMenuHideKeyboard();
+		app.setViewShowAllObjects();
+	}
+
 	/** Zoom In button handler. */
 	public void onZoomInPressed() {
 		app.closeMenuHideKeyboard();
