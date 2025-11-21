@@ -2246,6 +2246,10 @@ public abstract class ProbabilityCalculatorView
 	 */
 	public void onParameterUpdate() {
 		updateOutput(false);
+		setDefaultBounds();
+		if (getResultPanel() != null) {
+			updateProbabilityType(getResultPanel());
+		}
 		updateResult();
 	}
 
