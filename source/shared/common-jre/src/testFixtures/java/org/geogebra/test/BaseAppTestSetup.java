@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
@@ -113,6 +114,10 @@ public class BaseAppTestSetup {
 
 	protected final @Nonnull AlgebraSettings getAlgebraSettings() {
 		return getApp().getSettings().getAlgebra();
+	}
+
+	protected final @Nonnull Localization getLocalization() {
+		return getApp().getLocalization();
 	}
 
 	// Basic functionalities for evaluating expressions

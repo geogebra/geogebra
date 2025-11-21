@@ -32,12 +32,13 @@ import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCo
 import org.geogebra.common.properties.impl.collections.ObjectEventPropertyCollection;
 import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
 import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
+import org.geogebra.common.properties.impl.collections.StringPropertyWithSuggestionsCollection;
 import org.geogebra.common.properties.impl.objects.AngleArcSizeProperty;
 import org.geogebra.common.properties.impl.objects.AngleDecorationProperty;
-import org.geogebra.common.properties.impl.objects.AngleRangeProperty;
 import org.geogebra.common.properties.impl.objects.AnimatingProperty;
 import org.geogebra.common.properties.impl.objects.AnimationSpeedProperty;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
+import org.geogebra.common.properties.impl.objects.AuxiliaryObjectProperty;
 import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
 import org.geogebra.common.properties.impl.objects.BoldProperty;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
@@ -54,11 +55,10 @@ import org.geogebra.common.properties.impl.objects.DefinitionProperty;
 import org.geogebra.common.properties.impl.objects.DrawArrowsProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 import org.geogebra.common.properties.impl.objects.ElementObjectEventProperty;
-import org.geogebra.common.properties.impl.objects.EmphasizeRightAngleProperty;
 import org.geogebra.common.properties.impl.objects.FillImageProperty;
 import org.geogebra.common.properties.impl.objects.FillSymbolProperty;
 import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
-import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
+import org.geogebra.common.properties.impl.objects.FixObjectProperty;
 import org.geogebra.common.properties.impl.objects.HatchingAngleProperty;
 import org.geogebra.common.properties.impl.objects.HatchingDistanceProperty;
 import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
@@ -70,6 +70,7 @@ import org.geogebra.common.properties.impl.objects.InputBoxSizeProperty;
 import org.geogebra.common.properties.impl.objects.InverseFillProperty;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.ItalicProperty;
+import org.geogebra.common.properties.impl.objects.LabelProperty;
 import org.geogebra.common.properties.impl.objects.LabelStyleProperty;
 import org.geogebra.common.properties.impl.objects.LevelOfDetailProperty;
 import org.geogebra.common.properties.impl.objects.LineOpacityProperty;
@@ -104,7 +105,6 @@ import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontSizeProperty;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
-import org.geogebra.common.properties.impl.objects.TrimmedIntersectionsProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
 import org.geogebra.common.properties.impl.objects.VectorHeadProperty;
 import org.geogebra.common.properties.impl.objects.VerticalAlignmentProperty;
@@ -264,17 +264,22 @@ public final class GeoElementPropertiesFactory {
 		return createPropsArray("Basic", localization, Stream.of(
 				createNameProperty(localization, elements),
 				elements.size() == 1 ? new DefinitionProperty(localization, elements.get(0)) : null,
-				/*
-		definition, caption, */
 				createPropertyCollection(elements,
 						element -> new CaptionProperty(localization, element),
-						StringPropertyCollection::new),
+						StringPropertyWithSuggestionsCollection::new),
+				createPropertyCollection(elements,
+						element -> new LabelProperty(localization, element),
+						NamedEnumeratedPropertyCollection::new),
 				createShowObjectProperty(localization, elements),
 				createShowTraceProperty(localization, elements),
-				createCaptionStyleProperty(localization, elements),
-				createFixObjectProperty(localization, elements),
 				createPropertyCollection(elements,
-						element -> new ShowInAVProperty(localization, element),
+						element -> new FixObjectProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new AuxiliaryObjectProperty(localization, element),
+						BooleanPropertyCollection::new),
+				createPropertyCollection(elements,
+						element -> new OutlyingIntersectionsProperty(localization, element),
 						BooleanPropertyCollection::new),
 				createPropertyCollection(elements,
 						element -> new AnimatingProperty(localization, element),
@@ -283,24 +288,8 @@ public final class GeoElementPropertiesFactory {
 						element -> new BackgroundImageProperty(localization, element),
 						BooleanPropertyCollection::new),
 				createPropertyCollection(elements,
-						element -> new AngleRangeProperty(localization, element),
-						NamedEnumeratedPropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new EmphasizeRightAngleProperty(localization, element),
-						BooleanPropertyCollection::new),
-				createPropertyCollection(elements,
 						element -> new ListAsComboBoxProperty(localization, element),
-						BooleanPropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new TrimmedIntersectionsProperty(localization, element),
-						BooleanPropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new OutlyingIntersectionsProperty(localization, element),
-						BooleanPropertyCollection::new),
-				createPropertyCollection(elements,
-						element -> new FixCheckboxProperty(localization, element),
-						BooleanPropertyCollection::new)
-		));
+						BooleanPropertyCollection::new)));
 	}
 
 	private @Nonnull PropertiesArray createTextProperties(

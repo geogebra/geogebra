@@ -59,8 +59,8 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 						getApp().getLocalization(), List.of(zeroPoint, onePoint));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Caption", "Show", "Show trace", "Set caption style", "Fixed",
-				"Show in Algebra View"), basicProperties);
+		assertEquals(List.of("Name", "Caption", "Label", "Show", "Show trace", "Fix Object",
+				"Auxiliary Object"), basicProperties);
 	}
 
 	@Test

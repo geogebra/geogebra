@@ -14,7 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.ownership.GlobalScope;
@@ -206,10 +205,6 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		getEuclidianSettings().setGridType(EuclidianView.GRID_POLAR);
 
 		assertTrue(horizontalSplitViewVisibilityListenerCalled.get());
-	}
-
-	private Localization getLocalization() {
-		return getApp().getLocalization();
 	}
 
 	private EuclidianView getEuclidianView() {

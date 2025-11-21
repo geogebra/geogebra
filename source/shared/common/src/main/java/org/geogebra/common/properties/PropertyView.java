@@ -13,6 +13,7 @@ import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
+import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
@@ -712,6 +713,70 @@ public abstract class PropertyView {
 		 */
 		public @Nonnull String getLabel() {
 			return dimensionRatioProperty.getName();
+		}
+	}
+
+	/**
+	 * Representation of a page selector with a title, a list of tabs,
+	 * and a list of {@code PropertyView} groups corresponding to each tab.
+	 * Each tab displays its own collection of {@code PropertyView}s.
+	 */
+	public static final class TabbedPageSelector extends PropertyView {
+		private final String title;
+		private final List<String> tabTitles;
+		private final List<List<PropertyView>> pageContents;
+		private int selectedTabIndex;
+
+		TabbedPageSelector(@Nonnull String title,
+				@Nonnull List<PropertiesArray> pagePropertyArrays, int initialSelectedTabIndex) {
+			this.title = title;
+			this.tabTitles = pagePropertyArrays.stream()
+					.map(PropertiesArray::getName)
+					.collect(Collectors.toList());
+			this.pageContents = pagePropertyArrays.stream()
+					.map(PropertyViewFactory::propertyViewListOf)
+					.collect(Collectors.toList());
+			this.selectedTabIndex = initialSelectedTabIndex;
+		}
+
+		/**
+		 * @return the view's title
+		 */
+		public @Nonnull String getTitle() {
+			return title;
+		}
+
+		/**
+		 * @return the tab titles
+		 */
+		public @Nonnull List<String> getTabTitles() {
+			return tabTitles;
+		}
+
+		/**
+		 * @param pageIndex the index of the tab for which to retrieve the page contents
+		 * @return list of {@code PropertyView}s for the specified tab
+		 */
+		public @Nonnull List<PropertyView> getPageContents(int pageIndex) {
+			return pageContents.get(pageIndex);
+		}
+
+		/**
+		 * @return the index of the currently selected tab
+		 */
+		public int getSelectedTabIndex() {
+			return selectedTabIndex;
+		}
+
+		/**
+		 * Sets the index of the newly selected tab.
+		 * @param newSelectedTabIndex the new index of the selected tab
+		 */
+		public void setSelectedTabIndex(int newSelectedTabIndex) {
+			selectedTabIndex = newSelectedTabIndex;
+			if (configurationUpdateDelegate != null) {
+				configurationUpdateDelegate.configurationUpdated();
+			}
 		}
 	}
 
