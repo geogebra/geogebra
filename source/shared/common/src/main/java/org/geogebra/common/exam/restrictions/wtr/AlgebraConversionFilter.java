@@ -17,17 +17,24 @@ public class AlgebraConversionFilter implements AlgebraOutputFilter {
 
 	@Override
 	public boolean isAllowed(GeoElementND element) {
-		if (element.getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT
-				&& element.getDefinition() != null
-				&& element.getDefinition().any(this::isDegree)) {
-			return false;
-		} else if (element.getKernel().getAngleUnit() != Kernel.ANGLE_RADIANT
-				&& element.getDefinition() != null
-				&& element.getDefinition().any(this::isDegree)
-				&& wrongAngleDimension(element, getAngleDimension(element.getDefinition()))) {
-			return false;
+		if (element.getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT) {
+			return element.getDefinition() == null
+					|| element.getDefinition().deepCopy(element.getKernel())
+							.traverse(this::skipTrig).none(this::isDegree);
 		}
-		return true;
+		return element.getDefinition() == null
+				|| element.getDefinition().none(this::isDegree)
+				|| !wrongAngleDimension(element, getAngleDimension(element.getDefinition()));
+	}
+
+	private ExpressionValue skipTrig(ExpressionValue value) {
+		if (value.isExpressionNode()) {
+			Operation op = ((ExpressionNode) value).getOperation();
+			if (op.hasDegreeInput()) {
+				return ((ExpressionNode) value).getKernel().getEulerNumber();
+			}
+		}
+		return value;
 	}
 
 	private boolean wrongAngleDimension(GeoElementND element, Integer angleDimension) {

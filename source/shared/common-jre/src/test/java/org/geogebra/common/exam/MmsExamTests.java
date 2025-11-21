@@ -33,6 +33,7 @@ import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -661,6 +662,37 @@ public class MmsExamTests extends BaseExamTestSetup {
 		String actualOutput = getApp().getGeoElementValueConverter()
 				.toOutputValueString(geoElement, StringTemplate.defaultTemplate);
 		assertEquals(expectedOutput, actualOutput);
+	}
+
+	@Test
+	@MockedCasValues({
+			"Evaluate(1°) -> pi/180",
+			"Round(π / 180, 13) -> 0.02",
+			"Evaluate(π / °) -> 180",
+			"Round(180, 13) -> 180",
+			"Evaluate(π / π / 180) -> 1/180",
+			"Numeric(Evaluate(π / π / 180)) -> 0.005",
+			"Round(1 / 180, 13) -> 0.005",
+			"Numeric(Evaluate(π / 180 + π / 180)) -> 0.03",
+			"Evaluate(π / 180 + π / 180) -> 0.03",
+			"Round(0.03, 13) -> 0.03",
+			"Evaluate(sin(3°) + π / 180) -> sin(3°) + π / 180",
+			"Numeric(Evaluate(sin(3°) + π / 180)) -> 0.03",
+			"Numeric(Evaluate(sin(π / 180))) -> 0.005",
+			"Round(sin(3°) + π / 180, 13) -> 0.03",
+			"Round(0.005, 13) -> 0.005",
+			"Round(sin(π / 180), 13) -> 0.005",
+			"Evaluate(sin(π / 180)) -> sin(pi / 180)"
+	})
+	public void angleComputationsRadians() {
+		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		evaluate("a=1 deg");
+		MmsAlgebraOutputFilter filter = new MmsAlgebraOutputFilter(null);
+		assertFalse(filter.isAllowed(evaluate("pi/deg")[0]));
+		assertTrue(filter.isAllowed(evaluate("pi/a")[0]));
+		assertTrue(filter.isAllowed(evaluate("a+a")[0]));
+		assertTrue(filter.isAllowed(evaluate("sin(3deg)+a")[0]));
+		assertTrue(filter.isAllowed(evaluate("sin(a)")[0]));
 	}
 
 	@Test

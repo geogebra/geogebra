@@ -42,9 +42,10 @@ public class WtrOutputFilterTest extends BaseExamTestSetup {
 		WtrAlgebraOutputFilter filter = new WtrAlgebraOutputFilter(null);
 		assertFalse(filter.isAllowed(evaluate("pi/deg")[0]));
 		assertFalse(filter.isAllowed(evaluate("pi/a")[0]));
-		assertFalse(filter.isAllowed(evaluate("sin(a)")[0]));
 		assertFalse(filter.isAllowed(evaluate("a+a")[0]));
 		assertFalse(filter.isAllowed(evaluate("sin(3deg)+a")[0]));
 		assertFalse(filter.isAllowed(evaluate("b*deg")[0]));
+		// only allowed in trig
+		assertTrue(filter.isAllowed(evaluate("sin(a)")[0]));
 	}
 }
