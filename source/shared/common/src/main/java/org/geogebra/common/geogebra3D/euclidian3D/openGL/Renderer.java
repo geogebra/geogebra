@@ -63,7 +63,7 @@ public abstract class Renderer {
 	/** min value for layers */
 	public static final int LAYER_MIN = LAYER_PLANE_SHIFT;
 	/** min value for layers (string for shaders) */
-	public static final String LAYER_MIN_STRING_WITH_OP = "" + LAYER_MIN;
+	public static final String LAYER_MIN_STRING_WITH_OP = String.valueOf(LAYER_MIN);
 	/** factor for coding layers (for shaders) */
 	public static final int LAYER_FACTOR_FOR_CODING = 2;
 	/** default layer */

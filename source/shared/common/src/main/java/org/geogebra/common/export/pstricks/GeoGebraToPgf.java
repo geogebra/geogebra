@@ -224,9 +224,9 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		 * (null!=formatFont){ codeBeginPic.insert(0,formatFont+"\n");
 		 * code.append("}\n"); }
 		 */
-		code.insert(0, codeFilledObject + "");
-		code.insert(0, codeBeginDoc + "");
-		code.insert(0, codePreamble + "");
+		code.insert(0, codeFilledObject);
+		code.insert(0, codeBeginDoc);
+		code.insert(0, codePreamble);
 		frame.write(code);
 	}
 
@@ -1626,8 +1626,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			}
 		}
 
-		renameFunc(sb, Unicode.EULER_STRING, Math.E + "");
-		renameFunc(sb, "\\pi", Math.PI + "");
+		renameFunc(sb, Unicode.EULER_STRING, String.valueOf(Math.E));
+		renameFunc(sb, "\\pi", String.valueOf(Math.PI));
 		return new String(sb);
 	}
 

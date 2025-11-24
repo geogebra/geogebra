@@ -76,8 +76,7 @@ public class SVGDocHandler implements DocHandler {
 			return null;
 		}
 		String[] params = getViewBox().trim().split(" ");
-		return (Double.parseDouble(params[j]) - Double.parseDouble(params[i]))
-				+ "";
+		return String.valueOf(Double.parseDouble(params[j]) - Double.parseDouble(params[i]));
 	}
 
 	private String getHeight() {

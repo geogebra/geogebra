@@ -5,6 +5,6 @@ import org.geogebra.editor.share.util.Unicode;
 
 public class AutomaticDegree extends MySpecialDouble {
 	public AutomaticDegree(Kernel kernel) {
-		super(kernel, Kernel.PI_180, Unicode.DEGREE_CHAR + "");
+		super(kernel, Kernel.PI_180, Unicode.DEGREE_STRING);
 	}
 }

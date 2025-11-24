@@ -164,10 +164,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		 * (null!=formatFont){ codeBeginPic.insert(0,formatFont+"\n");
 		 * code.append("}\n"); }
 		 */
-		code.insert(0, codeFilledObject + "");
-		code.insert(0, codeBeginPic + "");
-		code.insert(0, codeBeginDoc + "");
-		code.insert(0, codePreamble + "");
+		code.insert(0, codeFilledObject);
+		code.insert(0, codeBeginPic);
+		code.insert(0, codeBeginDoc);
+		code.insert(0, codePreamble);
 		if (format == GeoGebraToPstricks.FORMAT_BEAMER) {
 			code.append("\\end{frame}\n");
 		}
@@ -386,10 +386,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		String b = format(algo.getB().getDouble());
 		String value = f.toValueString(getStringTemplate());
 		value = killSpace(StringUtil.toLaTeXString(value, true));
-		if (a.substring(a.length() - 1).equals("" + Unicode.INFINITY)) {
+		if (a.endsWith(String.valueOf(Unicode.INFINITY))) {
 			a = format(xmin);
 		}
-		if (b.substring(b.length() - 1).equals("" + Unicode.INFINITY)) {
+		if (b.endsWith(String.valueOf(Unicode.INFINITY))) {
 			b = format(xmax);
 		}
 		startBeamer(codeFilledObject);

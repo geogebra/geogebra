@@ -63,7 +63,7 @@ public class UnplottableChecker implements Inspecting {
 					.getRight() instanceof MyVec3DNode) {
 				String str = ((ExpressionNode) v).getLeft()
 						.toString(StringTemplate.defaultTemplate);
-				if ((Unicode.lambda + "").equals(str)) {
+				if (Unicode.lambda_STRING.equals(str)) {
 					nrOfPoints++;
 				}
 			}
@@ -74,7 +74,7 @@ public class UnplottableChecker implements Inspecting {
 				if (!"x".equals(varString) && !"y".equals(varString)
 						&& !"X".equals(varString)
 						&& (dimension < 3 || !"z".equals(varString))) {
-					if ((Unicode.lambda + "").equals(varString)
+					if (Unicode.lambda_STRING.equals(varString)
 							&& !isOtherVar
 							&& nrOfPoints == 2) {
 						return false;

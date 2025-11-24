@@ -192,7 +192,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 			transform(function, coeffs, fun, line.getStartInhomCoords());
 		}
 
-		String var = function.getFunctionVariables()[0] + "";
+		String var = function.getFunctionVariables()[0].getSetVarString();
 		for (int i = 0; i < 3; i++) {
 			fun[i].getExpression().replaceVariables(var, funVar[0]);
 			fun[i].getExpression().replaceVariables(

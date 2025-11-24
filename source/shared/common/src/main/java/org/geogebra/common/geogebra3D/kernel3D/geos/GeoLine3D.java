@@ -24,7 +24,7 @@ import org.geogebra.editor.share.util.Unicode;
  */
 public class GeoLine3D extends GeoCoordSys1D {
 
-	private String parameter = Unicode.lambda + "";
+	private String parameter = Unicode.lambda_STRING;
 	private boolean showUndefinedInAlgebraView = false;
 
 	/**

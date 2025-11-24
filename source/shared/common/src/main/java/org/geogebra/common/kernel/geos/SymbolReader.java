@@ -95,6 +95,6 @@ public class SymbolReader {
 	 * @return the readable text of the symbol.
 	 */
 	public String get(Character symbol) {
-		return map.getOrDefault(symbol, symbol + "");
+		return map.getOrDefault(symbol, String.valueOf(symbol));
 	}
 }

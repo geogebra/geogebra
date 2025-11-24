@@ -1833,7 +1833,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (kernel.useSignificantFigures) {
 			return kernel.getPrintFigures() + "s";
 		}
-		return kernel.getPrintDecimals() + "";
+		return String.valueOf(kernel.getPrintDecimals());
 	}
 
 	@Override

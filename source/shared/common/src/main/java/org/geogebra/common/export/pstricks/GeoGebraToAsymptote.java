@@ -3589,7 +3589,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		// look up unicodeTable conversions and replace with LaTeX commands
 		while (it.hasNext()) {
 			char skey = it.next();
-			s1 = s1.replace(skey + "",
+			s1 = s1.replace(String.valueOf(skey),
 					"\\\\" + UnicodeTeX.getMap().get(skey) + " ");
 		}
 
@@ -3702,7 +3702,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			String latexName = "\\" + latexNameNoBackslash;
 
 			// temporary code: may be redundant, fail-safe
-			renameFunc(sb, greek.unicode + "", latexNameNoBackslash);
+			renameFunc(sb, String.valueOf(greek.unicode), latexNameNoBackslash);
 
 			renameFunc(sb, latexName, latexNameNoBackslash);
 		}

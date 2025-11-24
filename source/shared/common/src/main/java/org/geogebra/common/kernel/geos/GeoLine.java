@@ -85,7 +85,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private boolean showUndefinedInAlgebraView = false;
 
-	private String parameter = Unicode.lambda + "";
+	private String parameter = Unicode.lambda_STRING;
 	/** start point */
 	public GeoPoint startPoint;
 	/** end point */

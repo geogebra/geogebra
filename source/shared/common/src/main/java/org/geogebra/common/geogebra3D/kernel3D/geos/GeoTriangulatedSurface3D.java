@@ -285,7 +285,7 @@ public class GeoTriangulatedSurface3D {
 		}
 
 		private static String toString(Coords3 c) {
-			return "(" + c.getXd() + "," + c.getYd() + "" + c.getZd() + ")";
+			return "(" + c.getXd() + "," + c.getYd() + "," + c.getZd() + ")";
 		}
 	}
 }

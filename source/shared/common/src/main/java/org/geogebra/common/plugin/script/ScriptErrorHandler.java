@@ -40,7 +40,7 @@ public class ScriptErrorHandler implements ErrorHandler {
 				.showError(app.getLocalization().getPlainDefault(
 						"ErrorInScriptAtLineAFromObjectB",
 						"Error in script at line %0 from object %1",
-						(line + 1) + "",
+						String.valueOf(line + 1),
 						evt.target.getLabel(StringTemplate.defaultTemplate))
 						+ "\n" + msg);
 	}
@@ -64,8 +64,7 @@ public class ScriptErrorHandler implements ErrorHandler {
 		String errorMessage = message + "\n\n" + app.getLocalization().getPlainDefault(
 				"ErrorInScriptAtLineAFromObjectB",
 				"Error in script at line %0 from object %1",
-				(line + 1)
-						+ "",
+				String.valueOf(line + 1),
 				evt.target.getLabel(StringTemplate.defaultTemplate));
 		app.getDefaultErrorHandler().showCommandError(command, errorMessage);
 

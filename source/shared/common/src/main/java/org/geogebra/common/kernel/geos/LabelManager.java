@@ -313,7 +313,7 @@ public class LabelManager {
 		String str;
 		do {
 			counter++;
-			str = trans + cons.getKernel().internationalizeDigits(counter + "",
+			str = trans + cons.getKernel().internationalizeDigits(String.valueOf(counter),
 					StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
