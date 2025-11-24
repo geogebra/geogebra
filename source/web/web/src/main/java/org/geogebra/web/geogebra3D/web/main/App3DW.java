@@ -1,7 +1,7 @@
 package org.geogebra.web.geogebra3D.web.main;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;

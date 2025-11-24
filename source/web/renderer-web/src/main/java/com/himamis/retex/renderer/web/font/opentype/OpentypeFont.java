@@ -47,15 +47,9 @@ package com.himamis.retex.renderer.web.font.opentype;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.himamis.retex.renderer.share.CharFont;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
-import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.web.font.FontW;
-import com.himamis.retex.renderer.web.geom.ShapeW;
-import com.himamis.retex.renderer.web.graphics.FontGlyph;
 
 public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 
@@ -130,37 +124,6 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 	@Override
 	public int getScale() {
 		return 1;
-	}
-
-	@Override
-	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
-		OpentypeFontWrapper wrap = this.getFontWrapper();
-
-		if (wrap == null) {
-			// fail gracefully when font not loaded
-			// will be tried again when font loaded on callback
-			return null;
-		}
-
-		FontGlyph outline = wrap.getGlyphOutline(cf + "",
-				this.getSize());
-
-		double height = cf.fontInfo.getHeight(cf.c);
-		double width = cf.fontInfo.getWidth(cf.c);
-
-		Rectangle2D rect = FactoryProvider.getInstance().getGeomFactory()
-				.createRectangle2D(0, 0, width, height);
-		return new ShapeW(outline, rect);
-	}
-
-	@Override
-	public boolean canDisplay(char ch) {
-		return true;
-	}
-
-	@Override
-	public boolean canDisplay(int c) {
-		return true;
 	}
 
 }

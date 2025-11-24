@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     api("com.himamis.retex:renderer-base")
+    api(project(":canvas-desktop"))
     testImplementation(libs.junit)
 }
 

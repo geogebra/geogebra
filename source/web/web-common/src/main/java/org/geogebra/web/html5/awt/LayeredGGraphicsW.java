@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.web.awt.GGraphics2DW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Position;

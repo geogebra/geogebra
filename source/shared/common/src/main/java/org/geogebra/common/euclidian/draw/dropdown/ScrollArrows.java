@@ -4,12 +4,12 @@ import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.MARGIN;
 import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.ROUND;
 import static org.geogebra.common.gui.util.DropDownList.MAX_WIDTH;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.factories.AwtFactory;
 
 class ScrollArrows {
 

@@ -3,10 +3,10 @@ package org.geogebra.common.euclidian.draw.dropdown;
 import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.MARGIN;
 import static org.geogebra.common.gui.util.DropDownList.BOX_ROUND;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
 class OptionTable {

@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -27,7 +28,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
@@ -113,7 +113,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			}
 
 			// polygon on screen?
-			if (!view.intersects(gp) && !geo.isInverseFill()) {
+			if (!view.intersects(gp.getGeneralPath()) && !geo.isInverseFill()) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -124,12 +124,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	public void drawTrace(GGraphics2D g2) {
-		fill(g2, gp);
+		fill(g2, gp.getGeneralPath());
 	}
 
 	private void createInverseShape() {
 		setShape(view.getBoundsArea());
-		getShape().subtract(AwtFactory.getPrototype().newArea(gp));
+		getShape().subtract(AwtFactory.getPrototype().newArea(gp.getGeneralPath()));
 		fillShape = true;
 	}
 
@@ -192,11 +192,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			// fill using default/hatching/image as appropriate
-			fill(g2, fillShape ? getShape() : gp);
+			fill(g2, fillShape ? getShape() : gp.getGeneralPath());
 			if (isHighlighted()) {
 				g2.setPaint(poly.getSelColor());
 				g2.setStroke(selStroke);
-				g2.draw(gp);
+				gp.draw(g2);
 			}
 
 			// polygons (e.g. in GeoLists) that don't have labeled segments
@@ -205,7 +205,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 					&& poly.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
-				g2.draw(gp);
+				gp.draw(g2);
 			}
 
 			if (labelVisible) {
@@ -319,12 +319,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
-			fill(g2, geo.isInverseFill() ? getShape() : gp);
+			fill(g2, geo.isInverseFill() ? getShape() : gp.getGeneralPath());
 
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
-			g2.draw(gp);
+			gp.draw(g2);
 		}
 	}
 
@@ -335,7 +335,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		GShape t = geo.isInverseFill() ? getShape() : gp;
+		GShape t = geo.isInverseFill() ? getShape() : gp.getGeneralPath();
 		int eps = getFillingHitThreshold(hitThreshold, getBounds());
 		boolean contains = t.contains(AwtFactory.getPrototype().newRectangle(x - eps,
 				y - eps, 2 * eps, 2 * eps));
@@ -383,7 +383,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		if (geo.isInverseFill()) {
 			createInverseShape();
 		} else {
-			setShape(AwtFactory.getPrototype().newArea(gp));
+			setShape(AwtFactory.getPrototype().newArea(gp.getGeneralPath()));
 		}
 		return super.getShape();
 	}

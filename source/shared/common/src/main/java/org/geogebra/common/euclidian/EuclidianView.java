@@ -12,6 +12,7 @@ import java.util.TreeSet;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
@@ -52,7 +53,6 @@ import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotterImpl;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.SetLabels;
@@ -4383,7 +4383,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.isRounded = isRounded;
 	}
 
-	private GeneralPathClipped getBoundingPath() {
+	private GGeneralPath getBoundingPath() {
 		GeneralPathClipped gs = new GeneralPathClipped(this);
 		gs.resetWithThickness(1);
 		gs.moveTo(getMinXScreen(), getMinYScreen());
@@ -4392,7 +4392,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		gs.lineTo(getMinXScreen(), getMaxYScreen());
 		gs.lineTo(getMinXScreen(), getMinYScreen());
 		gs.closePath();
-		return gs;
+		return gs.getGeneralPath();
 	}
 
 	/**

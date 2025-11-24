@@ -3,10 +3,10 @@ package org.geogebra.common.gui.util;
 import static org.geogebra.common.gui.util.DropDownList.BOX_ROUND;
 import static org.geogebra.common.gui.util.DropDownList.MAX_WIDTH;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoGebraColorConstants;
 

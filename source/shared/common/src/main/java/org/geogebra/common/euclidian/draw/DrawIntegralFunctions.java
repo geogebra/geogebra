@@ -147,7 +147,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		gp.closePath();
 
 		// gp on screen?
-		if (!view.intersects(gp)) {
+		if (!view.intersects(gp.getGeneralPath())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -170,16 +170,16 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 			if (isHighlighted()) {
 				g2.setPaint(n.getSelColor());
 				g2.setStroke(selStroke);
-				g2.draw(gp);
+				gp.draw(g2);
 			}
 			if (gp != null) {
-				fill(g2, gp); // fill using default/hatching/image as
+				fill(g2, gp.getGeneralPath()); // fill using default/hatching/image as
 			} // appropriate
 
 			if (objStroke.getLineWidth() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
-				g2.draw(gp);
+				gp.draw(g2);
 			}
 
 			if (labelVisible) {

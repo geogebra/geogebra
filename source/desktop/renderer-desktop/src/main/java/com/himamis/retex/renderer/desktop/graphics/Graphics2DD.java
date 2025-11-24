@@ -41,6 +41,7 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.desktop.graphics;
 
 import java.awt.Graphics2D;
@@ -49,6 +50,8 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.util.LinkedList;
+
+import org.geogebra.common.awt.RenderingHints;
 
 import com.himamis.retex.renderer.desktop.font.FontD;
 import com.himamis.retex.renderer.desktop.font.FontRenderContextD;
@@ -60,7 +63,6 @@ import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
@@ -280,12 +282,12 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 	@Override
-	public void saveTransformation() {
+	public void saveTransform() {
 		transformationStack.add(new TransformD(impl.getTransform()));
 	}
 
 	@Override
-	public void restoreTransformation() {
+	public void restoreTransform() {
 		TransformD last = transformationStack.removeLast();
 		impl.setTransform(last);
 	}

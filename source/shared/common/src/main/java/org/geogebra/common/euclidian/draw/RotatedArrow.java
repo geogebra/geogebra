@@ -1,11 +1,11 @@
 	package org.geogebra.common.euclidian.draw;
 
+	import org.geogebra.common.awt.AwtFactory;
 	import org.geogebra.common.awt.GAffineTransform;
 	import org.geogebra.common.awt.GBasicStroke;
 	import org.geogebra.common.awt.GGeneralPath;
 	import org.geogebra.common.awt.GLine2D;
 	import org.geogebra.common.awt.GShape;
-	import org.geogebra.common.factories.AwtFactory;
 
 public class RotatedArrow {
 	private final GLine2D line;

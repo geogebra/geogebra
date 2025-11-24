@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
@@ -10,7 +11,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -162,7 +162,7 @@ public class DrawInequality1Var extends SetDrawable {
 				gp[i].closePath();
 				lines[2 * i] = horizontalLine(yRW[2 * i + j], y[2 * i + j]);
 				lines[2 * i + 1] = horizontalLine(yRW[2 * i + j + 1], y[2 * i + j + 1]);
-				a.add(AwtFactory.getPrototype().newArea(gp[i]));
+				a.add(AwtFactory.getPrototype().newArea(gp[i].getGeneralPath()));
 			}
 			setShape(a);
 		} else {
@@ -230,7 +230,7 @@ public class DrawInequality1Var extends SetDrawable {
 					gp[i].closePath();
 					lines[2 * i] = verticalLine(xRW[2 * i + j], x[2 * i + j]);
 					lines[2 * i + 1] = verticalLine(xRW[2 * i + 1 + j], x[2 * i + 1 + j]);
-					a.add(AwtFactory.getPrototype().newArea(gp[i]));
+					a.add(AwtFactory.getPrototype().newArea(gp[i].getGeneralPath()));
 				}
 			}
 			setShape(a);

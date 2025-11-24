@@ -19,6 +19,7 @@ dependencies {
     javacc(libs.javacc)
     api(project(":editor-base"))
     api(project(":renderer-base"))
+    api(project(":canvas-base"))
     api(libs.apache.math)
     api(libs.spotbugs.annotations)
     api(libs.findbugs.annotations)

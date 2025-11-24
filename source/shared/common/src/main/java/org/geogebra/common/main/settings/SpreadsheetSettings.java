@@ -8,9 +8,9 @@ import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 

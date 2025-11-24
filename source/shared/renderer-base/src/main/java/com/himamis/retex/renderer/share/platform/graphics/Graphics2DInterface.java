@@ -41,6 +41,7 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.share.platform.graphics;
 
 import com.himamis.retex.renderer.share.platform.font.Font;
@@ -62,9 +63,9 @@ public interface Graphics2DInterface {
 
 	Transform getTransform();
 
-	void saveTransformation();
+	void saveTransform();
 
-	void restoreTransformation();
+	void restoreTransform();
 
 	Font getFont();
 

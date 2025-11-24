@@ -20,6 +20,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
@@ -29,7 +30,6 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -769,7 +769,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 
 		}
 		gpc.closePath();
-		GArea gpcArea = AwtFactory.getPrototype().newArea(gpc);
+		GArea gpcArea = AwtFactory.getPrototype().newArea(gpc.getGeneralPath());
 		if (!invert) {
 			return gpcArea;
 		}

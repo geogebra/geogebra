@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.modes;
 
 import java.util.Iterator;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -12,7 +13,6 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.MoveMode;
 import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;

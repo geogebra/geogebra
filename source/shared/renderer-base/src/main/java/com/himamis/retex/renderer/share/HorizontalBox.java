@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
@@ -128,29 +127,6 @@ public class HorizontalBox extends Box {
 			xPos += box.getWidth();
 		}
 		endDraw(g2);
-	}
-
-	@Override
-	public Area getArea() {
-		final Area area = geom.createArea();
-
-		double afX = 0;
-		final double afY = 0;
-
-		for (final Box b : children) {
-			if (b instanceof StrutBox) {
-				afX += b.getWidth();
-			} else {
-				final Area a = b.getArea();
-				if (a == null) {
-					return null;
-				}
-				a.translate(afX, afY);
-				area.add(a);
-				afX += b.getWidth();
-			}
-		}
-		return area;
 	}
 
 	public final void add(Box b) {

@@ -24,11 +24,11 @@ package org.geogebra.common.euclidian.clipping;
 import java.util.Arrays;
 import java.util.Stack;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.EquationSolver;
 
 /**

@@ -5,9 +5,8 @@ import java.util.List;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.PenPreviewLine;
-import org.geogebra.web.html5.awt.GGraphics2DW;
-
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import org.geogebra.web.awt.GGraphics2DW;
+import org.geogebra.web.awt.JLMContext2D;
 
 /**
  * Pen preview drawing that uses the Canvas API directly, skipping conversion
@@ -18,7 +17,7 @@ public class PenPreviewLineW extends PenPreviewLine {
 	@Override
 	protected void drawPolyline(List<GPoint> penPoints, GGraphics2D g2) {
 		int minQuadDistance = 20;
-		JLMContext2d g2w = ((GGraphics2DW) g2).getContext();
+		JLMContext2D g2w = ((GGraphics2DW) g2).getContext();
 		g2w.beginPath();
 
 		double prevx = penPoints.get(0).x;

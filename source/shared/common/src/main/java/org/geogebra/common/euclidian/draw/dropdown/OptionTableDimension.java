@@ -2,8 +2,8 @@ package org.geogebra.common.euclidian.draw.dropdown;
 
 import static org.geogebra.common.euclidian.draw.dropdown.DrawOptions.MARGIN;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.factories.AwtFactory;
 
 class OptionTableDimension {
 	private final DropDownModel settings;

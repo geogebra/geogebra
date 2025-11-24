@@ -109,7 +109,7 @@ public class DrawSlope extends Drawable {
 			// closePath important for clipping: #4048
 			gp.closePath();
 			// gp on screen?
-			if (!view.intersects(gp)) {
+			if (!view.intersects(gp.getGeneralPath())) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -162,19 +162,19 @@ public class DrawSlope extends Drawable {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			fill(g2, gp); // fill using default/hatching/image as
+			fill(g2, gp.getGeneralPath()); // fill using default/hatching/image as
 							// appropriate
 
 			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				g2.draw(gp);
+				gp.draw(g2);
 			}
 
 			if (geo.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
-				g2.draw(gp);
+				gp.draw(g2);
 			}
 
 			if (labelVisible) {

@@ -13,7 +13,9 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.awt.GGraphics2DW;
+import org.geogebra.web.awt.JLMContext2D;
+import org.geogebra.web.awt.JLMContextHelper;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.style.shared.Unit;
 
@@ -24,8 +26,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
-import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 /**
  * Web LaTeX helper class
@@ -50,7 +50,7 @@ public class DrawEquationW extends DrawEquation {
 		String eqstring = latexString0;
 
 		TeXIcon icon = createIcon(eqstring, convertColor(fgColor), font,
-				font.getLaTeXStyle(serif), null, null);
+				getLaTeXStyle(font, serif), null, null);
 
 		Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
 		g3.setDrawingFinishedCallback(async -> {
@@ -158,7 +158,7 @@ public class DrawEquationW extends DrawEquation {
 	 */
 	public Graphics2DW paintOnCleanCanvas(String text0, @Nonnull Canvas c,
 			int fontSize, final GColor fgColor, boolean serif) {
-		JLMContext2d ctx = JLMContextHelper.as(c.getContext2d());
+		JLMContext2D ctx = JLMContextHelper.as(c.getContext2d());
 
 		checkFirstCall();
 		TeXIcon icon = createIcon(text0,

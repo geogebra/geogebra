@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
-import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.Grid;

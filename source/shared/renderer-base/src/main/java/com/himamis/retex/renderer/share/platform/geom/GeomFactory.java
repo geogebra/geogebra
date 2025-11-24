@@ -56,8 +56,4 @@ public abstract class GeomFactory {
 
 	public abstract Point2D createPoint2D(double x, double y);
 
-	public abstract Area createArea(Shape rect);
-
-	public abstract Area newArea();
-
 }

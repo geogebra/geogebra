@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.web.awt.GGraphics2DWI;
 import org.geogebra.web.html5.gui.HasThumbnailURL;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.Widget;

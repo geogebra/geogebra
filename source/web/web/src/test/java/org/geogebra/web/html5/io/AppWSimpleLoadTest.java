@@ -3,6 +3,7 @@ package org.geogebra.web.html5.io;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.web.awt.JLMContext2D;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -14,11 +15,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.gwtmockito.WithClassesToStub;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 @RunWith(GgbMockitoTestRunner.class)
 @WithClassesToStub({EuclidianSimplePanelW.class,
-		JLMContext2d.class, RootPanel.class})
+		JLMContext2D.class, RootPanel.class})
 public class AppWSimpleLoadTest {
 	private static final String jsonPath =
 			"src/test/resources/org/geogebra/web/html5/io/inRegion.json";

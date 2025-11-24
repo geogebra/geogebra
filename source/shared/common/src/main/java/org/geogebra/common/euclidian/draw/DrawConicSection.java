@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GGeneralPath;
@@ -10,7 +11,6 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.clipping.ClipShape;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicSectionInterface;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -572,7 +572,7 @@ public class DrawConicSection extends DrawConic {
 
 	@Override
 	protected void updateHyperbolaSetShape() {
-		fillShape = hyp;
+		fillShape = hyp.getGeneralPath();
 	}
 
 	@Override

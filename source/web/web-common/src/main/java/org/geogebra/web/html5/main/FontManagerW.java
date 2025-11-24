@@ -2,7 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.FontManager;
-import org.geogebra.web.html5.awt.GFontW;
+import org.geogebra.web.awt.GFontW;
 
 /**
  * This class takes care of storing and creating fonts.

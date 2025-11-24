@@ -4,11 +4,11 @@ import static org.geogebra.common.euclidian.BoundingBox.ROTATION_HANDLER_RADIUS;
 import static org.geogebra.common.euclidian.BoundingBox.SIDE_HANDLER_HEIGHT;
 import static org.geogebra.common.euclidian.BoundingBox.SIDE_HANDLER_WIDTH;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.factories.AwtFactory;
 
 /**
  * Bounding box for a single element that rotates together with the geo.

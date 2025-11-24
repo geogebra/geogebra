@@ -45,7 +45,6 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
@@ -87,11 +86,6 @@ public class HVruleBox extends Box {
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		g2.fill(geom.createRectangle2D(x, y - h, w, h + d));
-	}
-
-	@Override
-	public Area getArea() {
-		return geom.createArea(geom.createRectangle2D(0., -h, w, h + d));
 	}
 
 	@Override

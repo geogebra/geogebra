@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.web.awt.JLMContext2D;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
@@ -22,10 +23,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.gwtmockito.WithClassesToStub;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 @RunWith(GgbMockitoTestRunner.class)
-@WithClassesToStub({JLMContext2d.class, RootPanel.class})
+@WithClassesToStub({JLMContext2D.class, RootPanel.class})
 public class GroupSaveTest {
     private static AppWFull app;
     private static Construction cons;

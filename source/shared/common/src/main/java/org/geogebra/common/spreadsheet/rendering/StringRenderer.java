@@ -1,8 +1,8 @@
 package org.geogebra.common.spreadsheet.rendering;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.spreadsheet.core.CellRenderer;
 import org.geogebra.common.util.shape.Rectangle;
 

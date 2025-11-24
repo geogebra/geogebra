@@ -1,12 +1,12 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.clipping.ClipLine;
-import org.geogebra.common.factories.AwtFactory;
 
 /**
  * Draws the vector with the default head

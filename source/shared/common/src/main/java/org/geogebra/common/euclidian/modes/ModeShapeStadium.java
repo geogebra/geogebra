@@ -2,10 +2,10 @@ package org.geogebra.common.euclidian.modes;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoStadium;

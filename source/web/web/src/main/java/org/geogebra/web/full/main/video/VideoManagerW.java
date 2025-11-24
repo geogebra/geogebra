@@ -12,12 +12,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.media.VideoURL;
+import org.geogebra.web.awt.MyImageW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.main.MyImageW;
 import org.gwtproject.dom.client.Element;
 
 import elemental2.dom.HTMLImageElement;

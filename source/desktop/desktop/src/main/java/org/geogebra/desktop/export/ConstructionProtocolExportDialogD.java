@@ -253,7 +253,7 @@ public class ConstructionProtocolExportDialogD extends Dialog
 			img = getCenterPanelImage();
 		}
 
-		String imgBase64 = GgbAPID.base64encode(img, 72);
+		String imgBase64 = GBufferedImageD.base64encode(img, 72);
 		String export = ConstructionProtocolView.getHTML(imgBase64,
 				app.getLocalization(), app.getKernel(), prot.getColumns(),
 				useColors);

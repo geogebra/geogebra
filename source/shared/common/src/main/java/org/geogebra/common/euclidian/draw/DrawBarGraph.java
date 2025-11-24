@@ -126,7 +126,7 @@ public class DrawBarGraph extends Drawable {
 						} else {
 							g2.setPaint(selColor);
 						}
-						g2.draw(gp[i]);
+						gp[i].draw(g2);
 					}
 					g2.setPaint(selColor);
 				}
@@ -140,7 +140,7 @@ public class DrawBarGraph extends Drawable {
 					 * Use tags for draw if there are
 					 */
 					for (int i = 0; i < gp.length; i++) {
-						chartFilling.fill(g2, gp[i], chartStyle, i + 1, this);
+						chartFilling.fill(g2, gp[i].getGeneralPath(), chartStyle, i + 1, this);
 					}
 				}
 
@@ -162,7 +162,7 @@ public class DrawBarGraph extends Drawable {
 						} else {
 							g2.setPaint(color);
 						}
-						g2.draw(gp[i]);
+						gp[i].draw(g2);
 					}
 					g2.setPaint(color);
 				}
@@ -457,7 +457,7 @@ public class DrawBarGraph extends Drawable {
 		// don't return here to make sure that getBounds() works for
 		// off screen points too
 		for (GeneralPathClipped bar : gp) {
-			if (view.intersects(bar)) {
+			if (view.intersects(bar.getGeneralPath())) {
 				isVisible = true;
 				break;
 			}

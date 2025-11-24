@@ -50,7 +50,6 @@ package com.himamis.retex.renderer.share;
 
 import com.himamis.retex.renderer.share.platform.Geom;
 import com.himamis.retex.renderer.share.platform.Graphics;
-import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -157,10 +156,6 @@ public abstract class Box {
 		background = bg;
 		geom = new Geom();
 		graphics = new Graphics();
-	}
-
-	public Area getArea() {
-		return null;
 	}
 
 	public Box setBg(Color bg) {

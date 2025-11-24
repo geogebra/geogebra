@@ -20,6 +20,7 @@ gwtDistribution {
 dependencies {
     api("com.himamis.retex:renderer-base")
     api(project(":gwtutil"))
+    api(project(":canvas-web"))
     api(files(file("build/generated/sources/annotationProcessor/java/main/")))
 
     api(libs.gwt.core)

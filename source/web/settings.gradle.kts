@@ -17,6 +17,7 @@ dependencyResolutionManagement {
     }
 }
 
+include("canvas-web")
 include("carota-web")
 include("editor-web")
 include("gwt-generator")

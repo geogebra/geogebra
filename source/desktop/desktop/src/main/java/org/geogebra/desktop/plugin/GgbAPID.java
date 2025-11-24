@@ -253,40 +253,7 @@ public class GgbAPID extends GgbAPIJre {
 			double exportScale, EuclidianView ev) {
 		GBufferedImage img = ((EuclidianViewInterfaceD) ev)
 				.getExportImage(exportScale, transparent, ExportType.PNG);
-		return base64encode(GBufferedImageD.getAwtBufferedImage(img), DPI);
-	}
-
-	/**
-	 * @param img
-	 *            image
-	 * @return encoded image
-	 */
-	public static String base64encode(BufferedImage img, double DPI) {
-		if (img == null) {
-			return null;
-		}
-		try {
-			Iterator<ImageWriter> it = ImageIO
-					.getImageWritersByFormatName("png");
-			ImageWriter writer = it.next();
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-			ImageOutputStream ios = ImageIO.createImageOutputStream(baos);
-
-			writer.setOutput(ios);
-
-			MyImageIO.writeImage(writer, img, DPI);
-
-			String ret = Base64.encodeToString(baos.toByteArray(), false);
-
-			baos.close();
-			ios.close();
-
-			return ret;
-		} catch (IOException e) {
-			Log.debug(e);
-			return null;
-		}
+		return GBufferedImageD.base64encode(GBufferedImageD.getAwtBufferedImage(img), DPI);
 	}
 
 	@Override

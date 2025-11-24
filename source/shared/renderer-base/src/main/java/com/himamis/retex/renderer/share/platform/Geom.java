@@ -43,13 +43,11 @@
  */
 package com.himamis.retex.renderer.share.platform;
 
-import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.geom.Line2D;
 import com.himamis.retex.renderer.share.platform.geom.Point2D;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public class Geom {
 
@@ -62,10 +60,6 @@ public class Geom {
 	public Rectangle2D createRectangle2D(double x, double y, double w,
 			double h) {
 		return geomFactory.createRectangle2D(x, y, w, h);
-	}
-
-	public Area createArea(Shape s) {
-		return geomFactory.createArea(s);
 	}
 
 	public Line2D createLine2D() {
@@ -81,7 +75,4 @@ public class Geom {
 		return geomFactory.createPoint2D(x, y);
 	}
 
-	public Area createArea() {
-		return geomFactory.newArea();
-	}
 }

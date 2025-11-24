@@ -151,7 +151,7 @@ public class DrawUpperLowerSum extends Drawable {
 		gp.lineTo(ax, y0); // all bars, along bottom
 
 		// gp on screen?
-		if (!view.intersects(gp)) {
+		if (!view.intersects(gp.getGeneralPath())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -189,7 +189,7 @@ public class DrawUpperLowerSum extends Drawable {
 		gp.lineTo(view.toScreenCoordXd(leftBorder[0]), base);
 
 		// gp on screen?
-		if (!view.intersects(gp)) {
+		if (!view.intersects(gp.getGeneralPath())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -212,14 +212,14 @@ public class DrawUpperLowerSum extends Drawable {
 				if (isHighlighted()) {
 					g2.setPaint(sum.getSelColor());
 					g2.setStroke(selStroke);
-					g2.draw(gp);
+					gp.draw(g2);
 				}
 			} catch (Exception e) {
 				Log.debug(e.getMessage());
 			}
 
 			try {
-				fill(g2, gp); // fill using default/hatching/image as
+				fill(g2, gp.getGeneralPath()); // fill using default/hatching/image as
 								// appropriate
 			} catch (Exception e) {
 				Log.debug(e);
@@ -229,7 +229,7 @@ public class DrawUpperLowerSum extends Drawable {
 				if (geo.getLineThickness() > 0) {
 					g2.setPaint(getObjectColor());
 					g2.setStroke(objStroke);
-					g2.draw(gp);
+					gp.draw(g2);
 				}
 			} catch (Exception e) {
 				Log.debug(e.getMessage());

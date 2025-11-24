@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
-import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.awt.GGraphics2DW;
 import org.gwtproject.canvas.client.Canvas;
 
 // To avoid duplicate inequalities drawing algorithms replacing Graphics.

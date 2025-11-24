@@ -49,7 +49,6 @@ package com.himamis.retex.renderer.share;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
@@ -143,36 +142,6 @@ class VerticalBox extends Box {
 			yPos += box.getDepth();
 		}
 		endDraw(g2);
-	}
-
-	@Override
-	public Area getArea() {
-		// final Area area = new Area();
-		final Area area = geom.createArea();
-		// final AffineTransform af = AffineTransform.getTranslateInstance(0.,
-		// -height);
-		final double afX = 0;
-		double afY = -height;
-
-		for (final Box b : children) {
-			if (b instanceof StrutBox) {
-				// af.translate(0., b.getHeight() + b.getDepth());
-				afY += b.getHeight() + b.getDepth();
-			} else {
-				final Area a = b.getArea();
-				if (a == null) {
-					return null;
-				}
-				// af.translate(0., b.getHeight());
-				afY += b.getHeight();
-				// a.transform(af);
-				a.translate(afX, afY);
-				area.add(a);
-				// af.translate(0., b.getDepth());
-				afY += b.getDepth();
-			}
-		}
-		return area;
 	}
 
 	public int getSize() {

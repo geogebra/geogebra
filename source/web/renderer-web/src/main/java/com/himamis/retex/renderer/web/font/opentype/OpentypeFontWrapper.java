@@ -40,6 +40,7 @@
  * If you do not wish to do so, delete this exception statement from your
  * version.
  */
+
 package com.himamis.retex.renderer.web.font.opentype;
 
 import com.himamis.retex.renderer.web.font.FontWrapper;
@@ -75,20 +76,6 @@ public class OpentypeFontWrapper implements FontWrapper {
 			drawPath(glyph, x, y, ctx);
 		}
 	}
-
-	public FontGlyph getGlyphOutline(String c, int size) {
-		// font not loaded yet
-		if (impl == null) {
-			return null;
-		}
-		FontGlyph glyph = getGlyph(c);
-		if (glyph == null) {
-			return null;
-		}
-		glyph.size = size;
-		glyph.unitsPerEm = (double) impl.getAt(0);
-		return glyph;
-	};
 
 	private FontGlyph getGlyph(String c) {
 		return getGlyph(impl, c.codePointAt(0));

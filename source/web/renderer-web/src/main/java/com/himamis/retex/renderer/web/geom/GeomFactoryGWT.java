@@ -43,13 +43,11 @@
  */
 package com.himamis.retex.renderer.web.geom;
 
-import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.geom.Line2D;
 import com.himamis.retex.renderer.share.platform.geom.Point2D;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public class GeomFactoryGWT extends GeomFactory {
 
@@ -73,16 +71,6 @@ public class GeomFactoryGWT extends GeomFactory {
 	@Override
 	public Point2D createPoint2D(double x, double y) {
 		return new Point2DW(x, y);
-	}
-
-	@Override
-	public Area createArea(Shape s) {
-		return s == null ? new AreaW() : new AreaW(s);
-	}
-
-	@Override
-	public Area newArea() {
-		return new AreaW();
 	}
 
 }

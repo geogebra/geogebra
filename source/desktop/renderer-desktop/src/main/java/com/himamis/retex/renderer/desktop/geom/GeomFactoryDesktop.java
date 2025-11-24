@@ -41,17 +41,14 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.desktop.geom;
 
-import java.awt.geom.GeneralPath;
-
-import com.himamis.retex.renderer.share.platform.geom.Area;
 import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.geom.Line2D;
 import com.himamis.retex.renderer.share.platform.geom.Point2D;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public class GeomFactoryDesktop extends GeomFactory {
 
@@ -75,23 +72,6 @@ public class GeomFactoryDesktop extends GeomFactory {
 	@Override
 	public Point2D createPoint2D(double x, double y) {
 		return new Point2DD(x, y);
-	}
-
-	@Override
-	public Area createArea(Shape s) {
-		if (s instanceof GeneralPathD) {
-			GeneralPath gp = GeneralPathD.getAwtGeneralPath((s));
-			return new AreaD(gp);
-		}
-		if (s == null) {
-			return new AreaD();
-		}
-		return new AreaD((java.awt.Shape) s);
-	}
-
-	@Override
-	public Area newArea() {
-		return new AreaD();
 	}
 
 }

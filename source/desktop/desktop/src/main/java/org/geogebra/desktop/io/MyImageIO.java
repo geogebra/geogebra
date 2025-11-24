@@ -14,6 +14,8 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.FileImageOutputStream;
 
+import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.desktop.awt.GBufferedImageD;
 import org.w3c.dom.NodeList;
 
 /**
@@ -38,55 +40,8 @@ public class MyImageIO {
 		FileImageOutputStream fios = new FileImageOutputStream(outFile);
 		writer.setOutput(fios);
 
-		writeImage(writer, img, DPI);
+		GBufferedImageD.writeImage(writer, img, DPI);
 
 		fios.close();
 	}
-
-	/**
-	 * @param writer writer
-	 * @param img image
-	 * @param DPI scale
-	 * @throws IOException if I/O error happened
-	 */
-	public static void writeImage(ImageWriter writer, BufferedImage img,
-			double DPI) throws IOException {
-		float xDPI = (float) DPI;
-		float yDPI = (float) DPI;
-
-		ImageWriteParam writeParam = writer.getDefaultWriteParam();
-		// set the DPI
-		IIOMetadata destMeta = writer.getDefaultImageMetadata(
-				new ImageTypeSpecifier(img), writeParam);
-		IIOMetadataNode destNodes = (IIOMetadataNode) destMeta
-				.getAsTree("javax_imageio_1.0");
-		NodeList nl = destNodes.getElementsByTagName("Dimension");
-		IIOMetadataNode dim;
-		if ((nl != null) && (nl.getLength() > 0)) {
-			dim = (IIOMetadataNode) nl.item(0);
-		} else {
-			dim = new IIOMetadataNode("Dimension");
-			destNodes.appendChild(dim);
-		}
-		nl = destNodes.getElementsByTagName("HorizontalPixelSize");
-		if ((nl == null) || (nl.getLength() == 0)) {
-			IIOMetadataNode horz = new IIOMetadataNode("HorizontalPixelSize");
-			dim.appendChild(horz);
-			horz.setAttribute("value", Float.toString(xDPI / 25.4f));
-		}
-		nl = destNodes.getElementsByTagName("VerticalPixelSize");
-		if ((nl == null) || (nl.getLength() == 0)) {
-			IIOMetadataNode horz = new IIOMetadataNode("VerticalPixelSize");
-			dim.appendChild(horz);
-			horz.setAttribute("value", Float.toString(yDPI / 25.4f));
-		}
-
-		destMeta.setFromTree("javax_imageio_1.0", destNodes);
-		writer.write(null, new IIOImage(img, null, destMeta), writeParam);
-
-		// close everything
-		writer.dispose();
-
-	}
-
 }

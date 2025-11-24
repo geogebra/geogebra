@@ -2,8 +2,8 @@ package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.plugin.ActionType;
+import org.geogebra.web.awt.MyImageW;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
-import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.client.Element;

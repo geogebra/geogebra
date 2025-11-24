@@ -150,7 +150,7 @@ public class DrawSurface extends Drawable {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		if (gp != null) {
-			g2.draw(gp);
+			gp.draw(g2);
 		}
 	}
 

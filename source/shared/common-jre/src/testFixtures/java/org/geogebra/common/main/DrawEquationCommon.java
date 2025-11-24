@@ -5,7 +5,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
-import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 

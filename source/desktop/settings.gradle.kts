@@ -13,6 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
+include("canvas-desktop")
 include("desktop")
 include("editor-desktop")
 include("renderer-desktop")

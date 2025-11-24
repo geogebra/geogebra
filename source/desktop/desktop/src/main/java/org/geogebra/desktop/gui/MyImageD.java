@@ -26,11 +26,12 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.awt.ImageD;
 import org.geogebra.desktop.gui.util.JSVGImageBuilder;
 import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.main.AppD;
 
-public class MyImageD implements MyImageJre {
+public class MyImageD implements MyImageJre, ImageD {
 
 	public static final double DELTA = 0;
 	private Image img = null;

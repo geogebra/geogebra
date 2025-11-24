@@ -64,7 +64,7 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		g2.draw(gp);
+		gp.draw(g2);
 	}
 
 	@Override

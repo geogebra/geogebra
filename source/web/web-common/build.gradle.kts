@@ -12,6 +12,7 @@ description = "Web platform code which does not use the GWT Widgets library"
 
 dependencies {
     api("org.geogebra:common")
+    api(project(":canvas-web"))
     api(project(":gwtutil"))
     api(project(":renderer-web"))
     api(project(":editor-web"))

@@ -1,10 +1,11 @@
 package com.himamis.retex.renderer.web.geom;
 
+import org.geogebra.web.awt.JLMContext2D;
+
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.web.font.opentype.OpentypeFontWrapper;
 import com.himamis.retex.renderer.web.graphics.FontGlyph;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 /**
  * 
@@ -25,7 +26,7 @@ public class ShapeW implements Shape {
 		this.rect = rect;
 	}
 
-	public void fill(JLMContext2d ctx) {
+	public void fill(JLMContext2D ctx) {
 		ctx.translate2(tx, ty);
 		outline.fill = ctx.fillStyle;
 		OpentypeFontWrapper.drawPath(outline, 0, 0, ctx);

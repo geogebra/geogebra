@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Set;
 
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.cas.giac.CASgiac;
@@ -2154,7 +2155,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				shapes.add(shape);
 			}
 		});
-		GeneralPathClippedForCurvePlotter path = (GeneralPathClippedForCurvePlotter) shapes.get(0);
+		GGeneralPath path = (GGeneralPath) shapes.get(0);
 		assertEquals(800, path.getBounds().getWidth(), 1);
 	}
 

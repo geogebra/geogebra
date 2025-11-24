@@ -41,18 +41,15 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.desktop.font;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.himamis.retex.renderer.share.CharFont;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
-import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
-import com.himamis.retex.renderer.share.platform.font.GlyphVector;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public class FontD implements Font {
 
@@ -80,7 +77,7 @@ public class FontD implements Font {
 		return impl;
 	}
 
-	private static Map<java.awt.font.TextAttribute, Object> helper = new HashMap<java.awt.font.TextAttribute, Object>();
+	private static Map<java.awt.font.TextAttribute, Object> helper = new HashMap<>();
 
 	private static Map<java.awt.font.TextAttribute, Object> convertMap(
 			Map<TextAttribute, Object> map) {
@@ -101,32 +98,12 @@ public class FontD implements Font {
 		return FontLoader.FONT_SCALE_FACTOR;
 	}
 
-	public GlyphVector createGlyphVector(FontRenderContext frc, String s) {
-		return new GlyphVectorD(impl
-				.createGlyphVector((java.awt.font.FontRenderContext) frc, s));
-	}
-
-	@Override
-	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
-		return createGlyphVector(frc, cf.c + "").getGlyphOutline(0);
-	}
-
 	public int getSize() {
 		return impl.getSize();
 	}
 
 	public String getName() {
 		return impl.getName();
-	}
-
-	@Override
-	public boolean canDisplay(char ch) {
-		return impl.canDisplay(ch);
-	}
-
-	@Override
-	public boolean canDisplay(int c) {
-		return impl.canDisplay(c);
 	}
 
 }

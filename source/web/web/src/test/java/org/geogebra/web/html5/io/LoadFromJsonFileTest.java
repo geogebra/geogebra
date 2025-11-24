@@ -7,6 +7,7 @@ import java.util.concurrent.CountDownLatch;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.awt.JLMContext2D;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.main.AppWFull;
@@ -22,11 +23,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.gwtmockito.WithClassesToStub;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 @RunWith(GgbMockitoTestRunner.class)
 @WithClassesToStub({EuclidianSimplePanelW.class,
-		JLMContext2d.class, RootPanel.class, ResizeComposite.class})
+		JLMContext2D.class, RootPanel.class, ResizeComposite.class})
 public class LoadFromJsonFileTest {
 	private static final String CLOSED_AV_JSON_PATH =
 			"src/test/resources/org/geogebra/web/html5/io/closedAV.json";

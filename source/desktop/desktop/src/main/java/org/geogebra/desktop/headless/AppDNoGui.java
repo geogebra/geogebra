@@ -35,9 +35,9 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.desktop.awt.AwtFactoryD;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
-import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
@@ -231,7 +231,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 			GBufferedImage img = ev
 					.getExportImage(exportScale, transparent,
 							ExportType.PNG);
-			return GgbAPID.base64encode(
+			return GBufferedImageD.base64encode(
 					GBufferedImageD.getAwtBufferedImage(img), DPI);
 		}
 	}

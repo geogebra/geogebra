@@ -5,6 +5,9 @@ import java.util.Collection;
 import org.geogebra.editor.web.ClickAdapterW;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.regexp.client.NativeRegExp;
+import org.geogebra.web.awt.GGraphics2DW;
+import org.geogebra.web.awt.JLMContext2D;
+import org.geogebra.web.awt.JLMContextHelper;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.Browser;
@@ -59,8 +62,6 @@ import com.himamis.retex.renderer.web.font.opentype.Opentype;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.ImageW;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
-import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.core.JsDate;
 import elemental2.core.Uint8Array;
@@ -94,7 +95,9 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(Canvas.class, "createIfSupported",
                 Canvas.class);
         StubGenerator.replaceMethodWithMock(JLMContextHelper.class, "as",
-                JLMContext2d.class);
+                JLMContext2D.class);
+        StubGenerator.replaceMethodWithMock(GGraphics2DW.class, "preventContextMenu",
+                Void.class);
         StubGenerator.replaceMethodWithMock(Graphics2DW.class, "initFontParser",
                 Void.class);
         StubGenerator.replaceMethodWithMock(GraphicsFactoryGWT.class, "createImage",

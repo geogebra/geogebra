@@ -45,9 +45,10 @@
 
 package com.himamis.retex.renderer.share;
 
+import org.geogebra.common.awt.RenderingHints;
+
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
 /**
  * A box representing a box containing a graphics.
@@ -80,7 +81,7 @@ public class GraphicsBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		g2.saveTransformation();
+		g2.saveTransform();
 
 		int oldKey = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
 		if (interp != -1) {
@@ -91,7 +92,7 @@ public class GraphicsBox extends Box {
 		g2.translate(x, y - height);
 		g2.scale(scl, scl);
 		g2.drawImage(image, 0, 0);
-		g2.restoreTransformation();
+		g2.restoreTransform();
 		if (interp != -1 && oldKey != -1) {
 			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldKey);
 		}

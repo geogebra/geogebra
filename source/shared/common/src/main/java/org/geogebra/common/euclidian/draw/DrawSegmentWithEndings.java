@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
@@ -11,7 +12,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.HasSegmentStyle;
 import org.geogebra.common.kernel.geos.SegmentStyle;
 

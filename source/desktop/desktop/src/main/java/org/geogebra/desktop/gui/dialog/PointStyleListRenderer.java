@@ -13,9 +13,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.desktop.awt.AwtFactoryD;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.factories.AwtFactoryD;
 
 /**
  * @author George Sturr 2009-9-19 This class defines the ComboBox renderer where
@@ -35,7 +36,8 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 	private Line2D.Double line3;
 	private Line2D.Double line4;
 	private GeneralPath gp = null;
-	private static BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
+	private static BasicStroke borderStroke = AwtFactoryD
+			.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	private static BasicStroke[] crossStrokes = new BasicStroke[10];
 
 	public PointStyleListRenderer() {

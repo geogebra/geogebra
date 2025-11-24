@@ -52,7 +52,7 @@ public class SelectionBox extends Box {
 				+ transform.getShearY() * (x + content.width)
 				+ transform.getTranslateY();
 		if (isTouchSelection()) {
-			g2.saveTransformation();
+			g2.saveTransform();
 
 			g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);
 			g2.draw(FactoryProvider.getInstance().getGeomFactory().createLine2D(
@@ -70,7 +70,7 @@ public class SelectionBox extends Box {
 					(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
 					DIAMETER, 0, 360);
 
-			g2.restoreTransformation();
+			g2.restoreTransform();
 		}
 		g2.setStroke(old);
 

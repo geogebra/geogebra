@@ -24,6 +24,7 @@ e2eTestImplementation.extendsFrom(configurations.testImplementation.get())
 dependencies {
     implementation("org.geogebra:common")
     implementation("org.geogebra:common-jre")
+    implementation(project(":canvas-desktop"))
     implementation(project(":editor-desktop"))
     implementation(project(":jogl2"))
     implementation("org.geogebra:giac-jni")

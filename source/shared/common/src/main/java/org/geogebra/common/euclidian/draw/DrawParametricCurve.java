@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
@@ -30,7 +31,6 @@ import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPlotter;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
@@ -237,7 +237,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		}
 
 		// gp on screen?
-		if (!view.intersects(gp)) {
+		if (!view.intersects(gp.getGeneralPath())) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -254,7 +254,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 		if (geo.isInverseFill()) {
 			setShape(view.getBoundsArea());
-			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
+			getShape().subtract(AwtFactory.getPrototype().newArea(gp.getGeneralPath()));
 		}
 		drawAndUpdateTraceIfNeeded(curve.getTrace());
 	}
@@ -424,17 +424,17 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				g2.draw(gp);
+				gp.draw(g2);
 			}
 
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			g2.draw(gp);
+			gp.draw(g2);
 
 			if (fillCurve) {
 				try {
 					// fill using default/hatching/image as appropriate
-					fill(g2, geo.isInverseFill() ? getShape() : gp);
+					fill(g2, geo.isInverseFill() ? getShape() : gp.getGeneralPath());
 
 				} catch (Exception e) {
 					Log.error(e.getMessage());
@@ -458,12 +458,12 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		g2.draw(gp);
+		gp.draw(g2);
 
 		if (fillCurve) {
 			try {
 				// fill using default/hatching/image as appropriate
-				fill(g2, geo.isInverseFill() ? getShape() : gp);
+				fill(g2, geo.isInverseFill() ? getShape() : gp.getGeneralPath());
 			} catch (Exception e) {
 				Log.error(e.getMessage());
 			}
@@ -482,7 +482,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			}
 			return false;
 		}
-		GShape t = geo.isInverseFill() ? getShape() : gp;
+		GShape t = geo.isInverseFill() ? getShape() : gp.getGeneralPath();
 
 		if (geo.isFilled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,
@@ -538,7 +538,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 		// AND-547, initial buffer size
 		try {
-			strokedShape = decoStroke.createStrokedShape(gp, 800);
+			strokedShape = decoStroke.createStrokedShape(gp.getGeneralPath(), 800);
 		} catch (Throwable e) {
 			Log.error(
 					"problem creating Curve shape: " + e.getMessage());
@@ -550,7 +550,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		if (isVisible) {
-			GShape t = geo.isInverseFill() ? getShape() : gp;
+			GShape t = geo.isInverseFill() ? getShape() : gp.getGeneralPath();
 
 			if (geo.isFilled()) {
 				return t.intersects(rect);

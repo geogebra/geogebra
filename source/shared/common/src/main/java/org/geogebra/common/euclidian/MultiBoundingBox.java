@@ -1,11 +1,11 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.factories.AwtFactory;
 
 public class MultiBoundingBox extends BoundingBox<GShape> {
 

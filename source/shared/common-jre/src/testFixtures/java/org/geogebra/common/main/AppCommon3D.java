@@ -3,7 +3,7 @@ package org.geogebra.common.main;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.jre.headless.App3DCompanionHeadless;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;

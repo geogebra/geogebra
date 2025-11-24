@@ -2,8 +2,8 @@ package org.geogebra.common.io;
 
 import java.util.LinkedHashMap;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;

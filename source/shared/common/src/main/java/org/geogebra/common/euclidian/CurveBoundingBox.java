@@ -2,12 +2,12 @@ package org.geogebra.common.euclidian;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
 public class CurveBoundingBox extends BoundingBox<GEllipse2DDouble> {

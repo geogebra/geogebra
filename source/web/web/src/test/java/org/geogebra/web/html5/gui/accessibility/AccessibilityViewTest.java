@@ -11,6 +11,7 @@ import java.util.Locale;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.script.GgbScript;
+import org.geogebra.web.awt.JLMContext2D;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
@@ -27,10 +28,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 
 import com.google.gwtmockito.WithClassesToStub;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 @RunWith(GgbMockitoTestRunner.class)
-@WithClassesToStub({EuclidianSimplePanelW.class, JLMContext2d.class})
+@WithClassesToStub({EuclidianSimplePanelW.class, JLMContext2D.class})
 public class AccessibilityViewTest {
 
 	private AppW app;

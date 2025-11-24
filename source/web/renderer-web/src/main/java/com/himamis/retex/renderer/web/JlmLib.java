@@ -41,7 +41,10 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web;
+
+import org.geogebra.web.awt.JLMContextHelper;
 
 import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.TeXConstants;
@@ -51,7 +54,6 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
-import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
@@ -99,7 +101,6 @@ public class JlmLib {
 	public static double getPixelRatio() {
 		return DomGlobal.window.devicePixelRatio;
 	}
-
 
 	public static FormulaRenderingResult draw(TeXIcon icon, CanvasRenderingContext2D ctx,
 			final int x, final int y, final String fgColorString,

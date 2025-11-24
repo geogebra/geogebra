@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.common.factories.Factory;

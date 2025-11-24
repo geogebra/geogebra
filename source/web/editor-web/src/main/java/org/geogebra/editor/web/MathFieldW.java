@@ -49,6 +49,7 @@ import org.geogebra.editor.share.util.GWTKeycodes;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.editor.share.util.KeyCodes;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.awt.JLMContextHelper;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
@@ -83,7 +84,6 @@ import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.geom.Point2DW;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
-import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CanvasRenderingContext2D;

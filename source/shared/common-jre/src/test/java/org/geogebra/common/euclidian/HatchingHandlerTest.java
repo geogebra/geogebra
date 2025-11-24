@@ -9,6 +9,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
+import org.geogebra.common.awt.VectorPatternPaint;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.properties.FillType;

@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-
+include("canvas-base")
 include("common")
 include("common-jre")
 include("ggbjdk")

@@ -40,13 +40,10 @@
  * If you do not wish to do so, delete this exception statement from your
  * version.
  */
+
 package com.himamis.retex.renderer.web.font;
 
-import com.himamis.retex.renderer.share.CharFont;
 import com.himamis.retex.renderer.share.platform.font.Font;
-import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
-import com.himamis.retex.renderer.web.geom.Rectangle2DW;
 
 import elemental2.dom.CanvasRenderingContext2D;
 
@@ -91,23 +88,6 @@ public class DefaultFont extends FontW implements FontWrapper {
 	@Override
 	public int getScale() {
 		return 1;
-	}
-
-	@Override
-	public Shape getGlyphOutline(FontRenderContext frc, CharFont cf) {
-		int size = ((FontW) frc.getFont()).getSize();
-		// estimate of size
-		int height = size;
-		int width = size;
-		return new Rectangle2DW(0, -height, width, height);
-	}
-
-	public boolean canDisplay(char ch) {
-		return true;
-	}
-
-	public boolean canDisplay(int c) {
-		return true;
 	}
 
 }

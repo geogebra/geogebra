@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -68,7 +68,7 @@ public class ArcClipper {
 		} else {
 			prepareClippedPath();
 			buildPath(angles, arc, unitCircleToScreen);
-			return Optional.of(arcCroppedToView);
+			return Optional.of(arcCroppedToView.getGeneralPath());
 		}
 	}
 

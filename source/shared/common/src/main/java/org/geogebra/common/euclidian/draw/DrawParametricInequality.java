@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
@@ -8,7 +9,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -41,7 +41,7 @@ class DrawParametricInequality extends SetDrawable {
 
 	@Override
 	public GArea getShape() {
-		return AwtFactory.getPrototype().newArea(gp);
+		return AwtFactory.getPrototype().newArea(gp.getGeneralPath());
 	}
 
 	/**
@@ -56,16 +56,16 @@ class DrawParametricInequality extends SetDrawable {
 		if (isHighlighted()) {
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(selStroke);
-			g2.draw(gp);
+			gp.draw(g2);
 		}
 
-		fill(g2, gp); // fill using default/hatching/image as
+		fill(g2, gp.getGeneralPath()); // fill using default/hatching/image as
 		// appropriate
 
 		if (geo.getLineThickness() > 0) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			g2.draw(gp);
+			gp.draw(g2);
 		}
 	}
 

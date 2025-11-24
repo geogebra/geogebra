@@ -5,10 +5,10 @@ import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_900;
 import static org.geogebra.common.main.GeoGebraColorConstants.PURPLE_100;
 import static org.geogebra.common.main.GeoGebraColorConstants.PURPLE_700;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianStatic;
-import org.geogebra.common.factories.AwtFactory;
 
 class DrawItems {
 	private final OptionScroller scroller;

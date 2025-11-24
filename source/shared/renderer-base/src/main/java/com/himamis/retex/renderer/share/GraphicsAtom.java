@@ -47,9 +47,10 @@ package com.himamis.retex.renderer.share;
 
 import java.util.Map;
 
+import org.geogebra.common.awt.RenderingHints;
+
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
 /**
  * An atom representing an atom containing a graphic.

@@ -5,12 +5,12 @@ import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_500;
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;

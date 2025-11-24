@@ -79,7 +79,7 @@ public class FcscoreBox extends Box {
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		Transform transf = g2.getTransform();
-		g2.saveTransformation();
+		g2.saveTransform();
 		Stroke oldStroke = g2.getStroke();
 
 		final double sx = transf.getScaleX();
@@ -114,7 +114,7 @@ public class FcscoreBox extends Box {
 			g2.draw(line);
 		}
 
-		g2.restoreTransformation();
+		g2.restoreTransform();
 		g2.setStroke(oldStroke);
 	}
 

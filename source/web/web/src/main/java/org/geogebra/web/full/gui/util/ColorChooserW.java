@@ -12,13 +12,15 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.web.awt.GFontW;
+import org.geogebra.web.awt.JLMContext2D;
+import org.geogebra.web.awt.JLMContextHelper;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog.ICustomColor;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
@@ -28,9 +30,6 @@ import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
-
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
-import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
@@ -51,7 +50,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	public static final double BORDER_WIDTH = 2;
 	public static final double PREVIEW_BORDER_WIDTH = 14;
 	Canvas canvas;
-	JLMContext2d ctx;
+	JLMContext2D ctx;
 	Dimension colorIconSize;
 	int padding;
 	List<ColorTable> tables;
@@ -376,7 +375,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private class PreviewPanel extends FlowPanel {
 		private Label titleLabel;
 		Canvas previewCanvas;
-		private JLMContext2d previewCtx;
+		private JLMContext2D previewCtx;
 		private Label rgb;
 
 		public PreviewPanel() {

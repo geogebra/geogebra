@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;

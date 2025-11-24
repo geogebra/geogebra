@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -25,7 +26,6 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -98,7 +98,7 @@ public class DrawTurtle extends Drawable {
 		public void draw(GGraphics2D g2) {
 			g2.setColor(color);
 			g2.setStroke(stroke);
-			g2.draw(path1);
+			path1.draw(g2);
 		}
 	}
 
@@ -264,7 +264,7 @@ public class DrawTurtle extends Drawable {
 				g2.setPaint(turtle.getSelColor());
 				g2.setStroke(selStroke);
 				for (PartialPath path : pathList) {
-					g2.draw(path.path1);
+					path.path1.draw(g2);
 				}
 			}
 

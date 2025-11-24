@@ -1,11 +1,11 @@
 package org.geogebra.common.geogebra3D.euclidianFor3D;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.geos.GeoAngle;

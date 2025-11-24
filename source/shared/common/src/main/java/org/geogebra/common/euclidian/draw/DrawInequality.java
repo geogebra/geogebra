@@ -298,13 +298,13 @@ public class DrawInequality extends Drawable {
 					g2.setPaint(geo.getSelColor());
 					g2.setStroke(selStroke);
 					for (int i = 0; gpAxis[i] != null; i++) {
-						g2.draw(gpAxis[i]);
+						gpAxis[i].draw(g2);
 					}
 				}
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				for (int i = 0; gpAxis[i] != null; i++) {
-					g2.draw(gpAxis[i]);
+					gpAxis[i].draw(g2);
 				}
 
 			} else {

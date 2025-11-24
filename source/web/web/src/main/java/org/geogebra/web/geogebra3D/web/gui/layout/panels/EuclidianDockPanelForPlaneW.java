@@ -1,7 +1,7 @@
 package org.geogebra.web.geogebra3D.web.gui.layout.panels;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;

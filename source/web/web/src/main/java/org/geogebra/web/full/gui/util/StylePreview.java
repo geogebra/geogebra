@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStatic;
-import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.awt.GGraphics2DW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.Composite;
 

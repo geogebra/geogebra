@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import static org.geogebra.common.main.PreviewFeature.IMPLICIT_PLOTTER;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -21,7 +22,6 @@ import org.geogebra.common.euclidian.EuclidianViewBoundsImp;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.implicit.BernsteinPlotter;
 import org.geogebra.common.euclidian.plot.implicit.CoordSystemAnimatedPlotter;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.bernstein.BernsteinPolynomialConverter;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.PreviewFeature;

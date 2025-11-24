@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.function.Consumer;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;

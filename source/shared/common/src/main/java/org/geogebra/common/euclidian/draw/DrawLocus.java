@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -24,7 +25,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotterUtils;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
@@ -84,7 +84,7 @@ public class DrawLocus extends Drawable {
 		buildGeneralPath(locus.getPoints());
 
 		// line on screen?
-		if (!geo.isInverseFill() && !view.intersects(gp)) {
+		if (!geo.isInverseFill() && !view.intersects(gp.getGeneralPath())) {
 			//isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -115,7 +115,7 @@ public class DrawLocus extends Drawable {
 				&& (geo instanceof Traceable) && ((Traceable) geo).getTrace());
 		if (geo.isInverseFill()) {
 			setShape(view.getBoundsArea());
-			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
+			getShape().subtract(AwtFactory.getPrototype().newArea(gp.getGeneralPath()));
 		}
 	}
 
@@ -169,14 +169,14 @@ public class DrawLocus extends Drawable {
 
 		if (geo.isFillable() && geo.isFilled()) {
 			// fill using default/hatching/image as appropriate
-			fill(g2, geo.isInverseFill() ? getShape() : gp);
+			fill(g2, geo.isInverseFill() ? getShape() : gp.getGeneralPath());
 		}
 	}
 
 	protected void drawPath(GGraphics2D g2, GeneralPathClippedForCurvePlotter gp) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		g2.draw(gp);
+		gp.draw(g2);
 	}
 
 	private GBufferedImage makeImage(GGraphics2D g2p, GRectangle bounds) {
@@ -256,10 +256,10 @@ public class DrawLocus extends Drawable {
 	void drawStrokedPath(GGraphics2D g2, GeneralPathClippedForCurvePlotter gp) {
 		if (partialHitClip != null) {
 			g2.setClip(partialHitClip, true);
-			g2.draw(gp);
+			gp.draw(g2);
 			g2.resetClip();
 		} else {
-			g2.draw(gp);
+			gp.draw(g2);
 		}
 	}
 
@@ -275,7 +275,7 @@ public class DrawLocus extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		GShape t = geo.isInverseFill() ? getShape() : gp;
+		GShape t = geo.isInverseFill() ? getShape() : gp.getGeneralPath();
 		if (t == null) {
 			return false; // hasn't been drawn yet (hidden)
 		}
@@ -296,7 +296,7 @@ public class DrawLocus extends Drawable {
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			try {
-				strokedShape = objStroke.createStrokedShape(gp, 2500);
+				strokedShape = objStroke.createStrokedShape(gp.getGeneralPath(), 2500);
 			} catch (Exception e) {
 				Log.error("problem creating Locus shape: " + e.getMessage());
 			}

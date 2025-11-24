@@ -2,10 +2,10 @@ package org.geogebra.common.euclidian;
 
 import java.util.List;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.factories.AwtFactory;
 
 /**
  * Utility for drawing pen preview as polyline in graphics.

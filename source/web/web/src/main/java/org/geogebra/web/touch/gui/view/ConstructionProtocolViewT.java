@@ -1,7 +1,7 @@
 package org.geogebra.web.touch.gui.view;
 
+import org.geogebra.web.awt.GFontW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
-import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.TouchEndEvent;
 import org.gwtproject.event.dom.client.TouchMoveEvent;
@@ -78,7 +78,7 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 
 			/**
 			 * 
-			 * @return String - the style for the {@link ConstructionProtocolViewW#dummyDragElem dummy drag-element}
+			 * @return the style for the {@link ConstructionProtocolViewT#dummyDragElem dummy drag-element}
 			 */
 			private String getStyleString() {
 				int width = draggedRow.getOffsetWidth();

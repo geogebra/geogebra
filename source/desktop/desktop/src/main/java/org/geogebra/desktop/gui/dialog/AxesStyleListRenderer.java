@@ -13,9 +13,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.desktop.awt.AwtFactoryD;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.factories.AwtFactoryD;
 
 /**
  * adapted from PointStyleListRenderer
@@ -39,7 +40,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<In
 	// for drawing
 	private Line2D.Double tempLine = new Line2D.Double();
 	private GeneralPath gp = new GeneralPath();
-	private static BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
+	private static BasicStroke borderStroke = AwtFactoryD.getAwtStroke(EuclidianStatic
+			.getDefaultStroke());
 
 	/**
 	 * Axis arrows renderer

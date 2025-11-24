@@ -20,17 +20,17 @@ public class GraphicsStub implements Graphics2DInterface {
 	private Stroke stroke;
 	private Color color;
 	private Font font;
-	private List<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform> transformList = new ArrayList<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform>();
-	private com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform currentTransform;
+	private List<AffineTransform> transformList = new ArrayList<AffineTransform>();
+	private AffineTransform currentTransform;
 
 	public GraphicsStub() {
-		transformList = new ArrayList<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform>();
+		transformList = new ArrayList<AffineTransform>();
 		reset();
 	}
 
 	public void reset() {
 		transformList.clear();
-		currentTransform = new com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform();
+		currentTransform = new AffineTransform();
 		font = new FontStub();
 		color = new ColorStub();
 		stroke = new StrokeStub();
@@ -62,14 +62,14 @@ public class GraphicsStub implements Graphics2DInterface {
 	}
 
 	@Override
-	public void saveTransformation() {
+	public void saveTransform() {
 		transformList
 				.add((com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform) currentTransform
 						.createClone());
 	}
 
 	@Override
-	public void restoreTransformation() {
+	public void restoreTransform() {
 		if (transformList.size() > 0) {
 			currentTransform = transformList.remove(transformList.size() - 1);
 		}

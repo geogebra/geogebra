@@ -25,7 +25,7 @@ import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.awt.AwtFactoryD;
 
 /**
  * used by LineStylePanel for rendering a combobox with different line styles

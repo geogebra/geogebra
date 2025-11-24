@@ -46,6 +46,9 @@ package com.himamis.retex.renderer.web.graphics;
 
 import java.util.ArrayList;
 
+import org.geogebra.web.awt.JLMContext2D;
+import org.geogebra.web.awt.JLMContextHelper;
+
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
@@ -65,7 +68,6 @@ import com.himamis.retex.renderer.web.font.AsyncLoadedFont.FontLoadCallback;
 import com.himamis.retex.renderer.web.font.DefaultFont;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.font.FontWrapper;
-import com.himamis.retex.renderer.web.geom.AreaW;
 import com.himamis.retex.renderer.web.geom.RoundRectangle2DW;
 import com.himamis.retex.renderer.web.geom.ShapeW;
 
@@ -80,7 +82,7 @@ import jsinterop.base.Js;
 
 public class Graphics2DW implements Graphics2DInterface {
 
-	JLMContext2d context;
+	JLMContext2D context;
 
 	private BasicStrokeW basicStroke;
 	private ColorW color;
@@ -89,6 +91,10 @@ public class Graphics2DW implements Graphics2DInterface {
 	private DrawingFinishedCallback drawingFinishedCallback;
 	private static final CSSStyleDeclaration FONT_PARSER = initFontParser();
 
+	/**
+	 * Creates a DIV for parsing CSS font definitions.
+	 * @return font parsing DIV
+	 */
 	public static CSSStyleDeclaration initFontParser() {
 		return ((HTMLElement) DomGlobal.document.createElement("div")).style;
 	}
@@ -166,16 +172,21 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public AffineTransform getTransform() {
-		return context.getAffineTransform();
+		double[] mat = context.getTransformMatrix();
+		if (mat.length == 6) {
+			return new AffineTransform(mat[0], mat[1], mat[2], mat[3], mat[4], mat[5]);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
-	public void saveTransformation() {
+	public void saveTransform() {
 		context.saveTransform();
 	}
 
 	@Override
-	public void restoreTransformation() {
+	public void restoreTransform() {
 		context.restoreTransform();
 
 		// these values are also restored on context.restore()
@@ -213,9 +224,6 @@ public class Graphics2DW implements Graphics2DInterface {
 			Rectangle2D rect = (Rectangle2D) shape;
 			fillRect(rect.getX(), rect.getY(), rect.getWidth(),
 					rect.getHeight());
-		} else if (shape instanceof AreaW) {
-			AreaW area = (AreaW) shape;
-			area.fill(this, context);
 		} else if (shape instanceof ShapeW) {
 			((ShapeW) shape).fill(context);
 		} else if (shape instanceof RoundRectangle2DW) {
@@ -343,7 +351,7 @@ public class Graphics2DW implements Graphics2DInterface {
 			FontW oldFont = graphics.getFont();
 			ColorW oldColor = graphics.getColor();
 
-			graphics.saveTransformation();
+			graphics.saveTransform();
 			graphics.setFont(font);
 			graphics.setColor(color);
 			// TRAC-5353
@@ -352,7 +360,7 @@ public class Graphics2DW implements Graphics2DInterface {
 			// good
 			graphics.setTransform(transformCopy);
 			graphics.fillTextInternal(text, x, y);
-			graphics.restoreTransformation();
+			graphics.restoreTransform();
 
 			graphics.setFont(oldFont);
 			graphics.setColor(oldColor);

@@ -2,7 +2,7 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.Canvas2Pdf;

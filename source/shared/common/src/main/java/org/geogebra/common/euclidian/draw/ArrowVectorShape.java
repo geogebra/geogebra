@@ -1,8 +1,8 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.factories.AwtFactory;
 
 public class ArrowVectorShape implements VectorShape {
 	private final GLine2D line;

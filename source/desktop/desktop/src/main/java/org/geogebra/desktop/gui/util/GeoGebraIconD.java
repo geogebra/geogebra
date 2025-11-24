@@ -25,11 +25,11 @@ import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.AwtFactoryD;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
-import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageResourceD;
 import org.geogebra.editor.share.util.Unicode;
@@ -544,7 +544,8 @@ public class GeoGebraIconD {
 		private Line2D.Double line3;
 		private Line2D.Double line4;
 		private GeneralPath gp = null;
-		private final BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
+		private final BasicStroke borderStroke = AwtFactoryD
+				.getAwtStroke(EuclidianStatic.getDefaultStroke());
 		private final BasicStroke[] crossStrokes = new BasicStroke[10];
 		private final int h;
 		private final int w;

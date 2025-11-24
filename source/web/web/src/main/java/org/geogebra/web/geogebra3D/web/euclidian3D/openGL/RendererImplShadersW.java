@@ -12,7 +12,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gawt.GBufferedImageW;
+import org.geogebra.web.awt.GBufferedImageW;
 
 import elemental2.core.Uint8Array;
 import elemental2.dom.HTMLImageElement;

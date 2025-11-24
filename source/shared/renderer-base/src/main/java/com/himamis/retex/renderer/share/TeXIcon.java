@@ -48,6 +48,8 @@
 
 package com.himamis.retex.renderer.share;
 
+import org.geogebra.common.awt.RenderingHints;
+
 import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
@@ -56,7 +58,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Icon;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
-import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
 /**
  * An {@link Icon} implementation that will paint the TeXFormula that created
@@ -211,7 +212,9 @@ public class TeXIcon implements Icon {
 	}
 
 	/**
-	 * Get the total height of the TeXIcon. This also includes the insets.
+	 * Get the depth of the TeXIcon. This also includes the insets.
+	 *
+	 * @return icon depth
 	 */
 	public int getIconDepth() {
 		return (int) (box.getDepth() * size + 0.99 + insets.bottom);
@@ -232,24 +235,27 @@ public class TeXIcon implements Icon {
 	}
 
 	/**
-	 * Get the total height of the TeXIcon. This also includes the insets.
+	 * Gets the actual depth of the icon.
+	 *
+	 * @return the depth of the TeXIcon, excluding the insets.
 	 */
 	public double getTrueIconDepth() {
 		return box.getDepth() * size;
 	}
 
 	/**
-	 * Get the total width of the TeXIcon. This also includes the insets.
+	 * Gets the actual width of the icon.
+	 *
+	 * @return the total width of the TeXIcon. This excludes the insets.
 	 */
-
 	public double getTrueIconWidth() {
 		return box.getWidth() * size;
 	}
 
 	public double getBaseLine() {
-		return ((box.getHeight() * size + 0.99 + insets.top)
+		return (box.getHeight() * size + 0.99 + insets.top)
 				/ ((box.getHeight() + box.getDepth()) * size + 0.99 + insets.top
-						+ insets.bottom));
+						+ insets.bottom);
 	}
 
 	public Box getBox() {
@@ -265,7 +271,7 @@ public class TeXIcon implements Icon {
 		// copy graphics settings
 		// TODO implement getRenderingHints
 		// RenderingHints oldHints = g2.getRenderingHints();
-		g2.saveTransformation();
+		g2.saveTransform();
 		Color oldColor = g2.getColor();
 
 		// new settings
@@ -294,7 +300,7 @@ public class TeXIcon implements Icon {
 
 		// restore graphics settings
 		// g2.setRenderingHints(oldHints);
-		g2.restoreTransformation();
+		g2.restoreTransform();
 		g2.setColor(oldColor);
 	}
 

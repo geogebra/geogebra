@@ -3,14 +3,15 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.util.MyMath;
@@ -24,9 +25,10 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus Hohenwarter
  * @version October 2009
  */
-public class GeneralPathClipped implements GShape {
+public class GeneralPathClipped {
 
-	private final ArrayList<MyPoint> pathPoints;
+	private final ArrayList<MyPoint> unprocessedPathPoints;
+	/** Cached clipped path, considered invalid if {@code unprocessedPathPoints} are not empty */
 	private final GGeneralPath gp;
 	private static final double MAX_COORD_VALUE = 10000;
 
@@ -59,7 +61,7 @@ public class GeneralPathClipped implements GShape {
 	 */
 	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
 		this.view = view;
-		pathPoints = new ArrayList<>();
+		unprocessedPathPoints = new ArrayList<>();
 		clipAlgoSutherlandHodogman = new ClipAlgoSutherlandHodogman();
 		gp = AwtFactory.getPrototype().newGeneralPath();
 	}
@@ -68,17 +70,17 @@ public class GeneralPathClipped implements GShape {
 	 * @return first point of the path
 	 */
 	public MyPoint firstPoint() {
-		if (pathPoints.size() == 0) {
+		if (unprocessedPathPoints.isEmpty()) {
 			return null;
 		}
-		return pathPoints.get(0);
+		return unprocessedPathPoints.get(0);
 	}
 
 	/**
 	 * Clears all points and resets internal variables
 	 */
 	final public void reset() {
-		pathPoints.clear();
+		unprocessedPathPoints.clear();
 		gp.reset();
 		oldBounds = bounds;
 		bounds = null;
@@ -108,7 +110,7 @@ public class GeneralPathClipped implements GShape {
 	 * @return this as GeneralPath
 	 */
 	public GGeneralPath getGeneralPath() {
-		if (pathPoints.size() == 0) {
+		if (unprocessedPathPoints.isEmpty()) {
 			return gp;
 		}
 
@@ -120,14 +122,14 @@ public class GeneralPathClipped implements GShape {
 		}
 
 		// clear pathPoints to free up memory
-		pathPoints.clear();
+		unprocessedPathPoints.clear();
 
 		return gp;
 	}
 
 	private void addSimpleSegments() {
-		for (int i = 0; i < pathPoints.size(); i++) {
-			MyPoint curP = pathPoints.get(i);
+		for (int i = 0; i < unprocessedPathPoints.size(); i++) {
+			MyPoint curP = unprocessedPathPoints.get(i);
 			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.euclidian.GeneralPathClipped&tm=addSimpleSegments&nid&an&c&s=new_status_desc
 			if (curP != null) {
 				addToGeneralPath(curP, curP.getSegmentType());
@@ -150,10 +152,11 @@ public class GeneralPathClipped implements GShape {
 		};
 
 		if (needClosePath) {
-			pathPoints.get(0).setLineTo(true);
+			unprocessedPathPoints.get(0).setLineTo(true);
 		}
 
-		List<MyPoint> result = clipAlgoSutherlandHodogman.process(pathPoints, clipPoints);
+		List<MyPoint> result = clipAlgoSutherlandHodogman
+				.process(unprocessedPathPoints, clipPoints);
 
 		for (MyPoint curP : result) {
 			addToGeneralPath(curP, curP.getSegmentType());
@@ -261,11 +264,11 @@ public class GeneralPathClipped implements GShape {
 		}
 
 		MyPoint p = new MyPoint(x, y, SegmentType.LINE_TO);
-		pathPoints.ensureCapacity(pos + 1);
-		while (pathPoints.size() <= pos) {
-			pathPoints.add(null);
+		unprocessedPathPoints.ensureCapacity(pos + 1);
+		while (unprocessedPathPoints.size() <= pos) {
+			unprocessedPathPoints.add(null);
 		}
-		pathPoints.set(pos, p);
+		unprocessedPathPoints.set(pos, p);
 	}
 
 	/**
@@ -289,7 +292,7 @@ public class GeneralPathClipped implements GShape {
 
 		MyPoint p = new MyPoint(x, y, segmentType);
 		updateBounds(p);
-		pathPoints.add(p);
+		unprocessedPathPoints.add(p);
 	}
 
 	private void updateBounds(GPoint2D point) {
@@ -307,27 +310,14 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	/**
+	 * @apiNote This should not be called after {@code getGeneralPath}.
 	 * @return current point
 	 */
 	public GPoint2D getCurrentPoint() {
-		if (pathPoints.size() == 0) {
+		if (unprocessedPathPoints.isEmpty()) {
 			return null;
 		}
-		return pathPoints.get(pathPoints.size() - 1);
-	}
-
-	/**
-	 * Transforms this path
-	 * 
-	 * @param af
-	 *            transformation
-	 */
-	public void transform(GAffineTransform af) {
-		for (MyPoint p : pathPoints) {
-			if (p != null) {
-				af.transform(p, p);
-			}
-		}
+		return unprocessedPathPoints.get(unprocessedPathPoints.size() - 1);
 	}
 
 	/**
@@ -344,14 +334,8 @@ public class GeneralPathClipped implements GShape {
 	 *            rectangle
 	 * @return true if contains given rectangle
 	 */
-	@Override
 	public boolean contains(GRectangle2D rect) {
 		return getGeneralPath().contains(rect);
-	}
-
-	@Override
-	public boolean contains(double x, double y) {
-		return getGeneralPath().contains(x, y);
 	}
 
 	/**
@@ -369,9 +353,12 @@ public class GeneralPathClipped implements GShape {
 		return getGeneralPath().contains(x, y, w, h);
 	}
 
-	@Override
+	/**
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @return whether area enclosed by this path contains given point
+	 */
 	public boolean contains(int x, int y) {
-		// TODO Auto-generated method stub
 		return getGeneralPath().contains(x, y);
 	}
 
@@ -381,39 +368,46 @@ public class GeneralPathClipped implements GShape {
 	 * @return whether rectangle is contained in this path
 	 */
 	public boolean contains(GRectangle rectangle) {
-		// TODO Auto-generated method stub
 		return getGeneralPath().contains(rectangle);
 	}
 
-	@Override
+	/**
+	 * @return path bounds
+	 */
 	public GRectangle getBounds() {
 		return bounds == null ? AwtFactory.getPrototype().newRectangle()
 				: bounds.getBounds();
 	}
 
-	@Override
+	/**
+	 * @return path bounds
+	 */
 	public GRectangle2D getBounds2D() {
 		return bounds == null ? AwtFactory.getPrototype().newRectangle2D()
 				: bounds;
 	}
 
-	@Override
+	/**
+	 * @param arg0 transform
+	 * @return path iterator
+	 */
 	public GPathIterator getPathIterator(GAffineTransform arg0) {
 		return getGeneralPath().getPathIterator(arg0);
 	}
 
-	@Override
+	/**
+	 * @param arg0 rectangle
+	 * @return whether this intersects given rectangle
+	 */
 	public boolean intersects(GRectangle2D arg0) {
 		return getGeneralPath().intersects(arg0);
 	}
 
-	@Override
+	/**
+	 * Checks for intersection with a rectangle.
+	 * @return whether this intersects given rectangle.
+	 */
 	public boolean intersects(double x, double y, double w, double h) {
-		return getGeneralPath().intersects(x, y, w, h);
-	}
-
-	@Override
-	public boolean intersects(int x, int y, int w, int h) {
 		return getGeneralPath().intersects(x, y, w, h);
 	}
 
@@ -436,7 +430,7 @@ public class GeneralPathClipped implements GShape {
 	 * @return number of points
 	 */
 	public int size() {
-		return pathPoints.size();
+		return unprocessedPathPoints.size();
 	}
 
 	/**
@@ -463,5 +457,13 @@ public class GeneralPathClipped implements GShape {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Draw this onto a graphics.
+	 * @param g2 graphics
+	 */
+	public void draw(GGraphics2D g2) {
+		g2.draw(getGeneralPath());
 	}
 }

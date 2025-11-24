@@ -1,5 +1,6 @@
 package org.geogebra.common.jre.headless;
 
+import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -13,7 +14,6 @@ import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.euclidian.ScreenReaderSilent;
 import org.geogebra.common.euclidian.SymbolicEditor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
