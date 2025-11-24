@@ -44,42 +44,12 @@ public class ElementalMocker {
 			};
 			DomGlobal.document.documentElement = new HTMLHtmlElement();
 			DomGlobal.document.body = new HTMLBodyElement();
-		} catch (Exception e) {
-			System.err.println("Failed to set up elemental2 mocks");
-			Log.debug(e);
+		} catch (NoSuchFieldException | IllegalAccessException e) {
+			throw new RuntimeException("Failed to set up elemental2 mocks", e);
 		}
 	}
 
-	private static void setFinalStatic(Field field, Object newValue) throws Exception {
-		field.setAccessible(true);
-		Field modifiersField = null;
-		try {
-			modifiersField = Field.class.getDeclaredField("modifiers");
-		} catch (NoSuchFieldException e) {
-			try {
-				Method getDeclaredFields0 = Class.class.getDeclaredMethod(
-						"getDeclaredFields0", boolean.class);
-				boolean accessibleBeforeSet = getDeclaredFields0.isAccessible();
-				getDeclaredFields0.setAccessible(true);
-				Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);
-				getDeclaredFields0.setAccessible(accessibleBeforeSet);
-				for (Field ff : fields) {
-					if ("modifiers".equals(ff.getName())) {
-						modifiersField = ff;
-						break;
-					}
-				}
-				if (modifiersField == null) {
-					throw e;
-				}
-			} catch (NoSuchMethodException | InvocationTargetException ex) {
-				e.addSuppressed(ex);
-				throw e;
-			}
-		}
-		modifiersField.setAccessible(true);
-		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-
+	private static void setFinalStatic(Field field, Object newValue) throws IllegalAccessException {
 		field.set(null, newValue);
 	}
 }

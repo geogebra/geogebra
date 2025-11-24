@@ -42,7 +42,8 @@ gwt-dev = { module = "org.gwtproject:gwt-dev", version.ref = "gwt" }
 gwt-core = "org.gwtproject.core:gwt-core:1.0.1-GGB"
 gwt-dom = "org.gwtproject.dom:gwt-dom:1.0.0-RC2"
 gwt-timer = "org.gwtproject.timer:gwt-timer:1.0.0-RC1"
-gwt-mockito = "com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT"
+# https://github.com/zbynek/gwtmockito/commit/c206d12bb2d3a8ba5895170c4c89da79253dd36d
+gwt-mockito = "com.google.gwt.gwtmockito:gwtmockito:1.1.11-SNAPSHOT"
 gwt-widgets = { module = "org.treblereel.gwt.gwtproject.widgets:gwt-widgets", version.ref = "gwtTreblereel" }
 gwt-resources-api = { module = "org.treblereel.gwt.gwtproject.resources:gwt-resources-api", version.ref = "gwtTreblereel" }
 gwt-resources-processor = { module = "org.treblereel.gwt.gwtproject.resources:gwt-resources-processor", version.ref = "gwtTreblereel" }

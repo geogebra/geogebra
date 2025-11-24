@@ -106,6 +106,10 @@ tasks.withType<AbstractBaseTask>().configureEach {
     jvmArgs = listOf("-Xss512M")
 }
 
+tasks.withType<Test>().configureEach {
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
+}
+
 tasks.register("run") {
     dependsOn(tasks.gwtDevMode)
 }
