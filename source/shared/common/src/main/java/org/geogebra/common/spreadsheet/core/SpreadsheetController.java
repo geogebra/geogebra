@@ -1592,22 +1592,27 @@ public final class SpreadsheetController {
 			String[] parts = reference.split(":");
 			String startCell = parts[0].trim();
 			String endCell = parts.length > 1 ? parts[1].trim() : startCell;
-			String currentWord = cellEditor.getMathField()
+
+			MathFieldInternal mfi = cellEditor.getMathField();
+			String currentWord = mfi
 					.getCharactersLeftOfCursorMatching(predicate);
+			KeyboardInputAdapter.ensureTrailingCommaAsOperator(mfi.getEditorState(), currentWord);
 			boolean spaceNeeded = !currentWord.isEmpty();
+
 			if (currentWord.endsWith(":" + endCell)
 					|| currentWord.startsWith(startCell + ":")
 					|| currentWord.equals(endCell) || currentWord.equals(startCell)) {
-				cellEditor.getMathField().deleteCurrentCharSequence(
-						predicate);
+				mfi.deleteCurrentCharSequence(predicate);
 				spaceNeeded = false;
 			}
+
 			type(spaceNeeded ? " " + reference : reference);
 		}
 
 		private @CheckForNull String getCurrentCellRangeCandidate() {
 			Predicate<CharacterNode> predicate =
-					w -> w.isCharacter() || ":".equals(w.getUnicodeString());
+					w -> (w.isCharacter() && !",".equals(w.getUnicodeString()))
+							|| ":".equals(w.getUnicodeString());
 			String candidate = cellEditor.getMathField()
 					.getCharactersAroundCursorMatching(predicate);
 			return candidate == null || candidate.isEmpty() ? null : candidate;

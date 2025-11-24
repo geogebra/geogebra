@@ -15,6 +15,7 @@ package org.geogebra.editor.share.input;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.editor.share.catalog.CharacterTemplate;
 import org.geogebra.editor.share.catalog.Tag;
 import org.geogebra.editor.share.controller.CursorController;
 import org.geogebra.editor.share.controller.EditorState;
@@ -27,6 +28,7 @@ import org.geogebra.editor.share.input.adapter.PlainStringInput;
 import org.geogebra.editor.share.input.adapter.StringAdapter;
 import org.geogebra.editor.share.input.adapter.StringInput;
 import org.geogebra.editor.share.tree.ArrayNode;
+import org.geogebra.editor.share.tree.CharacterNode;
 import org.geogebra.editor.share.tree.FunctionNode;
 import org.geogebra.editor.share.tree.InternalNode;
 import org.geogebra.editor.share.tree.SequenceNode;
@@ -275,5 +277,38 @@ public class KeyboardInputAdapter {
 	public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {
 		commitCommand(mathFieldInternal, commandName);
 		mathFieldInternal.update();
+	}
+
+	/**
+	 * Ensures that a trailing comma in the content is treated as an operator,
+	 * not as part of an existing argument.
+	 *
+	 * <p>When syntax is inserted from the suggestion popup, a reference such as
+	 * {@code A1:A5,} may already include a trailing comma. In this case the editor
+	 * remains on the current argument and no new argument is created.</p>
+	 *
+	 * <p>This method replaces that trailing comma with an operator comma in the
+	 * argument list, ensuring that the editor will correctly create the next
+	 * argument on user input. No new argument is added here; an existing comma
+	 * is simply replaced by an operator.</p>
+	 *
+	 * @param editorState the current editor state
+	 * @param content the text to check for a trailing comma
+	 */
+	public static void ensureTrailingCommaAsOperator(EditorState editorState, String content) {
+		if (!content.endsWith(",")) {
+			return;
+		}
+		SequenceNode currentNode = editorState.getCurrentNode();
+		for (int i = currentNode.size() - 1; i > 0; i--) {
+			if (currentNode.getChild(i).isFieldSeparator()) {
+				CharacterTemplate template =
+						new CharacterTemplate(",",
+								',',
+								CharacterTemplate.TYPE_OPERATOR);
+				currentNode.setChild(i, new CharacterNode(template));
+				return;
+			}
+		}
 	}
 }
