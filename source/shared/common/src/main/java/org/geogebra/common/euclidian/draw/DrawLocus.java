@@ -82,13 +82,6 @@ public class DrawLocus extends Drawable {
 		updateAlgos();
 
 		buildGeneralPath(locus.getPoints());
-
-		// line on screen?
-		if (!geo.isInverseFill() && !view.intersects(gp.getGeneralPath())) {
-			//isVisible = false;
-			// don't return here to make sure that getBounds() works for
-			// offscreen points too
-		}
 		updateStrokes(geo);
 
 		labelVisible = geo.isLabelVisible();
@@ -169,7 +162,7 @@ public class DrawLocus extends Drawable {
 
 		if (geo.isFillable() && geo.isFilled()) {
 			// fill using default/hatching/image as appropriate
-			fill(g2, geo.isInverseFill() ? getShape() : gp.getGeneralPath());
+			fill(g2, geo.isInverseFill() ? getShape() : getGeneralPath());
 		}
 	}
 
@@ -275,7 +268,7 @@ public class DrawLocus extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		GShape t = geo.isInverseFill() ? getShape() : gp.getGeneralPath();
+		GShape t = geo.isInverseFill() ? getShape() : getGeneralPath();
 		if (t == null) {
 			return false; // hasn't been drawn yet (hidden)
 		}
@@ -292,11 +285,15 @@ public class DrawLocus extends Drawable {
 				2 * hitThreshold, 2 * hitThreshold);
 	}
 
+	private GShape getGeneralPath() {
+		return gp == null ? null : gp.getGeneralPath();
+	}
+
 	private void updateStrokedShape() {
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			try {
-				strokedShape = objStroke.createStrokedShape(gp.getGeneralPath(), 2500);
+				strokedShape = objStroke.createStrokedShape(getGeneralPath(), 2500);
 			} catch (Exception e) {
 				Log.error("problem creating Locus shape: " + e.getMessage());
 			}
