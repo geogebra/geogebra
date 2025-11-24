@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
@@ -1904,6 +1905,27 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean isPointOnPath() {
 		return false;
+	}
+
+	/**
+	 * Determines whether this is inherently moveable, regardless of its locked/fixed state.
+	 * <p>
+	 * This method does <b>not</b> check whether the point is currently locked/fixed.
+	 * To check if a point can be moved right now (considering the {@link #fixed} flag),
+	 * use {@link #isMoveable()} or {@link GeoPoint#isPointChangeable(GeoElement)}.
+	 * @return {@code true} if this point has a moveable position by its geometric nature,
+	 * {@code false} otherwise
+	 */
+	protected boolean isInherentlyMoveable() {
+		// if we drag a AlgoDynamicCoordinates, we want its point to be dragged
+		AlgoElement algo = getParentAlgorithm();
+
+		// make sure Point[circle, param] is not moveable
+		if (algo instanceof FixedPathRegionAlgo) {
+			return ((FixedPathRegionAlgo) algo).isChangeable(this);
+		}
+
+		return isIndependent() || isPointOnPath() || isPointInRegion();
 	}
 
 	/**

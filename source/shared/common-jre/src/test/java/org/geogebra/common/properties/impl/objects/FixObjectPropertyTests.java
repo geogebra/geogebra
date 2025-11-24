@@ -16,19 +16,32 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class FixObjectPropertyTests extends BaseAppTestSetup {
-	@Test
-	public void testSuccessfulConstruction() {
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"(1, 2)", // Free point
+			"Point(Circle((0,0), 2))", // Point on circle
+			"PointIn(Circle((0,0), 2))" // Point in circle
+	})
+	public void testSuccessfulConstruction(String input) {
 		setupApp(SuiteSubApp.GRAPHING);
-		GeoElement geoElement = evaluateGeoElement("(1, 2)");
+		GeoElement geoElement = evaluateGeoElement(input);
 		assertDoesNotThrow(() -> new FixObjectProperty(getLocalization(), geoElement));
 	}
 
-	@Test
-	public void testConstructingNotApplicableProperty() {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"{1, 2, 3}", // List
+			"Intersect(y=x,y=-x)", // Intersect Point
+			"Point(Circle((0,0), 2), 4)" // Point on path with parameter
+	})
+	public void testConstructingNotApplicableProperty(String input) {
 		setupApp(SuiteSubApp.GRAPHING);
-		GeoElement geoElement = evaluateGeoElement("{1, 2, 3}");
+		GeoElement geoElement = evaluateGeoElement(input);
 		assertThrows(NotApplicablePropertyException.class,
 				() -> new FixObjectProperty(getLocalization(), geoElement));
 	}

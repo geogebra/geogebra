@@ -32,7 +32,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.LocateableList;
@@ -426,8 +425,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	@Override
 	public boolean isPointerChangeable() {
-
 		return isPointChangeable(this);
+	}
+
+	@Override
+	public boolean showFixUnfix() {
+		return isInherentlyMoveable();
 	}
 
 	/**
@@ -437,19 +440,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            point
 	 * @return true if point is Changeable
 	 */
-	public static final boolean isPointChangeable(GeoElement point) {
-
-		// if we drag a AlgoDynamicCoordinates, we want its point to be dragged
-		AlgoElement algo = point.getParentAlgorithm();
-
-		// make sure Point[circle, param] is not draggable
-		if (algo instanceof FixedPathRegionAlgo) {
-			return ((FixedPathRegionAlgo) algo).isChangeable(point)
-					&& !point.isLocked();
-		}
-
-		return !point.isLocked() && (point.isIndependent()
-				|| point.isPointOnPath() || point.isPointInRegion());
+	public static boolean isPointChangeable(GeoElement point) {
+		return point.isInherentlyMoveable() && !point.isLocked();
 	}
 
 	@Override
@@ -2455,16 +2447,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	@Override
 	public boolean isRandomizable() {
-		// if we drag a AlgoDynamicCoordinates, we want its point to be dragged
-		AlgoElement algo = getParentAlgorithm();
-
-		// make sure Point[circle, param] is not draggable
-		// TODO Check if we really want this
-		if (algo instanceof FixedPathRegionAlgo) {
-			return ((FixedPathRegionAlgo) algo).isChangeable(this);
-		}
-
-		return isIndependent() || isPointOnPath() || isPointInRegion();
+		return isInherentlyMoveable();
 	}
 
 	@Override
