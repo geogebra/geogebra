@@ -181,6 +181,31 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-1289")
+	public void redefineWithFunctionOfZ() {
+		GeoElement function = add("f(z)=z");
+		getAlgebraProcessor().changeGeoElementNoExceptionHandling(function, "f(z)=z+1",
+				new EvalInfo(true), false, null,
+				TestErrorHandler.INSTANCE);
+		assertThat(lookup("f"), hasValue("z + 1"));
+	}
+
+	@Test
+	@Issue("APPS-1289")
+	public void redefineWithFunctionOfX() {
+			GeoElement
+		function = add("g(x)=x");
+		getAlgebraProcessor().changeGeoElementNoExceptionHandling(function, "z+1",
+				new EvalInfo(true), false, null,
+				TestErrorHandler.INSTANCE);
+		assertThat(lookup("g"), hasValue("?"));
+		getAlgebraProcessor().changeGeoElementNoExceptionHandling(function, "g(z)=z+1",
+				new EvalInfo(true), false, null,
+				TestErrorHandler.INSTANCE);
+		assertThat(lookup("g"), hasValue("z + 1"));
+	}
+
+	@Test
 	@Issue("APPS-6927")
 	public void testChangeUnlabeledElement() {
 		GeoElement geo = new GeoPoint(getConstruction());

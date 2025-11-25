@@ -406,7 +406,7 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	/**
-	 * Returns the last x, y and z variables from the input var array, if they exist.
+	 * Returns the last x, y and z variables from the input var array if they exist.
 	 *
 	 * @param vars input array
 	 * @return x, y and z variables from the input, if they exist
@@ -415,11 +415,11 @@ public class FunctionNVar extends ValidExpression
 		// get function variables for x, y, z
 		FunctionVariable xVar = null, yVar = null, zVar = null;
 		for (FunctionVariable fVar : vars) {
-			if ("x".equals(fVar.toString(StringTemplate.defaultTemplate))) {
+			if ("x".equals(fVar.getSetVarString())) {
 				xVar = fVar;
-			} else if ("y".equals(fVar.toString(StringTemplate.defaultTemplate))) {
+			} else if ("y".equals(fVar.getSetVarString())) {
 				yVar = fVar;
-			} else if ("z".equals(fVar.toString(StringTemplate.defaultTemplate))) {
+			} else if ("z".equals(fVar.getSetVarString())) {
 				zVar = fVar;
 			}
 		}

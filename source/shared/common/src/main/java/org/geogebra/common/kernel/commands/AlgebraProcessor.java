@@ -2223,7 +2223,7 @@ public class AlgebraProcessor {
 						geoElementSetups.forEach(setup -> setup.applyTo(replaceable));
 						if (replaceable instanceof GeoFunction
 								&& !((GeoFunction) replaceable)
-										.validate(true)) {
+										.validate(!cons.isRegisteredFunctionVariable("z"))) {
 							replaceable.setUndefined();
 						} else {
 							replaceable.setDefinition(ret[0].getDefinition());
