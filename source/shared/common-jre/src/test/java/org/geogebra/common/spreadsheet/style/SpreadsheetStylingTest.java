@@ -7,18 +7,17 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.spreadsheet.core.TabularRange;
-import org.junit.Before;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SpreadsheetStylingTest extends BaseUnitTest {
+public class SpreadsheetStylingTest extends BaseAppTestSetup {
 
 	private SpreadsheetStyling styling;
 
-	@Before
-	@Override
+	@BeforeEach
 	public void setup() {
 		styling = new SpreadsheetStyling();
 	}

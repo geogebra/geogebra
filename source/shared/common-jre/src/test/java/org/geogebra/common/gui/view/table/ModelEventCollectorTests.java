@@ -6,18 +6,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.junit.Before;
-import org.junit.Test;
+import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ModelEventCollectorTests extends BaseUnitTest {
+public class ModelEventCollectorTests extends BaseAppTestSetup {
     private ModelEventCollector modelEventCollector;
     private SimpleTableValuesModel simpleTableValuesModel;
     private GeoEvaluatable geoEvaluatable;
 
-    @Before
-    @Override
+    @BeforeEach
     public void setup() {
         modelEventCollector = new ModelEventCollector();
         simpleTableValuesModel = mock(SimpleTableValuesModel.class);
