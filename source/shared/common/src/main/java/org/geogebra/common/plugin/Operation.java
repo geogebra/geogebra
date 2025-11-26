@@ -2226,14 +2226,7 @@ public enum Operation {
 	 * @return whether operation is one of (freehand, data)
 	 */
 	public static boolean includesFreehandOrData(Operation op) {
-		switch (op) {
-		case DATA:
-		case FREEHAND:
-
-			return true;
-		}
-
-		return false;
+		return op == DATA || op == FREEHAND;
 	}
 
 	/**

@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.Objects;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -352,16 +354,13 @@ public class Term implements Comparable<Term> {
 			}
 			if (b instanceof ExpressionNode) {
 				ExpressionNode ben = (ExpressionNode) b;
-				switch (ben.getOperation()) {
 				// a / (b.left / b.right) = (a / b.left) * b.right
-				case DIVIDE:
+				if (ben.getOperation() == Operation.DIVIDE) {
 					return multiply(
 							divide(a, ben.getLeft(), kernel, keepFraction),
 							ben.getRight(), kernel, keepFraction);
-				// TODO multiply?
-				default:
-					break;
 				}
+				// TODO multiply?
 			}
 			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);
 

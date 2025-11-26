@@ -160,8 +160,7 @@ public class QDParser {
 
 			// we are processing a closing tag: e.g. </foo>
 			case CLOSE_TAG:
-				switch (c) {
-				case '>':
+				if (c == '>') {
 					mode = popMode(stack);
 					tagName = sb.toString();
 					sb.setLength(0);
@@ -170,8 +169,7 @@ public class QDParser {
 						mode = DONE;
 					}
 					doc.endElement(tagName);
-					break;
-				default:
+				} else {
 					sb.append((char) c);
 				}
 				break;

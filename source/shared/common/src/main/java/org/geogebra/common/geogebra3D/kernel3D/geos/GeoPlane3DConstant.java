@@ -30,14 +30,9 @@ public class GeoPlane3DConstant extends GeoPlane3D
 	 *            XOY_PLANE
 	 */
 	public GeoPlane3DConstant(Construction c, int type) {
-
 		super(c);
 
-		switch (type) {
-		default:
-			// do nothing
-			break;
-		case XOY_PLANE:
+		if (type == XOY_PLANE) {
 			coordsys.addPoint(Coords.O);
 			coordsys.addVector(Coords.VX);
 			coordsys.addVector(Coords.VY);
@@ -48,8 +43,6 @@ public class GeoPlane3DConstant extends GeoPlane3D
 			setLabelSet(true);
 			setObjColor(GColor.GRAY);
 			setLabelVisible(false);
-			break;
-
 		}
 
 		setFixed(true);

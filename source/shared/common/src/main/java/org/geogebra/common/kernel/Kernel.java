@@ -2052,11 +2052,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			return "-";
 		}
 		String numberStr = format(x, tpl);
-		switch (tpl.getStringType()) {
-		case GIAC:
+		if (tpl.getStringType() == StringType.GIAC) {
 			return numberStr + "*";
-
-		default:
+		} else {
 			// standard case
 			return numberStr;
 		}
@@ -2220,88 +2218,82 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			StringTemplate tpl, boolean unbounded, boolean forceDegrees) {
 		double phi = alpha;
 		sbFormatAngle.setLength(0);
-		switch (tpl.getStringType()) {
 
-		default:
-			// STRING_TYPE_GEOGEBRA_XML
-			// STRING_TYPE_GEOGEBRA
+		if (Double.isNaN(phi)) {
+			sbFormatAngle.append("?");
+			return sbFormatAngle;
+		}
 
-			if (Double.isNaN(phi)) {
-				sbFormatAngle.append("?");
-				return sbFormatAngle;
+		if (forceDegrees || degreesMode()) {
+			boolean isMinusOnRight = getLocalization().isMinusOnRight(tpl);
+			if (isMinusOnRight) {
+				sbFormatAngle.append(Unicode.DEGREE_CHAR);
 			}
 
-			if (forceDegrees || degreesMode()) {
-				boolean isMinusOnRight = getLocalization().isMinusOnRight(tpl);
-				if (isMinusOnRight) {
+			phi = Math.toDegrees(phi);
+
+			// make sure 360.0000000002 -> 360
+			phi = DoubleUtil.checkInteger(phi);
+
+			if (!unbounded) {
+				if (phi < 0) {
+					phi += 360;
+				} else if (phi > 360) {
+					phi = phi % 360;
+				}
+			}
+			// STANDARD_PRECISION * 10 as we need a little leeway as we've
+			// converted from radians
+			sbFormatAngle.append(
+					format(DoubleUtil.checkDecimalFraction(phi, precision), tpl));
+			if (tpl.hasType(StringType.GEOGEBRA_XML)) {
+				sbFormatAngle.append("*");
+			}
+			if (!isMinusOnRight) {
+				if (tpl.hasCASType()) {
+					sbFormatAngle.append("*pi/180");
+				} else if (tpl.isScreenReader()) {
+					boolean singular = "1".equals(sbFormatAngle.toString());
+					sbFormatAngle.append(' ').append(singular
+							? tpl.getDegree() : tpl.getDegrees());
+				} else {
 					sbFormatAngle.append(Unicode.DEGREE_CHAR);
 				}
-
-				phi = Math.toDegrees(phi);
-
-				// make sure 360.0000000002 -> 360
-				phi = DoubleUtil.checkInteger(phi);
-
-				if (!unbounded) {
-					if (phi < 0) {
-						phi += 360;
-					} else if (phi > 360) {
-						phi = phi % 360;
-					}
-				}
-				// STANDARD_PRECISION * 10 as we need a little leeway as we've
-				// converted from radians
-				sbFormatAngle.append(
-						format(DoubleUtil.checkDecimalFraction(phi, precision), tpl));
-				if (tpl.hasType(StringType.GEOGEBRA_XML)) {
-					sbFormatAngle.append("*");
-				}
-				if (!isMinusOnRight) {
-					if (tpl.hasCASType()) {
-						sbFormatAngle.append("*pi/180");
-					} else if (tpl.isScreenReader()) {
-						boolean singular = "1".equals(sbFormatAngle.toString());
-						sbFormatAngle.append(' ').append(singular
-								? tpl.getDegree() : tpl.getDegrees());
-					} else {
-						sbFormatAngle.append(Unicode.DEGREE_CHAR);
-					}
-				}
-
-				return sbFormatAngle;
-			}
-
-			if (getAngleUnit() == Kernel.ANGLE_DEGREES_MINUTES_SECONDS) {
-				if (valueDegreesMinutesSeconds == null) {
-					valueDegreesMinutesSeconds = new MyDoubleDegreesMinutesSeconds.Value();
-				}
-				valueDegreesMinutesSeconds.set(phi, Kernel.MAX_PRECISION,
-						unbounded);
-				valueDegreesMinutesSeconds.format(sbFormatAngle, tpl, this);
-				return sbFormatAngle;
-			}
-
-			// RADIANS
-			sbFormatAngle.append(format(phi, tpl));
-
-			switch (tpl.getStringType()) {
-
-			default:
-				sbFormatAngle.append(" rad");
-				break;
-
-			case LATEX:
-				sbFormatAngle.append(" \\; rad");
-				break;
-
-			case GEOGEBRA_XML:
-			case GIAC:
-				// do nothing
-				break;
 			}
 
 			return sbFormatAngle;
 		}
+
+		if (getAngleUnit() == Kernel.ANGLE_DEGREES_MINUTES_SECONDS) {
+			if (valueDegreesMinutesSeconds == null) {
+				valueDegreesMinutesSeconds = new MyDoubleDegreesMinutesSeconds.Value();
+			}
+			valueDegreesMinutesSeconds.set(phi, Kernel.MAX_PRECISION,
+					unbounded);
+			valueDegreesMinutesSeconds.format(sbFormatAngle, tpl, this);
+			return sbFormatAngle;
+		}
+
+		// RADIANS
+		sbFormatAngle.append(format(phi, tpl));
+
+		switch (tpl.getStringType()) {
+
+		default:
+			sbFormatAngle.append(" rad");
+			break;
+
+		case LATEX:
+			sbFormatAngle.append(" \\; rad");
+			break;
+
+		case GEOGEBRA_XML:
+		case GIAC:
+			// do nothing
+			break;
+		}
+
+		return sbFormatAngle;
 	}
 
 	/** Resets global JavaSrcript to default value */

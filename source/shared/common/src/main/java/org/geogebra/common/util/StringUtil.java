@@ -354,45 +354,12 @@ public class StringUtil extends org.geogebra.editor.share.input.Character {
 				continue;
 			}
 
-			switch (c) {
-			/*
-			 * case '(': sbReplaceExp.append("\\left("); break;
-			 * 
-			 * case ')': sbReplaceExp.append("\\right)"); break;
-			 */
-
-			case '%': // % -> \%
+			if (c == '%') { // % -> \%
 				if (previousChar != '\\') {
 					sbReplaceExp.append("\\");
 				}
 				sbReplaceExp.append("%");
-				break;
-
-			/*
-			 * not needed for JLaTeXMath and in fact it doesn't work inside
-			 * \text{} // Exponents // added by Loic Le Coq 2009/11/04 case
-			 * '\u2070': // ^0 sbReplaceExp.append("^0"); break;
-			 * 
-			 * case '\u00b9': // ^1 sbReplaceExp.append("^1"); break; // end
-			 * Loic case '\u00b2': // ^2 sbReplaceExp.append("^2"); break;
-			 * 
-			 * case '\u00b3': // ^3 sbReplaceExp.append("^3"); break;
-			 * 
-			 * case '\u2074': // ^4 sbReplaceExp.append("^4"); break;
-			 * 
-			 * case '\u2075': // ^5 sbReplaceExp.append("^5"); break;
-			 * 
-			 * case '\u2076': // ^6 sbReplaceExp.append("^6"); break; // added
-			 * by Loic Le Coq 2009/11/04 case '\u2077': // ^7
-			 * sbReplaceExp.append("^7"); break;
-			 * 
-			 * case '\u2078': // ^8 sbReplaceExp.append("^8"); break;
-			 * 
-			 * case '\u2079': // ^9 sbReplaceExp.append("^9"); break; // end
-			 * Loic Le Coq
-			 */
-
-			default:
+			} else {
 				if (!convertGreekLetters) {
 					sbReplaceExp.append(c);
 				} else {

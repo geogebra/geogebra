@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
@@ -1271,12 +1272,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements DrawIn
 	 * @return true iff this is trapezoidal sums
 	 */
 	public boolean useTrapeziums() {
-		switch (type) {
-		case TRAPEZOIDALSUM:
-			return true;
-		default:
-			return false;
-		}
+		return type == SumType.TRAPEZOIDALSUM;
 	}
 
 	/**

@@ -528,15 +528,10 @@ public class DrawAngle extends Drawable implements Previewable {
 
 			// special handling of 90 degree dot
 			if (show90degrees) {
-				switch (view.getRightAngleStyle()) {
-				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
+				// only handle dot, EuclidianView.RIGHT_ANGLE_STYLE_SQUARE
+				// was already drawn as shape
+				if (view.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
 					g2.fill(dot90degree);
-					break;
-
-				default:
-					// nothing to do as square for
-					// EuclidianView.RIGHT_ANGLE_STYLE_SQUARE
-					// was already drawn as shape
 				}
 			} else {
 				// if we don't have a special 90 degrees appearance we might

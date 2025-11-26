@@ -34,38 +34,37 @@ public class CmdPoint3D extends CmdPoint {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
-		switch (n) {
-		case 1:
+		if (n == 1) {
 			arg = resArgs(c, info);
 			GeoElement geo0 = arg[0];
 
 			if (geo0.isGeoElement3D() || (geo0.isGeoList()
 					&& ((GeoList) geo0).containsGeoElement3D())) {
 				if (geo0.isPath()) {
-					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-							.point3D(c.getLabel(), (Path) geo0, false) };
+					GeoElement[] ret = {(GeoElement) kernel.getManager3D()
+							.point3D(c.getLabel(), (Path) geo0, false)};
 					return ret;
 				}
 				// if arg[0] isn't a Path, try to process it as a region (e.g.
 				// GeoPlane3D)
 				if (geo0.isRegion()) {
-					GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-							.point3DIn(c.getLabel(), (Region) arg[0], false) };
+					GeoElement[] ret = {(GeoElement) kernel.getManager3D()
+							.point3DIn(c.getLabel(), (Region) arg[0], false)};
 					return ret;
 				}
 
 				throw argErr(c, geo0);
 			} else if (geo0.isRegion3D() && !geo0.isPath()) {
-				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-						.point3DIn(c.getLabel(), (Region) arg[0], false) };
+				GeoElement[] ret = {(GeoElement) kernel.getManager3D()
+						.point3DIn(c.getLabel(), (Region) arg[0], false)};
 				return ret;
 			} else if (arg[0].isGeoList() && arg[0]
 					.getGeoElementForPropertiesDialog().isGeoNumeric()) {
 				if ((((GeoList) arg[0]).get(0).isGeoNumeric()
 						&& ((GeoList) arg[0]).size() == 3)
 						|| (((GeoList) arg[0]).get(0).isGeoList()
-								&& ((GeoList) ((GeoList) arg[0]).get(0))
-										.size() == 3)) {
+						&& ((GeoList) ((GeoList) arg[0]).get(0))
+						.size() == 3)) {
 
 					AlgoPointsFromList algo = new AlgoPointsFromList(cons,
 							c.getLabels(), !cons.isSuppressLabelsActive(),

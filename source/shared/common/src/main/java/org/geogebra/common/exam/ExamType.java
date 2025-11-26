@@ -224,11 +224,9 @@ public enum ExamType {
 	}
 
 	private boolean isAvailable() {
-		switch (this) {
-		case IB:
+		if (this == ExamType.IB) {
 			return PreviewFeature.isAvailable(PreviewFeature.IB_EXAM);
-		default:
-			return true;
 		}
+		return true;
 	}
 }

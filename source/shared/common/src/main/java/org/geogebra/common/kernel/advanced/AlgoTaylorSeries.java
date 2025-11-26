@@ -178,11 +178,9 @@ public class AlgoTaylorSeries extends AlgoElement {
 
 				// build the expression (x - a) ^ k
 				ExpressionValue powerExp;
-				switch (k) {
-				case 1:
+				if (k == 1) {
 					powerExp = diffExp;
-					break;
-				default:
+				} else {
 					powerExp = new ExpressionNode(kernel,
 							new ExpressionNode(kernel, diffExp, Operation.POWER,
 									new MyDouble(kernel, k)),
