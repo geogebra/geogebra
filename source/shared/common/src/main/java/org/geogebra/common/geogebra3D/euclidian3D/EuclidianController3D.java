@@ -1599,13 +1599,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				// create new pyramid or prism
 				view3D.disposePreview();
-				switch (mode) {
-				case EuclidianConstants.MODE_PYRAMID:
-					return new GeoElement[] { getKernel().getManager3D()
-							.pyramid(null, basis[0], points[0])[0] };
-				case EuclidianConstants.MODE_PRISM:
-					return new GeoElement[] { getKernel().getManager3D()
-							.prism(null, basis[0], points[0])[0] };
+				if (mode == EuclidianConstants.MODE_PYRAMID) {
+					return new GeoElement[]{getKernel().getManager3D()
+							.pyramid(null, basis[0], points[0])[0]};
+				} else if (mode == EuclidianConstants.MODE_PRISM) {
+					return new GeoElement[]{getKernel().getManager3D()
+							.prism(null, basis[0], points[0])[0]};
 				}
 			}
 
@@ -1620,15 +1619,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 				points[pyramidBasis.length] = getSelectedPointsND()[0];
 				// create new pyramid or prism
 				view3D.disposePreview();
-				switch (mode) {
-				case EuclidianConstants.MODE_PYRAMID:
+				if (mode == EuclidianConstants.MODE_PYRAMID) {
 					pyramidBasis = null;
-					return new GeoElement[] { getKernel().getManager3D()
-							.pyramid(null, points)[0] };
-				case EuclidianConstants.MODE_PRISM:
+					return new GeoElement[]{getKernel().getManager3D()
+							.pyramid(null, points)[0]};
+				} else if (mode == EuclidianConstants.MODE_PRISM) {
 					pyramidBasis = null;
-					return new GeoElement[] {
-							getKernel().getManager3D().prism(null, points)[0] };
+					return new GeoElement[]{
+							getKernel().getManager3D().prism(null, points)[0]};
 				}
 			}
 
@@ -2146,30 +2144,25 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected GeoElement[] switchModeForThreePoints(int threePointsMode) {
-		switch (threePointsMode) {
-		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
+		if (threePointsMode == EuclidianConstants.MODE_PLANE_THREE_POINTS) {
 			GeoPointND[] points = getSelectedPointsND();
 			GeoPlane3D ret0 = (GeoPlane3D) getKernel().getManager3D()
 					.plane3D(null, points[0], points[1], points[2]);
-			return new GeoElement[]{ ret0 };
-		default:
-			return super.switchModeForThreePoints(threePointsMode);
-
+			return new GeoElement[]{ret0};
 		}
+		return super.switchModeForThreePoints(threePointsMode);
 	}
 
 	@Override
 	protected GeoElement[] switchModeForCircleOrSphere2(int sphereNDMode) {
-		switch (sphereNDMode) {
-		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
+		if (sphereNDMode == EuclidianConstants.MODE_SPHERE_TWO_POINTS) {
 			GeoPointND[] points = getSelectedPointsND();
-			GeoElement[] ret = { null };
+			GeoElement[] ret = {null};
 			ret[0] = getKernel().getManager3D().sphere(null, points[0],
 					points[1]);
 			return ret;
-		default:
-			return super.switchModeForCircleOrSphere2(sphereNDMode);
 		}
+		return super.switchModeForCircleOrSphere2(sphereNDMode);
 	}
 
 	// /////////////////////////////////////////
@@ -4373,9 +4366,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean modeTriggersUndoOnDragGeo(int mode2) {
-		switch (mode2) {
-		case EuclidianConstants.MODE_PYRAMID:
-		case EuclidianConstants.MODE_PRISM:
+		if (mode2 == EuclidianConstants.MODE_PYRAMID || mode2 == EuclidianConstants.MODE_PRISM) {
 			return pyramidBasis == null && selPolygons() == 0;
 		}
 		return super.modeTriggersUndoOnDragGeo(mode2);

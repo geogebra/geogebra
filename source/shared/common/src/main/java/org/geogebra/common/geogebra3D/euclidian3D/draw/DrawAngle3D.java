@@ -449,9 +449,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 		double y = tmpCoords.getY();
 
 		if (show90degrees) {
-			switch (getView3D().getRightAngleStyle()) {
-			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
-			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
+			int rightAngleStyle = getView3D().getRightAngleStyle();
+			if (rightAngleStyle == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE
+					|| rightAngleStyle == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L) {
 				if (x < offset || x > size + offset || y < offset
 						|| y > size + offset) {
 					return false;

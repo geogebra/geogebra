@@ -2856,16 +2856,12 @@ public class GeoCasCell extends GeoElement
 
 		// row reference like $5
 		StringBuilder sb = new StringBuilder();
-		switch (tpl.getStringType()) {
 		// send output to underlying CAS
-		case GIAC:
+		if (tpl.getStringType() == StringType.GIAC) {
 			sb.append(" (");
 			sb.append(outputVE == null ? "?" : outputVE.toString(tpl));
 			sb.append(") ");
-			break;
-
-		default:
-			// standard case: return current row, e.g. $5
+		} else { // standard case: return current row, e.g. $5
 			if (row >= 0) {
 				if (tpl.hasType(StringType.LATEX)) {
 					sb.append("\\$");
@@ -2874,7 +2870,6 @@ public class GeoCasCell extends GeoElement
 				}
 				sb.append(row + 1);
 			}
-			break;
 		}
 		return sb.toString();
 	}

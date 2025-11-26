@@ -36,7 +36,7 @@ public class DataItem {
 	/**
 	 * Identifiers for the possible sources of a DataItem
 	 */
-	public static enum SourceType {
+	public enum SourceType {
 		SPREADSHEET, LIST, CLASS, INTERNAL, EMPTY
 	}
 
@@ -228,11 +228,9 @@ public class DataItem {
 	 * @return whether some element in the source has the class
 	 */
 	public boolean containsGeoClass(GeoClass geoClassType) {
-		if (sourceType == SourceType.EMPTY) {
-			return false;
-		}
-
 		switch (sourceType) {
+		case EMPTY:
+			return false;
 		case LIST:
 			if (geoList == null) {
 				return false;

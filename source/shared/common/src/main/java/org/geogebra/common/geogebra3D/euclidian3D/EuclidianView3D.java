@@ -724,17 +724,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 			case FUNCTION_NVAR:
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
-				switch (geoFun.getVarNumber()) {
-				default:
-					// do nothing
-					break;
-				case 2:
+				if (geoFun.getVarNumber() == 2) {
 					d = newDrawSurface3D(geoFun);
-					break;
-				/*
-				 * case 3: d = new DrawImplicitFunction3Var(this, geoFun);
-				 * break;
-				 */
 				}
 				break;
 			case SURFACECARTESIAN:
@@ -2717,8 +2708,7 @@ public abstract class EuclidianView3D extends EuclidianView
 										getCursor3DType())) {
 					renderer1.setMatrix(cursorMatrix);
 
-					switch (cursor) {
-					case DEFAULT:
+					if (cursor == EuclidianCursor.DEFAULT) {
 						switch (getCursor3DType()) {
 						case PREVIEW_POINT_FREE:
 							drawFreeCursor(renderer1);
@@ -2726,17 +2716,13 @@ public abstract class EuclidianView3D extends EuclidianView
 						case PREVIEW_POINT_ALREADY: // showing arrows directions
 							drawPointAlready(getCursor3D());
 							break;
-						default:
 						case PREVIEW_POINT_NONE:
+						default:
 							// do nothing
 							break;
 						}
-						break;
-					case HIT:
+					} else if (cursor == EuclidianCursor.HIT) {
 						switch (getCursor3DType()) {
-						default:
-							// do nothing
-							break;
 						case PREVIEW_POINT_FREE:
 							if (getCompanion().drawCrossForFreePoint()) {
 								renderer1
@@ -2769,8 +2755,10 @@ public abstract class EuclidianView3D extends EuclidianView
 						case PREVIEW_POINT_ALREADY:
 							drawPointAlready(getCursor3D());
 							break;
+						default:
+							// do nothing
+							break;
 						}
-						break;
 					}
 				}
 			}

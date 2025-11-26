@@ -72,12 +72,10 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 
 	@Override
 	public int getRelatedModeID() {
-		switch (super.getType()) {
-		case AlgoSphereNDPointRadius.TYPE_RADIUS:
+		if (super.getType() == AlgoSphereNDPointRadius.TYPE_RADIUS) {
 			return EuclidianConstants.MODE_CIRCLE_POINT_RADIUS;
-		default:
-			return EuclidianConstants.MODE_COMPASSES;
 		}
+		return EuclidianConstants.MODE_COMPASSES;
 	}
 
 	/**
