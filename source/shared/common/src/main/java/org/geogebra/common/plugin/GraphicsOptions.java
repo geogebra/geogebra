@@ -7,8 +7,13 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 public class GraphicsOptions {
-	public static void apply(EuclidianSettings es, JsObjectWrapper opts, App app) {
 
+	/**
+	 * @param es settings
+	 * @param opts output options
+	 * @param app app
+	 */
+	public static void apply(EuclidianSettings es, JsObjectWrapper opts, App app) {
 		opts.ifIntPropertySet("rightAngleStyle", app::setRightAngleStyle);
 		es.beginBatch();
 		opts.ifIntPropertySet("pointCapturing", es::setPointCapturing);
@@ -65,7 +70,8 @@ public class GraphicsOptions {
 		return opts.getValue("x") == null && opts.getValue("y") == null;
 	}
 
-	private static void setAxisOptions(int axisNo, JsObjectWrapper axisOptions, EuclidianSettings es) {
+	private static void setAxisOptions(int axisNo, JsObjectWrapper axisOptions,
+			EuclidianSettings es) {
 		axisOptions.ifPropertySet("visible",
 				(Consumer<Boolean>) val -> es.setShowAxis(axisNo, val));
 		axisOptions.ifPropertySet("positiveAxis",
