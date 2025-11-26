@@ -73,11 +73,11 @@ public class Unicode {
 	public static final char zeta = '\u03B6';
 	public static final char eta = '\u03B7';
 	public static final char theta = '\u03B8';
-	public static final String theta_STRING = theta + "";
+	public static final String theta_STRING = String.valueOf(theta);
 	public static final char iota = '\u03B9';
 	public static final char kappa = '\u03BA';
 	public static final char lambda = '\u03BB';
-	public static final String lambda_STRING = lambda + "";
+	public static final String lambda_STRING = String.valueOf(lambda);
 	public static final char mu = '\u03BC';
 	public static final char nu = '\u03BD';
 	public static final char xi = '\u03BE';
@@ -236,11 +236,11 @@ public class Unicode {
 	public static final char CENTER_DOT = '\u22c5';
 	public static final char BULLET = '\u2022';
 	public static final String ASSIGN_STRING = "\u2254";
-	public static final String currencyList = CURRENCY_BAHT + "" + CURRENCY_DOLLAR
-			+ "" + CURRENCY_DONG + "" + CURRENCY_EURO + ""
-			+ CURRENCY_INDIAN_RUPEE + "" + CURRENCY_POUND + "" + CURRENCY_RUPEE
-			+ "" + CURRENCY_SHEKEL + "" + CURRENCY_TUGHRIK + "" + CURRENCY_WON
-			+ "" + CURRENCY_YEN + "";
+	public static final String currencyList = String.valueOf(CURRENCY_BAHT) + CURRENCY_DOLLAR
+			+ CURRENCY_DONG + CURRENCY_EURO
+			+ CURRENCY_INDIAN_RUPEE + CURRENCY_POUND + CURRENCY_RUPEE
+			+ CURRENCY_SHEKEL + CURRENCY_TUGHRIK + CURRENCY_WON
+			+ CURRENCY_YEN;
 
 	public static final String PI_HALF_STRING = Unicode.PI_STRING + "/2";
 
@@ -249,7 +249,7 @@ public class Unicode {
 	 *            character
 	 * @return whether char is superscript digit
 	 */
-	final public static boolean isSuperscriptDigit(final char c) {
+	public static boolean isSuperscriptDigit(final char c) {
 		return ((c >= Unicode.SUPERSCRIPT_0) && (c <= Unicode.SUPERSCRIPT_9))
 				|| (c == Unicode.SUPERSCRIPT_1) || (c == Unicode.SUPERSCRIPT_2)
 				|| (c == Unicode.SUPERSCRIPT_3);

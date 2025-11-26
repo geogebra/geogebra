@@ -56,7 +56,7 @@ class SymbolTemplateCatalog {
 		SymbolTemplateMap collection = new SymbolTemplateMap();
 
 		collection.addSymbol(createOperator("-"));
-		collection.addSymbol(createOperator(Unicode.MINUS + ""));
+		collection.addSymbol(createOperator(String.valueOf(Unicode.MINUS)));
 		collection.addSymbol(createOperator("+"));
 		collection.addSymbol(createOperator("*", "\\cdot{}", '*'));
 		collection.addSymbol(createOperator("/"));
@@ -67,7 +67,7 @@ class SymbolTemplateCatalog {
 		collection.addSymbol(createOperator(":", "\\mathpunct{:}", ':'));
 		collection.addSymbol(createOperator("="));
 		// APPS-557
-		collection.addSymbol(createOperator(Unicode.COLON_EQUALS + ""));
+		collection.addSymbol(createOperator(String.valueOf(Unicode.COLON_EQUALS)));
 		collection.addSymbol(createOperator("<"));
 		collection.addSymbol(createOperator(">"));
 		collection.addSymbol(createOperator(","));
@@ -86,7 +86,7 @@ class SymbolTemplateCatalog {
 		collection.addSymbol(
 				createOperator("!=", "\\ne{}", Unicode.NOTEQUAL));
 		collection.addSymbol(createOperator("==",
-				Unicode.QUESTEQ + "", Unicode.QUESTEQ));
+				String.valueOf(Unicode.QUESTEQ), Unicode.QUESTEQ));
 		collection.addSymbol(
 				createOperator("\\equiv{}", '\u2261'));
 
@@ -184,7 +184,8 @@ class SymbolTemplateCatalog {
 		collection.addSymbol(
 				createOperator("\\times{}", '\u2a2f'));
 		collection.addSymbol(createOperator("*", "\\times{}", Unicode.MULTIPLY));
-		collection.addSymbol(createOperator(Unicode.DIVIDE + "", "\\div{}", Unicode.DIVIDE));
+		collection.addSymbol(createOperator(String.valueOf(Unicode.DIVIDE), "\\div{}",
+				Unicode.DIVIDE));
 
 		return collection;
 	}

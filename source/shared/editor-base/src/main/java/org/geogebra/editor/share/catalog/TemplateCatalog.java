@@ -81,7 +81,7 @@ public class TemplateCatalog {
 			String name = letter.name();
 			// epsilon, Epsilon, upsilon, Upsilon need special treatment
 			if (!"psi".equals(name) && name.contains("psi")) {
-				name = name.replace("psi", Unicode.psi + "");
+				name = name.replace("psi", String.valueOf(Unicode.psi));
 			}
 			String unicode = letter.getUnicodeNonCurly() + "";
 			if (name.equals("phi")) {
@@ -91,7 +91,7 @@ public class TemplateCatalog {
 					symbolGroup.getSymbol(unicode));
 		}
 		addNamedSymbol("inf",
-				symbolGroup.getSymbol(Unicode.INFINITY + ""));
+				symbolGroup.getSymbol(String.valueOf(Unicode.INFINITY)));
 		addNamedSymbol("deg",
 				symbolGroup.getSymbol(Unicode.DEGREE_STRING));
 	}
@@ -100,10 +100,10 @@ public class TemplateCatalog {
 	 * @return right phi unicode based on the function variable
 	 */
 	public String getPhiUnicode() {
-		if (inputBoxFunctionVars.contains(Unicode.phi + "")) {
-			return Unicode.phi + "";
+		if (inputBoxFunctionVars.contains(String.valueOf(Unicode.phi))) {
+			return String.valueOf(Unicode.phi);
 		}
-		return Unicode.phi_symbol + "";
+		return String.valueOf(Unicode.phi_symbol);
 	}
 
 	/**

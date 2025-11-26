@@ -230,8 +230,8 @@ public class SolverSerializer extends SerializerAdapter {
 		String closeKey = String.valueOf(arrayNode.getCloseDelimiter().getCharacter());
 		String open;
 		String close;
-		String field = arrayNode.getFieldDelimiter().getCharacter() + "";
-		String row = arrayNode.getRowDelimiter().getCharacter() + "";
+		char field = arrayNode.getFieldDelimiter().getCharacter();
+		char row = arrayNode.getRowDelimiter().getCharacter();
 
 		open  = keysNeedingDots.contains(openKey) ? openKey + "." : openKey;
 		close = keysNeedingDots.contains(closeKey) ? "." + closeKey : closeKey;
@@ -245,11 +245,11 @@ public class SolverSerializer extends SerializerAdapter {
 				serialize(arrayNode.getChild(i, j), stringBuilder);
 				stringBuilder.append(field);
 			}
-			stringBuilder.deleteCharAt(stringBuilder.length() - field.length());
+			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 			stringBuilder.append(close);
 			stringBuilder.append(row);
 		}
-		stringBuilder.deleteCharAt(stringBuilder.length() - row.length());
+		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		if (arrayNode.isMatrix()) {
 			stringBuilder.append(close);
 		}
