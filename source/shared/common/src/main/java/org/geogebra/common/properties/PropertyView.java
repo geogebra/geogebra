@@ -14,6 +14,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
@@ -206,9 +207,7 @@ public abstract class PropertyView {
 		@Override
 		public void sendEvent(Event evt) {
 			if (dependentGeoElements != null && dependentGeoElements.contains(evt.target)) {
-				switch (evt.type) {
-				case UPDATE:
-				case UPDATE_STYLE:
+				if (evt.type == EventType.UPDATE || evt.type == EventType.UPDATE_STYLE) {
 					onConfigurationUpdated();
 				}
 			}
