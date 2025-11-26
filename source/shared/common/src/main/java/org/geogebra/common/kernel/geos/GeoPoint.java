@@ -1707,13 +1707,11 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 				sbBuildValueString.append(tpl.leftBracket());
 			}
 			sbBuildValueString.append(kernel.format(x, tpl));
-			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
-			case Kernel.COORD_STYLE_AUSTRIAN:
+			if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
 				tpl.appendOptionalSpace(sbBuildValueString);
 				sbBuildValueString.append(tpl.getPointCoordBar());
 				tpl.appendOptionalSpace(sbBuildValueString);
-				break;
-			default:
+			} else {
 				tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
