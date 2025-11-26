@@ -11,7 +11,8 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  * {@code Property} responsible for fixing objects. Counterpart of {@link IsFixedObjectProperty}
  * with changes to meet new settings view requirements without altering the original.
  */
-public class FixObjectProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
+public class FixObjectProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty,
+		GeoElementDependentProperty {
 	private final IsFixedObjectDelegate delegate;
 
 	/**
@@ -36,5 +37,10 @@ public class FixObjectProperty extends AbstractValuedProperty<Boolean> implement
 	@Override
 	public boolean isEnabled() {
 		return delegate.getElement().isEuclidianVisible();
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return delegate.getElement();
 	}
 }

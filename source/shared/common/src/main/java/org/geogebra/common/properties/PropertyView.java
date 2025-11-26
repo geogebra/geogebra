@@ -9,13 +9,17 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.collections.AbstractValuedPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
@@ -30,6 +34,7 @@ import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollecti
 import org.geogebra.common.properties.impl.graphics.GridFixedDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
+import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
 import com.google.j2objc.annotations.Weak;
@@ -111,15 +116,28 @@ public abstract class PropertyView {
 	}
 
 	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
-			implements PropertyValueObserver<Object>, SettingListener {
+			implements PropertyValueObserver<Object>, SettingListener, EventListener {
 		protected final @Nonnull T property;
 		private boolean previousAvailability;
+		private @CheckForNull List<GeoElement> dependentGeoElements;
 
 		protected PropertyBackedView(@Nonnull T property) {
 			this.property = property;
 			this.previousAvailability = property.isAvailable();
 			if (property instanceof SettingsDependentProperty) {
 				((SettingsDependentProperty) property).getSettings().addListener(this);
+			}
+			if (property instanceof AbstractValuedPropertyCollection<?, ?>) {
+				List<?> properties = ((AbstractValuedPropertyCollection<?, ?>) property)
+						.getProperties();
+				dependentGeoElements = properties
+						.stream()
+						.filter(p -> p instanceof GeoElementDependentProperty)
+						.map(p -> (GeoElementDependentProperty) p)
+						.map(GeoElementDependentProperty::getGeoElement)
+						.collect(Collectors.toList());
+				dependentGeoElements.forEach(element -> element.getApp()
+						.getEventDispatcher().addEventListener(this));
 			}
 			if (property instanceof ValuedProperty) {
 				((ValuedProperty<?>) property).addValueObserver(this);
@@ -135,6 +153,11 @@ public abstract class PropertyView {
 			super.detach();
 			if (property instanceof SettingsDependentProperty) {
 				((SettingsDependentProperty) property).getSettings().removeListener(this);
+			}
+			if (dependentGeoElements != null) {
+				dependentGeoElements.forEach(element -> element.getApp()
+						.getEventDispatcher().removeEventListener(this));
+				dependentGeoElements = null;
 			}
 			if (property instanceof ValuedProperty) {
 				((ValuedProperty<?>) property).removeValueObserver(this);
@@ -172,13 +195,26 @@ public abstract class PropertyView {
 			if (visibilityUpdateDelegate != null && visibilityChanged) {
 				visibilityUpdateDelegate.visibilityUpdated();
 			}
-			if (configurationUpdateDelegate != null) {
-				configurationUpdateDelegate.configurationUpdated();
-			}
+			onConfigurationUpdated();
 		}
 
 		@Override
 		public void onDidSetValue(ValuedProperty<Object> property) {
+			onConfigurationUpdated();
+		}
+
+		@Override
+		public void sendEvent(Event evt) {
+			if (dependentGeoElements != null && dependentGeoElements.contains(evt.target)) {
+				switch (evt.type) {
+				case UPDATE:
+				case UPDATE_STYLE:
+					onConfigurationUpdated();
+				}
+			}
+		}
+
+		private void onConfigurationUpdated() {
 			if (configurationUpdateDelegate != null) {
 				configurationUpdateDelegate.configurationUpdated();
 			}

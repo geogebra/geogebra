@@ -11,7 +11,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 
-abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> implements
+public abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> implements
 		ValuedProperty<S> {
 
 	private final List<T> properties;
