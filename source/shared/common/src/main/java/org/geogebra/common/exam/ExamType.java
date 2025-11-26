@@ -227,8 +227,6 @@ public enum ExamType {
 		switch (this) {
 		case IB:
 			return PreviewFeature.isAvailable(PreviewFeature.IB_EXAM);
-		case MMS:
-			return PreviewFeature.isAvailable(PreviewFeature.MMS_EXAM);
 		default:
 			return true;
 		}
