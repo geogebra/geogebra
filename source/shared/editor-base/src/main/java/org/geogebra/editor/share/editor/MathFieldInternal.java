@@ -80,6 +80,7 @@ public class MathFieldInternal
 	private boolean selectionDrag;
 
 	private final List<MathFieldListener> listeners = new ArrayList<>();
+	@Weak
 	private UnhandledArrowListener unhandledArrowListener;
 
 	private boolean scrollOccurred = false;

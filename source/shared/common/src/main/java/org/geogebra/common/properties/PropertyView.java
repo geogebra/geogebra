@@ -9,6 +9,8 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
@@ -99,7 +101,17 @@ public abstract class PropertyView {
 		return true;
 	}
 
-	public abstract static class PropertyBackedView<T extends Property> extends PropertyView {
+	/**
+	 * Detaches this view from its delegates and listeners, removing all references to allow
+	 * proper garbage collection. Should be called when the view is no longer needed.
+	 */
+	public void detach() {
+		visibilityUpdateDelegate = null;
+		configurationUpdateDelegate = null;
+	}
+
+	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
+			implements PropertyValueObserver<Object>, SettingListener {
 		protected final @Nonnull T property;
 		private boolean previousAvailability;
 
@@ -107,17 +119,29 @@ public abstract class PropertyView {
 			this.property = property;
 			this.previousAvailability = property.isAvailable();
 			if (property instanceof SettingsDependentProperty) {
-				((SettingsDependentProperty) property).getSettings()
-						.addListener(settings -> onSettingsUpdated());
+				((SettingsDependentProperty) property).getSettings().addListener(this);
 			}
 			if (property instanceof ValuedProperty) {
-				((ValuedProperty<?>) property)
-						.addValueObserver(valuedProperty -> onValueUpdated());
+				((ValuedProperty<?>) property).addValueObserver(this);
 			}
 			if (property instanceof LabelStylePropertyCollection) {
 				Arrays.stream(((LabelStylePropertyCollection) property).getProperties())
-						.forEach(p -> ((BooleanProperty) p)
-								.addValueObserver(valuedProperty -> onValueUpdated()));
+						.forEach(p -> ((BooleanProperty) p).addValueObserver(this));
+			}
+		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			if (property instanceof SettingsDependentProperty) {
+				((SettingsDependentProperty) property).getSettings().removeListener(this);
+			}
+			if (property instanceof ValuedProperty) {
+				((ValuedProperty<?>) property).removeValueObserver(this);
+			}
+			if (property instanceof LabelStylePropertyCollection) {
+				Arrays.stream(((LabelStylePropertyCollection) property).getProperties())
+						.forEach(p -> ((BooleanProperty) p).removeValueObserver(this));
 			}
 		}
 
@@ -141,7 +165,8 @@ public abstract class PropertyView {
 			return property.isAvailable();
 		}
 
-		private void onSettingsUpdated() {
+		@Override
+		public void settingsChanged(AbstractSettings settings) {
 			boolean visibilityChanged = property.isAvailable() != previousAvailability;
 			previousAvailability = property.isAvailable();
 			if (visibilityUpdateDelegate != null && visibilityChanged) {
@@ -152,7 +177,8 @@ public abstract class PropertyView {
 			}
 		}
 
-		private void onValueUpdated() {
+		@Override
+		public void onDidSetValue(ValuedProperty<Object> property) {
 			if (configurationUpdateDelegate != null) {
 				configurationUpdateDelegate.configurationUpdated();
 			}
@@ -342,6 +368,13 @@ public abstract class PropertyView {
 			if (visibilityUpdateDelegate != null) {
 				visibilityUpdateDelegate.visibilityUpdated();
 			}
+		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			leadingPropertyView.detach();
+			trailingPropertyView.detach();
 		}
 	}
 
@@ -534,6 +567,15 @@ public abstract class PropertyView {
 		public @Nonnull List<PropertyView> getItems() {
 			return propertyViews;
 		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			propertyViews.forEach(PropertyView::detach);
+			if (checkbox != null) {
+				checkbox.detach();
+			}
+		}
 	}
 
 	/**
@@ -572,6 +614,12 @@ public abstract class PropertyView {
 		 */
 		public @Nonnull List<PropertyView> getPropertyViews() {
 			return propertyViews;
+		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			propertyViews.forEach(PropertyView::detach);
 		}
 	}
 
@@ -714,6 +762,13 @@ public abstract class PropertyView {
 		public @Nonnull String getLabel() {
 			return dimensionRatioProperty.getName();
 		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			leadingTextField.detach();
+			trailingTextField.detach();
+		}
 	}
 
 	/**
@@ -777,6 +832,12 @@ public abstract class PropertyView {
 			if (configurationUpdateDelegate != null) {
 				configurationUpdateDelegate.configurationUpdated();
 			}
+		}
+
+		@Override
+		public void detach() {
+			super.detach();
+			pageContents.forEach(propertyViews -> propertyViews.forEach(PropertyView::detach));
 		}
 	}
 
