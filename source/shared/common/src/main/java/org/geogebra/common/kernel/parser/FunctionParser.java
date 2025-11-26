@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -244,7 +245,9 @@ public class FunctionParser {
 		if (parsedLabel.order > 0) {
 			// n-th derivative of geo function
 			if (hasDerivative(geo)) {
-				registerFunctionVars((VarString) geo);
+				ExpressionValue varString = geo.isGeoConic() ? ((GeoConic) geo).getFunction()
+						: geo;
+				registerFunctionVars((VarString) varString);
 				return derivativeNode(kernel, geoExp, parsedLabel.order, geo.isGeoCurveCartesian(),
 						myList.get(0));
 			}
@@ -401,7 +404,11 @@ public class FunctionParser {
 	}
 
 	private static boolean hasDerivative(GeoElement geo) {
-		return geo.isGeoFunction() || geo.isGeoCurveCartesian() || (geo instanceof GeoSymbolic);
+		if (geo == null) {
+			return false;
+		}
+		return geo.isGeoFunction() || geo.isGeoCurveCartesian() || (geo instanceof GeoSymbolic)
+				|| (geo.isGeoConic() && ((GeoConic) geo).getFunction().isDefined());
 	}
 
 	private ExpressionNode multiplication(ExpressionValue geoExp,

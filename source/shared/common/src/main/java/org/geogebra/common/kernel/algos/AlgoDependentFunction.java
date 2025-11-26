@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -206,18 +207,24 @@ public class AlgoDependentFunction extends AlgoElement
 	private boolean inputDefined() {
 		if (this.unconditionalInput == null) {
 			for (GeoElement geoElement : input) {
-				if (!geoElement.isDefined()) {
+				if (isInputElemInvalid(geoElement)) {
 					return false;
 				}
 			}
 			return true;
 		}
 		for (GeoElement geoElement : this.unconditionalInput) {
-			if (!geoElement.isDefined()) {
+			if (isInputElemInvalid(geoElement)) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private boolean isInputElemInvalid(GeoElement inputElem) {
+		Function fn = inputElem instanceof GeoConic ? ((GeoConic) inputElem).getFunction() : null;
+		boolean isValidFunction = fn == null || fn.getExpression().isDefined();
+		return !(inputElem.isDefined() && isValidFunction);
 	}
 
 	/**

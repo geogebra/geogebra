@@ -654,4 +654,10 @@ public class ParserTest {
 		assertThat(minusOneCalc, notNullValue());
 		assertThat(minusOneCalc.isSimpleNumber(), is(false));
 	}
+
+	@Test
+	public void testYConicDerivative() {
+		add("f: y = x^2");
+		shouldReparseAs("f'(x) = f'(x)", "f'(x)");
+	}
 }

@@ -739,4 +739,20 @@ public class RedefineTest extends BaseUnitTest {
 		assertThat(lookup("B"), hasValue("42"));
 		assertThat(lookup("B_1"), hasValue("(2, 0)"));
 	}
+
+	@Test
+	public void reloadYConic() {
+		add("f: y=x^2");
+		t("f'", "(2 * x)");
+		reload();
+	}
+
+	@Test
+	public void redefineYConic() {
+		add("f:y=x^2");
+		t("f'", "(2 * x)");
+		add("f:y^2 + x = x^2");
+		GeoElement derivative = lookup("f'");
+		assertThat(derivative, hasValue("?"));
+	}
 }
