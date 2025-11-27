@@ -748,21 +748,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				margin-right: 8px;
 			}
 		}
-		.gridDistPanel {
-			.checkboxPanel {
-				padding: 0;
-			}
-			.xyDistPanel {
-				display: flex;
-				gap: 16px;
-				.inputTextField {
-					margin-bottom: 16px;
-				}
-			}
-		}
 		.ratioPanel {
 			display: flex;
 			gap: 8px;
+			width: 368px;
 
 			.inputTextField {
 				width: 155px;
@@ -776,26 +765,15 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				margin: 14px 0;
 			}
 		}
-		.expandableList .containerPanel .minMaxPanel {
-			display: flex;
-			gap: 0 16px;
-			flex-wrap: wrap;
-			margin: 4px 0 10px 0;
-			width: calc(100% - 6px);
-			.minMaxItem {
-				width: 100%;
-				display: contents;
-			}
-			.inputTextField {
-				width: calc(50% - 8px);
-				margin: 8px 0 10px 0;
-			}
-		}
 		.dimensionPanel .containerPanel {
 			margin-top: 10px;
 		}
 		.navigationBar {
 			display: contents;
+		}
+		.horizontalSplitView {
+			display: flex;
+			gap: 16px;
 		}
 	}
 }

@@ -49,7 +49,7 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

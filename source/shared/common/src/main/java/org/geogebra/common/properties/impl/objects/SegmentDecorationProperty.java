@@ -50,7 +50,7 @@ public class SegmentDecorationProperty extends AbstractEnumeratedProperty<Intege
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

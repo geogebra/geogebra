@@ -46,7 +46,7 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

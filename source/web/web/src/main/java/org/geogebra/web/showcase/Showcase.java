@@ -1,15 +1,19 @@
 package org.geogebra.web.showcase;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.PropertyView;
+import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.SimpleBooleanProperty;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
@@ -67,9 +71,9 @@ public class Showcase implements EntryPoint {
 		};
 		checkbox[2].setDisabled(true);
 		ComponentComboBox componentComboBox = new ComponentComboBox(app,
-				new SampleSuggestionProperty(app.getLocalization()));
+				"Fruit", Arrays.asList("Apple", "Orange", "Banana"));
 		ComponentDropDown componentDropDown = new ComponentDropDown(app, "Fruit",
-				new SampleProperty(app));
+				Arrays.asList("Apple", "Orange", "Banana"), 0);
 		ComponentInfoErrorPanel errorPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				new InfoErrorData("404", "Content not found"));
 		ComponentSwitch componentSwitch = new ComponentSwitch(true, bool -> {});
@@ -88,9 +92,11 @@ public class Showcase implements EntryPoint {
 				new RadioButtonData<>("nine", true, 9)), 5, val -> {});
 		RootPanel.get().add(frame);
 		StandardButton showDialog = createDialogButton(app);
-		AtomicBoolean bool = new AtomicBoolean();
-		ComponentExpandableList expandableList = new ComponentExpandableList(app,
-				new SimpleBooleanProperty(app.getLocalization(), null, bool::get, bool::set),
+		final boolean[] bool = {true};
+		BooleanProperty booleanProperty = new SimpleBooleanProperty(app.getLocalization(), "",
+				() -> bool[0], b -> bool[0] = b);
+		Checkbox checkBoxProperty = (Checkbox) PropertyView.of(booleanProperty);
+		ComponentExpandableList expandableList = new ComponentExpandableList(app, checkBoxProperty,
 				"Expand me");
 		expandableList.addToContent(new Label("TBD"));
 		StandardButton showSnackBar = newStandardButton("Show Snack Bar");

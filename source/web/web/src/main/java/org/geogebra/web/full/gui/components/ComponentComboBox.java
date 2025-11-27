@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.GWTKeycodes;
@@ -48,18 +49,16 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabl
 	/**
 	 * Creates a combo box using a {@link StringPropertyWithSuggestions}.
 	 * @param app see {@link AppW}
-	 * @param property popup items
+	 * @param property see {@link org.geogebra.common.properties.PropertyView.ComboBox}
 	 */
-	public ComponentComboBox(AppW app, StringPropertyWithSuggestions property) {
-		this(app, property.getName(), property.getSuggestions());
+	public ComponentComboBox(AppW app, PropertyView.ComboBox property) {
+		this(app, property.getLabel(), property.getItems());
 		setValue(property.getValue());
 		addChangeHandler(() -> {
 			String text = getSelectedText().trim();
-			String message = property.validateValue(text);
+			property.setValue(text);
+			String message = property.getErrorMessage();
 			AriaHelper.setErrorMessage(inputTextField.getTextBox(), message);
-			if (message == null) {
-				property.setValue(text);
-			}
 			setStyleName("error", message != null);
 		});
 	}

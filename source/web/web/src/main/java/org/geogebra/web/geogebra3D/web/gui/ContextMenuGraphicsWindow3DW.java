@@ -1,7 +1,10 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
@@ -44,8 +47,14 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 	}
 
 	private void addProjectionMenuItem() {
-		ProjectionsProperty projectionProperty = new ProjectionsProperty(loc,
-				app.getEuclidianView3D(), app.getEuclidianView3D().getSettings());
+		SingleSelectionIconRow projectionProperty =
+				(SingleSelectionIconRow) PropertyView.of(new ProjectionsProperty(loc,
+						app.getEuclidianView3D(), app.getEuclidianView3D().getSettings()));
+
+		if (projectionProperty == null) {
+			return;
+		}
+
 		IconButtonPanel iconButtonPanel = new IconButtonPanel((AppW) app, projectionProperty, true,
 				wrappedPopup::hide);
 		AriaMenuItem projectionItem = new AriaMenuItem(iconButtonPanel, () -> {});

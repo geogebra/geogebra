@@ -493,6 +493,13 @@ public abstract class PropertyView {
 		}
 
 		/**
+		 * @return the labels of buttons, which is used as tooltip or/and aria-label
+		 */
+		public @CheckForNull String[] getToolTipLabels() {
+			return property.getToolTipLabels();
+		}
+
+		/**
 		 * @return the index of the currently selected icon, or {@code null} if none is selected
 		 */
 		public @CheckForNull Integer getSelectedIconIndex() {
@@ -530,6 +537,14 @@ public abstract class PropertyView {
 		 */
 		public @Nonnull List<GColor> getColors() {
 			return property.getValues();
+		}
+
+		/**
+		 * Sets a custom color resulting from custom color chooser.
+		 * @param color the new custom color
+		 */
+		public void setCustomColor(GColor color) {
+			property.setValue(color);
 		}
 
 		/**
@@ -681,6 +696,14 @@ public abstract class PropertyView {
 			return Arrays.stream(property.getProperties())
 					.map(IconAssociatedProperty::getIcon)
 					.collect(Collectors.toList());
+		}
+
+		/**
+		 * @param index of button
+		 * @return the tooltip label of button at position index
+		 */
+		public @Nonnull String getTooltipLabel(int index) {
+			return property.getProperties()[index].getName();
 		}
 
 		/**
@@ -883,7 +906,7 @@ public abstract class PropertyView {
 	 * @return the {@code PropertyView} matching the given {@code Property},
 	 * or {@code null} if the given {@code Property} is not supported
 	 */
-	static @CheckForNull PropertyView of(Property property) {
+	public static @CheckForNull PropertyView of(Property property) {
 		if (property instanceof BooleanProperty) {
 			return new Checkbox((BooleanProperty) property);
 		} else if (property instanceof NamedEnumeratedProperty) {

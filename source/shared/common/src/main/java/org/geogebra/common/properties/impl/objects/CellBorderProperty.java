@@ -44,7 +44,7 @@ public class CellBorderProperty extends AbstractEnumeratedProperty<BorderType>
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

@@ -6,6 +6,7 @@ import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertyValueObserver;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
@@ -84,7 +85,12 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addRoundingItem() {
 			NamedEnumeratedProperty<?> roundingProp =
 					new RoundingIndexProperty(app, app.getLocalization());
-			roundingDropDown = new ComponentDropDown(app, roundingProp);
+			PropertyView.Dropdown roundingDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(roundingProp);
+			if (roundingDropdownProperty == null) {
+				return;
+			}
+			roundingDropDown = new ComponentDropDown(app, roundingDropdownProperty);
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
 							.setFor(roundingDropDown);
@@ -104,7 +110,12 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 						LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff,
 						LabelVisibility.PointsOnly);
 			}
-			labelingDropDown = new ComponentDropDown(app, property);
+			PropertyView.Dropdown labelingDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(property);
+			if (labelingDropdownProperty == null) {
+				return;
+			}
+			labelingDropDown = new ComponentDropDown(app, labelingDropdownProperty);
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
 							.setFor(labelingDropDown);
@@ -118,7 +129,12 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization(),
 					app.getSettings().getFontSettings(),
 					app.getFontSettingsUpdater());
-			fontSizeDropDown = new ComponentDropDown(app, fontSizeProperty);
+			PropertyView.Dropdown fontSizeDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(fontSizeProperty);
+			if (fontSizeDropdownProperty == null) {
+				return;
+			}
+			fontSizeDropDown = new ComponentDropDown(app, fontSizeDropdownProperty);
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")
 							.setFor(fontSizeDropDown);
@@ -130,9 +146,14 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addLanguageItem() {
 			NamedEnumeratedProperty<?> languageProperty = new LanguageProperty(app,
 					app.getLocalization());
+			PropertyView.Dropdown langDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(languageProperty);
+			if (langDropdownProperty == null) {
+				return;
+			}
 			languageProperty.addValueObserver(this);
 			//GlobalScope.propertiesRegistry.register(languageProperty);
-			languageDropDown = new ComponentDropDown(app, languageProperty);
+			languageDropDown = new ComponentDropDown(app, langDropdownProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
 							.setFor(languageDropDown);

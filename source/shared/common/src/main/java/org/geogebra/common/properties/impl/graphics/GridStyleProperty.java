@@ -63,7 +63,7 @@ public class GridStyleProperty extends AbstractNamedEnumeratedProperty<Integer>
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 }

@@ -47,7 +47,7 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

@@ -71,6 +71,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -132,7 +133,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private class LabelPanel extends OptionPanel implements IShowLabelListener {
 		final ComponentCheckbox showLabelCB;
 		private final FlowPanel mainWidget;
-		final ComponentDropDown labelMode;
+		private ComponentDropDown labelMode;
 		ShowLabelModel model;
 
 		public LabelPanel() {
@@ -149,9 +150,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			updateShowLabel();
 
 			LabelStyleProperty labelStyleProp = new LabelStyleProperty(this);
-
-			labelMode = new ComponentDropDown(app, "", labelStyleProp);
-			mainWidget.add(labelMode);
+			PropertyView.Dropdown dropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(labelStyleProp);
+			if (dropdownProperty != null) {
+				labelMode = new ComponentDropDown(app, "", dropdownProperty);
+				mainWidget.add(labelMode);
+			}
 		}
 
 		private void updateShowLabel() {

@@ -1,14 +1,10 @@
 package org.geogebra.web.full.gui.components;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.NamedEnumeratedProperty;
-import org.geogebra.common.properties.impl.AbstractGroupedEnumeratedProperty;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.web.html5.gui.inputfield.UpDownArrowHandler;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -25,8 +21,8 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	private List<AriaMenuItem> dropDownElementsList;
 	private final List<String> items;
 	private final List<Runnable> changeHandlers = new ArrayList<>();
-	private NamedEnumeratedProperty<?> property;
-	private MulticastEvent<String> onHighlighted = new MulticastEvent<>();
+	private PropertyView.Dropdown propertyDropDown;
+	private final MulticastEvent<String> onHighlighted = new MulticastEvent<>();
 
 	/**
 	 * popup controller for dropdown and combo box
@@ -91,8 +87,8 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 			final int currentIndex = i;
 			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), null, () -> {
 				setSelectedOption(currentIndex);
-				if (property != null) {
-					property.setIndex(currentIndex);
+				if (propertyDropDown != null) {
+					propertyDropDown.setSelectedItemIndex(currentIndex);
 				}
 				for (Runnable handler: changeHandlers) {
 					handler.run();
@@ -124,12 +120,13 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 		}
 	}
 
+	//APPS-7182
 	private List<Integer> getGroupDividerIndices() {
-		if (property instanceof AbstractGroupedEnumeratedProperty) {
-			int[] groupDividerIndices = ((AbstractGroupedEnumeratedProperty<?>)
-					property).getGroupDividerIndices();
-			return IntStream.of(groupDividerIndices).boxed().collect(Collectors.toList());
-		}
+		//if (property instanceof AbstractGroupedEnumeratedProperty) {
+		//int[] groupDividerIndices = ((AbstractGroupedEnumeratedProperty<?>)
+		//property).getGroupDividerIndices();
+		//return IntStream.of(groupDividerIndices).boxed().collect(Collectors.toList());
+		//}
 		return null;
 	}
 
@@ -139,8 +136,8 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 
 	@Override
 	public void setLabels() {
-		if (property != null) {
-			setElements(Arrays.asList(property.getValueNames()));
+		if (propertyDropDown != null) {
+			setElements(propertyDropDown.getItems());
 		} else {
 			setElements(items);
 		}
@@ -200,17 +197,19 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 		this.changeHandlers.add(changeHandler);
 	}
 
-	public void setProperty(NamedEnumeratedProperty<?> property) {
-		this.property = property;
+	public void setProperty(PropertyView.Dropdown propertyDropDown) {
+		this.propertyDropDown = propertyDropDown;
 	}
 
 	/**
 	 * reset dropdown to property value
 	 */
 	public void resetFromModel() {
-		if (property.getIndex() > -1) {
-			setSelectedOption(property.getIndex());
+		Integer index = propertyDropDown.getSelectedItemIndex();
+		if (index == null) {
+			index = 0;
 		}
+		setSelectedOption(index);
 	}
 
 	/**

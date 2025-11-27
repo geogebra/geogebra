@@ -1,9 +1,12 @@
 package org.geogebra.web.full.gui;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.graphics.GridStyleIconProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDialog;
@@ -76,8 +79,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	private void addGridTypeItem() {
-		GridStyleIconProperty gridTypeProperty = new GridStyleIconProperty(loc,
-				app.getActiveEuclidianView().getSettings());
+		SingleSelectionIconRow gridTypeProperty = (SingleSelectionIconRow) PropertyView
+				.of(new GridStyleIconProperty(loc, app.getActiveEuclidianView().getSettings()));
+
+		if (gridTypeProperty == null) {
+			return;
+		}
+
 		IconButtonPanel gridTypePanel = new IconButtonPanel((AppW) app, gridTypeProperty, false,
 				wrappedPopup::hide);
 		gridTypePanel.setDisabled(!app.getActiveEuclidianView().getShowGrid());

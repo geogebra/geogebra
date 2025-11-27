@@ -21,5 +21,5 @@ public interface IconsEnumeratedProperty<V> extends EnumeratedProperty<V> {
      * It is defined only in specific cases, null otherwise.
      * @return an array of labels
      */
-    @CheckForNull String[] getLabels();
+    @CheckForNull String[] getToolTipLabels();
 }

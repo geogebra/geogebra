@@ -26,7 +26,7 @@ public class IconsEnumeratedPropertyCollection<T extends IconsEnumeratedProperty
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 }

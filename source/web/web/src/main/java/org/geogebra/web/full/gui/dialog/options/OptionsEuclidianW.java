@@ -12,6 +12,7 @@ import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.util.StringUtil;
@@ -150,7 +151,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 
 			NamedEnumeratedProperty<?> pointCaptProperty = new PointCapturingProperty(
 					app.getLocalization(), view);
-			pointCapturingStyle = new ComponentDropDown(app, pointCaptProperty);
+			PropertyView.Dropdown pointCapturingDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(pointCaptProperty);
+			if (pointCapturingDropdownProperty == null) {
+				return;
+			}
+			pointCapturingStyle = new ComponentDropDown(app, pointCapturingDropdownProperty);
 			pointCapturingStyle.addChangeHandler(() -> {
 				app.setUnsaved();
 				app.storeUndoInfo();
@@ -195,7 +201,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			}
 			NamedEnumeratedProperty<?> gridTypeProperty = new GridStyleProperty(
 					app.getLocalization(), view.getSettings());
-			lbGridType = new ComponentDropDown(app, gridTypeProperty);
+			PropertyView.Dropdown gridTypeDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(gridTypeProperty);
+			if (gridTypeDropdownProperty == null) {
+				return;
+			}
+			lbGridType = new ComponentDropDown(app, gridTypeDropdownProperty);
 			lblGridType = new FormLabel("").setFor(lbGridType);
 			mainPanel.add(lblGridType);
 			lblGridType.setStyleName("panelTitle");

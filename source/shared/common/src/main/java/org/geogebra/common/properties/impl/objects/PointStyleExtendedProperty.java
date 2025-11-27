@@ -64,7 +64,7 @@ public class PointStyleExtendedProperty extends AbstractEnumeratedProperty<Integ
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

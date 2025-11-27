@@ -6,6 +6,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
@@ -70,6 +71,7 @@ public class OptionsAlgebraW
 
 			optionsPanel.add(lblShow);
 			optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));
+
 			optionsPanel.add(lblSortMode);
 			optionsPanel.add(LayoutUtilW.panelRowIndent(sortMode));
 			optionsPanel.add(lblDescriptionMode);
@@ -85,7 +87,12 @@ public class OptionsAlgebraW
 		private void buildSortByUI() {
 			NamedEnumeratedProperty<?> sortProperty = new SortByProperty(app.getSettings()
 					.getAlgebra(), app.getLocalization());
-			sortMode = new ComponentDropDown(app, sortProperty);
+			PropertyView.Dropdown sortByDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(sortProperty);
+			if (sortByDropdownProperty == null) {
+				return;
+			}
+			sortMode = new ComponentDropDown(app, sortByDropdownProperty);
 			lblSortMode = new FormLabel().setFor(sortMode);
 			lblSortMode.addStyleName("panelTitle");
 			lblDescriptionMode = new FormLabel().setFor(sortMode);
@@ -95,13 +102,23 @@ public class OptionsAlgebraW
 		private void buildDescriptionUI() {
 			NamedEnumeratedProperty<?> descriptionProperty = new AlgebraDescriptionProperty(
 					app, app.getLocalization());
-			description = new ComponentDropDown(app, descriptionProperty);
+			PropertyView.Dropdown descriptionDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(descriptionProperty);
+			if (descriptionDropdownProperty == null) {
+				return;
+			}
+			description = new ComponentDropDown(app, descriptionDropdownProperty);
 		}
 
 		private void buildCoordStyleUI() {
 			NamedEnumeratedProperty<?> coordProperty = new CoordinatesProperty(app.getKernel(),
 					app.getLocalization());
-			coordStyle = new ComponentDropDown(app, coordProperty);
+			PropertyView.Dropdown coordDropdownProperty =
+					(PropertyView.Dropdown) PropertyView.of(coordProperty);
+			if (coordDropdownProperty == null) {
+				return;
+			}
+			coordStyle = new ComponentDropDown(app, coordDropdownProperty);
 			lblCoordStyle = new FormLabel(
 					getApp().getLocalization().getMenu("Coordinates") + ":")
 					.setFor(coordStyle);
@@ -112,7 +129,12 @@ public class OptionsAlgebraW
 			if (app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow == null) {
 				NamedEnumeratedProperty<?> angleProperty = new AngleUnitProperty(app.getKernel(),
 						app.getLocalization());
-				angleUnit = new ComponentDropDown(app, angleProperty);
+				PropertyView.Dropdown angleDropdownProperty =
+						(PropertyView.Dropdown) PropertyView.of(angleProperty);
+				if (angleDropdownProperty == null) {
+					return;
+				}
+				angleUnit = new ComponentDropDown(app, angleDropdownProperty);
 				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
 				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
 				lblAngleUnit.addStyleName("dropDownLabel");

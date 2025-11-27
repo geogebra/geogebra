@@ -54,7 +54,7 @@ public class FillingStyleProperty extends AbstractEnumeratedProperty<FillType>
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

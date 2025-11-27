@@ -1,11 +1,10 @@
 package org.geogebra.web.full.gui.components;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -68,24 +67,27 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 
 	/**
 	 * @param app see {@link AppW}
-	 * @param label label of drop-down
-	 * @param property property
+	 * @param property see {@link org.geogebra.common.properties.PropertyView.Dropdown}
 	 */
-	public ComponentDropDown(AppW app, String label, NamedEnumeratedProperty<?> property) {
-		this(app, label, Arrays.asList(property.getValueNames()));
-		controller.setProperty(property);
-		if (property.getIndex() > -1) {
-			controller.setSelectedOption(property.getIndex());
-		}
-		updateSelectionText();
+	public ComponentDropDown(AppW app, PropertyView.Dropdown property) {
+		this(app, null, property);
 	}
 
 	/**
 	 * @param app see {@link AppW}
-	 * @param property property
+	 * @param label label of drop-down
+	 * @param property see {@link org.geogebra.common.properties.PropertyView.Dropdown}
 	 */
-	public ComponentDropDown(AppW app, NamedEnumeratedProperty<?> property) {
-		this(app, null, property);
+	public ComponentDropDown(AppW app, String label, PropertyView.Dropdown property) {
+		this(app, label, property.getItems());
+		controller.setProperty(property);
+		Integer index = property.getSelectedItemIndex();
+		if (index == null) {
+			index = 0;
+		}
+		controller.setSelectedOption(index);
+
+		updateSelectionText();
 	}
 
 	private void initController(List<String> items) {
@@ -205,7 +207,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	/**
 	 * @param property update property
 	 */
-	public void setProperty(NamedEnumeratedProperty<?> property) {
+	public void setProperty(PropertyView.Dropdown property) {
 		controller.setProperty(property);
 	}
 

@@ -60,7 +60,7 @@ public class AxisTickProperty extends AbstractEnumeratedProperty<Integer>
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 }

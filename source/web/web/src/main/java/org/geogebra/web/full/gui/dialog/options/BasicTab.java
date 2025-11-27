@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.graphics.RightAngleProperty;
 import org.geogebra.common.properties.impl.graphics.TooltipProperty;
 import org.geogebra.common.util.StringUtil;
@@ -426,7 +427,12 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
 		// show tooltips
 		TooltipProperty tooltipProperty = new TooltipProperty(optionsEuclidianW.loc,
 				model.getSettings(), optionsEuclidianW.view);
-		lbTooltips = new ComponentDropDown(optionsEuclidianW.app, tooltipProperty);
+		PropertyView.Dropdown tooltipDropdownProperty =
+				(PropertyView.Dropdown) PropertyView.of(tooltipProperty);
+		if (tooltipDropdownProperty == null) {
+			return;
+		}
+		lbTooltips = new ComponentDropDown(optionsEuclidianW.app, tooltipDropdownProperty);
 		tooltips = new FormLabel(
 				optionsEuclidianW.loc.getMenu("Tooltips") + ":")
 						.setFor(lbTooltips);
@@ -434,7 +440,13 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
 
 		RightAngleProperty angleProperty = new RightAngleProperty(optionsEuclidianW.loc,
 				optionsEuclidianW.app);
-		rightAngleStyleListBox = new ComponentDropDown(optionsEuclidianW.app, angleProperty);
+		PropertyView.Dropdown angleDropdownProperty =
+				(PropertyView.Dropdown) PropertyView.of(angleProperty);
+		if (angleDropdownProperty == null) {
+			return;
+		}
+		rightAngleStyleListBox = new ComponentDropDown(optionsEuclidianW.app,
+				angleDropdownProperty);
 		rightAngleStyleLabel = new FormLabel(
 				optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":")
 						.setFor(rightAngleStyleListBox);

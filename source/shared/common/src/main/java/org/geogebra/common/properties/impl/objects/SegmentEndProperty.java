@@ -58,7 +58,7 @@ public class SegmentEndProperty extends AbstractEnumeratedProperty<SegmentStyle>
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

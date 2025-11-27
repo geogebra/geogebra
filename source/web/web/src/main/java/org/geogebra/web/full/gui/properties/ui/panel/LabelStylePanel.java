@@ -1,41 +1,47 @@
 package org.geogebra.web.full.gui.properties.ui.panel;
 
-import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.IconAssociatedProperty;
-import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
-import org.geogebra.web.full.gui.properties.ui.PropertiesPanelAdapter;
-import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.Label;
+import java.util.List;
 
-public class LabelStylePanel extends FlowPanel implements SetLabels {
-	private final PropertiesPanelAdapter propertiesPanelAdapter;
-	private Label label;
-	private Property property;
+import org.geogebra.common.properties.PropertyResource;
+import org.geogebra.common.properties.PropertyView;
+import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
+import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.user.client.ui.FlowPanel;
+
+public class LabelStylePanel extends FlowPanel {
+	private final AppW appW;
 
 	/**
 	 * Creates a panel with label style property
 	 * @param labelStylePropertyCollection {@link LabelStylePropertyCollection}
-	 * @param propertiesPanelAdapter {@link PropertiesPanelAdapter}
+	 * @param appW see {@link AppW}
 	 */
-	public LabelStylePanel(LabelStylePropertyCollection labelStylePropertyCollection,
-			PropertiesPanelAdapter propertiesPanelAdapter) {
-		this.propertiesPanelAdapter = propertiesPanelAdapter;
+	public LabelStylePanel(PropertyView.MultiSelectionIconRow labelStylePropertyCollection,
+			AppW appW) {
+		this.appW = appW;
 		addStyleName("labelStyle");
 		buildGUI(labelStylePropertyCollection);
 	}
 
-	private void buildGUI(LabelStylePropertyCollection labelStylePropertyCollection) {
-		property = labelStylePropertyCollection;
-		add(label = BaseWidgetFactory.INSTANCE.newPrimaryText(property.getName()));
-		for (IconAssociatedProperty prop : labelStylePropertyCollection.getProperties()) {
-			add(propertiesPanelAdapter.getWidget(prop));
+	private void buildGUI(PropertyView.MultiSelectionIconRow labelStylePropertyCollection) {
+		add(BaseWidgetFactory.INSTANCE.newPrimaryText(labelStylePropertyCollection.getLabel()));
+		List<PropertyResource> icons = labelStylePropertyCollection.getIcons();
+		for (int i = 0; i < icons.size(); i++) {
+			IconButton button = new IconButton(appW, null,
+					new ImageIconSpec(PropertiesIconAdapter.getIcon(icons.get(i))),
+					labelStylePropertyCollection.getTooltipLabel(i));
+			button.setActive(labelStylePropertyCollection.areIconsSelected().get(i));
+			int finalI = i;
+			button.addFastClickHandler(source -> {
+				button.setActive(!button.isActive());
+				labelStylePropertyCollection.setIconSelected(
+						finalI, !labelStylePropertyCollection.areIconsSelected().get(finalI));
+			});
+			add(button);
 		}
-	}
-
-	@Override
-	public void setLabels() {
-		label.setText(property.getName());
 	}
 }

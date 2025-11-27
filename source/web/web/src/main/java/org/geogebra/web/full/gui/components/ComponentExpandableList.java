@@ -1,11 +1,8 @@
 package org.geogebra.web.full.gui.components;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.properties.aliases.BooleanProperty;
-import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
+import org.geogebra.common.properties.PropertyView;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -21,7 +18,7 @@ import elemental2.dom.KeyboardEvent;
 public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final String titleTransKey;
-	private BooleanProperty booleanProperty;
+	private PropertyView.Checkbox booleanProperty;
 	private boolean expanded = false;
 	private Label title;
 	private ComponentCheckbox checkbox;
@@ -33,7 +30,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	 * @param booleanProperty property for checkbox
 	 * @param titleTransKey translation key of title
 	 */
-	public ComponentExpandableList(AppW appW, @CheckForNull BooleanProperty booleanProperty,
+	public ComponentExpandableList(AppW appW, PropertyView.Checkbox booleanProperty,
 			String titleTransKey) {
 		this.appW = appW;
 		if (booleanProperty != null) {
@@ -58,10 +55,10 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 			addCheckBoxTo(header);
 		}
 
-		if (booleanProperty instanceof SettingsDependentProperty) {
-			((SettingsDependentProperty) booleanProperty).getSettings()
-					.addListener(this::updateCheckbox);
-		}
+		//if (booleanProperty instanceof SettingsDependentProperty) {
+		//((SettingsDependentProperty) booleanProperty).getSettings()
+		//.addListener(this::updateCheckbox);
+		//}
 
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("containerPanel");
@@ -87,13 +84,12 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	}
 
 	private void addCheckBoxTo(FlowPanel header) {
-		checkbox = new ComponentCheckbox(appW.getLocalization(), booleanProperty.getValue(), "",
+		checkbox = new ComponentCheckbox(appW.getLocalization(), booleanProperty.isSelected(), "",
 				value -> {
-					boolean selected = !booleanProperty.getValue();
-					booleanProperty.setValue(selected);
-					expanded = selected;
-					updateUISelectedState();
-				}, true);
+			booleanProperty.setSelected(value);
+			expanded = value;
+			updateUISelectedState();
+		}, true);
 		AriaHelper.setLabel(this, appW.getLocalization().getMenu(titleTransKey));
 		header.add(checkbox);
 	}
@@ -116,7 +112,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 		if (expanded) {
 			if (booleanProperty != null) {
 				checkbox.setSelected(true);
-				booleanProperty.setValue(expanded);
+				booleanProperty.setSelected(expanded);
 			}
 		}
 		updateUISelectedState();
@@ -141,7 +137,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	 */
 	@SuppressWarnings("unused")
 	private void updateCheckbox(AbstractSettings settings) {
-		boolean selected = booleanProperty.getValue();
+		boolean selected = booleanProperty.isSelected();
 		if (checkbox.isSelected() != selected) {
 			if (!selected) {
 				expanded = false;

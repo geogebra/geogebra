@@ -42,7 +42,7 @@ public class VectorHeadProperty extends AbstractEnumeratedProperty<VectorHeadSty
 	}
 
 	@Override
-	public @CheckForNull String[] getLabels() {
+	public @CheckForNull String[] getToolTipLabels() {
 		return null;
 	}
 

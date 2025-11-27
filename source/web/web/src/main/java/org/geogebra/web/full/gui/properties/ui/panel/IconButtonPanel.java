@@ -1,10 +1,11 @@
 package org.geogebra.web.full.gui.properties.ui.panel;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -23,41 +24,45 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 	/**
 	 * Created an icon button panel
 	 * @param appW application
-	 * @param property {@link IconsEnumeratedProperty}
+	 * @param property {@link org.geogebra.common.properties.PropertyView.SingleSelectionIconRow}
 	 * @param addTitle whether title should be added or not
 	 */
-	public IconButtonPanel(AppW appW, IconsEnumeratedProperty<?> property, boolean addTitle) {
+	public IconButtonPanel(AppW appW, SingleSelectionIconRow property,
+			boolean addTitle) {
 		this.appW = appW;
-		labelKey = property.getRawName();
+		labelKey = property.getLabel();
 		buildGUI(property, addTitle);
 	}
 
 	/**
 	 * Created an icon button panel
 	 * @param appW application
-	 * @param property {@link IconsEnumeratedProperty}
+	 * @param property {@link org.geogebra.common.properties.PropertyView.SingleSelectionIconRow}
 	 * @param addTitle whether title should be added or not
 	 * @param callback callback
 	 */
-	public IconButtonPanel(AppW appW, IconsEnumeratedProperty<?> property, boolean addTitle,
-			Runnable callback) {
+	public IconButtonPanel(AppW appW, SingleSelectionIconRow property,
+			boolean addTitle, Runnable callback) {
 		this(appW, property, addTitle);
 		this.callback = callback;
 	}
 
-	private void buildGUI(IconsEnumeratedProperty<?> property, boolean addTitle) {
+	private void buildGUI(SingleSelectionIconRow property, boolean addTitle) {
 		addStyleName("iconButtonPanel");
 		if (addTitle) {
-			label = new Label(property.getName());
+			label = new Label(property.getLabel());
 			add(label);
 		}
 
 		FlowPanel iconPanel = new FlowPanel();
 		iconPanel.addStyleName("iconPanel");
-		PropertyResource[] icons = property.getValueIcons();
-		String[] labels = property.getLabels();
+		PropertyResource[] icons = property.getIcons().toArray(new PropertyResource[0]);
+		String[] labels = property.getToolTipLabels();
 		int idx = 0;
-		int selectedIdx = property.getIndex();
+		Integer selectedIdx = property.getSelectedIconIndex();
+		if (selectedIdx == null) {
+			selectedIdx = 0;
+		}
 		iconButtonList = new ArrayList<>();
 		for (PropertyResource icon: icons) {
 			String label = labels != null && labels[idx] != null ? labels[idx] : "";
@@ -69,7 +74,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 			final int index = idx;
 			btn.addClickHandler(appW.getGlobalHandlers(),
 					(w) -> {
-						property.setIndex(index);
+						property.setSelectedIconIndex(index);
 						iconButtonList.forEach(iconButton -> iconButton.setActive(false));
 						btn.setActive(true);
 						if (callback != null) {
