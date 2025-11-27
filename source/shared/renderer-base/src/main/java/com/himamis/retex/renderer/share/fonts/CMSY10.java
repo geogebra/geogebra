@@ -10,7 +10,7 @@ final class CMSY10 extends FontInfo {
 	}
 
 	@Override
-	protected void initMetrics() {
+	protected final void initMetrics() {
 		setMetrics(161, 778, 583, 83);
 
 		setMetrics(162, 278, 444, -56);
@@ -76,28 +76,6 @@ final class CMSY10 extends FontInfo {
 		setMetrics(194, 778, 539, 39);
 
 		setMetrics(195, 1000, 367, -133);
-
-		setMetrics(21, 278, 106, 194);
-
-		setMetrics(22, 778, 539, 39);
-		setNextLarger(Configuration.getFonts().cmex10, 172);
-
-		setMetrics(23, 500, 750, 250);
-		setKern(162, -56, 65, -56, 77, -56, 78, -56, 89, 56, 90, -56);
-		setNextLarger(Configuration.getFonts().cmex10, 177);
-
-		setMetrics(24, 778, 539, 39);
-		setNextLarger(Configuration.getFonts().cmex10, 174);
-
-		setMetrics(25, 640, 431, 0, 4);
-		setKern(196, 28);
-
-		setMetrics(26, 566, 694, 194, 53);
-		setKern(196, 83);
-
-		setMetrics(27, 518, 431, 194, 56);
-
-		setMetrics(28, 583, 694);
 
 		setMetrics(33, 1000, 367, -133);
 
@@ -334,5 +312,6 @@ final class CMSY10 extends FontInfo {
 		setMetrics(126, 778, 694, 130);
 
 		setMetrics(196, 778, 694, 130);
+
 	}
 }
