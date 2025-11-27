@@ -254,7 +254,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	protected void getExpressionXML(XMLStringBuilder sb) {
 		if (isIndependent() && getDefinition() == null && !isDefined && complexVariable != null) {
-			sb.startTag("expression");
+			sb.startTag("expression", 0);
 			sb.attr("label", label);
 			sb.attr("exp", getAssignmentLHS(StringTemplate.xmlTemplate) + " = ?");
 			sb.attr("type", "surfacecartesian");

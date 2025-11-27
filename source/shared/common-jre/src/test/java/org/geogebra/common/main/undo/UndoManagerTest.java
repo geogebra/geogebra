@@ -20,7 +20,10 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
+import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -28,6 +31,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
@@ -321,6 +325,25 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertThat(edgeJT.getStartPointAsGeoElement(), hasValue("(2, 0, 0)"));
 		assertThat(param, hasValue("1"));
 		assertEquals(20, getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D).size());
+	}
+
+	@Test
+	@Issue("APPS-7170")
+	public void undoUpdateStroke() {
+		activateUndo();
+		GeoLocusStroke stroke = add("PenStroke(0,0,1,1)");
+		AlgoElement parentAlgo = stroke.getParentAlgorithm();
+		String oldXML = Objects.requireNonNull(parentAlgo).getXML();
+		stroke.appendPointArray(List.of(new MyPoint(2, 1)));
+		stroke.update();
+		getApp().getUndoManager().buildAction(ActionType.UPDATE, parentAlgo.getXML())
+				.withUndo(ActionType.UPDATE, oldXML).withLabels("stroke1").storeAndNotifyUnsaved();
+		getUndoManager().undo();
+		assertThat(stroke, hasValue("PenStroke[0.0000E0,0.0000E0,1.0000E0,1.0000E0,NaN,NaN]"));
+		getUndoManager().redo();
+		assertThat(stroke, hasValue("PenStroke[0.0000E0,0.0000E0,1.0000E0,1.0000E0,NaN,NaN,"
+				+ "2.0000E0,1.0000E0,2.0000E0,1.0000E0,NaN,NaN]"));
+		assertThat(String.join(",", getApp().getGgbApi().getAllObjectNames()), equalTo("stroke1"));
 	}
 
 	@Test

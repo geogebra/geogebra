@@ -625,7 +625,7 @@ public class GeoText extends GeoElement
 		// its expression itself
 		// e.g. text0 = "Circle"
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.startTag("expression")
+			sb.startTag("expression", 0)
 					.attr("label", label)
 					.attr("exp", toOutputValueString(StringTemplate.xmlTemplate))
 					.endTag();

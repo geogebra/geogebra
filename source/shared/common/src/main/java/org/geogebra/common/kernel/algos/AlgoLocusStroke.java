@@ -104,8 +104,8 @@ public class AlgoLocusStroke extends AlgoElement {
 	 */
 	@Override
 	protected void getExpXML(StringTemplate tpl, XMLStringBuilder sb) {
-		sb.startTag("expression");
-		if (/* output != null && */getOutputLength() == 1) {
+		sb.startTag("expression", 0);
+		if (getOutputLength() == 1) {
 			if (getOutput(0).isLabelSet()) {
 				sb.attr("label", getOutput(0).getLabel(tpl));
 			}

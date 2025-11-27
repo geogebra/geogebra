@@ -486,7 +486,7 @@ public class GeoFunctionNVar extends GeoElement
 		// its expression itself
 		// e.g. f(a,b) = a^2 - 3*b
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.startTag("expression")
+			sb.startTag("expression", 0)
 					.attr("label", label)
 					.attr("exp", toString(StringTemplate.xmlTemplate))
 					.attrRaw("type", getFunctionType())

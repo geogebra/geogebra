@@ -660,7 +660,7 @@ public class GeoLocusStroke extends GeoLocus
 	 * @param data
 	 *            points
 	 */
-	public void appendPointArray(ArrayList<MyPoint> data) {
+	public void appendPointArray(List<MyPoint> data) {
 		doAppendPointArray(data);
 		ArrayList<MyPoint> densePoints = increaseDensity();
 		if (densePoints.size() > data.size()) {
@@ -669,7 +669,7 @@ public class GeoLocusStroke extends GeoLocus
 		}
 	}
 
-	private void doAppendPointArray(ArrayList<MyPoint> data) {
+	private void doAppendPointArray(List<MyPoint> data) {
 		resetXMLPointBuilder();
 		setDefined(true);
 
