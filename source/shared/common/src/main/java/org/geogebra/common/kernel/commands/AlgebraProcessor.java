@@ -1466,6 +1466,9 @@ public class AlgebraProcessor {
 
 			if (forGeo != null) {
 				forGeo.setUndefined();
+				if (forGeo.isIndependent()) {
+					forGeo.resetDefinition();
+				}
 			}
 
 			return Double.NaN;
