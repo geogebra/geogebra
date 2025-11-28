@@ -230,11 +230,6 @@ import org.geogebra.desktop.util.UtilD;
 public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
-	 * License file
-	 */
-	public static final String LICENSE_FILE = "/org/geogebra/desktop/_license.txt";
-
-	/**
 	 * Command line arguments
 	 */
 	protected CommandLineArguments cmdArgs;
