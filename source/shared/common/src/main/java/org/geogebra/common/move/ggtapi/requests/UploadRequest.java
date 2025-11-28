@@ -1,6 +1,7 @@
 package org.geogebra.common.move.ggtapi.requests;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -200,17 +201,16 @@ public class UploadRequest implements Request {
 				settings.put("-stylebar", parent.getAllowStylebar());
 				settings.put("-zoombuttons", parent.getShowZoomButtons());
 			} else {
-				boolean isNotesOrAssign
-						= GeoGebraConstants.NOTES_APPCODE.equals(client.getAppName())
-						|| client.isAssign();
+				boolean showUI = AppConfigDefault.isUnbundledOrNotes(client.getAppName());
+				boolean isNotes = GeoGebraConstants.NOTES_APPCODE.equals(client.getAppName());
 				settings.put("-undoredo", true);
 				settings.put("-reseticon", false);
-				settings.put("-toolbar", isNotesOrAssign);
+				settings.put("-toolbar", showUI);
 				settings.put("-menubar", false);
-				settings.put("-inputbar", client.isAssign());
-				settings.put("-stylebar", isNotesOrAssign);
-				settings.put("-rightclick", isNotesOrAssign);
-				settings.put("-zoombuttons", isNotesOrAssign);
+				settings.put("-inputbar", showUI && !isNotes);
+				settings.put("-stylebar", showUI);
+				settings.put("-rightclick", showUI);
+				settings.put("-zoombuttons", showUI);
 			}
 			task.put("settings", settings);
 
