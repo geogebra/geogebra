@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -38,7 +37,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputVerifier;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -49,8 +47,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -68,8 +64,6 @@ import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import org.geogebra.common.gui.dialog.options.model.CenterImageModel;
-import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel;
-import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.CoordsModel;
 import org.geogebra.common.gui.dialog.options.model.DecoAngleModel;
@@ -129,9 +123,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
@@ -144,7 +136,6 @@ import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SliderUtil;
-import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -253,12 +244,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private JTabbedPane tabs;
 
 	/**
-	 * @param app
-	 *            application
-	 * @param colChooser
-	 *            color chooser
-	 * @param isDefaults
-	 *            whether this is for defaults
+	 * @param app application
+	 * @param colChooser color chooser
+	 * @param isDefaults whether this is for defaults
 	 */
 	public PropertiesPanelD(AppD app, GeoGebraColorChooser colChooser,
 			boolean isDefaults) {
@@ -355,32 +343,32 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	private List<ImageResourceD> getEndImages() {
 		return Arrays.asList(GuiResourcesD.STYLEBAR_END_DEFAULT,
-		GuiResourcesD.STYLEBAR_END_LINE,
-		GuiResourcesD.STYLEBAR_END_ARROW,
-		GuiResourcesD.STYLEBAR_END_CROWS_FOOT,
-		GuiResourcesD.STYLEBAR_END_ARROW_OUTLINED,
-		GuiResourcesD.STYLEBAR_END_ARROW_FILLED,
-		GuiResourcesD.STYLEBAR_END_CIRCLE_OUTLINED,
-		GuiResourcesD.STYLEBAR_END_CIRCLE,
-		GuiResourcesD.STYLEBAR_END_SQUARE_OUTLINED,
-		GuiResourcesD.STYLEBAR_END_SQUARE,
-		GuiResourcesD.STYLEBAR_END_DIAMOND_OUTLINED,
-		GuiResourcesD.STYLEBAR_END_DIAMOND_FILLED);
+				GuiResourcesD.STYLEBAR_END_LINE,
+				GuiResourcesD.STYLEBAR_END_ARROW,
+				GuiResourcesD.STYLEBAR_END_CROWS_FOOT,
+				GuiResourcesD.STYLEBAR_END_ARROW_OUTLINED,
+				GuiResourcesD.STYLEBAR_END_ARROW_FILLED,
+				GuiResourcesD.STYLEBAR_END_CIRCLE_OUTLINED,
+				GuiResourcesD.STYLEBAR_END_CIRCLE,
+				GuiResourcesD.STYLEBAR_END_SQUARE_OUTLINED,
+				GuiResourcesD.STYLEBAR_END_SQUARE,
+				GuiResourcesD.STYLEBAR_END_DIAMOND_OUTLINED,
+				GuiResourcesD.STYLEBAR_END_DIAMOND_FILLED);
 	}
 
 	private List<ImageResourceD> getStartImages() {
 		return Arrays.asList(GuiResourcesD.STYLEBAR_START_DEFAULT,
-		GuiResourcesD.STYLEBAR_START_LINE,
-		GuiResourcesD.STYLEBAR_START_ARROW,
-		GuiResourcesD.STYLEBAR_START_CROWS_FOOT,
-		GuiResourcesD.STYLEBAR_START_ARROW_OUTLINED,
-		GuiResourcesD.STYLEBAR_START_ARROW_FILLED,
-		GuiResourcesD.STYLEBAR_START_CIRCLE_OUTLINED,
-		GuiResourcesD.STYLEBAR_START_CIRCLE,
-		GuiResourcesD.STYLEBAR_START_SQUARE_OUTLINED,
-		GuiResourcesD.STYLEBAR_START_SQUARE,
-		GuiResourcesD.STYLEBAR_START_DIAMOND_OUTLINED,
-		GuiResourcesD.STYLEBAR_START_DIAMOND_FILLED);
+				GuiResourcesD.STYLEBAR_START_LINE,
+				GuiResourcesD.STYLEBAR_START_ARROW,
+				GuiResourcesD.STYLEBAR_START_CROWS_FOOT,
+				GuiResourcesD.STYLEBAR_START_ARROW_OUTLINED,
+				GuiResourcesD.STYLEBAR_START_ARROW_FILLED,
+				GuiResourcesD.STYLEBAR_START_CIRCLE_OUTLINED,
+				GuiResourcesD.STYLEBAR_START_CIRCLE,
+				GuiResourcesD.STYLEBAR_START_SQUARE_OUTLINED,
+				GuiResourcesD.STYLEBAR_START_SQUARE,
+				GuiResourcesD.STYLEBAR_START_DIAMOND_OUTLINED,
+				GuiResourcesD.STYLEBAR_START_DIAMOND_FILLED);
 	}
 
 	private List<ImageResourceD> getVectorImages() {
@@ -408,11 +396,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	}
 
 	/**
-	 * @param geo
-	 *            GeoText to be updated
+	 * @param geo GeoText to be updated
 	 */
 	public void updateTextEditor(GeoElement geo) {
-		GeoElement[] geos = { geo };
+		GeoElement[] geos = {geo};
 		textEditPanel.updatePanel(geos);
 	}
 
@@ -804,10 +791,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	}
 
 	/**
-	 * @param tabList
-	 *            tabs
-	 * @param geos
-	 *            selected geo
+	 * @param tabList tabs
+	 * @param geos selected geo
 	 * @return whether at least one panel on tab is visible
 	 */
 	static boolean updateTabPanel(ArrayList<JPanel> tabList,
@@ -829,9 +814,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	}
 
 	/**
-	 * 
-	 * @param geos
-	 *            selected geos
+	 *
+	 * @param geos selected geos
 	 */
 	public void updateSelection(Object[] geos) {
 		// if (geos == oldSelGeos) return;
@@ -842,9 +826,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * Update just definition of one geo
-	 * 
-	 * @param geo
-	 *            geo
+	 * @param geo geo
 	 */
 	public void updateOneGeoDefinition(GeoElement geo) {
 		namePanel.updateDefinition(geo);
@@ -852,9 +834,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * Update just name of one geo
-	 * 
-	 * @param geo
-	 *            geo
+	 * @param geo geo
 	 */
 	public void updateOneGeoName(GeoElement geo) {
 		namePanel.updateName(geo);
@@ -962,7 +942,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			implements ItemListener, ActionListener, UpdateablePropertiesPanel,
 			SetLabels, UpdateFonts, IShowLabelListener {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private JCheckBox showLabelCB;
@@ -1021,7 +1001,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		/**
 		 * Updates properties without firing listeners
-		 * 
 		 * @return this
 		 */
 		public JPanel update() {
@@ -1118,19 +1097,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	} // LabelPanel
 
 	private CheckboxPanel getCheckboxPanel(BooleanOptionModel model) {
-		return new CheckboxPanel(app,  PropertiesPanelD.this, model);
+		return new CheckboxPanel(app, PropertiesPanelD.this, model);
 	}
 
 	/**
 	 * panel for angles to set whether reflex angles are allowed
-	 * 
 	 * @author Markus Hohenwarter
 	 */
 	private class AllowReflexAnglePanel extends JPanel
 			implements ActionListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel, IReflexAngleListener {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private JLabel intervalLabel;
@@ -1244,7 +1222,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			implements ActionListener, FocusListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel, IComboListener {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private StartPointModel model;
@@ -1497,7 +1475,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class ScriptEditPanel extends JPanel implements
 			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private final JTabbedPane tabbedPane;
@@ -1544,7 +1522,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			// remember selected tab
 			final Component selectedTab = tabbedPane.getSelectedComponent();
-			for (ScriptInputModel model: models) {
+			for (ScriptInputModel model : models) {
 				model.setGeos(geos);
 				model.updatePanel();
 			}
@@ -1572,7 +1550,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			Font font = app.getPlainFont();
 
 			tabbedPane.setFont(font);
-			for (ScriptInputDialog dialog: panels) {
+			for (ScriptInputDialog dialog : panels) {
 				dialog.updateFonts();
 			}
 		}
@@ -1606,14 +1584,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * panel to select the size of a GeoPoint
-	 * 
 	 * @author Markus Hohenwarter
 	 */
 	private class PointSizePanel extends JPanel implements ChangeListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel, ISliderListener {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private PointSizeModel model;
@@ -1713,7 +1690,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * panel to change the point style
-	 * 
 	 * @author Florian Sonner
 	 * @version 2008-07-17
 	 */
@@ -1747,20 +1723,20 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			/*
 			 * ----- old code ButtonGroup buttonGroup = new ButtonGroup();
-			 * 
+			 *
 			 * String[] strPointStyle = { "\u25cf", "\u25cb", "\u2716" };
 			 * String[] strPointStyleAC = { "0", "2", "1" }; buttons = new
 			 * JRadioButton[strPointStyle.length];
-			 * 
+			 *
 			 * for(int i = 0; i < strPointStyle.length; ++i) { buttons[i] = new
 			 * JRadioButton(strPointStyle[i]);
 			 * buttons[i].setActionCommand(strPointStyleAC[i]);
 			 * buttons[i].addActionListener(this);
 			 * buttons[i].setFont(app.getSmallFont());
-			 * 
+			 *
 			 * if(!strPointStyleAC[i].equals("-1"))
 			 * buttons[i].setFont(app.getSmallFont());
-			 * 
+			 *
 			 * buttonGroup.add(buttons[i]); add(buttons[i]); }
 			 */
 
@@ -1844,7 +1820,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * panel to select the size of a GeoPoint
-	 * 
 	 * @author Markus Hohenwarter
 	 */
 	private class SlopeTriangleSizePanel extends JPanel
@@ -1852,7 +1827,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			UpdateFonts, ISliderListener {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private SlopeTriangleSizeModel model;
@@ -1955,14 +1930,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * panel to select the size of a GeoAngle's arc
-	 * 
 	 * @author Markus Hohenwarter
 	 */
 	private class ArcSizePanel extends JPanel implements ChangeListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel, ISliderListener {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private AngleArcSizeModel model;
@@ -2066,7 +2040,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * panel to select thickness and style (dashing) of a GeoLine
-	 * 
 	 * @author Markus Hohenwarter
 	 */
 	private class LineStylePanel extends JPanel implements ChangeListener,
@@ -2074,7 +2047,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			ILineStyleListener {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private JSlider thicknessSlider;
@@ -2304,9 +2277,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * select dash style for hidden parts.
-	 * 
 	 * @author Mathieu
-	 * 
+	 *
 	 */
 	private class LineStyleHiddenPanel extends JPanel implements
 			UpdateablePropertiesPanel, SetLabels, UpdateFonts, ActionListener {
@@ -2422,14 +2394,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * panel to select the fading for endings of a surface
-	 * 
 	 * @author mathieu
 	 */
 	private class FadingPanel extends JPanel implements ChangeListener,
 			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
@@ -2529,14 +2500,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * panel to select the level of detail of surfaces
-	 * 
 	 * @author mathieu
 	 */
 	private class LodPanel extends JPanel implements ActionListener, SetLabels,
 			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -2622,7 +2592,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * Panel for segment decoration
-	 * 
 	 * @author Loic
 	 */
 	private class DecoSegmentPanel extends JPanel implements ActionListener,
@@ -2868,7 +2837,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private class RightAnglePanel extends CheckboxPanel {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -2880,9 +2849,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	/**
 	 * allows using a single = in condition to show object and dynamic color
-	 * 
-	 * @param strCond0
-	 *            Condition to be processed
+	 * @param strCond0 Condition to be processed
 	 * @return processed condition
 	 */
 	public static String replaceEqualsSigns(String strCond0) {
@@ -2911,814 +2878,485 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		return textEditPanel;
 	}
 
-} // PropertiesPanel
-
-/**
- * Panel for setting text alignment.
- */
-class TextFieldAlignmentPanel extends JPanel
-		implements ActionListener, UpdateablePropertiesPanel,
-		SetLabels, UpdateFonts, IComboListener {
-
-	private TextFieldAlignmentModel model;
-
-	private JLabel label;
-	private JComboBox<String> comboBox;
-
-	private AppD app;
-	private LocalizationD loc;
+	// PropertiesPanel
 
 	/**
-	 * Creates a new TextFieldAlignmentPanel instance.
-	 *
-	 * @param app app
+	 * Panel for setting text alignment.
 	 */
-	TextFieldAlignmentPanel(AppD app) {
-		this.app = app;
-		loc = app.getLocalization();
-
-		createModel();
-		createPanel();
-		setLabels();
-	}
-
-	private void createModel() {
-		model = new TextFieldAlignmentModel(app);
-		model.setListener(this);
-	}
-
-	private void createPanel() {
-		label = new JLabel();
-		comboBox = new JComboBox<>();
-		comboBox.addActionListener(this);
-
-		add(label);
-		add(comboBox);
-		setLayout(new FlowLayout(FlowLayout.LEFT));
-	}
-
-	@Override
-	public void setLabels() {
-		label.setText(loc.getMenu("stylebar.Align") + ":");
-
-		comboBox.removeActionListener(this);
-		model.fillModes(loc);
-		comboBox.addActionListener(this);
-	}
-
-	@Override
-	public JPanel updatePanel(Object[] geos) {
-		model.setGeos(geos);
-		if (!model.checkGeos()) {
-			return null;
-		}
-
-		comboBox.removeActionListener(this);
-
-		model.updateProperties();
-
-		comboBox.addActionListener(this);
-		return this;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		model.applyChanges(comboBox.getSelectedIndex());
-		updatePanel(model.getGeos());
-	}
-
-	@Override
-	public void updateFonts() {
-		Font font = app.getPlainFont();
-
-		setFont(font);
-		comboBox.setFont(font);
-		label.setFont(font);
-	}
-
-	@Override
-	public void setSelectedIndex(int index) {
-		comboBox.setSelectedIndex(index);
-	}
-
-	@Override
-	public void addItem(String item) {
-		comboBox.addItem(item);
-	}
-
-	@Override
-	public void clearItems() {
-		comboBox.removeAllItems();
-	}
-}
-
-/**
- * panel for condition to show object
- * 
- * @author Markus Hohenwarter
- */
-class ShowConditionPanel extends JPanel
-		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
-		SetLabels, UpdateFonts, IShowConditionListener {
-
-	private static final long serialVersionUID = 1L;
-
-	private ShowConditionModel model;
-	private JTextField tfCondition;
-
-	private Kernel kernel;
-	private PropertiesPanelD propPanel;
-
-	/**
-	 * @param app
-	 *            application
-	 * @param propPanel
-	 *            properties panel
-	 */
-	public ShowConditionPanel(AppD app, PropertiesPanelD propPanel) {
-		kernel = app.getKernel();
-		this.propPanel = propPanel;
-		model = new ShowConditionModel(app, this);
-		// non auto complete input panel
-		InputPanelD inputPanel = new InputPanelD(null, app, -1, false);
-		tfCondition = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
-
-		tfCondition.addActionListener(this);
-		tfCondition.addFocusListener(this);
-
-		// put it all together
-		setLayout(new BorderLayout());
-		add(inputPanel, BorderLayout.CENTER);
-
-		setLabels();
-	}
-
-	@Override
-	public void setLabels() {
-		setBorder(BorderFactory.createTitledBorder(
-				kernel.getLocalization().getMenu("Condition.ShowObject")));
-	}
-
-	@Override
-	public JPanel updatePanel(Object[] geos) {
-		model.setGeos(geos);
-		if (!model.checkGeos()) {
-			return null;
-		}
-
-		tfCondition.removeActionListener(this);
-
-		model.updateProperties();
-
-		tfCondition.addActionListener(this);
-		return this;
-	}
-
-	/**
-	 * handle textfield changes
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfCondition) {
-			doActionPerformed();
-		}
-	}
-
-	private void doActionPerformed() {
-		processed = true;
-		model.applyChanges(tfCondition.getText(),
-				kernel.getApplication().getDefaultErrorHandler());
-	}
-
-	@Override
-	public void focusGained(FocusEvent arg0) {
-		processed = false;
-	}
-
-	/** flag to prevent double processing enter x focus lost */
-	boolean processed = false;
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		if (!processed) {
-			doActionPerformed();
-		}
-	}
-
-	@Override
-	public void updateFonts() {
-		Font font = ((AppD) kernel.getApplication()).getPlainFont();
-
-		setFont(font);
-		tfCondition.setFont(font);
-	}
-
-	@Override
-	public void setText(String text) {
-		tfCondition.setText(text);
-	}
-
-	@Override
-	public void updateSelection(Object[] geos) {
-		propPanel.updateSelection(geos);
-	}
-
-}
-
-/**
- * panel for condition to show object
- * 
- * @author Michael Borcherds 2008-04-01
- */
-@SuppressWarnings({ "unchecked", "rawtypes" })
-class ColorFunctionPanel extends JPanel
-		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
-		SetLabels, UpdateFonts, IColorFunctionListener {
-
-	private static final long serialVersionUID = 1L;
-	/** color fun model */
-	ColorFunctionModel model;
-	private JTextField tfRed;
-	private JTextField tfGreen;
-	private JTextField tfBlue;
-	private JTextField tfAlpha;
-	private JButton btRemove;
-	private JLabel nameLabelR;
-	private JLabel nameLabelG;
-	private JLabel nameLabelB;
-	private JLabel nameLabelA;
-
-	private JComboBox cbColorSpace;
-	private int colorSpace = GeoElement.COLORSPACE_RGB;
-	// flag to prevent unneeded relabeling of the colorSpace comboBox
-	private boolean allowSetComboBoxLabels = true;
-
-	private String defaultR = "0";
-	private String defaultG = "0";
-	private String defaultB = "0";
-	private String defaultA = "1";
-
-	private Kernel kernel;
-	private PropertiesPanelD propPanel;
-
-	/**
-	 * @param app
-	 *            app
-	 * @param propPanel
-	 *            properties panel
-	 */
-	public ColorFunctionPanel(AppD app, PropertiesPanelD propPanel) {
-		kernel = app.getKernel();
-		this.propPanel = propPanel;
-		model = new ColorFunctionModel(app, this);
-		// non auto complete input panel
-		InputPanelD inputPanelR = new InputPanelD(null, app, -1, true, false);
-		InputPanelD inputPanelG = new InputPanelD(null, app, -1, true, false);
-		InputPanelD inputPanelB = new InputPanelD(null, app, -1, true, false);
-		InputPanelD inputPanelA = new InputPanelD(null, app, -1, true, false);
-		tfRed = (AutoCompleteTextFieldD) inputPanelR.getTextComponent();
-		tfGreen = (AutoCompleteTextFieldD) inputPanelG.getTextComponent();
-		tfBlue = (AutoCompleteTextFieldD) inputPanelB.getTextComponent();
-		tfAlpha = (AutoCompleteTextFieldD) inputPanelA.getTextComponent();
-
-		tfRed.addActionListener(this);
-		tfRed.addFocusListener(this);
-		tfGreen.addActionListener(this);
-		tfGreen.addFocusListener(this);
-		tfBlue.addActionListener(this);
-		tfBlue.addFocusListener(this);
-		tfAlpha.addActionListener(this);
-		tfAlpha.addFocusListener(this);
-
-		nameLabelR = new JLabel("", SwingConstants.TRAILING);
-		nameLabelR.setLabelFor(inputPanelR);
-		nameLabelG = new JLabel("", SwingConstants.TRAILING);
-		nameLabelG.setLabelFor(inputPanelG);
-		nameLabelB = new JLabel("", SwingConstants.TRAILING);
-		nameLabelB.setLabelFor(inputPanelB);
-		nameLabelA = new JLabel("", SwingConstants.TRAILING);
-		nameLabelA.setLabelFor(inputPanelA);
-
-		btRemove = new JButton("\u2718");
-		btRemove.addActionListener(e -> model.removeAll());
-
-		cbColorSpace = new JComboBox();
-		cbColorSpace.addActionListener(this);
-
-		setLayout(new BorderLayout());
-
-		SpringLayout layout = new SpringLayout();
-		JPanel colorsPanel = new JPanel(layout);
-		colorsPanel.add(nameLabelR);
-		colorsPanel.add(inputPanelR);
-		colorsPanel.add(nameLabelG);
-		colorsPanel.add(inputPanelG);
-		colorsPanel.add(nameLabelB);
-		colorsPanel.add(inputPanelB);
-		colorsPanel.add(nameLabelA);
-		colorsPanel.add(inputPanelA);
-
-		SpringUtilities.makeCompactGrid(colorsPanel, layout, 4, 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
-
-		add(colorsPanel, BorderLayout.CENTER);
-
-		SpringLayout buttonsLayout = new SpringLayout();
-		JPanel buttonsPanel = new JPanel(buttonsLayout);
-
-		JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		leftPanel.add(cbColorSpace);
-		JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		rightPanel.add(btRemove);
-		buttonsPanel.add(leftPanel);
-		buttonsPanel.add(rightPanel);
-
-		SpringUtilities.makeCompactGrid(buttonsPanel, buttonsLayout, 1, 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
-
-		add(buttonsPanel, BorderLayout.SOUTH);
-
-		setLabels();
-	}
-
-	@Override
-	public void setLabels() {
-		Localization loc = kernel.getLocalization();
-
-		setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("DynamicColors")));
-
-		if (allowSetComboBoxLabels) {
-			cbColorSpace.removeActionListener(this);
-			cbColorSpace.removeAllItems();
-			cbColorSpace.addItem(loc.getMenu("RGB"));
-			cbColorSpace.addItem(loc.getMenu("HSV"));
-			cbColorSpace.addItem(loc.getMenu("HSL"));
-			cbColorSpace.addActionListener(this);
-		}
-		allowSetComboBoxLabels = true;
-
-		switch (colorSpace) {
-		default:
-		case GeoElement.COLORSPACE_RGB:
-			nameLabelR
-					.setText(StringUtil.capitalize(loc.getColor("red")) + ":");
-			nameLabelG
-					.setText(
-							StringUtil.capitalize(loc.getColor("green")) + ":");
-			nameLabelB
-					.setText(StringUtil.capitalize(loc.getColor("blue")) + ":");
-			break;
-		case GeoElement.COLORSPACE_HSB:
-			nameLabelR.setText(loc.getMenu("Hue") + ":");
-			nameLabelG.setText(loc.getMenu("Saturation") + ":");
-			nameLabelB.setText(loc.getMenu("Value") + ":");
-			break;
-		case GeoElement.COLORSPACE_HSL:
-			nameLabelR.setText(loc.getMenu("Hue") + ":");
-			nameLabelG.setText(loc.getMenu("Saturation") + ":");
-			nameLabelB.setText(loc.getMenu("Lightness") + ":");
-			break;
-		}
-
-		nameLabelA.setText(loc.getMenu("Opacity") + ":");
-
-		btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
-	}
-
-	@Override
-	public JPanel updatePanel(Object[] geos) {
-		model.setGeos(geos);
-		if (!model.checkGeos()) {
-			return null;
-		}
-
-		// remove action listeners
-		tfRed.removeActionListener(this);
-		tfGreen.removeActionListener(this);
-		tfBlue.removeActionListener(this);
-		tfAlpha.removeActionListener(this);
-		btRemove.removeActionListener(this);
-		cbColorSpace.removeActionListener(this);
-
-		model.updateProperties();
-
-		// restore action listeners
-		tfRed.addActionListener(this);
-		tfGreen.addActionListener(this);
-		tfBlue.addActionListener(this);
-		tfAlpha.addActionListener(this);
-		cbColorSpace.addActionListener(this);
-
-		return this;
-	}
-
-	/**
-	 * handle textfield changes
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfRed || e.getSource() == tfGreen
-				|| e.getSource() == tfBlue || e.getSource() == tfAlpha) {
-			doActionPerformed();
-		}
-		if (e.getSource() == cbColorSpace) {
-			colorSpace = cbColorSpace.getSelectedIndex();
-			allowSetComboBoxLabels = false;
+	static class TextFieldAlignmentPanel extends JPanel
+			implements ActionListener, UpdateablePropertiesPanel,
+			SetLabels, UpdateFonts, IComboListener {
+
+		private TextFieldAlignmentModel model;
+
+		private JLabel label;
+		private JComboBox<String> comboBox;
+
+		private AppD app;
+		private LocalizationD loc;
+
+		/**
+		 * Creates a new TextFieldAlignmentPanel instance.
+		 * @param app app
+		 */
+		TextFieldAlignmentPanel(AppD app) {
+			this.app = app;
+			loc = app.getLocalization();
+
+			createModel();
+			createPanel();
 			setLabels();
-			doActionPerformed();
+		}
+
+		private void createModel() {
+			model = new TextFieldAlignmentModel(app);
+			model.setListener(this);
+		}
+
+		private void createPanel() {
+			label = new JLabel();
+			comboBox = new JComboBox<>();
+			comboBox.addActionListener(this);
+
+			add(label);
+			add(comboBox);
+			setLayout(new FlowLayout(FlowLayout.LEFT));
+		}
+
+		@Override
+		public void setLabels() {
+			label.setText(loc.getMenu("stylebar.Align") + ":");
+
+			comboBox.removeActionListener(this);
+			model.fillModes(loc);
+			comboBox.addActionListener(this);
+		}
+
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
+			}
+
+			comboBox.removeActionListener(this);
+
+			model.updateProperties();
+
+			comboBox.addActionListener(this);
+			return this;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			model.applyChanges(comboBox.getSelectedIndex());
+			updatePanel(model.getGeos());
+		}
+
+		@Override
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+
+			setFont(font);
+			comboBox.setFont(font);
+			label.setFont(font);
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			comboBox.setSelectedIndex(index);
+		}
+
+		@Override
+		public void addItem(String item) {
+			comboBox.addItem(item);
+		}
+
+		@Override
+		public void clearItems() {
+			comboBox.removeAllItems();
 		}
 	}
-
-	private void doActionPerformed() {
-		processed = true;
-
-		String strRed = tfRed.getText();
-		String strGreen = tfGreen.getText();
-		String strBlue = tfBlue.getText();
-		String strAlpha = tfAlpha.getText();
-
-		strRed = PropertiesPanelD.replaceEqualsSigns(strRed);
-		strGreen = PropertiesPanelD.replaceEqualsSigns(strGreen);
-		strBlue = PropertiesPanelD.replaceEqualsSigns(strBlue);
-		strAlpha = PropertiesPanelD.replaceEqualsSigns(strAlpha);
-
-		model.applyChanges(strRed, strGreen, strBlue, strAlpha, colorSpace,
-				defaultR, defaultG, defaultB, defaultA);
-
-	}
-
-	@Override
-	public void focusGained(FocusEvent arg0) {
-		processed = false;
-	}
-
-	private boolean processed = false;
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		if (!processed) {
-			doActionPerformed();
-		}
-	}
-
-	@Override
-	public void updateFonts() {
-		Font font = ((AppD) kernel.getApplication()).getPlainFont();
-
-		setFont(font);
-
-		cbColorSpace.setFont(font);
-
-		nameLabelR.setFont(font);
-		nameLabelG.setFont(font);
-		nameLabelB.setFont(font);
-		nameLabelA.setFont(font);
-
-		btRemove.setFont(font);
-
-		tfRed.setFont(font);
-		tfGreen.setFont(font);
-		tfBlue.setFont(font);
-		tfAlpha.setFont(font);
-	}
-
-	@Override
-	public void setRedText(final String text) {
-		tfRed.setText(text);
-
-	}
-
-	@Override
-	public void setGreenText(final String text) {
-		tfGreen.setText(text);
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setBlueText(final String text) {
-		tfBlue.setText(text);
-
-	}
-
-	@Override
-	public void setAlphaText(final String text) {
-		tfAlpha.setText(text);
-
-	}
-
-	@Override
-	public void setDefaultValues(GeoElement geo) {
-		Color col = GColorD.getAwtColor(geo.getObjectColor());
-		defaultR = "" + col.getRed() / 255.0;
-		defaultG = "" + col.getGreen() / 255.0;
-		defaultB = "" + col.getBlue() / 255.0;
-		defaultA = "" + geo.getFillColor().getAlpha() / 255.0;
-
-		// set the selected color space and labels to match the first geo's
-		// color space
-		colorSpace = geo.getColorSpace();
-		cbColorSpace.setSelectedIndex(colorSpace);
-		allowSetComboBoxLabels = false;
-		setLabels();
-
-	}
-
-	@Override
-	public void showAlpha(boolean value) {
-		tfAlpha.setVisible(value);
-		nameLabelA.setVisible(value);
-	}
-
-	@Override
-	public void updateSelection(Object[] geos) {
-		propPanel.updateSelection(geos);
-
-	}
-
-}
-
-/**
- * panel to set graphics view location
- * 
- * @author G.Sturr
- */
-class GraphicsViewLocationPanel extends JPanel
-		implements ActionListener, UpdateablePropertiesPanel, SetLabels,
-		UpdateFonts, IGraphicsViewLocationListener {
-
-	private static final long serialVersionUID = 1L;
-
-	private ViewLocationModel model;
-
-	private JCheckBox cbGraphicsView;
-	private JCheckBox cbGraphicsView2;
-	private JCheckBox cbGraphicsView3D;
-	private JCheckBox cbGraphicsViewForPlane;
-
-	private AppD app;
-
-	private LocalizationD loc;
 
 	/**
-	 * @param app
-	 *            app
-	 * @param propPanel
-	 *            props panel
+	 * panel for condition to show object
+	 * @author Markus Hohenwarter
 	 */
-	public GraphicsViewLocationPanel(AppD app, PropertiesPanelD propPanel) {
-		this.app = app;
-		this.loc = app.getLocalization();
-		model = new ViewLocationModel(app, this);
+	static class ShowConditionPanel extends JPanel
+			implements ActionListener, FocusListener, UpdateablePropertiesPanel,
+			SetLabels, UpdateFonts, IShowConditionListener {
 
-		cbGraphicsView = new JCheckBox();
-		cbGraphicsView2 = new JCheckBox();
-		cbGraphicsView.addActionListener(this);
-		cbGraphicsView2.addActionListener(this);
+		private static final long serialVersionUID = 1L;
 
-		cbGraphicsView3D = new JCheckBox();
-		cbGraphicsView3D.addActionListener(this);
-		cbGraphicsViewForPlane = new JCheckBox();
-		cbGraphicsViewForPlane.addActionListener(this);
+		private ShowConditionModel model;
+		private JTextField tfCondition;
 
-		setLayout(new FlowLayout(FlowLayout.LEFT));
-		add(cbGraphicsView);
-		add(cbGraphicsView2);
-		add(cbGraphicsView3D);
-		add(cbGraphicsViewForPlane);
+		private Kernel kernel;
+		private PropertiesPanelD propPanel;
 
-		setLabels();
-	}
+		/**
+		 * @param app application
+		 * @param propPanel properties panel
+		 */
+		public ShowConditionPanel(AppD app, PropertiesPanelD propPanel) {
+			kernel = app.getKernel();
+			this.propPanel = propPanel;
+			model = new ShowConditionModel(app, this);
+			// non auto complete input panel
+			InputPanelD inputPanel = new InputPanelD(null, app, -1, false);
+			tfCondition = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
 
-	@Override
-	public void setLabels() {
-		setBorder(BorderFactory.createTitledBorder(
-				loc.getMenu("Location")));
-		cbGraphicsView.setText(loc.getMenu("DrawingPad"));
-		cbGraphicsView2.setText(loc.getMenu("DrawingPad2"));
-		cbGraphicsView3D.setText(loc.getMenu("GraphicsView3D"));
-		cbGraphicsViewForPlane.setText(loc.getMenu("ExtraViews"));
+			tfCondition.addActionListener(this);
+			tfCondition.addFocusListener(this);
 
-	}
+			// put it all together
+			setLayout(new BorderLayout());
+			add(inputPanel, BorderLayout.CENTER);
 
-	@Override
-	public JPanel updatePanel(Object[] geos) {
-		model.setGeos(geos);
-		if (!model.checkGeos()) {
-			return null;
+			setLabels();
 		}
 
-		cbGraphicsView.removeActionListener(this);
-		cbGraphicsView2.removeActionListener(this);
-		cbGraphicsView3D.removeActionListener(this);
-		cbGraphicsViewForPlane.removeActionListener(this);
+		@Override
+		public void setLabels() {
+			setBorder(BorderFactory.createTitledBorder(
+					kernel.getLocalization().getMenu("Condition.ShowObject")));
+		}
 
-		model.updateProperties();
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
+			}
 
-		cbGraphicsView.addActionListener(this);
-		cbGraphicsView2.addActionListener(this);
-		cbGraphicsView3D.addActionListener(this);
-		cbGraphicsViewForPlane.addActionListener(this);
+			tfCondition.removeActionListener(this);
 
-		return this;
-	}
+			model.updateProperties();
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+			tfCondition.addActionListener(this);
+			return this;
+		}
 
-		if (e.getSource() == cbGraphicsView) {
-			model.applyToEuclidianView1(cbGraphicsView.isSelected());
-		} else if (e.getSource() == cbGraphicsView2) {
-			model.applyToEuclidianView2(cbGraphicsView2.isSelected());
-		} else if (e.getSource() == cbGraphicsView3D) {
-			model.applyToEuclidianView3D(cbGraphicsView3D.isSelected());
-		} else if (e.getSource() == cbGraphicsViewForPlane) {
-			model.applyToEuclidianViewForPlane(
-					cbGraphicsViewForPlane.isSelected());
+		/**
+		 * handle textfield changes
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == tfCondition) {
+				doActionPerformed();
+			}
+		}
+
+		private void doActionPerformed() {
+			processed = true;
+			model.applyChanges(tfCondition.getText(),
+					kernel.getApplication().getDefaultErrorHandler());
+		}
+
+		@Override
+		public void focusGained(FocusEvent arg0) {
+			processed = false;
+		}
+
+		/** flag to prevent double processing enter x focus lost */
+		boolean processed = false;
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (!processed) {
+				doActionPerformed();
+			}
+		}
+
+		@Override
+		public void updateFonts() {
+			Font font = ((AppD) kernel.getApplication()).getPlainFont();
+
+			setFont(font);
+			tfCondition.setFont(font);
+		}
+
+		@Override
+		public void setText(String text) {
+			tfCondition.setText(text);
+		}
+
+		@Override
+		public void updateSelection(Object[] geos) {
+			propPanel.updateSelection(geos);
 		}
 
 	}
-
-	@Override
-	public void updateFonts() {
-		Font font = app.getPlainFont();
-
-		setFont(font);
-		cbGraphicsView.setFont(font);
-		cbGraphicsView2.setFont(font);
-		cbGraphicsView3D.setFont(font);
-		cbGraphicsViewForPlane.setFont(font);
-	}
-
-	@Override
-	public void selectView(int index, boolean isSelected) {
-		switch (index) {
-		default:
-			Log.error("missing case");
-			break;
-		case 0:
-			cbGraphicsView.setSelected(isSelected);
-			break;
-		case 1:
-			cbGraphicsView2.setSelected(isSelected);
-			break;
-		case 2:
-			cbGraphicsView3D.setSelected(isSelected);
-			break;
-		case 3:
-			cbGraphicsViewForPlane.setSelected(isSelected);
-			break;
-		case 4:
-			// cbAlgebraView.setValue(isSelected);
-			Log.error("cbAlgebraView not implemented in desktop");
-			break;
-
-		}
-	}
-
-	@Override
-	public void setCheckBox3DVisible(boolean flag) {
-		cbGraphicsView3D.setVisible(flag);
-	}
-
-	@Override
-	public void setCheckBoxForPlaneVisible(boolean flag) {
-		cbGraphicsViewForPlane.setVisible(flag);
-	}
-
-}
-
-/**
- * Panel for changing button size
- *
- */
-class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
-		UpdateablePropertiesPanel, SetLabels, UpdateFonts, IButtonSizeListener {
-
-	private static final long serialVersionUID = 1L;
-	private ButtonSizeModel model;
-
-	private MyTextFieldD tfButtonWidth;
-	private MyTextFieldD tfButtonHeight;
-	private JLabel labelWidth;
-	private JLabel labelHeight;
-	private JLabel labelPixelW;
-	private JLabel labelPixelH;
-	private Localization loc;
-	private JCheckBox cbUseFixedSize;
 
 	/**
-	 * @param app
-	 *            app
-	 * @param loc
-	 *            localization
+	 * panel to set graphics view location
+	 * @author G.Sturr
 	 */
-	public ButtonSizePanel(AppD app, Localization loc) {
-		this.loc = loc;
-		model = new ButtonSizeModel(app);
-		model.setListener(this);
+	static class GraphicsViewLocationPanel extends JPanel
+			implements ActionListener, UpdateablePropertiesPanel, SetLabels,
+			UpdateFonts, IGraphicsViewLocationListener {
 
-		labelWidth = new JLabel(loc.getMenu("Width"));
-		labelHeight = new JLabel(loc.getMenu("Height"));
-		labelPixelW = new JLabel(loc.getMenu("Pixels.short"));
-		labelPixelH = new JLabel(loc.getMenu("Pixels.short"));
-		setLayout(new FlowLayout(FlowLayout.LEFT));
-		cbUseFixedSize = new JCheckBox(loc.getMenu("fixed"));
-		tfButtonWidth = new MyTextFieldD(app, 3);
-		tfButtonHeight = new MyTextFieldD(app, 3);
-		tfButtonHeight.setInputVerifier(new SizeVerify());
-		tfButtonWidth.setInputVerifier(new SizeVerify());
-		cbUseFixedSize.addChangeListener(this);
-		tfButtonHeight.setEnabled(cbUseFixedSize.isSelected());
-		tfButtonWidth.setEnabled(cbUseFixedSize.isSelected());
-		tfButtonHeight.addFocusListener(this);
-		tfButtonWidth.addFocusListener(this);
-		add(cbUseFixedSize);
-		add(labelWidth);
-		add(tfButtonWidth);
-		add(labelPixelW);
-		add(labelHeight);
-		add(tfButtonHeight);
-		add(labelPixelH);
-	}
+		private static final long serialVersionUID = 1L;
 
-	@Override
-	public void updateFonts() {
-		// do nothing
-	}
+		private ViewLocationModel model;
 
-	@Override
-	public void setLabels() {
-		setBorder(BorderFactory.createTitledBorder(loc.getMenu("ButtonSize")));
-		labelWidth.setText(loc.getMenu("Width"));
-		labelHeight.setText(loc.getMenu("Height"));
-		labelPixelW.setText(loc.getMenu("Pixels.short"));
-		labelPixelH.setText(loc.getMenu("Pixels.short"));
-		cbUseFixedSize.setText(loc.getMenu("fixed"));
+		private JCheckBox cbGraphicsView;
+		private JCheckBox cbGraphicsView2;
+		private JCheckBox cbGraphicsView3D;
+		private JCheckBox cbGraphicsViewForPlane;
 
-	}
+		private AppD app;
 
-	@Override
-	public JPanel updatePanel(Object[] geos) {
-		model.setGeos(geos);
-		if (!model.checkGeos()) {
-			return null;
+		private LocalizationD loc;
+
+		/**
+		 * @param app app
+		 * @param propPanel props panel
+		 */
+		public GraphicsViewLocationPanel(AppD app, PropertiesPanelD propPanel) {
+			this.app = app;
+			this.loc = app.getLocalization();
+			model = new ViewLocationModel(app, this);
+
+			cbGraphicsView = new JCheckBox();
+			cbGraphicsView2 = new JCheckBox();
+			cbGraphicsView.addActionListener(this);
+			cbGraphicsView2.addActionListener(this);
+
+			cbGraphicsView3D = new JCheckBox();
+			cbGraphicsView3D.addActionListener(this);
+			cbGraphicsViewForPlane = new JCheckBox();
+			cbGraphicsViewForPlane.addActionListener(this);
+
+			setLayout(new FlowLayout(FlowLayout.LEFT));
+			add(cbGraphicsView);
+			add(cbGraphicsView2);
+			add(cbGraphicsView3D);
+			add(cbGraphicsViewForPlane);
+
+			setLabels();
 		}
-		model.updateProperties();
 
-		return this;
-	}
-
-	@Override
-	public void updateSizes(int width, int height, boolean isFixed) {
-		cbUseFixedSize.removeChangeListener(this);
-		cbUseFixedSize.setSelected(isFixed);
-		tfButtonHeight.setText("" + height);
-		tfButtonWidth.setText("" + width);
-		tfButtonHeight.setEnabled(isFixed);
-		tfButtonWidth.setEnabled(isFixed);
-		cbUseFixedSize.addChangeListener(this);
-	}
-
-	@Override
-	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void focusLost(FocusEvent arg0) {
-		model.setSizesFromString(tfButtonWidth.getText(),
-				tfButtonHeight.getText(), cbUseFixedSize.isSelected());
-	}
-
-	@Override
-	public void stateChanged(ChangeEvent arg0) {
-		if (arg0.getSource() == cbUseFixedSize) {
-			JCheckBox check = (JCheckBox) arg0.getSource();
-			model.applyChanges(check.isSelected());
+		@Override
+		public void setLabels() {
+			setBorder(BorderFactory.createTitledBorder(
+					loc.getMenu("Location")));
+			cbGraphicsView.setText(loc.getMenu("DrawingPad"));
+			cbGraphicsView2.setText(loc.getMenu("DrawingPad2"));
+			cbGraphicsView3D.setText(loc.getMenu("GraphicsView3D"));
+			cbGraphicsViewForPlane.setText(loc.getMenu("ExtraViews"));
 		}
+
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
+			}
+
+			cbGraphicsView.removeActionListener(this);
+			cbGraphicsView2.removeActionListener(this);
+			cbGraphicsView3D.removeActionListener(this);
+			cbGraphicsViewForPlane.removeActionListener(this);
+
+			model.updateProperties();
+
+			cbGraphicsView.addActionListener(this);
+			cbGraphicsView2.addActionListener(this);
+			cbGraphicsView3D.addActionListener(this);
+			cbGraphicsViewForPlane.addActionListener(this);
+
+			return this;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (e.getSource() == cbGraphicsView) {
+				model.applyToEuclidianView1(cbGraphicsView.isSelected());
+			} else if (e.getSource() == cbGraphicsView2) {
+				model.applyToEuclidianView2(cbGraphicsView2.isSelected());
+			} else if (e.getSource() == cbGraphicsView3D) {
+				model.applyToEuclidianView3D(cbGraphicsView3D.isSelected());
+			} else if (e.getSource() == cbGraphicsViewForPlane) {
+				model.applyToEuclidianViewForPlane(
+						cbGraphicsViewForPlane.isSelected());
+			}
+		}
+
+		@Override
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+
+			setFont(font);
+			cbGraphicsView.setFont(font);
+			cbGraphicsView2.setFont(font);
+			cbGraphicsView3D.setFont(font);
+			cbGraphicsViewForPlane.setFont(font);
+		}
+
+		@Override
+		public void selectView(int index, boolean isSelected) {
+			switch (index) {
+			default:
+				Log.error("missing case");
+				break;
+			case 0:
+				cbGraphicsView.setSelected(isSelected);
+				break;
+			case 1:
+				cbGraphicsView2.setSelected(isSelected);
+				break;
+			case 2:
+				cbGraphicsView3D.setSelected(isSelected);
+				break;
+			case 3:
+				cbGraphicsViewForPlane.setSelected(isSelected);
+				break;
+			case 4:
+				// cbAlgebraView.setValue(isSelected);
+				Log.error("cbAlgebraView not implemented in desktop");
+				break;
+			}
+		}
+
+		@Override
+		public void setCheckBox3DVisible(boolean flag) {
+			cbGraphicsView3D.setVisible(flag);
+		}
+
+		@Override
+		public void setCheckBoxForPlaneVisible(boolean flag) {
+			cbGraphicsViewForPlane.setVisible(flag);
+		}
+
 	}
 
 	/**
-	 * Verifies text is 2 or 3 digits
+	 * Panel for changing button size
 	 *
 	 */
-	static class SizeVerify extends InputVerifier {
+	static class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
+			UpdateablePropertiesPanel, SetLabels, UpdateFonts, IButtonSizeListener {
+
+		private static final long serialVersionUID = 1L;
+		private ButtonSizeModel model;
+
+		private MyTextFieldD tfButtonWidth;
+		private MyTextFieldD tfButtonHeight;
+		private JLabel labelWidth;
+		private JLabel labelHeight;
+		private JLabel labelPixelW;
+		private JLabel labelPixelH;
+		private Localization loc;
+		private JCheckBox cbUseFixedSize;
+
+		/**
+		 * @param app app
+		 * @param loc localization
+		 */
+		public ButtonSizePanel(AppD app, Localization loc) {
+			this.loc = loc;
+			model = new ButtonSizeModel(app);
+			model.setListener(this);
+
+			labelWidth = new JLabel(loc.getMenu("Width"));
+			labelHeight = new JLabel(loc.getMenu("Height"));
+			labelPixelW = new JLabel(loc.getMenu("Pixels.short"));
+			labelPixelH = new JLabel(loc.getMenu("Pixels.short"));
+			setLayout(new FlowLayout(FlowLayout.LEFT));
+			cbUseFixedSize = new JCheckBox(loc.getMenu("fixed"));
+			tfButtonWidth = new MyTextFieldD(app, 3);
+			tfButtonHeight = new MyTextFieldD(app, 3);
+			tfButtonHeight.setInputVerifier(new SizeVerify());
+			tfButtonWidth.setInputVerifier(new SizeVerify());
+			cbUseFixedSize.addChangeListener(this);
+			tfButtonHeight.setEnabled(cbUseFixedSize.isSelected());
+			tfButtonWidth.setEnabled(cbUseFixedSize.isSelected());
+			tfButtonHeight.addFocusListener(this);
+			tfButtonWidth.addFocusListener(this);
+			add(cbUseFixedSize);
+			add(labelWidth);
+			add(tfButtonWidth);
+			add(labelPixelW);
+			add(labelHeight);
+			add(tfButtonHeight);
+			add(labelPixelH);
+		}
+
 		@Override
-		public boolean verify(JComponent input) {
-			MyTextFieldD tf = (MyTextFieldD) input;
-			String s = tf.getText();
-			if (!s.matches("\\d{2,3}")) {
-				return false;
+		public void updateFonts() {
+			// do nothing
+		}
+
+		@Override
+		public void setLabels() {
+			setBorder(BorderFactory.createTitledBorder(loc.getMenu("ButtonSize")));
+			labelWidth.setText(loc.getMenu("Width"));
+			labelHeight.setText(loc.getMenu("Height"));
+			labelPixelW.setText(loc.getMenu("Pixels.short"));
+			labelPixelH.setText(loc.getMenu("Pixels.short"));
+			cbUseFixedSize.setText(loc.getMenu("fixed"));
+		}
+
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
 			}
-			if (Integer.parseInt(s) < 24 || Integer.parseInt(s) > 500) {
-				return false;
+			model.updateProperties();
+
+			return this;
+		}
+
+		@Override
+		public void updateSizes(int width, int height, boolean isFixed) {
+			cbUseFixedSize.removeChangeListener(this);
+			cbUseFixedSize.setSelected(isFixed);
+			tfButtonHeight.setText("" + height);
+			tfButtonWidth.setText("" + width);
+			tfButtonHeight.setEnabled(isFixed);
+			tfButtonWidth.setEnabled(isFixed);
+			cbUseFixedSize.addChangeListener(this);
+		}
+
+		@Override
+		public void focusGained(FocusEvent arg0) {
+			// only handle focus lost
+		}
+
+		@Override
+		public void focusLost(FocusEvent arg0) {
+			model.setSizesFromString(tfButtonWidth.getText(),
+					tfButtonHeight.getText(), cbUseFixedSize.isSelected());
+		}
+
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			if (arg0.getSource() == cbUseFixedSize) {
+				JCheckBox check = (JCheckBox) arg0.getSource();
+				model.applyChanges(check.isSelected());
 			}
-			return true;
+		}
+
+		/**
+		 * Verifies text is 2 or 3 digits
+		 *
+		 */
+		static class SizeVerify extends InputVerifier {
+			@Override
+			public boolean verify(JComponent input) {
+				MyTextFieldD tf = (MyTextFieldD) input;
+				String s = tf.getText();
+				if (!s.matches("\\d{2,3}")) {
+					return false;
+				}
+				if (Integer.parseInt(s) < 24 || Integer.parseInt(s) > 500) {
+					return false;
+				}
+				return true;
+			}
 		}
 	}
 }

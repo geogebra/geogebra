@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 package org.geogebra.desktop.gui.view.algebra;
 
 import java.awt.Component;
@@ -15,8 +11,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.main.AppD;
 
-//this is needed to distinguish between the editing
-// of independent and dependent objects
 /**
  * Editor for AV
  */

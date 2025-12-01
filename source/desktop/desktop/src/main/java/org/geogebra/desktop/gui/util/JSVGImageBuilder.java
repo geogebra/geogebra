@@ -1,5 +1,3 @@
-
-
 package org.geogebra.desktop.gui.util;
 
 import static org.geogebra.desktop.gui.util.JSVGConstants.NO_URI;

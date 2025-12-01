@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 package org.geogebra.desktop.cas.view;
 
 import java.awt.BasicStroke;

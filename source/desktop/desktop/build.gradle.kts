@@ -106,10 +106,6 @@ tasks {
         }
     }
 
-    checkstyleMain {
-        enabled = false
-    }
-
     register<Zip>("debugJars") {
         dependsOn("jar")
         description = "Collect all jar files in a single archive. Fast: no proguard or code signing."

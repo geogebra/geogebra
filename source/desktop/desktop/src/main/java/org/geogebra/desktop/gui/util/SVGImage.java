@@ -1,4 +1,3 @@
-
 package org.geogebra.desktop.gui.util;
 
 import java.awt.Graphics2D;
