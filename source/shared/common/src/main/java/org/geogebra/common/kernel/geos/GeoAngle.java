@@ -131,7 +131,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			"360" + Unicode.DEGREE_CHAR,
 			"180" + Unicode.DEGREE_CHAR,
 			"360" + Unicode.DEGREE_CHAR,
-			"" + Unicode.INFINITY
+			String.valueOf(Unicode.INFINITY)
 	};
 
 	/**

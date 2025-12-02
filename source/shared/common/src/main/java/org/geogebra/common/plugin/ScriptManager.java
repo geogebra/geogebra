@@ -592,7 +592,7 @@ public abstract class ScriptManager implements EventListener {
 				return ref;
 			}
 		}
-		JsReference alias = fromName((nameToScript.size() + 1) + "");
+		JsReference alias = fromName(String.valueOf(nameToScript.size() + 1));
 		alias.setNativeRunnable(nativeRunnable);
 		return alias;
 	}

@@ -3399,7 +3399,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag) {
 		dispatchEvent(
-				new Event(EventType.SHOW_NAVIGATION_BAR, null, flag + ""));
+				new Event(EventType.SHOW_NAVIGATION_BAR, null, String.valueOf(flag)));
 		if (!flag) {
 			setHideConstructionProtocolNavigation();
 		} else {

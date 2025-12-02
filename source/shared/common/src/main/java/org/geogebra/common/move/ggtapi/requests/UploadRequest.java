@@ -85,7 +85,7 @@ public class UploadRequest implements Request {
 	 */
 	UploadRequest(String newTitle, int id) {
 		this.consTitle = newTitle;
-		this.uniqueID = id + "";
+		this.uniqueID = String.valueOf(id);
 		this.type = "applet"; // TODO can this be ignored
 	}
 

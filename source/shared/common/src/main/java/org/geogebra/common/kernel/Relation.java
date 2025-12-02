@@ -197,7 +197,7 @@ public class Relation {
 			rel.setInfo(rel.getInfo() + "</b>");
 		} else {
 			if ((ndgs == 2) && !"2".equals(ndgResult[0])
-					&& (Unicode.ELLIPSIS + "").equals(ndgResult[1])) {
+					&& String.valueOf(Unicode.ELLIPSIS).equals(ndgResult[1])) {
 				// ProveDetails=={true,"..."}
 				rel.setInfo(
 						rel.getInfo()

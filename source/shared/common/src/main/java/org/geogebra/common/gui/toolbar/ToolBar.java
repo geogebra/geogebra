@@ -716,8 +716,7 @@ public class ToolBar {
 		int pos = toolbarString.lastIndexOf('|');
 		if (pos > 0) {
 			String after = toolbarString.substring(pos + 1).trim();
-			int digits = (EuclidianConstants.MACRO_MODE_ID_OFFSET + "")
-					.length();
+			int digits = String.valueOf(EuclidianConstants.MACRO_MODE_ID_OFFSET).length();
 			boolean mayStartWithMacro = after.length() >= digits;
 			for (int i = 0; i < digits && mayStartWithMacro; i++) {
 				if (after.charAt(i) > '9' || after.charAt(i) < '0') {

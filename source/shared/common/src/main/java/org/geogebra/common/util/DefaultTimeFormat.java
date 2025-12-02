@@ -10,7 +10,7 @@ public class DefaultTimeFormat implements TimeFormatAdapter {
         int secs = (int) timeIntervalMs / 1000;
         int mins = secs / 60;
         secs -= mins * 60;
-        String secsS = secs + "";
+        String secsS = String.valueOf(secs);
         if (secs < 10) {
             secsS = "0" + secsS;
         }
