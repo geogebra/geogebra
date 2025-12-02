@@ -41,8 +41,9 @@ public class IsFixedObjectPropertyTest extends BaseUnitTest {
 		getKernel().initUndoInfo();
 		GeoElement point = addAvInput("pt=(1,2)");
 		getApp().storeUndoInfo();
-		ValuedProperty<Boolean> prop = new GeoElementPropertiesFactory().createFixObjectProperty(
-				getApp().getLocalization(), Collections.singletonList(point));
+		ValuedProperty<Boolean> prop = new GeoElementPropertiesFactory()
+				.createIsFixedObjectProperty(getApp().getLocalization(),
+						Collections.singletonList(point));
 		assert prop != null;
 		prop.addValueObserver(new UndoSavingPropertyObserver(getConstruction().getUndoManager()));
 		prop.setValue(true);

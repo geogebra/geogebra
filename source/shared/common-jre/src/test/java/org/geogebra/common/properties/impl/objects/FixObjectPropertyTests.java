@@ -54,7 +54,7 @@ public class FixObjectPropertyTests extends BaseAppTestSetup {
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
 		getApp().storeUndoInfo();
 		BooleanProperty fixObjectProperty = new GeoElementPropertiesFactory()
-				.createFixObjectProperty(getLocalization(), List.of(geoPoint));
+				.createIsFixedObjectProperty(getLocalization(), List.of(geoPoint));
 		fixObjectProperty.addValueObserver(
 				new UndoSavingPropertyObserver(getApp().getUndoManager()));
 

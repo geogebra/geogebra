@@ -56,7 +56,9 @@ import org.geogebra.common.properties.impl.objects.ElementObjectEventProperty;
 import org.geogebra.common.properties.impl.objects.FillImageProperty;
 import org.geogebra.common.properties.impl.objects.FillSymbolProperty;
 import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
+import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
 import org.geogebra.common.properties.impl.objects.FixObjectProperty;
+import org.geogebra.common.properties.impl.objects.FixSliderObjectProperty;
 import org.geogebra.common.properties.impl.objects.HatchingAngleProperty;
 import org.geogebra.common.properties.impl.objects.HatchingDistanceProperty;
 import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
@@ -167,7 +169,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public PropertiesArray createGeoElementProperties(
 			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
-		return createPropertiesArray(localization, elements, Stream.<Property>of(
+		return createPropertiesArray(localization, elements, Stream.of(
 				createNameProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new MinProperty(processor, localization, element),
@@ -188,7 +190,7 @@ public final class GeoElementPropertiesFactory {
 				createQuadraticEquationProperty(localization, elements),
 				createCaptionStyleProperty(localization, elements),
 				createShowTraceProperty(localization, elements),
-				createFixObjectProperty(localization, elements),
+				createIsFixedObjectProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new ShowInAVProperty(localization, element),
 						BooleanPropertyCollection::new)
@@ -205,6 +207,22 @@ public final class GeoElementPropertiesFactory {
 	private Property createShowTraceProperty(Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new ShowTraceProperty(localization, element),
+				BooleanPropertyCollection::new);
+	}
+
+	private Property createFixObjectProperty(Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> {
+					try {
+						return new FixObjectProperty(localization, element);
+					} catch (NotApplicablePropertyException e1) {
+						try {
+							return new FixSliderObjectProperty(localization, element);
+						} catch (NotApplicablePropertyException e2) {
+							return new FixCheckboxProperty(localization, element);
+						}
+					}
+				},
 				BooleanPropertyCollection::new);
 	}
 
@@ -265,9 +283,7 @@ public final class GeoElementPropertiesFactory {
 						NamedEnumeratedPropertyCollection::new),
 				createShowObjectProperty(localization, elements),
 				createShowTraceProperty(localization, elements),
-				createPropertyCollection(elements,
-						element -> new FixObjectProperty(localization, element),
-						BooleanPropertyCollection::new),
+				createFixObjectProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new AuxiliaryObjectProperty(localization, element),
 						BooleanPropertyCollection::new),
@@ -637,7 +653,7 @@ public final class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public BooleanProperty createFixObjectProperty(Localization localization,
+	public BooleanProperty createIsFixedObjectProperty(Localization localization,
 			List<GeoElement> elements) {
         return createPropertyCollection(elements,
 				element -> new IsFixedObjectProperty(localization, element),

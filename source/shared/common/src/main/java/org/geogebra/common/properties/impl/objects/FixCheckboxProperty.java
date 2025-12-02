@@ -9,7 +9,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 public class FixCheckboxProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+		BooleanProperty, GeoElementDependentProperty {
 	private final GeoBoolean element;
 
 	/**
@@ -18,8 +18,8 @@ public class FixCheckboxProperty extends AbstractValuedProperty<Boolean> impleme
 	 */
 	public FixCheckboxProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "FixCheckbox");
-		if (!(element instanceof GeoBoolean)) {
+		super(localization, "FixObject");
+		if (!(element instanceof GeoBoolean && element.isIndependent())) {
 			throw new NotApplicablePropertyException(element);
 		}
 		this.element = (GeoBoolean) element;
@@ -34,6 +34,16 @@ public class FixCheckboxProperty extends AbstractValuedProperty<Boolean> impleme
 	@Override
 	public Boolean getValue() {
 		return element.isLockedPosition();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return element.isEuclidianVisible();
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return element;
 	}
 }
 

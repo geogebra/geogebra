@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
@@ -60,6 +61,19 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
 		assertEquals(List.of("Name", "Caption", "Label", "Show", "Show trace", "Fix Object",
+				"Auxiliary Object"), basicProperties);
+	}
+
+	@Test
+	public void testSliderIsFixed() {
+		GeoNumeric numeric1 = evaluateGeoElement("a = 5");
+		GeoNumeric numeric2 = evaluateGeoElement("a = 10");
+		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
+				.createStructuredProperties(getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(), List.of(numeric1, numeric2));
+		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
+				.map(Property::getName).collect(Collectors.toList());
+		assertEquals(List.of("Name", "Caption", "Label", "Show", "Fix Object",
 				"Auxiliary Object"), basicProperties);
 	}
 
