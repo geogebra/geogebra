@@ -15,8 +15,6 @@ package org.geogebra.desktop.main.undo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 import javax.swing.DefaultListSelectionModel;
 
@@ -68,27 +66,21 @@ public class UndoManagerD extends UndoManager {
 	 *            string builder with construction XML
 	 */
 	synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
-		// avoid security problems calling from JavaScript ie setUndoPoint()
-		AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-			try {
-				// perform the security-sensitive operation here
-				// save to file
-				AppState appStateToAdd = new FileAppState(undoXML);
+		try {
+			// save to file
+			AppState appStateToAdd = new FileAppState(undoXML);
 
-				// insert undo info
-				UndoCommand command = new UndoCommand(appStateToAdd);
-				maybeStoreUndoCommand(command);
-				pruneStateList();
-				if (undoInfoList.size() > 1) {
-					notifyUnsaved();
-				}
-			} catch (Exception | OutOfMemoryError e) {
-				Log.debug("storeUndoInfo: " + e);
-				Log.debug(e);
+			// insert undo info
+			UndoCommand command = new UndoCommand(appStateToAdd);
+			maybeStoreUndoCommand(command);
+			pruneStateList();
+			if (undoInfoList.size() > 1) {
+				notifyUnsaved();
 			}
-
-			return null;
-		});
+		} catch (Exception | OutOfMemoryError e) {
+			Log.debug("storeUndoInfo: " + e);
+			Log.debug(e);
+		}
 
 		onStoreUndo();
 	}

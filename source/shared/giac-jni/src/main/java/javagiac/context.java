@@ -21,12 +21,6 @@ public class context {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  @Override
-  protected void finalize() {
-    System.err.println("context.java: ignoring finalize()");
-    // delete();
-  }
-
   public synchronized void delete() {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {

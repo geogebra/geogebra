@@ -12,3 +12,4 @@ dependencyResolutionManagement {
 }
 
 include(":convention")
+include(":gradle-utilities")

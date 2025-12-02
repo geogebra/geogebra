@@ -6,7 +6,7 @@ hamcrest = "3.0"
 jogl = "2.6.0"
 javagiac = "70450"
 gwt = "2.12.2"
-gwtTreblereel = "202507101"
+gwtTreblereel = "202511231"
 elemental2 = "1.3.2"
 murok = "1.0.202501301331"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
@@ -16,6 +16,8 @@ multiplayer = "1.0.202412180729"
 spotbugs = "4.9.2"
 ideaExt = "1.1.9"
 jakartaServlet = "6.1.0"
+androidPlugin = "8.7.2"
+androidSdkTools = "31.6.0"
 
 [libraries]
 apache-math="org.apache:math-cross-platform:3.6.1"
@@ -76,6 +78,9 @@ javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "4
 openrewrite-plugin = {module = "org.openrewrite.rewrite:org.openrewrite.rewrite.gradle.plugin", version = "7.4.1"}
 idea-ext = { module = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin", version.ref = "ideaExt" }
 
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidPlugin" }
+android-sdk-tools = { module = "com.android.tools:sdk-common", version.ref = "androidSdkTools" }
+
 [plugins]
 cpd = "de.aaschmid.cpd:3.5"
 sass = "io.miret.etienne.sass:1.5.1"
@@ -97,3 +102,7 @@ geogebra-version = { id = "version-conventions" }
 geogebra-app-specs = { id = "app-specs-convention" }
 geogebra-idea = { id = "idea-conventions" }
 geogebra-rewrite = { id = "rewrite-conventions" }
+
+geogebra-keychain = { id = "org.geogebra.gradle.keychain" }
+geogebra-ruby = { id = "org.geogebra.gradle.ruby" }
+geogebra-android-sdk = { id = "org.geogebra.gradle.android.sdk" }

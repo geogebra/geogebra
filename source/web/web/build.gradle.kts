@@ -1,3 +1,4 @@
+import Gwt_conventions_gradle.MinifyLibTask
 import de.aaschmid.gradle.plugins.cpd.Cpd
 import groovy.json.JsonOutput
 import io.miret.etienne.gradle.sass.CompileSass
@@ -112,6 +113,10 @@ tasks.withType<Test>().configureEach {
 
 tasks.register("run") {
     dependsOn(tasks.gwtDevMode)
+}
+
+tasks.withType<Test>().configureEach {
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
 }
 
 val cleanWar by tasks.registering(Delete::class) {
@@ -237,17 +242,22 @@ tasks.register<Zip>("createDraftBundleZip") {
     }
 }
 
+val libDir = "src/main/resources/org/geogebra/web"
+
+val minifyRewritePHYs by tasks.registering(MinifyLibTask::class) {
+    sourceFile = project(":web-common").file("${libDir}/resources/js/rewrite_pHYs.js")
+}
+
+val minifyCanvas2Pdf by tasks.registering(MinifyLibTask::class) {
+    sourceFile = file("${libDir}/pub/js/canvas2pdf.js")
+}
+
+val minifyWhammy by tasks.registering(MinifyLibTask::class) {
+    sourceFile = file("${libDir}/pub/js/whammy.js")
+}
+
 tasks.register("minifyLibs") {
-    doLast {
-        val libDir = "src/main/resources/org/geogebra/web/"
-        val libDirCommon = "../web-common/$libDir"
-        val libs = listOf("$libDirCommon/resources/js/rewrite_pHYs", "$libDir/pub/js/canvas2pdf", "$libDir/pub/js/whammy")
-        libs.forEach { lib ->
-            val command = listOf("npx", "terser", "${lib}.js", "-o", "${lib}.min.js",
-                "--compress", "--mangle", "--comments", "/license/")
-            exec { commandLine = if (Os.isFamily(Os.FAMILY_WINDOWS)) listOf("cmd", "/c") + command else command }
-        }
-    }
+    dependsOn(minifyRewritePHYs, minifyWhammy, minifyCanvas2Pdf)
 }
 
 tasks.register("declareAppSpecs") {

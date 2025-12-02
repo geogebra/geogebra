@@ -89,7 +89,14 @@ import org.geogebra.editor.share.util.Unicode;
  */
 public class GeoGebraFrame extends JFrame
 		implements WindowFocusListener, Printable, ComponentListener {
-
+	public static final String JARS_UPDATE_DIR = "\\GeoGebra "
+			+ GeoGebraConstants.SHORT_VERSION_STRING + "\\jars\\update";
+	/** URL of GeoGebra jars */
+	public final static String ONLINE_ARCHIVE_BASE = "https://jars.geogebra.org/webstart/"
+			+ GeoGebraConstants.SHORT_VERSION_STRING + "/";
+	/** URL of GeoGebra jars, zipped */
+	public static final String GEOGEBRA_ONLINE_JARS_ZIP = ONLINE_ARCHIVE_BASE
+			+ "geogebra-jars.zip";
 	private static final long serialVersionUID = 1L;
 
 	private static final int VERSION_CHECK_DAYS = 1;
@@ -526,7 +533,7 @@ public class GeoGebraFrame extends JFrame
 			try {
 				// Creating working directory:
 				String updateDir = System.getenv("APPDATA")
-						+ GeoGebraConstants.GEOGEBRA_JARS_UPDATE_DIR;
+						+ JARS_UPDATE_DIR;
 				Log.debug("Creating " + updateDir);
 				UtilD.mkdirs(new File(updateDir));
 
@@ -534,9 +541,9 @@ public class GeoGebraFrame extends JFrame
 				String filename = updateDir + File.separator
 						+ "geogebra-jars.zip";
 				File dest = new File(filename);
-				URL url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
+				URL url = new URL(GEOGEBRA_ONLINE_JARS_ZIP);
 				Log.debug("Downloading "
-						+ GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
+						+ GEOGEBRA_ONLINE_JARS_ZIP);
 				DownloadManager.copyURLToFile(url, dest);
 
 				// Unzipping:

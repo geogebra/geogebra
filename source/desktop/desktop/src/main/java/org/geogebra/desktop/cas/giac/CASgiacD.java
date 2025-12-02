@@ -79,12 +79,4 @@ public class CASgiacD extends CASgiacJre {
 		return !AppD.LINUX;
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	final protected void stopThread(Thread thread) {
-		// thread.interrupt() doesn't seem to stop it, so add this for
-		// good measure:
-		thread.stop();
-	}
-
 }

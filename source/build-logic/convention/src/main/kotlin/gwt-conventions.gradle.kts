@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.docstr.gwt.AbstractBaseTask
 
 plugins {
@@ -77,4 +78,26 @@ afterEvaluate {
         }
     }
     dependencies.add("gwtDev", files(gwtInternal.incoming.files))
+}
+
+abstract class MinifyLibTask @Inject constructor(private val execOps: ExecOperations) : DefaultTask() {
+
+    @get:InputFile
+    abstract val sourceFile: RegularFileProperty
+
+    init {
+        outputs.file(sourceFile.map {
+            it.asFile.absolutePath.removeSuffix(it.asFile.extension).plus("min.js")
+        })
+    }
+
+    @TaskAction
+    fun minifyLib() {
+        val outputFile = outputs.files.singleFile
+        val command = listOf("npx", "terser", "${sourceFile.get()}",
+            "-o", "$outputFile", "--compress", "--mangle", "--comments", "/license/")
+        execOps.exec {
+            commandLine = if (Os.isFamily(Os.FAMILY_WINDOWS)) listOf("cmd", "/c") + command else command
+        }
+    }
 }

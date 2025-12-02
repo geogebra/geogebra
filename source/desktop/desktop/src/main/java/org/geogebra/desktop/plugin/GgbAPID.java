@@ -2,7 +2,6 @@ package org.geogebra.desktop.plugin;
 
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -14,19 +13,14 @@ import java.security.AccessController;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivilegedAction;
-import java.util.Iterator;
 import java.util.function.Consumer;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JOptionPane;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
-import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.JsObjectWrapper;
@@ -157,22 +151,6 @@ public class GgbAPID extends GgbAPIJre {
 				.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));
 	}
 
-	private static volatile MessageDigest messageDigestMD5 = null;
-
-	/**
-	 * @return reference to MD5 algorithm
-	 * @throws NoSuchAlgorithmException
-	 *             if algorithm is not supported
-	 */
-	public static MessageDigest getMessageDigestMD5()
-			throws NoSuchAlgorithmException {
-		if (messageDigestMD5 == null) {
-			messageDigestMD5 = MessageDigest.getInstance("MD5");
-		}
-
-		return messageDigestMD5;
-	}
-
 	/*
 	 * saves a PNG file signed applets only
 	 */
@@ -187,44 +165,33 @@ public class GgbAPID extends GgbAPIJre {
 		try {
 			file1 = new File(filename);
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 		}
 		if (file1 == null) {
 			return false;
 		}
 		final File file = file1;
-		return (Boolean) AccessController
-				.doPrivileged((PrivilegedAction<Object>) () -> {
+		try {
+			// draw graphics view into image
+			GBufferedImage img = getApplication()
+					.getActiveEuclidianView()
+					.getExportImage(exportScale, transparent,
+							ExportType.PNG);
 
-					try {
-						// draw graphics view into image
-						GBufferedImage img = ((AppD) getApplication())
-								.getActiveEuclidianView()
-								.getExportImage(exportScale, transparent,
-										ExportType.PNG);
+			if (greyscale) {
+				((GBufferedImageD) img).convertToGrayscale();
+			}
 
-						if (greyscale) {
-							((GBufferedImageD) img).convertToGrayscale();
-						}
+			// write image to file
+			MyImageIO.write(
+					GBufferedImageD.getAwtBufferedImage(img),
+					"png", (float) DPI, file);
 
-						// write image to file
-						MyImageIO.write(
-								GBufferedImageD.getAwtBufferedImage(img),
-								"png", (float) DPI, file);
-
-						return true;
-					} catch (Exception ex) {
-						ex.printStackTrace();
-						Log.debug(ex.toString());
-						return false;
-					} catch (Error ex) {
-						ex.printStackTrace();
-						Log.debug(ex.toString());
-						return false;
-					}
-
-				});
-
+			return true;
+		} catch (IOException | RuntimeException | Error ex) {
+			Log.debug(ex);
+			return false;
+		}
 	}
 
 	@Override
@@ -309,8 +276,7 @@ public class GgbAPID extends GgbAPIJre {
 		
 		try {
 			// read file back as String
-			callback.accept(new String(Files.readAllBytes(Paths.get(filename)),
-					StandardCharsets.UTF_8));
+			callback.accept(Files.readString(Paths.get(filename)));
 		} catch (IOException e) {
 			Log.error("problem reading " + filename);
 		}
@@ -336,8 +302,7 @@ public class GgbAPID extends GgbAPIJre {
 
 		try {
 			// read file back as String
-			callback.accept(new String(Files.readAllBytes(Paths.get(filename)),
-					StandardCharsets.UTF_8));
+			callback.accept(Files.readString(Paths.get(filename)));
 		} catch (IOException e) {
 			Log.error("problem reading " + filename);
 		}

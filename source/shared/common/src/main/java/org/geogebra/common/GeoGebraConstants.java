@@ -109,7 +109,7 @@ public interface GeoGebraConstants {
 			// 6.0.x.x
 			switch (this) {
 			default:
-				// change 5.2.274.0 to 6.0.274.0
+				// change 5.4.274.0 to 6.0.274.0
 				return getVersionString6() + "-" + suffix;
 			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
@@ -166,7 +166,7 @@ public interface GeoGebraConstants {
 
 	// This is used for checking if a minor update exists (on each run):
 	public static final String VERSION_URL_MINOR =
-			"https://download.geogebra.org/installers/5.2/version.txt";
+			"https://download.geogebra.org/installers/5.4/version.txt";
 
 	// This is used for checking whether a major update exists (monthly):
 	public static final String VERSION_URL = "https://download.geogebra.org/installers/version.txt";
@@ -175,21 +175,13 @@ public interface GeoGebraConstants {
 
 	// archive
 	/** short version, for online archive */
-	public static final String SHORT_VERSION_STRING = "5.2";
+	public static final String SHORT_VERSION_STRING = "5.4";
 	// File format versions
 	/** XSD for ggb files */
 	public static final String GGB_XSD_FILENAME = "ggb.xsd";
 	/** XSD for ggt (macro) files */
 	public static final String GGT_XSD_FILENAME = "ggt.xsd";
 	// URLs
-	/** URL of GeoGebra jars */
-	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "https://jars.geogebra.org/webstart/"
-			+ SHORT_VERSION_STRING + "/";
-	/** URL of GeoGebra jars, zipped */
-	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE
-			+ "geogebra-jars.zip";
-	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.2\\jars\\update";
 
 	/** http prefix */
 	public static final String HTTP = "http://";
@@ -269,6 +261,6 @@ public interface GeoGebraConstants {
 	 * @return version string
 	 */
 	static String getVersionString6() {
-		return VERSION_STRING.replace("5.2.", "6.0.");
+		return VERSION_STRING.replace("5.4.", "6.0.");
 	}
 }

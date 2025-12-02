@@ -67,6 +67,11 @@ tasks.test {
 
 application {
     mainClass = "org.geogebra.desktop.GeoGebra3D"
+ // https://forum.jogamp.org/Unable-to-determine-Graphics-Configuration-Am-I-setting-up-something-wrong-tp4041606p4041636.html
+    applicationDefaultJvmArgs = listOf("--add-exports", "java.base/java.lang=ALL-UNNAMED",
+            "--add-exports", "java.desktop/sun.awt=ALL-UNNAMED",
+            "--add-exports", "java.desktop/sun.java2d=ALL-UNNAMED",
+        "--enable-native-access=ALL-UNNAMED")
 }
 
 run {

@@ -8,6 +8,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLCapabilitiesImmutable;
+import com.jogamp.opengl.GLException;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.awt.GLJPanel;
@@ -169,6 +170,15 @@ public class RendererJogl {
 		
 		public ComponentGLCanvas() {
 			super(caps);
+		}
+
+		@Override
+		public void addNotify() {
+			try {
+				super.addNotify();
+			} catch (GLException ex) {
+				ex.printStackTrace();
+			}
 		}
 		
 	}
