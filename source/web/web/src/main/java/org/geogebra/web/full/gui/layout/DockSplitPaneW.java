@@ -718,6 +718,13 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		}
 	}
 
+	// only needed for width because of flexbox parent
+	@Override
+	public void setWidth(String width) {
+		super.setWidth(width);
+		getElement().getStyle().setProperty("minWidth", width);
+	}
+
 	/**
 	 * Check if divider is outside the component and move it to the middle if
 	 * needed

@@ -2061,6 +2061,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void toggleMenu() {
 		if (!menuShowing) {
 			getAppletFrame().hidePanel(null);
+			double fullWidth = getWidth();
 			menuShowing = true;
 			boolean needsUpdate = isMenuInited;
 			if (!isFloatingMenu() && !isMenuInited) {
@@ -2076,7 +2077,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));
-			spWidth = (int) (getWidth() - GLookAndFeel.MENUBAR_WIDTH);
+			spWidth = (int) (fullWidth - GLookAndFeel.MENUBAR_WIDTH);
 			oldSplitLayoutPanel.setPixelSize(spWidth,
 					oldSplitLayoutPanel.getOffsetHeight());
 			updateMenuHeight();
