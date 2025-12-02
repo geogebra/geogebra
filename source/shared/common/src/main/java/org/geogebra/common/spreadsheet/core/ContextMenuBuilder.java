@@ -127,7 +127,8 @@ public final class ContextMenuBuilder {
                 new ActionableItem(LINE_CHART, () -> spreadsheetController.createChart(LINE_CHART)),
                 new ActionableItem(BAR_CHART, () -> spreadsheetController.createChart(BAR_CHART)),
                 new ActionableItem(HISTOGRAM, () -> spreadsheetController.createChart(HISTOGRAM)),
-                new ActionableItem(BOX_PLOT, () -> spreadsheetController.createChart(BOX_PLOT)),
+				// ToDo Re-enable this after APPS-7073, APPS-7074 and APPS-7075 are done
+                // new ActionableItem(BOX_PLOT, () -> spreadsheetController.createChart(BOX_PLOT)),
                 new ActionableItem(PIE_CHART, () -> spreadsheetController.createChart(PIE_CHART)));
     }
 
