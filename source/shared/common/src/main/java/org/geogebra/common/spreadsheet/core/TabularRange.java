@@ -370,11 +370,6 @@ public final class TabularRange {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "(" + minRow + "," + minColumn + ") to (" + maxRow + "," + maxColumn + ")";
-	}
-
 	public int getFromRow() {
 		return anchorRow;
 	}
@@ -411,6 +406,11 @@ public final class TabularRange {
 					ret.getMaxRow(), columnCount - 1);
 		}
 		return ret;
+	}
+
+	@Override
+	public String toString() {
+		return "(" + minRow + "," + minColumn + ") to (" + maxRow + "," + maxColumn + ")";
 	}
 
 	@Override

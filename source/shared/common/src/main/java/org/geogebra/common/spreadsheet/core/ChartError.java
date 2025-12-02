@@ -2,6 +2,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 /**
  * Enumeration representing possible validation errors when generating charts
  * from spreadsheet data.
@@ -14,7 +16,8 @@ import java.util.List;
 public enum ChartError {
 	NONE(""),
 	NoData("StatsDialog.NoData"),
-	TwoColumnsNeeded("ChartError.TwoColumns");
+	TwoColumnsNeeded("ChartError.TwoColumns"),
+	InvalidData("InvalidInput");
 
 	private final String errorKey;
 
@@ -88,5 +91,47 @@ public enum ChartError {
 			return range.getWidth() >= 2 ? NONE : noDataOrTwoColumnNeeded(range);
 		}
 		return validateMultiRange(ranges);
+	}
+
+	/**
+	 * Checks if selected ranges are valid for BoxPlot.
+	 * @param ranges One or two ranges. The first range may be a 2xN or Nx2 rectangular range,
+	 * in which case there must only be one range.
+	 * @return {@link #NONE} if the ranges are valid, or a validation error otherwise.
+	 */
+	public static ChartError validateRangesForBoxPlot(@Nonnull List<TabularRange> ranges) {
+		if (ranges.isEmpty()) {
+			return ChartError.NoData; // not enough ranges
+		}
+		if (ranges.size() > 2) {
+			return ChartError.InvalidData; // too many ranges
+		}
+		TabularRange range1 = ranges.get(0);
+		if (range1.isSingleCell()) {
+			return ChartError.NoData; // not enough cells
+		}
+		if (range1.isEntireColumn() || range1.isEntireRow()) {
+			return ChartError.InvalidData; // too many cells
+		}
+		if (ranges.size() == 2) {
+			TabularRange range2 = ranges.get(1);
+			if (range2.isEntireColumn() || range2.isEntireRow()
+					// if we have 2 ranges, they must not be wider than 1 row or column
+					|| !range2.is1D() || !range1.is1D()) {
+				return ChartError.InvalidData; // too many cells
+			}
+			int size1 = range1.isPartialColumn() ? range1.getHeight() : range1.getWidth();
+			int size2 = range2.isPartialColumn() ? range2.getHeight() : range2.getWidth();
+			if (size1 != size2) {
+				return ChartError.InvalidData;
+			}
+		} else {
+			// if we have just one range which is rectangular (e.g., 3x2), the smaller dimension
+			// must not exceed 2 (i.e., 4x3 is not allowed)
+			if (Math.min(range1.getWidth(), range1.getHeight()) > 2) {
+				return ChartError.InvalidData;
+			}
+		}
+		return ChartError.NONE;
 	}
 }

@@ -43,4 +43,11 @@ public interface SpreadsheetConstructionDelegate {
 	 * @param ranges The list of ranges in {@code data} from which to create the graph.
 	 */
 	void createLineGraph(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
+
+	/**
+	 * Create a box plot.
+	 * @param data The spreadsheet data.
+	 * @param ranges The ranges in {@code data} from which to take raw data and frequencies.
+	 */
+	void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
 }

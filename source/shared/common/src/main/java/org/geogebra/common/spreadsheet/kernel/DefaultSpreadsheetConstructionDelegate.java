@@ -64,5 +64,11 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 			processCommand(command);
 		}
 	}
+
+	@Override
+	public void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+		String command = ChartBuilder.getBoxPlotCommand(data, ranges);
+		processCommand(command);
+	}
 }
 

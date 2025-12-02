@@ -23,6 +23,7 @@ public class ContextMenuItem {
 		LINE_CHART("ContextMenu.LineChart"),
 		BAR_CHART("ContextMenu.BarChart"),
 		HISTOGRAM("Histogram"),
+		BOX_PLOT("Boxplot"),
 		PIE_CHART("ContextMenu.PieChart"),
 		INSERT_ROW_ABOVE("ContextMenu.insertRowAbove"),
 		INSERT_ROW_BELOW("ContextMenu.insertRowBelow"),

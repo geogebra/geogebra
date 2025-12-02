@@ -1360,31 +1360,32 @@ public final class SpreadsheetController {
 	// Charts
 
 	void createChart(ContextMenuItem.Identifier chartType) {
-		Selection last = getLastSelection();
-		TabularRange range = last == null ? null : last.getRange();
-
-		if (range == null) {
-			return;
-		}
-
 		switch (chartType) {
 		case PIE_CHART:
-			createPieChart(range);
+			Selection last = getLastSelection();
+			if (last != null) {
+				TabularRange range = last.getRange();
+				createPieChart(range);
+			}
 			break;
 		case BAR_CHART:
 		case HISTOGRAM:
-			List<TabularRange> ranges = getLastRanges();
-			createChartWithTwoParameters(ranges, chartType);
+			createChartWithTwoParameters(getSelectionRanges(), chartType);
 			break;
 		case LINE_CHART:
-			createLineChart(getLastRanges());
+			createLineChart(getSelectionRanges());
+			break;
+		case BOX_PLOT:
+			createBoxPlot(getSelectionRanges());
 			break;
 		default:
+			break;
 		}
 	}
 
-	private List<TabularRange> getLastRanges() {
-		return selectionController.getSelections().map(Selection::getRange)
+	private List<TabularRange> getSelectionRanges() {
+		return selectionController.getSelections()
+				.map(Selection::getRange)
 				.collect(Collectors.toList());
 	}
 
@@ -1392,7 +1393,6 @@ public final class SpreadsheetController {
 		if (constructionDelegate == null || controlsDelegate == null) {
 			return;
 		}
-
 		if (range.isEntireColumn() || range.isPartialColumn() && !range.isPartialRow()
 				&& !range.isEntireRow()) {
 			constructionDelegate.createPieChart(tabularData, range);
@@ -1407,9 +1407,7 @@ public final class SpreadsheetController {
 		if (constructionDelegate == null || controlsDelegate == null) {
 			return;
 		}
-
 		ChartError chartError = ChartError.validateForTwoColumns(ranges);
-
 		if (chartError == ChartError.NONE) {
 			switch (chartType) {
 			case BAR_CHART:
@@ -1429,7 +1427,6 @@ public final class SpreadsheetController {
 		if (constructionDelegate == null || controlsDelegate == null) {
 			return;
 		}
-
 		ChartError chartError = ChartError.validateForMoreColumns(ranges);
 		if (chartError == ChartError.NONE) {
 			if (ranges.size() == 1) {
@@ -1440,6 +1437,18 @@ public final class SpreadsheetController {
 		} else {
 			controlsDelegate.showSnackbar(chartError.getErrorKey());
 		}
+	}
+
+	private void createBoxPlot(List<TabularRange> ranges) {
+		if (constructionDelegate == null || controlsDelegate == null) {
+			return;
+		}
+		ChartError chartError = ChartError.validateRangesForBoxPlot(ranges);
+		if (chartError != ChartError.NONE) {
+			controlsDelegate.showSnackbar(chartError.getErrorKey());
+			return;
+		}
+		constructionDelegate.createBoxPlot(tabularData, ranges);
 	}
 
 	// Autocomplete

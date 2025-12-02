@@ -136,5 +136,71 @@ public final class ChartBuilder {
 				range.getFromRow(), range.getFromColumn(),
 				range.getToRow(), toColumn);
 	}
+
+	/**
+	 * Builds a BoxPlot command.
+	 * @param data The spreadsheet data.
+	 * @param ranges The range(s) in {@code data}. Only ranges that have passed validation via
+	 * {@link org.geogebra.common.spreadsheet.core.ChartError#validateRangesForBoxPlot(List)}
+	 * must be passed, otherwise the resulting command may be garbage.
+	 * @return The BoxPlot command
+	 */
+	public static @Nonnull String getBoxPlotCommand(@Nonnull TabularData<?> data,
+			@Nonnull List<TabularRange> ranges) {
+		TabularRange rawDataRange = ranges.get(0);
+		TabularRange frequenciesRange = null;
+		if (ranges.size() > 1) {
+			frequenciesRange = ranges.get(1);
+		} else {
+			// check if the first range is 2xN or Nx2 rectangular
+			if (rawDataRange.getHeight() == 2 && rawDataRange.getWidth() > 2) {
+				// 2 rows x N columns
+				TabularRange newRawDataRange = new TabularRange(
+						rawDataRange.getFromRow(),
+						rawDataRange.getFromColumn(),
+						rawDataRange.getFromRow(),
+						rawDataRange.getToColumn());
+				frequenciesRange = new TabularRange(
+						rawDataRange.getToRow(),
+						rawDataRange.getFromColumn(),
+						rawDataRange.getToRow(),
+						rawDataRange.getToColumn());
+				rawDataRange = newRawDataRange;
+			} else if (rawDataRange.getWidth() == 2 && rawDataRange.getHeight() > 2) {
+				// N rows x 2 columns
+				TabularRange newRawDataRange = new TabularRange(
+						rawDataRange.getFromRow(),
+						rawDataRange.getFromColumn(),
+						rawDataRange.getToRow(),
+						rawDataRange.getFromColumn());
+				frequenciesRange = new TabularRange(
+						rawDataRange.getFromRow(),
+						rawDataRange.getToColumn(),
+						rawDataRange.getToRow(),
+						rawDataRange.getToColumn());
+				rawDataRange = newRawDataRange;
+			}
+		}
+		StringBuilder sb = new StringBuilder();
+		// BoxPlot( <yOffset>, <yScale>, <List of Raw Data> )
+		sb.append("BoxPlot(0, 1, ");
+		sb.append(formatCellRange(rawDataRange, data));
+		if (frequenciesRange != null) {
+			// BoxPlot( <yOffset>, <yScale>, <List of Data>, <List of Frequencies>,
+			// <Boolean Outliers> )
+			sb.append(", ");
+			sb.append(formatCellRange(frequenciesRange, data));
+			sb.append(", false");
+		}
+		sb.append(")");
+		return sb.toString();
+	}
+
+	private static String formatCellRange(@Nonnull TabularRange range,
+			@Nonnull TabularData<?> data) {
+		return data.getCellName(range.getFromRow(), range.getFromColumn())
+				+ ":"
+				+ data.getCellName(range.getToRow(), range.getToColumn());
+	}
 }
 

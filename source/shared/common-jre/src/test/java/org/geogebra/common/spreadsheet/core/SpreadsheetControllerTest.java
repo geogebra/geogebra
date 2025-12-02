@@ -33,11 +33,9 @@ import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
-import org.geogebra.editor.share.catalog.CharacterTemplate;
 import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.editor.MathFieldInternal;
 import org.geogebra.editor.share.event.KeyEvent;
-import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.geogebra.test.annotation.Issue;
@@ -1151,6 +1149,48 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertEquals(GColor.GREEN, spreadsheetStyling.getBackgroundColor(2, 3, null));
     }
 
+    @ParameterizedTest
+    @CsvSource (delimiterString = ":", value = {
+            "mean:<List of x>:<List of y>",
+            "mean::"
+    })
+    void testCommandArgumentsSelection(String cmd, String placeholder1, String placeholder2) {
+        setViewport(new Rectangle(0, 500, 0, 500));
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        tabularData.setContent(0, 1, "4");
+        tabularData.setContent(1, 1, "5");
+        tabularData.setContent(2, 1, "6");
+        simulateCellMouseClick(3, 0, 2);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
+        if (placeholder1 != null) {
+            cellEditor.getMathField().insertString(cmd + "(");
+            PlaceholderNode node1 = new PlaceholderNode(placeholder1);
+            PlaceholderNode node2 = new PlaceholderNode(placeholder2);
+            EditorState editorState = cellEditor.getMathField().getEditorState();
+            editorState.addArgument(node1);
+            editorState.addArgument(node2);
+        } else {
+            cellEditor.getMathField().insertString(cmd + "(");
+        }
+
+        Point center = getCenter(0, 0);
+        controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
+        center = getCenter(1, 0);
+        controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
+        center = getCenter(2, 0);
+        controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_COMMA);
+        center = getCenter(0, 1);
+        controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
+        center = getCenter(1, 1);
+        controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
+        center = getCenter(2, 1);
+        controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
+        assertEquals("=mean(A1:A3,B1:B3)", cellEditor.getMathField().getText());
+    }
+
     // Helpers
 
     private void setViewport(Rectangle viewport) {
@@ -1314,46 +1354,8 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         chartCommand = ChartBuilder.getLineGraphCommand(data, ranges);
     }
 
-    @ParameterizedTest
-    @CsvSource (delimiterString = ":", value = {
-            "mean:<List of x>:<List of y>",
-            "mean::"
-    })
-    void testCommandArgumentsSelection(String cmd, String placeholder1, String placeholder2) {
-        setViewport(new Rectangle(0, 500, 0, 500));
-        tabularData.setContent(0, 0, "1");
-        tabularData.setContent(1, 0, "2");
-        tabularData.setContent(2, 0, "3");
-        tabularData.setContent(0, 1, "4");
-        tabularData.setContent(1, 1, "5");
-        tabularData.setContent(2, 1, "6");
-        simulateCellMouseClick(3, 0, 2);
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_EQUALS);
-        if (placeholder1 != null) {
-            cellEditor.getMathField().insertString(cmd + "(");
-            PlaceholderNode node1 = new PlaceholderNode(placeholder1);
-            PlaceholderNode node2 = new PlaceholderNode(placeholder2);
-            EditorState editorState = cellEditor.getMathField().getEditorState();
-            editorState.addArgument(node1);
-            editorState.addArgument(node2);
-        } else {
-            cellEditor.getMathField().insertString(cmd + "(");
-        }
-
-        Point center = getCenter(0, 0);
-        controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
-        center = getCenter(1, 0);
-        controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
-        center = getCenter(2, 0);
-        controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
-        simulateKeyPressInCellEditor(JavaKeyCodes.VK_COMMA);
-        center = getCenter(0, 1);
-        controller.handlePointerDown(center.x, center.y, Modifiers.NONE);
-        center = getCenter(1, 1);
-        controller.handlePointerMove(center.x, center.y, Modifiers.NONE);
-        center = getCenter(2, 1);
-        controller.handlePointerUp(center.x, center.y, Modifiers.NONE);
-        assertEquals("=mean(A1:A3,B1:B3)", cellEditor.getMathField().getText());
+    @Override
+    public void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
+        chartCommand = ChartBuilder.getBoxPlotCommand(data, ranges);
     }
-
 }
