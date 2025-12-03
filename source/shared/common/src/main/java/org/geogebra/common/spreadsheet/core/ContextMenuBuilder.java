@@ -1,7 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.BAR_CHART;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.BOX_PLOT;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CALCULATE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CREATE_CHART;

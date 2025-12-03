@@ -5,7 +5,7 @@ import java.util.List;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
+import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -16,7 +16,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 public class LabelValuePanel extends FlowPanel
 		implements CloseHandler<GPopupPanel>, SetLabels {
 	private final AppW appW;
-	private final StringPropertyCollection<?> nameProperty;
+	private final StringPropertyListFacade<?> nameProperty;
 	private final List<GeoElement> geos;
 
 	private ComponentInputField tfName;
@@ -26,7 +26,7 @@ public class LabelValuePanel extends FlowPanel
 	 * @param appW - application
 	 * @param nameProperty - name property
 	 */
-	public LabelValuePanel(AppW appW, StringPropertyCollection<?> nameProperty,
+	public LabelValuePanel(AppW appW, StringPropertyListFacade<?> nameProperty,
 			List<GeoElement> geos) {
 		super();
 		this.appW = appW;

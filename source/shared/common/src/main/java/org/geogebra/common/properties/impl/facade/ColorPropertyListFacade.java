@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl.collections;
+package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 /**
  * Handles a collection of ColorProperty objects as a single ColorProperty.
  */
-public class ColorPropertyCollection<T extends ElementColorProperty>
-		extends EnumeratedPropertyCollection<T, GColor> implements ColorProperty {
+public class ColorPropertyListFacade<T extends ElementColorProperty>
+		extends EnumeratedPropertyListFacade<T, GColor> implements ColorProperty {
 
 	/**
 	 * @param properties properties to handle
 	 */
-	public ColorPropertyCollection(List<T> properties) {
+	public ColorPropertyListFacade(List<T> properties) {
 		super(properties);
 	}
 

@@ -1,31 +1,21 @@
-package org.geogebra.common.properties.impl.collections;
+package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.properties.impl.AbstractProperty;
 import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
 
 /**
  * Handles a collection of ScriptTypeProperty objects as a single ScriptTypeProperty.
  */
-public class ObjectEventPropertyCollection extends AbstractProperty implements ObjectEventProperty {
-
-	private final List<? extends ObjectEventProperty> properties;
+public class ObjectEventPropertyListFacade<T extends ObjectEventProperty>
+		extends AbstractPropertyListFacade<T> implements ObjectEventProperty {
 
 	/**
-	 * @param loc localization
 	 * @param properties per-element properties
 	 */
-	public ObjectEventPropertyCollection(Localization loc,
-			List<? extends  ObjectEventProperty> properties) {
-		super(loc, properties.get(0).getRawName());
-		this.properties = properties;
-	}
-
-	private ObjectEventProperty getFirstProperty() {
-		return properties.get(0);
+	public ObjectEventPropertyListFacade(List<T> properties) {
+		super(properties);
 	}
 
 	@Override
@@ -57,10 +47,4 @@ public class ObjectEventPropertyCollection extends AbstractProperty implements O
 	public boolean isJsEnabled() {
 		return getFirstProperty().isJsEnabled();
 	}
-
-	@Override
-	public boolean isEnabled() {
-		return getFirstProperty().isEnabled();
-	}
-
 }

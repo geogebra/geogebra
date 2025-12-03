@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.impl.collections.FlagListPropertyCollection;
+import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
 import org.geogebra.web.full.javax.swing.GCheckMarkLabel;
 import org.geogebra.web.full.javax.swing.GCheckMarkPanel;
 import org.gwtproject.user.client.Command;
@@ -13,14 +13,14 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 public class LabelSettingsPanel extends FlowPanel implements SetLabels {
 
-	private final FlagListPropertyCollection<?> labelStyleProperty;
+	private final FlagListPropertyListFacade<?> labelStyleProperty;
 	private final List<GCheckMarkLabel> checkmarks = new ArrayList<>();
 
 	/**
 	 * Constructor
 	 * @param labelStyleProperty - name property
 	 */
-	public LabelSettingsPanel(FlagListPropertyCollection<?> labelStyleProperty) {
+	public LabelSettingsPanel(FlagListPropertyListFacade<?> labelStyleProperty) {
 		super();
 		this.labelStyleProperty = labelStyleProperty;
 		createDialog();

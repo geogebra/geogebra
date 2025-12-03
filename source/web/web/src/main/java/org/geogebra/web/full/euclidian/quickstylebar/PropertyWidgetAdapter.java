@@ -8,9 +8,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.PropertySupplier;
-import org.geogebra.common.properties.impl.collections.FlagListPropertyCollection;
-import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
-import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
+import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
 import org.geogebra.web.full.euclidian.LabelSettingsPanel;
 import org.geogebra.web.full.euclidian.quickstylebar.components.BorderThicknessPanel;
 import org.geogebra.web.full.euclidian.quickstylebar.components.SliderWithProperty;
@@ -79,7 +79,7 @@ public class PropertyWidgetAdapter {
 	 * @param property - cell border thickness property
 	 * @return panel for line thickness ui
 	 */
-	public FlowPanel getBorderThicknessWidget(RangePropertyCollection<?> property) {
+	public FlowPanel getBorderThicknessWidget(RangePropertyListFacade<?> property) {
 		return new BorderThicknessPanel(property, appW);
 	}
 
@@ -88,7 +88,7 @@ public class PropertyWidgetAdapter {
 	 * @param geo - geo element
 	 * @return slider based on range property
 	 */
-	public SliderWithProperty getSliderWidget(RangePropertyCollection<?> property,
+	public SliderWithProperty getSliderWidget(RangePropertyListFacade<?> property,
 			PropertySupplier propertySupplier,
 			GeoElement geo) {
 		return new SliderWithProperty(appW, property, propertySupplier, geo.getLineType(),
@@ -99,7 +99,7 @@ public class PropertyWidgetAdapter {
 	 * @param property - text font size property
 	 * @return menu based on text font size property
 	 */
-	public GPopupMenuW getMenuWidget(NamedEnumeratedPropertyCollection<?, ?> property) {
+	public GPopupMenuW getMenuWidget(NamedEnumeratedPropertyListFacade<?, ?> property) {
 		GPopupMenuW fontSizeMenu = new GPopupMenuW(appW);
 		int selectedFontIdx = property.getIndex();
 		for (int i = 0; i < property.getValueNames().length; i++) {
@@ -123,7 +123,7 @@ public class PropertyWidgetAdapter {
 	 * @param property property
 	 * @return label settings panel
 	 */
-	public LabelSettingsPanel getLabelPanel(FlagListPropertyCollection<?> property) {
+	public LabelSettingsPanel getLabelPanel(FlagListPropertyListFacade<?> property) {
 		return new LabelSettingsPanel(property);
 	}
 }

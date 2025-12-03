@@ -4,11 +4,11 @@ import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
-import org.geogebra.common.properties.impl.collections.BooleanPropertyCollection;
-import org.geogebra.common.properties.impl.collections.ColorPropertyCollection;
-import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
-import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
-import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
+import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
+import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.BoldProperty;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
@@ -254,12 +254,12 @@ public class PropertiesIconAdapter {
 			int selectedIndex = ((IconsEnumeratedProperty<?>) property).getIndex();
 			return selectedIndex == -1 ? PropertiesIconAdapter.getIcon(propertyIcons[0])
 					: PropertiesIconAdapter.getIcon(propertyIcons[selectedIndex]);
-		} else if (property instanceof RangePropertyCollection<?>
-				&& ((RangePropertyCollection<?>) property).getFirstProperty()
+		} else if (property instanceof RangePropertyListFacade<?>
+				&& ((RangePropertyListFacade<?>) property).getFirstProperty()
 				instanceof ImageOpacityProperty) {
 			return MaterialDesignResources.INSTANCE.opacity_black();
-		} else if (property instanceof BooleanPropertyCollection<?>) {
-			Property firstProperty = ((BooleanPropertyCollection<?>) property).getFirstProperty();
+		} else if (property instanceof BooleanPropertyListFacade<?>) {
+			Property firstProperty = ((BooleanPropertyListFacade<?>) property).getFirstProperty();
 			if (firstProperty instanceof BoldProperty) {
 				return MaterialDesignResources.INSTANCE.text_bold_black();
 			} else if (firstProperty instanceof ItalicProperty) {
@@ -267,12 +267,12 @@ public class PropertiesIconAdapter {
 			} else if (firstProperty instanceof UnderlineProperty) {
 				return MaterialDesignResources.INSTANCE.text_underline_black();
 			}
-		} else if (property instanceof NamedEnumeratedPropertyCollection
-			&& ((NamedEnumeratedPropertyCollection<?, ?>) property).getFirstProperty()
+		} else if (property instanceof NamedEnumeratedPropertyListFacade
+			&& ((NamedEnumeratedPropertyListFacade<?, ?>) property).getFirstProperty()
 			instanceof TextFontSizeProperty) {
 			return MaterialDesignResources.INSTANCE.text_size_black();
-		} else if (property instanceof ColorPropertyCollection) {
-			AbstractValuedProperty<?> firstProperty = ((ColorPropertyCollection<?>) property)
+		} else if (property instanceof ColorPropertyListFacade) {
+			AbstractValuedProperty<?> firstProperty = ((ColorPropertyListFacade<?>) property)
 					.getFirstProperty();
 			if (firstProperty instanceof ObjectColorProperty
 				|| firstProperty instanceof TextBackgroundColorProperty
@@ -283,7 +283,7 @@ public class PropertiesIconAdapter {
 			} else if (firstProperty instanceof BorderColorProperty) {
 				return MaterialDesignResources.INSTANCE.color_border();
 			}
-		} else if (property instanceof StringPropertyCollection<?>) {
+		} else if (property instanceof StringPropertyListFacade<?>) {
 			return ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
 		}
 

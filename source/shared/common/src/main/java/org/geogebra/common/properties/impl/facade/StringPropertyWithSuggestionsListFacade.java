@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl.collections;
+package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
-public class StringPropertyWithSuggestionsCollection<T extends StringPropertyWithSuggestions>
-		extends AbstractValuedPropertyCollection<T, String>
+public class StringPropertyWithSuggestionsListFacade<T extends StringPropertyWithSuggestions>
+		extends AbstractValuedPropertyListFacade<T, String>
 		implements StringPropertyWithSuggestions {
-	public StringPropertyWithSuggestionsCollection(List<T> properties) {
+	public StringPropertyWithSuggestionsListFacade(List<T> properties) {
 		super(properties);
 	}
 
@@ -20,7 +20,7 @@ public class StringPropertyWithSuggestionsCollection<T extends StringPropertyWit
 
 	@Override
 	public @CheckForNull String validateValue(String value) {
-		for (T property : getProperties()) {
+		for (T property : properties) {
 			String invalidMessage = property.validateValue(value);
 			if (invalidMessage != null) {
 				return invalidMessage;

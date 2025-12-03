@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.PropertiesArray;
-import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
@@ -322,8 +322,8 @@ public final class CvteExamTests extends BaseExamTestSetup {
                 getAlgebraProcessor(), getApp().getLocalization(), List.of(line));
         LinearEquationFormProperty equationFormProperty = null;
         for (Property property : properties.getProperties()) {
-            if (property instanceof NamedEnumeratedPropertyCollection) {
-                Property firstProperty = ((NamedEnumeratedPropertyCollection<?, ?>) property)
+            if (property instanceof NamedEnumeratedPropertyListFacade) {
+                Property firstProperty = ((NamedEnumeratedPropertyListFacade<?, ?>) property)
                         .getFirstProperty();
                 if (firstProperty instanceof LinearEquationFormProperty) {
                     equationFormProperty = (LinearEquationFormProperty) firstProperty;

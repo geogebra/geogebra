@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl.collections;
+package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
@@ -7,13 +7,13 @@ import org.geogebra.common.properties.RangeProperty;
 /**
  * Handles a collection of RangeProperty objects as a single RangeProperty.
  */
-public class RangePropertyCollection<T extends RangeProperty<Integer>>
-		extends AbstractValuedPropertyCollection<T, Integer> implements RangeProperty<Integer> {
+public class RangePropertyListFacade<T extends RangeProperty<Integer>>
+		extends AbstractValuedPropertyListFacade<T, Integer> implements RangeProperty<Integer> {
 
 	/**
 	 * @param properties properties to handle
 	 */
-	public RangePropertyCollection(List<T> properties) {
+	public RangePropertyListFacade(List<T> properties) {
 		super(properties);
 	}
 

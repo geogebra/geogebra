@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl.collections;
+package org.geogebra.common.properties.impl.facade;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ import org.geogebra.common.properties.PropertyResource;
 /**
  * Handles a collection of IconsEnumeratedProperty objects as a single IconsEnumeratedProperty.
  */
-public class IconsEnumeratedPropertyCollection<T extends IconsEnumeratedProperty<V>, V>
-		extends EnumeratedPropertyCollection<T, V> implements IconsEnumeratedProperty<V> {
+public class IconsEnumeratedPropertyListFacade<T extends IconsEnumeratedProperty<V>, V>
+		extends EnumeratedPropertyListFacade<T, V> implements IconsEnumeratedProperty<V> {
 
 	/**
 	 * @param properties properties to handle
 	 */
-	public IconsEnumeratedPropertyCollection(List<T> properties) {
+	public IconsEnumeratedPropertyListFacade(List<T> properties) {
 		super(properties);
 	}
 

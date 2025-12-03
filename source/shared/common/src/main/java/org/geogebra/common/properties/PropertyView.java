@@ -20,7 +20,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
-import org.geogebra.common.properties.impl.collections.AbstractValuedPropertyCollection;
+import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
 import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
@@ -128,9 +128,9 @@ public abstract class PropertyView {
 			if (property instanceof SettingsDependentProperty) {
 				((SettingsDependentProperty) property).getSettings().addListener(this);
 			}
-			if (property instanceof AbstractValuedPropertyCollection<?, ?>) {
-				List<?> properties = ((AbstractValuedPropertyCollection<?, ?>) property)
-						.getProperties();
+			if (property instanceof AbstractPropertyListFacade<?>) {
+				List<?> properties = ((AbstractPropertyListFacade<?>) property)
+						.getPropertyList();
 				dependentGeoElements = properties
 						.stream()
 						.filter(p -> p instanceof GeoElementDependentProperty)

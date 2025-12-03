@@ -10,11 +10,11 @@ import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertySupplier;
 import org.geogebra.common.properties.RangeProperty;
-import org.geogebra.common.properties.impl.collections.ColorPropertyCollection;
-import org.geogebra.common.properties.impl.collections.FlagListPropertyCollection;
-import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
-import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
-import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
+import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
+import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
 import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
@@ -113,19 +113,19 @@ public class IconButtonWithProperty extends IconButton {
 			parent.add(enumeratedPropertyButtonPanel);
 		}
 
-		if (property instanceof NamedEnumeratedPropertyCollection) {
+		if (property instanceof NamedEnumeratedPropertyListFacade) {
 			GPopupMenuW fontSizeMenu = widgetAdapter.getMenuWidget(
-					(NamedEnumeratedPropertyCollection<?, ?>) property);
+					(NamedEnumeratedPropertyListFacade<?, ?>) property);
 			parent.add(fontSizeMenu.getPopupMenu());
 		}
 
-		if (property instanceof ColorPropertyCollection<?>) {
-			ColorPropertyCollection<?> colorProperty = (ColorPropertyCollection<?>) property;
+		if (property instanceof ColorPropertyListFacade<?>) {
+			ColorPropertyListFacade<?> colorProperty = (ColorPropertyListFacade<?>) property;
 			ColorChooserPanel colorPanel = new ColorChooserPanel(appW,
 					colorProperty.getValues(), color -> {
 				if (popupHandler != null) {
-					ColorPropertyCollection<?> updatedProperty =
-							(ColorPropertyCollection<?>) propertySupplier.updateAndGet();
+					ColorPropertyListFacade<?> updatedProperty =
+							(ColorPropertyListFacade<?>) propertySupplier.updateAndGet();
 					popupHandler.fireActionPerformed(updatedProperty, color);
 				}
 			});
@@ -147,8 +147,8 @@ public class IconButtonWithProperty extends IconButton {
 				parent.add(noColorButton);
 			}
 		}
-		if (property instanceof RangePropertyCollection<?>) {
-			RangePropertyCollection<?> rangeProperty = (RangePropertyCollection<?>) property;
+		if (property instanceof RangePropertyListFacade<?>) {
+			RangePropertyListFacade<?> rangeProperty = (RangePropertyListFacade<?>) property;
 			RangeProperty<?> firstProperty = rangeProperty.getFirstProperty();
 			if (firstProperty instanceof NotesThicknessProperty) {
 				lineThicknessSlider = widgetAdapter.getSliderWidget(rangeProperty,
@@ -166,14 +166,14 @@ public class IconButtonWithProperty extends IconButton {
 			}
 		}
 
-		if (property instanceof StringPropertyCollection<?>) {
-			labelPanel = new LabelValuePanel(appW, (StringPropertyCollection<?>) property, geos);
+		if (property instanceof StringPropertyListFacade<?>) {
+			labelPanel = new LabelValuePanel(appW, (StringPropertyListFacade<?>) property, geos);
 			propertyPopup.addCloseHandler(labelPanel);
 			parent.add(labelPanel);
 		}
 
-		if (property instanceof FlagListPropertyCollection<?>) {
-			FlagListPropertyCollection<?> valuedProperty = (FlagListPropertyCollection<?>) property;
+		if (property instanceof FlagListPropertyListFacade<?>) {
+			FlagListPropertyListFacade<?> valuedProperty = (FlagListPropertyListFacade<?>) property;
 			LabelSettingsPanel labelStylePanel = widgetAdapter.getLabelPanel(valuedProperty);
 			parent.add(labelStylePanel);
 		}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
+import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
 import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
 import org.geogebra.web.full.javax.swing.LineThicknessCheckMarkItem;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -13,7 +13,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class BorderThicknessPanel extends FlowPanel {
-	private final RangePropertyCollection<?> property;
+	private final RangePropertyListFacade<?> property;
 	private final AppW appW;
 	private List<LineThicknessCheckMarkItem> checkMarkItems;
 
@@ -22,7 +22,7 @@ public class BorderThicknessPanel extends FlowPanel {
 	 * @param property - cell border thickness property
 	 * @param appW - application
 	 */
-	public BorderThicknessPanel(RangePropertyCollection<?> property, AppW appW) {
+	public BorderThicknessPanel(RangePropertyListFacade<?> property, AppW appW) {
 		this.property = property;
 		this.appW = appW;
 		buildGui();
@@ -39,7 +39,7 @@ public class BorderThicknessPanel extends FlowPanel {
 		addThicknessCheckMarkItem(property, "thick", 3);
 	}
 
-	private void addThicknessCheckMarkItem(RangePropertyCollection<?> property,
+	private void addThicknessCheckMarkItem(RangePropertyListFacade<?> property,
 			String style, int value) {
 		LineThicknessCheckMarkItem checkMarkItem = new LineThicknessCheckMarkItem(style, value);
 		add(checkMarkItem);
@@ -60,7 +60,7 @@ public class BorderThicknessPanel extends FlowPanel {
 	}
 
 	private void addClickHandler(int value, LineThicknessCheckMarkItem checkMarkItem,
-			RangePropertyCollection<?> property) {
+			RangePropertyListFacade<?> property) {
 		ClickStartHandler.init(checkMarkItem,
 				new ClickStartHandler(true, true) {
 					@Override

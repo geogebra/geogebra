@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
 import org.geogebra.test.BaseAppTestSetup;
@@ -96,15 +96,15 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 
 	private boolean containsLinearEquationFormProperty(PropertiesArray array) {
 		return Arrays.stream(array.getProperties())
-				.anyMatch(property -> property instanceof NamedEnumeratedPropertyCollection<?, ?>
-						&& ((NamedEnumeratedPropertyCollection<?, ?>) property)
+				.anyMatch(property -> property instanceof NamedEnumeratedPropertyListFacade<?, ?>
+						&& ((NamedEnumeratedPropertyListFacade<?, ?>) property)
 						.getFirstProperty() instanceof LinearEquationFormProperty);
 	}
 
 	private boolean containsQuadraticEquationFormProperty(PropertiesArray array) {
 		return Arrays.stream(array.getProperties())
-				.anyMatch(property -> property instanceof NamedEnumeratedPropertyCollection<?, ?>
-						&& ((NamedEnumeratedPropertyCollection<?, ?>) property)
+				.anyMatch(property -> property instanceof NamedEnumeratedPropertyListFacade<?, ?>
+						&& ((NamedEnumeratedPropertyListFacade<?, ?>) property)
 						.getFirstProperty() instanceof QuadraticEquationFormProperty);
 	}
 }

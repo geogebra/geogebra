@@ -244,7 +244,7 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 			colorPanel.addStyleName("colorPanel");
 			return colorPanel;
 		}
-		/*if (property instanceof FilePropertyCollection) {
+		/*if (property instanceof FilePropertyFacade) {
 			StandardButton upload = new StandardButton(loc.getMenu("ChooseFromFile"));
 			upload.addStyleName("openFileBtn");
 			upload.addFastClickHandler(event ->
@@ -253,7 +253,7 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 
 						app.getImageManager().addExternalImage(fileName, data);
 						app.getImageManager().triggerSingleImageLoading(fileName, app.getKernel());
-						((FilePropertyCollection) property).setValue(fileName);
+						((FilePropertyListFacade) property).setValue(fileName);
 					}).click());
 			return upload;
 		}*/

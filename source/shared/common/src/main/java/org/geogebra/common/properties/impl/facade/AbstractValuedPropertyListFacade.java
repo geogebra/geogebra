@@ -1,55 +1,21 @@
-package org.geogebra.common.properties.impl.collections;
+package org.geogebra.common.properties.impl.facade;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
-
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 
-public abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> implements
-		ValuedProperty<S> {
+abstract class AbstractValuedPropertyListFacade<T extends ValuedProperty<S>, S>
+		extends AbstractPropertyListFacade<T>
+		implements ValuedProperty<S> {
 
-	private final List<T> properties;
 	private final Set<PropertyValueObserver> observers = new HashSet<>();
 
-	AbstractValuedPropertyCollection(List<T> properties) {
-		if (properties.isEmpty()) {
-			throw new IllegalArgumentException("Properties must have at least a single property");
-		}
-		this.properties = properties;
-	}
-
-	@Override
-	public String getName() {
-		return getFirstProperty().getName();
-	}
-
-	@Override
-	public @Nonnull String getRawName() {
-		return getFirstProperty().getRawName();
-	}
-
-	// TODO make protected again, expose icon instead
-	public T getFirstProperty() {
-		return properties.get(0);
-	}
-
-	public List<T> getProperties() {
-		return properties;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		boolean isEnabled = true;
-		for (Property property : properties) {
-			isEnabled = isEnabled && property.isEnabled();
-		}
-		return isEnabled;
+	AbstractValuedPropertyListFacade(List<T> properties) {
+		super(properties);
 	}
 
 	@Override
@@ -101,20 +67,5 @@ public abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<
 		}
 		callProperty(ValuedProperty::endSetValue);
 		notifyObservers(observer -> observer.onEndSetValue(this));
-	}
-
-	@Override
-	public boolean isFrozen() {
-		return getFirstProperty().isFrozen();
-	}
-
-	@Override
-	public void setFrozen(boolean frozen) {
-		// ignore
-	}
-
-	@Override
-	public boolean isAvailable() {
-		return getFirstProperty().isAvailable();
 	}
 }
