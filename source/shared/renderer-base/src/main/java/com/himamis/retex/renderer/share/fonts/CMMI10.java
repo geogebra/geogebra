@@ -1,6 +1,5 @@
 package com.himamis.retex.renderer.share.fonts;
 
-import com.himamis.retex.renderer.share.Configuration;
 import com.himamis.retex.renderer.share.FontInfo;
 
 class CMMI10 extends FontInfo {
@@ -44,14 +43,6 @@ class CMMI10 extends FontInfo {
 		setMetrics(171, 772, 683, 0, 50);
 		setKern(196, 83);
 
-		setMetrics(174, 640, 431, 0, 4);
-		setKern(196, 28);
-
-		setMetrics(175, 566, 694, 194, 53);
-		setKern(196, 83);
-
-		setMetrics(176, 518, 431, 194, 56);
-
 		setMetrics(177, 444, 694, 0, 38);
 		setKern(59, -56, 58, -56, 196, 56);
 
@@ -71,8 +62,6 @@ class CMMI10 extends FontInfo {
 		setKern(196, 56);
 
 		setMetrics(183, 576, 431);
-
-		setMetrics(184, 583, 694);
 
 		setMetrics(185, 603, 431, 194);
 		setKern(196, 28);
@@ -162,18 +151,6 @@ class CMMI10 extends FontInfo {
 		setMetrics(57, 500, 431, 194);
 
 		setMetrics(58, 278, 106);
-
-		setMetrics(59, 278, 106, 194);
-
-		setMetrics(60, 778, 539, 39);
-		setNextLarger(Configuration.getFonts().cmex10, 172);
-
-		setMetrics(61, 500, 750, 250);
-		setKern(162, -56, 65, -56, 77, -56, 78, -56, 89, 56, 90, -56);
-		setNextLarger(Configuration.getFonts().cmex10, 177);
-
-		setMetrics(62, 778, 539, 39);
-		setNextLarger(Configuration.getFonts().cmex10, 174);
 
 		setMetrics(63, 500, 465, -35);
 

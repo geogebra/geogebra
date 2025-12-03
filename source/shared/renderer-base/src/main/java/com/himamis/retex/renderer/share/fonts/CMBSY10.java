@@ -10,7 +10,7 @@ final class CMBSY10 extends FontInfo {
 	}
 
 	@Override
-	protected final void initMetrics() {
+	protected void initMetrics() {
 		setMetrics(161, 894, 633, 133);
 
 		setMetrics(162, 319, 474, -26);
@@ -76,6 +76,28 @@ final class CMBSY10 extends FontInfo {
 		setMetrics(194, 894, 586, 86);
 
 		setMetrics(195, 1150, 391, -109);
+
+		setMetrics(21, 319, 156, 194);
+
+		setMetrics(22, 894, 586, 86);
+		setNextLarger(Configuration.getFonts().cmex10, 172);
+
+		setMetrics(23, 575, 750, 250);
+		setKern(162, -64, 65, -64, 77, -64, 78, -64, 89, 64, 90, -64);
+		setNextLarger(Configuration.getFonts().cmex10, 177);
+
+		setMetrics(24, 894, 586, 86);
+		setNextLarger(Configuration.getFonts().cmex10, 174);
+
+		setMetrics(25, 761, 444);
+		setKern(196, 32);
+
+		setMetrics(26, 660, 694, 194, 34);
+		setKern(196, 96);
+
+		setMetrics(27, 590, 444, 194, 64);
+
+		setMetrics(28, 671, 694);
 
 		setMetrics(33, 1150, 391, -109);
 
@@ -310,6 +332,5 @@ final class CMBSY10 extends FontInfo {
 		setMetrics(126, 894, 694, 130);
 
 		setMetrics(196, 894, 694, 130);
-
 	}
 }
