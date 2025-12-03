@@ -21,7 +21,7 @@ public class GeoVideo extends GeoMedia {
 
 	public final static int VIDEO_SIZE_THRESHOLD = 100;
 
-	private static final String WMODE_TRANSPARENT = "&wmode=transparent";
+	private static final String WMODE_TRANSPARENT = "wmode=transparent";
 
 	/**
 	 * Test video URL.
@@ -33,7 +33,6 @@ public class GeoVideo extends GeoMedia {
 	private static final String TIME_PARAM_A = "&t=";
 	private static final String TIME_PARAM_Q = "?t=";
 	private static final String TIME_PARAM_S = "start=";
-	private static final String JAVASCRIPT_API = "enablejsapi=1";
 
 	private String youtubeId = null;
 	private String previewUrl = null;
@@ -208,7 +207,6 @@ public class GeoVideo extends GeoMedia {
 			sb.append(startTime);
 			sb.append("&");
 		}
-		sb.append(JAVASCRIPT_API);
 		sb.append(WMODE_TRANSPARENT);
 		return sb.toString();
 	}

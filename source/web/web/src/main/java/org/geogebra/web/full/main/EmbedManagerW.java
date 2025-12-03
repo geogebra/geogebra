@@ -317,8 +317,18 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 
 		Frame frame = new Frame();
 		frame.setUrl(url);
+		setDefaultReferrerPolicy(frame.getElement());
 		frame.getElement().setAttribute("sandbox", Sandbox.embeds());
 		return frame;
+	}
+
+	/**
+	 * Override referrer policy from HTTP header for a frame.
+	 * @param element frame element
+	 */
+	public static void setDefaultReferrerPolicy(Element element) {
+		element.setAttribute("referrerpolicy",
+				"strict-origin-when-cross-origin");
 	}
 
 	private static FlowPanel createContainer(DrawEmbed embed, String idPrefix) {

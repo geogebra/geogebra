@@ -51,10 +51,9 @@ public class BackendAPIFactory {
 	}
 
 	private void createApiIfNeeded() {
-		if (api != null) {
-			return;
+		if (api == null) {
+			api = newTubeAPI();
 		}
-		api = app.isByCS() ? newMaterialRestAPI() : newTubeAPI();
 	}
 
 	/**
