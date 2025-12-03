@@ -88,6 +88,8 @@ public class SpreadsheetMenuBuilder {
 			return res.table_bar_chart();
 		case HISTOGRAM:
 			return res.table_histogram();
+		case BOX_PLOT:
+			return res.table_boxplot();
 		case PIE_CHART:
 			return res.table_pie_chart();
 		case INSERT_ROW_ABOVE:

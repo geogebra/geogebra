@@ -132,6 +132,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/histogram.svg")
 	SVGResource table_histogram();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/boxplot.svg")
+	SVGResource table_boxplot();
+
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")
 	SVGResource plane_black();
