@@ -1268,7 +1268,7 @@ public class ConstructionDefaults implements SettingListener {
 		App app = cons.getApplication();
 		MyXMLio.addXMLHeader(sb);
 		MyXMLio.addGeoGebraHeader(sb, true, null, app);
-		sb.startOpeningTag("defaults", 0);
+		sb.startOpeningTag("defaults", 0).endTag();
 		for (GeoElement geo : defaultGeoElements.values()) {
 			geo.getXML(false, sb);
 		}

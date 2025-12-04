@@ -666,7 +666,7 @@ public class DataVariable {
 	public void getXML(XMLStringBuilder sb) {
 		// save these fields to XML:
 		// groupType, enableHeader
-		sb.startOpeningTag("variable", 0);
+		sb.startOpeningTag("variable", 0).endTag();
 		// save the DataItems to XML
 		for (DataItem item : values) {
 
