@@ -663,7 +663,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @see org.geogebra.common.geogebra3D.io.MyXMLHandler3D
 	 */
 	public void getXML(XMLStringBuilder sb, boolean asPreference) {
-		sb.startOpeningTag("euclidianView3D", 0);
+		sb.startOpeningTag("euclidianView3D", 0).endTag();
 
 		// coord system
 		sb.startTag("coordSystem");
