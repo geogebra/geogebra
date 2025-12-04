@@ -14,12 +14,14 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class IconButtonPanel extends FlowPanel implements SetLabels {
+public class IconButtonPanel extends FlowPanel implements SetLabels, ConfigurationUpdateDelegate,
+		VisibilityUpdateDelegate {
 	private final AppW appW;
 	private Label label;
 	private final String labelKey;
 	private List<IconButton> iconButtonList;
 	private Runnable callback;
+	private final SingleSelectionIconRow property;
 
 	/**
 	 * Created an icon button panel
@@ -27,11 +29,13 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 	 * @param property {@link org.geogebra.common.properties.PropertyView.SingleSelectionIconRow}
 	 * @param addTitle whether title should be added or not
 	 */
-	public IconButtonPanel(AppW appW, SingleSelectionIconRow property,
-			boolean addTitle) {
+	public IconButtonPanel(AppW appW, SingleSelectionIconRow property, boolean addTitle) {
 		this.appW = appW;
+		this.property = property;
 		labelKey = property.getLabel();
-		buildGUI(property, addTitle);
+		buildGUI(addTitle);
+		property.setConfigurationUpdateDelegate(this);
+		property.setVisibilityUpdateDelegate(this);
 	}
 
 	/**
@@ -47,7 +51,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 		this.callback = callback;
 	}
 
-	private void buildGUI(SingleSelectionIconRow property, boolean addTitle) {
+	private void buildGUI(boolean addTitle) {
 		addStyleName("iconButtonPanel");
 		if (addTitle) {
 			label = new Label(property.getLabel());
@@ -101,5 +105,15 @@ public class IconButtonPanel extends FlowPanel implements SetLabels {
 			label.setText(appW.getLocalization().getMenu(labelKey));
 		}
 		iconButtonList.forEach(IconButton::setLabels);
+	}
+
+	@Override
+	public void configurationUpdated() {
+		setDisabled(!property.isEnabled());
+	}
+
+	@Override
+	public void visibilityUpdated() {
+		setVisible(property.isVisible());
 	}
 }

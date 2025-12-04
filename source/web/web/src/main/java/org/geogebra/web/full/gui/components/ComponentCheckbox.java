@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.components;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import java.util.function.Consumer;
 
 import org.geogebra.common.gui.SetLabels;
@@ -17,7 +19,8 @@ import elemental2.dom.KeyboardEvent;
 /**
  * material design checkbox component
  */
-public class ComponentCheckbox extends FlowPanel implements SetLabels, HasDisabledState {
+public class ComponentCheckbox extends FlowPanel implements SetLabels,
+		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final Localization loc;
 	private boolean isSelected;
 	private FlowPanel checkbox;
@@ -25,6 +28,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels, HasDisabl
 	private final String checkboxTxt;
 	private final Consumer<Boolean> callback;
 	private boolean stopPropagation = false;
+	private Checkbox checkBoxProperty;
 
 	/**
 	 * @param loc {@link Localization}
@@ -50,15 +54,6 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels, HasDisabl
 
 	/**
 	 * @param loc {@link Localization}
-	 * @param selected whether the checkbox should be selected by default
-	 * @param callback click handler
-	 */
-	public ComponentCheckbox(Localization loc, boolean selected, Consumer<Boolean> callback) {
-		this(loc, selected, "", callback);
-	}
-
-	/**
-	 * @param loc {@link Localization}
 	 * @param selected whether it should be selected by default
 	 * @param checkboxText label of checkbox
 	 */
@@ -68,15 +63,18 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels, HasDisabl
 
 	/**
 	 * @param loc {@link Localization}
-	 * @param selected whether the checkbox should be selected by default
+	 * @param checkBoxProperty see {@link org.geogebra.common.properties.PropertyView.Checkbox}
 	 * @param checkboxText label of checkbox
 	 * @param callback click handler
 	 * @param stopPropagation whether it should stop propagation on click
 	 */
-	public ComponentCheckbox(Localization loc, boolean selected, String checkboxText,
+	public ComponentCheckbox(Localization loc, Checkbox checkBoxProperty, String checkboxText,
 			Consumer<Boolean> callback, boolean stopPropagation) {
-		this(loc, selected, checkboxText, callback);
+		this(loc, checkBoxProperty.isSelected(), checkboxText, callback);
+		this.checkBoxProperty = checkBoxProperty;
 		this.stopPropagation = stopPropagation;
+		checkBoxProperty.setConfigurationUpdateDelegate(this);
+		checkBoxProperty.setVisibilityUpdateDelegate(this);
 	}
 
 	private void buildComponent() {
@@ -159,7 +157,10 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels, HasDisabl
 		AriaHelper.setChecked(this, selected);
 	}
 
-	@Override
+	/**
+	 * Enable/disable check box
+	 * @param disabled whether it should be disabled or not
+	 */
 	public void setDisabled(boolean disabled) {
 		Dom.toggleClass(this, "disabled", disabled);
 	}
@@ -181,5 +182,16 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels, HasDisabl
 			checkboxLbl.setText(loc.getMenu(checkboxTxt));
 			AriaHelper.setLabel(this, loc.getMenu(checkboxTxt));
 		}
+	}
+
+	@Override
+	public void configurationUpdated() {
+		setSelected(checkBoxProperty.isSelected());
+		setDisabled(!checkBoxProperty.isEnabled());
+	}
+
+	@Override
+	public void visibilityUpdated() {
+		setVisible(checkBoxProperty.isVisible());
 	}
 }

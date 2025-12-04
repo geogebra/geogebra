@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.components;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.Input;
@@ -18,7 +20,8 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * input field material design component
  */
-public class ComponentInputField extends FlowPanel implements SetLabels, Input, HasDisabledState {
+public class ComponentInputField extends FlowPanel implements SetLabels, Input,
+		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final Localization loc;
 	private String errorTextKey;
 	private final String labelTextKey;
@@ -29,6 +32,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input, 
 	private InputPanelW inputTextField;
 	private Label errorLabel;
 	private Label suffixLabel;
+	private TextField textFieldProperty;
 
 	/**
 	 * @param app see {@link AppW}
@@ -79,6 +83,19 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input, 
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue) {
 		this(app, placeholder, labelTxt, errorTxt, defaultValue, null);
+	}
+
+	/**
+	 * @param app see {@link AppW}
+	 * @param placeholder placeholder text (can be null)
+	 * @param errorTxt error label of input field
+	 * @param property {@link TextField}
+	 */
+	public ComponentInputField(AppW app, String placeholder, String errorTxt, TextField property) {
+		this(app, placeholder, property.getLabel(), errorTxt, property.getText(), null);
+		textFieldProperty = property;
+		textFieldProperty.setConfigurationUpdateDelegate(this);
+		textFieldProperty.setVisibilityUpdateDelegate(this);
 	}
 
 	// BUILD UI
@@ -258,7 +275,10 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input, 
 		return !StringUtil.empty(errorTextKey);
 	}
 
-	@Override
+	/**
+	 * Enable/disable input text field
+	 * @param disabled whether it should be disabled or not
+	 */
 	public void setDisabled(boolean disabled) {
 		Dom.toggleClass(getContentPanel(), "disabled", disabled);
 		inputTextField.setEnabled(!disabled);
@@ -291,5 +311,18 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input, 
 					.setAttribute("placeholder",
 							loc.getMenu(placeholderTextKey));
 		}
+	}
+
+	@Override
+	public void configurationUpdated() {
+		setInputText(textFieldProperty.getText());
+		setDisabled(!textFieldProperty.isEnabled());
+		String error = textFieldProperty.getErrorMessage();
+		setError(error);
+	}
+
+	@Override
+	public void visibilityUpdated() {
+		setVisible(textFieldProperty.isVisible());
 	}
 }

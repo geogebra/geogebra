@@ -1,10 +1,11 @@
 package org.geogebra.web.full.gui.components;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.PropertyView;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -17,7 +18,8 @@ import org.gwtproject.user.client.ui.SimplePanel;
 
 import elemental2.dom.KeyboardEvent;
 
-public class ComponentDropDown extends FlowPanel implements SetLabels {
+public class ComponentDropDown extends FlowPanel implements SetLabels,
+		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final AppW app;
 	private Label label;
 	private final String labelKey;
@@ -69,7 +71,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	 * @param app see {@link AppW}
 	 * @param property see {@link org.geogebra.common.properties.PropertyView.Dropdown}
 	 */
-	public ComponentDropDown(AppW app, PropertyView.Dropdown property) {
+	public ComponentDropDown(AppW app, Dropdown property) {
 		this(app, null, property);
 	}
 
@@ -78,7 +80,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	 * @param label label of drop-down
 	 * @param property see {@link org.geogebra.common.properties.PropertyView.Dropdown}
 	 */
-	public ComponentDropDown(AppW app, String label, PropertyView.Dropdown property) {
+	public ComponentDropDown(AppW app, String label, Dropdown property) {
 		this(app, label, property.getItems());
 		controller.setProperty(property);
 		Integer index = property.getSelectedItemIndex();
@@ -88,6 +90,8 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		controller.setSelectedOption(index);
 
 		updateSelectionText();
+		property.setConfigurationUpdateDelegate(this);
+		property.setVisibilityUpdateDelegate(this);
 	}
 
 	private void initController(List<String> items) {
@@ -207,7 +211,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 	/**
 	 * @param property update property
 	 */
-	public void setProperty(PropertyView.Dropdown property) {
+	public void setProperty(Dropdown property) {
 		controller.setProperty(property);
 	}
 
@@ -225,5 +229,19 @@ public class ComponentDropDown extends FlowPanel implements SetLabels {
 		AriaHelper.setTabIndex(this, 0);
 		AriaHelper.setAriaHaspopup(this, "listbox");
 		AriaHelper.setAriaExpanded(this, false);
+	}
+
+	@Override
+	public void configurationUpdated() {
+		controller.resetFromModel();
+		Integer index = controller.getDropDownProperty().getSelectedItemIndex();
+		if (index != null) {
+			setSelectedIndex(index);
+		}
+	}
+
+	@Override
+	public void visibilityUpdated() {
+		setVisible(controller.getDropDownProperty().isVisible());
 	}
 }

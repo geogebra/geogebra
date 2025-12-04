@@ -1,10 +1,11 @@
 package org.geogebra.web.full.gui.components;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.web.html5.gui.inputfield.UpDownArrowHandler;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -21,7 +22,7 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	private List<AriaMenuItem> dropDownElementsList;
 	private final List<String> items;
 	private final List<Runnable> changeHandlers = new ArrayList<>();
-	private PropertyView.Dropdown propertyDropDown;
+	private Dropdown propertyDropDown;
 	private final MulticastEvent<String> onHighlighted = new MulticastEvent<>();
 
 	/**
@@ -197,8 +198,12 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 		this.changeHandlers.add(changeHandler);
 	}
 
-	public void setProperty(PropertyView.Dropdown propertyDropDown) {
+	public void setProperty(Dropdown propertyDropDown) {
 		this.propertyDropDown = propertyDropDown;
+	}
+
+	public Dropdown getDropDownProperty() {
+		return propertyDropDown;
 	}
 
 	/**

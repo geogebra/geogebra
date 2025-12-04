@@ -1,10 +1,11 @@
 package org.geogebra.web.full.gui.components;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.GWTKeycodes;
@@ -19,13 +20,15 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabledState {
+public class ComponentComboBox extends FlowPanel implements SetLabels,
+		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final AppW appW;
 	private final AutoCompleteTextFieldW inputTextField;
 	private Label label;
 	private final String labelTextKey;
 	private DropDownComboBoxController controller;
 	private final String controlsID;
+	private ComboBox comboBoxProperty;
 
 	/**
 	 * Creates a combo box using a list of String.
@@ -51,8 +54,9 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabl
 	 * @param app see {@link AppW}
 	 * @param property see {@link org.geogebra.common.properties.PropertyView.ComboBox}
 	 */
-	public ComponentComboBox(AppW app, PropertyView.ComboBox property) {
+	public ComponentComboBox(AppW app, ComboBox property) {
 		this(app, property.getLabel(), property.getItems());
+		this.comboBoxProperty = property;
 		setValue(property.getValue());
 		addChangeHandler(() -> {
 			String text = getSelectedText().trim();
@@ -61,6 +65,8 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabl
 			AriaHelper.setErrorMessage(inputTextField.getTextBox(), message);
 			setStyleName("error", message != null);
 		});
+		comboBoxProperty.setConfigurationUpdateDelegate(this);
+		comboBoxProperty.setVisibilityUpdateDelegate(this);
 	}
 
 	private void initController(List<String> items) {
@@ -110,7 +116,10 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabl
 
 	// Status helpers
 
-	@Override
+	/**
+	 * Enable/disable combo-box
+	 * @param disabled whether it should be disabled or not
+	 */
 	public void setDisabled(boolean disabled) {
 		inputTextField.setEnabled(!disabled);
 		Dom.toggleClass(this, "disabled", disabled);
@@ -268,5 +277,20 @@ public class ComponentComboBox extends FlowPanel implements SetLabels, HasDisabl
 			label.setText(menu);
 			AriaHelper.setLabel(inputTextField.getTextBox(), menu);
 		}
+	}
+
+	@Override
+	public void configurationUpdated() {
+		setValue(comboBoxProperty.getValue());
+		setDisabled(!comboBoxProperty.isEnabled());
+		setVisible(comboBoxProperty.isVisible());
+		String message = comboBoxProperty.getErrorMessage();
+		AriaHelper.setErrorMessage(inputTextField.getTextBox(), message);
+		setStyleName("error", message != null);
+	}
+
+	@Override
+	public void visibilityUpdated() {
+		setVisible(comboBoxProperty.isVisible());
 	}
 }

@@ -1,8 +1,9 @@
 package org.geogebra.web.full.gui.components;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.properties.PropertyView;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -18,7 +19,7 @@ import elemental2.dom.KeyboardEvent;
 public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final String titleTransKey;
-	private PropertyView.Checkbox booleanProperty;
+	private Checkbox booleanProperty;
 	private boolean expanded = false;
 	private Label title;
 	private ComponentCheckbox checkbox;
@@ -30,8 +31,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	 * @param booleanProperty property for checkbox
 	 * @param titleTransKey translation key of title
 	 */
-	public ComponentExpandableList(AppW appW, PropertyView.Checkbox booleanProperty,
-			String titleTransKey) {
+	public ComponentExpandableList(AppW appW, Checkbox booleanProperty, String titleTransKey) {
 		this.appW = appW;
 		if (booleanProperty != null) {
 			this.booleanProperty = booleanProperty;
@@ -84,7 +84,7 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 	}
 
 	private void addCheckBoxTo(FlowPanel header) {
-		checkbox = new ComponentCheckbox(appW.getLocalization(), booleanProperty.isSelected(), "",
+		checkbox = new ComponentCheckbox(appW.getLocalization(), booleanProperty, "",
 				value -> {
 			booleanProperty.setSelected(value);
 			expanded = value;

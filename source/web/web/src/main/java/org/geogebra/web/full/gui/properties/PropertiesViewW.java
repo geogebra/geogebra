@@ -526,8 +526,8 @@ public class PropertiesViewW extends PropertiesView
 		if (settingsTab != null) {
 			settingsTab.setLabels();
 		}
-		if (adapter != null) {
-			adapter.setLabels();
+		if (needsSideSheet()) {
+			rebuildSettingsSideSheet();
 		}
     }
 

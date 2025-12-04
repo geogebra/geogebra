@@ -3,20 +3,14 @@ package org.geogebra.web.full.gui.properties.ui;
 import static org.geogebra.common.properties.PropertyView.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
-import org.geogebra.common.util.MulticastEvent;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -39,12 +33,10 @@ import jsinterop.base.Js;
 /**
  * Maps properties to UI components for the properties view.
  */
-public class PropertiesPanelAdapter implements SetLabels, SettingListener {
+public class PropertiesPanelAdapter {
 	private final Localization loc;
 	private final AppW app;
 	private final List<Widget> widgets = new ArrayList<>();
-	private final Map<AbstractSettings, MulticastEvent<AbstractSettings>>
-			stateSettingsListener = new HashMap<>();
 
 	/**
 	 * @param loc localization
@@ -90,45 +82,28 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 		return panel;
 	}
 
-	/*private void synchronizeSelectedIndex(NamedEnumeratedProperty<?> property,
-			ComponentDropDown dropDown) {
-		if (property instanceof SettingsDependentProperty) {
-			registerListener((SettingsDependentProperty) property,
-					s -> dropDown.setSelectedIndex(property.getIndex()));
-		}
-	}*/
-
 	/**
 	 * Creates widget based on property
-	 * @param property {@link PropertyView}
+	 * @param propertyView {@link PropertyView}
 	 * @return {@link Widget}
 	 */
-	public Widget getWidget(PropertyView property) {
-		Widget ret = createWidget(property);
+	public Widget getWidget(PropertyView propertyView) {
+		Widget ret = createWidget(propertyView);
+		ret.setVisible(propertyView.isVisible());
+		propertyView.setVisibilityUpdateDelegate(() ->
+				ret.setVisible(propertyView.isVisible()));
 		widgets.add(ret);
-		/*if (property instanceof SettingsDependentProperty) {
-			updateEnabledState(ret, property);
-			registerListener((SettingsDependentProperty) property,
-					s -> updateEnabledState(ret, property));
-		}*/
 		return ret;
 	}
 
-	/*private void updateEnabledState(Widget ret, Property prop) {
-		if (ret instanceof HasDisabledState) {
-			((HasDisabledState) ret).setDisabled(!prop.isEnabled());
-		}
-		ret.setVisible(prop.isAvailable());
-	}*/
-
-	private Widget createWidget(PropertyView property) {
-		if (property == null) {
+	private Widget createWidget(PropertyView propertyView) {
+		if (propertyView == null) {
 			return null;
 		}
-		if (property instanceof Checkbox) {
-			return new ComponentCheckbox(loc, ((Checkbox) property)
-					.isSelected(), ((Checkbox) property).getLabel(),
-					((Checkbox) property)::setSelected);
+		if (propertyView instanceof Checkbox) {
+			Checkbox checkBoxProperty = (Checkbox) propertyView;
+			return new ComponentCheckbox(loc, checkBoxProperty,
+					checkBoxProperty.getLabel(), checkBoxProperty::setSelected, false);
 		}
 		/*if (property instanceof RangeProperty) {
 			FlowPanel wrapper = new FlowPanel();
@@ -147,26 +122,27 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 			return new ActionableButtonPanel(
 					(ActionablePropertyCollection<?>) property);
 		}*/
-		if (property instanceof MultiSelectionIconRow) {
-			return new LabelStylePanel((MultiSelectionIconRow) property, app);
+		if (propertyView instanceof MultiSelectionIconRow) {
+			return new LabelStylePanel((MultiSelectionIconRow) propertyView, app);
 		}
-		if (property instanceof DimensionRatioEditor) {
-			return new DimensionRatioPanel(app, this, (DimensionRatioEditor) property);
+		if (propertyView instanceof DimensionRatioEditor) {
+			return new DimensionRatioPanel(app, this, (DimensionRatioEditor) propertyView);
 		}
-		if (property instanceof HorizontalSplitView) {
+		if (propertyView instanceof HorizontalSplitView) {
 			FlowPanel panel = new FlowPanel();
 			panel.addStyleName("horizontalSplitView");
-			panel.add(getWidget(((HorizontalSplitView) property).getLeadingPropertyView()));
-			panel.add(getWidget(((HorizontalSplitView) property).getTrailingPropertyView()));
+			panel.add(getWidget(((HorizontalSplitView) propertyView).getLeadingPropertyView()));
+			panel.add(getWidget(((HorizontalSplitView) propertyView).getTrailingPropertyView()));
 			return panel;
 		}
-		if (property instanceof RelatedPropertyViewCollection) {
+		if (propertyView instanceof RelatedPropertyViewCollection) {
 			FlowPanel panel = new FlowPanel();
-			if (((RelatedPropertyViewCollection) property).getTitle() != null) {
+			if (((RelatedPropertyViewCollection) propertyView).getTitle() != null) {
 				panel.add(new Label(app.getLocalization()
-						.getMenu(((RelatedPropertyViewCollection) property).getTitle())));
+						.getMenu(((RelatedPropertyViewCollection) propertyView).getTitle())));
 			}
-			for (PropertyView pw : ((RelatedPropertyViewCollection) property).getPropertyViews()) {
+			for (PropertyView pw
+					: ((RelatedPropertyViewCollection) propertyView).getPropertyViews()) {
 				panel.add(getWidget(pw));
 			}
 			return panel;
@@ -187,41 +163,33 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 			return scriptTab;
 		}
 */
-		if (property instanceof ExpandableList) {
+		if (propertyView instanceof ExpandableList) {
 			Checkbox leadProperty =
-					((ExpandableList) property).getCheckbox();
+					((ExpandableList) propertyView).getCheckbox();
 			ComponentExpandableList expandableList = new ComponentExpandableList(app,
-					leadProperty, ((ExpandableList) property).getTitle());
-			for (PropertyView prop : ((ExpandableList) property).getItems()) {
+					leadProperty, ((ExpandableList) propertyView).getTitle());
+			for (PropertyView prop : ((ExpandableList) propertyView).getItems()) {
 				expandableList.addToContent(getWidget(prop));
 			}
 			return expandableList;
 		}
-		if (property instanceof Dropdown) {
-			//if (property instanceof LanguageProperty) {
-			//((LanguageProperty) property).addValueObserver(this::onLanguageChanged);
-			//}
+		if (propertyView instanceof Dropdown) {
 			ComponentDropDown dropDown = new ComponentDropDown(app,
-					((Dropdown) property).getPropertyName(), (Dropdown) property);
+					((Dropdown) propertyView).getPropertyName(), (Dropdown) propertyView);
 			dropDown.setFullWidth(true);
-			//synchronizeSelectedIndex((NamedEnumeratedProperty<?>) property, dropDown);
 			return dropDown;
 		}
-		if (property instanceof ComboBox) {
-			ComboBox comboBoxProperty = (ComboBox) property;
+		if (propertyView instanceof ComboBox) {
+			ComboBox comboBoxProperty = (ComboBox) propertyView;
 			ComponentComboBox comboBox = new ComponentComboBox(app, comboBoxProperty);
 			comboBox.setDisabled(!comboBoxProperty.isEnabled());
-			//if (property instanceof SettingsDependentProperty) {
-			//registerListener((SettingsDependentProperty) property, s ->
-			//comboBox.setValue(numProperty.getValue()));
-			//}
 			return comboBox;
 		}
-		if (property instanceof SingleSelectionIconRow) {
-			return new IconButtonPanel(app, (SingleSelectionIconRow) property, true);
+		if (propertyView instanceof SingleSelectionIconRow) {
+			return new IconButtonPanel(app, (SingleSelectionIconRow) propertyView, true);
 		}
-		if (property instanceof ColorSelectorRow) {
-			ColorSelectorRow colorSelectorRow = (ColorSelectorRow) property;
+		if (propertyView instanceof ColorSelectorRow) {
+			ColorSelectorRow colorSelectorRow = (ColorSelectorRow) propertyView;
 			ColorChooserPanel colorPanel = new ColorChooserPanel(app, colorSelectorRow.getColors(),
 					color -> {
 						boolean handled = false;
@@ -257,54 +225,15 @@ public class PropertiesPanelAdapter implements SetLabels, SettingListener {
 					}).click());
 			return upload;
 		}*/
-		if (property instanceof TextField) {
-			ComponentInputField inputField = new ComponentInputField(app, "",
-					((TextField) property).getLabel(), "", ((TextField) property).getText());
-
-			Runnable submit = () -> {
+		if (propertyView instanceof TextField) {
+			ComponentInputField inputField = new ComponentInputField(app, "", "",
+					(TextField) propertyView);
+			inputField.getTextField().getTextComponent().addEnterPressHandler(() -> {
 				String text = inputField.getText();
-				String error = ((TextField) property).getErrorMessage();
-				if (error == null) {
-					((TextField) property).setText(text);
-				} else {
-					inputField.showError(error);
-				}
-			};
-			inputField.getTextField().getTextComponent().addEnterPressHandler(submit);
+				((TextField) propertyView).setText(text);
+			});
 			return inputField;
 		}
-		return new Label(property.toString());
-	}
-
-	/*private void registerListener(SettingsDependentProperty prop,
-			MulticastEvent.Listener<AbstractSettings> listener) {
-		stateSettingsListener.computeIfAbsent(prop.getSettings(), settings -> {
-			settings.addListener(this);
-			return new MulticastEvent<>();
-		}).addListener(listener);
-	}*/
-
-	@Override
-	public void setLabels() {
-		for (Widget w : widgets) {
-			if (w instanceof SetLabels) {
-				((SetLabels) w).setLabels();
-			}
-		}
-	}
-
-	/*private void onLanguageChanged(ValuedProperty<String> property) {
-		if (property instanceof LanguageProperty) {
-			if (app.getLoginOperation() != null) {
-				app.getLoginOperation().setUserLanguage(property.getValue());
-			}
-			app.getLAF().storeLanguage(property.getValue());
-		}
-	}*/
-
-	@Override
-	public void settingsChanged(AbstractSettings settings) {
-		stateSettingsListener.getOrDefault(settings, new MulticastEvent<>())
-				.notifyListeners(settings);
+		return new Label(propertyView.toString());
 	}
 }
