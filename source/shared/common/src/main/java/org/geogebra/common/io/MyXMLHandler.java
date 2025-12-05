@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.io;
 
+import static org.geogebra.common.main.PreviewFeature.SETTINGS_VIEW;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -77,6 +79,7 @@ import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AlgebraStyle;
@@ -3576,7 +3579,8 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleAlgebraViewMode(LinkedHashMap<String, String> attrs) {
 		try {
-			int val = !app.isUnbundled() ? Integer.parseInt(attrs.get("val"))
+			int val = !app.isUnbundled() || !PreviewFeature.isAvailable(SETTINGS_VIEW)
+					? Integer.parseInt(attrs.get("val"))
 					: AlgebraView.SortMode.ORDER.toInt();
 			app.getSettings().getAlgebra().setTreeMode(val);
 			app.getSettings().getAlgebra().setModeChanged(true);

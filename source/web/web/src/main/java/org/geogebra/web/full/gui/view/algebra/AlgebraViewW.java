@@ -572,12 +572,15 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			getSettings().setCollapsedNodesNoFire(null);
 			return;
 		}
-
+		if (getSettings().getCollapsedNodes() != null
+			&& !getSettings().getCollapsedNodes().isEmpty()) {
+				resolvePendingAdditions();
+		}
 		List<Integer> collapsedNodes = new ArrayList<>();
 
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem node = getItem(i);
-			if (!node.getState()) {
+			if (!node.getState() && node.getWidget() instanceof GroupHeader) {
 				collapsedNodes.add(i);
 			}
 		}
@@ -691,7 +694,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (getSettings().getCollapsedNodes() == null) {
 			return;
 		}
-
+		setAnimationEnabled(false);
 		for (int i : getSettings().getCollapsedNodes()) {
 			TreeItem node = getItem(i);
 			if (node != null) {
@@ -701,6 +704,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			}
 		}
+		setAnimationEnabled(true);
 	}
 
 	@Override
