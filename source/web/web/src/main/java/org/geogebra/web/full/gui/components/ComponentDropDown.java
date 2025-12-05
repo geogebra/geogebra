@@ -27,6 +27,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
+	private Dropdown propertyView;
 
 	/**
 	 * Material drop-down component.
@@ -82,7 +83,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 */
 	public ComponentDropDown(AppW app, String label, Dropdown property) {
 		this(app, label, property.getItems());
-		controller.setProperty(property);
+		propertyView = property;
 		Integer index = property.getSelectedItemIndex();
 		if (index == null) {
 			index = 0;
@@ -96,11 +97,14 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(app, this,
-				items, labelKey, () -> {
+				() -> items, labelKey, () -> {
 			removeStyleName("active");
 			AriaHelper.setAriaExpanded(this, false);
 		});
-		controller.addChangeHandler(this::updateSelectionText);
+		controller.addChangeHandler(() -> {
+			propertyView.setSelectedItemIndex(controller.getSelectedIndex());
+			updateSelectionText();
+		});
 		controller.setFocusAnchor(getElement());
 		updateSelectionText();
 	}
@@ -200,7 +204,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * Reset dropdown to the model (property) value.
 	 */
 	public void resetFromModel() {
-		controller.resetFromModel();
+		controller.resetFromModel(propertyView);
 		updateSelectionText();
 	}
 
@@ -212,7 +216,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * @param property update property
 	 */
 	public void setProperty(Dropdown property) {
-		controller.setProperty(property);
+		this.propertyView = property;
 	}
 
 	@Override
@@ -233,8 +237,8 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 
 	@Override
 	public void configurationUpdated() {
-		controller.resetFromModel();
-		Integer index = controller.getDropDownProperty().getSelectedItemIndex();
+		controller.resetFromModel(propertyView);
+		Integer index = propertyView.getSelectedItemIndex();
 		if (index != null) {
 			setSelectedIndex(index);
 		}
@@ -242,6 +246,6 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 
 	@Override
 	public void visibilityUpdated() {
-		setVisible(controller.getDropDownProperty().isVisible());
+		setVisible(propertyView.isVisible());
 	}
 }

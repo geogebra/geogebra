@@ -4,6 +4,7 @@ import static org.geogebra.common.properties.PropertyView.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.util.MulticastEvent;
@@ -20,9 +21,8 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	private final Widget parent;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
-	private final List<String> items;
+	private final Supplier<List<String>> items;
 	private final List<Runnable> changeHandlers = new ArrayList<>();
-	private Dropdown propertyDropDown;
 	private final MulticastEvent<String> onHighlighted = new MulticastEvent<>();
 
 	/**
@@ -34,7 +34,7 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	 * @param onClose handler to run on close
 	 */
 	public DropDownComboBoxController(final AppW app, Widget parent,
-			List<String> items, String labelKey, Runnable onClose) {
+			Supplier<List<String>> items, String labelKey, Runnable onClose) {
 		this.parent = parent;
 		this.items = items;
 
@@ -43,7 +43,7 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 
 	private void init(AppW app, String labelKey, Runnable onClose) {
 		createPopup(app, labelKey, parent, onClose);
-		setElements(items);
+		setElements(items.get());
 		setSelectedOption(-1);
 	}
 
@@ -88,9 +88,6 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 			final int currentIndex = i;
 			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), null, () -> {
 				setSelectedOption(currentIndex);
-				if (propertyDropDown != null) {
-					propertyDropDown.setSelectedItemIndex(currentIndex);
-				}
 				for (Runnable handler: changeHandlers) {
 					handler.run();
 				}
@@ -137,11 +134,7 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 
 	@Override
 	public void setLabels() {
-		if (propertyDropDown != null) {
-			setElements(propertyDropDown.getItems());
-		} else {
-			setElements(items);
-		}
+		setElements(items.get());
 	}
 
 	public ComponentDropDownPopup getPopup() {
@@ -198,18 +191,10 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 		this.changeHandlers.add(changeHandler);
 	}
 
-	public void setProperty(Dropdown propertyDropDown) {
-		this.propertyDropDown = propertyDropDown;
-	}
-
-	public Dropdown getDropDownProperty() {
-		return propertyDropDown;
-	}
-
 	/**
 	 * reset dropdown to property value
 	 */
-	public void resetFromModel() {
+	public void resetFromModel(Dropdown propertyDropDown) {
 		Integer index = propertyDropDown.getSelectedItemIndex();
 		if (index == null) {
 			index = 0;
@@ -233,10 +218,13 @@ public class DropDownComboBoxController implements SetLabels, UpDownArrowHandler
 	 * -1 otherwise
 	 */
 	public int possibleSelectedIndex(String input) {
-		if (items != null && input != null) {
-			for (int i = 0; i < items.size(); i++) {
-				if (items.get(i).equals(input)) {
-					return i;
+		if (input != null) {
+			List<String> items = this.items.get();
+			if (items != null) {
+				for (int i = 0; i < items.size(); i++) {
+					if (items.get(i).equals(input)) {
+						return i;
+					}
 				}
 			}
 		}

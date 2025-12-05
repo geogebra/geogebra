@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.components;
 import static org.geogebra.common.properties.PropertyView.*;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
@@ -30,19 +31,26 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 	private final String controlsID;
 	private ComboBox comboBoxProperty;
 
+	public ComponentComboBox(AppW app, String label, List<String> items) {
+		this(app, label, () -> items);
+	}
+
 	/**
 	 * Creates a combo box using a list of String.
 	 * @param app see {@link AppW}
 	 * @param label label of combo box
 	 * @param items popup items
 	 */
-	public ComponentComboBox(AppW app, String label, List<String> items) {
+	public ComponentComboBox(AppW app, String label, Supplier<List<String>> items) {
 		appW = app;
 		labelTextKey = label;
 		controlsID = DOM.createUniqueId();
 		addStyleName("comboBox");
 		addStyleName("validation");
 		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null);
+		inputTextField.addInputListener(evt -> {
+			controller.setSelectedOption(items.get().indexOf(inputTextField.getText()));
+		});
 		buildGUI();
 		addHandlers();
 
@@ -55,7 +63,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 	 * @param property see {@link org.geogebra.common.properties.PropertyView.ComboBox}
 	 */
 	public ComponentComboBox(AppW app, ComboBox property) {
-		this(app, property.getLabel(), property.getItems());
+		this(app, property.getLabel(), property::getItems);
 		this.comboBoxProperty = property;
 		setValue(property.getValue());
 		addChangeHandler(() -> {
@@ -69,7 +77,7 @@ public class ComponentComboBox extends FlowPanel implements SetLabels,
 		comboBoxProperty.setVisibilityUpdateDelegate(this);
 	}
 
-	private void initController(List<String> items) {
+	private void initController(Supplier<List<String>> items) {
 		controller = new DropDownComboBoxController(appW, this, items, labelTextKey,
 				this::onClose);
 		controller.addChangeHandler(() -> updateSelectionText(getSelectedText()));
