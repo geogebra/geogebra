@@ -257,16 +257,14 @@ public class RadioTreeItemController implements ClickHandler,
 
 		JsArray<Touch> touches = event.getTargetTouches().length() == 0
 				? event.getChangedTouches() : event.getTargetTouches();
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0), ZeroOffset.INSTANCE);
 
-		boolean active = isEditing();
-
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
-				ZeroOffset.INSTANCE);
-		if (isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY())) {
+		if (isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY())
+				|| isWidgetHit(item.controls, wrappedEvent)) {
 			return;
 		}
 
-		if (editOnTap(active, wrappedEvent)) {
+		if (editOnTap(isEditing(), wrappedEvent)) {
 			onPointerUp(wrappedEvent);
 			CancelEventTimer.touchEventOccurred();
 			return;
