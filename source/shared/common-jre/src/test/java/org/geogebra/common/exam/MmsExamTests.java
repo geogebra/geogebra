@@ -39,8 +39,10 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -484,6 +486,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"BinomialDist(1, 0.5, false); 							Illegal argument: false",
 			"Invert(sin(x)); 										Illegal argument",
 			"Length((1, 2)); 										Illegal argument",
+			"Length((a, b));										Illegal argument",
 			"Product(a^2, a, 0, 5); 								Illegal number of arguments",
 			"SampleSD({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}); 	Illegal number of arguments",
 			"stdev({1, 2, 3, 4, 5}, {0.2, 0.3, 0.1, 0.1, 0.3}); 	Illegal number of arguments",
@@ -500,6 +503,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"Numeric(BinomialDist(1, 0.5, false)) 						-> ?",
 			"Invert(sin(x)) 											-> -asin(x)+2*arbint(0)*pi+pi",
 			"Length((1, 2)) 											-> √5",
+			"Length((a, b)) 											-> √(ggbtmpvara^2+ggbtmpvarb^2)",
 			"Round(sqrt(5), 2) 											-> 2.24",
 			"Product(a², a, 0, 5) 										-> 0",
 			"Round(0, 2) 												-> 0.0",
@@ -535,6 +539,19 @@ public class MmsExamTests extends BaseExamTestSetup {
 	})
 	public void testUnrestrictedArguments(String expression) {
 		assertNotNull(evaluate(expression));
+	}
+
+	@Test
+	@Issue("APPS-7193")
+	@MockedCasValues({
+			"Evaluate((a, b)) 	-> (ggbtmpvara,ggbtmpvarb)",
+			"Length((a, b)) 	-> √(ggbtmpvara^2+ggbtmpvarb^2)",
+	})
+	public void testRestrictedLengthVectorArgument() {
+		GeoElement geoElement = evaluateGeoElement("(a, b)");
+		new LabelController().showLabel(geoElement);
+		assertNull(evaluate("Length(u)"));
+		assertThat(errorAccumulator.getErrorsSinceReset(), containsString("Illegal argument"));
 	}
 
 	@Test

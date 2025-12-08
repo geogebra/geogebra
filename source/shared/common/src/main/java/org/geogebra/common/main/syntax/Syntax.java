@@ -30,7 +30,7 @@ public final class Syntax {
 		 * @param argument the command argument to check
 		 * @return {@code true} if the argument matches with the syntax, {@code false} otherwise
 		 */
-		boolean matches(GeoElement argument);
+		boolean matches(@Nonnull GeoElement argument);
 
 		/**
 		 * Constructs a syntax argument matcher for checking
@@ -132,7 +132,7 @@ public final class Syntax {
 		for (Syntax syntax : syntaxes) {
 			int numberOfMatchingArguments = 0;
 			for (int argIndex = 0; argIndex < syntax.argumentMatchers.size(); argIndex++) {
-				if (syntax.argumentMatcherAt(argIndex).matches(arguments[argIndex])) {
+				if (matches(syntax.argumentMatcherAt(argIndex), arguments[argIndex])) {
 					numberOfMatchingArguments++;
 				} else {
 					break;
@@ -149,7 +149,7 @@ public final class Syntax {
 
 	private static int findFirstMismatchingArgumentIndex(GeoElement[] arguments, Syntax syntax) {
 		for (int argIndex = 0; argIndex < arguments.length; argIndex++) {
-			if (!syntax.argumentMatcherAt(argIndex).matches(arguments[argIndex])) {
+			if (!matches(syntax.argumentMatcherAt(argIndex), arguments[argIndex])) {
 				return argIndex;
 			}
 		}
@@ -164,10 +164,14 @@ public final class Syntax {
 			return false;
 		}
 		for (int argIndex = 0; argIndex < arguments.length; argIndex++) {
-			if (!syntax.argumentMatcherAt(argIndex).matches(arguments[argIndex])) {
+			if (!matches(syntax.argumentMatcherAt(argIndex), arguments[argIndex])) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private static boolean matches(ArgumentMatcher argumentMatcher, GeoElement argument) {
+		return argument != null && argumentMatcher.matches(argument);
 	}
 }
