@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNumericProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -47,6 +48,12 @@ public class AnimationSpeedProperty extends AbstractNumericProperty {
 
 	@Override
 	protected NumberValue getNumberValue() {
-		return (NumberValue) element.getAnimationSpeedObject();
+		NumberValue value = (NumberValue) element.getAnimationSpeedObject();
+		if (value == null) {
+			GeoNumeric defaultNumber = element.getKernel().getAlgoDispatcher()
+					.getDefaultNumber(element.isAngle());
+			return (NumberValue) defaultNumber.getAnimationSpeedObject();
+		}
+		return value;
 	}
 }

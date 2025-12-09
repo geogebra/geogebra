@@ -52,6 +52,7 @@ import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsL
 import org.geogebra.common.properties.impl.objects.AngleArcSizeProperty;
 import org.geogebra.common.properties.impl.objects.AngleDecorationProperty;
 import org.geogebra.common.properties.impl.objects.AnimatingProperty;
+import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.AuxiliaryObjectProperty;
 import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
@@ -406,7 +407,10 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createPropsArray("Advanced", localization, Stream.of(
 				createOptionalProperty(
-						() -> new SliderIntervalProperty(this, processor, localization, elements))
+						() -> new SliderIntervalProperty(this, processor, localization, elements)),
+				createOptionalProperty(
+						() -> new AnimationPropertyCollection(this, processor, localization,
+								elements))
 
 				// show condition
 				// color function
