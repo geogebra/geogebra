@@ -294,6 +294,8 @@ $keyboard_button_transition: opacity .3s ease;
 			padding-top: 24px;
 			height: calc(100% - 24px);
 			overflow: hidden;
+			display: flex;
+			flex-direction: column;
 
 			.dialogTitle {
 				font-size: 24px;
@@ -304,10 +306,6 @@ $keyboard_button_transition: opacity .3s ease;
 			}
 
 			.dialogContent {
-				// 112px = 20px title + 20px margin + 52px button panel
-				// NOTE: this needs to be adjusted according what is added to the dialog
-				// (e.g. if no buttons do not add button panel height)
-				height: calc(100% - 92px);
 				padding: 0px 24px;
 				overflow-y: auto;
 			}
@@ -316,8 +314,7 @@ $keyboard_button_transition: opacity .3s ease;
 				display: inline-flex;
 				gap: 8px;
 				padding: 24px 24px 24px 0;
-				position: relative;
-				float: right;
+				margin-left: auto;
 			}
 		}
 

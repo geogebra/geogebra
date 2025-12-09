@@ -84,7 +84,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.dialogContent {
 			font-size: 85%;
-			height: calc(100% - 118px);
 
 			.relationContent {
 				height: 100%;
@@ -212,9 +211,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	/* text tool dialog */
 	.dialogComponent.TextInputDialog {
-		.dialogMainPanel .dialogContent {
-			height: calc(100% - 132px);
-		}
+
 
 		.ToggleButton {
 			border-radius: 2px;
@@ -447,10 +444,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.removeMaterial {
 		max-width: 472px;
 
-		.dialogContent {
-			height: calc(100% - 52px);
-		}
-
 		.message {
 			margin-bottom: 24px;
 		}
@@ -463,10 +456,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.mediaDialog {
 		&.hyperLink {
 			max-width: 448px;
-
-			.dialogContent {
-				height: calc(100% - 52px); //no title
-			}
 		}
 
 		&.Video, &.Audio, &.Web {
@@ -793,11 +782,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.examExitConfDialog {
 		max-width: 326px;
-
-		.dialogContent {
-			// no title
-			height: calc(100% - 52px);
-		}
 
 		.exitConfText {
 			font-size: 100%;
@@ -1336,7 +1320,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.dialogContent {
 			padding: 0px;
 			max-height: 386px;
-			height: calc(100% - 72px);
 
 			&.withBorder {
 				border-bottom: 1px solid colors.$black-12;
@@ -1534,7 +1517,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.dialogContent {
 			max-height: 426px;
-			height: calc(100% - 114px);
 			box-sizing: border-box;
 			border-top: 1px solid colors.$black-12;
 			border-bottom: 1px solid colors.$black-12;
@@ -1754,10 +1736,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.substituteDialog {
 		max-width: 384px;
 
-		.dialogContent {
-			height: calc(100% - 110px);
+		.dialogMainPanel .dialogContent {
 			max-height: 390px;
-			min-height: 390px;
 		}
 
 		.flexGroup {
