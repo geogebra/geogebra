@@ -1,3 +1,4 @@
+// vendored
 /*
  * Copyright 2008-2013 Sergey Skladchikov
  *

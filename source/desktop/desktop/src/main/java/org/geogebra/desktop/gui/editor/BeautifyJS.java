@@ -1,7 +1,5 @@
-package org.geogebra.desktop.gui.editor;
-
+// vendored
 /*
-
   The MIT License (MIT)
 
   Copyright (c) 2007-2013 Einar Lielmanis and contributors.
@@ -71,10 +69,12 @@ package org.geogebra.desktop.gui.editor;
       'indent_size': 1,
       'indent_char': '\t'
     });
-    
+
     older version from https://raw.githubusercontent.com/dinesh-it/js-beautify-old/master/js/lib/beautify.js
 
 */
+
+package org.geogebra.desktop.gui.editor;
 
 public class BeautifyJS {
 

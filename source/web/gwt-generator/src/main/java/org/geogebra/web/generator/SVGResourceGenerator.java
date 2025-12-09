@@ -1,3 +1,4 @@
+// vendored
 /*
  *
  * Copyright (c) 2018 The GWT Project Authors

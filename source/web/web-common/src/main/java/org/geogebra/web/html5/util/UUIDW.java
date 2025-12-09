@@ -1,3 +1,4 @@
+// vendored
 /*
  * Copyright 2013 Nicolas Morel
  *

@@ -1,22 +1,17 @@
-/* 
-GeoGebra - Dynamic Mathematics for Everyone
-http://www.geogebra.org
-
-This file is part of GeoGebra.
-
-This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
-the Free Software Foundation.
-
- */
-
 /*
- * RelationNumerical.java
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
  *
- * Created on 27 June 2014, 14:17
- * 
- * based on Relation.java by Markus
- * created on 12 December 2001, 12:37
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ *
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
  */
 
 package org.geogebra.common.kernel;
@@ -49,10 +44,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * Markus' original code has been extensively rewritten. On the other hand, the
- * new behavior is backward compatible and the basic design is still the same.
+ * Finds relation between geometric objects using numeric comparison.
  * 
- * @author Zoltan Kovacs
+ * @author Zoltan Kovacs, based on code by Markus
  */
 public class RelationNumerical {
 	private App app;

@@ -1,6 +1,4 @@
-/*
- * Created on 2003-11-02
- */
+// vendored
 
 package org.geogebra.common.io;
 

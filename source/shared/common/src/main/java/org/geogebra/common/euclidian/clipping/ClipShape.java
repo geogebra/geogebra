@@ -1,3 +1,4 @@
+// vendored
 /*
  * @(#)Clipper.java
  *

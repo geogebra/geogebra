@@ -16,3 +16,7 @@ tasks.withType<JavaCompile> {
 tasks.withType<Javadoc> {
     (options as StandardJavadocDocletOptions).tags("apiNote", "implNote")
 }
+
+tasks.withType<JavaCompile> {
+   options.encoding = "UTF-8"
+}

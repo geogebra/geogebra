@@ -1,4 +1,5 @@
-/* 
+// vendored
+/*
  * Convex hull algorithm - Library (Java)
  * 
  * Copyright (c) 2017 Project Nayuki

@@ -1,3 +1,4 @@
+// vendored
 /*
  * NeuQuant Neural-Net Quantization Algorithm
  * ------------------------------------------
