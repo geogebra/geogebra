@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoStadium;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
@@ -372,7 +373,7 @@ public class InternalClipboard {
 			ArrayList<GeoElement> movable = new ArrayList<>();
 			ArrayList<GeoMindMapNode> mindMaps = new ArrayList<>();
 			for (GeoElement created : createdElements) {
-				if (created.isGeoPolygon() || created.isGeoSegment()
+				if (created.isGeoPolygon() || created instanceof GeoPolyLine
 						|| created.isGeoConic() || created instanceof GeoLocusStroke
 						|| created instanceof GeoWidget || created instanceof GeoImage
 						|| created instanceof GeoInline || created instanceof GeoStadium
