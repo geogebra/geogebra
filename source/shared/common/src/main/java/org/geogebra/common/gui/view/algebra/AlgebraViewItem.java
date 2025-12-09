@@ -233,7 +233,7 @@ public final class AlgebraViewItem {
 	public static final class HeaderState {
 		/** marble state */
 		@Nonnull MarbleState marbleState = MarbleState.DISABLED;
-		/** #ARGB (A is most signficant byte) */
+		/** #ARGB (A is most significant byte) */
 		int marbleOutlineColorARGB;
 		int marbleFillColorARGB;
 		/** marble icon (overlay) */
