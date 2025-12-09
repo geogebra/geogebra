@@ -11,6 +11,10 @@ val createCodeStyles by tasks.registering {
         val outputDir = rootDir.resolve(".idea").toPath()
         Resources.copyTo("codeStyles/Project.xml", outputDir)
         Resources.copyTo("codeStyles/codeStyleConfig.xml", outputDir)
+        Resources.copyTo("fileTemplates/includes/License.java", outputDir)
+        listOf("AnnotationType", "Class", "Enum", "Exception", "Interface", "Record").forEach {
+            Resources.copyTo("fileTemplates/internal/${it}.java", outputDir)
+        }
     }
 }
 idea.project.settings.taskTriggers {
