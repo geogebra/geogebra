@@ -35,11 +35,12 @@ import org.geogebra.common.plugin.Operation;
  * <b>a + b sqrt(m) + c sqrt(n) - d sqrt(o) &#8594;
  * gcd * (g + h sqrt(m) + j sqrt(n) + k sqrt(o))</b><br>
  * where gcd is the general common divisor of a, b, c and d.</p>
- *
- * <p>if no such non-trivial gcd, it returns the node in reduced form
- * @see SimplifyUtils#reduceExpressions(List) </p>
- *
- * <p>It is used for the nominator after expanding and before canceling GCD in a fraction</p>
+ * <p>
+ * if no such non-trivial gcd, it returns the node in reduced form
+ * </p><p>
+ * It is used for the nominator after expanding and before canceling GCD in a fraction
+ * </p>
+ * @see SimplifyUtils#reduceExpressions(List)
  */
 public final class GCDFromExpanded implements SimplifyNode {
 	private final SimplifyUtils utils;

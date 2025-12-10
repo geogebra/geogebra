@@ -26,9 +26,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
- * <h3>RegressionMath:</h3>
- * 
  * RegressionMath is a library of sums, determinants and parameter calculations
  * used by the FitXxx[GeoList]:GeoFunction commands.
  * 

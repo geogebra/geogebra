@@ -34,8 +34,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * <h3>FitRealFunction</h3>
- * 
  * <pre>
  *   Class with FitRealFunction which will be used when Fit[&lt;List&gt;,&lt;Function&gt;] does
  *   nonlinear curve-fitting on a copy of &lt;Function&gt; where gliders a,b,c,...

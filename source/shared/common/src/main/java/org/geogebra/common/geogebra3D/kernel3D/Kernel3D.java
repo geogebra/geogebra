@@ -65,7 +65,7 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  * Class used for (3D) calculations
  * 
- * <h3>How to add a method for creating a {@link GeoElement3D}</h3>
+ * <h1>How to add a method for creating a {@link GeoElement3D}</h1>
  * 
  * <ul>
  * <li>simply call the element's constructor

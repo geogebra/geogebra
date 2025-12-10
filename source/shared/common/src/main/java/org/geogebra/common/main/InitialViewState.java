@@ -41,11 +41,11 @@ public interface InitialViewState {
 	 * <p>
 	 * Call this exactly once immediately after the app or file is initialized,
 	 * before any view toggle shortcuts run. If you don't call it:
+	 * </p>
 	 * <ul>
 	 *   <li>Classic apps should treat all views as toggleable.</li>
 	 *   <li>Unbundled apps should treat the first/default tab as active.</li>
 	 * </ul>
-	 * </p>
 	 */
 	void store();
 

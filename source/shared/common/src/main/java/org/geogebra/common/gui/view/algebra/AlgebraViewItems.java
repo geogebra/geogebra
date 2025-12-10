@@ -40,8 +40,7 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * The container that manages and owns {@link AlgebraViewItem}s.
- * <p>
- * This class provides
+ * <p>This class provides</p>
  * <ul>
  * <li>A list of {@link AlgebraViewItem}s, one for each AV entry, holding individual AV item state
  * (e.g., input row visible, has toggle button, etc).</li>
@@ -51,7 +50,6 @@ import com.google.j2objc.annotations.Weak;
  * <li>Methods for Kernel integration (create/delete/update items, called by
  * {@link AlgebraViewUIAdapter} upon notification from {@code Kernel}).</li>
  * </ul>
- * </p>
  * @apiNote The AV input cell, input context menu, and syntax suggestions are not part of this
  * container and need to be handled separately (and possibly differently) in platform UI.
  */
