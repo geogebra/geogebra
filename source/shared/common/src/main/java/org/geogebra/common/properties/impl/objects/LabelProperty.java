@@ -35,7 +35,8 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  * Counterpart of {@link CaptionStyleProperty} with changes to meet new settings view requirements
  * without altering the original.
  */
-public class LabelProperty extends AbstractNamedEnumeratedProperty<Integer> {
+public class LabelProperty extends AbstractNamedEnumeratedProperty<Integer>
+		implements GeoElementDependentProperty {
 	private static final List<Map.Entry<Integer, String>> labels = List.of(
 			entry(GeoElementND.LABEL_HIDDEN, "Hidden"),
 			entry(GeoElementND.LABEL_NAME, "Name"),
@@ -83,5 +84,10 @@ public class LabelProperty extends AbstractNamedEnumeratedProperty<Integer> {
 	@Override
 	public boolean isEnabled() {
 		return delegate.getElement().isEuclidianVisible();
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return delegate.getElement();
 	}
 }

@@ -16,6 +16,11 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION;
+import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION_VALUE;
+import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME_VALUE;
+import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,15 +62,31 @@ public class CaptionProperty extends AbstractValuedProperty<String> implements
 
 	@Override
 	protected void doSetValue(String value) {
-		GeoText caption = (GeoText) geoElement.getKernel().lookupLabel(value);
-		if (caption != null) {
+		GeoElement element = geoElement.getKernel().lookupLabel(value);
+		if (element instanceof GeoText) {
 			geoElement.setCaption(null);
-			geoElement.setDynamicCaption(caption);
+			geoElement.setDynamicCaption((GeoText) element);
 		} else {
 			geoElement.removeDynamicCaption();
 			geoElement.setCaption(value);
+
+			if (value != null && !value.isEmpty()) {
+				ensureCaptionVisible();
+			}
 		}
 		geoElement.updateRepaint();
+	}
+
+	private void ensureCaptionVisible() {
+		int labelMode = geoElement.getLabelMode();
+		boolean isCaptionVisible = labelMode == LABEL_CAPTION || labelMode == LABEL_CAPTION_VALUE;
+		if (isCaptionVisible && geoElement.isLabelVisible()) {
+			return;
+		}
+		boolean isValueVisible = labelMode == LABEL_NAME_VALUE || labelMode == LABEL_VALUE;
+		int newCaptionedLabelMode = isValueVisible ? LABEL_CAPTION_VALUE : LABEL_CAPTION;
+		geoElement.setLabelMode(newCaptionedLabelMode);
+		geoElement.setLabelVisible(true);
 	}
 
 	@Override
