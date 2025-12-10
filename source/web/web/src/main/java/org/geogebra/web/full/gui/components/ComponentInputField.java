@@ -26,6 +26,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.accessibility.HasFocus;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
@@ -37,7 +38,7 @@ import org.gwtproject.user.client.ui.Label;
  * input field material design component
  */
 public class ComponentInputField extends FlowPanel implements SetLabels, Input,
-		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
+		ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus {
 	private final Localization loc;
 	private String errorTextKey;
 	private final String labelTextKey;
@@ -340,5 +341,10 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	@Override
 	public void visibilityUpdated() {
 		setVisible(textFieldProperty.isVisible());
+	}
+
+	@Override
+	public void focus() {
+		focusDeferred();
 	}
 }

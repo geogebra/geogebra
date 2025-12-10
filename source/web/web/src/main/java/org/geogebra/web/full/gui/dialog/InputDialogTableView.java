@@ -33,7 +33,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
 /**
@@ -69,38 +68,26 @@ public class InputDialogTableView extends ComponentDialog
 		});
 	}
 
-	/**
-	 * @return input field for start value
-	 */
-	public ComponentInputField getStartField() {
-		return startValue;
-	}
-
 	private void buildContent() {
-		FlowPanel contentPanel = new FlowPanel();
-		buildTextFieldPanel(contentPanel);
-		errorLabel = new Label();
-		errorLabel.setStyleName("globalErrorLabel");
-		contentPanel.add(errorLabel);
-		addDialogContent(contentPanel);
-	}
-
-	private void buildTextFieldPanel(FlowPanel root) {
-		startValue = addTextField("StartValueX", root);
-		endValue = addTextField("EndValueX", root);
-		step = addTextField("Step", root);
+		startValue = createTextField("StartValueX");
+		endValue = createTextField("EndValueX");
+		step = createTextField("Step");
 		// last input text field shouldn't have any bottom margin
 		step.addStyleName("noBottomMarg");
 		TestHarness.setAttr(startValue, "startValue");
 		TestHarness.setAttr(endValue, "endValue");
 		TestHarness.setAttr(step, "stepValue");
+
+		errorLabel = new Label();
+		errorLabel.setStyleName("globalErrorLabel");
+		errorLabel.getElement().setTabIndex(-1);
+
+		addDialogContent(startValue, endValue, step, errorLabel);
 	}
 
-	private ComponentInputField addTextField(String labelText, FlowPanel root) {
-		final ComponentInputField field = new ComponentInputField((AppW) app,
+	private ComponentInputField createTextField(String labelText) {
+		return new ComponentInputField((AppW) app,
 				null, labelText, null, "");
-		root.add(field);
-		return field;
 	}
 
 	@Override

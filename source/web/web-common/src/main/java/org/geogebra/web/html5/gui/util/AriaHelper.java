@@ -253,4 +253,12 @@ public class AriaHelper {
 			uiObject.getElement().removeAttribute("disabled");
 		}
 	}
+
+	/**
+	 * @param uiObject UI element
+	 * @param isModal whether is modal or not
+	 */
+	public static void setModal(UIObject uiObject, boolean isModal) {
+		setNullableAttribute(uiObject, "modal", String.valueOf(isModal));
+	}
 }
