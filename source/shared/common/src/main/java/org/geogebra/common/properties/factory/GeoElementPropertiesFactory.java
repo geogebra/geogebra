@@ -89,6 +89,7 @@ import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.ItalicProperty;
 import org.geogebra.common.properties.impl.objects.LabelProperty;
 import org.geogebra.common.properties.impl.objects.LabelStyleProperty;
+import org.geogebra.common.properties.impl.objects.LayerPropertyCollection;
 import org.geogebra.common.properties.impl.objects.LevelOfDetailProperty;
 import org.geogebra.common.properties.impl.objects.LineOpacityProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
@@ -410,11 +411,11 @@ public final class GeoElementPropertiesFactory {
 						() -> new SliderIntervalProperty(this, processor, localization, elements)),
 				createOptionalProperty(
 						() -> new AnimationPropertyCollection(this, processor, localization,
-								elements))
-
+								elements)),
+				createOptionalProperty(
+						() -> new LayerPropertyCollection(this, localization, elements))
 				// show condition
 				// color function
-				// layer
 				// selection allowed
 				// show in views
 		));
