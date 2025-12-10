@@ -18,10 +18,11 @@ ideaExt = "1.1.9"
 jakartaServlet = "6.1.0"
 androidPlugin = "8.7.2"
 androidSdkTools = "31.6.0"
+j2objc = "f49498e"
 
 [libraries]
 apache-math="org.apache:math-cross-platform:3.6.1"
-j2objc-annotations = "com.google.j2objc:annotations:2.8"
+j2objc-annotations = { module = "com.google.j2objc:annotations", version.ref = "j2objc" }
 spotbugs-annotations = {module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs"}
 findbugs-annotations = "com.google.code.findbugs:jsr305:3.0.2"
 javacc = "org.javacc.generator:java:8.0.5-GGB"
