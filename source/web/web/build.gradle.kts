@@ -56,7 +56,7 @@ gwt {
             "org.geogebra.web.Web", "org.geogebra.web.Tablet3D")
     }
 
-    sourceLevel = "11"
+    sourceLevel = "17"
 
     war = layout.projectDirectory.dir(warDirRel)
 
