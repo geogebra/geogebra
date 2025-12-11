@@ -84,6 +84,7 @@ import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.InequalityOnAxisProperty;
 import org.geogebra.common.properties.impl.objects.InputBoxAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.InputBoxSizeProperty;
+import org.geogebra.common.properties.impl.objects.InteractionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.InverseFillProperty;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.ItalicProperty;
@@ -408,15 +409,18 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createPropsArray("Advanced", localization, Stream.of(
 				createOptionalProperty(
-						() -> new SliderIntervalProperty(this, processor, localization, elements)),
+						() -> new SliderIntervalProperty(this, processor,
+								localization, elements)),
 				createOptionalProperty(
-						() -> new AnimationPropertyCollection(this, processor, localization,
-								elements)),
+						() -> new AnimationPropertyCollection(this, processor,
+								localization, elements)),
+				createOptionalProperty(
+						() -> new InteractionPropertyCollection(this, processor,
+								localization, elements)),
 				createOptionalProperty(
 						() -> new LayerPropertyCollection(this, localization, elements))
 				// show condition
 				// color function
-				// selection allowed
 				// show in views
 		));
 	}
@@ -1088,8 +1092,10 @@ public final class GeoElementPropertiesFactory {
 	/**
 	 * Same as {@link GeoElementPropertiesFactory#createPropertyFacadeThrowing} but thrown
 	 * exceptions are caught, and null is returned instead.
+	 * @return a collection of properties of type {@link C}, or {@code null} if an exception was
+	 * thrown during construction.
 	 */
-	private <P extends Property, C extends Property> C createPropertyFacade(
+	public <P extends Property, C extends Property> C createPropertyFacade(
 			List<GeoElement> geoElements,
 			GeoElementPropertyFactory<P> propertyFactory,
 			PropertyCollector<P, C> propertyCollector

@@ -29,7 +29,8 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Step
  */
-public class AnimationStepProperty extends AbstractNumericProperty {
+public class AnimationStepProperty extends AbstractNumericProperty
+		implements GeoElementDependentProperty {
 
 	private final GeoElement element;
 
@@ -56,6 +57,18 @@ public class AnimationStepProperty extends AbstractNumericProperty {
 	@Override
 	protected NumberValue getNumberValue() {
 		return element.getAnimationStepObject();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return !element.isLocked()
+				// "increment" is only enabled if "selection allowed"
+				&& element.isSelectionAllowed(null);
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return element;
 	}
 
 	/**

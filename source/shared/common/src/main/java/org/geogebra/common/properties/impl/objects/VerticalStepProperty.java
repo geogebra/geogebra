@@ -26,11 +26,21 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNumericProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class VerticalStepProperty extends AbstractNumericProperty {
+/**
+ * Object settings / Advanced tab: Interaction / vertical increment
+ */
+public class VerticalStepProperty extends AbstractNumericProperty
+		implements GeoElementDependentProperty {
 
 	private final GeoPointND element;
 
-	/***/
+	/**
+	 * Constructor
+	 * @param algebraProcessor algebra processor
+	 * @param localization localization
+	 * @param element the GeoElement
+	 * @throws NotApplicablePropertyException if {@code element} is not a {@link GeoPointND}
+	 */
 	public VerticalStepProperty(AlgebraProcessor algebraProcessor,
 			Localization localization, GeoElement element) throws NotApplicablePropertyException {
 		super(algebraProcessor, localization, "IncrementVertical");
@@ -48,7 +58,23 @@ public class VerticalStepProperty extends AbstractNumericProperty {
 
 	@Override
 	protected NumberValue getNumberValue() {
-		return element.getVerticalIncrement();
+		NumberValue step = element.getVerticalIncrement();
+		if (step == null) {
+			step = ((GeoElement) element).getAnimationStepObject();
+		}
+		return step;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return !element.isLocked()
+				// "vertical increment" is only enabled if "selection allowed"
+				&& ((GeoElement) element).isSelectionAllowed(null);
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return (GeoElement) element;
 	}
 }
 
