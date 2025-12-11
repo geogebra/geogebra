@@ -44,7 +44,7 @@ public class VerticalStepProperty extends AbstractNumericProperty
 	public VerticalStepProperty(AlgebraProcessor algebraProcessor,
 			Localization localization, GeoElement element) throws NotApplicablePropertyException {
 		super(algebraProcessor, localization, "IncrementVertical");
-		if (!(element instanceof GeoPointND)) {
+		if (!(element instanceof GeoPointND && element.isPointerChangeable())) {
 			throw new NotApplicablePropertyException(element);
 		}
 		this.element = (GeoPointND) element;

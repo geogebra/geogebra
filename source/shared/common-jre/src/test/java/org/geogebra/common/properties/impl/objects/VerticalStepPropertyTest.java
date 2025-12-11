@@ -50,6 +50,15 @@ public class VerticalStepPropertyTest extends BaseAppTestSetup {
 	}
 
 	@Test
+	public void testNotApplicableForIntersectionPoint() {
+		evaluateGeoElement("f = x - 3");
+		GeoElement intersectionPoint = evaluateGeoElement("Intersect(f, (0,-3))");
+		assertThrows(NotApplicablePropertyException.class, () ->
+				new VerticalStepProperty(getAlgebraProcessor(), getLocalization(),
+						intersectionPoint));
+	}
+
+	@Test
 	public void testDisabledForLockedObject() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
 		VerticalStepProperty VerticalStepProperty = assertDoesNotThrow(() ->
