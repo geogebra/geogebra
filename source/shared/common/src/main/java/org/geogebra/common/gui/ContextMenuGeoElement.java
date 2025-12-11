@@ -700,7 +700,7 @@ public class ContextMenuGeoElement {
 			return;
 		}
 		CopyPaste.handleCutCopy(app, true);
-		app.getActiveEuclidianView().resetBoundingBoxes();
+		app.getActiveEuclidianView().getEuclidianController().clearSelections();
 	}
 
 	/**
