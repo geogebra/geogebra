@@ -77,27 +77,27 @@ final class CMBSY10 extends FontInfo {
 
 		setMetrics(195, 1150, 391, -109);
 
-		setMetrics(21, 319, 156, 194);
+		setMetrics(197, 319, 156, 194);
 
-		setMetrics(22, 894, 586, 86);
+		setMetrics(198, 894, 586, 86);
 		setNextLarger(Configuration.getFonts().cmex10, 172);
 
-		setMetrics(23, 575, 750, 250);
+		setMetrics(199, 575, 750, 250);
 		setKern(162, -64, 65, -64, 77, -64, 78, -64, 89, 64, 90, -64);
 		setNextLarger(Configuration.getFonts().cmex10, 177);
 
-		setMetrics(24, 894, 586, 86);
+		setMetrics(200, 894, 586, 86);
 		setNextLarger(Configuration.getFonts().cmex10, 174);
 
-		setMetrics(25, 761, 444);
+		setMetrics(201, 761, 444);
 		setKern(196, 32);
 
-		setMetrics(26, 660, 694, 194, 34);
+		setMetrics(202, 660, 694, 194, 34);
 		setKern(196, 96);
 
-		setMetrics(27, 590, 444, 194, 64);
+		setMetrics(203, 590, 444, 194, 64);
 
-		setMetrics(28, 671, 694);
+		setMetrics(204, 671, 694);
 
 		setMetrics(33, 1150, 391, -109);
 
