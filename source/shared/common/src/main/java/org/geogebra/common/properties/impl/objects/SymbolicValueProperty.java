@@ -43,6 +43,7 @@ public class SymbolicValueProperty extends AbstractValuedProperty<Boolean> imple
 	@Override
 	protected void doSetValue(Boolean value) {
 		element.setSymbolicMode(value, true);
+		element.updateRepaint();
 	}
 
 	@Override

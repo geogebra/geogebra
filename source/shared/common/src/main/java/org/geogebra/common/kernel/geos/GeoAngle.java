@@ -105,30 +105,15 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		}
 
 		public String getMin() {
-			return min;
+			return min + Unicode.DEGREE_CHAR;
 		}
 
 		public String getMax() {
-			return max;
+			return max + Unicode.DEGREE_CHAR;
 		}
 	}
 
 	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
-
-	/** interval minima for different angle styles */
-	private static final String[] INTERVAL_MIN = {
-			"0" + Unicode.DEGREE_CHAR,
-			"0" + Unicode.DEGREE_CHAR,
-			"180" + Unicode.DEGREE_CHAR,
-			"-" + Unicode.INFINITY
-	};
-	/** interval maxima for different angle styles */
-	private static final String[] INTERVAL_MAX = {
-			"360" + Unicode.DEGREE_CHAR,
-			"180" + Unicode.DEGREE_CHAR,
-			"360" + Unicode.DEGREE_CHAR,
-			String.valueOf(Unicode.INFINITY)
-	};
 
 	/**
 	 * @author Loic
@@ -145,31 +130,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 				DECORATION_ANGLE_ARROW_ANTICLOCKWISE,
 				DECORATION_ANGLE_ARROW_CLOCKWISE
 		};
-	}
-
-	/**
-	 * @param i
-	 *            index
-	 * @return i-th interval maximum
-	 */
-	public static String getIntervalMinList(int i) {
-		return INTERVAL_MIN[i];
-	}
-
-	/**
-	 * @return number of min/max intervals
-	 */
-	public static int getIntervalMinListLength() {
-		return INTERVAL_MIN.length;
-	}
-
-	/**
-	 * @param i
-	 *            index
-	 * @return i-th interval minimum
-	 */
-	public static String getIntervalMaxList(int i) {
-		return INTERVAL_MAX[i];
 	}
 
 	/**

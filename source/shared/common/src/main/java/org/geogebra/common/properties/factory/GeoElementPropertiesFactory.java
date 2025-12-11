@@ -49,6 +49,7 @@ import org.geogebra.common.properties.impl.facade.ObjectEventPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsListFacade;
+import org.geogebra.common.properties.impl.objects.AlgebraProperty;
 import org.geogebra.common.properties.impl.objects.AngleArcSizeProperty;
 import org.geogebra.common.properties.impl.objects.AngleDecorationProperty;
 import org.geogebra.common.properties.impl.objects.AnimatingProperty;
@@ -408,6 +409,7 @@ public final class GeoElementPropertiesFactory {
 	private @Nonnull PropertiesArray createAdvancedProperties(AlgebraProcessor processor,
 			Localization localization, List<GeoElement> elements) {
 		return createPropsArray("Advanced", localization, Stream.of(
+				// Position
 				createOptionalProperty(
 						() -> new SliderIntervalProperty(this, processor,
 								localization, elements)),
@@ -418,10 +420,11 @@ public final class GeoElementPropertiesFactory {
 						() -> new InteractionPropertyCollection(this, processor,
 								localization, elements)),
 				createOptionalProperty(
+						() -> new AlgebraProperty(this, localization, elements)),
+				// Visibility
+				// Dynamic colors
+				createOptionalProperty(
 						() -> new LayerPropertyCollection(this, localization, elements))
-				// show condition
-				// color function
-				// show in views
 		));
 	}
 
@@ -1091,7 +1094,7 @@ public final class GeoElementPropertiesFactory {
 
 	/**
 	 * Same as {@link GeoElementPropertiesFactory#createPropertyFacadeThrowing} but thrown
-	 * exceptions are caught, and null is returned instead.
+	 * exceptions are caught, and {@code null} is returned instead.
 	 * @return a collection of properties of type {@link C}, or {@code null} if an exception was
 	 * thrown during construction.
 	 */

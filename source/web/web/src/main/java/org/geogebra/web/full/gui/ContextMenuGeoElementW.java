@@ -869,12 +869,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private AriaMenuBar getAngleSubMenu() {
-		String[] angleIntervals = new String[GeoAngle.getIntervalMinListLength()
-				- 1];
-		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
-			angleIntervals[i] = app.getLocalization().getPlain(
-					"AngleBetweenAB.short", GeoAngle.getIntervalMinList(i),
-					GeoAngle.getIntervalMaxList(i));
+		String[] angleIntervals = new String[GeoAngle.AngleStyle.values().length - 1];
+		for (int i = 0; i < angleIntervals.length; i++) {
+			GeoAngle.AngleStyle style = GeoAngle.AngleStyle.values()[i];
+			angleIntervals[i] = app.getLocalization()
+					.getPlain("AngleBetweenAB.short", style.getMin(), style.getMax());
 		}
 
 		AriaMenuBar mnu = new AriaMenuBar();

@@ -667,12 +667,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createAngleIntervalBtn() {
-		String[] angleIntervalString = new String[GeoAngle
-				.getIntervalMinListLength() - 1];
-		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
-			angleIntervalString[i] = app.getLocalization().getPlain(
-					"AngleBetweenAB.short", GeoAngle.getIntervalMinList(i),
-					GeoAngle.getIntervalMaxList(i));
+		String[] angleIntervalString = new String[GeoAngle.AngleStyle.values().length - 1];
+		for (int i = 0; i < angleIntervalString.length - 1; i++) {
+			GeoAngle.AngleStyle angleStyle = GeoAngle.AngleStyle.values()[i];
+			angleIntervalString[i] = app.getLocalization()
+					.getPlain("AngleBetweenAB.short", angleStyle.getMin(), angleStyle.getMax());
 		}
 
 		ImageOrText[] angleIntervalArray = ImageOrText
@@ -1165,12 +1164,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 								loc.getMenu("Caption") // index 3
 		}));
 
-		String[] angleIntervalArray = new String[GeoAngle
-				.getIntervalMinListLength() - 1];
-		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
-			angleIntervalArray[i] = app.getLocalization().getPlain(
-					"AngleBetweenAB.short", GeoAngle.getIntervalMinList(i),
-					GeoAngle.getIntervalMaxList(i));
+		String[] angleIntervalArray = new String[GeoAngle.AngleStyle.values().length - 1];
+		for (int i = 0; i < angleIntervalArray.length; i++) {
+			GeoAngle.AngleStyle angleStyle = GeoAngle.AngleStyle.values()[i];
+			angleIntervalArray[i] = app.getLocalization()
+					.getPlain("AngleBetweenAB.short", angleStyle.getMin(), angleStyle.getMax());
 		}
 
 		this.btnAngleInterval.getMyTable()

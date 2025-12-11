@@ -726,13 +726,12 @@ public class EuclidianStyleBarD extends JToolBar
 		// ========================================
 		// angle interval button
 
-		String[] angleIntervalArray = new String[GeoAngle
-				.getIntervalMinListLength() - 1];
+		String[] angleIntervalArray = new String[GeoAngle.AngleStyle.values().length - 1];
 
-		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
-			angleIntervalArray[i] = loc.getPlain("AngleBetweenAB.short",
-					GeoAngle.getIntervalMinList(i),
-					GeoAngle.getIntervalMaxList(i));
+		for (int i = 0; i < angleIntervalArray.length; i++) {
+			GeoAngle.AngleStyle style = GeoAngle.AngleStyle.values()[i];
+			angleIntervalArray[i] =
+					loc.getPlain("AngleBetweenAB.short", style.getMin(), style.getMax());
 		}
 
 		btnAngleInterval = new PopupMenuButtonD(app, angleIntervalArray, -1, 1,

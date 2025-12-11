@@ -36,7 +36,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public class LinearEquationFormProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
-	public static final String NAME_KEY = "LinearEquationForm"; // TODO add to ggbTranslate
+	public static final String NAME_KEY = "Equation";
 
 	private final AbstractGeoElementDelegate delegate;
 

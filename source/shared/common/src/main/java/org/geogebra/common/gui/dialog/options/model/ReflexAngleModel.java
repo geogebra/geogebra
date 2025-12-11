@@ -16,8 +16,9 @@
 
 package org.geogebra.common.gui.dialog.options.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.geos.AngleProperties;
@@ -87,27 +88,21 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 
 	@Override
 	public List<String> getChoices(Localization loc) {
-		List<String> result = new ArrayList<>();
-
+		List<GeoAngle.AngleStyle> angleStyles;
 		if (hasOrientation) {
-			int length = GeoAngle.getIntervalMinListLength();
-
+			angleStyles = Arrays.asList(GeoAngle.AngleStyle.values());
 			if (isDrawable) {
 				// don't want to allow (-inf, +inf)
-				length--;
+				angleStyles.remove(GeoAngle.AngleStyle.UNBOUNDED);
 			}
-
-			for (int i = 0; i < length; i++) {
-				result.add(loc.getPlain("AandB", GeoAngle.getIntervalMinList(i),
-						GeoAngle.getIntervalMaxList(i)));
-			}
-		} else {// only 180degree wide interval are possible
-			result.add(loc.getPlain("AandB", GeoAngle.getIntervalMinList(1),
-					GeoAngle.getIntervalMaxList(1)));
-			result.add(loc.getPlain("AandB", GeoAngle.getIntervalMinList(2),
-					GeoAngle.getIntervalMaxList(2)));
+		} else {
+			// only 180degree wide interval are possible
+			angleStyles = List.of(GeoAngle.AngleStyle.NOTREFLEX, GeoAngle.AngleStyle.ISREFLEX);
 		}
-		return result;
+
+		return angleStyles.stream()
+				.map(style -> loc.getPlain("AandB", style.getMin(), style.getMax()))
+				.collect(Collectors.toUnmodifiableList());
 	}
 
 	@Override
