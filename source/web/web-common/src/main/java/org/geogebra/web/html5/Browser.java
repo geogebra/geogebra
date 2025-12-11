@@ -165,9 +165,7 @@ public class Browser {
 	public static boolean supportsWebGLNative() {
 		try {
 			Canvas canvas = Canvas.createIfSupported();
-			return hasGlobal("WebGLRenderingContext")
-					&& (canvas.getContext("webgl") != null
-						|| canvas.getContext("experimental-webgl") != null);
+			return canvas.getContext("webgl2") != null;
 		} catch (Throwable t) {
 			return false;
 		}

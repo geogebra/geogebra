@@ -243,14 +243,14 @@ public class RendererWithImplW extends Renderer implements
 		} else {
 			options.set("alpha", 0);
 		}
-		return Js.uncheckedCast(canvas.getContext("experimental-webgl", options));
+		return Js.uncheckedCast(canvas.getContext("webgl2", options));
 	}
 
 	private static WebGLRenderingContext getBufferedContext(
 			Element element) {
 		HTMLCanvasElement canvas = Js.uncheckedCast(element);
 		JsPropertyMap<?> options = JsPropertyMap.of("preserveDrawingBuffer", true);
-		return Js.uncheckedCast(canvas.getContext("experimental-webgl", options));
+		return Js.uncheckedCast(canvas.getContext("webgl2", options));
 	}
 
 	@Override
