@@ -842,6 +842,7 @@ public class ConstructionDefaults implements SettingListener {
 			break;
 
 		case LOCUS:
+		case SHAPE_STADIUM:
 			type = DEFAULT_LOCUS;
 			break;
 
