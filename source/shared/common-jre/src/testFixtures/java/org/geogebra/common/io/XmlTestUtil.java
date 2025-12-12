@@ -46,7 +46,14 @@ public class XmlTestUtil {
 	 *            app
 	 */
 	public static void checkCurrentXML(AppCommon application) {
-		String xml = application.getXML();
+		checkXML(application.getXML());
+	}
+
+	/**
+	 * Validate XML against GGB schema.
+	 * @param xml XML content
+	 */
+	public static void checkXML(String xml) {
 		try {
 			Validator validator = getValidator();
 			if (validator == null) {

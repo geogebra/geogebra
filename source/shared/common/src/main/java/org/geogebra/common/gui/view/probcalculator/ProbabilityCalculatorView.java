@@ -1916,12 +1916,28 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		sb.startOpeningTag("probabilityCalculator", 0).endTag();
-		sb.startTag("distribution");
+		sb.startTag("distribution")
+				.attr("type", selectedDist.ordinal())
+				.attr("isCumulative", isCumulative)
+				.attr("isOverlayActive", isShowNormalOverlay())
+				.attr("parameters", getParametersString())
+				.endTag();
 
-		sb.attr("type", selectedDist.ordinal());
-		sb.attr("isCumulative", isCumulative);
-		sb.attr("isOverlayActive", isShowNormalOverlay());
+		sb.startTag("interval")
+				.attr("mode", this.probMode)
+				.attr("low", getLow())
+				.attr("high", getHigh())
+				.endTag();
+		if (getStatCalculator() != null) {
+			getStatCalculator().getXML(sb, !isDistributionTabOpen());
+		}
+		sb.closeTag("probabilityCalculator");
+	}
 
+	private StringBuilder getParametersString() {
+		if (parameters == null) {
+			return new StringBuilder();
+		}
 		int idx = 0;
 		StringBuilder params = new StringBuilder(parameters.length);
 		for (GeoNumberValue parameter : parameters) {
@@ -1931,20 +1947,7 @@ public abstract class ProbabilityCalculatorView
 			params.append(parameter.getLabel(StringTemplate.xmlTemplate));
 			idx++;
 		}
-		sb.attr("parameters", params);
-
-		sb.startTag("interval");
-
-		sb.attr("mode", this.probMode);
-
-		sb.attr("low", getLow());
-
-		sb.attr("high", getHigh());
-		sb.endTag();
-		if (getStatCalculator() != null) {
-			getStatCalculator().getXML(sb, !isDistributionTabOpen());
-		}
-		sb.closeTag("probabilityCalculator");
+		return params;
 	}
 
 	protected abstract boolean isDistributionTabOpen();

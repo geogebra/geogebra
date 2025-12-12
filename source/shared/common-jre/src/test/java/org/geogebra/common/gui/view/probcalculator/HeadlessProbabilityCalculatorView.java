@@ -24,9 +24,16 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 
 class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 
+	private final StatisticsCalculator calculator;
+
 	public HeadlessProbabilityCalculatorView(App app) {
+		this(app, null);
+	}
+
+	public HeadlessProbabilityCalculatorView(App app, StatisticsCalculator calc) {
 		super(app);
 		this.app = app;
+		this.calculator = calc;
 		setPlotPanel(new EuclidianViewNoGui(app.newEuclidianController(kernel), 42,
 				new EuclidianSettings(app), new GGraphicsCommon()));
 	}
@@ -77,7 +84,7 @@ class HeadlessProbabilityCalculatorView extends ProbabilityCalculatorView {
 
 	@Override
 	protected StatisticsCalculator getStatCalculator() {
-		return null;
+		return calculator;
 	}
 
 	@Override
