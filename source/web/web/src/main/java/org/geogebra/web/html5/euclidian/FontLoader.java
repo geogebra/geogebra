@@ -42,7 +42,7 @@ public final class FontLoader {
 			FontFamily.ABeZehLinieEDULight, FontFamily.ABeZehLinieEDURegular,
 			FontFamily.ABeZehPfeilEDULight, FontFamily.ABeZehPfeilEDURegular,
 			FontFamily.ABeZehPfeilEDULINKSLight, FontFamily.ABeZehPunktEDULight,
-			FontFamily.ABeZehPunktEDURegular, FontFamily.TEST};
+			FontFamily.ABeZehPunktEDURegular, FontFamily.TEST, FontFamily.TEST2};
 
 	private enum FontState { LOADING, ACTIVE }
 
