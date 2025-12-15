@@ -90,7 +90,7 @@ public class MaskWidgetListW implements MaskWidgetList {
 	}
 
 	private void add(final GeoPolygon polygon) {
-		final MaskWidget maskWidget = new MaskWidget(polygon, view);
+		final MaskWidget maskWidget = new MaskWidget(polygon, view, appletFrame);
 		widgets.add(maskWidget);
 		ClickStartHandler.init(maskWidget, new ClickStartHandler() {
 			@Override

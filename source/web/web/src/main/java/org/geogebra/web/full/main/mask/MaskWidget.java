@@ -21,6 +21,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.user.client.ui.FlowPanel;
 
@@ -31,15 +32,17 @@ class MaskWidget extends FlowPanel {
 	private final Style style;
 	private EuclidianView view;
 	private GeoPolygon polygon;
+	private GeoGebraFrameFull frame;
 
 	/**
-	 *
 	 * @param polygon represents the mask.
-	 * @param view {@link EuclidianView}
+	 * @param view parent view
+	 * @param frame app frame
 	 */
-	MaskWidget(GeoPolygon polygon, EuclidianView view) {
+	MaskWidget(GeoPolygon polygon, EuclidianView view, GeoGebraFrameFull frame) {
 		this.polygon = polygon;
 		this.view = view;
+		this.frame = frame;
 		addStyleName("maskWidget");
 		style = getElement().getStyle();
 		update();
@@ -67,7 +70,7 @@ class MaskWidget extends FlowPanel {
 
 		double m21 = (pA.getY() - pB.getY()) * ratio;
 		double m22 = (pC.getY() - pB.getY()) * ratio;
-		double m23 = pB.getY();
+		double m23 = pB.getY() + frame.getNotesTopBarHeight();
 		String sb = "matrix(" + m11 + ", " + m21
 				+ ", " + m12 + ", " + m22
 				+ ", " + m13 + ", " + m23 + ")";

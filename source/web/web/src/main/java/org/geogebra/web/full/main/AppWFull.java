@@ -2210,7 +2210,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			height += GLookAndFeel.TOOLBAR_HEIGHT;
 		}
 		if (isWhiteboardActive()) {
-			height += frame.getNotesLayoutSafe(this).getTopBarHeight();
+			height += frame.getNotesTopBarHeight();
 		}
 		return height;
 	}
