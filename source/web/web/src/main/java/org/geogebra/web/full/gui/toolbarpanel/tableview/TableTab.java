@@ -81,6 +81,9 @@ public class TableTab extends ToolbarTab {
 			ensureTableExists().setHeight(getTabHeight());
 			setWidget(table);
 		}
+		if (table != null) {
+			table.selectFirstCell();
+		}
 	}
 
 	private StickyTable<?> ensureTableExists() {

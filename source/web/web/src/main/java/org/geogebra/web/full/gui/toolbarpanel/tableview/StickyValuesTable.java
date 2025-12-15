@@ -594,4 +594,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		return columnsChange;
 	}
 
+	@Override
+	public void selectFirstCell() {
+		controller.select(0, 0);
+	}
+
 }

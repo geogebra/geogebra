@@ -145,7 +145,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 						editorClicked();
 					}
 				});
-		mathField.setOnFocus(evt -> main.getParent().addStyleName("focusState"));
+		mathField.setOnFocus(evt -> {
+			if (main.getParent() != null) {
+				main.getParent().addStyleName("focusState");
+			}
+		});
 	}
 
 	/**

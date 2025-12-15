@@ -24,6 +24,7 @@ import org.geogebra.regexp.client.NativeRegExp;
 import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.awt.JLMContext2D;
 import org.geogebra.web.awt.JLMContextHelper;
+import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.Browser;
@@ -41,6 +42,7 @@ import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.impl.SchedulerImpl;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.SelectElement;
 import org.gwtproject.dom.client.TextAreaElement;
 import org.gwtproject.event.dom.client.DomEvent;
@@ -167,6 +169,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(FocusUtil.class, "focusNoScroll", Void.class);
         StubGenerator.replaceMethodWithMock(CopyPasteW.class, "clipboardSupports", Void.class);
         StubGenerator.replaceMethodWithMock(Opentype.class, "loadFont", Void.class);
+        StubGenerator.replaceMethodWithMock(StickyTable.class, "getCell", Element.class);
+        StubGenerator.replaceMethodWithMock(MathFieldW.class, "getHiddenTextArea", Element.class);
     }
 
     @Override
@@ -199,6 +203,8 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         classes.add(FocusImpl.class);
         classes.add(JsDate.class);
         classes.add(CellBasedWidgetImplStandard.class);
+        classes.add(StickyTable.class);
+        classes.add(MathFieldW.class);
         return classes;
     }
 

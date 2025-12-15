@@ -306,4 +306,11 @@ public abstract class StickyTable<T> extends FlowPanel {
 	public void openDefineFunctions() {
 		// nothing to do here
 	}
+
+	/**
+	 * selects first cell
+	 */
+	public void selectFirstCell() {
+		// nothing to do here
+	}
 }
