@@ -130,6 +130,7 @@ import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
 import org.geogebra.common.properties.impl.objects.VectorHeadProperty;
 import org.geogebra.common.properties.impl.objects.VerticalAlignmentProperty;
+import org.geogebra.common.properties.impl.objects.VisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -414,8 +415,7 @@ public final class GeoElementPropertiesFactory {
 				createOptionalProperty(
 						() -> new PositionPropertyCollection(this, localization, elements)),
 				createOptionalProperty(
-						() -> new SliderIntervalProperty(this, processor,
-								localization, elements)),
+						() -> new SliderIntervalProperty(this, processor, localization, elements)),
 				createOptionalProperty(
 						() -> new AnimationPropertyCollection(this, processor,
 								localization, elements)),
@@ -424,7 +424,8 @@ public final class GeoElementPropertiesFactory {
 								localization, elements)),
 				createOptionalProperty(
 						() -> new AlgebraProperty(this, localization, elements)),
-				// Visibility
+				createOptionalProperty(
+						() -> new VisibilityPropertyCollection(this, localization, elements)),
 				// Dynamic colors
 				createOptionalProperty(
 						() -> new LayerPropertyCollection(this, localization, elements))

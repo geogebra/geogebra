@@ -1,0 +1,90 @@
+/*
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
+ *
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ *
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
+ */
+
+package org.geogebra.common.properties.impl.objects;
+
+import java.util.List;
+
+import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.HasExtendedAV;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.aliases.BooleanProperty;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
+import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+
+/**
+ * {@code PropertyCollection} containing {@code Property}s related to the visibility of {@code GeoElement}s in the Algebra View.
+ */
+public final class AlgebraViewVisibilityPropertyCollection
+		extends AbstractPropertyCollection<BooleanProperty> {
+	private static final class SliderVisibilityProperty extends AbstractValuedProperty<Boolean>
+			implements BooleanProperty, GeoElementDependentProperty {
+		private final GeoElement element;
+
+		SliderVisibilityProperty(Localization localization, GeoElement element)
+				throws NotApplicablePropertyException {
+			super(localization, "ShowSliderInAlgebraView");
+			if (!(element instanceof HasExtendedAV)) {
+				throw new NotApplicablePropertyException(element);
+			}
+			this.element = element;
+		}
+
+		@Override
+		public Boolean getValue() {
+			return ((HasExtendedAV) element).isAVSliderOrCheckboxVisible();
+		}
+
+		@Override
+		protected void doSetValue(Boolean value) {
+			((HasExtendedAV) element).setAVSliderOrCheckboxVisible(value);
+			element.updateVisualStyleRepaint(GProperty.COMBINED);
+		}
+
+		@Override
+		public boolean isEnabled() {
+			return element.isAlgebraVisible();
+		}
+
+		@Override
+		public GeoElement getGeoElement() {
+			return element;
+		}
+	}
+
+	/**
+	 * Constructs the property for the given elements.
+	 * @param propertiesFactory properties factory for creating property facades for the given list
+	 * of elements
+	 * @param localization localization for translating property names
+	 * @param elements the elements to create the property for
+	 * @throws NotApplicablePropertyException if the property is not applicable for any given
+	 * elements
+	 */
+	public AlgebraViewVisibilityPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory, Localization localization,
+			List<GeoElement> elements) throws NotApplicablePropertyException {
+		super(localization, "ObjectProperties.AlgebraViewVisibility");
+		setProperties(new BooleanProperty[]{
+				propertiesFactory.createPropertyFacadeThrowing(elements,
+						element -> new SliderVisibilityProperty(localization, element),
+						BooleanPropertyListFacade::new)});
+	}
+}

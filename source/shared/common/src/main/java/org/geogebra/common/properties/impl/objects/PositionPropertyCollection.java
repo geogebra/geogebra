@@ -16,10 +16,11 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import static org.geogebra.common.util.Util.tryOrNull;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -205,13 +206,5 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 				.filter(element -> element instanceof GeoPoint)
 				.map(element -> (GeoPoint) element)
 				.collect(Collectors.toList());
-	}
-
-	private <T> T tryOrNull(Callable<T> callable) {
-		try {
-			return callable.call();
-		} catch (Exception exception) {
-			return null;
-		}
 	}
 }

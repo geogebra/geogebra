@@ -52,7 +52,9 @@ import org.geogebra.common.properties.impl.graphics.GridFixedDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropertyCollection;
+import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
+import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
 import com.google.j2objc.annotations.Weak;
@@ -939,11 +941,11 @@ public abstract class PropertyView {
 				|| property instanceof AxisUnitPropertyCollection) {
 			return new RelatedPropertyViewCollection(null,
 					propertyViewListOf((PropertyCollection<?>) property), 0);
-		} else if (property instanceof ClippingPropertyCollection) {
-			ClippingPropertyCollection clippingPropertyCollection =
-					(ClippingPropertyCollection) property;
-			return new RelatedPropertyViewCollection(clippingPropertyCollection.getName(),
-					propertyViewListOf(clippingPropertyCollection), 4);
+		} else if (property instanceof ClippingPropertyCollection
+				|| property instanceof LocationPropertyCollection
+				|| property instanceof AlgebraViewVisibilityPropertyCollection) {
+			return new RelatedPropertyViewCollection(property.getName(),
+					propertyViewListOf((PropertyCollection<?>) property), 4);
 		} else if (property instanceof LabelStylePropertyCollection) {
 			return new MultiSelectionIconRow((LabelStylePropertyCollection) property);
 		} else if (property instanceof ActionableIconPropertyCollection) {
