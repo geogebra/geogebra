@@ -735,11 +735,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			width: 368px;
 			height: 68px;
 			.colorButton {
+				position: relative;
 				display: inline;
 			}
 			.checkmark, .plus {
-				position: relative;
-				top: -36px;
+				top: 0;
 			}
 		}
 		.labelStyle {
