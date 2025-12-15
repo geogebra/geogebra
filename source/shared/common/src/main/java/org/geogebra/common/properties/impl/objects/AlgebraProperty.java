@@ -43,19 +43,19 @@ public class AlgebraProperty extends AbstractPropertyCollection<Property> {
 		super(localization, "Properties.Algebra");
 
 		Property[] properties = new Property[]{
-				propertiesFactory.createPropertyFacade(elements,
+				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new CoordinatesModeProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createPropertyFacade(elements,
+				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new LinearEquationFormProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createPropertyFacade(elements,
+				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new AngleBetweenProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createPropertyFacade(elements,
+				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new InputBoxRoundingProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createPropertyFacade(elements,
+				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new SymbolicValueProperty(localization, element),
 						BooleanPropertyListFacade::new)
 		};

@@ -53,13 +53,13 @@ public class InteractionPropertyCollection extends AbstractPropertyCollection<Pr
 			throws NotApplicablePropertyException {
 		super(localization, "Interaction");
 
-		selectionAllowedProperty = propertiesFactory.createPropertyFacade(elements,
+		selectionAllowedProperty = propertiesFactory.createOptionalPropertyFacade(elements,
 				element -> new SelectionAllowedProperty(localization, element),
 				BooleanPropertyListFacade::new);
-		animationStepProperty = propertiesFactory.createPropertyFacade(elements,
+		animationStepProperty = propertiesFactory.createOptionalPropertyFacade(elements,
 				element -> new AnimationStepProperty(processor, localization, element, false),
 				StringPropertyListFacade::new);
-		verticalStepProperty = propertiesFactory.createPropertyFacade(elements,
+		verticalStepProperty = propertiesFactory.createOptionalPropertyFacade(elements,
 				element -> new VerticalStepProperty(processor, localization,
 						element),
 				StringPropertyListFacade::new);

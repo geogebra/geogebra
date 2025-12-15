@@ -246,7 +246,7 @@ public class PropertiesPanelAdapter {
 					(TextField) propertyView);
 			inputField.getTextField().getTextComponent().addEnterPressHandler(() -> {
 				String text = inputField.getText();
-				((TextField) propertyView).setText(text);
+				((TextField) propertyView).setValue(text);
 			});
 			return inputField;
 		}

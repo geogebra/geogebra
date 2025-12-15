@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.exam.restrictions.PropertyRestriction;
@@ -112,6 +113,7 @@ import org.geogebra.common.properties.impl.objects.OutlyingIntersectionsProperty
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleExtendedProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleProperty;
+import org.geogebra.common.properties.impl.objects.PositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.SegmentDecorationProperty;
 import org.geogebra.common.properties.impl.objects.SegmentEndProperty;
@@ -208,7 +210,7 @@ public final class GeoElementPropertiesFactory {
 				createCaptionStyleProperty(localization, elements),
 				createShowTraceProperty(localization, elements),
 				createIsFixedObjectProperty(localization, elements),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new ShowInAVProperty(localization, element),
 						BooleanPropertyListFacade::new)
 		).filter(Objects::nonNull).collect(Collectors.toList()));
@@ -216,33 +218,33 @@ public final class GeoElementPropertiesFactory {
 
 	private Property createCaptionStyleProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new CaptionStyleProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
 	}
 
 	private Property createShowTraceProperty(Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new ShowTraceProperty(localization, element),
 				BooleanPropertyListFacade::new);
 	}
 
 	private Property createMinProperty(AlgebraProcessor processor, Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new MinProperty(processor, localization, element),
 				StringPropertyListFacade::new);
 	}
 
 	private Property createMaxProperty(AlgebraProcessor processor, Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new MaxProperty(processor, localization, element),
 				StringPropertyListFacade::new);
 	}
 
 	private Property createFixObjectProperty(Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> {
 					try {
 						return new FixObjectProperty(localization, element);
@@ -259,27 +261,27 @@ public final class GeoElementPropertiesFactory {
 
 	private Property createAnimationStepProperty(AlgebraProcessor processor,
 			Localization localization, List<GeoElement> elements, boolean forSliders) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new AnimationStepProperty(processor, localization, element, forSliders),
 				StringPropertyListFacade::new);
 	}
 
 	private Property createQuadraticEquationProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new QuadraticEquationFormProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
 	}
 
 	private Property createLinearEquationProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new LinearEquationFormProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
 	}
 
 	private Property createSlopeSizeProperty(Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new SlopeSizeProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
@@ -307,28 +309,28 @@ public final class GeoElementPropertiesFactory {
 		return createPropsArray("Basic", localization, Stream.of(
 				createNameProperty(localization, elements),
 				elements.size() == 1 ? new DefinitionProperty(localization, elements.get(0)) : null,
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new CaptionProperty(localization, element),
 						StringPropertyWithSuggestionsListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new LabelProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
 				createShowObjectProperty(localization, elements),
 				createShowTraceProperty(localization, elements),
 				createFixObjectProperty(localization, elements),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new AuxiliaryObjectProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new OutlyingIntersectionsProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new AnimatingProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new BackgroundImageProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new ListAsComboBoxProperty(localization, element),
 						BooleanPropertyListFacade::new)));
 	}
@@ -343,64 +345,64 @@ public final class GeoElementPropertiesFactory {
 				createLineOpacityProperty(localization, elements),
 				createLineStyleProperty(localization, elements, false),
 				createLineStyleProperty(localization, elements, true),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new DrawArrowsProperty(localization, element),
 						BooleanPropertyListFacade::new),
 				// arcsize
 				createSlopeSizeProperty(localization, elements),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new AngleArcSizeProperty(localization, element),
 						RangePropertyListFacade::new),
 
 				createFillingStyleProperty(localization, elements, true),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new HatchingAngleProperty(localization, element),
 						RangePropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new HatchingDistanceProperty(localization, element),
 						RangePropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new FillSymbolProperty(localization, element),
 						StringPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new FillImageProperty(localization, element),
 						FilePropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new InverseFillProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new InequalityOnAxisProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new InputBoxSizeProperty(processor, localization, element),
 						StringPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new InputBoxAlignmentProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new ButtonWidthProperty(processor, localization, element),
 						StringPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new ButtonHeightProperty(processor, localization, element),
 						StringPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new ButtonFixedSizeProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new LevelOfDetailProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new ImageInterpolationProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new AngleDecorationProperty(localization, element),
 						IconsEnumeratedPropertyListFacade::new),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new SegmentDecorationProperty(localization, element),
 						IconsEnumeratedPropertyListFacade::new),
 				createSegmentStartProperty(localization, elements),
 				createSegmentEndProperty(localization, elements),
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new VectorHeadProperty(localization, element),
 						IconsEnumeratedPropertyListFacade::new)
 		));
@@ -409,7 +411,8 @@ public final class GeoElementPropertiesFactory {
 	private @Nonnull PropertiesArray createAdvancedProperties(AlgebraProcessor processor,
 			Localization localization, List<GeoElement> elements) {
 		return createPropsArray("Advanced", localization, Stream.of(
-				// Position
+				createOptionalProperty(
+						() -> new PositionPropertyCollection(this, localization, elements)),
 				createOptionalProperty(
 						() -> new SliderIntervalProperty(this, processor,
 								localization, elements)),
@@ -446,7 +449,7 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		ArrayList<ObjectEventProperty> props = new ArrayList<>();
 		for (EventType type : ElementObjectEventProperty.eventNames.keySet()) {
-			ObjectEventProperty op = createPropertyFacade(elements,
+			ObjectEventProperty op = createOptionalPropertyFacade(elements,
 					element -> new ElementObjectEventProperty(localization, element, type),
 					ObjectEventPropertyListFacade::new);
 			if (op != null) {
@@ -493,7 +496,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedProperty<?> createPointStyleExtendedProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new PointStyleExtendedProperty(localization, element),
 				IconsEnumeratedPropertyListFacade::new);
 	}
@@ -576,7 +579,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangePropertyListFacade<?> createCellBorderThicknessProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new CellBorderThicknessProperty(localization,
 						element),
 				RangePropertyListFacade::new);
@@ -590,7 +593,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedProperty<?> createCellBorderStyleProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new CellBorderProperty(localization, element),
 				IconsEnumeratedPropertyListFacade::new);
 	}
@@ -604,7 +607,7 @@ public final class GeoElementPropertiesFactory {
 	public PropertiesArray createLabelProperties(Localization localization,
 			List<GeoElement> elements) {
 		return createPropertiesArray(localization, elements,  Stream.<Property>of(
-				createPropertyFacade(elements,
+				createOptionalPropertyFacade(elements,
 						element -> new NameCaptionProperty(localization, element),
 						StringPropertyListFacade::new),
 				createLabelStyleProperty(localization, elements)
@@ -619,7 +622,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public ColorProperty createColorProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new ElementColorProperty(localization, element),
 				ColorPropertyListFacade::new);
 	}
@@ -633,7 +636,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public ColorProperty createObjectColorProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new ObjectColorProperty(localization, element),
 				ColorPropertyListFacade::new);
 	}
@@ -646,7 +649,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public ColorProperty createColorWithOpacityProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new NotesColorWithOpacityProperty(localization, element),
 				ColorPropertyListFacade::new);
 	}
@@ -659,7 +662,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public ColorProperty createTextFontColorProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new TextFontColorProperty(localization, element),
 				ColorPropertyListFacade::new);
 	}
@@ -672,7 +675,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public ColorProperty createTextBackgroundColorProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new TextBackgroundColorProperty(localization, element),
 				ColorPropertyListFacade::new);
 	}
@@ -685,7 +688,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public ColorProperty createBorderColorProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new BorderColorProperty(localization, element),
 				ColorPropertyListFacade::new);
 	}
@@ -698,7 +701,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public BooleanProperty createIsFixedObjectProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new IsFixedObjectProperty(localization, element),
 				BooleanPropertyListFacade::new);
 	}
@@ -711,7 +714,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public BooleanProperty createBoldProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new BoldProperty(localization, element),
 				BooleanPropertyListFacade::new);
 	}
@@ -724,7 +727,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public BooleanProperty createItalicProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new ItalicProperty(localization, element),
 				BooleanPropertyListFacade::new);
 	}
@@ -737,7 +740,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public BooleanProperty createUnderlineProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new UnderlineProperty(localization, element),
 				BooleanPropertyListFacade::new);
 	}
@@ -750,7 +753,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedProperty<?> createPointStyleProperty(Localization localization,
 			List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new PointStyleProperty(localization, element),
 				IconsEnumeratedPropertyListFacade::new);
 	}
@@ -764,7 +767,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangePropertyListFacade<?> createNotesThicknessProperty(Localization
 			localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new NotesThicknessProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
@@ -782,7 +785,7 @@ public final class GeoElementPropertiesFactory {
 
 	private IconsEnumeratedProperty<?> createLineStyleProperty(
 			Localization localization, List<GeoElement> elements, boolean hidden) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new LineStyleProperty(localization, element, hidden),
 				IconsEnumeratedPropertyListFacade::new);
 	}
@@ -800,7 +803,7 @@ public final class GeoElementPropertiesFactory {
 
 	private IconsEnumeratedPropertyListFacade<?, ?> createFillingStyleProperty(
 			Localization localization, List<GeoElement> elements, boolean b) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new FillingStyleProperty(localization, element, b),
 				IconsEnumeratedPropertyListFacade::new);
 	}
@@ -814,7 +817,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedPropertyListFacade<?, ?> createHorizontalAlignmentProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new HorizontalAlignmentProperty(localization,
 						element),
 				IconsEnumeratedPropertyListFacade::new);
@@ -829,7 +832,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedPropertyListFacade<?, ?> createVerticalAlignmentProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new VerticalAlignmentProperty(localization,
 						element),
 				IconsEnumeratedPropertyListFacade::new);
@@ -844,7 +847,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedPropertyListFacade<?, ?> createSegmentStartProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new SegmentStartProperty(localization, element),
 				IconsEnumeratedPropertyListFacade::new);
 	}
@@ -857,7 +860,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public NamedEnumeratedPropertyListFacade<?, ?> createTextFontSizeProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new TextFontSizeProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
 	}
@@ -871,7 +874,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedPropertyListFacade<?, ?> createSegmentEndProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new SegmentEndProperty(localization, element),
 				IconsEnumeratedPropertyListFacade::new);
 	}
@@ -907,7 +910,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public StringPropertyListFacade<NameProperty> createNameProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new NameProperty(localization, element),
 				StringPropertyListFacade::new);
 	}
@@ -920,14 +923,14 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangeProperty<Integer> createOpacityProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new OpacityProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
 
 	private RangeProperty<Integer> createLineOpacityProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new LineOpacityProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
@@ -940,7 +943,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangeProperty<Integer> createOpacityColorProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new NotesOpacityColorProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
@@ -953,7 +956,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangeProperty<Integer> createBorderThicknessProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new BorderThicknessProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
@@ -966,7 +969,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangeProperty<Integer> createImageOpacityProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new ImageOpacityProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
@@ -979,7 +982,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public BooleanProperty createShowObjectProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new ShowObjectProperty(localization, element),
 				BooleanPropertyListFacade::new);
 	}
@@ -992,7 +995,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangeProperty<Integer> createPointSizeProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new PointSizeProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
@@ -1005,7 +1008,7 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public RangeProperty<Integer> createThicknessProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createPropertyFacade(elements,
+		return createOptionalPropertyFacade(elements,
 				element -> new ThicknessProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
@@ -1094,11 +1097,18 @@ public final class GeoElementPropertiesFactory {
 
 	/**
 	 * Same as {@link GeoElementPropertiesFactory#createPropertyFacadeThrowing} but thrown
-	 * exceptions are caught, and {@code null} is returned instead.
-	 * @return a collection of properties of type {@link C}, or {@code null} if an exception was
-	 * thrown during construction.
+	 * exceptions are caught, and null is returned instead.
+	 * @param geoElements the list of {@link GeoElement}s for which properties are to be created
+	 * @param propertyFactory the factory used to create
+	 * individual properties for each {@link GeoElement}
+	 * @param propertyCollector the collector used to
+	 * aggregate the individual properties into a collection
+	 * @return a collection of properties of type {@link C},
+	 * or {@code null} if an exception is thrown
+	 * @param <P> the type of individual properties to be created
+	 * @param <C> the type of the property collection to be created
 	 */
-	public <P extends Property, C extends Property> C createPropertyFacade(
+	public <P extends Property, C extends Property> @CheckForNull C createOptionalPropertyFacade(
 			List<GeoElement> geoElements,
 			GeoElementPropertyFactory<P> propertyFactory,
 			PropertyCollector<P, C> propertyCollector
@@ -1123,11 +1133,11 @@ public final class GeoElementPropertiesFactory {
 	 * individual properties for each {@link GeoElement}
 	 * @param propertyCollector the collector used to
 	 * aggregate the individual properties into a collection
-	 * @return a collection of properties of type {@link C}
+	 * @return a collection of properties of type {@code C}
 	 * @throws NotApplicablePropertyException if the property cannot be applied
 	 * @throws IllegalArgumentException if the property can't be created from
 	 * to the given {@link GeoElement} */
-	public <P extends Property, C extends Property> C createPropertyFacadeThrowing(
+	public <P extends Property, C extends Property> @Nonnull C createPropertyFacadeThrowing(
 			List<GeoElement> geoElements,
 			GeoElementPropertyFactory<P> propertyFactory,
 			PropertyCollector<P, C> propertyCollector

@@ -51,6 +51,7 @@ import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollecti
 import org.geogebra.common.properties.impl.graphics.GridFixedDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
+import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
@@ -165,6 +166,10 @@ public abstract class PropertyView {
 			}
 		}
 
+		protected void onDependentGeoElementUpdated() {
+			// Do nothing by default
+		}
+
 		@Override
 		public void detach() {
 			super.detach();
@@ -207,29 +212,31 @@ public abstract class PropertyView {
 
 		@Override
 		public void settingsChanged(AbstractSettings settings) {
-			boolean visibilityChanged = property.isAvailable() != previousAvailability;
-			previousAvailability = property.isAvailable();
-			if (visibilityUpdateDelegate != null && visibilityChanged) {
-				visibilityUpdateDelegate.visibilityUpdated();
-			}
-			onConfigurationUpdated();
+			notifyUpdateDelegates();
 		}
 
 		@Override
 		public void onDidSetValue(ValuedProperty<Object> property) {
-			onConfigurationUpdated();
+			notifyUpdateDelegates();
 		}
 
 		@Override
 		public void sendEvent(Event evt) {
 			if (dependentGeoElements != null && dependentGeoElements.contains(evt.target)) {
 				if (evt.type == EventType.UPDATE || evt.type == EventType.UPDATE_STYLE) {
-					onConfigurationUpdated();
+					onDependentGeoElementUpdated();
+					notifyUpdateDelegates();
 				}
 			}
 		}
 
-		private void onConfigurationUpdated() {
+		private void notifyUpdateDelegates() {
+			boolean visibilityChanged = property.isAvailable() != previousAvailability;
+			previousAvailability = property.isAvailable();
+			if (visibilityUpdateDelegate != null && visibilityChanged) {
+				visibilityUpdateDelegate.visibilityUpdated();
+			}
+
 			if (configurationUpdateDelegate != null) {
 				configurationUpdateDelegate.configurationUpdated();
 			}
@@ -310,43 +317,10 @@ public abstract class PropertyView {
 	 * Representation of a combo box with a label, a dropdown for suggestions, an input field for
 	 * custom values, displaying the current value and an optional error message.
 	 */
-	public static final class ComboBox extends PropertyBackedView<StringPropertyWithSuggestions> {
-		private String value;
-		private String errorMessage;
-
+	public static final class ComboBox
+			extends ValidatablePropertyBackedView<StringPropertyWithSuggestions> {
 		ComboBox(StringPropertyWithSuggestions stringPropertyWithSuggestions) {
 			super(stringPropertyWithSuggestions);
-			this.value = stringPropertyWithSuggestions.getValue() != null
-					? stringPropertyWithSuggestions.getValue() : "";
-			this.errorMessage = null;
-		}
-
-		/**
-		 * @return the current value
-		 */
-		public @Nonnull String getValue() {
-			return value;
-		}
-
-		/**
-		 * Sets the value.
-		 * @param newValue the new value
-		 */
-		public void setValue(@Nonnull String newValue) {
-			boolean valueShouldUpdate = !Objects.equals(value, newValue);
-			boolean errorMessageShouldUpdate = !Objects.equals(errorMessage,
-					property.validateValue(newValue));
-
-			value = newValue;
-			errorMessage = property.validateValue(newValue);
-
-			if (errorMessage == null) {
-				property.setValue(value);
-			} else if (valueShouldUpdate || errorMessageShouldUpdate) {
-				if (configurationUpdateDelegate != null) {
-					configurationUpdateDelegate.configurationUpdated();
-				}
-			}
 		}
 
 		/**
@@ -361,13 +335,6 @@ public abstract class PropertyView {
 		 */
 		public @Nonnull List<String> getItems() {
 			return property.getSuggestions();
-		}
-
-		/**
-		 * @return the error message for invalid inputs or {@code null} if there is no error
-		 */
-		public @CheckForNull String getErrorMessage() {
-			return errorMessage;
 		}
 	}
 
@@ -430,47 +397,50 @@ public abstract class PropertyView {
 	}
 
 	/**
-	 * Representation of an input text field with a label and an optional error message.
+	 * {@code PropertyView} responsible for setting, retrieving, and validating the value of a
+	 * {@link StringProperty} depending on whether the user is currently editing.
 	 */
-	public static final class TextField extends PropertyBackedView<StringProperty> {
-		private String text;
+	private abstract static class ValidatablePropertyBackedView<T extends StringProperty>
+			extends PropertyBackedView<T> {
+		private String value;
 		private String errorMessage;
+		private boolean isEditing;
 
-		TextField(StringProperty stringProperty) {
+		protected ValidatablePropertyBackedView(@Nonnull T stringProperty) {
 			super(stringProperty);
-			text = stringProperty.getValue();
+			value = stringProperty.getValue() != null ? stringProperty.getValue() : "";
+			errorMessage = null;
+			isEditing = false;
+		}
+
+		@Override
+		protected void onDependentGeoElementUpdated() {
+			value = property.getValue() != null ? property.getValue() : "";
 			errorMessage = null;
 		}
 
 		/**
-		 * @return the label
+		 * @return the current value
 		 */
-		public @Nonnull String getLabel() {
-			return property.getName();
+		public @Nonnull String getValue() {
+			return value;
 		}
 
 		/**
-		 * @return the current input, or {@code null} if there is no input
+		 * Sets the value.
+		 * @param newValue the new value
 		 */
-		public @CheckForNull String getText() {
-			return text;
-		}
-
-		/**
-		 * Sets the input field's text.
-		 * @param newText the new text
-		 */
-		public void setText(@Nonnull String newText) {
-			boolean textShouldUpdate = !Objects.equals(text, newText);
+		public void setValue(@Nonnull String newValue) {
+			boolean valueShouldUpdate = !Objects.equals(value, newValue);
 			boolean errorMessageShouldUpdate = !Objects.equals(errorMessage,
-					property.validateValue(newText));
+					property.validateValue(newValue));
 
-			text = newText;
-			errorMessage = property.validateValue(newText);
+			value = newValue;
+			errorMessage = property.validateValue(newValue);
 
-			if (errorMessage == null) {
-				property.setValue(text);
-			} else if (textShouldUpdate || errorMessageShouldUpdate) {
+			if (errorMessage == null && !isEditing) {
+				property.setValue(value);
+			} else if (valueShouldUpdate || errorMessageShouldUpdate) {
 				if (configurationUpdateDelegate != null) {
 					configurationUpdateDelegate.configurationUpdated();
 				}
@@ -482,6 +452,37 @@ public abstract class PropertyView {
 		 */
 		public @CheckForNull String getErrorMessage() {
 			return errorMessage;
+		}
+
+		/**
+		 * Marks the beginning of an editing session.
+		 */
+		public void startEditing() {
+			isEditing = true;
+		}
+
+		/**
+		 * Marks the end of an editing session.
+		 */
+		public void stopEditing() {
+			isEditing = false;
+			setValue(value);
+		}
+	}
+
+	/**
+	 * Representation of an input text field with a label and an optional error message.
+	 */
+	public static final class TextField extends ValidatablePropertyBackedView<StringProperty> {
+		TextField(StringProperty stringProperty) {
+			super(stringProperty);
+		}
+
+		/**
+		 * @return the label
+		 */
+		public @Nonnull String getLabel() {
+			return property.getName();
 		}
 	}
 
@@ -1011,6 +1012,12 @@ public abstract class PropertyView {
 					new HorizontalSplitView(
 							new TextField(dimensionPropertyMinZ),
 							new TextField(dimensionPropertyMaxZ))), 10);
+		} else if (property instanceof AbsoluteScreenPositionPropertyCollection) {
+			AbsoluteScreenPositionPropertyCollection absoluteScreenPositionPropertyCollection =
+					(AbsoluteScreenPositionPropertyCollection) property;
+			return new HorizontalSplitView(
+					new TextField(absoluteScreenPositionPropertyCollection.getProperties()[0]),
+					new TextField(absoluteScreenPositionPropertyCollection.getProperties()[1]));
 		} else if (property instanceof PropertyCollection) {
 			PropertyCollection<?> propertyCollection = (PropertyCollection<?>) property;
 			return new ExpandableList(propertyCollection, propertyViewListOf(propertyCollection));

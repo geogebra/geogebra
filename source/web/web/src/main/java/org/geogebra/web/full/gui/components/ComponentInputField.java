@@ -109,7 +109,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 	 * @param property {@link TextField}
 	 */
 	public ComponentInputField(AppW app, String placeholder, String errorTxt, TextField property) {
-		this(app, placeholder, property.getLabel(), errorTxt, property.getText(), null);
+		this(app, placeholder, property.getLabel(), errorTxt, property.getValue(), null);
 		textFieldProperty = property;
 		textFieldProperty.setConfigurationUpdateDelegate(this);
 		textFieldProperty.setVisibilityUpdateDelegate(this);
@@ -332,7 +332,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input,
 
 	@Override
 	public void configurationUpdated() {
-		setInputText(textFieldProperty.getText());
+		setInputText(textFieldProperty.getValue());
 		setDisabled(!textFieldProperty.isEnabled());
 		String error = textFieldProperty.getErrorMessage();
 		setError(error);
