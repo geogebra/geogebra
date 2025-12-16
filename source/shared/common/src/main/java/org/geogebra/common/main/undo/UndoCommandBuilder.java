@@ -51,8 +51,7 @@ public class UndoCommandBuilder {
 	 * Store undo action and notify all listeners
 	 */
 	public void storeAndNotifyUnsaved() {
-		undoManager.storeAndNotify(command);
-		undoManager.notifyUnsaved();
+		undoManager.storeAndNotifyUnsaved(command);
 	}
 
 	/**

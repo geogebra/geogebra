@@ -451,13 +451,14 @@ public abstract class UndoManager implements UndoProvider {
 	 */
 	public void storeActionWithSlideId(String slideID, ActionType action,  String[] args,
 			ActionType undoAction, String[] undoArgs) {
-		storeAndNotify(new UndoCommand(slideID, action, args, undoAction, undoArgs));
+		storeAndNotifyUnsaved(new UndoCommand(slideID, action, args, undoAction, undoArgs));
 	}
 
-	protected void storeAndNotify(UndoCommand command) {
+	protected void storeAndNotifyUnsaved(UndoCommand command) {
 		iterator.add(command);
 		this.pruneStateList();
 		onStoreUndo();
+		notifyUnsaved();
 	}
 
 	/**
