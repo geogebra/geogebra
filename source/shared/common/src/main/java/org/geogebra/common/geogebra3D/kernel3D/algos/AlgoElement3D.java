@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * Super-class of algorithms creating {@link GeoElement3D}.
  * 
- * <h3>How to create a new algo</h3>
+ * <h2>How to create a new algo</h2>
  * 
  * We'll call here our new element "AlgoNew3D" and create an new class
  * AlgoNew3D.

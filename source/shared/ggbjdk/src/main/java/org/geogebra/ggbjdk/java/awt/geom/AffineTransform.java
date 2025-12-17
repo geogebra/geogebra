@@ -47,7 +47,7 @@ import org.geogebra.common.awt.GShape;
  *      [ y'] = [  m10  m11  m12  ] [ y ] = [ m10x + m11y + m12 ]
  *      [ 1 ]   [   0    0    1   ] [ 1 ]   [         1         ]
  * </pre>
- * <h3>Handling 90-Degree Rotations</h3>
+ * <h2>Handling 90-Degree Rotations</h2>
  * <p>
  * In some variations of the <code>rotate</code> methods in the
  * <code>AffineTransform</code> class, a double-precision argument

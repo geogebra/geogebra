@@ -51,7 +51,7 @@ import org.geogebra.common.util.DoubleUtil;
  * 3D representation of a {@link GeoElement3D}
  * 
  * 
- * <h3>How to create the drawable of a new element</h3>
+ * <h2>How to create the drawable of a new element</h2>
  * 
  * We'll call here our new element "GeoNew3D" and create a drawable3D linked to
  * it:

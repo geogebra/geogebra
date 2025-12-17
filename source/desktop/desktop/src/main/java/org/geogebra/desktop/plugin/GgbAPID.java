@@ -47,26 +47,10 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
 
 /**
- * <h1>GgbAPI - API for applets</h1>
- * 
- * <pre>
- *    The Api the plugin program can use.
- * </pre>
- * <ul>
- * <li>GgbAPI(Application) //Application owns it
- * <li>getApplication()
- * <li>getKernel()
- * <li>getConstruction()
- * <li>getAlgebraProcessor()
- * <li>getPluginManager()
- * <li>evalCommand(String)
- * <li>and the rest of the methods from the Applet JavaScript/Java interface
- * <li>...
- * </ul>
+ * Desktop implementation of {@link org.geogebra.common.plugin.GgbAPI}.
  * 
  * @author H-P Ulven
  */
-
 public class GgbAPID extends GgbAPIJre {
 
 	/**

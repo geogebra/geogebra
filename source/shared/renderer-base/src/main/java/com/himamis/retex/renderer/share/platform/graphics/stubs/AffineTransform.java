@@ -46,7 +46,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
  *      [ 1 ]   [   0    0    1   ] [ 1 ]   [         1         ]
  * </pre>
  * <p>
- * <h1><a id="quadrantapproximation">Handling 90-Degree Rotations</a></h1>
+ * <h2><a id="quadrantapproximation">Handling 90-Degree Rotations</a></h2>
  * <p>
  * In some variations of the <code>rotate</code> methods in the
  * <code>AffineTransform</code> class, a double-precision argument specifies the

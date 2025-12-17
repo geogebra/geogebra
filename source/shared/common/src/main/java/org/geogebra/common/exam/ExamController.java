@@ -60,7 +60,7 @@ import com.google.j2objc.annotations.Weak;
 /**
  * A controller for coordinating the core aspects of exam mode.
  *
- * <h3>Responsibilities</h3>
+ * <h2>Responsibilities</h2>
  * Here's the list of responsibilities of this controller:
  * <ul>
  *     <li><b>Exam state</b>: Starting, stopping, and finishing up the exam, and making the
@@ -73,7 +73,7 @@ import com.google.j2objc.annotations.Weak;
  *     when the exam ends.
  *     <li><b>Events</b>: Collect relevant events (e.g., cheating attempts).
  * </ul>
- * <h3>NOT Responsibilities</h3>
+ * <h2>NOT Responsibilities</h2>
  * Conversely, here's what's not in the responsibility of this controller:
  * <ul>
  *     <li><b>UI</b>: Each client platform will need to implement UI or permissions flows

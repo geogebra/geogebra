@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Class for describing GeoElement in 3D version.
  *
- * <h3>How to create a new Element</h3>
+ * <h2>How to create a new Element</h2>
  * <p>
  * We'll call here our new element "GeoNew3D"
  * </p><p>

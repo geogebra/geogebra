@@ -153,7 +153,6 @@ public interface GGraphics2D {
 	 *             operation.
 	 * @see #getComposite
 	 * @see GAlphaComposite
-	 * @see SecurityManager#checkPermission
 	 */
 	void setComposite(GComposite comp);
 
@@ -194,7 +193,7 @@ public interface GGraphics2D {
 	 * @param hintValue
 	 *            the value indicating preferences for the specified hint
 	 *            category.
-	 * @see com.himamis.retex.renderer.share.platform.graphics.RenderingHints
+	 * @see RenderingHints
 	 */
 	void setRenderingHint(int hintKey, int hintValue);
 

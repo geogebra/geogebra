@@ -77,7 +77,7 @@ import jsinterop.base.Js;
  * {@link #setGlassStyleName(String)}.
  * </p>
  *
- * <h3>CSS Style Rules</h3>
+ * <h2>CSS Style Rules</h2>
  * <dl>
  * <dt>.gwt-PopupPanel</dt>
  * <dd>the outside of the popup</dd>

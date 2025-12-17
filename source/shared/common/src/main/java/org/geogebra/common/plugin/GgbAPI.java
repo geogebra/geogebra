@@ -90,13 +90,13 @@ import com.himamis.retex.renderer.share.serialize.ListSerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
- * <h3>GgbAPI - API for PlugLets</h3>
+ * <h2>GgbAPI - API for applets</h2>
  * 
  * <pre>
  *    The Api the plugin program can use.
  * </pre>
  *
- * <h4>Interface:</h4>
+ * <h3>Interface:</h3>
  * <ul>
  * <li>GgbAPI(Application) //Application owns it
  * <li>getApplication()

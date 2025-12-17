@@ -97,7 +97,7 @@ import org.gwtproject.user.client.ui.Widget;
  * using the {@link #addSelectionHandler(SelectionHandler)} method.
  * </p>
  *
- * <h3>CSS Style Rules</h3>
+ * <h2>CSS Style Rules</h2>
  * <dl>
  * <dt>.gwt-SuggestBox</dt>
  * <dd>the suggest box itself</dd>
@@ -282,7 +282,7 @@ public class GSuggestBox extends Composite
 	 * suggestions in a {@link GPopupPanel} beneath the {@link GSuggestBox}.
 	 * </p>
 	 *
-	 * <h3>CSS Style Rules</h3>
+	 * <h2>CSS Style Rules</h2>
 	 * <dl>
 	 * <dt>.gwt-SuggestBoxPopup</dt>
 	 * <dd>the suggestion popup</dd>
