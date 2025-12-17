@@ -946,4 +946,36 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				((GeoInputBox) lookup("ib")).isSymbolicMode());
 	}
 
+	@Test
+	@Issue("APPS-7069")
+	public void singleSpaceBetweenDigitsShouldNotCreateMultiplication() {
+		GeoElement linked = add("a = 1");
+		GeoInputBox inputBox = add("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("10 000");
+		assertEquals(10000, linked.evaluateDouble(), 0);
+		assertEquals("10000", inputBox.getTextForEditor());
+	}
+
+	@Test
+	@Issue("APPS-7069")
+	public void multipleSpacesBetweenDigitsShouldCreateMultiplication() {
+		GeoElement linked = add("a = 1");
+		GeoInputBox inputBox = add("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("30  5");
+		assertEquals(150, linked.evaluateDouble(), 0);
+		assertEquals("30*5", inputBox.getTextForEditor());
+	}
+
+	@Test
+	@Issue("APPS-7069")
+	public void spacesWithinInputShouldNotAffectTexts() {
+		GeoElement linked = add("text = \"Hello\"");
+		GeoInputBox inputBox = add("ib = InputBox(text)");
+		inputBox.updateLinkedGeo("30 5");
+		assertEquals("30 5", linked.getDefinitionForEditor());
+		assertEquals("30 5", inputBox.getTextForEditor());
+		inputBox.updateLinkedGeo("15   3");
+		assertEquals("15   3", linked.getDefinitionForEditor());
+		assertEquals("15   3", inputBox.getTextForEditor());
+	}
 }

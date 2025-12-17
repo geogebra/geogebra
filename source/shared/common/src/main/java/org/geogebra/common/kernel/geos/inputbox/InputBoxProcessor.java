@@ -166,6 +166,8 @@ public class InputBoxProcessor {
 		}
 
 		String defineText = prependLabel(preprocess(content, tpl), tpl);
+		// Make sure single spaces between digits are removed, so no multiplication is inserted
+		defineText = defineText.replaceAll("(?<=\\d) (?=\\d)", "");
 		if (linkedGeo.isPointOnPath() || linkedGeo.isPointInRegion()) {
 			GeoPointND val = algebraProcessor.evaluateToPoint(defineText, errorHandler, true);
 			if (val != null) {
