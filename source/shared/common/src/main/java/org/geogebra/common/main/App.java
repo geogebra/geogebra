@@ -5126,6 +5126,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			getEditorFeatures().setMixedNumbersEnabled(false);
 		}
 		spreadsheetRestricted = featureRestrictions.contains(ExamFeatureRestriction.SPREADSHEET);
+		regressionSpecificationBuilder.applyRestrictions(featureRestrictions, examType);
 	}
 
 	@Override
@@ -5149,6 +5150,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (featureRestrictions.contains(ExamFeatureRestriction.SPREADSHEET)) {
 			spreadsheetRestricted = false;
 		}
+		regressionSpecificationBuilder.removeRestrictions(featureRestrictions, examType);
 		resetCommandDict();
 	}
 
