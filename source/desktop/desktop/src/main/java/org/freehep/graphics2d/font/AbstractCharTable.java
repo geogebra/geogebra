@@ -32,7 +32,7 @@ public abstract class AbstractCharTable implements CharTable {
 
 	@Override
 	public String toName(char c) {
-		return toName(new Character(c));
+		return toName(c);
 	}
 
 	@Override
