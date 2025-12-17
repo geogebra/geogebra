@@ -22,13 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.AccessController;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
 import java.util.function.Consumer;
 
 import javax.swing.JOptionPane;
@@ -52,7 +47,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
 
 /**
- * <h3>GgbAPI - API for PlugLets</h3>
+ * <h1>GgbAPI - API for applets</h1>
  * 
  * <pre>
  *    The Api the plugin program can use.

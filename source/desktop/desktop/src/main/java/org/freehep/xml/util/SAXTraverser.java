@@ -106,7 +106,7 @@ public class SAXTraverser extends DefaultHandler {
 	 */
 	public double toDouble(String value) throws SAXException {
 		try {
-			return new Double(value).doubleValue();
+			return Double.parseDouble(value);
 		} catch (Throwable x) {
 			throw new BadXMLException("Bad double value " + value);
 		}

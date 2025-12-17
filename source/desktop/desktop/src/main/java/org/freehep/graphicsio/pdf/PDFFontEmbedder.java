@@ -90,7 +90,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 	protected void writeWidths(double[] widths) throws IOException {
 		Object[] widthsObj = new Object[256];
 		for (int i = 0; i < widthsObj.length; i++) {
-			widthsObj[i] = new Double(widths[i]);
+			widthsObj[i] = widths[i];
 		}
 		pdf.object(reference + "Widths", widthsObj);
 	}

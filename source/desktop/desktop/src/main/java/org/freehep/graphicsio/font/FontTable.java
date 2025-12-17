@@ -20,11 +20,11 @@ import org.freehep.graphics2d.font.Lookup;
 public abstract class FontTable {
 
 	protected class Entry {
-		private Font font;
+		private final Font font;
 
 		private String ref;
 
-		private CharTable encoding;
+		private final CharTable encoding;
 
 		private boolean written;
 
@@ -34,7 +34,7 @@ public abstract class FontTable {
 
 			// set default font size
 			attributes.put(TextAttribute.SIZE,
-					new Float(FontEmbedder.FONT_SIZE));
+					(float) FontEmbedder.FONT_SIZE);
 
 			// remove font transformations
 			attributes.remove(TextAttribute.TRANSFORM);

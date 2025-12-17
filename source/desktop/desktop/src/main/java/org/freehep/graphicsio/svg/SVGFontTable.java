@@ -247,7 +247,7 @@ public class SVGFontTable {
 		Map /* <TextAttribute, ?> */ attributes = font.getAttributes();
 
 		// set default font size
-		attributes.put(TextAttribute.SIZE, new Float(SVGGlyph.FONT_SIZE));
+		attributes.put(TextAttribute.SIZE, (float) SVGGlyph.FONT_SIZE);
 
 		// remove font transformation
 		attributes.remove(TextAttribute.TRANSFORM);

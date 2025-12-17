@@ -18,7 +18,7 @@ import org.freehep.util.io.EEXECEncryption;
 /**
  * Font embedder for type 1 fonts. The output can be directly fed into a ps file
  * or as a FontFile to a pdf file.
- * <h3>Todo</h3>
+ * <p><b>Todo</b></p>
  * <ul>
  * <li>use subroutines for accents
  * <li>add more hints

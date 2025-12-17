@@ -1824,7 +1824,7 @@ public final class MusicStringParser extends Parser {
 	 * 
 	 * @param bracketedString
 	 *            the string to look up
-	 * @returns the double value of the definition
+	 * @return the double value of the definition
 	 * @throws JFugueException
 	 *             if there is a problem getting a double from the dictionary
 	 *             look-up
@@ -1832,14 +1832,12 @@ public final class MusicStringParser extends Parser {
 	private double getDoubleFromDictionary(String bracketedString)
 			throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
-		Double newdouble = null;
 		try {
-			newdouble = new Double(definition);
+			return Double.parseDouble(definition);
 		} catch (NumberFormatException e) {
 			throw new JFugueException(JFugueException.EXPECTED_DOUBLE,
 					definition, bracketedString);
 		}
-		return newdouble.doubleValue();
 	}
 
 	/**

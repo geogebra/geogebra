@@ -964,7 +964,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	protected void writePaint(Color c) throws IOException {
 		float[] cc = c.getRGBComponents(null);
 		// System.out.println("alpha = "+cc[3]);
-		Float alpha = new Float(cc[3]);
+		Float alpha = cc[3];
 		String alphaName = (String) extGStates.get(alpha);
 		if (alphaName == null) {
 			alphaName = "Alpha" + alphaIndex;

@@ -60,10 +60,9 @@ public class DiscreteAngle {
 	/**
 	 * Adds a discrete angle to the set.
 	 */
-	public Double addAngle(double angle) {
-		Double a = new Double(angle);
-		angles.add(a);
-		return a;
+	public double addAngle(double angle) {
+		angles.add(angle);
+		return angle;
 	}
 
 	/**
