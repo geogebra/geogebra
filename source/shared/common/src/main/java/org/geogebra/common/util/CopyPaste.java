@@ -29,7 +29,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCoordSys1D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedronNet;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimitedOrPart;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -391,8 +390,7 @@ public abstract class CopyPaste {
 			ts = geo.getAllPredecessors();
 			for (GeoElement geo2 : ts) {
 				if (!ret.contains(geo2) && !geos.contains(geo2)
-						&& geo2.getConstruction().isConstantElement(
-						geo2) == Construction.Constants.NOT) {
+						&& !geo2.getConstruction().isConstantElement(geo2)) {
 					ret.add(geo2);
 				}
 			}

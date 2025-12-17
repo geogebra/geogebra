@@ -388,10 +388,19 @@ public class Construction {
 	}
 
 	/**
-	 * @param geo geo
-	 * @return which constant geo (xAxis, yAxis, ...)
+	 * @param geo GeoElement
+	 * @return Whether {@code geo} is a constant element.
 	 */
-	final public Constants isConstantElement(GeoElement geo) {
+	final public boolean isConstantElement(GeoElement geo) {
+		return getConstantElement(geo) != Constants.NOT;
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @return The constant element associated with {@code geo},
+	 * {@link Constants#NOT} if it is no constant element.
+	 */
+	final public Constants getConstantElement(GeoElement geo) {
 		if (geo == xAxis) {
 			return Constants.X_AXIS;
 		}
@@ -399,24 +408,36 @@ public class Construction {
 			return Constants.Y_AXIS;
 		}
 
-		return companion.isConstantElement(geo);
+		return companion.getConstantElement(geo);
 	}
 
 	/**
-	 * Renames xAxis and yAxis in the geoTable and sets axisLocalName-s
-	 * accordingly
+	 * Renames xAxis and yAxis in the geoTable and sets axisLocalName-s accordingly
 	 */
 	final public void updateLocalAxesNames() {
-		geoTable.remove(xAxisLocalName);
-		geoTable.remove(yAxisLocalName);
-
-		Localization app = kernel.getLocalization();
-		xAxisLocalName = app.getMenu("xAxis");
-		yAxisLocalName = app.getMenu("yAxis");
-		geoTable.put(xAxisLocalName, xAxis);
-		geoTable.put(yAxisLocalName, yAxis);
-
+		xAxisLocalName = updateLocalAxisName(xAxis, xAxisLocalName, "xAxis");
+		yAxisLocalName = updateLocalAxisName(yAxis, yAxisLocalName, "yAxis");
 		companion.updateLocalAxesNames();
+	}
+
+	/**
+	 * In case a constant element has been overwritten by the XML,
+	 * this method makes sure to keep the label unchanged (Issue with language change)
+	 * @param element The element whose local name is to be updated
+	 * @param localName The currently used name for element whose name is to be updated
+	 * @param key The key used to retrieve the standard localized name of the given element
+	 * @return The local name which may have been updated
+	 */
+	final public String updateLocalAxisName(GeoElement element, String localName, String key) {
+		Localization localization = kernel.getLocalization();
+		GeoElement geo = geoTable.remove(localName);
+		String changedLocalName = localName;
+		if (geo == null || geo == element) {
+			changedLocalName = localization.getMenu(key);
+			geo = element;
+		}
+		geoTable.put(changedLocalName, geo);
+		return changedLocalName;
 	}
 
 	/**

@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
-import org.geogebra.common.main.Localization;
 
 /**
  * 3D construction companion
@@ -114,33 +113,17 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 			geoTable.put(xOyPlaneLocalName, xOyPlane);
 			geoTable.put(spaceLocalName, space);
 		}
-
 	}
 
 	@Override
 	public void updateLocalAxesNames() {
-
-		super.updateLocalAxesNames();
-
-		HashMap<String, GeoElement> geoTable = cons.getGeoTable();
-
-		geoTable.remove(zAxis3DLocalName);
-		geoTable.remove(xOyPlaneLocalName);
-		geoTable.remove(spaceLocalName);
-
-		Localization app = cons.getKernel().getLocalization();
-		zAxis3DLocalName = app.getMenu("zAxis");
-		xOyPlaneLocalName = app.getMenu("xOyPlane");
-		spaceLocalName = app.getMenu("space");
-
-		geoTable.put(zAxis3DLocalName, zAxis3D);
-		geoTable.put(xOyPlaneLocalName, xOyPlane);
-		geoTable.put(spaceLocalName, space);
-
+		zAxis3DLocalName = cons.updateLocalAxisName(zAxis3D, zAxis3DLocalName, "zAxis");
+		xOyPlaneLocalName = cons.updateLocalAxisName(xOyPlane, xOyPlaneLocalName, "xOyPlane");
+		spaceLocalName = cons.updateLocalAxisName(space, spaceLocalName, "space");
 	}
 
 	@Override
-	public Constants isConstantElement(GeoElement geo) {
+	public Constants getConstantElement(GeoElement geo) {
 		if (geo == zAxis3D) {
 			return Constants.Z_AXIS;
 		}
@@ -151,7 +134,7 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 			return Constants.SPACE;
 		}
 
-		return super.isConstantElement(geo);
+		return super.getConstantElement(geo);
 	}
 
 	@Override

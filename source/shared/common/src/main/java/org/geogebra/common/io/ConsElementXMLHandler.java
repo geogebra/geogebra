@@ -2774,14 +2774,20 @@ public class ConsElementXMLHandler {
 			if (geo1 == null) {
 				geo1 = xmlHandler.kernel.lookupCasCellLabel(label);
 			}
-			if (geo1 == null) {
 
+			if (geo1 == null || xmlHandler.kernel.getConstruction().isConstantElement(geo1)) {
+				if (geo1 != null) {
+					// In case one of the constant elements need to be overwritten,
+					// make sure to get the localized label
+					// (issue with file loading after language change)
+					xmlHandler.kernel.getConstruction().getGeoTable().remove(
+							app.getLocalization().getMenu(geo1.getLabelSimple()));
+				}
 				// try to find an algo on which this label depends
 				// geo = cons.resolveLabelDependency(label,
 				// kernel.getClassType(type));
 				// if none, create new geo
-				geo1 = xmlHandler.kernel.createGeoElement(xmlHandler.cons,
-						type);
+				geo1 = xmlHandler.kernel.createGeoElement(xmlHandler.cons, type);
 				pendingLabel = label;
 
 				// independent GeoElements should be hidden by default
@@ -2798,8 +2804,7 @@ public class ConsElementXMLHandler {
 				// wrong default setting, act as if there were no default set
 				geo1 = xmlHandler.kernel.lookupLabel(label);
 				if (geo1 == null) {
-					geo1 = xmlHandler.kernel.createGeoElement(xmlHandler.cons,
-							type);
+					geo1 = xmlHandler.kernel.createGeoElement(xmlHandler.cons, type);
 					geo1.setLoadedLabel(label);
 					geo1.setEuclidianVisible(false);
 				}

@@ -17,7 +17,6 @@
 package org.geogebra.common.gui.dialog.handler;
 
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.kernel.Construction.Constants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -107,8 +106,7 @@ public class RenameInputHandler implements InputHandler {
 
 		if (existingGeo != null) {
 			// rename this geo too:
-			if (kernel.getConstruction()
-					.isConstantElement(existingGeo) == Constants.NOT) {
+			if (!kernel.getConstruction().isConstantElement(existingGeo)) {
 				String tempLabel = existingGeo.getIndexLabel(newLabel);
 				existingGeo.rename(tempLabel);
 			} else {

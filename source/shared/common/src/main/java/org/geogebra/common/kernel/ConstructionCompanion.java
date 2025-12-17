@@ -108,12 +108,11 @@ public class ConstructionCompanion {
 	}
 
 	/**
-	 * @param geo
-	 *            geo element, xAxis or yAxis never as input
-	 * @return whether it's space, xYo plane
+	 * @param geo GeoElement
+	 * @return The constant element associated with {@code geo},
+	 * {@link Constants#NOT} if it is no constant element.
 	 */
-	public Constants isConstantElement(GeoElement geo) {
-
+	public Constants getConstantElement(GeoElement geo) {
 		return Constants.NOT;
 	}
 

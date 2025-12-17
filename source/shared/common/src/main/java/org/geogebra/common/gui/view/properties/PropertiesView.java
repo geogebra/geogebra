@@ -142,16 +142,13 @@ public abstract class PropertiesView implements View {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 
 		for (GeoElement geo : geosList) {
-			Construction.Constants constant = kernel.getConstruction()
-					.isConstantElement(geo);
-			if (constant == Construction.Constants.NOT) {
+			Construction.Constants constant = kernel.getConstruction().getConstantElement(geo);
+			if (!kernel.getConstruction().isConstantElement(geo)) {
 				// add if not constant
 				geos.add(geo);
-			} else {
+			} else if (firstConstant == Construction.Constants.NOT) {
 				// remember type
-				if (firstConstant == Construction.Constants.NOT) {
-					firstConstant = constant;
-				}
+				firstConstant = constant;
 			}
 		}
 

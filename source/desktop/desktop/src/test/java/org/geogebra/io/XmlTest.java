@@ -117,6 +117,23 @@ public class XmlTest {
 		assertFalse(app.getXML().contains("Vector[vv]"));
 	}
 
+	@Test
+	@Issue("APPS-7032")
+	public void constantElementsShouldBeOverwrittenWhenLoadingXML() {
+		app.setXML("<geogebra><construction>"
+				+ "<element type=\"boolean\" label=\"zAxis\"></element>"
+				+ "<element type=\"conic\" label=\"xOyPlane\"></element>"
+				+ "<element type=\"numeric\" label=\"space\"> </element>"
+				+ "<element type=\"button\" label=\"xAxis\"></element>"
+				+ "<element type=\"point\" label=\"yAxis\"></element>"
+				+ "</construction></geogebra>", false);
+		assertTrue(app.getKernel().lookupLabel("zAxis").isGeoBoolean());
+		assertTrue(app.getKernel().lookupLabel("xOyPlane").isGeoConic());
+		assertTrue(app.getKernel().lookupLabel("space").isGeoNumeric());
+		assertTrue(app.getKernel().lookupLabel("xAxis").isGeoButton());
+		assertTrue(app.getKernel().lookupLabel("yAxis").isGeoPoint());
+	}
+
 	private GeoElementND processAlgebraCommand(String input) {
 		return ap.processAlgebraCommand(input, true)[0];
 	}
