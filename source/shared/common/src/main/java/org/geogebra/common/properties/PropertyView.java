@@ -36,7 +36,10 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
+import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
+import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxisUnitPropertyCollection;
@@ -919,6 +922,57 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * A row of action buttons, each with a text and an action triggered when tapped.
+	 */
+	public static final class ActionableButtonRow extends
+			PropertyBackedView<ActionablePropertyCollection> {
+		private final ActionablePropertyCollection actionablePropertyCollection;
+
+		ActionableButtonRow(ActionablePropertyCollection actionablePropertyCollection) {
+			super(actionablePropertyCollection);
+			this.actionablePropertyCollection = actionablePropertyCollection;
+		}
+
+		/**
+		 * @return the number of actionable buttons
+		 */
+		public int count() {
+			return property.getProperties().length;
+		}
+
+		/**
+		 * Perform action of button with given index.
+		 * @param index the index of the button to query
+		 */
+		public void performAction(int index) {
+			actionablePropertyCollection.getProperties()[index].performAction();
+		}
+
+		/**
+		 * @param index the index of the button to query
+		 * @return the label for the given index
+		 */
+		public @Nonnull String getLabel(int index) {
+			return actionablePropertyCollection.getProperties()[index].getName();
+		}
+
+		/**
+		 * @param index the index of the button to query
+		 * @return the style name for the given index
+		 */
+		public @Nonnull String getStyleName(int index) {
+			ActionableProperty actionableProperty =
+					actionablePropertyCollection.getProperties()[index];
+			if (actionableProperty instanceof SaveSettingsAction) {
+				return "dialogContainedButton";
+			} else if (actionableProperty instanceof RestoreSettingsAction) {
+				return "materialOutlinedButton";
+			}
+			return "";
+		}
+	}
+
+	/**
 	 * Factory method that returns the appropriate {@code PropertyView}
 	 * for the given {@link Property}.
 	 * @param property the property for which to create the view
@@ -1020,6 +1074,10 @@ public abstract class PropertyView {
 			return new HorizontalSplitView(
 					new TextField(absoluteScreenPositionPropertyCollection.getProperties()[0]),
 					new TextField(absoluteScreenPositionPropertyCollection.getProperties()[1]));
+		} else if (property instanceof ActionablePropertyCollection<?>) {
+			ActionablePropertyCollection actionablePropertyCollection =
+					(ActionablePropertyCollection) property;
+			return new ActionableButtonRow(actionablePropertyCollection);
 		} else if (property instanceof PropertyCollection) {
 			PropertyCollection<?> propertyCollection = (PropertyCollection<?>) property;
 			return new ExpandableList(propertyCollection, propertyViewListOf(propertyCollection));

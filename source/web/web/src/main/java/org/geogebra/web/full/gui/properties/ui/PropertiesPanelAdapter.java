@@ -32,6 +32,7 @@ import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionRatioPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.LabelStylePanel;
@@ -134,10 +135,9 @@ public class PropertiesPanelAdapter {
 			wrapper.add(sliderPanel);
 			return wrapper;
 		}*/
-		/*if (property instanceof ActionablePropertyCollection<?>) {
-			return new ActionableButtonPanel(
-					(ActionablePropertyCollection<?>) property);
-		}*/
+		if (propertyView instanceof ActionableButtonRow) {
+			return new ActionableButtonPanel((ActionableButtonRow) propertyView);
+		}
 		if (propertyView instanceof MultiSelectionIconRow) {
 			return new LabelStylePanel((MultiSelectionIconRow) propertyView, app);
 		}

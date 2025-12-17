@@ -16,48 +16,29 @@
 
 package org.geogebra.web.full.gui.properties.ui.panel;
 
-import java.util.HashMap;
-import java.util.Map;
+import static org.geogebra.common.properties.PropertyView.*;
 
-import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.ActionableProperty;
-import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
-import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
-import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class ActionableButtonPanel extends FlowPanel implements SetLabels {
-	private final Map<StandardButton, Property> widgetLabelCollection = new HashMap<>();
+public class ActionableButtonPanel extends FlowPanel {
 
 	/**
 	 * Create the actionable button panel
-	 * @param actionablePropertyCollection {@link ActionablePropertyCollection}
+	 * @param actionableButtonRow {@link ActionableButtonRow}
 	 */
-	public ActionableButtonPanel(ActionablePropertyCollection<?> actionablePropertyCollection) {
+	public ActionableButtonPanel(ActionableButtonRow actionableButtonRow) {
 		addStyleName("actionableButtonPanel");
-		buildGUI(actionablePropertyCollection);
+		buildGUI(actionableButtonRow);
 	}
 
-	private void buildGUI(ActionablePropertyCollection<?> actionablePropertyCollection) {
-		for (ActionableProperty actionableProperty
-				: actionablePropertyCollection.getProperties()) {
-			StandardButton button = new StandardButton(actionableProperty.getName());
-			if (actionableProperty instanceof SaveSettingsAction) {
-				button.addStyleName("dialogContainedButton");
-			} else if (actionableProperty instanceof RestoreSettingsAction) {
-				button.addStyleName("materialOutlinedButton");
-			}
-			button.addFastClickHandler(source -> actionableProperty.performAction());
-			widgetLabelCollection.put(button, actionableProperty);
+	private void buildGUI(ActionableButtonRow actionableButtonRow) {
+		for (int i = 0; i < actionableButtonRow.count(); i++) {
+			StandardButton button = new StandardButton(actionableButtonRow.getLabel(i));
+			button.addStyleName(actionableButtonRow.getStyleName(i));
+			int finalI = i;
+			button.addFastClickHandler(source -> actionableButtonRow.performAction(finalI));
 			add(button);
 		}
-	}
-
-	@Override
-	public void setLabels() {
-		widgetLabelCollection.forEach(
-				(button, key) -> button.setLabel(key.getName()));
 	}
 }
