@@ -129,4 +129,9 @@ public class AppConfigProbability extends AppConfigGraphing {
 	public void initializeEquationBehaviour() {
 		equationBehaviour = new DefaultEquationBehaviour();
 	}
+
+    @Override
+    public int getDefaultPrintDecimals() {
+        return 4;
+    }
 }
