@@ -100,7 +100,7 @@ public class UserProperties extends Properties {
 			return properties.setProperty(key, "null");
 		}
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value.length; i++) {
 			if (i != 0) {
 				sb.append(", ");
@@ -311,7 +311,7 @@ public class UserProperties extends Properties {
 	}
 
 	public double getPropertyDouble(String key, double def) {
-		return new Double(getProperty(key, Double.toString(def))).doubleValue();
+		return Double.parseDouble(getProperty(key, Double.toString(def)));
 	}
 
 	public float getPropertyFloat(String key) {
@@ -319,7 +319,7 @@ public class UserProperties extends Properties {
 	}
 
 	public float getPropertyFloat(String key, float def) {
-		return new Float(getProperty(key, Float.toString(def))).floatValue();
+		return Float.parseFloat(getProperty(key, Float.toString(def)));
 	}
 
 	public boolean isProperty(String key) {
@@ -327,8 +327,7 @@ public class UserProperties extends Properties {
 	}
 
 	public boolean isProperty(String key, boolean def) {
-		return Boolean.valueOf(getProperty(key, Boolean.toString(def)))
-				.booleanValue();
+		return Boolean.parseBoolean(getProperty(key, Boolean.toString(def)));
 	}
 
 }

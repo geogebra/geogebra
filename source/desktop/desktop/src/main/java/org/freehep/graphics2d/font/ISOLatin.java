@@ -3,7 +3,6 @@
 package org.freehep.graphics2d.font;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 
 /**
  * Generated ISO Latin Encoding Table.

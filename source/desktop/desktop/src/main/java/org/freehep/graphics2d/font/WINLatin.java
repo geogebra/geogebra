@@ -3,7 +3,6 @@
 package org.freehep.graphics2d.font;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 
 /**
  * Generated WIN Latin Encoding Table.
