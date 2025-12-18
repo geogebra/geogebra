@@ -98,6 +98,7 @@ public class ItemControls extends FlowPanel
 		cancelEditItem();
 		closeBurgerMenu();
 		createMoreContextMenu();
+		radioTreeItem.getApplication().hideKeyboard();
 		if (radioTreeItem.isInputTreeItem()) {
 			showMoreMenuForInput();
 		} else {
