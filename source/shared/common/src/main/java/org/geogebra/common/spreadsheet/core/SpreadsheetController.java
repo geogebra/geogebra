@@ -385,6 +385,15 @@ public final class SpreadsheetController {
 		return layout;
 	}
 
+	/**
+	 * Called when the spreadsheet view becomes visible.
+	 */
+	public void handleOnViewAppear() {
+		if (selectionController.getLastSelection() == null) {
+			selectionController.selectCell(0, 0, false, false);
+		}
+	}
+
 	// Selection
 
 	/**

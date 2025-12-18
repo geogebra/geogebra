@@ -1207,6 +1207,12 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         assertEquals("=mean(A1:A3,B1:B3)", cellEditor.getMathField().getText());
     }
 
+	@Test
+	void testSelectingFirstCellWhenSpreadsheetAppears() {
+		controller.handleOnViewAppear();
+		assertEquals(new TabularRange(0, 0), controller.getLastSelection().getRange());
+	}
+
     // Helpers
 
     private void setViewport(Rectangle viewport) {
