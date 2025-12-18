@@ -53,6 +53,7 @@ import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridFixedDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
@@ -995,6 +996,9 @@ public abstract class PropertyView {
 				|| property instanceof AxisUnitPropertyCollection) {
 			return new RelatedPropertyViewCollection(null,
 					propertyViewListOf((PropertyCollection<?>) property), 0);
+		} else if (property instanceof NavigationBarPropertiesCollection) {
+			return new RelatedPropertyViewCollection(null,
+					propertyViewListOf((PropertyCollection<?>) property), 16);
 		} else if (property instanceof ClippingPropertyCollection
 				|| property instanceof LocationPropertyCollection
 				|| property instanceof AlgebraViewVisibilityPropertyCollection) {

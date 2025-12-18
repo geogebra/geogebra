@@ -775,5 +775,17 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			display: flex;
 			gap: 16px;
 		}
+		.contentSpacing16 {
+			display: grid;
+			gap: 16px;
+		}
+		.contentSpacing4 {
+			display: grid;
+			gap: 4px;
+		}
+		.contentSpacing10 {
+			display: grid;
+			gap: 10px;
+		}
 	}
 }

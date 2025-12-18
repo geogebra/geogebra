@@ -117,8 +117,7 @@ public class PropertiesPanelAdapter {
 		if (propertyView == null) {
 			return null;
 		}
-		if (propertyView instanceof Checkbox) {
-			Checkbox checkBoxProperty = (Checkbox) propertyView;
+		if (propertyView instanceof Checkbox checkBoxProperty) {
 			return new ComponentCheckbox(loc, checkBoxProperty,
 					checkBoxProperty.getLabel(), checkBoxProperty::setSelected, false);
 		}
@@ -151,26 +150,21 @@ public class PropertiesPanelAdapter {
 			panel.add(getWidget(((HorizontalSplitView) propertyView).getTrailingPropertyView()));
 			return panel;
 		}
-		if (propertyView instanceof RelatedPropertyViewCollection) {
+		if (propertyView instanceof RelatedPropertyViewCollection relatedPropertyView) {
 			FlowPanel panel = new FlowPanel();
-			if (((RelatedPropertyViewCollection) propertyView).getTitle() != null) {
-				panel.add(new Label(app.getLocalization()
-						.getMenu(((RelatedPropertyViewCollection) propertyView).getTitle())));
+			if (relatedPropertyView.getTitle() != null) {
+				panel.add(new Label(app.getLocalization().getMenu(relatedPropertyView.getTitle())));
 			}
-			for (PropertyView pw
-					: ((RelatedPropertyViewCollection) propertyView).getPropertyViews()) {
+			int contentSpacing = relatedPropertyView.getContentSpacing();
+			if (contentSpacing > 0) {
+				panel.getElement().addClassName("contentSpacing" + contentSpacing);
+			}
+			for (PropertyView pw : relatedPropertyView.getPropertyViews()) {
 				panel.add(getWidget(pw));
 			}
 			return panel;
 		}
 		/*
-		if (property instanceof NavigationBarPropertiesCollection) {
-			FlowPanel panel = createCollectionPanel((PropertyCollection<?>) property);
-			panel.addStyleName("navigationBar");
-
-			return panel;
-		}
-
 		if (property instanceof ObjectAllEventsProperty) {
 			ScriptTabFactory tabBuilder = new ScriptTabFactory(app,
 					(ObjectAllEventsProperty) property);
@@ -204,8 +198,7 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof SingleSelectionIconRow) {
 			return new IconButtonPanel(app, (SingleSelectionIconRow) propertyView, true);
 		}
-		if (propertyView instanceof ColorSelectorRow) {
-			ColorSelectorRow colorSelectorRow = (ColorSelectorRow) propertyView;
+		if (propertyView instanceof ColorSelectorRow colorSelectorRow) {
 			ColorChooserPanel colorPanel = new ColorChooserPanel(app, colorSelectorRow.getColors(),
 					color -> {
 						boolean handled = false;
