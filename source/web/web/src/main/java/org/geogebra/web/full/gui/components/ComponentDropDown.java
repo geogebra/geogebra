@@ -20,6 +20,8 @@ import static org.geogebra.common.properties.PropertyView.*;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -43,7 +45,7 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
 	private boolean fullWidth = false;
-	private Dropdown propertyView;
+	private @CheckForNull Dropdown propertyView;
 
 	/**
 	 * Material drop-down component.
@@ -118,7 +120,9 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 			AriaHelper.setAriaExpanded(this, false);
 		});
 		controller.addChangeHandler(() -> {
-			propertyView.setSelectedItemIndex(controller.getSelectedIndex());
+			if (propertyView != null) {
+				propertyView.setSelectedItemIndex(controller.getSelectedIndex());
+			}
 			updateSelectionText();
 		});
 		controller.setFocusAnchor(getElement());
@@ -220,8 +224,10 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * Reset dropdown to the model (property) value.
 	 */
 	public void resetFromModel() {
-		controller.resetFromModel(propertyView);
-		updateSelectionText();
+		if (propertyView != null) {
+			controller.resetFromModel(propertyView);
+			updateSelectionText();
+		}
 	}
 
 	public void setFullWidth(boolean isFullWidth) {
@@ -253,15 +259,19 @@ public class ComponentDropDown extends FlowPanel implements SetLabels,
 
 	@Override
 	public void configurationUpdated() {
-		controller.resetFromModel(propertyView);
-		Integer index = propertyView.getSelectedItemIndex();
-		if (index != null) {
-			setSelectedIndex(index);
+		if (propertyView != null) {
+			controller.resetFromModel(propertyView);
+			Integer index = propertyView.getSelectedItemIndex();
+			if (index != null) {
+				setSelectedIndex(index);
+			}
 		}
 	}
 
 	@Override
 	public void visibilityUpdated() {
-		setVisible(propertyView.isVisible());
+		if (propertyView != null) {
+			setVisible(propertyView.isVisible());
+		}
 	}
 }
