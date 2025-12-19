@@ -93,7 +93,6 @@ geogebra-spotbugs = { id = "spotbugs-conventions" }
 geogebra-pmd = { id = "pmd-conventions" }
 geogebra-variants = { id = "desktop-variants" }
 geogebra-webjars = { id = "webjars-conventions" }
-geogebra-sourcesets = { id = "sourcesets-conventions" }
 geogebra-javadoc-workaround = { id = "javadoc-sourcepath-workaround" }
 geogebra-gwt-dist = { id = "gwt-dist-conventions" }
 geogebra-java = { id  = "java-conventions" }

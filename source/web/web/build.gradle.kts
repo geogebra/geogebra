@@ -17,7 +17,6 @@ plugins {
     alias(libs.plugins.geogebra.checkstyle)
     alias(libs.plugins.geogebra.spotbugs)
     alias(libs.plugins.geogebra.webjars)
-    alias(libs.plugins.geogebra.sourcesets)
     alias(libs.plugins.geogebra.javadoc.workaround)
     alias(libs.plugins.geogebra.app.specs)
     alias(libs.plugins.cpd)

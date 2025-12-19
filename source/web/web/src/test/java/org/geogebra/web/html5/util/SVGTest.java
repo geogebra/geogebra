@@ -37,7 +37,7 @@ import org.junit.Test;
 
 public class SVGTest {
 
-	public static final String BASE = "../../shared/common/src/nonfree/resources/";
+	public static final String BASE = "../../shared/common/src/main/resources/";
 	private static final String SVG_PATH = BASE + "org/geogebra/common/icons/svg/web/toolIcons";
 
 	@Test
