@@ -98,6 +98,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (isEditing()) {
 			dispatchEditEvent(EventType.EDITOR_STOP);
 		}
+		if (!item.isLastRadioTreeItem()) {
+			app.hideKeyboard();
+		}
 		if (item.isInputTreeItem() && item.isEmpty()) {
 			item.styleEditor();
 			item.addDummyLabel();

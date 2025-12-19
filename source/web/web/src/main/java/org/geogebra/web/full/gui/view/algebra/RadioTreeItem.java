@@ -2145,4 +2145,11 @@ public abstract class RadioTreeItem extends AVTreeItem implements MathKeyboardLi
 	public void insertMath(String string) {
 		// Needed only for LaTeXTreeItem
 	}
+
+	/**
+	 * @return whether it is the last item or not
+	 */
+	public boolean isLastRadioTreeItem() {
+		return index == getAV().getItemCount();
+	}
 }
