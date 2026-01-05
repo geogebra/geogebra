@@ -16,6 +16,7 @@
 
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,7 +91,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	public List<String> getChoices(Localization loc) {
 		List<GeoAngle.AngleStyle> angleStyles;
 		if (hasOrientation) {
-			angleStyles = Arrays.asList(GeoAngle.AngleStyle.values());
+			angleStyles = new ArrayList<>(Arrays.asList(GeoAngle.AngleStyle.values()));
 			if (isDrawable) {
 				// don't want to allow (-inf, +inf)
 				angleStyles.remove(GeoAngle.AngleStyle.UNBOUNDED);

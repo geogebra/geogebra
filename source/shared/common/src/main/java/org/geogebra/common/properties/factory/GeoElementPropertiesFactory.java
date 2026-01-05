@@ -423,7 +423,7 @@ public final class GeoElementPropertiesFactory {
 				isWhiteboard ? null : createOptionalProperty(
 						() -> new InteractionPropertyCollection(this, processor,
 								localization, elements)),
-				createOptionalProperty(
+				isWhiteboard ? null : createOptionalProperty(
 						() -> new AlgebraProperty(this, localization, elements)),
 				createOptionalProperty(
 						() -> new VisibilityPropertyCollection(this, localization, elements)),
