@@ -45,7 +45,7 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 
 	/**
 	 * @param app application
-	 * @param textInputDialog text diaog
+	 * @param textInputDialog text dialog
 	 * @param popupButton popup button
 	 * @param latexArray latex formulas
 	 * @param rows rows

@@ -2262,7 +2262,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * @param el
-	 *            element that can be cliked without closingpopups
+	 *            element that can be clicked without closingpopups
 	 */
 	public void addAsAutoHidePartnerForPopups(Element el) {
 		for (HasHide popup : popups) {
