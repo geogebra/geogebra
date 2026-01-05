@@ -654,11 +654,12 @@ public class PropertiesViewW extends PropertiesView
 			GeoElementPropertiesFactory propertiesFactory =
 					((AppWFull) app).getGeoElementPropertiesFactory();
 			ArrayList<GeoElement> selectedGeos = app.getSelectionManager().getSelectedGeos();
-			propLists = propertiesFactory.createStructuredProperties(
-					app.getKernel().getAlgebraProcessor(),
-					app.getLocalization(),
-					selectedGeos
-			);
+			propLists = selectedGeos.isEmpty() ? List.of()
+					: propertiesFactory.createStructuredProperties(
+							app.getKernel().getAlgebraProcessor(),
+							app.getLocalization(),
+							selectedGeos
+					);
 			sideSheet.setTitleTransKey(
 					selectedGeos.size() == 1 ? selectedGeos.get(0).getTypeString() : "Selection");
 		} else {
