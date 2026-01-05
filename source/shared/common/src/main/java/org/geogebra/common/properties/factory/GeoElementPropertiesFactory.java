@@ -428,7 +428,7 @@ public final class GeoElementPropertiesFactory {
 				createOptionalProperty(
 						() -> new VisibilityPropertyCollection(this, localization, elements)),
 				// Dynamic colors
-				createOptionalProperty(
+				isWhiteboard ? null : createOptionalProperty(
 						() -> new LayerPropertyCollection(this, localization, elements))
 		));
 	}
