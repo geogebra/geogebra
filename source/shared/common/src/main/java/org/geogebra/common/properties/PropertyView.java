@@ -497,7 +497,7 @@ public abstract class PropertyView {
 	 */
 	public static final class SingleSelectionIconRow
 			extends PropertyBackedView<IconsEnumeratedProperty<?>> {
-		SingleSelectionIconRow(IconsEnumeratedProperty<?> iconsEnumeratedProperty) {
+		public SingleSelectionIconRow(IconsEnumeratedProperty<?> iconsEnumeratedProperty) {
 			super(iconsEnumeratedProperty);
 		}
 
