@@ -414,7 +414,8 @@ public final class GeoElementPropertiesFactory {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
 		return createPropsArray("Advanced", localization, Stream.of(
 				createOptionalProperty(
-						() -> new PositionPropertyCollection(this, localization, elements)),
+						() -> isWhiteboard ? null
+								: new PositionPropertyCollection(this, localization, elements)),
 				createOptionalProperty(
 						() -> new SliderIntervalProperty(this, processor, localization, elements)),
 				createOptionalProperty(

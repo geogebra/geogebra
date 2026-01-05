@@ -161,4 +161,9 @@ public class PlacementProperty extends AbstractNamedEnumeratedProperty<Placement
 		 element.updateVisualStyleRepaint(GProperty.POSITION);
 		geoElement.notifyUpdate();
 	}
+
+	@Override
+	public boolean isAvailable() {
+		return !(geoElement instanceof GeoBoolean);
+	}
 }
