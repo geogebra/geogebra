@@ -411,6 +411,7 @@ public final class GeoElementPropertiesFactory {
 
 	private @Nonnull PropertiesArray createAdvancedProperties(AlgebraProcessor processor,
 			Localization localization, List<GeoElement> elements) {
+		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
 		return createPropsArray("Advanced", localization, Stream.of(
 				createOptionalProperty(
 						() -> new PositionPropertyCollection(this, localization, elements)),
@@ -419,7 +420,7 @@ public final class GeoElementPropertiesFactory {
 				createOptionalProperty(
 						() -> new AnimationPropertyCollection(this, processor,
 								localization, elements)),
-				createOptionalProperty(
+				isWhiteboard ? null : createOptionalProperty(
 						() -> new InteractionPropertyCollection(this, processor,
 								localization, elements)),
 				createOptionalProperty(
