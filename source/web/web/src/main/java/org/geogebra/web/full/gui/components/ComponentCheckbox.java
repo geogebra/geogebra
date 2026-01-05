@@ -89,6 +89,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels,
 		this(loc, checkBoxProperty.isSelected(), checkboxText, callback);
 		this.checkBoxProperty = checkBoxProperty;
 		this.stopPropagation = stopPropagation;
+		setDisabled(!checkBoxProperty.isEnabled());
 		checkBoxProperty.setConfigurationUpdateDelegate(this);
 		checkBoxProperty.setVisibilityUpdateDelegate(this);
 	}
