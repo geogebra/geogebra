@@ -218,8 +218,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	/* text tool dialog */
 	.dialogComponent.TextInputDialog {
-
-
 		.ToggleButton {
 			border-radius: 2px;
 			line-height: 24px;
@@ -246,6 +244,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 			margin-top: 10px;
 			padding: 4px;
+			color: neutral(900);
 		}
 
 		.gwt-DisclosurePanel {
@@ -1838,13 +1837,19 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dynamicText {
-		border: 2px lightgray solid;
-		background: wheat;
+		background: neutral(200);
 		cursor: pointer;
 		margin-left: 1px;
 		margin-right: 1px;
-		vertical-align: middle;
-		min-width: 10px;
+		padding: 2px;
+		border-radius: 4px;
+		min-width: 8px;
+		border: 1px solid neutral(300);
+		color: neutral(900);
+
+		&:hover {
+			border-color: neutral(700);
+		}
 	}
 
 	.textEditPopup {
