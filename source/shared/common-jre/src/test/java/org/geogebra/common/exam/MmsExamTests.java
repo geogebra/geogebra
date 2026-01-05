@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.MockedCasValues;
 import org.geogebra.common.util.MockedCasValuesExtension;
@@ -836,6 +837,19 @@ public class MmsExamTests extends BaseExamTestSetup {
 	@Test
 	public void testSpreadsheetDisabled() {
 		assertFalse(getApp().isSpreadsheetEnabled());
+	}
+
+	@Test
+	@MockedCasValues({
+			"Integral(x)					-> 1/2*x^2+arbconst(1+33)",
+			"Evaluate(1 / 2 x² + c_{1} + x) -> 1/2*x^2+ggbtmpvarc_{1}+x"
+	})
+	public void testPreviewDoesNotShowHiddenLabel() {
+		evaluateGeoElement("f(x) = Integral(x)");
+		GeoElement element = evaluateGeoElement("f + x");
+		assertFalse(AlgebraItem
+				.getPreviewLatexForGeoElement(element)
+				.startsWith(LabelManager.HIDDEN_PREFIX));
 	}
 
 	private TableValuesView setupTableValues() throws InvalidValuesException {

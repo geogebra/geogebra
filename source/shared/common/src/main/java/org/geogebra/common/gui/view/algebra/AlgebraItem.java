@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -585,10 +586,12 @@ public class AlgebraItem {
 				&& !isTextItem(element)) {
 			return getDescriptionString(element, algebraStyle, stringTemplate);
 		} else if (!element.isIndependent() && !element.isAllowedToShowValue()) {
-			return element.getAssignmentLHS(StringTemplate.latexTemplate)
-					+ element.getLabelDelimiter()
-					+ element.getDefinition(
-					StringTemplate.latexTemplate);
+			String definition = element.getDefinition(StringTemplate.latexTemplate);
+			String label = element.getAssignmentLHS(StringTemplate.latexTemplate);
+			if (!label.startsWith(LabelManager.HIDDEN_PREFIX)) {
+				return label + element.getLabelDelimiter() + definition;
+			}
+			return definition;
 		} else {
 			return null;
 		}
