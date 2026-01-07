@@ -18,6 +18,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
@@ -42,6 +43,7 @@ public class MinProperty extends AbstractNumericProperty {
 	@Override
 	protected void setNumberValue(GeoNumberValue value) {
 		delegate.getElement().setIntervalMin(value);
+		delegate.getElement().updateVisualStyle(GProperty.COMBINED);
 	}
 
 	@Override

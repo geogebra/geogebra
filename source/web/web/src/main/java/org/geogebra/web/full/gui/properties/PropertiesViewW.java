@@ -671,7 +671,7 @@ public class PropertiesViewW extends PropertiesView
 				(AppW) app);
 		ArrayList<TabData> tabs = new ArrayList<>();
 		for (PropertiesArray props : propLists) {
-			FlowPanel propertiesPanel = adapter.buildPanel(props, showObjectProperties);
+			FlowPanel propertiesPanel = adapter.buildPanel(props);
 			tabs.add(new TabData(props.getRawName(), propertiesPanel));
 		}
 		int oldTab = -1;

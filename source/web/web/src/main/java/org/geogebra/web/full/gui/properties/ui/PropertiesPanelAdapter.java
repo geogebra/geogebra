@@ -26,7 +26,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.PropertyViewFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
-import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -66,10 +65,9 @@ public class PropertiesPanelAdapter {
 
 	/**
 	 * @param props properties
-	 * @param allowFlat whether to allow adding flat classname -- TODO make this always true
 	 * @return panel with controls for all the properties
 	 */
-	public FlowPanel buildPanel(PropertiesArray props, boolean allowFlat) {
+	public FlowPanel buildPanel(PropertiesArray props) {
 		FlowPanel panel = new FlowPanel();
 		List<PropertyView> propertyViews = PropertyViewFactory.propertyViewListOf(props);
 		for (PropertyView prop: propertyViews) {
@@ -77,9 +75,6 @@ public class PropertiesPanelAdapter {
 			panel.add(widget);
 		}
 		panel.addStyleName("sideSheetTab");
-		if (!(props.getProperties()[0] instanceof AbstractPropertyCollection) && allowFlat) {
-			panel.addStyleName("flatProperties");
-		}
 		Dom.addEventListener(panel.getElement(), "keydown", event -> {
 			KeyboardEvent kbd = Js.uncheckedCast(event);
 			if ("Space".equals(kbd.code)) {
@@ -189,8 +184,7 @@ public class PropertiesPanelAdapter {
 			dropDown.setFullWidth(true);
 			return dropDown;
 		}
-		if (propertyView instanceof ComboBox) {
-			ComboBox comboBoxProperty = (ComboBox) propertyView;
+		if (propertyView instanceof ComboBox comboBoxProperty) {
 			ComponentComboBox comboBox = new ComponentComboBox(app, comboBoxProperty);
 			comboBox.setDisabled(!comboBoxProperty.isEnabled());
 			return comboBox;

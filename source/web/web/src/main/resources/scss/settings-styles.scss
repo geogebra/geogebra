@@ -669,13 +669,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 	.sideSheetTab {
 		width: 100%;
-		&.flatProperties {
-			padding: 16px;
 
-			.componentTab .scrollPanel {
-				border-bottom: none;
-			}
-		}
 		.expandableList .containerPanel {
 			display: grid;
 			gap: 16px;
