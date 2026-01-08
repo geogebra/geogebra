@@ -61,9 +61,6 @@ import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
 import org.geogebra.common.properties.impl.objects.BoldProperty;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
 import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
-import org.geogebra.common.properties.impl.objects.ButtonFixedSizeProperty;
-import org.geogebra.common.properties.impl.objects.ButtonHeightProperty;
-import org.geogebra.common.properties.impl.objects.ButtonWidthProperty;
 import org.geogebra.common.properties.impl.objects.CaptionProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderProperty;
@@ -85,7 +82,6 @@ import org.geogebra.common.properties.impl.objects.ImageInterpolationProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.InequalityOnAxisProperty;
 import org.geogebra.common.properties.impl.objects.InputBoxAlignmentProperty;
-import org.geogebra.common.properties.impl.objects.InputBoxSizeProperty;
 import org.geogebra.common.properties.impl.objects.InteractionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.InverseFillProperty;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
@@ -121,6 +117,7 @@ import org.geogebra.common.properties.impl.objects.SegmentStartProperty;
 import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
+import org.geogebra.common.properties.impl.objects.SizePropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderIntervalProperty;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
@@ -374,21 +371,11 @@ public final class GeoElementPropertiesFactory {
 				createOptionalPropertyFacade(elements,
 						element -> new InequalityOnAxisProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new InputBoxSizeProperty(processor, localization, element),
-						StringPropertyListFacade::new),
+				createOptionalProperty(
+						() -> new SizePropertyCollection(this, processor, localization, elements)),
 				createOptionalPropertyFacade(elements,
 						element -> new InputBoxAlignmentProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new ButtonWidthProperty(processor, localization, element),
-						StringPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new ButtonHeightProperty(processor, localization, element),
-						StringPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new ButtonFixedSizeProperty(localization, element),
-						BooleanPropertyListFacade::new),
 				createOptionalPropertyFacade(elements,
 						element -> new LevelOfDetailProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
