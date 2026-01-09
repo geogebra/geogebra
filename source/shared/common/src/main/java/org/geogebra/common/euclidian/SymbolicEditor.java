@@ -180,6 +180,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		getMathFieldInternal().setAllowAbs(
 				!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
 		getMathFieldInternal().setPlainTextMode(textMode);
+		getMathFieldInternal().getInputController().setAllowSpaceReplacement(false);
 		if (textMode) {
 			getMathFieldInternal().setPlainText(text);
 		} else {

@@ -60,6 +60,7 @@ public class InputController {
 	private @CheckForNull EditorFeatures editorFeatures;
 	private boolean useSimpleScripts = true;
 	private boolean allowAbs = true;
+	private boolean allowSpaceReplacement = true;
 
 	/**
 	 * @param catalog model
@@ -94,6 +95,10 @@ public class InputController {
 
 	public void setAllowAbs(boolean allowAbs) {
 		this.allowAbs = allowAbs;
+	}
+
+	public void setAllowSpaceReplacement(boolean allowSpaceReplacement) {
+		this.allowSpaceReplacement = allowSpaceReplacement;
 	}
 
 	static private String getLetter(Node node)
@@ -156,8 +161,7 @@ public class InputController {
 	private static int findBackwardCutPosition(SequenceNode sequence, int position) {
 		for (int index = position; index > 0; index--) {
 			Node node = sequence.getChild(index - 1);
-			if (node instanceof CharacterNode) {
-				CharacterNode character = (CharacterNode) node;
+			if (node instanceof CharacterNode character) {
 				if (character.isUnicode('=') || character.isFieldSeparator()) {
 					return index;
 				}
@@ -748,8 +752,8 @@ public class InputController {
 	}
 
 	private void checkReplaceAbs(InternalNode abs, SequenceNode parent) {
-		if (abs.getChild(0) instanceof SequenceNode
-				&& ((SequenceNode) abs.getChild(0)).size() == 0) {
+		if (abs.getChild(0) instanceof SequenceNode absArgument
+				&& absArgument.size() == 0) {
 			int parentIndex = abs.getParentIndex();
 			parent.removeChild(parentIndex);
 			CharacterTemplate operator = catalog.getOperator(Unicode.OR + "");
@@ -845,8 +849,7 @@ public class InputController {
 		if (currentOffset > 0) {
 			Node prev = editorState.getCurrentNode()
 					.getChild(currentOffset - 1);
-			if (prev instanceof ArrayNode) {
-				ArrayNode parent = (ArrayNode) prev;
+			if (prev instanceof ArrayNode parent) {
 				extendBrackets(parent, editorState);
 			}
 			if (prev instanceof FunctionNode) {
@@ -1232,6 +1235,10 @@ public class InputController {
 			} else if (catalog.isSymbol("" + ch)) {
 				newSymbol(editorState, ch);
 				handled = true;
+			} else if (allowSpaceReplacement && ch == ' '
+					&& needsSpaceDisambiguation(editorState)) {
+				newOperator(editorState, '*');
+				handled = true;
 			} else {
 				// Always handled as character
 				newCharacter(editorState, ch);
@@ -1239,6 +1246,18 @@ public class InputController {
 			}
 		}
 		return handled;
+	}
+
+	private String getCurrentWord(EditorState state) {
+		StringBuilder sb = new StringBuilder();
+		getWordAroundCursor(state, sb);
+		return sb.toString();
+	}
+
+	private boolean needsSpaceDisambiguation(EditorState state) {
+		return getPreviousNode(state) instanceof CharacterNode charNode
+				&& !charNode.isWordBreak()
+				&& (syntaxAdapter != null && !syntaxAdapter.isFunction(getCurrentWord(state)));
 	}
 
 	private boolean shouldCharBeIgnored(EditorState editorState, char ch) {
@@ -1263,8 +1282,7 @@ public class InputController {
 	private char getNextQuote(SequenceNode currentField, int currentOffset) {
 		for (int i = currentOffset - 1; i >= 0; i--) {
 			Node argument = currentField.getChild(i);
-			if (argument instanceof CharacterNode) {
-				CharacterNode ch = (CharacterNode) argument;
+			if (argument instanceof CharacterNode ch) {
 
 				if (ch.isUnicode('\u201c')) {
 					return '\u201d';
@@ -1328,18 +1346,19 @@ public class InputController {
 	private boolean handleEndFunctionNode(FunctionNode functionNode,
 			EditorState editorState, char ch) {
 		if (Tag.ABS.equals(functionNode.getName()) && isAbsDelimiter(ch)) {
-			SequenceNode currentField = editorState.getCurrentNode();
-			int offset = editorState.getCurrentOffset();
-			Node prevArg = currentField.getChild(offset - 1);
-
-			// check for eg * + -
-			boolean isOperation = prevArg != null && mathField.getCatalog()
-					.isOperator(prevArg + "");
-			if (!isOperation) {
+			Node prevArg = getPreviousNode(editorState);
+			if (prevArg == null || !mathField.getCatalog()
+					.isOperator(prevArg + "")) {
 				return handleExit(editorState, ch);
 			}
 		}
 		return false;
+	}
+
+	private Node getPreviousNode(EditorState editorState) {
+		SequenceNode currentField = editorState.getCurrentNode();
+		int offset = editorState.getCurrentOffset();
+		return currentField.getChild(offset - 1);
 	}
 
 	private boolean handleExit(EditorState editorState, char ch) {

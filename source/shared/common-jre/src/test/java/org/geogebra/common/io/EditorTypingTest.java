@@ -95,13 +95,14 @@ public class EditorTypingTest {
 	@Test
 	public void absShouldBePrefixedBySpace() {
 		// typing second | starts another abs() clause
+		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.type("3|x").checkAsciiMath("3 abs(x)");
-		checker.type("3 |x").checkAsciiMath("3 abs(x)");
+		checker.type("3 |x").checkAsciiMath("3*abs(x)");
 		checker.type("3*|x").checkAsciiMath("3*abs(x)");
 		checker.type("x|xx").checkAsciiMath("x abs(xx)");
-		checker.type("x |x x").checkAsciiMath("x abs(x x)");
+		checker.type("x |x x").checkAsciiMath("x*abs(x*x)");
 		checker.type("x*|x*x").checkAsciiMath("x*abs(x*x)");
-		checker.type("x sqrt(x)").checkAsciiMath("x sqrt(x)");
+		checker.type("x sqrt(x)").checkAsciiMath("x*sqrt(x)");
 		checker.type("x" + Unicode.SQUARE_ROOT + "x+1").checkAsciiMath("x sqrt(x+1)");
 		checker.type("ln|x+6").checkAsciiMath("ln abs(x+6)");
 		checker.type("ln|x+6").checkAsciiMath("ln abs(x+6)");
@@ -623,7 +624,7 @@ public class EditorTypingTest {
 		TemplateCatalog catalog = new TemplateCatalog();
 		catalog.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), catalog);
-		inputBoxChecker.type("3pi + 4i").checkAsciiMath("3" + Unicode.PI_STRING + " + 4i");
+		inputBoxChecker.type("3pi+ 4i").checkAsciiMath("3" + Unicode.PI_STRING + "+ 4i");
 	}
 
 	@Test
@@ -804,10 +805,10 @@ public class EditorTypingTest {
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.checkAsciiMath("ab()");
 
-		checker.type("1 + N Solve(")
+		checker.type("1+ N Solve(")
 				.left(6)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("1 + NSolve()");
+				.checkAsciiMath("1+ NSolve()");
 	}
 
 	@Test
@@ -1095,5 +1096,14 @@ public class EditorTypingTest {
 		checker.type("123456").setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.checkSelectionEmpty();
+	}
+
+	@Test
+	@Issue("APPS-7070")
+	public void spaceToMultiplication() {
+		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
+		checker.type("1 2").checkAsciiMath("1*2");
+		checker.type("1+ 2").checkAsciiMath("1+ 2");
+		checker.type("\"1 2").checkAsciiMath("\"1 2\"");
 	}
 }
