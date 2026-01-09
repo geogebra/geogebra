@@ -63,6 +63,7 @@ public class ElementObjectEventProperty extends AbstractProperty implements Obje
 		eventType = type;
 		Script script = geo.getScript(eventType);
 		scriptType = script != null ? script.getType() : ScriptType.GGBSCRIPT;
+		jsEnabled = !app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT);
 	}
 
 	private boolean isDraggable(GeoElement geo) {

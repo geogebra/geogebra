@@ -16,6 +16,7 @@
 
 package org.geogebra.common.properties;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,7 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
@@ -59,6 +61,8 @@ import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropert
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
+import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
+import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
 import com.google.j2objc.annotations.Weak;
@@ -791,6 +795,97 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * Script tab with optional {@link ScriptType} drop-down and a script area.
+	 */
+	public static final class ScriptTab extends PropertyBackedView<ObjectEventProperty> {
+		ScriptTab(ObjectEventProperty objectEventProperty) {
+			super(objectEventProperty);
+		}
+
+		/**
+		 * Enable/disable JS.
+		 * @param jsEnabled whether JS is enabled in the app
+		 */
+		public void setJsEnabled(boolean jsEnabled) {
+			property.setJsEnabled(jsEnabled);
+		}
+
+		/**
+		 * @return true if JS is enabled in the app, false otherwise
+		 */
+		public boolean isJsEnabled() {
+			return property.isJsEnabled();
+		}
+
+		/**
+		 * Sets the event script text associated with this {@link ObjectEventProperty}.
+		 * @param text script source to store
+		 */
+		public void setScriptText(String text) {
+			property.setScriptText(text);
+		}
+
+		/**
+		 * Returns the script text associated with this {@link ObjectEventProperty}.
+		 * @return the event script text
+		 */
+		public String getScriptText() {
+			return property.getScriptText();
+		}
+
+		/**
+		 * Sets the type of the current {@link ObjectEventProperty}.
+		 * @param scriptType {@link ScriptType}
+		 */
+		public void setScriptType(ScriptType scriptType) {
+			property.setScriptType(scriptType);
+		}
+
+		/**
+		 * Returns the type of the current {@link ObjectEventProperty}.
+		 * @return the {@link ScriptType} describing how the script should be interpreted
+		 */
+		public ScriptType getScriptType() {
+			return property.getScriptType();
+		}
+	}
+
+	/**
+	 * List of {@link ScriptTab} to edit script.
+	 */
+	public static final class ScriptEditor extends PropertyBackedView<ObjectAllEventsProperty> {
+		private final List<ScriptTab> scriptTabList;
+
+		ScriptEditor(ObjectAllEventsProperty objectAllEventsProperty) {
+			super(objectAllEventsProperty);
+			scriptTabList = new ArrayList<>();
+			for (ObjectEventProperty objectEventProperty : objectAllEventsProperty.getProps()) {
+				if (objectEventProperty.isEnabled()) {
+					scriptTabList.add(new ScriptTab(objectEventProperty));
+				}
+			}
+		}
+
+		/**
+		 * @return the number of {@link ScriptTab}
+		 */
+		public int count() {
+			return scriptTabList.size();
+		}
+
+		/**
+		 * @param index of {@link ScriptTab}
+		 * @return {@link ScriptTab} of given index
+		 */
+		public @CheckForNull ScriptTab getScriptTab(int index) {
+			if (index > -1 && index < count()) {
+				return scriptTabList.get(index);
+			}
+			return null;
+		}
+	}
+
+	/**
 	 * Representation of a property-specific view, displaying two text fields separated by a colon
 	 * in a row with a trailing lock icon that can be either open or closed, and a label above.
 	 */
@@ -1082,6 +1177,10 @@ public abstract class PropertyView {
 			ActionablePropertyCollection actionablePropertyCollection =
 					(ActionablePropertyCollection) property;
 			return new ActionableButtonRow(actionablePropertyCollection);
+		} else if (property instanceof ObjectAllEventsProperty) {
+			ObjectAllEventsProperty objectAllEventsProperty =
+					(ObjectAllEventsProperty) property;
+			return new ScriptEditor(objectAllEventsProperty);
 		} else if (property instanceof PropertyCollection) {
 			PropertyCollection<?> propertyCollection = (PropertyCollection<?>) property;
 			return new ExpandableList(propertyCollection, propertyViewListOf(propertyCollection));

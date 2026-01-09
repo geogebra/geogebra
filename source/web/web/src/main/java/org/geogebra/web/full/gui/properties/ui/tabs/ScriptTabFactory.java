@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.properties.ui.tabs;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +26,6 @@ import java.util.stream.Collectors;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
 import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentTextArea;
@@ -41,9 +42,9 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * For each supported {@link EventType} of the target object, a tab is created
  * that contains:
  * <ul>
- *   <li>a text area for the script body</li>
  *   <li>an optional language selector (GGBScript / JavaScript) if JavaScript is
  *       enabled</li>
+ *   <li>a text area for the script body</li>
  * </ul>
  * If JavaScript is enabled application-wide, an additional "Global JavaScript"
  * tab is appended that allows editing the kernel's library JavaScript.
@@ -54,7 +55,7 @@ public class ScriptTabFactory {
 	private static final String KEY_SCRIPT_CONTENT = "ScriptContent";
 	private final AppW app;
 	private final LocalizationW loc;
-	private final ObjectAllEventsProperty property;
+	private final ScriptEditor scriptEditor;
 	private final boolean jsEnabled;
 	private final List<String> localizedScriptTypeNames;
 
@@ -65,19 +66,16 @@ public class ScriptTabFactory {
 	 */
 	private abstract static class TabBinding {
 		final ComponentTextArea area;
-		final ObjectEventProperty property;
+		final ScriptTab scriptTab;
 
 		/**
 		 * Creates a binding with a text area wired to apply its content on blur
 		 * and key-up.
-		 *
-		 * @param app
-		 *            application
-		 * @param property
-		 *            the object event property to bind to
+		 * @param app {@link AppW}
+		 * @param scriptTab {@link ScriptTab}
 		 */
-		public TabBinding(AppW app, ObjectEventProperty property) {
-			this.property = property;
+		public TabBinding(AppW app, ScriptTab scriptTab) {
+			this.scriptTab = scriptTab;
 			this.area = new ComponentTextArea(app.getLocalization(), KEY_SCRIPT_CONTENT);
 			addTextAreaHandlers();
 		}
@@ -92,7 +90,7 @@ public class ScriptTabFactory {
 		 * Implementations decide the exact target.
 		 */
 		void applyText() {
-			property.setScriptText(area.getText());
+			scriptTab.setScriptText(area.getText());
 		}
 
 		/**
@@ -119,20 +117,18 @@ public class ScriptTabFactory {
 
 		/**
 		 * @param app application
-		 * @param property event property representing scripts for multiple events
+		 * @param scriptTab {@link ScriptTab} representing scripts for multiple events
 		 * @param scriptTypeNames localized names for script types (GGBScript / JavaScript)
 		 */
-		public EventTabBinding(AppW app, ObjectEventProperty property,
+		public EventTabBinding(AppW app, ScriptTab scriptTab,
 				List<String> scriptTypeNames) {
-			super(app, property);
+			super(app, scriptTab);
 			int defaultIndex = scriptTypeIndex();
-			if (property.isJsEnabled()) {
+			if (scriptTab.isJsEnabled()) {
 				dropDown = new ComponentDropDown(app, KEY_SCRIPT_LANGUAGE,
 						scriptTypeNames, defaultIndex);
-
-				dropDown.addChangeHandler(() -> property.setScriptType(
-						ScriptType.values()[dropDown.getSelectedIndex()])
-				);
+				dropDown.addChangeHandler(() -> scriptTab.setScriptType(
+						ScriptType.values()[dropDown.getSelectedIndex()]));
 			} else {
 				dropDown = null;
 			}
@@ -153,11 +149,11 @@ public class ScriptTabFactory {
 			if (dropDown != null) {
 				dropDown.setSelectedIndex(scriptTypeIndex());
 			}
-			area.setContent(property.getScriptText());
+			area.setContent(scriptTab.getScriptText());
 		}
 
 		private int scriptTypeIndex() {
-			return ScriptType.GGBSCRIPT.equals(property.getScriptType()) ? 0 : 1;
+			return ScriptType.GGBSCRIPT.equals(scriptTab.getScriptType()) ? 0 : 1;
 		}
 	}
 
@@ -166,11 +162,10 @@ public class ScriptTabFactory {
 	 * library JavaScript.
 	 */
 	private static final class GlobalTabBinding extends TabBinding {
-
 		private final Kernel kernel;
 
-		public GlobalTabBinding(AppW app, ObjectEventProperty property) {
-			super(app, property);
+		public GlobalTabBinding(AppW app, ScriptTab scriptTab) {
+			super(app, scriptTab);
 			kernel = app.getKernel();
 		}
 
@@ -189,31 +184,24 @@ public class ScriptTabFactory {
 
 	/**
 	 * Creates a new factory.
-	 *
-	 * @param app
-	 *            application
-	 * @param property
-	 *            event property that exposes available events and script state
+	 * @param app see {@link AppW}
+	 * @param scriptEditor event property that exposes available events and script state
 	 */
-	public ScriptTabFactory(AppW app, ObjectAllEventsProperty property) {
+	public ScriptTabFactory(AppW app, ScriptEditor scriptEditor) {
 		this.app = app;
 		loc = app.getLocalization();
-		this.property = property;
+		this.scriptEditor = scriptEditor;
 		jsEnabled = app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT);
 		localizedScriptTypeNames = getLocalizedScriptTypeNames();
 	}
 
 	private List<String> getLocalizedScriptTypeNames() {
-		return Arrays.stream(ScriptType.values()).map(
-						v -> loc.getMenu(v.getName()))
+		return Arrays.stream(ScriptType.values()).map(v -> loc.getMenu(v.getName()))
 				.collect(Collectors.toList());
 	}
 
-	private TabData createEventTabData(ObjectEventProperty eventType, TabBinding binding) {
-		return new TabData(
-				loc.getMenu(eventType.getRawName()),
-				binding.createPanel());
-
+	private TabData createEventTabData(ScriptTab scriptTab, TabBinding binding) {
+		return new TabData(loc.getMenu(scriptTab.getPropertyName()), binding.createPanel());
 	}
 
 	/**
@@ -230,22 +218,25 @@ public class ScriptTabFactory {
 		final List<TabData> tabData = new ArrayList<>();
 		final List<TabBinding> bindings = new ArrayList<>();
 
-		for (ObjectEventProperty property: property.getProps()) {
-			property.setJsEnabled(jsEnabled);
-
-			if (!property.isEnabled()) {
-				continue;
+		for (int index = 0; index < scriptEditor.count(); index++) {
+			ScriptTab scriptTab = scriptEditor.getScriptTab(index);
+			if (scriptTab == null) {
+				return null;
 			}
 
-			TabBinding binding;
-			if (property.getRawName().startsWith("Global")) {
-				binding = new GlobalTabBinding(app, property);
-			} else {
-				binding = new EventTabBinding(app, property,
-						localizedScriptTypeNames);
+			scriptTab.setJsEnabled(jsEnabled);
+
+			if (scriptTab.isEnabled()) {
+				TabBinding binding;
+				if (scriptTab.getPropertyName().startsWith("Global")) {
+					binding = new GlobalTabBinding(app, scriptTab);
+				} else {
+					binding = new EventTabBinding(app, scriptTab,
+							localizedScriptTypeNames);
+				}
+				tabData.add(createEventTabData(scriptTab, binding));
+				bindings.add(binding);
 			}
-			tabData.add(createEventTabData(property, binding));
-			bindings.add(binding);
 		}
 
 		ComponentTab tabs = new ComponentTab(app, "Scripting", tabData.toArray(new TabData[0]));

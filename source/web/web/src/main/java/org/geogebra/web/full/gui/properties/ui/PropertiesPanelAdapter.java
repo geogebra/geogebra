@@ -35,10 +35,12 @@ import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionRatioPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.LabelStylePanel;
+import org.geogebra.web.full.gui.properties.ui.tabs.ScriptTabFactory;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
@@ -159,15 +161,12 @@ public class PropertiesPanelAdapter {
 			}
 			return panel;
 		}
-		/*
-		if (property instanceof ObjectAllEventsProperty) {
-			ScriptTabFactory tabBuilder = new ScriptTabFactory(app,
-					(ObjectAllEventsProperty) property);
+		if (propertyView instanceof ScriptEditor scriptEditor) {
+			ScriptTabFactory tabBuilder = new ScriptTabFactory(app, scriptEditor);
 			ComponentTab scriptTab = tabBuilder.create();
 			widgets.add(scriptTab);
 			return scriptTab;
 		}
-*/
 		if (propertyView instanceof ExpandableList) {
 			Checkbox leadProperty =
 					((ExpandableList) propertyView).getCheckbox();

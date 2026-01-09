@@ -19,6 +19,7 @@ package org.geogebra.common.properties.impl.objects;
 import static org.geogebra.common.plugin.EventType.CLICK;
 import static org.geogebra.common.plugin.EventType.DRAG_END;
 import static org.geogebra.common.plugin.EventType.EDITOR_KEY_TYPED;
+import static org.geogebra.common.plugin.EventType.LOAD_PAGE;
 import static org.geogebra.common.plugin.EventType.UPDATE;
 import static org.junit.Assert.assertEquals;
 
@@ -42,12 +43,12 @@ public class ObjectEventPropertyTest extends BaseUnitTest {
 
 	@Test
 	public void testGeoObjectEvents() {
-		geoShouldHaveEvents(add("(1, 1)"), CLICK, UPDATE, DRAG_END);
-		geoShouldHaveEvents(add("CheckBox[]"), UPDATE);
-		geoShouldHaveEvents(add("InputBox[]"), CLICK, UPDATE, EDITOR_KEY_TYPED);
+		geoShouldHaveEvents(add("(1, 1)"), CLICK, UPDATE, DRAG_END, LOAD_PAGE);
+		geoShouldHaveEvents(add("CheckBox[]"), UPDATE, LOAD_PAGE);
+		geoShouldHaveEvents(add("InputBox[]"), CLICK, UPDATE, EDITOR_KEY_TYPED, LOAD_PAGE);
 		GeoElement button = add("Button[]");
 		button.setFixed(true);
-		geoShouldHaveEvents(button, CLICK, UPDATE);
+		geoShouldHaveEvents(button, CLICK, UPDATE, LOAD_PAGE);
 	}
 
 	private void geoShouldHaveEvents(GeoElement geo, EventType... events) {
