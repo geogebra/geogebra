@@ -19,6 +19,8 @@ package org.geogebra.web.shared.components.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -49,8 +51,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	private FlowPanel dialogContent;
 	private Runnable positiveAction;
 	private Runnable negativeAction;
-	private StandardButton posButton;
-	private StandardButton negButton;
+	private @CheckForNull StandardButton posButton;
+	private @CheckForNull StandardButton negButton;
 	private boolean preventHide = false;
 	private final DialogData dialogData;
 	private Label title;
@@ -159,8 +161,12 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 * @param negLabel new label for negative button
 	 */
 	public void updateBtnLabels(String posLabel, String negLabel) {
-		posButton.setLabel(app.getLocalization().getMenu(posLabel));
-		negButton.setLabel(app.getLocalization().getMenu(negLabel));
+		if (posButton != null) {
+			posButton.setLabel(app.getLocalization().getMenu(posLabel));
+		}
+		if (negButton != null) {
+			negButton.setLabel(app.getLocalization().getMenu(negLabel));
+		}
 	}
 
 	/**
@@ -168,7 +174,9 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 * @param disabled whether to disable
 	 */
 	public void setPosBtnDisabled(boolean disabled) {
-		setBtnDisabled(posButton, disabled);
+		if (posButton != null) {
+			setBtnDisabled(posButton, disabled);
+		}
 	}
 
 	private void setBtnDisabled(StandardButton btn, boolean disabled) {
@@ -263,8 +271,12 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		Scheduler.get().scheduleDeferred(() -> {
 			super.show();
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
-			widgetList.add(negButton);
-			widgetList.add(posButton);
+			if (negButton != null) {
+				widgetList.add(negButton);
+			}
+			if (posButton != null) {
+				widgetList.add(posButton);
+			}
 			widgetList.get(0).getElement().focus();
 		});
 	}
