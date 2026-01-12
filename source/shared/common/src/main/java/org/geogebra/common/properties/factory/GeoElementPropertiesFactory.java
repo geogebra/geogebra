@@ -337,6 +337,10 @@ public final class GeoElementPropertiesFactory {
 			AlgebraProcessor processor,
 			Localization localization, List<GeoElement> elements) {
 		return createPropsArray("Style", localization, Stream.of(
+				// New style properties come below, in order
+				createOptionalProperty(
+						() -> new SizePropertyCollection(this, processor, localization, elements)),
+				// Old style properties below
 				createPointSizeProperty(localization, elements),
 				createPointStyleProperty(localization, elements),
 				createThicknessProperty(localization, elements),
@@ -371,8 +375,6 @@ public final class GeoElementPropertiesFactory {
 				createOptionalPropertyFacade(elements,
 						element -> new InequalityOnAxisProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				createOptionalProperty(
-						() -> new SizePropertyCollection(this, processor, localization, elements)),
 				createOptionalPropertyFacade(elements,
 						element -> new InputBoxAlignmentProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
