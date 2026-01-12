@@ -144,11 +144,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
 			elemental2.dom.Element target = Js.uncheckedCast(event.target);
 			if (target.closest(".spreadsheetScrollOverlay,.gwt-PopupPanel,.iconButton,"
-					+ ".colorChooser") != null) {
+					+ ".colorChooser,.tabButton") != null) {
 				return;
 			}
 			spreadsheet.clearSelectionOnly();
-			repaint();
+			if (spreadsheetIsVisible()) {
+				repaint();
+			}
 		});
 
 		ClickStartHandler.initDefaults(scrollContent, false, true);
@@ -347,5 +349,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	public Spreadsheet getSpreadsheet() {
 		return spreadsheet;
+	}
+
+	private boolean spreadsheetIsVisible() {
+		return !getParent().getParent().getElement().hasClassName("tab-hidden");
 	}
 }

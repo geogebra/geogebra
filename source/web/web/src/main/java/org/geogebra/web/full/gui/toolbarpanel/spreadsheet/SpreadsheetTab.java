@@ -96,6 +96,10 @@ public class SpreadsheetTab extends ToolbarTab {
 		if (spreadsheetPanel == null) {
 			createContent();
 		}
+		if (spreadsheetPanel != null) {
+			spreadsheetPanel.getSpreadsheet().getController().handleOnViewAppear();
+			spreadsheetPanel.requestFocus();
+		}
 	}
 
 	@Override
