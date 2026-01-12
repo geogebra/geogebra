@@ -1363,20 +1363,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void setSaved() {
 		super.setSaved();
-		if (hasAutosave()) {
+		if (hasSaveCheckDialog()) {
 			getFileManager().deleteAutoSavedFile();
 			getLAF().removeWindowClosingHandler();
 		}
 	}
 
-	private boolean hasAutosave() {
-		return appletParameters.getDataParamApp();
+	private boolean hasSaveCheckDialog() {
+		// we want to show the dialog also when embedded, see MOW-1799
+		return appletParameters.getDataParamFitToScreen() && showMenuBar();
 	}
 
 	@Override
 	public final void setUnsaved() {
 		super.setUnsaved();
-		if (hasAutosave() && kernel != null && kernel.getConstruction() != null
+		if (hasSaveCheckDialog() && kernel != null && kernel.getConstruction() != null
 				&& kernel.getConstruction().isStarted()) {
 			getLAF().addWindowClosingHandler(this);
 		}
