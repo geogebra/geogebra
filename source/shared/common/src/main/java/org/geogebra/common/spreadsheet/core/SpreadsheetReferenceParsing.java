@@ -54,7 +54,7 @@ final class SpreadsheetReferenceParsing {
 	 */
 	static @CheckForNull SpreadsheetReference parseReference(@Nonnull String candidate) {
 		String[] parts = candidate.split(":");
-		if (parts.length > 2) {
+		if (parts.length > 2 || parts.length < 1) {
 			return null; // must be "A1" or "A1:A10"
 		}
 		return parseCellReferences(parts[0], parts.length == 2 ? parts[1] : null);
