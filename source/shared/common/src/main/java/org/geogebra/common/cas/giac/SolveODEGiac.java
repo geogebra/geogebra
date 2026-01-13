@@ -35,7 +35,7 @@ public class SolveODEGiac {
 						// as x,by default use for variable list y,x
 						// #5099
 						 when(
-						 "size(lname(%0) intersect [x])==0&&size(lname(%0) intersect [y])==1&&size(lname(%0) minus [y])>0",
+						 "size(lname(%0) intersect [x])==0&&size(lname(quote(%0)) intersect [y])>0&&size(lname(quote(%0)) minus [y])>0",
 						 "normal(map(desolve(%0,x,y),x->y=x))",
 						 "normal(map(desolve(%0),x->y=x))"),
 						// add y'= if it's missing
