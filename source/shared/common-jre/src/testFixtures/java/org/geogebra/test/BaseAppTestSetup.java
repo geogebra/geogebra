@@ -37,6 +37,7 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.config.AppConfigCas;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
@@ -87,6 +88,10 @@ public class BaseAppTestSetup {
 
 	protected void setupGraphingApp() {
 		app = AppCommonFactory.create(new AppConfigGraphing());
+	}
+
+	protected void setupClassicApp() {
+		app = AppCommonFactory.create3D(new AppConfigDefault());
 	}
 
 	private static AppConfig createConfig(SuiteSubApp subApp) {

@@ -56,6 +56,7 @@ import org.geogebra.editor.share.util.Greek;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.TestEvent;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -100,6 +101,13 @@ public class GgbApiTest {
 		api.evalCommand("a: r=cos(3" + Unicode.theta + ")");
 		api.evalCommand("a: r=cos(2" + Unicode.theta + ")");
 		assertEquals(Arrays.asList("ADD a", "REMOVE a", "ADD a"), eventAccumulator.getEvents());
+	}
+
+	@Test
+	@Issue("APPS-7149")
+	public void evalCommandShouldAcceptRenamedCommand() {
+		api.evalCommand("DelaunayTriangulation(e^(i*{1,2,3,4,5,6}))");
+		assertArrayEquals(new String[]{"graph1"}, api.getAllObjectNames());
 	}
 
 	@Test

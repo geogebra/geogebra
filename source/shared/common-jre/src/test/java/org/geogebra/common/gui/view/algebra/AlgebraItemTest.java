@@ -56,16 +56,6 @@ public class AlgebraItemTest extends BaseUnitTest {
     private static final String fitLine = "FitLine((0,0), (1,1))";
     private static final String circle = "Circle((0,0), (1,1))";
 
-    @BeforeClass
-    public static void enablePreviewFeatures() {
-        PreviewFeature.setPreviewFeaturesEnabled(true);
-    }
-
-    @AfterClass
-    public static void disablePreviewFeatures() {
-        PreviewFeature.setPreviewFeaturesEnabled(false);
-    }
-
     @Override
     public AppCommon createAppCommon() {
         return AppCommonFactory.create3D();

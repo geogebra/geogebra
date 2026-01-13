@@ -218,10 +218,13 @@ public class StatsCommandProcessorFactory implements CommandProcessorFactory {
 		case Covariance:
 			return new CmdCovariance(kernel);
 		case SXY:
+		case Sxy:
 			return new CmdSXY(kernel);
 		case SXX:
+		case Sxx:
 			return new CmdSXX(kernel);
 		case SYY:
+		case Syy:
 			return new CmdSYY(kernel);
 		case MeanX:
 			return new CmdMeanX(kernel);

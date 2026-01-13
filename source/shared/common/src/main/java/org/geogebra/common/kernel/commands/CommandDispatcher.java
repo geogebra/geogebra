@@ -604,6 +604,7 @@ public abstract class CommandDispatcher {
 			case Vertex:
 			case If:
 			case Root:
+			case InflectionPoint:
 			case TurningPoint:
 			case Polynomial:
 			case Spline:
@@ -880,6 +881,7 @@ public abstract class CommandDispatcher {
 			case ConvexHull:
 			case MinimumSpanningTree:
 			case DelauneyTriangulation:
+			case DelaunayTriangulation:
 			case TravelingSalesman:
 			case ShortestDistance:
 				return getDiscreteCommandProcessorFactory().getProcessor(command, kernel);

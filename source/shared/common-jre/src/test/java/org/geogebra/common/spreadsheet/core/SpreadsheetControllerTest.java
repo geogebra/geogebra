@@ -89,16 +89,6 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
     }
 
-    @BeforeAll
-    public static void enablePreviewFeatures() {
-        PreviewFeature.setPreviewFeaturesEnabled(true);
-    }
-
-    @AfterAll
-    public static void disablePreviewFeatures() {
-        PreviewFeature.setPreviewFeaturesEnabled(false);
-    }
-
     @BeforeEach
     public void setup() {
         tabularData = new TestTabularData();

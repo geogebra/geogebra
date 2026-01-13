@@ -391,7 +391,6 @@ public class RationalizationTest extends BaseAppTestSetup {
 
 	@Test
 	public void testFormulaText() {
-		PreviewFeature.setPreviewFeaturesEnabled(true);
 		evaluate("a = -1");
 		evaluate("b = 5");
 		evaluate("c = -2");
