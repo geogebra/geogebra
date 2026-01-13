@@ -35,7 +35,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 		implements ColorProperty {
 
-	private final GeoElement element;
+	protected final GeoElement element;
 	private final AbstractGeoElementDelegate delegate;
 
 	/**

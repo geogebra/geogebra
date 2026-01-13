@@ -63,6 +63,7 @@ import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
 import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
+import org.geogebra.common.properties.impl.objects.SliderTrackColorPropertyCollection;
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 
 import com.google.j2objc.annotations.Weak;
@@ -592,6 +593,81 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * Representation of a slider with a label and it's value.
+	 */
+	public static final class Slider extends PropertyBackedView<RangeProperty<Integer>> {
+
+		private final boolean isPercentage;
+
+		Slider(RangeProperty<Integer> rangeProperty) {
+			this(rangeProperty, false);
+		}
+
+		Slider(RangeProperty<Integer> rangeProperty, boolean isPercentage) {
+			super(rangeProperty);
+			this.isPercentage = isPercentage;
+			assert rangeProperty.getMin() != null && rangeProperty.getMax() != null;
+		}
+
+		/**
+		 * @return the label
+		 */
+		public @Nonnull String getLabel() {
+			return property.getName();
+		}
+
+		/**
+		 * @return the value that can be displayed
+		 */
+		public @Nonnull String getDisplayValue() {
+			String value = String.valueOf(getValue());
+			if (isPercentage) {
+				return value + "%";
+			}
+			return value;
+		}
+
+		/**
+		 * @return the value of the slider
+		 */
+		public int getValue() {
+			Integer value = property.getValue();
+			return value != null ? value : 0;
+		}
+
+		/**
+		 * Sets the value of the slider.
+		 * @param newValue the new value of the slider
+		 */
+		public void setValue(int newValue) {
+			property.setValue(newValue);
+		}
+
+		/**
+		 * @return the minimum value
+		 */
+		public int getMin() {
+			Integer min = property.getMin();
+			return min != null ? min : 0;
+		}
+
+		/**
+		 * @return the maximum value
+		 */
+		public int getMax() {
+			Integer max = property.getMax();
+			return max != null ? max : 100;
+		}
+
+		/**
+		 * @return the step or increment between values
+		 */
+		public @CheckForNull Integer getStep() {
+			return property.getStep();
+		}
+	}
+
+	/**
 	 * Representation of an expandable list with a title, an optional checkbox,
 	 * and a dropdown button that expands the item to show other {@code PropertyView}s.
 	 */
@@ -1086,9 +1162,15 @@ public abstract class PropertyView {
 			return new TextField((StringProperty) property);
 		} else if (property instanceof IconsEnumeratedProperty) {
 			return new SingleSelectionIconRow((IconsEnumeratedProperty<?>) property);
+		} else if (property instanceof RangeProperty<?>
+				// Sliders only make sense when min and max are defined.
+				&& ((RangeProperty<?>) property).getMin() != null
+				&& ((RangeProperty<?>) property).getMax() != null) {
+			return new Slider((RangeProperty<Integer>) property);
 		} else if (property instanceof AxisDistancePropertyCollection
 				|| property instanceof AxisCrossPropertyCollection
-				|| property instanceof AxisUnitPropertyCollection) {
+				|| property instanceof AxisUnitPropertyCollection
+				|| property instanceof SliderTrackColorPropertyCollection) {
 			return new RelatedPropertyViewCollection(null,
 					propertyViewListOf((PropertyCollection<?>) property), 0);
 		} else if (property instanceof NavigationBarPropertiesCollection) {

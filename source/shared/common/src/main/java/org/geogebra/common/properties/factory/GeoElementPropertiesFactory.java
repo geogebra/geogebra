@@ -119,7 +119,9 @@ import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
 import org.geogebra.common.properties.impl.objects.SizePropertyCollection;
+import org.geogebra.common.properties.impl.objects.SliderBlobPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderIntervalProperty;
+import org.geogebra.common.properties.impl.objects.SliderTrackPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
@@ -338,8 +340,12 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createPropsArray("Style", localization, Stream.of(
 				// New style properties come below, in order
-				createOptionalProperty(
-						() -> new SizePropertyCollection(this, processor, localization, elements)),
+				createOptionalProperty(() -> new SizePropertyCollection(
+						this, processor, localization, elements)),
+				createOptionalProperty(() -> new SliderBlobPropertyCollection(
+						this, localization, elements)),
+				createOptionalProperty(() -> new SliderTrackPropertyCollection(
+						this, processor, localization, elements)),
 				// Old style properties below
 				createPointSizeProperty(localization, elements),
 				createPointStyleProperty(localization, elements),

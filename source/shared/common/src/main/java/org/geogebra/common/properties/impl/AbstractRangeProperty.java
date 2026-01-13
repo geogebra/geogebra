@@ -16,6 +16,8 @@
 
 package org.geogebra.common.properties.impl;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.RangeProperty;
 
@@ -56,17 +58,17 @@ public abstract class AbstractRangeProperty<T extends Number & Comparable<T>>
 	}
 
 	@Override
-	public T getMin() {
+	public @CheckForNull T getMin() {
 		return min;
 	}
 
 	@Override
-	public T getMax() {
+	public @CheckForNull T getMax() {
 		return max;
 	}
 
 	@Override
-	public T getStep() {
+	public @CheckForNull T getStep() {
 		return step;
 	}
 
