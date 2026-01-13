@@ -37,6 +37,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
@@ -136,7 +137,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 public final class GeoElementPropertiesFactory {
 
 	private final Set<GeoElementPropertyFilter> propertyFilters = new HashSet<>();
-	private final Map<String, Set<PropertyRestriction>> propertyRestrictions = new HashMap<>();
+	private final Map<PropertyKey, Set<PropertyRestriction>> propertyRestrictions = new HashMap<>();
 
 	/**
 	 * Adds a {@link GeoElementPropertyFilter} which can modify the returned properties by
@@ -159,23 +160,22 @@ public final class GeoElementPropertiesFactory {
 
 	/**
 	 * Add a property restriction to be applied to properties created by this factory.
-	 * @param propertyName A property (raw) name (i.e., this should match property.getRawName())
+	 * @param key A property key.
 	 * @param restriction A property restriction.
 	 */
-	public void addRestriction(String propertyName, PropertyRestriction restriction) {
+	public void addRestriction(PropertyKey key, PropertyRestriction restriction) {
 		propertyRestrictions
-				.computeIfAbsent(propertyName, key -> new HashSet<>())
+				.computeIfAbsent(key, k -> new HashSet<>())
 				.add(restriction);
 	}
 
 	/**
 	 * Remove a previously added property restriction.
-	 * @param propertyName A property (raw) name (i.e., this should match property.getRawName())
-	 * @param restriction Property restriction, identified by raw name (i.e., this should
-	 * match property.getRawName()).
+	 * @param key A property key.
+	 * @param restriction A (previously registered) property restriction.
 	 */
-	public void removeRestriction(String propertyName, PropertyRestriction restriction) {
-		Set<PropertyRestriction> registeredRestrictions = propertyRestrictions.get(propertyName);
+	public void removeRestriction(PropertyKey key, PropertyRestriction restriction) {
+		Set<PropertyRestriction> registeredRestrictions = propertyRestrictions.get(key);
 		if (registeredRestrictions != null) {
 			registeredRestrictions.remove(restriction);
 		}
@@ -1140,8 +1140,7 @@ public final class GeoElementPropertiesFactory {
 			if (property != null && isAllowedByFilters(property, geoElement)) {
 				properties.add(property);
 				// apply restrictions
-				Set<PropertyRestriction> restrictions = propertyRestrictions.get(
-						property.getRawName());
+				Set<PropertyRestriction> restrictions = propertyRestrictions.get(property.getKey());
 				if (restrictions != null) {
 					for (PropertyRestriction restriction : restrictions) {
 						restriction.applyTo(property);

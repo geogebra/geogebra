@@ -93,18 +93,18 @@ public interface PropertiesRegistry {
 	/**
 	 * Look up a property by raw (unlocalized) name in the current context.
 	 *
-	 * @param rawName The raw (unlocalized) name of a property.
+	 * @param key A {@link PropertyKey} that uniquely identifies a property type.
 	 * @return The property if found, or null if no such property has been registered.
 	 */
-	@CheckForNull Property lookup(@Nonnull String rawName);
+	@CheckForNull Property lookup(@Nonnull PropertyKey key);
 
 	/**
-	 * Same as {@link #lookup(String)}, but using the provided context instead of the
+	 * Same as {@link #lookup(PropertyKey)}, but using the provided context instead of the
 	 * current context.
-	 * @return The property with the given name in the given context, or null if no such
+	 * @return The property with the given key in the given context, or null if no such
 	 * property could be found.
 	 */
-	@CheckForNull Property lookup(@Nonnull String rawName, @CheckForNull Object context);
+	@CheckForNull Property lookup(@Nonnull PropertyKey key, @CheckForNull Object context);
 
 	/**
 	 * "Release" (i.e., clear out strong references to) all properties registered for the

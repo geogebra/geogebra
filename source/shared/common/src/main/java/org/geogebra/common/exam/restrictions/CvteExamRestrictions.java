@@ -97,6 +97,7 @@ import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
@@ -321,10 +322,13 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		return Set.of(new MatrixExpressionFilter());
 	}
 
-	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
+	private static Map<PropertyKey, PropertyRestriction> createPropertyRestrictions() {
 		// "freeze" the equation form properties
-		return Map.of(LinearEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null),
-				QuadraticEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null));
+		return Map.of(
+				PropertyKey.of(LinearEquationFormProperty.class),
+				new PropertyRestriction(true, null),
+				PropertyKey.of(QuadraticEquationFormProperty.class),
+				new PropertyRestriction(true, null));
 	}
 
 	private static EquationBehaviour createEquationBehaviour() {

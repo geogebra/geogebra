@@ -29,6 +29,7 @@ import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyKey;
 
 public class DefaultPropertiesRegistry implements PropertiesRegistry {
 
@@ -65,7 +66,7 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	@Override
 	public void register(@Nonnull Property property, Object context) {
 		// TODO what if the previously registered property had registered listeners?
-		properties.put(new Key(property.getRawName(), context), property);
+		properties.put(new Key(property.getKey(), context), property);
 		for (PropertiesRegistryListener listener : listeners) {
 			listener.propertyRegistered(property, context);
 		}
@@ -78,20 +79,20 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 
 	@Override
 	public void unregister(@Nonnull Property property, Object context) {
-		properties.remove(new Key(property.getRawName(), context));
+		properties.remove(new Key(property.getKey(), context));
 		for (PropertiesRegistryListener listener : listeners) {
 			listener.propertyUnregistered(property, context);
 		}
 	}
 
 	@Override
-	public Property lookup(@Nonnull String rawName) {
-		return lookup(rawName, context);
+	public Property lookup(@Nonnull PropertyKey key) {
+		return lookup(key, context);
 	}
 
 	@Override
-	public Property lookup(@Nonnull String rawName, Object context) {
-		return properties.get(new Key(rawName, context));
+	public Property lookup(@Nonnull PropertyKey key, Object context) {
+		return properties.get(new Key(key, context));
 	}
 
 	@Override
@@ -108,17 +109,17 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	}
 
 	private static final class Key {
-		final String rawName;
+		final PropertyKey propertyKey;
 		final Object context;
 
-		Key(String rawName, Object context) {
-			this.rawName = rawName;
+		Key(PropertyKey propertyKey, Object context) {
+			this.propertyKey = propertyKey;
 			this.context = context;
 		}
 
 		@Override
 		public int hashCode() {
-			return Objects.hash(rawName, context);
+			return Objects.hash(propertyKey, context);
 		}
 
 		@Override
@@ -127,7 +128,7 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 				return false;
 			}
 			Key other = (Key) obj;
-			return rawName.equals(other.rawName) && context == other.context;
+			return propertyKey.equals(other.propertyKey) && context == other.context;
 		}
 	}
 }

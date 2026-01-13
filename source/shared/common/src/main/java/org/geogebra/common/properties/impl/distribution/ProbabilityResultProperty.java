@@ -24,6 +24,7 @@ import org.geogebra.common.gui.view.probcalculator.result.ResultModel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.impl.NumericPropertyUtil;
 
 /**
@@ -83,6 +84,11 @@ public class ProbabilityResultProperty implements Property {
 	@Override
 	public @Nonnull String getRawName() {
 		return "ProbabilityResult";
+	}
+
+	@Override
+	public @Nonnull PropertyKey getKey() {
+		return PropertyKey.of(this);
 	}
 
 	@Override

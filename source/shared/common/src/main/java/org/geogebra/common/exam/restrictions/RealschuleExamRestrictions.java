@@ -234,6 +234,7 @@ import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
 
@@ -418,9 +419,12 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 		}
 	}
 
-	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
-		return Map.of(LinearEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null),
-				QuadraticEquationFormProperty.NAME_KEY, new PropertyRestriction(true, null));
+	private static Map<PropertyKey, PropertyRestriction> createPropertyRestrictions() {
+		return Map.of(
+				PropertyKey.of(LinearEquationFormProperty.class),
+				new PropertyRestriction(true, null),
+				PropertyKey.of(QuadraticEquationFormProperty.class),
+				new PropertyRestriction(true, null));
 	}
 
 	private static Set<VisibilityRestriction> createVisibilityRestrictions() {

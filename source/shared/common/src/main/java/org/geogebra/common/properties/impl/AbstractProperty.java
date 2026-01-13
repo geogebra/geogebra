@@ -20,6 +20,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyKey;
 
 /**
  * Helper class for implementing the localized name of a property.
@@ -48,6 +49,11 @@ public abstract class AbstractProperty implements Property {
 	@Override
 	public @Nonnull String getRawName() {
 		return name;
+	}
+
+	@Override
+	public @Nonnull PropertyKey getKey() {
+		return PropertyKey.of(this);
 	}
 
 	@Override

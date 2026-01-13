@@ -385,6 +385,8 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.PropertyKey;
+import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 
 public final class IBExamRestrictions extends ExamRestrictions {
 
@@ -493,12 +495,13 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				MODE_MIRROR_AT_CIRCLE, MODE_FREEHAND_SHAPE, MODE_RELATION);
 	}
 
-	private static Map<String, PropertyRestriction> createDistributionPropertyRestriction() {
+	private static Map<PropertyKey, PropertyRestriction> createDistributionPropertyRestriction() {
 		Set<ProbabilityCalculatorSettings.Dist> restrictedDistributions = Set.of(
 				EXPONENTIAL, CAUCHY, WEIBULL, GAMMA, BETA, LOGNORMAL, LOGISTIC, PASCAL
 		);
-		return Map.of("Distribution", new PropertyRestriction(false, value ->
-				!restrictedDistributions.contains(value)));
+		return Map.of(PropertyKey.of(DistributionTypeProperty.class),
+				new PropertyRestriction(false, value ->
+						!restrictedDistributions.contains(value)));
 	}
 
 	private static Set<DisabledAlgorithms> createDisabledAlgorithms() {

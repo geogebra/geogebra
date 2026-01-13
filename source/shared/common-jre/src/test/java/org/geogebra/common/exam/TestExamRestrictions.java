@@ -52,7 +52,9 @@ import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 
 final class TestExamRestrictions extends ExamRestrictions {
 
@@ -146,8 +148,9 @@ final class TestExamRestrictions extends ExamRestrictions {
 		return operation -> !restrictedOperations.contains(operation);
 	}
 
-	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
-		return Map.of("AngleUnit", new PropertyRestriction(true, value ->
+	private static Map<PropertyKey, PropertyRestriction> createPropertyRestrictions() {
+		return Map.of(PropertyKey.of(AngleUnitProperty.class),
+				new PropertyRestriction(true, value ->
 				value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
 	}
 

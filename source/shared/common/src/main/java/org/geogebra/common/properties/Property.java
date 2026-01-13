@@ -37,6 +37,12 @@ public interface Property extends PropertySupplier {
     @Nonnull String getRawName();
 
     /**
+     * @return A unique identifier for the type of this property. This is used e.g. by
+     * the {@link PropertiesRegistry} for property registration and lookup.
+     */
+    @Nonnull PropertyKey getKey();
+
+    /**
      * Returns whether the property is enabled. In some cases
      * properties can depend on other settings, so they may be disabled.
      * This generally corresponds to read-only state in the UI.
