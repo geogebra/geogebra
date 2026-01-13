@@ -38,7 +38,7 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -178,7 +178,7 @@ public class ImageManagerD extends ImageManager {
 	 * @param fileName0 filename
 	 * @param img image
 	 */
-	public void addExternalImage(String fileName0, MyImageJre img) {
+	public void addExternalImage(String fileName0, MyImage img) {
 		Log.error("adding " + fileName0);
 		if (fileName0 != null && img != null) {
 			String fileName = fileName0;

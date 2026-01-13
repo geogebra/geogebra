@@ -26,7 +26,7 @@ import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
 
-import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.kernel.Construction;
@@ -74,18 +74,18 @@ public class MyXMLioD extends MyXMLioJre {
 	}
 
 	@Override
-	final protected MyImageJre getExportImage(double width, double height) {
+	final protected MyImage getExportImage(double width, double height) {
 		return ((AppDI) app).getExportImage(THUMBNAIL_PIXELS_X,
 				THUMBNAIL_PIXELS_Y);
 	}
 
 	@Override
-	final protected MyImageJre getExternalImage(String fileName) {
+	final protected MyImage getExternalImage(String fileName) {
 		return ((AppDI) app).getExternalImage(fileName);
 	}
 
 	@Override
-	final protected void writeImage(MyImageJre img, String ext, OutputStream os)
+	final protected void writeImage(MyImage img, String ext, OutputStream os)
 			throws IOException {
 		ImageIO.write((BufferedImage) ((MyImageD) img).getImage(), ext, os);
 

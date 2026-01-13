@@ -122,13 +122,23 @@ public final class MyImageW implements MyImage {
 	}
 
 	@Override
+	public String getSVG() {
+		String dataUrl = img.src;
+		return DomGlobal.atob(dataUrl.substring(dataUrl.indexOf(",") + 1));
+	}
+
+	@Override
+	public boolean hasNonNullImplementation() {
+		return img != null;
+	}
+
+	@Override
 	public MyImage tintedSVG(GColor color, Runnable onLoad) {
 		if (!svg) {
 			return null;
 		}
 		try {
-			String dataUrl = img.src;
-			String svg = DomGlobal.atob(dataUrl.substring(dataUrl.indexOf(",") + 1));
+			String svg = getSVG();
 			String svgRes = SVGResourcePrototype.createFilled(color.toString(), svg);
 			HTMLImageElement img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
 			img.addEventListener("load", evt -> onLoad.run());

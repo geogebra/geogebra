@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.ZipInputStream;
 
-import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 
@@ -40,19 +40,19 @@ public final class MyXMLioCommon extends MyXMLioJre {
 	}
 
 	@Override
-	protected MyImageJre getExportImage(double width, double height) {
+	protected MyImage getExportImage(double width, double height) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected MyImageJre getExternalImage(String fileName) {
+	protected MyImage getExternalImage(String fileName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void writeImage(MyImageJre img, String ext,
+	protected void writeImage(MyImage img, String ext,
 			OutputStream os) throws IOException {
 		// TODO Auto-generated method stub
 

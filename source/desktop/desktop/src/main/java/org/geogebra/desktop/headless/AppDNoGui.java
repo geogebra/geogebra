@@ -27,7 +27,6 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.ApiDelegate;
 import org.geogebra.common.jre.headless.App3DCompanionHeadless;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -95,19 +94,19 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	@Override
-	public void addExternalImage(String name, MyImageJre img) {
+	public void addExternalImage(String name, MyImage img) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public MyImageJre getExportImage(double thumbnailPixelsX,
+	public MyImage getExportImage(double thumbnailPixelsX,
 			double thumbnailPixelsY) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public MyImageJre getExternalImage(String fileName) {
+	public MyImage getExternalImage(String fileName) {
 		// TODO Auto-generated method stub
 		return null;
 	}

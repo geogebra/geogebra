@@ -36,7 +36,6 @@ import javax.imageio.ImageIO;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
@@ -47,7 +46,7 @@ import org.geogebra.desktop.gui.util.JSVGImageBuilder;
 import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.main.AppD;
 
-public class MyImageD implements MyImageJre, ImageD {
+public class MyImageD implements ImageD {
 
 	public static final double DELTA = 0;
 	private Image img = null;

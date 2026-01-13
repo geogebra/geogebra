@@ -17,9 +17,9 @@
 package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.awt.MyImage;
 
-public class MyImageCommon implements MyImageJre {
+public class MyImageCommon implements MyImage {
 	private final int height;
 	private final int width;
 

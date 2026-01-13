@@ -36,6 +36,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
@@ -43,7 +44,6 @@ import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.io.file.ZipFile;
-import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.io.file.InputStreamZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -488,7 +488,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			String fileName = geo.getImageFileName();
-			MyImageJre image = (MyImageJre) geo.getFillImage();
+			MyImage image = geo.getFillImage();
 			if (fileName != null && image != null) {
 
 				String fullPath = (filePath + fileName).replaceFirst("^/", "");
@@ -526,7 +526,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 								algo1.getBarImage(k));
 						writeImageToZip(zip,
 								algo1.getBarImage(k),
-								(MyImageJre) geo.getFillImage());
+								geo.getFillImage());
 					}
 				}
 			}
@@ -546,7 +546,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 		try {
 			// BufferedImage img = app.getExportImage(exportScale);
-			MyImageJre img = getExportImage(THUMBNAIL_PIXELS_X,
+			MyImage img = getExportImage(THUMBNAIL_PIXELS_X,
 					THUMBNAIL_PIXELS_Y);
 			if (img != null) {
 				writeImageToZip(zip, fileName, img);
@@ -564,7 +564,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 *            height
 	 * @return image
 	 */
-	abstract protected MyImageJre getExportImage(double width, double height);
+	abstract protected MyImage getExportImage(double width, double height);
 
 	/**
 	 * Writes all images used in the given macros to zip.
@@ -588,7 +588,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 			// save macro icon
 			String fileName = macro.getIconFileName();
-			MyImageJre img = getExternalImage(fileName);
+			MyImage img = getExternalImage(fileName);
 			if (img != null && img.hasNonNullImplementation()) {
 				writeImageToZip(zip, filePath + fileName, img);
 			}
@@ -600,10 +600,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 *            file name
 	 * @return image
 	 */
-	abstract protected MyImageJre getExternalImage(String fileName);
+	abstract protected MyImage getExternalImage(String fileName);
 
 	private void writeImageToZip(ZipOutputStream zip, String fileName,
-			MyImageJre img) {
+			MyImage img) {
 		// create new entry in zip archive
 		try {
 			ZipEntry zipEntry = new ZipEntry(fileName);
@@ -628,7 +628,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 *            image
 	 */
 	final public void writeImageToStream(OutputStream os, String fileName,
-			MyImageJre img) {
+			MyImage img) {
 		// if we get here we need to save the image from the memory
 		try {
 			// try to write image using the format of the filename extension
@@ -662,7 +662,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * @throws IOException
 	 *             write error
 	 */
-	abstract protected void writeImage(MyImageJre img, String ext,
+	abstract protected void writeImage(MyImage img, String ext,
 			OutputStream os) throws IOException;
 
 	/**

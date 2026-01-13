@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.io.file.ByteArrayZipFile;
-import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
@@ -49,7 +49,7 @@ public class SvgLoadTest extends BaseUnitTest {
 		unsupportedSvgNames.clear();
 		app = new AppDNoGui(new LocalizationD(3), false) {
 			@Override
-			public void addExternalImage(String name, MyImageJre img) {
+			public void addExternalImage(String name, MyImage img) {
 				if (img.isSVG()) {
 					if (JSVGConstants.UNSUPPORTED_SVG.equals(img.getSVG())) {
 						unsupportedSvgNames.add(name.split("/")[1]);

@@ -131,7 +131,6 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
-import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.main.TemplateHelper;
@@ -1776,7 +1775,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param image image
 	 */
 	@Override
-	public void addExternalImage(String filename, MyImageJre image) {
+	public void addExternalImage(String filename, MyImage image) {
 		imageManager.addExternalImage(filename, image);
 	}
 
@@ -1978,7 +1977,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 *             error
 	 */
 	@Override
-	public MyImageJre getExportImage(double maxX, double maxY)
+	public MyImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
 
 		return new MyImageD(GBufferedImageD.getAwtBufferedImage(

@@ -52,6 +52,16 @@ public interface MyImage {
 	String toLaTeXStringBase64();
 
 	/**
+	 * @return SVG content
+	 */
+	String getSVG();
+
+	/**
+	 * @return whether the platform-dependent implementation is valid
+	 */
+	boolean hasNonNullImplementation();
+
+	/**
 	 * Tries to tint the image with given color and return a result.
 	 * Works for the preset SVGs that we use in buttons, may work with other SVGs.
 	 *
@@ -60,5 +70,7 @@ public interface MyImage {
 	 * @return null if this image is not an SVG image (i.e., isSVG() returns false),
 	 *     a tinted version of this SVG, or null if tinting for some reason failed.
 	 */
-	MyImage tintedSVG(GColor color, Runnable onLoad);
+	default MyImage tintedSVG(GColor color, Runnable onLoad) {
+		return null;
+	}
 }

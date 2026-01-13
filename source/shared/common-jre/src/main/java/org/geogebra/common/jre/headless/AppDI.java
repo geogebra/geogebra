@@ -16,7 +16,7 @@
 
 package org.geogebra.common.jre.headless;
 
-import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.awt.MyImage;
 
 /**
  * Application interface for desktop.
@@ -28,7 +28,7 @@ public interface AppDI {
 	 * @param name filename
 	 * @param img image
 	 */
-	void addExternalImage(String name, MyImageJre img);
+	void addExternalImage(String name, MyImage img);
 
 	/**
 	 * Export active graphics view into an image
@@ -36,13 +36,13 @@ public interface AppDI {
 	 * @param thumbnailPixelsY height
 	 * @return exported image
 	 */
-	MyImageJre getExportImage(double thumbnailPixelsX, double thumbnailPixelsY);
+	MyImage getExportImage(double thumbnailPixelsX, double thumbnailPixelsY);
 
 	/**
 	 * Get user-supplied image by filename.
 	 * @param fileName filename
 	 * @return image
 	 */
-	MyImageJre getExternalImage(String fileName);
+	MyImage getExternalImage(String fileName);
 
 }
