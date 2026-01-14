@@ -279,7 +279,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void showDynamicStylebar() {
-		if (((AppW) app).allowStylebar() && !selectedGeoShouldHaveQuickStyleBar()) {
+		if (((AppW) app).allowStylebar() && selectedGeoShouldHaveQuickStyleBar()) {
 			getView().getDynamicStyleBar().setVisible(true);
 			getView().getDynamicStyleBar().updateStyleBar();
 		}
@@ -290,8 +290,8 @@ public class EuclidianControllerW extends EuclidianController implements
 	 * @return whether selected geos should have quick style bar
 	 */
 	private boolean selectedGeoShouldHaveQuickStyleBar() {
-		return getAppSelectedGeos().stream().anyMatch(f -> f.isMeasurementTool()
-			|| f.isSpotlight() || f.isGeoInputBox());
+		return !getAppSelectedGeos().isEmpty() && getAppSelectedGeos().stream()
+				.noneMatch(f -> f.isMeasurementTool() || f.isSpotlight() || f.isGeoInputBox());
 	}
 
 	@Override

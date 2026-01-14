@@ -114,7 +114,11 @@ public class StylebarPositioner {
 				? hasVisibleGeosInHits(selectedGeos)
 				: hasVisibleGeos(selectedGeos);
 		if (selectedGeosVisible || hasVisibleGeos(justCreatedGeos)) {
-			selectedGeos.addAll(justCreatedGeos);
+			justCreatedGeos.stream().forEach(geo -> {
+				if (!selectedGeos.contains(geo)) {
+					selectedGeos.add(geo);
+				}
+			});
 			return selectedGeos;
 		}
 		return Collections.emptyList();
