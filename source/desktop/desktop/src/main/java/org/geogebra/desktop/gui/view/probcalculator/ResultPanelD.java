@@ -200,18 +200,15 @@ class ResultPanelD extends JPanel implements ResultPanel {
 		lblTwoTailedResult.setText("= " + low + " + " + high);
 	}
 
-	@Override
-	public boolean isFieldLow(Object source) {
+	boolean isFieldLow(Object source) {
 		return source == fldLow;
 	}
 
-	@Override
-	public boolean isFieldHigh(Object source) {
+	boolean isFieldHigh(Object source) {
 		return source == fldHigh;
 	}
 
-	@Override
-	public boolean isFieldResult(Object source) {
+	boolean isFieldResult(Object source) {
 		return source == fldResult;
 	}
 

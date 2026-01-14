@@ -167,4 +167,8 @@ public class BaseAppTestSetup {
 			throw new IllegalArgumentException(e);
 		}
 	}
+
+	protected GeoElement lookup(String label) {
+		return getKernel().lookupLabel(label);
+	}
 }

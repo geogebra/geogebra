@@ -108,21 +108,6 @@ public class PropertyResultPanel implements ResultPanel {
 	}
 
 	@Override
-	public boolean isFieldLow(Object source) {
-		return false;
-	}
-
-	@Override
-	public boolean isFieldHigh(Object source) {
-		return false;
-	}
-
-	@Override
-	public boolean isFieldResult(Object source) {
-		return false;
-	}
-
-	@Override
 	public void setGreaterThan() {
 		twoTailedResultModel.setGreaterThan();
 	}

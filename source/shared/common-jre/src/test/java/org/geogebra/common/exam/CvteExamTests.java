@@ -392,8 +392,4 @@ public final class CvteExamTests extends BaseExamTestSetup {
         assertEquals("\\text{g = Tangent to c through A}",
                 AlgebraItem.getPreviewLatexForGeoElement(lookup("g")));
     }
-
-    private GeoElement lookup(String label) {
-        return getKernel().lookupLabel(label);
-    }
 }

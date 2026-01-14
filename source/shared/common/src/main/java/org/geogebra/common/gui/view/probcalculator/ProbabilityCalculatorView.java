@@ -656,7 +656,6 @@ public abstract class ProbabilityCalculatorView
 	private void createSimpleDiscreteGraph(GeoNumberValue xMin, GeoNumberValue xMax) {
 		GeoList intervalValueList = takeSubList(discreteValueList, xMin, xMax);
 		GeoList intervalProbList = takeSubList(discreteProbList, xMin, xMax);
-
 		discreteIntervalGraph = createIntervalGraph(intervalValueList, intervalProbList);
 		plotGeoList.add(discreteIntervalGraph);
 		hideTwoTailedDiscreteGraph();
@@ -1496,8 +1495,12 @@ public abstract class ProbabilityCalculatorView
 	 * @return probability of selected interval
 	 */
 	protected double intervalProbability() {
-		return probManager.intervalProbability(roundIfDiscrete(getLow()),
-				roundIfDiscrete(getHigh()),
+		return intervalProbability(getLow(), getHigh());
+	}
+
+	protected double intervalProbability(double low, double high) {
+		return probManager.intervalProbability(roundIfDiscrete(low),
+				roundIfDiscrete(high),
 				selectedDist, parameters, probMode);
 	}
 
@@ -2067,10 +2070,10 @@ public abstract class ProbabilityCalculatorView
 			showTwoTailed(resultPanel);
 		} else if (probMode == PROB_LEFT) {
 			resultPanel.showLeft();
-			switchToLeftProbability(oldProbMode, isDiscrete);
+			switchToLeftProbability(oldProbMode);
 		} else if (probMode == PROB_RIGHT) {
 			resultPanel.showRight();
-			switchToRightProbability(oldProbMode, isDiscrete);
+			switchToRightProbability(oldProbMode);
 		}
 
 		// make result field editable for inverse probability calculation
@@ -2089,18 +2092,44 @@ public abstract class ProbabilityCalculatorView
 		updateIntervalProbability();
 	}
 
-	private void switchToLeftProbability(int oldProbMode, boolean isDiscrete) {
+	private void switchToLeftProbability(int oldProbMode) {
 		if (oldProbMode == PROB_RIGHT) {
 			setHighDefault();
 		}
 
-		if (isDiscrete) {
+		updateOffscreenBoundForLeft();
+		xAxis.showHighOnly(showProbGeos);
+	}
+
+	private void updateOffscreenBoundForLeft() {
+		if (isDiscreteProbability()) {
 			setLow(discreteValueAt(0));
 			updateOutputForIntervals();
 		} else {
 			setLowOffscreen();
 		}
-		xAxis.showHighOnly(showProbGeos);
+	}
+
+	/**
+	 * Update the offscreen side of the range.
+	 */
+	public void updateOffscreenRange() {
+		if (probMode == PROB_RIGHT) {
+			resetDataRange();
+			updateOffscreenBoundForRight();
+		} else if (probMode == PROB_LEFT) {
+			resetDataRange();
+			updateOffscreenBoundForLeft();
+		}
+	}
+
+	private void resetDataRange() {
+		if (isDiscreteProbability()) {
+			removeGeos();
+			createDiscreteLists();
+		} else {
+			updatePlotSettings();
+		}
 	}
 
 	private double discreteValueAt(int i) {
@@ -2111,19 +2140,22 @@ public abstract class ProbabilityCalculatorView
 		setLow(plotSettings.xMin - 1);
 	}
 
-	private void switchToRightProbability(int oldProbMode, boolean isDiscrete) {
+	private void switchToRightProbability(int oldProbMode) {
 		if (oldProbMode == PROB_LEFT) {
 			setLowDefault();
 		}
 
-		if (isDiscrete) {
+		updateOffscreenBoundForRight();
+		xAxis.showLowOnly(showProbGeos);
+	}
+
+	private void updateOffscreenBoundForRight() {
+		if (isDiscreteProbability()) {
 			setHigh(discreteValueAt(discreteValueList.size() - 1));
 			updateOutputForIntervals();
 		} else {
 			setHighOffscreen();
 		}
-
-		xAxis.showLowOnly(showProbGeos);
 	}
 
 	protected void setLowDefault() {
@@ -2277,5 +2309,35 @@ public abstract class ProbabilityCalculatorView
 	 */
 	public void disableInterval(boolean disable) {
 		// overridden for platform
+	}
+
+	/**
+	 * Update left or low after probability result was changed by user.
+	 * Takes care of handling the edges between bars.
+	 * @param value new probability result
+	 */
+	public void handleResultChange(double value) {
+		if (getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
+			double newHigh = inverseProbability(value);
+			if (isDiscreteProbability()
+					&& areSameString(intervalProbability(getLow(), newHigh - 1), value)) {
+				setHigh(newHigh - 1);
+			} else {
+				setHigh(newHigh);
+			}
+		}
+		if (getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
+			double newLow = inverseProbability(1 - value);
+			if (isDiscreteProbability()
+					&& areSameString(intervalProbability(newLow + 1, getHigh()), value)) {
+				setLow(newLow + 1);
+			} else {
+				setLow(newLow);
+			}
+		}
+	}
+
+	private boolean areSameString(double v1, double v2) {
+		return format(v1).equals(format(v2));
 	}
 }

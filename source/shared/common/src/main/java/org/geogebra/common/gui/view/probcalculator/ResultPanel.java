@@ -62,24 +62,6 @@ public interface ResultPanel {
 	void updateTwoTailedResult(String lowProb, String highProb);
 
 	/**
-	 * @param source UI field
-	 * @return whether it's the lower bound input field
-	 */
-	boolean isFieldLow(Object source);
-
-	/**
-	 * @param source UI field
-	 * @return whether it's the upper bound input field
-	 */
-	boolean isFieldHigh(Object source);
-
-	/**
-	 * @param source UI field
-	 * @return whether it's the probability result input field
-	 */
-	boolean isFieldResult(Object source);
-
-	/**
 	 * Change sign to &gt;.
 	 */
 	void setGreaterThan();

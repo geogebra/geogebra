@@ -506,12 +506,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 				if (value < 0 || value > 1) {
 					updateGUI();
 				} else {
-					if (probMode == PROB_LEFT) {
-						setHigh(inverseProbability(value));
-					}
-					if (probMode == PROB_RIGHT) {
-						setLow(inverseProbability(1 - value));
-					}
+					handleResultChange(value);
 					setXAxisPoints();
 				}
 			} else {

@@ -126,7 +126,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 
 		FlowPanel parameterPanel = new FlowPanel();
 		parameterPanel.addStyleName("parameterPanel");
-		for (int i = 0; i < view.maxParameterCount; i++) {
+		for (int i = 0; i < ProbabilityCalculatorView.maxParameterCount; i++) {
 			FlowPanel holderPanel = new FlowPanel();
 			holderPanel.addStyleName("holder");
 			holderPanel.add(lblParameterArray[i]);
@@ -138,10 +138,10 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 	}
 
 	private void initParamFields() {
-		lblParameterArray = new Label[ view.maxParameterCount];
-		fldParameterArray = new MathTextFieldW[ view.maxParameterCount];
+		lblParameterArray = new Label[ProbabilityCalculatorView.maxParameterCount];
+		fldParameterArray = new MathTextFieldW[ProbabilityCalculatorView.maxParameterCount];
 
-		for (int i = 0; i < view.maxParameterCount; i++) {
+		for (int i = 0; i < ProbabilityCalculatorView.maxParameterCount; i++) {
 			lblParameterArray[i] = BaseWidgetFactory.INSTANCE.newSecondaryText("");
 			fldParameterArray[i] = new MathTextFieldW(view.getApp());
 			resultPanel.addInsertHandler(fldParameterArray[i]);
@@ -152,7 +152,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 	 * update parameter fields
 	 */
 	public void updateParameters() {
-		for (int i = 0; i < view.maxParameterCount; ++i) {
+		for (int i = 0; i < ProbabilityCalculatorView.maxParameterCount; ++i) {
 
 			boolean hasParam = i < ProbabilityManager.getParamCount(view.getSelectedDist());
 
@@ -261,9 +261,8 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 			return;
 		}
 		String inputText = source.getText().trim();
-		boolean update = true;
 
-		if (!"".equals(inputText)) {
+		if (!inputText.isEmpty()) {
 			Kernel kernel = view.getApp().getKernel();
 			// allow input such as sqrt(2)
 			GeoNumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
@@ -283,7 +282,6 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 			} else if (getResultPanel().isFieldHigh(source)) {
 				checkBounds(numericValue, intervalCheck, true);
 			} else if (getResultPanel().isFieldResult(source)) {
-				update = false;
 				if (value < 0 || value > 1) {
 					if (!intervalCheck) {
 						updateLowHigh();
@@ -291,14 +289,13 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 					}
 					updateGUI();
 				} else {
-					if (view.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
-						view.setHigh(view.inverseProbability(value));
-					}
-					if (view.getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
-						view.setLow(view.inverseProbability(1 - value));
-					}
+					view.handleResultChange(value);
 					updateLowHigh();
 					view.setXAxisPoints();
+					if (intervalCheck) {
+						view.updateIntervalProbability();
+						view.updateLowHighResult();
+					}
 				}
 			} else {
 				// handle parameter entry
@@ -309,6 +306,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 							if (intervalCheck) {
 								view.updateAll(true);
 							} else {
+								view.updateOffscreenRange();
 								view.updateOutput(false);
 								view.updateLowHighResult();
 							}
@@ -319,9 +317,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 			}
 			if (intervalCheck) {
 				view.updateIntervalProbability();
-				if (update) {
-					updateGUI();
-				}
+				updateGUI();
 			}
 		}
 	}
