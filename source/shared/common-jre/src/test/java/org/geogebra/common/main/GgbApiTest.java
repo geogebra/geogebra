@@ -19,6 +19,7 @@ package org.geogebra.common.main;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -108,6 +109,13 @@ public class GgbApiTest {
 	public void evalCommandShouldAcceptRenamedCommand() {
 		api.evalCommand("DelaunayTriangulation(e^(i*{1,2,3,4,5,6}))");
 		assertArrayEquals(new String[]{"graph1"}, api.getAllObjectNames());
+	}
+
+	@Test
+	@Issue("APPS-7195")
+	public void doubleFormattingTest() {
+		api.evalCommand("a=1.0");
+		assertThat(api.getXML("a"), containsString("<value val=\"1\"/>"));
 	}
 
 	@Test

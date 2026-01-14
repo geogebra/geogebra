@@ -538,7 +538,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(fn);
 		assertThat(getApp().getXML(),
 				stringContainsInOrder(
-						"<tableview min=\"0.0\" max=\"10.0\"",
+						"<tableview min=\"0\" max=\"10\"",
 								"<tableview column=\"1\" points=\"true\"/>"));
 	}
 

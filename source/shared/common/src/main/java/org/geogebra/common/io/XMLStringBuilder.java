@@ -60,7 +60,9 @@ public class XMLStringBuilder {
 	 * @return this
 	 */
 	public XMLStringBuilder attr(String name, double value) {
-		sb.append(' ').append(name).append("=\"").append(value).append('"');
+		int rounded = (int) value;
+		String formatted = rounded == value ? Integer.toString(rounded) : Double.toString(value);
+		sb.append(' ').append(name).append("=\"").append(formatted).append('"');
 		return this;
 	}
 

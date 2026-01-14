@@ -38,7 +38,6 @@ import com.google.gwtmockito.WithClassesToStub;
 @RunWith(GgbMockitoTestRunner.class)
 @WithClassesToStub({JLMContext2D.class, RootPanel.class})
 public class TemplateSaveTest {
-	private static AppWFull app;
 
 	@Before
 	public void initAssertions() {
@@ -48,7 +47,7 @@ public class TemplateSaveTest {
 	@Test
 	public void testSaveTemplate() {
 		AppletParameters articleElement = new AppletParameters("notes");
-		app = AppMocker.mockApplet(articleElement);
+		AppWFull app = AppMocker.mockApplet(articleElement);
 		app.getSaveController().setSaveType(Material.MaterialType.ggsTemplate);
 		PenToolsSettings settings = app.getSettings().getPenTools();
 		settings.setLastPenThickness(30);

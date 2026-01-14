@@ -45,7 +45,7 @@ import com.google.gwtmockito.WithClassesToStub;
 public class GroupSaveTest {
     private static AppWFull app;
     private static Construction cons;
-    private String pathString = "src/test/resources/org/geogebra/web/html5/io"
+    private final String pathString = "src/test/resources/org/geogebra/web/html5/io"
             + "/consWithGroupXML.txt";
 
     @Before
