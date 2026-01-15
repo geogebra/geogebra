@@ -655,7 +655,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (plainResult == null || plainResult.isEmpty()) {
 			return null;
 		}
-		return toGeoGebraString(plainResult, arbconst, tpl, kernel);
+		return toGeoGebraString(plainResult, arbconst, tpl, kernel, inputExpression);
 
 	}
 
@@ -790,10 +790,13 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	final public synchronized String toGeoGebraString(String giacString,
 			ArbitraryConstantRegistry arbconst,	final StringTemplate tpl,
-			final Kernel kernel) throws CASException {
+			final Kernel kernel, ValidExpression inputExpression) throws CASException {
 
 		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString),
 				arbconst, kernel);
+		if (ve instanceof ExpressionNode veExp) {
+			ve = fixInequalitySign(veExp, inputExpression, kernel);
+		}
 		// replace rational exponents by roots or vice versa
 
 		ve = ve.traverse(ev -> {
@@ -819,6 +822,21 @@ public abstract class CASgiac implements CASGenericInterface {
 		});
 
 		return casParser.toGeoGebraString(ve, tpl);
+	}
+
+	private ExpressionValue fixInequalitySign(ExpressionNode veExp,
+			ValidExpression inputExpression, Kernel kernel) {
+		Operation outputOp = veExp.getOperation();
+		boolean wrappedInCommand = inputExpression.isTopLevelCommand("Evaluate")
+				|| inputExpression.isTopLevelCommand("Numeric");
+		ExpressionNode inputArg = wrappedInCommand
+				? ((Command) inputExpression.unwrap()).getArgument(0) : null;
+		if (inputArg != null && outputOp.isInequality()
+				&& outputOp.reverseLeftToRight() == inputArg.getOperation()) {
+			return new ExpressionNode(kernel, veExp.getRight(),
+					veExp.getOperation().reverseLeftToRight(), veExp.getLeft());
+		}
+		return veExp;
 	}
 
 	private static ExpressionValue replaceRoots(ExpressionValue ve0,
