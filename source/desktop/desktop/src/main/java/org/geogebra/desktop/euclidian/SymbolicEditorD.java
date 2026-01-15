@@ -168,12 +168,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public boolean onEscape() {
-		applyAndHide();
-		return false;
-	}
-
-	@Override
 	public boolean onTab(boolean shiftDown) {
 		applyChanges();
 		return true;

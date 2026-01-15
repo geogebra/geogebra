@@ -187,12 +187,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
-	public boolean onEscape() {
-		applyAndHide();
-		return true;
-	}
-
-	@Override
 	public boolean onTab(boolean shiftDown) {
 		applyAndHide();
 		boolean handled = ((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher())

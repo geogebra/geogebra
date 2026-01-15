@@ -196,6 +196,12 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		// only needed in Web
 	}
 
+	@Override
+	public boolean onEscape() {
+		resetChanges();
+		return true;
+	}
+
 	/**
 	 * Paint the box in given graphics (desktop only).
 	 * @param g2 graphics
