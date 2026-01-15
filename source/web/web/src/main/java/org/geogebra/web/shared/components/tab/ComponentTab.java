@@ -59,17 +59,18 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 	 * Creates a tab component with optional scroll indicator buttons.
 	 * @param appW {@link org.geogebra.web.html5.main.AppW}
 	 * @param ariaLabel aria-label trans key (title of parent element)
+	 * @param initialTab index of initial tab
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
-	public ComponentTab(AppW appW, String ariaLabel, TabData... tabData) {
+	public ComponentTab(AppW appW, String ariaLabel, int initialTab, TabData... tabData) {
 		this.appW = appW;
 		this.loc = appW.getLocalization();
 		this.ariaLabel = ariaLabel;
 		this.tabData = Arrays.asList(tabData);
 		addStyleName("componentTab");
 		buildTab(tabData);
-		if (tabData.length > 0) {
-			switchToTab(0);
+		if (tabData.length > initialTab) {
+			switchToTab(initialTab);
 		}
 		Dom.addEventListener(scrollPanel.getElement(),  "keydown", event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
@@ -78,6 +79,16 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 				event.stopPropagation();
 			}
 		});
+	}
+
+	/**
+	 * Creates a tab component with optional scroll indicator buttons.
+	 * @param appW {@link org.geogebra.web.html5.main.AppW}
+	 * @param ariaLabel aria-label trans key (title of parent element)
+	 * @param tabData {@link TabData} including title and panel widget
+	 */
+	public ComponentTab(AppW appW, String ariaLabel, TabData... tabData) {
+		this(appW, ariaLabel, 0, tabData);
 	}
 
 	private void buildTab(TabData... tabData) {

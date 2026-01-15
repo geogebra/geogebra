@@ -145,7 +145,9 @@ public abstract class PropertiesView implements View {
 			Construction.Constants constant = kernel.getConstruction().getConstantElement(geo);
 			if (!kernel.getConstruction().isConstantElement(geo)) {
 				// add if not constant
-				geos.add(geo);
+				if (!geo.isMeasurementTool() && !geo.isSpotlight()) {
+					geos.add(geo);
+				}
 			} else if (firstConstant == Construction.Constants.NOT) {
 				// remember type
 				firstConstant = constant;

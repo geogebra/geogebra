@@ -20,6 +20,7 @@ import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 
@@ -317,21 +318,17 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateSelection() {
-		if (app.getSelectionManager().selectedGeosSize() != 0 && optionType != OptionType.OBJECTS) {
+		List<GeoElement> showableElements = getShowableElements();
+		if (!showableElements.isEmpty() && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
-		} else if (app.getSelectionManager().selectedGeosSize() == 0) {
-			if (optionType != OptionType.EUCLIDIAN
-					|| optionType != OptionType.EUCLIDIAN2
-					|| optionType != OptionType.EUCLIDIAN3D
-					|| optionType != OptionType.EUCLIDIAN_FOR_PLANE) {
-				if (app.getActiveEuclidianView().isEuclidianView3D()) {
-					setOptionPanel(OptionType.EUCLIDIAN3D);
-				} else if (app.getActiveEuclidianView().isDefault2D()) {
-					setOptionPanel(app.getActiveEuclidianView().getEuclidianViewNo() == 1
-						? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2);
-				} else {
-					setOptionPanel(OptionType.EUCLIDIAN_FOR_PLANE);
-				}
+		} else if (showableElements.isEmpty()) {
+			if (app.getActiveEuclidianView().isEuclidianView3D()) {
+				setOptionPanel(OptionType.EUCLIDIAN3D);
+			} else if (app.getActiveEuclidianView().isDefault2D()) {
+				setOptionPanel(app.getActiveEuclidianView().getEuclidianViewNo() == 1
+					? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2);
+			} else {
+				setOptionPanel(OptionType.EUCLIDIAN_FOR_PLANE);
 			}
 		}
 		updatePropertiesGUI();
@@ -643,25 +640,24 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	private void rebuildSettingsSideSheet() {
+		List<GeoElement> showableGeos = optionType == OptionType.OBJECTS
+				? getShowableElements() : List.of();
 		if (sideSheet == null) {
 			return;
 		}
 		wrappedPanel.clear();
 		sideSheet.clearContent();
 		List<PropertiesArray> propLists;
-		boolean showObjectProperties = optionType == OptionType.OBJECTS;
+		boolean showObjectProperties = !showableGeos.isEmpty();
 		if (showObjectProperties) {
 			GeoElementPropertiesFactory propertiesFactory =
 					((AppWFull) app).getGeoElementPropertiesFactory();
-			ArrayList<GeoElement> selectedGeos = app.getSelectionManager().getSelectedGeos();
-			propLists = selectedGeos.isEmpty() ? List.of()
-					: propertiesFactory.createStructuredProperties(
-							app.getKernel().getAlgebraProcessor(),
-							app.getLocalization(),
-							selectedGeos
-					);
+			propLists = propertiesFactory.createStructuredProperties(
+					app.getKernel().getAlgebraProcessor(),
+					app.getLocalization(),
+					showableGeos);
 			sideSheet.setTitleTransKey(
-					selectedGeos.size() == 1 ? selectedGeos.get(0).getTypeString() : "Selection");
+					showableGeos.size() == 1 ? showableGeos.get(0).getTypeString() : "Selection");
 		} else {
 			sideSheet.setTitleTransKey("Settings");
 			propLists = app.getConfig().createPropertiesFactory().createProperties(
@@ -679,10 +675,8 @@ public class PropertiesViewW extends PropertiesView
 			oldTab = settingsTab.getSelectedTabIdx();
 		}
 		settingsTab = new ComponentTab((AppW) app, "Settings",
+				oldTab != -1 && oldTab < tabs.size() ? oldTab : 0,
 				tabs.toArray(new TabData[0]));
-		if (oldTab != -1 && oldTab < tabs.size()) {
-			settingsTab.switchToTab(oldTab);
-		}
 		sideSheet.addToContent(settingsTab);
 		this.objectPropertiesVisible = showObjectProperties;
 		wrappedPanel.add(sideSheet);
@@ -693,5 +687,11 @@ public class PropertiesViewW extends PropertiesView
 				sideSheet.onClose();
 			}
 		});
+	}
+
+	private List<GeoElement> getShowableElements() {
+		return app.getSelectionManager().getSelectedGeos().stream()
+				.filter(geo -> !geo.isMeasurementTool() && !geo.isSpotlight())
+				.collect(Collectors.toList());
 	}
 }
