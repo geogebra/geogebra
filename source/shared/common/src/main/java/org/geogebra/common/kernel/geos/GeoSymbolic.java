@@ -71,6 +71,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.SymbolicUtil;
@@ -440,10 +441,7 @@ public class GeoSymbolic extends GeoElement
 			return false;
 		}
 		ExpressionNode arg = command.getArgument(0);
-		if (arg.getTopLevelCommand() != null) {
-			return Commands.Solve.name().equals(arg.getTopLevelCommand().getName());
-		}
-		return false;
+		return arg.isTopLevelCommand(Commands.Solve.name());
 	}
 
 	private Command getCasInput(ExpressionValue casInputArg) {
@@ -732,10 +730,13 @@ public class GeoSymbolic extends GeoElement
 				remove();
 			}
 			throw err;
-		} catch (Throwable throwable) {
+		// Make sure we don't catch generic errors like OOM or StackOverflow here
+		} catch (MyError | ParseException | CircularDefinitionException
+				 | RuntimeException throwable) {
 			try {
 				return process(getTwinFallbackInput());
-			} catch (Throwable throwable2) {
+			} catch (MyError | ParseException | CircularDefinitionException
+					 | RuntimeException throwable2) {
 				return null;
 			}
 		} finally {

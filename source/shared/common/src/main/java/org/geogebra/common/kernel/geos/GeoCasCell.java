@@ -1666,8 +1666,7 @@ public class GeoCasCell extends GeoElement
 		}
 		boolean isLine = false;
 		// case we have 3DLine
-		if (inputVE != null && inputVE.getTopLevelCommand() != null
-				&& inputVE.getTopLevelCommand().getName().equals("Line")
+		if (inputVE != null && inputVE.isTopLevelCommand("Line")
 				&& outputVE instanceof Equation
 				&& ((Equation) outputVE).getLHS().getLeft()
 						.toString(StringTemplate.defaultTemplate).equals("X")
@@ -1891,13 +1890,10 @@ public class GeoCasCell extends GeoElement
 	// needed for undo
 	private void updateConstructionDependencies() {
 		if (this.getInputVE() != null && this.getInputVE() instanceof Function
-				&& ((Function) this.getInputVE()).getFunctionExpression()
-						.getTopLevelCommand() != null
 				&& (((Function) this.getInputVE()).getFunctionExpression()
-						.getTopLevelCommand().getName().equals("Integral")
+						.isTopLevelCommand("Integral")
 						|| ((Function) this.getInputVE())
-								.getFunctionExpression().getTopLevelCommand()
-								.getName().equals("SolveODE"))) {
+								.getFunctionExpression().isTopLevelCommand("SolveODE"))) {
 			ArbitraryConstantRegistry myArbConst = cons.getArbitraryConsTable()
 					.get(this.row);
 			if (this.arbconst.getConstList().isEmpty() && myArbConst != null) {

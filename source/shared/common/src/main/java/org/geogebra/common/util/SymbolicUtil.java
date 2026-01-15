@@ -170,8 +170,8 @@ public class SymbolicUtil {
 	}
 
 	private static void toggleNumericWrap(GeoSymbolic symbolic) {
-		boolean isNumeric = Commands.Numeric.getCommand()
-				.equals(symbolic.getDefinition().getTopLevelCommand().getName());
+		boolean isNumeric = symbolic.getDefinition()
+				.isTopLevelCommand(Commands.Numeric.getCommand());
 		if (isNumeric) {
 			unwrapFromNumeric(symbolic);
 		} else {

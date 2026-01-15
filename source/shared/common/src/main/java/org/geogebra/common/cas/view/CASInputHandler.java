@@ -359,8 +359,7 @@ public class CASInputHandler {
 		if (isNumeric && inVE != null) {
 			// evaluation text is wrapped only if the input is not
 			// already wrapped
-			if (inVE.getTopLevelCommand() == null
-					|| !inVE.getTopLevelCommand().getName().equals("Numeric")) {
+			if (!inVE.isTopLevelCommand("Numeric")) {
 				cellValue.setProcessingInformation(prefix,
 						ggbcmd + "["
 								+ inVE.toString(StringTemplate.numericNoLocal)

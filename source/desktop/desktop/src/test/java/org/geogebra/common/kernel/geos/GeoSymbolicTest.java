@@ -2654,4 +2654,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic curve1 = add("(sin(t),cos(t)),0<t<pi");
 		assertNull("Should not be plotted", curve1.getTwinGeo());
 	}
+
+	@Test
+	@Issue("APPS-7201")
+	public void functionShouldNotReferenceSelf() {
+		GeoNumeric num = add("a=Slider(1,5,1)");
+		shouldFail("f(x)=f(x-a)", "Circular definition");
+		num.setValue(4);
+		num.updateCascade();
+	}
 }

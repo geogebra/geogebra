@@ -422,8 +422,7 @@ public class CASparser implements CASParserInterface {
 	public String translateToCAS(ValidExpression ve,
 			StringTemplate casStringType, CASGenericInterface cas) {
 
-			boolean deriveWithoutSurds = ve.getTopLevelCommand() != null
-					&& ve.getTopLevelCommand().getName().equals("Solve");
+		boolean deriveWithoutSurds = ve.isTopLevelCommand("Solve");
 
 		return ve.wrap().getCASstring(deriveWithoutSurds
 					? casStringType.deriveWithoutSurds() : casStringType, false);

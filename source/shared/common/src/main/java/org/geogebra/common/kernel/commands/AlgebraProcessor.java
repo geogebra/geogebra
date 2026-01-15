@@ -1087,12 +1087,19 @@ public class AlgebraProcessor {
 		}
 		GeoElement symbolic = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
+		if (label != null && ve.any(part -> isCommand(part, label))) {
+			throw new MyError(kernel.getLocalization(), Errors.CircularDefinition);
+		}
 		if (label != null && kernel.lookupLabel(label) != null
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
 		setLabel(symbolic, label);
 		return symbolic;
+	}
+
+	private boolean isCommand(ExpressionValue value, String label) {
+		return value instanceof Command command && label.equals(command.getName());
 	}
 
 	private ExpressionNode replaceFunctionVariables(ValidExpression expression) {

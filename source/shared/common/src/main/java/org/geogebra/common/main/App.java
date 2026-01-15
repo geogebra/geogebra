@@ -2910,8 +2910,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			min = tmp;
 		}
 
-		return random.nextInt(max - min + 1) + min;
-
+		int bound = max - min + 1;
+		// if bound < 0 we have an overflow, guaranteeing -min + 1 >= 1, so min <= 0 is safe to add
+		return random.nextInt(bound <= 0 ? Integer.MAX_VALUE : bound) + min;
 	}
 
 	/**
