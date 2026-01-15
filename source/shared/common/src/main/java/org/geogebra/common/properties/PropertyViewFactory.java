@@ -74,6 +74,15 @@ public class PropertyViewFactory {
 			}
 		}
 
+		// Convert a single expandable list to it's children
+		if (propertyViewList.size() == 1
+				&& propertyViewList.get(0) instanceof PropertyView.ExpandableList
+				&& ((PropertyView.ExpandableList) propertyViewList.get(0)).getCheckbox() == null) {
+			PropertyView.ExpandableList expandableList =
+					(PropertyView.ExpandableList) propertyViewList.get(0);
+			return expandableList.getItems();
+		}
+
 		return propertyViewList;
 	}
 

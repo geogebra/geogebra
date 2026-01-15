@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.ownership.GlobalScope;
@@ -38,7 +39,10 @@ import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
+import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
+import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -221,6 +225,26 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		getEuclidianSettings().setGridType(EuclidianView.GRID_POLAR);
 
 		assertTrue(horizontalSplitViewVisibilityListenerCalled.get());
+	}
+
+	@Test
+	@Issue({"APPS-7088", "APPS-7092"})
+	public void testSingleExpandableListIsConvertedToContents()
+			throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+
+		GeoNumeric animatablePoint = evaluateGeoElement("a = 5");
+		animatablePoint.setIntervalMin(0);
+		animatablePoint.setIntervalMax(10);
+
+		PropertiesArray array = new PropertiesArray(null, getLocalization(),
+				new AnimationPropertyCollection(GlobalScope.geoElementPropertiesFactory,
+						getAlgebraProcessor(), getLocalization(), List.of(animatablePoint)));
+		List<PropertyView> propertyViews = PropertyViewFactory.propertyViewListOf(array);
+
+		assertAll(() -> assertFalse(propertyViews.get(0) instanceof PropertyView.ExpandableList),
+				() -> assertTrue(propertyViews.size() == 2)
+		);
 	}
 
 	private EuclidianView getEuclidianView() {
