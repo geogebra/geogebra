@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -77,6 +78,30 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
 		assertEquals(List.of("Name", "Caption", "Label", "Show", "Show trace", "Fix Object",
+				"Auxiliary Object"), basicProperties);
+	}
+
+	@Test
+	public void testAngleStructured() {
+		GeoAngle angle = evaluateGeoElement("Angle[(0,1), (0,0), (1,0)]");
+		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
+				.createStructuredProperties(getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(), List.of(angle));
+		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
+				.map(Property::getName).collect(Collectors.toList());
+		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show",
+				"Auxiliary Object"), basicProperties);
+	}
+
+	@Test
+	public void testNumberStructured() {
+		GeoNumeric number = evaluateGeoElement("a=1.5");
+		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
+				.createStructuredProperties(getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(), List.of(number));
+		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
+				.map(Property::getName).collect(Collectors.toList());
+		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show", "Fix Object",
 				"Auxiliary Object"), basicProperties);
 	}
 

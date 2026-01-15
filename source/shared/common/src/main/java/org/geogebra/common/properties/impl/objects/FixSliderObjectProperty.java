@@ -38,7 +38,7 @@ public class FixSliderObjectProperty extends AbstractValuedProperty<Boolean>
 	public FixSliderObjectProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "FixObject");
-		if (!(element instanceof GeoNumeric)) {
+		if (!(element instanceof GeoNumeric) || !element.isIndependent()) {
 			throw new NotApplicablePropertyException(element);
 		}
 		this.numeric = (GeoNumeric) element;

@@ -38,7 +38,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 public class LabelProperty extends AbstractNamedEnumeratedProperty<Integer>
 		implements GeoElementDependentProperty {
 	private static final List<Map.Entry<Integer, String>> labels = List.of(
-			entry(GeoElementND.LABEL_HIDDEN, "Hidden"),
+			entry(GeoElementND.LABEL_HIDDEN, "NoLabel"),
 			entry(GeoElementND.LABEL_NAME, "Name"),
 			entry(GeoElementND.LABEL_NAME_VALUE, "NameAndValue"),
 			entry(GeoElementND.LABEL_VALUE, "Value"),

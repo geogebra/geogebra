@@ -32,6 +32,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
@@ -306,7 +307,13 @@ public final class GeoElementPropertiesFactory {
 
 	private @Nonnull PropertiesArray createBasicProperties(
 			Localization localization, List<GeoElement> elements) {
-		return createPropsArray("Basic", localization, Stream.of(
+		App app = elements.get(0).getApp();
+		return app.isWhiteboardActive()
+				? createPropsArray("Basic", localization, Stream.of(
+				createNameProperty(localization, elements),
+				createShowTraceProperty(localization, elements),
+				createFixObjectProperty(localization, elements)))
+				: createPropsArray("Basic", localization, Stream.of(
 				createNameProperty(localization, elements),
 				elements.size() == 1 ? new DefinitionProperty(localization, elements.get(0)) : null,
 				createOptionalPropertyFacade(elements,
