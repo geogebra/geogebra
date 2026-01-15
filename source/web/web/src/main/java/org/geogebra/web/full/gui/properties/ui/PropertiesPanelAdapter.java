@@ -234,6 +234,7 @@ public class PropertiesPanelAdapter {
 				String text = inputField.getText();
 				((TextField) propertyView).setValue(text);
 			});
+			inputField.setDisabled(!((TextField) propertyView).isEnabled());
 			return inputField;
 		}
 		return new Label(propertyView.toString());
