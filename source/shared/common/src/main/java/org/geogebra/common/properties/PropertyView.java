@@ -241,6 +241,11 @@ public abstract class PropertyView {
 			}
 		}
 
+		@Override
+		public String toString() {
+			return property.getName() + " (" + getClass().getSimpleName() + ")";
+		}
+
 		private void notifyUpdateDelegates() {
 			boolean visibilityChanged = property.isAvailable() != previousAvailability;
 			previousAvailability = property.isAvailable();
