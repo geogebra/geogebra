@@ -850,9 +850,11 @@ public class GeoNumeric extends GeoElement
 	}
 
 	private boolean hasValidIntervals() {
-		return isIntervalMinActive()
-				&& isIntervalMaxActive()
-				&& getIntervalMin() < getIntervalMax();
+		return hasMinAndMaxIntervals() && getIntervalMin() < getIntervalMax();
+	}
+
+	private boolean hasMinAndMaxIntervals() {
+		return isIntervalMinActive() && isIntervalMaxActive();
 	}
 
 	@Override
@@ -882,12 +884,10 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * Adds the slider tag to the string builder
-	 * 
-	 * @param sb
-	 *            String builder to be written to
+	 * @param sb StringBuilder to be written to
 	 */
 	protected void getXMLsliderTag(XMLStringBuilder sb) {
-		if (!isSliderable()) {
+		if (!hasMinAndMaxIntervals() || !isIndependent()) {
 			return;
 		}
 
@@ -1409,7 +1409,7 @@ public class GeoNumeric extends GeoElement
 		}
 		boolean okMin = isIntervalMinActive();
 		boolean okMax = isIntervalMaxActive();
-		boolean ok = getIntervalMin() <= getIntervalMax();
+		boolean ok = getIntervalMin() < getIntervalMax();
 		ExpressionNode oldDefinition = getDefinition();
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);

@@ -256,4 +256,27 @@ public class GeoNumericTest extends BaseUnitTest {
 				+ "<element label=\"a\" type=\"numeric\"><value val=\"5\"/></element>");
 		assertThat(lookup("a"), hasValue("4"));
 	}
+
+	@Test
+	public void sliderShouldSaveVariableToXMLWhenMinIsGreaterOrEqualToMax() {
+		addAvInput("a = Slider(1, 10)");
+		addAvInput("b = Slider(2, a)");
+		assertThat(getApp().getXML(), containsString("<slider min=\"2\" max=\"a\""));
+
+		addAvInput("a = 2");
+		assertThat(getApp().getXML(), containsString("<slider min=\"2\" max=\"a\""));
+	}
+
+	@Test
+	public void sliderShouldBeUndefinedWhenMinIsGreaterOrEqualToMax() {
+		addAvInput("a = Slider(1, 10)");
+		GeoNumeric slider = addAvInput("b = Slider(2, a)");
+		assertThat(slider.isDefined(), is(false));
+
+		addAvInput("a = 2");
+		assertThat(slider.isDefined(), is(false));
+
+		addAvInput("a = 3");
+		assertThat(slider.isDefined(), is(true));
+	}
 }
