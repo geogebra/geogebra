@@ -150,7 +150,7 @@ public class WebCamInputPanel extends FlowPanel {
 	private void showRequestDialog() {
 		DialogData data = new DialogData(app.getVendorSettings()
 				.getMenuLocalizationKey("Webcam.Request"),
-				null, null);
+				null, "OK");
 		showPermissionDialog(data, app.getVendorSettings()
 				.getMenuLocalizationKey("Webcam.Request.Message"));
 	}
