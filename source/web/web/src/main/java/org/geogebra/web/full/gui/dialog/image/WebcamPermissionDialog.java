@@ -30,12 +30,9 @@ import org.gwtproject.user.client.ui.Label;
 public class WebcamPermissionDialog extends ComponentDialog {
 
 	/**
-	 * @param app
-	 *            application
-	 * @param data
-	 *            dialog transkeys
-	 * @param msgTranskey
-	 *            message displayed in the dialog
+	 * @param app application
+	 * @param data dialog transkeys
+	 * @param msgTranskey message displayed in the dialog
 	 */
 	public WebcamPermissionDialog(AppW app, DialogData data,
 			String msgTranskey) {
@@ -46,7 +43,8 @@ public class WebcamPermissionDialog extends ComponentDialog {
 			addStyleName("narrowDialog");
 		}
 		buildContent(localizedMsg);
-		setOnNegativeAction(() -> app.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+		setOnPositiveAction(() -> app.getGuiManager().setMode(app.isWhiteboardActive()
+				? EuclidianConstants.MODE_SELECT_MOW : EuclidianConstants.MODE_MOVE,
 				ModeSetter.TOOLBAR));
 	}
 
