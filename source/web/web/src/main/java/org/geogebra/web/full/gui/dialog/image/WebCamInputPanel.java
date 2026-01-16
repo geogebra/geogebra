@@ -144,7 +144,7 @@ public class WebCamInputPanel extends FlowPanel {
 
 	private String getPermissionDeniedMessageKey() {
 		return isElectronMac && !app.isByCS() ? "permission.request"
-				: "Webcam.Denied.Message";
+				: app.getVendorSettings().getMenuLocalizationKey("Webcam.Denied.Message");
 	}
 
 	private void showRequestDialog() {
