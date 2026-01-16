@@ -128,7 +128,7 @@ public class IbExamTests extends BaseExamTestSetup {
 	public void testNumberOfIntersectSpecialPoints() {
 		GeoElement geoElement = evaluateGeoElement("sin(x)");
 		Objects.requireNonNull(SuggestionIntersectExtremum.get(geoElement)).execute(geoElement);
-		assertEquals(1, getKernel().getConstructionStep());
+		assertEquals(3, getKernel().getConstructionStep());
 	}
 
 	@Test

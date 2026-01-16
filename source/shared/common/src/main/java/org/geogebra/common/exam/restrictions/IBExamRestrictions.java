@@ -179,7 +179,6 @@ import static org.geogebra.common.kernel.commands.Commands.Insert;
 import static org.geogebra.common.kernel.commands.Commands.IntegralBetween;
 import static org.geogebra.common.kernel.commands.Commands.IntegralSymbolic;
 import static org.geogebra.common.kernel.commands.Commands.InteriorAngles;
-import static org.geogebra.common.kernel.commands.Commands.Intersect;
 import static org.geogebra.common.kernel.commands.Commands.IntersectConic;
 import static org.geogebra.common.kernel.commands.Commands.IntersectPath;
 import static org.geogebra.common.kernel.commands.Commands.Intersection;
@@ -461,7 +460,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				Dilate, Reflect, Rotate, Shear, Stretch, Translate, MatrixRank,
 				PerpendicularVector, UnitPerpendicularVector, UnitVector, Vector, CFactor,
 				GroebnerDegRevLex, GroebnerLexDeg, GroebnerLex, Substitute, BetaDist,
-				InverseBeta, InteriorAngles, Random, Execute, ExportImage, Intersect, Turtle,
+				InverseBeta, InteriorAngles, Random, Execute, ExportImage, Turtle,
 				TurtleBack, TurtleForward, TurtleLeft, TurtleRight, TurtleUp, TurtleDown);
 		return Set.of(nameFilter);
 	}
