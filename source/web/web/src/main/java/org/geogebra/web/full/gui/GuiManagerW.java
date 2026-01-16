@@ -203,6 +203,7 @@ public class GuiManagerW extends GuiManager
 	private Runnable runAfterLogin;
 	private InputKeyboardButtonW inputKeyboardButton = null;
 	private static final ExamController examController = GlobalScope.examController;
+	private ExamLogAndExitDialog examInfoDialog;
 
 	/**
 	 *
@@ -2138,7 +2139,11 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showExamInfoDialog(StandardButton examInfoBtn) {
-		new ExamLogAndExitDialog(getApp(), true, examInfoBtn).show();
+		if (examInfoDialog != null) {
+			examInfoDialog.hide();
+		}
+		examInfoDialog = new ExamLogAndExitDialog(getApp(), true, examInfoBtn);
+		examInfoDialog.show();
 	}
 
 	/**
