@@ -18,6 +18,7 @@ package org.geogebra.web.full.euclidian;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -96,6 +97,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private ToggleButton btnFixPosition;
 	private ToggleButton btnFixObject;
+
+	private StandardButton btnLabelsToLatex;
 
 	private ToggleButton[] toggleBtnList;
 	private final ToggleButton[] btnDeleteSizes = new ToggleButton[3];
@@ -359,6 +362,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		add(btnAngleInterval);
 		add(btnLabelStyle);
+		add(btnLabelsToLatex);
 
 		if (btnFixPosition.isVisible() || btnFixObject.isVisible()) {
 			addSeparator();
@@ -473,6 +477,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createFixObjectBtn();
 		createTextSizeBtn();
 		createChangeViewButtons();
+		createLabelsToLatexBtn();
 	}
 
 	public class ProjectionPopup extends PopupMenuButtonW {
@@ -950,6 +955,34 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
 	}
 
+	private void createLabelsToLatexBtn() {
+		btnLabelsToLatex = new StandardButton(
+				MaterialDesignResources.INSTANCE.functions(), app);
+		btnLabelsToLatex.addFastClickHandler(widget -> convertAllLabelsToLatex());
+	}
+
+	private void convertAllLabelsToLatex() {
+		// Get all GeoElements from the construction
+		Set<String> labels = app.getKernel().getConstruction().getAllGeoLabels();
+		boolean changed = false;
+
+		for (String label : labels) {
+			GeoElement geo = app.getKernel().lookupLabel(label);
+			if (geo != null && geo.isLabelVisible()) {
+				// Set caption to LaTeX format: $label$
+				String latexCaption = "$" + geo.getLabelSimple() + "$";
+				if (geo.setCaption(latexCaption)) {
+					geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
+					changed = true;
+				}
+			}
+		}
+
+		if (changed) {
+			app.storeUndoInfo();
+		}
+	}
+
 	// =====================================================
 	// Event Handlers
 	// =====================================================
@@ -1207,6 +1240,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		setToolTipText(btnSegmentStartStyle, "stylebar.LineStartStyle");
 		setToolTipText(btnSegmentEndStyle, "stylebar.LineEndStyle");
+
+		btnLabelsToLatex.setTitle(loc.getPlainTooltip("stylebar.LabelsToLatex"));
 	}
 
 	private void setToolTipText(StandardButton btn, String key) {
