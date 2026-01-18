@@ -25,9 +25,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 import org.geogebra.common.awt.GColor;
@@ -109,6 +111,8 @@ public class EuclidianStyleBarD extends JToolBar
 
 	ToggleButtonD btnFixPosition;
 	ToggleButtonD btnFixObject;
+
+	private JButton btnLabelsToLatex;
 
 	private PopupMenuButtonD[] popupBtnList;
 	private ToggleButtonD[] toggleBtnList;
@@ -440,6 +444,7 @@ public class EuclidianStyleBarD extends JToolBar
 		add(btnAngleInterval);
 
 		add(btnLabelStyle);
+		add(btnLabelsToLatex);
 		// add(btnPointCapture);
 		addBtnRotateView();
 		// add(btnPenDelete);
@@ -918,6 +923,15 @@ public class EuclidianStyleBarD extends JToolBar
 
 		};
 		btnFixObject.addActionListener(this);
+
+		// ========================================
+		// labels to latex button
+		btnLabelsToLatex = new JButton(app.getScaledIcon(GuiResourcesD.FORMULA_BAR));
+		btnLabelsToLatex.setPreferredSize(new Dimension(iconHeight, iconHeight));
+		btnLabelsToLatex.setFocusPainted(false);
+		btnLabelsToLatex.setBorderPainted(true);
+		btnLabelsToLatex.setContentAreaFilled(false);
+		btnLabelsToLatex.addActionListener(this);
 
 	}
 
@@ -1520,6 +1534,8 @@ public class EuclidianStyleBarD extends JToolBar
 		} else if (source == btnLabelStyle) {
 			needUndo = EuclidianStyleBarStatic.applyCaptionStyle(targetGeos,
 					mode, btnLabelStyle.getSelectedIndex());
+		} else if (source == btnLabelsToLatex) {
+			convertAllLabelsToLatex();
 		}
 
 		else if (source == btnTableTextJustify || source == btnTableTextLinesH
@@ -1579,6 +1595,28 @@ public class EuclidianStyleBarD extends JToolBar
 	// Apply Styles
 	// ==============================================
 
+	private void convertAllLabelsToLatex() {
+		// Get all GeoElements from the construction
+		Set<String> labels = app.getKernel().getConstruction().getAllGeoLabels();
+		boolean changed = false;
+
+		for (String label : labels) {
+			GeoElement geo = app.getKernel().lookupLabel(label);
+			if (geo != null && geo.isLabelVisible()) {
+				// Set caption to LaTeX format: $label$
+				String latexCaption = "$" + geo.getLabelSimple() + "$";
+				if (geo.setCaption(latexCaption)) {
+					geo.updateVisualStyleRepaint(org.geogebra.common.kernel.geos.GProperty.LABEL_STYLE);
+					changed = true;
+				}
+			}
+		}
+
+		if (changed) {
+			app.storeUndoInfo();
+		}
+	}
+
 	/**
 	 * Set labels with localized strings.
 	 */
@@ -1597,6 +1635,7 @@ public class EuclidianStyleBarD extends JToolBar
 		btnAngleInterval.setToolTipText(loc.getPlainTooltip("AngleBetween"));
 
 		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
+		btnLabelsToLatex.setToolTipText(loc.getPlainTooltip("stylebar.LabelsToLatex"));
 
 		btnColor.setToolTipText(loc.getPlainTooltip("stylebar.Color"));
 		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
