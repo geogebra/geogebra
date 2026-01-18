@@ -24,4 +24,4 @@ include("renderer-base")
 include("editor-base")
 include("keyboard-base")
 include("keyboard-scientific")
-includeBuild("../openrewrite")
+// includeBuild("../openrewrite") // Commented out - optional tool not in repository
