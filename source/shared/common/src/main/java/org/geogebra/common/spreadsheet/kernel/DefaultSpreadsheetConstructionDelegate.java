@@ -18,9 +18,12 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.spreadsheet.core.SpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularRange;
@@ -28,13 +31,29 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstructionDelegate {
 
 	private final @Nonnull AlgebraProcessor algebraProcessor;
+	private final @CheckForNull CommandFilter commandFilter;
 
-	public DefaultSpreadsheetConstructionDelegate(@Nonnull AlgebraProcessor algebraProcessor) {
+	/**
+	 * Constructor
+	 * @param algebraProcessor the algebra processor
+	 * @param commandFilter the command filter of the current app (coming from AppConfig)
+	 */
+	public DefaultSpreadsheetConstructionDelegate(@Nonnull AlgebraProcessor algebraProcessor,
+			@CheckForNull CommandFilter commandFilter) {
 		this.algebraProcessor = algebraProcessor;
+		this.commandFilter = commandFilter;
 	}
 
 	private void processCommand(@Nonnull String command) {
 		algebraProcessor.processAlgebraCommand(command, true);
+	}
+
+	@Override
+	public boolean supportsPieChart() {
+		if (commandFilter == null) {
+			return true;
+		}
+		return commandFilter.isCommandAllowed(Commands.PieChart);
 	}
 
 	@Override
@@ -47,6 +66,14 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	}
 
 	@Override
+	public boolean supportsBarChart() {
+		if (commandFilter == null) {
+			return true;
+		}
+		return commandFilter.isCommandAllowed(Commands.BarChart);
+	}
+
+	@Override
 	public void createBarChart(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
 		String command = ChartBuilder.getBarChartCommand(data, ranges);
 		if (command == null) {
@@ -56,12 +83,28 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	}
 
 	@Override
+	public boolean supportsHistogram() {
+		if (commandFilter == null) {
+			return true;
+		}
+		return commandFilter.isCommandAllowed(Commands.Histogram);
+	}
+
+	@Override
 	public void createHistogram(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
 		String command = ChartBuilder.getHistogramCommand(data, ranges);
 		if (command == null) {
 			return;
 		}
 		processCommand(command);
+	}
+
+	@Override
+	public boolean supportsLineGraph() {
+		if (commandFilter == null) {
+			return true;
+		}
+		return commandFilter.isCommandAllowed(Commands.LineGraph);
 	}
 
 	@Override
@@ -79,6 +122,14 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 			String command = ChartBuilder.getLineGraphCommand(data, range, toCol);
 			processCommand(command);
 		}
+	}
+
+	@Override
+	public boolean supportsBoxPlot() {
+		if (commandFilter == null) {
+			return true;
+		}
+		return commandFilter.isCommandAllowed(Commands.BoxPlot);
 	}
 
 	@Override

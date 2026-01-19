@@ -207,7 +207,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private DefaultSpreadsheetConstructionDelegate initConstructionDelegate() {
-		return new DefaultSpreadsheetConstructionDelegate(app.getKernel().getAlgebraProcessor());
+		return new DefaultSpreadsheetConstructionDelegate(app.getKernel().getAlgebraProcessor(),
+				app.getConfig().getCommandFilter());
 	}
 
 	/**

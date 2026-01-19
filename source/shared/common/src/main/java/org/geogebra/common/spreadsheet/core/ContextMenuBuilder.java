@@ -35,10 +35,13 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PA
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PIE_CHART;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.SUM;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Divider;
@@ -51,12 +54,21 @@ public final class ContextMenuBuilder {
 
     static final int HEADER_INDEX = -1;
     private final SpreadsheetController spreadsheetController;
+    private SpreadsheetConstructionDelegate constructionDelegate;
 
     /**
      * @param spreadsheetController {@link SpreadsheetController}
      */
     ContextMenuBuilder(SpreadsheetController spreadsheetController) {
         this.spreadsheetController = spreadsheetController;
+    }
+
+    /**
+     * Set the construction delegate (to check if certain features are available).
+     */
+    public void setSpreadsheetConstructionDelegate(
+            @CheckForNull SpreadsheetConstructionDelegate constructionDelegate) {
+        this.constructionDelegate = constructionDelegate;
     }
 
     /**
@@ -139,12 +151,28 @@ public final class ContextMenuBuilder {
     }
 
     List<ContextMenuItem> getChartItems() {
-        return List.of(
-                new ActionableItem(LINE_CHART, () -> spreadsheetController.createChart(LINE_CHART)),
-                new ActionableItem(BAR_CHART, () -> spreadsheetController.createChart(BAR_CHART)),
-                new ActionableItem(HISTOGRAM, () -> spreadsheetController.createChart(HISTOGRAM)),
-                new ActionableItem(BOX_PLOT, () -> spreadsheetController.createChart(BOX_PLOT)),
-                new ActionableItem(PIE_CHART, () -> spreadsheetController.createChart(PIE_CHART)));
+        List<ContextMenuItem> chartItems = new ArrayList<>();
+        if (constructionDelegate == null || constructionDelegate.supportsLineGraph()) {
+            chartItems.add(new ActionableItem(LINE_CHART,
+                    () -> spreadsheetController.createChart(LINE_CHART)));
+        }
+        if (constructionDelegate == null || constructionDelegate.supportsBarChart()) {
+            chartItems.add(new ActionableItem(BAR_CHART,
+                    () -> spreadsheetController.createChart(BAR_CHART)));
+        }
+        if (constructionDelegate == null || constructionDelegate.supportsHistogram()) {
+            chartItems.add(new ActionableItem(HISTOGRAM,
+                    () -> spreadsheetController.createChart(HISTOGRAM)));
+        }
+        if (constructionDelegate == null || constructionDelegate.supportsBoxPlot()) {
+            chartItems.add(new ActionableItem(BOX_PLOT,
+                    () -> spreadsheetController.createChart(BOX_PLOT)));
+        }
+        if (constructionDelegate == null || constructionDelegate.supportsPieChart()) {
+            chartItems.add(new ActionableItem(PIE_CHART,
+                    () -> spreadsheetController.createChart(PIE_CHART)));
+        }
+        return chartItems;
     }
 
     List<ContextMenuItem> getCalculateItems() {

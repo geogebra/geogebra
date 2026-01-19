@@ -116,6 +116,7 @@ public final class SpreadsheetController {
 	public void setSpreadsheetConstructionDelegate(@CheckForNull SpreadsheetConstructionDelegate
 			constructionDelegate) {
 		this.constructionDelegate = constructionDelegate;
+		this.contextMenuBuilder.setSpreadsheetConstructionDelegate(constructionDelegate);
 	}
 
 	/**

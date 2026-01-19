@@ -26,11 +26,27 @@ import javax.annotation.Nonnull;
 public interface SpreadsheetConstructionDelegate {
 
 	/**
+	 * Check if pie charts are supported (in the current app).
+	 * @return {@code true} if supported, {@code false} otherwise.
+	 */
+	default boolean supportsPieChart() {
+		return true;
+	}
+
+	/**
 	 * Create a pie chart.
 	 * @param data The spreadsheet data.
 	 * @param range The range in {@code data} from which to create the chart.
 	 */
 	void createPieChart(@Nonnull TabularData<?> data, @Nonnull TabularRange range);
+
+	/**
+	 * Check if bar charts are supported (in the current app).
+	 * @return {@code true} if supported, {@code false} otherwise.
+	 */
+	default boolean supportsBarChart() {
+		return true;
+	}
 
 	/**
 	 * Create a bar chart.
@@ -40,11 +56,27 @@ public interface SpreadsheetConstructionDelegate {
 	void createBarChart(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
 
 	/**
+	 * Check if histograms are supported (in the current app).
+	 * @return {@code true} if supported, {@code false} otherwise.
+	 */
+	default boolean supportsHistogram() {
+		return true;
+	}
+
+	/**
 	 * Create a histogram.
 	 * @param data The spreadsheet data.
 	 * @param ranges The list of ranges in {@code data} from which to create the chart.
 	 */
 	void createHistogram(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
+
+	/**
+	 * Check if line graphs are supported (in the current app).
+	 * @return {@code true} if supported, {@code false} otherwise.
+	 */
+	default boolean supportsLineGraph() {
+		return true;
+	}
 
 	/**
 	 * Create a line graph.
@@ -59,6 +91,14 @@ public interface SpreadsheetConstructionDelegate {
 	 * @param ranges The list of ranges in {@code data} from which to create the graph.
 	 */
 	void createLineGraph(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
+
+	/**
+	 * Check if box plots are supported (in the current app).
+	 * @return {@code true} if supported, {@code false} otherwise.
+	 */
+	default boolean supportsBoxPlot() {
+		return true;
+	}
 
 	/**
 	 * Create a box plot.
