@@ -31,6 +31,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
@@ -778,7 +779,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		// remember selected tab
 		Component selectedTab = tabs.getSelectedComponent();
 
-		tabs.removeAll();
 		for (int i = 0; i < tabPanelList.size(); i++) {
 			TabPanel tp = tabPanelList.get(i);
 			tp.update(geos, tabs);
@@ -914,7 +914,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		public void update(Object[] geos, JTabbedPane tabs) {
 			if (updateTabPanel(panelList, geos)) {
-				tabs.addTab(title, this);
+				if (!tabs.isAncestorOf(this)) {
+					tabs.addTab(title, this);
+				}
+			} else if (tabs.isAncestorOf(this)) {
+				tabs.remove(this);
 			}
 		}
 	}
@@ -1056,10 +1060,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		@Override
 		public void updateFonts() {
 			Font font = app.getPlainFont();
-
 			showLabelCB.setFont(font);
 			labelModeCB.setFont(font);
-
 		}
 
 		private void updateShowLabel() {

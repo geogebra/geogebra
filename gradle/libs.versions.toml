@@ -29,6 +29,7 @@ javacc = "org.javacc.generator:java:8.0.5-GGB"
 echosvg = "io.sf.carte:echosvg-bridge:2.2.1"
 murok = { module = "org.murok:editor", version.ref = "murok" }
 mozilla-rhino = { module = "org.mozilla:rhino", version.ref = "mozilla-rhino" }
+mozilla-rhino-engine = { module = "org.mozilla:rhino-engine", version.ref = "mozilla-rhino" }
 autoService = "com.google.auto.service:auto-service:1.1.1"
 pdfJs = "org.webjars.npm:pdfjs-dist:4.10.38"
 multiplayer = { module = "org.geogebra:multiplayer", version.ref = "multiplayer" }

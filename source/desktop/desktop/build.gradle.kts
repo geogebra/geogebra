@@ -31,6 +31,7 @@ dependencies {
     implementation(libs.openGeoProver)
     implementation(libs.jna)
     implementation(libs.echosvg)
+    implementation(libs.mozilla.rhino.engine)
 
     implementation(nativesLinuxAmd64(libs.jogl))
     implementation(nativesWindowsAmd64(libs.jogl))

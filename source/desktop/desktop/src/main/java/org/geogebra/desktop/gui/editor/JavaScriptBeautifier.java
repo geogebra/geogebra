@@ -36,9 +36,8 @@ public class JavaScriptBeautifier {
 
 	private final ScriptEngine engine;
 
-	private JavaScriptBeautifier() throws ScriptException {
-		engine = new ScriptEngineManager().getEngineByName("nashorn");
-
+	private JavaScriptBeautifier(ScriptEngine engine) throws ScriptException {
+		this.engine = engine;
 		// this is needed to make self invoking function modules work
 		// otherwise you won't be able to invoke your function
 		engine.eval("var global = this;");
@@ -60,7 +59,12 @@ public class JavaScriptBeautifier {
 	public static String format(String unformattedJs) {
 		try {
 			if (javascriptBeautifierForJava == null) {
-				javascriptBeautifierForJava = new JavaScriptBeautifier();
+				ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
+				if (engine == null) {
+					Log.error("Rhino not loaded");
+					return unformattedJs;
+				}
+				javascriptBeautifierForJava = new JavaScriptBeautifier(engine);
 			}
 			return javascriptBeautifierForJava.beautify(unformattedJs);
 		} catch (Exception e) {

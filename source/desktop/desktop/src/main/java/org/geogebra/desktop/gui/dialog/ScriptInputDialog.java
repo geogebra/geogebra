@@ -33,6 +33,7 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import org.geogebra.common.gui.view.algebra.DialogType;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
@@ -165,7 +166,7 @@ public class ScriptInputDialog extends JPanel
 	public void setInput(String text0, ScriptType type) {
 		String text = text0;
 
-		if (type == ScriptType.JAVASCRIPT) {
+		if (type == ScriptType.JAVASCRIPT && !text.equals(Kernel.defaultLibraryJavaScript)) {
 			text = JavaScriptBeautifier.format(text);
 		}
 		inputPanel.getTextComponent().setText(text);
