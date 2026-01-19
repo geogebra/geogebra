@@ -150,7 +150,7 @@ public class WebCamInputPanel extends FlowPanel {
 	private void showRequestDialog() {
 		DialogData data = new DialogData(app.getVendorSettings()
 				.getMenuLocalizationKey("Webcam.Request"),
-				null, "OK");
+				null, null);
 		showPermissionDialog(data, app.getVendorSettings()
 				.getMenuLocalizationKey("Webcam.Request.Message"));
 	}
@@ -214,21 +214,24 @@ public class WebCamInputPanel extends FlowPanel {
 	 * @param errName - error
 	 */
 	public void onCameraError(String errName) {
-		if ("PermissionDeniedError".equals(errName)
-				|| "NotAllowedError".equals(errName)
-				|| isElectronMac
-				&& "TrackStartError".equals(errName)) {
-			// permission denied by user
-			showPermissionDeniedDialog();
-		} else if ("NotFoundError".equals(errName)
-				|| "DevicesNotFoundError".equals(errName)
-				|| "TrackStartError".equals(errName)
-				|| "NotReadableError".equals(errName)
-				|| "SourceUnavailableError".equals(errName)
-				|| "Error".equals(errName)) {
-			showErrorDialog();
+		switch (errName) {
+		case "PermissionDeniedError",
+			 "NotAllowedError" -> showPermissionDeniedDialog();
+		case "TrackStartError" -> {
+			if (isElectronMac) {
+				showPermissionDeniedDialog();
+			} else {
+				showErrorDialog();
+			}
 		}
-		Log.debug("Error from WebCam: " + errName);
+		case "NotFoundError",
+			 "DevicesNotFoundError",
+			 "NotReadableError",
+			 "SourceUnavailableError",
+			 "AbortError",
+			 "Error" -> showErrorDialog();
+		default -> Log.debug("Error from WebCam: " + errName);
+		}
 	}
 
 	/**
