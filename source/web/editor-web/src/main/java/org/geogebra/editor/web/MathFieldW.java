@@ -557,7 +557,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 
 		// eg Delete has a different code
-		KeyCodes keyCode = NavigatorUtil.translateGWTcode(keyCodeGWT);
+		KeyCodes keyCode = KeyCodeUtil.translateGWTCode(keyCodeGWT);
 
 		return keyCode.getJavaKeyCode();
 	}

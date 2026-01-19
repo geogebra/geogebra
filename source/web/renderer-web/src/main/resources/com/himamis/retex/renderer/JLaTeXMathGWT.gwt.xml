@@ -8,6 +8,8 @@
   <inherits name="com.google.gwt.user.Excludes"/>
   <inherits name="com.himamis.retex.renderer.JLaTeXMath" />
   <inherits name='org.geogebra.GwtUtil'/>
+  <inherits name='org.geogebra.Canvas'/>
+  <inherits name='org.geogebra.GgbJdk'/>
   <source path="web" />
   <public path="web/jlatexmath/public" />
   <define-property name="gwt.enableDebugId" values="true, false"/>

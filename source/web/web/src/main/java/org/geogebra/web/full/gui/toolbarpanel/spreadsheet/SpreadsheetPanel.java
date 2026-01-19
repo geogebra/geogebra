@@ -29,6 +29,7 @@ import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
+import org.geogebra.editor.web.KeyCodeUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.awt.GGraphics2DW;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
@@ -156,7 +157,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		ClickStartHandler.initDefaults(scrollContent, false, true);
 		scrollContent.getElement().setTabIndex(0);
 		scrollContent.addDomHandler(evt -> {
-			spreadsheet.handleKeyPressed(NavigatorUtil.translateGWTcode(
+			spreadsheet.handleKeyPressed(KeyCodeUtil.translateGWTCode(
 					evt.getNativeKeyCode()).getJavaKeyCode(),
 					getKey(evt.getNativeEvent()),
 					getKeyboardModifiers(evt));

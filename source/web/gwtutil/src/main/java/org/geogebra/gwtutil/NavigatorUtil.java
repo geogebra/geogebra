@@ -18,8 +18,6 @@ package org.geogebra.gwtutil;
 
 import java.util.Locale;
 
-import org.geogebra.editor.share.util.KeyCodes;
-
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URLSearchParams;
 
@@ -107,22 +105,5 @@ public class NavigatorUtil {
 
 	public static int getWindowScrollTop() {
 		return (int) DomGlobal.document.documentElement.scrollTop;
-	}
-
-	/**
-	 * @param gwtKeyCode native key code
-	 * @return KeyCodes wrapper
-	 */
-	public static KeyCodes translateGWTcode(int gwtKeyCode) {
-		// Special case for Mac: Translate Context Menu Key (93) to Meta key
-		if (gwtKeyCode == 93 && isMacOS()) {
-			return KeyCodes.META;
-		}
-		for (KeyCodes l : KeyCodes.values()) {
-			if (l.getGWTKeyCode() == gwtKeyCode) {
-				return l;
-			}
-		}
-		return KeyCodes.UNKNOWN;
 	}
 }
