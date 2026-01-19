@@ -213,12 +213,12 @@ public abstract class PropertyView {
 		 * @return {@code true} if the view is enabled, {@code false} otherwise
 		 */
 		public final boolean isEnabled() {
-			return property.isEnabled();
+			return property.isEnabled() && !property.isFrozen();
 		}
 
 		@Override
 		public final boolean isVisible() {
-			return property.isAvailable();
+			return property.isAvailable() && !property.isFrozen();
 		}
 
 		@Override
@@ -727,6 +727,12 @@ public abstract class PropertyView {
 		}
 
 		@Override
+		public boolean isVisible() {
+			return propertyViews.stream()
+					.anyMatch(PropertyView::isVisible);
+		}
+
+		@Override
 		public void detach() {
 			super.detach();
 			propertyViews.forEach(PropertyView::detach);
@@ -772,6 +778,12 @@ public abstract class PropertyView {
 		 */
 		public @Nonnull List<PropertyView> getPropertyViews() {
 			return propertyViews;
+		}
+
+		@Override
+		public boolean isVisible() {
+			return propertyViews.stream()
+					.anyMatch(PropertyView::isVisible);
 		}
 
 		@Override

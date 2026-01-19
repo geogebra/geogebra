@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -30,16 +31,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
+import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
@@ -227,6 +232,33 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		assertTrue(horizontalSplitViewVisibilityListenerCalled.get());
 	}
 
+	@Test
+	public void testFrozenPropertiesAreHidden() {
+		setupApp(SuiteSubApp.GRAPHING);
+
+		GeoElement line = evaluateGeoElement("Line((-1,-1),(1,1))");
+		GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
+		PropertiesArray properties = propertiesFactory.createGeoElementProperties(
+				getAlgebraProcessor(), getLocalization(), List.of(line));
+		LinearEquationFormProperty linearEquationFormProperty = null;
+		for (Property property : properties.getProperties()) {
+			if (property instanceof NamedEnumeratedPropertyListFacade) {
+				Property firstProperty = ((NamedEnumeratedPropertyListFacade) property)
+						.getFirstProperty();
+				if (firstProperty instanceof LinearEquationFormProperty) {
+					linearEquationFormProperty = (LinearEquationFormProperty) firstProperty;
+					break;
+				}
+			}
+		}
+		assertNotNull(linearEquationFormProperty);
+		PropertyView propertyView = PropertyView.of(linearEquationFormProperty);
+		assertTrue(propertyView.isVisible());
+		linearEquationFormProperty.setFrozen(true);
+		propertyView = PropertyView.of(linearEquationFormProperty);
+		assertFalse(propertyView.isVisible());
+	}
+	
 	@Test
 	@Issue({"APPS-7088", "APPS-7092"})
 	public void testSingleExpandableListIsConvertedToContents()
