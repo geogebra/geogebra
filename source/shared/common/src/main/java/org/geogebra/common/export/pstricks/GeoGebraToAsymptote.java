@@ -864,9 +864,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		double angEnd = angEnd0 - angle;
 		code.append(format(Math.toDegrees(angEnd)));
 		code.append(")");
-		if (lineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo) != null) {
 			packSpaceAfter(code, ",");
-			code.append(lineOptionCode(geo, true));
+			code.append(lineOptionCode(geo));
 		} // TODO: resize?
 		if (anticlockwise) {
 			code.append(",EndArcArrow(6)");
@@ -1451,12 +1451,12 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		addPoint(x1, y1, code);
 		code.append("--");
 		addPoint(x2, y2, code);
-		if (lineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo) != null) {
 			code.append(",");
 			if (!compact) {
 				code.append(" ");
 			}
-			code.append(lineOptionCode(geo, true));
+			code.append(lineOptionCode(geo));
 		}
 		code.append(",EndArrow(6)); ");
 	}
@@ -2168,9 +2168,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		endDraw(geo, str);
 		String s = str.toString();
 		StringBuilder sb = new StringBuilder();
-		if (lineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo) != null) {
 			packSpaceAfter(sb, ",");
-			sb.append(lineOptionCode(geo, true));
+			sb.append(lineOptionCode(geo));
 		}
 		sb.append("); ");
 		StringBuilder sa = new StringBuilder();
@@ -2242,7 +2242,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				format(ymax) + "; ");
 		if (!compact) {
 			codePreamble.append(" /* image dimensions */\n");
-		} else { /* codePreamble.append("\n"); */
 		}
 	}
 
@@ -2387,10 +2386,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			// if(compactcse5) {
 			// codePoint.append(",fp");
 			// }
-			if (isPointLabel && !frame.getKeepDotColors()) {
-				// configurable or default black?
-				// temp empty
-			} else if (!geocolor.equals(GColor.BLACK)) {
+			if (!(isPointLabel && !frame.getKeepDotColors())
+					&& !geocolor.equals(GColor.BLACK)) {
 				if (compactcse5) {
 					codePoint.append(",fp+");
 				} else {
@@ -2923,7 +2920,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	// Line style code; does not include comma.
-	private String lineOptionCode(GeoElementND geo, boolean transparency) {
+	private String lineOptionCode(GeoElementND geo) {
 		StringBuilder sb = new StringBuilder();
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();
@@ -2942,14 +2939,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			packSpace(sb, "+");
 			colorCode(info.getLinecolor(), sb);
 		}
-		if (transparency && geo.isFillable() && info.getAlpha() > 0.0f) {
-			/*
-			 * TODO: write opacity code? if (!noPlus) packSpace("+",sb); else
-			 * noPlus = false; sb.append("fillcolor="); ColorCode(linecolor,sb);
-			 * sb.append(",fillstyle=solid,opacity=");
-			 * sb.append(geo.getAlphaValue());
-			 */
-		}
+		/*
+		 * TODO: write opacity code?
+		 */
 		return sb.toString();
 	}
 
@@ -3408,9 +3400,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		if (fillInequality) {
 			return;
 		}
-		if (lineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo) != null) {
 			packSpaceAfter(sb, ",");
-			sb.append(lineOptionCode(geo, true));
+			sb.append(lineOptionCode(geo));
 		}
 		sb.append("); ");
 	}
@@ -3466,9 +3458,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			packSpaceAfter(sb, ",");
 			colorLightCode(info.getLinecolor(), info.getAlpha(), sb);
 		}
-		if (lineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo) != null) {
 			packSpaceAfter(sb, ",");
-			sb.append(lineOptionCode(geo, true));
+			sb.append(lineOptionCode(geo));
 		}
 		sb.append("); ");
 	}
@@ -3617,7 +3609,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			if (s1.charAt(i - 1) == '\\'
 					&& (i == 1 || s1.charAt(i - 2) != '\\')) {
 				sb.append(s1.charAt(i));
-				continue;
 			} else if (s1.charAt(i) == '$') {
 				sb.append("\\$");
 			} else {
@@ -3776,7 +3767,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				&& FillType.STANDARD == curves[0].getFillType()) {
 			return false;
 		}
-		String lineOptionCode = lineOptionCode(curves[0], true);
+		String lineOptionCode = lineOptionCode(curves[0]);
 		for (int i = 0; i < curves.length; i++) {
 			drawSingleCurveCartesian(curves[i], false);
 		}

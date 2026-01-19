@@ -22,6 +22,7 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.plugin.ActionType;
 
 public class UndoableDeletionExecutor implements DeletionExecutor {
@@ -35,6 +36,12 @@ public class UndoableDeletionExecutor implements DeletionExecutor {
 			doStoreDeletion(geo);
 			for (GeoElement child: geo.getAllChildren()) {
 				doStoreDeletion(child);
+			}
+			Group parentGroup = geo.getParentGroup();
+			if (parentGroup != null) {
+				for (GeoElement sibling: parentGroup.getGroupedGeos()) {
+					doStoreDeletion(sibling);
+				}
 			}
 		}
 		geo.removeOrSetUndefinedIfHasFixedDescendent();
@@ -52,6 +59,11 @@ public class UndoableDeletionExecutor implements DeletionExecutor {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean hasDeletedElements() {
+		return !labels.isEmpty();
 	}
 
 	private void doStoreDeletion(GeoElement geo) {

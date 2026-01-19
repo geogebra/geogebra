@@ -1516,8 +1516,6 @@ public class PolygonTriangulation {
 						pointSet.remove(currentPoint);
 						pointsArray[currentPoint.id] = new GPoint2D(
 								currentPoint.x, currentPoint.y);
-					} else {
-						// debug(currentPoint.name+" : keep");
 					}
 
 					// go on with next segment
@@ -1530,8 +1528,6 @@ public class PolygonTriangulation {
 					pointSet.remove(start);
 					pointsArray[start.id] = new GPoint2D(start.x,
 							start.y);
-				} else {
-					// debug(start.name+" : keep");
 				}
 
 				// add current polygon to list
@@ -2150,13 +2146,6 @@ public class PolygonTriangulation {
 			if (currentTriangleFan.size() > 1) { // add fan only if at least 3
 													// points
 				fansList.add(currentTriangleFan);
-				if (DEBUG) {
-					if (clockWise) {
-						// error(s.toString());
-					} else {
-						// debug(s.toString());
-					}
-				}
 			}
 
 			chain = viChain;

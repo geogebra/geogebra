@@ -41,4 +41,9 @@ public class DefaultDeletionExecutor implements DeletionExecutor {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean hasDeletedElements() {
+		return deletions > 0;
+	}
 }

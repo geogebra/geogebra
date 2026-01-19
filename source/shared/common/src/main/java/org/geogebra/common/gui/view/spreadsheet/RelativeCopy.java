@@ -1126,12 +1126,6 @@ public class RelativeCopy {
 					newValue.update();
 					callback.callback(newValue);
 				}
-
-				// otherwise throw an exception and let the cell revert to the
-				// old value
-				else {
-					// throw new Exception(e);
-				}
 			}
 
 			@Override

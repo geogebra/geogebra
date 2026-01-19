@@ -266,10 +266,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				} // if steady up or down
 
 				// Two changes enough. (Must check before updating extremums.)
-				if (changes >= 2) { // debug("Two changes on "+i);
-					// go on counting changes!break;
-				} else { // if changes>=2
-
+				if (changes <= 1) {
 					// Update extremums so far
 					if (current == 1) { // Steady up
 						max = y;

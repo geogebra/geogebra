@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.undo.UndoCommandBuilder;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.ActionType;
 
@@ -39,6 +40,7 @@ public class UpdateActionStore {
 	@Weak
 	protected final SelectionManager selection;
 	private final UndoManager undoManager;
+	private boolean stitching;
 
 	/**
 	 * Constructor
@@ -124,10 +126,14 @@ public class UpdateActionStore {
 			undoActions.add(item.previousContent());
 			labels.add(item.getLabel());
 		}
-		undoManager.buildAction(ActionType.UPDATE, actions.toArray(new String[0]))
+		UndoCommandBuilder builder = undoManager
+				.buildAction(ActionType.UPDATE, actions.toArray(new String[0]))
 				.withUndo(ActionType.UPDATE, undoActions.toArray(new String[0]))
-				.withLabels(labels.toArray(new String[0]))
-				.storeAndNotifyUnsaved();
+				.withLabels(labels.toArray(new String[0]));
+		if (stitching) {
+			builder.withStitchToNext();
+		}
+		builder.storeAndNotifyUnsaved();
 	}
 
 	/**
@@ -147,5 +153,9 @@ public class UpdateActionStore {
 	 */
 	public boolean isEmpty() {
 		return undoItems.isEmpty();
+	}
+
+	public void setStitching(boolean stitching) {
+		this.stitching = stitching;
 	}
 }

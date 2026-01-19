@@ -37,4 +37,9 @@ public interface DeletionExecutor {
 	 * @return whether some information was stored
 	 */
 	boolean storeUndoAction(Kernel kernel);
+
+	/**
+	 * @return whether any deletions were performed
+	 */
+	boolean hasDeletedElements();
 }

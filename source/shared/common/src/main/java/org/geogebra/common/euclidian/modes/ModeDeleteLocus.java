@@ -96,8 +96,6 @@ public class ModeDeleteLocus {
 
 				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
-				} else {
-					dragUpdateStore.remove(geo);
 				}
 			} else {
 				if (!this.penDeleteMode) {
@@ -222,6 +220,7 @@ public class ModeDeleteLocus {
 	 */
 	public void storeUndoAfterDrag() {
 		if (dragDeleteExecutor != null) {
+			dragUpdateStore.setStitching(dragDeleteExecutor.hasDeletedElements());
 			dragUpdateStore.storeUndo();
 			dragDeleteExecutor.storeUndoAction(ec.getKernel());
 			dragDeleteExecutor = null;

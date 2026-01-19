@@ -298,19 +298,12 @@ public class JSONParserGGT {
 
 					if (materialsObject.has("item")) {
 						materialsArray = materialsObject.get("item");
-					} else {
-						// List is empty
 					}
-				} else if (responseObject.has("error")) {
-					// Show error
 				}
 			} catch (Throwable t) {
 				Log.debug(t.getMessage());
 				Log.debug("'" + response + "'");
 			}
-
-		} else {
-			// Response String was null
 		}
 		// 0 materials
 		if (materialsArray == null) {

@@ -475,13 +475,8 @@ public abstract class ClipperBase implements Clipper {
 				while (equalsEdgeHorizontal(Horz.prev.deltaX)) {
 					Horz = Horz.prev;
 				}
-				if (Horz.prev.getTop().getX() == result.next.getTop().getX()) {
-					// removed, condition never satisfied
-					// TODO: check if something else was intended
-					// if (!LeftBoundIsForward) {
-					// result = Horz.prev;
-					// }
-				} else if (Horz.prev.getTop().getX() > result.next.getTop()
+				// TODO handle equality?
+				if (Horz.prev.getTop().getX() > result.next.getTop()
 						.getX()) {
 					result = Horz.prev;
 				}
