@@ -106,6 +106,11 @@ tasks.withType<AbstractBaseTask>().configureEach {
     jvmArgs = listOf("-Xss512M")
 }
 
+// Annotation processor scans classpath inefficiently, just increase memory for now
+tasks.withType<JavaCompile>().configureEach {
+    options.forkOptions.jvmArgs = listOf("-Xmx4g")
+}
+
 tasks.withType<Test>().configureEach {
     jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
 }
