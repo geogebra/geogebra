@@ -1110,7 +1110,7 @@ $keyboard_button_transition: opacity .3s ease;
 			opacity: 0.54;
 		}
 
-		.fa-light {
+		.fa-light, .fa-solid {
 			display: flex;
 			opacity: .54;
 			font-size: 20px;
@@ -1124,11 +1124,11 @@ $keyboard_button_transition: opacity .3s ease;
 		&.active {
 			background-color: var(--ggb-light-color);
 
-			img, .fa-light {
+			img, .fa-light, .fa-solid {
 				opacity: 1;
 			}
 
-			.fa-light {
+			.fa-light, .fa-solid {
 				color: var(--ggb-dark-color);
 			}
 		}

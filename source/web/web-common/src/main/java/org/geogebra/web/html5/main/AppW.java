@@ -159,6 +159,7 @@ import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.settings.DefaultSettingsW;
 import org.geogebra.web.html5.main.settings.SettingsBuilderW;
 import org.geogebra.web.html5.main.toolbox.DefaultToolboxIconProvider;
+import org.geogebra.web.html5.main.toolbox.FaIconSpec;
 import org.geogebra.web.html5.main.toolbox.MebisToolboxIconProvider;
 import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.html5.main.topbar.DefaultTopBarIconProvider;
@@ -3664,8 +3665,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
+	/**
+	 * Check whether to use FA and update the theme.
+	 * @return whether to use FA
+	 */
 	public boolean isUsingFontAwesome() {
-		return getAppletParameters().getParamFontAwesome(isByCS());
+		String theme = getAppletParameters().getParamFontAwesome(isByCS() ? "light" : null);
+		if (StringUtil.empty(theme) || "false".equals(theme)) {
+			return false;
+		}
+		FaIconSpec.setTheme(theme);
+		return true;
 	}
 
 	/**

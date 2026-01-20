@@ -1,6 +1,7 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
 <script>
     defaultParams.id = "notesApplet";
-    defaultParams.fontAwesome = true;
+    defaultParams.fontAwesome = "light";
     var loadedFromStorage = false;
 
     function ggbAppletOnLoad(id){
@@ -106,19 +107,6 @@
         })
         .catch(_ => callback(null));
     }
-
-    var _paq = window._paq = window._paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(['disableCookies']);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function () {
-        var u = "<!--MATOMO_URL-->";
-        _paq.push(['setTrackerUrl', u + 'matomo.php']);
-        _paq.push(['setSiteId', '<!--MATOMO_SITE_ID-->']);
-        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-        g.type = 'text/javascript'; g.async = true; g.src = u + '/matomo.js'; s.parentNode.insertBefore(g, s);
-    })();
 </script>
 <style>
 body {
@@ -127,5 +115,8 @@ body {
   --ggb-dark-color: #723B86;
   --ggb-light-color: #EADFEE;
   --ggb-selection-color: rgba(151, 95, 168, 0.2);
+}
+.GeoGebraFrame .fa-solid {
+  font-weight: 900;
 }
 </style>

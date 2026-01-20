@@ -852,8 +852,8 @@ public class AppletParameters {
 	 * @param fallback value to be used if not set
 	 * @return value of the data-param-fontAwesome attribute
 	 */
-	public boolean getParamFontAwesome(boolean fallback) {
-		return getBoolDataParam("fontAwesome", fallback);
+	public String getParamFontAwesome(String fallback) {
+		return getStringDataParam("fontAwesome", fallback);
 	}
 
 	/**

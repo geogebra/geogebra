@@ -22,16 +22,21 @@ import org.gwtproject.user.client.DOM;
 
 public class FaIconSpec implements IconSpec {
 	String name;
+	private static String theme = "light";
 
 	public FaIconSpec(String name) {
 		this.name = name;
+	}
+
+	public static void setTheme(String theme) {
+		FaIconSpec.theme = theme;
 	}
 
 	@Override
 	public Element toElement() {
 		Element icon = DOM.createElement("I");
 		icon.setClassName(name);
-		icon.addClassName("fa-light");
+		icon.addClassName("fa-" + theme);
 		return icon;
 	}
 
