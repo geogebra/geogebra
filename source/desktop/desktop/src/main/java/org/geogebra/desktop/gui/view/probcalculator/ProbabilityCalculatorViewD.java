@@ -18,6 +18,7 @@ package org.geogebra.desktop.gui.view.probcalculator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
@@ -244,6 +245,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		JScrollPane scroller = new JScrollPane(controlPanel);
 		scroller.setBorder(BorderFactory.createEmptyBorder());
+		scroller.setMinimumSize(new Dimension(200, 150));
 
 		mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, plotSplitPane,
 				scroller);

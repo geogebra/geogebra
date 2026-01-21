@@ -19,6 +19,7 @@ package org.geogebra.desktop.gui.toolbar;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
@@ -249,18 +250,13 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	private JPanel getGridButtonPanel() {
-
-		int iconSize = (int) Math.round(app.getScaledIconSize() * 0.75);
-
 		// undo button
-
 		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager())
 				.getUndoAction();
-		undoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon(GuiResourcesD.MENU_EDIT_UNDO, iconSize));
-		undoAction.putValue("enabled", false);
 
-		JButton btnUndo = new JButton(undoAction);
+		JButton btnUndo = newJButton(GuiResourcesD.MENU_EDIT_UNDO);
+		btnUndo.setAction(undoAction);
+		undoAction.putValue("enabled", false);
 		String text = loc.getMenuTooltip("Undo");
 		btnUndo.setText(null);
 		btnUndo.setToolTipText(text);
@@ -269,9 +265,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// redo button
 		AbstractAction redoAction = ((GuiManagerD) app.getGuiManager())
 				.getRedoAction();
-		redoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon(GuiResourcesD.MENU_EDIT_REDO, iconSize));
-		JButton btnRedo = new JButton(redoAction);
+		JButton btnRedo = newJButton(GuiResourcesD.MENU_EDIT_REDO);
+		btnRedo.setAction(redoAction);
 		text = loc.getMenuTooltip("Redo");
 		btnRedo.setText(null);
 		btnRedo.setToolTipText(text);
@@ -279,8 +274,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		// properties button
 
-		final JButton btnProperties = new JButton(
-				app.getScaledIcon(GuiResourcesD.MENU_OPTIONS, iconSize));
+		final JButton btnProperties = newJButton(GuiResourcesD.MENU_OPTIONS);
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
@@ -303,8 +297,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		});
 
 		// help button
-		JButton btnHelp = new JButton(
-				app.getScaledIcon(GuiResourcesD.MENU_HELP, iconSize));
+		JButton btnHelp = newJButton(GuiResourcesD.MENU_HELP);
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
@@ -372,6 +365,12 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		}
 
 		return gridButtonPanel;
+	}
+
+	private JButton newJButton(GuiResourcesD icon) {
+		JButton ret = new JButton(app.getScaledIcon(icon, app.getScaledIconSize()));
+		//ret.setMinimumSize(new Dimension(24, 24));
+		return ret;
 	}
 
 	/**

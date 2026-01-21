@@ -17,6 +17,12 @@ val e2eTest: SourceSet by sourceSets.creating {
     runtimeClasspath += sourceSets.main.get().output
 }
 
+tasks.getByName<JavaExec>("run") {
+    javaLauncher = project.javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
 val e2eTestImplementation: Configuration by configurations.getting
 e2eTestImplementation.extendsFrom(configurations.testImplementation.get())
 
@@ -27,6 +33,7 @@ dependencies {
     implementation(project(":editor-desktop"))
     implementation(project(":jogl2"))
     implementation("org.geogebra:giac-jni")
+    implementation("com.formdev:flatlaf:3.7")
     implementation(libs.jsObject)
     implementation(libs.openGeoProver)
     implementation(libs.jna)

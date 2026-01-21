@@ -23,6 +23,7 @@ import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -224,6 +225,8 @@ import org.geogebra.desktop.util.ImageResourceD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.StringUtilD;
 import org.geogebra.desktop.util.UtilD;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 /**
  * GeoGebra Application
@@ -570,6 +573,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 *            LAF
 	 */
 	public static void setLAF(boolean isSystemLAF) {
+		try {
+			System.setProperty("flatlaf.menuBarEmbedded", "false");
+
+			UIManager.setLookAndFeel(new FlatLightLaf());
+			UIManager.put("Table.showHorizontalLines", true);
+			UIManager.put("Table.showVerticalLines", true);
+			UIManager.put("Table.intercellSpacing", new Dimension(1, 1));
+			return;
+		} catch (Exception ex) {
+			System.err.println("Failed to initialize LaF");
+		}
 		try {
 			if (isSystemLAF) {
 				UIManager.setLookAndFeel(
