@@ -159,9 +159,9 @@ public class SolverSerializer extends SerializerAdapter {
 
 		Node character = parents.getChild(baseIndex - backtrackAmount);
 
-		if (character instanceof ArrayNode) {
+		if (character instanceof ArrayNode node) {
 			StringBuilder array = new StringBuilder();
-			serialize((ArrayNode) character, array);
+			serialize(node, array);
 			sb.insert(sb.length() - array.length(), openingBracketChar);
 			return;
 		}
@@ -177,7 +177,7 @@ public class SolverSerializer extends SerializerAdapter {
 			return;
 		}
 
-		if (character instanceof CharacterNode && ((CharacterNode) character).isWordBreak()) {
+		if (character instanceof CharacterNode node && node.isWordBreak()) {
 			int lastOpeningBracketIndex = sb.lastIndexOf(openingBracket);
 			if (sb.charAt(sb.length() - 1 - backtrackAmount) == closingBracketChar[0]) {
 				if (sb.indexOf(closingBracket, lastOpeningBracketIndex)

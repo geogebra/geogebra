@@ -38,10 +38,9 @@ public class ArgumentHelper {
 		// get pass to argument
 		SequenceNode field = (SequenceNode) container
 				.getChild(container.getInsertIndex());
-		while (editorState.getComponentLeftOfCursor() instanceof CharacterNode
-				&& editorState.getComponentLeftOfCursor().toString().length() == 1
-				&& Character.isWhitespace(editorState.getComponentLeftOfCursor()
-					.toString().charAt(0))) {
+		while (editorState.getComponentLeftOfCursor() instanceof CharacterNode characterNode
+				&& characterNode.toString().length() == 1
+				&& Character.isWhitespace(characterNode.toString().charAt(0))) {
 			deleteLeftOfCursor(editorState);
 		}
 
@@ -54,9 +53,7 @@ public class ArgumentHelper {
 
 		// if previous sequence arguments are braces pass their content
 		Node leftOfCursor = editorState.getComponentLeftOfCursor();
-		if (leftOfCursor instanceof ArrayNode) {
-
-			ArrayNode array = (ArrayNode) leftOfCursor;
+		if (leftOfCursor instanceof ArrayNode array) {
 			deleteLeftOfCursor(editorState);
 			if (field.size() == 0) {
 				// here we already have sequence, just set it
@@ -104,14 +101,12 @@ public class ArgumentHelper {
 		SequenceNode field = (SequenceNode) container
 				.getChild(container.getInsertIndex());
 
-		while (editorState.getComponentLeftOfCursor() instanceof CharacterNode) {
-
-			CharacterNode character = (CharacterNode) editorState.getComponentLeftOfCursor();
-			if (character.isWordBreak()) {
+		while (editorState.getComponentLeftOfCursor() instanceof CharacterNode characterNode) {
+			if (characterNode.isWordBreak()) {
 				break;
 			}
 			deleteLeftOfCursor(editorState);
-			field.addChild(0, character);
+			field.addChild(0, characterNode);
 		}
 	}
 

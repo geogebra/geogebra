@@ -61,8 +61,8 @@ public class CursorBoxConsumer implements BoxConsumer {
 
 	protected static void highlightInput(Box box, Node node, Node input) {
 		if (node == input && input != null) {
-			if (box instanceof OvalBox) {
-				((OvalBox) box).setColor(FactoryProvider.getInstance().getGraphicsFactory()
+			if (box instanceof OvalBox ovalBox) {
+				ovalBox.setColor(FactoryProvider.getInstance().getGraphicsFactory()
 						.createColor(TeXBuilder.INPUT_BORDER));
 			}
 		}

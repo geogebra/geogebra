@@ -35,8 +35,8 @@ public class PlaceholderController {
 			String command) {
 		TemplateCatalog catalog = editorState.getCatalog();
 		InternalNode parent = editorState.getCurrentNode().getParent();
-		if (parent instanceof FunctionNode) {
-			((FunctionNode) parent).setCommandForSyntax(command);
+		if (parent instanceof FunctionNode node) {
+			node.setCommandForSyntax(command);
 		}
 		int firstPlaceholderOffset = -1;
 		for (int i = 0; i < placeholders.size(); i++) {
@@ -46,8 +46,8 @@ public class PlaceholderController {
 			}
 			int currentOffset = editorState.getCurrentOffset();
 			int currentSize = editorState.getCurrentNode().size();
-			if (parent instanceof FunctionNode) {
-				((FunctionNode) parent).getPlaceholders().add(placeholders.get(i));
+			if (parent instanceof FunctionNode node) {
+				node.getPlaceholders().add(placeholders.get(i));
 			}
 			if (currentOffset < currentSize) {
 				editorState.setCurrentOffset(currentSize);

@@ -77,15 +77,15 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		InternalNode parent = token.getParent();
 		int index = token.getParentIndex();
 		while (parent != null) {
-			if (parent instanceof ArrayNode) {
-				char openKey = ((ArrayNode) parent).getOpenDelimiter().getCharacter();
+			if (parent instanceof ArrayNode node) {
+				char openKey = node.getOpenDelimiter().getCharacter();
 				return openKey == '(' || openKey == '{';
 			}
-			if (parent instanceof FunctionNode) {
-				return (((FunctionNode) parent).getName() == Tag.APPLY
-						|| ((FunctionNode) parent).getName() == Tag.APPLY_SQUARE) && index == 1;
+			if (parent instanceof FunctionNode node) {
+				return (node.getName() == Tag.APPLY
+						|| node.getName() == Tag.APPLY_SQUARE) && index == 1;
 			}
-			if (parent instanceof SequenceNode && ((SequenceNode) parent).isKeepCommas()) {
+			if (parent instanceof SequenceNode node && node.isKeepCommas()) {
 				return true;
 			}
 			index = parent.getParentIndex();
@@ -249,8 +249,7 @@ public class GeoGebraSerializer extends SerializerAdapter {
 		if (internalNode != null && functionNode.getParentIndex() > 0) {
 			Node node = internalNode
 					.getChild(functionNode.getParentIndex() - 1);
-			if (node instanceof CharacterNode) {
-				CharacterNode characterNode = (CharacterNode) node;
+			if (node instanceof CharacterNode characterNode) {
 				if (!characterNode.isWordBreak()) {
 					stringBuilder.append(" ");
 				}

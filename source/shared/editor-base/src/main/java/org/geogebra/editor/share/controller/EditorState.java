@@ -210,8 +210,8 @@ public class EditorState {
 		currentSelEnd = cursorField;
 		// special case: start is inside end -> select single node
 		if (currentSelEnd == commonParent
-				|| commonParent instanceof FunctionNode
-				&& ((FunctionNode) commonParent).getName() == Tag.FRAC) {
+				|| commonParent instanceof FunctionNode node
+				&& node.getName() == Tag.FRAC) {
 			currentSelStart = commonParent;
 			currentSelEnd = commonParent;
 			return;
@@ -380,8 +380,8 @@ public class EditorState {
 	public boolean isInsideQuotes() {
 		InternalNode fieldParent = currentNode;
 		while (fieldParent != null) {
-			if (fieldParent instanceof ArrayNode
-					&& ((ArrayNode) fieldParent).getOpenDelimiter().getCharacter() == '"') {
+			if (fieldParent instanceof ArrayNode node
+					&& node.getOpenDelimiter().getCharacter() == '"') {
 				return true;
 			}
 			fieldParent = fieldParent.getParent();
@@ -477,14 +477,14 @@ public class EditorState {
 
 	private String describePrev(Node parent, ExpressionReader er,
 			EditorFeatures editorFeatures) {
-		if (parent instanceof FunctionNode
-				&& Tag.SUPERSCRIPT == ((FunctionNode) parent).getName()) {
+		if (parent instanceof FunctionNode node
+				&& Tag.SUPERSCRIPT == node.getName()) {
 			return er.localize(ExpRelation.AFTER.toString(), er.power(
 					GeoGebraSerializer.serialize(currentNode
 							.getChild(currentNode.indexOf(parent) - 1), editorFeatures),
 					GeoGebraSerializer
 							.serialize(
-									((FunctionNode) parent).getChild(0), editorFeatures)));
+									node.getChild(0), editorFeatures)));
 		}
 		if (parent instanceof CharacterNode) {
 			StringBuilder sb = new StringBuilder();
@@ -544,8 +544,8 @@ public class EditorState {
 
 	private static String describe(ExpRelation pattern, Node prev,
 			int index, ExpressionReader er) {
-		if (prev instanceof FunctionNode) {
-			switch (((FunctionNode) prev).getName()) {
+		if (prev instanceof FunctionNode node) {
+			switch (node.getName()) {
 			case FRAC:
 				return new String[]{"fraction", "numerator",
 						"denominator"}[index + 1];
@@ -561,7 +561,7 @@ public class EditorState {
 				return "absolute value";
 			case APPLY:
 				if ((index == 1 && pattern == ExpRelation.START_OF)
-						|| (index == ((FunctionNode) prev).size() - 1
+						|| (index == node.size() - 1
 						&& pattern == ExpRelation.END_OF)) {
 					return "parentheses";
 				}
@@ -570,8 +570,8 @@ public class EditorState {
 				return "function";
 			}
 		}
-		if (prev instanceof ArrayNode) {
-			if (((ArrayNode) prev).getOpenDelimiter().getCharacter() == '"') {
+		if (prev instanceof ArrayNode node) {
+			if (node.getOpenDelimiter().getCharacter() == '"') {
 				return "quotes";
 			}
 			switch (pattern) {
@@ -595,10 +595,10 @@ public class EditorState {
 				return "";
 			}
 			return er.localize(pattern.toString(), name);
-		} else if (parent instanceof ArrayNode && ((ArrayNode) parent).isMatrix()) {
+		} else if (parent instanceof ArrayNode node && node.isMatrix()) {
 			int childIndex = parent.indexOf(currentNode);
-			int row = childIndex / ((ArrayNode) parent).getColumns() + 1;
-			int column = childIndex % ((ArrayNode) parent).getColumns() + 1;
+			int row = childIndex / node.getColumns() + 1;
+			int column = childIndex % node.getColumns() + 1;
 			return er.localize(pattern.toString(), "row " + row + " column " + column);
 		}
 
@@ -618,8 +618,8 @@ public class EditorState {
 	 */
 	public boolean isPreventingNestedFractions() {
 		InternalNode parent = currentNode.getParent();
-		return parent instanceof FunctionNode
-				&& ((FunctionNode) parent).isPreventingNestedFractions();
+		return parent instanceof FunctionNode fn
+				&& fn.isPreventingNestedFractions();
 	}
 
 	/**
@@ -689,7 +689,7 @@ public class EditorState {
 		while (current.getParent() != null && !(current instanceof SequenceNode)) {
 			current = current.getParent();
 		}
-		return current instanceof SequenceNode ? (SequenceNode) current : rootNode;
+		return current instanceof SequenceNode sn ? sn : rootNode;
 	}
 
 	public Node getComponentLeftOfCursor() {

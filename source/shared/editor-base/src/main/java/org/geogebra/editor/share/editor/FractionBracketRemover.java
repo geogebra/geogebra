@@ -27,13 +27,13 @@ public class FractionBracketRemover implements Traversing {
 
 	@Override
 	public Node process(Node node) {
-		if (node instanceof ArrayNode
-				&& ((ArrayNode) node).getOpenDelimiter().getCharacter() == '('
-				&& ((ArrayNode) node).size() == 1) {
+		if (node instanceof ArrayNode arrayNode
+				&& arrayNode.getOpenDelimiter().getCharacter() == '('
+				&& arrayNode.size() == 1) {
 			if (isFollowedByScript(node)) {
 				return node;
 			}
-			SequenceNode bracketContent = ((ArrayNode) node).getChild(0);
+			SequenceNode bracketContent = arrayNode.getChild(0);
 			if (isFraction(bracketContent.getChild(0)) && bracketContent.size() == 1) {
 				Node childNode = bracketContent.getChild(0);
 				return childNode.traverse(this);
@@ -48,7 +48,7 @@ public class FractionBracketRemover implements Traversing {
 	}
 
 	private boolean isFraction(Node argument) {
-		return argument instanceof FunctionNode
-				&& ((FunctionNode) argument).getName() == Tag.FRAC;
+		return argument instanceof FunctionNode fn
+				&& fn.getName() == Tag.FRAC;
 	}
 }

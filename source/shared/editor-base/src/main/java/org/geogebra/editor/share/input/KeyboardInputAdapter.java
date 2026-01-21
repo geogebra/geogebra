@@ -180,15 +180,15 @@ public class KeyboardInputAdapter {
 					for (int i = parent.size(); i < Integer.parseInt(split[1]); i++) {
 						parent.addChild(new SequenceNode());
 					}
-				} else if (parent instanceof ArrayNode && Tag.lookup(split[0]) == Tag.MATRIX) {
+				} else if (parent instanceof ArrayNode node && Tag.lookup(split[0]) == Tag.MATRIX) {
 					int rows = Integer.parseInt(split[1]);
 					int columns = Integer.parseInt(split[2]);
-					for (int column = ((ArrayNode) parent).getColumns(); column < columns;
+					for (int column = node.getColumns(); column < columns;
 						 column++) {
 						parent.addChild(new SequenceNode());
 					}
-					for (int row = ((ArrayNode) parent).getRows(); row < rows; row++) {
-						((ArrayNode) parent).addRow();
+					for (int row = node.getRows(); row < rows; row++) {
+						node.addRow();
 					}
 				}
 				mfi.notifyAndUpdate("(");

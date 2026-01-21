@@ -65,8 +65,7 @@ public class SelectAllHandler {
 		Node selectionStart = editorState.getCurrentNode().getChild(0);
 
 		setSelectionStart(selectionStart);
-		if (first instanceof ArrayNode) {
-			ArrayNode array = (ArrayNode) first;
+		if (first instanceof ArrayNode array) {
 			if (array.isMatrix()) {
 				editorState.selectUpToRootComponent();
 			} else {
@@ -79,9 +78,9 @@ public class SelectAllHandler {
 
 	private boolean isCharPlaceholder(Node selectionStart) {
 		return selectionStart instanceof CharPlaceholderNode
-				|| (selectionStart instanceof FunctionNode
+				|| (selectionStart instanceof FunctionNode fn
 		&& isCharPlaceholder(
-				((FunctionNode) selectionStart).getChild(0)));
+				fn.getChild(0)));
 	}
 
 	private void setSelectionStart(Node node) {
@@ -147,7 +146,7 @@ public class SelectAllHandler {
 
 	private boolean isSeparatorAt(SequenceNode sequence, int index) {
 		Node argument = sequence.getChild(index);
-		return argument instanceof CharacterNode && ((CharacterNode) argument).isSeparator();
+		return argument instanceof CharacterNode cn && cn.isSeparator();
 	}
 
 	private int firstSeparatorOnLeft(SequenceNode sequence) {

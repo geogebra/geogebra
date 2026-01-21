@@ -1114,10 +1114,10 @@ public abstract class PropertyView {
 	 * A row of action buttons, each with a text and an action triggered when tapped.
 	 */
 	public static final class ActionableButtonRow extends
-			PropertyBackedView<ActionablePropertyCollection> {
-		private final ActionablePropertyCollection actionablePropertyCollection;
+			PropertyBackedView<ActionablePropertyCollection<?>> {
+		private final ActionablePropertyCollection<?> actionablePropertyCollection;
 
-		ActionableButtonRow(ActionablePropertyCollection actionablePropertyCollection) {
+		ActionableButtonRow(ActionablePropertyCollection<?> actionablePropertyCollection) {
 			super(actionablePropertyCollection);
 			this.actionablePropertyCollection = actionablePropertyCollection;
 		}
@@ -1169,20 +1169,20 @@ public abstract class PropertyView {
 	 * or {@code null} if the given {@code Property} is not supported
 	 */
 	public static @CheckForNull PropertyView of(Property property) {
-		if (property instanceof BooleanProperty) {
-			return new Checkbox((BooleanProperty) property);
-		} else if (property instanceof NamedEnumeratedProperty) {
-			return new Dropdown((NamedEnumeratedProperty<?>) property);
-		} else if (property instanceof StringPropertyWithSuggestions) {
-			return new ComboBox((StringPropertyWithSuggestions) property);
-		} else if (property instanceof StringProperty) {
-			return new TextField((StringProperty) property);
-		} else if (property instanceof IconsEnumeratedProperty) {
-			return new SingleSelectionIconRow((IconsEnumeratedProperty<?>) property);
-		} else if (property instanceof RangeProperty<?>
+		if (property instanceof BooleanProperty booleanProperty) {
+			return new Checkbox(booleanProperty);
+		} else if (property instanceof NamedEnumeratedProperty<?> namedEnumeratedProperty) {
+			return new Dropdown(namedEnumeratedProperty);
+		} else if (property instanceof StringPropertyWithSuggestions stringProperty) {
+			return new ComboBox(stringProperty);
+		} else if (property instanceof StringProperty stringProperty) {
+			return new TextField(stringProperty);
+		} else if (property instanceof IconsEnumeratedProperty<?> iconsEnumeratedProperty) {
+			return new SingleSelectionIconRow(iconsEnumeratedProperty);
+		} else if (property instanceof RangeProperty<?> rangeProperty
 				// Sliders only make sense when min and max are defined.
-				&& ((RangeProperty<?>) property).getMin() != null
-				&& ((RangeProperty<?>) property).getMax() != null) {
+				&& rangeProperty.getMin() != null
+				&& rangeProperty.getMax() != null) {
 			return new Slider((RangeProperty<Integer>) property);
 		} else if (property instanceof AxisDistancePropertyCollection
 				|| property instanceof AxisCrossPropertyCollection
@@ -1190,33 +1190,30 @@ public abstract class PropertyView {
 				|| property instanceof SliderTrackColorPropertyCollection) {
 			return new RelatedPropertyViewCollection(null,
 					propertyViewListOf((PropertyCollection<?>) property), 0);
-		} else if (property instanceof NavigationBarPropertiesCollection) {
-			return new RelatedPropertyViewCollection(null,
-					propertyViewListOf((PropertyCollection<?>) property), 16);
+		} else if (property instanceof NavigationBarPropertiesCollection collection) {
+			return new RelatedPropertyViewCollection(null, propertyViewListOf(collection), 16);
 		} else if (property instanceof ClippingPropertyCollection
 				|| property instanceof LocationPropertyCollection
 				|| property instanceof AlgebraViewVisibilityPropertyCollection) {
 			return new RelatedPropertyViewCollection(property.getName(),
 					propertyViewListOf((PropertyCollection<?>) property), 4);
-		} else if (property instanceof LabelStylePropertyCollection) {
-			return new MultiSelectionIconRow((LabelStylePropertyCollection) property);
-		} else if (property instanceof ActionableIconPropertyCollection) {
-			return new IconButtonRow((ActionableIconPropertyCollection) property);
-		} else if (property instanceof ColorProperty) {
-			return new ColorSelectorRow((ColorProperty) property);
-		} else if (property instanceof GridDistancePropertyCollection) {
-			GridDistancePropertyCollection gridDistancePropertyCollection =
-					(GridDistancePropertyCollection) property;
+		} else if (property instanceof LabelStylePropertyCollection labelStylePropertyCollection) {
+			return new MultiSelectionIconRow(labelStylePropertyCollection);
+		} else if (property instanceof ActionableIconPropertyCollection actionableIconProperty) {
+			return new IconButtonRow(actionableIconProperty);
+		} else if (property instanceof ColorProperty colorProperty) {
+			return new ColorSelectorRow(colorProperty);
+		} else if (property instanceof GridDistancePropertyCollection propertyCollection) {
 			GridFixedDistanceProperty gridFixedDistanceProperty =
-					(GridFixedDistanceProperty) gridDistancePropertyCollection.getProperties()[0];
+					(GridFixedDistanceProperty) propertyCollection.getProperties()[0];
 			GridDistanceProperty gridDistancePropertyX =
-					(GridDistanceProperty) gridDistancePropertyCollection.getProperties()[1];
+					(GridDistanceProperty) propertyCollection.getProperties()[1];
 			GridDistanceProperty gridDistancePropertyY =
-					(GridDistanceProperty) gridDistancePropertyCollection.getProperties()[2];
+					(GridDistanceProperty) propertyCollection.getProperties()[2];
 			GridDistanceProperty gridDistancePropertyR =
-					(GridDistanceProperty) gridDistancePropertyCollection.getProperties()[3];
+					(GridDistanceProperty) propertyCollection.getProperties()[3];
 			GridAngleProperty gridAngleProperty =
-					(GridAngleProperty) gridDistancePropertyCollection.getProperties()[4];
+					(GridAngleProperty) propertyCollection.getProperties()[4];
 			return new RelatedPropertyViewCollection(null, List.of(
 					new Checkbox(gridFixedDistanceProperty),
 					new HorizontalSplitView(
@@ -1225,20 +1222,18 @@ public abstract class PropertyView {
 					new HorizontalSplitView(
 							new ComboBox(gridDistancePropertyR),
 							new ComboBox(gridAngleProperty))), 0);
-		} else if (property instanceof Dimension2DPropertiesCollection) {
-			Dimension2DPropertiesCollection dimension2DPropertiesCollection =
-					(Dimension2DPropertiesCollection) property;
+		} else if (property instanceof Dimension2DPropertiesCollection propertyCollection) {
 			DimensionRatioProperty dimensionRatioProperty =
-					(DimensionRatioProperty) dimension2DPropertiesCollection.getProperties()[0];
+					(DimensionRatioProperty) propertyCollection.getProperties()[0];
 			DimensionMinMaxProperty dimensionPropertyMinX =
-					(DimensionMinMaxProperty) dimension2DPropertiesCollection.getProperties()[1];
+					(DimensionMinMaxProperty) propertyCollection.getProperties()[1];
 			DimensionMinMaxProperty dimensionPropertyMaxX =
-					(DimensionMinMaxProperty) dimension2DPropertiesCollection.getProperties()[2];
+					(DimensionMinMaxProperty) propertyCollection.getProperties()[2];
 			DimensionMinMaxProperty dimensionPropertyMinY =
-					(DimensionMinMaxProperty) dimension2DPropertiesCollection.getProperties()[3];
+					(DimensionMinMaxProperty) propertyCollection.getProperties()[3];
 			DimensionMinMaxProperty dimensionPropertyMaxY =
-					(DimensionMinMaxProperty) dimension2DPropertiesCollection.getProperties()[4];
-			return new ExpandableList(dimension2DPropertiesCollection, List.of(
+					(DimensionMinMaxProperty) propertyCollection.getProperties()[4];
+			return new ExpandableList(propertyCollection, List.of(
 					new DimensionRatioEditor(dimensionRatioProperty),
 					new RelatedPropertyViewCollection(property.getName(), List.of(
 							new HorizontalSplitView(
@@ -1247,9 +1242,7 @@ public abstract class PropertyView {
 							new HorizontalSplitView(
 									new TextField(dimensionPropertyMinY),
 									new TextField(dimensionPropertyMaxY))), 10)));
-		} else if (property instanceof Dimension3DPropertiesCollection) {
-			Dimension3DPropertiesCollection propertyCollection =
-					(Dimension3DPropertiesCollection) property;
+		} else if (property instanceof Dimension3DPropertiesCollection propertyCollection) {
 			DimensionMinMaxProperty dimensionPropertyMinX = propertyCollection.getProperties()[0];
 			DimensionMinMaxProperty dimensionPropertyMaxX = propertyCollection.getProperties()[1];
 			DimensionMinMaxProperty dimensionPropertyMinY = propertyCollection.getProperties()[2];
@@ -1266,22 +1259,15 @@ public abstract class PropertyView {
 					new HorizontalSplitView(
 							new TextField(dimensionPropertyMinZ),
 							new TextField(dimensionPropertyMaxZ))), 10);
-		} else if (property instanceof AbsoluteScreenPositionPropertyCollection) {
-			AbsoluteScreenPositionPropertyCollection absoluteScreenPositionPropertyCollection =
-					(AbsoluteScreenPositionPropertyCollection) property;
+		} else if (property instanceof AbsoluteScreenPositionPropertyCollection collection) {
 			return new HorizontalSplitView(
-					new TextField(absoluteScreenPositionPropertyCollection.getProperties()[0]),
-					new TextField(absoluteScreenPositionPropertyCollection.getProperties()[1]));
-		} else if (property instanceof ActionablePropertyCollection<?>) {
-			ActionablePropertyCollection actionablePropertyCollection =
-					(ActionablePropertyCollection) property;
-			return new ActionableButtonRow(actionablePropertyCollection);
-		} else if (property instanceof ObjectAllEventsProperty) {
-			ObjectAllEventsProperty objectAllEventsProperty =
-					(ObjectAllEventsProperty) property;
+					new TextField(collection.getProperties()[0]),
+					new TextField(collection.getProperties()[1]));
+		} else if (property instanceof ActionablePropertyCollection<?> propertyCollection) {
+			return new ActionableButtonRow(propertyCollection);
+		} else if (property instanceof ObjectAllEventsProperty objectAllEventsProperty) {
 			return new ScriptEditor(objectAllEventsProperty);
-		} else if (property instanceof PropertyCollection) {
-			PropertyCollection<?> propertyCollection = (PropertyCollection<?>) property;
+		} else if (property instanceof PropertyCollection<?> propertyCollection) {
 			return new ExpandableList(propertyCollection, propertyViewListOf(propertyCollection));
 		} else {
 			return null;

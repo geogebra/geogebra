@@ -719,15 +719,15 @@ public class MathFieldInternal
 		ArrayList<CharacterNode> characterSequence = new ArrayList<>();
 		for (int i = 0; i < root.size(); i++) {
 			Node argument = root.getChild(i);
-			if (argument instanceof CharacterNode && predicate.test((CharacterNode) argument)) {
-				characterSequence.add((CharacterNode) argument);
+			if (argument instanceof CharacterNode node && predicate.test(node)) {
+				characterSequence.add(node);
 			} else {
 				if (!characterSequence.isEmpty()) {
 					characterSequences.add(toString(characterSequence));
 				}
 				characterSequence = new ArrayList<>();
-				if (argument instanceof InternalNode) {
-					collectCharacterSequences((InternalNode) argument, predicate,
+				if (argument instanceof InternalNode node) {
+					collectCharacterSequences(node, predicate,
 							characterSequences);
 				}
 			}
@@ -868,8 +868,8 @@ public class MathFieldInternal
 
 	private ArrayNode asMatrix(SequenceNode sequence) {
 		Node argument1 = sequence.getChild(0);
-		return argument1 instanceof ArrayNode && ((ArrayNode) argument1).isMatrix()
-				? (ArrayNode) argument1
+		return argument1 instanceof ArrayNode an && an.isMatrix()
+				? an
 				: null;
 	}
 
@@ -902,8 +902,8 @@ public class MathFieldInternal
 	}
 
 	private void insertStringFinished() {
-		if (mathField instanceof MathFieldAsync) {
-			((MathFieldAsync) mathField).requestViewFocus(this::onKeyTyped);
+		if (mathField instanceof MathFieldAsync async) {
+			async.requestViewFocus(this::onKeyTyped);
 		} else {
 			mathField.requestViewFocus();
 			// do this as late as possible
@@ -1023,8 +1023,7 @@ public class MathFieldInternal
 	 */
 	public String getCurrentFunction() {
 		InternalNode container = editorState.getCurrentNode().getParent();
-		if (container instanceof FunctionNode) {
-			FunctionNode function = (FunctionNode) container;
+		if (container instanceof FunctionNode function) {
 
 			if (function.getName() != Tag.APPLY) {
 				return function.getName().getKey();

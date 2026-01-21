@@ -149,8 +149,8 @@ public class TeXBuilder {
 			Atom argument = build(argument1);
 
 			// same ugly hack for ln as we have in TeXSerializer
-			if (argument instanceof CharAtom
-					&& ((CharAtom) argument).getCharacter() == 'n'
+			if (argument instanceof CharAtom atom
+					&& atom.getCharacter() == 'n'
 					&& ra.last() instanceof CharAtom
 					&& ((CharAtom) ra.last()).getCharacter() == 'l') {
 				Atom last = ra.getLastAtom();
@@ -161,7 +161,7 @@ public class TeXBuilder {
 			ra.add(argument);
 		}
 		Node last = mathFormula.getChild(mathFormula.size() - 1);
-		if (last instanceof CharacterNode && ((CharacterNode) last).isOperator()) {
+		if (last instanceof CharacterNode node && node.isOperator()) {
 			ra.add(new SpaceAtom(Unit.EM, 0));
 		}
 
@@ -212,8 +212,8 @@ public class TeXBuilder {
 				|| !teXSerializer.isPlaceholderEnabled()) {
 			return getInvisiblePlaceholder();
 		}
-		if (parent instanceof FunctionNode) {
-			Tag fn = ((FunctionNode) parent).getName();
+		if (parent instanceof FunctionNode node) {
+			Tag fn = node.getName();
 			if (fn == Tag.APPLY || fn == Tag.LOG) {
 				return getInvisiblePlaceholder();
 			}
@@ -244,16 +244,16 @@ public class TeXBuilder {
 	}
 
 	private Atom addToSub(Atom lastAtom, Atom sub) {
-		if (lastAtom instanceof ScriptsAtom) {
-			((ScriptsAtom) lastAtom).addToSub(sub);
+		if (lastAtom instanceof ScriptsAtom atom) {
+			atom.addToSub(sub);
 			return lastAtom;
 		}
 		return new ScriptsAtom(lastAtom, sub, new RowAtom());
 	}
 
 	private Atom addToSup(Atom lastAtom, Atom sup) {
-		if (lastAtom instanceof ScriptsAtom) {
-			((ScriptsAtom) lastAtom).addToSup(sup);
+		if (lastAtom instanceof ScriptsAtom atom) {
+			atom.addToSup(sup);
 			return lastAtom;
 		}
 		return new ScriptsAtom(lastAtom, null, sup);
@@ -261,18 +261,18 @@ public class TeXBuilder {
 
 	private Atom build(Node argument) {
 		Atom ret;
-		if (argument instanceof CharacterNode) {
-			ret = newCharAtom((CharacterNode) argument);
-		} else if (argument instanceof FunctionNode) {
-			ret = buildFunction((FunctionNode) argument);
-		} else if (argument instanceof ArrayNode) {
-			ret = buildArray((ArrayNode) argument);
+		if (argument instanceof CharacterNode node) {
+			ret = newCharAtom(node);
+		} else if (argument instanceof FunctionNode node) {
+			ret = buildFunction(node);
+		} else if (argument instanceof ArrayNode node) {
+			ret = buildArray(node);
 		} else if (argument instanceof CharPlaceholderNode) {
 			ret = getCharPlaceholder(argument.getParentIndex());
-		} else if (argument instanceof PlaceholderNode) {
-			ret = buildPlaceholder((PlaceholderNode) argument);
-		} else if (argument instanceof SequenceNode) {
-			ret = buildSequence((SequenceNode) argument);
+		} else if (argument instanceof PlaceholderNode node) {
+			ret = buildPlaceholder(node);
+		} else if (argument instanceof SequenceNode node) {
+			ret = buildSequence(node);
 		} else {
 			ret = new EmptyAtom();
 		}
@@ -320,8 +320,8 @@ public class TeXBuilder {
 		}
 
 		Atom ret = parser.getAtomFromUnicode(unicode, true);
-		if (ret instanceof SymbolAtom) {
-			ret = ((SymbolAtom) ret).duplicate();
+		if (ret instanceof SymbolAtom atom) {
+			ret = atom.duplicate();
 		}
 
 		// apply wrapping hack on symbols

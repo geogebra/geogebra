@@ -209,8 +209,8 @@ public class TeXSerializer extends SerializerAdapter {
 				|| (parent instanceof ArrayNode && parent.size() == 1)) {
 			return PLACEHOLDER_INVISIBLE;
 		}
-		if (parent instanceof FunctionNode) {
-			Tag fn = ((FunctionNode) parent).getName();
+		if (parent instanceof FunctionNode node) {
+			Tag fn = node.getName();
 			if (fn == Tag.APPLY || fn == Tag.LOG) {
 				return PLACEHOLDER_INVISIBLE;
 			}

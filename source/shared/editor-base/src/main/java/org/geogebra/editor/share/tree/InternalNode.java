@@ -402,8 +402,8 @@ abstract public class InternalNode extends Node implements Iterable<Node> {
 	public InternalNode extractLocked() {
 		if (size() == 1 && isProtected) {
 			Node argument = getChild(0);
-			if (argument instanceof InternalNode) {
-				return (InternalNode) argument;
+			if (argument instanceof InternalNode node) {
+				return node;
 			}
 		}
 

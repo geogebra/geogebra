@@ -252,9 +252,9 @@ public class MathFieldController {
 				&& path.size() > depth) {
 			setSelectedPath((InternalNode) rootComponent.getChild(idx),
 					path, state, depth + 1);
-		} else if (rootComponent instanceof SequenceNode) {
+		} else if (rootComponent instanceof SequenceNode node) {
 			state.setCurrentOffset(idx);
-			state.setCurrentNode((SequenceNode) rootComponent);
+			state.setCurrentNode(node);
 		}
 	}
 

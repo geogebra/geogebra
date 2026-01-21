@@ -691,8 +691,8 @@ public class InputController {
 			InternalNode parent = currentField.getParent();
 
 			if (currentOffset == currentField.size()
-					&& parent instanceof FunctionNode
-					&& ch == ((FunctionNode) parent).getClosingBracket()
+					&& parent instanceof FunctionNode node
+					&& ch == node.getClosingBracket()
 					&& parent.size() == currentField.getParentIndex() + 1) {
 
 				currentOffset = parent.getParentIndex() + 1;
@@ -700,8 +700,8 @@ public class InputController {
 
 				// if ')' typed at the end of last field of braces ... move
 				// after closing character
-			} else if (parent instanceof FunctionNode
-					&& ch == ((FunctionNode) parent).getClosingBracket()
+			} else if (parent instanceof FunctionNode node
+					&& ch == node.getClosingBracket()
 					&& parent.size() == currentField.getParentIndex() + 1) {
 				ArrayList<Node> removed = cut(currentField,
 						currentOffset);
@@ -852,8 +852,8 @@ public class InputController {
 			if (prev instanceof ArrayNode parent) {
 				extendBrackets(parent, editorState);
 			}
-			if (prev instanceof FunctionNode) {
-				bkspLastFunctionArg((FunctionNode) prev, editorState);
+			if (prev instanceof FunctionNode node) {
+				bkspLastFunctionArg(node, editorState);
 			} else {
 				deleteSingleArg(editorState);
 			}
@@ -904,8 +904,8 @@ public class InputController {
 			addPlaceholderIfNeeded(currentField, currentOffset);
 		}
 
-		if (node instanceof FunctionNode) {
-			RemoveContainer.fuseMathFunction(editorState, (FunctionNode) node);
+		if (node instanceof FunctionNode functionNode) {
+			RemoveContainer.fuseMathFunction(editorState, functionNode);
 		}
 	}
 
@@ -1094,8 +1094,8 @@ public class InputController {
 				editorState.setCurrentOffset(start);
 				// in most cases no impact; goes to parent node when whole
 				// formula selected
-				if (parent instanceof SequenceNode) {
-					editorState.setCurrentNode((SequenceNode) parent);
+				if (parent instanceof SequenceNode node) {
+					editorState.setCurrentNode(node);
 				}
 			}
 
@@ -1327,10 +1327,10 @@ public class InputController {
 	private boolean handleEndBlocks(EditorState editorState, char ch) {
 		InternalNode parent = editorState.getCurrentNode().getParent();
 		if (editorState.getSelectionStart() == null) {
-			if (parent instanceof ArrayNode) {
-				return handleEndArrayNode((ArrayNode) parent, editorState, ch);
-			} else if (parent instanceof FunctionNode) {
-				return handleEndFunctionNode((FunctionNode) parent, editorState, ch);
+			if (parent instanceof ArrayNode node) {
+				return handleEndArrayNode(node, editorState, ch);
+			} else if (parent instanceof FunctionNode node) {
+				return handleEndFunctionNode(node, editorState, ch);
 			}
 		}
 		return false;
@@ -1427,7 +1427,7 @@ public class InputController {
 		initArguments(function, 0);
 		Node prev = state.getCurrentNode().getChild(state.getCurrentOffset() - 1);
 		state.getCurrentNode().addChild(state.getCurrentOffset(), function);
-		if (prev instanceof CharacterNode && ((CharacterNode) prev).isDigit()) {
+		if (prev instanceof CharacterNode node && node.isDigit()) {
 			state.setCurrentNode(function.getChild(0));
 			state.setCurrentOffset(0);
 		}

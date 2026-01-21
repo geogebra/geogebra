@@ -79,8 +79,8 @@ public class MacroKernel extends Kernel {
 
 		Kernel k = parentKernel;
 
-		while (k instanceof MacroKernel) {
-			k = ((MacroKernel) k).getParentKernel();
+		while (k instanceof MacroKernel macroKernel) {
+			k = macroKernel.getParentKernel();
 		}
 
 		return k;

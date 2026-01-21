@@ -48,8 +48,8 @@ public class SequenceNode extends InternalNode {
 			return;
 		}
 		Node last = children.get(children.size() - 1);
-		if (last instanceof CharacterNode
-				&& ((CharacterNode) last).mergeUnicode(mathChar.getUnicodeString())) {
+		if (last instanceof CharacterNode node
+				&& node.mergeUnicode(mathChar.getUnicodeString())) {
 			checkModifier(children.size() - 1);
 			return;
 		}
@@ -60,8 +60,8 @@ public class SequenceNode extends InternalNode {
 		if (i > 0) {
 			CharacterNode last = (CharacterNode) children.get(i);
 			Node prev = children.get(i - 1);
-			if (prev instanceof CharacterNode
-					&& ((CharacterNode) prev).mergeUnicode(last.getUnicodeString())) {
+			if (prev instanceof CharacterNode node
+					&& node.mergeUnicode(last.getUnicodeString())) {
 				removeChild(i);
 				return true;
 			}
@@ -78,8 +78,8 @@ public class SequenceNode extends InternalNode {
 	public int addChild(int i, CharacterTemplate argument) {
 		if (i > 0 && i <= children.size()) {
 			Node prev = children.get(i - 1);
-			if (prev instanceof CharacterNode
-					&& ((CharacterNode) prev).mergeUnicode(argument.getUnicodeString())) {
+			if (prev instanceof CharacterNode node
+					&& node.mergeUnicode(argument.getUnicodeString())) {
 				return checkModifier(i - 1) ? -1 : 0;
 			}
 		}

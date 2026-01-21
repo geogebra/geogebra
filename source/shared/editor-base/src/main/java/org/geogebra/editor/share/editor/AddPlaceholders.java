@@ -34,8 +34,7 @@ public class AddPlaceholders {
 		if (node != null) {
 			node.traverse(questionMarkRemover);
 		}
-		if (node instanceof ArrayNode) {
-			ArrayNode array = (ArrayNode) node;
+		if (node instanceof ArrayNode array) {
 			if (array.getColumns() >= 1) {
 				for (int i = 0; i < array.size(); i++) {
 					SequenceNode sequence = array.getChild(i);

@@ -109,23 +109,23 @@ public abstract class SerializerAdapter implements Serializer {
 	 * @return stringBuilder for convenience
 	 */
 	public StringBuilder serialize(Node container, StringBuilder stringBuilder) {
-		if (container instanceof CharPlaceholderNode) {
-			serialize((CharPlaceholderNode) container, stringBuilder);
+		if (container instanceof CharPlaceholderNode node) {
+			serialize(node, stringBuilder);
 
-		} else if (container instanceof CharacterNode) {
-			serialize((CharacterNode) container, stringBuilder);
+		} else if (container instanceof CharacterNode node) {
+			serialize(node, stringBuilder);
 
-		} else if (container instanceof PlaceholderNode) {
-			serialize((PlaceholderNode) container, stringBuilder);
+		} else if (container instanceof PlaceholderNode node) {
+			serialize(node, stringBuilder);
 
-		} else if (container instanceof SequenceNode) {
-			serialize((SequenceNode) container, stringBuilder);
+		} else if (container instanceof SequenceNode node) {
+			serialize(node, stringBuilder);
 
-		} else if (container instanceof ArrayNode) {
-			serialize((ArrayNode) container, stringBuilder);
+		} else if (container instanceof ArrayNode node) {
+			serialize(node, stringBuilder);
 
-		} else if (container instanceof FunctionNode) {
-			serialize((FunctionNode) container, stringBuilder);
+		} else if (container instanceof FunctionNode node) {
+			serialize(node, stringBuilder);
 		}
 		return stringBuilder;
 	}

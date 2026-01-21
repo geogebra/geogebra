@@ -18,7 +18,7 @@ ideaExt = "1.1.9"
 jakartaServlet = "6.1.0"
 androidPlugin = "8.7.2"
 androidSdkTools = "31.6.0"
-j2objc = "f49498e"
+j2objc = "7e76bfd"
 
 [libraries]
 apache-math="org.apache:math-cross-platform:3.6.1"

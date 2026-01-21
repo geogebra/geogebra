@@ -45,7 +45,7 @@ public class QuestionMarkRemover implements Traversing {
 	}
 
 	private boolean isQuestionMark(Node node) {
-		return node instanceof CharacterNode && ((CharacterNode) node).isUnicode('?');
+		return node instanceof CharacterNode cn && cn.isUnicode('?');
 	}
 
 }

@@ -89,8 +89,8 @@ public class CursorController {
 	}
 
 	private static InternalNode asInternalNode(Node node) {
-		if (node instanceof InternalNode) {
-			return (InternalNode) node;
+		if (node instanceof InternalNode internalNode) {
+			return internalNode;
 		}
 		return null;
 	}
@@ -223,8 +223,8 @@ public class CursorController {
 			// previous node doesn't exist
 			// no-op
 			return false;
-		} else if (parent instanceof SequenceNode) {
-			editorState.setCurrentNode((SequenceNode) parent);
+		} else if (parent instanceof SequenceNode sequenceNode) {
+			editorState.setCurrentNode(sequenceNode);
 			editorState.setCurrentOffset(node.getParentIndex() + 1);
 			return parent.size() > node.getParentIndex();
 			// try to find next sibling
@@ -263,8 +263,8 @@ public class CursorController {
 			// no-op
 			return false;
 		}
-		if (parentNode instanceof SequenceNode) {
-			editorState.setCurrentNode((SequenceNode) parentNode);
+		if (parentNode instanceof SequenceNode sequenceNode) {
+			editorState.setCurrentNode(sequenceNode);
 			editorState.setCurrentOffset(node.getParentIndex());
 			return true;
 			// try to find previous sibling
@@ -420,8 +420,8 @@ public class CursorController {
 					editorState.setCurrentNode((SequenceNode) current);
 					editorState.setCurrentOffset(index);
 					return;
-				} else if (child instanceof SequenceNode) {
-					current = (SequenceNode) child;
+				} else if (child instanceof SequenceNode node) {
+					current = node;
 					i--;
 				} else {
 					i--;
@@ -429,8 +429,8 @@ public class CursorController {
 						current = (SequenceNode) ((InternalNode) child)
 								.getChild(list.get(i));
 						i--;
-					} else if (current instanceof SequenceNode) {
-						editorState.setCurrentNode((SequenceNode) current);
+					} else if (current instanceof SequenceNode node) {
+						editorState.setCurrentNode(node);
 						editorState.setCurrentOffset(index);
 					}
 				}
