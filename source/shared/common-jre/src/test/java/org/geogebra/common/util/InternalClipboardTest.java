@@ -79,4 +79,13 @@ public class InternalClipboardTest extends BaseAppTestSetup {
 				getKernel().lookupLabel("s_{1}").getDefinition(StringTemplate.testTemplate));
 	}
 
+	@Test
+	public void pastingShouldNotCreateDuplicatedOrdering() {
+		setupNotesApp();
+		GeoElement polygon = evaluateGeoElement(
+				"poly = Polygon((-4, 2), (-1, 2), (-1, 0), (4, 0))");
+		InternalClipboard.duplicate(getApp(), Collections.singletonList(polygon));
+		assertEquals(0, lookup("poly").getOrdering());
+		assertEquals(1, lookup("poly_{1}").getOrdering());
+	}
 }

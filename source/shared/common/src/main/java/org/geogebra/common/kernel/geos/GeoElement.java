@@ -2702,6 +2702,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 		cons.putLabel(this); // add new table entry
 		cons.getLayerManager().setRenameRunning(false);
+		if (app.isWhiteboardActive()) {
+			cons.getLayerManager().updateOrdering(this);
+		}
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
 

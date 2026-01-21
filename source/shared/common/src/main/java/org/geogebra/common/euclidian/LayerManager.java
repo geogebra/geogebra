@@ -34,7 +34,7 @@ public class LayerManager {
 	private boolean renaming = false;
 
 	private double getNextOrder() {
-		if (drawingOrder.size() > 0) {
+		if (!drawingOrder.isEmpty()) {
 			return drawingOrder.get(drawingOrder.size() - 1).getOrdering() + 1.0;
 		} else {
 			return 0.0;
@@ -57,11 +57,23 @@ public class LayerManager {
 		}
 
 		if (!geo.isMask() && !geo.isMeasurementTool()) {
-			if (Double.isNaN(geo.getOrdering())) {
+			if (Double.isNaN(geo.getOrdering()) || isPasted(geo)) {
 				geo.setOrdering(getNextOrder());
 			}
 			drawingOrder.add(geo);
 		}
+	}
+
+	/**
+	 * Makes sure to update the ordering of {@code geo}.
+	 * This is needed to ensure a pasted {@code GeoElement}'s ordering is correctly incremented.
+	 * @param geo GeoElement
+	 */
+	public void updateOrdering(GeoElement geo) {
+		if (!drawingOrder.contains(geo)) {
+			return;
+		}
+		geo.setOrdering(getNextOrder());
 	}
 
 	/**
