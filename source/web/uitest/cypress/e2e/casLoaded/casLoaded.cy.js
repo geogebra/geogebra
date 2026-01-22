@@ -7,8 +7,8 @@ describe('CASLoaded test', () => {
 
     afterEach(cy.setSaved);
 
-    const solve = "sln=Solve[{{}x^3 {rightarrow} + y = 8 {enter}";
-    const length = "Length[Join[sln {enter}";
+    const solve = "sln=Solve[{{}x^3{rightarrow}+y=8{enter}";
+    const length = "Length[Join[sln{enter}";
 
     it("CAS loaded after command", () => {
         cy.window().then((win) => {
