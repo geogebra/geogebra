@@ -113,6 +113,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
@@ -161,6 +162,7 @@ import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.toolbarpanel.spreadsheet.AwtReTexGraphicsBridgeW;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHandler;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -346,6 +348,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		startActivity();
 
 		setPurpose();
+	}
+
+	@Override
+	protected @Nonnull GeoElementCellRendererFactory getGeoElementCellRendererFactory() {
+		return new GeoElementCellRendererFactory(new AwtReTexGraphicsBridgeW());
 	}
 
 	private void setupHeader() {

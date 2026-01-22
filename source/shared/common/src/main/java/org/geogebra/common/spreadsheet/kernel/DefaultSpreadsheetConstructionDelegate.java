@@ -18,12 +18,12 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.spreadsheet.core.SpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularRange;
@@ -31,17 +31,15 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstructionDelegate {
 
 	private final @Nonnull AlgebraProcessor algebraProcessor;
-	private final @CheckForNull CommandFilter commandFilter;
+	private final @Nonnull CommandDispatcher commandDispatcher;
 
 	/**
 	 * Constructor
 	 * @param algebraProcessor the algebra processor
-	 * @param commandFilter the command filter of the current app (coming from AppConfig)
 	 */
-	public DefaultSpreadsheetConstructionDelegate(@Nonnull AlgebraProcessor algebraProcessor,
-			@CheckForNull CommandFilter commandFilter) {
+	public DefaultSpreadsheetConstructionDelegate(@Nonnull AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
-		this.commandFilter = commandFilter;
+		this.commandDispatcher = algebraProcessor.getCommandDispatcher();
 	}
 
 	private void processCommand(@Nonnull String command) {
@@ -50,10 +48,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 
 	@Override
 	public boolean supportsPieChart() {
-		if (commandFilter == null) {
-			return true;
-		}
-		return commandFilter.isCommandAllowed(Commands.PieChart);
+		return commandDispatcher.isAllowedByCommandFilters(Commands.PieChart);
 	}
 
 	@Override
@@ -67,10 +62,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 
 	@Override
 	public boolean supportsBarChart() {
-		if (commandFilter == null) {
-			return true;
-		}
-		return commandFilter.isCommandAllowed(Commands.BarChart);
+		return commandDispatcher.isAllowedByCommandFilters(Commands.BarChart);
 	}
 
 	@Override
@@ -84,10 +76,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 
 	@Override
 	public boolean supportsHistogram() {
-		if (commandFilter == null) {
-			return true;
-		}
-		return commandFilter.isCommandAllowed(Commands.Histogram);
+		return commandDispatcher.isAllowedByCommandFilters(Commands.Histogram);
 	}
 
 	@Override
@@ -101,10 +90,7 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 
 	@Override
 	public boolean supportsLineGraph() {
-		if (commandFilter == null) {
-			return true;
-		}
-		return commandFilter.isCommandAllowed(Commands.LineGraph);
+		return commandDispatcher.isAllowedByCommandFilters(Commands.LineGraph);
 	}
 
 	@Override
@@ -126,16 +112,18 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 
 	@Override
 	public boolean supportsBoxPlot() {
-		if (commandFilter == null) {
-			return true;
-		}
-		return commandFilter.isCommandAllowed(Commands.BoxPlot);
+		return commandDispatcher.isAllowedByCommandFilters(Commands.BoxPlot);
 	}
 
 	@Override
 	public void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
 		String command = ChartBuilder.getBoxPlotCommand(data, ranges);
 		processCommand(command);
+	}
+
+	@Override
+	public boolean supportsStatistic(Statistic statistic) {
+		return commandDispatcher.isAllowedByCommandFilters(statistic.command);
 	}
 }
 

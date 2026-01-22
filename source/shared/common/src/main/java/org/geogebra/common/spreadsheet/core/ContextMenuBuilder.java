@@ -30,9 +30,16 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.LINE_CHART;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MAX;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MEAN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MEDIAN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.MIN;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PIE_CHART;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.Q1;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.Q3;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.SAMPLE_SD;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.SD;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.SUM;
 
 import java.util.ArrayList;
@@ -43,9 +50,12 @@ import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.ActionableItem;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Divider;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
+
+import com.google.j2objc.annotations.Weak;
 
 /**
  * A builder for (spreadsheet) context menus.
@@ -53,7 +63,10 @@ import org.geogebra.common.spreadsheet.core.ContextMenuItem.SubMenuItem;
 public final class ContextMenuBuilder {
 
     static final int HEADER_INDEX = -1;
-    private final SpreadsheetController spreadsheetController;
+
+    @Weak
+    private SpreadsheetController spreadsheetController;
+    @Weak
     private SpreadsheetConstructionDelegate constructionDelegate;
 
     /**
@@ -127,7 +140,7 @@ public final class ContextMenuBuilder {
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, fromCol)),
                 new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, fromCol)),
                 new Divider(),
-                new SubMenuItem(CALCULATE, getCalculateItems()),
+                getCalculateItem(),
                 getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_ROW_ABOVE,
@@ -146,8 +159,14 @@ public final class ContextMenuBuilder {
         ).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    private ContextMenuItem getChartMenuItem() {
-        return new SubMenuItem(CREATE_CHART, getChartItems());
+    private @CheckForNull ContextMenuItem getCalculateItem() {
+        List<ContextMenuItem> items = getCalculateItems();
+        return items.isEmpty() ? null : new SubMenuItem(CALCULATE, items);
+    }
+
+    private @CheckForNull ContextMenuItem getChartMenuItem() {
+        List<ContextMenuItem> items = getChartItems();
+        return items.isEmpty() ? null : new SubMenuItem(CREATE_CHART, items);
     }
 
     List<ContextMenuItem> getChartItems() {
@@ -175,13 +194,53 @@ public final class ContextMenuBuilder {
         return chartItems;
     }
 
+    /**
+     * @return a (possibly empty) list of context menu items for the "Calculate" submenu
+     */
     List<ContextMenuItem> getCalculateItems() {
-        return List.of(
-                new ActionableItem(SUM, () -> spreadsheetController.calculate(
-                        SpreadsheetCommand.SUM)),
-                new ActionableItem(MEAN, () -> spreadsheetController.calculate(
-                        SpreadsheetCommand.MEAN)));
+        List<ContextMenuItem> items = new ArrayList<>();
+        if (supportsStatistic(Statistic.SUM)) {
+            items.add(new ActionableItem(SUM, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.SUM)));
+        }
+        if (supportsStatistic(Statistic.MEAN)) {
+            items.add(new ActionableItem(MEAN, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.MEAN)));
+        }
+        if (supportsStatistic(Statistic.SAMPLE_SD)) {
+            items.add(new ActionableItem(SAMPLE_SD, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.SAMPLE_SD)));
+        }
+        if (supportsStatistic(Statistic.SD)) {
+            items.add(new ActionableItem(SD, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.SD)));
+        }
+        if (supportsStatistic(Statistic.MIN)) {
+            items.add(new ActionableItem(MIN, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.MIN)));
+        }
+        if (supportsStatistic(Statistic.Q1)) {
+            items.add(new ActionableItem(Q1, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.Q1)));
+        }
+        if (supportsStatistic(Statistic.MEDIAN)) {
+            items.add(new ActionableItem(MEDIAN, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.MEDIAN)));
+        }
+        if (supportsStatistic(Statistic.Q3)) {
+            items.add(new ActionableItem(Q3, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.Q3)));
+        }
+        if (supportsStatistic(Statistic.MAX)) {
+            items.add(new ActionableItem(MAX, () ->
+                    spreadsheetController.calculate1VarStatistics(Statistic.MAX)));
+        }
+        return items;
     }
+	
+	private boolean supportsStatistic(Statistic statistic) {
+		return constructionDelegate == null || constructionDelegate.supportsStatistic(statistic);
+	}
 
     private List<ContextMenuItem> rowItems(int fromRow, int toRow) {
         boolean allRows = isAllRows(fromRow, toRow);
@@ -190,7 +249,7 @@ public final class ContextMenuBuilder {
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(fromRow, -1)),
                 new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(fromRow, -1)),
                 new Divider(),
-                new SubMenuItem(CALCULATE, getCalculateItems()),
+                getCalculateItem(),
                 getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_ROW_ABOVE,
@@ -210,7 +269,7 @@ public final class ContextMenuBuilder {
                 new ActionableItem(COPY, () -> spreadsheetController.copyCells(-1, fromCol)),
                 new ActionableItem(PASTE, () -> spreadsheetController.pasteCells(-1, fromCol)),
                 new Divider(),
-                new SubMenuItem(CALCULATE, getCalculateItems()),
+                getCalculateItem(),
                 getChartMenuItem(),
                 new Divider(),
                 new ActionableItem(INSERT_COLUMN_LEFT,

@@ -36,7 +36,7 @@ public enum Statistic {
 	SIGMAXY(Commands.SigmaXY, "\\Sigma %v"),
 	COVARIANCE(Commands.Covariance, "cov");
 
-	private final Commands command;
+	public final Commands command;
 	private final String lhsPattern;
 
 	Statistic(Commands command) {

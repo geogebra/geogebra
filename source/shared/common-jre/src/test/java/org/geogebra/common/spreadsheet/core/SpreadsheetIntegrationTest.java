@@ -80,6 +80,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
 		spreadsheet = new Spreadsheet(tabularData,
 				new TestCellRenderableFactory(),
+				null,
 				undoProvider);
 		spreadsheet.setViewportAdjustmentHandler(new DummyViewportAdjuster());
 		new SpreadsheetSettingsAdapter(spreadsheet, getApp()).registerListeners();
@@ -97,6 +98,7 @@ public final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		spreadsheetSettings.getColumnWidths().put(1, 500.0);
 		Spreadsheet spreadsheet = new Spreadsheet(tabularData,
 				new TestCellRenderableFactory(),
+				null,
 				null);
 		new SpreadsheetSettingsAdapter(spreadsheet, getApp()).registerListeners();
 		Assertions.assertEquals(500 + 2 * 120 + 52, spreadsheet.getTotalWidth());

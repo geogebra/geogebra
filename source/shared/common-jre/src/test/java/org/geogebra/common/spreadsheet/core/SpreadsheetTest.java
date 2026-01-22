@@ -66,6 +66,7 @@ public class SpreadsheetTest extends BaseUnitTest {
         undoProvider = mock();
 		spreadsheet = new Spreadsheet(tabularData,
 				new TestCellRenderableFactory(),
+				null,
                 undoProvider);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
@@ -210,6 +211,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		tabularData = new KernelTabularDataAdapter(getApp());
 		spreadsheet = new Spreadsheet(tabularData,
 				new GeoElementCellRendererFactory(graphics -> null),
+				null,
 				undoProvider);
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
 		spreadsheet.setViewport(new Rectangle(0, 300, 0, 300));

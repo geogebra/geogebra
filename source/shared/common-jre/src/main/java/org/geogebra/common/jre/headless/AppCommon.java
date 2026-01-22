@@ -96,6 +96,7 @@ public class AppCommon extends App {
 	private ImageManager imageManager;
 	private final HashMap<String, MyImageCommon> externalImages = new HashMap<>();
 	private GuiManager guiManager;
+	public boolean forceSpreadsheetEnabled = false;
 
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
 		this(loc, awtFactory, new AppConfigDefault());
@@ -156,6 +157,12 @@ public class AppCommon extends App {
 		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		StringUtil.setPrototypeIfNull(new StringUtil());
 		UtilFactoryJre.setupRegexFactory();
+	}
+
+	@Override
+	public boolean isSpreadsheetEnabled() {
+		// forced override used by SpreadsheetDemo
+		return forceSpreadsheetEnabled || super.isSpreadsheetEnabled();
 	}
 
 	@Override

@@ -49,7 +49,8 @@ public class ExamControllerMultiAppTest {
 				app.getKernel().getAlgoDispatcher(),
 				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				app.getKernel().getAlgebraProcessor(),
-				app.getLocalization(), app.getSettings(), new StatisticGroupsBuilder(),
+				app.getLocalization(), app.getSettings(),
+				new StatisticGroupsBuilder(),
 				null, app, null, null));
 
 		controller.registerDelegate(firstDelegate);

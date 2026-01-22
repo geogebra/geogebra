@@ -20,6 +20,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.kernel.statistics.Statistic;
+
 /**
  * Interaction with the construction.
  */
@@ -106,4 +108,13 @@ public interface SpreadsheetConstructionDelegate {
 	 * @param ranges The ranges in {@code data} from which to take raw data and frequencies.
 	 */
 	void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges);
+
+	/**
+	 * Check if the statistic is supported (in the current app).
+	 * @param statistic statistic
+	 * @return {@code true} if supported, {@code false} otherwise
+	 */
+	default boolean supportsStatistic(Statistic statistic) {
+		return true;
+	}
 }

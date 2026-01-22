@@ -72,6 +72,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public Spreadsheet(@Nonnull TabularData<?> tabularData,
 			@Nonnull CellRenderableFactory rendererFactory,
+			@CheckForNull SpreadsheetConstructionDelegate constructionDelegate,
 			@CheckForNull UndoProvider undoProvider) {
 
 		styling = new SpreadsheetStyling();
@@ -80,6 +81,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 		controller = new SpreadsheetController(tabularData, styling);
 		controller.setUndoProvider(undoProvider);
+		controller.setSpreadsheetConstructionDelegate(constructionDelegate);
 		controller.selectionController.selectionsChanged.addListener(this::selectionsChanged);
 		controller.referencesChanged.addListener(this::referencesChanged);
 		cellSizesChanged = controller.cellSizesChanged;
@@ -110,14 +112,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void setSpreadsheetDelegate(@CheckForNull SpreadsheetDelegate spreadsheetDelegate) {
 		this.spreadsheetDelegate = spreadsheetDelegate;
-	}
-
-	/**
-	 * @param constructionDelegate delegate for creating objects in the construction
-	 */
-	public void setSpreadsheetConstructionDelegate(
-			@CheckForNull SpreadsheetConstructionDelegate constructionDelegate) {
-		controller.setSpreadsheetConstructionDelegate(constructionDelegate);
 	}
 
 	/**
@@ -440,6 +434,17 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		notifyRepaintNeeded();
 	}
 
+	// Context Menu
+
+	/**
+	 * Returns the context menu items
+	 * @param identifier identifier
+	 * @return list of context menu items
+	 */
+	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
+		return controller.getMenuItems(identifier);
+	}
+
 	// -- TabularDataChangeListener --
 
 	@Override
@@ -455,17 +460,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	public void tabularDataDimensionsDidChange(SpreadsheetDimensions spreadsheetDimensions) {
 		controller.tabularDataDimensionsDidChange(spreadsheetDimensions);
 		notifyRepaintNeeded();
-	}
-
-	// -- Context Menu --
-
-	/**
-	 * Returns the context menu items
-	 * @param identifier identifier
-	 * @return list of context menu items
-	 */
-	public List<ContextMenuItem> getMenuItems(ContextMenuItem.Identifier identifier) {
-		return controller.getMenuItems(identifier);
 	}
 
 	// Test support API (DO NOT USE except for tests!)

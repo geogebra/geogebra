@@ -153,6 +153,10 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetConstructionDelegate;
+import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
+import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
+import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
@@ -452,6 +456,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	private boolean areCommands3DEnabled = true;
 	private boolean spreadsheetRestricted;
+	private Spreadsheet spreadsheet;
+	private SpreadsheetSettingsAdapter spreadsheetSettingsAdapter;
 	protected AccessibilityManagerInterface accessibilityManager;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
@@ -4063,6 +4069,34 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public boolean isSpreadsheetEnabled() {
 		return getConfig().hasSpreadsheetView() && !spreadsheetRestricted;
+	}
+
+	/**
+	 * @return the app-owned spreadsheet instance. Returns {@code null} if the app doesn't have
+	 * a spreadsheet view at all (via {@link AppConfig}), or if the spreadsheet is temporarily
+	 * disabled during an exam (via {@link ExamFeatureRestriction#SPREADSHEET}).
+	 */
+	public @CheckForNull Spreadsheet getSpreadsheet() {
+		if (!isSpreadsheetEnabled()) {
+			return null;
+		}
+		if (spreadsheet == null) {
+			Kernel kernel = getKernel();
+			KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(this);
+			kernel.notifyAddAll(tabularData);
+			kernel.attach(tabularData);
+			spreadsheet = new Spreadsheet(tabularData,
+					getGeoElementCellRendererFactory(),
+					new DefaultSpreadsheetConstructionDelegate(kernel.getAlgebraProcessor()),
+					getUndoManager());
+			spreadsheetSettingsAdapter = new SpreadsheetSettingsAdapter(spreadsheet, this);
+			spreadsheetSettingsAdapter.registerListeners();
+		}
+		return spreadsheet;
+	}
+
+	protected @Nonnull GeoElementCellRendererFactory getGeoElementCellRendererFactory() {
+		return new GeoElementCellRendererFactory(gGraphics2D -> null);
 	}
 
 	/**

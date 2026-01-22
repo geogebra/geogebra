@@ -21,10 +21,6 @@ import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDelegate;
 import org.geogebra.common.spreadsheet.core.SpreadsheetStyleBarModel;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
-import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetConstructionDelegate;
-import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
-import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
-import org.geogebra.common.spreadsheet.settings.SpreadsheetSettingsAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -84,31 +80,22 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		addStyleName("spreadsheetPanel");
 
 		mathField = new MathTextFieldW(app, new TemplateCatalog());
-		SpreadsheetControlsDelegateW controlsDelegate = initControlsDelegate();
 
-		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(app);
-		app.getKernel().notifyAddAll(tabularData);
-		spreadsheet = new Spreadsheet(tabularData,
-				new GeoElementCellRendererFactory(new AwtReTexGraphicsBridgeW()),
-				app.getUndoManager());
-		new SpreadsheetSettingsAdapter(spreadsheet, app).registerListeners();
+		spreadsheet = app.getSpreadsheet();
+		if (spreadsheet != null) {
+			spreadsheet.setControlsDelegate(initControlsDelegate());
+			spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
+			spreadsheet.setViewportAdjustmentHandler(createScrollable());
+		}
 
-		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
-
-		spreadsheet.setControlsDelegate(controlsDelegate);
-		spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
-		spreadsheet.setSpreadsheetConstructionDelegate(initConstructionDelegate());
 
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
 		add(scrollOverlay);
 		spreadsheetElement = Js.uncheckedCast(scrollContent.getElement());
-
-		ViewportAdjusterDelegate viewportAdjusterDelegate = createScrollable();
-		spreadsheet.setViewportAdjustmentHandler(viewportAdjusterDelegate);
 
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 
@@ -205,11 +192,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private SpreadsheetDelegate initSpreadsheetDelegate() {
 		return this::repaint;
-	}
-
-	private DefaultSpreadsheetConstructionDelegate initConstructionDelegate() {
-		return new DefaultSpreadsheetConstructionDelegate(app.getKernel().getAlgebraProcessor(),
-				app.getConfig().getCommandFilter());
 	}
 
 	/**

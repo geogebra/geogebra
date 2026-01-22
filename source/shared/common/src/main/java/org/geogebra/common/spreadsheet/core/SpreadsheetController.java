@@ -29,6 +29,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
+import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyling;
 import org.geogebra.common.util.MouseCursor;
@@ -113,7 +114,7 @@ public final class SpreadsheetController {
 	/**
 	 * @param constructionDelegate {@link SpreadsheetConstructionDelegate}
 	 */
-	public void setSpreadsheetConstructionDelegate(@CheckForNull SpreadsheetConstructionDelegate
+	void setSpreadsheetConstructionDelegate(@CheckForNull SpreadsheetConstructionDelegate
 			constructionDelegate) {
 		this.constructionDelegate = constructionDelegate;
 		this.contextMenuBuilder.setSpreadsheetConstructionDelegate(constructionDelegate);
@@ -1311,45 +1312,43 @@ public final class SpreadsheetController {
 	}
 
 	// Calculations
-
-	void calculate(SpreadsheetCommand command) {
+	
+	void calculate1VarStatistics(Statistic statistic) {
 		Selection last = getLastSelection();
 		TabularRange range = last == null ? null : last.getRange();
-
 		if (range == null) {
 			return;
 		}
-
 		if (range.isSingleCell()) {
-			processCalculate(command, -1, -1, -1, -1, range.getMinRow(), range.getMinColumn(),
+			processCalculate(statistic, -1, -1, -1, -1, range.getMinRow(), range.getMinColumn(),
 					true);
 		} else if (range.isEntireColumn()) {
-			processCalculate(command, 0, range.getMinColumn(), getLayout().numberOfRows() - 2,
+			processCalculate(statistic, 0, range.getMinColumn(), getLayout().numberOfRows() - 2,
 					range.getMaxColumn(), getLayout().numberOfRows() - 1,
 					range.getMaxColumn(), false);
 		} else if (range.isEntireRow()) {
-			processCalculate(command, range.getMinRow(), 0, range.getMaxRow(),
+			processCalculate(statistic, range.getMinRow(), 0, range.getMaxRow(),
 					getLayout().numberOfColumns() - 2, range.getMaxRow(),
 					getLayout().numberOfColumns() - 1, false);
 		} else if (range.isPartialColumn()) {
-			processCalculate(command, range.getMinRow(), range.getMinColumn(),
+			processCalculate(statistic, range.getMinRow(), range.getMinColumn(),
 					range.getMaxRow(), range.getMaxColumn(), range.getMaxRow() + 1,
 					range.getMaxColumn(), false);
 		} else if (range.isPartialRow()) {
-			processCalculate(command, range.getMinRow(), range.getMinColumn(),
+			processCalculate(statistic, range.getMinRow(), range.getMinColumn(),
 					range.getMaxRow(), range.getMaxColumn(), range.getMaxRow(),
 					range.getMaxColumn() + 1, false);
 		} else {
 			// multiple part of columns and rows
-			processCalculate(command, range.getMinRow(), range.getMinColumn(),
+			processCalculate(statistic, range.getMinRow(), range.getMinColumn(),
 					range.getMaxRow(), range.getMaxColumn(), range.getMaxRow() + 1,
 					range.getMaxColumn(), false);
 		}
 	}
 
-	private void processCalculate(SpreadsheetCommand command, int fromRow, int fromCol, int toRow,
+	private void processCalculate(Statistic statistic, int fromRow, int fromCol, int toRow,
 			int toCol, int destRow, int destCol, boolean showEditor) {
-		String curCommand = getCalculateString(command, fromRow, fromCol, toRow, toCol);
+		String curCommand = getCalculateString(statistic, fromRow, fromCol, toRow, toCol);
 		tabularData.getCellProcessor().process(curCommand, destRow, destCol);
 		updateSelectionAndScroll(destRow, destCol);
 		if (showEditor) {
@@ -1368,11 +1367,11 @@ public final class SpreadsheetController {
 		}
 	}
 
-	private String getCalculateString(SpreadsheetCommand command, int fromRow, int fromCol,
+	private String getCalculateString(Statistic statistic, int fromRow, int fromCol,
 			int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("=");
-		sb.append(command.getCommand());
+		sb.append(statistic.getCommandName());
 		sb.append("(");
 		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
 			sb.append(tabularData.getCellName(fromRow, fromCol)).append(":")
@@ -1535,6 +1534,8 @@ public final class SpreadsheetController {
 			return List.of();
 		}
 	}
+
+	// Editor
 
 	private final class Editor {
 		private final @Nonnull SpreadsheetCellEditor cellEditor;

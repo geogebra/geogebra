@@ -42,6 +42,7 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.util.UtilFactoryJre;
+import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.kernel.ChartBuilder;
@@ -576,7 +577,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         tabularData.setContent(1, 0, "2");
         tabularData.setContent(2, 0, "3");
         selectCells(from, 0, to, 0);
-        controller.calculate(SpreadsheetCommand.MEAN);
+        controller.calculate1VarStatistics(Statistic.MEAN);
 
         assertEquals("=mean(A1:A3)", tabularData.contentAt(3, 0));
     }
@@ -590,7 +591,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         tabularData.setContent(1, 1, "4");
         tabularData.setContent(2, 2, "5");
         selectCells(from, from, to, to);
-        controller.calculate(SpreadsheetCommand.SUM);
+        controller.calculate1VarStatistics(Statistic.SUM);
 
         assertNull(tabularData.contentAt(3, 0));
         assertNull(tabularData.contentAt(3, 1));
@@ -603,7 +604,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         tabularData.setContent(1, 0, "2");
         tabularData.setContent(2, 0, "3");
         selectCells(0, 0, tabularData.numberOfRows() - 2, 0);
-        controller.calculate(SpreadsheetCommand.SUM);
+        controller.calculate1VarStatistics(Statistic.SUM);
 
         assertEquals("=Sum(A1:A99)", tabularData.contentAt(tabularData.numberOfRows() - 1, 0));
     }
@@ -615,7 +616,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
         tabularData.setContent(0, 1, "2");
         tabularData.setContent(0, 2, "3");
         selectCells(0, from, 0, to);
-        controller.calculate(SpreadsheetCommand.MEAN);
+        controller.calculate1VarStatistics(Statistic.MEAN);
 
         assertEquals("=mean(A1:C1)", tabularData.contentAt(0, 3));
     }
