@@ -69,6 +69,7 @@ import org.geogebra.common.properties.impl.objects.CellBorderProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
 import org.geogebra.common.properties.impl.objects.DefinitionProperty;
 import org.geogebra.common.properties.impl.objects.DrawArrowsProperty;
+import org.geogebra.common.properties.impl.objects.DynamicColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 import org.geogebra.common.properties.impl.objects.ElementObjectEventProperty;
 import org.geogebra.common.properties.impl.objects.FillImageProperty;
@@ -430,7 +431,7 @@ public final class GeoElementPropertiesFactory {
 						() -> new AlgebraProperty(this, localization, elements)),
 				createOptionalProperty(
 						() -> new VisibilityPropertyCollection(this, localization, elements)),
-				// Dynamic colors
+				new DynamicColorPropertyCollection(this, localization, elements),
 				isWhiteboard ? null : createOptionalProperty(
 						() -> new LayerPropertyCollection(this, localization, elements))
 		));

@@ -40,6 +40,7 @@ import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
 import org.geogebra.common.properties.impl.graphics.AxisCrossPropertyCollection;
@@ -59,6 +60,7 @@ import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesColle
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
+import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
@@ -1111,6 +1113,39 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * Representation of a row of buttons, each with a label, one of which is can be selected.
+	 */
+	public static final class ConnectedButtonGroup
+			extends PropertyBackedView<NamedEnumeratedProperty<?>> {
+		ConnectedButtonGroup(@Nonnull NamedEnumeratedProperty<?> property) {
+			super(property);
+		}
+
+		/**
+		 * @return the label of each button
+		 */
+		public List<String> getButtonLabels() {
+			return List.of(property.getValueNames());
+		}
+
+		/**
+		 * @return the index of the currently selected button, or {@code null} if none is selected
+		 */
+		public @CheckForNull Integer getSelectedButtonIndex() {
+			int index = property.getIndex();
+			return index != -1 ? index : null;
+		}
+
+		/**
+		 * Sets the index of the newly selected button
+		 * @param newSelectedButtonIndex the new index of the selected button
+		 */
+		public void setSelectedButtonIndex(int newSelectedButtonIndex) {
+			property.setIndex(newSelectedButtonIndex);
+		}
+	}
+
+	/**
 	 * A row of action buttons, each with a text and an action triggered when tapped.
 	 */
 	public static final class ActionableButtonRow extends
@@ -1171,6 +1206,10 @@ public abstract class PropertyView {
 	public static @CheckForNull PropertyView of(Property property) {
 		if (property instanceof BooleanProperty booleanProperty) {
 			return new Checkbox(booleanProperty);
+		} else if (property instanceof DynamicColorSpaceProperty
+				|| (property instanceof NamedEnumeratedPropertyListFacade<?, ?> facade
+				&& facade.getFirstProperty() instanceof DynamicColorSpaceProperty)) {
+			return new ConnectedButtonGroup((NamedEnumeratedProperty<?>) property);
 		} else if (property instanceof NamedEnumeratedProperty<?> namedEnumeratedProperty) {
 			return new Dropdown(namedEnumeratedProperty);
 		} else if (property instanceof StringPropertyWithSuggestions stringProperty) {
