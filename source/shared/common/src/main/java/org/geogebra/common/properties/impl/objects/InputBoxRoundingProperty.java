@@ -83,7 +83,7 @@ public class InputBoxRoundingProperty extends AbstractGroupedEnumeratedProperty<
 			throw new NotApplicablePropertyException(element);
 		}
 		this.element = (TextProperties) element;
-		this.decimalPlaces = localization.getDecimalPlaces();
+		this.decimalPlaces = localization.getInputBoxDecimalPlaces();
 		this.significantFigures = localization.getSignificantFigures();
 		setNamedValues(getNamedValues());
 		setGroupDividerIndices(new int[]{decimalPlaces.length});
@@ -123,7 +123,8 @@ public class InputBoxRoundingProperty extends AbstractGroupedEnumeratedProperty<
 					if (decimal == 0 && !localization.isZeroPlural()) {
 						key = "ADecimalPlace";
 					}
-					String display = localization.getPlain(key, String.valueOf(decimal));
+					String display = decimal == -1 ? ""
+							: localization.getPlain(key, String.valueOf(decimal));
 					return entry(new Rounding(decimal, RoundingType.DECIMAL_PLACES), display);
 				});
 

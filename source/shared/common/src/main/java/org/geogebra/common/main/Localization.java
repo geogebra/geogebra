@@ -72,6 +72,7 @@ public abstract class Localization extends LocalizationI {
 	private char unicodeComma = ','; // \u060c for Arabic comma
 
 	private int[] decimalPlacesOptions = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
+	private int[] inputBoxDecimalPlacesOptions = { -1, 0, 1, 2, 3, 4, 5, 10, 13, 15 };
 	private int[] significantFiguresOptions = {3, 5, 10, 15};
 
 	// TODO this doesn't really belong here; find a better owner (CommandProcessor?)
@@ -148,6 +149,13 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public void setDecimalPlaces(int[] decimalPlaces) {
 		this.decimalPlacesOptions = decimalPlaces;
+	}
+
+	/**
+	 * @return the decimal places for input box in this localization
+	 */
+	public int[] getInputBoxDecimalPlaces() {
+		return inputBoxDecimalPlacesOptions;
 	}
 
 	/**
