@@ -256,6 +256,9 @@ $keyboard_button_transition: opacity .3s ease;
 			padding-right: 24px;
 			height: 32px;
 			line-height: 32px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		.dropDownElement:hover {
