@@ -670,7 +670,7 @@ public class GeoGebraFrameFull
 
 		getKeyboardManager().setOnScreenKeyboardTextField(ml);
 
-		if (ml != null) {
+		if (ml != null && !app.hasPopup()) {
 			ml.setFocus(true);
 			ml.ensureEditing();
 		}

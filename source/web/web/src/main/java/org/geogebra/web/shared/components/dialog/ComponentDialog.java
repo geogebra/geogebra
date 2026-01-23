@@ -271,14 +271,21 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		Scheduler.get().scheduleDeferred(() -> {
 			super.show();
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
-			if (negButton != null) {
+			((AppW) app).registerPopup(this);
+			if (negButton != null && !widgetList.contains(negButton)) {
 				widgetList.add(negButton);
 			}
-			if (posButton != null) {
+			if (posButton != null && !widgetList.contains(posButton)) {
 				widgetList.add(posButton);
 			}
 			widgetList.get(0).getElement().focus();
 		});
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		((AppW) app).unregisterPopup(this);
 	}
 
 	/**
@@ -345,7 +352,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	private void setAccessibilityProperties(boolean isModal) {
 		AriaHelper.setRole(this, "dialog");
 		AriaHelper.setModal(this, isModal);
-		AriaHelper.setTitle(this, app.getLocalization().getMenu(dialogData.getTitleTransKey()));
+		AriaHelper.setLabel(this, app.getLocalization().getMenu(dialogData.getTitleTransKey()));
 	}
 
 	@Override
