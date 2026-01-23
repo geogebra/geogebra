@@ -11,6 +11,6 @@
  * 
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
- * See https://www.geogebra.org/license for full licensing details'
+ * See https://www.geogebra.org/license for full licensing details
  */
  
