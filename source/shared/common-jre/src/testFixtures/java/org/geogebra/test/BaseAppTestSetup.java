@@ -153,6 +153,10 @@ public class BaseAppTestSetup {
 		return (T) evaluate(expression)[0];
 	}
 
+	protected final <T extends GeoElementND> T evaluateGeoElement(String expression, Class<T> cls) {
+		return cls.cast(evaluate(expression)[0]);
+	}
+
 	protected final void editGeoElement(GeoElement geoElement, String newExpression) {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForRedefinition(
 				app.getKernel(), geoElement, true);

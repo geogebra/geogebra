@@ -806,10 +806,10 @@ public class GeoNumeric extends GeoElement
 	protected void getStyleXML(XMLStringBuilder sb) {
 		XMLBuilder.appendSymbolicMode(sb, this, false);
 		// if number is drawable then we need to save visual options too
-		if (isDrawable || isSliderable()) {
+		if (isDrawable || hasIntervalMin() || hasIntervalMax()) {
 			// save slider info before show to have min and max set
 			// before setEuclidianVisible(true) is called
-			getXMLsliderTag(sb);
+			getXMLSliderTag(sb);
 
 			// line thickness and type
 			getLineStyleXML(sb);
@@ -883,20 +883,33 @@ public class GeoNumeric extends GeoElement
 	}
 
 	/**
+	 * @return whether interval min should be stored to XML
+	 */
+	protected boolean hasIntervalMin() {
+		return isIntervalMinActive() || intervalMin instanceof GeoNumeric;
+	}
+
+	/**
+	 * @return whether interval max should be stored to XML
+	 */
+	protected boolean hasIntervalMax() {
+		return isIntervalMaxActive() || intervalMax instanceof GeoNumeric;
+	}
+
+	/**
 	 * Adds the slider tag to the string builder
 	 * @param sb StringBuilder to be written to
 	 */
-	protected void getXMLsliderTag(XMLStringBuilder sb) {
-		if (!hasMinAndMaxIntervals() || !isIndependent()) {
+	protected void getXMLSliderTag(XMLStringBuilder sb) {
+		if (!isIndependent()) {
 			return;
 		}
-
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		sb.startTag("slider");
-		if (isIntervalMinActive() || intervalMin instanceof GeoNumeric) {
+		if (hasIntervalMin()) {
 			sb.attr("min", getIntervalMinObject().getLabel(tpl));
 		}
-		if (isIntervalMaxActive() || intervalMax instanceof GeoNumeric) {
+		if (hasIntervalMax()) {
 			sb.attr("max", getIntervalMaxObject().getLabel(tpl));
 		}
 
@@ -1409,11 +1422,11 @@ public class GeoNumeric extends GeoElement
 		}
 		boolean okMin = isIntervalMinActive();
 		boolean okMax = isIntervalMaxActive();
-		boolean ok = getIntervalMin() < getIntervalMax();
+		boolean ok = getIntervalMin() <= getIntervalMax();
 		ExpressionNode oldDefinition = getDefinition();
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
-			isDrawable = true;
+			isDrawable = getIntervalMin() < getIntervalMax();
 		} else if (okMin && okMax) {
 			setUndefined();
 		}

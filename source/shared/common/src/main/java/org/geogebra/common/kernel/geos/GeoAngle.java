@@ -469,10 +469,10 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	private void getStyleXMLAfter(XMLStringBuilder sb) {
 		// if angle is drawable then we need to save visual options too
-		if (isDrawable() || isSliderable()) {
+		if (isDrawable() || hasIntervalMin() || hasIntervalMax()) {
 			// save slider info before show to have min and max set
 			// before setEuclidianVisible(true) is called
-			getXMLsliderTag(sb);
+			getXMLSliderTag(sb);
 			getLineStyleXML(sb);
 
 			// arc size

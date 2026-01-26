@@ -232,32 +232,7 @@ public class BaseUnitTest {
 		if (!info.isAutocreateSliders()) {
 			return app.getErrorHandler();
 		}
-		return new ErrorHandler() {
-			@Override
-			public void showError(String msg) {
-				fail(msg);
-			}
-
-			@Override
-			public void showCommandError(String command, String message) {
-				fail(message);
-			}
-
-			@Override
-			public String getCurrentCommand() {
-				return null;
-			}
-
-			@Override
-			public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
-				return true;
-			}
-
-			@Override
-			public void resetError() {
-				// nothing to do
-			}
-		};
+		return TestErrorHandler.WITH_SLIDERS;
 	}
 
 	/**

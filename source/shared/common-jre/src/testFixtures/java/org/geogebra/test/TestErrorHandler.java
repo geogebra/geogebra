@@ -27,13 +27,17 @@ import org.geogebra.common.util.AsyncOperation;
  */
 public final class TestErrorHandler implements ErrorLogger {
 
+	private boolean withSliders;
+
 	/**
 	 * Singleton instance
 	 */
-	public static final ErrorHandler INSTANCE = new TestErrorHandler();
+	public static final ErrorHandler INSTANCE = new TestErrorHandler(false);
 
-	private TestErrorHandler() {
-		// singleton
+	public static final ErrorHandler WITH_SLIDERS = new TestErrorHandler(true);
+
+	private TestErrorHandler(boolean withSliders) {
+		this.withSliders = withSliders;
 	}
 
 	@Override
@@ -44,7 +48,7 @@ public final class TestErrorHandler implements ErrorLogger {
 	@Override
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
-		return false;
+		return withSliders;
 	}
 
 	@Override
