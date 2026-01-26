@@ -33,6 +33,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
@@ -60,6 +61,7 @@ import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesColle
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
+import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
@@ -1113,6 +1115,37 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * Representation of a button with an icon, a label, and an action triggered when tapped.
+	 */
+	public static final class ButtonWithIcon
+			extends PropertyBackedView<ActionableIconProperty> {
+		ButtonWithIcon(ActionableIconProperty property) {
+			super(property);
+		}
+
+		/**
+		 * Triggers the action associated with this button.
+		 */
+		public void performAction() {
+			property.performAction();
+		}
+
+		/**
+		 * @return the label of the button
+		 */
+		public String getLabel() {
+			return property.getName();
+		}
+
+		/**
+		 * @return the icon of the button
+		 */
+		public PropertyResource getIcon() {
+			return property.getIcon();
+		}
+	}
+
+	/**
 	 * Representation of a row of buttons, each with a label, one of which is can be selected.
 	 */
 	public static final class ConnectedButtonGroup
@@ -1236,7 +1269,11 @@ public abstract class PropertyView {
 				|| property instanceof AlgebraViewVisibilityPropertyCollection) {
 			return new RelatedPropertyViewCollection(property.getName(),
 					propertyViewListOf((PropertyCollection<?>) property), 4);
-		} else if (property instanceof LabelStylePropertyCollection labelStylePropertyCollection) {
+		} else if (property instanceof BackgroundColorPropertyCollection collection) {
+			return new ExpandableList(collection, List.of(new RelatedPropertyViewCollection(
+					null, propertyViewListOf(collection), 8)));
+		}
+		else if (property instanceof LabelStylePropertyCollection labelStylePropertyCollection) {
 			return new MultiSelectionIconRow(labelStylePropertyCollection);
 		} else if (property instanceof ActionableIconPropertyCollection actionableIconProperty) {
 			return new IconButtonRow(actionableIconProperty);
@@ -1306,6 +1343,8 @@ public abstract class PropertyView {
 			return new ActionableButtonRow(propertyCollection);
 		} else if (property instanceof ObjectAllEventsProperty objectAllEventsProperty) {
 			return new ScriptEditor(objectAllEventsProperty);
+		} else if (property instanceof ActionableIconProperty actionableIconProperty) {
+			return new ButtonWithIcon(actionableIconProperty);
 		} else if (property instanceof PropertyCollection<?> propertyCollection) {
 			return new ExpandableList(propertyCollection, propertyViewListOf(propertyCollection));
 		} else {

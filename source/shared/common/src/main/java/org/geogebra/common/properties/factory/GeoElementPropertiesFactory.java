@@ -59,6 +59,7 @@ import org.geogebra.common.properties.impl.objects.AnimatingProperty;
 import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.AuxiliaryObjectProperty;
+import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
 import org.geogebra.common.properties.impl.objects.BoldProperty;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
@@ -346,8 +347,11 @@ public final class GeoElementPropertiesFactory {
 	private @Nonnull PropertiesArray createStyleProperties(
 			AlgebraProcessor processor,
 			Localization localization, List<GeoElement> elements) {
+		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
 		return createPropsArray("Style", localization, Stream.of(
 				// New style properties come below, in order
+				isWhiteboard ? null : createOptionalProperty(
+						() -> new BackgroundColorPropertyCollection(this, localization, elements)),
 				createOptionalProperty(() -> new SizePropertyCollection(
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new SliderBlobPropertyCollection(

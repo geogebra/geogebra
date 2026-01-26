@@ -19,7 +19,7 @@ package org.geogebra.web.full.euclidian.quickstylebar;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
@@ -288,7 +288,7 @@ public class PropertiesIconAdapter {
 			instanceof TextFontSizeProperty) {
 			return MaterialDesignResources.INSTANCE.text_size_black();
 		} else if (property instanceof ColorPropertyListFacade) {
-			AbstractValuedProperty<?> firstProperty = ((ColorPropertyListFacade<?>) property)
+			ColorProperty firstProperty = ((ColorPropertyListFacade<?>) property)
 					.getFirstProperty();
 			if (firstProperty instanceof ObjectColorProperty
 				|| firstProperty instanceof TextBackgroundColorProperty
