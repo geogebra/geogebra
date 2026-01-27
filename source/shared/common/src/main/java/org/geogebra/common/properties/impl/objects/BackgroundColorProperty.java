@@ -20,9 +20,9 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.BackgroundColorValues;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.properties.impl.DefaultColorValues;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -46,7 +46,7 @@ public class BackgroundColorProperty extends AbstractEnumeratedProperty<GColor>
 			throw new NotApplicablePropertyException(element);
 		}
 		this.element = element;
-		setValues(BackgroundColorValues.values());
+		setValues(DefaultColorValues.PALE);
 	}
 
 	@Override

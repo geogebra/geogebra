@@ -183,6 +183,7 @@ public class GeoGebraColorConstants {
 	public static final GColor NEUTRAL_500 = rgb(0xB4B3BA);
 	public static final GColor NEUTRAL_600 = rgb(0x85848A);
 	public static final GColor NEUTRAL_700 = rgb(0x6E6D73);
+	public static final GColor NEUTRAL_800 = rgb(0x2F2F33);
 	public static final GColor NEUTRAL_900 = rgb(0x1C1C1F);
 
 	public static final GColor PURPLE_100 = rgb(0xF3F0FF);

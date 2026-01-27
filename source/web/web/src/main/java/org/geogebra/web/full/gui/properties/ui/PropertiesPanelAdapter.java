@@ -21,6 +21,7 @@ import static org.geogebra.common.properties.PropertyView.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyView;
@@ -192,7 +193,11 @@ public class PropertiesPanelAdapter {
 			return new IconButtonPanel(app, (SingleSelectionIconRow) propertyView, true);
 		}
 		if (propertyView instanceof ColorSelectorRow colorSelectorRow) {
-			ColorChooserPanel colorPanel = new ColorChooserPanel(app, colorSelectorRow.getColors(),
+			List<GColor> colors = colorSelectorRow.getColors();
+			// Copy and add null value to enable plus button
+			colors = new ArrayList<>(colors);
+			colors.add(null);
+			ColorChooserPanel colorPanel = new ColorChooserPanel(app, colors,
 					color -> {
 						boolean handled = false;
 						for (int i = 0; i < colorSelectorRow.getColors().size(); i++) {
