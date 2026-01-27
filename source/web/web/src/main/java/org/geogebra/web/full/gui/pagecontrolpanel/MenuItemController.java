@@ -162,7 +162,8 @@ public class MenuItemController {
 			String targetId, String objects) {
 		Map<String, Object> pasteJson = new HashMap<>();
 		pasteJson.put("argument", targetId);
-		pasteJson.put("to", pasteAfter.getPageIndex() + 1);
+		// note: this must be double so that JS can understand it
+		pasteJson.put("to", pasteAfter.getPageIndex() + 1.0);
 		pasteJson.put("ggbFile", content);
 		pasteJson.put("targets", Global.JSON.parse(objects));
 		return pasteJson;
