@@ -37,6 +37,7 @@ import org.geogebra.editor.share.controller.EditorState;
 import org.geogebra.editor.share.editor.AddPlaceholders;
 import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.editor.MathFieldInternal;
+import org.geogebra.editor.share.event.KeyEvent;
 import org.geogebra.editor.share.input.KeyboardInputAdapter;
 import org.geogebra.editor.share.io.latex.Parser;
 import org.geogebra.editor.share.catalog.TemplateCatalog;
@@ -78,14 +79,14 @@ class EditorChecker {
 		assertEquals(output,
 				GeoGebraSerializer.serialize(rootComponent, (EditorFeatures) null));
 		// clean the checker after typing
-		fromParser("");
+		reset();
 	}
 
 	public void checkLaTeX(String output) {
 		assertEquals(output,
 				TeXSerializer.serialize(getRootComponent()));
 		// clean the checker after typing
-		fromParser("");
+		reset();
 	}
 
 	public void checkGGBMath(String output) {
@@ -103,7 +104,7 @@ class EditorChecker {
 			Log.debug(e);
 			assertEquals(output, "Exception for " + exp + ":" + e);
 		}
-		fromParser("");
+		reset();
 	}
 
 	public EditorChecker checkPlaceholders(String expected) {
@@ -387,11 +388,41 @@ class EditorChecker {
 		EditorState editorState = mathField.getInternal().getEditorState();
 		assertEquals(from, editorState.getSelectionStart().toString());
 		assertEquals(to, editorState.getSelectionEnd().toString());
-		fromParser("");
+		reset();
 	}
 
 	public void checkSelectionEmpty() {
 		assertNull(mathField.getInternal().getEditorState().getSelectionStart());
+		reset();
+	}
+
+	public EditorChecker shiftOn() {
+		return this.setModifiers(KeyEvent.SHIFT_MASK);
+	}
+
+	public void shouldDeleteOnly(Integer number) {
+		String before = GeoGebraSerializer.serialize(getRootComponent(), (EditorFeatures) null);
+		setModifiers(0);
+		typeKey(JavaKeyCodes.VK_DELETE);
+		checkAsciiMath(before.replace(number.toString(), ""));
+	}
+
+	public EditorChecker backspace(int times) {
+		return repeatKey(JavaKeyCodes.VK_BACK_SPACE, times);
+	}
+
+	public EditorChecker ctrlA() {
+		setModifiers(KeyEvent.CTRL_MASK);
+		typeKey(JavaKeyCodes.VK_A);
+		return this;
+	}
+
+	public EditorChecker down(int times) {
+		return repeatKey(JavaKeyCodes.VK_DOWN, times);
+	}
+
+	private void reset() {
 		fromParser("");
+		setModifiers(0);
 	}
 }

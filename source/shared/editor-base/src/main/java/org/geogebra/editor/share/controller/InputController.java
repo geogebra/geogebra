@@ -1106,7 +1106,10 @@ public class InputController {
 	}
 
 	private static void deleteMatrixElementValue(EditorState editorState) {
-		SequenceNode matrixElement = (SequenceNode) editorState.getSelectionAnchor().getParent();
+		Node selectionStart = editorState.getSelectionStart();
+		SequenceNode matrixElement = selectionStart instanceof SequenceNode
+				? (SequenceNode) selectionStart
+				: (SequenceNode) selectionStart.getParent();
 		matrixElement.clearChildren();
 		editorState.setCurrentOffset(0);
 		editorState.setCurrentNode(matrixElement);

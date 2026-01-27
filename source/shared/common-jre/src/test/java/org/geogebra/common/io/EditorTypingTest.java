@@ -1086,6 +1086,26 @@ public class EditorTypingTest {
 		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.checkSelection("4", "6");
+		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+				.typeKey(JavaKeyCodes.VK_END)
+				.left(2)
+				.checkSelection("4", "4");
+		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+				.typeKey(JavaKeyCodes.VK_HOME)
+				.checkSelection("1", "3");
+		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+				.typeKey(JavaKeyCodes.VK_HOME)
+				.right(1)
+				.checkSelection("2", "3");
+		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+				.typeKey(JavaKeyCodes.VK_END)
+				.typeKey(JavaKeyCodes.VK_HOME)
+				.right(1)
+				.checkSelection("2", "3");
+		checker.type("123456").left(6).setModifiers(KeyEvent.SHIFT_MASK)
+				.typeKey(JavaKeyCodes.VK_END)
+				.typeKey(JavaKeyCodes.VK_HOME)
+				.checkSelectionEmpty();
 	}
 
 	@Test
@@ -1096,6 +1116,20 @@ public class EditorTypingTest {
 		checker.type("123456").setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.checkSelectionEmpty();
+		checker.type("1").left(1)
+				.shiftOn().right(1).left(1)
+				.checkSelectionEmpty();
+		checker.type("1")
+				.shiftOn().left(1).right(1)
+				.checkSelectionEmpty();
+	}
+
+	@Test
+	public void selectAll() {
+		checker.type("123456").ctrlA().checkSelection("SequenceNode[1, 2, 3, 4, 5, 6]",
+				"SequenceNode[1, 2, 3, 4, 5, 6]");
+		checker.type("123456").ctrlA().shiftOn().left(2)
+				.checkSelection("1", "4");
 	}
 
 	@Test

@@ -18,6 +18,7 @@ package org.geogebra.common.io;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.editor.share.util.JavaKeyCodes;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -42,259 +43,264 @@ public class DeleteInMatrixTest {
 
 	@Test
 	public void testSelectionShouldDelete1OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.shiftRightTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.shiftOn().right(2)
 				.shouldDeleteOnly(1);
+	}
+
+	private EditorChecker newMatrixChecker(String input) {
+		EditorChecker checker = new EditorChecker(DeleteInMatrixTest.app);
+		return checker.matrixFromParser(input);
 	}
 
 	@Test
 	public void testSelectionShouldDelete1OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.right()
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.right(1)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(1);
 	}
 
 	@Test
 	public void testSelectionShouldDelete2OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.rightTimes(2)
-				.shiftRightTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.right(2)
+				.shiftOn().right(2)
 				.shouldDeleteOnly(2);
 	}
 
 	@Test
 	public void testSelectionShouldDelete2OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.rightTimes(3)
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.right(3)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(2);
 	}
 
 	@Test
 	public void testSelectionShouldDelete3OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.rightTimes(4)
-				.shiftRightTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.right(4)
+				.shiftOn().right(2)
 				.shouldDeleteOnly(3);
 	}
 
 	@Test
 	public void testSelectionShouldDelete3OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.rightTimes(5)
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.right(5)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(3);
 	}
 
 	@Test
 	public void testSelectionShouldDelete4OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.down()
-				.shiftRightTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(1)
+				.shiftOn().right(2)
 				.shouldDeleteOnly(4);
 	}
 
 	@Test
 	public void testSelectionShouldDelete4OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.down()
-				.right()
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(1)
+				.right(1)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(4);
 	}
 
 	@Test
 	public void testSelectionShouldDelete5OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.down()
-				.rightTimes(3)
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(1)
+				.right(3)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(5);
 	}
 
 	@Test
 	public void testSelectionShouldDelete5OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.down()
-				.rightTimes(4)
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(1)
+				.right(4)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(5);
 	}
 
 	@Test
 	public void testSelectionShouldDelete6OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.down()
-				.rightTimes(4)
-				.shiftRightTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(1)
+				.right(4)
+				.shiftOn().right(2)
 				.shouldDeleteOnly(6);
 	}
 
 	@Test
 	public void testSelectionShouldDelete6OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.down()
-				.rightTimes(5)
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(1)
+				.right(5)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(6);
 	}
 
 	@Test
 	public void testSelectionShouldDelete7OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.downTimes(2)
-				.shiftRightTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(2)
+				.shiftOn().right(2)
 				.shouldDeleteOnly(7);
 	}
 
 	@Test
 	public void testSelectionShouldDelete7OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.downTimes(2)
-				.right()
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(2)
+				.right(1)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(7);
 	}
 
 	@Test
 	public void testSelectionShouldDelete8OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.downTimes(2)
-				.rightTimes(2)
-				.shiftRightTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(2)
+				.right(2)
+				.shiftOn().right(2)
 				.shouldDeleteOnly(8);
 	}
 
 	@Test
 	public void testSelectionShouldDelete8OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.downTimes(2)
-				.rightTimes(3)
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(2)
+				.right(3)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(8);
 	}
 
 	@Test
 	public void testSelectionShouldDelete9OnlyFromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.downTimes(2)
-				.rightTimes(4)
-				.shiftRightTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(2)
+				.right(4)
+				.shiftOn().right(2)
 				.shouldDeleteOnly(9);
 	}
 
 	@Test
 	public void testSelectionShouldDelete9OnlyFromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_1_TO_9);
-		checker.downTimes(2)
-				.rightTimes(5)
-				.shiftLeftTwice()
+		EditorChecker checker = newMatrixChecker(MATRIX_1_TO_9);
+		checker.down(2)
+				.right(5)
+				.shiftOn().left(2)
 				.shouldDeleteOnly(9);
 	}
 
 	@Test
 	public void testShouldDelete123FromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_MULIFIGURE);
-		checker.shiftOn().rightTimes(4)
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.shiftOn().right(4)
 				.shouldDeleteOnly(123);
 	}
 
 	@Test
 	public void testShouldDelete123FromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_MULIFIGURE);
-		checker.rightTimes(3)
-				.shiftOn().leftTimes(4)
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.right(3)
+				.shiftOn().left(4)
 				.shouldDeleteOnly(123);
 	}
 
 	@Test
 	public void testShouldDelete456FromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_MULIFIGURE);
-		checker.rightTimes(3)
-				.shiftOn().rightTimes(4)
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.right(3)
+				.shiftOn().right(4)
 				.shouldDeleteOnly(456);
 	}
 
 	@Test
 	public void testShouldDelete456FromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_MULIFIGURE);
-		checker.rightTimes(6)
-				.shiftOn().leftTimes(4)
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.right(6)
+				.shiftOn().left(4)
 				.shouldDeleteOnly(456);
 	}
 
 	@Test
 	public void testShouldDelete321FromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_MULIFIGURE);
-		checker.down()
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.down(1)
 				.shiftOn()
-				.rightTimes(4)
+				.right(4)
 				.shouldDeleteOnly(321);
 	}
 
 	@Test
 	public void testShouldDelete321FromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_MULIFIGURE);
-		checker.down()
-				.rightTimes(3)
-				.shiftOn().leftTimes(4)
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.down(1)
+				.right(3)
+				.shiftOn().left(4)
 				.shouldDeleteOnly(321);
 	}
 
 	@Test
 	public void testShouldDelete654FromLeft() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_MULIFIGURE);
-		checker.down()
-				.rightTimes(4)
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.down(1)
+				.right(4)
 				.shiftOn()
-				.rightTimes(4)
+				.right(4)
 				.shouldDeleteOnly(654);
 	}
 
 	@Test
 	public void testShouldDelete654FromRight() {
-		MatrixChecker checker = new MatrixChecker(app, MATRIX_MULIFIGURE);
-		checker.down()
-				.rightTimes(6)
-				.shiftOn().leftTimes(4)
+		EditorChecker checker = newMatrixChecker(MATRIX_MULIFIGURE);
+		checker.down(1)
+				.right(6)
+				.shiftOn().left(4)
 				.shouldDeleteOnly(654);
 	}
 
 	@Test
 	public void testRowSelectionShouldDelete1Only() {
-		MatrixChecker checker = new MatrixChecker(app, ROW_MATRIX);
+		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
 		checker.shiftOn()
-				.right()
+				.right(1)
 				.backspace(2)
 				.shouldDeleteOnly(1);
 	}
 
 	@Test
 	public void testRowSelectionShouldDelete2Only() {
-		MatrixChecker checker = new MatrixChecker(app, ROW_MATRIX);
-		checker.rightTimes(2)
+		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
+		checker.right(2)
 				.shiftOn()
-				.right()
+				.right(1)
 				.backspace(2)
 				.shouldDeleteOnly(2);
 	}
 
 	@Test
 	public void testRowSelectionShouldDelete2OnlyWith3Backspace() {
-		MatrixChecker checker = new MatrixChecker(app, ROW_MATRIX);
-		checker.rightTimes(2)
+		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
+		checker.right(2)
 				.shiftOn()
-				.right()
+				.right(1)
 				.shouldDeleteOnly(2);
 	}
 
 	@Test
 	public void testRowSelectionShouldDelete3Only() {
-		MatrixChecker checker = new MatrixChecker(app, ROW_MATRIX);
-		checker.rightTimes(4)
+		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
+		checker.right(4)
 				.shiftOn()
-				.right()
+				.right(1)
 				.backspace(1)
 				.backspace(1)
 				.shouldDeleteOnly(3);
@@ -302,8 +308,8 @@ public class DeleteInMatrixTest {
 
 	@Test
 	public void testRowShouldDelete3Only() {
-		MatrixChecker checker = new MatrixChecker(app, ROW_MATRIX);
-		checker.rightTimes(3)
+		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
+		checker.right(3)
 				.backspace(2)
 				.shouldDeleteOnly(2);
 
@@ -311,11 +317,11 @@ public class DeleteInMatrixTest {
 
 	@Test
 	public void testCanTypeAndDeleteBrackets() {
-		MatrixChecker checker = new MatrixChecker(app, ROW_MATRIX);
-		checker.rightTimes(3)
+		EditorChecker checker = newMatrixChecker(ROW_MATRIX);
+		checker.right(3)
 				.type("(")
 				.backspace(1)
-				.shouldBeUnchanged();
+				.checkAsciiMath(ROW_MATRIX);
 
 	}
 
@@ -324,11 +330,11 @@ public class DeleteInMatrixTest {
 		selectAllAndDelete(MATRIX_MULIFIGURE, 1, "123");
 	}
 
-	private void selectAllAndDelete(String matrix, int rightTimes, String target) {
-		MatrixChecker checker = new MatrixChecker(app, matrix);
-		checker.rightTimes(rightTimes)
+	private void selectAllAndDelete(String matrix, int right, String target) {
+		EditorChecker checker = newMatrixChecker(matrix);
+		checker.right(right)
 				.ctrlA()
-				.delete();
+				.typeKey(JavaKeyCodes.VK_DELETE);
 		checker.checkAsciiMath(matrix.replace(target, ""));
 	}
 

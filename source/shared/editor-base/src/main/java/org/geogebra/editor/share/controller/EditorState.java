@@ -51,7 +51,9 @@ public class EditorState {
 
 	private Node currentSelStart;
 	private Node currentSelEnd;
-	private Node selectionAnchor;
+	private int selectionAnchor = -1;
+	private SequenceNode selectionParent;
+	private boolean selectionBackward = false;
 
 	/**
 	 * @param catalog {@link TemplateCatalog}
@@ -161,12 +163,19 @@ public class EditorState {
 	 * @param left true to go to the left from cursor
 	 */
 	public void extendSelection(boolean left) {
-		Node cursorField = getCursorField(left);
-		if (cursorField == null) {
+		int increment = 0;
+		if (getSelectionStart() != null && rootNode.isProtected()
+				&& !contains(currentNode, getSelectionStart())) {
+			extendToParent(getCursorField(left));
 			return;
 		}
+		if (selectionAnchor >= 0 && (left != selectionBackward)) {
+			increment = left ? -1 : 1;
+		}
 
-		extendSelection(cursorField);
+		int cursorField = getCursorOffset(left);
+		extendSelection(cursorField + increment,
+				selectionAnchor < 0 ? !left : selectionBackward);
 		if (left && currentNode.size() == currentOffset) {
 			currentOffset--;
 		}
@@ -177,37 +186,52 @@ public class EditorState {
 	 * @param cursorField newly selected field
 	 */
 	public void extendSelection(Node cursorField) {
+		extendSelection(cursorField.getParentIndex(), selectionBackward);
+	}
+
+	/**
+	 * Extends selection to include a field
+	 * @param cursorIndex index of newly selected field in currentNode
+	 */
+	public void extendSelection(int cursorIndex, boolean anchorStart) {
+		Node cursorField = currentNode.getChild(Math.min(Math.max(cursorIndex, 0),
+				currentNode.size() - 1));
 		if (cursorField == null) {
 			return;
 		}
 
-		if (selectionAnchor == null) {
+		if (selectionAnchor < 0) {
 			if (isGrandparentProtected(cursorField.getParent())
 					&& ",".equals(cursorField.toString())) {
 				return;
 			}
+			selectionBackward = !anchorStart;
 			currentSelStart = cursorField;
 			currentSelEnd = cursorField;
-			anchor(true);
+			this.selectionAnchor = cursorIndex  + (!anchorStart ? 1 : 0);
+			FactoryProvider.debugS("Anchored" + selectionAnchor + ":" + anchorStart);
+			selectionParent = currentNode;
 			return;
 		}
 
-		currentSelStart = selectionAnchor;
+		int selectionStartIndex = selectionAnchor + (!anchorStart ? -1 : 0);
+		if (selectionStartIndex == cursorIndex) {
+			currentOffset = selectionAnchor;
+			resetSelection();
+			return;
+		}
+		Node child = selectionParent.getChild(selectionBackward
+				? selectionAnchor - 1 : selectionAnchor);
+		if (child != null) {
+			this.currentSelStart = child;
+		} else {
+			currentSelStart = selectionParent;
+		}
 		// go from selection start to the root until we find common root
-		InternalNode commonParent = currentSelStart.getParent();
-		while (commonParent != null && !contains(commonParent, cursorField)) {
-			currentSelStart = currentSelStart.getParent();
-			commonParent = currentSelStart.getParent();
-			if (commonParent.isRenderingOwnPlaceholders() && !isMatrix(commonParent)) {
-				currentSelStart = commonParent;
-				commonParent = currentSelStart.getParent();
-			}
-		}
-		if (commonParent == null) {
-			commonParent = rootNode;
-		}
+		InternalNode commonParent = extendToParent(cursorField);
 
 		currentSelEnd = cursorField;
+		selectionBackward = anchorStart;
 		// special case: start is inside end -> select single node
 		if (currentSelEnd == commonParent
 				|| commonParent instanceof FunctionNode node
@@ -238,6 +262,22 @@ public class EditorState {
 			terminateSelectionAtComma(commonParent, from, to);
 		}
 
+	}
+
+	private InternalNode extendToParent(Node cursorField) {
+		InternalNode commonParent = currentSelStart.getParent();
+		while (commonParent != null && !contains(commonParent, cursorField)) {
+			currentSelStart = currentSelStart.getParent();
+			commonParent = currentSelStart.getParent();
+			if (commonParent.isRenderingOwnPlaceholders() && !isMatrix(commonParent)) {
+				currentSelStart = commonParent;
+				commonParent = currentSelStart.getParent();
+			}
+		}
+		if (commonParent == null) {
+			commonParent = rootNode;
+		}
+		return commonParent;
 	}
 
 	private boolean isMatrix(InternalNode container) {
@@ -271,6 +311,8 @@ public class EditorState {
 	 */
 	public void selectAll() {
 		selectAll.execute();
+		cursorToSelectionEnd();
+		anchor();
 	}
 
 	/**
@@ -280,10 +322,17 @@ public class EditorState {
 		if (currentNode == rootNode && currentOffset == 0) {
 			return;
 		}
-		if (selectionAnchor == null) {
-			extendSelection(getCursorField(false));
+		boolean anchorStart = false;
+		if (!selectionBackward) {
+			changeSelectionDirection();
+			anchorStart = currentOffset == 0;
 		}
-		extendSelection(getCurrentNode().getChild(0));
+		if (selectionAnchor < 0) {
+			extendSelection(getCursorOffset(anchorStart), anchorStart);
+		}
+		extendSelection(0, true);
+		cursorToSelectionStart();
+		selectionBackward = true;
 	}
 
 	/**
@@ -293,10 +342,23 @@ public class EditorState {
 		if (currentNode == rootNode && currentOffset == rootNode.size()) {
 			return;
 		}
-		if (selectionAnchor == null) {
-			extendSelection(getCursorField(true));
+		if (selectionBackward) {
+			changeSelectionDirection();
 		}
-		extendSelection(getCurrentNode().getChild(getCurrentNode().size() - 1));
+		if (selectionAnchor < 0) {
+			extendSelection(getCursorOffset(true), true);
+		}
+		extendSelection(getCurrentNode().size(), true);
+		cursorToSelectionEnd();
+		selectionBackward = false;
+	}
+
+	private void changeSelectionDirection() {
+		if (selectionParent != null) {
+			currentOffset = selectionAnchor;
+			currentNode = selectionParent;
+		}
+		resetSelection();
 	}
 
 	/**
@@ -307,6 +369,15 @@ public class EditorState {
 		return getCurrentNode().getChild(
 				Math.max(0, Math.min(getCurrentOffset() + (left ? 0 : -1),
 						getCurrentNode().size() - 1)));
+	}
+
+	/**
+	 * @param left whether to move to the left
+	 * @return cursor position adjusted by 0 or -1
+	 */
+	public int getCursorOffset(boolean left) {
+		return Math.max(0, Math.min(getCurrentOffset() + (left ? 0 : -1),
+						getCurrentNode().size()));
 	}
 
 	private static boolean contains(InternalNode commonParent,
@@ -326,8 +397,9 @@ public class EditorState {
 	 */
 	public void resetSelection() {
 
-		selectionAnchor = null;
-
+		selectionAnchor = -1;
+		selectionBackward = false;
+		selectionParent = null;
 		currentSelEnd = null;
 		currentSelStart = null;
 
@@ -342,11 +414,12 @@ public class EditorState {
 
 	/**
 	 * Update selection anchor (starting point of selection by drag)
-	 * @param start whether to anchor the start or the end of selection
 	 */
-	public void anchor(boolean start) {
-		this.selectionAnchor = start ? this.currentSelStart
-				: this.currentSelEnd;
+	public void anchor() {
+		if (currentSelStart != null) {
+			this.selectionAnchor = this.currentSelStart.getParentIndex();
+			selectionParent = currentNode;
+		}
 	}
 
 	/**
@@ -368,10 +441,6 @@ public class EditorState {
 			currentOffset = currentSelEnd == currentNode
 					? rootNode.size() : currentSelEnd.getParentIndex() + 1;
 		}
-	}
-
-	public Node getSelectionAnchor() {
-		return selectionAnchor;
 	}
 
 	/**
@@ -662,7 +731,7 @@ public class EditorState {
 	public void selectUpToRootComponent() {
 		while (currentSelStart != null && currentSelStart.getParent() != null
 				&& currentSelStart.getParent().getParent() != getRootNode()) {
-			anchor(true);
+			anchor();
 			currentSelStart = currentSelStart.getParent();
 		}
 

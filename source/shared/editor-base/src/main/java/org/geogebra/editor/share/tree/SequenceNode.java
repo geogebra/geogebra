@@ -70,10 +70,10 @@ public class SequenceNode extends InternalNode {
 	}
 
 	/**
-	 * Add argument, consider unicode surogates
+	 * Add argument, consider Unicode surrogates
 	 * @param i index
 	 * @param argument argument
-	 * @return sequence size change (may be negative after unicode merge)
+	 * @return sequence size change (can be negative after Unicode merge)
 	 */
 	public int addChild(int i, CharacterTemplate argument) {
 		if (i > 0 && i <= children.size()) {

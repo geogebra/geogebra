@@ -139,6 +139,7 @@ public class KeyListenerImpl {
 		if (shiftPressed) {
 			editorState.selectToEnd();
 		} else {
+			editorState.resetSelection();
 			CursorController.lastField(editorState);
 		}
 		return true;
@@ -148,6 +149,7 @@ public class KeyListenerImpl {
 		if (shiftPressed) {
 			editorState.selectToStart();
 		} else {
+			editorState.resetSelection();
 			CursorController.firstField(editorState);
 		}
 		return true;
@@ -160,7 +162,9 @@ public class KeyListenerImpl {
 				navigate = left ? CursorController::prevCharacter : CursorController::nextCharacter;
 		if (shiftPressed) {
 			ret = navigate.apply(editorState);
-			editorState.extendSelection(left);
+			if (ret) {
+				editorState.extendSelection(left);
+			}
 		} else {
 			ret = editorState.updateCursorFromSelection(left) || navigate.apply(editorState);
 			editorState.resetSelection();
