@@ -1138,7 +1138,7 @@ public class GGWToolBar extends Composite
 	 */
 	public static void set1rstMode(AppW app) {
 		if (app.isWhiteboardActive()) {
-			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		} else {
 			if (app.getToolbar() == null
 					|| ((GGWToolBar) app.getToolbar()).getToolBar() == null) {

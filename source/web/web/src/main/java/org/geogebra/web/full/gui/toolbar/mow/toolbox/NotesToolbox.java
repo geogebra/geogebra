@@ -236,6 +236,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 					appW.setMode(MODE_SELECT_MOW);
 					appW.closePopups();
 				});
+		selectButton.setActive(true);
 		add(selectButton);
 		buttons.add(selectButton);
 	}
@@ -244,7 +245,6 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		List<Integer> tools = filterTools(ToolboxCategory.PEN);
 		if (!tools.isEmpty()) {
 			IconButton iconButton = new PenIconButton(appW, tools, this::deselectButtons);
-			iconButton.setActive(true);
 			add(iconButton);
 			buttons.add(iconButton);
 		}
