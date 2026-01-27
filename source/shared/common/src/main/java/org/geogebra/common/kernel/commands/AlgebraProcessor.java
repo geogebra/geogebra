@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
+import org.geogebra.common.kernel.LabelingContext;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1497,11 +1498,8 @@ public class AlgebraProcessor {
 	 * @return resulting boolean
 	 */
 	public GeoBoolean evaluateToBoolean(String str, ErrorHandler handler) {
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		GeoBoolean bool = null;
-		try {
+		try (LabelingContext ignored = cons.getSilentContext()) {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			// A=B as comparison, not assignment
 			if (ve.getLabel() != null) {
@@ -1536,7 +1534,6 @@ public class AlgebraProcessor {
 			Log.debug(e);
 			handler.showError(loc.getInvalidInputError());
 		} finally {
-			cons.setSuppressLabelCreation(oldMacroMode);
 			cons.registerFunctionVariable(null);
 		}
 
@@ -1559,11 +1556,8 @@ public class AlgebraProcessor {
 		if ("?".equals(str)) {
 			return null;
 		}
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		GeoList list = null;
-		try {
+		try (LabelingContext ignored = cons.getSilentContext()) {
 			ValidExpression ve = parser.parseGeoGebraExpressionLowPrecision(str);
 			GeoElementND[] temp = processValidExpression(ve);
 			// CAS in GeoGebraWeb dies badly if we don't handle this case
@@ -1583,7 +1577,6 @@ public class AlgebraProcessor {
 			Log.debug(t);
 		} finally {
 			cons.registerFunctionVariable(null);
-			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
 		return list;
@@ -1617,11 +1610,8 @@ public class AlgebraProcessor {
 	 */
 	public GeoFunction evaluateToFunction(String str, boolean suppressErrors,
 			boolean revertArbconst) {
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		GeoFunction func = null;
-		try {
+		try (LabelingContext ignored = cons.getSilentContext()) {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			String[] varName = kernel.getConstruction()
 					.getRegisteredFunctionVariables();
@@ -1654,7 +1644,6 @@ public class AlgebraProcessor {
 			}
 		} finally {
 			cons.registerFunctionVariable(null);
-			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
 		return func;
@@ -1721,11 +1710,8 @@ public class AlgebraProcessor {
 	 */
 	public GeoFunctionNVar evaluateToFunctionNVar(String str,
 			boolean suppressErrors, boolean revertArbconst) {
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		GeoFunctionNVar func = null;
-		try {
+		try (LabelingContext ignored = cons.getSilentContext()) {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			if (revertArbconst) {
 				ve = ve.traverse(getArbcostReverse()).wrap();
@@ -1776,7 +1762,6 @@ public class AlgebraProcessor {
 			}
 		} finally {
 			cons.registerFunctionVariable(null);
-			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
 		return func;
@@ -1829,11 +1814,8 @@ public class AlgebraProcessor {
 			return new GeoNumeric(cons, Double.NaN);
 		}
 
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		GeoNumberValue num = null;
-		try {
+		try (LabelingContext ignored = cons.getSilentContext()) {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			GeoElementND[] temp = processValidExpression(ve, info);
 
@@ -1854,7 +1836,6 @@ public class AlgebraProcessor {
 			ErrorHelper.handleException(new Exception(e), app, handler);
 		} finally {
 			cons.registerFunctionVariable(null);
-			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
 		return num;
@@ -1875,16 +1856,13 @@ public class AlgebraProcessor {
 	public GeoPointND evaluateToPoint(String str, ErrorHandler handler,
 			boolean suppressLabels) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		if (suppressLabels) {
-			cons.setSuppressLabelCreation(true);
-		}
+		cons.setSuppressLabelCreation(suppressLabels);
 
 		GeoPointND p = null;
 		GeoElementND[] temp;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			if (ve instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ve;
+			if (ve instanceof ExpressionNode en) {
 				en.setForcePoint();
 			}
 
@@ -1985,11 +1963,8 @@ public class AlgebraProcessor {
 	 */
 	public GeoElementND evaluateToGeoElement(String str, boolean showErrors, EvalInfo info,
 			GeoElementND template) {
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
 		GeoElementND geo = null;
-		try {
+		try (LabelingContext ignored = cons.getSilentContext()) {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			if (template != null) {
 				updateTypePreservingFlags(ve, template, info.isPreventingTypeChange());
@@ -2008,7 +1983,6 @@ public class AlgebraProcessor {
 			}
 		} finally {
 			cons.registerFunctionVariable(null);
-			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
 		return geo;
@@ -2115,12 +2089,8 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processValidExpressionSilent(ValidExpression ve)
 			throws MyError, CircularDefinitionException {
-		boolean oldSuppressLabel = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-		try {
+		try (LabelingContext ignored = cons.getSilentContext()) {
 			return processValidExpression(ve, new EvalInfo(false));
-		} finally {
-			cons.setSuppressLabelCreation(oldSuppressLabel);
 		}
 	}
 

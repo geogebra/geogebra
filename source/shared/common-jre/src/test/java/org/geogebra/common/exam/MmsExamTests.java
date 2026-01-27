@@ -196,9 +196,8 @@ public class MmsExamTests extends BaseExamTestSetup {
 	@Test
 	@MockedCasValues({"Evaluate(sqrt(-5)) -> ί*√5"})
 	public void testRestrictedComplexNumberOutput() {
-		assertNull(evaluate("sqrt(-5)"));
-		assertEquals("Please check your input", errorAccumulator.getErrorsSinceReset());
-		errorAccumulator.resetError();
+		assertEquals("?",
+				evaluate("sqrt(-5)")[0].toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -715,8 +714,12 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"Numeric(Evaluate(sin(π / 180))) -> 0.005",
 			"Round(sin(3°) + π / 180, 13) -> 0.03",
 			"Round(0.005, 13) -> 0.005",
+			"Round(°, 13) -> 0.005",
 			"Round(sin(π / 180), 13) -> 0.005",
-			"Evaluate(sin(π / 180)) -> sin(pi / 180)"
+			"Evaluate(sin(π / 180)) -> sin(pi / 180)",
+			"Round(0.0349065850399 rad, 13) -> 0.0349065850399",
+			"Round(0.0697892487629, 13) -> 0.0697892487629",
+			"Round(0.0174524064373, 13) -> 0.0174524064373"
 	})
 	public void angleComputationsRadians() {
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
@@ -850,6 +853,23 @@ public class MmsExamTests extends BaseExamTestSetup {
 		assertFalse(AlgebraItem
 				.getPreviewLatexForGeoElement(element)
 				.startsWith(LabelManager.HIDDEN_PREFIX));
+	}
+
+	@ParameterizedTest
+	@MockedCasValues({
+			"Round(2.8284271247462, 13) -> 2.8284271247462",
+			"Round(53.130102354156°, 13) -> 53.130102354156°"
+	})
+	@CsvSource({
+			"sqrt(8),2.8284271247461903",
+			"asind(0.8),53.13010235415599*°"
+	})
+	@Issue({"APPS-7212", "APPS-7189"})
+	public void testNoSurdSimplification(String in, String out) {
+		GeoElement evaluate = evaluate(in)[0].toGeoElement();
+		assertEquals(out, evaluate.toValueString(StringTemplate.testTemplate));
+		assertEquals(0, AlgebraOutputFormat
+				.getPossibleFormats(evaluate, false, Set.of()).size());
 	}
 
 	private TableValuesView setupTableValues() throws InvalidValuesException {

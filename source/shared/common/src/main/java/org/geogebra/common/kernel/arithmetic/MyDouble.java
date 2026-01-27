@@ -413,7 +413,7 @@ public class MyDouble extends ValidExpression
 	 *            whether result should be degrees
 	 */
 	final public MyDouble acos(boolean deg) {
-		angleDim = deg ? 1 : 0;
+		makeAngle(deg);
 		set(MyMath.acos(val));
 		return this;
 	}
@@ -424,7 +424,7 @@ public class MyDouble extends ValidExpression
 	 *            whether result should be degrees
 	 */
 	final public MyDouble asin(boolean deg) {
-		angleDim = deg ? 1 : 0;
+		makeAngle(deg);
 		set(MyMath.asin(val));
 		return this;
 	}
@@ -435,7 +435,7 @@ public class MyDouble extends ValidExpression
 	 *            whether result should be degrees
 	 */
 	final public MyDouble atan(boolean deg) {
-		angleDim = deg ? 1 : 0;
+		makeAngle(deg);
 		set(Math.atan(val));
 		return this;
 	}
@@ -448,9 +448,13 @@ public class MyDouble extends ValidExpression
 	 * @return atan2(this,y)
 	 */
 	final public MyDouble atan2(NumberValue y, boolean deg) {
-		angleDim = deg ? 1 : 0;
+		makeAngle(deg);
 		set(Math.atan2(val, y.getDouble()));
 		return this;
+	}
+
+	protected void makeAngle(boolean deg) {
+		angleDim = deg ? 1 : 0;
 	}
 
 	/**

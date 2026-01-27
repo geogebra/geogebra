@@ -45,6 +45,7 @@ public class MySpecialDouble extends MyDouble {
 	BigDecimal bd;
 	// 0 = uninitialized, NaN = not a fraction, power of 10 otherwise
 	private double denominator = 0;
+	private boolean keepDegree;
 
 	/**
 	 * @param kernel
@@ -83,7 +84,6 @@ public class MySpecialDouble extends MyDouble {
 	 */
 	public MySpecialDouble(Kernel kernel, double val, String str, boolean fromCas) {
 		super(kernel, val);
-
 		originalString = fromCas ? StringUtil.canonicalNumber(str) : str;
 
 		strToString = originalString;
@@ -126,6 +126,7 @@ public class MySpecialDouble extends MyDouble {
 	 */
 	public MySpecialDouble(MySpecialDouble sd) {
 		super(sd);
+		keepDegree = sd.keepDegree;
 		originalString = sd.originalString;
 		strToString = sd.strToString;
 		keepOriginalString = sd.keepOriginalString;
@@ -162,6 +163,9 @@ public class MySpecialDouble extends MyDouble {
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (setFromOutside) {
+			if (getAngleDim() == 1) {
+				return kernel.formatAngle(getDouble(), tpl, true, keepDegree).toString();
+			}
 			return super.toString(tpl);
 		}
 		if (!isLetterConstant) {
@@ -321,6 +325,12 @@ public class MySpecialDouble extends MyDouble {
 		fractionV[0] = this;
 		fractionV[1] = null;
 		return false;
+	}
+
+	@Override
+	protected void makeAngle(boolean deg) {
+		super.makeAngle(deg);
+		keepDegree = true;
 	}
 
 	private void initFraction() {

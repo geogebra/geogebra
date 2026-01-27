@@ -559,6 +559,15 @@ public class Construction {
 	}
 
 	/**
+	 * @return context that prevents labeling objects until it's closed
+	 */
+	public LabelingContext getSilentContext() {
+		final boolean oldSuppression = suppressLabelCreation;
+		suppressLabelCreation = true;
+		return () -> suppressLabelCreation = oldSuppression;
+	}
+
+	/**
 	 * Returns true iff new construction elements won't get labels.
 	 * @return true iff new construction elements won't get labels.
 	 */

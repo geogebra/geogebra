@@ -30,6 +30,7 @@ import org.geogebra.common.io.XMLStringBuilder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
+import org.geogebra.common.kernel.LabelingContext;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -105,6 +106,7 @@ public class GeoSymbolic extends GeoElement
 	private int numericPrintDecimals;
 	private ConditionalSerializer conditionalSerializer;
 	private ExpressionNode excludedEquation;
+	private boolean computedNumerically;
 
 	/**
 	 * @param c construction
@@ -322,13 +324,54 @@ public class GeoSymbolic extends GeoElement
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.newFunctionExpander(this));
+		casInputArg = fixMatrixInput(casInputArg);
+		// if surds are not allowed, avoid symbolic computations (APPS-7189)
+		// also helps with other auto-simplification issues (APPS-7212)
+		computedNumerically = kernel.getSurds() == null
+				&& casInputArg.none(this::needsSymbolicComputation);
+		if (computedNumerically) {
+			computeNumerically(casInputArg);
+		} else {
+			computeUsingCAS(casInputArg);
+		}
+	}
 
-		Command casInput = getCasInput(fixMatrixInput(casInputArg));
+	private  boolean needsSymbolicComputation(ExpressionValue part) {
+		return part instanceof Command
+				|| part instanceof GeoDummyVariable var && var.getElementWithSameName() == null
+				|| part instanceof GeoSymbolic symbolic && symbolic.twinGeo == null;
+	}
+
+	private void computeNumerically(ExpressionValue input) {
+		try (LabelingContext ignored = kernel.getConstruction().getSilentContext()) {
+			ExpressionValue casInputArg = input.deepCopy(kernel).traverse(this::unwrapSymbolic);
+			GeoElementND numericTwin = kernel.getAlgebraProcessor().processValidExpression(
+					casInputArg.wrap())[0];
+			if (numericTwin.getDefinition() != null) {
+				value = numericTwin.getDefinition().asFraction();
+			} else {
+				value = numericTwin;
+			}
+			casOutputString = numericTwin.toValueString(StringTemplate.maxDecimals);
+			numericValue = numericTwin;
+			isTwinUpToDate = false;
+			setSymbolicMode();
+			setFunctionVariables();
+		} catch (CircularDefinitionException e) {
+			setUndefined();
+		}
+	}
+
+	private ExpressionValue unwrapSymbolic(ExpressionValue part) {
+		return  part instanceof GeoSymbolic symbolic ? symbolic.twinGeo : part;
+	}
+
+	private void computeUsingCAS(ExpressionValue casInputArg) {
+		Command casInput = getCasInput(casInputArg);
 		if (casInput.getName().equals(Commands.Solve.name()) && casInput.getArgumentNumber() == 1) {
 			SymbolicProcessor.autoCompleteVariables(casInput);
 		}
 		String casResult = calculateCasResult(casInput);
-
 		casOutputString = casResult;
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
@@ -469,7 +512,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionValue maybeComputeNumericValue(ExpressionValue casOutput) {
-		if (!SymbolicUtil.shouldComputeNumericValue(casOutput)) {
+		if (computedNumerically || !SymbolicUtil.shouldComputeNumericValue(casOutput)) {
 			return null;
 		}
 		Log.debug("GeoSymbolic is a number value, calculating numeric result");
@@ -719,9 +762,7 @@ public class GeoSymbolic extends GeoElement
 		if (getDefinition() == null) {
 			return null;
 		}
-		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-		try {
+		try (LabelingContext ignored = cons.getSilentContext()) {
 			return process(getTwinInput());
 		} catch (CommandNotLoadedError err) {
 			// by failing the whole twin creation we make sure this uses the same path
@@ -733,14 +774,12 @@ public class GeoSymbolic extends GeoElement
 		// Make sure we don't catch generic errors like OOM or StackOverflow here
 		} catch (MyError | ParseException | CircularDefinitionException
 				 | RuntimeException throwable) {
-			try {
+			try (LabelingContext ignored = cons.getSilentContext()) {
 				return process(getTwinFallbackInput());
 			} catch (MyError | ParseException | CircularDefinitionException
 					 | RuntimeException throwable2) {
 				return null;
 			}
-		} finally {
-			cons.setSuppressLabelCreation(isSuppressLabelsActive);
 		}
 	}
 
@@ -827,12 +866,10 @@ public class GeoSymbolic extends GeoElement
 						return symbolicValueCopy.traverse(this);
 					}
 				}
-				if (ev instanceof GeoDummyVariable) {
-					GeoDummyVariable variable = (GeoDummyVariable) ev;
+				if (ev instanceof GeoDummyVariable variable) {
 					return new Variable(variable.getKernel(), variable.getVarName());
 				}
-				if (ev instanceof Command) {
-					Command command = (Command) ev;
+				if (ev instanceof Command command) {
 					command = checkIntegralCommand(command);
 					return command;
 				}
