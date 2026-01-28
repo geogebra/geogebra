@@ -18,13 +18,16 @@ package org.geogebra.common.kernel.arithmetic.simplifiers;
 
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAddSubNode;
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAtomicSurdAdditionNode;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isAtomicSurdMultiplicationNode;
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isIntegerValue;
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isMinusOne;
+import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isMultiplyNode;
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.isSqrtNode;
 import static org.geogebra.common.kernel.arithmetic.simplifiers.ExpressionValueUtils.radicandOf;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -81,7 +84,7 @@ public final class RationalizeFractionAlgo {
 			return rationalizeAsSquareRootProduct();
 		}
 
-		if (isSqrtNode(numerator)
+		if (isSqrtNode(numerator) || isAtomicSurdMultiplicationNode(denominator)
 				|| isAtomicSurdAdditionNode(numerator) && isAtomicSurdAdditionNode(denominator)) {
 			return factorizeOrHandleProduct();
 		}
@@ -98,7 +101,7 @@ public final class RationalizeFractionAlgo {
 		if (isAddSubNode(denominator)) {
 			return factorize(denominator);
 		}
-		if (denominator.isOperation(Operation.MULTIPLY)) {
+		if (isMultiplyNode(denominator)) {
 			return handleProductInDenominator();
 		}
 		return null;
@@ -106,24 +109,82 @@ public final class RationalizeFractionAlgo {
 
 	private ExpressionNode handleProductInDenominator() {
 		ExpressionNode expanded = utils.expand(denominator);
-		ExpressionNode rightOperand = expanded;
-		Operation rightOperandOperation = rightOperand.getOperation();
 		// isSupported() guarantees that exactly one of the leaves is SQRT by now,
 		// so no check is needed here.
-		if (isAddSubNode(rightOperand)) {
+		if (isAddSubNode(expanded)) {
 			return factorize(expanded);
 		}
-		if (rightOperandOperation == Operation.SQRT) {
-			ExpressionNode sqrt = denominator.getRightTree();
-			return utils.newNode(this.numerator.multiplyR(sqrt), Operation.DIVIDE,
-					denominator.getLeftTree().multiplyR(sqrt.getLeft()));
-		} else {
-			ExpressionNode numerator = utils.newNode(expanded.getLeftTree(), rightOperandOperation,
-					null);
-			ExpressionNode denominator = expanded.getLeftTree().getLeftTree()
-					.multiply(rightOperand.getLeft());
-			return utils.newDiv(numerator, utils.newDouble(denominator.evaluateDouble()).wrap());
+
+		if (isSqrtNode(denominator.getRight())) {
+			ExpressionNode denominatorSqrt = denominator.getRightTree();
+			double denominatorCoeff = denominator.getLeftTree().evaluateDouble();
+			double radicand = denominatorSqrt.getLeft().evaluateDouble();
+			double newDenominatorValue = denominatorCoeff * radicand;
+
+			ExpressionNode newNumerator;
+			if (isMultiplyNode(numerator) && isSqrtNode(numerator.getRight())) {
+				ExpressionNode numSqrt = numerator.getRightTree();
+				double numeratorCoeff = numerator.getLeftTree().evaluateDouble();
+				ExpressionNode combinedSqrt = multiplySquareRoots(numSqrt, denominatorSqrt);
+				newNumerator = simplifySqrtProduct(numeratorCoeff, combinedSqrt);
+			} else if (isSqrtNode(numerator)) {
+				newNumerator = multiplySquareRoots(numerator, denominatorSqrt);
+			} else {
+				newNumerator = numerator.multiplyR(denominatorSqrt);
+			}
+			return simplifyFraction(newNumerator, newDenominatorValue);
 		}
+		return null;
+	}
+
+	private ExpressionNode simplifySqrtProduct(double coeff, ExpressionNode sqrt) {
+		ExpressionNode simplifiedSqrt = utils.getSurdsOrSame(sqrt);
+
+		double extractedCoeff = 1;
+		ExpressionNode sqrtPart = simplifiedSqrt;
+		if (isMultiplyNode(simplifiedSqrt) && isSqrtNode(simplifiedSqrt.getRightTree())) {
+			extractedCoeff = simplifiedSqrt.getLeftTree().evaluateDouble();
+			sqrtPart = simplifiedSqrt.getRightTree();
+		}
+
+		double newCoeff = coeff * extractedCoeff;
+		if (DoubleUtil.isOne(newCoeff)) {
+			return sqrtPart;
+		}
+		return utils.newNode(utils.newDouble(newCoeff), Operation.MULTIPLY, sqrtPart);
+	}
+
+	private ExpressionNode simplifyFraction(ExpressionNode numerator, double denominator) {
+		double numeratorCoeff = 1;
+		ExpressionNode sqrtPart;
+
+		if (isMultiplyNode(numerator) && isSqrtNode(numerator.getRightTree())) {
+			numeratorCoeff = numerator.getLeftTree().evaluateDouble();
+			sqrtPart = numerator.getRightTree();
+		} else if (isSqrtNode(numerator)) {
+			sqrtPart = numerator;
+		} else {
+			return utils.newDouble(numerator.evaluateDouble() / denominator).wrap();
+		}
+
+		long gcd = Kernel.gcd((long) Math.abs(numeratorCoeff), (long) Math.abs(denominator));
+		double newNumeratorCoeff = numeratorCoeff / gcd;
+		double newDenominator = denominator / gcd;
+
+		ExpressionNode simplifiedNumerator;
+		if (DoubleUtil.isOne(newNumeratorCoeff)) {
+			simplifiedNumerator = sqrtPart;
+		} else if (DoubleUtil.isMinusOne(newNumeratorCoeff)) {
+			simplifiedNumerator = utils.newNode(utils.newDouble(-1), Operation.MULTIPLY, sqrtPart);
+		} else {
+			simplifiedNumerator = utils.newNode(utils.newDouble(newNumeratorCoeff),
+					Operation.MULTIPLY, sqrtPart);
+		}
+
+		if (DoubleUtil.isOne(newDenominator)) {
+			return simplifiedNumerator;
+		}
+		return utils.newDiv(simplifiedNumerator, utils.newDouble(newDenominator).wrap());
 	}
 
 	private ExpressionNode rationalizeWithLeafNumerator() {

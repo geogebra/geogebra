@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
@@ -62,7 +61,8 @@ public class RationalizationTest extends BaseAppTestSetup {
 			"(3 (sqrt(3) + 1)) / sqrt(2)",
 			"(-5 + sqrt(5)) / (-3 + sqrt(9))",
 			"(6 + sqrt(10)) / (-4 + sqrt(9))",
-			"(sqrt(3) + 1) / (sqrt(2) - 1)"
+			"(sqrt(3) + 1) / (sqrt(2) - 1)",
+			"(5 sqrt(2))/(2 sqrt(10))"
 	})
 	public void testSupported(String definition) {
 		GeoElementND geo = evaluateGeoElement(definition);

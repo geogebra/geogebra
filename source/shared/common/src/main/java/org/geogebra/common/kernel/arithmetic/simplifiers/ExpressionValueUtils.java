@@ -155,6 +155,18 @@ public final class ExpressionValueUtils {
 	}
 
 	/**
+	 * @param ev ExpressionValue to check
+	 * @return Whether {@code ev} is a multiplication a * b, where a and b are atomic expressions.
+	 */
+	public static boolean isAtomicSurdMultiplicationNode(@CheckForNull ExpressionValue ev) {
+		if (ev == null) {
+			return false;
+		}
+		ExpressionNode node = ev.wrap();
+		return isMultiplyNode(ev) && isAtomic(node.getLeft()) && isAtomic(node.getRight());
+	}
+
+	/**
 	 * Checks if expression is one of the main building blocks of the rationalization algo:
 	 *  n, sqrt(a) or m * sqrt(a) where n, m, a are integers and a &gt;= 0
 	 *
