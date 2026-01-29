@@ -32,7 +32,10 @@ import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
-import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.html5.gui.view.IconSpec;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.html5.main.general.GeneralIcon;
+import org.geogebra.web.html5.main.general.GeneralIconResource;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -45,6 +48,7 @@ import elemental2.core.Global;
 public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	private final Material material;
 	private final MaterialCard card;
+	private final GeneralIconResource generalIconResource;
 
 	/**
 	 * @param app
@@ -59,6 +63,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 		super(app);
 		this.material = mat;
 		this.card = card;
+		this.generalIconResource = app.getGeneralIconResource();
 	}
 
 	@Override
@@ -116,23 +121,16 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 				});
 	}
 
-	private SVGResource getActionIcon(ResourceAction action) {
-		switch (action) {
-		default:
-		case EDIT:
-			return MaterialDesignResources.INSTANCE.edit_black();
-		case INSERT_ACTIVITY:
-		case VIEW:
-			return MaterialDesignResources.INSTANCE.visibility();
-		case COPY:
-			return MaterialDesignResources.INSTANCE.copy_black();
-		case SHARE:
-			return DefaultMenuIconResources.INSTANCE.exportFile();
-		case DELETE:
-			return MaterialDesignResources.INSTANCE.delete_black();
-		case RENAME:
-			return MaterialDesignResources.INSTANCE.mow_rename();
-		}
+	private IconSpec getActionIcon(ResourceAction action) {
+		return switch (action) {
+		case EDIT -> new ImageIconSpec(MaterialDesignResources.INSTANCE.edit_black());
+		case INSERT_ACTIVITY, VIEW -> new ImageIconSpec(
+				MaterialDesignResources.INSTANCE.visibility());
+		case COPY -> generalIconResource.getImageResource(GeneralIcon.COPY);
+		case SHARE -> new ImageIconSpec(DefaultMenuIconResources.INSTANCE.exportFile());
+		case DELETE -> generalIconResource.getImageResource(GeneralIcon.DELETE);
+		case RENAME -> generalIconResource.getImageResource(GeneralIcon.RENAME);
+		};
 	}
 
 	/**

@@ -21,14 +21,12 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.web.html5.gui.Shades;
-import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.KeyCodes;
-import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -475,16 +473,14 @@ public class AriaMenuBar extends FlowPanel {
 	}
 
 	/**
-	 * @param newItem
-	 *            item with submenu
-	 * @param imgRes
-	 *            submenu arrow icon
+	 * @param newItem item with submenu
+	 * @param icon submenu arrow icon
 	 */
-	public void appendSubmenu(AriaMenuItem newItem, ResourcePrototype imgRes) {
-		NoDragImage img = new NoDragImage(imgRes, 20, 20);
-		AriaHelper.hide(img);
-		img.addStyleName("submenuArrow");
-		newItem.getElement().appendChild(img.getElement());
+	public void appendSubmenu(AriaMenuItem newItem, IconSpec icon) {
+		Element iconElement = icon.toElement();
+		iconElement.setAttribute("aria-hidden", "true");
+		iconElement.addClassName("submenuArrow");
+		newItem.getElement().appendChild(iconElement);
 	}
 
 	/**

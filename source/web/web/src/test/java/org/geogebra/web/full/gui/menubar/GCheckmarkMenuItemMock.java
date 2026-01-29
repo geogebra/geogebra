@@ -19,6 +19,7 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.web.full.gui.AriaMenuCheckMock;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 	private AriaMenuCheckMock menuCheck;
@@ -28,7 +29,7 @@ public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 	 * @param checked whether it's checked initially
 	 */
 	public GCheckmarkMenuItemMock(String title, boolean checked) {
-		super(null, title, checked, null);
+		super((ResourcePrototype) null, title, checked, null);
 		setChecked(checked);
 	}
 

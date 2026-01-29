@@ -46,6 +46,42 @@ public interface DefaultToolboxIconResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
 	SVGResource shapes();
 
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shapesquare.svg")
+	SVGResource square();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shaperectangle.svg")
+	SVGResource rectangle();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shapetriangle.svg")
+	SVGResource triangle();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circle.svg")
+	SVGResource circle();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shapeellipse.svg")
+	SVGResource ellipse();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pentagon.svg")
+	SVGResource pentagon();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_line.svg")
+	SVGResource line();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shapefreeform.svg")
+	SVGResource freeform();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_parallelogram.svg")
+	SVGResource parallelogram();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_stadium.svg")
+	SVGResource stadium();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_curve.svg")
+	SVGResource curve();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_masktool.svg")
+	SVGResource mask();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/text_fields.svg")
 	SVGResource texts();
 
@@ -106,4 +142,22 @@ public interface DefaultToolboxIconResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/target.svg")
 	SVGResource target();
 
+	// MEBIS TOOLBOX SVGS
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/ellipse.svg")
+	SVGResource ellipse_fontawesome();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/freeform.svg")
+	SVGResource freeform_fontawesome();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/geogebra.svg")
+	SVGResource geogebra_fontawesome();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/line.svg")
+	SVGResource curve_fontawesome();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/parallel.svg")
+	SVGResource parallelogram_fontawesome();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/stadium.svg")
+	SVGResource stadium_fontawesome();
 }

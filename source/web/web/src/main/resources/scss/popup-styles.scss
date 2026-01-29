@@ -292,9 +292,13 @@
 				background-color: neutral(200);
 			}
 
-			img {
+			img, .fa-solid, .fa-light {
 				opacity: 0.54;
 				margin: 8px 0;
+			}
+
+			.fa-solid, .fa-light {
+				padding: 4px;
 			}
 
 			.gwt-Label {
@@ -331,6 +335,11 @@
 
 				&.selected {
 					opacity: 0.54;
+				}
+
+				&.fa-solid, &.fa-light {
+					width: 24px;
+					padding: 3px 0px;
 				}
 			}
 

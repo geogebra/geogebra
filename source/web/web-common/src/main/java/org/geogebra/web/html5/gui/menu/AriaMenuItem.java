@@ -128,6 +128,17 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	}
 
 	/**
+	 * @param text content
+	 * @param icon {@link IconSpec}
+	 * @param submenu submenu to open when clicked
+	 */
+	public AriaMenuItem(String text, IconSpec icon, AriaMenuBar submenu) {
+		this();
+		setContent(text, icon);
+		this.submenu = submenu;
+	}
+
+	/**
 	 * @param renderer contained widget
 	 * @param command action
 	 */

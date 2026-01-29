@@ -49,6 +49,7 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.event.dom.client.DragEndEvent;
 import org.gwtproject.event.dom.client.DragStartEvent;
+import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.safehtml.shared.SafeHtmlUtils;
@@ -380,7 +381,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					initGUI();
 				};
 
-				GCheckmarkMenuItem columnItem = new GCheckmarkMenuItem(null,
+				GCheckmarkMenuItem columnItem = new GCheckmarkMenuItem((ResourcePrototype) null,
 						data.columns[j].getTranslatedTitle(),
 						data.columns[j].isVisible(), com);
 				popupMenu.addItem(columnItem);
@@ -389,7 +390,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		popupMenu.addVerticalSeparator();
 
-		GCheckmarkMenuItem miShowOnlyBreakpoints = new GCheckmarkMenuItem(null,
+		GCheckmarkMenuItem miShowOnlyBreakpoints = new GCheckmarkMenuItem((ResourcePrototype) null,
 				app.getLocalization().getMenu("ShowOnlyBreakpoints"),
 				app.getKernel().getConstruction().showOnlyBreakpoints(), null);
 

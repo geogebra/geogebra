@@ -128,6 +128,9 @@ import org.geogebra.web.cas.giac.CASFactoryW;
 import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
+import org.geogebra.web.full.euclidian.quickstylebar.icon.DefaultPropertiesIconProvider;
+import org.geogebra.web.full.euclidian.quickstylebar.icon.MebisPropertiesIconProvider;
+import org.geogebra.web.full.euclidian.quickstylebar.icon.PropertiesIconResource;
 import org.geogebra.web.full.gui.CustomizeToolbarGUI;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -300,6 +303,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private final GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private final ContextMenuFactory contextMenuFactory;
 	private InitialViewState initialViewState;
+	private PropertiesIconResource propertiesIconResource;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -2863,5 +2867,17 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getKernel().updateConstruction(false);
 
 		guiManager.updatePropertiesView();
+	}
+
+	/**
+	 * @return properties icon resource provider
+	 */
+	public PropertiesIconResource getPropertiesIconResource() {
+		if (propertiesIconResource == null) {
+			propertiesIconResource = new PropertiesIconResource(isUsingFontAwesome()
+					? new MebisPropertiesIconProvider() : new DefaultPropertiesIconProvider());
+		}
+
+		return propertiesIconResource;
 	}
 }

@@ -21,10 +21,9 @@ import java.util.List;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
-import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
@@ -48,7 +47,7 @@ public class LabelStylePanel extends FlowPanel {
 		List<PropertyResource> icons = labelStylePropertyCollection.getIcons();
 		for (int i = 0; i < icons.size(); i++) {
 			IconButton button = new IconButton(appW, null,
-					new ImageIconSpec(PropertiesIconAdapter.getIcon(icons.get(i))),
+					((AppWFull) appW).getPropertiesIconResource().getImageResource(icons.get(i)),
 					labelStylePropertyCollection.getTooltipLabel(i));
 			button.setActive(labelStylePropertyCollection.areIconsSelected().get(i));
 			int finalI = i;

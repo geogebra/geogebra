@@ -16,7 +16,7 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import static org.geogebra.common.properties.PropertyResource.ICON_AXES_ITALIC;
+import static org.geogebra.common.properties.PropertyResource.ICON_ITALIC;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.Localization;
@@ -59,6 +59,6 @@ public class AxesLabelItalicProperty extends AbstractValuedProperty<Boolean>
 
 	@Override
 	public PropertyResource getIcon() {
-		return ICON_AXES_ITALIC;
+		return ICON_ITALIC;
 	}
 }

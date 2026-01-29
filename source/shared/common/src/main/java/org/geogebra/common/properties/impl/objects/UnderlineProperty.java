@@ -20,6 +20,8 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.IconAssociatedProperty;
+import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
@@ -27,7 +29,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.common.properties.impl.objects.delegate.TextFormatterDelegate;
 
 public class UnderlineProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty {
+		implements BooleanProperty, IconAssociatedProperty {
 	private final GeoElementDelegate delegate;
 
 	/**
@@ -55,5 +57,10 @@ public class UnderlineProperty extends AbstractValuedProperty<Boolean>
 	public Boolean getValue() {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
 		return element.getFormat("underline", false);
+	}
+
+	@Override
+	public PropertyResource getIcon() {
+		return PropertyResource.ICON_UNDERLINE;
 	}
 }

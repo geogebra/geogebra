@@ -36,21 +36,20 @@ import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
 import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.LabelSettingsPanel;
 import org.geogebra.web.full.euclidian.LabelValuePanel;
-import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.euclidian.quickstylebar.PropertyWidgetAdapter;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class IconButtonWithProperty extends IconButton {
@@ -72,9 +71,9 @@ public class IconButtonWithProperty extends IconButton {
 	 * @param closePopupOnAction - weather should close popup after clicking on popup element
 	 * @param properties - array of applicable properties
 	 */
-	public IconButtonWithProperty(AppW appW, String className, SVGResource icon, String ariaLabel,
+	public IconButtonWithProperty(AppW appW, String className, IconSpec icon, String ariaLabel,
 			List<GeoElement> geos, boolean closePopupOnAction, PropertySupplier... properties) {
-		super(appW, new ImageIconSpec(icon), ariaLabel, ariaLabel, () -> {}, null);
+		super(appW, icon, ariaLabel, ariaLabel, () -> {}, null);
 		this.appW = appW;
 		this.geos = geos;
 		widgetAdapter = new PropertyWidgetAdapter(appW, closePopupOnAction);
@@ -123,8 +122,8 @@ public class IconButtonWithProperty extends IconButton {
 						if (lineThicknessSlider != null) {
 							lineThicknessSlider.setLineType(index);
 						}
-						setIcon(PropertiesIconAdapter.getIcon(((IconsEnumeratedProperty<?>)
-								property).getValueIcons()[index]));
+						setIcon(((AppWFull) appW).getPropertiesIconResource().getImageResource(
+								((IconsEnumeratedProperty<?>) property).getValueIcons()[index]));
 					});
 			parent.add(enumeratedPropertyButtonPanel);
 		}
@@ -152,8 +151,9 @@ public class IconButtonWithProperty extends IconButton {
 			parent.add(colorPanel);
 
 			if (colorProperty.getFirstProperty() instanceof TextBackgroundColorProperty) {
-				StandardButton noColorButton = new StandardButton(MaterialDesignResources.INSTANCE
-						.no_color(), appW.getLocalization().getMenu("noColor"), 24);
+				StandardButton noColorButton = new StandardButton(
+						appW.getGeneralIconResource().getImageResource(GeneralIcon.NO_COLOR),
+						appW.getLocalization().getMenu("noColor"), 24, 24);
 				noColorButton.addStyleName("noColBtn");
 				noColorButton.addFastClickHandler(source -> {
 					if (popupHandler != null) {

@@ -24,6 +24,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
@@ -75,15 +76,11 @@ public class ContextMenuButtonCard extends StandardButton
 
 	/**
 	 * adds a menu item
-	 * 
-	 * @param img
-	 *            icon image
-	 * @param text
-	 *            menu item text
-	 * @param cmd
-	 *            command to execute
+	 * @param img icon image
+	 * @param text menu item text
+	 * @param cmd command to execute
 	 */
-	protected AriaMenuItem addItem(SVGResource img, String text,
+	protected AriaMenuItem addItem(IconSpec img, String text,
 			ScheduledCommand cmd) {
 		AriaMenuItem mi = MainMenu.getMenuBarItem(img, text, cmd);
 		wrappedPopup.addItem(mi);

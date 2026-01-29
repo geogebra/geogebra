@@ -18,6 +18,7 @@ package org.geogebra.web.full.javax.swing;
 
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.resources.client.ResourcePrototype;
 
@@ -44,12 +45,27 @@ public class GCheckmarkMenuItem {
 	}
 
 	/**
+	 * @param img icon
+	 * @param text title
+	 * @param checked initial value
+	 * @param cmd command to run
+	 */
+	public GCheckmarkMenuItem(IconSpec img, String text, boolean checked,
+			final ScheduledCommand cmd) {
+		panel = new GCheckMarkPanel(text, img, checked);
+		menuItem = newMenuItem(img == null);
+		AriaHelper.setRole(menuItem, "menuitemcheckbox");
+		AriaHelper.setChecked(menuItem, checked);
+		setCommand(cmd);
+	}
+
+	/**
 	 * @param text title
 	 * @param checked initial value
 	 * @param cmd command to run
 	 */
 	public GCheckmarkMenuItem(String text, boolean checked, final ScheduledCommand cmd) {
-		this(null, text, checked, cmd);
+		this((ResourcePrototype) null, text, checked, cmd);
 	}
 
 	protected AriaMenuItem newMenuItem(boolean hasIcon) {

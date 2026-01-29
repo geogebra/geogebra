@@ -68,7 +68,7 @@ public class ToolModeIconSpecAdapter {
 		case MODE_PROTRACTOR:
 			return ToolboxIcon.PROTRACTOR;
 		case MODE_TRIANGLE_PROTRACTOR:
-			return ToolboxIcon.TRIANGLE;
+			return ToolboxIcon.RULER_TRIANGLE;
 		case MODE_EQUATION:
 			return ToolboxIcon.EQUATION;
 		case MODE_MEDIA_TEXT:

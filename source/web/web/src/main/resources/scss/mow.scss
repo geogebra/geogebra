@@ -145,6 +145,12 @@
 
 	.mowPlusButton{
 		bottom: 0px;
+
+		.fa-solid, .fa-light {
+		    padding: 15px;
+            color: white;
+            font-size: 20px;
+		}
 	}
 
 	.hideMowFloatingButton {
@@ -429,10 +435,17 @@
 			display: inline-block;
 			margin: 0 8px 0 0;
 
-			.gwt-Image {
+			.gwt-Image, .fa-solid, .fa-light {
 				opacity: 0.7;
 				margin-left: 0;
 				position: relative;
+			}
+
+			.fa-solid, .fa-light {
+				width: 24px;
+				height: 20px;
+				display: table;
+				padding: 4px 0 0 4px;
 			}
 
 			&.selected {

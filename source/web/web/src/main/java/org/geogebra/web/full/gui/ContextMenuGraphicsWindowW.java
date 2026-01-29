@@ -24,7 +24,6 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.graphics.GridStyleIconProperty;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -124,9 +123,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 	private void addRulingMenuItem() {
 		AriaMenuItem rulingMenuItem =
-				MainMenu.getMenuBarItem(
-						MaterialDesignResources.INSTANCE.minor_gridlines(),
-						loc.getMenu("Ruling"),
+				MainMenu.getMenuBarItem(((AppW) app).getTopBarIconResource().getImageResource(
+						TopBarIcon.RULING), loc.getMenu("Ruling"),
 				() -> {
 					DialogData data = new DialogData("Ruling", "Cancel", "Save");
 					GridDialog gridDialog = new GridDialog((AppW) app, data);

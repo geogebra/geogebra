@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.awt.MyImageW;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
@@ -46,6 +45,8 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.general.DefaultGeneralIconResources;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.event.dom.client.DropEvent;
 import org.gwtproject.event.dom.client.DropHandler;
 
@@ -342,7 +343,10 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public MyImage getRotationImage() {
 		HTMLImageElement img = Dom.createImage();
-		img.src = GuiResourcesSimple.INSTANCE.rotateIcon().getSafeUri().asString();
+		SVGResource rotateIcon = ((AppW) app).isUsingFontAwesome()
+			? DefaultGeneralIconResources.INSTANCE.rotate_arrow_fontawesome()
+			: DefaultGeneralIconResources.INSTANCE.rotate_arrow();
+		img.src =  rotateIcon.getSafeUri().asString();
 		return new MyImageW(img, true);
 	}
 }

@@ -17,8 +17,12 @@
 package org.geogebra.web.html5.main.toolbox;
 
 import org.geogebra.web.html5.gui.view.IconSpec;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.resources.SVGResource;
 
 public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
+
+	private static final DefaultToolboxIconResources res = DefaultToolboxIconResources.INSTANCE;
 
 	@Override
 	public IconSpec matchIconWithResource(ToolboxIcon icon) {
@@ -65,11 +69,46 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 			return new FaIconSpec("fa-table");
 		case RULER:
 			return new FaIconSpec("fa-ruler-horizontal");
-		case TRIANGLE:
+		case RULER_TRIANGLE:
 			return new FaIconSpec("fa-ruler-triangle");
 		case SPOTLIGHT:
 			return new FaIconSpec("fa-location-crosshairs");
+		case SQUARE:
+			return new FaIconSpec("fa-square");
+		case RECTANGLE:
+			return new FaIconSpec("fa-rectangle");
+		case TRIANGLE:
+			return new FaIconSpec("fa-triangle");
+		case CIRCLE:
+			return new FaIconSpec("fa-circle");
+		case PENTAGON:
+			return new FaIconSpec("fa-pentagon");
+		case LINE:
+			return new FaIconSpec("fa-horizontal-rule");
+		case MASK:
+			return new FaIconSpec("fa-rectangle");
+		case ELLIPSE:
+		case FREEFORM:
+		case PARALLELOGRAM:
+		case STADIUM:
+		case CURVE:
+		case GEOGEBRA:
+			return getFallbackSVG(icon);
 		}
 		return super.matchIconWithResource(icon);
+	}
+
+	private ImageIconSpec getFallbackSVG(ToolboxIcon icon) {
+		SVGResource svgResource = null;
+		switch (icon) {
+		case ELLIPSE -> svgResource = res.ellipse_fontawesome();
+		case FREEFORM -> svgResource = res.freeform_fontawesome();
+		case PARALLELOGRAM -> svgResource = res.parallelogram_fontawesome();
+		case STADIUM -> svgResource = res.stadium_fontawesome();
+		case CURVE -> svgResource = res.curve_fontawesome();
+		case GEOGEBRA -> svgResource = res.geogebra_fontawesome();
+		default -> { }
+		}
+		return svgResource != null ? new ImageIconSpec(svgResource) : null;
 	}
 }

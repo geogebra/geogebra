@@ -23,10 +23,13 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.undo.UpdateContentActionStore;
-import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
-import org.geogebra.web.html5.gui.util.ToggleButton;
-import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.html5.gui.view.IconSpec;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.general.GeneralIcon;
+import org.geogebra.web.html5.main.general.GeneralIconResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -37,10 +40,11 @@ public class InlineTextToolbar implements FastClickHandler {
 	private final App app;
 	private List<HasTextFormat> formatters;
 	private FlowPanel panel;
-	private ToggleButton subScriptBtn;
-	private ToggleButton superScriptBtn;
-	private ToggleButton bulletListBtn;
-	private ToggleButton numberedListBtn;
+	private StandardButton subScriptBtn;
+	private StandardButton superScriptBtn;
+	private StandardButton bulletListBtn;
+	private StandardButton numberedListBtn;
+	private final GeneralIconResource generalIconResource;
 
 	/**
 	 * Constructor of special context menu item holding the
@@ -51,6 +55,7 @@ public class InlineTextToolbar implements FastClickHandler {
 	public InlineTextToolbar(List<HasTextFormat> formatters, App app) {
 		this.formatters = formatters;
 		this.app = app;
+		this.generalIconResource = ((AppW) app).getGeneralIconResource();
 
 		createGui();
 		setTooltips();
@@ -69,34 +74,37 @@ public class InlineTextToolbar implements FastClickHandler {
 	}
 
 	private void createSubscriptBtn() {
-		subScriptBtn = createButton(MaterialDesignResources.INSTANCE.format_subscript());
+		subScriptBtn = createButton(generalIconResource.getImageResource(GeneralIcon.X_2));
 		add(subScriptBtn);
 	}
 
 	private void createSuperscriptBtn() {
-		superScriptBtn = createButton(MaterialDesignResources.INSTANCE.format_superscript());
+		superScriptBtn = createButton(generalIconResource.getImageResource(GeneralIcon.X_SQUARE));
 		add(superScriptBtn);
 	}
 
 	private void createBulletListBtn() {
-		bulletListBtn = createButton(MaterialDesignResources.INSTANCE.bulletList());
+		bulletListBtn = createButton(generalIconResource
+				.getImageResource(GeneralIcon.BULLET_LIST));
 		add(bulletListBtn);
 	}
 
 	private void createNumberedListBtn() {
-		numberedListBtn = createButton(MaterialDesignResources.INSTANCE.numberedList());
+		numberedListBtn = createButton(generalIconResource
+				.getImageResource(GeneralIcon.NUMBERED_LIST));
 		add(numberedListBtn);
 	}
 
 	private void updateState() {
-		subScriptBtn.setSelected("sub".equals(getScriptFormat()));
-		superScriptBtn.setSelected("super".equals(getScriptFormat()));
-		bulletListBtn.setSelected("bullet".equals(getListStyle()));
-		numberedListBtn.setSelected("number".equals(getListStyle()));
+		Dom.toggleClass(subScriptBtn, "selected", "sub".equals(getScriptFormat()));
+		Dom.toggleClass(superScriptBtn, "selected", "super".equals(getScriptFormat()));
+		Dom.toggleClass(bulletListBtn, "selected", "bullet".equals(getListStyle()));
+		Dom.toggleClass(numberedListBtn, "selected", "number".equals(getListStyle()));
 	}
 
-	private ToggleButton createButton(SVGResource resource) {
-		ToggleButton button = new ToggleButton(resource);
+	private StandardButton createButton(IconSpec icon) {
+		StandardButton button = new StandardButton(icon, "", 24, 24);
+		button.addStyleName("ToggleButton");
 		button.addFastClickHandler(this);
 		return button;
 	}
@@ -154,10 +162,11 @@ public class InlineTextToolbar implements FastClickHandler {
 
 	@Override
 	public void onClick(Widget source) {
+
 		if (subScriptBtn == source) {
-			setSubscript(subScriptBtn.isSelected());
+			setSubscript(!subScriptBtn.getStyleName().contains("selected"));
 		} else if (superScriptBtn == source) {
-			setSuperscript(superScriptBtn.isSelected());
+			setSuperscript(!superScriptBtn.getStyleName().contains("selected"));
 		} else if (bulletListBtn == source) {
 			switchListTo("bullet");
 		} else if (numberedListBtn == source) {

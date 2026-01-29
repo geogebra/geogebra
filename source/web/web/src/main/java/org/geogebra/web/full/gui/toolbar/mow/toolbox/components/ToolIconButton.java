@@ -18,7 +18,19 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ERASER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_HIGHLIGHTER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MASK;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_CIRCLE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_CURVE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_ELLIPSE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_FREEFORM;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_LINE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_PARALLELOGRAM;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_PENTAGON;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_RECTANGLE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_SQUARE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_STADIUM;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_TRIANGLE;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.web.full.gui.app.GGWToolBar;
@@ -104,19 +116,31 @@ public class ToolIconButton extends IconButton {
 	 * @return icon
 	 */
 	public IconSpec getIconFromMode(Integer mode, ToolboxIconResource toolboxIconResource) {
-		switch (mode) {
-		case MODE_PEN:
-			return toolboxIconResource.getImageResource(ToolboxIcon.PEN);
-		case MODE_HIGHLIGHTER:
-			return toolboxIconResource.getImageResource(ToolboxIcon.HIGHLIGHTER);
-		case MODE_ERASER:
-			return toolboxIconResource.getImageResource(ToolboxIcon.ERASER);
-		default:
-			GGWToolBar.getImageResource(mode, appW, toolImg -> {
-				image = new ImageIconSpec((SVGResource) toolImg);
-				setIcon(image.withFill(isActive() ? selectionColor : GColor.BLACK.toString()));
-			});
-			return image;
-		}
+		return switch (mode) {
+			case MODE_PEN -> toolboxIconResource.getImageResource(ToolboxIcon.PEN);
+			case MODE_HIGHLIGHTER -> toolboxIconResource.getImageResource(ToolboxIcon.HIGHLIGHTER);
+			case MODE_ERASER -> toolboxIconResource.getImageResource(ToolboxIcon.ERASER);
+			case MODE_SHAPE_SQUARE -> toolboxIconResource.getImageResource(ToolboxIcon.SQUARE);
+			case MODE_SHAPE_RECTANGLE ->
+					toolboxIconResource.getImageResource(ToolboxIcon.RECTANGLE);
+			case MODE_SHAPE_TRIANGLE -> toolboxIconResource.getImageResource(ToolboxIcon.TRIANGLE);
+			case MODE_SHAPE_CIRCLE -> toolboxIconResource.getImageResource(ToolboxIcon.CIRCLE);
+			case MODE_SHAPE_PENTAGON -> toolboxIconResource.getImageResource(ToolboxIcon.PENTAGON);
+			case MODE_SHAPE_LINE -> toolboxIconResource.getImageResource(ToolboxIcon.LINE);
+			case MODE_MASK -> toolboxIconResource.getImageResource(ToolboxIcon.MASK);
+			case MODE_SHAPE_ELLIPSE -> toolboxIconResource.getImageResource(ToolboxIcon.ELLIPSE);
+			case MODE_SHAPE_FREEFORM -> toolboxIconResource.getImageResource(ToolboxIcon.FREEFORM);
+			case MODE_SHAPE_PARALLELOGRAM ->
+					toolboxIconResource.getImageResource(ToolboxIcon.PARALLELOGRAM);
+			case MODE_SHAPE_STADIUM -> toolboxIconResource.getImageResource(ToolboxIcon.STADIUM);
+			case MODE_SHAPE_CURVE -> toolboxIconResource.getImageResource(ToolboxIcon.CURVE);
+			default -> {
+				GGWToolBar.getImageResource(mode, appW, toolImg -> {
+					image = new ImageIconSpec((SVGResource) toolImg);
+					setIcon(image.withFill(isActive() ? selectionColor : GColor.BLACK.toString()));
+				});
+				yield image;
+			}
+		};
 	}
 }

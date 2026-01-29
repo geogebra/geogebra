@@ -65,6 +65,13 @@
 				margin: 0;
 			}
 
+			.submenuArrow.fa-solid, .submenuArrow.fa-light {
+				position: relative;
+			    margin: 0;
+                top: -28px;
+                left: calc(100% - 24px);
+			}
+
 			.checkImg {
 				opacity: 1;
 				padding: 0;
@@ -104,11 +111,15 @@
 
 		&.contextSubMenu, &.compactMenu {
 			.listMenuItem {
-				.menuImg {
+				.menuImg, .fa-solid, .fa-light {
 					position: relative;
 					vertical-align: bottom;
 					margin-left: 0;
 					padding-left: 0;
+				}
+
+				.fa-solid, .fa-light {
+					display: inline-block;
 				}
 
 				padding: 0 16px;
@@ -150,14 +161,19 @@
 						margin-right: auto;
 					}
 
-					.gwt-Image {
+					.gwt-Image, .fa-light, .fa-solid {
 						position: static;
 						margin: 2px;
 						padding: 4px;
 						border-radius: 50%;
 					}
 
-					.text:hover, .gwt-Image:hover {
+					.fa-light, .fa-solid {
+						width: 24px;
+						height: 24px;
+					}
+
+					.text:hover, .gwt-Image:hover, .fa-light:hover, .fa-solid:hover {
 						background-color: neutral(200);
 						cursor: pointer;
 					}

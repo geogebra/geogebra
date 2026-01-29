@@ -22,10 +22,12 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.menubar.GCheckmarkMenuItemMock;
 import org.geogebra.web.full.gui.menubar.GPopupMenuWMock;
+import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -42,12 +44,18 @@ public class MenuItemFactory extends ContextMenuItemFactory {
 
 	@Override
 	public AriaMenuItem newInlineTextToolbar(List<HasTextFormat> inlines, App app) {
-		return new AriaMenuItemMock("TEXTTOOLBAR", null, () -> {});
+		return new AriaMenuItemMock("TEXTTOOLBAR", (ResourcePrototype) null, () -> {});
 	}
 
 	@Override
 	public AriaMenuItem newAriaMenuItem(String text, ResourcePrototype icon, AriaMenuBar submenu) {
 		return new AriaMenuItemMock(text, icon, submenu);
+	}
+
+	@Override
+	public AriaMenuItem newAriaMenuItem(IconSpec icon, String text,
+			Scheduler.ScheduledCommand cmd) {
+		return new AriaMenuItemMock(text, icon, cmd);
 	}
 
 	@Override
@@ -57,7 +65,7 @@ public class MenuItemFactory extends ContextMenuItemFactory {
 	}
 
 	@Override
-	public GCheckmarkMenuItem newCheckmarkMenuItem(ResourcePrototype icon,
+	public GCheckmarkMenuItem newCheckmarkMenuItem(IconSpec icon,
 			String title, boolean checked, Scheduler.ScheduledCommand command) {
 		return new GCheckmarkMenuItemMock(title, checked);
 	}

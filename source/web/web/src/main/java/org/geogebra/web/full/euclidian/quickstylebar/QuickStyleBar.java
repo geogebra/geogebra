@@ -39,8 +39,8 @@ import org.geogebra.common.properties.PropertyWrapper;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.quickstylebar.components.IconButtonWithProperty;
+import org.geogebra.web.full.euclidian.quickstylebar.icon.PropertiesIconResource;
 import org.geogebra.web.full.gui.ContextMenuGeoElementW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -49,8 +49,8 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.style.shared.Unit;
@@ -72,6 +72,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 	private final PropertyWrapper propertyWrapper;
 	private @CheckForNull ContextMenuGeoElementW contextMenu;
 	GeoElementPropertiesFactory geoElementPropertiesFactory;
+	private final PropertiesIconResource propertiesIconResource;
 
 	/**
 	 * @param ev - parent view
@@ -81,6 +82,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		this.stylebarPositioner = new StylebarPositioner(ev.getApplication());
 		this.propertyWrapper = new PropertyWrapper(ev.getApplication());
 		geoElementPropertiesFactory = app.getGeoElementPropertiesFactory();
+		propertiesIconResource = app.getPropertiesIconResource();
 		addStyleName("quickStylebar");
 		addHandlers();
 		buildGUI();
@@ -209,7 +211,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		Property firstProperty = properties[0].get();
 		propertyWrapper.addUndoActionObserver(properties, geos, undoFiler);
 		IconButtonWithProperty colorButton = new IconButtonWithProperty(getApp(), "colorStyle",
-				PropertiesIconAdapter.getIcon(firstProperty), firstProperty.getName(),
+				propertiesIconResource.getImageResource(firstProperty), firstProperty.getName(),
 				geos, true, properties);
 
 		setPopupHandlerWithUndoAction(colorButton);
@@ -224,7 +226,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		}
 		property.addValueObserver(new UndoActionObserver(geos, UndoActionType.STYLE_OR_CONTENT));
 		IconButton toggleButton = new IconButton(getApp(), null,
-				new ImageIconSpec(PropertiesIconAdapter.getIcon(property)), property.getName());
+				propertiesIconResource.getImageResource(property), property.getName());
 		toggleButton.setActive(property.getValue());
 		addFastClickHandlerWithUndoContentAction(toggleButton, property);
 		styleAndRegisterButton(toggleButton);
@@ -260,8 +262,8 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 		Property firstProperty = properties[0].get();
 		propertyWrapper.addUndoActionObserver(properties, geos, undoType);
 		IconButton button = new IconButtonWithProperty(getApp(), className,
-				PropertiesIconAdapter.getIcon(firstProperty), firstProperty.getName(), geos,
-				closePopupOnAction, properties);
+				propertiesIconResource.getImageResource(firstProperty), firstProperty.getName(),
+				geos, closePopupOnAction, properties);
 		styleAndRegisterButton(button);
 	}
 
@@ -283,7 +285,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 					getApp().closePopups();
 					getApp().splitAndDeleteSelectedObjects();
 				},
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.delete_black()), "Delete");
+				getApp().getGeneralIconResource().getImageResource(GeneralIcon.DELETE), "Delete");
 		styleAndRegisterButton(deleteButton);
 	}
 
@@ -293,8 +295,8 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 			return;
 		}
 
-		IconButton cropButton = new IconButton(getApp(), null,
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.crop_black()), "stylebar.Crop");
+		IconButton cropButton = new IconButton(getApp(), null, getApp()
+				.getGeneralIconResource().getImageResource(GeneralIcon.CROP), "stylebar.Crop");
 		cropButton.setActive(ev.getBoundingBox() != null && ev.getBoundingBox().isCropBox());
 		cropButton.addFastClickHandler((source) -> {
 			getApp().closePopups();
@@ -307,7 +309,7 @@ public class QuickStyleBar extends FlowPanel implements EuclidianStyleBar {
 
 	private void addContextMenuButton() {
 		IconButton contextMenuBtn = new IconButton(getApp(), null,
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.more_vert_black()), "More");
+				getApp().getGeneralIconResource().getImageResource(GeneralIcon.MORE), "More");
 
 		contextMenuBtn.addFastClickHandler((event) -> {
 			contextMenu = createContextMenu(contextMenuBtn);

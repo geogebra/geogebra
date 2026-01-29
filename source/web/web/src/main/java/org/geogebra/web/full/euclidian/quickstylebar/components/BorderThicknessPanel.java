@@ -25,7 +25,9 @@ import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
 import org.geogebra.web.full.javax.swing.LineThicknessCheckMarkItem;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public class BorderThicknessPanel extends FlowPanel {
@@ -57,7 +59,8 @@ public class BorderThicknessPanel extends FlowPanel {
 
 	private void addThicknessCheckMarkItem(RangePropertyListFacade<?> property,
 			String style, int value) {
-		LineThicknessCheckMarkItem checkMarkItem = new LineThicknessCheckMarkItem(style, value);
+		LineThicknessCheckMarkItem checkMarkItem = new LineThicknessCheckMarkItem(style, value,
+				appW.getGeneralIconResource().getImageResource(GeneralIcon.CHECK_MARK));
 		add(checkMarkItem);
 		checkMarkItem.setSelected(property.getValue() == value);
 		checkMarkItems.add(checkMarkItem);
@@ -66,8 +69,11 @@ public class BorderThicknessPanel extends FlowPanel {
 	}
 
 	private void addNoBorderItem() {
+		IconSpec noColorIcon = appW.getGeneralIconResource()
+				.getImageResource(GeneralIcon.CHECK_MARK);
 		LineThicknessCheckMarkItem noBorder = new LineThicknessCheckMarkItem(
-				appW.getLocalization().getMenu("stylebar.NoBorder"), "textItem", 0);
+				appW.getLocalization().getMenu("stylebar.NoBorder"), "textItem", 0,
+				noColorIcon);
 		add(noBorder);
 		noBorder.setSelected(property.getValue() == 0);
 		checkMarkItems.add(noBorder);

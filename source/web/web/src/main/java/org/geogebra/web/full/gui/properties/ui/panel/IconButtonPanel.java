@@ -23,9 +23,8 @@ import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.web.full.euclidian.quickstylebar.PropertiesIconAdapter;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
-import org.geogebra.web.html5.gui.view.ImageIconSpec;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -87,7 +86,7 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 		for (PropertyResource icon: icons) {
 			String label = labels != null && labels[idx] != null ? labels[idx] : "";
 			IconButton btn = new IconButton(appW, null,
-					new ImageIconSpec(PropertiesIconAdapter.getIcon(icon)), label);
+					((AppWFull) appW).getPropertiesIconResource().getImageResource(icon), label);
 			btn.setActive(selectedIdx == idx);
 			iconPanel.add(btn);
 			iconButtonList.add(btn);

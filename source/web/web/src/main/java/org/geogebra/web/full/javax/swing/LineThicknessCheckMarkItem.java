@@ -16,10 +16,9 @@
 
 package org.geogebra.web.full.javax.swing;
 
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.IconSpec;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
@@ -28,51 +27,56 @@ import org.gwtproject.user.client.ui.SimplePanel;
  * item with checkmark and line thickness preview
  */
 public class LineThicknessCheckMarkItem extends FlowPanel {
-	private NoDragImage checkImg;
+	private Element checkImg;
 	private boolean selected;
 	private Label text;
 	private final int value;
 
 	/**
 	 * constructor
-	 * @param thicknessStyle - style class name of item
-	 * @param value - thickness
+	 * @param thicknessStyle style class name of item
+	 * @param value thickness
+	 * @param checkMark icon
 	 */
-	public LineThicknessCheckMarkItem(String thicknessStyle, int value) {
+	public LineThicknessCheckMarkItem(String thicknessStyle, int value, IconSpec checkMark) {
 		addStyleName("lineThicknessItem");
 		this.value = value;
-		buildGUI(thicknessStyle);
+		buildGUI(thicknessStyle, checkMark);
 	}
 
 	/**
 	 * constructor
-	 * @param itemText - text of menu item
-	 * @param thicknessStyle - style class name of item
-	 * @param value - thickness
+	 * @param itemText text of menu item
+	 * @param thicknessStyle style class name of item
+	 * @param value thickness
+	 * @param checkMark icon
 	 */
-	public LineThicknessCheckMarkItem(String itemText, String thicknessStyle, int value) {
+	public LineThicknessCheckMarkItem(String itemText, String thicknessStyle, int value,
+			IconSpec checkMark) {
 		addStyleName("lineThicknessItem");
 		addStyleName(thicknessStyle);
 		this.value = value;
 
-		checkImg = new NoDragImage(MaterialDesignResources.INSTANCE.check_black(), 24, 24);
-		checkImg.addStyleName("checkImg");
-		add(checkImg);
+		styleAndAddCheckMark(checkMark);
 
 		Label text = BaseWidgetFactory.INSTANCE.newPrimaryText(itemText);
 		this.text = text;
 		add(text);
 	}
 
-	private void buildGUI(String thicknessStyle) {
-		checkImg = new NoDragImage(MaterialDesignResources.INSTANCE.check_black(), 24, 24);
-		checkImg.addStyleName("checkImg");
-		add(checkImg);
+	private void buildGUI(String thicknessStyle, IconSpec checkMark) {
+		styleAndAddCheckMark(checkMark);
 
 		SimplePanel linePreview = new SimplePanel();
 		linePreview.addStyleName("linePreview");
 		linePreview.addStyleName(thicknessStyle);
 		add(linePreview);
+	}
+
+	private void styleAndAddCheckMark(IconSpec checkMark) {
+		checkImg = checkMark.toElement();
+		checkImg.addClassName("checkImg");
+		getElement().insertFirst(checkImg);
 	}
 
 	/**
@@ -102,7 +106,11 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 	 * show or hide checkmark depending on its status (selected or not selected)
 	 */
 	public void updateCheckMarkStyle() {
-		Dom.toggleClass(checkImg, "selected", isSelected());
+		if (isSelected()) {
+			checkImg.addClassName("selected");
+		} else {
+			checkImg.removeClassName("selected");
+		}
 	}
 
 	/**

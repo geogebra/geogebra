@@ -22,13 +22,13 @@ import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
+import org.geogebra.web.html5.main.general.GeneralIcon;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.PersistablePanel;
 import org.gwtproject.dom.style.shared.Unit;
@@ -102,8 +102,8 @@ public class PageListPanel
 	}
 
 	private void addPlusButton() {
-		plusButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.add_white(), null, 24);
+		plusButton = new StandardButton(app.getGeneralIconResource()
+				.getImageResource(GeneralIcon.PLUS), null, 24, 24);
 		plusButton.setStyleName("mowFloatingButton");
 		plusButton.addStyleName("floatingActionButton");
 		plusButton.addStyleName("mowPlusButton");

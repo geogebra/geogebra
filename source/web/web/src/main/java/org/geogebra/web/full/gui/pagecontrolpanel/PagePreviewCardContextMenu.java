@@ -16,10 +16,11 @@
 
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.IconButtonCardContextMenu;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.main.general.GeneralIcon;
+import org.geogebra.web.html5.main.general.GeneralIconResource;
 
 /**
  * Context menu of the preview card.
@@ -29,6 +30,7 @@ public class PagePreviewCardContextMenu extends IconButtonCardContextMenu {
 	private final PagePreviewCard card;
 	private MenuItemController menuItemController;
 	private AriaMenuItem paste;
+	private final GeneralIconResource generalIconResource;
 
 	/**
 	 * @param app application
@@ -37,6 +39,7 @@ public class PagePreviewCardContextMenu extends IconButtonCardContextMenu {
 	public PagePreviewCardContextMenu(AppWFull app, PagePreviewCard card) {
 		super(app);
 		this.card = card;
+		this.generalIconResource = app.getGeneralIconResource();
 	}
 
 	@Override
@@ -59,38 +62,38 @@ public class PagePreviewCardContextMenu extends IconButtonCardContextMenu {
 	}
 
 	private void addNewPage() {
-		addItem(MaterialDesignResources.INSTANCE.add_black(),
+		addItem(generalIconResource.getImageResource(GeneralIcon.PLUS),
 				loc.getMenu("ContextMenu.NewPage"),
 				menuItemController.addNewPage(card.getPageIndex() + 1));
 	}
 
 	private void addDuplicatePage() {
-		addItem(MaterialDesignResources.INSTANCE.duplicatePage(),
+		addItem(generalIconResource.getImageResource(GeneralIcon.DUPPLICATE),
 				loc.getMenu("ContextMenu.DuplicatePage"), menuItemController.onDuplicatePage());
 	}
 
 	private void addRenameItem() {
-		addItem(MaterialDesignResources.INSTANCE.mow_rename(),
+		addItem(generalIconResource.getImageResource(GeneralIcon.RENAME),
 				loc.getMenu("Rename"), menuItemController.onRenamePage());
 	}
 
 	private void addDeleteItem() {
-		addItem(MaterialDesignResources.INSTANCE.delete_black(),
+		addItem(generalIconResource.getImageResource(GeneralIcon.DELETE),
 				loc.getMenu("Delete"), menuItemController.onDelete());
 	}
 
 	private void addCutItem() {
-		addItem(MaterialDesignResources.INSTANCE.cut_black(),
+		addItem(generalIconResource.getImageResource(GeneralIcon.CUT),
 				loc.getMenu("Cut"), menuItemController.onCut());
 	}
 
 	private void addCopyItem() {
-		addItem(MaterialDesignResources.INSTANCE.copy_black(),
+		addItem(generalIconResource.getImageResource(GeneralIcon.COPY),
 				loc.getMenu("Copy"), menuItemController.onCopy());
 	}
 
 	private void addPasteItem() {
-		paste = addItem(MaterialDesignResources.INSTANCE.paste_black(),
+		paste = addItem(generalIconResource.getImageResource(GeneralIcon.PASTE),
 				loc.getMenu("Paste"), menuItemController.onPaste(card, paste));
 	}
 

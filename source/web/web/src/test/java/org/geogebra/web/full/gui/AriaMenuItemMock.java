@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.resources.client.ResourcePrototype;
 
@@ -33,6 +34,12 @@ public class AriaMenuItemMock extends AriaMenuItem {
 	/** New menu item mock */
 	public AriaMenuItemMock(String text, ResourcePrototype icon, Scheduler.ScheduledCommand cmd) {
 		super(text, icon, cmd);
+		setTextContent(text);
+	}
+
+	/** New menu item mock */
+	public AriaMenuItemMock(String text, IconSpec icon, Scheduler.ScheduledCommand cmd) {
+		super(text, cmd, icon);
 		setTextContent(text);
 	}
 

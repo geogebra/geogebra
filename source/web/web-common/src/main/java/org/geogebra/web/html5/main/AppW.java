@@ -156,6 +156,9 @@ import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
+import org.geogebra.web.html5.main.general.DefaultGeneralIconProvider;
+import org.geogebra.web.html5.main.general.GeneralIconResource;
+import org.geogebra.web.html5.main.general.MebisGeneralIconProvider;
 import org.geogebra.web.html5.main.settings.DefaultSettingsW;
 import org.geogebra.web.html5.main.settings.SettingsBuilderW;
 import org.geogebra.web.html5.main.toolbox.DefaultToolboxIconProvider;
@@ -287,6 +290,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private final ExamController examController = GlobalScope.examController;
 	private ToolboxIconResource toolboxIconResource;
 	private TopBarIconResource topBarIconResource;
+	private GeneralIconResource generalIconResource;
 
 	/**
 	 * @param geoGebraElement
@@ -3646,6 +3650,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		return topBarIconResource;
+	}
+
+	/**
+	 * @return general icon resource provider
+	 */
+	public GeneralIconResource getGeneralIconResource() {
+		if (generalIconResource == null) {
+			generalIconResource = new GeneralIconResource(isUsingFontAwesome()
+					? new MebisGeneralIconProvider() : new DefaultGeneralIconProvider());
+		}
+
+		return generalIconResource;
 	}
 
 	private void loadCommandsForScripting() {

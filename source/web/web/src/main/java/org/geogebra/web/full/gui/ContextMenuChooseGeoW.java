@@ -29,6 +29,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.MouseOverEvent;
+import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.InlineHTML;
 
 /**
@@ -156,11 +157,11 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		Localization localization = app.getLocalization();
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			selectAnotherMenuItem = new AriaMenuItem(
-					localization.getMenu("SelectAnother"), null,
+					localization.getMenu("SelectAnother"), (ResourcePrototype) null,
 					selectAnotherMenu);
 		} else {
 			selectAnotherMenuItem = new AriaMenuItem(
-					localization.getMenu("PerformToolOn"), null,
+					localization.getMenu("PerformToolOn"), (ResourcePrototype) null,
 					selectAnotherMenu);
 		}
 		wrappedPopup.addItem(selectAnotherMenuItem);

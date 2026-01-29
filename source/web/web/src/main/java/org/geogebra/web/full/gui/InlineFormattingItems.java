@@ -39,19 +39,21 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
-import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.html5.main.general.GeneralIcon;
+import org.geogebra.web.html5.main.general.GeneralIconResource;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
+import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
 
 /**
@@ -69,6 +71,7 @@ public class InlineFormattingItems {
 
 	private final ArrayList<GeoElement> geos;
 	private final List<HasTextFormat> inlines;
+	private final GeneralIconResource generalIconResource;
 
 	/**
 	 * @param app the application
@@ -83,6 +86,7 @@ public class InlineFormattingItems {
 		this.factory = factory;
 		this.menu = menu;
 		this.inlines = new ArrayList<>();
+		this.generalIconResource = ((AppW) app).getGeneralIconResource();
 
 		if (allGeosHaveFormats()) {
 			fillInlines();
@@ -151,7 +155,7 @@ public class InlineFormattingItems {
 				}
 			};
 
-			AriaMenuItem item = factory.newAriaMenuItem(null,
+			AriaMenuItem item = factory.newAriaMenuItem((ResourcePrototype) null,
 					loc.getMenu("ContextMenu." + setting), command);
 
 			if (setting.equals(wrapping)) {
@@ -191,8 +195,8 @@ public class InlineFormattingItems {
 				}
 			};
 
-			AriaMenuItem item = factory.newAriaMenuItem(null, loc.getMenu("ContextMenu.rotate"
-							+ setting), command);
+			AriaMenuItem item = factory.newAriaMenuItem((ResourcePrototype) null,
+					loc.getMenu("ContextMenu.rotate" + setting), command);
 
 			if (setting.toLowerCase(Locale.US).equals(rotation)) {
 				item.addStyleName("highlighted");
@@ -207,7 +211,7 @@ public class InlineFormattingItems {
 		menu.addItem(item);
 	}
 
-	private void addSubMenuItem(AriaMenuBar submenu, SVGResource icon,
+	private void addSubMenuItem(AriaMenuBar submenu, IconSpec icon,
 			String transKey, Scheduler.ScheduledCommand cmd) {
 		AriaMenuItem submenuItem = factory.newAriaMenuItem(
 				icon, loc.getMenu(transKey), cmd);
@@ -240,13 +244,13 @@ public class InlineFormattingItems {
 		};
 
 		AriaMenuBar chartSubmenu = new AriaMenuBar();
-		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_line_chart(),
+		addSubMenuItem(chartSubmenu, generalIconResource.getImageResource(GeneralIcon.LINE_CHART),
 				"ContextMenu.LineChart", () -> chartCreator.accept(LineGraph));
 
-		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_bar_chart(),
+		addSubMenuItem(chartSubmenu, generalIconResource.getImageResource(GeneralIcon.BAR_CHART),
 				"ContextMenu.BarChart", () -> chartCreator.accept(BarChart));
 
-		addSubMenuItem(chartSubmenu, MaterialDesignResources.INSTANCE.table_pie_chart(),
+		addSubMenuItem(chartSubmenu, generalIconResource.getImageResource(GeneralIcon.PIE_CHART),
 				"ContextMenu.PieChart", () -> chartCreator.accept(PieChart));
 
 		AriaMenuItem chartItem = factory.newAriaMenuItem(loc.getMenu("ContextMenu.CreateChart"),
@@ -268,15 +272,15 @@ public class InlineFormattingItems {
 
 		AriaMenuBar headingSubmenu = new AriaMenuBar();
 
-		addSubMenuItem(headingSubmenu, MaterialDesignResources.INSTANCE.table_heading_row(),
-				"ContextMenu.Row", () -> {
+		addSubMenuItem(headingSubmenu, generalIconResource.getImageResource(
+				GeneralIcon.TABLE_HEADING_ROW), "ContextMenu.Row", () -> {
 					for (HasTextFormat formatter : inlines) {
 						((InlineTableController) formatter).setHeading(color, true);
 					}
 				});
 
-		addSubMenuItem(headingSubmenu, MaterialDesignResources.INSTANCE.table_heading_column(),
-				"ContextMenu.Column", () -> {
+		addSubMenuItem(headingSubmenu, generalIconResource.getImageResource(
+				GeneralIcon.TABLE_HEADING_COLUMN), "ContextMenu.Column", () -> {
 					for (HasTextFormat formatter : inlines) {
 						((InlineTableController) formatter).setHeading(color, false);
 					}
@@ -325,8 +329,8 @@ public class InlineFormattingItems {
 	}
 
 	private void addItem(String text, Command command) {
-		AriaMenuItem menuItem = factory.newAriaMenuItem(null, loc.getMenu(text),
-				command);
+		AriaMenuItem menuItem = factory.newAriaMenuItem((ResourcePrototype) null,
+				loc.getMenu(text), command);
 		menuItem.getElement().getStyle()
 				.setPaddingLeft(16, Unit.PX);
 		menu.addItem(menuItem);

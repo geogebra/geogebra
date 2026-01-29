@@ -19,6 +19,7 @@ package org.geogebra.web.full.javax.swing;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 public class GCheckMarkLabel extends GCheckMarkPanel {
 
@@ -28,7 +29,7 @@ public class GCheckMarkLabel extends GCheckMarkPanel {
 	 * @param cmd command to run
 	 */
 	public GCheckMarkLabel(String text, boolean checked, ScheduledCommand cmd) {
-		super(text, null, checked);
+		super(text, (ResourcePrototype) null, checked);
 		ClickStartHandler.init(this, new ClickStartHandler() {
 
 			@Override

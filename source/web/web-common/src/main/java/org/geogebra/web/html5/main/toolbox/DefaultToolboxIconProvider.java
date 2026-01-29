@@ -79,10 +79,34 @@ public class DefaultToolboxIconProvider implements ToolboxIconProvider {
 			return res.ruler();
 		case PROTRACTOR:
 			return res.ruler_protractor();
-		case TRIANGLE:
+		case RULER_TRIANGLE:
 			return res.ruler_triangle();
 		case SPOTLIGHT:
 			return res.target();
+		case SQUARE:
+			return res.square();
+		case RECTANGLE:
+			return res.rectangle();
+		case TRIANGLE:
+			return res.triangle();
+		case CIRCLE:
+			return res.circle();
+		case ELLIPSE:
+			return res.ellipse();
+		case PENTAGON:
+			return res.pentagon();
+		case LINE:
+			return res.line();
+		case FREEFORM:
+			return res.freeform();
+		case PARALLELOGRAM:
+			return res.parallelogram();
+		case STADIUM:
+			return res.stadium();
+		case CURVE:
+			return res.curve();
+		case MASK:
+			return res.mask();
 		default:
 			return null;
 		}

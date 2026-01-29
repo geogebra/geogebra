@@ -20,6 +20,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -41,11 +42,30 @@ public class GCheckMarkPanel extends FlowPanel {
 	 * @param icon of panel (optional)
 	 * @param checked initial value
 	 */
+	public GCheckMarkPanel(String text, IconSpec icon, boolean checked) {
+		addStyleName("checkMarkMenuItem");
+		this.text = text;
+		this.checked = checked;
+		if (icon != null) {
+			getElement().insertFirst(icon.toElement());
+		}
+		buildGui(text);
+		updateCheckImg();
+	}
+
+	/**
+	 * @param text of panel
+	 * @param icon of panel (optional)
+	 * @param checked initial value
+	 */
 	public GCheckMarkPanel(String text, ResourcePrototype icon, boolean checked) {
 		addStyleName("checkMarkMenuItem");
 		this.text = text;
 		this.checked = checked;
-		buildGui(icon, text);
+		if (icon != null) {
+			add(new NoDragImage(icon, 24));
+		}
+		buildGui(text);
 		updateCheckImg();
 	}
 
@@ -66,11 +86,7 @@ public class GCheckMarkPanel extends FlowPanel {
 		checkImg.setUrl(svgResource.getSafeUri());
 	}
 
-	private void buildGui(ResourcePrototype icon, String text) {
-		if (icon != null) {
-			add(new NoDragImage(icon, 24));
-		}
-
+	private void buildGui(String text) {
 		label = new Label(text);
 		label.setStyleName("gwt-HTML");
 		add(label);

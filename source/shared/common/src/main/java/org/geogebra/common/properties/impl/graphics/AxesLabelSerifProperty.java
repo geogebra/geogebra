@@ -16,7 +16,7 @@
 
 package org.geogebra.common.properties.impl.graphics;
 
-import static org.geogebra.common.properties.PropertyResource.ICON_AXES_SERIF;
+import static org.geogebra.common.properties.PropertyResource.ICON_SERIF;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -51,6 +51,6 @@ public class AxesLabelSerifProperty extends AbstractValuedProperty<Boolean>
 
 	@Override
 	public PropertyResource getIcon() {
-		return ICON_AXES_SERIF;
+		return ICON_SERIF;
 	}
 }

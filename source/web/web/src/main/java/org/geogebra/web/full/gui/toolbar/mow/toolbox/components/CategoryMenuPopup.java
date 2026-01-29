@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.contextmenu.CalculatorSubMenu;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolModeIconSpecAdapter;
@@ -50,8 +49,8 @@ public class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
 
 		for (Integer mode : tools) {
 			if (mode == EuclidianConstants.MODE_CALCULATOR) {
-				addItem(new AriaMenuItem("GeoGebra", MaterialDesignResources.INSTANCE
-						.geogebra_black(), new CalculatorSubMenu(getApp())));
+				addItem(new AriaMenuItem("GeoGebra", getApp().getToolboxIconResource()
+						.getImageResource(ToolboxIcon.GEOGEBRA), new CalculatorSubMenu(getApp())));
 			} else {
 				addItem(mode);
 			}

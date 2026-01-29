@@ -16,11 +16,13 @@
 
 package org.geogebra.web.full.gui;
 
+import org.gwtproject.resources.client.ResourcePrototype;
+
 public class AriaMenuCheckMock extends AriaMenuItemMock {
 	private boolean checked = false;
 
 	public AriaMenuCheckMock(String text) {
-		super(text, null, () -> { });
+		super(text, (ResourcePrototype) null, () -> { });
 	}
 
 	public boolean isChecked() {
