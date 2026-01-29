@@ -189,6 +189,7 @@ public class AlgoDependentNumber extends AlgoElement
 			ExpressionNode def = number.getDefinition();
 			if (number instanceof GeoNumeric) {
 				((GeoNumeric) number).setValue(nv.getDouble());
+				((GeoNumeric) number).setExactValue(nv.toDecimal());
 			} else {
 				number.set(nv.toGeoElement(cons));
 			}

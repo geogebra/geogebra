@@ -597,9 +597,13 @@ public class MyDouble extends ValidExpression
 					.floor(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
-			set(Math.floor(DoubleUtil.checkInteger(val)));
+			setPrecise(Math.floor(DoubleUtil.checkInteger(val)));
 		}
 		return this;
+	}
+
+	protected void setPrecise(double newVal) {
+		set(newVal);
 	}
 
 	/**
@@ -615,7 +619,7 @@ public class MyDouble extends ValidExpression
 					.ceil(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
-			set(Math.ceil(DoubleUtil.checkInteger(val)));
+			setPrecise(Math.ceil(DoubleUtil.checkInteger(val)));
 		}
 		return this;
 	}
@@ -652,7 +656,7 @@ public class MyDouble extends ValidExpression
 			set(Kernel.PI_180 * Precision.round(val * Kernel.CONST_180_PI, digits));
 		} else {
 			// number or angle in radians
-			set(Precision.round(val, digits));
+			setPrecise(Precision.round(val, digits));
 		}
 	}
 

@@ -630,6 +630,33 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-7262")
+	public void testFloorPrecision() {
+		add("A1=3.15");
+		add("A2=floor(A1)");
+		add("B1=A1-A2");
+		GeoNumeric b2 = add("B2=10 B1");
+		assertEquals("1.5", b2.toValueString(StringTemplate.maxDecimals));
+		add("A2=3");
+		assertEquals("1.5", lookup("B2").toValueString(StringTemplate.maxDecimals));
+		add("A2=floor(A1)");
+		assertEquals("1.5", lookup("B2")
+				.toValueString(StringTemplate.maxDecimals));
+	}
+
+	@Test
+	@Issue("APPS-7262")
+	public void testMultiplicationPrecision() {
+		add("A1=3.15");
+		add("A4=3");
+		add("B4=A1-A4");
+		GeoNumeric b5 = add("B5=10 B4");
+		assertEquals("1.5", b5.toValueString(StringTemplate.maxDecimals));
+		add("A4=3.0");
+		assertEquals("1.5", lookup("B5").toValueString(StringTemplate.maxDecimals));
+	}
+
+	@Test
 	public void sufficientPrecisionForRepeatedMultiplication() {
 		t("a=1000/999", "1.001", StringTemplate.editTemplate);
 		t("a" + "*a".repeat(999), "2.71964221644285", StringTemplate.maxDecimals);

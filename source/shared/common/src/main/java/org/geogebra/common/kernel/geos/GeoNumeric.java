@@ -422,6 +422,9 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void set(GeoElementND geo) {
 		setValue(geo.evaluateDouble());
+		if (geo instanceof NumberValue numberValue) {
+			setExactValue(numberValue.toDecimal());
+		}
 		reuseDefinition(geo);
 	}
 

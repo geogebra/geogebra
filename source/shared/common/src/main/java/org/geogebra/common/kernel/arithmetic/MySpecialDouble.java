@@ -333,6 +333,15 @@ public class MySpecialDouble extends MyDouble {
 		keepDegree = true;
 	}
 
+	@Override
+	protected void setPrecise(double newVal) {
+		if (isImprecise() || !Double.isFinite(newVal)) {
+			set(newVal);
+		} else {
+			set(new BigDecimal(newVal));
+		}
+	}
+
 	private void initFraction() {
 		if (strToString == null) {
 			denominator = Double.NaN;
