@@ -402,10 +402,11 @@ public class DataDisplayModel {
 				} else {
 					listener.removeFrequencyTable();
 				}
-
 				// update settings
-				statGeo.getHistogramSettings(dataListSelected, histogram,
-						settings);
+				if (histogram != null) {
+					statGeo.getHistogramSettings(dataListSelected, histogram,
+							settings);
+				}
 
 				listener.updatePlotPanelSettings();
 
