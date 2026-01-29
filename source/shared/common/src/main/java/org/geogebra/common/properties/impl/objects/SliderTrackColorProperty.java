@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.impl.DefaultColorValues;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.SliderPropertyDelegate;
 
@@ -36,7 +37,7 @@ public class SliderTrackColorProperty extends ElementColorProperty
 	public SliderTrackColorProperty(Localization localization,
 			GeoElement element) throws NotApplicablePropertyException {
 		super(localization, new SliderPropertyDelegate(element), "Color");
-		setValues(createColorValues());
+		setValues(DefaultColorValues.BRIGHT);
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import org.geogebra.web.full.gui.components.ComponentComboBox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.full.gui.components.ComponentSlider;
 import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionRatioPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
@@ -119,19 +120,9 @@ public class PropertiesPanelAdapter {
 			return new ComponentCheckbox(loc, checkBoxProperty,
 					checkBoxProperty.getLabel(), checkBoxProperty::setSelected, false);
 		}
-		/*if (property instanceof RangeProperty) {
-			FlowPanel wrapper = new FlowPanel();
-			RangeProperty<Integer> rp = (RangeProperty<Integer>) property;
-			SliderPanel sliderPanel = new SliderPanel(rp.getMin(), rp.getMax());
-			sliderPanel.setTickSpacing(rp.getStep());
-			sliderPanel.addValueChangeHandler(change ->
-				rp.setValue(change.getValue())
-			);
-			sliderPanel.setValue(rp.getValue());
-			wrapper.add(new Label(property.getName()));
-			wrapper.add(sliderPanel);
-			return wrapper;
-		}*/
+		if (propertyView instanceof Slider sliderProperty) {
+			return new ComponentSlider(app, sliderProperty);
+		}
 		if (propertyView instanceof ActionableButtonRow) {
 			return new ActionableButtonPanel((ActionableButtonRow) propertyView);
 		}
@@ -210,7 +201,7 @@ public class PropertiesPanelAdapter {
 							colorSelectorRow.setCustomColor(color);
 						}
 					},
-					colorSelectorRow.getPropertyName());
+					colorSelectorRow);
 			Integer index = colorSelectorRow.getSelectedColorIndex();
 			if (index == null) {
 				index = 0;

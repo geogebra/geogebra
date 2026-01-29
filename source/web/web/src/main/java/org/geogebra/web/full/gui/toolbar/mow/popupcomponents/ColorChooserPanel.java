@@ -16,6 +16,8 @@
 
 package org.geogebra.web.full.gui.toolbar.mow.popupcomponents;
 
+import static org.geogebra.common.properties.PropertyView.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class ColorChooserPanel extends FlowPanel implements SetLabels {
+public class ColorChooserPanel extends FlowPanel implements SetLabels,
+		ConfigurationUpdateDelegate {
 	private final Consumer<GColor> callback;
 	private GColor activeColor;
 	private FlowPanel activeButton;
@@ -45,6 +48,7 @@ public class ColorChooserPanel extends FlowPanel implements SetLabels {
 	private Map<GColor, FlowPanel> colorButtons;
 	private Label label;
 	private final String labelKey;
+	private ColorSelectorRow colorProperty;
 
 	/**
 	 * constructor
@@ -70,6 +74,21 @@ public class ColorChooserPanel extends FlowPanel implements SetLabels {
 		this.appW = appW;
 		this.labelKey = labelKey;
 		buildGUI(colorValues, labelKey);
+	}
+
+	/**
+	 * constructor
+	 * @param appW application
+	 * @param colorValues color values
+	 * @param callback callback for setting the color for object
+	 * @param colorProperty {@link ColorSelectorRow}
+	 */
+	public ColorChooserPanel(AppW appW, List<GColor> colorValues, Consumer<GColor> callback,
+			ColorSelectorRow colorProperty) {
+		this(appW, colorValues, callback, colorProperty.getLabel());
+		this.colorProperty = colorProperty;
+		setDisabled(!colorProperty.isEnabled());
+		colorProperty.setConfigurationUpdateDelegate(this);
 	}
 
 	private void buildGUI(List<GColor> colorValues, String labelKey) {
@@ -233,6 +252,13 @@ public class ColorChooserPanel extends FlowPanel implements SetLabels {
 	public void setLabels() {
 		if (label != null) {
 			label.setText(appW.getLocalization().getMenu(labelKey));
+		}
+	}
+
+	@Override
+	public void configurationUpdated() {
+		if (colorProperty != null) {
+			setDisabled(!colorProperty.isEnabled());
 		}
 	}
 }

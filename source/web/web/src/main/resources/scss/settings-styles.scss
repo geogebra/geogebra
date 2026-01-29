@@ -780,5 +780,16 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			display: grid;
 			gap: 10px;
 		}
+		.sliderComponent {
+			.labelPreviewHolder {
+				gap: 8px;
+			}
+			.sliderLabel, .displayValue {
+				font-size: 16px;
+				height: 24px;
+				line-height: 24px;
+				margin: 4px 0;
+			}
+		}
 	}
 }

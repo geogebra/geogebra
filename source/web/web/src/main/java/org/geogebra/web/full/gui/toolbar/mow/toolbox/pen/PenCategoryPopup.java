@@ -31,12 +31,12 @@ import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.PenColorValues;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.CategoryPopup;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentSlider;
+import org.geogebra.web.shared.components.PenHighlighterEraserSlider;
 
 public class PenCategoryPopup extends CategoryPopup implements SettingListener {
 	private final PenCategoryController controller;
 	private ColorChooserPanel colorChooser;
-	private ComponentSlider sliderComponent;
+	private PenHighlighterEraserSlider sliderComponent;
 
 	/**
 	 * Constructor
@@ -69,7 +69,7 @@ public class PenCategoryPopup extends CategoryPopup implements SettingListener {
 		});
 		addContent(colorChooser);
 
-		sliderComponent = new ComponentSlider((AppW) app);
+		sliderComponent = new PenHighlighterEraserSlider((AppW) app);
 		addContent(sliderComponent);
 
 		colorChooser.updateColorSelection(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
