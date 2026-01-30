@@ -22,13 +22,16 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.IconAssociatedProperty;
+import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class ItalicProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
+public class ItalicProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty, IconAssociatedProperty {
 	private final GeoElementDelegate delegate;
 
 	/**
@@ -75,5 +78,10 @@ public class ItalicProperty extends AbstractValuedProperty<Boolean> implements B
 		}
 
 		return false;
+	}
+
+	@Override
+	public PropertyResource getIcon() {
+		return PropertyResource.ICON_ITALIC;
 	}
 }
