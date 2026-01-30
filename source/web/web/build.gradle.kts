@@ -173,7 +173,7 @@ tasks.register("prepareS3Upload") {
                     ant.withGroovyBuilder { "gzip"("src" to f, "zipfile" to outFile) }
                 }
             }
-            val srcMaps = file ("war/WEB-INF/deploy/$module/symbolMaps/")
+            val srcMaps = file ("${layout.buildDirectory}/gwt/deploy/$module/symbolMaps/")
             file("build/symbolMapsGz/$module").mkdirs()
             if (srcMaps.exists()) {
                 fileTree(srcMaps).forEach { f ->
@@ -189,7 +189,7 @@ tasks.register<Copy>("deployIntoWar") {
     dependsOn(copyHtml, tasks.gwtCompile)
     description = "Copies/updates the GWT production compilation directory (web3d, ...) to the war directory."
     into("web3d/sourcemaps/") {
-        from("$warDirRel/WEB-INF/deploy/web3d/symbolMaps")
+        from(file("${layout.buildDirectory}/gwt/deploy/web3d/symbolMaps/"))
     }
 }
 
