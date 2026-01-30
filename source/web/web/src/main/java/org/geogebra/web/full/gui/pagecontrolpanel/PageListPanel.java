@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.undo.UndoInfoStoredListener;
@@ -103,7 +104,8 @@ public class PageListPanel
 
 	private void addPlusButton() {
 		plusButton = new StandardButton(app.getGeneralIconResource()
-				.getImageResource(GeneralIcon.PLUS), null, 24, 24);
+				.getImageResource(GeneralIcon.PLUS).withFill(GColor.WHITE.toString()),
+				null, 24, 24);
 		plusButton.setStyleName("mowFloatingButton");
 		plusButton.addStyleName("floatingActionButton");
 		plusButton.addStyleName("mowPlusButton");
