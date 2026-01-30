@@ -68,7 +68,7 @@ public class PagePreviewCardContextMenu extends IconButtonCardContextMenu {
 	}
 
 	private void addDuplicatePage() {
-		addItem(generalIconResource.getImageResource(GeneralIcon.DUPPLICATE),
+		addItem(generalIconResource.getImageResource(GeneralIcon.DUPLICATE),
 				loc.getMenu("ContextMenu.DuplicatePage"), menuItemController.onDuplicatePage());
 	}
 

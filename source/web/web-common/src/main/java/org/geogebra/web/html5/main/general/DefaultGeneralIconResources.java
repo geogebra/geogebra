@@ -71,7 +71,7 @@ public interface DefaultGeneralIconResources extends ClientBundle {
 	SVGResource plus();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/control_point_duplicate.svg")
-	SVGResource dupplicate();
+	SVGResource duplicate();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rename_box_black_24px.svg")
 	SVGResource rename();

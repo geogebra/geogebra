@@ -47,7 +47,7 @@ public class MebisGeneralIconProvider extends DefaultGeneralIconProvider {
 			case ARROW_LEFT -> new FaIconSpec("fa-caret-left");
 			case RENAME -> new FaIconSpec("fa-pencil-line");
 			case PLUS -> new FaIconSpec("fa-plus");
-			case DUPPLICATE -> new FaIconSpec("fa-clone-plus");
+			case DUPLICATE -> new FaIconSpec("fa-clone-plus");
 			case CUT, TABLE_HEADING_COLUMN, TABLE_HEADING_ROW, X_SQUARE,
 				 X_2 -> new ImageIconSpec(getFallbackSVG(icon));
 		default -> super.matchIconWithResource(icon);

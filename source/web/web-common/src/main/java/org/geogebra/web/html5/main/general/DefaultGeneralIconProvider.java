@@ -46,7 +46,7 @@ public class DefaultGeneralIconProvider implements GeneralIconProvider {
 			case ARROW_LEFT -> res.arrow_left();
 			case RENAME -> res.rename();
 			case PLUS -> res.plus();
-			case DUPPLICATE -> res.dupplicate();
+			case DUPLICATE -> res.duplicate();
 			case TABLE_HEADING_COLUMN -> res.table_heading_column();
 			case TABLE_HEADING_ROW -> res.table_heading_row();
 			case X_SQUARE -> res.x_square();
