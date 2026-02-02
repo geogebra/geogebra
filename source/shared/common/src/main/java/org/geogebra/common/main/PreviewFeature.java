@@ -48,7 +48,11 @@ public enum PreviewFeature {
 	/**
 	 * MOW-1762
 	 */
-	TEST_FONT;
+	TEST_FONT,
+	/**
+	 * APPS-7232
+	 */
+	TEXT_DIALOG;
 
 	/**
 	 * Global flag to activate preview features.

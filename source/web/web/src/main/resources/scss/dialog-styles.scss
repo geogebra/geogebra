@@ -1917,4 +1917,74 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 	}
+
+	.textDialog {
+		.dialogMainPanel .dialogContent {
+			border: 1px solid neutral(300);
+			border-radius: 8px;
+			padding: 0;
+			margin: 0 24px;
+
+			.textTopBar {
+				display: flex;
+				padding: 8px;
+				border-bottom: 1px solid neutral(300);
+				gap: 8px;
+			}
+
+			.textEditor {
+				border: none;
+				width: calc(100% - 32px);
+				padding: 8px 16px;
+				border-bottom: 1px solid neutral(300);
+			}
+
+			.header {
+				display: flex;
+				height: 36px;
+				padding: 6px 16px 6px 8px;
+				gap: 8px;
+				background-color: neutral(100);
+				border-bottom: 1px solid neutral(300);
+
+				&.closed {
+					border-bottom: none;
+				}
+
+				.button {
+					height: 36px;
+					display: flex;
+
+					.gwt-Image {
+						width: 24px;
+                        height: 24px;
+                        padding: 4px 0;
+                        transition: transform 200ms ease-in-out;
+					}
+
+					.gwt-Label {
+						height: 24px;
+						line-height: 24px;
+						font-size: 16px;
+						padding: 4px 16px 4px 4px;
+						color: neutral(900)
+					}
+				}
+
+				.checkboxPanel {
+					margin-left: auto;
+				}
+			}
+
+			.header:not(.closed) .gwt-Image {
+				transform: rotate(90deg);
+			}
+
+			.previewPanel {
+				position: relative;
+				min-height: 104px;
+				padding: 8px 16px;
+			}
+		}
+	}
 }

@@ -30,10 +30,4 @@ public interface TextInputDialog {
 	 * @param rw whether to use RW coordinates
 	 */
 	void reInitEditor(GeoText text, GeoPointND startPoint, boolean rw);
-
-	/**
-	 * Show or hide the dialog/
-	 * @param b true to make it visible
-	 */
-	void setVisible(boolean b);
 }

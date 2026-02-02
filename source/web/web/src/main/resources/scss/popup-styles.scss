@@ -198,7 +198,7 @@
 	}
 
 	.quickStyleBarPopup {
-		z-index: z-index.$z-dialog-under-keyboard;
+		z-index: z-index.$z-dialog-over-keyboard;
 		border-radius: 12px;
 		padding: 8px;
 		background-color: white;

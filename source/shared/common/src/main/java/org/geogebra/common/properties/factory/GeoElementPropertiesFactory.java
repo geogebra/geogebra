@@ -118,6 +118,7 @@ import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty
 import org.geogebra.common.properties.impl.objects.SegmentDecorationProperty;
 import org.geogebra.common.properties.impl.objects.SegmentEndProperty;
 import org.geogebra.common.properties.impl.objects.SegmentStartProperty;
+import org.geogebra.common.properties.impl.objects.SerifProperty;
 import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
@@ -739,6 +740,19 @@ public final class GeoElementPropertiesFactory {
 			List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
 				element -> new ItalicProperty(localization, element),
+				BooleanPropertyListFacade::new);
+	}
+
+	/**
+	 * Returns with a Boolean property that formats serif the texts, or null if not applicable
+	 * @param localization localization
+	 * @param elements elements
+	 * @return serif property or null
+	 */
+	public BooleanProperty createSerifProperty(Localization localization,
+			List<GeoElement> elements) {
+		return createOptionalPropertyFacade(elements,
+				element -> new SerifProperty(localization, element),
 				BooleanPropertyListFacade::new);
 	}
 

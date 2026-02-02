@@ -359,4 +359,8 @@ public class TextEditPanel extends FlowPanel
 	public DisclosurePanel getDisclosurePanel() {
 		return disclosurePanel;
 	}
+
+	public TextPreviewPanelW getPreviewer() {
+		return previewer;
+	}
 }

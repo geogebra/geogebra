@@ -625,7 +625,10 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
-		return new TextInputDialogD(app, getLocalization().getMenu("Text"), text, startPoint,
+		TextInputDialogD dialog = new TextInputDialogD(app, getLocalization().getMenu("Text"),
+				text, startPoint,
 				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
+		dialog.setVisible(true);
+		return dialog;
 	}
 }

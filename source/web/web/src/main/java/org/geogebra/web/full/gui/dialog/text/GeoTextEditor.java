@@ -94,7 +94,6 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 	}
 
 	private void registerHandlers() {
-
 		addDomHandler(event -> editPanel.updatePreviewPanel(true), KeyUpEvent.getType());
 		editBox.addKeyUpHandler(event -> {
 
@@ -123,6 +122,8 @@ public class GeoTextEditor extends FocusWidget implements HasKeyboardTF {
 				editBox.setText(target.getAttribute("value"));
 				editBox.setTarget(target);
 				showEditPopup(true);
+			} else if (target.getClassName().contains("textEditor")) {
+				target.focus();
 			}
 		}, ClickEvent.getType());
 	}

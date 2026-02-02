@@ -710,8 +710,6 @@ public abstract class DialogManager {
 		} else {
 			textInputDialog.reInitEditor(text, startPoint, rw);
 		}
-
-		textInputDialog.setVisible(true);
 		app.setDefaultCursor();
 	}
 

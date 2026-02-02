@@ -57,7 +57,6 @@ public class IconButtonWithProperty extends IconButton {
 	private final List<GeoElement> geos;
 	private GPopupPanel propertyPopup;
 	private SliderWithProperty lineThicknessSlider;
-	private LabelValuePanel labelPanel;
 	private final PropertyWidgetAdapter widgetAdapter;
 	private PopupColorHandler popupHandler;
 
@@ -183,13 +182,13 @@ public class IconButtonWithProperty extends IconButton {
 		}
 
 		if (property instanceof StringPropertyListFacade<?>) {
-			labelPanel = new LabelValuePanel(appW, (StringPropertyListFacade<?>) property, geos);
+			LabelValuePanel labelPanel =
+					new LabelValuePanel(appW, (StringPropertyListFacade<?>) property, geos);
 			propertyPopup.addCloseHandler(labelPanel);
 			parent.add(labelPanel);
 		}
 
-		if (property instanceof FlagListPropertyListFacade<?>) {
-			FlagListPropertyListFacade<?> valuedProperty = (FlagListPropertyListFacade<?>) property;
+		if (property instanceof FlagListPropertyListFacade<?> valuedProperty) {
 			LabelSettingsPanel labelStylePanel = widgetAdapter.getLabelPanel(valuedProperty);
 			parent.add(labelStylePanel);
 		}

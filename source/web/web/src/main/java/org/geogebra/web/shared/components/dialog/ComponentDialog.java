@@ -216,6 +216,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 */
 	public void setDialogContent(IsWidget content) {
 		dialogContent.clear();
+		widgetList.clear();
 		dialogContent.add(content);
 	}
 

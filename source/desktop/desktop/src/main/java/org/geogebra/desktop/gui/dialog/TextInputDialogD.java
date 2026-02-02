@@ -255,6 +255,7 @@ public class TextInputDialogD extends InputDialogD
 		isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
 		updatePreviewText();
 		editor.requestFocus();
+		setVisible(true);
 	}
 
 	private void createAdditionalGUI() {

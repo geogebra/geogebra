@@ -95,9 +95,11 @@ public class TextInputDialogW extends ComponentDialog implements TextInputDialog
 		closeIOSKeyboard();
 		String inputText = editor.getText();
 		new TextInputHandler().processInput(inputText, new TextInputErrorHandler(app), ok -> {
-			setVisible(!ok);
 			if (ok) {
 				resetMode();
+				hide();
+			} else {
+				focus();
 			}
 		});
 	}
