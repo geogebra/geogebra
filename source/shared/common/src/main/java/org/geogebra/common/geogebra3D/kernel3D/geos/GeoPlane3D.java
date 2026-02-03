@@ -567,8 +567,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public boolean isDefinitionValid() {
-		return isDefined() || (getDefinition() != null
-				&& bothSidesDefined(getDefinition()));
+		return isDefined() || (definition != null && bothSidesDefined(definition));
 	}
 
 	/**

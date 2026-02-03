@@ -283,7 +283,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private boolean canBeRemovedAsInput = true;
 
-	private ExpressionNode definition;
+	protected @CheckForNull ExpressionNode definition;
 
 	private int defaultGeoType = -1;
 
@@ -4463,8 +4463,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	protected String getDefinitionXML() {
-		return
-				definition.toString(StringTemplate.xmlTemplate);
+		return definition == null ? "" : definition.toString(StringTemplate.xmlTemplate);
 	}
 
 	/**

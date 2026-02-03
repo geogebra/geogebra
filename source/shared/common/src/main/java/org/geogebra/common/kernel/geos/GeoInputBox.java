@@ -116,7 +116,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			return false;
 		}
 
-		if (hasCommand(geo.getDefinition())) {
+		if (hasCommand(geo.definition)) {
 			return false;
 		}
 

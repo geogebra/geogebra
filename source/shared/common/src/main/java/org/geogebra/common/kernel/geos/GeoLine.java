@@ -893,8 +893,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (tpl.hasCASType()) {
-			if (getDefinition() != null) {
-				return getDefinition().toValueString(tpl);
+			if (definition != null) {
+				return definition.toValueString(tpl);
 			}
 
 			double[] numbers = new double[3];
@@ -983,8 +983,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 					false, false, tpl,
 					false).toString();
 		case USER:
-			if (getDefinition() != null) {
-				return getDefinition().toValueString(tpl);
+			if (definition != null) {
+				return definition.toValueString(tpl);
 			}
 			return buildImplicitEquation(g, tpl);
 		default: // EquationLinear.Type.IMPLICIT
@@ -1727,7 +1727,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return getEquationForm() == Form.USER && getDefinition() != null;
+		return getEquationForm() == Form.USER && definition != null;
 	}
 
 	@Override
@@ -1739,7 +1739,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (!MyDouble.exactEqual(y, 0)) {
 			usedVars.add("y");
 		}
-		addUsedVars(usedVars, getDefinition());
+		addUsedVars(usedVars, definition);
 		return usedVars.toArray(new String[0]);
 	}
 
@@ -1750,7 +1750,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            (wrapped) equation
 	 */
 	public static void addUsedVars(ArrayList<String> usedVars,
-			ExpressionNode definition) {
+			@CheckForNull ExpressionNode definition) {
 		if (usedVars.isEmpty() && definition != null
 				&& definition.unwrap() instanceof Equation) {
 			if (((Equation) definition.unwrap())
@@ -1793,7 +1793,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public Function getFunction() {
-		Function definitionFn = definitionAsFunction(getDefinition());
+		Function definitionFn = definitionAsFunction(definition);
 		if (definitionFn != null) {
 			return definitionFn;
 		}
@@ -1805,7 +1805,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param definition definition
 	 * @return definition converted to function
 	 */
-	public static Function definitionAsFunction(ExpressionNode definition) {
+	public static Function definitionAsFunction(@CheckForNull ExpressionNode definition) {
 		if (definition != null && definition.unwrap() instanceof Equation) {
 			return ((Equation) definition.unwrap()).asFunction();
 		}
@@ -1821,7 +1821,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean hasTableOfValues() {
-		return getDefinition() != null && !DoubleUtil.isZero(getY()) && super.hasTableOfValues();
+		return definition != null && !DoubleUtil.isZero(getY()) && super.hasTableOfValues();
 	}
 
 	@Override

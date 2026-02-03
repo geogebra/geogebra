@@ -686,8 +686,8 @@ public class GeoNumeric extends GeoElement
 					&& !(getParentAlgorithm() instanceof SetRandomValue)) {
 				return "exact(rand(0,1))";
 			}
-			if (getDefinition() != null && Double.isFinite(value)) {
-				return getDefinition().toValueString(tpl);
+			if (definition != null && Double.isFinite(value)) {
+				return definition.toValueString(tpl);
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
@@ -706,10 +706,10 @@ public class GeoNumeric extends GeoElement
 		// in general toFractionString falls back to printing evaluation result if not a fraction
 		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
 		if ((symbolicMode || DoubleUtil.isInteger(value))
-				&& getDefinition() != null
 				&& tpl.supportsFractions()
-				&& (!getDefinition().isLeaf() || isDecimalFraction())) {
-			return getDefinition().toFractionString(tpl);
+				&& definition != null
+				&& (!definition.isLeaf() || isWrappedFraction(definition))) {
+			return definition.toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);
 	}
@@ -718,8 +718,11 @@ public class GeoNumeric extends GeoElement
 	 * @return whether this is a decimal that can be converted to a fraction, e.g. 0.25
 	 */
 	public boolean isDecimalFraction() {
-		return getDefinition() != null && getDefinition().unwrap() instanceof MySpecialDouble
-				&& ((MySpecialDouble) getDefinition().unwrap()).isFraction();
+		return definition != null && isWrappedFraction(definition);
+	}
+
+	private static boolean isWrappedFraction(ExpressionNode definition) {
+		return definition.unwrap() instanceof MySpecialDouble asDouble && asDouble.isFraction();
 	}
 
 	/**
@@ -735,7 +738,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	private boolean hasExactConstantValue() {
-		return toDecimal() != null && getDefinition().isConstant();
+		return toDecimal() != null && definition != null && definition.isConstant();
 	}
 
 	private MySpecialDouble getExactNumber() {
@@ -1426,7 +1429,7 @@ public class GeoNumeric extends GeoElement
 		boolean okMin = isIntervalMinActive();
 		boolean okMax = isIntervalMaxActive();
 		boolean ok = getIntervalMin() <= getIntervalMax();
-		ExpressionNode oldDefinition = getDefinition();
+		ExpressionNode oldDefinition = definition;
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
 			isDrawable = getIntervalMin() < getIntervalMax();
@@ -1935,7 +1938,6 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void initSymbolicMode() {
-		ExpressionNode definition = getDefinition();
 		boolean symbolicMode =
 				(definition == null)
 						|| (!definition.isSimpleFraction() && definition.isFractionNoPi())
@@ -1972,7 +1974,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public DescriptionMode getDescriptionMode() {
 		boolean simple = isSimple() && !isDecimalFraction();
-		if (getDefinition() != null
+		if (definition != null
 				&& !simple
 				&& !"?".equals(getDefinition(StringTemplate.defaultTemplate))) {
 			return DescriptionMode.DEFINITION_VALUE;
@@ -2273,7 +2275,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean isRecurringDecimal() {
-		return getDefinition() != null && getDefinition().unwrap().isRecurringDecimal();
+		return asRecurringDecimal() != null;
 	}
 
 	/**
@@ -2281,10 +2283,10 @@ public class GeoNumeric extends GeoElement
 	 * @return the RecurringDecimal object if it is one, null otherwise.
 	 */
 	public RecurringDecimal asRecurringDecimal() {
-		if (!isRecurringDecimal()) {
-			return null;
+		if (definition != null && definition.unwrap() instanceof RecurringDecimal dec) {
+			return dec;
 		}
-		return (RecurringDecimal) getDefinition().unwrap();
+		return null;
 	}
 
 	/**
@@ -2292,13 +2294,13 @@ public class GeoNumeric extends GeoElement
 	 * @param expandPlusAndDecimals whether to expand + and - operations and convert decimal numbers
 	 */
 	public void getFraction(ExpressionValue[] parts, boolean expandPlusAndDecimals) {
-		if (getDefinition() == null) {
+		if (definition == null) {
 			parts[0] = getNumber();
 			parts[1] = null;
 			return;
 		}
-		getDefinition().isFraction(); // force fraction caching
-		getDefinition().getFraction(parts, expandPlusAndDecimals);
+		definition.isFraction(); // force fraction caching
+		definition.getFraction(parts, expandPlusAndDecimals);
 	}
 
 	@Override

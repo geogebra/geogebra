@@ -339,9 +339,9 @@ public class GeoList extends GeoElement
 			ret = geo.copy();
 		}
 		ret.setParentAlgorithm(getParentAlgorithm());
-		if (geo.getDefinition() != null
-				&& !geo.getDefinition().any(Inspecting::isDynamicGeoElement)) {
-			ret.setDefinition(geo.getDefinition().deepCopy(kernel));
+		if (geo.definition != null
+				&& !geo.definition.any(Inspecting::isDynamicGeoElement)) {
+			ret.setDefinition(geo.definition.deepCopy(kernel));
 		}
 		return ret;
 	}
@@ -998,7 +998,7 @@ public class GeoList extends GeoElement
 				}
 				sb.append('}');
 				builder.attr("exp", sb);
-			} else if (getDefinition() != null) {
+			} else if (definition != null) {
 				builder.attr("exp", getDefinitionXML());
 			} else if (!isDefined) {
 				builder.attr("exp", "?");
@@ -3544,7 +3544,6 @@ public class GeoList extends GeoElement
 
 	@Override
 	public char getLabelDelimiter() {
-		ExpressionNode definition = getDefinition();
 		if (definition != null && definition.unwrap() instanceof Equation) {
 			return ':';
 		}

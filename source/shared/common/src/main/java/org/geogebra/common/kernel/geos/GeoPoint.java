@@ -455,21 +455,19 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 		// move Point like curve(slider)
 		if (isPointOnCurveWithSlider()) {
-
 			GeoPoint p = new GeoPoint(cons, endPosition.getX(),
 					endPosition.getY(), 1);
+			if (definition != null) {
+				GeoCurveCartesian curve = (GeoCurveCartesian) definition.getLeft();
+				GeoNumeric param = (GeoNumeric) definition.getRight();
 
-			ExpressionNode exp = getDefinition();
+				double t = curve.getClosestParameter(p, param.getValue());
 
-			GeoCurveCartesian curve = (GeoCurveCartesian) exp.getLeft();
-			GeoNumeric param = (GeoNumeric) exp.getRight();
+				param.setValue(t);
+				param.updateRepaint();
 
-			double t = curve.getClosestParameter(p, param.getValue());
-
-			param.setValue(t);
-			param.updateRepaint();
-
-			return true;
+				return true;
+			}
 
 		}
 
@@ -633,15 +631,13 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *         Slider a
 	 */
 	private boolean isPointOnCurveWithSlider() {
-		ExpressionNode exp = getDefinition();
-
-		if (exp == null) {
+		if (definition == null) {
 			return false;
 		}
 
-		ExpressionValue left = exp.getLeft();
-		ExpressionValue right = exp.getRight();
-		Operation op = exp.getOperation();
+		ExpressionValue left = definition.getLeft();
+		ExpressionValue right = definition.getRight();
+		Operation op = definition.getOperation();
 
 		return op == Operation.VEC_FUNCTION && left instanceof GeoCurveCartesian
 				&& right instanceof GeoNumeric

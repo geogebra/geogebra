@@ -536,7 +536,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 			return buildValueString(tpl).toString();
 		}
 
-		return getConverter().build(tpl, getDefinition(), getX(), getY());
+		return getConverter().build(tpl, definition, getX(), getY());
 	}
 
 	private VectorToMatrix getConverter() {
