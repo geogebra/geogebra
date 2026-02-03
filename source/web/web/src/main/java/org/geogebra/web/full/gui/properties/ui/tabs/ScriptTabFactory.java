@@ -41,6 +41,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * <p>
  * For each supported {@link EventType} of the target object, a tab is created
  * that contains:
+ * </p>
  * <ul>
  *   <li>an optional language selector (GGBScript / JavaScript) if JavaScript is
  *       enabled</li>
@@ -48,7 +49,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
  * </ul>
  * If JavaScript is enabled application-wide, an additional "Global JavaScript"
  * tab is appended that allows editing the kernel's library JavaScript.
- * </p>
  */
 public class ScriptTabFactory {
 	private static final String KEY_SCRIPT_LANGUAGE = "ScriptLanguage";

@@ -46,7 +46,7 @@ import org.gwtproject.user.client.ui.Widget;
  * declaration.
  * </p>
  *
- * <h3>CSS Style Rules</h3>
+ * <strong>CSS Style Rules</strong>
  * <ul class='css'>
  * <li>.gwt-SplitLayoutPanel { the panel itself }</li>
  * <li>.gwt-SplitLayoutPanel .gwt-SplitLayoutPanel-HDragger { horizontal dragger

@@ -14,7 +14,10 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.withType<Javadoc> {
-    (options as StandardJavadocDocletOptions).tags("apiNote", "implNote")
+    with(options as StandardJavadocDocletOptions) {
+        tags("apiNote", "implNote")
+        addStringOption("Xmaxwarns", "1")
+    }
 }
 
 tasks.withType<JavaCompile> {

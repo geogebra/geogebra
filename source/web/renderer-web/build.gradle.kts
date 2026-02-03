@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.geogebra.java.library)
     alias(libs.plugins.geogebra.gwt)
-    alias(libs.plugins.geogebra.javadoc.workaround)
     alias(libs.plugins.geogebra.gwt.dist)
 }
 
