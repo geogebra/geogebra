@@ -32,7 +32,8 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_SQUARE
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_STADIUM;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_TRIANGLE;
 
-import org.geogebra.common.awt.GColor;
+import java.util.function.Consumer;
+
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.IconSpec;
@@ -58,8 +59,10 @@ public class ToolIconButton extends IconButton {
 		this.mode = mode;
 		this.appW = appW;
 		AriaHelper.setDataTitle(this, appW.getToolName(mode));
-		image = getIconFromMode(mode, appW.getToolboxIconResource());
-		setActive(getElement().hasClassName("active"));
+		getIconFromMode(mode, appW.getToolboxIconResource(), icon -> {
+			image = icon;
+			setActive(getElement().hasClassName("active"));
+		});
 		addStyleName("iconButton");
 	}
 
@@ -113,10 +116,11 @@ public class ToolIconButton extends IconButton {
 	/**
 	 * @param mode tool mode
 	 * @param toolboxIconResource icon resource
-	 * @return icon
+	 * @param  callback called when icon loaded
 	 */
-	public IconSpec getIconFromMode(Integer mode, ToolboxIconResource toolboxIconResource) {
-		return switch (mode) {
+	public void getIconFromMode(Integer mode, ToolboxIconResource toolboxIconResource,
+			Consumer<IconSpec> callback) {
+		IconSpec immediate = switch (mode) {
 			case MODE_PEN -> toolboxIconResource.getImageResource(ToolboxIcon.PEN);
 			case MODE_HIGHLIGHTER -> toolboxIconResource.getImageResource(ToolboxIcon.HIGHLIGHTER);
 			case MODE_ERASER -> toolboxIconResource.getImageResource(ToolboxIcon.ERASER);
@@ -136,11 +140,13 @@ public class ToolIconButton extends IconButton {
 			case MODE_SHAPE_CURVE -> toolboxIconResource.getImageResource(ToolboxIcon.CURVE);
 			default -> {
 				GGWToolBar.getImageResource(mode, appW, toolImg -> {
-					image = new ImageIconSpec((SVGResource) toolImg);
-					setIcon(image.withFill(isActive() ? selectionColor : GColor.BLACK.toString()));
+					callback.accept(new ImageIconSpec((SVGResource) toolImg));
 				});
-				yield image;
+				yield null;
 			}
 		};
+		if (immediate != null) {
+			callback.accept(immediate);
+		}
 	}
 }

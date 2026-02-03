@@ -18,13 +18,10 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import java.util.List;
 
-import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.IconSpec;
-import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 
 public class IconButtonWithPopup extends ToolIconButton {
 	private final AppW appW;
@@ -82,8 +79,8 @@ public class IconButtonWithPopup extends ToolIconButton {
 	}
 
 	private void updateButton(int mode) {
-		GGWToolBar.getImageResource(mode, appW, image -> {
-			updateImgAndTxt(new ImageIconSpec((SVGResource) image), mode, appW);
+		getIconFromMode(mode, appW.getToolboxIconResource(), iconSpec -> {
+			updateImgAndTxt(iconSpec, mode, appW);
 			setActive(true);
 		});
 	}

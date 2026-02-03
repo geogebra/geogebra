@@ -23,7 +23,6 @@ import java.util.List;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.ToolIconButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 
 public class PenIconButton extends ToolIconButton {
@@ -67,9 +66,10 @@ public class PenIconButton extends ToolIconButton {
 	}
 
 	private void updateButton(int mode) {
-		IconSpec icon = getIconFromMode(mode, appW.getToolboxIconResource());
-		updateImgAndTxt(icon, mode, appW);
-		setActive(true);
+		getIconFromMode(mode, appW.getToolboxIconResource(), iconSpec -> {
+			updateImgAndTxt(iconSpec, mode, appW);
+			setActive(true);
+		});
 		if (penPopup != null) {
 			penPopup.update();
 		}
