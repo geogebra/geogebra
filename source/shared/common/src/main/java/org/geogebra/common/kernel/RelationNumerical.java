@@ -153,15 +153,16 @@ public class RelationNumerical {
 	}
 
 	/**
-	 * Sort the relation reports alphabetically
+	 * Sort by result first (positive results on top), then alphabetically.
 	 * 
 	 * @param reports
 	 *            unsorted relation reports
-	 * @return alphabetically sorted relation reports
+	 * @return sorted relation reports
 	 */
-	public static SortedSet<Report> sortAlphabetically(Set<Report> reports) {
-
-		Comparator<Report> myComparator = Comparator.comparing(r -> r.stringResult);
+	public static SortedSet<Report> sortByResultAndText(Set<Report> reports) {
+		Comparator<Report> myComparator = Comparator.comparing(
+				r -> r.boolResult == null || !r.boolResult ? 1 : 0);
+		myComparator = myComparator.thenComparing(r -> r.stringResult);
 
 		TreeSet<Report> sortedReports = new TreeSet<>(myComparator);
 		sortedReports.addAll(reports);

@@ -136,8 +136,11 @@ public class RelationPaneW extends ComponentDialog
 	 * @param row - row number
 	 */
 	protected void expandRow(int row) {
-		RelationRow relation = callbacks[row].getExpandedRow(row);
-		HTML text = new HTML(relation.getInfo());
-		addDialogContent(text);
+		Relation callback = callbacks[row];
+		if (callback != null) {
+			RelationRow relation = callback.getExpandedRow(row);
+			HTML text = new HTML(relation.getInfo());
+			addDialogContent(text);
+		}
 	}
 }

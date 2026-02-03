@@ -20,8 +20,11 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.util.Locale;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
@@ -34,6 +37,8 @@ public class RelationTest extends BaseUnitTest {
 	private GeoElement B;
 	private GeoElement C;
 	private GeoElement f;
+	private GeoElement a;
+	private GeoElement b;
 
 	/**
 	 * Initialize objects
@@ -46,6 +51,11 @@ public class RelationTest extends BaseUnitTest {
 		B = add("B=(0,1)");
 		f = add("f=Line(A,B)");
 		C = add("C=Midpoint(A,B)");
+		add("s=Semicircle(A,B)");
+		add("D=Point(s)");
+		add("SetValue(D,(-0.7,0.3))");
+		a = add("a=Segment(A,D)");
+		b = add("b=Segment(B,D)");
 	}
 
 	@Test
@@ -66,5 +76,22 @@ public class RelationTest extends BaseUnitTest {
 		assertThat(rel.getExpandedRow(0).getInfo(),
 				allOf(containsString("under the condition"),
 						containsString("are not equal")));
+	}
+
+	@Test
+	public void relationOrdering() {
+		Relation rel = new Relation(getApp(), a, b, null, null);
+		RelationPane.RelationRow[] rows = rel.getRows();
+		assertThat(rows[0].getInfo(),
+				containsString("perpendicular"));
+		assertThat(rows[1].getInfo(),
+				containsString("length"));
+
+		getApp().setLocale(new Locale("es"));
+		rows = new Relation(getApp(), a, b, null, null).getRows();
+		assertThat(rows[0].getInfo(),
+				containsString("perpendicular"));
+		assertThat(rows[1].getInfo(),
+				containsString("longitud"));
 	}
 }

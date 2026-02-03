@@ -121,7 +121,7 @@ public class Relation {
 			Log.warn(e);
 		}
 		// Computing numerical results and collecting them alphabetically:
-		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(
+		SortedSet<Report> relInfosAll = RelationNumerical.sortByResultAndText(
 				new RelationNumerical(kernel).relation(ra, rb, rc, rd));
 		// Collecting information for showing them in the popup window:
 		int rels = relInfosAll.size();
