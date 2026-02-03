@@ -36,8 +36,6 @@ import org.geogebra.web.resources.StyleInjector;
 import com.google.gwt.core.client.GWT;
 
 import elemental2.core.Global;
-import elemental2.core.JsArray;
-import elemental2.core.JsObject;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -183,15 +181,6 @@ public final class LocalizationW extends Localization {
 	}
 
 	@Override
-	public String getError(String key) {
-		if (key == null) {
-			return "";
-		}
-
-		return getPropertyWithFallback(languageTag, key, key, "error");
-	}
-
-	@Override
 	public String getSymbol(int key) {
 		return getPropertyWithFallback(languageTag, "S_" + key, null, "symbols");
 	}
@@ -199,41 +188,6 @@ public final class LocalizationW extends Localization {
 	@Override
 	public String getSymbolTooltip(int key) {
 		return getPropertyWithFallback(languageTag, "T_" + key, null, "symbols");
-	}
-
-	@Override
-	public String reverseGetColor(String locColor) {
-		String str = StringUtil.removeSpaces(StringUtil.toLowerCaseUS(locColor));
-		JsPropertyMap<JsPropertyMap<String>> dict = GeoGebraGlobal.__GGB__keysVar.get(languageTag);
-		if (dict == null || !dict.has("colors")) {
-			return str;
-		}
-		JsArray<String> keys = JsObject.keys(dict.get("colors"));
-		for (int i = 0; i < keys.length; i++) {
-			String key = keys.getAt(i);
-			if (key != null
-					&& str.equals(StringUtil.removeSpaces(StringUtil
-					.toLowerCaseUS(this.getColor(key))))) {
-				return key;
-			}
-		}
-		return str;
-	}
-
-	@Override
-	public String getColor(String key) {
-
-		if (key == null) {
-			return "";
-		}
-
-		if ((key.length() == 5)
-				&& StringUtil.toLowerCaseUS(key).startsWith("gray")) {
-
-			return StringUtil.getGrayString(key.charAt(4), this);
-		}
-
-		return getPropertyWithFallback(languageTag, key, key, "colors");
 	}
 
 	/**

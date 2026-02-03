@@ -37,9 +37,7 @@ public class LocalizationCommon extends LocalizationJre {
 
 	private static final String RB_MENU = PROPERTIES_DIR + "menu";
 	private static final String RB_COMMAND = PROPERTIES_DIR + "command";
-	private static final String RB_ERROR = PROPERTIES_DIR + "error";
 	private static final String RB_SYMBOL = PROPERTIES_DIR + "symbols";
-	private static final String RB_COLORS = PROPERTIES_DIR + "colors";
 
 	private ResourceBundle.Control control;
 
@@ -90,16 +88,6 @@ public class LocalizationCommon extends LocalizationJre {
 	@Override
 	protected String getCommandResourcePath() {
 		return RB_COMMAND;
-	}
-
-	@Override
-	protected String getColorResourcePath() {
-		return RB_COLORS;
-	}
-
-	@Override
-	protected String getErrorResourcePath() {
-		return RB_ERROR;
 	}
 
 	@Override
