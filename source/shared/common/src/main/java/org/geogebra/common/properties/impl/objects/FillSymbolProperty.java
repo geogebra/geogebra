@@ -24,11 +24,13 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.properties.impl.objects.delegate.FillableDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class FillSymbolProperty  extends AbstractValuedProperty<String> implements StringProperty {
+public class FillSymbolProperty extends AbstractValuedProperty<String>
+		implements StringProperty, GeoElementDependentProperty {
 
-	private final GeoElement element;
+	private final FillableDelegate delegate;
 
 	/**
 	 * @param loc localization
@@ -37,11 +39,8 @@ public class FillSymbolProperty  extends AbstractValuedProperty<String> implemen
 	 */
 	public FillSymbolProperty(Localization loc, GeoElement element) throws
 			NotApplicablePropertyException {
-		super(loc, "Symbol");
-		if (!element.isFillable() || element.getFillType() != FillType.SYMBOLS) {
-			throw new NotApplicablePropertyException(element);
-		}
-		this.element = element;
+		super(loc, "Filling.Symbol");
+		delegate = new FillableDelegate(element);
 	}
 
 	@Override
@@ -51,12 +50,23 @@ public class FillSymbolProperty  extends AbstractValuedProperty<String> implemen
 
 	@Override
 	protected void doSetValue(String value) {
+		GeoElement element = delegate.getElement();
 		element.setFillSymbol(value);
 		element.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override
 	public String getValue() {
-		return element.getFillSymbol();
+		return delegate.getElement().getFillSymbol();
+	}
+
+	@Override
+	public boolean isAvailable() {
+		return delegate.getElement().getFillType() == FillType.SYMBOLS;
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return delegate.getElement();
 	}
 }

@@ -32,6 +32,7 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.undo.UndoSavingPropertyObserver;
 import org.geogebra.common.properties.util.PropertyArrayValueObserving;
+import org.geogebra.common.util.ImageManager;
 
 /**
  * Factory class for creating {@link PropertyView}s.
@@ -99,11 +100,13 @@ public class PropertyViewFactory {
 	public static @Nonnull PropertyView.TabbedPageSelector propertyViewOfObjectSettings(
 			@Nonnull List<GeoElement> geoElements,
 			@Nonnull AlgebraProcessor algebraProcessor,
+			@Nonnull ImageManager imageManager,
 			@Nonnull Localization localization,
 			@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nonnull UndoManager undoManager) {
 		List<PropertiesArray> propertiesArrayList = geoElementPropertiesFactory
-				.createStructuredProperties(algebraProcessor, localization, geoElements);
+				.createStructuredProperties(algebraProcessor, localization,
+						imageManager, geoElements);
 		UndoSavingPropertyObserver undoSavingPropertyObserver =
 				new UndoSavingPropertyObserver(undoManager);
 		propertiesArrayList.forEach(propertiesArray -> PropertyArrayValueObserving

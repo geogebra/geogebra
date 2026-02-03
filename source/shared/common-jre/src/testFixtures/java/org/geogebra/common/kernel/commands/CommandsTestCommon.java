@@ -50,7 +50,7 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.ImageManager;
+import org.geogebra.common.util.ImageManagerCommon;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.editor.share.util.Unicode;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -3502,7 +3502,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 	@Test
 	public void cmdSetImage() {
-		app.setImageManager(Mockito.mock(ImageManager.class));
+		app.setImageManager(Mockito.mock(ImageManagerCommon.class));
 		t("c:x^2+y^2=1", "x^(2) + y^(2) = 1");
 		t("pic=ToolImage(2)");
 		t("SetImage(c, pic)");

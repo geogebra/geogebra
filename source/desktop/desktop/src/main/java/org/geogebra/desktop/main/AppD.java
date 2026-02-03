@@ -1767,7 +1767,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	@Override
 	public MyImageD getExternalImage(String filename) {
-		return ImageManagerD.getExternalImage(filename);
+		return ImageManagerD.getStaticExternalImage(filename);
 	}
 
 	/***
@@ -1780,7 +1780,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public final MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		return ImageManagerD.getExternalImage(filename);
+		return ImageManagerD.getStaticExternalImage(filename);
 	}
 
 	/***

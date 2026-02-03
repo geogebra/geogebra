@@ -74,7 +74,8 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoPoint onePoint = evaluateGeoElement("(1,1)");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
 				.createStructuredProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), List.of(zeroPoint, onePoint));
+						getApp().getLocalization(), getApp().getImageManager(),
+						List.of(zeroPoint, onePoint));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
 		assertEquals(List.of("Name", "Caption", "Label", "Show", "Show trace", "Fix Object",
@@ -86,7 +87,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoAngle angle = evaluateGeoElement("Angle[(0,1), (0,0), (1,0)]");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
 				.createStructuredProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), List.of(angle));
+						getApp().getLocalization(), getApp().getImageManager(), List.of(angle));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
 		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show",
@@ -98,7 +99,7 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoNumeric number = evaluateGeoElement("a=1.5");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
 				.createStructuredProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), List.of(number));
+						getApp().getLocalization(), getApp().getImageManager(), List.of(number));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
 		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show", "Fix Object",
@@ -111,7 +112,8 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoNumeric numeric2 = evaluateGeoElement("a = 10");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
 				.createStructuredProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), List.of(numeric1, numeric2));
+						getApp().getLocalization(), getApp().getImageManager(),
+						List.of(numeric1, numeric2));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
 				.map(Property::getName).collect(Collectors.toList());
 		assertEquals(List.of("Name", "Caption", "Label", "Show", "Fix Object",

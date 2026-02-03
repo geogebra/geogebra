@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,26 +31,32 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.jre.headless.MyImageCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.graphics.AxisDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
+import org.geogebra.common.properties.impl.objects.FillImageProperty;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.util.ImageManagerCommon;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class PropertyViewTests extends BaseAppTestSetup {
 	@BeforeAll
@@ -258,7 +264,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		propertyView = PropertyView.of(linearEquationFormProperty);
 		assertFalse(propertyView.isVisible());
 	}
-	
+
 	@Test
 	@Issue({"APPS-7088", "APPS-7092"})
 	public void testSingleExpandableListIsConvertedToContents()
@@ -277,6 +283,31 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		assertAll(() -> assertFalse(propertyViews.get(0) instanceof PropertyView.ExpandableList),
 				() -> assertTrue(propertyViews.size() == 2)
 		);
+	}
+
+	@Test
+	@Issue({"APPS-7286"})
+	public void testColorPickerReturnsFileName()
+			throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		
+		getApp().setImageManager(new ImageManagerCommon());
+
+		GeoElement element = evaluateGeoElement("Circle((0,0),10)");
+		FillImageProperty property = new FillImageProperty(getLocalization(),
+				getApp().getImageManager(), element);
+		PropertyView.ImagePicker row = (PropertyView.ImagePicker)
+				PropertyView.of(new ImagePropertyListFacade(List.of(property)));
+		
+		MyImageCommon image = new MyImageCommon(10, 10);
+		property.setValue(new ImageProperty.Value(image, "path/to/file/image.png"));
+		assertEquals("image.png", row.getFileName());
+		property.setValue(new ImageProperty.Value(image, "image.png"));
+		assertEquals("image.png", row.getFileName());
+		property.setValue(new ImageProperty.Value(image, "image"));
+		assertEquals("image", row.getFileName());
+		property.setValue(null);
+		assertEquals(null, row.getFileName());
 	}
 
 	private EuclidianView getEuclidianView() {

@@ -26,6 +26,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -37,10 +38,12 @@ import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
+import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
@@ -62,6 +65,7 @@ import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropert
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
+import org.geogebra.common.properties.impl.objects.FillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
 import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
@@ -1236,6 +1240,65 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * Representation of an image picker that displays either a "choose from file" button
+	 * or a preview of the selected image with its name and actions to change or remove it.
+	 */
+	public static final class ImagePicker extends PropertyBackedView<ImageProperty> {
+		
+		ImagePicker(@Nonnull ImageProperty property) {
+			super(property);
+		}
+
+		/**
+		 * @return the label for the file chooser button.
+		 */
+		public @Nonnull String getChooseFromFileLabel() {
+			return property.getChooseFromFileLabel();
+		}
+
+		/**
+		 * Sets the file path of the selected image.
+		 * @param filePath the path of the selected file
+		 */
+		public void setImage(@Nonnull MyImage image, @Nonnull String filePath) {
+			property.setValue(new ImageProperty.Value(image, filePath));
+		}
+
+		/**
+		 * Gets the selected image. 
+		 * @return image or {@code null}
+		 */
+		public @CheckForNull MyImage getImage() {
+			ImageProperty.Value value = property.getValue();
+			if (value == null) {
+				return null;
+			}
+			return value.image();
+		}
+
+		/** Clears the currently selected image. */
+		public void clearImage() {
+			property.setValue(null);
+		}
+
+		/**
+		 * @return the file name extracted from the path, or {@code null} if no image is set
+		 */
+		public @CheckForNull String getFileName() {
+			ImageProperty.Value value = property.getValue();
+			if (value == null || value.path().isEmpty()) {
+				return null;
+			}
+			String filePath = value.path();
+			int index = value.path().lastIndexOf('/');
+			if (index == -1) {
+				return filePath;
+			}
+			return filePath.substring(index + 1);
+		}
+	}
+
+	/**
 	 * Factory method that returns the appropriate {@code PropertyView}
 	 * for the given {@link Property}.
 	 * @param property the property for which to create the view
@@ -1247,12 +1310,15 @@ public abstract class PropertyView {
 			return new Checkbox(booleanProperty);
 		} else if (property instanceof DynamicColorSpaceProperty
 				|| (property instanceof NamedEnumeratedPropertyListFacade<?, ?> facade
-				&& facade.getFirstProperty() instanceof DynamicColorSpaceProperty)) {
+				&& (facade.getFirstProperty() instanceof DynamicColorSpaceProperty
+				|| facade.getFirstProperty() instanceof FillCategoryProperty))) {
 			return new ConnectedButtonGroup((NamedEnumeratedProperty<?>) property);
 		} else if (property instanceof NamedEnumeratedProperty<?> namedEnumeratedProperty) {
 			return new Dropdown(namedEnumeratedProperty);
 		} else if (property instanceof StringPropertyWithSuggestions stringProperty) {
 			return new ComboBox(stringProperty);
+		} else if (property instanceof ImagePropertyListFacade imagePropertyListFacade) {
+			return new ImagePicker(imagePropertyListFacade);
 		} else if (property instanceof StringProperty stringProperty) {
 			return new TextField(stringProperty);
 		} else if (property instanceof IconsEnumeratedProperty<?> iconsEnumeratedProperty) {

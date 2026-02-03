@@ -179,7 +179,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	@Override
 	public MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		return ImageManagerD.getExternalImage(filename);
+		return ImageManagerD.getStaticExternalImage(filename);
 	}
 
 	@Override

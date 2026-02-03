@@ -19,6 +19,10 @@ package org.geogebra.common.util;
 import java.io.StringReader;
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.QDParser;
@@ -267,5 +271,23 @@ abstract public class ImageManager {
 	 */
 	public void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable) {
 		// only works on platforms with SVG support (web, desktop)
+	}
+
+	/**
+	 * Adds an external image to be stored.
+	 * @param image image
+	 * @param path path
+	 */
+	public void addExternalImage(@Nonnull MyImage image, @Nonnull String path) {
+		//
+	}
+
+	/**
+	 * Get an external image, that was stored previously.
+	 * @param path path to image
+	 * @return image or {@code null}
+	 */
+	public @CheckForNull MyImage getExternalImage(@Nonnull String path) {
+		return null;
 	}
 }

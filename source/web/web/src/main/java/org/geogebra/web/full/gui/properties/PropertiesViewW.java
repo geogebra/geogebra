@@ -655,6 +655,7 @@ public class PropertiesViewW extends PropertiesView
 			propLists = propertiesFactory.createStructuredProperties(
 					app.getKernel().getAlgebraProcessor(),
 					app.getLocalization(),
+					app.getImageManager(),
 					showableGeos);
 			sideSheet.setTitleTransKey(
 					showableGeos.size() == 1 ? showableGeos.get(0).getTypeString() : "Selection");

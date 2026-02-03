@@ -16,47 +16,61 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.aliases.StringProperty;
-import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.properties.impl.AbstractImageProperty;
+import org.geogebra.common.properties.impl.objects.delegate.FillableDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.util.ImageManager;
 
-public class FillImageProperty extends AbstractValuedProperty<String> implements StringProperty {
+/**
+ * Property responsible for filling an object with an image.
+ */
+public class FillImageProperty extends AbstractImageProperty
+		implements GeoElementDependentProperty {
 
-	private final GeoElement element;
+	private final FillableDelegate delegate;
 
 	/**
 	 * @param loc localization
+	 * @param imageManager image manager
 	 * @param element element
 	 * @throws NotApplicablePropertyException if not filled by image
 	 */
-	public FillImageProperty(Localization loc, GeoElement element) throws
+	public FillImageProperty(Localization loc, ImageManager imageManager, GeoElement element) throws
 			NotApplicablePropertyException {
-		super(loc, "Image");
-		if (!element.isFillable() || element.getFillType() != FillType.IMAGE) {
-			throw new NotApplicablePropertyException(element);
-		}
-		this.element = element;
+		super(loc, imageManager, "Image");
+		delegate = new FillableDelegate(element);
 	}
 
 	@Override
-	public @CheckForNull String validateValue(String value) {
-		return null;
+	protected String getImagePath() {
+		return delegate.getElement().getImageFileName();
 	}
 
 	@Override
-	protected void doSetValue(String value) {
-		element.setImageFileName(value);
+	protected void setImagePath(String path) {
+		String resolvedPath = path != null ? path : "";
+		GeoElement element = delegate.getElement();
+		element.setImageFileName(resolvedPath);
+		element.setAlphaValue(resolvedPath.isEmpty() ? 0.0f : 1.0f);
 		element.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override
-	public String getValue() {
-		return element.getImageFileName();
+	public boolean isAvailable() {
+		return delegate.getElement().getFillType() == FillType.IMAGE;
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return delegate.getElement();
+	}
+
+	@Override
+	public String getChooseFromFileLabel() {
+		return getLocalization().getMenu("ChooseFromFile");
 	}
 }

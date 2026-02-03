@@ -35,6 +35,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -200,7 +202,7 @@ public class ImageManagerD extends ImageManager {
 	 * @param fileName0 file path
 	 * @return image
 	 */
-	public static MyImageD getExternalImage(String fileName0) {
+	public static MyImageD getStaticExternalImage(String fileName0) {
 		String fileName = fileName0;
 		// GIF saved as PNG in .ggb files so need to change extension
 		FileExtensions ext = StringUtil.getFileExtension(fileName);
@@ -209,6 +211,11 @@ public class ImageManagerD extends ImageManager {
 					FileExtensions.PNG);
 		}
 		return externalImageTable.get(fileName);
+	}
+
+	@Override
+	public @CheckForNull MyImage getExternalImage(@Nonnull String path) {
+		return getStaticExternalImage(path);
 	}
 
 	/**
@@ -480,7 +487,7 @@ public class ImageManagerD extends ImageManager {
 			// "a04c62e6a065b47476607ac815d022cc/filename.ext"
 			fileName = zip_directory + "/" + fn;
 			// make sure this filename is not taken yet
-			MyImageD oldImg = ImageManagerD.getExternalImage(fileName);
+			MyImageD oldImg = ImageManagerD.getStaticExternalImage(fileName);
 			if (oldImg != null) {
 				// image with this name exists already
 				if ((oldImg.getWidth() == image.getWidth())
@@ -501,7 +508,7 @@ public class ImageManagerD extends ImageManager {
 							: "";
 					String extension = fileName.substring(pos);
 					fileName = firstPart + n + extension;
-				} while (ImageManagerD.getExternalImage(fileName) != null);
+				} while (ImageManagerD.getStaticExternalImage(fileName) != null);
 			}
 
 			addExternalImage(fileName, image);

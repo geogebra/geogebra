@@ -44,7 +44,6 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
-import org.geogebra.common.properties.impl.facade.FilePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.FlagListPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
@@ -73,20 +72,16 @@ import org.geogebra.common.properties.impl.objects.DrawArrowsProperty;
 import org.geogebra.common.properties.impl.objects.DynamicColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 import org.geogebra.common.properties.impl.objects.ElementObjectEventProperty;
-import org.geogebra.common.properties.impl.objects.FillImageProperty;
-import org.geogebra.common.properties.impl.objects.FillSymbolProperty;
+import org.geogebra.common.properties.impl.objects.FillingPropertyCollection;
 import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
 import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
 import org.geogebra.common.properties.impl.objects.FixObjectProperty;
 import org.geogebra.common.properties.impl.objects.FixSliderObjectProperty;
-import org.geogebra.common.properties.impl.objects.HatchingAngleProperty;
-import org.geogebra.common.properties.impl.objects.HatchingDistanceProperty;
 import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.ImageInterpolationProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.InequalityOnAxisProperty;
 import org.geogebra.common.properties.impl.objects.InteractionPropertyCollection;
-import org.geogebra.common.properties.impl.objects.InverseFillProperty;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.ItalicProperty;
 import org.geogebra.common.properties.impl.objects.LabelProperty;
@@ -136,6 +131,7 @@ import org.geogebra.common.properties.impl.objects.VectorHeadProperty;
 import org.geogebra.common.properties.impl.objects.VerticalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.VisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.util.ImageManager;
 
 /**
  * Creates the list of properties for a GeoElement or for a list of GeoElements.
@@ -294,14 +290,16 @@ public final class GeoElementPropertiesFactory {
 	 * Properties for the tabbed properties view.
 	 * @param processor algebra processor
 	 * @param localization localization
+	 * @param imageManager image manager
 	 * @param elements selected elements
 	 * @return properties organized in tabs
 	 */
 	public List<PropertiesArray> createStructuredProperties(
-			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
+			AlgebraProcessor processor, Localization localization,
+			ImageManager imageManager, List<GeoElement> elements) {
 		return Stream.of(
 				createBasicProperties(localization, elements),
-				createStyleProperties(processor, localization, elements),
+				createStyleProperties(processor, imageManager, localization, elements),
 				createAdvancedProperties(processor, localization, elements),
 				createScriptProperties(localization, elements)
 		).filter(propertiesArray ->
@@ -346,7 +344,7 @@ public final class GeoElementPropertiesFactory {
 	}
 
 	private @Nonnull PropertiesArray createStyleProperties(
-			AlgebraProcessor processor,
+			AlgebraProcessor processor, ImageManager imageManager,
 			Localization localization, List<GeoElement> elements) {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
 		return createPropsArray("Style", localization, Stream.of(
@@ -361,6 +359,8 @@ public final class GeoElementPropertiesFactory {
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new TextStylePropertyCollection(
 						this, localization, elements)),
+				createOptionalProperty(() -> new FillingPropertyCollection(
+						this, localization, imageManager, elements)),
 				// Old style properties below
 				createPointSizeProperty(localization, elements),
 				createPointStyleProperty(localization, elements),
@@ -377,22 +377,6 @@ public final class GeoElementPropertiesFactory {
 						element -> new AngleArcSizeProperty(localization, element),
 						RangePropertyListFacade::new),
 
-				createFillingStyleProperty(localization, elements, true),
-				createOptionalPropertyFacade(elements,
-						element -> new HatchingAngleProperty(localization, element),
-						RangePropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new HatchingDistanceProperty(localization, element),
-						RangePropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new FillSymbolProperty(localization, element),
-						StringPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new FillImageProperty(localization, element),
-						FilePropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new InverseFillProperty(localization, element),
-						BooleanPropertyListFacade::new),
 				createOptionalPropertyFacade(elements,
 						element -> new InequalityOnAxisProperty(localization, element),
 						BooleanPropertyListFacade::new),

@@ -21,11 +21,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
+import org.geogebra.common.properties.impl.objects.delegate.FillableDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 public class InverseFillProperty extends AbstractValuedProperty<Boolean> implements
 		BooleanProperty {
-	private final GeoElement element;
+	private final FillableDelegate delegate;
 
 	/**
 	 * @param localization this is used to localize the name
@@ -33,21 +34,22 @@ public class InverseFillProperty extends AbstractValuedProperty<Boolean> impleme
 	 */
 	public InverseFillProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "InverseFill");
-		if (!element.isFillable()) {
+		super(localization, "InverseFilling");
+		delegate = new FillableDelegate(element);
+		if (!element.isInverseFillable()) {
 			throw new NotApplicablePropertyException(element);
 		}
-		this.element = element;
 	}
 
 	@Override
 	protected void doSetValue(Boolean value) {
+		GeoElement element = delegate.getElement();
 		element.setInverseFill(value);
 		element.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override
 	public Boolean getValue() {
-		return element.isInverseFill();
+		return delegate.getElement().isInverseFill();
 	}
 }

@@ -19,34 +19,48 @@ package org.geogebra.common.properties.impl.objects;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
+import org.geogebra.common.properties.impl.objects.delegate.FillableDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
+/**
+ * Property for controlling the hatching distance (spacing) of a {@link GeoElement}.
+ */
 public class HatchingDistanceProperty extends AbstractRangeProperty<Integer>
-		implements RangeProperty<Integer> {
-	private final GeoElement element;
+		implements GeoElementDependentProperty {
+
+	private final FillableDelegate delegate;
 
 	/**
-	 * Create a new property
+	 * @param localization localization
+	 * @param element geo element
+	 * @throws NotApplicablePropertyException if the element does not support filling
 	 */
 	public HatchingDistanceProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "Distance", 0, 90, 45);
-		if (!element.getFillType().isHatch()) {
-			throw new NotApplicablePropertyException(element);
-		}
-		this.element = element;
+		super(localization, "Spacing", 5, 50, 5);
+		delegate = new FillableDelegate(element);
 	}
 
 	@Override
 	protected void setValueSafe(Integer value) {
+		GeoElement element = delegate.getElement();
 		element.setHatchingDistance(value);
-		element.updateVisualStyleRepaint(GProperty.COMBINED);
+		element.updateVisualStyleRepaint(GProperty.HATCHING);
+	}
+
+	@Override
+	public boolean isAvailable() {
+		return delegate.getElement().getFillType().isHatch();
 	}
 
 	@Override
 	public Integer getValue() {
-		return element.getHatchingDistance();
+		return delegate.getElement().getHatchingDistance();
+	}
+
+	@Override
+	public GeoElement getGeoElement() {
+		return delegate.getElement();
 	}
 }
