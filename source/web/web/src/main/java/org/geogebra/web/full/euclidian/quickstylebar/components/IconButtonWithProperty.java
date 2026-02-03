@@ -134,7 +134,8 @@ public class IconButtonWithProperty extends IconButton {
 		}
 
 		if (property instanceof ColorPropertyListFacade<?>) {
-			ColorPropertyListFacade<?> colorProperty = (ColorPropertyListFacade<?>) property;
+			ColorPropertyListFacade<?> colorProperty =
+					(ColorPropertyListFacade<?>) property;
 			ColorChooserPanel colorPanel = new ColorChooserPanel(appW,
 					colorProperty.getValues(), color -> {
 				if (popupHandler != null) {

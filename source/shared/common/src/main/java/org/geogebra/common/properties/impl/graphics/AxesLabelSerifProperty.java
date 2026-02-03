@@ -20,13 +20,12 @@ import static org.geogebra.common.properties.PropertyResource.ICON_SERIF;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.aliases.BooleanProperty;
+import org.geogebra.common.properties.ToggleableIconProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class AxesLabelSerifProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty, IconAssociatedProperty {
+		implements ToggleableIconProperty {
 	private EuclidianSettings euclidianSettings;
 
 	/**

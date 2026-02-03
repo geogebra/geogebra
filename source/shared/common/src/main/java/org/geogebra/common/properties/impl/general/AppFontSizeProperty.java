@@ -30,9 +30,9 @@ import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.Util;
 
 /**
- * Property representing the font size.
+ * Property representing the font size of the application.
  */
-public class FontSizeProperty extends AbstractNamedEnumeratedProperty<Integer> {
+public class AppFontSizeProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
 	private FontSettings fontSettings;
 	private FontSettingsUpdater fontSettingsUpdater;
@@ -42,7 +42,7 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<Integer> {
 	 * @param fontSettings font settings
 	 * @param fontSettingsUpdater font settings updater
 	 */
-	public FontSizeProperty(
+	public AppFontSizeProperty(
 			Localization localization,
 			FontSettings fontSettings, FontSettingsUpdater fontSettingsUpdater) {
 		super(localization, "FontSize");

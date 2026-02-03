@@ -16,50 +16,52 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.Arrays;
+import static org.geogebra.common.util.Util.tryOrNull;
+
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
-import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class AlgebraProperty extends AbstractPropertyCollection<Property> {
+/**
+ * {@code PropertyCollection} containing properties related to the style of texts.
+ */
+public final class TextStylePropertyCollection extends AbstractPropertyCollection<Property> {
 
 	/**
-	 * Creates an algebra property collection for the given elements.
-	 * @param propertiesFactory the properties factory
-	 * @param localization the localization
-	 * @param elements the elements
-	 * @throws NotApplicablePropertyException if no algebra properties are applicable
+	 * Constructs the property for the given elements.
+	 * @param propertiesFactory properties factory for creating property facades for the given list
+	 * of elements
+	 * @param localization localization for translating property names
+	 * @param elements the elements to create the property for
+	 * @throws NotApplicablePropertyException if the property is not applicable for any given
+	 * elements
 	 */
-	public AlgebraProperty(GeoElementPropertiesFactory propertiesFactory, Localization localization,
+	public TextStylePropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory, Localization localization,
 			List<GeoElement> elements) throws NotApplicablePropertyException {
-		super(localization, "Properties.Algebra");
-
-		Property[] properties = new Property[]{
+		super(localization, "Text");
+		setProperties(Stream.of(
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new CoordinatesModeProperty(localization, element),
+						element -> new TextColorProperty(localization, element),
+						ColorPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						element -> new TextFontSizeProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
+				tryOrNull(() -> new TextStyleProperty(propertiesFactory, localization, elements)),
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new LinearEquationFormProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new AngleBetweenProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new InputBoxRoundingProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SymbolicValueProperty(localization, element),
-						BooleanPropertyListFacade::new)
-		};
-		setProperties(Arrays.stream(properties).filter(Objects::nonNull).toArray(Property[]::new));
+						element -> new InputBoxAlignmentProperty(localization, element),
+						IconsEnumeratedPropertyListFacade::new)
+		).filter(Objects::nonNull).toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

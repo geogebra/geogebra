@@ -24,7 +24,7 @@ import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.ValuedProperty;
-import org.geogebra.common.properties.impl.general.FontSizeProperty;
+import org.geogebra.common.properties.impl.general.AppFontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
@@ -141,7 +141,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addFontItem() {
-			NamedEnumeratedProperty<?> fontSizeProperty = new FontSizeProperty(
+			NamedEnumeratedProperty<?> fontSizeProperty = new AppFontSizeProperty(
 					app.getLocalization(),
 					app.getSettings().getFontSettings(),
 					app.getFontSettingsUpdater());

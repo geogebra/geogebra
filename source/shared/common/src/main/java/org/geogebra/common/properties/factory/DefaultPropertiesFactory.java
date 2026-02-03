@@ -41,8 +41,8 @@ import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
+import org.geogebra.common.properties.impl.general.AppFontSizeProperty;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
-import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
@@ -115,7 +115,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
 						new AngleUnitProperty(kernel, localization),
-						new FontSizeProperty(localization, settings.getFontSettings(),
+						new AppFontSizeProperty(localization, settings.getFontSettings(),
 								app.getFontSettingsUpdater()),
 						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
 								app, localization)))
@@ -124,7 +124,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
 						new AngleUnitProperty(kernel, localization),
-						new FontSizeProperty(localization, settings.getFontSettings(),
+						new AppFontSizeProperty(localization, settings.getFontSettings(),
 								app.getFontSettingsUpdater()))));
 	}
 

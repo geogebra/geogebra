@@ -56,7 +56,6 @@ import org.geogebra.common.properties.impl.graphics.GridAngleProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistanceProperty;
 import org.geogebra.common.properties.impl.graphics.GridDistancePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.GridFixedDistanceProperty;
-import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
 import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesCollection;
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropertyCollection;
@@ -175,10 +174,6 @@ public abstract class PropertyView {
 			if (property instanceof ValuedProperty) {
 				((ValuedProperty<?>) property).addValueObserver(this);
 			}
-			if (property instanceof LabelStylePropertyCollection) {
-				Arrays.stream(((LabelStylePropertyCollection) property).getProperties())
-						.forEach(p -> ((BooleanProperty) p).addValueObserver(this));
-			}
 		}
 
 		protected void onDependentGeoElementUpdated() {
@@ -198,10 +193,6 @@ public abstract class PropertyView {
 			}
 			if (property instanceof ValuedProperty) {
 				((ValuedProperty<?>) property).removeValueObserver(this);
-			}
-			if (property instanceof LabelStylePropertyCollection) {
-				Arrays.stream(((LabelStylePropertyCollection) property).getProperties())
-						.forEach(p -> ((BooleanProperty) p).removeValueObserver(this));
 			}
 		}
 
@@ -800,53 +791,68 @@ public abstract class PropertyView {
 	/**
 	 * Representation of a row of icons that can be toggled independently, with a label above them.
 	 */
-	public static final class MultiSelectionIconRow
-			extends PropertyBackedView<LabelStylePropertyCollection> {
-		MultiSelectionIconRow(LabelStylePropertyCollection labelStylePropertyCollection) {
-			super(labelStylePropertyCollection);
+	public static final class MultiSelectionIconRow extends PropertyView {
+		private final PropertyCollection<ToggleableIconProperty> toggleableIconPropertyCollection;
+		private final List<ToggleableIcon> toggleableIcons;
+
+		/**
+		 * Representation of a single toggleable icon used in {@code MultiSelectionIconRow}.
+		 */
+		public static final class ToggleableIcon
+				extends PropertyBackedView<ToggleableIconProperty> {
+			ToggleableIcon(@Nonnull ToggleableIconProperty property) {
+				super(property);
+			}
+
+			/**
+			 * @return the icon to display
+			 */
+			public @Nonnull PropertyResource getIcon() {
+				return property.getIcon();
+			}
+
+			/**
+			 * @return the tooltip label of the icon
+			 */
+			public @Nonnull String getTooltipLabel() {
+				return property.getName();
+			}
+
+			/**
+			 * @return {@code true} if the icon is selected and {@code false} otherwise
+			 */
+			public boolean isSelected() {
+				return property.getValue();
+			}
+
+			/**
+			 * Sets whether the icon is selected
+			 * @param selected {@code true} to select the icon, {@code false} to deselect
+			 */
+			public void setSelected(boolean selected) {
+				property.setValue(selected);
+			}
+		}
+
+		MultiSelectionIconRow(
+				PropertyCollection<ToggleableIconProperty> toggleableIconPropertyCollection) {
+			this.toggleableIconPropertyCollection = toggleableIconPropertyCollection;
+			this.toggleableIcons = Arrays.stream(toggleableIconPropertyCollection.getProperties())
+					.map(ToggleableIcon::new).collect(Collectors.toList());
 		}
 
 		/**
 		 * @return the label above the icons
 		 */
 		public @Nonnull String getLabel() {
-			return property.getName();
+			return toggleableIconPropertyCollection.getName();
 		}
 
 		/**
-		 * @return the list of icons to display
+		 * @return the toggleable icons to display
 		 */
-		public @Nonnull List<PropertyResource> getIcons() {
-			return Arrays.stream(property.getProperties())
-					.map(IconAssociatedProperty::getIcon)
-					.collect(Collectors.toList());
-		}
-
-		/**
-		 * @param index of button
-		 * @return the tooltip label of button at position index
-		 */
-		public @Nonnull String getTooltipLabel(int index) {
-			return property.getProperties()[index].getName();
-		}
-
-		/**
-		 * @return the list of toggle states for each icon, with {@code true}
-		 * if selected and {@code false} otherwise for each icon
-		 */
-		public List<Boolean> areIconsSelected() {
-			return Arrays.stream(property.getProperties())
-					.map(property -> ((BooleanProperty) property).getValue())
-					.collect(Collectors.toList());
-		}
-
-		/**
-		 * Sets whether the icon at the specified index is selected
-		 * @param index the index of the icon to update
-		 * @param selected {@code true} to select the icon, {@code false} to deselect
-		 */
-		public void setIconSelected(int index, boolean selected) {
-			((BooleanProperty) property.getProperties()[index]).setValue(selected);
+		public @Nonnull List<ToggleableIcon> getToggleableIcons() {
+			return toggleableIcons;
 		}
 	}
 
@@ -1269,12 +1275,12 @@ public abstract class PropertyView {
 				|| property instanceof AlgebraViewVisibilityPropertyCollection) {
 			return new RelatedPropertyViewCollection(property.getName(),
 					propertyViewListOf((PropertyCollection<?>) property), 4);
+		} else if (property instanceof PropertyCollection<?> propertyCollection
+				&& propertyCollection.getProperties()[0] instanceof ToggleableIconProperty) {
+			return new MultiSelectionIconRow((PropertyCollection<ToggleableIconProperty>) property);
 		} else if (property instanceof BackgroundColorPropertyCollection collection) {
 			return new ExpandableList(collection, List.of(new RelatedPropertyViewCollection(
 					null, propertyViewListOf(collection), 8)));
-		}
-		else if (property instanceof LabelStylePropertyCollection labelStylePropertyCollection) {
-			return new MultiSelectionIconRow(labelStylePropertyCollection);
 		} else if (property instanceof ActionableIconPropertyCollection actionableIconProperty) {
 			return new IconButtonRow(actionableIconProperty);
 		} else if (property instanceof ColorProperty colorProperty) {

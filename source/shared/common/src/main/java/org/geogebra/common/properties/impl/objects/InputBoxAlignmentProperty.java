@@ -16,20 +16,26 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import static java.util.Map.entry;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
-import java.util.List;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.geogebra.common.properties.IconsEnumeratedProperty;
+import org.geogebra.common.properties.PropertyResource;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class InputBoxAlignmentProperty
-		extends AbstractNamedEnumeratedProperty<HorizontalAlignment> {
+/**
+ * {@code Property} responsible for changing the text alignment of an input box.
+ */
+public final class InputBoxAlignmentProperty extends AbstractEnumeratedProperty<HorizontalAlignment>
+		implements IconsEnumeratedProperty<HorizontalAlignment> {
 
 	private GeoInputBox inputBox;
 
@@ -40,15 +46,11 @@ public class InputBoxAlignmentProperty
 	public InputBoxAlignmentProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Alignment");
-		setNamedValues(List.of(
-				entry(HorizontalAlignment.LEFT, "Left"),
-				entry(HorizontalAlignment.CENTER, "Center"),
-				entry(HorizontalAlignment.RIGHT, "Right")
-		));
 		if (!(element instanceof GeoInputBox)) {
 			throw new NotApplicablePropertyException(element);
 		}
 		inputBox = (GeoInputBox) element;
+		setValues(Arrays.stream(HorizontalAlignment.values()).collect(Collectors.toList()));
 	}
 
 	@Override
@@ -60,5 +62,25 @@ public class InputBoxAlignmentProperty
 	@Override
 	public HorizontalAlignment getValue() {
 		return inputBox.getAlignment();
+	}
+
+	@Override
+	public PropertyResource[] getValueIcons() {
+		return Arrays.stream(HorizontalAlignment.values())
+				.map(this::getHorizontalAlignmentIcon)
+				.toArray(PropertyResource[]::new);
+	}
+
+	@Override
+	public @CheckForNull String[] getToolTipLabels() {
+		return null;
+	}
+
+	private PropertyResource getHorizontalAlignmentIcon(HorizontalAlignment horizontalAlignment) {
+		return switch (horizontalAlignment) {
+			case LEFT -> PropertyResource.ICON_ALIGNMENT_LEFT;
+			case CENTER -> PropertyResource.ICON_ALIGNMENT_CENTER;
+			case RIGHT -> PropertyResource.ICON_ALIGNMENT_RIGHT;
+		};
 	}
 }

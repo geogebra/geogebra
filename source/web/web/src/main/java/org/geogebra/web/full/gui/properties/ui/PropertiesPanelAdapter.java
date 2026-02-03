@@ -36,7 +36,7 @@ import org.geogebra.web.full.gui.components.ComponentSlider;
 import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionRatioPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
-import org.geogebra.web.full.gui.properties.ui.panel.LabelStylePanel;
+import org.geogebra.web.full.gui.properties.ui.panel.MultiSelectionIconRowPanel;
 import org.geogebra.web.full.gui.properties.ui.tabs.ScriptTabFactory;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -127,7 +127,7 @@ public class PropertiesPanelAdapter {
 			return new ActionableButtonPanel((ActionableButtonRow) propertyView);
 		}
 		if (propertyView instanceof MultiSelectionIconRow) {
-			return new LabelStylePanel((MultiSelectionIconRow) propertyView, app);
+			return new MultiSelectionIconRowPanel((MultiSelectionIconRow) propertyView, app);
 		}
 		if (propertyView instanceof DimensionRatioEditor) {
 			return new DimensionRatioPanel(app, this, (DimensionRatioEditor) propertyView);

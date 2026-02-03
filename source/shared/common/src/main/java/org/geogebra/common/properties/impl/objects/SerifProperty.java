@@ -20,34 +20,36 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.aliases.BooleanProperty;
+import org.geogebra.common.properties.ToggleableIconProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class SerifProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty,
-		IconAssociatedProperty {
+/**
+ * {@code Property} responsible for setting the text style to use serif or not.
+ */
+public class SerifProperty extends AbstractValuedProperty<Boolean>
+		implements ToggleableIconProperty {
 	private final GeoElementDelegate delegate;
 
 	/**
-	 * Serif property
-	 * @param localization localization
-	 * @param element element
+	 * Constructs the property for the given element.
+	 * @param localization localization for translating the property name
+	 * @param geoElement the element to create the property for
+	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public SerifProperty(Localization localization, GeoElement element)
+	public SerifProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "Serif");
-		delegate = new FontStyleDelegate(element);
+		delegate = new FontStyleDelegate(geoElement);
 	}
 
 	@Override
 	protected void doSetValue(Boolean value) {
 		GeoElement element = delegate.getElement();
-		if (element instanceof TextProperties) {
-			TextProperties textProperties = (TextProperties) element;
+		if (element instanceof TextProperties textProperties) {
 			if (textProperties.isSerifFont() != value) {
 				textProperties.setSerifFont(value);
 				textProperties.updateVisualStyleRepaint(GProperty.FONT);
@@ -58,8 +60,7 @@ public class SerifProperty extends AbstractValuedProperty<Boolean> implements Bo
 	@Override
 	public Boolean getValue() {
 		GeoElement element = delegate.getElement();
-		if (element instanceof TextProperties) {
-			TextProperties textProperties = (TextProperties) element;
+		if (element instanceof TextProperties textProperties) {
 			return textProperties.isSerifFont();
 		}
 		return false;

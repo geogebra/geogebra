@@ -52,7 +52,7 @@ import org.geogebra.common.properties.impl.facade.ObjectEventPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsListFacade;
-import org.geogebra.common.properties.impl.objects.AlgebraProperty;
+import org.geogebra.common.properties.impl.objects.AlgebraPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AngleArcSizeProperty;
 import org.geogebra.common.properties.impl.objects.AngleDecorationProperty;
 import org.geogebra.common.properties.impl.objects.AnimatingProperty;
@@ -85,7 +85,6 @@ import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.ImageInterpolationProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.InequalityOnAxisProperty;
-import org.geogebra.common.properties.impl.objects.InputBoxAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.InteractionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.InverseFillProperty;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
@@ -130,6 +129,7 @@ import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontSizeProperty;
+import org.geogebra.common.properties.impl.objects.TextStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
 import org.geogebra.common.properties.impl.objects.VectorHeadProperty;
@@ -359,6 +359,8 @@ public final class GeoElementPropertiesFactory {
 						this, localization, elements)),
 				createOptionalProperty(() -> new SliderTrackPropertyCollection(
 						this, processor, localization, elements)),
+				createOptionalProperty(() -> new TextStylePropertyCollection(
+						this, localization, elements)),
 				// Old style properties below
 				createPointSizeProperty(localization, elements),
 				createPointStyleProperty(localization, elements),
@@ -395,9 +397,6 @@ public final class GeoElementPropertiesFactory {
 						element -> new InequalityOnAxisProperty(localization, element),
 						BooleanPropertyListFacade::new),
 				createOptionalPropertyFacade(elements,
-						element -> new InputBoxAlignmentProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
 						element -> new LevelOfDetailProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
 				createOptionalPropertyFacade(elements,
@@ -421,9 +420,8 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
 		return createPropsArray("Advanced", localization, Stream.of(
-				createOptionalProperty(
-						() -> isWhiteboard ? null
-								: new PositionPropertyCollection(this, localization, elements)),
+				isWhiteboard ? null : createOptionalProperty(
+						() -> new PositionPropertyCollection(this, localization, elements)),
 				createOptionalProperty(
 						() -> new SliderIntervalProperty(this, processor, localization, elements)),
 				createOptionalProperty(
@@ -433,7 +431,7 @@ public final class GeoElementPropertiesFactory {
 						() -> new InteractionPropertyCollection(this, processor,
 								localization, elements)),
 				isWhiteboard ? null : createOptionalProperty(
-						() -> new AlgebraProperty(this, localization, elements)),
+						() -> new AlgebraPropertyCollection(this, localization, elements)),
 				createOptionalProperty(
 						() -> new VisibilityPropertyCollection(this, localization, elements)),
 				new DynamicColorPropertyCollection(this, localization, elements),

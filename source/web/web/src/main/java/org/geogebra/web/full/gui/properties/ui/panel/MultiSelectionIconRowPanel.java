@@ -16,45 +16,39 @@
 
 package org.geogebra.web.full.gui.properties.ui.panel;
 
-import java.util.List;
-
-import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.PropertyView;
-import org.geogebra.common.properties.impl.graphics.LabelStylePropertyCollection;
+import org.geogebra.common.properties.PropertyView.MultiSelectionIconRow.ToggleableIcon;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-public class LabelStylePanel extends FlowPanel {
+public class MultiSelectionIconRowPanel extends FlowPanel {
 	private final AppW appW;
 
 	/**
-	 * Creates a panel with label style property
-	 * @param labelStylePropertyCollection {@link LabelStylePropertyCollection}
+	 * Creates a panel for {@link org.geogebra.common.properties.PropertyView.MultiSelectionIconRow}
+	 * @param multiSelectionIconRow {@code PropertyView.MultiSelectionIconRow}
 	 * @param appW see {@link AppW}
 	 */
-	public LabelStylePanel(PropertyView.MultiSelectionIconRow labelStylePropertyCollection,
+	public MultiSelectionIconRowPanel(PropertyView.MultiSelectionIconRow multiSelectionIconRow,
 			AppW appW) {
 		this.appW = appW;
 		addStyleName("labelStyle");
-		buildGUI(labelStylePropertyCollection);
+		buildGUI(multiSelectionIconRow);
 	}
 
-	private void buildGUI(PropertyView.MultiSelectionIconRow labelStylePropertyCollection) {
-		add(BaseWidgetFactory.INSTANCE.newPrimaryText(labelStylePropertyCollection.getLabel()));
-		List<PropertyResource> icons = labelStylePropertyCollection.getIcons();
-		for (int i = 0; i < icons.size(); i++) {
-			IconButton button = new IconButton(appW, null,
-					((AppWFull) appW).getPropertiesIconResource().getImageResource(icons.get(i)),
-					labelStylePropertyCollection.getTooltipLabel(i));
-			button.setActive(labelStylePropertyCollection.areIconsSelected().get(i));
-			int finalI = i;
+	private void buildGUI(PropertyView.MultiSelectionIconRow multiSelectionIconRow) {
+		add(BaseWidgetFactory.INSTANCE.newPrimaryText(multiSelectionIconRow.getLabel()));
+		for (ToggleableIcon toggleableIcon : multiSelectionIconRow.getToggleableIcons()) {
+			IconButton button = new IconButton(appW, null, ((AppWFull) appW)
+					.getPropertiesIconResource().getImageResource(toggleableIcon.getIcon()),
+					toggleableIcon.getTooltipLabel());
+			button.setActive(toggleableIcon.isSelected());
 			button.addFastClickHandler(source -> {
 				button.setActive(!button.isActive());
-				labelStylePropertyCollection.setIconSelected(
-						finalI, !labelStylePropertyCollection.areIconsSelected().get(finalI));
+				toggleableIcon.setSelected(!toggleableIcon.isSelected());
 			});
 			add(button);
 		}
