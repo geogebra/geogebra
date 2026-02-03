@@ -169,7 +169,9 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 		GeoElementSetup paintEquationsRed = geoElement -> {
 			if (isEquation(geoElement)) {
 				geoElement.setObjColor(GColor.RED);
+				return true;
 			}
+			return false;
 		};
 		getAlgebraProcessor().addGeoElementSetup(paintEquationsRed);
 

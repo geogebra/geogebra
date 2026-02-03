@@ -481,7 +481,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			if (VisibilityRestriction.isVisibilityRestricted(geoElementND.toGeoElement(),
 					visibilityRestrictions)) {
 				geoElementND.toGeoElement().setRestrictedEuclidianVisibility(true);
+				return true;
 			}
+			return false;
 		};
 	}
 

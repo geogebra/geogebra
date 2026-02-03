@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -1179,8 +1180,16 @@ public class AlgebraProcessor {
 				// apply the element setups,
 				if (!geoElementSetups.isEmpty()) {
 					Arrays.stream(geos).forEach(geoElement -> {
-						geoElementSetups.forEach(setup -> setup.applyTo(geoElement));
-						geoElement.updateRepaint();
+						AtomicBoolean geoChanged = new AtomicBoolean(false);
+						geoElementSetups.forEach(setup -> {
+							if (setup.applyTo(geoElement)) {
+								geoChanged.set(true);
+							}
+						});
+
+						if (geoChanged.get()) {
+							geoElement.updateRepaint();
+						}
 					});
 				}
 			} else {

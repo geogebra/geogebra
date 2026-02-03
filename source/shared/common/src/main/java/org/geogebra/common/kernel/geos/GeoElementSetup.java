@@ -25,6 +25,7 @@ public interface GeoElementSetup {
     /**
      * Sets up or configures the given {@link GeoElementND}.
      * @param geoElementND The {@link GeoElementND} to be configured
+     * @return true if this method changed anything on geoElementND; false otherwise
      */
-    void applyTo(GeoElementND geoElementND);
+    boolean applyTo(GeoElementND geoElementND);
 }

@@ -167,6 +167,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"Evaluate(x²) 			-> x^2",
 			"Evaluate(y = x²) 		-> y=(x^2)",
 			"Evaluate(y = x³) 		-> y=(x^3)",
+			"Integral(x, x) 		-> y=x",
 	})
 	public void testUnrestrictedVisibility(String expression) {
 		evaluateGeoElement("g(x) = x"); // For integrals
@@ -351,6 +352,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"Round(5, 13) 																						-> 5.0",
 			"Sum(2a, a, -2, 5) 																					-> 24",
 			"Round(24, 13) 																						-> 24.0",
+			"Product(2gsumvara, gsumvara, 1, 5)                                                                 -> 2.0"
 	})
 	public void testRestrictedCommandArguments(String command) {
 		assertNull(evaluate(command));
@@ -535,6 +537,7 @@ public class MmsExamTests extends BaseExamTestSetup {
 			"Normal(2, 0.5, 1, true) 									-> (erf(-√2)+1)/2",
 			"Round((erf(-sqrt(2)) + 1) / 2, 2) 							-> 0.02",
 			"Normal(2, 0.5, x, true) 									-> (erf(x*√2-2*√2)+1)/2",
+			"Product(gsumvara², gsumvara, 0, 5)                         -> 2"
 	})
 	public void testRestrictedArguments(String expression, String expectedError) {
 		assertNull(evaluate(expression));

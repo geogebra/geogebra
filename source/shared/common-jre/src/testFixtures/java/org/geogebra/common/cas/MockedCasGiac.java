@@ -66,6 +66,8 @@ public final class MockedCasGiac {
 
 			@Override
 			protected String translateAndEvaluateCAS(ValidExpression exp, StringTemplate tpl) {
+				// do the translation here just to verify that it would not throw with real CAS
+				casParser.translateToCAS(exp, tpl, this);
 				return evaluateCAS(casParser.translateToCAS(exp,
 						StringTemplate.defaultTemplate, this));
 			}
