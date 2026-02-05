@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
@@ -31,7 +33,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RequiresResize;
@@ -60,18 +61,27 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 	 * @param appW {@link org.geogebra.web.html5.main.AppW}
 	 * @param ariaLabel aria-label trans key (title of parent element)
 	 * @param initialTab index of initial tab
+	 * @param optionTypeName The name (trans key) of the
+	 * {@link org.geogebra.common.main.OptionType} that should be selected
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
-	public ComponentTab(AppW appW, String ariaLabel, int initialTab, TabData... tabData) {
+	public ComponentTab(AppW appW, String ariaLabel, int initialTab,
+			@CheckForNull String optionTypeName, TabData... tabData) {
 		this.appW = appW;
 		this.loc = appW.getLocalization();
 		this.ariaLabel = ariaLabel;
 		this.tabData = Arrays.asList(tabData);
 		addStyleName("componentTab");
 		buildTab(tabData);
-		if (tabData.length > initialTab) {
+
+		boolean switchedTab = false;
+		if (optionTypeName != null) {
+			switchedTab = switchToTab(optionTypeName);
+		}
+		if (!switchedTab && initialTab < tabData.length) {
 			switchToTab(initialTab);
 		}
+
 		Dom.addEventListener(scrollPanel.getElement(),  "keydown", event -> {
 			KeyboardEvent e = (KeyboardEvent) event;
 			if ("ArrowLeft".equals(e.code) || "ArrowRight".equals(e.code)) {
@@ -88,7 +98,7 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
 	public ComponentTab(AppW appW, String ariaLabel, TabData... tabData) {
-		this(appW, ariaLabel, 0, tabData);
+		this(appW, ariaLabel, 0, null, tabData);
 	}
 
 	private void buildTab(TabData... tabData) {
@@ -222,22 +232,22 @@ public class ComponentTab extends FlowPanel implements RequiresResize, SetLabels
 
 		panelContainer.addStyleName("transition");
 		tabChanged.notifyListeners(tabIdx);
-		Scheduler.get().scheduleDeferred(() -> {
-			panelContainer.getElement().getStyle()
-					.setRight(tabIdx * 100, Unit.PCT);
-		});
+		panelContainer.getElement().getStyle().setRight(tabIdx * 100, Unit.PCT);
 	}
 
 	/**
 	 * Find tab with given title and switch to it
 	 * @param tabTransKey title of searched tab
+	 * @return Whether the tab was switched successfully
 	 */
-	public void switchToTab(String tabTransKey) {
+	public boolean switchToTab(String tabTransKey) {
 		for (int i = 0; i < tabData.size(); i++) {
 			if (tabData.get(i).getTabTitle().equals(tabTransKey)) {
 				switchToTab(i);
+				return true;
 			}
 		}
+		return false;
 	}
 
 	private void updateSelection(StandardButton button, boolean selected) {
