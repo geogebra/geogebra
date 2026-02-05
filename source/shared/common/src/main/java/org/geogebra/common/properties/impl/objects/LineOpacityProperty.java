@@ -16,23 +16,28 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
+/**
+ * {@code Property} responsible for setting the opacity of a line.
+ */
 public class LineOpacityProperty extends AbstractRangeProperty<Integer> {
 	private final GeoElement element;
 
 	/**
-	 * Create a new AbstractRangeProperty.
-	 * @param localization localization
-	 * @param element element
+	 * Constructs the property for the given element.
+	 * @param localization localization for translating property names
+	 * @param element the element to create the property for
+	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
 	public LineOpacityProperty(Localization localization, GeoElement element) throws
 			NotApplicablePropertyException {
 		super(localization, "LineOpacity", 0, 100, 1);
-		if (element.showLineProperties()) {
+		if (!element.showLineProperties()) {
 			throw new NotApplicablePropertyException(element);
 		}
 		this.element = element;
@@ -40,11 +45,17 @@ public class LineOpacityProperty extends AbstractRangeProperty<Integer> {
 
 	@Override
 	protected void setValueSafe(Integer value) {
-		element.setLineOpacity(value);
+		element.setLineOpacity(Math.round(value / 100f * 255));
+		element.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	@Override
 	public Integer getValue() {
-		return element.getLineOpacity();
+		return Math.round(element.getLineOpacity() / 255f * 100f);
+	}
+
+	@Override
+	public boolean isValueDisplayedAsPercentage() {
+		return true;
 	}
 }

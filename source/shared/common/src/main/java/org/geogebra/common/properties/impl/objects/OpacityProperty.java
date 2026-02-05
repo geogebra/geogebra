@@ -57,13 +57,18 @@ public class OpacityProperty extends AbstractRangeProperty<Integer> {
 		App app = element.getApp();
 		double alpha = value / 100.0;
 		EuclidianStyleBarStatic.applyColor(
-				element.getObjectColor(), alpha, app, app.getSelectionManager().getSelectedGeos());
+				element.getObjectColor(), alpha, app.getSelectionManager().getSelectedGeos());
 	}
 
 	@Override
 	public Integer getValue() {
 		double alpha = delegate.getElement().getAlphaValue();
 		return (int) Math.round(alpha * 100);
+	}
+
+	@Override
+	public boolean isValueDisplayedAsPercentage() {
+		return true;
 	}
 
 	@Override

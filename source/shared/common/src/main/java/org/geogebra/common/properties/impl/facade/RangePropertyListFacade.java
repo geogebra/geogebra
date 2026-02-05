@@ -48,4 +48,8 @@ public class RangePropertyListFacade<T extends RangeProperty<Integer>>
 		return getFirstProperty().getMax();
 	}
 
+	@Override
+	public boolean isValueDisplayedAsPercentage() {
+		return getFirstProperty().isValueDisplayedAsPercentage();
+	}
 }

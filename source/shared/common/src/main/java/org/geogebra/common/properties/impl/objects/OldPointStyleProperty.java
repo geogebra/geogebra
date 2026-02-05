@@ -16,34 +16,48 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.List;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
-import org.geogebra.common.properties.impl.objects.delegate.LineStylePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.delegate.PointStylePropertyDelegate;
 
 /**
- * Line style
+ * Point style
  */
-public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
+public class OldPointStyleProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
-	private static final PropertyResource[] icons =
-			EuclidianStyleConstants.lineStyleIcons.toArray(new PropertyResource[0]);
+
+	private static final PropertyResource[] icons = {
+			PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
+			PropertyResource.ICON_POINT_STYLE_CIRCLE, PropertyResource.ICON_POINT_STYLE_PLUS,
+			PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
+	};
+
 	private final AbstractGeoElementDelegate delegate;
 
 	/***/
-	public LineStyleProperty(Localization localization, GeoElement element)
+	public OldPointStyleProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "LineStyle");
-		delegate = new LineStylePropertyDelegate(element);
-		setValues(EuclidianStyleConstants.lineStyleList);
+		super(localization, "PointStyle");
+		delegate = new PointStylePropertyDelegate(element);
+		setValues(List.of(
+				EuclidianStyleConstants.POINT_STYLE_DOT,
+				EuclidianStyleConstants.POINT_STYLE_CROSS,
+				EuclidianStyleConstants.POINT_STYLE_CIRCLE,
+				EuclidianStyleConstants.POINT_STYLE_PLUS,
+				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND
+		));
 	}
 
 	@Override
@@ -58,13 +72,21 @@ public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 
 	@Override
 	protected void doSetValue(Integer value) {
-		delegate.getElement().setLineType(value);
-		delegate.getElement().updateVisualStyleRepaint(GProperty.LINE_STYLE);
+		GeoElement element = delegate.getElement();
+		if (element instanceof PointProperties) {
+			((PointProperties) element).setPointStyle(value);
+			element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
+		}
 	}
 
 	@Override
 	public Integer getValue() {
-		return delegate.getElement().getLineType();
+		GeoElement element = delegate.getElement();
+		if (element instanceof PointProperties) {
+			int pointStyle = ((PointProperties) element).getPointStyle();
+			return pointStyle >= icons.length ? 0 : pointStyle;
+		}
+		return -1;
 	}
 
 	@Override

@@ -1472,8 +1472,7 @@ public class EuclidianStyleBarD extends JToolBar
 		} else if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
 			float alpha = btnColor.getSliderValue() / 100.0f;
-			needUndo = EuclidianStyleBarStatic.applyColor(color,
-					alpha, app, targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyColor(color, alpha, targetGeos);
 		} else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
@@ -1486,8 +1485,7 @@ public class EuclidianStyleBarD extends JToolBar
 		else if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
-				needUndo = EuclidianStyleBarStatic.applyColor(
-						color, 1, app, targetGeos);
+				needUndo = EuclidianStyleBarStatic.applyColor(color, 1, targetGeos);
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {

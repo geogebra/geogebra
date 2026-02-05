@@ -66,7 +66,7 @@ public class EuclidianStyleTest {
 		app.setMode(EuclidianConstants.MODE_JOIN);
 		selection.updateDefaultsForMode(EuclidianConstants.MODE_JOIN);
 		ArrayList<GeoElement> geos = selection.getGeos();
-		EuclidianStyleBarStatic.applyColor(GColor.GREEN, 1, app, geos);
+		EuclidianStyleBarStatic.applyColor(GColor.GREEN, 1, geos);
 		EuclidianStyleBarStatic.applyLineStyle(1, 5, app, geos);
 		assertEquals(GColor.GREEN, new GeoLine(construction).getObjectColor());
 		assertEquals(5, new GeoLine(construction).getLineThickness());

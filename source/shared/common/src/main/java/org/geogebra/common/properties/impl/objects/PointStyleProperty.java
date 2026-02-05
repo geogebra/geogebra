@@ -11,12 +11,13 @@
  *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
- * See https://www.geogebra.org/license for full licensing details
+ * See https://www.geogebra.org/license for full licensing details'
  */
 
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 
@@ -28,41 +29,80 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.AbstractGeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.PointStyleProperty.PointStyle;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.geogebra.common.properties.impl.objects.delegate.PointStylePropertyDelegate;
 
 /**
- * Point style
+ * {@code Property} responsible for setting the style of points.
  */
-public class PointStyleProperty extends AbstractEnumeratedProperty<Integer>
-		implements IconsEnumeratedProperty<Integer> {
+public class PointStyleProperty extends AbstractEnumeratedProperty<PointStyle>
+		implements IconsEnumeratedProperty<PointStyle> {
+	/**
+	 * Different styles a point can have.
+	 */
+	public enum PointStyle {
+		DOT(EuclidianStyleConstants.POINT_STYLE_DOT,
+				PropertyResource.ICON_POINT_STYLE_DOT),
+		CIRCLE(EuclidianStyleConstants.POINT_STYLE_CIRCLE,
+				PropertyResource.ICON_POINT_STYLE_CIRCLE),
+		NO_OUTLINE(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE,
+				PropertyResource.ICON_POINT_STYLE_NO_OUTLINE),
+		CROSS(EuclidianStyleConstants.POINT_STYLE_CROSS,
+				PropertyResource.ICON_POINT_STYLE_CROSS),
+		PLUS(EuclidianStyleConstants.POINT_STYLE_PLUS,
+				PropertyResource.ICON_POINT_STYLE_PLUS),
+		EMPTY_DIAMOND(EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND,
+				PropertyResource.ICON_POINT_STYLE_EMPTY_DIAMOND),
+		FILLED_DIAMOND(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND,
+				PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND),
+		NORTH_TRIANGLE(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH,
+				PropertyResource.ICON_POINT_STYLE_TRIANGLE_NORTH),
+		SOUTH_TRIANGLE(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH,
+				PropertyResource.ICON_POINT_STYLE_TRIANGLE_SOUTH),
+		EAST_TRIANGLE(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST,
+				PropertyResource.ICON_POINT_STYLE_TRIANGLE_EAST),
+		WEST_TRIANGLE(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST,
+				PropertyResource.ICON_POINT_STYLE_TRIANGLE_WEST);
 
-	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
-			PropertyResource.ICON_POINT_STYLE_CIRCLE, PropertyResource.ICON_POINT_STYLE_PLUS,
-			PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
-	};
+		final int euclidianStyleConstant;
+		final PropertyResource iconResource;
 
-	private final AbstractGeoElementDelegate delegate;
+		PointStyle(int euclidianStyleConstant, PropertyResource iconResource) {
+			this.euclidianStyleConstant = euclidianStyleConstant;
+			this.iconResource = iconResource;
+		}
 
-	/***/
-	public PointStyleProperty(Localization localization, GeoElement element)
+		static @CheckForNull PointStyle withEuclidianStyleConstant(int euclidianStyleConstant) {
+			return Arrays.stream(values()).filter(pointStyle ->
+					pointStyle.euclidianStyleConstant == euclidianStyleConstant)
+					.findFirst().orElse(null);
+		}
+	}
+
+	private final PointProperties pointProperties;
+
+	/**
+	 * Constructs a property for the point style.
+	 * @param localization localization for property name
+	 * @param geoElement GeoElement to create property for
+	 * @throws NotApplicablePropertyException if the property is not applicable to the element
+	 */
+	public PointStyleProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "PointStyle");
-		delegate = new PointStylePropertyDelegate(element);
-		setValues(List.of(
-				EuclidianStyleConstants.POINT_STYLE_DOT,
-				EuclidianStyleConstants.POINT_STYLE_CROSS,
-				EuclidianStyleConstants.POINT_STYLE_CIRCLE,
-				EuclidianStyleConstants.POINT_STYLE_PLUS,
-				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND
-		));
+		if (!(geoElement instanceof PointProperties pointProperties)
+				|| !pointProperties.showPointProperties() || geoElement.isGeoElement3D()) {
+			throw new NotApplicablePropertyException(geoElement);
+		}
+		this.pointProperties = pointProperties;
+		setValues(Arrays.stream(PointStyle.values()).collect(Collectors.toList()));
 	}
 
 	@Override
 	public PropertyResource[] getValueIcons() {
-		return icons;
+		return Arrays.stream(PointStyle.values())
+				.map(pointStyle -> pointStyle.iconResource)
+				.toArray(PropertyResource[]::new);
 	}
 
 	@Override
@@ -71,26 +111,13 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<Integer>
 	}
 
 	@Override
-	protected void doSetValue(Integer value) {
-		GeoElement element = delegate.getElement();
-		if (element instanceof PointProperties) {
-			((PointProperties) element).setPointStyle(value);
-			element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
-		}
+	protected void doSetValue(PointStyle value) {
+		pointProperties.setPointStyle(value.euclidianStyleConstant);
+		((GeoElement) pointProperties).updateVisualStyleRepaint(GProperty.POINT_STYLE);
 	}
 
 	@Override
-	public Integer getValue() {
-		GeoElement element = delegate.getElement();
-		if (element instanceof PointProperties) {
-			int pointStyle = ((PointProperties) element).getPointStyle();
-			return pointStyle >= icons.length ? 0 : pointStyle;
-		}
-		return -1;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return delegate.getElement().isEuclidianVisible();
+	public PointStyle getValue() {
+		return PointStyle.withEuclidianStyleConstant(pointProperties.getPointStyle());
 	}
 }

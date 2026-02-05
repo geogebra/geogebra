@@ -34,7 +34,7 @@ public class InequalityOnAxisProperty  extends AbstractValuedProperty<Boolean>
 	 */
 	public InequalityOnAxisProperty(Localization localization, GeoElement geo)
 			throws NotApplicablePropertyException {
-		super(localization, "OnAxis");
+		super(localization, "ShowOnXAxis");
 		if (!(geo instanceof InequalityProperties)) {
 			throw new NotApplicablePropertyException(geo);
 		}

@@ -452,7 +452,6 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * @param app application
 	 * @param geos selected (or default) geos
 	 * @param color
 	 *            color
@@ -460,7 +459,7 @@ public class EuclidianStyleBarStatic {
 	 *            opacity
 	 * @return success
 	 */
-	public static boolean applyColor(GColor color, double alpha, App app, List<GeoElement> geos) {
+	public static boolean applyColor(GColor color, double alpha, List<GeoElement> geos) {
 		boolean needUndo = false;
 
 		for (GeoElement geo : geos) {

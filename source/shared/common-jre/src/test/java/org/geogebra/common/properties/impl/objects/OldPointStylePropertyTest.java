@@ -24,13 +24,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.Test;
 
-public class LineStylePropertyTest extends BaseUnitTest {
+public class OldPointStylePropertyTest extends BaseUnitTest {
 
 	@Test
 	public void testConstructorSucceeds() {
-		GeoElement line = addAvInput("Line((1,1),(2,2))");
+		GeoElement point = addAvInput("(1,2)");
 		try {
-			new LineStyleProperty(getLocalization(), line);
+			new OldPointStyleProperty(getLocalization(), point);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
@@ -38,8 +38,8 @@ public class LineStylePropertyTest extends BaseUnitTest {
 
 	@Test
 	public void testConstructorThrowsError() {
-		GeoElement point = addAvInput("(1,1)");
+		GeoElement f = addAvInput("f: x");
 		assertThrows(NotApplicablePropertyException.class,
-				() -> new LineStyleProperty(getLocalization(), point));
+				() -> new OldPointStyleProperty(getLocalization(), f));
 	}
 }

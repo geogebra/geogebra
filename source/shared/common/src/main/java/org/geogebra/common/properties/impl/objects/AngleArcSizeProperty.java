@@ -17,6 +17,7 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.RangeProperty;
@@ -65,5 +66,6 @@ public class AngleArcSizeProperty extends AbstractValuedProperty<Integer>
 	@Override
 	protected void doSetValue(Integer value) {
 		geoElement.setArcSize(value);
+		geoElement.updateVisualStyleRepaint(GProperty.ANGLE_STYLE);
 	}
 }

@@ -52,8 +52,6 @@ import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.StringPropertyWithSuggestionsListFacade;
 import org.geogebra.common.properties.impl.objects.AlgebraPropertyCollection;
-import org.geogebra.common.properties.impl.objects.AngleArcSizeProperty;
-import org.geogebra.common.properties.impl.objects.AngleDecorationProperty;
 import org.geogebra.common.properties.impl.objects.AnimatingProperty;
 import org.geogebra.common.properties.impl.objects.AnimationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
@@ -78,17 +76,13 @@ import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
 import org.geogebra.common.properties.impl.objects.FixObjectProperty;
 import org.geogebra.common.properties.impl.objects.FixSliderObjectProperty;
 import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
-import org.geogebra.common.properties.impl.objects.ImageInterpolationProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
-import org.geogebra.common.properties.impl.objects.InequalityOnAxisProperty;
 import org.geogebra.common.properties.impl.objects.InteractionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.ItalicProperty;
 import org.geogebra.common.properties.impl.objects.LabelProperty;
 import org.geogebra.common.properties.impl.objects.LabelStyleProperty;
 import org.geogebra.common.properties.impl.objects.LayerPropertyCollection;
-import org.geogebra.common.properties.impl.objects.LevelOfDetailProperty;
-import org.geogebra.common.properties.impl.objects.LineOpacityProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.ListAsComboBoxProperty;
@@ -100,16 +94,15 @@ import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty
 import org.geogebra.common.properties.impl.objects.NotesOpacityColorProperty;
 import org.geogebra.common.properties.impl.objects.NotesThicknessProperty;
 import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
-import org.geogebra.common.properties.impl.objects.ObjectColorProperty;
 import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
+import org.geogebra.common.properties.impl.objects.OldObjectColorProperty;
+import org.geogebra.common.properties.impl.objects.OldPointStyleProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
 import org.geogebra.common.properties.impl.objects.OutlyingIntersectionsProperty;
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleExtendedProperty;
-import org.geogebra.common.properties.impl.objects.PointStyleProperty;
 import org.geogebra.common.properties.impl.objects.PositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
-import org.geogebra.common.properties.impl.objects.SegmentDecorationProperty;
 import org.geogebra.common.properties.impl.objects.SegmentEndProperty;
 import org.geogebra.common.properties.impl.objects.SegmentStartProperty;
 import org.geogebra.common.properties.impl.objects.SerifProperty;
@@ -121,13 +114,13 @@ import org.geogebra.common.properties.impl.objects.SliderBlobPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SliderIntervalProperty;
 import org.geogebra.common.properties.impl.objects.SliderTrackPropertyCollection;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
+import org.geogebra.common.properties.impl.objects.StylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontSizeProperty;
 import org.geogebra.common.properties.impl.objects.TextStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
-import org.geogebra.common.properties.impl.objects.VectorHeadProperty;
 import org.geogebra.common.properties.impl.objects.VerticalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.VisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -349,6 +342,8 @@ public final class GeoElementPropertiesFactory {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
 		return createPropsArray("Style", localization, Stream.of(
 				// New style properties come below, in order
+				createOptionalProperty(() -> new StylePropertyCollection(
+						this, localization, elements)),
 				isWhiteboard ? null : createOptionalProperty(
 						() -> new BackgroundColorPropertyCollection(this, localization, elements)),
 				createOptionalProperty(() -> new SizePropertyCollection(
@@ -362,41 +357,9 @@ public final class GeoElementPropertiesFactory {
 				createOptionalProperty(() -> new FillingPropertyCollection(
 						this, localization, imageManager, elements)),
 				// Old style properties below
-				createPointSizeProperty(localization, elements),
-				createPointStyleProperty(localization, elements),
-				createThicknessProperty(localization, elements),
-				createLineOpacityProperty(localization, elements),
-				createLineStyleProperty(localization, elements, false),
-				createLineStyleProperty(localization, elements, true),
 				createOptionalPropertyFacade(elements,
 						element -> new DrawArrowsProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				// arcsize
-				createSlopeSizeProperty(localization, elements),
-				createOptionalPropertyFacade(elements,
-						element -> new AngleArcSizeProperty(localization, element),
-						RangePropertyListFacade::new),
-
-				createOptionalPropertyFacade(elements,
-						element -> new InequalityOnAxisProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new LevelOfDetailProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new ImageInterpolationProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new AngleDecorationProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				createOptionalPropertyFacade(elements,
-						element -> new SegmentDecorationProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				createSegmentStartProperty(localization, elements),
-				createSegmentEndProperty(localization, elements),
-				createOptionalPropertyFacade(elements,
-						element -> new VectorHeadProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new)
+						BooleanPropertyListFacade::new)
 		));
 	}
 
@@ -630,7 +593,7 @@ public final class GeoElementPropertiesFactory {
 	public ColorProperty createObjectColorProperty(Localization localization,
 			List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
-				element -> new ObjectColorProperty(localization, element),
+				element -> new OldObjectColorProperty(localization, element),
 				ColorPropertyListFacade::new);
 	}
 
@@ -760,7 +723,7 @@ public final class GeoElementPropertiesFactory {
 	public IconsEnumeratedProperty<?> createPointStyleProperty(Localization localization,
 			List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
-				element -> new PointStyleProperty(localization, element),
+				element -> new OldPointStyleProperty(localization, element),
 				IconsEnumeratedPropertyListFacade::new);
 	}
 
@@ -786,13 +749,8 @@ public final class GeoElementPropertiesFactory {
 	 */
 	public IconsEnumeratedProperty<?> createLineStyleProperty(
 			Localization localization, List<GeoElement> elements) {
-		return createLineStyleProperty(localization, elements, false);
-	}
-
-	private IconsEnumeratedProperty<?> createLineStyleProperty(
-			Localization localization, List<GeoElement> elements, boolean hidden) {
 		return createOptionalPropertyFacade(elements,
-				element -> new LineStyleProperty(localization, element, hidden),
+				element -> new LineStyleProperty(localization, element),
 				IconsEnumeratedPropertyListFacade::new);
 	}
 
@@ -931,13 +889,6 @@ public final class GeoElementPropertiesFactory {
 			Localization localization, List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
 				element -> new OpacityProperty(localization, element),
-				RangePropertyListFacade::new);
-	}
-
-	private RangeProperty<Integer> createLineOpacityProperty(
-			Localization localization, List<GeoElement> elements) {
-		return createOptionalPropertyFacade(elements,
-				element -> new LineOpacityProperty(localization, element),
 				RangePropertyListFacade::new);
 	}
 

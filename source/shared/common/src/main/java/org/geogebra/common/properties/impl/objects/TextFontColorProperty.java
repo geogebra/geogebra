@@ -47,8 +47,7 @@ public class TextFontColorProperty extends ElementColorProperty
 
 	@Override
 	public void doSetValue(GColor value) {
-		EuclidianStyleBarStatic.applyColor(value, element.getAlphaValue(), element.getApp(),
-				List.of(element));
+		EuclidianStyleBarStatic.applyColor(value, element.getAlphaValue(), List.of(element));
 
 		if (element instanceof HasTextFormatter) {
 			((HasTextFormatter) element).format("color", value.toString());

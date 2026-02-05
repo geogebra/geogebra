@@ -128,8 +128,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 			openColorChooser(false);
 		} else {
 			double alpha = btnColor.getSliderValue() / 100.0;
-			return EuclidianStyleBarStatic.applyColor(color,
-					alpha, app, targetGeos);
+			return EuclidianStyleBarStatic.applyColor(color, alpha, targetGeos);
 		}
 		return false;
 	}
@@ -173,10 +172,8 @@ public abstract class StyleBarW2 extends StyleBarW {
 
 	protected abstract ArrayList<GeoElement> getTargetGeos();
 
-	protected boolean applyColor(List<GeoElement> targetGeos, GColor color,
-			double alpha) {
-		return EuclidianStyleBarStatic.applyColor(color,
-				alpha, app, targetGeos);
+	protected boolean applyColor(List<GeoElement> targetGeos, GColor color, double alpha) {
+		return EuclidianStyleBarStatic.applyColor(color, alpha, targetGeos);
 	}
 
 	protected void createColorBtn() {

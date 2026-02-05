@@ -52,4 +52,11 @@ public interface RangeProperty<T extends Number & Comparable<T>> extends ValuedP
 	 * @return step
 	 */
 	T getStep();
+
+	/**
+	 * @return whether the value should be displayed with a {@code %} in the UI
+	 */
+	default boolean isValueDisplayedAsPercentage() {
+		return false;
+	}
 }

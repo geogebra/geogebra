@@ -18,29 +18,47 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.color.GeoColorValues;
+import org.geogebra.common.properties.aliases.ColorProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
+import org.geogebra.common.properties.impl.DefaultColorValues;
+import org.geogebra.common.properties.impl.objects.delegate.ColorPropertyType;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
-import org.geogebra.common.properties.impl.objects.delegate.ObjectColorPropertyDelegate;
 
-public class ObjectColorProperty extends ElementColorProperty {
+/**
+ * {@code Property} responsible for setting the color of objects, excluding those with separate
+ * foreground and background or fill color options.
+ */
+public class ObjectColorProperty extends AbstractEnumeratedProperty<GColor>
+		implements ColorProperty {
+	private final GeoElement geoElement;
 
 	/**
-	 * @param localization - localization
-	 * @param element - element
-	 * @throws NotApplicablePropertyException when one of the elements has no color
+	 * Constructs a property for the object's color
+	 * @param localization localization for property name
+	 * @param geoElement GeoElement to create property for
+	 * @throws NotApplicablePropertyException if the property is not applicable to the element
 	 */
-	public ObjectColorProperty(Localization localization,
-			GeoElement element) throws NotApplicablePropertyException {
-		super(localization, new ObjectColorPropertyDelegate(element));
+	public ObjectColorProperty(Localization localization, GeoElement geoElement)
+			throws NotApplicablePropertyException {
+		super(localization, "Color");
+		if (ColorPropertyType.forElement(geoElement) != ColorPropertyType.OPAQUE) {
+			throw new NotApplicablePropertyException(geoElement);
+		}
+		this.geoElement = geoElement;
+		setValues(DefaultColorValues.BRIGHT);
 	}
 
 	@Override
-	public @Nonnull List<GColor> getValues() {
-		return GeoColorValues.values();
+	protected void doSetValue(GColor value) {
+		EuclidianStyleBarStatic.applyColor(value, geoElement.getAlphaValue(), List.of(geoElement));
+	}
+
+	@Override
+	public GColor getValue() {
+		return geoElement.getObjectColor();
 	}
 }

@@ -80,8 +80,7 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 
 	@Override
 	public void doSetValue(GColor color) {
-		EuclidianStyleBarStatic.applyColor(color, element.getAlphaValue(), element.getApp(),
-				List.of(element));
+		EuclidianStyleBarStatic.applyColor(color, element.getAlphaValue(), List.of(element));
 	}
 
 	@Override

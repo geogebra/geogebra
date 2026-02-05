@@ -64,6 +64,8 @@ import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
+import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionDependentProperty;
+import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionProperty.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
 import org.geogebra.common.properties.impl.objects.FillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
@@ -152,10 +154,13 @@ public abstract class PropertyView {
 	}
 
 	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
-			implements PropertyValueObserver<Object>, SettingListener, EventListener {
+			implements PropertyValueObserver<Object>, SettingListener, EventListener,
+			ChartSegmentSelection.Listener {
 		protected final @Nonnull T property;
 		private boolean previousAvailability;
 		private @CheckForNull List<GeoElement> dependentGeoElements;
+		private @CheckForNull List<ChartSegmentSelectionDependentProperty>
+				chartSelectionDependentProperties;
 
 		protected PropertyBackedView(@Nonnull T property) {
 			this.property = property;
@@ -166,6 +171,12 @@ public abstract class PropertyView {
 			if (property instanceof AbstractPropertyListFacade<?>) {
 				List<?> properties = ((AbstractPropertyListFacade<?>) property)
 						.getPropertyList();
+				chartSelectionDependentProperties = properties.stream()
+						.filter(p -> p instanceof ChartSegmentSelectionDependentProperty)
+						.map(p -> (ChartSegmentSelectionDependentProperty) p)
+						.collect(Collectors.toList());
+				chartSelectionDependentProperties.forEach(dependentProperty ->
+						dependentProperty.getChartSegmentSelection().registerListener(this));
 				dependentGeoElements = properties
 						.stream()
 						.filter(p -> p instanceof GeoElementDependentProperty)
@@ -190,6 +201,10 @@ public abstract class PropertyView {
 			if (property instanceof SettingsDependentProperty) {
 				((SettingsDependentProperty) property).getSettings().removeListener(this);
 			}
+			if (chartSelectionDependentProperties != null) {
+				chartSelectionDependentProperties.forEach(dependentProperty ->
+						dependentProperty.getChartSegmentSelection().unregisterListener(this));
+			}
 			if (dependentGeoElements != null) {
 				dependentGeoElements.forEach(element -> element.getApp()
 						.getEventDispatcher().removeEventListener(this));
@@ -198,6 +213,11 @@ public abstract class PropertyView {
 			if (property instanceof ValuedProperty) {
 				((ValuedProperty<?>) property).removeValueObserver(this);
 			}
+		}
+
+		@Override
+		public void selectedChartUpdated() {
+			notifyUpdateDelegates();
 		}
 
 		/**
@@ -600,16 +620,8 @@ public abstract class PropertyView {
 	 * Representation of a slider with a label and it's value.
 	 */
 	public static final class Slider extends PropertyBackedView<RangeProperty<Integer>> {
-
-		private final boolean isPercentage;
-
 		Slider(RangeProperty<Integer> rangeProperty) {
-			this(rangeProperty, false);
-		}
-
-		Slider(RangeProperty<Integer> rangeProperty, boolean isPercentage) {
 			super(rangeProperty);
-			this.isPercentage = isPercentage;
 			assert rangeProperty.getMin() != null && rangeProperty.getMax() != null;
 		}
 
@@ -625,7 +637,7 @@ public abstract class PropertyView {
 		 */
 		public @Nonnull String getDisplayValue() {
 			String value = String.valueOf(getValue());
-			if (isPercentage) {
+			if (property.isValueDisplayedAsPercentage()) {
 				return value + "%";
 			}
 			return value;
