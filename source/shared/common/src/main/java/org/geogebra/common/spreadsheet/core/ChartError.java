@@ -33,7 +33,7 @@ public enum ChartError {
 	NONE(""),
 	NoData("StatsDialog.NoData"),
 	TwoColumnsNeeded("ChartError.TwoColumns"),
-	InvalidData("InvalidInput");
+	InvalidData("Error.InvalidInput");
 
 	private final String errorKey;
 
