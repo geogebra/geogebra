@@ -16,8 +16,8 @@
 
 package org.geogebra.web.html5.multiuser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,9 +26,9 @@ import org.geogebra.common.awt.AwtFactory;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLocus;
@@ -46,14 +46,14 @@ class User {
 
 	private final TooltipChip tooltip;
 	// we are storing the labels since the geo might be recreated
-	private final ArrayList<String> selectedGeos;
+	private final HashSet<String> selectedGeos;
 	private final HashMap<String, Timer> updatedGeos;
 
 	private final GColor color;
 
 	User(String user, GColor color) {
 		this.tooltip = new TooltipChip(user, color);
-		this.selectedGeos = new ArrayList<>();
+		this.selectedGeos = new HashSet<>();
 		this.updatedGeos = new HashMap<>();
 		this.color = color;
 	}
@@ -109,32 +109,38 @@ class User {
 		List<GeoElement> geos = getHighlightedGeos(view);
 
 		graphics.setColor(color);
-		if (geos.isEmpty()) {
-			tooltip.hide();
-		} else {
-			showTooltipBy((AppW) view.getApplication(), geos.get(0));
-		}
-
+		GPoint2D pt = null;
 		if (geos.size() == 1) {
 			GeoElement geo = geos.get(0);
 			Drawable d = (Drawable) view.getDrawableFor(geo);
-			if (d instanceof HasTransformation) {
+			if (d instanceof HasTransformation hasTransformation) {
 				RectangleTransformable transformableGeo = (RectangleTransformable) geo;
 				graphics.saveTransform();
-				graphics.transform(((HasTransformation) d).getTransform());
+				graphics.transform(hasTransformation.getTransform());
 				graphics.draw(AwtFactory.getPrototype().newRectangle(
 						(int) transformableGeo.getWidth(),
 						(int) transformableGeo.getHeight()
 				));
 				graphics.restoreTransform();
+				pt = new GPoint2D(transformableGeo.getWidth(), 0);
+				hasTransformation.getTransform().transform(pt, pt);
 			} else if (d != null && !drawAsBackground(d)) {
 				GRectangle2D bounds = d.getBoundsForStylebarPosition();
 				if (bounds != null) {
 					graphics.draw(bounds);
+					pt = new GPoint2D(bounds.getMaxX(), bounds.getMinY());
 				}
 			}
 		} else if (geos.size() > 1) {
-			graphics.draw(view.getEuclidianController().calculateBounds(geos));
+			GRectangle2D multiBounds = view.getEuclidianController().calculateBounds(geos);
+			pt = new GPoint2D(multiBounds.getMaxX(), multiBounds.getMinY());
+			graphics.draw(multiBounds);
+		}
+
+		if (geos.isEmpty() || pt == null) {
+			tooltip.hide();
+		} else {
+			showTooltipBy((AppW) view.getApplication(), pt);
 		}
 	}
 
@@ -154,17 +160,9 @@ class User {
 				.collect(Collectors.toList());
 	}
 
-	private void showTooltipBy(AppW app, GeoElement geo) {
-		DrawableND drawable = app.getActiveEuclidianView().getDrawableFor(geo);
-		if (drawable != null) {
-			GRectangle2D bounds = drawable.getBoundsForStylebarPosition();
-			if (bounds != null) {
-				double x = bounds.getMaxX() + getOffsetX(app);
-				double y = bounds.getMinY() + getOffsetY(app);
-				app.getAppletFrame().add(tooltip);
-				tooltip.show(x, y);
-			}
-		}
+	private void showTooltipBy(AppW app, GPoint2D pt) {
+		app.getAppletFrame().add(tooltip);
+		tooltip.show(pt.x + getOffsetX(app), pt.y + getOffsetY(app));
 	}
 
 	private double getOffsetY(AppW app) {

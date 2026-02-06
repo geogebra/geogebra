@@ -19,6 +19,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.MyImage;
@@ -28,7 +29,7 @@ import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.util.MyMath;
 
-public class DrawImageResizable extends DrawImage {
+public class DrawImageResizable extends DrawImage implements HasTransformation {
 	private final TransformableRectangle transformableRectangle;
 	private MediaBoundingBox boundingBox;
 
@@ -169,5 +170,10 @@ public class DrawImageResizable extends DrawImage {
 	protected void updateAssumingVisible() {
 		transformableRectangle.updateSelfAndBoundingBox();
 		super.updateAssumingVisible();
+	}
+
+	@Override
+	public GAffineTransform getTransform() {
+		return transformableRectangle.getDirectTransform();
 	}
 }
