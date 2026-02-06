@@ -50,6 +50,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -351,6 +352,9 @@ public class GeoSymbolic extends GeoElement
 				value = numericTwin.getDefinition().asFraction();
 			} else {
 				value = numericTwin;
+				if (value instanceof FunctionalNVar functionalNVar) {
+					value = functionalNVar.getFunctionExpression();
+				}
 			}
 			casOutputString = numericTwin.toValueString(StringTemplate.maxDecimals);
 			numericValue = numericTwin;

@@ -875,6 +875,16 @@ public class MmsExamTests extends BaseExamTestSetup {
 				.getPossibleFormats(evaluate, false, Set.of()).size());
 	}
 
+	@Test
+	public void functions() {
+		evaluate("f(x)=2x");
+		evaluate("g(x,y)=x+2y");
+		assertEquals("2 / 3",
+				evaluate("f(1/3)")[0].toValueString(StringTemplate.testTemplate));
+		assertEquals("7",
+				evaluate("g(1,3)")[0].toValueString(StringTemplate.testTemplate));
+	}
+
 	private TableValuesView setupTableValues() throws InvalidValuesException {
 		TableValuesView tableValuesView = new TableValuesView(getKernel());
 		tableValuesView.setValues(0, 5, 1);
