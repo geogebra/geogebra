@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.properties.ui;
 
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_700;
 import static org.geogebra.common.properties.PropertyView.*;
 
 import java.util.ArrayList;
@@ -39,7 +40,10 @@ import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.MultiSelectionIconRowPanel;
 import org.geogebra.web.full.gui.properties.ui.tabs.ScriptTabFactory;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.IconSpec;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.tab.ComponentTab;
@@ -119,6 +123,15 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof Checkbox checkBoxProperty) {
 			return new ComponentCheckbox(loc, checkBoxProperty,
 					checkBoxProperty.getLabel(), checkBoxProperty::setSelected, false);
+		}
+		if (propertyView instanceof ButtonWithIcon buttonWithIcon) {
+			IconSpec icon = ((AppWFull) app).getPropertiesIconResource()
+					.getImageResource(buttonWithIcon.getIcon()).withFill(NEUTRAL_700.toString());
+			StandardButton button = new StandardButton(icon,
+					app.getLocalization().getMenu(buttonWithIcon.getLabel()), 24, 24);
+			button.addFastClickHandler(event -> buttonWithIcon.performAction());
+			button.addStyleName("buttonWithIcon");
+			return button;
 		}
 		if (propertyView instanceof Slider sliderProperty) {
 			return new ComponentSlider(app, sliderProperty);

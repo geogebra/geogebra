@@ -688,6 +688,24 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				width: 100%;
 				margin: 8px 0 0 0;
 			}
+			.buttonWithIcon {
+				display: flex;
+				cursor: pointer;
+				gap: 12px;
+
+				&:hover {
+					background-color: neutral(200);
+				}
+
+				img {
+					margin: 6px 0;
+				}
+
+				.gwt-Label {
+					height: 36px;
+					line-height: 36px;
+				}
+			}
 		}
 		.checkboxPanel {
 			display: flex;
@@ -775,6 +793,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.contentSpacing4 {
 			display: grid;
 			gap: 4px;
+		}
+		.contentSpacing8 {
+			display: grid;
+			gap: 8px;
 		}
 		.contentSpacing10 {
 			display: grid;

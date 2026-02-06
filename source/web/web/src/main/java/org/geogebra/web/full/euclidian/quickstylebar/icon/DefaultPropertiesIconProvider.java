@@ -114,6 +114,7 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_ITALIC -> res.text_italic_black();
 			case ICON_UNDERLINE -> res.text_underline_black();
 			case ICON_SERIF -> res.text_serif_black();
+			case ICON_CLEAR_COLOR -> res.no_color();
 			case ICON_BORDER_THIN -> res.color_border();
 			case ICON_AXES_LINE_TYPE_FULL -> GuiResources.INSTANCE.deco_axes_none();
 			case ICON_AXES_LINE_TYPE_ARROW -> GuiResources.INSTANCE.deco_axes_arrow();
