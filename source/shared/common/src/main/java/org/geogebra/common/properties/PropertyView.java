@@ -346,6 +346,14 @@ public abstract class PropertyView {
 		public void setSelectedItemIndex(int newIndex) {
 			property.setIndex(newIndex);
 		}
+
+		/**
+		 * @return an array of indices where a divider must be inserted 
+		 * or {@code null} if no dividers should be inserted.
+		 */
+		public @CheckForNull int[] getGroupDividerIndices() {
+			return property.getGroupDividerIndices();
+		}
 	}
 
 	/**

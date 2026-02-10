@@ -34,6 +34,7 @@ import org.geogebra.common.properties.ValueFilter;
 public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProperty<V> implements
 		EnumeratedProperty<V> {
 
+	private int[] groupDividerIndices = null;
 	private List<V> values = new ArrayList<>();
 	private final List<ValueFilter> valueFilters = new ArrayList<>();
 
@@ -91,5 +92,19 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 			throw new RuntimeException("Set values must be called in the constructor for "
 					+ getName());
 		}
+	}
+	
+	@Override
+	public int[] getGroupDividerIndices() {
+		return groupDividerIndices;
+	}
+
+	/**
+	 * Set the group divider indices. For the format of this array,
+	 * see {@link EnumeratedProperty#getGroupDividerIndices()}.
+	 * @param groupDividerIndices group divider indices
+	 */
+	protected void setGroupDividerIndices(int[] groupDividerIndices) {
+		this.groupDividerIndices = groupDividerIndices;
 	}
 }

@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.AbstractGroupedEnumeratedProperty;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.InputBoxRoundingProperty.Rounding;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
@@ -36,7 +36,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  * Property for configuring rounding in input boxes using
  * either decimal places or significant figures.
  */
-public class InputBoxRoundingProperty extends AbstractGroupedEnumeratedProperty<Rounding> {
+public class InputBoxRoundingProperty extends AbstractNamedEnumeratedProperty<Rounding> {
 
 	private final TextProperties element;
 	private final int[] decimalPlaces;

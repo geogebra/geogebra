@@ -18,6 +18,7 @@ package org.geogebra.common.properties;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 /**
@@ -68,4 +69,18 @@ public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 	 * @param index index of the value
 	 */
 	void setIndex(int index);
+
+	/**
+	 * Gets the array of indices where a divider must be inserted.
+	 * Please note that indices refer to the unmodified values array.
+	 * The array is sorted in ascending order.
+	 * <p>
+	 * For example, with values {"a", "b", "c", "d", "e"}, if this method returns
+	 * {1, 3}, it must be understood as the following {"a", |, "b", "c", |, "d", "e"}
+	 * @return a sorted array of indices where a divider must be inserted
+	 * or {@code null} if no dividers are present.
+	 */
+	default @CheckForNull int[] getGroupDividerIndices() {
+		return null;
+	}
 }
