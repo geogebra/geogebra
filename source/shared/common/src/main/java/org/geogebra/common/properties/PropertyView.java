@@ -630,7 +630,6 @@ public abstract class PropertyView {
 	public static final class Slider extends PropertyBackedView<RangeProperty<Integer>> {
 		Slider(RangeProperty<Integer> rangeProperty) {
 			super(rangeProperty);
-			assert rangeProperty.getMin() != null && rangeProperty.getMax() != null;
 		}
 
 		/**
@@ -1343,10 +1342,7 @@ public abstract class PropertyView {
 			return new TextField(stringProperty);
 		} else if (property instanceof IconsEnumeratedProperty<?> iconsEnumeratedProperty) {
 			return new SingleSelectionIconRow(iconsEnumeratedProperty);
-		} else if (property instanceof RangeProperty<?> rangeProperty
-				// Sliders only make sense when min and max are defined.
-				&& rangeProperty.getMin() != null
-				&& rangeProperty.getMax() != null) {
+		} else if (property instanceof RangeProperty<?>) {
 			return new Slider((RangeProperty<Integer>) property);
 		} else if (property instanceof AxisDistancePropertyCollection
 				|| property instanceof AxisCrossPropertyCollection
