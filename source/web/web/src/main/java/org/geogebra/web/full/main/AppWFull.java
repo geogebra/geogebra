@@ -391,9 +391,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			ExamType examType = ExamType.byName(appletParameters.getParamFeatureSet());
 			if (examType != null) {
 				ExamRestrictions restriction = ExamRestrictions.forExamType(examType);
-				// TODO properties registry won't be restricted (out of scope for APPS-6411).
-				restriction.applyTo(getExamDependencies(), null,
-						geoElementPropertiesFactory, contextMenuFactory);
+				restriction.applyTo(getExamDependencies(), geoElementPropertiesFactory,
+						contextMenuFactory);
 				getRestrictables().forEach(r ->
 				r.applyRestrictions(restriction.getFeatureRestrictions(), examType));
 			}
@@ -2499,6 +2498,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getKernel().getAlgoDispatcher(),
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor(),
+				appScope.propertiesRegistry,
 				getLocalization(),
 				getSettings(),
 				getKernel().getStatisticGroupsBuilder(),

@@ -27,11 +27,13 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DefaultPropertiesFactoryTest {
+public class DefaultPropertiesFactoryTest extends BaseAppTestSetup {
 
 	@BeforeAll
 	public static void setupFlag() {
@@ -46,6 +48,8 @@ public class DefaultPropertiesFactoryTest {
 	@Test
 	public void testPropertiesGraphingWeb() {
 		AppCommon graphingApp = AppCommonFactory.create(new AppConfigGraphing());
+		suiteScope.registerApp(graphingApp);
+
 		graphingApp.setPlatform(GeoGebraConstants.Platform.WEB);
 		List<PropertiesArray> props = new DefaultPropertiesFactory().createProperties(
 				graphingApp, graphingApp.getLocalization(), null);

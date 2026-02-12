@@ -29,7 +29,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertyCollectionWithLead;
 import org.geogebra.common.properties.impl.general.AppFontSizeProperty;
-import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.graphics.AxesBoldProperty;
 import org.geogebra.common.properties.impl.graphics.AxesColorProperty;
 import org.geogebra.common.properties.impl.graphics.AxesLineStyleProperty;
@@ -57,13 +56,13 @@ public class NotesPropertiesFactory extends DefaultPropertiesFactory {
 			return new PropertiesArray("General", localization,
 					PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
 					? registerProperties(propertiesRegistry, NonNullList.of(
-							new LanguageProperty(app, localization),
+                            app.appScope.getLanguageProperty(),
 							new AppFontSizeProperty(localization, app.getSettings()
 									.getFontSettings(), app.getFontSettingsUpdater()),
 							app.getPlatform().isMobile() ? null
 									: createSaveRestoreSettingsProperties(app, localization)))
 					: registerProperties(propertiesRegistry, List.of(
-							new LanguageProperty(app, localization),
+							app.appScope.getLanguageProperty(),
 							new AppFontSizeProperty(localization, app.getSettings()
 									.getFontSettings(), app.getFontSettingsUpdater()))));
 	}

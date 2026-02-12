@@ -53,7 +53,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.BeforeEach;
@@ -277,8 +276,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 		examController.prepareExam();
 		examController.startExam(ExamType.GENERIC, null);
 
-		LanguageProperty languageProperty =
-				new LanguageProperty(getApp(), getApp().getLocalization());
+		LanguageProperty languageProperty = getApp().appScope.getLanguageProperty();
 		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
 	}
 

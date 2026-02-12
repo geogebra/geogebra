@@ -28,7 +28,6 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AppFontSizeProperty;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
-import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.util.NonNullList;
 
@@ -42,7 +41,7 @@ public class CasPropertiesFactory extends DefaultPropertiesFactory {
 		return new PropertiesArray("General", localization,
 				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
 				? registerProperties(propertiesRegistry, NonNullList.of(
-						new LanguageProperty(app, localization),
+						app.appScope.getLanguageProperty(),
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
 						new AppFontSizeProperty(localization, settings.getFontSettings(),
@@ -50,7 +49,7 @@ public class CasPropertiesFactory extends DefaultPropertiesFactory {
 						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
 								app, localization)))
 				: registerProperties(propertiesRegistry, List.of(
-						new LanguageProperty(app, localization),
+						app.appScope.getLanguageProperty(),
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
 						new AppFontSizeProperty(localization, settings.getFontSettings(),

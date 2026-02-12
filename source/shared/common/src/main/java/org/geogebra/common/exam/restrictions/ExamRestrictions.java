@@ -47,8 +47,6 @@ import org.geogebra.common.kernel.geos.GeoElementSetup;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
-import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -71,7 +69,7 @@ import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
  * <li>etc.</li>
  * </ul>
  */
-public class ExamRestrictions implements PropertiesRegistryListener {
+public class ExamRestrictions {
 
 	private final @Nonnull ExamType examType;
 	private final @Nonnull Set<SuiteSubApp> disabledSubApps;
@@ -239,11 +237,17 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * @return The set of property restrictions.
+	 */
+	public final @Nonnull Map<PropertyKey, PropertyRestriction> getPropertyRestrictions() {
+		return propertyRestrictions;
+	}
+
+	/**
 	 * Apply the exam restrictions.
 	 */
 	public void applyTo(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull PropertiesRegistry propertiesRegistry,
 			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@CheckForNull ContextMenuFactory contextMenuFactory) {
 		dependencies.algoDispatcher.addDisabledAlgorithms(disabledAlgorithms);
@@ -276,9 +280,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (dependencies.autoCompleteProvider != null) {
 			dependencies.autoCompleteProvider.setOperationFilter(operationFilter);
 		}
-		if (propertiesRegistry != null) {
+		if (dependencies.propertiesRegistry != null) {
 			propertyRestrictions.forEach((key, restriction) -> {
-				Property property = propertiesRegistry.lookup(key, dependencies.context);
+				Property property = dependencies.propertiesRegistry.lookup(key);
 				if (property != null) {
 					restriction.applyTo(property);
 				}
@@ -318,7 +322,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public void removeFrom(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull PropertiesRegistry propertiesRegistry,
 			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@CheckForNull ContextMenuFactory contextMenuFactory) {
 		dependencies.algoDispatcher.removeDisabledAlgorithms(disabledAlgorithms);
@@ -350,9 +353,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (dependencies.autoCompleteProvider != null) {
 			dependencies.autoCompleteProvider.setOperationFilter(null);
 		}
-		if (propertiesRegistry != null) {
-			propertyRestrictions.forEach((name, restriction) -> {
-				Property property = propertiesRegistry.lookup(name, dependencies.context);
+		if (dependencies.propertiesRegistry != null) {
+			propertyRestrictions.forEach((key, restriction) -> {
+				Property property = dependencies.propertiesRegistry.lookup(key);
 				if (property != null) {
 					restriction.removeFrom(property);
 				}
@@ -432,32 +435,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			savedSettings.restore(settings, defaults);
 			savedSettings = null;
 			restrictedSettings = null;
-		}
-	}
-
-	// - PropertiesRegistryListener
-
-	/**
-	 * Handles freezing properties on lazy property instantiation/registration.
-	 * @param property A property that just got registered.
-	 */
-	@Override
-	public void propertyRegistered(@Nonnull Property property, Object context) {
-		PropertyKey key = property.getKey();
-		if (propertyRestrictions.containsKey(key)) {
-			propertyRestrictions.get(key).applyTo(property);
-		}
-	}
-
-	/**
-	 * Handles unfreezing any frozen properties on deregistration.
-	 * @param property A property that just got unregistered.
-	 */
-	@Override
-	public void propertyUnregistered(@Nonnull Property property, Object context) {
-		PropertyKey key = property.getKey();
-		if (propertyRestrictions.containsKey(key)) {
-			propertyRestrictions.get(key).removeFrom(property);
 		}
 	}
 

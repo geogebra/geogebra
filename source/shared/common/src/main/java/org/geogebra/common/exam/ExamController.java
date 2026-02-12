@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -33,6 +34,7 @@ import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
@@ -52,6 +54,9 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.PropertiesRegistryListener;
+import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.util.TimeFormatAdapter;
 
@@ -88,7 +93,7 @@ import com.google.j2objc.annotations.Weak;
  *
  *  @implNote This class is not designed to be thread-safe.
  */
-public final class ExamController {
+public final class ExamController implements PropertiesRegistryListener {
 
 	@Weak
 	@NonOwning
@@ -98,7 +103,6 @@ public final class ExamController {
 
 	private Function<ExamType, ExamRestrictions> examRestrictionsFactory =
 			ExamRestrictions::forExamType;
-	private @NonOwning PropertiesRegistry propertiesRegistry;
 	private @NonOwning GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private @NonOwning ContextMenuFactory contextMenuFactory;
 
@@ -124,16 +128,13 @@ public final class ExamController {
 
 	/**
 	 * Creates a new ExamController.
-	 * @param propertiesRegistry The properties registry.
 	 * @param geoElementPropertiesFactory The properties factory for geo elements.
 	 * @param contextMenuFactory The context menu factory.
 	 * @implNote The ExamController will register itself as a listener on the properties registry.
 	 */
 	public ExamController(
-			@Nonnull PropertiesRegistry propertiesRegistry,
 			@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@Nonnull ContextMenuFactory contextMenuFactory) {
-		this.propertiesRegistry = propertiesRegistry;
 		this.geoElementPropertiesFactory = geoElementPropertiesFactory;
 		this.contextMenuFactory = contextMenuFactory;
 	}
@@ -199,6 +200,7 @@ public final class ExamController {
 			@Nonnull AlgoDispatcher algoDispatcher,
 			@Nonnull CommandDispatcher commandDispatcher,
 			@Nonnull AlgebraProcessor algebraProcessor,
+			@Nonnull PropertiesRegistry propertiesRegistry,
 			@Nonnull Localization localization,
 			@Nonnull Settings settings,
 			@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
@@ -210,14 +212,18 @@ public final class ExamController {
 			throw new IllegalStateException(
 					"setActiveContext() must not be mixed with calls to registerContexts()");
 		}
-		// remove restrictions for current dependencies, if exam is active
-		if (examRestrictions != null && activeDependencies != null) {
-			removeRestrictionsFromContextDependencies(activeDependencies);
+		if (activeDependencies != null) {
+			activeDependencies.propertiesRegistry.removeListener(this);
+			// remove restrictions for current dependencies, if exam is active
+			if (examRestrictions != null) {
+				removeRestrictionsFromContextDependencies(activeDependencies);
+			}
 		}
 		ContextDependencies contextDependencies = new ContextDependencies(context,
 				algoDispatcher,
 				commandDispatcher,
 				algebraProcessor,
+				propertiesRegistry,
 				localization,
 				settings,
 				statisticGroupsBuilder,
@@ -226,6 +232,7 @@ public final class ExamController {
 				scheduledPreviewFromInputBar,
 				construction);
 		activeDependencies = contextDependencies;
+		activeDependencies.propertiesRegistry.addListener(this);
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
 			applyRestrictionsToDelegates(examRestrictions);
@@ -504,7 +511,6 @@ public final class ExamController {
 		createNewTempMaterial();
 
 		ExamRestrictions restrictions = examRestrictionsFactory.apply(examType);
-		propertiesRegistry.addListener(restrictions);
 		applyRestrictionsToDelegates(restrictions);
 		// delay setting the examRestrictions field until after delegates have been notified
 		// (see https://git.geogebra.org/ggb/geogebra/-/merge_requests/9370#note_76206)
@@ -550,7 +556,6 @@ public final class ExamController {
 		if (state != ExamState.FINISHED) {
 			throw new IllegalStateException("expected to be in FINISHED state, but is " + state);
 		}
-		propertiesRegistry.removeListener(examRestrictions);
 		if (activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
 		} else if (registeredDependencies != null) {
@@ -616,7 +621,6 @@ public final class ExamController {
 		}
 		if (dependencies != null) {
 			examRestrictions.applyTo(dependencies,
-					propertiesRegistry,
 					geoElementPropertiesFactory,
 					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
@@ -631,7 +635,6 @@ public final class ExamController {
 		}
 		if (dependencies != null) {
 			examRestrictions.removeFrom(dependencies,
-					propertiesRegistry,
 					geoElementPropertiesFactory,
 					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
@@ -643,6 +646,12 @@ public final class ExamController {
 	/**
 	 * Re-applies the {@link ExamRestrictions} by removing, and subsequently adding them again
 	 * to the {@link #restrictables}
+	 *
+	 * TODO this looks wrong: removing restrictions from some set of restrictables,
+	 *  and then re-applying the *same* restrictions to the *same* restrictables should
+	 *  be idempotent, i.e., make no difference. If it currently *does* make a
+	 *  difference, then somebody somewhere outside of ExamController is messing with
+	 *  the restrictions (which should not happen, it's the ExamController's job).
 	 */
 	public void reapplyRestrictionsToRestrictables() {
 		removeRestrictionsFromRestrictables();
@@ -708,6 +717,42 @@ public final class ExamController {
 		tempStorage.saveTempMaterial(material);
 	}
 
+	// -- PropertiesRegistryListener --
+
+	/**
+	 * Handles freezing properties on lazy property instantiation/registration.
+	 * @param property A property that just got registered.
+	 */
+	@Override
+	public void propertyRegistered(@Nonnull Property property) {
+		if (examRestrictions == null) {
+			return;
+		}
+		Map<PropertyKey, PropertyRestriction> propertyRestrictions =
+				examRestrictions.getPropertyRestrictions();
+		PropertyKey key = property.getKey();
+		if (propertyRestrictions.containsKey(key)) {
+			propertyRestrictions.get(key).applyTo(property);
+		}
+	}
+
+	/**
+	 * Handles unfreezing any frozen properties on deregistration.
+	 * @param property A property that just got unregistered.
+	 */
+	@Override
+	public void propertyUnregistered(@Nonnull Property property) {
+		if (examRestrictions == null) {
+			return;
+		}
+		Map<PropertyKey, PropertyRestriction> propertyRestrictions =
+				examRestrictions.getPropertyRestrictions();
+		PropertyKey key = property.getKey();
+		if (propertyRestrictions.containsKey(key)) {
+			propertyRestrictions.get(key).removeFrom(property);
+		}
+	}
+
 	// Test support API
 
 	void setExamRestrictionsFactory(Function<ExamType, ExamRestrictions> examRestrictionsFactory) {
@@ -722,6 +767,9 @@ public final class ExamController {
 		}
 	}
 
+	/**
+	 * TODO make private again (APPS-7297)
+	 */
 	public static class ContextDependencies {
 		@NonOwning
 		public final @Nonnull Object context;
@@ -731,6 +779,8 @@ public final class ExamController {
 		public final @Nonnull CommandDispatcher commandDispatcher;
 		@NonOwning
 		public final @Nonnull AlgebraProcessor algebraProcessor;
+		@NonOwning
+		public final @Nonnull PropertiesRegistry propertiesRegistry;
 		@NonOwning
 		public final @Nonnull Localization localization;
 		@NonOwning
@@ -751,6 +801,7 @@ public final class ExamController {
 		 * @param algoDispatcher algorithm dispatcher
 		 * @param commandDispatcher command dispatcher
 		 * @param algebraProcessor algebra processor
+		 * @param propertiesRegistry properties registry
 		 * @param localization localization
 		 * @param settings settings
 		 * @param autoCompleteProvider autocomplete provider
@@ -762,6 +813,7 @@ public final class ExamController {
 				@Nonnull AlgoDispatcher algoDispatcher,
 				@Nonnull CommandDispatcher commandDispatcher,
 				@Nonnull AlgebraProcessor algebraProcessor,
+				@Nonnull PropertiesRegistry propertiesRegistry,
 				@Nonnull Localization localization,
 				@Nonnull Settings settings,
 				@Nonnull StatisticGroupsBuilder statisticGroupsBuilder,
@@ -773,6 +825,7 @@ public final class ExamController {
 			this.algoDispatcher = algoDispatcher;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
+			this.propertiesRegistry = propertiesRegistry;
 			this.localization = localization;
 			this.settings = settings;
 			this.statisticGroupsBuilder = statisticGroupsBuilder;

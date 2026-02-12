@@ -96,7 +96,6 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertyKey;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
@@ -130,7 +129,6 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	@Override
 	public void applyTo(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull PropertiesRegistry propertiesRegistry,
 			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@CheckForNull ContextMenuFactory contextMenuFactory) {
 		if (dependencies.settings != null) {
@@ -145,18 +143,15 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			// standalone app disables CAS, but it's enabled in Suite (see app config).
 			dependencies.settings.getCasSettings().setEnabled(false);
 		}
-		super.applyTo(dependencies, propertiesRegistry,
-				geoElementPropertiesFactory, contextMenuFactory);
+		super.applyTo(dependencies, geoElementPropertiesFactory, contextMenuFactory);
 	}
 
 	@Override
 	public void removeFrom(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull PropertiesRegistry propertiesRegistry,
 			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
 			@CheckForNull ContextMenuFactory contextMenuFactory) {
-		super.removeFrom(dependencies, propertiesRegistry,
-				geoElementPropertiesFactory, contextMenuFactory);
+		super.removeFrom(dependencies, geoElementPropertiesFactory, contextMenuFactory);
 		if (dependencies.settings != null) {
 			dependencies.settings.getCasSettings().setEnabled(casEnabled);
 		}

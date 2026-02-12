@@ -34,8 +34,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.PreviewFeature;
-import org.geogebra.common.ownership.GlobalScope;
-import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.web.full.gui.components.sideSheet.ComponentSideSheet;
@@ -662,13 +660,8 @@ public class PropertiesViewW extends PropertiesView
 					showableGeos.size() == 1 ? showableGeos.get(0).getTypeString() : "Selection");
 		} else {
 			sideSheet.setTitleTransKey("Settings");
-			SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
-			if (suiteScope != null) {
-				propLists = app.getConfig().createPropertiesFactory().createProperties(
-						app, app.getLocalization(), suiteScope.propertiesRegistry);
-			} else {
-				propLists = List.of();
-			}
+			propLists = app.getConfig().createPropertiesFactory().createProperties(
+					app, app.getLocalization(), app.appScope.propertiesRegistry);
 		}
 		adapter = new PropertiesPanelAdapter(app.getLocalization(),
 				(AppW) app);

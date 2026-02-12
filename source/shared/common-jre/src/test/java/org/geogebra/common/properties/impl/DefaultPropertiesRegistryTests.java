@@ -36,14 +36,12 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 
 	private DefaultPropertiesRegistry propertiesRegistry;
 	private List<Property> registeredProperties;
-	private List<Object> registeredPropertyContexts;
 
 	@Before
 	public void setUp() {
 		propertiesRegistry = new DefaultPropertiesRegistry();
 		propertiesRegistry.addListener(this);
 		registeredProperties = new ArrayList<>();
-		registeredPropertyContexts = new ArrayList<>();
 	}
 
 	@Test
@@ -62,52 +60,31 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 	}
 
 	@Test
-	public void testRegisterInDifferentContexts() {
-		Property angleUnitProperty1 = new AngleUnitProperty(getKernel(), getLocalization());
-		Object context1 = new Object();
-		Property angleUnitProperty2 = new AngleUnitProperty(getKernel(), getLocalization());
-		Object context2 = new Object();
-
-		propertiesRegistry.register(angleUnitProperty1, context1);
-		propertiesRegistry.register(angleUnitProperty2, context2);
-		PropertyKey key = PropertyKey.of(AngleUnitProperty.class);
-		assertEquals(angleUnitProperty1, propertiesRegistry.lookup(key, context1));
-		assertEquals(angleUnitProperty2, propertiesRegistry.lookup(key, context2));
-	}
-
-	@Test
 	public void testPropertiesRegistryListener() {
 		GlobalLanguageProperty languageProperty = new GlobalLanguageProperty(getLocalization());
 		propertiesRegistry.register(languageProperty);
 		assertEquals(languageProperty, registeredProperties.get(0));
-		assertNull(registeredPropertyContexts.get(0));
 	}
 
 	@Test
 	public void testRelease() {
-		Property angleUnitProperty1 = new AngleUnitProperty(getKernel(), getLocalization());
-		Object context1 = new Object();
-		Property angleUnitProperty2 = new AngleUnitProperty(getKernel(), getLocalization());
-		Object context2 = new Object();
+		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization());
 
-		propertiesRegistry.register(angleUnitProperty1, context1);
-		propertiesRegistry.register(angleUnitProperty2, context2);
-		propertiesRegistry.releaseProperties(context1);
+		propertiesRegistry.register(angleUnitProperty);
+		propertiesRegistry.releaseProperties();
 
 		PropertyKey key = PropertyKey.of(AngleUnitProperty.class);
-		assertNull(propertiesRegistry.lookup(key, context1));
-		assertEquals(angleUnitProperty2, propertiesRegistry.lookup(key, context2));
+		assertNull(propertiesRegistry.lookup(key));
 	}
 
 	// PropertiesRegistryListener
 
 	@Override
-	public void propertyRegistered(Property property, Object context) {
+	public void propertyRegistered(Property property) {
 		registeredProperties.add(property);
-		registeredPropertyContexts.add(context);
 	}
 
 	@Override
-	public void propertyUnregistered(Property property, Object context) {
+	public void propertyUnregistered(Property property) {
 	}
 }

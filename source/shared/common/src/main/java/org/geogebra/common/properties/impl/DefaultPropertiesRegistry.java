@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.ownership.NonOwning;
@@ -33,8 +31,7 @@ import org.geogebra.common.properties.PropertyKey;
 
 public class DefaultPropertiesRegistry implements PropertiesRegistry {
 
-	private Object context;
-	private final Map<Key, Property> properties = new HashMap<>();
+	private final Map<PropertyKey, Property> properties = new HashMap<>();
 	private final List<PropertiesRegistryListener> listeners = new ArrayList<>();
 
 	/**
@@ -54,81 +51,28 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	}
 
 	@Override
-	public void setCurrentContext(Object context) {
-		this.context = context;
-	}
-
-	@Override
 	public void register(@Nonnull Property property) {
-		register(property, context);
-	}
-
-	@Override
-	public void register(@Nonnull Property property, Object context) {
-		// TODO what if the previously registered property had registered listeners?
-		properties.put(new Key(property.getKey(), context), property);
+		properties.put(property.getKey(), property);
 		for (PropertiesRegistryListener listener : listeners) {
-			listener.propertyRegistered(property, context);
+			listener.propertyRegistered(property);
 		}
 	}
 
 	@Override
 	public void unregister(@Nonnull Property property) {
-		unregister(property, context);
-	}
-
-	@Override
-	public void unregister(@Nonnull Property property, Object context) {
-		properties.remove(new Key(property.getKey(), context));
+		properties.remove(property.getKey());
 		for (PropertiesRegistryListener listener : listeners) {
-			listener.propertyUnregistered(property, context);
+			listener.propertyUnregistered(property);
 		}
 	}
 
 	@Override
 	public Property lookup(@Nonnull PropertyKey key) {
-		return lookup(key, context);
+		return properties.get(key);
 	}
 
 	@Override
-	public Property lookup(@Nonnull PropertyKey key, Object context) {
-		return properties.get(new Key(key, context));
-	}
-
-	@Override
-	public void releaseProperties(@CheckForNull Object context) {
-		List<Key> keysToRemove = new ArrayList<>();
-		for (Key key : properties.keySet()) {
-			if (key.context == context) {
-				keysToRemove.add(key);
-			}
-		}
-		for (Key key : keysToRemove) {
-			properties.remove(key);
-		}
-	}
-
-	private static final class Key {
-		final PropertyKey propertyKey;
-		final Object context;
-
-		Key(PropertyKey propertyKey, Object context) {
-			this.propertyKey = propertyKey;
-			this.context = context;
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(propertyKey, context);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (!(obj instanceof Key)) {
-				return false;
-			}
-			Key other = (Key) obj;
-			return propertyKey.equals(other.propertyKey) && context == other.context;
-		}
+	public void releaseProperties() {
+		properties.clear();
 	}
 }

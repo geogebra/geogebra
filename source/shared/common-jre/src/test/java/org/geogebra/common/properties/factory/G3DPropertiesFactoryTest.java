@@ -25,14 +25,17 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
+import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 
-public class G3DPropertiesFactoryTest {
+public class G3DPropertiesFactoryTest extends BaseAppTestSetup {
 
 	@Test
 	public void testPropertiesSuite3D() {
 		PreviewFeature.enablePreviewFeatures = true;
 		AppCommon app = AppCommonFactory.create3D(new AppConfigGraphing3D());
+		suiteScope.registerApp(app);
+
 		app.setActiveView(AppCommon.VIEW_EUCLIDIAN);
 		List<PropertiesArray> props = new G3DPropertiesFactory().createProperties(
 				app, app.getLocalization(), null);

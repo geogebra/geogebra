@@ -16,8 +16,10 @@
 
 package org.geogebra.common.ownership;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,9 +29,10 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.main.App;
-import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.PropertyValueObserver;
+import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
-import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
+import org.geogebra.common.properties.impl.general.LanguageProperty;
 
 /**
  * Every Suite app (or standalone app like Graphing, Geometry, etc) has one {@code SuiteScope},
@@ -40,16 +43,16 @@ import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
  * {@link SuiteScope}. (Sub-)apps can then look up the {@link SuiteScope} via
  * {@link GlobalScope#getSuiteScope(App)}.
  */
-public final class SuiteScope {
+public final class SuiteScope implements PropertyValueObserver {
 
-	public final @Nonnull PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 	public final @Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory =
 			new GeoElementPropertiesFactory();
 	public final @Nonnull ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
 	public final @Nonnull ExamController examController = new ExamController(
-			propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
+			geoElementPropertiesFactory, contextMenuFactory);
 
-	final Set<App> apps = new HashSet<>();
+    final Set<App> apps = new HashSet<>();
+	private final Map<App, LanguageProperty> languageProperties = new HashMap<>();
 
 	/**
 	 * Prevent instantiation outside package.
@@ -79,11 +82,23 @@ public final class SuiteScope {
 		return SuiteSubApp.availableValues();
 	}
 
-	// Getters for Swift (j2objc annotations not possible here, fail to compile in desktop project)
-
-	public final @Nonnull PropertiesRegistry getPropertiesRegistry() {
-		return propertiesRegistry;
+	/**
+	 * Get the language property for an app. This property will be synchronized with language
+	 * changes in other apps, to keep them all aligned.
+	 * @param app An app.
+	 * @return The language property for this app.
+	 */
+	public @Nonnull LanguageProperty getLanguageProperty(App app) {
+		LanguageProperty languageProperty = languageProperties.get(app);
+		if (languageProperty == null) {
+			languageProperty = new LanguageProperty(app, app.getLocalization());
+			languageProperty.addValueObserver(this);
+			languageProperties.put(app, languageProperty);
+		}
+		return languageProperty;
 	}
+
+	// Getters for Swift (j2objc annotations not possible here, fail to compile in desktop project)
 
 	public final @Nonnull GeoElementPropertiesFactory getGeoElementPropertiesFactory() {
 		return geoElementPropertiesFactory;
@@ -95,5 +110,19 @@ public final class SuiteScope {
 
 	public final @Nonnull ExamController getExamController() {
 		return examController;
+	}
+
+	// -- PropertyValueObserver --
+
+	@Override
+	public void onDidSetValue(ValuedProperty property) {
+		if (property instanceof LanguageProperty incomingProperty) {
+			// distribute new value to all other languageProperties
+			for (LanguageProperty languageProperty : languageProperties.values()) {
+				if (property != languageProperty) {
+					languageProperty.setValue(incomingProperty.getValue());
+				}
+			}
+		}
 	}
 }

@@ -143,6 +143,7 @@ import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.ownership.AppScope;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
@@ -169,6 +170,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.editor.share.editor.EditorFeatures;
 import org.geogebra.editor.share.util.Unicode;
+
+import com.google.j2objc.annotations.Property;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -464,6 +467,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private AlgebraOutputFilter algebraOutputFilter;
 
 	protected AppConfig appConfig = new AppConfigDefault();
+	@Property("readonly")
+	public final AppScope appScope = new AppScope(this);
 
 	private Material activeMaterial;
 	private EditorFeatures editorFeatures;

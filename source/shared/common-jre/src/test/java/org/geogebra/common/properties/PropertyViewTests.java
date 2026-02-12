@@ -34,6 +34,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.jre.headless.MyImageCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.ImageProperty;
@@ -74,8 +75,9 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	public void testGridTypeDependentLineStyleVisibility() {
 		setupApp(SuiteSubApp.GRAPHING);
 
-		PropertiesArray graphicsProperties = getApp().getConfig().createPropertiesFactory()
-				.createProperties(getApp(), getLocalization(), suiteScope.propertiesRegistry)
+		App app = getApp();
+		PropertiesArray graphicsProperties = app.getConfig().createPropertiesFactory()
+				.createProperties(app, getLocalization(), app.appScope.propertiesRegistry)
 				.get(2);
 		PropertyView.ExpandableList gridPropertyView = (PropertyView.ExpandableList)
 				PropertyViewFactory.propertyViewListOf(graphicsProperties).get(1);
@@ -150,8 +152,9 @@ public class PropertyViewTests extends BaseAppTestSetup {
 	public void testOrdinalPositionsOfExpandableListsInGraphicsSettings() {
 		setupApp(SuiteSubApp.GRAPHING);
 
-		PropertiesArray graphicsProperties = getApp().getConfig().createPropertiesFactory()
-				.createProperties(getApp(), getLocalization(), suiteScope.propertiesRegistry)
+		App app = getApp();
+		PropertiesArray graphicsProperties = app.getConfig().createPropertiesFactory()
+				.createProperties(getApp(), getLocalization(), app.appScope.propertiesRegistry)
 				.get(2);
 		List<PropertyView> graphicsPropertyViews =
 				PropertyViewFactory.propertyViewListOf(graphicsProperties);

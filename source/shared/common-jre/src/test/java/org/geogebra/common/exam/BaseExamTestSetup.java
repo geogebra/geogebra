@@ -35,7 +35,6 @@ public abstract class BaseExamTestSetup extends BaseAppTestSetup {
     @BeforeEach
     void baseExamTestSetup() {
         // keep existing references, so we don't need to touch every test
-        propertiesRegistry = suiteScope.propertiesRegistry;
         geoElementPropertiesFactory = suiteScope.geoElementPropertiesFactory;
         contextMenuFactory = suiteScope.contextMenuFactory;
         examController = suiteScope.examController;
@@ -45,12 +44,14 @@ public abstract class BaseExamTestSetup extends BaseAppTestSetup {
     protected void setupApp(SuiteSubApp subApp) {
         super.setupApp(subApp);
 
+        propertiesRegistry = getApp().appScope.propertiesRegistry;
         autocompleteProvider = new AutocompleteProvider(getApp(), false);
         examController.setActiveContext(
                 getApp(),
                 getKernel().getAlgoDispatcher(),
                 getCommandDispatcher(),
                 getAlgebraProcessor(),
+                propertiesRegistry,
                 getApp().getLocalization(),
                 getApp().getSettings(),
                 getKernel().getStatisticGroupsBuilder(),

@@ -45,53 +45,31 @@ public interface PropertiesRegistry {
 	void removeListener(@Nonnull PropertiesRegistryListener listener);
 
 	/**
-	 * Set the current context.
-	 *
-	 * @param context The current context (may be `null`).
-	 */
-	void setCurrentContext(@NonOwning @CheckForNull Object context);
-
-	/**
-	 * Register a property with the registry in the current context. The registration key is the
-	 * property's raw (unlocalized) name.
+	 * Register a property with this registry.
 	 * <p>
-	 * If a property with the same raw name has been registered previously (in the current context),
+	 * If a property with the same key has been registered previously,
 	 * the old instance is overwritten with the new instance. This should prevent issues when
 	 * properties are potentially created and registered several times
-	 * (e.g., from UI that can be presented and dismissed multiple times while staying in the
-	 * same context).
+	 * (e.g., from UI that can be presented and dismissed multiple times).
 	 * </p>
 	 * @implNote Unfortunately, we cannot use `java.lang.ref.WeakReference`, because it's not
 	 * supported by <a href="https://www.gwtproject.org/doc/latest/RefJreEmulation.html">GWT's JRE emulation</a>,
 	 * so the property will be strongly referenced by the registry. See
-	 * {@link #releaseProperties(Object)} on how to purge the registry of all properties for a
-	 * certain context.
+	 * {@link #releaseProperties()} on how to purge the registry of all properties.
 	 *
 	 * @param property A property.
 	 */
 	void register(@Nonnull Property property);
 
 	/**
-	 * Same as {@link #register(Property)}, but using the provided context instead of the
-	 * current context.
-	 */
-	void register(@Nonnull Property property, @CheckForNull Object context);
-
-	/**
-	 * Remove a property from the registry in the current context.
+	 * Remove a property from the registry.
 	 *
 	 * @param property A property that has previously been registered.
 	 */
 	void unregister(@Nonnull Property property);
 
 	/**
-	 * Same as {@link #unregister(Property)}, but using the provided context instead of the
-	 * current context.
-	 */
-	void unregister(@Nonnull Property property, @CheckForNull Object context);
-
-	/**
-	 * Look up a property by raw (unlocalized) name in the current context.
+	 * Look up a property by key.
 	 *
 	 * @param key A {@link PropertyKey} that uniquely identifies a property type.
 	 * @return The property if found, or null if no such property has been registered.
@@ -99,21 +77,10 @@ public interface PropertiesRegistry {
 	@CheckForNull Property lookup(@Nonnull PropertyKey key);
 
 	/**
-	 * Same as {@link #lookup(PropertyKey)}, but using the provided context instead of the
-	 * current context.
-	 * @return The property with the given key in the given context, or null if no such
-	 * property could be found.
-	 */
-	@CheckForNull Property lookup(@Nonnull PropertyKey key, @CheckForNull Object context);
-
-	/**
-	 * "Release" (i.e., clear out strong references to) all properties registered for the
-	 * given context.
+	 * "Release" (i.e., clear out strong references to) all registered properties.
 	 *
 	 * This method is a workaround for the unavailability of weak references in GWT's JRE
 	 * emulation (see {@link #register(Property)}).
-	 *
-	 * @param context A context (may be null).
 	 */
-	void releaseProperties(@CheckForNull Object context);
+	void releaseProperties();
 }

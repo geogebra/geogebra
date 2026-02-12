@@ -43,7 +43,6 @@ import org.geogebra.common.properties.impl.collections.ActionablePropertyCollect
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.AppFontSizeProperty;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
-import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RestoreSettingsAction;
 import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.common.properties.impl.general.SaveSettingsAction;
@@ -111,7 +110,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		return new PropertiesArray("General", localization,
 				PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)
 				? registerProperties(propertiesRegistry, NonNullList.of(
-						new LanguageProperty(app, localization),
+						app.appScope.getLanguageProperty(),
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
 						new AngleUnitProperty(kernel, localization),
@@ -120,7 +119,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
 								app, localization)))
 				: registerProperties(propertiesRegistry, List.of(
-						new LanguageProperty(app, localization),
+						app.appScope.getLanguageProperty(),
 						new RoundingIndexProperty(app, localization),
 						new CoordinatesProperty(kernel, localization),
 						new AngleUnitProperty(kernel, localization),

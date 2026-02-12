@@ -40,8 +40,7 @@ public class ExamControllerMultiAppTest {
 		SuiteScope suiteScope = GlobalScope.registerNewSuiteScope();
 		app = AppCommonFactory.create3D();
 		suiteScope.registerApp(app);
-		controller = new ExamController(new DefaultPropertiesRegistry(),
-				suiteScope.geoElementPropertiesFactory,
+		controller = new ExamController(suiteScope.geoElementPropertiesFactory,
 				suiteScope.contextMenuFactory);
 	}
 
@@ -52,9 +51,10 @@ public class ExamControllerMultiAppTest {
 				app.getKernel().getAlgoDispatcher(),
 				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				app.getKernel().getAlgebraProcessor(),
-				app.getLocalization(), app.getSettings(),
-				new StatisticGroupsBuilder(),
-				null, app, null, null));
+				app.appScope.propertiesRegistry,
+				app.getLocalization(),
+				app.getSettings(),
+				new StatisticGroupsBuilder(), null, app, null, null));
 
 		controller.registerDelegate(firstDelegate);
 		TestExamDelegate secondDelegate = new TestExamDelegate();
