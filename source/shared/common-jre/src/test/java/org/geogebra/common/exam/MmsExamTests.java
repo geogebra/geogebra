@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.exam.restrictions.mms.MmsAlgebraOutputFilter;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
@@ -70,6 +71,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 @SuppressWarnings("checkstyle:RegexpSinglelineCheck") // Tabs in CsvSources/MockedCasValues
 @ExtendWith(MockedCasValuesExtension.class)
 public class MmsExamTests extends BaseExamTestSetup {
+
 	private static final Set<VisibilityRestriction> visibilityRestrictions =
 			MmsExamRestrictions.createVisibilityRestrictions();
 
@@ -180,8 +182,9 @@ public class MmsExamTests extends BaseExamTestSetup {
 	public void testRestrictedStatisticsContextMenuItems() {
 		assertEquals(
 				List.of(CreateTableValues, AddLabel, DuplicateInput, Delete, Settings),
-				contextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
-						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
+				ContextMenuFactory.makeAlgebraContextMenu(evaluateGeoElement("{1, 2, 3}"),
+						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings(),
+						examController.getContextMenuItemFilters()));
 	}
 
 	@ParameterizedTest
@@ -206,9 +209,10 @@ public class MmsExamTests extends BaseExamTestSetup {
 	public void testRestrictedSpecialPointsContextMenuItem() {
 		assertEquals(
 				List.of(CreateTableValues, RemoveLabel, DuplicateInput, Delete, Settings),
-				contextMenuFactory.makeAlgebraContextMenu(
+				ContextMenuFactory.makeAlgebraContextMenu(
 						evaluateGeoElement("f(x)=xx"),
-						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings()));
+						getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings(),
+						examController.getContextMenuItemFilters()));
 	}
 
 	@Test
@@ -822,8 +826,9 @@ public class MmsExamTests extends BaseExamTestSetup {
 	@MockedCasValues({"Evaluate(x² - 2) -> x^2-2"})
 	public void testNoSpecialPointsOptionInAlgebraContextMenu() {
 		GeoElement geoElement = evaluateGeoElement("x^2 - 2");
-		List<AlgebraContextMenuItem> contextMenuItems = contextMenuFactory.makeAlgebraContextMenu(
-				geoElement, getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings());
+		List<AlgebraContextMenuItem> contextMenuItems = ContextMenuFactory.makeAlgebraContextMenu(
+				geoElement, getAlgebraProcessor(), CAS_APPCODE, getAlgebraSettings(),
+				examController.getContextMenuItemFilters());
 		assertFalse(contextMenuItems.contains(AlgebraContextMenuItem.SpecialPoints));
 	}
 

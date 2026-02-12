@@ -40,8 +40,7 @@ public class ExamControllerMultiAppTest {
 		SuiteScope suiteScope = GlobalScope.registerNewSuiteScope();
 		app = AppCommonFactory.create3D();
 		suiteScope.registerApp(app);
-		controller = new ExamController(suiteScope.geoElementPropertiesFactory,
-				suiteScope.contextMenuFactory);
+		controller = new ExamController(suiteScope.geoElementPropertiesFactory);
 	}
 
 	@Test

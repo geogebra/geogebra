@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.main.App;
 import org.geogebra.common.properties.PropertyValueObserver;
@@ -47,9 +46,8 @@ public final class SuiteScope implements PropertyValueObserver {
 
 	public final @Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory =
 			new GeoElementPropertiesFactory();
-	public final @Nonnull ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
 	public final @Nonnull ExamController examController = new ExamController(
-			geoElementPropertiesFactory, contextMenuFactory);
+			geoElementPropertiesFactory);
 
     final Set<App> apps = new HashSet<>();
 	private final Map<App, LanguageProperty> languageProperties = new HashMap<>();
@@ -102,10 +100,6 @@ public final class SuiteScope implements PropertyValueObserver {
 
 	public final @Nonnull GeoElementPropertiesFactory getGeoElementPropertiesFactory() {
 		return geoElementPropertiesFactory;
-	}
-
-	public final @Nonnull ContextMenuFactory getContextMenuFactory() {
-		return contextMenuFactory;
 	}
 
 	public final @Nonnull ExamController getExamController() {

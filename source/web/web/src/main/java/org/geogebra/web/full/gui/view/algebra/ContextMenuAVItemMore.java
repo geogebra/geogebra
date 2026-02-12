@@ -18,8 +18,11 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.contextmenu.AlgebraContextMenuItem;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.Suggestion;
@@ -32,6 +35,8 @@ import org.geogebra.common.gui.view.algebra.contextmenu.impl.RemoveSlider;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateInputAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateOutputAction;
@@ -83,9 +88,15 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		wrappedPopup.clearItems();
-		List<AlgebraContextMenuItem> actions = getApp().getContextMenuFactory()
-				.makeAlgebraContextMenu(geo, mApp.getKernel().getAlgebraProcessor(),
-						getApp().getSubAppCode(), mApp.getSettings().getAlgebra());
+		SuiteScope suiteScope = GlobalScope.getSuiteScope(mApp);
+		Set<ContextMenuItemFilter> contextMenuFilters = suiteScope != null
+				? suiteScope.examController.getContextMenuItemFilters() : Set.of();
+		List<AlgebraContextMenuItem> actions = ContextMenuFactory
+				.makeAlgebraContextMenu(geo,
+						mApp.getKernel().getAlgebraProcessor(),
+						getApp().getSubAppCode(),
+						mApp.getSettings().getAlgebra(),
+						contextMenuFilters);
 		if (!getApp().showToolBar()) {
 			actions.remove(AlgebraContextMenuItem.CreateTableValues);
 		}

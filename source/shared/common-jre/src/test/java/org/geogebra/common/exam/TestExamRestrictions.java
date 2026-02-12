@@ -83,17 +83,15 @@ final class TestExamRestrictions extends ExamRestrictions {
 
 	@Override
 	public void applyTo(@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@CheckForNull ContextMenuFactory contextMenuFactory) {
-		super.applyTo(dependencies, geoElementPropertiesFactory, contextMenuFactory);
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
+		super.applyTo(dependencies, geoElementPropertiesFactory);
 		appliedCount++;
 	}
 
 	@Override
 	public void removeFrom(@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@CheckForNull ContextMenuFactory contextMenuFactory) {
-		super.removeFrom(dependencies, geoElementPropertiesFactory, contextMenuFactory);
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
+		super.removeFrom(dependencies, geoElementPropertiesFactory);
 		appliedCount--;
 	}
 

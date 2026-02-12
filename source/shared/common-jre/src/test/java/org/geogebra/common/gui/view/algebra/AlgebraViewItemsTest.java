@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;

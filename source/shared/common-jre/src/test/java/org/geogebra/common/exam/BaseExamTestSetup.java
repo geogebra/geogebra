@@ -28,7 +28,6 @@ import org.junit.jupiter.api.BeforeEach;
 public abstract class BaseExamTestSetup extends BaseAppTestSetup {
     protected PropertiesRegistry propertiesRegistry;
     protected GeoElementPropertiesFactory geoElementPropertiesFactory;
-    protected ContextMenuFactory contextMenuFactory;
     protected ExamController examController;
     protected AutocompleteProvider autocompleteProvider;
 
@@ -36,7 +35,6 @@ public abstract class BaseExamTestSetup extends BaseAppTestSetup {
     void baseExamTestSetup() {
         // keep existing references, so we don't need to touch every test
         geoElementPropertiesFactory = suiteScope.geoElementPropertiesFactory;
-        contextMenuFactory = suiteScope.contextMenuFactory;
         examController = suiteScope.examController;
     }
 

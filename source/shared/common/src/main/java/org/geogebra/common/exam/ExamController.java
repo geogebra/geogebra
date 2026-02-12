@@ -30,7 +30,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -104,7 +104,6 @@ public final class ExamController implements PropertiesRegistryListener {
 	private Function<ExamType, ExamRestrictions> examRestrictionsFactory =
 			ExamRestrictions::forExamType;
 	private @NonOwning GeoElementPropertiesFactory geoElementPropertiesFactory;
-	private @NonOwning ContextMenuFactory contextMenuFactory;
 
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
 	/** this is only for the mobile use case (1 Suite app instance) */
@@ -129,14 +128,10 @@ public final class ExamController implements PropertiesRegistryListener {
 	/**
 	 * Creates a new ExamController.
 	 * @param geoElementPropertiesFactory The properties factory for geo elements.
-	 * @param contextMenuFactory The context menu factory.
 	 * @implNote The ExamController will register itself as a listener on the properties registry.
 	 */
-	public ExamController(
-			@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nonnull ContextMenuFactory contextMenuFactory) {
+	public ExamController(@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		this.geoElementPropertiesFactory = geoElementPropertiesFactory;
-		this.contextMenuFactory = contextMenuFactory;
 	}
 
 	/**
@@ -392,6 +387,15 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * Get the current list of context menu item filters (may be empty).
+	 * @return The context menu item filters for the current exam in case an exam is currently
+	 * active, or an empty set otherwise.
+	 */
+	public @Nonnull Set<ContextMenuItemFilter> getContextMenuItemFilters() {
+		return examRestrictions != null ? examRestrictions.getContextMenuItemFilters() : Set.of();
+	}
+
+	/**
 	 * Get the exam short display name.
 	 * @param appConfig The current app config.
 	 * @param localization The localization.
@@ -620,9 +624,7 @@ public final class ExamController implements PropertiesRegistryListener {
 			return; // log/throw?
 		}
 		if (dependencies != null) {
-			examRestrictions.applyTo(dependencies,
-					geoElementPropertiesFactory,
-					contextMenuFactory);
+			examRestrictions.applyTo(dependencies, geoElementPropertiesFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -634,9 +636,7 @@ public final class ExamController implements PropertiesRegistryListener {
 			return;
 		}
 		if (dependencies != null) {
-			examRestrictions.removeFrom(dependencies,
-					geoElementPropertiesFactory,
-					contextMenuFactory);
+			examRestrictions.removeFrom(dependencies, geoElementPropertiesFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}

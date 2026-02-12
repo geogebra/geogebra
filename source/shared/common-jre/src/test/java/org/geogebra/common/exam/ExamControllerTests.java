@@ -39,6 +39,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.visibility.VisibilityRestriction;
@@ -214,7 +215,8 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 				// context menu restrictions
 				() -> assertEquals(
 						List.of(Text, Help),
-						contextMenuFactory.makeInputContextMenu(true)));
+						ContextMenuFactory.makeInputContextMenu(true,
+								examController.getContextMenuItemFilters())));
 
 		examController.finishExam();
 		assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));

@@ -58,7 +58,6 @@ import java.util.Set;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamController;
@@ -129,8 +128,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	@Override
 	public void applyTo(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@CheckForNull ContextMenuFactory contextMenuFactory) {
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		if (dependencies.settings != null) {
 			casEnabled = dependencies.settings.getCasSettings().isEnabled();
 			// Note: The effect we want to achieve here is disable the symbolic versions of the
@@ -143,15 +141,14 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			// standalone app disables CAS, but it's enabled in Suite (see app config).
 			dependencies.settings.getCasSettings().setEnabled(false);
 		}
-		super.applyTo(dependencies, geoElementPropertiesFactory, contextMenuFactory);
+		super.applyTo(dependencies, geoElementPropertiesFactory);
 	}
 
 	@Override
 	public void removeFrom(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@CheckForNull ContextMenuFactory contextMenuFactory) {
-		super.removeFrom(dependencies, geoElementPropertiesFactory, contextMenuFactory);
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
+		super.removeFrom(dependencies, geoElementPropertiesFactory);
 		if (dependencies.settings != null) {
 			dependencies.settings.getCasSettings().setEnabled(casEnabled);
 		}

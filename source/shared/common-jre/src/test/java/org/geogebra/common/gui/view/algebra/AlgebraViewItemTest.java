@@ -32,8 +32,6 @@ import org.junit.jupiter.api.Test;
 		"checkstyle:variableDeclarationUsageDistanceCheck"})
 public class AlgebraViewItemTest extends BaseAppTestSetup {
 
-	private final ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
-
 	@Test
 	public void testPointInGraphing() {
 		setupApp(SuiteSubApp.GRAPHING);

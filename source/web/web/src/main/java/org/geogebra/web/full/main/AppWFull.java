@@ -43,7 +43,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -301,7 +300,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private ExamEventBus examEventBus;
 	private boolean attachedToExam;
 	private final GeoElementPropertiesFactory geoElementPropertiesFactory;
-	private final ContextMenuFactory contextMenuFactory;
 	private InitialViewState initialViewState;
 	private PropertiesIconResource propertiesIconResource;
 
@@ -320,7 +318,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		this.frame = frame;
 		this.device = device;
 		this.geoElementPropertiesFactory = new GeoElementPropertiesFactory();
-		this.contextMenuFactory = new ContextMenuFactory();
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 
@@ -391,8 +388,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			ExamType examType = ExamType.byName(appletParameters.getParamFeatureSet());
 			if (examType != null) {
 				ExamRestrictions restriction = ExamRestrictions.forExamType(examType);
-				restriction.applyTo(getExamDependencies(), geoElementPropertiesFactory,
-						contextMenuFactory);
+				restriction.applyTo(getExamDependencies(), geoElementPropertiesFactory);
 				getRestrictables().forEach(r ->
 				r.applyRestrictions(restriction.getFeatureRestrictions(), examType));
 			}
@@ -2811,14 +2807,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public GeoElementPropertiesFactory getGeoElementPropertiesFactory() {
 		return attachedToExam ? suiteScope.geoElementPropertiesFactory
 				: geoElementPropertiesFactory;
-	}
-
-	/**
-	 * @return context menu factory; in exam mode return
-	 *         the restricted one, otherwise app's own.
-	 */
-	public ContextMenuFactory getContextMenuFactory() {
-		return attachedToExam ? suiteScope.contextMenuFactory : contextMenuFactory;
 	}
 
 	/**

@@ -24,7 +24,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamController;
@@ -244,12 +243,18 @@ public class ExamRestrictions {
 	}
 
 	/**
+	 * @return The context menu items filters (may be empty).
+	 */
+	public final @Nonnull Set<ContextMenuItemFilter> getContextMenuItemFilters() {
+		return contextMenuItemFilters;
+	}
+
+	/**
 	 * Apply the exam restrictions.
 	 */
 	public void applyTo(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@CheckForNull ContextMenuFactory contextMenuFactory) {
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		dependencies.algoDispatcher.addDisabledAlgorithms(disabledAlgorithms);
 		for (CommandFilter commandFilter : commandFilters) {
 			dependencies.commandDispatcher.addCommandFilter(commandFilter);
@@ -300,9 +305,6 @@ public class ExamRestrictions {
 			dependencies.scheduledPreviewFromInputBar.addGeoElementSetup(
 					restrictedGeoElementVisibilitySetup);
 		}
-		if (contextMenuFactory != null) {
-			contextMenuItemFilters.forEach(contextMenuFactory::addFilter);
-		}
 		if (dependencies.settings != null) {
 			if (dependencies.construction != null) {
 				this.restrictedDefaults = dependencies.construction.getConstructionDefaults();
@@ -322,8 +324,7 @@ public class ExamRestrictions {
 	 */
 	public void removeFrom(
 			@Nonnull ExamController.ContextDependencies dependencies,
-			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@CheckForNull ContextMenuFactory contextMenuFactory) {
+			@CheckForNull GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		dependencies.algoDispatcher.removeDisabledAlgorithms(disabledAlgorithms);
 		for (CommandFilter commandFilter : commandFilters) {
 			dependencies.commandDispatcher.removeCommandFilter(commandFilter);
@@ -372,9 +373,6 @@ public class ExamRestrictions {
 		if (dependencies.scheduledPreviewFromInputBar != null) {
 			dependencies.scheduledPreviewFromInputBar
 					.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
-		}
-		if (contextMenuFactory != null) {
-			contextMenuItemFilters.forEach(contextMenuFactory::removeFilter);
 		}
 		if (dependencies.settings != null) {
 			if (dependencies.construction != null) {

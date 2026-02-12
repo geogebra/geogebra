@@ -19,9 +19,12 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
@@ -32,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AttributedString;
@@ -100,10 +104,14 @@ public class ContextMenuTV {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
-		List<TableValuesContextMenuItem> items = app.getContextMenuFactory()
+		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
+		Set<ContextMenuItemFilter> contextMenuFilters = suiteScope != null
+				? suiteScope.examController.getContextMenuItemFilters() : Set.of();
+		boolean isExamActive = suiteScope != null && suiteScope.examController.isExamActive();
+		List<TableValuesContextMenuItem> items = ContextMenuFactory
 				.makeTableValuesContextMenu(column, columnIdx, view.getTableValuesModel(),
 				app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC,
-						GlobalScope.isExamActive(app));
+						isExamActive, contextMenuFilters);
 		for (TableValuesContextMenuItem item: items) {
 			if (item.getItem() == TableValuesContextMenuItem.Item.Separator) {
 				wrappedPopup.addVerticalSeparator();
