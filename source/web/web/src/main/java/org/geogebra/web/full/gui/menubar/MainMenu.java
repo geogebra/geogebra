@@ -76,7 +76,7 @@ public class MainMenu extends FlowPanel
 	final SignInMenu signInMenu;
 
 	private final ClassicMenuItemProvider actionProvider;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * Constructs the menubar
@@ -89,6 +89,7 @@ public class MainMenu extends FlowPanel
 			this.addStyleName("menuBarClassic");
 		}
 		this.actionProvider = new ClassicMenuItemProvider(app);
+		this.examController = GlobalScope.getExamController(app);
 		signInMenu = new SignInMenu(app);
 		this.app = app;
 		init();

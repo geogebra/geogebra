@@ -75,7 +75,7 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 	}
 
 	@BeforeEach
-	public void setup() {
+	public void examControllerTestSetup() {
 		examController.setDelegate(this);
 		examController.addListener(examStates::add);
 	}
@@ -277,7 +277,6 @@ public final class ExamControllerTests extends BaseExamTestSetup implements Exam
 		examController.prepareExam();
 		examController.startExam(ExamType.GENERIC, null);
 
-		GlobalScope.examController = examController;
 		LanguageProperty languageProperty =
 				new LanguageProperty(getApp(), getApp().getLocalization());
 		assertFalse(languageProperty.isEnabled()); // should be disabled during exam

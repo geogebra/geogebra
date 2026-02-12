@@ -61,7 +61,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void initActions() {
-		if (!GlobalScope.examController.isIdle()) {
+		if (GlobalScope.isExamActive(getApp())) {
 			addItem("exam_menu_exit",
 					new ExitExamAction(), iconProvider.getImageResource(Icon.SIGN_OUT));
 			return;

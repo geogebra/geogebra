@@ -16,68 +16,98 @@
 
 package org.geogebra.common.ownership;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.ExamController;
-import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
-import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
-import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.geogebra.common.main.App;
 
 /**
- * A container for objects with global lifetime, i.e., objects that may live from
- * host app launch until host app termination.
  * <p>
- * <i>Note: By "host app", we mean the iOS/Android/Web app that hosts the GeoGebra code.</i>
- * </p><p>
- * This container serves as a home for objects with global lifetime that don't have a
- * direct owner (i.e., no "parent"). Try to put as few objects as possible in here.
+ * <b>Mobile use case:</b> {@code GlobalScope} has one {@code SuiteScope} holding one or more
+ * {@code App}s.
  * </p>
+ * <p>
+ * <b>Web use case:</b> {@code GlobalScope} has one ore more {@code SuiteScope}s, each holding one
+ * {@code App}.
+ * </p>
+ * @apiNote invariants in this design that must hold true at runtime:
+ * <ul>
+ * <li>The host app must set up one {@code SuiteScope} per suite instance.</li>
+ * <li>Any {@code App} instances created must be registered with exactly one
+ * {@code SuiteScope}.</li>
+ * </ul>
  */
-@SuppressFBWarnings("MS_SHOULD_BE_FINAL")
 public final class GlobalScope {
 
-	// Note: source order is initialization order!
-	// https://stackoverflow.com/questions/4446088/java-in-what-order-are-static-final-fields-initialized
-
-	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
-	public static final GeoElementPropertiesFactory geoElementPropertiesFactory =
-			new GeoElementPropertiesFactory();
-	public static final ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
-
-	// intentionally assignable (for testing)
-	public static ExamController examController = new ExamController(
-			propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
+	private static final Set<SuiteScope> suiteScopes = new HashSet<>();
 
 	/**
-	 * @return The list of enabled (not-disabled) {@link SuiteSubApp}s in case an exam is currently active,
-	 * or a list of all {@code SuiteSubApp} values otherwise.
+	 * A suite (host) app must register a new suite scope early during startup (before any
+	 * {@link App} instances are created). Any {@code App} instances created by the suite instance
+	 * must be registered with the {@link SuiteScope}.
+	 * @return A new {@link SuiteScope} for this suite instance.
 	 */
-	public static @Nonnull List<SuiteSubApp> getEnabledSubApps() {
-		if (examController.isExamActive()) {
-			return SuiteSubApp.availableValues().stream()
-					.filter(subApp -> !examController.isDisabledSubApp(subApp))
-					.collect(Collectors.toList());
+	public static @Nonnull SuiteScope registerNewSuiteScope() {
+		SuiteScope suiteScope = new SuiteScope();
+        suiteScopes.add(suiteScope);
+		return suiteScope;
+    }
+
+	/**
+	 * Unregister a (previously registered) {@link SuiteScope}.
+	 * @param suiteScope A {@code SuiteScope}. May be {@code null}.
+	 */
+	public static void unregisterSuiteScope(@CheckForNull SuiteScope suiteScope) {
+		if (suiteScope == null) {
+			return;
 		}
-		return SuiteSubApp.availableValues();
+		suiteScopes.remove(suiteScope);
 	}
 
 	/**
-	 * @param examType {@link ExamType}
-	 * @return The list of enabled {@link SuiteSubApp}s for given {@link ExamType}
+	 * Get the {@link SuiteScope} for an {@link App} instance (a suite sub-app in case of suite,
+	 * or the single app for standalone apps).
+	 * @param app A suite sub-app. This app must have been registered at creation with the
+	 * suite instance's {@link SuiteScope}.
+	 * @return The {@link SuiteScope} for this app instance, or {@code null} if the app instance
+	 * has not been registered with a {@link SuiteScope}.
 	 */
-	public static @Nonnull List<SuiteSubApp> getEnabledSubAppsFor(ExamType examType) {
-		ExamRestrictions restrictions = ExamRestrictions.forExamType(examType);
-		return SuiteSubApp.availableValues().stream().filter(subApp -> !restrictions
-				.getDisabledSubApps().contains(subApp)).collect(Collectors.toList());
+	public static @CheckForNull SuiteScope getSuiteScope(App app) {
+		for (SuiteScope suiteScope : suiteScopes) {
+			if (suiteScope.apps.contains(app)) {
+				return suiteScope;
+			}
+		}
+		return null;
+	}
+
+	// -- Helpers --
+
+	/**
+	 * A shorthand for {@code getSuiteScope(app).examController}, with a {@code null} check
+	 * in case no suite scope has been set up for the app.
+	 * @param app the current app
+	 * @return the {@code ExamController} for the current app / suite scope, or {@code null}
+	 * if no suite scope has been set up for this app.
+	 */
+	public static @CheckForNull ExamController getExamController(App app) {
+		SuiteScope suiteScope = getSuiteScope(app);
+		return suiteScope != null ? suiteScope.examController : null;
+	}
+
+	/**
+	 * A shorthand for {@code getSuiteScope(app).examController.isExamActive()}, with a
+	 * {@code null} check in case no suite scope has been set up for the app.
+	 * @param app the current app
+	 * @return whether an exam is currently active for the given app.
+	 */
+	public static boolean isExamActive(App app) {
+		SuiteScope suiteScope = getSuiteScope(app);
+		return suiteScope != null && suiteScope.examController.isExamActive();
 	}
 
 	/**

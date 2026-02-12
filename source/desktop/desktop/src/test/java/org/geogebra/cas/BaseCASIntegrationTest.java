@@ -30,6 +30,8 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -55,6 +57,8 @@ public class BaseCASIntegrationTest {
 	 */
 	@Before
 	public void setupCas() {
+		SuiteScope suiteScope = GlobalScope.registerNewSuiteScope();
+
 		app = new AppDNoGui(new LocalizationD(3), false);
 
 		if (silent) {

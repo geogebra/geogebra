@@ -37,10 +37,11 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  */
 public class StartExamAction extends DefaultMenuAction<AppWFull> {
 
-	private final ExamController examController = GlobalScope.examController;
+	private ExamController examController;
 
 	@Override
 	public void execute(AppWFull app) {
+		examController = GlobalScope.getExamController(app);
 		app.closePopups();
 		app.getSaveController().showDialogIfNeeded((s) -> showDialog(app, false), false);
 	}
@@ -86,6 +87,7 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 		app.fileNew();
 		app.clearSubAppCons();
 		app.getLAF().toggleFullscreen(true);
+		examController = GlobalScope.getExamController(app);
 		ExamStartDialog examStartDialog = createExamDialog(app, callback);
 		examStartDialog.setOnNegativeAction(() -> {
 			examController.cancelExam();

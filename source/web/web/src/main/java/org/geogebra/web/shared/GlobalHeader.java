@@ -92,7 +92,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	private boolean assignButtonInitialized;
 	private @CheckForNull FlowPanel examTypeHolder;
 	private String examHash;
-	private final ExamController examController = GlobalScope.examController;
+	private ExamController examController;
 
 	private final ArrayList<FocusableWidget> focusableWidgets = new ArrayList<>();
 
@@ -100,7 +100,6 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	 * Singleton constructor
 	 */
 	private GlobalHeader() {
-		GlobalScope.examController.addListener(this);
 	}
 
 	public static String getExamHash() {
@@ -115,6 +114,10 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	 */
 	public void addSignIn(final AppW appW) {
 		this.app = appW;
+		examController = GlobalScope.getExamController(app);
+		if (examController != null) {
+			examController.addListener(this);
+		}
 		signIn = getSignInTextButton() != null
 				? getSignInTextButton().getElement().getParentElement() : null;
 		if (signIn == null) {
@@ -371,7 +374,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (examController.isExamActive()) {
+				if (examController != null && examController.isExamActive()) {
 					if (examController.isCheating()) {
 						app.getGuiManager()
 								.updateUnbundledToolbarStyle();
@@ -393,6 +396,10 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 		}
 		// remove other buttons
 		getButtonElement().getStyle().setDisplay(Display.NONE);
+
+		if (examController == null) {
+			return;
+		}
 
 		// exam panel with timer and info btn
 		Image timerImg = new Image(MaterialDesignResources.INSTANCE.timer()

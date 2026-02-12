@@ -40,7 +40,7 @@ public class ClassicMenuItemProvider {
 	 * @param menus list of menus
 	 */
 	public void addMenus(ArrayList<Submenu> menus) {
-		boolean exam = !GlobalScope.examController.isIdle();
+		boolean exam = GlobalScope.isExamActive(app);
 		if (app.enableFileFeatures() && !app.isLockedExam()) {
 			menus.add(new FileMenuW(app));
 		}

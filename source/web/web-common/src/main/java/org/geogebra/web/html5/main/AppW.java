@@ -41,7 +41,6 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.export.pstricks.GeoGebraToPgf;
@@ -92,6 +91,7 @@ import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
@@ -222,6 +222,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private DrawEquationW drawEquation;
 
+	protected SuiteScope suiteScope;
 	protected GgbAPIW ggbapi;
 	private final LocalizationW loc;
 	private ImageManagerW imageManager;
@@ -287,7 +288,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private Widget lastFocusableWidget;
 	private FullScreenState fullscreenState;
 	private ToolTipManagerW toolTipManager;
-	private final ExamController examController = GlobalScope.examController;
 	private ToolboxIconResource toolboxIconResource;
 	private TopBarIconResource topBarIconResource;
 	private GeneralIconResource generalIconResource;
@@ -306,6 +306,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		super(getPlatform(appletParameters, dimension, laf));
 		this.geoGebraElement = geoGebraElement;
 		this.appletParameters = appletParameters;
+
+		suiteScope = GlobalScope.registerNewSuiteScope();
+		suiteScope.registerApp(this);
+
 		// laf = null in webSimple
 		boolean hasUndo = appletParameters.getDataParamEnableUndoRedo()
 				&& (laf == null || laf.undoRedoSupported());
@@ -1055,8 +1059,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			pageController.updatePreviewImage();
 		}
 		resetUrl();
-		if (examController.isExamActive()) {
-			setActiveMaterial(examController.getNewTempMaterial());
+		if (suiteScope.examController.isExamActive()) {
+			setActiveMaterial(suiteScope.examController.getNewTempMaterial());
 		}
 		reapplyRestrictions();
 		setSaved();

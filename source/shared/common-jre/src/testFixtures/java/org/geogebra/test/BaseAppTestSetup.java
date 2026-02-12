@@ -45,6 +45,8 @@ import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.test.commands.ErrorAccumulator;
 
@@ -61,6 +63,7 @@ import org.geogebra.test.commands.ErrorAccumulator;
  */
 public class BaseAppTestSetup {
 	private AppCommon app;
+	protected SuiteScope suiteScope = GlobalScope.registerNewSuiteScope();
 	private AsyncOperation<GeoElementND[]> processCallback;
 	private AsyncOperation<GeoElementND> editCallback;
 	protected final ErrorAccumulator errorAccumulator = new ErrorAccumulator();
@@ -80,6 +83,8 @@ public class BaseAppTestSetup {
 			editCallback = geoElement -> processCallback.callback(new GeoElementND[]{ geoElement });
 		}
 		app.getSettingsUpdater().resetSettingsOnAppStart();
+
+		suiteScope.registerApp(app);
 	}
 
 	protected void setupNotesApp() {

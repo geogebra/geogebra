@@ -202,7 +202,6 @@ public class GuiManagerW extends GuiManager
 
 	private Runnable runAfterLogin;
 	private InputKeyboardButtonW inputKeyboardButton = null;
-	private static final ExamController examController = GlobalScope.examController;
 	private ExamLogAndExitDialog examInfoDialog;
 
 	/**
@@ -1028,7 +1027,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean save() {
-		if (!examController.isIdle()) {
+		if (GlobalScope.isExamActive(getApp())) {
 			SaveExamAction.showExamSaveDialog(getApp());
 		} else {
 			getApp().getFileManager().save(getApp());
@@ -1087,7 +1086,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void openFile() {
-		if (examController.isIdle() && getApp().enableOnlineFileFeatures()
+		if (!GlobalScope.isExamActive(getApp())
+				&& getApp().enableOnlineFileFeatures()
 				&& getApp().showMenuBar()) {
 			getApp().openSearch("");
 		}
@@ -1411,7 +1411,8 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateFrameSize() {
-		if (!getApp().getAppletParameters().getDataParamApp() || !examController.isIdle()) {
+		if (!getApp().getAppletParameters().getDataParamApp()
+				|| GlobalScope.isExamActive(getApp())) {
 			return;
 		}
 		// get frame size from layout manager
@@ -1788,7 +1789,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	private BrowseViewI createBrowseView(AppWFull app) {
-		if (!examController.isIdle()) {
+		if (GlobalScope.isExamActive(app)) {
 			return new OpenTemporaryFileView(app);
 		} else {
 			BrowserDevice.FileOpenButton fileOpenButton =
@@ -2021,8 +2022,10 @@ public class GuiManagerW extends GuiManager
 	 * @return whether keyboard may be shown at startup
 	 */
 	public static boolean mayForceKeyboard(AppW app) {
+		ExamController examController = GlobalScope.getExamController(app);
 		return !app.isStartedWithFile()
 				&& !app.getAppletParameters().preventFocus()
+				&& examController != null
 				&& examController.getState() != ExamState.PREPARING;
 	}
 

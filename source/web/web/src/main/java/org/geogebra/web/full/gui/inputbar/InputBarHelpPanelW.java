@@ -223,7 +223,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	 *            max height
 	 */
 	public void updateGUI(int maxOffsetHeight) {
-		showOnlineHelpButton(GlobalScope.examController.isIdle() && app.showMenuBar());
+		showOnlineHelpButton(!GlobalScope.isExamActive(app) && app.showMenuBar());
 		int height = maxOffsetHeight - 60;
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
 				.getOffsetWidth() - 60;

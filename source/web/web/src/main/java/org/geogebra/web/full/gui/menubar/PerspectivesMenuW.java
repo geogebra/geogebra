@@ -37,7 +37,7 @@ public class PerspectivesMenuW extends Submenu {
 
 	/** Application */
 	AppW app;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * @param app application
@@ -45,6 +45,7 @@ public class PerspectivesMenuW extends Submenu {
 	public PerspectivesMenuW(AppW app) {
 		super("apps", app);
 		this.app = app;
+		this.examController = GlobalScope.getExamController(app);
 		addExpandableStyleWithColor(false);
 		initActions();
 	}
@@ -87,7 +88,7 @@ public class PerspectivesMenuW extends Submenu {
 					@Override
 					public void doExecute() {
 						setPerspective(app, perspective);
-						if (!examController.isExamActive()) {
+						if (!GlobalScope.isExamActive(app)) {
 							app.showStartTooltip(perspective);
 						}
 					}

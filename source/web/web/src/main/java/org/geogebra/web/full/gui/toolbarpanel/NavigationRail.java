@@ -65,7 +65,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	 */
 	final ToolbarPanel toolbarPanel;
 	private FocusableWidget focusableMenuButton;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * @param toolbarPanel
@@ -74,6 +74,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	public NavigationRail(ToolbarPanel toolbarPanel) {
 		this.app = toolbarPanel.getApp();
 		this.toolbarPanel = toolbarPanel;
+		examController = GlobalScope.getExamController(app);
 		contents = new FlowPanel();
 		contents.addStyleName("contents");
 		add(contents);
@@ -86,7 +87,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
-		updateIcons(!examController.isIdle());
+		updateIcons(GlobalScope.isExamActive(app));
 		app.getExamEventBus().add(this);
 		if (!toolbarPanel.isOpen()) {
 			updateIcons(null, useExamStyle());
@@ -255,7 +256,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	}
 
 	private boolean useExamStyle() {
-		return examController.isExamActive()
+		return GlobalScope.isExamActive(app)
 				&& app.getAppletParameters().getDataParamFitToScreen();
 	}
 

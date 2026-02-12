@@ -47,7 +47,7 @@ import elemental2.dom.KeyboardEvent;
 public class ExamClassicStartDialog extends ComponentDialog {
 	private static boolean examStyle;
 	protected AppW appW;
-	private static final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * @param app
@@ -56,6 +56,10 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	public ExamClassicStartDialog(AppW app, DialogData data) {
 		super(app, data, false, true);
 		this.appW = app;
+		examController = GlobalScope.getExamController(app);
+		if (examController == null) {
+			return;
+		}
 		examController.prepareExam();
 		addStyleName("classicExamStartDialog");
 		buildGUI();
@@ -156,14 +160,15 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	public static void blockEscTab(AppW app) {
 		DomGlobal.document.body.addEventListener("keyup", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
-			if ("Escape".equals(e.code) && !examController.isIdle()) {
+			if ("Escape".equals(e.code)
+					&& GlobalScope.isExamActive(app)) {
 				e.preventDefault();
 			}
 		});
 		DomGlobal.document.body.addEventListener("keydown", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
 			if (("Tab".equals(e.code) || "Escape".equals(e.code))
-					&& !examController.isIdle()) {
+					&& GlobalScope.isExamActive(app)) {
 				e.preventDefault();
 			}
 		});

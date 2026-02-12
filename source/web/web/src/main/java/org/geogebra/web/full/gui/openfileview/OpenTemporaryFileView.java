@@ -18,6 +18,7 @@ package org.geogebra.web.full.gui.openfileview;
 
 import java.util.Collection;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -46,7 +47,8 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 		app.registerOpenFileListener(this);
 		common = new FileViewCommon(app, "Open", false);
 		common.addStyleName("examTemporaryFiles");
-		tempStorage = GlobalScope.examController.getTempStorage();
+		ExamController examController = GlobalScope.getExamController(app);
+		tempStorage = examController != null ? examController.getTempStorage() : null;
 	}
 
 	@Override

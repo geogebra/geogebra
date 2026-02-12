@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesArray;
@@ -55,10 +54,12 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class PropertyViewTests extends BaseAppTestSetup {
+
 	@BeforeAll
 	public static void enablePreviewFeatures() {
 		PreviewFeature.setPreviewFeaturesEnabled(true);
@@ -74,7 +75,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		PropertiesArray graphicsProperties = getApp().getConfig().createPropertiesFactory()
-				.createProperties(getApp(), getLocalization(), GlobalScope.propertiesRegistry)
+				.createProperties(getApp(), getLocalization(), suiteScope.propertiesRegistry)
 				.get(2);
 		PropertyView.ExpandableList gridPropertyView = (PropertyView.ExpandableList)
 				PropertyViewFactory.propertyViewListOf(graphicsProperties).get(1);
@@ -150,7 +151,7 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		PropertiesArray graphicsProperties = getApp().getConfig().createPropertiesFactory()
-				.createProperties(getApp(), getLocalization(), GlobalScope.propertiesRegistry)
+				.createProperties(getApp(), getLocalization(), suiteScope.propertiesRegistry)
 				.get(2);
 		List<PropertyView> graphicsPropertyViews =
 				PropertyViewFactory.propertyViewListOf(graphicsProperties);
@@ -276,7 +277,8 @@ public class PropertyViewTests extends BaseAppTestSetup {
 		animatablePoint.setIntervalMax(10);
 
 		PropertiesArray array = new PropertiesArray(null, getLocalization(),
-				new AnimationPropertyCollection(GlobalScope.geoElementPropertiesFactory,
+				new AnimationPropertyCollection(
+						suiteScope.geoElementPropertiesFactory,
 						getAlgebraProcessor(), getLocalization(), List.of(animatablePoint)));
 		List<PropertyView> propertyViews = PropertyViewFactory.propertyViewListOf(array);
 

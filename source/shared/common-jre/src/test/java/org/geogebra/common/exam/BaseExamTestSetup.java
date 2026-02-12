@@ -23,19 +23,28 @@ import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.test.BaseAppTestSetup;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class BaseExamTestSetup extends BaseAppTestSetup {
-    protected final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
-    protected final GeoElementPropertiesFactory geoElementPropertiesFactory =
-            new GeoElementPropertiesFactory();
-    protected final ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
-    protected final ExamController examController = new ExamController(
-            propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
+    protected PropertiesRegistry propertiesRegistry;
+    protected GeoElementPropertiesFactory geoElementPropertiesFactory;
+    protected ContextMenuFactory contextMenuFactory;
+    protected ExamController examController;
     protected AutocompleteProvider autocompleteProvider;
+
+    @BeforeEach
+    void baseExamTestSetup() {
+        // keep existing references, so we don't need to touch every test
+        propertiesRegistry = suiteScope.propertiesRegistry;
+        geoElementPropertiesFactory = suiteScope.geoElementPropertiesFactory;
+        contextMenuFactory = suiteScope.contextMenuFactory;
+        examController = suiteScope.examController;
+    }
 
     @Override
     protected void setupApp(SuiteSubApp subApp) {
         super.setupApp(subApp);
+
         autocompleteProvider = new AutocompleteProvider(getApp(), false);
         examController.setActiveContext(
                 getApp(),

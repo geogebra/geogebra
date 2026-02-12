@@ -45,7 +45,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	private FlowPanel contentPanel;
 	private FlowPanel activityPanel;
 	private final Widget anchor;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
 			Widget anchor) {
@@ -65,6 +65,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
 			Runnable returnHandler, Widget anchor, String positiveKey) {
 		super(app.getAppletFrame(), app);
+		examController = GlobalScope.getExamController(app);
 		this.returnHandler = returnHandler;
 		this.anchor = anchor;
 		this.setStyleName("dialogComponent");

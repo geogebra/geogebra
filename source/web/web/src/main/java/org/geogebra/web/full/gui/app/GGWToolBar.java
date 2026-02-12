@@ -102,7 +102,7 @@ public class GGWToolBar extends Composite
 	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
-	private final ExamController examController = GlobalScope.examController;
+	private ExamController examController;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -150,6 +150,7 @@ public class GGWToolBar extends Composite
 
 		this.inited = true;
 		this.app = app1;
+		examController = GlobalScope.getExamController(app);
 		toolbars = new ArrayList<>();
 
 		submenuScrollPanel = new ScrollPanel();
@@ -169,7 +170,7 @@ public class GGWToolBar extends Composite
 
 		toolBarPanel.addStyleName("toolbarPanel");
 
-		if (!examController.isIdle()) {
+		if (examController != null && !examController.isIdle()) {
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
 		toolBPanel.setStyleName("toolBPanel");

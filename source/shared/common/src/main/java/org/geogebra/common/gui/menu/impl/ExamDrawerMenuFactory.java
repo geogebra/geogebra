@@ -22,6 +22,7 @@ import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
+import org.geogebra.common.main.App;
 
 /**
  * Creates drawer menus for apps when in exam mode.
@@ -58,12 +59,12 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	@Override
-	public DrawerMenu createDrawerMenu() {
+	public DrawerMenu createDrawerMenu(App app) {
 		boolean isScientific = version == GeoGebraConstants.Version.SCIENTIFIC;
 		MenuItem clearConstruction = clearConstruction();
 		MenuItem openFile = isScientific && !isSuiteApp() ? null : openFile();
 		MenuItem saveFile = isScientific && !isSuiteApp() ? null : saveFile();
-		MenuItem switchCalculator = showSwitchCalculator();
+		MenuItem switchCalculator = showSwitchCalculator(app);
 		MenuItem examLog = showExamLog();
 		MenuItem exitExam = createsExitExam ? exitExamMode() : null;
 		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(clearConstruction, openFile,

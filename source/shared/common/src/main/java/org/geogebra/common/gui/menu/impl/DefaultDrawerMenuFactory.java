@@ -23,6 +23,7 @@ import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
+import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 
@@ -114,9 +115,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	@Override
-	public DrawerMenu createDrawerMenu() {
+	public DrawerMenu createDrawerMenu(App app) {
 		MenuItemGroup main = createMainMenuItemGroup();
-		MenuItemGroup secondary = createSecondaryMenuItemGroup();
+		MenuItemGroup secondary = createSecondaryMenuItemGroup(app);
 		MenuItemGroup userGroup = createUserGroup();
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, removeNulls(main, secondary, userGroup));
@@ -153,8 +154,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return isWeb() && version != GeoGebraConstants.Version.PROBABILITY;
 	}
 
-	private MenuItemGroup createSecondaryMenuItemGroup() {
-		MenuItem switchCalcItem = createSwitchCalcEntry ? showSwitchCalculator() : null;
+	private MenuItemGroup createSecondaryMenuItemGroup(App app) {
+		MenuItem switchCalcItem = createSwitchCalcEntry ? showSwitchCalculator(app) : null;
 		return new MenuItemGroupImpl(removeNulls(switchCalcItem,
 				showSettings(), showHelpAndFeedback()));
 	}

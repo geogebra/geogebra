@@ -756,7 +756,7 @@ public class ToolBar {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
-				GlobalScope.examController.isExamActive(), app));
+				GlobalScope.isExamActive(app), app));
 
 		// macros
 		Kernel kernel = app.getKernel();

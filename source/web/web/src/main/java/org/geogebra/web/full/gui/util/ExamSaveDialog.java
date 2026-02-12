@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
@@ -76,7 +77,10 @@ public class ExamSaveDialog {
 				material.setTitle(examSave.getInputText());
 				material.setBase64(app.getGgbApi().getBase64());
 				material.setThumbnailBase64(app.getGgbApi().getThumbnailDataURL());
-				GlobalScope.examController.saveTempMaterial(material);
+				ExamController examController = GlobalScope.getExamController(app);
+				if (examController != null) {
+					examController.saveTempMaterial(material);
+				}
 				app.setSaved();
 			} else {
 				msg = app.getLocalization().getError("SaveFileFailed");

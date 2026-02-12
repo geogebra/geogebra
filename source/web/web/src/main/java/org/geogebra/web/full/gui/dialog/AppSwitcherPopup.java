@@ -22,6 +22,7 @@ import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.main.AppWFull;
@@ -39,7 +40,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 
 	SuiteHeaderAppPicker appPickerButton;
 	private FlowPanel contentPanel;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * @param app
@@ -51,6 +52,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 		super(true, app.getAppletFrame(), app);
 		this.appPickerButton = pickerButton;
 		this.app = app;
+		this.examController = GlobalScope.getExamController(app);
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("appPickerPopup");
@@ -131,7 +133,9 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 	@Override
 	public void examStateChanged(ExamState newState) {
 		if (newState == ExamState.ACTIVE || newState == ExamState.IDLE) {
-			boolean shouldShowAppsPicker = GlobalScope.getEnabledSubApps().size() > 1;
+			SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
+			boolean shouldShowAppsPicker = suiteScope != null
+					&& suiteScope.getEnabledSubApps().size() > 1;
 			if (shouldShowAppsPicker) {
 				updateGUI();
 			}

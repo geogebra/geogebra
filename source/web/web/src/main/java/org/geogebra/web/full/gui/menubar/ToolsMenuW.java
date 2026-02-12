@@ -31,7 +31,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  */
 public class ToolsMenuW extends Submenu {
 
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * Constructs the "Tools" menu
@@ -41,6 +41,7 @@ public class ToolsMenuW extends Submenu {
 	 */
 	public ToolsMenuW(AppW application) {
 		super("tools", application);
+		this.examController = GlobalScope.getExamController(application);
 		addExpandableStyleWithColor(false);
 		initActions();
 	}

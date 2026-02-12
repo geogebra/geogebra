@@ -75,7 +75,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 	 */
 	@Override
 	public void addWindowClosingHandler(final AppW app) {
-		if (GlobalScope.examController.isExamActive()) {
+		if (GlobalScope.isExamActive(app)) {
 			return;
 		}
 		// popup when the user wants to exit accidentally

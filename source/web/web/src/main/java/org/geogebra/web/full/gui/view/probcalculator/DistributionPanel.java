@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.properties.PropertyView;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.web.full.css.GuiResources;
@@ -200,7 +201,10 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 	public void buildDistrComboBox(FlowPanel parent) {
 		DistributionTypeProperty distTypeProperty = new DistributionTypeProperty(loc, view);
 		distDropdownProperty = (PropertyView.Dropdown) PropertyView.of(distTypeProperty);
-		GlobalScope.propertiesRegistry.register(distTypeProperty, getApp());
+		SuiteScope suiteScope = GlobalScope.getSuiteScope(getApp());
+		if (suiteScope != null) {
+			suiteScope.propertiesRegistry.register(distTypeProperty, getApp());
+		}
 		String comboLbl = getApp().getConfig().hasDistributionView() ? "Distribution" : null;
 
 		if (distDropdownProperty != null) {

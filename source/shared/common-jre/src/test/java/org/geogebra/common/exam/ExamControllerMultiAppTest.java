@@ -25,6 +25,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroupsBuilder;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,10 +37,12 @@ public class ExamControllerMultiAppTest {
 
 	@Before
 	public void setup() {
-		controller = new ExamController(new DefaultPropertiesRegistry(),
-				GlobalScope.geoElementPropertiesFactory,
-				GlobalScope.contextMenuFactory);
+		SuiteScope suiteScope = GlobalScope.registerNewSuiteScope();
 		app = AppCommonFactory.create3D();
+		suiteScope.registerApp(app);
+		controller = new ExamController(new DefaultPropertiesRegistry(),
+				suiteScope.geoElementPropertiesFactory,
+				suiteScope.contextMenuFactory);
 	}
 
 	@Test

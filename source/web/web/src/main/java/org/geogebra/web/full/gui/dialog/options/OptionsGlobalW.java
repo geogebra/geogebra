@@ -72,12 +72,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
 		private FlowPanel saveRestoreRow;
-		private final ExamController examController = GlobalScope.examController;
+		private final ExamController examController;
 
 		/**
 		 * constructor
 		 */
-		protected GlobalTab() {
+		protected GlobalTab(ExamController examController) {
+			this.examController = examController;
 			createGUI();
 			updateGUI();
 			setStyleName("propertiesTab");
@@ -268,7 +269,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	public OptionsGlobalW(AppW app) {
 		this.app = app;
 		tabPanel = new MultiRowsTabPanel();
-		globalTab = new GlobalTab();
+		globalTab = new GlobalTab(GlobalScope.getExamController(app));
 		tabPanel.add(globalTab, app.getLocalization().getMenu("Global"));
 		updateGUI();
 		tabPanel.selectTab(0);

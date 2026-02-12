@@ -90,7 +90,7 @@ public class ComponentSnackbar extends FlowPanel {
 			actionBtn = new StandardButton(app.getLocalization()
 					.getMenu(toolTip.buttonTransKey));
 			actionBtn.addStyleName("materialTextButton");
-			if (shouldAddButton(toolTip)) {
+			if (shouldAddButton(toolTip, app)) {
 				add(actionBtn);
 			}
 			actionBtn.addFastClickHandler(source -> {
@@ -106,9 +106,8 @@ public class ComponentSnackbar extends FlowPanel {
 	 * @param toolTip - tooltip data
 	 * @return whether should add button, dont allow redirects in exam mode
 	 */
-	private boolean shouldAddButton(ToolTip toolTip) {
-		return GlobalScope.examController.isIdle()
-				|| "Share".equals(toolTip.buttonTransKey);
+	private boolean shouldAddButton(ToolTip toolTip, AppW app) {
+		return !GlobalScope.isExamActive(app) || "Share".equals(toolTip.buttonTransKey);
 	}
 
 	/**

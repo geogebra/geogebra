@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.GeoSelectionCallback;
@@ -191,7 +192,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		selectionCtrl = new AVSelectionController(app);
 		algCtrl.setView(this);
 		initGUI(algCtrl);
-		GlobalScope.examController.registerRestrictable(selectionCallback);
+		ExamController examController = GlobalScope.getExamController(app);
+		if (examController != null) {
+			examController.registerRestrictable(selectionCallback);
+		}
 		app.getSelectionManager()
 				.addSelectionListener((geo, addToSelection) -> updateSelection());
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));

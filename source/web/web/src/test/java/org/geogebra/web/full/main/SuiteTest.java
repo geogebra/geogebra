@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
@@ -48,7 +49,10 @@ public class SuiteTest {
 		GlobalHeader.INSTANCE.setApp(app);
 		app.startExam(ExamType.GENERIC, null);
 		app.switchToSubapp(SuiteSubApp.GEOMETRY);
-		GlobalScope.examController.finishExam();
+		ExamController examController = GlobalScope.getExamController(app);
+		if (examController != null) {
+			examController.finishExam();
+		}
 		app.endExam();
 		assertTrue(app.getSettings().getCasSettings().isEnabled());
 	}

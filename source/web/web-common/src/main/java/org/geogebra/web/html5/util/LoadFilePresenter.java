@@ -226,7 +226,7 @@ public class LoadFilePresenter {
 	private static Perspective getPerspective(AppW app, String perspective) {
 		Perspective pd = PerspectiveDecoder.decode(perspective,
 				app.getKernel().getParser(),
-				ToolBar.getAllToolsNoMacros(true, !GlobalScope.examController.isIdle(), app),
+				ToolBar.getAllToolsNoMacros(true, GlobalScope.isExamActive(app), app),
 				app.getLayout());
 		if ("1".equals(perspective) || "2".equals(perspective)
 				|| "5".equals(perspective)) {

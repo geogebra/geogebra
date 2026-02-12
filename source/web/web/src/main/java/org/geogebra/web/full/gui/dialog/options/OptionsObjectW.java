@@ -715,7 +715,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		});
 		tabPanel.setStyleName("propertiesPanel");
 		createBasicTab();
-		if (GlobalScope.examController.isIdle()) {
+		if (!GlobalScope.isExamActive(app)) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),
 					addColorTab(), addStyleTab(), addPositionTab(),
 					addAdvancedTab(), addAlgebraTab(), addScriptTab());

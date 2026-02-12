@@ -89,7 +89,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 		FlowPanel heading = new FlowPanel();
 		heading.addStyleName("autocompleteSyntaxHeading");
 		heading.add(new Label(command.getCommand()));
-		if (!GlobalScope.examController.isExamActive()) {
+		if (!GlobalScope.isExamActive(getApp())) {
 			heading.add(createHelpButton(command));
 		}
 		return heading;

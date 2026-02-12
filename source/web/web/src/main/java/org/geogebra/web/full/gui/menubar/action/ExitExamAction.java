@@ -49,11 +49,12 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	private static final GColor EXAM_OK_COLOR = GColor.newColorRGB(0x3DA196);
 	private static final int SCREENSHOT_HEADER_HEIGHT = 78;
 	private AppWFull app;
-	private final ExamController examController = GlobalScope.examController;
+	private ExamController examController;
 
 	@Override
 	public void execute(AppWFull app) {
 		this.app = app;
+		this.examController = GlobalScope.getExamController(app);
 		showExamExitDialog();
 	}
 

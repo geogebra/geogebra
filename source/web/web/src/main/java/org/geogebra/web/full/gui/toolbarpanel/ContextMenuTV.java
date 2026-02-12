@@ -103,7 +103,7 @@ public class ContextMenuTV {
 		List<TableValuesContextMenuItem> items = app.getContextMenuFactory()
 				.makeTableValuesContextMenu(column, columnIdx, view.getTableValuesModel(),
 				app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC,
-				GlobalScope.examController.isExamActive());
+						GlobalScope.isExamActive(app));
 		for (TableValuesContextMenuItem item: items) {
 			if (item.getItem() == TableValuesContextMenuItem.Item.Separator) {
 				wrappedPopup.addVerticalSeparator();

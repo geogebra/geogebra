@@ -38,7 +38,7 @@ import org.gwtproject.user.client.ui.RequiresResize;
 public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable,
 		RequiresResize, CloseHandler<GPopupPanel> {
 	private FlowPanel contentPanel;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * constructor
@@ -46,6 +46,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	 */
 	public CalculatorSwitcherDialog(AppW app, boolean autoHide) {
 		super(autoHide, app.getAppletFrame(), app);
+		examController = GlobalScope.getExamController(app);
 		setGlassEnabled(true);
 		addStyleName("calcChooser");
 		Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
@@ -83,8 +84,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	}
 
 	private void buildAndAddCalcButton(SuiteSubApp subAppCode, FlowPanel contentPanel) {
-		if (examController.isExamActive()
-				&& examController.isDisabledSubApp(subAppCode)) {
+		if (examController.isExamActive() && examController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 		AppDescription description = AppDescription.get(subAppCode) ;

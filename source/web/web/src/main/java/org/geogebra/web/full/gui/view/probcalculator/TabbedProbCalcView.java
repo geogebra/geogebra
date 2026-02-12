@@ -70,7 +70,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		lblMeanSigma = new Label();
 		lblMeanSigma.addStyleName("lblMeanSigma");
 		plotPanelOptions.add(lblMeanSigma);
-		if (GlobalScope.examController.isIdle()) {
+		if (!GlobalScope.isExamActive(app)) {
 			ToggleButton btnExport = createExportMenu();
 			btnExport.addStyleName("probCalcStylbarBtn");
 			plotPanelOptions.add(btnExport);

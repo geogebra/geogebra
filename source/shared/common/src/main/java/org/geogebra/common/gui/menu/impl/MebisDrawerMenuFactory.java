@@ -23,6 +23,7 @@ import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
+import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 
 public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
@@ -42,10 +43,9 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	}
 
 	@Override
-	public DrawerMenu createDrawerMenu() {
+	public DrawerMenu createDrawerMenu(App app) {
 		MenuItemGroup main = createMainMenuItemGroup();
 		MenuItemGroup secondary = createSecondaryMenuItemGroup();
-
 		return new DrawerMenuImpl(null, removeNulls(main, secondary));
 	}
 

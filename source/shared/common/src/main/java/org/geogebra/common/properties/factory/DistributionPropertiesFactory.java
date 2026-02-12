@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.gui.view.probcalculator.PropertyResultPanel;
@@ -51,7 +53,7 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+			@CheckForNull PropertiesRegistry propertiesRegistry) {
 		ensureLabelsExist(localization);
 
 		List<Property> properties = new ArrayList<>(Arrays.asList(
@@ -77,7 +79,8 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 						(PropertyResultPanel) probabilityCalculatorView.getResultPanel()));
 
 		PropertiesArray array = new PropertiesArray("Distribution", localization,
-				registerProperties(propertiesRegistry, properties));
+				propertiesRegistry != null
+                        ? registerProperties(propertiesRegistry, properties) : properties);
 		return Arrays.asList(array);
 	}
 

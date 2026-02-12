@@ -16,6 +16,8 @@
 
 package org.geogebra.common.gui.menu;
 
+import org.geogebra.common.main.App;
+
 /**
  * Factory class that creates drawer menus.
  */
@@ -27,5 +29,5 @@ public interface DrawerMenuFactory {
 	 *
 	 * @return drawer menu
 	 */
-	DrawerMenu createDrawerMenu();
+	DrawerMenu createDrawerMenu(App app);
 }

@@ -296,7 +296,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private List<String> functionVars = new ArrayList<>();
 	private OpenSearch search;
 	private CsvImportHandler csvImportHandler;
-	private final ExamController examController = GlobalScope.examController;
+	private ExamController examController;
 	private AutocompleteProvider autocompleteProvider;
 	private ExamEventBus examEventBus;
 	private boolean attachedToExam;
@@ -316,6 +316,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			int dimension, GLookAndFeelI laf,
 			GDevice device, GeoGebraFrameFull frame) {
 		super(geoGebraElement, parameters, dimension, laf);
+
 		this.frame = frame;
 		this.device = device;
 		this.geoElementPropertiesFactory = new GeoElementPropertiesFactory();
@@ -337,6 +338,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				allowStylebar());
 		initActivity();
 		initCoreObjects();
+		examController = suiteScope.examController;
 		checkExamPerspective();
 		if (getAppletParameters().getDataParamApp()) {
 			startDialogChain();
@@ -2512,7 +2514,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getRestrictables().forEach(examController::unregisterRestrictable);
 		examController.removeListener(getExamEventBus());
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
-			GlobalScope.examController.unregisterRestrictable(
+			suiteScope.examController.unregisterRestrictable(
 					getAlgebraView().getSelectionCallback());
 		}
 		attachedToExam = false;
@@ -2684,7 +2686,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void reapplyRestrictions() {
-		if (attachedToExam && !GlobalScope.examController.isIdle()) {
+		if (attachedToExam && GlobalScope.isExamActive(this)) {
 			examController.reapplySettingsRestrictions();
 		} else if (!StringUtil.empty(getAppletParameters().getParamFeatureSet())) {
 			ExamType examType = ExamType.byName(getAppletParameters().getParamFeatureSet());
@@ -2807,7 +2809,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 *         the restricted one, otherwise app's own
 	 */
 	public GeoElementPropertiesFactory getGeoElementPropertiesFactory() {
-		return attachedToExam ? GlobalScope.geoElementPropertiesFactory
+		return attachedToExam ? suiteScope.geoElementPropertiesFactory
 				: geoElementPropertiesFactory;
 	}
 
@@ -2816,7 +2818,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 *         the restricted one, otherwise app's own.
 	 */
 	public ContextMenuFactory getContextMenuFactory() {
-		return attachedToExam ? GlobalScope.contextMenuFactory : contextMenuFactory;
+		return attachedToExam ? suiteScope.contextMenuFactory : contextMenuFactory;
 	}
 
 	/**

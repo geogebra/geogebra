@@ -38,7 +38,7 @@ import org.gwtproject.user.client.ui.Label;
 public class ExamStartDialog extends ComponentDialog {
 
 	private ExamType selectedRegion = ExamType.GENERIC;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * @param app application
@@ -46,6 +46,10 @@ public class ExamStartDialog extends ComponentDialog {
 	 */
 	public ExamStartDialog(AppWFull app, DialogData data) {
 		super(app, data, false, true);
+		examController = GlobalScope.getExamController(app);
+		if (examController == null) {
+			return;
+		}
 		addStyleName("examStartDialog");
 		buildContent();
 		setOnNegativeAction(examController::cancelExam);

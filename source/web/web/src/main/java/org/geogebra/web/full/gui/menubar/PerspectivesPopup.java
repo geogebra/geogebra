@@ -128,7 +128,7 @@ public class PerspectivesPopup {
 				() -> {
 					if (perspective != null) {
 						PerspectivesMenuW.setPerspective(app, perspective);
-						if (!GlobalScope.examController.isExamActive()) {
+						if (!GlobalScope.isExamActive(app)) {
 							app.showStartTooltip(perspective);
 						}
 					} else {

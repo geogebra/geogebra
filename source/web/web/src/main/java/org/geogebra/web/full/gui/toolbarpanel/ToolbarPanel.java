@@ -119,7 +119,7 @@ public class ToolbarPanel extends FlowPanel
 	private FlowPanel heading;
 	private final FlowPanel styleBarWrapper;
 	private final DockPanelDecorator decorator;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 	private ScientificEmbedTopBar topBar;
 	private @CheckForNull SpreadsheetStyleBar spreadsheetStyleBar;
 
@@ -129,6 +129,7 @@ public class ToolbarPanel extends FlowPanel
 	public ToolbarPanel(AppW app, DockPanelDecorator decorator) {
 		this.app = (AppWFull) app;
 		this.decorator = decorator;
+		examController = GlobalScope.getExamController(app);
 		eventDispatcher = app.getEventDispatcher();
 		styleBarWrapper = new FlowPanel();
 		undoRedoProvider = new UndoRedoProvider(app);

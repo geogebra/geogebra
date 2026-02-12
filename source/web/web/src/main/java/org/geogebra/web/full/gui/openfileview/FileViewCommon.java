@@ -66,7 +66,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	private Label timer;
 	private FlowPanel emptyListNotificationPanel;
 	private LoadSpinner spinner;
-	private final ExamController examController = GlobalScope.examController;
+	private final ExamController examController;
 
 	/**
 	 * @param app the application
@@ -77,6 +77,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		loc = app.getLocalization();
 		this.app = app;
 		this.title = title;
+		this.examController = GlobalScope.getExamController(app);
 		setAnimator(new SettingsAnimator(app.getAppletFrame(), this));
 		initGUI(withSearch);
 	}

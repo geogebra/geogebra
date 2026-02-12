@@ -76,7 +76,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	protected boolean hasImageItem() {
-		return GlobalScope.examController.isIdle() && app.getGuiManager().toolbarHasImageMode();
+		return !GlobalScope.isExamActive(app) && app.getGuiManager().toolbarHasImageMode();
 	}
 
 	private void execute(InputContextMenuItem item) {

@@ -26,7 +26,9 @@ import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
 import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
+import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.ownership.SuiteScope;
 
 abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 
@@ -63,11 +65,12 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 		return new ActionableItemImpl(Icon.SAVE, "Save", Action.SAVE_FILE);
 	}
 
-	@CheckForNull MenuItem showSwitchCalculator() {
+	@CheckForNull MenuItem showSwitchCalculator(App app) {
 		if (!isSuiteApp) {
 			return null;
 		}
-		if (GlobalScope.getEnabledSubApps().size() == 1) {
+		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
+		if (suiteScope != null && suiteScope.getEnabledSubApps().size() == 1) {
 			return null;
 		}
 		return new ActionableItemImpl(Icon.GEOGEBRA, "SwitchCalculator", Action.SWITCH_CALCULATOR);

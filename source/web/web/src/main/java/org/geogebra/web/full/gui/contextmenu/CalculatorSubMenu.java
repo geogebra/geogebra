@@ -104,7 +104,7 @@ public class CalculatorSubMenu extends AriaMenuBar {
 		text.addClickHandler(event -> cmd.execute());
 		itemHolder.add(text);
 
-		if (!GlobalScope.examController.isExamActive()
+		if (!GlobalScope.isExamActive(app)
 				&& !(app.getLAF() instanceof BundleLookAndFeel)) {
 			IconSpec newTabIcon = app.getGeneralIconResource()
 					.getImageResource(GeneralIcon.NEW_TAB);
