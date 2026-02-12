@@ -34,7 +34,7 @@ public class ClipAlgoSutherlandHodogman {
 		private final MyPoint start;
 		private final MyPoint end;
 
-		public Edge(MyPoint start, MyPoint end) {
+		Edge(MyPoint start, MyPoint end) {
 			this.start = start;
 			this.end = end;
 		}

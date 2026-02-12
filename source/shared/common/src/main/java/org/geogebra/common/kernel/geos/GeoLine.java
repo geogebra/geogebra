@@ -1214,7 +1214,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private class PathMoverLine extends PathMoverGeneric {
 
-		public PathMoverLine() {
+		private PathMoverLine() {
 			super(GeoLine.this);
 		}
 

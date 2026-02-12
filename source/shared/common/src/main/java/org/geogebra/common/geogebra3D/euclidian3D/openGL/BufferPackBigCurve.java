@@ -154,7 +154,7 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		// no need
 	}
 

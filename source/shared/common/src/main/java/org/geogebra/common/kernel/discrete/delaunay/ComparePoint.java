@@ -23,7 +23,7 @@ import org.geogebra.common.util.DoubleUtil;
 class ComparePoint implements Comparator<PointDt> {
 	private int _flag;
 
-	public ComparePoint(int i) {
+	ComparePoint(int i) {
 		_flag = i;
 	}
 
@@ -104,15 +104,15 @@ class ComparePoint implements Comparator<PointDt> {
 		return ans;
 	}
 
-	public static boolean greaterThan(double x, double y) {
+	static boolean greaterThan(double x, double y) {
 		return DoubleUtil.isGreater(x, y);
 	}
 
-	public static boolean lessThan(double x, double y) {
+	static boolean lessThan(double x, double y) {
 		return DoubleUtil.isGreater(y, x);
 	}
 
-	public static boolean equals(double x, double y) {
+	static boolean equals(double x, double y) {
 		return DoubleUtil.isEqual(x, y);
 	}
 

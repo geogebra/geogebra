@@ -211,14 +211,14 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 	private static class NodeMatcher {
 		private final GeoPointND target;
-		public TreeNode node;
+		private TreeNode node;
 		private boolean exactMatch;
 
-		public NodeMatcher(GeoPointND target) {
+		NodeMatcher(GeoPointND target) {
 			this.target = target;
 		}
 
-		public void check(GeoPointND p1, TreeNode node2) {
+		void check(GeoPointND p1, TreeNode node2) {
 			if (p1 == target) {
 				exactMatch = true;
 				node = node2;

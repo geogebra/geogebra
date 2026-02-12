@@ -703,7 +703,7 @@ public class DrawAxis {
 			g2 = graphics;
 		}
 
-		public void draw() {
+		void draw() {
 			// At the left and right edge numbers will stay at the border
 
 			Integer x2 = getXPositionAtEdge(xCrossPix, xoffset, width);

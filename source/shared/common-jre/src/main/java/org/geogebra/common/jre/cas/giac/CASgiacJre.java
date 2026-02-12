@@ -72,9 +72,9 @@ public abstract class CASgiacJre extends CASgiacB {
 	protected abstract boolean useThread();
 
 	class EvaluateThread extends Thread {
-		private Runnable evaluateFunction;
+		private final Runnable evaluateFunction;
 
-		public EvaluateThread(Runnable evaluateFunction) {
+		EvaluateThread(Runnable evaluateFunction) {
 			this.evaluateFunction = evaluateFunction;
 		}
 

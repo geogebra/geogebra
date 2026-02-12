@@ -110,7 +110,7 @@ abstract class BufferPackAbstract {
 	/**
 	 * reset buffers and lengths
 	 */
-	public void reset() {
+	protected void reset() {
 		if (segmentEnds != null) {
 			segmentEnds.clear();
 		}

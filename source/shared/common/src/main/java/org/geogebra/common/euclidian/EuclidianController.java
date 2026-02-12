@@ -12561,7 +12561,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		private final GPoint lastLoc;
 		private final boolean shiftDown;
 
-		public EmulatedEvent(GPoint lastLoc, boolean shiftDown) {
+		private EmulatedEvent(GPoint lastLoc, boolean shiftDown) {
 			this.lastLoc = lastLoc;
 			this.shiftDown = shiftDown;
 		}

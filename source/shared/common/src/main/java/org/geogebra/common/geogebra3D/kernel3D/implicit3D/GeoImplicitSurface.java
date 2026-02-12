@@ -662,11 +662,11 @@ public class GeoImplicitSurface extends GeoElement3D
 		private final Coords n2 = new Coords(0, 0, 0);
 		private final Coords n3 = new Coords(0, 0, 0);
 
-		public ImplicitSurface(GeoImplicitSurface s) {
+		ImplicitSurface(GeoImplicitSurface s) {
 			this.s = s;
 		}
 
-		public void update(double[] bounds) {
+		void update(double[] bounds) {
 			this.x1 = bounds[0];
 			this.y1 = bounds[2];
 			this.z1 = bounds[4];
@@ -680,10 +680,9 @@ public class GeoImplicitSurface extends GeoElement3D
 			this.update();
 		}
 
-		@MissingDoc
-		public abstract void update();
+		abstract void update();
 
-		public int config(Cube cube) {
+		int config(Cube cube) {
 			int config = cube.sign(Cube.V7);
 			config = (config << 1) | cube.sign(Cube.V6);
 			config = (config << 1) | cube.sign(Cube.V5);
@@ -698,7 +697,7 @@ public class GeoImplicitSurface extends GeoElement3D
 			return config > 0x7f ? (config ^ 0xff) : config;
 		}
 
-		public void addSurface(Cube cube) {
+		void addSurface(Cube cube) {
 			int config = config(cube);
 			double det;
 			if (config != EMPTY_OR_INVALID) {
@@ -739,7 +738,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		private int sizeY = 20;
 		private int sizeZ = 20;
 
-		public MarchingCube(GeoImplicitSurface s) {
+		MarchingCube(GeoImplicitSurface s) {
 			super(s);
 		}
 
@@ -748,7 +747,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		}
 
 		@Override
-		public void update() {
+		void update() {
 
 			sizeX = Math.min(MAX_SUB_DIV, pixels(x1, x2, scaleX) / AVE_PXL + 1);
 			sizeY = Math.min(MAX_SUB_DIV, pixels(y1, y2, scaleY) / AVE_PXL + 1);
@@ -846,21 +845,21 @@ public class GeoImplicitSurface extends GeoElement3D
 	//
 	private static class Cube {
 
-		public static final int X1 = 0x00;
-		public static final int Y1 = 0x01;
-		public static final int Z1 = 0x02;
-		public static final int X2 = 0x03;
-		public static final int Y2 = 0x04;
-		public static final int Z2 = 0x05;
+		static final int X1 = 0x00;
+		static final int Y1 = 0x01;
+		static final int Z1 = 0x02;
+		static final int X2 = 0x03;
+		static final int Y2 = 0x04;
+		static final int Z2 = 0x05;
 
-		public static final int V0 = 0x00;
-		public static final int V1 = 0x01;
-		public static final int V2 = 0x02;
-		public static final int V3 = 0x03;
-		public static final int V4 = 0x04;
-		public static final int V5 = 0x05;
-		public static final int V6 = 0x06;
-		public static final int V7 = 0x07;
+		static final int V0 = 0x00;
+		static final int V1 = 0x01;
+		static final int V2 = 0x02;
+		static final int V3 = 0x03;
+		static final int V4 = 0x04;
+		static final int V5 = 0x05;
+		static final int V6 = 0x06;
+		static final int V7 = 0x07;
 
 		private static final int[][] EDGES = { { 0, 1 }, { 1, 2 }, { 2, 3 },
 				{ 3, 0 }, { 0, 4 }, { 1, 5 }, { 2, 6 }, { 3, 7 }, { 4, 5 },

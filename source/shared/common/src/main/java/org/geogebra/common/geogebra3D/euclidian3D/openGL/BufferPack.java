@@ -44,7 +44,7 @@ class BufferPack extends BufferPackAbstract {
 	 * @param manager
 	 *            geometries manager
 	 */
-	public BufferPack(GLBufferManager manager) {
+	protected BufferPack(GLBufferManager manager) {
 		this(manager, manager.getElementSizeStart(),
 				manager.getIndicesSizeStart());
 	}
@@ -267,7 +267,7 @@ class BufferPack extends BufferPackAbstract {
 	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#reset()
 	 */
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		elementsLength = 0;
 		indicesLength = 0;

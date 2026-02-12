@@ -64,7 +64,7 @@ public class Target {
 		/**
 		 * constructor
 		 */
-		public CoordsAndGeo() {
+		CoordsAndGeo() {
 			coords = new Coords(4);
 		}
 
@@ -95,7 +95,7 @@ public class Target {
 
 	static private class PositionAndGeo extends CoordsAndGeo<PositionAndGeo> {
 
-		public PositionAndGeo() {
+		PositionAndGeo() {
 			super();
 		}
 
@@ -108,7 +108,7 @@ public class Target {
 
 	static private class NormalAndGeo extends CoordsAndGeo<NormalAndGeo> {
 
-		public NormalAndGeo() {
+		NormalAndGeo() {
 			super();
 		}
 
@@ -122,10 +122,10 @@ public class Target {
 	static private class AnimatableDouble
 			implements AnimatableValue<AnimatableDouble> {
 
-		public double value;
-		public boolean isDefined;
+		double value;
+		boolean isDefined;
 
-		public AnimatableDouble() {
+		AnimatableDouble() {
 			isDefined = false;
 		}
 
@@ -337,7 +337,7 @@ public class Target {
 
 		private Coords tmpCoords;
 
-		public AnimPosition(double totalDuration) {
+		AnimPosition(double totalDuration) {
 			super(totalDuration);
 		}
 
@@ -366,7 +366,7 @@ public class Target {
 
 	static private class AnimDouble extends Anim<AnimatableDouble> {
 
-		public AnimDouble(double totalDuration) {
+		AnimDouble(double totalDuration) {
 			super(totalDuration);
 		}
 

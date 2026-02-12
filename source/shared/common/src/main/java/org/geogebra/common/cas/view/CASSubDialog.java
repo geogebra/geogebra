@@ -62,55 +62,6 @@ public abstract class CASSubDialog {
 	protected Vector<Vector<String>> data;
 
 	/**
-	 * Class containing row information
-	 */
-	protected static class SubstituteValue {
-		private String variable;
-		private String value;
-
-		/**
-		 * @param var
-		 *            old expression
-		 * @param val
-		 *            new expression
-		 */
-		public SubstituteValue(String var, String val) {
-			variable = var;
-			value = val;
-		}
-
-		/**
-		 * @return old expression
-		 */
-		public String getVariable() {
-			return variable;
-		}
-
-		/**
-		 * @param var
-		 *            variable
-		 */
-		public void setVariable(String var) {
-			variable = var;
-		}
-
-		/**
-		 * @return new expression
-		 */
-		public String getValue() {
-			return value;
-		}
-
-		/**
-		 * @param val
-		 *            value
-		 */
-		public void setValue(String val) {
-			value = val;
-		}
-	}
-
-	/**
 	 * @param prefix
 	 *            before selection, not effected by the substitution
 	 * @param evalText

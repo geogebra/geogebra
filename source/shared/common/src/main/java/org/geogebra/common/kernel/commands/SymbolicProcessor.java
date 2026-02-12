@@ -88,11 +88,11 @@ public class SymbolicProcessor {
 	}
 
 	private static final class SubExpressionEvaluator implements Traversing {
-		private ExpressionValue root;
-		private SymbolicProcessor processor;
-		private EvalInfo evalInfo;
+		private final ExpressionValue root;
+		private final SymbolicProcessor processor;
+		private final EvalInfo evalInfo;
 
-		public SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
+		private SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
 				ExpressionValue root, EvalInfo evalInfo) {
 			this.processor = symbolicProcessor;
 			this.root = root;

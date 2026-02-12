@@ -168,13 +168,13 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		private static final long serialVersionUID = 1L;
 		private DrawSurface3D surface;
 
-		public NotEnoughCornersException(DrawSurface3D surface,
+		NotEnoughCornersException(DrawSurface3D surface,
 				String message) {
 			super(message);
 			this.surface = surface;
 		}
 
-		public void caught() {
+		void caught() {
 			Log.debug(this);
 			surface.setNoRoomLeft();
 		}
@@ -1056,7 +1056,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 	}
 
-	class Corner {
+	protected class Corner {
 		Coords3 p;
 		Coords3 normal;
 		double u;
@@ -1066,16 +1066,16 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		Corner l; // left
 		int id;
 
-		public Corner(int id) {
+		Corner(int id) {
 			this.id = id;
 		}
 
-		public Corner(double u, double v, int id) {
+		Corner(double u, double v, int id) {
 			this.id = id;
 			set(u, v);
 		}
 
-		public void set(double u, double v) {
+		void set(double u, double v) {
 			this.u = u;
 			this.v = v;
 			p = evaluatePoint(u, v, p);
@@ -1089,7 +1089,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			l = null;
 		}
 
-		public void set(Corner c) {
+		void set(Corner c) {
 			u = c.u;
 			v = c.v;
 			p = c.p;
@@ -1097,11 +1097,11 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			id = c.id;
 		}
 
-		public Corner(double u, double v, Coords3 p) {
+		Corner(double u, double v, Coords3 p) {
 			set(u, v, p);
 		}
 
-		public void set(double u, double v, Coords3 p) {
+		void set(double u, double v, Coords3 p) {
 			this.u = u;
 			this.v = v;
 			this.p = p;
@@ -1118,34 +1118,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		 * @param surface
 		 *            surface plotter
 		 */
-		public void drawAsNextToSplit(PlotterSurface surface) {
-
-			// if (this.p.isNotFinalUndefined()){
-			// if (a.p.isNotFinalUndefined()){
-			// if (l.p.isNotFinalUndefined()){
-			// drawTriangle(surface, this, a, l);
-			// if (l.a.p.isNotFinalUndefined()){
-			// drawTriangle(surface, l, a, l.a);
-			// }
-			// }else{
-			// if (l.a.p.isNotFinalUndefined()){
-			// drawTriangle(surface, this, a, l.a);
-			// }
-			// }
-			// }else{
-			// if (l.p.isNotFinalUndefined() && l.a.p.isNotFinalUndefined()){
-			// drawTriangle(surface, this, l.a, l);
-			// }
-			// }
-			// }else{ // this undefined
-			// if (l.p.isNotFinalUndefined() && a.p.isNotFinalUndefined() &&
-			// l.a.p.isNotFinalUndefined()){
-			// drawTriangle(surface, l, a, l.a);
-			// }
-			// }
-
+		void drawAsNextToSplit(PlotterSurface surface) {
 			drawAsStillToSplit(surface);
-
 		}
 
 		/**
@@ -1154,7 +1128,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		 * @param surface
 		 *            surface plotter
 		 */
-		public void drawAsStillToSplit(PlotterSurface surface) {
+		void drawAsStillToSplit(PlotterSurface surface) {
 
 			// prevent keeping old element id
 			for (int i = 0; i < cornerToDrawStillToSplit.length; i++) {
@@ -1242,7 +1216,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 		}
 
-		public void split(boolean draw) throws NotEnoughCornersException {
+		void split(boolean draw) throws NotEnoughCornersException {
 
 			Corner left, above, subLeft, subAbove;
 
