@@ -28,7 +28,7 @@ import org.geogebra.common.properties.impl.objects.NameCaptionProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
 import org.geogebra.common.properties.impl.objects.OldObjectColorProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
-import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
+import org.geogebra.common.properties.impl.objects.TextColorProperty;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -62,6 +62,11 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_ALIGNMENT_BOTTOM -> res.vertical_align_bottom();
 			case ICON_ALIGNMENT_MIDDLE -> res.vertical_align_middle();
 			case ICON_ALIGNMENT_TOP -> res.vertical_align_top();
+			case ICON_TEXT_WRAPPING_WRAP -> res.wrapping_wrap();
+			case ICON_TEXT_WRAPPING_CLIP -> res.wrapping_clip();
+			case ICON_TEXT_ROTATION_NONE -> res.rotation_none();
+			case ICON_TEXT_ROTATION_UP -> res.rotation_up();
+			case ICON_TEXT_ROTATION_DOWN -> res.rotation_down();
 			case ICON_SEGMENT_START_DEFAULT -> res.stylingbar_start_default();
 			case ICON_SEGMENT_START_LINE -> res.stylingbar_start_line();
 			case ICON_SEGMENT_START_ARROW -> res.stylingbar_start_arrow();
@@ -177,7 +182,7 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 					|| firstProperty instanceof TextBackgroundColorProperty
 					|| firstProperty instanceof NotesColorWithOpacityProperty) {
 				return getColorIcon();
-			} else if (firstProperty instanceof TextFontColorProperty) {
+			} else if (firstProperty instanceof TextColorProperty) {
 				return getTextColorIcon();
 			} else if (firstProperty instanceof BorderColorProperty) {
 				return matchIconWithResource(PropertyResource.ICON_BORDER_THIN);

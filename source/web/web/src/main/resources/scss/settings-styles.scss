@@ -742,6 +742,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			flex-wrap: wrap;
 			gap: 8px;
 		}
+		.iconButtonPanel .iconButtonListPanel {
+			display: flex;
+		}
 		.colorPalette.colorPanel {
 			width: 368px;
 			height: 68px;
@@ -754,7 +757,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 		}
 		.labelStyle {
-			margin-bottom: 16px;
 			.iconButton {
 				margin-right: 8px;
 			}

@@ -18,6 +18,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
@@ -43,6 +44,9 @@ public class SerifProperty extends AbstractValuedProperty<Boolean>
 	public SerifProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "Serif");
+		if (!(geoElement instanceof TextProperties) || geoElement instanceof HasTextFormatter) {
+			throw new NotApplicablePropertyException(geoElement);
+		}
 		delegate = new FontStyleDelegate(geoElement);
 	}
 

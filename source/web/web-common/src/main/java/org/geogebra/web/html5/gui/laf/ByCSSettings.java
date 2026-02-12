@@ -16,7 +16,6 @@
 
 package org.geogebra.web.html5.gui.laf;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,11 +55,6 @@ public class ByCSSettings implements VendorSettings {
 	@Override
 	public String getStyleName(String styleName) {
 		return styleName + "Mebis";
-	}
-
-	@Override
-	public List<FontFamily> getTextToolFonts() {
-		return Arrays.asList(FontFamily.values());
 	}
 
 	@Override

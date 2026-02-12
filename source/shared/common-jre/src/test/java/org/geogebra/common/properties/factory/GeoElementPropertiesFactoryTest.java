@@ -26,8 +26,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -35,6 +38,9 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.LinearEquationFormProperty;
 import org.geogebra.common.properties.impl.objects.QuadraticEquationFormProperty;
+import org.geogebra.common.properties.impl.objects.TextStylePropertyCollection;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -135,6 +141,40 @@ public class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 				getAlgebraProcessor(), getApp().getLocalization(), List.of(circle));
 		assertFalse(containsLinearEquationFormProperty(circleProperties));
 		assertTrue(containsQuadraticEquationFormProperty(circleProperties));
+	}
+
+	@Test
+	public void testInlineTableTextProperties() {
+		GeoInlineTable table = new GeoInlineTable(getKernel().getConstruction(), new GPoint2D());
+		try {
+			TextStylePropertyCollection textStylePropertyCollection
+					= new TextStylePropertyCollection(new GeoElementPropertiesFactory(),
+					getLocalization(), List.of(table));
+			List<String> textStylePropertyNames = Arrays.stream(
+							textStylePropertyCollection.getProperties()).map(Property::getName)
+					.toList();
+			assertEquals(List.of("Color", "Font", "Font Size", "Text style", "Alignment",
+					"Layout"), textStylePropertyNames);
+		} catch (NotApplicablePropertyException e) {
+			Log.alert("Inline table has no text style");
+		}
+	}
+
+	@Test
+	public void testInlineTextTextProperties() {
+		GeoInlineText table = new GeoInlineText(getKernel().getConstruction(), new GPoint2D());
+		try {
+			TextStylePropertyCollection textStylePropertyCollection
+					= new TextStylePropertyCollection(new GeoElementPropertiesFactory(),
+					getLocalization(), List.of(table));
+			List<String> textStylePropertyNames = Arrays.stream(
+							textStylePropertyCollection.getProperties()).map(Property::getName)
+					.toList();
+			assertEquals(List.of("Color", "Font", "Font Size", "Text style", "Alignment"),
+					textStylePropertyNames);
+		} catch (NotApplicablePropertyException e) {
+			Log.alert("Inline text has no text style");
+		}
 	}
 
 	private boolean containsLinearEquationFormProperty(PropertiesArray array) {

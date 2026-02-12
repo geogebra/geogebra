@@ -145,6 +145,10 @@ public class PropertiesPanelAdapter {
 		if (propertyView instanceof DimensionRatioEditor) {
 			return new DimensionRatioPanel(app, this, (DimensionRatioEditor) propertyView);
 		}
+		if (propertyView instanceof GroupedIconButtonRow groupedIconButtonRow) {
+			return new IconButtonPanel(app, groupedIconButtonRow.getLabel(),
+					groupedIconButtonRow.getIconRowList());
+		}
 		if (propertyView instanceof HorizontalSplitView) {
 			FlowPanel panel = new FlowPanel();
 			panel.addStyleName("horizontalSplitView");
@@ -216,10 +220,9 @@ public class PropertiesPanelAdapter {
 					},
 					colorSelectorRow);
 			Integer index = colorSelectorRow.getSelectedColorIndex();
-			if (index == null) {
-				index = 0;
+			if (index != null) {
+				colorPanel.updateColorSelection(colorSelectorRow.getColors().get(index));
 			}
-			colorPanel.updateColorSelection(colorSelectorRow.getColors().get(index));
 			colorPanel.addStyleName("colorPanel");
 			return colorPanel;
 		}

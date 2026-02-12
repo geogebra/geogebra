@@ -25,9 +25,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -56,6 +59,32 @@ public class TextStylePropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertThrows(NotApplicablePropertyException.class, () -> new TextStyleProperty(
 				propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression))));
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"a = InputBox()",
+	})
+	public void testInputBoxHasOnlySerifTextStyle(String expression)
+			throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		assertDoesNotThrow(() -> new TextStyleProperty(
+				propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression))));
+
+		TextStyleProperty textStyleProperty = new TextStyleProperty(
+			propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression)));
+		assertEquals(1, textStyleProperty.getProperties().length);
+		assertEquals("Serif", textStyleProperty.getProperties()[0].getName());
+	}
+
+	@Test
+	public void testInlineHasUnderlineTextStyle() throws NotApplicablePropertyException {
+		setupApp(SuiteSubApp.GRAPHING);
+		GeoInlineTable table = new GeoInlineTable(getKernel().getConstruction(), new GPoint2D());
+		TextStyleProperty textStyleProperty = new TextStyleProperty(
+				propertiesFactory, getLocalization(), List.of(table));
+		assertEquals(3, textStyleProperty.getProperties().length);
+		assertEquals("Underline", textStyleProperty.getProperties()[2].getName());
 	}
 
 	@Test

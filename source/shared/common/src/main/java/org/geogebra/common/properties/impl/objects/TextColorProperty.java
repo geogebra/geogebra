@@ -16,8 +16,12 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.ColorProperty;
@@ -41,21 +45,48 @@ public final class TextColorProperty extends AbstractEnumeratedProperty<GColor>
 	public TextColorProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "Color");
-		if (!(geoElement instanceof TextProperties)) {
+		if (!(geoElement instanceof TextProperties) && !(geoElement instanceof HasTextFormatter)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;
 		setValues(DefaultColorValues.BRIGHT);
 	}
 
+	/**
+	 * Constructs the property for the given element with predefined color values.
+	 * @param localization localization for translating the property name
+	 * @param geoElement the element to create the property for
+	 * @param values list of colors
+	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
+	 */
+	public TextColorProperty(Localization localization, GeoElement geoElement,
+			List<GColor> values)
+			throws NotApplicablePropertyException {
+		super(localization, "Color");
+		if (!(geoElement instanceof TextProperties) && !(geoElement instanceof HasTextFormatter)) {
+			throw new NotApplicablePropertyException(geoElement);
+		}
+		this.geoElement = geoElement;
+		setValues(values);
+	}
+
 	@Override
 	protected void doSetValue(GColor value) {
-		geoElement.setObjColor(value);
-		geoElement.updateRepaint();
+		if (geoElement instanceof TextProperties) {
+			geoElement.setObjColor(value);
+		} else {
+			((HasTextFormatter) geoElement).format("color", value.toString());
+		}
+		geoElement.updateVisualStyleRepaint(GProperty.COLOR);
 	}
 
 	@Override
 	public GColor getValue() {
+		if (geoElement instanceof HasTextFormatter) {
+			return GColor.getGColor(((HasTextFormatter) geoElement)
+					.getFormat("color", null));
+		}
+
 		return geoElement.getObjectColor();
 	}
 }

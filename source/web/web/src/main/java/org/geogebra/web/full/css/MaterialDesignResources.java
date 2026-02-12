@@ -63,6 +63,21 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/axis_tick_off.svg")
 	SVGResource axis_tick_off();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/format_text_clip_24dp.svg")
+	SVGResource wrapping_clip();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/format_text_wrap_24dp.svg")
+	SVGResource wrapping_wrap();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/text_rotate_up_24dp.svg")
+	SVGResource rotation_up();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/text_rotate_vertical_24dp.svg")
+	SVGResource rotation_down();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/text_rotation_none_24dp.svg")
+	SVGResource rotation_none();
+
 	// dynamic stylebar
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_color_reset-24px.svg")
 	SVGResource no_color();

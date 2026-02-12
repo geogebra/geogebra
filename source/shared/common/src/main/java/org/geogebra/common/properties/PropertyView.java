@@ -41,6 +41,7 @@ import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.aliases.ImageProperty;
 import org.geogebra.common.properties.aliases.StringProperty;
 import org.geogebra.common.properties.factory.PropertiesArray;
+import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 import org.geogebra.common.properties.impl.collections.ActionablePropertyCollection;
 import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
@@ -63,12 +64,14 @@ import org.geogebra.common.properties.impl.graphics.NavigationBarPropertiesColle
 import org.geogebra.common.properties.impl.graphics.SettingsDependentProperty;
 import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
+import org.geogebra.common.properties.impl.objects.AlignmentPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionDependentProperty;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionProperty.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
 import org.geogebra.common.properties.impl.objects.FillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
+import org.geogebra.common.properties.impl.objects.LayoutPropertyCollection;
 import org.geogebra.common.properties.impl.objects.LocationPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ObjectAllEventsProperty;
 import org.geogebra.common.properties.impl.objects.ObjectEventProperty;
@@ -1258,6 +1261,28 @@ public abstract class PropertyView {
 		}
 	}
 
+	public static final class GroupedIconButtonRow extends PropertyView {
+		private final AbstractPropertyCollection propertyCollection;
+		private final List<SingleSelectionIconRow> iconRowList = new ArrayList<>();
+
+		protected GroupedIconButtonRow(AbstractPropertyCollection propertyCollection) {
+			this.propertyCollection = propertyCollection;
+			for (Property property : propertyCollection.getProperties()) {
+				if (property instanceof IconsEnumeratedProperty<?> iconsEnumeratedProperty) {
+					iconRowList.add((SingleSelectionIconRow) of(iconsEnumeratedProperty));
+				}
+			}
+		}
+
+		public String getLabel() {
+			return propertyCollection.getName();
+		}
+
+		public List<SingleSelectionIconRow> getIconRowList() {
+			return iconRowList;
+		}
+	}
+
 	/**
 	 * Representation of an image picker that displays either a "choose from file" button
 	 * or a preview of the selected image with its name and actions to change or remove it.
@@ -1327,6 +1352,9 @@ public abstract class PropertyView {
 	public static @CheckForNull PropertyView of(Property property) {
 		if (property instanceof BooleanProperty booleanProperty) {
 			return new Checkbox(booleanProperty);
+		} else if (property instanceof AlignmentPropertyCollection
+			|| property instanceof LayoutPropertyCollection) {
+			return new GroupedIconButtonRow((AbstractPropertyCollection) property);
 		} else if (property instanceof DynamicColorSpaceProperty
 				|| (property instanceof NamedEnumeratedPropertyListFacade<?, ?> facade
 				&& (facade.getFirstProperty() instanceof DynamicColorSpaceProperty

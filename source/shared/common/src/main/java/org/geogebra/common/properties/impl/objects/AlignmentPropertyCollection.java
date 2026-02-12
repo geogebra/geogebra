@@ -16,23 +16,20 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.ToggleableIconProperty;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
-import org.geogebra.common.properties.impl.facade.ToggleableIconPropertyListFacade;
+import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-/**
- * {@code Property} responsible for setting text style,
- * including bold, italic, and serif styles independently.
- */
-public class TextStyleProperty extends AbstractPropertyCollection<ToggleableIconProperty> {
+public class AlignmentPropertyCollection extends AbstractPropertyCollection<Property> {
+
 	/**
 	 * Constructs the property for the given elements.
 	 * @param propertiesFactory properties factory for creating property facades for the given list
@@ -42,24 +39,18 @@ public class TextStyleProperty extends AbstractPropertyCollection<ToggleableIcon
 	 * @throws NotApplicablePropertyException if the property is not applicable for any given
 	 * elements
 	 */
-	public TextStyleProperty(
+	public AlignmentPropertyCollection(
 			GeoElementPropertiesFactory propertiesFactory, Localization localization,
 			List<GeoElement> elements) throws NotApplicablePropertyException {
-		super(localization, "Properties.TextStyle");
-		setProperties(Arrays.stream(new ToggleableIconProperty[]{
+		super(localization, "ObjectProperties.Alignment");
+		setProperties(Stream.of(
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new BoldProperty(localization, element),
-						ToggleableIconPropertyListFacade::new),
+						element -> new HorizontalAlignmentProperty(localization, element),
+						IconsEnumeratedPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ItalicProperty(localization, element),
-						ToggleableIconPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new UnderlineProperty(localization, element),
-						ToggleableIconPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SerifProperty(localization, element),
-						ToggleableIconPropertyListFacade::new)
-		}).filter(Objects::nonNull).toArray(ToggleableIconProperty[]::new));
+						element -> new VerticalAlignmentProperty(localization, element),
+						IconsEnumeratedPropertyListFacade::new)
+		).filter(Objects::nonNull).toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

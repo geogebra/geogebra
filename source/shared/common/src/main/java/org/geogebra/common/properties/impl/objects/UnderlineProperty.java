@@ -20,16 +20,15 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.IconAssociatedProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.aliases.BooleanProperty;
+import org.geogebra.common.properties.ToggleableIconProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.TextFormatterDelegate;
 
 public class UnderlineProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty, IconAssociatedProperty {
+		implements ToggleableIconProperty {
 	private final GeoElementDelegate delegate;
 
 	/**

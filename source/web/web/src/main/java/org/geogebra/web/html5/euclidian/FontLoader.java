@@ -19,7 +19,7 @@ package org.geogebra.web.html5.euclidian;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.web.html5.gui.laf.FontFamily;
+import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.web.html5.util.WebFont;
 import org.gwtproject.dom.client.StyleInjector;
 
@@ -29,20 +29,36 @@ import jsinterop.base.JsPropertyMap;
 
 public final class FontLoader {
 	private static Map<String, FontState> injected = new HashMap<>();
-	private static FontFamily[] bundled = new FontFamily[]{FontFamily.DYSLEXIC,
-			FontFamily.QUICKSAND, FontFamily.SOURCE_SANS_PRO, FontFamily.TITILLIUM,
-			FontFamily.ABeZehBlueRedEDUBold, FontFamily.ABeZehBlueRedEDULight,
-			FontFamily.ABeZehBlueRedEDURegular, FontFamily.ABeZehEDUBold,
-			FontFamily.ABeZehEDUBoldItalic, FontFamily.ABeZehEDUItalic,
-			FontFamily.ABeZehEDULight, FontFamily.ABeZehEDULightItalic,
-			FontFamily.ABeZehEDURegular, FontFamily.ABeZehHokuspokusEDUDEBold,
-			FontFamily.ABeZehHokuspokusEDUDERegular, FontFamily.ABeZehHokuspokusEDUENBold,
-			FontFamily.ABeZehHokuspokusEDUENRegular, FontFamily.ABeZehIconsEDUDeutsch,
-			FontFamily.ABeZehIconsEDUEnglish, FontFamily.ABeZehIconsEDUFrancais,
-			FontFamily.ABeZehLinieEDULight, FontFamily.ABeZehLinieEDURegular,
-			FontFamily.ABeZehPfeilEDULight, FontFamily.ABeZehPfeilEDURegular,
-			FontFamily.ABeZehPfeilEDULINKSLight, FontFamily.ABeZehPunktEDULight,
-			FontFamily.ABeZehPunktEDURegular, FontFamily.TEST, FontFamily.TEST2};
+	private static FontProperty.FontFamily[] bundled = new FontProperty.FontFamily[]{
+			FontProperty.FontFamily.DYSLEXIC,
+			FontProperty.FontFamily.QUICKSAND,
+			FontProperty.FontFamily.SOURCE_SANS_PRO,
+			FontProperty.FontFamily.TITILLIUM,
+			FontProperty.FontFamily.ABeZehBlueRedEDUBold,
+			FontProperty.FontFamily.ABeZehBlueRedEDULight,
+			FontProperty.FontFamily.ABeZehBlueRedEDURegular,
+			FontProperty.FontFamily.ABeZehEDUBold,
+			FontProperty.FontFamily.ABeZehEDUBoldItalic,
+			FontProperty.FontFamily.ABeZehEDUItalic,
+			FontProperty.FontFamily.ABeZehEDULight,
+			FontProperty.FontFamily.ABeZehEDULightItalic,
+			FontProperty.FontFamily.ABeZehEDURegular,
+			FontProperty.FontFamily.ABeZehHokuspokusEDUDEBold,
+			FontProperty.FontFamily.ABeZehHokuspokusEDUDERegular,
+			FontProperty.FontFamily.ABeZehHokuspokusEDUENBold,
+			FontProperty.FontFamily.ABeZehHokuspokusEDUENRegular,
+			FontProperty.FontFamily.ABeZehIconsEDUDeutsch,
+			FontProperty.FontFamily.ABeZehIconsEDUEnglish,
+			FontProperty.FontFamily.ABeZehIconsEDUFrancais,
+			FontProperty.FontFamily.ABeZehLinieEDULight,
+			FontProperty.FontFamily.ABeZehLinieEDURegular,
+			FontProperty.FontFamily.ABeZehPfeilEDULight,
+			FontProperty.FontFamily.ABeZehPfeilEDURegular,
+			FontProperty.FontFamily.ABeZehPfeilEDULINKSLight,
+			FontProperty.FontFamily.ABeZehPunktEDULight,
+			FontProperty.FontFamily.ABeZehPunktEDURegular,
+			FontProperty.FontFamily.TEST,
+			FontProperty.FontFamily.TEST2};
 
 	private enum FontState { LOADING, ACTIVE }
 
@@ -64,7 +80,7 @@ public final class FontLoader {
 		if (baseUrl.isEmpty()) {
 			return;
 		}
-		for (FontFamily family: bundled) {
+		for (FontProperty.FontFamily family: bundled) {
 			if (family.cssName().equals(familyName)) {
 				loadFontFile(familyName.split(",")[0], baseUrl, callback);
 				return;

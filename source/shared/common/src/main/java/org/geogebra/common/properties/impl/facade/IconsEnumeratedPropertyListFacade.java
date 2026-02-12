@@ -43,6 +43,6 @@ public class IconsEnumeratedPropertyListFacade<T extends IconsEnumeratedProperty
 
 	@Override
 	public @CheckForNull String[] getToolTipLabels() {
-		return null;
+		return getFirstProperty().getToolTipLabels();
 	}
 }

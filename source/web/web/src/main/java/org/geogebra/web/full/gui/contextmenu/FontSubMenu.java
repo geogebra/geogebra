@@ -23,7 +23,7 @@ import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.undo.UpdateContentActionStore;
-import org.geogebra.web.html5.gui.laf.FontFamily;
+import org.geogebra.common.properties.impl.objects.FontProperty;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -38,7 +38,7 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class FontSubMenu extends AriaMenuBar {
 
-	private final List<FontFamily> fonts;
+	private final List<FontProperty.FontFamily> fonts;
 	private final List<HasTextFormat> formatters;
 	private AriaMenuItem highlighted;
 
@@ -47,14 +47,14 @@ public class FontSubMenu extends AriaMenuBar {
 	 * @param formatters to format text.
 	 */
 	public FontSubMenu(AppW app, List<HasTextFormat> formatters) {
-		this.fonts = app.getVendorSettings().getTextToolFonts();
+		this.fonts = FontProperty.FontFamily.getAvailableFonts(app.isByCS());
 		this.formatters = formatters;
 		createItems();
 	}
 
 	private void createItems() {
-		for (final FontFamily font : fonts) {
-			if (!font.equals(FontFamily.TEST)
+		for (final FontProperty.FontFamily font : fonts) {
+			if (!font.equals(FontProperty.FontFamily.TEST)
 					|| PreviewFeature.isAvailable(PreviewFeature.TEST_FONT)) {
 				ScheduledCommand command = () -> setFontName(font.cssName());
 				AriaMenuItem item = new AriaMenuItem(font.displayName(), null, command);
@@ -89,7 +89,7 @@ public class FontSubMenu extends AriaMenuBar {
 		}
 
 		String font = formatters.get(0).getFormat("font", "");
-		for (FontFamily family : fonts) {
+		for (FontProperty.FontFamily family : fonts) {
 			if (font.equals(family.cssName())) {
 				highlightItem(fonts.indexOf(family));
 				return;

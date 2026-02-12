@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.color.GeoColorValues;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
@@ -117,7 +118,7 @@ import org.geogebra.common.properties.impl.objects.SliderTrackPropertyCollection
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.StylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
-import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
+import org.geogebra.common.properties.impl.objects.TextColorProperty;
 import org.geogebra.common.properties.impl.objects.TextStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
@@ -344,8 +345,6 @@ public final class GeoElementPropertiesFactory {
 				// New style properties come below, in order
 				createOptionalProperty(() -> new StylePropertyCollection(
 						this, localization, elements)),
-				isWhiteboard ? null : createOptionalProperty(
-						() -> new BackgroundColorPropertyCollection(this, localization, elements)),
 				createOptionalProperty(() -> new SizePropertyCollection(
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new SliderBlobPropertyCollection(
@@ -354,6 +353,8 @@ public final class GeoElementPropertiesFactory {
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new TextStylePropertyCollection(
 						this, localization, elements)),
+				isWhiteboard ? null : createOptionalProperty(
+						() -> new BackgroundColorPropertyCollection(this, localization, elements)),
 				createOptionalProperty(() -> new FillingPropertyCollection(
 						this, localization, imageManager, elements)),
 				// Old style properties below
@@ -619,7 +620,7 @@ public final class GeoElementPropertiesFactory {
 	public ColorProperty createTextFontColorProperty(Localization localization,
 			List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
-				element -> new TextFontColorProperty(localization, element),
+				element -> new TextColorProperty(localization, element, GeoColorValues.values()),
 				ColorPropertyListFacade::new);
 	}
 

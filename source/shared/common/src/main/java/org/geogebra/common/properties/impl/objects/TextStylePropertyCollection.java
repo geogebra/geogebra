@@ -55,12 +55,19 @@ public final class TextStylePropertyCollection extends AbstractPropertyCollectio
 						element -> new TextColorProperty(localization, element),
 						ColorPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
+						element -> new FontProperty(localization, element),
+						NamedEnumeratedPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new FontSizeProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				tryOrNull(() -> new TextStyleProperty(propertiesFactory, localization, elements)),
+				new TextStyleProperty(propertiesFactory, localization, elements),
 				propertiesFactory.createOptionalPropertyFacade(elements,
 						element -> new InputBoxAlignmentProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new)
+						IconsEnumeratedPropertyListFacade::new),
+				tryOrNull(() -> new AlignmentPropertyCollection(propertiesFactory,
+						localization, elements)),
+				tryOrNull(() -> new LayoutPropertyCollection(propertiesFactory,
+						localization, elements))
 		).filter(Objects::nonNull).toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));

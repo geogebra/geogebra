@@ -25,7 +25,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.ToggleableIconProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
-import org.geogebra.common.properties.impl.objects.delegate.FontStyleDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.FontStyleNonInputBoxDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
@@ -41,7 +41,7 @@ public class BoldProperty extends AbstractValuedProperty<Boolean>
 	public BoldProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Bold");
-		delegate = new FontStyleDelegate(element);
+		delegate = new FontStyleNonInputBoxDelegate(element);
 	}
 
 	@Override

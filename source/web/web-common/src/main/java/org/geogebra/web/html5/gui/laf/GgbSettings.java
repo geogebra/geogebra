@@ -58,22 +58,6 @@ public class GgbSettings implements VendorSettings {
 	}
 
 	@Override
-	public List<FontFamily> getTextToolFonts() {
-		return Arrays.asList(FontFamily.ARIAL,
-				FontFamily.CALIBRI,
-				FontFamily.CENTURY_GOTHIC,
-				FontFamily.COMIC_SANS,
-				FontFamily.COURIER,
-				FontFamily.GEORGIA,
-				FontFamily.ROBOTO,
-				FontFamily.SF_MONO,
-				FontFamily.SF_PRO,
-				FontFamily.TIMES,
-				FontFamily.TREBUCHET,
-				FontFamily.VERDANA);
-	}
-
-	@Override
 	public boolean canSessionExpire() {
 		return false;
 	}
