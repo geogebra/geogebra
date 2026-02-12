@@ -45,7 +45,8 @@ public class ObjectColorProperty extends AbstractEnumeratedProperty<GColor>
 	public ObjectColorProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "Color");
-		if (ColorPropertyType.forElement(geoElement) != ColorPropertyType.OPAQUE) {
+		if (ColorPropertyType.forElement(geoElement) != ColorPropertyType.OPAQUE
+			&& ColorPropertyType.forElement(geoElement) != ColorPropertyType.WITH_OPACITY) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;

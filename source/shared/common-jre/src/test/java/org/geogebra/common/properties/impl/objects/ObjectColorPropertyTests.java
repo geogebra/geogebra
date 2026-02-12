@@ -36,6 +36,8 @@ public class ObjectColorPropertyTests extends BaseAppTestSetup {
 			"f(x) = x^2",
 			"Slider(-5, 5, 1)",
 			"Line((0, 0), (1, 1))",
+			"Circle((0, 0), 3)",
+			"Polygon({(0, 0), (1, 1), (1, 0)})",
 	})
 	public void testApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
@@ -47,8 +49,6 @@ public class ObjectColorPropertyTests extends BaseAppTestSetup {
 	@ValueSource(strings = {
 			"\"abc\"",
 			"Button(\"Press\")",
-			"Circle((0, 0), 3)",
-			"Polygon({(0, 0), (1, 1), (1, 0)})",
 	})
 	public void testNotApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);

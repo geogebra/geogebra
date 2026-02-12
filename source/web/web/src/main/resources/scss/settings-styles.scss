@@ -706,6 +706,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					line-height: 36px;
 				}
 			}
+			.colorPalette, .sliderComponent, .iconButtonPanel {
+				margin: 0;
+            }
 		}
 		.checkboxPanel {
 			display: flex;
@@ -714,6 +717,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.dropDown, .comboBox, .inputTextField, .textEdit {
 			width: calc(100% - 32px);
 			margin: 16px 16px 8px 16px;
+		}
+		.colorPalette, .sliderComponent, .iconButtonPanel {
+			margin: 16px;
 		}
 		.componentTab {
 			.wrapPanel {

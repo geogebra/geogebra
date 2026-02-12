@@ -16,6 +16,7 @@
 
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.InequalityProperties;
@@ -35,10 +36,15 @@ public class InequalityOnAxisProperty  extends AbstractValuedProperty<Boolean>
 	public InequalityOnAxisProperty(Localization localization, GeoElement geo)
 			throws NotApplicablePropertyException {
 		super(localization, "ShowOnXAxis");
-		if (!(geo instanceof InequalityProperties)) {
+		if (!(geo instanceof InequalityProperties
+				&& isBooleanFunction(geo.getGeoElementForPropertiesDialog()))) {
 			throw new NotApplicablePropertyException(geo);
 		}
 		this.inequality = (InequalityProperties) geo;
+	}
+
+	private boolean isBooleanFunction(GeoElement fn) {
+		return fn instanceof FunctionalNVar functional && functional.isBooleanFunction();
 	}
 
 	@Override

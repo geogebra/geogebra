@@ -17,6 +17,7 @@
 package org.geogebra.common.properties.impl.objects.delegate;
 
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
@@ -32,6 +33,9 @@ public class OpacityPropertyDelegate extends AbstractGeoElementDelegate {
 			return false;
 		}
 		if (isTextOrInput(element)) {
+			return false;
+		}
+		if (element instanceof GeoButton) {
 			return false;
 		}
 		if (element instanceof GeoList) {

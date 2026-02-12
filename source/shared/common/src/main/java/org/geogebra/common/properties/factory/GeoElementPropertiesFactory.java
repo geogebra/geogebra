@@ -345,8 +345,6 @@ public final class GeoElementPropertiesFactory {
 				// New style properties come below, in order
 				createOptionalProperty(() -> new StylePropertyCollection(
 						this, localization, elements)),
-				createOptionalProperty(() -> new SizePropertyCollection(
-						this, processor, localization, elements)),
 				createOptionalProperty(() -> new SliderBlobPropertyCollection(
 						this, localization, elements)),
 				createOptionalProperty(() -> new SliderTrackPropertyCollection(
@@ -355,6 +353,8 @@ public final class GeoElementPropertiesFactory {
 						this, localization, elements)),
 				isWhiteboard ? null : createOptionalProperty(
 						() -> new BackgroundColorPropertyCollection(this, localization, elements)),
+				createOptionalProperty(() -> new SizePropertyCollection(
+						this, processor, localization, elements)),
 				createOptionalProperty(() -> new FillingPropertyCollection(
 						this, localization, imageManager, elements)),
 				// Old style properties below
