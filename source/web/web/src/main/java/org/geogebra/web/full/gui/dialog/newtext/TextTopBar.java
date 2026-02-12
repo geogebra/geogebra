@@ -23,12 +23,12 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.handler.TextStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.properties.TextFontSize;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
+import org.geogebra.common.properties.impl.objects.FontSizeProperty.FontSize;
 import org.geogebra.web.full.euclidian.quickstylebar.components.IconButtonWithProperty;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.main.AppWFull;
@@ -72,7 +72,7 @@ public class TextTopBar extends FlowPanel {
 		Property fontColorProperty = propertiesFactory.createTextFontColorProperty(loc, geoList);
 		add(createIconButtonWithProperty(fontColorProperty, geoList, textStyle::setFontColor));
 
-		fontSizeProperty = propertiesFactory.createTextFontSizeProperty(loc, geoList);
+		fontSizeProperty = propertiesFactory.createFontSizeProperty(loc, geoList);
 		IconButtonWithProperty fontSizeButton = new IconButtonWithProperty(
 				appW, "gwt-PopupPanel contextSubMenu",
 				appW.getPropertiesIconResource().getImageResource(fontSizeProperty),
@@ -130,7 +130,7 @@ public class TextTopBar extends FlowPanel {
 	 * @return {@link TextStyle}
 	 */
 	public TextStyle getTextStyle() {
-		textStyle.setTextSize((TextFontSize) fontSizeProperty.getValue());
+		textStyle.setTextSize((FontSize) fontSizeProperty.getValue());
 		return textStyle;
 	}
 }

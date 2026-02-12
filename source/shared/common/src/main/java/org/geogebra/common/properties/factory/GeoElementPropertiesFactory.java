@@ -75,6 +75,7 @@ import org.geogebra.common.properties.impl.objects.FillingStyleProperty;
 import org.geogebra.common.properties.impl.objects.FixCheckboxProperty;
 import org.geogebra.common.properties.impl.objects.FixObjectProperty;
 import org.geogebra.common.properties.impl.objects.FixSliderObjectProperty;
+import org.geogebra.common.properties.impl.objects.FontSizeProperty;
 import org.geogebra.common.properties.impl.objects.HorizontalAlignmentProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.InteractionPropertyCollection;
@@ -117,7 +118,6 @@ import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.StylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
-import org.geogebra.common.properties.impl.objects.TextFontSizeProperty;
 import org.geogebra.common.properties.impl.objects.TextStylePropertyCollection;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.common.properties.impl.objects.UnderlineProperty;
@@ -822,10 +822,10 @@ public final class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public NamedEnumeratedPropertyListFacade<?, ?> createTextFontSizeProperty(
+	public NamedEnumeratedPropertyListFacade<?, ?> createFontSizeProperty(
 			Localization localization, List<GeoElement> elements) {
 		return createOptionalPropertyFacade(elements,
-				element -> new TextFontSizeProperty(localization, element),
+				element -> new FontSizeProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
 	}
 

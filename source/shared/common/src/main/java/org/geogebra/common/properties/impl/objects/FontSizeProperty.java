@@ -23,11 +23,15 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.HasTextFormatter;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.FontSizeProperty.FontSize;
+import org.geogebra.common.properties.impl.objects.delegate.FontStyleDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -94,21 +98,18 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 		}
 	}
 
-	private final GeoElement geoElement;
+	private final GeoElementDelegate delegate;
 
 	/**
 	 * Constructs the property for the given element.
 	 * @param localization localization for translating the property name
-	 * @param geoElement the element to create the property for
+	 * @param element the element to create the property for
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public FontSizeProperty(Localization localization, GeoElement geoElement)
+	public FontSizeProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "FontSize");
-		if (!(geoElement instanceof TextProperties)) {
-			throw new NotApplicablePropertyException(geoElement);
-		}
-		this.geoElement = geoElement;
+		this.delegate = new FontStyleDelegate(element);
 		setNamedValues(Arrays.stream(FontSize.values())
 				.map(fontSize -> entry(fontSize, fontSize.getTranslationKey()))
 				.collect(Collectors.toList()));
@@ -116,17 +117,35 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 
 	@Override
 	protected void doSetValue(FontSize fontSize) {
-		((TextProperties) geoElement).setFontSizeMultiplier(fontSize.getMultiplier());
+		GeoElement element = delegate.getElement();
+		if (element instanceof TextProperties textProperties
+				&& textProperties.getFontSizeMultiplier() != fontSize.multiplier) {
+			textProperties.setFontSizeMultiplier(fontSize.multiplier);
+		} else if (element instanceof HasTextFormatter hasTextFormatter) {
+			hasTextFormatter.format("size", fontSize.multiplier * getBaseFontSize());
+		}
+		element.updateVisualStyleRepaint(GProperty.FONT);
 	}
 
 	@Override
 	public FontSize getValue() {
-		return FontSize.withFontSizeMultiplier(
-				((TextProperties) geoElement).getFontSizeMultiplier());
+		GeoElement element = delegate.getElement();
+		if (element instanceof HasTextFormatter hasTextFormatter) {
+			double multiplier = hasTextFormatter.getFormat("size", 0d) / getBaseFontSize();
+			return FontSize.withFontSizeMultiplier(multiplier);
+		} else if (element instanceof TextProperties textStyle) {
+			return FontSize.withFontSizeMultiplier(textStyle.getFontSizeMultiplier());
+		}
+		return null;
 	}
 
 	@Override
 	public GeoElement getGeoElement() {
-		return geoElement;
+		return delegate.getElement();
+	}
+
+	private double getBaseFontSize() {
+		// dependency on getApp will be removed when inline text size is switched to absolute
+		return delegate.getElement().getApp().getFontSize();
 	}
 }

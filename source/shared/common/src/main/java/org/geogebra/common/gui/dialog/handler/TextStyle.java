@@ -17,7 +17,7 @@
 package org.geogebra.common.gui.dialog.handler;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.kernel.geos.properties.TextFontSize;
+import org.geogebra.common.properties.impl.objects.FontSizeProperty.FontSize;
 
 public class TextStyle {
 	private boolean isBold;
@@ -26,7 +26,7 @@ public class TextStyle {
 	private boolean isLatex;
 	private GColor bgColor;
 	private GColor fontColor;
-	private TextFontSize textSize;
+	private FontSize textSize;
 
 	public boolean isItalic() {
 		return isItalic;
@@ -76,11 +76,11 @@ public class TextStyle {
 		this.fontColor = fontColor;
 	}
 
-	public TextFontSize getTextSize() {
+	public FontSize getTextSize() {
 		return textSize;
 	}
 
-	public void setTextSize(TextFontSize textSize) {
+	public void setTextSize(FontSize textSize) {
 		this.textSize = textSize;
 	}
 }

@@ -22,13 +22,13 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.impl.facade.AbstractPropertyListFacade;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
+import org.geogebra.common.properties.impl.objects.FontSizeProperty;
 import org.geogebra.common.properties.impl.objects.ImageOpacityProperty;
 import org.geogebra.common.properties.impl.objects.NameCaptionProperty;
 import org.geogebra.common.properties.impl.objects.NotesColorWithOpacityProperty;
 import org.geogebra.common.properties.impl.objects.OldObjectColorProperty;
 import org.geogebra.common.properties.impl.objects.TextBackgroundColorProperty;
 import org.geogebra.common.properties.impl.objects.TextFontColorProperty;
-import org.geogebra.common.properties.impl.objects.TextFontSizeProperty;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -171,7 +171,7 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 				return getOpacityIcon();
 			} else if (firstProperty instanceof IconAssociatedProperty iconProperty) {
 				return matchIconWithResource(iconProperty.getIcon());
-			} else if (firstProperty instanceof TextFontSizeProperty) {
+			} else if (firstProperty instanceof FontSizeProperty) {
 				return getTextSizeIcon();
 			} else if (firstProperty instanceof OldObjectColorProperty
 					|| firstProperty instanceof TextBackgroundColorProperty
