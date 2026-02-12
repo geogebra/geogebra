@@ -363,8 +363,8 @@
 		this.doc.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
 	};
 
-	canvas2pdf.PdfContext.prototype.quadraticCurveTo = function(cpx, cpy, x, y) {
-		this.doc.quadraticCurveTo(cpx, cpy, x, y);
+	canvas2pdf.PdfContext.prototype.quadraticCurveTo = function(cpX, cpY, x, y) {
+		this.doc.quadraticCurveTo(cpX, cpY, x, y);
 	};
 	canvas2pdf.PdfContext.prototype.createLinearGradient = function(x1, y1, x2, y2) {
 		return this.doc.linearGradient(x1, y1, x2, y2);
@@ -1122,8 +1122,8 @@
 	};
 
 	// from PDFKit 0.8
-	PDFPage.prototype.quadraticCurveTo = function(cpx, cpy, x, y) {
-		return this.pdfStream.addText("" + cpx + " " + cpy + " " + x + " " + y + " v ");
+	PDFPage.prototype.quadraticCurveTo = function(cpX, cpY, x, y) {
+		return this.pdfStream.addText("" + cpX + " " + cpY + " " + x + " " + y + " v ");
 	};
 
 	// implement eg https://stackoverflow.com/questions/33676303/draw-and-arc-in-pdf-generation
