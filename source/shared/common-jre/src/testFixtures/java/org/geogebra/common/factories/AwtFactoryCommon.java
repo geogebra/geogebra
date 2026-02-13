@@ -16,6 +16,8 @@
 
 package org.geogebra.common.factories;
 
+import java.util.function.BiFunction;
+
 import org.geogebra.common.awt.GAlphaComposite;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GBufferedImageCommon;
@@ -38,14 +40,21 @@ import org.geogebra.ggbjdk.factories.AwtFactoryHeadless;
  */
 public class AwtFactoryCommon extends AwtFactoryHeadless {
 
+    private static BiFunction<Integer, Integer, GBufferedImageCommon> imageFactory
+            = GBufferedImageCommon::new;
+
+    public static void setImageFactory(BiFunction<Integer, Integer, GBufferedImageCommon> factory) {
+        imageFactory = factory;
+    }
+
     @Override
     public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight, double pixelRatio) {
-		return new GBufferedImageCommon(pixelWidth, pixelHeight);
+		return imageFactory.apply(pixelWidth, pixelHeight);
     }
 
     @Override
     public GBufferedImage createBufferedImage(int width, int height, boolean transparency) {
-        return new GBufferedImageCommon(width, height);
+        return imageFactory.apply(width, height);
     }
 
     @Override

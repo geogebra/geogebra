@@ -42,7 +42,7 @@ import org.geogebra.common.util.debug.Log;
  * @version October 2009
  */
 public class GeneralPathClipped {
-
+	private static final double EPSILON = 0.01;
 	private final ArrayList<MyPoint> unprocessedPathPoints;
 	/** Cached clipped path, considered invalid if {@code unprocessedPathPoints} are not empty */
 	private final GGeneralPath gp;
@@ -178,7 +178,7 @@ public class GeneralPathClipped {
 			addToGeneralPath(curP, curP.getSegmentType());
 		}
 
-		if (result.size() > 0 && needClosePath) {
+		if (!result.isEmpty() && needClosePath) {
 			gp.closePath();
 		}
 	}
@@ -226,7 +226,12 @@ public class GeneralPathClipped {
 		}
 		else if (lineTo == SegmentType.LINE_TO && p != null) {
 			try {
-				gp.lineTo(q.getX(), q.getY());
+				// Safari: 0 length segments not drawn (MOW-1818 / MOW-878)
+				if (p.distance(q) < EPSILON) {
+					gp.lineTo(q.getX() + EPSILON, q.getY());
+				} else {
+					gp.lineTo(q.getX(), q.getY());
+				}
 			} catch (Exception e) {
 				gp.moveTo(q.getX(), q.getY());
 			}

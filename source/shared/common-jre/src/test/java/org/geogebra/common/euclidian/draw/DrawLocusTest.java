@@ -16,6 +16,7 @@
 
 package org.geogebra.common.euclidian.draw;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -25,15 +26,24 @@ import static org.mockito.Mockito.times;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GBufferedImageCommon;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.annotation.Issue;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 public class DrawLocusTest extends BaseAppTestSetup {
+
 	@ParameterizedTest
 	@ValueSource(strings = {"Segment((0,0),(10,1))", "Segment((0,0),(10,0))"})
 	@Issue("APPS-6329")
@@ -66,5 +76,47 @@ public class DrawLocusTest extends BaseAppTestSetup {
 		// check that we've drawn the buffered stoke
 		Mockito.verify(graphics, times(images))
 				.drawImage(Mockito.<GBufferedImage>any(), anyInt(), anyInt());
+	}
+
+	@Test
+	public void strokeNonEmpty() {
+		setupApp(SuiteSubApp.G3D);
+		GGraphics2D cachedGraphics = mock(GGraphics2D.class);
+		GBufferedImageCommon mock = new GBufferedImageCommon(100, 100) {
+			@Override
+			public GGraphics2D createGraphics() {
+				return cachedGraphics;
+			}
+		};
+		AwtFactoryCommon.setImageFactory((width, height) -> mock);
+		evaluate("stroke=PenStroke((1,1),(1,1))");
+		DrawLocus locus = (DrawLocus) getApp().getActiveEuclidianView()
+				.getDrawableFor(getKernel().lookupLabel("stroke"));
+		GGraphics2D graphics = mock(GGraphics2D.class);
+		assertNotNull(locus);
+		locus.draw(graphics);
+		// strokes should use bitmap buffer, no paths should be drawn
+		Mockito.verify(graphics, never()).draw(any());
+		Mockito.verify(cachedGraphics, times(1)).draw(
+				ArgumentMatchers.argThat(p -> p instanceof GGeneralPath && isStroke(p)));
+		// check that we've drawn the buffered stoke
+		Mockito.verify(graphics, times(1))
+				.drawImage(Mockito.<GBufferedImage>any(), anyInt(), anyInt());
+	}
+
+	@AfterEach
+	public void cleanup() {
+		AwtFactoryCommon.setImageFactory(GBufferedImageCommon::new);
+	}
+
+	private boolean isStroke(GShape p) {
+		double[] seg1 = new double[2];
+		double[] seg2 = new double[2];
+		GPathIterator pathIterator = p.getPathIterator(null);
+		assertEquals(GPathIterator.SEG_MOVETO, pathIterator.currentSegment(seg2));
+		pathIterator.next();
+		assertEquals(GPathIterator.SEG_LINETO, pathIterator.currentSegment(seg1));
+
+		return seg1[0] != seg2[0];
 	}
 }
