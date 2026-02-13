@@ -188,13 +188,13 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 	// integrator.addStepHandler(stepHandler);
 
-	private static class ODE2 implements FirstOrderDifferentialEquations {
+	private static final class ODE2 implements FirstOrderDifferentialEquations {
 
 		GeoFunctionable b;
 		GeoFunctionable c;
 		GeoFunctionable f;
 
-		public ODE2(GeoFunctionable b, GeoFunctionable c, GeoFunctionable f) {
+		private ODE2(GeoFunctionable b, GeoFunctionable c, GeoFunctionable f) {
 			this.b = b;
 			this.c = c;
 			this.f = f;

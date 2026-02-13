@@ -27,7 +27,7 @@ import org.geogebra.common.awt.GColor;
 abstract class BufferPackAbstract {
 
 	/** max size for elements */
-	public static final int ELEMENT_SIZE_MAX = Short.MAX_VALUE + 1;
+	static final int ELEMENT_SIZE_MAX = Short.MAX_VALUE + 1;
 
 	/** elements length */
 	int elementsLength;
@@ -165,7 +165,7 @@ abstract class BufferPackAbstract {
 	 * 
 	 * @return if can be reused (when adding available segments)
 	 */
-	public boolean canBeReused() {
+	boolean canBeReused() {
 		return true;
 	}
 
@@ -173,7 +173,7 @@ abstract class BufferPackAbstract {
 	 * 
 	 * @return segments ends
 	 */
-	public TreeMap<Index, BufferSegment> getSegmentEnds() {
+	TreeMap<Index, BufferSegment> getSegmentEnds() {
 		if (segmentEnds == null) {
 			segmentEnds = new TreeMap<>();
 		}
@@ -184,7 +184,7 @@ abstract class BufferPackAbstract {
 	 * 
 	 * @return segments starts
 	 */
-	public TreeMap<Index, BufferSegment> getSegmentStarts() {
+	TreeMap<Index, BufferSegment> getSegmentStarts() {
 		if (segmentStarts == null) {
 			segmentStarts = new TreeMap<>();
 		}
@@ -195,7 +195,7 @@ abstract class BufferPackAbstract {
 	 * 
 	 * @return true if used as a big buffer
 	 */
-	public boolean isBigBuffer() {
+	boolean isBigBuffer() {
 		return false;
 	}
 }

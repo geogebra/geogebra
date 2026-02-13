@@ -138,7 +138,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	}
 
 	@Override
-	public boolean isTemplateForPoints() {
+	boolean isTemplateForPoints() {
 		return true;
 	}
 

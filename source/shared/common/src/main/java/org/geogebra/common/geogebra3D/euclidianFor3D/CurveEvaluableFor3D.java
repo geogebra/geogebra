@@ -30,10 +30,10 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class CurveEvaluableFor3D implements CurveEvaluable {
 
-	private GeoCurveCartesian3D parent;
-	private double[] parentOut;
+	private final GeoCurveCartesian3D parent;
+	private final double[] parentOut;
 
-	private FunMustBeZero funZ;
+	private final FunMustBeZero funZ;
 
 	/**
 	 * Function that returns NaN if parent z != 0
@@ -41,14 +41,11 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 	 * @author mathieu
 	 *
 	 */
-	private static class FunMustBeZero implements UnivariateFunction {
+	private static final class FunMustBeZero implements UnivariateFunction {
 
 		private UnivariateFunction parentFun;
 
-		protected FunMustBeZero() {
-		}
-
-		public void setParentFun(UnivariateFunction parentFun) {
+		private void setParentFun(UnivariateFunction parentFun) {
 			this.parentFun = parentFun;
 		}
 

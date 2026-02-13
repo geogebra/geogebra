@@ -25,9 +25,9 @@ class DecimalPart {
 	int length;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 */
-	public DecimalPart() {
+	DecimalPart() {
 		value = null;
 		length = 0;
 	}
@@ -74,7 +74,7 @@ class DecimalPart {
 		return value != null ? value : 0;
 	}
 
-	public void appendPlain(StringBuilder sb) {
+	void appendPlain(StringBuilder sb) {
 		if (value == null) {
 			return;
 		}
@@ -90,7 +90,7 @@ class DecimalPart {
 		}
 	}
 
-	public void appendOverline(StringBuilder sb) {
+	void appendOverline(StringBuilder sb) {
 		if (value == null) {
 			return;
 		}

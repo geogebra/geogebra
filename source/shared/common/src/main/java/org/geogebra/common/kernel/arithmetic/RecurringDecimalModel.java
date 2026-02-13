@@ -46,7 +46,7 @@ class RecurringDecimalModel {
 	 * @param recurringString the recurring digits, without unicode overlines
 	 * @return the parsed model.
 	 */
-	public static RecurringDecimalModel parse(String preperiod, String recurringString) {
+	static RecurringDecimalModel parse(String preperiod, String recurringString) {
 		int point = preperiod.indexOf('.');
 		if (point < 0) {
 			throw new NumberFormatException("Missing . in recurring decimal");
@@ -101,7 +101,7 @@ class RecurringDecimalModel {
 	 * @param tpl  {@link StringTemplate}
 	 * @return the overlined recurring decimal string.
 	 */
-	public String toString(StringTemplate tpl) {
+	String toString(StringTemplate tpl) {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(integerPart);
@@ -122,7 +122,7 @@ class RecurringDecimalModel {
 	 *
 	 * @return numerator of the fraction form.
 	 */
-	public int numerator() {
+	int numerator() {
 		// variable naming follows https://en.wikipedia.org/wiki/Repeating_decimal#In_compressed_form
 		int ia = (int) (nonRecurring.value() + integerPart * Math.pow(10, nonRecurring.length));
 		int iap = (int) (recurring.value() + ia * Math.pow(10, recurring.length));
@@ -133,7 +133,7 @@ class RecurringDecimalModel {
 	 *
 	 * @return denominator of the fraction form.
 	 */
-	public int denominator() {
+	int denominator() {
 		int nines = recurring.length == 0 ? 1 : (int) (Math.pow(10, recurring.length) - 1);
 		int tens = nonRecurring.length == 0 ? 1 : (int) Math.pow(10, nonRecurring.length);
 		return nines * tens;

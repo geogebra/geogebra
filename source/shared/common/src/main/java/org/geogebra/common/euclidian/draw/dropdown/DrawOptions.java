@@ -116,7 +116,7 @@ class DrawOptions implements MoveSelector {
 		return false;
 	}
 
-	public void setHighlightIndex(int idx) {
+	void setHighlightIndex(int idx) {
 		if (model.itemCount() <= idx) {
 			items.update(model);
 		}
@@ -129,11 +129,11 @@ class DrawOptions implements MoveSelector {
 		}
 	}
 
-	public void setKeyboardFocus(boolean keyboardFocus) {
+	void setKeyboardFocus(boolean keyboardFocus) {
 		selector.setKeyboardFocus(keyboardFocus);
 	}
 
-	public int getItemCount() {
+	int getItemCount() {
 		return items.size();
 	}
 
@@ -333,7 +333,7 @@ class DrawOptions implements MoveSelector {
 		setDragging(false);
 	}
 
-	public int indexOf(OptionItem item) {
+	int indexOf(OptionItem item) {
 		return items.indexOf(item);
 	}
 
@@ -348,11 +348,11 @@ class DrawOptions implements MoveSelector {
 		return evt;
 	}
 
-	public void scrollUp() {
+	void scrollUp() {
 		scroller.scroll(DropDownScrollMode.UP);
 	}
 
-	public void scrollDown() {
+	void scrollDown() {
 		scroller.scroll(DropDownScrollMode.DOWN);
 	}
 

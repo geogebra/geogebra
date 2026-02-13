@@ -86,27 +86,25 @@ public class DrawTurtle extends Drawable {
 		turtle.setCoords(turtle.inhomX, turtle.inhomY);
 	}
 
-	private static class PartialPath {
-		public GColor color;
-		public int thickness;
-		public GeneralPathClipped path1;
-		private GBasicStroke stroke;
+	private static final class PartialPath {
+		private final GColor color;
+		private final GeneralPathClipped path1;
+		private final GBasicStroke stroke;
 
-		public PartialPath(GColor c, int th, GeneralPathClipped p) {
+		private PartialPath(GColor c, int th, GeneralPathClipped p) {
 			color = c;
-			thickness = th;
 			path1 = p;
-			stroke = AwtFactory.getPrototype().newBasicStroke(thickness);
+			stroke = AwtFactory.getPrototype().newBasicStroke(th);
 		}
 
-		public void draw(GGraphics2D g2) {
+		private void draw(GGraphics2D g2) {
 			g2.setColor(color);
 			g2.setStroke(stroke);
 			path1.draw(g2);
 		}
 	}
 
-	private class DrawState implements GeoTurtle.DrawState {
+	private final class DrawState implements GeoTurtle.DrawState {
 		private boolean penDown = true;
 		private GColor penColor = GColor.BLACK;
 		private int penThickness = 1;
@@ -116,7 +114,7 @@ public class DrawTurtle extends Drawable {
 		// private GeoPointND currentPosition = turtle.getStartPoint();
 		double[] coords = new double[2];
 
-		public DrawState() {
+		private DrawState() {
 			currentPath = new GeneralPathClipped(getView());
 			currentPath.resetWithThickness(geo.getLineThickness());
 			penDown = false;
@@ -183,7 +181,7 @@ public class DrawTurtle extends Drawable {
 			}
 		}
 
-		public void finishPartialPath() {
+		private void finishPartialPath() {
 			if (nlines > 0) {
 				pathList.add(
 						new PartialPath(penColor, penThickness, currentPath));

@@ -36,7 +36,7 @@ class ImplicitCurveMarchingRect implements MarchingRect {
 	boolean singular;
 	Coords coords = new Coords(3);
 
-	public ImplicitCurveMarchingRect(int x, int y, double fx, double fy, boolean singular) {
+	ImplicitCurveMarchingRect(int x, int y, double fx, double fy, boolean singular) {
 		this.x = x;
 		this.y = y;
 		this.fx = fx;
@@ -45,7 +45,7 @@ class ImplicitCurveMarchingRect implements MarchingRect {
 		this.shares = 0;
 	}
 
-	public ImplicitCurveMarchingRect[] split(GeoImplicitCurve geoImplicitCurve, int factor) {
+	ImplicitCurveMarchingRect[] split(GeoImplicitCurve geoImplicitCurve, int factor) {
 		double fx2 = fx * 0.5;
 		double fy2 = fy * 0.5;
 		double x1 = this.coords.val[0];

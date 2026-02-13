@@ -18,7 +18,6 @@ package org.geogebra.common.kernel.implicit;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -36,9 +35,8 @@ abstract class QuadTree {
 	protected ArrayList<MyPoint> locusPoints;
 	private LinkSegments segments;
 
-	public QuadTree() {
+	QuadTree() {
 		segments = new LinkSegments();
-
 	}
 
 	/**
@@ -51,7 +49,7 @@ abstract class QuadTree {
 	 * @param slX scaleX
 	 * @param slY scaleY
 	 */
-	public void updatePath(double startX, double startY, double width,
+	void updatePath(double startX, double startY, double width,
 			double height, double slX, double slY, GeoLocus locus) {
 		this.x = startX;
 		this.y = startY;
@@ -68,11 +66,11 @@ abstract class QuadTree {
 	/**
 	 * @param pt point to be polished
 	 */
-	public void polishPointOnPath(GeoPointND pt) {
+	void polishPointOnPath(GeoPointND pt) {
 		// pt.setUndefined();
 	}
 
-	public int edgeConfig(ImplicitCurveMarchingRect r) {
+	int edgeConfig(ImplicitCurveMarchingRect r) {
 		int config = (intersect(r.evals[0], r.evals[1]) << 3)
 				| (intersect(r.evals[1], r.evals[2]) << 2)
 				| (intersect(r.evals[2], r.evals[3]) << 1)
@@ -96,8 +94,7 @@ abstract class QuadTree {
 		return 0;
 	}
 
-	@MissingDoc
-	public abstract void updatePath();
+	abstract void updatePath();
 
 	public LinkSegments segments() {
 		return segments;

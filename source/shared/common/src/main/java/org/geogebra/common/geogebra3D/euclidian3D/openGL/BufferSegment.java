@@ -48,7 +48,7 @@ class BufferSegment {
 	 * @param indicesLength
 	 *            indices length
 	 */
-	public BufferSegment(BufferPackAbstract bufferPack, int elementsLength,
+	BufferSegment(BufferPackAbstract bufferPack, int elementsLength,
 			int indicesLength) {
 		this(bufferPack, bufferPack.elementsLength, elementsLength,
 				bufferPack.indicesLength, indicesLength);
@@ -68,7 +68,7 @@ class BufferSegment {
 	 * @param indicesLength
 	 *            indices length
 	 */
-	public BufferSegment(BufferPackAbstract bufferPack, int elementsOffset,
+	BufferSegment(BufferPackAbstract bufferPack, int elementsOffset,
 			int elementsLength, int indicesOffset,
 			int indicesLength) {
 		this.bufferPack = bufferPack;
@@ -87,7 +87,7 @@ class BufferSegment {
 	 * @param index
 	 *            index
 	 */
-	public void getStart(Index index) {
+	void getStart(Index index) {
 		index.set(elementsOffset, indicesOffset);
 	}
 
@@ -97,7 +97,7 @@ class BufferSegment {
 	 * @param index
 	 *            index
 	 */
-	public void getEnd(Index index) {
+	void getEnd(Index index) {
 		index.set(elementsOffset + elementsAvailableLength,
 				indicesOffset + indicesAvailableLength);
 	}
@@ -106,7 +106,7 @@ class BufferSegment {
 	 * 
 	 * @return element length
 	 */
-	public int getElementsLength() {
+	int getElementsLength() {
 		return elementsLength;
 	}
 
@@ -114,7 +114,7 @@ class BufferSegment {
 	 * 
 	 * @return elements available length
 	 */
-	public int getElementsAvailableLength() {
+	int getElementsAvailableLength() {
 		return elementsAvailableLength;
 	}
 
@@ -122,7 +122,7 @@ class BufferSegment {
 	 * 
 	 * @return indices length
 	 */
-	public int getIndicesLength() {
+	int getIndicesLength() {
 		return indicesLength;
 	}
 
@@ -130,7 +130,7 @@ class BufferSegment {
 	 * 
 	 * @return indices available length
 	 */
-	public int getIndicesAvailableLength() {
+	int getIndicesAvailableLength() {
 		return indicesAvailableLength;
 	}
 
@@ -140,7 +140,7 @@ class BufferSegment {
 	 * @param bufferSegment
 	 *            buffer segment
 	 */
-	public void addToAvailableLengths(BufferSegment bufferSegment) {
+	void addToAvailableLengths(BufferSegment bufferSegment) {
 		elementsAvailableLength += bufferSegment.getElementsAvailableLength();
 		indicesAvailableLength += bufferSegment.getIndicesAvailableLength();
 	}
@@ -153,7 +153,7 @@ class BufferSegment {
 	 * @param indicesAvailableLength
 	 *            for indices
 	 */
-	public void setAvailableLengths(int elementsAvailableLength,
+	void setAvailableLengths(int elementsAvailableLength,
 			int indicesAvailableLength) {
 		this.elementsAvailableLength = elementsAvailableLength;
 		this.indicesAvailableLength = indicesAvailableLength;
@@ -165,7 +165,7 @@ class BufferSegment {
 	 * @param index
 	 *            index
 	 */
-	public void setLengths(Index index) {
+	void setLengths(Index index) {
 		elementsLength = index.v1;
 		indicesLength = index.v2;
 	}

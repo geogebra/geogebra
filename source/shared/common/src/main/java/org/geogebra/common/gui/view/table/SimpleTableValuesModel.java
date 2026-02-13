@@ -326,7 +326,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		collector.endCollection(this);
 	}
 
-	public GeoList getValueList() {
+	GeoList getValueList() {
 		if (settings.getValueList() == null) {
 			GeoList xValues = setupXValues(new GeoList(kernel.getConstruction()));
 			settings.setValueList(xValues);
@@ -525,7 +525,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
-	public boolean isEvaluatableEmptyList(int column) {
+	boolean isEvaluatableEmptyList(int column) {
 		return getEvaluatable(column).isGeoList()
 				&& ((GeoList) getEvaluatable(column)).isEmptyList();
 	}
@@ -533,7 +533,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	/**
 	 * Update values column from the settings
 	 */
-	public void updateValuesColumn() {
+	void updateValuesColumn() {
 		TableValuesListColumn element = new TableValuesListColumn(getValueList());
 		columns.set(0, element);
 		element.notifyColumnChanged(this, getValueList(), 0);
@@ -546,7 +546,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 * @param columnNames The user-visible column names (optional, can be null).
 	 */
 	// Data import
-	public void startImport(int nrRows, int nrColumns, String[] columnNames) {
+	void startImport(int nrRows, int nrColumns, String[] columnNames) {
 		if (nrColumns < 1) {
 			return;
 		}
@@ -567,7 +567,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 *               this array, rawValues will have the original string value.
 	 * @param rawValues The original strings behind the values.
 	 */
-	public void importRow(Double[] values, String[] rawValues) {
+	void importRow(Double[] values, String[] rawValues) {
 		if (importColumns == null) {
 			return;
 		}
@@ -591,7 +591,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	/**
 	 * Cancels import, discarding any data accumulated in {@link #importRow(Double[], String[])}.
 	 */
-	public void cancelImport() {
+	void cancelImport() {
 		importColumns = null;
 		columnLabels = null;
 		columnNames = null;
@@ -601,7 +601,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	 * Commits the data accumulated in {@link #importRow(Double[], String[])}, creating
 	 * columns, and notifying listeners about the new data.
 	 */
-	public void commitImport() {
+	void commitImport() {
 		importColumns();
 		importColumns = null;
 		columnLabels = null;

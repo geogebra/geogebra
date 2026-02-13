@@ -25,7 +25,7 @@ enum DropDownScrollMode {
 		this.direction = direction;
 	}
 
-	public int getDirection() {
+	int getDirection() {
 		return direction;
 	}
 }

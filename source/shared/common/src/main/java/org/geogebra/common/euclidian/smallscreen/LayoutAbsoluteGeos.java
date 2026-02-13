@@ -54,11 +54,11 @@ public class LayoutAbsoluteGeos {
 	// Buttons should be collected only once.
 	private boolean collected = false;
 
-	private static class AbsoluteGeoComparator
+	private static final class AbsoluteGeoComparator
 			implements Comparator<AbsoluteScreenLocateable> {
-		private boolean vertical;
+		private final boolean vertical;
 
-		public AbsoluteGeoComparator(boolean vertical) {
+		private AbsoluteGeoComparator(boolean vertical) {
 			this.vertical = vertical;
 		}
 

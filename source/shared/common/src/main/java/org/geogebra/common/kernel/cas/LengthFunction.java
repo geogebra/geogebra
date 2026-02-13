@@ -32,7 +32,7 @@ class LengthFunction implements UnivariateFunction {
 	 *            derivative of measured function
 	 * @param f measured function
 	 */
-	public LengthFunction(GeoFunction df, GeoFunction f) {
+	LengthFunction(GeoFunction df, GeoFunction f) {
 		this.df = df;
 		this.f = f;
 	}
@@ -51,7 +51,7 @@ class LengthFunction implements UnivariateFunction {
 	 * @param b interval max
 	 * @return integral value
 	 */
-	public double integral(double a, double b) {
+	double integral(double a, double b) {
 		double dist = b - a;
 		double edges = 0;
 		double dx = dist * Kernel.MAX_PRECISION;

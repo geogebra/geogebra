@@ -59,18 +59,17 @@ public class Hits3D extends Hits {
 	private int quadCount;
 
 	/**
-	 * class for tree set of drawable 3D
-	 * 
+	 * Tree set of 3D drawables.
 	 */
-	private static class TreeSetOfDrawable3D extends TreeSet<Drawable3D> {
+	private static final class TreeSetOfDrawable3D extends TreeSet<Drawable3D> {
 
 		private static final long serialVersionUID = 1L;
 
-		public TreeSetOfDrawable3D(DrawableComparator drawableComparator) {
+		private TreeSetOfDrawable3D(DrawableComparator drawableComparator) {
 			super(drawableComparator);
 		}
 
-		public void add(Drawable3D d, double zNear, double zFar) {
+		private void add(Drawable3D d, double zNear, double zFar) {
 
 			// if already contained and not nearer, do nothing
 			if (contains(d)) {
@@ -90,7 +89,7 @@ public class Hits3D extends Hits {
 	}
 
 	/**
-	 * common constructor
+	 * Common constructor.
 	 */
 	public Hits3D() {
 		super();

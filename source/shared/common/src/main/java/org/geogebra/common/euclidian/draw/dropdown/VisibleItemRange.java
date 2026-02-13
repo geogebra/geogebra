@@ -24,7 +24,7 @@ class VisibleItemRange {
 	private int selected;
 	private final GeoList list;
 
-	public VisibleItemRange(GeoList list) {
+	VisibleItemRange(GeoList list) {
 		this.list = list;
 	}
 

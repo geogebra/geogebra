@@ -243,11 +243,11 @@ public class AlgoSolveODE extends AlgoElement {
 
 	// integrator.addStepHandler(stepHandler);
 
-	private static class ODE implements FirstOrderDifferentialEquations {
+	private static final class ODE implements FirstOrderDifferentialEquations {
 
 		FunctionalNVar f;
 
-		public ODE(FunctionalNVar f) {
+		ODE(FunctionalNVar f) {
 			this.f = f;
 		}
 
@@ -273,12 +273,12 @@ public class AlgoSolveODE extends AlgoElement {
 
 	}
 
-	private static class ODE2 implements FirstOrderDifferentialEquations {
+	private static final class ODE2 implements FirstOrderDifferentialEquations {
 
 		FunctionalNVar y0;
 		FunctionalNVar y1;
 
-		public ODE2(FunctionalNVar y, FunctionalNVar x) {
+		ODE2(FunctionalNVar y, FunctionalNVar x) {
 			this.y0 = y;
 			this.y1 = x;
 		}

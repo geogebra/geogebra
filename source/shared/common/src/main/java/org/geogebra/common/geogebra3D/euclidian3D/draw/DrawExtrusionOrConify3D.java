@@ -282,7 +282,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 		 * @param extrusionComputer
 		 *            conifier / extruder
 		 */
-		public void set(GeoElement basis, EuclidianView3D view,
+		void set(GeoElement basis, EuclidianView3D view,
 				ExtrusionComputer extrusionComputer) {
 			this.basis = basis;
 			this.view = view;

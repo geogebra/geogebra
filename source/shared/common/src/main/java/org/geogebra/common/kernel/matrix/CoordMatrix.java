@@ -1030,7 +1030,7 @@ public class CoordMatrix {
 		 * @param factor
 		 *            factor to divide
 		 */
-		abstract public void divideFirst(int index, double factor);
+		abstract void divideFirst(int index, double factor);
 
 		/**
 		 * perform the last pivot step
@@ -1040,7 +1040,7 @@ public class CoordMatrix {
 		 * @param matrix
 		 *            matrix
 		 */
-		public void lastStep(ArrayList<Integer> stack, double[][] matrix) {
+		void lastStep(ArrayList<Integer> stack, double[][] matrix) {
 			int index = stack.get(0);
 			divideFirst(index, matrix[index][0]);
 		}
@@ -1053,7 +1053,7 @@ public class CoordMatrix {
 		 * @param value
 		 *            value to divide
 		 */
-		abstract public void divideRes(int step, double value);
+		abstract void divideRes(int step, double value);
 
 		/**
 		 * sub value at step to value at l, multiplied by coef
@@ -1065,7 +1065,7 @@ public class CoordMatrix {
 		 * @param coef
 		 *            multiply factor
 		 */
-		abstract public void subRes(int l, int step, double coef);
+		abstract void subRes(int l, int step, double coef);
 
 		/**
 		 * calc sol at this index
@@ -1081,10 +1081,10 @@ public class CoordMatrix {
 		 * @param value
 		 *            TODO
 		 */
-		abstract public void calcSol(int index, int step, double[][] matrix,
+		abstract void calcSol(int index, int step, double[][] matrix,
 				ArrayList<Integer> stack, double value);
 
-		public void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
+		void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
 				int step, int index, double value) {
 
 			// divide step line by value in matrix and res
@@ -1113,7 +1113,7 @@ public class CoordMatrix {
 		 *            step
 		 * @return true if value is zero
 		 */
-		public boolean handleZeroValue(double value, int step) {
+		boolean handleZeroValue(double value, int step) {
 			return false;
 		}
 	}
@@ -1197,18 +1197,6 @@ public class CoordMatrix {
 				// str += i + ",";
 			}
 			sol[index] = s;
-
-			// str += "\nmatrix=\n";
-			// for (int i = 0 ; i < matrix.length;i++){
-			// for (int j = 0 ; j < matrix[i].length;j++){
-			// str += matrix[i][j] + " ";
-			// }
-			// str += "\n";
-			//
-			// }
-			//
-			// Log.debug(str);
-
 		}
 
 		@Override
@@ -1241,12 +1229,12 @@ public class CoordMatrix {
 		/**
 		 * solution vector
 		 */
-		public double[] sol;
+		double[] sol;
 
 		/**
 		 * result vector
 		 */
-		public double[] res;
+		double[] res;
 
 		protected PivotSolRes() {
 			super();
@@ -1279,17 +1267,13 @@ public class CoordMatrix {
 
 	}
 
-	static private class PivotInverseMatrix extends PivotAbstract {
+	static private final class PivotInverseMatrix extends PivotAbstract {
 
-		public int columns;
+		private int columns;
 
-		public double[] matrixRes;
+		private double[] matrixRes;
 
-		public Coords[] inverse;
-
-		protected PivotInverseMatrix() {
-
-		}
+		private Coords[] inverse;
 
 		@Override
 		public void divideFirst(int index, double factor) {
@@ -1404,7 +1388,7 @@ public class CoordMatrix {
 	 * @param psr
 	 *            pivot solution-result
 	 */
-	static final public void pivot(double[][] matrix, PivotAbstract psr) {
+	static public void pivot(double[][] matrix, PivotAbstract psr) {
 		int size = matrix.length;
 		ArrayList<Integer> stack = new ArrayList<>();
 		for (int i = size - 1; i >= 0; i--) {
@@ -1418,7 +1402,7 @@ public class CoordMatrix {
 	 * one step Gauss pivot
 	 *
 	 */
-	static final private void pivot(double[][] matrix, PivotAbstract psr,
+	static private void pivot(double[][] matrix, PivotAbstract psr,
 			final int step, ArrayList<Integer> stack) {
 
 		// Log.debug("XXXXX pivot : step = " + step);

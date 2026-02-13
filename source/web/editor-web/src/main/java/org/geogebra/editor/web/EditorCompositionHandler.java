@@ -45,11 +45,11 @@ final class EditorCompositionHandler
 	 * @param editor
 	 *            equation editor
 	 */
-	public EditorCompositionHandler(MathFieldW editor) {
+	EditorCompositionHandler(MathFieldW editor) {
 		this.editor = editor;
 	}
 
-	public void attachTo(MyTextArea inputTextArea) {
+	void attachTo(MyTextArea inputTextArea) {
 		inputTextArea.addCompositionUpdateHandler(this);
 		inputTextArea.addCompositionEndHandler(this);
 		inputTextArea.addKeyDownHandler(this);

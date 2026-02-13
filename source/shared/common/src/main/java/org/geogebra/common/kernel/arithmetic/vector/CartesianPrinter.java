@@ -27,7 +27,7 @@ class CartesianPrinter implements Printer {
 
     private final @CheckForNull GeneralSettings settings;
 
-    public CartesianPrinter(@CheckForNull GeneralSettings settings) {
+    CartesianPrinter(@CheckForNull GeneralSettings settings) {
         this.settings = settings;
     }
 

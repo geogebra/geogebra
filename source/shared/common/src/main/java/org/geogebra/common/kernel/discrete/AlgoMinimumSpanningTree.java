@@ -136,11 +136,11 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 	}
 
 	/** Graph edge */
-	static class TreeLink {
+	static final class TreeLink {
 		/** start point */
-		protected TreeNode n1;
+		TreeNode n1;
 		/** end point */
-		protected TreeNode n2;
+		TreeNode n2;
 		/** length */
 		double weight;
 		/** identifier */
@@ -156,7 +156,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 		 * @param id
 		 *            identifier
 		 */
-		public TreeLink(double weight, TreeNode n1, TreeNode n2, int id) {
+		TreeLink(double weight, TreeNode n1, TreeNode n2, int id) {
 			this.id = id; // This is defined in the outer class.
 			this.weight = weight;
 			this.n1 = n1;

@@ -29,7 +29,7 @@ class UndoItem {
 	private final boolean isXml;
 	private final String previousLabel;
 
-	public UndoItem(GeoElement geo, MoveMode moveMode) {
+	UndoItem(GeoElement geo, MoveMode moveMode) {
 		this.geo = geo;
 		isXml = (geo instanceof Locateable && moveMode != MoveMode.NUMERIC)
 				|| geo instanceof GeoWidget || geo instanceof GeoInline;
@@ -42,7 +42,7 @@ class UndoItem {
 				+ geo.getRedefineString(false, true, StringTemplate.xmlTemplate);
 	}
 
-	public String content() {
+	String content() {
 		if (geo.isPointOnPath() || geo.isPointInRegion()) {
 			return ConstructionActionExecutor.SET + geo.getLabelSimple() + "="
 					+ geo.toValueString(StringTemplate.xmlTemplate);
@@ -50,19 +50,19 @@ class UndoItem {
 		return isXml ? geo.getStyleXML() : getDefinition();
 	}
 
-	public String previousContent() {
+	String previousContent() {
 		return previousContent;
 	}
 
-	public String getLabel() {
+	String getLabel() {
 		return geo.getLabelSimple();
 	}
 
-	public boolean hasGeo(GeoElement geo) {
+	boolean hasGeo(GeoElement geo) {
 		return this.geo == geo;
 	}
 
-	public String getPreviousLabel() {
+	String getPreviousLabel() {
 		return previousLabel;
 	}
 }

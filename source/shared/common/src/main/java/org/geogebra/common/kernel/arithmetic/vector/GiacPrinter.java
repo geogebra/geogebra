@@ -22,10 +22,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 
-class GiacPrinter {
+final class GiacPrinter {
 
-    public static String print(StringTemplate tpl, String xCoord, String yCoord,
-			PrintableVector vector) {
+    static String print(StringTemplate tpl, String xCoord, String yCoord, PrintableVector vector) {
         StringBuilder sb = new StringBuilder();
         sb.append(getHead(vector));
         printReGiac(sb, xCoord, vector.getX());

@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
 
-class PlotConditionalFunction {
+final class PlotConditionalFunction {
 	private final EuclidianView view;
 	private final PathPlotter gp;
 	private static final List<Operation> supported = Arrays.asList(Operation.IF_ELSE,
@@ -48,7 +48,7 @@ class PlotConditionalFunction {
 	private boolean fillCurve;
 	private GPoint labelPoint;
 
-	public PlotConditionalFunction(EuclidianView view, PathPlotter gp) {
+	PlotConditionalFunction(EuclidianView view, PathPlotter gp) {
 		this.view = view;
 		this.gp = gp;
 	}
@@ -142,7 +142,7 @@ class PlotConditionalFunction {
 		}
 	}
 
-	public GPoint getLabelPoint() {
+	GPoint getLabelPoint() {
 		return labelPoint;
 	}
 }

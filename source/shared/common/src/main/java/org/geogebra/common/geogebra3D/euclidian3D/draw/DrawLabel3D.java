@@ -360,7 +360,7 @@ public class DrawLabel3D {
 
 		private final DrawLabel3D label;
 
-		public DrawLaTeXCallBack(DrawLabel3D label) {
+		DrawLaTeXCallBack(DrawLabel3D label) {
 			this.label = label;
 		}
 

@@ -57,9 +57,9 @@ public class Target {
 
 	static abstract private class CoordsAndGeo<T extends CoordsAndGeo<T>>
 			implements AnimatableValue<T> {
-		public Coords coords;
-		public long geo1;
-		public long geo2;
+		final Coords coords;
+		long geo1;
+		long geo2;
 
 		/**
 		 * constructor
@@ -156,7 +156,7 @@ public class Target {
 		 * @param v
 		 *            value
 		 */
-		public void setValue(double v) {
+		void setValue(double v) {
 			value = v;
 			isDefined = Double.isFinite(value);
 		}
@@ -191,7 +191,7 @@ public class Target {
 		 * @param totalDuration
 		 *            total duration for one animation loop
 		 */
-		public Anim(double totalDuration) {
+		Anim(double totalDuration) {
 			this.totalDuration = totalDuration;
 			init();
 			isAnimated = false;
@@ -214,7 +214,7 @@ public class Target {
 		 * @param goal
 		 *            goal value
 		 */
-		public void prepareAnimation(T goal) {
+		void prepareAnimation(T goal) {
 			boolean needsNewAnim = !goal.equalsForAnimation(next);
 			if (isAnimated || needsNewAnim) {
 				previous.setAnimatableValue(current);
@@ -237,7 +237,7 @@ public class Target {
 				} else {
 					isAnimated = false;
 				}
-			} else if (!isAnimated) {
+			} else {
 				previous.setUndefined();
 				next.setAnimatableValue(goal);
 			}
@@ -254,7 +254,7 @@ public class Target {
 		/**
 		 * set previous value as undefined
 		 */
-		public void setUndefined() {
+		void setUndefined() {
 			previous.setUndefined();
 			current.setUndefined();
 		}
@@ -262,7 +262,7 @@ public class Target {
 		/**
 		 * update current value
 		 */
-		public void updateCurrent() {
+		void updateCurrent() {
 			if (!isAnimated) {
 				current.setAnimatableValue(next);
 			} else if (previous.isDefined()) {
@@ -286,7 +286,7 @@ public class Target {
 		 * 
 		 * @return current value
 		 */
-		final public T getCurrent() {
+		final T getCurrent() {
 			return current;
 		}
 	}
@@ -297,7 +297,7 @@ public class Target {
 		private double angle;
 		private Coords tmpCoords;
 
-		public AnimCircleRotation(double totalDuration) {
+		AnimCircleRotation(double totalDuration) {
 			super(totalDuration);
 		}
 

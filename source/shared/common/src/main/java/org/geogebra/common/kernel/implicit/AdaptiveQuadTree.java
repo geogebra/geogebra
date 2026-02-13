@@ -60,7 +60,7 @@ class AdaptiveQuadTree extends QuadTree {
 	}
 
 	@Override
-	public void updatePath() {
+	void updatePath() {
 		for (int factor = 0; factor < curve.factorLength(); ++factor) {
 			try {
 				curve.evaluateImplicitCurve(0, 0, factor);

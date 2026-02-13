@@ -1606,7 +1606,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		}
 
-		private class IntRelation implements Comparable<IntRelation> {
+		private final class IntRelation implements Comparable<IntRelation> {
 
 			private int size;
 			final double sig;
@@ -1623,7 +1623,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			FixedScaleDecimalMatrix xB1;
 			int[] orthoIndices;
 
-			public IntRelation(int n, FixedScaleDecimalMatrix B, FixedScaleDecimalMatrix xB,
+			private IntRelation(int n, FixedScaleDecimalMatrix B, FixedScaleDecimalMatrix xB,
 					double sig) {
 
 				if (n == 0) {
@@ -1686,18 +1686,18 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			}
 
-			public FixedScaleDecimalMatrix getBMatrix() {
+			private FixedScaleDecimalMatrix getBMatrix() {
 				return B1.copy();
 			}
 
-			public FixedScaleDecimalMatrix getBSolMatrix() {
+			private FixedScaleDecimalMatrix getBSolMatrix() {
 				if (B_sol != null) {
 					return B_sol.copy();
 				}
 				return null;
 			}
 
-			public FixedScaleDecimalMatrix getBRestMatrix() {
+			private FixedScaleDecimalMatrix getBRestMatrix() {
 				if (B_rest != null) {
 					return B_rest.copy();
 				}
@@ -1796,7 +1796,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		FUNCTION_OF_QUADRATIC_RADICAL
 	}
 
-	private class AlgebraicFit {
+	private final class AlgebraicFit {
 
 		// input
 		private double num1;
@@ -1828,7 +1828,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		private int[] bestRelation;
 
 		// output
-		public StringBuilder formalSolution;
+		private StringBuilder formalSolution;
 
 		/**
 		 * @param constStrings
@@ -1840,7 +1840,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 * @param tpl
 		 *            template for CAS and formal solution
 		 */
-		public AlgebraicFit(String[] constStrings, double[] constValues,
+		private AlgebraicFit(String[] constStrings, double[] constValues,
 				AlgebraicFittingType aft, StringTemplate tpl) {
 			this.numOfConsts = constValues == null ? 0 : constValues.length;
 			this.numOfRadicals = this.numOfConsts;
@@ -1869,7 +1869,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// numList = new double[(numOfConstants+1)*(deg+1)];
 		}
 
-		public void compute(double number) {
+		private void compute(double number) {
 			switch (aft) {
 			case RATIONAL_NUMBER:
 				computeRationalNumber(number);
@@ -2403,7 +2403,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		// constant test
-		public void computeConstant(double number) {
+		private void computeConstant(double number) {
 
 			numList = new double[numOfConsts + 2]; // {the constants} U {1} U
 													// {num}
@@ -2538,7 +2538,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			return bestIndex1;
 		}
 
-		public void setCoeffBound(int b) {
+		private void setCoeffBound(int b) {
 			coeffBound = b;
 		}
 

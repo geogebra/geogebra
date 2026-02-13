@@ -52,7 +52,7 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 		public int index;
 		public int nextShift;
 
-		public GeometryStringBuilders(GeometryType type) {
+		GeometryStringBuilders(GeometryType type) {
 			this.type = type;
 			index = 0;
 			nextShift = 0;
@@ -72,18 +72,13 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 	public Geometry3DGetterSimple(String name) {
 		geometryStringsMap = new HashMap<>();
 		exportName = name;
-		if (exportName != null && !"".equals(exportName)) {
-			filterGeoNames = true;
-		} else {
-			filterGeoNames = false;
-		}
+		filterGeoNames = exportName != null && !exportName.isEmpty();
 	}
 
 	@Override
 	public boolean handles(GeoElement geo, GeometryType type) {
 		if (filterGeoNames) {
-			boolean ret = exportName.equals(geo.getLabelSimple());
-			return ret;
+			return exportName.equals(geo.getLabelSimple());
 		}
 		return true;
 	}

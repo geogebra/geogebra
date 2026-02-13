@@ -138,11 +138,11 @@ public class AlgoOrdinalRank extends AlgoElement {
 
 	}
 
-	private static class OrderedPair {
-		public double x;
-		public int y;
+	private static final class OrderedPair {
+		private final double x;
+		private final int y;
 
-		public OrderedPair(double x, int y) {
+		private OrderedPair(double x, int y) {
 			this.x = x;
 			this.y = y;
 		}
@@ -151,7 +151,7 @@ public class AlgoOrdinalRank extends AlgoElement {
 	/**
 	 * @return comparator
 	 */
-	public static Comparator<OrderedPair> getComparator() {
+	private static Comparator<OrderedPair> getComparator() {
 		if (comparator == null) {
 			comparator = (a, b) -> {
 

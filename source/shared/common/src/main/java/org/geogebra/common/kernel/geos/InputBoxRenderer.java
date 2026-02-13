@@ -99,7 +99,7 @@ class InputBoxRenderer {
 	 * @param tpl template
 	 * @return string for flat list (definition or value, no brackets)
 	 */
-	public String getStringForFlatList(StringTemplate tpl) {
+	String getStringForFlatList(StringTemplate tpl) {
 		if (linkedGeo.getDefinition() != null
 				&& linkedGeo.getDefinition().unwrap() instanceof MyList) {
 			return ((MyList) linkedGeo.getDefinition().unwrap()).toString(tpl, true, false);

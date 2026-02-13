@@ -66,7 +66,7 @@ abstract class GLBufferManager {
 	 *            curve size
 	 * @return elements length for given curve size
 	 */
-	static public int getElementsLengthForCurve(int size) {
+	static int getElementsLengthForCurve(int size) {
 		return (size + 1) * PlotterBrush.LATITUDES;
 	}
 
@@ -76,7 +76,7 @@ abstract class GLBufferManager {
 	 *            elements length
 	 * @return size for given curve elements length
 	 */
-	static public int getSizeForCurveFromElements(int elementsLength) {
+	static int getSizeForCurveFromElements(int elementsLength) {
 		return elementsLength / PlotterBrush.LATITUDES - 1;
 	}
 
@@ -86,14 +86,14 @@ abstract class GLBufferManager {
 	 *            curve size
 	 * @return indices length for given curve size
 	 */
-	static public int getIndicesLengthForCurve(int size) {
+	static int getIndicesLengthForCurve(int size) {
 		return 3 * 2 * size * PlotterBrush.LATITUDES;
 	}
 
 	/**
 	 * constructor
 	 */
-	public GLBufferManager() {
+	GLBufferManager() {
 		currentIndex = new Index();
 		bufferPackList = new ArrayList<>();
 
@@ -110,7 +110,7 @@ abstract class GLBufferManager {
 	 * @param geometryIndex
 	 *            geometry index
 	 */
-	public void setCurrentIndex(int index, int geometryIndex) {
+	void setCurrentIndex(int index, int geometryIndex) {
 		currentIndex.set(index, geometryIndex);
 	}
 
@@ -121,7 +121,7 @@ abstract class GLBufferManager {
 	 * @param length
 	 *            length to set
 	 */
-	public void setVertexBuffer(ArrayList<Double> array, int length) {
+	void setVertexBuffer(ArrayList<Double> array, int length) {
 		vertexArray = array;
 		elementsLength = length / 3;
 	}
@@ -133,7 +133,7 @@ abstract class GLBufferManager {
 	 * @param length
 	 *            length to set
 	 */
-	public void setNormalBuffer(ArrayList<Double> array, int length) {
+	void setNormalBuffer(ArrayList<Double> array, int length) {
 		normalArray = array;
 		oneNormal = length == 3;
 	}
@@ -143,7 +143,7 @@ abstract class GLBufferManager {
 	 * @param array
 	 *            array
 	 */
-	public void setTextureBuffer(ArrayList<Double> array) {
+	void setTextureBuffer(ArrayList<Double> array) {
 		textureArray = array;
 	}
 
@@ -153,7 +153,7 @@ abstract class GLBufferManager {
 	 * @param color
 	 *            color
 	 */
-	public void setColorBuffer(GColor color) {
+	void setColorBuffer(GColor color) {
 		this.color = color;
 	}
 
@@ -163,7 +163,7 @@ abstract class GLBufferManager {
 	 * @param layer
 	 *            layer
 	 */
-	public void setLayer(int layer) {
+	void setLayer(int layer) {
 		this.layer = layer;
 	}
 
@@ -188,7 +188,7 @@ abstract class GLBufferManager {
 	 * @param objLayer
 	 *            layer
 	 */
-	public void updateColorAndLayer(int index, int geometriesLength,
+	void updateColorAndLayer(int index, int geometriesLength,
 			GColor objColor, int objLayer) {
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
@@ -218,7 +218,7 @@ abstract class GLBufferManager {
 	 * @param objLayer
 	 *            object layer
 	 */
-	public void updateVisibility(int index, int start, int geometriesLength, boolean visible,
+	void updateVisibility(int index, int start, int geometriesLength, boolean visible,
 			int alpha, int objLayer) {
 		int alphaOrInvisible = visible ? alpha : ALPHA_INVISIBLE;
 		for (int i = start; i < geometriesLength; i++) {
@@ -239,7 +239,7 @@ abstract class GLBufferManager {
 	 * @param geometriesLength
 	 *            geometries length for this set
 	 */
-	public void remove(int index, int geometriesLength) {
+	void remove(int index, int geometriesLength) {
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.remove(currentIndex);
@@ -351,7 +351,7 @@ abstract class GLBufferManager {
 	 * @param type
 	 *            element type
 	 */
-	public void setIndices(int size, TypeElement type) {
+	void setIndices(int size, TypeElement type) {
 		// get buffer segment and pack
 		currentBufferSegment = bufferSegments.get(currentIndex);
 		int indicesLength = calculateIndicesLength(size, type);
@@ -439,7 +439,7 @@ abstract class GLBufferManager {
 	/**
 	 * reset buffers
 	 */
-	public void reset() {
+	void reset() {
 		availableSegments.clear();
 		bufferSegments.clear();
 		ArrayList<BufferPackAbstract> buffersToRemove = new ArrayList<>();
@@ -470,7 +470,7 @@ abstract class GLBufferManager {
 	 * 
 	 * @return current buffer segment elements length
 	 */
-	public int getCurrentElementsLength() {
+	int getCurrentElementsLength() {
 		return currentBufferSegment.getElementsLength();
 	}
 
@@ -478,7 +478,7 @@ abstract class GLBufferManager {
 	 * 
 	 * @return vertex buffer positioned to current buffer segment offset
 	 */
-	public GLBuffer getCurrentBufferVertices() {
+	GLBuffer getCurrentBufferVertices() {
 		return currentBufferSegment.bufferPack
 				.getVertexBuffer(currentBufferSegment.elementsOffset * 3);
 	}
@@ -487,7 +487,7 @@ abstract class GLBufferManager {
 	 * 
 	 * @return normal buffer positioned to current buffer segment offset
 	 */
-	public GLBuffer getCurrentBufferNormals() {
+	GLBuffer getCurrentBufferNormals() {
 		return currentBufferSegment.bufferPack
 				.getNormalBuffer(currentBufferSegment.elementsOffset * 3);
 	}
@@ -496,7 +496,7 @@ abstract class GLBufferManager {
 	 * 
 	 * @return current buffer segment elements offset
 	 */
-	public int getCurrentElementsOffset() {
+	int getCurrentElementsOffset() {
 		return currentBufferSegment.elementsOffset;
 	}
 
@@ -504,7 +504,7 @@ abstract class GLBufferManager {
 	 * 
 	 * @return current buffer segment indices length
 	 */
-	public int getCurrentIndicesLength() {
+	int getCurrentIndicesLength() {
 		return currentBufferSegment.getIndicesLength();
 	}
 
@@ -512,7 +512,7 @@ abstract class GLBufferManager {
 	 * 
 	 * @return indices buffer positioned to current buffer segment offset
 	 */
-	public GLBufferIndices getCurrentBufferIndices() {
+	GLBufferIndices getCurrentBufferIndices() {
 		return currentBufferSegment.bufferPack
 				.getIndicesBuffer(currentBufferSegment.indicesOffset);
 	}
@@ -520,7 +520,7 @@ abstract class GLBufferManager {
 	/**
 	 * set current buffer segment to the one stored at current index
 	 */
-	public void setBufferSegmentToCurrentIndex() {
+	void setBufferSegmentToCurrentIndex() {
 		currentBufferSegment = bufferSegments.get(currentIndex);
 	}
 
@@ -528,7 +528,7 @@ abstract class GLBufferManager {
 	 * 
 	 * @return true if buffer manager for creating points templates
 	 */
-	public boolean isTemplateForPoints() {
+	boolean isTemplateForPoints() {
 		return false;
 	}
 

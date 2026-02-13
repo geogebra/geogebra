@@ -537,8 +537,8 @@ public class EuclidianPen implements GTimerListener {
 		return defaultPenLine;
 	}
 
-	private class PenStrokeAdapter extends GeoPolyLine {
-		public PenStrokeAdapter(App app) {
+	private final class PenStrokeAdapter extends GeoPolyLine {
+		private PenStrokeAdapter(App app) {
 			super(app.getKernel().getConstruction());
 		}
 
