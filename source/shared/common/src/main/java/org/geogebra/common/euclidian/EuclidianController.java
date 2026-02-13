@@ -12557,7 +12557,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
-	private static class EmulatedEvent extends AbstractEvent {
+	private static final class EmulatedEvent extends AbstractEvent {
 		private final GPoint lastLoc;
 		private final boolean shiftDown;
 

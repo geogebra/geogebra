@@ -210,7 +210,7 @@ public abstract class EvPositioner {
 
     protected static class ViewDestroyedException extends IllegalStateException {
 
-        ViewDestroyedException() {
+        protected ViewDestroyedException() {
             super("The view is destroyed.");
         }
     }
