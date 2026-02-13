@@ -63,7 +63,7 @@ class ItemSelector implements MoveSelector {
 		return hasKeyboardFocus;
 	}
 
-	public void setKeyboardFocus(boolean hasKeyboardFocus) {
+	void setKeyboardFocus(boolean hasKeyboardFocus) {
 		this.hasKeyboardFocus = hasKeyboardFocus;
 	}
 

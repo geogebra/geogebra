@@ -179,8 +179,8 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 * Panel for EuclidianView
 	 * 
 	 */
-	private class TextPreviewEuclidianViewPanelW extends AbsolutePanel implements
-	        EuclidianPanelWAbstract {
+	private class TextPreviewEuclidianViewPanelW extends AbsolutePanel
+			implements EuclidianPanelWAbstract {
 
 		private Canvas canvas;
 

@@ -75,7 +75,7 @@ public class DownloadManager {
 				}
 			}
 		try (BufferedInputStream in = new BufferedInputStream(srcConnection.getInputStream());
-			 FileOutputStream out = new FileOutputStream(dest)) {
+			FileOutputStream out = new FileOutputStream(dest)) {
 			byte[] buf = new byte[BYTE_BUFFER_SIZE];
 			int len;
 			while ((len = in.read(buf)) > 0) {

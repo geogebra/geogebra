@@ -77,7 +77,7 @@ public class ClipShape {
 		 * @param windingRule
 		 *            winding rule
 		 */
-		public ClippedPath(int windingRule) {
+		ClippedPath(int windingRule) {
 			g = AwtFactory.getPrototype().newGeneralPath(windingRule);
 		}
 
@@ -87,7 +87,7 @@ public class ClipShape {
 		 * @param y
 		 *            y coordinate
 		 */
-		public void moveTo(double x, double y) {
+		void moveTo(double x, double y) {
 			flush();
 			g.moveTo(x, y);
 			initialX = x;
@@ -108,7 +108,7 @@ public class ClipShape {
 		 * @param t1
 		 *            end parameter
 		 */
-		public void curveTo(Function xf, Function yf, double t0, double t1) {
+		void curveTo(Function xf, Function yf, double t0, double t1) {
 			flush(); // flush out lines
 
 			double dt = t1 - t0;
@@ -148,7 +148,7 @@ public class ClipShape {
 		 *            y coordinate
 		 * 
 		 */
-		public void lineTo(double x, double y) {
+		void lineTo(double x, double y) {
 			if (uncommittedPoints.size() > 0) {
 				double[] last = uncommittedPoints.peek();
 				// are we adding the same point?
@@ -167,14 +167,14 @@ public class ClipShape {
 		/**
 		 * Close the path
 		 */
-		public void closePath() {
+		void closePath() {
 			lineTo(initialX, initialY);
 			flush();
 			g.closePath();
 		}
 
 		/** Flush out the stack of uncommitted points. */
-		public void flush() {
+		void flush() {
 			while (uncommittedPoints.size() > 0) {
 				identifyLines: while (uncommittedPoints.size() >= 3) {
 					double[] first = uncommittedPoints.get(0);
@@ -208,7 +208,7 @@ public class ClipShape {
 	 * A function used to describe one of the 2 parametric equations for a
 	 * segment of a path. This can be thought of is f(t).
 	 */
-	static interface Function {
+	interface Function {
 		/**
 		 * evaluates this function at a given value
 		 * 
@@ -216,7 +216,7 @@ public class ClipShape {
 		 *            parameter
 		 * @return function value
 		 */
-		public double evaluate(double t);
+		double evaluate(double t);
 
 		/**
 		 * Calculates all the t-values which will yield the result "f" in this
@@ -230,7 +230,7 @@ public class ClipShape {
 		 *            the offset at which data will be added to the array
 		 * @return the number of solutions found.
 		 */
-		public int evaluateInverse(double f, double[] dest, int destOffset);
+		int evaluateInverse(double f, double[] dest, int destOffset);
 
 		/**
 		 * Return the derivative (df/dt) for a given value of t
@@ -239,7 +239,7 @@ public class ClipShape {
 		 *            parameter value
 		 * @return derivative
 		 */
-		public double getDerivative(double t);
+		double getDerivative(double t);
 	}
 
 	/** A linear function */
@@ -255,7 +255,7 @@ public class ClipShape {
 		 * @param x2
 		 *            at t = 1, x2 is the output of this function
 		 */
-		public void define(double x1, double x2) {
+		void define(double x1, double x2) {
 			slope = x2 - x1;
 			intercept = x1;
 		}
@@ -303,7 +303,7 @@ public class ClipShape {
 		 * @param x2
 		 *            f(1)
 		 */
-		public void define(double x0, double x1, double x2) {
+		void define(double x0, double x1, double x2) {
 			a = x0 - 2 * x1 + x2;
 			b = -2 * x0 + 2 * x1;
 			c = x0;
@@ -367,7 +367,7 @@ public class ClipShape {
 		 * @param x3
 		 *            f(1)
 		 */
-		public void define(double x0, double x1, double x2, double x3) {
+		void define(double x0, double x1, double x2, double x3) {
 			a = -x0 + 3 * x1 - 3 * x2 + x3;
 			b = 3 * x0 - 6 * x1 + 3 * x2;
 			c = -3 * x0 + 3 * x1;

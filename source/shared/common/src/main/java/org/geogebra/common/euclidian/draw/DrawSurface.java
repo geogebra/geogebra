@@ -52,15 +52,15 @@ public class DrawSurface extends Drawable {
 
 	private static class SurfaceCurve implements CurveEvaluable {
 
-		private GeoSurfaceCartesian2D surface;
+		private final GeoSurfaceCartesian2D surface;
 		private double val;
 		private boolean fixed;
 
-		public SurfaceCurve(GeoSurfaceCartesian2D surface) {
+		SurfaceCurve(GeoSurfaceCartesian2D surface) {
 			this.surface = surface;
 		}
 
-		public void set(double i, boolean fixed) {
+		private void set(double i, boolean fixed) {
 			this.val = i;
 			this.fixed = fixed;
 		}
@@ -79,7 +79,6 @@ public class DrawSurface extends Drawable {
 
 		@Override
 		public double[] newDoubleArray() {
-			// TODO Auto-generated method stub
 			return new double[2];
 		}
 

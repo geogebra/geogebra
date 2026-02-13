@@ -158,7 +158,7 @@ public class PlacementProperty extends AbstractNamedEnumeratedProperty<Placement
 		if (element.needsUpdatedBoundingBox()) {
 			element.updateCascade();
 		}
-		 element.updateVisualStyleRepaint(GProperty.POSITION);
+		element.updateVisualStyleRepaint(GProperty.POSITION);
 		geoElement.notifyUpdate();
 	}
 

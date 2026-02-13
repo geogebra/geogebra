@@ -41,7 +41,7 @@ public abstract class BaseSimplifyTestSetup extends BaseAppTestSetup {
 			Constructor<?> const1 = simplifierClass.getConstructor(SimplifyUtils.class);
 			return (SimplifyNode) const1.newInstance(utils);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException
-				 | InvocationTargetException e) {
+				| InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
 

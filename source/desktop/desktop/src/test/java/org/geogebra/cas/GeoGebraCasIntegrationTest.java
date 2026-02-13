@@ -2871,7 +2871,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void test3DLine() {
 		t("(x=5, y=3+z)", "X = (5, " + Unicode.lambda + " + 3, "
-				 + Unicode.lambda + ")");
+				+ Unicode.lambda + ")");
 	}
 
 	@Test

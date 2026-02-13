@@ -2837,8 +2837,6 @@ public class MyXMLHandler implements DocHandler {
 
 		geoCasCell.setUseAsText(true);
 
-		boolean ok = true;
-
 		if ("FontStyle".equals(eName)) {
 			String style = attrs.get("value");
 			geoCasCell.setFontStyle(Integer.parseInt(style));
@@ -2855,10 +2853,6 @@ public class MyXMLHandler implements DocHandler {
 					Integer.parseInt(g), Integer.parseInt(b)));
 		} else {
 			Log.error("unknown tag in <useAsText>: " + eName);
-		}
-
-		if (!ok) {
-			Log.error("error in <useAsText>: " + eName);
 		}
 
 	}

@@ -183,8 +183,7 @@ public class KeyboardInputAdapter {
 				} else if (parent instanceof ArrayNode node && Tag.lookup(split[0]) == Tag.MATRIX) {
 					int rows = Integer.parseInt(split[1]);
 					int columns = Integer.parseInt(split[2]);
-					for (int column = node.getColumns(); column < columns;
-						 column++) {
+					for (int column = node.getColumns(); column < columns; column++) {
 						parent.addChild(new SequenceNode());
 					}
 					for (int row = node.getRows(); row < rows; row++) {

@@ -31,8 +31,7 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class ScrollableSuggestBox extends GSuggestBox {
 
-	public static final class CustomSuggestionDisplay extends
-	        DefaultSuggestionDisplay {
+	public static final class CustomSuggestionDisplay extends DefaultSuggestionDisplay {
 
 		public CustomSuggestionDisplay(Panel panel, App app) {
 			super(panel, app);

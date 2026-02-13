@@ -169,7 +169,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 			executeSuggestion(SuggestionIntersectExtremum.get(geo));
 			break;
 		case CreateTableValues:
-			 mApp.getGuiManager().showTableValuesView(geo);
+			mApp.getGuiManager().showTableValuesView(geo);
 			break;
 		case RemoveLabel:
 			removeLabel();

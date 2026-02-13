@@ -100,7 +100,7 @@ public class ColorChooserPanel extends FlowPanel implements SetLabels,
 		colorValues.forEach(this::addColorButton);
 	}
 
-	 private void addColorButton(GColor color) {
+	private void addColorButton(GColor color) {
 		if (color == null) {
 			addCustomColorButton();
 			return;
@@ -132,9 +132,9 @@ public class ColorChooserPanel extends FlowPanel implements SetLabels,
 
 		colorButtons.put(color, colorButton);
 		add(colorButton);
-	 }
+	}
 
-	 private void addCustomColorButton() {
+	private void addCustomColorButton() {
 		FlowPanel customColorButton = new FlowPanel("button");
 		customColorButton.addStyleName("colorButton customColor");
 
@@ -192,9 +192,9 @@ public class ColorChooserPanel extends FlowPanel implements SetLabels,
 		});
 
 		add(customColorButton);
-	 }
+	}
 
-	 private void updateActiveColorButton(FlowPanel newActiveButton, GColor newActiveColor) {
+	private void updateActiveColorButton(FlowPanel newActiveButton, GColor newActiveColor) {
 		if (activeButton != null) {
 			activeButton.removeStyleName("selected");
 		}
@@ -203,15 +203,15 @@ public class ColorChooserPanel extends FlowPanel implements SetLabels,
 			activeButton.addStyleName("selected");
 		}
 		activeColor = newActiveColor;
-	 }
+	}
 
-	 private void runCallback(GColor color) {
+	private void runCallback(GColor color) {
 		if (callback != null) {
 			callback.accept(color);
 		}
-	 }
+	}
 
-	 private void updateColor(FlowPanel colorButton, GColor color) {
+	private void updateColor(FlowPanel colorButton, GColor color) {
 		updateActiveColorButton(colorButton, color);
 		runCallback(color);
 	}

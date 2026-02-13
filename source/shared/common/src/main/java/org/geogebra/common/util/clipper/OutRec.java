@@ -29,7 +29,7 @@ class OutRec {
 	OutPt bottomPt;
 	PolyNode polyNode;
 
-	public double area() {
+	double area() {
 		OutPt op = pts;
 		if (op == null) {
 			return 0;
@@ -45,7 +45,7 @@ class OutRec {
 
 	@SuppressFBWarnings(value = "SA_FIELD_SELF_ASSIGNMENT",
 			justification = "https://github.com/spotbugs/spotbugs/issues/2258")
-	public void fixHoleLinkage() {
+	void fixHoleLinkage() {
 		// skip if an outermost polygon or
 		// already already points to the correct FirstLeft ...
 		if (firstLeft == null
@@ -60,15 +60,15 @@ class OutRec {
 		firstLeft = orfl;
 	}
 
-	public OutPt getPoints() {
+	OutPt getPoints() {
 		return pts;
 	}
 
-	public void setPoints(OutPt pts) {
+	void setPoints(OutPt pts) {
 		this.pts = pts;
 	}
 
-	public OutRec parseFirstLeft() {
+	OutRec parseFirstLeft() {
 		OutRec ret = this;
 		while (ret != null && ret.pts == null) {
 			ret = ret.firstLeft;

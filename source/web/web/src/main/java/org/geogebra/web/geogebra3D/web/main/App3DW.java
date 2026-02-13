@@ -39,8 +39,7 @@ public class App3DW {
 	 *            kernel
 	 * @return new controller for 3D view
 	 */
-	static final public EuclidianController3DW newEuclidianController3DW(
-	        Kernel kernel) {
+	public static EuclidianController3DW newEuclidianController3DW(Kernel kernel) {
 		if (Browser.supportsWebGL()) {
 			return new EuclidianController3DW(kernel);
 		}
@@ -56,8 +55,8 @@ public class App3DW {
 	 *            euclidian settings
 	 * @return new 3D view
 	 */
-	static final public EuclidianView3DW newEuclidianView3DW(
-	        EuclidianController3DW ec, EuclidianSettings settings) {
+	public static EuclidianView3DW newEuclidianView3DW(
+			EuclidianController3DW ec, EuclidianSettings settings) {
 		if (Browser.supportsWebGL()) {
 			return new EuclidianView3DW(ec, settings);
 		}
@@ -77,7 +76,7 @@ public class App3DW {
 	 * @param height
 	 *            new height
 	 */
-	static final public void ggwGraphicsView3DDimChanged(AppW app, int width,
+	public static void ggwGraphicsView3DDimChanged(AppW app, int width,
 			int height) {
 		GDimension dimension = AwtFactory.getPrototype().newDimension(width, height);
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();

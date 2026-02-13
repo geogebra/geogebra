@@ -94,7 +94,7 @@ public class AlgoComplexSolve extends AlgoSolve {
 	private static class GeoSymbolicPoint extends GeoPoint implements HasSymbolicMode {
 		private boolean symbolicMode;
 
-		public GeoSymbolicPoint(Construction construction) {
+		GeoSymbolicPoint(Construction construction) {
 			super(construction);
 		}
 

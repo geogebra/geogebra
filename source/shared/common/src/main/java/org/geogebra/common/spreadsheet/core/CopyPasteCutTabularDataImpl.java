@@ -203,7 +203,7 @@ final class CopyPasteCutTabularDataImpl<T>
 				.getTiledRange(destination, rowStep, columnStep);
 
 		for (int column = tiledRange.getMinColumn();
-			 column <= tiledRange.getMaxColumn(); column += columnStep) {
+				column <= tiledRange.getMaxColumn(); column += columnStep) {
 			for (int row = tiledRange.getMinRow(); row <= tiledRange.getMaxRow(); row += rowStep) {
 				pasteInternalOnce(new TabularRange(row, column,
 						row + rowStep - 1, column + columnStep - 1));

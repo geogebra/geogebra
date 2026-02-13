@@ -46,8 +46,7 @@ public class RowHeaderPopupMenuW extends
 	 * @param app
 	 *            application
 	 */
-	public RowHeaderPopupMenuW(
-	        CASTableW casTableW, AppW app) {
+	public RowHeaderPopupMenuW(CASTableW casTableW, AppW app) {
 		super(app);
 		this.app = app;
 		rowHeaderPopupMenu = new GPopupMenuW(app);

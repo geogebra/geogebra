@@ -34,13 +34,13 @@ public class SolveODEGiac {
 						// case the equation contains only y and other variable
 						// as x,by default use for variable list y,x
 						// #5099
-						 when(
-						 "size(lname(%0) intersect [x])==0&&size(lname(quote(%0)) intersect [y])>0&&size(lname(quote(%0)) minus [y])>0",
-						 "normal(map(desolve(%0,x,y),x->y=x))",
-						 "normal(map(desolve(%0),x->y=x))"),
+						when(
+						"size(lname(%0) intersect [x])==0&&size(lname(quote(%0)) intersect [y])>0&&size(lname(quote(%0)) minus [y])>0",
+						"normal(map(desolve(%0,x,y),x->y=x))",
+						"normal(map(desolve(%0),x->y=x))"),
 						// add y'= if it's missing
-						 "normal(map(desolve(y'=%0),x->y=x))") + "],",
-						 "when(length(solveodeans)==1,solveodeans[0],solveodeans)"));
+						"normal(map(desolve(y'=%0),x->y=x))") + "],",
+						"when(length(solveodeans)==1,solveodeans[0],solveodeans)"));
 		// goes through 1 point
 		// SolveODE[y''=x,(1,1)]
 		// goes through 1 point,y'= missing

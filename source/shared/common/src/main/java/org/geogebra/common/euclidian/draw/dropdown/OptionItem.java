@@ -36,7 +36,7 @@ class OptionItem {
 	private boolean latex;
 	private GRectangle rect;
 
-	public OptionItem(GeoList list, CanvasDrawable drawable, int idx) {
+	OptionItem(GeoList list, CanvasDrawable drawable, int idx) {
 		this.list = list;
 		this.drawable = drawable;
 		index = idx;
@@ -44,7 +44,7 @@ class OptionItem {
 		rect = null;
 	}
 
-	public void update(GFont font) {
+	void update(GFont font) {
 		this.font = font;
 		if (hasText()) {
 			calculateDimensions();
@@ -95,27 +95,27 @@ class OptionItem {
 						false));
 	}
 
-	public int getWidth() {
+	int getWidth() {
 		return dimension.getWidth();
 	}
 
-	public int getHeight() {
+	int getHeight() {
 		return dimension.getHeight();
 	}
 
-	public GRectangle getRect() {
+	GRectangle getRect() {
 		return rect;
 	}
 
-	public int getIndex() {
+	int getIndex() {
 		return index;
 	}
 
-	public String getText() {
+	String getText() {
 		return text;
 	}
 
-	public boolean isLatex() {
+	boolean isLatex() {
 		return latex;
 	}
 
@@ -124,46 +124,46 @@ class OptionItem {
 	 * @param item to compare.
 	 * @return if equal.
 	 */
-	public boolean isEqual(OptionItem item) {
+	boolean isEqual(OptionItem item) {
 		if (item == null) {
 			return false;
 		}
 		return index == item.index;
 	}
 
-	public boolean isHit(int x, int y) {
+	boolean isHit(int x, int y) {
 		return rect != null && rect.contains(x, y - OptionTableDimension.VERTICAL_PADDING);
 	}
 
-	public void setRect(GRectangle rect) {
+	void setRect(GRectangle rect) {
 		this.rect = rect;
 	}
 
-	public int getLeft() {
+	int getLeft() {
 		return (int) rect.getBounds().getX();
 	}
 
-	public int getTop() {
+	int getTop() {
 		return (int) rect.getBounds().getY() + OptionTableDimension.VERTICAL_PADDING;
 	}
 
-	public int getBottom() {
+	int getBottom() {
 		return getTop() + (int) rect.getBounds().getHeight();
 	}
 
-	public boolean hasNoBounds() {
+	boolean hasNoBounds() {
 		return rect == null;
 	}
 
-	public double getBoundsWidth() {
+	double getBoundsWidth() {
 		return rect.getWidth();
 	}
 
-	public double getBoundsHeight() {
+	double getBoundsHeight() {
 		return rect.getHeight();
 	}
 
-	public boolean intersects(GRectangle rectangle) {
+	boolean intersects(GRectangle rectangle) {
 		return rect.intersects(rectangle);
 	}
 }

@@ -126,7 +126,7 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	/**
 	 * put vertex values into buffer
 	 * 
-	  * @param x
+	 * @param x
 	 *            x-coord
 	 * @param y
 	 *            y-coord

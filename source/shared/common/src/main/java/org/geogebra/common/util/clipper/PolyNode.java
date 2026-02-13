@@ -37,37 +37,37 @@ class PolyNode {
 	protected final List<PolyNode> children = new ArrayList<>();
 	private boolean isOpen;
 
-	public void addChild(PolyNode child) {
+	void addChild(PolyNode child) {
 		final int cnt = children.size();
 		children.add(child);
 		child.parent = this;
 		child.index = cnt;
 	}
 
-	public int getChildCount() {
+	int getChildCount() {
 		return children.size();
 	}
 
-	public List<PolyNode> getChildren() {
+	List<PolyNode> getChildren() {
 		return Collections.unmodifiableList(children);
 	}
 
 	/**
 	 * modified to be compatible with double
 	 */
-	public List<DoublePoint> getContour() {
+	List<DoublePoint> getContour() {
 		return polygon;
 	}
 
-	public EndType getEndType() {
+	EndType getEndType() {
 		return endType;
 	}
 
-	public JoinType getJoinType() {
+	JoinType getJoinType() {
 		return joinType;
 	}
 
-	public PolyNode getNext() {
+	PolyNode getNext() {
 		if (!children.isEmpty()) {
 			return children.get(0);
 		}
@@ -84,15 +84,15 @@ class PolyNode {
 		}
 	}
 
-	public PolyNode getParent() {
+	PolyNode getParent() {
 		return parent;
 	}
 
-	public Path getPolygon() {
+	Path getPolygon() {
 		return polygon;
 	}
 
-	public boolean isHole() {
+	boolean isHole() {
 		return isHoleNode();
 	}
 
@@ -106,25 +106,24 @@ class PolyNode {
 		return result;
 	}
 
-	public boolean isOpen() {
+	boolean isOpen() {
 		return isOpen;
 	}
 
-	public void setEndType(EndType value) {
+	void setEndType(EndType value) {
 		endType = value;
 	}
 
-	public void setJoinType(JoinType value) {
+	void setJoinType(JoinType value) {
 		joinType = value;
 	}
 
-	public void setOpen(boolean isOpen) {
+	void setOpen(boolean isOpen) {
 		this.isOpen = isOpen;
 	}
 
-	public void setParent(PolyNode n) {
+	void setParent(PolyNode n) {
 		parent = n;
-
 	}
 
 }

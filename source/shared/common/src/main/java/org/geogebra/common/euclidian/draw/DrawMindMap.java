@@ -79,7 +79,7 @@ public class DrawMindMap extends DrawInlineText {
 		private final double y0;
 		private final double y1;
 
-		public MindMapEdge(DrawMindMap parent, DrawMindMap child, NodeAlignment alignment) {
+		MindMapEdge(DrawMindMap parent, DrawMindMap child, NodeAlignment alignment) {
 			x0 = parent.rectangle.getLeft() + alignment.dx0 * parent.rectangle.getWidth();
 			y0 = parent.rectangle.getTop() + alignment.dy0 * parent.rectangle.getHeight();
 			x1 = child.rectangle.getLeft() + alignment.dx1 * child.rectangle.getWidth();
@@ -109,7 +109,7 @@ public class DrawMindMap extends DrawInlineText {
 			return path;
 		}
 
-		public double getLength() {
+		double getLength() {
 			return (x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1);
 		}
 	}

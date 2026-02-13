@@ -746,8 +746,8 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void registerMouseTouchGestureHandlers(
-	        EuclidianPanelWAbstract euclidianViewPanel,
-	        EuclidianControllerW euclidiancontroller) {
+			EuclidianPanelWAbstract euclidianViewPanel,
+			EuclidianControllerW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
 		Element absPanelElement = absPanel.getElement();
 		Dom.addEventListener(absPanelElement, "wheel",
@@ -764,8 +764,8 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private static void registerDragDropHandlers(
-	        EuclidianPanelWAbstract euclidianViewPanel,
-	        EuclidianControllerW euclidiancontroller) {
+			EuclidianPanelWAbstract euclidianViewPanel,
+			EuclidianControllerW euclidiancontroller) {
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, DropEvent.getType());
 	}

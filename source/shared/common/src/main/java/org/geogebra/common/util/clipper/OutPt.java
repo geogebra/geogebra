@@ -26,7 +26,7 @@ class OutPt {
 
 	OutPt prev;
 
-	public static OutRec getLowerMostRec(OutRec outRec1, OutRec outRec2) {
+	static OutRec getLowerMostRec(OutRec outRec1, OutRec outRec2) {
 		// work out which polygon fragment has the correct hole state ...
 		if (outRec1.bottomPt == null) {
 			outRec1.bottomPt = outRec1.pts.getBottomPt();
@@ -84,7 +84,7 @@ class OutPt {
 		return dx1p >= dx2p && dx1p >= dx2n || dx1n >= dx2p && dx1n >= dx2n;
 	}
 
-	public OutPt duplicate(boolean InsertAfter) {
+	OutPt duplicate(boolean InsertAfter) {
 		final OutPt result = new OutPt();
 		// result.setPt( new LongPoint( getPt() ) );
 		result.setPt(new DoublePoint(getPt()));
@@ -139,7 +139,7 @@ class OutPt {
 		return pp;
 	}
 
-	public int getPointCount() {
+	int getPointCount() {
 
 		int result = 0;
 		OutPt p = this;
@@ -153,16 +153,15 @@ class OutPt {
 	/**
 	 * modified to be compatible with double
 	 */
-	public DoublePoint getPt() {
+	DoublePoint getPt() {
 		return pt;
 	}
 
-	public void setPt(DoublePoint pt) {
+	void setPt(DoublePoint pt) {
 		this.pt = pt;
 	}
 
-	public void reversePolyPtLinks() {
-
+	void reversePolyPtLinks() {
 		OutPt pp1;
 		OutPt pp2;
 		pp1 = this;

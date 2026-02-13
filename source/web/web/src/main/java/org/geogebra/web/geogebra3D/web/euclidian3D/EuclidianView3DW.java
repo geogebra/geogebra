@@ -168,8 +168,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	private void registerMouseTouchGestureHandlers(
-	        EuclidianPanelWAbstract euclidianViewPanel,
-	        EuclidianController3DW euclidiancontroller) {
+			EuclidianPanelWAbstract euclidianViewPanel,
+			EuclidianController3DW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
 		Dom.addEventListener(absPanel.getElement(), "wheel",
 				(event) -> euclidiancontroller.onMouseWheel((WheelEvent) event));
@@ -207,8 +207,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @author mathieu
 	 *
 	 */
-	private class EuclidianViewWrapperPanel3D extends EuclidianViewWrapperPanel implements
-	        RequiresResize {
+	private class EuclidianViewWrapperPanel3D extends EuclidianViewWrapperPanel
+			implements RequiresResize {
 
 		/**
 		 * constructor

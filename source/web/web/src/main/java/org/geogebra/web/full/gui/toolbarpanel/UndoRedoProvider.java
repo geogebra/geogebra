@@ -51,7 +51,7 @@ public class UndoRedoProvider {
 	}
 
 	private void initUndoButton(AccessibilityGroup undoGroup) {
-		 btnUndo = new IconButton(app, () -> onUndoPressed(app), app.getTopBarIconResource()
+		btnUndo = new IconButton(app, () -> onUndoPressed(app), app.getTopBarIconResource()
 				.getImageResource(TopBarIcon.UNDO), "Undo");
 		new FocusableWidget(undoGroup, null, btnUndo).attachTo(app);
 		btnUndo.addStyleName("undo");
