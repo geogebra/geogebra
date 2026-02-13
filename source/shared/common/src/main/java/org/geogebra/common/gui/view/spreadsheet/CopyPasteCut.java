@@ -490,14 +490,14 @@ public abstract class CopyPasteCut {
 		return succ;
 	}
 
-	private static class Record {
-		int id;
-		int x1;
-		int y1;
-		int x2;
-		int y2;
+	private static final class Record {
+		private final int id;
+		private final int x1;
+		private final int y1;
+		private final int x2;
+		private final int y2;
 
-		public Record(int id, int x1, int y1, int x2, int y2) {
+		private Record(int id, int x1, int y1, int x2, int y2) {
 			this.id = id;
 			this.x1 = x1;
 			this.x2 = x2;
@@ -505,19 +505,19 @@ public abstract class CopyPasteCut {
 			this.y2 = y2;
 		}
 
-		public int getx1() {
+		private int getx1() {
 			return x1;
 		}
 
-		public int getx2() {
+		private int getx2() {
 			return x2;
 		}
 
-		public int gety1() {
+		private int gety1() {
 			return y1;
 		}
 
-		public int gety2() {
+		private int gety2() {
 			return y2;
 		}
 	}

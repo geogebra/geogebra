@@ -842,7 +842,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	// ...|./......................|./
 	// ...7/___________10__________6/
 	//
-	private static class Cube {
+	private static final class Cube {
 
 		static final int X1 = 0x00;
 		static final int Y1 = 0x01;
@@ -871,15 +871,11 @@ public class GeoImplicitSurface extends GeoElement3D
 		/**
 		 * Coordinates of the cube (x1, y1, z1) (x2, y2, z2)
 		 */
-		public double[] coords = new double[6];
+		private double[] coords = new double[6];
 		/**
 		 * Cached evaluated value at each corner of the cube
 		 */
-		public double[] cache = new double[8];
-
-		protected Cube() {
-
-		}
+		private double[] cache = new double[8];
 
 		/**
 		 * Fill point array with point of intersection of edge e with the plane.
@@ -891,7 +887,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		 * @param pts
 		 *            an array of length at least 3
 		 */
-		public void pointOfIntersection(int e, double[] pts) {
+		private void pointOfIntersection(int e, double[] pts) {
 			int[] v = EDGES[e];
 			int[] v1 = VERTICES[v[0]];
 			int[] v2 = VERTICES[v[1]];
@@ -924,7 +920,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		 *         evaluated value at given vertex
 		 * 
 		 */
-		public int sign(int vertex) {
+		private int sign(int vertex) {
 			double v = eval(vertex);
 			if (Double.isFinite(v)) {
 				return v <= 0.0 ? 0 : 1;
@@ -932,11 +928,11 @@ public class GeoImplicitSurface extends GeoElement3D
 			return -1;
 		}
 
-		public double eval(int vertex) {
+		private double eval(int vertex) {
 			return cache[vertex];
 		}
 
-		public static double interpolate(double fa, double fb, double p1,
+		private static double interpolate(double fa, double fb, double p1,
 				double p2) {
 			double r = -fb / (fa - fb);
 			if (r <= 1.0 && r >= 0.0) {

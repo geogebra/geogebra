@@ -76,12 +76,12 @@ public class GeoConicSection extends GeoConic3D
 
 	}
 
-	private static class IndexedParameter
+	private static final class IndexedParameter
 			implements Comparable<IndexedParameter> {
-		protected double value;
-		protected int index;
+		private final double value;
+		private final int index;
 
-		public IndexedParameter(double value, int index) {
+		private IndexedParameter(double value, int index) {
 			this.value = value;
 			this.index = index;
 		}

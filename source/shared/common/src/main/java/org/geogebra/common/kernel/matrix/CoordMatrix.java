@@ -1204,7 +1204,7 @@ public class CoordMatrix {
 			return DoubleUtil.isZero(value);
 		}
 
-		public void init(int length) {
+		private void init(int length) {
 			nonZeroIndices = new boolean[length];
 		}
 

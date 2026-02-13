@@ -42,7 +42,7 @@ final class SpreadsheetCellReference {
 		this.columnIsAbsolute = columnIsAbsolute;
 	}
 
-	public boolean equalsIgnoringAbsolute(@CheckForNull SpreadsheetCellReference other) {
+	boolean equalsIgnoringAbsolute(@CheckForNull SpreadsheetCellReference other) {
 		if (other == null) {
 			return false;
 		}

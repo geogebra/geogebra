@@ -75,11 +75,11 @@ public class DefaultClipper extends ClipperBase {
 		/**
 		 * modified to be compatible with double
 		 */
-		public DoublePoint getPt() {
+		DoublePoint getPt() {
 			return pt;
 		}
 
-		public void setPt(DoublePoint pt) {
+		void setPt(DoublePoint pt) {
 			this.pt = pt;
 		}
 

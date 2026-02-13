@@ -2644,7 +2644,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		Coords3 centerNormal;
 		int id;
 
-		public CornerAndCenter(Corner corner, int id) {
+		CornerAndCenter(Corner corner, int id) {
 			center = newCoords3();
 			centerNormal = newCoords3();
 			setCorner(corner);
@@ -2657,7 +2657,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		 * @param corner
 		 *            corner
 		 */
-		public void setCorner(Corner corner) {
+		void setCorner(Corner corner) {
 			this.corner = corner;
 		}
 
@@ -2665,7 +2665,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		 * 
 		 * @return corner
 		 */
-		public Corner getCorner() {
+		Corner getCorner() {
 			return corner;
 		}
 
@@ -2673,7 +2673,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		 * 
 		 * @return center
 		 */
-		public Coords3 getCenter() {
+		Coords3 getCenter() {
 			return center;
 		}
 
@@ -2681,12 +2681,11 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		 * 
 		 * @return center normal
 		 */
-		public Coords3 getCenterNormal() {
+		Coords3 getCenterNormal() {
 			return centerNormal;
 		}
 
-		public void drawDebug(PlotterSurface surface) {
-
+		void drawDebug(PlotterSurface surface) {
 			surface.startTrianglesWireFrame();
 			draw(surface);
 			surface.endGeometryDirect();
@@ -2694,10 +2693,9 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			surface.startTrianglesWireFrameSurface();
 			draw(surface);
 			surface.endGeometryDirect();
-
 		}
 
-		public void draw(PlotterSurface surface) {
+		void draw(PlotterSurface surface) {
 			Corner p1, p2;
 
 			// go left

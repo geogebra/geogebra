@@ -41,10 +41,10 @@ public class FormatCollada extends Format {
 	private StringBuilder sb2 = new StringBuilder();
 
 	private static class IdColor {
-		public String id;
-		public GColor color;
+		private final String id;
+		private final GColor color;
 
-		public IdColor(String id, GColor color) {
+		IdColor(String id, GColor color) {
 			this.id = id;
 			this.color = color;
 		}

@@ -254,11 +254,11 @@ public class AlgoIntegralODE extends AlgoElement {
 		}
 	};
 
-	private static class ODE implements FirstOrderDifferentialEquations {
+	private static final class ODE implements FirstOrderDifferentialEquations {
 
 		FunctionalNVar f;
 
-		public ODE(FunctionalNVar f) {
+		private ODE(FunctionalNVar f) {
 			this.f = f;
 		}
 
@@ -283,12 +283,12 @@ public class AlgoIntegralODE extends AlgoElement {
 
 	}
 
-	private static class ODE2 implements FirstOrderDifferentialEquations {
+	private static final class ODE2 implements FirstOrderDifferentialEquations {
 
 		FunctionalNVar y0;
 		FunctionalNVar y1;
 
-		public ODE2(FunctionalNVar y, FunctionalNVar x) {
+		private ODE2(FunctionalNVar y, FunctionalNVar x) {
 			this.y0 = y;
 			this.y1 = x;
 		}

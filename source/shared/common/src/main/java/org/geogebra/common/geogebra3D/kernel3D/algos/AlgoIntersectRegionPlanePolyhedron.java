@@ -109,14 +109,14 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 * class extending Coords with reference to parent geo
 	 *
 	 */
-	private static class CoordsWithParent extends Coords
+	private static final class CoordsWithParent extends Coords
 			implements Comparable<CoordsWithParent> {
 
-		protected GeoElementND parent;
+		private final GeoElementND parent;
 
-		private Double parameter;
+		private final Double parameter;
 
-		public CoordsWithParent(Double parameter, Coords v,
+		private CoordsWithParent(Double parameter, Coords v,
 				GeoElementND parent) {
 			super(v);
 			this.parent = parent;
@@ -157,7 +157,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		 *            other coords
 		 * @return comparison result
 		 */
-		public int compareParentTo(CoordsWithParent o) {
+		private int compareParentTo(CoordsWithParent o) {
 			return parent.toGeoElement().compareTo(o.parent.toGeoElement());
 		}
 
@@ -171,11 +171,11 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 * bi-point for each intersection segment
 	 *
 	 */
-	private static class Segment {
-		protected CoordsWithParent p1;
-		protected CoordsWithParent p2;
+	private static final class Segment {
+		private final CoordsWithParent p1;
+		private final CoordsWithParent p2;
 
-		public Segment(CoordsWithParent p1, CoordsWithParent p2) {
+		private Segment(CoordsWithParent p1, CoordsWithParent p2) {
 			this.p1 = p1;
 			this.p2 = p2;
 		}
@@ -220,10 +220,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 		}
 
 		/**
-		 * find direction from lowest to lowest neighbor
+		 * Find direction from lowest to lowest neighbor.
 		 */
-		public void setDirection() {
-
+		private void setDirection() {
 			int n1 = lowest - 1;
 			int n2 = lowest + 1;
 			if (n1 < 0) {

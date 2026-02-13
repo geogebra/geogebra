@@ -144,28 +144,28 @@ public class ExportToPrinter3D {
 		private int v1;
 		private int v2;
 
-		public SegmentIndex() {
+		SegmentIndex() {
 			set(-1, -1);
 		}
 
-		public SegmentIndex(int v1, int v2) {
+		SegmentIndex(int v1, int v2) {
 			set(v1, v2);
 		}
 
-		public void set(int v1, int v2) {
+		void set(int v1, int v2) {
 			this.v1 = v1;
 			this.v2 = v2;
 		}
 
-		public void setReverse(int v1, int v2) {
+		void setReverse(int v1, int v2) {
 			set(v2, v1);
 		}
 
-		public int getV1() {
+		int getV1() {
 			return v1;
 		}
 
-		public int getV2() {
+		int getV2() {
 			return v2;
 		}
 

@@ -28,7 +28,7 @@ final class ExpressionValueTreeIterator implements Iterator<ExpressionValue> {
 	// The last element is the first that needs to be processed
 	private final List<ExpressionValue> stack = new ArrayList<>(10);
 
-	public ExpressionValueTreeIterator(ExpressionValue root) {
+	ExpressionValueTreeIterator(ExpressionValue root) {
 		stack.add(root);
 	}
 

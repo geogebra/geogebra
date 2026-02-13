@@ -1573,7 +1573,7 @@ public abstract class GeoGebraExport {
 		private FillType fillType;
 		private GColor linecolor;
 
-		public Info(GeoElementND geo) {
+		protected Info(GeoElementND geo) {
 
 			alpha = geo.getAlphaValue();
 			y = geo.getHatchingDistance();
@@ -1606,23 +1606,23 @@ public abstract class GeoGebraExport {
 			}
 		}
 
-		public double getAlpha() {
+		double getAlpha() {
 			return alpha;
 		}
 
-		public int getY() {
+		int getY() {
 			return y;
 		}
 
-		public double getAngle() {
+		double getAngle() {
 			return angle;
 		}
 
-		public FillType getFillType() {
+		FillType getFillType() {
 			return fillType;
 		}
 
-		public GColor getLinecolor() {
+		GColor getLinecolor() {
 			return linecolor;
 		}
 

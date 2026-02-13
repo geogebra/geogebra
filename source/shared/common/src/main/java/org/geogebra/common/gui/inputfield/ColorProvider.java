@@ -266,48 +266,48 @@ public class ColorProvider {
 
 	// MyMatchResult and LabelParamRegExp are
 	// inner classes used for matching labels/functions/commands
-	private static class CommandOrFunctionMatchResult {
+	private static final class CommandOrFunctionMatchResult {
 
 		int index;
 		List<String> groups;
 		private boolean isCommand;
 
-		public CommandOrFunctionMatchResult(int index, List<String> groups,
+		private CommandOrFunctionMatchResult(int index, List<String> groups,
 				boolean isCommand) {
 			this.index = index;
 			this.groups = groups;
 			setCommand(isCommand);
 		}
 
-		public boolean isCommand() {
+		boolean isCommand() {
 			return isCommand;
 		}
 
-		public void setCommand(boolean isCommand) {
+		void setCommand(boolean isCommand) {
 			this.isCommand = isCommand;
 		}
 
-		public int getIndex() {
+		int getIndex() {
 			return index;
 		}
 
-		public String getGroup(int i) {
+		String getGroup(int i) {
 			return groups.get(i);
 		}
 
 	}
 
-	private static class LabelParamRegExp {
+	private static final class LabelParamRegExp {
 
 		RegExp regExp = RegExp.compile(LABEL_PARAM);
 		String text;
 		int index;
 
-		public LabelParamRegExp(String text) {
+		private LabelParamRegExp(String text) {
 			setText(text);
 		}
 
-		public CommandOrFunctionMatchResult exec() {
+		private CommandOrFunctionMatchResult exec() {
 			MatchResult res = regExp.exec(text);
 			if (res == null) {
 				return null;
@@ -351,7 +351,7 @@ public class ColorProvider {
 			return ret;
 		}
 
-		public void setText(String text) {
+		private void setText(String text) {
 			this.text = text;
 			index = 0;
 		}

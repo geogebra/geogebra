@@ -171,16 +171,16 @@ public class EuclidianControllerInput3DCompanion extends
 
 	}
 
-	private static class StickyPoint implements Comparable<StickyPoint> {
-		public GeoPointND point;
-		public double distance;
+	private static final class StickyPoint implements Comparable<StickyPoint> {
+		private final GeoPointND point;
+		private final double distance;
 
-		public StickyPoint(GeoPointND point, double distance) {
+		private StickyPoint(GeoPointND point, double distance) {
 			this.point = point;
 			this.distance = distance;
 		}
 
-		public double getDistanceAbs() {
+		private double getDistanceAbs() {
 			return Math.abs(distance);
 		}
 
@@ -226,21 +226,20 @@ public class EuclidianControllerInput3DCompanion extends
 
 	}
 
-	private static class StickyPointForDirection
-			implements
-			Comparable<StickyPointForDirection> {
-		public StickyPoint sp;
-		public double distanceOrtho;
-		public double distanceOrigin;
+	private static final class StickyPointForDirection
+			implements Comparable<StickyPointForDirection> {
+		private final StickyPoint sp;
+		private final double distanceOrtho;
+		private final double distanceOrigin;
 
-		public StickyPointForDirection(StickyPoint origin, StickyPoint sp,
+		private StickyPointForDirection(StickyPoint origin, StickyPoint sp,
 				double distanceOrigin) {
 			this.sp = sp;
 			this.distanceOrtho = sp.distance - origin.distance;
 			this.distanceOrigin = distanceOrigin;
 		}
 
-		public double getCosAbs() {
+		private double getCosAbs() {
 			return Math.abs(distanceOrtho / distanceOrigin);
 		}
 

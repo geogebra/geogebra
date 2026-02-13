@@ -190,10 +190,10 @@ public class AlgoNSolveODE extends AlgoElement {
 		}
 	};
 
-	private class ODEN implements FirstOrderDifferentialEquations {
-		private GeoList fun1;
+	private final class ODEN implements FirstOrderDifferentialEquations {
+		private final GeoList fun1;
 
-		public ODEN(GeoList fun) {
+		private ODEN(GeoList fun) {
 			this.fun1 = fun;
 		}
 

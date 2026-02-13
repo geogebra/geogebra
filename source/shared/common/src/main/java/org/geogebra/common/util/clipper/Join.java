@@ -26,11 +26,11 @@ class Join {
 	OutPt outPt2;
 	private DoublePoint offPt;
 
-	public DoublePoint getOffPt() {
+	DoublePoint getOffPt() {
 		return offPt;
 	}
 
-	public void setOffPt(DoublePoint offPt) {
+	void setOffPt(DoublePoint offPt) {
 		this.offPt = offPt;
 	}
 

@@ -170,7 +170,7 @@ public class ModelEventCollector implements TableValuesListener {
 		private boolean datasetChanged = false;
 		private int counter = 0;
 
-		public ModelEvent copy() {
+		private ModelEvent copy() {
 			ModelEvent event = new ModelEvent();
 			event.columnsRemoved.addAll(columnsRemoved);
 			event.columnsChanged.addAll(columnsChanged);

@@ -123,7 +123,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private class DrawSphere implements DrawEllipticSurface {
+	private final class DrawSphere implements DrawEllipticSurface {
 
 		private PlotterSurface surface;
 		private Coords center;
@@ -132,7 +132,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		protected DrawSphere() {
 		}
 
-		public void set(PlotterSurface surface, Coords center, double radius) {
+		void set(PlotterSurface surface, Coords center, double radius) {
 			this.surface = surface;
 			this.center = center;
 			this.radius = radius;
@@ -190,7 +190,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private class DrawEllipsoid implements DrawEllipticSurface {
+	private final class DrawEllipsoid implements DrawEllipticSurface {
 
 		private PlotterSurface surface;
 		private Coords center;
@@ -205,10 +205,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		private Coords n = new Coords(4);
 		private Coords tmpCoords = new Coords(4);
 
-		protected DrawEllipsoid() {
-		}
-
-		public void set(PlotterSurface surface, Coords center, Coords ev0,
+		void set(PlotterSurface surface, Coords center, Coords ev0,
 				Coords ev1, Coords ev2, double r0, double r1, double r2) {
 			this.surface = surface;
 			this.center = center;
@@ -334,7 +331,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		protected DrawHyperboloidOneSheet() {
 		}
 
-		public void set(PlotterSurface surface, Coords center, Coords ev0,
+		void set(PlotterSurface surface, Coords center, Coords ev0,
 				Coords ev1, Coords ev2, double r0, double r1, double r2,
 				boolean fading) {
 			this.surface = surface;
@@ -349,7 +346,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			this.fading = fading;
 		}
 
-		public void setMinMax(double min, double max) {
+		void setMinMax(double min, double max) {
 			if (min < 0) {
 				if (max > 0) {
 					this.min = 0;
@@ -519,13 +516,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private class DrawHyperboloidTwoSheets extends DrawHyperboloidOneSheet {
-
-		protected DrawHyperboloidTwoSheets() {
-		}
+	private final class DrawHyperboloidTwoSheets extends DrawHyperboloidOneSheet {
 
 		@Override
-		public void setMinMax(double min, double max) {
+		void setMinMax(double min, double max) {
 			if (min < 0) {
 				if (max > 0) {
 					this.min = 0;
@@ -594,13 +588,10 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private class DrawParaboloid extends DrawHyperboloidOneSheet {
-
-		protected DrawParaboloid() {
-		}
+	private final class DrawParaboloid extends DrawHyperboloidOneSheet {
 
 		@Override
-		public void setMinMax(double min, double max) {
+		void setMinMax(double min, double max) {
 			this.min = min;
 			this.max = max;
 

@@ -26,11 +26,11 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 
 public final class ChartBuilder {
 
-	private static  class TabularRangePair {
+	private static final class TabularRangePair {
 		private final TabularRange start;
 		private final TabularRange end;
 
-		public TabularRangePair(List<TabularRange> ranges) {
+		private TabularRangePair(List<TabularRange> ranges) {
 			TabularRange range0 = ranges.get(0);
 			if (ranges.size() == 1 && range0.getWidth() != 2) {
 				start = null;

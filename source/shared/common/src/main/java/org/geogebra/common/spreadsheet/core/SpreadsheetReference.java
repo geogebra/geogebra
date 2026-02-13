@@ -45,7 +45,7 @@ final class SpreadsheetReference {
 		return toCell != null;
 	}
 
-	public boolean equalsIgnoringAbsolute(@CheckForNull SpreadsheetReference other) {
+	boolean equalsIgnoringAbsolute(@CheckForNull SpreadsheetReference other) {
 		if (other == null) {
 			return false;
 		}

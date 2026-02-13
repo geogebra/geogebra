@@ -34,7 +34,7 @@ class PermutationOfGeOElementsUtil {
 	 * @param arr
 	 *            the Array with the Elements to be permuted
 	 */
-	public PermutationOfGeOElementsUtil(GeoElement[] arr) {
+	PermutationOfGeOElementsUtil(GeoElement[] arr) {
 		this(arr, arr.length);
 	}
 
@@ -44,7 +44,7 @@ class PermutationOfGeOElementsUtil {
 	 * @param permSize
 	 *            the Elements k < arr.length of the array you need to permute
 	 */
-	public PermutationOfGeOElementsUtil(GeoElement[] arr, int permSize) {
+	PermutationOfGeOElementsUtil(GeoElement[] arr, int permSize) {
 
 		// this.arr = arr.clone();
 		this.arr = new GeoElement[arr.length];
@@ -58,7 +58,7 @@ class PermutationOfGeOElementsUtil {
 	/**
 	 * @return the next permutation of the array if exists, null otherwise
 	 */
-	public GeoElement[] next() {
+	GeoElement[] next() {
 		if (arr == null) {
 			return null;
 		}

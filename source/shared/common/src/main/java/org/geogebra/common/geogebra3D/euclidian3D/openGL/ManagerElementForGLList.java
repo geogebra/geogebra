@@ -206,7 +206,7 @@ public class ManagerElementForGLList extends Manager {
 
 		private ManagerElementForGLList manager;
 
-		public GLBufferIndicesForGLList(ManagerElementForGLList manager) {
+		GLBufferIndicesForGLList(ManagerElementForGLList manager) {
 			this.manager = manager;
 		}
 

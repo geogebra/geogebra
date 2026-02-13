@@ -96,7 +96,7 @@ abstract class QuadTree {
 
 	abstract void updatePath();
 
-	public LinkSegments segments() {
+	LinkSegments segments() {
 		return segments;
 	}
 

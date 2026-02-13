@@ -27,7 +27,7 @@ class CartesianPrinter3D implements Printer {
 
 	private final @CheckForNull GeneralSettings settings;
 
-	public CartesianPrinter3D(@CheckForNull GeneralSettings settings) {
+	CartesianPrinter3D(@CheckForNull GeneralSettings settings) {
 		this.settings = settings;
 	}
 

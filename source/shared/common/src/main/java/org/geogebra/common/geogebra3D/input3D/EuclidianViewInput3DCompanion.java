@@ -647,7 +647,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 		private long delay = -1;
 
-		private Coords startMousePosition = new Coords(3);
+		private final Coords startMousePosition = new Coords(3);
 
 		/**
 		 * say if we should forget current
@@ -661,7 +661,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			return (time - lastTime) * 8 > LONG_DELAY;
 		}
 
-		public void setHit(GeoElement newGeo, long time,
+		void setHit(GeoElement newGeo, long time,
 				Coords mousePosition) {
 			if (newGeo == null || mousePosition == null) { // reinit geo
 				if (forgetCurrent(time)) {
@@ -700,7 +700,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		 * @param newGeo
 		 *            hit geo
 		 */
-		public void setHit(GeoElement newGeo) {
+		void setHit(GeoElement newGeo) {
 			geo = newGeo;
 			if (newGeo == null) {
 				delay = -1;
@@ -711,7 +711,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		 * 
 		 * @return current geo
 		 */
-		public GeoElement getGeo() {
+		GeoElement getGeo() {
 			return geo;
 		}
 
@@ -721,7 +721,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		 *            current time
 		 * @return true if hit was long enough to process left press
 		 */
-		public boolean hasLongDelay(long time) {
+		boolean hasLongDelay(long time) {
 
 			if (geo == null) {
 				delay = -1;
@@ -737,12 +737,12 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			return false;
 		}
 
-		public void consumeLongDelay() {
+		void consumeLongDelay() {
 			geo = null; // consume event
 			delay = -1;
 		}
 
-		public float getCompletingDelay() {
+		float getCompletingDelay() {
 			return delay / LONG_DELAY;
 		}
 

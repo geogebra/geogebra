@@ -48,7 +48,7 @@ final class SurdAddition {
 
 	}
 
-	public @CheckForNull ExpressionNode factorOut() {
+	@CheckForNull ExpressionNode factorOut() {
 		ensureIntegerFirst();
 		if (ExpressionValueUtils.isSqrtNode(b) || ExpressionValueUtils.isNegativeSqrt(b)) {
 			return null;
@@ -122,7 +122,7 @@ final class SurdAddition {
 		return node;
 	}
 
-	public ExpressionValue multiply(double multiplier) {
+	ExpressionValue multiply(double multiplier) {
 		a = multiply(a, multiplier).wrap();
 		b = multiply(b, multiplier).wrap();
 		Operation operation = node.getOperation();
@@ -151,7 +151,7 @@ final class SurdAddition {
 		return node.multiplyR(multiplier);
 	}
 
-	public ExpressionValue multiply(ExpressionValue ev) {
+	ExpressionValue multiply(ExpressionValue ev) {
 		ExpressionValue a1 = utils.reduceProduct(a.multiply(ev));
 		ExpressionValue b1 = utils.reduceProduct(b.multiply(ev));
 		return utils.newNode(a1, Operation.PLUS, b1);

@@ -56,9 +56,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	ChangeableParent heightChangeableParent = null;
 	private final int shift;
 
-	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
+	private final class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
 
-		public OutputPolygonsHandler(ElementFactory<GeoPolygon3D> factory) {
+		private OutputPolygonsHandler(ElementFactory<GeoPolygon3D> factory) {
 			super(factory);
 		}
 
@@ -84,9 +84,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		});
 	}
 
-	private class OutputSegmentsHandler extends OutputHandler<GeoSegment3D> {
+	private final class OutputSegmentsHandler extends OutputHandler<GeoSegment3D> {
 
-		public OutputSegmentsHandler(ElementFactory<GeoSegment3D> factory) {
+		private OutputSegmentsHandler(ElementFactory<GeoSegment3D> factory) {
 			super(factory);
 		}
 
@@ -112,9 +112,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		});
 	}
 
-	private class OutputPointsHandler extends OutputHandler<GeoPoint3D> {
+	private final class OutputPointsHandler extends OutputHandler<GeoPoint3D> {
 
-		public OutputPointsHandler() {
+		private OutputPointsHandler() {
 			super(new PointFactory() {
 				@Override
 				public GeoPoint3D newElement() {

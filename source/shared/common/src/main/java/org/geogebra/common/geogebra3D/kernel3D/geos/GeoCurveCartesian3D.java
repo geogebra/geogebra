@@ -447,7 +447,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	// DISTANCE FUNCTION
 	// /////////////////////////////////////
 
-	private static class CurveCartesian3DDistanceFunction
+	private static final class CurveCartesian3DDistanceFunction
 			implements DistanceFunction {
 
 		private Coords distCoords;
@@ -462,7 +462,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		 * @param curve
 		 *            curve
 		 */
-		public CurveCartesian3DDistanceFunction(GeoCurveCartesian3D curve) {
+		private CurveCartesian3DDistanceFunction(GeoCurveCartesian3D curve) {
 			this.curve = curve;
 		}
 

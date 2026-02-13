@@ -43,14 +43,14 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 	private String exportName;
 	private boolean filterGeoNames;
 
-	private static class GeometryStringBuilders {
-		public StringBuilder vsb;
-		public StringBuilder nsb;
-		public StringBuilder csb;
-		public StringBuilder tsb;
-		public GeometryType type;
-		public int index;
-		public int nextShift;
+	private static final class GeometryStringBuilders {
+		private StringBuilder vsb;
+		private StringBuilder nsb;
+		private StringBuilder csb;
+		private StringBuilder tsb;
+		private GeometryType type;
+		private int index;
+		private int nextShift;
 
 		GeometryStringBuilders(GeometryType type) {
 			this.type = type;

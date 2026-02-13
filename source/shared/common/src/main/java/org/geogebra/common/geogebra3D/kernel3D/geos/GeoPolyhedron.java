@@ -209,7 +209,7 @@ public class GeoPolyhedron extends GeoElement3D
 
 	}
 
-	static private class PointChangedHelper {
+	static private final class PointChangedHelper {
 		private Coords coordsOld;
 		private GeoPoint3D point;
 		private boolean useLine;
@@ -223,7 +223,7 @@ public class GeoPolyhedron extends GeoElement3D
 		private int resultIndex;
 		private GeoPolygon resultPolygon;
 
-		public PointChangedHelper(GeoPoint3D point) {
+		private PointChangedHelper(GeoPoint3D point) {
 			this.point = point;
 			coordsOld = Coords.createInhomCoorsInD3();
 			coordsOld.set3(point.getInhomCoordsInD3());
@@ -233,7 +233,7 @@ public class GeoPolyhedron extends GeoElement3D
 			index = 0;
 		}
 
-		public void update(GeoPolygon polygon) {
+		private void update(GeoPolygon polygon) {
 			point.setRegion(polygon);
 			point.setCoords(coordsOld, false);
 			polygon.pointChangedForRegion(point);
@@ -274,7 +274,7 @@ public class GeoPolyhedron extends GeoElement3D
 			resultPolygon = polygon;
 		}
 
-		public void setResult() {
+		private void setResult() {
 			point.setCoords(result, false);
 			RegionParameters rp = point.getRegionParameters();
 			rp.setT1(getNormalized(t1) + resultIndex);
@@ -283,11 +283,11 @@ public class GeoPolyhedron extends GeoElement3D
 			rp.setIsOnPath(isOnPath);
 		}
 
-		static public double getNormalized(double t) {
+		static private double getNormalized(double t) {
 			return (PathNormalizer.inverseInfFunction(t) + 1) / 2;
 		}
 
-		static public double getUnNormalized(double t) {
+		static private double getUnNormalized(double t) {
 			return PathNormalizer.infFunction(2 * t - 1);
 		}
 	}

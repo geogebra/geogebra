@@ -1095,7 +1095,7 @@ public class RelativeCopy {
 				showError(null);
 			}
 
-			public void handleThrowable() {
+			private void handleThrowable() {
 
 				// if exception is thrown treat the input as text and try to
 				// update the cell as a GeoText

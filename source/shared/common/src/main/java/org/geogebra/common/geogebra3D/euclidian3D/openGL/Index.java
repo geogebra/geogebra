@@ -21,13 +21,13 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
  *
  */
 class Index implements Comparable<Index> {
-	public int v1;
-	public int v2;
+	int v1;
+	int v2;
 
 	/**
 	 * simple constructor
 	 */
-	public Index() {
+	Index() {
 		// nothing done
 	}
 
@@ -37,7 +37,7 @@ class Index implements Comparable<Index> {
 	 * @param index
 	 *            index
 	 */
-	public Index(Index index) {
+	Index(Index index) {
 		this(index.v1, index.v2);
 	}
 
@@ -49,7 +49,7 @@ class Index implements Comparable<Index> {
 	 * @param v2
 	 *            second value
 	 */
-	public Index(int v1, int v2) {
+	Index(int v1, int v2) {
 		this.v1 = v1;
 		this.v2 = v2;
 	}
@@ -62,7 +62,7 @@ class Index implements Comparable<Index> {
 	 * @param v2
 	 *            second parameter
 	 */
-	public void set(int v1, int v2) {
+	void set(int v1, int v2) {
 		this.v1 = v1;
 		this.v2 = v2;
 	}
@@ -73,7 +73,7 @@ class Index implements Comparable<Index> {
 	 * @param bufferSegment
 	 *            buffer segment
 	 */
-	public void setAvailableLengths(BufferSegment bufferSegment) {
+	void setAvailableLengths(BufferSegment bufferSegment) {
 		set(bufferSegment.getElementsAvailableLength(),
 				bufferSegment.getIndicesAvailableLength());
 	}
@@ -84,7 +84,7 @@ class Index implements Comparable<Index> {
 	 * @param bufferSegment
 	 *            buffer segment
 	 */
-	public void setLengths(BufferSegment bufferSegment) {
+	void setLengths(BufferSegment bufferSegment) {
 		set(bufferSegment.getElementsLength(),
 				bufferSegment.getIndicesLength());
 	}
@@ -133,7 +133,7 @@ class Index implements Comparable<Index> {
 	 *            index
 	 * @return true if second value is greater or equal index second value
 	 */
-	public boolean hasFirstValueGreaterThan(Index index) {
+	boolean hasFirstValueGreaterThan(Index index) {
 		return v1 > index.v1;
 	}
 }
