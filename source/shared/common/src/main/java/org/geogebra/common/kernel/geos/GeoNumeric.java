@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -865,12 +866,12 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean isFixable() {
-		return !isSetEuclidianVisible() && !isDefaultGeo();
+		return (!isSetEuclidianVisible() || isBoxPlot()) && !isDefaultGeo();
 	}
 
 	@Override
 	public boolean showFixUnfix() {
-		return false;
+		return isBoxPlot();
 	}
 
 	/**
@@ -1186,6 +1187,11 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void setSliderHorizontal(boolean sliderHorizontal) {
 		this.sliderHorizontal = sliderHorizontal;
+	}
+
+	@Override
+	public boolean isPointerChangeable() {
+		return super.isPointerChangeable() || (!isLocked() && isBoxPlot());
 	}
 
 	/**
@@ -2306,5 +2312,9 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void setZero() {
 		setValue(0);
+	}
+
+	private boolean isBoxPlot() {
+		return algoParent instanceof AlgoBoxPlot;
 	}
 }

@@ -23,6 +23,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.Statistic;
 import org.geogebra.common.spreadsheet.core.SpreadsheetConstructionDelegate;
 import org.geogebra.common.spreadsheet.core.TabularData;
@@ -42,8 +43,8 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 		this.commandDispatcher = algebraProcessor.getCommandDispatcher();
 	}
 
-	private void processCommand(@Nonnull String command) {
-		algebraProcessor.processAlgebraCommand(command, true);
+	private GeoElementND[] processCommand(@Nonnull String command) {
+		return algebraProcessor.processAlgebraCommand(command, true);
 	}
 
 	@Override
@@ -118,7 +119,11 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 	@Override
 	public void createBoxPlot(@Nonnull TabularData<?> data, @Nonnull List<TabularRange> ranges) {
 		String command = ChartBuilder.getBoxPlotCommand(data, ranges);
-		processCommand(command);
+		GeoElementND[] result = processCommand(command);
+		if (result != null && result.length > 0 && result[0] != null) {
+			GeoElementND element = result[0];
+			element.setFixed(false);
+		}
 	}
 
 	@Override

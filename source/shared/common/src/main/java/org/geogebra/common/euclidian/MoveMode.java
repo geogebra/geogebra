@@ -49,4 +49,5 @@ public enum MoveMode {
 	IMPLICIT_CURVE,
 	Z_AXIS,
 	AUDIO_SLIDER,
+	BOX_PLOT,
 }

@@ -76,6 +76,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -7366,6 +7367,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		}
+
+		// box plot
+		else if (movedGeoElement.isGeoNumeric()
+				&& movedGeoElement.getParentAlgorithm() instanceof AlgoBoxPlot) {
+			moveMode = MoveMode.BOX_PLOT;
+			setDragCursor();
+		}
 	}
 
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo) {
@@ -7755,10 +7763,27 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			break;
 
+		case BOX_PLOT:
+			moveBoxPlot();
+			break;
+
 		default: // do nothing
 		}
 
 		kernel.notifyRepaint();
+	}
+
+	private void moveBoxPlot() {
+		if (movedGeoElement != null
+				&& movedGeoElement.isGeoNumeric()
+				&& movedGeoElement.getParentAlgorithm() instanceof AlgoBoxPlot boxPlot) {
+			GeoElementND element = boxPlot.getInput(0);
+			if (element instanceof GeoNumeric offsetX
+					&& offsetX.isIndependent()) {
+				offsetX.setValue(getSnappedRealCoordY());
+				offsetX.updateCascade();
+			}
+		}
 	}
 
 	private void disableLiveFeedback() {

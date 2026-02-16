@@ -31,7 +31,9 @@ class UndoItem {
 
 	UndoItem(GeoElement geo, MoveMode moveMode) {
 		this.geo = geo;
-		isXml = (geo instanceof Locateable && moveMode != MoveMode.NUMERIC)
+		isXml = (geo instanceof Locateable
+				&& moveMode != MoveMode.NUMERIC
+				&& moveMode != MoveMode.BOX_PLOT)
 				|| geo instanceof GeoWidget || geo instanceof GeoInline;
 		previousContent = content();
 		previousLabel = geo.getLabelSimple();
