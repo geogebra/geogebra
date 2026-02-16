@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
-import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionProperty.ChartSegmentSelection;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 

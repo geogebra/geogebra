@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractRangeProperty;
-import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionProperty.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -36,7 +35,7 @@ public class ChartStyleGeoOpacityProperty extends AbstractRangeProperty<Integer>
 	 * Constructs the opacity property for chart style geos
 	 * @param localization localization for translating property names
 	 * @param geoElement the element to create the property for
-	 * @param chartSegmentSelection the selection owner from which to read the selected bar/slice
+	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
 	public ChartStyleGeoOpacityProperty(Localization localization, GeoElement geoElement,
@@ -52,23 +51,14 @@ public class ChartStyleGeoOpacityProperty extends AbstractRangeProperty<Integer>
 
 	@Override
 	protected void setValueSafe(Integer value) {
-		double alpha = value / 100d;
-		if (chartSegmentSelection.getIndex() == 0) {
-			for (int selection = 1; selection < chartStyleGeo.getIntervals() + 1; selection++) {
-				chartStyleGeo.getStyle().setBarAlpha(alpha, selection);
-			}
-		} else {
-			chartStyleGeo.getStyle().setBarAlpha(alpha, chartSegmentSelection.getIndex());
-		}
+		chartSegmentSelection.forEachSelectedSegment(chartStyleGeo.getIntervals(),
+				index -> chartStyleGeo.getStyle().setBarAlpha(value / 100d, index));
 		((GeoElement) chartStyleGeo).getKernel().notifyRepaint();
 	}
 
 	@Override
 	public Integer getValue() {
-		if (chartSegmentSelection.getIndex() == 0) {
-			return getOpacity(1);
-		}
-		return getOpacity(chartSegmentSelection.getIndex());
+		return chartSegmentSelection.getFirstValue(chartStyleGeo.getIntervals(), this::getOpacity);
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public abstract class AbstractImageProperty extends AbstractValuedProperty<Image
 	}
 
 	@Override
-	protected void doSetValue(Value value) {
+	protected final void doSetValue(Value value) {
 		if (value == null) {
 			setImagePath("");
 		} else {
@@ -57,7 +57,7 @@ public abstract class AbstractImageProperty extends AbstractValuedProperty<Image
 	}
 
 	@Override
-	public Value getValue() {
+	public final Value getValue() {
 		String path = getImagePath();
 		if (path == null) {
 			return null;
@@ -68,7 +68,12 @@ public abstract class AbstractImageProperty extends AbstractValuedProperty<Image
 		}
 		return new Value(image, path);
 	}
-	
+
+	@Override
+	public final String getChooseFromFileLabel() {
+		return getLocalization().getMenu("ChooseFromFile");
+	}
+
 	protected abstract @CheckForNull String getImagePath();
 	
 	protected abstract void setImagePath(@CheckForNull String path);

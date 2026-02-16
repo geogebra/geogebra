@@ -16,11 +16,7 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import static java.util.Map.entry;
-
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 
@@ -40,19 +36,16 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillType>
 		implements IconsEnumeratedProperty<FillType>, GeoElementDependentProperty {
-
-	private static final List<Map.Entry<FillType, PropertyResource>> values = List.of(
-			entry(FillType.STANDARD, PropertyResource.ICON_NO_FILLING),
-			entry(FillType.HATCH, PropertyResource.ICON_FILLING_HATCHED),
-			entry(FillType.CROSSHATCHED, PropertyResource.ICON_FILLING_CROSSHATCHED),
-			entry(FillType.DOTTED, PropertyResource.ICON_FILLING_DOTTED),
-			entry(FillType.HONEYCOMB, PropertyResource.ICON_FILLING_HONEYCOMB),
-			entry(FillType.CHESSBOARD, PropertyResource.ICON_FILLING_CHESSBOARD),
-			entry(FillType.WEAVING, PropertyResource.ICON_FILLING_WEAVING),
-			entry(FillType.BRICK, PropertyResource.ICON_FILLING_BRICK)
-	);
-
 	private final FillableDelegate delegate;
+
+	static final List<FillType> patternFillTypes = List.of(
+			FillType.STANDARD, FillType.HATCH, FillType.CROSSHATCHED, FillType.DOTTED,
+			FillType.HONEYCOMB, FillType.CHESSBOARD, FillType.WEAVING, FillType.BRICK);
+	static final List<PropertyResource> patternFillTypeIcons = List.of(
+			PropertyResource.ICON_NO_FILLING, PropertyResource.ICON_FILLING_HATCHED,
+			PropertyResource.ICON_FILLING_CROSSHATCHED, PropertyResource.ICON_FILLING_DOTTED,
+			PropertyResource.ICON_FILLING_HONEYCOMB, PropertyResource.ICON_FILLING_CHESSBOARD,
+			PropertyResource.ICON_FILLING_WEAVING, PropertyResource.ICON_FILLING_BRICK);
 
 	/**
 	 * @param localization localization
@@ -63,12 +56,12 @@ public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillTyp
 			throws NotApplicablePropertyException {
 		super(localization, "Filling.Pattern");
 		delegate = new FillableDelegate(element);
-		setValues(values.stream().map(Map.Entry::getKey).collect(Collectors.toUnmodifiableList()));
+		setValues(patternFillTypes);
 	}
 
 	@Override
 	public PropertyResource[] getValueIcons() {
-		return values.stream().map(Map.Entry::getValue).toArray(PropertyResource[]::new);
+		return patternFillTypeIcons.stream().toArray(PropertyResource[]::new);
 	}
 	
 	@Override
@@ -90,7 +83,8 @@ public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillTyp
 
 	@Override
 	public boolean isAvailable() {
-		return getValues().contains(delegate.getElement().getFillType());
+		return FillCategory.fromFillType(delegate.getElement().getFillType())
+				== FillCategory.PATTERN;
 	}
 
 	@Override

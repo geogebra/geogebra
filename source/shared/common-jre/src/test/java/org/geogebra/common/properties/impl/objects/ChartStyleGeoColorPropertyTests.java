@@ -24,7 +24,6 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.BarChartGeoNumeric;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
-import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionProperty.ChartSegmentSelection;
 import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.Test;
 

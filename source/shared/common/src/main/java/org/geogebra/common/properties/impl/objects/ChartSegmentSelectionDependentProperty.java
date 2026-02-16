@@ -16,8 +16,6 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionProperty.ChartSegmentSelection;
-
 /**
  * Property that depend on {@link ChartSegmentSelection} and may change value when that changes.
  */

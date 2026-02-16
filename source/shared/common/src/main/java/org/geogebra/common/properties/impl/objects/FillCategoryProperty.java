@@ -32,12 +32,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  * Property for selecting the fill category (pattern, symbol, or image) of a
  * {@link GeoElement}.
  */
-public class FillCategoryProperty
-		extends AbstractNamedEnumeratedProperty<FillCategoryProperty.FillCategory> {
-	
-	public enum FillCategory {
-		PATTERN, SYMBOL, IMAGE
-	}
+public class FillCategoryProperty extends AbstractNamedEnumeratedProperty<FillCategory> {
 	
 	private FillType previousPatternFillType = FillType.STANDARD;
 
@@ -63,7 +58,7 @@ public class FillCategoryProperty
 	protected void doSetValue(FillCategory value) {
 		GeoElement element = delegate.getElement();
 		FillType elementFillType = element.getFillType();
-		FillCategory previousValue = getCategory(elementFillType);
+		FillCategory previousValue = FillCategory.fromFillType(elementFillType);
 		if (previousValue == value) {
 			// If the group did not change, ignore
 			return;
@@ -72,29 +67,13 @@ public class FillCategoryProperty
 			// If changed from pattern, store default type
 			previousPatternFillType = elementFillType;
 		}
-		element.setFillType(getFillType(value));
+		element.setFillType(value.toFillType(previousPatternFillType));
 		element.updateVisualStyleRepaint(GProperty.HATCHING);
 	}
 
 	@Override
 	public FillCategory getValue() {
 		FillType type = delegate.getElement().getFillType();
-		return getCategory(type);
-	}
-
-	private FillCategory getCategory(FillType type) {
-		return switch (type) {
-			case IMAGE -> FillCategory.IMAGE;
-			case SYMBOLS -> FillCategory.SYMBOL;
-			default -> FillCategory.PATTERN;
-		};
-	}
-
-	private FillType getFillType(FillCategory fillCategory) {
-		return switch (fillCategory) {
-			case PATTERN -> previousPatternFillType;
-			case SYMBOL -> FillType.SYMBOLS;
-			case IMAGE -> FillType.IMAGE;
-		};
+		return FillCategory.fromFillType(type);
 	}
 }

@@ -18,6 +18,8 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -31,13 +33,12 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public class HatchingAngleProperty extends AbstractRangeProperty<Integer>
 		implements GeoElementDependentProperty {
+	private final FillableDelegate delegate;
 
-	private static final List<FillType> supportedFillTypes = List.of(
+	static final List<FillType> supportedHatchingAngleFillTypes = List.of(
 			FillType.HATCH, FillType.CROSSHATCHED,
 			FillType.CHESSBOARD, FillType.BRICK, FillType.WEAVING
 	);
-
-	private final FillableDelegate delegate;
 
 	/**
 	 * @param localization localization
@@ -50,6 +51,22 @@ public class HatchingAngleProperty extends AbstractRangeProperty<Integer>
 		delegate = new FillableDelegate(element);
 	}
 
+	static @CheckForNull Integer getHatchingAngleStep(FillType fillType) {
+		return switch (fillType) {
+			case HATCH -> 5;
+			case CROSSHATCHED, CHESSBOARD, BRICK, WEAVING -> 45;
+			default -> null;
+		};
+	}
+
+	static @CheckForNull Integer getMaxHatchingAngleValue(FillType fillType) {
+		return switch (fillType) {
+			case HATCH, BRICK -> 180;
+			case CROSSHATCHED, CHESSBOARD,  WEAVING -> 45;
+			default -> null;
+		};
+	}
+
 	@Override
 	protected void setValueSafe(Integer value) {
 		GeoElement element = delegate.getElement();
@@ -60,7 +77,7 @@ public class HatchingAngleProperty extends AbstractRangeProperty<Integer>
 	@Override
 	public boolean isAvailable() {
 		FillType type = delegate.getElement().getFillType();
-		return supportedFillTypes.contains(type);
+		return supportedHatchingAngleFillTypes.contains(type);
 	}
 
 	@Override
@@ -70,20 +87,12 @@ public class HatchingAngleProperty extends AbstractRangeProperty<Integer>
 
 	@Override
 	public Integer getMax() {
-		return switch (delegate.getElement().getFillType()) {
-			case HATCH, BRICK -> 180;
-			case CROSSHATCHED, CHESSBOARD,  WEAVING -> 45;
-			default -> null;
-		};
+		return getMaxHatchingAngleValue(delegate.getElement().getFillType());
 	}
 
 	@Override
 	public Integer getStep() {
-		return switch (delegate.getElement().getFillType()) {
-			case HATCH -> 5;
-			case CROSSHATCHED, CHESSBOARD, BRICK, WEAVING -> 45;
-			default -> null;
-		};
+		return getHatchingAngleStep(delegate.getElement().getFillType());
 	}
 
 	@Override

@@ -16,9 +16,7 @@
 
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -39,56 +37,6 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 public class ChartSegmentSelectionProperty extends AbstractNamedEnumeratedProperty<Integer> {
 	private final GeoElement geoElement;
 	private final ChartSegmentSelection chartSegmentSelection;
-
-	/**
-	 * Owner of the selected bar/slice index of a chart, enabling passing between {@code Property}s,
-	 * updating via {@code ChartSegmentSelectionProperty}, reading by other related
-	 * {@code Property}s, and registering/unregistering listeners.
-	 */
-	public static final class ChartSegmentSelection {
-		private int index = 0;
-		private final Set<Listener> listeners = new HashSet<>();
-
-		/**
-		 * Listener for changes in selection.
-		 */
-		public interface Listener {
-			/**
-			 * Method called when the selection changed.
-			 */
-			void selectedChartUpdated();
-		}
-
-		void setIndex(int index) {
-			this.index = index;
-			listeners.forEach(Listener::selectedChartUpdated);
-		}
-
-		/**
-		 * @return the index of the selected bar/slice (indexed from 1),
-		 * or {@code 0} if all bars/slices are selected
-		 */
-		public int getIndex() {
-			return index;
-		}
-
-		/**
-		 * Register a listener for selection change notifications.
-		 * @param listener the listener to be registered
-		 */
-		public void registerListener(Listener listener) {
-			listeners.add(listener);
-		}
-
-		/**
-		 * Unregisters a previously registered listener,
-		 * undoing the effects of {@link ChartSegmentSelection#registerListener}.
-		 * @param listener the listener to be unregistered
-		 */
-		public void unregisterListener(Listener listener) {
-			listeners.remove(listener);
-		}
-	}
 
 	/**
 	 * Constructs the property for the given element.

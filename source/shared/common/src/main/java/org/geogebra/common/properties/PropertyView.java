@@ -66,8 +66,9 @@ import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropert
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlignmentPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
+import org.geogebra.common.properties.impl.objects.ChartSegmentFillCategoryProperty;
+import org.geogebra.common.properties.impl.objects.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionDependentProperty;
-import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionProperty.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.DynamicColorSpaceProperty;
 import org.geogebra.common.properties.impl.objects.FillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.GeoElementDependentProperty;
@@ -219,7 +220,7 @@ public abstract class PropertyView {
 		}
 
 		@Override
-		public void selectedChartUpdated() {
+		public void chartSegmentSelectionUpdated() {
 			notifyUpdateDelegates();
 		}
 
@@ -688,8 +689,9 @@ public abstract class PropertyView {
 		/**
 		 * @return the step or increment between values
 		 */
-		public @CheckForNull Integer getStep() {
-			return property.getStep();
+		public int getStep() {
+			Integer step = property.getStep();
+			return step != null ? step : 1;
 		}
 	}
 
@@ -1358,7 +1360,8 @@ public abstract class PropertyView {
 		} else if (property instanceof DynamicColorSpaceProperty
 				|| (property instanceof NamedEnumeratedPropertyListFacade<?, ?> facade
 				&& (facade.getFirstProperty() instanceof DynamicColorSpaceProperty
-				|| facade.getFirstProperty() instanceof FillCategoryProperty))) {
+				|| facade.getFirstProperty() instanceof FillCategoryProperty
+				|| facade.getFirstProperty() instanceof ChartSegmentFillCategoryProperty))) {
 			return new ConnectedButtonGroup((NamedEnumeratedProperty<?>) property);
 		} else if (property instanceof NamedEnumeratedProperty<?> namedEnumeratedProperty) {
 			return new Dropdown(namedEnumeratedProperty);

@@ -35,10 +35,10 @@ public class FillCategoryPropertyTest extends BaseAppTestSetup {
 		assertEquals(FillType.STANDARD, element.getFillType());
 
 		element.setFillType(FillType.DOTTED);
-		property.setValue(FillCategoryProperty.FillCategory.SYMBOL);
+		property.setValue(FillCategory.SYMBOL);
 		assertEquals(FillType.SYMBOLS, element.getFillType());
 
-		property.setValue(FillCategoryProperty.FillCategory.PATTERN);
+		property.setValue(FillCategory.PATTERN);
 		assertEquals(FillType.DOTTED, element.getFillType());
 	}
 
@@ -48,16 +48,16 @@ public class FillCategoryPropertyTest extends BaseAppTestSetup {
 		GeoElement element = evaluateGeoElement("Circle((0,0),10)");
 		FillCategoryProperty property = new FillCategoryProperty(getLocalization(), element);
 
-		assertEquals(FillCategoryProperty.FillCategory.PATTERN, property.getValue());
+		assertEquals(FillCategory.PATTERN, property.getValue());
 
 		element.setFillType(FillType.DOTTED);
-		assertEquals(FillCategoryProperty.FillCategory.PATTERN, property.getValue());
+		assertEquals(FillCategory.PATTERN, property.getValue());
 
 		element.setFillType(FillType.SYMBOLS);
-		assertEquals(FillCategoryProperty.FillCategory.SYMBOL, property.getValue());
+		assertEquals(FillCategory.SYMBOL, property.getValue());
 
 		element.setFillType(FillType.IMAGE);
-		assertEquals(FillCategoryProperty.FillCategory.IMAGE, property.getValue());
+		assertEquals(FillCategory.IMAGE, property.getValue());
 	}
 }
 

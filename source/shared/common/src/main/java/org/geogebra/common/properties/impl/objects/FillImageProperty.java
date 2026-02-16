@@ -28,7 +28,7 @@ import org.geogebra.common.util.ImageManager;
 /**
  * Property responsible for filling an object with an image.
  */
-public class FillImageProperty extends AbstractImageProperty
+public final class FillImageProperty extends AbstractImageProperty
 		implements GeoElementDependentProperty {
 
 	private final FillableDelegate delegate;
@@ -67,10 +67,5 @@ public class FillImageProperty extends AbstractImageProperty
 	@Override
 	public GeoElement getGeoElement() {
 		return delegate.getElement();
-	}
-
-	@Override
-	public String getChooseFromFileLabel() {
-		return getLocalization().getMenu("ChooseFromFile");
 	}
 }

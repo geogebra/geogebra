@@ -66,6 +66,7 @@ import org.geogebra.common.properties.impl.objects.CaptionProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderThicknessProperty;
+import org.geogebra.common.properties.impl.objects.ChartSegmentFillingPropertyCollection;
 import org.geogebra.common.properties.impl.objects.DefinitionProperty;
 import org.geogebra.common.properties.impl.objects.DrawArrowsProperty;
 import org.geogebra.common.properties.impl.objects.DynamicColorPropertyCollection;
@@ -356,6 +357,8 @@ public final class GeoElementPropertiesFactory {
 				createOptionalProperty(() -> new SizePropertyCollection(
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new FillingPropertyCollection(
+						this, localization, imageManager, elements)),
+				createOptionalProperty(() -> new ChartSegmentFillingPropertyCollection(
 						this, localization, imageManager, elements)),
 				// Old style properties below
 				createOptionalPropertyFacade(elements,

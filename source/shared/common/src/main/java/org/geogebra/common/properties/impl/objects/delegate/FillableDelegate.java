@@ -16,6 +16,7 @@
 
 package org.geogebra.common.properties.impl.objects.delegate;
 
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -28,6 +29,7 @@ public class FillableDelegate extends AbstractGeoElementDelegate {
 	@Override
 	protected boolean checkIsApplicable(GeoElement element) {
 		return element.isFillable() && !(element instanceof GeoImage
-				|| element instanceof GeoInputBox || element.isGeoQuadric());
+				|| element instanceof GeoInputBox || element.isGeoQuadric()
+				|| element instanceof ChartStyleGeo);
 	}
 }

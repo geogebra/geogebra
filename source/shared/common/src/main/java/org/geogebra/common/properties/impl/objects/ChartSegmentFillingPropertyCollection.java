@@ -25,7 +25,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
-import org.geogebra.common.properties.impl.facade.BooleanPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.ImagePropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
@@ -36,41 +35,52 @@ import org.geogebra.common.util.ImageManager;
 
 /**
  * Collection of filling-related properties (fill type group, pattern style, hatching,
- * symbol, image, and inverse fill) for a list of {@link GeoElement}s.
+ * symbol, image, and inverse fill) for pie and bar charts. Similar to
+ * {@link FillingPropertyCollection}, containing the same filling properties,
+ * but changing the selected segment instead of the whole element.
  */
-public class FillingPropertyCollection extends AbstractPropertyCollection<Property> {
+public class ChartSegmentFillingPropertyCollection extends AbstractPropertyCollection<Property> {
 	/**
+	 * Constructs the property collection
 	 * @param propertiesFactory factory for creating property facades
-	 * @param localization localization
+	 * @param localization localization for translating properties
 	 * @param imageManager image manager for the image filling property
-	 * @param elements geo elements
-	 * @throws NotApplicablePropertyException if the elements do not support filling
+	 * @param elements the elements to create the property for
+	 * @throws NotApplicablePropertyException if the property is not applicable to the given elements
 	 */
-	public FillingPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
+	public ChartSegmentFillingPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
 			Localization localization, ImageManager imageManager, List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "Filling");
+		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		setProperties(Stream.<Property>of(
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new InverseFillProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FillCategoryProperty(localization, element),
+						element -> new ChartSegmentSelectionProperty(localization, element,
+								chartSegmentSelection),
 						NamedEnumeratedPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FillSymbolProperty(localization, element),
+						element -> new ChartSegmentFillCategoryProperty(localization, element,
+								chartSegmentSelection),
+						NamedEnumeratedPropertyListFacade::new),
+				propertiesFactory.createOptionalPropertyFacade(elements,
+						element -> new ChartSegmentFillSymbolProperty(localization, element,
+								chartSegmentSelection),
 						StringPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FillImageProperty(localization, imageManager, element),
+						element -> new ChartSegmentFillImageProperty(localization, imageManager,
+								element, chartSegmentSelection),
 						ImagePropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new PatternFillStyleProperty(localization, element),
+						element -> new ChartSegmentPatternFillStyleProperty(localization, element,
+								chartSegmentSelection),
 						IconsEnumeratedPropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new HatchingDistanceProperty(localization, element),
+						element -> new ChartSegmentHatchingDistanceProperty(localization, element,
+								chartSegmentSelection),
 						RangePropertyListFacade::new),
 				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new HatchingAngleProperty(localization, element),
+						element -> new ChartSegmentHatchingAngleProperty(localization, element,
+								chartSegmentSelection),
 						RangePropertyListFacade::new)
 		).filter(Objects::nonNull).toArray(Property[]::new));
 		if (getProperties().length == 0) {

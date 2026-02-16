@@ -30,7 +30,6 @@ import org.geogebra.common.properties.impl.facade.ColorPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.IconsEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.NamedEnumeratedPropertyListFacade;
 import org.geogebra.common.properties.impl.facade.RangePropertyListFacade;
-import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionProperty.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
