@@ -430,14 +430,15 @@ public class Construction {
 	 */
 	final public String updateLocalAxisName(GeoElement element, String localName, String key) {
 		Localization localization = kernel.getLocalization();
-		GeoElement geo = geoTable.remove(localName);
-		String changedLocalName = localName;
-		if (geo == null || geo == element) {
-			changedLocalName = localization.getMenu(key);
-			geo = element;
+		if (localName != null && !localName.equals(key)) {
+			geoTable.remove(localName);
 		}
-		geoTable.put(changedLocalName, geo);
-		return changedLocalName;
+		String changedLocalName = localization.getMenu(key);
+		if (!geoTable.containsKey(changedLocalName)) {
+			geoTable.put(changedLocalName, element);
+			return changedLocalName;
+		}
+		return localName;
 	}
 
 	/**

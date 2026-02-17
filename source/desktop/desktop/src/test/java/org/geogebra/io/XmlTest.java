@@ -22,8 +22,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -127,11 +132,14 @@ public class XmlTest {
 				+ "<element type=\"button\" label=\"xAxis\"></element>"
 				+ "<element type=\"point\" label=\"yAxis\"></element>"
 				+ "</construction></geogebra>", false);
-		assertTrue(app.getKernel().lookupLabel("zAxis").isGeoBoolean());
-		assertTrue(app.getKernel().lookupLabel("xOyPlane").isGeoConic());
-		assertTrue(app.getKernel().lookupLabel("space").isGeoNumeric());
-		assertTrue(app.getKernel().lookupLabel("xAxis").isGeoButton());
-		assertTrue(app.getKernel().lookupLabel("yAxis").isGeoPoint());
+		assertEquals(GeoBoolean.class, app.getKernel().lookupLabel("zAxis").getClass());
+		assertEquals(GeoConic.class, app.getKernel().lookupLabel("xOyPlane").getClass());
+		assertEquals(GeoNumeric.class, app.getKernel().lookupLabel("space").getClass());
+		assertEquals(GeoButton.class, app.getKernel().lookupLabel("xAxis").getClass());
+		assertEquals(GeoPoint.class, app.getKernel().lookupLabel("yAxis").getClass());
+		app.setLanguage(new Locale("pt", "BR"));
+		assertEquals(GeoNumeric.class, app.getKernel().lookupLabel("space").getClass());
+		assertEquals(GeoSpace.class, app.getKernel().lookupLabel("esp").getClass());
 	}
 
 	private GeoElementND processAlgebraCommand(String input) {

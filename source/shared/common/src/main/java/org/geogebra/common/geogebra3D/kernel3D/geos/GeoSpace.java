@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -127,6 +128,11 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	@Override
 	public boolean isVisibleInputForMacro() {
 		return false;
+	}
+
+	@Override
+	public boolean isProtected(EventType eventType) {
+		return true;
 	}
 
 }

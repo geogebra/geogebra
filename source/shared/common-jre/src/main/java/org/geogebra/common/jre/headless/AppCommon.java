@@ -788,6 +788,7 @@ public class AppCommon extends App {
 		// problems with the naming of the property files
 		getLocalization().setLocale(locale);
 		getLocalization().updateLanguageFlags(locale.getLanguage());
+		getKernel().updateLocalAxesNames();
 	}
 
 	@Override
