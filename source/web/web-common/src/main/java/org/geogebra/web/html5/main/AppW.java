@@ -2233,7 +2233,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            popup
 	 */
 	public void registerPopup(HasHide widget) {
-		popups.add(widget);
+		if (!popups.contains(widget)) {
+			popups.add(widget);
+		}
 	}
 
 	/**
