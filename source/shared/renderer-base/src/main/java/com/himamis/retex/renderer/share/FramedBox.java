@@ -45,11 +45,13 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GRectangle2D;
+
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
 /**
  * A box representing a framed box.
@@ -61,10 +63,10 @@ public class FramedBox extends Box {
 	protected double space;
 	protected double dashlength;
 	protected double dashdash;
-	protected Color line;
-	protected Color bg;
+	protected GColor line;
+	protected GColor bg;
 
-	private final Rectangle2D rectangle;
+	private final GRectangle2D rectangle;
 
 	/**
 	 * @param box wrapped box
@@ -75,8 +77,8 @@ public class FramedBox extends Box {
 	 * @param dashLength total length of dash pattern
 	 * @param dashVisibleLength visible part of dash pattern
 	 */
-	public FramedBox(Box box, double thickness, double space, Color line,
-			Color bg, double dashLength, double dashVisibleLength) {
+	public FramedBox(Box box, double thickness, double space, GColor line,
+			GColor bg, double dashLength, double dashVisibleLength) {
 		this.box = box;
 		this.width = box.width + 2 * thickness + 2 * space;
 		this.height = box.height + thickness + space;
@@ -101,27 +103,25 @@ public class FramedBox extends Box {
 		this(box, thickness, space, null, null, dashLength, dashVisibleLength);
 	}
 
-	public FramedBox(Box box, double thickness, double space, Color line,
-			Color bg) {
+	public FramedBox(Box box, double thickness, double space, GColor line,
+			GColor bg) {
 		this(box, thickness, space, line, bg, Double.NaN, Double.NaN);
 	}
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		Stroke st = g2.getStroke();
-		// g2.setStroke(graphics.createBasicStroke(thickness,
-		// BasicStroke.CAP_BUTT,
-		// BasicStroke.JOIN_MITER));
+		GBasicStroke st = g2.getStroke();
 		if (Double.isNaN(dashlength) || Double.isNaN(dashdash)) {
 			g2.setStroke(graphics.createBasicStroke(thickness,
 					BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 		} else {
 			double[] dashes = new double[] { (float) dashdash,
 					(float) (dashlength - dashdash) };
-			g2.setStroke(graphics.createBasicStroke(thickness, dashes));
+			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(thickness, BasicStroke.CAP_BUTT,
+					BasicStroke.JOIN_MITER, 10.0, dashes));
 		}
 		double th = thickness / 2;
-		rectangle.setRectangle(x + th, y - height + th, width - thickness,
+		rectangle.setRect(x + th, y - height + th, width - thickness,
 				height + depth - thickness);
 		fillAndDraw(g2);
 		drawDebug(g2, x, y);
@@ -131,13 +131,13 @@ public class FramedBox extends Box {
 
 	protected void fillAndDraw(Graphics2DInterface g2) {
 		if (bg != null) {
-			Color prev = g2.getColor();
+			GColor prev = g2.getColor();
 			g2.setColor(bg);
 			fillShape(g2);
 			g2.setColor(prev);
 		}
 		if (line != null) {
-			Color prev = g2.getColor();
+			GColor prev = g2.getColor();
 			g2.setColor(line);
 			drawShape(g2);
 			g2.setColor(prev);
@@ -165,7 +165,7 @@ public class FramedBox extends Box {
 		box.inspect(handler, position.withPosition(position.x + space, position.y + space));
 	}
 
-	public void setColor(Color line) {
+	public void setColor(GColor line) {
 		this.line = line;
 	}
 

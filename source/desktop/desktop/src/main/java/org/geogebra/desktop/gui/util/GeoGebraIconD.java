@@ -46,11 +46,11 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
+import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageResourceD;
 import org.geogebra.editor.share.util.Unicode;
 
-import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 
@@ -527,7 +527,7 @@ public class GeoGebraIconD {
 		app.getDrawEquation().checkFirstCall();
 		return new ImageIcon((BufferedImage) TeXFormula.createBufferedImage(
 				latex, TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
-				ColorD.get(fgColor), ColorD.get(bgColor)));
+				DrawEquationD.toAwtColor(fgColor), DrawEquationD.toAwtColor(bgColor)));
 	}
 
 	/**

@@ -16,14 +16,14 @@
 
 package org.geogebra.editor.share.controller;
 
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.editor.share.serializer.TeXBuilder;
 import org.geogebra.editor.share.tree.Node;
 
 import com.himamis.retex.renderer.share.Box;
 import com.himamis.retex.renderer.share.BoxConsumer;
 import com.himamis.retex.renderer.share.BoxPosition;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 
 public class SelectionBoxConsumer implements BoxConsumer {
 
@@ -77,12 +77,14 @@ public class SelectionBoxConsumer implements BoxConsumer {
 	/**
 	 * @return selection rectangle
 	 */
-	public Rectangle2D getPosition() {
-		return FactoryProvider.getInstance().getGeomFactory().createRectangle2D(
+	public GRectangle2D getBounds() {
+		GRectangle2D rectangle2D = AwtFactory.getPrototype().newRectangle2D();
+		rectangle2D.setRect(
 				selectionX1,
 				(selectionBaseline == null ? 0 : selectionBaseline) - selectionHeight,
 				selectionX2 - selectionX1,
 				(selectionHeight + selectionDepth) * 1.2
 		);
+		return rectangle2D;
 	}
 }

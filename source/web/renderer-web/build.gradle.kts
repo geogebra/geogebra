@@ -18,6 +18,7 @@ gwtDistribution {
 
 dependencies {
     api("com.himamis.retex:renderer-base")
+    api("org.geogebra:ggbjdk")
     api(project(":gwtutil"))
     api(project(":canvas-web"))
     implementation("org.geogebra:ggbjdk")

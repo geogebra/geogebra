@@ -1,6 +1,7 @@
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 public class CursorBox extends Box {
@@ -9,7 +10,7 @@ public class CursorBox extends Box {
 	private static boolean blink = true;
 	private Box content;
 
-	public CursorBox(Box content, double coeff, Color color) {
+	public CursorBox(Box content, double coeff, GColor color) {
 		super(color, null);
 		this.content = content;
 		// XXX
@@ -22,7 +23,7 @@ public class CursorBox extends Box {
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		if (CursorBox.blink) {
-			Color old = g2.getColor();
+			GColor old = g2.getColor();
 			g2.setColor(foreground);
 			content.draw(g2, (x - content.width * 0.5), y);
 			g2.setColor(old);

@@ -1,19 +1,20 @@
 package com.himamis.retex.renderer.share.commands;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.FBoxAtom;
 import com.himamis.retex.renderer.share.TeXParser;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class CommandColorBox extends Command1A {
 
-	Color bg;
+	GColor bg;
 
 	public CommandColorBox() {
 		//
 	}
 
-	public CommandColorBox(Color bg2) {
+	public CommandColorBox(GColor bg2) {
 		this.bg = bg2;
 	}
 

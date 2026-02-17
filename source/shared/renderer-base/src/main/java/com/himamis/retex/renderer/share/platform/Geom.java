@@ -43,36 +43,21 @@
  */
 package com.himamis.retex.renderer.share.platform;
 
-import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
-import com.himamis.retex.renderer.share.platform.geom.Line2D;
-import com.himamis.retex.renderer.share.platform.geom.Point2D;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GRectangle2D;
 
 public class Geom {
 
-	private final GeomFactory geomFactory;
-
-	public Geom() {
-		geomFactory = FactoryProvider.getInstance().getGeomFactory();
-	}
-
-	public Rectangle2D createRectangle2D(double x, double y, double w,
+	public GRectangle2D createRectangle2D(double x, double y, double w,
 			double h) {
-		return geomFactory.createRectangle2D(x, y, w, h);
+		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
+		rect.setFrame(x, y, w, h);
+		return rect;
 	}
 
-	public Line2D createLine2D() {
-		return geomFactory.createLine2D(0, 0, 0, 0);
-	}
-
-	public RoundRectangle2D createRoundRectangle2D(double x, double y, double w,
-			double h, double arcw, double arch) {
-		return geomFactory.createRoundRectangle2D(x, y, w, h, arcw, arch);
-	}
-
-	public Point2D createPoint2D(double x, double y) {
-		return geomFactory.createPoint2D(x, y);
+	public GLine2D createLine2D() {
+		return AwtFactory.getPrototype().newLine2D();
 	}
 
 }

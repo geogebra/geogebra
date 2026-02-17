@@ -48,8 +48,8 @@ package com.himamis.retex.renderer.share;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.himamis.retex.renderer.share.platform.Geom;
-import com.himamis.retex.renderer.share.platform.geom.Point2D;
+import org.geogebra.common.awt.GPoint2D;
+
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
@@ -133,7 +133,7 @@ public class RotateBox extends Box {
 		depth = -ymin - shiftY;
 	}
 
-	public RotateBox(Box b, double angle, Point2D origin) {
+	public RotateBox(Box b, double angle, GPoint2D origin) {
 		this(b, angle, origin.getX(), origin.getY());
 	}
 
@@ -172,57 +172,45 @@ public class RotateBox extends Box {
 		return BBL;
 	}
 
-	private static Point2D calculateShift(Box b, int option) {
-		Point2D p = new Geom().createPoint2D(0, -b.depth);
+	private static GPoint2D calculateShift(Box b, int option) {
+		GPoint2D p = new GPoint2D(0, -b.depth);
 
 		switch (option) {
 		case BL:
-			p.setX(0.);
-			p.setY(-b.depth);
+			p.setLocation(0., -b.depth);
 			break;
 		case BR:
-			p.setX(b.width);
-			p.setY(-b.depth);
+			p.setLocation(b.width, -b.depth);
 			break;
 		case BC:
-			p.setX(b.width / 2.);
-			p.setY(-b.depth);
+			p.setLocation(b.width / 2., -b.depth);
 			break;
 		case TL:
-			p.setX(0.);
-			p.setY(b.height);
+			p.setLocation(0., b.height);
 			break;
 		case TR:
-			p.setX(b.width);
-			p.setY(b.height);
+			p.setLocation(b.width, b.height);
 			break;
 		case TC:
-			p.setX(b.width / 2.);
-			p.setY(b.height);
+			p.setLocation(b.width / 2., b.height);
 			break;
 		case BBL:
-			p.setX(0.);
-			p.setY(0.);
+			p.setLocation(0., 0.);
 			break;
 		case BBR:
-			p.setX(b.width);
-			p.setY(0.);
+			p.setLocation(b.width, 0.);
 			break;
 		case BBC:
-			p.setX(b.width / 2.);
-			p.setY(0.);
+			p.setLocation(b.width / 2., 0.);
 			break;
 		case CL:
-			p.setX(0.);
-			p.setY((b.height - b.depth) / 2.);
+			p.setLocation(0., (b.height - b.depth) / 2.);
 			break;
 		case CR:
-			p.setX(b.width);
-			p.setY((b.height - b.depth) / 2.);
+			p.setLocation(b.width, (b.height - b.depth) / 2.);
 			break;
 		case CC:
-			p.setX(b.width / 2.);
-			p.setY((b.height - b.depth) / 2.);
+			p.setLocation(b.width / 2., (b.height - b.depth) / 2.);
 			break;
 		default:
 		}

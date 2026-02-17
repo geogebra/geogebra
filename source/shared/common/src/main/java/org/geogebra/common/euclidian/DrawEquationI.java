@@ -23,7 +23,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 /**
@@ -59,7 +58,7 @@ public interface DrawEquationI {
 	 *            callback for complete render (needed if font loading is async)
 	 * @return dimensions of result
 	 */
-	public abstract GDimension drawEquation(App app, GeoElementND geo, GGraphics2D g2, int x, int y,
+	GDimension drawEquation(App app, GeoElementND geo, GGraphics2D g2, int x, int y,
 			String text, GFont font, boolean serif, GColor fgColor, GColor bgColor,
 			boolean useCache, boolean updateAgain, Runnable callback);
 
@@ -79,7 +78,7 @@ public interface DrawEquationI {
 	 *            dimension return array
 	 * @return cached image
 	 */
-	Image getCachedDimensions(String text, GeoElementND geo, Color fgColor,
+	Image getCachedDimensions(String text, GeoElementND geo, GColor fgColor,
 			GFont font, int style, int[] ret);
 
 	/**
@@ -87,13 +86,6 @@ public interface DrawEquationI {
 	 *
 	 */
 	void checkFirstCall();
-
-	/**
-	 * @param color
-	 *            GeoGebra color
-	 * @return LaTeX color
-	 */
-	public abstract Color convertColor(GColor color);
 
 	/**
 	 * @param app
@@ -106,6 +98,6 @@ public interface DrawEquationI {
 	 *            whether to use serif font
 	 * @return equation size
 	 */
-	public abstract GDimension measureEquation(App app, String text, GFont font,
+	GDimension measureEquation(App app, String text, GFont font,
 			boolean serif);
 }

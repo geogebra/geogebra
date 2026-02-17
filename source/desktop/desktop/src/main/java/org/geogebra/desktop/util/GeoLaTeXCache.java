@@ -16,12 +16,12 @@
 
 package org.geogebra.desktop.util;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.LaTeXCache;
 
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
 import com.himamis.retex.renderer.share.exception.ParseException;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class GeoLaTeXCache implements LaTeXCache {
 	// used by Captions, GeoText and DrawParametricCurve to cache LaTeX formulae
@@ -29,15 +29,13 @@ public class GeoLaTeXCache implements LaTeXCache {
 
 	@Override
 	public Object getCachedLaTeXKey(String latex, int fontSize, int style,
-			Object fgColor) {
+			GColor fgColor) {
 		Object newKey;
 		try {
 
 			newKey = JLaTeXMathCache.getCachedTeXFormula(latex,
 					TeXConstants.STYLE_DISPLAY, style, fontSize,
-					1 /*
-						 * inset around the label
-						 */, (Color) fgColor);
+					1 /* inset around the label */, fgColor);
 		} catch (ParseException e) {
 			if (keyLaTeX != null) {
 				// remove old key from cache

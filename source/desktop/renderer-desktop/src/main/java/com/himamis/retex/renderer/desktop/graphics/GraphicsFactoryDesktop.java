@@ -51,35 +51,22 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class GraphicsFactoryDesktop extends GraphicsFactory {
 
 	@Override
-	public BasicStroke createBasicStroke(double width, int cap, int join,
-			double miterLimit) {
-		return new BasicStrokeD(width, cap, join, miterLimit);
-	}
-
-	@Override
-	public Color createColor(int red, int green, int blue, int alpha) {
-		return new ColorD(red, green, blue, alpha);
+	public GColor createColor(int red, int green, int blue, int alpha) {
+		return GColor.newColor(red, green, blue).deriveWithAlpha(alpha);
 	}
 
 	@Override
 	public Image createImage(int width, int height, int type) {
 		return new ImageD(width, height, type);
-	}
-
-	@Override
-	public Transform createTransform() {
-		return new TransformD();
 	}
 
 	@Override
@@ -133,11 +120,6 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 			return null;
 		}
 
-	}
-
-	@Override
-	public Stroke createBasicStroke(double width, double[] dashes) {
-		return new BasicStrokeD(width, dashes);
 	}
 
 }

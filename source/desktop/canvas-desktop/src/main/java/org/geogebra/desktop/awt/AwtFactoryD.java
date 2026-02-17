@@ -67,6 +67,11 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
+	public GRoundRectangle2DD newRoundRectangle2D() {
+		return new GRoundRectangle2DD();
+	}
+
+	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
 			double pixelRatio) {
 		return new GBufferedImageD(pixelWidth, pixelHeight,

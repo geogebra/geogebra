@@ -45,10 +45,11 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GRectangle2D;
+
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
 /**
  * A box representing a rotated box.
@@ -57,7 +58,7 @@ public class ShadowBox extends FramedBox {
 
 	private double shadowRule;
 
-	private Rectangle2D rectangle;
+	private GRectangle2D rectangle;
 
 	public ShadowBox(Box bbox, double thickness, double space, double shadowRule) {
 		super(bbox, thickness, space);
@@ -73,19 +74,19 @@ public class ShadowBox extends FramedBox {
 		startDraw(g2, x, y);
 		double th = thickness / 2.;
 		box.draw(g2, x + space + thickness, y);
-		Stroke st = g2.getStroke();
+		final GBasicStroke st = g2.getStroke();
 		g2.setStroke(graphics.createBasicStroke((float) thickness,
 				BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-		rectangle.setRectangle(x + th, y - height + th,
+		rectangle.setRect(x + th, y - height + th,
 				width - shadowRule - thickness,
 				height + depth - shadowRule - thickness);
 		g2.draw(rectangle);
 		g2.setStroke(graphics.createBasicStroke(0f, BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_MITER));
-		rectangle.setRectangle(x + shadowRule, y + depth - shadowRule - th,
+		rectangle.setRect(x + shadowRule, y + depth - shadowRule - th,
 				width - shadowRule, shadowRule + th);
 		g2.fill(rectangle);
-		rectangle.setRectangle(x + width - shadowRule - th,
+		rectangle.setRect(x + width - shadowRule - th,
 				y - height + shadowRule, shadowRule + th,
 				depth + height - 2 * shadowRule);
 		g2.fill(rectangle);

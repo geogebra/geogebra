@@ -16,6 +16,8 @@
 
 package org.geogebra.editor.share.controller;
 
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.editor.share.serializer.TeXBuilder;
 import org.geogebra.editor.share.tree.Node;
 import org.geogebra.editor.share.tree.SequenceNode;
@@ -25,7 +27,6 @@ import com.himamis.retex.renderer.share.BoxConsumer;
 import com.himamis.retex.renderer.share.BoxPosition;
 import com.himamis.retex.renderer.share.OvalBox;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 
 public class CursorBoxConsumer implements BoxConsumer {
 
@@ -71,16 +72,18 @@ public class CursorBoxConsumer implements BoxConsumer {
 	/**
 	 * @return cursor rectangle
 	 */
-	public Rectangle2D getPosition() {
+	public GRectangle2D getBounds() {
 		if (cursorPosition == null) {
 			return null;
 		}
 
-		return FactoryProvider.getInstance().getGeomFactory().createRectangle2D(
+		GRectangle2D rectangle2D = AwtFactory.getPrototype().newRectangle2D();
+		rectangle2D.setRect(
 				cursorPosition.x + boxWidth,
 				cursorPosition.baseline - cursorPosition.scale * 0.8,
 				1,
 				cursorPosition.scale
 		);
+		return rectangle2D;
 	}
 }

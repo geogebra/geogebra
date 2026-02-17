@@ -48,8 +48,9 @@
 
 package com.himamis.retex.renderer.share;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.platform.font.Font;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
  * Contains the used TeXFont-object, color settings and the current style in
@@ -59,8 +60,8 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 public class TeXEnvironment {
 
 	// colors
-	private Color background;
-	private Color color;
+	private GColor background;
+	private GColor color;
 
 	// current style
 	private int style;
@@ -89,8 +90,8 @@ public class TeXEnvironment {
 		this.lengthSettings = new TeXLengthSettings();
 	}
 
-	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg,
-			Color c, int textStyle, boolean smallCap, Font javaFont,
+	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, GColor bg,
+			GColor c, int textStyle, boolean smallCap, Font javaFont,
 			TeXLengthSettings lengthSettings) {
 		this.style = style;
 		this.scaleFactor = scaleFactor;
@@ -174,7 +175,7 @@ public class TeXEnvironment {
 	 *
 	 * @return the background color setting
 	 */
-	public Color getBackground() {
+	public GColor getBackground() {
 		return background;
 	}
 
@@ -182,7 +183,7 @@ public class TeXEnvironment {
 	 *
 	 * @return the foreground color setting
 	 */
-	public Color getColor() {
+	public GColor getColor() {
 		return color;
 	}
 
@@ -271,7 +272,7 @@ public class TeXEnvironment {
 	 * @param c
 	 *            the background color to be set
 	 */
-	public void setBackground(Color c) {
+	public void setBackground(GColor c) {
 		background = c;
 	}
 
@@ -280,7 +281,7 @@ public class TeXEnvironment {
 	 * @param c
 	 *            the foreground color to be set
 	 */
-	public void setColor(Color c) {
+	public void setColor(GColor c) {
 		color = c;
 	}
 

@@ -16,6 +16,8 @@
 
 package org.geogebra.common.util;
 
+import org.geogebra.common.awt.GColor;
+
 /**
  * LaTeX cache.
  */
@@ -31,5 +33,5 @@ public interface LaTeXCache {
 	 * @param fontSize font size
 	 * @return key for LaTeX cache
 	 */
-	Object getCachedLaTeXKey(String content, int fontSize, int fontStyle, Object color);
+	Object getCachedLaTeXKey(String content, int fontSize, int fontStyle, GColor color);
 }

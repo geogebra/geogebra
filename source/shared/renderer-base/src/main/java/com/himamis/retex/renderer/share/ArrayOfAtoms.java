@@ -48,14 +48,15 @@ package com.himamis.retex.renderer.share;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 
 public class ArrayOfAtoms implements AtomConsumer {
 
 	protected RowAtom ra;
 	protected ArrayList<ArrayList<Atom>> array;
-	protected ArrayList<ArrayList<Color>> colors;
-	protected ArrayList<Color> rowcolors;
+	protected ArrayList<ArrayList<GColor>> colors;
+	protected ArrayList<GColor> rowcolors;
 	protected ArrayList<Atom> currentRow;
 	protected HashMap<Integer, TeXLength> minHeights = new HashMap<>();
 	public int col;
@@ -181,9 +182,9 @@ public class ArrayOfAtoms implements AtomConsumer {
 		}
 	}
 
-	public void updateRowColors(Color c) {
+	public void updateRowColors(GColor c) {
 		if (rowcolors == null) {
-			rowcolors = new ArrayList<Color>(array.size());
+			rowcolors = new ArrayList<>(array.size());
 		}
 		final int N = array.size() - rowcolors.size();
 		for (int i = 0; i < N; i++) {
@@ -192,9 +193,9 @@ public class ArrayOfAtoms implements AtomConsumer {
 		rowcolors.set(rowcolors.size() - 1, c);
 	}
 
-	public void updateColors(Color c) {
+	public void updateColors(GColor c) {
 		if (colors == null) {
-			colors = new ArrayList<ArrayList<Color>>(array.size());
+			colors = new ArrayList<>(array.size());
 		}
 		final int N = array.size() - colors.size();
 		for (int i = 0; i < N; ++i) {
@@ -202,10 +203,10 @@ public class ArrayOfAtoms implements AtomConsumer {
 		}
 
 		final int last = colors.size() - 1;
-		ArrayList<Color> rowC = colors.get(last);
+		ArrayList<GColor> rowC = colors.get(last);
 		ArrayList<Atom> rowA = array.get(last);
 		if (rowC == null) {
-			rowC = new ArrayList<Color>(rowA.size());
+			rowC = new ArrayList<>(rowA.size());
 			colors.set(last, rowC);
 		}
 		final int Nc = rowA.size() - rowC.size();
@@ -215,12 +216,12 @@ public class ArrayOfAtoms implements AtomConsumer {
 		rowC.add(c);
 	}
 
-	public Color getColor(final int i, final int j) {
+	public GColor getColor(final int i, final int j) {
 		if (colors != null) {
 			if (i < colors.size()) {
-				final ArrayList<Color> colorsR = colors.get(i);
+				final ArrayList<GColor> colorsR = colors.get(i);
 				if (colorsR != null && j < colorsR.size()) {
-					final Color c = colorsR.get(j);
+					final GColor c = colorsR.get(j);
 					if (c != null) {
 						return c;
 					}

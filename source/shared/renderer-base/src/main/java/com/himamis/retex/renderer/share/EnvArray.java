@@ -45,9 +45,10 @@
 
 package com.himamis.retex.renderer.share;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.commands.Command;
 import com.himamis.retex.renderer.share.exception.ParseException;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class EnvArray {
 
@@ -89,13 +90,13 @@ public class EnvArray {
 	}
 
 	public static final class CellColor extends EmptyAtom {
-		final Color c;
+		final GColor c;
 
-		public CellColor(final Color c) {
+		public CellColor(final GColor c) {
 			this.c = c;
 		}
 
-		public Color getColor() {
+		public GColor getColor() {
 			return c;
 		}
 
@@ -106,13 +107,13 @@ public class EnvArray {
 	}
 
 	public static final class RowColor extends EmptyAtom {
-		final Color c;
+		final GColor c;
 
-		public RowColor(final Color c) {
+		public RowColor(final GColor c) {
 			this.c = c;
 		}
 
-		public Color getColor() {
+		public GColor getColor() {
 			return c;
 		}
 

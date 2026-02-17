@@ -50,7 +50,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
@@ -104,7 +105,7 @@ public class HorizontalBox extends Box {
 		// basic horizontal box
 	}
 
-	public HorizontalBox(Color fg, Color bg) {
+	public HorizontalBox(GColor fg, GColor bg) {
 		super(fg, bg);
 	}
 

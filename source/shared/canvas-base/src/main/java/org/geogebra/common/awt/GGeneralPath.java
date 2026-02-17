@@ -107,4 +107,9 @@ public interface GGeneralPath extends GShape {
 	 */
 	void quadTo(double x1, double y1, double x2, double y2);
 
+	/**
+	 * @return winding rule, one of {@link GPathIterator#WIND_EVEN_ODD},
+	 * {@link GPathIterator#WIND_NON_ZERO}
+	 */
+	int getWindingRule();
 }

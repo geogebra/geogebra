@@ -1,14 +1,15 @@
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 
 public class CursorAtom extends Atom {
 
 	private double height;
 	// foreground color
-	private final Color color;
+	private final GColor color;
 
-	public CursorAtom(Color color, double height) {
+	public CursorAtom(GColor color, double height) {
 		super();
 		this.color = color;
 		this.height = height;

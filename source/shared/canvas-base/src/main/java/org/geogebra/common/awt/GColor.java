@@ -166,18 +166,23 @@ public final class GColor implements GPaint {
 	 * @return new color
 	 */
 	public static GColor newColorRGB(int rgb) {
+		return getColorARGB(rgb | 0xff000000);
+	}
+
+	/**
+	 * @param argb ARGB value
+	 * @return unique color with given ARGB value
+	 */
+	public static GColor getColorARGB(int argb) {
 		GColor ret;
-		int arbg = rgb | 0xff000000;
 		synchronized (map) {
-			ret = map.get(arbg);
+			ret = map.get(argb);
 			if (ret == null) {
-				ret = new GColor(arbg);
-				map.put(arbg, ret);
+				ret = new GColor(argb);
+				map.put(argb, ret);
 			}
 		}
-
 		return ret;
-
 	}
 
 	private static int getRed(int rgba) {

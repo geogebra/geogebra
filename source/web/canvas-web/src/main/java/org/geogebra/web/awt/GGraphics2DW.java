@@ -187,7 +187,13 @@ public class GGraphics2DW implements GGraphics2DWI, GGraphics2D {
 		context.stroke();
 	}
 
-	protected void doDrawShape(Shape shape) {
+	/**
+	 * Create a path in the context (without drawing it).
+	 * @param shape shape to draw
+	 * @param context context
+	 * @param coords segment coordinates (for caching)
+	 */
+	public static void doDrawShape(Shape shape, JLMContext2D context, double[] coords) {
 		context.beginPath();
 		GPathIterator it = shape.getPathIterator(null);
 
@@ -643,7 +649,7 @@ public class GGraphics2DW implements GGraphics2DWI, GGraphics2D {
 			context.saveTransform();
 		}
 
-		doDrawShape((Shape) shape);
+		doDrawShape((Shape) shape, context, coords);
 
 		context.clip();
 	}
@@ -651,10 +657,10 @@ public class GGraphics2DW implements GGraphics2DWI, GGraphics2D {
 	@Override
 	public void draw(GShape shape) {
 		if (shape == null) {
-			Log.debug("Error in EuclidianView.draw");
+			Log.debug("Error in draw");
 			return;
 		}
-		doDrawShape((Shape) shape);
+		doDrawShape((Shape) shape, context, coords);
 		context.stroke();
 		if (debug) {
 			debug(shape);
@@ -668,7 +674,7 @@ public class GGraphics2DW implements GGraphics2DWI, GGraphics2D {
 			return;
 		}
 
-		doDrawShape((Shape) shape);
+		doDrawShape((Shape) shape, context, coords);
 
 		/*
 		 * App.debug((shape instanceof GeneralPath)+""); App.debug((shape

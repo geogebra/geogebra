@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 public class DrawEquationStub extends DrawEquation {
@@ -39,7 +38,7 @@ public class DrawEquationStub extends DrawEquation {
 	}
 
 	@Override
-	public Image getCachedDimensions(String text, GeoElementND geo, Color fgColor,
+	public Image getCachedDimensions(String text, GeoElementND geo, GColor fgColor,
 									 GFont font, int style, int[] ret) {
 		return null;
 	}
@@ -47,11 +46,6 @@ public class DrawEquationStub extends DrawEquation {
 	@Override
 	public void checkFirstCall() {
 		// unused
-	}
-
-	@Override
-	public Color convertColor(GColor color) {
-		return null;
 	}
 
 	@Override

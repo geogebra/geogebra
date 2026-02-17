@@ -47,7 +47,6 @@ import com.himamis.retex.renderer.share.Configuration;
 import com.himamis.retex.renderer.share.platform.box.BoxDecorator;
 import com.himamis.retex.renderer.share.platform.box.DefaultBoxDecorator;
 import com.himamis.retex.renderer.share.platform.font.FontFactory;
-import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.resources.ResourceLoaderFactory;
 
@@ -55,12 +54,9 @@ public abstract class FactoryProvider {
 
 	private static FactoryProvider INSTANCE;
 
-	private GeomFactory geomFactory;
 	private FontFactory fontFactory;
 	private GraphicsFactory graphicsFactory;
 	private BoxDecorator boxDecorator;
-
-	protected abstract GeomFactory createGeomFactory();
 
 	protected abstract FontFactory createFontFactory();
 
@@ -71,13 +67,6 @@ public abstract class FactoryProvider {
 	}
 
 	protected FactoryProvider() {
-	}
-
-	public GeomFactory getGeomFactory() {
-		if (geomFactory == null) {
-			geomFactory = createGeomFactory();
-		}
-		return geomFactory;
 	}
 
 	public FontFactory getFontFactory() {

@@ -16,12 +16,12 @@
 
 package org.geogebra.web.editor;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.editor.web.MathFieldW;
 import org.geogebra.web.html5.export.Canvas2Svg;
 import org.geogebra.web.html5.export.ExportLoader;
 
 import com.himamis.retex.renderer.share.CursorBox;
-import com.himamis.retex.renderer.web.graphics.ColorW;
 
 import elemental2.core.Global;
 import jsinterop.annotations.JsFunction;
@@ -70,7 +70,7 @@ public class MathFieldExporter {
 			}
 			Canvas2Svg ctx = new Canvas2Svg(width, height);
 			CursorBox.setBlink(false);
-			ColorW bgColor = transparent ? null : mathField.getBackgroundColor();
+			GColor bgColor = transparent ? null : mathField.getBackgroundColor();
 			mathField.paintFormulaNoPlaceholder(Js.uncheckedCast(ctx), 0, bgColor);
 			ret.setBaseline((height - depth) / (double) height);
 			ret.setSvg(SVG_PREFIX + Global.escape(ctx.getSerializedSvg(true)));

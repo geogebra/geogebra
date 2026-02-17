@@ -3,69 +3,66 @@ package com.himamis.retex.renderer.share.platform.graphics.stubs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GShape;
+
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
-import com.himamis.retex.renderer.share.platform.geom.Line2D;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class GraphicsStub implements Graphics2DInterface {
 
-	private Stroke stroke;
-	private Color color;
+	private GBasicStroke stroke;
+	private GColor color;
 	private Font font;
-	private List<AffineTransform> transformList = new ArrayList<AffineTransform>();
-	private AffineTransform currentTransform;
+	private List<GAffineTransform> transformList = new ArrayList<>();
+	private GAffineTransform currentTransform;
 
 	public GraphicsStub() {
-		transformList = new ArrayList<AffineTransform>();
+		transformList = new ArrayList<>();
 		reset();
 	}
 
 	public void reset() {
 		transformList.clear();
-		currentTransform = new AffineTransform();
+		currentTransform = AwtFactory.getPrototype().newAffineTransform();
 		font = new FontStub();
-		color = new ColorStub();
-		stroke = new StrokeStub();
+		color = GColor.BLACK;
+		stroke = AwtFactory.getPrototype().newBasicStroke(1);
 	}
 
 	@Override
-	public void setStroke(Stroke stroke) {
+	public void setStroke(GBasicStroke stroke) {
 		this.stroke = stroke;
 	}
 
 	@Override
-	public Stroke getStroke() {
+	public GBasicStroke getStroke() {
 		return stroke;
 	}
 
 	@Override
-	public void setColor(Color color) {
+	public void setColor(GColor color) {
 		this.color = color;
 	}
 
 	@Override
-	public Color getColor() {
+	public GColor getColor() {
 		return color;
 	}
 
 	@Override
-	public Transform getTransform() {
+	public GAffineTransform getTransform() {
 		return currentTransform;
 	}
 
 	@Override
 	public void saveTransform() {
-		transformList
-				.add((com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform) currentTransform
-						.createClone());
+		transformList.add(currentTransform.duplicate());
 	}
 
 	@Override
@@ -91,53 +88,12 @@ public class GraphicsStub implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fill(Shape rectangle) {
+	public void fill(GShape rectangle) {
 		// stub
 	}
 
 	@Override
-	public void startDrawing() {
-		// stub
-	}
-
-	@Override
-	public void moveTo(double x, double y) {
-		// stub
-	}
-
-	@Override
-	public void lineTo(double x, double y) {
-		// stub
-	}
-
-	@Override
-	public void quadraticCurveTo(double x, double y, double x1, double y1) {
-		// stub
-	}
-
-	@Override
-	public void bezierCurveTo(double x, double y, double x1, double y1,
-			double x2, double y2) {
-		// stub
-	}
-
-	@Override
-	public void finishDrawing() {
-		// stub
-	}
-
-	@Override
-	public void draw(Rectangle2D rectangle) {
-		// stub
-	}
-
-	@Override
-	public void draw(RoundRectangle2D rectangle) {
-		// stub
-	}
-
-	@Override
-	public void draw(Line2D line) {
+	public void draw(GShape rectangle) {
 		// stub
 	}
 
@@ -184,7 +140,7 @@ public class GraphicsStub implements Graphics2DInterface {
 	}
 
 	@Override
-	public void drawImage(Image image, Transform transform) {
+	public void drawImage(Image image, GAffineTransform transform) {
 		// stub
 	}
 

@@ -44,33 +44,32 @@
 
 package com.himamis.retex.renderer.desktop.graphics;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints.Key;
-import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.util.LinkedList;
 
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.RenderingHints;
+import org.geogebra.desktop.awt.GAffineTransformD;
+import org.geogebra.desktop.awt.GBasicStrokeD;
+import org.geogebra.desktop.awt.GShapeD;
 
 import com.himamis.retex.renderer.desktop.font.FontD;
 import com.himamis.retex.renderer.desktop.font.FontRenderContextD;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
-import com.himamis.retex.renderer.share.platform.geom.Line2D;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class Graphics2DD implements Graphics2DInterface {
 
 	private Graphics2D impl;
-	private LinkedList<TransformD> transformationStack = new LinkedList<>();
-	private GeneralPath path;
+	private LinkedList<AffineTransform> transformationStack = new LinkedList<>();
 
 	public Graphics2DD(Graphics2D impl) {
 		this.impl = impl;
@@ -81,28 +80,30 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 	@Override
-	public void setStroke(Stroke stroke) {
-		impl.setStroke((java.awt.Stroke) stroke);
+	public void setStroke(GBasicStroke stroke) {
+		impl.setStroke(((GBasicStrokeD) stroke).getImpl());
 	}
 
 	@Override
-	public Stroke getStroke() {
-		return new StrokeD(impl.getStroke());
+	public GBasicStroke getStroke() {
+		return new GBasicStrokeD((BasicStroke) impl.getStroke());
 	}
 
 	@Override
-	public void setColor(Color color) {
-		impl.setColor((java.awt.Color) color);
+	public void setColor(GColor color) {
+		impl.setColor(new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue(),
+				color.getAlpha()));
 	}
 
 	@Override
-	public Color getColor() {
-		return new ColorD(impl.getColor());
+	public GColor getColor() {
+		return GColor.newColorRGB(impl.getColor().getRGB()).deriveWithAlpha(impl.getColor()
+				.getAlpha());
 	}
 
 	@Override
-	public Transform getTransform() {
-		return new TransformD(impl.getTransform());
+	public GAffineTransform getTransform() {
+		return new GAffineTransformD(impl.getTransform());
 	}
 
 	@Override
@@ -121,54 +122,13 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 	@Override
-	public void fill(com.himamis.retex.renderer.share.platform.geom.Shape s) {
-		impl.fill((Shape) s);
+	public void fill(GShape s) {
+		impl.fill(((GShapeD) s).getAwtShape());
 	}
 
 	@Override
-	public void startDrawing() {
-		path = new GeneralPath();
-	}
-
-	@Override
-	public void moveTo(double x, double y) {
-		path.moveTo(x, y);
-	}
-
-	@Override
-	public void lineTo(double x, double y) {
-		path.lineTo(x, y);
-	}
-
-	@Override
-	public void quadraticCurveTo(double x, double y, double x1, double y1) {
-		path.quadTo(x, y, x1, y1);
-	}
-
-	@Override
-	public void bezierCurveTo(double x, double y, double x1, double y1,
-			double x2, double y2) {
-		path.curveTo(x, y, x1, y1, x2, y2);
-	}
-
-	@Override
-	public void finishDrawing() {
-		impl.fill(path);
-	}
-
-	@Override
-	public void draw(Rectangle2D rectangle) {
-		impl.draw((Shape) rectangle);
-	}
-
-	@Override
-	public void draw(RoundRectangle2D rectangle) {
-		impl.draw((Shape) rectangle);
-	}
-
-	@Override
-	public void draw(Line2D line) {
-		impl.draw((Shape) line);
+	public void draw(GShape s) {
+		impl.fill(((GShapeD) s).getAwtShape());
 	}
 
 	@Override
@@ -215,7 +175,7 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 	@Override
-	public void drawImage(Image image, Transform transform) {
+	public void drawImage(Image image, GAffineTransform transform) {
 		impl.drawImage((java.awt.Image) image, (AffineTransform) transform,
 					null);
 	}
@@ -283,12 +243,12 @@ public class Graphics2DD implements Graphics2DInterface {
 
 	@Override
 	public void saveTransform() {
-		transformationStack.add(new TransformD(impl.getTransform()));
+		transformationStack.add(impl.getTransform());
 	}
 
 	@Override
 	public void restoreTransform() {
-		TransformD last = transformationStack.removeLast();
+		AffineTransform last = transformationStack.removeLast();
 		impl.setTransform(last);
 	}
 }

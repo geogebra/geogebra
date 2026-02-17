@@ -48,12 +48,13 @@ package com.himamis.retex.renderer.share;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.awt.GRectangle2D;
+
 import com.himamis.retex.renderer.share.platform.FontAdapter;
 import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
 import com.himamis.retex.renderer.share.platform.font.TextLayout;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
@@ -94,10 +95,10 @@ public class JavaFontRenderingBox extends Box {
 
 		this.text = fontAdapter.createTextLayout(str, f.deriveFont(type),
 				TEMPGRAPHIC.getFontRenderContext());
-		Rectangle2D rect = text.getBounds();
-		this.height = (-rect.getY() * size / 10);
+		GRectangle2D rect = text.getBounds();
+		this.height = -rect.getY() * size / 10;
 		this.depth = (rect.getHeight() * size / 10) - this.height;
-		this.width = ((rect.getWidth() + rect.getX() + 0.4f) * size / 10);
+		this.width = (rect.getWidth() + rect.getX() + 0.4f) * size / 10;
 	}
 
 	public JavaFontRenderingBox(final String str, final int type,

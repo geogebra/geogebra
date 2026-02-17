@@ -44,6 +44,7 @@
 
 package com.himamis.retex.renderer.web;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.web.awt.JLMContextHelper;
 
 import com.himamis.retex.renderer.share.Colors;
@@ -51,7 +52,6 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
@@ -109,13 +109,13 @@ public class JlmLib {
 				decode(bgColorString), callback, getPixelRatio());
 	}
 
-	public static Color decode(String color) {
+	public static GColor decode(String color) {
 		return color == null ? null : Colors.decode(color);
 	}
 
 	public static FormulaRenderingResult draw(TeXIcon icon, CanvasRenderingContext2D ctx,
-			final double x, final double y, final Color fgColor,
-			final Color bgColor, final DrawingFinishedCallback callback,
+			final double x, final double y, final GColor fgColor,
+			final GColor bgColor, final DrawingFinishedCallback callback,
 			double ratio) {
 		Graphics2DW g2 = new Graphics2DW(ctx);
 

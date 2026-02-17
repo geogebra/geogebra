@@ -43,12 +43,11 @@
  */
 package com.himamis.retex.renderer.share.platform;
 
-import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GBasicStroke;
+
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class Graphics {
 
@@ -58,23 +57,12 @@ public class Graphics {
 		graphicsFactory = FactoryProvider.getInstance().getGraphicsFactory();
 	}
 
-	public Color createColor(int r, int g, int b) {
-		return graphicsFactory.createColor(r, g, b);
-	}
-
-	public Color createColor(double r, double g, double b) {
-		int red = (int) Math.round(r * 255);
-		int green = (int) Math.round(g * 255);
-		int blue = (int) Math.round(b * 255);
-		return createColor(red, green, blue);
-	}
-
-	public BasicStroke createBasicStroke(double width, int cap, int join,
+	public GBasicStroke createBasicStroke(double width, int cap, int join,
 			double miterLimit) {
-		return graphicsFactory.createBasicStroke(width, cap, join, miterLimit);
+		return AwtFactory.getPrototype().newBasicStroke(width, cap, join, miterLimit, null);
 	}
 
-	public BasicStroke createBasicStroke(double width, int cap, int join) {
+	public GBasicStroke createBasicStroke(double width, int cap, int join) {
 		return createBasicStroke(width, cap, join, 10.0);
 	}
 
@@ -86,12 +74,9 @@ public class Graphics {
 		return createImage(width, height, Image.TYPE_INT_RGB);
 	}
 
-	public Transform createTransform() {
-		return graphicsFactory.createTransform();
-	}
-
-	public Stroke createBasicStroke(double thickness, double[] dashes) {
-		return graphicsFactory.createBasicStroke(thickness, dashes);
+	public GBasicStroke creStateBasicStroke(double thickness, double[] dashes) {
+		return AwtFactory.getPrototype().newBasicStroke(thickness, GBasicStroke.CAP_BUTT,
+				GBasicStroke.JOIN_MITER, 10.0, dashes);
 	}
 
 }

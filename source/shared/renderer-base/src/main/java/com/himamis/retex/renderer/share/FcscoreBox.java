@@ -45,11 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.geom.Line2D;
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GLine2D;
+
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 /**
  * A box representing glue.
@@ -61,7 +62,7 @@ public class FcscoreBox extends Box {
 	private double space;
 	private double thickness;
 
-	private Line2D line;
+	private GLine2D line;
 
 	public FcscoreBox(int N, double h, double thickness, double space,
 			boolean strike) {
@@ -78,9 +79,9 @@ public class FcscoreBox extends Box {
 
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
-		Transform transf = g2.getTransform();
+		GAffineTransform transf = g2.getTransform();
 		g2.saveTransform();
-		Stroke oldStroke = g2.getStroke();
+		GBasicStroke oldStroke = g2.getStroke();
 
 		final double sx = transf.getScaleX();
 		final double sy = transf.getScaleY();

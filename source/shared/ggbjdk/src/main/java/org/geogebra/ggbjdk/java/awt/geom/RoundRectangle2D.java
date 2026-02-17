@@ -29,6 +29,7 @@ import java.io.Serializable;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GRoundRectangle2D;
 
 /**
  * The <code>RoundRectangle2D</code> class defines a rectangle with
@@ -44,7 +45,7 @@ import org.geogebra.common.awt.GPathIterator;
  * @author      Jim Graham
  * @since 1.2
  */
-public abstract class RoundRectangle2D extends RectangularShape {
+public abstract class RoundRectangle2D extends RectangularShape implements GRoundRectangle2D {
 
     /**
      * The <code>Double</code> class defines a rectangle with rounded
@@ -269,25 +270,7 @@ public abstract class RoundRectangle2D extends RectangularShape {
      */
     public abstract double getArcHeight();
 
-    /**
-     * Sets the location, size, and corner radii of this
-     * <code>RoundRectangle2D</code> to the specified
-     * <code>double</code> values.
-     *
-     * @param x the X coordinate to which to set the
-     *          location of this <code>RoundRectangle2D</code>
-     * @param y the Y coordinate to which to set the
-     *          location of this <code>RoundRectangle2D</code>
-     * @param w the width to which to set this
-     *          <code>RoundRectangle2D</code>
-     * @param h the height to which to set this
-     *          <code>RoundRectangle2D</code>
-     * @param arcWidth the width to which to set the arc of this
-     *                 <code>RoundRectangle2D</code>
-     * @param arcHeight the height to which to set the arc of this
-     *                  <code>RoundRectangle2D</code>
-     * @since 1.2
-     */
+    @Override
     public abstract void setRoundRect(double x, double y, double w, double h,
                                       double arcWidth, double arcHeight);
 

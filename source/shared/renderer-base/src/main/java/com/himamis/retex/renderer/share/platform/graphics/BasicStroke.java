@@ -43,7 +43,7 @@
  */
 package com.himamis.retex.renderer.share.platform.graphics;
 
-public interface BasicStroke extends Stroke {
+public interface BasicStroke {
 
 	/**
 	 * Joins path segments by extending their outside edges until they meet.

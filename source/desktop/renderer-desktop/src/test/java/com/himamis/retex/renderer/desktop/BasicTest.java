@@ -10,12 +10,12 @@ import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 
+import org.geogebra.common.awt.GColor;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.renderer.desktop.graphics.ImageD;
-import com.himamis.retex.renderer.share.ColorUtil;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -72,7 +72,7 @@ public class BasicTest {
 	private static Image createImage(TeXIcon icon) {
 		Image image = new ImageD(icon.getIconWidth(), icon.getIconHeight(), Image.TYPE_INT_ARGB);
 		Graphics2DInterface g2 = image.createGraphics2D();
-		g2.setColor(ColorUtil.WHITE);
+		g2.setColor(GColor.WHITE);
 		g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
 		icon.paintIcon(null, g2, 0, 0);
 		return image;

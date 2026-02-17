@@ -52,15 +52,15 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.Graphics;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 /**
  * Class to cache generated image from formulas
@@ -69,9 +69,8 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
  */
 public final class JLaTeXMathCache {
 
-	private static final Transform identity = new Graphics().createTransform();
-	private static ConcurrentMap<CachedTeXFormula, SoftReference<CachedImage>> cache = new ConcurrentHashMap<CachedTeXFormula, SoftReference<CachedImage>>(
-			128);
+	private static ConcurrentMap<CachedTeXFormula, SoftReference<CachedImage>> cache
+			= new ConcurrentHashMap<>(128);
 	private static int max = Integer.MAX_VALUE;
 	private static final ReferenceQueue<CachedImage> queue = new ReferenceQueue<>();
 	private static double pixelRatio = 1;
@@ -103,7 +102,7 @@ public final class JLaTeXMathCache {
 	 * @return an array of length 3 containing width, height and depth
 	 */
 	public static int[] getCachedTeXFormulaDimensions(String f, int style,
-			int type, int size, int inset, Color fgcolor)
+			int type, int size, int inset, GColor fgcolor)
 			throws ParseException {
 		return getCachedTeXFormulaDimensions(
 				new CachedTeXFormula(f, style, type, size, inset, fgcolor));
@@ -147,7 +146,7 @@ public final class JLaTeXMathCache {
 	 * @return the key in the map
 	 */
 	public static Object getCachedTeXFormula(String f, int style, int type,
-			int size, int inset, Color fgcolor) throws ParseException {
+			int size, int inset, GColor fgcolor) throws ParseException {
 		CachedTeXFormula cached = new CachedTeXFormula(f, style, type, size,
 				inset, fgcolor);
 		SoftReference<CachedImage> img = cache.get(cached);
@@ -183,7 +182,7 @@ public final class JLaTeXMathCache {
 	 *            the inset to add on the top, bottom, left and right
 	 */
 	public static void removeCachedTeXFormula(String f, int style, int type,
-			int size, int inset, Color fgcolor) throws ParseException {
+			int size, int inset, GColor fgcolor) throws ParseException {
 		cache.remove(
 				new CachedTeXFormula(f, style, type, size, inset, fgcolor));
 	}
@@ -270,7 +269,7 @@ public final class JLaTeXMathCache {
 	 * @return the cached image
 	 */
 	public static Image getCachedTeXFormulaImage(String f, int style, int type,
-			int size, int inset, Color fgcolor) throws ParseException {
+			int size, int inset, GColor fgcolor) throws ParseException {
 		return getCachedTeXFormulaImage(
 				new CachedTeXFormula(f, style, type, size, inset, fgcolor));
 	}
@@ -370,10 +369,10 @@ public final class JLaTeXMathCache {
 		int width = -1;
 		int height;
 		int depth;
-		Color fgcolor;
+		GColor fgcolor;
 
 		CachedTeXFormula(String f, int style, int type, int size, int inset,
-				Color fgcolor) {
+				GColor fgcolor) {
 			this.f = f;
 			this.style = style;
 			this.type = type;

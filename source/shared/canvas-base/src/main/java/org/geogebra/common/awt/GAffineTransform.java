@@ -302,4 +302,34 @@ public interface GAffineTransform {
 	 */
 	void setToRotation(double theta, double anchorx, double anchory);
 
+	/**
+	 * @return copy of this transform
+	 */
+	GAffineTransform duplicate();
+
+	/**
+	 * Concatenates this transform with a transform that rotates
+	 * coordinates around an anchor point.
+	 * This operation is equivalent to translating the coordinates so
+	 * that the anchor point is at the origin (S1), then rotating them
+	 * about the new origin (S2), and finally translating so that the
+	 * intermediate origin is restored to the coordinates of the original
+	 * anchor point (S3).
+	 * <p>
+	 * This operation is equivalent to the following sequence of calls:
+	 * <pre>
+	 *     translate(anchorx, anchory);      // S3: final translation
+	 *     rotate(theta);                    // S2: rotate around anchor
+	 *     translate(-anchorx, -anchory);    // S1: translate anchor to origin
+	 * </pre>
+	 * Rotating by a positive angle theta rotates points on the positive
+	 * X axis toward the positive Y axis.
+	 * Note also the discussion of
+	 * <a href="#quadrantapproximation">Handling 90-Degree Rotations</a>
+	 * above.
+	 *
+	 * @param theta the angle of rotation measured in radians
+	 * @since 1.2
+	 */
+	void rotate(double theta, double x, double y);
 }

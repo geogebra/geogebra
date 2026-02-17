@@ -46,7 +46,8 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
@@ -55,7 +56,7 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 public class InputAtom extends Atom implements Row, HasTrueBase {
 
 	// background color
-	private final Color background;
+	private final GColor background;
 
 	// RowAtom for which the colorsettings apply
 	protected final RowAtom elements;
@@ -72,7 +73,7 @@ public class InputAtom extends Atom implements Row, HasTrueBase {
 	 * @param fg
 	 *            the foreground color
 	 */
-	public InputAtom(Atom atom, Color bg, Color fg) {
+	public InputAtom(Atom atom, GColor bg, GColor fg) {
 		elements = new RowAtom(atom);
 		background = bg;
 	}

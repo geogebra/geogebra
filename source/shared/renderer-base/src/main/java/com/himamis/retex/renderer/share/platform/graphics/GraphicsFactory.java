@@ -43,7 +43,7 @@
  */
 package com.himamis.retex.renderer.share.platform.graphics;
 
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import org.geogebra.common.awt.GColor;
 
 public abstract class GraphicsFactory {
 	// old
@@ -71,10 +71,7 @@ public abstract class GraphicsFactory {
 	static public final int CURSOR_GREEN = 66;
 	static public final int CURSOR_BLUE = 161;
 
-	public abstract BasicStroke createBasicStroke(double width, int cap,
-			int join, double miterLimit);
-
-	public abstract Color createColor(int r, int g, int b, int alpha);
+	public abstract GColor createColor(int r, int g, int b, int alpha);
 
 	public abstract Image createImage(int width, int height, int type);
 
@@ -83,29 +80,24 @@ public abstract class GraphicsFactory {
 		return null;
 	}
 
-	public abstract Transform createTransform();
-
-	public Color createColor(int r, int g, int b) {
-		return createColor(r, g, b, 255);
+	public GColor createColor(int r, int g, int b) {
+		return GColor.newColor(r, g, b);
 	}
 
-	public Color createColor(int rgb) {
-		int red = (rgb >> 16) & 0xFF;
-		int green = (rgb >> 8) & 0xFF;
-		int blue = rgb & 0xFF;
-		return createColor(red, green, blue, 255);
+	public GColor createColor(int rgb) {
+		return GColor.newColorRGB(rgb);
 	}
 
-	public Color createColor(double r, double g, double b) {
+	public GColor createColor(double r, double g, double b) {
 		return createColor((int) (r * 255), (int) (g * 255), (int) (b * 255), 255);
 	}
 
-	public Color createColor(double r, double g, double b, double a) {
+	public GColor createColor(double r, double g, double b, double a) {
 		return createColor((int) r * 255, (int) g * 255, (int) b * 255,
 				(int) a * 255);
 	}
 
-	public Color createColorAlpha(int rgba) {
+	public GColor createColorAlpha(int rgba) {
 		int alpha = (rgba >> 24) & 0xFF;
 		int red = (rgba >> 16) & 0xFF;
 		int green = (rgba >> 8) & 0xFF;
@@ -117,12 +109,6 @@ public abstract class GraphicsFactory {
 	public Image createImage(String path) {
 		// implemented in desktop only
 		return null;
-	}
-
-	public Stroke createBasicStroke(double width, double[] dashes) {
-		FactoryProvider.debugS("dashed lines not implemented");
-		return createBasicStroke(width, BasicStroke.CAP_BUTT,
-				BasicStroke.JOIN_MITER, 0);
 	}
 
 }

@@ -50,9 +50,10 @@ package com.himamis.retex.renderer.share;
 
 import java.util.Map;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.Graphics;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
@@ -321,7 +322,7 @@ public class TeXFormula {
 		private Integer style;
 		private Double size;
 		private Integer type;
-		private Color fgcolor;
+		private GColor fgcolor;
 		private boolean trueValues = false;
 		private TeXConstants.Align align;
 
@@ -368,7 +369,7 @@ public class TeXFormula {
 		 *            the foreground color
 		 * @return the builder, used for chaining
 		 */
-		public TeXIconBuilder setFGColor(final Color fgcolor) {
+		public TeXIconBuilder setFGColor(final GColor fgcolor) {
 			this.fgcolor = fgcolor;
 			return this;
 		}
@@ -458,7 +459,7 @@ public class TeXFormula {
 	}
 
 	public TeXIcon createTeXIcon(int style, double size, int type,
-			Color fgcolor) {
+			GColor fgcolor) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
 				.setFGColor(fgcolor).build();
 	}
@@ -538,7 +539,7 @@ public class TeXFormula {
 	 * @return the generated image
 	 */
 	public static Image createBufferedImage(String formula, int style,
-			double size, Color fg, Color bg) throws ParseException {
+			double size, GColor fg, GColor bg) throws ParseException {
 		TeXFormula f = new TeXFormula(formula);
 		TeXIcon icon = f.createTeXIcon(style, size);
 		return asImage(icon, fg, bg, 1);
@@ -550,7 +551,7 @@ public class TeXFormula {
 	 * @param bg background color
 	 * @return image
 	 */
-	public static Image asImage(TeXIcon icon, Color fg, Color bg, double pixelRatio) {
+	public static Image asImage(TeXIcon icon, GColor fg, GColor bg, double pixelRatio) {
 		icon.setInsets(new Insets(2, 2, 2, 2));
 		int w = (int) Math.round(pixelRatio * icon.getIconWidth());
 		int h = (int) Math.round(pixelRatio * icon.getIconHeight());
@@ -563,7 +564,7 @@ public class TeXFormula {
 			g2.fillRect(0, 0, w, h);
 		}
 
-		icon.setForeground(fg == null ? Colors.BLACK : fg);
+		icon.setForeground(fg == null ? GColor.BLACK : fg);
 		g2.scale(pixelRatio, pixelRatio);
 		icon.paintIcon(null, g2, 0, 0);
 		g2.dispose();
@@ -582,7 +583,7 @@ public class TeXFormula {
 	 *            background color
 	 * @return the generated image
 	 */
-	public Image createBufferedImage(int style, double size, Color fg, Color bg)
+	public Image createBufferedImage(int style, double size, GColor fg, GColor bg)
 			throws ParseException {
 		TeXIcon icon = createTeXIcon(style, size);
 		return asImage(icon, fg, bg, 1);

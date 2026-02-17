@@ -1,10 +1,11 @@
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 
 public class SelectionAtom extends ColorAtom {
 
-	public SelectionAtom(Atom atom, Color bg, Color c) {
+	public SelectionAtom(Atom atom, GColor bg, GColor c) {
 		super(atom, bg, c);
 	}
 

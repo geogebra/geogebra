@@ -49,8 +49,9 @@ package com.himamis.retex.renderer.share;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 
 /**
@@ -61,18 +62,18 @@ public class Colors {
 	private static final GraphicsFactory GRAPHICS_FACTORY = FactoryProvider
 			.getInstance().getGraphicsFactory();
 
-	public static final Color RED = GRAPHICS_FACTORY.createColor(255, 0, 0);
-	public static final Color BLACK = GRAPHICS_FACTORY.createColor(0, 0, 0);
-	public static final Color WHITE = GRAPHICS_FACTORY.createColor(255, 255, 255);
-	public static final Color BLUE = GRAPHICS_FACTORY.createColor(0, 0, 255);
-	public static final Color GREEN = GRAPHICS_FACTORY.createColor(0, 255, 0);
-	public static final Color CYAN = GRAPHICS_FACTORY.createColor(0, 255, 255);
-	public static final Color MAGENTA = GRAPHICS_FACTORY.createColor(255, 0, 255);
-	public static final Color YELLOW = GRAPHICS_FACTORY.createColor(255, 255, 0);
+	public static final GColor RED = GRAPHICS_FACTORY.createColor(255, 0, 0);
+	public static final GColor BLACK = GRAPHICS_FACTORY.createColor(0, 0, 0);
+	public static final GColor WHITE = GRAPHICS_FACTORY.createColor(255, 255, 255);
+	public static final GColor BLUE = GRAPHICS_FACTORY.createColor(0, 0, 255);
+	public static final GColor GREEN = GRAPHICS_FACTORY.createColor(0, 255, 0);
+	public static final GColor CYAN = GRAPHICS_FACTORY.createColor(0, 255, 255);
+	public static final GColor MAGENTA = GRAPHICS_FACTORY.createColor(255, 0, 255);
+	public static final GColor YELLOW = GRAPHICS_FACTORY.createColor(255, 255, 0);
 
-	public static final Color SELECTION = GRAPHICS_FACTORY.createColor(204, 204, 255);
+	public static final GColor SELECTION = GRAPHICS_FACTORY.createColor(204, 204, 255);
 
-	private static Map<String, Color> all = new HashMap<String, Color>() {
+	private static Map<String, GColor> all = new HashMap<String, GColor>() {
 		{
 			GraphicsFactory g = GRAPHICS_FACTORY;
 
@@ -155,15 +156,15 @@ public class Colors {
 		}
 	};
 
-	public static Color getFromName(final String name) {
-		final Color c = all.get(name);
+	public static GColor getFromName(final String name) {
+		final GColor c = all.get(name);
 		if (c == null) {
 			return all.get(name.toLowerCase());
 		}
 		return c;
 	}
 
-	public static void add(final String name, final Color color) {
+	public static void add(final String name, final GColor color) {
 		all.put(name, color);
 	}
 
@@ -175,7 +176,7 @@ public class Colors {
 		return Math.min(1., Math.max(n, 0.));
 	}
 
-	public static Color conv(final double c, final double m, final double y,
+	public static GColor conv(final double c, final double m, final double y,
 			final double k) {
 		final double kk = 255. * (1. - k);
 		final int R = (int) (kk * (1. - c) + 0.5);
@@ -185,14 +186,14 @@ public class Colors {
 				.createColor((R << 16) | (G << 8) | B);
 	}
 
-	public static Color convHSB(final double h, final double s,
+	public static GColor convHSB(final double h, final double s,
 			final double l) {
 		final double h1 = normH(h);
 		return FactoryProvider.getInstance().getGraphicsFactory()
 				.createColor(HSBtoRGB(h1, s, l));
 	}
 
-	public static Color convHSL(final double h, final double s, final double l,
+	public static GColor convHSL(final double h, final double s, final double l,
 			final double a) {
 		// https://www.w3.org/TR/css3-color/#hsl-color for algorithm
 		final double ls = l * s;
@@ -207,7 +208,7 @@ public class Colors {
 				G, B, (float) a);
 	}
 
-	public static Color convHSL(final double h, final double s,
+	public static GColor convHSL(final double h, final double s,
 			final double l) {
 		return convHSL(h, s, l, 1f);
 	}
@@ -248,7 +249,7 @@ public class Colors {
 		return Math.round(Math.pow(c * factor, Gamma));
 	}
 
-	public static Color convWave(final double waveLen) {
+	public static GColor convWave(final double waveLen) {
 		double R, G, B;
 
 		if (waveLen >= 380. && waveLen <= 439.) {
@@ -301,7 +302,7 @@ public class Colors {
 				.createColor((float) R, (float) G, (float) B);
 	}
 
-	public static Color decode(String string) {
+	public static GColor decode(String string) {
 		try {
 			int val = Integer.decode(string);
 			return GRAPHICS_FACTORY.createColor(

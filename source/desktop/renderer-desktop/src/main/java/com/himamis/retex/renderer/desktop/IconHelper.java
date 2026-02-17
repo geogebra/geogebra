@@ -41,13 +41,15 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.desktop;
 
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import com.himamis.retex.renderer.desktop.graphics.ColorD;
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
 import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -63,7 +65,7 @@ public class IconHelper {
 				final Graphics2DD g2d = new Graphics2DD((Graphics2D) g);
 				icon.paintIcon(() -> {
 					if (component != null) {
-						return new ColorD(component.getForeground());
+						return GColor.newColorRGB(component.getForeground().getRGB());
 					}
 					return Colors.BLACK;
 				}, g2d, x, y);

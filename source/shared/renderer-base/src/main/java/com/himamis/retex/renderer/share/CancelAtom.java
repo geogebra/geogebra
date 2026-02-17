@@ -45,7 +45,8 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
@@ -57,13 +58,13 @@ public class CancelAtom extends Atom implements HasTrueBase {
 		SLASH, BACKSLASH, X
 	}
 
-	private static Color cancelColor = null;
+	private static GColor cancelColor = null;
 
 	private final Atom base;
 	private final Type ctype;
-	private final Color color;
+	private final GColor color;
 
-	public CancelAtom(final Atom base, final Type ctype, final Color color) {
+	public CancelAtom(final Atom base, final Type ctype, final GColor color) {
 		this.base = base;
 		this.ctype = ctype;
 		this.color = color;
@@ -94,7 +95,7 @@ public class CancelAtom extends Atom implements HasTrueBase {
 		final Atom c = sac.get();
 		if (c instanceof ColorAtom) {
 			final ColorAtom ca = (ColorAtom) c;
-			Color col = ca.getFg();
+			GColor col = ca.getFg();
 			if (col == null) {
 				col = ca.getBg();
 			}

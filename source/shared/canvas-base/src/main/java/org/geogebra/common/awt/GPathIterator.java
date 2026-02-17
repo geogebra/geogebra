@@ -21,7 +21,13 @@ package org.geogebra.common.awt;
  */
 public interface GPathIterator {
 
+	/**
+	 * Point considered inside if the path winds odd number of times around it.
+	 */
 	int WIND_EVEN_ODD = 0;
+	/**
+	 * Point considered inside if the path winds non-zero number of times around it.
+	 */
 	int WIND_NON_ZERO = 1;
 
 	int SEG_MOVETO = 0;

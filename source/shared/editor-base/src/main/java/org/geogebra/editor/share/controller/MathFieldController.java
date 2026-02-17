@@ -192,12 +192,12 @@ public class MathFieldController {
 				CursorBoxConsumer consumer
 						= new CursorBoxConsumer(texBuilder, currentField, currentOffset, input);
 				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
-				renderer.cursorPosition = consumer.getPosition();
+				renderer.cursorPosition = consumer.getBounds();
 			} else {
 				SelectionBoxConsumer consumer
 						= new SelectionBoxConsumer(texBuilder, selectionStart, selectionEnd, input);
 				renderer.getBox().inspect(consumer, new BoxPosition(0, 0, 1, 0));
-				renderer.selectionPosition = consumer.getPosition();
+				renderer.selectionPosition = consumer.getBounds();
 			}
 
 			mathField.setTeXIcon(renderer);

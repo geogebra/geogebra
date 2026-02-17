@@ -1,9 +1,11 @@
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GLine2D;
+
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class SelectionBox extends Box {
 	private static final int DIAMETER = 10;
@@ -32,12 +34,11 @@ public class SelectionBox extends Box {
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		content.draw(g2, x, y);
-		Stroke old = g2.getStroke();
+		GBasicStroke old = g2.getStroke();
 
-		g2.setStroke(FactoryProvider.getInstance().getGraphicsFactory()
-				.createBasicStroke(1, 0, 0, 1));
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(1, 0, 0, 1, null));
 
-		Transform transform = g2.getTransform();
+		GAffineTransform transform = g2.getTransform();
 		SelectionBox.startX = transform.getScaleX() * x
 				+ transform.getShearX() * y
 				+ transform.getTranslateX();
@@ -55,14 +56,17 @@ public class SelectionBox extends Box {
 			g2.saveTransform();
 
 			g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);
-			g2.draw(FactoryProvider.getInstance().getGeomFactory().createLine2D(
+			GLine2D line = AwtFactory.getPrototype().newLine2D();
+			line.setLine(
 					DIAMETER * x, DIAMETER * y - DIAMETER * content.height,
-					DIAMETER * x, DIAMETER * y + DIAMETER * content.depth));
-			g2.draw(FactoryProvider.getInstance().getGeomFactory().createLine2D(
+					DIAMETER * x, DIAMETER * y + DIAMETER * content.depth);
+			g2.draw(line);
+			line.setLine(
 					DIAMETER * (x + content.width),
 					DIAMETER * y - DIAMETER * content.height,
 					DIAMETER * (x + content.width),
-					DIAMETER * (y + content.depth)));
+					DIAMETER * (y + content.depth));
+			g2.draw(line);
 			g2.drawArc((int) (DIAMETER * x - 5),
 					(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
 					DIAMETER, 0, 360);

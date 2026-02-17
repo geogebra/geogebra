@@ -41,28 +41,45 @@
  * version.
  * 
  */
-package com.himamis.retex.renderer.share.platform.graphics;
+package com.himamis.retex.renderer.web.graphics;
 
-public interface Transform {
+import static com.himamis.retex.renderer.share.platform.graphics.BasicStroke.*;
 
-	public double getTranslateX();
+public final class StrokeUtil {
 
-	public double getTranslateY();
+	public static String getJSLineCap(int cap) {
+		return switch (cap) {
+			case CAP_BUTT -> "butt";
+			case CAP_ROUND -> "rund";
+			case CAP_SQUARE -> "square";
+			default -> "butt";
+		};
+	}
 
-	public double getScaleX();
+	public static String getJSLineJoin(int join) {
+		return switch (join) {
+			case JOIN_BEVEL -> "bevel";
+			case JOIN_MITER -> "miter";
+			case JOIN_ROUND -> "round";
+			default -> "bevel";
+		};
+	}
 
-	public double getScaleY();
+	public static int getLineJoin(String lineJoin) {
+		return switch (lineJoin) {
+			case "BEVEL" -> JOIN_BEVEL;
+			case "MITER" -> JOIN_MITER;
+			case "ROUND" -> JOIN_ROUND;
+			default -> JOIN_BEVEL;
+		};
+	}
 
-	public double getShearX();
-
-	public double getShearY();
-
-	public Transform createClone();
-
-	public void scale(double sx, double sy);
-
-	public void translate(double tx, double ty);
-
-	public void shear(double sx, double sy);
-
+	public static int getLineCap(String lineCap) {
+		return switch (lineCap) {
+			case "BUTT" -> CAP_BUTT;
+			case "ROUND" -> CAP_ROUND;
+			case "SQUARE" -> CAP_SQUARE;
+			default -> CAP_BUTT;
+		};
+	}
 }

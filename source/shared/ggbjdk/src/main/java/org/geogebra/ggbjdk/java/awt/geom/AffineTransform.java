@@ -1091,6 +1091,21 @@ public class AffineTransform implements GAffineTransform {
         }
     }
 
+    /**
+     * Identical to {@link #getMatrix(double[])} except for returning floats instead of doubles.
+     * @param flatmatrix output array for matrix
+     */
+    public void getMatrix(float[] flatmatrix) {
+        flatmatrix[0] = (float) m00;
+        flatmatrix[1] = (float) m10;
+        flatmatrix[2] = (float) m01;
+        flatmatrix[3] = (float) m11;
+        if (flatmatrix.length > 5) {
+            flatmatrix[4] = (float) m02;
+            flatmatrix[5] = (float) m12;
+        }
+    }
+
     @Override
 	public double getScaleX() {
         return m00;
@@ -1309,32 +1324,7 @@ public class AffineTransform implements GAffineTransform {
         }
     }
 
-    /**
-     * Concatenates this transform with a transform that rotates
-     * coordinates around an anchor point.
-     * This operation is equivalent to translating the coordinates so
-     * that the anchor point is at the origin (S1), then rotating them
-     * about the new origin (S2), and finally translating so that the
-     * intermediate origin is restored to the coordinates of the original
-     * anchor point (S3).
-     * <p>
-     * This operation is equivalent to the following sequence of calls:
-     * <pre>
-     *     translate(anchorx, anchory);      // S3: final translation
-     *     rotate(theta);                    // S2: rotate around anchor
-     *     translate(-anchorx, -anchory);    // S1: translate anchor to origin
-     * </pre>
-     * Rotating by a positive angle theta rotates points on the positive
-     * X axis toward the positive Y axis.
-     * Note also the discussion of
-     * <a href="#quadrantapproximation">Handling 90-Degree Rotations</a>
-     * above.
-     *
-     * @param theta the angle of rotation measured in radians
-     * @param anchorx the X coordinate of the rotation anchor point
-     * @param anchory the Y coordinate of the rotation anchor point
-     * @since 1.2
-     */
+    @Override
     public void rotate(double theta, double anchorx, double anchory) {
         // REMIND: Simple for now - optimize later
         translate(anchorx, anchory);
@@ -3340,7 +3330,7 @@ public class AffineTransform implements GAffineTransform {
      * <code>AffineTransform</code> object.
      * @since 1.2
      */
-    public Object duplicate() {
+    public AffineTransform duplicate() {
         return new AffineTransform(this);
     }
 

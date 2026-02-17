@@ -37,7 +37,6 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.ScaledIcon;
 
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
-import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.cache.JLaTeXMathCache;
@@ -95,8 +94,8 @@ public class DrawEquationD extends DrawEquation {
 			Runnable callback) {
 		Graphics2DInterface g = new Graphics2DD(GGraphics2DD.getAwtGraphics(g2));
 		GDimension d = drawEquation(app, geo, g, x, y, text, font, serif,
-				ColorD.get(GColorD.getAwtColor(fgColor)),
-				ColorD.get(GColorD.getAwtColor(bgColor)), useCache, null, null);
+				fgColor,
+				bgColor, useCache, null, null);
 		if (callback != null) {
 			callback.run();
 		}
@@ -137,8 +136,8 @@ public class DrawEquationD extends DrawEquation {
 
 		GDimension d = drawEquation(app, null, new Graphics2DD(g2image), 0, 0,
 				latex,
-				new GFontD(font), serif, ColorD.get(fgColor),
-				ColorD.get(bgColor), true, null, null);
+				new GFontD(font), serif, toAwtColor(fgColor),
+				toAwtColor(bgColor), true, null, null);
 
 		// Now use this size and draw again to get the final image
 		image = new BufferedImage((int) (d.getWidth() * getPixelRatio()),
@@ -151,11 +150,22 @@ public class DrawEquationD extends DrawEquation {
 		GGraphics2DD.setAntialiasing(g2image);
 
 		drawEquation(app, null, new Graphics2DD(g2image), 0, 0, latex,
-				new GFontD(font), serif, ColorD.get(fgColor),
-				ColorD.get(bgColor), true, null, null);
+				new GFontD(font), serif, toAwtColor(fgColor),
+				toAwtColor(bgColor), true, null, null);
 
 		latexIcon.setImage(image);
 		latexIcon.setRatio(getPixelRatio());
+	}
+
+	/**
+	 * @param fgColor JDK color
+	 * @return canvas color
+	 */
+	public static GColor toAwtColor(Color fgColor) {
+		if (fgColor == null) {
+			return null;
+		}
+		return GColor.newColorRGB(fgColor.getRGB()).deriveWithAlpha(fgColor.getAlpha());
 	}
 
 	@Override
@@ -167,14 +177,8 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	@Override
-	public com.himamis.retex.renderer.share.platform.graphics.Color convertColor(
-			GColor color) {
-		return ColorD.get(GColorD.getAwtColor(color));
-	}
-
-	@Override
 	public Image getCachedDimensions(String text, GeoElementND geo,
-			com.himamis.retex.renderer.share.platform.graphics.Color fgColor,
+			GColor fgColor,
 			GFont font, int style, int[] ret) {
 		Object key;
 		// if geoText != null then keep track of which key goes with the

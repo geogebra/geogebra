@@ -50,9 +50,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
  * This class implements a parser for LaTeX formulas.
@@ -1304,13 +1305,13 @@ public class TeXParser {
 				"Not a " + (isLength ? "length" : "command") + "name");
 	}
 
-	public Color getColor(final char stop) {
+	public GColor getColor(final char stop) {
 		skipPureWhites();
 		if (pos < len) {
 			char c = parseString.charAt(pos);
 			if (c == stop) {
 				++pos;
-				return Colors.BLACK;
+				return GColor.BLACK;
 			}
 			prevpos = pos;
 			if (c == '#') {
@@ -1434,7 +1435,7 @@ public class TeXParser {
 			if (c == 'r') {
 				// maybe rgb(...) or rgba(...)
 				final int spos = pos;
-				final Color color = getRGB(stop);
+				final GColor color = getRGB(stop);
 				if (color != null) {
 					cancelPrevPos();
 					return color;
@@ -1443,7 +1444,7 @@ public class TeXParser {
 			} else if (c == 'h') {
 				// maybe hsl(...) or hsla(...)
 				final int spos = pos;
-				final Color color = getHSL(stop);
+				final GColor color = getHSL(stop);
 				if (color != null) {
 					cancelPrevPos();
 					return color;
@@ -1454,10 +1455,10 @@ public class TeXParser {
 			// We don't have a number or a dot
 			// So we probably have a color name
 			final String name = getString(stop).trim();
-			final Color color = Colors.getFromName(name);
+			final GColor color = Colors.getFromName(name);
 			if (color == null) {
 				try {
-					final Color ret = Colors.decode("#" + name);
+					final GColor ret = Colors.decode("#" + name);
 					cancelPrevPos();
 					return ret;
 				} catch (NumberFormatException e) {
@@ -1470,7 +1471,7 @@ public class TeXParser {
 		throw new ParseException(this, "Invalid color: " + parseString);
 	}
 
-	private Color getHexColor(final char stop) {
+	private GColor getHexColor(final char stop) {
 		skipPureWhites();
 		if (pos < len) {
 			char c = parseString.charAt(pos);
@@ -1603,7 +1604,7 @@ public class TeXParser {
 		return arr;
 	}
 
-	private Color getRGB(final char stop) {
+	private GColor getRGB(final char stop) {
 		// gb(0,0,0).length = 9
 		if (pos + 9 < len) {
 			if (parseString.charAt(pos + 1) == 'g'
@@ -1655,7 +1656,7 @@ public class TeXParser {
 		return null;
 	}
 
-	private Color getHSL(final char stop) {
+	private GColor getHSL(final char stop) {
 		// sl(0,0,0).length = 9
 		if (pos + 9 < len) {
 			if (parseString.charAt(pos + 1) == 's'
@@ -1688,7 +1689,7 @@ public class TeXParser {
 		return null;
 	}
 
-	public Color getArgAsColor() {
+	public GColor getArgAsColor() {
 		skipPureWhites();
 		if (pos < len) {
 			final char c = parseString.charAt(pos);

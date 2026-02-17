@@ -46,10 +46,8 @@ package com.himamis.retex.renderer.web;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.FontFactory;
-import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.web.font.FontFactoryGWT;
-import com.himamis.retex.renderer.web.geom.GeomFactoryGWT;
 import com.himamis.retex.renderer.web.graphics.GraphicsFactoryGWT;
 
 import elemental2.dom.DomGlobal;
@@ -68,11 +66,6 @@ public final class FactoryProviderGWT extends FactoryProvider {
 		if (FactoryProvider.getInstance() == null) {
 			setInstance(new FactoryProviderGWT());
 		}
-	}
-
-	@Override
-	protected GeomFactory createGeomFactory() {
-		return new GeomFactoryGWT();
 	}
 
 	@Override

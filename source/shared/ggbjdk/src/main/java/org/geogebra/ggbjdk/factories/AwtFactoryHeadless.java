@@ -28,6 +28,7 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GRoundRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
@@ -41,6 +42,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
+import org.geogebra.ggbjdk.java.awt.geom.RoundRectangle2D;
 
 /**
  * Class used for testing.
@@ -85,6 +87,11 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 	@Override
 	public GRectangle newRectangle(GRectangle bb) {
 		return new Rectangle(bb);
+	}
+
+	@Override
+	public GRoundRectangle2D newRoundRectangle2D() {
+		return new RoundRectangle2D.Double();
 	}
 
 	@Override

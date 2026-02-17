@@ -1,5 +1,8 @@
 package com.himamis.retex.renderer.share.xarrows;
 
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GGeneralPath;
+
 import com.himamis.retex.renderer.share.Box;
 import com.himamis.retex.renderer.share.FontInfo;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
@@ -18,32 +21,31 @@ public abstract class XArrowBox extends Box {
 			String commands, double[] data) {
 		startDraw(g2, x, y);
 		g2.translate(x, y);
-
-		g2.startDrawing();
+		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
 		int j = 0;
 		for (char c : commands.toCharArray()) {
 			switch (c) {
 			case 'M':
-				g2.moveTo(data[j], data[j + 1]);
+				gp.moveTo(data[j], data[j + 1]);
 				j += 2;
 				break;
 			case 'L':
-				g2.lineTo(data[j], data[j + 1]);
+				gp.lineTo(data[j], data[j + 1]);
 				j += 2;
 				break;
 			case 'Q':
-				g2.quadraticCurveTo(data[j + 2], data[j + 3], data[j],
+				gp.quadTo(data[j + 2], data[j + 3], data[j],
 						data[j + 1]);
 				j += 4;
 				break;
 			case 'C':
-				g2.bezierCurveTo(data[j], data[j + 1], data[j + 2], data[j + 3],
+				gp.curveTo(data[j], data[j + 1], data[j + 2], data[j + 3],
 						data[j + 4], data[j + 5]);
 				j += 6;
 				break;
 			}
 		}
-		g2.finishDrawing();
+		g2.fill(gp);
 
 		g2.translate(-x, -y);
 		endDraw(g2);

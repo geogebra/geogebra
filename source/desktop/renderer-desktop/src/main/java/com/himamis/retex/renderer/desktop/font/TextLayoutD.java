@@ -43,10 +43,11 @@
  */
 package com.himamis.retex.renderer.desktop.font;
 
-import com.himamis.retex.renderer.desktop.geom.Rectangle2DD;
+import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.desktop.awt.GGenericRectangle2DD;
+
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
 import com.himamis.retex.renderer.share.platform.font.TextLayout;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 public class TextLayoutD implements TextLayout {
@@ -59,8 +60,8 @@ public class TextLayoutD implements TextLayout {
 	}
 
 	@Override
-	public Rectangle2D getBounds() {
-		return new Rectangle2DD(layout.getBounds());
+	public GRectangle2D getBounds() {
+		return new GGenericRectangle2DD(layout.getBounds());
 	}
 
 	@Override

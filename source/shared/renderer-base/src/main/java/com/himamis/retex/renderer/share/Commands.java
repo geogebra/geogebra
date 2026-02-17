@@ -49,6 +49,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.commands.Command;
 import com.himamis.retex.renderer.share.commands.Command0A;
 import com.himamis.retex.renderer.share.commands.Command0AImpl;
@@ -277,7 +279,6 @@ import com.himamis.retex.renderer.share.commands.CommandXRightSmallLeftHarpoons;
 import com.himamis.retex.renderer.share.commands.CommandXSmallRightLeftHarpoons;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.font.Font;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class Commands {
 
@@ -1989,7 +1990,7 @@ public class Commands {
 						throw new ParseException(tp,
 								"The macro \\cellcolor is only available in array mode !");
 					}
-					final Color c = CommandDefinecolor.getColor(tp);
+					final GColor c = CommandDefinecolor.getColor(tp);
 					return new EnvArray.CellColor(c);
 				}
 			};
@@ -2001,7 +2002,7 @@ public class Commands {
 						throw new ParseException(tp,
 								"The macro \\rowcolor is only available in array mode !");
 					}
-					final Color c = CommandDefinecolor.getColor(tp);
+					final GColor c = CommandDefinecolor.getColor(tp);
 					return new EnvArray.RowColor(c);
 				}
 			};

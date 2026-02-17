@@ -202,4 +202,16 @@ public class GAffineTransformD implements GAffineTransform {
 		at.setToRotation(theta, x, y);
 	}
 
+	@Override
+	public GAffineTransform duplicate() {
+		GAffineTransformD copy = new GAffineTransformD(new AffineTransform());
+		copy.setTransform(this);
+		return copy;
+	}
+
+	@Override
+	public void rotate(double theta, double x, double y) {
+		at.rotate(theta, x, y);
+	}
+
 }

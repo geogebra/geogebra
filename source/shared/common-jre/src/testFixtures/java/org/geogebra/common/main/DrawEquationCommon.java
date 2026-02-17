@@ -26,7 +26,6 @@ import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 public class DrawEquationCommon extends DrawEquation {
@@ -41,7 +40,7 @@ public class DrawEquationCommon extends DrawEquation {
 
 	@Override
 	public Image getCachedDimensions(String text, GeoElementND geo,
-			Color fgColor, GFont font, int style, int[] ret) {
+			GColor fgColor, GFont font, int style, int[] ret) {
 		return null;
 	}
 
@@ -51,11 +50,6 @@ public class DrawEquationCommon extends DrawEquation {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 		checkFirstCallStatic();
-	}
-
-	@Override
-	public Color convertColor(GColor color) {
-		return null;
 	}
 
 	@Override

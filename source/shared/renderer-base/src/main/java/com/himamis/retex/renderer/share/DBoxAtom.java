@@ -44,7 +44,8 @@
  */
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
@@ -52,10 +53,10 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class DBoxAtom extends Atom implements HasTrueBase {
 	protected final Atom base;
-	protected final Color bg;
-	protected final Color line;
+	protected final GColor bg;
+	protected final GColor line;
 
-	public DBoxAtom(Atom base, Color bg, Color line) {
+	public DBoxAtom(Atom base, GColor bg, GColor line) {
 		this.base = base;
 		this.bg = bg;
 		this.line = line;

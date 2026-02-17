@@ -44,24 +44,25 @@
 
 package com.himamis.retex.renderer.share.platform.graphics;
 
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GShape;
+
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
-import com.himamis.retex.renderer.share.platform.geom.Line2D;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
-import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public interface Graphics2DInterface {
 
-	void setStroke(Stroke stroke);
+	void setStroke(GBasicStroke stroke);
 
-	Stroke getStroke();
+	GBasicStroke getStroke();
 
-	void setColor(Color color);
+	void setColor(GColor color);
 
-	Color getColor();
+	GColor getColor();
 
-	Transform getTransform();
+	GAffineTransform getTransform();
 
 	void saveTransform();
 
@@ -73,26 +74,9 @@ public interface Graphics2DInterface {
 
 	void fillRect(double x, double y, double width, double height);
 
-	void fill(Shape rectangle);
+	void fill(GShape shape);
 
-	void startDrawing();
-
-	void moveTo(double x, double y);
-
-	void lineTo(double x, double y);
-
-	void quadraticCurveTo(double x, double y, double x1, double y1);
-
-	void bezierCurveTo(double x, double y, double x1, double y1, double x2,
-			double y2);
-
-	void finishDrawing();
-
-	void draw(Rectangle2D rectangle);
-
-	void draw(RoundRectangle2D rectangle);
-
-	void draw(Line2D line);
+	void draw(GShape shape);
 
 	void drawChars(char[] data, int offset, int length, int x, int y);
 
@@ -112,7 +96,7 @@ public interface Graphics2DInterface {
 
 	void drawImage(Image image, int x, int y);
 
-	void drawImage(Image image, Transform transform);
+	void drawImage(Image image, GAffineTransform transform);
 
 	FontRenderContext getFontRenderContext();
 

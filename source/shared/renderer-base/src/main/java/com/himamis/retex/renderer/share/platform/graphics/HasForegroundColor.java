@@ -43,8 +43,10 @@
  */
 package com.himamis.retex.renderer.share.platform.graphics;
 
+import org.geogebra.common.awt.GColor;
+
 public interface HasForegroundColor {
 
-	public Color getForegroundColor();
+	public GColor getForegroundColor();
 
 }

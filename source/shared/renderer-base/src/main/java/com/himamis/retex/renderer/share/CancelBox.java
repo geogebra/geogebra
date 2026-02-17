@@ -45,11 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.geom.Line2D;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GLine2D;
+
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
 /**
  * A box representing a rotated box.
@@ -60,10 +61,10 @@ public class CancelBox extends Box {
 	private final CancelAtom.Type ctype;
 	private final double thickness;
 	private final double extra;
-	private final Color color;
+	private final GColor color;
 
 	public CancelBox(final Box b, final CancelAtom.Type ctype,
-			final double thickness, final double extra, Color color) {
+			final double thickness, final double extra, GColor color) {
 		this.b = b;
 		this.ctype = ctype;
 		this.thickness = thickness;
@@ -79,20 +80,20 @@ public class CancelBox extends Box {
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		b.draw(g2, x, y);
 		startDraw(g2, x, y);
-		final Stroke oldStroke = g2.getStroke();
+		final GBasicStroke oldStroke = g2.getStroke();
 		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_MITER));
 		final double th = thickness / 2.;
 		final double hyp = Math.hypot(width, height + depth);
 		final double a = extra * width / hyp;
 		final double b = extra * height / hyp;
-		Color oldColor = null;
+		GColor oldColor = null;
 		if (color != null) {
 			oldColor = g2.getColor();
 			g2.setColor(color);
 		}
 
-		Line2D line = geom.createLine2D();
+		GLine2D line = geom.createLine2D();
 
 		switch (ctype) {
 		case SLASH:

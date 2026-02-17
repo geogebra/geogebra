@@ -43,12 +43,13 @@
  */
 package com.himamis.retex.renderer.web.font;
 
+import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
+
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.font.TextLayout;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.web.geom.Rectangle2DW;
 import com.himamis.retex.renderer.web.graphics.FontRenderContextW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
@@ -66,13 +67,13 @@ public class TextLayoutW implements TextLayout {
 	}
 
 	@Override
-	public Rectangle2D getBounds() {
+	public GRectangle2D getBounds() {
 		// improve this part with opentype.js
 		double width = fontRenderContext.measureTextWith(string, font);
 		double height = font.getSize();
 		// y=-height is not exact, but for most characters is y in the range
 		// (-0.72*height,-1*height), so let's try
-		return new Rectangle2DW(0, -height, width, height);
+		return new Rectangle2D.Double(0, -height, width, height);
 	}
 
 	@Override

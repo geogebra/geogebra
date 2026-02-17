@@ -1,19 +1,20 @@
 package com.himamis.retex.renderer.share.commands;
 
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.TeXParser;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class CommandTextColor extends Command1A {
 
-	Color fg;
+	GColor fg;
 
 	public CommandTextColor() {
 		//
 	}
 
-	public CommandTextColor(Color fg) {
+	public CommandTextColor(GColor fg) {
 		this.fg = fg;
 	}
 

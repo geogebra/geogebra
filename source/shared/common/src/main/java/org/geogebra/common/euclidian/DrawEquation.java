@@ -35,7 +35,6 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
@@ -131,7 +130,7 @@ public abstract class DrawEquation implements DrawEquationI {
 	final public GDimension drawEquation(final App app, final GeoElementND geo,
 			final Graphics2DInterface g2, final int x, final int y,
 			final String text, final GFont font, final boolean serif,
-			final Color fgColor, final Color bgColor,
+			final GColor fgColor, final GColor bgColor,
 			boolean useCache, final Integer maxWidth,
 			final Double lineSpace) {
 		// TODO uncomment when \- works
@@ -151,7 +150,7 @@ public abstract class DrawEquation implements DrawEquationI {
 			HasForegroundColor fg = new HasForegroundColor() {
 
 				@Override
-				public Color getForegroundColor() {
+				public GColor getForegroundColor() {
 					return fgColor;
 				}
 
@@ -182,8 +181,8 @@ public abstract class DrawEquation implements DrawEquationI {
 				final TeXFormula formula = TeXFormula
 						.getPartialTeXFormula(text);
 				im = TeXFormula.asImage(formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style), convertColor(GColor.BLACK),
-						convertColor(GColor.WHITE), getPixelRatio());
+						font.getSize() + 3, style), GColor.BLACK,
+						GColor.WHITE, getPixelRatio());
 
 				// toJavaString() to help diagnose non-printable characters
 				Log.warn("latex syntax error\n" + text + "\n"
@@ -194,8 +193,8 @@ public abstract class DrawEquation implements DrawEquationI {
 				final TeXFormula formula = TeXFormula
 						.getPartialTeXFormula("\\textcolor{red}{?}");
 				im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, convertColor(GColor.BLACK),
-						convertColor(GColor.WHITE));
+						font.getSize() + 3, GColor.BLACK,
+						GColor.WHITE);
 
 				// toJavaString() to help diagnose non-printable characters
 				Log.error(
@@ -237,7 +236,7 @@ public abstract class DrawEquation implements DrawEquationI {
 	 *            space between lines
 	 * @return rendered LaTeX
 	 */
-	public TeXIcon createIcon(String text, Color fgColor, GFont font, int style,
+	public TeXIcon createIcon(String text, GColor fgColor, GFont font, int style,
 			Integer maxWidth, Double lineSpace) {
 		return createIcon(text, fgColor, font.getSize() + 3, style);
 	}
@@ -249,7 +248,7 @@ public abstract class DrawEquation implements DrawEquationI {
 	 * @param style latex font style
 	 * @return icon
 	 */
-	public TeXIcon createIcon(String text, Color fgColor, int fontSize, int style) {
+	public TeXIcon createIcon(String text, GColor fgColor, int fontSize, int style) {
 		checkFirstCall();
 		TeXFormula formula;
 		TeXIcon icon;
@@ -338,7 +337,7 @@ public abstract class DrawEquation implements DrawEquationI {
 
 			// if (maxWidth == null) {
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, convertColor(fgColor));
+					font.getSize() + 3, style, fgColor);
 			// } else {
 			// icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 			// font.getSize() + 3, TeXLength.Unit.CM,
@@ -350,7 +349,7 @@ public abstract class DrawEquation implements DrawEquationI {
 
 			formula = TeXFormula.getPartialTeXFormula(text);
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, convertColor(fgColor));
+					font.getSize() + 3, style, fgColor);
 
 			// formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
 			// TeXLength.Unit.CM, 4f, TeXConstants.Align.LEFT,
@@ -363,7 +362,7 @@ public abstract class DrawEquation implements DrawEquationI {
 
 			formula = TeXFormula.getPartialTeXFormula(text);
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, convertColor(fgColor));
+					font.getSize() + 3, style, fgColor);
 
 		}
 		icon.setInsets(new Insets(1, 1, 1, 1));

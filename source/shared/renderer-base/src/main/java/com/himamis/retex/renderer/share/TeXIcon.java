@@ -48,12 +48,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.RenderingHints;
 
 import com.himamis.retex.renderer.share.TeXConstants.Align;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Icon;
@@ -70,7 +70,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
  */
 public class TeXIcon implements Icon {
 
-	private static final Color defaultColor = Colors.BLACK;
+	private static final GColor defaultColor = GColor.BLACK;
 
 	public static double defaultSize = -1;
 	public static double magFactor = 0;
@@ -81,12 +81,12 @@ public class TeXIcon implements Icon {
 
 	private Insets insets = new Insets(0, 0, 0, 0);
 
-	private Color fg = null;
+	private GColor fg = null;
 
 	public boolean isColored = false;
 
-	public Rectangle2D cursorPosition;
-	public Rectangle2D selectionPosition;
+	public GRectangle2D cursorPosition;
+	public GRectangle2D selectionPosition;
 
 	/**
 	 * Creates a new icon that will paint the given formula box in the given
@@ -123,7 +123,7 @@ public class TeXIcon implements Icon {
 		}
 	}
 
-	public void setForeground(Color fg) {
+	public void setForeground(GColor fg) {
 		this.fg = fg;
 	}
 
@@ -272,7 +272,7 @@ public class TeXIcon implements Icon {
 		// TODO implement getRenderingHints
 		// RenderingHints oldHints = g2.getRenderingHints();
 		g2.saveTransform();
-		Color oldColor = g2.getColor();
+		GColor oldColor = g2.getColor();
 
 		// new settings
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,

@@ -136,9 +136,7 @@ public class DrawBarGraph extends Drawable {
 						int k = i + 1;
 						if (chartStyle.getBarColor(k) != null) {
 							GColor col = chartStyle.getBarColor(k);
-							g2.setPaint(GColor.newColor(col.getRed(),
-									col.getGreen(), col.getBlue(),
-									col.getAlpha()));
+							g2.setPaint(col);
 						} else {
 							g2.setPaint(selColor);
 						}

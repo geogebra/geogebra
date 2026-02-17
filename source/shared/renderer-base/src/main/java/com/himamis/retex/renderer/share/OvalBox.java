@@ -45,23 +45,24 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GRoundRectangle2D;
+
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
 /**
  * A box representing a rotated box.
  */
 public class OvalBox extends FramedBox {
 
-	private RoundRectangle2D roundRectangle = geom.createRoundRectangle2D(0, 0,
-			0, 0, 0, 0);
+	private GRoundRectangle2D roundRectangle = AwtFactory.getPrototype().newRoundRectangle2D();
 
 	final double cornersize;
 
-	public OvalBox(Box bbase, double drt, double space, Color line, Color bg,
+	public OvalBox(Box bbase, double drt, double space, GColor line, GColor bg,
 			double cornersize, double minHeight) {
 		super(bbase, drt, space, line, bg);
 		this.height = Math.max(height, minHeight);
@@ -71,13 +72,13 @@ public class OvalBox extends FramedBox {
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 
-		Stroke st = g2.getStroke();
+		GBasicStroke st = g2.getStroke();
 		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_MITER));
 		double th = thickness / 2;
 		double r = cornersize * Math.min(width - 2 * thickness,
 				height + depth - 2 * thickness);
-		roundRectangle.setRoundRectangle(x + th, y - height + th,
+		roundRectangle.setRoundRect(x + th, y - height + th,
 				width - thickness, height + depth - thickness, r, r);
 		fillAndDraw(g2);
 

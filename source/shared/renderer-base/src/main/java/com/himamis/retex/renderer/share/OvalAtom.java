@@ -45,7 +45,8 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 
 /**
  * An atom representing a boxed base atom.
@@ -56,13 +57,13 @@ public class OvalAtom extends FBoxAtom {
 		super(base);
 	}
 
-	public OvalAtom(Atom base, Color bg, Color line) {
+	public OvalAtom(Atom base, GColor bg, GColor line) {
 		super(base, bg, line);
 	}
 
 	@Override
 	protected FramedBox newFramedBox(Box bbase, double drt, double space,
-			Color line, TeXEnvironment env) {
+			GColor line, TeXEnvironment env) {
 		final double cs = env.lengthSettings().getFactor("cornersize");
 		return new OvalBox(bbase, drt, space, line, bg, cs, -1);
 	}

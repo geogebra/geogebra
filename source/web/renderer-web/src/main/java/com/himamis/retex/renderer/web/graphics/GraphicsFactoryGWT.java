@@ -47,13 +47,10 @@ package com.himamis.retex.renderer.web.graphics;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
+
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.Stroke;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
-import com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
@@ -66,14 +63,8 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 	private Map<String, HTMLImageElement> cache;
 
 	@Override
-	public BasicStroke createBasicStroke(double width, int cap, int join,
-			double miterLimit) {
-		return new BasicStrokeW(width, cap, join, miterLimit);
-	}
-
-	@Override
-	public Color createColor(int red, int green, int blue, int alpha) {
-		return new ColorW(red, green, blue, alpha);
+	public GColor createColor(int red, int green, int blue, int alpha) {
+		return GColor.newColor(red, green, blue).deriveWithAlpha(alpha);
 	}
 
 	@Override
@@ -99,16 +90,6 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 		HTMLImageElement el = (HTMLImageElement) DomGlobal.document.createElement("img");
 		el.src = url;
 		return el;
-	}
-
-	@Override
-	public Transform createTransform() {
-		return new AffineTransform();
-	}
-
-	@Override
-	public Stroke createBasicStroke(double width, double[] dashes) {
-		return new BasicStrokeW(width, dashes);
 	}
 
 }

@@ -46,7 +46,7 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
+import org.geogebra.common.awt.GColor;
 
 /**
  * An atom representing the foreground and background color of an other atom.
@@ -54,10 +54,10 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 public class ColorAtom extends Atom implements Row {
 
 	// background color
-	private final Color background;
+	private final GColor background;
 
 	// foreground color
-	private final Color color;
+	private final GColor color;
 
 	// RowAtom for which the colorsettings apply
 	protected final RowAtom elements;
@@ -73,7 +73,7 @@ public class ColorAtom extends Atom implements Row {
 	 * @param c
 	 *            the foreground color
 	 */
-	public ColorAtom(Atom atom, Color bg, Color c) {
+	public ColorAtom(Atom atom, GColor bg, GColor c) {
 		elements = new RowAtom(atom);
 		background = bg;
 		color = c;
@@ -107,19 +107,19 @@ public class ColorAtom extends Atom implements Row {
 		elements.setPreviousAtom(prev);
 	}
 
-	protected Color getColor() {
+	protected GColor getColor() {
 		return color;
 	}
 
-	protected Color getBackground() {
+	protected GColor getBackground() {
 		return background;
 	}
 
-	protected Color getFg() {
+	protected GColor getFg() {
 		return color;
 	}
 
-	protected Color getBg() {
+	protected GColor getBg() {
 		return background;
 	}
 
