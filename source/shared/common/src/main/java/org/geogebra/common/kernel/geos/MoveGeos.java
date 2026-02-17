@@ -108,12 +108,14 @@ public class MoveGeos {
 				false);
 
 		//geoLists do not trigger the update of the cascade in the function call above
-		for (GeoElement geo : geosToMove) {
-			if (geo.isGeoList()) {
-				if (geo.isIndependent()) {
-					geo.resetDefinition();
-				} else {
-					((GeoList) geo).resetDefinitionDependentList();
+		if (moved) {
+			for (GeoElement geo : geosToMove) {
+				if (geo.isGeoList()) {
+					if (geo.isIndependent()) {
+						geo.resetDefinition();
+					} else {
+						((GeoList) geo).resetDefinitionDependentList();
+					}
 				}
 			}
 		}
