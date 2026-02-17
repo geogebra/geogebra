@@ -488,9 +488,10 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * Add a number to path parameter.
-	 * @param d parameter change
+	 * @param increment parameter change
+	 * @return whether point moved
 	 */
-	public void addToPathParameter(double d);
+	boolean addToPathParameter(double increment);
 
 	/**
 	 * Sets the path parameter t of the point and updates it.

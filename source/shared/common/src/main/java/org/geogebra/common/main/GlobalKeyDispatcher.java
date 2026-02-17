@@ -1505,18 +1505,20 @@ public abstract class GlobalKeyDispatcher {
 
 			// exactly 2 or 3 sliders selected
 			boolean multipleSliders = hasMultipleSlidersSelected(geos);
-
+			boolean changed = false;
 			for (int i = geos.size() - 1; i >= 0; i--) {
 				GeoElement geo = geos.get(i);
-				moveSliderPointOrRandomGeo(geo, changeVal, !multipleSliders || index == i);
+				changed = moveSliderPointOrRandomGeo(geo, changeVal, !multipleSliders || index == i)
+						|| changed;
 			}
 
 			// update all geos together
-			GeoElement.updateCascade(geos, getTempSet(), true);
-			readMovedPoints(geos);
-			app.getKernel().notifyRepaint();
-
-			return true;
+			if (changed) {
+				GeoElement.updateCascade(geos, getTempSet(), true);
+				readMovedPoints(geos);
+				app.getKernel().notifyRepaint();
+			}
+			return changed;
 		}
 
 		return false;
@@ -1556,26 +1558,25 @@ public abstract class GlobalKeyDispatcher {
 		}
 	}
 
-	private void moveSliderPointOrRandomGeo(GeoElement geo,
+	private boolean moveSliderPointOrRandomGeo(GeoElement geo,
 			double changeVal, boolean activeSlider) {
+		boolean changed = false;
 		if (geo.isPointerChangeable()) {
 
 			// update number
 			if (activeSlider && canChangeValueUsingKeys(geo)) {
-				changeSliderValue((GeoNumeric) geo, changeVal);
-				hasUnsavedGeoChanges = true;
+				changed = changeSliderValue((GeoNumeric) geo, changeVal);
 			}
 
-			// update point on path
-			else if (geo instanceof GeoPointND) {
-				GeoPointND p = (GeoPointND) geo;
+			// update +- for point on path
+			else if (geo instanceof GeoPointND p) {
 				if (p.isPointOnPath()) {
 					if (p.getPath() instanceof GeoList) {
 						loopPointOnPath(changeVal, p);
+						changed = true;
 					} else {
-						p.addToPathParameter(changeVal * p.getAnimationStep());
+						changed = p.addToPathParameter(changeVal * p.getAnimationStep());
 					}
-					hasUnsavedGeoChanges = true;
 				}
 			}
 		}
@@ -1588,16 +1589,18 @@ public abstract class GlobalKeyDispatcher {
 					&& (geo.isRandomGeo() || parentAlgorithm instanceof SetRandomValue)) {
 				parentAlgorithm.updateUnlabeledRandomGeos();
 				geo.updateRandomGeo();
-				hasUnsavedGeoChanges = true;
+				changed = true;
 			}
 
 			// update parent algorithm for unlabeled random numbers
 			// and all other algorithms
 			else if (parentAlgorithm.updateUnlabeledRandomGeos()) {
 				parentAlgorithm.compute();
-				hasUnsavedGeoChanges = true;
+				changed = true;
 			}
 		}
+		hasUnsavedGeoChanges |= changed;
+		return changed;
 	}
 
 	private static void loopPointOnPath(double changeVal, GeoPointND p) {
@@ -1726,11 +1729,14 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
-	private void changeSliderValue(GeoNumeric num, double changeVal) {
+	private boolean changeSliderValue(GeoNumeric num, double changeVal) {
 		double numStep = getAnimationStep(num);
 		double newValue = num.getValue()
 				+ changeVal * numStep;
-
+		if ((num.getValue() == num.getIntervalMax() && changeVal > 0)
+				|| (num.getValue() == num.getIntervalMin() && changeVal < 0)) {
+			return false;
+		}
 		// HOME / END keys
 		if (Double.isInfinite(changeVal)) {
 			newValue = changeVal > 0 ? num.getIntervalMax()
@@ -1750,13 +1756,13 @@ public abstract class GlobalKeyDispatcher {
 						1 / numStep);
 			}
 		}
-
 		// stop all animation if slider dragged
 		if (num.isAnimating()) {
 			num.getKernel().getAnimationManager().stopAnimation();
 		}
 
 		num.setValue(newValue);
+		return true;
 	}
 
 	private double[] getIncrement(List<? extends GeoElementND> geos) {

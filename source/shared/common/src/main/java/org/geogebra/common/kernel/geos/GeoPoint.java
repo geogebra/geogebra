@@ -746,17 +746,21 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	/**
 	 * Increments path parameter
 	 *
-	 * @param a
+	 * @param increment
 	 *            increment
 	 */
 	@Override
-	public void addToPathParameter(double a) {
+	public boolean addToPathParameter(double increment) {
 		PathParameter parameter = getPathParameter();
-		parameter.t += a;
+		if (path.cannotAdd(pathParameter, increment)) {
+			return false;
+		}
+		parameter.t += increment;
 
 		// update point relative to path
 		path.pathChanged(this);
 		updateCoords();
+		return true;
 	}
 
 	@Override
@@ -2476,10 +2480,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
 				y1 = DoubleUtil.checkDecimalFraction(y1);
 			}
-
+			double oldX = x;
+			double oldY = y;
+			double oldZ = z;
 			// set translated point coords
 			point.setCoords(x1, y1, 1);
-			movedGeo = true;
+			movedGeo = x != oldX || y != oldY || oldZ != 1.0;
 		}
 
 		return movedGeo;

@@ -16,12 +16,14 @@
  
 package org.geogebra.common.main;
 
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -30,7 +32,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -40,24 +41,29 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.editor.share.util.KeyCodes;
+import org.geogebra.test.BaseAppTestSetup;
 import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.annotation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-public class GlobalKeyDispatcherTest extends BaseUnitTest {
+public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 
 	private GlobalKeyDispatcherHeadless dispatcher;
 
-	@Before
-	public void setupDispatcher() {
+	@BeforeEach
+	public void setup() {
+		setupClassicApp();
 		this.dispatcher = new GlobalKeyDispatcherHeadless(getApp());
 	}
 
 	@Test
 	public void moveWithArrowPoints() {
-		GeoElement pt = add("(1,1)");
-		GeoElement list = add("{(1,1)}");
+		GeoElement pt = evaluateGeoElement("(1,1)");
+		GeoElement list = evaluateGeoElement("{(1,1)}");
 		selectGeo(pt);
 		handleKey(KeyCodes.UP, Arrays.asList(pt, list));
 		assertThat(pt, hasValue("(1, 1.1)"));
@@ -72,13 +78,38 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		getApp().getSelectionManager().addSelectedGeo(pt);
 	}
 
+	@ParameterizedTest
+	@CsvSource(value = {"num=Slider(0,5,1);5;10", "pt=Point(Segment((0,0),(0.5,0)));5;15"},
+			delimiter = ';')
+	public void moveWithArrowNumber(String definition, int arrowSteps, int totalSteps) {
+		List<GeoElement> geos = List.of(evaluateGeoElement(definition));
+		EventAccumulator listener = new EventAccumulator();
+		getApp().getEventDispatcher().addEventListener(listener);
+		for (int count = 0; count < 8; count++) {
+			handleKey(KeyCodes.LEFT, geos);
+		}
+		assertEquals(0, listener.getEvents().size());
+		for (int count = 0; count < 8; count++) {
+			handleKey(KeyCodes.RIGHT, geos);
+		}
+		assertEquals(arrowSteps, listener.getEvents().size());
+		for (int count = 0; count < 8; count++) {
+			handleKey(KeyCodes.PLUS, geos);
+		}
+		assertEquals(5, listener.getEvents().size());
+		for (int count = 0; count < 13; count++) {
+			handleKey(KeyCodes.MINUS, geos);
+		}
+		assertEquals(totalSteps, listener.getEvents().size());
+	}
+
 	@Test
 	public void moveWithArrowRandom() {
 		getApp().setRandomSeed(42);
-		List<GeoElement> geos = Arrays.asList(add("num=random()"),
-			add("pt=(random(),random())"),
-			add("norm=RandomNormal(0,1)"),
-			add("list=Shuffle(1..50)"));
+		List<GeoElement> geos = Arrays.asList(evaluateGeoElement("num=random()"),
+				evaluateGeoElement("pt=(random(),random())"),
+				evaluateGeoElement("norm=RandomNormal(0,1)"),
+				evaluateGeoElement("list=Shuffle(1..50)"));
 		List<String> oldVals = geos.stream()
 				.map(g -> g.toValueString(StringTemplate.defaultTemplate))
 				.collect(Collectors.toList());
@@ -103,7 +134,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 
 	@Test
 	public void handleSpaceOnIndependentBoolean() {
-		GeoBoolean geoBoolean = add("a = true");
+		GeoBoolean geoBoolean = evaluateGeoElement("a = true");
 		geoBoolean.setEuclidianVisible(true);
 		assertThat(geoBoolean.getBoolean(), is(true));
 		selectGeo(geoBoolean);
@@ -113,7 +144,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 
 	@Test
 	public void handleSpaceOnSlider() {
-		GeoNumeric slider = add("a = Slider(-5,5,1)");
+		GeoNumeric slider = evaluateGeoElement("a = Slider(-5,5,1)");
 		selectGeo(slider);
 		handleSpace();
 		assertThat(slider.isAnimating(), is(true));
@@ -130,8 +161,8 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 
 	@Test
 	public void handleSpaceOnDependentBoolean() {
-		add("a = 42");
-		GeoBoolean dependent = add("b = a > 100");
+		evaluateGeoElement("a = 42");
+		GeoBoolean dependent = evaluateGeoElement("b = a > 100");
 		selectGeo(dependent);
 		handleSpace();
 		assertThat(dependent.getBoolean(), is(false));
@@ -139,8 +170,8 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 
 	@Test
 	public void handleSpaceOnHidingButton() {
-		GeoButton button = add("btn=Button()");
-		GeoNumeric counter = add("counter=1");
+		GeoButton button = evaluateGeoElement("btn=Button()");
+		GeoNumeric counter = evaluateGeoElement("counter=1");
 		GgbScript script = new GgbScript(getApp(), "SetVisibleInView(btn,1,false)"
 				+ "\ncounter=counter+1");
 		button.setClickScript(script);
@@ -148,7 +179,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		handleSpace();
 		assertThat(counter.getValue(), is(2.0));
 		// button should still be selected, but do nothing (APPS-5151, APPS-4792)
-		assertThat(button, hasProperty("selected", GeoElement::isSelected, true));
+		assertTrue(button.isSelected(), "Button selected");
 		handleSpace();
 		assertThat(counter.getValue(), is(2.0));
 	}
@@ -158,7 +189,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		getApp().setUndoRedoMode(UndoRedoMode.EXTERNAL);
 		getKernel().setUndoActive(true);
 		getApp().storeUndoInfo();
-		add("a=0");
+		evaluateGeoElement("a=0");
 		getApp().storeUndoInfo();
 		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false,
 				false);
@@ -174,18 +205,18 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 	public void noSpreadsheetInstantiation() {
 		GuiManager guiManager = mock(GuiManager.class);
 		getApp().setGuiManager(guiManager);
-		GeoPoint point = add("(1,1)");
+		GeoPoint point = evaluateGeoElement("(1,1)");
 		getApp().getSelectionManager().addSelectedGeo(point);
 		dispatcher.handleSelectedGeosKeys(KeyCodes.BACKSPACE, List.of(point),
 				false, false, false, false);
-		assertEquals(0, getConstruction().getGeoSetConstructionOrder().size());
+		assertEquals(0, getKernel().getConstruction().getGeoSetConstructionOrder().size());
 		verify(guiManager, never()).getSpreadsheetView();
 	}
 
 	@Test
 	@Issue("APPS-7045")
 	public void calculationShouldNotBeChangeableUsingArrowKeysOrPlusMinusKey() {
-		GeoNumeric calculation = add("10 + 2");
+		GeoNumeric calculation = evaluateGeoElement("10 + 2");
 		handleKey(KeyCodes.RIGHT, List.of(calculation));
 		handleKey(KeyCodes.UP, List.of(calculation));
 		handleKey(KeyCodes.PLUS, List.of(calculation));
@@ -199,9 +230,9 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 	@Test
 	@Issue("APPS-7045")
 	public void calculationShouldNotBeChangeableWithMultipleElementsSelected() {
-		GeoNumeric calculation = add("3 * 4");
-		GeoNumeric numeric = add("2");
-		GeoNumeric slider = add("Slider(-5,5,1)");
+		GeoNumeric calculation = evaluateGeoElement("3 * 4");
+		GeoNumeric numeric = evaluateGeoElement("2");
+		GeoNumeric slider = evaluateGeoElement("Slider(-5,5,1)");
 		handleKey(KeyCodes.RIGHT, List.of(calculation, numeric, slider));
 		handleKey(KeyCodes.UP, List.of(calculation, numeric, slider));
 		handleKey(KeyCodes.PLUS, List.of(calculation, numeric, slider));

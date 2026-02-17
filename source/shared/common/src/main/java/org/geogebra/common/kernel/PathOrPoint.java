@@ -18,6 +18,7 @@ package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * PathOrPoint needed as well as Path so that points can be elements of compound
@@ -25,13 +26,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 
 public interface PathOrPoint extends GeoElementND {
-
-	/*
-	 * static final int PATH_LINE = 0; static final int PATH_SEGMENT = 1; static
-	 * final int PATH_ELLIPSE = 10; static final int PATH_HYPERBOLA = 11; static
-	 * final int PATH_PARABOLA = 12; static final int PATH_POINT = 13; static
-	 * final int PATH_EMPTY = 14; static final int PATH_FUNCTION = 20;
-	 */
 
 	/**
 	 * Sets coords of P and its path parameter when the coords of P have
@@ -42,7 +36,7 @@ public interface PathOrPoint extends GeoElementND {
 	 * @param PI
 	 *            point P
 	 */
-	public void pointChanged(GeoPointND PI);
+	void pointChanged(GeoPointND PI);
 
 	/**
 	 * Sets coords of P and its path parameter when this path has changed.
@@ -53,7 +47,7 @@ public interface PathOrPoint extends GeoElementND {
 	 * @param PI
 	 *            point P
 	 */
-	public void pathChanged(GeoPointND PI);
+	void pathChanged(GeoPointND PI);
 
 	/**
 	 * Returns true iff the given point lies on this path.
@@ -64,7 +58,7 @@ public interface PathOrPoint extends GeoElementND {
 	 *            precision
 	 * @return true iff the given point lies on this path.
 	 */
-	public boolean isOnPath(GeoPointND PI, double eps);
+	boolean isOnPath(GeoPointND PI, double eps);
 
 	/**
 	 * Returns the smallest possible parameter value for this path (may be
@@ -72,7 +66,7 @@ public interface PathOrPoint extends GeoElementND {
 	 * 
 	 * @return minimum parameter value for this path
 	 */
-	public double getMinParameter();
+	double getMinParameter();
 
 	/**
 	 * Returns the largest possible parameter value for this path (may be
@@ -80,7 +74,7 @@ public interface PathOrPoint extends GeoElementND {
 	 * 
 	 * @return maximum parameter value for this path
 	 */
-	public double getMaxParameter();
+	double getMaxParameter();
 
 	/**
 	 * Returns whether this path is closed (i.e. its first and last point are
@@ -88,13 +82,24 @@ public interface PathOrPoint extends GeoElementND {
 	 * 
 	 * @return true iff closed
 	 */
-	public boolean isClosedPath();
+	boolean isClosedPath();
 
 	/**
 	 * Returns a PathMover object for this path.
 	 * 
 	 * @return a PathMover object for this path.
 	 */
-	public PathMover createPathMover();
+	PathMover createPathMover();
+
+	/**
+	 * @param parameter path parameter
+	 * @param increment increment
+	 * @return whether adding increment would have no effect
+	 */
+	default boolean cannotAdd(PathParameter parameter, double increment) {
+		double threshold = increment < 0 ? getMinParameter() : getMaxParameter();
+		return (getMaxParameter() - getMinParameter() > Kernel.MIN_PRECISION)
+				&& DoubleUtil.isEqual(parameter.t, threshold);
+	}
 
 }

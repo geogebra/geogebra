@@ -547,14 +547,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public boolean movePoint(Coords rwTransVec, Coords endPosition) {
 		boolean movedGeo = false;
 
-		if (endPosition != null) {
-			// setCoords(endPosition.x, endPosition.y, 1);
-			// movedGeo = true;
-		}
-
-		// translate point
-		else {
-
+		if (endPosition == null) {
 			Coords coords;
 			Coords current = getInhomCoords();
 
@@ -563,9 +556,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			} else {
 				coords = current.addSmaller(rwTransVec);
 			}
+			Coords oldCoords = getCoords().copy();
 			setCoords(coords);
 
-			movedGeo = true;
+			movedGeo = !oldCoords.isEqual(getCoords());
 		}
 
 		return movedGeo;
@@ -2130,16 +2124,13 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return DoubleUtil.isZero(inhom.getZ());
 	}
 
-	/**
-	 * Increments path parameter
-	 * 
-	 * @param a
-	 *            increment
-	 */
 	@Override
-	public void addToPathParameter(double a) {
+	public boolean addToPathParameter(double increment) {
 		PathParameter parameter = getPathParameter();
-		parameter.t += a;
+		if (path.cannotAdd(parameter, increment)) {
+			return false;
+		}
+		parameter.t += increment;
 
 		// update point relative to path
 		path.pathChanged(this);
@@ -2147,6 +2138,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		// make sure point is still on path
 		path.pointChanged(this);
+		return true;
 	}
 
 	@Override
