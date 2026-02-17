@@ -89,7 +89,8 @@ public class ChartFilling {
 			g2.fill(fillShape);
 		} else if (chartStyle.getBarFillType(index) == FillType.IMAGE
 				&& !StringUtil.empty(chartStyle.getBarImage(index))) {
-			setTextureFromBarOrGeo(g2, geo, chartStyle.getBarImage(index), hatchingHandler);
+			setTextureFromBarOrGeo(g2, geo, chartStyle.getBarImage(index), hatchingHandler,
+					chartStyle.getBarAlpha(index));
 			g2.fill(fillShape);
 		} else if (geo.isHatchingEnabled()
 				|| (geo.getFillType() == FillType.IMAGE && geo.getFillImage() != null)) {
@@ -123,10 +124,10 @@ public class ChartFilling {
 	}
 
 	private void setTextureFromBarOrGeo(GGraphics2D g2, GeoElement geo,
-			String fn, HatchingHandler hatchingHandler) {
+			String fn, HatchingHandler hatchingHandler, double alpha) {
 		MyImage externalImageAdapter =
 				application.getExternalImageAdapter(fn, 0, 0);
 		hatchingHandler.setTexture(g2,
-				externalImageAdapter, geo, geo.getBackgroundColor(), geo.getAlphaValue());
+				externalImageAdapter, geo, geo.getBackgroundColor(), alpha);
 	}
 }
