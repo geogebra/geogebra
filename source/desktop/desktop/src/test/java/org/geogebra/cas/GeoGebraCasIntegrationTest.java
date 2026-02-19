@@ -2640,6 +2640,16 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	@Test
+	@Issue("APPS-7288")
+	public void continuedFractionFallbackTest() {
+		getApp().setLanguage(Locale.US); // reset language to clear the table
+		t("ContinuedFraction(sqrt(3))", "1+\\frac{1}{1+\\frac{1}{2+\\frac{1}"
+				+ "{1+\\frac{1}{2+\\frac{1}{1+\\frac{1}{2+\\frac{1}{1+\\frac{1}{2+\\frac{1}"
+				+ "{1+\\frac{1}{2+\\frac{1}{1+\\frac{1}{2+\\frac{1}{1+\\frac{1}{2+\\cdots}"
+				+ "}}}}}}}}}}}}}");
+	}
+
+	@Test
 	public void quadricReloadTest() {
 		t("a:=2", "2");
 		t("K:=x^2+y^2+z^2=a", "x^(2) + y^(2) + z^(2) = 2");

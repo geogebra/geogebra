@@ -174,10 +174,7 @@ public abstract class CommandDispatcher {
 	 * @return whether the given command name is supported in GeoGebra.
 	 */
 	public boolean isCommandAvailable(String cmd) {
-		if (cmdTable == null) {
-			initCmdTable();
-		}
-		return cmdTable.containsKey(cmd);
+		return Commands.stringToCommand(cmd) != null || kernel.getMacro(cmd) != null;
 	}
 
 	/**
