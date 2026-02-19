@@ -821,5 +821,42 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				margin: 4px 0;
 			}
 		}
+		.buttonIconEditor {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+
+			.materialOutlinedButton {
+				width: fit-content;
+			}
+
+			.customIconButtonPanel {
+				display: flex;
+				gap: var(--Spacing-Spacing-16, 16px);
+				align-items: center;
+				flex: 1 0 0;
+
+				.imagePreview {
+					width: 48px;
+					height: 48px;
+					border-radius: 8px;
+					border: 1px solid neutral(500);
+				}
+
+				.imageName {
+					flex: 1 0 0;
+					font-size: 16px;
+					line-height: 48px;
+					letter-spacing: 0.5px;
+					max-width: 200px;
+					text-overflow: ellipsis;
+					overflow: auto;
+				}
+
+				.iconButton {
+					margin: auto;
+				}
+			}
+		}
 	}
 }

@@ -35,6 +35,7 @@ import org.geogebra.web.full.gui.components.ComponentExpandableList;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.components.ComponentSlider;
 import org.geogebra.web.full.gui.properties.ui.panel.ActionableButtonPanel;
+import org.geogebra.web.full.gui.properties.ui.panel.ButtonIconEditorPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.DimensionRatioPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.IconButtonPanel;
 import org.geogebra.web.full.gui.properties.ui.panel.MultiSelectionIconRowPanel;
@@ -156,6 +157,9 @@ public class PropertiesPanelAdapter {
 			panel.add(getWidget(((HorizontalSplitView) propertyView).getTrailingPropertyView()));
 			return panel;
 		}
+		if (propertyView instanceof ButtonIconEditor buttonIconEditor) {
+			return new ButtonIconEditorPanel(app, buttonIconEditor);
+		}
 		if (propertyView instanceof RelatedPropertyViewCollection relatedPropertyView) {
 			FlowPanel panel = new FlowPanel();
 			if (relatedPropertyView.getTitle() != null) {
@@ -226,19 +230,6 @@ public class PropertiesPanelAdapter {
 			colorPanel.addStyleName("colorPanel");
 			return colorPanel;
 		}
-		/*if (property instanceof FilePropertyFacade) {
-			StandardButton upload = new StandardButton(loc.getMenu("ChooseFromFile"));
-			upload.addStyleName("openFileBtn");
-			upload.addFastClickHandler(event ->
-					UploadImagePanel.getUploadButton(app, (fn, data) -> {
-						String fileName = ImageManagerW.getMD5FileName(fn, data);
-
-						app.getImageManager().addExternalImage(fileName, data);
-						app.getImageManager().triggerSingleImageLoading(fileName, app.getKernel());
-						((FilePropertyListFacade) property).setValue(fileName);
-					}).click());
-			return upload;
-		}*/
 		if (propertyView instanceof TextField) {
 			ComponentInputField inputField = new ComponentInputField(app, "", "",
 					(TextField) propertyView);

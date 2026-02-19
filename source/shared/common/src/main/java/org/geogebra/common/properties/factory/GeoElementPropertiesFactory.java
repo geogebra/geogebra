@@ -16,6 +16,8 @@
 
 package org.geogebra.common.properties.factory;
 
+import static org.geogebra.common.util.Util.tryOrNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,6 +64,7 @@ import org.geogebra.common.properties.impl.objects.BackgroundImageProperty;
 import org.geogebra.common.properties.impl.objects.BoldProperty;
 import org.geogebra.common.properties.impl.objects.BorderColorProperty;
 import org.geogebra.common.properties.impl.objects.BorderThicknessProperty;
+import org.geogebra.common.properties.impl.objects.ButtonIconPropertyCollection;
 import org.geogebra.common.properties.impl.objects.CaptionProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.CellBorderProperty;
@@ -338,7 +341,15 @@ public final class GeoElementPropertiesFactory {
 						BooleanPropertyListFacade::new)));
 	}
 
-	private @Nonnull PropertiesArray createStyleProperties(
+	/**
+	 * Creates an array of apliable properties for style tab.
+	 * @param processor {@link AlgebraProcessor}
+	 * @param imageManager {@link ImageManager}
+	 * @param localization {@link Localization}
+	 * @param elements list of geos
+	 * @return array of properties in style tab
+	 */
+	public @Nonnull PropertiesArray createStyleProperties(
 			AlgebraProcessor processor, ImageManager imageManager,
 			Localization localization, List<GeoElement> elements) {
 		boolean isWhiteboard = processor.getKernel().getApplication().isWhiteboardActive();
@@ -352,6 +363,8 @@ public final class GeoElementPropertiesFactory {
 						this, processor, localization, elements)),
 				createOptionalProperty(() -> new TextStylePropertyCollection(
 						this, localization, elements)),
+				tryOrNull(() ->  new ButtonIconPropertyCollection(
+						this, localization, imageManager, elements)),
 				isWhiteboard ? null : createOptionalProperty(
 						() -> new BackgroundColorPropertyCollection(this, localization, elements)),
 				createOptionalProperty(() -> new SizePropertyCollection(

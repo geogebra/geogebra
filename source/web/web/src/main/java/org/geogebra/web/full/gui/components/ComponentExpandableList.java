@@ -71,11 +71,6 @@ public class ComponentExpandableList extends FlowPanel implements SetLabels {
 			addCheckBoxTo(header);
 		}
 
-		//if (booleanProperty instanceof SettingsDependentProperty) {
-		//((SettingsDependentProperty) booleanProperty).getSettings()
-		//.addListener(this::updateCheckbox);
-		//}
-
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("containerPanel");
 

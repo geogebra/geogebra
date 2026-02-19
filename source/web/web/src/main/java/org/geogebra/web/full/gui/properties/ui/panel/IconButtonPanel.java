@@ -143,6 +143,16 @@ public class IconButtonPanel extends FlowPanel implements SetLabels, Configurati
 		iconButtonList.forEach(button -> button.setDisabled(disabled));
 	}
 
+	/**
+	 * Deselect all buttons, but button at index, if available
+	 */
+	public void deselectAllBut(int index) {
+		iconButtonList.forEach(button -> button.setActive(false));
+		if (index > -1 && index < iconButtonList.size()) {
+			iconButtonList.get(index).setActive(true);
+		}
+	}
+
 	@Override
 	public void setLabels() {
 		if (label != null) {

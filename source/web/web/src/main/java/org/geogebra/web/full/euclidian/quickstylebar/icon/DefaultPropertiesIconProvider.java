@@ -32,6 +32,7 @@ import org.geogebra.common.properties.impl.objects.TextColorProperty;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.resources.SVGResource;
@@ -159,6 +160,31 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_FILLING_IMAGE -> res.export_image_black(); // TODO
 			case ICON_FILLING_BRICK, ICON_FILLING_SYMBOL, ICON_FILLING_WEAVING,
 				 ICON_FILLING_CHESSBOARD -> res.pattern_hatching();
+			case ICON_BUTTON_PLAY -> GuiResourcesSimple.INSTANCE.play();
+			case ICON_BUTTON_PAUSE -> GuiResourcesSimple.INSTANCE.pause();
+			case ICON_BUTTON_STOP -> GuiResourcesSimple.INSTANCE.stop();
+			case ICON_BUTTON_FAST_REWIND -> GuiResourcesSimple.INSTANCE.fast_rewind();
+			case ICON_BUTTON_FAST_FORWARD -> GuiResourcesSimple.INSTANCE.fast_forward();
+			case ICON_BUTTON_SKIP_PREVIOUS -> GuiResourcesSimple.INSTANCE.skip_previous();
+			case ICON_BUTTON_SKIP_NEXT -> GuiResourcesSimple.INSTANCE.skip_next();
+			case ICON_BUTTON_LOOP -> GuiResourcesSimple.INSTANCE.loop();
+			case ICON_BUTTON_REPLAY -> GuiResourcesSimple.INSTANCE.replay();
+			case ICON_BUTTON_UNDO -> GuiResourcesSimple.INSTANCE.undo();
+			case ICON_BUTTON_REDO -> GuiResourcesSimple.INSTANCE.redo();
+			case ICON_BUTTON_ARROW_UP -> GuiResourcesSimple.INSTANCE.arrow_up();
+			case ICON_BUTTON_ARROW_DOWN -> GuiResourcesSimple.INSTANCE.arrow_down();
+			case ICON_BUTTON_ARROW_BACK -> GuiResourcesSimple.INSTANCE.arrow_back();
+			case ICON_BUTTON_ARROW_FORWARD -> GuiResourcesSimple.INSTANCE.arrow_forward();
+			case ICON_BUTTON_REMOVE -> GuiResourcesSimple.INSTANCE.remove();
+			case ICON_BUTTON_ADD -> GuiResourcesSimple.INSTANCE.add();
+			case ICON_BUTTON_CHECK_MARK -> GuiResourcesSimple.INSTANCE.check_mark();
+			case ICON_BUTTON_CLOSE -> GuiResourcesSimple.INSTANCE.close();
+			case ICON_BUTTON_ZOOM_OUT -> GuiResourcesSimple.INSTANCE.zoom_out();
+			case ICON_BUTTON_ZOOM_IN -> GuiResourcesSimple.INSTANCE.zoom_in();
+			case ICON_BUTTON_ZOOM_TO_FIT -> GuiResourcesSimple.INSTANCE.zoom_to_fit();
+			case ICON_BUTTON_CENTER_VIEW -> GuiResourcesSimple.INSTANCE.center_view();
+			case ICON_BUTTON_HELP -> GuiResourcesSimple.INSTANCE.help();
+			case ICON_BUTTON_SETTINGS -> GuiResourcesSimple.INSTANCE.settings();
 			default -> res.stylebar_empty();
 		};
 	}

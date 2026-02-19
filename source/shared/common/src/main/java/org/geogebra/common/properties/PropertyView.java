@@ -66,6 +66,7 @@ import org.geogebra.common.properties.impl.objects.AbsoluteScreenPositionPropert
 import org.geogebra.common.properties.impl.objects.AlgebraViewVisibilityPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AlignmentPropertyCollection;
 import org.geogebra.common.properties.impl.objects.BackgroundColorPropertyCollection;
+import org.geogebra.common.properties.impl.objects.ButtonIconPropertyCollection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentFillCategoryProperty;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelection;
 import org.geogebra.common.properties.impl.objects.ChartSegmentSelectionDependentProperty;
@@ -352,7 +353,7 @@ public abstract class PropertyView {
 		}
 
 		/**
-		 * @return an array of indices where a divider must be inserted 
+		 * @return an array of indices where a divider must be inserted
 		 * or {@code null} if no dividers should be inserted.
 		 */
 		public @CheckForNull int[] getGroupDividerIndices() {
@@ -1017,6 +1018,81 @@ public abstract class PropertyView {
 	}
 
 	/**
+	 * Editor for all button icon related property: row of icon with default icons,
+	 * file chooser for custom icon.
+	 */
+	public static final class ButtonIconEditor extends PropertyBackedView<BooleanProperty> {
+		private final BooleanProperty leadProperty;
+		private final IconsEnumeratedProperty<String> iconsEnumeratedProperty;
+		private final SingleSelectionIconRow leadingIconButtonRow;
+		private final ImagePicker trailingImagePicker;
+
+		/**
+		 * Editor for button icon property.
+		 * @param buttonIconProperty {@link ButtonIconPropertyCollection}
+		 */
+		ButtonIconEditor(ButtonIconPropertyCollection buttonIconProperty) {
+			super(buttonIconProperty.leadProperty);
+			leadProperty = buttonIconProperty.leadProperty;
+			iconsEnumeratedProperty = (IconsEnumeratedProperty<String>) buttonIconProperty
+					.getProperties()[0];
+			leadingIconButtonRow = new PropertyView.SingleSelectionIconRow(
+					iconsEnumeratedProperty);
+			trailingImagePicker = new PropertyView.ImagePicker((ImageProperty) buttonIconProperty
+					.getProperties()[1]);
+		}
+
+		/**
+		 * @return lead {@link BooleanProperty}
+		 */
+		public BooleanProperty getLeadProperty() {
+			return leadProperty;
+		}
+
+		/**
+		 * @return {@link SingleSelectionIconRow} of default icons
+		 */
+		public SingleSelectionIconRow getLeadingIconButtonRow() {
+			return leadingIconButtonRow;
+		}
+
+		public ImagePicker getTrailingImagePicker() {
+			return trailingImagePicker;
+		}
+
+		/**
+		 * @param fileName file name of icon with extension
+		 */
+		public void setDefaultIcon(String fileName) {
+			iconsEnumeratedProperty.setValue(fileName);
+		}
+
+		/**
+		 * @return index of selected default icon.
+		 */
+		public Integer getSelectedIndex() {
+			return iconsEnumeratedProperty.getIndex();
+		}
+
+		/**
+		 * Sets the new selected index.
+		 * @param index selected index
+		 */
+		public void setSelectedIndex(int index) {
+			iconsEnumeratedProperty.setIndex(index);
+		}
+
+		/**
+		 * Returns one of the default icons at given index.
+		 * @param index given index
+		 * @return icon at index
+		 */
+		public PropertyResource getIconAt(int index) {
+			return iconsEnumeratedProperty.getValueIcons()[index];
+		}
+	}
+
+	/**
 	 * Representation of a property-specific view, displaying two text fields separated by a colon
 	 * in a row with a trailing lock icon that can be either open or closed, and a label above.
 	 */
@@ -1290,7 +1366,7 @@ public abstract class PropertyView {
 	 * or a preview of the selected image with its name and actions to change or remove it.
 	 */
 	public static final class ImagePicker extends PropertyBackedView<ImageProperty> {
-		
+
 		ImagePicker(@Nonnull ImageProperty property) {
 			super(property);
 		}
@@ -1311,7 +1387,7 @@ public abstract class PropertyView {
 		}
 
 		/**
-		 * Gets the selected image. 
+		 * Gets the selected image.
 		 * @return image or {@code null}
 		 */
 		public @CheckForNull MyImage getImage() {
@@ -1394,6 +1470,9 @@ public abstract class PropertyView {
 		} else if (property instanceof BackgroundColorPropertyCollection collection) {
 			return new ExpandableList(collection, List.of(new RelatedPropertyViewCollection(
 					null, propertyViewListOf(collection), 8)));
+		} else if (property instanceof ButtonIconPropertyCollection buttonIconPropertyCollection) {
+			return new ExpandableList(buttonIconPropertyCollection,
+					List.of(new ButtonIconEditor(buttonIconPropertyCollection)));
 		} else if (property instanceof ActionableIconPropertyCollection actionableIconProperty) {
 			return new IconButtonRow(actionableIconProperty);
 		} else if (property instanceof ColorProperty colorProperty) {

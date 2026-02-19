@@ -274,11 +274,11 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	@Override
-	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		if (geo.isLabelSet()) {
+    public void updateVisualStyle(GeoElement geo, GProperty prop) {
+		if (geo.isLabelSet() && !PreviewFeature.isAvailable(PreviewFeature.SETTINGS_VIEW)) {
 			updatePropertiesGUI();
 		}
-	}
+    }
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
