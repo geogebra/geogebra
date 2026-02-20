@@ -19,7 +19,6 @@ package org.geogebra.web.linker;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.google.gwt.core.ext.LinkerContext;
@@ -88,7 +87,7 @@ public class StandardIframeLinker extends CrossSiteIframeLinker {
 	}
 
 	private List<String> getExportFilename(LinkerContext context) {
-		return getConfigurationProperty(context, "es6export").collect(Collectors.toList());
+		return getConfigurationProperty(context, "es6export").toList();
 	}
 
 	private Stream<String> getConfigurationProperty(LinkerContext context, String name) {

@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -249,7 +248,7 @@ public class ImageManagerW extends ImageManager {
 		}
 		List<GeoElement> list = table.values().stream()
 				.filter(t -> t.isGeoImage() || t.getFillType() == FillType.IMAGE)
-				.collect(Collectors.toList());
+				.toList();
 		GeoElement.updateCascade(list);
 	}
 
