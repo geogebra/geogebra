@@ -18,7 +18,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawableTexture3D;
 
 /**
  * Renderer in the background (no visible 3D view)
@@ -107,12 +107,12 @@ public class RendererForExport extends Renderer {
 	}
 
 	@Override
-	public GBufferedImage createBufferedImage(DrawLabel3D label) {
+	public GBufferedImage createBufferedImage(DrawableTexture3D label) {
 		return null;
 	}
 
 	@Override
-	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
+	public void createAlphaTexture(DrawableTexture3D label, GBufferedImage img) {
 		// no need
 	}
 

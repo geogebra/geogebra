@@ -25,6 +25,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawableTexture3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
@@ -394,15 +395,15 @@ public class RendererCheckGLVersionD extends Renderer
 	}
 
 	@Override
-	public GBufferedImage createBufferedImage(DrawLabel3D label) {
+	public GBufferedImage createBufferedImage(DrawableTexture3D label) {
 		return new GBufferedImageD(label.getWidth(), label.getHeight(),
 				GBufferedImage.TYPE_INT_ARGB);
 	}
 
 	@Override
-	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
+	public void createAlphaTexture(DrawableTexture3D label, GBufferedImage img) {
 
-		byte[] buffer = argbToAlpha(label, ((GBufferedImageD) bimg).getData());
+		byte[] buffer = argbToAlpha(label, ((GBufferedImageD) img).getData());
 
 		label.setTextureIndex(createAlphaTexture(label.getTextureIndex(),
 				label.waitForReset(), label.getWidthPowerOfTwo(),

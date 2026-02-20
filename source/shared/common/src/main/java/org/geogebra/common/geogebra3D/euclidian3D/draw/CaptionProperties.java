@@ -60,10 +60,21 @@ public class CaptionProperties {
 			return;
 		}
 		GColor convertColor = caption.foregroundColor();
+		updateColor(convertColor, view, color);
+	}
+
+	/**
+	 * Update color from baseColor.
+	 * @param baseColor construction element color
+	 * @param view view
+	 * @param color output color
+	 */
+	public static void updateColor(GColor baseColor, EuclidianView3D view, Coords color) {
+		GColor convertColor = baseColor;
 		if (view.isAdditiveDisplay()
-				&& convertColor.isDarkerThan(Drawable3D.DARKEST_ADDITIVE_COLOR)) {
+				&& baseColor.isDarkerThan(Drawable3D.DARKEST_ADDITIVE_COLOR)) {
 			convertColor = Drawable3D.DARKEST_ADDITIVE_COLOR
-					.deriveWithAlpha(convertColor.getAlpha());
+					.deriveWithAlpha(baseColor.getAlpha());
 		}
 
 		color.set((double) convertColor.getRed() / 255,

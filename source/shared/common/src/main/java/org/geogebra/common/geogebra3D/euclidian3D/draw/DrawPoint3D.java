@@ -47,6 +47,7 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	/** factor for drawing points */
 	public static final float DRAW_POINT_FACTOR = 1.5f;
+	private final DrawHalo halo;
 
 	private Coords center = new Coords(4);
 	private Coords boundsMin = new Coords(3);
@@ -65,6 +66,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	 */
 	public DrawPoint3D(EuclidianView3D view3D, GeoPointND point) {
 		super(view3D, (GeoElement) point);
+		this.halo = new DrawHalo(view3D);
 	}
 
 	@Override
@@ -152,6 +154,8 @@ public class DrawPoint3D extends Drawable3DCurves
 		super(a_view3D);
 
 		setGeoElement(a_view3D.getCursor3D());
+
+		this.halo = null;
 
 	}
 
@@ -328,6 +332,31 @@ public class DrawPoint3D extends Drawable3DCurves
 	}
 
 	@Override
+	public void drawLabel(Renderer renderer) {
+		super.drawLabel(renderer);
+		if (halo != null) {
+			halo.draw(renderer, false);
+		}
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		boolean keyboardFocus = getView3D().getApplication().getSelectionManager()
+				.isKeyboardFocused(getGeoElement());
+		if (halo != null) {
+			halo.setIsVisible(keyboardFocus);
+			if (keyboardFocus) {
+				halo.update(
+						getLabelPosition(), 0, 0, 0,
+						getGeoElement().getObjectColor(),
+						((GeoPointND) getGeoElement()).getPointSize() + 6);
+				halo.updatePosition(getView3D().getRenderer());
+			}
+		}
+	}
+
+	@Override
 	protected void drawTracesOutline(Renderer renderer, boolean hidden) {
 
 		if (!hidden) {
@@ -358,6 +387,14 @@ public class DrawPoint3D extends Drawable3DCurves
 	@Override
 	protected void setGeometriesVisibility(boolean visible) {
 		setGeometriesVisibilityNoSurface(visible);
+	}
+
+	@Override
+	public void removeFromGL() {
+		super.removeFromGL();
+		if (halo != null) {
+			halo.removeFromGL();
+		}
 	}
 
 }

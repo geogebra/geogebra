@@ -1412,4 +1412,11 @@ public class SelectionManager {
 			return keyboardSelection && geo.isSelected();
 		}
 	}
+
+	/**
+	 * @return whether selection comes from pointer rather than keyboard
+	 */
+	public boolean hasPointerFocus() {
+		return !keyboardSelection;
+	}
 }

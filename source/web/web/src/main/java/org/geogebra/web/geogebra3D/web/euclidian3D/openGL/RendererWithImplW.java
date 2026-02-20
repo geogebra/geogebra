@@ -19,7 +19,7 @@ package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawableTexture3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
@@ -106,7 +106,7 @@ public class RendererWithImplW extends Renderer implements
 	}
 
 	@Override
-	public GBufferedImage createBufferedImage(DrawLabel3D label) {
+	public GBufferedImage createBufferedImage(DrawableTexture3D label) {
 		// update width and height
 		label.setDimensionPowerOfTwo(
 				firstPowerOfTwoGreaterThan(label.getWidth()),
@@ -118,10 +118,10 @@ public class RendererWithImplW extends Renderer implements
 	}
 
 	@Override
-	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
+	public void createAlphaTexture(DrawableTexture3D label, GBufferedImage img) {
 		// values for picking (ignore transparent bytes)
 		label.setPickingDimension(0, 0, label.getWidth(), label.getHeight());
-		GBufferedImageW imgw = (GBufferedImageW) bimg;
+		GBufferedImageW imgw = (GBufferedImageW) img;
 		if (imgw.hasCanvas()) {
 			createAlphaTexture(label, null, imgw);
 		} else {
@@ -130,7 +130,7 @@ public class RendererWithImplW extends Renderer implements
 			if (!image.complete) {
 				image.addEventListener("load", (event) -> {
 						// image ready : create the texture
-						createAlphaTexture(label, image, (GBufferedImageW) bimg);
+						createAlphaTexture(label, image, (GBufferedImageW) img);
 
 						// repaint the view
 						getView().repaintView();
@@ -316,7 +316,7 @@ public class RendererWithImplW extends Renderer implements
 	 * @param bimg
 	 *            buffered image
 	 */
-	protected void createAlphaTexture(DrawLabel3D label, HTMLImageElement image,
+	protected void createAlphaTexture(DrawableTexture3D label, HTMLImageElement image,
 			GBufferedImageW bimg) {
 		((RendererImplShadersW) getRendererImpl()).createAlphaTexture(label, image,
 				bimg);

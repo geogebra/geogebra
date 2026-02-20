@@ -26,8 +26,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawableTexture3D;
 import org.geogebra.common.geogebra3D.euclidian3D.xr.XRManagerInterface;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
@@ -1935,7 +1935,7 @@ public abstract class Renderer {
 	 *            bitmap
 	 * @return the alpha channel of the array ARGB description
 	 */
-	protected static byte[] argbToAlpha(DrawLabel3D label, int[] pix) {
+	protected static byte[] argbToAlpha(DrawableTexture3D label, int[] pix) {
 		return argbToAlpha(label, label.getWidth(), label.getHeight(), pix);
 	}
 
@@ -1952,7 +1952,7 @@ public abstract class Renderer {
 	 *            bitmap
 	 * @return the alpha channel of the array ARGB description
 	 */
-	protected static byte[] argbToAlpha(DrawLabel3D label, int labelWidthRes,
+	protected static byte[] argbToAlpha(DrawableTexture3D label, int labelWidthRes,
 			int labelHeightRes, int[] pix) {
 
 		// calculates 2^n dimensions
@@ -2106,18 +2106,18 @@ public abstract class Renderer {
 	 *            label
 	 * @return buffered image for drawing label
 	 */
-	abstract public GBufferedImage createBufferedImage(DrawLabel3D label);
+	abstract public GBufferedImage createBufferedImage(DrawableTexture3D label);
 
 	/**
 	 * create alpha texture for label from image
 	 * 
 	 * @param label
 	 *            label
-	 * @param bimg
+	 * @param img
 	 *            buffered image
 	 */
-	abstract public void createAlphaTexture(DrawLabel3D label,
-			GBufferedImage bimg);
+	public abstract void createAlphaTexture(DrawableTexture3D label,
+			GBufferedImage img);
 
 	/**
 	 * 

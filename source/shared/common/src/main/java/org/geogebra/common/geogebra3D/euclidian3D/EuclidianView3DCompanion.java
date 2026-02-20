@@ -204,7 +204,9 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	 * @param point point cursor
 	 */
 	public void drawPointAlready(GeoPoint3D point) {
-		getView().drawPointAlready(point.getMoveMode());
+		if (getView().getApplication().getSelectionManager().hasPointerFocus()) {
+			getView().drawPointAlready(point.getMoveMode());
+		}
 	}
 
 	/**

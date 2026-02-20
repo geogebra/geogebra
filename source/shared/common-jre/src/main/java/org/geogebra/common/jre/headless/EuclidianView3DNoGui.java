@@ -24,7 +24,7 @@ import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawableTexture3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
@@ -138,12 +138,12 @@ public class EuclidianView3DNoGui extends EuclidianView3D {
 			}
 
 			@Override
-			public GBufferedImage createBufferedImage(DrawLabel3D label) {
+			public GBufferedImage createBufferedImage(DrawableTexture3D label) {
 				return null;
 			}
 
 			@Override
-			public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
+			public void createAlphaTexture(DrawableTexture3D label, GBufferedImage img) {
 				// no GL
 			}
 

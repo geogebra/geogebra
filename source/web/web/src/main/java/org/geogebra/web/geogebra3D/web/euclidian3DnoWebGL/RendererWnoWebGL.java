@@ -17,7 +17,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL;
 
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawableTexture3D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
@@ -55,7 +55,7 @@ public class RendererWnoWebGL extends RendererWithImplW {
 	}
 
 	@Override
-	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
+	public void createAlphaTexture(DrawableTexture3D label, GBufferedImage img) {
 		// no webGL context here...
 	}
 
