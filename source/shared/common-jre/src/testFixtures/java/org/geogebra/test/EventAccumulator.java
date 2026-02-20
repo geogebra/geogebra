@@ -33,4 +33,9 @@ public class EventAccumulator implements EventListener {
 	public ArrayList<String> getEvents() {
 		return evts;
 	}
+
+	@Override
+	public void reset() {
+		evts.clear();
+	}
 }

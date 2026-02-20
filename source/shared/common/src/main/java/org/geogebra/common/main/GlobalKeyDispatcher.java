@@ -1421,13 +1421,14 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 
-		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
+		boolean arrowsUsed = changeValX != 0 || changeValY != 0 || changeValZ != 0;
+		if (arrowsUsed) {
 			double[] diff = getIncrement(geos);
 			diff[0] *= changeValX;
 			diff[1] *= changeValY;
 			diff[2] *= changeValZ;
 			moved = handleArrowKeyMovement(geos, diff);
-			hasUnsavedGeoChanges = true;
+			hasUnsavedGeoChanges = moved;
 		}
 
 		if (moved) {
@@ -1508,6 +1509,9 @@ public abstract class GlobalKeyDispatcher {
 			boolean changed = false;
 			for (int i = geos.size() - 1; i >= 0; i--) {
 				GeoElement geo = geos.get(i);
+				if (geo.isPointOnPath() && arrowsUsed) {
+					continue;
+				}
 				changed = moveSliderPointOrRandomGeo(geo, changeVal, !multipleSliders || index == i)
 						|| changed;
 			}

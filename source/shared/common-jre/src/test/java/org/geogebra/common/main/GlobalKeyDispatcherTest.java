@@ -48,7 +48,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 
@@ -79,9 +78,9 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource(value = {"num=Slider(0,5,1);5;10", "pt=Point(Segment((0,0),(0.5,0)));5;15"},
+	@CsvSource(value = {"num=Slider(0,5,1);5;5;5", "pt=Point(Segment((0,0),(0.5,0)));5;0;10"},
 			delimiter = ';')
-	public void moveWithArrowNumber(String definition, int arrowSteps, int totalSteps) {
+	public void moveWithArrowNumber(String definition, int rightSteps, int upSteps, int plusSteps) {
 		List<GeoElement> geos = List.of(evaluateGeoElement(definition));
 		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
@@ -92,15 +91,27 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		for (int count = 0; count < 8; count++) {
 			handleKey(KeyCodes.RIGHT, geos);
 		}
-		assertEquals(arrowSteps, listener.getEvents().size());
+		assertEquals(rightSteps, listener.getEvents().size());
+		listener.reset();
+
 		for (int count = 0; count < 8; count++) {
 			handleKey(KeyCodes.PLUS, geos);
 		}
-		assertEquals(5, listener.getEvents().size());
+		assertEquals(0, listener.getEvents().size());
 		for (int count = 0; count < 13; count++) {
 			handleKey(KeyCodes.MINUS, geos);
 		}
-		assertEquals(totalSteps, listener.getEvents().size());
+		assertEquals(plusSteps, listener.getEvents().size());
+		listener.reset();
+
+		for (int count = 0; count < 8; count++) {
+			handleKey(KeyCodes.DOWN, geos);
+		}
+		assertEquals(0, listener.getEvents().size());
+		for (int count = 0; count < 13; count++) {
+			handleKey(KeyCodes.UP, geos);
+		}
+		assertEquals(upSteps, listener.getEvents().size());
 	}
 
 	@Test
@@ -239,5 +250,16 @@ public class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		assertEquals(12, calculation.getValue(), 0);
 		assertEquals(3.5, numeric.getValue(), 0);
 		assertEquals(3, slider.getValue(), 0);
+	}
+
+	@Test
+	public void multipleSlidersShouldMoveWithArrows() {
+		List<GeoElement> sliders = List.of(evaluateGeoElement("Slider(-5,5,1)"),
+		evaluateGeoElement("Slider(-5,5,1)"));
+		handleKey(KeyCodes.RIGHT, sliders);
+		handleKey(KeyCodes.UP, sliders);
+		handleKey(KeyCodes.UP, sliders);
+		assertEquals(2, sliders.get(0).evaluateDouble(), 0);
+		assertEquals(1, sliders.get(1).evaluateDouble(), 0);
 	}
 }
