@@ -44,6 +44,9 @@
 
 package com.himamis.retex.renderer.web;
 
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.web.awt.AwtFactoryW;
+
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.FontFactory;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
@@ -60,10 +63,11 @@ public final class FactoryProviderGWT extends FactoryProvider {
 	}
 
 	/**
-	 * Setup factory if not done previously
+	 * Setup factory if not done previously.
 	 */
 	public static void ensureLoaded() {
 		if (FactoryProvider.getInstance() == null) {
+			AwtFactory.setPrototypeIfNull(new AwtFactoryW());
 			setInstance(new FactoryProviderGWT());
 		}
 	}

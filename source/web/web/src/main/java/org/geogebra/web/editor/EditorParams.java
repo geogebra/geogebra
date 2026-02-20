@@ -62,7 +62,7 @@ public class EditorParams {
 		return element.getAttribute("editorforegroundcolor");
 	}
 
-	private String getBackgroundColor() {
+	String getBackgroundColor() {
 		return element.getAttribute("editorbackgroundcolor");
 	}
 

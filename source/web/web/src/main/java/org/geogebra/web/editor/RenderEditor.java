@@ -83,8 +83,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		RootPanel editorPanel = newRoot(el.getElement());
 
 		editorPanel.add(wrapper);
-		String cssColor = mathField.getBackgroundColor().toString();
-		setBackgroundColor(wrapper.getElement(), cssColor);
+		setBackgroundColor(wrapper.getElement(), editorParams.getBackgroundColor());
 		Dom.addEventListener(wrapper.getElement(), "pointerdown",
 				evt -> adjustCaret(evt, mathField));
 

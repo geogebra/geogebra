@@ -19,7 +19,7 @@ public class GraphicsStub implements Graphics2DInterface {
 	private GBasicStroke stroke;
 	private GColor color;
 	private Font font;
-	private List<GAffineTransform> transformList = new ArrayList<>();
+	private final List<GAffineTransform> transformList;
 	private GAffineTransform currentTransform;
 
 	public GraphicsStub() {
@@ -67,7 +67,7 @@ public class GraphicsStub implements Graphics2DInterface {
 
 	@Override
 	public void restoreTransform() {
-		if (transformList.size() > 0) {
+		if (!transformList.isEmpty()) {
 			currentTransform = transformList.remove(transformList.size() - 1);
 		}
 	}
